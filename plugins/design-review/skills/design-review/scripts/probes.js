@@ -47,6 +47,10 @@
     // still returns a non-zero rect in Chrome. Every probe that reasons about
     // geometry has to exclude it or it invents overlaps that no user can see.
     if (el.closest && el.closest('details:not([open])')) return false;
+    // Behind an open dialog. A drawer or modal marks the page inert, and text
+    // under a scrim is not overlapping the text on top of it — it is in a
+    // different stacking layer and nobody sees both.
+    if (el.closest && el.closest('[inert]')) return false;
     if (typeof el.checkVisibility === 'function' &&
         !el.checkVisibility({ contentVisibilityAuto: true,
                               opacityProperty: true, visibilityProperty: true })) return false;
@@ -806,6 +810,21 @@
     };
   }
 
+  /**
+   * Is this node inside a floating layer — fixed, sticky, or an explicit
+   * z-index stacking context? A toast, a sticky header and a popover are all
+   * MEANT to cover content, so an intersection across that boundary is not an
+   * overlap. Only same-layer intersections are.
+   */
+  function floatLayer(el) {
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      const cs = getComputedStyle(n);
+      if (cs.position === 'fixed' || cs.position === 'sticky') return n;
+      if (cs.position !== 'static' && cs.zIndex !== 'auto' && +cs.zIndex > 0) return n;
+    }
+    return null;
+  }
+
   /** Two pieces of text occupying the same pixels. Includes SVG annotation. */
   function probeTextOverlap() {
     const nodes = [];
@@ -826,6 +845,7 @@
       for (let j = i + 1; j < nodes.length; j++) {
         const a = nodes[i], b = nodes[j];
         if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        if (floatLayer(a.el) !== floatLayer(b.el)) continue;
         const w = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
         const h = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
         if (w >= LI.overlapMinPx && h >= LI.overlapMinPx) {
