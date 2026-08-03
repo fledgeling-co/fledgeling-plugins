@@ -646,7 +646,13 @@
         i === 0 || r.el.getBoundingClientRect().top >=
                    rows[i - 1].el.getBoundingClientRect().bottom - 1);
       const full = stacked ? rows.filter(r => r.kids.length === modal && modal >= 2) : [];
-      if (full.length >= 3) {
+      // A label/value pair is not a table. When the LAST column's right edges
+      // all agree, the row is right-aligned and the intermediate edges are free
+      // by construction: the label ends wherever its value happens to start.
+      const lastRights = full.map(r => Math.round(r.kids[modal - 1].getBoundingClientRect().right));
+      const rightAligned = full.length >= 2 &&
+        lastRights.every(v => Math.abs(v - mode(lastRights)) <= LI.columnDriftPx);
+      if (full.length >= 3 && !(rightAligned && modal <= 3)) {
         for (let i = 0; i < modal; i++) {
           const rights = full.map(r => Math.round(r.kids[i].getBoundingClientRect().right));
           const m = mode(rights);
