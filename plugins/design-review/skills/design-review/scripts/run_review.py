@@ -144,6 +144,8 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
         "pageOverflowsHorizontally": probes["overflow"]["pageOverflowsHorizontally"],
         "escapingElementCount": len(probes["overflow"]["escaping"]),
         "contrastFailureCount": len([c for c in probes["contrast"] if "ratio" in c]),
+        "layoutFindingCount": _layout_finding_count(probes.get("layout")),
+        "componentTypeCount": (probes.get("layout") or {}).get("inventory", {}).get("distinctTypes"),
         "targetsBelowAA": len([t for t in probes["targets"] if t["belowAA"]]),
         "heavyCropImages": len([i for i in probes["images"] if i["heavyCrop"]]),
     }
@@ -256,6 +258,19 @@ def capture_motion(browser, url, out: Path, settle_ms: int, selector: str,
     return captured
 
 
+def _layout_finding_count(L):
+    """Layout-integrity findings, summed. A probe nobody reads is the failure
+    this whole section exists to correct, so it surfaces in the run summary."""
+    if not L:
+        return 0
+    return (len(L["shapeMismatch"]) + len(L["columnDrift"]) +
+            len(L["columnHeaderAlignment"]) + len(L["touchingHeadings"]) +
+            len(L["textOverlap"]) + len(L["deadSpace"]) +
+            len(L["affordance"]["unactionableRows"]) +
+            len(L["affordance"]["pointerCursorNotFocusable"]) +
+            len(L["tokenOverload"]) + (1 if L["rails"]["exceedsThreshold"] else 0))
+
+
 def main():
     ap = argparse.ArgumentParser(description="Capture and probe a surface for design review.")
     ap.add_argument("--url", required=True, help="Served URL. Never file:// — module scripts and fonts silently fail.")
@@ -325,10 +340,20 @@ def main():
             flags.append(f"{v['targetsBelowAA']} targets <24px")
         if v["heavyCropImages"]:
             flags.append(f"{v['heavyCropImages']} heavy-crop images")
+        if v.get("layoutFindingCount"):
+            flags.append(f"{v['layoutFindingCount']} layout findings")
         print(f"  {v['viewport']:>10}  {' · '.join(flags) if flags else 'no gate flags'}")
 
+    types = [v.get("componentTypeCount") for v in manifest["viewports"]
+             if v.get("componentTypeCount") is not None]
+    if types:
+        print(f"\n{max(types)} distinct component types found. That is the denominator")
+        print("for the report's Coverage block — crop and open them in priority order")
+        print("(layout-flagged, interactive, >=3 instances, task path).")
+
     print("\nCaptures are evidence only once opened. Read the crops before "
-          "reporting anything about them.")
+          "reporting anything about them. A clean gate run is not a verdict on "
+          "the design; it says no known computable defect is present.")
 
 
 if __name__ == "__main__":

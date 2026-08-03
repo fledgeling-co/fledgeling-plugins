@@ -43,6 +43,13 @@
     const cs = getComputedStyle(el);
     if (cs.display === 'none' || cs.visibility === 'hidden') return false;
     if (parseFloat(cs.opacity) === 0) return false;
+    // Content inside a collapsed <details>, or skipped by content-visibility,
+    // still returns a non-zero rect in Chrome. Every probe that reasons about
+    // geometry has to exclude it or it invents overlaps that no user can see.
+    if (el.closest && el.closest('details:not([open])')) return false;
+    if (typeof el.checkVisibility === 'function' &&
+        !el.checkVisibility({ contentVisibilityAuto: true,
+                              opacityProperty: true, visibilityProperty: true })) return false;
     const r = el.getBoundingClientRect();
     return r.width > 0 && r.height > 0;
   }
@@ -529,6 +536,437 @@
     };
   }
 
+
+  /* ------------------------------------------------------- layout integrity */
+
+  /* Thresholds. Every one is a judgement call made once, here, rather than
+     per-review. Tune them against a surface you already know is sound. */
+  const LI = {
+    columnDriftPx: 2,        // per-column edge deviation inside one repeated group
+    headerDriftPx: 8,        // column header centre vs the body column it labels
+    railDriftPx: 8,          // left edges of regions that should share a rail
+    zeroGapPx: 1,            // "touching" — a gap this small was not designed
+    overlapMinPx: 3,         // text boxes must intersect by this much on BOTH axes;
+                             // a 1px abutment between adjacent inline spans is not an overlap
+    deadSpaceRatio: 0.55,    // shortest child / tallest child, below which the row is lopsided
+    deadSpaceMinPx: 200,     // only containers at least this tall can hold a void
+    controlTextMax: 24,      // longest text a chip-shaped thing can carry and still read as a control
+    semanticTokenTexts: 3,   // distinct strings a semantic token may carry before it means nothing
+    maxReported: 40,         // per-probe cap, so one bad page cannot flood the report
+  };
+
+  const FOCUSABLE =
+    'a[href],button,input,select,textarea,summary,[tabindex]:not([tabindex="-1"]),' +
+    '[role="button"],[role="switch"],[role="checkbox"],[role="radio"],[role="link"],[role="tab"]';
+
+  function cap(list) {
+    const out = list.slice(0, LI.maxReported);
+    if (list.length > out.length) out.push({ truncated: list.length - out.length });
+    return out;
+  }
+
+  function shortText(el) {
+    return (el.textContent || '').trim().replace(/\s+/g, ' ');
+  }
+
+  function classSig(el) {
+    return el.tagName + '.' + (typeof el.className === 'string' ? el.className : '').trim();
+  }
+
+  function mode(nums) {
+    const c = new Map();
+    for (const n of nums) c.set(n, (c.get(n) || 0) + 1);
+    let best = null, bestN = -1;
+    for (const [v, n] of c) if (n > bestN) { best = v; bestN = n; }
+    return best;
+  }
+
+  /**
+   * The spine of this whole section. A "repeated group" is any container with
+   * three or more visible element children sharing a class signature — a table
+   * body, a card grid, a settings list, a nav. Almost every layout defect worth
+   * finding lives inside one, or between one and the thing that labels it.
+   */
+  function findRepeatedGroups() {
+    const groups = [];
+    for (const parent of document.querySelectorAll('body *')) {
+      const kids = [...parent.children].filter(visible);
+      if (kids.length < 3) continue;
+      const sigs = kids.map(classSig);
+      const common = mode(sigs);
+      const members = kids.filter((k, i) => sigs[i] === common);
+      if (members.length < 3) continue;
+      // Skip groups whose members are themselves the parents of a bigger group,
+      // so a page reports its rows rather than every ancestor of those rows.
+      groups.push({ parent, members, sig: common });
+    }
+    return groups;
+  }
+
+  /**
+   * Two defects, both invisible to a contrast or overflow check:
+   *  - shape: sibling rows with different child counts, so one row's optional
+   *    element steals width from the columns before it
+   *  - drift: rows with equal child counts whose nth column does not line up
+   */
+  function probeRepeatedGroupIntegrity() {
+    const shape = [], drift = [];
+    for (const g of findRepeatedGroups()) {
+      const rows = g.members.map(m => ({
+        el: m,
+        kids: [...m.children].filter(visible),
+        text: shortText(m).slice(0, 40),
+      }));
+      const counts = rows.map(r => r.kids.length);
+      const modal = mode(counts);
+      // Only column-sets. A member whose children stack vertically is a nav
+      // group or a stack, and those legitimately hold different item counts.
+      const horizontal = rows.filter(r => r.kids.length >= 2).every(r => {
+        const a = r.kids[0].getBoundingClientRect(), b = r.kids[1].getBoundingClientRect();
+        return b.left >= a.right - 1;
+      });
+      if (horizontal && modal >= 2 && counts.some(c => c !== modal)) {
+        shape.push({
+          group: cssPath(g.parent), sig: g.sig, modalChildren: modal,
+          odd: rows.filter(r => r.kids.length !== modal)
+            .map(r => ({ selector: cssPath(r.el), children: r.kids.length, text: r.text })),
+          note: 'Sibling rows with different child counts. An optional element in a fixed ' +
+                'row usually steals width from every column before it.',
+        });
+      }
+      const full = rows.filter(r => r.kids.length === modal && modal >= 2);
+      if (full.length >= 3) {
+        for (let i = 0; i < modal; i++) {
+          const rights = full.map(r => Math.round(r.kids[i].getBoundingClientRect().right));
+          const m = mode(rights);
+          const off = full.filter((r, j) => Math.abs(rights[j] - m) > LI.columnDriftPx);
+          if (off.length && off.length < full.length) {
+            drift.push({
+              group: cssPath(g.parent), column: i, modalRight: m,
+              offenders: off.map(r => ({
+                selector: cssPath(r.el), text: r.text,
+                right: Math.round(r.kids[i].getBoundingClientRect().right),
+              })),
+            });
+          }
+        }
+      }
+    }
+    return { shapeMismatch: cap(shape), columnDrift: cap(drift) };
+  }
+
+  /**
+   * A column header written as its own grid and a row written with its own fixed
+   * widths are two independent lists of numbers. Nothing keeps them equal, and
+   * nothing in a WCAG pass notices when they diverge.
+   */
+  function probeColumnHeaderAlignment() {
+    const out = [];
+    for (const g of findRepeatedGroups()) {
+      const first = g.members[0];
+      const bodyCols = [...first.children].filter(visible);
+      if (bodyCols.length < 3) continue;
+      const candidates = [g.parent.previousElementSibling,
+                          g.parent.parentElement && g.parent.parentElement.previousElementSibling];
+      for (const head of candidates) {
+        if (!head || !visible(head)) continue;
+        const hc = [...head.children].filter(visible);
+        if (hc.length < 3) continue;
+        if (!hc.every(c => shortText(c).length <= 30)) continue;
+        // Index-matching only means anything when the two have the same column
+        // count. A row that leads with an icon the header omits would otherwise
+        // produce large, confident, meaningless deltas.
+        if (hc.length !== bodyCols.length) {
+          out.push({
+            header: cssPath(head), body: cssPath(first),
+            headerColumns: hc.length, bodyColumns: bodyCols.length,
+            countMismatch: true,
+            note: 'Header and row have different column counts, so the header cannot ' +
+                  'be verified against the body. Measure the pair by hand, then decide ' +
+                  'whether the header is missing a column or the row has an extra one.',
+          });
+          continue;
+        }
+        const mid = e => { const r = e.getBoundingClientRect(); return Math.round(r.left + r.width / 2); };
+        const cols = [];
+        for (let i = 0; i < hc.length; i++) {
+          const d = mid(hc[i]) - mid(bodyCols[i]);
+          if (Math.abs(d) > LI.headerDriftPx) {
+            cols.push({ index: i, label: shortText(hc[i]).slice(0, 24), deltaPx: d });
+          }
+        }
+        if (cols.length) {
+          out.push({
+            header: cssPath(head), body: cssPath(first), columns: cols,
+            note: 'Header columns do not sit over the body columns they label.',
+          });
+        }
+      }
+    }
+    return cap(out);
+  }
+
+  /**
+   * Proximity is the primary grouping signal, so a zero gap before a heading
+   * welds that heading to the block above it, and a group whose inner gap
+   * matches its outer gap has no grouping at all.
+   */
+  function probeSiblingGaps() {
+    const touching = [];
+    const isHeading = el =>
+      /^H[1-6]$/.test(el.tagName) || !!el.querySelector('h1,h2,h3,h4,h5,h6');
+    for (const parent of document.querySelectorAll('main, main *, section, article')) {
+      const kids = [...parent.children].filter(visible);
+      if (kids.length < 2) continue;
+      for (let i = 1; i < kids.length; i++) {
+        const a = kids[i - 1].getBoundingClientRect();
+        const b = kids[i].getBoundingClientRect();
+        if (b.top < a.top) continue;                 // not stacked; skip
+        const gap = Math.round(b.top - a.bottom);
+        if (gap <= LI.zeroGapPx && gap >= -LI.zeroGapPx && isHeading(kids[i]) && !isHeading(kids[i - 1])) {
+          touching.push({
+            above: cssPath(kids[i - 1]), heading: cssPath(kids[i]),
+            headingText: shortText(kids[i]).slice(0, 40), gapPx: gap,
+            note: 'A section heading touching the block above it. Usually a container ' +
+                  'that sits outside the wrapper carrying the section margin.',
+          });
+        }
+      }
+    }
+    return cap(touching);
+  }
+
+  /**
+   * Regions that read as one column should start on one rail. A full-bleed
+   * header over capped-and-centred content diverges further the wider the
+   * viewport gets, which is why it survives a review run at one width.
+   */
+  function probeSharedRails() {
+    const heads = [...document.querySelectorAll('h1,h2,h3')].filter(visible)
+      .filter(h => shortText(h).length > 0);
+    if (heads.length < 2) return { clusters: [], disagreementPx: 0 };
+    const lefts = heads.map(h => ({ left: Math.round(h.getBoundingClientRect().left), el: h }));
+    const clusters = [];
+    for (const x of lefts.sort((a, b) => a.left - b.left)) {
+      const c = clusters.find(k => Math.abs(k.left - x.left) <= 4);
+      if (c) { c.members.push(x); } else { clusters.push({ left: x.left, members: [x] }); }
+    }
+    const spread = clusters.length
+      ? clusters[clusters.length - 1].left - clusters[0].left : 0;
+    return {
+      disagreementPx: spread,
+      exceedsThreshold: spread > LI.railDriftPx && clusters.length > 1,
+      clusters: clusters.map(c => ({
+        left: c.left, count: c.members.length,
+        sample: c.members.slice(0, 3).map(m => shortText(m.el).slice(0, 32)),
+      })),
+    };
+  }
+
+  /** Two pieces of text occupying the same pixels. Includes SVG annotation. */
+  function probeTextOverlap() {
+    const nodes = [];
+    for (const el of document.querySelectorAll('body *')) {
+      if (!visible(el)) continue;
+      const own = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+      if (!own) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) continue;
+      nodes.push({ el, r, t: shortText(el).slice(0, 30) });
+    }
+    const out = [];
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const w = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+        const h = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
+        if (w >= LI.overlapMinPx && h >= LI.overlapMinPx) {
+          out.push({
+            a: cssPath(a.el), aText: a.t, b: cssPath(b.el), bText: b.t,
+            overlapPx2: Math.round(w * h),
+          });
+        }
+      }
+    }
+    return cap(out);
+  }
+
+  /**
+   * A tall container whose ink sits in one end. At page scale this reads as
+   * generous whitespace; it is usually a cross-axis alignment applied to a
+   * column that is shorter than its neighbour.
+   */
+  function probeDeadSpace() {
+    const out = [];
+    for (const el of document.querySelectorAll('main *')) {
+      if (!visible(el)) continue;
+      const cs = getComputedStyle(el);
+      if (!/flex|grid/.test(cs.display)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.height < LI.deadSpaceMinPx || r.width < 240) continue;
+      const kids = [...el.children].filter(visible);
+      if (kids.length < 2) continue;
+      // The void does not live in the short child — with a cross-axis alignment
+      // the short child's box IS its content. It lives in the container, beside
+      // whichever sibling set the height.
+      const rects = kids.map(k => k.getBoundingClientRect());
+      const tallest = Math.max(...rects.map(x => x.height));
+      const shortest = Math.min(...rects.map(x => x.height));
+      if (tallest < LI.deadSpaceMinPx) continue;
+      if (shortest > tallest * LI.deadSpaceRatio) continue;
+      out.push({
+        selector: cssPath(el), display: cs.display,
+        alignItems: cs.alignItems, heightPx: Math.round(r.height),
+        tallestChildPx: Math.round(tallest), shortestChildPx: Math.round(shortest),
+        voidPx: Math.round(tallest - shortest),
+        shortChild: cssPath(kids[rects.findIndex(x => x.height === shortest)]),
+        shortChildText: shortText(kids[rects.findIndex(x => x.height === shortest)]).slice(0, 40),
+        note: 'Uneven column heights in a flex/grid row. At page scale the gap beside ' +
+              'the short column reads as whitespace rather than as a hole.',
+      });
+    }
+    return cap(out);
+  }
+
+  /**
+   * The check that catches a settings list made of labels. A chip-shaped thing
+   * carrying a short string in the trailing column of a repeated row is read as
+   * a control by every user; if the row holds nothing focusable, it is not one.
+   */
+  function probeAffordanceGaps() {
+    const looksLikeControl = el => {
+      const cs = getComputedStyle(el);
+      const radius = parseFloat(cs.borderTopLeftRadius) || 0;
+      const bg = cs.backgroundColor;
+      const opaque = bg && bg !== 'transparent' && !/rgba\(0,\s*0,\s*0,\s*0\)/.test(bg);
+      const t = shortText(el);
+      return radius >= 10 && opaque && t.length > 0 && t.length <= LI.controlTextMax;
+    };
+    const rows = [], orphans = [];
+    for (const g of findRepeatedGroups()) {
+      for (const row of g.members) {
+        if (row.matches(FOCUSABLE) || row.querySelector(FOCUSABLE)) continue;
+        const chips = [...row.querySelectorAll('*')].filter(e => visible(e) && looksLikeControl(e));
+        if (!chips.length) continue;
+        rows.push({
+          row: cssPath(row), text: shortText(row).slice(0, 48),
+          controlLike: chips.map(c => shortText(c).slice(0, 20)),
+          note: 'Row reads as a setting but contains nothing focusable.',
+        });
+      }
+    }
+    for (const el of document.querySelectorAll('body *')) {
+      if (!visible(el)) continue;
+      if (getComputedStyle(el).cursor !== 'pointer') continue;
+      if (el.matches(FOCUSABLE) || el.closest(FOCUSABLE)) continue;
+      orphans.push({ selector: cssPath(el), text: shortText(el).slice(0, 32) });
+    }
+    return { unactionableRows: cap(rows), pointerCursorNotFocusable: cap(orphans) };
+  }
+
+  /**
+   * One class carrying many unrelated strings. A status token that means four
+   * different things has stopped being a signal, and no colour check notices
+   * because every instance passes contrast individually.
+   */
+  function probeTokenOverload() {
+    const SEMANTIC = /(warn|error|danger|success|ok|info|alert|critical|caution|positive|negative|good|bad)/i;
+    const byToken = new Map();
+    for (const el of document.querySelectorAll('body *')) {
+      if (!visible(el)) continue;
+      const cls = typeof el.className === 'string' ? el.className.trim() : '';
+      if (!cls) continue;
+      const t = shortText(el);
+      if (!t || t.length > 32) continue;
+      for (const token of cls.split(/\s+/)) {
+        if (!token) continue;
+        if (!byToken.has(token)) byToken.set(token, new Set());
+        byToken.get(token).add(t);
+      }
+    }
+    const out = [];
+    for (const [token, texts] of byToken) {
+      const n = texts.size;
+      // Only semantic tokens. A format utility (.num, .t-data, .caption) is
+      // supposed to carry many different strings; that is its whole job.
+      if (SEMANTIC.test(token) && n >= LI.semanticTokenTexts) {
+        out.push({
+          token, distinctTexts: n, sample: [...texts].slice(0, 8),
+          note: 'A semantic token carrying several unrelated meanings. Each instance ' +
+                'passes contrast on its own, so no colour check notices.',
+        });
+      }
+    }
+    out.sort((a, b) => b.distinctTexts - a.distinctTexts);
+    return cap(out);
+  }
+
+  /**
+   * The component inventory. This is the worklist stage 5 works through, and it
+   * exists because "inspect crops, not pages" is an instruction with nothing to
+   * enumerate. A reviewer given six viewports and nine states will walk both
+   * exhaustively and then judge components ad hoc, because only two of the three
+   * came with a list. This is the third list.
+   *
+   * A component type is a class signature carrying visible text or media. For
+   * each, it returns the instance count and one representative crop box, so
+   * every type can be cropped, opened, and ticked off — and so the report can
+   * state coverage as a fraction rather than a feeling.
+   */
+  function probeComponentInventory() {
+    const types = new Map();
+    for (const el of document.querySelectorAll('body *')) {
+      if (!visible(el)) continue;
+      const cls = typeof el.className === 'string' ? el.className.trim() : '';
+      if (!cls) continue;
+      // Skip pure layout wrappers: no own text, no media, and a single child.
+      const ownText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+      const media = el.matches('img,svg,canvas,video,picture,input,select,textarea,button,a');
+      const container = el.children.length >= 2;
+      if (!ownText && !media && !container) continue;
+      const sig = el.tagName.toLowerCase() + '.' + cls.split(/\s+/).slice(0, 3).join('.');
+      if (!types.has(sig)) {
+        const r = el.getBoundingClientRect();
+        types.set(sig, {
+          type: sig, count: 0,
+          representative: cssPath(el),
+          crop: { x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY),
+                  width: Math.round(r.width), height: Math.round(r.height) },
+          sampleText: shortText(el).slice(0, 48),
+          interactive: media && el.matches(FOCUSABLE),
+        });
+      }
+      types.get(sig).count++;
+    }
+    const list = [...types.values()].sort((a, b) => b.count - a.count);
+    return {
+      distinctTypes: list.length,
+      totalInstances: list.reduce((n, t) => n + t.count, 0),
+      types: list.slice(0, 200),
+      note: 'Every entry is one crop. Coverage is types-opened over distinctTypes, ' +
+            'and it belongs in the report as a number.',
+    };
+  }
+
+  function probeLayoutIntegrity() {
+    const g = probeRepeatedGroupIntegrity();
+    return {
+      thresholds: LI,
+      repeatedGroups: findRepeatedGroups().length,
+      shapeMismatch: g.shapeMismatch,
+      columnDrift: g.columnDrift,
+      columnHeaderAlignment: probeColumnHeaderAlignment(),
+      touchingHeadings: probeSiblingGaps(),
+      rails: probeSharedRails(),
+      textOverlap: probeTextOverlap(),
+      deadSpace: probeDeadSpace(),
+      affordance: probeAffordanceGaps(),
+      tokenOverload: probeTokenOverload(),
+      inventory: probeComponentInventory(),
+    };
+  }
+
   /* ------------------------------------------------------------------ run */
 
   function runAll() {
@@ -541,6 +979,7 @@
       targets: probeTargets(),
       semantics: probeSemantics(),
       focus: probeFocusStyles(),
+      layout: probeLayoutIntegrity(),
       styles: dumpStyles(),
       prefersReducedMotionSupported: matchMedia('(prefers-reduced-motion: reduce)').media !== 'not all',
     };
@@ -549,5 +988,9 @@
   window.__designReviewProbes = {
     runAll, probeContrast, probeOverflow, probeImages, probeTargets,
     probeSemantics, probeFocusStyles, dumpStyles, probeInk, contrastRatio,
+    probeLayoutIntegrity, probeRepeatedGroupIntegrity, probeColumnHeaderAlignment,
+    probeSiblingGaps, probeSharedRails, probeTextOverlap, probeDeadSpace,
+    probeAffordanceGaps, probeTokenOverload, findRepeatedGroups,
+    probeComponentInventory,
   };
 })();

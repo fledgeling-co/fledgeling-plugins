@@ -115,4 +115,5 @@ Do not assume Position A. Ground findings in checks that survive under Position 
 - Report what was checked and what was not, as separate claims.
 - "The lint passed" and "verified" are different sentences. A gate is downstream of the findings that motivated it: it proves a known defect has not returned; it is structurally incapable of finding one nobody has met.
 - Coverage is silent. A rule whose selector matches nothing passes without warning. When gates come back clean, ask which components no rule mentions.
+- **This applies to the review, not only to the code under review.** A gate set that stops at WCAG goes green on a broken layout, and a green gate set reads as a verdict. The corrections are the layout probes (`layout-integrity.md`) and the mandatory Coverage block, which forces the denominator into the report.
 - Detection is stronger than ranking. Every finding carries evidence so a human can re-rank cheaply.

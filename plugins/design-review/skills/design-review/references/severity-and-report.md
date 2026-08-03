@@ -51,9 +51,29 @@ A fix: "PrimaryButton: `#6B7280` → `var(--color-brand-primary)` (`#2563EB`); c
 
 Tier 3 items don't get a severity. They go in Open Questions phrased as questions.
 
+## The coverage block
+
+Mandatory. Goes at the top of every report, above the findings, and is never omitted or softened.
+
+A review's largest failure mode is not a wrong finding, it is a confident silence over a region nobody looked at. `reliability-envelope.md` says it about lint rules — *"Coverage is silent. A rule whose selector matches nothing passes without warning"* — and it applies to the review itself with equal force.
+
+```markdown
+### Coverage
+- Screens: 14 of 14 at 1440; Board only at 375/768/1024/1920
+- Component types: 31 of 83 cropped and opened (all layout-flagged, all interactive, all with ≥3 instances)
+- States driven: default, empty, focus, hover on Ledger. Loading/partial/error/offline not driven
+- Probes: full `runAll` on all 14 screens. `analyze_styles.py` on Board only
+- Not looked at: `directions.html`, the toast, the state gallery
+```
+
+Two rules keep it honest:
+
+- **The component fraction is a count, not an impression.** `probeComponentInventory()` gives the denominator; the numerator is crops you actually opened. If you did not run the inventory, the fraction is `? of ?` and say so.
+- **"Gates clean" and "design sound" are two sentences.** Write both or neither. A report opening on "0 contrast failures across 14 screens" will be read as a verdict on the design no matter what the rest of it says.
+
 ## Report template
 
-Drop any section with nothing in it. An empty heading is padding with extra steps.
+Drop any section with nothing in it — except Coverage and Needs verification, which are never empty. An empty heading is padding with extra steps.
 
 ```markdown
 ## Design/UX review — <scope>

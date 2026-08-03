@@ -1,6 +1,6 @@
 ---
 name: design-review
-description: Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast and motion gates, then structural, state, craft, flow and design-system passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Use this whenever someone asks to review, audit, critique, QA, sanity-check or "give feedback on" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI "looks AI-generated", "looks off", "feels cheap", "needs polish", "isn't accessible", or asks whether something is ready to ship or ready for a human to look at. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word "review".
+description: Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast, motion and layout-integrity gates, then structural, state, component-inventory, craft, flow and design-system passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Use this whenever someone asks to review, audit, critique, QA, sanity-check or "give feedback on" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI "looks AI-generated", "looks off", "feels cheap", "needs polish", "isn't accessible", or asks whether something is ready to ship or ready for a human to look at. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word "review".
 ---
 
 # Design Review
@@ -30,13 +30,15 @@ This matters because suppressing a "minor" finding mid-pass loses it permanently
 
 The tier decides what a finding is allowed to do. Without this the review either blocks on taste or drowns real defects in style opinions.
 
-**Tier 1 — Gates.** Deterministic, machine-checkable, blocking. WCAG 2.2 AA criteria, Core Web Vitals thresholds, contrast ratios, the greppable motion anti-patterns, token validity. Low false-positive rate and empirically where failures actually are.
+**Tier 1 — Gates.** Deterministic, machine-checkable, blocking. WCAG 2.2 AA criteria, Core Web Vitals thresholds, contrast ratios, the greppable motion anti-patterns, token validity, and **layout integrity** — column alignment, shared rails, section gaps, text overlap, dead space, affordance, token overloading. Low false-positive rate and empirically where failures actually are.
+
+The layout set is newer than the rest and exists because of a specific failure: a review that passed every WCAG gate on a surface carrying a 250px rail misalignment, a 75px column break, a zero-gap section boundary, a 242px void and two settings lists made of non-interactive labels. All of it was computable. None of it was probed. See `references/layout-integrity.md`.
 
 **Tier 2 — Calibrated findings.** Judged, evidence-required, severity-scored. Hierarchy, density, state coverage, copy, flow, forms, resilience. These advise by default and escalate to blocking only when two independent lenses land on the same element.
 
 **Tier 3 — Prompts for attention.** Aesthetic direction, distinctiveness, "does this look generic". Surfaced as questions in an Open Questions section. These never gate and never carry a severity.
 
-Tier 3 exists because the "AI slop" tell-list has no systematic evidence behind it, and there is a live disagreement about whether it names a property of artifacts or of observers. See `references/reliability-envelope.md`. The version of that intuition that survives either position is the systematisation check at stage 7 — measuring whether design decisions were *specified* rather than defaulted.
+Tier 3 exists because the "AI slop" tell-list has no systematic evidence behind it, and there is a live disagreement about whether it names a property of artifacts or of observers. See `references/reliability-envelope.md`. The version of that intuition that survives either position is the systematisation check at stage 8 — measuring whether design decisions were *specified* rather than defaulted.
 
 ## What you may judge, and what you must defer
 
@@ -48,7 +50,7 @@ Every report ends with a "Needs verification" section, and it is never empty. If
 
 ## Pipeline
 
-Ten stages. Stages 2–7 feed one unfiltered finding pool.
+Eleven stages. Stages 2–8 feed one unfiltered finding pool.
 
 | # | Stage | Method | Reference |
 |---|---|---|---|
@@ -57,11 +59,12 @@ Ten stages. Stages 2–7 feed one unfiltered finding pool.
 | 2 | Deterministic gates | scripts | `references/gates-accessibility.md`, `references/gates-performance-motion.md` |
 | 3 | Structural render | capture + look | `references/capture-protocol.md` |
 | 4 | State matrix | drive + capture | `references/states-and-resilience.md` |
-| 5 | Craft | crops + judgment | `references/craft-visual.md` |
-| 6 | Flow, forms, copy | walkthrough | `references/flows-forms-copy.md` |
-| 7 | Systematisation | scripts | `references/systematisation.md` |
-| 8 | Aggregate, severity | judgment | `references/severity-and-report.md` |
-| 9 | Report | write | `references/severity-and-report.md`, `assets/report-template.md` |
+| 5 | Component inventory | script | `references/layout-integrity.md` |
+| 6 | Craft | crops + judgment | `references/craft-visual.md` |
+| 7 | Flow, forms, copy | walkthrough | `references/flows-forms-copy.md` |
+| 8 | Systematisation | scripts | `references/systematisation.md` |
+| 9 | Aggregate, severity | judgment | `references/severity-and-report.md` |
+| 10 | Report | write | `references/severity-and-report.md`, `assets/report-template.md` |
 
 ### 0 — Context before judgment
 
@@ -94,7 +97,9 @@ The highest-value move available: if a token source exists (`tokens.css`, `theme
 
 Run first: cheap, deterministic, and empirically where the failures are. Six error types account for 96% of detected accessibility errors across the top million home pages.
 
-Details in `references/gates-accessibility.md` and `references/gates-performance-motion.md`.
+Details in `references/gates-accessibility.md`, `references/gates-performance-motion.md` and `references/layout-integrity.md`.
+
+**A clean gate run is not a verdict on the design.** It says no *known, computable* defect is present. Report the two claims as separate sentences, and never let "0 contrast failures" stand where "the layout is sound" is what a reader will take from it.
 
 Loop: fix → re-run → verify, three attempts per issue. An issue surviving three targeted fixes usually means the diagnosis is wrong — report that as the finding rather than continuing.
 
@@ -112,11 +117,28 @@ Shipping only the populated state is the most reliable failure in AI-generated U
 
 Static checks are structurally blind to motion — at rest an entrance has finished and a transient overlay is invisible. Capture mid-flight frames for anything that moves. See `references/states-and-resilience.md`.
 
-### 5 — Craft
+### 5 — Component inventory
+
+The stage that was missing, and the reason reviews miss component-level defects while passing every gate.
+
+Stages 3 and 4 enumerate exhaustively: six viewports, nine states. Craft judgement had no list, so its coverage was whatever the reviewer happened to look at — and a reviewer given two exhaustive lists and one open-ended instruction will walk the lists and improvise the rest.
+
+`probeComponentInventory()` (in `probes.js`, part of `runAll`) returns the third list: every distinct component type on the surface, its instance count, and a crop box. Typically 40–90 types per screen.
+
+Crop and open, in this order:
+
+1. Every type named by a layout-integrity finding
+2. Every interactive type
+3. Every type with ≥3 instances — repetition multiplies a defect
+4. Every type inside the primary task path
+
+Types you do not open are **not covered**, and the report says so as a fraction. That is the whole mechanism: coverage stops being a feeling and becomes a number a reader can distrust.
+
+### 6 — Craft
 
 The stage that most needs discipline, because visual judgment is where automated review is least reliable.
 
-Three rules that make it work:
+Work the inventory from stage 5. Three rules make it work:
 
 **Decompose to binary.** Every visual judgment is MET or UNMET against a named criterion. Never a 1–10 score. Model agreement on free-form visual scoring is worse than chance across models; on atomic binary checklists it approaches human levels. The difference is entirely in the decomposition.
 
@@ -126,17 +148,17 @@ Three rules that make it work:
 
 When a crop leaves you unsure, take another crop. Looking is cheaper than reasoning about what you would see. Numerics in `references/craft-visual.md`.
 
-### 6 — Flow, forms, copy
+### 7 — Flow, forms, copy
 
 Walk each key task asking four questions per step: does the user realise they need to act here at all; is the control findable; does the label predict what happens; after acting, do they know it worked. A "no" on the first is the most severe — they will not even try. Two or more nos in a step means expect abandonment.
 
 Then the lens pass, forms, and copy. See `references/flows-forms-copy.md`.
 
-### 7 — Systematisation
+### 8 — Systematisation
 
 The check that survives the taste argument. Slop fills the gaps where design decisions were not specified, so measure specification rather than aesthetics: count distinct type sizes, spacing values, colours, radii, shadows and durations; check whether repeated values are grouped into tokens or repeated inline; measure drift across pages. `references/systematisation.md`.
 
-### 8 — Aggregate
+### 9 — Aggregate
 
 Merge duplicates and let agreement carry weight: a finding two lenses raised independently outranks a same-severity single-lens finding; three or more is high priority regardless of individual estimates.
 
@@ -144,7 +166,7 @@ Assign severity here and only here. Four levels, calibrated to user impact rathe
 
 Your issue *detection* is stronger than your severity *ranking* — so every finding carries rationale, affected task, frequency and evidence, letting a human re-rank cheaply.
 
-### 9 — Report
+### 10 — Report
 
 Format, template and the mandatory closing block are in `references/severity-and-report.md`.
 
@@ -201,6 +223,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 - `references/gates-performance-motion.md` — Core Web Vitals, motion anti-patterns, durations and easing, the motion budget by frequency.
 - `references/capture-protocol.md` — viewports, DPR, tiling, state staging, coordinate overlays, the in-page probes.
 - `references/states-and-resilience.md` — the nine states, loading thresholds, i18n expansion, stress prompts, undo.
+- `references/layout-integrity.md` — **the computable layout checks and the component inventory.** Column alignment, shared rails, section gaps, text overlap, dead space, affordance, token overloading; thresholds, calibration lessons, and what geometry cannot tell you
 - `references/craft-visual.md` — hierarchy vectors, typography numerics, optical alignment, depth, density, the swap test.
 - `references/flows-forms-copy.md` — walkthrough discipline, lens pass, form UX, microcopy, mechanisms worth citing.
 - `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, DTCG, design.md, the Tier 3 tell-list.

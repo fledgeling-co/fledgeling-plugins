@@ -32,6 +32,8 @@ Screenshot the full page once with a tall viewport (e.g. 1400×5000, `fullPage: 
 
 **The crop is the evidence; the full page is only the index.** A whole page scaled into a review shows composition and nothing else. Every defect that survives to delivery lives at component scale. Produce one crop per component and open each.
 
+Do not decide which components those are by eye. `probeComponentInventory()` enumerates them from the DOM with crop boxes attached — that list is the worklist, and the fraction of it you open is what the report's Coverage block states.
+
 ## deviceScaleFactor by purpose
 
 - **DPR 1** when the question is "what does a user see at 100% zoom"

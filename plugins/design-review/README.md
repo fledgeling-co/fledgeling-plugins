@@ -25,9 +25,9 @@ It handles scoped diffs, whole surfaces, and source-only reviews when no browser
 
 ## What it does
 
-Ten stages, three tiers of finding.
+Eleven stages, three tiers of finding.
 
-**Tier 1 — gates.** Deterministic and blocking. Contrast against measured backgrounds, target size against the 24×24 CSS px AA floor, focus suppression, missing labels, `lang`, heading structure, horizontal overflow, console and network errors, motion and reduced-motion handling. These either pass or they don't; no judgment involved.
+**Tier 1 — gates.** Deterministic and blocking. Contrast against measured backgrounds, target size against the 24×24 CSS px AA floor, focus suppression, missing labels, `lang`, heading structure, horizontal overflow, console and network errors, motion and reduced-motion handling. Plus **layout integrity**: column alignment inside repeated rows, header-to-body column drift, shared rails, zero-gap section boundaries, text overlap, dead space, rows that look like controls but hold nothing focusable, and status tokens carrying several unrelated meanings. These either pass or they don't; no judgment involved.
 
 **Tier 2 — calibrated findings.** Judged, but every one carries evidence: a probe result, a source line, or a crop. Hierarchy, typography, spacing systems, state coverage, form and flow behaviour, copy honesty.
 
@@ -55,7 +55,7 @@ Every review ends with what wasn't checked — screen-reader output, whether foc
 
 ## Scripts
 
-- `probes.js` — in-page probes: contrast, overflow, targets, semantics, focus rules, label/value hierarchy, computed styles
+- `probes.js` — in-page probes: contrast, overflow, targets, semantics, focus rules, label/value hierarchy, computed styles, layout integrity, and the component inventory that stage 5 works through
 - `run_review.py` / `run_review.mjs` — capture at a viewport matrix with staged interaction states; identical output layout
 - `analyze_styles.py` — systematisation metrics: spacing scale, token drift, near-misses, hierarchy vectors
 - `scan_source.py` — 25 tiered source rules

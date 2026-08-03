@@ -17,6 +17,21 @@ Fixes are executable without design interpretation. "Make the CTA stand out" is
 not a fix; a hex value, a measured ratio and a demotion instruction is.
 -->
 
+## Coverage
+
+<!-- Never omitted, never softened. The largest failure mode of a review is not a
+wrong finding, it is a confident silence over a region nobody looked at. The
+component fraction comes from probeComponentInventory(); if you didn't run it,
+write "? of ?" rather than a number you feel. -->
+
+- **Screens:** <n of n at which widths; which screens got the full viewport sweep>
+- **Component types:** <n of n cropped and opened, and the rule used to pick them>
+- **States driven:** <which; and which were not>
+- **Probes:** <runAll on what; analyze_styles.py on what>
+- **Not looked at:** <named, not implied>
+
+"Gates clean" and "design sound" are two sentences. Write both or neither.
+
 ## Context
 
 <Audience, device, attention level. Product UI or marketing. What conversion

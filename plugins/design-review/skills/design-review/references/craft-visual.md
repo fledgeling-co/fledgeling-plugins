@@ -173,6 +173,12 @@ Catches: "Unlock the future"; fabricated round-number metrics ("10,000+ teams");
 
 ---
 
-## What to record per component
+## Work the inventory, not your intuition
+
+This section's coverage used to be discretionary, and that is exactly where reviews lose defects. Everything in this skill with an enumeration gets done; everything without one gets improvised.
+
+So start from `probeComponentInventory()` (stage 5), not from the screenshot. It returns every distinct component type with a count and a crop box. Crop in priority order — layout-flagged, then interactive, then ≥3 instances, then primary task path — and tick each off.
 
 For each crop opened, the finding (or clearance) carries: the component, the viewport, the DPR, what was checked, and the three failure modes considered. A clearance with no named failure modes is not a clearance.
+
+Types you did not open go in the report's Coverage block as the unopened remainder. Never as silence.

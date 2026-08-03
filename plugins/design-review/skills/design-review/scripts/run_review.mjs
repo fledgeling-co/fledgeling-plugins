@@ -167,6 +167,14 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
     pageOverflowsHorizontally: probes.overflow.pageOverflowsHorizontally,
     escapingElementCount: probes.overflow.escaping.length,
     contrastFailureCount: probes.contrast.filter(c => 'ratio' in c).length,
+    layoutFindingCount: (() => {
+      const L = probes.layout; if (!L) return 0;
+      return L.shapeMismatch.length + L.columnDrift.length + L.columnHeaderAlignment.length +
+             L.touchingHeadings.length + L.textOverlap.length + L.deadSpace.length +
+             L.affordance.unactionableRows.length + L.affordance.pointerCursorNotFocusable.length +
+             L.tokenOverload.length + (L.rails.exceedsThreshold ? 1 : 0);
+    })(),
+    componentTypeCount: probes.layout ? probes.layout.inventory.distinctTypes : null,
     targetsBelowAA: probes.targets.filter(t => t.belowAA).length,
     heavyCropImages: probes.images.filter(i => i.heavyCrop).length,
   };
@@ -337,11 +345,20 @@ async function main() {
     if (v.contrastFailureCount) flags.push(`${v.contrastFailureCount} contrast fails`);
     if (v.targetsBelowAA) flags.push(`${v.targetsBelowAA} targets <24px`);
     if (v.heavyCropImages) flags.push(`${v.heavyCropImages} heavy-crop images`);
+    if (v.layoutFindingCount) flags.push(`${v.layoutFindingCount} layout findings`);
     console.log(`  ${v.viewport.padStart(10)}  ${flags.length ? flags.join(' · ') : 'no gate flags'}`);
   }
 
+  const types = manifest.viewports.map(v => v.componentTypeCount).filter(n => n != null);
+  if (types.length) {
+    console.log(`\n${Math.max(...types)} distinct component types found. That is the`);
+    console.log('denominator for the report\'s Coverage block — crop and open them in');
+    console.log('priority order (layout-flagged, interactive, >=3 instances, task path).');
+  }
+
   console.log('\nCaptures are evidence only once opened. Read the crops before');
-  console.log('reporting anything about them.');
+  console.log('reporting anything about them. A clean gate run is not a verdict');
+  console.log('on the design; it says no known computable defect is present.');
 }
 
 main().catch(err => {
