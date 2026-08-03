@@ -770,9 +770,13 @@
       if (!visible(el)) continue;
       const own = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
       if (!own) continue;
-      const r = el.getBoundingClientRect();
-      if (r.width < 1 || r.height < 1) continue;
-      nodes.push({ el, r, t: shortText(el).slice(0, 30) });
+      // Per-fragment, not the bounding box. An inline element that wraps returns
+      // a bounding rect spanning both lines, which "overlaps" everything sitting
+      // between them. getClientRects() gives one rect per line fragment.
+      for (const r of el.getClientRects()) {
+        if (r.width < 1 || r.height < 1) continue;
+        nodes.push({ el, r, t: shortText(el).slice(0, 30) });
+      }
     }
     const out = [];
     for (let i = 0; i < nodes.length; i++) {
