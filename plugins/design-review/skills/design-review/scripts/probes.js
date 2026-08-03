@@ -542,7 +542,8 @@
   /* Thresholds. Every one is a judgement call made once, here, rather than
      per-review. Tune them against a surface you already know is sound. */
   const LI = {
-    columnDriftPx: 2,        // per-column edge deviation inside one repeated group
+    columnDriftPx: 4,        // per-column edge deviation inside one repeated group.
+                             // Below ~4 this fires on sub-pixel layout and text metrics.
     headerDriftPx: 8,        // column header centre vs the body column it labels
     railDriftPx: 8,          // left edges of regions that should share a rail
     zeroGapPx: 1,            // "touching" — a gap this small was not designed
@@ -634,7 +635,13 @@
                 'row usually steals width from every column before it.',
         });
       }
-      const full = rows.filter(r => r.kids.length === modal && modal >= 2);
+      // Drift only means anything when the members stack vertically, i.e. they
+      // are rows. In a horizontal group the members ARE the columns, and their
+      // nth-child edges are supposed to differ.
+      const stacked = rows.length >= 2 && rows.every((r, i) =>
+        i === 0 || r.el.getBoundingClientRect().top >=
+                   rows[i - 1].el.getBoundingClientRect().bottom - 1);
+      const full = stacked ? rows.filter(r => r.kids.length === modal && modal >= 2) : [];
       if (full.length >= 3) {
         for (let i = 0; i < modal; i++) {
           const rights = full.map(r => Math.round(r.kids[i].getBoundingClientRect().right));
@@ -666,13 +673,33 @@
       const first = g.members[0];
       const bodyCols = [...first.children].filter(visible);
       if (bodyCols.length < 3) continue;
+      // On a single-page app every screen is in the DOM, so the sibling of a
+      // group can be a header belonging to a hidden screen. visible() covers the
+      // element; its column count has to match the body it claims to label.
       const candidates = [g.parent.previousElementSibling,
-                          g.parent.parentElement && g.parent.parentElement.previousElementSibling];
-      for (const head of candidates) {
+                          g.parent.parentElement && g.parent.parentElement.previousElementSibling]
+        .filter(e => e && visible(e) && e.getBoundingClientRect().width > 0);
+      for (let head of candidates) {
         if (!head || !visible(head)) continue;
+        // The sibling is often a wrapper holding the header plus a filter row.
+        // Descend to the child that actually looks like a header rather than
+        // comparing the wrapper's children, which produces confident nonsense.
+        if (![...head.children].every(c => shortText(c).length <= 30)) {
+          const inner = [...head.children].find(c => visible(c) &&
+            [...c.children].length >= 3 &&
+            [...c.children].every(g => shortText(g).length <= 30));
+          if (!inner) continue;
+          head = inner;
+        }
         const hc = [...head.children].filter(visible);
         if (hc.length < 3) continue;
         if (!hc.every(c => shortText(c).length <= 30)) continue;
+        // A header labels the row beneath it, so its first column starts where
+        // the row's does. Without this the walk latches onto any short-text
+        // sibling — a filter bar, a section head — and reports large deltas
+        // against something that was never a header.
+        if (Math.abs(hc[0].getBoundingClientRect().left -
+                     bodyCols[0].getBoundingClientRect().left) > LI.headerDriftPx) continue;
         // Index-matching only means anything when the two have the same column
         // count. A row that leads with an icon the header omits would otherwise
         // produce large, confident, meaningless deltas.
@@ -695,7 +722,11 @@
             cols.push({ index: i, label: shortText(hc[i]).slice(0, 24), deltaPx: d });
           }
         }
-        if (cols.length) {
+        // A real header is nearly aligned and drifts a little. When most columns
+        // are wildly off, the candidate is an unrelated sibling — a card head, a
+        // toolbar — and reporting it as a misaligned header is worse than silence.
+        const wild = cols.filter(c => Math.abs(c.deltaPx) > LI.headerDriftPx * 10).length;
+        if (cols.length && wild === 0) {
           out.push({
             header: cssPath(head), body: cssPath(first), columns: cols,
             note: 'Header columns do not sit over the body columns they label.',
@@ -723,6 +754,12 @@
         const b = kids[i].getBoundingClientRect();
         if (b.top < a.top) continue;                 // not stacked; skip
         const gap = Math.round(b.top - a.bottom);
+        // A card head touching its own body is one component, not two blocks
+        // that failed to separate.
+        const sameCard = kids[i - 1].closest('[class*="card"],[class*="panel"]') ===
+                         kids[i].closest('[class*="card"],[class*="panel"]') &&
+                         kids[i].closest('[class*="card"],[class*="panel"]') !== null;
+        if (!sameCard && kids[i - 1].parentElement.closest('[class*="card"],[class*="panel"]')) continue;
         if (gap <= LI.zeroGapPx && gap >= -LI.zeroGapPx && isHeading(kids[i]) && !isHeading(kids[i - 1])) {
           touching.push({
             above: cssPath(kids[i - 1]), heading: cssPath(kids[i]),
@@ -742,8 +779,14 @@
    * viewport gets, which is why it survives a review run at one width.
    */
   function probeSharedRails() {
+    // Only headings that sit on the page rail. One inside a card, panel or
+    // dialog is indented by that container's padding and says nothing about
+    // whether the page's regions agree.
+    const INSET = '[class*="card"],[class*="panel"],[class*="sheet"],[class*="modal"],' +
+                  'dialog,aside,figure,blockquote';
     const heads = [...document.querySelectorAll('h1,h2,h3')].filter(visible)
-      .filter(h => shortText(h).length > 0);
+      .filter(h => shortText(h).length > 0)
+      .filter(h => !h.closest(INSET));
     if (heads.length < 2) return { clusters: [], disagreementPx: 0 };
     const lefts = heads.map(h => ({ left: Math.round(h.getBoundingClientRect().left), el: h }));
     const clusters = [];
@@ -811,6 +854,11 @@
       if (r.height < LI.deadSpaceMinPx || r.width < 240) continue;
       const kids = [...el.children].filter(visible);
       if (kids.length < 2) continue;
+      // A void needs a ROW. In a column stack, children of different heights are
+      // the point, not a defect.
+      const rects0 = kids.map(k => k.getBoundingClientRect());
+      const sideBySide = rects0.every((r, i) => i === 0 || r.left >= rects0[i - 1].right - 1);
+      if (!sideBySide) continue;
       // The void does not live in the short child — with a cross-axis alignment
       // the short child's box IS its content. It lives in the container, beside
       // whichever sibling set the height.
