@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoice summary — clean fixture</title>
+<!--
+  Deliberately well-built control fixture. Used to test that the review returns a
+  clean verdict rather than inventing findings to fill sections.
+
+  What is correct here, on purpose:
+  - tokens for colour, spacing, radius, duration; no off-scale values
+  - contrast: #1F2430 on #FFFFFF (15.3:1); #55607A on #FFFFFF (5.7:1) for secondary
+  - :focus-visible ring at 2px with 3:1 against adjacent background
+  - tracked uppercase eyebrow at +0.08em
+  - tabular numerals on the figures; value outranks label
+  - all six interaction states on the button
+  - reduced-motion honoured; transitions name their properties
+  - 44px+ targets, intrinsic button sizing so translation can expand it
+  - real content, no lorem, no fabricated stats
+-->
+<style>
+  :root {
+    --ink:        #1F2430;
+    --ink-muted:  #55607A;
+    --surface:    #FFFFFF;
+    --surface-2:  #F6F7F9;
+    --line:       #D7DBE3;
+    --brand:      #1F5FD0;
+    --brand-dark: #17489C;
+    --focus:      #1F5FD0;
+    --positive:   #146B45;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 40px;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+
+    --t-hover: 150ms;
+    --t-press: 120ms;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: clamp(var(--space-2), 5vw, var(--space-5));
+    background: var(--surface-2);
+    color: var(--ink);
+    font: 400 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  .card {
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-2);
+    font-size: 12px;
+    font-weight: 550;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  h1 {
+    margin: 0 0 var(--space-3);
+    font-size: 28px;
+    font-weight: 590;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .rows { margin: 0 0 var(--space-4); }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:last-child { border-bottom: 0; }
+
+  .row-label {
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .row-value {
+    font-size: 18px;
+    font-weight: 550;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row-value.total { font-size: 24px; font-weight: 590; }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 13px;
+    font-weight: 510;
+    color: var(--positive);
+  }
+  .status::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  .btn {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
+    color: #FFFFFF;
+    font: inherit;
+    font-weight: 550;
+    cursor: pointer;
+    transition-property: background-color, transform, border-color;
+    transition-duration: var(--t-hover);
+    transition-timing-function: var(--ease-out);
+  }
+  .btn:hover { background: var(--brand-dark); }
+  .btn:active { transform: scale(0.97); transition-duration: var(--t-press); }
+  .btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .btn[disabled] {
+    background: var(--surface-2);
+    border-color: var(--line);
+    color: var(--ink-muted);
+    cursor: not-allowed;
+  }
+  .btn[aria-busy="true"] { opacity: 0.85; cursor: progress; }
+
+  .btn--secondary {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--ink);
+  }
+  .btn--secondary:hover { background: var(--surface-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition-duration: 1ms; }
+    .btn:active { transform: none; }
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">Invoice 4821</p>
+    <h1>March subscription</h1>
+
+    <dl class="rows">
+      <div class="row">
+        <dt class="row-label">Plan</dt>
+        <dd class="row-value">Team, 12 seats</dd>
+      </div>
+      <div class="row">
+        <dt class="row-label">Billing period</dt>
+        <dd class="row-value">1–31 March 2026</dd>
+      </div>
+      <div class="row">
+        <dt class="row-label">Status</dt>
+        <dd class="row-value"><span class="status">Paid 4 March</span></dd>
+      </div>
+      <div class="row">
+        <dt class="row-label">Total</dt>
+        <dd class="row-value total">£1,248.00</dd>
+      </div>
+    </dl>
+
+    <div class="actions">
+      <button class="btn" type="button">Download PDF</button>
+      <button class="btn btn--secondary" type="button">Email a copy</button>
+    </div>
+  </main>
+</body>
+</html>

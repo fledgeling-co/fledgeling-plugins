@@ -1,0 +1,24 @@
+.pricing-hero { padding: 72px 32px; text-align: center; }
+.pricing-hero .eyebrow { font-size: 12px; text-transform: uppercase; color: #8b90a0; }
+.pricing-hero h1 { font-size: 64px; margin: 11px 0 15px; }
+.pricing-hero .sub { font-size: 18px; color: #6b7380; }
+.toggle { display: flex; gap: 7px; justify-content: center; margin-top: 27px; }
+.toggle span { padding: 6px 14px; font-size: 13px; cursor: pointer; }
+
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 32px; }
+.plan {
+  border: 1px solid #e2e4e9;
+  border-left: 4px solid #6366F1;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+  padding: 27px;
+}
+.plan.popular { border-color: #6466F1; }
+.badge { font-size: 11px; background: #6366F1; color: #fff; padding: 3px 9px; border-radius: 24px; }
+.plan h3 { font-size: 20px; margin: 13px 0 7px; }
+.price .amount { font-size: 18px; font-weight: 700; }
+.price .per { font-size: 20px; color: #9aa0ab; }
+.plan p { font-size: 13px; color: #9aa0ab; }
+.plan .btn { margin-top: 18px; padding: 9px 18px; background: #6366F1; color: #fff;
+             border-radius: 24px; text-align: center; cursor: pointer; transition: all .3s ease-in; }
+.plan .btn:focus { outline: none; }

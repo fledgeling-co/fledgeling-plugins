@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "fledgeling-plugins",
+  "description": "Fledgeling Claude Code plugins",
+  "owner": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "design-review",
+      "description": "Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast and motion gates, then structural, state, craft, flow and design-system passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Use this whenever someone asks to review, audit, critique, QA, sanity-check or \"give feedback on\" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI \"looks AI-generated\", \"looks off\", \"feels cheap\", \"needs polish\", \"isn't accessible\", or asks whether something is ready to ship or ready for a human to look at. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word \"review\".",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/design-review",
+      "category": "development"
+    }
+  ]
+}

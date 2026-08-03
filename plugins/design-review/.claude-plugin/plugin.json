@@ -1,0 +1,9 @@
+{
+  "name": "design-review",
+  "description": "Expert design and UX review of rendered web apps, websites, app UI flows, infographics and design artifacts — the last pass before a human looks at AI-built UI. Deterministic accessibility, contrast, target-size, performance and motion gates first; then structural, state, craft, flow and design-system passes against real renders at multiple viewports; then severity-ranked findings with pasteable fixes, evidence, and an explicit statement of what was never checked.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

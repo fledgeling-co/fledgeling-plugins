@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Nexus — Ship faster</title>
+<style>
+  :root { --brand: #6366F1; --brand2: #6466F1; --ink: #6b7380; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Inter, system-ui, sans-serif; background:#FFFFFF; color:#000000; }
+  .hero { min-height:100vh; padding:7px 15px; text-align:center;
+          background:linear-gradient(135deg,#6366F1,#A855F7,#EC4899); color:#fff; }
+  .hero h1 { font-size:72px; letter-spacing:normal; line-height:0.9; margin:120px 0 18px; }
+  .hero p { color:#c7c9ff; font-size:17px; max-width:none; }
+  .eyebrow { text-transform:uppercase; letter-spacing:normal; font-size:12px; }
+  .btn { width:140px; padding:13px; border-radius:24px; border:none;
+         background:var(--brand); color:#fff; transition:all 0.3s ease-in; }
+  .btn:focus { outline:none; }
+  .btn2 { width:140px; padding:13px; border-radius:24px; border:1px solid #fff;
+          background:transparent; color:#fff; }
+  .card { border-radius:12px; border-left:4px solid var(--brand2);
+          box-shadow:0 8px 32px rgba(0,0,0,.18); border:1px solid #eee;
+          padding:18px; margin:11px; opacity:0; }
+  .card.seen { animation: up 600ms both; }
+  @keyframes up { from { opacity:0; transform:translateY(8px);} to {opacity:1;} }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; padding:32px; }
+  .stat { font-size:16px; color:var(--ink); }
+  .stat b { font-size:13px; }
+  .tiny { width:18px; height:18px; display:inline-block; background:#ddd; }
+  table { width:1400px; }
+  footer { z-index:9999; position:relative; padding:24px; }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="eyebrow">V0.6 · BETA</div>
+    <h1>Unleash seamless velocity</h1>
+    <p>The next-generation platform that empowers teams to leverage best-in-class workflows.</p>
+    <button class="btn">Get started</button>
+    <button class="btn2">Learn more</button>
+    <p style="font-size:12px">Trusted by 10,000+ teams · 99.9% uptime</p>
+  </section>
+
+  <div class="grid">
+    <div class="card"><h3>🚀 Fast</h3><p class="stat">Lorem ipsum dolor sit amet consectetur.</p></div>
+    <div class="card"><h3>✅ Simple</h3><p class="stat">Lorem ipsum dolor sit amet consectetur.</p></div>
+    <div class="card"><h3>📈 Scalable</h3><p class="stat">Lorem ipsum dolor sit amet consectetur.</p></div>
+  </div>
+
+  <section class="grid">
+    <div><span class="stat">Revenue</span><br><b>591</b></div>
+    <div><span class="stat">Users</span><br><b>12043</b></div>
+    <div><span class="stat">Churn</span><br><b>2.4%</b></div>
+  </section>
+
+  <form style="padding:32px">
+    <h4>Join the waitlist</h4>
+    <input type="number" placeholder="Postcode">
+    <input type="email" placeholder="Email address">
+    <input type="email" placeholder="Confirm email address">
+    <a href="#" class="tiny"></a>
+    <button class="btn">Submit</button>
+  </form>
+
+  <table><tr><td>wide table forcing horizontal overflow at every viewport</td></tr></table>
+
+  <footer><a href="#">Unsubscribe</a> · <span>© Nexus</span></footer>
+
+  <script>
+    document.querySelectorAll('.card').forEach(c => c.classList.add('seen'));
+  </script>
+</body>
+</html>
