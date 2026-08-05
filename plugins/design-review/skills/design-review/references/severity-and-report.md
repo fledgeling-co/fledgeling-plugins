@@ -17,6 +17,8 @@ Severity = frequency × impact × persistence, plus market impact where reputati
 
 A cluster of Blockers or Highs in one flow is a **hotspot** — report it as one systemic finding needing redesign, not as a list of point fixes.
 
+**When the failure is the surface rather than points on it, say so as the finding.** A patch list against a surface that failed wholesale reads as a plan to fix it, which is how a rejection becomes an approval — the reader works the list, clears every item, and ships something still broken in the way that mattered. The test is whether fixing every listed finding would produce a surface you would pass. If not, the top finding is "this needs redesigning, here is what it would have to become", and the point findings sit under it as evidence rather than as the work.
+
 Assign severity at aggregation only, never during the find passes.
 
 ## Block vs advise
@@ -57,18 +59,28 @@ Mandatory. Goes at the top of every report, above the findings, and is never omi
 
 A review's largest failure mode is not a wrong finding, it is a confident silence over a region nobody looked at. `reliability-envelope.md` says it about lint rules — *"Coverage is silent. A rule whose selector matches nothing passes without warning"* — and it applies to the review itself with equal force.
 
+**The verdict line carries the fraction, not just the coverage block.** A partial review is formally indistinguishable from a finished one: same headings, same verdict, and readers read findings before they read a block at the top. So the fraction rides in the sentence nobody skips:
+
+```
+**Verdict:** Needs work (7 of 14 surfaces reviewed; 3 stages open on 4 of them) — <one sentence why>
+```
+
+A complete review says so the same way — `(14 of 14 surfaces, all stages)` — so the absence of a fraction is never what marks a review finished.
+
 ```markdown
 ### Coverage
 - Screens: 14 of 14 at 1440; Board only at 375/768/1024/1920
 - Component types: 31 of 83 cropped and opened (all layout-flagged, all interactive, all with ≥3 instances)
 - States driven: default, empty, focus, hover on Ledger. Loading/partial/error/offline not driven
 - Probes: full `runAll` on all 14 screens. `analyze_styles.py` on Board only
+- Ledger: `<workdir>/worklist.md` — 14 rows, 0 open cells
 - Not looked at: `directions.html`, the toast, the state gallery
 ```
 
-Two rules keep it honest:
+Three rules keep it honest:
 
 - **The component fraction is a count, not an impression.** `probeComponentInventory()` gives the denominator; the numerator is crops you actually opened. If you did not run the inventory, the fraction is `? of ?` and say so.
+- **The surface fraction comes from the stage-0 worklist**, not from what you happened to review. A denominator set after the fact always equals the numerator.
 - **"Gates clean" and "design sound" are two sentences.** Write both or neither. A report opening on "0 contrast failures across 14 screens" will be read as a verdict on the design no matter what the rest of it says.
 
 ## Report template
@@ -145,6 +157,8 @@ Ask which findings to fix, unless the user pre-authorised fixing. Options: all B
 
 When fixing: follow existing code patterns, batch related edits, and re-check each fixed finding against its own "should be". Then re-run the gates for what you changed and its neighbours — a targeted regression pass, not a second full review. The classic self-inflicted defect is adding an error message that fails contrast.
 
+**Score the fix against the recapture, not against your account of it.** The rule that governs captures governs repairs too: a fix you cannot see in the new evidence is unresolved, however confident the edit felt. Mark each one **resolved**, **partial** or **unresolved** — partial being the fix that moved the element without producing the quality the finding named. Then name at most three regressions the batch itself introduced, and stop; a repair pass is scoring, not a fresh hunt.
+
 ## Convergence across rounds
 
 Three rounds maximum. Each round's findings report should be shorter than the last; a round producing more text than the previous one is churning, not converging.
@@ -152,3 +166,5 @@ Three rounds maximum. Each round's findings report should be shorter than the la
 Ship when the gates pass **and** zero must-fix findings remain open. Both conditions, not either.
 
 If round three still doesn't clear the bar, report the best round with the open items named — "ships with two open polish items: …" — rather than iterating indefinitely or quietly relabelling the bar.
+
+**Rounds are not a substitute for coverage.** Convergence measures whether the findings on the surfaces you reviewed are settling. It says nothing about the surfaces you did not reach, and a review can converge perfectly on three of fourteen screens. Check the worklist before declaring convergence: open cells are a coverage gap, not a round.

@@ -1,8 +1,13 @@
 # Design/UX review — <scope>
 
-**Verdict:** Solid / Needs work / High risk — <one sentence why>
+**Verdict:** Solid / Needs work / High risk (<n of n surfaces reviewed, all stages | m stages open on k>) — <one sentence why>
 
 <!--
+The fraction is not optional and not only for partial reviews. A finished review
+says "(14 of 14 surfaces, all stages)". If the fraction only appears when coverage
+is short, its absence becomes the signal — and a partial review then looks
+finished, which is the failure this line exists to stop.
+
 Drop any section with nothing in it. An empty heading is padding with extra steps.
 A clean surface gets a clean verdict and a short report.
 
@@ -22,15 +27,24 @@ not a fix; a hex value, a measured ratio and a demotion instruction is.
 <!-- Never omitted, never softened. The largest failure mode of a review is not a
 wrong finding, it is a confident silence over a region nobody looked at. The
 component fraction comes from probeComponentInventory(); if you didn't run it,
-write "? of ?" rather than a number you feel. -->
+write "? of ?" rather than a number you feel. The surface fraction comes from the
+stage-0 worklist, not from what you happened to get to — a denominator set after
+the fact always equals the numerator. -->
 
+- **Surfaces:** <n of n from the worklist; which ones, and which are open>
 - **Screens:** <n of n at which widths; which screens got the full viewport sweep>
 - **Component types:** <n of n cropped and opened, and the rule used to pick them>
 - **States driven:** <which; and which were not>
 - **Probes:** <runAll on what; analyze_styles.py on what>
+- **Ledger:** <workdir>/worklist.md — <n rows, n open cells>
 - **Not looked at:** <named, not implied>
 
 "Gates clean" and "design sound" are two sentences. Write both or neither.
+
+<!-- If any cell in the worklist is open, say so here in the shape the skill
+requires: "7 of 14 surfaces reviewed, resuming at 8." Sampling deliberately is
+fine and gets stated as a decision: which surfaces, chosen how, and what the
+sample cannot speak for. Silent sampling is the thing this block prevents. -->
 
 ## Context
 

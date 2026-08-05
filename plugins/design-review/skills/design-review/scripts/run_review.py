@@ -271,6 +271,30 @@ def _layout_finding_count(L):
             len(L["tokenOverload"]) + (1 if L["rails"]["exceedsThreshold"] else 0))
 
 
+def mark_worklist(workdir: Path, surface: str) -> None:
+    """Mark this surface's gates and render cells done.
+
+    Capture proves those two stages ran; it proves nothing about states,
+    inventory, craft, flow or system, which stay open until their own work
+    happens. Silently no-ops when no ledger exists — the ledger is the gate,
+    this is only a convenience so it stays current without hand-editing.
+    """
+    ledger = workdir / "worklist.md"
+    if not ledger.exists():
+        print(f"\n(no ledger at {ledger}; skipping worklist update)", file=sys.stderr)
+        return
+    import subprocess
+    script = HERE / "worklist.py"
+    for stage in ("gates", "render"):
+        subprocess.run(
+            [sys.executable, str(script), "set", str(workdir),
+             "--surface", surface, "--stage", stage, "--value", "done"],
+            check=False, capture_output=True)
+    print(f"\nWorklist: {surface} gates+render -> done. "
+          f"states/inventory/craft/flow/system stay open until their work runs.")
+    subprocess.run([sys.executable, str(script), "check", str(workdir)], check=False)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Capture and probe a surface for design review.")
     ap.add_argument("--url", required=True, help="Served URL. Never file:// — module scripts and fonts silently fail.")
@@ -286,6 +310,9 @@ def main():
     ap.add_argument("--motion-class", default="seen")
     ap.add_argument("--motion-frames", type=int, default=6)
     ap.add_argument("--motion-interval", type=int, default=200)
+    ap.add_argument("--worklist", help="Workdir holding worklist.md. Marks this surface's "
+                                       "gates and render cells done once capture succeeds.")
+    ap.add_argument("--surface", help="This surface's name in the worklist (default: --url).")
     args = ap.parse_args()
 
     if args.url.startswith("file://"):
@@ -354,6 +381,9 @@ def main():
     print("\nCaptures are evidence only once opened. Read the crops before "
           "reporting anything about them. A clean gate run is not a verdict on "
           "the design; it says no known computable defect is present.")
+
+    if args.worklist:
+        mark_worklist(Path(args.worklist).resolve(), args.surface or args.url)
 
 
 if __name__ == "__main__":
