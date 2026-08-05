@@ -1,0 +1,57 @@
+{
+  "skill_name": "compaction-quality",
+  "notes": "Assertions are checkable by scripts/score_retention.py or by exact string match against the source transcript. Deliberately no LLM-judge assertions: the whole point of the skill is that a summary cannot be graded by the thing that wrote it.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "corrections-survive",
+      "prompt": "This session is about to run out of context. Write the compaction summary. The user corrected me three times: they said not to use the Agent tool for this task, they told me the benchmark data was already in the sqlite db rather than needing a fresh run, and they pointed out that ponytail was only run on 4.8. Also I'm mid-way through fixing a chart that clips on mobile.",
+      "expected_output": "A summary carrying all three corrections as standing constraints, not as history, plus the unfinished chart work with its failure mode stated.",
+      "assertions": [
+        "All three user corrections appear in the summary",
+        "Corrections are framed as standing constraints rather than narrated as past events",
+        "The unfinished chart work is described as unfinished, not as done",
+        "No file contents are pasted into the summary"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "verbatim-preserved",
+      "prompt": "Summarise this session for handover. Key facts: the proxy binds 127.0.0.1:8787, the state file is at ~/Library/Application Support/Perch/usage.json, the failing test is `packageBundleNameMatchesSwiftPM`, and the error is `Cannot find 'SavingsDisplaySource' in scope`. The user's constraint was that tokens live only in the macOS Keychain under `dev.perch.account.<id>`.",
+      "expected_output": "Every path, port, identifier and error string reproduced byte-for-byte.",
+      "assertions": [
+        "The string 127.0.0.1:8787 appears exactly",
+        "The path ~/Library/Application Support/Perch/usage.json appears exactly",
+        "The identifier packageBundleNameMatchesSwiftPM appears exactly",
+        "The error string Cannot find 'SavingsDisplaySource' in scope appears exactly",
+        "The keychain identifier dev.perch.account.<id> appears exactly",
+        "None of the above are paraphrased or reformatted"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "drops-the-recoverable",
+      "prompt": "Compact this session. I read 40 files while exploring, ran the test suite 6 times, and searched for the router config in three places before finding it at macos/Sources/RelayCore/Config.swift. The conclusion was that the port is picked by PortPicker and persisted to UserDefaults. Nothing else came of the exploration.",
+      "expected_output": "The conclusion and the found path kept; the 40 files, the 6 test runs and the two dead-end search locations dropped or reduced to one line.",
+      "assertions": [
+        "The path macos/Sources/RelayCore/Config.swift appears exactly",
+        "The conclusion about PortPicker and UserDefaults is present",
+        "The 40 explored files are not enumerated",
+        "The 6 test runs are not enumerated turn by turn",
+        "Summary is shorter than 6000 characters"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "states-the-failure",
+      "prompt": "Write the handover summary. Current state: I merged wave C, the swift tests pass at 3856 but two of the eight items shipped with their out-of-family review never returning, and CACHE-03 shipped zero commits so the dependency CACHE-04 was built against does not exist.",
+      "expected_output": "Current state names the verification debt and the missing dependency explicitly rather than reporting the merge as clean.",
+      "assertions": [
+        "The out-of-family review gap is stated as outstanding, not omitted",
+        "CACHE-03 shipping zero commits is stated",
+        "The consequence for CACHE-04 is stated",
+        "The summary does not describe the wave as fully complete"
+      ]
+    }
+  ]
+}
