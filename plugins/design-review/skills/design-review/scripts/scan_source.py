@@ -176,6 +176,19 @@ RULES: list[Rule] = [
          "ICU plural formats, or `Intl.PluralRules`",
          "Plural rules differ per language; concatenation bakes English grammar into the layout"),
 
+    # ---- Tier 2: imitation material --------------------------------------
+    Rule("stacked-inset-bevel", 2,
+         r"box-shadow\s*:[^;]*\binset\b[^;]*,[^;]*\binset\b",
+         "Stacked inset shadows — the signature of a faked bevel or embossed edge",
+         "Use a real asset for the material, or an honestly flat surface with one elevation language",
+         "Real elevation says this sits above that; a bevel claims the surface is made of something, and that claim needs an asset to be true"),
+
+    Rule("letterpress-text-shadow", 2,
+         r"text-shadow\s*:\s*0\s+(-?1|-?2)px\s+0(px)?\s+",
+         "Hard-offset zero-blur `text-shadow` — the faux-letterpress / engraved-text effect",
+         "Drop it, or set the type on a real textured asset",
+         "The effect imitates ink pressed into paper on a surface with no paper; it reads as machine-made and costs contrast"),
+
     # ---- Tier 3: prompts, never gates ------------------------------------
     Rule("lorem-ipsum", 3,
          r"\blorem\s+ipsum\b",

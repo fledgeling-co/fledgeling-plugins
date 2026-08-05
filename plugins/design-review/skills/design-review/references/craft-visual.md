@@ -134,6 +134,12 @@ Mathematically perfect but optically wrong is a finding, not a pass.
 
 Glass and translucency: only when there is something worth blurring behind it. Glass over a flat white page is decoration. The 1px light border and inset top highlight are what make it read as material rather than smudge. Text on glass needs a contrast fallback. One glass layer, never stacked — and adjacent glass elements share one glass region rather than each blurring independently.
 
+**Imitation material.** A surface claiming a physical material the page never actually renders — CSS bevels, embossing, faux letterpress, fake foil, stamped-metal, chalk — reads as machine-made faster than most items on the tell-list, and unlike them it is partly greppable: `box-shadow: inset` plus a gradient plus a border on one element, stacked to fake relief, is a detectable signature.
+
+Two things separate it from legitimate depth. Real elevation says *this sits above that*; imitation material says *this is made of that*, and the second claim needs an asset to be true. And it usually arrives where an asset was wanted and unavailable — a hero, a cover, a card meant to carry texture — so the honest alternatives are a real image or an honestly flat surface, never a gradient standing in.
+
+Tier 2, because whether a bevel is imitation or a deliberate skeuomorphic style is a judgment. Report it as a finding on the *claim*, not on the CSS: name the material being imitated and what the surface would need to make the claim true.
+
 ---
 
 ## Density

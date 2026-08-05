@@ -1,0 +1,50 @@
+/* Imitation-material fixture — drives the two scan_source.py rules in the
+   "Tier 2: imitation material" block. Every rule needs an artifact that makes
+   it fire, or it is a rule only ever observed passing.
+
+   Top half: must fire. Bottom half: must stay silent.
+   Expected: stacked-inset-bevel 2 hits, letterpress-text-shadow 3 hits. */
+
+/* ---------- must fire: stacked-inset-bevel ---------- */
+
+.spec-plate {
+  /* fake machined bevel — two insets stacked to imply a raised edge */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45),
+              inset 0 -1px 0 rgba(0, 0, 0, .35);
+}
+
+.key-cap {
+  background: linear-gradient(#f6f6f4, #e4e2dd);
+  border: 1px solid #cfccc4;
+  box-shadow: inset 0 2px 0 #fff, inset 0 -2px 0 rgba(0, 0, 0, .18);
+}
+
+/* ---------- must fire: letterpress-text-shadow ---------- */
+
+.engraved-title { text-shadow: 0 1px 0 #fff; }
+.debossed-label { text-shadow: 0 -1px 0 rgba(0, 0, 0, .6); }
+.stamped-mark   { text-shadow: 0 2px 0px #d8d4cb; }
+
+/* ---------- must stay silent ---------- */
+
+/* layered elevation — the correct two-shadow pattern, no inset */
+.card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05),
+              0 4px 12px rgba(0, 0, 0, .06);
+}
+
+/* glass — one inset top highlight alongside an outer shadow is material, not bevel */
+.glass {
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 8px 32px rgb(0 0 0 / .25), inset 0 1px 0 rgb(255 255 255 / .08);
+}
+
+/* inset used as a focus ring — legitimate, and the only inset on the element */
+.field:focus-visible { box-shadow: inset 0 0 0 2px var(--focus); }
+
+/* inset used to draw a hairline separator */
+.row { box-shadow: inset 0 -1px 0 var(--border); }
+
+/* blurred text shadow for legibility over an image — has a blur radius */
+.hero-caption { text-shadow: 0 2px 8px rgba(0, 0, 0, .55); }
+.overlay-text { text-shadow: 0 1px 3px rgba(0, 0, 0, .4); }

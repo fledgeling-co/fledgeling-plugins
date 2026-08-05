@@ -156,6 +156,8 @@ Use it two ways: to decide where to look more carefully, and as input to the sys
 - Hand-drawn SVG illustrations of people or scenes
 - Decorative status dots, scroll cues ("Scroll to explore"), version-label eyebrows, section-number eyebrows
 - Gradient text, glow-for-emphasis, decorative grid-line backgrounds, `repeating-linear-gradient` stripes
+- Imitation material: CSS bevels, embossing, faux letterpress, fake foil, stamped-metal or chalk effects claiming a material the page never renders. Partly greppable (`box-shadow: inset` + gradient + border stacked on one element to fake relief) and judged in `craft-visual.md` under Depth
+- A system display face — Impact, Arial Black, the platform sans — carrying the *display* voice on a surface with its own identity. Workhorse system stacks for body and UI are legitimate; the tell is a display role never sourced
 - Uniform section-reveal: one identical fade-up entrance applied to every section
 - Unsplash stock imagery where the brand needs its own
 - The three current default *looks*, which matter more than any single element: warm-editorial (cream `#F4F1EA` family background + serif display + terracotta accent), near-black with a single acid accent, and the broadsheet (hairline rules, zero radius, oversized serif masthead)
