@@ -286,6 +286,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 - `references/craft-visual.md` — hierarchy vectors, typography numerics, optical alignment, depth, density, the swap test.
 - `references/flows-forms-copy.md` — walkthrough discipline, lens pass, form UX, microcopy, mechanisms worth citing.
 - `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, DTCG, design.md, the Tier 3 tell-list.
+- `references/parity-oracle.md` — reviewing a **re-implementation** (ported stack, componentised, data-driven): replace "does it still look right" with a measured token / skeleton / computed-style diff, and the negative test that proves a new data path is actually being used.
 - `references/severity-and-report.md` — severity scale, finding format, report template, the closing block.
 - `assets/report-template.md` — the report skeleton to fill in.
 
