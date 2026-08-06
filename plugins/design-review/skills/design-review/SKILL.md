@@ -146,6 +146,15 @@ Details in `references/gates-accessibility.md`, `references/gates-performance-mo
 
 **A clean gate run is not a verdict on the design.** It says no *known, computable* defect is present. Report the two claims as separate sentences, and never let "0 contrast failures" stand where "the layout is sound" is what a reader will take from it.
 
+**Prove the gate can fail before you trust it passing.** A predicate that matches nothing returns clean and looks identical to a clean surface. The way this actually happens: you filter a probe's output on a field it does not set — `results.filter(x => x.fail)` against a probe that returns `{ratio, required}` and no `fail` — and every surface reports zero, forever, across the whole sweep. Uniform zeros across many surfaces are the signature; real surfaces vary.
+
+Two cheap defences, both before the sweep rather than after:
+
+- **Print the denominator, not just the numerator.** `examined=41 failures=0` is a result; `failures=0` is not. A row reading `examined=0` is a gate that never ran, and it must never be recorded as `done`.
+- **Assert against the probe's actual return shape** — log one raw record and read it — rather than against the shape you assumed it had.
+
+When a probe's own limits make its numbers unusable on this surface (see the ancestor-walking caveat in `gates-accessibility.md`), say so and substitute a measurement that works. A gate you have quietly stopped believing is worse than one you have openly replaced.
+
 Loop: fix → re-run → verify, three attempts per issue. An issue surviving three targeted fixes usually means the diagnosis is wrong — report that as the finding rather than continuing.
 
 ### 3 — Structural render

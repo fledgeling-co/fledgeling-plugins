@@ -15,6 +15,17 @@ Contrast, alt text, labels, empty links, empty buttons and missing `lang` accoun
 
 Compute the actual ratio for every colour pair you can resolve — follow tokens back to their source value rather than guessing from a screenshot. Flag each failing pair with its measured ratio and the required minimum.
 
+**Ancestor-walking cannot resolve a background that a sibling paints.** `probeContrast` finds the background by climbing the text node's ancestors until it hits a non-transparent `background-color`. That is wrong wherever the visible backdrop is an *absolutely-positioned sibling* — a scrim over a photograph, a colour band, a clipped shape, a `::before` overlay, a video poster. The probe skips straight past it to the section's own colour and reports white text on a near-white canvas at 1.08:1 when the rendered pixels are 17:1.
+
+The tell is a cluster of impossible failures on exactly the elements sitting over imagery, all quoting the *same* background. Before reporting any of them, re-measure from pixels: crop each text node's box out of a render and take the **median** pixel as the backdrop — glyph ink is a minority of a line box, so the median is the background and the sort is robust to antialiasing.
+
+```python
+px = list(img.crop(box).getdata()); px.sort(key=luminance)
+bg = px[len(px) // 2]                     # median = backdrop, not ink
+```
+
+Report the two populations separately: ratios computed from resolved CSS, and ratios sampled from pixels. Never merge them into one count — the second is the only one that can speak for text over imagery, and the first is the only one that survives a re-render.
+
 Report the computed figure, not a tidied one. A ratio quoted as 15.3:1 when the value is 15.518:1 changes no verdict, but it means the number in the report was typed rather than measured — and once one figure is approximate, no figure in the report can be trusted without recomputation. Three decimals costs nothing.
 
 **Sweep the muted roles specifically.** Placeholder text, secondary and tertiary text, captions. Mid-grey tokens in the `#6b7380` neighbourhood fail 4.5:1 on light backgrounds most of the time, and muted-grey-on-tinted-near-white is the single most common contrast failure in generated design. "Muted" is a role, not a licence — secondary text still needs 4.5:1.

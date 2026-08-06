@@ -34,6 +34,18 @@ Screenshot the full page once with a tall viewport (e.g. 1400×5000, `fullPage: 
 
 Do not decide which components those are by eye. `probeComponentInventory()` enumerates them from the DOM with crop boxes attached — that list is the worklist, and the fraction of it you open is what the report's Coverage block states.
 
+**Slice crops out of a viewport capture; never take element screenshots as your evidence base.** An element screenshot (`locator.screenshot()`, `--element` in a CLI driver) renders that element's own box in isolation. It is therefore blind to the entire class of defects that concern *where the element sits*: clipped past the window edge, shifted off-centre, hidden under sticky chrome, overlapped by a floating bar, scrolled out of view. A fixed-size stage pushed 120px past the right edge of the window — a quarter of its content unreachable — element-screenshots as a flawless render, on every viewport, every time.
+
+The same trap sits in geometry checks. An aspect-ratio assertion (`w / h === 1.778`) or a size assertion holds perfectly while the box is the right size in the *wrong place*. Placement needs its own predicate, against the viewport:
+
+```js
+const r = el.getBoundingClientRect();
+({ clipL: Math.max(0, -r.left),        clipR: Math.max(0, r.right  - innerWidth),
+   clipT: Math.max(0, -r.top),         clipB: Math.max(0, r.bottom - innerHeight) });
+```
+
+Element captures are legitimate for one job: cropping a component you have *already* located within a viewport capture, when the region is awkward to slice. They can never establish that a surface fits its window.
+
 ## deviceScaleFactor by purpose
 
 - **DPR 1** when the question is "what does a user see at 100% zoom"

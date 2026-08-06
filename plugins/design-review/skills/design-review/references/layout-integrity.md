@@ -96,6 +96,22 @@ So treat it as a prompt to go and look, never as a blocking finding. The
 question it answers well is *"which rows would a user try to click?"* — and that
 list is worth reading even when most of it is fine.
 
+## Fixed chrome over content — check it separately
+
+Every overlap probe here compares elements *in the same flow*. Position-fixed chrome — a sticky header, a cookie bar, a floating action button, a media control bar, a chat launcher — is in no flow at all, so it occludes content while every overlap, overflow and dead-space check reports clean. The content is not overflowing anything; something is sitting on top of it.
+
+It is one measurement, and it belongs in the gate set:
+
+```js
+const fixed = [...document.querySelectorAll('body *')]
+  .filter(el => getComputedStyle(el).position === 'fixed' && visible(el));
+// for each fixed box, intersect against text/interactive boxes beneath it
+```
+
+Two things make this bite in practice. It is **viewport-dependent** — chrome pinned at `bottom: 28px` clears the content at 1280×1024 and lands on it at 1920×1080, so a single-viewport pass proves nothing. And the occluded element is often chrome itself (a page number, a footer rule, a legal line), which reads as unimportant right up until it is the disclaimer a regulator expects to see.
+
+Report it as an overlap finding, not a z-index note: the consequence is content the user cannot read, and severity follows what got covered.
+
 ## What this cannot catch
 
 State it in Needs verification, every time:
