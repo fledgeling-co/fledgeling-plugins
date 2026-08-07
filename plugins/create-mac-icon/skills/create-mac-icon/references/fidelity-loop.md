@@ -212,6 +212,16 @@ Rules that make it converge (each one earned by a documented failure mode):
   object-level flattening the blind panel remains the authority, which is why
   an accepted round whose panel disagrees ships as PROVISIONAL into the
   review queue rather than being settled by the machine.
+- **A gate rejection is not proof the edit was bad.** On improve-skill r02 the
+  gate rejected a fibre-texture round and the human then preferred that exact
+  candidate overall. The composite is a similarity measure, and surface texture
+  absent from the reference at the same spatial frequency lowers SSIM by
+  construction whatever it does for the artwork. Where a round's edit class is
+  one the composite structurally penalises (texture, grain, fine ornament), send
+  it to the panel or a human before treating the gate as final, and keep the
+  candidate's source: a rejected round whose source is destroyed cannot be
+  restored when the human disagrees. That happened once here and cost a
+  transcript-replay recovery.
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.
