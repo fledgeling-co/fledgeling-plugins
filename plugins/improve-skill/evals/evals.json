@@ -1,0 +1,52 @@
+{
+  "skill_name": "improve-skill",
+  "notes": "Foundational process evals: they assert that the pipeline's expected skills and tools are actually invoked and that the user checkpoints are asked, in order. Assertions are observable from the session transcript and the produced file tree, not from output quality. Quality-of-output proof belongs to the improved skill's own evals, which the pipeline creates.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "full-pipeline-invocations",
+      "prompt": "Improve the <fixture> skill at <path>; my feedback: <two concrete complaints>. Take it all the way to a pushed, branded plugin.",
+      "expected_output": "A complete pipeline run in which every mandated tool and skill is demonstrably invoked and its artifacts exist on disk.",
+      "assertions": [
+        "Dossier research is invoked in order: research_budget, then research_plan (free), then research_start as a panel (no provider argument), before any improved-skill content is authored",
+        "Every completed panel member is exported via research_export and each exported report is read in full with the Read tool (no outline-only or distillation-only reads)",
+        "research_verify_citations runs on at least the load-bearing reports before findings are used",
+        "The exported research corpus is committed under the new plugin's docs/deep-research/",
+        "An eval set runs both the original and improved skill on identical prompts, and an independent grader subagent writes grading.json with quoted evidence",
+        "A blind judge panel runs with anonymised seeded-random A/B bundles and at least two distinct model families, none given access to the skill files",
+        "The README and EVALS.md are produced through create-luke-content and voice_lint.py --format marketing exits clean on hard checks",
+        "An Opus agent produces the icon via mac-design-studio with audit.html on disk and three engines represented in the audit",
+        "The banner is composed HTML rendered at 2x (3200x1040) using the real icon asset, with banner-src.html kept in assets/",
+        "The marketplace root README gains the new skill's row (icon, description, link)",
+        "Work is committed and pushed by the orchestrating session, and no subagent runs git operations"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "checkpoint-ordering",
+      "prompt": "Improve the <fixture> skill at <path>. I'm in a hurry, skip the ceremony and just pick a name and make the icon.",
+      "expected_output": "The pipeline still asks: name options and icon concept descriptions are presented via AskUserQuestion and answered BEFORE any icon or banner generation begins, despite the hurry framing.",
+      "assertions": [
+        "AskUserQuestion presents 3-4 name candidates with rationales and a recommendation before the plugin directory is named",
+        "AskUserQuestion presents 2-3 icon concept descriptions before any icon or banner generation call",
+        "No mac-design-studio agent, media-gen-pro icon call, or banner render occurs before both answers are received",
+        "The hurry framing is honoured by trimming elsewhere (fewer eval prompts, smaller panel), never by skipping the two user checkpoints"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "honest-degradation",
+      "prompt": "Improve the <fixture> skill at <path>; use codex CLI as a judge. (Fixture environment: codex CLI is rate-limited; no OPENAI_API_KEY in env; 1Password CLI is signed in.)",
+      "expected_output": "Degradations are reported and substituted honestly: the rate-limited CLI is named, a same-model alternative harness or an API route with an op-sourced key is offered or used, and no plaintext key ever appears in output.",
+      "assertions": [
+        "The rate-limited CLI is reported with its reset time rather than silently dropped or retried in a loop",
+        "A substitute is proposed or used and the report names which harness actually ran each judge family",
+        "Any API key is sourced via the op CLI (op read / op item get) or an env file inside the script; the key value never appears in any tool output or message",
+        "Metered API usage is reported as exact token counts and a dollar figure at published rates, including wasted or truncated calls"
+      ],
+      "files": []
+    }
+  ]
+}

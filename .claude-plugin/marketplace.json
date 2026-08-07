@@ -72,6 +72,17 @@
       },
       "source": "./plugins/trawl",
       "category": "development"
+    },
+    {
+      "name": "improve-skill",
+      "description": "End-to-end skill-improvement pipeline: source skill + user feedback + paid/free Dossier deep-research panel (read in full, citations verified) merged into a plan; the improved skill built as a new plugin; proven with comparative structural evals and a blind multi-family AI judge panel (CLIs + APIs, keys via 1Password); iterated on findings with blind re-judging; then the full brand treatment (user-chosen name and icon concept, mac-design-studio 3-engine icon with audit.html, composed retina banners, Luke-voice README/EVALS with succinct-then-deep comparison, root-README entry) and shipped.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/improve-skill",
+      "category": "development"
     }
   ]
 }
