@@ -1,0 +1,5 @@
+/* Minimal reset — replace with design tokens (packages/design-tokens) as the
+   design system lands (BP §22). Components use var(--*), never literal hex. */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.5; }
+main { max-width: 42rem; margin: 0 auto; padding: 4rem 1.5rem; }

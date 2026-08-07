@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Notarize the signed Release app. One-time setup:
+#   xcrun notarytool store-credentials notary --apple-id <id> --team-id <team> --password <app-specific>
+set -euo pipefail
+cd "$(dirname "$0")/.."
+APP="build/Release/{{APP_NAME}}.app"
+ZIP="build/{{APP_NAME}}.zip"
+ditto -c -k --keepParent "$APP" "$ZIP"
+xcrun notarytool submit "$ZIP" --keychain-profile notary --wait
+xcrun stapler staple "$APP"
+echo "notarized + stapled: $APP"

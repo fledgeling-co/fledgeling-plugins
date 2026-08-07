@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Unsigned local/debug build. Requires: brew install xcodegen
+set -euo pipefail
+cd "$(dirname "$0")/.."
+xcodegen generate --quiet
+xcodebuild -project {{APP_NAME}}.xcodeproj -scheme {{APP_NAME}} -configuration Debug \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build

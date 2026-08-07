@@ -1,0 +1,5 @@
+# Dockerized local dev stack for {{DISPLAY}} (BP §21), fronted by the shared Caddy (§20).
+# Rules encoded here: NEVER bind-mount node_modules (named volumes per service);
+# polling file-watch scoped to Docker; healthchecks probe 127.0.0.1.
+name: {{CODENAME}}
+services:

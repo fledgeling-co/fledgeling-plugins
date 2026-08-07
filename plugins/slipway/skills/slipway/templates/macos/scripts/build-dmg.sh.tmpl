@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Package the signed, notarized app as a distributable DMG.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+APP="build/Release/{{APP_NAME}}.app"
+DMG="build/{{APP_NAME}}.dmg"
+rm -f "$DMG"
+STAGE="$(mktemp -d)"
+cp -R "$APP" "$STAGE/"
+ln -s /Applications "$STAGE/Applications"
+hdiutil create -volname "{{DISPLAY}}" -srcfolder "$STAGE" -ov -format UDZO "$DMG"
+rm -rf "$STAGE"
+echo "dmg: $DMG"

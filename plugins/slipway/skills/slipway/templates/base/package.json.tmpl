@@ -1,0 +1,23 @@
+{
+  "name": "{{CODENAME}}",
+  "private": true,
+  "version": "0.1.0",
+  "description": "{{DESCRIPTION}}",
+  "packageManager": "pnpm@{{PNPM_VERSION}}",
+  "engines": { "node": ">=20.9.0" },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "gate": "turbo run lint typecheck build",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "latest",
+    "prettier": "latest",
+    "turbo": "latest"
+  }
+}

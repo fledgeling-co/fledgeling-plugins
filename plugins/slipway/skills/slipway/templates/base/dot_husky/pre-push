@@ -1,0 +1,4 @@
+# Quality gate (BP §19): lint + typecheck + build on every push.
+# Bypass for a genuine emergency only: SKIP_GATE=1 git push
+[ "$SKIP_GATE" = "1" ] && exit 0
+pnpm turbo run lint typecheck build

@@ -1,0 +1,1 @@
+- `apps/web/lib/db.ts|models.ts|types.ts|redis.ts` — data layer (BP §4–§5): cached Mongoose connection, models in one file, types in `lib/types.ts` as the single source (Zod at boundaries mirrors them), `lib/redis.ts` fails closed in prod. Local Mongo+Redis: `docker compose -f docker-compose.dev.yml up mongo redis`.

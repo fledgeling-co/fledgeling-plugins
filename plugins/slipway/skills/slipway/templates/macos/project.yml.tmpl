@@ -1,0 +1,44 @@
+# XcodeGen spec for the {{DISPLAY}} macOS app — project.yml is the source of truth;
+# the .xcodeproj is generated (`xcodegen generate`) and gitignored.
+# SPM (Package.swift) holds the testable logic (AppCore); this project wires the
+# signable .app: plist, entitlements, Developer ID signing.
+name: {{APP_NAME}}
+options:
+  bundleIdPrefix: {{BUNDLE_PREFIX}}
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+packages:
+  {{APP_NAME}}Package:
+    path: .
+
+targets:
+  {{APP_NAME}}:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/AppMain
+    dependencies:
+      - package: {{APP_NAME}}Package
+        product: AppCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: {{BUNDLE_PREFIX}}.mac
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        INFOPLIST_FILE: Signing/Info-App.plist
+        CODE_SIGN_ENTITLEMENTS: Signing/App.entitlements
+        CODE_SIGN_STYLE: Manual
+        # Manual Developer ID signing needs the Team ID to disambiguate the cert.
+        # Injected from the environment at `xcodegen generate` time (or per-build
+        # with `xcodebuild DEVELOPMENT_TEAM=$TEAM_ID`); empty = unsigned local
+        # build. Never commit a real Team ID here.
+        DEVELOPMENT_TEAM: ${DEVELOPMENT_TEAM}
+        ENABLE_HARDENED_RUNTIME: YES
+        {{LSUIELEMENT}}
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: "Apple Development"
+        Release:
+          CODE_SIGN_IDENTITY: "Developer ID Application"

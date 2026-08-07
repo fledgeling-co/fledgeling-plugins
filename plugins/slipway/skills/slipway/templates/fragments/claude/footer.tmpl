@@ -1,0 +1,12 @@
+
+## Secrets — 1Password
+
+Secrets come from 1Password, never from chat or hardcoding. `apps/web/.env.local` carries `OP_ACCOUNT` (the default 1Password account/team id) and `OP_VAULT` (this project's vault); keys graduate to `op://<vault>/<item>/<field>` references and `scripts/env-pull.sh` resolves them in place with the `op` CLI — values flow 1Password → file directly and never pass through an agent's context. When a new secret is needed, add the empty key to `.env.example` (committed, canonical list — BP §13) and the `op://` reference to `.env.local`.
+
+## Portfolio manifest
+
+This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-armada` orchestrator plans from. After completing work here that changes the project's status, features, or the location of its key docs (specs, plans, mocks, ORCHESTRATOR.md), refresh this project's entry with the `armada-sync` skill (fledgeling-plugins).
+
+## Keeping this file honest
+
+`AGENTS.md` is a **symlink** to this file — edit only `CLAUDE.md`, never replace the symlink with a copy. Update this file in the same change as any behaviour/architecture shift; put new depth in `docs/`, not here — this file is loaded into every session, so every line must earn its place.

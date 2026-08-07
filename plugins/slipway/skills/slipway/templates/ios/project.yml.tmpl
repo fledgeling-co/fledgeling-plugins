@@ -1,0 +1,49 @@
+# XcodeGen spec for the {{DISPLAY}} iOS app — project.yml is the source of truth;
+# the .xcodeproj is generated and gitignored. Simulator-buildable with NO signing
+# (perch pattern); flip to a team + automatic signing for device/TestFlight builds.
+name: {{APP_NAME}}
+options:
+  bundleIdPrefix: {{BUNDLE_PREFIX}}
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    CODE_SIGNING_ALLOWED: NO
+    CODE_SIGNING_REQUIRED: NO
+    CODE_SIGN_IDENTITY: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    GENERATE_INFOPLIST_FILE: YES
+
+targets:
+  {{APP_NAME}}:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources/App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: {{BUNDLE_PREFIX}}.ios
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_KEY_CFBundleDisplayName: {{DISPLAY}}
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        # Privacy usage strings: declare an NS*UsageDescription ONLY for
+        # capabilities the app actually exercises (App Store requirement).
+
+  {{APP_NAME}}Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/AppTests
+    dependencies:
+      - target: {{APP_NAME}}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: {{BUNDLE_PREFIX}}.ios.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/{{APP_NAME}}.app/{{APP_NAME}}"

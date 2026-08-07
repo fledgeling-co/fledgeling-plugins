@@ -1,0 +1,7 @@
+import { test, expect } from '@playwright/test';
+
+// Assert real content, not just "it rendered" (BP §15).
+test('home renders the product name', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: '{{DISPLAY}}' })).toBeVisible();
+});

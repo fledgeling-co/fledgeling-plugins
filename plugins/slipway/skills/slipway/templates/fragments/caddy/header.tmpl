@@ -1,0 +1,7 @@
+# Local dev reverse proxy routes for {{DISPLAY}} (BP §20).
+# Repo-local file: run standalone with `caddy run --config Caddyfile`, or mirror the
+# route blocks (NOT the global block) into /opt/homebrew/etc/caddy/conf.d/{{CODENAME}}.caddy
+# for the machine-wide shared Caddy. /etc/hosts needs: 127.0.0.1 {{CODENAME}}.local
+{
+	auto_https off
+}

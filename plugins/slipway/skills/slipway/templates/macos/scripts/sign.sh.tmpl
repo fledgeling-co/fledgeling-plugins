@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Release build, Developer ID signed. Requires DEVELOPMENT_TEAM in the environment
+# and a "Developer ID Application" cert in the keychain. Never commit the Team ID.
+set -euo pipefail
+: "${DEVELOPMENT_TEAM:?export DEVELOPMENT_TEAM=<your Team ID> first}"
+cd "$(dirname "$0")/.."
+xcodegen generate --quiet
+xcodebuild -project {{APP_NAME}}.xcodeproj -scheme {{APP_NAME}} -configuration Release \
+  DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" build \
+  BUILD_DIR="$(pwd)/build"
+APP="build/Release/{{APP_NAME}}.app"
+codesign --verify --deep --strict "$APP"
+echo "signed: $APP"

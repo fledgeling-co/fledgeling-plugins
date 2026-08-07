@@ -1,0 +1,1 @@
+- `crates/core/` — Rust cross-OS core. Business logic that more than one platform needs lives HERE, consumed via bindings (UniFFI/swift-bridge for Swift, napi-rs for Node) — never reimplemented per platform. `cargo test` from the repo root; the JS gate does not cover it, so run it alongside.

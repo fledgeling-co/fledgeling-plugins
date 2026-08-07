@@ -1,0 +1,21 @@
+# Mac App Store / TestFlight upload via ASC API key. For direct (non-MAS)
+# distribution use scripts/sign.sh → notarize.sh → build-dmg.sh instead.
+default_platform(:mac)
+
+platform :mac do
+  desc "Build and upload to TestFlight (Mac App Store distribution)"
+  lane :beta do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_PATH"),
+    )
+    build_mac_app(
+      project: "{{APP_NAME}}.xcodeproj",
+      scheme: "{{APP_NAME}}",
+      export_method: "app-store",
+      xcargs: "DEVELOPMENT_TEAM=#{ENV.fetch('DEVELOPMENT_TEAM')}",
+    )
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+end

@@ -1,0 +1,37 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Operating rules — load before writing code
+
+Two operating specs govern all code in this repo. Read them before generating code and apply them **as you write** — they are the rules the `code-review` skill blocks on:
+
+- **`docs/CODING_PRACTICES.md`** (cited as **CP §n**) — TypeScript boundary safety, NestJS, Next.js App Router + React 19, OWASP-aligned security, cross-cutting logic-bug patterns. Before reporting any change done, run the **CP §7 agent self-review** over your diff and state which files you covered.
+- **`docs/NEW_PROJECT_BEST_PRACTICES.md`** (cited as **BP §n**) — stack defaults and day-one decisions. When a task is underspecified, take the BP default instead of inventing one; when you deliberately diverge, say so and why.
+
+**Behaviour under ambiguity** (bias toward caution over speed; for trivial tasks, use judgment):
+
+- **Think before acting.** State assumptions explicitly; if multiple interpretations exist, present them — don't pick silently.
+- **Simplicity first.** Minimum change that solves the problem. No speculative features or abstractions.
+- **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Every changed line traces to the request.
+- **Goal-driven execution.** Turn the task into verifiable success criteria before starting and loop until verified.
+
+## Project overview
+
+{{DESCRIPTION}} Scaffolded by slipway on {{DATE}} as a pnpm-workspaces + Turborepo monorepo (BP §17). Local host: `http://{{CODENAME}}.local` via the shared machine Caddy (BP §20); repo `Caddyfile` carries the routes.
+
+## Commands
+
+```bash
+pnpm dev              # turbo run dev — every app's dev server
+pnpm gate             # lint + typecheck + build — run before claiming done
+pnpm format           # prettier --write
+```
+
+The quality gate is the **husky pre-push hook** (`.husky/pre-push`) running `pnpm turbo run lint typecheck build`; bypass only with `SKIP_GATE=1 git push`. There is intentionally no hosted CI (BP §19).
+
+## Feature pipeline
+
+Feature work flows through the markdown spec pipeline: briefs land in `docs/features-to-triage/` (ledger: `docs/features-to-triage/LEDGER.md`), triaged specs in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/`. Use the `ship-feature` / `ship-fleet` skills (diolog-plugins) to run it.
+
+## Repo layout

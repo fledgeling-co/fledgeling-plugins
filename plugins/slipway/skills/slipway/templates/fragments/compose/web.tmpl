@@ -1,0 +1,13 @@
+  web:
+    image: node:22-slim
+    working_dir: /repo
+    command: ["sh", "-c", "corepack enable && pnpm install && pnpm --filter web dev"]
+    ports: ["{{PORT_WEB}}:{{PORT_WEB}}"]
+    environment:
+      SHELL: /bin/sh
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - .:/repo:cached
+      - web_root_modules:/repo/node_modules
+      - web_app_modules:/repo/apps/web/node_modules
+    mem_limit: 2g

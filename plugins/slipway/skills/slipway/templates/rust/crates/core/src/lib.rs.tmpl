@@ -1,0 +1,17 @@
+//! {{DISPLAY}} core — cross-OS business logic shared by every platform surface.
+//! Bind into Swift via UniFFI/swift-bridge and into Node via napi-rs as needed;
+//! never duplicate this logic per platform.
+
+pub fn greeting() -> String {
+    "{{DISPLAY}} core is scaffolded.".to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn greeting_is_nonempty() {
+        assert!(!greeting().is_empty());
+    }
+}

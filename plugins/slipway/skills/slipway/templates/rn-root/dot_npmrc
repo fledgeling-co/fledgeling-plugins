@@ -1,0 +1,5 @@
+# React Native/Expo in a pnpm monorepo (BP §18): Metro and Expo autolinking
+# expect a FLAT node_modules — pnpm's default symlinked store breaks resolution.
+node-linker=hoisted
+strict-peer-dependencies=false
+auto-install-peers=true

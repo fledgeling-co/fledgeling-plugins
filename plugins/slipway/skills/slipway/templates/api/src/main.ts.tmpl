@@ -1,0 +1,14 @@
+// Dev boot runs through @swc-node/register — the SAME transform as the prod build
+// (nest build -b swc) — so SWC-only boot crashes (circular-import TDZ) reproduce
+// locally (BP §15). Don't switch dev to ts-node/tsc.
+import 'reflect-metadata';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.enableShutdownHooks();
+  await app.listen({{PORT_API}});
+  console.log(`api listening on :{{PORT_API}} (http://api.{{CODENAME}}.local)`);
+}
+void bootstrap();

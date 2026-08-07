@@ -1,0 +1,6 @@
+# Maestro smoke flow (BP §18: device E2E, return paths, testIDs).
+# Run: maestro test .maestro/   (brew install maestro; app running in simulator)
+appId: {{BUNDLE_PREFIX}}.mobile
+---
+- launchApp
+- assertVisible: "{{DISPLAY}}"

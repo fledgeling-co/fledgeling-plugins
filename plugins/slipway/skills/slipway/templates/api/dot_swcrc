@@ -1,0 +1,12 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "jsc": {
+    "target": "es2022",
+    "parser": { "syntax": "typescript", "decorators": true },
+    "transform": { "legacyDecorator": true, "decoratorMetadata": true },
+    "keepClassNames": true,
+    "baseUrl": "."
+  },
+  "module": { "type": "commonjs" },
+  "sourceMaps": true
+}

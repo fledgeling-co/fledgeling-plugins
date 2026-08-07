@@ -1,0 +1,8 @@
+[package]
+name = "{{CODENAME}}-core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+# staticlib for iOS/macOS linking, cdylib for Node/napi bindings, rlib for Rust.
+crate-type = ["rlib", "staticlib", "cdylib"]

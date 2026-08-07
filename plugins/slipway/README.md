@@ -1,0 +1,9 @@
+# slipway
+
+The slipway is where new ships are launched: a project-scaffolding skill that takes an idea to a **completely set-up, gate-green project** in `~/Dev/<codename>` with the LLM doing interviewing only — `scripts/scaffold.sh` + a ~90-file template tree do everything else, so setup costs decisions, not tokens.
+
+Distilled from the portfolio's real projects (zephyr, perch, fledgeling-app, dAIolog) and the team-files operating specs (`CODING_PRACTICES.md`, `NEW_PROJECT_BEST_PRACTICES.md`), validated by a 5-backend research panel on scaffolding-tool best practice, and smoke-tested end-to-end (all-module scaffold: install ✓ gate ✓ xcodegen ✓ cargo ✓ jest ✓).
+
+**Modules:** `web` (Next.js latest, security headers, AI SDK, Playwright e2e, Vercel+Docker) · `api` (NestJS, SWC dev/prod parity, jest+@swc/jest) · `macos` (SwiftUI via XcodeGen — window shell with sidebar + searchable top nav, or MenuBarExtra agent; Developer ID sign/notarize/dmg scripts + fastlane TestFlight lane) · `ios` (SwiftUI via XcodeGen, simulator-first, fastlane ASC-key TestFlight lane) · `rn` (Expo modules only — never EAS/Expo cloud; Maestro flows; hoisted pnpm + monorepo Metro) · `tokens` (drift-gated design tokens) · `data` (Mongoose/Redis) · `rust` (cross-OS core crate).
+
+**House rules encoded:** typecheck is `tsgo` everywhere — never `tsc`/`ts-node`; jest transforms via `@swc/jest` with plain `.js` config; secrets via 1Password (`OP_ACCOUNT`/`OP_VAULT` in `.env.local`, `op://` refs resolved by `scripts/env-pull.sh`); one shared Caddy + `/etc/hosts`; husky pre-push gate; generated CLAUDE.md/AGENTS.md wired to the operating specs and the ARMADA manifest.

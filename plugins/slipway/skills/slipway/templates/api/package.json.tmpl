@@ -1,0 +1,35 @@
+{
+  "name": "api",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node -r @swc-node/register src/main.ts",
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "lint": "eslint .",
+    "typecheck": "tsgo --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@nestjs/common": "latest",
+    "@nestjs/core": "latest",
+    "@nestjs/platform-express": "latest",
+    "reflect-metadata": "latest",
+    "rxjs": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "latest",
+    "@swc-node/register": "latest",
+    "@swc/cli": "latest",
+    "@swc/core": "latest",
+    "@types/node": "latest",
+    "eslint": "latest",
+    "typescript": "^6",
+    "typescript-eslint": "latest",
+    "@typescript/native-preview": "latest",
+    "jest": "latest",
+    "@swc/jest": "latest",
+    "@types/jest": "latest"
+  }
+}

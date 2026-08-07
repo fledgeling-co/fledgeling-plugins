@@ -1,0 +1,20 @@
+import SwiftUI
+
+@main
+struct {{APP_NAME}}App: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+struct ContentView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            Text("{{DISPLAY}}").font(.largeTitle.bold())
+            Text("Scaffolded and ready.").foregroundStyle(.secondary)
+        }
+        .padding()
+    }
+}

@@ -1,0 +1,23 @@
+import type { NextConfig } from 'next';
+
+// Baseline security headers from day one (BP §12). CSP is the one deliberate gap:
+// add a nonce-based CSP with the first inline script (see BP §12 / fledgeling-app's
+// proxy.ts for the Next 16 nonce pattern) rather than shipping 'unsafe-inline'.
+const securityHeaders = [
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+];
+
+const nextConfig: NextConfig = {
+  // Required for the Docker image (BP §17); Vercel ignores it, so it's safe everywhere.
+  output: 'standalone',
+  allowedDevOrigins: ['{{CODENAME}}.local'],
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }];
+  },
+};
+
+export default nextConfig;

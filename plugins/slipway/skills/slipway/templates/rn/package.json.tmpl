@@ -1,0 +1,25 @@
+{
+  "name": "mobile",
+  "private": true,
+  "version": "0.1.0",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "lint": "echo 'no lint (device E2E covers UI \u2014 BP \u00a718)'",
+    "typecheck": "tsgo --noEmit",
+    "test:e2e": "maestro test .maestro/"
+  },
+  "dependencies": {
+    "expo": "latest",
+    "expo-status-bar": "latest",
+    "react": "latest",
+    "react-native": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "typescript": "^6",
+    "@typescript/native-preview": "latest"
+  }
+}

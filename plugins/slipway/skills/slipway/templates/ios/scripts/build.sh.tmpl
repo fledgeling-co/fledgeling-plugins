@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Simulator build, no signing. Requires: brew install xcodegen
+set -euo pipefail
+cd "$(dirname "$0")/.."
+xcodegen generate --quiet
+xcodebuild -project {{APP_NAME}}.xcodeproj -scheme {{APP_NAME}} \
+  -destination 'generic/platform=iOS Simulator' build

@@ -1,0 +1,17 @@
+# Canonical list of required env vars (BP §13). Copy to .env.local and fill.
+# Vercel env is the source of truth for prod/preview: `vercel env pull .env.local`.
+
+# App origin behind the shared Caddy proxy (BP §20)
+NEXT_PUBLIC_APP_URL=http://{{CODENAME}}.local
+
+# AI (BP §6) — AI Gateway key routes multi-provider; ANTHROPIC_API_KEY alone works for local dev
+AI_GATEWAY_API_KEY=
+ANTHROPIC_API_KEY=
+
+# Auth (BP §9) — generate each with: openssl rand -base64 32
+JWT_SECRET=
+
+# 1Password (see CLAUDE.md § Secrets): account/team id + this project's vault.
+# scripts/env-pull.sh resolves op:// references in .env.local via the op CLI.
+OP_ACCOUNT=
+OP_VAULT=

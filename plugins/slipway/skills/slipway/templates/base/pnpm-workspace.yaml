@@ -1,0 +1,10 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 10+ blocks lifecycle build scripts by default (supply-chain safety, BP §17).
+# Pre-approve only the native binaries the toolchain genuinely needs.
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - "@swc/core"

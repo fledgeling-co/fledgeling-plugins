@@ -1,0 +1,34 @@
+import 'server-only';
+import { generateText, Output } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+import { z } from 'zod';
+
+// Model IDs live in ONE config object so swaps are one-line (BP §6). Verify IDs
+// against the live list (curl -s https://ai-gateway.vercel.sh/v1/models) — never
+// paste from memory.
+export const MODELS = {
+  default: 'anthropic/claude-sonnet-5',
+  fast: 'anthropic/claude-haiku-4.5',
+} as const;
+
+// "provider/model" string routes through AI Gateway when AI_GATEWAY_API_KEY or
+// VERCEL_OIDC_TOKEN is set; falls back to the direct provider for local dev.
+// Gateway IDs use dots in the version, the direct Anthropic API uses dashes —
+// normalise or the fallback 404s (BP §6).
+export function resolveModel(id: string) {
+  if (process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN) return id;
+  return anthropic(id.replace(/^anthropic\//, '').replace(/\./g, '-'));
+}
+
+// Example structured call — every LLM payload is schema-enforced (BP §6): pass a
+// Zod schema via Output.object and read the validated `output`. No JSON salvage.
+export async function summarise(input: string) {
+  const { output } = await generateText({
+    model: resolveModel(MODELS.default),
+    prompt: input,
+    output: Output.object({
+      schema: z.object({ tldr: z.string(), bullets: z.array(z.string()) }),
+    }),
+  });
+  return output;
+}

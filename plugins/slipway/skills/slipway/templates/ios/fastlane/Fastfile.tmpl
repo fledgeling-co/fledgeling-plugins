@@ -1,0 +1,22 @@
+# TestFlight via the App Store Connect API key (no Apple ID password auth).
+# Setup: put ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_PATH in fastlane/.env (see .env.example).
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_PATH"),
+    )
+    setup_ci if ENV["CI"]
+    build_app(
+      project: "{{APP_NAME}}.xcodeproj",
+      scheme: "{{APP_NAME}}",
+      export_method: "app-store",
+      xcargs: "CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=#{ENV.fetch('DEVELOPMENT_TEAM')}",
+    )
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+end

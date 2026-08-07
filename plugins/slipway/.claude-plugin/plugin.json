@@ -1,0 +1,9 @@
+{
+  "name": "slipway",
+  "description": "Scaffold a complete, working new project in ~/Dev from a project idea — interview-only LLM, script-made files. One AskUserQuestion round (modules, RN/Expo vs native SwiftUI mobile, macOS window-with-sidebar-and-search vs menu-bar, codename with 3 generated options, bundle prefix, 1Password account+vault), then scaffold.sh renders ~90 templates: pnpm/Turborepo monorepo, Next.js latest with security headers + AI SDK, optional NestJS (SWC dev/prod parity, jest+@swc/jest), SwiftUI macOS/iOS via XcodeGen with Info.plists, fastlane TestFlight lanes on the App Store Connect API plus sign/notarize/dmg scripts, Expo app (modules only, never EAS) with Maestro flows, Playwright e2e harness, Rust cross-OS core crate, design tokens with drift gate, Caddy + hosts + docker-compose dev env, tsgo typecheck everywhere (never tsc/ts-node), 1Password-seeded .env.local with op:// resolution, git init, install, and the gate run green.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

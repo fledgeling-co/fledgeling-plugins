@@ -1,0 +1,27 @@
+import SwiftUI
+import AppCore
+
+// Menu-bar agent app (LSUIElement is set in project.yml — no Dock icon).
+// The MenuBarExtra is the primary surface; Settings gives a standard window.
+@main
+struct {{APP_NAME}}App: App {
+    var body: some Scene {
+        MenuBarExtra("{{DISPLAY}}", systemImage: "circle.grid.2x2") {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("{{DISPLAY}}").font(.headline)
+                Text(AppCore.greeting).foregroundStyle(.secondary)
+                Divider()
+                SettingsLink { Text("Settings…") }
+                Button("Quit {{DISPLAY}}") { NSApplication.shared.terminate(nil) }
+                    .keyboardShortcut("q")
+            }
+            .padding(12)
+            .frame(width: 260)
+        }
+        .menuBarExtraStyle(.window)
+
+        Settings {
+            Form { Text("{{DISPLAY}} settings") }.padding(24).frame(width: 380)
+        }
+    }
+}

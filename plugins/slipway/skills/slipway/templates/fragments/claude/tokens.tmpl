@@ -1,0 +1,1 @@
+- `packages/design-tokens/` — single source of design tokens (BP §22). `src/tokens.mjs` → generated `tokens.css`; `pnpm --filter @{{CODENAME}}/design-tokens check` fails on drift. Never hand-edit `tokens.css`; components reference `var(--color-*)`, never literal hex.

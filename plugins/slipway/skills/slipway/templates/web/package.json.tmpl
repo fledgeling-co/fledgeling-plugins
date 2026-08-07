@@ -1,0 +1,33 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev --port {{PORT_WEB}}",
+    "build": "next build",
+    "start": "next start --port {{PORT_WEB}}",
+    "lint": "eslint .",
+    "typecheck": "tsgo --noEmit",
+    "test": "echo 'unit tests: add vitest for pure lib/ logic (BP \u00a715)'",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "ai": "latest",
+    "@ai-sdk/anthropic": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "server-only": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "^9",
+    "eslint-config-next": "latest",
+    "typescript": "^6",
+    "@typescript/native-preview": "latest",
+    "@playwright/test": "latest"
+  }
+}

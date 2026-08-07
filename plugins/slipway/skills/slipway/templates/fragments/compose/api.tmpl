@@ -1,0 +1,14 @@
+  api:
+    image: node:22-slim
+    working_dir: /repo
+    command: ["sh", "-c", "corepack enable && pnpm install && pnpm --filter api dev"]
+    ports: ["{{PORT_API}}:{{PORT_API}}"]
+    environment:
+      SHELL: /bin/sh
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "3000"
+    volumes:
+      - .:/repo:cached
+      - api_root_modules:/repo/node_modules
+      - api_app_modules:/repo/apps/api/node_modules
+    mem_limit: 2g

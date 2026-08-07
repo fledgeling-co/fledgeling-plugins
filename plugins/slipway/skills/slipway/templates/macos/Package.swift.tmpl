@@ -1,0 +1,16 @@
+// swift-tools-version: 5.9
+// Testable app logic lives here (SPM) so `swift test` runs without Xcode signing;
+// the signable .app is wired by project.yml (XcodeGen).
+import PackageDescription
+
+let package = Package(
+    name: "{{APP_NAME}}Package",
+    platforms: [.macOS(.v14)],
+    products: [
+        .library(name: "AppCore", targets: ["AppCore"])
+    ],
+    targets: [
+        .target(name: "AppCore", path: "Sources/AppCore"),
+        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"], path: "Tests/AppCoreTests"),
+    ]
+)

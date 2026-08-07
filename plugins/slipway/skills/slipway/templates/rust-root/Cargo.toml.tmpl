@@ -1,0 +1,6 @@
+# Cargo workspace — cross-OS libraries/logic live in crates/ and are consumed by
+# the native apps (UniFFI/swift-bridge) and Node (napi-rs) rather than being
+# reimplemented per platform.
+[workspace]
+resolver = "2"
+members = ["crates/core"]
