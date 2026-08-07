@@ -67,6 +67,14 @@ Confirmed, measured findings. Apply what fits this round's edit class:
 The full recipe table is at /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/references/material-recipes.md. Read it.
 </prior_learnings>
 
+<human_verdict>
+A human reviewed a previous round of this icon against the reference and said:
+
+  "The wood/paper shaving curl is completely wrong compared to reference and the lighting and texture of the left side is completely different compared to reference"
+
+This outranks the metrics. A human comparing the render to the reference sees things no similarity score measures, and this is the only judgment here made by someone who knows what the icon is for. If what they describe falls inside this round's edit class, it is the round's job. If it does not, leave it for the round that owns it and say so; do not widen the round to chase it.
+</human_verdict>
+
 <task>
 Make ONE class of edit: detail. In scope: micro-geometry, texture accents, local control points, small ornament that survives at 128px. Out of scope: the overall silhouette, palette, and light model.
 

@@ -1,0 +1,54 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-f5665d-2.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r02 detail",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1634,
+      "ssim": 0.5475,
+      "edge_f1": 0.3474,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.5109,
+      "ref_self_contrast": 0.4601,
+      "composite": 0.4271
+    },
+    "256": {
+      "lum_delta": 0.1617,
+      "ssim": 0.4775,
+      "edge_f1": 0.2515,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.5084,
+      "ref_self_contrast": 0.4564,
+      "composite": 0.3775
+    },
+    "128": {
+      "lum_delta": 0.1601,
+      "ssim": 0.435,
+      "edge_f1": 0.2717,
+      "mask_iou": 0.9565,
+      "self_contrast": 0.505,
+      "ref_self_contrast": 0.4544,
+      "composite": 0.3678
+    },
+    "32": {
+      "lum_delta": 0.1574,
+      "ssim": 0.4904,
+      "edge_f1": 0.8068,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.5078,
+      "ref_self_contrast": 0.4485,
+      "composite": 0.7027
+    },
+    "16": {
+      "lum_delta": 0.1555,
+      "ssim": 0.5231,
+      "edge_f1": 0.9455,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.5187,
+      "ref_self_contrast": 0.4272,
+      "composite": 0.7645
+    }
+  },
+  "render_hash": "d9cdd817db2736cb"
+}
