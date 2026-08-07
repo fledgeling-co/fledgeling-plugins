@@ -2,6 +2,21 @@
 
 Parallel divergent ideation for coding agents; an evidence-grounded successor to [uditakhourii/adhd](https://github.com/uditakhourii/adhd).
 
+## At a glance vs the original
+
+| | Original | This version |
+|---|---|---|
+| Core loop | Isolated parallel frames, then converge | Same; kept deliberately, the research backs it |
+| Obvious answers | Banned by phrase | Written down, frozen, and used as the bar to beat |
+| Recommendation | Highest weighted score | Must beat the baseline blind on your stated ask, or the baseline is recommended |
+| Frames | 15-row static table, picked by tag | Five-seat portfolio with a fit floor and apoptosis; your explicit frame requests always run |
+| Scoring | 1-10 novelty/viability/fit | Pass/fail floors + mechanism clustering; no numeric scores (they're measurably unreliable) |
+| First steps | "First concrete step" | Same-week starter naming the problem's actual tools |
+| Cost control | Run or abort | `--any` / standard / `--100` tiers, receipt line on every run |
+| Structural evals | — | 96.4% vs 49.0% for the original on identical prompts |
+| Blind panel (3 model families, no skill access) | — | Majority 4-3 to v2; the one unanimous loss was fixed and re-judged, flipping unanimously to v2.1 |
+| Typical run time | ~198s | ~355s; the gate and differentiation passes are where it goes |
+
 ## Why this exists
 
 Ask a model an open-ended design question and you get the answer a senior engineer gives in thirty seconds. Correct, forgettable, and the same every time. This isn't a vibe; it's measured. When researchers over-sampled 4,000 ideas from one aligned model, roughly 95% were semantic duplicates. Nine independent ChatGPT users once produced the identical product name. Raising temperature doesn't fix it, and neither does asking the model to "be creative"; the homogenisation comes from preference training itself, so the fix has to live in the harness.
