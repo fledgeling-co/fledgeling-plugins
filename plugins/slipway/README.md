@@ -1,11 +1,49 @@
 # slipway
 
-The slipway is where new ships are launched: a project-scaffolding skill that takes an idea to a **completely set-up, gate-green project** in `~/Dev/<codename>` with the LLM doing interviewing only — `scripts/scaffold.sh` + a ~90-file template tree do everything else, so setup costs decisions, not tokens.
+Slipway takes a project idea and turns it into a **working, ready-to-build project** on your machine. You describe what you want to make, answer a few plain questions, and a few minutes later there's a new folder in `~/Dev` with a running website, native apps that compile, tests, documentation, and a short checklist of the bits only you can do.
 
-Distilled from the portfolio's real projects (zephyr, perch, fledgeling-app, dAIolog) and the team-files operating specs (`CODING_PRACTICES.md`, `NEW_PROJECT_BEST_PRACTICES.md`), validated by a 5-backend research panel on scaffolding-tool best practice, and smoke-tested end-to-end (all-module scaffold: install ✓ gate ✓ xcodegen ✓ cargo ✓ jest ✓).
+The name comes from shipbuilding; a slipway is the ramp a new ship launches from. It sits alongside ship-armada and ship-fleet in this marketplace.
 
-**Modules:** `web` (Next.js latest, security headers, AI SDK, Playwright e2e, Vercel+Docker) · `api` (NestJS, SWC dev/prod parity, jest+@swc/jest) · `macos` (SwiftUI via XcodeGen — window shell with sidebar + searchable top nav, or MenuBarExtra agent; Developer ID sign/notarize/dmg scripts + fastlane TestFlight lane) · `ios` (SwiftUI via XcodeGen, simulator-first, fastlane ASC-key TestFlight lane) · `rn` (Expo modules only — never EAS/Expo cloud; Maestro flows; hoisted pnpm + monorepo Metro) · `tokens` (drift-gated design tokens) · `data` (Mongoose/Redis) · `auth` (BP §9 email-code sign-in, JWT + rotating refresh tokens, Resend + React Email templates, server-gated **dev login**) · `admin` (allowlisted console on a separate trust domain — ADMIN_JWT_SECRET, distinct audience) · `push` (APNs over HTTP/2, ES256 .p8 token auth, cached JWT — the atlas-app pattern) · `rust` (cross-OS core crate). Web apps ship `/api/health` + `vercel.json` pinned to **syd1** with a warm cron (Performance CPU noted as a dashboard step).
+## How you use it
 
-**Generated docs** (assembled per module, distilled from the portfolio's mature repos): `ARCHITECTURE.md` surfaces/governance table (zephyr), `TESTING.md` harness map (atlas), `DEPLOYMENT.md` (incl. Vercel BLOCKED-as-UNKNOWN + notarization CI gotchas), `AI-MODEL-USAGE.md` feature→model registry (dAIolog) — with CP/BP copied from team-files and cited throughout. Web and api carry the dAIolog common-feature dependency baseline (AI SDK both sides, forms, analytics, blob, config/throttler/schedule/helmet/validation/OpenAPI).
+You don't need to know any commands. In Claude Code, just say what you want:
 
-**House rules encoded:** typecheck is `tsgo` everywhere — never `tsc`/`ts-node`; jest transforms via `@swc/jest` with plain `.js` config; secrets via 1Password (`OP_ACCOUNT`/`OP_VAULT` in `.env.local`, `op://` refs resolved by `scripts/env-pull.sh`); one shared Caddy + `/etc/hosts`; husky pre-push gate; generated CLAUDE.md/AGENTS.md wired to the operating specs and the ARMADA manifest.
+> "I have an idea for an app that tracks my houseplants. Set up a new project for it."
+
+Claude recognises this and does the rest. There's no form to fill in and nothing to install beyond this plugin.
+
+## What it will ask you
+
+Before anything is created, Claude asks a handful of questions in one or two quick rounds. Every question has a recommended answer already picked, so you can accept the suggestions and move on:
+
+- **A name.** Three short codename options (your projects follow a one-word style: zephyr, perch, loupe), or type your own.
+- **Which parts you need.** A website, a phone app, a Mac app, a sign-in system, an admin area, and so on. Claude pre-selects what fits your idea; you tick or untick.
+- **Where the code should live.** Which of your GitHub accounts the project belongs to, or none for now.
+- **How a Mac app would be sold**, if you chose one. Through the App Store, or downloaded straight from your website. This matters early because Apple treats the two differently.
+- **A design reference.** A site whose look you'd like to start from, or skip it and design later.
+- **Your 1Password vault.** So the project knows where its keys and passwords will live. Slipway only records the vault's name; it never sees or stores an actual password.
+
+That's the whole interview. Everything else uses sensible defaults you can change later.
+
+## What you get
+
+A complete project, already checked and working:
+
+- A **website** you can open in your browser straight away, with a tidy local address like `myproject.local`.
+- **iPhone, Mac, or cross-platform apps** (whichever you chose) that build and run, with the publishing scripts for TestFlight and the App Store already written.
+- **Sign-in, emails, and an admin area** if you asked for them; the email templates and security plumbing are done.
+- **Tests and quality checks** wired in from day one, so mistakes get caught before they ship.
+- **Documentation** that explains how the project is put together, how to test it, and how to deploy it; future you (and Claude) will thank present you.
+- A **SETUP-NEXT-STEPS.md** file listing the few remaining manual steps, each with the exact command to copy and paste.
+
+Everything is generated by a tested script from templates, not made up on the spot. That keeps it fast, cheap, and the same every time.
+
+## The honest bits
+
+A few steps stay manual on purpose. Anything needing your computer's admin password (the local web address), your Apple developer account (publishing apps), or your 1Password sign-in is left for you, with instructions. Slipway never asks for a password and never pushes anything to the internet on its own; creating the GitHub repository is a command it prints for you to run.
+
+One more thing worth knowing: new projects use the newest versions of everything, fetched at creation time. Occasionally something out in the world changes and a fresh project needs a small fix. When that happens Claude fixes it on the spot and improves the template, so the next project starts clean. There's a weekly self-test (`scripts/canary.sh`) that catches this before you do.
+
+## For the technically curious
+
+The full detail lives in `skills/slipway/SKILL.md`: the module list (Next.js web, NestJS API, SwiftUI macOS/iOS via XcodeGen, Expo mobile, Rust core, design tokens, data layer, auth, admin, push notifications), the house rules it enforces (AI SDK v7 on web and API, tsgo for type checking, jest with SWC, 1Password-backed env files, Caddy local proxy, Sydney-region Vercel config), and the research behind the design (`references/research-notes.md`, distilled from a five-backend deep-research panel). Every generated project records its own provenance in `.slipway/manifest.json`.
