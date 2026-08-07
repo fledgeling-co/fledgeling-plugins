@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "text": "The unavailability of media-gen-pro is stated plainly and Engine A is widened to 2-3 genuinely different hand-authored takes (per the SKILL.md fallback), not silently reduced to one take",
+      "passed": true,
+      "evidence": "DELIVERY.md has a dedicated section \"## Deviation: one engine, not three\": \"media-gen-pro was unavailable in this environment, so the skill's stated fallback applied: Engine A widened to three genuinely different hand-authored takes, and Engine B (Arrow vector) and Engine C (corpus-referenced raster) did not run. These are named deviations, not silent omissions.\" (matches SKILL.md line 72: \"media-gen-pro unavailable -> say so, widen Engine A to 2-3 genuinely...\"). Three takes exist on disk: kilnhand-A1-wheelhead.svg, kilnhand-A2-kilnglow.svg, kilnhand-A3-frostware.svg. Genuinely different, not palette swaps: distinct stop-color sets (A1 terracotta+porcelain #E9A87C/#C9714A/#DED2C4..., A2 charcoal+emissive amber #141110/#2E2823/#F08A34/#FFD79A, A3 terracotta tile + white frost #B85331/#E8946A/#FFFFFF), distinct structures (fidelity.py structure reports 15/11/13 paths, 5/3/3 gradients), and distinct subjects per audit.html (pot on wheel head / emissive kiln chamber / frosted vessel on gel tile)."
+    },
+    {
+      "text": "audit.html still exists and covers all produced takes",
+      "passed": true,
+      "evidence": "outputs/audit.html exists (14,923 bytes). It contains a hero strip and one table row per take on disk — \"A1 · kilnhand-A1-wheelhead.svg ... 11 / 12 SHIPS\", \"A2 · kilnhand-A2-kilnglow.svg ... 11 / 12\", \"A3 · kilnhand-A3-frostware.svg ... 10 / 12\" — plus a second \"Measured evidence\" table (silhouette, tint, measured figure-ground 4.49:1 / 7.26:1 / 3.16:1, structure-gate results) for the same three takes, and a recommendation block with five liabilities. No take file on disk is uncovered."
+    },
+    {
+      "text": "The master applies at least two constructions from material-recipes.md (identifiable in the SVG: e.g. per-face gradients, contact shadow, cushion tile with inner rim)",
+      "passed": true,
+      "evidence": "Read kilnhand-A1-wheelhead.svg source; three recipe constructions are identifiable. (1) Cushion tile with inner rim (recipe: \"Radial gradient + a 1-2% inner white stroke ring + gentle edge vignette\"): <radialGradient id=\"a1-tile\"> over the ground rect, a squircle path stroked stroke=\"#FFFFFF\" stroke-opacity=\"0.62\" stroke-width=\"7\" (0.7% of 1024), and a vignette drawn as the squircle stroked stroke=\"#000000\" stroke-opacity=\"0.2\" stroke-width=\"150\" filter=\"url(#a1-vig)\" (feGaussianBlur stdDeviation=62), clipped to the tile. (2) Soft cast/contact shadow (recipe: dark fill at 10-18% opacity + feGaussianBlur clipped to ground): <!-- cast shadow of the whole assembly on the porcelain --> <ellipse cx=512 cy=734 ... fill=\"#5A3B26\" fill-opacity=\"0.20\" filter=\"url(#a1-cast)\"/> (feGaussianBlur stdDeviation=22). (3) Ambient occlusion (recipe: \"Small dark translucent shapes tucked under each overlap\"): <!-- ambient occlusion where the foot meets the wheel head --> <ellipse ... fill=\"#3F2415\" fill-opacity=\"0.34\" filter=\"url(#a1-ao)\"/> (blur 9)."
+    },
+    {
+      "text": "No claim of raster-reference fidelity is made, since no raster reference exists in this run",
+      "passed": true,
+      "evidence": "DELIVERY.md states the opposite of a fidelity claim: \"no raster reference supplied\"; \"No diffusion raster, so no material target. The fidelity loop (fidelity.py score / gate) requires a raster reference and therefore did not run — there is no runs/ directory\"; liability 4: \"the material ceiling of this master is untested rather than proven\". Verified on disk: `ls outputs/runs` → \"No such file or directory\"; the only PNGs are in audit-renders/ and every one is produced from the shipped SVGs by make_renders.py via rsvg-convert (make_renders.py lines 37-38, 93-107) — no image-model raster exists anywhere in the outputs, and grep finds no fidelity-score or reference-similarity claim in DELIVERY.md or audit.html."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "notes": "4/4. The degradation is documented affirmatively rather than by omission — the run names what the missing engines cost (no material target, no runs/, untested material ceiling) and even declines to append its two new findings to material-recipes.md because no measured loop confirmed them. Assertion 4 passes on genuine positive evidence (explicit no-loop statements + absence of runs/ and of any model-generated raster), not vacuously, though assertion 2 was low-risk given only three takes existed; note the twice-rejected 'Thumbprint' branch was discarded without a file, so audit coverage is of surviving takes only. Missed by the assertions: the shipping master's structure gate — independently re-run here, all three takes PASS fidelity.py structure with 4 named layer groups each."
+  }
+}
