@@ -67,7 +67,8 @@ Working directory: {assets_dir}
 - `{baseline_dir}/` — the baseline this round is measured against: `score.json`,
   `residual-1024.png` (bright = disagreement), `edges-candidate.png`,
   `edges-reference.png`, `candidate-1024.png`, `reference-1024.png`.
-{extra_files}</fixture>
+{extra_files}
+{hazards}</fixture>
 
 <baseline_numbers>
 Current master vs the reference:
@@ -238,6 +239,20 @@ class Runner:
         extra_files = ""
         for name, desc in fx.get("extra_files", {}).items():
             extra_files += f"- `{name}` — {desc}\n"
+        # Reading a large generated master thrashes autocompact and kills the round.
+        # Measured: improve-skill's icon.svg is 307KB, about 88k tokens, and the agent
+        # re-read it after each rebuild until the context refilled three times over.
+        big = []
+        for f in sorted(assets.glob("*")):
+            if f.is_file() and f.stat().st_size > 60_000 and f.suffix in (".svg", ".html", ".json"):
+                big.append(f"`{f.name}` ({f.stat().st_size // 1024}KB)")
+        hazards = ""
+        if big:
+            hazards = ("\nDo not read these files; they are generated output, they are large "
+                       "enough to exhaust the context window, and nothing in this round needs "
+                       "their text: " + ", ".join(big) + ". Judge the artwork from its PNG "
+                       "renders and edit the build script. If you must confirm a fragment, "
+                       "grep it or read a bounded byte range.\n")
         return BRIEF.format(
             round_id=round_id, edit_class=edit_class,
             class_scope=CLASS_SCOPE.get(edit_class, ""),
@@ -247,7 +262,7 @@ class Runner:
             score_table=score_table(pathlib.Path(baseline_dir) / "score.json"),
             learnings=self.cfg.get("learnings", DEFAULT_LEARNINGS),
             skill_dir=self.skill, envelope_flags=envelope,
-            extra_checks=extra_checks, extra_files=extra_files)
+            extra_checks=extra_checks, extra_files=extra_files, hazards=hazards)
 
     def run_implement(self, brief_path, assets):
         # Hand the agent the brief's PATH, not its text. Passing ~7KB of brief as the

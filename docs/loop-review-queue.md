@@ -37,3 +37,11 @@ The loop stopped rather than spending iterations on a broken harness.
     Prompt is too long
 
 The loop stopped rather than spending iterations on a broken harness.
+
+## improve-skill r02: implement agent failed to run
+
+`claude -p` exited 1. First 200 chars of its output:
+
+    Autocompact is thrashing: the context refilled to the limit within 3 turns of the previous compact, 3 times in a row. A file being read or a tool output is likely too large for the context window. Try
+
+The loop stopped rather than spending iterations on a broken harness.
