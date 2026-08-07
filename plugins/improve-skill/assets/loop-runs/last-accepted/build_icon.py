@@ -419,6 +419,99 @@ GRAIN_SKEW_A = 38.0      # family A's per-ridge bearing scatter, degrees either 
 GRAIN_SKEW_B = 40.0      # family B's
 GRAIN_PREC = 0           # decimals on a grain vertex; see the byte note above
 
+# ---------------------------------------------------------------- the step at the cut
+# ROUND 16 (detail). The cut is this icon's longest boundary and the master drew it as a
+# colour change with no geometry: a monotonic ramp from the un-planed field to the trued
+# one, plateau to plateau, and nothing in between. C2 draws a STEP. Each image's own cut
+# was fitted rather than assumed (`loop-runs/r14/work/w4.py` searches inclination and
+# offset for the line of greatest mean-luminance step: ours 34.0 deg, C2's 41.0), and
+# luminance was binned by true perpendicular distance d from it. C2's cross-section at
+# three stations along the block-free strip is the same four-part signature every time:
+#
+#   station      un-planed   crest        trough        peak         trued
+#   x  20-130      0.500     0.528 @ -3   0.470 @ +2    0.623 @ +7   0.557
+#   x 130-240      0.549     0.616 @ -1   0.529 @ +4    0.757 @ +8   0.646
+#   x 240-350      0.564     0.596 @ -1   0.543 @ +6    0.865 @ +9   0.697
+#
+# That is one shaving's thickness of material removed, drawn honestly: the un-planed
+# surface's own arris catches the key (+7.8% of its own plateau, mean of the three), the
+# riser beneath it faces away from an overhead source and sits in shadow (-18.6% of the
+# TRUED plateau), the freshly cut arris at the foot of the riser flares (+17.7%), and
+# only then does the trued plane begin. Ours had a +2.5% overshoot where the arris
+# belongs and no trough anywhere. The feature survives coarsening - on LANCZOS
+# downsamples of C2 the lip still reads +10.8% of its plateau at 256 and +5.4% at 128 -
+# so it is ornament that works at icon sizes, not pixel-peeping.
+#
+# Two of the three amplitudes transfer as measured; the arris does not, and the reason
+# is the master's own brightness. C2's trued plane sits at L 0.63 where ours, at the cut,
+# measures 0.882, and the brightest paint this icon owns is GRAIN_LITE at 0.960. That
+# leaves 8.8% of headroom against C2's 24.1% arris - the step cannot be lit past the
+# source. STEP_ARRIS is therefore the largest amplitude that still leaves the band
+# translucent (alpha 0.80, +7.1%), and the shortfall is recorded rather than tuned away;
+# closing it means moving the trued plane's value, which is a palette round, not this
+# one. Nothing here adds a palette entry: the pair is GRAIN_LITE over GRAIN_DARK, the
+# same two colours the tear is already made of. All three alphas are solved against the
+# fields the RENDER actually has beside the cut - un-planed 0.570, trued 0.882 - not
+# against the smeared values the line fit reports.
+STEP_UP = 6.0            # the band's reach into the un-planed side, local units
+STEP_DOWN = 12.0         # ...and into the trued side. Both are perpendicular distance,
+                         # so the whole step is inside measure.py's +-60 skip band and
+                         # cannot touch the split polarity.
+STEP_CREST = 0.114       # GRAIN_LITE on the un-planed arris, 2 units up: +7.8% of 0.570
+STEP_RISER = 0.324       # GRAIN_DARK in the riser, 3.5 units down: -22.2% of 0.882, and
+                         # it RAISES saturation there (0.126 -> 0.30), which is what C2
+                         # does too (seam 0.167 against its trued plateau's 0.124)
+STEP_ARRIS = 0.800       # GRAIN_LITE on the cut arris, 8 units down: +7.1%, at the roof
+
+# The step's amplitude swells along the cut. C2's does - trough -0.087/-0.117/-0.155 and
+# peak +0.066/+0.111/+0.168 at the three stations, both growing left to right - and the
+# reason is geometric: the cut runs closest to the key at canvas x 478, so that is where
+# a raking source lights the arris most squarely. The swell is one gradient along LOCAL
+# X, used as a mask over the band. It is anchored on the LAST MEASURED station rather
+# than on that geometric peak, which the block occludes: extrapolating to x 478 and
+# normalising there would put every visible part of the cut at 60% of an amplitude
+# nothing can check. Anchored at x 300 the fit reproduces C2's own stations - -15.0%
+# against its measured -15.6% at x 20-130, -18.2% against about -17% at x 135-179.
+STEP_SWELL_X = 300.0     # canvas x of the last station the swell was measured at
+STEP_SWELL_EDGE = 0.62   # ...and the share of full amplitude left at the tile edges
+
+
+def step_stops():
+    """The whole measured cross-section as one gradient's stops, in the local frame.
+
+    One path, one paint. A step is four features in eighteen units and authoring it as
+    four shapes means four edges to keep in register; as stops on a single band it is
+    one shape whose profile is continuous by construction, and the colour switch at the
+    cut costs a duplicated offset rather than a second element."""
+    span = STEP_UP + STEP_DOWN
+    prof = [(STEP_UP, GRAIN_LITE, 0.000), (3.5, GRAIN_LITE, 0.045),
+            (2.0, GRAIN_LITE, STEP_CREST), (0.8, GRAIN_LITE, 0.050),
+            (0.0, GRAIN_LITE, 0.000),
+            (-0.2, GRAIN_DARK, 0.070), (-1.2, GRAIN_DARK, 0.190),
+            (-3.5, GRAIN_DARK, STEP_RISER), (-5.6, GRAIN_DARK, 0.170),
+            (-6.4, GRAIN_DARK, 0.000),
+            (-6.6, GRAIN_LITE, 0.120), (-7.4, GRAIN_LITE, 0.480),
+            (-8.0, GRAIN_LITE, STEP_ARRIS), (-8.8, GRAIN_LITE, 0.440),
+            (-9.8, GRAIN_LITE, 0.140), (-STEP_DOWN, GRAIN_LITE, 0.000)]
+    return "".join(
+        f'<stop offset="{(STEP_UP - y) / span:.4f}" stop-color="{c}" '
+        f'stop-opacity="{a:.3f}"/>' for y, c, a in prof)
+
+
+def step_swell_stops():
+    """The swell along the cut, as mask stops. The frame is a rotation, so a canvas x on
+    the cut is one division away from its local x, and the tile's two ends are just the
+    local x of the cut where it leaves the canvas."""
+    lx = lambda cx: (cx - AX) / UX
+    lo, hi, peak = lx(0.0), lx(float(W)), lx(STEP_SWELL_X)
+    stops = [(lo, STEP_SWELL_EDGE), (peak, 1.00), (hi, STEP_SWELL_EDGE)]
+    return lo, hi, "".join(
+        f'<stop offset="{(x - lo) / (hi - lo):.4f}" stop-color="#FFFFFF" '
+        f'stop-opacity="{a:.3f}"/>' for x, a in stops)
+
+
+STEP_SWELL_LO, STEP_SWELL_HI, STEP_SWELL_STOPS = step_swell_stops()
+
 
 def grain_gain(cy):
     """The tear's combined amplitude at a canvas height, from the reference's profile."""
@@ -1153,6 +1246,23 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   {tear_profile("tearBD", GRAIN_DARK, GRAIN_FAM_B)}
   {tear_profile("tearBL", GRAIN_LITE, GRAIN_FAM_B)}
 
+  <!-- ROUND 16. The cut's own cross-section, in the local frame: crest, shadowed riser,
+       lit arris, trued plane. Measured off C2 at three stations - see the STEP_ block in
+       the generator - and carried entirely by these stops, so the four features cannot
+       drift out of register with each other. -->
+  <linearGradient id="cutStep" gradientUnits="userSpaceOnUse"
+                  x1="0" y1="{STEP_UP}" x2="0" y2="{-STEP_DOWN}">{step_stops()}</linearGradient>
+  <mask id="cutSwell" maskUnits="userSpaceOnUse"
+        x="{STEP_SWELL_LO - 8:.1f}" y="{-STEP_DOWN - 2:.1f}"
+        width="{STEP_SWELL_HI - STEP_SWELL_LO + 16:.1f}" height="{STEP_UP + STEP_DOWN + 4:.1f}">
+    <linearGradient id="cutSwellRamp" gradientUnits="userSpaceOnUse"
+                    x1="{STEP_SWELL_LO:.1f}" y1="0" x2="{STEP_SWELL_HI:.1f}" y2="0">{STEP_SWELL_STOPS}</linearGradient>
+    <rect x="{STEP_SWELL_LO - 8:.1f}" y="{-STEP_DOWN - 2:.1f}"
+          width="{STEP_SWELL_HI - STEP_SWELL_LO + 16:.1f}" height="{STEP_UP + STEP_DOWN + 4:.1f}"
+          fill="url(#cutSwellRamp)"/>
+  </mask>
+
+
   <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
        was always "warm-leaning graphite, not blue steel", but the constants never said
        so: the old ramp ran #2E3238 -> #5D636B, every stop with B ten points above R, and
@@ -1367,6 +1477,15 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
         {ROUGH_GRAIN}
       </g></g>
     </g>
+
+    <!-- ROUND 16. The cut is a STEP, not a colour change: a shaving's thickness of
+         timber has gone. Sixteen local units of band, one paint, drawn over the grain
+         because an arris is geometry and the tear does not cross it - and drawn UNDER
+         the block's shadows, which fall across the step as they should. -->
+    <g transform="{MATRIX}"><g mask="url(#cutSwell)">
+      <path d="M{LX_MIN:.1f} {STEP_UP} H{LX_MAX:.1f} V{-STEP_DOWN} H{LX_MIN:.1f} Z"
+            fill="url(#cutStep)"/>
+    </g></g>
 
     <!-- the solid's own shadow, from the one soft top-left light: a deep soft cast
          plus a tight occlusion where it actually touches down -->
