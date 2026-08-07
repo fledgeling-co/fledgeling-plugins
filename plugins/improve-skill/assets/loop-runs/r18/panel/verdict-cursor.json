@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "B",
+    "material": "B",
+    "silhouette": "B",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "Aside from the paper curl the takes are nearly the same, and B\u2019s curl carries the translucent volumetric ribbon the REFERENCE depends on while A\u2019s washes into the ground.",
+      "material": "B\u2019s curl shows edge thickness, inner-face falloff, and a brighter top highlight matching the REFERENCE\u2019s translucent volume, whereas A\u2019s reads as a low-contrast haze.",
+      "silhouette": "The dark block matches in both, but B\u2019s curl still closes as a readable loop against the texture while A\u2019s dissolves and softens the overall shape.",
+      "smallsize": "At 128/32/16 the curl drops out in both takes and the dark diagonal block plus orange edge read the same, so neither gains an advantage."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}

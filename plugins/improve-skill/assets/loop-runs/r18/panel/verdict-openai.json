@@ -1,0 +1,30 @@
+{
+  "verdict": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A and B appear visually identical in composition, lighting, and overall resemblance to the reference.",
+      "material": "Both takes render the dark block, translucent loop, and orange glow with indistinguishable material treatment.",
+      "silhouette": "The block, loop, and rounded-square boundary have the same silhouettes in both takes.",
+      "smallsize": "A and B retain identical readability and contrast at 128px, 32px, and 16px."
+    }
+  },
+  "meta": {
+    "usage": {
+      "input_tokens": 4066,
+      "input_tokens_details": {
+        "cache_write_tokens": 4063,
+        "cached_tokens": 0
+      },
+      "output_tokens": 175,
+      "output_tokens_details": {
+        "reasoning_tokens": 59
+      },
+      "total_tokens": 4241
+    },
+    "status": "completed",
+    "harness": "openai responses (gpt-5.6-sol medium)"
+  }
+}

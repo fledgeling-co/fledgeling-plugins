@@ -971,7 +971,20 @@ def _fore(dx, dy):
     b = dx * SP[0] + dy * SP[1]
     return (a * SU[0] + b * SP[0], a * SU[1] + b * SP[1])
 
-OUT_LIT   = (243, 234, 216)         # outer face, square to the light
+OUT_LIT   = (216, 208, 192)         # outer face, square to the light. Was (243, 234, 216),
+                                    # which made the lit flank a specular white ribbon the
+                                    # material cannot produce: inside the curl's own footprint
+                                    # ours read p90 +0.170 and p99 +0.247 above the board
+                                    # immediately around it, where C2 reads +0.1165 / +0.1685.
+                                    # A shaving is one thickness of the SAME wood as the board,
+                                    # under the same one soft key, so its lit face is a little
+                                    # brighter than the board and nothing like a highlight.
+                                    # Both of C2's ratios come out at 0.68, so the face's excess
+                                    # over its board is scaled by that; this triple is solved
+                                    # against the rebuilt measurement (p99 +0.168, p90 +0.122),
+                                    # not read off a score sweep. The bore's floor is untouched:
+                                    # TRANSMIT and CURL_BORE were fitted to C2 in an earlier
+                                    # round and measured right.
 OUT_DARK  = (134, 118,  97)         # outer face, turned away
 IN_LIT    = (198, 180, 156)         # inner face at the mouth of the roll
 IN_DARK   = ( 84,  72,  60)         # inner face, deep

@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-f5665d-2.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r18 small-size repair",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1149,
+      "ssim": 0.6237,
+      "edge_f1": 0.3518,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.5882,
+      "ref_self_contrast": 0.4601,
+      "composite": 0.5266
+    },
+    "256": {
+      "lum_delta": 0.1109,
+      "ssim": 0.5858,
+      "edge_f1": 0.2446,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.5879,
+      "ref_self_contrast": 0.4564,
+      "composite": 0.4902
+    },
+    "128": {
+      "lum_delta": 0.1086,
+      "ssim": 0.5639,
+      "edge_f1": 0.4672,
+      "mask_iou": 0.9567,
+      "self_contrast": 0.5862,
+      "ref_self_contrast": 0.4544,
+      "composite": 0.5403
+    },
+    "32": {
+      "lum_delta": 0.1055,
+      "ssim": 0.6038,
+      "edge_f1": 0.9171,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.582,
+      "ref_self_contrast": 0.4485,
+      "composite": 0.8008
+    },
+    "16": {
+      "lum_delta": 0.1025,
+      "ssim": 0.6332,
+      "edge_f1": 0.994,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.5746,
+      "ref_self_contrast": 0.4272,
+      "composite": 0.8408
+    }
+  },
+  "render_hash": "c059884568504fdf"
+}
