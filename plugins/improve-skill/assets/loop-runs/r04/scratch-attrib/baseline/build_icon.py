@@ -53,14 +53,7 @@ UX, UY = math.cos(ANGLE), -math.sin(ANGLE)    # along the cutting edge, up-and-r
 NX, NY = -math.sin(ANGLE), -math.cos(ANGLE)   # away from the cut, into the rough side
 
 BLADE_LEN = 640.0
-# ROUND 8 (coarse structure). The top face was 152 deep, which made the iron a slim
-# bar: 4.2:1 in plan against C2's 3.1:1. Measured directly on C2, in C2's own hone
-# frame, as (silhouette back edge) - (top/front shoulder) on three cross-sections over
-# the leading two thirds - the span where the shoulder is a readable trough rather than
-# the rolled highlight it becomes at the trailing end: 204 / 190 / 218, mean 204. No
-# rise arithmetic enters that subtraction, which is why it is the number to trust; the
-# back edge alone reads 248-260 but that figure carries the front face's lift with it.
-BLADE_THICK = 204.0                           # depth of the top face
+BLADE_THICK = 152.0                           # depth of the top face
 EDGE_MID = (543.0, 604.0)                     # midpoint of the cutting edge, on the canvas
 AX = EDGE_MID[0] - UX * BLADE_LEN / 2
 AY = EDGE_MID[1] - UY * BLADE_LEN / 2         # local origin: cutting edge, leading end
@@ -425,76 +418,36 @@ def fibre_ramp_stops():
 # falls to L 0.27 at the bottom. It reads by internal form-shading and thin rim
 # edges, never by a value jump. The palette below holds to that.
 
-# ROUND 8, coarse structure. Both of C2's rims were FITTED rather than eyeballed: three
-# points were read off each silhouette arc and the circle through them solved.
-#
-#     near rim  centre (294, 253)  R 115      residual under 2px over a 240px arc
-#     far rim   centre (359, 186)  R 121
-#
-# Three things fall out of that fit, and the roll here disagreed with all three.
-#   * Both rims are CIRCLES. A circle projects to a circle only when its plane is
-#     parallel to the image plane, so C2's roll axis points essentially straight at the
-#     viewer and there is NO in-plane compression of the section left to draw.
-#   * The centres are 93px apart, against R 115. The roll is far wider than it is long -
-#     2.5:1 on diameter - where this was built at 1.36:1 and read as a length of pipe
-#     lying on the boards.
-#   * The offset between them subtends 45.9 deg, not the blade's 33 deg. The roll has
-#     tipped off the edge it came from.
-# The ribbon also leaves C2's blade as a 40px stub off the roll's lower flank, not as the
-# 150px straight chute that ran up from this roll's upper-right entry.
-
-CURL_C      = (308.0, 278.0)        # centre of the roll. Sited off the blade rather than
-                                    # copied as a canvas coordinate: C2's roll clears its
-                                    # own blade's back edge by 53px, and this one clears
-                                    # THIS blade's back edge by 50.
-CURL_R      = 115.0                 # measured on C2. Was 78.
-CURL_R_END  = 102.0                 # the same gentle tightening as before, 0.89 of R
+CURL_C      = (326.0, 302.0)        # centre of the roll
+CURL_R      = 78.0                  # radius where the tail enters the roll
+CURL_R_END  = 69.0                  # radius at the free end: barely tightened, because
+                                    # a shaving this fresh is loosely rolled, not a snail
 CURL_TURNS  = 0.78                  # PARTIALLY unrolled, which is the whole point: an open
                                     # hook, not a closed ring. Past a full turn the swept
                                     # ribbon closes into a tube and reads as a roll of tape;
                                     # short of one, the cross-section is an arc, so no
                                     # complete far ellipse is ever drawn and the tail runs
                                     # up through the gap the way C2's does.
-CURL_PHI0   = math.radians(34.0)    # entry on the roll's LOWER flank, the side facing the
-                                    # blade, so the tail is C2's short stub instead of the
-                                    # long straight chute the old upper-flank entry needed.
-                                    # It unwinds anticlockwise on screen from there to a
-                                    # free end at the upper left, which is where C2's is.
-CURL_BASE_L = (289.0, BLADE_THICK - 22.0)
-                                    # where it leaves the blade, in the BLADE's own frame,
-                                    # 22 units inside the worn back edge - the same inset
-                                    # it has always had, carried onto the deeper top face.
-                                    # Derived rather than written out, so a future change of
-                                    # face depth cannot leave the shaving emerging from the
-                                    # middle of the iron instead of over its back.
-                                    # Held in local coords so the pitch carries it: when
-                                    # the top face shears, the tail's exit point rides with
-                                    # it instead of floating off the metal.
+CURL_PHI0   = math.radians(-24.0)   # entry, on the roll's right flank
+CURL_BASE_L = (289.0, 130.0)        # where it leaves the blade, in the BLADE's own frame,
+                                    # just inside the worn back edge. Held in local coords
+                                    # so the pitch carries it: when the top face shears,
+                                    # the tail's exit point rides with it instead of
+                                    # floating off the metal.
 CURL_BASE   = to_top(*CURL_BASE_L)
-CURL_SWEEP  = 93.0                  # ribbon width: the measured distance between the two
-                                    # fitted rim centres. Against R 115 that is 0.81:1, so
-                                    # the two rims overlap heavily, the bore stays open and
-                                    # the thing reads as a hoop of shaving seen nearly
-                                    # end-on rather than as a cylinder seen along its side.
-CURL_TILT   = math.radians(12.9)    # the roll has tipped off the cutting edge, so its axis
-                                    # is the blade axis rolled this far toward the vertical:
-                                    # 33 + 12.9 = the 45.9 deg the two fitted rim centres
-                                    # actually subtend. Derived from the blade frame rather
-                                    # than authored on the canvas, so the pitch still owns it.
-_CT, _ST    = math.cos(CURL_TILT), math.sin(CURL_TILT)
-TUX, TUY    = UX * _CT + UY * _ST, -UX * _ST + UY * _CT
-SX, SY      = -TUX * CURL_SWEEP, -TUY * CURL_SWEEP
-# The rim the sweep lands on is the one NEARER the viewer, so the roll recedes UP-RIGHT,
-# with the ground; the open end faces the viewer and the interior shows on the lower-left.
-# That is C2's read, and it is why the shading test below leans against SU rather than with it.
+CURL_SWEEP  = 106.0                 # ribbon width, along the blade axis. Wide against the
+                                    # radius (1.7:1) because C2's runs 2.2:1 - that ratio is
+                                    # what makes a roll read as a fat cylinder and not a hoop
+SX, SY      = -UX * CURL_SWEEP, -UY * CURL_SWEEP
+# near rim -> far rim runs DOWN-LEFT, so the open end of the roll faces the viewer
+# and the interior shows on the lower-left. That is C2's read exactly.
 
-CURL_FORE   = 1.00                  # measured: C2's rims fit CIRCLES, so the section is not
-                                    # compressed in the picture plane at all. The tin-can
-                                    # read this constant was put in to fight came from the
-                                    # sweep being LONGER than the bore, not from the section
-                                    # being round; at 0.81 R the bore stays open on its own.
+CURL_FORE   = 0.54                  # the cross-section is a circle seen obliquely, so it
+                                    # is compressed along the roll's own axis. Without this
+                                    # the mouth draws as a full circle and the whole thing
+                                    # reads as a tin can; C2's mouth is a narrow ellipse.
 
-SU = (-TUX, -TUY)                   # the roll's axis, running away from the viewer
+SU = (-UX, -UY)                     # the roll's axis, running away from the viewer
 SP = (-SU[1], SU[0])                # and its perpendicular, in the picture plane
 
 LIGHT = (-0.36, -0.93)              # the one soft top-left source, mostly overhead
@@ -610,7 +563,7 @@ def shaving():
         if (mx - CURL_C[0]) * nx + (my - CURL_C[1]) * ny < 0:
             nx, ny = -nx, -ny                      # outward, away from the roll's axis
         lam = nx * LIGHT[0] + ny * LIGHT[1]        # lambert on the OUTER face
-        outer = (nx * SU[0] + ny * SU[1]) < 0      # is the outer face the one we see?
+        outer = (nx * UX + ny * UY) > 0            # is the outer face the one we see?
         t = i / last
         tap = _taper(t)
 

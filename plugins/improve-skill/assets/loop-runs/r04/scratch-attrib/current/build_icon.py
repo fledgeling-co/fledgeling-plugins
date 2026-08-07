@@ -460,13 +460,9 @@ CURL_PHI0   = math.radians(34.0)    # entry on the roll's LOWER flank, the side 
                                     # long straight chute the old upper-flank entry needed.
                                     # It unwinds anticlockwise on screen from there to a
                                     # free end at the upper left, which is where C2's is.
-CURL_BASE_L = (289.0, BLADE_THICK - 22.0)
-                                    # where it leaves the blade, in the BLADE's own frame,
+CURL_BASE_L = (289.0, 182.0)        # where it leaves the blade, in the BLADE's own frame,
                                     # 22 units inside the worn back edge - the same inset
                                     # it has always had, carried onto the deeper top face.
-                                    # Derived rather than written out, so a future change of
-                                    # face depth cannot leave the shaving emerging from the
-                                    # middle of the iron instead of over its back.
                                     # Held in local coords so the pitch carries it: when
                                     # the top face shears, the tail's exit point rides with
                                     # it instead of floating off the metal.

@@ -1,0 +1,30 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "A",
+    "silhouette": "A",
+    "smallsize": "A",
+    "rationale": {
+      "overall": "A better preserves the reference\u2019s distinctive curled translucent ribbon and balanced overall composition.",
+      "material": "A",
+      "silhouette": "A",
+      "smallsize": "A"
+    }
+  },
+  "meta": {
+    "usage": {
+      "input_tokens": 4066,
+      "input_tokens_details": {
+        "cache_write_tokens": 4063,
+        "cached_tokens": 0
+      },
+      "output_tokens": 406,
+      "output_tokens_details": {
+        "reasoning_tokens": 347
+      },
+      "total_tokens": 4472
+    },
+    "status": "completed",
+    "harness": "openai responses (gpt-5.6-sol medium)"
+  }
+}

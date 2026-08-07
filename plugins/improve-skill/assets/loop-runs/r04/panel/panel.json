@@ -1,0 +1,50 @@
+{
+  "label": "r04",
+  "mapping": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "tally": {
+    "overall": {
+      "votes": {
+        "candidate": 1,
+        "baseline": 2,
+        "tie": 0
+      },
+      "judges_ran": 3,
+      "winner": "baseline"
+    },
+    "material": {
+      "votes": {
+        "candidate": 1,
+        "baseline": 2,
+        "tie": 0
+      },
+      "judges_ran": 3,
+      "winner": "baseline"
+    },
+    "silhouette": {
+      "votes": {
+        "candidate": 1,
+        "baseline": 2,
+        "tie": 0
+      },
+      "judges_ran": 3,
+      "winner": "baseline"
+    },
+    "smallsize": {
+      "votes": {
+        "candidate": 1,
+        "baseline": 0,
+        "tie": 2
+      },
+      "judges_ran": 3,
+      "winner": "tie"
+    }
+  },
+  "judges": {
+    "claude": "ok",
+    "cursor": "ok",
+    "openai": "ok"
+  }
+}
