@@ -90,7 +90,12 @@ Full protocol: `references/brand-and-docs.md`. In brief:
 
 - **Icon**: an Opus agent running mac-design-studio's hardened icon
   pipeline — three engines are a floor, `audit.html` from the template
-  is a required deliverable, losing takes stay scored on the sheet.
+  is a required deliverable, losing takes stay scored on the sheet — and
+  briefed with the **marketplace aesthetic** in
+  `references/brand-and-docs.md`: the set's exact superellipse outside
+  shape, porcelain register (dark is trawl's alone), one vermilion/ember
+  accent on the focal element, rich volumetric gel material over flat
+  vector, a subject-mined glyph with a stated signature move.
 - **Banner**: composed HTML (design-craft + ux-craft), the *real* icon
   beside a set wordmark, rendered at 2× retina. Never a generated image
   standing in for typography.
