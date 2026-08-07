@@ -28,6 +28,15 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · create-mac-icon "The Cast" loop (r06)** — a translucent gel must
+  keep its *saturation* in shadow, not just its luminance. Sampling the
+  reference's darkest gel pixel against the master's caught shadows that had
+  gone brown (`#A93411` vs the reference's `#DC2F0E`) while the luminance
+  range and mean saturation already matched — invisible to a range check,
+  obvious to a darkest-pixel check, and the loop's largest single gain.
+  Lesson: *check the dark end's hue, not only the ramp's endpoints; a shadow
+  that desaturates reads opaque.*
+
 - **2026-08 · Ledgerline "stepped ledgerline" loop (eval commission, r01→r04)** —
   **(a) The frosted-panel fade is a bounded edit, not a global one.** Raster
   engines render "frosted white" as almost pure ground-bleed (measured 1.41:1

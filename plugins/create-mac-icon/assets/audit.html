@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>create-mac-icon icon &mdash; contact sheet &amp; audit</title>
+<title>create-mac-icon icon: contact sheet and audit</title>
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-<h1>create-mac-icon icon &mdash; contact sheet &amp; audit</h1>
+<h1>create-mac-icon icon: contact sheet and audit</h1>
 <div class="sub">Direction "The Cast" &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16. The skill was dogfooded on its own icon: Engine A was authored through <code>build_icon.py</code>, the raster takes carried four porcelain-register exemplars from <code>corpus/apple-2026/</code> as reference images, and the shipping master was then closed against the winning raster through the skill's own measured fidelity loop.</div>
 
 <div class="sheet"><table>
@@ -44,7 +44,7 @@
   <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG, fidelity round 6 &mdash; SHIPS</small></td>
+    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG, fidelity round 8, SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
@@ -80,7 +80,7 @@
   </tr>
 
   <tr>
-    <td class="take">C2 &middot; icon-engineC-fe8278-2-masked.png<small>Engine C raster, GPT Image 2, corpus-referenced &mdash; the material target</small></td>
+    <td class="take">C2 &middot; icon-engineC-fe8278-2-masked.png<small>Engine C raster, GPT Image 2, corpus-referenced, the material target</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
@@ -92,7 +92,7 @@
   </tr>
 
   <tr>
-    <td class="take">C1 &middot; icon-engineC-27539d-masked.png<small>Engine C raster, second take &mdash; material control</small></td>
+    <td class="take">C1 &middot; icon-engineC-27539d-masked.png<small>Engine C raster, second take, material control</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
@@ -105,23 +105,24 @@
 
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take that is Icon-Composer-ready: four layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, mapping one to one, full-bleed 1024 artwork with the marketplace superellipse as a clip and no baked corner or drop shadow. Checks 1&ndash;4 were verified on the renders above rather than assumed. Its material provenance is C2, closed by seven measured fidelity rounds rather than by eye. Known liabilities to revisit: <b>(1)</b> figure-ground measures 2.72:1, under the 3:1 bar, so the cast is separated from the porcelain by 99 grayscale levels and by shape, not by a compliant contrast ratio; <b>(2)</b> the focal group spans 65.6% of tile width, a whisker over the 55&ndash;65% composition constant, taken deliberately to close the scale gap against the raster; <b>(3)</b> the plaster block sits close in value to its own porcelain ground, which is the register's nature but makes the light Tinted variant the weakest of the four, carried by the cast alone; <b>(4)</b> at 16px the cavity survives as a warm smudge rather than as a readable superellipse, so the icon keeps its subject but loses the "same shape twice" argument at menu-bar size; <b>(5)</b> the cast is authored parallel to the mould where both rasters tilt it, a deliberate divergence that keeps the mirroring legible and permanently caps how close the fidelity score can get.</div>
+<div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take that is Icon-Composer-ready: four layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, mapping one to one, full-bleed 1024 artwork with the marketplace superellipse as a clip and no baked corner or drop shadow. Checks 1&ndash;4 were verified on the renders above rather than assumed. Its material provenance is C2, closed by seven measured fidelity rounds plus one measured correction, rather than by eye. Known liabilities to revisit: <b>(1)</b> figure-ground measures 2.72:1, under the 3:1 bar, so the cast is separated from the porcelain by 99 grayscale levels and by shape, not by a compliant contrast ratio; <b>(2)</b> the focal group spans 65.6% of tile width, a whisker over the 55&ndash;65% composition constant, taken deliberately to close the scale gap against the raster; <b>(3)</b> the plaster block sits close in value to its own porcelain ground, which is the register's nature but makes the light Tinted variant the weakest of the four, carried by the cast alone; <b>(4)</b> at 16px the cavity survives as a warm smudge rather than as a readable superellipse, so the icon keeps its subject but loses the "same shape twice" argument at menu-bar size; <b>(5)</b> the cast is authored parallel to the mould where both rasters tilt it, a deliberate divergence that keeps the mirroring legible and permanently caps how close the fidelity score can get.</div>
 
-<h2>The fidelity loop &mdash; master against the C2 raster</h2>
+<h2>The fidelity loop: master against the C2 raster</h2>
 <div class="sheet"><table class="loop">
   <caption class="visually-hidden">Fidelity rounds with composite scores per render size</caption>
   <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col" class="num">1024</th><th scope="col" class="num">256</th><th scope="col" class="num">128</th><th scope="col" class="num">32</th><th scope="col" class="num">16</th><th scope="col">Gate</th></tr>
-  <tr><td>r00</td><td>baseline, first draft</td><td class="num">0.6546</td><td class="num">0.5483</td><td class="num">0.5176</td><td class="num">0.6947</td><td class="num">0.7684</td><td>&mdash;</td></tr>
+  <tr><td>r00</td><td>baseline, first draft</td><td class="num">0.6546</td><td class="num">0.5483</td><td class="num">0.5176</td><td class="num">0.6947</td><td class="num">0.7684</td><td>baseline</td></tr>
   <tr><td>r01</td><td>coarse structure: group scale, drop, shallower dish, cast/mould ratio</td><td class="num">0.6584</td><td class="num">0.5472</td><td class="num">0.5198</td><td class="num">0.7118</td><td class="num">0.7804</td><td class="up">ACCEPT</td></tr>
   <tr><td>r02</td><td>material: plaster range, pooled bounce, warm bloom, contact shadows</td><td class="num">0.6588</td><td class="num">0.5468</td><td class="num">0.5201</td><td class="num">0.7186</td><td class="num">0.7840</td><td class="up">ACCEPT</td></tr>
   <tr><td>r03</td><td>material: per-face gradient separation on block, cavity and cast</td><td class="num">0.6628</td><td class="num">0.5497</td><td class="num">0.5209</td><td class="num">0.7195</td><td class="num">0.7853</td><td class="up">ACCEPT</td></tr>
   <tr><td>r04</td><td>detail: cast thickness, bloom to the lit shoulder, rim lights clipped</td><td class="num">0.6632</td><td class="num">0.5492</td><td class="num">0.5189</td><td class="num">0.7176</td><td class="num">0.7845</td><td class="up">ACCEPT</td></tr>
   <tr><td>r05</td><td>small-size repair: turn shadow narrowed, mouth de-aliased, base edge tightened</td><td class="num">0.6636</td><td class="num">0.5488</td><td class="num">0.5213</td><td class="num">0.7205</td><td class="num">0.7848</td><td class="up">ACCEPT</td></tr>
-  <tr><td><b>r06</b></td><td><b>material: shadow chroma, measured against the reference's darkest gel pixel</b></td><td class="num"><b>0.6678</b></td><td class="num"><b>0.5534</b></td><td class="num"><b>0.5245</b></td><td class="num"><b>0.7208</b></td><td class="num"><b>0.7857</b></td><td class="up"><b>ACCEPT &mdash; SHIPS</b></td></tr>
+  <tr><td>r06</td><td>material: shadow chroma, measured against the reference's darkest gel pixel</td><td class="num">0.6678</td><td class="num">0.5534</td><td class="num">0.5245</td><td class="num">0.7208</td><td class="num">0.7857</td><td class="up">ACCEPT</td></tr>
   <tr><td>r07</td><td>material: plaster luminance range widened to the reference's 78-point spread</td><td class="num">0.6655</td><td class="num">0.5500</td><td class="num">0.5211</td><td class="num">0.7198</td><td class="num">0.7841</td><td class="down">ROLLED BACK</td></tr>
+  <tr><td><b>r08</b></td><td><b>detail: block rim-light ramp peaked past the cast's occlusion</b></td><td class="num"><b>0.6685</b></td><td class="num"><b>0.5539</b></td><td class="num"><b>0.5243</b></td><td class="num"><b>0.7206</b></td><td class="num"><b>0.7855</b></td><td class="up"><b>ACCEPT, SHIPS</b></td></tr>
 </table></div>
-<div class="rubric">r07 passed the Pareto gate on tolerance, because no single size regressed by more than 0.005, and was rolled back anyway: all five sizes moved the wrong way, so the round bought nothing and the loop stopped there rather than grinding a plateau. Baseline to shipped: <b>1024 composite 0.6546 &rarr; 0.6678</b>, 32px 0.6947 &rarr; 0.7208, 16px 0.7684 &rarr; 0.7857, with no size worse than baseline. Metric tier: numpy, luminance field plus SSIM plus edge F1 plus mask IoU. LPIPS did not run because torch is not installed on this host, so the 1024 material number is the weaker of the two available stacks and should be read as directional. Per-round state, residuals and edge maps are in <code>fidelity-runs/</code>.</div>
+<div class="rubric">r07 passed the Pareto gate on tolerance, because no single size regressed by more than 0.005, and was rolled back anyway: all five sizes moved the wrong way, so the round bought nothing. r08 was a single measured correction taken after the loop had closed, for a visible artifact rather than for a score: the block's lit edge peaked exactly where the cast occludes it, so the surviving stub read as a stray hairline against the porcelain. It was re-scored rather than eyeballed, and kept because it cost nothing. Baseline to shipped: <b>1024 composite 0.6546 &rarr; 0.6685</b>, 32px 0.6947 &rarr; 0.7206, 16px 0.7684 &rarr; 0.7855, with no size worse than baseline. Metric tier: numpy, luminance field plus SSIM plus edge F1 plus mask IoU. LPIPS did not run because torch is not installed on this host, so the 1024 material number is the weaker of the two available stacks and should be read as directional. Per-round state, residuals and edge maps are in <code>fidelity-runs/</code>.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar 10 of 12 or better. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Pillow LANCZOS for rasters, via <code>render_audit.py</code>.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 are non-negotiable, delivery bar 10 of 12 or better. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Pillow LANCZOS for rasters, via <code>render_audit.py</code>.</div>
 </body>
 </html>

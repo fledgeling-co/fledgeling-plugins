@@ -1,0 +1,188 @@
+# create-mac-icon icon notes
+
+**Direction: "The Cast".** The studio's *Tahoe Gel-Glass* sub-register (a), porcelain
+cushion tile carrying one coloured gel object, crossed with the device bank's #16 *the
+icon performs the verb*, #17 *tile-as-machine with a diegetic aperture*, #5 *dual-function
+primitive* and #21 *authored overlap*. The subject is a skill whose entire output is a mac
+app icon, so the icon makes one on camera: a vermilion gel tile has just been lifted out
+of an open plaster mould, and the cavity it came from is still open beneath it, empty
+except for the warmth it kept. Solid and void, the same shape twice.
+
+Runner-up: sub-register (c) *dark glass*, a mould lit from inside on charcoal. Rejected
+on two counts. The dark deep-sea register belongs to the sibling `trawl` and two plugins
+in one marketplace should not share a ground; and the whole argument here is that you can
+*see* the negative the cast came from, which a dark ground puts in shadow. Also considered
+and dropped: Direction 8 *Instrument Emblem*, because this skill has no gauge or chart to
+quote, and Direction 7 *Diagonal Tool*, which the catalogue names as the most template-worn
+move in the corpus.
+
+**Signature.** Both the cast tile and the mould cavity are the marketplace's own
+superellipse, the exact path in `squircle-path.txt` that masks every icon in this set,
+not an approximation of it. So the artwork contains the shape it makes, at three removes:
+the outer mask, the cavity, the cast. `build_icon.py` parses that path once and every
+object in the icon is a scaled instance of it. The second half of the signature is the
+warmth left in the empty cavity: a pooled peach bounce on the plaster floor, strongest at
+the far end where the cast's mass sat longest and paling toward the near lip. That bounce
+is the authored overlap the era's grammar asks for, it is the one thing a flat pre-masked
+raster cannot fake under system tinting, and it is semantically true rather than decorative.
+
+**Risk taken:** an isometric object in a set whose siblings are mostly frontal. It is held
+by Tahoe grammar #7, which keeps the 3D miniature idiom alive in matte-satin materials
+with real contact shadows and no gloss, and by the fact that a mould only reads as a mould
+when you can see into it.
+
+**Palette.** Two families only. Warm-neutral porcelain and plaster carry the ground and the
+block (`#FFFEFC` to `#F7F3ED` to `#E8E1D6` cushion with a `#8A7A62` vignette; block face
+`#FFFFFD` to `#F4F0E6` to `#DCD4C3`; per-face walls `#F6F1E5` to `#C8BDA6` on the lit side,
+`#C6BCA9` to `#A2957C` on the shaded side; cavity `#7C7057` to `#D0C6AE`). One vermilion,
+kin to Fledgeling's `#C4622D`, is spent on the cast and on the warmth the cast left behind,
+and nowhere else: face `#FFE0C0` to `#FC9053` to `#F05821` to `#D8451A`, walls `#F86E2C`
+to `#BC2E0C`, bounce `#FF9C60`. One soft top-left light: rim highlights, soft ambient
+occlusion, real contact shadows, zero hard speculars, and no emissive interior, because
+that sanctioned second source is trawl's and taking it would blur two siblings together.
+
+**Deliberate avoidances.** The dark register (trawl). The blue and indigo ramp the corpus
+census records as the template default across 271 chromatic hits. And every sibling glyph
+device: trawl's net, create-swe-project's hull at first water, ship-armada's three hulls in
+echelon, improve-skill's plane blade and shaving, armada-sync's stamped entry,
+compaction-quality's sediment cylinder, design-review's frosted proof slabs.
+
+## Audit: 11 of 12, zero failures on the non-negotiable 1 to 4
+
+Full contact sheet with every take scored and every loser kept: `audit.html`.
+
+Full-bleed 1024 artwork with the squircle as a *clip*, no baked corners and no baked drop
+shadow. The focal group spans x 171 to 843 and y 241 to 793, so margins are 171 / 181 /
+241 / 231 and the composition is optically centred. Checks 3 and 4 were verified on real
+renders rather than imagined: a luminance-thresholded silhouette proof still names "a
+rounded tile lifted off a block with an open recess", and the 32px render magnified six
+times still carries the cast, the block and the warm cavity.
+
+**The point is deducted at #7, figure-ground.** Measured, not assumed: the cast's dominant
+top face is `#EB6D3D` against local porcelain of `#F4F0EA`, which is **2.72:1**, under the
+3:1 bar. It survives grayscale comfortably, with 99 levels of separation, so the read is
+never in doubt; the ratio simply does not clear the line. Deepening the gel would clear it
+and would also walk back the r06 chroma match that closed most of the material gap, so the
+point was conceded rather than bought.
+
+**#10 passes by construction:** four layers, `#bg` / `#mid` / `#fg` / `#highlight`, mapping
+1:1 onto Icon Composer, with identity carried by shape and value and colour as the last ten
+percent.
+
+### Known liabilities
+
+1. **Figure-ground is 2.72:1**, under the 3:1 bar, as above.
+2. **The focal spans 65.6% of tile width**, a whisker over the 55 to 65% composition
+   constant. Taken deliberately in fidelity round 1 to close a measured scale gap against
+   the raster, and worth re-testing.
+3. **The plaster block sits close in value to its own porcelain ground.** That is the
+   porcelain register's nature and the reference does the same, but it makes the light
+   Tinted variant the weakest of the four, carried by the cast alone.
+4. **At 16px the cavity survives as a warm smudge**, not as a readable superellipse. The
+   icon keeps its subject at menu-bar size but loses the "same shape twice" argument there.
+5. **The cast is authored parallel to the mould** where both raster takes tilt it. This
+   keeps the mirroring legible, which is the whole idea, and it permanently caps how close
+   the fidelity score can get to the reference. It is a structural divergence, not a defect.
+6. **LPIPS did not run** (no torch on this host), so the 1024 material number came from the
+   weaker of the two available metric stacks and should be read as directional.
+
+## Three engines
+
+- **Engine A** is the shipping master, `icon.svg`, generated by `build_icon.py` so geometry
+  and material are named constants and every fidelity round is a parameter edit rather than
+  path surgery. 11/12.
+- **Engine B**, `icon-engineB-arrow-626f04.svg`, Arrow 1.1 from the spec-as-brief, lost
+  badly at 3/12: a 150 by 130.4 viewBox rather than square artwork, both superellipses
+  softened into lozenges, a grey interior shadow z-fighting the dish rim, and no named
+  layers. Nothing was salvaged geometrically. Its one real contribution was as a negative
+  control: it proved the exact superellipse is load-bearing rather than decorative, because
+  once the shape stops being specific, solid and void stop reading as the same shape twice.
+- **Engine C** produced two rasters through GPT Image 2 with four porcelain-register
+  exemplars from `corpus/apple-2026/` as reference images (Safari, Photos, Reminders, News).
+  Both scored 9/12 and both **won the material comparison**, as the pipeline expects. Neither
+  can ship: a flat pre-masked raster is failure mode #10 by definition, and both grounds are
+  dead-flat white with no cushion, which the Tahoe grammar names as the previous era's tell.
+  Both are kept, squircle-masked with the exact path, as `icon-engineC-*-masked.png`.
+
+**C2 was chosen as the fidelity reference over C1** even though C1 has the stronger 16px
+read. C1's cavity has no visible floor, so its mould reads as a hollow frame and the
+negative stops being the negative of anything; C2's cavity has a floor, a lip and a pooled
+bounce, which is the concept stated correctly. Matching the better score is not the same as
+matching the better icon.
+
+## The fidelity loop
+
+Seven rounds against `icon-engineC-fe8278-2-masked.png`, one edit class each, plus one
+measured correction after the loop closed. State in
+`fidelity-runs/` with a `score.json` per round and a `rounds.json` ledger.
+
+| Round | Edit class | 1024 | 32 | 16 | Gate |
+|---|---|---|---|---|---|
+| r00 | baseline, first draft | 0.6546 | 0.6947 | 0.7684 | baseline |
+| r01 | coarse structure | 0.6584 | 0.7118 | 0.7804 | ACCEPT |
+| r02 | material | 0.6588 | 0.7186 | 0.7840 | ACCEPT |
+| r03 | material, per-face separation | 0.6628 | 0.7195 | 0.7853 | ACCEPT |
+| r04 | detail | 0.6632 | 0.7176 | 0.7845 | ACCEPT |
+| r05 | small-size repair | 0.6636 | 0.7205 | 0.7848 | ACCEPT |
+| r06 | material, shadow chroma | 0.6678 | 0.7208 | 0.7857 | ACCEPT |
+| r07 | material, plaster range | 0.6655 | 0.7198 | 0.7841 | rolled back |
+| **r08** | **detail, block rim light** | **0.6685** | **0.7206** | **0.7855** | **ACCEPT, ships** |
+
+Baseline to shipped: 1024 composite **0.6546 to 0.6685**, 32px 0.6947 to 0.7206, 16px
+0.7684 to 0.7855, with no size worse than baseline. r07 passed the Pareto gate on tolerance
+and was rolled back anyway, because all five sizes moved the wrong way and the round bought
+nothing. r08 was taken after the loop had closed, for a visible artifact rather than for a
+score: the block's lit edge peaked exactly where the cast occludes it, so the surviving
+stub read as a stray hairline against the porcelain. It was re-scored rather than
+eyeballed, and kept because it cost nothing.
+
+**Two rounds were driven by measurement rather than by looking.** r03 came from reading the
+residual: a single gradient swept across a whole extrusion band reads as one bent surface,
+so the block, the cavity and the cast were each split at their own corner into two front
+faces with separate gradients. r06 came from sampling both images: the reference's darkest
+gel pixel is `#DC2F0E` where the master's was `#A93411`, which is the difference between
+translucent resin, which keeps its chroma where it turns away from the light because light
+still travels through it, and an opaque solid, which goes brown. Raising the dark end of
+the gel ramp without touching its luminance range was the largest single gain in the loop.
+
+**Recipe confirmed for `material-recipes.md`** (not written there, because this commission
+was scoped to `assets/` only; the orchestrating session should add it):
+
+> **2026-08 · create-mac-icon "The Cast"**. A translucent gel object must keep its
+> *saturation* in shadow, not just its luminance. Sampling the reference's darkest gel
+> pixel against the master's caught a master whose shadows had gone brown (`#A93411` vs
+> `#DC2F0E`) while its luminance range and mean saturation already matched, so the gap was
+> invisible to a range check and obvious to a darkest-pixel check. Lesson: *check the dark
+> end's hue, not only the ramp's endpoints*. A shadow that desaturates reads opaque, and
+> opacity is the opposite of the era's whole material claim.
+
+## Banner
+
+`banner-src.html`, composed HTML rendered at viewport 1600 by 520 at 2x to `banner.png`
+(3200 by 1040). The bench in the banner is the same bench the icon sits on: the two empty
+cavities on the right are the same superellipse path under the same dimetric projection
+(KX 1.0, KY 0.515, the icon's own frame), cut by the frame so the bench visibly continues
+and there is another mould waiting, and the nearer one holds the same warm bounce at a
+fraction of the strength. Any change to the icon's projection or palette must be re-derived
+there or the plane tilts out of register with itself.
+
+Type is **Sora**, whose bowls are drawn as squared circles rather than true ones, which is
+the superellipse the icon is built from, in type. No sibling in this marketplace uses it
+(the set currently runs Instrument Sans, IBM Plex Sans and Mono, JetBrains Mono, Archivo
+and Schibsted Grotesk).
+
+## Files
+
+| File | What it is |
+|---|---|
+| `build_icon.py` | Engine A generator. Edit the constants here, never `icon.svg`. |
+| `icon.svg` | the shipping layered master, fidelity round 8 |
+| `icon.png`, `icon-256.png`, `icon-128.png` | raster exports of the master |
+| `icon-engineB-arrow-626f04.svg` | Engine B take, 3/12 |
+| `icon-engineC-27539d.png`, `icon-engineC-fe8278-2.png` | Engine C rasters, as generated |
+| `icon-engineC-*-masked.png` | the same two, masked with the set's exact superellipse |
+| `render_audit.py` | renders every take at the sheet's 2x sources and masks the rasters |
+| `audit.html`, `audit-renders/` | the contact sheet and its renders |
+| `fidelity-runs/` | per-round candidates, scores, residuals, edge maps, `rounds.json` |
+| `banner-src.html`, `banner.png` | the banner source and its 3200 by 1040 render |
+| `squircle-path.txt` | the set's superellipse, copied from the skill's assets |
