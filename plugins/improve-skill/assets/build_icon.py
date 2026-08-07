@@ -251,6 +251,40 @@ SILHOUETTE = CHAIN_UPPER[::-1] + FOOT_LOWER[::-1]
 # the ground contact line, which is also the before/after boundary
 CONTACT = FOOT_LOWER
 
+# ---------------------------------------------------------------- the cast shadow
+# ROUND 18. Named so the penumbra can be measured rather than guessed. Marching
+# perpendicular to each image's own hone line and normalising each profile by its
+# own far field (the only way to read a shadow through a 0.22 palette offset),
+# ours and C2's agree at contact - 0.670 vs 0.662 of far field in the first 8px,
+# 0.636 vs 0.614 at 8-16px - so the two layers below are already right and are left
+# alone. What differed was REACH: ours was back to 0.965 of far field by 60-85px
+# and 1.003 by 85-115px, while C2's was still 0.865 at 60-85 and 0.940 at 85-115,
+# reaching its far field only past 150px. Half-recovery ours ~26px against C2's
+# ~64px: the tail was 2.4x too short. At 32px that whole gradient lived inside one
+# or two cells and at 16px inside less than one, so the lowest-frequency fact in
+# the icon - that the solid is sitting on the ground - did not survive downsampling.
+CAST_BLUR = 26.0
+CAST_DX = 30.0
+CAST_DY = 34.0
+CAST_OP = 0.35
+CONTACT_BLUR = 9.0
+CONTACT_DX = 9.0
+CONTACT_DY = 12.0
+CONTACT_OP = 0.42
+# Widening the cast blur to buy that reach was measured and rejected: it moves the
+# far bins onto C2 (+0.0085 at 1024, +0.0064 at 256) but a single Gaussian has a
+# slope peak, and at 32px that peak IS an edge - 24 new edge cells appeared in a
+# diagonal chain along the blade's lower flank, where C2's own |grad| is 0.04-0.25
+# and the widened cast's was 0.41-0.55. C2's ramp has no such inflection. So the
+# tail is carried by a separate layer instead: same silhouette, blurred wide enough
+# that its peak slope stays under the 32px edge threshold, and weak enough that it
+# only supplies the 0.03-0.06 of far field the far bins were missing. Contact is
+# untouched, which is the point - the near bins already matched.
+HALO_BLUR = 105.0
+HALO_DX = 58.0
+HALO_DY = 66.0
+HALO_OP = 0.30
+
 
 # ---------------------------------------------------------------- ground texture
 # The ground's own luminance, fitted quadratically over each masked plane of the
@@ -1436,11 +1470,14 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <stop offset="1" stop-color="#332B20" stop-opacity="0.27"/>
   </radialGradient>
 
-  <filter id="castShadow" x="-30%" y="-30%" width="160%" height="160%">
-    <feGaussianBlur stdDeviation="26"/>
+  <filter id="castShadow" x="-45%" y="-45%" width="190%" height="190%">
+    <feGaussianBlur stdDeviation="{CAST_BLUR}"/>
   </filter>
-  <filter id="contactShadow" x="-30%" y="-30%" width="160%" height="160%">
-    <feGaussianBlur stdDeviation="9"/>
+  <filter id="haloShadow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="{HALO_BLUR}"/>
+  </filter>
+  <filter id="contactShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="{CONTACT_BLUR}"/>
   </filter>
   <filter id="honeGlow" x="-60%" y="-60%" width="220%" height="220%">
     <feGaussianBlur stdDeviation="13"/>
@@ -1504,13 +1541,16 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
             fill="url(#cutStep)"/>
     </g></g>
 
-    <!-- the solid's own shadow, from the one soft top-left light: a deep soft cast
-         plus a tight occlusion where it actually touches down -->
+    <!-- the solid's own shadow, from the one soft top-left light: a wide weak tail,
+         a deep soft cast, plus a tight occlusion where it actually touches down -->
+    <g filter="url(#haloShadow)">
+      <path d="{poly([(x + HALO_DX, y + HALO_DY) for x, y in SILHOUETTE])}" fill="#4B4133" fill-opacity="{HALO_OP}"/>
+    </g>
     <g filter="url(#castShadow)">
-      <path d="{poly([(x + 30, y + 34) for x, y in SILHOUETTE])}" fill="#4B4133" fill-opacity="0.35"/>
+      <path d="{poly([(x + CAST_DX, y + CAST_DY) for x, y in SILHOUETTE])}" fill="#4B4133" fill-opacity="{CAST_OP}"/>
     </g>
     <g filter="url(#contactShadow)">
-      <path d="{poly([(x + 9, y + 12) for x, y in SILHOUETTE])}" fill="#3C3327" fill-opacity="0.42"/>
+      <path d="{poly([(x + CONTACT_DX, y + CONTACT_DY) for x, y in SILHOUETTE])}" fill="#3C3327" fill-opacity="{CONTACT_OP}"/>
     </g>
     <!-- ROUND 7. Ambient occlusion in the seat itself. Measured 6px out from the base,
          C2's ground sits at 0.66x its own far field under the lit leading end and 0.41x
