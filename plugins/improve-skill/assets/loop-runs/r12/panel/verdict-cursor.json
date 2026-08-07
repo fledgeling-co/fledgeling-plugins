@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "B",
+    "material": "B",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "With the slab, glow, and ribbon effectively matched, B wins on the only clear difference that affects reference likeness: its ground grain reads closer to the REF's irregular plaster field than A's regular leather-like lattice.",
+      "material": "B's denser, more irregular micro-scratches better echo the REFERENCE's troweled concrete texture, while A's larger repeating cross-hatch looks embossed and less stone-like.",
+      "silhouette": "Both takes share the same diagonal dark bar, curled ribbon, plane split, and under-edge glow with no meaningful shape difference.",
+      "smallsize": "At 128/32/16 the strips stay indistinguishable\u2014same dark diagonal, orange edge, and pale ribbon blob\u2014because the substrate-texture gap disappears on downscale."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}

@@ -324,14 +324,52 @@ GRAIN_CAP = 0.55         # the most opacity a single flank may carry
 # reads anisotropy 13.7 against the reference's 4.68. A pass tears the fibres along the
 # direction it travelled, so the profile is split unevenly between the families: A
 # takes 1.36 of the combined amplitude and B 0.76, which turns a 1:2 power split into
-# 1.6:1 without adding one path. The pitch fault goes the same way - shorter dashes
-# inside the band, which costs nothing because the dasharray is already there.
+# 1.6:1 without adding one path. The pitch fault went the same way, as shorter dashes
+# inside the band; ROUND 14 below measured the mark itself and retired that band scale.
 GRAIN_FAM_A = 1.3625     # family A's share of the combined amplitude profile
 GRAIN_FAM_B = 0.7560     # family B's, so sqrt((A^2 + 2 B^2)/3) = 1: same total, new bias
-GRAIN_BAND_Y = 384.0     # where the light starts to rake, and tearing becomes legible
-GRAIN_BAND_DASH = 0.62   # marks and gaps that short: the band tears in 4-12px flecks
 GRAIN_PEAK_A = max(g for _, g in GRAIN_PROF) * GRAIN_FAM_A
 GRAIN_PEAK_B = max(g for _, g in GRAIN_PROF) * GRAIN_FAM_B
+
+# ROUND 14 (detail). r13 closed by saying amplitude was solved and the next detail
+# round belonged to mark LENGTH and COUNT. Measured, on connected components of the
+# 3-13px relief at five clean stations (`loop-runs/r12/work/w3.py`), that is exactly
+# the whole of the remaining fault, and coverage is not part of it:
+#
+#   station          coverage        marks / 10k px     median len      aspect
+#   un-planed left   23.5 / 20.7     199 /  87          3.9 / 6.2       1.9 / 3.6
+#   un-planed mid    18.8 / 18.5     108 /  40          3.8 / 8.3       1.9 / 3.9
+#   un-planed low    20.4 / 17.4     105 /  36          4.5 / 7.1       1.7 / 3.6
+#   above-band       17.0 / 17.8      83 /  44          4.4 / 7.6       2.0 / 4.2
+#   trued            22.8 / 22.7     192 /  77          3.8 / 10.2      1.8 / 4.8
+#                    (reference / ours)
+#
+# We put the right amount of ink on the plane and spend it on 2.3-2.9x too few marks,
+# each 1.6-2.7x too long. The reference's mark is the same everywhere - median 3.8-4.5
+# units, p90 8.3-13.1, width 2.0-2.5, aspect 1.7-2.0 at every station on both planes -
+# so it is ONE distribution, not a field of them, and r13's band-local dash scale was a
+# proxy for this global fault fitted before the fault had been measured. It retires.
+#
+# Two constants carry the fix and neither is amplitude. GRAIN_MARK_* is the reference's
+# own mark-length distribution, drawn per dash. GRAIN_GAP_MIN is the one that fixes the
+# trued plane on its own: a gap narrower than the stroke that crosses it is not a break
+# once the renderer antialiases it, and the trued plane's `tear` of 0.05-0.20 was
+# putting gaps of 0.3-2.0 units into strokes 1.2-2.0 wide - a dasharray that renders as
+# a ruled line. Flooring the gap at the stroke's own width is what turns it into flecks.
+GRAIN_WID = 1.20         # the reference's mark is wider than ours at every station:
+                         # median 2.0-2.5 against r13's 1.7-2.0. Coverage is linear in
+                         # it, and shortening the marks spends coverage, so this is
+                         # where that is bought back - one factor over all four widths,
+                         # and the lit twin's solve is a ratio so the pair is untouched.
+GRAIN_MARK_MIN = 1.4     # the reference's shortest legible tear
+GRAIN_MARK_RUN = 10.0    # ...and the reach of its tail
+GRAIN_MARK_SKEW = 2.2    # rnd()**skew, so the median lands on the measured 3.6, not 5.7
+# The floor is swept, not guessed (`loop-runs/r12/work/sweep.py`), and it has a clear
+# interior optimum: at 1.15 stroke widths the marks fuse HARDER than r13's did (median
+# length 8.1, count 84/10k), at 1.9 the field breaks (4.5, 124), and past 2.4 the gap
+# eats the period faster than it wins breaks and both fall away again (4.6, 106 at 3.0).
+# 1.9 is where a break survives the renderer's antialiasing with a pixel to spare.
+GRAIN_GAP_MIN = 1.9      # a break must be at least this many stroke widths to be one
 
 
 def grain_gain(cy):
@@ -374,17 +412,27 @@ def _key_local():
     return kx / m, ky / m
 
 
-def _dash(tear, scale=1.0):
-    """Four numbers, so the break pattern's period is ~40 units rather than the dash
-    pitch - long enough that a stroke reads as torn rather than ruled, and cheap
-    enough to put a whole run of a ridge in one path element instead of thirty.
-    Short marks: the reference tears in 6-20px flecks, and the first cut of this
-    used 8-42, which read as brickwork. `scale` shortens marks and gaps together,
-    which lowers a patch's wavelength without changing how much of it is covered."""
+def _dash(tear, wid):
+    """Four numbers, so the break pattern's period is two marks rather than one -
+    long enough that a stroke reads as torn rather than ruled, and cheap enough to
+    put a whole run of a ridge in one path element instead of thirty.
+
+    The MARK is drawn from the reference's own measured length distribution and is
+    the same distribution everywhere, because the reference's is (median 3.8-4.5
+    units at five stations on both planes). The GAP is then whatever holds this
+    ridge's duty cycle - which is what coverage is made of, and coverage already
+    matches - except that it may never fall below GRAIN_GAP_MIN stroke widths. That
+    floor is the load-bearing half: the old pattern let `tear` set the gap outright,
+    so a faint near-continuous ridge asked for gaps of a third of a pixel and got a
+    ruled line, and a run of a dozen marks fused into one 170-unit streak. Duty falls
+    out of `tear` instead, which is what `tear` meant all along."""
+    duty = 0.72 - 0.20 * tear
     v = []
     for _ in range(2):
-        v.append(f"{(4 + rnd() * 15) * (1.15 - 0.45 * tear) * scale:.1f}")
-        v.append(f"{(2.5 + rnd() * 13) * tear * scale:.1f}")
+        mark = GRAIN_MARK_MIN + rnd() ** GRAIN_MARK_SKEW * GRAIN_MARK_RUN
+        rnd()                             # keep the jitter stream where r13 left it
+        v.append(f"{mark:.1f}")
+        v.append(f"{max(GRAIN_GAP_MIN * wid, mark * (1.0 - duty) / duty):.1f}")
     return " ".join(v)
 
 
@@ -406,7 +454,7 @@ def _clip_span(px, py, dx, dy, t0, t1):
     return (lo, hi) if hi - lo > 8.0 else None
 
 
-def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=False):
+def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
     """One ridge as a lit/shadowed pair, emitted in GRAIN_PIECE-long pieces, each
     piece a short polyline that wanders off its own axis. A tear in end grain is not
     a ruled line, and two exactly perpendicular families of ruled lines at an even
@@ -418,9 +466,9 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=F
     reason this can be dense. r02's texture was dense too, and it moved the plane's
     mean, so it cost lum on every size and was rejected.
 
-    `band` shortens the dashes below GRAIN_BAND_Y, where the reference tears in
-    flecks a third the length of ours. The amplitude profile is NOT applied here -
-    it rides the stroke's gradient; see tear_profile."""
+    The mark length is one distribution everywhere, taken off the reference; see
+    _dash. The amplitude profile is NOT applied here - it rides the stroke's
+    gradient; see tear_profile."""
     span = _clip_span(px, py, dx, dy, t0, t1)
     if span is None:
         return
@@ -455,7 +503,7 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=F
             s = t + (e - t) * i / n
             j = (rnd() - 0.5) * 3.4
             pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
-        d = _dash(tear, GRAIN_BAND_DASH if band and cy > GRAIN_BAND_Y else 1.0)
+        d = _dash(tear, wl)
         seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
         dark.append(f'<path d="{seg}" stroke-opacity="{od:.3f}" '
                     f'stroke-width="{wid:.2f}" stroke-dasharray="{d}"/>')
@@ -499,12 +547,12 @@ def grain():
         tear = 0.52 + rnd() * 0.48
         sy, sx = skew(11.0)
         _ridge(rough_a_d, rough_a_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
-               GRAIN_AMP_A * GRAIN_PEAK_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9,
-               tear, GRAIN_BAL_ROUGH, band=True)
+               GRAIN_AMP_A * GRAIN_PEAK_A * (0.7 + rnd() * 0.6), GRAIN_WID * (1.5 + rnd() * 0.9),
+               tear, GRAIN_BAL_ROUGH)
         sy, sx = skew(11.0)
         _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
                GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
-               1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
+               GRAIN_WID * (1.3 + rnd() * 0.7), 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
         x += 11.0 + rnd() * 14.0
     # --- family B: along the blade (local y fixed), the tear-out across the pass.
     #     Same amplitude and near enough the same pitch as family A, because a
@@ -516,15 +564,15 @@ def grain():
         sx, sy = skew(13.0)
         _ridge(rough_b_d, rough_b_l, GROUND_ROUGH, 0.0, y, sx, sy,
                LX_MIN - 40, LX_MAX + 40,
-               GRAIN_AMP_B * GRAIN_PEAK_B * (0.7 + rnd() * 0.6), 1.4 + rnd() * 1.0,
-               0.68 + rnd() * 0.32, GRAIN_BAL_ROUGH, band=True)
+               GRAIN_AMP_B * GRAIN_PEAK_B * (0.7 + rnd() * 0.6), GRAIN_WID * (1.4 + rnd() * 1.0),
+               0.68 + rnd() * 0.32, GRAIN_BAL_ROUGH)
         y += 12.0 + rnd() * 15.0
     y = -9.0
     while y > LY_MIN - 30:
         sx, sy = skew(13.0)
         _ridge(true_d, true_l, GROUND_TRUED, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
                GRAIN_AMP_B * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
-               1.2 + rnd() * 0.8, 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
+               GRAIN_WID * (1.2 + rnd() * 0.8), 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
         y -= 12.0 + rnd() * 15.0
 
     def wrap(*layers):
