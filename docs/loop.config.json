@@ -51,13 +51,14 @@
       "extra_checks_note": "Six known liabilities are listed at the end of icon-notes.md; the largest are figure-ground at 2.72:1 (under the 3:1 bar) and the cavity reading as a warm smudge rather than a superellipse at 16px."
     },
     {
-      "name": "create-swe-project",
-      "dir": "plugins/create-swe-project/assets",
+      "name": "compaction-quality",
+      "dir": "plugins/compaction-quality/assets",
       "build": "build_icon.py",
       "icon": "icon.svg",
-      "reference": "icon-engineC1.png",
+      "reference": "icon-c1.png",
       "notes": "icon-notes.md"
     }
   ],
-  "agent_cwd": "/Users/lukerhodes/Dev"
+  "agent_cwd": "/Users/lukerhodes/Dev",
+  "excluded_fixtures_note": "create-swe-project, trawl, ship-armada, armada-sync and design-review are out of the queue: their masters were hand-authored without a build script, so a round cannot author through one. Add a bootstrap round that converts the SVG into a generator before looping them."
 }
