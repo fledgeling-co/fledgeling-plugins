@@ -1,0 +1,22 @@
+import { Body, Container, Head, Heading, Html, Preview, Section, Text } from '@react-email/components';
+
+export function SignInCodeEmail({ code }: { code: string }) {
+  return (
+    <Html>
+      <Head />
+      <Preview>{code} is your {'{{DISPLAY}}'} sign-in code</Preview>
+      <Body style={{ backgroundColor: '#f6f6f8', fontFamily: 'system-ui, sans-serif' }}>
+        <Container style={{ background: '#ffffff', borderRadius: 10, margin: '40px auto', padding: 32, maxWidth: 420 }}>
+          <Heading as="h2" style={{ margin: '0 0 8px' }}>{'{{DISPLAY}}'}</Heading>
+          <Text style={{ color: '#6b6b76', margin: '0 0 24px' }}>Use this code to sign in. It expires in 10 minutes.</Text>
+          <Section style={{ background: '#f0f1f4', borderRadius: 8, padding: '16px 0', textAlign: 'center' as const }}>
+            <Text style={{ fontSize: 28, fontWeight: 700, letterSpacing: 6, margin: 0 }}>{code}</Text>
+          </Section>
+          <Text style={{ color: '#9a9aa5', fontSize: 12, marginTop: 24 }}>
+            If you didn&apos;t request this, you can safely ignore this email.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+}

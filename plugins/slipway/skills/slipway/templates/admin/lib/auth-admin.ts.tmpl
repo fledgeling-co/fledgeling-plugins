@@ -1,0 +1,84 @@
+import 'server-only';
+import { cookies } from 'next/headers';
+import { SignJWT, jwtVerify } from 'jose';
+import { createHmac, randomInt, timingSafeEqual } from 'node:crypto';
+import { Resend } from 'resend';
+import { redis } from './redis';
+
+// Distinct trust domain (BP §9.5): ADMIN_JWT_SECRET + a different audience — a
+// user-side key compromise must not mint admin tokens. Admin access is an
+// explicit email allowlist (ADMIN_EMAILS, comma-separated).
+const ALGORITHM = 'HS256';
+const ISSUER = '{{CODENAME}}';
+const AUDIENCE = '{{CODENAME}}-admin';
+const COOKIE = 'admin_session';
+const TTL_S = 60 * 60 * 12; // 12h — admin sessions stay short; no refresh path
+
+function secret(): Uint8Array {
+  const s = process.env.ADMIN_JWT_SECRET;
+  if (!s) throw new Error('ADMIN_JWT_SECRET is not set');
+  return new TextEncoder().encode(s);
+}
+const hash = (v: string) => createHmac('sha256', process.env.ADMIN_JWT_SECRET ?? '').update(v).digest('hex');
+
+export function isAdminEmail(email: string): boolean {
+  const list = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean);
+  return list.includes(email.trim().toLowerCase());
+}
+
+export async function requestAdminCode(email: string): Promise<void> {
+  if (!isAdminEmail(email)) return; // same response either way — no existence leak
+  const n = await redis().incr(`admin:rate:${email}`);
+  await redis().expire(`admin:rate:${email}`, 3600);
+  if (n > 3) return;
+  const code = String(randomInt(100000, 1000000));
+  await redis().set(`admin:code:${email}`, hash(code), 'EX', 600);
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error('RESEND_API_KEY is not set');
+  await new Resend(key).emails.send({
+    from: process.env.RESEND_FROM_EMAIL ?? '{{DISPLAY}} <onboarding@resend.dev>',
+    to: email,
+    subject: `${code} is your {{DISPLAY}} admin code`,
+    text: `Your {{DISPLAY}} admin sign-in code is ${code}. It expires in 10 minutes.`,
+  });
+}
+
+export async function verifyAdminCode(email: string, code: string): Promise<boolean> {
+  if (!isAdminEmail(email)) return false;
+  const attempts = await redis().incr(`admin:attempts:${email}`);
+  await redis().expire(`admin:attempts:${email}`, 600);
+  if (attempts > 5) return false;
+  const stored = await redis().get(`admin:code:${email}`);
+  if (!stored) return false;
+  const candidate = hash(code);
+  const ok = stored.length === candidate.length && timingSafeEqual(Buffer.from(stored), Buffer.from(candidate));
+  if (ok) {
+    await redis().del(`admin:code:${email}`, `admin:attempts:${email}`);
+    const jar = await cookies();
+    const token = await new SignJWT({ email })
+      .setProtectedHeader({ alg: ALGORITHM })
+      .setSubject(email)
+      .setIssuer(ISSUER)
+      .setAudience(AUDIENCE)
+      .setIssuedAt()
+      .setExpirationTime(`${TTL_S}s`)
+      .sign(secret());
+    jar.set(COOKIE, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', path: '/', maxAge: TTL_S });
+  }
+  return ok;
+}
+
+export async function getAdminSession(): Promise<{ email: string } | null> {
+  const token = (await cookies()).get(COOKIE)?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, secret(), { algorithms: [ALGORITHM], issuer: ISSUER, audience: AUDIENCE });
+    return { email: payload.sub as string };
+  } catch {
+    return null;
+  }
+}
+
+export async function clearAdminSession(): Promise<void> {
+  (await cookies()).delete(COOKIE);
+}

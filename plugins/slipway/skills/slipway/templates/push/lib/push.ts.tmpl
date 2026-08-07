@@ -1,0 +1,69 @@
+import 'server-only';
+import * as http2 from 'node:http2';
+import { SignJWT, importPKCS8 } from 'jose';
+
+/*
+ * Server-side push straight to APNs over HTTP/2 with token-based ES256 auth
+ * (a .p8 key from the Apple Developer portal) — the atlas-app pattern. The
+ * client registers its native device token via POST /api/me/push-token; this
+ * module delivers alerts to those tokens.
+ *
+ * The APNs JWT is cached ~50 minutes: minting per-request risks APNs
+ * TooManyProviderTokenUpdates (limit: 1/minute).
+ */
+
+export type PushPayload = { title: string; body: string; data?: Record<string, string> };
+export type SendResult = { outcome: 'sent' } | { outcome: 'failed'; reason: string } | { outcome: 'dead'; reason: string };
+
+const APNS_JWT_MAX_AGE_MS = 50 * 60 * 1000;
+let cachedJwt: { token: string; issuedAt: number } | null = null;
+
+function readConfig() {
+  const { APNS_KEY_ID, APNS_TEAM_ID, APNS_PRIVATE_KEY_B64, APNS_BUNDLE_ID, APNS_ENVIRONMENT } = process.env;
+  if (!APNS_KEY_ID || !APNS_TEAM_ID || !APNS_PRIVATE_KEY_B64 || !APNS_BUNDLE_ID) return null; // unconfigured in dev/CI
+  const host = APNS_ENVIRONMENT === 'production' ? 'https://api.push.apple.com' : 'https://api.sandbox.push.apple.com';
+  return { keyId: APNS_KEY_ID, teamId: APNS_TEAM_ID, privateKeyPem: Buffer.from(APNS_PRIVATE_KEY_B64, 'base64').toString('utf8'), bundleId: APNS_BUNDLE_ID, host };
+}
+
+async function apnsJwt(keyId: string, teamId: string, privateKeyPem: string): Promise<string> {
+  if (cachedJwt && Date.now() - cachedJwt.issuedAt < APNS_JWT_MAX_AGE_MS) return cachedJwt.token;
+  const key = await importPKCS8(privateKeyPem, 'ES256');
+  const token = await new SignJWT({})
+    .setProtectedHeader({ alg: 'ES256', kid: keyId })
+    .setIssuer(teamId)
+    .setIssuedAt()
+    .sign(key);
+  cachedJwt = { token, issuedAt: Date.now() };
+  return token;
+}
+
+/** Send one alert to one device token. 'dead' means unregister the token. */
+export async function sendPushToDevice(deviceToken: string, payload: PushPayload): Promise<SendResult> {
+  const config = readConfig();
+  if (!config) return { outcome: 'failed', reason: 'APNs unconfigured' };
+  const jwt = await apnsJwt(config.keyId, config.teamId, config.privateKeyPem);
+  return new Promise((resolve) => {
+    const client = http2.connect(config.host);
+    const req = client.request({
+      ':method': 'POST',
+      ':path': `/3/device/${deviceToken}`,
+      authorization: `bearer ${jwt}`,
+      'apns-topic': config.bundleId,
+      'apns-push-type': 'alert',
+    });
+    let status = 0;
+    let body = '';
+    req.on('response', (headers) => { status = Number(headers[':status'] ?? 0); });
+    req.on('data', (chunk: Buffer) => { body += chunk.toString(); });
+    req.on('end', () => {
+      client.close();
+      if (status === 200) return resolve({ outcome: 'sent' });
+      if (status === 410 || body.includes('BadDeviceToken') || body.includes('Unregistered')) {
+        return resolve({ outcome: 'dead', reason: body || String(status) });
+      }
+      resolve({ outcome: 'failed', reason: body || String(status) });
+    });
+    req.on('error', (err) => { client.close(); resolve({ outcome: 'failed', reason: String(err) }); });
+    req.end(JSON.stringify({ aps: { alert: { title: payload.title, body: payload.body } }, ...payload.data }));
+  });
+}

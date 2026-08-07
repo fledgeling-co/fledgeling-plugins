@@ -1,0 +1,31 @@
+import 'server-only';
+import { Resend } from 'resend';
+import { SignInCodeEmail } from '@/emails/sign-in-code';
+import { WelcomeEmail } from '@/emails/welcome';
+
+// Resend + React Email templates (BP §8): named export per template, verified
+// sender from env, never hand-inlined HTML.
+function client(): Resend {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error('RESEND_API_KEY is not set');
+  return new Resend(key);
+}
+const from = () => process.env.RESEND_FROM_EMAIL ?? '{{DISPLAY}} <onboarding@resend.dev>';
+
+export async function sendSignInCodeEmail(to: string, code: string): Promise<void> {
+  await client().emails.send({
+    from: from(),
+    to,
+    subject: `${code} is your {{DISPLAY}} sign-in code`,
+    react: SignInCodeEmail({ code }),
+  });
+}
+
+export async function sendWelcomeEmail(to: string): Promise<void> {
+  await client().emails.send({
+    from: from(),
+    to,
+    subject: 'Welcome to {{DISPLAY}}',
+    react: WelcomeEmail({ email: to }),
+  });
+}

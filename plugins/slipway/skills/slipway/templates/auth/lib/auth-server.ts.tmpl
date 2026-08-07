@@ -1,0 +1,106 @@
+import 'server-only';
+import { cookies } from 'next/headers';
+import { SignJWT, jwtVerify } from 'jose';
+import { createHmac, randomBytes } from 'node:crypto';
+import { redis } from './redis';
+
+// BP §9: HS256 pinned, iss/aud/iat/exp always set, algorithms pinned on verify.
+// Short-lived access JWT in an httpOnly cookie + rotating refresh token in Redis
+// (hashed — a DB leak must not yield usable tokens).
+const ALGORITHM = 'HS256';
+const ISSUER = '{{CODENAME}}';
+const AUDIENCE = '{{CODENAME}}-web';
+const ACCESS_TTL_S = 60 * 15;
+const REFRESH_TTL_S = 60 * 60 * 24 * 30;
+const ACCESS_COOKIE = 'session';
+const REFRESH_COOKIE = 'refresh';
+
+function secret(): Uint8Array {
+  const s = process.env.JWT_SECRET;
+  if (!s) throw new Error('JWT_SECRET is not set');
+  return new TextEncoder().encode(s);
+}
+const hashToken = (t: string) =>
+  createHmac('sha256', process.env.JWT_SECRET ?? '').update(t).digest('hex');
+
+export type Session = { userId: string; email: string };
+
+export async function mintSession(user: Session): Promise<void> {
+  const jar = await cookies();
+  const access = await new SignJWT({ email: user.email })
+    .setProtectedHeader({ alg: ALGORITHM })
+    .setSubject(user.userId)
+    .setIssuer(ISSUER)
+    .setAudience(AUDIENCE)
+    .setIssuedAt()
+    .setExpirationTime(`${ACCESS_TTL_S}s`)
+    .sign(secret());
+  const refresh = randomBytes(32).toString('base64url');
+  await redis().set(`refresh:${hashToken(refresh)}`, JSON.stringify(user), 'EX', REFRESH_TTL_S);
+  const base = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' as const };
+  jar.set(ACCESS_COOKIE, access, { ...base, path: '/', maxAge: REFRESH_TTL_S });
+  jar.set(REFRESH_COOKIE, refresh, { ...base, path: '/api/auth', maxAge: REFRESH_TTL_S });
+}
+
+export async function getSession(): Promise<Session | null> {
+  const token = (await cookies()).get(ACCESS_COOKIE)?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, secret(), {
+      algorithms: [ALGORITHM],
+      issuer: ISSUER,
+      audience: AUDIENCE,
+    });
+    return { userId: payload.sub as string, email: payload.email as string };
+  } catch {
+    return null; // expired/invalid access token — the client calls /api/auth/refresh
+  }
+}
+
+// Rotation with reuse-detection: a refresh token is single-use; presenting a
+// consumed token invalidates nothing further but fails closed (BP §9).
+export async function rotateRefresh(): Promise<Session | null> {
+  const jar = await cookies();
+  const token = jar.get(REFRESH_COOKIE)?.value;
+  if (!token) return null;
+  const key = `refresh:${hashToken(token)}`;
+  const raw = await redis().get(key);
+  if (!raw) return null;
+  await redis().del(key);
+  const user = JSON.parse(raw) as Session;
+  await mintSession(user);
+  return user;
+}
+
+export async function clearSession(): Promise<void> {
+  const jar = await cookies();
+  const token = jar.get(REFRESH_COOKIE)?.value;
+  if (token) await redis().del(`refresh:${hashToken(token)}`);
+  jar.delete(ACCESS_COOKIE);
+  jar.delete({ name: REFRESH_COOKIE, path: '/api/auth' });
+}
+
+// ---- email-code sign-in primitives (BP §9: HMAC-stored code, TTL, caps) ----
+export async function storeSignInCode(email: string, code: string): Promise<void> {
+  await redis().set(`signin:code:${email}`, hashToken(code), 'EX', 600);
+  await redis().del(`signin:attempts:${email}`);
+}
+export async function consumeSignInCode(email: string, code: string): Promise<boolean> {
+  const attempts = await redis().incr(`signin:attempts:${email}`);
+  await redis().expire(`signin:attempts:${email}`, 600);
+  if (attempts > 5) return false;
+  const stored = await redis().get(`signin:code:${email}`);
+  if (!stored) return false;
+  const candidate = hashToken(code);
+  const { timingSafeEqual } = await import('node:crypto');
+  const ok =
+    stored.length === candidate.length &&
+    timingSafeEqual(Buffer.from(stored), Buffer.from(candidate));
+  if (ok) await redis().del(`signin:code:${email}`, `signin:attempts:${email}`);
+  return ok;
+}
+export async function rateLimitCodeRequest(email: string): Promise<boolean> {
+  const n = await redis().incr(`signin:rate:${email}`);
+  await redis().expire(`signin:rate:${email}`, 3600);
+  return n <= 3; // 3 requests per email per hour (BP §9)
+}

@@ -1,0 +1,17 @@
+import { redirect } from 'next/navigation';
+import { getAdminSession } from '@/lib/auth-admin';
+
+// Server-guarded shell: every admin page calls getAdminSession() — the guard
+// lives server-side, never in client state (BP §24). Audit-log every
+// admin-initiated mutation you add here (BP §12).
+export default async function AdminHome() {
+  const session = await getAdminSession();
+  if (!session) redirect('/login');
+  return (
+    <main style={{ maxWidth: '48rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
+      <h1>{{DISPLAY}} Admin</h1>
+      <p>Signed in as {session.email}.</p>
+      <p>Add admin surfaces here; every privileged mutation gets an authz test and an audit-log entry.</p>
+    </main>
+  );
+}

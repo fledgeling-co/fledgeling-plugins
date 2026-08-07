@@ -16,7 +16,7 @@ From the user's idea, decide which modules fit and generate **three codename opt
 One `AskUserQuestion` call, all questions together, before anything is created:
 
 - **Codename** — the 3 generated options (put your recommended one first, marked "(Recommended)"); the built-in Other lets them type their own. Show what each implies: `~/Dev/<codename>`, `<codename>.local`.
-- **Modules** (multiSelect) — `web` Next.js app · `api` NestJS API · `macos` SwiftUI app · `ios` SwiftUI iOS app · `rn` React Native (Expo) mobile app · `tokens` design-tokens package · `data` Mongoose+Redis layer · `rust` cross-OS core crate. Pre-recommend from the idea (a SaaS: web+tokens+data; a native tool: macos+web for the marketing site; logic shared across platforms: add rust; default when unclear: web+tokens).
+- **Modules** (multiSelect) — `web` Next.js app · `api` NestJS API · `macos` SwiftUI app · `ios` SwiftUI iOS app · `rn` React Native (Expo) mobile app · `tokens` design-tokens package · `data` Mongoose+Redis layer · `auth` sign-in + emails + dev login · `admin` allowlisted admin console · `push` APNs notifications · `rust` cross-OS core crate. **Infer before asking**: a product with accounts implies auth (which implies data); "admin", "back office", "moderation" implies admin; a native/mobile app with alerts implies push; a SaaS gets web+tokens+data+auth by default; a marketing site gets web+tokens only. Put the inferred set in the options as the recommended choice and let the user adjust — ask rather than guess only when the idea genuinely doesn't settle it. Implications are automatic in the script (push→auth→data→web; admin→data).
 - **Mobile approach** (only when the idea implies a mobile app and the modules answer hasn't settled it) — native Swift/SwiftUI (`ios`, XcodeGen, simulator-first) vs React Native/Expo (`rn`, one codebase for iOS+Android, hoisted pnpm + monorepo Metro per BP §18). Recommend Swift when the app is Apple-only or needs deep platform integration; Expo when Android matters or the team iterates fastest in React.
 - **macOS style** (only when macos selected) — **window** (Recommended): native NavigationSplitView shell with sidebar + top nav with search · **menubar**: MenuBarExtra agent app, no Dock icon (LSUIElement). Passed as `--macos-style window|menubar`.
 - **Bundle-id prefix** (only when macos/ios/rn selected) — `app.<codename>` (Recommended) · `dev.<codename>` · `com.<codename>` · custom. Apps get `.mac` / `.ios` / `.mobile` suffixes — distinct identity per sibling app from day one (BP §18).
@@ -30,7 +30,7 @@ Anything else (ports, host, gate type, versions) has a good default in the scrip
 <skill-dir>/scripts/scaffold.sh \
   --codename <codename> --display "<Display Name>" \
   --description "<one sentence>" \
-  --modules web,tokens[,api,macos,ios,rn,data,rust] \
+  --modules web,tokens[,api,macos,ios,rn,data,auth,admin,push,rust] \
   [--macos-style window|menubar] [--bundle-prefix app.<codename>] \
   [--op-account <1password-account>] [--op-vault <vault>]
 ```
@@ -56,11 +56,14 @@ Deliver the scaffolded, gate-green project at the scope intended — feature wor
 | Module | Contents |
 |---|---|
 | base (always) | Root package.json/turbo/pnpm-workspace/tsconfig.base, consolidated `.gitignore`, prettier, husky pre-push gate (`SKIP_GATE=1` bypass), Caddyfile, CLAUDE.md+AGENTS.md, README, docs/ + pipeline dirs, SETUP-NEXT-STEPS.md |
-| web | Next.js (latest) App Router: security headers, `output: 'standalone'`, flat ESLint, `lib/ai.ts` (AI SDK + Gateway pattern, models in one config), `.env.example`, `vercel.json` turbo-ignore, Dockerfile (turbo prune + standalone) |
+| web | Next.js (latest) App Router: `/api/health` + syd1 `vercel.json` with warm cron (Performance CPU is a dashboard setting — in next-steps), security headers, `output: 'standalone'`, flat ESLint, `lib/ai.ts` (AI SDK + Gateway pattern, models in one config), `.env.example`, `vercel.json` turbo-ignore, Dockerfile (turbo prune + standalone) |
 | api | NestJS on SWC for **both** dev boot and prod build (BP §15 parity), health controller, `.swcrc` with decorator metadata, Dockerfile |
 | macos | XcodeGen `project.yml` (source of truth, `.xcodeproj` gitignored), SPM `AppCore` + tests, two shells — **window** (NavigationSplitView sidebar + top nav with `.searchable`) or **menubar** (MenuBarExtra agent, LSUIElement) — `Signing/Info-App.plist` + entitlements, Manual Developer ID signing via env `DEVELOPMENT_TEAM`, scripts: build / sign / notarize / build-dmg |
 | ios | XcodeGen `project.yml`, simulator-first (no signing), generated Info.plist keys, unit-test target, build script |
 | rn | Expo/React Native app in `apps/mobile`: distinct bundle id (`.mobile`) + URL scheme, monorepo-aware `metro.config.js`, root `.npmrc` with `node-linker=hoisted` (BP §18), Maestro smoke flow in `.maestro/`; **Expo modules only, never EAS/Expo cloud** — release builds are local `expo prebuild` + fastlane |
+| auth | BP §9 in full: email-code sign-in (Resend + React Email templates), 15-min HS256 access JWT + rotating hashed refresh tokens in Redis, rate limits, timingSafeEqual, no existence leak, `/login` page, **dev login** route+button (server-gated, non-prod only), User model, welcome email |
+| admin | `apps/admin` console on its own subdomain/port: **separate trust domain** (ADMIN_JWT_SECRET, distinct audience — BP §9.5), ADMIN_EMAILS allowlist, email-code login, 12-h sessions, server-guarded shell, audit-log guidance |
+| push | APNs over HTTP/2 with ES256 .p8 token auth and JWT caching (atlas-app pattern), device-token registration route, dead-token detection |
 | rust | Cargo workspace + `crates/core` cross-OS library (rlib/staticlib/cdylib) with tests — shared logic bound into Swift (UniFFI/swift-bridge) and Node (napi-rs), never duplicated per platform |
 
 Cross-cutting, in every relevant module: **release path** (fastlane `beta` lanes for TestFlight/App Store via App Store Connect API key on ios+macos, plus the direct sign→notarize→dmg scripts); **testing** (Playwright e2e harness in web — the acceptance-e2e skill builds suites into it; jest+@swc/jest in api — plain `.js` config, never ts-jest or jest.config.ts; Maestro flows in rn; XCTest in macos/ios; cargo test in rust); **typecheck is `tsgo` everywhere** (`@typescript/native-preview`) — never `tsc`, never `ts-node`; `typescript@^6` stays installed only as the library the ecosystem's tooling APIs need; **secrets via 1Password** (`OP_ACCOUNT`/`OP_VAULT` in `.env.local`, `op://` references resolved by `scripts/env-pull.sh`, recommended in the generated CLAUDE.md § Secrets).

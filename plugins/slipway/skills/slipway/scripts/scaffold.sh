@@ -57,7 +57,11 @@ PROJECT_DIR="$DEST/$CODENAME"
 
 has_module() { case ",$MODULES," in *",$1,"*) return 0;; *) return 1;; esac; }
 
-# data implies web (the lib/ wrappers live in apps/web)
+# module implications: push→auth→data→web (the lib/ stack lives in apps/web);
+# admin needs the data services too.
+if has_module push && ! has_module auth; then MODULES="auth,$MODULES"; fi
+if has_module auth && ! has_module data; then MODULES="data,$MODULES"; fi
+if has_module admin && ! has_module data; then MODULES="data,$MODULES"; fi
 if has_module data && ! has_module web; then MODULES="web,$MODULES"; fi
 
 [ -e "$PROJECT_DIR" ] && { echo "refusing: $PROJECT_DIR already exists" >&2; exit 1; }
@@ -82,6 +86,7 @@ if [ -z "$PORT_WEB" ]; then
   PORT_WEB=$base
 fi
 [ -n "$PORT_API" ] || PORT_API=$((PORT_WEB + 1))
+PORT_ADMIN=$((PORT_WEB + 2))
 
 echo "== slipway scaffold"
 echo "   project:  $PROJECT_DIR"
@@ -100,7 +105,7 @@ PNPM_VERSION="$(pnpm --version 2>/dev/null || echo 10.17.1)"
 #   everything else copied verbatim
 export SW_CODENAME="$CODENAME" SW_DISPLAY="$DISPLAY" SW_DESCRIPTION="$DESCRIPTION" \
        SW_BUNDLE_PREFIX="$BUNDLE_PREFIX" SW_PORT_WEB="$PORT_WEB" SW_PORT_API="$PORT_API" \
-       SW_PNPM_VERSION="$PNPM_VERSION" SW_YEAR="$(date +%Y)" SW_DATE="$(date +%Y-%m-%d)"
+       SW_PNPM_VERSION="$PNPM_VERSION" SW_YEAR="$(date +%Y)" SW_DATE="$(date +%Y-%m-%d)" SW_PORT_ADMIN="$PORT_ADMIN"
 export SW_APP_NAME="$(python3 -c "import re,os; print(''.join(w.capitalize() for w in re.split(r'[^A-Za-z0-9]+', os.environ['SW_DISPLAY']) if w))")"
 if [ "$MACOS_STYLE" = "menubar" ]; then
   export SW_LSUIELEMENT="LSUIElement: YES                # menu-bar agent — no Dock icon"
@@ -154,6 +159,9 @@ has_module macos  && render_dir macos  "$PROJECT_DIR/apps/macos"
 has_module ios    && render_dir ios    "$PROJECT_DIR/apps/ios"
 has_module tokens && render_dir tokens "$PROJECT_DIR/packages/design-tokens"
 has_module data   && render_dir data   "$PROJECT_DIR/apps/web"
+has_module auth   && render_dir auth   "$PROJECT_DIR/apps/web"   # overwrites data's models/types with the User-bearing versions
+has_module push   && render_dir push   "$PROJECT_DIR/apps/web"
+has_module admin  && render_dir admin  "$PROJECT_DIR/apps/admin"
 
 # tokens: generate tokens.css NOW (pure node, no deps) so the committed file is in
 # sync and the gate's drift check passes from the first run.
@@ -182,6 +190,20 @@ fi
 if has_module rust; then
   render_dir rust      "$PROJECT_DIR"
   render_dir rust-root "$PROJECT_DIR"
+fi
+
+# auth/push: merge web deps + env keys
+if has_module auth; then
+  node -e '
+    const fs = require("fs"); const p = process.argv[1];
+    const j = JSON.parse(fs.readFileSync(p, "utf8"));
+    j.dependencies = { ...j.dependencies, jose: "latest", resend: "latest", "@react-email/components": "latest" };
+    fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+  ' "$PROJECT_DIR/apps/web/package.json"
+  cat "$TPL/fragments/env/auth.env" >> "$PROJECT_DIR/apps/web/.env.example"
+fi
+if has_module push; then
+  cat "$TPL/fragments/env/push.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 
 # 1Password: seed .env.local from .env.example with OP_ACCOUNT/OP_VAULT filled.
@@ -223,12 +245,12 @@ assemble() { # assemble <fragment-group> <out-file> [module...]
   done
   [ -f "$TPL/fragments/$group/footer.tmpl" ] && render_fragment "fragments/$group/footer.tmpl" >> "$out" || true
 }
-assemble caddy   "$PROJECT_DIR/Caddyfile"              web api
+assemble caddy   "$PROJECT_DIR/Caddyfile"              web api admin
 if has_module web || has_module api || has_module data; then
   assemble compose "$PROJECT_DIR/docker-compose.dev.yml" web api data
 fi
-assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data rust
-assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data rust
+assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push rust
+assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push rust
 
 # ---- 3. operating specs + AGENTS.md symlink
 mkdir -p "$PROJECT_DIR/docs"
@@ -288,7 +310,9 @@ fi
   echo '## 1. Hosts + Caddy (needs sudo — run these yourself)'
   echo
   echo '```bash'
-  echo "sudo sh -c 'printf \"127.0.0.1 $CODENAME.local\\n127.0.0.1 api.$CODENAME.local\\n\" >> /etc/hosts'"
+  hosts_line="127.0.0.1 $CODENAME.local\\n127.0.0.1 api.$CODENAME.local"
+  has_module admin && hosts_line="$hosts_line\\n127.0.0.1 admin.$CODENAME.local"
+  echo "sudo sh -c 'printf \"$hosts_line\\n\" >> /etc/hosts'"
   echo "sed '/^{/,/^}/d' \"$PROJECT_DIR/Caddyfile\" | sudo tee /opt/homebrew/etc/caddy/conf.d/$CODENAME.caddy >/dev/null"
   echo 'sudo caddy reload --config /opt/homebrew/etc/Caddyfile   # or: sudo brew services start caddy'
   echo '```'
@@ -329,9 +353,30 @@ fi
     echo 'Fill MONGODB_URI and REDIS_URL in apps/web/.env.local (or `docker compose -f docker-compose.dev.yml up` for local Mongo+Redis).'
     echo
   fi
+  if has_module auth; then
+    echo '## Auth & email'
+    echo
+    echo '- Generate secrets into apps/web/.env.local: `openssl rand -base64 32` for JWT_SECRET (and ADMIN_JWT_SECRET in apps/admin/.env.local).'
+    echo '- Resend: verify the sender domain, set RESEND_API_KEY + RESEND_FROM_EMAIL. Until then the code email will fail — use the Dev login button on /login (non-prod only).'
+    has_module admin && echo '- Admin: set ADMIN_EMAILS (comma-separated allowlist) in apps/admin/.env.local.'
+    echo
+  fi
+  if has_module push; then
+    echo '## Push (APNs)'
+    echo
+    echo 'Create a .p8 key (Apple Developer → Keys → APNs), then fill APNS_KEY_ID / APNS_TEAM_ID / APNS_PRIVATE_KEY_B64 (base64 of the .p8) / APNS_BUNDLE_ID in apps/web/.env.local. Sandbox first (APNS_ENVIRONMENT=sandbox).'
+    echo
+  fi
+  if has_module web; then
+    echo '## Vercel dashboard'
+    echo
+    echo 'vercel.json already pins regions to syd1 with a /api/health warm cron. In the dashboard (Project Settings → Functions), set Function CPU to **Performance** — that tier is not expressible in vercel.json.'
+    echo
+  fi
   echo '## Finally'
   echo
   echo "- \`cd $PROJECT_DIR && pnpm dev\` then open http://$CODENAME.local"
+  echo '- Bootstrap DESIGN.md (the visual source of truth) with the design-md-from-website or design-craft skill before the first UI feature.'
   echo '- Add this project to ~/Dev/ARMADA.md with the armada-sync skill.'
 } > "$PROJECT_DIR/SETUP-NEXT-STEPS.md"
 

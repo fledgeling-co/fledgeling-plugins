@@ -1,0 +1,66 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+// Email-code sign-in against the auth routes; the Dev login button only renders
+// when the server says it's available (never inferred from NODE_ENV client-side).
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [stage, setStage] = useState<'email' | 'code'>('email');
+  const [error, setError] = useState<string | null>(null);
+
+  async function post(path: string, body?: unknown): Promise<boolean> {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: body ? { 'content-type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    return res.ok;
+  }
+
+  return (
+    <main style={{ maxWidth: 360, margin: '0 auto', padding: '4rem 1.5rem' }}>
+      <h1>{{DISPLAY}}</h1>
+      {stage === 'email' ? (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setError(null);
+            if (await post('/api/auth/request-code', { email })) setStage('code');
+            else setError('Could not send a code — try again.');
+          }}
+        >
+          <input type="email" required value={email} placeholder="you@example.com" onChange={(e) => setEmail(e.target.value)} />
+          <button type="submit">Email me a code</button>
+        </form>
+      ) : (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setError(null);
+            if (await post('/api/auth/verify', { email, code })) router.push('/');
+            else setError('Invalid or expired code.');
+          }}
+        >
+          <input inputMode="numeric" pattern="\d{6}" required value={code} placeholder="6-digit code" onChange={(e) => setCode(e.target.value)} />
+          <button type="submit">Sign in</button>
+        </form>
+      )}
+      {process.env.NODE_ENV !== 'production' && (
+        <button
+          style={{ marginTop: 16 }}
+          onClick={async () => {
+            if (await post('/api/auth/dev-login')) router.push('/');
+            else setError('Dev login is disabled (DEV_LOGIN_ENABLED).');
+          }}
+        >
+          Dev login
+        </button>
+      )}
+      {error && <p role="alert">{error}</p>}
+    </main>
+  );
+}

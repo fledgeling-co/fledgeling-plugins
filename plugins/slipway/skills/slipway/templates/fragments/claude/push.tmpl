@@ -1,0 +1,1 @@
+- Push — `apps/web/lib/push.ts` sends straight to APNs over HTTP/2 with ES256 `.p8` token auth (JWT cached ~50 min — per-request minting trips APNs rate limits). Native clients register device tokens at `POST /api/me/push-token`; treat a `dead` outcome as "unregister that token". Staging must never push to real devices — gate outbound at the sender (BP §24).

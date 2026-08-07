@@ -1,0 +1,17 @@
+import { NextResponse } from 'next/server';
+import { mintSession } from '@/lib/auth-server';
+import { findOrCreateUser } from '@/lib/users';
+
+export const runtime = 'nodejs';
+
+// Dev login: one-click session as the seeded dev user — NON-PRODUCTION ONLY,
+// resolved on the server (BP §24: never branch on a public env var client-side).
+// Enabled iff DEV_LOGIN_ENABLED=true AND the runtime is not production.
+export async function POST(): Promise<NextResponse> {
+  const enabled = process.env.DEV_LOGIN_ENABLED === 'true' && process.env.NODE_ENV !== 'production';
+  if (!enabled) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  const email = process.env.DEV_LOGIN_EMAIL ?? 'dev@{{CODENAME}}.local';
+  const user = await findOrCreateUser(email);
+  await mintSession({ userId: user.id, email: user.email });
+  return NextResponse.json({ ok: true, user: { email: user.email } });
+}

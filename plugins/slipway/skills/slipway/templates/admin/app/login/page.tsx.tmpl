@@ -1,0 +1,35 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function AdminLoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [stage, setStage] = useState<'email' | 'code'>('email');
+  const [error, setError] = useState<string | null>(null);
+
+  async function post(path: string, body: unknown): Promise<boolean> {
+    const res = await fetch(path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    return res.ok;
+  }
+
+  return (
+    <main style={{ maxWidth: 360, margin: '0 auto', padding: '4rem 1.5rem' }}>
+      <h1>{{DISPLAY}} Admin</h1>
+      {stage === 'email' ? (
+        <form onSubmit={async (e) => { e.preventDefault(); setError(null); (await post('/api/admin-auth/request-code', { email })) ? setStage('code') : setError('Could not send a code.'); }}>
+          <input type="email" required value={email} placeholder="admin@example.com" onChange={(e) => setEmail(e.target.value)} />
+          <button type="submit">Email me a code</button>
+        </form>
+      ) : (
+        <form onSubmit={async (e) => { e.preventDefault(); setError(null); (await post('/api/admin-auth/verify', { email, code })) ? router.push('/') : setError('Invalid or expired code.'); }}>
+          <input inputMode="numeric" pattern="\d{6}" required value={code} placeholder="6-digit code" onChange={(e) => setCode(e.target.value)} />
+          <button type="submit">Sign in</button>
+        </form>
+      )}
+      {error && <p role="alert">{error}</p>}
+    </main>
+  );
+}

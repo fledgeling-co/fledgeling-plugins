@@ -1,0 +1,31 @@
+{
+  "name": "admin",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev --port {{PORT_ADMIN}}",
+    "build": "next build",
+    "start": "next start --port {{PORT_ADMIN}}",
+    "lint": "eslint .",
+    "typecheck": "tsgo --noEmit"
+  },
+  "dependencies": {
+    "ioredis": "latest",
+    "jose": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "resend": "latest",
+    "server-only": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript/native-preview": "latest",
+    "eslint": "^9",
+    "eslint-config-next": "latest",
+    "typescript": "^6"
+  }
+}

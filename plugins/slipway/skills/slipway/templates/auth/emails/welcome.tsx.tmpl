@@ -1,0 +1,18 @@
+import { Body, Container, Head, Heading, Html, Preview, Text } from '@react-email/components';
+
+export function WelcomeEmail({ email }: { email: string }) {
+  return (
+    <Html>
+      <Head />
+      <Preview>Welcome to {'{{DISPLAY}}'}</Preview>
+      <Body style={{ backgroundColor: '#f6f6f8', fontFamily: 'system-ui, sans-serif' }}>
+        <Container style={{ background: '#ffffff', borderRadius: 10, margin: '40px auto', padding: 32, maxWidth: 420 }}>
+          <Heading as="h2" style={{ margin: '0 0 8px' }}>Welcome to {'{{DISPLAY}}'}</Heading>
+          <Text style={{ color: '#6b6b76' }}>
+            You&apos;re signed up as {email}. {'{{DESCRIPTION}}'}
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+}
