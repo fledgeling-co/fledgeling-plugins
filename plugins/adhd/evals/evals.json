@@ -1,6 +1,6 @@
 {
   "skill_name": "adhd",
-  "notes": "Assertions are structural properties of the rendered output — checkable by reading the response, no LLM-judge scores. They target the mechanisms that distinguish v2 from the predecessor: the receipt line, the frozen baseline + boss-gate verdicts, frame fit/apoptosis (no unfit persona rendered beside technical output), mechanism-distinct shortlists, and trap flags that cite failure mechanisms. Evals 1-3 are the core iteration set; 4-6 widen coverage for full benchmark runs.",
+  "notes": "Assertions are structural properties of the rendered output \u2014 checkable by reading the response, no LLM-judge scores. They target the mechanisms that distinguish v2 from the predecessor: the receipt line, the frozen baseline + boss-gate verdicts, frame fit/apoptosis (no unfit persona rendered beside technical output), mechanism-distinct shortlists, and trap flags that cite failure mechanisms. Evals 1-3 are the core iteration set; 4-6 widen coverage for full benchmark runs.",
   "evals": [
     {
       "id": 1,
@@ -35,10 +35,10 @@
     {
       "id": 3,
       "name": "shortlist-mechanism-diversity",
-      "prompt": "/adhd We have a 200k-line Rails monolith. The team wants to split it. Generate strategies for how to decompose it — by domain, data, team, churn, or otherwise.",
+      "prompt": "/adhd We have a 200k-line Rails monolith. The team wants to split it. Generate strategies for how to decompose it \u2014 by domain, data, team, churn, or otherwise.",
       "expected_output": "A wide, clustered exploration whose final shortlist spans genuinely distinct mechanisms (one per cluster), with deepened winners carrying sketch, load-bearing risk, and a concrete first step.",
       "assertions": [
-        "The shortlist has at most one idea per cluster — no two starred/shortlisted ideas share a cluster or mechanism",
+        "The shortlist has at most one idea per cluster \u2014 no two starred/shortlisted ideas share a cluster or mechanism",
         "Each deepened winner includes a sketch, a named load-bearing risk, and a concrete first step a builder could take tomorrow",
         "The wide set contains ideas from at least 4 distinct clusters",
         "Verdict chips against the stated baseline appear on shortlist items",
@@ -63,7 +63,7 @@
       "id": 5,
       "name": "closed-phrasing-aborts",
       "prompt": "What's the standard way to debounce a search input in React? Just a quick answer please.",
-      "expected_output": "A direct answer with no divergent run — closed phrasing (standard, quick, just) routes to a plain answer, at most a one-line pointer to /adhd.",
+      "expected_output": "A direct answer with no divergent run \u2014 closed phrasing (standard, quick, just) routes to a plain answer, at most a one-line pointer to /adhd.",
       "assertions": [
         "The response answers directly without spawning frames or rendering a wide set",
         "No receipt line, cluster structure, or shortlist appears",
@@ -75,12 +75,25 @@
       "id": 6,
       "name": "any-percent-tier",
       "prompt": "/adhd --any What should we call the internal tool that snapshots our staging database every night?",
-      "expected_output": "A visibly light run: two frames, a small idea set, a short shortlist, with the receipt stamping the tier and offering the upgrade path — a light run that reads as deliberate, not broken.",
+      "expected_output": "A visibly light run: two frames, a small idea set, a short shortlist, with the receipt stamping the tier and offering the upgrade path \u2014 a light run that reads as deliberate, not broken.",
       "assertions": [
         "The receipt line states the any% (or equivalent light) tier",
         "No more than 2 frames' worth of ideas are rendered",
         "The receipt or output offers the upgrade path to a fuller tier",
-        "A recommendation is still made — the light tier converges rather than trailing off"
+        "A recommendation is still made \u2014 the light tier converges rather than trailing off"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "adversarial-frame-fit",
+      "prompt": "/adhd Be adventurous with your frames. Design a write-ahead-log compaction and checkpointing strategy for an embedded time-series database running on flash storage with a hard 8MB RAM budget.",
+      "expected_output": "A run where the invitation to be adventurous does not degrade output quality: whimsical frames may run, but any rendered idea from them is technically concrete, and a frame whose whole yield fails the floors is apoptosed into the receipt instead of rendered beside the problem.",
+      "assertions": [
+        "Every rendered idea attributed to a whimsical or naive persona (child, poet, ant colony, etc.) names a concrete technical mechanism applicable to WAL/compaction/flash \u2014 no naive filler is rendered",
+        "If any frame produced only floor-failing ideas, the receipt records it as apoptosed and its ideas do not appear in the wide set",
+        "All shortlist ideas respect the stated constraints (8MB RAM, flash write characteristics) or explicitly address the trade-off",
+        "A receipt line is present with tier and frame accounting"
       ],
       "files": []
     }
