@@ -15,6 +15,14 @@
       "actionability": "TIE",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
+    },
+    "grok45": {
+      "breadth": "with_skill",
+      "novelty": "old_skill",
+      "trap_detection": "old_skill",
+      "actionability": "with_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "old_skill"
     }
   },
   "eval-2-technical-frame-fit": {
@@ -33,6 +41,14 @@
       "actionability": "TIE",
       "builder_usefulness": "old_skill",
       "overall": "with_skill"
+    },
+    "grok45": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
+      "trap_detection": "TIE",
+      "actionability": "old_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "with_skill"
     }
   },
   "eval-3-shortlist-mechanism-diversity": {
@@ -48,6 +64,14 @@
       "breadth": "TIE",
       "novelty": "TIE",
       "trap_detection": "TIE",
+      "actionability": "old_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "old_skill"
+    },
+    "grok45": {
+      "breadth": "TIE",
+      "novelty": "old_skill",
+      "trap_detection": "old_skill",
       "actionability": "old_skill",
       "builder_usefulness": "old_skill",
       "overall": "old_skill"
@@ -69,6 +93,14 @@
       "actionability": "TIE",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
+    },
+    "grok45": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
+      "trap_detection": "with_skill",
+      "actionability": "old_skill",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
     }
   },
   "eval-5-closed-phrasing-aborts": {
@@ -87,6 +119,14 @@
       "actionability": "TIE",
       "builder_usefulness": "with_skill",
       "overall": "TIE"
+    },
+    "grok45": {
+      "breadth": "old_skill",
+      "novelty": "TIE",
+      "trap_detection": "with_skill",
+      "actionability": "old_skill",
+      "builder_usefulness": "TIE",
+      "overall": "old_skill"
     }
   },
   "eval-6-any-percent-tier": {
@@ -102,6 +142,14 @@
       "breadth": "old_skill",
       "novelty": "TIE",
       "trap_detection": "old_skill",
+      "actionability": "with_skill",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
+    },
+    "grok45": {
+      "breadth": "old_skill",
+      "novelty": "old_skill",
+      "trap_detection": "TIE",
       "actionability": "with_skill",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
@@ -121,6 +169,14 @@
       "novelty": "TIE",
       "trap_detection": "with_skill",
       "actionability": "TIE",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
+    },
+    "grok45": {
+      "breadth": "with_skill",
+      "novelty": "old_skill",
+      "trap_detection": "with_skill",
+      "actionability": "with_skill",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
     }

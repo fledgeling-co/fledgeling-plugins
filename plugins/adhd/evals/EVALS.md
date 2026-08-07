@@ -27,23 +27,28 @@ Run: 2026-08-07 · iteration 1, full 7-eval set · grader: independent subagent,
 
 ## Blind quality panel (no human review)
 
-Separate from the structural assertions: each eval's two outputs were anonymised (seeded-random A/B per eval), and judged blind by two independent families — **Cursor composer-2.5** (non-Anthropic) and a **Fable subagent with no access to the skill files** — on breadth, novelty, trap detection, actionability, and builder usefulness. Neither judge knew which output came from which version. Raw un-blinded verdicts: `blind-panel/panel-results.json`. A third leg (Codex gpt-5.6-sol, xhigh) is deferred to its usage-limit reset.
+Separate from the structural assertions: each eval's two outputs were anonymised (seeded-random A/B per eval) and judged blind by three independent model families, none of which saw the skill files or knew which output came from which version — a **Claude-family judge** (isolated subagent), **grok-4.5** (high effort, via cursor-agent because the native grok CLI cannot run headless on this machine), and **composer-2.5** as a bonus family. A **Codex gpt-5.6-sol (xhigh)** leg is deferred to its usage-limit reset and will be appended. Raw un-blinded verdicts and reasoning: `blind-panel/panel-results.json`.
 
-| Eval | composer-2.5 | Fable (blind) |
-|---|---|---|
-| 1 reliability-boss-gate | OLD | NEW |
-| 2 technical-frame-fit | NEW | NEW |
-| 3 shortlist-mechanism-diversity | OLD | OLD |
-| 4 naming-run | OLD | NEW |
-| 5 closed-phrasing-aborts | OLD | TIE |
-| 6 any-percent-tier | NEW | NEW |
-| 7 adversarial-frame-fit | NEW | NEW |
+| Eval | Claude | grok-4.5 | composer-2.5 | Majority |
+|---|---|---|---|---|
+| 1 reliability-boss-gate | NEW | OLD | OLD | OLD |
+| 2 technical-frame-fit | NEW | NEW | NEW | **NEW** |
+| 3 shortlist-mechanism-diversity | OLD | OLD | OLD | OLD |
+| 4 naming-run | NEW | NEW | OLD | **NEW** |
+| 5 closed-phrasing-aborts | TIE | OLD | OLD | OLD |
+| 6 any-percent-tier | NEW | NEW | NEW | **NEW** |
+| 7 adversarial-frame-fit | NEW | NEW | NEW | **NEW** |
 
-Overall: composer 3 NEW / 4 OLD; Fable 5 NEW / 1 OLD / 1 TIE. Judges disagreed on 3 of 7 — consistent with the measured unreliability of single LLM judges that motivated the panel design.
+Tallies: Claude 5 NEW / 1 OLD / 1 TIE · grok-4.5 4 NEW / 3 OLD · composer 3 NEW / 4 OLD. Panel majority: NEW 4, OLD 3. Judges disagreed outright on 2 of 7 — consistent with the measured unreliability of single LLM judges that motivated a panel in the first place.
 
-Pooled per-dimension: NEW wins trap detection 8-4 and breadth 7-4; OLD wins actionability 6-3; novelty and builder usefulness split. The signal is coherent across both judges' prose: the new skill's exploration and trap analysis are stronger, but blind judges reward first steps phrased in the problem's *native toolchain* (eval 3's unanimous OLD verdict praised packwerk / ActiveSupport::Notifications-specific starts over generic instrumentation language). The FOCUS deepen instruction now requires toolchain-native first steps as a direct fix; re-run the panel after the next iteration to see whether the actionability gap closes.
+The signal is coherent across all three judges' prose:
 
-Two honest caveats: single runs per variant per eval, so per-eval verdicts carry sampling noise (eval 5 compares two near-identical direct answers — composer's OLD pick there is noise, Fable's TIE is the sensible read); and blind judges score only content value, so v2's audit artifacts (receipts, verdicts) earn nothing here by design — the structural assertions cover those.
+- **Unanimous NEW** on the three evals that exercise v2's engineering (frame fit on technical problems, the any% tier, the adversarial-frames case).
+- **Unanimous OLD on eval 3**: every judge preferred first steps phrased in the Rails-native toolchain (packwerk, `ActiveSupport::Notifications`) over broader-but-generic programs. The FOCUS deepen instruction now requires toolchain-native first steps as a direct fix; re-run the panel after the next iteration to see whether this closes.
+- **Eval 1 split** (the predecessor's historic loss case): the Claude judge preferred NEW's phase taxonomy and shipping order; grok-4.5 and composer preferred OLD's simpler bounded-wait hierarchy and read NEW's breadth as dilution. Worth watching: v2 wins this eval's *structural* assertions outright, but blind content judges are split, so the boss gate fixed the failure mode without yet making the content decisively better on this problem.
+- **Eval 5 is noise as a comparison**: both outputs are near-identical direct answers (the router aborted in both, correctly); judges are picking between two debounce snippets.
+
+Pooled per-dimension across families: NEW wins trap detection and breadth clearly; OLD wins actionability; novelty and builder-usefulness split. Two honest caveats: single runs per variant per eval, so per-eval verdicts carry sampling noise; and blind judges score only content value, so v2's audit artifacts (receipts, verdicts) earn nothing here by design — the structural assertions cover those.
 
 ## Eval set
 
