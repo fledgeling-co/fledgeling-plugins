@@ -26,7 +26,7 @@ TPL="$SCRIPT_DIR/../templates"
 
 CODENAME="" DISPLAY="" DESCRIPTION="" BUNDLE_PREFIX="" MODULES="web,tokens"
 DEST="$HOME/Dev" PORT_WEB="" PORT_API="" TEAM_FILES="$HOME/Dev/bella-team-files"
-NO_INSTALL=0 DRY_RUN=0 MACOS_STYLE="window" OP_ACCOUNT="" OP_VAULT=""
+NO_INSTALL=0 DRY_RUN=0 MACOS_STYLE="window" MACOS_DIST="direct" OP_ACCOUNT="" OP_VAULT="" GITHUB_ORG="" DESIGN_REF=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -38,6 +38,9 @@ while [ $# -gt 0 ]; do
     --macos-style) MACOS_STYLE="$2"; shift 2;;  # window (sidebar+search) | menubar
     --op-account) OP_ACCOUNT="$2"; shift 2;;    # 1Password account/team id → .env.local
     --op-vault) OP_VAULT="$2"; shift 2;;        # 1Password vault → .env.local
+    --macos-dist) MACOS_DIST="$2"; shift 2;;    # direct (Developer ID, no sandbox) | mas (App Store, sandboxed)
+    --github-org) GITHUB_ORG="$2"; shift 2;;    # sets the git remote; repo creation stays a next-step
+    --design-ref) DESIGN_REF="$2"; shift 2;;    # reference site/brand for the DESIGN.md bootstrap
     --dest) DEST="$2"; shift 2;;
     --port-web) PORT_WEB="$2"; shift 2;;
     --port-api) PORT_API="$2"; shift 2;;
@@ -174,6 +177,18 @@ if has_module rn; then
   render_dir rn-root "$PROJECT_DIR"
 fi
 
+# macos distribution: pick the matching entitlements (direct = Developer ID, no
+# sandbox; mas = App Store, sandboxed — a review requirement).
+if has_module macos; then
+  if [ "$MACOS_DIST" = "mas" ]; then
+    mv "$PROJECT_DIR/apps/macos/Signing/App-mas.entitlements" "$PROJECT_DIR/apps/macos/Signing/App.entitlements"
+    rm "$PROJECT_DIR/apps/macos/Signing/App-direct.entitlements"
+  else
+    mv "$PROJECT_DIR/apps/macos/Signing/App-direct.entitlements" "$PROJECT_DIR/apps/macos/Signing/App.entitlements"
+    rm "$PROJECT_DIR/apps/macos/Signing/App-mas.entitlements"
+  fi
+fi
+
 # macos style: exactly one App.swift variant survives (window = NavigationSplitView
 # sidebar + top nav with search; menubar = MenuBarExtra agent).
 if has_module macos; then
@@ -297,6 +312,9 @@ json.dump({
     "modules": "$MODULES".split(","),
     "bundle_prefix": "$BUNDLE_PREFIX",
     "macos_style": "$MACOS_STYLE",
+    "macos_dist": "$MACOS_DIST",
+    "github_org": "$GITHUB_ORG" or None,
+    "design_ref": "$DESIGN_REF" or None,
     "ports": {"web": $PORT_WEB, "api": $PORT_API, "admin": $PORT_ADMIN},
     "op_vault": "$OP_VAULT" or None,
 }, open(sys.argv[1], "w"), indent=2)
@@ -314,6 +332,7 @@ cd "$PROJECT_DIR"
 git init -q -b main
 git add -A
 git commit -qm "Scaffold $DISPLAY via slipway (modules: $MODULES)"
+[ -n "$GITHUB_ORG" ] && git remote add origin "git@github.com:$GITHUB_ORG/$CODENAME.git"
 
 INSTALL_OK=""; GATE_OK=""; XCODE_OK=""
 if [ "$NO_INSTALL" = 0 ] && [ -f package.json ]; then
@@ -411,6 +430,21 @@ fi
     echo '## Vercel dashboard'
     echo
     echo 'vercel.json already pins regions to syd1 with a /api/health warm cron. In the dashboard (Project Settings → Functions), set Function CPU to **Performance** — that tier is not expressible in vercel.json.'
+    echo
+  fi
+  if [ -n "$GITHUB_ORG" ]; then
+    echo '## GitHub'
+    echo
+    echo "The remote is set to git@github.com:$GITHUB_ORG/$CODENAME.git. Create it and push:"
+    echo '```bash'
+    echo "gh repo create $GITHUB_ORG/$CODENAME --private --source \"$PROJECT_DIR\" --push"
+    echo '```'
+    echo
+  fi
+  if [ -n "$DESIGN_REF" ]; then
+    echo '## Design system'
+    echo
+    echo "Bootstrap DESIGN.md from the chosen reference before the first UI feature: run the design-md-from-website skill against $DESIGN_REF (it measures real computed styles)."
     echo
   fi
   echo '## Finally'

@@ -21,7 +21,9 @@ Panel `dr_63ac10b56c131b28`: openai `dr_49b878ae294d4343` · local-claude `dr_98
 5. **Ownership markers**: label generated files as generator-owned vs user-owned starter code (projen vs shadcn poles; the market rewards a dial). Prerequisite for safe upgrades.
 6. **Wildcard local HTTPS profile**: Caddy's internal CA covers `.localhost`/`.local` automatically — an opt-in `--https` profile after a doctor check, never a prerequisite.
 7. **`doctor` subcommand**: report Node/pnpm/Docker/Xcode/xcodegen/cargo/op/caddy availability before scaffolding, machine-readable.
-8. **Eval harness** (skill-creator style): assert fresh scaffold → `pnpm install && turbo build` + `xcodegen generate && xcodebuild build` pass — the canary generalized into per-module permutations.
+8. **Sentry/observability module** — dAIolog runs @sentry/nextjs + node everywhere; wiring needs instrumentation files + DSN env, so it's a real module, not a dep line. Ask-at-interview once built.
+9. **Standardize the loupe/tare operating-rules/kill-switch section** — the portfolio survey flagged their CLAUDE.md agent kill-switch/egress policies as worth rolling out; distill into a claude fragment once read.
+10. **Eval harness** (skill-creator style): assert fresh scaffold → `pnpm install && turbo build` + `xcodegen generate && xcodebuild build` pass — the canary generalized into per-module permutations.
 
 ## Cautions the research flags
 
