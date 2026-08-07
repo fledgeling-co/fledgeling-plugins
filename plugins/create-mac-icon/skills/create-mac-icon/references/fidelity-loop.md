@@ -148,6 +148,26 @@ Rules that make it converge (each one earned by a documented failure mode):
   treat the gate's verdict as information, the 12-point rubric as authority,
   and bound the next edit to regions the rubric doesn't police (see the
   bounded-frost-fade recipe).
+- **Similarity is not legibility, and the panel sees the difference first.**
+  On improve-skill r01 the composite rose at 32 and 16px while two
+  independent blind judges (Claude and gpt-5.6-sol, in separate harnesses)
+  both said the block collapsed toward mid-grey and the accent weakened.
+  The mechanism: small-size scoring rewards matching the reference's edges,
+  and the reference's own contrast is weaker than the master's (measured
+  0.449 against 0.556 at 32px), so converging on it trades legibility for
+  similarity. `score` now reports `self_contrast`, an absolute
+  reference-free p90-p10 luminance spread, and `gate` rejects a candidate
+  whose 32/16px self-contrast falls more than `--contrast-drop` (default 6%)
+  below the baseline's.
+  **Its honest limit:** on r01 that floor did *not* fire (drops of 2.7% and
+  1.6%), because a whole-image spread is dominated by the tile ground rather
+  than by the object the judges were describing. It catches gross collapse,
+  not localised object-level flattening. The threshold was left at its
+  principled value rather than tuned until it fired on one case, which would
+  be exactly the metric-gaming this loop warns implement agents against. For
+  object-level flattening the blind panel remains the authority, which is why
+  an accepted round whose panel disagrees ships as PROVISIONAL into the
+  review queue rather than being settled by the machine.
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.

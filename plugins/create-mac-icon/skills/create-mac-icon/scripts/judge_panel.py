@@ -120,9 +120,14 @@ def run_claude(bundle: pathlib.Path):
 
 def run_cursor(bundle: pathlib.Path):
     prompt = PROMPT + "\nThe images are the PNG files in the current directory: REF-1024.png, A-1024.png, B-1024.png, A-small.png, B-small.png. Read them all before answering."
+    # --trust is required: each round creates a fresh bundle directory, and without
+    # it cursor-agent blocks on an interactive workspace-trust prompt and exits 1.
     r = subprocess.run(
-        ["cursor-agent", "--model", "grok-4.5", "-p", prompt, "--output-format", "text"],
+        ["cursor-agent", "--model", "grok-4.5", "--trust", "-p", prompt, "--output-format", "text"],
         capture_output=True, text=True, timeout=900, cwd=bundle)
+    if r.returncode != 0 and "Workspace Trust" in ((r.stdout or "") + (r.stderr or "")):
+        return None, {"exit": r.returncode, "harness": "cursor-agent (grok-4.5)",
+                      "error": "workspace trust refused even with --trust"}
     return extract_json(r.stdout), {"exit": r.returncode, "harness": "cursor-agent (grok-4.5)"}
 
 

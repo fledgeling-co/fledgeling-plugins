@@ -1,0 +1,30 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "A",
+    "silhouette": "A",
+    "smallsize": "B",
+    "rationale": {
+      "overall": "A\u2019s warmer, softer rendering more closely matches the reference\u2019s charcoal block and subdued natural lighting.",
+      "material": "A reads less blue and glossy than B, giving it a more convincing dark, worn material despite remaining stylized.",
+      "silhouette": "A\u2019s softer edge transitions better approximate the reference\u2019s unified rounded block, while B emphasizes a sharper layered top plate.",
+      "smallsize": "B\u2019s stronger dark-to-orange contrast preserves the block and glowing edge more clearly at 32px and 16px."
+    }
+  },
+  "meta": {
+    "usage": {
+      "input_tokens": 4066,
+      "input_tokens_details": {
+        "cache_write_tokens": 4063,
+        "cached_tokens": 0
+      },
+      "output_tokens": 329,
+      "output_tokens_details": {
+        "reasoning_tokens": 201
+      },
+      "total_tokens": 4395
+    },
+    "status": "completed",
+    "harness": "openai responses (gpt-5.6-sol medium)"
+  }
+}

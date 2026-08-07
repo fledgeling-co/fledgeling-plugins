@@ -1,0 +1,62 @@
+{
+  "repo": "/Users/lukerhodes/Dev/fledgeling-plugins",
+  "skill": "plugins/create-mac-icon/skills/create-mac-icon",
+  "ledger": "docs/loop-ledger.md",
+  "review_queue": "docs/loop-review-queue.md",
+  "state": "docs/loop-state.json",
+  "stop_file": "docs/LOOP-STOP",
+
+  "model": "opus",
+  "effort": "high",
+  "max_iterations": 100,
+  "round_timeout_s": 2700,
+  "panel_timeout_s": 1800,
+  "panel_every": 1,
+  "judges": "claude,cursor,openai",
+  "panel_env_file": "/Users/lukerhodes/Dev/deep-research-mcp/.env.local",
+  "sol_rate_in_per_mtok": 1.25,
+  "sol_rate_out_per_mtok": 10.0,
+  "cost_cap_usd": 15.0,
+  "converge_gain": 0.005,
+
+  "fixtures": [
+    {
+      "name": "improve-skill",
+      "dir": "plugins/improve-skill/assets",
+      "build": "build_icon.py",
+      "icon": "icon.svg",
+      "reference": "icon-engineC-f5665d-2.png",
+      "notes": "icon-notes.md",
+      "max_paths": 3000,
+      "max_bytes": 350000,
+      "extra_files": {
+        "measure.py": "split-polarity check; the trued side must read brighter than the un-planed side",
+        "render_audit.py": "re-renders every take and the three shipped PNGs",
+        "audit.html": "the contact sheet; the A row is this master's"
+      },
+      "extra_checks": ["python3 measure.py icon.png 33.0 543 604 640"],
+      "extra_checks_note": "A material edit that inverts the trued/un-planed polarity breaks the icon's signature regardless of what it scores. The declared path envelope (3000 paths / 350KB) is this fixture's: the shaving curl's 96 swept bands are construction, not path soup."
+    },
+    {
+      "name": "create-mac-icon",
+      "dir": "plugins/create-mac-icon/assets",
+      "build": "build_icon.py",
+      "icon": "icon.svg",
+      "reference": "icon-engineC-fe8278-2.png",
+      "notes": "icon-notes.md",
+      "extra_files": {
+        "audit.html": "the contact sheet; five takes scored",
+        "squircle-path.txt": "the set's exact superellipse; every object here is a scaled instance of it"
+      },
+      "extra_checks_note": "Six known liabilities are listed at the end of icon-notes.md; the largest are figure-ground at 2.72:1 (under the 3:1 bar) and the cavity reading as a warm smudge rather than a superellipse at 16px."
+    },
+    {
+      "name": "create-swe-project",
+      "dir": "plugins/create-swe-project/assets",
+      "build": "build_icon.py",
+      "icon": "icon.svg",
+      "reference": "icon-engineC1.png",
+      "notes": "icon-notes.md"
+    }
+  ]
+}

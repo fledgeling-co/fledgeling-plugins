@@ -22,48 +22,89 @@
     <path d="M0 0 L1024 0 L1024 291.6 L0 956.6 Z"/>
   </clipPath>
 
-  <!-- the un-planed side: cooler, greyer, losing light as it nears the cut -->
-  <linearGradient id="roughField" x1="86" y1="30" x2="540" y2="700" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#D8D2C4"/>
-    <stop offset="0.50" stop-color="#C5BDAC"/>
-    <stop offset="1" stop-color="#ABA391"/>
+  <!-- the un-planed side: cooler, greyer, losing light as it nears the cut. ROUND 7 -
+       the axis now also carries the light's own falloff to the right: C2's un-planed
+       field runs 0.846 at the top-left down to 0.588 at the top-right (0.70x), where
+       ours only fell to 0.696 (0.89x) - too flat for one soft top-left key. -->
+  <linearGradient id="roughField" x1="70" y1="20" x2="700" y2="650" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#DBD5C7"/>
+    <stop offset="0.50" stop-color="#C2BAA8"/>
+    <stop offset="1" stop-color="#A19881"/>
   </linearGradient>
 
-  <!-- the trued side: brighter and warmer, brightest right at the fresh cut -->
-  <linearGradient id="truedField" x1="300" y1="440" x2="960" y2="1030" gradientUnits="userSpaceOnUse">
+  <!-- the trued side: brighter and warmer, brightest right at the fresh cut. ROUND 7 -
+       the far corner was the BUG. Measured, the old build's brightest ground was the
+       BOTTOM-LEFT corner at L 0.932 and the bottom-right at 0.848, i.e. the ground was
+       brightest furthest from the light: a single-light violation in our own icon, not
+       just a mismatch with C2. The field now falls 0.98 -> 0.84 along the light's axis
+       while holding its value AT the cut, which is where the polarity is read and where
+       the hone's spill lands. -->
+  <linearGradient id="truedField" x1="300" y1="430" x2="1090" y2="1120" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#FFFDF6"/>
-    <stop offset="0.40" stop-color="#FCF7EC"/>
-    <stop offset="1" stop-color="#F1EAD9"/>
+    <stop offset="0.40" stop-color="#F9F3E7"/>
+    <stop offset="1" stop-color="#DED4BE"/>
   </linearGradient>
 
-  <!-- top face of the iron: facing the soft top-left light. Warm-leaning graphite,
-       not blue steel - the raster take's stone read is what this is chasing. -->
+  <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
+       was always "warm-leaning graphite, not blue steel", but the constants never said
+       so: the old ramp ran #2E3238 -> #5D636B, every stop with B ten points above R, and
+       the rendered face measured a flat cool cast (sat 0.13-0.15, B>R) end to end.
+       Measured off C2: its top face is NEUTRAL through the body (sat 0.004-0.04) and
+       drifts WARM at the back edge (0.319,0.311,0.302 -> 0.378,0.354,0.332) where the
+       timber bounces up into it. The LUMINANCE ramp below is unchanged to within 0.01
+       at every stop - only the hue moves - so this isolates the cast from the modelling. -->
   <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="152.0" gradientUnits="userSpaceOnUse"
                   gradientTransform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)">
-    <stop offset="0" stop-color="#2E3238"/>
-    <stop offset="0.34" stop-color="#41464C"/>
-    <stop offset="0.78" stop-color="#525860"/>
-    <stop offset="1" stop-color="#5D636B"/>
+    <stop offset="0" stop-color="#35352F"/>
+    <stop offset="0.34" stop-color="#494841"/>
+    <stop offset="0.78" stop-color="#5A584F"/>
+    <stop offset="1" stop-color="#66625A"/>
   </linearGradient>
 
-  <!-- a soft sheen where the top-left light lands hardest on the top face -->
-  <radialGradient id="topSheen" cx="0.30" cy="0.72" r="0.62">
-    <stop offset="0" stop-color="#CBD5E2" stop-opacity="0.25"/>
-    <stop offset="1" stop-color="#CBD5E2" stop-opacity="0"/>
+  <!-- a soft sheen where the top-left light lands hardest on the top face. Was a cool
+       #CBD5E2 at 0.25 and too tight: it swung the top face 1.63:1 ALONG its length,
+       where C2's swings only 1.24:1 - a spotlight on a plane rather than stone. Warmer,
+       weaker and broader, so the face's volume comes from its across-depth ramp. -->
+  <radialGradient id="topSheen" cx="0.32" cy="0.70" r="0.86">
+    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.13"/>
+    <stop offset="1" stop-color="#DED9CD" stop-opacity="0"/>
   </radialGradient>
 
   <!-- front face: in shadow at the top, lit from below by the hone itself. Anchored at
        local y=0 (the cutting edge) and running back to the DEEPEST the wedge ever gets,
        with every stop placed by its true distance from the edge - so light falls off
        with distance from the hone, and the pinched near end stays as dark as the deep
-       trailing end at the same height above the timber. -->
+       trailing end at the same height above the timber.
+       ROUND 7. Two errors measured out of the render, both invisible to a luminance
+       range check. (1) HUE: the top two stops were #181B20 / #1E2026, i.e. BLUE-black
+       (B>R), on a face whose only two light sources are a vermilion hone and bounce off
+       warm timber. There is no cool light anywhere in this scene, so a blue shadow here
+       is not a taste call, it is wrong. C2's front face stays warm the whole way up
+       (0.286,0.236,0.218 at mid height; 0.150,0.136,0.125 at its darkest). (2) FLOOR:
+       ours crushed to L 0.106-0.128 over most of the face while C2's sits at 0.17-0.25 -
+       and our ground is BRIGHTER than C2's, so our bounce should be stronger, not
+       weaker. Lifted to a warm 0.15-0.23 and the vermilion carried further up. -->
   <linearGradient id="frontFace" x1="0" y1="110.70" x2="0" y2="0" gradientUnits="userSpaceOnUse"
                   gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
-    <stop offset="0" stop-color="#181B20"/>
-    <stop offset="0.6134" stop-color="#1E2026"/>
-    <stop offset="0.8267" stop-color="#3A2521"/>
-    <stop offset="0.9467" stop-color="#8A3418"/>
-    <stop offset="1" stop-color="#C2431C"/>
+    <stop offset="0" stop-color="#2A2622"/>
+    <stop offset="0.6134" stop-color="#382D25"/>
+    <stop offset="0.8267" stop-color="#5A3226"/>
+    <stop offset="0.9467" stop-color="#90401F"/>
+    <stop offset="1" stop-color="#C94E22"/>
+  </linearGradient>
+
+  <!-- ROUND 7. The front face is lit almost entirely BY the hone, so it has to carry the
+       hone's own along-length falloff. The old build had none: measured at 15px above the
+       cutting edge it read a dead-flat L 0.281 from end to end, where C2 runs 0.274 at the
+       leading end down to 0.138 at 66% along - it halves. This is the same physical fact as
+       the hone's falloff, applied to the surface the hone lights. Warm-dark, never neutral,
+       because what is being removed is warm light. -->
+  <linearGradient id="frontFall" x1="0" y1="0" x2="640.0" y2="0" gradientUnits="userSpaceOnUse"
+                  gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
+    <stop offset="0" stop-color="#241A12" stop-opacity="0"/>
+    <stop offset="0.30" stop-color="#241A12" stop-opacity="0.08"/>
+    <stop offset="0.66" stop-color="#241A12" stop-opacity="0.28"/>
+    <stop offset="1" stop-color="#1E1610" stop-opacity="0.38"/>
   </linearGradient>
 
   <!-- the hone glow spilling onto the surface it has just trued. Every edge of this
@@ -77,12 +118,60 @@
     <stop offset="1" stop-color="#FFE2C8" stop-opacity="0"/>
   </linearGradient>
 
+  <!-- ROUND 7. THE LARGEST MEASURED GAP OF THE ROUND. Sampled along the hone itself,
+       C2 reads L 0.95-0.98 for the leading 30% of the blade and then falls off a cliff -
+       0.91 / 0.74 / 0.53 / 0.30 - extinguished into the ground by about 62% along. The
+       old build measured a DEAD FLAT L 0.89 for all 640px: a neon tube, not a cut.
+       C2 is physically right and the reason is the icon's own premise - the glow is the
+       cut happening, and the cut is happening where the iron is buried in the timber at
+       the leading end; behind it the edge has already left the wood.
+       This mask carries that falloff onto every layer the hone owns (bloom, glow, core,
+       specular), so they cannot drift apart. It does NOT extinguish: C2 goes to zero and
+       fails the rubric's two-state check for it, so this holds a floor of ~0.3 through
+       the trailing end and the signature line stays unbroken at 16px. -->
+  <linearGradient id="honeFallRamp" x1="0" y1="0" x2="640.0" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.94"/>
+    <stop offset="0.30" stop-color="#FFFFFF" stop-opacity="1"/>
+    <stop offset="0.52" stop-color="#FFFFFF" stop-opacity="0.72"/>
+    <stop offset="0.76" stop-color="#FFFFFF" stop-opacity="0.44"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.30"/>
+  </linearGradient>
+  <mask id="honeFall" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+    <rect width="1024" height="1024" fill="url(#honeFallRamp)"/>
+  </mask>
+
+  <!-- the honed edge's own colour along its length: hottest where the iron is cutting,
+       cooling toward the trailing end. C2's hone core measures (0.96,0.62,0.44) at its
+       brightest; the old ramp peaked in the MIDDLE, which is a tube-light read. -->
   <linearGradient id="honeCore" x1="0" y1="0" x2="640.0" y2="0" gradientUnits="userSpaceOnUse"
                   gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
-    <stop offset="0" stop-color="#C4341A"/>
-    <stop offset="0.30" stop-color="#FA6231"/>
-    <stop offset="0.62" stop-color="#FF9159"/>
-    <stop offset="1" stop-color="#D8451F"/>
+    <stop offset="0" stop-color="#FF8B4B"/>
+    <stop offset="0.24" stop-color="#FF9159"/>
+    <stop offset="0.52" stop-color="#F4602C"/>
+    <stop offset="0.80" stop-color="#C93C1B"/>
+    <stop offset="1" stop-color="#A83017"/>
+  </linearGradient>
+
+  <!-- the seat's own occlusion, deepening toward the trailing end where the wedge is
+       deepest and the light is most shut out -->
+  <linearGradient id="seatRamp" x1="0" y1="0" x2="640.0" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
+    <stop offset="0" stop-color="#3A2F22" stop-opacity="0.10"/>
+    <stop offset="0.36" stop-color="#372C20" stop-opacity="0.18"/>
+    <stop offset="0.72" stop-color="#31281D" stop-opacity="0.32"/>
+    <stop offset="1" stop-color="#2C2419" stop-opacity="0.40"/>
+  </linearGradient>
+
+  <!-- the rolled edge between the two faces: absent at the leading end (where C2 shows
+       only occlusion), a warm roll by the trailing end where the block turns into the
+       light. Never blue - nothing in this scene is. -->
+  <linearGradient id="bevelRoll" x1="0" y1="0" x2="640.0" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)">
+    <stop offset="0" stop-color="#8B8478" stop-opacity="0.10"/>
+    <stop offset="0.42" stop-color="#948C7F" stop-opacity="0.20"/>
+    <stop offset="0.78" stop-color="#A69C8D" stop-opacity="0.38"/>
+    <stop offset="1" stop-color="#AFA495" stop-opacity="0.44"/>
   </linearGradient>
 
   <filter id="curlShadow" x="-40%" y="-40%" width="180%" height="180%">
@@ -92,9 +181,14 @@
     <feGaussianBlur stdDeviation="1.0"/>
   </filter>
 
-  <radialGradient id="vignette" cx="0.46" cy="0.40" r="0.86">
-    <stop offset="0.56" stop-color="#000000" stop-opacity="0"/>
-    <stop offset="1" stop-color="#3A3226" stop-opacity="0.16"/>
+  <!-- ROUND 7: re-centred toward the key and deepened. C2's corners measure TL 0.869,
+       TR 0.509, BL 0.556, BR 0.562 - one light, up and to the left, and every corner
+       away from it falls ~0.6-0.65x. The old vignette sat near the tile's centre at 0.16
+       and left the two bottom corners as the brightest ground in the icon. -->
+  <radialGradient id="vignette" cx="0.36" cy="0.31" r="0.94">
+    <stop offset="0.40" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="0.78" stop-color="#3A3226" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#332B20" stop-opacity="0.27"/>
   </radialGradient>
 
   <filter id="castShadow" x="-30%" y="-30%" width="160%" height="160%">
@@ -117,6 +211,12 @@
   </filter>
   <filter id="honeGlowTight" x="-60%" y="-60%" width="220%" height="220%">
     <feGaussianBlur stdDeviation="4"/>
+  </filter>
+  <filter id="bevelSoft" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="6"/>
+  </filter>
+  <filter id="seatShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="5"/>
   </filter>
 </defs>
 
@@ -2437,6 +2537,16 @@
     <g filter="url(#contactShadow)">
       <path d="M 216.05 625.50 L 216.75 616.68 L 219.43 608.09 L 224.11 599.73 L 230.77 591.61 L 239.42 583.72 L 261.87 567.17 L 284.63 550.21 L 307.67 532.86 L 330.95 515.16 L 354.44 497.13 L 378.10 478.79 L 401.89 460.19 L 425.79 441.34 L 449.75 422.27 L 473.74 403.02 L 497.72 383.62 L 521.66 364.08 L 545.52 344.44 L 569.27 324.73 L 592.87 304.98 L 616.28 285.21 L 639.48 265.46 L 662.42 245.75 L 685.07 226.11 L 707.40 206.57 L 714.78 201.34 L 721.83 197.81 L 728.55 195.99 L 734.94 195.87 L 741.00 197.45 L 746.73 200.74 L 752.13 205.73 L 757.20 212.43 L 815.47 302.17 L 816.50 304.03 L 817.15 305.85 L 817.40 307.62 L 817.40 439.46 L 817.26 441.05 L 816.74 442.57 L 815.82 444.00 L 814.52 445.35 L 812.83 446.62 L 293.69 783.75 L 293.69 783.75 L 291.23 785.12 L 288.88 785.98 L 286.64 786.32 L 284.51 786.13 L 282.49 785.43 L 280.58 784.21 L 278.78 782.48 L 277.09 780.22 L 225.89 701.39 L 220.62 691.95 L 217.34 682.94 L 216.05 674.35 Z" fill="#3C3327" fill-opacity="0.42"/>
     </g>
+    <!-- ROUND 7. Ambient occlusion in the seat itself. Measured 6px out from the base,
+         C2's ground sits at 0.66x its own far field under the lit leading end and 0.41x
+         under the trailing end - the occlusion DEEPENS where the wedge stands taller and
+         the light cannot reach in. Ours was a flat 0.59-0.60x the whole way. A tight
+         warm band hugging the contact line, ramped along the blade, supplies the
+         difference; it is clipped to the trued side so it cannot leak across the split. -->
+    <g clip-path="url(#truedSide)" filter="url(#seatShadow)">
+      <path d="M 210.05 667.35 L 211.34 675.94 L 214.62 684.95 L 219.89 694.39 L 271.09 773.22 L 272.78 775.48 L 274.58 777.21 L 276.49 778.43 L 278.51 779.13 L 280.64 779.32 L 282.88 778.98 L 285.23 778.12 L 287.69 776.75 L 287.69 776.75 L 806.83 439.62 L 808.52 438.35 L 809.82 437.00 L 810.74 435.57 L 811.26 434.05 L 811.40 432.46" fill="none"
+            stroke="url(#seatRamp)" stroke-width="26" stroke-linecap="round"/>
+    </g>
 
     <!-- the shaving's shadow: thin material standing off the ground -->
     <g filter="url(#curlShadow)">
@@ -2447,8 +2557,12 @@
     <!-- the hone's light on the surface it just cut. Clipped to the trued side and drawn
          under the blade, so it can only ever read as spill from the edge. The wide
          bloom is a tapered shape pushed through a heavy blur, so it has no edge of
-         its own anywhere - it decays into the trued plane instead of ending. -->
-    <g clip-path="url(#truedSide)">
+         its own anywhere - it decays into the trued plane instead of ending. The whole
+         group rides the honeFall mask, so the spill on the ground fades along the blade
+         exactly as the edge itself does - which is what makes C2's trued side darken
+         toward the trailing end (its ground there reads 0.41x the far field, against
+         0.66x under the lit leading end). -->
+    <g clip-path="url(#truedSide)" mask="url(#honeFall)">
       <g filter="url(#bloomBlur)">
         <path d="M -30 6 L 666 6 L 566 -118 L 74 -118 Z"
               transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" fill="url(#honeWide)"/>
@@ -2651,67 +2765,85 @@
     <!-- the plane iron as a real solid: a front face dropping to the ground, and a top
          face lifted clear of it. The silhouette is one chunky block at every size. -->
     <path d="M 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 216.89 689.39 L 211.62 679.95 L 208.34 670.94 L 207.05 662.35 Z" fill="url(#frontFace)"/>
+    <!-- the hone's along-length falloff, carried onto the face the hone lights -->
+    <path d="M 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 216.89 689.39 L 211.62 679.95 L 208.34 670.94 L 207.05 662.35 Z" fill="url(#frontFall)"/>
     <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 748.20 200.43 L 743.13 193.73 L 737.73 188.74 L 732.00 185.45 L 725.94 183.87 L 719.55 183.99 L 712.83 185.81 L 705.78 189.34 L 698.40 194.57 L 676.07 214.11 L 653.42 233.75 L 630.48 253.46 L 607.28 273.21 L 583.87 292.98 L 560.27 312.73 L 536.52 332.44 L 512.66 352.08 L 488.72 371.62 L 464.74 391.02 L 440.75 410.27 L 416.79 429.34 L 392.89 448.19 L 369.10 466.79 L 345.44 485.13 L 321.95 503.16 L 298.67 520.86 L 275.63 538.21 L 252.87 555.17 L 230.42 571.72 L 221.77 579.61 L 215.11 587.73 L 210.43 596.09 L 207.75 604.68 L 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topFace)"/>
     <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)">
-        <ellipse cx="401" cy="52" rx="55" ry="50" fill="#8E97A4" fill-opacity="0.090"/>
-        <ellipse cx="177" cy="61" rx="60" ry="48" fill="#8E97A4" fill-opacity="0.040"/>
-        <ellipse cx="517" cy="152" rx="36" ry="26" fill="#14171B" fill-opacity="0.055"/>
-        <ellipse cx="170" cy="150" rx="102" ry="54" fill="#14171B" fill-opacity="0.084"/>
-        <ellipse cx="402" cy="98" rx="80" ry="56" fill="#14171B" fill-opacity="0.043"/>
-        <ellipse cx="63" cy="59" rx="41" ry="30" fill="#8E97A4" fill-opacity="0.069"/>
-        <ellipse cx="341" cy="16" rx="37" ry="55" fill="#14171B" fill-opacity="0.048"/>
-        <ellipse cx="272" cy="16" rx="74" ry="51" fill="#14171B" fill-opacity="0.087"/>
-        <ellipse cx="204" cy="147" rx="118" ry="30" fill="#8E97A4" fill-opacity="0.042"/>
-        <ellipse cx="581" cy="124" rx="104" ry="54" fill="#14171B" fill-opacity="0.101"/>
-        <ellipse cx="642" cy="42" rx="37" ry="30" fill="#8E97A4" fill-opacity="0.068"/>
-        <ellipse cx="394" cy="16" rx="83" ry="54" fill="#8E97A4" fill-opacity="0.063"/>
-        <ellipse cx="486" cy="76" rx="30" ry="44" fill="#14171B" fill-opacity="0.064"/>
-        <ellipse cx="495" cy="87" rx="124" ry="24" fill="#8E97A4" fill-opacity="0.063"/>
-        <ellipse cx="544" cy="14" rx="50" ry="59" fill="#14171B" fill-opacity="0.092"/>
-        <ellipse cx="59" cy="107" rx="94" ry="53" fill="#14171B" fill-opacity="0.091"/>
-        <ellipse cx="582" cy="84" rx="75" ry="45" fill="#8E97A4" fill-opacity="0.072"/>
-        <ellipse cx="653" cy="143" rx="92" ry="40" fill="#14171B" fill-opacity="0.046"/>
-        <ellipse cx="368" cy="77" rx="40" ry="50" fill="#8E97A4" fill-opacity="0.084"/>
-        <ellipse cx="88" cy="35" rx="74" ry="55" fill="#8E97A4" fill-opacity="0.057"/>
-        <ellipse cx="399" cy="81" rx="116" ry="30" fill="#14171B" fill-opacity="0.082"/>
-        <ellipse cx="104" cy="107" rx="119" ry="59" fill="#14171B" fill-opacity="0.084"/>
-        <ellipse cx="277" cy="46" rx="52" ry="57" fill="#8E97A4" fill-opacity="0.075"/>
-        <ellipse cx="548" cy="92" rx="106" ry="36" fill="#14171B" fill-opacity="0.038"/>
-        <ellipse cx="547" cy="126" rx="108" ry="24" fill="#8E97A4" fill-opacity="0.038"/>
-        <ellipse cx="629" cy="15" rx="75" ry="50" fill="#14171B" fill-opacity="0.099"/>
-        <ellipse cx="532" cy="52" rx="99" ry="37" fill="#14171B" fill-opacity="0.052"/>
-        <ellipse cx="307" cy="38" rx="50" ry="32" fill="#14171B" fill-opacity="0.089"/>
-        <ellipse cx="5" cy="82" rx="46" ry="21" fill="#8E97A4" fill-opacity="0.066"/>
-        <ellipse cx="643" cy="96" rx="40" ry="18" fill="#14171B" fill-opacity="0.086"/>
-        <ellipse cx="646" cy="120" rx="79" ry="54" fill="#14171B" fill-opacity="0.082"/>
-        <ellipse cx="244" cy="134" rx="109" ry="37" fill="#8E97A4" fill-opacity="0.049"/>
-        <ellipse cx="159" cy="12" rx="50" ry="42" fill="#14171B" fill-opacity="0.056"/>
-        <ellipse cx="233" cy="122" rx="122" ry="55" fill="#8E97A4" fill-opacity="0.107"/>
+        <ellipse cx="401" cy="52" rx="55" ry="50" fill="#9A968C" fill-opacity="0.090"/>
+        <ellipse cx="177" cy="61" rx="60" ry="48" fill="#9A968C" fill-opacity="0.040"/>
+        <ellipse cx="517" cy="152" rx="36" ry="26" fill="#191714" fill-opacity="0.055"/>
+        <ellipse cx="170" cy="150" rx="102" ry="54" fill="#191714" fill-opacity="0.084"/>
+        <ellipse cx="402" cy="98" rx="80" ry="56" fill="#191714" fill-opacity="0.043"/>
+        <ellipse cx="63" cy="59" rx="41" ry="30" fill="#9A968C" fill-opacity="0.069"/>
+        <ellipse cx="341" cy="16" rx="37" ry="55" fill="#191714" fill-opacity="0.048"/>
+        <ellipse cx="272" cy="16" rx="74" ry="51" fill="#191714" fill-opacity="0.087"/>
+        <ellipse cx="204" cy="147" rx="118" ry="30" fill="#9A968C" fill-opacity="0.042"/>
+        <ellipse cx="581" cy="124" rx="104" ry="54" fill="#191714" fill-opacity="0.101"/>
+        <ellipse cx="642" cy="42" rx="37" ry="30" fill="#9A968C" fill-opacity="0.068"/>
+        <ellipse cx="394" cy="16" rx="83" ry="54" fill="#9A968C" fill-opacity="0.063"/>
+        <ellipse cx="486" cy="76" rx="30" ry="44" fill="#191714" fill-opacity="0.064"/>
+        <ellipse cx="495" cy="87" rx="124" ry="24" fill="#9A968C" fill-opacity="0.063"/>
+        <ellipse cx="544" cy="14" rx="50" ry="59" fill="#191714" fill-opacity="0.092"/>
+        <ellipse cx="59" cy="107" rx="94" ry="53" fill="#191714" fill-opacity="0.091"/>
+        <ellipse cx="582" cy="84" rx="75" ry="45" fill="#9A968C" fill-opacity="0.072"/>
+        <ellipse cx="653" cy="143" rx="92" ry="40" fill="#191714" fill-opacity="0.046"/>
+        <ellipse cx="368" cy="77" rx="40" ry="50" fill="#9A968C" fill-opacity="0.084"/>
+        <ellipse cx="88" cy="35" rx="74" ry="55" fill="#9A968C" fill-opacity="0.057"/>
+        <ellipse cx="399" cy="81" rx="116" ry="30" fill="#191714" fill-opacity="0.082"/>
+        <ellipse cx="104" cy="107" rx="119" ry="59" fill="#191714" fill-opacity="0.084"/>
+        <ellipse cx="277" cy="46" rx="52" ry="57" fill="#9A968C" fill-opacity="0.075"/>
+        <ellipse cx="548" cy="92" rx="106" ry="36" fill="#191714" fill-opacity="0.038"/>
+        <ellipse cx="547" cy="126" rx="108" ry="24" fill="#9A968C" fill-opacity="0.038"/>
+        <ellipse cx="629" cy="15" rx="75" ry="50" fill="#191714" fill-opacity="0.099"/>
+        <ellipse cx="532" cy="52" rx="99" ry="37" fill="#191714" fill-opacity="0.052"/>
+        <ellipse cx="307" cy="38" rx="50" ry="32" fill="#191714" fill-opacity="0.089"/>
+        <ellipse cx="5" cy="82" rx="46" ry="21" fill="#9A968C" fill-opacity="0.066"/>
+        <ellipse cx="643" cy="96" rx="40" ry="18" fill="#191714" fill-opacity="0.086"/>
+        <ellipse cx="646" cy="120" rx="79" ry="54" fill="#191714" fill-opacity="0.082"/>
+        <ellipse cx="244" cy="134" rx="109" ry="37" fill="#9A968C" fill-opacity="0.049"/>
+        <ellipse cx="159" cy="12" rx="50" ry="42" fill="#191714" fill-opacity="0.056"/>
+        <ellipse cx="233" cy="122" rx="122" ry="55" fill="#9A968C" fill-opacity="0.107"/>
     </g></g></g>
     <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 748.20 200.43 L 743.13 193.73 L 737.73 188.74 L 732.00 185.45 L 725.94 183.87 L 719.55 183.99 L 712.83 185.81 L 705.78 189.34 L 698.40 194.57 L 676.07 214.11 L 653.42 233.75 L 630.48 253.46 L 607.28 273.21 L 583.87 292.98 L 560.27 312.73 L 536.52 332.44 L 512.66 352.08 L 488.72 371.62 L 464.74 391.02 L 440.75 410.27 L 416.79 429.34 L 392.89 448.19 L 369.10 466.79 L 345.44 485.13 L 321.95 503.16 L 298.67 520.86 L 275.63 538.21 L 252.87 555.17 L 230.42 571.72 L 221.77 579.61 L 215.11 587.73 L 210.43 596.09 L 207.75 604.68 L 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topSheen)"/>
     <!-- wear on the back: two faint grind striations, on the top face -->
     <g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" fill="none">
-      <path d="M 78 122 L 542 122" stroke="#8A93A3" stroke-opacity="0.16" stroke-width="3"/>
-      <path d="M 128 100 L 488 100" stroke="#8A93A3" stroke-opacity="0.09" stroke-width="2"/>
+      <path d="M 78 122 L 542 122" stroke="#9A9285" stroke-opacity="0.16" stroke-width="3"/>
+      <path d="M 128 100 L 488 100" stroke="#9A9285" stroke-opacity="0.09" stroke-width="2"/>
     </g>
   </g>
 
   <g id="highlight" fill="none">
-    <!-- chamfer between top face and front face: what makes the solid read as a solid -->
-    <path d="M 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62" stroke="#848E9C" stroke-opacity="0.56" stroke-width="4.4"
+    <!-- ROUND 7. The junction between top face and front face WAS a 4.4px #848E9C
+         pinstripe at 0.56 - cool, and +72% over the face beside it. Measured across C2
+         at three points along the block, that junction is the DARKEST part of the whole
+         cross-section over the leading two thirds (L 0.245 -> 0.209 -> 0.201 going up
+         through it) and only becomes a rolled highlight near the trailing end, where it
+         reads +18% and warm. So: a soft warm occlusion trough sitting in the junction,
+         and a narrower warm roll whose strength RAMPS toward the trailing end. That
+         pinstripe was the single most vector-looking thing on the block. -->
+    <g filter="url(#bevelSoft)">
+      <path d="M 207.05 620.50 L 208.34 629.56 L 211.62 638.86 L 216.89 648.39 L 268.09 727.22 L 269.78 729.45 L 271.58 731.12 L 273.49 732.21 L 275.51 732.74 L 277.64 732.70 L 279.88 732.09 L 282.23 730.92 L 284.69 729.17 L 284.69 729.17 L 803.83 310.80 L 805.52 309.25 L 806.82 307.67 L 807.74 306.03 L 808.26 304.35 L 808.40 302.62" stroke="#241C16"
+            stroke-opacity="0.30" stroke-width="15" stroke-linecap="round"/>
+    </g>
+    <path d="M 207.05 613.50 L 208.34 622.56 L 211.62 631.86 L 216.89 641.39 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62" stroke="url(#bevelRoll)" stroke-width="3.4"
           stroke-linecap="round"/>
-    <!-- rim light along the worn back, from the same top-left source -->
+    <!-- rim light along the worn back, from the same top-left source. Was #B6C0CE at
+         0.64 - cool and hot. C2's back rim runs +15% to +34% over the face below it and
+         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. -->
     <path d="M 46 150 C 218 142 422 142 604 150"
-          transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" stroke="#B6C0CE" stroke-opacity="0.64" stroke-width="5"
+          transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" stroke="#ABA294" stroke-opacity="0.52" stroke-width="5"
           stroke-linecap="round"/>
     <!-- the vermilion hone line: the cutting edge, the before/after boundary, and the
-         line where the solid meets the ground. One shape, four jobs. -->
-    <path d="M 10 0 L 632 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="#FF8A50"
-          stroke-opacity="0.75" stroke-width="16" filter="url(#honeGlowTight)"/>
-    <path d="M 10 0 L 632 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="url(#honeCore)"
-          stroke-width="12" stroke-linecap="butt"/>
-    <path d="M 56 -0.6 L 582 -0.6" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="#FFE3CD"
-          stroke-opacity="0.96" stroke-width="4.2" stroke-linecap="round"/>
+         line where the solid meets the ground. One shape, four jobs. Masked by honeFall
+         so the edge cools toward the trailing end with everything else it lights. -->
+    <g mask="url(#honeFall)">
+      <path d="M 10 0 L 632 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="#FF8A50"
+            stroke-opacity="0.75" stroke-width="16" filter="url(#honeGlowTight)"/>
+      <path d="M 10 0 L 632 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="url(#honeCore)"
+            stroke-width="12" stroke-linecap="butt"/>
+      <path d="M 56 -0.6 L 582 -0.6" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)" stroke="#FFE3CD"
+            stroke-opacity="0.96" stroke-width="4.2" stroke-linecap="round"/>
+    </g>
     <!-- cushion rim light around the tile perimeter -->
     <path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z" stroke="#FFFFFF" stroke-opacity="0.32" stroke-width="3"/>
   </g>
