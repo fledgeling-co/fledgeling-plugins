@@ -21,3 +21,19 @@ key light. It committed as PROVISIONAL because the blind panel did not agree.
 size? Review sheet at `plugins/improve-skill/assets/loop-runs/r01/review.html`,
 or serve it with review_sheet.py. Keep the round, or revert its commit and let
 the loop take a different edit class.
+
+## improve-skill r02: implement agent failed to run
+
+`claude -p` exited 1. First 200 chars of its output:
+
+    Prompt is too long
+
+The loop stopped rather than spending iterations on a broken harness.
+
+## improve-skill r02: implement agent failed to run
+
+`claude -p` exited 1. First 200 chars of its output:
+
+    Prompt is too long
+
+The loop stopped rather than spending iterations on a broken harness.
