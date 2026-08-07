@@ -293,7 +293,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 - `references/gates-performance-motion.md` — Core Web Vitals, motion anti-patterns, durations and easing, the motion budget by frequency.
 - `references/capture-protocol.md` — viewports, DPR, tiling, state staging, coordinate overlays, the in-page probes.
 - `references/states-and-resilience.md` — the nine states, loading thresholds, i18n expansion, stress prompts, undo.
-- `references/layout-integrity.md` — **the computable layout checks and the component inventory.** Column alignment, shared rails, section gaps, text overlap, dead space, affordance, token overloading; thresholds, calibration lessons, and what geometry cannot tell you
+- `references/layout-integrity.md` — **the computable layout checks and the component inventory.** Column alignment, shared rails, section gaps, text overlap, dead space, implicit grid tracks, affordance, token overloading; thresholds, calibration lessons, and what geometry cannot tell you
 - `references/craft-visual.md` — hierarchy vectors, typography numerics, optical alignment, depth, density, the swap test.
 - `references/flows-forms-copy.md` — walkthrough discipline, lens pass, form UX, microcopy, mechanisms worth citing.
 - `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, DTCG, design.md, the Tier 3 tell-list.
@@ -305,7 +305,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 
 - `scripts/run_review.py` — Playwright capture and probe sweep across the viewport matrix. Scrolls the document and drains running animations before probing, and records what was still moving
 - `scripts/run_review.mjs` — Puppeteer equivalent, same output layout
-- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
+- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **implicit grid tracks and zero-sized cells**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
 - `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
 - `scripts/scan_source.py` — greppable anti-patterns in source, tagged by tier
 - `scripts/annotate.py` — crop, slice and overlay coordinate grids on captures

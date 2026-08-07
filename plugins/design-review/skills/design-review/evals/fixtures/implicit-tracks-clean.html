@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<title>Implicit tracks — control</title>
+<!-- CONTROL for implicit-tracks.html. The same rows with both defects removed:
+       1. the track list holds every child (.idx--undated declares four tracks for
+          the four children that remain), so there is one row and no orphan
+       2. the empty <time> is not emitted at all — the record carries no dates, so
+          the row carries no date cell
+     probeImplicitTracks must return spilledRows: [] and emptyCells: [] here. If it
+     fires on this file it is miscalibrated; if it fires on neither file it never
+     ran. -->
+<meta charset="utf-8">
+<style>
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: #1c1b1b; background: #fff; }
+  main { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+  h1 { font-size: 28px; margin: 0 0 24px; }
+
+  .idx { list-style: none; margin: 0; padding: 0; }
+
+  .idx__a {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    gap: 0 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #e6e3e1;
+    text-decoration: none;
+    color: inherit;
+  }
+  .idx__n { font-variant-numeric: tabular-nums; color: #8a8481; }
+  .idx__t { font-weight: 600; }
+  .idx__l { border-bottom: 1px dotted #cfcac7; height: 1px; align-self: end; margin-bottom: 6px; }
+  .idx__arrow { color: #c0202a; }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 48px; }
+  .card { background: #f4f2f0; padding: 24px; border-radius: 8px; }
+</style>
+<main>
+  <h1>Corporate governance</h1>
+
+  <ul class="idx">
+    <li><a class="idx__a idx--undated" href="#">
+      <span class="idx__n">01</span>
+      <span class="idx__t">Constitution</span>
+      <span class="idx__l"></span>
+      <span class="idx__arrow">&rarr;</span>
+    </a></li>
+    <li><a class="idx__a idx--undated" href="#">
+      <span class="idx__n">02</span>
+      <span class="idx__t">Board charter</span>
+      <span class="idx__l"></span>
+      <span class="idx__arrow">&rarr;</span>
+    </a></li>
+    <li><a class="idx__a idx--undated" href="#">
+      <span class="idx__n">03</span>
+      <span class="idx__t">Diversity policy</span>
+      <span class="idx__l"></span>
+      <span class="idx__arrow">&rarr;</span>
+    </a></li>
+    <li><a class="idx__a idx--undated" href="#">
+      <span class="idx__n">04</span>
+      <span class="idx__t">Whistleblower protection policy</span>
+      <span class="idx__l"></span>
+      <span class="idx__arrow">&rarr;</span>
+    </a></li>
+  </ul>
+
+  <div class="cards">
+    <div class="card"><h2>One</h2><p>A card with a normal amount of copy in it, so the row it sits in has a normal height.</p></div>
+    <div class="card"><h2>Two</h2><p>A card with a normal amount of copy in it, so the row it sits in has a normal height.</p></div>
+    <div class="card"><h2>Three</h2><p>A card with a normal amount of copy in it, so the row it sits in has a normal height.</p></div>
+    <div class="card"><h2>Four</h2><p>A ragged last row is a layout decision, not an orphan track. Nothing here should be reported.</p></div>
+  </div>
+</main>
+</html>

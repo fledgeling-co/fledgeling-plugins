@@ -23,6 +23,8 @@ Almost every defect here lives inside a **repeated group** — any container wit
 | `deadSpace` | A flex/grid row of side-by-side children, ≥200px tall, whose shortest child is <55% of its tallest | A cross-axis alignment applied to a column shorter than its neighbour. At page scale this reads as generous whitespace |
 | `columnVoids.voids` | A top-level band that renders at height 0, paints no ink at all, holds under 24px of ink in a box over 80px, or fills under 25% of its own height | A section that renders nothing still occupies its own margins. See below |
 | `columnVoids.seams` | Never fires — it is the band-rhythm table, reported unfiltered | The whole-page form of the same defect, which no single band trips |
+| `implicitTracks.spilledRows` | A grid with unequal columns holds more children than it declares tracks, and the trailing row holds fewer children than there are columns | The row template was written for N children and renders N+1, so `grid-auto-flow` invents a row. See below |
+| `implicitTracks.emptyCells` | A grid child computes to zero width or height | An element emitted for a field the record does not carry. It occupies a track and paints nothing |
 | `affordance.unactionableRows` | A repeated row containing chip-shaped short text but nothing focusable | A settings list made of status labels. Every user reads them as controls. **Tier 2, not a gate** — see below |
 | `affordance.pointerCursorNotFocusable` | `cursor: pointer` on something not reachable by keyboard | Mouse-only interaction |
 | `tokenOverload` | A class whose name matches `warn\|error\|danger\|success\|ok\|info\|alert\|critical\|…` carrying ≥3 distinct strings | A status token that means four things has stopped being a signal — and every instance passes contrast individually, so no colour check notices |
@@ -39,6 +41,24 @@ Two outputs, answering different questions:
 - **`seams`** — every band's height, ink height, fill percentage and **ink-to-ink gap from the previous band**, reported unfiltered. This is the one that finds the whole-page form. A surface whose seams read 92px, 205px, 229px has no single band that trips a threshold and is still three-quarters dead space; only the table shows it. Read it against the surface's own healthy rhythm — one real reference build sits at 49–62% fill, and 36% on the same system is the finding.
 
 `low-fill` is the judgement-required kind and is deliberately noisier than the others: a deliberately sparse editorial foot and a section that lost its content measure identically. The probe reports the geometry; you decide. `zero-height` and `no-ink` need no judgement.
+
+## The implicit track — the defect a screenshot reads as padding
+
+`grid-template-columns: auto 1fr auto auto` and **five** children. `grid-auto-flow: row` is the default, so the fifth child lands on a row nobody authored, and nothing warns — not the browser, not the linter, not the diff.
+
+The real instance: an index row's trailing arrow sat underneath its row number, on **every row, of every tenant, at every width**. Computed `grid-template-rows: 27.5px 16px` where one track was intended; 93px rows that should have been 61px; roughly 450px of dead height on a single governance page. It survived every look because a 16px orphan row reads as generous padding, and it survived the site's parity oracle because that oracle loaded `/`, where no index row exists (`parity-oracle.md`). The `@media (max-width: 640px)` variant dropped to three tracks against four remaining children — the same bug, one column narrower.
+
+`probeImplicitTracks()` measures it from computed geometry, and the discrimination is the whole design:
+
+- **Equal columns are a gallery and are skipped.** `1fr 1fr 1fr` means wrapping is the point and a ragged last row is a layout decision. An **unequal, content-sized** track list is a template for one row, and a child past the end of it is an orphan.
+- **A full last row is wrapping that works.** The probe fires only when the trailing row holds *fewer* children than there are columns.
+- **`shortOrphan`** is reported, not gated: an orphan row is usually much shorter than the rows above it because it holds one small thing. Treat `shortOrphan: true` as confirmation, not as the test.
+- **`repeatedInstances`** counts the same class signature across the page. That number is what turns 16px into 450px, and it belongs in the finding.
+- **`wouldBePx`** is the row height with the orphan track removed — the fix's payoff, measured, before you make it.
+
+`emptyCells` rides along because it is the same defect one field earlier: a grid child computing to **zero width or height** is an element emitted for something the record does not carry. The real instance was `<time datetime="">` — invalid *and* empty — in a date column, on all thirteen rows of a page whose documents have no dates, while the `.idx--undated` variant that would have dropped the column sat in the stylesheet, commented, applied by nothing. Note the probe cannot use `visible()` here: that helper requires a non-zero rect, and the zero rect **is** the finding.
+
+Fixtures: `evals/fixtures/implicit-tracks.html` and its control `implicit-tracks-clean.html`. The defective one returns `spilledRows: 4, emptyCells: 4`; the control returns `0, 0`; and neither reports the healthy four-card / three-column grid on the same page. A probe that fires on the control is miscalibrated and a probe that fires on neither never ran.
 
 ## Thresholds
 

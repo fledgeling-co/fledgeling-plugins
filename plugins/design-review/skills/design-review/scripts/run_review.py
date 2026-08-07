@@ -333,6 +333,8 @@ def _layout_finding_count(L):
             len(L["columnHeaderAlignment"]) + len(L["touchingHeadings"]) +
             len(L["textOverlap"]) + len(L["deadSpace"]) +
             len((L.get("columnVoids") or {}).get("voids", [])) +
+            len((L.get("implicitTracks") or {}).get("spilledRows", [])) +
+            len((L.get("implicitTracks") or {}).get("emptyCells", [])) +
             len(L["affordance"]["unactionableRows"]) +
             len(L["affordance"]["pointerCursorNotFocusable"]) +
             len(L["tokenOverload"]) + (1 if L["rails"]["exceedsThreshold"] else 0))

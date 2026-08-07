@@ -566,6 +566,8 @@
     bandMinHeightPx: 80,     // below this, a band is too short to hold a void worth reporting
     bandInkMinPx: 24,        // ink height below this inside a tall band is "nearly empty"
     bandFillMin: 0.25,       // ink height / box height. Below this the band is mostly its own margins
+    spilledTrackRatio: 0.75, // an implicit trailing grid row this much shorter than the
+                             // authored rows is an orphan, not a ragged last row of cards
     maxReported: 40,         // per-probe cap, so one bad page cannot flood the report
   };
 
@@ -1281,6 +1283,144 @@
     };
   }
 
+  /**
+   * The implicit track. A grid renders MORE children than its declared column
+   * list can hold, `grid-auto-flow: row` (the default) puts the remainder on a
+   * row nobody authored, and nothing warns. The real instance: a five-child
+   * index row declaring four columns dropped its trailing arrow onto its own
+   * line under the row number — `grid-template-rows: 27.5px 16px` where one
+   * track was intended — on every row, of every tenant, at every width, costing
+   * ~450px of dead height on one page. A 16px orphan row reads as generous
+   * padding in a screenshot, which is why it survived every look; only the
+   * computed track list names it.
+   *
+   * Two outputs, both from computed geometry:
+   *   spilledRows — children past the end of a ROW TEMPLATE. A gallery whose
+   *                 columns are all the same width is excluded: wrapping is the
+   *                 point there and a ragged last row is a layout decision. An
+   *                 unequal, content-sized track list is a template for one row,
+   *                 and a child past its end is an orphan.
+   *   emptyCells  — a grid child that computes to zero width or height. The
+   *                 element is in the DOM, holds a cell, and paints nothing:
+   *                 `<time datetime="">` in a date column for a record that
+   *                 carries no dates, with the variant class that would have
+   *                 dropped the column existing in the stylesheet and applied by
+   *                 nothing. Note this cannot use `visible()`, which requires a
+   *                 non-zero rect — the zero rect IS the finding.
+   */
+  function probeImplicitTracks() {
+    const spilledRows = [];
+    const emptyCells = [];
+    const grids = [];
+
+    const pxList = (s) => {
+      if (!s || s === 'none' || /[a-df-oq-z(]/i.test(s.replace(/px/g, ''))) return [];
+      const out = s.trim().split(/\s+/).map(parseFloat);
+      return out.some(Number.isNaN) ? [] : out;
+    };
+
+    // A grid ITEM, which is not the same set as a visible element: a cell can be
+    // zero-sized and still occupy a track. Absolutely-positioned children and
+    // `display: contents` children are not grid items at all.
+    const placed = (el) => {
+      const cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.display === 'contents') return false;
+      if (cs.visibility === 'hidden') return false;
+      if (cs.position === 'absolute' || cs.position === 'fixed') return false;
+      if (el.closest && (el.closest('details:not([open])') || el.closest('[inert]'))) return false;
+      return true;
+    };
+
+    for (const el of document.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+      if (cs.display !== 'grid' && cs.display !== 'inline-grid') continue;
+      if (!visible(el)) continue;
+      grids.push(el);
+    }
+
+    // How many times this exact shape occurs on the page. The defect is almost
+    // never one row — it is every row of a repeated group, which is what makes
+    // 16px of orphan worth ~450px on a single page.
+    const sigCount = new Map();
+    for (const el of grids) {
+      const s = classSig(el);
+      sigCount.set(s, (sigCount.get(s) || 0) + 1);
+    }
+
+    for (const el of grids) {
+      const cs = getComputedStyle(el);
+      const kids = [...el.children].filter(placed);
+      if (kids.length < 2) continue;
+
+      for (const k of kids) {
+        const kr = k.getBoundingClientRect();
+        if (kr.width >= 1 && kr.height >= 1) continue;
+        emptyCells.push({
+          selector: cssPath(k), parent: cssPath(el),
+          widthPx: Math.round(kr.width), heightPx: Math.round(kr.height),
+          html: k.outerHTML.slice(0, 80),
+          note: 'A grid child occupying a cell and painting nothing. The field ' +
+                'behind it is absent — emit no element rather than an empty one, ' +
+                'and drop the track with it.',
+        });
+      }
+
+      const cols = pxList(cs.gridTemplateColumns);
+      const rows = pxList(cs.gridTemplateRows);
+      if (cols.length < 2 || rows.length < 2) continue;
+      if (!cs.gridAutoFlow.startsWith('row')) continue;
+      if (kids.length <= cols.length) continue;
+      // Equal columns => a gallery. Wrapping is intended; skip it.
+      if (cols.every((w) => Math.abs(w - cols[0]) < 1)) continue;
+
+      // Row bands, from the used track sizes rather than from child tops —
+      // `align-items` moves a child inside its row and would break clustering.
+      const r = el.getBoundingClientRect();
+      const gap = parseFloat(cs.rowGap) || 0;
+      let y = r.top + (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.paddingTop) || 0);
+      const bands = rows.map((h) => { const top = y; y += h + gap; return { top, bottom: top + h }; });
+
+      const perRow = rows.map(() => 0);
+      for (const k of kids) {
+        const kr = k.getBoundingClientRect();
+        const mid = kr.top + kr.height / 2;
+        let idx = bands.findIndex((b) => mid >= b.top - 1 && mid <= b.bottom + 1);
+        if (idx < 0) idx = mid < bands[0].top ? 0 : bands.length - 1;
+        perRow[idx] += 1;
+      }
+
+      // A FULL last row is wrapping that works. A short one is the orphan.
+      const last = rows.length - 1;
+      if (!perRow[last] || perRow[last] >= cols.length) continue;
+
+      const tallestOther = Math.max(...rows.slice(0, last));
+      const twins = sigCount.get(classSig(el)) || 1;
+
+      spilledRows.push({
+        selector: cssPath(el),
+        gridTemplateColumns: cs.gridTemplateColumns,
+        gridTemplateRows: cs.gridTemplateRows,
+        declaredColumns: cols.length,
+        children: kids.length,
+        childrenOnLastRow: perRow[last],
+        orphanRowPx: Math.round(rows[last]),
+        // The tell that it was never meant to be there: an orphan row is much
+        // shorter than the rows above it, because it holds one small thing.
+        shortOrphan: rows[last] < LI.spilledTrackRatio * tallestOther,
+        heightPx: Math.round(r.height),
+        wouldBePx: Math.round(r.height - rows[last] - gap),
+        repeatedInstances: twins,
+        text: shortText(el).slice(0, 60),
+        note: 'More children than declared columns, so the remainder sits on an ' +
+              'implicit row. Count the children against the track list — and ' +
+              'check every @media variant, where a shorter track list against ' +
+              'the same children is the same bug one column worse.',
+      });
+    }
+
+    return { spilledRows: cap(spilledRows), emptyCells: cap(emptyCells) };
+  }
+
   function probeLayoutIntegrity() {
     const g = probeRepeatedGroupIntegrity();
     return {
@@ -1294,6 +1434,7 @@
       textOverlap: probeTextOverlap(),
       deadSpace: probeDeadSpace(),
       columnVoids: probeColumnVoids(),
+      implicitTracks: probeImplicitTracks(),
       affordance: probeAffordanceGaps(),
       tokenOverload: probeTokenOverload(),
       inventory: probeComponentInventory(),
@@ -1329,6 +1470,7 @@
     probeLayoutIntegrity, probeRepeatedGroupIntegrity, probeColumnHeaderAlignment,
     probeSiblingGaps, probeSharedRails, probeTextOverlap, probeDeadSpace,
     probeColumnVoids, inkBox, probeUnconsumedTokens, probeAnimationSettled,
+    probeImplicitTracks,
     probeAffordanceGaps, probeTokenOverload, findRepeatedGroups,
     probeComponentInventory,
   };

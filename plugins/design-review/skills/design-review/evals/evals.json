@@ -141,6 +141,24 @@
         "States that the clean control returned zero voids and zero unconsumed tokens, as evidence the probes discriminate",
         "Does not report the two healthy bands (#hero, #close) as voids"
       ]
+    },
+    {
+      "id": 8,
+      "name": "implicit-grid-tracks",
+      "prompt": "Review skills/design-review/evals/fixtures/implicit-tracks.html. Its control is implicit-tracks-clean.html — the same index rows with both defects removed. Tell me what is wrong with the first one and prove your probes did not just fire on both.",
+      "expected_output": "Two layout-integrity findings plus the discrimination evidence. (1) .idx__a declares four columns and renders five children, so grid-auto-flow puts the trailing arrow on an implicit second row: computed grid-template-rows reads two tracks where one was intended, on all four rows (repeatedInstances: 4), and removing the orphan track takes each row from 81px to 57px. (2) Every row's date cell is an empty <span class=\"idx__m\"><time datetime=\"\"></time></span> measuring 0x0 — an element emitted for a field the record does not carry, with the .idx--undated variant that would drop the column present in the stylesheet and applied by nothing. The report must state that the control returned zero spilledRows and zero emptyCells, and must NOT report the four-card / three-column .cards grid on either page: equal columns mean wrapping is intended and a ragged last row is a layout decision.",
+      "files": [
+        "skills/design-review/evals/fixtures/implicit-tracks.html",
+        "skills/design-review/evals/fixtures/implicit-tracks-clean.html"
+      ],
+      "assertions": [
+        "Reports the implicit second grid row on .idx__a, quoting the computed grid-template-rows and the four-columns-versus-five-children count",
+        "Names the repetition (every row of the group), not a single instance",
+        "Reports the zero-sized .idx__m date cell and identifies the empty datetime attribute",
+        "Notes that the .idx--undated variant exists in the stylesheet and is selected by nothing",
+        "States that the clean control returned zero spilled rows and zero empty cells, as evidence the probes discriminate",
+        "Does not report the healthy .cards grid, whose ragged last row is intentional wrapping"
+      ]
     }
   ]
 }

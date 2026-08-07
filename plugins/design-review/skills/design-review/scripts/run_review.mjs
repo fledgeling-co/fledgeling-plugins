@@ -228,6 +228,7 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
       return L.shapeMismatch.length + L.columnDrift.length + L.columnHeaderAlignment.length +
              L.touchingHeadings.length + L.textOverlap.length + L.deadSpace.length +
              (L.columnVoids ? L.columnVoids.voids.length : 0) +
+             (L.implicitTracks ? L.implicitTracks.spilledRows.length + L.implicitTracks.emptyCells.length : 0) +
              L.affordance.unactionableRows.length + L.affordance.pointerCursorNotFocusable.length +
              L.tokenOverload.length + (L.rails.exceedsThreshold ? 1 : 0);
     })(),
