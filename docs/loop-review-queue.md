@@ -22,34 +22,10 @@ size? Review sheet at `plugins/improve-skill/assets/loop-runs/r01/review.html`,
 or serve it with review_sheet.py. Keep the round, or revert its commit and let
 the loop take a different edit class.
 
-## improve-skill r02: implement agent failed to run
+## improve-skill r02: implement agent failed to run (RESOLVED, 4 duplicate entries collapsed)
 
-`claude -p` exited 1. First 200 chars of its output:
-
-    Prompt is too long
-
-The loop stopped rather than spending iterations on a broken harness.
-
-## improve-skill r02: implement agent failed to run
-
-`claude -p` exited 1. First 200 chars of its output:
-
-    Prompt is too long
-
-The loop stopped rather than spending iterations on a broken harness.
-
-## improve-skill r02: implement agent failed to run
-
-`claude -p` exited 1. First 200 chars of its output:
-
-    Autocompact is thrashing: the context refilled to the limit within 3 turns of the previous compact, 3 times in a row. A file being read or a tool output is likely too large for the context window. Try
-
-The loop stopped rather than spending iterations on a broken harness.
-
-## improve-skill r02: implement agent failed to run
-
-`claude -p` exited 1. First 200 chars of its output:
-
-    Autocompact is thrashing: the context refilled to the limit within 3 turns of the previous compact, 3 times in a row. A file being read or a tool output is likely too large for the context window. Try
-
-The loop stopped rather than spending iterations on a broken harness.
+Filed four times across restarts. Root cause found and fixed in commit acf908b: the child
+agent inherited 13 MCP servers' tool definitions plus a truthy CLAUDE_CODE_DISABLE_1M_CONTEXT,
+so it started near its context limit and autocompact thrashed after six tool calls.
+--strict-mcp-config plus a stripped environment fixed it; measured 88s to 14s on the same task.
+No action needed.
