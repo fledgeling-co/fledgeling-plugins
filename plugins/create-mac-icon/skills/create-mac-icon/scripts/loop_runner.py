@@ -89,7 +89,7 @@ Confirmed, measured findings. Apply what fits this round's edit class:
 The full recipe table is at {skill_dir}/references/material-recipes.md. Read it.
 </prior_learnings>
 
-<task>
+{human}<task>
 Make ONE class of edit: {edit_class}. {class_scope}
 
 Start by finding where the gap actually is, from the artifacts rather than from
@@ -254,6 +254,29 @@ class Runner:
                        "their text: " + ", ".join(big) + ". Judge the artwork from its PNG "
                        "renders and edit the build script. If you must confirm a fragment, "
                        "grep it or read a bounded byte range.\n")
+        human = ""
+        feedback = sorted((assets / "loop-runs").glob("r*/review-feedback.json"),
+                          key=lambda f: f.stat().st_mtime, reverse=True)
+        if feedback:
+            try:
+                fb = json.loads(feedback[0].read_text())
+                a = fb.get("answers") or {}
+                notes = (a.get("notes") or "").strip()
+                defects = ", ".join(a.get("defects") or [])
+                if notes or defects:
+                    human = ("<human_verdict>\nA human reviewed a previous round of this icon "
+                             f"against the reference and said:\n\n  \"{notes}\"\n")
+                    if defects:
+                        human += f"\nDefects they ticked: {defects}.\n"
+                    human += ("\nThis outranks the metrics. A human comparing the render to the "
+                              "reference sees things no similarity score measures, and this is the "
+                              "only judgment here made by someone who knows what the icon is for. "
+                              "If what they describe falls inside this round's edit class, it is "
+                              "the round's job. If it does not, leave it for the round that owns "
+                              "it and say so; do not widen the round to chase it.\n"
+                              "</human_verdict>\n\n")
+            except Exception:
+                pass
         return BRIEF.format(
             round_id=round_id, edit_class=edit_class,
             class_scope=CLASS_SCOPE.get(edit_class, ""),
@@ -263,7 +286,8 @@ class Runner:
             score_table=score_table(pathlib.Path(baseline_dir) / "score.json"),
             learnings=self.cfg.get("learnings", DEFAULT_LEARNINGS),
             skill_dir=self.skill, envelope_flags=envelope,
-            extra_checks=extra_checks, extra_files=extra_files, hazards=hazards)
+            extra_checks=extra_checks, extra_files=extra_files, hazards=hazards,
+            human=human)
 
     def run_implement(self, brief_path, assets):
         # Hand the agent the brief's PATH, not its text. Passing ~7KB of brief as the

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <filter id="fib" x="-900" y="-900" width="2600" height="2600"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.3 0.3" numOctaves="3" seed="9" result="n"/>
+    <feDiffuseLighting in="n" surfaceScale="0.0001" diffuseConstant="1" lighting-color="#ffffff" result="lit">
+      <feDistantLight azimuth="102" elevation="50"/>
+    </feDiffuseLighting>
+    <feComposite in="lit" in2="SourceGraphic" operator="arithmetic" k1="1.3054" k2="0" k3="0" k4="0"/>
+  </filter>
+  <linearGradient id="fld" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#6A655C"/><stop offset="1" stop-color="#2E2B26"/>
+  </linearGradient>
+</defs>
+  <rect width="1024" height="1024" fill="url(#fld)"/>
+  <g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,220,700)" filter="url(#fib)"><g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,196.740,706.890)">
+    <rect x="0" y="0" width="1024" height="1024" fill="url(#fld)"/>
+  </g></g>
+</svg>
