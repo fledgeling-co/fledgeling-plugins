@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>improve-skill icon &mdash; contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric h2 { color: #a9bec5; font-size: 13px; margin: 22px 0 6px; text-transform: uppercase; letter-spacing: .06em; }
+  .rubric li { margin-bottom: 5px; }
+</style>
+</head>
+<body>
+<h1>improve-skill icon &mdash; contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The Honed Edge&rdquo; &middot; one shared spec, three engines per the mac-design-studio pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take">A &middot; icon.svg<small>Engine A, hand-authored layered SVG &mdash; vector alternate</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">11 / 12</td>
+    <td class="verdict">The highest-scoring take, and the vector alternate rather than the shipping one. Checks 1&ndash;4 verified on the real renders, not imagined: focal 61.4% of tile, optical centre (506, 490), margins L192 R204 T245 B290, and the blade-only fill test gives a chunky nameable iron with no smear. Measured figure-ground 4.82:1 against the un-planed side and 7.41:1 against the trued side; the two fields sit 1.54:1 apart, so the split is the read even in greyscale. Four real layers named <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, mapping 1:1 onto Icon Composer. Point deducted at #10: under an aggressive monochrome tint that collapses mid-tones, the blade and the un-planed field can flatten to one value and the cutting edge is lost against it. Kept on disk as <code>icon.svg</code> with its generator <code>build_icon.py</code>, so it stays the editable route back if the raster's liabilities bite.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 &middot; icon-engineC-cfd884.png<small>Engine C, GPT Image 2 raster, corpus-referenced</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The material target, and it won the material comparison outright: dense graphite with a lit top face, worn rounded corners, and a vermilion under-edge that bleeds warm light onto the board. All three were rebuilt into the master. It loses on the thing the icon is actually about &mdash; the two sides of the diagonal are almost identical in value, so nothing reads as improved, which fails #11. Also fails #5 (diffuse light with no single direction; the shaving's shadow disagrees with the blade's) and hard-fails #10 as a flat pre-masked raster, the corpus's most common failure. Shipping it would re-create exactly that.</td>
+  </tr>
+
+  <tr>
+    <td class="take ship">C2 &middot; icon.png<small>Engine C, GPT Image 2 raster, second take &mdash; SHIPS (user's call)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">7 / 12</td>
+    <td class="verdict">The shipping icon, chosen by the user on look after the sheet was scored. It is the lowest-scoring raster and the second-lowest take overall, and the score stands as audited rather than being revised to fit the decision. It earns the choice on material: the graphite reads dense and physical, the worn corners and the red under-glow are convincing, and the shaving curl gives the tile the mid-pass life the vector master gave up. Against that: a hard specular bloom sits top-left, which is legacy-era drag under a grammar whose depth comes from rim light and soft occlusion with zero hard speculars (#5, #9); the focal drifts to roughly half the tile and sits low (#2); and it is a flat pre-masked raster, so #10 hard-fails. Its measured lighting also works against the concept, which is the liability worth knowing about &mdash; see the recommendation below.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow-a2a087.svg<small>Engine B, Arrow vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">The clear loser. The blade forked into a wishbone, so the silhouette reads as a clothespin rather than a plane iron (#3 hard-fail) and the thin arms smear at 16px (#4 hard-fail); the object also crowds the right edge (#2). The vermilion hone line, which is the entire signature of this direction, is simply absent, so #11 goes with it, and the trued side rendered pink, adding a second hue carrying no meaning (#6). One thing survived into the master: its diagonal is steeper and more decisive than the first draft's, and the flatter, more direct presentation reads better small.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Shipping: C2 (icon.png), by the user's decision. Highest-scoring take: A (icon.svg) at 11/12.</strong> The two are not the same take, and this block records that rather than smoothing it over. C2 ships because it won the material comparison by a distance: dense physical graphite, worn corners, a convincing red under-glow, and a shaving curl that gives the tile mid-pass life. Known liabilities to revisit, all real and all inherited from shipping a raster: <strong>(1)</strong> #10 hard-fails. It is a flat pre-masked raster, so identity is a colour relationship with no layers behind it, and it will not survive Dark, Clear or Tinted rendering. This is the corpus's single most common failure and the icon now has it; the layered master at <code>icon.svg</code> is the route back. <strong>(2)</strong> Its own lighting works against the concept. Sampled on the masked 1024, the un-planed side measures L 0.426 and the trued side L 0.363, so the side that is supposed to be brighter and truer is in fact slightly darker, because a warm bloom sits on the rough side and a vignette sits on the trued one. The before-and-after reads as a texture change rather than an improvement. The banner compensates by carrying a wider split in its own ground. <strong>(3)</strong> A hard specular bloom top-left is legacy-era drag under Tahoe grammar (#5, #9), and the focal sits at roughly half the tile, low and left of centre (#2). <strong>(4)</strong> At 16px it survives as a dark bar with a warm edge, which is the read that matters, but the shaving and the grain go to mush well before that. <strong>(5)</strong> It cannot be edited. Any future change means a new generation and a new audit, not a diff.</div>
+
+<div class="rubric">
+  <p>Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, the same via an embedded-image wrapper for rasters.</p>
+
+  <h2>The shared spec all four takes were built from</h2>
+  <ul>
+    <li><strong>Direction:</strong> Tahoe gel-glass sub-register (a), porcelain plus gel object, crossed with device bank #16 (the icon performs the verb) and #5 (dual-function primitive). Runner-up and near-neighbour: Direction 7, Diagonal Tool, which the catalogue names the most template-worn move in the corpus. This enters that territory deliberately and inverts it: in Direction 7 the tool crosses an inert field and the tool is the identity. Here the tool has changed the field, and the identity is the change.</li>
+    <li><strong>Glyph:</strong> the whole tile is the workpiece. A worn plane iron lies mid-pass on a rising diagonal, 640 &times; 168 at 33&deg;, crisp corners on the honed edge and worn rounding with a shallow sag on the back.</li>
+    <li><strong>Signature:</strong> the before-and-after boundary <em>is</em> the diagonal, and the one vermilion hone line <em>is</em> that boundary. One shape doing three jobs: the tool's cutting edge, the division between two states, and the icon's only accent.</li>
+    <li><strong>Light:</strong> one soft top-left source, plus the sanctioned second source, an emissive interior; here the hone itself, spilling onto the surface it has just cut.</li>
+    <li><strong>Palette:</strong> two families. Warm-neutral porcelain (<code>#DCD8CD</code>&rarr;<code>#B2AB9B</code> un-planed, <code>#FFFFFE</code>&rarr;<code>#F7F2E7</code> trued), achromatic graphite (<code>#4B5159</code>&rarr;<code>#101215</code>), and one vermilion reserved strictly for the honed edge (<code>#C4341A</code>/<code>#F2542D</code>/<code>#FF7C46</code>).</li>
+    <li><strong>#10 layer plan:</strong> <code>bg</code> the two-state cushion tile; <code>mid</code> the grain and the hone's spill; <code>fg</code> the blade, the carrying shape; <code>highlight</code> the hone line and rim light.</li>
+  </ul>
+
+  <h2>Failure-mode anti-checklist</h2>
+  <ul>
+    <li><strong>Template genericism:</strong> clear. No stock gel glyph, no saturated gradient tile.</li>
+    <li><strong>Diagonal-tool default:</strong> entered knowingly, not by reflex, and inverted so the tool is not the identity. Stated as the run's one aesthetic risk.</li>
+    <li><strong>White-on-hue with no translucency cues:</strong> not applicable, porcelain register.</li>
+    <li><strong>Tone-on-tone collapse:</strong> measured, not assumed. 4.82:1 and 7.41:1.</li>
+    <li><strong>Metaphor pile-up:</strong> two objects on the tile, surface and blade. The third, a shaving, was authored and cut.</li>
+    <li><strong>Sibling non-differentiation:</strong> five of the six siblings share this porcelain register, which is the marketplace's house ground rather than a borrowed one. Differentiation is carried by the split, which no sibling uses.</li>
+    <li><strong>Flat pre-masked raster:</strong> avoided; the raster takes are alternates, and the shipping master is layered vector.</li>
+    <li><strong>Baked text:</strong> none.</li>
+  </ul>
+</div>
+</body>
+</html>
