@@ -47,12 +47,12 @@ The pricing recommendation in `docs/MARKETING-FEATURES.md` follows the researche
 
 | Product state | Mechanic |
 |---|---|
-| Unvalidated idea | Waitlist **with a referral loop** (bare email capture converts ~1-2%; referral/community-powered lists report 15-25%) — or skip the waitlist for a build-in-public launch |
+| Unvalidated idea | Waitlist **with a referral loop** — the scaffolded `waitlist` module ships exactly this (`/waitlist`, referral codes, queue-jumping) (bare email capture converts ~1-2%; referral-powered lists report 15-25%) — or skip the waitlist for a build-in-public launch |
 | Working SaaS, fast time-to-value | Free trial primary (opt-in ~9%, card-required ~31% at lower volume), prices published — hidden pricing eliminates ~43% of buyers |
 | Mac pro/utility app | Direct sale (Paddle/Stripe MoR): one-time price + 1 year of updates + optional renewal — the CleanShot/Sketch pattern |
 | iOS consumer app | App Store: trial paywall + annual "most popular" + lifetime anchor; hard paywalls convert ~5x freemium but refund higher |
 
-Card rules with evidence behind them: **3 tiers max**, exactly one visually dominant "most popular" (highlighting two backfires), annual pre-selected with "2 months free", real strike-through anchors fine (numerical anchoring replicates; decoy-tier tricks don't). Apple external-purchase-link economics are legally in flux — never bake channel-fee claims into copy.
+Native-app channel decisions (IAP vs external purchase vs direct sale, region flux, MAS sandbox) follow `references/apple-commercialization.md` — walk the tree before writing native pricing copy. Card rules with evidence behind them: **3 tiers max**, exactly one visually dominant "most popular" (highlighting two backfires), annual pre-selected with "2 months free", real strike-through anchors fine (numerical anchoring replicates; decoy-tier tricks don't). Apple external-purchase-link economics are legally in flux — never bake channel-fee claims into copy.
 
 ## Phase M — the marketing site
 
@@ -65,7 +65,9 @@ A **premium single-page site** at `design/marketing/index.html` (standalone; por
 **The quality bar (from the research — treat as gates, not aspirations):**
 
 - **Zero slop tells.** The Krebs study scored 1,590 launch pages against deterministic AI-design tells; avoid every one: Inter/Geist/Space Grotesk as the whole identity, a single serif-italic accent word in the hero, "VibeCode purple", permanent dark mode with grey body text, gradient glows, centered hero + pill badge above the H1, colored card borders, identical icon-topped feature-card grids, 1-2-3 numbered steps, stat banner rows. design-craft's anti-slop machinery owns this; design-review confirms it.
-- **Performance is the proven conversion lever** (the only rigorous datum: 1s LCP improvement → +13% conversions). Gate: LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1; three.js **out of the critical path** (dynamic import after first paint, static fallback, DPR capped, rendering suspended off-screen); ≤ ~300KB gzipped JS; `prefers-reduced-motion` produces a genuinely static page; **native scroll preserved** — scrolljacking is the most-hated pattern on the open web. Canvas image-sequence beats `<video>` for scroll-scrubbed product shots.
+- **Performance is the proven conversion lever** (the only rigorous datum: 1s LCP improvement → +13% conversions). Gate: LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1; three.js **out of the critical path** (dynamic import after first paint, static fallback, DPR capped, rendering suspended off-screen); `prefers-reduced-motion` produces a genuinely static page; **native scroll preserved** — scrolljacking is the most-hated pattern on the open web. Canvas image-sequence beats `<video>` for scroll-scrubbed product shots.
+- **JS budget, from measured exemplars** (2026-08-07 teardown, transferred bytes): Linear 153KB across 27 chunks, CleanShot 189KB, Raycast 577KB, Family (WebGL-maximal) 1.4MB. Default budget: **≤300KB** — between the lean exemplars and Raycast. A deliberate cinematic mode may spend more only if the CWV gates still pass on mobile.
+- **Motion A/B instrumentation** (the field has no honest animation-conversion data — the first launch can produce a better datum than anything published): build the page with a motion switch (`?motion=off` sets `data-motion="off"`, also honoured by `prefers-reduced-motion`), attach the active `motion_variant` to every analytics event, and note the experiment in docs/LAUNCH.md so a 50/50 split can run at launch.
 - **Motion argues the product, selectively.** One authored hero moment and one pinned product narrative showing 2-3 real state changes beat effects everywhere ("mastering delight is mastering selective emphasis"). Animation-for-decoration reads as cheap; the interactive mock slice is the differentiator (only ~4% of SaaS sites embed one).
 - **Structure:** hero proof-moment → proof strip (nothing invented) → pinned product narrative → interactive slice → fewer, richer feature modules → pricing (Phase O½ rules) → dependable footer. One conversion action per viewport.
 

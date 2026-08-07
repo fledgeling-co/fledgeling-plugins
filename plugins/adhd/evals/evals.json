@@ -1,0 +1,88 @@
+{
+  "skill_name": "adhd",
+  "notes": "Assertions are structural properties of the rendered output — checkable by reading the response, no LLM-judge scores. They target the mechanisms that distinguish v2 from the predecessor: the receipt line, the frozen baseline + boss-gate verdicts, frame fit/apoptosis (no unfit persona rendered beside technical output), mechanism-distinct shortlists, and trap flags that cite failure mechanisms. Evals 1-3 are the core iteration set; 4-6 widen coverage for full benchmark runs.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "reliability-boss-gate",
+      "prompt": "/adhd We have a CLI that calls an LLM and the LLM sometimes hangs for 90 seconds before responding. Design the right retry/timeout/UX strategy.",
+      "expected_output": "A standard-tier run whose recommendation demonstrably solves the hang problem: a stated baseline, verdict chips against it, and a starred pick that either beats the baseline on the stated ask or an open recommendation of the baseline itself. This is the exact problem shape where the predecessor lost on builder_usefulness.",
+      "assertions": [
+        "The output states a pragmatic textbook baseline (labeled as the baseline) before or alongside the creative shortlist",
+        "Each shortlist idea carries an explicit vs-baseline verdict (BEATS, TIES, or LOSES)",
+        "The starred/recommended pick either carries a BEATS/TIES verdict or the output openly recommends the baseline instead",
+        "The recommended pick addresses the stated hang/reliability problem itself, not only the UX around it",
+        "A one-line receipt states the tier, frame count, and idea counts",
+        "Traps are listed separately and every trap names a concrete failure mechanism"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "technical-frame-fit",
+      "prompt": "/adhd Design a thread-safe LRU cache that survives process restart without losing more than the last 100ms of writes.",
+      "expected_output": "A standard-tier run on a deeply technical problem where every rendered frame's ideas are technically grounded. No child persona or similarly unfit frame appears beside the output unless its ideas passed the quality floors; a frame that produced nothing usable is apoptosed into the receipt, not rendered.",
+      "assertions": [
+        "No rendered idea is attributed to a child persona or similarly unfit-for-technical-content frame unless the idea itself is technically sound and floor-passing",
+        "If any frame produced no usable ideas, the receipt notes it as apoptosed rather than rendering its ideas",
+        "The wide set is grouped into named clusters by underlying mechanism/angle, not by frame name alone",
+        "At least one cross-domain idea names its transplanted mechanism explicitly",
+        "The shortlist contains no two ideas sharing the same underlying mechanism",
+        "A receipt line is present"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "shortlist-mechanism-diversity",
+      "prompt": "/adhd We have a 200k-line Rails monolith. The team wants to split it. Generate strategies for how to decompose it — by domain, data, team, churn, or otherwise.",
+      "expected_output": "A wide, clustered exploration whose final shortlist spans genuinely distinct mechanisms (one per cluster), with deepened winners carrying sketch, load-bearing risk, and a concrete first step.",
+      "assertions": [
+        "The shortlist has at most one idea per cluster — no two starred/shortlisted ideas share a cluster or mechanism",
+        "Each deepened winner includes a sketch, a named load-bearing risk, and a concrete first step a builder could take tomorrow",
+        "The wide set contains ideas from at least 4 distinct clusters",
+        "Verdict chips against the stated baseline appear on shortlist items",
+        "A provocation section offers one direction the run did not take"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "naming-run",
+      "prompt": "/adhd Generate names for a feature-flag service that supports gradual rollout, kill-switches, and per-tenant overrides. The name should signal control and reversibility.",
+      "expected_output": "A clustered naming exploration where clusters are conceptual spaces, traps cite requirement conflicts, and the recommendation is defensible against the obvious-name baseline.",
+      "assertions": [
+        "Name candidates are clustered by conceptual space, not listed flat",
+        "Every trap-flagged name states which stated requirement it conflicts with",
+        "A baseline (the obvious naming direction) is stated and the recommendation is compared against it",
+        "The receipt line is present"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "closed-phrasing-aborts",
+      "prompt": "What's the standard way to debounce a search input in React? Just a quick answer please.",
+      "expected_output": "A direct answer with no divergent run — closed phrasing (standard, quick, just) routes to a plain answer, at most a one-line pointer to /adhd.",
+      "assertions": [
+        "The response answers directly without spawning frames or rendering a wide set",
+        "No receipt line, cluster structure, or shortlist appears",
+        "If the skill is mentioned at all, it is a single-sentence pointer, not a run"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "any-percent-tier",
+      "prompt": "/adhd --any What should we call the internal tool that snapshots our staging database every night?",
+      "expected_output": "A visibly light run: two frames, a small idea set, a short shortlist, with the receipt stamping the tier and offering the upgrade path — a light run that reads as deliberate, not broken.",
+      "assertions": [
+        "The receipt line states the any% (or equivalent light) tier",
+        "No more than 2 frames' worth of ideas are rendered",
+        "The receipt or output offers the upgrade path to a fuller tier",
+        "A recommendation is still made — the light tier converges rather than trailing off"
+      ],
+      "files": []
+    }
+  ]
+}

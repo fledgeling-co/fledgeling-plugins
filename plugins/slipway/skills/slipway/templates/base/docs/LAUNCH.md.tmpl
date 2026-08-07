@@ -9,8 +9,8 @@ Purchase + DNS: owner action (then mirror into the Caddy/hosts setup and Vercel 
 
 ## Legal
 
-- [ ] Privacy policy drafted (`apps/web/app/privacy`) — REQUIRED before any App Store submission
-- [ ] Terms drafted — owner review before publication
+- [ ] Privacy policy: draft scaffolded at `/privacy` — owner review REQUIRED before launch (and before any App Store submission)
+- [ ] Terms: draft scaffolded at `/terms` — owner review before publication
 
 ## App Store kit *(native surfaces only)*
 
@@ -27,10 +27,11 @@ Purchase + DNS: owner action (then mirror into the Caddy/hosts setup and Vercel 
 | signup_complete | /login | conversion |
 | activation | first value moment | the metric that matters |
 | paywall_view / trial_start / paid | billing flow | monetisation funnel |
+| motion_variant (property on every event) | marketing page | the animation on/off A/B — no honest public data exists; ours will |
 
 ## Launch mechanics
 
 Model (from docs/MARKETING-FEATURES.md pricing section): waitlist+referral | trial | direct sale | App Store.
-- [ ] Waitlist referral loop (if pre-launch) — the most under-used lever
+- [ ] Waitlist referral loop (if pre-launch): the `waitlist` module ships it — the most under-used lever
 - [ ] Vercel: domains attached, Performance CPU set, analytics on
 - [ ] armada-sync run so the portfolio manifest reflects launch state

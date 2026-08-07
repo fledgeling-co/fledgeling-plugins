@@ -65,6 +65,7 @@ has_module() { case ",$MODULES," in *",$1,"*) return 0;; *) return 1;; esac; }
 if has_module push && ! has_module auth; then MODULES="auth,$MODULES"; fi
 if has_module auth && ! has_module data; then MODULES="data,$MODULES"; fi
 if has_module admin && ! has_module data; then MODULES="data,$MODULES"; fi
+if has_module waitlist && ! has_module data; then MODULES="data,$MODULES"; fi
 if has_module data && ! has_module web; then MODULES="web,$MODULES"; fi
 
 [ -e "$PROJECT_DIR" ] && { echo "refusing: $PROJECT_DIR already exists" >&2; exit 1; }
@@ -166,6 +167,7 @@ has_module data   && render_dir data   "$PROJECT_DIR/apps/web"
 has_module auth   && render_dir auth   "$PROJECT_DIR/apps/web"   # overwrites data's models/types with the User-bearing versions
 has_module push   && render_dir push   "$PROJECT_DIR/apps/web"
 has_module admin  && render_dir admin  "$PROJECT_DIR/apps/admin"
+has_module waitlist && render_dir waitlist "$PROJECT_DIR/apps/web"
 
 # tokens: generate tokens.css NOW (pure node, no deps) so the committed file is in
 # sync and the gate's drift check passes from the first run.
@@ -280,8 +282,8 @@ assemble caddy   "$PROJECT_DIR/Caddyfile"              web api admin
 if has_module web || has_module api || has_module data; then
   assemble compose "$PROJECT_DIR/docker-compose.dev.yml" web api data
 fi
-assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push rust
-assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push rust
+assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push waitlist rust
+assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push waitlist rust
 mkdir -p "$PROJECT_DIR/docs"
 assemble arch    "$PROJECT_DIR/docs/ARCHITECTURE.md"    web api admin macos ios rn tokens rust
 assemble testing "$PROJECT_DIR/docs/TESTING.md"         web api rn macos ios rust

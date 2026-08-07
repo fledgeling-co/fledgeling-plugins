@@ -1,0 +1,21 @@
+export const metadata = { title: '{{DISPLAY}} — Terms of Service' };
+
+// DRAFT — owner review required before publication (docs/LAUNCH.md § Legal).
+export default function TermsPage() {
+  return (
+    <main>
+      <h1>Terms of Service</h1>
+      <p><em>Draft — not yet reviewed. Last updated: {{DATE}}.</em></p>
+      <h2>The service</h2>
+      <p>{{DESCRIPTION}} Provided as-is during early access; features may change.</p>
+      <h2>Accounts</h2>
+      <p>You&apos;re responsible for activity under your account. We may suspend accounts that abuse the service.</p>
+      <h2>Billing</h2>
+      <p>Paid plans, trials, and refunds are described on the pricing page at the time of purchase.</p>
+      <h2>Liability</h2>
+      <p>To the extent permitted by law, liability is limited to the amount you&apos;ve paid in the last 12 months.</p>
+      <h2>Contact</h2>
+      <p>Replace with a monitored address before launch.</p>
+    </main>
+  );
+}

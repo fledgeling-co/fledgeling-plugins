@@ -1,0 +1,16 @@
+import { Suspense } from 'react';
+import { WaitlistForm } from '@/components/waitlist-form';
+
+export const metadata = { title: '{{DISPLAY}} — early access' };
+
+export default function WaitlistPage() {
+  return (
+    <main>
+      <h1>{{DISPLAY}}</h1>
+      <p>{{DESCRIPTION}}</p>
+      <Suspense>
+        <WaitlistForm />
+      </Suspense>
+    </main>
+  );
+}

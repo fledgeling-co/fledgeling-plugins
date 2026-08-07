@@ -1,0 +1,51 @@
+'use client';
+
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+
+// The referral loop: joining returns a share link; each signup via that link
+// moves the referrer up the queue. Drop this component into the marketing page.
+type Status = { position: number; total: number; refCode: string; referrals: number };
+
+export function WaitlistForm() {
+  const params = useSearchParams();
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState<Status | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  if (state) {
+    const shareUrl = `${window.location.origin}/waitlist?ref=${state.refCode}`;
+    return (
+      <div>
+        <p>
+          You&apos;re <strong>#{state.position}</strong> of {state.total} on the {'{{DISPLAY}}'} waitlist.
+        </p>
+        <p>
+          Move up the queue: every person who joins with your link jumps you ahead.
+        </p>
+        <code>{shareUrl}</code>
+        <button onClick={() => navigator.clipboard.writeText(shareUrl)}>Copy link</button>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setError(null);
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, ref: params.get('ref') ?? undefined }),
+        });
+        if (res.ok) setState(await res.json());
+        else setError('Could not join — try again.');
+      }}
+    >
+      <input type="email" required value={email} placeholder="you@example.com" onChange={(e) => setEmail(e.target.value)} />
+      <button type="submit">Join the waitlist</button>
+      {error && <p role="alert">{error}</p>}
+    </form>
+  );
+}

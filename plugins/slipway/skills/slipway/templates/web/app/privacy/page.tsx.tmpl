@@ -1,0 +1,22 @@
+export const metadata = { title: '{{DISPLAY}} — Privacy Policy' };
+
+// DRAFT — owner review required before publication (docs/LAUNCH.md § Legal).
+// Apple requires a live privacy-policy URL for any App Store submission.
+export default function PrivacyPage() {
+  return (
+    <main>
+      <h1>Privacy Policy</h1>
+      <p><em>Draft — not yet reviewed. Last updated: {{DATE}}.</em></p>
+      <h2>What we collect</h2>
+      <p>Account email addresses, and the usage analytics events listed in our launch documentation. We do not sell personal information.</p>
+      <h2>How it&apos;s used</h2>
+      <p>To provide and improve {{DISPLAY}}, to sign you in, and to send the emails you request (sign-in codes, product updates you opt into).</p>
+      <h2>Storage and processors</h2>
+      <p>Data is stored with our hosting and database providers and processed by our email provider. A full processor list is available on request.</p>
+      <h2>Your rights</h2>
+      <p>You can request a copy or deletion of your data at any time.</p>
+      <h2>Contact</h2>
+      <p>Privacy questions: replace with a monitored address before launch.</p>
+    </main>
+  );
+}
