@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 130.4">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:#F9F9FA;}
+.cls-1 {fill:url(#SVGID_1_);}
+.cls-2 {fill:url(#SVGID_2_);}
+.cls-3 {fill:#675E55;}
+.cls-4 {fill:url(#XMLID_23_);}
+.cls-5 {fill:#A81308;}
+.cls-6 {fill:url(#XMLID_24_);}</style>
+  <linearGradient id="SVGID_1_" x1="23.7" x2="141.3" y1="96.05" y2="96.05" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#DACEC1" offset=".07586"/>
+    <stop stop-color="#CCBFB0" offset="1"/>
+  </linearGradient>
+  <path class="cls-1" d="m141.2 65v10c-0.2 6.4-4.2 12.2-10.6 15.8l-42.5 25.2c-5 2.9-14.1 5.4-23.5 5.4-9.3 0-19.3-1.8-26.6-5.6-8.7-4.6-14.3-11.1-14.3-18.8v-10l117.5-22z"/>
+  <linearGradient id="SVGID_2_" x1="-66.3" x2="56.18" y1="95.01" y2="44.75" gradientTransform="matrix(.999 .0453 -.0453 .999 75.27 -17.44)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#DCD3CA" offset="0"/>
+    <stop stop-color="#F6F2EB" offset=".6866"/>
+  </linearGradient>
+  <path class="cls-2" d="m86.9 40.8c-12.9-3.9-31.2-3.7-43.2 2.3-15.4 7.5-20.3 13.4-20 26.3 0.2 12.3 12.4 23.4 32.5 24.4l23.6 2.2 10-1 51.4-28.6c0.8-10.8-9.6-23.3-28.3-25.6h-26z"/>
+  <path d="m63.4 43.4c-20.2 0.2-39.7 8.7-39.7 25.8s19.3 42.7 53.5 41.3c5.1-1 9-2.2 11.2-3.4l42.1-25.4c5.9-3.6 10.8-8.7 10.7-16.6 0-13.5-20.9-25.7-77.8-21.7z" fill="#f7f2eb"/>
+  <path class="cls-3" d="m64.4 49.1c-18.1 0.1-31.1 7.4-31.1 18.6s6.6 19.6 30.9 20.6l17.8 0.7 28.3-13.5c5.3-2.8 21.2-6.5 21.2-9.9 0-9.1-10.6-18.2-28.5-18l-38.6 1.5z"/>
+  <linearGradient id="XMLID_23_" x1="76.31" x2="93.36" y1="92.13" y2="51" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ABA399" offset="0"/>
+    <stop stop-color="#787069" offset=".6235"/>
+  </linearGradient>
+  <path class="cls-4" d="m63.6 56c-14.9 0.2-30.3 7.4-30.3 30.9 0 6.7 7.5 18.7 30.3 18.7 9.4 0 16.4-1.8 20.6-4l38.9-23.4c3.3-1.8 7.3-5.8 8.3-10.9l0.1 1.1c-3.5-6.6-11.4-11.9-24.8-12.8l-43.1 0.4z"/>
+  <path class="cls-5" d="m8.8 54.7v7c0 12 13.9 22 37.6 22 9 0 18.4-1.8 24.3-5l42.2-23.3c6.1-3.4 10.1-9.1 10-15.4v-9.1l-114.1 23.8z"/>
+  <linearGradient id="XMLID_24_" x1="63.56" x2="74.02" y1="76.74" y2="9.212" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#E63323" offset="0"/>
+    <stop stop-color="#F7917D" offset="1"/>
+  </linearGradient>
+  <path class="cls-6" d="m62.9 14-42.9 23.9c-6.4 3.7-11.2 9.5-11.2 16.7 0 12.8 14.6 23.6 37.4 23.6 9.4 0 16.9-1.5 23.4-4.5l43-24.9c6.9-4.1 10.3-9.2 10.3-16.6 0-11.2-13.5-23.5-36.7-23.5-9.3 0-16.2 1.6-21.8 4.2l-1.5 1.1z"/>
+</svg>

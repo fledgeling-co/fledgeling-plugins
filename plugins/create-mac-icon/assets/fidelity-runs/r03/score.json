@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r03 material: per-face gradient separation on block, cavity and cast; mouth cut as a soft inner shadow",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0994,
+      "ssim": 0.8247,
+      "edge_f1": 0.4885,
+      "mask_iou": 0.9999,
+      "composite": 0.6628
+    },
+    "256": {
+      "lum_delta": 0.0994,
+      "ssim": 0.5976,
+      "edge_f1": 0.3992,
+      "mask_iou": 0.9997,
+      "composite": 0.5497
+    },
+    "128": {
+      "lum_delta": 0.0992,
+      "ssim": 0.4823,
+      "edge_f1": 0.4674,
+      "mask_iou": 0.9987,
+      "composite": 0.5209
+    },
+    "32": {
+      "lum_delta": 0.0986,
+      "ssim": 0.4285,
+      "edge_f1": 0.7757,
+      "mask_iou": 1.0,
+      "composite": 0.7195
+    },
+    "16": {
+      "lum_delta": 0.0969,
+      "ssim": 0.4275,
+      "edge_f1": 0.9615,
+      "mask_iou": 1.0,
+      "composite": 0.7853
+    }
+  },
+  "render_hash": "2978a7f6bf144a45"
+}

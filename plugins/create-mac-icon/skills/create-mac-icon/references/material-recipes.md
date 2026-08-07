@@ -28,6 +28,20 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · Ledgerline "stepped ledgerline" loop (eval commission, r01→r04)** —
+  **(a) The frosted-panel fade is a bounded edit, not a global one.** Raster
+  engines render "frosted white" as almost pure ground-bleed (measured 1.41:1
+  boundary contrast), which looks like glass at 1024 and dissolves by 32px;
+  copying it wholesale dropped the master to 1.02:1 and hard-failed rubric
+  #7/#4. The construction that gets both: start the frost gradient ~40% down
+  the mass bounding box, keep every figure-ground boundary above that line at
+  full opacity (3:1 value gap), fade only the boundary-free region below.
+  Lesson: *fade the frost where no boundary lives; never across a boundary.*
+  **(b) Draw the lip bloom UNDER the mass.** A blurred white stroke along the
+  glyph's top edge painted *before* the mass fill is occluded on its inner
+  half, so the lit lip spills light onto the ground (the Tahoe tell) with one
+  path and one blur. Painted above the mass it reads as a sticker halo.
+
 - **2026-08 · improve-skill shaving curl (round 7)** — three failed attempts
   drew the curl as a spiral *outline* (a shell); the fix was a swept surface:
   one cross-section curve (near-straight tail easing into an open 0.78-turn

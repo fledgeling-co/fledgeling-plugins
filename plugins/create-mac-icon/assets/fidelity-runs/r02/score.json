@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r02 material: plaster luminance range, hotter pooled bounce, warm gel bloom, real contact shadows",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1008,
+      "ssim": 0.8222,
+      "edge_f1": 0.4843,
+      "mask_iou": 0.9999,
+      "composite": 0.6588
+    },
+    "256": {
+      "lum_delta": 0.1008,
+      "ssim": 0.5918,
+      "edge_f1": 0.4047,
+      "mask_iou": 0.9997,
+      "composite": 0.5468
+    },
+    "128": {
+      "lum_delta": 0.1006,
+      "ssim": 0.4794,
+      "edge_f1": 0.4767,
+      "mask_iou": 0.9987,
+      "composite": 0.5201
+    },
+    "32": {
+      "lum_delta": 0.1003,
+      "ssim": 0.422,
+      "edge_f1": 0.7807,
+      "mask_iou": 1.0,
+      "composite": 0.7186
+    },
+    "16": {
+      "lum_delta": 0.098,
+      "ssim": 0.4205,
+      "edge_f1": 0.9649,
+      "mask_iou": 1.0,
+      "composite": 0.784
+    }
+  },
+  "render_hash": "50d1195bf40aac31"
+}

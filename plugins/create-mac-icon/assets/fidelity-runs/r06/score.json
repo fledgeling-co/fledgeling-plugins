@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r06 material: shadow chroma - the gel keeps saturation where it turns away, measured against the reference's darkest gel pixel",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0986,
+      "ssim": 0.8262,
+      "edge_f1": 0.5013,
+      "mask_iou": 0.9999,
+      "composite": 0.6678
+    },
+    "256": {
+      "lum_delta": 0.0988,
+      "ssim": 0.6007,
+      "edge_f1": 0.4057,
+      "mask_iou": 0.9997,
+      "composite": 0.5534
+    },
+    "128": {
+      "lum_delta": 0.0986,
+      "ssim": 0.4838,
+      "edge_f1": 0.4762,
+      "mask_iou": 0.9987,
+      "composite": 0.5245
+    },
+    "32": {
+      "lum_delta": 0.0981,
+      "ssim": 0.4266,
+      "edge_f1": 0.7801,
+      "mask_iou": 1.0,
+      "composite": 0.7208
+    },
+    "16": {
+      "lum_delta": 0.0971,
+      "ssim": 0.4248,
+      "edge_f1": 0.9649,
+      "mask_iou": 1.0,
+      "composite": 0.7857
+    }
+  },
+  "render_hash": "d4b2804d2c697a03"
+}

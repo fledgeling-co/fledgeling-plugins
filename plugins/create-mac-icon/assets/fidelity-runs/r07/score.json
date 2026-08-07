@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r07 material: plaster luminance range widened at both ends to the reference's measured 78-point spread",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0997,
+      "ssim": 0.8256,
+      "edge_f1": 0.4994,
+      "mask_iou": 0.9999,
+      "composite": 0.6655
+    },
+    "256": {
+      "lum_delta": 0.0998,
+      "ssim": 0.5968,
+      "edge_f1": 0.4038,
+      "mask_iou": 0.9997,
+      "composite": 0.55
+    },
+    "128": {
+      "lum_delta": 0.0996,
+      "ssim": 0.4787,
+      "edge_f1": 0.4764,
+      "mask_iou": 0.9987,
+      "composite": 0.5211
+    },
+    "32": {
+      "lum_delta": 0.0989,
+      "ssim": 0.4213,
+      "edge_f1": 0.7822,
+      "mask_iou": 1.0,
+      "composite": 0.7198
+    },
+    "16": {
+      "lum_delta": 0.0979,
+      "ssim": 0.4204,
+      "edge_f1": 0.9649,
+      "mask_iou": 1.0,
+      "composite": 0.7841
+    }
+  },
+  "render_hash": "592b0eefa650663f"
+}

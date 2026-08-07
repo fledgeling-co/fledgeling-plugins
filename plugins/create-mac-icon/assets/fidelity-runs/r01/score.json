@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r01 coarse structure: group scale +13%, dropped 15px, shallower dish, tile/mould ratio 0.57->0.67, vignette pulled back",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1015,
+      "ssim": 0.8246,
+      "edge_f1": 0.4828,
+      "mask_iou": 0.9999,
+      "composite": 0.6584
+    },
+    "256": {
+      "lum_delta": 0.1015,
+      "ssim": 0.5981,
+      "edge_f1": 0.4001,
+      "mask_iou": 0.9997,
+      "composite": 0.5472
+    },
+    "128": {
+      "lum_delta": 0.1015,
+      "ssim": 0.4854,
+      "edge_f1": 0.4711,
+      "mask_iou": 0.9987,
+      "composite": 0.5198
+    },
+    "32": {
+      "lum_delta": 0.1008,
+      "ssim": 0.4115,
+      "edge_f1": 0.7696,
+      "mask_iou": 1.0,
+      "composite": 0.7118
+    },
+    "16": {
+      "lum_delta": 0.0984,
+      "ssim": 0.4118,
+      "edge_f1": 0.9615,
+      "mask_iou": 1.0,
+      "composite": 0.7804
+    }
+  },
+  "render_hash": "fb8d2e2280e916eb"
+}

@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r05 small-size repair: turn shadow narrowed, mouth de-aliased, base edge tightened, cavity warmth raised",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0998,
+      "ssim": 0.8239,
+      "edge_f1": 0.495,
+      "mask_iou": 0.9999,
+      "composite": 0.6636
+    },
+    "256": {
+      "lum_delta": 0.0999,
+      "ssim": 0.5972,
+      "edge_f1": 0.3993,
+      "mask_iou": 0.9997,
+      "composite": 0.5488
+    },
+    "128": {
+      "lum_delta": 0.0998,
+      "ssim": 0.482,
+      "edge_f1": 0.473,
+      "mask_iou": 0.9987,
+      "composite": 0.5213
+    },
+    "32": {
+      "lum_delta": 0.0993,
+      "ssim": 0.4241,
+      "edge_f1": 0.7829,
+      "mask_iou": 1.0,
+      "composite": 0.7205
+    },
+    "16": {
+      "lum_delta": 0.0978,
+      "ssim": 0.423,
+      "edge_f1": 0.9649,
+      "mask_iou": 1.0,
+      "composite": 0.7848
+    }
+  },
+  "render_hash": "1e35f239084100d2"
+}

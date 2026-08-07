@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r00 baseline: first-draft master vs C2 raster",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1058,
+      "ssim": 0.8289,
+      "edge_f1": 0.4846,
+      "mask_iou": 0.9999,
+      "composite": 0.6546
+    },
+    "256": {
+      "lum_delta": 0.1058,
+      "ssim": 0.6047,
+      "edge_f1": 0.4182,
+      "mask_iou": 0.9997,
+      "composite": 0.5483
+    },
+    "128": {
+      "lum_delta": 0.1056,
+      "ssim": 0.4934,
+      "edge_f1": 0.4725,
+      "mask_iou": 0.9987,
+      "composite": 0.5176
+    },
+    "32": {
+      "lum_delta": 0.1048,
+      "ssim": 0.3931,
+      "edge_f1": 0.741,
+      "mask_iou": 1.0,
+      "composite": 0.6947
+    },
+    "16": {
+      "lum_delta": 0.102,
+      "ssim": 0.3862,
+      "edge_f1": 0.9515,
+      "mask_iou": 1.0,
+      "composite": 0.7684
+    }
+  },
+  "render_hash": "9f8f4fcf511cb2f9"
+}

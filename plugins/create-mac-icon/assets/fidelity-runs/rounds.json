@@ -1,0 +1,103 @@
+{
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "metric_tier": "numpy (luminance + ssim + edges; no torch/lpips on this host)",
+  "rounds": [
+    {
+      "round": "r00",
+      "label": "r00 baseline: first-draft master vs C2 raster",
+      "composite": {
+        "1024": 0.6546,
+        "256": 0.5483,
+        "128": 0.5176,
+        "32": 0.6947,
+        "16": 0.7684
+      },
+      "verdict": "BASELINE"
+    },
+    {
+      "round": "r01",
+      "label": "r01 coarse structure: group scale +13%, dropped 15px, shallower dish, tile/mould ratio 0.57->0.67, vignette pulled back",
+      "composite": {
+        "1024": 0.6584,
+        "256": 0.5472,
+        "128": 0.5198,
+        "32": 0.7118,
+        "16": 0.7804
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r02",
+      "label": "r02 material: plaster luminance range, hotter pooled bounce, warm gel bloom, real contact shadows",
+      "composite": {
+        "1024": 0.6588,
+        "256": 0.5468,
+        "128": 0.5201,
+        "32": 0.7186,
+        "16": 0.784
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r03",
+      "label": "r03 material: per-face gradient separation on block, cavity and cast; mouth cut as a soft inner shadow",
+      "composite": {
+        "1024": 0.6628,
+        "256": 0.5497,
+        "128": 0.5209,
+        "32": 0.7195,
+        "16": 0.7853
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r04",
+      "label": "r04 detail: cast thickness, bloom to the lit shoulder, bounce pooled at the far floor, rim lights clipped to the face",
+      "composite": {
+        "1024": 0.6632,
+        "256": 0.5492,
+        "128": 0.5189,
+        "32": 0.7176,
+        "16": 0.7845
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r05",
+      "label": "r05 small-size repair: turn shadow narrowed, mouth de-aliased, base edge tightened, cavity warmth raised",
+      "composite": {
+        "1024": 0.6636,
+        "256": 0.5488,
+        "128": 0.5213,
+        "32": 0.7205,
+        "16": 0.7848
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r06",
+      "label": "r06 material: shadow chroma - the gel keeps saturation where it turns away, measured against the reference's darkest gel pixel",
+      "composite": {
+        "1024": 0.6678,
+        "256": 0.5534,
+        "128": 0.5245,
+        "32": 0.7208,
+        "16": 0.7857
+      },
+      "verdict": "ACCEPT"
+    },
+    {
+      "round": "r07",
+      "label": "r07 material: plaster luminance range widened at both ends to the reference's measured 78-point spread",
+      "composite": {
+        "1024": 0.6655,
+        "256": 0.55,
+        "128": 0.5211,
+        "32": 0.7198,
+        "16": 0.7841
+      },
+      "verdict": "ROLLED BACK - every size moved the wrong way"
+    }
+  ],
+  "shipping_state": "r06"
+}
