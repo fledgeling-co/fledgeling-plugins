@@ -1,0 +1,47 @@
+{
+  "skill_name": "create-mac-icon",
+  "note": "Process evals in the improve-skill convention: structural assertions over the pipeline's on-disk artifacts, gradeable by an independent subagent reading the run's output directory. Runs cost media-gen-pro credits; execute deliberately, not on every edit.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "full-commission-artifacts",
+      "prompt": "Create a macOS app icon for 'Ledgerline', a menu-bar app that tracks personal cashflow. Personality: calm, precise, trustworthy. No existing brand. Work in <workdir>.",
+      "expected_output": "A complete commission: direction stated with runner-up, three engine takes on disk, audit.html, layered SVG master via a build script.",
+      "assertions": [
+        "A direction from icon-directions.md is stated by name together with a runner-up and a reason for the choice",
+        "A subject-mined glyph device is named (not a stock category glyph); the stated device relates to cashflow/ledger subject matter",
+        "At least three takes exist on disk spanning Engine A (hand-authored SVG), Engine B (Arrow vector SVG), and Engine C (raster) — or a missing engine is explicitly named as a user-agreed deviation in the output",
+        "audit.html exists on disk next to the takes, contains one row per take including losing takes with scores, and a recommendation block naming known liabilities",
+        "The Engine A master is emitted by a build script (a .py or similar that writes the SVG), not hand-edited path soup",
+        "The shipped master passes `fidelity.py structure` (no <image> embeds, named layer groups present)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "fidelity-loop-against-reference",
+      "prompt": "Here is a raster icon reference at <workdir>/reference.png and a current SVG master at <workdir>/icon.svg that looks flatter than the reference. Iterate the SVG so its material matches the reference as closely as possible. Work in <workdir>.",
+      "expected_output": "A bounded fidelity-loop run with on-disk round state and a measurably improved master.",
+      "assertions": [
+        "fidelity.py score was run to establish a baseline before any edit (a baseline runs/ directory with score.json exists)",
+        "Each subsequent round has its own runs/rNN directory with score.json; rounds are labelled with an edit class (structure/material/detail/small-size)",
+        "Every accepted round passed the Pareto gate (gate output recorded or reproducible: no size's composite regressed beyond tolerance)",
+        "The final master's 1024px composite improved over the baseline's",
+        "The 32px and 16px composites did not regress below the baseline",
+        "No round's SVG contains an <image> element (structure gate enforced)",
+        "The loop stopped at or before the hard ceiling (10 rounds) or after two consecutive rejections, with the stop reason stated"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "recipe-feedback-honest-degradation",
+      "prompt": "Create a macOS app icon for 'Kilnhand', a pottery-studio booking app. Personality: warm, tactile, unhurried. media-gen-pro is unavailable in this environment. Work in <workdir>.",
+      "expected_output": "The pipeline degrades honestly without the raster engine and still ships a materially rich master.",
+      "assertions": [
+        "The unavailability of media-gen-pro is stated plainly and Engine A is widened to 2-3 genuinely different hand-authored takes (per the SKILL.md fallback), not silently reduced to one take",
+        "audit.html still exists and covers all produced takes",
+        "The master applies at least two constructions from material-recipes.md (identifiable in the SVG: e.g. per-face gradients, contact shadow, cushion tile with inner rim)",
+        "No claim of raster-reference fidelity is made, since no raster reference exists in this run"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<!--
+  icon-audit-template.html — the contact-sheet/audit artifact every icon commission ships.
+  Fill every {{PLACEHOLDER}}; one <tr> per take (copy the row block); losers stay in with their scores.
+  Hard requirements baked in from a design-review pass on a real instance of this page:
+  · retina discipline: render at 2x and display at half (256→128, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
+  · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
+  · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
+  · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
+  · <caption> + scope="col" on every th — it's a data table, treat it as one
+  · every row carries its rubric score and a verdict that names WHY, including the losing takes — a sheet that hides its losers isn't an audit
+  · the recommendation block names the shipping take AND its known liabilities
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{APP_NAME}} icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>{{APP_NAME}} icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "{{DIRECTION_NAME}}" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
+  <tr>
+    <td class="take {{ship|fail|}}">{{TAKE_ID}} · {{FILENAME}}<small>{{ENGINE_AND_ROLE — e.g. "hand-authored layered SVG — SHIPS" / "Arrow vector take" / "GPT-Image raster, corpus-referenced"}}</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/{{take}}-256.png" width="128" height="128" alt="{{TAKE_ID}} at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/{{take}}-64.png" width="32" height="32" alt="{{TAKE_ID}} at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/{{take}}-32.png" width="16" height="16" alt="{{TAKE_ID}} at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/{{take}}-32.png" width="96" height="96" alt="{{TAKE_ID}} 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score {{ship|fail|}}">{{N}} / 12</td>
+    <td class="verdict">{{WHY: what passes, which rubric checks failed and the mechanism, what was salvaged into the master. Losing takes state the reason they lost.}}</td>
+  </tr>
+  <!-- /ROW BLOCK -->
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship {{TAKE_ID}} ({{FILENAME}}).</strong> {{WHY_IT_SHIPS — Icon-Composer readiness, non-negotiable checks 1–4 on real renders, material provenance.}} Known liabilities to revisit: {{LIABILITIES — never leave this empty; an audit with no known liabilities hasn't looked hard enough.}}</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, `sips -Z` for rasters.</div>
+</body>
+</html>
