@@ -92,6 +92,44 @@ name both mechanisms; these patterns follow them.
 - **Calm trigger language.** "Use X when…" outperforms "CRITICAL: you
   MUST…", which overtriggers on current models.
 
+## Running the loop headlessly
+
+`scripts/loop_runner.py` drives rounds with no session attached, and
+`scripts/loop_watchdog.sh` keeps it alive. Five failures were needed to get
+that working, every one invisible to code review and only findable by
+running it. They are recorded here because they are environment traps, not
+logic bugs, and the next person will hit the same ones.
+
+- **Give the child a clean context, or it starves before it starts.** A
+  round died reporting autocompact thrashing after six tool calls and about
+  10k tokens of results. The cause was what it inherited: 13 configured MCP
+  servers whose tool definitions consume a large share of the window, plus
+  `CLAUDE_CODE_DISABLE_1M_CONTEXT` set to the string `"0"`, which is
+  non-empty and therefore truthy, capping the child at the small window.
+  Run with `--strict-mcp-config` and strip the session-scoped variables.
+  Measured on one identical task: 88s inherited, 14s clean.
+- **Hand the agent the brief's path, not its text.** Passing ~7KB of brief
+  as the `-p` argument fails in 13 seconds with "Prompt is too long", every
+  time, while the same bytes plus a one-line suffix succeed. It is not
+  length. Write the brief to disk and tell the agent to read it.
+- **Never read the generated master.** A 300KB SVG is about 88k tokens, and
+  an agent that re-reads it after each rebuild exhausts the window. The
+  brief should name every generated file over ~60KB in the fixture and say
+  to judge from PNG renders instead.
+- **A harness failure is not a rejected edit.** Counting it as one burns the
+  fixture's edit-class rotation and can "converge" a fixture that was never
+  worked on.
+- **Bound the error handler.** A bug that throws every round will spend a
+  100-iteration budget in about one second. Stop after three consecutive
+  errors and file the reason.
+- **Validate the fixture queue against disk before running.** A fixture
+  whose master was hand-authored has no build script, so the
+  author-through-the-script rule cannot hold and the round has nothing to
+  edit. Check every declared path exists at startup.
+- **Watch out for `pkill -f`.** A pattern like `loop_runner.py` also matches
+  any monitor whose command string mentions it, so a cleanup can kill its
+  own supervision.
+
 ## The judged layers — human sheet and blind panel
 
 The metrics are necessary, not sufficient; two judged instruments ride on top:

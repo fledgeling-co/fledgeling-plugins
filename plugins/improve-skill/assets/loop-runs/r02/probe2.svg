@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <filter id="fib" x="-900" y="-900" width="2600" height="2600"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.3 0.045" numOctaves="3" seed="5" result="n"/>
+    <feDiffuseLighting in="n" surfaceScale="5.0" diffuseConstant="1" lighting-color="#ffffff" result="lit">
+      <feDistantLight azimuth="102.0" elevation="42"/>
+    </feDiffuseLighting>
+    <feColorMatrix in="lit" type="matrix" result="valley"
+        values="0 0 0 0 0.243  0 0 0 0 0.204  0 0 0 0 0.153  -2.6 0 0 0 1.55"/>
+    <feColorMatrix in="lit" type="matrix" result="crest"
+        values="0 0 0 0 1.0  0 0 0 0 0.976  0 0 0 0 0.925  2.6 0 0 0 -1.5"/>
+    <feMerge><feMergeNode in="valley"/><feMergeNode in="crest"/></feMerge>
+  </filter>
+  <linearGradient id="ramp" gradientUnits="userSpaceOnUse"
+      x1="437.9" y1="1035.5" x2="-106.8" y2="196.8">
+    <stop offset="0" stop-color="#fff" stop-opacity="0.14"/>
+    <stop offset="0.399" stop-color="#fff" stop-opacity="0.20"/>
+    <stop offset="0.401" stop-color="#fff" stop-opacity="1"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0.34"/>
+  </linearGradient>
+  <mask id="rampMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+    <rect width="1024" height="1024" fill="url(#ramp)"/>
+  </mask>
+</defs>
+  <rect width="1024" height="1024" fill="#D8D2C4"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="#F4EFE3"
+        transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,220,700)" opacity="0"/>
+  <g mask="url(#rampMask)"><g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,220,700)" filter="url(#fib)">
+    <rect x="-900" y="-900" width="2600" height="2600" fill="#808080"/>
+  </g></g>
+</svg>
