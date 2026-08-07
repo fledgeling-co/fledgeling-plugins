@@ -11,3 +11,4 @@ loop-runs/ (Phase 4 training data).
 | 2 | improve-skill | detail | REJECT | n/a |  |
 | 3 | improve-skill | small-size repair | REJECT | n/a |  |
 | 2 | improve-skill | detail | REJECT | n/a |  |
+| 3 | improve-skill | small-size repair | REJECT | n/a |  |
