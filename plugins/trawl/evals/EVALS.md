@@ -2,6 +2,18 @@
 
 Run: 2026-08-07 · iteration 1, full 7-eval set · grader: independent subagent, structural assertions only (no LLM 1-10 scores, consistent with the skill's own scoring philosophy).
 
+```mermaid
+flowchart LR
+    P["8 eval prompts"] --> N["trawl run"] & O["original-skill run"]
+    N & O --> G["structural grader<br/>pass/fail per assertion,<br/>quoted evidence"]
+    N & O --> B["blind panel<br/>anonymised A/B ·<br/>4 judge families"]
+    G --> F["findings"]
+    B --> F
+    F -->|"become skill rules"| S["skill iteration"]
+    S -->|"re-run + re-judge"| P
+```
+
+
 ## Iteration 2: panel feedback applied and verified
 
 The blind panel's findings were fed back into the skill (v2.1.0): Phase 0 now names the problem's native stack and every shortlist idea must translate back into it; FOCUS first steps must be same-week starters naming actual tools; the output's Brief+Converge must stand alone as the answer ("ceremony is not value" is now an anti-pattern); and the shortlist reserves a marked non-obvious slot. The eval set gained panel-informed assertions (toolchain-native steps, the non-obvious slot) and eval 8, a forced-whimsy adversarial case that makes the apoptosis rules non-vacuous.
