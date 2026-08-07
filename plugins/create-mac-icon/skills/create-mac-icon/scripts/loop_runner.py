@@ -26,6 +26,7 @@ the harness rather than by asking the model nicely.
 """
 import argparse
 import json
+import os
 import pathlib
 import re
 import shutil
@@ -275,6 +276,13 @@ class Runner:
         cmd = ["claude", "-p", prompt, "--model", self.cfg.get("model", "opus"),
                "--allowedTools", ALLOWED_TOOLS,
                "--permission-mode", "acceptEdits",
+               # Load ZERO MCP servers. This machine configures 13 of them, and their
+               # tool definitions alone (higgsfield and dossier are enormous) fill a
+               # large fraction of the window before the agent reads anything. A round
+               # that made 6 tool calls totalling ~10k tokens still died reporting the
+               # context refilling three times over. The implement agent needs none of
+               # them: it edits a build script and runs a scorer.
+               "--strict-mcp-config",
                "--add-dir", str(self.repo)]
         if self.cfg.get("effort"):
             cmd += ["--effort", self.cfg["effort"]]
@@ -287,8 +295,14 @@ class Runner:
         # absolute paths and cds itself.
         t0 = time.time()
         self.log(f"  brief {brief_path}, cwd {self.cfg.get('agent_cwd') or self.repo.parent}, effort {self.cfg.get('effort')}")
+        # CLAUDE_CODE_DISABLE_1M_CONTEXT is set to the string "0" in this shell, and a
+        # non-empty string is truthy, so inheriting it caps the child at the small
+        # window. Drop it and the other session-scoped vars so the child starts clean.
+        env = {k: v for k, v in os.environ.items()
+               if k not in ("CLAUDE_CODE_DISABLE_1M_CONTEXT", "CLAUDE_CODE_SESSION_ID",
+                            "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_EFFORT")}
         r = subprocess.run(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
-                           capture_output=True, text=True,
+                           capture_output=True, text=True, env=env,
                            stdin=subprocess.DEVNULL,  # else the CLI waits 3s for stdin
                            timeout=self.cfg.get("round_timeout_s", 2700))
         self.log(f"  implement finished in {time.time()-t0:.0f}s (exit {r.returncode})")
