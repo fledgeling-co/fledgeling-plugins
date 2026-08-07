@@ -31,3 +31,12 @@ Panel `dr_63ac10b56c131b28`: openai `dr_49b878ae294d4343` · local-claude `dr_98
 - Port-allocation conventions have **no** primary source — slipway's Caddy-scan allocation + recording in the manifest is itself a differentiator; keep it.
 - Supply-chain: the Nx s1ngularity attack specifically weaponized local AI CLIs — keep slipway's dependency count at zero (bash+python+node stdlib only) and the marketplace private.
 - Don't add Nx/projen as runtime deps to inherit their generator semantics — reproduce the guarantees (dry-run, state, composition) in the script instead.
+
+## Second panel — launch pipelines & marketing craft (2026-08-07)
+
+Panel `dr_b08fee4c6b4c062e`: openai `dr_4ab6dfe70cd52f67` · local-claude `dr_7c424bb810af2623` · gemini `dr_8db13a3072fb7232` · perplexity `dr_81add623853c8c01` · xai `dr_963856831b24de31` (Codex lane failed). All read in full. What it changed:
+
+- **Positioning validated**: no funded idea-to-launch tool (v0/Lovable/Bolt/Base44) produces staged, reviewable artifacts — research briefs, feature specs, separable mocks — and the "launch mile" (domains, legal, store listings, analytics, distribution) is universally human-owned and un-tooled. Slipway's artifact-led pipeline + Launch Operations Pack sits exactly in that gap.
+- **Encoded into launch-pipeline.md**: the Krebs 16 slop tells as a zero-tolerance gate; CWV performance gates (LCP ≤2.5s / INP ≤200ms / CLS ≤0.1, three.js out of critical path, native scroll, reduced-motion); selective-motion doctrine; interactive mock slices as differentiator (~4% adoption); the pricing decision table (waitlist+referral / trial / Mac direct-sale / App Store anchor patterns, 3 tiers, one highlighted, annual pre-selected); Phase L launch ops.
+- **Cautions**: animation-vs-conversion has NO honest public data (speed does: 1s LCP → +13%); waitlist-conversion numbers are all vendor-published; Apple external-purchase-link fees are legally in flux (never bake into copy); decoy-tier pricing is replication-crisis folklore while numerical anchoring holds; hard-paywall 5x conversion comes with higher refunds.
+- **Deferred candidates**: legal-page template stubs; waitlist-with-referral component template; region-aware Apple commercialization decision tree; teardown-derived JS budgets from exemplar sites (Linear/Raycast/Family); an animation on/off A/B on the first shipped site.

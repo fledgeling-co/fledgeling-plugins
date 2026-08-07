@@ -109,6 +109,7 @@ PNPM_VERSION="$(pnpm --version 2>/dev/null || echo 10.17.1)"
 export SW_CODENAME="$CODENAME" SW_DISPLAY="$DISPLAY" SW_DESCRIPTION="$DESCRIPTION" \
        SW_BUNDLE_PREFIX="$BUNDLE_PREFIX" SW_PORT_WEB="$PORT_WEB" SW_PORT_API="$PORT_API" \
        SW_PNPM_VERSION="$PNPM_VERSION" SW_YEAR="$(date +%Y)" SW_DATE="$(date +%Y-%m-%d)" SW_PORT_ADMIN="$PORT_ADMIN"
+export SW_ID_PREFIX="$(python3 -c "import os;print(os.environ['SW_CODENAME'].replace('-','')[:3].upper())")"
 export SW_APP_NAME="$(python3 -c "import re,os; print(''.join(w.capitalize() for w in re.split(r'[^A-Za-z0-9]+', os.environ['SW_DISPLAY']) if w))")"
 if [ "$MACOS_STYLE" = "menubar" ]; then
   export SW_LSUIELEMENT="LSUIElement: YES                # menu-bar agent — no Dock icon"
@@ -292,7 +293,7 @@ for f in CODING_PRACTICES.md NEW_PROJECT_BEST_PRACTICES.md; do
   if [ -f "$TEAM_FILES/$f" ]; then cp "$TEAM_FILES/$f" "$PROJECT_DIR/docs/$f"
   else echo "WARN: $TEAM_FILES/$f not found — docs/$f not copied" >&2; fi
 done
-mkdir -p "$PROJECT_DIR/docs/features-to-triage" "$PROJECT_DIR/docs/specs" "$PROJECT_DIR/docs/plans" "$PROJECT_DIR/design/mocks/html"
+mkdir -p "$PROJECT_DIR/docs/features-to-triage" "$PROJECT_DIR/docs/specs" "$PROJECT_DIR/docs/plans" "$PROJECT_DIR/docs/deep-research" "$PROJECT_DIR/design/mocks/html" "$PROJECT_DIR/design/icon" "$PROJECT_DIR/design/marketing/assets"
 printf '# LEDGER\n\n| ID | Feature | Status |\n|---|---|---|\n' > "$PROJECT_DIR/docs/features-to-triage/LEDGER.md"
 ln -s CLAUDE.md "$PROJECT_DIR/AGENTS.md"
 

@@ -1,0 +1,19 @@
+# {{DISPLAY}} — Features to triage
+
+Rough, triage-ready feature briefs. Each file is a **starting point for the triage → plan → work pipeline** (ship-feature / ship-fleet), not a finished spec — triage expands assumptions and open questions.
+
+**The rule (also in CLAUDE.md): every new feature request lands here FIRST** as a brief (copy `BRIEF-TEMPLATE.md`), then the pipeline runs on the brief. Never build a feature straight from chat — the brief is what makes the work resumable, reviewable, and visible to the orchestrators.
+
+IDs: briefs are named `{{ID_PREFIX}}-<slug>.md`; formal ledger IDs are allocated at triage (a serialized write — don't self-allocate). Grounding: cite `docs/deep-research/` reports and `OVERVIEW.md` where a brief's claims come from research rather than the owner's ask.
+
+## How to read the `Pipeline` field
+
+- **`web-pipeline`** — buildable/testable by the web pipeline (design-craft → triage → plan → work → Playwright acceptance).
+- **`native / logic-only`** — pure Swift/Rust logic, fully verifiable off-device (`swift test` / `cargo test`).
+- **`native / device-gated`** — needs a real device/simulator or signing to fully validate; the pipeline still delivers mocks + tested logic, on-device validation is a tracked follow-up.
+
+## Index
+
+| Brief | Surface | Pipeline | Priority |
+|---|---|---|---|
+| *(add a row per brief)* | | | |

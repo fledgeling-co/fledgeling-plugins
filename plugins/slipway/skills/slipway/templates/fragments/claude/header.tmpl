@@ -32,10 +32,10 @@ The quality gate is the **husky pre-push hook** (`.husky/pre-push`) running `pnp
 
 ## Feature pipeline
 
-Feature work flows through the markdown spec pipeline: briefs land in `docs/features-to-triage/` (ledger: `docs/features-to-triage/LEDGER.md`), triaged specs in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/`. Use the `ship-feature` / `ship-fleet` skills (diolog-plugins) to run it.
+**Every new feature request lands in `docs/features-to-triage/` FIRST** — write a brief (copy `docs/features-to-triage/BRIEF-TEMPLATE.md`, add an index row to its README), then run `ship-feature` (one brief) or `ship-fleet` (the backlog) on it. Never build a feature straight from chat: the brief is what makes work reviewable, resumable, and visible to the orchestrators. Triaged specs land in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/` (ledger: `docs/features-to-triage/LEDGER.md` — IDs are allocated at triage, never self-allocated). Deep research lives in `docs/deep-research/` and is the grounding for briefs, `OVERVIEW.md`, and marketing claims — cite it rather than asserting.
 
 ## Documentation map
 
-Durable docs — update the right one **in the same change** that makes it stale: `docs/ARCHITECTURE.md` (surfaces, governance, boundary rules), `docs/TESTING.md` (harness map + rules), `docs/DEPLOYMENT.md` (Vercel/fastlane/notarization knowledge), `docs/AI-MODEL-USAGE.md` (every AI feature registers its model tier + call site here — the migration index), plus the operating specs above.
+Durable docs — update the right one **in the same change** that makes it stale: `OVERVIEW.md` (positioning, audience, market context — the source of truth the marketing site and briefs ground in), `docs/MARKETING-FEATURES.md` (feature → benefit → proof rows + pricing; a stale row becomes a false public claim, so update it when a feature ships or changes), `docs/ARCHITECTURE.md` (surfaces, governance, boundary rules), `docs/TESTING.md` (harness map + rules), `docs/DEPLOYMENT.md` (Vercel/fastlane/notarization knowledge), `docs/AI-MODEL-USAGE.md` (every AI feature registers its model tier + call site — the migration index), `docs/deep-research/` (exported research reports; evidence, not assertion), plus the operating specs above.
 
 ## Repo layout

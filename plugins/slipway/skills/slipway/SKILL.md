@@ -50,7 +50,20 @@ The script's last line reports `install / gate / xcodegen` status. If the gate f
 
 Known deliberate pin: `typescript@^6` in web/api/rn — TypeScript 7.0 ships only the `tsc` executable, and the Nest CLI + typescript-eslint need the programmatic compiler API (expected back in TS 7.1). Unpin once the ecosystem supports 7.x.
 
-## 5 — Finish
+## 5 — The launch pipeline (research → briefs → mocks → marketing site)
+
+The scaffold is the shell; `references/launch-pipeline.md` is the full procedure for filling it — read it and run the phases:
+
+- **R — deep research** (starts first, background): decide 0-2 Dossier queries (competitive almost always; technical only for real unknowns); free CLI panel by default, ask before paid backends join; when settled, **read every report in full** (not outlines) and export into `docs/deep-research/`. The research grounds the briefs, OVERVIEW.md, and every marketing decision.
+- **B — feature backlog**: seed `docs/features-to-triage/` briefs from the owner's context immediately (BRIEF-TEMPLATE.md, index rows); revise + extend when research lands, citing reports.
+- **O — overview + marketing features**: fill `OVERVIEW.md` and `docs/MARKETING-FEATURES.md` (incl. the pricing recommendation) from context + research.
+- **D — design**: design-craft + ux-craft mock every surface, flow, menu, modal, and empty/loading/error state into `design/mocks/html/` (inventory first in INDEX.md); mac-design-studio for native app design + the app icon; media-gen-pro (`svg: true`) generates icon vectors into `design/icon/` and the scaffolded `design/icon/audit.html` (128/64/48/32/16 + tinted + silhouette) judges the directions.
+- **M — marketing site**: `design/marketing/index.html` — create-luke-content writes every word (lint it), design-craft + ux-craft build the premium single page against the researched quality bar in the reference (zero Krebs slop tells; LCP ≤2.5s with three.js out of the critical path; native scroll; motion at one or two authored moments; an interactive mock slice from phase D; pricing per the evidence table; login/signup to `/login`), media-gen-pro supplies imagery into `design/marketing/assets/`; gate with design-review. Porting it into apps/web becomes a P0 brief.
+- **L — launch ops**: fill `docs/LAUNCH.md` — domain availability (namecheap MCP, read-only), legal-page drafts, App Store kit (shot-list from mocks), analytics event schema, waitlist/referral decision. Prepares everything; the owner runs anything that spends, publishes, or creates accounts.
+
+Commit per phase; armada-sync at the end. When the user only wants the scaffold, deliver the scaffold and offer the pipeline — don't run five phases nobody asked for.
+
+## 6 — Finish
 
 - Walk the user through `SETUP-NEXT-STEPS.md` — the only manual parts: the `/etc/hosts` + Caddy `conf.d` mirror commands (need sudo — suggest they run them with the `!` prefix), `vercel link`, `DEVELOPMENT_TEAM` for release signing, data-service env values.
 - Register the project in the portfolio: run the `armada-sync` skill so `~/Dev/ARMADA.md` gets its entry.

@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{{DISPLAY}} — icon audit</title>
+<style>
+:root{--bg:#191C22;--panel:#232730;--ink:#EAEEF6;--ink2:#949EB2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);padding:36px;
+ font:400 14px/1.5 -apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+h1{font-size:21px;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--ink2);margin:0 0 28px;font-size:12.5px;max-width:86ch}
+.row{display:grid;grid-template-columns:200px 250px 1fr;gap:26px;align-items:center;
+ background:var(--panel);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:22px;margin-bottom:18px}
+.meta h2{font-size:15.5px;margin:0 0 3px} .meta p{margin:0;color:var(--ink2);font-size:11.5px}
+img{display:block}
+.sq{clip-path:inset(0 round 22.37%)}
+.hero img{width:216px;height:216px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.55))}
+.tests{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.t{display:flex;flex-direction:column;align-items:center;gap:7px}
+.t span{font-size:9.5px;color:var(--ink2);font-family:ui-monospace,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase}
+.gs{filter:grayscale(1) contrast(1.08)}
+</style></head><body>
+<h1>{{DISPLAY}} — app icon directions</h1>
+<p class="sub">Artwork is full-bleed 1024 SVG (no baked corners or shadow) — the squircle mask is applied
+here for preview only, as the system would. Sizes test legibility down the dock/menu-bar ladder
+(48 is the Finder/list sweet spot); tinted is a grayscale collapse and silhouette renders glyph-only,
+both testing whether identity survives without colour. Generate the SVGs with media-gen-pro (svg: true)
+into this folder as icon-A.svg / icon-B.svg / icon-C.svg (+ sil-A.svg …), then judge here.</p>
+<!-- One .row per direction. Duplicate this section for B and C. -->
+<section class="row">
+<div class="meta"><h2>A · <direction name></h2><p><one-line concept></p></div>
+<div class="hero"><img class="sq" src="icon-A.svg" alt="Direction A"></div>
+<div class="tests">
+ <div class="t"><img class="sq" src="icon-A.svg" style="width:128px;height:128px"><span>128</span></div>
+ <div class="t"><img class="sq" src="icon-A.svg" style="width:64px;height:64px"><span>64</span></div>
+ <div class="t"><img class="sq" src="icon-A.svg" style="width:48px;height:48px"><span>48</span></div>
+ <div class="t"><img class="sq" src="icon-A.svg" style="width:32px;height:32px"><span>32</span></div>
+ <div class="t"><img class="sq" src="icon-A.svg" style="width:16px;height:16px"><span>16</span></div>
+ <div class="t"><img class="sq gs" src="icon-A.svg" style="width:88px;height:88px"><span>tinted</span></div>
+ <div class="t"><img class="sq" src="sil-A.svg" style="width:88px;height:88px"><span>silhouette</span></div>
+</div></section>
+</body></html>

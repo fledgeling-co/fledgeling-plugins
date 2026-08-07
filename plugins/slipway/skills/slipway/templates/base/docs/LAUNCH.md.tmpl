@@ -1,0 +1,36 @@
+# {{DISPLAY}} — Launch operations
+
+The launch mile stays human-owned; this file makes it small and well-informed. Agents fill sections and print commands; the owner runs anything that creates an account, spends money, or publishes.
+
+## Domain
+
+Candidates (availability checked, not purchased): <namecheap check results for {{CODENAME}}.app/.com/.dev>
+Purchase + DNS: owner action (then mirror into the Caddy/hosts setup and Vercel domains).
+
+## Legal
+
+- [ ] Privacy policy drafted (`apps/web/app/privacy`) — REQUIRED before any App Store submission
+- [ ] Terms drafted — owner review before publication
+
+## App Store kit *(native surfaces only)*
+
+- Name/subtitle options: <create-luke-content, grounded in OVERVIEW.md>
+- Screenshot shot-list: <map to design/mocks/html frames — screenshots must show the app in use>
+- Privacy-data inventory: <what the app collects, for App Store Connect's privacy questions>
+- Review notes/demo account: <how a reviewer reaches every feature>
+
+## Analytics events
+
+| Event | Where | Why |
+|---|---|---|
+| cta_click | marketing hero/pricing | top of funnel |
+| signup_complete | /login | conversion |
+| activation | first value moment | the metric that matters |
+| paywall_view / trial_start / paid | billing flow | monetisation funnel |
+
+## Launch mechanics
+
+Model (from docs/MARKETING-FEATURES.md pricing section): waitlist+referral | trial | direct sale | App Store.
+- [ ] Waitlist referral loop (if pre-launch) — the most under-used lever
+- [ ] Vercel: domains attached, Performance CPU set, analytics on
+- [ ] armada-sync run so the portfolio manifest reflects launch state
