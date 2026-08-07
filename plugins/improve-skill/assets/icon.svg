@@ -17,7 +17,7 @@
   </clipPath>
 
   <!-- the un-planed side: cooler, greyer, losing light as it nears the cut -->
-  <linearGradient id="roughField" x1="110" y1="60" x2="700" y2="690" gradientUnits="userSpaceOnUse">
+  <linearGradient id="roughField" x1="120" y1="58" x2="520" y2="676" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#E4E1D8"/>
     <stop offset="0.52" stop-color="#D3CEC3"/>
     <stop offset="1" stop-color="#BEB8AB"/>
@@ -1807,23 +1807,23 @@
 
     <!-- contact shadow, from the one soft top-left light -->
     <g filter="url(#softShadow)">
-      <path d="M 26.0 0 L 620.0 0 Q 640.0 0 640.0 20.0 L 640.0 138.0 Q 640.0 168.0 610.0 168.0 C 422.4 160.5 217.6 160.5 40.0 168.0 Q 0 168.0 0 128.0 L 0 26.0 Q 0 0 26.0 0 Z" transform="translate(15,19) matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)" fill="#5B5346" fill-opacity="0.28"/>
+      <path d="M 11.0 0 L 632.0 0 Q 640.0 0 640.0 8.0 L 640.0 138.0 Q 640.0 168.0 610.0 168.0 C 422.4 160.5 217.6 160.5 40.0 168.0 Q 0 168.0 0 128.0 L 0 11.0 Q 0 0 11.0 0 Z" transform="translate(15,19) matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)" fill="#5B5346" fill-opacity="0.28"/>
     </g>
 
     <!-- the hone's light on the surface it just cut. Clipped to the trued side and drawn
          under the blade, so it can only ever read as spill from the edge. -->
     <g clip-path="url(#truedSide)">
-      <path d="M 14 0 L 628 0 L 628 -46 L 14 -46 Z"
+      <path d="M 15 0 L 628 0 L 628 -46 L 15 -46 Z"
             transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)" fill="url(#honeBloom)"/>
-      <path d="M 30 0 L 614 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)" stroke="#FF7038"
-            stroke-opacity="0.50" stroke-width="10" filter="url(#honeGlow)"/>
+      <path d="M 24 0 L 620 0" transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)" stroke="#FF7038"
+            stroke-opacity="0.62" stroke-width="15" filter="url(#honeGlow)"/>
     </g>
   </g>
 
   <g id="fg">
     <g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)">
       <!-- the plane iron: one solid chunky silhouette, the carrying shape at every size -->
-      <path d="M 26.0 0 L 620.0 0 Q 640.0 0 640.0 20.0 L 640.0 138.0 Q 640.0 168.0 610.0 168.0 C 422.4 160.5 217.6 160.5 40.0 168.0 Q 0 168.0 0 128.0 L 0 26.0 Q 0 0 26.0 0 Z" fill="url(#bladeBody)"/>
+      <path d="M 11.0 0 L 632.0 0 Q 640.0 0 640.0 8.0 L 640.0 138.0 Q 640.0 168.0 610.0 168.0 C 422.4 160.5 217.6 160.5 40.0 168.0 Q 0 168.0 0 128.0 L 0 11.0 Q 0 0 11.0 0 Z" fill="url(#bladeBody)"/>
       <!-- the honed bevel face -->
       <path d="M 20 0 L 624 0 L 624 34 L 20 34 Z" fill="url(#bevelFace)"/>
       <!-- wear on the back: two faint grind striations -->
@@ -1835,10 +1835,10 @@
   <g id="highlight" fill="none">
     <g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,283.625,734.284)">
       <!-- the vermilion hone line: the cutting edge, and the before/after boundary, one shape -->
-      <path d="M 26 0.5 L 618 0.5" stroke="url(#honeCore)" stroke-width="9"
-            stroke-linecap="round"/>
-      <path d="M 70 -0.2 L 566 -0.2" stroke="#FFCFAE" stroke-opacity="0.92"
-            stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M 15 0.5 L 628 0.5" stroke="url(#honeCore)" stroke-width="11.5"
+            stroke-linecap="butt"/>
+      <path d="M 58 -0.4 L 578 -0.4" stroke="#FFD2B2" stroke-opacity="0.95"
+            stroke-width="3.4" stroke-linecap="round"/>
       <!-- rim light along the worn back, from the same top-left source -->
       <path d="M 46 166 C 218 159 422 159 604 166"
             stroke="#A6B0BE" stroke-opacity="0.55" stroke-width="4.5" stroke-linecap="round"/>
