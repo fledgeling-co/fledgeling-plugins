@@ -1,0 +1,30 @@
+{
+  "eval-1-reliability-boss-gate": {
+    "A": "old_skill",
+    "B": "with_skill"
+  },
+  "eval-2-technical-frame-fit": {
+    "A": "with_skill",
+    "B": "old_skill"
+  },
+  "eval-3-shortlist-mechanism-diversity": {
+    "A": "with_skill",
+    "B": "old_skill"
+  },
+  "eval-4-naming-run": {
+    "A": "with_skill",
+    "B": "old_skill"
+  },
+  "eval-5-closed-phrasing-aborts": {
+    "A": "old_skill",
+    "B": "with_skill"
+  },
+  "eval-6-any-percent-tier": {
+    "A": "old_skill",
+    "B": "with_skill"
+  },
+  "eval-7-adversarial-frame-fit": {
+    "A": "old_skill",
+    "B": "with_skill"
+  }
+}

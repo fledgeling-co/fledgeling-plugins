@@ -210,8 +210,10 @@ already required to reach this point. Verdicts: BEATS / TIES / LOSES.
 
 > You are in FOCUS mode. Sketch how this idea actually works in 4–8
 > sentences. Name the load-bearing risk. Name the first concrete step a
-> builder takes tomorrow. Then 3–5 child ideas (variations, hybrids,
-> unlocks). Output JSON only.
+> builder takes tomorrow — in the problem's own toolchain, naming the
+> actual tools, commands, or APIs (a Rails problem gets a packwerk or
+> ActiveSupport::Notifications step, not "instrument the boundaries").
+> Then 3–5 child ideas (variations, hybrids, unlocks). Output JSON only.
 
 **100% tier only — hybridization pass.** One extra Agent takes the top
 idea from each of the two most distant clusters and force-merges them

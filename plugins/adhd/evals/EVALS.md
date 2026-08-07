@@ -25,6 +25,26 @@ Run: 2026-08-07 · iteration 1, full 7-eval set · grader: independent subagent,
 - Old-skill failures are dominated by absent v2 artifacts (no baseline label, no verdicts, no tier receipt, no apoptosis accounting) plus the two substantive misses above — which is the point of the comparison.
 - Evals that pass for both variants (5, and eval 7's conditional apoptosis assertion when no frame floors out) are regression guards, not discriminators.
 
+## Blind quality panel (no human review)
+
+Separate from the structural assertions: each eval's two outputs were anonymised (seeded-random A/B per eval), and judged blind by two independent families — **Cursor composer-2.5** (non-Anthropic) and a **Fable subagent with no access to the skill files** — on breadth, novelty, trap detection, actionability, and builder usefulness. Neither judge knew which output came from which version. Raw un-blinded verdicts: `blind-panel/panel-results.json`. A third leg (Codex gpt-5.6-sol, xhigh) is deferred to its usage-limit reset.
+
+| Eval | composer-2.5 | Fable (blind) |
+|---|---|---|
+| 1 reliability-boss-gate | OLD | NEW |
+| 2 technical-frame-fit | NEW | NEW |
+| 3 shortlist-mechanism-diversity | OLD | OLD |
+| 4 naming-run | OLD | NEW |
+| 5 closed-phrasing-aborts | OLD | TIE |
+| 6 any-percent-tier | NEW | NEW |
+| 7 adversarial-frame-fit | NEW | NEW |
+
+Overall: composer 3 NEW / 4 OLD; Fable 5 NEW / 1 OLD / 1 TIE. Judges disagreed on 3 of 7 — consistent with the measured unreliability of single LLM judges that motivated the panel design.
+
+Pooled per-dimension: NEW wins trap detection 8-4 and breadth 7-4; OLD wins actionability 6-3; novelty and builder usefulness split. The signal is coherent across both judges' prose: the new skill's exploration and trap analysis are stronger, but blind judges reward first steps phrased in the problem's *native toolchain* (eval 3's unanimous OLD verdict praised packwerk / ActiveSupport::Notifications-specific starts over generic instrumentation language). The FOCUS deepen instruction now requires toolchain-native first steps as a direct fix; re-run the panel after the next iteration to see whether the actionability gap closes.
+
+Two honest caveats: single runs per variant per eval, so per-eval verdicts carry sampling noise (eval 5 compares two near-identical direct answers — composer's OLD pick there is noise, Fable's TIE is the sensible read); and blind judges score only content value, so v2's audit artifacts (receipts, verdicts) earn nothing here by design — the structural assertions cover those.
+
 ## Eval set
 
 `evals.json` holds 7 evals, all run above. All assertions are structural properties of the rendered output — checkable by reading the response. This is intentional: the research this skill is built on (see `../skills/adhd/references/evidence.md` §5) shows LLM-judged quality scores collapse toward the middle and don't track expert judgment, so the evals assert *artifacts* (baseline present, verdicts present, one-per-cluster shortlists, receipts, apoptosis notes) rather than scores.
