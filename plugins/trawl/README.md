@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="trawl — a luminous teal trawl-net icon beside the wordmark, with the tagline: cast a wide net over your options, keep only what's worth shipping" width="100%" />
+  <img src="assets/banner.png" alt="trawl: a luminous teal trawl-net icon beside the wordmark, with the tagline: cast a wide net over your options, keep only what's worth shipping" width="100%" />
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> trawl</h1>
