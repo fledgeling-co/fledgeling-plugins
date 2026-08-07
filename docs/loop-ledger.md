@@ -7,4 +7,4 @@ loop-runs/ (Phase 4 training data).
 
 | # | Fixture | Edit class | Gate | Panel | Skill change |
 |---|---------|-----------|------|-------|--------------|
-| 1 | improve-skill vs C2 | material (running) | — | — | fidelity-loop.md: Opus 5 implement-agent briefing patterns (evidence: curl agent ran 7 rounds against a 4-round cap; prior briefs carried verification scaffolding the Opus 5 guide names as an over-verification cause) |
+| 1 | improve-skill | material | ACCEPT +0.1427 | no-majority (baseline won 32/16, 2-0; 1 judge failed) | fidelity-loop.md Opus 5 briefing patterns; fidelity.py self_contrast metric + 32/16 legibility floor (calibration verified identical); judge_panel.py cursor --trust fix; material-recipes.md single-emitter falloff mask + shadow-hue check + own-light-model check. Round is PROVISIONAL, queued. |
