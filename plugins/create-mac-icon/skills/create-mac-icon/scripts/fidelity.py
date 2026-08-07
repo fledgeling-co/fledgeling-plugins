@@ -182,6 +182,14 @@ def cmd_score(args):
             "ssim": round(ssim(gc, gr), 4),
             "edge_f1": round(edge_f1(gc, gr), 4),
             "mask_iou": mask_iou(ci, ri),
+            # Absolute and reference-free: how much figure-ground punch the
+            # candidate has on its OWN. Every other metric here measures
+            # similarity, and a reference with weak small-size contrast will
+            # happily pull a candidate down toward it while the similarity
+            # numbers rise. Two independent judges caught exactly that on
+            # improve-skill loop r01 when the composite did not.
+            "self_contrast": round(float(np.percentile(gc, 90) - np.percentile(gc, 10)), 4),
+            "ref_self_contrast": round(float(np.percentile(gr, 90) - np.percentile(gr, 10)), 4),
         }
         if m["mask_iou"] is not None:
             m["mask_iou"] = round(m["mask_iou"], 4)
@@ -222,6 +230,19 @@ def cmd_gate(args):
         if cand["sizes"][size]["edge_f1"] < args.edge_floor:
             verdict = "REJECT"
             reasons.append(f"{size}px edge_f1 {cand['sizes'][size]['edge_f1']:.3f} below floor {args.edge_floor}")
+        # Absolute legibility floor. The composite can rise at small sizes purely by
+        # converging on a reference whose own contrast is weak, which reads to a human
+        # as the icon going mushy. Judged evidence: improve-skill r01 scored 32/16 as
+        # improved while two independent judges both said the block collapsed toward
+        # mid-grey. Similarity is not legibility, so this is checked on the candidate
+        # alone.
+        c_sc = cand["sizes"][size].get("self_contrast")
+        b_sc = base["sizes"][size].get("self_contrast")
+        if c_sc is not None and b_sc is not None and c_sc < b_sc * (1 - args.contrast_drop):
+            verdict = "REJECT"
+            reasons.append(
+                f"{size}px self_contrast {c_sc:.3f} fell more than {args.contrast_drop:.0%} "
+                f"below baseline {b_sc:.3f} (legibility loss the similarity score does not see)")
     gain = sum(cand["sizes"][s]["composite"] - base["sizes"][s]["composite"] for s in map(str, SIZES))
     print(f"{verdict}  (net composite delta {gain:+.4f} across {len(SIZES)} sizes)")
     for r in reasons:
@@ -271,6 +292,8 @@ def main():
     g.add_argument("--baseline", required=True, help="baseline score.json")
     g.add_argument("--tolerance", type=float, default=0.005)
     g.add_argument("--edge-floor", type=float, default=0.35)
+    g.add_argument("--contrast-drop", type=float, default=0.06,
+                   help="max fractional drop in the candidate's own 32/16px contrast vs baseline")
     g.set_defaults(fn=cmd_gate)
     st = sub.add_parser("structure")
     st.add_argument("--candidate", required=True)

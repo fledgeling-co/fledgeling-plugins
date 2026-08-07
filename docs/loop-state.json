@@ -1,0 +1,19 @@
+{
+  "iteration": 1,
+  "fixture_index": 0,
+  "cost_usd": 0.0086,
+  "fixtures": {
+    "improve-skill": {
+      "round": 1,
+      "class_index": 1,
+      "accepted": 1,
+      "rejects_in_row": 0,
+      "gains": [
+        0.0327
+      ],
+      "panel_nonwins": 1,
+      "converged": false,
+      "baseline_dir": "r01"
+    }
+  }
+}

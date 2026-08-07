@@ -28,6 +28,26 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill loop r01 (material, +0.1427 net)** — three findings,
+  one of them a bug in our own icon rather than a mismatch with the reference.
+  **(a) Single-emitter falloff mask.** Author a carried emitter's decay once, as
+  a white `linearGradient` with varying `stop-opacity` along the emitter's axis,
+  wrapped in a `<mask>` applied to the group holding *every* layer that emitter
+  owns (bloom, glow, core, specular, ground spill). One gradient, one mask, so
+  the emitter, the surfaces it lights and the ground beneath it cannot drift
+  apart; they are one number. Give the falloff a floor when the emitter also
+  carries identity at small sizes.
+  **(b) Shadow hue is a separate check from shadow luminance and saturation.**
+  The reference's darkest block pixels read warm (0.155, 0.132, 0.119); the
+  master's read *blue* (0.096, 0.108, 0.128) at near-identical saturation, so
+  both a luminance-range check and a saturation check passed it. Nothing in the
+  scene emitted cool light. Re-hue with each stop's luminance held to ±0.01,
+  which isolates the cast from the modelling.
+  **(c) Check your own icon for single-light violations before blaming the
+  reference.** The master's *brightest* ground was the corner furthest from its
+  own key light. That is not a mismatch with the reference; it is the icon
+  breaking its own stated light model.
+
 - **2026-08 · improve-skill block pitch (gated round, +0.0657 net)** — a tool
   "riding" a surface is a **wedge, not a lifted copy**: a constant-rise lift
   produces a parallel top face that reads as an object lying flat. Measure the

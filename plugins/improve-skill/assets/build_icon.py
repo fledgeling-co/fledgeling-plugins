@@ -294,7 +294,9 @@ def stone():
         ly = rnd() * BLADE_THICK
         rx, ry = 28 + rnd() * 96, 16 + rnd() * 46
         op = 0.038 + rnd() * 0.070
-        col = "#8E97A4" if rnd() < 0.55 else "#14171B"
+        # ROUND 7: was #8E97A4 / #14171B, both blue. C2's stone mottles neutral-to-warm;
+        # the iron's own blotching cannot be the one cool thing in a scene with no cool light.
+        col = "#9A968C" if rnd() < 0.55 else "#191714"
         out.append(f'<ellipse cx="{lx:.0f}" cy="{ly:.0f}" rx="{rx:.0f}" ry="{ry:.0f}" '
                    f'fill="{col}" fill-opacity="{op:.3f}"/>')
     return "\n        ".join(out)
@@ -594,48 +596,89 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <path d="M0 0 L{W} 0 L{W} {B_RIGHT:.1f} L0 {B_LEFT:.1f} Z"/>
   </clipPath>
 
-  <!-- the un-planed side: cooler, greyer, losing light as it nears the cut -->
-  <linearGradient id="roughField" x1="86" y1="30" x2="540" y2="700" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#D8D2C4"/>
-    <stop offset="0.50" stop-color="#C5BDAC"/>
-    <stop offset="1" stop-color="#ABA391"/>
+  <!-- the un-planed side: cooler, greyer, losing light as it nears the cut. ROUND 7 -
+       the axis now also carries the light's own falloff to the right: C2's un-planed
+       field runs 0.846 at the top-left down to 0.588 at the top-right (0.70x), where
+       ours only fell to 0.696 (0.89x) - too flat for one soft top-left key. -->
+  <linearGradient id="roughField" x1="70" y1="20" x2="700" y2="650" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#DBD5C7"/>
+    <stop offset="0.50" stop-color="#C2BAA8"/>
+    <stop offset="1" stop-color="#A19881"/>
   </linearGradient>
 
-  <!-- the trued side: brighter and warmer, brightest right at the fresh cut -->
-  <linearGradient id="truedField" x1="300" y1="440" x2="960" y2="1030" gradientUnits="userSpaceOnUse">
+  <!-- the trued side: brighter and warmer, brightest right at the fresh cut. ROUND 7 -
+       the far corner was the BUG. Measured, the old build's brightest ground was the
+       BOTTOM-LEFT corner at L 0.932 and the bottom-right at 0.848, i.e. the ground was
+       brightest furthest from the light: a single-light violation in our own icon, not
+       just a mismatch with C2. The field now falls 0.98 -> 0.84 along the light's axis
+       while holding its value AT the cut, which is where the polarity is read and where
+       the hone's spill lands. -->
+  <linearGradient id="truedField" x1="300" y1="430" x2="1090" y2="1120" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#FFFDF6"/>
-    <stop offset="0.40" stop-color="#FCF7EC"/>
-    <stop offset="1" stop-color="#F1EAD9"/>
+    <stop offset="0.40" stop-color="#F9F3E7"/>
+    <stop offset="1" stop-color="#DED4BE"/>
   </linearGradient>
 
-  <!-- top face of the iron: facing the soft top-left light. Warm-leaning graphite,
-       not blue steel - the raster take's stone read is what this is chasing. -->
+  <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
+       was always "warm-leaning graphite, not blue steel", but the constants never said
+       so: the old ramp ran #2E3238 -> #5D636B, every stop with B ten points above R, and
+       the rendered face measured a flat cool cast (sat 0.13-0.15, B>R) end to end.
+       Measured off C2: its top face is NEUTRAL through the body (sat 0.004-0.04) and
+       drifts WARM at the back edge (0.319,0.311,0.302 -> 0.378,0.354,0.332) where the
+       timber bounces up into it. The LUMINANCE ramp below is unchanged to within 0.01
+       at every stop - only the hue moves - so this isolates the cast from the modelling. -->
   <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="{BLADE_THICK}" gradientUnits="userSpaceOnUse"
                   gradientTransform="{MATRIX_TOP}">
-    <stop offset="0" stop-color="#2E3238"/>
-    <stop offset="0.34" stop-color="#41464C"/>
-    <stop offset="0.78" stop-color="#525860"/>
-    <stop offset="1" stop-color="#5D636B"/>
+    <stop offset="0" stop-color="#35352F"/>
+    <stop offset="0.34" stop-color="#494841"/>
+    <stop offset="0.78" stop-color="#5A584F"/>
+    <stop offset="1" stop-color="#66625A"/>
   </linearGradient>
 
-  <!-- a soft sheen where the top-left light lands hardest on the top face -->
-  <radialGradient id="topSheen" cx="0.30" cy="0.72" r="0.62">
-    <stop offset="0" stop-color="#CBD5E2" stop-opacity="0.25"/>
-    <stop offset="1" stop-color="#CBD5E2" stop-opacity="0"/>
+  <!-- a soft sheen where the top-left light lands hardest on the top face. Was a cool
+       #CBD5E2 at 0.25 and too tight: it swung the top face 1.63:1 ALONG its length,
+       where C2's swings only 1.24:1 - a spotlight on a plane rather than stone. Warmer,
+       weaker and broader, so the face's volume comes from its across-depth ramp. -->
+  <radialGradient id="topSheen" cx="0.32" cy="0.70" r="0.86">
+    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.13"/>
+    <stop offset="1" stop-color="#DED9CD" stop-opacity="0"/>
   </radialGradient>
 
   <!-- front face: in shadow at the top, lit from below by the hone itself. Anchored at
        local y=0 (the cutting edge) and running back to the DEEPEST the wedge ever gets,
        with every stop placed by its true distance from the edge - so light falls off
        with distance from the hone, and the pinched near end stays as dark as the deep
-       trailing end at the same height above the timber. -->
+       trailing end at the same height above the timber.
+       ROUND 7. Two errors measured out of the render, both invisible to a luminance
+       range check. (1) HUE: the top two stops were #181B20 / #1E2026, i.e. BLUE-black
+       (B>R), on a face whose only two light sources are a vermilion hone and bounce off
+       warm timber. There is no cool light anywhere in this scene, so a blue shadow here
+       is not a taste call, it is wrong. C2's front face stays warm the whole way up
+       (0.286,0.236,0.218 at mid height; 0.150,0.136,0.125 at its darkest). (2) FLOOR:
+       ours crushed to L 0.106-0.128 over most of the face while C2's sits at 0.17-0.25 -
+       and our ground is BRIGHTER than C2's, so our bounce should be stronger, not
+       weaker. Lifted to a warm 0.15-0.23 and the vermilion carried further up. -->
   <linearGradient id="frontFace" x1="0" y1="{RISE_LY:.2f}" x2="0" y2="0" gradientUnits="userSpaceOnUse"
                   gradientTransform="{MATRIX}">
-    <stop offset="0" stop-color="#181B20"/>
-    <stop offset="{_fo(42.80):.4f}" stop-color="#1E2026"/>
-    <stop offset="{_fo(19.19):.4f}" stop-color="#3A2521"/>
-    <stop offset="{_fo(5.90):.4f}" stop-color="#8A3418"/>
-    <stop offset="1" stop-color="#C2431C"/>
+    <stop offset="0" stop-color="#2A2622"/>
+    <stop offset="{_fo(42.80):.4f}" stop-color="#382D25"/>
+    <stop offset="{_fo(19.19):.4f}" stop-color="#5A3226"/>
+    <stop offset="{_fo(5.90):.4f}" stop-color="#90401F"/>
+    <stop offset="1" stop-color="#C94E22"/>
+  </linearGradient>
+
+  <!-- ROUND 7. The front face is lit almost entirely BY the hone, so it has to carry the
+       hone's own along-length falloff. The old build had none: measured at 15px above the
+       cutting edge it read a dead-flat L 0.281 from end to end, where C2 runs 0.274 at the
+       leading end down to 0.138 at 66% along - it halves. This is the same physical fact as
+       the hone's falloff, applied to the surface the hone lights. Warm-dark, never neutral,
+       because what is being removed is warm light. -->
+  <linearGradient id="frontFall" x1="0" y1="0" x2="{BLADE_LEN}" y2="0" gradientUnits="userSpaceOnUse"
+                  gradientTransform="{MATRIX}">
+    <stop offset="0" stop-color="#241A12" stop-opacity="0"/>
+    <stop offset="0.30" stop-color="#241A12" stop-opacity="0.08"/>
+    <stop offset="0.66" stop-color="#241A12" stop-opacity="0.28"/>
+    <stop offset="1" stop-color="#1E1610" stop-opacity="0.38"/>
   </linearGradient>
 
   <!-- the hone glow spilling onto the surface it has just trued. Every edge of this
@@ -649,17 +692,70 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <stop offset="1" stop-color="#FFE2C8" stop-opacity="0"/>
   </linearGradient>
 
+  <!-- ROUND 7. THE LARGEST MEASURED GAP OF THE ROUND. Sampled along the hone itself,
+       C2 reads L 0.95-0.98 for the leading 30% of the blade and then falls off a cliff -
+       0.91 / 0.74 / 0.53 / 0.30 - extinguished into the ground by about 62% along. The
+       old build measured a DEAD FLAT L 0.89 for all 640px: a neon tube, not a cut.
+       C2 is physically right and the reason is the icon's own premise - the glow is the
+       cut happening, and the cut is happening where the iron is buried in the timber at
+       the leading end; behind it the edge has already left the wood.
+       This mask carries that falloff onto every layer the hone owns (bloom, glow, core,
+       specular), so they cannot drift apart. It does NOT extinguish: C2 goes to zero and
+       fails the rubric's two-state check for it, so this holds a floor of ~0.3 through
+       the trailing end and the signature line stays unbroken at 16px. -->
+  <linearGradient id="honeFallRamp" x1="0" y1="0" x2="{BLADE_LEN}" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="{MATRIX}">
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.94"/>
+    <stop offset="0.30" stop-color="#FFFFFF" stop-opacity="1"/>
+    <stop offset="0.52" stop-color="#FFFFFF" stop-opacity="0.72"/>
+    <stop offset="0.76" stop-color="#FFFFFF" stop-opacity="0.44"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.30"/>
+  </linearGradient>
+  <mask id="honeFall" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{W}">
+    <rect width="{W}" height="{W}" fill="url(#honeFallRamp)"/>
+  </mask>
+
+  <!-- the honed edge's own colour along its length: hottest where the iron is cutting,
+       cooling toward the trailing end. C2's hone core measures (0.96,0.62,0.44) at its
+       brightest; the old ramp peaked in the MIDDLE, which is a tube-light read. -->
   <linearGradient id="honeCore" x1="0" y1="0" x2="{BLADE_LEN}" y2="0" gradientUnits="userSpaceOnUse"
                   gradientTransform="{MATRIX}">
-    <stop offset="0" stop-color="#C4341A"/>
-    <stop offset="0.30" stop-color="#FA6231"/>
-    <stop offset="0.62" stop-color="#FF9159"/>
-    <stop offset="1" stop-color="#D8451F"/>
+    <stop offset="0" stop-color="#FF8B4B"/>
+    <stop offset="0.24" stop-color="#FF9159"/>
+    <stop offset="0.52" stop-color="#F4602C"/>
+    <stop offset="0.80" stop-color="#C93C1B"/>
+    <stop offset="1" stop-color="#A83017"/>
   </linearGradient>
 
-{SHAVING_GRAD}  <radialGradient id="vignette" cx="0.46" cy="0.40" r="0.86">
-    <stop offset="0.56" stop-color="#000000" stop-opacity="0"/>
-    <stop offset="1" stop-color="#3A3226" stop-opacity="0.16"/>
+  <!-- the seat's own occlusion, deepening toward the trailing end where the wedge is
+       deepest and the light is most shut out -->
+  <linearGradient id="seatRamp" x1="0" y1="0" x2="{BLADE_LEN}" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="{MATRIX}">
+    <stop offset="0" stop-color="#3A2F22" stop-opacity="0.10"/>
+    <stop offset="0.36" stop-color="#372C20" stop-opacity="0.18"/>
+    <stop offset="0.72" stop-color="#31281D" stop-opacity="0.32"/>
+    <stop offset="1" stop-color="#2C2419" stop-opacity="0.40"/>
+  </linearGradient>
+
+  <!-- the rolled edge between the two faces: absent at the leading end (where C2 shows
+       only occlusion), a warm roll by the trailing end where the block turns into the
+       light. Never blue - nothing in this scene is. -->
+  <linearGradient id="bevelRoll" x1="0" y1="0" x2="{BLADE_LEN}" y2="0"
+                  gradientUnits="userSpaceOnUse" gradientTransform="{MATRIX}">
+    <stop offset="0" stop-color="#8B8478" stop-opacity="0.10"/>
+    <stop offset="0.42" stop-color="#948C7F" stop-opacity="0.20"/>
+    <stop offset="0.78" stop-color="#A69C8D" stop-opacity="0.38"/>
+    <stop offset="1" stop-color="#AFA495" stop-opacity="0.44"/>
+  </linearGradient>
+
+{SHAVING_GRAD}  <!-- ROUND 7: re-centred toward the key and deepened. C2's corners measure TL 0.869,
+       TR 0.509, BL 0.556, BR 0.562 - one light, up and to the left, and every corner
+       away from it falls ~0.6-0.65x. The old vignette sat near the tile's centre at 0.16
+       and left the two bottom corners as the brightest ground in the icon. -->
+  <radialGradient id="vignette" cx="0.36" cy="0.31" r="0.94">
+    <stop offset="0.40" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="0.78" stop-color="#3A3226" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#332B20" stop-opacity="0.27"/>
   </radialGradient>
 
   <filter id="castShadow" x="-30%" y="-30%" width="160%" height="160%">
@@ -682,6 +778,12 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   </filter>
   <filter id="honeGlowTight" x="-60%" y="-60%" width="220%" height="220%">
     <feGaussianBlur stdDeviation="4"/>
+  </filter>
+  <filter id="bevelSoft" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="6"/>
+  </filter>
+  <filter id="seatShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="5"/>
   </filter>
 </defs>
 
@@ -723,14 +825,28 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <g filter="url(#contactShadow)">
       <path d="{poly([(x + 9, y + 12) for x, y in SILHOUETTE])}" fill="#3C3327" fill-opacity="0.42"/>
     </g>
+    <!-- ROUND 7. Ambient occlusion in the seat itself. Measured 6px out from the base,
+         C2's ground sits at 0.66x its own far field under the lit leading end and 0.41x
+         under the trailing end - the occlusion DEEPENS where the wedge stands taller and
+         the light cannot reach in. Ours was a flat 0.59-0.60x the whole way. A tight
+         warm band hugging the contact line, ramped along the blade, supplies the
+         difference; it is clipped to the trued side so it cannot leak across the split. -->
+    <g clip-path="url(#truedSide)" filter="url(#seatShadow)">
+      <path d="{open_poly([(x + 3, y + 5) for x, y in CONTACT])}" fill="none"
+            stroke="url(#seatRamp)" stroke-width="26" stroke-linecap="round"/>
+    </g>
 
     {SHAVING_SHADOW}
 
     <!-- the hone's light on the surface it just cut. Clipped to the trued side and drawn
          under the blade, so it can only ever read as spill from the edge. The wide
          bloom is a tapered shape pushed through a heavy blur, so it has no edge of
-         its own anywhere - it decays into the trued plane instead of ending. -->
-    <g clip-path="url(#truedSide)">
+         its own anywhere - it decays into the trued plane instead of ending. The whole
+         group rides the honeFall mask, so the spill on the ground fades along the blade
+         exactly as the edge itself does - which is what makes C2's trued side darken
+         toward the trailing end (its ground there reads 0.41x the far field, against
+         0.66x under the lit leading end). -->
+    <g clip-path="url(#truedSide)" mask="url(#honeFall)">
       <g filter="url(#bloomBlur)">
         <path d="M -30 6 L {BLADE_LEN + 26:.0f} 6 L {BLADE_LEN - 74:.0f} -118 L 74 -118 Z"
               transform="{MATRIX}" fill="url(#honeWide)"/>
@@ -745,6 +861,8 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <!-- the plane iron as a real solid: a front face dropping to the ground, and a top
          face lifted clear of it. The silhouette is one chunky block at every size. -->
     <path d="{poly(FRONT_FACE)}" fill="url(#frontFace)"/>
+    <!-- the hone's along-length falloff, carried onto the face the hone lights -->
+    <path d="{poly(FRONT_FACE)}" fill="url(#frontFall)"/>
     <path d="{poly(TOP)}" fill="url(#topFace)"/>
     <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="{MATRIX_TOP}">
         {STONE}
@@ -752,27 +870,43 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <path d="{poly(TOP)}" fill="url(#topSheen)"/>
     <!-- wear on the back: two faint grind striations, on the top face -->
     <g transform="{MATRIX_TOP}" fill="none">
-      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#8A93A3" stroke-opacity="0.16" stroke-width="3"/>
-      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#8A93A3" stroke-opacity="0.09" stroke-width="2"/>
+      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#9A9285" stroke-opacity="0.16" stroke-width="3"/>
+      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#9A9285" stroke-opacity="0.09" stroke-width="2"/>
     </g>
   </g>
 
   <g id="highlight" fill="none">
-    <!-- chamfer between top face and front face: what makes the solid read as a solid -->
-    <path d="{open_poly(CHAIN_LOWER)}" stroke="#848E9C" stroke-opacity="0.56" stroke-width="4.4"
+    <!-- ROUND 7. The junction between top face and front face WAS a 4.4px #848E9C
+         pinstripe at 0.56 - cool, and +72% over the face beside it. Measured across C2
+         at three points along the block, that junction is the DARKEST part of the whole
+         cross-section over the leading two thirds (L 0.245 -> 0.209 -> 0.201 going up
+         through it) and only becomes a rolled highlight near the trailing end, where it
+         reads +18% and warm. So: a soft warm occlusion trough sitting in the junction,
+         and a narrower warm roll whose strength RAMPS toward the trailing end. That
+         pinstripe was the single most vector-looking thing on the block. -->
+    <g filter="url(#bevelSoft)">
+      <path d="{open_poly([(x, y + 7) for x, y in CHAIN_LOWER])}" stroke="#241C16"
+            stroke-opacity="0.30" stroke-width="15" stroke-linecap="round"/>
+    </g>
+    <path d="{open_poly(CHAIN_LOWER)}" stroke="url(#bevelRoll)" stroke-width="3.4"
           stroke-linecap="round"/>
-    <!-- rim light along the worn back, from the same top-left source -->
+    <!-- rim light along the worn back, from the same top-left source. Was #B6C0CE at
+         0.64 - cool and hot. C2's back rim runs +15% to +34% over the face below it and
+         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. -->
     <path d="M 46 {BLADE_THICK - 2:.0f} C {BLADE_LEN * 0.34:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN * 0.66:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN - 36:.0f} {BLADE_THICK - 2:.0f}"
-          transform="{MATRIX_TOP}" stroke="#B6C0CE" stroke-opacity="0.64" stroke-width="5"
+          transform="{MATRIX_TOP}" stroke="#ABA294" stroke-opacity="0.52" stroke-width="5"
           stroke-linecap="round"/>
     <!-- the vermilion hone line: the cutting edge, the before/after boundary, and the
-         line where the solid meets the ground. One shape, four jobs. -->
-    <path d="M 10 0 L {BLADE_LEN - 8:.0f} 0" transform="{MATRIX}" stroke="#FF8A50"
-          stroke-opacity="0.75" stroke-width="16" filter="url(#honeGlowTight)"/>
-    <path d="M 10 0 L {BLADE_LEN - 8:.0f} 0" transform="{MATRIX}" stroke="url(#honeCore)"
-          stroke-width="12" stroke-linecap="butt"/>
-    <path d="M 56 -0.6 L {BLADE_LEN - 58:.0f} -0.6" transform="{MATRIX}" stroke="#FFE3CD"
-          stroke-opacity="0.96" stroke-width="4.2" stroke-linecap="round"/>
+         line where the solid meets the ground. One shape, four jobs. Masked by honeFall
+         so the edge cools toward the trailing end with everything else it lights. -->
+    <g mask="url(#honeFall)">
+      <path d="M 10 0 L {BLADE_LEN - 8:.0f} 0" transform="{MATRIX}" stroke="#FF8A50"
+            stroke-opacity="0.75" stroke-width="16" filter="url(#honeGlowTight)"/>
+      <path d="M 10 0 L {BLADE_LEN - 8:.0f} 0" transform="{MATRIX}" stroke="url(#honeCore)"
+            stroke-width="12" stroke-linecap="butt"/>
+      <path d="M 56 -0.6 L {BLADE_LEN - 58:.0f} -0.6" transform="{MATRIX}" stroke="#FFE3CD"
+            stroke-opacity="0.96" stroke-width="4.2" stroke-linecap="round"/>
+    </g>
     <!-- cushion rim light around the tile perimeter -->
     <path d="{SQUIRCLE}" stroke="#FFFFFF" stroke-opacity="0.32" stroke-width="3"/>
   </g>
