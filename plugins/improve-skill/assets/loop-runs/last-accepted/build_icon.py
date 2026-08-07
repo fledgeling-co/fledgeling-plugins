@@ -741,27 +741,56 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <path d="M0 0 L{W} 0 L{W} {B_RIGHT:.1f} L0 {B_LEFT:.1f} Z"/>
   </clipPath>
 
-  <!-- the un-planed side: cooler, greyer, losing light as it nears the cut. ROUND 7 -
-       the axis now also carries the light's own falloff to the right: C2's un-planed
-       field runs 0.846 at the top-left down to 0.588 at the top-right (0.70x), where
-       ours only fell to 0.696 (0.89x) - too flat for one soft top-left key. -->
-  <linearGradient id="roughField" x1="70" y1="20" x2="700" y2="650" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#DBD5C7"/>
-    <stop offset="0.50" stop-color="#C2BAA8"/>
-    <stop offset="1" stop-color="#A19881"/>
+  <!-- ROUND 10 - both ground fields are now knots on ONE shared key axis, the key's
+       own diagonal (0,0)->(1024,1024), so a stop's offset t maps to the light-axis
+       coordinate u = (x+y)/sqrt2 as u = 1448*t for BOTH. Measured off C2 along that
+       axis with the block dilated out: its un-planed field decays fast and reaches an
+       ambient floor of 0.568 by u~560, where ours decayed near-linearly and did not
+       reach 0.584 until u~820 - so ours sat +0.07..+0.12 too bright across u=340..660
+       and 0.07 too DARK at the key corner. Same fault the corner ratios show: measured
+       against each icon's own ground mean, C2's top-left corner is 1.36x and its
+       bottom-left 0.88x, while ours were 1.02x and 1.09x - our brightest ground was
+       still the corner furthest from our own key. The key's falloff was too slow and
+       its near field too weak; this ramp is C2's own falloff, gain 1.0.
+       Stops are the old field colour at that u scaled by target_L/current_L, so every
+       hue survives untouched (round 1's warm shadow included). -->
+  <linearGradient id="roughField" x1="0" y1="0" x2="{W}" y2="{W}" gradientUnits="userSpaceOnUse">
+    <stop offset="0.0000" stop-color="#F1EADB"/>  <!-- u    0  target L 0.888 -->
+    <stop offset="0.0691" stop-color="#E7E0D1"/>  <!-- u  100  target L 0.860 -->
+    <stop offset="0.1243" stop-color="#D4CEBF"/>  <!-- u  180  target L 0.791 -->
+    <stop offset="0.1795" stop-color="#C5BFB0"/>  <!-- u  260  target L 0.736 -->
+    <stop offset="0.2348" stop-color="#B9B3A4"/>  <!-- u  340  target L 0.677 -->
+    <stop offset="0.2900" stop-color="#B0A99A"/>  <!-- u  420  target L 0.641 -->
+    <stop offset="0.3453" stop-color="#A59E8F"/>  <!-- u  500  target L 0.601 -->
+    <stop offset="0.4005" stop-color="#9D9687"/>  <!-- u  580  target L 0.569  ambient floor -->
+    <stop offset="0.4696" stop-color="#A19A88"/>  <!-- u  680  target L 0.571 -->
+    <stop offset="0.5524" stop-color="#A49C88"/>  <!-- u  800  target L 0.568 -->
+    <stop offset="0.6491" stop-color="#9E957F"/>  <!-- u  940  target L 0.568 -->
   </linearGradient>
 
-  <!-- the trued side: brighter and warmer, brightest right at the fresh cut. ROUND 7 -
-       the far corner was the BUG. Measured, the old build's brightest ground was the
-       BOTTOM-LEFT corner at L 0.932 and the bottom-right at 0.848, i.e. the ground was
-       brightest furthest from the light: a single-light violation in our own icon, not
-       just a mismatch with C2. The field now falls 0.98 -> 0.84 along the light's axis
-       while holding its value AT the cut, which is where the polarity is read and where
-       the hone's spill lands. -->
-  <linearGradient id="truedField" x1="300" y1="430" x2="1090" y2="1120" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#FFFDF6"/>
-    <stop offset="0.40" stop-color="#F9F3E7"/>
-    <stop offset="1" stop-color="#DED4BE"/>
+  <!-- ROUND 10 - the trued side on the SAME axis, so the finish is a step ON the key's
+       ramp rather than a second light. Round 9 recorded C2's ground polarity as
+       inverted (its trued 0.610 below its rough 0.642); that was a geometry confound -
+       the un-planed plane owns the near-key region and the trued plane the far one.
+       Controlled for u, C2's trued plane is BRIGHTER than its rough at matched u
+       (+0.076 at u=720). Polarity is not inverted, only its magnitude differs: ours
+       was +0.300 at matched u. So the ramp is C2's own measured trued profile times a
+       single finish gain g = 1.34. The gain rule was fixed before scoring: the
+       smallest gain holding simulated 32px self_contrast >=1.5% above the gate's
+       floor (g=1.32 gives 0.605 against a 0.607 floor; g=1.34 gives 0.616). It lands
+       measure.py polarity at +0.174, the separation the icon has carried since round 4.
+       At 16 and 32px p90 is ~100% this plane and p10 ~100% the block, so a uniform
+       drop here is spent straight against that floor - which is how round 5 died. -->
+  <linearGradient id="truedField" x1="0" y1="0" x2="{W}" y2="{W}" gradientUnits="userSpaceOnUse">
+    <stop offset="0.4558" stop-color="#F6F3EA"/>  <!-- u  660  target L 0.863 -->
+    <stop offset="0.5248" stop-color="#F5F1E7"/>  <!-- u  760  target L 0.871 -->
+    <stop offset="0.5939" stop-color="#F4EEE3"/>  <!-- u  860  target L 0.869 -->
+    <stop offset="0.6629" stop-color="#EFE9DD"/>  <!-- u  960  target L 0.852 -->
+    <stop offset="0.7320" stop-color="#EFE9DB"/>  <!-- u 1060  target L 0.848 -->
+    <stop offset="0.8010" stop-color="#E8E1D2"/>  <!-- u 1160  target L 0.809 -->
+    <stop offset="0.8701" stop-color="#DCD5C5"/>  <!-- u 1260  target L 0.747 -->
+    <stop offset="0.9391" stop-color="#D7CFBE"/>  <!-- u 1360  target L 0.700 -->
+    <stop offset="0.9999" stop-color="#DDD4C0"/>  <!-- u 1448  target L 0.683 -->
   </linearGradient>
 
   <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
