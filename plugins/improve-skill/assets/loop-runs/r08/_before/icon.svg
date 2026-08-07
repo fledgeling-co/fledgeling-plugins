@@ -22,44 +22,32 @@
     <path d="M0 0 L1024 0 L1024 291.6 L0 956.6 Z"/>
   </clipPath>
 
-  <!-- ROUND 11 - the un-planed field's COORDINATE, not its profile. Round 10 measured
-       C2's falloff correctly and then hung it on the wrong geometry: a straight ramp
-       along the key's 45deg diagonal. Fit test on C2's own un-planed pixels (bin by a
-       candidate coordinate, take the within-bin residual sd; the coordinate that
-       explains the field best wins; n=112206 with the block dilated out AND C2's
-       translucent curl boxed out, since it reads 0.85-0.95 over 0.70-0.80 ground at
-       exactly the radii this ramp is authored from):
-           radial about (75,25)   sd 0.02934   <- winner
-           best straight ramp 50deg  sd 0.03616
-           our authored 45deg        sd 0.03661
-       19% less unexplained variance, i.e. C2's key is a POINT SOURCE just off the
-       top-left corner, not a plane wave. Attribution control on the render: adopting
-       C2's profile while keeping the 45deg axis scores -0.0091; keeping our profile
-       and only re-indexing it by r scores +0.0299. The gain is the coordinate.
-       Stops are the old field colour at the same distance scaled by target_L/current_L
-       (round 10's rule), so every hue survives untouched - the per-knot ratios run
-       0.965..1.059 and the colours barely move. What moves is where they sit.
-       The trued side stays LINEAR: on C2 its geometry is not strongly determined
-       (best radial 0.02389 vs best linear 0.02507) and re-indexing it radially scored
-       -0.0219 alone, so it keeps riding the shared axis. -->
-  <radialGradient id="roughField" cx="75" cy="25" r="1000" fx="75" fy="25"
-                  gradientUnits="userSpaceOnUse">
-    <stop offset="0.0000" stop-color="#FFF8E8"/>  <!-- r    0  target L 0.940 -->
-    <stop offset="0.0350" stop-color="#F8F1E1"/>  <!-- r   35  target L 0.917 -->
-    <stop offset="0.0950" stop-color="#E8E1D2"/>  <!-- r   95  target L 0.865 -->
-    <stop offset="0.1550" stop-color="#DBD4C5"/>  <!-- r  155  target L 0.815 -->
-    <stop offset="0.2300" stop-color="#C9C3B5"/>  <!-- r  230  target L 0.752 -->
-    <stop offset="0.2900" stop-color="#C2BCAC"/>  <!-- r  290  target L 0.718 -->
-    <stop offset="0.3500" stop-color="#BAB4A5"/>  <!-- r  350  target L 0.681 -->
-    <stop offset="0.4100" stop-color="#B3AC9D"/>  <!-- r  410  target L 0.652 -->
-    <stop offset="0.4700" stop-color="#B2AB9B"/>  <!-- r  470  target L 0.650 -->
-    <stop offset="0.5300" stop-color="#ACA495"/>  <!-- r  530  target L 0.625 -->
-    <stop offset="0.5900" stop-color="#A69F8F"/>  <!-- r  590  target L 0.602 -->
-    <stop offset="0.6500" stop-color="#A29B89"/>  <!-- r  650  target L 0.578 -->
-    <stop offset="0.7100" stop-color="#A09987"/>  <!-- r  710  target L 0.566  ambient floor -->
-    <stop offset="0.8300" stop-color="#A29985"/>  <!-- r  830  target L 0.564 -->
-    <stop offset="1.0000" stop-color="#99907B"/>  <!-- r 1000  target L 0.548 -->
-  </radialGradient>
+  <!-- ROUND 10 - both ground fields are now knots on ONE shared key axis, the key's
+       own diagonal (0,0)->(1024,1024), so a stop's offset t maps to the light-axis
+       coordinate u = (x+y)/sqrt2 as u = 1448*t for BOTH. Measured off C2 along that
+       axis with the block dilated out: its un-planed field decays fast and reaches an
+       ambient floor of 0.568 by u~560, where ours decayed near-linearly and did not
+       reach 0.584 until u~820 - so ours sat +0.07..+0.12 too bright across u=340..660
+       and 0.07 too DARK at the key corner. Same fault the corner ratios show: measured
+       against each icon's own ground mean, C2's top-left corner is 1.36x and its
+       bottom-left 0.88x, while ours were 1.02x and 1.09x - our brightest ground was
+       still the corner furthest from our own key. The key's falloff was too slow and
+       its near field too weak; this ramp is C2's own falloff, gain 1.0.
+       Stops are the old field colour at that u scaled by target_L/current_L, so every
+       hue survives untouched (round 1's warm shadow included). -->
+  <linearGradient id="roughField" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+    <stop offset="0.0000" stop-color="#F1EADB"/>  <!-- u    0  target L 0.888 -->
+    <stop offset="0.0691" stop-color="#E7E0D1"/>  <!-- u  100  target L 0.860 -->
+    <stop offset="0.1243" stop-color="#D4CEBF"/>  <!-- u  180  target L 0.791 -->
+    <stop offset="0.1795" stop-color="#C5BFB0"/>  <!-- u  260  target L 0.736 -->
+    <stop offset="0.2348" stop-color="#B9B3A4"/>  <!-- u  340  target L 0.677 -->
+    <stop offset="0.2900" stop-color="#B0A99A"/>  <!-- u  420  target L 0.641 -->
+    <stop offset="0.3453" stop-color="#A59E8F"/>  <!-- u  500  target L 0.601 -->
+    <stop offset="0.4005" stop-color="#9D9687"/>  <!-- u  580  target L 0.569  ambient floor -->
+    <stop offset="0.4696" stop-color="#A19A88"/>  <!-- u  680  target L 0.571 -->
+    <stop offset="0.5524" stop-color="#A49C88"/>  <!-- u  800  target L 0.568 -->
+    <stop offset="0.6491" stop-color="#9E957F"/>  <!-- u  940  target L 0.568 -->
+  </linearGradient>
 
   <!-- ROUND 10 - the trued side on the SAME axis, so the finish is a step ON the key's
        ramp rather than a second light. Round 9 recorded C2's ground polarity as

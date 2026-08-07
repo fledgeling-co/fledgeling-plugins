@@ -1,0 +1,19 @@
+**Round 11 (r08) — material. Gate: ACCEPT, +0.0267 net.**
+
+| size | before (r07) | after (r08) |
+|---:|---:|---:|
+| 1024 | 0.4509 | **0.4539** |
+| 256 | 0.4671 | **0.4728** |
+| 128 | 0.5031 | **0.5124** |
+| 32 | 0.7837 | **0.7877** |
+| 16 | 0.8296 | **0.8343** |
+
+**The change:** `roughField` swapped from a 45° `<linearGradient>` to a `<radialGradient>` about (75, 25). **The measurement that motivated it:** binning C2's own un-planed pixels by candidate coordinates and taking the within-bin residual sd — radial about (75, 25) gives 0.02934 against 0.03616 for the best straight ramp and 0.03661 for our authored 45°, 19% less unexplained variance. C2's key is a point source, not a plane wave. An attribution control split the claim: adopting C2's profile on the old axis scores −0.0091, re-indexing our own profile by r scores +0.0299. The gain is the coordinate. Stop colours moved by ratios of 0.965–1.059 only, so hue is untouched. The trued plane deliberately stayed linear — its geometry isn't determined on C2 (radial 0.02389 vs linear 0.02507) and re-indexing it scored −0.0219.
+
+**Rubric:** improved. Round 10's open miss closed — TL is now the brightest ground corner (1.130× vs BL 1.121×), so the single-light ordering predicate holds for the first time since the finish gain went in, though by 0.009 where C2 holds it by 0.479. Nothing regressed; `self_contrast` rose at every size, so the edit paid into the contrast budget rather than spending it. Polarity +0.165.
+
+**The round's honest disagreement:** the trued ground is 59% of the remaining `lum_delta` and is one scalar (g = 1.34), worth up to +0.35 — but every reduction fails the 16px contrast floor, and past g ≈ 1.10 it inverts the fixture invariant. The largest available composite gain is one both the gate and the rubric refuse.
+
+**Reusable:** *fit the coordinate before you fit the curve* — bin a reference region by each candidate coordinate, take the pooled within-bin residual sd, lowest wins; the profile is then the per-bin means. It separates geometry from profile, and when two coordinates land within 5% it tells you that plane's light is undetermined and should be left alone. Box out any translucent overlay first: C2's curl sat at radii 150–500 and, left in, moved the fitted centre and inflated the near field by 0.024.
+
+---STDERR---

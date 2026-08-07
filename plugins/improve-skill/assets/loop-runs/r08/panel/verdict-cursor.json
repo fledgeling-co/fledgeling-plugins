@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "A",
+    "silhouette": "tie",
+    "smallsize": "B",
+    "rationale": {
+      "overall": "A better matches the reference\u2019s warm directional light and matte slab read, which outweigh B\u2019s small-size glow advantage for overall fidelity.",
+      "material": "A\u2019s warmer lighting and more matte charcoal body track the reference\u2019s volumetric light and surface character more closely than B\u2019s cooler, glassier treatment.",
+      "silhouette": "Both preserve the same diagonal rounded slab plus upper-left curl against the split ground, with no meaningful shape difference.",
+      "smallsize": "B keeps a thicker, more saturated orange under-glow and a slightly clearer loop residue at 32px and 16px."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}
