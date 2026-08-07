@@ -23,6 +23,14 @@
       "actionability": "with_skill",
       "builder_usefulness": "old_skill",
       "overall": "old_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
+      "trap_detection": "old_skill",
+      "actionability": "with_skill",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
     }
   },
   "eval-2-technical-frame-fit": {
@@ -49,6 +57,14 @@
       "actionability": "old_skill",
       "builder_usefulness": "old_skill",
       "overall": "with_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
+      "trap_detection": "TIE",
+      "actionability": "old_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "old_skill"
     }
   },
   "eval-3-shortlist-mechanism-diversity": {
@@ -71,6 +87,14 @@
     "grok45": {
       "breadth": "TIE",
       "novelty": "old_skill",
+      "trap_detection": "old_skill",
+      "actionability": "old_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "old_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
       "trap_detection": "old_skill",
       "actionability": "old_skill",
       "builder_usefulness": "old_skill",
@@ -101,6 +125,14 @@
       "actionability": "old_skill",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "TIE",
+      "trap_detection": "with_skill",
+      "actionability": "with_skill",
+      "builder_usefulness": "old_skill",
+      "overall": "old_skill"
     }
   },
   "eval-5-closed-phrasing-aborts": {
@@ -126,6 +158,14 @@
       "trap_detection": "with_skill",
       "actionability": "old_skill",
       "builder_usefulness": "TIE",
+      "overall": "old_skill"
+    },
+    "gpt56sol": {
+      "breadth": "TIE",
+      "novelty": "TIE",
+      "trap_detection": "with_skill",
+      "actionability": "old_skill",
+      "builder_usefulness": "old_skill",
       "overall": "old_skill"
     }
   },
@@ -153,6 +193,14 @@
       "actionability": "with_skill",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "old_skill",
+      "trap_detection": "old_skill",
+      "actionability": "TIE",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
     }
   },
   "eval-7-adversarial-frame-fit": {
@@ -177,6 +225,14 @@
       "novelty": "old_skill",
       "trap_detection": "with_skill",
       "actionability": "with_skill",
+      "builder_usefulness": "with_skill",
+      "overall": "with_skill"
+    },
+    "gpt56sol": {
+      "breadth": "with_skill",
+      "novelty": "with_skill",
+      "trap_detection": "with_skill",
+      "actionability": "old_skill",
       "builder_usefulness": "with_skill",
       "overall": "with_skill"
     }

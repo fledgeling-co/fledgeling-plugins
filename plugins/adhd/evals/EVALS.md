@@ -39,19 +39,19 @@ Verification, same protocol as iteration 1:
 
 ## Blind quality panel (no human review)
 
-Separate from the structural assertions: each eval's two outputs were anonymised (seeded-random A/B per eval) and judged blind by three independent model families, none of which saw the skill files or knew which output came from which version — a **Claude-family judge** (isolated subagent), **grok-4.5** (high effort, via cursor-agent because the native grok CLI cannot run headless on this machine), and **composer-2.5** as a bonus family. A **Codex gpt-5.6-sol (xhigh)** leg is deferred to its usage-limit reset and will be appended. Raw un-blinded verdicts and reasoning: `blind-panel/panel-results.json`.
+Separate from the structural assertions: each eval's two outputs were anonymised (seeded-random A/B per eval) and judged blind by four independent model families, none of which saw the skill files or knew which output came from which version — a **Claude-family judge** (isolated subagent), **grok-4.5** (high effort, via cursor-agent because the native grok CLI cannot run headless on this machine), **composer-2.5**, and **gpt-5.6-sol** (max reasoning effort, direct OpenAI API). Raw un-blinded verdicts and reasoning: `blind-panel/panel-results.json`; sol token usage: `blind-panel/gpt56sol-usage.json`.
 
-| Eval | Claude | grok-4.5 | composer-2.5 | Majority |
-|---|---|---|---|---|
-| 1 reliability-boss-gate | NEW | OLD | OLD | OLD |
-| 2 technical-frame-fit | NEW | NEW | NEW | **NEW** |
-| 3 shortlist-mechanism-diversity | OLD | OLD | OLD | OLD |
-| 4 naming-run | NEW | NEW | OLD | **NEW** |
-| 5 closed-phrasing-aborts | TIE | OLD | OLD | OLD |
-| 6 any-percent-tier | NEW | NEW | NEW | **NEW** |
-| 7 adversarial-frame-fit | NEW | NEW | NEW | **NEW** |
+| Eval | Claude | grok-4.5 | composer-2.5 | gpt-5.6-sol | Majority |
+|---|---|---|---|---|---|
+| 1 reliability-boss-gate | NEW | OLD | OLD | NEW | split 2-2 |
+| 2 technical-frame-fit | NEW | NEW | NEW | OLD | **NEW** 3-1 |
+| 3 shortlist-mechanism-diversity | OLD | OLD | OLD | OLD | OLD 4-0 |
+| 4 naming-run | NEW | NEW | OLD | OLD | split 2-2 |
+| 5 closed-phrasing-aborts | TIE | OLD | OLD | OLD | OLD (noise) |
+| 6 any-percent-tier | NEW | NEW | NEW | NEW | **NEW** 4-0 |
+| 7 adversarial-frame-fit | NEW | NEW | NEW | NEW | **NEW** 4-0 |
 
-Tallies: Claude 5 NEW / 1 OLD / 1 TIE · grok-4.5 4 NEW / 3 OLD · composer 3 NEW / 4 OLD. Panel majority: NEW 4, OLD 3. Judges disagreed outright on 2 of 7 — consistent with the measured unreliability of single LLM judges that motivated a panel in the first place.
+Tallies: Claude 5 NEW / 1 OLD / 1 TIE · grok-4.5 4 NEW / 3 OLD · composer 3 NEW / 4 OLD · gpt-5.6-sol (max effort, via OpenAI API; 71,353 input + 84,526 output tokens, $2.89 all-in at $5/$30 per 1M) 3 NEW / 4 OLD. Four-family majorities on the v2.0 outputs: NEW 3, OLD 2 (one of them the pure-noise eval 5), 2 deadlocks — and the one substantive OLD sweep (eval 3) flipped unanimously to v2.1 on re-judge after the fix (see Iteration 2 above). Judges disagreed outright on 4 of 7 evals across four families — the panel's own design assumption, measured.
 
 The signal is coherent across all three judges' prose:
 

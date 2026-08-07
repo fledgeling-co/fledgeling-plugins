@@ -1,0 +1,68 @@
+{
+  "eval-1-reliability-boss-gate": {
+    "input_tokens": 9653,
+    "output_tokens": 3714,
+    "reasoning_tokens": 3422,
+    "effort": "max"
+  },
+  "eval-2-technical-frame-fit": {
+    "input_tokens": 7888,
+    "output_tokens": 8000,
+    "reasoning_tokens": 8000,
+    "effort": "max"
+  },
+  "eval-3-shortlist-mechanism-diversity": {
+    "input_tokens": 8770,
+    "output_tokens": 5197,
+    "reasoning_tokens": 4903,
+    "effort": "max"
+  },
+  "eval-4-naming-run": {
+    "input_tokens": 6860,
+    "output_tokens": 8000,
+    "reasoning_tokens": 8000,
+    "effort": "max"
+  },
+  "eval-5-closed-phrasing-aborts": {
+    "input_tokens": 988,
+    "output_tokens": 3827,
+    "reasoning_tokens": 3624,
+    "effort": "max"
+  },
+  "eval-6-any-percent-tier": {
+    "input_tokens": 3925,
+    "output_tokens": 8000,
+    "reasoning_tokens": 7768,
+    "effort": "max"
+  },
+  "eval-7-adversarial-frame-fit": {
+    "input_tokens": 7298,
+    "output_tokens": 8000,
+    "reasoning_tokens": 8000,
+    "effort": "max"
+  },
+  "eval-2-technical-frame-fit-retry": {
+    "input_tokens": 7888,
+    "output_tokens": 14287,
+    "reasoning_tokens": 13984,
+    "effort": "max"
+  },
+  "eval-4-naming-run-retry": {
+    "input_tokens": 6860,
+    "output_tokens": 8985,
+    "reasoning_tokens": 8707,
+    "effort": "max"
+  },
+  "eval-6-any-percent-tier-retry": {
+    "input_tokens": 3925,
+    "output_tokens": 7398,
+    "reasoning_tokens": 7096,
+    "effort": "max"
+  },
+  "eval-7-adversarial-frame-fit-retry": {
+    "input_tokens": 7298,
+    "output_tokens": 9118,
+    "reasoning_tokens": 8804,
+    "effort": "max"
+  }
+}
