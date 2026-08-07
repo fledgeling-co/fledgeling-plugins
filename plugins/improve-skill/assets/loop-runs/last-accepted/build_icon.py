@@ -371,6 +371,54 @@ GRAIN_MARK_SKEW = 2.2    # rnd()**skew, so the median lands on the measured 3.6,
 # 1.9 is where a break survives the renderer's antialiasing with a pixel to spare.
 GRAIN_GAP_MIN = 1.9      # a break must be at least this many stroke widths to be one
 
+# ROUND 15 (detail). r14 closed by naming the fault it could not reach: the plane is a
+# LATTICE where the reference is a FIELD, and that is a placement fault, not a density
+# one. Every instrument this loop has used so far is a statistic of the marks
+# THEMSELVES - count, length, width, aspect, coverage, band rms - and all of them are
+# blind to how the marks are ARRANGED. Two that are not (`loop-runs/r13/work/w4.py`):
+#
+#   VOID     the distance from each unmarked pixel to the nearest mark. A lattice of
+#            dashed tracks leaves closed cells of bare ground; a field does not.
+#   BEARING  each mark's own PCA bearing, binned to 15 canvas degrees, as normalised
+#            entropy. Two families of ruled lines put every mark in two bins.
+#
+#   station          void mean      void p90      bearing entropy   top-2 bin share
+#   un-planed left   1.74 / 3.60    3.0 /  7.0    0.927 / 0.552     0.311 / 0.788
+#   above-band       3.43 / 8.79    7.0 / 22.0    0.722 / 0.562     0.608 / 0.694
+#   trued            1.69 / 3.08    3.0 /  6.0    0.984 / 0.674     0.241 / 0.554
+#                    (reference / r14)
+#
+# The un-planed left station carries the finding: coverage there is 20.2% against the
+# reference's 23.5%, so we put very nearly the right amount of ink on the plane, and
+# still leave holes twice as wide. That is arrangement and nothing else, which is why
+# this round is free - it moves marks that already exist rather than buying more. It
+# also has to be: 1514 of the file's 1726 paths are grain, at 153 bytes each, and the
+# envelope's remaining headroom is 26,643 bytes.
+#
+# Three placement constants, all of them micro-geometry:
+#
+# GRAIN_WANDER. A ridge is a polyline whose nodes are jittered perpendicular to its
+# axis. At r14 that jitter was +-1.7 units against an inter-ridge pitch of 11-25 - a
+# straight line with a wobble on it, so the marks stayed locked to their track and the
+# ground between tracks was never reached. Set to half the pitch and a ridge crosses
+# into its neighbours' cells, which is what fills them. This is the constant the void
+# statistic is a function of.
+#
+# GRAIN_NODE. The wander only bends the line where there IS a node; between nodes it is
+# straight, and a 47-unit straight run holds a dozen 4-unit marks in a row. Closer nodes
+# cost bytes and nothing else - one extra vertex on every grain path is 21,196 of them -
+# which is what the coordinate precision below pays for.
+#
+# GRAIN_SKEW_*. Each family's per-ridge bearing scatter, and the term the bearing
+# entropy is most sensitive to. r10 set it to a deliberate +-11/13 deg to keep the
+# crossings out of register; the reference wants far more than out-of-register, it wants
+# the two families not to be readable as families at all.
+GRAIN_WANDER = 3.4       # peak-to-peak node jitter, perpendicular to the ridge
+GRAIN_NODE = 60.0        # ...and how far apart those nodes sit along it
+GRAIN_SKEW_A = 38.0      # family A's per-ridge bearing scatter, degrees either way
+GRAIN_SKEW_B = 40.0      # family B's
+GRAIN_PREC = 0           # decimals on a grain vertex; see the byte note above
+
 
 def grain_gain(cy):
     """The tear's combined amplitude at a canvas height, from the reference's profile."""
@@ -497,17 +545,18 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
         if od > GRAIN_CAP:
             od, a = GRAIN_CAP, GRAIN_CAP * head
         ol = min(GRAIN_CAP, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
-        n = max(2, int((e - t) / 60.0) + 1)
+        n = max(2, int((e - t) / GRAIN_NODE) + 1)
         pts = []
         for i in range(n + 1):
             s = t + (e - t) * i / n
-            j = (rnd() - 0.5) * 3.4
+            j = (rnd() - 0.5) * GRAIN_WANDER
             pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
         d = _dash(tear, wl)
-        seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+        seg = "M " + " L ".join(f"{x:.{GRAIN_PREC}f} {y:.{GRAIN_PREC}f}" for x, y in pts)
         dark.append(f'<path d="{seg}" stroke-opacity="{od:.3f}" '
                     f'stroke-width="{wid:.2f}" stroke-dasharray="{d}"/>')
-        seg = "M " + " L ".join(f"{x + ox:.1f} {y + oy:.1f}" for x, y in pts)
+        seg = "M " + " L ".join(f"{x + ox:.{GRAIN_PREC}f} {y + oy:.{GRAIN_PREC}f}"
+                                for x, y in pts)
         lite.append(f'<path d="{seg}" stroke-opacity="{ol:.3f}" '
                     f'stroke-width="{wl:.2f}" stroke-dasharray="{d}"/>')
         t = e
@@ -545,11 +594,11 @@ def grain():
     x = LX_MIN - 40
     while x < LX_MAX + 40:
         tear = 0.52 + rnd() * 0.48
-        sy, sx = skew(11.0)
+        sy, sx = skew(GRAIN_SKEW_A)
         _ridge(rough_a_d, rough_a_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
                GRAIN_AMP_A * GRAIN_PEAK_A * (0.7 + rnd() * 0.6), GRAIN_WID * (1.5 + rnd() * 0.9),
                tear, GRAIN_BAL_ROUGH)
-        sy, sx = skew(11.0)
+        sy, sx = skew(GRAIN_SKEW_A)
         _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
                GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
                GRAIN_WID * (1.3 + rnd() * 0.7), 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
@@ -561,7 +610,7 @@ def grain():
     #     less density, and the far patch's anisotropy went UP, 5.4 to 9.6.
     y = 9.0
     while y < LY_MAX + 30:
-        sx, sy = skew(13.0)
+        sx, sy = skew(GRAIN_SKEW_B)
         _ridge(rough_b_d, rough_b_l, GROUND_ROUGH, 0.0, y, sx, sy,
                LX_MIN - 40, LX_MAX + 40,
                GRAIN_AMP_B * GRAIN_PEAK_B * (0.7 + rnd() * 0.6), GRAIN_WID * (1.4 + rnd() * 1.0),
@@ -569,7 +618,7 @@ def grain():
         y += 12.0 + rnd() * 15.0
     y = -9.0
     while y > LY_MIN - 30:
-        sx, sy = skew(13.0)
+        sx, sy = skew(GRAIN_SKEW_B)
         _ridge(true_d, true_l, GROUND_TRUED, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
                GRAIN_AMP_B * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
                GRAIN_WID * (1.2 + rnd() * 0.8), 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
