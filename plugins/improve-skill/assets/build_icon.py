@@ -150,16 +150,16 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
 
   <!-- the un-planed side: cooler, greyer, losing light as it nears the cut -->
   <linearGradient id="roughField" x1="120" y1="58" x2="520" y2="676" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#E4E1D8"/>
-    <stop offset="0.52" stop-color="#D3CEC3"/>
-    <stop offset="1" stop-color="#BEB8AB"/>
+    <stop offset="0" stop-color="#DCD8CD"/>
+    <stop offset="0.52" stop-color="#C9C3B6"/>
+    <stop offset="1" stop-color="#B2AB9B"/>
   </linearGradient>
 
   <!-- the trued side: brighter and warmer, brightest right at the fresh cut -->
   <linearGradient id="truedField" x1="330" y1="420" x2="900" y2="1000" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#FFFFFE"/>
-    <stop offset="0.42" stop-color="#FCFAF3"/>
-    <stop offset="1" stop-color="#F1EBDD"/>
+    <stop offset="0.42" stop-color="#FDFBF5"/>
+    <stop offset="1" stop-color="#F7F2E7"/>
   </linearGradient>
 
   <!-- blade body: lit on the worn back, near-black at the honed edge -->
@@ -195,9 +195,9 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <stop offset="1" stop-color="#D33F1F"/>
   </linearGradient>
 
-  <radialGradient id="vignette" cx="0.44" cy="0.36" r="0.76">
-    <stop offset="0.50" stop-color="#000000" stop-opacity="0"/>
-    <stop offset="1" stop-color="#3A3226" stop-opacity="0.26"/>
+  <radialGradient id="vignette" cx="0.46" cy="0.40" r="0.86">
+    <stop offset="0.58" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#3A3226" stop-opacity="0.13"/>
   </radialGradient>
 
   <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">

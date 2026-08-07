@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  improve-skill README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  Subject-mined from the shipping icon rather than decorated to match it. The icon is the
+  C2 render, whose own before-and-after boundary is a 40 degree rising diagonal leaving its
+  bottom-left corner. The banner's ground is split on that same line, and the icon is
+  positioned so the two are one continuous cut: the pass runs off the tile and keeps going
+  across the banner. Above the line the surface is un-planed and torn; below it the surface
+  is trued, and that is where the words live.
+
+  The banner deliberately carries a wider value split than the icon does. C2's own lighting
+  puts a warm bloom on the un-planed side and a vignette on the trued side, which measures
+  out at L 0.426 against L 0.363, so its two states read almost equally. The ground here
+  restores the claim the icon is making.
+
+  Type is IBM Plex Sans, a face drawn for engineering documentation, with squared-off
+  terminals that suit a honed edge. No sibling in this marketplace uses it.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background: #EFE8DC;
+    font-family: "IBM Plex Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  svg.field { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 131px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 104px; }
+  .icon { width: 300px; height: 300px; flex: none;
+          filter: drop-shadow(0 18px 38px rgba(60, 48, 34, .30)); }
+
+  .wordmark { font-size: 112px; font-weight: 600; letter-spacing: -0.034em;
+              line-height: 1; color: #2A241E; }
+  .tagline { margin-top: 26px; font-size: 31px; font-weight: 400;
+             letter-spacing: .001em; color: #6B6055; }
+  .tagline b { color: #332C24; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="field" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- the surface still to be trued: warmer, greyer, darkening into the cut -->
+      <linearGradient id="rough" x1="30" y1="0" x2="500" y2="470" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#D3C4B0"/>
+        <stop offset="0.55" stop-color="#C0AF99"/>
+        <stop offset="1" stop-color="#AE9C84"/>
+      </linearGradient>
+      <!-- the surface already trued: brighter and cleaner, brightest right at the cut -->
+      <linearGradient id="trued" x1="360" y1="40" x2="1500" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#FCF8F0"/>
+        <stop offset="0.42" stop-color="#F8F2E8"/>
+        <stop offset="1" stop-color="#EDE4D5"/>
+      </linearGradient>
+      <linearGradient id="honeLine" x1="0" y1="520" x2="619" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#B8300F" stop-opacity="0"/>
+        <stop offset="0.20" stop-color="#D9451F"/>
+        <stop offset="0.58" stop-color="#F2542D"/>
+        <stop offset="0.88" stop-color="#FF7C46"/>
+        <stop offset="1" stop-color="#FF9061" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="truedSide"><path d="M619 0 L1600 0 L1600 520 L0 520 Z"/></clipPath>
+    </defs>
+
+    <!-- the two states of one surface, split at 40 degrees: the icon's own geometry -->
+    <path d="M0 0 L619 0 L0 520 Z" fill="url(#rough)"/>
+    <path d="M619 0 L1600 0 L1600 520 L0 520 Z" fill="url(#trued)"/>
+
+    <!-- one grain family running along the travel direction, crossing the boundary:
+         torn above it, true below it. The same line in two states, not two materials. -->
+    <g id="grain" fill="none" stroke-linecap="round"></g>
+
+    <!-- the hone line itself, the same cut that runs through the icon -->
+    <path d="M0 520 L619 0" stroke="url(#honeLine)" stroke-width="4.5" fill="none"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div>
+      <div class="wordmark">improve-skill</div>
+      <div class="tagline">Rebuild a skill you already have, and <b>prove the rebuild</b>.</div>
+    </div>
+  </div>
+
+  <script>
+    // Deterministic grain, so a re-render is identical. Lines run perpendicular to the
+    // boundary, which is the direction the tool travelled.
+    const g = document.getElementById('grain');
+    const A = 40 * Math.PI / 180;
+    const ux = Math.cos(A), uy = -Math.sin(A);       // along the boundary
+    const nx = Math.sin(A), ny = Math.cos(A);        // across it, into the trued side
+    let seed = 20260807;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+    const line = (x1, y1, x2, y2, col, op, w) =>
+      `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}" ` +
+      `stroke="${col}" stroke-opacity="${op.toFixed(3)}" stroke-width="${w.toFixed(2)}"/>`;
+    let out = '';
+    for (let t = -400; t < 1900; t += 15 + rnd() * 7) {
+      const bx = ux * t, by = 520 + uy * t;          // a point on the boundary
+      // trued side: long, even, barely there. A sheen, not a stripe.
+      if (rnd() < 0.55) {
+        out += line(bx + nx * 16, by + ny * 16, bx + nx * 760, by + ny * 760,
+                    '#8C7C63', 0.013 + rnd() * 0.015, 1 + rnd() * 0.6);
+      }
+      // un-planed side: short broken tooth marks, some lines tearing far worse than others
+      const tear = 0.3 + rnd() * 0.9;
+      for (let d = 12; d < 700; ) {
+        const seg = 6 + rnd() * 22 * tear, gap = 7 + rnd() * 20;
+        out += line(bx - nx * d, by - ny * d, bx - nx * (d + seg), by - ny * (d + seg),
+                    '#6A5B45', (0.05 + rnd() * 0.11) * tear, 1.1 + rnd() * 1.9);
+        d += seg + gap;
+      }
+    }
+    g.innerHTML = out;
+  </script>
+</body>
+</html>
