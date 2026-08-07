@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "A",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "Subject, glow, and lighting match closely, but A\u2019s softer ground grain and more glass-like loop sit nearer the REFERENCE\u2019s overall material read.",
+      "material": "REFERENCE\u2019s fine low-relief concrete grain and frosted translucent loop are closer to A\u2019s subtler surface and milky/glassy loop than B\u2019s coarser embossed crosshatch and paper-matched curl.",
+      "silhouette": "Both share the same diagonal dark slab, top-left loop, orange under-edge, and split-ground massing, so shape read is effectively equal.",
+      "smallsize": "At 128/32/16 the dark bar, warm rim, and split field resolve the same way and the grain/loop differences fall below the pixel grid."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}
