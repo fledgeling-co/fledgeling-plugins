@@ -1,0 +1,2 @@
+REJECT  (net composite delta -0.0189 across 5 sizes)
+  - 128px composite regressed 0.5124 -> 0.5054

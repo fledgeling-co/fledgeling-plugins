@@ -26,6 +26,32 @@ construct that renders differently across the two is itself a finding.
 | Curl / ribbon volume | Build as a **swept surface**, not a spiral outline: one cross-section curve swept along the roll axis, cut into bands, each band shaded by its facing angle to the single light; far-side bands seen from inside the roll go to shadow with a transmitted lift; free end tapers in opacity | A closed spiral path with one fill reads as a flat coil or a capped tube, not a curl |
 | Emissive interior | Bright core shape under a translucent shell, soft `feGaussianBlur` bloom layer above, restrained halo radius | Glow painted as opaque colour doesn't light its surroundings |
 
+## The rule the entries below keep proving
+
+**Measure the reference; never assume a relationship.** Five separate entries
+below are the same lesson learned five times, each after failed attempts that
+reasoned about what the reference "must" look like:
+
+- the curl's cross-section is a true circle at 1.0 foreshortening, not the 0.54
+  that had been assumed, and its axis is tipped 13° off the blade's (r04);
+- the block rides as a *wedge* with a 55-to-90px taper, not a lifted parallel
+  copy, at a measured 38.9° (block pitch);
+- the reference's darkest gel pixel is warm where ours had gone blue, at matching
+  luminance *and* saturation, so only a darkest-pixel check could see it (r01,
+  The Cast r06);
+- the curl reads *darker* than the ground beside it, so three attempts that
+  assumed "highlight is lighter than its surroundings" all failed (shaving curl);
+- binning the reference by candidate coordinate separates geometry from lighting
+  profile, and says when a plane's light is undetermined and should be left alone
+  (r08).
+
+The technique generalises: **fit or sample the property you are about to author,
+on the reference, before authoring it.** Every attempt that skipped this step and
+reasoned instead has failed here, and the failures cost roughly four rounds each.
+A corollary from r08: box out any translucent overlay before fitting, since the
+reference's curl sat across the region being measured and inflated the near field
+by 0.024.
+
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
 - **2026-08 · improve-skill loop r06 (material, accepted)** — **find out which

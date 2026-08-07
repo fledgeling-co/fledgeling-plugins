@@ -167,6 +167,31 @@ The metrics are necessary, not sufficient; two judged instruments ride on top:
 Use the panel where the stakes justify three model calls (shipping decisions,
 loop exit); the metric gate alone carries the cheap inner rounds.
 
+## Knowing what the metric is actually paying you for
+
+Four rounds independently discovered that the composite can reward the wrong
+thing, and the pattern is stable enough to state once rather than rediscover:
+
+- **Re-score the region absent before repairing it.** If deleting a feature costs
+  the same term that fixing it costs, the error sits inside the metric's
+  tolerance radius around a true feature, and the metric will pay you to stay
+  wrong (r03).
+- **Find out which pixels own your percentiles before choosing an edit.** The
+  contrast budget is a whole-image statistic, so the regions setting it are often
+  not the ones that look wrong (r06).
+- **A structural penalty is not a verdict on the artwork.** Texture absent from
+  the reference at the same spatial frequency lowers SSIM by construction, and
+  SSIM outweighs edge alignment at every size. The human preferred exactly such a
+  round after the gate rejected it (r02).
+- **Check whether the composite and the floor are pulling apart** before
+  committing to an approach. Where the reference carries less contrast than the
+  master, converging on it lowers the master's own and trips the absolute floor,
+  so a round that does its job well is rejected for doing it (r05).
+
+The common thread: the composite is a similarity measure, and similarity to a
+flawed reference is not quality. Where the two diverge, the rubric and the human
+decide, and the divergence itself is worth recording.
+
 ## The round schedule — bounded, one edit class per round
 
 | Round | Edit class | Allowed changes | Exit check |

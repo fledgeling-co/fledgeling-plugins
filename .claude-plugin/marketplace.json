@@ -75,8 +75,8 @@
     },
     {
       "name": "create-mac-icon",
-      "description": "Create a macOS app icon end-to-end with a measured fidelity loop. Direction chosen from a 532-icon corpus catalogue (Tahoe gel-glass grammar, 8 direction families, 26-device subject-mining bank, 12-point rubric), three generation engines (hand-authored layered SVG master via build script, Arrow vector take, corpus-referenced raster takes), a written audit.html contact sheet with retina renders and losers scored — then scripts/fidelity.py scores the SVG master against the winning raster reference at 1024/256/128/32/16 (structure gate, multi-metric score, Pareto accept/reject) and a bounded one-edit-class-per-round loop closes the material gap instead of eyeballing it. Confirmed constructions feed references/material-recipes.md so the skill improves with every commission.",
-      "version": "1.0.0",
+      "description": "Create a macOS app icon end-to-end with a measured fidelity loop. Direction chosen from a 532-icon corpus catalogue (Tahoe gel-glass grammar, 8 direction families, 26-device subject-mining bank, 12-point rubric), three generation engines (hand-authored layered SVG master via build script, Arrow vector take, corpus-referenced raster takes), a written audit.html contact sheet with retina renders and losers scored \u2014 then scripts/fidelity.py scores the SVG master against the winning raster reference at 1024/256/128/32/16 (structure gate, multi-metric score, Pareto accept/reject) and a bounded one-edit-class-per-round loop closes the material gap instead of eyeballing it. Confirmed constructions feed references/material-recipes.md so the skill improves with every commission.",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
