@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trawl icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; image-rendering: auto; }
+  .renders figcaption { color: #5c7a84; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>Trawl icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Deep Cast" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<table>
+  <tr><th>Take</th><th>Renders (128 / 32 / 16, from the 1024 master)</th><th>Rubric</th><th>Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A-v2 · icon.svg<small>hand-authored layered SVG, C1 material rebuilt in — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/master-v2-128.png" width="128" height="128" alt="v2 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-v2-32.png" width="32" height="32" alt="v2 at 32"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-v2-16.png" width="16" height="16" alt="v2 at 16"><figcaption>16</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Volumetric gel wall, catch glows through the bag, rim-lit torus mouth. Checks 1–4 pass on real renders; single deduction unchanged at 16px, where the mouth ring flattens to a bar and can read as a lamp a beat before a net. Layers #bg/#mid/#fg/#highlight intact for Icon Composer variants.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A-v1 · icon-v1.svg<small>original hand-authored master</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/v1-128.png" width="128" height="128" alt="v1 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/v1-32.png" width="32" height="32" alt="v1 at 32"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/v1-16.png" width="16" height="16" alt="v1 at 16"><figcaption>16</figcaption></figure>
+    </td>
+    <td class="score">11 / 12</td>
+    <td class="verdict">Same geometry, flatter material: gradient wall rather than gel skin, warm halo pooled at the catch. Superseded by v2 on light model, figure-ground and depth coherence (#5, #7, #8) while scoring the same headline number — the rubric can't see material nuance the eye can.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-c1.png<small>GPT-Image raster, corpus-referenced — material winner</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-128.png" width="128" height="128" alt="C1 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="32" height="32" alt="C1 at 32"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-16.png" width="16" height="16" alt="C1 at 16"><figcaption>16</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Best raw material of the set: soft volumetric gel, broad glow-through. Fails #10 (variant robustness) by construction — a flat raster has no layers, so macOS tinted/clear variants degrade — and loses a point on optical centring (subject rides low). Its material was rebuilt into A-v2 rather than shipped, per the pipeline rule.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-c2.png<small>GPT-Image raster, diamond mesh</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-128.png" width="128" height="128" alt="C2 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="32" height="32" alt="C2 at 32"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-16.png" width="16" height="16" alt="C2 at 16"><figcaption>16</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Handsome literal mesh, but the diamond lattice smears to noise at 32 and vanishes at 16 (check #4 marginal on the real render), and the same #10 raster liability applies. Kept as an alternate.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-128.png" width="128" height="128" alt="Engine B at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="32" height="32" alt="Engine B at 32"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-16.png" width="16" height="16" alt="Engine B at 16"><figcaption>16</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">The miss of the set: silhouette reads as a cauldron (#3 fail), catch not held in the net, composition drifts off-centre, no full-bleed artwork. Nothing salvaged beyond the rim ellipse treatment. Kept for the record — a variation set that hides its losers isn't an audit.</td>
+  </tr>
+</table>
+
+<div class="rec"><strong>Recommendation: ship A-v2 (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready (layered SVG), rubric-clean on the non-negotiable checks 1–4 against real small renders, and carrying the material that won the raster comparison. The banner was regenerated with A-v2 as its style reference so both assets share one material language. Known liability to revisit in a future geometry pass: the 16px lamp-before-net beat.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from mac-design-studio's icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions.</div>
+</body>
+</html>
