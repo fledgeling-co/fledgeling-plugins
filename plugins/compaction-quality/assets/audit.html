@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>compaction-quality icon: contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #14120F; color: #E3DED5; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #A79C89; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #2C2822; vertical-align: middle; }
+  th { color: #A79C89; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #A79C89; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #221E19; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #2C2822; }
+  .renders figcaption { color: #A79C89; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #FF9260; }
+  .fail { color: #E0826A; }
+  .verdict { max-width: 440px; color: #C4BBAB; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #4A3B2C; border-radius: 12px; background: #1D1913; max-width: 940px; }
+  .rec strong { color: #FF9260; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #A79C89; font-size: 12px; max-width: 940px; }
+</style>
+</head>
+<body>
+<h1>compaction-quality icon: contact sheet &amp; audit</h1>
+<div class="sub">Direction "Load-Bearing" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A-v5 · icon.svg<small>hand-authored layered SVG, rebuilt twice against C1. SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A-v5 master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A-v5 master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A-v5 master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A-v5 master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">A squat poured-gel core of compressed strata on a porcelain cushion: rounded shoulders top and bottom, ~55 hairline layers tightening with depth and pinching out part-width, five vermilion seams with one dominant blooming through the gel wall, and a warm spill onto the floor beneath it. Rebuilt a second time after a side-by-side call went to C1 on presence and material: the glyph grew from 58.6% to 64.8% of the tile, the lathe texture roughly doubled in density, the wall now falls from cool slate to a warm near-black base, and the emissive interior gained a bright core plus a second glowing seam. Checks 1&ndash;4 pass on real renders: 664px glyph = 64.8% of tile at the top of the sanctioned 55-65% band, 180px side margins, solid mass centred at y=496 with the contact shadow carrying the balance below it. Layers <code>#bg/#mid/#fg/#highlight</code> intact, so #10 passes by construction. Sole deduction at #4: the 16px read resolves to a dark mass with one warm band, so identity survives and the "five" does not.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A-v1 · icon-v1.svg<small>first hand-authored master</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/v1-256.png" width="128" height="128" alt="A-v1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/v1-64.png" width="32" height="32" alt="A-v1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/v1-32.png" width="16" height="16" alt="A-v1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/v1-32.png" width="96" height="96" alt="A-v1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Same idea, wrong construction, and the render said so where the source did not. Hard-fails #3: a concentric inner ellipse on the top face turned the silhouette into an open pot, so the object reads as a vessel holding something rather than a solid core. Also fails #8, because the body used quadratic B&eacute;ziers whose end tangents are not vertical, so the base met the side walls at a visible corner and the object looked sliced off rather than resting. Five near-equal stripes gave no hierarchy, and at 16px it reads as a striped tin. Fixed in v4 by cubic halves with tangent-vertical ends and a single dominant seam.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-c1.png<small>GPT Image 2 raster, corpus-referenced, material winner</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Best raw material of the set and the take that diagnosed v1: rounded shoulders on a solid poured form, dozens of legible turned strata, and the graphite visibly warming for ~150px either side of the glowing seam. That warming is the era's authored-overlap tell and it went straight into the master. Fails #10 by construction (a flat raster has no layers, so Dark/Clear/Tinted degrade) and fails #2: the object runs ~76% of the tile, so at 16px the side margins are gone and it crowds the mask. Rebuilt into A-v5 rather than shipped, per the pipeline rule, and it set the bar twice: the first pass took its form and glow-through, and a later side-by-side call that C1 still looked better drove the size, texture-density and emissive rebuild that produced v5.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-c2.png<small>GPT Image 2 raster, rounder pebble form</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Handsome, and the softest material of the three rasters, but the extra corner rounding costs it the subject: the form reads as a river stone or an ottoman rather than something compressed, which is the one thing the glyph has to say (#11). Its shed sheets float as solid opaque discs well clear of the body, so they read as stacked plates rather than material being discarded. Same #10 raster liability, and it is wider than C1 so #2 is worse. Kept as an alternate.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Engine B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">The miss of the set. Ships field-less: no tile at all, so it floats on whatever is behind it and there is no mask discipline to audit (#1 fail). The body came back taller than it is wide, which throws away the compression the whole glyph exists to state (#3 fail), and at ~77% of the tile it crowds the safe zone (#2 fail). No light model and no contact shadow (#8 fail); the seams are broken strokes that stop mid-wall and only four of the five landed. One thing salvaged and it was worth having: the discontinuous, part-width hairlines, which read like sedimentary bands pinching out. That behaviour is in the master. Kept for the record, because a variation set that hides its losers is not an audit.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A-v5 (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready (four real layers, identity carried by shape and value), rubric-clean on the non-negotiable checks 1&ndash;4 against real small renders, and carrying the material that won the raster comparison. C1 remains the reference it was measured against, twice. Known liabilities to revisit: at 16px the five seams collapse into one warm band, so the icon keeps its identity but loses its argument at menu-bar size; the dark-on-light figure-ground means the macOS Dark variant is the weakest of the four and will lean entirely on the silhouette plus the seam; and the porcelain ground sits close in value to a light Tinted variant, where the graphite core is doing all the separation work.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs; rasters squircle-clipped through a base64-embedded wrapper and rendered at the same sizes.</div>
+</body>
+</html>

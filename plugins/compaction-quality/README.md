@@ -1,6 +1,17 @@
-# compaction-quality
+<p align="center">
+  <img src="assets/banner.png" alt="compaction-quality: a compressed graphite core banded with five vermilion seams beside the wordmark, with the tagline: write the summary that has to survive on its own, then score it with a script rather than a feeling" width="100%" />
+</p>
+
+<h1><img src="assets/icon.svg" alt="" width="30" valign="middle" /> compaction-quality</h1>
 
 Write compaction summaries that survive being the only thing the next session has. Then score them, with a script rather than a feeling.
+
+<p>
+  <img alt="Median user-correction retention: 12.5 percent" src="https://img.shields.io/badge/user_corrections_retained-12.5%25-E8551F">
+  <img alt="Measured on 225 real compaction events" src="https://img.shields.io/badge/measured_on-225_real_events-3E464D">
+  <img alt="Scoring is exact string match, with no model judgment" src="https://img.shields.io/badge/scoring-exact_string_match-6E6757">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A79C89">
+</p>
 
 ## Why this exists
 
@@ -21,6 +32,16 @@ Three of those numbers are fine; carrying 477 transient file paths forward would
 
 One question decides every keep/drop call: **if this is missing, does the next session do something *wrong*, or merely something *slower*?** Wrong-class items (corrections with their reasons, one-shot constraints, unfinished work with its failure mode, exact identifiers) get kept verbatim. Slower-class bulk (exploration, passing reads, resolved errors) gets dropped without guilt. The skill carries the full rules, the summary shape, and the failure modes that make summaries quietly useless.
 
+```mermaid
+flowchart LR
+    T["Session transcript"] -->|"/compact"| S["Summary"]
+    T -.->|"gone"| G(["Reasoning, file reads,<br/>dead ends already ruled out"])
+    S ==> N(["Next session:<br/>this and nothing else"])
+    T --> SC["score_retention.py<br/>exact string match"]
+    S --> SC
+    SC --> R(["Retention per class, plus every<br/>correction it could not find"])
+```
+
 > [!TIP]
 > Use it whenever you're about to run `/compact`, writing a handover note, or wondering why a session "forgot" something it was told.
 
@@ -36,7 +57,8 @@ python3 scripts/score_retention.py --transcript session.jsonl --summary summary.
 python3 scripts/score_retention.py --scan-history
 ```
 
-Note: the correction detector is a keyword heuristic; it misses politely-phrased corrections and flags some non-corrections. Treat its output as a candidate list to read, never a count to report. And don't chase 100% on the bulk numbers; pasting the transcript back in is the failure this whole exercise exists to avoid.
+> [!NOTE]
+> The correction detector is a keyword heuristic; it misses politely-phrased corrections and flags some non-corrections. Treat its output as a candidate list to read, never a count to report. And don't chase 100% on the bulk numbers; pasting the transcript back in is the failure this whole exercise exists to avoid.
 
 ## What's in the box
 

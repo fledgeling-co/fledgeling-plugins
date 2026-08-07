@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-swe-project icon: contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>create-swe-project icon: contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;First Water&rdquo; · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16. Sibling constraint: the dark deep-sea register is taken by trawl, so this commits to the porcelain daylight register instead.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>Engine A · hand-authored layered SVG · SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Rebuilt to C1&rsquo;s composition after C1 won the material comparison, which is what the pipeline prescribes rather than shipping the raster. Passes all four non-negotiables on real renders: full-bleed artwork with the squircle as a clip, symmetric 132px margins with the mass optically centred, a silhouette render that still names &ldquo;hull entering water off a slipway&rdquo; in solid black, and a 16px squint the warm hull carries. Four real layers map 1:1 onto Icon Composer, and the two authored overlaps (hull under the surface, way running on beneath it) are real transparency rather than baked pixels. Point deducted at <strong>#7 figure-ground</strong>: above the waterline the way is light slate on near-white porcelain, so it leans on the hull to be found until it reaches the water.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Engine B · Arrow vector take from the shared spec</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">Lost on three non-negotiables at once. <strong>#1</strong>: the artwork never fills the canvas, so the ground is bare and the composition floats inside the mask rather than being designed for it. <strong>#2</strong>: the subject crowds the upper left and the lower right is dead water. <strong>#4</strong>: a thin hull over a large grey wedge smears into one grey mass by 16px. Salvaged into the master: its chunkier hull proportion and near-straight sheer, which is what stopped the earlier drafts reading as an open canoe.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 · icon-engineC1.png<small>Engine C · GPT Image 2 raster, referenced against Safari and Photos from the corpus</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">10 / 12</td>
+    <td class="verdict"><strong>Won the material comparison and still cannot ship.</strong> The best gel in the set: a genuinely poured hull with a crisp sheer highlight, a foam crest at the entry, and translucent water with the way visibly running on beneath it. It also proved the open-water composition can read, which two hand-authored drafts had failed to do. It fails <strong>#1</strong> and <strong>#10</strong> as a flat pre-masked raster with identity carried by a colour relationship that dies under Dark/Clear/Tinted. Its whole composition, its poured-gel hull ramp and its full-length sheer highlight were rebuilt into the Engine A master; the master is the vector answer to this take, not an independent idea.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C2 · icon-engineC2.png<small>Engine C · GPT Image 2 raster, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The same raster failure on <strong>#1</strong> and <strong>#10</strong>, and weaker than C1 on its own terms. The way reads as a handrail or a fence rather than a slipway, which costs <strong>#11</strong> personality, and the pale water sits too close in value to the pale tile, which costs <strong>#7</strong>. Kept on the sheet because it is the control that shows how much of C1's win came from the sleepers and the foam crest rather than from the palette.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is Icon-Composer-ready, and it now carries C1&rsquo;s composition and material rather than a weaker idea of its own: four named layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, with identity carried in shape and value so it survives Dark, Clear and Tinted. All four non-negotiable checks were verified on real renders rather than reasoned about: a solid-black silhouette render, a 32px render magnified six times for the squint, and measured margins. Its material provenance is C1, whose poured-gel hull ramp and full-length sheer highlight were rebuilt into the layered master rather than shipped as pixels. Known liabilities to revisit: the hull spans about 74% of the tile, wider than the 55&ndash;65% the composition guidance calls for, which is a deliberate call copied from C1 and worth re-testing; the sleepers and the underwater run of the way are gone by 32px, so the small-size read rests entirely on the hull, and the hull is slender enough at 16px that it is nameable rather than instant; and the porcelain ground gives the way very little separation until it reaches the water.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, the same over a clip-path wrapper for rasters.</div>
+</body>
+</html>

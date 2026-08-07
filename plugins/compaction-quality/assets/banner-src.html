@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(118% 176% at 30% 34%, #FFFFFE 0%, #F8F6F2 46%, #EDE9E1 76%, #E2DED5 100%);
+         font-family: "Instrument Sans", sans-serif; }
+  /* the discarded bulk: strata pinching out as they travel left into the core */
+  svg.strata { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 132px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 60px; }
+  .icon { width: 288px; height: 288px; }
+  .wordmark { font-family: "JetBrains Mono", monospace; font-size: 76px; font-weight: 700;
+              letter-spacing: -0.022em; line-height: 1; color: #22272B; }
+  /* signature: the dominant seam, carried over from the icon */
+  .seam { position: relative; width: 272px; height: 5px; margin: 26px 0 30px;
+          border-radius: 3px;
+          background: linear-gradient(90deg, #A8300C 0%, #F0682F 22%, #FFD9BD 44%, #FF8B4F 66%, #C2410F 100%); }
+  .seam::after { content: ""; position: absolute; inset: -9px -14px;
+                 background: radial-gradient(56% 100% at 42% 50%, rgba(255,122,69,.30), rgba(255,122,69,0) 70%); }
+  .tagline { font-size: 31px; line-height: 1.42; letter-spacing: .001em; color: #6E6757; }
+  .tagline b { display: block; font-weight: 600; color: #262A2D; }
+</style>
+</head>
+<body>
+  <svg class="strata" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+  <div class="lockup">
+    <img class="icon" src="icon.svg" alt="">
+    <div class="words">
+      <div class="wordmark">compaction-quality</div>
+      <div class="seam"></div>
+      <div class="tagline">Write the summary that has to survive on its own.
+        <b>Then score it, with a script rather than a feeling.</b></div>
+    </div>
+  </div>
+  <script>
+    // Deterministic strata field. Density falls off sharply leftward: the bulk
+    // arrives at the right and is discarded as it approaches the core. Five
+    // vermilion marks survive the trip, the thickest nearest the core, all of
+    // them placed clear of the copy so nothing sits behind the text.
+    let s = 41; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    const svg = document.querySelector('svg.strata');
+    const ns = 'http://www.w3.org/2000/svg';
+    const line = (x1, x2, y, w, stroke, op) => {
+      const p = document.createElementNS(ns, 'path');
+      p.setAttribute('d', `M ${x1} ${y} C ${x1 + 90} ${y + 1.4}, ${x2 - 90} ${y + 1.4}, ${x2} ${y}`);
+      p.setAttribute('stroke', stroke); p.setAttribute('stroke-width', w);
+      p.setAttribute('stroke-opacity', op); p.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(p);
+    };
+    for (let i = 0; i < 132; i++) {
+      const y = 20 + rnd() * 482;
+      const start = 470 + Math.pow(rnd(), 2.1) * 1010;      // very few reach the core
+      const end = start + 70 + rnd() * (1600 - start);
+      const reach = (start - 470) / 1010;                   // 0 at the core, 1 at the edge
+      line(start, Math.min(end, 1594), y, 1.2 + rnd() * 1.7, '#8A8172',
+           0.035 + rnd() * 0.055 + reach * 0.045);
+    }
+    // the load-bearing five: thicker and brighter the closer they get
+    [[58, 6, 496], [92, 3.4, 686], [128, 2.6, 902], [430, 4, 742], [466, 2.9, 1024]]
+      .forEach(([y, w, x]) => line(x, x + 280 + rnd() * 200, y, w, '#E8551F', 0.30 + w * 0.035));
+  </script>
+</body>
+</html>

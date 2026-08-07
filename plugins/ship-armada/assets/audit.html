@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ship-armada icon: contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>ship-armada icon: contact sheet &amp; audit</h1>
+<div class="sub">Direction "Plot Table" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG · SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Three gel hulls in echelon on a course of 020&deg;, over a graticule that bleeds off all four edges. Checks 1&ndash;4 verified on real renders, not imagined: the filled-black silhouette is nameable (pointed stem, sustained beam, flat transom, stepped formation), and the 16px squint sheds the cockpit cleanly to three diagonal marks with no smear. Dominant gel measures 4.09:1 against the vellum plate, so #7 holds on value alone. Sole deduction is #2: the focal runs 68.4% of tile width against the 55&ndash;65% composition constant, the direct cost of a diagonal composition whose bbox is wide and short (its height is only 49.7%, and margins stay &ge;162px). Layers #bg/#mid/#fg/#highlight intact and 1:1 with Icon Composer.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-c1.png<small>GPT Image 2 raster, corpus-referenced · material donor</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Best material of the set and the reason the master looks the way it does: it discovered that a <em>hollow</em> hull with a raised gunwale and a darker inner well is what makes a plan view read as a vessel rather than a leaf. That was rebuilt into Take A per the pipeline rule. It cannot ship itself: #1 fails on a baked inset plate frame, #3 fails because three symmetric near-vertical tapers set abreast read as flames (no transom, no formation), and #10 fails by construction since a flat raster has no layers to survive Dark/Clear/Tinted.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-c2.png<small>GPT Image 2 raster, second material take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">7 / 12</td>
+    <td class="verdict">Handsome portolan net of rhumb rays and range circles, and that idea was salvaged into the master's chart layer. Everything else loses: the plate sits inset inside a wide cream border (#1), the focal collapses to roughly a third of tile width with the rest given to margin (#2), the same abreast-taper silhouette problem as C1 (#3), and the flat-raster #10 liability. The debossed drafting-board surface also reads previous-era rather than as a Tahoe cushion (#9).</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">The miss of the set. The hulls resolved as symmetric lenses with neither stem nor transom, so #3 fails outright: at any size they read as seeds. Set abreast rather than in formation, on a flat field with no cushion (#1, #9), lit by a vertical split gradient that implies no source (#5), and a stray white wedge bleeds across the lower third and z-fights the ground (#8). Structurally layered, so #10 would have passed had anything else. Nothing was salvaged. Kept on the sheet because a variation set that hides its losers is not an audit.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready as four real layers, clean on the non-negotiable checks 1&ndash;4 against actual small renders rather than imagined ones, and carrying the material that won the raster comparison: C1's hollow-hull-with-gunwale, rebuilt as vector, plus C2's rhumb net in the chart layer. Known liabilities to revisit: the focal runs 68.4% of tile width, over the 55&ndash;65% constant, and pulling it back in would cost the diagonal its presence; at 16px the mark reads as three diagonal strokes in formation rather than as legible vessels, which is correct degradation but does mean the ships-specifically read is a large-size reward; and the light porcelain register makes this the rare icon whose <em>dark</em> system variant is the one to check first, since the vellum plate carries much of the calm and the gel loses its chart context when the ground inverts.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, raster takes masked through an SVG clip then rendered at the same sizes.</div>
+</body>
+</html>

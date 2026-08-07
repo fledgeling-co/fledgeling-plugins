@@ -2,17 +2,17 @@
   <img src="assets/banner.png" alt="Fledgeling: a cream fledgeling-bird mark on warm charcoal beside the wordmark, with the line: tools for people building from nothing" width="100%" />
 </p>
 
-<p align="center"><strong>Claude Code plugins from <a href="https://www.fledgeling.app">Fledgeling</a>.</strong><br />
+<p align="center"><strong>SWE Skills from <a href="https://www.fledgeling.app">Fledgeling</a>.</strong><br />
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="6 plugins" src="https://img.shields.io/badge/plugins-6-C4622D">
+  <img alt="6 skills" src="https://img.shields.io/badge/skills-6-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
 ---
 
-Fledgeling makes AI-native software for founders and developers; these are the Claude Code plugins that come out of building it. Each one exists because a real workflow needed it, and each carries its own README, evals or references where the work justified them.
+Fledgeling makes AI-native software for founders and developers; these are the SWE skills that come out of building it. Each one exists because a real workflow needed it, and each carries its own README, evals or references where the work justified them. Every icon below came through the same three-engine design pipeline with its audit sheet committed beside it.
 
 ## Installing
 
@@ -26,39 +26,19 @@ Then install what you want:
 /plugin install trawl@fledgeling-plugins
 ```
 
-## The plugins
+## The skills
 
-| | Plugin | In one line | |
-|---|---|---|---|
-| <img src="plugins/trawl/assets/icon-128.png" width="40" alt="" /> | **trawl** | Divergent ideation that converges on something you can ship; every design choice traces to measured research. | [README](plugins/trawl/README.md) |
-| | **design-review** | The last pass before a human looks at AI-built UI: deterministic gates, then judged passes, on real renders. | [README](plugins/design-review/README.md) |
-| | **slipway** | A complete, working new project from an idea: one interview, then scripts render the whole scaffold and launch pipeline. | [README](plugins/slipway/README.md) |
-| | **ship-armada** | The portfolio-level orchestrator: reads the manifest, surveys every project, routes and dispatches work. | [README](plugins/ship-armada/README.md) |
-| | **armada-sync** | The counterpart maintenance skill: keeps the portfolio manifest truthful after work happens anywhere. | [README](plugins/armada-sync/README.md) |
-| | **compaction-quality** | Writes context-compaction summaries that survive being the only thing the next session has, and scores them. | [README](plugins/compaction-quality/README.md) |
-
-### trawl
-
-Ask a model an open-ended question and you get the answer everyone gets. Trawl spawns isolated thinkers under genuinely different frames, writes the obvious answer down first, and only recommends a creative pick that beats it blind on your stated problem. The whole design is receipts-first: structural evals (96.4% vs its predecessor's 49.0%), a four-judge blind panel, and the research corpus it was built from, all committed in the repo. [Read more →](plugins/trawl/README.md)
-
-### design-review
-
-AI-built UI ships with defects that pass every lint. This runs the deterministic gates first (accessibility, contrast, target size, motion, layout integrity), then judged passes over hierarchy, states, flows and system coherence, against real renders at a viewport matrix. Findings come severity-ranked with pasteable fixes and an explicit list of what was never checked. Works with Playwright, Puppeteer, chrome-devtools-mcp, agent-browser or claude-in-chrome; with none of them it says so rather than implying a page was seen. [Read more →](plugins/design-review/README.md)
-
-### slipway
-
-New projects die in setup. Slipway runs one front-loaded interview, then scripts render ~120 templates into a working monorepo: web app, auth, admin, native apps, testing harnesses, deploy config, env wiring, and a launch pipeline that runs deep research, seeds feature briefs, and mocks every surface. The LLM only interviews; scripts make the files. [Read more →](plugins/slipway/README.md)
-
-### ship-armada and armada-sync
-
-A portfolio of repos needs a layer above any one of them. Ship-armada reads the manifest of record, verifies it against git, then surveys, plans, routes single directives into the right project's pipeline, and dispatches per-repo backlogs. Armada-sync is the surgical counterpart: after work happens anywhere, it updates that one project's manifest entry and stops. [ship-armada →](plugins/ship-armada/README.md) · [armada-sync →](plugins/armada-sync/README.md)
-
-### compaction-quality
-
-When a session compacts, the summary becomes the only context the next session has; most summaries lose the corrections the user fought for. This writes summaries built on a 225-event measurement of what actually survives, and ships a deterministic scorer so regressions are caught rather than felt. [Read more →](plugins/compaction-quality/README.md)
+| | Skill | |
+|---|---|---|
+| <a href="plugins/trawl/README.md"><img src="plugins/trawl/assets/icon-128.png" width="64" alt="" /></a> | **[trawl](plugins/trawl/README.md)**<br />Divergent ideation that converges on something you can ship. Isolated thinkers under genuinely different frames, the obvious answer written down first, and a creative pick recommended only when it beats that answer blind. Receipts committed: structural evals (96.4% vs its predecessor's 49.0%), a four-judge blind panel, and the research corpus it was built from. | [README →](plugins/trawl/README.md) |
+| <a href="plugins/design-review/README.md"><img src="plugins/design-review/assets/icon-128.png" width="64" alt="" /></a> | **[design-review](plugins/design-review/README.md)**<br />The last pass before a human looks at AI-built UI. Deterministic gates first (accessibility, contrast, target size, motion, layout integrity), then judged passes over hierarchy, states, flows and system coherence, on real renders at a viewport matrix. Findings come severity-ranked with pasteable fixes and an explicit list of what was never checked. | [README →](plugins/design-review/README.md) |
+| <a href="plugins/create-swe-project/README.md"><img src="plugins/create-swe-project/assets/icon-128.png" width="64" alt="" /></a> | **[create-swe-project](plugins/create-swe-project/README.md)** <sub>(formerly slipway)</sub><br />A complete, working new project from an idea. One front-loaded interview, then scripts render the whole scaffold: monorepo, auth, admin, native apps, testing harnesses, deploy config, and a launch pipeline that researches, seeds feature briefs and mocks every surface. The LLM only interviews; scripts make the files. | [README →](plugins/create-swe-project/README.md) |
+| <a href="plugins/ship-armada/README.md"><img src="plugins/ship-armada/assets/icon-128.png" width="64" alt="" /></a> | **[ship-armada](plugins/ship-armada/README.md)**<br />The portfolio-level orchestrator. Reads the manifest of record, verifies it against git, then surveys, plans, routes single directives into the right project's pipeline, and dispatches per-repo backlogs as dependency-ordered campaigns with capped concurrency. | [README →](plugins/ship-armada/README.md) |
+| <a href="plugins/armada-sync/README.md"><img src="plugins/armada-sync/assets/icon-128.png" width="64" alt="" /></a> | **[armada-sync](plugins/armada-sync/README.md)**<br />The surgical counterpart to ship-armada: after work happens anywhere in the portfolio, it updates that one project's manifest entry, stamps it fresh, and stops. The smallest skill here, on purpose. | [README →](plugins/armada-sync/README.md) |
+| <a href="plugins/compaction-quality/README.md"><img src="plugins/compaction-quality/assets/icon-128.png" width="64" alt="" /></a> | **[compaction-quality](plugins/compaction-quality/README.md)**<br />Writes context-compaction summaries that survive being the only thing the next session has, built on a 225-event measurement of what actually gets lost (five user corrections per session; four die). Ships a deterministic scorer so a good summary is a number, not a feeling. | [README →](plugins/compaction-quality/README.md) |
 
 > [!NOTE]
-> Some plugins depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
+> Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
 ## Licence
 
