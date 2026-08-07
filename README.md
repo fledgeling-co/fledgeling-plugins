@@ -35,7 +35,7 @@ Then install what you want:
 | | **slipway** | A complete, working new project from an idea: one interview, then scripts render the whole scaffold and launch pipeline. | [README](plugins/slipway/README.md) |
 | | **ship-armada** | The portfolio-level orchestrator: reads the manifest, surveys every project, routes and dispatches work. | [README](plugins/ship-armada/README.md) |
 | | **armada-sync** | The counterpart maintenance skill: keeps the portfolio manifest truthful after work happens anywhere. | [README](plugins/armada-sync/README.md) |
-| | **compaction-quality** | Writes context-compaction summaries that survive being the only thing the next session has, and scores them. | [SKILL.md](plugins/compaction-quality/SKILL.md) |
+| | **compaction-quality** | Writes context-compaction summaries that survive being the only thing the next session has, and scores them. | [README](plugins/compaction-quality/README.md) |
 
 ### trawl
 
@@ -55,7 +55,7 @@ A portfolio of repos needs a layer above any one of them. Ship-armada reads the 
 
 ### compaction-quality
 
-When a session compacts, the summary becomes the only context the next session has; most summaries lose the corrections the user fought for. This writes summaries built on a 225-event measurement of what actually survives, and ships a deterministic scorer so regressions are caught rather than felt. [SKILL.md →](plugins/compaction-quality/SKILL.md)
+When a session compacts, the summary becomes the only context the next session has; most summaries lose the corrections the user fought for. This writes summaries built on a 225-event measurement of what actually survives, and ships a deterministic scorer so regressions are caught rather than felt. [Read more →](plugins/compaction-quality/README.md)
 
 > [!NOTE]
 > Some plugins depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
