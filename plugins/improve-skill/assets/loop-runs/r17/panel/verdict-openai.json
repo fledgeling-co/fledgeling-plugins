@@ -1,0 +1,30 @@
+{
+  "verdict": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A and B appear visually indistinguishable in composition, lighting, and overall read.",
+      "material": "Both render the same glossy dark block, translucent loop, and orange underglow with equal fidelity to the reference.",
+      "silhouette": "Both have effectively identical object contours, proportions, and rounded icon boundaries.",
+      "smallsize": "Both retain the same recognizable block, loop, diagonal split, and orange accent at reduced sizes."
+    }
+  },
+  "meta": {
+    "usage": {
+      "input_tokens": 4066,
+      "input_tokens_details": {
+        "cache_write_tokens": 4063,
+        "cached_tokens": 0
+      },
+      "output_tokens": 234,
+      "output_tokens_details": {
+        "reasoning_tokens": 122
+      },
+      "total_tokens": 4300
+    },
+    "status": "completed",
+    "harness": "openai responses (gpt-5.6-sol medium)"
+  }
+}

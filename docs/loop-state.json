@@ -1,13 +1,13 @@
 {
-  "iteration": 15,
+  "iteration": 16,
   "fixture_index": 0,
-  "cost_usd": 0.08616249999999999,
+  "cost_usd": 0.09587499999999999,
   "fixtures": {
     "improve-skill": {
-      "round": 15,
+      "round": 16,
       "class_index": 6,
-      "accepted": 10,
-      "rejects_in_row": 1,
+      "accepted": 11,
+      "rejects_in_row": 0,
       "gains": [
         0.0327,
         0.0166,
@@ -18,11 +18,12 @@
         0.0328,
         0.0015,
         0.0131,
-        0.0002
+        0.0002,
+        0.0063
       ],
-      "panel_nonwins": 4,
+      "panel_nonwins": 5,
       "converged": false,
-      "baseline_dir": "r14"
+      "baseline_dir": "r16"
     }
   }
 }

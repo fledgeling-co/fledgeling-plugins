@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A and B are visually near-identical in composition, palette, slab pose, curl, ground split, and glow, and both sit the same distance from the REFERENCE\u2019s volumetric stone-and-frosted-loop read.",
+      "material": "Both render a smooth gradient-shaded dark slab with a pale loop and orange underglow, equally short of the REFERENCE\u2019s gritty stone microtexture, light-transmitting ribbon, and soft long contact shadow.",
+      "silhouette": "The diagonal slab, upper-left curl, and ground split occupy the same positions and proportions in both takes, with no silhouette difference that favors either.",
+      "smallsize": "At 128, 32, and 16px both collapse to the same dark diagonal bar with an orange underline on a split light ground, holding the read equally and losing the curl equally."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}

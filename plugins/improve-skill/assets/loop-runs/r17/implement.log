@@ -1,0 +1,11 @@
+Round complete. Gate **ACCEPT, +0.0365 net, all five sizes positive**: 1024 0.5123→0.5252, 256 0.4757→0.4865, 128 0.5274→0.5370, 32 0.8034→0.8058, 16 0.8392→0.8400. Structure PASS (1786 paths, 308,310 bytes). Polarity +0.135, trued brighter.
+
+**What changed and why.** Marching perpendicular to each image's own hone line and normalising each profile by its own far field — the only way to read a shadow through our 0.22 palette offset — the two images *agree* at contact (0.670 of far field in the first 8px vs C2's 0.662) but not on reach: ours was back to 1.003 by 85–115px where C2 was still 0.940, half-recovery ~26px against ~64px. A tail 2.4× too short is a tail under one cell at 16px, so the solid stopped seating. Widening the existing cast fixed the profile and cost 24 false 32px edges along the blade's flank — a single Gaussian's slope peak *is* an edge there. Shipped instead: a separate wide, weak wash (blur 105, offset 58/66, 0.30) under the untouched near stack. 32px edge_f1 rose 0.9329→0.9336.
+
+Rubric: nothing down, #8 depth coherence up; #1 verified — rim change grows inward, no baked crescent.
+
+I refused a variant scoring +0.0568: it wins on `lum_delta` by dimming the whole trued plane, i.e. paying the palette fault with a shadow, and leaves 0.5% of the contrast budget.
+
+Reusable: **"a penumbra is two facts, and only one of them is depth"** — measure contact fraction and half-recovery distance separately off a shared landmark; buy reach with a second wider-weaker layer, never by widening the first.
+
+---STDERR---
