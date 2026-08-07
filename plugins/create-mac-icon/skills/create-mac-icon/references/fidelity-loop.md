@@ -132,6 +132,14 @@ logic bugs, and the next person will hit the same ones.
   edit, hash unchanged" while the round had in fact moved the 1024 composite by
   +0.032. The round's real numbers were nearly lost. The agent leaves its
   candidate in place; the harness reverts from its own pre-round snapshot.
+- **Killing the runner does not kill its agent.** A superseded `claude -p` child
+  survived a `pkill` of its parent, kept editing the fixture's build script, and
+  collided with its replacement mid-round: the new agent found ~120 lines it had
+  not written, preserved them separately, and rebuilt its own work from the
+  pre-round snapshot. Only the *agent* caught it; every gate said ACCEPT either
+  way, because both versions were internally consistent. The child now runs in
+  its own process group with its pid recorded, and `scripts/stop_loop.sh` kills
+  the group. Never stop this loop with a bare `pkill` on the runner.
 - **Watch out for `pkill -f`.** A pattern like `loop_runner.py` also matches
   any monitor whose command string mentions it, so a cleanup can kill its
   own supervision.

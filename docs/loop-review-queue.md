@@ -45,3 +45,11 @@ The Pareto gate ACCEPTed (1024 composite +0.0166) but the blind panel preferred 
 Review sheet: `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r04/review.html`
 Panel: `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r04/panel/panel.json`
 Revert with: `git revert` the round's commit, or keep it and note why.
+
+## improve-skill r06: gate and panel disagree
+
+The Pareto gate ACCEPTed (1024 composite +0.0090) but the blind panel preferred the previous take. The runner committed it as PROVISIONAL and did not settle the rubric question.
+
+Review sheet: `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r06/review.html`
+Panel: `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r06/panel/panel.json`
+Revert with: `git revert` the round's commit, or keep it and note why.

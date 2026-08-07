@@ -13,3 +13,4 @@ loop-runs/ (Phase 4 training data).
 | 4 | improve-skill | coarse structure (the curl round) | running | — | fidelity.py metric v2: edge_f1 excludes the squircle rim (75 of 341 candidate edges at 32px were the mask, vs 2 of the reference's 190) + metric_version stamping so the gate refuses mixed comparisons; material-recipes.md r03 finding (re-score a region absent before repairing it) |
 | 4 | improve-skill | coarse structure | ACCEPT | baseline | PROVISIONAL, queued for review |
 | 5 | improve-skill | coarse structure | REJECT | n/a |  |
+| 6 | improve-skill | material | ACCEPT | baseline | PROVISIONAL, queued for review |

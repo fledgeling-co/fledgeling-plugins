@@ -28,6 +28,14 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill loop r06 (material, accepted)** — **find out which
+  pixels own your percentiles before choosing what to edit.** The contrast budget
+  is a whole-image statistic, so the regions that set it are not necessarily the
+  ones that look wrong; measuring which pixels sit at p90 and p10 tells you
+  whether an edit will move the number you are being judged on or a different
+  one. Here it raised self-contrast 0.553 to 0.645 at 32px while figure-ground
+  went 2.73 to 3.48:1, clearing the floor that had rejected the previous round.
+
 - **2026-08 · improve-skill loop r05 (coarse structure, rejected on the floor)** —
   **"one key, one axis; finish is a step on it."** Hang every ground field's
   gradient on a single segment running from the key light's corner, express each
