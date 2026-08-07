@@ -236,6 +236,16 @@ Rules that make it converge (each one earned by a documented failure mode):
   scored under the new definition gets gated against a baseline scored under the
   old one, which is not a comparison at all. `score.json` now carries
   `metric_version` and `gate` exits 2 rather than issuing a mixed verdict.
+- **The composite and the legibility floor can be in direct opposition, and the
+  brief must say so.** When the reference carries less contrast than the master,
+  converging on it lowers the master's own contrast, so a round that does its
+  stated job well trips the absolute floor by construction. Measured: r05 earned
+  the run's largest net gain (+0.1507) and was rejected for a 32/16px
+  self-contrast drop, after twenty-five minutes of work. This is a genuine
+  conflict between "match the reference" and "stay legible at menu-bar size",
+  not a bug in either, so the brief now states the fixture's contrast budget up
+  front (the master's own spread, the reference's, and the floor) and tells the
+  round not to spend itself converging ground contrast.
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.

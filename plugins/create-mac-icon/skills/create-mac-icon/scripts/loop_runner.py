@@ -79,7 +79,8 @@ Current master vs the reference:
 The shape of these numbers is the brief. Where small sizes score well above
 large ones, composition has converged and material has not, and the gain has to
 come from 1024 and 256.
-</baseline_numbers>
+
+{contrast_budget}</baseline_numbers>
 
 <prior_learnings>
 Confirmed, measured findings. Apply what fits this round's edit class:
@@ -257,6 +258,34 @@ class Runner:
                        "their text: " + ", ".join(big) + ". Judge the artwork from its PNG "
                        "renders and edit the build script. If you must confirm a fragment, "
                        "grep it or read a bounded byte range.\n")
+        # The composite rewards similarity; the gate enforces an absolute legibility
+        # floor. When the reference has LOWER contrast than the master, those two pull
+        # in opposite directions and a round that converges well trips the floor by
+        # construction. r05 earned the run's largest gain (+0.1507) and was rejected
+        # exactly this way, after 25 minutes. State the budget up front instead.
+        contrast_budget = ""
+        try:
+            bs = json.loads((pathlib.Path(baseline_dir) / "score.json").read_text())["sizes"]
+            rows = []
+            for s in ("32", "16"):
+                own, ref = bs[s].get("self_contrast"), bs[s].get("ref_self_contrast")
+                if own and ref:
+                    rows.append(f"  {s}px: your master {own:.3f}, the reference {ref:.3f}, "
+                                f"floor {own * 0.94:.3f}")
+            if rows and any(bs[s].get("ref_self_contrast", 9) < bs[s].get("self_contrast", 0)
+                            for s in ("32", "16")):
+                contrast_budget = (
+                    "CONTRAST BUDGET, and it binds. The reference carries LESS contrast than this\n"
+                    "master at small sizes, so converging on it lowers yours, and the gate enforces\n"
+                    "an absolute floor at 6% below the baseline's:\n\n"
+                    + "\n".join(rows) + "\n\n"
+                    "This is a real conflict, not a trap: the composite asks you to match the\n"
+                    "reference and the rubric refuses to let this icon go mushy at menu-bar size.\n"
+                    "Do not spend the round converging ground contrast, and check your p90-p10\n"
+                    "spread before you commit to an approach. Gains have to come from something\n"
+                    "other than lowering the master toward the reference's flatness.\n")
+        except Exception:
+            pass
         human = ""
         feedback = sorted((assets / "loop-runs").glob("r*/review-feedback.json"),
                           key=lambda f: f.stat().st_mtime, reverse=True)
@@ -290,7 +319,7 @@ class Runner:
             learnings=self.cfg.get("learnings", DEFAULT_LEARNINGS),
             skill_dir=self.skill, envelope_flags=envelope,
             extra_checks=extra_checks, extra_files=extra_files, hazards=hazards,
-            human=human)
+            human=human, contrast_budget=contrast_budget)
 
     def run_implement(self, brief_path, assets):
         # Hand the agent the brief's PATH, not its text. Passing ~7KB of brief as the

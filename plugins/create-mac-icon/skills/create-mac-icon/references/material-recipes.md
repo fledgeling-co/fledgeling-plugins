@@ -28,6 +28,23 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill loop r05 (coarse structure, rejected on the floor)** —
+  **"one key, one axis; finish is a step on it."** Hang every ground field's
+  gradient on a single segment running from the key light's corner, express each
+  material's finish as stop offsets along that one axis, and check the ordering
+  predicate before rendering: the brightest ground must lie nearest the key. One
+  axis makes a multi-material ground physically coherent by construction rather
+  than by eye. Budget the master's p90-p10 spread before choosing an approach.
+
+- **2026-08 · improve-skill loop r04 (coarse structure, the curl round)** —
+  **fit the rims, then read the solid off the fit.** To rebuild a rolled or
+  tubular form from a reference, fit circles to its two visible rims and derive
+  the solid from that fit rather than assuming any of it. Doing so produced three
+  numbers the previous four attempts had guessed wrong: the cross-section is a
+  true circle at 1.0 foreshortening (not 0.54), the separation-to-radius ratio
+  makes it a hoop at 2.5:1 (not a 1.36:1 pipe), and its axis bears 45.9° against
+  the blade's 33°, so the roll is tipped nearly 13° off what had been built.
+
 - **2026-08 · improve-skill loop r03 (small-size repair, rejected)** — before
   repairing a region toward the reference, re-score it with that region
   **absent**. If removal costs the same term the repair costs, the error is
