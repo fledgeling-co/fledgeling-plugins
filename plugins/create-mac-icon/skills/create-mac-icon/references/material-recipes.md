@@ -28,6 +28,17 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill block pitch (gated round, +0.0657 net)** — a tool
+  "riding" a surface is a **wedge, not a lifted copy**: a constant-rise lift
+  produces a parallel top face that reads as an object lying flat. Measure the
+  reference's actual angles (ground line 38.9°, shoulder 41.9°, front face
+  55→90px deep) and make the lift **linear in local x** — which stays affine,
+  so the whole top face is still one transform matrix and every texture and
+  gradient rides it for free. Bonus catch: re-anchoring the face gradient to
+  the *lifted* frame fixed an 88px registration bug worth +0.025 on its own.
+  Lesson: *attitude is a taper; measure the reference's angles, and keep
+  lifts affine so materials follow the geometry.*
+
 - **2026-08 · create-mac-icon "The Cast" loop (r06)** — a translucent gel must
   keep its *saturation* in shadow, not just its luminance. Sampling the
   reference's darkest gel pixel against the master's caught shadows that had
