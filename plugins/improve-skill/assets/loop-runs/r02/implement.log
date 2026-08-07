@@ -1,0 +1,9 @@
+**Gate: REJECT, −0.0209 net.** 1024 0.3950→**0.4271**, 256 0.3869→0.3775, 128 0.3940→0.3678, 32 0.7098→0.7027, 16 0.7748→0.7645. Baseline restored; `build_icon.py` and `icon.svg` are byte-identical to r01, polarity back at +0.146.
+
+The round was a detail edit: granularity, not amplitude. Matched patches showed we carry roughly C2's texture *energy* but spend it on ~30 soft dashes where C2 spends it on fibre — edge density 0.077 against 0.333 in the un-planed field, 0.061 against 0.213 on the iron. That is all of `edge_f1` 0.048. The fix was a height field, not paths: `feTurbulence` → `feDiffuseLighting` from the scene's own key re-expressed in the blade frame (102°) → arithmetic multiply against `SourceGraphic` at `k1 = 1/sin(elev)`, masked by one ramp so the same noise runs torn above the cut and ghosted below it. It measured well — un-planed mid 0.98→14.90 hp sd against 18.28, edge density 0.077→0.794 against 0.885, polarity holding at +0.132.
+
+It still lost. `edge_f1` at 1024 went 0.0480→**0.3474**, the largest metric move any round has made, but SSIM fell 0.6506→0.5475 and carries 0.40 against edge's 0.25. Uncorrelated detail inflates `va` while `cov` stays near zero: a guaranteed SSIM loss, a conditional edge win. Below 256 the fibre averages away and only the penalty remains; 32px `self_contrast` also dropped 6%.
+
+The rubric agrees with the gate here — nothing was gained at the sizes that carry identity. Reusable and confirmed: a filter on a transformed `<g>` runs in that element's local frame, and the inverse-on-contents idiom leaves geometry and gradients untouched. Written up in `icon-notes.md`.
+
+---STDERR---

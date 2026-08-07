@@ -126,6 +126,12 @@ logic bugs, and the next person will hit the same ones.
   whose master was hand-authored has no build script, so the
   author-through-the-script rule cannot hold and the round has nothing to
   edit. Check every declared path exists at startup.
+- **The agent proposes, the harness disposes.** Do not tell the round's agent to
+  revert its own work on a rejection. It complied, and the harness then scored
+  the reverted file instead of the candidate, so the gate reported "negligible
+  edit, hash unchanged" while the round had in fact moved the 1024 composite by
+  +0.032. The round's real numbers were nearly lost. The agent leaves its
+  candidate in place; the harness reverts from its own pre-round snapshot.
 - **Watch out for `pkill -f`.** A pattern like `loop_runner.py` also matches
   any monitor whose command string mentions it, so a cleanup can kill its
   own supervision.
