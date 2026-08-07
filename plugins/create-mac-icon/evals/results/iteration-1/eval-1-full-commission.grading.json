@@ -1,0 +1,39 @@
+{
+  "expectations": [
+    {
+      "text": "A direction from icon-directions.md is stated by name together with a runner-up and a reason for the choice",
+      "passed": true,
+      "evidence": "DELIVERY.md: \"Direction — Tahoe Gel-Glass, sub-register (b): saturated single-hue gel tile carrying a white frosted glyph... Runner-up was 8 Instrument Emblem on porcelain, rejected because a near-white ground gives a menu-bar utility no colour identity in a Dock full of saturated tiles\". Both names are real headings in the skill reference: grep of references/icon-directions.md returns \"### 2. Tahoe Gel-Glass (Liquid-Glass, the target era...)\" and \"### 8. Instrument Emblem (data-viz / ring-chart)\". The same choice + runner-up + reason is repeated in audit.html's .sub block."
+    },
+    {
+      "text": "A subject-mined glyph device is named (not a stock category glyph); the stated device relates to cashflow/ledger subject matter",
+      "passed": true,
+      "evidence": "DELIVERY.md: \"Device — 'the stepped ledgerline.' A running balance moves in discrete transactions; it does not curve. So the mark is a step function, not the smooth line every finance icon reaches for... The profile falls once before it recovers — the dip is the ownable claim, and a monotonic staircase would be the generic growth chart (anti-checklist #1, template genericism).\" The device is named, mined from the ledger/running-balance subject, and the stock alternative (generic growth chart) is explicitly rejected."
+    },
+    {
+      "text": "At least three takes exist on disk spanning Engine A (hand-authored SVG), Engine B (Arrow vector SVG), and Engine C (raster) — or a missing engine is explicitly named as a user-agreed deviation in the output",
+      "passed": true,
+      "evidence": "All three engines exist in with_skill/outputs/: Engine A = ledgerline-a.svg (SVG, emitted by build_icon.py); Engine B = ledgerline-b.svg whose source begins '<svg xmlns=... viewBox=\"0 0 177.5 89\"> <!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->'; Engine C = ledgerline-c1.png and ledgerline-c2.png, `file` reports \"PNG image data, 1024 x 1024, 8-bit/color RGB\" for both, described in DELIVERY.md as \"GPT Image 2 raster, corpus-referenced\". Four generated/authored takes total (A, B, C1, C2) plus the A0 pre-loop state."
+    },
+    {
+      "text": "audit.html exists on disk next to the takes, contains one row per take including losing takes with scores, and a recommendation block naming known liabilities",
+      "passed": true,
+      "evidence": "audit.html sits in the same outputs/ directory as the take files. Its table has five rows, each with a rubric score: A ledgerline-a.svg \"11 / 12 SHIPS\", A0 runs/candidate-r00.svg \"10 / 12\", B ledgerline-b.svg \"5 / 12\" (\"Hard-fails three non-negotiables. #1: the viewBox is 0 0 177.5 89\" — verified true against the actual file), C1 \"8 / 12\", C2 \"9 / 12\" — losing takes included with reasons. The <div class=\"rec\"> block reads \"Recommendation: ship A (ledgerline-a.svg)\" and enumerates five known liabilities (base fade 1.27:1, three-edge bleed vs future masks, amber dot reading as a notification badge, 16px single-cue risk, no dark-mode variant)."
+    },
+    {
+      "text": "The Engine A master is emitted by a build script (a .py or similar that writes the SVG), not hand-edited path soup",
+      "passed": true,
+      "evidence": "build_icon.py line 201: (OUT / \"ledgerline-a.svg\").write_text(svg(False)); geometry and palette are named constants (STEPS list, CORNER_R, palette block). Verified by execution: copied build_icon.py + squircle-path.txt to a scratch dir, ran `python3 build_icon.py`, then `diff -q` against the shipped file → \"REGENERATED SVG IDENTICAL TO SHIPPED\" (byte-identical)."
+    },
+    {
+      "text": "The shipped master passes `fidelity.py structure` (no <image> embeds, named layer groups present)",
+      "passed": true,
+      "evidence": "Ran `python3 .../scripts/fidelity.py structure --candidate outputs/ledgerline-a.svg` → {\"paths\": 5, \"gradients\": 6, \"filters\": 3, \"groups_named\": 4, \"bytes\": 4706} then \"PASS\", exit=0. grep confirms the four named groups (<g id=\"bg\">, <g id=\"mid\">, <g id=\"fg\">, <g id=\"highlight\">) and zero <image> elements in the file."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "notes": "6/6, and every pass is backed by on-disk evidence including a byte-identical regeneration of the master from its build script and a live fidelity.py structure PASS; the audit's quantitative claims spot-checked true (e.g. B's 2:1 viewBox). None of the passes are vacuous. One thing the assertions missed: the run's own material-recipe-addition.md says the eval \"should not mutate the plugin's reference file\", yet the installed skill's references/material-recipes.md now carries a condensed 'Ledgerline (eval commission)' entry with an mtime (23:37) minutes after the run's last output (23:35) — the skill file was mutated by something around this run, which the assertions never police."
+  }
+}
