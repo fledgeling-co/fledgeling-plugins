@@ -5,7 +5,6 @@
   "review_queue": "docs/loop-review-queue.md",
   "state": "docs/loop-state.json",
   "stop_file": "docs/LOOP-STOP",
-
   "model": "opus",
   "effort": "high",
   "max_iterations": 100,
@@ -18,7 +17,6 @@
   "sol_rate_out_per_mtok": 10.0,
   "cost_cap_usd": 15.0,
   "converge_gain": 0.005,
-
   "fixtures": [
     {
       "name": "improve-skill",
@@ -34,7 +32,9 @@
         "render_audit.py": "re-renders every take and the three shipped PNGs",
         "audit.html": "the contact sheet; the A row is this master's"
       },
-      "extra_checks": ["python3 measure.py icon.png 33.0 543 604 640"],
+      "extra_checks": [
+        "python3 measure.py icon.png 33.0 543 604 640"
+      ],
       "extra_checks_note": "A material edit that inverts the trued/un-planed polarity breaks the icon's signature regardless of what it scores. The declared path envelope (3000 paths / 350KB) is this fixture's: the shaving curl's 96 swept bands are construction, not path soup."
     },
     {
@@ -58,5 +58,6 @@
       "reference": "icon-engineC1.png",
       "notes": "icon-notes.md"
     }
-  ]
+  ],
+  "agent_cwd": "/Users/lukerhodes/Dev"
 }

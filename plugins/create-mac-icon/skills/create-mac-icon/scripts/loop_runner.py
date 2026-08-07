@@ -256,9 +256,22 @@ class Runner:
                "--add-dir", str(self.repo)]
         if self.cfg.get("effort"):
             cmd += ["--effort", self.cfg["effort"]]
+        # Run from OUTSIDE the marketplace repo. Started with cwd inside it, every
+        # brief fails instantly with "Prompt is too long" while the same bytes
+        # succeed from elsewhere (measured: identical 200-byte prefix, ok from /tmp,
+        # ~, and ~/Dev; fails from the repo root and below). The repo is a plugin
+        # marketplace, so a session opened inside it loads far more context than the
+        # brief itself. --add-dir keeps write access to the fixture; the brief uses
+        # absolute paths and cds itself.
         t0 = time.time()
-        r = sh(cmd, cwd=str(assets), timeout=self.cfg.get("round_timeout_s", 2700))
+        r = subprocess.run(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
+                           capture_output=True, text=True,
+                           stdin=subprocess.DEVNULL,  # else the CLI waits 3s for stdin
+                           timeout=self.cfg.get("round_timeout_s", 2700))
         self.log(f"  implement finished in {time.time()-t0:.0f}s (exit {r.returncode})")
+        if r.returncode != 0:
+            head = ((r.stdout or "") + (r.stderr or "")).strip()[:200]
+            self.log(f"  implement FAILED: {head}")
         return r
 
     def run_panel(self, fx, round_dir, candidate, baseline_svg, label):
@@ -328,6 +341,20 @@ class Runner:
 
         r = self.run_implement(brief, assets)
         (round_dir / "implement.log").write_text((r.stdout or "") + "\n---STDERR---\n" + (r.stderr or ""))
+        if r.returncode != 0:
+            # A harness failure is not a rejected edit. Counting it as one would burn
+            # the fixture's edit-class rotation and could converge it on nothing.
+            self.log("  harness failure, not an edit rejection; recording and stopping")
+            self.ledger_line(fx["name"], edit_class, "HARNESS-FAIL", "n/a",
+                             "implement agent could not run")
+            self.review_entry(f"{fx['name']} {round_id}: implement agent failed to run",
+                              f"`claude -p` exited {r.returncode}. First 200 chars of its output:\n\n"
+                              f"    {((r.stdout or '') + (r.stderr or '')).strip()[:200]}\n\n"
+                              f"The loop stopped rather than spending iterations on a broken harness.")
+            st["round"] -= 1
+            self.state["iteration"] -= 1
+            self.save()
+            return False
 
         # score + gate, run by the harness rather than trusted from the agent
         sh(["python3", str(self.skill / "scripts/fidelity.py"), "score",
