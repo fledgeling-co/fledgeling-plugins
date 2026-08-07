@@ -1,0 +1,9 @@
+{
+  "name": "ship-armada",
+  "description": "Portfolio-wide orchestrator across every project in ~/Dev — the layer above ship-fleet. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, and dispatches: per-repo backlogs through ship-fleet, single features through ship-feature, and cross-project rollouts (model migrations, new AI features, shared-stack upgrades) as dependency-ordered campaigns with capped concurrency. Includes daemon mode — a recurring survey/plan loop that refreshes the manifest and proposes campaigns, executing only what the user has approved.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
