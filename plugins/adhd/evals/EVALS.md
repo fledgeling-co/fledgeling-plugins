@@ -11,6 +11,7 @@ Verification, same protocol as iteration 1:
 - **Eval 3 re-run (the unanimous iteration-1 loss):** the improved skill's fresh output was blind-judged against the *same* old-skill output, fresh random order, by all three families. **Unanimous flip to v2** — composer, grok-4.5, and the Claude judge all picked it, each citing this-week Rails-native first steps (`query_log_tags`, `pg_stat_statements`, code-maat, `sidekiq -C`) — precisely the dimension the panel said was missing. Verdicts: `blind-panel/iter2-eval3/`.
 - **Eval 8 (new, forced whimsy):** the user-requested 10-year-old frame ran (explicit instruction overrides the fit floor), survived apoptosis by contributing real published mechanisms (Left-Right, ForkScan) genuinely connected to epoch reclamation, and first steps were C++/Linux-native (`std::atomic`, `membarrier`, rseq, GenMC). **5/5 assertions.**
 - Grader feedback filed for iteration 3: the conditional apoptosis assertion passes vacuously when a frame survives; receipt process-claims aren't verifiable without transcripts.
+- From the gpt-5.6-sol leg: its lone-dissent OLD verdict on eval 2 caught the winning idea **overclaiming its guarantees** ("overclaims mmap crash safety and O(1) recovery") — the soundness floor now explicitly checks stated guarantees (crash safety, complexity bounds, loss windows) against the mechanism, and downgrades overclaims rather than shipping them.
 
 ## Iteration 1 results
 

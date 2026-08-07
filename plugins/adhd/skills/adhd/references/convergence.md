@@ -15,7 +15,13 @@ falsifiable rather than a vibe.
 
 1. **Soundness.** Does the stated mechanism plausibly produce the claimed
    effect? Trace the causal chain in one sentence; if the chain needs a
-   miracle step, fail.
+   miracle step, fail. Stated guarantees are part of the claim: a
+   crash-safety promise, a complexity bound, or a loss-window number
+   must follow from the mechanism, and an overclaim is a soundness fail
+   even when the underlying idea is good — downgrade the claim to what
+   the mechanism actually delivers rather than shipping the overclaim.
+   (A blind gpt-5.6 judge rejected an otherwise-winning run precisely
+   for "overclaims mmap crash safety and O(1) recovery".)
 2. **Feasibility.** Could a small team validate or build a first version
    under the stated constraints? Name the first test and the scarcest
    resource. "Weeks of R&D before we know if it's real" is a fail at
