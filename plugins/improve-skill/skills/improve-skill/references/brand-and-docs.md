@@ -13,6 +13,34 @@
 
 ## Icon
 
+### The marketplace aesthetic (bake this into every icon brief)
+
+The set has a committed family look, learned from what the user actually
+chose across six icons. Brief the mac-design-studio agent with all of it:
+
+- **Outside shape is non-negotiable**: full-bleed 1024 on the set's exact
+  superellipse (the path every sibling ships; a rounded-rect
+  approximation visibly breaks the shelf). Any raster take that ships
+  gets masked with that same path.
+- **Ground register**: porcelain/daylight by default. The dark deep-sea
+  register belongs to trawl alone; treat it as taken.
+- **One warm accent**, in the vermilion/ember/amber family (kin to
+  Fledgeling's #C4622D), reserved for the focal or semantic element —
+  the seal, the hone line, the catch, the hull. Never spent on
+  decoration.
+- **Material over flatness**: rich, soft-3D Tahoe gel-glass — volumetric
+  gel, authored translucency and overlap, one soft top light, real
+  contact shadows. The user has twice chosen the raster take's richer
+  material over a flatter vector (and once shipped the raster outright),
+  so push the painterly volumetric end of the register and rebuild the
+  winning material into the layered master.
+- **Subject-mined literal glyph** with a stated signature move (the
+  before/after boundary, the seal on the entry, the three hulls in
+  echelon). No category clip-art, no glyph-on-blue-ramp.
+- **16px survival** stays a non-negotiable audit check.
+
+### The pipeline
+
 Spawn an **Opus agent** that reads mac-design-studio's SKILL.md and
 icon-directions.md (the hardened version: three engines are a floor —
 under any budget cut iterations, never engines — and `audit.html` from
