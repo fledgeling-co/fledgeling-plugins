@@ -343,11 +343,19 @@ ln -s CLAUDE.md "$PROJECT_DIR/AGENTS.md"
 # story possible — scaffolders that skip it (shadcn) cannot separate user edits
 # from template changes later.
 SLIPWAY_VERSION="$(python3 -c "import json;print(json.load(open('$SCRIPT_DIR/../../../.claude-plugin/plugin.json'))['version'])" 2>/dev/null || echo unknown)"
+# Template version tag: the skill repo's commit at scaffold time. Lets upgrade.sh
+# render the templates this project was BORN from and do a true 3-way merge.
+# Absent when running from a non-git install (plugin cache) — upgrade falls back to 2-way.
+TEMPLATE_REF="$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo "")"
+TEMPLATE_DIRTY="false"
+if [ -n "$TEMPLATE_REF" ] && [ -n "$(git -C "$SCRIPT_DIR" status --porcelain 2>/dev/null)" ]; then TEMPLATE_DIRTY="true"; fi
 mkdir -p "$PROJECT_DIR/.slipway"
 python3 - "$PROJECT_DIR/.slipway/manifest.json" <<PY
 import json, os, sys
 json.dump({
     "slipway_version": "$SLIPWAY_VERSION",
+    "template_ref": "$TEMPLATE_REF" or None,
+    "template_ref_dirty": "$TEMPLATE_DIRTY" == "true",
     "scaffolded": "$(date +%Y-%m-%dT%H:%M:%S%z)",
     "codename": "$CODENAME",
     "display": os.environ["SW_DISPLAY"],

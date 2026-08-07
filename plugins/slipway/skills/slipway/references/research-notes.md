@@ -14,7 +14,7 @@ Panel `dr_63ac10b56c131b28`: openai `dr_49b878ae294d4343` · local-claude `dr_98
 
 ## Roadmap status (2026-08-07: items 1,2,4,5,7,8,9,10 SHIPPED in 1.7.0)
 
-Shipped: state inventory + drift + honest upgrade (scripts/drift.sh, scripts/upgrade.sh — unmodified-replace / conflict-sibling / deletion-respect semantics); `--plan` machine-readable plan artifact; pnpm `catalog:` for shared ranges; ownership classes in state.json; `scripts/doctor.sh`; observability module (Sentry, inert until DSN); loupe egress kill-switch distilled into the generated CLAUDE.md; canary permutations (all/saas/native/site). Remaining: item 3's full tagged-template-version diffing (upgrade.sh currently diffs against CURRENT templates — version tags would let it diff against the templates the project was born from), and item 6 (--https profile).
+Shipped: state inventory + drift + honest upgrade (scripts/drift.sh, scripts/upgrade.sh — unmodified-replace / conflict-sibling / deletion-respect semantics); `--plan` machine-readable plan artifact; pnpm `catalog:` for shared ranges; ownership classes in state.json; `scripts/doctor.sh`; observability module (Sentry, inert until DSN); loupe egress kill-switch distilled into the generated CLAUDE.md; canary permutations (all/saas/native/site). 1.8.0 shipped item 3: template_ref (skill-repo SHA) stamped into manifest.json at scaffold time; upgrade.sh renders the born-from templates via git archive at that ref and 3-way merges with git merge-file (clean → applied, conflict → .slipway-new), advancing template_ref on apply. Item 6 (--https profile) deliberately skipped per owner decision 2026-08-07.
 
 ## Original prioritized roadmap (for reference)
 

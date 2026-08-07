@@ -98,7 +98,7 @@ Cross-cutting, in every relevant module: **release path** (fastlane `beta` lanes
 ## Maintaining scaffolded projects
 
 - `scripts/drift.sh <project>` — which generated files the user has modified vs left untouched (reads state.json). Run before any template-driven change to a project.
-- `scripts/upgrade.sh <project> [--apply]` — bring an existing slipway project up to the current templates: unmodified files replaced, user-modified files get a `.slipway-new` sibling for human merge, user deletions respected, state.json refreshed. Dry-run by default; after `--apply`, run the project's gate before committing.
+- `scripts/upgrade.sh <project> [--apply]` — bring an existing slipway project up to the current templates. Unmodified files are replaced; where the user edited a file AND the template moved, it 3-way merges against the templates the project was born from (`template_ref` in manifest.json, rendered via `git archive`) — clean merges applied, conflicts written as a `.slipway-new` sibling for human merge; user deletions respected; state.json and template_ref refreshed on apply. Projects without a template_ref (or a checkout missing that commit) fall back to 2-way, and the report's `base` field says which mode ran. Dry-run by default; after `--apply`, run the project's gate before committing.
 - `scripts/canary.sh [--quick]` — scaffold four representative module permutations (all / saas / native / site) and gate each; the weekly anti-rot check (ship-armada daemon is a good home).
 
 ## Improving the templates
