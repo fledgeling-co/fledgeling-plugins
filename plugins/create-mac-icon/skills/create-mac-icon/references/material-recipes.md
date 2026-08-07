@@ -28,6 +28,14 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill loop r03 (small-size repair, rejected)** — before
+  repairing a region toward the reference, re-score it with that region
+  **absent**. If removal costs the same term the repair costs, the error is
+  sitting inside the metric's tolerance radius around a true feature, and the
+  metric will pay you to stay wrong. Measured here: an over-dark blob was
+  earning edge recall by accident, so correcting it and deleting it moved the
+  32px miss count the same way (11 to 18 to 24).
+
 - **2026-08 · improve-skill loop r02 (detail): the metric was wrong, not the edit.**
   A fibre texture on the un-planed side was REJECTED by the gate and then
   PREFERRED OVERALL by the human reviewer. Both facts are correct, and the

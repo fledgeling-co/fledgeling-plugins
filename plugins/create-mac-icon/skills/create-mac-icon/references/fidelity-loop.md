@@ -222,6 +222,20 @@ Rules that make it converge (each one earned by a documented failure mode):
   candidate's source: a rejected round whose source is destroyed cannot be
   restored when the human disagrees. That happened once here and cost a
   transcript-replay recovery.
+- **Check what the small-size edge score is actually looking at.** A full-bleed
+  SVG clipped to the squircle renders a hard boundary there; a raster reference
+  usually does not. Measured on improve-skill at 32px: 75 of the candidate's 341
+  edges sat on that rim against 2 of the reference's 190, so a quarter of the
+  candidate's edge budget was spent being punished for the delivery format. The
+  rim is excluded from `edge_f1` as of metric v2. Note honestly that this did
+  *not* improve agreement with the one human verdict available: it slightly
+  widened an existing disagreement whose cause is the SSIM/texture mechanism
+  above, not the rim. It was kept because it stops measuring the wrong thing,
+  not because it scored better, and that distinction is worth preserving.
+- **Version-stamp the metrics.** Changing a metric mid-run means a candidate
+  scored under the new definition gets gated against a baseline scored under the
+  old one, which is not a comparison at all. `score.json` now carries
+  `metric_version` and `gate` exits 2 rather than issuing a mixed verdict.
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.
