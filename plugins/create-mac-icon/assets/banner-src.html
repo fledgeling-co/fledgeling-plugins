@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  create-mac-icon README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  Subject-mined from the shipping icon rather than decorated to match it. The icon is the
+  layered vector master, whose whole construction is one superellipse on a dimetric ground
+  plane: the outer mask, the mould cavity, the cast. The banner is the rest of that same
+  bench. The two empty cavities on the right are the SAME path under the SAME projection
+  (KX 1.0, KY 0.515, the icon's own frame), scaled up and cut by the frame, so the bench
+  the icon sits on visibly continues past the edge and there is another one waiting. The
+  nearer cavity holds the same warm bounce the icon's does, at a fraction of the strength.
+  Any change to the icon's KY or to its palette must be re-derived here, or the plane tilts
+  out of register with itself.
+
+  Ground is the porcelain register the marketplace uses by default; the dark register
+  belongs to the sibling trawl. The one warm accent is spent where the icon spends it,
+  on the cast and on the warmth a cast leaves behind, and nowhere else.
+
+  Type is Sora, whose bowls are drawn as squared circles rather than true ones, which is
+  the superellipse the icon is built from, in type. No sibling in this marketplace uses it.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background: #F3EFE7;
+    font-family: "Sora", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  svg.bench { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 112px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 292px; height: 292px; flex: none;
+          filter: drop-shadow(0 20px 42px rgba(74, 60, 42, .26)); }
+
+  .wordmark { font-size: 82px; font-weight: 600; letter-spacing: -0.038em;
+              line-height: 1; color: #2B2620; white-space: nowrap; }
+  .tagline { margin-top: 26px; font-size: 25px; font-weight: 400;
+             letter-spacing: -0.004em; color: #6E6355; white-space: nowrap; }
+  .tagline b { color: #332D25; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="bench" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- one soft top-left light across the bench, the icon's own light model extended -->
+      <radialGradient id="light" cx="300" cy="80" r="1500" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#FFFDF8"/>
+        <stop offset="0.46" stop-color="#F5F1E9"/>
+        <stop offset="1" stop-color="#E7E0D2"/>
+      </radialGradient>
+      <!-- a cavity is a void: dark at its far wall, paling toward the near lip -->
+      <linearGradient id="void" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#9E927B" stop-opacity=".52"/>
+        <stop offset="0.38" stop-color="#B6AB93" stop-opacity=".30"/>
+        <stop offset="0.78" stop-color="#D6CDB9" stop-opacity=".12"/>
+        <stop offset="1" stop-color="#EFE8DA" stop-opacity="0"/>
+      </linearGradient>
+      <!-- the warmth a cast leaves behind, at a fraction of the icon's strength -->
+      <radialGradient id="bounce" cx="0.48" cy="0.36" r="0.62">
+        <stop offset="0" stop-color="#FF9C60" stop-opacity=".34"/>
+        <stop offset="0.46" stop-color="#FF9C60" stop-opacity=".16"/>
+        <stop offset="1" stop-color="#FF9C60" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="lip" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/>
+        <stop offset="0.62" stop-color="#FFFFFF" stop-opacity=".40"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity=".10"/>
+      </linearGradient>
+    </defs>
+
+    <rect width="1600" height="520" fill="url(#light)"/>
+    <g id="cavities"></g>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div>
+      <div class="wordmark">create-mac-icon</div>
+      <div class="tagline">Design a macOS app icon three ways. <b>Ship the one that measures up.</b></div>
+    </div>
+  </div>
+
+  <script>
+    // The marketplace superellipse, verbatim, under the icon's own dimetric projection.
+    // A plate point (u,v) lands at x = cx + (u-v)*KX, y = cy + (u+v)*KY, which as a matrix
+    // on the raw 1024-space path is matrix(KX*k, KY*k, -KX*k, KY*k, cx, cy - 1024*KY*k).
+    const SQ = "M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z";
+    const KX = 1.0, KY = 0.515;
+    const m = (cx, cy, R) => {
+      const k = R / 512;
+      return `matrix(${KX*k},${KY*k},${-KX*k},${KY*k},${cx},${cy - 1024*KY*k})`;
+    };
+    // Two empty cavities on the same bench, receding up and to the right along -v and cut
+    // by the frame: the bench continues, and the next one is waiting.
+    const cav = [
+      { cx: 1452, cy: 400, r: 92, depth: 22, warm: true },
+      { cx: 1548, cy: 122, r: 62, depth: 15, warm: false },
+    ];
+    let out = '';
+    for (const c of cav) {
+      const t = m(c.cx, c.cy, c.r);
+      // the mouth, then the floor sunk by its depth, then the lit near lip
+      out += `<path d="${SQ}" transform="${t}" fill="url(#void)"/>`;
+      out += `<path d="${SQ}" transform="${m(c.cx, c.cy + c.depth, c.r)}" fill="#F2ECDF" fill-opacity=".80"/>`;
+      if (c.warm) out += `<path d="${SQ}" transform="${m(c.cx, c.cy + c.depth, c.r)}" fill="url(#bounce)"/>`;
+      out += `<path d="${SQ}" transform="${t}" fill="none" stroke="url(#lip)" stroke-width="3"/>`;
+    }
+    document.getElementById('cavities').innerHTML = out;
+  </script>
+</body>
+</html>

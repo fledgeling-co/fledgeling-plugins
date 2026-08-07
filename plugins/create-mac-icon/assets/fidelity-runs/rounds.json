@@ -96,8 +96,20 @@
         "32": 0.7198,
         "16": 0.7841
       },
-      "verdict": "ROLLED BACK - every size moved the wrong way"
+      "verdict": "ROLLED BACK - accepted on tolerance, but every size moved the wrong way"
+    },
+    {
+      "round": "r08",
+      "label": "r08 detail: block rim-light ramp peaked past the cast's occlusion so the lit edge stops reading as a stray hairline",
+      "composite": {
+        "1024": 0.6685,
+        "256": 0.5539,
+        "128": 0.5243,
+        "32": 0.7206,
+        "16": 0.7855
+      },
+      "verdict": "ACCEPT - SHIPS"
     }
   ],
-  "shipping_state": "r06"
+  "shipping_state": "r08"
 }

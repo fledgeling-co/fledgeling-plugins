@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-fe8278-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "r08 detail: block rim-light ramp peaked past the cast's occlusion so the lit edge stops reading as a stray hairline",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0987,
+      "ssim": 0.8265,
+      "edge_f1": 0.5044,
+      "mask_iou": 0.9999,
+      "composite": 0.6685
+    },
+    "256": {
+      "lum_delta": 0.0988,
+      "ssim": 0.6008,
+      "edge_f1": 0.4076,
+      "mask_iou": 0.9997,
+      "composite": 0.5539
+    },
+    "128": {
+      "lum_delta": 0.0987,
+      "ssim": 0.4836,
+      "edge_f1": 0.476,
+      "mask_iou": 0.9987,
+      "composite": 0.5243
+    },
+    "32": {
+      "lum_delta": 0.0982,
+      "ssim": 0.4261,
+      "edge_f1": 0.7801,
+      "mask_iou": 1.0,
+      "composite": 0.7206
+    },
+    "16": {
+      "lum_delta": 0.0972,
+      "ssim": 0.4243,
+      "edge_f1": 0.9649,
+      "mask_iou": 1.0,
+      "composite": 0.7855
+    }
+  },
+  "render_hash": "cd00c81421512099"
+}

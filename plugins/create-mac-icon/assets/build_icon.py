@@ -292,8 +292,9 @@ defs = [
         [("0", "#FFF0E0", ".40"), (".46", "#FFDCC0", ".14"), ("1", "#FFC49B", "0")]),
 
     # plaster rim light along the block's lit upper edge
-    lin("rimLight", CX - 290, CY - 150, CX + 200, CY + 60,
-        [("0", "#FFFFFF", ".92"), (".62", "#FFFFFF", ".42"), ("1", "#FFFFFF", "0")]),
+    lin("rimLight", CX - 300, CY - 155, CX + 230, CY + 70,
+        [("0", "#FFFFFF", ".18"), (".30", "#FFFFFF", ".60"), (".58", "#FFFFFF", ".72"),
+         (".82", "#FFFFFF", ".30"), ("1", "#FFFFFF", "0")]),
     lin("cavLip", CX - 200, CY - 110, CX + 150, CY + 40,
         [("0", "#FFFFFF", ".70"), (".70", "#FFFFFF", ".22"), ("1", "#FFFFFF", "0")]),
 
