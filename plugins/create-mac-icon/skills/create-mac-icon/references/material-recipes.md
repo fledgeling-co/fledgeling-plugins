@@ -28,6 +28,19 @@ construct that renders differently across the two is itself a finding.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill loop r02 (detail, REJECTED but instructive)** — adding
+  a fibre texture to a surface is a **guaranteed structural-similarity loss for a
+  conditional edge win**, and the arithmetic says so before you build it:
+  uncorrelated detail inflates local variance while covariance stays near zero,
+  so SSIM falls, and SSIM carries more weight than edge alignment at every size.
+  Measured: 1024px edge_f1 0.048 to 0.347 (the largest single metric move of any
+  round, closing on the reference's own 0.885) while SSIM fell 0.651 to 0.548,
+  and below 256px the fibre averages away leaving only the penalty. Texture that
+  is not present in the reference at the *same spatial frequency* will lose.
+  Reusable construction confirmed along the way: a filter on a transformed `<g>`
+  runs in that element's local frame, and the inverse-transform-on-contents idiom
+  applies it without disturbing geometry or gradients.
+
 - **2026-08 · improve-skill loop r01 (material, +0.1427 net)** — three findings,
   one of them a bug in our own icon rather than a mismatch with the reference.
   **(a) Single-emitter falloff mask.** Author a carried emitter's decay once, as
