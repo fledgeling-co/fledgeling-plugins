@@ -271,7 +271,7 @@ class Runner:
         # brief itself. --add-dir keeps write access to the fixture; the brief uses
         # absolute paths and cds itself.
         t0 = time.time()
-        self.log(f"  brief {len(brief)} chars, cwd {self.cfg.get('agent_cwd') or self.repo.parent}, effort {self.cfg.get('effort')}")
+        self.log(f"  brief {brief_path}, cwd {self.cfg.get('agent_cwd') or self.repo.parent}, effort {self.cfg.get('effort')}")
         r = subprocess.run(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
                            capture_output=True, text=True,
                            stdin=subprocess.DEVNULL,  # else the CLI waits 3s for stdin
@@ -455,6 +455,7 @@ class Runner:
         return True
 
     def run(self):
+        consecutive_errors = 0
         self.log(f"loop runner: {len(self.cfg['fixtures'])} fixtures, "
                  f"budget {self.cfg.get('max_iterations', 100)} iterations, "
                  f"cost cap ${self.cfg.get('cost_cap_usd', 15)}")
@@ -479,6 +480,18 @@ class Runner:
                 self.log(f"  round error: {e}")
                 self.ledger_line("(error)", "-", "ERROR", "-", str(e)[:120])
                 self.save()
+                consecutive_errors += 1
+                # Without this, a bug that throws every round spends the entire
+                # iteration budget in about one second. It did exactly that once.
+                if consecutive_errors >= 3:
+                    self.log("  three consecutive errors; stopping rather than burning the budget")
+                    self.review_entry("Loop stopped: three consecutive round errors",
+                                      f"Last error: {e}\n\nThe runner halted instead of spending "
+                                      f"the remaining iteration budget on a broken round.")
+                    break
+                time.sleep(10)
+                continue
+            consecutive_errors = 0
         self.log(f"done: {self.state['iteration']} iterations, panel spend ${self.state['cost_usd']:.2f}")
         self.log(f"review queue: {self.queue}")
 
