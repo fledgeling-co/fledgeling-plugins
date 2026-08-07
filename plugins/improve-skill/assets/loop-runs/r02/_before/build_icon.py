@@ -108,6 +108,32 @@ def to_local(px, py):
     return (UX * dx + UY * dy, NX * dx + NY * dy)
 
 
+def inv_matrix(a, b, c, d, e, f):
+    """The SVG matrix that undoes matrix(a,b,c,d,e,f). Used to run a filter inside a
+    frame without moving what the filter is applied to: wrap the artwork in the frame,
+    attach the filter there, and put the inverse on the contents. The geometry and its
+    gradients come out exactly where they were; the filter sees the local frame."""
+    det = a * d - c * b
+    return (f"matrix({d / det:.6f},{-b / det:.6f},{-c / det:.6f},{a / det:.6f},"
+            f"{(c * f - d * e) / det:.3f},{(b * e - a * f) / det:.3f})")
+
+
+MATRIX_INV = inv_matrix(UX, UY, NX, NY, AX, AY)
+MATRIX_TOP_INV = inv_matrix(UX, UY - K_RISE, NX, NY, AX, AY - RISE_NEAR)
+
+
+def frame_azimuth(a, b, c, d):
+    """The scene's one key light, re-expressed inside a frame, as an feDistantLight
+    azimuth. A relief filter running in a local frame must be lit from the SAME source
+    as everything else in the icon; hard-coding 225 deg would light the ground's fibre
+    from a second, imaginary direction."""
+    lx, ly = -0.70711, -0.70711            # unit vector pointing at the key, canvas frame
+    det = a * d - c * b
+    fx = (d * lx - c * ly) / det
+    fy = (-b * lx + a * ly) / det
+    return math.degrees(math.atan2(fy, fx)) % 360.0
+
+
 # The boundary is local y = 0, extended to the canvas edges.
 def boundary_at_x(x):
     return AY - NX * (x - AX) / NY
@@ -300,6 +326,78 @@ def stone():
         out.append(f'<ellipse cx="{lx:.0f}" cy="{ly:.0f}" rx="{rx:.0f}" ry="{ry:.0f}" '
                    f'fill="{col}" fill-opacity="{op:.3f}"/>')
     return "\n        ".join(out)
+
+
+# ---------------------------------------------------------------- micro-relief
+# ROUND 8 (detail). After the material round the master's colour was right and its
+# GRANULARITY was not. Measured on matched 1024 crops, the two carry almost the same
+# texture ENERGY in the un-planed field - C2 sd 10.4, ours 9.65 - but ours spends it on
+# about thirty wide soft dashes and a few enormous mottle clouds, where C2 spends it on
+# a dense field of torn fibres. The tell is edge density, not amplitude: over the same
+# ground C2 puts 33.3% of its pixels above a gradient of 4/255 and ours puts 7.7%. On
+# the iron's own face the gap is worse - C2 21.3%, ours 6.1%, and in a clean patch of
+# stone C2 measures sd 4.6 against our 0.9. That is the whole of edge_f1 0.048 at 1024.
+#
+# Answering it with paths is the wrong instrument: matching C2's fibre count would cost
+# several thousand of them. It is authored instead as a HEIGHT FIELD - one feTurbulence
+# lit by feDiffuseLighting from the icon's own key, multiplied back over the surface it
+# belongs to. Three properties come free and are the reason for the construction:
+#   - it costs no paths at all;
+#   - the light is the scene's one light, re-expressed in the surface's frame, so the
+#     relief cannot introduce a second source the way hand-drawn ticks can;
+#   - normalised on the flat-surface value (1/sin elevation) it is a pure MODULATION, so
+#     a surface with no relief comes out unchanged and the field means - which is what
+#     polarity, figure-ground and the whole small-size read are made of - do not move.
+FIBRE_BF = (0.26, 0.038)      # across-grain / along-grain noise frequency, LOCAL frame.
+                              # 1/0.26 ~ 4px fibres, 1/0.038 ~ 26px long: measured off C2
+FIBRE_SCALE = 0.80            # surfaceScale. Calibrated in rsvg-convert against C2's
+                              # sd 18.3 in its worst band; lands at 17.4 alone, ~18 once
+                              # the existing tear dashes are counted
+FIBRE_ELEV = 42.0             # raking, because torn end-grain is what casts these
+PIT_BF = (0.55, 0.55)         # isotropic: pitting in cast stone has no direction
+PIT_SCALE = 0.50              # -> sd 4.2 against C2's 4.5 in the same patch
+PIT_ELEV = 50.0
+
+
+def relief_filter(fid, bf, scale, elev, azimuth, seed):
+    """One noise-relief modulation. feTurbulence is the height field, feDiffuseLighting
+    lights it from the icon's key, and feComposite arithmetic multiplies that lighting
+    back over the source with k1 = 1/sin(elevation) - the value a dead-flat surface
+    returns - so flat areas come out exactly as drawn and only relief changes anything."""
+    k1 = 1.0 / math.sin(math.radians(elev))
+    return f"""  <filter id="{fid}" x="-1200" y="-1200" width="3400" height="3400"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="{bf[0]} {bf[1]}" numOctaves="3"
+                  seed="{seed}" result="height"/>
+    <feDiffuseLighting in="height" surfaceScale="{scale}" diffuseConstant="1"
+                       lighting-color="#FFFFFF" result="lit">
+      <feDistantLight azimuth="{azimuth:.1f}" elevation="{elev:.0f}"/>
+    </feDiffuseLighting>
+    <feComposite in="lit" in2="SourceGraphic" operator="arithmetic"
+                 k1="{k1:.4f}" k2="0" k3="0" k4="0"/>
+  </filter>
+"""
+
+
+def fibre_ramp_stops():
+    """The fibre's amplitude along local y, as mask stops. Two things are encoded and
+    both were measured off C2 rather than chosen: the STEP at the cut, and the fade
+    toward the key. Reading C2 in the master's own frame, its texture runs sd 12.6 just
+    above the cut, peaks at 18.3 about 285 local units out, and collapses to 5.6 by 513
+    - the corner nearest its key light, where the field is blown near white and micro
+    relief has no contrast left to show. Ours ran the wrong way round (10.1 near the cut,
+    11.7 up by the light). Below the cut C2 measures sd 1.2-2.0: a planed surface is
+    nearly glass. Because BOTH sides are the same noise field in the same frame, a fibre
+    that crosses the cut continues on the far side at a tenth of its height - which is
+    the icon's whole argument, made literally rather than by analogy."""
+    span = LY_MAX - LY_MIN
+    def off(ly):
+        return (ly - LY_MIN) / span
+    stops = [(0.0, 0.05), (off(0.0), 0.12), (off(0.0), 0.80),
+             (off(285.0), 1.00), (off(513.0), 0.34), (1.0, 0.24)]
+    return "\n    ".join(
+        f'<stop offset="{o:.4f}" stop-color="#FFFFFF" stop-opacity="{a:.2f}"/>'
+        for o, a in stops)
 
 
 # ---------------------------------------------------------------- the shaving

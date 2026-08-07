@@ -494,9 +494,20 @@ class Runner:
         if len(recent) == 3 and all(abs(x) < self.cfg.get("converge_gain", 0.005) for x in recent):
             st["converged"] = True
             self.log(f"  {fx['name']} converged: three rounds under the gain floor")
+        # Panel non-wins normally converge a fixture: the judges have stopped
+        # preferring new rounds. But an open human-named defect outranks that. The
+        # reviewer of r01 called the shaving curl and the left side's lighting wrong
+        # while the panel was calling rounds a tie, so converging on the panel alone
+        # would abandon a fixture with known defects. While human notes are on file,
+        # both signals must agree; the gain floor still bounds the fixture either way.
+        has_open_human_notes = bool(list((assets / "loop-runs").glob("r*/review-feedback.json")))
         if st["panel_nonwins"] >= 2:
-            st["converged"] = True
-            self.log(f"  {fx['name']} converged: panel stopped preferring new rounds")
+            if has_open_human_notes and not st["converged"]:
+                self.log(f"  {fx['name']}: panel would converge, but human notes are open; "
+                         f"continuing until the gain floor decides")
+            else:
+                st["converged"] = True
+                self.log(f"  {fx['name']} converged: panel stopped preferring new rounds")
         if st["rejects_in_row"] >= len(EDIT_CLASSES):
             st["converged"] = True
             self.log(f"  {fx['name']} converged: every edit class rejected in turn")
