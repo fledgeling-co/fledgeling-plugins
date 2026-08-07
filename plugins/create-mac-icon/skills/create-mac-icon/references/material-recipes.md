@@ -23,10 +23,22 @@ construct that renders differently across the two is itself a finding.
 | Ambient occlusion | Small dark translucent shapes tucked under each overlap, respecting occlusion order | A global dark blur ignores topology and muddies 32px |
 | Cushion tile (Tahoe ground) | Radial gradient + a 1-2% inner white stroke ring + gentle edge vignette | A dead-flat ground is instantly previous-era |
 | Authored overlap blend | Literal overlapping semi-opaque shapes — let the renderer multiply/lighten | Baking the blend into one shape dies under system tinting (#10) |
-| Curl / ribbon volume | Build as a lit ribbon: face and back carry different gradients, edge highlight along the outer curve, contact shadow where it meets the ground | A spiral path with one fill reads as a flat coil, not a curl |
+| Curl / ribbon volume | Build as a **swept surface**, not a spiral outline: one cross-section curve swept along the roll axis, cut into bands, each band shaded by its facing angle to the single light; far-side bands seen from inside the roll go to shadow with a transmitted lift; free end tapers in opacity | A closed spiral path with one fill reads as a flat coil or a capped tube, not a curl |
 | Emissive interior | Bright core shape under a translucent shell, soft `feGaussianBlur` bloom layer above, restrained halo radius | Glow painted as opaque colour doesn't light its surroundings |
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
+
+- **2026-08 · improve-skill shaving curl (round 7)** — three failed attempts
+  drew the curl as a spiral *outline* (a shell); the fix was a swept surface:
+  one cross-section curve (near-straight tail easing into an open 0.78-turn
+  hook) swept along the blade axis, cut into 96 bands, each lit by its real
+  facing angle to the one top light. Two values measured off the raster
+  rather than guessed, both load-bearing: the cross-section is a circle seen
+  obliquely (compressed 0.54 along the roll axis — a true circle reads as a
+  capped tin can), and the curl is **not** a pale shape on a dark ground
+  (lit top L 0.576 vs ground L 0.635 beside it). Lesson: *measure the
+  reference's actual luminance relationships before authoring — the
+  "highlight = lighter than surroundings" assumption is a repeat trap.*
 
 - **2026-08 · improve-skill "Honed Edge" rebuild** — the flat bar became a
   12/12 volumetric extruded solid: per-face gradients (top face lightest,

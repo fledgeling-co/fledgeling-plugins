@@ -32,8 +32,8 @@ import math
 import os
 import pathlib
 
-# round-4 test: does the shaving curl survive simplification at small sizes?
-SHAVING = os.environ.get("SHAVING", "0") == "1"
+# the shaving curl. SHAVING=0 builds the round-4 two-object tile without it.
+SHAVING = os.environ.get("SHAVING", "1") == "1"
 
 W = 1024
 ASSETS = pathlib.Path(__file__).resolve().parent
@@ -251,45 +251,261 @@ def stone():
     return "\n        ".join(out)
 
 
-def shaving_curl():
-    """The physical evidence of what came away: a rolled shaving standing behind the
-    iron. Authored as a tapering spiral ribbon rather than an annulus, because an
-    annulus is what read as a coat hanger the first two times it was tried."""
-    cx, cy, r0, w, turns, phase = 214.0, 252.0, 104.0, 44.0, 1.55, math.radians(-58)
-    k = (r0 - 42.0) / (turns * 2 * math.pi)
-    outer, inner = [], []
-    n = 132
-    for i in range(n + 1):
-        th = turns * 2 * math.pi * i / n
-        r = r0 - k * th
-        ww = w * (1.0 - 0.34 * (th / (turns * 2 * math.pi)))
-        a = th + phase
-        outer.append((cx + r * math.cos(a), cy + r * math.sin(a)))
-        inner.append((cx + (r - ww) * math.cos(a), cy + (r - ww) * math.sin(a)))
-    return poly(outer + inner[::-1]), open_poly(outer)
+# ---------------------------------------------------------------- the shaving
+# A shaving is a RIBBON, and the three attempts that failed all drew a spiral
+# OUTLINE - a closed curve with a hole in it, which is a shell, not material.
+# This one is a swept surface: ONE cross-section curve (a nearly straight tail
+# leaving the blade, easing into a loose roll of just over a turn) swept along
+# the blade's own axis by the ribbon's width. That surface is then cut into
+# bands, and each band is shaded by its real facing angle to the single
+# top-left light. Bands whose OUTER face turns toward the viewer are lit; the
+# ones on the far side are seen from the INSIDE, through the open end of the
+# roll, so they take the shadow family plus a small transmitted lift where the
+# outer face is in light. The free end tapers in opacity, because that is the
+# thinnest, most-curled material and the ground has to show through it.
+#
+# Measured off the C2 raster: its curl is NOT a pale shape on a dark ground.
+# Its lit top sits at L 0.576 against ground at L 0.635 right beside it, and it
+# falls to L 0.27 at the bottom. It reads by internal form-shading and thin rim
+# edges, never by a value jump. The palette below holds to that.
+
+CURL_C      = (326.0, 302.0)        # centre of the roll
+CURL_R      = 78.0                  # radius where the tail enters the roll
+CURL_R_END  = 69.0                  # radius at the free end: barely tightened, because
+                                    # a shaving this fresh is loosely rolled, not a snail
+CURL_TURNS  = 0.78                  # PARTIALLY unrolled, which is the whole point: an open
+                                    # hook, not a closed ring. Past a full turn the swept
+                                    # ribbon closes into a tube and reads as a roll of tape;
+                                    # short of one, the cross-section is an arc, so no
+                                    # complete far ellipse is ever drawn and the tail runs
+                                    # up through the gap the way C2's does.
+CURL_PHI0   = math.radians(-24.0)   # entry, on the roll's right flank
+CURL_BASE   = (446.0, 424.0)        # leaves the blade's top rear edge, base covered by it
+CURL_SWEEP  = 106.0                 # ribbon width, along the blade axis. Wide against the
+                                    # radius (1.7:1) because C2's runs 2.2:1 - that ratio is
+                                    # what makes a roll read as a fat cylinder and not a hoop
+SX, SY      = -UX * CURL_SWEEP, -UY * CURL_SWEEP
+# near rim -> far rim runs DOWN-LEFT, so the open end of the roll faces the viewer
+# and the interior shows on the lower-left. That is C2's read exactly.
+
+CURL_FORE   = 0.54                  # the cross-section is a circle seen obliquely, so it
+                                    # is compressed along the roll's own axis. Without this
+                                    # the mouth draws as a full circle and the whole thing
+                                    # reads as a tin can; C2's mouth is a narrow ellipse.
+
+SU = (-UX, -UY)                     # the roll's axis, running away from the viewer
+SP = (-SU[1], SU[0])                # and its perpendicular, in the picture plane
+
+LIGHT = (-0.36, -0.93)              # the one soft top-left source, mostly overhead
 
 
-SHAVING_BODY, SHAVING_RIM = shaving_curl()
+def _fore(dx, dy):
+    a = (dx * SU[0] + dy * SU[1]) * CURL_FORE
+    b = dx * SP[0] + dy * SP[1]
+    return (a * SU[0] + b * SP[0], a * SU[1] + b * SP[1])
+
+OUT_LIT   = (243, 234, 216)         # outer face, square to the light
+OUT_DARK  = (134, 118,  97)         # outer face, turned away
+IN_LIT    = (198, 180, 156)         # inner face at the mouth of the roll
+IN_DARK   = ( 84,  72,  60)         # inner face, deep
+TRANSMIT  = (250, 241, 221)         # what comes through thin material from behind
+
+
+def _unit(x, y):
+    m = math.hypot(x, y) or 1.0
+    return (x / m, y / m)
+
+
+def _lerp(a, b, t):
+    t = max(0.0, min(1.0, t))
+    return tuple(int(round(a[i] + (b[i] - a[i]) * t)) for i in range(3))
+
+
+def _hex(c):
+    return "#%02X%02X%02X" % c
+
+
+TAIL_N = 18
+
+
+def _curl_section(n_roll=78, n_tail=TAIL_N):
+    """The cross-section, near rim. Returns (x, y, r) where r is distance from the
+    roll's axis, used as the depth key: a rolled ribbon stacks outermost-on-top."""
+    total = CURL_TURNS * 2 * math.pi
+
+    def roll_pt(t):
+        phi = CURL_PHI0 - total * t
+        r = CURL_R - (CURL_R - CURL_R_END) * (t ** 1.4)
+        fx, fy = _fore(r * math.cos(phi), r * math.sin(phi))
+        return (CURL_C[0] + fx, CURL_C[1] + fy, r)
+
+    ex, ey, _ = roll_pt(0.0)
+    # direction of travel (blade -> free end) at the entry, carried through the same
+    # foreshortening so the tail meets the roll tangentially instead of kinking into it
+    tx, ty = _unit(*_fore(math.sin(CURL_PHI0), -math.cos(CURL_PHI0)))
+    span = math.hypot(ex - CURL_BASE[0], ey - CURL_BASE[1])
+    c1 = (CURL_BASE[0] + 0.10 * (ex - CURL_BASE[0]),
+          CURL_BASE[1] + 0.42 * (ey - CURL_BASE[1]))
+    c2 = (ex - tx * span * 0.40, ey - ty * span * 0.40)
+
+    pts = [(CURL_BASE[0], CURL_BASE[1], CURL_R + span)]
+    for i in range(1, n_tail + 1):
+        t = i / n_tail
+        u = 1 - t
+        pts.append((u**3 * CURL_BASE[0] + 3*u*u*t*c1[0] + 3*u*t*t*c2[0] + t**3 * ex,
+                    u**3 * CURL_BASE[1] + 3*u*u*t*c1[1] + 3*u*t*t*c2[1] + t**3 * ey,
+                    CURL_R + span * (1 - t)))
+    for i in range(1, n_roll + 1):
+        pts.append(roll_pt(i / n_roll))
+    return pts
+
+
+TAPER_FROM = 0.76
+
+
+def _taper(t):
+    """Opacity along the ribbon. C2's shaving is OPAQUE over its body and translucent
+    only where it has curled right over on itself, so that is what this does: solid
+    until the last fifth, then thinning hard at the free end."""
+    if t <= TAPER_FROM:
+        return 1.0
+    return 1.0 - 0.52 * ((t - TAPER_FROM) / (1.0 - TAPER_FROM)) ** 1.1
+
+
+def _runs(segs, width, colour):
+    """Merge consecutive stroke segments that round to the same opacity, so the rim
+    ships as a handful of polylines instead of a hundred one-segment paths."""
+    out, i = [], 0
+    while i < len(segs):
+        op = segs[i][0]
+        j = i
+        chain = [segs[i][1]]
+        while j < len(segs) and segs[j][0] == op:
+            chain.append(segs[j][2])
+            j += 1
+        if op > 0.02:
+            out.append(f'<path d="{open_poly(chain)}" stroke="{colour}" '
+                       f'stroke-opacity="{op:.2f}" stroke-width="{width}"/>')
+        i = j
+    return out
+
+
+def shaving():
+    sec = _curl_section()
+    near = [(x, y) for x, y, _ in sec]
+    rad = [r for _, _, r in sec]
+    far = [(x + SX, y + SY) for x, y in near]
+    n = len(near)
+    last = n - 2
+    ys = [y for _, y in near] + [y for _, y in far]
+    y_top, y_bot = min(ys), max(ys)
+
+    bands, near_segs, far_segs = [], [], []
+    for i in range(n - 1):
+        p0, p1 = near[i], near[i + 1]
+        mx, my = (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2
+        tx, ty = _unit(p1[0] - p0[0], p1[1] - p0[1])
+        nx, ny = -ty, tx
+        if (mx - CURL_C[0]) * nx + (my - CURL_C[1]) * ny < 0:
+            nx, ny = -nx, -ny                      # outward, away from the roll's axis
+        lam = nx * LIGHT[0] + ny * LIGHT[1]        # lambert on the OUTER face
+        outer = (nx * UX + ny * UY) > 0            # is the outer face the one we see?
+        t = i / last
+        tap = _taper(t)
+
+        if outer:
+            sh = max(0.0, min(1.0, (lam + 0.18) / 1.16)) ** 1.35
+            col = _lerp(OUT_DARK, OUT_LIT, sh)
+            op = tap
+        else:
+            lin = -nx * LIGHT[0] - ny * LIGHT[1]   # lambert on the INNER face
+            dux, duy = _unit(mx - CURL_C[0], my - CURL_C[1])
+            depth = 0.5 + 0.5 * duy                # 1 at the floor of the roll
+            ao = 1.0 - 0.74 * depth                # the roll shades its own interior
+            col = _lerp(IN_DARK, IN_LIT, max(0.0, min(1.0, (lin + 0.30) / 1.24)) * ao)
+            col = _lerp(col, TRANSMIT, max(0.0, lam) * 0.12)
+            op = tap
+
+        # Seam control: while a band is opaque it is grown a hair along the tangent so
+        # it overlaps its neighbours and no antialiased hairline can show the ground
+        # between them. Once the taper starts, overlapping would double-composite into
+        # a dark seam, so the growth is dropped there instead.
+        e = 0.9 if op >= 0.999 else 0.0
+        a0 = (p0[0] - tx * e, p0[1] - ty * e)
+        a1 = (p1[0] + tx * e, p1[1] + ty * e)
+        b1 = (a1[0] + SX, a1[1] + SY)
+        b0 = (a0[0] + SX, a0[1] + SY)
+        amb = 1.0 - 0.20 * ((my - y_top) / max(1.0, y_bot - y_top))
+        col = tuple(int(round(c * amb)) for c in col)
+
+        bands.append(((0 if not outer else 1, rad[i]),
+                      f'<path d="{poly([a0, a1, b1, b0])}" fill="{_hex(col)}"'
+                      + ('' if op >= 0.999 else f' fill-opacity="{op:.3f}"') + '/>'))
+
+        # the ribbon's cut edges: a hairline wherever the thickness catches the light
+        near_segs.append((round(0.40 * max(0.0, (lam + 0.62) / 1.62) * tap, 2), p0, p1))
+        far_segs.append((round(0.09 * max(0.0, (lam + 0.62) / 1.62) * tap, 2),
+                         far[i], far[i + 1]))
+
+    bands.sort(key=lambda b: b[0])
+
+    # grain: the wood runs along the direction of travel, which is along the ribbon's
+    # LENGTH, so a copy of the cross-section at a fixed sweep offset IS a grain line
+    grain_lines = []
+    roll = near[TAIL_N:]
+    for k, op in ((0.26, 0.026), (0.42, 0.019), (0.58, 0.023), (0.75, 0.016)):
+        chain = [(x + SX * k, y + SY * k) for x, y in roll]
+        grain_lines.append(f'<path d="{open_poly(chain)}" stroke="#7E6E56" '
+                           f'stroke-opacity="{op:.3f}" stroke-width="1.3"/>')
+
+    body = "\n      ".join(b[1] for b in bands)
+    grain_svg = "\n      ".join(grain_lines)
+    near_rim = "\n      ".join(_runs(near_segs, "2.6", "#FFF8EA"))
+    far_rim = "\n      ".join(_runs(far_segs, "2.0", "#FFF6E6"))
+    # the free end, seen end-on: the one place the ribbon's own thickness is legible
+    cut = (f'<path d="M {near[-1][0]:.1f} {near[-1][1]:.1f} L {far[-1][0]:.1f} '
+           f'{far[-1][1]:.1f}" stroke="#FFF6E8" stroke-opacity="0.15" stroke-width="1.8"/>')
+    sil = near + far[::-1]
+    return body, grain_svg, near_rim, far_rim, cut, sil, near, far
+
+
+SHAVING_BODY, SHAVING_GRAIN, SHAVING_NEAR_RIM, SHAVING_FAR_RIM, \
+    SHAVING_CUT, SHAVING_SIL, _CN, _CF = shaving()
 
 ROUGH_GRAIN, TRUE_GRAIN = grain()
 ROUGH_MOTTLE, TRUE_MOTTLE = mottle()
 STONE = stone()
 
 # ---------------------------------------------------------------- document
-SHAVING_GRAD = (f"""  <linearGradient id="shavingGel" x1="120" y1="360" x2="330" y2="150" gradientUnits="userSpaceOnUse"
-                  gradientTransform="{MATRIX}">
-    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.62"/>
-    <stop offset="0.55" stop-color="#F4EEE1" stop-opacity="0.34"/>
-    <stop offset="1" stop-color="#E7DFCD" stop-opacity="0.50"/>
-  </linearGradient>
+SHAVING_GRAD = (f"""  <filter id="curlShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="20"/>
+  </filter>
+  <filter id="curlSettle" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="1.0"/>
+  </filter>
 
 """ if SHAVING else "")
 
-SHAVING_BLOCK = (f"""<!-- the shaving: what the pass has already taken off -->
-    <g transform="translate(0,{-RISE * 0.86:.0f})">
-      <path d="{SHAVING_BODY}" transform="{MATRIX}" fill="url(#shavingGel)"/>
-      <path d="{SHAVING_RIM}" transform="{MATRIX}" fill="none" stroke="#FFFFFF"
-            stroke-opacity="0.72" stroke-width="3.2"/>
+# the curl's own shadow on the un-planed ground: soft, weak and high, because the
+# thing casting it is thin and stands off the surface
+SHAVING_SHADOW = (f"""<!-- the shaving's shadow: thin material standing off the ground -->
+    <g filter="url(#curlShadow)">
+      <path d="{poly([(x + 26, y + 32) for x, y in SHAVING_SIL])}"
+            fill="#4B4133" fill-opacity="0.20"/>
+    </g>""" if SHAVING else "")
+
+SHAVING_BLOCK = (f"""<!-- the shaving: the evidence that the plane actually cut. A ribbon
+         swept along the blade's axis and banded, not a spiral outline. -->
+    <g filter="url(#curlSettle)">
+      {SHAVING_BODY}
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      {SHAVING_GRAIN}
+      </g>
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      {SHAVING_FAR_RIM}
+      {SHAVING_NEAR_RIM}
+      {SHAVING_CUT}
+      </g>
     </g>""" if SHAVING else "")
 
 svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{W}" height="{W}" role="img" aria-label="improve-skill">
@@ -442,6 +658,8 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
       <path d="{poly([(x + 9, y + 12) for x, y in SILHOUETTE])}" fill="#3C3327" fill-opacity="0.42"/>
     </g>
 
+    {SHAVING_SHADOW}
+
     <!-- the hone's light on the surface it just cut. Clipped to the trued side and drawn
          under the blade, so it can only ever read as spill from the edge. The wide
          bloom is a tapered shape pushed through a heavy blur, so it has no edge of
@@ -509,3 +727,9 @@ print(f"solid bbox x {min(xs):.0f}-{max(xs):.0f} ({max(xs)-min(xs):.0f}px = {(ma
 print(f"          y {min(ys):.0f}-{max(ys):.0f} ({max(ys)-min(ys):.0f}px)"
       f"   focal centre ({(min(xs)+max(xs))/2:.0f},{(min(ys)+max(ys))/2:.0f})")
 print(f"safe-zone margins  L{min(xs):.0f} R{W-max(xs):.0f} T{min(ys):.0f} B{W-max(ys):.0f}")
+if SHAVING:
+    cxs = [p[0] for p in _CN + _CF]
+    cys = [p[1] for p in _CN + _CF]
+    print(f"shaving bbox x {min(cxs):.0f}-{max(cxs):.0f} y {min(cys):.0f}-{max(cys):.0f}"
+          f"  ({max(cxs)-min(cxs):.0f}x{max(cys)-min(cys):.0f} = "
+          f"{(max(cxs)-min(cxs))*(max(cys)-min(cys))/(W*W)*100:.1f}% of tile bbox)")
