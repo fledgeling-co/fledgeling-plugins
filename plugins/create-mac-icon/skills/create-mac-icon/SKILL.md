@@ -82,9 +82,12 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    `scripts/fidelity.py` scores the master against the reference at five
    sizes (structure gate → score → Pareto gate per round), bounded rounds
    with one edit class each, until the gate stops accepting or the material
-   gap closes. Re-render the audit sheet with the final master. This step is
-   what makes "rebuild the raster's material into the master" a measurement
-   instead of a vibe.
+   gap closes. For judged rounds and shipping decisions the same reference
+   describes `scripts/review_sheet.py` (a served, click-first human review
+   page that writes feedback to disk) and `scripts/judge_panel.py` (a blind
+   three-family model panel). Re-render the audit sheet with the final
+   master. This step is what makes "rebuild the raster's material into the
+   master" a measurement instead of a vibe.
 8. **Deliver**: the layered SVG master (+ build script), the alternates, the
    audit sheet, the fidelity run directory, and — if the loop confirmed a new
    construction — the `material-recipes.md` addition, stated in the summary.

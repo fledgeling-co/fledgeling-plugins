@@ -50,6 +50,29 @@ fixture (improve-skill A vs its C1 raster) a well-composed but materially
 flat master scored 0.83 at 16px and only 0.45 at 1024 — the loop's job is to
 raise the 1024 number without letting the small sizes slip.
 
+## The judged layers — human sheet and blind panel
+
+The metrics are necessary, not sufficient; two judged instruments ride on top:
+
+- **`scripts/review_sheet.py`** — the human's round review. Renders candidate
+  and baseline blinded (seeded random order) beside the reference, serves a
+  mini web page (default port 8490), and the Submit button **writes
+  `review-feedback.json` straight into the round directory** (multi-choice
+  first: overall/material/silhouette/small-size winner, next-action, defect
+  checkboxes; typing optional). Run it in the background each round and fold
+  any feedback file into the next round's brief — never block waiting on it.
+- **`scripts/judge_panel.py`** — the blind multi-family panel. Builds an
+  anonymised A/B bundle and asks up to three judge families (claude CLI at
+  high effort, grok-4.5 via cursor-agent at high effort, gpt-5.6-sol via the
+  OpenAI API at medium reasoning — key from an env file, never hardcoded) to
+  pick the take closer to the reference per dimension. Per-judge verdicts and
+  the unblinded majority tally land in `panel.json`; a failed judge is
+  recorded, never silently dropped. Judges see only the renders — never the
+  SVG source, the build script, or which take is the candidate.
+
+Use the panel where the stakes justify three model calls (shipping decisions,
+loop exit); the metric gate alone carries the cheap inner rounds.
+
 ## The round schedule — bounded, one edit class per round
 
 | Round | Edit class | Allowed changes | Exit check |
@@ -75,6 +98,14 @@ Rules that make it converge (each one earned by a documented failure mode):
   script (`build_icon.py` pattern: geometry and material as named constants,
   script emits the SVG) so each round is a named parameter change the log can
   record. Free-form path surgery is how masters rot.
+- **The gate informs; the rubric decides shipping.** The gate measures
+  similarity to the reference — and the reference can itself fail a rubric
+  check (raster engines routinely render frost at ~1.4:1 figure-ground,
+  which dissolves at 32px). On a real commission the gate ACCEPTED a round
+  that hard-failed rubric #7/#4 and REJECTED its fix. When they disagree,
+  treat the gate's verdict as information, the 12-point rubric as authority,
+  and bound the next edit to regions the rubric doesn't police (see the
+  bounded-frost-fade recipe).
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.

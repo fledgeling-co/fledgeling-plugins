@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-mac-icon icon &mdash; contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  table.loop { min-width: 640px; font-variant-numeric: tabular-nums; }
+  table.loop td, table.loop th { padding: 8px 14px; font-size: 13px; }
+  td.num { text-align: right; }
+  .up { color: #9ad6a4; }
+  .down { color: #e0826a; }
+</style>
+</head>
+<body>
+<h1>create-mac-icon icon &mdash; contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Cast" &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16. The skill was dogfooded on its own icon: Engine A was authored through <code>build_icon.py</code>, the raster takes carried four porcelain-register exemplars from <code>corpus/apple-2026/</code> as reference images, and the shipping master was then closed against the winning raster through the skill's own measured fidelity loop.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG, fidelity round 6 &mdash; SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Four real layers over a cushion tile, so identity rides on shape and value and survives Dark, Clear and Tinted by construction. The cast tile and the mould cavity are the marketplace's exact superellipse, not an approximation of it, so the artwork contains the shape it makes at three scales. Checks 1&ndash;4 verified on these renders, not imagined. Point deducted at #7: the dominant gel measures 2.72:1 against the local porcelain, under the 3:1 bar, though grayscale separation is a comfortable 99 levels.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A&#8209;r00 &middot; candidate-r00.svg<small>the same master before the fidelity loop, kept for the diff</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Take A baseline at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Take A baseline at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Take A baseline at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Take A baseline 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">The first draft, already built on the material recipes rather than flat. It lost on two counts the loop then measured away. #2: the group sat 13% too small and too high, so the composition read as an object stranded in a large empty tile. #4: at 16px the plaster block was within a few luminance points of its own ground and simply vanished, leaving an orange lozenge with nothing under it. Kept on the sheet because the before/after is the argument for the loop.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow-626f04.svg<small>Engine B, Arrow 1.1 vector from the spec-as-brief</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">3 / 12</td>
+    <td class="verdict">The clear loser, failing seven checks. It emitted a 150&times;130.4 viewBox, so it is not square artwork at all and had to be fitted rather than stretched to appear here honestly (#1, #2). Both superellipses became soft lozenges, which takes the whole idea with them: solid and void are only legible as the same shape twice when the shape is specific (#3). A hard grey interior shadow z-fights the dish rim and the red slab floats with no contact at all (#8), the material is flat vector with no gel cues (#9), and there are no named layer groups (#10). Nothing was salvaged geometrically. Its one contribution is a negative control: it proved the exact superellipse is load-bearing rather than decorative.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 &middot; icon-engineC-fe8278-2-masked.png<small>Engine C raster, GPT Image 2, corpus-referenced &mdash; the material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Won the material read outright and became the fidelity reference. Its cavity is the best-realised element anywhere in the set: a bright plaster floor holding a pooled peach bounce that pales toward the near rim, which is the whole signature stated in one gradient. It cannot ship. #10, the corpus's highest-leverage failure, is what a flat pre-masked raster IS. #9 also goes: the ground is dead-flat white with no cushion, no inner rim and no vignette, which the Tahoe grammar names as the previous era's tell. #2 goes on focal size, at roughly 78% of the tile.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 &middot; icon-engineC-27539d-masked.png<small>Engine C raster, second take &mdash; material control</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">The strongest 16px read in the set, and it lost the reference slot anyway. Its cavity has no visible floor, so the mould reads as a hollow frame and the negative stops being a negative of anything, which costs the concept more than the extra mass buys. Same structural failures as C2 at #9 and #10, and #2 is worse at roughly 85% of the tile with the block running to the frame. Its measured contribution was the gel chroma: sampling it and C2 together is what showed the master's shadows were going brown when translucent resin holds its saturation.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take that is Icon-Composer-ready: four layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, mapping one to one, full-bleed 1024 artwork with the marketplace superellipse as a clip and no baked corner or drop shadow. Checks 1&ndash;4 were verified on the renders above rather than assumed. Its material provenance is C2, closed by seven measured fidelity rounds rather than by eye. Known liabilities to revisit: <b>(1)</b> figure-ground measures 2.72:1, under the 3:1 bar, so the cast is separated from the porcelain by 99 grayscale levels and by shape, not by a compliant contrast ratio; <b>(2)</b> the focal group spans 65.6% of tile width, a whisker over the 55&ndash;65% composition constant, taken deliberately to close the scale gap against the raster; <b>(3)</b> the plaster block sits close in value to its own porcelain ground, which is the register's nature but makes the light Tinted variant the weakest of the four, carried by the cast alone; <b>(4)</b> at 16px the cavity survives as a warm smudge rather than as a readable superellipse, so the icon keeps its subject but loses the "same shape twice" argument at menu-bar size; <b>(5)</b> the cast is authored parallel to the mould where both rasters tilt it, a deliberate divergence that keeps the mirroring legible and permanently caps how close the fidelity score can get.</div>
+
+<h2>The fidelity loop &mdash; master against the C2 raster</h2>
+<div class="sheet"><table class="loop">
+  <caption class="visually-hidden">Fidelity rounds with composite scores per render size</caption>
+  <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col" class="num">1024</th><th scope="col" class="num">256</th><th scope="col" class="num">128</th><th scope="col" class="num">32</th><th scope="col" class="num">16</th><th scope="col">Gate</th></tr>
+  <tr><td>r00</td><td>baseline, first draft</td><td class="num">0.6546</td><td class="num">0.5483</td><td class="num">0.5176</td><td class="num">0.6947</td><td class="num">0.7684</td><td>&mdash;</td></tr>
+  <tr><td>r01</td><td>coarse structure: group scale, drop, shallower dish, cast/mould ratio</td><td class="num">0.6584</td><td class="num">0.5472</td><td class="num">0.5198</td><td class="num">0.7118</td><td class="num">0.7804</td><td class="up">ACCEPT</td></tr>
+  <tr><td>r02</td><td>material: plaster range, pooled bounce, warm bloom, contact shadows</td><td class="num">0.6588</td><td class="num">0.5468</td><td class="num">0.5201</td><td class="num">0.7186</td><td class="num">0.7840</td><td class="up">ACCEPT</td></tr>
+  <tr><td>r03</td><td>material: per-face gradient separation on block, cavity and cast</td><td class="num">0.6628</td><td class="num">0.5497</td><td class="num">0.5209</td><td class="num">0.7195</td><td class="num">0.7853</td><td class="up">ACCEPT</td></tr>
+  <tr><td>r04</td><td>detail: cast thickness, bloom to the lit shoulder, rim lights clipped</td><td class="num">0.6632</td><td class="num">0.5492</td><td class="num">0.5189</td><td class="num">0.7176</td><td class="num">0.7845</td><td class="up">ACCEPT</td></tr>
+  <tr><td>r05</td><td>small-size repair: turn shadow narrowed, mouth de-aliased, base edge tightened</td><td class="num">0.6636</td><td class="num">0.5488</td><td class="num">0.5213</td><td class="num">0.7205</td><td class="num">0.7848</td><td class="up">ACCEPT</td></tr>
+  <tr><td><b>r06</b></td><td><b>material: shadow chroma, measured against the reference's darkest gel pixel</b></td><td class="num"><b>0.6678</b></td><td class="num"><b>0.5534</b></td><td class="num"><b>0.5245</b></td><td class="num"><b>0.7208</b></td><td class="num"><b>0.7857</b></td><td class="up"><b>ACCEPT &mdash; SHIPS</b></td></tr>
+  <tr><td>r07</td><td>material: plaster luminance range widened to the reference's 78-point spread</td><td class="num">0.6655</td><td class="num">0.5500</td><td class="num">0.5211</td><td class="num">0.7198</td><td class="num">0.7841</td><td class="down">ROLLED BACK</td></tr>
+</table></div>
+<div class="rubric">r07 passed the Pareto gate on tolerance, because no single size regressed by more than 0.005, and was rolled back anyway: all five sizes moved the wrong way, so the round bought nothing and the loop stopped there rather than grinding a plateau. Baseline to shipped: <b>1024 composite 0.6546 &rarr; 0.6678</b>, 32px 0.6947 &rarr; 0.7208, 16px 0.7684 &rarr; 0.7857, with no size worse than baseline. Metric tier: numpy, luminance field plus SSIM plus edge F1 plus mask IoU. LPIPS did not run because torch is not installed on this host, so the 1024 material number is the weaker of the two available stacks and should be read as directional. Per-round state, residuals and edge maps are in <code>fidelity-runs/</code>.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar 10 of 12 or better. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Pillow LANCZOS for rasters, via <code>render_audit.py</code>.</div>
+</body>
+</html>
