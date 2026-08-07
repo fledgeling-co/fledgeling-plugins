@@ -2,7 +2,7 @@
 
 Rounds the runner could not settle on its own. Each needs a human look.
 
-## improve-skill r01 (material): gate and panel disagree
+## improve-skill r01 (material): RESOLVED by human review
 
 The Pareto gate ACCEPTed at +0.1427 net, the largest gain of any round on this
 fixture, and the round fixed two real defects: shadows that read blue in a scene
@@ -17,10 +17,18 @@ key light. It committed as PROVISIONAL because the blind panel did not agree.
 - The new self-contrast floor does not fire here (2.7% and 1.6% drops against a
   6% threshold); see fidelity-loop.md for why it was not tuned to force it.
 
-**The question for you:** does the warmer, lifted block still read at menu-bar
-size? Review sheet at `plugins/improve-skill/assets/loop-runs/r01/review.html`,
-or serve it with review_sheet.py. Keep the round, or revert its commit and let
-the loop take a different edit class.
+**Human verdict (2026-08-07):** tie on overall, silhouette and small sizes; no
+defects ticked; action "Keep iterating". The round STANDS, so its PROVISIONAL
+status is cleared and nothing is reverted.
+
+Two specific mismatches were named, and they are now the queue for the next
+rounds because neither is a metric the harness measures:
+
+1. The wood/paper shaving curl is completely wrong against the reference.
+2. The lighting and texture of the left side are completely different from
+   the reference.
+
+Both are fed into every subsequent brief for this fixture automatically.
 
 ## improve-skill r02: implement agent failed to run (RESOLVED, 4 duplicate entries collapsed)
 
