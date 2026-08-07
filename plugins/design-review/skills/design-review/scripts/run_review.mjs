@@ -102,6 +102,53 @@ async function waitSettled(page, extraMs) {
   await sleep(extraMs);
 }
 
+/**
+ * Scroll the whole document, then return to the top, before probing.
+ *
+ * Two defect classes hide behind a page that was never scrolled, and both have
+ * been misreported as real findings: a scroll-reveal system leaves every band
+ * below the fold at opacity 0, so a load-time capture reads as a blank page;
+ * and `loading="lazy"` images have naturalWidth 0 until they enter the viewport,
+ * so an image probe reports five of eight as broken.
+ */
+async function revealPass(page) {
+  try {
+    await page.evaluate(async () => {
+      const step = Math.max(200, Math.round(window.innerHeight * 0.8));
+      const end = document.documentElement.scrollHeight;
+      for (let y = 0; y < end; y += step) {
+        window.scrollTo(0, y);
+        await new Promise(r => setTimeout(r, 90));
+      }
+      window.scrollTo(0, 0);
+      await new Promise(r => setTimeout(r, 400));
+    });
+  } catch { /* no document — carry on */ }
+}
+
+/**
+ * Drain running animations, then RETURN how many were still running.
+ *
+ * Draining is not the point; the returned count is. A gate that samples during
+ * an entrance animation reports precise, confident, wrong numbers — on a real
+ * run a 400ms-after-scroll axe pass read a `#E85A2A` accent as `#6a2d18` and
+ * reported a surface getting worse after a fix that provably removed its
+ * failures. Any count above zero invalidates the colour numbers in that row.
+ */
+async function proveSettled(page, timeoutMs = 5000) {
+  try {
+    return await page.evaluate(async (timeout) => {
+      const deadline = Date.now() + timeout;
+      const running = () => (document.getAnimations ? document.getAnimations() : [])
+        .filter(a => a.playState === 'running');
+      while (Date.now() < deadline && running().length) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      return running().length;
+    }, timeoutMs);
+  } catch { return -1; }
+}
+
 function attachLogging(page) {
   const console_ = [];
   const failed = [];
@@ -121,6 +168,8 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
 
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await waitSettled(page, settleMs);
+  await revealPass(page);
+  const stillRunning = await proveSettled(page);
 
   const tag = `${width}x${height}`;
   for (const d of ['shots', 'probes', 'console']) mkdir(path.join(out, d));
@@ -162,21 +211,33 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
     dpr,
     shots: { fold: `${tag}-fold.png`, full: `${tag}-full.png` },
     tiles,
+    // Settling proof. Any non-zero value here invalidates every colour number in
+    // this row — do not report them, re-measure.
+    animationsRunningAtMeasure: stillRunning,
+    elementsBelowFullOpacity: probes.settled.partiallyTransparentElements,
     consoleErrorCount: errors.length,
     failedRequestCount: failed.length,
     pageOverflowsHorizontally: probes.overflow.pageOverflowsHorizontally,
     escapingElementCount: probes.overflow.escaping.length,
+    // Numerator AND denominator. `contrastFailureCount: 0` on its own cannot be
+    // told apart from a probe that never ran.
     contrastFailureCount: probes.contrast.filter(c => 'ratio' in c).length,
+    contrastExamined: probes.contrastExamined,
     layoutFindingCount: (() => {
       const L = probes.layout; if (!L) return 0;
       return L.shapeMismatch.length + L.columnDrift.length + L.columnHeaderAlignment.length +
              L.touchingHeadings.length + L.textOverlap.length + L.deadSpace.length +
+             (L.columnVoids ? L.columnVoids.voids.length : 0) +
              L.affordance.unactionableRows.length + L.affordance.pointerCursorNotFocusable.length +
              L.tokenOverload.length + (L.rails.exceedsThreshold ? 1 : 0);
     })(),
     componentTypeCount: probes.layout ? probes.layout.inventory.distinctTypes : null,
     targetsBelowAA: probes.targets.filter(t => t.belowAA).length,
     heavyCropImages: probes.images.filter(i => i.heavyCrop).length,
+    // WCAG 2.4.2 Page Titled is Level A and is the cheapest gate in the set.
+    missingTitle: !(probes.semantics.title || '').trim(),
+    unconsumedTokenCount: probes.tokens
+      ? probes.tokens.unconsumed.filter(t => 'token' in t).length : 0,
   };
   await page.close();
   return result;
@@ -340,13 +401,25 @@ async function main() {
   console.log('\nPer viewport:');
   for (const v of manifest.viewports) {
     const flags = [];
+    if (v.animationsRunningAtMeasure) {
+      flags.push(`NOT SETTLED (${v.animationsRunningAtMeasure} animations running)`);
+    }
     if (v.pageOverflowsHorizontally) flags.push('H-OVERFLOW');
+    if (v.missingTitle) flags.push('NO <title> (WCAG 2.4.2, Level A)');
     if (v.consoleErrorCount) flags.push(`${v.consoleErrorCount} console errors`);
-    if (v.contrastFailureCount) flags.push(`${v.contrastFailureCount} contrast fails`);
+    flags.push(`contrast ${v.contrastFailureCount}/${v.contrastExamined} examined`);
     if (v.targetsBelowAA) flags.push(`${v.targetsBelowAA} targets <24px`);
     if (v.heavyCropImages) flags.push(`${v.heavyCropImages} heavy-crop images`);
     if (v.layoutFindingCount) flags.push(`${v.layoutFindingCount} layout findings`);
-    console.log(`  ${v.viewport.padStart(10)}  ${flags.length ? flags.join(' · ') : 'no gate flags'}`);
+    if (v.unconsumedTokenCount) flags.push(`${v.unconsumedTokenCount} declared-but-unread tokens`);
+    console.log(`  ${v.viewport.padStart(10)}  ${flags.join(' · ')}`);
+  }
+
+  if (manifest.viewports.some(v => v.animationsRunningAtMeasure)) {
+    console.log('\nWARNING: at least one viewport was measured while animations were still');
+    console.log('running. Colour and contrast numbers from those rows are not usable — a');
+    console.log('mid-entrance sample reads a partially-composited colour as a real one.');
+    console.log('Re-run with a longer --settle-ms before reporting any of them.');
   }
 
   const types = manifest.viewports.map(v => v.componentTypeCount).filter(n => n != null);

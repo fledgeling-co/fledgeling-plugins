@@ -122,6 +122,25 @@
         "Does not redefine the worklist down to the surfaces it managed to reach",
         "Leaves the ledger on disk and says where it is"
       ]
+    },
+    {
+      "id": 7,
+      "name": "band-voids-and-unread-tokens",
+      "prompt": "Review skills/design-review/evals/fixtures/band-voids.html. Its control is band-voids-clean.html — the same five bands with every defect removed. Tell me what is wrong with the first one and prove your probes did not just fire on both.",
+      "expected_output": "Three Tier 1 findings plus the denominator discipline. (1) The page has no <title> — WCAG 2.4.2 Page Titled, Level A. (2) Three bands are voids: #dead paints no ink inside 220px of shell, #thin holds one line inside 400px, #foot fills roughly 11% of its box. The band-seam table should be quoted, showing ink-to-ink gaps in the hundreds of pixels against the control's flat 84px. (3) --accent-on-dark is declared on :root and referenced by no rule, so nothing on the page is painted with it. The report must quote contrast as failures OVER examined, not failures alone, and must state that the control returned zero voids and zero unconsumed tokens — otherwise 'the probes fired' and 'the probes are miscalibrated' are the same output.",
+      "files": [
+        "skills/design-review/evals/fixtures/band-voids.html",
+        "skills/design-review/evals/fixtures/band-voids-clean.html"
+      ],
+      "assertions": [
+        "Flags the missing <title> as a WCAG 2.4.2 Level A failure",
+        "Reports the #dead band as rendering no ink while occupying its own margins",
+        "Reports #thin as near-empty and #foot as low-fill, or equivalent, with measured ink and box heights",
+        "Reports --accent-on-dark as declared and consumed by no rule, and does NOT report --canvas (which is consumed via a shorthand and is a known false-positive shape)",
+        "Quotes contrast as a numerator over a denominator (failures over examined), never as a bare failure count",
+        "States that the clean control returned zero voids and zero unconsumed tokens, as evidence the probes discriminate",
+        "Does not report the two healthy bands (#hero, #close) as voids"
+      ]
     }
   ]
 }

@@ -91,6 +91,10 @@ Snackbars and toasts for transient, peripheral errors only — never for critica
 
 **Permission-denied** gets neutral messaging plus a passive link to settings ("To use the camera, enable access in your device settings"). Persuasive or emotional re-prompting after a denial gets applications rejected under Apple guideline 5.1.1 — and it is hostile regardless of platform.
 
+**`novalidate` removes a state machine; it does not remove the need for one.** Turning off native validation to control the styling is normal. Shipping nothing in its place is the defect, and its signature is that the *only* reachable state is the terminal one. Measured on a real form: three empty fields, submit, and the user lands on "Not sent — your text is still in the field above" when there is no text in any field. No field-level error, no required-field signal, no distinction at all between empty, invalid and submitted. Drive every form with an empty submit as a matter of course; a form whose empty submit and valid submit produce the same screen has one state.
+
+**A live region inserted at the moment of the announcement usually does not announce.** Assistive technology observes an existing `aria-live` / `role="status"` container for mutations. A node that is *created* carrying `role="status"` and inserted with its text already in it frequently arrives as one atomic change with nothing to observe, and the message is silently dropped. Render the region empty and permanently, then write text into it. In a render this looks identical to a working one, so check the DOM before and after the submit rather than the after alone.
+
 ## Stress prompts
 
 Run against every screen. These are where the real defects are.

@@ -32,6 +32,10 @@ Report the computed figure, not a tidied one. A ratio quoted as 15.3:1 when the 
 
 Grey text on a *coloured* background always looks washed out. Use a darker shade of the background's own hue, or the text colour at reduced opacity — never a neutral grey.
 
+**An accent chosen against white needs a lifted variant for dark grounds, and a rule that actually reads it.** A brand colour picked for a light page will usually fail on a dark band: measured, `#D72229` on `#2E2B2B` is 2.77:1 against a 4.5 floor. Systems know this and carry an `on-dark` token for it. The failure worth checking for is the next one along — the token declared, emitted onto the page, and read by **no CSS rule**, so the accent text on every dark band is still painted in the raw accent. On one build the least readable text on the hero was the company's own name, 72px, at **2.14:1**, while `--primary-on-dark` sat in the DOM with a correct value.
+
+`runAll().tokens.unconsumed` lists declared custom properties that no rule references (see `systematisation.md`). Its two honest limits — cross-origin sheets, and tokens read from JavaScript — are reported alongside the answer, so check the source before acting on an entry.
+
 **Do not build contrast checks on APCA.** The WCAG 3.0 Editor's Draft of 8 April 2026 still marks visual contrast "Exploratory" and states the contrast algorithm for WCAG 3 is yet to be determined. APCA was flagged for removal in January 2023 and pulled in July 2023. Its own author has said nobody should drop WCAG 2 conformance over it. Use WCAG 2.2 ratios; if a design deviates, document the deviation rather than switching metric.
 
 **Colour-only signalling.** Flag any state communicated by colour alone — green/red without an icon or text, a blue link with no underline, a chart with no legend or direct labels. Roughly 8% of men have a colour vision deficiency, and grayscale and high-contrast modes need a second signal regardless.
@@ -42,6 +46,7 @@ Grey text on a *coloured* background always looks washed out. Use a darker shade
 
 ## 2. Semantics and structure
 
+- **Every page has a non-empty `<title>` describing it.** SC 2.4.2 Page Titled, **Level A** — the cheapest gate in this file and the most often skipped, because a title is invisible on the page it names. On a real run two whole route groups shipped with none: one exported no metadata at all, the other exported `metadata` carrying `robots` and no `title`. Four surfaces across every tenant showed the raw URL in the browser tab and in every share card. `runAll()` reports it as `semantics.title`; both runners flag `missingTitle`. A route group that exports metadata without a title is the shape to look for, not an absent metadata export.
 - Exactly one `<h1>`. No skipped heading levels. Headings describe content, not visual size.
 - Right element for the role: `<button>` not `<div onclick>`; `<a href>` not a styled div; `<label for>` bound to `<input id>`; real landmarks (`<nav>`, `<main>`, `<article>`, `<aside>`).
 - Alt text on every meaningful image; `alt=""` on decorative ones. Meaningful alt describes what the image conveys, not what it is — `alt="Wireless headphones, side view"` beats `alt="product"`. Whether the alt is *contextually adequate* is a human judgment; note it as such.
@@ -162,3 +167,13 @@ State these in "Needs verification" every time:
 - Real assistive-technology behaviour on real devices
 
 Automated tooling detects roughly a fifth to under two-thirds of what an expert manual audit finds, and 2.49% of keyboard failures. A clean gate run means no known defect is present. It does not mean accessible.
+
+## 9. Run these on a settled page, and say that you did
+
+Every number in this file is a function of the moment it was sampled. Colour especially: a compositing element's rendered colour during a fade is not its colour, and nothing in the output distinguishes the two.
+
+The failure in full, from a real run. An axe pass fired 400ms after a scroll sweep, into a 700ms reveal with an 80ms per-element stagger. It read a `#E85A2A` accent as `#6a2d18` and a body grey as `#414141`, and reported one surface going from 13 contrast failures to **28** *after* a fix that provably removed them. Every number was precise, internally consistent, and wrong — and the natural reading of it was "the fix made things worse", which is the expensive part.
+
+So: scroll the document, drain `document.getAnimations()`, and **record how many were still running at the moment of measurement**. Draining without recording is not the fix; the recorded count is what lets a reader distinguish a clean gate from an unusable one. `runAll().settled` carries it, and both runners surface it as `animationsRunningAtMeasure`.
+
+One consequence for before/after tables: **never quote two harnesses' numbers in the same column.** If you fixed the harness mid-review, the before figure came from the broken one. Re-measure the before, or exclude that gate from the table and say why.

@@ -39,6 +39,30 @@ display gridTemplateColumns maxWidth textTransform borderBottom{Width,Color}
 Forty landmarks × twenty properties is eight hundred assertions, which is enough to be
 load-bearing and few enough to read when it fails.
 
+## The landmark set is per PAGE, not per site
+
+The single most expensive lesson from running this oracle in anger: **a parity script that
+loads one route certifies one route and implies all of them.**
+
+A real one reported `checks=904 diffs=0` continuously while every index row of every tenant
+carried a spurious second grid track — `grid-template-rows: 27.5px 16px` — dropping the row's
+trailing arrow onto its own line and costing ~450px of dead height on one page. It was
+invisible to the oracle twice over: `.idx` was not among the 40 named landmarks, and the
+oracle only ever loaded `/`, where no `.idx` exists. Nine hundred green assertions sat over it
+indefinitely.
+
+So:
+
+- **Enumerate the routes, not just the selectors.** Every page the record, router or sitemap
+  declares gets a row, and its landmark set is the components *that page* actually renders.
+- **Print which pages were compared**, next to the check count. `checks=904` over one route
+  and `checks=904` over eight are different results and currently serialise identically.
+- **When a component appears on page B and not page A, its landmarks belong to page B.** The
+  temptation is one shared list applied everywhere; the selectors that do not match simply
+  contribute nothing, and a missing landmark is silent.
+
+The general form is the denominator rule below, applied to surfaces rather than to nodes.
+
 ## What NOT to compare
 
 **Text.** If the port carries the same strings by construction — and it should — a text diff is
@@ -78,3 +102,25 @@ API up                                 →  200      ← and now parity
 And carry the provenance in the resolution itself (`source: 'api' | 'seed' | 'none'`), so "it
 renders" can never be mistaken for "it renders from the new source". This is the same discipline
 as reporting gates and looked-at surfaces separately: an unfalsifiable check is not evidence.
+
+## Assert the chrome and the graph, not only the content
+
+A generated-instance suite drifts towards asserting what is *interesting* — the copy, the
+figures, the names — and away from what is *structural*. The structural things are the ones
+nobody writes a case for, because no one has ever seen them missing.
+
+A real suite of 43 cases and 524 assertions across 13 tenants never asked whether a generated
+portal had a **header**. Every record the generator had ever produced carried `chrome: {}`,
+and the layout rendered `{header && …}`, so every generated tenant shipped with no brand, no
+navigation and no footer. Five pages measured **one tab stop** — the skip link — and **zero
+internal links**; two routes resolved 200 with nothing on the site pointing at them. The suite
+was green throughout, on assertions like *"people includes `Stephen Hall :: Chief Executive
+Officer`"*.
+
+Three assertions worth adding to any suite over generated surfaces:
+
+- **Chrome exists.** Header, navigation, footer — present, and populated from *this* record.
+- **The page graph is connected.** Every page the record declares is reachable by a link from
+  at least one other, and its keyboard tab-stop count is above the floor a bare document has.
+- **No orphan resolves 200.** A route that renders but that nothing links to is a page nobody
+  will ever see, and it is indistinguishable from a working one in every per-page check.

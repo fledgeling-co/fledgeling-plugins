@@ -83,6 +83,58 @@ def wait_settled(page, extra_ms: int) -> None:
     page.wait_for_timeout(extra_ms)
 
 
+REVEAL_JS = """async () => {
+  const step = Math.max(200, Math.round(window.innerHeight * 0.8));
+  const end = document.documentElement.scrollHeight;
+  for (let y = 0; y < end; y += step) {
+    window.scrollTo(0, y);
+    await new Promise(r => setTimeout(r, 90));
+  }
+  window.scrollTo(0, 0);
+  await new Promise(r => setTimeout(r, 400));
+}"""
+
+SETTLE_JS = """async (timeout) => {
+  const deadline = Date.now() + timeout;
+  const running = () => (document.getAnimations ? document.getAnimations() : [])
+    .filter(a => a.playState === 'running');
+  while (Date.now() < deadline && running().length) {
+    await new Promise(r => setTimeout(r, 100));
+  }
+  return running().length;
+}"""
+
+
+def reveal_pass(page) -> None:
+    """Scroll the whole document, then return to the top, before probing.
+
+    Two defect classes hide behind a page that was never scrolled, and both have
+    been misreported as real findings: a scroll-reveal system leaves every band
+    below the fold at opacity 0, so a load-time capture reads as a blank page;
+    and `loading="lazy"` images have naturalWidth 0 until they enter the
+    viewport, so an image probe reports five of eight as broken.
+    """
+    try:
+        page.evaluate(REVEAL_JS)
+    except PWError:
+        pass
+
+
+def prove_settled(page, timeout_ms: int = 5000) -> int:
+    """Drain running animations, then RETURN how many were still running.
+
+    Draining is not the point; the returned count is. A gate that samples during
+    an entrance animation reports precise, confident, wrong numbers — on a real
+    run a 400ms-after-scroll axe pass read a `#E85A2A` accent as `#6a2d18` and
+    reported a surface getting worse after a fix that provably removed its
+    failures. Any count above zero invalidates the colour numbers in that row.
+    """
+    try:
+        return page.evaluate(SETTLE_JS, timeout_ms)
+    except PWError:
+        return -1
+
+
 def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
                      tile: bool, dpr: int):
     ctx = browser.new_context(
@@ -100,8 +152,11 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
 
     page.goto(url, wait_until="domcontentloaded", timeout=30000)
     wait_settled(page, settle_ms)
+    reveal_pass(page)
+    still_running = prove_settled(page)
 
     tag = f"{width}x{height}"
+
     (out / "shots").mkdir(parents=True, exist_ok=True)
     (out / "probes").mkdir(parents=True, exist_ok=True)
     (out / "console").mkdir(parents=True, exist_ok=True)
@@ -134,20 +189,31 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
         page.evaluate("window.scrollTo(0, 0)")
 
     errors = [m for m in console if m["type"] in ("error", "pageerror")]
+    tokens = probes.get("tokens") or {}
     result = {
         "viewport": tag,
         "dpr": dpr,
         "shots": {"fold": f"{tag}-fold.png", "full": f"{tag}-full.png"},
         "tiles": tiles,
+        # Settling proof. Any non-zero value here invalidates every colour number
+        # in this row — do not report them, re-measure.
+        "animationsRunningAtMeasure": still_running,
+        "elementsBelowFullOpacity": probes["settled"]["partiallyTransparentElements"],
         "consoleErrorCount": len(errors),
         "failedRequestCount": len(failed),
         "pageOverflowsHorizontally": probes["overflow"]["pageOverflowsHorizontally"],
         "escapingElementCount": len(probes["overflow"]["escaping"]),
+        # Numerator AND denominator. `contrastFailureCount: 0` on its own cannot
+        # be told apart from a probe that never ran.
         "contrastFailureCount": len([c for c in probes["contrast"] if "ratio" in c]),
+        "contrastExamined": probes.get("contrastExamined"),
         "layoutFindingCount": _layout_finding_count(probes.get("layout")),
         "componentTypeCount": (probes.get("layout") or {}).get("inventory", {}).get("distinctTypes"),
         "targetsBelowAA": len([t for t in probes["targets"] if t["belowAA"]]),
         "heavyCropImages": len([i for i in probes["images"] if i["heavyCrop"]]),
+        # WCAG 2.4.2 Page Titled is Level A and is the cheapest gate in the set.
+        "missingTitle": not (probes["semantics"].get("title") or "").strip(),
+        "unconsumedTokenCount": len([t for t in tokens.get("unconsumed", []) if "token" in t]),
     }
     ctx.close()
     return result
@@ -266,6 +332,7 @@ def _layout_finding_count(L):
     return (len(L["shapeMismatch"]) + len(L["columnDrift"]) +
             len(L["columnHeaderAlignment"]) + len(L["touchingHeadings"]) +
             len(L["textOverlap"]) + len(L["deadSpace"]) +
+            len((L.get("columnVoids") or {}).get("voids", [])) +
             len(L["affordance"]["unactionableRows"]) +
             len(L["affordance"]["pointerCursorNotFocusable"]) +
             len(L["tokenOverload"]) + (1 if L["rails"]["exceedsThreshold"] else 0))
@@ -357,19 +424,31 @@ def main():
     print("\nPer viewport:")
     for v in manifest["viewports"]:
         flags = []
+        if v.get("animationsRunningAtMeasure"):
+            flags.append(f"NOT SETTLED ({v['animationsRunningAtMeasure']} animations running)")
         if v["pageOverflowsHorizontally"]:
             flags.append("H-OVERFLOW")
+        if v.get("missingTitle"):
+            flags.append("NO <title> (WCAG 2.4.2, Level A)")
         if v["consoleErrorCount"]:
             flags.append(f"{v['consoleErrorCount']} console errors")
-        if v["contrastFailureCount"]:
-            flags.append(f"{v['contrastFailureCount']} contrast fails")
+        flags.append(f"contrast {v['contrastFailureCount']}/{v.get('contrastExamined')} examined")
         if v["targetsBelowAA"]:
             flags.append(f"{v['targetsBelowAA']} targets <24px")
         if v["heavyCropImages"]:
             flags.append(f"{v['heavyCropImages']} heavy-crop images")
         if v.get("layoutFindingCount"):
             flags.append(f"{v['layoutFindingCount']} layout findings")
-        print(f"  {v['viewport']:>10}  {' · '.join(flags) if flags else 'no gate flags'}")
+        if v.get("unconsumedTokenCount"):
+            flags.append(f"{v['unconsumedTokenCount']} declared-but-unread tokens")
+        print(f"  {v['viewport']:>10}  {' · '.join(flags)}")
+
+    unsettled = [v for v in manifest["viewports"] if v.get("animationsRunningAtMeasure")]
+    if unsettled:
+        print("\nWARNING: at least one viewport was measured while animations were still")
+        print("running. Colour and contrast numbers from those rows are not usable — a")
+        print("mid-entrance sample reads a partially-composited colour as a real one.")
+        print("Re-run with a longer --settle-ms before reporting any of them.")
 
     types = [v.get("componentTypeCount") for v in manifest["viewports"]
              if v.get("componentTypeCount") is not None]

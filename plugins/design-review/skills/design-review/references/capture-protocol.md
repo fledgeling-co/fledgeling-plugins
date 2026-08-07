@@ -61,6 +61,19 @@ Draw a grid or rulers along the edges of crops used for spatial questions. Measu
 
 Network idle *plus* an explicit wait for async renderers. Charts and canvas need 2–4s after networkidle. A screenshot of a half-rendered chart generates a false finding, which costs more than the wait.
 
+## Scroll before judging, then prove the page stopped moving
+
+Three of the four measurement artefacts on one recent review came from probing at the wrong moment. Each looked like a confident, specific defect. The shape is always the same: **the probe ran before the page finished becoming itself.**
+
+**Scroll the whole document first**, in ~0.8-viewport steps, then return to the top. Two things depend on it:
+
+- A scroll-reveal system leaves every band below the fold at `opacity: 0`. A full-page screenshot at load shows them blank, and that has already been misread as a broken reveal system.
+- `loading="lazy"` images report `naturalWidth === 0` until they enter the viewport. An image probe run without scrolling reported five of eight as broken; after a scroll pass, zero were.
+
+**Then drain `document.getAnimations()` and record what was left running.** Draining is not the point — the recorded count is. A gate sampled mid-entrance reports partially-composited colours as real ones, and its output is formally indistinguishable from a real measurement. `runAll().settled` and the runners' `animationsRunningAtMeasure` carry it.
+
+**Treat your first reading of any time- or scroll-dependent property as provisional.** A skip link measured as invisible-while-focused turned out to have been sampled at 0ms of a `transition: top 220ms`; at 600ms it sits at `top: 16px` on every tier. Before filing a finding about opacity, transform, position, `naturalWidth` or colour, re-measure at a second, later moment and check the two agree.
+
 ## Staging interactive states
 
 Static screenshots cannot see hover, dropdowns, routing, or animation pacing. Capture at minimum three states where behaviour matters: before, during (hover/active), after (post-interaction).

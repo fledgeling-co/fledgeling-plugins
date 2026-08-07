@@ -5,6 +5,12 @@
  * an entrance has finished, a transient overlay is opacity 0. Motion bugs and
  * mid-transition defects need frame capture, not this file.
  *
+ * "At rest" is a precondition, not an assumption. Scroll the whole document and
+ * drain `document.getAnimations()` BEFORE calling `runAll()` — a scroll-reveal
+ * system leaves most of a long page hidden and lazy images unloaded, and a
+ * colour probe sampled mid-entrance returns confident, precise, wrong numbers.
+ * `runAll().settled` records whether that actually happened.
+ *
  * Usage (Playwright):
  *   const probes = fs.readFileSync('probes.js', 'utf8');
  *   await page.addScriptTag({ content: probes });
@@ -557,6 +563,9 @@
     deadSpaceMinPx: 200,     // only containers at least this tall can hold a void
     controlTextMax: 24,      // longest text a chip-shaped thing can carry and still read as a control
     semanticTokenTexts: 3,   // distinct strings a semantic token may carry before it means nothing
+    bandMinHeightPx: 80,     // below this, a band is too short to hold a void worth reporting
+    bandInkMinPx: 24,        // ink height below this inside a tall band is "nearly empty"
+    bandFillMin: 0.25,       // ink height / box height. Below this the band is mostly its own margins
     maxReported: 40,         // per-probe cap, so one bad page cannot flood the report
   };
 
@@ -908,6 +917,125 @@
   }
 
   /**
+   * The union box of everything a subtree actually PAINTS: text runs (per line
+   * fragment), replaced elements, and any box carrying a border or a painted
+   * background. This is deliberately not `getBoundingClientRect()` — a band
+   * whose only child is a full-height empty wrapper has a perfectly healthy box
+   * and paints nothing at all.
+   */
+  function inkBox(root) {
+    let top = Infinity, bottom = -Infinity, any = false;
+    const push = (r) => {
+      if (r.width <= 0 || r.height <= 0) return;
+      any = true;
+      if (r.top < top) top = r.top;
+      if (r.bottom > bottom) bottom = r.bottom;
+    };
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let t;
+    while ((t = walker.nextNode())) {
+      if (!t.nodeValue || !t.nodeValue.trim()) continue;
+      const range = document.createRange();
+      range.selectNodeContents(t);
+      // Per-fragment rects, not the bounding box: a wrapped inline otherwise
+      // claims ink across the whole gap between its two lines.
+      for (const r of range.getClientRects()) push(r);
+    }
+    for (const el of root.querySelectorAll('img,svg,canvas,video,picture,hr')) {
+      if (visible(el)) push(el.getBoundingClientRect());
+    }
+    for (const el of root.querySelectorAll('*')) {
+      if (!visible(el)) continue;
+      const cs = getComputedStyle(el);
+      const bordered = ['Top', 'Right', 'Bottom', 'Left']
+        .some(s => parseFloat(cs['border' + s + 'Width']) > 0);
+      const bg = cs.backgroundColor;
+      const painted = bg && !/rgba\(0,\s*0,\s*0,\s*0\)|^transparent$/.test(bg);
+      if (bordered || painted || cs.backgroundImage !== 'none') push(el.getBoundingClientRect());
+    }
+    return any ? { top, bottom, height: bottom - top } : null;
+  }
+
+  /**
+   * The COLUMN form of dead space, which `probeDeadSpace()` above is structurally
+   * blind to: it only fires on side-by-side flex/grid rows, so the defect class
+   * "a section that renders nothing still occupies its own margins" — 200px of
+   * padding around an absence — never matched it.
+   *
+   * Two outputs, because they answer different questions:
+   *
+   *   voids — bands that render nothing, or a sliver in a tall box
+   *   seams — the ink-to-ink gap between consecutive bands, i.e. the band rhythm
+   *
+   * `seams` is reported unfiltered on purpose. A page whose bands measure 92px,
+   * 205px and 229px ink-to-ink has no single band that trips a threshold and is
+   * still three-quarters dead space; only the whole table shows it.
+   */
+  function probeColumnVoids() {
+    const main = document.querySelector('main') || document.body;
+    const bands = [...main.children].filter(visible);
+    const voids = [];
+    const seams = [];
+    let prevInk = null;
+
+    bands.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const cs = getComputedStyle(el);
+      const ink = r.height < 1 ? null : inkBox(el);
+      const fill = ink && r.height ? ink.height / r.height : 0;
+
+      if (r.height < 1) {
+        voids.push({
+          selector: cssPath(el), kind: 'zero-height', heightPx: 0,
+          note: 'Band is in the DOM and contributes nothing. A disabled section ' +
+                'should be absent, not collapsed.',
+        });
+      } else if (!ink) {
+        voids.push({
+          selector: cssPath(el), kind: 'no-ink', heightPx: Math.round(r.height),
+          paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom,
+          note: 'Band occupies vertical space and paints nothing. Its own margins ' +
+                'became the content.',
+        });
+      } else if (r.height >= LI.bandMinHeightPx && ink.height < LI.bandInkMinPx) {
+        voids.push({
+          selector: cssPath(el), kind: 'near-empty',
+          heightPx: Math.round(r.height), inkPx: Math.round(ink.height),
+          fillPct: Math.round(fill * 100),
+          text: shortText(el).slice(0, 60),
+          note: 'A sliver of content in a tall box.',
+        });
+      } else if (r.height >= LI.bandMinHeightPx && fill < LI.bandFillMin) {
+        voids.push({
+          selector: cssPath(el), kind: 'low-fill',
+          heightPx: Math.round(r.height), inkPx: Math.round(ink.height),
+          fillPct: Math.round(fill * 100),
+          leadPx: Math.round(ink.top - r.top),
+          trailPx: Math.round(r.bottom - ink.bottom),
+          text: shortText(el).slice(0, 60),
+          note: 'Band is mostly padding. Judge against the surface\'s own band ' +
+                'rhythm before calling it a defect — a deliberately sparse foot ' +
+                'measures the same as a section that lost its content.',
+        });
+      }
+
+      seams.push({
+        i, selector: cssPath(el),
+        heightPx: Math.round(r.height),
+        inkPx: ink ? Math.round(ink.height) : 0,
+        fillPct: Math.round(fill * 100),
+        leadPx: ink ? Math.round(ink.top - r.top) : null,
+        trailPx: ink ? Math.round(r.bottom - ink.bottom) : null,
+        inkGapFromPrevPx: ink && prevInk ? Math.round(ink.top - prevInk.bottom) : null,
+        text: shortText(el).slice(0, 60),
+      });
+      if (ink) prevInk = ink;
+    });
+
+    return { bands: bands.length, voids: cap(voids), seams: cap(seams) };
+  }
+
+  /**
    * The check that catches a settings list made of labels. A chip-shaped thing
    * carrying a short string in the trailing column of a repeated row is read as
    * a control by every user; if the row holds nothing focusable, it is not one.
@@ -1027,6 +1155,132 @@
     };
   }
 
+  /* --------------------------------------------------- tokens and settling */
+
+  /**
+   * A custom property that is DECLARED, emitted onto the page, and read by no
+   * rule. This is a live defect class, not tidiness: the contract carries the
+   * token, every record sets it, the injector emits it, a reviewer greps and
+   * finds it present — and the value it was supposed to override is still being
+   * painted, because nothing on the page ever says `var(--that-one)`.
+   *
+   * Measured consequence on a real build: `--primary-on-dark` was declared,
+   * emitted per tenant, and consumed by no CSS rule, so every accent word on
+   * every dark band painted in raw `--primary`. The company's own name, at 72px
+   * on its own hero, sat at 2.14:1 — the least readable thing on the page.
+   *
+   * Two honest limits, both reported rather than hidden:
+   *   - A cross-origin stylesheet cannot be read. `unreadableSheets > 0` means
+   *     this probe's answer is partial and must be said so.
+   *   - A token read from JavaScript (`getComputedStyle(el).getPropertyValue`)
+   *     is consumed and invisible here. Grep the source before acting.
+   */
+  function probeUnconsumedTokens() {
+    const declared = new Map();
+    const consumed = new Set();
+    let unreadableSheets = 0;
+
+    const harvest = (style, origin) => {
+      for (let i = 0; i < style.length; i++) {
+        const prop = style[i];
+        if (prop.startsWith('--') && !declared.has(prop)) {
+          declared.set(prop, {
+            value: style.getPropertyValue(prop).trim().slice(0, 60),
+            declaredIn: origin,
+          });
+        }
+      }
+      // Harvest references from the declaration TEXT, not property by property.
+      // `background: var(--canvas)` is stored as a pending-substitution value, so
+      // getPropertyValue('background') returns the empty string and a per-property
+      // scan reports the token as unread. That false positive is exactly the kind
+      // this probe exists to rule out, so it must not generate one.
+      const refs = (style.cssText || '').match(/var\(\s*(--[\w-]+)/g);
+      if (refs) for (const m of refs) consumed.add(m.replace(/var\(\s*/, ''));
+    };
+
+    const walk = (rules, origin) => {
+      for (const rule of rules) {
+        if (rule.style) harvest(rule.style, rule.selectorText || origin);
+        if (rule.cssRules) walk(rule.cssRules, origin);
+      }
+    };
+
+    for (const sheet of document.styleSheets) {
+      let rules = null;
+      try { rules = sheet.cssRules; } catch (e) { rules = null; }
+      if (!rules) { unreadableSheets++; continue; }
+      walk(rules, sheet.href ? 'sheet' : 'inline');
+    }
+    for (const el of [...document.querySelectorAll('[style]')].slice(0, MAX_NODES)) {
+      harvest(el.style, 'inline style');
+    }
+
+    const unconsumed = [...declared.entries()]
+      .filter(([name]) => !consumed.has(name))
+      .map(([name, meta]) => ({ token: name, value: meta.value, declaredIn: meta.declaredIn }));
+
+    return {
+      declared: declared.size,
+      consumed: consumed.size,
+      unreadableSheets,
+      unconsumed: cap(unconsumed),
+      note: unreadableSheets
+        ? 'Partial: some stylesheets are cross-origin and could not be read.'
+        : 'A token here may still be read from JavaScript — check the source before acting.',
+    };
+  }
+
+  /**
+   * The denominator `probeContrast()` does not carry. It returns failures only,
+   * so `failures: 0` and "the probe never ran" serialise to the same output.
+   * Report the pair or report nothing.
+   */
+  function contrastExamined() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const seen = new Set();
+    let n, examined = 0;
+    while ((n = walker.nextNode()) && examined < 600) {
+      if (!n.textContent.trim()) continue;
+      const el = n.parentElement;
+      if (!el || seen.has(el) || !visible(el)) continue;
+      seen.add(el);
+      examined++;
+    }
+    return examined;
+  }
+
+  /**
+   * Proof that the page was at rest when it was measured.
+   *
+   * A colour or accessibility gate sampled mid-animation reports precise,
+   * confident, wrong numbers, and they look exactly like real ones. On a real
+   * run an axe pass fired 400ms into a 700ms entrance with an 80ms stagger, read
+   * a `#E85A2A` accent as `#6a2d18`, and reported a surface getting *worse* after
+   * a fix that provably removed its failures.
+   *
+   * So every result carries this beside it. A run with `runningAnimations > 0`
+   * is not a clean gate; it is an unusable one.
+   */
+  function probeAnimationSettled() {
+    const running = (document.getAnimations ? document.getAnimations() : [])
+      .filter(a => a.playState === 'running');
+    const partial = [...document.querySelectorAll('body *')].slice(0, MAX_NODES)
+      .filter(el => {
+        const o = parseFloat(getComputedStyle(el).opacity);
+        return o > 0 && o < 0.99;
+      });
+    return {
+      runningAnimations: running.length,
+      runningSample: running.slice(0, 5).map(a => {
+        const t = a.effect && a.effect.target;
+        return t && t.tagName ? cssPath(t) : 'unknown';
+      }),
+      partiallyTransparentElements: partial.length,
+      settled: running.length === 0,
+    };
+  }
+
   function probeLayoutIntegrity() {
     const g = probeRepeatedGroupIntegrity();
     return {
@@ -1039,6 +1293,7 @@
       rails: probeSharedRails(),
       textOverlap: probeTextOverlap(),
       deadSpace: probeDeadSpace(),
+      columnVoids: probeColumnVoids(),
       affordance: probeAffordanceGaps(),
       tokenOverload: probeTokenOverload(),
       inventory: probeComponentInventory(),
@@ -1051,23 +1306,29 @@
     return {
       url: location.href,
       viewport: { width: window.innerWidth, height: window.innerHeight, dpr: window.devicePixelRatio },
+      // Every count below is meaningless without this pair. `settled: false` means
+      // the numbers were sampled mid-animation and must be re-taken, not reported.
+      settled: probeAnimationSettled(),
       contrast: probeContrast(),
+      contrastExamined: contrastExamined(),
       overflow: probeOverflow(),
       images: probeImages(),
       targets: probeTargets(),
       semantics: probeSemantics(),
       focus: probeFocusStyles(),
       layout: probeLayoutIntegrity(),
+      tokens: probeUnconsumedTokens(),
       styles: dumpStyles(),
       prefersReducedMotionSupported: matchMedia('(prefers-reduced-motion: reduce)').media !== 'not all',
     };
   }
 
   window.__designReviewProbes = {
-    runAll, probeContrast, probeOverflow, probeImages, probeTargets,
+    runAll, probeContrast, contrastExamined, probeOverflow, probeImages, probeTargets,
     probeSemantics, probeFocusStyles, dumpStyles, probeInk, contrastRatio,
     probeLayoutIntegrity, probeRepeatedGroupIntegrity, probeColumnHeaderAlignment,
     probeSiblingGaps, probeSharedRails, probeTextOverlap, probeDeadSpace,
+    probeColumnVoids, inkBox, probeUnconsumedTokens, probeAnimationSettled,
     probeAffordanceGaps, probeTokenOverload, findRepeatedGroups,
     probeComponentInventory,
   };

@@ -136,6 +136,13 @@ python scripts/scan_source.py <src-dir>                           # greppable an
 
 Both runners write the same manifest shape, so the analysis scripts read either. Add `--tile` for long pages, `--states` for staged interaction states, `--motion` for mid-flight frames. For the MCP paths, see `references/browser-drivers.md`.
 
+**Settle the page, then prove it settled.** Both runners now scroll the whole document and drain `document.getAnimations()` before probing, and record what was still running in `animationsRunningAtMeasure`. Both halves are load-bearing:
+
+- **Scroll first.** A scroll-reveal system leaves every band below the fold at `opacity: 0`, and `loading="lazy"` images report `naturalWidth === 0` until they enter the viewport. A capture at load has already been misread here as a broken reveal system, and an image probe run without scrolling reported five of eight images as broken when all eight load.
+- **Then wait, and record the wait's result.** A contrast or accessibility gate sampled mid-entrance reports precise, confident, wrong numbers. On a real run, axe fired 400ms into a 700ms reveal with an 80ms stagger, read a `#E85A2A` accent as `#6a2d18`, and reported a surface going from 13 failures to **28** after a fix that provably removed them. `animationsRunningAtMeasure > 0` does not weaken that row's numbers — it voids them.
+
+A gate that samples during an animation is worse than no gate, because its output is indistinguishable from a real measurement.
+
 The highest-value move available: if a token source exists (`tokens.css`, `theme.ts`, DTCG JSON, `design.md`, a Figma MCP connection), compare it against live computed CSS. That converts "does this button look right?" into "does this node's border-radius equal `$radius-md`?" — a deterministic check that needs no visual judgment and carries no model variance. Push as much load onto that comparison as the surface allows.
 
 ### 2 — Gates
@@ -157,11 +164,15 @@ When a probe's own limits make its numbers unusable on this surface (see the anc
 
 Loop: fix → re-run → verify, three attempts per issue. An issue surviving three targeted fixes usually means the diagnosis is wrong — report that as the finding rather than continuing.
 
+**Verify the computed value, never the presence of the rule.** A CSS fix that lost the cascade looks identical to a fix that was never written. The way it actually happens: a new rule is added at equal specificity to the one it must beat, but *earlier* in the file, so source order silently keeps the old declaration. On a real run this fixed the one selector with higher specificity and silently failed on the two that mattered most — including a 72px company name still at 2.14:1 — while the rule sat in the stylesheet, greppable and correct-looking. Re-run the probe and read the resolved colour, width or spacing off the node.
+
 ### 3 — Structural render
 
 Capture at 375 / 768 / 1280 / 1920 plus two or three in-between widths while resizing; breakpoint *transitions* break more often than breakpoints. Serve over HTTP, never `file://`.
 
 Per viewport in severity order: overflow (use the programmatic probe, not the eye), overlap, text clipping, alignment drift, load stability, z-order, media aspect ratios. Then resilience — long strings, i18n expansion, RTL, 320px, 200% zoom.
+
+**Check WHAT rendered, not THAT something rendered.** This is the failure that survives every green gate, because the defect is well-formed. Real examples off one product: a page carrying its privacy policy as "what the business does"; another company's share price inside a chart's accessible description; a `/business` page whose seven images were each about a different subject from the heading beside them, so a screen-reader user on RECYCLING was told about a map of Quebec. Every one was a 200, valid HTML, and correctly styled. So read the strings: does this heading name the thing below it, does this alt text describe this section, does this figure belong to this company. Where both sides are in the same data source, that comparison is machine-checkable and should be a gate rather than a reading.
 
 `references/capture-protocol.md` covers how to capture; `references/states-and-resilience.md` covers what to stress.
 
@@ -292,9 +303,9 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 
 ## Scripts
 
-- `scripts/run_review.py` — Playwright capture and probe sweep across the viewport matrix
+- `scripts/run_review.py` — Playwright capture and probe sweep across the viewport matrix. Scrolls the document and drains running animations before probing, and records what was still moving
 - `scripts/run_review.mjs` — Puppeteer equivalent, same output layout
-- `scripts/probes.js` — in-page probes: contrast, overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement
+- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
 - `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
 - `scripts/scan_source.py` — greppable anti-patterns in source, tagged by tier
 - `scripts/annotate.py` — crop, slice and overlay coordinate grids on captures

@@ -52,6 +52,19 @@ Report per violation: the node, the property, the actual value, the token it sho
 
 Also flag: unresolved `var(--*)` references (they silently fall back), inline styles carrying values that exist as tokens, and utility-class soup with no semantic grouping.
 
+## The token nothing reads
+
+A token that is **declared, emitted onto the page, and referenced by no rule** is a live defect, not tidiness. It passes every check a reviewer would think to run: it is in the contract, it is in the record, it is in the DOM, and `grep` finds it. What it is not is *applied* — so the value it was supposed to override is still being painted, and the surface looks exactly as it did before the token existed.
+
+Measured: `--primary-on-dark` was carried by a multi-tenant contract, set by every tenant record, emitted by the style injector, and read by **no rule in the stylesheet**. Every accent word on every dark band painted in raw `--primary`. The house tier's 72px company name — the largest text on its own hero — sat at **2.14:1**.
+
+`probeUnconsumedTokens()` (in `runAll().tokens`) collects every `--x` declared in a readable stylesheet or inline style, every `var(--x)` referenced by any rule, and returns the difference. Two limits, both reported beside the answer rather than hidden:
+
+- **A cross-origin stylesheet cannot be read.** `unreadableSheets > 0` means the answer is partial and must be reported as partial.
+- **A token read from JavaScript is invisible here** — `getComputedStyle(el).getPropertyValue('--x')` consumes it without any rule saying so. Grep the source before acting on an entry.
+
+The converse finding is the more familiar one and is already covered above: a `var(--x)` that resolves to nothing silently falls back. Both are the same class — the declaration and its use drifted apart — and neither is visible in a render.
+
 ## Role adherence
 
 A token scale with assigned semantic roles converts "use good colours" into a checkable rule. Vercel's Geist publishes one worth copying as a model:

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<!-- DEFECTIVE fixture for probeColumnVoids / probeUnconsumedTokens / contrastExamined.
+     Deliberately carries, in order:
+       1. no <title>                                  -> semantics.title === null   (WCAG 2.4.2, Level A)
+       2. --accent-on-dark declared, never var()'d     -> tokens.unconsumed
+       3. a band with padding and no content at all    -> voids kind: no-ink
+       4. a band 400px tall holding one 16px line      -> voids kind: near-empty
+       5. a band at ~14% ink fill                      -> voids kind: low-fill
+       6. two healthy bands                            -> seams, no void
+     Its control is band-voids-clean.html. Run both: a probe that fires on the
+     control is miscalibrated, and a probe that fires on neither never ran. -->
+<meta charset="utf-8">
+<style>
+  :root {
+    --ink: #1c1b1b;
+    --canvas: #ffffff;
+    --accent: #c0202a;
+    /* Declared, emitted, read by no rule. This is the defect: every rule that
+       should have used it is still painting --accent. */
+    --accent-on-dark: #ff8a80;
+  }
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: var(--ink); background: var(--canvas); }
+  section { padding: 96px 32px; }
+  h2 { font-size: 32px; margin: 0 0 16px; color: var(--accent); }
+  p { margin: 0 0 12px; max-width: 60ch; }
+  .empty-shell { min-height: 220px; }
+  .tall { min-height: 400px; }
+  .sunken { background: #f4f2f0; min-height: 320px; }
+</style>
+<main>
+  <section id="hero">
+    <h2>A healthy band</h2>
+    <p>This band's ink fills most of its box, which is what the surface's own rhythm looks like.</p>
+    <p>Two paragraphs and a heading against 96px of padding is a normal ratio.</p>
+    <p>Nothing here should be reported.</p>
+    <p>The probe measures ink against box, so the text has to be real.</p>
+  </section>
+
+  <!-- 3. A section that renders nothing still occupies its own margins. -->
+  <section id="dead"><div class="empty-shell"></div></section>
+
+  <!-- 4. A sliver of content in a tall box. -->
+  <section id="thin" class="tall"><p>One line.</p></section>
+
+  <!-- 5. Mostly padding: 320px of sunken band around ~40px of ink. -->
+  <section id="foot" class="sunken">
+    <p>Two lines of ink in a band this tall is roughly one-eighth fill.</p>
+    <p>Enough ink to clear the near-empty threshold and still be mostly margin.</p>
+  </section>
+
+  <section id="close">
+    <h2>Another healthy band</h2>
+    <p>Present so that "every band fired" is distinguishable from "the probe fired correctly".</p>
+    <p>A probe that flags all five bands is as useless as one that flags none.</p>
+    <p>The control file is the other half of that test.</p>
+  </section>
+</main>
+</html>

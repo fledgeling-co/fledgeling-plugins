@@ -21,9 +21,24 @@ Almost every defect here lives inside a **repeated group** — any container wit
 | `rails` | Visible `h1`/`h2`/`h3` left edges cluster >8px apart | A full-bleed region over capped-and-centred content. Diverges further as the viewport widens, so it survives a single-width review |
 | `textOverlap` | Two text boxes intersect by ≥3px on **both** axes | Annotation over an axis label, badge over text, sticky header over content |
 | `deadSpace` | A flex/grid row of side-by-side children, ≥200px tall, whose shortest child is <55% of its tallest | A cross-axis alignment applied to a column shorter than its neighbour. At page scale this reads as generous whitespace |
+| `columnVoids.voids` | A top-level band that renders at height 0, paints no ink at all, holds under 24px of ink in a box over 80px, or fills under 25% of its own height | A section that renders nothing still occupies its own margins. See below |
+| `columnVoids.seams` | Never fires — it is the band-rhythm table, reported unfiltered | The whole-page form of the same defect, which no single band trips |
 | `affordance.unactionableRows` | A repeated row containing chip-shaped short text but nothing focusable | A settings list made of status labels. Every user reads them as controls. **Tier 2, not a gate** — see below |
 | `affordance.pointerCursorNotFocusable` | `cursor: pointer` on something not reachable by keyboard | Mouse-only interaction |
 | `tokenOverload` | A class whose name matches `warn\|error\|danger\|success\|ok\|info\|alert\|critical\|…` carrying ≥3 distinct strings | A status token that means four things has stopped being a signal — and every instance passes contrast individually, so no colour check notices |
+
+## The column void — the defect `deadSpace` is structurally blind to
+
+`probeDeadSpace` requires a **row**: side-by-side children of unequal height. The most common form of dead space on a marketing or content surface is a **column** defect and matches none of that — *a section that renders nothing still occupies its own margins*, so "no content" becomes 200px of dead space rather than an absence. A tenant with no video gets an empty video band rather than one fewer band; a disabled section collapses to zero height instead of being removed; a notice band ends up as 184px of padding around 104px of content.
+
+`probeColumnVoids()` measures each top-level band's box against the union bbox of its actual **ink** — text run fragments, replaced elements, and any box carrying a border or a painted background. Boxes lie here in a way ink does not: a band whose only child is a full-height empty wrapper has a perfectly healthy `getBoundingClientRect()`.
+
+Two outputs, answering different questions:
+
+- **`voids`** — the flagged bands, by kind: `zero-height`, `no-ink`, `near-empty`, `low-fill`.
+- **`seams`** — every band's height, ink height, fill percentage and **ink-to-ink gap from the previous band**, reported unfiltered. This is the one that finds the whole-page form. A surface whose seams read 92px, 205px, 229px has no single band that trips a threshold and is still three-quarters dead space; only the table shows it. Read it against the surface's own healthy rhythm — one real reference build sits at 49–62% fill, and 36% on the same system is the finding.
+
+`low-fill` is the judgement-required kind and is deliberately noisier than the others: a deliberately sparse editorial foot and a section that lost its content measure identically. The probe reports the geometry; you decide. `zero-height` and `no-ink` need no judgement.
 
 ## Thresholds
 
@@ -33,6 +48,7 @@ All of them live in one `LI` object at the top of the layout block, so they are 
 columnDriftPx: 4      headerDriftPx: 8      railDriftPx: 8
 zeroGapPx: 1          overlapMinPx: 3       deadSpaceRatio: 0.55
 deadSpaceMinPx: 200   controlTextMax: 24    semanticTokenTexts: 3
+bandMinHeightPx: 80   bandInkMinPx: 24      bandFillMin: 0.25
 ```
 
 Five calibration lessons worth keeping. Every one came from driving the set to
@@ -121,6 +137,7 @@ State it in Needs verification, every time:
 - **Whether a void is deliberate.** A 242px void in a hero is a defect; the same measurement in a deliberately sparse editorial layout is the design. The probe reports the geometry and the `align-items` value that produced it; the judgment is yours.
 - **Hierarchy, rhythm, density, typography, copy.** None of it is geometric.
 - **Anything in a state you did not drive.** These run against the DOM as it stands. An empty list, an error banner, or an open menu is a different DOM.
+- **Anything measured before the page settled.** Every probe here reads geometry, and geometry is a function of time on a surface with an entrance animation or scroll-triggered reveal. Scroll the document and drain `document.getAnimations()` first; `runAll().settled` records whether that happened. A void probe run at load reports every unrevealed band as `no-ink`.
 
 ## Reading the output
 
