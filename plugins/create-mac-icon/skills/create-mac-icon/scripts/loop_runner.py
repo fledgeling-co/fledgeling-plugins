@@ -30,6 +30,7 @@ import os
 import pathlib
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -357,10 +358,24 @@ class Runner:
         env = {k: v for k, v in os.environ.items()
                if k not in ("CLAUDE_CODE_DISABLE_1M_CONTEXT", "CLAUDE_CODE_SESSION_ID",
                             "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_EFFORT")}
-        r = subprocess.run(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
-                           capture_output=True, text=True, env=env,
-                           stdin=subprocess.DEVNULL,  # else the CLI waits 3s for stdin
-                           timeout=self.cfg.get("round_timeout_s", 2700))
+        # Own process group, and record the pid. Killing the runner does NOT kill its
+        # child: a superseded agent kept running after a pkill, carried on editing
+        # build_icon.py, and collided with its replacement mid-round, adding ~120 lines
+        # the new agent had to detect and strip. Anything stopping this loop must kill
+        # the group, and scripts/stop_loop.sh does.
+        pidfile = self.repo / "docs/.loop-child.pid"
+        proc = subprocess.Popen(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                                env=env, stdin=subprocess.DEVNULL, start_new_session=True)
+        pidfile.write_text(str(proc.pid))
+        try:
+            out, err = proc.communicate(timeout=self.cfg.get("round_timeout_s", 2700))
+        except subprocess.TimeoutExpired:
+            os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            raise
+        finally:
+            pidfile.unlink(missing_ok=True)
+        r = subprocess.CompletedProcess(cmd, proc.returncode, out, err)
         self.log(f"  implement finished in {time.time()-t0:.0f}s (exit {r.returncode})")
         if r.returncode != 0:
             head = ((r.stdout or "") + (r.stderr or "")).strip()[:200]
