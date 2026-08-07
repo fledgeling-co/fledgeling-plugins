@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-# Notarize the signed Release app. One-time setup:
+# Notarize the signed Release app (notarytool — altool has been dead since Nov 2023).
+# One-time local setup:
 #   xcrun notarytool store-credentials notary --apple-id <id> --team-id <team> --password <app-specific>
+# CI caveat: keychain profiles can't be exported — in CI pass the App Store Connect
+# API key credentials per invocation (--key/--key-id/--issuer) instead of a profile.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 APP="build/Release/{{APP_NAME}}.app"
 ZIP="build/{{APP_NAME}}.zip"
+# ditto, never zip(1)/cp — they break the code-signing seal.
 ditto -c -k --keepParent "$APP" "$ZIP"
 xcrun notarytool submit "$ZIP" --keychain-profile notary --wait
 xcrun stapler staple "$APP"
-echo "notarized + stapled: $APP"
+xcrun stapler validate "$APP"
+spctl --assess --type execute --verbose=4 "$APP"
+echo "notarized + stapled + Gatekeeper-verified: $APP"

@@ -262,6 +262,27 @@ mkdir -p "$PROJECT_DIR/docs/features-to-triage" "$PROJECT_DIR/docs/specs" "$PROJ
 printf '# LEDGER\n\n| ID | Feature | Status |\n|---|---|---|\n' > "$PROJECT_DIR/docs/features-to-triage/LEDGER.md"
 ln -s CLAUDE.md "$PROJECT_DIR/AGENTS.md"
 
+# ---- provenance manifest (.slipway/manifest.json): template version + every
+# answer that shaped this project. The record that makes a future upgrade/diff
+# story possible — scaffolders that skip it (shadcn) cannot separate user edits
+# from template changes later.
+SLIPWAY_VERSION="$(python3 -c "import json;print(json.load(open('$SCRIPT_DIR/../../../.claude-plugin/plugin.json'))['version'])" 2>/dev/null || echo unknown)"
+mkdir -p "$PROJECT_DIR/.slipway"
+python3 - "$PROJECT_DIR/.slipway/manifest.json" <<PY
+import json, os, sys
+json.dump({
+    "slipway_version": "$SLIPWAY_VERSION",
+    "scaffolded": "$(date +%Y-%m-%dT%H:%M:%S%z)",
+    "codename": "$CODENAME",
+    "display": os.environ["SW_DISPLAY"],
+    "modules": "$MODULES".split(","),
+    "bundle_prefix": "$BUNDLE_PREFIX",
+    "macos_style": "$MACOS_STYLE",
+    "ports": {"web": $PORT_WEB, "api": $PORT_API, "admin": $PORT_ADMIN},
+    "op_vault": "$OP_VAULT" or None,
+}, open(sys.argv[1], "w"), indent=2)
+PY
+
 # ---- 4. guard: no unrendered tokens
 if grep -rn "{{[A-Z_]*}}" "$PROJECT_DIR" --include='*' -l 2>/dev/null | grep -q .; then
   echo "ERROR: unrendered template tokens remain:" >&2

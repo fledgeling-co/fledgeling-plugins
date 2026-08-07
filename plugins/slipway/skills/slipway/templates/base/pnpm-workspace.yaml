@@ -4,6 +4,9 @@ packages:
 
 # pnpm 10+ blocks lifecycle build scripts by default (supply-chain safety, BP §17).
 # Pre-approve only the native binaries the toolchain genuinely needs.
+# NOTE pnpm 11 renames this mechanism to `allowBuilds` (and requires Node >=22) —
+# when bumping packageManager past 10.x, migrate this key or the approvals
+# silently stop applying.
 onlyBuiltDependencies:
   - esbuild
   - sharp
