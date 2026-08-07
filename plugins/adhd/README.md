@@ -13,8 +13,8 @@ Parallel divergent ideation for coding agents; an evidence-grounded successor to
 | Scoring | 1-10 novelty/viability/fit | Pass/fail floors + mechanism clustering; no numeric scores (they're measurably unreliable) |
 | First steps | "First concrete step" | Same-week starter naming the problem's actual tools |
 | Cost control | Run or abort | `--any` / standard / `--100` tiers, receipt line on every run |
-| Structural evals | — | 96.4% vs 49.0% for the original on identical prompts |
-| Blind panel (3 model families, no skill access) | — | Majority 4-3 to v2; the one unanimous loss was fixed and re-judged, flipping unanimously to v2.1 |
+| Structural evals | none shipped | 96.4% vs 49.0% for the original on identical prompts |
+| Blind panel (3 model families, no skill access) | none shipped | Majority 4-3 to v2; the one unanimous loss was fixed and re-judged, flipping unanimously to v2.1 |
 | Typical run time | ~198s | ~355s; the gate and differentiation passes are where it goes |
 
 ## Why this exists
