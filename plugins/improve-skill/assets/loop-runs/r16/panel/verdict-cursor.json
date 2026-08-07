@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "A",
+    "silhouette": "A",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A better matches the REF\u2019s dual-form physical read: a heavy dark bar plus a clearly present frosted loop with convincing orange under-glow and soft depth.",
+      "material": "A\u2019s loop shows stronger thickness, ribbing, and light wrap, and the block\u2019s volume and glow spill read closer to the REF\u2019s translucency and shading than B\u2019s flatter, fainter secondary form.",
+      "silhouette": "A keeps a clearer bar-plus-loop outline like the REF, while B\u2019s loop collapses toward a faint C/ring and leaves mostly the diagonal bar.",
+      "smallsize": "At 32 and 16 both reduce to the same strong dark-diagonal-plus-orange signal on the split ground, so neither pulls ahead."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}

@@ -943,6 +943,18 @@ IN_LIT    = (198, 180, 156)         # inner face at the mouth of the roll
 IN_DARK   = ( 84,  72,  60)         # inner face, deep
 TRANSMIT  = (250, 241, 221)         # what comes through thin material from behind
 
+# How much of that gets through. A planed shaving is one thickness of wood, not a
+# solid; measured on C2, its loop never falls more than 0.35 L below the ground it
+# covers and its bore reads L p10 0.672 / med 0.737 against ground beside the loop
+# at 0.727/0.776 - i.e. the inside of its roll sits only 0.05-0.11 under open board.
+# Ours was running a mean 0.388 under, because the interior had a hard occlusion
+# term and a transmitted term that went to zero exactly where the roll is deepest.
+# These three are the light that arrives THROUGH the material, so none of them
+# falls off with depth into the roll.
+CURL_TRANSMIT = 0.42                # one thickness, key on the far side of the face
+CURL_BORE     = 0.54                # the bore is walled by lit shaving on every side
+CURL_SHEEN    = 0.22                # ambient pushed through the sheet, key aside
+
 
 def _unit(x, y):
     m = math.hypot(x, y) or 1.0
@@ -1049,6 +1061,9 @@ def shaving():
         if outer:
             sh = max(0.0, min(1.0, (lam + 0.18) / 1.16)) ** 1.35
             col = _lerp(OUT_DARK, OUT_LIT, sh)
+            # Turned from the key, an outer band is not in shadow - it is backlit,
+            # because the key is then on the other side of one thickness of wood.
+            col = _lerp(col, TRANSMIT, CURL_SHEEN + CURL_TRANSMIT * max(0.0, -lam))
             op = tap
         else:
             lin = -nx * LIGHT[0] - ny * LIGHT[1]   # lambert on the INNER face
@@ -1056,7 +1071,9 @@ def shaving():
             depth = 0.5 + 0.5 * duy                # 1 at the floor of the roll
             ao = 1.0 - 0.74 * depth                # the roll shades its own interior
             col = _lerp(IN_DARK, IN_LIT, max(0.0, min(1.0, (lin + 0.30) / 1.24)) * ao)
-            col = _lerp(col, TRANSMIT, max(0.0, lam) * 0.12)
+            # ...but it cannot shade it to black: the wall doing the occluding is
+            # itself lit and thin, so the bore is floored by what comes through it.
+            col = _lerp(col, TRANSMIT, CURL_BORE + CURL_TRANSMIT * max(0.0, lam))
             op = tap
 
         # Seam control: while a band is opaque it is grown a hair along the tangent so
