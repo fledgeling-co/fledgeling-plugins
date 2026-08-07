@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(130% 170% at 20% 14%, #FFFFFF 0%, #F7F9FC 42%, #EDF1F6 74%, #E3E9F1 100%);
+         font-family: "Instrument Sans", sans-serif; }
+
+  /* the rail field: shared rails, one of them broken. The banner echoes the gate. */
+  svg.rails { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 128px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 276px; height: 276px; filter: drop-shadow(0 20px 40px rgba(38, 62, 94, .17)); }
+
+  .words { padding-bottom: 6px; }
+  .wordmark { font-size: 118px; font-weight: 600; letter-spacing: -0.042em; line-height: 1;
+              color: #16212E; display: flex; align-items: center; }
+  .wordmark .mark { width: 34px; height: 34px; margin-left: 26px; flex: none; }
+  .tagline { margin-top: 26px; font-size: 31px; font-weight: 400; letter-spacing: -0.004em;
+             color: #5A6C80; }
+  .tagline b { color: #1D2B3A; font-weight: 500; }
+
+  /* the viewport matrix, as an instrument scale */
+  .scale { position: absolute; left: 480px; bottom: 56px; width: 996px; }
+  .scale svg { display: block; }
+  .scale .nums { position: relative; height: 18px; margin-top: 9px;
+                 font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 400;
+                 letter-spacing: .04em; color: #5F7286; }
+  .scale .nums span { position: absolute; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+  <svg class="rails" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="railFade" x1="380" y1="0" x2="1600" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#2C4C74" stop-opacity=".03"/>
+        <stop offset=".48" stop-color="#2C4C74" stop-opacity=".09"/>
+        <stop offset="1" stop-color="#2C4C74" stop-opacity=".13"/>
+      </linearGradient>
+    </defs>
+    <g stroke="url(#railFade)" stroke-width="1">
+      <path d="M480.5 0V520M556.5 0V520M632.5 0V520M708.5 0V520M784.5 0V520M860.5 0V520M936.5 0V520M1012.5 0V520M1088.5 0V520M1164.5 0V520M1240.5 0V520M1316.5 0V520M1468.5 0V520M1544.5 0V520"/>
+    </g>
+    <!-- one rail comes off true partway down, and stays off. That is the finding. -->
+    <path d="M1392.5 0V214" stroke="#2C4C74" stroke-opacity=".13" stroke-width="1"/>
+    <path d="M1418.5 214V520" stroke="#E33B21" stroke-opacity=".52" stroke-width="1.5"/>
+    <path d="M1392.5 214H1418.5" stroke="#E33B21" stroke-opacity=".34" stroke-width="1.5"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon-masked.svg" alt="">
+    <div class="words">
+      <div class="wordmark">design-review<svg class="mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="14.6" y="0" width="4.8" height="34" rx="1.6" fill="#E33B21"/><rect x="0" y="14.6" width="34" height="4.8" rx="1.6" fill="#E33B21"/><circle cx="17" cy="17" r="11" fill="#E33B21"/><circle cx="17" cy="17" r="7.3" fill="none" stroke="#FBFCFD" stroke-width="1.5"/></svg></div>
+      <div class="tagline">The last pass <b>before a human looks</b> at AI-built UI.</div>
+    </div>
+  </div>
+
+  <div class="scale">
+    <svg width="996" height="9" viewBox="0 0 996 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 .5H996" stroke="#2C4C74" stroke-opacity=".17"/>
+      <g stroke="#2C4C74" stroke-opacity=".30">
+        <path d="M194.5 0V9M398.5 0V9M663.5 0V9M995.5 0V9"/>
+      </g>
+    </svg>
+    <div class="nums">
+      <span style="left:194.5px">375</span>
+      <span style="left:398.5px">768</span>
+      <span style="left:663.5px">1280</span>
+      <span style="left:995.5px">1920</span>
+    </div>
+  </div>
+</body>
+</html>

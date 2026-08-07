@@ -1,0 +1,26 @@
+# ship-armada icon notes
+
+**Direction: "Plot Table".** Tahoe gel-glass **sub-register (a)**: a porcelain ground carrying a coloured gel object. The tile is a chart plate seen from directly above, which is the position ship-armada actually occupies: it never sails, it holds the map. Runner-up: **Dark-Field Emissive**, a constellation of lit vessel nodes on near-black, rejected on two counts. It neighbours the dark charcoal register a sibling plugin already owns in this marketplace, and a scatter of emissive nodes has no carrying shape, so it fails checks #3 and #4 by construction.
+
+**Glyph (subject-mined; device bank #5 dual-function primitive, #18 edge-bleed physicality, #20 data-as-glyph):** three gel hulls in plan view, in **echelon** on a course of 020&deg;. Three because dispatch runs at most three projects concurrently; echelon because campaigns are dependency-ordered, and echelon is the formation that says *stepped and in sequence* rather than *abreast*. Behind them the rest of the portfolio sits at anchor as engraved hull outlines swung to their own headings: order in the accent, rest in the ink.
+
+**Signature:** the three underway hulls are the only saturated thing on the plate. Colour carries the skill's actual argument (a bounded few running, most of the portfolio quiet) rather than decorating it. **The earned garnish** is the graticule: it runs edge to edge and is cut by the mask, so the tile reads as a window onto a chart larger than the frame, which is what a manifest is.
+
+**Risk taken:** a light porcelain register for a developer tool, where the whole category defaults to dark grounds or the blue/indigo ramp the corpus names as its template-default. It pays because a chart room is a bright reading surface, not a nocturnal agent.
+
+**Palette:** two families only. Warm vellum porcelain (`#FEFCF7→#F8F1E4→#EBE1CE` plate, `#7A6244` vignette) and one vermilion gel ramp reserved strictly for the underway three (`#F2683A/#E54824/#D63A20/#B92E1D` hull, `#B0261C→#7F1721` cockpit). Chart ink is graphite `#6E7A86` at 6&ndash;15%, a neutral rather than a third hue. One soft top light; rim highlights and soft ambient occlusion; zero hard speculars, and no second light source.
+
+**Authored overlap** (the era's craft tell, and the one thing a flat pre-masked raster cannot fake): the graticule is redrawn clipped to each hull at 19% in a warm tint, so the chart visibly reads *through* the gel. Forcing that effect is what forces the layer discipline #10 wants.
+
+**Audit: 11/12, zero failures on the non-negotiable 1&ndash;4.** Full-bleed 1024 artwork with the squircle as a *clip*, no baked corners or shadow. Checks 3 and 4 verified on real renders, not imagined: the filled-black silhouette is nameable (pointed stem, sustained beam, flat transom, stepped formation), and the 16px squint sheds the cockpit cleanly to three diagonal marks with no smear. Dominant gel measures **4.09:1** against the vellum plate, so figure-ground survives on value alone. #10 passes by construction: four layers `#bg/#mid/#fg/#highlight` mapping 1:1 onto Icon Composer, identity carried entirely by `fg`'s filled shapes. Point deducted at **#2**: the focal runs 68.4% of tile width against the 55&ndash;65% composition constant, the direct cost of a diagonal composition whose bounding box is wide and short (height only 49.7%, margins &ge;162px).
+
+**Three engines, five render-audit iterations.** The set is on `audit.html`, losers included. Engine B (Arrow vector, `icon-engineB-arrow.svg`) was the miss at 5/12: hulls resolved as symmetric lenses with neither stem nor transom, plus a stray white wedge z-fighting the ground. Engine C rasters won the material comparison and donated the load-bearing discovery, rebuilt into the master per the pipeline rule.
+
+**What the render loop actually corrected** (kept because the failures were not obvious in advance, and each was only visible on a real render):
+
+1. *Flames, not vessels.* A solid taper with a bright tip over a dark base is the value structure of a flame. Fixed by flattening the gel ramp and weighting it dark.
+2. *Gothic arches, not boats.* A well that mirrors the hull outline makes a nested arch. Fixed by setting the cockpit well aft and blunting it, leaving a foredeck of 37 units.
+3. *Bullets, not a fleet.* Axis-aligned symmetric pointed shapes read as ordnance whatever their proportions. Fixed decisively by putting the fleet on a real diagonal heading and adding the **plotted wake**, which is the single unambiguous cue that a plan-view hull is a vessel underway. Drawn in chart ink so it reads as plotted rather than photographic, keeping the register coherent.
+4. *A silent gradient failure.* The first pass drew plotted track lines with an `objectBoundingBox` gradient on a straight vertical path, whose bounding box has zero width, so they rendered as nothing at all. They were cut rather than repaired: the formation and the wake already carry the underway read, and the remove-one-accessory pass took them.
+
+**Register note:** because the ground is light, the **dark system variant is the one to check first** on any future revision. The vellum plate carries much of the icon's calm, and the gel loses its chart context when the ground inverts. The silhouette carries it there; the ground does not.

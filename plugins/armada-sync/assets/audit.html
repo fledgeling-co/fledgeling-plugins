@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>armada-sync icon contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #f8845a; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #f8845a; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>armada-sync icon contact sheet &amp; audit</h1>
+<div class="sub">Direction "Entry of Record" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A-v2 · icon.svg<small>Engine A, hand-authored layered SVG, SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/masterA-256.png" width="128" height="128" alt="Engine A master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/masterA-64.png" width="32" height="32" alt="Engine A master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/masterA-32.png" width="16" height="16" alt="Engine A master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/masterA-32.png" width="96" height="96" alt="Engine A master 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Porcelain cushion tile, four graphite entry lines ragged like prose with the last one trailing short, one vermilion seal band landed on the middle line with that entry knocked out in frosted white so the seal's hue bleeds through it. Checks 1&ndash;4 pass on real renders: full-bleed 1024 with the squircle as a clip, glyph 640&times;536 optically centred with 192px side margins, silhouette nameable as a page with one marked line, and the white core survives inside the seal at 16px. Layers <code>#bg</code>/<code>#mid</code>/<code>#fg</code>/<code>#highlight</code> map 1:1 onto Icon Composer. Sole deduction on #7: see the recommendation.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A-v1 · icon-v1.svg<small>Engine A, first pass</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/masterAv1-256.png" width="128" height="128" alt="Engine A first pass at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/masterAv1-64.png" width="32" height="32" alt="Engine A first pass at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/masterAv1-32.png" width="16" height="16" alt="Engine A first pass at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/masterAv1-32.png" width="96" height="96" alt="Engine A first pass 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Same composition with milder line-length variance (470/530/504/408, a 1.31&times; range against v2's 1.67&times;) and an ink halo at roughly half the opacity. Read closer to an equalizer or a list widget than a page of text, and the declared signature's second half was doing no visible work. Lost to v2 on #11 personality and on plain subject fidelity: a paragraph ends on a short line, and restoring that is what makes the stack read as a record rather than a chart.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-4683c4.svg<small>Engine B, Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B Arrow take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B Arrow take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B Arrow take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Engine B Arrow take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard-fails #1: it baked its own corner mask with visibly unequal radii, which is the one thing the spec forbade in as many words. Also fails #5 (a diagonal ground gradient under vertically-lit gel), #6 (beige ground, graphite, red and a stray chrome-filled bottom bar make four families), #8 and #9 (hard gloss sweep into a maroon foot, Aqua-era drag). Salvaged into the master: nothing drawn, but it independently arrived at the same seal-overhangs-its-neighbours proportion, which confirmed that read was legible rather than a habit of mine.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 · icon-engineC-4da0c8.png<small>Engine C, GPT Image 2 raster, corpus-referenced</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineC1-256.png" width="128" height="128" alt="Engine C first raster take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-64.png" width="32" height="32" alt="Engine C first raster take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-32.png" width="16" height="16" alt="Engine C first raster take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC1-32.png" width="96" height="96" alt="Engine C first raster take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Hard-fails #4: the neon halo blooms across the row gaps and the line separation is gone by 16px, visible in the magnification beside it. Also fails #5 and #9 (a hot emissive rim fighting the top light; a dead-flat white ground with no cushion, which is Tahoe tell #1 missed outright) and #10 (flat pre-masked raster whose identity is a colour relationship). Took the two corpus porcelain exemplars and returned page-white anyway. Salvaged: its line-length variance was wider than my v1's and read more like text, which drove the v2 width pass.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C2 · icon-engineC-7896e3-2.png<small>Engine C, GPT Image 2 raster, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineC2-256.png" width="128" height="128" alt="Engine C second raster take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-64.png" width="32" height="32" alt="Engine C second raster take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-32.png" width="16" height="16" alt="Engine C second raster take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC2-32.png" width="96" height="96" alt="Engine C second raster take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The better material take of the pair: real soft-extruded gel on the graphite bars with honest contact shadows, and the frosted core inside the seal is the closest any engine got to the intended overlap. Fails the same four as C1, and its red is hotter still, landing squarely on the alert-red reading the whole direction was built to avoid. Salvaged into the master: confirmation that the frosted-core-inside-the-seal move renders convincingly, which is why the master's <code>frostGrad</code> carries the seal's hue into its lower half rather than sitting flat white.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A-v2 (icon.svg).</strong> It is the only take that passes all four non-negotiables on real renders, and the only one authored as separate layers, so #10 variant robustness holds by construction rather than by luck: identity rides on shape and value (the fattest banded row with a knocked-out core), with colour as the last ten percent. Material provenance is honest: the cushion tile, the frosted bleed-through and the authored overlap are hand-built in SVG, with C2 confirming the frosted-core read and C1 driving the ragged line-length pass. Known liabilities to revisit: <strong>(1)</strong> the #7 deduction is real and was verified on a rendered grayscale proof, not assumed. Desaturated, the vermilion seal resolves <em>lighter</em> than the graphite lines, so the value hierarchy inverts and the focal stops being the darkest element; the mark still reads because the seal is the fattest, widest row with a knocked-out core, but under Tinted the figure-ground argument is carried entirely by shape. <strong>(2)</strong> At 16px on a non-retina display the frosted core is roughly one device pixel and can collapse into the seal, which costs the entry-inside-the-seal nuance while leaving the identity intact. <strong>(3)</strong> Red on a stack of rows carries a standing error-state association; it is held off by making the accent a band that <em>contains</em> the row rather than a red row, and both raster takes are on the sheet as evidence of what happens when that discipline slips.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs; rasters clipped through the same squircle path before downsampling so every take is judged on equal terms.</div>
+</body>
+</html>

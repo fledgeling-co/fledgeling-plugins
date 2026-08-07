@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* Instrument Sans: a face drawn for instrumentation, because the artifact this
+     names is a plotting instrument. Not a silent default. */
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(120% 165% at 30% 34%, #F5EEE0 0%, #EFE6D5 44%, #E4D8C2 82%, #DCCFB6 100%);
+         font-family: "Instrument Sans", sans-serif; }
+  svg.chart { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 132px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  /* the icon lies ON the chart table: the system shadow is what separates a
+     vellum plate from a vellum ground */
+  .icon { width: 320px; height: 320px;
+          filter: drop-shadow(0 22px 40px rgba(96, 76, 48, .30))
+                  drop-shadow(0 4px 10px rgba(96, 76, 48, .18)); }
+  .words { padding-bottom: 6px; }
+  .wordmark { font-size: 112px; font-weight: 700; letter-spacing: -0.035em;
+              line-height: 1; color: #333E48; display: flex; align-items: center; }
+  /* a plotted fix: chart language for "this is our position". The only accent
+     outside the icon itself. */
+  .fix { width: 30px; height: 30px; margin-left: 22px; border-radius: 50%;
+         border: 4px solid #D63A20; display: flex; align-items: center;
+         justify-content: center; flex: none; }
+  .fix i { width: 9px; height: 9px; border-radius: 50%; background: #D63A20; }
+  .tagline { margin-top: 26px; font-size: 30px; font-weight: 400;
+             letter-spacing: .002em; color: #5A6570; }
+  .tagline b { color: #2E3841; font-weight: 600; }
+  .tagline code { font-family: ui-monospace, "SF Mono", Menlo, monospace;
+                  font-size: 27px; color: #47525C; letter-spacing: -.01em; }
+</style>
+</head>
+<body>
+  <svg class="chart" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#6E7A86" stroke-opacity=".10" stroke-width="1.4" fill="none"><path d="M -96 -40 L -96 560"/><path d="M 0 -40 L 0 560"/><path d="M 96 -40 L 96 560"/><path d="M 192 -40 L 192 560"/><path d="M 288 -40 L 288 560"/><path d="M 384 -40 L 384 560"/><path d="M 480 -40 L 480 560"/><path d="M 576 -40 L 576 560"/><path d="M 672 -40 L 672 560"/><path d="M 768 -40 L 768 560"/><path d="M 864 -40 L 864 560"/><path d="M 960 -40 L 960 560"/><path d="M 1056 -40 L 1056 560"/><path d="M 1152 -40 L 1152 560"/><path d="M 1248 -40 L 1248 560"/><path d="M 1344 -40 L 1344 560"/><path d="M 1440 -40 L 1440 560"/><path d="M 1536 -40 L 1536 560"/><path d="M 1632 -40 L 1632 560"/><path d="M -40 -96 L 1640 -96"/><path d="M -40 0 L 1640 0"/><path d="M -40 96 L 1640 96"/><path d="M -40 192 L 1640 192"/><path d="M -40 288 L 1640 288"/><path d="M -40 384 L 1640 384"/><path d="M -40 480 L 1640 480"/><path d="M -40 576 L 1640 576"/></g><g stroke="#6E7A86" stroke-opacity=".17" stroke-width="2.2" fill="none"><path d="M 224 -40 L 224 560"/><path d="M 800 -40 L 800 560"/><path d="M 1376 -40 L 1376 560"/><path d="M -40 68 L 1640 68"/><path d="M -40 452 L 1640 452"/></g>
+    <g stroke="#6E7A86" stroke-opacity=".075" stroke-width="1.4" fill="none"><path d="M 1330 132 L 3487.7 561.2"/><path d="M 1330 132 L 3159.2 1354.3"/><path d="M 1330 132 L 2552.3 1961.2"/><path d="M 1330 132 L 1759.2 2289.7"/><path d="M 1330 132 L 900.8 2289.7"/><path d="M 1330 132 L 107.7 1961.2"/><path d="M 1330 132 L -499.2 1354.3"/><path d="M 1330 132 L -827.7 561.2"/><path d="M 1330 132 L -827.7 -297.2"/><path d="M 1330 132 L -499.2 -1090.3"/><path d="M 1330 132 L 107.7 -1697.2"/><path d="M 1330 132 L 900.8 -2025.7"/><path d="M 1330 132 L 1759.2 -2025.7"/><path d="M 1330 132 L 2552.3 -1697.2"/><path d="M 1330 132 L 3159.2 -1090.3"/><path d="M 1330 132 L 3487.7 -297.2"/></g><g stroke="#6E7A86" stroke-opacity=".085" stroke-width="1.6" fill="none"><circle cx="1330" cy="132" r="118"/><circle cx="1330" cy="132" r="214"/></g>
+    <!-- the rest of the portfolio, at anchor; the three underway stay in the icon -->
+    <g><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(70 60) rotate(-12) scale(0.44) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.45"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(232 100) rotate(7) scale(0.38) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.32"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(430 50) rotate(-5) scale(0.48) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.00"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(628 106) rotate(13) scale(0.4) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.00"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(846 56) rotate(-8) scale(0.42) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.71"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1064 102) rotate(5) scale(0.46) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.22"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1276 54) rotate(-14) scale(0.39) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.15"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1462 104) rotate(9) scale(0.43) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.58"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(52 258) rotate(6) scale(0.4) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.00"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1544 246) rotate(-10) scale(0.45) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.33"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(86 452) rotate(11) scale(0.41) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.85"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(300 420) rotate(-6) scale(0.47) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.11"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(520 468) rotate(8) scale(0.38) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.32"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(742 424) rotate(-13) scale(0.44) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.45"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(966 466) rotate(4) scale(0.4) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="6.00"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1190 426) rotate(-9) scale(0.46) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.22"/><path d="M 50 1 C 56 6, 68 20, 73 36 C 75.5 47, 76 60, 75.6 72 C 75.2 82, 74.4 90, 74 96 L 26 96 C 25.6 90, 24.8 82, 24.4 72 C 24 60, 24.5 47, 27 36 C 32 20, 44 6, 50 1 Z" transform="translate(1408 462) rotate(12) scale(0.42) translate(-50 -48)" fill="#C0B49A" fill-opacity=".10" stroke="#8A8168" stroke-opacity=".30" stroke-width="5.71"/></g>
+  </svg>
+  <div class="lockup">
+    <img class="icon" src="icon.svg" alt="">
+    <div class="words">
+      <div class="wordmark">ship-armada<span class="fix"><i></i></span></div>
+      <div class="tagline">Every project in <code>~/Dev</code> as one portfolio. <b>Three underway at a time.</b></div>
+    </div>
+  </div>
+</body>
+</html>

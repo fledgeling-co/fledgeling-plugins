@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-review icon: contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>design-review icon: contact sheet &amp; audit</h1>
+<div class="sub">Direction "Press Proof" &middot; one shared spec, three engines per the mac-design-studio pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16, each one clipped to the system squircle first.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>hand-authored layered SVG, C2 glass overlay rebuilt in; SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Porcelain cushion tile carrying two planes of glass: a deeper slate slab behind, and a poured milky frost slab in front that is defined by its edge and its shadow rather than by its fill, so the rear plane reads through it as a darker step. Held inside the frost is a header rail and two columns, the right one sitting 44px low and 12px right of the rail and running past the margin, with a ghost of its true position still showing. The vermilion registration mark is set down on the break. Checks 1&ndash;4 pass on the real small renders: glyph box 650&times;536 optically centred at 512,512 with 187px side margins, and the mark still names itself at 16px after the crosshair detail has gone. Deduction is #3: taking C2's glass-overlay material brings back some of the stacked-documents read that the single-plate version had removed, held off only by the mark breaking the lower-right corner. Layers #bg/#mid/#fg/#highlight intact.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 &middot; icon-c2.png<small>GPT Image 2 raster, corpus-referenced; material winner</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">The best material of the set by a distance: genuinely poured frosted glass, a rear slab glowing through the front one, real ground bounce in the white. It fails #1 twice over, baking both a corner radius and a drop shadow into the raster, which is why re-masking it leaves a halo. #10 fails by construction, since a flat raster has no layers to survive tinting. #3 is the design miss: two same-size offset slabs read as duplicate documents, not as one surface being checked. Its material was rebuilt into A rather than shipped, per the pipeline rule.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 &middot; icon-c1.png<small>GPT Image 2 raster, three-column variant</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Strongest figure-ground in the set, deep slate on near-white, and the three-column interior is the most legible layout of any take. Loses the same #1 and #10 as C2, the same stacked-cards #3, and additionally #11: every column sits true, so nothing in the artwork names what this skill actually does. A target on a tidy layout is a category glyph. The columns being wrong is the whole subject, and that is the lesson A took from it.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">The miss of the set. It baked its own rounded-corner tile and border, so under the system squircle it shows a second edge (#1 fail). The slabs grew header tabs and read as stacked folders (#3 fail). Composition sits high, leaving a bottom margin roughly twice the top (#2), the flat fills belong to a previous era (#9), and nothing in it is owned (#11). Salvaged into the master: nothing beyond confirming that same-size offset slabs read as a file stack, which pushed A toward one plate with its drift held inside. Kept on the sheet because a variation set that hides its losers is not an audit.</td>
+  </tr>
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is Icon-Composer-ready as four real layers, clean on the non-negotiable checks 1&ndash;4 against masked small renders rather than against the 1024 artwork, and the only one whose artwork states the subject: a column off its shared rail, with the mark set on the break. C2 won the material comparison and that material has now been rebuilt into A as real layers, so the two read as one family. Known liabilities to revisit: two offset slabs carry some duplicate-documents read, and only the mark breaking the lower-right corner keeps the silhouette from being a plain stack; the frost slab sits close in value to the porcelain along its lower left, so at 16px the surface becomes a soft mass and the mark carries the identity alone; the ring-and-crosshair detail inside the disc is fully lost by 16px, leaving a circled mark rather than a registration mark; and the light Tinted variant is the weakest of the four, since flattening the vermilion to a system tint costs the one hue that separates instrument from surface.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Every take, raster and vector alike, was clipped to a superellipse squircle before rendering, so takes that baked their own mask are judged on what the system would actually show. Render commands: `rsvg-convert -w {1024,256,64,32}` after squircle clipping.</div>
+</body>
+</html>

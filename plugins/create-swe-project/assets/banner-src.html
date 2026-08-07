@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Banner for create-swe-project. Subject-mined from the same world as the icon:
+     porcelain daylight yard, the way running out of the icon and on across the field,
+     entering water at the lower right. Archivo is the face because it is a signage
+     grotesque, and a slipway is signage-scale industrial infrastructure. */
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(120% 160% at 26% 22%, #F8FBFD 0%, #E9F1F6 42%, #D5E1EA 76%, #C6D5E1 100%);
+         font-family: Archivo, sans-serif; }
+  svg.yard { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 112px; top: 0; height: 448px;
+            display: flex; align-items: center; gap: 74px; }
+  .icon { width: 320px; height: 320px; filter: drop-shadow(0 26px 54px rgba(28,54,72,.32)); }
+  .eyebrow { font-size: 20px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase;
+             color: #47606F; margin-bottom: 20px; }
+  .wordmark { font-size: 104px; font-weight: 700; letter-spacing: -.028em; line-height: 1; color: #14222C; }
+  .rule { width: 178px; height: 7px; border-radius: 4px; margin: 27px 0 22px;
+          background: linear-gradient(90deg, #FFC24F 0%, #F79A2C 46%, #C4600C 100%); }
+  .tagline { font-size: 32px; font-weight: 400; color: #3E5866; }
+  .tagline b { font-weight: 500; color: #23394A; }
+</style>
+</head>
+<body>
+  <svg class="yard" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wayFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F7FA"/><stop offset="1" stop-color="#CDD9E2"/></linearGradient>
+      <linearGradient id="wet" x1="0" y1="448" x2="0" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#8FB2C8" stop-opacity=".62"/><stop offset="1" stop-color="#48738F" stop-opacity=".88"/>
+      </linearGradient>
+    </defs>
+
+    <!-- the way: the icon's own slipway, continuing out across the yard and on under the water -->
+    <g transform="rotate(11 0 358)">
+      <rect x="-60" y="358" width="1780" height="54" fill="url(#wayFace)"/>
+      <rect x="-60" y="358" width="1780" height="9" fill="#F7FAFC"/>
+      <g fill="#75899A" opacity=".5">
+        <rect x="40" y="369" width="26" height="43" rx="4"/><rect x="190" y="369" width="26" height="43" rx="4"/>
+        <rect x="340" y="369" width="26" height="43" rx="4"/><rect x="490" y="369" width="26" height="43" rx="4"/>
+        <rect x="640" y="369" width="26" height="43" rx="4"/><rect x="790" y="369" width="26" height="43" rx="4"/>
+        <rect x="940" y="369" width="26" height="43" rx="4"/><rect x="1090" y="369" width="26" height="43" rx="4"/>
+        <rect x="1240" y="369" width="26" height="43" rx="4"/><rect x="1390" y="369" width="26" height="43" rx="4"/>
+      </g>
+    </g>
+
+    <!-- first water: the way runs on beneath the surface, hue-shifted cool -->
+    <path d="M0 456 C220 454 470 452 660 450 C790 448 872 442 946 432 C1004 424 1064 424 1122 434 C1268 458 1440 462 1600 458 L1600 520 L0 520 Z" fill="url(#wet)"/>
+    <path d="M0 456 C220 454 470 452 660 450 C790 448 872 442 946 432 C1004 424 1064 424 1122 434 C1268 458 1440 462 1600 458" fill="none" stroke="#EAF3F8" stroke-opacity=".85" stroke-width="3"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.svg" alt="">
+    <div class="words">
+      <div class="eyebrow">formerly slipway</div>
+      <div class="wordmark">create-swe-project</div>
+      <div class="rule"></div>
+      <div class="tagline">You describe the idea; <b>a tested script builds the project.</b></div>
+    </div>
+  </div>
+</body>
+</html>

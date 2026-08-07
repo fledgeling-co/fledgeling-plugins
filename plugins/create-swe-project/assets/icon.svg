@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>create-swe-project</title>
+<!-- Direction "First Water" - Tahoe gel-glass porcelain register (a) x Tahoe-softened Object Tile.
+     Full-bleed 1024 artwork; the squircle is a CLIP only, never baked corners or shadow.
+     Four layers map 1:1 onto Icon Composer: #bg / #mid / #fg / #highlight. -->
+<defs>
+  <clipPath id="squircle"><path d="M1024.0 512.0L1023.9 640.3L1023.6 681.2L1023.1 710.9L1022.4 735.1L1021.5 755.8L1020.4 774.0L1019.0 790.5L1017.5 805.4L1015.8 819.3L1013.8 832.1L1011.7 844.1L1009.3 855.3L1006.7 865.9L1003.9 875.9L1000.9 885.3L997.7 894.3L994.2 902.8L990.5 910.9L986.6 918.6L982.4 926.0L978.0 932.9L973.3 939.6L968.4 945.9L963.2 952.0L957.7 957.7L952.0 963.2L945.9 968.4L939.6 973.3L932.9 978.0L926.0 982.4L918.6 986.6L910.9 990.5L902.8 994.2L894.3 997.7L885.3 1000.9L875.9 1003.9L865.9 1006.7L855.3 1009.3L844.1 1011.7L832.1 1013.8L819.3 1015.8L805.4 1017.5L790.5 1019.0L774.0 1020.4L755.8 1021.5L735.1 1022.4L710.9 1023.1L681.2 1023.6L640.3 1023.9L512.0 1024.0L383.7 1023.9L342.8 1023.6L313.1 1023.1L288.9 1022.4L268.2 1021.5L250.0 1020.4L233.5 1019.0L218.6 1017.5L204.7 1015.8L191.9 1013.8L179.9 1011.7L168.7 1009.3L158.1 1006.7L148.1 1003.9L138.7 1000.9L129.7 997.7L121.2 994.2L113.1 990.5L105.4 986.6L98.0 982.4L91.1 978.0L84.4 973.3L78.1 968.4L72.0 963.2L66.3 957.7L60.8 952.0L55.6 945.9L50.7 939.6L46.0 932.9L41.6 926.0L37.4 918.6L33.5 910.9L29.8 902.8L26.3 894.3L23.1 885.3L20.1 875.9L17.3 865.9L14.7 855.3L12.3 844.1L10.2 832.1L8.2 819.3L6.5 805.4L5.0 790.5L3.6 774.0L2.5 755.8L1.6 735.1L0.9 710.9L0.4 681.2L0.1 640.3L0.0 512.0L0.1 383.7L0.4 342.8L0.9 313.1L1.6 288.9L2.5 268.2L3.6 250.0L5.0 233.5L6.5 218.6L8.2 204.7L10.2 191.9L12.3 179.9L14.7 168.7L17.3 158.1L20.1 148.1L23.1 138.7L26.3 129.7L29.8 121.2L33.5 113.1L37.4 105.4L41.6 98.0L46.0 91.1L50.7 84.4L55.6 78.1L60.8 72.0L66.3 66.3L72.0 60.8L78.1 55.6L84.4 50.7L91.1 46.0L98.0 41.6L105.4 37.4L113.1 33.5L121.2 29.8L129.7 26.3L138.7 23.1L148.1 20.1L158.1 17.3L168.7 14.7L179.9 12.3L191.9 10.2L204.7 8.2L218.6 6.5L233.5 5.0L250.0 3.6L268.2 2.5L288.9 1.6L313.1 0.9L342.8 0.4L383.7 0.1L512.0 0.0L640.3 0.1L681.2 0.4L710.9 0.9L735.1 1.6L755.8 2.5L774.0 3.6L790.5 5.0L805.4 6.5L819.3 8.2L832.1 10.2L844.1 12.3L855.3 14.7L865.9 17.3L875.9 20.1L885.3 23.1L894.3 26.3L902.8 29.8L910.9 33.5L918.6 37.4L926.0 41.6L932.9 46.0L939.6 50.7L945.9 55.6L952.0 60.8L957.7 66.3L963.2 72.0L968.4 78.1L973.3 84.4L978.0 91.1L982.4 98.0L986.6 105.4L990.5 113.1L994.2 121.2L997.7 129.7L1000.9 138.7L1003.9 148.1L1006.7 158.1L1009.3 168.7L1011.7 179.9L1013.8 191.9L1015.8 204.7L1017.5 218.6L1019.0 233.5L1020.4 250.0L1021.5 268.2L1022.4 288.9L1023.1 313.1L1023.6 342.8L1023.9 383.7Z"/></clipPath>
+
+  <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FEFEFF"/><stop offset=".5" stop-color="#F7FAFC"/><stop offset="1" stop-color="#EBF1F6"/>
+  </linearGradient>
+  <radialGradient id="tileLift" cx="356" cy="234" r="700" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity=".96"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vignette" cx="512" cy="430" r="700" gradientUnits="userSpaceOnUse">
+    <stop offset=".5" stop-color="#7E93A3" stop-opacity="0"/><stop offset="1" stop-color="#6A8494" stop-opacity=".2"/>
+  </radialGradient>
+
+  <linearGradient id="wayG" x1="0" y1="493" x2="0" y2="587" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#E9EFF3"/><stop offset=".18" stop-color="#CBD7DF"/><stop offset="1" stop-color="#8D9DAB"/>
+  </linearGradient>
+
+  <linearGradient id="waterField" x1="0" y1="604" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#CFE1EB"/><stop offset=".4" stop-color="#A8C7D9"/><stop offset="1" stop-color="#7BA5BE"/>
+  </linearGradient>
+  <linearGradient id="waterVeil" x1="0" y1="604" x2="0" y2="920" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#C6DCE8" stop-opacity=".28"/><stop offset=".5" stop-color="#9EC1D5" stop-opacity=".5"/><stop offset="1" stop-color="#7BA5BE" stop-opacity=".7"/>
+  </linearGradient>
+
+  <linearGradient id="hullG" x1="-170" y1="-104" x2="150" y2="146" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FFDD79"/><stop offset=".18" stop-color="#FFC64C"/>
+    <stop offset=".46" stop-color="#F9A62E"/><stop offset=".74" stop-color="#ED8213"/><stop offset="1" stop-color="#C25E0B"/>
+  </linearGradient>
+
+  <filter id="soft" x="-45%" y="-45%" width="190%" height="190%"><feGaussianBlur stdDeviation="16"/></filter>
+  <filter id="foamB" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+
+  <!-- hull: short steep bow entry, full depth held through the body, quarter rounding to a transom -->
+  <path id="hull" d="M-400 -100 C-386 -52 -368 -6 -336 34 C-260 96 -60 140 170 142 C300 143 372 120 396 60 L400 -84 C160 -94 -160 -99 -400 -100 Z"/>
+  <path id="water" d="M0 660 C170 658 350 654 500 652 C580 650 640 644 700 626 C746 613 800 606 850 618 C904 631 954 654 1024 652 L1024 1024 L0 1024 Z"/>
+</defs>
+
+<g clip-path="url(#squircle)">
+
+  <g id="bg">
+    <rect width="1024" height="1024" fill="url(#tile)"/>
+    <rect width="1024" height="1024" fill="url(#tileLift)" opacity=".5"/>
+    <rect width="1024" height="1024" fill="url(#vignette)"/>
+    <path d="M1024.0 512.0L1023.9 640.3L1023.6 681.2L1023.1 710.9L1022.4 735.1L1021.5 755.8L1020.4 774.0L1019.0 790.5L1017.5 805.4L1015.8 819.3L1013.8 832.1L1011.7 844.1L1009.3 855.3L1006.7 865.9L1003.9 875.9L1000.9 885.3L997.7 894.3L994.2 902.8L990.5 910.9L986.6 918.6L982.4 926.0L978.0 932.9L973.3 939.6L968.4 945.9L963.2 952.0L957.7 957.7L952.0 963.2L945.9 968.4L939.6 973.3L932.9 978.0L926.0 982.4L918.6 986.6L910.9 990.5L902.8 994.2L894.3 997.7L885.3 1000.9L875.9 1003.9L865.9 1006.7L855.3 1009.3L844.1 1011.7L832.1 1013.8L819.3 1015.8L805.4 1017.5L790.5 1019.0L774.0 1020.4L755.8 1021.5L735.1 1022.4L710.9 1023.1L681.2 1023.6L640.3 1023.9L512.0 1024.0L383.7 1023.9L342.8 1023.6L313.1 1023.1L288.9 1022.4L268.2 1021.5L250.0 1020.4L233.5 1019.0L218.6 1017.5L204.7 1015.8L191.9 1013.8L179.9 1011.7L168.7 1009.3L158.1 1006.7L148.1 1003.9L138.7 1000.9L129.7 997.7L121.2 994.2L113.1 990.5L105.4 986.6L98.0 982.4L91.1 978.0L84.4 973.3L78.1 968.4L72.0 963.2L66.3 957.7L60.8 952.0L55.6 945.9L50.7 939.6L46.0 932.9L41.6 926.0L37.4 918.6L33.5 910.9L29.8 902.8L26.3 894.3L23.1 885.3L20.1 875.9L17.3 865.9L14.7 855.3L12.3 844.1L10.2 832.1L8.2 819.3L6.5 805.4L5.0 790.5L3.6 774.0L2.5 755.8L1.6 735.1L0.9 710.9L0.4 681.2L0.1 640.3L0.0 512.0L0.1 383.7L0.4 342.8L0.9 313.1L1.6 288.9L2.5 268.2L3.6 250.0L5.0 233.5L6.5 218.6L8.2 204.7L10.2 191.9L12.3 179.9L14.7 168.7L17.3 158.1L20.1 148.1L23.1 138.7L26.3 129.7L29.8 121.2L33.5 113.1L37.4 105.4L41.6 98.0L46.0 91.1L50.7 84.4L55.6 78.1L60.8 72.0L66.3 66.3L72.0 60.8L78.1 55.6L84.4 50.7L91.1 46.0L98.0 41.6L105.4 37.4L113.1 33.5L121.2 29.8L129.7 26.3L138.7 23.1L148.1 20.1L158.1 17.3L168.7 14.7L179.9 12.3L191.9 10.2L204.7 8.2L218.6 6.5L233.5 5.0L250.0 3.6L268.2 2.5L288.9 1.6L313.1 0.9L342.8 0.4L383.7 0.1L512.0 0.0L640.3 0.1L681.2 0.4L710.9 0.9L735.1 1.6L755.8 2.5L774.0 3.6L790.5 5.0L805.4 6.5L819.3 8.2L832.1 10.2L844.1 12.3L855.3 14.7L865.9 17.3L875.9 20.1L885.3 23.1L894.3 26.3L902.8 29.8L910.9 33.5L918.6 37.4L926.0 41.6L932.9 46.0L939.6 50.7L945.9 55.6L952.0 60.8L957.7 66.3L963.2 72.0L968.4 78.1L973.3 84.4L978.0 91.1L982.4 98.0L986.6 105.4L990.5 113.1L994.2 121.2L997.7 129.7L1000.9 138.7L1003.9 148.1L1006.7 158.1L1009.3 168.7L1011.7 179.9L1013.8 191.9L1015.8 204.7L1017.5 218.6L1019.0 233.5L1020.4 250.0L1021.5 268.2L1022.4 288.9L1023.1 313.1L1023.6 342.8L1023.9 383.7Z" fill="none" stroke="#FFFFFF" stroke-opacity=".9" stroke-width="8"/>
+  </g>
+
+  <g id="mid">
+    <!-- the way: one inclined baulk with regular sleepers, running on down under the water -->
+    <g transform="rotate(21 0 493)">
+      <rect x="-180" y="493" width="1660" height="94" fill="url(#wayG)"/>
+      <rect x="-180" y="493" width="1660" height="12" fill="#F6F9FB" opacity=".9"/>
+      <g fill="#66798A" opacity=".44">
+        <rect x="-90" y="509" width="36" height="78" rx="6"/><rect x="60" y="509" width="36" height="78" rx="6"/>
+        <rect x="210" y="509" width="36" height="78" rx="6"/><rect x="360" y="509" width="36" height="78" rx="6"/>
+        <rect x="510" y="509" width="36" height="78" rx="6"/><rect x="660" y="509" width="36" height="78" rx="6"/>
+        <rect x="810" y="509" width="36" height="78" rx="6"/><rect x="960" y="509" width="36" height="78" rx="6"/>
+        <rect x="1110" y="509" width="36" height="78" rx="6"/><rect x="1260" y="509" width="36" height="78" rx="6"/>
+      </g>
+    </g>
+    <g transform="translate(473,496) rotate(24) scale(1.05)"><ellipse cx="-60" cy="130" rx="320" ry="34" fill="#3E607A" opacity=".2" filter="url(#soft)"/></g>
+    <use href="#water" fill="url(#waterField)" opacity=".76"/>
+  </g>
+
+  <g id="fg">
+    <g transform="translate(473,496) rotate(24) scale(1.05)">
+      <use href="#hull" fill="url(#hullG)"/>
+      <path d="M-360 -76 C-140 -70 160 -64 392 -58 L393 -36 C158 -42 -140 -48 -352 -56 Z" fill="#B4560A" opacity=".26"/>
+      <path d="M-296 22 C-140 92 120 128 372 96 L374 122 C118 156 -160 118 -288 48 Z" fill="#8E3F05" opacity=".32"/>
+      <use href="#hull" fill="none" stroke="#A34C08" stroke-opacity=".58" stroke-width="7" stroke-linejoin="round"/>
+    </g>
+    <!-- signature: hull and way both run on under the surface, hue visibly blending where they cross -->
+    <use href="#water" fill="url(#waterVeil)"/>
+  </g>
+
+  <g id="highlight">
+    <g transform="translate(473,496) rotate(24) scale(1.05)">
+      <path d="M-392 -94 C-160 -88 158 -82 396 -78" fill="none" stroke="#FFFAEC" stroke-opacity=".9" stroke-width="9" stroke-linecap="round"/>
+      <path d="M-394 -92 C-380 -50 -364 -12 -340 24" fill="none" stroke="#FFEFC8" stroke-opacity=".62" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <path d="M0 660 C170 658 350 654 500 652 C580 650 640 644 700 626 C746 613 800 606 850 618 C904 631 954 654 1024 652" fill="none" stroke="#F2F9FC" stroke-opacity=".65" stroke-width="4"/>
+    <g fill="#FFFFFF" filter="url(#foamB)">
+      <path d="M556 656 C624 652 666 640 712 624 C758 610 812 606 856 620 C890 630 896 644 876 648 C828 658 778 644 730 654 C676 665 600 670 560 666 Z" opacity=".85"/>
+      <ellipse cx="928" cy="648" rx="34" ry="9" opacity=".48"/>
+      <ellipse cx="450" cy="658" rx="26" ry="7" opacity=".34"/>
+    </g>
+    <ellipse cx="296" cy="196" rx="330" ry="198" fill="#FFFFFF" opacity=".13" filter="url(#soft)"/>
+  </g>
+
+</g>
+</svg>
