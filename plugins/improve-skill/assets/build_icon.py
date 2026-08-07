@@ -12,6 +12,13 @@ The ground contact of that front face IS the local y=0 line, which IS the before
 boundary, which IS the vermilion hone. One line still does three jobs; it now also
 does a fourth, being where the object meets the ground.
 
+PITCH (round 5). Round 4 lifted the top face by ONE constant rise, so the block sat
+dead level - a bar lying on the boards, not an iron taking a cut. The lift is now
+LINEAR in local x: shallow where the iron is buried in the timber, deep at the
+trailing end, so the front face is a wedge and the block rides nose-down the way C2's
+does. Because that stays affine, the lifted top face is still ONE matrix (MATRIX_TOP,
+a shear of the blade frame) and every texture and gradient rides it unchanged.
+
 Polarity is the fix the raster never made: the trued side must measure BRIGHTER than
 the un-planed side. Verified by measure.py on every render, not eyeballed.
 
@@ -22,8 +29,9 @@ still to come, and the one vermilion hone line IS the boundary between them.
 Geometry is authored in the blade's own local frame (local x runs along the cutting
 edge, local y runs away from the cut into the un-planed region) and mapped onto the
 1024 canvas by a single matrix, so the grain, the split and the blade cannot drift
-out of register with each other. The extrusion is a pure screen-vertical sweep of
-that frame, so the solid cannot drift out of register either.
+out of register with each other. The extrusion is a screen-vertical sweep of that
+frame - sheared along the blade's length for the pitch - so the solid cannot drift
+out of register either.
 
 Layers map 1:1 onto Icon Composer: #bg / #mid / #fg / #highlight.
 """
@@ -46,19 +54,53 @@ NX, NY = -math.sin(ANGLE), -math.cos(ANGLE)   # away from the cut, into the roug
 
 BLADE_LEN = 640.0
 BLADE_THICK = 152.0                           # depth of the top face
-RISE = 88.0                                   # extrusion height: screen-vertical
 EDGE_MID = (543.0, 604.0)                     # midpoint of the cutting edge, on the canvas
 AX = EDGE_MID[0] - UX * BLADE_LEN / 2
 AY = EDGE_MID[1] - UY * BLADE_LEN / 2         # local origin: cutting edge, leading end
 
 MATRIX = f"matrix({UX:.5f},{UY:.5f},{NX:.5f},{NY:.5f},{AX:.3f},{AY:.3f})"
 
-# a screen-vertical rise of RISE, expressed in the local frame
-RISE_LY = RISE * math.cos(ANGLE)
+# ---------------------------------------------------------------- pitch
+# ROUND 5. The block used to be lifted by ONE constant rise, so its top face was a
+# parallel copy of its footprint and the front face was a band of even height: a bar
+# lying flat on the boards. Nothing about it said "mid-cut". C2's block is PITCHED -
+# it rides nose-down on the leading end, so the front face is a WEDGE that pinches
+# almost shut where the iron is buried in the timber and opens out at the trailing
+# end. Measured off C2: its ground/hone line runs 38.9 deg, its top-face shoulder
+# runs 41.9 deg (+3.0 deg), and the front face goes 55px deep at the near end to
+# 90px at the far end.
+#
+# The lift is therefore LINEAR IN LOCAL x rather than constant. That keeps the whole
+# thing affine, so the lifted top face is still ONE matrix - a SHEAR of the blade's
+# own frame - and the texture, the gradients and the grind marks ride it without a
+# second transform. The footprint, the cutting edge and the before/after boundary all
+# sit at local y = 0 and are untouched by the shear, so the signature cannot drift.
+RISE_NEAR = 48.0                              # lift at the leading end (local x = 0)
+RISE_FAR = 132.0                              # lift at the trailing end (local x = LEN)
+RISE = (RISE_NEAR + RISE_FAR) / 2             # the mean, for anything that needs one
+K_RISE = (RISE_FAR - RISE_NEAR) / BLADE_LEN   # shear rate: extra lift per unit local x
+
+# The top face's frame: the blade frame with a screen-vertical shear applied. A point
+# at local (lx, ly) lands rise(lx) above where the footprint puts it.
+MATRIX_TOP = (f"matrix({UX:.5f},{UY - K_RISE:.5f},{NX:.5f},{NY:.5f},"
+              f"{AX:.3f},{AY - RISE_NEAR:.3f})")
+
+# the deepest the front face ever gets, expressed in the local frame
+RISE_LY = RISE_FAR * math.cos(ANGLE)
+
+
+def rise_at(lx):
+    return RISE_NEAR + K_RISE * lx
 
 
 def to_canvas(lx, ly):
     return (AX + UX * lx + NX * ly, AY + UY * lx + NY * ly)
+
+
+def to_top(lx, ly):
+    """The same point, on the lifted top face."""
+    x, y = to_canvas(lx, ly)
+    return (x, y - rise_at(lx))
 
 
 def to_local(px, py):
@@ -137,8 +179,8 @@ def open_poly(pts):
 
 
 OUTLINE_L = blade_outline()
-# the top face, lifted off the ground by the extrusion height
-TOP = [(cx, cy - RISE) for cx, cy in (to_canvas(x, y) for x, y in OUTLINE_L)]
+# the top face, lifted off the ground by the pitched rise
+TOP = [to_top(x, y) for x, y in OUTLINE_L]
 # the footprint: where the solid actually meets the ground
 FOOT = [to_canvas(x, y) for x, y in OUTLINE_L]
 
@@ -148,26 +190,33 @@ i_max = max(range(N), key=lambda i: TOP[i][0])
 
 
 def _walk(a, b):
-    out, i = [TOP[a]], a
+    out, i = [a], a
     while i != b:
         i = (i + 1) % N
-        out.append(TOP[i])
+        out.append(i)
     return out
 
 
 _fwd = _walk(i_min, i_max)          # i_min -> i_max one way round
 _bwd = _walk(i_max, i_min)          # i_max -> i_min the other way
-if sum(p[1] for p in _fwd) / len(_fwd) > sum(p[1] for p in _bwd) / len(_bwd):
-    CHAIN_LOWER, CHAIN_UPPER = _fwd, _bwd            # lower runs i_min -> i_max
+if (sum(TOP[i][1] for i in _fwd) / len(_fwd)
+        > sum(TOP[i][1] for i in _bwd) / len(_bwd)):
+    IDX_LOWER, IDX_UPPER = _fwd, _bwd                # lower runs i_min -> i_max
 else:
-    CHAIN_LOWER, CHAIN_UPPER = _bwd[::-1], _fwd[::-1]
+    IDX_LOWER, IDX_UPPER = _bwd[::-1], _fwd[::-1]
 
-# the front face: the lower silhouette chain swept straight down to the ground
-FRONT_FACE = CHAIN_LOWER + [(x, y + RISE) for x, y in reversed(CHAIN_LOWER)]
+CHAIN_LOWER = [TOP[i] for i in IDX_LOWER]
+CHAIN_UPPER = [TOP[i] for i in IDX_UPPER]
+FOOT_LOWER = [FOOT[i] for i in IDX_LOWER]
+
+# the front face: the lower silhouette chain dropped to its own footprint. Because the
+# drop is rise(lx) rather than one constant, this face is a wedge - shallow where the
+# iron is buried, deep at the trailing end.
+FRONT_FACE = CHAIN_LOWER + FOOT_LOWER[::-1]
 # the whole solid, for the cast shadow
-SILHOUETTE = CHAIN_UPPER[::-1] + [(x, y + RISE) for x, y in reversed(CHAIN_LOWER)]
+SILHOUETTE = CHAIN_UPPER[::-1] + FOOT_LOWER[::-1]
 # the ground contact line, which is also the before/after boundary
-CONTACT = [(x, y + RISE) for x, y in CHAIN_LOWER]
+CONTACT = FOOT_LOWER
 
 
 # ---------------------------------------------------------------- ground texture
@@ -280,7 +329,12 @@ CURL_TURNS  = 0.78                  # PARTIALLY unrolled, which is the whole poi
                                     # complete far ellipse is ever drawn and the tail runs
                                     # up through the gap the way C2's does.
 CURL_PHI0   = math.radians(-24.0)   # entry, on the roll's right flank
-CURL_BASE   = (446.0, 424.0)        # leaves the blade's top rear edge, base covered by it
+CURL_BASE_L = (289.0, 130.0)        # where it leaves the blade, in the BLADE's own frame,
+                                    # just inside the worn back edge. Held in local coords
+                                    # so the pitch carries it: when the top face shears,
+                                    # the tail's exit point rides with it instead of
+                                    # floating off the metal.
+CURL_BASE   = to_top(*CURL_BASE_L)
 CURL_SWEEP  = 106.0                 # ribbon width, along the blade axis. Wide against the
                                     # radius (1.7:1) because C2's runs 2.2:1 - that ratio is
                                     # what makes a roll read as a fat cylinder and not a hoop
@@ -476,6 +530,14 @@ ROUGH_GRAIN, TRUE_GRAIN = grain()
 ROUGH_MOTTLE, TRUE_MOTTLE = mottle()
 STONE = stone()
 
+
+def _fo(d):
+    """A front-face gradient stop offset, from its true distance d (local units) above
+    the cutting edge. Keeps the hone's falloff fixed in real distance however deep the
+    wedge is cut."""
+    return 1.0 - d / RISE_LY
+
+
 # ---------------------------------------------------------------- document
 SHAVING_GRAD = (f"""  <filter id="curlShadow" x="-40%" y="-40%" width="180%" height="180%">
     <feGaussianBlur stdDeviation="20"/>
@@ -549,7 +611,7 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   <!-- top face of the iron: facing the soft top-left light. Warm-leaning graphite,
        not blue steel - the raster take's stone read is what this is chasing. -->
   <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="{BLADE_THICK}" gradientUnits="userSpaceOnUse"
-                  gradientTransform="{MATRIX}">
+                  gradientTransform="{MATRIX_TOP}">
     <stop offset="0" stop-color="#2E3238"/>
     <stop offset="0.34" stop-color="#41464C"/>
     <stop offset="0.78" stop-color="#525860"/>
@@ -562,13 +624,17 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <stop offset="1" stop-color="#CBD5E2" stop-opacity="0"/>
   </radialGradient>
 
-  <!-- front face: in shadow at the top, lit from below by the hone itself -->
+  <!-- front face: in shadow at the top, lit from below by the hone itself. Anchored at
+       local y=0 (the cutting edge) and running back to the DEEPEST the wedge ever gets,
+       with every stop placed by its true distance from the edge - so light falls off
+       with distance from the hone, and the pinched near end stays as dark as the deep
+       trailing end at the same height above the timber. -->
   <linearGradient id="frontFace" x1="0" y1="{RISE_LY:.2f}" x2="0" y2="0" gradientUnits="userSpaceOnUse"
                   gradientTransform="{MATRIX}">
     <stop offset="0" stop-color="#181B20"/>
-    <stop offset="0.42" stop-color="#1E2026"/>
-    <stop offset="0.74" stop-color="#3A2521"/>
-    <stop offset="0.92" stop-color="#8A3418"/>
+    <stop offset="{_fo(42.80):.4f}" stop-color="#1E2026"/>
+    <stop offset="{_fo(19.19):.4f}" stop-color="#3A2521"/>
+    <stop offset="{_fo(5.90):.4f}" stop-color="#8A3418"/>
     <stop offset="1" stop-color="#C2431C"/>
   </linearGradient>
 
@@ -680,16 +746,14 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
          face lifted clear of it. The silhouette is one chunky block at every size. -->
     <path d="{poly(FRONT_FACE)}" fill="url(#frontFace)"/>
     <path d="{poly(TOP)}" fill="url(#topFace)"/>
-    <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="translate(0,{-RISE})"><g transform="{MATRIX}">
+    <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="{MATRIX_TOP}">
         {STONE}
-    </g></g></g></g>
+    </g></g></g>
     <path d="{poly(TOP)}" fill="url(#topSheen)"/>
     <!-- wear on the back: two faint grind striations, on the top face -->
-    <g transform="translate(0,{-RISE})" fill="none">
-      <g transform="{MATRIX}">
-        <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#8A93A3" stroke-opacity="0.16" stroke-width="3"/>
-        <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#8A93A3" stroke-opacity="0.09" stroke-width="2"/>
-      </g>
+    <g transform="{MATRIX_TOP}" fill="none">
+      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#8A93A3" stroke-opacity="0.16" stroke-width="3"/>
+      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#8A93A3" stroke-opacity="0.09" stroke-width="2"/>
     </g>
   </g>
 
@@ -698,11 +762,9 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <path d="{open_poly(CHAIN_LOWER)}" stroke="#848E9C" stroke-opacity="0.56" stroke-width="4.4"
           stroke-linecap="round"/>
     <!-- rim light along the worn back, from the same top-left source -->
-    <g transform="translate(0,{-RISE})">
-      <path d="M 46 {BLADE_THICK - 2:.0f} C {BLADE_LEN * 0.34:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN * 0.66:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN - 36:.0f} {BLADE_THICK - 2:.0f}"
-            transform="{MATRIX}" stroke="#B6C0CE" stroke-opacity="0.64" stroke-width="5"
-            stroke-linecap="round"/>
-    </g>
+    <path d="M 46 {BLADE_THICK - 2:.0f} C {BLADE_LEN * 0.34:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN * 0.66:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN - 36:.0f} {BLADE_THICK - 2:.0f}"
+          transform="{MATRIX_TOP}" stroke="#B6C0CE" stroke-opacity="0.64" stroke-width="5"
+          stroke-linecap="round"/>
     <!-- the vermilion hone line: the cutting edge, the before/after boundary, and the
          line where the solid meets the ground. One shape, four jobs. -->
     <path d="M 10 0 L {BLADE_LEN - 8:.0f} 0" transform="{MATRIX}" stroke="#FF8A50"
@@ -721,6 +783,11 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
 
 (ASSETS / "icon.svg").write_text(svg)
 print(f"wrote icon.svg  boundary (0,{B_LEFT:.0f}) -> ({W},{B_RIGHT:.0f})")
+_top_ang = math.degrees(math.atan2(-(UY - K_RISE), UX))
+print(f"pitch: front face {RISE_NEAR:.0f}px deep at the leading end -> {RISE_FAR:.0f}px at the"
+      f" trailing end ({RISE_FAR / RISE_NEAR:.2f}:1)")
+print(f"       hone line {math.degrees(ANGLE):.1f} deg, top-face edges {_top_ang:.1f} deg"
+      f"  (+{_top_ang - math.degrees(ANGLE):.1f} deg of pitch)")
 xs = [p[0] for p in SILHOUETTE]
 ys = [p[1] for p in SILHOUETTE]
 print(f"solid bbox x {min(xs):.0f}-{max(xs):.0f} ({max(xs)-min(xs):.0f}px = {(max(xs)-min(xs))/W*100:.1f}% of tile)")

@@ -1,0 +1,44 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-f5665d-2.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "round6-pitch",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1839,
+      "ssim": 0.6392,
+      "edge_f1": 0.0564,
+      "mask_iou": 0.9513,
+      "composite": 0.3623
+    },
+    "256": {
+      "lum_delta": 0.1827,
+      "ssim": 0.5393,
+      "edge_f1": 0.1583,
+      "mask_iou": 0.9541,
+      "composite": 0.3495
+    },
+    "128": {
+      "lum_delta": 0.1814,
+      "ssim": 0.4763,
+      "edge_f1": 0.2805,
+      "mask_iou": 0.9565,
+      "composite": 0.3567
+    },
+    "32": {
+      "lum_delta": 0.1769,
+      "ssim": 0.4925,
+      "edge_f1": 0.8018,
+      "mask_iou": 0.9688,
+      "composite": 0.6898
+    },
+    "16": {
+      "lum_delta": 0.171,
+      "ssim": 0.5315,
+      "edge_f1": 0.9518,
+      "mask_iou": 0.9844,
+      "composite": 0.7595
+    }
+  },
+  "render_hash": "a9af3ca18551302f"
+}
