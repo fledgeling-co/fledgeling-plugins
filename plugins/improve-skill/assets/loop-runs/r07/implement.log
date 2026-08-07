@@ -1,0 +1,19 @@
+**Gate: ACCEPT, +0.1334 net.**
+
+| size | before (r06) | after (r07) |
+|---:|---:|---:|
+| 1024 | 0.4228 | **0.4509** |
+| 256 | 0.4351 | **0.4671** |
+| 128 | 0.4680 | **0.5031** |
+| 32 | 0.7622 | **0.7837** |
+| 16 | 0.8129 | **0.8296** |
+
+`lum_delta` and SSIM both improve at all five sizes. `self_contrast` was spent as budgeted: 32px 0.645→0.623 (floor 0.607), 16px 0.631→0.608 (floor 0.593). Structure PASS, counts identical to r06 (2443 paths / 12 gradients / 11 filters). Polarity **improves, +0.143 → +0.175**.
+
+**What changed:** the two ground gradients, nothing else. The trued ground alone owned 0.0866 of the 0.1504 `lum_delta` — 58% of the error — but at 16/32px it also owns ~100% of p90, so a plain darkening is the r05 death. Measuring along the light axis u=(x+y)/√2 corrected a round-9 conclusion: C2's ground polarity is *not* inverted, that reading was a geometry confound; at matched u its trued plane is +0.076 brighter, where ours was +0.300. Two measurements then found the real fault — C2's rough plane hits an ambient floor by u≈560 where ours didn't until u≈820, and our brightest corner was still the one furthest from our own key. Both fields were rebuilt as knots on the key's own diagonal: rough on C2's measured falloff, trued on C2's trued profile × a finish gain g=1.34, fixed in advance as the smallest gain clearing the contrast floor by 1.5%.
+
+**Rubric:** the 16px read and vermilion footprint are unchanged; figure-ground against the un-planed field drops 3.73:1 → 3.04:1 (C2's own is 2.77:1). **The single-light ordering predicate is still violated** — bottom-left is brightest by 0.010, down from 0.057. Closing it needs a lower gain than the contrast floor funds.
+
+**Reusable construction: "one key, one axis; put both fields on it."**
+
+---STDERR---
