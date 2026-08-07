@@ -9,7 +9,8 @@
   body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
   .sub { color: #7fa0aa; margin-bottom: 32px; }
-  table { border-collapse: collapse; width: 100%; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
   th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
@@ -18,13 +19,14 @@
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
-  .renders figcaption { color: #5c7a84; font-size: 11px; margin-top: 4px; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
   .ship { color: #ffd98f; }
   .fail { color: #e0826a; }
   .verdict { max-width: 420px; color: #a9bec5; }
   .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
   .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
 </style>
 </head>
@@ -32,8 +34,9 @@
 <h1>Trawl icon — contact sheet &amp; audit</h1>
 <div class="sub">Direction "Deep Cast" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
 
-<table>
-  <tr><th>Take</th><th>Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th>Rubric</th><th>Verdict</th></tr>
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A-v2 · icon.svg<small>hand-authored layered SVG, C1 material rebuilt in — SHIPS</small></td>
@@ -94,7 +97,7 @@
     <td class="score fail">6 / 12</td>
     <td class="verdict">The miss of the set: silhouette reads as a cauldron (#3 fail), catch not held in the net, composition drifts off-centre, no full-bleed artwork. Nothing salvaged beyond the rim ellipse treatment. Kept for the record — a variation set that hides its losers isn't an audit.</td>
   </tr>
-</table>
+</table></div>
 
 <div class="rec"><strong>Recommendation: ship A-v2 (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready (layered SVG), rubric-clean on the non-negotiable checks 1–4 against real small renders, and carrying the material that won the raster comparison. The banner was regenerated with A-v2 as its style reference so both assets share one material language. Known liability to revisit in a future geometry pass: the 16px lamp-before-net beat.</div>
 
