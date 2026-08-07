@@ -53,37 +53,20 @@
        drifts WARM at the back edge (0.319,0.311,0.302 -> 0.378,0.354,0.332) where the
        timber bounces up into it. The LUMINANCE ramp below is unchanged to within 0.01
        at every stop - only the hue moves - so this isolates the cast from the modelling. -->
-  <!-- ROUND 9. The hue was right and the VALUE was not. Sampled as a cross-section
-       perpendicular to each block's own hone, at five stations along the length: the
-       front face matches C2 to within 0.05 over its whole body (depths 20-56px), and
-       the top face runs +0.05 to +0.14 too light at EVERY station (depths 72-190px).
-       Face means: ours 0.338, C2's 0.243. Its across-depth ramp was overdone too -
-       ours climbed +0.101 from hone edge to back edge where C2's climbs +0.068 - so
-       the face read as moulded plastic catching a broad sheen rather than as stone.
-       The stops below are the old ramp under L' = 0.245 + 0.70*(L - 0.338), which
-       lands the rendered face on 0.215 -> 0.283 across depth: C2's own two numbers.
-       The dark end is no longer near-neutral. C2's darkest 3% of top face is
-       (0.173,0.145,0.131), sat 0.240; ours was sat 0.110 - the face was desaturating
-       into shadow, which is the thing round 1 caught on the ground and this face had
-       kept doing. The offset-0 stop IS that measured colour, scaled to its own L. -->
   <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="204.0" gradientUnits="userSpaceOnUse"
                   gradientTransform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)">
-    <stop offset="0" stop-color="#2A2420"/>
-    <stop offset="0.34" stop-color="#39312E"/>
-    <stop offset="0.78" stop-color="#423D3A"/>
-    <stop offset="1" stop-color="#494542"/>
+    <stop offset="0" stop-color="#35352F"/>
+    <stop offset="0.34" stop-color="#494841"/>
+    <stop offset="0.78" stop-color="#5A584F"/>
+    <stop offset="1" stop-color="#66625A"/>
   </linearGradient>
 
   <!-- a soft sheen where the top-left light lands hardest on the top face. Was a cool
        #CBD5E2 at 0.25 and too tight: it swung the top face 1.63:1 ALONG its length,
        where C2's swings only 1.24:1 - a spotlight on a plane rather than stone. Warmer,
-       weaker and broader, so the face's volume comes from its across-depth ramp.
-       ROUND 9: 0.13 -> 0.06. Measured in the block's own frame the swing was still
-       1.35:1 against C2's 1.13:1, and on a face this dark the same opacity reads as a
-       bigger step than it did before. Nearly all of this face's modelling should be
-       the across-depth ramp; almost none of it should be a bright spot. -->
+       weaker and broader, so the face's volume comes from its across-depth ramp. -->
   <radialGradient id="topSheen" cx="0.32" cy="0.70" r="0.86">
-    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.06"/>
+    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.13"/>
     <stop offset="1" stop-color="#DED9CD" stop-opacity="0"/>
   </radialGradient>
 
@@ -2828,13 +2811,10 @@
         <ellipse cx="233" cy="164" rx="122" ry="55" fill="#9A968C" fill-opacity="0.107"/>
     </g></g></g>
     <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 719.88 156.82 L 714.81 150.12 L 709.41 145.13 L 703.68 141.84 L 697.62 140.26 L 691.23 140.38 L 684.51 142.20 L 677.46 145.73 L 670.08 150.96 L 647.75 170.50 L 625.10 190.14 L 602.16 209.85 L 578.96 229.60 L 555.54 249.37 L 531.94 269.12 L 508.20 288.83 L 484.33 308.47 L 460.40 328.01 L 436.41 347.41 L 412.43 366.66 L 388.47 385.73 L 364.57 404.58 L 340.78 423.18 L 317.12 441.52 L 293.63 459.55 L 270.35 477.25 L 247.31 494.60 L 224.55 511.56 L 202.10 528.10 L 193.45 535.99 L 186.79 544.12 L 182.11 552.48 L 179.43 561.07 L 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topSheen)"/>
-    <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
-         with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
-         than they did over 0.338, and the round's whole point is that this face is
-         quieter than we had it. Same rule for the sheen and the rim above and below. -->
+    <!-- wear on the back: two faint grind striations, on the top face -->
     <g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" fill="none">
-      <path d="M 78 122 L 542 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
-      <path d="M 128 100 L 488 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
+      <path d="M 78 122 L 542 122" stroke="#9A9285" stroke-opacity="0.16" stroke-width="3"/>
+      <path d="M 128 100 L 488 100" stroke="#9A9285" stroke-opacity="0.09" stroke-width="2"/>
     </g>
   </g>
 
@@ -2855,12 +2835,9 @@
           stroke-linecap="round"/>
     <!-- rim light along the worn back, from the same top-left source. Was #B6C0CE at
          0.64 - cool and hot. C2's back rim runs +15% to +34% over the face below it and
-         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. ROUND 9: 0.52
-         -> 0.30, because the face it sits on dropped to 0.281 at the back edge. C2's
-         top face peaks at 0.389 in its brightest 3%; ours peaked at 0.487. 0.30 is the
-         opacity that puts this rim on 0.389, so the peak is measured, not tuned. -->
+         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. -->
     <path d="M 46 202 C 218 194 422 194 604 202"
-          transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" stroke="#ABA294" stroke-opacity="0.30" stroke-width="5"
+          transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" stroke="#ABA294" stroke-opacity="0.52" stroke-width="5"
           stroke-linecap="round"/>
     <!-- the vermilion hone line: the cutting edge, the before/after boundary, and the
          line where the solid meets the ground. One shape, four jobs. Masked by honeFall

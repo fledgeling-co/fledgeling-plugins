@@ -357,22 +357,41 @@ def stone():
 #     polarity, figure-ground and the whole small-size read are made of - do not move.
 FIBRE_BF = (0.26, 0.038)      # across-grain / along-grain noise frequency, LOCAL frame.
                               # 1/0.26 ~ 4px fibres, 1/0.038 ~ 26px long: measured off C2
-FIBRE_SCALE = 0.80            # surfaceScale. Calibrated in rsvg-convert against C2's
-                              # sd 18.3 in its worst band; lands at 17.4 alone, ~18 once
-                              # the existing tear dashes are counted
+FIBRE_SCALE = 0.66            # surfaceScale, calibrated through rsvg-convert against the
+                              # per-band targets AMP_LAW gives at our own field levels:
+                              # 0.75 landed every band ~1.13x over, so 0.75/1.13
 FIBRE_ELEV = 42.0             # raking, because torn end-grain is what casts these
-PIT_BF = (0.55, 0.55)         # isotropic: pitting in cast stone has no direction
-PIT_SCALE = 0.50              # -> sd 4.2 against C2's 4.5 in the same patch
+PIT_BF = (0.28, 0.28)         # isotropic: pitting in cast stone has no direction. 1/0.28
+                              # ~ 3.6px, from C2's own autocorrelation on its top face
+                              # (first zero 4px across / 2px along). The 0.55 this was
+                              # authored at is a 1.8px feature and would alias at 1024.
+PIT_SCALE = 0.58              # the face already carries 6.38% once ROUND 8 darkened it,
+                              # against C2's 7.82%, so the deficit is only sqrt(7.82^2 -
+                              # 6.38^2) = 4.53%. At 1.00 this added 7.86%; 0.58 adds 4.6%.
 PIT_ELEV = 50.0
 
+# ROUND 6. C2's texture amplitude is governed by BRIGHTNESS, not by position: relief has
+# no contrast left to show once a surface is blown out. Measured in six bands across its
+# un-planed ground, as relative amplitude (high-passed sd over local mean, which is the
+# quantity a multiplicative modulation preserves between two images at different levels):
+AMP_LAW = ((0.549, 6.51), (0.565, 9.11), (0.609, 8.10),
+           (0.651, 4.57), (0.714, 3.07), (0.817, 1.11))
+# and our own field, in the same bands of the same frame: brightness, and what texture it
+# already carries. Ours runs BRIGHTER than C2's everywhere - deliberately, since the whole
+# icon inverts C2's ground polarity - so the law has to be evaluated at our levels rather
+# than C2's amplitudes copied across.
+FIELD = ((70, 0.627, 2.19), (170, 0.647, 2.44), (270, 0.681, 2.19),
+         (370, 0.709, 1.76), (470, 0.731, 2.09), (610, 0.768, 2.33))
 
-def relief_filter(fid, bf, scale, elev, azimuth, seed):
+
+def relief_filter(fid, bf, scale, elev, azimuth, seed, region):
     """One noise-relief modulation. feTurbulence is the height field, feDiffuseLighting
     lights it from the icon's key, and feComposite arithmetic multiplies that lighting
     back over the source with k1 = 1/sin(elevation) - the value a dead-flat surface
     returns - so flat areas come out exactly as drawn and only relief changes anything."""
     k1 = 1.0 / math.sin(math.radians(elev))
-    return f"""  <filter id="{fid}" x="-1200" y="-1200" width="3400" height="3400"
+    x0, y0, w, h = region
+    return f"""  <filter id="{fid}" x="{x0}" y="{y0}" width="{w}" height="{h}"
           filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
     <feTurbulence type="fractalNoise" baseFrequency="{bf[0]} {bf[1]}" numOctaves="3"
                   seed="{seed}" result="height"/>
@@ -386,24 +405,49 @@ def relief_filter(fid, bf, scale, elev, azimuth, seed):
 """
 
 
+def _interp(table, v):
+    xs = [t[0] for t in table]
+    ys = [t[1] for t in table]
+    if v <= xs[0]:
+        return ys[0]
+    for i in range(1, len(xs)):
+        if v <= xs[i]:
+            t = (v - xs[i - 1]) / (xs[i] - xs[i - 1])
+            return ys[i - 1] + t * (ys[i] - ys[i - 1])
+    return ys[-1]
+
+
 def fibre_ramp_stops():
-    """The fibre's amplitude along local y, as mask stops. Two things are encoded and
-    both were measured off C2 rather than chosen: the STEP at the cut, and the fade
-    toward the key. Reading C2 in the master's own frame, its texture runs sd 12.6 just
-    above the cut, peaks at 18.3 about 285 local units out, and collapses to 5.6 by 513
-    - the corner nearest its key light, where the field is blown near white and micro
-    relief has no contrast left to show. Ours ran the wrong way round (10.1 near the cut,
-    11.7 up by the light). Below the cut C2 measures sd 1.2-2.0: a planed surface is
-    nearly glass. Because BOTH sides are the same noise field in the same frame, a fibre
-    that crosses the cut continues on the far side at a tenth of its height - which is
-    the icon's whole argument, made literally rather than by analogy."""
+    """The fibre's amplitude along local y, as mask stops, DERIVED rather than chosen.
+
+    For each band: read C2's law at our own field brightness to get the amplitude that
+    band should carry, subtract in quadrature what it already carries (the existing tear
+    dashes are uncorrelated with the noise, so their variances add), and normalise on the
+    largest deficit. The result peaks hard against the cut and decays outward, because
+    that is where our ground is darkest - the reverse of what this ramp was first
+    authored with, and the correction is C2's own amplitude-vs-brightness law.
+
+    The far band comes out at zero: by ly 520-700 our field is bright enough that C2's
+    law asks for 2.0% and the dashes already supply 2.3%. The trued side likewise gets
+    nothing - it measures 1.07% against C2's planed 0.58-0.75%, so it is already past
+    C2 - which leaves a STEP at the cut. That step is not a seam to be smoothed: both
+    sides are the same noise field in the same frame, so a fibre crossing the cut simply
+    stops, which is the icon's whole argument made literally rather than by analogy."""
+    need = []
+    for ly, lvl, have in FIELD:
+        want = _interp(AMP_LAW, lvl)
+        need.append((ly, math.sqrt(max(0.0, want * want - have * have))))
+    peak = max(n for _, n in need)
     span = LY_MAX - LY_MIN
+
     def off(ly):
         return (ly - LY_MIN) / span
-    stops = [(0.0, 0.05), (off(0.0), 0.12), (off(0.0), 0.80),
-             (off(285.0), 1.00), (off(513.0), 0.34), (1.0, 0.24)]
+
+    stops = [(0.0, 0.0), (off(0.0), 0.0), (off(0.0), 1.0)]
+    stops += [(off(ly), min(1.0, n / peak)) for ly, n in need]
+    stops.append((1.0, 0.0))
     return "\n    ".join(
-        f'<stop offset="{o:.4f}" stop-color="#FFFFFF" stop-opacity="{a:.2f}"/>'
+        f'<stop offset="{o:.4f}" stop-color="#FFFFFF" stop-opacity="{a:.3f}"/>'
         for o, a in stops)
 
 
@@ -717,7 +761,7 @@ SHAVING_BLOCK = (f"""<!-- the shaving: the evidence that the plane actually cut.
       </g>
     </g>""" if SHAVING else "")
 
-svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{W}" height="{W}" role="img" aria-label="improve-skill">
+svg = f"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {W} {W}" width="{W}" height="{W}" role="img" aria-label="improve-skill">
 <title>improve-skill</title>
 <!--
   Direction "The Honed Edge": Tahoe gel-glass sub-register (a), porcelain + gel object.
@@ -947,6 +991,30 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   <filter id="seatShadow" x="-40%" y="-40%" width="180%" height="180%">
     <feGaussianBlur stdDeviation="5"/>
   </filter>
+
+  <!-- ROUND 6 (material). The two surface reliefs. Both run in their own surface's local
+       frame, so the fibre lies along the grain and the pitting sits flat on the face, and
+       both take their azimuth from the scene's one key through frame_azimuth - a relief
+       lit from anywhere else would be a second light source drawn by hand. -->
+{relief_filter("fibreRelief", FIBRE_BF, FIBRE_SCALE, FIBRE_ELEV,
+               frame_azimuth(UX, UY, NX, NY), 11,
+               (-420, -680, 1540, 1550))}
+{relief_filter("pitRelief", PIT_BF, PIT_SCALE, PIT_ELEV,
+               frame_azimuth(UX, UY - K_RISE, NX, NY), 29,
+               (-40, -40, BLADE_LEN + 80, BLADE_THICK + 80))}
+
+  <!-- how much of the fibre relief survives, along local y. Derived, not chosen: see
+       fibre_ramp_stops. The mask sits OUTSIDE the filter deliberately - feComposite
+       arithmetic carries k1 = 1/sin(elevation) = {1.0 / math.sin(math.radians(FIBRE_ELEV)):.3f}
+       into the alpha channel too, so a mask applied inside would clamp every ramp value
+       above {math.sin(math.radians(FIBRE_ELEV)):.3f} to opaque and flatten the top of the ramp. -->
+  <linearGradient id="fibreRampAxis" x1="0" y1="{LY_MIN:.1f}" x2="0" y2="{LY_MAX:.1f}"
+                  gradientUnits="userSpaceOnUse" gradientTransform="{MATRIX}">
+    {fibre_ramp_stops()}
+  </linearGradient>
+  <mask id="fibreRamp" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{W}">
+    <rect width="{W}" height="{W}" fill="url(#fibreRampAxis)"/>
+  </mask>
 </defs>
 
 <g clip-path="url(#tileMask)">
@@ -961,6 +1029,19 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   </g>
 
   <g id="mid">
+    <!-- ROUND 6 (material). The torn-fibre relief on the un-planed ground. This REPAINTS
+         #bg through the height field rather than drawing anything of its own, which is
+         why it costs no paths - the whole texture is one <use> and one filter - and why
+         it has to be the first thing in #mid: everything below is drawn over it. The
+         cost of that ordering, stated plainly, is that the mottle and the grain dashes
+         are laid on top and so do not themselves carry relief.
+         Normalised on the flat-surface value, the filter is a pure MODULATION: a surface
+         with no relief comes out exactly as drawn, so the field means - and with them
+         polarity, figure-ground and the whole small-size read - do not move. -->
+    <g mask="url(#fibreRamp)"><g transform="{MATRIX}"><g filter="url(#fibreRelief)">
+      <g transform="{MATRIX_INV}"><use href="#bg" xlink:href="#bg"/></g>
+    </g></g></g>
+
     <!-- warm cloudy unevenness in each plane: worked material, not printed field -->
     <g clip-path="url(#roughSide)"><g filter="url(#mottleBlur)"><g transform="{MATRIX}">
       {ROUGH_MOTTLE}
@@ -1025,7 +1106,13 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <path d="{poly(FRONT_FACE)}" fill="url(#frontFace)"/>
     <!-- the hone's along-length falloff, carried onto the face the hone lights -->
     <path d="{poly(FRONT_FACE)}" fill="url(#frontFall)"/>
-    <path d="{poly(TOP)}" fill="url(#topFace)"/>
+    <!-- ROUND 6 (material). The same modulation on the stone's own face, isotropic and
+         at the pit scale C2's autocorrelation gives. The filter runs in MATRIX_TOP so the
+         pitting lies flat on the face rather than on the screen, and the face path keeps
+         its own gradient by carrying the inverse transform on the contents. -->
+    <g transform="{MATRIX_TOP}"><g filter="url(#pitRelief)"><g transform="{MATRIX_TOP_INV}">
+      <path d="{poly(TOP)}" fill="url(#topFace)"/>
+    </g></g></g>
     <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="{MATRIX_TOP}">
         {STONE}
     </g></g></g>

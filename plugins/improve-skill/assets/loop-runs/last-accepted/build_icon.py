@@ -772,20 +772,37 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
        drifts WARM at the back edge (0.319,0.311,0.302 -> 0.378,0.354,0.332) where the
        timber bounces up into it. The LUMINANCE ramp below is unchanged to within 0.01
        at every stop - only the hue moves - so this isolates the cast from the modelling. -->
+  <!-- ROUND 9. The hue was right and the VALUE was not. Sampled as a cross-section
+       perpendicular to each block's own hone, at five stations along the length: the
+       front face matches C2 to within 0.05 over its whole body (depths 20-56px), and
+       the top face runs +0.05 to +0.14 too light at EVERY station (depths 72-190px).
+       Face means: ours 0.338, C2's 0.243. Its across-depth ramp was overdone too -
+       ours climbed +0.101 from hone edge to back edge where C2's climbs +0.068 - so
+       the face read as moulded plastic catching a broad sheen rather than as stone.
+       The stops below are the old ramp under L' = 0.245 + 0.70*(L - 0.338), which
+       lands the rendered face on 0.215 -> 0.283 across depth: C2's own two numbers.
+       The dark end is no longer near-neutral. C2's darkest 3% of top face is
+       (0.173,0.145,0.131), sat 0.240; ours was sat 0.110 - the face was desaturating
+       into shadow, which is the thing round 1 caught on the ground and this face had
+       kept doing. The offset-0 stop IS that measured colour, scaled to its own L. -->
   <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="{BLADE_THICK}" gradientUnits="userSpaceOnUse"
                   gradientTransform="{MATRIX_TOP}">
-    <stop offset="0" stop-color="#35352F"/>
-    <stop offset="0.34" stop-color="#494841"/>
-    <stop offset="0.78" stop-color="#5A584F"/>
-    <stop offset="1" stop-color="#66625A"/>
+    <stop offset="0" stop-color="#2A2420"/>
+    <stop offset="0.34" stop-color="#39312E"/>
+    <stop offset="0.78" stop-color="#423D3A"/>
+    <stop offset="1" stop-color="#494542"/>
   </linearGradient>
 
   <!-- a soft sheen where the top-left light lands hardest on the top face. Was a cool
        #CBD5E2 at 0.25 and too tight: it swung the top face 1.63:1 ALONG its length,
        where C2's swings only 1.24:1 - a spotlight on a plane rather than stone. Warmer,
-       weaker and broader, so the face's volume comes from its across-depth ramp. -->
+       weaker and broader, so the face's volume comes from its across-depth ramp.
+       ROUND 9: 0.13 -> 0.06. Measured in the block's own frame the swing was still
+       1.35:1 against C2's 1.13:1, and on a face this dark the same opacity reads as a
+       bigger step than it did before. Nearly all of this face's modelling should be
+       the across-depth ramp; almost none of it should be a bright spot. -->
   <radialGradient id="topSheen" cx="0.32" cy="0.70" r="0.86">
-    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.13"/>
+    <stop offset="0" stop-color="#DED9CD" stop-opacity="0.06"/>
     <stop offset="1" stop-color="#DED9CD" stop-opacity="0"/>
   </radialGradient>
 
@@ -1013,10 +1030,13 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
         {STONE}
     </g></g></g>
     <path d="{poly(TOP)}" fill="url(#topSheen)"/>
-    <!-- wear on the back: two faint grind striations, on the top face -->
+    <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
+         with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
+         than they did over 0.338, and the round's whole point is that this face is
+         quieter than we had it. Same rule for the sheen and the rim above and below. -->
     <g transform="{MATRIX_TOP}" fill="none">
-      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#9A9285" stroke-opacity="0.16" stroke-width="3"/>
-      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#9A9285" stroke-opacity="0.09" stroke-width="2"/>
+      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
+      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
     </g>
   </g>
 
@@ -1037,9 +1057,12 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
           stroke-linecap="round"/>
     <!-- rim light along the worn back, from the same top-left source. Was #B6C0CE at
          0.64 - cool and hot. C2's back rim runs +15% to +34% over the face below it and
-         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. -->
+         is WARM (0.378,0.354,0.332), lit by bounce off the timber behind. ROUND 9: 0.52
+         -> 0.30, because the face it sits on dropped to 0.281 at the back edge. C2's
+         top face peaks at 0.389 in its brightest 3%; ours peaked at 0.487. 0.30 is the
+         opacity that puts this rim on 0.389, so the peak is measured, not tuned. -->
     <path d="M 46 {BLADE_THICK - 2:.0f} C {BLADE_LEN * 0.34:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN * 0.66:.0f} {BLADE_THICK - 10:.0f} {BLADE_LEN - 36:.0f} {BLADE_THICK - 2:.0f}"
-          transform="{MATRIX_TOP}" stroke="#ABA294" stroke-opacity="0.52" stroke-width="5"
+          transform="{MATRIX_TOP}" stroke="#ABA294" stroke-opacity="0.30" stroke-width="5"
           stroke-linecap="round"/>
     <!-- the vermilion hone line: the cutting edge, the before/after boundary, and the
          line where the solid meets the ground. One shape, four jobs. Masked by honeFall

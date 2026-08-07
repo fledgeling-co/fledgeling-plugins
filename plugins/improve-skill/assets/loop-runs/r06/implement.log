@@ -1,0 +1,13 @@
+Round complete.
+
+**Gate: ACCEPT, +0.0547 net.** 1024 0.4138→0.4228, 256 0.4207→0.4351, 128 0.4486→0.4680, 32 0.7577→0.7622, 16 0.8055→0.8129. Nothing regressed. Structure PASS at 2443 paths / 310,230 bytes.
+
+**What changed.** The top face only. I stopped using region means — our blade is 1.38× C2's and sits elsewhere, so masked means mix material error with non-overlap — and took a cross-section perpendicular to each block's own hone at five stations. That says our front face already matches C2 to within 0.05 across its whole body, while the top face runs +0.05 to +0.14 too light at every station (mean 0.338 vs 0.243). So the four `topFace` stops became the old ramp under L′ = 0.245 + 0.70·(L − 0.338), with the dark stop set to C2's measured darkest colour (sat 0.110 → 0.213 against its 0.240), and every additive layer scaled with the base: sheen 0.13→0.06, striations halved, back rim 0.52→0.30 (the opacity that lands the peak on C2's 0.389).
+
+**Why not the ground,** where 81% of the luminance error sits: at 16px p90 is 100% trued ground and p10 is entirely block, so darkening ground spends the contrast budget — exactly how r05 died — while darkening the block pays into it. self_contrast rose 0.553→0.645/0.631. Polarity holds at +0.143; figure-ground improved 2.73→3.48:1; audit 11/12.
+
+**Reusable:** *find out which pixels own your percentiles* before choosing what to edit.
+
+One thing needs flagging: mid-round, `build_icon.py` gained ~120 lines of surface-relief filters I didn't author (its own comment cites "once ROUND 8 darkened it" — written on top of my edit). It dropped the net to +0.0269. I preserved it at `loop-runs/r06/work/build_icon.foreign-relief.py` and rebuilt the shipped file as my four edits on the `_before` snapshot. The gate said ACCEPT both times — only the structure counts caught it.
+
+---STDERR---
