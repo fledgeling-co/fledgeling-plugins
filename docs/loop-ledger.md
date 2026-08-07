@@ -19,3 +19,4 @@ loop-runs/ (Phase 4 training data).
 | 9 | improve-skill | material | REJECT | n/a |  |
 | 10 | improve-skill | detail | ACCEPT | candidate |  |
 | 11 | improve-skill | detail | ACCEPT | baseline | PROVISIONAL, queued for review |
+| 12 | improve-skill | detail | ACCEPT | baseline | PROVISIONAL, queued for review |
