@@ -523,6 +523,11 @@ class Runner:
 
     def run(self):
         consecutive_errors = 0
+        import datetime as _dt
+        _src = pathlib.Path(__file__)
+        self.log(f"runner source {_src.name} modified "
+                 f"{_dt.datetime.fromtimestamp(_src.stat().st_mtime):%H:%M:%S} — a long-running "
+                 f"process keeps the version it started with; restart it after editing.")
         self.log(f"loop runner: {len(self.cfg['fixtures'])} fixtures, "
                  f"budget {self.cfg.get('max_iterations', 100)} iterations, "
                  f"cost cap ${self.cfg.get('cost_cap_usd', 15)}")
