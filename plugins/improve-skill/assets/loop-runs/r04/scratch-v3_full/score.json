@@ -1,0 +1,54 @@
+{
+  "candidate": "/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r04/v3_full.svg",
+  "reference": "/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/icon-engineC-f5665d-2.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "label": "v3_full",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1631,
+      "ssim": 0.6473,
+      "edge_f1": 0.0478,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.5315,
+      "ref_self_contrast": 0.4601,
+      "composite": 0.3925
+    },
+    "256": {
+      "lum_delta": 0.1615,
+      "ssim": 0.5593,
+      "edge_f1": 0.095,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.5296,
+      "ref_self_contrast": 0.4564,
+      "composite": 0.3714
+    },
+    "128": {
+      "lum_delta": 0.1601,
+      "ssim": 0.5157,
+      "edge_f1": 0.2284,
+      "mask_iou": 0.9566,
+      "self_contrast": 0.5277,
+      "ref_self_contrast": 0.4544,
+      "composite": 0.3892
+    },
+    "32": {
+      "lum_delta": 0.1563,
+      "ssim": 0.5553,
+      "edge_f1": 0.8282,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.5243,
+      "ref_self_contrast": 0.4485,
+      "composite": 0.7271
+    },
+    "16": {
+      "lum_delta": 0.1511,
+      "ssim": 0.5963,
+      "edge_f1": 0.9512,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.526,
+      "ref_self_contrast": 0.4272,
+      "composite": 0.7874
+    }
+  },
+  "render_hash": "a126b89537d36585"
+}

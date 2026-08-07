@@ -39,6 +39,11 @@ import numpy as np
 from PIL import Image
 
 SIZES = (1024, 256, 128, 32, 16)
+# Bump whenever a metric's definition changes. The gate refuses to compare
+# scores computed under different versions: a candidate scored with a new
+# metric against a baseline scored with the old one is not a comparison, and
+# it silently produced a mixed verdict once before this existed.
+METRIC_VERSION = 2  # 2: edge_f1 excludes the squircle rim
 NEUTRAL = 128  # composite ground for alpha; both sides get the same one
 
 # ---------------------------------------------------------------- rendering
@@ -111,8 +116,26 @@ def dilate(m: np.ndarray, r: int = 1) -> np.ndarray:
     return out
 
 
+def rim_mask(n: int, thresh: float = 0.86) -> np.ndarray:
+    """The outer band of the squircle, in superellipse coordinates.
+
+    A full-bleed SVG clipped to the mask renders a hard alpha boundary there;
+    a raster reference usually does not. Measured on improve-skill at 32px: 75
+    of the candidate's 341 edges sat on that rim against 2 of the reference's
+    190. Comparing them measures the delivery format rather than the artwork,
+    and it punishes the candidate for a boundary the design owns by definition.
+    """
+    y, x = np.mgrid[0:n, 0:n]
+    u = (x - (n - 1) / 2) / max((n - 1) / 2, 1)
+    v = (y - (n - 1) / 2) / max((n - 1) / 2, 1)
+    return (np.abs(u) ** 5 + np.abs(v) ** 5) ** 0.2 > thresh
+
+
 def edge_f1(a: np.ndarray, b: np.ndarray) -> float:
     ea, eb = sobel_edges(a), sobel_edges(b)
+    keep = ~rim_mask(a.shape[0])
+    ea = ea & keep
+    eb = eb & keep
     if not ea.any() and not eb.any():
         return 1.0
     tp_p = (ea & dilate(eb)).sum()   # candidate edges near a reference edge
@@ -172,7 +195,7 @@ def cmd_score(args):
     lp = try_lpips()
     tier = "full (lpips)" if lp else "numpy (no torch: luminance+ssim+edges only)"
     result = {"candidate": str(cand), "reference": str(ref), "tier": tier,
-              "label": args.label, "sizes": {}}
+              "metric_version": METRIC_VERSION, "label": args.label, "sizes": {}}
 
     for size in SIZES:
         ci, ri = render_candidate(cand, size), normalise_reference(ref, size)
@@ -218,6 +241,11 @@ def cmd_gate(args):
     base = json.loads(pathlib.Path(args.baseline).read_text())
     tol = args.tolerance
     verdict, reasons = "ACCEPT", []
+    cv, bv = cand.get("metric_version", 1), base.get("metric_version", 1)
+    if cv != bv:
+        print(f"REFUSED: candidate scored under metric v{cv}, baseline under v{bv}. "
+              f"Re-score the baseline before gating; a mixed comparison is not a verdict.")
+        sys.exit(2)
     if cand.get("render_hash") == base.get("render_hash"):
         verdict = "REJECT"
         reasons.append("negligible edit: render hash unchanged (oscillation guard)")

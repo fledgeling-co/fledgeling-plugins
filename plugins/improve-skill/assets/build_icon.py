@@ -53,7 +53,14 @@ UX, UY = math.cos(ANGLE), -math.sin(ANGLE)    # along the cutting edge, up-and-r
 NX, NY = -math.sin(ANGLE), -math.cos(ANGLE)   # away from the cut, into the rough side
 
 BLADE_LEN = 640.0
-BLADE_THICK = 152.0                           # depth of the top face
+# ROUND 8 (coarse structure). The top face was 152 deep, which made the iron a slim
+# bar: 4.2:1 in plan against C2's 3.1:1. Measured directly on C2, in C2's own hone
+# frame, as (silhouette back edge) - (top/front shoulder) on three cross-sections over
+# the leading two thirds - the span where the shoulder is a readable trough rather than
+# the rolled highlight it becomes at the trailing end: 204 / 190 / 218, mean 204. No
+# rise arithmetic enters that subtraction, which is why it is the number to trust; the
+# back edge alone reads 248-260 but that figure carries the front face's lift with it.
+BLADE_THICK = 204.0                           # depth of the top face
 EDGE_MID = (543.0, 604.0)                     # midpoint of the cutting edge, on the canvas
 AX = EDGE_MID[0] - UX * BLADE_LEN / 2
 AY = EDGE_MID[1] - UY * BLADE_LEN / 2         # local origin: cutting edge, leading end
