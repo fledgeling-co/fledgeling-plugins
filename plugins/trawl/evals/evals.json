@@ -1,11 +1,11 @@
 {
-  "skill_name": "adhd",
+  "skill_name": "trawl",
   "notes": "Assertions are structural properties of the rendered output \u2014 checkable by reading the response, no LLM-judge scores. They target the mechanisms that distinguish v2 from the predecessor: the receipt line, the frozen baseline + boss-gate verdicts, frame fit/apoptosis, mechanism-distinct shortlists with a marked non-obvious slot, toolchain-native first steps (added after the blind panel's eval-3 verdict), and trap flags citing the conflicted requirement. Evals 1-3 core; 4-7 coverage; 8 is the adversarial forced-whimsy case that makes the apoptosis assertions non-vacuous.",
   "evals": [
     {
       "id": 1,
       "name": "reliability-boss-gate",
-      "prompt": "/adhd We have a CLI that calls an LLM and the LLM sometimes hangs for 90 seconds before responding. Design the right retry/timeout/UX strategy.",
+      "prompt": "/trawl We have a CLI that calls an LLM and the LLM sometimes hangs for 90 seconds before responding. Design the right retry/timeout/UX strategy.",
       "expected_output": "A standard-tier run whose recommendation demonstrably solves the hang problem: a stated baseline, verdict chips against it, and a starred pick that either beats the baseline on the stated ask or an open recommendation of the baseline itself. This is the exact problem shape where the predecessor lost on builder_usefulness.",
       "assertions": [
         "The output states a pragmatic textbook baseline (labeled as the baseline) before or alongside the creative shortlist",
@@ -21,7 +21,7 @@
     {
       "id": 2,
       "name": "technical-frame-fit",
-      "prompt": "/adhd Design a thread-safe LRU cache that survives process restart without losing more than the last 100ms of writes.",
+      "prompt": "/trawl Design a thread-safe LRU cache that survives process restart without losing more than the last 100ms of writes.",
       "expected_output": "A standard-tier run on a deeply technical problem where every rendered frame's ideas are technically grounded. No child persona or similarly unfit frame appears beside the output unless its ideas passed the quality floors; a frame that produced nothing usable is apoptosed into the receipt, not rendered.",
       "assertions": [
         "No rendered idea is attributed to a child persona or similarly unfit-for-technical-content frame unless the idea itself is technically sound and floor-passing",
@@ -36,7 +36,7 @@
     {
       "id": 3,
       "name": "shortlist-mechanism-diversity",
-      "prompt": "/adhd We have a 200k-line Rails monolith. The team wants to split it. Generate strategies for how to decompose it \u2014 by domain, data, team, churn, or otherwise.",
+      "prompt": "/trawl We have a 200k-line Rails monolith. The team wants to split it. Generate strategies for how to decompose it \u2014 by domain, data, team, churn, or otherwise.",
       "expected_output": "A wide, clustered exploration whose final shortlist spans genuinely distinct mechanisms (one per cluster), with deepened winners carrying sketch, load-bearing risk, and a concrete first step.",
       "assertions": [
         "The shortlist has at most one idea per cluster \u2014 no two starred/shortlisted ideas share a cluster or mechanism",
@@ -52,7 +52,7 @@
     {
       "id": 4,
       "name": "naming-run",
-      "prompt": "/adhd Generate names for a feature-flag service that supports gradual rollout, kill-switches, and per-tenant overrides. The name should signal control and reversibility.",
+      "prompt": "/trawl Generate names for a feature-flag service that supports gradual rollout, kill-switches, and per-tenant overrides. The name should signal control and reversibility.",
       "expected_output": "A clustered naming exploration where clusters are conceptual spaces, traps cite requirement conflicts, and the recommendation is defensible against the obvious-name baseline.",
       "assertions": [
         "Name candidates are clustered by conceptual space, not listed flat",
@@ -66,7 +66,7 @@
       "id": 5,
       "name": "closed-phrasing-aborts",
       "prompt": "What's the standard way to debounce a search input in React? Just a quick answer please.",
-      "expected_output": "A direct answer with no divergent run \u2014 closed phrasing (standard, quick, just) routes to a plain answer, at most a one-line pointer to /adhd.",
+      "expected_output": "A direct answer with no divergent run \u2014 closed phrasing (standard, quick, just) routes to a plain answer, at most a one-line pointer to /trawl.",
       "assertions": [
         "The response answers directly without spawning frames or rendering a wide set",
         "No receipt line, cluster structure, or shortlist appears",
@@ -77,7 +77,7 @@
     {
       "id": 6,
       "name": "any-percent-tier",
-      "prompt": "/adhd --any What should we call the internal tool that snapshots our staging database every night?",
+      "prompt": "/trawl --any What should we call the internal tool that snapshots our staging database every night?",
       "expected_output": "A visibly light run: two frames, a small idea set, a short shortlist, with the receipt stamping the tier and offering the upgrade path \u2014 a light run that reads as deliberate, not broken.",
       "assertions": [
         "The receipt line states the any% (or equivalent light) tier",
@@ -90,7 +90,7 @@
     {
       "id": 7,
       "name": "adversarial-frame-fit",
-      "prompt": "/adhd Be adventurous with your frames. Design a write-ahead-log compaction and checkpointing strategy for an embedded time-series database running on flash storage with a hard 8MB RAM budget.",
+      "prompt": "/trawl Be adventurous with your frames. Design a write-ahead-log compaction and checkpointing strategy for an embedded time-series database running on flash storage with a hard 8MB RAM budget.",
       "expected_output": "A run where the invitation to be adventurous does not degrade output quality: whimsical frames may run, but any rendered idea from them is technically concrete, and a frame whose whole yield fails the floors is apoptosed into the receipt instead of rendered beside the problem.",
       "assertions": [
         "Every rendered idea attributed to a whimsical or naive persona (child, poet, ant colony, etc.) names a concrete technical mechanism applicable to WAL/compaction/flash \u2014 no naive filler is rendered",
@@ -103,7 +103,7 @@
     {
       "id": 8,
       "name": "forced-whimsy-floor",
-      "prompt": "/adhd Use a 10-year-old as one of your frames \u2014 I want to see what that lens produces here. Design lock-free epoch-based memory reclamation for our concurrent C++ hash map; readers must never block and we can't use hazard pointers.",
+      "prompt": "/trawl Use a 10-year-old as one of your frames \u2014 I want to see what that lens produces here. Design lock-free epoch-based memory reclamation for our concurrent C++ hash map; readers must never block and we can't use hazard pointers.",
       "expected_output": "The user-requested whimsical frame runs (explicit instruction overrides the fit floor), but the rendered output stays technically sound: the frame's ideas appear only if floor-passing, otherwise the receipt records apoptosis; the shortlist engages the lock-free/epoch constraints in C++-native terms.",
       "assertions": [
         "The 10-year-old frame is honoured (it runs; the output or receipt acknowledges it) since the user explicitly requested it",

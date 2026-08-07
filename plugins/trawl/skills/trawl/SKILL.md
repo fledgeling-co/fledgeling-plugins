@@ -1,10 +1,10 @@
 ---
-name: adhd
-description: Evidence-grounded parallel divergent ideation for coding agents. Spawns isolated branches under a balanced frame portfolio (ordinary stakeholder, operational constraint, adversary, cross-domain mechanism, one wild seat), anchors against an explicit textbook baseline, converges with mechanism-level clustering and quality floors instead of raw scores, and boss-gates the winning pick against the baseline so the recommendation is shippable, not just novel. Use on /adhd, "ADHD mode", "brainstorm", "ideate", "what are my options", "widen the search", or any open-ended design, architecture, naming, API/SDK-surface, product-positioning, or fuzzy-debugging decision where multiple viable answers exist — even when the user doesn't say "brainstorm". Skip for syntax questions, lookups, bugs with a known root cause, or closed phrasing ("quick", "standard", "canonical", "textbook", "just"). Tier flags: --any (cheap), --standard, --100 (exhaustive).
+name: trawl
+description: Evidence-grounded parallel divergent ideation for coding agents. Spawns isolated branches under a balanced frame portfolio (ordinary stakeholder, operational constraint, adversary, cross-domain mechanism, one wild seat), anchors against an explicit textbook baseline, converges with mechanism-level clustering and quality floors instead of raw scores, and boss-gates the winning pick against the baseline so the recommendation is shippable, not just novel. Use on /trawl (legacy: /adhd, "ADHD mode"), "brainstorm", "ideate", "what are my options", "widen the search", or any open-ended design, architecture, naming, API/SDK-surface, product-positioning, or fuzzy-debugging decision where multiple viable answers exist — even when the user doesn't say "brainstorm". Skip for syntax questions, lookups, bugs with a known root cause, or closed phrasing ("quick", "standard", "canonical", "textbook", "just"). Tier flags: --any (cheap), --standard, --100 (exhaustive).
 license: MIT
 ---
 
-# ADHD — divergent ideation that converges on something you can ship
+# Trawl — cast wide, sift hard, ship the catch
 
 The first three answers the model gives are the answers a senior engineer
 gives in thirty seconds. Correct. Forgettable. Worse: they are the *same*
@@ -30,8 +30,7 @@ This skill is expensive: roughly 8–14 Agent calls at the standard tier,
 5–10x a single answer. The router decides the tier; it never silently
 skips the run when the user opted in.
 
-**Step 1 — explicit invocation.** If the user typed `/adhd` or asked for
-ADHD mode by name, run it. `--any`, `--standard`, `--100` set the tier
+**Step 1 — explicit invocation.** If the user typed `/trawl` (or legacy `/adhd` / "ADHD mode"), run it. `--any`, `--standard`, `--100` set the tier
 directly; with no flag, default to standard. Do not second-guess an
 explicit opt-in.
 
@@ -46,7 +45,7 @@ explicit opt-in.
 3. **Open phrasing?** "Quick", "standard", "canonical", "textbook",
    "just", "one-line" mean the user wants the direct answer. Answer
    directly, optionally appending: *"For a wider exploration under
-   parallel frames with trap detection, run `/adhd <problem>`."*
+   parallel frames with trap detection, run `/trawl <problem>`."*
 
 **Tiers.** The output receipt states which tier ran, so a light run reads
 as a deliberate choice, not a broken full run.
@@ -247,9 +246,9 @@ line each; everything else earns its length or gets cut.
 
 0. **Receipt** — one line: tier, frames spawned/returned, ideas
    generated/merged/floored, apoptosed frames, baseline verdict summary.
-   Example: `ADHD standard — 5 frames, 27 ideas → 19 after merge, 4
+   Example: `Trawl standard — 5 frames, 27 ideas → 19 after merge, 4
    floored, 1 frame apoptosed (10-year-old: all ideas failed fit).
-   ★ BEATS baseline. Upgrade: /adhd --100`.
+   ★ BEATS baseline. Upgrade: /trawl --100`.
 1. **Brief** — the problem in one line, any reframe, and the frozen
    baseline in 2–4 sentences, labeled as such.
 2. **Wide set** — every surviving idea, grouped by cluster, one phrase

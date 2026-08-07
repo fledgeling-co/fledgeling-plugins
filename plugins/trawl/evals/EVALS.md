@@ -1,4 +1,4 @@
-# adhd v2: eval results
+# trawl (formerly adhd v2): eval results
 
 Run: 2026-08-07 · iteration 1, full 7-eval set · grader: independent subagent, structural assertions only (no LLM 1-10 scores, consistent with the skill's own scoring philosophy).
 
@@ -65,6 +65,6 @@ Pooled per-dimension across families: NEW wins trap detection and breadth clearl
 
 ## Eval set
 
-`evals.json` holds 7 evals, all run above. All assertions are structural properties of the rendered output, checkable by reading the response. This is intentional: the research this skill is built on (see `../skills/adhd/references/evidence.md` §5) shows LLM-judged quality scores collapse toward the middle and don't track expert judgment, so the evals assert *artifacts* (baseline present, verdicts present, one-per-cluster shortlists, receipts, apoptosis notes) rather than scores.
+`evals.json` holds 7 evals, all run above. All assertions are structural properties of the rendered output, checkable by reading the response. This is intentional: the research this skill is built on (see `../skills/trawl/references/evidence.md` §5) shows LLM-judged quality scores collapse toward the middle and don't track expert judgment, so the evals assert *artifacts* (baseline present, verdicts present, one-per-cluster shortlists, receipts, apoptosis notes) rather than scores.
 
 Full run outputs, grading, and benchmark.json for iteration 1 live in the session workspace (scratchpad, not committed); re-run via the skill-creator loop with `old_skill` pointed at a snapshot of github.com/uditakhourii/adhd.

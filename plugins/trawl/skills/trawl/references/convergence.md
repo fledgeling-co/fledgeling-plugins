@@ -137,9 +137,9 @@ belongs; during divergence it homogenizes (evidence.md §3, §7).
 
 Emit as output section 0, one line:
 
-`ADHD <tier> — <frames spawned>/<returned> frames, <ideas generated> →
+`Trawl <tier> — <frames spawned>/<returned> frames, <ideas generated> →
 <after merge> after merge, <floored> floored, <apoptosed frames + reason
-if any>. ★ <BEATS|TIES|LOSES> baseline. [Upgrade: /adhd --<next tier>]`
+if any>. ★ <BEATS|TIES|LOSES> baseline. [Upgrade: /trawl --<next tier>]`
 
 The receipt is the observability surface: it makes a light run read as
 deliberate, a degraded run (dead branch, apoptosed frame) read as
