@@ -249,8 +249,15 @@ class Runner:
             skill_dir=self.skill, envelope_flags=envelope,
             extra_checks=extra_checks, extra_files=extra_files)
 
-    def run_implement(self, brief, assets):
-        cmd = ["claude", "-p", brief, "--model", self.cfg.get("model", "opus"),
+    def run_implement(self, brief_path, assets):
+        # Hand the agent the brief's PATH, not its text. Passing ~7KB of brief as the
+        # -p argument fails instantly and deterministically with "Prompt is too long"
+        # (measured: same bytes, same cwd, same flags; a one-line suffix flips it to
+        # success, so it is not length). Reading it from disk sidesteps that entirely
+        # and costs one Read.
+        prompt = (f"Read {brief_path} and carry out the round it describes, in full. "
+                  f"It is your complete brief; follow it exactly.")
+        cmd = ["claude", "-p", prompt, "--model", self.cfg.get("model", "opus"),
                "--allowedTools", ALLOWED_TOOLS,
                "--permission-mode", "acceptEdits",
                "--add-dir", str(self.repo)]
@@ -264,6 +271,7 @@ class Runner:
         # brief itself. --add-dir keeps write access to the fixture; the brief uses
         # absolute paths and cds itself.
         t0 = time.time()
+        self.log(f"  brief {len(brief)} chars, cwd {self.cfg.get('agent_cwd') or self.repo.parent}, effort {self.cfg.get('effort')}")
         r = subprocess.run(cmd, cwd=str(self.cfg.get("agent_cwd") or self.repo.parent),
                            capture_output=True, text=True,
                            stdin=subprocess.DEVNULL,  # else the CLI waits 3s for stdin
@@ -339,7 +347,7 @@ class Runner:
             self.log("  dry run: brief written, nothing executed")
             return False
 
-        r = self.run_implement(brief, assets)
+        r = self.run_implement(round_dir / "brief.md", assets)
         (round_dir / "implement.log").write_text((r.stdout or "") + "\n---STDERR---\n" + (r.stderr or ""))
         if r.returncode != 0:
             # A harness failure is not a rejected edit. Counting it as one would burn
