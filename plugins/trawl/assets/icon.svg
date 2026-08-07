@@ -1,141 +1,144 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <title>Trawl</title>
   <!-- Direction "Deep Cast": Tahoe gel-glass dark register x dark-field emissive.
-       v2 = MATERIAL pass only. Geometry, composition, silhouette, layer names and
-       palette families are unchanged from icon.svg; what changed is the rendering:
-       volumetric gel wall with warm transmission, broad internal bleed, finer
-       blurred mesh, torus rim, deeper ambient falloff, pinpoint motes.
+       v2 = MATERIAL pass only, matched to raster candidate C1. Geometry, composition,
+       silhouette, layer names and palette families are unchanged from icon-v1.svg;
+       what changed is the rendering: luminous chromatic cyan gel wall and mouth-ring
+       torus, a visibly glowing bag interior, high-chroma warm catch bleeding through
+       the wall, finer blurred mesh, near-black ground vignette for contrast.
        Artwork is authored FULL-BLEED 1024. The squircle is a CLIP, not baked corner art,
        and no drop shadow is baked. For Icon Composer: drop the clip, ship g#bg/mid/fg/highlight. -->
   <defs>
     <clipPath id="squircle"><path d="M 1024.0,512.0 L 1023.9,631.2 L 1023.7,669.3 L 1023.4,697.0 L 1022.9,719.5 L 1022.2,738.8 L 1021.5,755.8 L 1020.6,771.1 L 1019.5,785.2 L 1018.3,798.1 L 1016.9,810.2 L 1015.5,821.5 L 1013.8,832.1 L 1012.0,842.1 L 1010.1,851.6 L 1008.0,860.7 L 1005.8,869.3 L 1003.4,877.5 L 1000.9,885.3 L 998.2,892.8 L 995.4,900.0 L 992.4,906.9 L 989.2,913.5 L 985.9,919.9 L 982.4,926.0 L 978.7,931.8 L 974.9,937.4 L 970.9,942.8 L 966.7,948.0 L 962.3,953.0 L 957.7,957.7 L 953.0,962.3 L 948.0,966.7 L 942.8,970.9 L 937.4,974.9 L 931.8,978.7 L 926.0,982.4 L 919.9,985.9 L 913.5,989.2 L 906.9,992.4 L 900.0,995.4 L 892.8,998.2 L 885.3,1000.9 L 877.5,1003.4 L 869.3,1005.8 L 860.7,1008.0 L 851.6,1010.1 L 842.1,1012.0 L 832.1,1013.8 L 821.5,1015.5 L 810.2,1016.9 L 798.1,1018.3 L 785.2,1019.5 L 771.1,1020.6 L 755.8,1021.5 L 738.8,1022.2 L 719.5,1022.9 L 697.0,1023.4 L 669.3,1023.7 L 631.2,1023.9 L 512.0,1024.0 L 392.8,1023.9 L 354.7,1023.7 L 327.0,1023.4 L 304.5,1022.9 L 285.2,1022.2 L 268.2,1021.5 L 252.9,1020.6 L 238.8,1019.5 L 225.9,1018.3 L 213.8,1016.9 L 202.5,1015.5 L 191.9,1013.8 L 181.9,1012.0 L 172.4,1010.1 L 163.3,1008.0 L 154.7,1005.8 L 146.5,1003.4 L 138.7,1000.9 L 131.2,998.2 L 124.0,995.4 L 117.1,992.4 L 110.5,989.2 L 104.1,985.9 L 98.0,982.4 L 92.2,978.7 L 86.6,974.9 L 81.2,970.9 L 76.0,966.7 L 71.0,962.3 L 66.3,957.7 L 61.7,953.0 L 57.3,948.0 L 53.1,942.8 L 49.1,937.4 L 45.3,931.8 L 41.6,926.0 L 38.1,919.9 L 34.8,913.5 L 31.6,906.9 L 28.6,900.0 L 25.8,892.8 L 23.1,885.3 L 20.6,877.5 L 18.2,869.3 L 16.0,860.7 L 13.9,851.6 L 12.0,842.1 L 10.2,832.1 L 8.5,821.5 L 7.1,810.2 L 5.7,798.1 L 4.5,785.2 L 3.4,771.1 L 2.5,755.8 L 1.8,738.8 L 1.1,719.5 L 0.6,697.0 L 0.3,669.3 L 0.1,631.2 L 0.0,512.0 L 0.1,392.8 L 0.3,354.7 L 0.6,327.0 L 1.1,304.5 L 1.8,285.2 L 2.5,268.2 L 3.4,252.9 L 4.5,238.8 L 5.7,225.9 L 7.1,213.8 L 8.5,202.5 L 10.2,191.9 L 12.0,181.9 L 13.9,172.4 L 16.0,163.3 L 18.2,154.7 L 20.6,146.5 L 23.1,138.7 L 25.8,131.2 L 28.6,124.0 L 31.6,117.1 L 34.8,110.5 L 38.1,104.1 L 41.6,98.0 L 45.3,92.2 L 49.1,86.6 L 53.1,81.2 L 57.3,76.0 L 61.7,71.0 L 66.3,66.3 L 71.0,61.7 L 76.0,57.3 L 81.2,53.1 L 86.6,49.1 L 92.2,45.3 L 98.0,41.6 L 104.1,38.1 L 110.5,34.8 L 117.1,31.6 L 124.0,28.6 L 131.2,25.8 L 138.7,23.1 L 146.5,20.6 L 154.7,18.2 L 163.3,16.0 L 172.4,13.9 L 181.9,12.0 L 191.9,10.2 L 202.5,8.5 L 213.8,7.1 L 225.9,5.7 L 238.8,4.5 L 252.9,3.4 L 268.2,2.5 L 285.2,1.8 L 304.5,1.1 L 327.0,0.6 L 354.7,0.3 L 392.8,0.1 L 512.0,0.0 L 631.2,0.1 L 669.3,0.3 L 697.0,0.6 L 719.5,1.1 L 738.8,1.8 L 755.8,2.5 L 771.1,3.4 L 785.2,4.5 L 798.1,5.7 L 810.2,7.1 L 821.5,8.5 L 832.1,10.2 L 842.1,12.0 L 851.6,13.9 L 860.7,16.0 L 869.3,18.2 L 877.5,20.6 L 885.3,23.1 L 892.8,25.8 L 900.0,28.6 L 906.9,31.6 L 913.5,34.8 L 919.9,38.1 L 926.0,41.6 L 931.8,45.3 L 937.4,49.1 L 942.8,53.1 L 948.0,57.3 L 953.0,61.7 L 957.7,66.3 L 962.3,71.0 L 966.7,76.0 L 970.9,81.2 L 974.9,86.6 L 978.7,92.2 L 982.4,98.0 L 985.9,104.1 L 989.2,110.5 L 992.4,117.1 L 995.4,124.0 L 998.2,131.2 L 1000.9,138.7 L 1003.4,146.5 L 1005.8,154.7 L 1008.0,163.3 L 1010.1,172.4 L 1012.0,181.9 L 1013.8,191.9 L 1015.5,202.5 L 1016.9,213.8 L 1018.3,225.9 L 1019.5,238.8 L 1020.6,252.9 L 1021.5,268.2 L 1022.2,285.2 L 1022.9,304.5 L 1023.4,327.0 L 1023.7,354.7 L 1023.9,392.8 Z"/></clipPath>
     <clipPath id="bodyClip"><path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z"/></clipPath>
-    <!-- widened: the internal bleed now reaches far higher up the bag, so the net must be
-         re-authored back OVER the glow across that whole zone -->
+    <!-- the internal bleed reaches far up the bag, so the net is re-authored back OVER it -->
     <clipPath id="podBand"><rect x="336" y="424" width="352" height="396"/></clipPath>
 
-    <!-- deeper ambient falloff: the ground drops further toward black away from the light cone -->
+    <!-- GROUND: near-black at the corners so the luminous net pops -->
     <linearGradient id="seaTile" x1="0.30" y1="0" x2="0.70" y2="1">
-      <stop offset="0" stop-color="#1B5163"/>
-      <stop offset="0.38" stop-color="#0F3343"/>
-      <stop offset="0.72" stop-color="#09222E"/>
-      <stop offset="1" stop-color="#05131C"/>
+      <stop offset="0" stop-color="#123D4E"/>
+      <stop offset="0.36" stop-color="#0A2734"/>
+      <stop offset="0.70" stop-color="#051520"/>
+      <stop offset="1" stop-color="#020911"/>
     </linearGradient>
-    <!-- narrower, softer cool light cone from the surface -->
-    <radialGradient id="waterColumn" cx="0.5" cy="0.02" r="0.62" gradientTransform="translate(0 0.02) scale(1 1.55)">
-      <stop offset="0" stop-color="#7BEBF5" stop-opacity="0.30"/>
-      <stop offset="0.30" stop-color="#38A6BC" stop-opacity="0.14"/>
+    <radialGradient id="waterColumn" cx="0.5" cy="0.02" r="0.86" gradientTransform="translate(0 0.02) scale(1 1.32)">
+      <stop offset="0" stop-color="#84F2FC" stop-opacity="0.36"/>
+      <stop offset="0.34" stop-color="#3CB2C8" stop-opacity="0.19"/>
       <stop offset="0.66" stop-color="#14536A" stop-opacity="0.05"/>
       <stop offset="1" stop-color="#0A1E28" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="vignette" cx="0.5" cy="0.44" r="0.76">
-      <stop offset="0.42" stop-color="#02090F" stop-opacity="0"/>
-      <stop offset="0.76" stop-color="#02090F" stop-opacity="0.26"/>
-      <stop offset="1" stop-color="#02090F" stop-opacity="0.64"/>
+    <radialGradient id="vignette" cx="0.5" cy="0.44" r="0.74">
+      <stop offset="0.40" stop-color="#010609" stop-opacity="0"/>
+      <stop offset="0.74" stop-color="#010609" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#010609" stop-opacity="0.82"/>
     </radialGradient>
     <linearGradient id="tileRim" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
-      <stop offset="0.40" stop-color="#FFFFFF" stop-opacity="0.09"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.26"/>
+      <stop offset="0.40" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.09"/>
     </linearGradient>
 
-    <!-- WALL MATERIAL: a volumetric gel skin. Brightest where the top light grazes the
-         throat, thinning through the belly, picking up density again at the cod-end. -->
+    <!-- WALL: a luminous chromatic cyan gel skin, not a grey film -->
     <linearGradient id="netGel" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#DCFAFE" stop-opacity="0.34"/>
-      <stop offset="0.22" stop-color="#9BEAF7" stop-opacity="0.27"/>
-      <stop offset="0.52" stop-color="#4FBAD0" stop-opacity="0.21"/>
-      <stop offset="0.80" stop-color="#2F9DB3" stop-opacity="0.27"/>
-      <stop offset="1" stop-color="#22879C" stop-opacity="0.36"/>
+      <stop offset="0" stop-color="#BFF7FF" stop-opacity="0.44"/>
+      <stop offset="0.20" stop-color="#5FE2F8" stop-opacity="0.40"/>
+      <stop offset="0.48" stop-color="#26C6E2" stop-opacity="0.36"/>
+      <stop offset="0.78" stop-color="#17ADC8" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#0F98B3" stop-opacity="0.48"/>
     </linearGradient>
-    <!-- the catch saturating the wall material itself: cream at the cod-end, falling off upward -->
-    <radialGradient id="wallWarm" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#FFF6E4" stop-opacity="0.86"/>
-      <stop offset="0.34" stop-color="#FFE2B2" stop-opacity="0.62"/>
-      <stop offset="0.62" stop-color="#FFC182" stop-opacity="0.34"/>
-      <stop offset="0.84" stop-color="#EE9450" stop-opacity="0.13"/>
-      <stop offset="1" stop-color="#D4762F" stop-opacity="0"/>
+    <!-- the bag interior is itself luminous, filling the volume with cyan light -->
+    <radialGradient id="wallVolume" cx="0.5" cy="0.42" r="0.60">
+      <stop offset="0" stop-color="#8AEFFD" stop-opacity="0.26"/>
+      <stop offset="0.52" stop-color="#45CBE5" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#1E7E95" stop-opacity="0.04"/>
     </radialGradient>
-    <!-- gel edge rim: the wall is edge-on at the silhouette, so it reads thicker and brighter -->
-    <linearGradient id="wallRim" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#EAFDFF" stop-opacity="0.46"/>
-      <stop offset="0.42" stop-color="#A9EDF8" stop-opacity="0.32"/>
-      <stop offset="0.78" stop-color="#D9F2E6" stop-opacity="0.30"/>
-      <stop offset="1" stop-color="#FFE7C2" stop-opacity="0.44"/>
-    </linearGradient>
-    <!-- interior shading: the far wall reads darker through the near wall -->
-    <radialGradient id="wallInner" cx="0.5" cy="0.30" r="0.62">
-      <stop offset="0" stop-color="#031018" stop-opacity="0.22"/>
-      <stop offset="0.62" stop-color="#04141E" stop-opacity="0.08"/>
+    <!-- the far wall reads slightly deeper through the near wall -->
+    <radialGradient id="wallInner" cx="0.5" cy="0.26" r="0.58">
+      <stop offset="0" stop-color="#04141E" stop-opacity="0.20"/>
+      <stop offset="0.64" stop-color="#04141E" stop-opacity="0.07"/>
       <stop offset="1" stop-color="#04141E" stop-opacity="0"/>
     </radialGradient>
+    <!-- the catch saturating the wall material: high-chroma amber at the cod-end -->
+    <radialGradient id="wallWarm" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF2D2" stop-opacity="0.94"/>
+      <stop offset="0.32" stop-color="#FFCB79" stop-opacity="0.78"/>
+      <stop offset="0.60" stop-color="#FF9F3E" stop-opacity="0.48"/>
+      <stop offset="0.84" stop-color="#EE8420" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#D4762F" stop-opacity="0"/>
+    </radialGradient>
+    <!-- gel edge rim: the wall is edge-on at the silhouette, so it reads thick and bright -->
+    <linearGradient id="wallRim" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F2FEFF" stop-opacity="0.92"/>
+      <stop offset="0.40" stop-color="#6BE9FB" stop-opacity="0.72"/>
+      <stop offset="0.76" stop-color="#9FEFE4" stop-opacity="0.58"/>
+      <stop offset="1" stop-color="#FFDFA4" stop-opacity="0.66"/>
+    </linearGradient>
 
-    <!-- MOUTH RING as a torus: lit crown, shaded underside, visible inner wall -->
+    <!-- MOUTH RING: a brilliant saturated cyan torus -->
     <linearGradient id="rimRing" x1="0.16" y1="0" x2="0.88" y2="1">
-      <stop offset="0" stop-color="#EDFEFF"/>
-      <stop offset="0.30" stop-color="#9BE9F4"/>
-      <stop offset="0.62" stop-color="#4FB6C9"/>
-      <stop offset="1" stop-color="#1F6E80"/>
+      <stop offset="0" stop-color="#B4F4FF"/>
+      <stop offset="0.12" stop-color="#6BE6FA"/>
+      <stop offset="0.40" stop-color="#33D2E9"/>
+      <stop offset="0.72" stop-color="#1FA9C2"/>
+      <stop offset="1" stop-color="#147E94"/>
     </linearGradient>
     <linearGradient id="rimTop" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
-      <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.40" stop-color="#FFFFFF" stop-opacity="0.05"/>
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="rimInner" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#0B2733" stop-opacity="0.34"/>
-      <stop offset="0.55" stop-color="#7FD6E6" stop-opacity="0.20"/>
-      <stop offset="1" stop-color="#DCF9FF" stop-opacity="0.40"/>
+      <stop offset="0" stop-color="#0C303E" stop-opacity="0.40"/>
+      <stop offset="0.52" stop-color="#5FD6EC" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#D6FAFF" stop-opacity="0.62"/>
     </linearGradient>
 
-    <!-- CATCH: an orb, lit from above-left, not a flat disc -->
-    <radialGradient id="catchCore" cx="0.42" cy="0.34" r="0.72">
-      <stop offset="0" stop-color="#FFFDF6"/>
-      <stop offset="0.20" stop-color="#FFEDC4"/>
-      <stop offset="0.46" stop-color="#FFC873"/>
-      <stop offset="0.74" stop-color="#FF9F45"/>
-      <stop offset="1" stop-color="#E4681F" stop-opacity="0.94"/>
+    <!-- CATCH: a saturated orange orb lit from above-left -->
+    <radialGradient id="catchCore" cx="0.42" cy="0.32" r="0.74">
+      <stop offset="0" stop-color="#FFF8E2"/>
+      <stop offset="0.18" stop-color="#FFDE96"/>
+      <stop offset="0.44" stop-color="#FFB646"/>
+      <stop offset="0.72" stop-color="#FF8D22"/>
+      <stop offset="1" stop-color="#E96310" stop-opacity="0.96"/>
     </radialGradient>
-    <!-- broad soft bleed, long falloff -->
     <radialGradient id="catchHalo" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#FFD590" stop-opacity="0.60"/>
-      <stop offset="0.22" stop-color="#FFBB6B" stop-opacity="0.34"/>
-      <stop offset="0.48" stop-color="#FF9F4A" stop-opacity="0.15"/>
-      <stop offset="0.76" stop-color="#F2853A" stop-opacity="0.05"/>
+      <stop offset="0" stop-color="#FFC974" stop-opacity="0.86"/>
+      <stop offset="0.22" stop-color="#FFA544" stop-opacity="0.56"/>
+      <stop offset="0.48" stop-color="#F98A2C" stop-opacity="0.22"/>
+      <stop offset="0.76" stop-color="#EA7A22" stop-opacity="0.07"/>
       <stop offset="1" stop-color="#E2762F" stop-opacity="0"/>
     </radialGradient>
-    <!-- warm light spilling into the surrounding water -->
     <radialGradient id="ambientWarm" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#FFB765" stop-opacity="0.20"/>
-      <stop offset="0.34" stop-color="#F2913F" stop-opacity="0.09"/>
-      <stop offset="0.68" stop-color="#C56A26" stop-opacity="0.03"/>
+      <stop offset="0" stop-color="#FFAE52" stop-opacity="0.26"/>
+      <stop offset="0.34" stop-color="#F2872E" stop-opacity="0.12"/>
+      <stop offset="0.68" stop-color="#C56A26" stop-opacity="0.04"/>
       <stop offset="1" stop-color="#A9561D" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- MOTES: pinpoint cores with long soft falloff, not discs -->
+    <!-- MOTES: bright pinpoint cores with long soft falloff -->
     <radialGradient id="moteCool" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#F0FEFF"/>
-      <stop offset="0.13" stop-color="#A8ECF6" stop-opacity="0.80"/>
-      <stop offset="0.34" stop-color="#4FB9CE" stop-opacity="0.26"/>
-      <stop offset="0.64" stop-color="#256F81" stop-opacity="0.07"/>
+      <stop offset="0" stop-color="#F4FEFF"/>
+      <stop offset="0.09" stop-color="#9BF0FF" stop-opacity="0.92"/>
+      <stop offset="0.26" stop-color="#45C4DE" stop-opacity="0.24"/>
+      <stop offset="0.64" stop-color="#256F81" stop-opacity="0.08"/>
       <stop offset="1" stop-color="#1B6E7E" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="moteWarm" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#FFFCF2"/>
-      <stop offset="0.13" stop-color="#FFDFA8" stop-opacity="0.84"/>
-      <stop offset="0.34" stop-color="#FFB367" stop-opacity="0.28"/>
-      <stop offset="0.64" stop-color="#D9741F" stop-opacity="0.08"/>
+      <stop offset="0" stop-color="#FFFDF4"/>
+      <stop offset="0.09" stop-color="#FFD894" stop-opacity="0.94"/>
+      <stop offset="0.26" stop-color="#FFA748" stop-opacity="0.26"/>
+      <stop offset="0.64" stop-color="#D9741F" stop-opacity="0.09"/>
       <stop offset="1" stop-color="#E0721F" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="seatShadow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#01060A" stop-opacity="0.66"/>
+      <stop offset="0" stop-color="#01060A" stop-opacity="0.68"/>
       <stop offset="0.54" stop-color="#01060A" stop-opacity="0.22"/>
       <stop offset="1" stop-color="#01060A" stop-opacity="0"/>
     </radialGradient>
 
     <!-- soften the mesh so the strands read as internal texture, not wire -->
     <filter id="meshSoft" x="-10%" y="-10%" width="120%" height="120%">
-      <feGaussianBlur stdDeviation="1.6"/>
+      <feGaussianBlur stdDeviation="1.5"/>
     </filter>
     <filter id="meshSofter" x="-10%" y="-10%" width="120%" height="120%">
       <feGaussianBlur stdDeviation="2.2"/>
@@ -145,6 +148,9 @@
     </filter>
     <filter id="ringGlow" x="-25%" y="-25%" width="150%" height="150%">
       <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="volumeSoft" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="30"/>
     </filter>
   </defs>
 
@@ -209,50 +215,51 @@
     </g>
 
     <g id="fg">
-      <!-- gel body: skin, interior shading, warm transmission from the catch, edge rim -->
+      <!-- gel body: luminous skin, glowing interior volume, warm transmission, bright edge rim -->
       <path id="net-body" d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="url(#netGel)"/>
       <g clip-path="url(#bodyClip)">
-        <ellipse cx="512" cy="430" rx="330" ry="290" fill="url(#wallInner)"/>
-        <!-- the catch saturating the wall material itself, reaching well up the belly -->
-        <ellipse cx="512" cy="694" rx="310" ry="352" fill="url(#wallWarm)" opacity="0.70"/>
+        <ellipse cx="512" cy="470" rx="330" ry="330" fill="url(#wallVolume)" filter="url(#volumeSoft)"/>
+        <ellipse cx="512" cy="410" rx="320" ry="270" fill="url(#wallInner)"/>
+        <!-- the catch saturating the wall material, reaching well up the belly -->
+        <ellipse cx="512" cy="680" rx="316" ry="386" fill="url(#wallWarm)" opacity="1"/>
       </g>
       <!-- soft volumetric bloom along the wall, then the crisp edge rim -->
-      <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="none" stroke="url(#wallRim)" stroke-width="18" stroke-opacity="0.55" filter="url(#ringGlow)"/>
-      <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="none" stroke="url(#wallRim)" stroke-width="7"/>
-      <g id="net-mesh" clip-path="url(#bodyClip)" fill="none" stroke="#CDF7FC" stroke-linecap="round" filter="url(#meshSoft)">
-        <path d="M 234 297 C 256 445, 363 569, 418 600 C 424 662, 452 730, 480 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 317 328 C 332 476, 407 600, 446 600 C 450 662, 470 730, 490 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 408 341 C 417 489, 456 613, 477 600 C 479 662, 490 730, 500 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 512 346 C 512 494, 512 618, 512 600 C 512 662, 512 730, 512 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 616 341 C 607 489, 568 613, 547 600 C 545 662, 534 730, 524 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 707 328 C 692 476, 617 600, 578 600 C 574 662, 554 730, 534 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 790 297 C 768 445, 661 569, 606 600 C 600 662, 572 730, 544 796" stroke-opacity="0.17" stroke-width="3.2"/>
-        <path d="M 197 338 A 315 82 0 0 0 827 338" stroke-opacity="0.11" stroke-width="3"/>
-        <path d="M 224 376 A 289 75 0 0 0 800 376" stroke-opacity="0.10" stroke-width="3"/>
-        <path d="M 250 414 A 262 68 0 0 0 774 414" stroke-opacity="0.12" stroke-width="3"/>
-        <path d="M 279 452 A 234 61 0 0 0 745 452" stroke-opacity="0.11" stroke-width="3"/>
-        <path d="M 307 490 A 205 53 0 0 0 717 490" stroke-opacity="0.12" stroke-width="3"/>
-        <path d="M 334 521 A 179 46 0 0 0 690 521" stroke-opacity="0.11" stroke-width="3"/>
-        <path d="M 360 552 A 152 39 0 0 0 664 552" stroke-opacity="0.11" stroke-width="3"/>
-        <path d="M 395 596 A 117 30 0 0 0 629 596" stroke-opacity="0.10" stroke-width="3"/>
+      <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="none" stroke="url(#wallRim)" stroke-width="26" stroke-opacity="0.70" filter="url(#ringGlow)"/>
+      <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="none" stroke="url(#wallRim)" stroke-width="15"/>
+      <g id="net-mesh" clip-path="url(#bodyClip)" fill="none" stroke="#DAFBFF" stroke-linecap="round" filter="url(#meshSoft)">
+        <path d="M 234 297 C 256 445, 363 569, 418 600 C 424 662, 452 730, 480 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 317 328 C 332 476, 407 600, 446 600 C 450 662, 470 730, 490 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 408 341 C 417 489, 456 613, 477 600 C 479 662, 490 730, 500 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 512 346 C 512 494, 512 618, 512 600 C 512 662, 512 730, 512 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 616 341 C 607 489, 568 613, 547 600 C 545 662, 534 730, 524 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 707 328 C 692 476, 617 600, 578 600 C 574 662, 554 730, 534 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 790 297 C 768 445, 661 569, 606 600 C 600 662, 572 730, 544 796" stroke-opacity="0.48" stroke-width="3.4"/>
+        <path d="M 197 338 A 315 82 0 0 0 827 338" stroke-opacity="0.32" stroke-width="3.2"/>
+        <path d="M 224 376 A 289 75 0 0 0 800 376" stroke-opacity="0.31" stroke-width="3.2"/>
+        <path d="M 250 414 A 262 68 0 0 0 774 414" stroke-opacity="0.34" stroke-width="3.2"/>
+        <path d="M 279 452 A 234 61 0 0 0 745 452" stroke-opacity="0.32" stroke-width="3.2"/>
+        <path d="M 307 490 A 205 53 0 0 0 717 490" stroke-opacity="0.34" stroke-width="3.2"/>
+        <path d="M 334 521 A 179 46 0 0 0 690 521" stroke-opacity="0.32" stroke-width="3.2"/>
+        <path d="M 360 552 A 152 39 0 0 0 664 552" stroke-opacity="0.32" stroke-width="3.2"/>
+        <path d="M 395 596 A 117 30 0 0 0 629 596" stroke-opacity="0.30" stroke-width="3.2"/>
       </g>
-      <!-- mouth ring as a torus: soft aura, shaded body, lit crown, visible inner wall -->
-      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="#8FE4F2" stroke-opacity="0.22" stroke-width="24" filter="url(#ringGlow)"/>
-      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="url(#rimRing)" stroke-width="18" stroke-opacity="0.95"/>
-      <ellipse cx="512" cy="276" rx="277" ry="55" fill="none" stroke="url(#rimInner)" stroke-width="5.5"/>
-      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="url(#rimTop)" stroke-width="6"/>
+      <!-- mouth ring as a brilliant torus: aura, lit body, visible inner wall, lit crown -->
+      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="#2FD0E8" stroke-opacity="0.56" stroke-width="42" filter="url(#ringGlow)"/>
+      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="url(#rimRing)" stroke-width="26" stroke-opacity="0.98"/>
+      <ellipse cx="512" cy="276" rx="273" ry="51" fill="none" stroke="url(#rimInner)" stroke-width="6"/>
+      <ellipse cx="512" cy="272" rx="296" ry="74" fill="none" stroke="url(#rimTop)" stroke-width="9"/>
     </g>
 
     <g id="highlight">
       <!-- broad soft bleed through the net wall, then the orb -->
-      <circle cx="512" cy="706" r="252" fill="url(#catchHalo)"/>
-      <circle cx="512" cy="708" r="96" fill="#FFC576" opacity="0.30" filter="url(#gelBloom)"/>
+      <circle cx="512" cy="706" r="272" fill="url(#catchHalo)"/>
+      <circle cx="512" cy="708" r="100" fill="#FFB855" opacity="0.38" filter="url(#gelBloom)"/>
       <circle cx="512" cy="706" r="63" fill="url(#catchCore)"/>
-      <ellipse cx="497" cy="686" rx="24" ry="19" fill="#FFFDF6" opacity="0.72" filter="url(#meshSofter)"/>
+      <ellipse cx="497" cy="686" rx="24" ry="19" fill="#FFFDF6" opacity="0.74" filter="url(#meshSofter)"/>
       <!-- authored overlap: the cod-end gel + net strands read ACROSS the glow -->
       <g clip-path="url(#podBand)">
-        <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="#B7EDF6" fill-opacity="0.13"/>
-        <g clip-path="url(#bodyClip)" fill="none" stroke="#F2FDFF" stroke-linecap="round" stroke-opacity="0.21" stroke-width="3.2" filter="url(#meshSoft)">
+        <path d="M 216 272 C 232 430, 318 546, 408 600 C 384 646, 388 742, 440 782 C 476 804, 548 804, 584 782 C 636 742, 640 646, 616 600 C 706 546, 792 430, 808 272 A 296 74 0 0 1 216 272 Z" fill="#C6F2FA" fill-opacity="0.15"/>
+        <g clip-path="url(#bodyClip)" fill="none" stroke="#F6FEFF" stroke-linecap="round" stroke-opacity="0.46" stroke-width="3.4" filter="url(#meshSoft)">
           <path d="M 317 328 C 332 476, 407 600, 446 600 C 450 662, 470 730, 490 796"/>
           <path d="M 408 341 C 417 489, 456 613, 477 600 C 479 662, 490 730, 500 796"/>
           <path d="M 512 346 C 512 494, 512 618, 512 600 C 512 662, 512 730, 512 796"/>
@@ -268,7 +275,7 @@
         </g>
       </g>
       <!-- warm caustic where the cod-end wall turns under the catch -->
-      <path d="M 440 782 C 476 804, 548 804, 584 782" fill="none" stroke="#FFDCA8" stroke-opacity="0.34" stroke-width="7" stroke-linecap="round" filter="url(#meshSoft)"/>
+      <path d="M 440 782 C 476 804, 548 804, 584 782" fill="none" stroke="#FFD79A" stroke-opacity="0.40" stroke-width="7" stroke-linecap="round" filter="url(#meshSoft)"/>
     </g>
   </g>
 </svg>
