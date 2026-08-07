@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "B",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "The stamp itself is rendered identically in both, so the deciding difference is the ground plane: B's diagonal keeps a textured wedge running to the lower-left corner, matching the REFERENCE's concrete/paper split and its heavier weighting toward the textured surface, whereas A lets the pale paper reach the left edge and flattens that lower-left area.",
+      "material": "Volumetric shading, the translucent curl, the soft top-face gradient and the warm rim glow along the base are indistinguishable between A and B, and both read as slightly flatter and glassier than the REFERENCE's gritty stone.",
+      "silhouette": "The block, curl and rounded-square boundary are pixel-for-pixel the same in both takes, giving the same clean angled read against the background.",
+      "smallsize": "At 128/32/16px the two strips are visually identical \u2014 same dark diagonal mass, same surviving orange edge, same loss of the curl into a pale smudge."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "claude -p (opus)"
+  }
+}

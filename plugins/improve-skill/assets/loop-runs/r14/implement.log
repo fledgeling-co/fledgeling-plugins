@@ -1,0 +1,11 @@
+**Gate: ACCEPT, +0.0026 net.** 1024 0.5058→0.5060, 256 0.4699→**0.4716**, 128 0.5160→**0.5167**, 32 0.7886→0.7886, 16 0.8362→0.8362. No size negative. Structure PASS at 1785 paths / 307,135 bytes.
+
+**What changed.** The cut is this icon's longest boundary and the master drew it as a colour change with no geometry. Fitting each image's own cut (34.0° ours, 41.0° C2's) and binning luminance by true perpendicular distance, C2 shows the same four-part step at all three block-free stations — crest +7.8%, shadowed riser −18.6%, lit arris +17.7% of their own plateaus — growing left to right, and it survives downsampling (+10.8% at 256, +5.4% at 128). Ours was a monotonic ramp. It now ships as one band path carrying the whole cross-section in a single local-frame gradient, with the swell as a mask. Achieved: crest +3.3/+3.1/+5.0%, riser −12.0/−12.9/−14.4% against C2's −15.6% at the same x, arris +3.7/+4.3/+4.0%.
+
+**Rubric unmoved at 11/12** — figure-ground, vermilion footprint and 16px spread are bit-identical, polarity holds at +0.151.
+
+**One disagreement.** The residual wants us darker on *both* sides, so the composite pays for the riser and charges for the arris — only because our trued plane is 0.22 too bright, a palette fault. Shipping the riser alone would score better and make a groove, not a step. The pair ships whole. The arris is also capped: 8.8% of headroom against a 24.1% target; the step cannot be lit past the source.
+
+**Reusable:** *carry a cross-section in one gradient, and anchor its swell where you can still measure it* — anchoring on the occluded geometric peak, as I did first, scales every visible part to an unverifiable value and applies the ramp twice.
+
+---STDERR---

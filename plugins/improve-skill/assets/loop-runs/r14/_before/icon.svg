@@ -95,23 +95,6 @@
   <linearGradient id="tearBD" gradientUnits="userSpaceOnUse" x1="423.9" y1="652.7" x2="-133.8" y2="-206.1"><stop offset="0.0000" stop-color="#4E4636" stop-opacity="0.417"/><stop offset="0.3125" stop-color="#4E4636" stop-opacity="0.438"/><stop offset="0.3750" stop-color="#4E4636" stop-opacity="0.646"/><stop offset="0.4375" stop-color="#4E4636" stop-opacity="0.875"/><stop offset="0.5000" stop-color="#4E4636" stop-opacity="1.000"/><stop offset="0.5625" stop-color="#4E4636" stop-opacity="1.000"/><stop offset="0.6250" stop-color="#4E4636" stop-opacity="0.950"/><stop offset="0.6875" stop-color="#4E4636" stop-opacity="0.925"/><stop offset="0.7500" stop-color="#4E4636" stop-opacity="0.867"/><stop offset="0.8125" stop-color="#4E4636" stop-opacity="0.750"/></linearGradient>
   <linearGradient id="tearBL" gradientUnits="userSpaceOnUse" x1="423.9" y1="652.7" x2="-133.8" y2="-206.1"><stop offset="0.0000" stop-color="#FFF4DE" stop-opacity="0.417"/><stop offset="0.3125" stop-color="#FFF4DE" stop-opacity="0.438"/><stop offset="0.3750" stop-color="#FFF4DE" stop-opacity="0.646"/><stop offset="0.4375" stop-color="#FFF4DE" stop-opacity="0.875"/><stop offset="0.5000" stop-color="#FFF4DE" stop-opacity="1.000"/><stop offset="0.5625" stop-color="#FFF4DE" stop-opacity="1.000"/><stop offset="0.6250" stop-color="#FFF4DE" stop-opacity="0.950"/><stop offset="0.6875" stop-color="#FFF4DE" stop-opacity="0.925"/><stop offset="0.7500" stop-color="#FFF4DE" stop-opacity="0.867"/><stop offset="0.8125" stop-color="#FFF4DE" stop-opacity="0.750"/></linearGradient>
 
-  <!-- ROUND 16. The cut's own cross-section, in the local frame: crest, shadowed riser,
-       lit arris, trued plane. Measured off C2 at three stations - see the STEP_ block in
-       the generator - and carried entirely by these stops, so the four features cannot
-       drift out of register with each other. -->
-  <linearGradient id="cutStep" gradientUnits="userSpaceOnUse"
-                  x1="0" y1="6.0" x2="0" y2="-12.0"><stop offset="0.0000" stop-color="#FFF4DE" stop-opacity="0.000"/><stop offset="0.1389" stop-color="#FFF4DE" stop-opacity="0.045"/><stop offset="0.2222" stop-color="#FFF4DE" stop-opacity="0.114"/><stop offset="0.2889" stop-color="#FFF4DE" stop-opacity="0.050"/><stop offset="0.3333" stop-color="#FFF4DE" stop-opacity="0.000"/><stop offset="0.3444" stop-color="#4E4636" stop-opacity="0.070"/><stop offset="0.4000" stop-color="#4E4636" stop-opacity="0.190"/><stop offset="0.5278" stop-color="#4E4636" stop-opacity="0.324"/><stop offset="0.6444" stop-color="#4E4636" stop-opacity="0.170"/><stop offset="0.6889" stop-color="#4E4636" stop-opacity="0.000"/><stop offset="0.7000" stop-color="#FFF4DE" stop-opacity="0.120"/><stop offset="0.7444" stop-color="#FFF4DE" stop-opacity="0.480"/><stop offset="0.7778" stop-color="#FFF4DE" stop-opacity="0.800"/><stop offset="0.8222" stop-color="#FFF4DE" stop-opacity="0.440"/><stop offset="0.8778" stop-color="#FFF4DE" stop-opacity="0.140"/><stop offset="1.0000" stop-color="#FFF4DE" stop-opacity="0.000"/></linearGradient>
-  <mask id="cutSwell" maskUnits="userSpaceOnUse"
-        x="-335.5" y="-14.0"
-        width="1237.0" height="22.0">
-    <linearGradient id="cutSwellRamp" gradientUnits="userSpaceOnUse"
-                    x1="-327.5" y1="0" x2="893.5" y2="0"><stop offset="0.0000" stop-color="#FFFFFF" stop-opacity="0.620"/><stop offset="0.2930" stop-color="#FFFFFF" stop-opacity="1.000"/><stop offset="1.0000" stop-color="#FFFFFF" stop-opacity="0.620"/></linearGradient>
-    <rect x="-335.5" y="-14.0"
-          width="1237.0" height="22.0"
-          fill="url(#cutSwellRamp)"/>
-  </mask>
-
-
   <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
        was always "warm-leaning graphite, not blue steel", but the constants never said
        so: the old ramp ran #2E3238 -> #5D636B, every stop with B ten points above R, and
@@ -1965,15 +1948,6 @@
       </g>
       </g></g>
     </g>
-
-    <!-- ROUND 16. The cut is a STEP, not a colour change: a shaving's thickness of
-         timber has gone. Sixteen local units of band, one paint, drawn over the grain
-         because an arris is geometry and the tear does not cross it - and drawn UNDER
-         the block's shadows, which fall across the step as they should. -->
-    <g transform="matrix(0.83867,-0.54464,-0.54464,-0.83867,274.625,778.284)"><g mask="url(#cutSwell)">
-      <path d="M-364.1 6.0 H1052.4 V-12.0 H-364.1 Z"
-            fill="url(#cutStep)"/>
-    </g></g>
 
     <!-- the solid's own shadow, from the one soft top-left light: a deep soft cast
          plus a tight occlusion where it actually touches down -->
