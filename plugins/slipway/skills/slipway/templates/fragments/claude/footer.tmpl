@@ -3,6 +3,10 @@
 
 Secrets come from 1Password, never from chat or hardcoding. `apps/web/.env.local` carries `OP_ACCOUNT` (the default 1Password account/team id) and `OP_VAULT` (this project's vault); keys graduate to `op://<vault>/<item>/<field>` references and `scripts/env-pull.sh` resolves them in place with the `op` CLI — values flow 1Password → file directly and never pass through an agent's context. When a new secret is needed, add the empty key to `.env.example` (committed, canonical list — BP §13) and the `op://` reference to `.env.local`.
 
+## External-model egress (the loupe rule)
+
+Calling an external-model CLI (codex, Cursor, any non-Anthropic executor or reviewer) is **data egress**: a read-only sandbox restricts writes, not the network, so the artifact and every file the tool opens leave this machine. The lane is switchable per repo, positionally: it is **OFF** if a whole line in `CLAUDE.md`, `AGENTS.md` or `ORCHESTRATOR.md` begins `OPT-OUT: external-models`. Run `grep -En '^OPT-OUT: external-models' CLAUDE.md AGENTS.md ORCHESTRATOR.md 2>/dev/null` before **every** external call — it is the only kill-switch that reaches a run already in flight. Do not restate the marker anywhere else in a scanned file.
+
 ## Portfolio manifest
 
 This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-armada` orchestrator plans from. After completing work here that changes the project's status, features, or the location of its key docs (specs, plans, mocks, ORCHESTRATOR.md), refresh this project's entry with the `armada-sync` skill (fledgeling-plugins).

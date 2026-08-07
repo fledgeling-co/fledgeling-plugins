@@ -12,7 +12,11 @@ Panel `dr_63ac10b56c131b28`: openai `dr_49b878ae294d4343` · local-claude `dr_98
 - **notarytool-only pipeline** with `ditto` (zip/cp break the seal), staple, `stapler validate`, `spctl` assess; CI passes ASC API-key creds (keychain profiles aren't exportable).
 - **Known ecosystem facts baked into templates**: Next 16 removed `next lint` (direct flat ESLint), Node ≥20.9 floor, `proxy.ts` not `middleware.ts` (noted in next.config comment), Next 16.2+ vendors docs at `node_modules/next/dist/docs/` (noted in generated CLAUDE.md), pnpm 10 `onlyBuiltDependencies` (pnpm 11 renames to `allowBuilds`, Node ≥22 — comment in pnpm-workspace.yaml), Nest SWC monorepo caveat only applies to Nest CLI's own monorepo mode.
 
-## Prioritized roadmap (not yet built — implement in this order)
+## Roadmap status (2026-08-07: items 1,2,4,5,7,8,9,10 SHIPPED in 1.7.0)
+
+Shipped: state inventory + drift + honest upgrade (scripts/drift.sh, scripts/upgrade.sh — unmodified-replace / conflict-sibling / deletion-respect semantics); `--plan` machine-readable plan artifact; pnpm `catalog:` for shared ranges; ownership classes in state.json; `scripts/doctor.sh`; observability module (Sentry, inert until DSN); loupe egress kill-switch distilled into the generated CLAUDE.md; canary permutations (all/saas/native/site). Remaining: item 3's full tagged-template-version diffing (upgrade.sh currently diffs against CURRENT templates — version tags would let it diff against the templates the project was born from), and item 6 (--https profile).
+
+## Original prioritized roadmap (for reference)
 
 1. **Idempotent re-run + state inventory** (openai's "required contract"): `.slipway/state.json` with generated-file hashes; re-run of unchanged config = zero changes; refuse changes to user-modified files without `--diff`/`--force`. This is the gateway to everything below.
 2. **Plan artifact**: `slipway plan` emitting the JSON file/port/package plan before mutation (Nx virtual-FS precedent; Anthropic plan-validate-execute). Today `--dry-run` prints a summary; a machine-readable plan enables confirmation UIs and eval assertions.

@@ -11,3 +11,29 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - "@swc/core"
+
+# Shared external version ranges (BP + research: the pinning middle ground —
+# policy ranges live HERE once, exact resolution lives in the lockfile).
+# Apps reference these as "catalog:"; bump a range in one place.
+catalog:
+  "@ai-sdk/anthropic": "latest"
+  "@ai-sdk/react": "latest"
+  "@react-email/components": "latest"
+  "@types/node": "latest"
+  "@types/react": "latest"
+  "@types/react-dom": "latest"
+  "@typescript/native-preview": "latest"
+  "ai": "^7"
+  "date-fns": "latest"
+  "eslint": "^9"
+  "eslint-config-next": "latest"
+  "ioredis": "latest"
+  "jose": "latest"
+  "mongoose": "latest"
+  "next": "latest"
+  "react": "latest"
+  "react-dom": "latest"
+  "resend": "latest"
+  "server-only": "latest"
+  "typescript": "^6"
+  "zod": "latest"

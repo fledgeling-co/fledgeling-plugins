@@ -26,7 +26,7 @@ TPL="$SCRIPT_DIR/../templates"
 
 CODENAME="" DISPLAY="" DESCRIPTION="" BUNDLE_PREFIX="" MODULES="web,tokens"
 DEST="$HOME/Dev" PORT_WEB="" PORT_API="" TEAM_FILES="$HOME/Dev/bella-team-files"
-NO_INSTALL=0 DRY_RUN=0 MACOS_STYLE="window" MACOS_DIST="direct" OP_ACCOUNT="" OP_VAULT="" GITHUB_ORG="" DESIGN_REF=""
+NO_INSTALL=0 DRY_RUN=0 PLAN=0 MACOS_STYLE="window" MACOS_DIST="direct" OP_ACCOUNT="" OP_VAULT="" GITHUB_ORG="" DESIGN_REF=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -47,6 +47,7 @@ while [ $# -gt 0 ]; do
     --team-files) TEAM_FILES="$2"; shift 2;;
     --no-install) NO_INSTALL=1; shift;;
     --dry-run) DRY_RUN=1; shift;;
+    --plan) PLAN=1; shift;;                     # emit the JSON plan (files/ports/modules), write nothing
     *) echo "unknown arg: $1" >&2; exit 2;;
   esac
 done
@@ -66,6 +67,7 @@ if has_module push && ! has_module auth; then MODULES="auth,$MODULES"; fi
 if has_module auth && ! has_module data; then MODULES="data,$MODULES"; fi
 if has_module admin && ! has_module data; then MODULES="data,$MODULES"; fi
 if has_module waitlist && ! has_module data; then MODULES="data,$MODULES"; fi
+if has_module observability && ! has_module web; then MODULES="web,$MODULES"; fi
 if has_module data && ! has_module web; then MODULES="web,$MODULES"; fi
 
 [ -e "$PROJECT_DIR" ] && { echo "refusing: $PROJECT_DIR already exists" >&2; exit 1; }
@@ -92,13 +94,40 @@ fi
 [ -n "$PORT_API" ] || PORT_API=$((PORT_WEB + 1))
 PORT_ADMIN=$((PORT_WEB + 2))
 
-echo "== slipway scaffold"
-echo "   project:  $PROJECT_DIR"
-echo "   display:  $DISPLAY"
-echo "   modules:  $MODULES"
-echo "   bundle:   $BUNDLE_PREFIX.<app>"
-echo "   ports:    web=$PORT_WEB api=$PORT_API"
-echo "   host:     $CODENAME.local"
+if [ "${PLAN:-0}" != 1 ]; then
+  echo "== slipway scaffold"
+  echo "   project:  $PROJECT_DIR"
+  echo "   display:  $DISPLAY"
+  echo "   modules:  $MODULES"
+  echo "   bundle:   $BUNDLE_PREFIX.<app>"
+  echo "   ports:    web=$PORT_WEB api=$PORT_API"
+  echo "   host:     $CODENAME.local"
+fi
+if [ "$PLAN" = 1 ]; then
+  python3 - "$TPL" "$MODULES" "$CODENAME" "$PORT_WEB" "$PORT_API" "$PORT_ADMIN" <<'PY'
+import json, pathlib, sys
+tpl, modules, codename = pathlib.Path(sys.argv[1]), sys.argv[2].split(","), sys.argv[3]
+DIR_TARGET = {"base": ".", "web": "apps/web", "api": "apps/api", "macos": "apps/macos",
+              "ios": "apps/ios", "rn": "apps/mobile", "rn-root": ".", "tokens": "packages/design-tokens",
+              "data": "apps/web", "auth": "apps/web", "push": "apps/web", "waitlist": "apps/web",
+              "observability": "apps/web", "admin": "apps/admin", "rust": ".", "rust-root": "."}
+dirs = ["base"] + [m for m in modules if (tpl / m).is_dir()]
+if "rn" in modules: dirs.append("rn-root")
+if "rust" in modules: dirs.append("rust-root")
+files = []
+for d in dirs:
+    for p in sorted((tpl / d).rglob("*")):
+        if p.is_file():
+            rel = str(p.relative_to(tpl / d))
+            rel = "/".join(("." + q[4:]) if q.startswith("dot_") else q for q in rel.split("/"))
+            rel = rel[:-5] if rel.endswith(".tmpl") else rel
+            files.append(str(pathlib.PurePosixPath(DIR_TARGET[d]) / rel))
+print(json.dumps({"codename": codename, "modules": modules,
+                  "ports": {"web": int(sys.argv[4]), "api": int(sys.argv[5]), "admin": int(sys.argv[6])},
+                  "file_count": len(files), "files": sorted(set(files))}, indent=1))
+PY
+  exit 0
+fi
 [ "$DRY_RUN" = 1 ] && { echo "   (dry run — nothing written)"; exit 0; }
 
 PNPM_VERSION="$(pnpm --version 2>/dev/null || echo 10.17.1)"
@@ -168,6 +197,7 @@ has_module auth   && render_dir auth   "$PROJECT_DIR/apps/web"   # overwrites da
 has_module push   && render_dir push   "$PROJECT_DIR/apps/web"
 has_module admin  && render_dir admin  "$PROJECT_DIR/apps/admin"
 has_module waitlist && render_dir waitlist "$PROJECT_DIR/apps/web"
+has_module observability && render_dir observability "$PROJECT_DIR/apps/web"   # overwrites next.config with the Sentry-wrapped version
 
 # tokens: generate tokens.css NOW (pure node, no deps) so the committed file is in
 # sync and the gate's drift check passes from the first run.
@@ -220,7 +250,7 @@ if has_module api && has_module data; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
-    j.dependencies = { ...j.dependencies, "@nestjs/mongoose": "latest", mongoose: "latest", ioredis: "latest" };
+    j.dependencies = { ...j.dependencies, "@nestjs/mongoose": "latest", mongoose: "catalog:", ioredis: "catalog:" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/api/package.json"
 fi
@@ -230,13 +260,22 @@ if has_module auth; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
-    j.dependencies = { ...j.dependencies, jose: "latest", resend: "latest", "@react-email/components": "latest" };
+    j.dependencies = { ...j.dependencies, jose: "catalog:", resend: "catalog:", "@react-email/components": "catalog:" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/web/package.json"
   cat "$TPL/fragments/env/auth.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 if has_module push; then
   cat "$TPL/fragments/env/push.env" >> "$PROJECT_DIR/apps/web/.env.example"
+fi
+if has_module observability; then
+  node -e '
+    const fs = require("fs"); const p = process.argv[1];
+    const j = JSON.parse(fs.readFileSync(p, "utf8"));
+    j.dependencies = { ...j.dependencies, "@sentry/nextjs": "latest" };
+    fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+  ' "$PROJECT_DIR/apps/web/package.json"
+  cat "$TPL/fragments/env/observability.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 
 # 1Password: seed .env.local from .env.example with OP_ACCOUNT/OP_VAULT filled.
@@ -260,7 +299,7 @@ if has_module data; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
-    j.dependencies = { ...j.dependencies, mongoose: "latest", ioredis: "latest" };
+    j.dependencies = { ...j.dependencies, mongoose: "catalog:", ioredis: "catalog:" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/web/package.json"
   cat "$TPL/fragments/env/data.env" >> "$PROJECT_DIR/apps/web/.env.example"
@@ -282,8 +321,8 @@ assemble caddy   "$PROJECT_DIR/Caddyfile"              web api admin
 if has_module web || has_module api || has_module data; then
   assemble compose "$PROJECT_DIR/docker-compose.dev.yml" web api data
 fi
-assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push waitlist rust
-assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push waitlist rust
+assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push waitlist observability rust
+assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push waitlist observability rust
 mkdir -p "$PROJECT_DIR/docs"
 assemble arch    "$PROJECT_DIR/docs/ARCHITECTURE.md"    web api admin macos ios rn tokens rust
 assemble testing "$PROJECT_DIR/docs/TESTING.md"         web api rn macos ios rust
@@ -321,6 +360,25 @@ json.dump({
     "ports": {"web": $PORT_WEB, "api": $PORT_API, "admin": $PORT_ADMIN},
     "op_vault": "$OP_VAULT" or None,
 }, open(sys.argv[1], "w"), indent=2)
+PY
+
+# ---- state inventory (.slipway/state.json): SHA256 of every generated file +
+# ownership class. This is what makes drift detection and upgrades possible —
+# an unmodified hash means the file is safely replaceable by a newer template.
+python3 - "$PROJECT_DIR" <<'PY'
+import hashlib, json, os, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+GENERATOR_OWNED = ("docs/CODING_PRACTICES.md", "docs/NEW_PROJECT_BEST_PRACTICES.md",
+                   "scripts/env-pull.sh", ".slipway/", ".husky/pre-push")
+state = {}
+for p in sorted(root.rglob("*")):
+    if p.is_dir() or ".git/" in str(p) or p.name in ("state.json", "next-env.d.ts"):
+        continue
+    rel = str(p.relative_to(root))
+    ownership = "generator" if any(rel.startswith(g) or rel == g.rstrip("/") for g in GENERATOR_OWNED) else "starter"
+    state[rel] = {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "ownership": ownership}
+out = root / ".slipway" / "state.json"
+out.write_text(json.dumps(state, indent=1) + "\n")
 PY
 
 # ---- 4. guard: no unrendered tokens

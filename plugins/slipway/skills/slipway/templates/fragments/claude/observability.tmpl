@@ -1,0 +1,1 @@
+- Observability — @sentry/nextjs is wired (instrumentation.ts + client/server/edge configs, next.config wrapped) but **inert until SENTRY_DSN is set**; no data leaves the machine before that. Errors and 0.1-sampled traces once enabled; raise sampling deliberately, never to 1.0 in prod. Sourcemap upload needs SENTRY_AUTH_TOKEN (CI only).

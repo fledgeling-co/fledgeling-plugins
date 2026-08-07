@@ -1,0 +1,23 @@
+import type { NextConfig } from 'next';
+import { withSentryConfig } from '@sentry/nextjs';
+
+// Baseline security headers from day one (BP §12); CSP is the deliberate gap —
+// add a nonce-based CSP with the first inline script (see BP §12).
+const securityHeaders = [
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+];
+
+const nextConfig: NextConfig = {
+  output: 'standalone',
+  allowedDevOrigins: ['{{CODENAME}}.local'],
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }];
+  },
+};
+
+// Sourcemap upload only runs when SENTRY_AUTH_TOKEN is set; builds stay green without it.
+export default withSentryConfig(nextConfig, { silent: true });
