@@ -108,9 +108,12 @@ Run the instrument as you go:
     python3 {skill_dir}/scripts/fidelity.py score --candidate {icon} --reference {reference} --outdir {round_dir} --label "{round_id} {edit_class}"
     python3 {skill_dir}/scripts/fidelity.py gate --candidate {round_dir}/score.json --baseline {baseline_dir}/score.json
 
-The gate is the round's verdict. If it REJECTs, restore the baseline state of
-`{build}`, regenerate, and report the rejection with its numbers. A rejected
-round is a real result; the loop's next round takes a different class. Do not
+The gate is the round's verdict, and the harness applies it. If it REJECTs,
+LEAVE your candidate in place and report the rejection with its numbers; the
+harness reverts from its own snapshot. Do not revert the files yourself: the
+harness re-scores independently after you finish, and a reverted file makes it
+score the baseline instead of your work, losing the round's real numbers. A
+rejected round is a real result; the next round takes a different class. Do not
 keep editing to chase an ACCEPT.
 
 {extra_checks}

@@ -14,3 +14,4 @@ loop-runs/ (Phase 4 training data).
 | 2 | improve-skill | detail | HARNESS-FAIL | n/a | implement agent could not run |
 | 2 | improve-skill | detail | HARNESS-FAIL | n/a | implement agent could not run |
 | 2 | improve-skill | detail | HARNESS-FAIL | n/a | implement agent could not run |
+| 2 | improve-skill | detail | REJECT | n/a |  |
