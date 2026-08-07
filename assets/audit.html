@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fledgeling icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric b { color: #a9bec5; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Fledgeling icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;Tahoe Gel-Glass, dark sub-register (c) — warm variant&rdquo; · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16. This is a <em>refinement</em> commission: the shipping mark preserves the existing silhouette, the three-colour palette and the warm register, and upgrades the material, the optical balance and the layer structure.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · fledgeling-icon.svg<small>hand-authored layered SVG — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Checks 1–4 all pass on the real renders. Silhouette verified by thresholding the 1024 to solid black: nameable as a two-leaf sprout with a released spark. At 16px it is the strongest of the four — the stalk went from 4.5% to 7.9% of tile width at the base (0.72px &rarr; 1.26px at 16px) and the glyph from 46.5% to 55.7% of tile width, which is what recovered legibility. Measured figure-ground at the cream mid-tone against the ground: 12.2:1. Four genuine layers (<code>bg / mid / fg / highlight</code>) over a swappable ground, identity carried by shape and value, so check 10 passes by construction. Docked one point on <b>#9 era coherence</b>: the authored translucency where the upper leaf crosses the stalk is deliberately dialled back to 0.95 opacity, because at the 0.84–0.92 that reads as proper gel it produced a visible ghost seam through the stalk edge. Six of the nine Tahoe tells are present; that one is under-expressed on purpose.</td>
+  </tr>
+
+  <tr>
+    <td class="take">— · app/icon.svg<small>the existing mark, baseline (not a take)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/current-256.png" width="128" height="128" alt="Existing mark at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/current-64.png" width="32" height="32" alt="Existing mark at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/current-32.png" width="16" height="16" alt="Existing mark at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/current-32.png" width="96" height="96" alt="Existing mark 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Included so the refinement is measurable rather than asserted. Strong on palette, figure-ground, personality and no-text; the sprout-plus-ember device is genuinely ownable and is why it was preserved. Fails <b>#2 grid</b> (glyph bounding box sits 2.3% right and 5.8% low of centre, and occupies only ~46% of tile width against the 55–65% band), <b>#9 era</b> (flat, pre-Tahoe: no cushion, no light model, no material) and <b>#10 variant robustness</b> (single flat layer). <b>#4</b> is a marginal pass only — the 4.5%-wide stroke resolves to 0.72px at 16px, which is what makes the small render look frail next to take A.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · fledgeling-icon-engineB.svg<small>Arrow 1.1 vector take, from the shared spec</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Lost on the non-negotiables. <b>#1</b> hard-fails twice: a 16-unit corner radius is baked into the tile <em>and</em> an outer drop shadow is painted around it. <b>#2</b> fails — the canvas is 144.9&times;150, not square, and the glyph drifts up-right. <b>#3/#4</b> fail on the subject: both blades resolved into one leaf pointing the same way, so the fledgeling reading is gone and at 32px it is a generic leaf with a red berry. <b>#6</b> drifts off-brand (#C95B31 for the ember, #FBFAD8/#EFECD7 for the cream, and a ground that renders greenish-grey rather than warm charcoal). Nothing salvaged into the master — its one contribution was negative evidence that a symmetric two-leaf arrangement kills the bird reading, which is why take A keeps the blades deliberately asymmetric.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 · fledgeling-icon-c1.png<small>GPT Image 2 raster, referenced against 4 dark-register corpus exemplars</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The most beautiful take at 1024 and the one that loses hardest small. Audited on its squircle-masked 1024. <b>#4</b> hard-fails: verified on the real 32px render, the emissive glow blows out and the mark smears to an unnameable pale blob. <b>#1</b> fails — rounded corners, an outer bloom and a tile edge are all painted into the raster. <b>#10</b> fails by definition (flat pre-masked raster; identity is a glow relationship — corpus failure mode 10 exactly). <b>#9</b> fails against the committed spec: the references pulled it to Direction 4 Dark-Field Emissive rather than the gel register asked for. Genuinely salvageable idea, deliberately not taken: it renders the wing crossing the body as <em>one continuous poured ribbon</em> rather than two blades over a stalk, which is the most elegant answer to the overlap problem anyone produced — but adopting it would be a redesign, and this commission is a refinement.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (fledgeling-icon.svg).</strong> It is the only take that passes all four non-negotiables on real renders, and the only one that is Icon-Composer-ready: four named layer groups map 1:1 onto Icon Composer layers, and the tile is a single referenced <code>&lt;path id="tileShape"&gt;</code> so a macOS submission swaps it for a full-bleed <code>&lt;rect&gt;</code> in one line. Material provenance is the Apple corpus, not invention — the cushion tile, poured gel gradients, lit-edge-only rims and emissive-interior ember are the grammar read off <code>apple-16</code> (Weather), <code>apple-21</code> and <code>apple-03</code>. Brand fidelity is exact: #26231E-family ground, #EFE7D8 cream, #C4622D ember with #A44E20 deepening.
+<br><br>Known liabilities to revisit: <b>(1)</b> the authored overlap is under-expressed — the era's signature craft moment is present only as a whisper, and getting it to full strength needs the leaf and stalk redrawn as one continuous ribbon (the C1 idea), which is a redesign decision, not a tweak. <b>(2)</b> The tile ships a baked squircle because the rounded charcoal tile <em>is</em> the brand mark on the website; correct here, but it must be swapped for a full-bleed rect before any macOS icon submission. <b>(3)</b> The ember still resolves to roughly 2.2px at 16px — it survives, but it is the first thing that will die in a menu-bar tint, so the mark must stay nameable without it. <b>(4)</b> Rendering was verified in librsvg only; the <code>feGaussianBlur</code> rim and cast-shadow filters should be spot-checked in Safari and in Icon Composer before release.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, <code>magick -resize</code> for rasters.</div>
+</body>
+</html>

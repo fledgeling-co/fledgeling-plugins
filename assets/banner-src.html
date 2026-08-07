@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background:
+           radial-gradient(90% 140% at 24% 45%, #F1E4D7 0%, rgba(241,228,215,0) 55%),
+           linear-gradient(180deg, #F7F5F1 0%, #F5F3EF 60%, #F0EDE7 100%);
+         font-family: "Instrument Sans", sans-serif; }
+  .rule { position: absolute; left: 0; right: 0; height: 1px; background: rgba(36,34,30,.10); }
+  .rule.top { top: 56px; } .rule.bottom { bottom: 56px; }
+  .lockup { position: absolute; left: 150px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 292px; height: 292px; filter: drop-shadow(0 20px 40px rgba(36,34,30,.28)); }
+  .wordmark { font-family: "Newsreader", serif; font-optical-sizing: auto; font-size: 138px;
+              font-weight: 500; letter-spacing: -0.015em; line-height: 1; color: #24221E; }
+  .tagline { margin-top: 24px; font-size: 34px; color: #6B665D; letter-spacing: .002em; }
+  .tagline b { color: #24221E; font-weight: 500; }
+  .products { margin-top: 22px; font-size: 21px; letter-spacing: .01em; color: #8a8478;
+              display: flex; align-items: center; gap: 14px; }
+  .products .dot { width: 5px; height: 5px; border-radius: 50%; background: #C4622D; opacity: .85; }
+  .seed { position: absolute; border-radius: 50%; }
+</style>
+</head>
+<body>
+  <div class="rule top"></div><div class="rule bottom"></div>
+  <div class="lockup">
+    <img class="icon" src="fledgeling-icon.svg" alt="">
+    <div>
+      <div class="wordmark">fledgeling</div>
+      <div class="tagline">Tools for people <b>building from nothing.</b></div>
+      <div class="products">
+        <span>Typewright</span><span class="dot"></span>
+        <span>Lattice</span><span class="dot"></span>
+        <span>Lectern</span><span class="dot"></span>
+        <span>GridMD</span><span class="dot"></span>
+        <span>Claude Code plugins</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    // a few drifting seeds, ink-muted with one ember, rising toward the icon's berry
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 14; i++) {
+      const x = 1150 + rnd() * 400, y = 70 + rnd() * 380, s = 3 + rnd() * 4;
+      const el = document.createElement('span'); el.className = 'seed';
+      const ember = i === 3 || i === 9;
+      el.style.cssText = `left:${x}px;top:${y}px;width:${s}px;height:${s}px;opacity:${0.15 + rnd() * 0.25};background:${ember ? '#C4622D' : '#24221E'};`;
+      document.body.appendChild(el);
+    }
+  </script>
+</body>
+</html>
