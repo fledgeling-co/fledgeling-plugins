@@ -50,6 +50,11 @@ requirements keep the trap detector honest:
 
 - A flag without a mechanism is deleted (a tone classifier that
   penalizes exciting writing is not trap detection).
+- The mechanism must connect to the user's stated requirements: name
+  which stated requirement or constraint the idea breaks, not just a
+  generic downside. In a naming run, "conflicts with the reversibility
+  the ask demands" is a trap reason; "sounds enterprise-unfriendly" on
+  its own is not.
 - Each non-flagged shortlist idea survives one hostile-reviewer line:
   "how would a skeptic kill this?" If the kill lands, it was a trap.
 
