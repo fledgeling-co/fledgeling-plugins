@@ -1,0 +1,9 @@
+**Gate: ACCEPT, +0.0109 net.** 1024 0.4539→0.4584 (+0.0045), 256 0.4728→0.4725 (−0.0003), 128 0.5124→0.5163 (+0.0039), 32 0.7877→0.7865 (−0.0012), 16 0.8343→0.8383 (+0.0040). Worst size is inside the −0.005 tolerance; structure PASS at 1726 paths / 321,547 bytes.
+
+**What changed:** `grain()` only. The motivating measurement is coverage, not contrast — on a clean patch of un-planed ground the reference's 3–40px band sd is 0.0587 against our 0.0046, and across radius from the key ours *fell* 0.0114→0.0039 while the reference held 0.013–0.022. So the one family of dashes became two crossing families of dashed, wandering polylines, and each mark's opacity is now solved against a fitted map of the ground's own luminance so its contrast stays flat. First build came out as brickwork (anisotropy went 5.4→9.6); per-ridge bearing scatter and shorter marks fixed it to 5.7 rough / 6.2 trued, with the trued plane's 13.1 the biggest correction.
+
+**Rubric:** agrees with the gate — 16px read unchanged, `mask_iou` bit-identical, figure-ground 3.00:1→3.05:1, polarity +0.156. Cost is 1024 SSIM 0.6674→0.6185, expected: uncorrelated detail always lowers that metric.
+
+**Reusable:** specify ornament in luminance rather than alpha (solve opacity against a fitted substrate field), and draw every mark as a mean-neutral lit/shadowed pair — verified at 0.0002 drift. That neutrality is what makes dense texture free against a scorer that punishes mean and contrast drift.
+
+---STDERR---
