@@ -65,7 +65,7 @@
     {
       "name": "adhd",
       "description": "Evidence-grounded parallel divergent ideation for coding agents \u2014 the successor to the original adhd skill. Spawns isolated branches under a balanced frame portfolio (ordinary stakeholder, operational constraint, adversary, cross-domain mechanism, one wild seat), freezes the textbook baseline as both ban-list and boss gate, converges with mechanism-level clustering and pass/fail quality floors instead of 1-10 scores, and only stars a pick that beats the baseline on the stated ask \u2014 otherwise it openly recommends the baseline. Tiered runs (--any / standard / --100) with an auditable one-line receipt; frames pass a fit floor before spawning and are apoptosed from the output when their whole yield fails the floors. Use on /adhd, brainstorm/ideate intents, or open-ended design, architecture, naming, API-surface and fuzzy-debugging decisions. Every structural change traces to a measured 2024-2026 result (see references/evidence.md).",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

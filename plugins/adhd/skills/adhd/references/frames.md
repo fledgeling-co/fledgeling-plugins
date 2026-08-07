@@ -111,7 +111,10 @@ Before spawning, each candidate frame answers two questions:
 A frame failing either question is swapped for another candidate for the
 same seat. The floor is a veto on catastrophic mismatches, **not a
 ranking** — do not pick the "best-fitting" five, or the run converges
-before it diverges. Two properties keep the floor safe: the wild seat is
+before it diverges. A frame the **user explicitly requested** always
+runs, whatever the floor says — the floor governs the skill's own picks,
+never an instruction; apoptosis still applies to what the frame
+produces. Two properties keep the floor safe: the wild seat is
 exempt, and the floor judges the *frame–problem pairing*, not the frame
 ("10-year-old" fails on a memory allocator, passes on onboarding UX).
 

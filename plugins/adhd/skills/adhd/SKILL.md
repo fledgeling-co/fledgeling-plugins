@@ -64,8 +64,11 @@ misroute borderline cases and stamp the result as sanctioned.
 ## Phase 0 — Baseline anchor (before diverging)
 
 Write the pragmatic textbook answer inline — the 2–4 sentence answer a
-competent senior engineer gives in thirty seconds. Freeze it verbatim.
-No Agent call; you'd produce this anyway.
+competent senior engineer gives in thirty seconds — and name the
+problem's **native stack** in one clause (the frameworks, tools, and
+APIs the asker actually lives in: a Rails monolith means packwerk,
+ActiveSupport, Sidekiq; a CLI means signals, TTYs, exit codes). Freeze
+both verbatim. No Agent call; you'd produce this anyway.
 
 The baseline does two jobs:
 
@@ -79,6 +82,13 @@ The baseline does two jobs:
 2. **Boss gate.** In Phase 3 the shortlist must beat this baseline
    head-to-head on the stated ask, or the skill openly recommends the
    baseline. This is what keeps the output shippable.
+3. **Translation target.** Every idea that survives to the shortlist —
+   however alien its source frame — must land back in the named stack.
+   Blind judges comparing this skill's output against simpler
+   alternatives consistently rewarded the version whose steps named the
+   asker's actual tools; a wide exploration that ends in generic verbs
+   ("instrument the boundaries") loses to a narrow one that says
+   `packwerk init`.
 
 ## Phase 1 — Diverge (no critic)
 
@@ -174,8 +184,11 @@ Work in this order; each step defends against a documented failure.
    mutually different in mechanism. Never let two shortlist slots share a
    cluster — three variants of the strongest idea is convergence wearing
    a costume. When ranking within a cluster, compare pairwise (A vs B,
-   then B vs A; an unstable verdict is a tie) rather than assigning
-   absolute numbers.
+   then B v A; an unstable verdict is a tie) rather than assigning
+   absolute numbers. One slot belongs to the most **non-obvious**
+   floor-passing idea, explicitly marked — a shortlist of three safe
+   cluster winners has quietly re-converged on the middle, which defeats
+   the run's purpose.
 
 6. **Apoptosis.** A frame whose entire yield failed the floors is dropped
    from the rendered output — its ideas go to a one-line note in the
@@ -209,9 +222,9 @@ already required to reach this point. Verdicts: BEATS / TIES / LOSES.
 **Deepen** one winner per shortlist cluster (one Agent call each):
 
 > You are in FOCUS mode. Sketch how this idea actually works in 4–8
-> sentences. Name the load-bearing risk. Name the first concrete step a
-> builder takes tomorrow — in the problem's own toolchain, naming the
-> actual tools, commands, or APIs (a Rails problem gets a packwerk or
+> sentences. Name the load-bearing risk. Name the first concrete step as
+> a same-week starter in the problem's own toolchain, naming the actual
+> tools, commands, or APIs (a Rails problem gets a packwerk or
 > ActiveSupport::Notifications step, not "instrument the boundaries").
 > Then 3–5 child ideas (variations, hybrids, unlocks). Output JSON only.
 
@@ -224,7 +237,13 @@ tier's value lives.
 ## Output shape
 
 Render in this order. Structure is half the value; do not collapse into
-prose.
+prose. And density is the other half: blind judges comparing runs of
+this skill against plain answers read apparatus as dilution — "wrapped
+in ceremony that doesn't improve cut quality" was a real verdict. The
+brief and converge sections together must work as a standalone answer:
+a reader who stops there gets the recommendation, why it wins on their
+stated ask, and the first concrete step. Chips and receipts are one
+line each; everything else earns its length or gets cut.
 
 0. **Receipt** — one line: tier, frames spawned/returned, ideas
    generated/merged/floored, apoptosed frames, baseline verdict summary.
@@ -237,7 +256,10 @@ prose.
    each, cluster labels naming the angle.
 3. **Converge** — the shortlist with a one-line why each, its
    vs-baseline verdict chip (BEATS/TIES/LOSES), ★ on the recommended
-   pick. Traps listed separately, each with its failure mechanism.
+   pick, and the non-obvious slot marked. The ★ pick's line states why
+   it wins *on the stated ask* and its first step in the named stack —
+   this section plus the Brief must stand alone as the answer.
+   Traps listed separately, each with its failure mechanism.
 4. **Focus** — the deepened winners: sketch, load-bearing risk, first
    concrete step, children.
 5. **Provocation** — one wildcard question that opens a direction the
@@ -260,6 +282,10 @@ prose.
 - **Padding to quota.** Variable yield means a dry frame returns 3 ideas
   honestly. A frame returning filler to look productive dilutes scoring
   attention downstream.
+- **Ceremony mistaken for value.** Receipts, chips, and verdicts serve
+  audit and trust; they are one line each and never the show. If the
+  wide set's framing, the frame names, or the apparatus outweigh the
+  ideas, a blind reader scores the run as diluted — because it is.
 - **Refusing to commit.** "Here are 20 ideas, you decide" is a cop-out.
   Converge with a real opinion and a named recommendation.
 

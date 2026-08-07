@@ -2,6 +2,18 @@
 
 Run: 2026-08-07 · iteration 1, full 7-eval set · grader: independent subagent, structural assertions only (no LLM 1-10 scores, consistent with the skill's own scoring philosophy).
 
+## Iteration 2 — panel feedback applied and verified
+
+The blind panel's findings were fed back into the skill (v2.1.0): Phase 0 now names the problem's native stack and every shortlist idea must translate back into it; FOCUS first steps must be same-week starters naming actual tools; the output's Brief+Converge must stand alone as the answer ("ceremony is not value" is now an anti-pattern); and the shortlist reserves a marked non-obvious slot. The eval set gained panel-informed assertions (toolchain-native steps, the non-obvious slot) and eval 8, a forced-whimsy adversarial case that makes the apoptosis rules non-vacuous.
+
+Verification, same protocol as iteration 1:
+
+- **Eval 3 re-run (the unanimous iteration-1 loss):** the improved skill's fresh output was blind-judged against the *same* old-skill output, fresh random order, by all three families. **Unanimous flip to v2** — composer, grok-4.5, and the Claude judge all picked it, each citing this-week Rails-native first steps (`query_log_tags`, `pg_stat_statements`, code-maat, `sidekiq -C`) — precisely the dimension the panel said was missing. Verdicts: `blind-panel/iter2-eval3/`.
+- **Eval 8 (new, forced whimsy):** the user-requested 10-year-old frame ran (explicit instruction overrides the fit floor), survived apoptosis by contributing real published mechanisms (Left-Right, ForkScan) genuinely connected to epoch reclamation, and first steps were C++/Linux-native (`std::atomic`, `membarrier`, rseq, GenMC). **5/5 assertions.**
+- Grader feedback filed for iteration 3: the conditional apoptosis assertion passes vacuously when a frame survives; receipt process-claims aren't verifiable without transcripts.
+
+## Iteration 1 results
+
 **Headline:** new skill **31/32 assertions (96.4%)** vs predecessor **15/32 (49.0%)** on the same prompts, same subagent harness. Mean wall clock is higher for the new skill (roughly 355s vs 198s on the heavy evals); the boss gate, differentiation pass, and receipt cost real time, and that trade is deliberate.
 
 ## Per-eval results
