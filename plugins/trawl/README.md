@@ -1,11 +1,18 @@
 <p align="center">
-  <img src="assets/banner.png" alt="A glowing net sweeping through a field of small lights, gathering them toward one bright point" width="100%" />
+  <img src="assets/banner.png" alt="trawl — a luminous teal trawl-net icon beside the wordmark, with the tagline: cast a wide net over your options, keep only what's worth shipping" width="100%" />
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> trawl</h1>
 
 <p align="center"><strong>Cast a wide net over your options. Keep only what's worth shipping.</strong><br />
 A brainstorming engine for Claude Code, and the evidence-grounded successor to <a href="https://github.com/uditakhourii/adhd">uditakhourii/adhd</a>.</p>
+
+<p align="center">
+  <img alt="Version 2.2.0" src="https://img.shields.io/badge/version-2.2.0-1c7889">
+  <img alt="Structural evals: 96.4%" src="https://img.shields.io/badge/structural_evals-96.4%25-ee7027">
+  <img alt="Blind panel: 4 judge families" src="https://img.shields.io/badge/blind_panel-4_judge_families-5cc7d6">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
+</p>
 
 ---
 
@@ -37,6 +44,13 @@ The five thinkers work in isolation on purpose. Letting them see each other's id
 
 > [!NOTE]
 > The skill answers to `/trawl`. The old `/adhd` and "ADHD mode" still work as legacy aliases, so nothing breaks if your fingers remember the old name.
+
+## Installing
+
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install trawl
+```
 
 ## Using it
 

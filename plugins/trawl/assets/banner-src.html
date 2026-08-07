@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(120% 180% at 28% 40%, #16404f 0%, #0d2833 42%, #07131b 78%, #050d13 100%);
+         font-family: "Schibsted Grotesk", sans-serif; }
+  /* net-curve motif sweeping toward the icon, echoing the trawl */
+  svg.mesh { position: absolute; inset: 0; opacity: .5; }
+  .motes span { position: absolute; border-radius: 50%; background: #9adfe9; filter: blur(.4px); }
+  .lockup { position: absolute; left: 150px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 72px; }
+  .icon { width: 296px; height: 296px; filter: drop-shadow(0 18px 44px rgba(0,0,0,.55)); }
+  .words { padding-bottom: 8px; }
+  .wordmark { font-size: 148px; font-weight: 700; letter-spacing: -0.035em; line-height: 1;
+              color: #eef7f9; display: flex; align-items: baseline; }
+  .wordmark .dot { width: 26px; height: 26px; border-radius: 50%; margin-left: 18px;
+                   background: radial-gradient(circle at 38% 32%, #ffd98f 0%, #ffa732 45%, #ee7027 100%);
+                   box-shadow: 0 0 26px 6px rgba(255,167,50,.45); }
+  .tagline { margin-top: 26px; font-size: 33px; font-weight: 400; letter-spacing: .002em;
+             color: #8fb3bd; }
+  .tagline b { color: #cdeef4; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="mesh" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fade" x1="1600" y1="0" x2="240" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#5cc7d6" stop-opacity=".26"/>
+        <stop offset=".55" stop-color="#5cc7d6" stop-opacity=".10"/>
+        <stop offset="1" stop-color="#5cc7d6" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <!-- longitudinal strands converging right-to-left toward the icon, the banner echoing the net -->
+    <g stroke="url(#fade)" stroke-width="1.6">
+      <path d="M1600 40 C 1150 70, 760 150, 470 258"/>
+      <path d="M1600 130 C 1180 145, 800 195, 470 262"/>
+      <path d="M1600 225 C 1200 228, 820 240, 470 266"/>
+      <path d="M1600 320 C 1200 305, 820 285, 470 270"/>
+      <path d="M1600 415 C 1180 385, 800 330, 470 274"/>
+      <path d="M1600 495 C 1150 450, 760 375, 470 278"/>
+    </g>
+    <g stroke="#5cc7d6" stroke-opacity=".07" stroke-width="1.2">
+      <path d="M1180 60 C 1160 190, 1160 330, 1180 462"/>
+      <path d="M960 92 C 940 210, 940 315, 960 432"/>
+      <path d="M760 138 C 745 225, 745 300, 760 388"/>
+      <path d="M600 185 C 590 240, 590 285, 600 340"/>
+    </g>
+  </svg>
+  <div class="motes" id="motes"></div>
+  <div class="lockup">
+    <img class="icon" src="icon.svg" alt="">
+    <div class="words">
+      <div class="wordmark">trawl<span class="dot"></span></div>
+      <div class="tagline">Cast a wide net over your options. <b>Keep only what's worth shipping.</b></div>
+    </div>
+  </div>
+  <script>
+    // sparse mote field, denser toward the right (entering the net), amber-warming leftward
+    const m = document.getElementById('motes'); let seed = 7;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 46; i++) {
+      const x = 380 + rnd() * 1180, y = 40 + rnd() * 440, s = 2 + rnd() * 3.5;
+      const warm = 1 - (x - 380) / 1180;
+      const el = document.createElement('span');
+      el.style.cssText = `left:${x}px;top:${y}px;width:${s}px;height:${s}px;opacity:${0.25 + rnd() * 0.5};` +
+        (warm > 0.62 ? `background:#ffc46e;box-shadow:0 0 ${s*2.5}px rgba(255,167,50,.5);` : `box-shadow:0 0 ${s*2}px rgba(92,199,214,.4);`);
+      m.appendChild(el);
+    }
+  </script>
+</body>
+</html>
