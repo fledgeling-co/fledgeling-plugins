@@ -50,6 +50,48 @@ fixture (improve-skill A vs its C1 raster) a well-composed but materially
 flat master scored 0.83 at 16px and only 0.45 at 1024 — the loop's job is to
 raise the 1024 number without letting the small sizes slip.
 
+## Briefing the implement agent (Opus 5)
+
+Each round is one background Opus agent. How the brief is written changes
+what comes back, and two failure modes have already cost rounds here: an
+agent that ran 7 iterations against a 4-round cap, and briefs that spent
+tokens re-checking work the model had already checked. Anthropic's
+[Opus 5 prompting guide][opus5] and [prompting best practices][best]
+name both mechanisms; these patterns follow them.
+
+[opus5]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md
+[best]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md
+
+- **Structure the brief with XML tags, longform state first, the task
+  last.** Context, fixture, baseline numbers and prior learnings up top;
+  the ask at the end. Queries placed after long context measurably beat
+  the reverse.
+- **No verification scaffolding.** Opus 5 verifies its own work; "double
+  check", "re-verify before reporting" and "use a subagent to confirm"
+  compound with that and burn tokens for nothing. Instrument runs
+  (`structure`, `score`, `gate`, `measure.py`) are measurements the round
+  is *made of*, not self-checks, and stay.
+- **Cap delegation explicitly.** Opus 5 delegates readily; a round is a
+  single track. Say "do not delegate to subagents; spawn none."
+- **Constrain scope in the brief's own words.** State the edit class, what
+  is out of scope this round, and: deliver what was asked at the scope
+  intended, make routine judgment calls yourself, and if the brief looks
+  mistaken say so in a sentence and carry on rather than widening it.
+- **Give the vision work its tools.** Vision performance is strongest when
+  the model can crop, zoom and re-render rather than reason about what a
+  render probably looks like. Point the brief at the residual and edge
+  maps and ask for pixel values sampled out of both images. This is not
+  "check your work"; it is where the round's evidence comes from.
+- **Name the metric-gaming risk.** A loop that optimises a proxy invites
+  tuning constants against the composite. Ask for the material to be made
+  physically right, with the score following, and say the score is a proxy
+  for a human judgment.
+- **Calibrate deliverable length.** Written notes run long by default; ask
+  for the substance without padding, and give the final report a rough
+  word budget.
+- **Calm trigger language.** "Use X when…" outperforms "CRITICAL: you
+  MUST…", which overtriggers on current models.
+
 ## The judged layers — human sheet and blind panel
 
 The metrics are necessary, not sufficient; two judged instruments ride on top:

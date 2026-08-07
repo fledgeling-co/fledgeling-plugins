@@ -7,3 +7,4 @@ loop-runs/ (Phase 4 training data).
 
 | # | Fixture | Edit class | Gate | Panel | Skill change |
 |---|---------|-----------|------|-------|--------------|
+| 1 | improve-skill vs C2 | material (running) | — | — | fidelity-loop.md: Opus 5 implement-agent briefing patterns (evidence: curl agent ran 7 rounds against a 4-round cap; prior briefs carried verification scaffolding the Opus 5 guide names as an over-verification cause) |
