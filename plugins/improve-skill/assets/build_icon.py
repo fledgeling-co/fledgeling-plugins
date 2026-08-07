@@ -253,46 +253,188 @@ CONTACT = FOOT_LOWER
 
 
 # ---------------------------------------------------------------- ground texture
+# The ground's own luminance, fitted quadratically over each masked plane of the
+# render (x, y in units of the 1024 tile; rms residual 0.035 rough / 0.019 trued).
+# A ridge has to know what it is drawn on. A fixed-opacity dark stroke loses its
+# contrast wherever the field darkens, which is exactly why the master's texture
+# faded out away from the key while the reference's held flat: measured band sd
+# 0.0114 near the key falling to 0.0039 far from it, against a reference that sits
+# at 0.013-0.022 the whole way across.
+GROUND_ROUGH = (+0.98889, -0.85663, -0.53139, +0.38975, +0.04117, +0.73688)
+GROUND_TRUED = (-1.08929, +2.33595, +3.19389, -0.54761, -1.13929, -2.24668)
+
+GRAIN_DARK, GRAIN_DARK_L = "#4E4636", 0.277    # the shadowed flank of a torn ridge
+GRAIN_LITE, GRAIN_LITE_L = "#FFF4DE", 0.960    # its lit flank, half a stroke keyward
+GRAIN_OFFSET = 1.7                             # flank separation
+GRAIN_PIECE = 190.0                            # re-solve the field every this far
+GRAIN_AMP_A = 0.055      # travel-direction family: luminance swing, held flat in r
+GRAIN_AMP_B = 0.055      # along-blade family: the second half of the cross-hatch
+GRAIN_TRUE_F = 0.13      # the trued plane's share of it
+# The lit flanks all paint over the shadowed ones (one group each, so the file can
+# carry the colour once instead of 1500 times), so a little of every dark flank is
+# erased at a crossing; and on the trued plane the ground is already at 0.85, so an
+# off-white twin has almost no headroom left and clips against its own ceiling.
+# These are the measured corrections. Rendered against a grain-free ground the pair
+# now moves the un-planed plane by -0.0002 and the trued plane by +0.0001.
+GRAIN_BAL_ROUGH = 1.00
+GRAIN_BAL_TRUED = 1.45
+
+
+def ground_lum(coef, px, py):
+    x, y = px / 1024.0, py / 1024.0
+    a, b, c, d, e, f = coef
+    return min(0.94, max(0.42, a + b * x + c * y + d * x * x + e * y * y + f * x * y))
+
+
+def _key_local():
+    """The one key light, re-expressed in the blade's frame, so the lit flank of a
+    ridge faces the same source as every other highlight in the icon."""
+    lx, ly = LIGHT
+    kx, ky = -(UX * lx + UY * ly), -(NX * lx + NY * ly)
+    m = math.hypot(kx, ky)
+    return kx / m, ky / m
+
+
+def _dash(tear):
+    """Four numbers, so the break pattern's period is ~40 units rather than the dash
+    pitch - long enough that a stroke reads as torn rather than ruled, and cheap
+    enough to put a whole run of a ridge in one path element instead of thirty.
+    Short marks: the reference tears in 6-20px flecks, and the first cut of this
+    used 8-42, which read as brickwork."""
+    v = []
+    for _ in range(2):
+        v.append(f"{(4 + rnd() * 15) * (1.15 - 0.45 * tear):.1f}")
+        v.append(f"{(2.5 + rnd() * 13) * tear:.1f}")
+    return " ".join(v)
+
+
+def _clip_span(px, py, dx, dy, t0, t1):
+    """Trim a ridge to the part that can actually land on the tile. The frame is a
+    rotation, so a unit of t is a unit of canvas; without this, family B's ridges
+    each run the full 1500-unit diagonal of the local frame and most of every one
+    of them is paths spent outside the artboard."""
+    cx, cy = to_canvas(px, py)
+    ex, ey = to_canvas(px + dx, py + dy)
+    lo, hi = t0, t1
+    for p, v in ((cx, ex - cx), (cy, ey - cy)):
+        if abs(v) < 1e-9:
+            if p < -30.0 or p > W + 30.0:
+                return None
+            continue
+        s0, s1 = (-30.0 - p) / v, (W + 30.0 - p) / v
+        lo, hi = max(lo, min(s0, s1)), min(hi, max(s0, s1))
+    return (lo, hi) if hi - lo > 8.0 else None
+
+
+def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
+    """One ridge as a lit/shadowed pair, emitted in GRAIN_PIECE-long pieces, each
+    piece a short polyline that wanders off its own axis. A tear in end grain is not
+    a ruled line, and two exactly perpendicular families of ruled lines at an even
+    pitch read as brickwork, which is what the first cut of this looked like.
+
+    Each piece solves for the opacities that put a luminance swing of exactly +-amp
+    on the ground it actually lands on, and that make the pair mean-neutral: the
+    dark flank removes as much light as the twin adds. That balance is the whole
+    reason this can be dense. r02's texture was dense too, and it moved the plane's
+    mean, so it cost lum on every size and was rejected."""
+    span = _clip_span(px, py, dx, dy, t0, t1)
+    if span is None:
+        return
+    t0, t1 = span
+    kx, ky = _key_local()
+    ox, oy = -dy, dx
+    if ox * kx + oy * ky < 0:
+        ox, oy = -ox, -oy
+    ox, oy = ox * GRAIN_OFFSET, oy * GRAIN_OFFSET
+    ux, uy = ox / GRAIN_OFFSET, oy / GRAIN_OFFSET
+    wl = wid * 1.15
+    t = t0
+    while t < t1:
+        e = min(t + GRAIN_PIECE, t1)
+        cx, cy = to_canvas(px + dx * (t + e) / 2, py + dy * (t + e) / 2)
+        g = ground_lum(coef, cx, cy)
+        # the reference does not merely hold its texture away from the key, it gains
+        # a little: band sd 0.0166 at r 160-320 against 0.0202 at r 800-960
+        a = amp * (0.90 + 0.35 * math.hypot(cx - 75.0, cy - 25.0) / 1000.0)
+        od = min(0.55, a / max(g - GRAIN_DARK_L, 0.10))
+        ol = min(0.55, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
+        n = max(2, int((e - t) / 60.0) + 1)
+        pts = []
+        for i in range(n + 1):
+            s = t + (e - t) * i / n
+            j = (rnd() - 0.5) * 3.4
+            pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
+        d = _dash(tear)
+        seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+        dark.append(f'<path d="{seg}" stroke-opacity="{od:.3f}" '
+                    f'stroke-width="{wid:.2f}" stroke-dasharray="{d}"/>')
+        seg = "M " + " L ".join(f"{x + ox:.1f} {y + oy:.1f}" for x, y in pts)
+        lite.append(f'<path d="{seg}" stroke-opacity="{ol:.3f}" '
+                    f'stroke-width="{wl:.2f}" stroke-dasharray="{d}"/>')
+        t = e
+
+
 def grain():
-    """One family of grain lines running along the travel direction. The SAME line
-    crosses the boundary: torn and broken on the un-planed side, continuous and fine
-    on the trued side. That continuity is what makes the split read as one surface in
-    two states rather than as two different materials. Drawn right across the tile and
-    clipped per side, so the block sits ON the grain rather than beside it."""
-    rough, true = [], []
+    """Two crossing families of grain, and the SAME lines cross the boundary: torn
+    and broken on the un-planed side, near-continuous and faint on the trued side.
+    That continuity is what makes the split read as one surface in two states rather
+    than as two different materials. Drawn right across the tile and clipped per
+    side, so the block sits ON the grain rather than beside it.
+
+    Two families, not one, because that is what the reference has. Measured on a
+    clean patch of un-planed ground it is a cross-hatched torn lattice with cells of
+    20-30px, band sd 0.0587 against the master's 0.0046, and an anisotropy of 3.0;
+    the master's trued plane read 13.1 - ruled lines, not a worked surface. The
+    families run along the travel direction and along the blade, which is what a
+    plane leaves: the pass and the tear-out across it."""
+    rough_d, rough_l, true_d, true_l = [], [], [], []
+
+    def skew(deg):
+        """A ridge's own bearing. Two families held at exactly 0 and 90 degrees make
+        a grid; the reference's lattice scatters by a good ten degrees either way,
+        which is what stops the crossings falling into register."""
+        a = math.radians((rnd() - 0.5) * 2 * deg)
+        return math.cos(a), math.sin(a)
+
+    # --- family A: along the travel direction (local x fixed)
     x = LX_MIN - 40
     while x < LX_MAX + 40:
-        # --- trued side (local y < 0): long, even, fine. A sheen, not a stripe - but
-        #     present, because a trued plane still carries the mark of the pass.
-        if rnd() < 0.72:
-            op = 0.030 + rnd() * 0.042
-            true.append(
-                f'<path d="M {x:.1f} -8 L {x:.1f} {LY_MIN - 20:.0f}" stroke="#8A7C64" '
-                f'stroke-opacity="{op:.3f}" stroke-width="{1.1 + rnd() * 0.8:.2f}"/>'
-            )
-        if rnd() < 0.34:
-            op = 0.020 + rnd() * 0.026
-            true.append(
-                f'<path d="M {x + 6:.1f} -8 L {x + 6:.1f} {LY_MIN - 20:.0f}" stroke="#FFFFFF" '
-                f'stroke-opacity="{op:.3f}" stroke-width="{1.4 + rnd() * 1.2:.2f}"/>'
-            )
-        # --- un-planed side (local y > 0): short broken tooth marks. Some lines tear
-        #     badly, some hardly at all, which is what stops it reading as ruled rain.
-        tear = 0.34 + rnd() * 0.92
-        y = 8.0
-        while y < LY_MAX + 20:
-            seg = 6 + rnd() * 23 * tear
-            gap = 7 + rnd() * 20
-            op = (0.07 + rnd() * 0.13) * tear
-            wid = 1.2 + rnd() * 2.1
-            rough.append(
-                f'<path d="M {x + (rnd() - 0.5) * 4:.1f} {y:.1f} '
-                f'L {x + (rnd() - 0.5) * 4:.1f} {y + seg:.1f}" stroke="#6A5F4C" '
-                f'stroke-opacity="{op:.3f}" stroke-width="{wid:.2f}"/>'
-            )
-            y += seg + gap
-        x += 14.0 + rnd() * 8.0
-    return "\n      ".join(rough), "\n      ".join(true)
+        tear = 0.52 + rnd() * 0.48
+        sy, sx = skew(11.0)
+        _ridge(rough_d, rough_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
+               GRAIN_AMP_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9, tear,
+               GRAIN_BAL_ROUGH)
+        sy, sx = skew(11.0)
+        _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
+               GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
+               1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
+        x += 11.0 + rnd() * 14.0
+    # --- family B: along the blade (local y fixed), the tear-out across the pass.
+    #     Same amplitude and near enough the same pitch as family A, because a
+    #     lattice with one strong family and one weak one is still a ruled field:
+    #     the first cut of this made B two thirds of A's amplitude at a third
+    #     less density, and the far patch's anisotropy went UP, 5.4 to 9.6.
+    y = 9.0
+    while y < LY_MAX + 30:
+        sx, sy = skew(13.0)
+        _ridge(rough_d, rough_l, GROUND_ROUGH, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
+               GRAIN_AMP_B * (0.7 + rnd() * 0.6), 1.4 + rnd() * 1.0,
+               0.68 + rnd() * 0.32, GRAIN_BAL_ROUGH)
+        y += 12.0 + rnd() * 15.0
+    y = -9.0
+    while y > LY_MIN - 30:
+        sx, sy = skew(13.0)
+        _ridge(true_d, true_l, GROUND_TRUED, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
+               GRAIN_AMP_B * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
+               1.2 + rnd() * 0.8, 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
+        y -= 12.0 + rnd() * 15.0
+
+    def wrap(dark, lite):
+        return (f'<g stroke="{GRAIN_DARK}">\n      ' + "\n      ".join(dark) +
+                f'\n      </g>\n      <g stroke="{GRAIN_LITE}">\n      ' +
+                "\n      ".join(lite) + "\n      </g>")
+
+    return wrap(rough_d, rough_l), wrap(true_d, true_l)
 
 
 def mottle():
