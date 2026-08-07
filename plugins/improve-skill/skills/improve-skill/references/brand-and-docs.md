@@ -45,9 +45,9 @@ Spawn an **Opus agent** that reads mac-design-studio's SKILL.md and
 icon-directions.md (the hardened version: three engines are a floor —
 under any budget cut iterations, never engines — and `audit.html` from
 `assets/icon-audit-template.html` is a required on-disk deliverable).
-The brief carries: the chosen concept, the sibling icons' registers to
-avoid, the 16px survival requirement, retina audit renders, and NO git
-operations. Expect: layered SVG master + Arrow vector take + raster
+The brief carries: the chosen concept, the marketplace aesthetic above,
+the sibling icons' glyph devices so none is duplicated, the 16px
+survival requirement, retina audit renders, and NO git operations. Expect: layered SVG master + Arrow vector take + raster
 takes with corpus referenceImages (media-gen-pro), every take scored on
 the sheet including losers, known liabilities stated.
 

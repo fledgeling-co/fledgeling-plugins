@@ -75,7 +75,7 @@ def blade_path():
     """Rounded plane iron in local space. Cutting edge (y=0) dead straight and honed;
     back edge worn, with a shallow sag and unequal corner radii."""
     L, T = BLADE_LEN, BLADE_THICK
-    r_cut_lead, r_cut_trail = 26.0, 20.0       # corners on the honed edge
+    r_cut_lead, r_cut_trail = 11.0, 8.0        # corners on the honed edge: crisp, it is sharpened
     r_back_lead, r_back_trail = 40.0, 30.0     # corners on the worn back
     return (
         f"M {r_cut_lead:.1f} 0 "
@@ -149,7 +149,7 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   </clipPath>
 
   <!-- the un-planed side: cooler, greyer, losing light as it nears the cut -->
-  <linearGradient id="roughField" x1="110" y1="60" x2="700" y2="690" gradientUnits="userSpaceOnUse">
+  <linearGradient id="roughField" x1="120" y1="58" x2="520" y2="676" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#E4E1D8"/>
     <stop offset="0.52" stop-color="#D3CEC3"/>
     <stop offset="1" stop-color="#BEB8AB"/>
@@ -234,10 +234,10 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <!-- the hone's light on the surface it just cut. Clipped to the trued side and drawn
          under the blade, so it can only ever read as spill from the edge. -->
     <g clip-path="url(#truedSide)">
-      <path d="M 14 0 L {BLADE_LEN - 12:.0f} 0 L {BLADE_LEN - 12:.0f} -46 L 14 -46 Z"
+      <path d="M 15 0 L {BLADE_LEN - 12:.0f} 0 L {BLADE_LEN - 12:.0f} -46 L 15 -46 Z"
             transform="{MATRIX}" fill="url(#honeBloom)"/>
-      <path d="M 30 0 L {BLADE_LEN - 26:.0f} 0" transform="{MATRIX}" stroke="#FF7038"
-            stroke-opacity="0.50" stroke-width="10" filter="url(#honeGlow)"/>
+      <path d="M 24 0 L {BLADE_LEN - 20:.0f} 0" transform="{MATRIX}" stroke="#FF7038"
+            stroke-opacity="0.62" stroke-width="15" filter="url(#honeGlow)"/>
     </g>
   </g>
 
@@ -256,10 +256,10 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   <g id="highlight" fill="none">
     <g transform="{MATRIX}">
       <!-- the vermilion hone line: the cutting edge, and the before/after boundary, one shape -->
-      <path d="M 26 0.5 L {BLADE_LEN - 22:.0f} 0.5" stroke="url(#honeCore)" stroke-width="9"
-            stroke-linecap="round"/>
-      <path d="M 70 -0.2 L {BLADE_LEN - 74:.0f} -0.2" stroke="#FFCFAE" stroke-opacity="0.92"
-            stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M 15 0.5 L {BLADE_LEN - 12:.0f} 0.5" stroke="url(#honeCore)" stroke-width="11.5"
+            stroke-linecap="butt"/>
+      <path d="M 58 -0.4 L {BLADE_LEN - 62:.0f} -0.4" stroke="#FFD2B2" stroke-opacity="0.95"
+            stroke-width="3.4" stroke-linecap="round"/>
       <!-- rim light along the worn back, from the same top-left source -->
       <path d="M 46 {BLADE_THICK - 2:.0f} C {BLADE_LEN * 0.34:.0f} {BLADE_THICK - 9:.0f} {BLADE_LEN * 0.66:.0f} {BLADE_THICK - 9:.0f} {BLADE_LEN - 36:.0f} {BLADE_THICK - 2:.0f}"
             stroke="#A6B0BE" stroke-opacity="0.55" stroke-width="4.5" stroke-linecap="round"/>
