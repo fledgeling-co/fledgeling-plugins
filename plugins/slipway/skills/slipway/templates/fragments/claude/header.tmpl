@@ -34,4 +34,8 @@ The quality gate is the **husky pre-push hook** (`.husky/pre-push`) running `pnp
 
 Feature work flows through the markdown spec pipeline: briefs land in `docs/features-to-triage/` (ledger: `docs/features-to-triage/LEDGER.md`), triaged specs in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/`. Use the `ship-feature` / `ship-fleet` skills (diolog-plugins) to run it.
 
+## Documentation map
+
+Durable docs — update the right one **in the same change** that makes it stale: `docs/ARCHITECTURE.md` (surfaces, governance, boundary rules), `docs/TESTING.md` (harness map + rules), `docs/DEPLOYMENT.md` (Vercel/fastlane/notarization knowledge), `docs/AI-MODEL-USAGE.md` (every AI feature registers its model tier + call site here — the migration index), plus the operating specs above.
+
 ## Repo layout

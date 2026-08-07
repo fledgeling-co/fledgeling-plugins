@@ -1,0 +1,20 @@
+# AI Model Usage by Feature
+
+The dAIolog discipline: **every AI feature registers here** — which model tier it uses and where the call lives. Model IDs come from the `MODELS` config (`apps/web/lib/ai.ts` / `apps/api/src/ai.ts`), never inline strings; swaps are one-line and this table is how you find every affected feature during a model migration.
+
+## Tiers
+
+| Tier | Model (MODELS key) | Use for |
+|---|---|---|
+| default | `anthropic/claude-sonnet-5` | quality generation, analysis |
+| fast | `anthropic/claude-haiku-4.5` | classification, summaries, high-volume/latency-sensitive paths |
+
+Verify IDs against the live list before a migration: `curl -s https://ai-gateway.vercel.sh/v1/models` — and re-check `https://platform.claude.com/docs/en/about-claude/models/migration-guide.md`.
+
+## Features
+
+| Feature | Tier | File |
+|---|---|---|
+| *(none yet — register the first AI feature here when it lands)* | | |
+
+Rules: structured output via `Output.object` + Zod on every payload (BP §6); tool loops need a stop condition (`stopWhen`); pin Gateway routing (`only` + `order`) so a fallback can't silently bill a provider you didn't choose; graceful degradation when no AI key is present — never crash the host page.

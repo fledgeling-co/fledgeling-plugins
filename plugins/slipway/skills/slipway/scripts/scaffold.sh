@@ -186,10 +186,25 @@ if has_module macos; then
   fi
 fi
 
+# AI model registry only makes sense where the AI SDK is wired (web/api)
+if ! has_module web && ! has_module api; then
+  rm -f "$PROJECT_DIR/docs/AI-MODEL-USAGE.md"
+fi
+
 # rust: cross-OS core crate + cargo workspace at the root
 if has_module rust; then
   render_dir rust      "$PROJECT_DIR"
   render_dir rust-root "$PROJECT_DIR"
+fi
+
+# api+data: the API gets the data-layer clients too (dAIolog pattern)
+if has_module api && has_module data; then
+  node -e '
+    const fs = require("fs"); const p = process.argv[1];
+    const j = JSON.parse(fs.readFileSync(p, "utf8"));
+    j.dependencies = { ...j.dependencies, "@nestjs/mongoose": "latest", mongoose: "latest", ioredis: "latest" };
+    fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+  ' "$PROJECT_DIR/apps/api/package.json"
 fi
 
 # auth/push: merge web deps + env keys
@@ -251,6 +266,10 @@ if has_module web || has_module api || has_module data; then
 fi
 assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios tokens data auth admin push rust
 assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push rust
+mkdir -p "$PROJECT_DIR/docs"
+assemble arch    "$PROJECT_DIR/docs/ARCHITECTURE.md"    web api admin macos ios rn tokens rust
+assemble testing "$PROJECT_DIR/docs/TESTING.md"         web api rn macos ios rust
+assemble deploy  "$PROJECT_DIR/docs/DEPLOYMENT.md"      web admin macos ios rn api
 
 # ---- 3. operating specs + AGENTS.md symlink
 mkdir -p "$PROJECT_DIR/docs"

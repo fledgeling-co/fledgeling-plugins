@@ -1,0 +1,6 @@
+
+## macOS
+
+- **Direct distribution**: `apps/macos/scripts/sign.sh` (Developer ID, `DEVELOPMENT_TEAM` from env) → `notarize.sh` (notarytool → staple → `stapler validate` → `spctl` assess) → `build-dmg.sh`. `ditto` only — zip/cp break the signing seal.
+- **Mac App Store / TestFlight**: `cd apps/macos && bundle exec fastlane beta` with the ASC API key in `fastlane/.env`.
+- CI: notarytool keychain profiles can't be exported — pass ASC API-key credentials per invocation.

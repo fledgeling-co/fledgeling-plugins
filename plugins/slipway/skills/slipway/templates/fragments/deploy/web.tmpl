@@ -1,0 +1,7 @@
+
+## Web (Vercel)
+
+- One Vercel project per deployable; Root Directory = `apps/web`; `vercel.json` pins `regions: ["syd1"]` with a `/api/health` warm cron and turbo-ignore. Set Function CPU to **Performance** in the dashboard (not expressible in vercel.json).
+- Promote to prod via merge to main — never the Vercel UI (BP §16).
+- Deploys require git author `luke@rhodes.gg`; the Vercel CLI reports the BLOCKED state as **UNKNOWN** — check the dashboard when a deploy stalls.
+- Cold-start trap (BP §16): cache the connection/app **promise** across invocations; a bootstrap that exceeds `maxDuration` 504s every cold request while warm ones work, which reads as "intermittent".

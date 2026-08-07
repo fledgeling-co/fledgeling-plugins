@@ -1,0 +1,7 @@
+
+## Rules of the harness
+
+- The pre-push gate runs `lint + typecheck + build`; unit suites run via `pnpm test`; e2e/device suites run on demand and before release — a default `test` must never require Docker (BP §15).
+- Run flows **twice** — the second run catches isolation and leftover-state bugs (acceptance-e2e discipline).
+- For known-good fixtures, assert value-shaped strings (a digit, a `$`, a date) and explicitly NOT the placeholder (`—`, `N/A`).
+- Never remove or weaken a test to make a change pass; if a test is wrong, say so and fix the test deliberately.

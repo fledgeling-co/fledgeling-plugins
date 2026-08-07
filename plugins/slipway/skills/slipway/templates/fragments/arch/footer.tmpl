@@ -1,0 +1,8 @@
+
+## Boundary rules (the ones that don't move)
+
+- **The browser calls only its own BFF** — client HTTP goes through `apps/web` route handlers, which attach auth/tenant context server-side; the API is never called from the browser directly (BP §24).
+- **The server is the single authority for env- and tenant-gated behaviour** — never branch on `NODE_ENV` or a public env var in client code (BP §24).
+- **Trust boundaries are Zod-validated, never cast** — including AI/model output (CP §1, BP §6).
+- **Secrets live in 1Password** (`.env.local` op:// references; see CLAUDE.md § Secrets), never in source or chat.
+- **Cross-surface logic lives once**: shared business logic belongs in `crates/core` (when present) or a shared package — never duplicated per platform.
