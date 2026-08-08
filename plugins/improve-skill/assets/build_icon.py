@@ -700,6 +700,39 @@ IN_LIT    = (198, 180, 156)         # inner face at the mouth of the roll
 IN_DARK   = ( 84,  72,  60)         # inner face, deep
 TRANSMIT  = (250, 241, 221)         # what comes through thin material from behind
 
+# ROUND 14, small-size repair. The inner branch below has always carried a transmitted
+# lift and the OUTER branch has carried none, so an outer face turned away from the light
+# fell to OUT_DARK and no further - a lambert-zero opaque surface. A shaving is a tenth of
+# a millimetre of wood: the geometry that takes the reflected term away is the same
+# geometry that puts the light square on the material's BACK, so that is exactly where
+# transmission is strongest. Measured on C2 at 1024, its ribbon's shaded outer face reads
+# L 0.57-0.60 against ground 0.70-0.75 right beside it - 0.83 of the ground, never near
+# black - where ours read 0.34-0.42, i.e. 0.51 of it. That 0.20 deficit is a small-size
+# defect and not a 1024 one: at 32px the curl's own 0.28 internal step throws 26 edges
+# the reference does not have there (its ribbon runs |grad| 0.03-0.13, essentially
+# edgeless), so the feature averages down into a dirty smudge instead of a pale shaving.
+CURL_TRANSMIT = 0.38                # fraction of TRANSMIT returned by a face lit square
+                                    # on its back. Calibrated to land the shaded outer
+                                    # face on C2's measured 0.57-0.60, no further: the
+                                    # curl still has to hold an edge against the ground
+                                    # at 16px, where its silhouette is what edge_f1 sees.
+
+# The same round, and the larger half of it. Painting the two branches apart (red/blue,
+# `loop-runs/r14/work3/m7.py`) put every pixel below L 0.45 in the curl on the INNER
+# branch: the open mouth of the roll on its lower left, driven to IN_DARK by
+# `ao = 1 - 0.74 * depth`. That is a pure-occlusion model, and it is wrong for this
+# cavity: the roll is lined with its own near-white material and stands on porcelain, so
+# what fills its floor is interreflection off its own far wall, not blackness. The direct
+# term is occluded, the bounce term was simply missing. C2 measures the difference - its
+# interior runs L 0.57-0.65, ours 0.33-0.45.
+CURL_BOUNCE = 2.20                  # how much of its own dark the cavity gets back off
+                                    # its far wall. A pure SCALE of IN_DARK, so the
+                                    # interior floor keeps the material's chromaticity
+                                    # exactly (sat 28.6%) and only its level moves: a
+                                    # shadow that desaturates reads opaque, and this one
+                                    # is lit by wood.
+IN_DEEP   = tuple(min(255, int(round(c * CURL_BOUNCE))) for c in IN_DARK)
+
 
 def _unit(x, y):
     m = math.hypot(x, y) or 1.0
@@ -806,13 +839,15 @@ def shaving():
         if outer:
             sh = max(0.0, min(1.0, (lam + 0.18) / 1.16)) ** 1.35
             col = _lerp(OUT_DARK, OUT_LIT, sh)
+            # the light this face has turned away from is landing on its back
+            col = _lerp(col, TRANSMIT, max(0.0, -lam) * CURL_TRANSMIT)
             op = tap
         else:
             lin = -nx * LIGHT[0] - ny * LIGHT[1]   # lambert on the INNER face
             dux, duy = _unit(mx - CURL_C[0], my - CURL_C[1])
             depth = 0.5 + 0.5 * duy                # 1 at the floor of the roll
             ao = 1.0 - 0.74 * depth                # the roll shades its own interior
-            col = _lerp(IN_DARK, IN_LIT, max(0.0, min(1.0, (lin + 0.30) / 1.24)) * ao)
+            col = _lerp(IN_DEEP, IN_LIT, max(0.0, min(1.0, (lin + 0.30) / 1.24)) * ao)
             col = _lerp(col, TRANSMIT, max(0.0, lam) * 0.12)
             op = tap
 

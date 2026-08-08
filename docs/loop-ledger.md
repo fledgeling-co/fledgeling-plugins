@@ -28,3 +28,4 @@ loop-runs/ (Phase 4 training data).
 | 18 | improve-skill | small-size repair | ACCEPT | baseline | PROVISIONAL, queued for review |
 | 11 | improve-skill | detail | ACCEPT | candidate |  |
 | 12 | improve-skill | detail | REJECT | n/a |  |
+| 13 | improve-skill | small-size repair | ACCEPT | baseline | PROVISIONAL, queued for review |
