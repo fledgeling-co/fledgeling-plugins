@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r00 baseline: first material rebuild, vs C2",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1007,
+      "ssim": 0.8192,
+      "edge_f1": 0.0556,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.475,
+      "ref_self_contrast": 0.5174,
+      "composite": 0.5506
+    },
+    "256": {
+      "lum_delta": 0.1005,
+      "ssim": 0.6381,
+      "edge_f1": 0.1767,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.475,
+      "ref_self_contrast": 0.5165,
+      "composite": 0.5087
+    },
+    "128": {
+      "lum_delta": 0.1001,
+      "ssim": 0.5226,
+      "edge_f1": 0.2607,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4745,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.4841
+    },
+    "32": {
+      "lum_delta": 0.0999,
+      "ssim": 0.4211,
+      "edge_f1": 0.5912,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3855,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6523
+    },
+    "16": {
+      "lum_delta": 0.0968,
+      "ssim": 0.4352,
+      "edge_f1": 0.8931,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3659,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.7633
+    }
+  },
+  "render_hash": "d1780e3d439fb7e2"
+}

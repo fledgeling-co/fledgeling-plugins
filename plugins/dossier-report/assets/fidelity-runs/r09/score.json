@@ -1,0 +1,57 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "full (lpips)",
+  "metric_version": 2,
+  "label": "r09 material: gel ramp reverted to r04 values (full tier)",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1026,
+      "ssim": 0.8024,
+      "edge_f1": 0.0579,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4748,
+      "ref_self_contrast": 0.5174,
+      "lpips": 0.4883,
+      "composite": 0.5131
+    },
+    "256": {
+      "lum_delta": 0.1024,
+      "ssim": 0.6164,
+      "edge_f1": 0.2049,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4671,
+      "ref_self_contrast": 0.5165,
+      "lpips": 0.4381,
+      "composite": 0.5112
+    },
+    "128": {
+      "lum_delta": 0.1022,
+      "ssim": 0.511,
+      "edge_f1": 0.2875,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4538,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.4832
+    },
+    "32": {
+      "lum_delta": 0.1026,
+      "ssim": 0.4153,
+      "edge_f1": 0.596,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3634,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6509
+    },
+    "16": {
+      "lum_delta": 0.0988,
+      "ssim": 0.4265,
+      "edge_f1": 0.879,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3472,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.755
+    }
+  },
+  "render_hash": "34edbf5de7afe79c"
+}

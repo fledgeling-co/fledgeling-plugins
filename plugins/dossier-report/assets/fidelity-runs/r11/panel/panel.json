@@ -1,0 +1,50 @@
+{
+  "label": "r11 (spine specular warmed) vs r07 (shipped)",
+  "mapping": {
+    "A": "baseline",
+    "B": "candidate"
+  },
+  "tally": {
+    "overall": {
+      "votes": {
+        "candidate": 2,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "candidate"
+    },
+    "material": {
+      "votes": {
+        "candidate": 2,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "candidate"
+    },
+    "silhouette": {
+      "votes": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 2
+      },
+      "judges_ran": 2,
+      "winner": "tie"
+    },
+    "smallsize": {
+      "votes": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 2
+      },
+      "judges_ran": 2,
+      "winner": "tie"
+    }
+  },
+  "judges": {
+    "claude": "ok",
+    "cursor": "ok",
+    "openai": "failed"
+  }
+}

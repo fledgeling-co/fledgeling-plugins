@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r07 material: AO clip bug fixed, gel ramp rebalanced against core + darkest-pixel together",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1026,
+      "ssim": 0.8028,
+      "edge_f1": 0.057,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4447,
+      "ref_self_contrast": 0.5174,
+      "composite": 0.5417
+    },
+    "256": {
+      "lum_delta": 0.1023,
+      "ssim": 0.6165,
+      "edge_f1": 0.2025,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4358,
+      "ref_self_contrast": 0.5165,
+      "composite": 0.504
+    },
+    "128": {
+      "lum_delta": 0.1022,
+      "ssim": 0.5108,
+      "edge_f1": 0.2838,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4292,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.4822
+    },
+    "32": {
+      "lum_delta": 0.1027,
+      "ssim": 0.4135,
+      "edge_f1": 0.5966,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3462,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6506
+    },
+    "16": {
+      "lum_delta": 0.0984,
+      "ssim": 0.4245,
+      "edge_f1": 0.879,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3459,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.7547
+    }
+  },
+  "render_hash": "dee09e425b00d4f4"
+}

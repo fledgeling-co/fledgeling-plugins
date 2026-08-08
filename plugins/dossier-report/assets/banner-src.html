@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>dossier-report banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<!--
+  dossier-report README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  MEASURED off the shipped icon, not decorated to match it. Engine A ships as a
+  hand-authored layered SVG with every constant named, so unlike the sibling
+  banners that had to estimate a plane off a raster, this one can be built from
+  the artwork's own numbers. They are read straight out of assets/build_icon.py
+  and repeated below; if the icon is ever rebuilt, change them here and the
+  scene re-derives rather than being re-eyeballed.
+
+    PAGE      220,180 -> 800,845, corner radius 42, in the icon's 1024 space.
+              580 x 665, so every sheet in this banner has that same aspect and
+              the same relative crease, which is what keeps their creases
+              visibly parallel at 46 degrees.
+    CREASE    A (300,845) on the page's bottom edge, B (800,320) on its right.
+              Unit direction u = (+0.6893, -0.7238), i.e. 46.4 degrees up-right.
+              This is the mark's whole signature: the notes record that at 16px
+              the icon survives as one clean vermilion wedge on this diagonal.
+    FOLD_K    0.800 on the icon. The flap is the page's lower-right third turned
+              back 80% of the way over.
+    FOLD MAP  reflect across the crease, then compress by K along the crease
+              normal. The exact orthographic projection of a planar region
+              rotated about a line in its own plane. It is reimplemented here
+              verbatim (make_fold in build_icon.py), so the sheets on this
+              banner fold with the same matrix the icon folds with, and their
+              outlines, slab edges and printed charts foreshorten rather than
+              being drawn onto triangles.
+    KEY       (-0.44, -0.90): one soft light, top, biased left.
+    SHADOW    #6B5334, warm, because nothing in this scene emits cool light.
+              The icon's own contact shifts are (5,22) and (8,40) against a
+              580-wide page, i.e. very close to straight down rather than the
+              key's exact opposite, because the view is near-overhead. Reused
+              at those ratios rather than recomputed from KEY.
+
+  WHAT THE BANNER ADDS. The icon is one page, opened, mounted on its cushion
+  tile: the page that got published. The banner is the rest of the desk, and
+  what is on it is the corpus that page was written from. Four more sheets in a
+  cascade running off the right edge, every one of them the icon's own page at a
+  smaller scale, every one creased on the same 46-degree diagonal by the same
+  fold map, every one turned back far enough to show its own vermilion inner
+  face. That is the skill's actual claim rendered as geometry rather than
+  stated: the page is not written from a merged summary, it is written from
+  sources that were each individually opened. The cascade leaves the frame
+  rather than ending, because the count is not the point.
+
+  THREE THINGS ABOUT THAT CASCADE WERE FOUND ON RENDERS, NOT REASONED, AND ALL
+  THREE ARE WHY IT LOOKS LIKE PAGES.
+
+    1. It must NOT be fanned along u, the crease direction, however tempting
+       that is as a derivation. Stepping along u leaves every crease collinear:
+       the file stops reading as five sheets and reads as one giant sheet with
+       seams, a single vermilion zigzag ribbon up the right of the frame. The
+       cascade below steps at roughly 36 degrees against a 46-degree crease, and
+       the separation between those two axes is what makes each sheet a sheet.
+    2. It must be painted FAR TO NEAR. A page is nameable as a page because of
+       its top edge and its square top corners; the fold is already invisible in
+       outline (the icon's own audit records this at #3). Paint near-to-far and
+       each neighbour eats exactly that corner, and four pages read as four
+       pennants. Reversed, every sheet keeps the corner that names it.
+    3. Fold K must stay near the icon's 0.800. The first cut ran the corpus at
+       K 0.19 to 0.42 to hold the accent budget down, and a low K does not read
+       as a page opened a little - the flap collapses to a sliver hugging the
+       crease and the sheet reads as torn. The budget is held with SIZE instead:
+       the sheets run 0.72 down to 0.57 of the icon's own page width, which also
+       gives the published page the hierarchy it should have over its sources.
+
+  ACCENT BUDGET, the icon's own rule inherited. Vermilion belongs to a revealed
+  inner face and to nothing else; there is none in the type, none in the ground,
+  none as decoration. The icon spends 9.2% of its tile on it; a sheet at fold K
+  spends K x 34% of its own area. Counted off the finished render rather than
+  argued (pixels with saturation over 0.45 and r > g > b, which takes the
+  vermilion family and leaves the porcelain), the tile plus the four sheets come
+  to 2.26% of this frame, so the accent stays a series of events rather than a
+  colour scheme. K still falls up the cascade (0.78 to 0.58) so the least of it
+  lands nearest the frame's edge, where a bright wedge would only pull the eye
+  out of the picture.
+
+  GROUND. The icon's tile ramp (#FFFCF6 / #F8F3EB / #F1ECE2) run as a LINEAR
+  gradient along KEY rather than top-to-bottom: at 1600x520 a vertical ramp
+  reads as a horizon, and a radial hotspot anywhere near a frame this wide
+  throws a divergent field whose direction is its own geometry rather than the
+  azimuth it was given. Endpoints are set in the script from KEY so the stops
+  span exactly the frame's projection onto that vector. The tile's crown and
+  vignette come across at the icon's own fractions (crown at 0.42/0.12 of the
+  tile with r = 0.723 of its width; vignette r = 0.674, 0 to 0.13 of #9C8B70),
+  re-sited on the banner's own centre and key axis.
+
+  White sheets on a white ground are separated by shadow, thickness and rim and
+  never by value: the icon's page measures 1.01:1 against its tile and the notes
+  are explicit that darkening either one to fix it would abandon the register.
+  So every sheet here carries the icon's full slab treatment (a 15-unit edge
+  band on its real free edges only, never across the crease, because a fold has
+  no material edge) and its two contact shadow radii.
+
+  TYPE is Newsreader (Production Type). It is a reading face, drawn for long-
+  form text on screen, and the one thing this skill claims over every other
+  research tool is that it read the sources end to end instead of skimming the
+  merged summary; putting the wordmark in a face made for reading is the
+  argument rather than an illustration of it. Its serifs are low-contrast and
+  cut flat, which is the same edge the page's slab has (#F7F1E4 -> #D8CEBB),
+  and it is the only serif in the marketplace: Archivo, IBM Plex Sans, IBM Plex
+  Mono, Instrument Sans, JetBrains Mono, Manrope, Schibsted Grotesk and Sora
+  are all spent, and all of them are grotesks.
+
+  READING ORDER, left to right, one beat each: the published page on its tile,
+  its name, what it does, then the sources it did it from running off the right
+  edge. The type band is kept clear of the corpus in both axes so nothing is
+  read across a sheet edge, measured rather than eyeballed: the type block ends
+  at x 1164 and the nearest sheet's leftmost point is x 1175, with 23px of
+  vertical air below the essence line before that sheet's top corner.
+
+  TO RE-RENDER, from this directory:
+
+    python3 -m http.server 8743 --bind 127.0.0.1 &
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+      --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
+      --window-size=1600,520 --virtual-time-budget=8000 \
+      --screenshot="$PWD/banner.png" http://127.0.0.1:8743/banner-src.html
+
+  Serve it rather than opening the file directly: the webfont has to arrive
+  before the shot, and a file:// load will silently ship a fallback serif.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background: #F5F0E6;
+    font-family: "Newsreader", serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  svg.desk { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 92px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 78px; }
+  /* the icon ships full-bleed with no baked shadow, so the tile is seated here.
+     Offset direction is the icon's own contact ratio (8,40), scaled to the tile. */
+  .tile { width: 308px; height: 308px; flex: none;
+          filter: drop-shadow(4px 9px 13px rgba(107, 83, 52, .22))
+                  drop-shadow(9px 28px 46px rgba(107, 83, 52, .26)); }
+
+  .wordmark { font-size: 90px; font-weight: 600; letter-spacing: -0.024em;
+              line-height: 1; color: #2C2519; white-space: nowrap; }
+  /* 27px, not smaller: the README renders this banner at width=800, so every
+     size here is read at half of what it measures. */
+  .essence { margin-top: 22px; font-size: 27px; font-weight: 400;
+             letter-spacing: 0.004em; color: #6E6153; white-space: nowrap; }
+  .essence b { color: #332B20; font-weight: 600; }
+</style>
+</head>
+<body>
+  <svg class="desk" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+    <defs id="defs">
+      <!-- the tile's own ground ramp, run along the measured key. Endpoints in script. -->
+      <linearGradient id="ground" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="0">
+        <stop offset="0" stop-color="#FFFCF6"/>
+        <stop offset="0.52" stop-color="#F8F3EB"/>
+        <stop offset="1" stop-color="#F1ECE2"/>
+      </linearGradient>
+      <!-- the tile's crown, at the icon's own fractions, re-sited on the key axis -->
+      <radialGradient id="crown" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+        <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.14"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="vig" gradientUnits="userSpaceOnUse" cx="800" cy="262" r="802">
+        <stop offset="0.62" stop-color="#9C8B70" stop-opacity="0"/>
+        <stop offset="1" stop-color="#9C8B70" stop-opacity="0.13"/>
+      </radialGradient>
+      <!-- what the tile's inner face throws onto the porcelain around it: the icon's
+           own bounce hue, continuing past the edge of its tile at a quarter strength -->
+      <radialGradient id="spill" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1">
+        <stop offset="0" stop-color="#FF9A62" stop-opacity="0.14"/>
+        <stop offset="0.48" stop-color="#FF9A62" stop-opacity="0.05"/>
+        <stop offset="1" stop-color="#FF9A62" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="1600" height="520" fill="url(#ground)"/>
+    <rect width="1600" height="520" fill="url(#crown)"/>
+    <g id="corpus"></g>
+    <circle id="spillDisc" fill="url(#spill)"/>
+    <rect width="1600" height="520" fill="url(#vig)"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="tile" src="icon.svg" alt="">
+    <div>
+      <div class="wordmark">dossier-report</div>
+      <div class="essence">Every report read in full. <b>One page out, every claim sourced.</b></div>
+    </div>
+  </div>
+
+  <script>
+  /* ------------------------------------------------------------------------
+     The icon's constants, lifted from assets/build_icon.py, expressed in PAGE
+     space (the icon's 1024 space with the page's own origin 220,180 removed).
+     Every sheet below is drawn in these coordinates and placed by one transform,
+     so a sheet is literally the icon's page at another scale, not a lookalike.
+     ------------------------------------------------------------------------ */
+  const PW = 580, PH = 665, PR = 42;              // page 220..800 x 180..845, r 42
+  const A  = [80, 665], B = [580, 140];           // crease: bottom edge -> right edge
+  const CORNER = [580, 665];                      // the corner the crease cuts off
+  const THICK_PAGE = 15, CREASE_ROLL = 26, AO_DEEP_W = 20;
+  const CHART = { bx: 372, y0: 398, y1: 646, w: 18, bw: 15,
+                  steps: [[0, 12], [0.29, 70], [0.56, 70], [0.79, 132], [1, 132]] };
+  const KEY = [-0.44, -0.90];
+  const C = {
+    faceLit: '#FFFEFB', faceMid: '#F9F5EE', faceLow: '#EFE9DE',
+    edgeLit: '#F7F1E4', edgeMid: '#EBE3D3', edgeLow: '#D8CEBB',
+    flapFree: '#F46F41', flapMid: '#E85128', flapDeep: '#CE3A16',
+    flapAO: '#8E1E04', aoDeep: '#7A1602',
+    crest: '#FFD3B4', crest2: '#F9834F', rim: '#FCC0A4', flapCrest: '#FFD8BE',
+    bounce: '#FF9A62', frost: '#FFF0E6', shadow: '#6B5334'
+  };
+
+  // ------------------------------------------------------------------ helpers
+  const sub = (p, q) => [p[0] - q[0], p[1] - q[1]];
+  const dot = (p, q) => p[0] * q[0] + p[1] * q[1];
+  const f1  = n => (Math.round(n * 10) / 10);
+  const path = (pts, close = true) =>
+    'M' + pts.map(p => `${f1(p[0])},${f1(p[1])}`).join(' L') + (close ? ' Z' : '');
+  const arc = (cx, cy, r, a0, a1, n = 10) => {
+    const out = [];
+    for (let i = 0; i <= n; i++) {
+      const a = a0 + (a1 - a0) * i / n;
+      out.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+    }
+    return out;
+  };
+  const shift = (pts, dx, dy) => pts.map(p => [p[0] + dx, p[1] + dy]);
+  const push  = (pts, d, n) => pts.map(p => [p[0] + d * n[0], p[1] + d * n[1]]);
+
+  // The fold map, verbatim from make_fold(): reflect across ab, compress by k
+  // along the line's normal. u is the crease direction, nf the normal pointing
+  // to the flap's SOURCE side, nb the one pointing into the base half and so
+  // into the folded flap (which is where every crest and occlusion band lives).
+  const d0 = sub(B, A), L0 = Math.hypot(d0[0], d0[1]);
+  const u  = [d0[0] / L0, d0[1] / L0];
+  const nf = [-u[1], u[0]];
+  const nb = [-nf[0], -nf[1]];
+  const makeFold = k => p => {
+    const v = sub(p, A), cn = dot(v, nf);
+    return [p[0] - (1 + k) * cn * nf[0], p[1] - (1 + k) * cn * nf[1]];
+  };
+
+  // The page's outline with the flap corner cut away on the crease: exactly the
+  // icon's silhouette, because the flap folds wholly inside the base half.
+  const basePoly = [].concat(
+    arc(PR, PR, PR, Math.PI, Math.PI * 1.5),            // top-left
+    [[PW - PR, 0]],
+    arc(PW - PR, PR, PR, Math.PI * 1.5, Math.PI * 2),   // top-right
+    [B, A, [PR, PH]],
+    arc(PR, PH - PR, PR, Math.PI * 0.5, Math.PI)        // bottom-left
+  );
+  // The flap's source region: the crease, then real page edges round the corner.
+  const freeArc = [].concat(
+    [B, [PW, PH - PR]],
+    arc(PW - PR, PH - PR, PR, 0, Math.PI * 0.5),        // bottom-right
+    [A]
+  );
+  const srcPoly = [A].concat(freeArc);
+
+  const creaseC = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+
+  // ------------------------------------------------------- one source sheet
+  let defs = '', body = '';
+
+  function sheet(i, cx, cy, scale, rot, k) {
+    const fold = makeFold(k);
+    const flapPoly = srcPoly.map(fold);
+    const flapFree = freeArc.map(fold);
+    // the flap's far vertex, for the face gradient's axis along the crease normal
+    let fdist = 0;
+    for (const p of flapPoly) fdist = Math.max(fdist, dot(sub(p, creaseC), nb));
+    const g = (id) => `${id}${i}`;
+
+    defs += `
+      <linearGradient id="${g('pf')}" gradientUnits="userSpaceOnUse"
+        x1="-90" y1="-70" x2="${PW + 60}" y2="${PH + 80}">
+        <stop offset="0" stop-color="${C.faceLit}"/><stop offset="0.44" stop-color="${C.faceMid}"/>
+        <stop offset="1" stop-color="${C.faceLow}"/></linearGradient>
+      <linearGradient id="${g('pe')}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${PW}" y2="${PH}">
+        <stop offset="0" stop-color="${C.edgeLit}"/><stop offset="0.58" stop-color="${C.edgeMid}"/>
+        <stop offset="1" stop-color="${C.edgeLow}"/></linearGradient>
+      <linearGradient id="${g('ff')}" gradientUnits="userSpaceOnUse"
+        x1="${f1(creaseC[0])}" y1="${f1(creaseC[1])}"
+        x2="${f1(creaseC[0] + nb[0] * fdist)}" y2="${f1(creaseC[1] + nb[1] * fdist)}">
+        <stop offset="0" stop-color="${C.flapDeep}"/><stop offset="0.34" stop-color="${C.flapMid}"/>
+        <stop offset="1" stop-color="${C.flapFree}"/></linearGradient>
+      <linearGradient id="${g('fa')}" gradientUnits="userSpaceOnUse"
+        x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}">
+        <stop offset="0" stop-color="#7E1A02" stop-opacity="0.22"/>
+        <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0.05"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.13"/></linearGradient>
+      <linearGradient id="${g('cr')}" gradientUnits="userSpaceOnUse"
+        x1="${f1(creaseC[0])}" y1="${f1(creaseC[1])}"
+        x2="${f1(creaseC[0] + nb[0] * CREASE_ROLL)}" y2="${f1(creaseC[1] + nb[1] * CREASE_ROLL)}">
+        <stop offset="0" stop-color="${C.crest}"/><stop offset="0.42" stop-color="${C.crest2}"/>
+        <stop offset="1" stop-color="${C.flapMid}" stop-opacity="0"/></linearGradient>
+      <radialGradient id="${g('bn')}" gradientUnits="userSpaceOnUse"
+        cx="${f1(creaseC[0])}" cy="${f1(creaseC[1])}" r="430">
+        <stop offset="0" stop-color="${C.bounce}" stop-opacity="0.40"/>
+        <stop offset="0.55" stop-color="${C.bounce}" stop-opacity="0.09"/>
+        <stop offset="1" stop-color="${C.bounce}" stop-opacity="0"/></radialGradient>
+      <clipPath id="${g('pc')}"><path d="${path(basePoly)}"/></clipPath>
+      <clipPath id="${g('fc')}"><path d="${path(flapPoly)}"/></clipPath>
+      <clipPath id="${g('sc')}"><path d="${path(
+          push([A, B], 0, nb).concat(push([B, A], -3000, nb)))}"/></clipPath>`;
+
+    // page space -> canvas. One transform, so nothing inside can drift.
+    const T = `translate(${f1(cx)},${f1(cy)}) rotate(${rot}) ` +
+              `scale(${(scale).toFixed(5)}) translate(${-PW / 2},${-PH / 2})`;
+
+    // the chart printed on the reverse, carried by the same map
+    const cyv = f => CHART.y0 + (CHART.y1 - CHART.y0) * f;
+    const pts = CHART.steps.map(([f, rise]) => [CHART.bx + rise, cyv(f)]);
+    const stepped = [pts[0]];
+    for (let j = 1; j < pts.length; j++) {
+      stepped.push([stepped[stepped.length - 1][0], pts[j][1]]);
+      stepped.push(pts[j]);
+    }
+
+    body += `<g transform="${T}">
+      <!-- two contact radii, the icon's own: the wide one places the sheet, the
+           tight one is what actually seats it on the porcelain -->
+      <path d="${path(shift(basePoly, 8, 40))}" fill="${C.shadow}" opacity="0.15" filter="blur(44px)"/>
+      <path d="${path(shift(basePoly, 5, 22))}" fill="${C.shadow}" opacity="0.26" filter="blur(24px)"/>
+      <!-- the slab's thickness, clipped off the crease: a fold has no material edge -->
+      <g clip-path="url(#${g('sc')})">
+        <path d="${path(shift(basePoly, THICK_PAGE * 0.26, THICK_PAGE))}" fill="url(#${g('pe')})"/>
+      </g>
+      <path d="${path(basePoly)}" fill="url(#${g('pf')})"/>
+      <g clip-path="url(#${g('pc')})">
+        <path d="${path(basePoly)}" fill="url(#${g('bn')})"/>
+        <path d="${path(shift(flapPoly, 8, 26))}" fill="${C.shadow}" opacity="0.30" filter="blur(12px)"/>
+      </g>
+      <path d="${path(flapPoly)}" fill="url(#${g('ff')})"/>
+      <g clip-path="url(#${g('fc')})">
+        <path d="${path(flapPoly)}" fill="url(#${g('fa')})"/>
+        <path d="${path(push([A, B], CREASE_ROLL * 0.5, nb).concat(push([B, A], CREASE_ROLL + 30, nb)))}"
+              fill="${C.flapAO}" opacity="0.30" filter="blur(12px)"/>
+        <path d="${path(push([A, B], CREASE_ROLL * 0.62, nb).concat(push([B, A], CREASE_ROLL + AO_DEEP_W, nb)))}"
+              fill="${C.aoDeep}" opacity="0.62" filter="blur(4.5px)"/>
+        <path d="${path([[CHART.bx, CHART.y0], [CHART.bx, CHART.y1]].map(fold), false)}"
+              fill="none" stroke="${C.frost}" stroke-opacity="0.80"
+              stroke-width="${CHART.bw}" stroke-linecap="round"/>
+        <path d="${path(stepped.map(fold), false)}" fill="none" stroke="${C.frost}"
+              stroke-opacity="0.90" stroke-width="${CHART.w}"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="${path(push([A, B], -3, nb).concat(push([B, A], CREASE_ROLL, nb)))}"
+              fill="url(#${g('cr')})" filter="blur(4.5px)"/>
+        <path d="${path(flapPoly)}" fill="none" stroke="${C.rim}"
+              stroke-width="30" stroke-opacity="0.50" filter="blur(12px)"/>
+        <path d="${path(flapFree, false)}" fill="none" stroke="${C.flapCrest}"
+              stroke-width="13" stroke-opacity="0.70"/>
+      </g>
+    </g>`;
+  }
+
+  // ------------------------------------------------------------ the desk
+  const ICON_LEFT = 92, ICON_SIZE = 308, GAP = 78;
+  const ICON_TOP = (520 - ICON_SIZE) / 2;
+  const iscale = ICON_SIZE / 1024;                 // icon space -> canvas
+  const PAGE_W = PW * iscale;                      // the icon's own page, on this banner
+
+  // The one light. A LINEAR ramp along KEY through the frame's centre, its half
+  // length set so the stops span exactly the frame's projection onto that
+  // vector: the corner nearest the key gets the first stop, the far corner the
+  // last, whatever the azimuth.
+  const kl = Math.hypot(KEY[0], KEY[1]);
+  const K = [KEY[0] / kl, KEY[1] / kl];
+  const CX = 800, CY = 260;
+  const H = Math.abs(CX * K[0]) + Math.abs(CY * K[1]);
+  const lamp = document.getElementById('ground');
+  lamp.setAttribute('x1', f1(CX + K[0] * H)); lamp.setAttribute('y1', f1(CY + K[1] * H));
+  lamp.setAttribute('x2', f1(CX - K[0] * H)); lamp.setAttribute('y2', f1(CY - K[1] * H));
+
+  // the crown, at the icon's own fractions (0.42, 0.117 of the tile, r 0.723 of
+  // its width), re-sited: up the key axis from the frame's centre by the same
+  // 0.39 of a scene-height that the icon's crown sits from its tile's centre.
+  const cr = document.getElementById('crown');
+  cr.setAttribute('cx', f1(CX + K[0] * 0.39 * 520));
+  cr.setAttribute('cy', f1(CY + K[1] * 0.39 * 520));
+  cr.setAttribute('r', 0.723 * 1600);
+
+  // the tile's warm spill, continuing past the edge of the tile. Hung off the
+  // folded flap's own centroid in icon space, not off the tile's centre.
+  const flapC = [476.2, 520.3];
+  const sp = document.getElementById('spill');
+  const disc = document.getElementById('spillDisc');
+  const sx = ICON_LEFT + flapC[0] * iscale, sy = ICON_TOP + flapC[1] * iscale;
+  sp.setAttribute('cx', f1(sx)); sp.setAttribute('cy', f1(sy)); sp.setAttribute('r', 420);
+  disc.setAttribute('cx', f1(sx)); disc.setAttribute('cy', f1(sy)); disc.setAttribute('r', 420);
+
+  // The corpus: the sources this page was written from, cascading off the right
+  // edge. The cascade climbs at about 36 degrees, deliberately NOT along u's 46:
+  // stepping along the crease direction leaves every crease collinear and the
+  // four sheets merge into one zigzag ribbon. See the header.
+  // [centre x, centre y, width as a fraction of the icon's own page, rotation, K]
+  const CORPUS = [
+    [1248, 434, 0.72, -9, 0.78],
+    [1348, 350, 0.67,  4, 0.72],
+    [1452, 270, 0.62, -3, 0.66],
+    [1556, 190, 0.57,  8, 0.58]
+  ];
+  // Painted far to near, so each sheet keeps the top edge and top-right corner
+  // that make it read as a rectangle at all. Drawn the other way round the
+  // neighbour eats exactly that corner and four pages read as four pennants.
+  CORPUS.map((f, i) => [i].concat(f)).reverse()
+     .forEach(([i, cx, cy, fr, rot, k]) => sheet(i, cx, cy, (PAGE_W * fr) / PW, rot, k));
+
+  document.getElementById('defs').insertAdjacentHTML('beforeend', defs);
+  document.getElementById('corpus').innerHTML = body;
+  </script>
+</body>
+</html>

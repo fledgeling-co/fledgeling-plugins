@@ -1,0 +1,57 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "full (lpips)",
+  "metric_version": 2,
+  "label": "AO probe off (0.00/0.00)",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1005,
+      "ssim": 0.8098,
+      "edge_f1": 0.0581,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4707,
+      "ref_self_contrast": 0.5174,
+      "lpips": 0.4853,
+      "composite": 0.518
+    },
+    "256": {
+      "lum_delta": 0.1002,
+      "ssim": 0.6248,
+      "edge_f1": 0.2044,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4601,
+      "ref_self_contrast": 0.5165,
+      "lpips": 0.4357,
+      "composite": 0.5162
+    },
+    "128": {
+      "lum_delta": 0.0998,
+      "ssim": 0.518,
+      "edge_f1": 0.2882,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4482,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.4895
+    },
+    "32": {
+      "lum_delta": 0.1001,
+      "ssim": 0.4224,
+      "edge_f1": 0.5937,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3577,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6533
+    },
+    "16": {
+      "lum_delta": 0.0969,
+      "ssim": 0.4324,
+      "edge_f1": 0.879,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3458,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.7576
+    }
+  },
+  "render_hash": "6fde00344a8bb069"
+}

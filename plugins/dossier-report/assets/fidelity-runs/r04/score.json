@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r04 detail: the crest made directional - lit cut faces only, shaded ones darkened",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1007,
+      "ssim": 0.8212,
+      "edge_f1": 0.0549,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4715,
+      "ref_self_contrast": 0.5174,
+      "composite": 0.5512
+    },
+    "256": {
+      "lum_delta": 0.1005,
+      "ssim": 0.6431,
+      "edge_f1": 0.1996,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4617,
+      "ref_self_contrast": 0.5165,
+      "composite": 0.5164
+    },
+    "128": {
+      "lum_delta": 0.1001,
+      "ssim": 0.5268,
+      "edge_f1": 0.2618,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4505,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.486
+    },
+    "32": {
+      "lum_delta": 0.1004,
+      "ssim": 0.4197,
+      "edge_f1": 0.5816,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3546,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6482
+    },
+    "16": {
+      "lum_delta": 0.0977,
+      "ssim": 0.4266,
+      "edge_f1": 0.8861,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3465,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.7582
+    }
+  },
+  "render_hash": "2579be8914954569"
+}

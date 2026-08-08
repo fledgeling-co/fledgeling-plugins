@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "B",
+    "material": "B",
+    "silhouette": "tie",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A and B share the same cast/tile composition, but B\u2019s softer, more diffuse surface light sits slightly closer to the REFERENCE\u2019s volumetric read, so it takes the overall match.",
+      "material": "B\u2019s highlight falloff on the white shell and coral face is gentler and less pin-sharp than A\u2019s, nearer the REFERENCE\u2019s frosted translucency and soft internal glow.",
+      "silhouette": "Both preserve the same dimetric mould-and-tile outline and coral face mark as each other, with no meaningful contour difference at 1024.",
+      "smallsize": "The 128/32/16 strips stay effectively interchangeable: the coral wedge carries the read and the stepped glyph collapses the same way by 16px."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "cursor-agent (grok-4.5)"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "verdict": null,
+  "meta": {
+    "error": "no OPENAI_API_KEY (pass --env-file)"
+  }
+}

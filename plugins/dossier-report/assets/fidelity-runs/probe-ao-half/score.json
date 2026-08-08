@@ -1,0 +1,57 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-597699-masked.png",
+  "tier": "full (lpips)",
+  "metric_version": 2,
+  "label": "AO probe half (0.15/0.31)",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1015,
+      "ssim": 0.8057,
+      "edge_f1": 0.0581,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4748,
+      "ref_self_contrast": 0.5174,
+      "lpips": 0.487,
+      "composite": 0.5154
+    },
+    "256": {
+      "lum_delta": 0.1013,
+      "ssim": 0.6189,
+      "edge_f1": 0.2035,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4643,
+      "ref_self_contrast": 0.5165,
+      "lpips": 0.4364,
+      "composite": 0.5132
+    },
+    "128": {
+      "lum_delta": 0.101,
+      "ssim": 0.5135,
+      "edge_f1": 0.2856,
+      "mask_iou": 0.9994,
+      "self_contrast": 0.4525,
+      "ref_self_contrast": 0.5143,
+      "composite": 0.4854
+    },
+    "32": {
+      "lum_delta": 0.1013,
+      "ssim": 0.4187,
+      "edge_f1": 0.5968,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3618,
+      "ref_self_contrast": 0.4715,
+      "composite": 0.6528
+    },
+    "16": {
+      "lum_delta": 0.0978,
+      "ssim": 0.4294,
+      "edge_f1": 0.879,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3472,
+      "ref_self_contrast": 0.4641,
+      "composite": 0.7563
+    }
+  },
+  "render_hash": "a6d703efce1590b7"
+}
