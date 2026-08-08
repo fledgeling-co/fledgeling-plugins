@@ -65,6 +65,25 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · a spine crest on a warm-lit object is never `#FFFFFF`** — the
+  dossier-report fold shipped a crease highlight as a pure white hairline at
+  0.55 opacity. It is a hard specular in a scene lit by nothing white, which
+  Tahoe grammar #6 rules out, and it reads as a *gloss streak rather than
+  volume*. Warming it to the measured rim scatter (`#FFE7D6`), halving the
+  opacity and widening the blur turns the same geometry back into a rolled
+  edge. Crest hue comes from the scene's own rim scatter, never from the
+  colour-picker's top-left corner.
+
+  **The part worth keeping is how it was found.** Two blind judges named the
+  defect independently, in the same words, on a round the composite had scored
+  as an improvement. The fix that reversed the panel 2-0 on a reseeded order
+  moved the composite by **+0.0011**, which is noise. So a highlight's *hue*
+  sits in exactly the blind spot of an averaged pixel metric: it is a thin,
+  high-frequency, low-area feature, and the scorer is integrating over an area
+  where it barely registers. Run the panel on any round that touches a
+  specular, whatever the gate says, and do not let a passing composite argue
+  you out of a defect two humans-in-the-loop both named.
+
 - **2026-08 · fitting a raster's plane, and why the residual lies** — deriving a
   banner's ground plane from a diffusion take means measuring geometry the
   generator never stored as constants. Fitting an axis-aligned conic to the

@@ -475,7 +475,28 @@ class Runner:
                 "--baseline", str(baseline_dir / "score.json")], cwd=str(assets))
         gate_ok = g.returncode == 0
         (round_dir / "gate.txt").write_text(g.stdout or "")
-        self.log(f"  gate: {'ACCEPT' if gate_ok else 'REJECT'}")
+
+        # A degraded metric tier is not a caveat on the verdict, it IS the
+        # verdict. Measured on the dossier-report commission: eight rounds ran
+        # on "numpy (no torch: luminance+ssim+edges only)", the composite went
+        # backwards at every size, and the gate accepted its way to the worst
+        # take of the run. Re-scored at full tier, the accepted round placed
+        # LAST of eight on 1024 LPIPS while the rounds the gate had REJECTED
+        # were the peak. LPIPS engages only at 256 and 1024, which is exactly
+        # where material lives, so without it the gate is blind to the thing
+        # it is grading and confidently wrong rather than merely uncertain.
+        tier = json.loads((round_dir / "score.json").read_text()).get("tier", "unknown")
+        if gate_ok and not tier.startswith("full"):
+            gate_ok = False
+            (round_dir / "gate.txt").write_text(
+                (g.stdout or "") +
+                f"\n\nHARNESS OVERRIDE: gate passed but is REFUSED because the metric "
+                f"tier is '{tier}' rather than full. Install torch and lpips, then "
+                f"re-score. A round accepted on a degraded tier is not evidence about "
+                f"the artwork.\n")
+            self.log(f"  gate: REFUSED (tier '{tier}', not full) - install torch + lpips")
+        else:
+            self.log(f"  gate: {'ACCEPT' if gate_ok else 'REJECT'} (tier {tier})")
 
         panel_verdict = "n/a"
         provisional = False
