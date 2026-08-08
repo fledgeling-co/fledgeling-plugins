@@ -1,1 +1,1 @@
-ACCEPT  (net composite delta +0.0026 across 5 sizes)
+ACCEPT  (net composite delta +0.0368 across 5 sizes)

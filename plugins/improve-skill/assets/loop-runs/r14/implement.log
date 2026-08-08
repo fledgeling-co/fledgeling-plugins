@@ -1,11 +1,17 @@
-**Gate: ACCEPT, +0.0026 net.** 1024 0.5058→0.5060, 256 0.4699→**0.4716**, 128 0.5160→**0.5167**, 32 0.7886→0.7886, 16 0.8362→0.8362. No size negative. Structure PASS at 1785 paths / 307,135 bytes.
+Round complete. Gate **ACCEPT**, net composite +0.0368, no size negative.
 
-**What changed.** The cut is this icon's longest boundary and the master drew it as a colour change with no geometry. Fitting each image's own cut (34.0° ours, 41.0° C2's) and binning luminance by true perpendicular distance, C2 shows the same four-part step at all three block-free stations — crest +7.8%, shadowed riser −18.6%, lit arris +17.7% of their own plateaus — growing left to right, and it survives downsampling (+10.8% at 256, +5.4% at 128). Ours was a monotonic ramp. It now ships as one band path carrying the whole cross-section in a single local-frame gradient, with the swell as a mask. Achieved: crest +3.3/+3.1/+5.0%, riser −12.0/−12.9/−14.4% against C2's −15.6% at the same x, arris +3.7/+4.3/+4.0%.
+| size | r13 | r14 |
+|---:|---:|---:|
+| 1024 | 0.4538 | 0.4580 |
+| 256 | 0.4732 | 0.4786 |
+| 128 | 0.5175 | 0.5271 |
+| 32 | 0.7871 | 0.7999 |
+| 16 | 0.8371 | 0.8419 |
 
-**Rubric unmoved at 11/12** — figure-ground, vermilion footprint and 16px spread are bit-identical, polarity holds at +0.151.
+A `SHAVING=0` control render showed the curl was worth less than nothing at four of five sizes (+0.0141 at 32px from deleting it). Inside its own box the master threw 48 sobel cells over threshold against the reference's 22 — ours from one 0.28 internal step. Branch painting placed every pixel below L 0.45 on the *inner* branch: the mouth of the roll, driven to `IN_DARK` by a pure-occlusion `ao` term. The reference's interior bottoms at 0.516 with 19% saturation; ours bottomed at 0.310. Added `CURL_BOUNCE = 2.20` (scaling `IN_DARK` into `IN_DEEP`) and `CURL_TRANSMIT = 0.38` on the outer face. 32px `edge_f1` 0.8961→0.9165, above the 0.9147 that deleting the shaving reached — the curl now costs less than not drawing it.
 
-**One disagreement.** The residual wants us darker on *both* sides, so the composite pays for the riser and charges for the arris — only because our trued plane is 0.22 too bright, a palette fault. Shipping the riser alone would score better and make a groove, not a step. The pair ships whole. The arris is also capped: 8.8% of headroom against a 24.1% target; the step cannot be lit past the source.
+Rubric holds: block figure-ground bit-identical, polarity +0.145→+0.149, `self_contrast` unchanged. Bounce 2.60 matched the material better but cost two 16px edge cells; 2.20 was taken instead. Cost: the curl's mean has crossed its ground (separation +0.047→−0.006 at 16px) — it now reads by structure alone, with no mean-level margin. Flagged in the notes.
 
-**Reusable:** *carry a cross-section in one gradient, and anchor its swell where you can still measure it* — anchoring on the occluded geometric peak, as I did first, scales every visible part to an unverifiable value and applies the ramp twice.
+Reusable: an ambient-occlusion term needs a bounce term beside it whenever the cavity is lined with the object's own bright material — author the floor as a *scale* of the existing dark colour so chromaticity is preserved by construction. And: before theorising about which shading term is wrong, paint the branches.
 
 ---STDERR---

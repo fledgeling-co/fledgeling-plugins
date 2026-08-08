@@ -5,10 +5,10 @@
     "silhouette": "tie",
     "smallsize": "tie",
     "rationale": {
-      "overall": "B better matches the REFERENCE\u2019s overall physical read: a matte-leaning dark slab, a thin grainy curl, a textured-versus-smooth ground split, and a soft contact-lit orange rim without A\u2019s glossier, flatter hardware look.",
-      "material": "B\u2019s smoky slab with visible internal depth, semi-matte top-face falloff, thin vertically grained curl, and clear textured/smooth ground polarity sit closer to the REFERENCE\u2019s volumetric shading and translucency than A\u2019s glossier panel and more opaque beige tab.",
-      "silhouette": "Both keep the same diagonal rounded block, upper-left curl, and squircle boundary, so the figure read against the split ground is effectively the same.",
-      "smallsize": "At 128/32/16 both reduce to the same dark diagonal mass, surviving orange rim pixels, and a near-lost curl smudge, with no clear legibility edge."
+      "overall": "B is the closer overall match to the REFERENCE because its slab reads more volumetric and matte, its curl keeps lit/shadowed translucency, and its ground split keeps a textured-versus-smooth polarity.",
+      "material": "B\u2019s semi-matte dark block with clearer top-to-side falloff, a thin curl with an inner shaded face and grain, and a rough/smooth ground contrast track the REFERENCE\u2019s volumetric shading and translucency better than A\u2019s flatter, more opaque curl and glossier panel read.",
+      "silhouette": "Both takes share the same diagonal rounded block, upper-left loop, orange rim, and squircle crop, so the figure\u2013ground silhouette is effectively identical.",
+      "smallsize": "At 128px and in the 32/16px magnifications both collapse to the same dark diagonal mass, a few surviving orange rim pixels, and a near-lost curl smudge with no clear legibility edge."
     }
   },
   "meta": {

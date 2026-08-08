@@ -4,7 +4,7 @@ icon is being iterated toward a diffusion-raster reference until its material
 quality matches. Each round makes ONE class of edit, scores the result at five
 sizes against the reference, and a Pareto gate accepts or rejects it.
 
-This is round r14 on this fixture. The round's edit class is detail.
+This is round r14 on this fixture. The round's edit class is small-size repair.
 
 Why the loop exists: hand-authored masters reliably win composition and
 small-size legibility but lose material richness (volumetric shading, lighting,
@@ -27,7 +27,7 @@ Working directory: /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skil
 - `audit.html` — the contact sheet; the A row is this master's
 
 
-Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (297KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
+Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (225KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
 </fixture>
 
 <baseline_numbers>
@@ -35,11 +35,11 @@ Current master vs the reference:
 
 | size | composite | lum_delta | ssim | edge_f1 |
 |---:|---:|---:|---:|---:|
-| 1024 | 0.5058 | 0.1276 | 0.6174 | 0.3498 |
-| 256 | 0.4699 | 0.1233 | 0.5769 | 0.2469 |
-| 128 | 0.5160 | 0.1207 | 0.5552 | 0.4514 |
-| 32 | 0.7886 | 0.1166 | 0.5952 | 0.9073 |
-| 16 | 0.8362 | 0.1118 | 0.6289 | 1.0000 |
+| 1024 | 0.4538 | 0.1286 | 0.6304 | 0.1269 |
+| 256 | 0.4732 | 0.1250 | 0.5872 | 0.2532 |
+| 128 | 0.5175 | 0.1227 | 0.5667 | 0.4506 |
+| 32 | 0.7871 | 0.1194 | 0.6115 | 0.8961 |
+| 16 | 0.8371 | 0.1157 | 0.6416 | 1.0000 |
 
 Metric tier: numpy (no torch: luminance+ssim+edges only).
 
@@ -51,8 +51,8 @@ CONTRAST BUDGET, and it binds. The reference carries LESS contrast than this
 master at small sizes, so converging on it lowers yours, and the gate enforces
 an absolute floor at 6% below the baseline's:
 
-  32px: your master 0.604, the reference 0.449, floor 0.567
-  16px: your master 0.593, the reference 0.427, floor 0.557
+  32px: your master 0.611, the reference 0.449, floor 0.574
+  16px: your master 0.597, the reference 0.427, floor 0.561
 
 This is a real conflict, not a trap: the composite asks you to match the
 reference and the rubric refuses to let this icon go mushy at menu-bar size.
@@ -81,7 +81,7 @@ The full recipe table is at /Users/lukerhodes/Dev/fledgeling-plugins/plugins/cre
 </prior_learnings>
 
 <task>
-Make ONE class of edit: detail. In scope: micro-geometry, texture accents, local control points, small ornament that survives at 128px. Out of scope: the overall silhouette, palette, and light model.
+Make ONE class of edit: small-size repair. In scope: simplifying or strengthening features that alias or smear at 32 and 16px, and only those. Out of scope: anything that changes the 1024 read beyond tolerance.
 
 Start by finding where the gap actually is, from the artifacts rather than from
 assumption: open the residual map, the two edge maps, and the candidate and
@@ -96,7 +96,7 @@ Run the instrument as you go:
 
     cd /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets
     python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py structure --candidate icon.svg --max-paths 3000 --max-bytes 350000
-    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py score --candidate icon.svg --reference icon-engineC-f5665d-2.png --outdir /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r14 --label "r14 detail"
+    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py score --candidate icon.svg --reference icon-engineC-f5665d-2.png --outdir /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r14 --label "r14 small-size repair"
     python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py gate --candidate /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r14/score.json --baseline /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r13/score.json
 
 The gate is the round's verdict, and the harness applies it. If it REJECTs,
@@ -129,7 +129,7 @@ score is a proxy for a judgment a human will make on the render.
 - Edit `build_icon.py` only. Regenerate the SVG and its PNG renders from it.
 - You have no git tools and no network; do not attempt either.
 - Do not delegate to subagents. This is a single track; spawn none.
-- Deliver what was asked, at the scope intended: one detail round on this
+- Deliver what was asked, at the scope intended: one small-size repair round on this
   fixture. Make routine judgment calls yourself. If the brief looks mistaken or
   a better approach exists, say so in a sentence and carry on with the round as
   asked rather than quietly widening or transforming it.

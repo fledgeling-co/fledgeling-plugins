@@ -16,12 +16,12 @@
     },
     "material": {
       "votes": {
-        "candidate": 0,
-        "baseline": 1,
-        "tie": 2
+        "candidate": 1,
+        "baseline": 2,
+        "tie": 0
       },
       "judges_ran": 3,
-      "winner": "tie"
+      "winner": "baseline"
     },
     "silhouette": {
       "votes": {
@@ -34,12 +34,12 @@
     },
     "smallsize": {
       "votes": {
-        "candidate": 1,
-        "baseline": 0,
-        "tie": 2
+        "candidate": 0,
+        "baseline": 2,
+        "tie": 1
       },
       "judges_ran": 3,
-      "winner": "tie"
+      "winner": "baseline"
     }
   },
   "judges": {
