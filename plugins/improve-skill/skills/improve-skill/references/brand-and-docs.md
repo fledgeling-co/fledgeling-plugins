@@ -41,15 +41,30 @@ chose across six icons. Brief the mac-design-studio agent with all of it:
 
 ### The pipeline
 
-Spawn an **Opus agent** that reads mac-design-studio's SKILL.md and
-icon-directions.md (the hardened version: three engines are a floor —
-under any budget cut iterations, never engines — and `audit.html` from
-`assets/icon-audit-template.html` is a required on-disk deliverable).
-The brief carries: the chosen concept, the marketplace aesthetic above,
-the sibling icons' glyph devices so none is duplicated, the 16px
-survival requirement, retina audit renders, and NO git operations. Expect: layered SVG master + Arrow vector take + raster
-takes with corpus referenceImages (media-gen-pro), every take scored on
-the sheet including losers, known liabilities stated.
+**Route icon work to `create-mac-icon`.** Do not restate its procedure here and
+do not brief an agent to reinvent it: it carries the direction catalogue, the
+ground-truth corpus the master is measured against, the three-engine floor, the
+`audit.html` template, the material-recipes library that grows with every
+commission, and the measured fidelity loop with its scoring harness, review
+sheet and blind judge panel. A hand-rolled icon pass gets none of that and
+starts every lesson over.
+
+Spawn an **Opus agent** briefed to read `create-mac-icon`'s SKILL.md and follow
+it, plus:
+
+- the chosen concept from the user checkpoint,
+- the **marketplace aesthetic** above, since that is this repo's house style
+  rather than the skill's,
+- the sibling icons' glyph devices, so none is duplicated,
+- and NO git operations.
+
+Write the brief following `references/opus-5-prompting.md`: state first, task
+last, no verification scaffolding, an explicit no-subagents cap, and the
+artifacts named as things to sample values out of rather than reason about.
+
+Expect back: the layered SVG master with its build script, the Arrow and raster
+takes, `audit.html` with every take scored including losers, the fidelity run
+directory, and any new construction appended to the skill's recipe library.
 
 ## Banner
 

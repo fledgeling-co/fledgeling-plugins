@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs><filter id="f" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+ <feTurbulence type="fractalNoise" baseFrequency="0.3 0.55" numOctaves="3" seed="11" result="noise"/>
+ <feFlood flood-color="#000000" flood-opacity="1" result="black"/>
+ <feComposite in="noise" in2="black" operator="over" result="opaque"/>
+ <feColorMatrix in="opaque" type="matrix" result="m"
+   values="0 0 0 0 0  0 0.18182 0 0 0.81818  0 0 0 0 0  0 0 0 0 1"/>
+ <feComposite in="m" in2="SourceGraphic" operator="arithmetic" k1="1.10000" k2="0" k3="0" k4="0"/>
+</filter></defs>
+<rect width="1024" height="1024" fill="#3F3F3F"/>
+<rect x="0" y="0" width="1024" height="1024" fill="#3F3F3F" filter="url(#f)"/>
+</svg>
