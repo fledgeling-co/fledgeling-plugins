@@ -1,0 +1,61 @@
+{
+  "skill_name": "create-skill",
+  "notes": "Foundational process evals, mirroring improve-skill's. They assert the pipeline's phases actually happen in order and that its user checkpoints are asked before anything is generated. Output quality is proven by the evals this pipeline builds for each new skill, not here.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "discovery-before-research",
+      "prompt": "I want a skill that helps with our release process. Build it.",
+      "expected_output": "A clarifying interview happens first, with recommendations and multi-choice, before any research panel starts, because the brief as given determines neither a trigger, an output, nor a done condition.",
+      "assertions": [
+        "AskUserQuestion is called before research_start",
+        "The questions offer discrete options with a marked recommendation, not only free text",
+        "At least one question covers the trigger, one the output, and one the definition of done",
+        "The run states what it already worked out from the repo or conversation rather than asking about it",
+        "The vagueness of 'helps with our release process' is named as insufficient rather than silently resolved",
+        "No skill files are written before the interview is answered"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "skill-creator-and-evidence",
+      "prompt": "Create a skill that turns a messy changelog into release notes. Trigger: when I say 'draft release notes'. Output: a markdown file. Done when every merged PR since the last tag appears exactly once, grouped by type. It must never push or tag.",
+      "expected_output": "A complete brief needs no interview; research runs on the domain, skill-creator builds it, and every structural rule traces to evidence or to the brief.",
+      "assertions": [
+        "The skill-creator skill is invoked rather than the SKILL.md being hand-written from scratch",
+        "A Dossier research panel is started on the domain, not on the skill itself",
+        "Every research report that completed is read in full and citation-verified before the build",
+        "The built skill carries an evidence.md whose claims cite the exported research corpus",
+        "The stated constraint (never push or tag) appears as an explicit rule in the built skill",
+        "docs/deep-research/ contains the exported reports"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "no-skill-baseline-is-run",
+      "prompt": "Continue: the release-notes skill is built. Prove it works.",
+      "expected_output": "Evals run the same prompts with and without the skill; the baseline is executed rather than assumed, and any assertion the baseline also passes is flagged.",
+      "assertions": [
+        "Each eval prompt is run twice: once with the skill and once with no skill",
+        "The no-skill baseline outputs exist on disk and were graded, not asserted from expectation",
+        "An independent grader marks every assertion with quoted evidence",
+        "Any assertion the no-skill baseline also passes is identified as measuring the model rather than the skill",
+        "If the skill does not beat the baseline on an eval, that appears in the reported table rather than being omitted"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "checkpoints-before-generation",
+      "prompt": "Continue: the evals are graded. Finish and ship it.",
+      "expected_output": "Name and icon concept are put to the user before any icon or banner is generated, and the brand treatment follows the marketplace aesthetic.",
+      "assertions": [
+        "Name options are presented via AskUserQuestion with rationales and a recommendation",
+        "Icon concept options are presented in words before any image or SVG is generated",
+        "No icon or banner asset is created before both questions are answered",
+        "README and EVALS.md are written through create-luke-content and pass voice_lint",
+        "The root README gains a row for the new skill",
+        "The commit is made by the orchestrating session, with no git operations performed by subagents"
+      ]
+    }
+  ]
+}
