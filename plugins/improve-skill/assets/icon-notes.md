@@ -783,6 +783,111 @@ full and collect nothing on edge recall, and the honest expectation for the roun
 better-looking master and a worse number. Cost here: about 260 lines of numpy,
 `work/d1.py`–`d9.py`.
 
+## Round 14 (`loop-runs/r13`) — the small-size repair round: the grit filter drew a
+one-pixel dark seam around the whole block, and at 16px the block is nearly all seam
+
+*Bookkeeping: round N here is `loop-runs/r(N-1)`, so this is the entry for `loop-runs/r13`.
+Round 13 was rejected and its candidate left in the tree as the harness requires, so this
+round starts from r12's SVG (filters 12, `PIT_BF` 0.30/0.55) and is gated against r11.*
+
+**What was measured off the render, before authoring anything.** Not off the reference this
+time: the deficit r13 had to answer was self-inflicted, and the instrument for it is a
+control render. Rendering this exact SVG against a copy with the one `filter="url(#ironGrit)"`
+attribute stripped, and differencing the mean L over the pixels the filter actually touches:
+
+| | 1024 | 256 | 128 | 32 | 16 |
+|---|---:|---:|---:|---:|---:|
+| round-13 master | −0.0017 | −0.0031 | −0.0056 | −0.0201 | −0.0335 |
+| with turbulence + lighting removed | −0.0006 | −0.0024 | −0.0050 | −0.0196 | −0.0325 |
+| **r13 candidate** | **−0.0010** | **−0.0007** | **−0.0006** | **−0.0007** | **−0.0013** |
+
+The middle row is the finding and it **corrects round 13's diagnosis**. Replacing the
+whole `feTurbulence` + `feDiffuseLighting` pair with a constant `feFlood` at 1/k1 — no
+noise, no height field, no normal operator, an exact RGB identity on paper — reproduces
+**97% of the darkening at both 32 and 16**. So the loss was never the undersampled
+height field r12 blamed it on; that term is real but worth only −0.0010 of the −0.0335,
+and it is flat across sizes rather than growing.
+
+**What it actually was.** Differenced at 128 and mapped rather than averaged, the loss is
+not on the surface at all: the interior is identically zero and the whole of it sits in a
+**one-device-pixel contour tracing the filtered group's silhouette**, min −0.130, 227
+pixels over |0.02|. `feComposite operator="arithmetic"` runs its formula on all four
+channels of a **premultiplied** image, so `k1 = 1/sin(50°) = 1.3054` multiplied COVERAGE
+by 1.3054 alongside colour. Every partly covered boundary pixel came out too opaque, and
+a dark block on a light ground reads too opaque as too dark. That is a perimeter defect
+on an area metric, so it scales as 1/size: 0.2% of the block at 1024, ~13% of it at 16,
+where the block is 5 × 12 px and nearly all boundary. r08 authored `k1` as a *flat-field*
+normalisation and the comment saying "flat areas come out exactly as drawn" was true of
+colour and false of alpha — which is why nine rounds of range checks never saw it.
+
+**What changed.** One primitive. The 1/sin(elevation) normalisation moves off the
+composite's `k1` and onto the source colour, as an `feComponentTransfer` with three
+`linear` `slope="1.3054"` funcs; `k1` falls to 1. `feComponentTransfer` un-premultiplies,
+transfers colour, re-premultiplies and leaves alpha alone, so alpha now comes through as
+`1 × A_lit × A_src = A_src`, exactly. Interior pixels are unchanged to the bit — both
+routes multiply the same sRGB colour by the same constant — so the whole edit is
+boundary-only. No constants retuned, no paths added: 1042 before and after, filters still
+12, +214 bytes. Structure PASS.
+
+| size | r11 (baseline) | round-13 master | **r13** | vs r11 |
+|---:|---:|---:|---:|---:|
+| 1024 | 0.4585 | 0.4536 | **0.4538** | −0.0047 |
+| 256 | 0.4760 | 0.4754 | **0.4732** | −0.0028 |
+| 128 | 0.5188 | 0.5198 | **0.5175** | −0.0013 |
+| 32 | 0.7874 | 0.7854 | **0.7871** | −0.0003 |
+| 16 | 0.8377 | 0.8299 | **0.8371** | −0.0006 |
+
+Pareto gate **ACCEPT**, every size inside the 0.005 tolerance, net −0.0097. 16px recovers
+0.0072 of the 0.0078 r12 lost and 32px 0.0017 of 0.0020, which is the seam's whole share.
+At 1024 the edit is a small gain (0.4536 → 0.4538, `edge_f1` 0.1256 → 0.1269, back above
+r11's 0.1267) because a false 1px contour was costing edge precision.
+
+**The cost, and it is r12's "where it did pay" being taken back.** r12 read its `edge_f1`
+rises at 256 (0.2534 → 0.2595) and 128 (0.4496 → 0.4579) as the grit landing near one
+cell and reading as real edge. It was not: with the seam gone those return to **0.2532
+and 0.4506**, i.e. to r11's values. Nearly all of that gain was the artefact drawing a
+crisp dark outline where the reference has a soft one. The grit's own contribution to
+edge recall at every size is approximately nothing, which is what r12's own tail analysis
+predicted and what its round-level numbers appeared to contradict. The 1024 SSIM charge
+for the grit's variance (−0.011) is untouched and still unpaid for; that is why the net
+is negative on an ACCEPT, and it stays r12's open question, not this round's.
+
+Second cost, small and bounded: the pre-brighten clips any source channel above 1/1.3054
+= 0.766, and one colour inside the filtered group is above it — `frontFace`'s last stop
+`#C94E22`, R 0.788. Worst measured loss there is **−0.0039 on R**, on the hot band along
+the bevel. It is the price of doing the normalisation in 8-bit and it is cheaper than a
+knee.
+
+**Rubric position, which improves.** Figure-ground at 128 reads 2.86:1 against the
+un-planed field and 3.61:1 against the trued, from 2.88 and 3.64 — a hair lower because
+the block's own L rises 0.2242 → 0.2260, i.e. the previous number was inflated by
+darkening the subject with a rendering fault. The single light model is unmoved to the
+third digit, TL 1.046× against BL 0.912× of the un-planed mean. Polarity is **+0.145**,
+bit-for-bit r11's, by `measure.py icon.png 33.0 543 604 640`. The 16px `self_contrast`
+falls 0.6152 → 0.5969 against a 0.5656 floor, and 32px 0.6139 → 0.6109 against 0.5770 —
+both clear with room, and **this is the confirmation of r12's own handoff prediction**:
+its 16px contrast "gain" was bought by the fault, and removing the fault gives it back.
+Measured against r11's clean 0.6017 rather than r12's flattered 0.6152, the genuine cost
+of carrying the relief at 16px is −0.8%. The 16px darkest pixel rises 0.1294 → 0.1596,
+which is the seam leaving; the block's edges now antialias instead of being outlined.
+
+**Reusable construction — "a scalar meant for colour must never ride in on `feComposite
+arithmetic`'s k1/k2/k3, because those coefficients cannot tell colour from coverage."**
+Put any flat-field or exposure normalisation in an `feComponentTransfer` with `linear`
+funcs on R/G/B only; it un-premultiplies, transfers, re-premultiplies and leaves alpha
+untouched, and the composite then runs at k1 = 1. If a gain must stay on the composite,
+the alpha-safe form is the affine one with **k1 + k3 = 1**, which preserves coverage
+exactly but caps the multiplier at 1, so it can only darken — a gain above 1 and an
+untouched alpha cannot both come out of one arithmetic composite. Two diagnostics go with
+it, and both are cheap. First, the control render generalises past filters: render the
+same SVG with the one attribute under test stripped, at **every size you score**, and
+difference the subject's own mean — a defect whose magnitude scales as 1/size is a
+**perimeter** defect and is invisible at 1024 by construction. Second, before believing a
+filter's diagnosis, **neuter the filter and re-measure**: replacing the noise with a
+constant flood at the same flat value took three minutes and moved the cause from the
+height field to the compositor. r12 reasoned correctly from physics about a term that was
+3% of the effect. Cost here: about 80 lines of numpy, `loop-runs/r13/work2/`.
+
 ## The other takes
 
 **Three engines, all four takes on the sheet.** Engine A now takes 12/12. Engine C raster took 9/12 (C1) and 7/12 (C2); both stay on disk as the reference takes the rebuild was judged against, and both hard-fail #10 as flat pre-masked rasters — the corpus's single most common failure. C1 additionally fails #11: its two sides sit only 0.09 L apart, so its improvement is present but too faint to be the read. Engine B (Arrow vector) came last at 5/12 with hard fails on silhouette and 16px: the blade forked into a wishbone and the vermilion hone line, the entire signature, was absent. Its steeper, flatter diagonal was the one thing worth salvaging.

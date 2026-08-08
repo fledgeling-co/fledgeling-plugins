@@ -534,20 +534,43 @@ PIT_ELEV = 50.0
 
 def relief_filter(fid, bf, scale, elev, azimuth, seed):
     """One noise-relief modulation. feTurbulence is the height field, feDiffuseLighting
-    lights it from the icon's key, and feComposite arithmetic multiplies that lighting
-    back over the source with k1 = 1/sin(elevation) - the value a dead-flat surface
-    returns - so flat areas come out exactly as drawn and only relief changes anything."""
-    k1 = 1.0 / math.sin(math.radians(elev))
+    lights it from the icon's key, and feComposite multiplies that lighting back over the
+    source, normalised on 1/sin(elevation) - the value a dead-flat surface returns - so
+    flat areas come out exactly as drawn and only relief changes anything.
+
+    ROUND 14 (small-size repair). The normalisation is applied to the SOURCE COLOUR, by
+    feComponentTransfer, and NOT as the composite's k1, which is where round 13 put it.
+    feComposite arithmetic runs its formula on all four channels of a PREMULTIPLIED
+    image, so k1 = 1/sin(50) scaled COVERAGE by 1.3054 alongside colour: every partly
+    covered pixel on the filtered group's boundary came out too opaque, and since the
+    block is dark on a light ground, too opaque reads too dark. It is a one-device-pixel
+    seam around the whole silhouette. Perimeter/area is what that costs, so it is 0.2%
+    of the block at 1024 and 13% of it at 16, where the block is 5 x 12 px and nearly
+    all boundary. feComponentTransfer un-premultiplies, transfers colour, re-premultiplies
+    and leaves alpha alone, so the same normalisation applied there is coverage-safe; k1
+    then falls to 1 and alpha comes through exactly as drawn. Interior pixels are
+    unchanged to the last bit - both routes multiply the same sRGB colour by the same
+    constant - so this is a small-size repair that costs the 1024 read nothing.
+
+    The general rule, and it is not specific to relief: a scalar meant for colour must
+    never ride in on feComposite arithmetic's k1/k2/k3, because those coefficients cannot
+    tell colour from coverage."""
+    k = 1.0 / math.sin(math.radians(elev))
     return f"""  <filter id="{fid}" x="-1200" y="-1200" width="3400" height="3400"
           filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feComponentTransfer in="SourceGraphic" result="normed">
+      <feFuncR type="linear" slope="{k:.4f}"/>
+      <feFuncG type="linear" slope="{k:.4f}"/>
+      <feFuncB type="linear" slope="{k:.4f}"/>
+    </feComponentTransfer>
     <feTurbulence type="fractalNoise" baseFrequency="{bf[0]} {bf[1]}" numOctaves="3"
                   seed="{seed}" result="height"/>
     <feDiffuseLighting in="height" surfaceScale="{scale}" diffuseConstant="1"
                        lighting-color="#FFFFFF" result="lit">
       <feDistantLight azimuth="{azimuth:.1f}" elevation="{elev:.0f}"/>
     </feDiffuseLighting>
-    <feComposite in="lit" in2="SourceGraphic" operator="arithmetic"
-                 k1="{k1:.4f}" k2="0" k3="0" k4="0"/>
+    <feComposite in="lit" in2="normed" operator="arithmetic"
+                 k1="1" k2="0" k3="0" k4="0"/>
   </filter>
 """
 

@@ -510,27 +510,67 @@ FIBRE_SCALE = 0.80            # surfaceScale. Calibrated in rsvg-convert against
                               # sd 18.3 in its worst band; lands at 17.4 alone, ~18 once
                               # the existing tear dashes are counted
 FIBRE_ELEV = 42.0             # raking, because torn end-grain is what casts these
-PIT_BF = (0.55, 0.55)         # isotropic: pitting in cast stone has no direction
-PIT_SCALE = 0.50              # -> sd 4.2 against C2's 4.5 in the same patch
+# ROUND 12 (detail). r08 authored these three and then never wired the filter to
+# anything, so the iron's face has been shipping dead flat ever since: measured over the
+# whole top face at 1024, our 12px high-pass runs sd 0.0033 against C2's 0.0338 and 0.0%
+# of our pixels clear the metric's Sobel threshold against 5.3% of C2's - 6138 reference
+# edge pixels missed with not one false positive to trade for them, the cleanest deficit
+# left on the icon. Two of r08's three constants survive the calibration and one does not.
+#
+# What C2's iron face actually is, on two patches rotated into the block's own frame
+# (work/d3.py) and re-measured against rsvg-convert's own output (work/d4.py):
+#   - hp-sd 0.0133 (mid) to 0.0189 (leading end) against face luminance 0.232 / 0.270,
+#     i.e. a modulation DEPTH of 5.7-7.0% of local L, which is what a multiplicative
+#     relief delivers for free at any luminance. PIT_SCALE 0.50 lands at 5.9%: kept.
+#   - a spectral centroid of 0.105-0.149 c/px ALONG the blade and 0.180-0.189 ACROSS it,
+#     so the grit is NOT isotropic - it is mildly elongated along the block's length,
+#     ratio 1.14-1.41 by first-difference sd. r08's (0.55, 0.55) is isotropic AND about
+#     40% too fine on both axes; it was assumed, not measured. (0.30, 0.55) renders at
+#     centroid 0.122 / 0.192 and anisotropy 1.41, which is C2's on all three counts.
+PIT_BF = (0.30, 0.55)         # LOCAL frame: ~8px along the blade, ~5px across it
+PIT_SCALE = 0.50              # -> hp-sd 0.0145 on L 0.246, i.e. 5.9% of L; C2 5.7-7.0%
 PIT_ELEV = 50.0
 
 
 def relief_filter(fid, bf, scale, elev, azimuth, seed):
     """One noise-relief modulation. feTurbulence is the height field, feDiffuseLighting
-    lights it from the icon's key, and feComposite arithmetic multiplies that lighting
-    back over the source with k1 = 1/sin(elevation) - the value a dead-flat surface
-    returns - so flat areas come out exactly as drawn and only relief changes anything."""
-    k1 = 1.0 / math.sin(math.radians(elev))
+    lights it from the icon's key, and feComposite multiplies that lighting back over the
+    source, normalised on 1/sin(elevation) - the value a dead-flat surface returns - so
+    flat areas come out exactly as drawn and only relief changes anything.
+
+    ROUND 14 (small-size repair). The normalisation is applied to the SOURCE COLOUR, by
+    feComponentTransfer, and NOT as the composite's k1, which is where round 13 put it.
+    feComposite arithmetic runs its formula on all four channels of a PREMULTIPLIED
+    image, so k1 = 1/sin(50) scaled COVERAGE by 1.3054 alongside colour: every partly
+    covered pixel on the filtered group's boundary came out too opaque, and since the
+    block is dark on a light ground, too opaque reads too dark. It is a one-device-pixel
+    seam around the whole silhouette. Perimeter/area is what that costs, so it is 0.2%
+    of the block at 1024 and 13% of it at 16, where the block is 5 x 12 px and nearly
+    all boundary. feComponentTransfer un-premultiplies, transfers colour, re-premultiplies
+    and leaves alpha alone, so the same normalisation applied there is coverage-safe; k1
+    then falls to 1 and alpha comes through exactly as drawn. Interior pixels are
+    unchanged to the last bit - both routes multiply the same sRGB colour by the same
+    constant - so this is a small-size repair that costs the 1024 read nothing.
+
+    The general rule, and it is not specific to relief: a scalar meant for colour must
+    never ride in on feComposite arithmetic's k1/k2/k3, because those coefficients cannot
+    tell colour from coverage."""
+    k = 1.0 / math.sin(math.radians(elev))
     return f"""  <filter id="{fid}" x="-1200" y="-1200" width="3400" height="3400"
           filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feComponentTransfer in="SourceGraphic" result="normed">
+      <feFuncR type="linear" slope="{k:.4f}"/>
+      <feFuncG type="linear" slope="{k:.4f}"/>
+      <feFuncB type="linear" slope="{k:.4f}"/>
+    </feComponentTransfer>
     <feTurbulence type="fractalNoise" baseFrequency="{bf[0]} {bf[1]}" numOctaves="3"
                   seed="{seed}" result="height"/>
     <feDiffuseLighting in="height" surfaceScale="{scale}" diffuseConstant="1"
                        lighting-color="#FFFFFF" result="lit">
       <feDistantLight azimuth="{azimuth:.1f}" elevation="{elev:.0f}"/>
     </feDiffuseLighting>
-    <feComposite in="lit" in2="SourceGraphic" operator="arithmetic"
-                 k1="{k1:.4f}" k2="0" k3="0" k4="0"/>
+    <feComposite in="lit" in2="normed" operator="arithmetic"
+                 k1="1" k2="0" k3="0" k4="0"/>
   </filter>
 """
 
@@ -1137,7 +1177,12 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   <filter id="seatShadow" x="-40%" y="-40%" width="180%" height="180%">
     <feGaussianBlur stdDeviation="5"/>
   </filter>
-</defs>
+  <!-- ROUND 12: the iron's own grit, as a height field rather than as paths. Lit from
+       the scene's one key re-expressed in the block's frame, so it cannot introduce a
+       second source, and normalised on the flat-surface value so it is pure modulation:
+       the face's mean, and with it polarity and figure-ground, do not move. -->
+{relief_filter("ironGrit", PIT_BF, PIT_SCALE, PIT_ELEV,
+               frame_azimuth(UX, UY - K_RISE, NX, NY), 11)}</defs>
 
 <g clip-path="url(#tileMask)">
 
@@ -1211,23 +1256,30 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
   <g id="fg">
     {SHAVING_BLOCK}
     <!-- the plane iron as a real solid: a front face dropping to the ground, and a top
-         face lifted clear of it. The silhouette is one chunky block at every size. -->
-    <path d="{poly(FRONT_FACE)}" fill="url(#frontFace)"/>
-    <!-- the hone's along-length falloff, carried onto the face the hone lights -->
-    <path d="{poly(FRONT_FACE)}" fill="url(#frontFall)"/>
-    <path d="{poly(TOP)}" fill="url(#topFace)"/>
-    <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="{MATRIX_TOP}">
-        {STONE}
-    </g></g></g>
-    <path d="{poly(TOP)}" fill="url(#topSheen)"/>
-    <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
-         with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
-         than they did over 0.338, and the round's whole point is that this face is
-         quieter than we had it. Same rule for the sheen and the rim above and below. -->
-    <g transform="{MATRIX_TOP}" fill="none">
-      <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
-      <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
-    </g>
+         face lifted clear of it. The silhouette is one chunky block at every size.
+         ROUND 12: both faces are one stone with one finish, so they take ONE relief
+         field, run in the top face's frame so the grit's mild along-the-blade
+         elongation follows the geometry instead of the canvas. The outer group carries
+         the frame and the filter and the inner group undoes it, so every path, gradient
+         and clip below is exactly where it was and only the filter sees the frame. -->
+    <g transform="{MATRIX_TOP}" filter="url(#ironGrit)"><g transform="{MATRIX_TOP_INV}">
+      <path d="{poly(FRONT_FACE)}" fill="url(#frontFace)"/>
+      <!-- the hone's along-length falloff, carried onto the face the hone lights -->
+      <path d="{poly(FRONT_FACE)}" fill="url(#frontFall)"/>
+      <path d="{poly(TOP)}" fill="url(#topFace)"/>
+      <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="{MATRIX_TOP}">
+          {STONE}
+      </g></g></g>
+      <path d="{poly(TOP)}" fill="url(#topSheen)"/>
+      <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
+           with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
+           than they did over 0.338, and the round's whole point is that this face is
+           quieter than we had it. Same rule for the sheen and the rim above and below. -->
+      <g transform="{MATRIX_TOP}" fill="none">
+        <path d="M 78 122 L {BLADE_LEN - 98:.0f} 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
+        <path d="M 128 100 L {BLADE_LEN - 152:.0f} 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
+      </g>
+    </g></g>
   </g>
 
   <g id="highlight" fill="none">
