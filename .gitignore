@@ -5,3 +5,4 @@ node_modules/
 docs/loop.log
 docs/LOOP-STOP
 docs/loop-watchdog.log
+plugins/*-workspace/

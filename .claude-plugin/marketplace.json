@@ -105,6 +105,17 @@
       },
       "source": "./plugins/create-skill",
       "category": "development"
+    },
+    {
+      "name": "dossier-report",
+      "description": "Turn a research question into one published, uniquely-themed HTML report page. Runs a Dossier paid+free deep-research panel and reads every member end to end rather than the merged distillation, compiles the corpus into a claim graph, then designs the page from scratch around its own subject so consecutive pages do not converge on one look. Martini-glass structure, claim-local citations with source previews, a six-test gate before three.js is allowed, reduced-motion-first accessibility, Core Web Vitals floors, and a deterministic auditor that fails the build on a cited source that was never listed.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/dossier-report",
+      "category": "development"
     }
   ]
 }
