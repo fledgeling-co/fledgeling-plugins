@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r04 material: clear the 3:1 figure-ground floor on the melt",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1476,
+      "ssim": 0.7339,
+      "edge_f1": 0.0623,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4448,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.4525
+    },
+    "256": {
+      "lum_delta": 0.147,
+      "ssim": 0.5757,
+      "edge_f1": 0.1653,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4442,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4158
+    },
+    "128": {
+      "lum_delta": 0.1461,
+      "ssim": 0.4892,
+      "edge_f1": 0.3523,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4431,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4292
+    },
+    "32": {
+      "lum_delta": 0.142,
+      "ssim": 0.4273,
+      "edge_f1": 0.8594,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4453,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7224
+    },
+    "16": {
+      "lum_delta": 0.1312,
+      "ssim": 0.4712,
+      "edge_f1": 0.9897,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4294,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.7855
+    }
+  },
+  "render_hash": "c2b8ffd318c47a39"
+}

@@ -124,6 +124,17 @@ actually invoked, that the no-skill baseline is run rather than assumed,
 that the blind panel and voice lint run, and that both user checkpoints
 are asked before generation.
 
+## Prompting the agents this pipeline spawns
+
+Every runner here is Opus, so each brief is an Opus prompt.
+`references/opus-5-prompting.md` carries the patterns and the three Anthropic
+documents to read in full first: XML-structured briefs with the task last, no
+verification scaffolding (Opus 5 self-verifies, and instructing it again causes
+over-verification), explicit delegation caps and scope statements, vision work
+given crop-and-sample tools, calibrated deliverable length, calm trigger
+language, and the environment traps that make `claude -p` fail in ways no code
+review catches.
+
 ## Operating rules
 
 - **A vague brief is a defect, not a constraint.** If an answer leaves

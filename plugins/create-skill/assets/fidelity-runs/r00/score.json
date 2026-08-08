@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r00 baseline: master after the measured melt correction",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1658,
+      "ssim": 0.7341,
+      "edge_f1": 0.0613,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4546,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.4268
+    },
+    "256": {
+      "lum_delta": 0.1652,
+      "ssim": 0.5861,
+      "edge_f1": 0.1721,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4532,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.3962
+    },
+    "128": {
+      "lum_delta": 0.1644,
+      "ssim": 0.505,
+      "edge_f1": 0.3336,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4529,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4052
+    },
+    "32": {
+      "lum_delta": 0.1606,
+      "ssim": 0.438,
+      "edge_f1": 0.8518,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4347,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7113
+    },
+    "16": {
+      "lum_delta": 0.1495,
+      "ssim": 0.4828,
+      "edge_f1": 0.9897,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4161,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.7774
+    }
+  },
+  "render_hash": "4a1ebb28841f090f"
+}

@@ -26,6 +26,17 @@ construct that renders differently across the two is itself a finding.
 | Curl / ribbon volume | Build as a **swept surface**, not a spiral outline: one cross-section curve swept along the roll axis, cut into bands, each band shaded by its facing angle to the single light; far-side bands seen from inside the roll go to shadow with a transmitted lift; free end tapers in opacity | A closed spiral path with one fill reads as a flat coil or a capped tube, not a curl |
 | Emissive interior | Bright core shape under a translucent shell, soft `feGaussianBlur` bloom layer above, restrained halo radius | Glow painted as opaque colour doesn't light its surroundings |
 
+## Before you author anything: look at the corpus
+
+Open 4-6 exemplars from `references/corpus/apple-2026/` in your register and
+sample values out of them. Not "study the style" — read numbers: ground
+luminance range, brightest point relative to the key, accent saturation, the
+hue of the darkest pixel in a shaded face, rim-light treatment, contact-shadow
+falloff. Put them in the spec before the first line of the build script.
+
+Every entry below was a failure that a glance at the corpus would have
+prevented, found later at roughly four rounds each. The corpus is free.
+
 ## The rule the entries below keep proving
 
 **Measure the reference; never assume a relationship.** Five separate entries

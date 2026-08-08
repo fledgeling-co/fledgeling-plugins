@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r01 material: contrast budget - deepen the dark end (ground ramp, vignette, contact shadow, porcelain shade)",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1468,
+      "ssim": 0.7336,
+      "edge_f1": 0.0583,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4444,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.4525
+    },
+    "256": {
+      "lum_delta": 0.1462,
+      "ssim": 0.5746,
+      "edge_f1": 0.1664,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4431,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4168
+    },
+    "128": {
+      "lum_delta": 0.1454,
+      "ssim": 0.4896,
+      "edge_f1": 0.3551,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4416,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4311
+    },
+    "32": {
+      "lum_delta": 0.1413,
+      "ssim": 0.429,
+      "edge_f1": 0.8596,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4317,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7233
+    },
+    "16": {
+      "lum_delta": 0.131,
+      "ssim": 0.4713,
+      "edge_f1": 0.9897,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4118,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.7856
+    }
+  },
+  "render_hash": "e6ff95ff047eacc0"
+}

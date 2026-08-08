@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r03 composition: open the mid-air cascade (stream tip up, droplet larger and clear of it)",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.147,
+      "ssim": 0.7346,
+      "edge_f1": 0.0586,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4448,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.4527
+    },
+    "256": {
+      "lum_delta": 0.1463,
+      "ssim": 0.5761,
+      "edge_f1": 0.1476,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4442,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4125
+    },
+    "128": {
+      "lum_delta": 0.1455,
+      "ssim": 0.4899,
+      "edge_f1": 0.336,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4431,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4263
+    },
+    "32": {
+      "lum_delta": 0.1414,
+      "ssim": 0.429,
+      "edge_f1": 0.8593,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4405,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7232
+    },
+    "16": {
+      "lum_delta": 0.1308,
+      "ssim": 0.4727,
+      "edge_f1": 0.9897,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4289,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.7861
+    }
+  },
+  "render_hash": "6723336a8824617c"
+}

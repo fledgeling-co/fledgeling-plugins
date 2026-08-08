@@ -124,6 +124,17 @@ mac-design-studio + audit.html, root-README update, commit/push) and that
 the two user checkpoints are asked before generation. Output quality is
 proven by the evals this pipeline builds for each improved skill, not here.
 
+## Prompting the agents this pipeline spawns
+
+Every runner here is Opus, so each brief is an Opus prompt and its shape decides
+what comes back. `references/opus-5-prompting.md` carries the patterns and the
+three Anthropic documents to read in full first: XML-structured briefs with the
+task last, no verification scaffolding (Opus 5 self-verifies, and instructing it
+again causes over-verification), explicit delegation caps and scope statements,
+vision work given crop-and-sample tools rather than told to double-check,
+calibrated deliverable length, calm trigger language, and the environment traps
+that make `claude -p` fail in ways no code review catches.
+
 ## Operating rules (learned the hard way)
 
 - **Never report a panel member's findings before the panel settles** —

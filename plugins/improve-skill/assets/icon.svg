@@ -276,6 +276,21 @@
   <filter id="seatShadow" x="-40%" y="-40%" width="180%" height="180%">
     <feGaussianBlur stdDeviation="5"/>
   </filter>
+  <!-- ROUND 12: the iron's own grit, as a height field rather than as paths. Lit from
+       the scene's one key re-expressed in the block's frame, so it cannot introduce a
+       second source, and normalised on the flat-surface value so it is pure modulation:
+       the face's mean, and with it polarity and figure-ground, do not move. -->
+  <filter id="ironGrit" x="-1200" y="-1200" width="3400" height="3400"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.3 0.55" numOctaves="3"
+                  seed="11" result="height"/>
+    <feDiffuseLighting in="height" surfaceScale="0.5" diffuseConstant="1"
+                       lighting-color="#FFFFFF" result="lit">
+      <feDistantLight azimuth="101.0" elevation="50"/>
+    </feDiffuseLighting>
+    <feComposite in="lit" in2="SourceGraphic" operator="arithmetic"
+                 k1="1.3054" k2="0" k3="0" k4="0"/>
+  </filter>
 </defs>
 
 <g clip-path="url(#tileMask)">
@@ -1434,13 +1449,19 @@
       </g>
     </g>
     <!-- the plane iron as a real solid: a front face dropping to the ground, and a top
-         face lifted clear of it. The silhouette is one chunky block at every size. -->
-    <path d="M 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 188.57 645.77 L 183.30 636.34 L 180.02 627.33 L 178.73 618.74 Z" fill="url(#frontFace)"/>
-    <!-- the hone's along-length falloff, carried onto the face the hone lights -->
-    <path d="M 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 188.57 645.77 L 183.30 636.34 L 180.02 627.33 L 178.73 618.74 Z" fill="url(#frontFall)"/>
-    <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 719.88 156.82 L 714.81 150.12 L 709.41 145.13 L 703.68 141.84 L 697.62 140.26 L 691.23 140.38 L 684.51 142.20 L 677.46 145.73 L 670.08 150.96 L 647.75 170.50 L 625.10 190.14 L 602.16 209.85 L 578.96 229.60 L 555.54 249.37 L 531.94 269.12 L 508.20 288.83 L 484.33 308.47 L 460.40 328.01 L 436.41 347.41 L 412.43 366.66 L 388.47 385.73 L 364.57 404.58 L 340.78 423.18 L 317.12 441.52 L 293.63 459.55 L 270.35 477.25 L 247.31 494.60 L 224.55 511.56 L 202.10 528.10 L 193.45 535.99 L 186.79 544.12 L 182.11 552.48 L 179.43 561.07 L 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topFace)"/>
-    <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)">
-        <ellipse cx="182" cy="180" rx="99" ry="35" fill="#9A968C" fill-opacity="0.083"/>
+         face lifted clear of it. The silhouette is one chunky block at every size.
+         ROUND 12: both faces are one stone with one finish, so they take ONE relief
+         field, run in the top face's frame so the grit's mild along-the-blade
+         elongation follows the geometry instead of the canvas. The outer group carries
+         the frame and the filter and the inner group undoes it, so every path, gradient
+         and clip below is exactly where it was and only the filter sees the frame. -->
+    <g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" filter="url(#ironGrit)"><g transform="matrix(0.782719,-0.630797,-0.508304,-0.782719,156.252,744.840)">
+      <path d="M 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 188.57 645.77 L 183.30 636.34 L 180.02 627.33 L 178.73 618.74 Z" fill="url(#frontFace)"/>
+      <!-- the hone's along-length falloff, carried onto the face the hone lights -->
+      <path d="M 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 L 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.40 427.46 L 808.26 429.05 L 807.74 430.57 L 806.82 432.00 L 805.52 433.35 L 803.83 434.62 L 284.69 771.75 L 284.69 771.75 L 282.23 773.12 L 279.88 773.98 L 277.64 774.32 L 275.51 774.13 L 273.49 773.43 L 271.58 772.21 L 269.78 770.48 L 268.09 768.22 L 188.57 645.77 L 183.30 636.34 L 180.02 627.33 L 178.73 618.74 Z" fill="url(#frontFall)"/>
+      <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 719.88 156.82 L 714.81 150.12 L 709.41 145.13 L 703.68 141.84 L 697.62 140.26 L 691.23 140.38 L 684.51 142.20 L 677.46 145.73 L 670.08 150.96 L 647.75 170.50 L 625.10 190.14 L 602.16 209.85 L 578.96 229.60 L 555.54 249.37 L 531.94 269.12 L 508.20 288.83 L 484.33 308.47 L 460.40 328.01 L 436.41 347.41 L 412.43 366.66 L 388.47 385.73 L 364.57 404.58 L 340.78 423.18 L 317.12 441.52 L 293.63 459.55 L 270.35 477.25 L 247.31 494.60 L 224.55 511.56 L 202.10 528.10 L 193.45 535.99 L 186.79 544.12 L 182.11 552.48 L 179.43 561.07 L 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topFace)"/>
+      <g clip-path="url(#topFaceClip)"><g filter="url(#stoneBlur)"><g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)">
+          <ellipse cx="182" cy="180" rx="99" ry="35" fill="#9A968C" fill-opacity="0.083"/>
         <ellipse cx="608" cy="177" rx="80" ry="19" fill="#191714" fill-opacity="0.053"/>
         <ellipse cx="267" cy="195" rx="110" ry="55" fill="#9A968C" fill-opacity="0.085"/>
         <ellipse cx="263" cy="64" rx="103" ry="24" fill="#9A968C" fill-opacity="0.045"/>
@@ -1474,16 +1495,17 @@
         <ellipse cx="43" cy="87" rx="40" ry="42" fill="#191714" fill-opacity="0.101"/>
         <ellipse cx="126" cy="122" rx="91" ry="31" fill="#191714" fill-opacity="0.060"/>
         <ellipse cx="478" cy="170" rx="102" ry="51" fill="#191714" fill-opacity="0.046"/>
-    </g></g></g>
-    <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 719.88 156.82 L 714.81 150.12 L 709.41 145.13 L 703.68 141.84 L 697.62 140.26 L 691.23 140.38 L 684.51 142.20 L 677.46 145.73 L 670.08 150.96 L 647.75 170.50 L 625.10 190.14 L 602.16 209.85 L 578.96 229.60 L 555.54 249.37 L 531.94 269.12 L 508.20 288.83 L 484.33 308.47 L 460.40 328.01 L 436.41 347.41 L 412.43 366.66 L 388.47 385.73 L 364.57 404.58 L 340.78 423.18 L 317.12 441.52 L 293.63 459.55 L 270.35 477.25 L 247.31 494.60 L 224.55 511.56 L 202.10 528.10 L 193.45 535.99 L 186.79 544.12 L 182.11 552.48 L 179.43 561.07 L 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topSheen)"/>
-    <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
-         with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
-         than they did over 0.338, and the round's whole point is that this face is
-         quieter than we had it. Same rule for the sheen and the rim above and below. -->
-    <g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" fill="none">
-      <path d="M 78 122 L 542 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
-      <path d="M 128 100 L 488 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
-    </g>
+      </g></g></g>
+      <path d="M 284.69 722.17 L 803.83 303.80 L 805.52 302.25 L 806.82 300.67 L 807.74 299.03 L 808.26 297.35 L 808.40 295.62 L 808.15 293.85 L 807.50 292.03 L 806.47 290.17 L 719.88 156.82 L 714.81 150.12 L 709.41 145.13 L 703.68 141.84 L 697.62 140.26 L 691.23 140.38 L 684.51 142.20 L 677.46 145.73 L 670.08 150.96 L 647.75 170.50 L 625.10 190.14 L 602.16 209.85 L 578.96 229.60 L 555.54 249.37 L 531.94 269.12 L 508.20 288.83 L 484.33 308.47 L 460.40 328.01 L 436.41 347.41 L 412.43 366.66 L 388.47 385.73 L 364.57 404.58 L 340.78 423.18 L 317.12 441.52 L 293.63 459.55 L 270.35 477.25 L 247.31 494.60 L 224.55 511.56 L 202.10 528.10 L 193.45 535.99 L 186.79 544.12 L 182.11 552.48 L 179.43 561.07 L 178.73 569.89 L 180.02 578.95 L 183.30 588.25 L 188.57 597.77 L 268.09 720.22 L 269.78 722.45 L 271.58 724.12 L 273.49 725.21 L 275.51 725.74 L 277.64 725.70 L 279.88 725.09 L 282.23 723.92 L 284.69 722.17 Z" fill="url(#topSheen)"/>
+      <!-- wear on the back: two faint grind striations, on the top face. Opacities halved
+           with the face: at 0.16 over a base of 0.245 they would read as a LARGER step
+           than they did over 0.338, and the round's whole point is that this face is
+           quieter than we had it. Same rule for the sheen and the rim above and below. -->
+      <g transform="matrix(0.83867,-0.67589,-0.54464,-0.83867,274.625,730.284)" fill="none">
+        <path d="M 78 122 L 542 122" stroke="#9A9285" stroke-opacity="0.08" stroke-width="3"/>
+        <path d="M 128 100 L 488 100" stroke="#9A9285" stroke-opacity="0.045" stroke-width="2"/>
+      </g>
+    </g></g>
   </g>
 
   <g id="highlight" fill="none">

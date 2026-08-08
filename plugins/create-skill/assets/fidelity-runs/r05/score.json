@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r05 material: melt one further notch to clear 3:1 cleanly",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1478,
+      "ssim": 0.7337,
+      "edge_f1": 0.0651,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4448,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.4528
+    },
+    "256": {
+      "lum_delta": 0.1472,
+      "ssim": 0.5753,
+      "edge_f1": 0.1672,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4442,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4158
+    },
+    "128": {
+      "lum_delta": 0.1464,
+      "ssim": 0.4882,
+      "edge_f1": 0.3513,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4431,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4281
+    },
+    "32": {
+      "lum_delta": 0.1422,
+      "ssim": 0.4258,
+      "edge_f1": 0.8493,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4453,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7184
+    },
+    "16": {
+      "lum_delta": 0.1314,
+      "ssim": 0.4694,
+      "edge_f1": 0.9897,
+      "mask_iou": 1.0,
+      "self_contrast": 0.432,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.7849
+    }
+  },
+  "render_hash": "0fdab06d423ac3d4"
+}

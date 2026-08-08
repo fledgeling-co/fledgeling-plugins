@@ -27,7 +27,7 @@ Working directory: /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skil
 - `audit.html` — the contact sheet; the A row is this master's
 
 
-Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (317KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
+Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (224KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
 </fixture>
 
 <baseline_numbers>
@@ -35,11 +35,11 @@ Current master vs the reference:
 
 | size | composite | lum_delta | ssim | edge_f1 |
 |---:|---:|---:|---:|---:|
-| 1024 | 0.4912 | 0.1282 | 0.6128 | 0.3024 |
-| 256 | 0.4704 | 0.1238 | 0.5793 | 0.2480 |
-| 128 | 0.5149 | 0.1213 | 0.5589 | 0.4446 |
-| 32 | 0.7855 | 0.1175 | 0.6047 | 0.8931 |
-| 16 | 0.8383 | 0.1125 | 0.6389 | 1.0000 |
+| 1024 | 0.4585 | 0.1284 | 0.6415 | 0.1267 |
+| 256 | 0.4760 | 0.1248 | 0.5933 | 0.2534 |
+| 128 | 0.5188 | 0.1225 | 0.5697 | 0.4496 |
+| 32 | 0.7874 | 0.1190 | 0.6129 | 0.8954 |
+| 16 | 0.8377 | 0.1153 | 0.6432 | 1.0000 |
 
 Metric tier: numpy (no torch: luminance+ssim+edges only).
 
@@ -51,8 +51,8 @@ CONTRAST BUDGET, and it binds. The reference carries LESS contrast than this
 master at small sizes, so converging on it lowers yours, and the gate enforces
 an absolute floor at 6% below the baseline's:
 
-  32px: your master 0.613, the reference 0.449, floor 0.576
-  16px: your master 0.609, the reference 0.427, floor 0.573
+  32px: your master 0.614, the reference 0.449, floor 0.577
+  16px: your master 0.602, the reference 0.427, floor 0.566
 
 This is a real conflict, not a trap: the composite asks you to match the
 reference and the rubric refuses to let this icon go mushy at menu-bar size.
