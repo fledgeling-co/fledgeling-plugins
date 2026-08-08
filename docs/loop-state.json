@@ -1,20 +1,30 @@
 {
-  "iteration": 13,
-  "fixture_index": 0,
-  "cost_usd": 0.126405,
+  "iteration": 15,
+  "fixture_index": 1,
+  "cost_usd": 0.13365749999999998,
   "fixtures": {
     "improve-skill": {
-      "round": 13,
+      "round": 14,
       "class_index": 2,
-      "accepted": 7,
+      "accepted": 8,
       "rejects_in_row": 0,
       "gains": [
         0.0001,
-        -0.0047
+        -0.0047,
+        0.0042
       ],
-      "panel_nonwins": 1,
-      "converged": false,
-      "baseline_dir": "r13"
+      "panel_nonwins": 2,
+      "converged": true,
+      "baseline_dir": "r14"
+    },
+    "create-mac-icon": {
+      "round": 1,
+      "class_index": 1,
+      "accepted": 0,
+      "rejects_in_row": 1,
+      "gains": [],
+      "panel_nonwins": 0,
+      "converged": false
     }
   }
 }

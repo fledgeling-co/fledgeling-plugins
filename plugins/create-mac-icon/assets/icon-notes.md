@@ -171,6 +171,75 @@ the superellipse the icon is built from, in type. No sibling in this marketplace
 (the set currently runs Instrument Sans, IBM Plex Sans and Mono, JetBrains Mono, Archivo
 and Schibsted Grotesk).
 
+## Measured loop, `loop-runs/` (unmasked `icon-engineC-fe8278-2.png`, metric v2)
+
+A second loop against the raster **as generated**, not the squircle-masked copy, so the
+corner disagreement is baked into every number and only deltas mean anything. `r00-baseline`
+is the r08 master re-scored under this reference. r01 (material) was REJECTed on 128px and
+reverted by the harness.
+
+### r02 · detail · ACCEPT, +0.0112 net, every size up
+
+| size | r00 | r02 | Δ |
+|---:|---:|---:|---:|
+| 1024 | 0.5046 | 0.5082 | +0.0036 |
+| 256 | 0.4164 | 0.4193 | +0.0029 |
+| 128 | 0.3895 | 0.3905 | +0.0010 |
+| 32 | 0.6304 | 0.6322 | +0.0018 |
+| 16 | 0.7225 | 0.7244 | +0.0019 |
+
+**Measured off the reference, in perpendicular luminance profiles across every convex
+edge.** Nothing on either object is a cut edge; each arris is a rolled fillet wide enough
+to be a surface rather than a stroke, and the master had drawn all three as one-pixel
+steps:
+
+- **block, top face → front wall.** Reference holds L 0.950 to the arris, then rolls
+  monotonically to the wall's 0.680 over **26px** (0.897 / 0.853 / 0.763 / 0.691 at
+  y 802/806/810/818, x=600), midpoint about 11px below the arris. Master: 0.900 → 0.705
+  in a single pixel.
+- **gel, face → side wall.** Reference 0.518 → 0.302 over **21–27px**, monotone, with
+  **no bright line anywhere on the wall side**. Master had a `#FF9E6B` seam there
+  (0.417 → 0.508 → 0.364), clipped to the wall — an invented highlight, the fourth time
+  in this library's history that "the highlight is lighter than its surroundings" has been
+  assumed where the reference has no such relationship.
+- **gel crest.** The reference's bright band sits on the **face** side of that arris, not
+  the wall side: +0.09 over the face at the lit left corner (0.685 against 0.593 forty px
+  up), extinct by the right corner. That is a wrap highlight on a shoulder, and it is
+  where a rolled edge's normal actually points at a top-left key.
+- **cavity mouth.** Reference rolls **54px** into the near lip (0.819 → 0.974 crest) and
+  **72px** at the right rim (0.744 → 0.989), the crest sitting *above* the surrounding
+  top face. Master: a hard step of +0.25 with a dark hairline on the rim.
+
+**What changed.** Three constants and three constructions, all in `build_icon.py`:
+`FILLET_BLOCK` 26, `FILLET_GEL` 22, `FILLET_LIP` 16. Each fillet is one blurred stroke
+laid along the arris and painted with **the adjoining face's own gradient**
+(`url(#plasterFace)`, `url(#gelFace)`), clipped to the turned face — so the roll inherits
+that face's lateral variation for free and the two gradients cannot drift out of
+registration. The gel's seam moved from the wall side to the face side and became
+`gelArris`, a gradient dying along +x to match the measured falloff. The cavity's rim
+hairline moved from *on* the rim to `shift(cav_top, 0, FILLET_LIP)` — occlusion belongs
+below a lip's crest, inside the recess, and the clip drops it on the near side where the
+lip's inner face is the lit floor. Rendered roll widths came out 27–30px (block), ~30px
+(gel), 20px (near lip), against the reference's 26 / 21–27 / 54.
+
+**Where the reference was not followed, and why.** Its cavity lip is a 54–72px roll
+cresting *brighter* than the top face, which leaves the mouth at roughly 0.03 boundary
+contrast — the reference reads as a hole by its interior, not by its rim. Copying that
+wholesale is prior learning #3's trap on a live figure-ground boundary, and liability #4
+already has the 16px cavity down to a warm smudge. `FILLET_LIP` was capped at 16 for that
+reason. It still cost something: mouth contrast (cavity floor against the rim face beside
+it) fell 2.11:1 → 2.03:1. Cast figure-ground is untouched at 2.58:1 on this window, and
+the 32px render still carries cast, block and warm cavity separately.
+
+**What it cost.** 3079 bytes, 3 paths, 1 gradient, 1 clipPath; 33 paths and 40KB against
+the envelope's 400 and 200KB. `self_contrast` identical to baseline at 32 and 16
+(0.4342 / 0.3862), so nothing went mushy to buy the gain.
+
+**Observed and deliberately not fixed:** a white stub of the `cavLip` far-rim highlight
+survives just left of the cast's silhouette, where `notTile` stops masking it — the same
+artifact class as the old loop's r08. It predates this round and folding it in would have
+confounded the fillet measurement.
+
 ## Files
 
 | File | What it is |
