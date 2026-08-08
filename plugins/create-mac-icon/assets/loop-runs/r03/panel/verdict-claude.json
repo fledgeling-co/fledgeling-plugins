@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "A",
+    "material": "tie",
+    "silhouette": "A",
+    "smallsize": "tie",
+    "rationale": {
+      "overall": "A and B are near-identical in form and finish, but B carries a stray white sliver along the lid's lower-left edge that reads as a rendering seam, so A is the cleaner match to the REFERENCE.",
+      "material": "Both share the same glossy translucent orange lid over a matte cream tray with a warm interior bounce, and both are equally flatter and more graphic than the REFERENCE's soft volumetric shading, so neither is closer.",
+      "silhouette": "The lid and tray outlines are the same shape in both, but B's white edge artifact breaks the lid's lower contour where A's stays continuous.",
+      "smallsize": "At 128, 32 and 16px the two strips are visually indistinguishable \u2014 same mass, same orange-over-cream contrast, same loss of the tray's inner recess at 16px."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "claude -p (opus)"
+  }
+}

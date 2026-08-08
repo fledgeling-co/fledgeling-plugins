@@ -1,0 +1,9 @@
+**Gate: ACCEPT**, net composite −0.0051. 1024 0.5082→0.5056, 256 0.4193→0.4178, 128 0.3905→**0.3907**, 32 0.6322→0.6311, 16 0.7244→0.7243. It passed on tolerance, not on a gain: SSIM rose at four of five sizes, `edge_f1` fell at four — a soft wash blurs the gradient the Sobel keys on. The round bought material, not score.
+
+The measurement: binning each object by depth inside its own silhouette shows the reference's gel is lighter and less saturated at its rim in **all four quadrants** (mean +0.093 L, −0.125 S over 34px, maximum at the silhouette), while the plaster's rim lift is directional (+0.128 near vs +0.011 far). Omnidirectional can't be key light — it's translucency. The master had 44% of it, only where the shoulder highlight sat. Added a rim wash (`#FFD7BC` stroked on `tile_sil`, clipped inward, blurred over the measured 40px): now +0.070 / −0.111. Also replaced `notTile` with `mouldKey`, masking the mould's rim lights by the cast's own shadow, which removes the white `cavLip` stub r02 deferred.
+
+Rubric unmoved at 11/12; mouth 1.729:1 and figure-ground 2.649:1 unchanged. Cost: the lower-left boundary, 1.31:1 → 1.13:1, because our cast overhangs the mouth where the reference's stands on lit plaster.
+
+Reusable: **rim scatter by self-stroke** — stroke the silhouette in a lighter, less saturated tint, clip back to it, blur to the measured ramp; gate it with a mask where the edge overhangs shadow.
+
+---STDERR---

@@ -133,41 +133,11 @@ FILLET_BLOCK = 26.0
 FILLET_GEL = 22.0
 FILLET_LIP = 16.0                             # bounded on purpose - see icon-notes.md
 
-# Rim scatter on the cast. Binning the reference by depth inside each object's
-# own silhouette says the gel is LIGHTER and LESS SATURATED at its rim than in
-# its body, and says it in all four quadrants at once:
-#   gel      dL +0.075 / +0.085 / +0.121 / +0.090  (NW/NE/SW/SE, d3 -> d34)
-#            dS -0.084 / -0.108 / -0.171 / -0.135     mean +0.093 / -0.125
-#   plaster  dL +0.011 (far top edge) against +0.128 (near bottom roll)
-# The plaster's rim lift is directional, so it is the key light rolling over an
-# arris. The gel's is not, so it cannot be: an omnidirectional edge lift is the
-# short optical path through a translucent body at grazing angles. Same light,
-# two materials, and only the translucent one carries a rim. The master had
-# 44% of it (mean dL +0.041) and only where the shoulder highlight happened to
-# sit, so the effect read as a lit top rather than as a material property.
-RIM_SCATTER = 17.0                            # stroke half-width; under bM
-                                              # (sigma 14) this decays to zero
-                                              # ~40px in, the measured ramp
-RIM_SCATTER_A = 0.26
-# Scatter needs light behind the edge. The reference's cast has open, lit
-# porcelain all the way round its rim, so it shows the effect at full strength
-# everywhere and says nothing about the case where a rim overhangs its own cast
-# shadow - which is exactly where this master's lower-left rim sits. Run at full
-# strength there and the cast's lower-left boundary falls to 1.05:1 against the
-# shadow it is standing in (2.4x worse than the reference's own 1.58:1 on that
-# octant), which is prior learning #3 on a live figure-ground boundary. So the
-# wash is attenuated where the cast overhangs the block's top face.
-RIM_SHADED = 0.15                             # what survives over the mouth
-
 TILE_CX = CX - SLIDE * KX
 TILE_CY = CY - SLIDE * KY - LIFT
 
 # light: one soft source, up and to the left
 SHADOW_DX, SHADOW_DY = 26.0, 34.0
-# where the cast's near shadow lands on the mould, named once so the shadow and
-# the mask that has to agree with it cannot drift apart
-CAST_NEAR = (SHADOW_DX * 0.6, SHADOW_DY * 0.5 + LIFT * 0.34)
-KEY_OCCLUSION = 0.88                          # how much of the key the cast eats
 
 
 def project(pts, cx, cy, s):
@@ -250,9 +220,6 @@ CAV_HI, CAV_MID, CAV_LO = "#D0C6AE", "#A99D84", "#7C7057"
 
 GEL_HI, GEL_1, GEL_2, GEL_3 = "#FFE0C0", "#FC9053", "#F05821", "#D8451A"
 GEL_WALL_HI, GEL_WALL_LO, GEL_RIM = "#E85A22", "#D33A12", "#BC2E0C"
-GEL_SCATTER = "#FFD7BC"                       # the rim wash: lighter and less
-                                              # saturated in one move, which is
-                                              # what one measurement of each said
 BOUNCE = "#FF9C60"
 
 # ---------------------------------------------------------------- geometry
@@ -302,27 +269,9 @@ defs = [
     f'<clipPath id="mouldFace"><path d="{d(mould_top)}"/></clipPath>',
     f'<clipPath id="tileFace"><path d="{d(tile_top)}"/></clipPath>',
     f'<clipPath id="tileWallClip"><path d="{d(tile_wall)}"/></clipPath>',
-    f'<clipPath id="tileSil"><path d="{d(tile_sil)}"/></clipPath>',
     f'<clipPath id="mouldWallClip"><path d="{d(mould_wall)}"/></clipPath>',
-    # What the mould's rim lights are allowed to see of the key. The cast cuts
-    # its own silhouette out, and its near shadow dims what lies under it: a rim
-    # highlight at full strength inside a cast shadow is the light model
-    # contradicting itself, and it was leaving a white stub of the far lip
-    # hanging beside the cast (L 0.845 against a local 0.384).
-    f'<mask id="mouldKey"><rect x="0" y="0" width="{W}" height="{W}" fill="#fff"/>'
-    f'<g filter="url(#bM)"><path d="{d(shift(tile_sil, *CAST_NEAR))}" fill="#000"'
-    f' fill-opacity="{KEY_OCCLUSION}"/></g>'
+    f'<mask id="notTile"><rect x="0" y="0" width="{W}" height="{W}" fill="#fff"/>'
     f'<path d="{d(tile_sil)}" fill="#000"/></mask>',
-    # Where the cast's rim scatter is allowed to run at full strength. The
-    # reference carries its rim lift evenly round the whole silhouette, but its
-    # cast stands on open plaster on every side but two; ours overhangs the open
-    # mouth on its lower-left, where the backing is the shaded far wall
-    # (L 0.515 against the reference's 0.832 on the same octant). Run the wash
-    # at full strength over that and the lower-left figure-ground boundary goes
-    # to 1.05:1. So the wash is held back over the mouth, and only there.
-    f'<mask id="rimLit"><rect x="0" y="0" width="{W}" height="{W}" fill="#fff"/>'
-    f'<g filter="url(#bM)"><path d="{d(cav_top)}" fill="#000"'
-    f' fill-opacity="{1 - RIM_SHADED:.2f}"/></g></mask>',
 
     # cushion ground: a lit dome, not a flat print
     rad("ground", 400, 330, 940, [("0", GROUND_HI, None), (".52", GROUND_MID, None),
@@ -436,7 +385,7 @@ mid = [
     # the cast's shadow, falling across the rim and down into the open cavity
     f'<g filter="url(#bL)"><path d="{d(tile_shadow_sil)}" fill="#77644B" fill-opacity=".40"/></g>',
     f'<g clip-path="url(#mouldFace)"><g filter="url(#bM)">'
-    f'<path d="{d(shift(tile_sil, *CAST_NEAR))}"'
+    f'<path d="{d(shift(tile_sil, SHADOW_DX * 0.6, SHADOW_DY * 0.5 + LIFT * 0.34))}"'
     f' fill="#5F4E38" fill-opacity=".44"/></g></g>',
 ]
 
@@ -460,18 +409,11 @@ fg = [
     f'<g clip-path="url(#tileFace)"><g filter="url(#bS)">'
     f'<path d="{d(tile_low, False)}" fill="none" stroke="url(#gelArris)"'
     f' stroke-width="15" stroke-linecap="round"/></g></g>',
-    # rim scatter: the whole silhouette, not one lit side. Stroked on the cast's
-    # own outline and clipped back to it, so only the inward half survives, and
-    # blurred so it decays over the measured ~40px instead of ending in a band.
-    f'<g mask="url(#rimLit)"><g clip-path="url(#tileSil)"><g filter="url(#bM)">'
-    f'<path d="{d(tile_sil)}" fill="none" stroke="{GEL_SCATTER}"'
-    f' stroke-opacity="{RIM_SCATTER_A}" stroke-width="{RIM_SCATTER * 2:.0f}"'
-    f' stroke-linejoin="round"/></g></g></g>',
 ]
 
 # ---- highlight: rim lights and the one soft bloom
 hl = [
-    '<g mask="url(#mouldKey)"><g clip-path="url(#mouldFace)">',
+    '<g mask="url(#notTile)"><g clip-path="url(#mouldFace)">',
     # the block's lit upper edge
     f'<path d="{d(mould_up, False)}" fill="none" stroke="url(#rimLight)" stroke-width="9"'
     f' stroke-linecap="round"/>',

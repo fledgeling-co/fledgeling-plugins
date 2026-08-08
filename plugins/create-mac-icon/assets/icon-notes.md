@@ -240,6 +240,86 @@ survives just left of the cast's silhouette, where `notTile` stops masking it �
 artifact class as the old loop's r08. It predates this round and folding it in would have
 confounded the fillet measurement.
 
+### r03 · detail · ACCEPT, −0.0051 net; SSIM up at four sizes, edges down at four
+
+| size | r02 | r03 | Δ | ssim | edge_f1 |
+|---:|---:|---:|---:|:---|:---|
+| 1024 | 0.5082 | 0.5056 | −0.0026 | 0.8011 → 0.8022 | 0.0219 → 0.0092 |
+| 256 | 0.4193 | 0.4178 | −0.0015 | 0.5419 → 0.5432 | 0.0783 → 0.0690 |
+| 128 | 0.3905 | 0.3907 | +0.0002 | 0.3607 → 0.3627 | 0.2508 → 0.2478 |
+| 32 | 0.6322 | 0.6311 | −0.0011 | 0.1855 → 0.1865 | 0.7539 → 0.7502 |
+| 16 | 0.7244 | 0.7243 | −0.0001 | 0.2124 → 0.2121 | 0.9851 → 0.9851 |
+
+The gate accepted on tolerance, not on a gain. Read it honestly: SSIM — 0.40 of the
+composite at ≥128 — rose at four of five sizes, and `edge_f1` paid for it at four of five,
+because a soft wash blurs exactly the gradient the Sobel keys on. The round bought
+material, not score.
+
+**Measured off the reference, by binning each object by depth inside its OWN silhouette**
+(erode the material mask one pixel at a time, bin by shell index, read L and S per shell).
+This is the technique the round turned on; nothing here is visible to a window probe,
+because the quantity is a function of distance-to-edge, not of position.
+
+- **the gel carries an omnidirectional rim.** d3 → d34, per quadrant:
+  dL **+0.075 / +0.085 / +0.121 / +0.090** (NW/NE/SW/SE), dS **−0.084 / −0.108 / −0.171 /
+  −0.135**. Mean **+0.093 L, −0.125 S** over 34px, and the maximum sits at the silhouette
+  itself (0.5726 / 0.5736 / 0.5743 at d1/d2/d3, monotone down after). All four quadrants,
+  including the two facing away from the key.
+- **the plaster's rim is directional.** Same instrument on the block: **+0.128** on the
+  near bottom roll against **+0.011** on the far top edge.
+- **so they are two different effects.** A directional edge lift is the key rolling over an
+  arris. An omnidirectional one cannot be — there is no light source at every azimuth. It
+  is the short optical path through a translucent body at grazing angles. Same light, two
+  materials, and only the translucent one carries a rim. This is prior learning #1's twin:
+  #1 says translucency keeps saturation in shadow; this says it also loses saturation and
+  gains luminance at the edge, and both are read off the material's own darkest/rim pixels
+  rather than assumed.
+- **the master had 44% of it** (mean **+0.041 L, −0.065 S**) and only in the quadrants
+  where `gelShoulder` happens to sit — NW +0.062, SE +0.064 against SW **+0.005**. So the
+  master's rim read as a lit top, not as a material property.
+
+**What changed.** Two constructions in `build_icon.py`:
+
+1. **Rim scatter by self-stroke.** `GEL_SCATTER = "#FFD7BC"` (lighter and less saturated in
+   one move, which is what one measurement of each asked for), stroked along `tile_sil` at
+   `RIM_SCATTER * 2` = 34px, clipped back to `tileSil` so only the inward half survives,
+   blurred under `bM` so it decays to nothing about 40px in — the measured ramp. Result
+   mean **+0.070 L, −0.111 S**: 75% of the reference's luminance lift and 89% of its
+   desaturation, and now present in all four quadrants (SW +0.005 → +0.043).
+2. **`notTile` → `mouldKey`.** The mould's rim lights now see a key that the cast both cuts
+   out *and* shadows: the cast's near shadow is painted into the mask at
+   `KEY_OCCLUSION = 0.88`, using `CAST_NEAR`, which is now named once and shared with the
+   shadow itself so the two cannot drift. This removes the white `cavLip` stub the r02
+   entry deferred — it was reading **L 0.845 against a local 0.384** — on the physical
+   ground that a rim highlight at full strength inside a cast shadow is the single light
+   model contradicting itself. Costs nothing measurable: SW boundary 1.31 → 1.27, E
+   2.01 → 1.99, rim profile unchanged (isolated by building the two edits separately).
+
+**Where the reference was not followed, and why.** Its rim runs at full strength all the
+way round because its cast stands on open, lit porcelain on every octant but two. Ours
+overhangs the open mouth on its lower-left, where the backing is the shaded far wall:
+**L 0.515, against 0.832 on the reference's same octant**. Copying the rim wholesale there
+took the lower-left figure-ground from 1.31:1 to **1.05:1** — prior learning #3 on a live
+boundary. `rimLit` (white, minus a `bM`-blurred `cav_top` at `1 − RIM_SHADED`) holds the
+wash to 15% over the mouth and leaves it untouched everywhere else, recovering that octant
+to 1.13:1. Still short of 1.31, and that is this round's real cost.
+
+**What it cost.** 40065 → 44440 bytes, 33 → 37 paths, +1 clipPath, +1 mask, +1 colour;
+gradients and filters unchanged at 17 and 4, against the envelope's 400 paths / 200KB.
+`self_contrast` 0.4342 → 0.4331 at 32 and identical at 16 (0.3862), and the 16px render is
+pixel-indistinguishable — the wash's 40px ramp is 0.6px at that size, so it cannot reach
+the small read either way. Both tracked rubric ratios are untouched: mouth contrast
+1.729:1 and cast figure-ground 2.649:1, before and after, on windows re-derived this round
+(a shape of half-extent r spans ±r·1.741 on screen, so the earlier windows in this file sat
+on the wrong surfaces; the numbers are not comparable to r02's 2.03 / 2.58, the windows
+are). Rubric score unmoved at 11/12.
+
+**Observed and deliberately not taken:** the reference's plaster carries a granular grain
+with a period of about 4–6px at 1024. It dies before 128px, and uncorrelated texture
+inflates local variance while covariance stays near zero, so SSIM — the largest single
+weight at the sizes where it would live — punishes it on principle. It is a real
+difference from the reference and the wrong thing to chase under this metric.
+
 ## Files
 
 | File | What it is |
