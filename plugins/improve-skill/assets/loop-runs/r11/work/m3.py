@@ -1,95 +1,97 @@
-"""The reference's ground relief is not flat in radius. Measure the profile, then ask
-whether one point key over a rough plane with an ambient fill explains it.
+#!/usr/bin/env python3
+"""Per-patch texture of the un-planed ground: bearing count and spatial energy.
 
-Two statistics per radius bin on the un-planed plane, both after a quadratic detrend
-inside the bin so the FIELD is removed and only the relief is left:
-  hp_sd    - rms of the 3-12px high-pass: how much relief energy is there
-  edge_d   - fraction of pixels the scorer's own Sobel calls an edge: how SHARP it is
+Same question as m2, but the block and curl are DETECTED and dilated rather
+than boxed by eye, so the clean field that survives is as large as it really is.
 
-Model. A point key at height z0 above the plane, horizontal distance r from its foot
-at (75, 25), plus a constant ambient fill:
-    E(r)   = z0 / (z0^2 + r^2)^1.5        direct irradiance, cosine + inverse square
-    c(r)   = E / (E + a)                  contrast of a cast micro-shadow
-    w(r)   = r / z0                       its width, in ridge heights
-    v(r)   = c(r) * min(1, w(r) / w1)     visibility of the relief
-Near the key the light is near-normal and a ridge casts nothing; far away the direct
-term has died and the ambient fills the shadow in. The band between them is where the
-light rakes, and that is the only place relief is legible.
+Anisotropy = peak-bin energy / the bin 90 deg from it. One bearing gives a big
+number; a cross-hatch gives ~1 by construction. This is the statistic the
+master's `grain()` docstring claims is 3.0 on the reference - tested here.
 """
+import math
+import sys
+
 import numpy as np
+from PIL import Image
 
-W = 1024
-g = np.load("g1024.npy"); h = np.load("h1024.npy")
-rough = np.load("rough.npy"); r_key = np.load("rkey.npy")
+sys.path.insert(0, "loop-runs/r11/work")
+from m1 import load, boxblur, yy, xx  # noqa: E402
 
-
-def sobel(img, thresh=0.10):
-    p = np.pad(img, 1, mode="edge")
-    gx = (p[:-2, 2:] + 2*p[1:-1, 2:] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[1:-1, :-2] + p[2:, :-2])
-    gy = (p[2:, :-2] + 2*p[2:, 1:-1] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[:-2, 1:-1] + p[:-2, 2:])
-    return np.hypot(gx, gy) > thresh * 4
+W, P, STEP = 1024, 96, 32
 
 
-def box(x, w):
-    pad = w // 2
-    xp = np.pad(x, pad, mode="edge")
-    c = np.cumsum(np.cumsum(xp, 0), 1)
-    c = np.pad(c, ((1, 0), (1, 0)))
-    s = c[w:, w:] - c[:-w, w:] - c[w:, :-w] + c[:-w, :-w]
-    return (s / (w*w))[:x.shape[0], :x.shape[1]]
+def dilate(m, r):
+    for _ in range(r):
+        m = (m | np.roll(m, 1, 0) | np.roll(m, -1, 0)
+             | np.roll(m, 1, 1) | np.roll(m, -1, 1))
+    return m
 
 
-def highpass(img, lo=3, hi=13):
-    return box(img, lo) - box(img, hi)
+def region(kind):
+    if kind == "ref":
+        g = load("loop-runs/r10-reverted/reference-1024.png")
+        rough = yy < (-0.8026 * xx + 991.2 - 34)          # 34px clear of the hone
+        block = dilate(g < 0.15, 14)
+        curl = dilate((g > 0.60) & (xx < 540) & (yy < 460) & (xx > 130), 14)
+        ang = 38.75
+    else:
+        g = load("loop-runs/r10-reverted/candidate-1024.png")
+        a = math.radians(33.0)
+        nx, ny = math.sin(a), math.cos(a)
+        rough = ((xx - 543.0) * nx + (yy - 604.0) * ny) < -34
+        block = dilate(g < 0.15, 14)
+        curl = dilate((xx > 130) & (xx < 450) & (yy > 155) & (yy < 430), 4)
+        ang = 33.0
+    tile = (xx > 34) & (xx < W - 34) & (yy > 34) & (yy < W - 34)
+    return g, rough & tile & ~block & ~curl, ang
 
 
-hpc, hph = highpass(g), highpass(h)
-ec, eh = sobel(g), sobel(h)
-
-BINS = [(150, 250), (250, 350), (350, 450), (450, 550), (550, 650),
-        (650, 750), (750, 850), (850, 950)]
-print(f"{'r':>9s} {'px':>7s} {'cand hp_sd':>10s} {'ref hp_sd':>10s} "
-      f"{'cand e%':>8s} {'ref e%':>8s} {'ref/cand hp':>11s}")
-prof = []
-for lo, hi in BINS:
-    m = rough & (r_key >= lo) & (r_key < hi)
-    if m.sum() < 800:
-        continue
-    a, b = hpc[m].std(), hph[m].std()
-    prof.append(((lo+hi)/2, b, (eh & m).mean() if m.any() else 0,
-                 (eh & m).sum()/m.sum(), (ec & m).sum()/m.sum(), a, m.sum()))
-    print(f"{lo:4d}-{hi:4d} {m.sum():7d} {a:10.4f} {b:10.4f} "
-          f"{100*(ec&m).sum()/m.sum():8.2f} {100*(eh&m).sum()/m.sum():8.2f} {b/a:11.2f}")
-
-# ---- fit the two-parameter light model to the reference's own edge-density profile
-r = np.array([p[0] for p in prof])
-d = np.array([p[3] for p in prof])       # reference edge density
-wts = np.array([p[6] for p in prof], float)
-wts /= wts.sum()
+def patch_stats(hp, y0, x0):
+    b = hp[y0:y0 + P, x0:x0 + P]
+    gx = np.zeros_like(b)
+    gy = np.zeros_like(b)
+    gx[:, 1:-1] = (b[:, 2:] - b[:, :-2]) * 0.5
+    gy[1:-1, :] = (b[2:, :] - b[:-2, :]) * 0.5
+    gx, gy = gx[2:-2, 2:-2], gy[2:-2, 2:-2]
+    mag = gx * gx + gy * gy
+    th = (np.degrees(np.arctan2(gy, gx)) + 90.0) % 180.0
+    nb = 36
+    h = np.zeros(nb)
+    np.add.at(h, np.clip((th / 180.0 * nb).astype(int), 0, nb - 1), mag)
+    h /= h.sum()
+    pk = int(np.argmax(h))
+    return b.std(), pk * 5 + 2.5, h[pk] / max(h[(pk + nb // 2) % nb], 1e-9), h
 
 
-def model(r, z0, a, w1):
-    E = z0 / (z0*z0 + r*r) ** 1.5
-    return E / (E + a) * np.minimum(1.0, (r / z0) / w1)
-
-
-best = None
-for z0 in np.arange(120, 1400, 20.0):
-    for a in 10.0 ** np.arange(-9.5, -4.0, 0.05):
-        for w1 in np.arange(0.2, 6.0, 0.1):
-            v = model(r, z0, a, w1)
-            k = (wts * v * d).sum() / max((wts * v * v).sum(), 1e-30)
-            e = (wts * (k*v - d) ** 2).sum()
-            if best is None or e < best[0]:
-                best = (e, z0, a, w1, k)
-e, z0, a, w1, k = best
-print(f"\nfit: z0 {z0:.0f}px  ambient/I {a:.3e}  w1 {w1:.2f}  scale {k:.3f}  "
-      f"weighted rms {e**0.5:.4f} against a profile whose mean is {(wts*d).sum():.4f}")
-v = k * model(r, z0, a, w1)
-print(f"{'r':>5s} {'ref e%':>7s} {'model%':>7s}")
-for i in range(len(r)):
-    print(f"{r[i]:5.0f} {100*d[i]:7.2f} {100*v[i]:7.2f}")
-# flat model for comparison
-flat = (wts*d).sum()
-print(f"\nflat-profile weighted rms {((wts*(flat-d)**2).sum())**0.5:.4f}")
-np.save("refprof.npy", np.stack([r, d, np.array([p[4] for p in prof])]))
+for kind in ("ref", "cand"):
+    g, m, ang = region(kind)
+    hp = g - boxblur(g, 12)
+    rows, pool = [], np.zeros(36)
+    for y0 in range(34, W - P, STEP):
+        for x0 in range(34, W - P, STEP):
+            if m[y0:y0 + P, x0:x0 + P].mean() < 0.999:
+                continue
+            sd, pk, cr, h = patch_stats(hp, y0, x0)
+            pool += h
+            r = math.hypot(x0 + P / 2 - 75.0, y0 + P / 2 - 25.0)
+            rows.append((r, sd, pk, cr))
+    rows.sort()
+    sds = np.array([x[1] for x in rows])
+    rr = np.array([x[0] for x in rows])
+    crs = np.array([x[3] for x in rows])
+    pool /= pool.sum()
+    pk = int(np.argmax(pool))
+    print(f"\n===== {kind.upper()}  hone {ang} deg   {len(rows)} clean {P}px windows")
+    print("   sd by distance from the key (r):")
+    for lo, hi in ((0, 300), (300, 450), (450, 600), (600, 750), (750, 1100)):
+        s = (rr >= lo) & (rr < hi)
+        if s.any():
+            print(f"     r {lo:4d}-{hi:4d}  n={s.sum():3d}  sd={sds[s].mean():.4f}"
+                  f"   peak/cross={crs[s].mean():5.2f}"
+                  f"   bearings={sorted(set(int(x[2]) for x in rows if lo <= x[0] < hi))}")
+    print(f"   POOLED dominant bearing {pk * 5 + 2.5:.1f} deg,"
+          f"  peak/cross {pool[pk] / pool[(pk + 18) % 36]:.2f},"
+          f"  peak/mean {pool[pk] / pool.mean():.2f}")
+    print("   pooled histogram (5 deg bins):")
+    for i in range(36):
+        print(f"     {i * 5:3d} {pool[i] * 100:5.2f}% {'#' * int(round(pool[i] * 500))}")

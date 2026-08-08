@@ -1,68 +1,87 @@
-"""Proper masks, then the same partition. m1's block mask was the union of two
-dark-thresholds dilated, which conflates the two blocks' silhouette mismatch with
-each block's own interior. Split them: each image's own block by flood fill from a
-seed inside it, the overlap, and the mismatch collar.
+#!/usr/bin/env python3
+"""Per-patch texture: where the reference's tear lives, and on what bearing.
+
+m1 pooled the whole un-planed plane, which mixes clean field with the boundary
+edge. This slides a window, keeps only windows that are 100% un-planed ground
+and 0% block/curl, and reports each window's texture sd, dominant ridge
+bearing and anisotropy. Two questions at once:
+
+  1. how many bearings (one lobe or two, 90 apart)
+  2. how the tear's ENERGY is distributed in space - the reference's edge map
+     says it is dense near the boundary and absent near the key, which the
+     master does not do.
+
+Anisotropy here is peak-bin energy / opposite-bin energy at +-90 deg, which is
+the statistic that separates "one bearing" from "a cross". The doubled-angle
+coherence used in m1 cannot: a 90-deg cross cancels in it exactly.
 """
-import sys, pathlib, math, numpy as np
-sys.path.insert(0, "/Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts")
-import fidelity as F
+import math
 
-W = 1024
-g = np.load("g1024.npy"); h = np.load("h1024.npy")
+import numpy as np
+from PIL import Image
 
+W, P = 1024, 160
 
-def flood(dark, seed):
-    m = np.zeros_like(dark)
-    m[seed[1], seed[0]] = True
-    while True:
-        n = F.dilate(m, 1) & dark
-        if n.sum() == m.sum():
-            return m
-        m = n
+import sys
+sys.path.insert(0, "loop-runs/r11/work")
+from m1 import load, boxblur, yy, xx  # noqa: E402
 
 
-bg = flood(g < 0.45, (500, 400))
-bh = flood(h < 0.45, (500, 400))
-np.save("bg.npy", bg); np.save("bh.npy", bh)
-print(f"cand block {100*bg.mean():.2f}% of tile   ref block {100*bh.mean():.2f}%   "
-      f"IoU {(bg & bh).sum() / (bg | bh).sum():.3f}")
+def region(kind):
+    if kind == "ref":
+        rough = yy < (-0.8026 * xx + 991.2)
+        block = (xx > 190) & (xx < 830) & (yy > 120) & (yy < 720)
+        curl = (xx > 150) & (xx < 500) & (yy > 40) & (yy < 420)
+        src, ang = "loop-runs/r10-reverted/reference-1024.png", 38.75
+    else:
+        a = math.radians(33.0)
+        nx, ny = math.sin(a), math.cos(a)
+        rough = ((xx - 543.0) * nx + (yy - 604.0) * ny) < 0
+        block = (xx > 150) & (xx < 840) & (yy > 120) & (yy < 800)
+        curl = (xx > 120) & (xx < 460) & (yy > 140) & (yy < 440)
+        src, ang = "loop-runs/r10-reverted/candidate-1024.png", 33.0
+    tile = (xx > 40) & (xx < W - 40) & (yy > 40) & (yy < W - 40)
+    return load(src), rough & tile & ~block & ~curl, ang
 
-ANG = math.radians(33.0)
-UX, UY = math.cos(ANG), -math.sin(ANG)
-NX, NY = -math.sin(ANG), -math.cos(ANG)
-AX = 543.0 - UX * 320.0
-AY = 604.0 - UY * 320.0
-yy, xx = np.mgrid[0:W, 0:W].astype(float)
-ly = NX * (xx - AX) + NY * (yy - AY)
-r_key = np.hypot(xx - 75.0, yy - 25.0)
-np.save("ly.npy", ly); np.save("rkey.npy", r_key)
 
-rim = F.rim_mask(W)
-subj = F.dilate(bg | bh, 6)                 # either block, plus a 6px collar
-band = np.abs(ly) < 34
-rough = (ly > 0) & ~subj & ~rim & ~band
-trued = (ly < 0) & ~subj & ~rim & ~band
-np.save("rough.npy", rough); np.save("trued.npy", trued)
+def patch_stats(hp, y0, x0):
+    b = hp[y0:y0 + P, x0:x0 + P]
+    gx = np.zeros_like(b)
+    gy = np.zeros_like(b)
+    gx[:, 1:-1] = (b[:, 2:] - b[:, :-2]) * 0.5
+    gy[1:-1, :] = (b[2:, :] - b[:-2, :]) * 0.5
+    gx, gy = gx[2:-2, 2:-2], gy[2:-2, 2:-2]
+    mag = gx * gx + gy * gy
+    th = (np.degrees(np.arctan2(gy, gx)) + 90.0) % 180.0
+    nb = 36
+    h = np.zeros(nb)
+    np.add.at(h, np.clip((th / 180.0 * nb).astype(int), 0, nb - 1), mag)
+    h /= h.sum()
+    pk = int(np.argmax(h))
+    cross = h[(pk + nb // 2) % nb]
+    return b.std(), pk * 5 + 2.5, h[pk] / max(cross, 1e-9), h[pk] / h.mean()
 
-ec, er = F.sobel_edges(g) & ~rim, F.sobel_edges(h) & ~rim
-mc, mr = ec & F.dilate(er), er & F.dilate(ec)
-REG = {"rough ground": rough, "trued ground": trued,
-       "both blocks": bg & bh & ~rim, "cand block only": bg & ~bh & ~rim,
-       "ref block only": bh & ~bg & ~rim, "hone band": band & ~rim & ~subj,
-       "collar": subj & ~(bg | bh) & ~rim}
-print(f"\n{'region':17s} {'px%':>5s} {'cand e':>7s} {'ref e':>7s} {'cand d%':>8s} {'ref d%':>8s}")
-for name, m in REG.items():
-    n = max(m.sum(), 1)
-    print(f"{name:17s} {100*n/W/W:5.1f} {(ec&m).sum():7d} {(er&m).sum():7d} "
-          f"{100*(ec&m).sum()/n:8.2f} {100*(er&m).sum()/n:8.2f}")
-print(f"{'TOTAL':17s} {'':5s} {ec.sum():7d} {er.sum():7d}")
-print(f"prec {mc.sum()/ec.sum():.4f}  rec {mr.sum()/er.sum():.4f}  "
-      f"f1 {2*(mc.sum()/ec.sum())*(mr.sum()/er.sum())/((mc.sum()/ec.sum())+(mr.sum()/er.sum())):.4f}")
 
-print("\nrough ground by radius from key (75,25):")
-print(f"{'r':>9s} {'px':>7s} {'cand d%':>8s} {'ref d%':>8s} {'cand L':>7s} {'ref L':>7s}")
-for lo in range(0, 1200, 100):
-    m = rough & (r_key >= lo) & (r_key < lo + 100)
-    if m.sum() < 500: continue
-    print(f"{lo:4d}-{lo+100:4d} {m.sum():7d} {100*(ec&m).sum()/m.sum():8.2f} "
-          f"{100*(er&m).sum()/m.sum():8.2f} {g[m].mean():7.3f} {h[m].mean():7.3f}")
+for kind in ("ref", "cand"):
+    g, m, ang = region(kind)
+    hp = g - boxblur(g, 12)
+    rows = []
+    for y0 in range(40, W - P, 80):
+        for x0 in range(40, W - P, 80):
+            if not m[y0:y0 + P, x0:x0 + P].all():
+                continue
+            sd, pk, cr, pr = patch_stats(hp, y0, x0)
+            # distance from the fitted key, the coordinate r08 showed the field runs on
+            r = math.hypot(x0 + P / 2 - 75.0, y0 + P / 2 - 25.0)
+            rows.append((r, x0, y0, sd, pk, cr, pr))
+    rows.sort()
+    print(f"\n===== {kind.upper()}  hone {ang} deg   {len(rows)} clean windows")
+    print("    r   x0   y0   sd      bearing  peak/cross  peak/mean")
+    for r, x0, y0, sd, pk, cr, pr in rows:
+        print(f"  {r:4.0f} {x0:4d} {y0:4d}  {sd:.4f}   {pk:5.1f}    {cr:6.2f}     {pr:5.2f}")
+    sds = np.array([x[3] for x in rows])
+    rr = np.array([x[0] for x in rows])
+    print(f"  -- sd near key (r<400): {sds[rr < 400].mean():.4f}   "
+          f"far (r>700): {sds[rr > 700].mean():.4f}   "
+          f"ratio far/near {sds[rr > 700].mean() / sds[rr < 400].mean():.2f}")
+    print(f"  -- median peak/cross {np.median([x[5] for x in rows]):.2f}")

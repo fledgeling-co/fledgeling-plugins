@@ -1,6 +1,6 @@
 {
   "skill_name": "compaction-quality",
-  "notes": "Assertions are checkable by scripts/score_retention.py or by exact string match against the source transcript. Deliberately no LLM-judge assertions: the whole point of the skill is that a summary cannot be graded by the thing that wrote it.",
+  "notes": "Assertions are checkable by scripts/score_retention.py, scripts/benchmark_vs_compact.py, or exact string match against the source transcript. Deliberately no LLM-judge assertions: G-Eval correlates with humans at rho~0.514 against 0.8-0.9 inter-human, and self-preference bias disqualifies judging a Claude-written summary with a Claude judge. The head-to-head against the built-in /compact is the comparison that matters; its baseline arm is free because those summaries are already on disk.",
   "evals": [
     {
       "id": 1,
@@ -51,6 +51,45 @@
         "CACHE-03 shipping zero commits is stated",
         "The consequence for CACHE-04 is stated",
         "The summary does not describe the wave as fully complete"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "negative-knowledge-survives",
+      "prompt": "Compact this session. Over the last two hours I tried three things that did not work: the Agent tool for the icon rounds (it kept losing the build script state), caching the renders in /tmp (stale hits made two rounds score identically), and running the panel before the gate (wasted judge calls on rejected candidates). The thing that finally worked was scoring in the harness after the agent finishes. Now I am mid-way through wiring the review sheet.",
+      "expected_output": "All three dead ends carried with their reasons, in a pinned verbatim block, not narrated away. The built-in /compact retains this category at 0.3% across 68 measured events, so this is the eval that discriminates.",
+      "assertions": [
+        "All three rejected approaches appear, each with the reason it failed",
+        "They appear in a pinned block near the top, not scattered through the narrative sections",
+        "Each is phrased so a fresh session would not retry it",
+        "The approach that worked is stated as the current one",
+        "The unfinished review-sheet work is described as unfinished"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "quantifier-and-scope-survive-verbatim",
+      "prompt": "Write the compaction summary. Standing instructions from the user: use type hints everywhere; only ever edit build_icon.py, never icon.svg directly; and remove the deprecated calls in relay.py but leave proxy.py untouched.",
+      "expected_output": "Absolute quantifiers and scope boundaries reproduced word for word. These are the two documented mutation failures: 'everywhere' silently dropped, and a scoped instruction widened into a global one.",
+      "assertions": [
+        "The word 'everywhere' appears verbatim with the type-hints constraint",
+        "The 'only ever edit build_icon.py' constraint appears with its 'never icon.svg directly' half intact",
+        "The relay.py instruction retains the 'leave proxy.py untouched' boundary",
+        "None of the three is generalised, softened, or widened in scope",
+        "All three appear in the pinned tier rather than inside a narrative section"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "beats-the-builtin-on-the-same-transcript",
+      "prompt": "Run the head-to-head benchmark against the built-in /compact on real transcripts and report the result honestly.",
+      "expected_output": "A paired comparison on identical transcripts, with the confounds reported and the sample size stated.",
+      "assertions": [
+        "scripts/benchmark_vs_compact.py was run with at least the cli and skill arms",
+        "Results are paired per transcript rather than compared as two independent means",
+        "Summary length and extractiveness are reported alongside every recall figure",
+        "The sample size is stated and no bare percentage is reported without it",
+        "If the skill does not beat the baseline on a category, that appears in the table"
       ]
     }
   ]

@@ -1,73 +1,57 @@
-"""Fit the coordinate before you fit the curve (r08's recipe), applied to relief
-VISIBILITY rather than to luminance. The reference's rough-plane relief lives in a
-narrow band; a point key with ambient fill predicts a broad hump and fits barely
-better than a flat line, so the band is probably not a function of distance from the
-light at all. Bin a smoothed edge-density field by each candidate coordinate and take
-the pooled within-bin residual sd: the coordinate the band actually depends on wins.
+#!/usr/bin/env python3
+"""The TRUED plane's texture: how much, and on what bearing, in each image.
+
+The un-planed side is measured in m3. This asks the same of the finished side,
+because the edge maps show the master's lattice running right across it while
+the reference's trued plane looks swept clean. If that holds numerically it is
+a second, independent reason the cross-hatch is wrong: it is drawing structure
+into a region where the reference has none, which costs SSIM covariance rather
+than earning it.
 """
-import math, numpy as np
+import math
+import sys
 
-W = 1024
-h = np.load("h1024.npy"); g = np.load("g1024.npy")
-rough = np.load("rough.npy"); r_key = np.load("rkey.npy"); ly = np.load("ly.npy")
+import numpy as np
 
+sys.path.insert(0, "loop-runs/r11/work")
+from m1 import load, boxblur, yy, xx  # noqa: E402
+from m3 import dilate, patch_stats  # noqa: E402
 
-def box(x, w):
-    pad = w // 2
-    xp = np.pad(x.astype(float), pad, mode="edge")
-    c = np.cumsum(np.cumsum(xp, 0), 1)
-    c = np.pad(c, ((1, 0), (1, 0)))
-    s = c[w:, w:] - c[:-w, w:] - c[w:, :-w] + c[:-w, :-w]
-    return (s / (w*w))[:x.shape[0], :x.shape[1]]
+W, P, STEP = 1024, 96, 32
 
 
-def sobel(img, thresh=0.10):
-    p = np.pad(img, 1, mode="edge")
-    gx = (p[:-2, 2:] + 2*p[1:-1, 2:] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[1:-1, :-2] + p[2:, :-2])
-    gy = (p[2:, :-2] + 2*p[2:, 1:-1] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[:-2, 1:-1] + p[:-2, 2:])
-    return np.hypot(gx, gy) > thresh * 4
+def trued(kind):
+    if kind == "ref":
+        g = load("loop-runs/r10-reverted/reference-1024.png")
+        side = yy > (-0.8026 * xx + 991.2 + 40)
+    else:
+        g = load("loop-runs/r10-reverted/candidate-1024.png")
+        a = math.radians(33.0)
+        nx, ny = math.sin(a), math.cos(a)
+        side = ((xx - 543.0) * nx + (yy - 604.0) * ny) > 40
+    block = dilate(g < 0.15, 14)
+    tile = (xx > 34) & (xx < W - 34) & (yy > 34) & (yy < W - 34)
+    return g, side & tile & ~block
 
 
-dens = box(sobel(h), 41)          # reference relief visibility, smoothed
-ANG = math.radians(33.0)
-UX, UY = math.cos(ANG), -math.sin(ANG)
-NX, NY = -math.sin(ANG), -math.cos(ANG)
-AX, AY = 543.0 - UX*320.0, 604.0 - UY*320.0
-yy, xx = np.mgrid[0:W, 0:W].astype(float)
-lx = UX*(xx - AX) + UY*(yy - AY)
-
-CO = {"r from key (75,25)": r_key,
-      "|ly| from the cut": np.abs(ly),
-      "local x along blade": lx,
-      "canvas x": xx, "canvas y": yy,
-      "u = (x+y)/sqrt2": (xx + yy)/math.sqrt(2)}
-for cx, cy in ((512, 512), (300, 900), (75, 25), (900, 100), (150, 650), (543, 604)):
-    CO[f"r from ({cx},{cy})"] = np.hypot(xx-cx, yy-cy)
-
-m = rough
-print(f"{'coordinate':24s} {'nbins':>6s} {'within-bin resid sd':>20s}")
-out = []
-for name, s in CO.items():
-    v = s[m]; d = dens[m]
-    qs = np.quantile(v, np.linspace(0, 1, 25))
-    idx = np.clip(np.searchsorted(qs, v, "right") - 1, 0, 23)
-    res = d.copy()
-    for b in range(24):
-        sel = idx == b
-        if sel.sum() > 50:
-            res[sel] -= d[sel].mean()
-    out.append((res.std(), name))
-for sd, name in sorted(out):
-    print(f"{name:24s} {24:6d} {sd:20.5f}")
-print(f"{'(flat: total sd)':24s} {1:6d} {dens[m].std():20.5f}")
-
-# the winner's own profile, and ours on the same coordinate
-best = dict(CO)[sorted(out)[0][1]]
-dc = box(sobel(g), 41)
-qs = np.quantile(best[m], np.linspace(0, 1, 13))
-print(f"\nprofile along '{sorted(out)[0][1]}' (12 equal-count bins):")
-print(f"{'lo':>7s} {'hi':>7s} {'px':>7s} {'ref d%':>7s} {'cand d%':>8s}")
-for b in range(12):
-    sel = m & (best >= qs[b]) & (best < qs[b+1])
-    print(f"{qs[b]:7.0f} {qs[b+1]:7.0f} {sel.sum():7d} {100*dens[sel].mean():7.2f} "
-          f"{100*dc[sel].mean():8.2f}")
+for kind in ("ref", "cand"):
+    g, m = trued(kind)
+    hp = g - boxblur(g, 12)
+    rows, pool = [], np.zeros(36)
+    for y0 in range(34, W - P, STEP):
+        for x0 in range(34, W - P, STEP):
+            if m[y0:y0 + P, x0:x0 + P].mean() < 0.999:
+                continue
+            sd, pk, cr, h = patch_stats(hp, y0, x0)
+            pool += h
+            rows.append((sd, pk, cr))
+    sds = np.array([r[0] for r in rows])
+    pool /= pool.sum()
+    pk = int(np.argmax(pool))
+    print(f"\n== {kind.upper()} TRUED  n={len(rows)} windows  "
+          f"sd mean={sds.mean():.4f} max={sds.max():.4f}")
+    print(f"   dominant bearing {pk * 5 + 2.5:.1f}  peak/cross "
+          f"{pool[pk] / pool[(pk + 18) % 36]:.2f}  peak/mean {pool[pk] / pool.mean():.2f}")
+    top = np.argsort(pool)[::-1][:6]
+    print("   top bins: " + ", ".join(f"{int(i) * 5}-{int(i) * 5 + 5}:{pool[i] * 100:.1f}%"
+                                      for i in top))

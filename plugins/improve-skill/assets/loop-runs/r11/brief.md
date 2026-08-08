@@ -19,7 +19,7 @@ Working directory: /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skil
 - `icon.svg` — the current master (generated).
 - `icon-engineC-f5665d-2.png` — THE REFERENCE this round scores against.
 - `icon-notes.md` — the decision log across prior rounds. Read its tail first.
-- `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r10/` — the baseline this round is measured against: `score.json`,
+- `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r10-reverted/` — the baseline this round is measured against: `score.json`,
   `residual-1024.png` (bright = disagreement), `edges-candidate.png`,
   `edges-reference.png`, `candidate-1024.png`, `reference-1024.png`.
 - `measure.py` — split-polarity check; the trued side must read brighter than the un-planed side
@@ -97,7 +97,7 @@ Run the instrument as you go:
     cd /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets
     python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py structure --candidate icon.svg --max-paths 3000 --max-bytes 350000
     python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py score --candidate icon.svg --reference icon-engineC-f5665d-2.png --outdir /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r11 --label "r11 detail"
-    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py gate --candidate /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r11/score.json --baseline /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r10/score.json
+    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py gate --candidate /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r11/score.json --baseline /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r10-reverted/score.json
 
 The gate is the round's verdict, and the harness applies it. If it REJECTs,
 LEAVE your candidate in place and report the rejection with its numbers; the

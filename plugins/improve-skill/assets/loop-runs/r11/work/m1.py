@@ -1,77 +1,107 @@
-"""Where do the edges live, region by region, in each image?
+#!/usr/bin/env python3
+"""Orientation content of the un-planed ground: reference vs master.
 
-The r10 gate bought edge_f1 0.0746 -> 0.1574 with the grain round, but precision
-is still 0.063 and recall 0.042: 94% of our marks are nowhere near one of the
-reference's, and 96% of the reference's are unmatched. Partition both edge sets by
-region (rough ground / trued ground / block / curl / hone band) and by radius from
-the fitted key at (75, 25), so the round knows whether the fault is missing marks,
-misplaced marks, or marks on a plane that should be bare.
+Question: how many bearings does the reference's torn field actually run on?
+The master authors TWO crossing families on the claim that the reference is a
+cross-hatched lattice. That claim is tested here, not assumed.
+
+Method: high-pass the plane (subtract a wide box mean, so the field's own
+lighting ramp drops out and only texture survives), build the gradient
+structure tensor, and histogram gradient ENERGY by orientation. A lattice puts
+two peaks 90 deg apart into the histogram; a planed/torn surface puts one.
+Ridge bearing = gradient bearing + 90.
 """
-import sys, pathlib, math, numpy as np
-sys.path.insert(0, "/Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts")
-import fidelity as F
+import math
+import sys
 
-A = pathlib.Path("/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets")
-g = F.to_gray(F.render_candidate(A / "icon.svg", 1024))
-h = F.to_gray(F.normalise_reference(A / "icon-engineC-f5665d-2.png", 1024))
-np.save("g1024.npy", g); np.save("h1024.npy", h)
+import numpy as np
+from PIL import Image
 
 W = 1024
-ANG = math.radians(33.0)
-UX, UY = math.cos(ANG), -math.sin(ANG)
-NX, NY = -math.sin(ANG), -math.cos(ANG)
-EDGE_MID = (543.0, 604.0); BLADE_LEN = 640.0
-AX = EDGE_MID[0] - UX * BLADE_LEN / 2
-AY = EDGE_MID[1] - UY * BLADE_LEN / 2
-yy, xx = np.mgrid[0:W, 0:W].astype(float)
-ly = NX * (xx - AX) + NY * (yy - AY)
-lx = UX * (xx - AX) + UY * (yy - AY)
-r_key = np.hypot(xx - 75.0, yy - 25.0)
 
-# block: dark in the candidate; C2's block is dark too. Use each image's own dark
-# pixels dilated, so a mask fault cannot leak the block into a ground statistic.
-def block_mask(img):
-    m = img < 0.42
-    return F.dilate(m, 4)
-bm_g, bm_h = block_mask(g), block_mask(h)
-block = bm_g | bm_h
-rim = F.rim_mask(W)
-band = np.abs(ly) < 34            # the hone band: not in scope, masked out everywhere
-rough = (ly > 0) & ~block & ~rim & ~band
-trued = (ly < 0) & ~block & ~rim & ~band
 
-ec, er = F.sobel_edges(g) & ~rim, F.sobel_edges(h) & ~rim
-mc, mr = ec & F.dilate(er), er & F.dilate(ec)     # matched, exactly as edge_f1 counts
+def lin(a):
+    a = a / 255.0
+    return np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
 
-print(f"cand edges {ec.sum():6d}  matched {mc.sum():5d}  prec {mc.sum()/ec.sum():.4f}")
-print(f"ref  edges {er.sum():6d}  matched {mr.sum():5d}  rec  {mr.sum()/er.sum():.4f}")
-print()
-REG = {"rough ground": rough, "trued ground": trued, "block(+4px)": block & ~rim,
-       "hone band": band & ~rim}
-print(f"{'region':14s} {'px%':>5s} {'cand e':>7s} {'ref e':>7s} "
-      f"{'cand d%':>8s} {'ref d%':>8s} {'unmatched cand':>15s} {'unmatched ref':>14s}")
-for name, m in REG.items():
-    n = m.sum()
-    print(f"{name:14s} {100*n/W/W:5.1f} {(ec&m).sum():7d} {(er&m).sum():7d} "
-          f"{100*(ec&m).sum()/n:8.2f} {100*(er&m).sum()/n:8.2f} "
-          f"{(ec&m&~mc).sum():15d} {(er&m&~mr).sum():14d}")
 
-print("\nrough ground, by radius from the key at (75,25):")
-print(f"{'r':>9s} {'px':>7s} {'cand d%':>8s} {'ref d%':>8s} {'cand |g|':>9s} {'ref |g|':>9s}")
-def gradmag(img):
-    p = np.pad(img, 1, mode="edge")
-    gx = (p[:-2, 2:] + 2*p[1:-1, 2:] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[1:-1, :-2] + p[2:, :-2])
-    gy = (p[2:, :-2] + 2*p[2:, 1:-1] + p[2:, 2:]) - (p[:-2, :-2] + 2*p[:-2, 1:-1] + p[:-2, 2:])
-    return np.hypot(gx, gy) / 4.0
-Gc, Gh = gradmag(g), gradmag(h)
-for lo in range(0, 1100, 100):
-    m = rough & (r_key >= lo) & (r_key < lo + 100)
-    if m.sum() < 400: continue
-    print(f"{lo:4d}-{lo+100:4d} {m.sum():7d} {100*(ec&m).sum()/m.sum():8.2f} "
-          f"{100*(er&m).sum()/m.sum():8.2f} {Gc[m].mean():9.4f} {Gh[m].mean():9.4f}")
-print("\ntrued ground, by radius:")
-for lo in range(0, 1600, 150):
-    m = trued & (r_key >= lo) & (r_key < lo + 150)
-    if m.sum() < 400: continue
-    print(f"{lo:4d}-{lo+150:4d} {m.sum():7d} {100*(ec&m).sum()/m.sum():8.2f} "
-          f"{100*(er&m).sum()/m.sum():8.2f} {Gc[m].mean():9.4f} {Gh[m].mean():9.4f}")
+def load(p):
+    im = Image.open(p).convert("RGB").resize((W, W), Image.LANCZOS)
+    a = lin(np.asarray(im).astype(np.float64))
+    return 0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]
+
+
+def boxblur(g, r):
+    """Separable running-mean, reflect-padded. r px half-width."""
+    k = 2 * r + 1
+    for ax in (0, 1):
+        p = np.pad(g, [(r, r) if i == ax else (0, 0) for i in range(2)], mode="reflect")
+        c = np.cumsum(p, axis=ax)
+        c = np.concatenate([np.zeros_like(np.take(c, [0], axis=ax)), c], axis=ax)
+        lo = np.take(c, range(0, g.shape[ax]), axis=ax)
+        hi = np.take(c, range(k, k + g.shape[ax]), axis=ax)
+        g = (hi - lo) / k
+    return g
+
+
+yy, xx = np.mgrid[0:W, 0:W]
+
+
+def masks(kind):
+    """Un-planed ground only, block and curl excluded.
+
+    Boundary lines are each icon's own measured hone: the reference's fitted
+    y = -0.8026x + 991.2 (38.75 deg, round 9), the master's built 33.0 deg
+    through the edge midpoint. Exclusion boxes are drawn wide on purpose - this
+    measures orientation, and a clean patch is worth more than a big one.
+    """
+    if kind == "ref":
+        rough = yy < (-0.8026 * xx + 991.2)
+        block = (xx > 190) & (xx < 830) & (yy > 120) & (yy < 720)
+        curl = (xx > 150) & (xx < 500) & (yy > 40) & (yy < 420)
+    else:
+        a = math.radians(33.0)
+        # ux,uy along the hone; the un-planed side is local n > 0 (canvas up-left)
+        nx, ny = math.sin(a), math.cos(a)
+        ex, ey = 543.0, 604.0
+        rough = ((xx - ex) * nx + (yy - ey) * ny) < 0
+        block = (xx > 150) & (xx < 840) & (yy > 120) & (yy < 800)
+        curl = (xx > 120) & (xx < 460) & (yy > 140) & (yy < 440)
+    tile = (xx > 60) & (xx < W - 60) & (yy > 60) & (yy < W - 60)
+    return rough & tile & ~block & ~curl
+
+
+def orient(g, m, label):
+    hp = g - boxblur(g, 12)
+    gx = np.zeros_like(g)
+    gy = np.zeros_like(g)
+    gx[:, 1:-1] = (hp[:, 2:] - hp[:, :-2]) * 0.5
+    gy[1:-1, :] = (hp[2:, :] - hp[:-2, :]) * 0.5
+    mag = gx * gx + gy * gy
+    # only pixels fully inside the mask carry a valid gradient
+    mm = m & np.roll(m, 1, 0) & np.roll(m, -1, 0) & np.roll(m, 1, 1) & np.roll(m, -1, 1)
+    gx, gy, mag = gx[mm], gy[mm], mag[mm]
+    # ridge bearing = gradient bearing + 90, mod 180, in CANVAS degrees (y down)
+    th = (np.degrees(np.arctan2(gy, gx)) + 90.0) % 180.0
+    nb = 36
+    h = np.zeros(nb)
+    idx = np.clip((th / 180.0 * nb).astype(int), 0, nb - 1)
+    np.add.at(h, idx, mag)
+    h /= h.sum()
+    # coherence from the doubled-angle resultant: 1 = one bearing, 0 = isotropic
+    c = math.hypot(float((mag * np.cos(np.radians(2 * th))).sum()),
+                   float((mag * np.sin(np.radians(2 * th))).sum())) / mag.sum()
+    peak = int(np.argmax(h))
+    print(f"\n== {label}   n={mm.sum()}  texture sd={hp[mm].std():.4f}  coherence={c:.3f}")
+    print(f"   dominant ridge bearing {peak * 5 + 2.5:.1f} deg   share {h[peak] * 100:.1f}%")
+    for i in range(nb):
+        bar = "#" * int(round(h[i] * 400))
+        print(f"   {i * 5:3d}-{i * 5 + 5:3d} {h[i] * 100:5.2f}% {bar}")
+    return h, c
+
+
+if __name__ == "__main__":
+    ref = load("loop-runs/r10-reverted/reference-1024.png")
+    cand = load("loop-runs/r10-reverted/candidate-1024.png")
+    orient(ref, masks("ref"), "REFERENCE un-planed")
+    orient(cand, masks("cand"), "MASTER un-planed")
