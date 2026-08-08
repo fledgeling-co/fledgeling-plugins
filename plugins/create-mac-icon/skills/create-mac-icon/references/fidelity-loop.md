@@ -192,6 +192,43 @@ The common thread: the composite is a similarity measure, and similarity to a
 flawed reference is not quality. Where the two diverge, the rubric and the human
 decide, and the divergence itself is worth recording.
 
+## What a 20-round replay showed, and the promotion rule it bought
+
+The improve-skill fixture ran to r19 with a panel on most rounds, so the whole
+trace could be replayed against a different promotion policy. This is the
+measured version of everything above, and it is the strongest evidence in this
+reference because it comes from our own fixture rather than the literature.
+Research provenance: `docs/deep-research/visual-analysis/FINDINGS.md`.
+
+**The divergence, quantified.** The mean composite climbed from 0.5481 to
+0.6403, up 16.8% across the run. Over the same run the blind panel preferred the
+*previous* take in **7 of 13 judged rounds** and the new one in 3. The last round
+the panel actually preferred was **r11**. In the six judged rounds after it: five
+baseline, one tie, **zero candidate wins**. Those eight rounds cost hours of Opus
+time to move a number the judges were voting against.
+
+**Promote on the panel, not the gate, and return the best-ever checkpoint.**
+Replaying with promotion gated on a blind panel win ships **r11** (0.6157) rather
+than r19 (0.6403). The composite says r19 is 4% better; the judges say r11 is the
+artifact. Keep an immutable checkpoint per promotion and return the best-ever
+one, never the latest — a gate ACCEPT is evidence, and only a blind win is a
+verdict.
+
+**Where the published stopping rule is wrong for this loop.** The obvious rule —
+stop after two consecutive non-winning rounds — fires at **r04** on this trace,
+before the loop had produced any of its three genuine wins (r07, r10, r11). Early
+rounds legitimately lose while the edit classes are still exploring. The rule
+that works is the same one **armed only after the first promotion**: it stops at
+r13, ships r11, and skips six rounds. Adopt that variant; the naive form
+strangles the run before it finds anything.
+
+**And the panel is not a stand-in for the human.** On r04, the one round carrying
+both signals, they disagreed: the human preferred the candidate, the panel
+preferred the baseline. On r02 the *gate* rejected a candidate the human then
+preferred. So the ordering is gate < panel < human, with each layer overruling
+the one below it — panel gating is a large improvement over metric gating and
+still not a reason to stop asking a person.
+
 ## The round schedule — bounded, one edit class per round
 
 | Round | Edit class | Allowed changes | Exit check |

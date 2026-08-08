@@ -65,6 +65,56 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · fitting a raster's plane, and why the residual lies** — deriving a
+  banner's ground plane from a diffusion take means measuring geometry the
+  generator never stored as constants. Fitting an axis-aligned conic to the
+  pool's boundary works, with one trap that inverts the obvious check: **RMS is
+  *lower* on the wrong fits.** An arc sampled from a single flank returns a
+  confident, tight, badly wrong ellipse (KY 0.316 against a true 0.399); at 0.86
+  coverage the fit collapses by 16%; only at 0.98 coverage does it recover the
+  control's known constants (cx 512.0 against a true 512, rx 212.4 against 211,
+  KY 0.527 against 0.515). **Check arc coverage, never residual** — a partial arc
+  is a well-conditioned fit to the wrong problem.
+
+  Two riders. Always fit a *known* artifact first as a control; the whole trap is
+  only visible because a vector master with published constants was run through
+  the same code. And note what the boundary you traced actually is: on the vector
+  master the near melt edge is the aperture lip with the pool occluded behind it,
+  while on the raster it is the pool edge itself — the same detector reading two
+  different features, which no residual would ever reveal.
+
+- **2026-08 · create-skill A rebuilt on the four eye-reviewed defects** — the
+  fixes landed, and the round found a construction bug worth more than any of
+  them.
+
+  **A `<clipPath>` with two subpaths and no `clip-rule` silently unions them.**
+  SVG's default fill rule is nonzero, so a clip meant to be an annulus (outer
+  wall minus interior) becomes the whole disc, and every layer clipped to it
+  paints straight across the middle. Here `rimClip` had been quietly spilling
+  warm porcelain veils over the melt for the entire fixture's history — a third
+  stray veil nobody had seen. Fixing it moved the pool lune from `#EB562E`
+  (L 0.452, S 0.805) to `#DA1A02` (L 0.257, S 0.991), against C2's `#D51504`
+  at L 0.238.
+
+  Why it survived so many rounds: the defect is low-amplitude and spread over a
+  wide area, which is exactly the shape a composite average cannot see. So when
+  a material reads washed out and the gradients measure correct, **check the
+  clip stack before touching the ramp** — and give any clipPath with more than
+  one subpath an explicit `clip-rule="evenodd"`.
+
+  **The metric's bias now has a direction, not just a size.** The round scored
+  ACCEPT (+0.3267; five-size mean 0.5600 → 0.6253), but the gain came almost
+  entirely from the light-direction fix and the clip bug, both low-frequency
+  luminance changes SSIM genuinely sees. The two *structural* fixes — the
+  parting-key notch and the non-concentric mouth — moved the composite by
+  roughly nothing. The metric rewards broad luminance agreement and is blind to
+  silhouette detail, which is why a run of ACCEPTs is not evidence that the
+  shape is right.
+
+  **The reference is not the ceiling.** Tracking C2's shaded flank would have
+  taken figure-ground to 1.19:1, which C2 itself fails. The rebuild held its
+  flank at 3.21:1 and took the rubric hit instead. Rubric outranks gate.
+
 - **2026-08 · create-skill A vs C1 vs C2, reviewed by eye** — four differences a
   human saw immediately and the metric stack almost entirely missed. Worth
   reading as a set, because together they are what "the raster looks better"

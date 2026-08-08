@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC2-6c0a72-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "human feedback round: emission, notch, non-concentric mouth, one key",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1135,
+      "ssim": 0.7401,
+      "edge_f1": 0.0536,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4705,
+      "ref_self_contrast": 0.5306,
+      "composite": 0.5005
+    },
+    "256": {
+      "lum_delta": 0.1122,
+      "ssim": 0.6108,
+      "edge_f1": 0.2217,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4691,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.4927
+    },
+    "128": {
+      "lum_delta": 0.1116,
+      "ssim": 0.5523,
+      "edge_f1": 0.4774,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4662,
+      "ref_self_contrast": 0.5273,
+      "composite": 0.534
+    },
+    "32": {
+      "lum_delta": 0.1061,
+      "ssim": 0.5309,
+      "edge_f1": 0.8681,
+      "mask_iou": 0.998,
+      "self_contrast": 0.4652,
+      "ref_self_contrast": 0.5131,
+      "composite": 0.7724
+    },
+    "16": {
+      "lum_delta": 0.0975,
+      "ssim": 0.5714,
+      "edge_f1": 0.9792,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4706,
+      "ref_self_contrast": 0.4865,
+      "composite": 0.8271
+    }
+  },
+  "render_hash": "78420ebd3e7278e6"
+}

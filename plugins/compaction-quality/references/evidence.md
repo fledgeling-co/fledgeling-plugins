@@ -33,6 +33,38 @@ events that have at least 20 prior rows, and the correction detector matches on
 a 60-character prefix. Different statistic, different sample, so the numbers are
 not directly comparable, and neither supersedes the other.
 
+### Replication, 2026-08-08 — which numbers are load-bearing
+
+A second `--arms cli` run over the 40 most recent qualifying events
+(`docs/benchmark-cli-baseline.json`) separates the robust finding from the
+noisy ones:
+
+| class | 121 events | 40 events | reads as |
+|---|---:|---:|---|
+| **rejected approaches** | **0.3%** (n=68) | **0.0%** (n=11) | replicates |
+| median length | 20,585 | 22,214 | stable |
+| mean extractiveness | 0.09 | 0.08 | stable |
+| identifiers | 48.6% (n=120) | 68.2% (n=39) | swings |
+| file paths | 16.4% (n=119) | 23.7% (n=38) | swings |
+| standing constraints | 33.8% (n=74) | 50.0% (n=28) | swings hardest |
+| user corrections | 63.1% (n=34) | 41.7% (n=4) | n too small to mean anything |
+
+The instrument is the same and the samples overlap, so the spread is sampling
+noise at these instance counts, not a change in behaviour. What it establishes
+is which claims this skill may lean on.
+
+**The 0.3% survives replication because it is not really a percentage** — it is
+the observation that negative knowledge is absent, and a floor of zero cannot
+drift. Every other retention figure moves by 10–20 points between samples, so
+each one is a per-sample observation and must be quoted with its n. Citing
+"33.8%" as *the* constraint-retention rate overstates what 74 instances can
+support; the defensible form is that standing constraints survive at roughly a
+third to a half, and that both are far too low to rely on.
+
+The two confounds being stable across samples is what makes the arms
+comparable at all: a length or extractiveness gap in the head-to-head will be a
+property of the arm rather than of which transcripts got drawn.
+
 ## Why two tiers, and why pinning
 
 **ConstraintRot** (arXiv:2606.22528, 1,323 episodes, seven model families) is

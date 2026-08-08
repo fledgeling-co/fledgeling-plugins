@@ -72,7 +72,7 @@ The surgical counterpart to ship-armada: after work happens anywhere in the port
 
 ### [compaction-quality](plugins/compaction-quality/README.md)
 
-Writes context-compaction summaries that survive being the only thing the next session has. Rebuilt on four research reports and a fresh measurement across 121 real compaction events: rejected approaches survive at 0.3%, standing constraints at 33.8%. Ships a deterministic scorer and a head-to-head benchmark against the built-in /compact whose baseline arm costs nothing.
+Writes context-compaction summaries that survive being the only thing the next session has. Rebuilt on four research reports and a fresh measurement across 121 real compaction events: rejected approaches survive at 0.3%, and standing constraints at somewhere between a third and a half depending on the sample. Ships a deterministic scorer and a head-to-head benchmark against the built-in /compact whose baseline arm costs nothing.
 
 <br clear="left" />
 
@@ -84,7 +84,7 @@ The pipeline that built half this marketplace, as a skill. Point it at an existi
 
 <br clear="left" />
 
-<a href="plugins/create-skill/README.md"><img src="plugins/create-skill/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/create-skill/README.md"><img src="plugins/create-skill/assets/icon-c1-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-skill](plugins/create-skill/README.md)
 

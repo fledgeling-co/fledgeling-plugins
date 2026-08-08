@@ -1,0 +1,1722 @@
+[
+  {
+    "file": "d17b15c2-d8f0-43f7-b2fa-cb6c212dbc19.jsonl",
+    "spans": {
+      "file paths": 0,
+      "identifiers": 13,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 14309,
+        "extractiveness": 0.138,
+        "scores": {
+          "file paths": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 13,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "19b6eca6-80f5-4502-bff4-9c20b2f3cc9d.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 1,
+      "CORRECTIONS": 3,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 8867,
+        "extractiveness": 0.332,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "88f0593a-f65f-48be-a525-38c52a831c29.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 40,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 13204,
+        "extractiveness": 0.134,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.475,
+            "n": 40,
+            "missed": 21
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "e9ec8a07-4615-41ea-b48b-7a9856074899.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 42,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 17243,
+        "extractiveness": 0.148,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.9047619047619048,
+            "n": 42,
+            "missed": 4
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "0cda1395-a142-4aa8-8e8c-00ea53e8366b.jsonl",
+    "spans": {
+      "file paths": 31,
+      "identifiers": 89,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 15046,
+        "extractiveness": 0.049,
+        "scores": {
+          "file paths": {
+            "recall": 0.0967741935483871,
+            "n": 31,
+            "missed": 28
+          },
+          "identifiers": {
+            "recall": 0.3707865168539326,
+            "n": 89,
+            "missed": 56
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "9a7da7d9-5c62-4a40-87bf-754257c712ee.jsonl",
+    "spans": {
+      "file paths": 38,
+      "identifiers": 92,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 13545,
+        "extractiveness": 0.09,
+        "scores": {
+          "file paths": {
+            "recall": 0.05263157894736842,
+            "n": 38,
+            "missed": 36
+          },
+          "identifiers": {
+            "recall": 0.30434782608695654,
+            "n": 92,
+            "missed": 64
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "6787024e-b54a-4143-84e7-fb27938e1a0e.jsonl",
+    "spans": {
+      "file paths": 16,
+      "identifiers": 84,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 15148,
+        "extractiveness": 0.088,
+        "scores": {
+          "file paths": {
+            "recall": 0.3125,
+            "n": 16,
+            "missed": 11
+          },
+          "identifiers": {
+            "recall": 0.2619047619047619,
+            "n": 84,
+            "missed": 62
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "21c20978-4563-4974-b3af-170121505eaf.jsonl",
+    "spans": {
+      "file paths": 7,
+      "identifiers": 51,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 2
+    },
+    "arms": {
+      "cli": {
+        "chars": 25216,
+        "extractiveness": 0.179,
+        "scores": {
+          "file paths": {
+            "recall": 0.42857142857142855,
+            "n": 7,
+            "missed": 4
+          },
+          "identifiers": {
+            "recall": 0.7647058823529411,
+            "n": 51,
+            "missed": 12
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 2,
+            "missed": 2
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "752d7370-db0e-42f2-82ed-6d8a3276c154.jsonl",
+    "spans": {
+      "file paths": 39,
+      "identifiers": 65,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 20784,
+        "extractiveness": 0.03,
+        "scores": {
+          "file paths": {
+            "recall": 0.02564102564102564,
+            "n": 39,
+            "missed": 38
+          },
+          "identifiers": {
+            "recall": 0.9230769230769231,
+            "n": 65,
+            "missed": 5
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "44385a93-391e-4f85-91e4-a32a776daf42.jsonl",
+    "spans": {
+      "file paths": 23,
+      "identifiers": 75,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 19985,
+        "extractiveness": 0.041,
+        "scores": {
+          "file paths": {
+            "recall": 0.8695652173913043,
+            "n": 23,
+            "missed": 3
+          },
+          "identifiers": {
+            "recall": 0.8666666666666667,
+            "n": 75,
+            "missed": 10
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "2bb3a8dd-6efa-49e8-9495-1d15ae044038.jsonl",
+    "spans": {
+      "file paths": 15,
+      "identifiers": 72,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 13744,
+        "extractiveness": 0.042,
+        "scores": {
+          "file paths": {
+            "recall": 0.06666666666666667,
+            "n": 15,
+            "missed": 14
+          },
+          "identifiers": {
+            "recall": 0.6944444444444444,
+            "n": 72,
+            "missed": 22
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "395fd5a2-054e-48f9-9e85-f09450dea8bc.jsonl",
+    "spans": {
+      "file paths": 0,
+      "identifiers": 0,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 906,
+        "extractiveness": 0.0,
+        "scores": {
+          "file paths": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "4b429108-a333-40ff-9a4c-a0e0add239fc.jsonl",
+    "spans": {
+      "file paths": 24,
+      "identifiers": 71,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 956,
+        "extractiveness": 0.0,
+        "scores": {
+          "file paths": {
+            "recall": 0.0,
+            "n": 24,
+            "missed": 24
+          },
+          "identifiers": {
+            "recall": 0.0,
+            "n": 71,
+            "missed": 71
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "a3b74fc9-5d25-4ed1-bc30-2ba1ac4a8db0.jsonl",
+    "spans": {
+      "file paths": 329,
+      "identifiers": 479,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 10479,
+        "extractiveness": 0.0,
+        "scores": {
+          "file paths": {
+            "recall": 0.06382978723404255,
+            "n": 329,
+            "missed": 308
+          },
+          "identifiers": {
+            "recall": 0.20876826722338204,
+            "n": 479,
+            "missed": 379
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "abfb4969-8f04-49f0-90bf-893638de9811.jsonl",
+    "spans": {
+      "file paths": 339,
+      "identifiers": 477,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 10553,
+        "extractiveness": 0.027,
+        "scores": {
+          "file paths": {
+            "recall": 0.06784660766961652,
+            "n": 339,
+            "missed": 316
+          },
+          "identifiers": {
+            "recall": 0.18658280922431866,
+            "n": 477,
+            "missed": 388
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "d31ac091-2ec2-4b24-9bdc-5f707a1f49de.jsonl",
+    "spans": {
+      "file paths": 835,
+      "identifiers": 592,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 7243,
+        "extractiveness": 0.0,
+        "scores": {
+          "file paths": {
+            "recall": 0.019161676646706587,
+            "n": 835,
+            "missed": 819
+          },
+          "identifiers": {
+            "recall": 0.060810810810810814,
+            "n": 592,
+            "missed": 556
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "1f93d3f5-c679-4479-b372-57f274bbb425.jsonl",
+    "spans": {
+      "file paths": 102,
+      "identifiers": 75,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 34481,
+        "extractiveness": 0.176,
+        "scores": {
+          "file paths": {
+            "recall": 0.0784313725490196,
+            "n": 102,
+            "missed": 94
+          },
+          "identifiers": {
+            "recall": 0.8666666666666667,
+            "n": 75,
+            "missed": 10
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "b6c769ec-33d1-4d50-b211-fbb68fc367be.jsonl",
+    "spans": {
+      "file paths": 18,
+      "identifiers": 66,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 16602,
+        "extractiveness": 0.021,
+        "scores": {
+          "file paths": {
+            "recall": 0.2777777777777778,
+            "n": 18,
+            "missed": 13
+          },
+          "identifiers": {
+            "recall": 0.36363636363636365,
+            "n": 66,
+            "missed": 42
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "fa99fbd7-c69c-40f6-b7a5-3f444510f5e1.jsonl",
+    "spans": {
+      "file paths": 17,
+      "identifiers": 65,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 21197,
+        "extractiveness": 0.068,
+        "scores": {
+          "file paths": {
+            "recall": 0.5294117647058824,
+            "n": 17,
+            "missed": 8
+          },
+          "identifiers": {
+            "recall": 0.8615384615384616,
+            "n": 65,
+            "missed": 9
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "943253e5-7983-4867-9af3-b1f5d1c78924.jsonl",
+    "spans": {
+      "file paths": 106,
+      "identifiers": 78,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 41739,
+        "extractiveness": 0.149,
+        "scores": {
+          "file paths": {
+            "recall": 0.0660377358490566,
+            "n": 106,
+            "missed": 99
+          },
+          "identifiers": {
+            "recall": 0.8461538461538461,
+            "n": 78,
+            "missed": 12
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "5624c760-ebc3-4c9f-92d9-7b1f40f691d1.jsonl",
+    "spans": {
+      "file paths": 37,
+      "identifiers": 79,
+      "CORRECTIONS": 1,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 34153,
+        "extractiveness": 0.05,
+        "scores": {
+          "file paths": {
+            "recall": 0.08108108108108109,
+            "n": 37,
+            "missed": 34
+          },
+          "identifiers": {
+            "recall": 0.3924050632911392,
+            "n": 79,
+            "missed": 48
+          },
+          "CORRECTIONS": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "67bc66e0-0e79-4384-a434-038410463669.jsonl",
+    "spans": {
+      "file paths": 25,
+      "identifiers": 99,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 32121,
+        "extractiveness": 0.033,
+        "scores": {
+          "file paths": {
+            "recall": 0.36,
+            "n": 25,
+            "missed": 16
+          },
+          "identifiers": {
+            "recall": 0.9393939393939394,
+            "n": 99,
+            "missed": 6
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "23633da8-9b41-4834-a4fa-bb9aa5cb5a09.jsonl",
+    "spans": {
+      "file paths": 62,
+      "identifiers": 81,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 34181,
+        "extractiveness": 0.187,
+        "scores": {
+          "file paths": {
+            "recall": 0.0967741935483871,
+            "n": 62,
+            "missed": 56
+          },
+          "identifiers": {
+            "recall": 0.8148148148148148,
+            "n": 81,
+            "missed": 15
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "611e9a20-1b62-4a27-bd18-9fc56f147698.jsonl",
+    "spans": {
+      "file paths": 33,
+      "identifiers": 78,
+      "CORRECTIONS": 1,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 26889,
+        "extractiveness": 0.031,
+        "scores": {
+          "file paths": {
+            "recall": 0.030303030303030304,
+            "n": 33,
+            "missed": 32
+          },
+          "identifiers": {
+            "recall": 0.358974358974359,
+            "n": 78,
+            "missed": 50
+          },
+          "CORRECTIONS": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "ddc1de62-739f-4dd5-8d39-247d9b6fafed.jsonl",
+    "spans": {
+      "file paths": 44,
+      "identifiers": 20,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 30464,
+        "extractiveness": 0.12,
+        "scores": {
+          "file paths": {
+            "recall": 0.2727272727272727,
+            "n": 44,
+            "missed": 32
+          },
+          "identifiers": {
+            "recall": 0.95,
+            "n": 20,
+            "missed": 1
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "6615b24a-dce9-4d63-9829-d555d279b763.jsonl",
+    "spans": {
+      "file paths": 39,
+      "identifiers": 138,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 22757,
+        "extractiveness": 0.214,
+        "scores": {
+          "file paths": {
+            "recall": 0.20512820512820512,
+            "n": 39,
+            "missed": 31
+          },
+          "identifiers": {
+            "recall": 0.6811594202898551,
+            "n": 138,
+            "missed": 44
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "e9c2ba5f-e87a-44fe-b71b-875bb810d91e.jsonl",
+    "spans": {
+      "file paths": 30,
+      "identifiers": 46,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 36791,
+        "extractiveness": 0.022,
+        "scores": {
+          "file paths": {
+            "recall": 0.13333333333333333,
+            "n": 30,
+            "missed": 26
+          },
+          "identifiers": {
+            "recall": 0.9782608695652174,
+            "n": 46,
+            "missed": 1
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "48a8406d-1d7f-4a50-bf26-ee621c2ac9bc.jsonl",
+    "spans": {
+      "file paths": 88,
+      "identifiers": 72,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 52693,
+        "extractiveness": 0.062,
+        "scores": {
+          "file paths": {
+            "recall": 0.07954545454545454,
+            "n": 88,
+            "missed": 81
+          },
+          "identifiers": {
+            "recall": 0.8472222222222222,
+            "n": 72,
+            "missed": 11
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "9821d288-910b-48ca-9ac0-80dcb3645dcf.jsonl",
+    "spans": {
+      "file paths": 24,
+      "identifiers": 21,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 22238,
+        "extractiveness": 0.036,
+        "scores": {
+          "file paths": {
+            "recall": 0.4583333333333333,
+            "n": 24,
+            "missed": 13
+          },
+          "identifiers": {
+            "recall": 0.7619047619047619,
+            "n": 21,
+            "missed": 5
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "1d4fa62b-b0a7-4dbd-88bd-77603affddd7.jsonl",
+    "spans": {
+      "file paths": 40,
+      "identifiers": 67,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 18884,
+        "extractiveness": 0.09,
+        "scores": {
+          "file paths": {
+            "recall": 0.3,
+            "n": 40,
+            "missed": 28
+          },
+          "identifiers": {
+            "recall": 0.5373134328358209,
+            "n": 67,
+            "missed": 31
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "fc17d2ee-ba88-4fe0-b935-158e8c6994c1.jsonl",
+    "spans": {
+      "file paths": 35,
+      "identifiers": 74,
+      "CORRECTIONS": 1,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 34169,
+        "extractiveness": 0.035,
+        "scores": {
+          "file paths": {
+            "recall": 0.08571428571428572,
+            "n": 35,
+            "missed": 32
+          },
+          "identifiers": {
+            "recall": 0.4189189189189189,
+            "n": 74,
+            "missed": 43
+          },
+          "CORRECTIONS": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "48fdb7e1-78b8-412c-a564-b760a73808de.jsonl",
+    "spans": {
+      "file paths": 26,
+      "identifiers": 40,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 2
+    },
+    "arms": {
+      "cli": {
+        "chars": 30325,
+        "extractiveness": 0.049,
+        "scores": {
+          "file paths": {
+            "recall": 0.46153846153846156,
+            "n": 26,
+            "missed": 14
+          },
+          "identifiers": {
+            "recall": 0.975,
+            "n": 40,
+            "missed": 1
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 2,
+            "missed": 2
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "c7c2edf5-0c94-40d0-9e6a-cbdf56af4ba1.jsonl",
+    "spans": {
+      "file paths": 28,
+      "identifiers": 47,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 22191,
+        "extractiveness": 0.07,
+        "scores": {
+          "file paths": {
+            "recall": 0.10714285714285714,
+            "n": 28,
+            "missed": 25
+          },
+          "identifiers": {
+            "recall": 0.8723404255319149,
+            "n": 47,
+            "missed": 6
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "9aa88fdc-fab0-4e2a-a850-bf986f52fe27.jsonl",
+    "spans": {
+      "file paths": 369,
+      "identifiers": 47,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 29694,
+        "extractiveness": 0.027,
+        "scores": {
+          "file paths": {
+            "recall": 0.04878048780487805,
+            "n": 369,
+            "missed": 351
+          },
+          "identifiers": {
+            "recall": 0.7872340425531915,
+            "n": 47,
+            "missed": 10
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "3279d565-7a2c-48d5-9417-110a161101ef.jsonl",
+    "spans": {
+      "file paths": 36,
+      "identifiers": 40,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 43134,
+        "extractiveness": 0.146,
+        "scores": {
+          "file paths": {
+            "recall": 0.4166666666666667,
+            "n": 36,
+            "missed": 21
+          },
+          "identifiers": {
+            "recall": 0.925,
+            "n": 40,
+            "missed": 3
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "754b55f0-1f11-4b83-b1b3-e76388d13aeb.jsonl",
+    "spans": {
+      "file paths": 25,
+      "identifiers": 67,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 31772,
+        "extractiveness": 0.053,
+        "scores": {
+          "file paths": {
+            "recall": 0.08,
+            "n": 25,
+            "missed": 23
+          },
+          "identifiers": {
+            "recall": 0.9850746268656716,
+            "n": 67,
+            "missed": 1
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "3d2e5492-fa12-4c6d-90a8-feacd088fcf4.jsonl",
+    "spans": {
+      "file paths": 17,
+      "identifiers": 69,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 25857,
+        "extractiveness": 0.013,
+        "scores": {
+          "file paths": {
+            "recall": 0.11764705882352941,
+            "n": 17,
+            "missed": 15
+          },
+          "identifiers": {
+            "recall": 0.782608695652174,
+            "n": 69,
+            "missed": 15
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "566817d2-6511-4eac-8450-6714e704f7a6.jsonl",
+    "spans": {
+      "file paths": 52,
+      "identifiers": 76,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 29826,
+        "extractiveness": 0.026,
+        "scores": {
+          "file paths": {
+            "recall": 0.15384615384615385,
+            "n": 52,
+            "missed": 44
+          },
+          "identifiers": {
+            "recall": 0.868421052631579,
+            "n": 76,
+            "missed": 10
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "2177ce73-5da0-4adf-9da8-aba08b78a1bc.jsonl",
+    "spans": {
+      "file paths": 36,
+      "identifiers": 64,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 18062,
+        "extractiveness": 0.069,
+        "scores": {
+          "file paths": {
+            "recall": 0.08333333333333333,
+            "n": 36,
+            "missed": 33
+          },
+          "identifiers": {
+            "recall": 0.828125,
+            "n": 64,
+            "missed": 11
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "f635ff12-97fb-4437-a0f4-24b788cc3283.jsonl",
+    "spans": {
+      "file paths": 25,
+      "identifiers": 40,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 27593,
+        "extractiveness": 0.056,
+        "scores": {
+          "file paths": {
+            "recall": 0.16,
+            "n": 25,
+            "missed": 21
+          },
+          "identifiers": {
+            "recall": 0.925,
+            "n": 40,
+            "missed": 3
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  }
+]
