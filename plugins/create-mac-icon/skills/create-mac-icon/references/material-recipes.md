@@ -65,6 +65,21 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · create-skill "The Pour" loop** — two measured corrections, both to
+  assumptions that felt obviously right.
+  **(a) Molten material is deep red, not bright yellow.** Sampled off the
+  reference: L 0.42-0.53 at hue 5-9. The drafts were 17° too yellow and 0.22 too
+  light, because "molten" reads as yellow-white in imagination and as dark red on
+  the actual reference. A hue-and-luminance sample before authoring catches it;
+  nothing else did.
+  **(b) A translucent stream is DARKEST along its axis**, not brightest. The
+  bright-core construction (glow in the middle, falling off to the edges) is the
+  exact inverse of what a translucent pour does: the centre is the deepest path
+  through the material, so it absorbs most. Build the core dark and let the edges
+  carry the light. This is the same shape of error as the shaving curl reading
+  darker than its ground, and it is the third time an assumed
+  bright-where-you-expect-bright relationship has failed here.
+
 - **2026-08 · improve-skill loop r06 (material, accepted)** — **find out which
   pixels own your percentiles before choosing what to edit.** The contrast budget
   is a whole-image statistic, so the regions that set it are not necessarily the
