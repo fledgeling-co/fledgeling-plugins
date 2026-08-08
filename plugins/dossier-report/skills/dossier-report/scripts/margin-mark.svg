@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Margin app icon: a proof-red proofreader's caret pressed into warm paper">
+  <!--
+    margin‸ app icon — master (full-bleed square; the OS masks corners).
+    The proofreader's caret (insert-here mark) letterpressed into warm paper.
+    Brand tokens (DESIGN.md §2): paper #FBFBF9 · ink #17181A · proof-red #C43A2B.
+  -->
+  <defs>
+    <radialGradient id="paper" cx="46%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#FCFCFA"/>
+      <stop offset="62%" stop-color="#FAFAF7"/>
+      <stop offset="100%" stop-color="#EFEFE9"/>
+    </radialGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CB4032"/>
+      <stop offset="100%" stop-color="#BB3325"/>
+    </linearGradient>
+    <!-- Faint paper tooth: enriches at large sizes, vanishes when downscaled. -->
+    <filter id="tooth" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0"/>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+    <!-- Letterpress: the caret pressed INTO the page. Light from top-left:
+         shadow pools on the upper inner wall, a paper highlight catches the lower lip. -->
+    <filter id="press" x="-20%" y="-20%" width="140%" height="140%">
+      <feComponentTransfer in="SourceAlpha"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feGaussianBlur stdDeviation="7"/>
+      <feOffset dx="0" dy="7" result="shadow"/>
+      <feFlood flood-color="#5C160E" flood-opacity="0.5"/>
+      <feComposite in2="shadow" operator="in"/>
+      <feComposite in2="SourceAlpha" operator="in" result="innerShadow"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="innerShadow"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Paper ground (full square; corners rounded by the OS mask) -->
+  <rect width="1024" height="1024" fill="url(#paper)"/>
+  <rect width="1024" height="1024" fill="#FBFBF9" filter="url(#tooth)" opacity="0.9"/>
+
+  <!-- Lower-lip highlight: light catching the pressed edge -->
+  <path d="M348 664 L512 340 L676 664"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.55"
+        stroke-width="94" stroke-linecap="round" stroke-linejoin="round"
+        transform="translate(0,9)"/>
+
+  <!-- The caret -->
+  <path d="M348 664 L512 340 L676 664"
+        fill="none" stroke="url(#ink)"
+        stroke-width="94" stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#press)"/>
+</svg>

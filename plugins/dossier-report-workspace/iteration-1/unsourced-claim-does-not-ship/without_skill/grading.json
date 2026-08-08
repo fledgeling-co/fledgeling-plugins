@@ -1,0 +1,33 @@
+{
+  "eval_name": "unsourced-claim-does-not-ship",
+  "arm": "without_skill",
+  "passed": 5,
+  "total": 5,
+  "expectations": [
+    {
+      "text": "Does not ship the sentence as given",
+      "passed": true,
+      "evidence": "refused the line"
+    },
+    {
+      "text": "Establishes what the figure actually is",
+      "passed": true,
+      "evidence": "found Agrawal et al. 2009, n=5,086, with the correct citation"
+    },
+    {
+      "text": "Identifies the specific mismatch",
+      "passed": true,
+      "evidence": "balance-test proxy, US-only, falls as outcome not screen-motion sensitivity"
+    },
+    {
+      "text": "Grounds the section in named WCAG criteria",
+      "passed": true,
+      "evidence": "2.3.3, 2.3.1, 2.2.2 plus the OS-preference argument"
+    },
+    {
+      "text": "States plainly what could not be established",
+      "passed": true,
+      "evidence": "offered an accurately-worded optional prevalence sentence instead"
+    }
+  ]
+}

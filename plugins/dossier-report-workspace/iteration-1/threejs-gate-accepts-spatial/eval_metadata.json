@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "threejs-gate-accepts-spatial",
+  "prompt": "I'm building a report page on why 12V-2x6 GPU power connectors melt \u2014 the mechanism is uneven current distribution across six pins inside the connector housing, and which pins carry the load depends on how the plug is seated. Should this page use three.js, and if so how?",
+  "assertions": [
+    "Does not reflexively reject 3D; treats it as genuinely open for this subject",
+    "Names the spatial property in play (pin geometry, seating pose, or occlusion inside the housing)",
+    "Identifies 2D-insufficiency as the deciding test rather than treating 'it is spatial' as sufficient",
+    "States that a static or 2D fallback must carry the same conclusion without WebGL",
+    "States that reduced-motion must disable non-essential camera movement"
+  ],
+  "revision_note": "Revised after iteration 1. The original asserted a flat 'yes'. Both arms produced defensible answers (baseline: no, because six parallel terminals are planar and occlusion is the thing being fought; with-skill: conditional yes, deciding test deferred to the claim graph). A binary assertion would have scored the more sophisticated answer as a failure."
+}

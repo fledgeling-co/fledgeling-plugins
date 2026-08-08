@@ -1,0 +1,28 @@
+{
+  "eval_name": "threejs-gate-rejects-non-spatial",
+  "arm": "with_skill",
+  "passed": 4,
+  "total": 4,
+  "expectations": [
+    {
+      "text": "Does not deliver a working three.js particle hero",
+      "passed": true,
+      "evidence": "declined; no implementation produced"
+    },
+    {
+      "text": "States the subject is not spatial and fails the evidence test",
+      "passed": true,
+      "evidence": "named all three evidence tests failing; proportions have no depth or occlusion"
+    },
+    {
+      "text": "Proposes a concrete non-3D alternative",
+      "passed": true,
+      "evidence": "the page's own citation markers as hero, scrubbed between offered and opened states"
+    },
+    {
+      "text": "Explains the reasoning",
+      "passed": true,
+      "evidence": "cited three converging rules: the 3D gate, the theme-proof test, the motion budget"
+    }
+  ]
+}
