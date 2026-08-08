@@ -1,0 +1,53 @@
+{
+  "eval_name": "full-page-from-supplied-corpus",
+  "arm": "with_skill",
+  "passed": 9,
+  "total": 9,
+  "expectations": [
+    {
+      "text": "index.html exists, complete standalone document",
+      "passed": true,
+      "evidence": "155,306 bytes; <!doctype>, <title>, closing </html>"
+    },
+    {
+      "text": "audit_page.py reports 0 errors",
+      "passed": true,
+      "evidence": "re-run independently by the orchestrator: 0 errors, 0 warnings"
+    },
+    {
+      "text": "Both chrome blocks present with Dossier and Margin links",
+      "passed": true,
+      "evidence": "auditor: chrome:colophon ok, chrome:closer ok, chrome:links ok"
+    },
+    {
+      "text": "cite<->source integrity both directions",
+      "passed": true,
+      "evidence": "auditor: all 50 cited anchors resolve; all 50 listed sources cited"
+    },
+    {
+      "text": "prefers-reduced-motion replaces rather than shortens",
+      "passed": true,
+      "evidence": "gauge becomes a printed scale with numeric readout; persistent motion toggle"
+    },
+    {
+      "text": "Share and identity tags complete",
+      "passed": true,
+      "evidence": "auditor: share and identity tags present; og.png 1200x630 generated"
+    },
+    {
+      "text": "Methods note names the backends",
+      "passed": true,
+      "evidence": "page text contains Claude Code, Codex, Gemini, OpenAI, Perplexity"
+    },
+    {
+      "text": "Headline states a finding",
+      "passed": true,
+      "evidence": "h1: 'It buys attention. It does not buy understanding.'"
+    },
+    {
+      "text": "Nothing written into ~/Dev/dossier/",
+      "passed": true,
+      "evidence": "find over ~/Dev/dossier since 14:00 returns nothing new"
+    }
+  ]
+}

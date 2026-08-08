@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Dossier">
+  <title>Dossier</title>
+  <desc>A vermillion wax seal impressed with a slab-serif D, closing a bound file of papers on a deep archival ink ground.</desc>
+  <defs>
+    <radialGradient id="ground" cx="50%" cy="36%" r="82%">
+      <stop offset="0%" stop-color="#332A25"/><stop offset="50%" stop-color="#1D1714"/><stop offset="100%" stop-color="#0C0A09"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0.1" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#FBF4E4"/><stop offset="55%" stop-color="#F0E6CE"/><stop offset="100%" stop-color="#D8CBAC"/>
+    </linearGradient>
+    <linearGradient id="paper2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E4D9BE"/><stop offset="100%" stop-color="#B9AC8E"/>
+    </linearGradient>
+    <radialGradient id="wax" cx="34%" cy="26%" r="88%">
+      <stop offset="0%" stop-color="#F2664A"/><stop offset="30%" stop-color="#D4381F"/>
+      <stop offset="66%" stop-color="#A62312"/><stop offset="90%" stop-color="#77150A"/><stop offset="100%" stop-color="#560E06"/>
+    </radialGradient>
+    <radialGradient id="waxRim" cx="50%" cy="50%" r="50%">
+      <stop offset="80%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#380902" stop-opacity="0.6"/>
+    </radialGradient>
+    <linearGradient id="dieFace" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#630F05"/><stop offset="60%" stop-color="#8A1E0E"/><stop offset="100%" stop-color="#A82A16"/>
+    </linearGradient>
+    <radialGradient id="crown" cx="32%" cy="20%" r="48%">
+      <stop offset="0%" stop-color="#FFD9CC" stop-opacity="0.5"/><stop offset="55%" stop-color="#FFB49B" stop-opacity="0.09"/><stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="dropWax" x="-35%" y="-35%" width="170%" height="170%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+    <filter id="dropPaper" x="-35%" y="-35%" width="170%" height="170%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="cavity" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="-6" dy="-7" stdDeviation="8" flood-color="#430902" flood-opacity="0.9"/>
+    </filter>
+    <linearGradient id="cavityLight" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#F0785A" stop-opacity="0"/>
+      <stop offset="62%" stop-color="#F0785A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FF9878" stop-opacity="0.4"/>
+    </linearGradient>
+    <path id="dGlyph" fill-rule="evenodd" d="M 392 432 H 556 C 640 432 692 484 692 552 C 692 620 640 672 556 672 H 392 V 640 H 428 V 464 H 392 Z M 470 464 V 640 H 552 C 610 640 646 606 646 552 C 646 498 610 464 552 464 Z"/>
+    <clipPath id="dClip"><use href="#dGlyph"/></clipPath>
+    <path id="waxBlob" d="M512.0 286.0 C534.2 284.9, 555.8 314.4, 579.6 321.7 C603.4 329.0, 635.6 317.8, 654.7 329.9 C673.8 342.0, 678.1 375.4, 694.1 394.2 C710.2 413.0, 742.2 422.1, 751.2 442.7 C760.3 463.4, 743.7 493.3, 748.6 518.0 C753.4 542.6, 783.9 568.6, 780.2 590.6 C776.6 612.6, 737.5 627.1, 726.7 650.0 C715.8 673.0, 730.1 711.8, 715.3 728.2 C700.5 744.5, 659.3 734.7, 638.0 748.0 C616.6 761.3, 608.2 800.7, 587.2 808.2 C566.2 815.7, 536.9 793.5, 512.0 793.0 C487.1 792.5, 459.2 812.0, 437.6 805.3 C416.1 798.6, 403.3 766.8, 382.8 753.1 C362.3 739.3, 329.6 739.8, 314.7 722.9 C299.9 706.0, 304.9 673.9, 293.7 651.7 C282.5 629.5, 249.9 612.2, 247.7 590.0 C245.5 567.8, 277.3 543.7, 280.4 518.7 C283.5 493.7, 257.5 460.0, 266.4 439.8 C275.3 419.6, 316.9 416.3, 333.6 397.5 C350.4 378.6, 348.3 338.0, 367.1 326.5 C385.9 315.0, 422.2 335.2, 446.4 328.4 C470.5 321.7, 489.8 287.1, 512.0 286.0 Z"/>
+    <clipPath id="waxClip"><use href="#waxBlob"/></clipPath>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#ground)"/>
+
+  <!-- LAYER 2 - the file. Subordinate by design: a manila folder as hero is the
+       most templated shape in the icon corpus, so it is context, not identity.
+       Redaction lines sit ABOVE the seal's top edge so the idea survives. -->
+  <g filter="url(#dropPaper)">
+    <g transform="rotate(-8 512 512)">
+      <rect x="300" y="150" width="438" height="700" rx="20" fill="url(#paper2)" opacity="0.6" transform="rotate(5.5 512 512)"/>
+      <rect x="308" y="142" width="424" height="694" rx="20" fill="url(#paper)"/>
+      <rect x="308" y="142" width="26" height="694" rx="20" fill="#C6B99A" opacity="0.55"/>
+      <!-- The one line that survived verification. Top row so it is never
+           occluded by the seal, and so the accent hue reads twice across the
+           canvas instead of pooling entirely in the wax. -->
+      <rect x="360" y="186" width="268" height="28" rx="14" fill="#C8321F" opacity="0.95"/>
+      <rect x="360" y="240" width="212" height="28" rx="14" fill="#241D1A" opacity="0.9"/>
+      <rect x="360" y="294" width="176" height="28" rx="14" fill="#241D1A" opacity="0.78"/>
+    </g>
+  </g>
+
+  <!-- LAYER 3 - THE SIGNATURE: the wax seal. Provenance and chain of custody,
+       which is exactly what citation verification asserts about a report. -->
+  <g filter="url(#dropWax)">
+    <use href="#waxBlob" fill="url(#wax)"/>
+    <use href="#waxBlob" fill="url(#waxRim)"/>
+
+    <g clip-path="url(#waxClip)">
+      <circle cx="512" cy="552" r="196" fill="none" stroke="#570F06" stroke-width="14" opacity="0.34"/>
+      <circle cx="512" cy="552" r="203" fill="none" stroke="#F58A6E" stroke-width="3" opacity="0.2"/>
+
+      <!-- The impressed D. ONE evenodd path so the counter knocks out cleanly:
+           the previous attempt drew serifs as separate rects and they collided
+           with the stem. Slab serifs top and bottom, as an engraved die cuts.
+           Molded INTO the wax - shadowed upper-left where light cannot reach
+           the cavity, lit on the lower-right lip. -->
+      <g filter="url(#cavity)">
+        <use href="#dGlyph" fill="url(#dieFace)"/>
+      </g>
+      <!-- Light pooling in the lower-right of the cavity. Clipped to the D so
+           it cannot trace the counter's edge and read as a second stroke,
+           which is exactly what a hand-drawn lip path did. -->
+      <g clip-path="url(#dClip)">
+        <rect x="330" y="400" width="400" height="300" fill="url(#cavityLight)"/>
+      </g>
+
+      <ellipse cx="416" cy="430" rx="216" ry="176" fill="url(#crown)"/>
+    </g>
+  </g>
+</svg>

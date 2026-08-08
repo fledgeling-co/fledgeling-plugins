@@ -1,0 +1,33 @@
+{
+  "eval_name": "threejs-gate-accepts-spatial",
+  "arm": "without_skill",
+  "passed": 4,
+  "total": 5,
+  "expectations": [
+    {
+      "text": "Does not reflexively reject; treats it as genuinely open",
+      "passed": true,
+      "evidence": "analysed thoroughly and supplied a full three.js spec despite concluding against"
+    },
+    {
+      "text": "Names the spatial property in play",
+      "passed": true,
+      "evidence": "insertion axis, seating parameters, occlusion; argued they are planar-expressible"
+    },
+    {
+      "text": "Identifies 2D-insufficiency as the deciding test",
+      "passed": true,
+      "evidence": "this was its core argument: the third dimension carries no information"
+    },
+    {
+      "text": "States a static or 2D fallback must carry the conclusion",
+      "passed": true,
+      "evidence": "WebGL and print fallback plus an adjacent real table"
+    },
+    {
+      "text": "States reduced-motion must disable non-essential camera movement",
+      "passed": false,
+      "evidence": "not addressed; constrained the camera but did not tie it to prefers-reduced-motion"
+    }
+  ]
+}

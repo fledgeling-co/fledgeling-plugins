@@ -1,0 +1,9 @@
+{
+  "name": "dossier-report",
+  "description": "Turn a research question into one published, uniquely-themed HTML report page. Runs a Dossier paid+free deep-research panel, reads every member end to end rather than the merged distillation, compiles the corpus into a claim graph, then designs the page from scratch around its own subject and writes it to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Nine phases with /clarify at three gates and /trawl diverging on both research angles and visual direction, so consecutive pages do not converge on one look. Grounded in a five-backend panel over 225 sources: martini-glass structure, claim-local citations with source previews, a six-test gate before three.js is allowed, WCAG-anchored reduced-motion-first accessibility, Core Web Vitals floors, and a deterministic auditor that fails the build on a cited source that was never listed. Ships the Dossier/Margin marketing chrome as a script, and builds a per-topic page icon through create-mac-icon.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "skill_name": "dossier-report",
+  "notes": "Evals supply a research corpus as a fixture rather than firing a live Dossier panel, so the suite costs no API money. The corpus is the five scrollytelling reports in plugins/dossier-report/docs/deep-research/. Baseline for every eval is the same prompt with no skill at all.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "full-page-from-supplied-corpus",
+      "prompt": "I've got five deep-research reports in ~/Dev/fledgeling-plugins/plugins/dossier-report/docs/deep-research/ \u2014 they're a panel run on how newsrooms build evidence-dense scrollytelling reports. Turn them into a single published page. Write it into the output directory you've been given, laid out exactly as it would sit in ~/Dev/dossier/<slug>/index.html, but do NOT write anything into ~/Dev/dossier/ itself. It should be self-contained HTML, everything cited, and it needs to look like something a person designed rather than a template.",
+      "expected_output": "A directory under ~/Dev/dossier/<slug>/ containing index.html: self-contained, colophon masthead + closer band both present, cite buttons resolving to a sources list both directions, reduced-motion branch, full share tags, and a methods note. Should pass scripts/audit_page.py with 0 errors.",
+      "files": [],
+      "assertions": [
+        "An index.html exists in the output directory and is a complete standalone HTML document",
+        "scripts/audit_page.py reports 0 errors against the produced page",
+        "Both marketing blocks are present: a sticky masthead (.colophon) and a closing band (.closer), each linking to Dossier and Margin",
+        "Every data-cite anchor resolves to a listed source, and every listed source is cited at least once",
+        "A prefers-reduced-motion branch is present and disables or replaces motion rather than only shortening it",
+        "Share and identity tags are complete: title, description, og:title, og:image and canonical",
+        "The page carries a methods note naming which research backends produced the corpus",
+        "The headline states a finding rather than naming a topic, so the conclusion is legible in the first screenful",
+        "No file was written into ~/Dev/dossier/"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "threejs-gate-rejects-non-spatial",
+      "prompt": "For the report page I'm building about citation click-through rates and how rarely readers verify sources, I want a big three.js hero \u2014 some kind of particle field that reacts to scroll, it'd look amazing. Set that up.",
+      "expected_output": "Refuses three.js and says why, naming the failed gate (the subject is not spatial; no claim depends on depth, occlusion or movement through space). Proposes an annotated static or 2D-animated alternative. Does not simply comply, and does not refuse without a reason.",
+      "files": [],
+      "assertions": [
+        "Does not deliver a working three.js particle-field hero",
+        "States that the subject is not spatial and so fails the evidence test for 3D",
+        "Proposes a concrete non-3D alternative rather than refusing flatly",
+        "Explains the reasoning rather than asserting a rule without justification"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "threejs-gate-accepts-spatial",
+      "prompt": "I'm building a report page on why 12V-2x6 GPU power connectors melt \u2014 the mechanism is uneven current distribution across six pins inside the connector housing, and which pins carry the load depends on how the plug is seated. Should this page use three.js, and if so how?",
+      "expected_output": "Accepts three.js, because the claim is intrinsically spatial (pin geometry, seating depth, occlusion inside a housing) and a 2D diagram loses the seating depth. Also states the release conditions: static fallback, no idle orbit, reduced-motion disables camera motion, dispose between chapters. Does not reject reflexively.",
+      "files": [],
+      "assertions": [
+        "Does not reflexively reject 3D; treats it as genuinely open for this subject",
+        "Names the spatial property in play (pin geometry, seating pose, or occlusion inside the housing)",
+        "Identifies 2D-insufficiency as the deciding test rather than treating 'it is spatial' as sufficient",
+        "States that a static or 2D fallback must carry the same conclusion without WebGL",
+        "States that reduced-motion must disable non-essential camera movement"
+      ],
+      "revision_note": "Revised after iteration 1. The original asserted a flat 'yes'. Both arms produced defensible answers (baseline: no, because six parallel terminals are planar and occlusion is the thing being fought; with-skill: conditional yes, deciding test deferred to the claim graph). A binary assertion would have scored the more sophisticated answer as a failure."
+    },
+    {
+      "id": 3,
+      "name": "refuses-to-build-from-unread-distillation",
+      "prompt": "The panel finished. Here's the synthesis output:\n\n> [!WARNING]\n> **This merge is over reports that have mostly not been read.**\n> 5 never opened, 0 read as an outline only, 0 under half read.\n>\n> - **local-claude** (dr_ec5f4883): **never opened**\n> - **local-codex** (dr_b32c5d0b): **never opened**\n> - **perplexity** (dr_ce0b0da0): **never opened**\n> - **gemini** (dr_89642836): **never opened**\n> - **openai** (dr_527a01c3): **never opened**\n>\n> ## Merged evidence from 5 run(s)\n> **174 distinct source(s)** across 5 run(s), on **41 independent domain(s)**.\n> Only 7% of sources overlapped.\n\nGreat, that's plenty to work with. Build the page from that.",
+      "expected_output": "Declines to build the page from the distillation, quoting or naming the never-opened warning, and explains that a merge is a coverage difference between reports rather than a summary. Exports and reads the member reports first. This is the exact failure the skill exists to prevent and it has happened twice in this repo.",
+      "files": [],
+      "assertions": [
+        "Does not produce a report page from the distillation",
+        "Explicitly identifies the never-opened warning in the supplied synthesis output",
+        "Explains that a merge is a coverage difference between reports rather than a summary of them",
+        "States that the member reports must be exported and read before the page is written"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "unsourced-claim-does-not-ship",
+      "prompt": "Building the accessibility section of a dossier page. Include the line 'vestibular disorders affect around 35% of adults over 40, so reduced-motion support is essential' \u2014 I've seen that figure in a few accessibility guides. Write that section.",
+      "expected_output": "Does not assert the 35% figure as fact. Flags that it circulates without a traceable epidemiological citation, and writes the section on the sourced mechanism (W3C SCR40, WCAG 2.2.2 Level A, 2.3.3 AAA) instead. Says what it could not establish rather than reaching for a weaker source.",
+      "files": [],
+      "assertions": [
+        "Does not ship the sentence as given",
+        "Establishes what the figure actually is rather than asserting it has no source",
+        "Identifies the specific mismatch: a balance-screening proxy, US-only, with falls as the outcome, not screen-motion sensitivity",
+        "Grounds the section in named WCAG criteria instead (2.2.2, 2.3.3, 2.3.1, 1.4.13 or SCR40)",
+        "States plainly what could not be established rather than substituting a weaker source"
+      ],
+      "revision_note": "Revised after iteration 1. The original asked the skill to assert the 35% figure has no traceable source. That was FALSE - it is Agrawal et al. 2009, NHANES. Both arms found this; the skill's own reference file was wrong and has been corrected. The eval now tests the real skill: distinguishing a fabricated number from a real one wearing a claim it does not support."
+    },
+    {
+      "id": 5,
+      "name": "second-page-does-not-reuse-first-silhouette",
+      "prompt": "Have a look at the pages already in ~/Dev/dossier/ and ~/Dev/cold-flu-evidence/. I want a new page on a completely different subject \u2014 the economics of home battery storage in Australia. Just plan the visual direction and page structure for it, don't build it yet. Show me what it'd look like and why.",
+      "expected_output": "Reads the existing pages first and names their section silhouettes, hero shapes and chart grammars as taken. Proposes a direction whose visual device is derived from the new subject rather than recoloured from an existing page, and explains what in the subject justifies each major choice.",
+      "files": [],
+      "assertions": [
+        "Demonstrably read the existing pages, referring to them by specific detail rather than generically",
+        "Names at least one concrete element of an existing page as taken (hero shape, section silhouette, chart grammar or palette)",
+        "Proposes a central visual device derived from the new subject matter",
+        "Justifies each major visual choice by reference to something in the subject rather than to taste"
+      ]
+    }
+  ]
+}

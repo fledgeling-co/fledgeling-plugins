@@ -1,0 +1,16 @@
+{
+  "eval_id": 0,
+  "eval_name": "full-page-from-supplied-corpus",
+  "prompt": "I've got five deep-research reports in ~/Dev/fledgeling-plugins/plugins/dossier-report/docs/deep-research/ \u2014 they're a panel run on how newsrooms build evidence-dense scrollytelling reports. Turn them into a single published page. Write it into the output directory you've been given, laid out exactly as it would sit in ~/Dev/dossier/<slug>/index.html, but do NOT write anything into ~/Dev/dossier/ itself. It should be self-contained HTML, everything cited, and it needs to look like something a person designed rather than a template.",
+  "assertions": [
+    "An index.html exists in the output directory and is a complete standalone HTML document",
+    "scripts/audit_page.py reports 0 errors against the produced page",
+    "Both marketing blocks are present: a sticky masthead (.colophon) and a closing band (.closer), each linking to Dossier and Margin",
+    "Every data-cite anchor resolves to a listed source, and every listed source is cited at least once",
+    "A prefers-reduced-motion branch is present and disables or replaces motion rather than only shortening it",
+    "Share and identity tags are complete: title, description, og:title, og:image and canonical",
+    "The page carries a methods note naming which research backends produced the corpus",
+    "The headline states a finding rather than naming a topic, so the conclusion is legible in the first screenful",
+    "No file was written into ~/Dev/dossier/"
+  ]
+}

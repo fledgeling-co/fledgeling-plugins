@@ -1,0 +1,28 @@
+{
+  "eval_name": "refuses-to-build-from-unread-distillation",
+  "arm": "without_skill",
+  "passed": 4,
+  "total": 4,
+  "expectations": [
+    {
+      "text": "Does not produce a report page",
+      "passed": true,
+      "evidence": "declined on two independent grounds"
+    },
+    {
+      "text": "Identifies the never-opened warning",
+      "passed": true,
+      "evidence": "named all five as never opened"
+    },
+    {
+      "text": "Explains a merge is a coverage difference",
+      "passed": true,
+      "evidence": "noted the merge is deterministic and cannot detect contradiction"
+    },
+    {
+      "text": "States members must be exported and read first",
+      "passed": true,
+      "evidence": "proposed research_list then outline-first research_read"
+    }
+  ]
+}

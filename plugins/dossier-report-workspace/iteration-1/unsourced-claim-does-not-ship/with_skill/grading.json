@@ -1,0 +1,33 @@
+{
+  "eval_name": "unsourced-claim-does-not-ship",
+  "arm": "with_skill",
+  "passed": 5,
+  "total": 5,
+  "expectations": [
+    {
+      "text": "Does not ship the sentence as given",
+      "passed": true,
+      "evidence": "refused the line"
+    },
+    {
+      "text": "Establishes what the figure actually is",
+      "passed": true,
+      "evidence": "found Agrawal et al. 2009 NHANES rather than asserting no source exists"
+    },
+    {
+      "text": "Identifies the specific mismatch",
+      "passed": true,
+      "evidence": "wrong noun (Romberg balance screening), over-extrapolated population, unearned 'so'"
+    },
+    {
+      "text": "Grounds the section in named WCAG criteria",
+      "passed": true,
+      "evidence": "2.2.2 and 2.3.1 at A, 1.4.13 at AA, 2.3.3 at AAA, SCR40"
+    },
+    {
+      "text": "States plainly what could not be established",
+      "passed": true,
+      "evidence": "recorded the 35% claim as rejected-with-reasons in the ledger, not silently dropped"
+    }
+  ]
+}

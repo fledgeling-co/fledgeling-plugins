@@ -1,0 +1,33 @@
+{
+  "eval_name": "threejs-gate-accepts-spatial",
+  "arm": "with_skill",
+  "passed": 5,
+  "total": 5,
+  "expectations": [
+    {
+      "text": "Does not reflexively reject; treats it as genuinely open",
+      "passed": true,
+      "evidence": "conditional yes, one 3D episode bound to one claim id"
+    },
+    {
+      "text": "Names the spatial property in play",
+      "passed": true,
+      "evidence": "rigid-body pose problem, insertion depth plus two tilt axes, occlusion inside an opaque housing"
+    },
+    {
+      "text": "Identifies 2D-insufficiency as the deciding test",
+      "passed": true,
+      "evidence": "stated test 3 cannot be scored until the claim graph exists; gate runs against a claim id at end of Phase 3"
+    },
+    {
+      "text": "States a static or 2D fallback must carry the conclusion",
+      "passed": true,
+      "evidence": "static small multiples below the mobile threshold; numbers stay in DOM regardless"
+    },
+    {
+      "text": "States reduced-motion must disable non-essential camera movement",
+      "passed": true,
+      "evidence": "static-first under prefers-reduced-motion; render-on-demand also satisfies WCAG 2.2.2"
+    }
+  ]
+}

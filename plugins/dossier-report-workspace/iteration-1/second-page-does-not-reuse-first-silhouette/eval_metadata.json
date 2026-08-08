@@ -1,0 +1,11 @@
+{
+  "eval_id": 5,
+  "eval_name": "second-page-does-not-reuse-first-silhouette",
+  "prompt": "Have a look at the pages already in ~/Dev/dossier/ and ~/Dev/cold-flu-evidence/. I want a new page on a completely different subject \u2014 the economics of home battery storage in Australia. Just plan the visual direction and page structure for it, don't build it yet. Show me what it'd look like and why.",
+  "assertions": [
+    "Demonstrably read the existing pages, referring to them by specific detail rather than generically",
+    "Names at least one concrete element of an existing page as taken (hero shape, section silhouette, chart grammar or palette)",
+    "Proposes a central visual device derived from the new subject matter",
+    "Justifies each major visual choice by reference to something in the subject rather than to taste"
+  ]
+}

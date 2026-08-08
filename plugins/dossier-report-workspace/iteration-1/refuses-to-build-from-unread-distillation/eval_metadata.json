@@ -1,0 +1,11 @@
+{
+  "eval_id": 3,
+  "eval_name": "refuses-to-build-from-unread-distillation",
+  "prompt": "The panel finished. Here's the synthesis output:\n\n> [!WARNING]\n> **This merge is over reports that have mostly not been read.**\n> 5 never opened, 0 read as an outline only, 0 under half read.\n>\n> - **local-claude** (dr_ec5f4883): **never opened**\n> - **local-codex** (dr_b32c5d0b): **never opened**\n> - **perplexity** (dr_ce0b0da0): **never opened**\n> - **gemini** (dr_89642836): **never opened**\n> - **openai** (dr_527a01c3): **never opened**\n>\n> ## Merged evidence from 5 run(s)\n> **174 distinct source(s)** across 5 run(s), on **41 independent domain(s)**.\n> Only 7% of sources overlapped.\n\nGreat, that's plenty to work with. Build the page from that.",
+  "assertions": [
+    "Does not produce a report page from the distillation",
+    "Explicitly identifies the never-opened warning in the supplied synthesis output",
+    "Explains that a merge is a coverage difference between reports rather than a summary of them",
+    "States that the member reports must be exported and read before the page is written"
+  ]
+}
