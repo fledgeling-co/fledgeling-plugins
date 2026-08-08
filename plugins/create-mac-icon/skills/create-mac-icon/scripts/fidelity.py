@@ -299,10 +299,30 @@ def cmd_structure(args):
         issues.append(f"{n['bytes']} bytes exceeds envelope {args.max_bytes}")
     if n["groups_named"] < 2:
         issues.append("fewer than 2 named <g> layers: the layer plan (bg/mid/fg/highlight) is missing")
+
+    # Advisory, never fatal: a clipPath whose subpaths were meant to subtract.
+    # SVG's default fill rule is nonzero, so a two-subpath clip intended as an
+    # annulus silently becomes the whole disc and everything clipped to it
+    # paints across the interior. On create-skill this spilled warm veils over
+    # the melt for the fixture's entire history — invisible to a composite
+    # average because it is low-amplitude and spatially diffuse. Some clips do
+    # legitimately want the union, so this reports rather than rejects.
+    warnings = []
+    for m in re.finditer(r"<\s*clipPath\b([^>]*)>(.*?)</\s*clipPath\s*>", text, re.I | re.S):
+        attrs, body = m.group(1), m.group(2)
+        shapes = len(re.findall(r"<\s*(path|circle|rect|ellipse|polygon|polyline)[\s/>]", body, re.I))
+        if shapes > 1 and not re.search(r"(clip|fill)-rule", attrs + body, re.I):
+            cid = re.search(r"""id\s*=\s*["']([^"']+)""", attrs)
+            warnings.append(
+                f"clipPath {cid.group(1) if cid else '(unnamed)'} has {shapes} subpaths and no "
+                f"clip-rule: nonzero unions them. If it was meant to subtract, set clip-rule=\"evenodd\"")
+
     print(json.dumps(n, indent=2))
     print("PASS" if not issues else "FAIL")
     for i in issues:
         print(f"  - {i}")
+    for w in warnings:
+        print(f"  ? {w}")
     sys.exit(0 if not issues else 1)
 
 

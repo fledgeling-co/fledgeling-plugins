@@ -9,14 +9,37 @@
   create-skill README banner, 1600x520, rendered at 2x to 3200x1040.
 
   Subject-mined from the shipping icon rather than decorated to match it. The icon is take
-  A, the layered vector master, whose whole construction sits on one dimetric ground plane
-  with a single foreshortening constant, KY = 0.515, and whose melt takes the pour at a
-  pool centred on (512, 646) in the icon's own 1024 space.
+  C1, a 1024 raster with no build constants, so every number below was MEASURED off the
+  artwork rather than read out of an engine. Its ground plane is a good deal flatter than
+  take A's and its key sits further round behind the subject:
+
+    KY    0.399   the plane's foreshortening. Fitted as an axis-aligned conic to the pool
+                  surface's own boundary, traced per column on saturation and covering
+                  both flanks out to |x-cx|/rx = 0.99. The same fit run on take A, whose
+                  truth is known, returns cx 512.0 (true 512), rx 212.4 (true 211) and
+                  KY 0.527 (true 0.515) - so the estimator is good to about +2.5% when the
+                  arc reaches the extremities, and collapses (-16%) when it does not. One
+                  flank alone will not determine it; masking on warm pixels will not either,
+                  because the pour is warm too.
+    POOL  509,541 the pool ellipse's centre in the icon's own 1024 space, rx 209, ry 83.
+                  Confirmed against the render: an ellipse drawn on these numbers lands on
+                  the melt's boundary, and the same ellipse at take A's 0.515 rides up onto
+                  the lit far wall.
+    LIGHT -0.43,-0.90  the key's direction ON THE CANVAS, as left/up. From a shadow-
+                  rejecting linear fit to the blue channel of the tile's ground (blue is the
+                  channel the melt's warm bounce contaminates least). Take A measures
+                  -0.81,-0.58 by the same fit: C1's key has swung round behind the subject
+                  and is much softer. Measured back off this render the bench reads
+                  -0.42,-0.91, so the bench and the tile are lit from the same place; the
+                  take-A banner it replaces read -0.94,-0.34 against its own -0.81,-0.58.
+    BASE  510,747 the foot's ground-contact centre. The spill hangs off this and not off
+                  the pool, because between takes the pool moved up the plane and the foot
+                  did not.
 
   The banner is the rest of that bench. The rings are the pour's disturbance still
-  spreading: concentric ellipses on the SAME plane at the SAME 0.515, centred on the
+  spreading: concentric ellipses on the SAME plane at the SAME 0.399, centred on the
   projected position of the icon's own pool, so they leave the tile at the exact place the
-  drop lands and run off both edges of the frame. Everything here is derived from those two
+  drop lands and run off both edges of the frame. Everything here is derived from those
   numbers in the script below, so any change to the icon's KY, to its pool depth or to the
   icon's placement is re-derived automatically rather than re-eyeballed.
 
@@ -57,12 +80,17 @@
 <body>
   <svg class="bench" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- one soft top-left light across the bench, the icon's own light model extended -->
-      <radialGradient id="light" cx="290" cy="70" r="1520" gradientUnits="userSpaceOnUse">
+      <!-- one soft key across the bench, the icon's own light model extended. A LINEAR ramp
+           along the measured LIGHT vector, not a radial hotspot: the key is far off up the
+           plane, and a radial gradient placed anywhere near a 1600x520 frame throws a
+           divergent field whose direction across the frame is its own geometry rather than
+           the azimuth you gave it. Endpoints are set in the script - do not hand-place. -->
+      <linearGradient id="light" gradientUnits="userSpaceOnUse"
+                      x1="551" y1="-260" x2="1048" y2="780">
         <stop offset="0" stop-color="#FFFDF8"/>
         <stop offset="0.44" stop-color="#F5F0E6"/>
         <stop offset="1" stop-color="#E3DACA"/>
-      </radialGradient>
+      </linearGradient>
       <!-- looking into a vessel: the far wall in shade, paling toward the near lip -->
       <linearGradient id="void" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#9C8F78" stop-opacity=".55"/>
@@ -100,7 +128,7 @@
   </svg>
 
   <div class="lockup">
-    <img class="icon" src="icon.png" alt="">
+    <img class="icon" src="icon-engineC-4a73ea-masked.png" alt="">
     <div>
       <div class="wordmark">create-skill</div>
       <div class="tagline">Build a skill that does not exist yet, and <b>prove it beats no skill at all</b>.</div>
@@ -109,13 +137,37 @@
 
   <script>
     // Everything on this bench is derived from the icon's own constants, so the plane
-    // cannot tilt out of register with the artwork sitting on it.
-    const KY = 0.515;            // build_icon.py: the one foreshortening constant
-    const POOL = [512, 646];     // build_icon.py: CX, CY + POOL_D - where the drop lands
+    // cannot tilt out of register with the artwork sitting on it. Take C1 is a raster and
+    // ships no constants, so these four were measured off it; see the header for how, and
+    // re-measure rather than nudge them if the icon is ever replaced again.
+    const KY = 0.399;            // the plane's foreshortening, fitted to the pool ellipse
+    const POOL = [509, 541];     // pool centre, icon space - where the drop lands
+    const BASE = [510, 747];     // the foot's ground contact - where the spill sits
+    const LIGHT = [-0.43, -0.90];// the key's azimuth on the canvas, measured off the tile
     const ICON_LEFT = 112, ICON_SIZE = 300;
     const s = ICON_SIZE / 1024;
+    const ICON_TOP = (520 - ICON_SIZE) / 2;
     const ox = ICON_LEFT + POOL[0] * s;
-    const oy = (520 - ICON_SIZE) / 2 + POOL[1] * s;
+    const oy = ICON_TOP + POOL[1] * s;
+    const bx = ICON_LEFT + BASE[0] * s;
+    const by = ICON_TOP + BASE[1] * s;
+
+    // The bench's key is the icon's, extended. LIGHT is measured on the tile in CANVAS
+    // terms - it already carries the plane's foreshortening, so it transfers to the bench
+    // as it stands. The ramp runs through the frame's centre along that vector, its half
+    // length set so the stops span exactly the frame's own projection onto it: the corner
+    // nearest the key gets the first stop, the far corner the last, whatever the vector.
+    // A radial hotspot cannot do this job - anywhere near a frame this wide it throws a
+    // divergent field whose average direction is its own geometry, and the sweep that
+    // proved it ran from left 0.27 to left 0.89 without ever passing through the 0.43 the
+    // icon actually measures.
+    const CX = 800, CY = 260;
+    const H = Math.abs(CX * LIGHT[0]) + Math.abs(CY * LIGHT[1]);
+    const lamp = document.getElementById('light');
+    lamp.setAttribute('x1', (CX + LIGHT[0] * H).toFixed(1));
+    lamp.setAttribute('y1', (CY + LIGHT[1] * H).toFixed(1));
+    lamp.setAttribute('x2', (CX - LIGHT[0] * H).toFixed(1));
+    lamp.setAttribute('y2', (CY - LIGHT[1] * H).toFixed(1));
 
     const ell = (cx, cy, r, attrs) =>
       `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${r.toFixed(1)}" ` +
@@ -132,8 +184,10 @@
       out += ell(ox, oy - 3, r, `fill="none" stroke="#FFFFFF" stroke-opacity="${(a * 1.5).toFixed(3)}" stroke-width="2"`);
     }
 
-    // the icon's own ground spill, continuing past the edge of its tile
-    out += ell(ox, oy + 26, 300, 'fill="url(#spill)"');
+    // the icon's own ground spill, continuing past the edge of its tile. Hung off the
+    // foot, not the pool: on C1 the melt sits 105 units higher in the tile than take A's
+    // did, but the vessel still stands in the same place.
+    out += ell(bx, by, 300, 'fill="url(#spill)"');
 
     // Further out on the same plane, one flask has already been filled and is cooling.
     // Cut by the right edge, so the bench is a place rather than a scene. It is built the
@@ -145,7 +199,13 @@
     // being larger than it, which reads as a second scene rather than the same bench.
     const F = { cx: 1570, cy: 238, r: 72, wall: 19, h: 44 };
     const ri = F.r - F.wall;
-    out += ell(F.cx + 10, F.cy + F.h + 14, F.r * 1.04,
+    // How far the melt and the shaded far wall sit below the aperture, as fractions of the
+    // APERTURE'S OWN ry rather than in flat pixels. On a flatter plane a fixed drop pushes
+    // the melt clean out of its own clip and the vessel reads as a dark ring; these keep
+    // the visible lune the same share of the cavity whatever KY is.
+    const apRy = ri * KY;
+    const dVoid = apRy * 0.55, dMelt = apRy * 0.95, dShadow = F.r * KY * 0.38;
+    out += ell(F.cx + 10, F.cy + F.h + dShadow, F.r * 1.04,
                'fill="#5F5138" fill-opacity=".22" filter="blur(20px)"');
     // the body: the mouth's near arc swept straight down
     out += `<path d="M ${F.cx - F.r} ${F.cy} A ${F.r} ${F.r * KY} 0 0 0 ${F.cx + F.r} ${F.cy} ` +
@@ -155,12 +215,13 @@
     out += `<clipPath id="mouth">${ell(F.cx, F.cy, ri, '')}</clipPath>`;
     out += `<g clip-path="url(#mouth)">` +
            ell(F.cx, F.cy, ri, 'fill="#C9BCA2"') +
-           ell(F.cx, F.cy + 15, ri, 'fill="url(#void)"') +
-           ell(F.cx, F.cy + 26, ri, 'fill="url(#melt)"') +
+           ell(F.cx, F.cy + dVoid, ri, 'fill="url(#void)"') +
+           ell(F.cx, F.cy + dMelt, ri, 'fill="url(#melt)"') +
            `</g>`;
-    out += ell(F.cx, F.cy + 26, ri * 2.6, 'fill="url(#bounce)"');
-    // the lit lip is the UPPER arc only: the key is up and to the left, so a full ring
-    // would put a highlight on the near rim where the melt is already lighting it
+    out += ell(F.cx, F.cy + dMelt, ri * 2.6, 'fill="url(#bounce)"');
+    // the lit lip is the UPPER arc only: the key is up the plane and behind, so a full ring
+    // would put a highlight on the near rim where the melt is already lighting it. C1's key
+    // is 29 deg further behind than take A's, which only makes the upper arc more right.
     out += `<path d="M ${F.cx - F.r} ${F.cy} A ${F.r} ${F.r * KY} 0 0 1 ${F.cx + F.r} ${F.cy}" ` +
            `fill="none" stroke="url(#lip)" stroke-width="3.4"/>`;
 

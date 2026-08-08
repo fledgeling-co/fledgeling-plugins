@@ -128,6 +128,24 @@ the end shows before/after rows.
 
 ## Boundary conditions
 
+- **Know which of two things you are making, because they have opposite rules.**
+  A *production Mac app icon* ships to Icon Composer, which owns blur, shadow,
+  specular, translucency and the mask — Apple's own guidance is to leave them
+  out, and a baked rounded mask damages system highlight rendering. Author one
+  of those flat, opaque and layered (four groups is the working ceiling, from
+  WWDC25 session 361), unmasked, and validate it across the six appearance
+  variants. Bake the glass and the system applies it a second time.
+
+  A *decorative icon* — a README mark, a marketplace tile, anything rendered as
+  a PNG by something that is not macOS — has no compositor downstream, so the
+  material has to be in the file. Every icon in this marketplace is this second
+  kind, which is why `material-recipes.md` reads the way it does. Do not apply
+  the Icon Composer rules to one of these; you would strip the material and
+  nothing would put it back.
+
+  When a commission is genuinely both, deliver both: a flattened
+  reference-fidelity preview and a layered production package. Provenance for
+  the Apple rules: `docs/deep-research/visual-analysis/FINDINGS.md` §4.
 - **mac-design-studio installed** (diolog-plugins): it covers full app-UI
   design and delegates icon work to the same pipeline this skill carries;
   for pure icon commissions this skill is the more complete tool (it adds

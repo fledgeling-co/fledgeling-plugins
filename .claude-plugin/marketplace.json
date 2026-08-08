@@ -54,7 +54,7 @@
     {
       "name": "compaction-quality",
       "description": "Write a context-compaction summary that survives being the only thing the next session has, and prove it. Rebuilt on four deep-research reports plus a new measurement: across 121 real /compact events, rejected approaches survive at 0.3%, standing constraints at 33.8%. Two-tier artifact (a pinned verbatim tier of constraints, corrections, dead ends and exact identifiers, then a narrative tier), extract-then-compress-then-verify ordering, and compaction framed as a last resort against measured alternatives. Ships a deterministic retention scorer and a head-to-head benchmark against Claude Code's own /compact whose baseline arm is free.",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -76,7 +76,7 @@
     {
       "name": "create-mac-icon",
       "description": "Create a macOS app icon end-to-end with a measured fidelity loop. Direction chosen from a 532-icon corpus catalogue (Tahoe gel-glass grammar, 8 direction families, 26-device subject-mining bank, 12-point rubric), three generation engines (hand-authored layered SVG master via build script, Arrow vector take, corpus-referenced raster takes), a written audit.html contact sheet with retina renders and losers scored \u2014 then scripts/fidelity.py scores the SVG master against the winning raster reference at 1024/256/128/32/16 (structure gate, multi-metric score, Pareto accept/reject) and a bounded one-edit-class-per-round loop closes the material gap instead of eyeballing it. Confirmed constructions feed references/material-recipes.md so the skill improves with every commission.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -98,7 +98,7 @@
     {
       "name": "create-skill",
       "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
