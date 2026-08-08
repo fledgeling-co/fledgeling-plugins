@@ -639,6 +639,150 @@ is the one it scores as perfectly isotropic. Cost is about 80 lines of numpy
 (`work/m1.py`, `work/m3.py`–`m5.py`); the payoff here was a two-line deletion that
 raised SSIM at all five sizes.
 
+## Round 13 (`loop-runs/r12`) — the detail round: REJECTED. The iron's face was dead flat, and the fix that is right at 1024 is a different filter at 16
+
+*Bookkeeping, continuing r11's convention: round N here is `loop-runs/r(N-1)`, so this is
+the entry for `loop-runs/r12`, measured against `loop-runs/r11`.*
+
+**Where the gap was, found from the artifacts.** Splitting the 1024 Sobel accounts by
+region, in the master's own frame with the reference read through the same masks
+(`work/d1.py`), the deficit is not evenly spread. Reference edges the master misses:
+un-planed ground **21448**, iron top face **6138**, curl 2413, front face 1504; trued
+ground 11. The ground is the biggest pool and is r11's settled territory. The **top face
+is the only pool with a clean trade**: 5.3% of C2's face pixels clear the metric's Sobel
+threshold against **0.0%** of ours, so there are 6138 misses there and **not one false
+positive to give up in exchange**. On a 12px high-pass the face runs sd **0.0033 against
+C2's 0.0338**, a ten-fold deficit, and gradient density 2.4% against 67.4%. r08 diagnosed
+exactly this and authored the answer — `relief_filter`, `PIT_BF`, `PIT_SCALE`,
+`frame_azimuth`, `MATRIX_TOP_INV` — and then wired **none of it** to anything, so the
+face has shipped as a gradient plus four soft blotches ever since.
+
+**What was measured off C2 before authoring.** Two patches rotated into the block's own
+frame and read the way r11's recipe says to read a texture (`work/d3.py`), then the same
+statistics taken off `rsvg-convert`'s own output so the constants are calibrated in the
+scoring renderer rather than in theory (`work/d4.py`):
+
+| | C2 mid | C2 lead | master before | master after |
+|---|---|---|---|---|
+| 12px high-pass sd | 0.0133 | 0.0189 | 0.0041 | **0.0116** |
+| …as a fraction of local L | 5.7% | 7.0% | 1.7% | **4.7%** |
+| centroid, along the blade (c/px) | 0.149 | 0.105 | 0.056 | **0.119** |
+| centroid, across it (c/px) | 0.180 | 0.189 | 0.119 | **0.156** |
+| anisotropy, d/dy ÷ d/dx | 1.14 | 1.41 | 1.93 | **1.27** |
+
+Two of r08's three constants survive that and one does not. `PIT_SCALE = 0.50` renders at
+5.9% of L on a flat L 0.246 patch, inside C2's 5.7–7.0% band: **kept, now measured rather
+than asserted**. `PIT_BF = (0.55, 0.55)` is wrong twice — about 40% too fine on both axes,
+and **isotropic, which the reference is not**. C2's iron face is mildly elongated *along
+the blade*, and the comment calling it "isotropic: pitting in cast stone has no direction"
+was reasoning about the material instead of reading it. `(0.30, 0.55)` renders at centroid
+0.122 / 0.192 and anisotropy 1.41 — C2's on all three counts.
+
+**What changed.** `PIT_BF` 0.55/0.55 → **0.30/0.55**, and one filter wired: the block's two
+faces are one stone with one finish, so they take **one** relief field, run in the top
+face's own frame via the r02 idiom (`transform` + filter on the outer group,
+`MATRIX_TOP_INV` on the contents) so the grit's elongation follows the blade and every
+path, gradient and clip below comes out exactly where it was. Lit by `frame_azimuth`, so
+it is the scene's one key re-expressed in the block's frame and cannot introduce a second
+source. No paths added: 1042 before and after, +1806 bytes, filters 11 → 12. Structure
+PASS.
+
+| size | before (r11) | after (r12) | delta |
+|---:|---:|---:|---:|
+| 1024 | 0.4585 | **0.4536** | −0.0049 |
+| 256 | 0.4760 | **0.4754** | −0.0006 |
+| 128 | 0.5188 | **0.5198** | +0.0010 |
+| 32 | 0.7874 | **0.7854** | −0.0020 |
+| 16 | 0.8377 | **0.8299** | −0.0078 |
+
+Pareto gate **REJECT at −0.0143 net**, flagged on 16px. The candidate is left in place.
+
+**The first cost, and it is the round's real finding: the relief is mean-neutral only
+where its noise is adequately sampled.** Rendering this exact SVG against a control with
+the one filter attribute stripped (`work/d8.py`) isolates it. The block's own mean L moves
+−0.0010 at 1024, −0.0006 at 256, −0.0009 at 128 — the `k1 = 1/sin(elevation)`
+normalisation doing its job to under half a percent — and then **−0.0106 at 32 and −0.0201
+at 16**, a 7.3% darkening of the subject. `rsvg-convert` runs filters at the OUTPUT
+resolution, so at 16px one device pixel spans 64 user units and a 0.30 c/unit turbulence
+is sampled at a twentieth of its Nyquist rate. `k1 = 1/sin(elevation)` is a **flat-field
+identity**, and an undersampled height field is not flat: its normals are aliasing noise,
+and diffuse lighting of random normals averages *below* the flat value because the cosine
+falloff is concave. The whole 16px loss is that darkening — ssim 0.6432 → 0.6235 and
+lum_delta 0.1153 → 0.1201, with `edge_f1` pinned at 1.000 and `mask_iou` unmoved.
+
+**The second cost: the composite's edge term pays only for the gradient distribution's
+TAIL, and a Gaussian height field has none.** On C2's face core (eroded 26px, so this is
+face and not mask rim) the master now matches the bulk and misses the extreme: Sobel
+magnitude mean **0.083 against 0.103**, p90 **0.148 against 0.203**, then p99 **0.219
+against 0.786**, p99.9 **0.274 against 1.615**, and above the metric's own 0.40 threshold
+**0.00% against 3.81%** (`work/d5.py`). So the grit pays SSIM's full charge for the
+variance it adds — global ssim −0.0109 at 1024, of which the block's own 13% of pixels
+supplies −0.0772 — and collects nothing on 1024 recall: the top face's 6138 misses are
+**exactly unchanged**. Clustering C2's tail says why chasing it further would be a
+different round anyway (`work/d6.py`): it is not distributed pitting but **one incised
+scribe line running along the blade plus a scatter of nicks at the leading corner**, and
+the two largest "components" are the hone and the block's own edge leaking through a mask
+cut from geometry 1.5 cells out of register. Our own scribe lines are already authored at
+that bearing, at 0.08 and 0.045 opacity — sub-threshold — but they are ~250px of line
+against a 6138-pixel pool, and matching a reference edge needs registration the block does
+not have.
+
+**Where it did pay.** `edge_f1` **rises at 256 (0.2534 → 0.2595), 128 (0.4496 → 0.4579)
+and 32 (0.8954 → 0.8980)** and is pinned at 1.000 at 16 — at the sizes where the grit's
+~5–8px period lands near one cell it reads as real edge, and 128 is the one size that
+gains net (+0.0010). It falls only at 1024 (0.1267 → 0.1256), where the added variance
+dilutes precision without buying recall.
+
+**The disagreement with the gate, stated plainly.** The rubric does not move against this
+edit and in two places moves with it. Figure-ground at 128px is **unchanged** — 2.21:1
+against the un-planed field, 3.32 → 3.33:1 against the trued. The 16px read **widens**,
+spread 0.6017 → 0.6152. The single light model is unmoved to the third digit: TL 1.409× of
+the un-planed mean against BL 0.916×. Polarity is **+0.145, bit-for-bit r11's**, by
+`measure.py icon.png 33.0 543 604 640`. `self_contrast` clears with room at both small
+sizes — 32px 0.6139 against a 0.5770 floor, 16px 0.6152 against 0.5656 — so the contrast
+budget never bound; this round never went near it, the edit being a pure modulation on a
+surface that owns neither p90 nor p10. And the material is straightforwardly *more* right
+than it was: the face reads as worked cast iron at 1024 instead of a fill, at C2's own
+measured amplitude, frequency and anisotropy. The gate rejects it anyway, and both of its
+reasons are honest ones — but note that the 16px "gain" in `self_contrast` is bought by
+the same undersampling artefact that costs the round, i.e. the rubric's own number was
+flattered by a bug. That is worth more than the point: **a small-size contrast reading can
+be improved by a rendering fault, so it has to be read against a control render, not
+against the previous round.**
+
+**Handoff, named and measured.** The construction is right at 1024 and wrong at 16, and the
+repair is a filter change rather than a material one: make the modulation **linear in the
+noise** so its mean survives undersampling — `feTurbulence` mapped through a linear
+`feComponentTransfer` centred on 1.0 and multiplied in — instead of `feDiffuseLighting`,
+whose normal operator is the nonlinearity that breaks. That trades away the "lit by the
+scene's own key" property for a directionless amplitude modulation, which is neutral
+rather than wrong, and it is a construction round's business, not a detail round's. Still
+open behind it, unchanged: the un-planed ground's **21448** missed reference edges, and
+r11's isotropic floor, which wants the same filter and will inherit the same defect.
+
+**Reusable construction — "a height-field relief is mean-neutral only where its noise is
+sampled, so calibrate it in the scoring renderer and then re-check it at the smallest
+size you ship."** Three parts, all confirmed here. First, the calibration: paint a flat
+patch at the target surface's own luminance, run the filter over it, render it in the
+renderer that will score it, and read back the same three statistics you measured on the
+reference — high-pass sd **as a fraction of local L** (a multiplicative relief tracks
+luminance for free, so depth is the invariant, not amplitude), the 1-D spectral centroid
+**along and across** the surface's own axis, and the anisotropy as the ratio of
+first-difference sd across to along. Three numbers, three constants, no tuning. Second,
+the trap: `feComposite arithmetic k1 = 1/sin(elevation)` over `feDiffuseLighting` is a
+*flat-field* identity. It holds wherever the height field is resolved and fails wherever
+it is not, and since SVG filters are rasterised at output resolution, the same filter is
+neutral to 0.1% at 1024 and darkens its subject 7% at 16. **Always render the control —
+the same SVG with the filter attribute stripped — at every size you score, and difference
+the subject's own mean.** Nothing else catches it: at 1024 it is invisible, and at 16 it
+looks like a legitimate contrast gain. Third, the budgeting: before spending a round on
+surface texture, check the reference's gradient distribution **at the metric's own
+threshold**, not its sd. If the reference's edges live in a tail that noise cannot
+produce — p99 three times yours while the mean matches — then texture will pay SSIM in
+full and collect nothing on edge recall, and the honest expectation for the round is a
+better-looking master and a worse number. Cost here: about 260 lines of numpy,
+`work/d1.py`–`d9.py`.
+
 ## The other takes
 
 **Three engines, all four takes on the sheet.** Engine A now takes 12/12. Engine C raster took 9/12 (C1) and 7/12 (C2); both stay on disk as the reference takes the rebuild was judged against, and both hard-fail #10 as flat pre-masked rasters — the corpus's single most common failure. C1 additionally fails #11: its two sides sit only 0.09 L apart, so its improvement is present but too faint to be the read. Engine B (Arrow vector) came last at 5/12 with hard fails on silhouette and 16px: the blade forked into a wishbone and the vermilion hone line, the entire signature, was absent. Its steeper, flatter diagonal was the one thing worth salvaging.
