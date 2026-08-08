@@ -53,8 +53,8 @@
     },
     {
       "name": "compaction-quality",
-      "description": "Write a context-compaction summary that survives being the only thing the next session has, and score it against the transcript it replaced. Use this whenever someone is about to run /compact, asks what to keep before compacting, wants to hand a long session off to a fresh one, writes a handover or continuation note, or asks why a session \"forgot\" something after compaction. Also use it when someone asks how good their compaction summaries are, wants to measure or improve them, or is tuning when auto-compaction fires. Built on a measurement of 225 real compaction events: /compact retains a median 12.5% of user corrections against a median of 5 per session, which is the one retention class where a miss makes the next session repeat a mistake the user already paid to fix, rather than merely re-read a file. Ships scripts/score_retention.py, a deterministic exact-match scorer with a single-summary mode and a --scan-history mode, so \"this summary is good\" is a number and a list of dropped corrections rather than a feeling.",
-      "version": "1.0.0",
+      "description": "Write a context-compaction summary that survives being the only thing the next session has, and prove it. Rebuilt on four deep-research reports plus a new measurement: across 121 real /compact events, rejected approaches survive at 0.3%, standing constraints at 33.8%. Two-tier artifact (a pinned verbatim tier of constraints, corrections, dead ends and exact identifiers, then a narrative tier), extract-then-compress-then-verify ordering, and compaction framed as a last resort against measured alternatives. Ships a deterministic retention scorer and a head-to-head benchmark against Claude Code's own /compact whose baseline arm is free.",
+      "version": "2.0.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

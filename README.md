@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="8 skills" src="https://img.shields.io/badge/skills-8-C4622D">
+  <img alt="9 skills" src="https://img.shields.io/badge/skills-9-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -72,7 +72,7 @@ The surgical counterpart to ship-armada: after work happens anywhere in the port
 
 ### [compaction-quality](plugins/compaction-quality/README.md)
 
-Writes context-compaction summaries that survive being the only thing the next session has, built on a 225-event measurement of what actually gets lost (five user corrections per session; four die). Ships a deterministic scorer so a good summary is a number, not a feeling.
+Writes context-compaction summaries that survive being the only thing the next session has. Rebuilt on four research reports and a fresh measurement across 121 real compaction events: rejected approaches survive at 0.3%, standing constraints at 33.8%. Ships a deterministic scorer and a head-to-head benchmark against the built-in /compact whose baseline arm costs nothing.
 
 <br clear="left" />
 
@@ -81,6 +81,14 @@ Writes context-compaction summaries that survive being the only thing the next s
 ### [improve-skill](plugins/improve-skill/README.md)
 
 The pipeline that built half this marketplace, as a skill. Point it at an existing skill plus your complaints; it runs paid and free deep research, rebuilds the skill with every change traced to evidence, proves the rebuild with comparative evals and a blind multi-family judge panel, then ships the full brand treatment. You choose the name and the icon concept before anything gets generated.
+
+<br clear="left" />
+
+<a href="plugins/create-skill/README.md"><img src="plugins/create-skill/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [create-skill](plugins/create-skill/README.md)
+
+The sibling of improve-skill, for when there is nothing to improve yet. It interviews you properly first, because an unstated intention is the usual reason a new skill misses, then researches the domain, builds through skill-creator with every rule traced to evidence, and proves it against the honest baseline: the same prompts with no skill at all.
 
 <br clear="left" />
 
