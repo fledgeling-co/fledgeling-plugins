@@ -1,0 +1,5 @@
+C2   thirds 0.688 0.642 1.030   trough 0.765  u8 0.950
+  baseline   thirds 0.976 0.874 0.947  trough 0.964  u8 0.977  |resid|0-24 0.0529  thirds-resid 0.604 | 32 FP 20 FN 13 f1 0.9171 | 16 FP  0 FN  1 f1 0.9940 | 1024 |d| 0.0000
+  flat55     thirds 0.871 0.865 0.812  trough 0.846  u8 0.947  |resid|0-24 0.0278  thirds-resid 0.624 | 32 FP 21 FN 13 f1 0.9161 | 16 FP  0 FN  1 f1 0.9940 | 1024 |d| 0.0007
+  fade0to1   thirds 0.881 0.862 0.809  trough 0.842  u8 0.951  |resid|0-24 0.0270  thirds-resid 0.634 | 32 FP 21 FN 13 f1 0.9152 | 16 FP  0 FN  1 f1 0.9940 | 1024 |d| 0.0004
+  fade1to0   thirds 0.907 0.867 0.810  trough 0.871  u8 0.957  |resid|0-24 0.0299  thirds-resid 0.664 | 32 FP 21 FN 13 f1 0.9161 | 16 FP  0 FN  1 f1 0.9940 | 1024 |d| 0.0006
