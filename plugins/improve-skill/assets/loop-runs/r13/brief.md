@@ -4,7 +4,7 @@ icon is being iterated toward a diffusion-raster reference until its material
 quality matches. Each round makes ONE class of edit, scores the result at five
 sizes against the reference, and a Pareto gate accepts or rejects it.
 
-This is round r13 on this fixture. The round's edit class is detail.
+This is round r13 on this fixture. The round's edit class is small-size repair.
 
 Why the loop exists: hand-authored masters reliably win composition and
 small-size legibility but lose material richness (volumetric shading, lighting,
@@ -19,7 +19,7 @@ Working directory: /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skil
 - `icon.svg` — the current master (generated).
 - `icon-engineC-f5665d-2.png` — THE REFERENCE this round scores against.
 - `icon-notes.md` — the decision log across prior rounds. Read its tail first.
-- `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r12/` — the baseline this round is measured against: `score.json`,
+- `/Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r11/` — the baseline this round is measured against: `score.json`,
   `residual-1024.png` (bright = disagreement), `edges-candidate.png`,
   `edges-reference.png`, `candidate-1024.png`, `reference-1024.png`.
 - `measure.py` — split-polarity check; the trued side must read brighter than the un-planed side
@@ -27,7 +27,7 @@ Working directory: /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skil
 - `audit.html` — the contact sheet; the A row is this master's
 
 
-Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (315KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
+Do not read these files; they are generated output, they are large enough to exhaust the context window, and nothing in this round needs their text: `icon.svg` (225KB). Judge the artwork from its PNG renders and edit the build script. If you must confirm a fragment, grep it or read a bounded byte range.
 </fixture>
 
 <baseline_numbers>
@@ -35,11 +35,11 @@ Current master vs the reference:
 
 | size | composite | lum_delta | ssim | edge_f1 |
 |---:|---:|---:|---:|---:|
-| 1024 | 0.4927 | 0.1281 | 0.6170 | 0.3009 |
-| 256 | 0.4713 | 0.1238 | 0.5807 | 0.2494 |
-| 128 | 0.5153 | 0.1214 | 0.5593 | 0.4460 |
-| 32 | 0.7858 | 0.1171 | 0.6057 | 0.8927 |
-| 16 | 0.8381 | 0.1126 | 0.6384 | 1.0000 |
+| 1024 | 0.4585 | 0.1284 | 0.6415 | 0.1267 |
+| 256 | 0.4760 | 0.1248 | 0.5933 | 0.2534 |
+| 128 | 0.5188 | 0.1225 | 0.5697 | 0.4496 |
+| 32 | 0.7874 | 0.1190 | 0.6129 | 0.8954 |
+| 16 | 0.8377 | 0.1153 | 0.6432 | 1.0000 |
 
 Metric tier: numpy (no torch: luminance+ssim+edges only).
 
@@ -51,8 +51,8 @@ CONTRAST BUDGET, and it binds. The reference carries LESS contrast than this
 master at small sizes, so converging on it lowers yours, and the gate enforces
 an absolute floor at 6% below the baseline's:
 
-  32px: your master 0.613, the reference 0.449, floor 0.576
-  16px: your master 0.609, the reference 0.427, floor 0.573
+  32px: your master 0.614, the reference 0.449, floor 0.577
+  16px: your master 0.602, the reference 0.427, floor 0.566
 
 This is a real conflict, not a trap: the composite asks you to match the
 reference and the rubric refuses to let this icon go mushy at menu-bar size.
@@ -81,7 +81,7 @@ The full recipe table is at /Users/lukerhodes/Dev/fledgeling-plugins/plugins/cre
 </prior_learnings>
 
 <task>
-Make ONE class of edit: detail. In scope: micro-geometry, texture accents, local control points, small ornament that survives at 128px. Out of scope: the overall silhouette, palette, and light model.
+Make ONE class of edit: small-size repair. In scope: simplifying or strengthening features that alias or smear at 32 and 16px, and only those. Out of scope: anything that changes the 1024 read beyond tolerance.
 
 Start by finding where the gap actually is, from the artifacts rather than from
 assumption: open the residual map, the two edge maps, and the candidate and
@@ -96,8 +96,8 @@ Run the instrument as you go:
 
     cd /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets
     python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py structure --candidate icon.svg --max-paths 3000 --max-bytes 350000
-    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py score --candidate icon.svg --reference icon-engineC-f5665d-2.png --outdir /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r13 --label "r13 detail"
-    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py gate --candidate /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r13/score.json --baseline /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r12/score.json
+    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py score --candidate icon.svg --reference icon-engineC-f5665d-2.png --outdir /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r13 --label "r13 small-size repair"
+    python3 /Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-mac-icon/skills/create-mac-icon/scripts/fidelity.py gate --candidate /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r13/score.json --baseline /Users/lukerhodes/Dev/fledgeling-plugins/plugins/improve-skill/assets/loop-runs/r11/score.json
 
 The gate is the round's verdict, and the harness applies it. If it REJECTs,
 LEAVE your candidate in place and report the rejection with its numbers; the
@@ -129,7 +129,7 @@ score is a proxy for a judgment a human will make on the render.
 - Edit `build_icon.py` only. Regenerate the SVG and its PNG renders from it.
 - You have no git tools and no network; do not attempt either.
 - Do not delegate to subagents. This is a single track; spawn none.
-- Deliver what was asked, at the scope intended: one detail round on this
+- Deliver what was asked, at the scope intended: one small-size repair round on this
   fixture. Make routine judgment calls yourself. If the brief looks mistaken or
   a better approach exists, say so in a sentence and carry on with the round as
   asked rather than quietly widening or transforming it.

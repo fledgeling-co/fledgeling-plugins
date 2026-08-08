@@ -65,6 +65,37 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · create-skill A vs C1 vs C2, reviewed by eye** — four differences a
+  human saw immediately and the metric stack almost entirely missed. Worth
+  reading as a set, because together they are what "the raster looks better"
+  usually means.
+  **(a) Vibrancy is emission, not saturation.** Measured, the shipped vector's
+  accent was *more* saturated than both rasters (0.673 against 0.552) and still
+  read as muted, because it was less bright (V 0.801 against 0.871) and, more
+  importantly, was a filled shape rather than a light source. The rasters' pool
+  has a hot core that lights the inner wall above it. Reach for the emissive
+  interior recipe, not the saturation slider: a bright core under a translucent
+  surface, a bloom layer, and visible bounce onto the surfaces it faces.
+  **(b) A primitive silhouette reads as generic.** Both rasters cut a notch into
+  the vessel's outer wall — a parting key, a real mechanical feature of a
+  two-part flask. The vector drew a plain circle. The notch costs one path and
+  is most of what makes the object look designed rather than defaulted. Ask what
+  physical feature the object would actually have, and cut it.
+  **(c) The inner edge is not the outer edge scaled.** In both rasters the inner
+  opening is shaped by wall thickness and interrupted by the notch; in the
+  vector it was a concentric circle. Concentric primitives are the signature of
+  an object that was constructed rather than observed.
+  **(d) Light direction is rankable, and the ranking was C2 > C1 > A.** The best
+  take has one key, a visible terminator wrapping the cylinder, and a long
+  directional cast shadow that agrees with both. Coherence of the light model is
+  judged as a whole, not per-surface.
+  **What this cost the instrument:** crude area, saturation and luminance-range
+  measures reproduced *none* of (b), (c) or (d), and inverted (a). These are
+  properties the current metric stack cannot see, which is the concrete reason
+  the rubric and the panel outrank the gate. When a human names a difference,
+  measure the specific thing they named rather than trusting a general metric to
+  have caught it.
+
 - **2026-08 · create-skill "The Pour" loop** — two measured corrections, both to
   assumptions that felt obviously right.
   **(a) Molten material is deep red, not bright yellow.** Sampled off the
