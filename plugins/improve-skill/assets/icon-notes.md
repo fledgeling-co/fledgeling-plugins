@@ -512,6 +512,133 @@ Pareto gate **ACCEPT at +0.0027 net**. `lum_delta` falls at 1024/256/128 (0.1149
 
 **Reusable construction — "measure a shadow off a landmark both images own, and read its second derivative, not its depth".** Two halves. First, the frame: when comparing a shadow between a build and a reference whose object is not in the same place or the same size, do not march from the dark mass's centroid — at the ends of a long body the ray runs along the shadow rather than across it, and the two fans stop sampling the same edge. Find a feature both images carry along the contact line (here an emissive hone), fit its principal axis in each image separately, march perpendicular to **that**, and take u=0 where each ray leaves its **own** silhouette. Pick the feature out by the channel difference that is actually diagnostic — a warm line on a warm ground needs **saturation** (`r−b` *and* `r−g` together), not warmth, or the mask swallows the whole board and the fitted axis is noise; the check that it worked is that the recovered angle lands on the geometry you already know, ours 33.4° against a 33° blade and C2's 39.0° against the 38.9° top-face edges. Second, the quantity: with each profile normalised by its own far field, depth and reach can both agree while the shadow is still wrong, because what a small-size Sobel reads is the profile's **inflection**. A stack of Gaussians whose peaks are separated by more than the tighter one's σ produces a core, a shelf and a tail, and the shelf's leading slope is a false edge at any size where it falls inside one cell. Scan the first difference of the normalised profile for a flat spot; if there is one and the reference's is monotone, the repair is the **width of the tighter layer**, and the right value is the widest one that does not add a small-size edge cell, not the one that minimises the residual. Expect this to buy nothing on `edge_f1` when the same neighbourhood also holds a silhouette that is more than one cell out of register — the silhouette's own window dominates, and a shadow constant cannot reach it.
 
+## Round 12 (`loop-runs/r11`) — the detail round: the field was a lattice because every ridge ran on one of two bearings
+
+*Bookkeeping first, because this file's numbering is now ambiguous.* Round N here
+is `loop-runs/r(N-1)`, so this is the entry for `loop-runs/r11`, measured against
+`loop-runs/r10-reverted`. The Round 12–20 entries above belong to a branch taken
+from a later state and are superseded by this one at r11; they were not used to
+author this round. Where they and this entry agree, that agreement is convergent
+rather than copied.
+
+**What was measured off C2.** The round's candidate edits all move ground texture,
+so the instrument is the orientation histogram, not a region mean: high-pass each
+plane (subtract a 12px box mean, so the field's own lighting ramp drops out), take
+the gradient, and bin gradient ENERGY by ridge bearing. Windows are 96px, admitted
+only when 100% inside one plane with the block and curl detected and dilated out
+(`work/m3.py`, `work/m4.py`). Read that way the master's `grain()` docstring is
+wrong about the thing it is built on. Its claim is that C2 carries "a cross-hatched
+torn lattice"; C2's un-planed field is **one broad lobe** centred near the travel
+direction — peak/mean **2.18**, peak/cross **3.48**, per-window dominant bearings
+all inside 22–42° across twelve clean windows from r 300 to 1100. Ours was **two
+spikes exactly 90° apart**, at 47.5° and 137.5°, peak/mean **6.73** and peak/cross
+**1.66** — and 1.66 is the number a 90° cross returns by construction, which is
+also why m1's doubled-angle coherence could not see the fault at all and had to be
+thrown away. The trued plane says it twice: C2's is directionless fine noise
+(peak/mean **1.15**, sd 0.0086) where ours ran the *same energy*, sd 0.0098,
+organised into the same lattice (peak/mean **3.39**).
+
+Two things were measured and then deliberately **not** acted on. C2's texture sd is
+flat in distance from the key — 0.0239 / 0.0211 / 0.0211 / 0.0255 over r 300–1100 —
+so the tear is *not* faded toward the light, however strongly the thresholded edge
+map suggests it is; that apparent fade is the blown near-key field losing contrast
+against a fixed threshold, not lost texture. And the whole edit is texture
+*organisation*, not plane luminance, so it leaves p90 (trued ground) and p10
+(block) alone by construction — which is why a detail round could be spent here at
+all with the contrast budget binding.
+
+**What changed.** One family instead of two, and its lobe width authored as wander.
+`GRAIN_AMP_B` and both family-B loops are gone. The surviving family keeps its
+bearing but stops being ruled: `GRAIN_WANDER` 3.4 → 11.0 and `GRAIN_NODE` 60 → 34,
+because a node that displaces a ridge by ±1.7 units over 60 bends it 1.6° and
+draws a straight line. Width is carried by wander rather than by fanning the
+ridges across mixed bearings, since a fan of straight lines at scattered bearings
+is just a randomised lattice — still crossings, only untidy ones — and `GRAIN_SKEW`
+stays modest at 15°. One further fix rides along, in class and load-bearing: the
+bearing is now solved **once per line and used on both sides of the cut**. It used
+to be redrawn per side, so every line arrived at the hone on one bearing and left
+on another — a kink at the exact place the icon makes its argument, invisible at
+11° of scatter and not invisible at 15°. Pitch is untouched: dropping family B
+removes about half the strokes and they add incoherently, so the field's sd falls
+by roughly √2, 0.028 → **0.0218 against C2's 0.0223**. The energy was allowed to
+land where the deletion put it rather than being tuned to arrive there.
+
+| size | before (r10) | after (r11) | delta |
+|---:|---:|---:|---:|
+| 1024 | 0.4584 | **0.4585** | +0.0001 |
+| 256 | 0.4725 | **0.4760** | +0.0035 |
+| 128 | 0.5163 | **0.5188** | +0.0025 |
+| 32 | 0.7865 | **0.7874** | +0.0009 |
+| 16 | 0.8383 | **0.8377** | −0.0006 |
+
+Pareto gate **ACCEPT at +0.0064 net**. Structure PASS, and the counts confirm the
+edit is a deletion: 1726 → **1042 paths**, 321,547 → 229,422 bytes, gradients 12
+and filters 11 unchanged. **SSIM rises at all five sizes**, by far the largest at
+1024 (0.6185 → **0.6415**, +0.0230; 32px 0.6065 → 0.6129). That is the interesting
+result, because r02 established that this composite punishes surface texture on
+principle — uncorrelated detail inflates local variance while covariance stays
+near zero. It does not punish texture *organised the way the reference's is*:
+deleting structure the reference does not have raises SSIM at every size at once.
+The r02 finding is about correlation, not about texture.
+
+**What it cost, and the target left open.** `edge_f1` pays for it at 1024, 0.1574 →
+**0.1267**, the round's one real regression: half the ridge strokes are gone and
+there are fewer Sobel responses left to match C2's dense torn field. It gains at
+the other four sizes (256 0.2474 → 0.2534, 128 0.4453 → 0.4496, 32 0.8938 →
+0.8954, 16 pinned at 1.000). `lum_delta` rises slightly at all five (1024 0.1274 →
+0.1284) for a reason worth recording: the un-planed plane brightened +0.011, so the
+`_ridge` pair's stated mean-neutrality — "moves the un-planed plane by −0.0002" —
+was **not actually holding for family B**, and removing it revealed the bias.
+Polarity follows it down, **+0.156 → +0.145** by `measure.py icon.png 33.0 543 604
+640`, the fixture invariant intact and inside the band the icon has carried since
+round 4 (+0.143 … +0.184), but weaker; re-balancing `GRAIN_BAL_ROUGH` would recover
+it and is a luminance edit, so it is left for a material round. `self_contrast`
+holds with room — 32px 0.6138 against a 0.5762 floor (+6.5%), 16px 0.6017 against
+0.5726 (+5.1%). Figure-ground at 128px **improves** against the un-planed field,
+2.40:1 → 2.44:1, and is unchanged against the trued, 3.00:1 → 2.99:1; the block's
+own L is bit-identical at 0.253, the edit having touched no subject constant. The
+16px read holds (spread 0.617 → 0.605) and the single-light corner ordering still
+holds, TL 1.095× of own ground mean against BL 1.063×, though by a narrower margin
+than before (0.032 where it was 0.051). Gate and rubric agree; nothing regressed on
+the rubric and the audit's one open deduction, the curl's small-size noise, is
+untouched.
+
+**One target is short and is left short.** The lobe is now single and roughly twice
+as wide as it was — mass in the 40–60° bins went 42.5% → 70.5% — but at peak/mean
+8.22 it is still narrower than C2's 2.18, and peak/cross went 1.66 → **146.8**
+where C2 sits at 3.48. Both misses are the same missing ingredient, and it is not
+lobe width: **C2 carries a strong isotropic floor**, 1.3–3% of energy in *every*
+bearing bin including the ones 90° from its lobe, where ours now has 0.15%. That
+floor is directionless pitting, not grain, so widening the lobe further cannot
+produce it and would only smear the one bearing the icon has a physical reason to
+draw. The construction that would supply it is already in the file and unwired —
+`relief_filter` with `PIT_BF = (0.55, 0.55)`, isotropic by intent — and wiring it
+is a filter-count change and a different class, so it is a handoff rather than
+this round's business. Worth flagging with it: `relief_filter` and
+`fibre_ramp_stops` are both defined and **called nowhere**, so the micro-relief
+described in the round-8 comment block is not in any render scored since; the
+rendered texture is entirely `grain()` and `mottle()`.
+
+**Reusable recipe — "count the reference's bearings before you author its texture,
+and use a statistic a cross cannot hide in".** Before authoring any directional
+surface texture — grain, brushing, hatching, striation — bin the reference's own
+gradient energy by ridge bearing over windows that are wholly inside one material,
+and count the lobes. Three things fall out that cannot be seen any other way. The
+lobe **count** tells you whether the surface is one process or two, and authoring
+two where the reference has one is the expensive error, because it puts structure
+into orientations the reference has none of and SSIM charges for all of it. The
+lobe **width** is a property to author deliberately, and it is bought with wander
+along each mark rather than with scatter between marks — same histogram, but wander
+keeps the marks from crossing, and crossings are what read as woven. The **floor**
+— energy spread evenly over all bearings — is a separate material (pitting, tooth,
+sensor noise) and needs a separate isotropic construction; trying to reach it by
+widening the lobe converts a directional surface into mush. Use peak/cross (the
+peak bin over the bin 90° from it) and peak/mean, and **do not** use a doubled-angle
+coherence: a 90° cross cancels in it exactly, so the one fault most worth catching
+is the one it scores as perfectly isotropic. Cost is about 80 lines of numpy
+(`work/m1.py`, `work/m3.py`–`m5.py`); the payoff here was a two-line deletion that
+raised SSIM at all five sizes.
+
 ## The other takes
 
 **Three engines, all four takes on the sheet.** Engine A now takes 12/12. Engine C raster took 9/12 (C1) and 7/12 (C2); both stay on disk as the reference takes the rebuild was judged against, and both hard-fail #10 as flat pre-masked rasters — the corpus's single most common failure. C1 additionally fails #11: its two sides sit only 0.09 L apart, so its improvement is present but too faint to be the read. Engine B (Arrow vector) came last at 5/12 with hard fails on silhouette and 16px: the blade forked into a wishbone and the vermilion hone line, the entire signature, was absent. Its steeper, flatter diagonal was the one thing worth salvaging.

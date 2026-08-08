@@ -1,57 +1,57 @@
-"""Is the reference's y-dependence a perspective effect or an amplitude effect?
+#!/usr/bin/env python3
+"""Did the authored lobe land where the reference's lobe is?
 
-If the rough plane recedes from the camera, a fixed physical grain pitch projects to a
-wavelength that GROWS with canvas y, and near the top of the frame it compresses below
-the point where the scorer's Sobel can see it. If instead the pitch is constant and only
-the contrast changes, the cause is light or material, not geometry. Measure the dominant
-relief wavelength and its rms in horizontal strips of the reference's un-planed plane.
+Re-runs m3/m4's statistics on an arbitrary render so the built file can be
+checked against the numbers it was authored from, rather than against the
+composite. Targets, measured off C2 in m3/m4:
+
+    un-planed   peak/mean 2.18   peak/cross 3.48   sd 0.0223   centre ~40 deg
+    trued       peak/mean 1.15   peak/cross 1.25   sd 0.0086
 """
+import math
+import sys
+
 import numpy as np
 
-W = 1024
-h = np.load("h1024.npy"); g = np.load("g1024.npy")
-rough = np.load("rough.npy")
+sys.path.insert(0, "loop-runs/r11/work")
+from m1 import load, boxblur, yy, xx  # noqa: E402
+from m3 import dilate, patch_stats  # noqa: E402
+
+W, P, STEP = 1024, 96, 32
+SRC = sys.argv[1] if len(sys.argv) > 1 else "loop-runs/r11/candidate-1024.png"
 
 
-def strip_spectrum(img, mask, y0, y1):
-    """1-D power spectrum across x, averaged over the rows of the strip, using only
-    rows with a long enough run of mask so a window is legal."""
-    P, n = None, 0
-    for y in range(y0, y1):
-        row = mask[y]
-        if row.sum() < 160:
-            continue
-        xs = np.flatnonzero(row)
-        a, b = xs[0], xs[-1] + 1
-        if not row[a:b].all():
-            b = a + np.argmin(row[a:b]) if not row[a:b].all() else b
-        if b - a < 160:
-            continue
-        v = img[y, a:b].astype(float)
-        m = min(256, (b - a) // 1)
-        v = v[:m]
-        v = v - np.polyval(np.polyfit(np.arange(m), v, 3), np.arange(m))
-        v = v * np.hanning(m)
-        p = np.abs(np.fft.rfft(v, 256)) ** 2
-        P = p if P is None else P + p
-        n += 1
-    if n == 0:
-        return None
-    P /= n
-    f = np.fft.rfftfreq(256)
-    keep = (f > 1/60.0) & (f < 0.45)
-    lam = 1.0 / f[keep][np.argmax(P[keep])]
-    # power-weighted mean wavelength, a more stable summary than the peak
-    wl = (P[keep] / f[keep]).sum() / P[keep].sum()
-    return lam, wl, P[keep].sum() ** 0.5 / 16, n
+def stats(g, m, name):
+    hp = g - boxblur(g, 12)
+    rows, pool = [], np.zeros(36)
+    for y0 in range(34, W - P, STEP):
+        for x0 in range(34, W - P, STEP):
+            if m[y0:y0 + P, x0:x0 + P].mean() < 0.999:
+                continue
+            sd, pk, cr, h = patch_stats(hp, y0, x0)
+            pool += h
+            rows.append(sd)
+    if not rows:
+        print(f"  {name}: no clean windows")
+        return
+    pool /= pool.sum()
+    pk = int(np.argmax(pool))
+    print(f"  {name:9s} n={len(rows):3d}  sd={np.mean(rows):.4f}  "
+          f"centre={pk * 5 + 2.5:5.1f}  peak/mean={pool[pk] / pool.mean():.2f}  "
+          f"peak/cross={pool[pk] / pool[(pk + 18) % 36]:.2f}")
+    top = np.argsort(pool)[::-1][:5]
+    print("             top bins " + ", ".join(f"{int(i) * 5}:{pool[i] * 100:.1f}%" for i in top))
 
 
-print(f"{'strip y':>11s} {'  reference: peak_l  mean_l  energy  rows':<44s} "
-      f"{'candidate: peak_l  mean_l  energy  rows'}")
-for y0 in range(80, 880, 80):
-    r = strip_spectrum(h, rough, y0, y0 + 80)
-    c = strip_spectrum(g, rough, y0, y0 + 80)
-    if r is None or c is None:
-        continue
-    print(f"{y0:4d}-{y0+80:4d}  {r[0]:8.1f} {r[1]:7.1f} {r[2]:8.4f} {r[3]:5d}     "
-          f"     {c[0]:8.1f} {c[1]:7.1f} {c[2]:8.4f} {c[3]:5d}")
+g = load(SRC)
+a = math.radians(33.0)
+nx, ny = math.sin(a), math.cos(a)
+sd_ = (xx - 543.0) * nx + (yy - 604.0) * ny
+block = dilate(g < 0.15, 14)
+curl = dilate((xx > 130) & (xx < 450) & (yy > 155) & (yy < 430), 4)
+tile = (xx > 34) & (xx < W - 34) & (yy > 34) & (yy < W - 34)
+print(f"== {SRC}")
+stats(g, (sd_ < -34) & tile & ~block & ~curl, "un-planed")
+stats(g, (sd_ > 40) & tile & ~block, "trued")
+print("   targets  un-planed sd 0.0223 centre ~40 peak/mean 2.18 peak/cross 3.48")
+print("             trued    sd 0.0086            peak/mean 1.15 peak/cross 1.25")

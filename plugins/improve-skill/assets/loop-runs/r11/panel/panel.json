@@ -7,21 +7,21 @@
   "tally": {
     "overall": {
       "votes": {
-        "candidate": 1,
-        "baseline": 2,
+        "candidate": 3,
+        "baseline": 0,
         "tie": 0
       },
       "judges_ran": 3,
-      "winner": "baseline"
+      "winner": "candidate"
     },
     "material": {
       "votes": {
-        "candidate": 1,
-        "baseline": 2,
+        "candidate": 3,
+        "baseline": 0,
         "tie": 0
       },
       "judges_ran": 3,
-      "winner": "baseline"
+      "winner": "candidate"
     },
     "silhouette": {
       "votes": {

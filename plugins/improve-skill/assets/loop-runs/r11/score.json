@@ -6,50 +6,50 @@
   "label": "r11 detail",
   "sizes": {
     "1024": {
-      "lum_delta": 0.1282,
-      "ssim": 0.6128,
-      "edge_f1": 0.3024,
+      "lum_delta": 0.1284,
+      "ssim": 0.6415,
+      "edge_f1": 0.1267,
       "mask_iou": 0.9513,
-      "self_contrast": 0.6196,
+      "self_contrast": 0.6157,
       "ref_self_contrast": 0.4601,
-      "composite": 0.4912
+      "composite": 0.4585
     },
     "256": {
-      "lum_delta": 0.1238,
-      "ssim": 0.5793,
-      "edge_f1": 0.248,
+      "lum_delta": 0.1248,
+      "ssim": 0.5933,
+      "edge_f1": 0.2534,
       "mask_iou": 0.9541,
-      "self_contrast": 0.619,
+      "self_contrast": 0.6153,
       "ref_self_contrast": 0.4564,
-      "composite": 0.4704
+      "composite": 0.476
     },
     "128": {
-      "lum_delta": 0.1213,
-      "ssim": 0.5589,
-      "edge_f1": 0.4446,
-      "mask_iou": 0.9566,
-      "self_contrast": 0.6184,
+      "lum_delta": 0.1225,
+      "ssim": 0.5697,
+      "edge_f1": 0.4496,
+      "mask_iou": 0.9567,
+      "self_contrast": 0.6148,
       "ref_self_contrast": 0.4544,
-      "composite": 0.5149
+      "composite": 0.5188
     },
     "32": {
-      "lum_delta": 0.1175,
-      "ssim": 0.6047,
-      "edge_f1": 0.8931,
+      "lum_delta": 0.119,
+      "ssim": 0.6129,
+      "edge_f1": 0.8954,
       "mask_iou": 0.9688,
-      "self_contrast": 0.6128,
+      "self_contrast": 0.6138,
       "ref_self_contrast": 0.4485,
-      "composite": 0.7855
+      "composite": 0.7874
     },
     "16": {
-      "lum_delta": 0.1125,
-      "ssim": 0.6389,
+      "lum_delta": 0.1153,
+      "ssim": 0.6432,
       "edge_f1": 1.0,
       "mask_iou": 0.9844,
-      "self_contrast": 0.6092,
+      "self_contrast": 0.6017,
       "ref_self_contrast": 0.4272,
-      "composite": 0.8383
+      "composite": 0.8377
     }
   },
-  "render_hash": "8d21ec69da166ae1"
+  "render_hash": "70be499c58e98d90"
 }

@@ -1,14 +1,14 @@
 {
   "verdict": {
-    "overall": "A",
-    "material": "A",
+    "overall": "B",
+    "material": "B",
     "silhouette": "tie",
     "smallsize": "tie",
     "rationale": {
-      "overall": "Subject, glow, and lighting match closely, but A\u2019s softer ground grain and more glass-like loop sit nearer the REFERENCE\u2019s overall material read.",
-      "material": "REFERENCE\u2019s fine low-relief concrete grain and frosted translucent loop are closer to A\u2019s subtler surface and milky/glassy loop than B\u2019s coarser embossed crosshatch and paper-matched curl.",
-      "silhouette": "Both share the same diagonal dark slab, top-left loop, orange under-edge, and split-ground massing, so shape read is effectively equal.",
-      "smallsize": "At 128/32/16 the dark bar, warm rim, and split field resolve the same way and the grain/loop differences fall below the pixel grid."
+      "overall": "B is closer to the REFERENCE's photographic material read\u2014organic ground grain and softer face falloff\u2014while sharing A's composition, so it wins on a narrow material margin.",
+      "material": "REFERENCE's un-planed field is irregular directional grain, which B's varied single-family texture approximates; A's repeating crosshatch reads as a mechanical overlay that flattens depth and translucency relative to the reference.",
+      "silhouette": "Both takes keep the same diagonal block, top-left curl, orange under-edge, and split-ground massing with no meaningful edge or negative-space difference.",
+      "smallsize": "At 128, 32, and 16 both collapse to the same dark diagonal bar, pale curl note, and orange underline on a split field with equal legibility."
     }
   },
   "meta": {
