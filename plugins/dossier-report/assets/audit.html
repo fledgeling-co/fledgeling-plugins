@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dossier-report icon contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #14100e; color: #e6ded7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; color: #f0e7e0; }
+  .sub { color: #a8968a; margin-bottom: 32px; max-width: 940px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 900px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #2d2420; vertical-align: middle; }
+  th { color: #a8968a; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #a8968a; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #1e1815; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #2d2420; }
+  .renders figcaption { color: #a8968a; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ec5c31; }
+  .fail { color: #c96a4e; }
+  .verdict { max-width: 430px; color: #c4b5ab; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #4a342a; border-radius: 12px; background: #1c1512; max-width: 960px; }
+  .rec strong { color: #ec5c31; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #a8968a; font-size: 12px; max-width: 960px; }
+  table.metrics { min-width: 0; max-width: 960px; font-variant-numeric: tabular-nums; }
+  table.metrics td, table.metrics th { padding: 7px 14px; font-size: 13px; }
+  .good { color: #7fb069; } .bad { color: #d4715a; }
+  code { background: #221a16; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>dossier-report icon contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The Folded Sheet&rdquo; &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16. The fidelity loop ran twelve rounds; rounds r00&ndash;r07 were scored on a degraded metric tier and have been re-scored here at full tier (torch + LPIPS), which reversed the shipping decision.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A-r11 &middot; icon.svg<small>Engine A, hand-authored layered SVG, SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Shipping master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Shipping master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Shipping master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Shipping master 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">A porcelain sheet 580&times;665 (56.6% of tile width, inside the 55&ndash;65% band) caught mid-fold on a porcelain cushion, the crease running 46&deg; from the bottom edge to the right edge so the flap is a third of the sheet &mdash; a fold, not the legacy-era page curl. The inner face is vermilion and carries a stepped chart rule, so the icon shows evidence held inside the page. Checks 1&ndash;4 pass on real renders: full-bleed 1024 with the set's exact superellipse as a <em>clip</em>, sheet centred at (510, 512) with 220/224/180/179 margins, and at 16px the diagonal survives as a clean vermilion wedge. Four layers <code>#bg</code>/<code>#mid</code>/<code>#fg</code>/<code>#highlight</code> map 1:1 onto Icon Composer. Sole deduction on #7: see the recommendation.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A-r07 &middot; candidate-r07.svg<small>Engine A, the take the degraded metric shipped</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a07-256.png" width="128" height="128" alt="Round 07 take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a07-64.png" width="32" height="32" alt="Round 07 take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a07-32.png" width="16" height="16" alt="Round 07 take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a07-32.png" width="96" height="96" alt="Round 07 take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Same composition, three material rounds further on &mdash; and measurably worse for them. Re-scored at full tier it is the <em>weakest</em> of the eight archived candidates on 1024 LPIPS (0.4883) and the weakest on absolute self-contrast at every size (0.4447 at 1024 against r11's 0.4748). Two independent blind judges, shown it against r11 without labels, named the same defect: a pure-white hairline specular along the crease reading as &ldquo;a gloss decal rather than volume&rdquo;. Loses on #9 era coherence (Tahoe grammar sanctions one soft light and <em>zero</em> hard speculars) and on the flattened accent ramp.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A-r00 &middot; candidate-r00.svg<small>Engine A, first material rebuild</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Round 00 take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Round 00 take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Round 00 take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Round 00 take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">The loop's starting state, kept on the sheet because the full-tier replay makes it the honest yardstick: at 1024 it already scored 0.5233 composite / 0.4730 LPIPS, and eight rounds of work on a broken instrument ended <em>below</em> it. Its crease carries no occlusion at all &mdash; the two AO bands were authored on the wrong side of the fold and clipped away by <code>flapClip</code> for the whole run &mdash; so the V does not close and the flap reads as a printed triangle rather than a lifted plane. Loses on #8 depth coherence.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow-ecc20a.svg<small>Engine B, Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Engine B Arrow take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Engine B Arrow take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Engine B Arrow take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Engine B Arrow take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard-fails three of the four non-negotiables. #1: a square card with baked square corners and a baked drop shadow, floating on transparency &mdash; no squircle discipline at all. #2: the card is offset down-right with no safe zone. #4: the vermilion resolves to a needle whose tip is sub-pixel by 32px and gone by 16px. It also lost the brief entirely &mdash; the double-curved sliver reads as a swallow or a paper dart, not a fold, and the inner face carries no chart rule, so the signature move is absent. Its one contribution: it independently reached a ~45&deg; diagonal as the axis, which corroborated the crease angle.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 &middot; icon-engineC-c57a8c<small>Engine C raster, GPT Image 2, material reference</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Engine C1 raster at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Engine C1 raster at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Engine C1 raster at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Engine C1 raster 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Won the material read and is the reference the blind panel judged against &mdash; genuinely volumetric frosted gel, a thick translucent edge, a real contact shadow, and the accent visible <em>through</em> the underside. It ships nothing. #1: a freestanding object on white with a 174px top margin, so masking it to the squircle just crops a photograph &mdash; the tile is not a cushion, it is a backdrop. #10: a flat pre-masked raster, the corpus's named 76% failure. And it lost the subject: the form reads as a tilted cone or a paper cup, not a folded sheet, which one judge noted unprompted.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 &middot; icon-engineC2-597699<small>Engine C raster, second take, fidelity reference</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Engine C2 raster at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Engine C2 raster at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Engine C2 raster at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Engine C2 raster 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Carried as the fidelity loop's reference because it shares the master's frontal-card geometry, so the residual isolates material instead of arguing about pose. As artwork it fails the same way C1 does &mdash; an inset card on a white backdrop, #1 and #10 &mdash; and it fails one more: its flap is <em>flat</em>, a printed triangle with no occlusion where the V closes. That flatness is why the gate rejected the round that finally gave the master a real crease shadow, and why 20% of the composite (edge F1, 0.057 at 1024) was never winnable: the reference's card edges are 120px inside the master's full-bleed sheet.</td>
+  </tr>
+</table></div>
+
+<h2>The metric problem, and what the full tier reversed</h2>
+<p class="sub">Rounds r00&ndash;r07 were scored on <code>numpy (no torch: luminance+ssim+edges only)</code>. With torch 2.13.0 + lpips installed, all eight archived candidates were re-scored at <code>full (lpips)</code> against both rasters. The two references agree independently, which is what makes the finding trustworthy: the run went backwards, and the take it shipped was its worst.</p>
+<div class="sheet"><table class="metrics">
+  <tr><th>Round</th><th>1024 composite</th><th>1024 LPIPS &darr;</th><th>vs C1 LPIPS &darr;</th><th>1024 self-contrast</th><th>Recorded verdict</th></tr>
+  <tr><td>r00</td><td>0.5233</td><td>0.4730</td><td>0.4045</td><td>&mdash;</td><td>baseline</td></tr>
+  <tr><td>r01</td><td>0.5244</td><td>0.4722</td><td>0.4033</td><td>&mdash;</td><td>ACCEPT</td></tr>
+  <tr><td>r02</td><td>0.5234</td><td>0.4705</td><td class="good">0.3939</td><td>0.4620</td><td>REJECT</td></tr>
+  <tr><td>r03</td><td>0.5239</td><td>0.4705</td><td>0.3946</td><td>&mdash;</td><td>REJECT</td></tr>
+  <tr><td>r04</td><td class="good">0.5245</td><td class="good">0.4702</td><td>0.3965</td><td>0.4715</td><td>REJECT, kept</td></tr>
+  <tr><td>r05</td><td>0.5181</td><td>0.4852</td><td>0.4108</td><td>&mdash;</td><td>REJECT, kept</td></tr>
+  <tr><td>r06</td><td>0.5181</td><td>0.4852</td><td>0.4107</td><td>&mdash;</td><td>ACCEPT</td></tr>
+  <tr><td>r07</td><td class="bad">0.5130</td><td class="bad">0.4883</td><td class="bad">0.4115</td><td class="bad">0.4447</td><td>SHIPPED</td></tr>
+  <tr><td>r09</td><td>0.5131</td><td>0.4883</td><td>&mdash;</td><td>0.4748</td><td>ACCEPT (ramp)</td></tr>
+  <tr><td>r10</td><td>0.5196</td><td>0.4735</td><td>0.3982</td><td>0.4748</td><td>ACCEPT (shadow)</td></tr>
+  <tr><td><strong>r11</strong></td><td class="good"><strong>0.5197</strong></td><td><strong>0.4746</strong></td><td><strong>0.3992</strong></td><td class="good"><strong>0.4748</strong></td><td><strong>ACCEPT, SHIPS</strong></td></tr>
+</table></div>
+<p class="sub">The decomposition that closed it, each step measured on its own: reverting the gel ramp moved 1024 LPIPS by <strong>0.0000</strong> but recovered <strong>+0.030</strong> of absolute self-contrast; reverting the r05 contact-shadow round moved LPIPS <strong>&minus;0.0148</strong>, which was the whole regression; deleting the crease AO entirely bought a further <strong>&minus;0.0035</strong> and was <em>declined</em>, because that shadow is the fold's volume and the reference it would be converging on has a flat flap. The AO was probed absent before being kept &mdash; the loop's r03 lesson, applied deliberately.</p>
+
+<h2>Blind panel</h2>
+<p class="sub">Two rounds, judges shown only anonymised renders against the C1 reference, order reseeded per round. <strong>r10 vs r07:</strong> 2 judges ran, both preferred r07 on overall and material, tie on silhouette and small-size &mdash; and both independently named the same defect in r10, a &ldquo;tighter diagonal specular&hellip; more like a gloss streak than volume&rdquo;. That defect was a pure <code>#FFFFFF</code> hairline at 0.55 opacity along the crease spine, a hard specular in a scene where nothing emits white light. r11 warmed it to the measured rim scatter (<code>#FFE7D6</code>), halved it to 0.30, widened it and pushed it through a softer blur. <strong>r11 vs r07:</strong> the panel reversed <strong>2&ndash;0 for r11</strong> on both overall and material (tie on silhouette and small-size), and both judges independently cited the exact edit &mdash; &ldquo;less hard-edged specular streak on the orange face&rdquo; (claude) and &ldquo;highlight falloff&hellip; gentler and less pin-sharp&hellip; nearer the REFERENCE's frosted translucency&rdquo; (cursor/grok). A 2&ndash;0 loss turned into a 2&ndash;0 win on one parameter change that the composite scored as noise (+0.0011 LPIPS): the fix was confirmed by the same instrument that found the fault. The OpenAI judge failed to run in both rounds (no <code>OPENAI_API_KEY</code>); recorded, not silently dropped, so both tallies rest on two judges rather than three.</p>
+
+<div class="rec">
+  <strong>Recommendation: ship A-r11 (<code>icon.svg</code>), 11/12.</strong>
+  <p>It is the only take that satisfies the house rule and the direction at once: full-bleed on the set's exact superellipse, porcelain register, one vermilion family reserved for the focal, and genuine dimensional form. It beats the previously-shipped r07 on 1024 composite (+0.0067), on LPIPS against <em>both</em> rasters, on absolute self-contrast at every size, and on the blind panel.</p>
+  <p><strong>Known liabilities, named.</strong> <em>#7 figure-ground is the deduction:</em> the vermilion inner face measures 1.72:1 against the tile ground and 1.71:1 against the page face &mdash; well under the rubric's 3:1, in the same band as the corpus's cited waterlemon failure at 1.4:1. Grayscale hierarchy does hold, and that matters: desaturated, the accent resolves <em>darker</em> than everything around it, so the focal stays the darkest element rather than inverting. The porcelain sheet itself is the weaker half &mdash; page against tile is 1.01:1, so in grayscale the sheet is carried entirely by its edge crest and contact shadow. That is inherent to a white sheet on a porcelain ground and is the price of the register, not a defect that a value edit fixes without abandoning the direction. <em>#3 passes but weakly:</em> the flap folds inward, so the filled-black silhouette is a plain rounded rectangle &mdash; nameable as a sheet of paper, but the fold, the whole signature, is invisible in outline and rides entirely on value and hue. <em>At 16px</em> the stepped chart rule is gone, as designed; the diagonal is what survives. <em>Structurally,</em> 20% of the composite was never available: edge F1 sits at 0.057 at 1024 because the reference is an inset card on a backdrop and the master is full-bleed. That gap should not be chased &mdash; closing it means shrinking the artwork off the shelf.</p>
+</div>
+
+<div class="rubric">
+  <strong>Rubric.</strong> 12 points, delivery bar &ge;10/12, checks 1&ndash;4 non-negotiable: 1 mask discipline &middot; 2 grid adherence &middot; 3 silhouette &middot; 4 16px squint &middot; 5 single light &middot; 6 palette economy &middot; 7 figure-ground &middot; 8 depth coherence &middot; 9 era coherence &middot; 10 variant robustness &middot; 11 personality &middot; 12 no-text. Every score above was taken on the renders in this sheet, not from the 1024 master.
+</div>
+</body>
+</html>

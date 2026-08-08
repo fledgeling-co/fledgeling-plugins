@@ -100,6 +100,14 @@ macOS app icons, measured against the reference instead of eyeballed. A directio
 
 <br clear="left" />
 
+<a href="plugins/dossier-report/README.md"><img src="plugins/dossier-report/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [dossier-report](plugins/dossier-report/README.md)
+
+A research question in, one published page out. It runs a paid and free research panel, reads every report end to end rather than the merged summary, turns the corpus into a list of claims with sources attached, then designs the page from scratch around its own subject so consecutive pages do not converge on one look. Every claim carries a citation you can open, and the build fails on one that does not resolve.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 

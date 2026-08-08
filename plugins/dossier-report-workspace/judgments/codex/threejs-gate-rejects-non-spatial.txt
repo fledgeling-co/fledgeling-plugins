@@ -1,0 +1,614 @@
+Reading additional input from stdin...
+OpenAI Codex v0.146.0
+--------
+workdir: /Users/lukerhodes/Dev
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 019fe014-ecfe-72c0-bea3-d65d76de0d12
+--------
+user
+Read these two files, then judge them.
+
+/Users/lukerhodes/Dev/fledgeling-plugins/plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-A.md
+/Users/lukerhodes/Dev/fledgeling-plugins/plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-B.md
+
+They are two independent answers to the same request. You know nothing about how either was written. Decide which one better answers it, weighing whether the reasoning holds, whether its claims are actually supported, and whether it would be useful to the person who asked. An answer that pushes back on the request may be better or worse than one that complies.
+
+Reply with two lines only. First line: WINNER: followed by a single letter, either A or B. Second line: REASON: followed by three sentences citing specific evidence from each.
+warning: Skill descriptions were shortened to fit the 2% skills context budget. Codex can still see every skill, but some descriptions are shorter. Disable unused skills or plugins to leave more room for the rest.
+exec
+/bin/zsh -lc "sed -n '1,240p' plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-A.md && sed -n '1,240p' plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-B.md" in /Users/lukerhodes/Dev/fledgeling-plugins
+ succeeded in 0ms:
+# Scroll-reactive three.js particle hero
+
+Here's the hero, set up and ready to drop in. Vanilla-module version first (works in any HTML page), React/Next wrapper after it, then the things worth deciding before you ship it.
+
+One flag up front, because it affects what you actually want to build: a generic particle field is decoration — it looks expensive but it says nothing about citation click-through. Since the whole subject of the page is *readers not following the link*, the same particle system can be made to carry that number at no extra cost. I've built the decorative version you asked for as the primary, and included the data-carrying variant at the end as a ~20-line diff. Your call which ships.
+
+---
+
+## 1. Install
+
+```bash
+npm install three
+```
+
+Modern three.js (r160+). If you're on a plain HTML page with no bundler, use an import map instead:
+
+```html
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.171.0/build/three.module.js" } }
+</script>
+```
+
+## 2. Markup
+
+The canvas sits behind the hero copy. The hero element is the scroll reference — progress is measured against *it*, not the whole document, so the effect still works if you later move the hero down the page.
+
+```html
+<section id="hero" class="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero__content">
+    <h1>Nobody clicks the citation.</h1>
+    <p>Click-through rates on inline sources, measured across 1.2M article reads.</p>
+  </div>
+</section>
+```
+
+```css
+.hero {
+  position: relative;
+  min-height: 100svh;      /* svh, not vh — avoids the mobile URL-bar jump */
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #07080c;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero__content {
+  position: relative;   /* above the canvas */
+  z-index: 1;
+  text-align: center;
+  max-width: 44rem;
+  padding: 0 1.5rem;
+  color: #f4f6fb;
+}
+```
+
+## 3. The hero module
+
+Save as `hero-particles.js`.
+
+```js
+import * as THREE from 'three';
+
+/**
+ * Scroll-reactive particle field.
+ * @param {HTMLCanvasElement} canvas
+ * @param {HTMLElement} section  scroll reference (the hero element)
+ * @returns {() => void} dispose
+ */
+export function createParticleHero(canvas, section, options = {}) {
+  const {
+    count       = window.innerWidth < 768 ? 2500 : 6000,
+    colorNear   = '#8fa6c9',   // cool, receding
+    colorFar    = '#e8b155',   // warm accent — swap for your brand
+    pointSize   = 7.0,
+    dispersion  = 1.0,         // how far particles fly apart at full scroll
+  } = options;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- renderer -------------------------------------------------------
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: false,            // points are round-masked in the shader; MSAA buys nothing
+    powerPreference: 'high-performance',
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+  camera.position.z = 22;
+
+  // ---- geometry -------------------------------------------------------
+  const positions = new Float32Array(count * 3);
+  const scatter   = new Float32Array(count * 3);
+  const seeds     = new Float32Array(count);
+
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+
+    // Home position: a wide, shallow slab so it reads as a field, not a ball.
+    positions[i3 + 0] = (Math.random() - 0.5) * 38;
+    positions[i3 + 1] = (Math.random() - 0.5) * 22;
+    positions[i3 + 2] = (Math.random() - 0.5) * 18 - 5;
+
+    // Scatter vector: where this particle drifts to at scroll = 1.
+    // Biased outward and slightly toward camera so the field opens up.
+    const theta = Math.random() * Math.PI * 2;
+    const mag   = (2 + Math.random() * 9) * dispersion;
+    scatter[i3 + 0] = Math.cos(theta) * mag;
+    scatter[i3 + 1] = Math.sin(theta) * mag * 0.55;
+    scatter[i3 + 2] = (Math.random() * 0.8 + 0.2) * mag * 0.7;
+
+    seeds[i] = Math.random();
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('aScatter', new THREE.BufferAttribute(scatter, 3));
+  geometry.setAttribute('aSeed',    new THREE.BufferAttribute(seeds, 1));
+
+  // ---- material -------------------------------------------------------
+  const uniforms = {
+    uTime:       { value: 0 },
+    uScroll:     { value: 0 },
+    uSize:       { value: pointSize },
+    uPixelRatio: { value: renderer.getPixelRatio() },
+    uColorNear:  { value: new THREE.Color(colorNear) },
+    uColorFar:   { value: new THREE.Color(colorFar) },
+  };
+
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    transparent: true,
+    depthWrite: false,                 // additive points need no depth sort
+    blending: THREE.AdditiveBlending,
+    vertexShader: /* glsl */`
+      uniform float uTime;
+      uniform float uScroll;
+      uniform float uSize;
+      uniform float uPixelRatio;
+
+      attribute vec3  aScatter;
+      attribute float aSeed;
+
+      varying float vAlpha;
+      varying float vTint;
+
+      void main() {
+        // Scroll drives dispersion: clustered field -> open field.
+        vec3 pos = position + aScatter * uScroll;
+
+        // Idle drift so it never looks frozen when the user stops scrolling.
+        float t = uTime * 0.15 + aSeed * 6.2831853;
+        pos.x += sin(t) * 0.4;
+        pos.y += cos(t * 0.8) * 0.4;
+
+        vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+        gl_Position = projectionMatrix * mv;
+
+        float dist = max(-mv.z, 0.001);
+        gl_PointSize = clamp(uSize * uPixelRatio * (12.0 / dist), 1.0, 64.0);
+
+        // Nearer particles are brighter and warmer; field thins as it disperses.
+        vTint  = smoothstep(40.0, 6.0, dist);
+        vAlpha = (0.25 + aSeed * 0.75) * vTint * (1.0 - uScroll * 0.55);
+      }
+    `,
+    fragmentShader: /* glsl */`
+      uniform vec3 uColorNear;
+      uniform vec3 uColorFar;
+
+      varying float vAlpha;
+      varying float vTint;
+
+      void main() {
+        // Round, soft-edged point. Cheaper and sharper than a sprite texture.
+        float d = length(gl_PointCoord - 0.5);
+        if (d > 0.5) discard;
+        float mask = smoothstep(0.5, 0.05, d);
+
+        vec3 color = mix(uColorNear, uColorFar, vTint * vTint);
+        gl_FragColor = vec4(color, mask * vAlpha);
+      }
+    `,
+  });
+
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+
+  // ---- sizing ---------------------------------------------------------
+  // Cached so the rAF loop never forces a layout read.
+  let sectionTop = 0;
+  let sectionHeight = 1;
+
+  function measure() {
+    const rect = section.getBoundingClientRect();
+    sectionTop = rect.top + window.scrollY;
+    sectionHeight = rect.height || 1;
+
+    const w = section.clientWidth;
+    const h = section.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    uniforms.uPixelRatio.value = renderer.getPixelRatio();
+  }
+
+  const resizeObserver = new ResizeObserver(measure);
+  resizeObserver.observe(section);
+  measure();
+
+  // ---- scroll ---------------------------------------------------------
+  let targetScroll = 0;   // raw 0..1
+  let easedScroll  = 0;   // lerped, what the shader sees
+
+  function readScroll() {
+    const raw = (window.scrollY - sectionTop) / sectionHeight;
+    targetScroll = Math.min(Math.max(raw, 0), 1);
+  }
+
+  window.addEventListener('scroll', readScroll, { passive: true });
+  readScroll();
+
+  // ---- loop -----------------------------------------------------------
+  const clock = new THREE.Clock();
+  let rafId = null;
+  let visible = true;
+
+  function frame() {
+    rafId = requestAnimationFrame(frame);
+# The three.js hero is rejected — and what to build instead
+
+I haven't set up the particle field. `the project` gates three.js behind six
+tests in the project design notes, and a scroll-reactive particle field on
+a citation-behaviour report fails all three **evidence** tests. Failing an
+evidence test rejects 3D *outright* — it isn't the "ship the fallback until it
+passes" branch, which is only for the release tests.
+
+Here is the ruling, the alternative hero, and what the page still needs before
+any hero gets built.
+
+---
+
+## 1. The gate, run honestly
+
+| # | Test | Verdict |
+|---|---|---|
+| 1 | **Spatial claim** — a major claim depends on depth, volume, orientation, topology, occlusion, assembly, or movement through physical space | **FAIL** |
+| 2 | **Viewpoint necessity** — changing viewpoint *reveals evidence* rather than showcasing an object | **FAIL** |
+| 3 | **2D insufficiency** — no map, cutaway, orthographic diagram, annotated image or small multiple can carry the claim at least as clearly | **FAIL** |
+| 4 | Narrative mapping — every camera/object transition maps to a claim id | not reached |
+| 5 | Equivalent fallback | not reached |
+| 6 | Performance and reduced motion | not reached |
+
+**Test 1.** The subject is a set of proportions: what share of page views produce
+a citation click, what share of cited URLs are never opened, how that splits by
+device. Rates and ratios have no depth, no volume, no occlusion and no physical
+extent. There is nothing here that lives in space.
+
+**Test 2.** There is no viewpoint from which a reader learns something new about
+a percentage. Orbiting the field would showcase the field, which is precisely
+the failure the test is written to catch.
+
+**Test 3.** A unit grid renders "1 in 345" more clearly than any 3D scene, and
+does it at a glance, on a phone, without WebGL. 2D is not merely sufficient
+here — it is *better*, which makes test 3 fail decisively rather than narrowly.
+
+Two independent rules in the brief land on the same answer:
+
+- **The theme-proof test** (the project design notes) names this exact
+  artifact: *"Random palettes, generic particle fields and interchangeable dark
+  'cinematic' heroes fail — not because they are ugly, but because they would fit
+  any subject, which means they express none."* A particle field would sit just
+  as happily on a page about shipping logistics or protein folding. That is the
+  disqualifying property.
+- **The motion budget** (§2) admits an animation only if you can finish *"this
+  motion lets the reader perceive ___ that would otherwise require a difficult
+  mental comparison."* For a scroll-reactive particle field the blank is
+  "energy" or "immersion" — explicitly listed as decoration, not evidence.
+
+And the authored review (§"The authored review") would fail the page on
+*"the hero is more specific than the evidence beneath it"*: a dense, kinetic,
+high-production hero over a finding that is fundamentally one ratio overstates
+what the page knows.
+
+Worth noting on the underlying evidence: Kim et al. built four data stories in
+static, animated and immersive variants — immersive rated **more interesting and
+more persuasive, and no more understandable or trustworthy**. On a page whose
+entire subject is *readers not checking things*, buying persuasiveness without
+comprehension is the wrong trade to make in public.
+
+Neither published page (`~/Dev/dossier/undervolt/`, `~/Dev/dossier/workflows/`)
+loads three.js, GSAP or a canvas at all — so there is also no precedent to
+match here.
+
+### What would flip this
+
+This is not a blanket ruling against 3D. If the page's argument moved to, say,
+the *topology* of a citation network — how sources cluster, which are structurally
+load-bearing, where circular citation loops close — tests 1 and 2 could genuinely
+pass, and the release tests would then decide it. Note the counterweight even
+then: Kwon et al. found **2D better than 3D for spatial-memory tasks in
+networks**. So a network topology claim gets 3D a hearing, not a pass.
+
+---
+
+## 2. Record the rejection on the page
+
+The brief requires this — *"When 3D is rejected, say so in the page's own notes.
+Recording the rejection is what stops the gate decaying into a formality."*
+Drop this into the methods note:
+
+> **On 3D.** A WebGL hero was considered and rejected. This page's central claims
+> are proportions, not structures: nothing in them depends on depth, orientation
+> or occlusion, and a unit grid states the ratio more clearly than a rendered
+> scene at a fraction of the battery. The gate is recorded here rather than
+> quietly skipped.
+
+---
+
+## 3. The hero that is actually defensible
+
+The strongest device is already sitting in the page: **its own citation layer,
+at scale.**
+
+**The device.** A dense grid of citation markers — the same `<button class="cite">`
+component the prose uses, multiplied. Inked markers are sources a reader opened;
+outlined markers are sources nobody touched. The hero *is* the page's own
+apparatus, drawn at the scale of the finding. Change the subject noun and the
+metaphor collapses, which is exactly what the authored review asks for.
+
+**The one admissible motion.** Not ambient drift — a scrub between **two states
+of one encoding**, which is the case Heer & Robertson (n=24) found reduces
+tracking error across every transition type tested:
+
+- State A: every marker inked — *the sources this page offers you*.
+- State B: the ~0.3% that get opened remain inked; the rest drop to outline.
+
+Fill the blank honestly: *"this motion lets the reader perceive the gap between
+sources offered and sources consulted, which would otherwise require holding
+1,000 and 3 in mind at once."* That passes. Object identity is preserved, the
+scale never changes, and no claim exists only in an intermediate frame — both
+end states render directly from their ids.
+
+**Reduced-motion branch** (built first, per §5's reduced-first rule): the two
+states as static small multiples side by side, numbers set beside each. Every
+fact survives; nothing is a zeroed-out duration.
+
+**Tier.** IntersectionObserver for the state swap, or CSS `animation-timeline:
+scroll()` behind an `@supports` guard. This does not need GSAP scrub — and a page
+with no scrub does not need GSAP at all.
+
+**Editorial tension** — the page needs one, and this subject hands you a good one:
+verification clicks are reportedly *more* common on shorter, lower-quality pages.
+Readers verify when the page fails them, which inverts the intuition that
+verification signals an engaged audience. Pair it with the honest limit: the claim
+that better citation UX makes readers verify is unsupported in **either**
+direction. A page that resolves everything reads as generated.
+
+---
+
+## 4. Sequencing — the hero is downstream of work not yet done
+
+The request jumps to Phase 6. Phases 0–5 haven't run, and the hero is a Phase 5–6
+artifact for a structural reason: the visual device must map to a named concept in
+the topic corpus, and there is no corpus yet.
+
+Still outstanding: **Phase 0** `/clarify` on the brief (what decision does this
+page inform, for whom); **Phase 1** `/trawl` on research angles; **Phase 2** the
+Dossier panel, read end to end — never from the merged distillation; **Phase 3**
+the claim graph, which is what the citation UI is generated *from* rather than
+retrofitted onto; **Phase 4–5** slug, aesthetic and `/trawl` on visual direction.
+
+One flag on sourcing. The figures I reasoned from above — ~0.29% of page views
+producing an external reference click, 93% of cited URLs unclicked in a two-month
+window, 0.56% desktop against 0.13% mobile, and the lower-quality-page inversion —
+come from the project design notes citing Piccardi et al.'s instrumentation of
+96 million Wikipedia citation events. That is the project evidence base for how
+to build citation UX. **It is not a research panel run for your page**, and it is
+Wikipedia-specific. It tells you the *shape* the hero should take; it does not
+license the page to state those numbers as its finding. Under the Phase 3 rule, a
+quantitative claim ships only against a source read in full for this page.
+
+Per the task constraints I ran no Dossier research, so nothing above is a
+substitute for Phase 2.
+
+---
+
+## In one line
+
+The particle field is rejected on all three evidence tests — the subject has no
+spatial dimension, and a generic field would fit any topic, which is the
+disqualifier. Build the hero from the page's own citation markers instead, scrubbed
+between "offered" and "opened" — but build it after the research and the claim
+graph, not before.
+
+exec
+/bin/zsh -lc "wc -l plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-A.md plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-B.md && sed -n '241,520p' plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-A.md && sed -n '241,520p' plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-B.md" in /Users/lukerhodes/Dev/fledgeling-plugins
+ succeeded in 0ms:
+     409 plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-A.md
+     165 plugins/dossier-report-workspace/blind-panel/threejs-gate-rejects-non-spatial/option-B.md
+     574 total
+
+    // Critically-damped-ish easing. Frame-rate independent enough for this.
+    easedScroll += (targetScroll - easedScroll) * 0.08;
+
+    uniforms.uTime.value   = clock.getElapsedTime();
+    uniforms.uScroll.value = easedScroll;
+
+    camera.position.z = 22 - easedScroll * 9;
+    points.rotation.y = easedScroll * 0.22;
+    points.rotation.x = easedScroll * -0.08;
+
+    renderer.render(scene, camera);
+  }
+
+  function start() { if (!rafId && !reduceMotion) frame(); }
+  function stop()  { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  // Don't burn GPU on a hero that's scrolled off screen.
+  const io = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    visible ? start() : stop();
+  }, { threshold: 0 });
+  io.observe(section);
+
+  if (reduceMotion) {
+    // One static frame, no loop, no scroll coupling.
+    uniforms.uTime.value = 0;
+    uniforms.uScroll.value = 0;
+    renderer.render(scene, camera);
+  } else {
+    start();
+  }
+
+  // ---- teardown -------------------------------------------------------
+  return function dispose() {
+    stop();
+    io.disconnect();
+    resizeObserver.disconnect();
+    window.removeEventListener('scroll', readScroll);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+  };
+}
+```
+
+## 4. Wire it up
+
+Plain page:
+
+```html
+<script type="module">
+  import { createParticleHero } from './hero-particles.js';
+  createParticleHero(
+    document.getElementById('hero-canvas'),
+    document.getElementById('hero')
+  );
+</script>
+```
+
+React / Next.js (client component — three.js must not run during SSR):
+
+```tsx
+'use client';
+import { useEffect, useRef } from 'react';
+
+export function ParticleHero() {
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    let dispose: (() => void) | undefined;
+    let cancelled = false;
+
+    // Dynamic import keeps three.js out of the initial bundle.
+    import('./hero-particles').then(({ createParticleHero }) => {
+      if (cancelled || !canvasRef.current || !sectionRef.current) return;
+      dispose = createParticleHero(canvasRef.current, sectionRef.current);
+    });
+
+    return () => { cancelled = true; dispose?.(); };
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="hero">
+      <canvas ref={canvasRef} id="hero-canvas" aria-hidden="true" />
+      <div className="hero__content">
+        <h1>Nobody clicks the citation.</h1>
+        <p>Click-through rates on inline sources, measured across 1.2M article reads.</p>
+      </div>
+    </section>
+  );
+}
+```
+
+## 5. Knobs worth turning
+
+| Option | Effect |
+|---|---|
+| `count` | Particle density. 6000 is comfortable on a laptop GPU; above ~20000 you'll feel it on integrated graphics. |
+| `dispersion` | How violently the field opens on scroll. `0.4` reads as a slow breath, `2.0` as an explosion. |
+| `pointSize` | Base point size in CSS pixels at mid-depth. |
+| `colorNear` / `colorFar` | The depth gradient. Keep these close in hue or the field reads as confetti. |
+| `easedScroll` lerp `0.08` | Lower = heavier, more cinematic lag. Above `0.2` it starts to feel twitchy. |
+
+## 6. What this already handles
+
+- **`prefers-reduced-motion`** — renders one static frame and never starts the loop. This matters more than usual here: a full-viewport moving field is exactly the pattern that triggers vestibular symptoms.
+- **Off-screen pause** — `IntersectionObserver` stops the rAF loop once the hero leaves the viewport, so the rest of the page scrolls at full frame rate.
+- **No per-frame layout reads** — scroll position is cached from a passive listener and section geometry is re-measured only on resize. A `getBoundingClientRect()` inside the loop is the standard way these heroes end up janky.
+- **DPR clamped to 2** — a 3x phone screen would otherwise render 2.25x the fragments for no visible gain.
+- **Full teardown** — geometry, material and renderer all disposed; matters in a SPA where the hero unmounts.
+
+## 7. Two things to decide before shipping
+
+**Contrast over the canvas.** Your `h1` sits on top of a moving, additive-blended field, which means its effective background luminance changes as particles drift under it. Check the worst case (a bright cluster directly behind the text), not the average. If it's marginal, put a radial scrim behind `.hero__content`:
+
+```css
+.hero__content::before {
+  content: '';
+  position: absolute;
+  inset: -3rem -4rem;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgba(7,8,12,.85), transparent 70%);
+}
+```
+
+**The WebGL fallback.** If the context fails to create (old device, GPU blocklist, hardware acceleration off), `WebGLRenderer` throws and you get a bare dark section. Wrap the call and set a CSS gradient background on `.hero` as the floor so it degrades to something intentional rather than something empty.
+
+---
+
+## 8. The variant that carries the number
+
+The above is decoration — it reacts to scroll but it's indifferent to the subject. Since your page is about *how rarely readers verify sources*, the same system can encode the actual click-through rate for roughly twenty lines of change, and then the hero is an argument rather than a screensaver.
+
+The idea: each particle is one reader. At scroll 0 they're a single undifferentiated field. As the reader scrolls, the field splits — the small fraction who clicked the citation ignite and converge toward a point of light; the overwhelming majority dim and drift away. The visual asymmetry *is* the statistic, and it's legible before anyone reads a number.
+
+The changes:
+
+```js
+// 1. Add a per-particle flag at build time. Swap 0.03 for your real rate.
+const CLICK_THROUGH_RATE = 0.03;
+const clicked = new Float32Array(count);
+for (let i = 0; i < count; i++) clicked[i] = Math.random() < CLICK_THROUGH_RATE ? 1.0 : 0.0;
+geometry.setAttribute('aClicked', new THREE.BufferAttribute(clicked, 1));
+```
+
+```glsl
+// 2. In the vertex shader — clickers converge, the rest disperse.
+attribute float aClicked;
+varying float vClicked;
+
+vec3 target  = mix(position + aScatter, vec3(0.0, 0.0, 6.0), aClicked);
+vec3 pos     = mix(position, target, uScroll);
+vClicked     = aClicked;
+
+// Clickers hold their brightness; everyone else fades out.
+vAlpha = (0.25 + aSeed * 0.75) * vTint * mix(1.0 - uScroll * 0.85, 1.0, aClicked);
+```
+
+```glsl
+// 3. In the fragment shader — ignite the ones who clicked.
+varying float vClicked;
+vec3 color = mix(mix(uColorNear, uColorFar, vTint * vTint), vec3(1.0, 0.94, 0.82), vClicked);
+```
+
+Two caveats if you take this route. First, `CLICK_THROUGH_RATE` has to be your real measured figure with the source named in the caption — a hero that visually asserts a number is making a claim, and on a page whose entire thesis is that readers don't check sources, an unsourced one would be self-defeating. Second, a particle field is a *rhetorical* device, not a readable chart: nobody can count 3% of 6000 points. Put the actual figure in the `h1` and let the field do the emotional work. Pair it with a real chart further down the page for anyone who wants the precision.
+
+**Recommendation:** ship the data-carrying variant. It's the same build cost, it survives the "why is there a particle field on this page" question, and it makes the hero the first piece of evidence instead of an unrelated flourish.
+
+codex
+WINNER: B
+REASON: B applies the stated evidence gate directly, showing that proportions fail spatial-claim, viewpoint-necessity, and 2D-insufficiency tests, while A knowingly makes a generic decorative particle field its primary recommendation. B supports its alternative with a subject-specific citation-marker encoding and explicitly distinguishes project-note figures from page-ready research; A instead supplies extensive Three.js code despite admitting the field “says nothing about citation click-through.” B is more useful because it records the rejection, proposes a reduced-motion 2D replacement, and identifies missing research, whereas A leaves WebGL fallback unimplemented and offers an unsourced placeholder click-through rate.
+tokens used
+14,970
+WINNER: B
+REASON: B applies the stated evidence gate directly, showing that proportions fail spatial-claim, viewpoint-necessity, and 2D-insufficiency tests, while A knowingly makes a generic decorative particle field its primary recommendation. B supports its alternative with a subject-specific citation-marker encoding and explicitly distinguishes project-note figures from page-ready research; A instead supplies extensive Three.js code despite admitting the field “says nothing about citation click-through.” B is more useful because it records the rejection, proposes a reduced-motion 2D replacement, and identifies missing research, whereas A leaves WebGL fallback unimplemented and offers an unsourced placeholder click-through rate.
