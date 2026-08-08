@@ -268,8 +268,31 @@ GRAIN_LITE, GRAIN_LITE_L = "#FFF4DE", 0.960    # its lit flank, half a stroke ke
 GRAIN_OFFSET = 1.7                             # flank separation
 GRAIN_PIECE = 190.0                            # re-solve the field every this far
 GRAIN_AMP_A = 0.055      # travel-direction family: luminance swing, held flat in r
-GRAIN_AMP_B = 0.055      # along-blade family: the second half of the cross-hatch
 GRAIN_TRUE_F = 0.13      # the trued plane's share of it
+# ROUND 11 (detail). The second family is gone, and the first one wanders.
+# The cross-hatch was authored on the claim that C2 carries a lattice. Binning the
+# gradient ENERGY of each field by ridge bearing says it does not. On C2's clean
+# un-planed windows the histogram is ONE broad lobe centred near the travel
+# direction: peak/mean 2.18, peak/cross 3.48. Ours was two spikes exactly 90 deg
+# apart - peak/mean 6.73, and peak/cross 1.66, which is the number a cross returns
+# by construction. The trued plane says the same thing twice over: C2's is
+# directionless fine noise (peak/mean 1.15) at sd 0.0086 where ours ran the same
+# energy, sd 0.0098, organised into the same lattice (peak/mean 3.39).
+# So the lobe is not made of two bearings. It is made of ONE bearing that wanders,
+# which is also what tear-out along a fibre physically is. Its width is carried by
+# WANDER rather than by fanning the ridges, because a fan of straight lines at
+# mixed bearings is a randomised lattice - still crossings, just untidy ones.
+GRAIN_SKEW = 15.0        # per-ridge bearing scatter, deg. Was 11 (A) / 13 (B)
+GRAIN_WANDER = 11.0      # node amplitude across the ridge's own axis. Was 3.4, which
+                         # bent a ridge by ~1.6 deg over a node and ruled the field
+GRAIN_NODE = 34.0        # node spacing. Was 60: the wander needs the frequency to
+                         # reach the bearings, not just the amplitude
+# Pitch along local x. Dropping family B removes about half the strokes, and the
+# strokes were adding incoherently, so the field's texture sd falls by roughly
+# root-2 - 0.028 toward 0.020 against C2's measured 0.022. That is the right
+# direction and about the right distance, so the pitch is left where it was and
+# the energy is allowed to land where the deletion puts it.
+GRAIN_PITCH_LO, GRAIN_PITCH_HI = 11.0, 14.0
 # The lit flanks all paint over the shadowed ones (one group each, so the file can
 # carry the colour once instead of 1500 times), so a little of every dark flank is
 # erased at a crossing; and on the trued plane the ground is already at 0.85, so an
@@ -278,85 +301,6 @@ GRAIN_TRUE_F = 0.13      # the trued plane's share of it
 # now moves the un-planed plane by -0.0002 and the trued plane by +0.0001.
 GRAIN_BAL_ROUGH = 1.00
 GRAIN_BAL_TRUED = 1.45
-
-# ROUND 13 (detail). The tear population was authored FLAT across the un-planed plane -
-# amplitude held constant in radius on purpose, because r10's instrument said the
-# reference's was flat too. Re-measured on the coordinate the reference's own pixels
-# actually depend on (`loop-runs/r11/work/m8.py`: bin the local rms of the 3-13px
-# high-pass by each candidate coordinate, keep the one with the least within-bin
-# residual), relief amplitude is a function of CANVAS Y and of almost nothing else:
-# canvas y explains 65.3% of it, distance from the key 22.0%, and distance out from the
-# cut - the coordinate r08 read this same fall-off on - only 35.2%.
-#
-# Down that coordinate the master is already right for two thirds of the plane and then
-# falls off a cliff. Reference/master rms per 64px band: 0.86, 0.97, 0.88, 0.93, 1.16
-# from y 64 to 384, then 2.18, 2.97, 3.40, 3.15, 3.08, 2.87, 2.44 from y 384 to 832.
-# The top of the tile sits inside the key's own hot spot, where the field is up at
-# L 0.82 and micro relief has no contrast left to show; the lower band is where the
-# light rakes, and that is the only part of a rough plane where tearing is legible.
-# 78% of the reference's un-planed edge pixels are in it, against 18% of ours.
-#
-# GRAIN_PROF is that profile: the amplitude the tear should carry at a canvas height,
-# as a multiple of what r10 authored. Held at 1 above y 320 because that part measures
-# right already, and eased rather than stepped from y 320 to y 512 - a step would put a
-# horizontal edge across the plane, and there is no boundary there to hang it on.
-# The band's own peak is pulled to 2.4 against the measured 3.4: the last third of the
-# fault is not affordable inside the cap below, and a tear that reads at 16px as noise
-# costs the rubric more than the composite pays.
-GRAIN_PROF = ((0.0, 1.00), (320.0, 1.05), (384.0, 1.55), (448.0, 2.10),
-              (512.0, 2.40), (576.0, 2.40), (640.0, 2.28), (704.0, 2.22),
-              (768.0, 2.08), (832.0, 1.80), (1100.0, 1.80))
-# ...and it is carried by the GRADIENT THAT PAINTS THE STROKE, not by the geometry.
-# A ridge is emitted in GRAIN_PIECE-long pieces, so authoring the profile in the
-# geometry means breaking every piece at every knot: measured, that is +622 paths and
-# +79KB, which alone puts the file 50KB over its envelope. A linearGradient in the
-# grain's own user space, running along the canvas-y direction with stop-opacity as
-# the profile, costs four gradients and about 700 bytes, resolves continuously instead
-# of per-piece, and multiplies BOTH flanks of every pair by the same factor - so the
-# mean-neutrality the whole construction rests on survives untouched.
-GRAIN_CAP = 0.55         # the most opacity a single flank may carry
-
-# The second and third faults in the same band, from the same patch spectra
-# (`work/m7.py`): the reference's lattice there runs 1.3-1.8x finer than ours (mean
-# wavelength 6.0px against 10.9 at the left edge, 28.2 against 35.9 mid-plane), and it
-# is dominated by the ALONG-TRAVEL family - peaks at +48, +58 and +72 canvas degrees,
-# against family A's +57 - where ours is dominated by the across-pass family at -42 and
-# reads anisotropy 13.7 against the reference's 4.68. A pass tears the fibres along the
-# direction it travelled, so the profile is split unevenly between the families: A
-# takes 1.36 of the combined amplitude and B 0.76, which turns a 1:2 power split into
-# 1.6:1 without adding one path. The pitch fault goes the same way - shorter dashes
-# inside the band, which costs nothing because the dasharray is already there.
-GRAIN_FAM_A = 1.3625     # family A's share of the combined amplitude profile
-GRAIN_FAM_B = 0.7560     # family B's, so sqrt((A^2 + 2 B^2)/3) = 1: same total, new bias
-GRAIN_BAND_Y = 384.0     # where the light starts to rake, and tearing becomes legible
-GRAIN_BAND_DASH = 0.62   # marks and gaps that short: the band tears in 4-12px flecks
-GRAIN_PEAK_A = max(g for _, g in GRAIN_PROF) * GRAIN_FAM_A
-GRAIN_PEAK_B = max(g for _, g in GRAIN_PROF) * GRAIN_FAM_B
-
-
-def grain_gain(cy):
-    """The tear's combined amplitude at a canvas height, from the reference's profile."""
-    for (y0, g0), (y1, g1) in zip(GRAIN_PROF, GRAIN_PROF[1:]):
-        if cy <= y1:
-            return g0 + (g1 - g0) * (cy - y0) / (y1 - y0)
-    return GRAIN_PROF[-1][1]
-
-
-def tear_profile(gid, colour, fam):
-    """The amplitude profile as a stroke paint, in the grain's own frame.
-
-    The frame is a rotation, so canvas y is affine in local coordinates: the point
-    s*(UY,NY) sits at canvas y = AY + s. The gradient therefore runs from the local
-    image of canvas y 0 to that of y 1024, and offset is canvas height, linearly."""
-    p0, p1 = -AY, 1024.0 - AY
-    peak = max(g for _, g in GRAIN_PROF) * fam
-    stops = "".join(
-        f'<stop offset="{y / 1024.0:.4f}" stop-color="{colour}" '
-        f'stop-opacity="{g * fam / peak:.3f}"/>'
-        for y, g in GRAIN_PROF if y <= 1024.0)
-    return (f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" '
-            f'x1="{p0 * UY:.1f}" y1="{p0 * NY:.1f}" '
-            f'x2="{p1 * UY:.1f}" y2="{p1 * NY:.1f}">{stops}</linearGradient>')
 
 
 def ground_lum(coef, px, py):
@@ -374,17 +318,16 @@ def _key_local():
     return kx / m, ky / m
 
 
-def _dash(tear, scale=1.0):
+def _dash(tear):
     """Four numbers, so the break pattern's period is ~40 units rather than the dash
     pitch - long enough that a stroke reads as torn rather than ruled, and cheap
     enough to put a whole run of a ridge in one path element instead of thirty.
     Short marks: the reference tears in 6-20px flecks, and the first cut of this
-    used 8-42, which read as brickwork. `scale` shortens marks and gaps together,
-    which lowers a patch's wavelength without changing how much of it is covered."""
+    used 8-42, which read as brickwork."""
     v = []
     for _ in range(2):
-        v.append(f"{(4 + rnd() * 15) * (1.15 - 0.45 * tear) * scale:.1f}")
-        v.append(f"{(2.5 + rnd() * 13) * tear * scale:.1f}")
+        v.append(f"{(4 + rnd() * 15) * (1.15 - 0.45 * tear):.1f}")
+        v.append(f"{(2.5 + rnd() * 13) * tear:.1f}")
     return " ".join(v)
 
 
@@ -406,7 +349,7 @@ def _clip_span(px, py, dx, dy, t0, t1):
     return (lo, hi) if hi - lo > 8.0 else None
 
 
-def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=False):
+def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
     """One ridge as a lit/shadowed pair, emitted in GRAIN_PIECE-long pieces, each
     piece a short polyline that wanders off its own axis. A tear in end grain is not
     a ruled line, and two exactly perpendicular families of ruled lines at an even
@@ -416,11 +359,7 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=F
     on the ground it actually lands on, and that make the pair mean-neutral: the
     dark flank removes as much light as the twin adds. That balance is the whole
     reason this can be dense. r02's texture was dense too, and it moved the plane's
-    mean, so it cost lum on every size and was rejected.
-
-    `band` shortens the dashes below GRAIN_BAND_Y, where the reference tears in
-    flecks a third the length of ours. The amplitude profile is NOT applied here -
-    it rides the stroke's gradient; see tear_profile."""
+    mean, so it cost lum on every size and was rejected."""
     span = _clip_span(px, py, dx, dy, t0, t1)
     if span is None:
         return
@@ -440,22 +379,15 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=F
         # the reference does not merely hold its texture away from the key, it gains
         # a little: band sd 0.0166 at r 160-320 against 0.0202 at r 800-960
         a = amp * (0.90 + 0.35 * math.hypot(cx - 75.0, cy - 25.0) / 1000.0)
-        # If the shadowed flank runs out of opacity, the pair is no longer neutral:
-        # the twin would still deliver a swing its partner cannot match. Solve the
-        # twin against the amplitude actually ACHIEVED, so a clip costs contrast and
-        # never costs the plane's mean.
-        head = max(g - GRAIN_DARK_L, 0.10)
-        od = a / head
-        if od > GRAIN_CAP:
-            od, a = GRAIN_CAP, GRAIN_CAP * head
-        ol = min(GRAIN_CAP, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
-        n = max(2, int((e - t) / 60.0) + 1)
+        od = min(0.55, a / max(g - GRAIN_DARK_L, 0.10))
+        ol = min(0.55, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
+        n = max(2, int((e - t) / GRAIN_NODE) + 1)
         pts = []
         for i in range(n + 1):
             s = t + (e - t) * i / n
-            j = (rnd() - 0.5) * 3.4
+            j = (rnd() - 0.5) * GRAIN_WANDER
             pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
-        d = _dash(tear, GRAIN_BAND_DASH if band and cy > GRAIN_BAND_Y else 1.0)
+        d = _dash(tear)
         seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
         dark.append(f'<path d="{seg}" stroke-opacity="{od:.3f}" '
                     f'stroke-width="{wid:.2f}" stroke-dasharray="{d}"/>')
@@ -466,75 +398,50 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal, band=F
 
 
 def grain():
-    """Two crossing families of grain, and the SAME lines cross the boundary: torn
-    and broken on the un-planed side, near-continuous and faint on the trued side.
-    That continuity is what makes the split read as one surface in two states rather
+    """ONE family of grain, and the SAME lines cross the boundary: torn and broken
+    on the un-planed side, near-continuous and faint on the trued side. That
+    continuity is what makes the split read as one surface in two states rather
     than as two different materials. Drawn right across the tile and clipped per
     side, so the block sits ON the grain rather than beside it.
 
-    Two families, not one, because that is what the reference has. Measured on a
-    clean patch of un-planed ground it is a cross-hatched torn lattice with cells of
-    20-30px, band sd 0.0587 against the master's 0.0046, and an anisotropy of 3.0;
-    the master's trued plane read 13.1 - ruled lines, not a worked surface. The
-    families run along the travel direction and along the blade, which is what a
-    plane leaves: the pass and the tear-out across it.
+    One family, not two. Binning C2's own un-planed pixels by ridge bearing returns
+    a single broad lobe near the travel direction (peak/mean 2.18, peak/cross 3.48),
+    not the two lobes 90 deg apart that a cross-hatch gives; its trued plane is
+    directionless noise at peak/mean 1.15. The lobe's WIDTH is authored as wander
+    along each ridge, so a mark curves the way a torn fibre does and the field gets
+    its angular spread without any two ridges meeting at a hard angle.
 
-    ROUND 13 splits the un-planed side's two families into their own groups, because
-    each now carries its own amplitude profile down the tile as a stroke gradient and
-    the two profiles are not the same: the reference's band is torn ALONG the pass,
-    ours was torn across it."""
-    rough_a_d, rough_a_l, rough_b_d, rough_b_l = [], [], [], []
-    true_d, true_l = [], []
+    The bearing is solved ONCE per line and used on both sides of the cut. It used
+    to be redrawn per side, so a line arrived at the hone on one bearing and left it
+    on another - a kink at the exact place the icon's argument is made, invisible at
+    11 deg of scatter and not invisible at 15."""
+    rough_d, rough_l, true_d, true_l = [], [], [], []
 
     def skew(deg):
-        """A ridge's own bearing. Two families held at exactly 0 and 90 degrees make
-        a grid; the reference's lattice scatters by a good ten degrees either way,
-        which is what stops the crossings falling into register."""
+        """A ridge's own bearing. The lobe is broad, but it is still a lobe: the
+        scatter stays modest and the width comes from GRAIN_WANDER instead."""
         a = math.radians((rnd() - 0.5) * 2 * deg)
         return math.cos(a), math.sin(a)
 
-    # --- family A: along the travel direction (local x fixed)
+    # --- the one family: along the travel direction (local x fixed), crossing the cut
     x = LX_MIN - 40
     while x < LX_MAX + 40:
         tear = 0.52 + rnd() * 0.48
-        sy, sx = skew(11.0)
-        _ridge(rough_a_d, rough_a_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
-               GRAIN_AMP_A * GRAIN_PEAK_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9,
-               tear, GRAIN_BAL_ROUGH, band=True)
-        sy, sx = skew(11.0)
+        sy, sx = skew(GRAIN_SKEW)
+        _ridge(rough_d, rough_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
+               GRAIN_AMP_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9, tear,
+               GRAIN_BAL_ROUGH)
         _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
                GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
                1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
-        x += 11.0 + rnd() * 14.0
-    # --- family B: along the blade (local y fixed), the tear-out across the pass.
-    #     Same amplitude and near enough the same pitch as family A, because a
-    #     lattice with one strong family and one weak one is still a ruled field:
-    #     the first cut of this made B two thirds of A's amplitude at a third
-    #     less density, and the far patch's anisotropy went UP, 5.4 to 9.6.
-    y = 9.0
-    while y < LY_MAX + 30:
-        sx, sy = skew(13.0)
-        _ridge(rough_b_d, rough_b_l, GROUND_ROUGH, 0.0, y, sx, sy,
-               LX_MIN - 40, LX_MAX + 40,
-               GRAIN_AMP_B * GRAIN_PEAK_B * (0.7 + rnd() * 0.6), 1.4 + rnd() * 1.0,
-               0.68 + rnd() * 0.32, GRAIN_BAL_ROUGH, band=True)
-        y += 12.0 + rnd() * 15.0
-    y = -9.0
-    while y > LY_MIN - 30:
-        sx, sy = skew(13.0)
-        _ridge(true_d, true_l, GROUND_TRUED, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
-               GRAIN_AMP_B * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
-               1.2 + rnd() * 0.8, 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
-        y -= 12.0 + rnd() * 15.0
+        x += GRAIN_PITCH_LO + rnd() * GRAIN_PITCH_HI
 
-    def wrap(*layers):
-        return "\n      ".join(f'<g stroke="{paint}">\n      ' +
-                               "\n      ".join(items) + '\n      </g>'
-                               for items, paint in layers)
+    def wrap(dark, lite):
+        return (f'<g stroke="{GRAIN_DARK}">\n      ' + "\n      ".join(dark) +
+                f'\n      </g>\n      <g stroke="{GRAIN_LITE}">\n      ' +
+                "\n      ".join(lite) + "\n      </g>")
 
-    return (wrap((rough_a_d, "url(#tearAD)"), (rough_b_d, "url(#tearBD)"),
-                 (rough_a_l, "url(#tearAL)"), (rough_b_l, "url(#tearBL)")),
-            wrap((true_d, GRAIN_DARK), (true_l, GRAIN_LITE)))
+    return wrap(rough_d, rough_l), wrap(true_d, true_l)
 
 
 def mottle():
@@ -1046,15 +953,6 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
     <stop offset="0.9391" stop-color="#D7CFBE"/>  <!-- u 1360  target L 0.700 -->
     <stop offset="0.9999" stop-color="#DDD4C0"/>  <!-- u 1448  target L 0.683 -->
   </linearGradient>
-
-  <!-- ROUND 13. The tear's amplitude down the un-planed plane, one gradient per family
-       per flank, in the grain's own frame. Both flanks of a pair take the SAME profile,
-       so the pair stays mean-neutral wherever it lands; A and B take different shares
-       of it, which is what re-aims the band's lattice along the pass. -->
-  {tear_profile("tearAD", GRAIN_DARK, GRAIN_FAM_A)}
-  {tear_profile("tearAL", GRAIN_LITE, GRAIN_FAM_A)}
-  {tear_profile("tearBD", GRAIN_DARK, GRAIN_FAM_B)}
-  {tear_profile("tearBL", GRAIN_LITE, GRAIN_FAM_B)}
 
   <!-- top face of the iron: facing the soft top-left light. ROUND 7 - the intent here
        was always "warm-leaning graphite, not blue steel", but the constants never said

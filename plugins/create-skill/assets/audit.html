@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-skill icon - contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 200px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 430px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .loop { margin-top: 28px; max-width: 900px; }
+  .loop table { min-width: 0; }
+  .loop td, .loop th { padding: 8px 14px; font-variant-numeric: tabular-nums; }
+  .loop caption { text-align: left; color: #7fa0aa; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 0 0 10px; }
+  code { color: #cfe0e6; }
+</style>
+</head>
+<body>
+<h1>create-skill icon - contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Pour" · porcelain register, one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 32 / 16. Contrast figures below are relative-luminance ratios measured on the 1024 renders, not estimated.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py - SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables. <strong>1</strong> full-bleed artwork with the superellipse as a clipPath, the pour deliberately cut by the top edge. <strong>2</strong> flask 55.7% of tile width, side margins 227px, bottom 105px. <strong>3</strong> the designed silhouette filled solid black is a stream falling into a squat vessel, still nameable at 32px. <strong>4</strong> at 16px a warm mass over a pale drum with a lit mouth, no smear. <strong>5</strong> one soft top-left key plus the sanctioned emissive interior. <strong>10</strong> four real layers over a swappable ground; identity is the vessel-plus-stream shape, not the hue. Loses <strong>7</strong>: melt against tile measures 3.04:1 and the shaded flank 3.98:1, but the flask's <em>lit</em> flank sits at 1.01:1 against the tile beside it, so half the body separates by rim light and contact shadow alone and softens in grayscale. Absorbed from the raster takes: the two-part keyed flask, the mid-air cascade, and the whole melt ramp.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-d2f7ef.svg<small>Arrow 1.1 vector take, spec as brief</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard-fails <strong>1</strong>: a rounded-rect corner radius and a drop shadow are baked into the artwork, with a dusty mauve field showing outside them, so it can never be masked with the set's path. Fails <strong>6</strong> too - that mauve is a third hue family and the pot's tan is a fourth. <strong>2</strong> the pot occupies about 36% of the tile and floats on an unearned white plinth. <strong>11</strong> the plinth is a prop that means nothing. What it did earn its cost for: it independently arrived at the same three-stage read (stream, detached droplet, filled vessel), which is corroboration that the composition is legible to something that never saw the other takes.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-4a73ea-masked.png<small>GPT Image 2 raster, three porcelain-register corpus exemplars as references</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">Fails <strong>10</strong> by construction, as any flat pre-masked raster does - no layers, identity hostage to one baked colour relationship. Also soft on <strong>2</strong>: the group sits low with a third of the tile empty above it, and the stream is thin enough that its top third fades toward the porcelain. Strong on material, and it is where the two-part flask with a keyed parting first appeared - a real casting flask is a cope and a drag, and that detail is both accurate and ownable. Kept as the second material reference; not scored as a shipping candidate.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC2-6c0a72-masked.png<small>GPT Image 2 raster, second take - the material target the loop ran against</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">10 / 12</td>
+    <td class="verdict">Wins the material read outright and loses on the one check that decides what ships. Fails <strong>10</strong> (flat raster, zero layer separation) and is soft on <strong>2</strong> (the flask is cropped tight at the sides and the stream leaves the frame off-centre). Its melt is the measurement that rebuilt take A: sampled on matched geometry it sits at luminance 0.42 to 0.53 and hue 5 to 9 degrees, where A's first two drafts sat at 0.57 to 0.80 and hue 20 to 25 - a full 17 degrees too yellow. Its stream also reads darkest along the axis and lighter at both flanks, which is the inverse of the bright-core construction A had, and correcting that was the single largest material gain of the run.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take with real layer separation (<code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, ready for Icon Composer), the only one designed for the set's exact superellipse rather than around a baked corner, and it now carries the raster's material rather than approximating it - the melt ramp, the dark-axis stream cross-section, the two-part keyed flask and the contrast budget were all measured off take C2 and rebuilt as gradients and layers. Known liabilities to revisit: <strong>(1)</strong> the flask's lit flank sits at 1.01:1 against the tile beside it, so the left half of the body is carried by rim light and contact shadow and softens under a grayscale or heavy tint - the porcelain register's standing trade, shared with the sibling create-mac-icon icon, and the first thing to fix if a Tinted variant looks weak. <strong>(2)</strong> the melt clears the 3:1 figure-ground bar at 3.04:1, a bare margin that a further darkening would widen but at the cost of drifting the accent away from the set's vermilion. <strong>(3)</strong> the two-part parting key and the detached droplet both disappear below about 48px; the icon reads correctly at 16px but the two devices that make it <em>this</em> icon are large-size only. <strong>(4)</strong> the mass sits low (bottom margin 105px against 227px at the sides) because the vessel stands on a ground plane while the pour occupies the upper half - deliberate, but it makes the tile's top-left quadrant the emptiest region in the set.</div>
+
+<div class="loop">
+<table>
+  <caption>Fidelity loop - take A rebuilt against take C2, <code>fidelity.py</code> composite per size (numpy tier: luminance field + SSIM + edge F1 + mask IoU)</caption>
+  <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col">1024</th><th scope="col">256</th><th scope="col">128</th><th scope="col">32</th><th scope="col">16</th><th scope="col">Mean</th><th scope="col">Gate</th></tr>
+  <tr><td>r00</td><td>baseline, after the measured melt correction</td><td>0.4268</td><td>0.3962</td><td>0.4052</td><td>0.7113</td><td>0.7774</td><td>0.5434</td><td> - </td></tr>
+  <tr><td>r01</td><td>material: contrast budget, deepen the dark end</td><td>0.4525</td><td>0.4168</td><td>0.4311</td><td>0.7233</td><td>0.7856</td><td>0.5619</td><td>ACCEPT +0.0924</td></tr>
+  <tr><td>r02</td><td>material: the melt's dark end</td><td>0.4516</td><td>0.4148</td><td>0.4274</td><td>0.7224</td><td>0.7856</td><td>0.5604</td><td>ACCEPT &minus;0.0075</td></tr>
+  <tr><td>r03</td><td>composition: open the mid-air cascade</td><td>0.4527</td><td>0.4125</td><td>0.4263</td><td>0.7232</td><td>0.7861</td><td>0.5602</td><td>ACCEPT &minus;0.0010</td></tr>
+  <tr><td>r04</td><td>material: reach the 3:1 figure-ground floor</td><td>0.4525</td><td>0.4158</td><td>0.4292</td><td>0.7224</td><td>0.7855</td><td>0.5611</td><td>ACCEPT +0.0046</td></tr>
+  <tr><td>r05</td><td>material: clear 3:1 cleanly - <strong>ships</strong></td><td>0.4528</td><td>0.4158</td><td>0.4281</td><td>0.7184</td><td>0.7849</td><td>0.5600</td><td>ACCEPT &minus;0.0054</td></tr>
+</table>
+<p class="rubric">The 1024 composite is the material gap and it moved 0.4268 to 0.4528. Everything after r01 is inside the noise band: r02 to r05 are four consecutive neutral rounds, which is the loop's stop condition. The residual floor is composition, not material - take C2's flask is larger, lower and lit across the tile differently, and the metric cannot separate that from a material difference. Two of those rounds were kept despite a flat or slightly negative composite because the composite is a proxy for a human judgment and was blind to what they fixed: r03 made the signature mid-air cascade legible (three stages at three heights instead of one 50px bunch), and r05 cleared a rubric floor the metric does not encode. Round sources are kept at <code>fidelity-runs/rNN.icon.svg</code> with their score JSON, residual and edge maps.</p>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) - checks 1 to 4 non-negotiable, delivery bar 10/12 or better. Raster takes are audited on their squircle-masked 1024 versions, masked with the set's exact path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, PIL LANCZOS for rasters, both via <code>render_audit.py</code>.</div>
+</body>
+</html>

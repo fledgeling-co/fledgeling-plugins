@@ -50,11 +50,28 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    glyphs need positive justification.
 3. **Silhouette first.** The glyph as a solid shape that names the subject;
    mental 16px squint before any styling.
-4. **The shared spec** (icon-directions.md § Generation pipeline, Step 0):
+4. **Look at real icons before authoring anything.** Open 4-6 exemplars from
+   `references/corpus/apple-2026/` in the register you chose and *sample
+   values out of them*: the ground's luminance range, where its brightest
+   point sits relative to the key light, the accent's saturation, the hue of
+   the darkest pixel in a shaded face, how the rim light is treated, how the
+   contact shadow falls. Write those numbers into the spec.
+
+   This step exists because the master that ships was, until it was added,
+   built entirely from prose descriptions of what a macOS icon looks like.
+   Reading *about* icons is not the same as looking at them, and every
+   material failure this skill has recorded traces to an assumed
+   relationship that a glance at the corpus would have corrected: shadows
+   authored blue in a warm-lit scene, a curl drawn lighter than the ground
+   when the reference draws it darker, a "highlight" that the reference does
+   not have. The loop later catches these at roughly four rounds each. The
+   corpus catches them for free, before the first line.
+
+5. **The shared spec** (icon-directions.md § Generation pipeline, Step 0):
    1024 canvas, squircle-mask discipline (`assets/squircle-path.txt` is the
    exact path for masking raster takes), optical centring, one light model,
    ≤2 hue families, and the #10 layer plan (bg / mid / fg / highlight).
-5. **Three engines — a floor, not a target.** Under any budget cut
+6. **Three engines — a floor, not a target.** Under any budget cut
    iterations, never engines; a missing engine is a named deviation the user
    agreed to.
    - **Engine A — hand-authored layered SVG** (always; the canonical master
@@ -71,13 +88,13 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
      material target, never the shipped master.
    - media-gen-pro unavailable → say so, widen Engine A to 2-3 genuinely
      different hand-authored takes.
-6. **Audit — written, not narrated.** Render every take at 1024/128/32/16
+7. **Audit — written, not narrated.** Render every take at 1024/128/32/16
    and write `audit.html` from `assets/icon-audit-template.html` (2× retina
    sources shown at half size, pixelated ×6 squint magnification, losers
    stay scored, recommendation names known liabilities). The 12-point rubric
    bar: ≥10/12, checks 1-4 non-negotiable. A commission without `audit.html`
    on disk is incomplete.
-7. **The fidelity loop** (`references/fidelity-loop.md`) — when a raster
+8. **The fidelity loop** (`references/fidelity-loop.md`) — when a raster
    take wins the material read, or the user supplies a reference to match:
    `scripts/fidelity.py` scores the master against the reference at five
    sizes (structure gate → score → Pareto gate per round), bounded rounds
@@ -88,14 +105,24 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    three-family model panel). Re-render the audit sheet with the final
    master. This step is what makes "rebuild the raster's material into the
    master" a measurement instead of a vibe.
-8. **Deliver**: the layered SVG master (+ build script), the alternates, the
+
+   **Two authority rules, both bought with wasted rounds.** The 12-point
+   rubric outranks the gate: the reference can itself fail checks the master
+   passes, so converging on it can drag the master below the floor. And the
+   blind panel outranks a run of gate ACCEPTs: on one fixture the composite
+   climbed 15% across eight consecutive rounds while the panel preferred the
+   previous take in seven of them, crazing the ground and flattening a curl
+   that had been measured correctly. `PANEL_VETO` now ends a fixture after
+   three consecutive panel losses regardless of what the score says. A gate
+   ACCEPT is evidence, never a verdict.
+9. **Deliver**: the layered SVG master (+ build script), the alternates, the
    audit sheet, the fidelity run directory, and — if the loop confirmed a new
    construction — the `material-recipes.md` addition, stated in the summary.
 
 ## Iterating an existing icon against a reference
 
 When the ask is "make this icon look like that image" (no new commission),
-skip to steps 4/7: normalise the reference, run `structure` + `score` for the
+skip to steps 5/8: normalise the reference, run `structure` + `score` for the
 baseline, then loop. The same bounded schedule applies; the audit sheet at
 the end shows before/after rows.
 

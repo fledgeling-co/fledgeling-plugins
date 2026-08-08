@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<!--
+  create-skill README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  Subject-mined from the shipping icon rather than decorated to match it. The icon is take
+  A, the layered vector master, whose whole construction sits on one dimetric ground plane
+  with a single foreshortening constant, KY = 0.515, and whose melt takes the pour at a
+  pool centred on (512, 646) in the icon's own 1024 space.
+
+  The banner is the rest of that bench. The rings are the pour's disturbance still
+  spreading: concentric ellipses on the SAME plane at the SAME 0.515, centred on the
+  projected position of the icon's own pool, so they leave the tile at the exact place the
+  drop lands and run off both edges of the frame. Everything here is derived from those two
+  numbers in the script below, so any change to the icon's KY, to its pool depth or to the
+  icon's placement is re-derived automatically rather than re-eyeballed.
+
+  Further out on that plane, one more flask has already been filled and is cooling. It is
+  the only other place the warm accent is spent, which is the icon's own rule: vermilion
+  belongs to the melt and to nothing else. The warmth under the tile is the icon's own
+  ground spill continuing past its edge, at the strength the icon throws it.
+
+  Ground is the porcelain register the marketplace uses by default; the dark register
+  belongs to the sibling trawl.
+
+  Type is Manrope, whose strokes join with a continuous, poured quality rather than a
+  drawn one, and whose terminals are cut square where the porcelain is. No sibling in this
+  marketplace uses it.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background: #F2EDE3;
+    font-family: "Manrope", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  svg.bench { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 112px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 96px; }
+  .icon { width: 300px; height: 300px; flex: none;
+          filter: drop-shadow(0 20px 44px rgba(72, 58, 40, .28)); }
+
+  .wordmark { font-size: 104px; font-weight: 700; letter-spacing: -0.042em;
+              line-height: 1; color: #2A241D; white-space: nowrap; }
+  .tagline { margin-top: 26px; font-size: 29px; font-weight: 400;
+             letter-spacing: -0.006em; color: #6C6053; white-space: nowrap; }
+  .tagline b { color: #322B23; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="bench" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- one soft top-left light across the bench, the icon's own light model extended -->
+      <radialGradient id="light" cx="290" cy="70" r="1520" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#FFFDF8"/>
+        <stop offset="0.44" stop-color="#F5F0E6"/>
+        <stop offset="1" stop-color="#E3DACA"/>
+      </radialGradient>
+      <!-- looking into a vessel: the far wall in shade, paling toward the near lip -->
+      <linearGradient id="void" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#9C8F78" stop-opacity=".55"/>
+        <stop offset="0.40" stop-color="#B4A891" stop-opacity=".30"/>
+        <stop offset="1" stop-color="#EFE8DA" stop-opacity="0"/>
+      </linearGradient>
+      <!-- melt that has been poured and is cooling: the icon's own ramp, one notch back -->
+      <radialGradient id="melt" cx="0.46" cy="0.34" r="0.70">
+        <stop offset="0" stop-color="#FC8014"/>
+        <stop offset="0.28" stop-color="#DC2603"/>
+        <stop offset="0.70" stop-color="#BC1302"/>
+        <stop offset="1" stop-color="#8A0C01"/>
+      </radialGradient>
+      <!-- what a filled vessel throws back onto the porcelain around it -->
+      <radialGradient id="bounce" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#FF9C60" stop-opacity=".40"/>
+        <stop offset="0.44" stop-color="#FF9C60" stop-opacity=".17"/>
+        <stop offset="1" stop-color="#FF9C60" stop-opacity="0"/>
+      </radialGradient>
+      <!-- the icon's own ground spill, continuing past the edge of its tile -->
+      <radialGradient id="spill" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#FF9C60" stop-opacity=".22"/>
+        <stop offset="0.45" stop-color="#FF9C60" stop-opacity=".09"/>
+        <stop offset="1" stop-color="#FF9C60" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="lip" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".92"/>
+        <stop offset="0.60" stop-color="#FFFFFF" stop-opacity=".38"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity=".10"/>
+      </linearGradient>
+    </defs>
+
+    <rect width="1600" height="520" fill="url(#light)"/>
+    <g id="bench"></g>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div>
+      <div class="wordmark">create-skill</div>
+      <div class="tagline">Build a skill that does not exist yet, and <b>prove it beats no skill at all</b>.</div>
+    </div>
+  </div>
+
+  <script>
+    // Everything on this bench is derived from the icon's own constants, so the plane
+    // cannot tilt out of register with the artwork sitting on it.
+    const KY = 0.515;            // build_icon.py: the one foreshortening constant
+    const POOL = [512, 646];     // build_icon.py: CX, CY + POOL_D - where the drop lands
+    const ICON_LEFT = 112, ICON_SIZE = 300;
+    const s = ICON_SIZE / 1024;
+    const ox = ICON_LEFT + POOL[0] * s;
+    const oy = (520 - ICON_SIZE) / 2 + POOL[1] * s;
+
+    const ell = (cx, cy, r, attrs) =>
+      `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${r.toFixed(1)}" ` +
+      `ry="${(r * KY).toFixed(1)}" ${attrs}/>`;
+
+    let out = '';
+
+    // The disturbance the pour is still making, spreading out across the bench from the
+    // exact point the drop lands and running off both edges of the frame. Amplitude falls
+    // with distance the way a real ripple's does, roughly as 1/sqrt(r).
+    for (const r of [178, 262, 366, 492, 640, 812, 1010, 1236, 1490]) {
+      const a = 0.095 * Math.sqrt(178 / r);
+      out += ell(ox, oy, r, `fill="none" stroke="#8A7A62" stroke-opacity="${a.toFixed(3)}" stroke-width="2.4"`);
+      out += ell(ox, oy - 3, r, `fill="none" stroke="#FFFFFF" stroke-opacity="${(a * 1.5).toFixed(3)}" stroke-width="2"`);
+    }
+
+    // the icon's own ground spill, continuing past the edge of its tile
+    out += ell(ox, oy + 26, 300, 'fill="url(#spill)"');
+
+    // Further out on the same plane, one flask has already been filled and is cooling.
+    // Cut by the right edge, so the bench is a place rather than a scene. It is built the
+    // way the icon's flask is - mouth, rim annulus, then a cavity CLIPPED TO ITS OWN
+    // APERTURE - because a melt drawn without that clip runs out past the near rim and the
+    // vessel reads as a plate with a puddle on it.
+    // Sited so it obeys the plane: farther up the bench means BOTH higher on the
+    // canvas AND smaller. The first cut of this sat higher than the icon's flask while
+    // being larger than it, which reads as a second scene rather than the same bench.
+    const F = { cx: 1570, cy: 238, r: 72, wall: 19, h: 44 };
+    const ri = F.r - F.wall;
+    out += ell(F.cx + 10, F.cy + F.h + 14, F.r * 1.04,
+               'fill="#5F5138" fill-opacity=".22" filter="blur(20px)"');
+    // the body: the mouth's near arc swept straight down
+    out += `<path d="M ${F.cx - F.r} ${F.cy} A ${F.r} ${F.r * KY} 0 0 0 ${F.cx + F.r} ${F.cy} ` +
+           `L ${F.cx + F.r} ${F.cy + F.h} A ${F.r} ${F.r * KY} 0 0 1 ${F.cx - F.r} ${F.cy + F.h} Z" ` +
+           `fill="#E0D5C0"/>`;
+    out += ell(F.cx, F.cy, F.r, 'fill="#F7F2E7"');
+    out += `<clipPath id="mouth">${ell(F.cx, F.cy, ri, '')}</clipPath>`;
+    out += `<g clip-path="url(#mouth)">` +
+           ell(F.cx, F.cy, ri, 'fill="#C9BCA2"') +
+           ell(F.cx, F.cy + 15, ri, 'fill="url(#void)"') +
+           ell(F.cx, F.cy + 26, ri, 'fill="url(#melt)"') +
+           `</g>`;
+    out += ell(F.cx, F.cy + 26, ri * 2.6, 'fill="url(#bounce)"');
+    // the lit lip is the UPPER arc only: the key is up and to the left, so a full ring
+    // would put a highlight on the near rim where the melt is already lighting it
+    out += `<path d="M ${F.cx - F.r} ${F.cy} A ${F.r} ${F.r * KY} 0 0 1 ${F.cx + F.r} ${F.cy}" ` +
+           `fill="none" stroke="url(#lip)" stroke-width="3.4"/>`;
+
+    document.getElementById('bench').innerHTML = out;
+  </script>
+</body>
+</html>
