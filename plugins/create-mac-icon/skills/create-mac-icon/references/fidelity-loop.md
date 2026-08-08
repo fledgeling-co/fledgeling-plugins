@@ -279,6 +279,15 @@ Rules that make it converge (each one earned by a documented failure mode):
   not a bug in either, so the brief now states the fixture's contrast budget up
   front (the master's own spread, the reference's, and the floor) and tells the
   round not to spend itself converging ground contrast.
+- **A human-notes deferral must expire.** The rule that keeps a fixture open
+  while a reviewer's defects are unresolved is right, and it saved a fixture the
+  panel would have closed on the round that finally fixed the named defect. But
+  left unbounded it became a blindfold: on improve-skill the panel preferred the
+  baseline in seven of eight consecutive rounds while the composite climbed 15%,
+  and the loop kept going because notes were open. The ground crazed and the curl
+  flattened, and every gate said ACCEPT throughout. `PANEL_VETO` (default 3
+  consecutive panel losses) now ends a fixture regardless. Deferral is a delay,
+  never a silence.
 - **Two consecutive rejections = stop or branch.** Grinding one scaffold past
   two rejects buys nothing (documented plateau behaviour); branch to a fresh
   scaffold or ship the accepted state with the gap stated.

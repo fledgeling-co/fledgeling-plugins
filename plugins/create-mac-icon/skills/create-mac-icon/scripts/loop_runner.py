@@ -37,6 +37,8 @@ import time
 from datetime import datetime, timezone
 
 EDIT_CLASSES = ["material", "detail", "small-size repair", "coarse structure"]
+# Consecutive panel losses that end a fixture regardless of open human notes.
+PANEL_VETO = 3
 
 # No git, no rm, no curl. The agent can build, render, score and read.
 ALLOWED_TOOLS = ",".join([
@@ -548,10 +550,20 @@ class Runner:
         # would abandon a fixture with known defects. While human notes are on file,
         # both signals must agree; the gain floor still bounds the fixture either way.
         has_open_human_notes = bool(list((assets / "loop-runs").glob("r*/review-feedback.json")))
-        if st["panel_nonwins"] >= 2:
+        # Human notes defer the panel, they do not silence it. On improve-skill the
+        # panel preferred the baseline in seven of eight rounds while the composite
+        # climbed 15%, and the deferral kept the loop grinding through all of them:
+        # the ground crazed and the curl flattened while every gate said ACCEPT. A
+        # deferral that never expires is not a safeguard, it is a blindfold.
+        if st["panel_nonwins"] >= PANEL_VETO:
+            st["converged"] = True
+            self.log(f"  {fx['name']} converged: panel rejected {st['panel_nonwins']} consecutive "
+                     f"rounds; the veto overrides open human notes")
+        elif st["panel_nonwins"] >= 2:
             if has_open_human_notes and not st["converged"]:
                 self.log(f"  {fx['name']}: panel would converge, but human notes are open; "
-                         f"continuing until the gain floor decides")
+                         f"continuing until the gain floor or the panel veto "
+                         f"({st['panel_nonwins']}/{PANEL_VETO}) decides")
             else:
                 st["converged"] = True
                 self.log(f"  {fx['name']} converged: panel stopped preferring new rounds")
