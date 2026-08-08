@@ -268,8 +268,31 @@ GRAIN_LITE, GRAIN_LITE_L = "#FFF4DE", 0.960    # its lit flank, half a stroke ke
 GRAIN_OFFSET = 1.7                             # flank separation
 GRAIN_PIECE = 190.0                            # re-solve the field every this far
 GRAIN_AMP_A = 0.055      # travel-direction family: luminance swing, held flat in r
-GRAIN_AMP_B = 0.055      # along-blade family: the second half of the cross-hatch
 GRAIN_TRUE_F = 0.13      # the trued plane's share of it
+# ROUND 11 (detail). The second family is gone, and the first one wanders.
+# The cross-hatch was authored on the claim that C2 carries a lattice. Binning the
+# gradient ENERGY of each field by ridge bearing says it does not. On C2's clean
+# un-planed windows the histogram is ONE broad lobe centred near the travel
+# direction: peak/mean 2.18, peak/cross 3.48. Ours was two spikes exactly 90 deg
+# apart - peak/mean 6.73, and peak/cross 1.66, which is the number a cross returns
+# by construction. The trued plane says the same thing twice over: C2's is
+# directionless fine noise (peak/mean 1.15) at sd 0.0086 where ours ran the same
+# energy, sd 0.0098, organised into the same lattice (peak/mean 3.39).
+# So the lobe is not made of two bearings. It is made of ONE bearing that wanders,
+# which is also what tear-out along a fibre physically is. Its width is carried by
+# WANDER rather than by fanning the ridges, because a fan of straight lines at
+# mixed bearings is a randomised lattice - still crossings, just untidy ones.
+GRAIN_SKEW = 15.0        # per-ridge bearing scatter, deg. Was 11 (A) / 13 (B)
+GRAIN_WANDER = 11.0      # node amplitude across the ridge's own axis. Was 3.4, which
+                         # bent a ridge by ~1.6 deg over a node and ruled the field
+GRAIN_NODE = 34.0        # node spacing. Was 60: the wander needs the frequency to
+                         # reach the bearings, not just the amplitude
+# Pitch along local x. Dropping family B removes about half the strokes, and the
+# strokes were adding incoherently, so the field's texture sd falls by roughly
+# root-2 - 0.028 toward 0.020 against C2's measured 0.022. That is the right
+# direction and about the right distance, so the pitch is left where it was and
+# the energy is allowed to land where the deletion puts it.
+GRAIN_PITCH_LO, GRAIN_PITCH_HI = 11.0, 14.0
 # The lit flanks all paint over the shadowed ones (one group each, so the file can
 # carry the colour once instead of 1500 times), so a little of every dark flank is
 # erased at a crossing; and on the trued plane the ground is already at 0.85, so an
@@ -358,11 +381,11 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
         a = amp * (0.90 + 0.35 * math.hypot(cx - 75.0, cy - 25.0) / 1000.0)
         od = min(0.55, a / max(g - GRAIN_DARK_L, 0.10))
         ol = min(0.55, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
-        n = max(2, int((e - t) / 60.0) + 1)
+        n = max(2, int((e - t) / GRAIN_NODE) + 1)
         pts = []
         for i in range(n + 1):
             s = t + (e - t) * i / n
-            j = (rnd() - 0.5) * 3.4
+            j = (rnd() - 0.5) * GRAIN_WANDER
             pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
         d = _dash(tear)
         seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
@@ -375,59 +398,43 @@ def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
 
 
 def grain():
-    """Two crossing families of grain, and the SAME lines cross the boundary: torn
-    and broken on the un-planed side, near-continuous and faint on the trued side.
-    That continuity is what makes the split read as one surface in two states rather
+    """ONE family of grain, and the SAME lines cross the boundary: torn and broken
+    on the un-planed side, near-continuous and faint on the trued side. That
+    continuity is what makes the split read as one surface in two states rather
     than as two different materials. Drawn right across the tile and clipped per
     side, so the block sits ON the grain rather than beside it.
 
-    Two families, not one, because that is what the reference has. Measured on a
-    clean patch of un-planed ground it is a cross-hatched torn lattice with cells of
-    20-30px, band sd 0.0587 against the master's 0.0046, and an anisotropy of 3.0;
-    the master's trued plane read 13.1 - ruled lines, not a worked surface. The
-    families run along the travel direction and along the blade, which is what a
-    plane leaves: the pass and the tear-out across it."""
+    One family, not two. Binning C2's own un-planed pixels by ridge bearing returns
+    a single broad lobe near the travel direction (peak/mean 2.18, peak/cross 3.48),
+    not the two lobes 90 deg apart that a cross-hatch gives; its trued plane is
+    directionless noise at peak/mean 1.15. The lobe's WIDTH is authored as wander
+    along each ridge, so a mark curves the way a torn fibre does and the field gets
+    its angular spread without any two ridges meeting at a hard angle.
+
+    The bearing is solved ONCE per line and used on both sides of the cut. It used
+    to be redrawn per side, so a line arrived at the hone on one bearing and left it
+    on another - a kink at the exact place the icon's argument is made, invisible at
+    11 deg of scatter and not invisible at 15."""
     rough_d, rough_l, true_d, true_l = [], [], [], []
 
     def skew(deg):
-        """A ridge's own bearing. Two families held at exactly 0 and 90 degrees make
-        a grid; the reference's lattice scatters by a good ten degrees either way,
-        which is what stops the crossings falling into register."""
+        """A ridge's own bearing. The lobe is broad, but it is still a lobe: the
+        scatter stays modest and the width comes from GRAIN_WANDER instead."""
         a = math.radians((rnd() - 0.5) * 2 * deg)
         return math.cos(a), math.sin(a)
 
-    # --- family A: along the travel direction (local x fixed)
+    # --- the one family: along the travel direction (local x fixed), crossing the cut
     x = LX_MIN - 40
     while x < LX_MAX + 40:
         tear = 0.52 + rnd() * 0.48
-        sy, sx = skew(11.0)
+        sy, sx = skew(GRAIN_SKEW)
         _ridge(rough_d, rough_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
                GRAIN_AMP_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9, tear,
                GRAIN_BAL_ROUGH)
-        sy, sx = skew(11.0)
         _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
                GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
                1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
-        x += 11.0 + rnd() * 14.0
-    # --- family B: along the blade (local y fixed), the tear-out across the pass.
-    #     Same amplitude and near enough the same pitch as family A, because a
-    #     lattice with one strong family and one weak one is still a ruled field:
-    #     the first cut of this made B two thirds of A's amplitude at a third
-    #     less density, and the far patch's anisotropy went UP, 5.4 to 9.6.
-    y = 9.0
-    while y < LY_MAX + 30:
-        sx, sy = skew(13.0)
-        _ridge(rough_d, rough_l, GROUND_ROUGH, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
-               GRAIN_AMP_B * (0.7 + rnd() * 0.6), 1.4 + rnd() * 1.0,
-               0.68 + rnd() * 0.32, GRAIN_BAL_ROUGH)
-        y += 12.0 + rnd() * 15.0
-    y = -9.0
-    while y > LY_MIN - 30:
-        sx, sy = skew(13.0)
-        _ridge(true_d, true_l, GROUND_TRUED, 0.0, y, sx, sy, LX_MIN - 40, LX_MAX + 40,
-               GRAIN_AMP_B * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
-               1.2 + rnd() * 0.8, 0.05 + rnd() * 0.14, GRAIN_BAL_TRUED)
-        y -= 12.0 + rnd() * 15.0
+        x += GRAIN_PITCH_LO + rnd() * GRAIN_PITCH_HI
 
     def wrap(dark, lite):
         return (f'<g stroke="{GRAIN_DARK}">\n      ' + "\n      ".join(dark) +
