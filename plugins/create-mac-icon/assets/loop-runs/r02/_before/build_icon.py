@@ -115,24 +115,6 @@ TILE_H = 84.0                                 # cast tile thickness, screen px
 LIFT = 128.0                                  # how far the cast has risen, screen px
 SLIDE = 118.0                                 # and how far it slid along -u, plate units
 
-# Arris fillets, measured off the reference rather than assumed. Nothing on
-# either object is a cut edge there; every convex arris is a rolled fillet, and
-# the roll is wide enough to be a surface rather than a stroke:
-#   block, top face -> front wall   L 0.950 holds to the arris, then rolls
-#                                   monotonically to the wall's 0.680 over 26px
-#                                   (midpoint 0.815 about 11px below the arris);
-#   gel,   face -> side wall        0.518 -> 0.302 over 21-27px, and NO bright
-#                                   line anywhere on the wall side of it;
-#   gel crest                       sits on the FACE side instead, +0.09 over
-#                                   the face at the lit left corner and gone by
-#                                   the right one - a wrap highlight on the
-#                                   shoulder, not a seam on the wall.
-# These are stroke widths, centred on the arris, so half of each lies on the
-# turned face; the blur (sigma 7) carries the roll out to the measured width.
-FILLET_BLOCK = 26.0
-FILLET_GEL = 22.0
-FILLET_LIP = 16.0                             # bounded on purpose - see icon-notes.md
-
 TILE_CX = CX - SLIDE * KX
 TILE_CY = CY - SLIDE * KY - LIFT
 
@@ -269,7 +251,6 @@ defs = [
     f'<clipPath id="mouldFace"><path d="{d(mould_top)}"/></clipPath>',
     f'<clipPath id="tileFace"><path d="{d(tile_top)}"/></clipPath>',
     f'<clipPath id="tileWallClip"><path d="{d(tile_wall)}"/></clipPath>',
-    f'<clipPath id="mouldWallClip"><path d="{d(mould_wall)}"/></clipPath>',
     f'<mask id="notTile"><rect x="0" y="0" width="{W}" height="{W}" fill="#fff"/>'
     f'<path d="{d(tile_sil)}" fill="#000"/></mask>',
 
@@ -309,10 +290,6 @@ defs = [
         [("0", "#FFE6D2", ".92"), (".45", "#FFC49B", ".40"), ("1", "#FFA271", "0")]),
     rad("gelBloom", TILE_CX - 96, TILE_CY - 74, 208,
         [("0", "#FFF0E0", ".40"), (".46", "#FFDCC0", ".14"), ("1", "#FFC49B", "0")]),
-    # the wrap highlight on the gel's lower shoulder: measured strongest at the
-    # lit left corner and extinct by the right one, so it dies along +x.
-    lin("gelArris", TILE_CX - 240, TILE_CY, TILE_CX + 240, TILE_CY,
-        [("0", "#FFC79E", ".82"), (".55", "#FFAE7E", ".18"), ("1", "#FF9E6B", "0")]),
 
     # plaster rim light along the block's lit upper edge
     lin("rimLight", CX - 300, CY - 155, CX + 230, CY + 70,
@@ -352,13 +329,6 @@ mid = [
     f'<path d="{d(mould_wr)}" fill="url(#wallR)"/>',
     f'<path d="{d(mould_top)} {d(cav_top)}" fill-rule="evenodd" fill="url(#plasterFace)"/>',
 
-    # the block's arris is a fillet, not a cut: the top face's own paint carried
-    # down over the wall and faded out across the measured 26px roll, so both
-    # gradients stay registered and the roll inherits their lateral variation.
-    f'<g clip-path="url(#mouldWallClip)"><g filter="url(#bS)">'
-    f'<path d="{d(mould_low, False)}" fill="none" stroke="url(#plasterFace)"'
-    f' stroke-width="{FILLET_BLOCK:.0f}" stroke-linecap="round"/></g></g>',
-
     # the recess, bounded by its own mouth
     '<g clip-path="url(#cavClip)">',
     f'<path d="{d(cav_floor)}" fill="url(#cavFloor)"/>',
@@ -369,17 +339,13 @@ mid = [
     f' stroke="#6B6049" stroke-opacity=".40" stroke-width="46"/></g>',
     # and the warmth the cast left in the floor
     f'<path d="{d(cav_floor)}" fill="url(#bounce)"/>',
-    # the mouth is a rolled lip, not a cut: the top face turns over the rim and
-    # carries its own paint a bounded way inside, all round the ring.
-    f'<g filter="url(#bS)"><path d="{d(cav_top)}" fill="none" stroke="url(#plasterFace)"'
-    f' stroke-width="{FILLET_LIP:.0f}"/></g>',
+    # the lit near lip, read from inside
+    f'<g filter="url(#bS)"><path d="{d(cav_low, False)}" fill="none" stroke="#FFF8EE"'
+    f' stroke-opacity=".50" stroke-width="16"/></g>',
     '</g>',
 
-    # occlusion belongs BELOW the lip's crest, inside the recess, not on it: the
-    # ring pushed FILLET_LIP into the mouth, which the clip drops on the near
-    # side where the lip's inside face is the lit floor.
-    f'<g clip-path="url(#cavClip)"><g filter="url(#bS)">'
-    f'<path d="{d(shift(cav_top, 0, FILLET_LIP))}" fill="none"'
+    # cavity mouth: a hairline of shade under the near rim, so the mouth reads as a cut
+    f'<g clip-path="url(#cavClip)"><g filter="url(#bS)"><path d="{d(cav_top)}" fill="none"'
     f' stroke="#87795E" stroke-opacity=".46" stroke-width="26"/></g></g>',
 
     # the cast's shadow, falling across the rim and down into the open cavity
@@ -398,17 +364,10 @@ fg = [
     f'<g clip-path="url(#tileFace)"><g filter="url(#bM)">'
     f'<path d="{d(shift(tile_low, 0, -14))}" fill="none" stroke="{GEL_3}"'
     f' stroke-opacity=".62" stroke-width="38"/></g></g>',
-    # where the wall meets the face, a rolled shoulder rather than a printed edge:
-    # the face's own paint carried down over the wall across the measured 22px
-    # roll. The reference is monotone dark under this arris, so nothing bright
-    # goes on the wall side of it.
+    # where the wall meets the face, a poured shoulder rather than a printed edge
     f'<g clip-path="url(#tileWallClip)"><g filter="url(#bS)">'
-    f'<path d="{d(tile_low, False)}" fill="none" stroke="url(#gelFace)"'
-    f' stroke-width="{FILLET_GEL:.0f}" stroke-linecap="round"/></g></g>',
-    # the crest of that shoulder, on the FACE side where the measurement puts it
-    f'<g clip-path="url(#tileFace)"><g filter="url(#bS)">'
-    f'<path d="{d(tile_low, False)}" fill="none" stroke="url(#gelArris)"'
-    f' stroke-width="15" stroke-linecap="round"/></g></g>',
+    f'<path d="{d(tile_low, False)}" fill="none" stroke="#FF9E6B" stroke-opacity=".70"'
+    f' stroke-width="12"/></g></g>',
 ]
 
 # ---- highlight: rim lights and the one soft bloom

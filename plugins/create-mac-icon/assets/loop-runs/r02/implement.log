@@ -1,0 +1,17 @@
+**Gate: ACCEPT**, net +0.0112 — every size up, a strict Pareto move.
+
+| size | r00 | r02 |
+|---|---|---|
+| 1024 | 0.5046 | 0.5082 |
+| 256 | 0.4164 | 0.4193 |
+| 128 | 0.3895 | 0.3905 |
+| 32 | 0.6304 | 0.6322 |
+| 16 | 0.7225 | 0.7244 |
+
+Perpendicular luminance profiles across every convex edge found the same thing three times: the reference has no cut edges, only rolled fillets, and the master had drawn all three as one-pixel steps. Block top-face→wall rolls 0.950→0.680 over 26px; the gel's arris rolls 0.518→0.302 over 21–27px with **nothing bright on the wall side** — the master had a `#FF9E6B` seam there, an invented highlight, and the reference puts its crest on the *face* side instead (+0.09 at the lit corner, extinct by the right one). Each fillet is now one blurred stroke painted with the adjoining face's own gradient, so the roll inherits that face's lateral variation and the gradients stay registered.
+
+The reference's cavity lip rolls 54–72px and crests brighter than the top face, leaving its mouth at ~0.03 contrast. I capped that at 16px rather than follow it; it still cost 2.11:1 → 2.03:1 on mouth contrast. Cast figure-ground unchanged, `self_contrast` identical at 32/16.
+
+Reusable: **arris fillet by face-paint stroke** — stroke the arris with the adjoining face's gradient, clipped to the turned face, blurred to the measured roll width.
+
+---STDERR---
