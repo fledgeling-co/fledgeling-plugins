@@ -1,9 +1,21 @@
-**Gate: ACCEPT, +0.0133 net.** 1024 0.4927 → 0.5058, 256 0.4713 → 0.4699, 128 0.5153 → 0.5160, 32 0.7858 → 0.7886, 16 0.8381 → 0.8362; worst size −0.0019 against a −0.005 tolerance. Structure 1726 → 1784 paths, 323,357 → 304,530 bytes, PASS. Polarity holds (+0.151).
+**Gate: ACCEPT** (net −0.0097, every size inside the 0.005 tolerance).
 
-I wrote two instruments the loop lacked — a distance transform to the nearest mark, and an entropy-normalised per-component bearing histogram — because everything we own measures the marks and nothing measures where they aren't. Reference against r14: void mean 1.74/3.43/1.69 vs 3.60/8.79/3.08, bearing entropy 0.93/0.95/0.97 vs 0.77/0.75/0.79, at coverage already within 3 points. Right ink, wrong arrangement. Raising per-ridge bearing scatter to ±38°/±40° took entropy to 0.95/0.96/0.98 and halved band-left anisotropy (5.68 → 3.12 vs C2's 2.24); `GRAIN_PREC = 0` paid the 29.4KB. Wander, stagger and pitch each swept inert and were not shipped.
+| size | r11 baseline | r13 |
+|---:|---:|---:|
+| 1024 | 0.4585 | 0.4538 |
+| 256 | 0.4760 | 0.4732 |
+| 128 | 0.5188 | 0.5175 |
+| 32 | 0.7874 | 0.7871 |
+| 16 | 0.8377 | 0.8371 |
 
-Rubric held: figure-ground, light model and the 16px read unchanged; `self_contrast` fell but clears both floors with margin down to 0.020. The pair's mean-neutrality broke by 0.0077 — `GRAIN_BAL_TRUED` needs re-solving next round.
+One note on the fixture: the tree started from r12's rejected candidate (filters 12), not r11, so this round had to repair that loss before gaining.
 
-Reusable: **scatter the carrier's bearing, and check the holes, not the ink** — for any texture of marks riding few long carriers. ±35–40° is an interior optimum; past it each family rotates onto the other's axis.
+**What I measured.** A control render — the same SVG with `filter="url(#ironGrit)"` stripped — showed the filter darkening its subject −0.0017 at 1024 but −0.0335 at 16. Replacing the turbulence and lighting with a constant flood reproduced 97% of that, so r12's undersampled-height-field diagnosis was wrong. Mapped at 128, the loss is a one-device-pixel dark seam around the group's silhouette, interior identically zero: `feComposite arithmetic` applied `k1 = 1/sin(50°)` to premultiplied **alpha** as well as colour, so every boundary pixel came out too opaque. Perimeter/area — 0.2% of the block at 1024, ~13% at 16.
+
+**Change.** The normalisation moved to an `feComponentTransfer` (linear slope on R/G/B, alpha untouched); `k1` falls to 1. Interior bit-identical, 1042 paths, +214 bytes.
+
+Rubric improves: figure-ground 2.86:1 was previously inflated by the fault; polarity +0.145 unchanged. r12's 256/128 `edge_f1` gains were the seam and are now given back.
+
+**Reusable:** a scalar meant for colour must never ride in on `feComposite arithmetic`'s k1/k2/k3 — those coefficients cannot tell colour from coverage.
 
 ---STDERR---

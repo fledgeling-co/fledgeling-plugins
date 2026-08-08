@@ -2,13 +2,13 @@
   "verdict": {
     "overall": "B",
     "material": "B",
-    "silhouette": "tie",
-    "smallsize": "tie",
+    "silhouette": "A",
+    "smallsize": "A",
     "rationale": {
-      "overall": "B and A share the same composition and geometry, but B's slab and ground read as a single coherently lit object while A carries blotchy olive-tinted smudges and a stray dark rectangular patch on the slab's top face that break the illusion of a solid material.",
-      "material": "REF's slab is matte stone with mottling that follows its form; B's smoother gradient with a subtle top-face highlight band and clean bevel transition conveys volume more convincingly, whereas A's mottling sits on the surface as flat discoloration rather than grain, and A's harsh, sharply-drawn background scratch lines diverge more from REF's fine, softly-lit floor striation than B's finer woven grain does.",
-      "silhouette": "The two takes have effectively identical outer shapes \u2014 same slab wedge, ribbon loop, glow line and diagonal floor break \u2014 with no discernible edge or proportion advantage either way.",
-      "smallsize": "At 128px, 32px and 16px both collapse to the same dark diagonal bar with an orange under-edge against a warm split ground, and neither the artifacts on A nor the finer grain on B survive the downscale to differentiate the read."
+      "overall": "B reads as a lit solid the way the REFERENCE does \u2014 continuous form shading and a warm falloff across the slab \u2014 whereas A reads as flat panels with drawn creases, so B wins despite A holding its edges better.",
+      "material": "B has the volumetric gradient, subtle surface mottling and soft translucency along the top face that the REFERENCE's stone shows, while A is a near-uniform dark fill with a hard facet line and outline strokes the REFERENCE never has.",
+      "silhouette": "A keeps a crisp, evenly contrasted outline against the two-tone ground, while B's upper-right corner lightens toward the background and softens the block's boundary there.",
+      "smallsize": "At 32px and 16px A stays a compact dark bar with a decisive orange underline, whereas B's lighter top end blurs into the pale field and the mass reads slightly mushier."
     }
   },
   "meta": {
