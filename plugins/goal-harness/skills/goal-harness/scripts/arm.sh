@@ -23,6 +23,15 @@ done
 command -v jq >/dev/null 2>&1 || { echo "arm.sh: jq is required" >&2; exit 2; }
 jq -e . "$SRC" >/dev/null || { echo "arm.sh: state file is not valid JSON" >&2; exit 2; }
 
+# A backup is a precondition, not a courtesy: if it fails we must not proceed to
+# the destructive step, and we must never claim it happened. Reproduced on a
+# read-only .claude/: the backup failed, the overwrite succeeded anyway, and the
+# script printed "wrote" and exited 0 with the previous file unrecoverable.
+backup() {
+  cp "$1" "$1.bak.$(date -u +%Y%m%dT%H%M%SZ)" || {
+    echo "${0##*/}: could not back up $1 — refusing to modify it" >&2; exit 1; }
+}
+
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 GUARD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/goal-guard.sh"
 SETTINGS="$ROOT/.claude/settings.local.json"
@@ -81,8 +90,8 @@ fi
 
 mkdir -p "$ROOT/.claude"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
-[ -f "$SETTINGS" ] && cp "$SETTINGS" "$SETTINGS.bak.$STAMP"
-[ -f "$STATE" ]    && cp "$STATE"    "$STATE.bak.$STAMP"
+[ -f "$SETTINGS" ] && backup "$SETTINGS"
+[ -f "$STATE" ]    && backup "$STATE"
 
 [ -n "$NEW_SETTINGS" ] && [ -n "$NEW_STATE" ] || {
   echo "arm.sh: could not build the new settings/state; nothing written" >&2; exit 2; }
