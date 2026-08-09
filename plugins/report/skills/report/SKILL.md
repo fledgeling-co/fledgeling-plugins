@@ -181,11 +181,16 @@ row group, or a caption away from its chart.
     the loss counters" — the cheap change that makes the problem visible
     at all — sat at item 2 of section 09. A reader who stops at the fold
     never learns production is blind.
-  - **It is the last content block.** Sources and the methods note are
-    apparatus and follow it. An ask with two blocks of machinery after it
-    is not where the eye comes to rest.
-  - **It is sized and owned.** "About five minutes of machine time, needs
-    an owner and your yes" beat four unpriced imperatives.
+  - **It is the last content block, unless the page is one sheet.** On a
+    scrolling report, sources and the methods note are apparatus and
+    follow it. On a one-pager the constraint inverts: a third round put
+    the ask last, the sheet spilled to two, and the ask opened page two.
+    The judge's words: "whoever reads only the sheet I was handed first
+    never sees the ask." One page beats correct ordering. If it spills,
+    the ask moves up.
+  - **It is sized and owned.** "Under an hour, needs an owner and your
+    yes" is what a decision-maker praised over four unpriced imperatives.
+    Give the cheapest item a cost and a named decision.
 - **One claim per block**, with one visual delta that supports it.
   Adjacent blocks reuse scales, objects and positions unless changing one
   of those *is* the evidence.
@@ -326,5 +331,19 @@ before it saves time.
   genuinely useful half of that paragraph deserves to be a line near the
   top; the rest belongs in a commit message." Which skills ran is not
   news to the reader. What the report cannot tell them is.
+
+  **The narration comes back in disguise, so watch for the second form.**
+  With the tooling names gone, the next round's judge found the same
+  defect wearing evidence-gathering clothes: a sources header announcing
+  "five files read in full, every figure recomputed from the raw counts",
+  a footnote printing the `grep` command that was run, and a read-date
+  stamped on every source. That is the document describing how it looked
+  rather than what it found. The provenance belongs in `claims.json`,
+  where it is inspectable; the page cites the source and stops.
+
+- **Never let the working path into a source label.** The same judge hit
+  `./fixture` in a sources line and reacted with "you analysed a fixture,
+  not our repo?" — which undercut the strongest claim on the page. Cite
+  the path as the reader's repo sees it, or cite the file alone.
 - **Never publish or deploy.** Writing the files ends the run.
 - **Subagents never run git operations.**

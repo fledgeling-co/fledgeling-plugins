@@ -153,6 +153,10 @@ a.cite::before{content:"["} a.cite::after{content:"]"}
        cheapest high-payoff action has to be FIRST in it, and the sources footer is the
        only thing allowed after it. Keep any note about how the page was made to what the
        reader needs (what could not be established), never to which tools ran. -->
+  <!-- On ONE SHEET the ask must be visible on that sheet. A third round put it last, the
+       page spilled to two, and the ask opened page two: "whoever reads only the sheet I
+       was handed first never sees the ask." If page-fit is tight, this block moves ABOVE
+       the claims rather than off the page. One page beats correct ordering. -->
   <section class="asks">
     <p class="label">What we want decided</p>
     <ol>
@@ -162,7 +166,12 @@ a.cite::before{content:"["} a.cite::after{content:"]"}
   </section>
 
   <footer class="sources">
-    <p class="label">Sources · {{WHAT_THE_SESSION_DID_IN_ONE_CLAUSE}}</p>
+    <!-- Cite the sources. Do NOT narrate the gathering: "five files read in full",
+         "every figure recomputed", a printed grep command and a per-source read date all
+         describe how the page looked rather than what it found, and a judge read them as
+         apparatus bolted to the analysis. That provenance lives in the ledger, which is
+         inspectable. And never let a working path (./fixture, /tmp/...) into a label. -->
+    <p class="label">Sources</p>
     <ol>
       <li id="r1"><a href="{{URL_OR_OMIT}}">{{TITLE}}</a> — {{LOCATOR}}</li>
     </ol>
