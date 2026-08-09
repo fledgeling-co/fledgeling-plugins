@@ -114,6 +114,47 @@ with a **next-action brief** — the failing check plus its output, the iteratio
 count, the remaining budget, and the pointer to the file. That reason text
 becomes the run's next instruction, so write it as an instruction.
 
+**Write it as an instruction to act, never as a status report.** The most common
+shape of a dead-but-armed goal is a turn that reads the state, says "the fleet is
+still running", and ends — which satisfies nothing, advances nothing, and burns a
+block against the cap. Every hand-written heartbeat in this portfolio's history
+opens with some version of *"do not report 'still running' and stop; act"*,
+because that is the failure it kept meeting. So the brief names the next
+concrete action: merge the branch that is ready, refill the free slot, correct
+the drifted ledger row, resume the stalled runner. "Nothing to do" is a
+conclusion the guard reaches from its own command output, not one the run is
+invited to assert.
+
+### 6b. Arm an out-of-band heartbeat
+
+The Stop guard only ever fires at the *end of a turn*. A run that dies mid-turn —
+a usage limit, a crashed delivery agent, a lost session, a workflow whose agents
+all failed — never reaches a Stop event, so the guard never runs, the ledger
+stops growing, and the goal looks armed for as long as nobody checks. This is the
+gap behind *"you currently seem to stop working despite the goal being set and not
+met"*, and behind every fleet heartbeat that has since been written by hand.
+
+The guard cannot close it, because the guard is inside the thing that died. Arm
+something outside it:
+
+- **A `CronCreate` heartbeat** at 20–40 minutes whose prompt reads the ledger and
+  the repo state, and then **acts**: merge what is ready, refill free slots,
+  correct drifted rows, resume a stalled runner, delete itself when the worklist
+  is genuinely complete. Pick an off-round minute (`23 * * * *`, not `0`). Tell
+  the user it expires after seven days.
+- **Or a `Monitor`** when a log or a branch is the real signal, with a filter
+  covering the failure signatures as well as the success one — a filter that
+  matches only the happy path stays silent through a crashloop, and silence
+  reads identically to progress.
+
+Where a fleet or workflow is doing the delivery, add its liveness to `verify[]`
+as its own gate (the presets call this `agents-alive`). A delivery agent dying is
+independent of whether the work is done, and a goal that only watches the work
+cannot tell the two apart.
+
+Both are bounded and both are disarmed by `scripts/disarm.sh`; say so when you
+report.
+
 Then print the `/goal <condition>` line. Both paths can be armed at once; the
 guard verifies by running commands, `/goal` judges the narrative, and the run
 ends when both agree.
@@ -159,4 +200,9 @@ armed yet.
   file, so the run ends on your terms rather than on the block cap's.
 - **One armed goal per session.** Re-arming replaces the state file; say so.
 - **The ledger is the answer.** When asked "is it still going", read the ledger
-  rather than inferring from the transcript.
+  rather than inferring from the transcript. A ledger whose last row is an hour
+  old answers the question too — that is a stalled run, not a quiet one.
+- **Status is not an action.** A turn that reports state and ends satisfies no
+  gate and spends a block. Whatever the check found, the turn does the next
+  thing: merge, refill, correct, resume, or declare completion against the
+  worklist.
