@@ -34,20 +34,32 @@ a local ground of `(233,234,235)`: roughly 12% darker and tinted toward the
 object's own hue, not a neutral grey. So the graphite ring casts cool
 (`#2A2F38`) and the ember wedge casts warm (`#C0430F`).
 
-## What ships, and why it is the raster
+## What ships: the vector, with the ember inline
 
-The raster ships. That reverses the skill's usual default, and it was the user's
-call after seeing the takes side by side.
+The composition changed late and it is the change that mattered most.
 
-Take C won the material judgment from the first render and was disqualified on
-one fault: it baked its own dark rounded-square frame inside the tile. That
-turned out to be croppable rather than inherent. The inner tile sits at x 78 to
-948, y 66 to 953, aspect 0.981, so it squares off cleanly; scaled full bleed and
-remasked with the family superellipse, it passes checks 1 to 4 and keeps the gel
-the vector never reached.
+Every earlier take had the ember **detached**, floating outside the ring, which
+says "a piece came out". Inline, occupying part of the hole, it says what the
+tool actually reports: three quantities at once. Dark for used, ember for just
+reclaimed, and the remaining hole for free. It is also the conventional gauge
+idiom, so it reads without being learned.
 
-`icon.svg` stays as the vector alternate, because it is the thing that survives a
-palette change or a variant requirement. A baked raster cannot.
+Mechanically the inline segment abuts the ring with **butt caps**, matching the
+ring's own, and carries only an edge catch rather than a drop shadow. An inline
+element with a float shadow reads as sitting on top of the track instead of in
+it. Round caps would overlap the dark arc and round off the join.
+
+Proportions were swept: at 34 degrees the ember is too slight to be the focal
+accent the brief reserves it for, and at 52 it crowds the free gap. 44 degrees of
+ember in a 72 degree hole leaves 28 degrees reading clearly as empty.
+
+### Why not the raster
+
+Take C won the material judgment outright and briefly shipped: its one
+disqualifying fault, a baked dark frame, turned out to be croppable (inner tile
+x 78-948, y 66-953, aspect 0.981). Composition is what lost it. Its ember is a
+solid triangle baked outside the ring, so it cannot express the inline read, and
+being pixels it cannot be changed to. It stays as the material reference.
 
 ## The wedge was never misplaced
 
@@ -74,11 +86,10 @@ extending the arc by (W/2)/R radians at each end, 21.2 degrees in total.
 
 - `build_icon.py` emits `icon.svg`; geometry and material are named constants at
   the top, so a fidelity round is a parameter edit rather than path surgery.
-- `icon-engineC-clean.png` is the shipped mark; `icon.png` (1024),
-  `icon-256.png` and `icon-128.png` are made from it.
-- `icon.svg` is the vector alternate, with `icon-engineA-vector.png` as its
-  render. It is what to reach for if the mark ever needs to be variant-aware or
-  recoloured.
+- `icon.svg` is the shipped master, emitted by `build_icon.py`; `icon.png`
+  (1024), `icon-256.png` and `icon-128.png` are rendered from it.
+- `icon-engineC-clean.png` is the deframed raster, kept as the material
+  reference and the target for any future fidelity round.
 - `icon-engineB-arrow.svg` and `icon-engineC-raster.png` are the losing takes,
   kept because an audit that hides its losers is not an audit.
   `icon-engineC-masked.png` is C with the family superellipse applied.
@@ -88,12 +99,9 @@ extending the arc by (W/2)/R radians at each end, 21.2 degrees in total.
 
 ## Known liabilities
 
-- The shipped mark is a baked raster, so it fails check 10 outright: it cannot
-  adapt to Dark, Clear or Tinted, and it cannot be edited. Any palette or
-  geometry change means generating again rather than changing a constant. This
-  was accepted knowingly in exchange for the material.
-- The crop cost a little of the original framing, so the mark sits marginally
-  tighter in the tile than something authored to the squircle would.
+- The master is still less volumetric than C at 1024. Closing that needs a
+  bounded fidelity run against a raster regenerated with the inline
+  composition, since the current C is detached and would pull the master back.
 - Check 10, variant robustness, is untested. The mark has not been rendered
   against Dark, Clear or Tinted grounds, and a warm porcelain ground is exactly
   the kind that can collapse under Tinted.
