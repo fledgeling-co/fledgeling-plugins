@@ -100,10 +100,10 @@
           stroke="url(#edgeInner)" stroke-width="7" stroke-linecap="round"/>
 
     <!-- the wedge that came back -->
-    <g transform="translate(59.7,-85.2)" filter="url(#emberShadow)">
-      <path d="M 602.2 234.3 A 292 292 0 0 1 742.1 332.2" fill="none" stroke="url(#ember)"
+    <g transform="translate(50.5,-72.1)" filter="url(#emberShadow)">
+      <path d="M 592.5 231.3 A 292 292 0 0 1 748.2 340.4" fill="none" stroke="url(#ember)"
             stroke-width="108" stroke-linecap="round"/>
-      <path d="M 602.2 234.3 A 292 292 0 0 1 742.1 332.2" fill="none" stroke="url(#emberRim)"
+      <path d="M 592.5 231.3 A 292 292 0 0 1 748.2 340.4" fill="none" stroke="url(#emberRim)"
             stroke-width="37" stroke-linecap="round"
             transform="translate(0,-28)" opacity="0.75"/>
     </g>

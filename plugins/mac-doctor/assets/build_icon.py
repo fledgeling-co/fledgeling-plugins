@@ -42,8 +42,18 @@ R = 292                 # ring radius
 W = 108                 # ring stroke
 GAP_MID = -55.0         # bisector of the gap, degrees, 0 = +x, y down
 GAP_HALF = 35.0         # half-width of the gap
-WEDGE_HALF = 17.0       # half-width of the freed wedge
-WEDGE_LIFT = 104        # px along the bisector
+# Half-width of the freed wedge, and its lift along the bisector. These two
+# trade against each other and were swept rather than guessed, because both
+# failure modes look reasonable in isolation:
+#   wide and near (24.4 / 62)  -> the wedge covers the gap, so the ring stops
+#                                 reading as nearly full, which is the message
+#   narrow and far (16 / 104)  -> the wedge stops belonging to the gap and
+#                                 reads as an unrelated mark floating nearby
+# 19 / 88 keeps the pale track visible either side of the wedge while leaving
+# clear daylight between them. Note the round caps add (W/2)/R radians at each
+# end, 21.2 degrees in total, so the authored 38 degrees reads as about 59.
+WEDGE_HALF = 19.0
+WEDGE_LIFT = 88
 SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
 
 # ---- material ---------------------------------------------------------------

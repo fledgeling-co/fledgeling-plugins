@@ -34,6 +34,25 @@ a local ground of `(233,234,235)`: roughly 12% darker and tinted toward the
 object's own hue, not a neutral grey. So the graphite ring casts cool
 (`#2A2F38`) and the ember wedge casts warm (`#C0430F`).
 
+## Wedge placement, swept rather than guessed
+
+The first build put the wedge at 34 degrees of arc lifted 104px, and it read as
+a separate bean floating near the ring instead of the piece that came out of it.
+Two things were wrong. The arc was half the width of the 70 degree gap, and the
+lift was over a third of the ring radius.
+
+The correction is not simply "wider and closer", because both directions fail:
+
+| half / lift | what it does |
+|---|---|
+| 24.4 / 62 | wedge covers the gap, so the ring stops reading as nearly full |
+| 19.0 / 88 | **shipped.** Track visible either side, clear daylight between |
+| 16.0 / 104 | wedge stops belonging to the gap, reads as an unrelated mark |
+
+Worth noting for anyone editing these constants: round caps extend the arc by
+(W/2)/R radians at each end, 21.2 degrees in total here, so the authored 38
+degrees renders as about 59. The authored number is not the number you see.
+
 ## What the raster take changed
 
 Engine C won the material read, as the skill predicts, and lost everything
