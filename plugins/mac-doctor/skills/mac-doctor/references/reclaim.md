@@ -91,16 +91,31 @@ every input to it actually produced a value.
 **Measure:** `git -C <repo> worktree list` for registration; `ls` the worktree
 root for what is on disk. Size by sampling.
 
-**Gate — all three, per worktree:**
+**Gate — all four, per worktree:**
 
 ```bash
-git -C "$repo" worktree list --porcelain | grep -q "^worktree $wt$"   # registered?
-git -C "$wt" status --porcelain                                        # empty?
-git -C "$wt" log --oneline "$default_branch..HEAD"                     # empty?
+git -C "$repo" worktree list --porcelain | ...   # registered?  (canonicalise both sides)
+git -C "$wt" status --porcelain                  # empty?
+git -C "$wt" log --oneline "$default_branch..HEAD"   # empty?
+lsof -a -d cwd -- "$wt"                          # nobody working in it?
 ```
 
-Unregistered **and** clean **and** fully merged means abandoned. Any check
-failing means it is reported with what it holds.
+Registered **and** clean **and** merged **and** idle means a finished session.
+
+This reads backwards until you try it. Deregistering a worktree does not make it
+safer to delete, it makes it *unjudgeable*: the `.git` link points at an admin
+directory that no longer exists, so `status` and `log` fail and
+`git worktree repair` cannot re-attach it. "Unregistered and clean and merged"
+is not a stricter gate, it is an unsatisfiable one, and a skill built on it
+reclaims nothing while appearing careful. Unregistered worktrees are reported
+`unverifiable` and left alone.
+
+**Canonicalise both sides of the registration compare.** git reports resolved
+paths (`/private/tmp/...`) and a shell glob yields the symlinked form
+(`/tmp/...`). A string compare between them fails silently and inverts the
+verdict: on first run this audit called the one registered worktree reclaimable
+and the three deregistered ones unreadable. Under `~/Dev` there is no symlink,
+so it looked correct.
 
 **Reclaim:** `git -C "$repo" worktree remove --force "$wt"`, falling back to
 `rm -rf` only when the worktree is unregistered (git will refuse to remove what
@@ -111,12 +126,13 @@ This is the highest-consequence target on the machine, which is why it is 7d and
 gated three ways.
 
 **Expect most worktrees to fail the gate, and treat that as the gate working.**
-On the reference machine all 217 were registered and clean, so zero were
-reclaimable — while totalling **620 GB**, making them by a wide margin the
-largest single consumer on the disk and *not* something this skill removes. The
-right output there is a review list, not a deletion proposal. A worktree audit
-that frequently returns a large reclaim is more likely mis-measuring than
-finding treasure.
+On the reference machine 136 worktrees audited to 114 keep, 13 reclaimable and 9
+unverifiable, against a total of 620 GB. The reclaimable ones were all finished
+`wf_*` workflow runs, which is the population worth having: a session ended and
+left its worktree registered, clean and merged. A worktree audit that returns a
+*large* reclaim is more likely mis-measuring than finding treasure; one that
+returns zero every time is probably mis-gated, which is how the inverted rule
+above went unnoticed.
 
 ## Docker
 
