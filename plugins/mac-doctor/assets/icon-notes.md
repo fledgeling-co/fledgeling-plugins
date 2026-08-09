@@ -44,14 +44,20 @@ tool actually reports: three quantities at once. Dark for used, ember for just
 reclaimed, and the remaining hole for free. It is also the conventional gauge
 idiom, so it reads without being learned.
 
-Mechanically the inline segment abuts the ring with **butt caps**, matching the
-ring's own, and carries only an edge catch rather than a drop shadow. An inline
-element with a float shadow reads as sitting on top of the track instead of in
-it. Round caps would overlap the dark arc and round off the join.
+The ember is **centred in the hole with clearance on both sides**. The first
+inline attempt had it abutting the used arc, which made it read as continuous
+with what is occupied. Free space either side says the opposite, and the
+opposite is what is true: 80 degrees of hole, 40 of ember, 20 clear each side.
 
-Proportions were swept: at 34 degrees the ember is too slight to be the focal
-accent the brief reserves it for, and at 52 it crowds the free gap. 44 degrees of
-ember in a 72 degree hole leaves 28 degrees reading clearly as empty.
+Butt caps, matching the ring's own, and an edge catch rather than a drop shadow.
+An inline element with a float shadow reads as sitting on top of the track
+instead of in it.
+
+The ring is also heavier than the first builds: `R 280, W 152` against the
+original `292 / 108`. A thin ring reads as a progress spinner and loses
+definition below 32px; the heavier stroke carries the three-part division at
+small sizes, and the radius was pulled in to keep the outer edge in the safe
+zone. Proportions were swept rather than guessed at each step.
 
 ### Why not the raster
 

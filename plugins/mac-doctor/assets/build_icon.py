@@ -38,23 +38,25 @@ SQUIRCLE = (Path(__file__).resolve().parents[2] / "create-mac-icon" /
 # ---- geometry ---------------------------------------------------------------
 S = 1024
 CX = CY = 512
-R = 292                 # ring radius
-W = 108                 # ring stroke
+R = 280                 # ring radius, pulled in as the stroke thickened
+W = 152                 # ring stroke; heavier reads better at small sizes
 GAP_MID = -55.0         # bisector of the gap, degrees, 0 = +x, y down
 # Half-width of the gap. 35 made a 70 degree hole, which is 19% of the ring
 # empty; the machine this was built for was at 6% free. 25 is both truer and
 # more legible, because a smaller hole lets the freed wedge match its width.
-GAP_HALF = 36.0
+GAP_HALF = 40.0
 # The reclaimed segment now sits INLINE in the ring rather than floating outside
 # it. Detached said "a piece came out"; inline says what the tool actually
 # reports, which is three quantities at once: dark for used, ember for just
 # reclaimed, and the remaining hole for free. It is also the conventional gauge
 # idiom, so it reads without being learned.
 #
-# The segment occupies the leading part of the hole and abuts the ring's end, so
-# it uses butt caps like the ring. Round caps would overlap the dark arc and
-# round off the join that makes the two read as one track.
-EMBER_SPAN = 44.0
+# The segment is CENTRED in the hole, with clearance on both sides. Abutting the
+# used arc made it read as continuous with it, as though the reclaimed space were
+# still part of what is occupied. Free space either side says the opposite, which
+# is the true statement: 80 degrees of hole, 40 of ember, 20 clear each side.
+# Butt caps, matching the ring.
+EMBER_SPAN = 40.0
 SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
 
 # ---- material ---------------------------------------------------------------
@@ -88,8 +90,7 @@ def build():
     ring_end = GAP_MID - GAP_HALF + 360      # ...all the way round
     ring_d = arc(ring_start, ring_end - 360, 1, 1)
 
-    hole_start = GAP_MID - GAP_HALF          # where the dark ring stops
-    wedge_d = arc(hole_start, hole_start + EMBER_SPAN, 0, 1)
+    wedge_d = arc(GAP_MID - EMBER_SPAN/2, GAP_MID + EMBER_SPAN/2, 0, 1)
 
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {S} {S}" width="{S}" height="{S}">
 <defs>
@@ -191,7 +192,7 @@ def build():
     <!-- the reclaimed segment, inline and abutting the ring -->
     <path d="{wedge_d}" fill="none" stroke="url(#ember)"
           stroke-width="{W}" stroke-linecap="butt"/>
-    <path d="{arc(hole_start, hole_start + EMBER_SPAN, 0, 1, R + W/2 - 5)}" fill="none"
+    <path d="{arc(GAP_MID - EMBER_SPAN/2, GAP_MID + EMBER_SPAN/2, 0, 1, R + W/2 - 5)}" fill="none"
           stroke="url(#emberEdge)" stroke-width="9" stroke-linecap="round"/>
   </g>
 </g>
