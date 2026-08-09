@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r01 coarse structure: overlapping stack, geometry fitted to the reference's edge map",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0676,
+      "ssim": 0.8366,
+      "edge_f1": 0.0917,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2219,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6129
+    },
+    "256": {
+      "lum_delta": 0.0676,
+      "ssim": 0.6381,
+      "edge_f1": 0.27,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2144,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.5781
+    },
+    "128": {
+      "lum_delta": 0.0677,
+      "ssim": 0.5247,
+      "edge_f1": 0.4213,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.1992,
+      "ref_self_contrast": 0.347,
+      "composite": 0.5704
+    },
+    "32": {
+      "lum_delta": 0.0638,
+      "ssim": 0.4267,
+      "edge_f1": 0.7316,
+      "mask_iou": 1.0,
+      "self_contrast": 0.1775,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7245
+    },
+    "16": {
+      "lum_delta": 0.0603,
+      "ssim": 0.4512,
+      "edge_f1": 0.8745,
+      "mask_iou": 1.0,
+      "self_contrast": 0.1975,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.7827
+    }
+  },
+  "render_hash": "f02720156d17cfea"
+}

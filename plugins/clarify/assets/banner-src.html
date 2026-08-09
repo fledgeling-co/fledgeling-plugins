@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+
+  /* Same sheet the icon's tile is cut from: warm porcelain, cushion-lit,
+     deliberately not page-white so it holds on GitHub's light and dark
+     grounds alike. */
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(120% 150% at 50% -10%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 55%),
+      radial-gradient(115% 165% at 50% 50%, rgba(122,112,92,0) 52%, rgba(122,112,92,.16) 100%),
+      linear-gradient(178deg, #FAF8F2 0%, #F1EEE4 52%, #E5E1D4 100%);
+    font-family: "Instrument Sans", sans-serif;
+  }
+
+  /* The option stack continuing past the right edge. Three cards, the middle
+     one carrying the recommendation dot and overhanging its neighbours, with
+     the note written in the margin beside it: the icon's device found again
+     on the far side of the sheet. */
+  .stack { position: absolute; inset: 0; }
+  .stack .card {
+    position: absolute; right: -80px; height: 74px; border-radius: 16px;
+    background: linear-gradient(#FBF9F4, #EFEBE0 60%, #E3DED0);
+    box-shadow:
+      0 10px 22px rgba(92,82,64,.13),
+      inset 0 1px 0 rgba(255,255,255,.85),
+      inset 0 -1px 0 rgba(122,112,92,.10);
+  }
+  /* the row of text on each card */
+  .stack .card i {
+    position: absolute; top: 33px; left: 74px; right: 96px; height: 11px;
+    border-radius: 6px; background: rgba(90,97,109,.20);
+  }
+  /* the empty selector ring on the two unrecommended cards */
+  .stack .card b {
+    position: absolute; top: 27px; left: 32px; width: 23px; height: 23px;
+    border-radius: 50%; border: 3px solid rgba(90,97,109,.22);
+  }
+
+  /* the recommended card: further forward, warmer, and the ring filled */
+  .stack .rec {
+    box-shadow:
+      0 16px 34px rgba(92,82,64,.20),
+      inset 0 1px 0 rgba(255,255,255,.92),
+      inset 0 -1px 0 rgba(122,112,92,.12);
+  }
+  .stack .rec b {
+    border: none; width: 27px; height: 27px; top: 25px; left: 30px;
+    background: radial-gradient(circle at 34% 28%, #F8845A, #EC5A33 45%, #D33C21 78%, #BB2F17);
+    box-shadow: 0 2px 7px rgba(163,52,24,.36), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+
+  /* the note in the margin: three vermilion strokes, ragged like handwriting,
+     sitting outside the card rather than inside it */
+  .note { position: absolute; }
+  .note span {
+    position: absolute; height: 9px; border-radius: 5px;
+    background: linear-gradient(#F0663C, #D33C21);
+    box-shadow: 0 1px 3px rgba(163,52,24,.28);
+  }
+
+  .lockup { position: absolute; left: 112px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 68px; }
+  .icon { width: 288px; height: 288px;
+          filter: drop-shadow(0 16px 34px rgba(92,82,64,.26)); }
+
+  .wordmark { font-size: 100px; font-weight: 700; letter-spacing: -.035em;
+              line-height: 1; color: #2E343D; white-space: nowrap;
+              position: relative; }
+
+  /* The tittle on the i, poured as the recommendation dot. The mark's own
+     device doing the one job that dot already does on this page.
+     The glyph is a DOTLESS i (U+0131) so the font's own tittle cannot
+     double up with this one; the dot is positioned over it by hand. */
+  .wordmark .dotless { position: relative; }
+  .wordmark .tittle {
+    position: absolute; width: 20px; height: 20px; border-radius: 50%;
+    left: 50%; margin-left: -9px; top: 20px;
+    background: radial-gradient(circle at 34% 28%, #F8845A, #EC5A33 45%, #D33C21 80%, #BB2F17);
+    box-shadow: 0 2px 6px rgba(163,52,24,.38), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+
+  .tagline { margin-top: 24px; font-size: 26px; font-weight: 400;
+             color: #756E60; letter-spacing: .001em; }
+  .tagline b { color: #3A414B; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="card" style="top:118px; left:1298px"><b></b><i></i></div>
+    <div class="card rec" style="top:223px; left:1258px"><b></b><i></i></div>
+    <div class="card" style="top:328px; left:1310px"><b></b><i></i></div>
+
+    <div class="note" style="left:1190px; top:236px">
+      <span style="width:52px; left:0;  top:0"></span>
+      <span style="width:34px; left:6px; top:17px"></span>
+      <span style="width:43px; left:2px; top:34px"></span>
+    </div>
+  </div>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div>
+      <div class="wordmark">clar<span class="dotless">&#x131;<span class="tittle"></span></span>fy</div>
+      <div class="tagline">Ask less. <b>Make the asking cheap to answer.</b></div>
+    </div>
+  </div>
+</body>
+</html>

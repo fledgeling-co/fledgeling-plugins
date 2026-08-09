@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r10 small-size repair: the extrusion wall carries the small-size read - taller, ramping into real occlusion, held to the reference's own wall values",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0764,
+      "ssim": 0.8281,
+      "edge_f1": 0.0624,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.3751,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.5899
+    },
+    "256": {
+      "lum_delta": 0.0765,
+      "ssim": 0.624,
+      "edge_f1": 0.3198,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.3567,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.5725
+    },
+    "128": {
+      "lum_delta": 0.0766,
+      "ssim": 0.5059,
+      "edge_f1": 0.5636,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.3157,
+      "ref_self_contrast": 0.347,
+      "composite": 0.586
+    },
+    "32": {
+      "lum_delta": 0.0732,
+      "ssim": 0.4273,
+      "edge_f1": 0.8267,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2908,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7522
+    },
+    "16": {
+      "lum_delta": 0.0697,
+      "ssim": 0.4666,
+      "edge_f1": 0.9087,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2489,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.7929
+    }
+  },
+  "render_hash": "a5f82ab547fa2890"
+}

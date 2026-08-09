@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r04 small-size repair: deeper, wider cast shadows so the dark survives downsampling to 32/16",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0624,
+      "ssim": 0.8395,
+      "edge_f1": 0.0954,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2811,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6223
+    },
+    "256": {
+      "lum_delta": 0.0624,
+      "ssim": 0.6696,
+      "edge_f1": 0.4096,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2642,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.6329
+    },
+    "128": {
+      "lum_delta": 0.0628,
+      "ssim": 0.5644,
+      "edge_f1": 0.6263,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2525,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6444
+    },
+    "32": {
+      "lum_delta": 0.057,
+      "ssim": 0.5113,
+      "edge_f1": 0.8339,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2561,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7855
+    },
+    "16": {
+      "lum_delta": 0.0584,
+      "ssim": 0.5114,
+      "edge_f1": 0.9267,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2034,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8172
+    }
+  },
+  "render_hash": "2bed4d60c977dc40"
+}

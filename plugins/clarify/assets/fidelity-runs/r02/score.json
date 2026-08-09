@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r02 material: vertical wall ramp, measured occlusion line under every card, stronger lit top arris, gel and ink dark ends resampled",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0698,
+      "ssim": 0.8261,
+      "edge_f1": 0.0924,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2833,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6058
+    },
+    "256": {
+      "lum_delta": 0.0701,
+      "ssim": 0.6309,
+      "edge_f1": 0.345,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2749,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.5905
+    },
+    "128": {
+      "lum_delta": 0.0702,
+      "ssim": 0.5163,
+      "edge_f1": 0.5267,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.244,
+      "ref_self_contrast": 0.347,
+      "composite": 0.5899
+    },
+    "32": {
+      "lum_delta": 0.0672,
+      "ssim": 0.4066,
+      "edge_f1": 0.7702,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2244,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7309
+    },
+    "16": {
+      "lum_delta": 0.0651,
+      "ssim": 0.4179,
+      "edge_f1": 0.8799,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2637,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.7734
+    }
+  },
+  "render_hash": "7c76a0264d1c62fb"
+}

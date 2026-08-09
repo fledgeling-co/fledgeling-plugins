@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r03 detail: card proportions fitted to the reference's bands (taller faces, deeper stack) without widening the group",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0631,
+      "ssim": 0.8389,
+      "edge_f1": 0.0972,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2749,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6215
+    },
+    "256": {
+      "lum_delta": 0.063,
+      "ssim": 0.6676,
+      "edge_f1": 0.4056,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2567,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.6302
+    },
+    "128": {
+      "lum_delta": 0.0634,
+      "ssim": 0.5592,
+      "edge_f1": 0.6189,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2481,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6396
+    },
+    "32": {
+      "lum_delta": 0.0581,
+      "ssim": 0.5001,
+      "edge_f1": 0.8255,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2405,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7791
+    },
+    "16": {
+      "lum_delta": 0.0581,
+      "ssim": 0.5002,
+      "edge_f1": 0.9017,
+      "mask_iou": 1.0,
+      "self_contrast": 0.1937,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8058
+    }
+  },
+  "render_hash": "e55e0b45ceb92d9d"
+}

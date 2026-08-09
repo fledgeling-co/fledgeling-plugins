@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r09 material: the margin ink deepened for the small-size read; still lighter than the bead, because ink on a page is not a gel body",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0653,
+      "ssim": 0.8434,
+      "edge_f1": 0.0969,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.3021,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6202
+    },
+    "256": {
+      "lum_delta": 0.0652,
+      "ssim": 0.6663,
+      "edge_f1": 0.3959,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2886,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.6242
+    },
+    "128": {
+      "lum_delta": 0.0655,
+      "ssim": 0.5591,
+      "edge_f1": 0.6383,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2699,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6415
+    },
+    "32": {
+      "lum_delta": 0.061,
+      "ssim": 0.5132,
+      "edge_f1": 0.8645,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2678,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7943
+    },
+    "16": {
+      "lum_delta": 0.0609,
+      "ssim": 0.53,
+      "edge_f1": 0.9505,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2412,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8286
+    }
+  },
+  "render_hash": "1219ad10266f422d"
+}

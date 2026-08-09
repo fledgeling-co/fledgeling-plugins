@@ -1,0 +1,191 @@
+{
+  "fixture": "clarify",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "metric_tier": "numpy (no torch on this host: luminance + ssim + edges only)",
+  "accepted_baseline": "r00",
+  "ships": "r12",
+  "rounds": [
+    {
+      "round": "r00",
+      "edit_class": "baseline",
+      "note": "first draft: three separated cards, flat material",
+      "gate": "baseline",
+      "composite": {
+        "1024": 0.6105,
+        "256": 0.5837,
+        "128": 0.6037,
+        "32": 0.7341,
+        "16": 0.7866
+      },
+      "self_contrast_16": 0.188
+    },
+    {
+      "round": "r01",
+      "edit_class": "coarse structure",
+      "note": "cards overlap into a real stack; geometry fitted to the reference's edge map",
+      "gate": "REJECT vs r00",
+      "composite": {
+        "1024": 0.6129,
+        "256": 0.5781,
+        "128": 0.5704,
+        "32": 0.7245,
+        "16": 0.7827
+      },
+      "self_contrast_16": 0.1975
+    },
+    {
+      "round": "r02",
+      "edit_class": "material",
+      "note": "vertical wall ramp, measured occlusion line under every card, stronger lit top arris, gel and ink dark ends resampled",
+      "gate": "REJECT vs r00",
+      "composite": {
+        "1024": 0.6058,
+        "256": 0.5905,
+        "128": 0.5899,
+        "32": 0.7309,
+        "16": 0.7734
+      },
+      "self_contrast_16": 0.2637
+    },
+    {
+      "round": "r03",
+      "edit_class": "detail",
+      "note": "card proportions fitted to the reference's bands",
+      "gate": "REJECT (16px contrast floor vs r02)",
+      "composite": {
+        "1024": 0.6215,
+        "256": 0.6302,
+        "128": 0.6396,
+        "32": 0.7791,
+        "16": 0.8058
+      },
+      "self_contrast_16": 0.1937
+    },
+    {
+      "round": "r04",
+      "edit_class": "small-size repair",
+      "note": "deeper, wider cast shadows",
+      "gate": "REJECT (16px contrast floor vs r02)",
+      "composite": {
+        "1024": 0.6223,
+        "256": 0.6329,
+        "128": 0.6444,
+        "32": 0.7855,
+        "16": 0.8172
+      },
+      "self_contrast_16": 0.2034
+    },
+    {
+      "round": "r05",
+      "edit_class": "material (accent)",
+      "note": "flat gel body, rim-not-core highlight, recessed well ring, warm bloom removed; back-plane rims masked by the drawn card",
+      "gate": "REJECT (16px contrast floor vs r02)",
+      "composite": {
+        "1024": 0.6245,
+        "256": 0.6289,
+        "128": 0.6438,
+        "32": 0.7853,
+        "16": 0.8162
+      },
+      "self_contrast_16": 0.2034
+    },
+    {
+      "round": "r06",
+      "edit_class": "small-size repair",
+      "note": "one pooled shadow under the whole stack",
+      "gate": "ACCEPT vs r00, the last accepted state",
+      "composite": {
+        "1024": 0.6198,
+        "256": 0.6287,
+        "128": 0.6356,
+        "32": 0.7908,
+        "16": 0.8233
+      },
+      "self_contrast_16": 0.2372
+    },
+    {
+      "round": "r07",
+      "edit_class": "detail",
+      "note": "real vertical wall ramp plus a separate lateral lean",
+      "gate": "ACCEPT",
+      "composite": {
+        "1024": 0.6211,
+        "256": 0.625,
+        "128": 0.6423,
+        "32": 0.7948,
+        "16": 0.8288
+      },
+      "self_contrast_16": 0.2375
+    },
+    {
+      "round": "r08",
+      "edit_class": "material",
+      "note": "gel body deepened to the reference's own median L",
+      "gate": "ACCEPT",
+      "composite": {
+        "1024": 0.6209,
+        "256": 0.6251,
+        "128": 0.6422,
+        "32": 0.7948,
+        "16": 0.8289
+      },
+      "self_contrast_16": 0.2375
+    },
+    {
+      "round": "r09",
+      "edit_class": "material",
+      "note": "margin ink deepened for the small-size read",
+      "gate": "ACCEPT",
+      "composite": {
+        "1024": 0.6202,
+        "256": 0.6242,
+        "128": 0.6415,
+        "32": 0.7943,
+        "16": 0.8286
+      },
+      "self_contrast_16": 0.2412
+    },
+    {
+      "round": "r10",
+      "edit_class": "small-size repair",
+      "note": "the extrusion wall carries the small-size read: taller, ramping into real occlusion, held near the reference's own wall values",
+      "gate": "REJECT vs r09 on the composite; kept - see r11",
+      "composite": {
+        "1024": 0.5899,
+        "256": 0.5725,
+        "128": 0.586,
+        "32": 0.7522,
+        "16": 0.7929
+      },
+      "self_contrast_16": 0.2489
+    },
+    {
+      "round": "r11",
+      "edit_class": "small-size repair",
+      "note": "value hierarchy: the two options still in the stack are clay in shade, the drawn card is porcelain in the light",
+      "gate": "REJECT on the composite, ACCEPTED on the rubric - deliberate divergence",
+      "composite": {
+        "1024": 0.5539,
+        "256": 0.532,
+        "128": 0.5237,
+        "32": 0.6977,
+        "16": 0.7221
+      },
+      "self_contrast_16": 0.3265
+    },
+    {
+      "round": "r12",
+      "edit_class": "detail",
+      "note": "shaded-card ramp deepened until its face clears 3:1 against the tile; drawn card lightened until the bead clears 3:1 against it",
+      "gate": "REJECT on the composite, ships",
+      "composite": {
+        "1024": 0.5452,
+        "256": 0.5219,
+        "128": 0.5177,
+        "32": 0.6901,
+        "16": 0.7157
+      },
+      "self_contrast_16": 0.3617
+    }
+  ]
+}

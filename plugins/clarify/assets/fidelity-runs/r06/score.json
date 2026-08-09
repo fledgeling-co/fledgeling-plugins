@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r06 small-size repair: a single pooled shadow under the whole stack, the only dark broad enough to survive 16px",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0647,
+      "ssim": 0.8418,
+      "edge_f1": 0.0948,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.3012,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6198
+    },
+    "256": {
+      "lum_delta": 0.0646,
+      "ssim": 0.6649,
+      "edge_f1": 0.4127,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.279,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.6287
+    },
+    "128": {
+      "lum_delta": 0.065,
+      "ssim": 0.5566,
+      "edge_f1": 0.6158,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2699,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6356
+    },
+    "32": {
+      "lum_delta": 0.0608,
+      "ssim": 0.5092,
+      "edge_f1": 0.857,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2796,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7908
+    },
+    "16": {
+      "lum_delta": 0.0606,
+      "ssim": 0.526,
+      "edge_f1": 0.9376,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2372,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8233
+    }
+  },
+  "render_hash": "38f28a44a6c56f65"
+}

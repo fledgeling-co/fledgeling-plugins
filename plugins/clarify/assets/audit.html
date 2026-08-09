@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>clarify icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 32px 0 10px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 440px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 980px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 980px; }
+  .loop { max-width: 980px; }
+  .loop table { min-width: 620px; font-variant-numeric: tabular-nums; }
+  .loop td, .loop th { padding: 8px 12px; font-size: 13px; }
+  .acc { color: #9fd6a6; } .rej { color: #e0826a; }
+  code { background: #10222a; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>clarify icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Drawn Card" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, fidelity round 12 — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Full-bleed 1024 with the marketplace superellipse as a <em>clip</em>: no baked corner radius, no baked drop shadow. Four real layers (<code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code>) with the drawn card, its bead and the margin note in <code>fg</code>, so identity survives Dark/Clear/Tinted. Value carries the hierarchy and colour is the last ten percent: the two options still in the stack are clay in shade (2.25–3.60:1 against the tile, walls 5.0–6.4:1), the option drawn out of it is porcelain in the light, and the bead clears the bar at 3.04:1 against its own card. Silhouette proof (ground layer subtracted, threshold 0.10) names "three stacked cards, the middle one marked, a note beside it"; at a true 16px it still resolves dark band / light band with a warm mark / dark band. Point deducted at #7 — see liabilities.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A0 · icon-r00-baseline.svg<small>the same master before the fidelity loop — kept as the before</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Take A0 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Take A0 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Take A0 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Take A0 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">7 / 12</td>
+    <td class="verdict">Three cards separated by gaps rather than stacked, so the icon read as a settings list — the sibling <code>armada-sync</code>'s territory — instead of a deck with one card drawn out of it. Materially flat: the extrusion wall rendered as one dead colour, no occlusion anywhere in the stack, and a warm bloom under the bead that read as a stain. Its whole-image contrast spread was 0.214 at 1024 against the reference's 0.351. Lost on #7, #8, #9 and the 32px read; every one of those is what the loop then bought.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-954e4a.svg<small>Arrow 1.1 vector take from the spec-as-brief</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">4 / 12</td>
+    <td class="verdict">Hard-fails #1: a rounded-corner tile is <em>baked into the artwork</em>, on a 154.6&times;154.9 viewBox that is not square, so it can never be masked with the set's superellipse. No named layer groups at all (#10). Flat CSS-class fills with one linear ramp — no rim, no occlusion, no contact shadow (#8, #9). It did get the brief's structure right: three slabs, a bead on the middle one, three margin strokes. Nothing was salvaged geometrically; its contribution was a negative control showing that the concept survives being drawn by something with no material at all, and that the material is therefore doing separate work.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC-4c230c-2-masked.png<small>GPT Image 2, corpus-referenced — the fidelity reference</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Won the material comparison, as the pipeline expects, and it is why the master was rebuilt: the cards genuinely <em>overlap</em> into a stack, every arris is a rolled fillet rather than a step, and the bead sits in a recessed well instead of glowing on the surface. Cannot ship — a flat raster is failure mode #10 by definition (no layers to survive tinting), its ground is dead-flat white with no cushion, which the Tahoe grammar names as the previous era's tell, and its focal group spans 75% of the tile against the 55–65% constant. Kept squircle-masked with the set's exact path.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-9153f5-masked.png<small>GPT Image 2, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Same failure class as C2 and a colder, greyer palette that drifts out of the marketplace's warm-porcelain family (#6, #9). Its middle card overlaps its neighbours awkwardly and its margin note breaks into strokes of near-equal length, which reads closer to a menu glyph than to handwriting. Lost the reference slot to C2 on those two counts, not on score alone.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is real layered artwork — <code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code>, mapping 1:1 onto Icon Composer, with the squircle as a clip rather than a baked corner — and the only one whose identity is carried by shape and value with colour last. Checks 1–4 were verified on real renders, not imagined: the ground-subtracted silhouette proof is nameable, and the true 16px render resolves the stack as dark / light-with-a-warm-mark / dark, which is what it has to do to sit on a shelf beside <code>armada-sync</code> and <code>improve-skill</code>. Its material provenance is the C2 raster, closed over thirteen measured rounds. Known liabilities to revisit: <strong>(1)</strong> figure-ground, #7 — the shaded cards run 2.25:1 at their lit top-left corner to 3.60:1 at their shaded far end, so the mass clears the bar over most of its area but not all of it, and the drawn card sits at 1.02:1 against the tile by design, reading as figure through its own shadow and its two darker neighbours rather than through its face. <strong>(2)</strong> The focal group spans 69.1% of tile width against the 55–65% composition constant — deliberately, to keep the margin note legible beside the drawn card, and less far over than the reference's 75%. <strong>(3)</strong> The margin note reaches 2.71:1 against the ground; it is the second accent mark rather than the focal, and darkening it further would make ink on a page read as a second gel body. <strong>(4)</strong> At 16px the three cards survive as bands and the two vermilion marks as one warm smear on the middle band — the subject holds, the "note in the margin" argument does not. <strong>(5)</strong> LPIPS did not run (no torch on this host), so every 1024 material number came from the weaker of the two metric stacks and should be read as directional. <strong>(6)</strong> The shipped take scores <em>lower</em> against the reference than r09 did (1024 composite 0.6202 → 0.5452). That is the point of rounds 10–12 and not a regression: see the loop table.</div>
+
+<h2>The fidelity loop, thirteen rounds against C2</h2>
+<div class="loop">
+<p style="color:#a9bec5;max-width:900px">One edit class per round, state on disk in <code>fidelity-runs/</code> with a <code>score.json</code> per round and a <code>rounds.json</code> ledger. The composites below are against <code>icon-engineC-4c230c-2-masked.png</code>. Read the gate column honestly. r01–r05 were rejected against intermediate states that never <em>became</em> the accepted baseline, so the verdict that settles the rebuild is r06 against r00 — the last accepted state — which the gate ACCEPTs at +0.1796 net across five sizes. r10–r12 are the opposite case and the more interesting one: they are rejected by the gate and shipped anyway, because they diverge from the reference on purpose. The 16px column is where to look — it falls on the composite while the master's own contrast at that size rises from 0.229 to 0.362, past the reference's 0.326.</p>
+<table>
+<tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col">1024</th><th scope="col">128</th><th scope="col">32</th><th scope="col">16</th><th scope="col">16px own contrast</th><th scope="col">Gate</th></tr>
+<tr><td>r00</td><td>baseline, first draft</td><td>0.6105</td><td>0.6037</td><td>0.7341</td><td>0.7866</td><td>0.188</td><td>baseline</td></tr>
+<tr><td>r01</td><td>coarse structure</td><td>0.6129</td><td>0.5704</td><td>0.7245</td><td>0.7827</td><td>0.198</td><td class="rej">REJECT</td></tr>
+<tr><td>r02</td><td>material</td><td>0.6058</td><td>0.5899</td><td>0.7309</td><td>0.7734</td><td>0.264</td><td class="rej">REJECT</td></tr>
+<tr><td>r03</td><td>detail</td><td>0.6215</td><td>0.6396</td><td>0.7791</td><td>0.8058</td><td>0.194</td><td class="rej">REJECT (16px floor)</td></tr>
+<tr><td>r04</td><td>small-size repair</td><td>0.6223</td><td>0.6444</td><td>0.7855</td><td>0.8172</td><td>0.203</td><td class="rej">REJECT (16px floor)</td></tr>
+<tr><td>r05</td><td>material, the accent</td><td>0.6245</td><td>0.6438</td><td>0.7853</td><td>0.8162</td><td>0.203</td><td class="rej">REJECT (16px floor)</td></tr>
+<tr><td>r06</td><td>small-size repair</td><td>0.6198</td><td>0.6356</td><td>0.7908</td><td>0.8233</td><td>0.237</td><td class="acc">ACCEPT vs r00</td></tr>
+<tr><td>r07</td><td>detail</td><td>0.6211</td><td>0.6423</td><td>0.7948</td><td>0.8288</td><td>0.238</td><td class="acc">ACCEPT</td></tr>
+<tr><td>r08</td><td>material</td><td>0.6209</td><td>0.6422</td><td>0.7948</td><td>0.8289</td><td>0.238</td><td class="acc">ACCEPT</td></tr>
+<tr><td>r09</td><td>material</td><td>0.6202</td><td>0.6415</td><td>0.7943</td><td>0.8286</td><td>0.229</td><td class="acc">ACCEPT</td></tr>
+<tr><td>r10</td><td>small-size repair</td><td>0.5899</td><td>0.5860</td><td>0.7522</td><td>0.7929</td><td>0.249</td><td class="rej">REJECT, kept</td></tr>
+<tr><td>r11</td><td>small-size repair</td><td>0.5539</td><td>0.5237</td><td>0.6977</td><td>0.7221</td><td>0.327</td><td class="rej">REJECT, kept</td></tr>
+<tr><td><strong>r12</strong></td><td><strong>detail</strong></td><td><strong>0.5452</strong></td><td><strong>0.5177</strong></td><td><strong>0.6901</strong></td><td><strong>0.7157</strong></td><td><strong>0.362</strong></td><td class="rej"><strong>REJECT, ships</strong></td></tr>
+</table>
+<p style="color:#a9bec5;max-width:900px;margin-top:14px">Why the last three rounds ship against the gate: the reference is porcelain cards on a porcelain ground, and at 16px that has almost no value separation between glyph and field — downsampled beside <code>armada-sync</code> and <code>improve-skill</code>, whose glyphs are genuinely dark, the master went to a pale blob with two vermilion specks. The accent survived, so it did not read as broken; the subject did not survive, which is a hard failure of check #4. Converging further on the reference would have made that worse, because the reference has the same weakness and merely hides it behind a flat white ground and heavy shadows. So the two options still in the stack were taken down the value ramp into clay, and the one drawn out of it was left porcelain — the ground never changed register, the glyph did. The measured result is a 16px contrast spread of 0.362 against the reference's 0.326, and a composite that falls by 0.075 at 1024 for it. Gate informs; rubric decides.</p>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse (<code>squircle-path.txt</code>), never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Lanczos resample for rasters, via <code>render_audit.py</code>.</div>
+</body>
+</html>

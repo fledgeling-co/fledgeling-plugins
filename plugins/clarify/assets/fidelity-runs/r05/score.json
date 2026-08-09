@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r05 material (accent): flat gel body at the reference's L, rim-not-core highlight, recessed well ring, warm bloom removed; back-plane rims masked by the drawn card",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0623,
+      "ssim": 0.8428,
+      "edge_f1": 0.0982,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2959,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6245
+    },
+    "256": {
+      "lum_delta": 0.0623,
+      "ssim": 0.6718,
+      "edge_f1": 0.3896,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2746,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.6289
+    },
+    "128": {
+      "lum_delta": 0.0628,
+      "ssim": 0.5656,
+      "edge_f1": 0.6219,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2655,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6438
+    },
+    "32": {
+      "lum_delta": 0.0579,
+      "ssim": 0.5102,
+      "edge_f1": 0.8356,
+      "mask_iou": 1.0,
+      "self_contrast": 0.283,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7853
+    },
+    "16": {
+      "lum_delta": 0.0596,
+      "ssim": 0.5096,
+      "edge_f1": 0.9274,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2034,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8162
+    }
+  },
+  "render_hash": "74f4f4dbef9b4f3d"
+}

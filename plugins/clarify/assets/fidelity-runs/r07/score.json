@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r07 detail: the extrusion wall gets a real vertical ramp plus a separate lateral lean; the previous 'vertical' vector was x-dominated and rendered flat",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0648,
+      "ssim": 0.8438,
+      "edge_f1": 0.0972,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.3021,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6211
+    },
+    "256": {
+      "lum_delta": 0.0647,
+      "ssim": 0.6666,
+      "edge_f1": 0.3959,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2858,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.625
+    },
+    "128": {
+      "lum_delta": 0.065,
+      "ssim": 0.5596,
+      "edge_f1": 0.6378,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.2699,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6423
+    },
+    "32": {
+      "lum_delta": 0.0606,
+      "ssim": 0.5145,
+      "edge_f1": 0.8643,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2641,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7948
+    },
+    "16": {
+      "lum_delta": 0.0607,
+      "ssim": 0.5309,
+      "edge_f1": 0.95,
+      "mask_iou": 1.0,
+      "self_contrast": 0.2375,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.8288
+    }
+  },
+  "render_hash": "d07906c5de5dbc20"
+}

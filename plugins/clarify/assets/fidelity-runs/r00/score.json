@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r00 baseline: first draft, cards separated",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0669,
+      "ssim": 0.8403,
+      "edge_f1": 0.0723,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.2141,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.6105
+    },
+    "256": {
+      "lum_delta": 0.0669,
+      "ssim": 0.6554,
+      "edge_f1": 0.2609,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.2049,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.5837
+    },
+    "128": {
+      "lum_delta": 0.0674,
+      "ssim": 0.5427,
+      "edge_f1": 0.524,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.1984,
+      "ref_self_contrast": 0.347,
+      "composite": 0.6037
+    },
+    "32": {
+      "lum_delta": 0.0622,
+      "ssim": 0.4626,
+      "edge_f1": 0.7307,
+      "mask_iou": 1.0,
+      "self_contrast": 0.193,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.7341
+    },
+    "16": {
+      "lum_delta": 0.0586,
+      "ssim": 0.4968,
+      "edge_f1": 0.8501,
+      "mask_iou": 1.0,
+      "self_contrast": 0.188,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.7866
+    }
+  },
+  "render_hash": "d81f59dd0fe74ec8"
+}

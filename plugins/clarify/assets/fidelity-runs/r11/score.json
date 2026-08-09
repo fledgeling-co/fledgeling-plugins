@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4c230c-2-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r11 small-size repair: value hierarchy - the two options still in the stack are clay in shade, the drawn card is porcelain in the light. Deliberate divergence from the reference, which is porcelain-on-porcelain and dissolves at 16px",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0978,
+      "ssim": 0.8165,
+      "edge_f1": 0.0568,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4264,
+      "ref_self_contrast": 0.3505,
+      "composite": 0.5539
+    },
+    "256": {
+      "lum_delta": 0.098,
+      "ssim": 0.6013,
+      "edge_f1": 0.3146,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4194,
+      "ref_self_contrast": 0.3465,
+      "composite": 0.532
+    },
+    "128": {
+      "lum_delta": 0.0982,
+      "ssim": 0.4619,
+      "edge_f1": 0.5057,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.4095,
+      "ref_self_contrast": 0.347,
+      "composite": 0.5237
+    },
+    "32": {
+      "lum_delta": 0.0962,
+      "ssim": 0.3446,
+      "edge_f1": 0.7694,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3757,
+      "ref_self_contrast": 0.3296,
+      "composite": 0.6977
+    },
+    "16": {
+      "lum_delta": 0.0971,
+      "ssim": 0.3441,
+      "edge_f1": 0.8409,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3265,
+      "ref_self_contrast": 0.3264,
+      "composite": 0.7221
+    }
+  },
+  "render_hash": "6da674b4e6b1d484"
+}
