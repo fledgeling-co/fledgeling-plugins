@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="clarify: a porcelain icon of three stacked option cards with a vermilion mark on the recommended one and a written note in the margin, beside the wordmark and the line: ask less, and make the asking cheap to answer" width="100%" />
+  <img src="assets/banner.png" alt="clarify: a porcelain icon of three stacked option cards, the recommended one lit and carrying a vermilion dot while the other two sit back in shadow, with a note written in vermilion in the margin, beside the wordmark and the line: ask less, and make the asking cheap to answer" width="100%" />
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> clarify</h1>

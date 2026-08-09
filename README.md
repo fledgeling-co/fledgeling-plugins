@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="9 skills" src="https://img.shields.io/badge/skills-9-C4622D">
+  <img alt="13 skills" src="https://img.shields.io/badge/skills-13-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -121,6 +121,14 @@ Your Mac did not fill up because of one thing, it filled up because a hundred re
 ### [token-discipline](plugins/token-discipline/README.md)
 
 The obvious way to cut an agent's bill is to make it talk less, and on a real benchmark that turns out to buy a third off the cost and 7.6 points off the task score. The reason is in the decomposition: steps per task fell by a third while tokens per step barely moved, so most of the "saving" was the agent investigating less. This is the block that targets restatement, read width and needless delegation instead, and carries the one clause that stops the cheapest form of compliance: it changes how much you write, never how much you do. Three blind judges from three companies agreed with the benchmark.
+
+<br clear="left" />
+
+<a href="plugins/clarify/README.md"><img src="plugins/clarify/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [clarify](plugins/clarify/README.md)
+
+Decides whether to interrupt you at all, then writes the question so it takes one click. Sweeps the conversation and the repo for the answer first, drops anything whose answer would not change the work, and sends what survives as one batched question in plain words, with a recommendation only where evidence earns one. A note attached to your answer is binding, and is treated as data about the decision rather than as instructions, because an agent waiting on a reply is measurably the easiest one to inject. Against no skill at all: five of five question payloads pass its linter where the baseline passes none, and a four-family blind panel went 15-5. The eval it loses is in the README too.
 
 <br clear="left" />
 
