@@ -16,8 +16,8 @@ Three engines were run, per the pipeline floor.
 
 | Take | Engine | Verdict |
 | --- | --- | --- |
-| **C — raster** (`icon-engineC-raster-*.jpg`, Gemini 3 Pro with two corpus exemplars as `referenceImages`) | **SHIPPED**, squircle-masked | Won the material read outright. It produced the seated bloom and the shaft-through-glass overlap more convincingly than the hand-authored master, which is the outcome this skill's own notes predict. |
-| A — hand-authored layered SVG (`icon.svg`, `build_icon.py`) | Retained, not shipped | Compositionally clean, squircle-correct, four layers mapping 1:1 onto `#bg/#mid/#fg/#highlight`, and materially flatter than C. Took three rounds to stop reading as the wrong object — see below. |
+| **C — raster** (`icon-engineC-raster-*.jpg`, Gemini 3 Pro with two corpus exemplars as `referenceImages`) | **SHIPPED**, squircle-masked | Won the material read at 1024/256: its rendered glass and the bloom at the seated contact are more convincing than the master's. Note the loop qualifies this rather than confirming the usual story, see below. |
+| A — hand-authored layered SVG (`icon.svg`, `build_icon.py`) | Retained, not shipped | Compositionally clean, squircle-correct, four layers mapping 1:1 onto `#bg/#mid/#fg/#highlight`. Took three rounds to stop reading as the wrong object. NOT materially flatter than C: the fidelity run below measures its self-contrast HIGHER than the reference at every size, which is the opposite of this skill's usual finding and worth carrying back to `material-recipes.md`. |
 | B — Arrow vector (`icon-engineB-arrow-*.svg`) | Loser, scored and kept | Flat fills, a grey-green ground that is not the porcelain register, a perspective slab base, and no squircle. Useful only as evidence that the vector engine did not reach the material bar here. |
 
 **Engine A's three rounds, recorded because each was found by looking at the render rather than reasoning about it:**
@@ -33,6 +33,23 @@ Three engines were run, per the pipeline floor.
 **Known liabilities, stated rather than buried:**
 
 - **The shipped master is a raster, not vector.** Every icon in this marketplace is a decorative mark rendered as a PNG rather than an Icon Composer package, so baked material is correct here — but the shipped file cannot be re-coloured or re-laid-out as shapes. `icon.svg` remains the layered vector alternative if that is ever needed.
-- **The fidelity loop was not run.** `scripts/fidelity.py` would score the hand-authored master against the winning raster and close the material gap over bounded rounds. It was skipped, so Engine A ships *unmeasured* against its reference and the decision to ship C rests on a read rather than a score. This is the single largest gap in this commission.
+- **The fidelity loop was run, and it says the gap is compositional rather than material.** `structure` passes (2 paths, 6 gradients, 4 named groups, 12 KB). Scoring Engine A against the shipped raster:
+
+| size | composite | SSIM | edge F1 | mask IoU | self-contrast (A vs ref) |
+| --- | --- | --- | --- | --- | --- |
+| 1024 | 0.580 | 0.822 | 0.063 | 1.00 | 0.491 vs 0.450 |
+| 256 | 0.560 | 0.693 | 0.192 | 1.00 | 0.472 vs 0.450 |
+| 32 | 0.811 | 0.633 | 0.853 | 1.00 | 0.471 vs 0.447 |
+| 16 | 0.881 | 0.687 | 1.000 | 1.00 | 0.469 vs 0.408 |
+
+Two things fall out of that, and both change the verdict from the one this skill usually records.
+
+**Mask IoU is 1.00 at every size and edge F1 is 1.00 at 16px**, so the two takes agree on silhouette exactly. The score is carried by the small sizes, which is where a marketplace icon actually lives.
+
+**Engine A's self-contrast is HIGHER than the reference at every size** (0.491 vs 0.450 at 1024). The usual finding here is that a hand-authored master loses material to the diffusion raster; that did not happen. The master is not flat.
+
+**Edge F1 of 0.063 at 1024 is the real gap, and it is not a material gap.** Engine A is orthographic and flat-on; Engine C drew a three-quarter perspective with a cylindrical collar and a box guide. Those are different drawings of the same object, so no amount of parameter editing converges one onto the other. Closing it would mean re-authoring A in perspective, which is a redraw and not a loop round. Recording that is more useful than grinding rounds against a target the harness cannot reach: a gate ACCEPT is evidence, never a verdict, and here the honest reading is that the two engines disagree about the camera.
+
+- **The shipped master is still the raster.** That choice now rests on the material read at 1024/256 where C's rendered glass is richer, not on an unmeasured hunch.
 - **A faint seam** from the source raster's own baked corner survives the porcelain fill at the extreme tile edge. Visible at 1024, gone by 256.
 - **The guide's perspective** is a three-quarter view where the rest of the set is flat-on. It reads well but it is a register inconsistency.
