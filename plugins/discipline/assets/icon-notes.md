@@ -1,4 +1,4 @@
-# token-discipline icon notes
+# discipline icon notes
 
 **Direction: "The Set Stop".** The studio's *Tahoe Gel-Glass* sub-register (a), porcelain cushion tile carrying a coloured gel object, crossed with device bank **#16** (the icon performs the verb) and **#21** (authored overlap). The subject is a session-start block whose whole argument is that it governs how much the model *writes* and never how much work it *does* — a limit that was set and held — so the icon is a shaft that has travelled, and the thing that stopped it. Runner-up: *Two Columns, One Cut* (a shortened prose column beside a full-height work column on one shared floor bar). It was the most explanatory option and was rejected on silhouette: two objects is the weakest carrying shape in the set, and a side-by-side pair collapses into a bar chart at 16px, which the corpus names as the stock category trap for anything touching data. Also considered: *The Drawn Level*, a vessel drawn down to a glowing floor plate, dropped for neighbouring `compaction-quality`'s sediment cylinder too closely.
 

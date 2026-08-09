@@ -1,6 +1,6 @@
-<img src="assets/banner.png" alt="token-discipline" width="100%" />
+<img src="assets/banner.png" alt="discipline" width="100%" />
 
-# token-discipline
+# discipline
 
 **Spend fewer tokens without doing less work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
 
@@ -59,7 +59,7 @@ All three leaned the same way, on a coin-flip-unlikely margin.
 ## Install
 
 ```
-/plugin install token-discipline@fledgeling-plugins
+/plugin install discipline@fledgeling-plugins
 ```
 
 ## Credit
@@ -68,9 +68,9 @@ The idea of a terse-output skill, and the honest agentic number that started thi
 
 ## Deeper
 
-- [`SKILL.md`](skills/token-discipline/SKILL.md): why each clause earns its bytes, and what was rejected
-- [`references/evidence.md`](skills/token-discipline/references/evidence.md): every number, with what it rests on
-- [`references/injected-block.md`](skills/token-discipline/references/injected-block.md): the literal itself
+- [`SKILL.md`](skills/discipline/SKILL.md): why each clause earns its bytes, and what was rejected
+- [`references/evidence.md`](skills/discipline/references/evidence.md): every number, with what it rests on
+- [`references/injected-block.md`](skills/discipline/references/injected-block.md): the literal itself
 - [`EVALS.md`](EVALS.md): the deep half of the comparison, with the caveats stated
 - [`docs/blind-panel/`](docs/blind-panel/): the raw verdicts and the withheld key
 - [`docs/deep-research/`](docs/deep-research/): the four research reports behind it
