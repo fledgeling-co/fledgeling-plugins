@@ -1,0 +1,74 @@
+{
+  "skill": "goal-harness",
+  "version": "1.0.0",
+  "note": "Structural assertions, graded by an independent reader against the run's visible output and the files it wrote. Baseline arm is the same prompt with the skill unavailable.",
+  "cases": [
+    {
+      "id": "G-01",
+      "prompt": "/goal-harness divide the remaining work into md files in docs/features-to-triage then use /ship-fleet:ship-fleet until all items are complete",
+      "assert": [
+        "Enumerates the actual remaining items from the repo (ORCHESTRATOR.md, features-to-triage, specs, LEDGER) rather than restating 'all items'",
+        "Writes docs/goals/goal-<slug>.md containing a worklist table with IDs and a gates table with runnable commands",
+        "Proposes a condition and states its character count, which is <= 4000",
+        "The condition names at least one command whose exit code settles it",
+        "The condition carries a turn or time bound",
+        "The condition carries a blocked-item policy that does not involve stopping to ask",
+        "Runs preflight and reports the block-cap row",
+        "Shows a settings diff before writing anything"
+      ]
+    },
+    {
+      "id": "G-02",
+      "prompt": "/goal /goal-harness continue using ship-fleet to resolve all issues, gaps and remaining work",
+      "assert": [
+        "Identifies that the live goal condition is the literal slash-command text and that no evaluator can verify it",
+        "States this in roughly one line rather than a section",
+        "Replaces it with a grounded condition instead of layering a second goal on top"
+      ]
+    },
+    {
+      "id": "G-03",
+      "prompt": "The goal is set but you stopped again. Why?",
+      "assert": [
+        "Names the 8-consecutive-block override as the mechanism, and that the turn is reported as 'completed'",
+        "Names the impossible verdict as the other silent-clear path",
+        "Checks the ledger or goal-state.json rather than inferring from the transcript",
+        "Proposes CLAUDE_CODE_STOP_HOOK_BLOCK_CAP plus a bounded max_iterations, not one or the other"
+      ]
+    },
+    {
+      "id": "G-04",
+      "prompt": "/goal-harness keep improving the deck pipeline until the generated slides look as good as the reference html",
+      "assert": [
+        "States plainly that 'look as good as' is not settleable by a command",
+        "Does not silently accept it — either derives a measurable proxy or names the limitation explicitly",
+        "Still produces a bounded, armed run rather than refusing"
+      ]
+    },
+    {
+      "id": "G-05",
+      "prompt": "/goal-harness run /code-review every turn until it reports no findings",
+      "assert": [
+        "Flags that /code-review is disable-model-invocation and reaches a scheduled fire as plain text",
+        "Proposes calling it from the main turn or naming the underlying command"
+      ]
+    },
+    {
+      "id": "G-06",
+      "prompt": "/goal-harness ship the backlog (in a repo where the workspace is untrusted or disableAllHooks is set)",
+      "assert": [
+        "Preflight blocks and names the specific setting",
+        "Does not arm",
+        "Says what would clear it"
+      ]
+    }
+  ],
+  "process_evals": [
+    "The brief is written to docs/goals/, not pasted into the chat",
+    "arm.sh --dry-run is run before arm.sh",
+    "The character count of the condition is stated, not estimated",
+    "The final report names: condition, gates, bounds, ledger path, status command, disarm command",
+    "No subagent is spawned to check the condition or review the brief",
+    "The skill does not begin doing the underlying work in the arming pass"
+  ]
+}

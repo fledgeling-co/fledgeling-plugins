@@ -43,6 +43,75 @@ bounded() {  # bounded <seconds> <command...>; returns 124 on timeout, like GNU
 
 json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 
+# Canonicalise before comparing paths. git reports the resolved path
+# (/private/tmp/...), a shell glob yields the symlinked one (/tmp/...), and a
+# string compare between them silently fails. That inverted this whole audit on
+# first run: the one registered worktree was reported unregistered and therefore
+# reclaimable, and the deregistered ones were reported unreadable. Under ~/Dev
+# there is no symlink so it looked correct, which is the worst way for a bug
+# like this to behave.
+canon() { ( cd "$1" 2>/dev/null && pwd -P ) || printf '%s' "$1"; }
+
+MAX_VERIFY_FILES="${MAX_VERIFY_FILES:-4000}"
+REACHABLE_TIMEOUT="${REACHABLE_TIMEOUT:-60}"
+
+# Blobs reachable from a ref that will still exist after the worktree goes.
+# Built once per repo and cached, because `rev-list --objects --all` is a single
+# history walk where `cat-file -e` per file is N lookups.
+#
+# Presence is weaker than reachability, and the difference is not academic: a
+# blob can sit in the object database unreferenced, having come from an aborted
+# commit or a discarded branch, and `git gc` will prune it. Content whose only
+# witness is the directory being deleted is not preserved by the fact that git
+# currently happens to have a copy.
+_reach_repo=""; _reach_file=""
+reachable_blobs() {
+  local repo="$1"
+  [ "$repo" = "$_reach_repo" ] && return 0
+  _reach_repo="$repo"
+  _reach_file=$(mktemp -t mdreach-XXXXXX)
+  bounded "$REACHABLE_TIMEOUT" git -C "$repo" rev-list --objects --all 2>/dev/null \
+    | awk '{print $1}' | sort -u > "$_reach_file" || :
+  [ -s "$_reach_file" ] || return 1     # walk failed or was bounded out
+  return 0
+}
+
+# Decide whether a DEREGISTERED worktree can be removed without losing anything.
+#
+# `git status` cannot run in one (its admin directory is gone), which is why an
+# earlier version gave up and called them all unverifiable. That was
+# over-conservative: the question is not "what does git say", it is "does this
+# directory hold content that exists nowhere else", and that is answerable by
+# hashing each file and asking whether the blob is reachable from a surviving
+# ref.
+#
+# Commits need no separate check. They live in the parent repo, so deleting a
+# worktree directory cannot destroy history even on an unmerged branch: the
+# branch ref and its objects stay behind, and `git checkout <branch>` restores
+# the tree. Verified on the fixture.
+#
+# Returns 0 = every file reachable from a surviving ref (safe)
+#         1 = holds content reachable from nowhere else (keep)
+#         2 = could not decide (too large, dotenv present, or the walk failed)
+content_all_reachable() {
+  local repo="$1" wt="$2" n=0 h
+  if find "$wt" -maxdepth 2 -type f \( -name '.env' -o -name '.env.*' \) 2>/dev/null | grep -q .; then
+    return 2
+  fi
+  reachable_blobs "$repo" || return 2
+  while IFS= read -r f; do
+    n=$((n + 1))
+    [ "$n" -gt "$MAX_VERIFY_FILES" ] && return 2
+    h=$(git -C "$repo" hash-object "$f" 2>/dev/null) || return 2
+    grep -qxF "$h" "$_reach_file" || return 1
+  done < <(find "$wt" -type f \
+             -not -path '*/.git/*' -not -name '.git' \
+             -not -path '*/node_modules/*' -not -path '*/dist/*' -not -path '*/build/*' \
+             -not -path '*/.next/*' -not -path '*/.turbo/*' -not -path '*/target/*' \
+             -not -path '*/.venv/*' -not -path '*/__pycache__/*' 2>/dev/null)
+  return 0
+}
+
 default_branch() {
   local repo="$1" b
   b=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null) && {
@@ -75,27 +144,55 @@ for wtroot in "$ROOT"/*/.claude/worktrees "$ROOT"/*/.worktrees; do
 
   for wt in "$wtroot"/*; do
     [ -d "$wt" ] || continue
+    wtc=$(canon "$wt")
 
     is_registered=false
     while IFS= read -r r; do
-      [ "$r" = "$wt" ] && { is_registered=true; break; }
+      [ -z "$r" ] && continue
+      [ "$(canon "$r")" = "$wtc" ] && { is_registered=true; break; }
     done <<< "$registered"
 
-    # A worktree whose .git link is broken cannot be interrogated. Report it as
-    # indeterminate rather than clean -- "git can't read it" is not "it's empty".
-    if ! git -C "$wt" rev-parse --git-dir >/dev/null 2>&1; then
-      verdict="indeterminate"; dirty="unknown"; unmerged="unknown"; reason="not a readable git worktree"
+    # The decisive asymmetry, and the opposite of what it looks like:
+    #
+    #   REGISTERED   -> git can answer "clean?" and "merged?", so the worktree
+    #                   can be judged. A registered worktree that is clean and
+    #                   fully merged is a finished session, and reclaimable.
+    #   UNREGISTERED -> the .git link points at an admin directory that no
+    #                   longer exists, so `status` and `log` both fail and
+    #                   `worktree repair` cannot re-attach it. Nothing can be
+    #                   proven about it, so nothing may be done to it.
+    #
+    # "Unregistered, clean and merged" is therefore not a stricter gate, it is
+    # an unsatisfiable one: unregistered is precisely the state in which clean
+    # and merged are unknowable.
+    if [ "$is_registered" != true ]; then
+      # git cannot speak for this one, so ask the object database instead.
+      content_all_reachable "$repo" "$wt"; rc=$?
+      dirty="unknown"; unmerged="n/a"
+      case $rc in
+        0) verdict="reclaimable"
+           reason="deregistered, but every file already exists in the object database, and commits live in the parent repo" ;;
+        1) verdict="keep"
+           reason="deregistered and holds file content found nowhere in the object database" ;;
+        *) verdict="unverifiable"
+           reason="deregistered, and too large or holds a dotenv file, so content cannot be cleared" ;;
+      esac
+    elif ! git -C "$wt" rev-parse --git-dir >/dev/null 2>&1; then
+      verdict="unverifiable"; dirty="unknown"; unmerged="unknown"
+      reason="registered but unreadable as a git worktree"
     else
       dirty=$(git -C "$wt" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
       unmerged=$(git -C "$wt" log --oneline "$db..HEAD" 2>/dev/null | wc -l | tr -d ' ')
-      if [ "$is_registered" = true ]; then
-        verdict="keep"; reason="registered with git; may be an active session"
+      in_use=""
+      lsof -a -d cwd -- "$wt" >/dev/null 2>&1 && in_use="a process is working in it"
+      if [ -n "$in_use" ]; then
+        verdict="keep"; reason="$in_use"
       elif [ "${dirty:-1}" -gt 0 ]; then
         verdict="keep"; reason="$dirty uncommitted change(s)"
       elif [ "${unmerged:-1}" -gt 0 ]; then
         verdict="keep"; reason="$unmerged commit(s) not in $db"
       else
-        verdict="reclaimable"; reason="unregistered, clean, fully merged into $db"
+        verdict="reclaimable"; reason="registered, clean, fully merged into $db, nothing working in it"
       fi
     fi
 

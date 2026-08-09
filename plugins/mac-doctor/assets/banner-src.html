@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+
+  /* Porcelain register, matching the icon. The dark deep-sea ground belongs to
+     trawl; this one sits in daylight like armada-sync and create-mac-icon. */
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background:
+           radial-gradient(130% 190% at 22% 34%, #fdfcfa 0%, #f4f0e9 44%, #e8e2d7 78%, #ddd6c9 100%);
+         font-family: "Schibsted Grotesk", -apple-system, sans-serif; }
+
+  /* The motif is the gauge continued off-canvas: concentric arcs sweeping right,
+     each one further from closing. Reads as accumulation, which is what fills a
+     disk, rather than as decoration. */
+  svg.arcs { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 148px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 292px; height: 292px;
+          filter: drop-shadow(0 20px 46px rgba(64,58,48,.26)); }
+  .words { padding-bottom: 10px; }
+  .wordmark { font-size: 132px; font-weight: 700; letter-spacing: -0.038em;
+              line-height: 1; color: #2f343e; }
+  .wordmark .hyphen { color: #e0491f; }
+  .tagline { margin-top: 28px; font-size: 32px; font-weight: 400;
+             letter-spacing: .002em; color: #6f7683; }
+  .tagline b { color: #2f343e; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="arcs" width="1600" height="520" viewBox="0 0 1600 520" fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fade" x1="1600" y1="0" x2="620" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0"   stop-color="#8b93a3" stop-opacity=".30"/>
+        <stop offset=".62" stop-color="#8b93a3" stop-opacity=".12"/>
+        <stop offset="1"   stop-color="#8b93a3" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="ember" x1="1250" y1="180" x2="1400" y2="60" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#e04b20"/>
+        <stop offset="1" stop-color="#ffa06b"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Two rings receding to the right, the nearer one carrying its freed
+         wedge in the same relationship as the icon. An accent floating free of
+         any ring reads as a stray mark rather than a motif. -->
+    <g fill="none" stroke="url(#fade)" stroke-linecap="round">
+      <path stroke-width="22" d="M1350 204 A 176 176 0 1 1 1195 75"/>
+      <path stroke-width="15" d="M1596 470 A 132 132 0 1 1 1520 292"/>
+    </g>
+
+    <path d="M1240 85 A 176 176 0 0 1 1332 162" fill="none" stroke="url(#ember)"
+          stroke-width="22" stroke-linecap="round" transform="translate(39,-46)"
+          opacity=".9"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div class="words">
+      <div class="wordmark">mac<span class="hyphen">-</span>doctor</div>
+      <div class="tagline">Your Mac fills up a hundred reasonable decisions at a time.<br>
+        This one <b>counts</b>, and refuses to guess.</div>
+    </div>
+  </div>
+</body>
+</html>

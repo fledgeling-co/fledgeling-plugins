@@ -1,0 +1,9 @@
+{
+  "name": "loop-harness",
+  "description": "Turn a rough intent into a hardened, armed /loop that survives being left alone. Claude Code's /loop is session-scoped: its cron expires after seven days, fires only while the session is idle, never catches up a missed fire, and since v2.1.196 silently degrades any skill Claude may not invoke on its own — /code-review and /verify among them — to plain text. loop-harness picks the right mechanism first (Monitor for event-driven, dynamic pacing for self-paced, fixed cron for true polling, or /goal when the work has an end state), writes .claude/loop.md within its 25,000-byte cap, preflights the traps, applies settings changes after showing a diff, then arms the loop with the monitor that actually wakes it, a heartbeat that catches a tick that forgot to reschedule, a renewal reminder before the seven-day expiry, and a per-tick ledger so \"how's it going\" is answerable without interrupting the run.",
+  "version": "1.0.1",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

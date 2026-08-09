@@ -1,0 +1,11 @@
+$ node scripts/bench-ingest.mjs --rate 1000 --duration 60
+rate=1000/s  duration=60s  accepted=60000  written=60000  dropped=0  overwrites=0
+p50=1.9ms p95=7.4ms p99=12.1ms
+
+$ node scripts/bench-ingest.mjs --rate 3000 --duration 60
+rate=3000/s  duration=60s  accepted=180000  written=178806  dropped=1194  overwrites=0
+p50=2.2ms p95=41.0ms p99=118.7ms
+
+$ node scripts/bench-ingest.mjs --rate 5000 --duration 60
+rate=5000/s  duration=60s  accepted=300000  written=281440  dropped=18560  overwrites=2071
+p50=3.1ms p95=96.5ms p99=402.3ms

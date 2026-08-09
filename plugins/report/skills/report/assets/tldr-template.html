@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} — one page</title>
+<meta name="description" content="{{ONE_SENTENCE_FINDING}}">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{ONE_SENTENCE_FINDING}}">
+
+<!--
+  TLDR SKELETON — one A4 sheet: brand band, the finding, one hero visual, three to six cited
+  claims, sources.
+
+  This is a DERIVATION of the full report, not a summary written separately. Every line here
+  traces to a row in the same claims.json. Two documents that disagree about the finding is
+  the failure this arrangement exists to prevent, and it happens whenever the short one gets
+  written from memory of the long one.
+
+  Cover, body and back matter are merged deliberately: a cover page on a one-page document
+  spends half the artifact on a title.
+-->
+
+<style>
+:root{
+  /* Same tokens as the report. Identical brand, smaller stage. */
+  --bg:#fdfcfa; --ink:#16150f; --muted:#5d5a4e; --rule:#ddd8c9;
+  --accent:#9a3b1f; --accent-soft:#f2e5de; --panel:#f6f3ec;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:22px; --s6:30px;
+  --body:14.5px/1.5 ui-serif,Charter,"Iowan Old Style",Georgia,serif;
+  --label:600 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14130f; --ink:#eae6db; --muted:#9a9585; --rule:#33302a;
+    --accent:#e0794f; --accent-soft:#2a1d16; --panel:#1c1a15;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14130f; --ink:#eae6db; --muted:#9a9585; --rule:#33302a;
+  --accent:#e0794f; --accent-soft:#2a1d16; --panel:#1c1a15;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--body)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* On screen the sheet is shown as a sheet, so what you see is what prints. */
+.sheet{width:210mm;min-height:297mm;margin:0 auto;padding:16mm 15mm 18mm;
+       background:var(--bg);display:flex;flex-direction:column;gap:var(--s5)}
+
+/* ── brand band ── */
+.band{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);
+      border-bottom:2px solid var(--accent);padding-bottom:var(--s3)}
+.band .mark{font:var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.band .meta{font:var(--label);color:var(--muted);letter-spacing:.06em}
+
+/* ── the finding, in one sentence ── */
+h1{font-size:clamp(1.5rem,3.4vw,2.05rem);line-height:1.12;font-weight:600;
+   letter-spacing:-.015em;margin:0;text-wrap:balance;max-width:32ch}
+.finding{font-size:1.06rem;line-height:1.4;color:var(--ink);margin:0;max-width:60ch}
+
+/* ── one hero visual: the single chart or number strip that carries the argument ── */
+.hero{background:var(--panel);border:1px solid var(--rule);padding:var(--s5);
+      break-inside:avoid}
+.hero .fig-title{font-weight:600;font-size:.95rem;margin:0 0 var(--s3)}
+.hero figcaption{font:var(--label);color:var(--muted);margin-top:var(--s3);letter-spacing:.02em}
+
+/* ── the claims ── */
+.claims{margin:0;padding:0;list-style:none;display:grid;gap:var(--s3)}
+.claims li{display:grid;grid-template-columns:auto 1fr;gap:var(--s3);
+           padding-bottom:var(--s3);border-bottom:1px solid var(--rule);break-inside:avoid}
+.claims .n{font:var(--label);color:var(--accent);padding-top:.25em}
+.claims [data-kind="inference"] .n{color:var(--muted)}
+.claims .kindmark{font:var(--label);color:var(--muted);letter-spacing:.08em;
+                  text-transform:uppercase;display:block;margin-bottom:var(--s1)}
+
+a.cite{font:var(--label);font-size:.66em;vertical-align:super;line-height:0;
+       text-decoration:none;color:var(--accent);padding:0 .12em}
+a.cite::before{content:"["} a.cite::after{content:"]"}
+
+/* ── sources: the back matter, merged in rather than given its own page ── */
+.asks{margin-top:auto;border-top:2px solid var(--accent);padding-top:var(--s3)}
+.asks p.label{font:var(--label);letter-spacing:.09em;text-transform:uppercase;
+              color:var(--accent);margin:0 0 var(--s2)}
+.asks ol{margin:0;padding-left:1.3em;display:grid;gap:var(--s2)}
+.asks li{break-inside:avoid}
+
+.sources{border-top:1px solid var(--rule);padding-top:var(--s3)}
+.sources p.label{font:var(--label);letter-spacing:.09em;text-transform:uppercase;
+                 color:var(--muted);margin:0 0 var(--s2)}
+.sources ol{margin:0;padding-left:1.4em;columns:2;column-gap:var(--s5);font-size:11px;
+            line-height:1.4;color:var(--muted)}
+.sources li{margin:0 0 var(--s2);break-inside:avoid}
+.sources a{color:inherit}
+
+@page{ size:A4 portrait; margin:16mm 15mm 18mm; }
+@media print{
+  /* Re-declare the LIGHT tokens, not just body's colours. A reader in dark mode
+     otherwise prints dark token values onto a white sheet: every var(--ink),
+     var(--rule) and var(--panel) is still holding its dark-scheme value when the
+     print rules land. Found by looking at a rendered PDF, not by any exit code. */
+  :root{
+    --bg:#fff; --ink:#111; --muted:#555; --rule:#ccc;
+    --accent:#9a3b1f; --accent-soft:#f2e5de; --panel:#f7f5f0;
+  }
+  html,body{background:#fff;color:#111}
+  .sheet{width:auto;min-height:0;margin:0;padding:0}
+  .hero,.claims li,.sources li{break-inside:avoid}
+  h1{break-after:avoid}
+  .sources a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt}
+}
+</style>
+</head>
+
+<body>
+<article class="sheet">
+
+  <header class="band">
+    <span class="mark">{{PROJECT_OR_MARK}}</span>
+    <span class="meta">{{KICKER}} · {{DATE}}</span>
+  </header>
+
+  <div class="block" data-claims="{{HEADLINE_CLAIM_IDS}}">
+    <h1>{{TITLE}}</h1>
+  </div>
+
+  <p class="finding">{{ONE_SENTENCE_FINDING}}</p>
+
+  <figure class="hero block" data-claims="{{HERO_CLAIM_ID}}">
+    <p class="fig-title">{{TITLE_STATING_THE_CONCLUSION}}</p>
+    {{INLINE_SVG_OR_KPI_STRIP}}
+    <figcaption>{{WHAT_IT_SHOWS_AND_ITS_LIMITS}}</figcaption>
+  </figure>
+
+  <ul class="claims">
+    <li class="block" data-claims="{{CLAIM_ID}}">
+      <span class="n">01</span>
+      <span>{{CLAIM_TEXT}}<a class="cite" href="#r1" data-cite="r1" data-n="1"
+            aria-describedby="r1">1</a></span>
+    </li>
+    <li class="block" data-claims="{{INFERENCE_CLAIM_ID}}" data-kind="inference">
+      <span class="n">02</span>
+      <span><span class="kindmark">Inference</span>{{REASONED_CLAIM}}</span>
+    </li>
+  </ul>
+
+  <!-- The ask. Both blind judges reading as the recipient chose the rival document
+       that named the next action on the sheet, over the one with better provenance and
+       no ask anywhere. On a page someone reads in ten seconds this is not optional. -->
+  <section class="asks">
+    <p class="label">What we want decided</p>
+    <ol>
+      <li><strong>{{CHEAPEST_ACTION_THAT_PAYS}}</strong> {{WHY_IT_IS_CHEAP, AND_WHO_DECIDES}}</li>
+    </ol>
+  </section>
+
+  <footer class="sources">
+    <p class="label">Sources · {{WHAT_THE_SESSION_DID_IN_ONE_CLAUSE}}</p>
+    <ol>
+      <li id="r1"><a href="{{URL_OR_OMIT}}">{{TITLE}}</a> — {{LOCATOR}}</li>
+    </ol>
+  </footer>
+
+</article>
+</body>
+</html>

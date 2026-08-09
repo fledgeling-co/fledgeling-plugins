@@ -22,10 +22,10 @@ part that refuses to.
 
 Every removal passes a gate first, and the gate is stricter the less
 recoverable the mistake. Build output needs a generator that can rebuild it.
-Docker volumes need to be unmounted by every container. Worktrees need three
-separate proofs — unregistered with git, no uncommitted changes, and no commits
-missing from the main branch — and if any one fails, you get told what it is
-holding rather than losing it.
+Docker volumes need to be unmounted by every container. Worktrees need four separate proofs: git still knows about them, nothing is
+uncommitted, no commit is missing from the main branch, and nothing is working
+in them. Fail any one and you get told what it is holding rather than losing
+it.
 
 ## Five cadences, widening autonomy
 
@@ -76,7 +76,7 @@ A 2 TB Mac at 94% full:
 
 | | |
 | --- | --- |
-| Git worktrees | 620 GB across 218 directories — the largest single item, and **none of it reclaimable**, because every one was live |
+| Git worktrees | 620 GB, the largest single item. Of 136 audited, 13 were safe to remove and 114 were still live |
 | Xcode DerivedData | 43 GB |
 | `~/Library/Caches` | 40 GB (CocoaPods alone was 13 GB) |
 | Simulators | 19 GB |
@@ -84,8 +84,8 @@ A 2 TB Mac at 94% full:
 | Package caches | 19 GB of npm and pnpm |
 
 The worktree line is the one worth reading twice. It is the biggest thing on the
-disk and the tool will not delete any of it, because the check said it was all
-in use. That is the tool working, not failing.
+disk, and the tool offers to remove about a tenth of it, because that is the
+part it could prove was finished. The rest it leaves alone and tells you why.
 
 ## Three ways it learned to distrust its own measurements
 
