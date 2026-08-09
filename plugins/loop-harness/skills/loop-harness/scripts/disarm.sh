@@ -6,13 +6,23 @@
 #   disarm.sh <slug>
 set -uo pipefail
 SLUG="${1:-}"
+
+# A backup is a precondition, not a courtesy: if it fails we must not proceed to
+# the destructive step, and we must never claim it happened. Reproduced on a
+# read-only .claude/: the backup failed, the overwrite succeeded anyway, and the
+# script printed "wrote" and exited 0 with the previous file unrecoverable.
+backup() {
+  cp "$1" "$1.bak.$(date -u +%Y%m%dT%H%M%SZ)" || {
+    echo "${0##*/}: could not back up $1 — refusing to modify it" >&2; exit 1; }
+}
+
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 TARGET="$ROOT/.claude/loop.md"
 BRIEF="$ROOT/docs/loops/loop-${SLUG}.md"
 
 if [ -f "$TARGET" ]; then
-  cp "$TARGET" "$TARGET.bak.$(date -u +%Y%m%dT%H%M%SZ)"
-  rm "$TARGET"
+  backup "$TARGET"
+  rm "$TARGET" || { echo "${0##*/}: could not remove $TARGET" >&2; exit 1; }
   echo "removed $TARGET (backed up)"
   [ -f "$HOME/.claude/loop.md" ] && echo "note: ~/.claude/loop.md is no longer shadowed and now applies to a bare /loop"
 else
@@ -29,3 +39,5 @@ echo "  dynamic loop  ScheduleWakeup {stop: true}, or press Esc while it waits"
 echo "  monitor       TaskStop <task id — find it with TaskList>${MON:+   (${MON})}"
 echo "  renewal       CronDelete <the day-six one-shot, if still pending>"
 [ -f "$BRIEF" ] && echo && echo "brief and ledger kept: $BRIEF"
+
+exit 0

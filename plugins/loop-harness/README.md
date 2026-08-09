@@ -8,7 +8,7 @@
 A hardening layer over Claude Code's built-in <code>/loop</code>, and the sibling of <a href="../goal-harness">goal-harness</a>.</p>
 
 <p align="center">
-  <img alt="Version 1.0.1" src="https://img.shields.io/badge/version-1.0.1-D33C21">
+  <img alt="Version 1.0.2" src="https://img.shields.io/badge/version-1.0.2-D33C21">
   <img alt="SWE skill: session control" src="https://img.shields.io/badge/SWE_skill-session_control-434A55">
   <img alt="Picks: monitor, dynamic or cron" src="https://img.shields.io/badge/picks-monitor_dynamic_or_cron-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

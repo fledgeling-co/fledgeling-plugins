@@ -112,7 +112,7 @@ A research question in, one published page out. It runs a paid and free research
 
 ### [mac-doctor](plugins/mac-doctor/README.md)
 
-Your Mac did not fill up because of one thing, it filled up because a hundred reasonable defaults each left something behind and nobody was counting. Five scheduled jobs, from every fifteen minutes to weekly, with what each may do on its own widening as the gap between runs grows. Running low makes it check sooner, never delete more. The interesting part is what it refuses: a worktree needs three separate proofs before it is touched, and on the machine it was built for it declined to remove a single one of 620 GB.
+Your Mac did not fill up because of one thing, it filled up because a hundred sensible defaults each left something behind and nothing was counting. Five scheduled jobs, from every fifteen minutes to weekly, with what each may do on its own widening as the gap between runs grows. Running low makes it check sooner, never delete more. The two short tiers are plain shell, so ninety-six runs a day cost no tokens at all. It ties a no-skill baseline on reasoning and says so in its evals; what it adds is that the reasoning runs while you are asleep.
 
 <br clear="left" />
 
