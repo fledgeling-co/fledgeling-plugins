@@ -172,6 +172,20 @@ row group, or a caption away from its chart.
   carries one line saying what should happen and who decides, and the
   detail earns its place underneath. A reader who agrees with you and
   does not know what to do has been handed a diagnosis, not a report.
+
+  A second round after that fix flipped one of the two and narrowed the
+  other, and sharpened what the ask has to be:
+
+  - **It carries the cheapest high-payoff action, not a secondary one.**
+    One report's top-box ask requested a benchmark sweep while "export
+    the loss counters" — the cheap change that makes the problem visible
+    at all — sat at item 2 of section 09. A reader who stops at the fold
+    never learns production is blind.
+  - **It is the last content block.** Sources and the methods note are
+    apparatus and follow it. An ask with two blocks of machinery after it
+    is not where the eye comes to rest.
+  - **It is sized and owned.** "About five minutes of machine time, needs
+    an owner and your yes" beat four unpriced imperatives.
 - **One claim per block**, with one visual delta that supports it.
   Adjacent blocks reuse scales, objects and positions unless changing one
   of those *is* the evidence.
@@ -302,9 +316,15 @@ before it saves time.
 - **Engagement is not comprehension.** This format buys attention and
   perceived clarity; the measured evidence does not show it buys
   understanding. Never claim otherwise in the report's own copy.
-- **The methods note is not a disclaimer.** State what the session did,
-  what was read, what was verified, what a human reviewed, and what the
-  report could not establish. Disclosing machine involvement has no
-  reliable credibility cost; vagueness about it does.
+- **The methods note is not a disclaimer, and not a changelog.** State
+  what the session did, what was read, what was verified, what a human
+  reviewed, and what the report could not establish. Disclosing machine
+  involvement has no reliable credibility cost; vagueness about it does.
+  What *does* cost is narrating the pipeline instead of the evidence. A
+  judge reading as the recipient singled out a closing note saying the
+  prose had passed a voice lint and no imagery had been generated: "the
+  genuinely useful half of that paragraph deserves to be a line near the
+  top; the rest belongs in a commit message." Which skills ran is not
+  news to the reader. What the report cannot tell them is.
 - **Never publish or deploy.** Writing the files ends the run.
 - **Subagents never run git operations.**

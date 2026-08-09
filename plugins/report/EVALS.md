@@ -188,6 +188,55 @@ inside `.episode-static`, which is `display:none` on screen. So the
 caveat appeared only in the PDF, and a screen reader got an untitled
 graphic. Both now sit outside the toggle where both branches carry them.
 
+### Round two: did the fix work?
+
+Both reports regenerated with the updated skill, put back to fresh judges
+on the lens that had rejected them, against the same unchanged baselines
+and a new random assignment.
+
+**The long report flipped. The one-pager still lost, narrowly.**
+
+The flip is the interesting one, because it flipped on the fixes rather
+than on the ask. The judge chose it over a rival whose front page it had
+caught out twice: "9.3×, from 0.66% to 6.88%" is arithmetically 10.4×,
+and "roughly 16% never lands" contradicts the same document's 85.5%
+conversion table. Against that, the skill's report "states the 6.88%
+disjoint reading as an explicit upper bound... and shows the one-line
+check that makes its reading defensible," which is exactly the
+bound-the-uncertainty rule the first round produced. The verdict: "the
+one I can act on without re-deriving the loss figure myself."
+
+The one-pager's ask landed too. The judge called it "the better-formed
+ask of the two", sized, and naming what it needed from the reader. It
+lost anyway, and gave three specific reasons that are now rules:
+
+1. **The top-box ask carried the wrong action.** It asked for a benchmark
+   sweep while "export the loss counters" sat at item 2 of section 09.
+   That is the cheap change that makes the problem visible at all, so a
+   reader who stops at the fold never learns production is blind.
+2. **The ask wasn't last.** Two blocks of apparatus sat after it.
+3. **The methods note narrated the pipeline, not the evidence.** It said
+   the prose had passed a voice lint and no imagery was generated, and
+   ended the sheet by telling the recipient nobody had reviewed it. "The
+   genuinely useful half of that paragraph deserves to be a line near the
+   top; the rest belongs in a commit message."
+
+And a chart rule: a latency chart on a linear axis rendered six of nine
+bars under 1% of the scale, with the caption defending it as "the point
+rather than a rendering problem". It was a rendering problem.
+
+**Recipient lens across both rounds: 1 win, 3 losses**, improved from 0-2
+to 1-1. The fixes moved one case and narrowed the other. Everything above
+is applied and, again, nothing has been re-judged since.
+
+There's a real tension underneath this that no further round will
+dissolve. The lens that keeps preferring the rival is the one reading to
+decide, and what it keeps punishing is scrupulousness: leaving 6.2%
+versus 6.9% open read to a CTO as "the team hasn't finished its
+arithmetic," even while the other judge marked the same care as the
+reason to trust it. Bounding the range is the right answer to that. Being
+vague to look decisive is not.
+
 ## What it costs
 
 All three tasks, measured:
@@ -243,9 +292,10 @@ available, or it turns into a rule that quietly gets dropped.
   panel judged two rendered pairs. It tells you the contract holds and
   that two of three lenses prefer the output; it doesn't tell you either
   holds on a codebase fifty times the size.
-- **Whether the fixes work.** Everything the panel found is fixed, and
-  nothing has been re-judged since. The next honest step is a second
-  blind round against the same briefs.
+- **Whether round two's fixes work.** The round-one fixes were re-judged
+  and the results are above. Round two's three (the ask carrying the
+  cheapest action, the ask going last, the methods note serving the
+  reader) are applied and unjudged.
 
 ## Running it yourself
 
