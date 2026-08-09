@@ -39,38 +39,36 @@
   <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — vector alternate</small></td>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A rendered at 128 pixels"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
-    <td class="score">11 / 12</td>
-    <td class="verdict">Passes all four non-negotiables and remains the maintainable artifact: geometry and material are named constants
- in build_icon.py, so a change is a parameter edit. Ground sampled from the family's own icons rather than Apple's
- cooler porcelain. Kept as the vector alternate because it is what survives a palette change or a variant requirement,
- and because C cannot be edited at all. It lost on material, which is the one thing the brief asked to improve. Worth
- recording that the defect reported three times against this take was never its wedge placement: measured on the
- render, the hole spanned -80 to -31 degrees and the ember -80 to -30, identical. The fault was a visible track making
- the gap read as a filled segment; removing it fixed the read. Two rounds were spent moving the wrong element.</td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Ships. Passes all four non-negotiables, and after a late composition change it now carries the subject better
+ than any other take. The ember was originally a wedge detached outside the ring, meaning "a piece came out". Inline it
+ says what the tool actually reports: three quantities at once, dark for used, ember for just reclaimed, and the
+ remaining hole for free. That is also the conventional gauge idiom, so it reads without being learned. The segment
+ abuts the ring with butt caps and carries only its own edge catch, since an inline element that casts a float shadow
+ reads as sitting on top rather than in the track. Geometry and material are named constants in build_icon.py, so it
+ stays editable and can be made variant-aware. Loses one point on 11: a ring gauge is legible but conventional.</td>
   </tr>
   <tr>
-    <td class="take ship">C · icon-engineC-clean.png<small>GPT Image 2, corpus-referenced raster, deframed and remasked — SHIPS</small></td>
+    <td class="take">C · icon-engineC-clean.png<small>GPT Image 2, corpus-referenced raster, deframed and remasked — material reference</small></td>
     <td class="renders">
       <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C rendered at 128 pixels"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
-    <td class="score ship">10 / 12</td>
-    <td class="verdict">Wins the material read outright, and once deframed it wins outright. The original failed check 1 by baking its
- own dark rounded-square frame inside the tile; that frame cropped away cleanly (inner tile at x 78-948, y 66-953,
- aspect 0.981), and the content was squared, scaled full bleed and remasked with the family superellipse. What remains
- is genuine gel: volumetric body, strong rim, authored translucency, richer than anything the vector master reached.
- Silhouette and 16px both hold. Loses two points. Check 10, variant robustness: a baked raster cannot adapt to Dark,
- Clear or Tinted at all, where the vector could. And it is not editable, so a future palette change means regenerating
- rather than changing a constant. Both are real costs of shipping pixels, accepted deliberately.</td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Kept as the material reference, not shipped. Its gel is still the richest here: volumetric body, strong rim,
+ authored translucency. Its disqualifying frame did turn out to be croppable (inner tile x 78-948, y 66-953, aspect
+ 0.981), and for a while it shipped on that basis. It lost the place on composition rather than material: its ember is
+ a solid triangle baked outside the ring, so it cannot express the inline three-part read, and being pixels it cannot
+ be changed to. Also fails check 10 outright, since a baked raster cannot adapt to Dark, Clear or Tinted.</td>
   </tr>
   <tr>
     <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
@@ -86,15 +84,14 @@
 
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship C (icon-engineC-clean.png).</strong> The raster wins the material
- judgment decisively and its only disqualifying fault, a baked dark frame, turned out to be croppable rather than
- inherent. Deframed and remasked with the family superellipse it passes checks 1 to 4 on real renders, and this is a
- decorative marketplace mark rather than an Icon Composer package, so nothing downstream needs the layers.
- Known liabilities to revisit: a baked raster fails check 10 outright, since it cannot adapt to Dark, Clear or Tinted,
- and it cannot be edited, so any palette or geometry change means a fresh generation rather than a constant. The vector
- master A is kept alongside for exactly that reason and remains the fallback if the mark ever needs to be variant-aware.
- The crop also cost a little of the original framing, so C sits marginally tighter in the tile than an
- authored-to-the-squircle take would.</div>
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> The raster won the material judgment and held
+ the shipping slot for a while once its baked frame proved croppable, but composition decided it: only the authored
+ vector could move the ember inline, and inline is what makes the mark state used, reclaimed and free at once instead
+ of only "a piece came out". Editability is the second reason, and the one that matters over time.
+ Known liabilities to revisit: the master is still less volumetric than C at 1024, and closing that means a bounded
+ fidelity run against a raster regenerated with the inline composition rather than the current one. Check 10, variant
+ robustness, remains untested; nothing has been rendered against Dark, Clear or Tinted, and a warm porcelain ground is
+ exactly the kind that collapses under Tinted. The ring gauge is conventional, which is the lost rubric point.</div>
 
 <div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, `sips -Z` for rasters.</div>
 </body>

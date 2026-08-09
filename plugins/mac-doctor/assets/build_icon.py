@@ -44,19 +44,17 @@ GAP_MID = -55.0         # bisector of the gap, degrees, 0 = +x, y down
 # Half-width of the gap. 35 made a 70 degree hole, which is 19% of the ring
 # empty; the machine this was built for was at 6% free. 25 is both truer and
 # more legible, because a smaller hole lets the freed wedge match its width.
-GAP_HALF = 25.0
-# Half-width of the freed wedge, and its lift along the bisector. These two
-# trade against each other and were swept rather than guessed, because both
-# failure modes look reasonable in isolation:
-#   wide and near (24.4 / 62)  -> the wedge covers the gap, so the ring stops
-#                                 reading as nearly full, which is the message
-#   narrow and far (16 / 104)  -> the wedge stops belonging to the gap and
-#                                 reads as an unrelated mark floating nearby
-# 19 / 88 keeps the pale track visible either side of the wedge while leaving
-# clear daylight between them. Note the round caps add (W/2)/R radians at each
-# end, 21.2 degrees in total, so the authored 38 degrees reads as about 59.
-WEDGE_HALF = 24.0
-WEDGE_LIFT = 118
+GAP_HALF = 36.0
+# The reclaimed segment now sits INLINE in the ring rather than floating outside
+# it. Detached said "a piece came out"; inline says what the tool actually
+# reports, which is three quantities at once: dark for used, ember for just
+# reclaimed, and the remaining hole for free. It is also the conventional gauge
+# idiom, so it reads without being learned.
+#
+# The segment occupies the leading part of the hole and abuts the ring's end, so
+# it uses butt caps like the ring. Round caps would overlap the dark arc and
+# round off the join that makes the two read as one track.
+EMBER_SPAN = 44.0
 SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
 
 # ---- material ---------------------------------------------------------------
@@ -90,9 +88,8 @@ def build():
     ring_end = GAP_MID - GAP_HALF + 360      # ...all the way round
     ring_d = arc(ring_start, ring_end - 360, 1, 1)
 
-    wedge_d = arc(GAP_MID - WEDGE_HALF, GAP_MID + WEDGE_HALF, 0, 1)
-    lx = WEDGE_LIFT * math.cos(math.radians(GAP_MID))
-    ly = WEDGE_LIFT * math.sin(math.radians(GAP_MID))
+    hole_start = GAP_MID - GAP_HALF          # where the dark ring stops
+    wedge_d = arc(hole_start, hole_start + EMBER_SPAN, 0, 1)
 
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {S} {S}" width="{S}" height="{S}">
 <defs>
@@ -138,9 +135,10 @@ def build():
     <stop offset="0.5"  stop-color="{EMBER_MID}"/>
     <stop offset="1"    stop-color="{EMBER_HI}"/>
   </linearGradient>
-  <linearGradient id="emberRim" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0"   stop-color="{EMBER_RIM}" stop-opacity="0.9"/>
-    <stop offset="0.45" stop-color="{EMBER_RIM}" stop-opacity="0"/>
+  <linearGradient id="emberEdge" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"    stop-color="{EMBER_RIM}" stop-opacity="0.95"/>
+    <stop offset="0.45" stop-color="{EMBER_RIM}" stop-opacity="0.20"/>
+    <stop offset="0.8"  stop-color="{EMBER_RIM}" stop-opacity="0"/>
   </linearGradient>
 
   <!-- Contact shadows, tinted toward each object's own hue. -->
@@ -190,14 +188,11 @@ def build():
     <path d="{arc(ring_start, ring_end - 360, 1, 1, R - W/2 + 6)}" fill="none"
           stroke="url(#edgeInner)" stroke-width="7" stroke-linecap="round"/>
 
-    <!-- the wedge that came back -->
-    <g transform="translate({lx:.1f},{ly:.1f})" filter="url(#emberShadow)">
-      <path d="{wedge_d}" fill="none" stroke="url(#ember)"
-            stroke-width="{W}" stroke-linecap="round"/>
-      <path d="{wedge_d}" fill="none" stroke="url(#emberRim)"
-            stroke-width="{W * 0.34:.0f}" stroke-linecap="round"
-            transform="translate(0,-{W * 0.26:.0f})" opacity="0.75"/>
-    </g>
+    <!-- the reclaimed segment, inline and abutting the ring -->
+    <path d="{wedge_d}" fill="none" stroke="url(#ember)"
+          stroke-width="{W}" stroke-linecap="butt"/>
+    <path d="{arc(hole_start, hole_start + EMBER_SPAN, 0, 1, R + W/2 - 5)}" fill="none"
+          stroke="url(#emberEdge)" stroke-width="9" stroke-linecap="round"/>
   </g>
 </g>
 </svg>
