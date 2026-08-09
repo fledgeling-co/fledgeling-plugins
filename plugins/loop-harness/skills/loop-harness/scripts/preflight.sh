@@ -72,10 +72,15 @@ plugins reload-plugins reload-skills config hooks mcp login logout doctor init"
 if [ -n "$SKILLS" ]; then
   IFS=',' read -ra LIST <<<"$SKILLS"
   for s in "${LIST[@]}"; do
-    s="$(printf '%s' "$s" | tr -d ' /')"; [ -n "$s" ] || continue
-    name="${s##*:}"; plugin="${s%%:*}"
-    if printf '%s\n' $BUILTIN_BLOCKED | grep -qx "$name" && [ "$plugin" = "$name" ]; then
-      bad "skill /$s" "built-in or disable-model-invocation — a fire delivers it as PLAIN TEXT and it never runs"
+    s="$(printf '%s' "$s" | tr -d ' ')"; s="${s#/}"
+    [ -n "$s" ] || continue
+    # A bare name (no colon) can be a built-in. `plugin:name` is always a real
+    # plugin skill, even when both halves match — code-review:code-review is a
+    # legitimate skill and must not be confused with the built-in /code-review.
+    case "$s" in *:*) qualified=1 ;; *) qualified=0 ;; esac
+    name="${s##*:}"
+    if [ "$qualified" -eq 0 ] && printf '%s\n' $BUILTIN_BLOCKED | grep -qx "$name"; then
+      bad "skill /$s" "built-in or disable-model-invocation — a fire delivers it as PLAIN TEXT and it never runs. Call it from the main turn, or name the plugin-qualified skill."
       continue
     fi
     f="$(find "$HOME/.claude/plugins" "$HOME/.claude/skills" "$ROOT/.claude/skills" \

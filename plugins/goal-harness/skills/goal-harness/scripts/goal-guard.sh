@@ -55,9 +55,18 @@ DEADLINE="$(jq -r '.deadline // ""' "$STATE")"
 case "$LEDGER" in /*) : ;; *) LEDGER="$ROOT/$LEDGER" ;; esac
 
 now_iso() { date -u +%Y-%m-%dT%H:%M:%SZ; }
-epoch_of() {  # portable ISO-8601 -> epoch; empty on failure
-  local s="${1%Z}"; s="${s/T/ }"
-  date -j -f "%Y-%m-%d %H:%M:%S" "$s" +%s 2>/dev/null || date -d "$1" +%s 2>/dev/null || true
+epoch_of() {
+  # ISO-8601 -> epoch. A trailing Z means UTC and must be parsed as UTC: BSD
+  # `date -j -f` interprets its input as LOCAL time, so dropping the Z silently
+  # shifted a UTC deadline by the local offset and fired it early (10h on AEST).
+  local raw="$1" s utc=0
+  case "$raw" in *Z) utc=1 ;; esac
+  s="${raw%Z}"; s="${s/T/ }"
+  if [ "$utc" -eq 1 ]; then
+    date -u -j -f "%Y-%m-%d %H:%M:%S" "$s" +%s 2>/dev/null || date -u -d "$raw" +%s 2>/dev/null || true
+  else
+    date -j -f "%Y-%m-%d %H:%M:%S" "$s" +%s 2>/dev/null || date -d "$s" +%s 2>/dev/null || true
+  fi
 }
 
 ledger_row() {  # turn | at | verdict | failing | note
