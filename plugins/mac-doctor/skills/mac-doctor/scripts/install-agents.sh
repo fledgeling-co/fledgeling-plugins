@@ -48,11 +48,17 @@ program_xml() {
   local tier="$1"
   case "$tier" in
     15m|1h)
+      # --apply is what makes these two tiers do anything at all. Without it every
+      # run is a dry run that exits 0, and in `launchctl list` a job that found
+      # nothing and a job that never acts look identical: PID blank, status 0.
+      # These are the bands documented as acting silently, and reclaim.sh gates
+      # each action on its own regardless of this flag.
       cat <<XML
   <key>ProgramArguments</key>
   <array>
     <string>$SKILL_DIR/scripts/reclaim.sh</string>
     <string>--tier</string><string>$tier</string>
+    <string>--apply</string>
   </array>
 XML
       ;;
