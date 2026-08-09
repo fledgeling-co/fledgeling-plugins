@@ -9,7 +9,7 @@ where a figure rests on something weak, this file says so rather than burying it
 | --- | --- |
 | **baseline** | `claude-opus-5`, no skill |
 | **compressed prose** | `claude-opus-5-caveman`: the caveman `SKILL.md` body appended to the system prompt |
-| **token-discipline** | `claude-opus-5-tokendiscipline`: the v4 block appended the same way |
+| **discipline** | `claude-opus-5-tokendiscipline`: the v4 block appended the same way |
 
 All at `xhigh` effort on diolog-swe-bench, graded by that repo's own canonical spec
 (`docs/SCORING.md`): binary fail-to-pass for behavioural dimensions, judge score for `optimality`
