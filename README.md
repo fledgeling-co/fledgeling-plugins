@@ -124,6 +124,22 @@ The obvious way to cut an agent's bill is to make it talk less, and on a real be
 
 <br clear="left" />
 
+<a href="plugins/goal-harness/README.md"><img src="plugins/goal-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [goal-harness](plugins/goal-harness/README.md)
+
+`/goal` looks like it keeps working until the job is done, and it does not: the condition is judged by a small model reading the transcript, so it grades what the run said rather than what is true, and Claude Code overrides the hook after eight consecutive blocks and reports that turn as completed. Nine turns of real work trips it, silently. This grounds the condition in the repo's actual worklist, keeps it inside the 4,000-character limit with a bound and a blocked-item policy, fixes the six settings that end a run without an error, and arms a session-gated guard that decides by exit code and writes a ledger. Built from 114 real goal runs, where the most common follow-up was the word "resume", six times in a row.
+
+<br clear="left" />
+
+<a href="plugins/loop-harness/README.md"><img src="plugins/loop-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [loop-harness](plugins/loop-harness/README.md)
+
+A loop can tick on schedule for a full day and accomplish nothing, because since v2.1.196 a scheduled fire hands any skill Claude may not invoke itself to the run as plain text, `/verify` and `/code-review` included, with no error anywhere. The other half is that a dynamic loop has no visible process, so a working one and a dead one look identical. This picks the mechanism before it writes anything (an event monitor usually beats polling, and work with a finish line belongs to goal-harness instead), size-checks `.claude/loop.md` against its 25,000-byte cap, and arms the wake signal with a heartbeat, a renewal reminder before the seven-day expiry, and a ledger you can read without interrupting the run.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
