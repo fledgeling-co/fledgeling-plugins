@@ -147,11 +147,17 @@ a.cite::before{content:"["} a.cite::after{content:"]"}
 
   <!-- The ask. Both blind judges reading as the recipient chose the rival document
        that named the next action on the sheet, over the one with better provenance and
-       no ask anywhere. On a page someone reads in ten seconds this is not optional. -->
+       no ask anywhere. On a page someone reads in ten seconds this is not optional.
+
+       Round two: the ask worked and was called "the better-formed of the two", but the
+       cheapest high-payoff action has to be FIRST in it, and the sources footer is the
+       only thing allowed after it. Keep any note about how the page was made to what the
+       reader needs (what could not be established), never to which tools ran. -->
   <section class="asks">
     <p class="label">What we want decided</p>
     <ol>
-      <li><strong>{{CHEAPEST_ACTION_THAT_PAYS}}</strong> {{WHY_IT_IS_CHEAP, AND_WHO_DECIDES}}</li>
+      <li><strong>{{CHEAPEST_ACTION_THAT_PAYS}}</strong> {{WHAT_IT_COSTS}}, {{WHO_DECIDES}}</li>
+      <li>{{NEXT_ACTION, IN_ORDER_OF_PAYOFF}}</li>
     </ol>
   </section>
 

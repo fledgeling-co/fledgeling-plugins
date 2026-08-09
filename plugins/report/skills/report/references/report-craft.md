@@ -310,6 +310,24 @@ Either hold the type size independent of the viewBox, re-lay the figure
 at narrow widths, or let the table view take over. Check every figure at
 400px, not just the page.
 
+**A scale that hides the data is not a finding about the data.** A
+latency chart plotted p50, p95 and p99 on a linear axis topping out at
+402ms, so six of nine bars rendered under 1% of the scale and were
+effectively invisible; the caption defended this as "the point rather
+than a rendering problem." It was a rendering problem. A 33× spread
+wants a log axis. And an annotation borrowed from a continuous-axis
+chart — a hatched "not measured" band — means nothing over three
+categories, because there is no interval between them to be unmeasured.
+
+**Front-page arithmetic gets checked, so check it first.** A judge
+recomputed a rival's opening bullet inside the sixty seconds the page was
+built for and found "9.3×, from 0.66% to 6.88%" (it is 10.4×; 9.3× is the
+ratio to a different figure) and "roughly 16% never lands" against the
+document's own 85.5% conversion table. Every ratio, percentage and
+multiple on the first screen should be recomputed from the ledger's own
+numbers before the page ships. On a report whose thesis is that nobody
+was checking, this is the cheapest possible way to lose the reader.
+
 ---
 
 ## 7. Typography

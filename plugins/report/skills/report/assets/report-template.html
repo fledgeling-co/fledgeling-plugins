@@ -84,6 +84,9 @@ figcaption{font:var(--label);color:var(--muted);margin-top:var(--s3);
 .tldr li{margin:0 0 var(--s3);max-width:var(--measure)}
 .tldr .ask{margin:var(--s4) 0 0;padding-top:var(--s4);border-top:1px solid var(--rule);
            max-width:var(--measure)}
+.asks{border-top:2px solid var(--accent)}
+.asks ol{padding-left:1.4em;margin:0;display:grid;gap:var(--s3);max-width:var(--measure)}
+.asks li{break-inside:avoid}
 
 /* Inference renders differently from finding. The ledger's whole point is that a reader
    can tell them apart, and that only exists if it survives into the markup. */
@@ -221,13 +224,33 @@ a.cite::after{content:"]"}
     </figure>
   </section>
 
+  <!-- ───── the ask: the LAST content block ─────
+       A second blind round found the ask working but badly placed and badly chosen. It
+       must carry the CHEAPEST high-payoff action, not a secondary one: one report asked
+       for a benchmark sweep in its top box while "export the loss counters", the change
+       that makes the problem visible at all, sat at item 2 of section 09. And it goes
+       last, because sources and methods are apparatus; an ask with two blocks of
+       machinery after it is not where the eye comes to rest. Size it and name who
+       decides. -->
+  <section class="block asks" id="asks">
+    <h2>What we want decided</h2>
+    <ol>
+      <li><strong>{{CHEAPEST_ACTION_THAT_PAYS}}</strong> — {{WHAT_IT_COSTS}}, {{WHO_DECIDES}}</li>
+      <li>{{NEXT_ACTION, IN_ORDER_OF_PAYOFF}}</li>
+    </ol>
+  </section>
+
   <!-- ───── methods: specific, not a badge ─────
        Disclosing machine involvement has no reliable credibility cost across 47 studies;
        what the evidence asks for is specificity about what the automation did and who is
        accountable. Vagueness is what costs. -->
   <section class="block" id="methods">
     <h2>How this was made</h2>
-    <p>{{WHAT_THE_SESSION_DID}} {{WHAT_WAS_READ}} {{WHAT_WAS_RUN}} {{WHO_REVIEWED_IT}}</p>
+    <!-- What was read, run and verified, and who is accountable. NOT which skills ran,
+         whether a lint passed, or what was skipped for cost: that is a commit message.
+         A judge reading as the recipient said the useful half of this belongs near the
+         top and the rest belongs in version control. -->
+    <p>{{WHAT_WAS_READ}} {{WHAT_WAS_RUN}} {{WHAT_WAS_VERIFIED}} {{WHO_IS_ACCOUNTABLE}}</p>
     <p><strong>What this report could not establish.</strong> {{THE_HONEST_GAPS}}</p>
   </section>
 
