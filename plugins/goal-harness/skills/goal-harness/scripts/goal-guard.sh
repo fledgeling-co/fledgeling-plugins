@@ -37,6 +37,15 @@ command -v jq >/dev/null 2>&1 || { log "jq not found; allowing stop"; exit 0; }
 jq -e . "$STATE" >/dev/null 2>&1 || { log "state file is not valid JSON; allowing stop"; exit 0; }
 
 # --- gates that make this hook inert -----------------------------------------
+# A Stop hook is automatically converted to SubagentStop for subagents, so this
+# script also fires every time a subagent finishes. A goal is about the main
+# session's turn: running the gate suite per subagent completion would cost a
+# full test run each time and block the subagent from returning. Only Stop
+# counts. An absent event name means an older payload, which only ever meant
+# Stop.
+HOOK_EVENT="$(printf '%s' "$INPUT" | jq -r '.hook_event_name // "Stop"' 2>/dev/null || echo Stop)"
+[ "$HOOK_EVENT" = "Stop" ] || exit 0
+
 [ "$(jq -r '.armed // false' "$STATE")" = "true" ] || exit 0
 
 STATE_SESSION="$(jq -r '.session_id // ""' "$STATE")"
