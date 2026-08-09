@@ -1,0 +1,45 @@
+6 transcripts x 3 arms; workdir /var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/compaction-bench-wu38zkit
+
+[1/6] d17b15c2-d8f0-43  corrections=0 constraints=0 rejections=0
+    cli      corrections   n/a   14,309 chars   extractiveness 0.14
+    skill    corrections   n/a   11,000 chars   extractiveness 0.13
+    pinning  corrections   n/a   10,810 chars   extractiveness 0.21
+[2/6] 19b6eca6-80f5-45  corrections=3 constraints=0 rejections=0
+    cli      corrections 67%   8,867 chars   extractiveness 0.33
+    skill    corrections 67%   6,885 chars   extractiveness 0.35
+    pinning  corrections 100%   10,070 chars   extractiveness 0.35
+[3/6] 88f0593a-f65f-48  corrections=0 constraints=0 rejections=0
+    cli      corrections   n/a   13,204 chars   extractiveness 0.13
+    skill    corrections   n/a   12,753 chars   extractiveness 0.13
+    pinning  corrections   n/a   13,766 chars   extractiveness 0.20
+[4/6] e9ec8a07-4615-41  corrections=0 constraints=0 rejections=0
+    cli      corrections   n/a   17,243 chars   extractiveness 0.15
+    skill    corrections   n/a   17,407 chars   extractiveness 0.15
+    pinning  corrections   n/a   15,329 chars   extractiveness 0.16
+[5/6] 0cda1395-a142-4a  corrections=0 constraints=0 rejections=1
+    cli      corrections   n/a   15,046 chars   extractiveness 0.05
+    skill    corrections   n/a   10,503 chars   extractiveness 0.04
+    pinning  corrections   n/a   13,109 chars   extractiveness 0.11
+[6/6] 9a7da7d9-5c62-4a  corrections=0 constraints=0 rejections=1
+    cli      corrections   n/a   13,545 chars   extractiveness 0.09
+    skill    corrections   n/a   11,972 chars   extractiveness 0.01
+    pinning  corrections   n/a   13,361 chars   extractiveness 0.11
+
+========================================================================
+PAIRED RESULT (per-transcript deltas, not two independent means)
+========================================================================
+  CORRECTIONS             cli:  66.7% (n=1)  skill:  66.7% (n=1)  pinning: 100.0% (n=1)
+  constraints             cli:   n/a  skill:   n/a  pinning:   n/a
+  rejected approaches     cli:   0.0% (n=2)  skill:   0.0% (n=2)  pinning:   0.0% (n=2)
+  file paths              cli:  49.7% (n=5)  skill:  63.6% (n=5)  pinning:  58.0% (n=5)
+  identifiers             cli:  67.6% (n=6)  skill:  67.5% (n=6)  pinning:  65.6% (n=6)
+
+  CONFOUNDS (a win that vanishes when these match is not a win)
+    cli      median 13,927 chars   mean extractiveness 0.15
+    skill    median 11,486 chars   mean extractiveness 0.14
+    pinning  median 13,235 chars   mean extractiveness 0.19
+
+  skill beat cli on correction recall in 0 of 6 paired transcripts.
+  With n=6, only a large effect is resolvable; report the MDE, not just the gap.
+
+wrote ../docs/benchmark-head-to-head.json

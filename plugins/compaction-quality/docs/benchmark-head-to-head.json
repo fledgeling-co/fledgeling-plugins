@@ -1,0 +1,632 @@
+[
+  {
+    "file": "d17b15c2-d8f0-43f7-b2fa-cb6c212dbc19.jsonl",
+    "spans": {
+      "file paths": 0,
+      "identifiers": 13,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 14309,
+        "extractiveness": 0.138,
+        "scores": {
+          "file paths": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 13,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "skill": {
+        "chars": 11000,
+        "extractiveness": 0.132,
+        "scores": {
+          "file paths": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 13,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "pinning": {
+        "chars": 10810,
+        "extractiveness": 0.207,
+        "scores": {
+          "file paths": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 13,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "19b6eca6-80f5-4502-bff4-9c20b2f3cc9d.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 1,
+      "CORRECTIONS": 3,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 8867,
+        "extractiveness": 0.332,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "skill": {
+        "chars": 6885,
+        "extractiveness": 0.35,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "pinning": {
+        "chars": 10070,
+        "extractiveness": 0.347,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0
+          },
+          "CORRECTIONS": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "88f0593a-f65f-48be-a525-38c52a831c29.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 40,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 13204,
+        "extractiveness": 0.134,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.475,
+            "n": 40,
+            "missed": 21
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "skill": {
+        "chars": 12753,
+        "extractiveness": 0.128,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.525,
+            "n": 40,
+            "missed": 19
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "pinning": {
+        "chars": 13766,
+        "extractiveness": 0.195,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.55,
+            "n": 40,
+            "missed": 18
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "e9ec8a07-4615-41ea-b48b-7a9856074899.jsonl",
+    "spans": {
+      "file paths": 3,
+      "identifiers": 42,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 0
+    },
+    "arms": {
+      "cli": {
+        "chars": 17243,
+        "extractiveness": 0.148,
+        "scores": {
+          "file paths": {
+            "recall": 0.6666666666666666,
+            "n": 3,
+            "missed": 1
+          },
+          "identifiers": {
+            "recall": 0.9047619047619048,
+            "n": 42,
+            "missed": 4
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "skill": {
+        "chars": 17407,
+        "extractiveness": 0.15,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 0.6190476190476191,
+            "n": 42,
+            "missed": 16
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      },
+      "pinning": {
+        "chars": 15329,
+        "extractiveness": 0.157,
+        "scores": {
+          "file paths": {
+            "recall": 1.0,
+            "n": 3,
+            "missed": 0
+          },
+          "identifiers": {
+            "recall": 0.5476190476190477,
+            "n": 42,
+            "missed": 19
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "0cda1395-a142-4aa8-8e8c-00ea53e8366b.jsonl",
+    "spans": {
+      "file paths": 31,
+      "identifiers": 89,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 15046,
+        "extractiveness": 0.049,
+        "scores": {
+          "file paths": {
+            "recall": 0.0967741935483871,
+            "n": 31,
+            "missed": 28
+          },
+          "identifiers": {
+            "recall": 0.3707865168539326,
+            "n": 89,
+            "missed": 56
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      },
+      "skill": {
+        "chars": 10503,
+        "extractiveness": 0.037,
+        "scores": {
+          "file paths": {
+            "recall": 0.3548387096774194,
+            "n": 31,
+            "missed": 20
+          },
+          "identifiers": {
+            "recall": 0.43820224719101125,
+            "n": 89,
+            "missed": 50
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      },
+      "pinning": {
+        "chars": 13109,
+        "extractiveness": 0.113,
+        "scores": {
+          "file paths": {
+            "recall": 0.12903225806451613,
+            "n": 31,
+            "missed": 27
+          },
+          "identifiers": {
+            "recall": 0.38202247191011235,
+            "n": 89,
+            "missed": 55
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "9a7da7d9-5c62-4a40-87bf-754257c712ee.jsonl",
+    "spans": {
+      "file paths": 38,
+      "identifiers": 92,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 1
+    },
+    "arms": {
+      "cli": {
+        "chars": 13545,
+        "extractiveness": 0.09,
+        "scores": {
+          "file paths": {
+            "recall": 0.05263157894736842,
+            "n": 38,
+            "missed": 36
+          },
+          "identifiers": {
+            "recall": 0.30434782608695654,
+            "n": 92,
+            "missed": 64
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      },
+      "skill": {
+        "chars": 11972,
+        "extractiveness": 0.013,
+        "scores": {
+          "file paths": {
+            "recall": 0.15789473684210525,
+            "n": 38,
+            "missed": 32
+          },
+          "identifiers": {
+            "recall": 0.4673913043478261,
+            "n": 92,
+            "missed": 49
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      },
+      "pinning": {
+        "chars": 13361,
+        "extractiveness": 0.106,
+        "scores": {
+          "file paths": {
+            "recall": 0.10526315789473684,
+            "n": 38,
+            "missed": 34
+          },
+          "identifiers": {
+            "recall": 0.45652173913043476,
+            "n": 92,
+            "missed": 50
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0
+          },
+          "rejected approaches": {
+            "recall": 0.0,
+            "n": 1,
+            "missed": 1
+          }
+        }
+      }
+    }
+  }
+]

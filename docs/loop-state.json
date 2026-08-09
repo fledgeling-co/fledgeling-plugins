@@ -1,7 +1,7 @@
 {
-  "iteration": 16,
+  "iteration": 17,
   "fixture_index": 1,
-  "cost_usd": 0.13365749999999998,
+  "cost_usd": 0.14304999999999998,
   "fixtures": {
     "improve-skill": {
       "round": 14,
@@ -18,16 +18,17 @@
       "baseline_dir": "r14"
     },
     "create-mac-icon": {
-      "round": 2,
+      "round": 3,
       "class_index": 1,
-      "accepted": 1,
+      "accepted": 2,
       "rejects_in_row": 0,
       "gains": [
-        0.0036
+        0.0036,
+        -0.0026
       ],
       "panel_nonwins": 0,
       "converged": false,
-      "baseline_dir": "r02"
+      "baseline_dir": "r03"
     }
   }
 }

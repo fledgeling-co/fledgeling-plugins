@@ -32,3 +32,4 @@ loop-runs/ (Phase 4 training data).
 | 14 | improve-skill | small-size repair | ACCEPT | baseline | PROVISIONAL, queued for review |
 | 15 | create-mac-icon | material | REJECT | n/a |  |
 | 16 | create-mac-icon | detail | ACCEPT | n/a |  |
+| 17 | create-mac-icon | detail | ACCEPT | candidate |  |
