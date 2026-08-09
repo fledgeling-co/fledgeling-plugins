@@ -28,11 +28,16 @@ ok()  { row "$1" "ok" "$2"; }
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 settings_files=( "$HOME/.claude/settings.json" "$ROOT/.claude/settings.json" "$ROOT/.claude/settings.local.json" )
 setting() { # key -> first value found, searching local → project → user
+  # `// empty` was wrong here: jq's alternative operator treats BOTH null and
+  # false as needing the alternative, so an explicit `"disableAllHooks": false`
+  # in settings.local.json was swallowed and the lookup fell through to a
+  # project-level `true` — blocking a user who had deliberately re-enabled hooks.
+  # Reading the raw value and testing for the literal "null" keeps false visible.
   local k="$1" f v
   for f in "${settings_files[2]}" "${settings_files[1]}" "${settings_files[0]}"; do
     [ -f "$f" ] || continue
-    v="$(jq -r "$k // empty" "$f" 2>/dev/null)" || continue
-    [ -n "$v" ] && { printf '%s' "$v"; return 0; }
+    v="$(jq -r "$k" "$f" 2>/dev/null)" || continue
+    [ "$v" != "null" ] && [ -n "$v" ] && { printf '%s' "$v"; return 0; }
   done
   return 1
 }

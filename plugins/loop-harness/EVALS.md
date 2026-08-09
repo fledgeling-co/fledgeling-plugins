@@ -14,11 +14,19 @@ label.
 | L02 | "Loop until the feature is 100% complete" | 3/3 | 3/3 | skill |
 | L03 | "What exactly is performing the loop?" | **4/4** | 1/4 | skill |
 | L05 | `/verify` on a 30-minute interval | **3/3** | 1/3 | skill |
-| | **assertions** | **15/15** | 6/15 | |
-| | **preference** | **4/4** | 0/4 | |
+| L06 | A loop asked to survive a closed laptop | **5/5** | 4/5 | skill |
+| | **assertions** | **20/20** | 10/20 | |
+| | **preference** | **5/5** | 0/5 | |
 
-Combined with `goal-harness`: **32/33 assertions against 12/33, and 8/8
+Combined with `goal-harness`: **42/43 assertions against 19/43, and 10/10
 preferences.**
+
+L06 is the narrowest win here and worth saying so. Both arms refused to arm, both
+diagnosed the missing git remote, and both landed on GitHub Actions as the only
+mechanism that survives a closed lid. The skill arm pulled ahead on one thing: it
+gave a checked account of what a `--resume` actually restores (unexpired cron
+yes, overdue one-shots no, Monitor and background Bash never), where the baseline
+said the loop would sit inert without examining which of its own parts come back.
 
 ## The two cases that justify the skill
 
@@ -82,8 +90,7 @@ reporting work as armed when nothing is scheduled.
 
 ## Limits of this run
 
-- **4 of 6 cases.** L04 (a `7m` interval that does not divide 60) and L06
-  (Monitor not restored on resume) were not run.
+- **5 of 6 cases.** L04 (a `7m` interval that does not divide 60) was not run.
 - **The fixture contains no benchmark harness**, which L01 correctly detects. So
   L01 measures the design handed back, not a loop observed running.
 - **One grader, not a panel**, and **n=1 per cell**, so no variance estimate.
