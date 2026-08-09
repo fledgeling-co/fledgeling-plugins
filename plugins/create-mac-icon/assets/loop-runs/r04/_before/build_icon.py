@@ -159,34 +159,6 @@ RIM_SCATTER_A = 0.26
 # wash is attenuated where the cast overhangs the block's top face.
 RIM_SHADED = 0.15                             # what survives over the mouth
 
-# The ground arris. Every convex edge on both objects was filleted from measured
-# profiles except this one - where the block meets the porcelain - which the
-# master still draws as a cut, so the block reads as set down on the ground
-# rather than resting in it. Measured on the reference at 1px across 15 columns
-# of the front face:
-#   crevice   minimum L 0.292 immediately outside the silhouette, decaying
-#             monotonically outward over 21px of sub-wall darkening, and it
-#             runs the whole shadowed silhouette, not just the bottom. Its
-#             darkest pixels are L 0.283 at S 0.251, hue 30 - a warm occlusion
-#             that keeps its chroma, where the master's read L 0.606 at S 0.153.
-#             Depth below the wall 34px up: -0.387, against the master's -0.146.
-#             The decay is fast - half by +6px, extinct by +28 - so the stroke
-#             has to be narrower than its blur, or it plateaus.
-#   the roll  measured and NOT authored. Over 22 columns the reference loses
-#             0.039 across the wall's last 34px into the arris and the master
-#             already loses 0.039 there, from the wall gradients alone. A single
-#             column at x=620 reads -0.071 and had this round building a
-#             turn-under that took the master to -0.074, 1.9x the reference,
-#             before the 22-column mean caught it. There is also no bright
-#             bounce line on that roll: the crest lift over the wall measures
-#             -0.004, so the hairline a 3x crop appears to show is the
-#             reference's own edge halo and not a lit surface.
-# The crevice is painted in the tone the near-ground shadow already uses, so it
-# adds occlusion depth and no new colour.
-CONTACT = "#544731"
-CREVICE_W = 16.0                              # narrower than bS's sigma 7, so
-CREVICE_A = 0.90                              # the profile is a decay, not a band
-
 TILE_CX = CX - SLIDE * KX
 TILE_CY = CY - SLIDE * KY - LIFT
 
@@ -332,15 +304,6 @@ defs = [
     f'<clipPath id="tileWallClip"><path d="{d(tile_wall)}"/></clipPath>',
     f'<clipPath id="tileSil"><path d="{d(tile_sil)}"/></clipPath>',
     f'<clipPath id="mouldWallClip"><path d="{d(mould_wall)}"/></clipPath>',
-    # Everything except the cavity's mouth. The recess's aperture is an evenodd
-    # hole in the top face, so its rim is a 1px antialiased seam that anything
-    # painted under the block shows through - the contact ring leaked a faint
-    # diagonal up to -0.07 L along it. The hole here is grown 3px past the
-    # aperture so the two boundaries do not coincide and cancel each other's
-    # coverage. Two subpaths union unless the rule is given: the evenodd is what
-    # makes this a hole rather than a fill.
-    f'<clipPath id="notCav"><path d="{SQUIRCLE} {d(outline(CX, CY, R_CAV + 1.8))}"'
-    f' clip-rule="evenodd"/></clipPath>',
     # What the mould's rim lights are allowed to see of the key. The cast cuts
     # its own silhouette out, and its near shadow dims what lies under it: a rim
     # highlight at full strength inside a cast shadow is the light model
@@ -433,17 +396,7 @@ mid = [
     f'<g filter="url(#bXL)"><path d="{d(shift(mould_sil, SHADOW_DX * 1.5, SHADOW_DY * 1.7))}"'
     f' fill="#6E5F49" fill-opacity=".34"/></g>',
     f'<g filter="url(#bM)"><path d="{d(shift(mould_low, SHADOW_DX * 0.4, MOULD_H + 6))}"'
-    f' fill="{CONTACT}" fill-opacity=".54"/></g>',
-
-    # the crevice where the block meets the porcelain. A closed ring on the
-    # contact line rather than a line under the front: the seam runs the whole
-    # way round, and painting it UNDER the block lets the wall clip its inner
-    # half, so the dark hugs the silhouette exactly instead of being registered
-    # against it by hand. The far half is behind the block and never renders -
-    # except through the recess's uncovered sliver, which notCav closes.
-    f'<g clip-path="url(#notCav)"><g filter="url(#bS)">'
-    f'<path d="{d(shift(mould_top, 0, MOULD_H))}" fill="none"'
-    f' stroke="{CONTACT}" stroke-opacity="{CREVICE_A}" stroke-width="{CREVICE_W:.0f}"/></g></g>',
+    f' fill="#544731" fill-opacity=".54"/></g>',
 
     # block
     f'<path d="{d(mould_wl)}" fill="url(#wallL)"/>',
