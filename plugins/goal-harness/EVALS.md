@@ -74,6 +74,30 @@ log filter cannot emit when a process dies without writing, so a liveness poll
 belongs beside the tail; and a subagent's session id is not the driving
 session's, so a guard armed from one is inert. Both are now in the skills.
 
+## And what a code review found afterwards
+
+A deep review of the ten scripts (`code-review-goal-loop-harness.md`) then found
+eleven more, of which eight were confirmed by executing the scripts rather than
+reading them. The two worst were both silent-success paths, which is the same
+class of defect these skills exist to catch:
+
+- `arm.sh` truncated an existing `settings.local.json` to **zero bytes** when
+  that file was not valid JSON, taking the user's other hooks and permissions
+  with it, and exited 0 printing `armed:` as though it had worked.
+- The guard treated a `verify` field that was empty, `null`, a string or an
+  object as **all gates green**, recording the goal as met on turn one without
+  checking anything.
+
+Also: a flag passed without its value spun four scripts forever; `verify[].timeout`
+was unenforced on any machine without `timeout(1)`, which includes stock macOS;
+a non-numeric `max_iterations` silently removed the iteration bound; and the
+`--dry-run` preview omitted three keys the real write added. One candidate of
+mine was refuted by an independent verifier.
+
+All eleven are fixed in v1.0.1, each re-tested against the case that proved it.
+The count is worth stating plainly: fifteen defects in roughly 400 lines of
+bash, and the ones that mattered were not crashes but false reports of success.
+
 ## Limits of this run
 
 - **4 of 6 cases per skill.** The four carrying the README's central claims.
