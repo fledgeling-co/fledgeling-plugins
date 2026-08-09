@@ -116,6 +116,14 @@ Your Mac did not fill up because of one thing, it filled up because a hundred re
 
 <br clear="left" />
 
+<a href="plugins/token-discipline/README.md"><img src="plugins/token-discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [token-discipline](plugins/token-discipline/README.md)
+
+The obvious way to cut an agent's bill is to make it talk less, and on a real benchmark that turns out to buy a third off the cost and 7.6 points off the task score. The reason is in the decomposition: steps per task fell by a third while tokens per step barely moved, so most of the "saving" was the agent investigating less. This is the block that targets restatement, read width and needless delegation instead, and carries the one clause that stops the cheapest form of compliance: it changes how much you write, never how much you do. Three blind judges from three companies agreed with the benchmark.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
