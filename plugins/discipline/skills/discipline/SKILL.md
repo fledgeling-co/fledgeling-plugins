@@ -1,5 +1,5 @@
 ---
-name: token-discipline
+name: discipline
 description: >
   Session-start operating defaults that cut token spend without cutting task success, tuned for
   Claude Opus 5 agentic coding. Ships a byte-stable block for the cached system prefix (Perch proxy,

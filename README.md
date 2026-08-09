@@ -116,11 +116,11 @@ Your Mac did not fill up because of one thing, it filled up because a hundred re
 
 <br clear="left" />
 
-<a href="plugins/token-discipline/README.md"><img src="plugins/token-discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/discipline/README.md"><img src="plugins/discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [token-discipline](plugins/token-discipline/README.md)
+### [discipline](plugins/discipline/README.md)
 
-The obvious way to cut an agent's bill is to make it talk less, and on a real benchmark that turns out to buy a third off the cost and 7.6 points off the task score. The reason is in the decomposition: steps per task fell by a third while tokens per step barely moved, so most of the "saving" was the agent investigating less. This is the block that targets restatement, read width and needless delegation instead, and carries the one clause that stops the cheapest form of compliance: it changes how much you write, never how much you do. Three blind judges from three companies agreed with the benchmark.
+Drop a short block at the top of a session and Claude spends less without doing less. It targets the three habits that quietly run up the bill: re-printing plans and diffs already on your screen, opening a whole file to find one line, and handing small jobs to sub-agents that each pay for a fresh context. The nearest alternative is caveman, which compresses the prose instead. Measured across 106 tasks that bought a third off the cost and gave back 7.6 points of task score, because most of its saving came from the agent investigating less rather than writing less. This one never touches your writing style, and states the boundary the other is missing: it changes how much you write, never how much you do.
 
 <br clear="left" />
 

@@ -1,4 +1,4 @@
-# token-discipline icon notes
+# discipline icon notes
 
 **Direction: "The Set Stop".** The studio's *Tahoe Gel-Glass* sub-register (a), porcelain cushion tile carrying a coloured gel object, crossed with device bank **#16** (the icon performs the verb) and **#21** (authored overlap). The subject is a session-start block whose whole argument is that it governs how much the model *writes* and never how much work it *does* — a limit that was set and held — so the icon is a shaft that has travelled, and the thing that stopped it. Runner-up: *Two Columns, One Cut* (a shortened prose column beside a full-height work column on one shared floor bar). It was the most explanatory option and was rejected on silhouette: two objects is the weakest carrying shape in the set, and a side-by-side pair collapses into a bar chart at 16px, which the corpus names as the stock category trap for anything touching data. Also considered: *The Drawn Level*, a vessel drawn down to a glowing floor plate, dropped for neighbouring `compaction-quality`'s sediment cylinder too closely.
 
@@ -53,3 +53,31 @@ Two things fall out of that, and both change the verdict from the one this skill
 - **The shipped master is still the raster.** That choice now rests on the material read at 1024/256 where C's rendered glass is richer, not on an unmeasured hunch.
 - **A faint seam** from the source raster's own baked corner survives the porcelain fill at the extreme tile edge. Visible at 1024, gone by 256.
 - **The guide's perspective** is a three-quarter view where the rest of the set is flat-on. It reads well but it is a register inconsistency.
+
+## Rounds 4 and 5: the 16px weakness is real, and the gate cannot arbitrate it
+
+Engine A's frosted guide washes out against the porcelain below 64px, so at 32 and 16px the take
+reads as a shaft floating above a collar with no base under it. Two fixes were tried and measured.
+
+| round | change | 16px to the eye | gate |
+| --- | --- | --- | --- |
+| 4 | guide given real value mass (opaque beige body, heavier rim) | fixed | **REJECT**, net composite −0.0372 |
+| 5 | translucency kept, dark plinth band added along the guide's foot | fixed | **REJECT**, worse than 4 at 1024/256/128 |
+
+Both improved small-size legibility and both were rejected, for the same reason: **the reference's
+own base is translucent glass**, so any change that gives A's base solid value moves it away from
+the thing the gate is scoring against. The gate here measures convergence to Engine C, not quality,
+and Engine C is the take that ships. It cannot answer the question being asked of it.
+
+Round 4 also cost the signature outright: an opaque guide erases the shaft-inside-the-glass overlap,
+which is the one thing `icon-notes.md` names as A's signature move. Trading a stated signature for a
+small-size gain in a take that does not ship is the wrong trade.
+
+**Resolution: A stays at round 3 and carries the weakness, documented.** The skill's own authority
+rule says the 12-point rubric outranks the gate, and check #4 (16px survival) is non-negotiable — but
+that rule assumes the gate and the rubric disagree about the *same* artifact. Here they disagree
+about which artifact is the target. The shipped icon (C) passes #4 comfortably, so nothing a user
+sees is affected; what is affected is the vector alternative's usefulness at menu-bar sizes, and that
+is now a stated liability rather than an undiscovered one.
+
+The runs are kept in `fidelity/round0`, `fidelity/round4` and `fidelity/round5` as trajectory data.
