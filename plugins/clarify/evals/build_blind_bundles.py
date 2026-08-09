@@ -10,7 +10,10 @@ Judged evals only. The gate evals (did it ask at all?) are settled by the
 presence or absence of a payload file and need no judge; sending them to a
 panel would buy an opinion about something already decided.
 
-Usage: build_blind_bundles.py <runs_dir> <out_dir>
+Usage: build_blind_bundles.py <runs_dir> <out_dir> [seed]
+
+The seed is exposed so a re-judged pair gets a fresh A/B order rather than
+inheriting the one it had when it lost.
 """
 from __future__ import annotations
 
@@ -70,8 +73,9 @@ def read_side(run_dir: Path) -> str | None:
 
 def main() -> None:
     runs, out_dir = Path(sys.argv[1]), Path(sys.argv[2])
+    seed = int(sys.argv[3]) if len(sys.argv) > 3 else SEED
     out_dir.mkdir(parents=True, exist_ok=True)
-    rng = random.Random(SEED)
+    rng = random.Random(seed)
 
     key, made, skipped = {}, 0, []
     for name, criterion in CRITERIA.items():
