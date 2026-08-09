@@ -1,7 +1,7 @@
 {
   "name": "report",
   "description": "Turn what a Claude session already worked out into a designed, cited report: one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Compiles the session's own evidence trail into a claim ledger before anything is designed, so every number carries a locator and anything reasoned renders visibly as inference rather than as finding. Citation markers are anchors that survive with JavaScript off, motion is stripped from the print, and the design system comes from the project's own DESIGN.md when it has one.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
