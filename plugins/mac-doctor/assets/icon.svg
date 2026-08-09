@@ -82,23 +82,23 @@
 
     <!-- the filled capacity, 290 degrees of graphite gel -->
     <g filter="url(#ringShadow)">
-      <path d="M 788.1 416.9 A 292 292 0 1 1 506.9 220.0" fill="none" stroke="url(#ring)"
-            stroke-width="108" stroke-linecap="butt"/>
+      <path d="M 782.5 439.5 A 280 280 0 1 1 487.6 233.1" fill="none" stroke="url(#ring)"
+            stroke-width="152" stroke-linecap="butt"/>
     </g>
     <!-- Edge catches as CONCENTRIC strokes, not a displaced copy. A ring lit
          from above catches light along its outer top curve and bounces a
          weaker line along the inner curve; the raster take reads richer
          largely because it has both. Clipped to the filled arc so the empty
          track stays matte. -->
-    <path d="M 834.4 401.0 A 341.0 341.0 0 1 1 506.0 171.1" fill="none"
+    <path d="M 851.0 421.2 A 351.0 351.0 0 1 1 481.4 162.3" fill="none"
           stroke="url(#edgeTop)" stroke-width="9" stroke-linecap="round"/>
-    <path d="M 742.7 432.6 A 244.0 244.0 0 1 1 507.7 268.0" fill="none"
+    <path d="M 714.8 457.6 A 210.0 210.0 0 1 1 493.7 302.8" fill="none"
           stroke="url(#edgeInner)" stroke-width="7" stroke-linecap="round"/>
 
     <!-- the reclaimed segment, inline and abutting the ring -->
-    <path d="M 506.9 220.0 A 292 292 0 0 1 711.1 298.4" fill="none" stroke="url(#ember)"
-          stroke-width="108" stroke-linecap="butt"/>
-    <path d="M 506.0 171.1 A 341.0 341.0 0 0 1 744.6 262.6" fill="none"
+    <path d="M 584.5 241.5 A 280 280 0 0 1 741.4 351.4" fill="none" stroke="url(#ember)"
+          stroke-width="152" stroke-linecap="butt"/>
+    <path d="M 602.8 173.0 A 351.0 351.0 0 0 1 799.5 310.7" fill="none"
           stroke="url(#emberEdge)" stroke-width="9" stroke-linecap="round"/>
   </g>
 </g>
