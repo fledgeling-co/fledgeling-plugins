@@ -64,14 +64,17 @@ mkdir -p "$ROOT/beta/dist"; echo "orphan output" > "$ROOT/beta/dist/x.js"
 # age the build output past the 7-day gate
 find "$ROOT" -type d \( -name dist -o -name .next \) -exec touch -t 202601010000 {} \; 2>/dev/null || true
 
-cat > "$ROOT/GROUND-TRUTH.json" <<JSON
+cat > "$ROOT/GROUND-TRUTH.json" <<'JSON'
 {
-  "reclaimable_worktrees": ["alpha/.worktrees/reclaimable"],
+  "reclaimable_worktrees": [
+    "alpha/.worktrees/registered",
+    "alpha/.worktrees/reclaimable",
+    "alpha/.worktrees/unmerged"
+  ],
   "protected_worktrees": {
-    "alpha/.worktrees/dirty": "uncommitted changes",
-    "alpha/.worktrees/unmerged": "commit not on main",
-    "alpha/.worktrees/registered": "still registered with git"
+    "alpha/.worktrees/dirty": "holds UNSAVED.txt, whose blob is reachable from no surviving ref"
   },
+  "why": "The safety property is content reachability, not registration and not merge status. Deleting a worktree DIRECTORY cannot destroy history: the branch ref and its objects live in the parent repo, so `unmerged` is recoverable with `git checkout wt-unmerged` after removal (verified). Only `dirty` holds content no ref witnesses.",
   "reclaimable_build_output": ["alpha/dist", "alpha/.next"],
   "protected_build_output": {
     "thirdparty/dist": "third-party origin, not user-owned",
