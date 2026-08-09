@@ -28,10 +28,12 @@ The skill already names the mechanism, in `craft-visual.md`: *everything here wi
 
 **Enumerate the surfaces first.** Before any capture, list every screen, page, route, slide or state in scope as a numbered list, and write it to `<workdir>/worklist.md`. Derive it from the router, the sitemap, the deck's slide count, `git diff --name-only`, or by asking — not by discovering surfaces as you happen to hit them. The count is now a contract: fourteen screens means fourteen.
 
+**Shared chrome is a surface.** Add one row for the header/nav/sidebar/footer set whenever more than one surface shares it. It is not covered by the pages that contain it: per-surface review reads chrome as the frame around the thing being reviewed, so a defect repeating on all fourteen pages reads as background rather than as fourteen instances of a bug. A broken portal header has reached the user through this pipeline unreported, which is why it now gets a row of its own.
+
 **Ledger both axes.** `worklist.md` is a grid — one row per surface, one column per stage 2–8 — and every cell ends as `done`, `n/a: <reason>`, or `open`. Update it as you go rather than reconstructing it at the end. A fresh session picks it up and continues; that is the point of putting it on disk rather than holding it in the reply.
 
 ```bash
-python scripts/worklist.py init  <workdir> --surfaces /dashboard,/settings,/billing
+python scripts/worklist.py init  <workdir> --surfaces 'shared chrome',/dashboard,/settings,/billing
 python scripts/worklist.py set   <workdir> --surface /settings --stage states --value done
 python scripts/worklist.py set   <workdir> --surface /billing  --stage flow \
                                  --value "n/a: no task flow on this surface"
@@ -43,11 +45,12 @@ python scripts/worklist.py check <workdir>      # exits 1 while any cell is open
 An unrecognised cell value counts as `open` deliberately: an ambiguous cell is not evidence that the work happened.
 
 ```markdown
-| # | Surface        | gates | render | states | inventory | craft | flow | system |
-|---|----------------|-------|--------|--------|-----------|-------|------|--------|
-| 1 | /dashboard     | done  | done   | done   | 31/83     | done  | done | done   |
-| 2 | /settings      | done  | done   | open   | open      | open  | open | open   |
-| 3 | /billing       | open  | open   | open   | open      | open  | open | open   |
+| # | Surface        | gates | render | states | inventory | craft | flow | system | intent |
+|---|----------------|-------|--------|--------|-----------|-------|------|--------|--------|
+| 1 | shared chrome  | done  | done   | done   | done      | done  | n/a  | done   | done   |
+| 2 | /dashboard     | done  | done   | done   | 31/83     | done  | done | done   | open   |
+| 3 | /settings      | done  | done   | open   | open      | open  | open | open   | open   |
+| 4 | /billing       | open  | open   | open   | open      | open  | open | open   | open   |
 ```
 
 **Stopping early is a decision you declare, never a place you drift to.** If you must stop, the reply and the report both say *"3 of 14 surfaces reviewed, resuming at 4"*, and the ledger is on disk. Never compress fourteen surfaces' worth of scope into three surfaces' worth of report.
@@ -61,11 +64,11 @@ Four rationalisations that produce a partial review. Each is answerable:
 - *"The first surface took a long time."* Setup, driver and probe cost is front-loaded. Surfaces 2–14 are much cheaper than surface 1, so the felt expense is highest precisely where the remaining cost is lowest.
 - *"The context is getting long."* Save the ledger and keep going. Winding a review down early to conserve room converts a budget problem into a silent coverage gap, and the coverage gap is permanent while the budget problem is not.
 
-**Stages are not optional either.** Stages 2–8 each find a distinct defect class the others are blind to — that is the reason for the split, and `layout-integrity.md` exists because a review that ran only the WCAG gates went green on a broken layout. A stage genuinely inapplicable to a surface is marked `n/a` with its reason in the ledger. A stage skipped for time is `open`, and `open` cells are named in the report.
+**Stages are not optional either.** Stages 2–9 each find a distinct defect class the others are blind to — that is the reason for the split, and `layout-integrity.md` exists because a review that ran only the WCAG gates went green on a broken layout. A stage genuinely inapplicable to a surface is marked `n/a` with its reason in the ledger. A stage skipped for time is `open`, and `open` cells are named in the report.
 
 ## Find wide, then filter hard
 
-Two passes, never merged. During the find passes record everything — uncertain findings, low-severity ones, the suspicion you cannot yet prove. Ranking, merging, dropping false positives, and deciding what reaches the report all happen once, at stage 8.
+Two passes, never merged. During the find passes record everything — uncertain findings, low-severity ones, the suspicion you cannot yet prove. Ranking, merging, dropping false positives, and deciding what reaches the report all happen once, at stage 10.
 
 This matters because suppressing a "minor" finding mid-pass loses it permanently. A short report should be the product of a strict filter, not a timid search. If you brief a subagent, never ask it for restraint during the looking — that instruction gets followed literally and lowers recall.
 
@@ -93,7 +96,7 @@ Every report ends with a "Needs verification" section, and it is never empty. If
 
 ## Pipeline
 
-Eleven stages. Stages 2–8 feed one unfiltered finding pool, and each runs **per surface on the stage-0 worklist** — the pipeline is a grid, not a line. Finishing stage 8 on surface 1 is one row done, not the review done.
+Twelve stages. Stages 2–9 feed one unfiltered finding pool, and each runs **per surface on the stage-0 worklist** — the pipeline is a grid, not a line. Finishing stage 9 on surface 1 is one row done, not the review done.
 
 | # | Stage | Method | Reference |
 |---|---|---|---|
@@ -106,8 +109,9 @@ Eleven stages. Stages 2–8 feed one unfiltered finding pool, and each runs **pe
 | 6 | Craft | crops + judgment | `references/craft-visual.md` |
 | 7 | Flow, forms, copy | walkthrough | `references/flows-forms-copy.md` |
 | 8 | Systematisation | scripts | `references/systematisation.md` |
-| 9 | Aggregate, severity | judgment | `references/severity-and-report.md` |
-| 10 | Report | write | `references/severity-and-report.md`, `assets/report-template.md` |
+| 9 | Intent conformance | diff vs target | `references/intent-conformance.md` |
+| 10 | Aggregate, severity | judgment | `references/severity-and-report.md` |
+| 11 | Report | write | `references/severity-and-report.md`, `assets/report-template.md` |
 
 ### 0 — Context before judgment
 
@@ -223,7 +227,17 @@ Then the lens pass, forms, and copy. See `references/flows-forms-copy.md`.
 
 The check that survives the taste argument. Slop fills the gaps where design decisions were not specified, so measure specification rather than aesthetics: count distinct type sizes, spacing values, colours, radii, shadows and durations; check whether repeated values are grouped into tokens or repeated inline; measure drift across pages. `references/systematisation.md`.
 
-### 9 — Aggregate
+### 9 — Intent conformance
+
+The stage every other stage is blind to, because the rest of this pipeline judges a surface on its own terms and a surface can be internally sound while being the wrong surface. Three checks, all comparative. `references/intent-conformance.md`.
+
+**Direction conformance.** Find what the build was told to become — a committed direction block, an approved mock, a `DESIGN.md`, a concept the user picked by name — then diff the render against it on palette, type families, radius/border/shadow, density and band order. A half-converted redesign is the signature failure: internally consistent enough to pass every gate, and described by the person who commissioned it as *"a mashup of the original and the new chosen design"*. Where the target is itself a rendered surface, use `parity-oracle.md`'s mechanics — it is the same measurement pointed the other way. Report unconverted regions by name, never as a global verdict. On a refinement the surviving old identity is correct; establish at stage 0 which the brief asked for.
+
+**Shared chrome as its own subject.** Header, nav, sidebar and footer appear on every surface, which is why they are missed — per-surface review reads them as the frame around the thing being reviewed. Give chrome a row of its own on the worklist, crop to it at each breakpoint rather than judging it inside a page capture, and drive its states (scrolled, menu open, longest real title, logged out). Report a chrome defect once with its surface count. A broken header on all fourteen portals has reached the user through this pipeline unreported.
+
+**Cross-instance differentiation.** When the surfaces are generated instances of one system — multi-tenant portals, per-customer sites, templated pages — the usual lens rewards the defect: fourteen identical portals score perfectly on cross-page drift. Capture one route across 3–5 instances and count what actually differs (tokens, band skeleton, font set, layout variant). Content-only variation on an identical skeleton is a template with slots, whatever the brief promised, and the finding belongs against the generator rather than as fourteen cosmetic rows.
+
+### 10 — Aggregate
 
 Merge duplicates and let agreement carry weight: a finding two lenses raised independently outranks a same-severity single-lens finding; three or more is high priority regardless of individual estimates.
 
@@ -231,7 +245,7 @@ Assign severity here and only here. Four levels, calibrated to user impact rathe
 
 Your issue *detection* is stronger than your severity *ranking* — so every finding carries rationale, affected task, frequency and evidence, letting a human re-rank cheaply.
 
-### 10 — Report
+### 11 — Report
 
 Run `python scripts/worklist.py check <workdir>` first. A non-zero exit means the review is not finished, and the report either waits or declares the stop with its resume point. Writing a full-shaped report over open cells is the failure this whole mechanism exists to prevent.
 
@@ -298,6 +312,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 - `references/flows-forms-copy.md` — walkthrough discipline, lens pass, form UX, microcopy, mechanisms worth citing.
 - `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, DTCG, design.md, the Tier 3 tell-list.
 - `references/parity-oracle.md` — reviewing a **re-implementation** (ported stack, componentised, data-driven): replace "does it still look right" with a measured token / skeleton / computed-style diff, and the negative test that proves a new data path is actually being used.
+- `references/intent-conformance.md` — **stage 9: did the build become the thing that was chosen?** Direction conformance (diffing the render against its committed direction, mock or DESIGN.md — the half-converted redesign that passes every gate), shared chrome reviewed as its own subject rather than as page background, and cross-instance differentiation for templated or multi-tenant output where the usual consistency lens rewards the defect.
 - `references/severity-and-report.md` — severity scale, finding format, report template, the closing block.
 - `assets/report-template.md` — the report skeleton to fill in.
 
