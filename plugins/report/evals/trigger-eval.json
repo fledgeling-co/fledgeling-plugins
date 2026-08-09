@@ -1,0 +1,23 @@
+[
+  {"query": "ok that took bloody forever but i think we've finally got to the bottom of the checkout timeout thing. can you write it up properly for the team? tldr at the top, a chart of the p99s, and something i can pdf and send to product", "should_trigger": true},
+  {"query": "turn everything we just worked out about the mongo migration into a document i can drop in the wiki. needs the sources on it so people can actually check the numbers rather than taking my word for it", "should_trigger": true},
+  {"query": "/report tldr", "should_trigger": true},
+  {"query": "make me a one pager on the infra cost analysis we just did, something i can put in front of the exec team monday morning. has to look like it came from us not from a markdown converter", "should_trigger": true},
+  {"query": "write this investigation up as a proper report with citations throughout, not just another markdown summary that nobody can verify six months from now", "should_trigger": true},
+  {"query": "can you document what we just figured out about the auth refresh flow? i want it to look decent, not like my notes", "should_trigger": true},
+  {"query": "i need to send the findings from this session over to the client at alfabs. html or pdf, doesn't much matter, but it needs to look like a real document", "should_trigger": true},
+  {"query": "we've spent the whole day on this perf regression. give me something with a tldr and the graphs that i can attach to LPE-0042 so the next person doesn't have to redo it", "should_trigger": true},
+  {"query": "produce a write-up of the security review we just ran, and a one-page version of it for the board pack", "should_trigger": true},
+  {"query": "everything we've established about the ingest drop rate, as a page with the charts and a pdf. be clear about what's actually measured vs what we're inferring", "should_trigger": true},
+
+  {"query": "research the current state of vector database pricing across pinecone, weaviate and pgvector and build me a page about it", "should_trigger": false},
+  {"query": "summarise docs/architecture.md for me", "should_trigger": false},
+  {"query": "write the release notes for v2.4.0, we shipped the new filters and fixed the sync bug", "should_trigger": false},
+  {"query": "turn docs/ir-questions.md into a Diolog-branded A4 guide we can send investors, needs to print properly", "should_trigger": false},
+  {"query": "build me a 12 slide deck on the Q3 numbers for the board meeting on thursday", "should_trigger": false},
+  {"query": "what did we just find? give me the short version, i'm about to jump on a call", "should_trigger": false},
+  {"query": "add a summary section to the top of the README explaining what this repo does", "should_trigger": false},
+  {"query": "review the diff on ai/f113 for security issues before i push it", "should_trigger": false},
+  {"query": "make an infographic about which australian cold and flu products actually work, dig into the cochrane reviews and the TGA register for it", "should_trigger": false},
+  {"query": "generate a bar chart of these p99 numbers and drop the svg in docs/", "should_trigger": false}
+]

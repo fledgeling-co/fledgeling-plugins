@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="13 skills" src="https://img.shields.io/badge/skills-13-C4622D">
+  <img alt="16 skills" src="https://img.shields.io/badge/skills-16-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -116,11 +116,35 @@ Your Mac did not fill up because of one thing, it filled up because a hundred re
 
 <br clear="left" />
 
-<a href="plugins/token-discipline/README.md"><img src="plugins/token-discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/discipline/README.md"><img src="plugins/discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [token-discipline](plugins/token-discipline/README.md)
+### [discipline](plugins/discipline/README.md)
 
-The obvious way to cut an agent's bill is to make it talk less, and on a real benchmark that turns out to buy a third off the cost and 7.6 points off the task score. The reason is in the decomposition: steps per task fell by a third while tokens per step barely moved, so most of the "saving" was the agent investigating less. This is the block that targets restatement, read width and needless delegation instead, and carries the one clause that stops the cheapest form of compliance: it changes how much you write, never how much you do. Three blind judges from three companies agreed with the benchmark.
+Drop a short block at the top of a session and Claude spends less without doing less. It targets the three habits that quietly run up the bill: re-printing plans and diffs already on your screen, opening a whole file to find one line, and handing small jobs to sub-agents that each pay for a fresh context. The nearest alternative is caveman, which compresses the prose instead. Measured across 106 tasks that bought a third off the cost and gave back 7.6 points of task score, because most of its saving came from the agent investigating less rather than writing less. This one never touches your writing style, and states the boundary the other is missing: it changes how much you write, never how much you do.
+
+<br clear="left" />
+
+<a href="plugins/goal-harness/README.md"><img src="plugins/goal-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [goal-harness](plugins/goal-harness/README.md)
+
+`/goal` looks like it keeps working until the job is done, and it does not: the condition is judged by a small model reading the transcript, so it grades what the run said rather than what is true, and Claude Code overrides the hook after eight consecutive blocks and reports that turn as completed. Nine turns of real work trips it, silently. This grounds the condition in the repo's actual worklist, keeps it inside the 4,000-character limit with a bound and a blocked-item policy, fixes the six settings that end a run without an error, and arms a session-gated guard that decides by exit code and writes a ledger. Built from 114 real goal runs, where the most common follow-up was the word "resume", six times in a row.
+
+<br clear="left" />
+
+<a href="plugins/loop-harness/README.md"><img src="plugins/loop-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [loop-harness](plugins/loop-harness/README.md)
+
+A loop can tick on schedule for a full day and accomplish nothing, because since v2.1.196 a scheduled fire hands any skill Claude may not invoke itself to the run as plain text, `/verify` and `/code-review` included, with no error anywhere. The other half is that a dynamic loop has no visible process, so a working one and a dead one look identical. This picks the mechanism before it writes anything (an event monitor usually beats polling, and work with a finish line belongs to goal-harness instead), size-checks `.claude/loop.md` against its 25,000-byte cap, and arms the wake signal with a heartbeat, a renewal reminder before the seven-day expiry, and a ledger you can read without interrupting the run.
+
+<br clear="left" />
+
+<a href="plugins/report/README.md"><img src="plugins/report/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [report](plugins/report/README.md)
+
+A session works something out over two hours, you ask for the write-up, and what comes back reads well and can't be checked. Three different things leave a session looking identical on the page: a number that was measured, one read off a single sample, and one worked out from two other facts. This compiles the session's own evidence trail into a claim ledger before it designs anything, so the page is generated from the ledger rather than cited afterwards, and reasoning renders visibly as reasoning. One self-contained HTML file that paginates to a real A4 PDF with the motion stripped out, plus a one-page TLDR derived from the same ledger so the two can't disagree. Its own blind panel went 4-2 for it and told it what it was missing: an ask.
 
 <br clear="left" />
 
@@ -128,7 +152,7 @@ The obvious way to cut an agent's bill is to make it talk less, and on a real be
 
 ### [clarify](plugins/clarify/README.md)
 
-Decides whether to interrupt you at all, then writes the question so it takes one click. Sweeps the conversation and the repo for the answer first, drops anything whose answer would not change the work, and sends what survives as one batched question in plain words, with a recommendation only where evidence earns one. A note attached to your answer is binding, and is treated as data about the decision rather than as instructions, because an agent waiting on a reply is measurably the easiest one to inject. Against no skill at all: five of five question payloads pass its linter where the baseline passes none, and a four-family blind panel went 15-5. The eval it loses is in the README too.
+Decides whether to interrupt you at all, then writes the question so it takes one click. It sweeps the conversation and the repo for the answer first, drops anything whose answer would not change the work, and sends what survives as one batched question in plain words, with a recommendation only where evidence earns one. On a matter of taste it marks nothing, because a default moves choices hard and recommending on taste answers the question while appearing to ask it. A note attached to your answer is binding, and is read as data about the decision rather than as instructions, since an agent waiting on a reply is the easiest one to inject. Against no skill at all: five of five question payloads pass its linter where the baseline passes none, and a four-family blind panel went 15-5. The one eval it loses is in its README too.
 
 <br clear="left" />
 

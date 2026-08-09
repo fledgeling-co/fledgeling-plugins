@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>report banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  report README banner. 1600x520, rendered at 2x to 3200x1040.
+
+  MEASURED off the shipped icon rather than decorated to match it. Every constant
+  below is read straight out of assets/build_icon.py, so if the icon is rebuilt these
+  change here and the scene re-derives instead of being re-eyeballed.
+
+    SHEET     x 236, w 552, y 142 in the icon's 1024 space. Aspect of the scroll half
+              is 552 x 363, which is the aspect every continuous sheet here reuses.
+    CREASE_Y  505, height 38, overhanging the sheet by 6 either side. Horizontal, full
+              width: the mark's whole signature, and what separates it at a glance from
+              dossier-report's 46-degree diagonal.
+    LEAF      inset 46, step 34, height 122, gap 56. The paginated half is narrower than
+              the scroll half and steps inward, which is the one property that survived
+              reduction to 32px when the internal gaps did not.
+    ACCENT    #E2521F mid, #C03A0E low, #F4763F high.
+
+  The banner states the skill's architecture the same way the icon does: one column of
+  continuous ruling, one vermilion crease, then the same document as separate sheets.
+  Render:  chrome --headless --screenshot --window-size=3200,1040 --force-device-scale-factor=2
+-->
+<style>
+  :root{
+    --ground-hi:#FFFDF8; --ground-mid:#F7F2E9; --ground-lo:#EFE8DB;
+    --paper:#FFFEFC; --paper-lo:#F4EFE5; --edge:#DCD2BF;
+    --ink:#16150F; --muted:#6E6858; --rule:#B4AA96;
+    --accent:#E2521F; --accent-hi:#F4763F; --accent-lo:#C03A0E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1600px;height:520px;overflow:hidden}
+  body{
+    background:
+      radial-gradient(760px 620px at 22% -10%, rgba(255,255,255,.95), rgba(255,255,255,0) 62%),
+      linear-gradient(160deg, var(--ground-hi) 0%, var(--ground-mid) 54%, var(--ground-lo) 100%);
+    font-family:"Newsreader",Charter,Georgia,serif; color:var(--ink);
+    display:flex; align-items:center; justify-content:center; gap:56px;
+  }
+  /* vignette, same weight as the icon's */
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background:radial-gradient(700px 560px at 50% 48%, rgba(156,139,112,0) 62%, rgba(156,139,112,.14) 100%);
+  }
+
+  .left{width:500px;flex:0 0 500px}
+  .mark{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-weight:500; font-size:13px;
+    letter-spacing:.24em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;
+  }
+  h1{font-size:96px; font-weight:500; letter-spacing:-.035em; line-height:.92}
+  /* the crease, as a rule under the wordmark: the banner's one coloured element */
+  .crease{
+    width:212px; height:9px; border-radius:5px; margin:26px 0 26px;
+    background:linear-gradient(90deg,var(--accent-lo),var(--accent) 42%,var(--accent-hi));
+  }
+  p.tag{font-size:25px; line-height:1.34; color:var(--muted); max-width:26ch; font-weight:300}
+  p.tag b{color:var(--ink); font-weight:500}
+
+  /* ── the scene: one document, above and below its crease ───────────────────── */
+  .scene{position:relative;height:520px;width:470px;flex:0 0 470px}
+  .sheet{
+    position:absolute; background:linear-gradient(150deg,var(--paper),var(--paper-lo));
+    border:2px solid var(--edge); border-radius:12px;
+    box-shadow:0 22px 44px rgba(107,90,62,.16), 0 3px 9px rgba(107,90,62,.10);
+  }
+  /* scroll half: 552x363 at icon scale, taken here at 0.60 */
+  .scroll{left:64px; top:52px; width:331px; height:218px}
+  .leaf{left:92px; width:275px; height:73px}
+  .leaf.a{top:322px}
+  .leaf.b{left:112px; width:255px; top:411px}
+
+  .r{position:absolute; height:9px; border-radius:4.5px; background:var(--rule); opacity:.9}
+
+  .creaseBar{
+    position:absolute; left:60px; top:288px; width:339px; height:23px; border-radius:11.5px;
+    background:linear-gradient(100deg,var(--accent-lo),var(--accent) 44%,var(--accent-hi));
+    box-shadow:0 10px 22px rgba(194,58,14,.28);
+  }
+  .creaseBar::after{
+    content:""; position:absolute; inset:0; border-radius:11.5px;
+    background:linear-gradient(180deg, rgba(255,217,194,.85), rgba(255,255,255,.10) 50%, rgba(126,26,2,.28));
+  }
+</style>
+</head>
+<body>
+
+  <div class="left">
+    <div class="mark">fledgeling · claude code skill</div>
+    <h1>report</h1>
+    <div class="crease"></div>
+    <p class="tag">Get what you just worked out <b>written up</b>, with the receipts still attached.</p>
+  </div>
+
+  <div class="scene">
+    <div class="sheet scroll" id="scrollSheet"></div>
+    <div class="creaseBar"></div>
+    <div class="sheet leaf a" id="la"></div>
+    <div class="sheet leaf b" id="lb"></div>
+  </div>
+
+<script>
+// Ruling drawn from the same proportions the icon uses: 58/552 side padding, uneven
+// lengths so it reads as prose rather than as a placeholder block.
+const PAD = 58/552;
+function rule(host, ys, fracs){
+  const w = host.offsetWidth, x = w*PAD, avail = w - x*2;
+  ys.forEach((y,i) => {
+    const d = document.createElement('div');
+    d.className = 'r';
+    d.style.left = (host.offsetLeft + x) + 'px';
+    d.style.top  = (host.offsetTop + y) + 'px';
+    d.style.width = (avail * fracs[i]) + 'px';
+    host.parentElement.appendChild(d);
+  });
+}
+rule(scrollSheet, [40,64,88,112,136,160,184], [1,.92,1,.78,.96,.88,.55]);
+rule(la, [24,48], [.86,.60]);
+rule(lb, [24,48], [.86,.60]);
+</script>
+</body>
+</html>
