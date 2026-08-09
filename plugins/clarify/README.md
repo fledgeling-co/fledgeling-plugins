@@ -90,6 +90,8 @@ Every prompt was run twice: once with the skill, once with **no skill at all**. 
 
 **What it does not do.** It doesn't make Claude safer or more thorough, and the evals say so. Four of the eight found no difference at all: Claude already sweeps the repo for a buried answer, already declines to ask about routine defaults, already treats an attached note as binding, and already refuses to run a production table-drop unasked. Those four are kept as regression guards, not as evidence. The measured value is narrower and worth stating plainly: the questions cost less to answer.
 
+**What isn't measured at all.** Whether it fires on its own. Everything above tests the skill once it's running; nothing tests whether it starts, and a skill meant to trigger unprompted lives or dies on that. An attempt at measuring it returned the same 0% recall for two completely different descriptions, which makes it a broken measurement rather than a result. [EVALS.md](EVALS.md) has the detail and the honest reading. Install it and watch whether it fires; that's cheaper than the harness and more truthful.
+
 Full tables, judge families, the research corpus and the caveats are in [EVALS.md](EVALS.md).
 
 ## What it's built on

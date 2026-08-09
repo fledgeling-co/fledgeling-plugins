@@ -257,6 +257,35 @@ flagship parole-board field result is confounded by non-random case ordering.
 The skill never argues from decision fatigue, and neither should anything built
 on it — interruption cost and order bias are both better measured and sufficient.
 
+## The description, and why it is still unproven
+
+The `description` field is the whole triggering mechanism, and it is the one part of this skill
+with no measurement behind it. A trigger-optimisation run over twenty queries returned 0% recall
+on both the shipped description and a full rewrite, identical to the digit — which says the run
+was not measuring the description rather than that the description fails. `EVALS.md` has the
+detail.
+
+The rewrite is kept here rather than shipped, because swapping one unmeasured description for
+another is not an improvement, only a change. It is worth trying if real use shows the skill
+under-triggering, since it leads with trigger conditions instead of with what the skill does,
+which is the shape skill-creator and Anthropic's own guidance both recommend:
+
+> Use when a decision, assumption, or ambiguity needs the user's input before work proceeds.
+> Triggers: they ask what you need from them, tell you to check with them first, say not to just
+> pick one, want a say in an approach, or want unknowns surfaced before code is written; a
+> request or spec is vague enough that different readings produce different work; you're about to
+> build on an unverified assumption; a fork has several defensible answers involving taste, scope,
+> cost, or risk; or an action is destructive or irreversible. Also covers gathering everything you
+> need in one batch before a big task starts. First hunts the answer in the conversation, repo,
+> and prior work, drops questions whose answer wouldn't change anything, then asks one clickable
+> AskUserQuestion with a reasoned recommendation and reads any note the user attaches. Skip for
+> routine calls you should just make, and for explaining something the user asked you to clarify.
+
+The last clause is the useful part either way: *"skip for explaining something the user asked you
+to clarify"* separates this skill from the commonest near-miss, someone asking Claude to clarify a
+regex or an error message. That distinction is worth keeping whichever description ends up
+shipping.
+
 ## Gaps worth measuring
 
 1. **Option count in this exact setting.** Nobody has varied 2 / 3 / 4 / 6
