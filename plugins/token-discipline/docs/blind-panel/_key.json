@@ -1,0 +1,72 @@
+{
+  "pair01": {
+    "task": "merge-disclosure-windows",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair02": {
+    "task": "parallel-tool-calls",
+    "A": "pure",
+    "B": "caveman"
+  },
+  "pair03": {
+    "task": "portal-editor-blocks",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair04": {
+    "task": "diolog-memories-service",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair05": {
+    "task": "investor-mobile-shell",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair06": {
+    "task": "announcement-card",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair07": {
+    "task": "largest-remainder-allocation",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair08": {
+    "task": "diolog-regulatory-obligations-service",
+    "A": "pure",
+    "B": "caveman"
+  },
+  "pair09": {
+    "task": "list-reorder-diff",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair10": {
+    "task": "diolog-deck-shared-toolbar",
+    "A": "pure",
+    "B": "caveman"
+  },
+  "pair11": {
+    "task": "pricing-tier-card",
+    "A": "pure",
+    "B": "caveman"
+  },
+  "pair12": {
+    "task": "diolog-investor-analytics-rollups",
+    "A": "pure",
+    "B": "caveman"
+  },
+  "pair13": {
+    "task": "diolog-announcement-dispatcher",
+    "A": "caveman",
+    "B": "pure"
+  },
+  "pair14": {
+    "task": "settings-form",
+    "A": "pure",
+    "B": "caveman"
+  }
+}
