@@ -1,7 +1,12 @@
 {
-  "skill_name": "token-discipline",
+  "skill_name": "discipline",
   "notes": "Behavioural evals for the injected block. Each is scored on artifacts observable in a session transcript — did the run produce X — not on a 1-10 rating, because judge scores collapse and artifacts are checkable. Arms: CONTROL (no block), CAVEMAN (caveman SKILL.md body appended), V3 (the retained 736-byte literal), V4 (the shipped 881-byte literal). Eval 5 is the adversarial one: it exists because evals 1-4 can all pass while the agent quietly does less work, which is the exact failure the diolog-swe-bench measurement found and the reason clause 6 was added.",
-  "arms": ["control", "caveman", "v3", "v4"],
+  "arms": [
+    "control",
+    "caveman",
+    "v3",
+    "v4"
+  ],
   "evals": [
     {
       "id": 1,
