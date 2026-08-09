@@ -1,0 +1,225 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.field {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px 6px 6px var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--color-paper) 40%, #fff);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  transition:
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.field:hover {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 22%, transparent);
+}
+
+.field:focus-within {
+  background: #fdfcfa;
+  box-shadow:
+    inset 0 0 0 1px var(--color-accent),
+    0 0 0 3px var(--color-accent-soft);
+}
+
+.glyph {
+  display: block;
+  color: var(--color-muted);
+}
+
+.input {
+  min-width: 0;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--color-ink);
+}
+
+.input::placeholder {
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+/* The status line already offers Clear. Two clear affordances side by side, one
+   of them an unstyled UA control, is worse than one. Escape still clears. */
+.input::-webkit-search-cancel-button {
+  appearance: none;
+  display: none;
+}
+
+/* The second lane, always visible so it never needs explaining. Typing already
+   re-ranks the roster underneath; this is the affordance that says the field
+   does something more when you commit to it. */
+.ask {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.ask:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+}
+
+.ask:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ask:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* A stop control, in the same place the ask button occupied, so it is where the
+   hand already is. Live for the whole duration of a run. */
+.stop {
+  composes: ask;
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+}
+
+.stop:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+}
+
+/* ----------------------------------------------------------- suggestions -- */
+/* Never a bare box: four real queries, each one a click that runs. They also
+   teach what this field accepts — problems, not keywords. */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+}
+
+.suggestionsLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 85%, var(--color-paper));
+  margin-right: var(--space-3xs);
+}
+
+.suggestion {
+  padding: 5px 12px;
+  border-radius: var(--radius-chip);
+  background: var(--color-code-bg);
+  color: var(--color-muted);
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-align: left;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.suggestion:hover {
+  background: color-mix(in oklab, var(--color-ink) 10%, var(--color-code-bg));
+  color: var(--color-ink);
+}
+
+/* ---------------------------------------------------------------- status -- */
+/* One line, one job: say which lane produced what is on screen right now, and
+   how to get back. Replaces both a mode switch and a results header. */
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 20px;
+  font-size: 13.5px;
+  color: var(--color-muted);
+}
+
+.statusMono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.statusAi {
+  composes: statusMono;
+  color: var(--color-accent);
+}
+
+.reset {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.reset:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.note {
+  color: var(--color-muted);
+}
+
+/* Working indicator. Motion conveys state and nothing else, and it settles on
+   its final frame under reduced motion. */
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .ask span:last-child {
+    display: none;
+  }
+}

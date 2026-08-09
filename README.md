@@ -14,6 +14,8 @@ Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; s
 
 Fledgeling makes AI-native software for founders and developers; these are the SWE skills that come out of building it. Each one exists because a real workflow needed it, and each carries its own README, evals or references where the work justified them. Every icon below came through the same three-engine design pipeline with its audit sheet committed beside it.
 
+**[skills.fledgeling.app](https://skills.fledgeling.app)** is the same sixteen, searchable — describe the problem you have and it finds the skill, without you knowing its name.
+
 ## Installing
 
 ```text
@@ -24,6 +26,12 @@ Then install what you want:
 
 ```text
 /plugin install trawl@fledgeling-plugins
+```
+
+Third-party marketplaces have auto-update off by default, so refreshing is something you do:
+
+```text
+/plugin marketplace update fledgeling-plugins
 ```
 
 ## The skills

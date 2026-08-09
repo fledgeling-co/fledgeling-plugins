@@ -1,0 +1,194 @@
+.roster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* ----------------------------------------------------------- browse mode -- */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.groupLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.groupCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.groupBlurb {
+  flex: 1 1 100%;
+  font-size: 14.5px;
+  color: var(--color-muted);
+  max-width: 62ch;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  /* Rows size to their own content and items stretch within them, so a 200- and
+     an 840-character blurb sit in cards of the same height. Deliberately NOT
+     `grid-auto-rows: 1fr`, which equalises every row to the tallest row in the
+     whole grid — one tall pair row would then inflate every other row with it. */
+  gap: var(--space-md);
+}
+
+/* --------------------------------------------------------- neighbour pair -- */
+/* Two skills that each name the other in their boundary clause. Rendered
+   together with the decision rule spanning both, so the adjacency does the
+   explaining that two separate paragraphs otherwise would. They stay two cards
+   and two links — merging them would break the visitor who arrived knowing one
+   of the names.
+
+   It claims the whole row rather than two of three columns: a two-column island
+   inside an auto-fill grid leaves a hole beside it at some widths and collides
+   with a standalone card at others. The inner grid repeats the outer track
+   sizing, so a paired card is exactly as wide as an unpaired one. */
+.pair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-md);
+  padding: var(--space-sm);
+  border-radius: calc(var(--radius-card) + var(--space-2xs));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-hairline) 70%, transparent);
+}
+
+.pairRule {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  padding: 0 var(--space-3xs);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.pairRule > span:last-child {
+  max-width: 88ch;
+}
+
+.pairLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 78%, var(--color-paper));
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ query mode -- */
+.ranked {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.promoted {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-md);
+}
+
+.rest {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.restLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+  margin-bottom: var(--space-2xs);
+}
+
+/* ----------------------------------------------------------- placeholders -- */
+/* The AI lane is working. The local results underneath stay correct and stay
+   readable — this only says something is still coming. */
+.working {
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+}
+
+/* ------------------------------------------------------- also consider -- */
+.also {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-code-bg);
+}
+
+.alsoLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.alsoItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.alsoName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+  text-underline-offset: 3px;
+}
+
+.alsoName:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.noscript {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-code-bg);
+  font-size: 14.5px;
+  color: var(--color-muted);
+}

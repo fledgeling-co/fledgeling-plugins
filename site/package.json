@@ -1,0 +1,41 @@
+{
+  "name": "fledgeling-skills-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "skills.fledgeling.app \u2014 searchable directory for the fledgeling-plugins marketplace",
+  "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "prebuild": "node scripts/build-catalogue.mjs",
+    "predev": "node scripts/build-catalogue.mjs",
+    "dev": "next dev --port 3210",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsgo --noEmit",
+    "embeddings": "node scripts/build-embeddings.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "latest",
+    "ai": "^7",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-markdown": "latest",
+    "remark-gfm": "latest",
+    "server-only": "^0.0.1",
+    "yaml": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript/native-preview": "latest",
+    "eslint": "^9",
+    "eslint-config-next": "latest",
+    "typescript": "^6"
+  }
+}
