@@ -9,10 +9,13 @@
 
 set -uo pipefail
 SLUG=""; FROM=""; DRY=0
+# `shift 2` fails with $# unchanged when a flag is passed as the last argument,
+# so the same branch re-matches and the loop spins forever. Fail loudly instead.
+need() { [ "$1" -ge 2 ] || { echo "${0##*/}: $2 requires a value" >&2; exit 2; }; }
 while [ $# -gt 0 ]; do
   case "$1" in
-    --slug)    SLUG="${2:-}"; shift 2 ;;
-    --from)    FROM="${2:-}"; shift 2 ;;
+    --slug)    need $# --slug; SLUG="${2:-}"; shift 2 ;;
+    --from)    need $# --from; FROM="${2:-}"; shift 2 ;;
     --dry-run) DRY=1; shift ;;
     *) shift ;;
   esac

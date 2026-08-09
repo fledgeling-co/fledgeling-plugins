@@ -7,11 +7,14 @@
 
 set -uo pipefail
 SKILLS=""; PORTS=""; PROCS=""
+# `shift 2` fails with $# unchanged when a flag is passed as the last argument,
+# so the same branch re-matches and the loop spins forever. Fail loudly instead.
+need() { [ "$1" -ge 2 ] || { echo "${0##*/}: $2 requires a value" >&2; exit 2; }; }
 while [ $# -gt 0 ]; do
   case "$1" in
-    --skills) SKILLS="${2:-}"; shift 2 ;;
-    --ports)  PORTS="${2:-}";  shift 2 ;;
-    --procs)  PROCS="${2:-}";  shift 2 ;;
+    --skills) need $# --skills; SKILLS="${2:-}"; shift 2 ;;
+    --ports)  need $# --ports; PORTS="${2:-}";  shift 2 ;;
+    --procs)  need $# --procs; PROCS="${2:-}";  shift 2 ;;
     *) shift ;;
   esac
 done

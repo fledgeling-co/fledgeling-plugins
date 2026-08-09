@@ -21,6 +21,10 @@ INPUT="$(cat 2>/dev/null || true)"
 
 log() { printf '%s\n' "goal-harness: $*" >&2; }
 
+# macOS ships neither timeout(1) nor gtimeout(1); without one, verify[].timeout
+# cannot be enforced and a hung gate runs until the hook's own timeout.
+TIMEOUT_BIN="$(command -v timeout || command -v gtimeout || true)"
+
 # --- locate the state file, walking up from cwd ------------------------------
 find_state() {
   local dir="$PWD"
@@ -48,11 +52,17 @@ HOOK_EVENT="$(printf '%s' "$INPUT" | jq -r '.hook_event_name // "Stop"' 2>/dev/n
 
 [ "$(jq -r '.armed // false' "$STATE")" = "true" ] || exit 0
 
+# Session isolation is what makes a project-scoped hook safe, so an absent id
+# must refuse rather than match everything: a permissive empty id means every
+# session in the project runs the gates, and two of them race on .iteration. It
+# also means a goal-state.json arriving from anywhere else would be honoured.
 STATE_SESSION="$(jq -r '.session_id // ""' "$STATE")"
 HOOK_SESSION="$(printf '%s' "$INPUT" | jq -r '.session_id // ""' 2>/dev/null || true)"
-if [ -n "$STATE_SESSION" ] && [ -n "$HOOK_SESSION" ] && [ "$STATE_SESSION" != "$HOOK_SESSION" ]; then
-  exit 0   # another session in this project — not ours
+if [ -z "$STATE_SESSION" ]; then
+  log "state file has no session_id — refusing to act; re-arm from the driving session"
+  exit 0
 fi
+[ "$STATE_SESSION" = "$HOOK_SESSION" ] || exit 0
 
 SLUG="$(jq -r '.slug // "goal"' "$STATE")"
 GOAL_FILE="$(jq -r '.goal_file // ""' "$STATE")"
@@ -60,6 +70,11 @@ LEDGER="$(jq -r '.ledger // ""' "$STATE")"
 ITER="$(jq -r '.iteration // 0' "$STATE")"
 MAXITER="$(jq -r '.max_iterations // 0' "$STATE")"
 DEADLINE="$(jq -r '.deadline // ""' "$STATE")"
+# A non-numeric bound made `[ "$MAXITER" -gt 0 ]` false, which skipped the check
+# entirely and silently unbounded the run. Normalise before any arithmetic.
+case "$MAXITER" in ''|*[!0-9]*) log "max_iterations '$MAXITER' is not a number — treating as unbounded"; MAXITER=0 ;; esac
+case "$ITER"    in ''|*[!0-9]*) ITER=0 ;; esac
+
 [ -n "$LEDGER" ] || LEDGER="docs/goals/goal-${SLUG}.ledger.md"
 case "$LEDGER" in /*) : ;; *) LEDGER="$ROOT/$LEDGER" ;; esac
 
@@ -113,6 +128,18 @@ if [ -n "$DEADLINE" ]; then
 fi
 
 # --- run the gates -----------------------------------------------------------
+# `.verify | length` is >0 for a string or an object too, and 0 for null or [],
+# and every one of those shapes previously fell through to the all-green branch
+# and recorded the goal as met without checking anything.
+if ! jq -e '(.verify | type) == "array" and (.verify | length) > 0' "$STATE" >/dev/null 2>&1; then
+  ledger_row "$NEXT" "block" "config" "verify[] is missing or not a non-empty array"
+  jq -n --arg s "$SLUG" --arg f "$STATE" '{decision:"block", reason:
+    ("The goal `" + $s + "` has no runnable gates: `.verify` in " + $f +
+     " must be a non-empty array of {name, cmd} objects. Nothing has been verified. " +
+     "Fix the state file before continuing.")}'
+  exit 0
+fi
+
 FAILED_NAMES=""
 FAILED_DETAIL=""
 GATE_COUNT="$(jq -r '.verify | length' "$STATE" 2>/dev/null || echo 0)"
@@ -125,7 +152,7 @@ while [ "$i" -lt "$GATE_COUNT" ]; do
   i=$((i + 1))
   [ -n "$CMD" ] || continue
 
-  OUT="$(cd "$ROOT" && { if command -v timeout >/dev/null 2>&1; then timeout "$TMO" bash -lc "$CMD"; else bash -lc "$CMD"; fi; } 2>&1)"
+  OUT="$(cd "$ROOT" && { if [ -n "$TIMEOUT_BIN" ]; then "$TIMEOUT_BIN" "$TMO" bash -lc "$CMD"; else bash -lc "$CMD"; fi; } 2>&1)"
   RC=$?
   if [ "$RC" -ne 0 ]; then
     FAILED_NAMES="${FAILED_NAMES:+$FAILED_NAMES, }$NAME"
@@ -148,7 +175,8 @@ if [ -z "$FAILED_NAMES" ]; then
 fi
 
 # --- block, with a next-action brief -----------------------------------------
-ledger_row "$NEXT" "block" "$FAILED_NAMES" "iteration $NEXT/${MAXITER:-∞}"
+BOUND=""; [ "$MAXITER" -gt 0 ] && BOUND="/$MAXITER"
+ledger_row "$NEXT" "block" "$FAILED_NAMES" "iteration $NEXT${BOUND:-/∞}"
 
 tmp="$(mktemp)"
 jq --argjson n "$NEXT" '.iteration=$n' "$STATE" >"$tmp" && mv "$tmp" "$STATE"
@@ -165,7 +193,7 @@ Next: re-read \`$GOAL_FILE\` (worklist, gates, blocked-item policy, resources),
 fix the failing gate above, and echo the GOAL-PROGRESS line before you finish
 this turn.
 
-Iteration $NEXT${MAXITER:+/$MAXITER} · $REMAIN${DEADLINE:+ · deadline $DEADLINE}
+Iteration $NEXT$BOUND · $REMAIN${DEADLINE:+ · deadline $DEADLINE}
 Ledger: $LEDGER"
 
 jq -n --arg r "$REASON" '{decision:"block", reason:$r}'
