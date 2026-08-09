@@ -1,7 +1,7 @@
 {
   "name": "clarify",
-  "description": "Decide whether to interrupt the user with a question, then ask it so it takes one click to answer. Sweeps the conversation, the repo and earlier agent output for the answer before asking anything, kills questions whose answer would not change the work, then emits a single batched AskUserQuestion in plain words — a marked recommendation carrying its reason, options described by what changes if chosen, and hard caps on length. Treats a note attached to an answer as binding rather than reading the label alone. Ships a deterministic linter for the question payload.",
-  "version": "1.0.0",
+  "description": "Decide whether to interrupt the user with a question, then ask it so it takes one click to answer. Sweeps the conversation, the repo and earlier agent output for the answer before asking anything, kills questions whose answer would not change the work, then emits a single batched AskUserQuestion in plain words \u2014 a marked recommendation carrying its reason, options described by what changes if chosen, and hard caps on length. Treats a note attached to an answer as binding rather than reading the label alone. Ships a deterministic linter for the question payload.",
+  "version": "1.1.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
