@@ -1,54 +1,47 @@
+<p align="center">
+  <img src="assets/banner.png" alt="mac-doctor: your Mac fills up a hundred reasonable decisions at a time" width="100%">
+</p>
+
 # mac-doctor
 
-Your Mac did not fill up because of one thing. It filled up because a hundred
-reasonable decisions each left something behind, and nobody was counting.
+Your Mac didn't fill up because of one thing. It filled up because a hundred sensible defaults each left something behind, and nothing was counting.
 
-Agent CLIs keep transcripts. Dev servers leave build output. Docker keeps
-volumes for containers you stopped weeks ago. Xcode keeps DerivedData for
-projects you have not opened since March. Every one of those is the right
-default in isolation. Together they take a terabyte, and you find out when a
-build fails at 2am with `No space left on device`.
+Claude keeps every transcript. Dev servers leave build output. Docker holds volumes for containers you stopped weeks ago. Xcode keeps DerivedData for a project you haven't opened since March. Every one of those is the right default on its own. Together they took a terabyte off my machine, and I found out when a build died at 2am with `No space left on device`.
 
-mac-doctor watches for that, cleans up what it can prove is safe, and tells you
-about the rest instead of guessing.
+mac-doctor runs in the background, clears what it can prove is safe, and tells you about the rest instead of guessing.
 
-## What makes it different from `rm -rf`
+## What it actually adds
 
-Most of the debris is **indistinguishable from live state without checking**. A
-git worktree holding unpushed commits looks exactly like an abandoned one. A dev
-server nobody is using looks exactly like one you will come back to in ten
-minutes. So the interesting part of this tool is not the deleting — it is the
-part that refuses to.
+Claude is already good at this. Ask it to clean up your disk and it'll do a careful job. I tested that properly and the numbers are in [EVALS.md](EVALS.md); the short of it is that the skill doesn't make Claude smarter about your disk, because it didn't need to be.
 
-Every removal passes a gate first, and the gate is stricter the less
-recoverable the mistake. Build output needs a generator that can rebuild it.
-Docker volumes need to be unmounted by every container. Worktrees need four separate proofs: git still knows about them, nothing is
-uncommitted, no commit is missing from the main branch, and nothing is working
-in them. Fail any one and you get told what it is holding rather than losing
-it.
+What it adds is that this happens **without you**, and **without tokens**.
+
+The 15-minute and 1-hour checks are plain shell. No model, no API call, no session. About eight seconds, ninety-six times a day, for nothing. Asking Claude the same question costs a conversation and roughly 120k tokens each time, and only happens when you remember to ask.
 
 ## Five cadences, widening autonomy
 
-Runs as five scheduled jobs. What each is allowed to do on its own widens as the
-gap between runs grows, because the cost of a wrong deletion does not scale with
-how often you check. A 15-minute job that removes something irreplaceable is a
-disaster; a weekly proposal you read first is not.
+What each run may do on its own widens as the gap between runs grows. A 15-minute job that deletes something irreplaceable is a disaster; a weekly suggestion you read first isn't.
 
-| Every | Does | On its own? |
-| --- | --- | --- |
-| 15 min | Dead processes, exited containers, finished-run temp files | Yes, silently |
-| 1 hour | Build output in repos nobody is working in | Yes, silently |
-| 12 hours | Package-manager caches, dangling Docker images | Dry-run, then yes |
-| 1 day | Unused Docker volumes, dead simulators, CLI state rotation | Dry-run, then yes |
+| Every | What it handles | On its own? |
+|---|---|---|
+| 15 min | Dead processes, exited containers, finished-run temp files | Yes, quietly |
+| 1 hour | Build output in repos nobody's working in | Yes, quietly |
+| 12 hours | Package caches, dangling Docker images | Dry run, then yes |
+| 1 day | Unused Docker volumes, dead simulators, CLI state | Dry run, then yes |
 | 7 days | Worktrees, node_modules, transcripts, simulator runtimes | Asks you first |
 
-The short tiers cost nothing to run — no model, no API calls, just shell. The
-15-minute check completes in about eight seconds.
+**Running low doesn't unlock anything.** When the disk gets tight it runs the bigger jobs sooner and puts the pending suggestions in front of you. It doesn't start deleting things it would normally ask about; a nearly-full disk is exactly when a mistake is hardest to undo.
 
-**Running low does not unlock anything.** When the disk gets tight it runs the
-bigger jobs *sooner* and puts the pending proposals in front of you. It does not
-start deleting things it would normally ask about, because a nearly-full disk is
-exactly when a mistake is hardest to undo.
+## It refuses more than it deletes
+
+A git worktree holding unpushed commits looks exactly like an abandoned one. A dev server nobody's using looks exactly like the one you'll come back to in ten minutes. You can't tell which is which without checking.
+
+So the interesting part isn't the deleting. It's the part that won't.
+
+- **Build output** needs a generator that can still rebuild it. A folder called `dist` isn't regenerable because of its name.
+- **Docker volumes** must be mounted by no container, and named volumes get reported rather than pruned. Somebody named that volume because they cared what was in it.
+- **Worktrees** need four proofs: git still knows about them, nothing's uncommitted, no commit is missing from the main branch, and nothing's working in them. If git has forgotten one, it's judged on whether every file's content is reachable from a ref that survives the deletion.
+- **Other people's repos** are never touched. An ownership list keeps a stray `rm -rf` out of your clone of somebody else's project.
 
 ## Install
 
@@ -62,78 +55,63 @@ Then:
 ```text
 /mac-doctor --setup     # install the five scheduled jobs
 /mac-doctor             # run whichever one is due
-/mac-doctor report      # look at everything, change nothing
-/mac-doctor status      # what is scheduled, when it last ran
+/mac-doctor report      # measure everything, change nothing
+/mac-doctor status      # what's scheduled, when it last ran
 /mac-doctor worktrees   # audit worktrees only
 ```
 
-`report` is the safe first move. It measures and explains without touching
-anything.
+`report` is the safe first move. It measures and explains without touching anything.
 
-## What it found on the machine it was built for
+## What it found on my machine
 
 A 2 TB Mac at 94% full:
 
 | | |
-| --- | --- |
-| Git worktrees | 620 GB, the largest single item. Of 136 audited, 13 were safe to remove and 114 were still live |
+|---|---|
+| Git worktrees | 620 GB across 218 directories, the biggest single item |
 | Xcode DerivedData | 43 GB |
-| `~/Library/Caches` | 40 GB (CocoaPods alone was 13 GB) |
+| `~/Library/Caches` | 40 GB, with CocoaPods alone at 13 GB |
 | Simulators | 19 GB |
-| Agent CLI state | 25 GB across Claude, Codex, Cursor, Grok, Gemini |
+| Agent CLI state | 25 GB across Claude, Codex, Cursor, Grok and Gemini |
 | Package caches | 19 GB of npm and pnpm |
 
-The worktree line is the one worth reading twice. It is the biggest thing on the
-disk, and the tool offers to remove about a tenth of it, because that is the
-part it could prove was finished. The rest it leaves alone and tells you why.
+A real run freed **73 GB** and took the machine from 93% used to 89%: 52.2 GB from twelve verified worktrees, 11.3 GB of CocoaPods cache, 4.2 GB of build output across nineteen directories, 2.8 GB from pnpm and bun, and about 1.5 GB from Docker and brew.
 
-## Three ways it learned to distrust its own measurements
+It also declined a few things, which matters more. It left the Playwright cache alone because a test was running against it. It left 25 named Docker volumes alone. It skipped npm's cache because something was actively writing to it.
 
-Every one of these happened while building it, and each is now a rule in the
-code rather than a note in a doc.
+## Three ways it learned to distrust its own numbers
 
-**`timeout` does not exist on macOS.** It is GNU coreutils. So
-`timeout 5 git worktree list | wc -l` on a clean Mac is "command not found" —
-empty output, exit 0 through the pipe, and `wc -l` says `0`. That reported 100
-live worktrees as abandoned. If the gate had trusted it, they would be gone.
+Each of these happened while I was building it. Each is now a rule in the code rather than a note in a document.
 
-**A mean over a lopsided set is invented.** Sampling 24 worktrees that ran from
-0.00 GB to 33.92 GB gave an average that multiplied out to more than the disk
-held.
+**`timeout` doesn't exist on macOS.** It's GNU coreutils. So `timeout 5 git worktree list | wc -l` on a clean Mac is "command not found"; empty output, exit 0 through the pipe, and `wc -l` says `0`. That reported 100 live worktrees as abandoned. If the gate had believed it, they'd be gone.
 
-**A measurement that timed out is not a zero.** Two directories exceeded their
-time limit, correctly returned "unknown", and a total that treated unknown as
-zero reported **77 GB for a 620 GB set**. It was believable precisely because it
-was small and it contradicted an earlier guess.
+**A mean over a lopsided set is invented.** I sampled 24 worktrees ranging from 0.00 GB to 33.92 GB. The average multiplied out to more than the disk held.
 
-So the survey now emits `sizes_totalable`, and it is false whenever anything was
-skipped or timed out. The tool would rather give you a count and admit it cannot
-give you a total.
+**A measurement that timed out isn't a zero.** Two directories ran past their time limit, correctly returned "unknown", and a total that treated unknown as zero reported **77 GB for a 620 GB set**. It was convincing precisely because it was small, and because it contradicted an earlier guess.
 
-## Where things go
+The survey now reports `sizes_totalable`, false whenever anything was skipped or timed out. It would rather give you a count and admit it can't give you a total.
+
+## Where things live
 
 ```
 ~/.claude/mac-doctor/
-├── ledger.jsonl        one line per run: reclaimed, kept, proposed, deferred
-├── findings/           readable report per run
+├── ledger.jsonl        one line per run: reclaimed, kept, suggested, deferred
+├── findings/           a readable report per run
 ├── logs/               per-tier scheduler output
-├── protected           paths to never touch, one glob per line
+├── protected           paths to never touch, one per line
 └── owners              git owners whose repos may be cleaned
 ```
 
-The ledger records what it **kept** as carefully as what it removed. Something
-skipped thirty runs in a row while always idle is itself worth knowing, and only
-the kept entries make that visible.
-
-`owners` is why it will not touch your clone of somebody else's project. A stray
-`rm -rf` inside a third-party checkout is indistinguishable from vandalism the
-next time they pull.
+The ledger records what it **kept** as carefully as what it removed. Something skipped thirty runs in a row while always idle is worth knowing about, and only the kept entries make that visible.
 
 ## Uninstalling
 
-```bash
+```text
 /mac-doctor uninstall
 ```
 
-Removes the scheduled jobs and leaves `~/.claude/mac-doctor/` alone, because the
-ledger is worth more than the automation.
+That removes the scheduled jobs and leaves `~/.claude/mac-doctor/` where it is. The ledger is worth more than the automation.
+
+Note: the scheduled jobs run under launchd, which doesn't read your shell profile. The installer copies your `PATH` into each job for that reason; if a run exits non-zero with an empty log, that's almost always what happened.
+
+Found something it got wrong? Open an issue on the [marketplace repo](https://github.com/fledgeling-co/fledgeling-plugins). Every measurement bug above turned up by running it against a machine that genuinely had the problem, so real reports are the useful kind.
