@@ -74,8 +74,15 @@ explicit stop condition, and the ledger append.
 
 ### 4. Apply config, showing the diff first
 
-`scripts/arm.sh --dry-run` prints the exact before/after and writes nothing.
-Apply on the user's OK, backing up each file first.
+`scripts/write-loop-md.sh --dry-run` prints the exact before/after for
+`.claude/loop.md`, checks it against the 25,000-byte cap, and writes nothing.
+Run it before the real write; it backs up any existing file.
+
+Most loops need no settings change at all — say so rather than showing an empty
+diff. Where preflight did find one (`CLAUDE_CODE_DISABLE_CRON`, a symlinked
+`.claude`), there is no arming script for it: print the exact before/after
+yourself and apply it on the user's OK. Settings are load-bearing across every
+session in scope.
 
 ### 5. Arm it
 
