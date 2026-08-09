@@ -34,60 +34,51 @@ a local ground of `(233,234,235)`: roughly 12% darker and tinted toward the
 object's own hue, not a neutral grey. So the graphite ring casts cool
 (`#2A2F38`) and the ember wedge casts warm (`#C0430F`).
 
-## The defect was the track, not the wedge
+## What ships, and why it is the raster
 
-Reported three times as wrong placement of the red section. The first two fixes
-moved the wedge, and both were wrong, because the placement was never the fault.
-Measured on the rendered pixels: the gap centred at -54 degrees and the ember at
--55, widths 48 and 50 degrees. Aligned and matched.
+The raster ships. That reverses the skill's usual default, and it was the user's
+call after seeing the takes side by side.
 
-What actually broke the read was the **track**. A visible pale band filling the
-gap makes the mark say "two-tone ring with an orange blob nearby" rather than
-"ring with a piece removed, and there it is". The eye needs the gap to be
-absent, not merely lighter.
+Take C won the material judgment from the first render and was disqualified on
+one fault: it baked its own dark rounded-square frame inside the tile. That
+turned out to be croppable rather than inherent. The inner tile sits at x 78 to
+948, y 66 to 953, aspect 0.981, so it squares off cleanly; scaled full bleed and
+remasked with the family superellipse, it passes checks 1 to 4 and keeps the gel
+the vector never reached.
 
-Removing the track fixed it outright. The gauge convention costs more than it
-buys here: the arc length still encodes how full the disk is, and a real hole
-carries the story the skill is actually about.
+`icon.svg` stays as the vector alternate, because it is the thing that survives a
+palette change or a variant requirement. A baked raster cannot.
 
-Two things are worth keeping from the earlier rounds, because the constants
-still reflect them. The gap is 50 degrees rather than 70, since 70 is 19% of the
-ring empty where the reference machine was at 6% free. And the wedge matches the
-gap's visible width, which needs allowing for the round caps: they extend the
-arc by (W/2)/R radians at each end, 21.2 degrees in total, so the authored 48
-degrees renders as about 69.
+## The wedge was never misplaced
 
-The lesson for the next commission: when a measurement says an element is
-correctly placed and it still looks wrong, stop adjusting that element.
+Reported three times as wrong placement of the red section, and the placement was
+correct every time. Measured on the rendered pixels: the hole in the ring spanned
+-80 to -31 degrees, the ember -80 to -30. Identical, 50 degrees each.
 
-## What the raster take changed
+The first two fixes moved the wedge. Both were wrong. The actual fault was the
+**track**: a visible pale band filling the gap makes the mark read as a two-tone
+ring with an orange blob nearby, rather than a ring with a piece removed. The eye
+needs the gap absent, not merely lighter. Removing the track fixed that read, and
+the user then chose C's material over the vector anyway.
 
-Engine C won the material read, as the skill predicts, and lost everything
-structural: it baked its own dark rounded-square frame inside the tile, and it
-turned the freed wedge into a solid triangle so the mark read as a play button
-beside a ring.
+The generalisable lesson, which cost two rounds: when a measurement says an
+element is correctly placed and it still looks wrong, stop adjusting that element
+and look at what it sits against.
 
-Converging the master on it would have imported both faults, which is the
-documented case for the rule that the rubric outranks the gate. Two things were
-salvaged instead:
-
-1. **Concentric edge catches.** Round one authored the ring's rim light as a
-   displaced copy of the arc, translated up. That produces no visible edge at
-   all. A ring lit from above catches light along its *outer top curve* and
-   bounces a weaker line along the *inner curve*, so the fix is two concentric
-   strokes at `R ± W/2`, each with a gradient that fades as the curve turns away
-   from the light. This is the single change that moved the master from flat to
-   modelled.
-2. **A bluer graphite body.** C's ring sampled `(60,81,110)` against the
-   master's `(75,85,99)`. Part of why C looked richer was simply that it was
-   cooler. `RING_HI` moved from `#5A6274` to `#5C6880`.
+Kept in the vector master's constants either way: a 50 degree gap rather than 70,
+since 70 is 19% of the ring empty where the reference machine was at 6% free; and
+a wedge matching the gap's visible width, which needs allowing for round caps
+extending the arc by (W/2)/R radians at each end, 21.2 degrees in total.
 
 ## Files
 
 - `build_icon.py` emits `icon.svg`; geometry and material are named constants at
   the top, so a fidelity round is a parameter edit rather than path surgery.
-- `icon.svg` is the shipped master. `icon.png` (1024), `icon-256.png`,
-  `icon-128.png` are rendered from it with `rsvg-convert`.
+- `icon-engineC-clean.png` is the shipped mark; `icon.png` (1024),
+  `icon-256.png` and `icon-128.png` are made from it.
+- `icon.svg` is the vector alternate, with `icon-engineA-vector.png` as its
+  render. It is what to reach for if the mark ever needs to be variant-aware or
+  recoloured.
 - `icon-engineB-arrow.svg` and `icon-engineC-raster.png` are the losing takes,
   kept because an audit that hides its losers is not an audit.
   `icon-engineC-masked.png` is C with the family superellipse applied.
@@ -97,9 +88,12 @@ salvaged instead:
 
 ## Known liabilities
 
-- The master is still less volumetric at 1024 than take C. Closing that properly
-  needs a bounded fidelity run against a raster whose composition is corrected
-  first, because the current C would drag in its baked frame.
+- The shipped mark is a baked raster, so it fails check 10 outright: it cannot
+  adapt to Dark, Clear or Tinted, and it cannot be edited. Any palette or
+  geometry change means generating again rather than changing a constant. This
+  was accepted knowingly in exchange for the material.
+- The crop cost a little of the original framing, so the mark sits marginally
+  tighter in the tile than something authored to the squircle would.
 - Check 10, variant robustness, is untested. The mark has not been rendered
   against Dark, Clear or Tinted grounds, and a warm porcelain ground is exactly
   the kind that can collapse under Tinted.

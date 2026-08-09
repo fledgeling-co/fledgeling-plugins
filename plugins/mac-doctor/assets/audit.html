@@ -39,26 +39,38 @@
   <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td class="take">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — vector alternate</small></td>
     <td class="renders">
       <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A rendered at 128 pixels"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
-    <td class="score ship">11 / 12</td>
-    <td class="verdict">Passes all four non-negotiables. Mask discipline correct: authored against the family superellipse from create-mac-icon/assets/squircle-path.txt, no baked corners. Silhouette names the subject as a filled solid, and at 16px the ring, its gap and the freed wedge all still read as three distinct marks. Ground values sampled from the family's own icons (#FDFDFC to #EDE9DF warm porcelain) rather than from Apple's cooler #FEFFFF to #DFE3EB, because family consistency outranks the platform sample here. Round two added concentric edge catches, outer top and inner bounce, after C showed the master was flat: the first take used a displaced copy of the arc, which produced no visible edge at all. The reported defect took three rounds because the first two moved the wrong element. Measured on the render, the gap centred at -54 degrees and the ember at -55, widths 48 and 50: correctly placed throughout. The fault was the track, whose pale band made the gap read as a filled lighter segment rather than a hole, so the mark said two-tone ring plus floating blob. Removing it fixed the read outright; arc length still encodes how full the disk is. Loses one point on 11 (personality): the device is a ring gauge, which is a legible but not a surprising mark.</td>
+    <td class="score">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables and remains the maintainable artifact: geometry and material are named constants
+ in build_icon.py, so a change is a parameter edit. Ground sampled from the family's own icons rather than Apple's
+ cooler porcelain. Kept as the vector alternate because it is what survives a palette change or a variant requirement,
+ and because C cannot be edited at all. It lost on material, which is the one thing the brief asked to improve. Worth
+ recording that the defect reported three times against this take was never its wedge placement: measured on the
+ render, the hole spanned -80 to -31 degrees and the ember -80 to -30, identical. The fault was a visible track making
+ the gap read as a filled segment; removing it fixed the read. Two rounds were spent moving the wrong element.</td>
   </tr>
   <tr>
-    <td class="take fail">C · icon-engineC-raster.png<small>GPT Image 2, corpus-referenced raster — material target, not shipped</small></td>
+    <td class="take ship">C · icon-engineC-clean.png<small>GPT Image 2, corpus-referenced raster, deframed and remasked — SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C rendered at 128 pixels"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
-    <td class="score fail">7 / 12</td>
-    <td class="verdict">Wins the material read outright and lost on everything structural. Genuine gel: volumetric body, strong rim, authored translucency, the richest of the three. But it fails check 1 by baking its own dark rounded-square frame inside the tile, which survives the squircle mask as a black border, and it changed the concept: the freed wedge became a solid triangle, so the mark reads as a play button beside a ring rather than a segment lifted out of a gauge. A stray dark horizontal band across the middle is bleed from the reference captures' backgrounds. Salvaged into A rather than converged on, per the rule that the rubric outranks the gate: the concentric edge catches and a bluer graphite body (sampled 60,81,110 against the master's 75,85,99).</td>
+    <td class="score ship">10 / 12</td>
+    <td class="verdict">Wins the material read outright, and once deframed it wins outright. The original failed check 1 by baking its
+ own dark rounded-square frame inside the tile; that frame cropped away cleanly (inner tile at x 78-948, y 66-953,
+ aspect 0.981), and the content was squared, scaled full bleed and remasked with the family superellipse. What remains
+ is genuine gel: volumetric body, strong rim, authored translucency, richer than anything the vector master reached.
+ Silhouette and 16px both hold. Loses two points. Check 10, variant robustness: a baked raster cannot adapt to Dark,
+ Clear or Tinted at all, where the vector could. And it is not editable, so a future palette change means regenerating
+ rather than changing a constant. Both are real costs of shipping pixels, accepted deliberately.</td>
   </tr>
   <tr>
     <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
@@ -74,7 +86,15 @@
 
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take passing checks 1 to 4 on real renders. This is a decorative marketplace mark rather than an Icon Composer package, so the material belongs in the file; nothing downstream will apply glass a second time. Material provenance is explicit: the ground and the gel falloff were sampled from the family icons and the Apple corpus, and the edge treatment was rebuilt from take C after C won the material judgment. Known liabilities to revisit: the master is still less volumetric than C at 1024, and closing that gap properly means a bounded fidelity run against a raster whose composition is corrected first, since converging on the current C would import its baked frame. Check 10, variant robustness, is untested; the mark has not been rendered against Dark, Clear or Tinted grounds, and a warm porcelain ground is exactly the kind that can collapse under Tinted. The ring gauge is legible but conventional, which is where the one lost rubric point sits.</div>
+<div class="rec"><strong>Recommendation: ship C (icon-engineC-clean.png).</strong> The raster wins the material
+ judgment decisively and its only disqualifying fault, a baked dark frame, turned out to be croppable rather than
+ inherent. Deframed and remasked with the family superellipse it passes checks 1 to 4 on real renders, and this is a
+ decorative marketplace mark rather than an Icon Composer package, so nothing downstream needs the layers.
+ Known liabilities to revisit: a baked raster fails check 10 outright, since it cannot adapt to Dark, Clear or Tinted,
+ and it cannot be edited, so any palette or geometry change means a fresh generation rather than a constant. The vector
+ master A is kept alongside for exactly that reason and remains the fallback if the mark ever needs to be variant-aware.
+ The crop also cost a little of the original framing, so C sits marginally tighter in the tile than an
+ authored-to-the-squircle take would.</div>
 
 <div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, `sips -Z` for rasters.</div>
 </body>
