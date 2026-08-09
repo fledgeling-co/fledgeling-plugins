@@ -94,7 +94,8 @@
         "No two options within a question are semantically near-duplicates (lint_questions.py similarity check passes)",
         "The emitted question presents at most 4 options",
         "The options presented are mutually exclusive readings, not rephrasings of one reading",
-        "multiSelect is false for this question, because the readings are exclusive"
+        "multiSelect is false for this question, because the readings are exclusive",
+        "BLIND PANEL RESULT \u2014 THE SKILL LOSES THIS ONE, 0-4, ROBUSTLY. Four judge families preferred the no-skill baseline in the original A/B order and again with the order reversed, across three iterations of the skill (added: name the collapse out loud; ask for the deciding variable; check the option set for gaps as well as duplicates). None of the three flipped it. Cause, on reading the pairs: the baseline found a better OPTION SPACE (one-unit / split-within-release / split-across-releases as expand-contract, plus four diagnostic categories that each map to a different answer), where the skill's set muddled two axes and never reached expand-contract. The brevity discipline produced a tidier question carrying less. Kept in the set as a standing counter-example: where the fork is a domain taxonomy the reader does not already hold, the word caps cost more than they buy. Fixing attempts stopped at three to avoid overfitting to one eval."
       ],
       "files": []
     },

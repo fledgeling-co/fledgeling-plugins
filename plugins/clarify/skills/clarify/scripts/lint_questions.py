@@ -24,10 +24,13 @@ import re
 import sys
 from dataclasses import dataclass, field
 
-# Limits. The structural four come from Anthropic's interactive-commands
-# reference; the length caps come from this skill's own research corpus and
-# are cited in references/evidence.md.
-MAX_QUESTIONS = 4
+# Limits. The structural ones come from Anthropic's interactive-commands
+# reference; the counts and length caps come from this skill's research corpus
+# and are sourced in references/evidence.md. MAX_QUESTIONS is 3 rather than the
+# tool's own 4: across four independent reports the systems with the best
+# outcome-per-question ratio asked 1.39-3.06 questions per task, and the one
+# asking 6.02 got worse with the information it obtained.
+MAX_QUESTIONS = 3
 MIN_OPTIONS = 2
 MAX_OPTIONS = 4
 MAX_HEADER_CHARS = 12
@@ -199,10 +202,19 @@ def lint(payload: dict) -> Report:
                     rep.error(ow, f"description is {n} words, cap is {MAX_DESCRIPTION_WORDS}")
                 check_plain_language(desc, f"{ow} description", rep)
 
-        # --- one recommendation, on single-select only
+        # --- the recommendation
+        # Missing is a WARNING, not an error, because there are two valid
+        # shapes: a grounded fork (recommend it, list it first) and a matter
+        # of taste (no recommendation, neutral order). A marked option acts as
+        # a default, and defaults move choices hard — so recommending on a
+        # preference question puts a thumb on a scale that was never yours.
         if not multi:
             if len(recommended) == 0:
-                rep.error(where, "no option marked (Recommended) — lead with the one you'd pick")
+                rep.warn(
+                    where,
+                    "no option marked (Recommended) — right only if this is a matter of "
+                    "taste; if evidence favours one, mark it and list it first",
+                )
             elif len(recommended) > 1:
                 rep.error(where, f"{len(recommended)} options marked (Recommended), want exactly 1")
             if recommended and not RECOMMENDED_RE.search(labels[0] if labels else ""):
