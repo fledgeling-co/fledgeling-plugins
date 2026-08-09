@@ -117,10 +117,16 @@ checks you ran. Full per-target rules:
   build output, transcripts. These need the three-gate check below and, at 7d,
   a human.
 
-Worktrees get all three of: unregistered in `git worktree list`, clean
-`git status --porcelain`, and no commits absent from the default branch. Any
-one failing means it is reported with what it is holding, never removed.
-`scripts/worktree-audit.sh` does this and prints a per-worktree verdict.
+Worktrees reclaim only when **registered** in `git worktree list`, clean per
+`git status --porcelain`, fully merged into the default branch, and with no
+process holding them as a cwd.
+
+Registration is what makes the other checks possible, not what makes a worktree
+unsafe. A worktree git no longer knows about has a `.git` link pointing at a
+deleted admin directory, so `status` and `log` both fail and `worktree repair`
+cannot re-attach it: nothing can be proven, so nothing is done. Those are
+reported `unverifiable` for a human. `scripts/worktree-audit.sh` prints a
+per-worktree verdict.
 
 Processes get the connection and idleness checks in
 [references/processes.md](references/processes.md) — the CPU/memory/orphan lane,

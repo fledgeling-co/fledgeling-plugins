@@ -43,6 +43,15 @@ bounded() {  # bounded <seconds> <command...>; returns 124 on timeout, like GNU
 
 json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 
+# Canonicalise before comparing paths. git reports the resolved path
+# (/private/tmp/...), a shell glob yields the symlinked one (/tmp/...), and a
+# string compare between them silently fails. That inverted this whole audit on
+# first run: the one registered worktree was reported unregistered and therefore
+# reclaimable, and the deregistered ones were reported unreadable. Under ~/Dev
+# there is no symlink so it looked correct, which is the worst way for a bug
+# like this to behave.
+canon() { ( cd "$1" 2>/dev/null && pwd -P ) || printf '%s' "$1"; }
+
 default_branch() {
   local repo="$1" b
   b=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null) && {
@@ -75,27 +84,46 @@ for wtroot in "$ROOT"/*/.claude/worktrees "$ROOT"/*/.worktrees; do
 
   for wt in "$wtroot"/*; do
     [ -d "$wt" ] || continue
+    wtc=$(canon "$wt")
 
     is_registered=false
     while IFS= read -r r; do
-      [ "$r" = "$wt" ] && { is_registered=true; break; }
+      [ -z "$r" ] && continue
+      [ "$(canon "$r")" = "$wtc" ] && { is_registered=true; break; }
     done <<< "$registered"
 
-    # A worktree whose .git link is broken cannot be interrogated. Report it as
-    # indeterminate rather than clean -- "git can't read it" is not "it's empty".
-    if ! git -C "$wt" rev-parse --git-dir >/dev/null 2>&1; then
-      verdict="indeterminate"; dirty="unknown"; unmerged="unknown"; reason="not a readable git worktree"
+    # The decisive asymmetry, and the opposite of what it looks like:
+    #
+    #   REGISTERED   -> git can answer "clean?" and "merged?", so the worktree
+    #                   can be judged. A registered worktree that is clean and
+    #                   fully merged is a finished session, and reclaimable.
+    #   UNREGISTERED -> the .git link points at an admin directory that no
+    #                   longer exists, so `status` and `log` both fail and
+    #                   `worktree repair` cannot re-attach it. Nothing can be
+    #                   proven about it, so nothing may be done to it.
+    #
+    # "Unregistered, clean and merged" is therefore not a stricter gate, it is
+    # an unsatisfiable one: unregistered is precisely the state in which clean
+    # and merged are unknowable.
+    if [ "$is_registered" != true ]; then
+      verdict="unverifiable"; dirty="unknown"; unmerged="unknown"
+      reason="not registered with git, so uncommitted work cannot be ruled out; needs a human"
+    elif ! git -C "$wt" rev-parse --git-dir >/dev/null 2>&1; then
+      verdict="unverifiable"; dirty="unknown"; unmerged="unknown"
+      reason="registered but unreadable as a git worktree"
     else
       dirty=$(git -C "$wt" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
       unmerged=$(git -C "$wt" log --oneline "$db..HEAD" 2>/dev/null | wc -l | tr -d ' ')
-      if [ "$is_registered" = true ]; then
-        verdict="keep"; reason="registered with git; may be an active session"
+      in_use=""
+      lsof -a -d cwd -- "$wt" >/dev/null 2>&1 && in_use="a process is working in it"
+      if [ -n "$in_use" ]; then
+        verdict="keep"; reason="$in_use"
       elif [ "${dirty:-1}" -gt 0 ]; then
         verdict="keep"; reason="$dirty uncommitted change(s)"
       elif [ "${unmerged:-1}" -gt 0 ]; then
         verdict="keep"; reason="$unmerged commit(s) not in $db"
       else
-        verdict="reclaimable"; reason="unregistered, clean, fully merged into $db"
+        verdict="reclaimable"; reason="registered, clean, fully merged into $db, nothing working in it"
       fi
     fi
 
