@@ -257,18 +257,25 @@ flagship parole-board field result is confounded by non-random case ordering.
 The skill never argues from decision fatigue, and neither should anything built
 on it — interruption cost and order bias are both better measured and sufficient.
 
-## The description, and why it is still unproven
+## The description, and what triggering testing showed
 
-The `description` field is the whole triggering mechanism, and it is the one part of this skill
-with no measurement behind it. A trigger-optimisation run over twenty queries returned 0% recall
-on both the shipped description and a full rewrite, identical to the digit — which says the run
-was not measuring the description rather than that the description fails. `EVALS.md` has the
-detail.
+The `description` field is the whole triggering mechanism. It now has one real
+observation behind it and one cautionary tale.
 
-The rewrite is kept here rather than shipped, because swapping one unmeasured description for
-another is not an improvement, only a change. It is worth trying if real use shows the skill
-under-triggering, since it leads with trigger conditions instead of with what the skill does,
-which is the shape skill-creator and Anthropic's own guidance both recommend:
+A trigger-optimisation run over twenty queries returned 0% recall on both the shipped
+description and a full rewrite, identical to the digit. That was an artifact, not a result: the
+queries were bare conversational lines with no work attached, and Claude only consults a skill
+for work it cannot do inline. Given a real repository and a genuine fork, the shipped
+description fires, and declines a near-miss. `EVALS.md` has both runs.
+
+The lesson is about eval design rather than about this skill: a trigger query has to carry
+enough work that consulting a skill is worth it. A query that reads like a request but has
+nothing behind it measures nothing, and it fails silently, at 0%, looking exactly like a
+description that does not work.
+
+The rewrite from that run is kept here rather than shipped, since the shipped one triggers. It
+is worth revisiting if real use shows under-triggering, because it leads with trigger conditions
+rather than with what the skill does:
 
 > Use when a decision, assumption, or ambiguity needs the user's input before work proceeds.
 > Triggers: they ask what you need from them, tell you to check with them first, say not to just
@@ -283,8 +290,7 @@ which is the shape skill-creator and Anthropic's own guidance both recommend:
 
 The last clause is the useful part either way: *"skip for explaining something the user asked you
 to clarify"* separates this skill from the commonest near-miss, someone asking Claude to clarify a
-regex or an error message. That distinction is worth keeping whichever description ends up
-shipping.
+regex or a hook. Worth folding in whichever description ships.
 
 ## Gaps worth measuring
 

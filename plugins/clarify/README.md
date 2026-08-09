@@ -90,7 +90,9 @@ Every prompt was run twice: once with the skill, once with **no skill at all**. 
 
 **What it does not do.** It doesn't make Claude safer or more thorough, and the evals say so. Four of the eight found no difference at all: Claude already sweeps the repo for a buried answer, already declines to ask about routine defaults, already treats an attached note as binding, and already refuses to run a production table-drop unasked. Those four are kept as regression guards, not as evidence. The measured value is narrower and worth stating plainly: the questions cost less to answer.
 
-**What isn't measured at all.** Whether it fires on its own. Everything above tests the skill once it's running; nothing tests whether it starts, and a skill meant to trigger unprompted lives or dies on that. An attempt at measuring it returned the same 0% recall for two completely different descriptions, which makes it a broken measurement rather than a result. [EVALS.md](EVALS.md) has the detail and the honest reading. Install it and watch whether it fires; that's cheaper than the harness and more truthful.
+**Does it fire on its own?** Yes, on the evidence there is. Dropped into a real React app with a genuine fork, it read the repo, then triggered unprompted and asked. Given a near-miss ("explain what this hook does") it stayed out of the way. That is one of each, so it's a control rather than a trigger rate, and an earlier attempt to measure a real rate failed in an instructive way. [EVALS.md](EVALS.md) has both.
+
+The run is worth reading for what it did after triggering: it found the actual cause of the reported bug on its own, a textarea cleared before the save request resolves, so a note written out of coverage vanishes with no error shown. Then it named two things it had decided rather than asked about, and asked one question.
 
 Full tables, judge families, the research corpus and the caveats are in [EVALS.md](EVALS.md).
 
