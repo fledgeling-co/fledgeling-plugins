@@ -27,11 +27,24 @@ the text rather than concealed the arm.
 | G02 | `/goal /create-fleet-goal`, where the condition is a command name | **3/3** | 0/3 | skill |
 | G03 | "Why have you stopped?" | **4/4** | 1/4 | skill |
 | G05 | A goal that runs `/code-review` every turn | 3/3 | 3/3 | skill |
-| | **assertions** | **17/18** | 6/18 | |
-| | **preference** | **4/4** | 0/4 | |
+| G06 | Arming where the repo has `disableAllHooks: true` | **5/5** | 3/5 | skill |
+| | **assertions** | **22/23** | 9/23 | |
+| | **preference** | **5/5** | 0/5 | |
 
-Combined with `loop-harness`, which ran the same protocol: **32/33 assertions
-against 12/33, and 8/8 preferences.**
+Combined with `loop-harness`, which ran the same protocol: **42/43 assertions
+against 19/43, and 10/10 preferences.**
+
+G06 was added in a second run after the review, on the reasoning that every
+serious defect found since had been a *failed refusal*. It earned its place: the
+baseline did careful, honest work on the backlog mismatch and the dead toolchain,
+correctly withheld arming, and never noticed that `disableAllHooks: true` makes
+the goal mechanism structurally incapable of running. Fix the other two problems
+and it would have armed something that could never fire.
+
+That case also found a defect here. jq's `//` is an alternative operator, not a
+null-coalesce, so `.disableAllHooks // empty` swallowed an explicit `false` and a
+user re-enabling hooks in `settings.local.json` to override a project-level
+`true` was still blocked. Fixed in v1.0.3.
 
 ## Where the baseline held its own
 
