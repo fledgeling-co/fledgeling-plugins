@@ -124,6 +124,12 @@ what the page is actually about.
 
 ## Phase 5 — Diverge on visual direction
 
+Trawl reference before diverging, where the MCP is installed: `search_sections`
+(`platform: web`) on the block types this report is made of — evidence callouts,
+comparison tables, stat rows, long-form reading surfaces. Two searches, images
+opened, and one line in the direction record naming what transferred. Structure
+and density transfer; identity does not.
+
 Run `/trawl` on the aesthetic before designing, and give it the subject
 matter as the frame material. This is what makes each page different from
 the last, and skipping it is how a producer of many pages converges on
@@ -218,6 +224,12 @@ existing pages ship with no `og:image` at all and share as bare links.
    fallback, both chrome blocks, share tags, alt text, weight. Errors
    block; warnings are for the reviewer.
 2. `design-review` against the real render at multiple viewports.
+   **Open the render yourself first** — serve the page, capture it at 1440 and
+   390, and read the captures asking *"what is wrong with this?"*. The auditor
+   proves structure; only looking proves the page is any good, and a script
+   reporting success on a page nobody opened is the failure this step exists
+   for. Same rule for the PDF export: render it to images and read them, since
+   print CSS breaks in ways the screen version never shows.
 3. Fix what both find, then re-run the auditor.
 4. Add the row to `~/Dev/dossier/home/index.html`, matching the existing
    markup.

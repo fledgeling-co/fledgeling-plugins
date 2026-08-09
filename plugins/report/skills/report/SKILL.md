@@ -131,6 +131,14 @@ the page is built around, palette logic with something in the subject
 justifying it, a type pairing that belongs to this material, and a motion
 signature with a perceptual job.
 
+**Look at real editorial and data-heavy pages before settling the
+skeleton.** Where the Mobbin MCP is installed, `search_sections`
+(`platform: web`) returns shipped versions of the blocks a report is made
+of — comparison tables, stat rows, evidence callouts, long-form reading
+surfaces. Two searches, images opened, and a line in the report's
+direction comment naming what you took. The trawl feeds structure and
+density, never identity; the palette still comes from the subject.
+
 **Between reports, vary the skeleton, not the palette.** Layout
 similarity across the web fell 44% in a decade and the strongest
 correlate was shared libraries, not shared colour — so re-theming a
