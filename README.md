@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="9 skills" src="https://img.shields.io/badge/skills-9-C4622D">
+  <img alt="14 skills" src="https://img.shields.io/badge/skills-14-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
