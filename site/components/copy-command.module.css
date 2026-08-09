@@ -1,0 +1,61 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 4px 4px 4px var(--space-sm);
+  border-radius: 10px;
+  background: var(--color-code-bg);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-ink);
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-block: 8px;
+  scrollbar-width: thin;
+}
+
+.button {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-paper) 40%, #fff);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink);
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.button:hover {
+  background: #fdfcfa;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 24%, transparent);
+}
+
+.button:active {
+  transform: translateY(1px);
+}

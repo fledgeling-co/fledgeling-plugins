@@ -1,0 +1,418 @@
+.page {
+  padding-block: var(--space-lg) var(--space-2xl);
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 160ms ease;
+}
+
+.back:hover {
+  color: var(--color-ink);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.icon {
+  border-radius: 26%;
+  box-shadow:
+    0 1px 2px rgba(38, 35, 30, 0.14),
+    0 10px 22px rgba(38, 35, 30, 0.14);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.9rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--color-muted) 55%, transparent);
+}
+
+.blurb {
+  margin-top: var(--space-md);
+  max-width: 64ch;
+  font-size: clamp(1.05rem, 0.98rem + 0.5vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+/* -------------------------------------------------------------- install -- */
+.install {
+  margin-top: var(--space-lg);
+  max-width: 56ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.installNote {
+  font-size: 13.5px;
+  color: var(--color-muted);
+}
+
+.inlineLink {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 32%, transparent);
+  text-underline-offset: 3px;
+}
+
+.inlineLink:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+/* ---------------------------------------------------------------- facts -- */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.factLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+}
+
+.factBody {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.referrals {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.referrals li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13.5px;
+}
+
+.referralHere {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 32%, transparent);
+  text-underline-offset: 3px;
+}
+
+.referralAway {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.referralNote {
+  font-size: 12.5px;
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+}
+
+.shipList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+/* ----------------------------------------------------------- neighbours -- */
+.neighbours {
+  margin-top: var(--space-xl);
+}
+
+.neighboursLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+}
+
+.neighboursList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+}
+
+.neighbour {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: var(--space-xs);
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.neighbour:hover {
+  background: color-mix(in oklab, var(--color-ink) 4%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 22%, transparent);
+}
+
+.neighbour img {
+  grid-row: 1 / 3;
+  border-radius: 26%;
+}
+
+.neighbourName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.neighbourBlurb {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- prose -- */
+.prose {
+  margin-top: var(--space-2xl);
+  max-width: 68ch;
+  font-size: 16.5px;
+  line-height: 1.68;
+  color: var(--color-ink);
+}
+
+.prose > * + * {
+  margin-top: var(--space-md);
+}
+
+.prose h2 {
+  margin-top: var(--space-xl);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.65rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.prose h3 {
+  margin-top: var(--space-lg);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.prose h4 {
+  margin-top: var(--space-md);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.prose p {
+  text-wrap: pretty;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 32%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 160ms ease;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.prose li {
+  text-wrap: pretty;
+}
+
+.prose li::marker {
+  color: var(--color-muted);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: var(--color-code-bg);
+}
+
+.prose pre {
+  padding: var(--space-sm);
+  border-radius: 10px;
+  background: var(--color-code-bg);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.prose blockquote {
+  padding-left: var(--space-sm);
+  box-shadow: inset 2px 0 0 0 var(--color-hairline);
+  color: var(--color-muted);
+}
+
+.prose blockquote > * + * {
+  margin-top: var(--space-2xs);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose th,
+.prose td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-hairline);
+  vertical-align: top;
+}
+
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Wide tables scroll inside their own box rather than the page sideways. */
+.prose :is(table) {
+  display: block;
+  overflow-x: auto;
+}
+
+.prose img {
+  border-radius: 10px;
+}
+
+/* ----------------------------------------------------------------- foot -- */
+.foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-hairline);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.footLink {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+  text-underline-offset: 3px;
+}
+
+.footLink:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.footMeta {
+  letter-spacing: 0.03em;
+}

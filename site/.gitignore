@@ -1,0 +1,11 @@
+.next/
+node_modules/
+next-env.d.ts
+.env
+.env.local
+.vercel/
+*.tsbuildinfo
+
+# Generated at build from ../plugins/*/assets — never edited by hand.
+public/icons/
+lib/embeddings.json
