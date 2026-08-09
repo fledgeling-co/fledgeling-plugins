@@ -23,6 +23,15 @@ done
 [ -n "$SLUG" ] || { echo "write-loop-md.sh: --slug is required" >&2; exit 2; }
 [ -n "$FROM" ] && [ -f "$FROM" ] || { echo "write-loop-md.sh: --from <file> is required" >&2; exit 2; }
 
+# A backup is a precondition, not a courtesy: if it fails we must not proceed to
+# the destructive step, and we must never claim it happened. Reproduced on a
+# read-only .claude/: the backup failed, the overwrite succeeded anyway, and the
+# script printed "wrote" and exited 0 with the previous file unrecoverable.
+backup() {
+  cp "$1" "$1.bak.$(date -u +%Y%m%dT%H%M%SZ)" || {
+    echo "${0##*/}: could not back up $1 — refusing to modify it" >&2; exit 1; }
+}
+
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 TARGET="$ROOT/.claude/loop.md"
 CAP=25000
@@ -48,9 +57,10 @@ if [ "$DRY" -eq 1 ]; then
   exit 0
 fi
 
-mkdir -p "$ROOT/.claude" "$ROOT/docs/loops"
-[ -f "$TARGET" ] && cp "$TARGET" "$TARGET.bak.$(date -u +%Y%m%dT%H%M%SZ)"
-cp "$FROM" "$TARGET"
+mkdir -p "$ROOT/.claude" "$ROOT/docs/loops" || {
+  echo "${0##*/}: cannot create $ROOT/.claude" >&2; exit 1; }
+[ -f "$TARGET" ] && backup "$TARGET"
+cp "$FROM" "$TARGET" || { echo "${0##*/}: write to $TARGET failed" >&2; exit 1; }
 echo
 echo "wrote $TARGET (${SIZE}B)"
 echo "source of record: docs/loops/loop-${SLUG}.md"

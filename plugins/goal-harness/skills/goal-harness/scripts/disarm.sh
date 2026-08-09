@@ -10,6 +10,16 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 STATE="$ROOT/.claude/goal-state.json"; SETTINGS="$ROOT/.claude/settings.local.json"
 command -v jq >/dev/null 2>&1 || { echo "jq required"; exit 2; }
 
+# A backup is a precondition, not a courtesy: if it fails we must not proceed to
+# the destructive step, and we must never claim it happened. Reproduced on a
+# read-only .claude/: the backup failed, the overwrite succeeded anyway, and the
+# script printed "wrote" and exited 0 with the previous file unrecoverable.
+backup() {
+  cp "$1" "$1.bak.$(date -u +%Y%m%dT%H%M%SZ)" || {
+    echo "${0##*/}: could not back up $1 — refusing to modify it" >&2; exit 1; }
+}
+
+
 if [ -f "$STATE" ]; then
   tmp="$(mktemp)"
   jq --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '.armed=false | .ended_at=$t | .end_reason="disarmed"' "$STATE" >"$tmp" && mv "$tmp" "$STATE"
@@ -19,7 +29,7 @@ else
 fi
 
 if [ "$REMOVE" -eq 1 ] && [ -f "$SETTINGS" ]; then
-  cp "$SETTINGS" "$SETTINGS.bak.$(date -u +%Y%m%dT%H%M%SZ)"
+  backup "$SETTINGS"
   # arm.sh recorded whatever cap was there before it overwrote it. Restore that
   # rather than deleting the key, so a user who set their own does not lose it.
   # Passed as a jq --arg: interpolating it into the filter would not expand
@@ -42,3 +52,5 @@ if [ "$REMOVE" -eq 1 ] && [ -f "$SETTINGS" ]; then
   fi
 fi
 echo "the built-in goal, if one is set, is cleared separately with: /goal clear"
+
+exit 0
