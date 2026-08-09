@@ -36,9 +36,24 @@ Fill `OVERVIEW.md` (positioning, audience, problem, market context) and `docs/MA
 Ground rules: mocks are standalone HTML in `design/mocks/html/` (the pipeline's source of truth for build fidelity); every screen gets its **empty, loading, and error states**, not just the happy path; menus, modals, and sheets are mocked as their own frames or interactive states.
 
 - **`design-craft`** authors the visual system and the mock set for each surface (web app screens, admin, marketing components). If the interview captured a `--design-ref`, bootstrap DESIGN.md from it first (design-md-from-website).
+- **Reference trawl before the direction is committed** (`design-craft` → `plugins/design-craft/skills/design-craft/references/mobbin-trawl.md`): two or three aimed Mobbin searches per surface family, images opened, and a took/left ledger recorded in `INDEX.md`. A direction derived only from memory converges on the category's default shape, which is what "bland", "boring" and "the layouts are terrible" name when they arrive as feedback. Mobbin not installed is a one-line note in the phase report.
 - **`ux-craft`** passes every flow: navigation, forms, onboarding, sign-in (the scaffolded /login flow is a real screen — mock it properly), return paths on every pushed view.
-- **`mac-design-studio`** owns the native side: macOS window (or menu-bar) design, iOS/iPad screens, and the **app icon** — 2–3 directions.
-- **Icons:** generate the vector artwork with **media-gen-pro** (`svg: true` — real SVG via Arrow, never a raster imitating one) into `design/icon/`, then complete `design/icon/audit.html` (scaffolded from the portfolio's audit template, sizes 128/64/**48**/32/16 + tinted + silhouette) — one `.row` section per direction. The audit is how a direction is chosen; don't skip to a single icon.
+- **`mac-design-studio`** owns the native side: macOS window (or menu-bar) design and iOS/iPad screens. It routes icon work onward (below) rather than doing it itself.
+- **Icons: hand the whole commission to `create-mac-icon`.** Invoke that skill, or brief one agent to read its SKILL.md and follow it, passing the app's subject, its three committed adjectives, and any brand colour constraint. It owns the direction pick from its 532-icon corpus catalogue, the subject-mined glyph, all three engines, the fidelity loop that scores the shipped SVG against the winning raster at five sizes, and the `audit.html` written from its own template.
+
+  A bare `media-gen-pro` call plus a hand-rolled contact sheet is **not** this step. That shortcut skips the corpus, the 12-point rubric, the loop and the recipe library, and it produces the icons the owner described as "really basic compared to all of the macos icons". `media-gen-pro` with `svg: true` is Engine B *inside* the pipeline, alongside the hand-authored layered master and the corpus-referenced raster — a stage, not the whole of it.
+
+  Deliverables into `design/icon/`: the layered SVG master plus its build script, the alternates, the retina renders under `audit-renders/`, and `audit.html` — one row per take, losers scored and kept, sizes 128 / 64 / **48** / 32 / 16 css px from 256 / 128 / 96 / 64 / 32 sources, plus tinted and silhouette. Every take shares one outer silhouette from `squircle-path.txt`.
+
+  Then gate it mechanically and look at it:
+
+  ```bash
+  python3 <create-mac-icon>/skills/create-mac-icon/scripts/audit_sheet.py check design/icon   # exit 0 required
+  ```
+
+  followed by serving `design/icon/audit.html` and reading it. The script proves the sheet exists, is filled in, and that every image resolves; only opening it proves the icons are good. The audit is how a direction gets chosen — never skip to a single icon.
+
+  `create-mac-icon` absent: say so in the phase report, fall back to `mac-design-studio`'s icon section, and note that the master ships unmeasured against any reference.
 - Inventory before authoring: list every screen/flow/state as a checklist in `design/mocks/html/INDEX.md`, then work through it. A mock set without an inventory silently drops states.
 
 ## Phase O½ — pricing decisions (evidence, not vibes)
