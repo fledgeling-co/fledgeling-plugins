@@ -280,14 +280,25 @@ available, or it turns into a rule that quietly gets dropped.
 
 ## What wasn't measured
 
-- **Trigger accuracy.** The description optimiser needs an API budget
-  this account didn't have on the day; it died with
-  `503 all-accounts-exhausted` before it improved anything. Its partial
-  output scored every query 0 out of 3, including the ones that should
-  have fired, which is the signature of a harness invoking nothing rather
-  than a description that under-triggers. So there is no result here, not
-  a bad one. The 20-query eval set is written and sitting in
-  `evals/trigger-eval.json` for whenever there's quota.
+- **Trigger accuracy. Not measured, and not measurable here.** The
+  optimiser first died on API quota. When quota came back its evaluation
+  half ran fine and reported that not one of the twenty queries triggered
+  the skill, including a literal `/report tldr`. That looked like a
+  catastrophic description, so I checked whether the harness can report a
+  trigger at all: I pointed it at `dossier-report` and `create-mac-icon`,
+  both long-established, with queries written to match their own
+  descriptions almost word for word. **Both scored zero too.**
+
+  A harness that never reports a trigger for any skill cannot tell a good
+  description from a bad one, so there is no result here in either
+  direction. The 20-query eval set is in `evals/trigger-eval.json` and is
+  worth running wherever the harness works.
+
+  Recording this at length because it is the third time in this project a
+  gate has quietly reported nothing and it would have read as a finding.
+  Once as a false positive in the PDF checker, once as a grader that only
+  read HTML, and now this. The check that catches it every time is the
+  same: point the instrument at something whose answer you already know.
 - **Anything beyond one fixture.** Three tasks on one small repo, and the
   panel judged two rendered pairs. It tells you the contract holds and
   that two of three lenses prefer the output; it doesn't tell you either
