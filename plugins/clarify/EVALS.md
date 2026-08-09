@@ -109,7 +109,32 @@ Two evals were measuring nothing, and both were rebuilt rather than reinterprete
 
 A third defect turned up in the harness rather than the evals: the first run had no working-directory isolation, so an agent told to "set up the deploy config" wrote a `vercel.json` into the repository itself. Each arm now runs in its own copied fixture directory.
 
+## What has not been measured: whether it fires on its own
+
+Everything above tests what the skill does **once it is running**. None of it tests whether it starts.
+
+That matters more here than for most skills. This one is meant to fire unprompted, at the moment an agent is about to ask you something. If the description under-triggers, the skill does nothing in exactly the case it exists for, and every number above describes a thing that never ran.
+
+A trigger-optimisation run was attempted with skill-creator's `run_loop.py`: twenty realistic queries, ten that should fire the skill and ten near-misses that should not, split 12 train / 8 test, three runs per query. It was stopped after two of four iterations because it was producing no signal.
+
+| Iteration | Description | Train | Test | Recall |
+|---|---|---|---|---|
+| 1 | the shipped one | 18/36 | 12/24 | **0%** |
+| 2 | a full rewrite, trigger-conditions first | 18/36 | 12/24 | **0%** |
+
+Identical to the digit, on a completely different description. The skill fired on none of thirty positive runs, including `"stop guessing at what I want and just ask me"`, which is close to verbatim from the description it was tested against.
+
+**Read that as a broken measurement, not as a result about the skill.** When rewriting the variable under test changes nothing, the variable under test is not what is being measured. Two candidate causes, neither ruled out:
+
+- **The queries were not substantive enough.** skill-creator warns that Claude only consults a skill for work it cannot easily handle inline, so bare conversational lines are poor trigger tests. Most of the positives here were exactly that: *"before you write any of this, check with me"* has no *this* to write, so there is no task to reach for a skill about.
+- **The harness may not have exposed the skill to its test sessions at all**, in which case a 0% recall is a fact about the harness.
+
+What would settle it is the cheap thing rather than the expensive one: install the skill and use it for a week. Triggering is observable in ordinary work, and a real session carries the task context that a one-line eval query strips out.
+
+Until then, treat the trigger behaviour as unproven. The candidate rewrite from iteration 2 is kept in `references/evidence.md` rather than shipped, because adopting it would mean preferring one unmeasured description to another.
+
 ## Caveats
+
 
 - **Single runs.** Each eval ran once per arm per iteration. There's sampling noise in every cell, and one lint error either way isn't meaningful; the 5-vs-0 pattern is.
 - **Blind judges score content only.** They see two questions, nothing else. Everything committed to disk earns nothing there, by design.
