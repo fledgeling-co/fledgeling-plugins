@@ -99,6 +99,13 @@ Full protocol: `references/brand-and-docs.md`. In brief:
 - **Banner**: composed HTML (design-craft + ux-craft), the *real* icon
   beside a set wordmark, rendered at 2× retina. Never a generated image
   standing in for typography.
+- **Open both before shipping them.** Serve `audit.html` and read it; `Read`
+  the rendered banner and the icon at 256 and 32. A written file is not a
+  looked-at file, and a sheet whose `src` paths are wrong renders empty while
+  every step reports success. Where `create-mac-icon` is installed, gate the
+  sheet mechanically first with its `scripts/audit_sheet.py check <dir>`
+  (exit 0 required) and prefer routing the whole icon commission to it — it
+  carries the fidelity loop this phase otherwise does without.
 - **README + EVALS.md**: create-luke-content marketing persona, voice
   lint clean (the em-dash ban covers alt text and repo descriptions),
   written for a non-technical reader, with the comparison to the

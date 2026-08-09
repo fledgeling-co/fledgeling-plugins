@@ -110,6 +110,18 @@ aesthetic, the hardened three-engine icon pipeline with `audit.html`, the
 composed banner, the Luke-voice README and EVALS written for a
 non-technical reader, and the root-README row.
 
+**Route the icon to `create-mac-icon` when it is installed** — that skill owns
+the corpus catalogue, the three engines, the fidelity loop and the audit sheet,
+and it grew out of the pipeline `brand-and-docs.md` describes. Gate the result
+with its `scripts/audit_sheet.py check <assets-dir>` (exit 0 required), which
+resolves every image the sheet references and fails on unfilled placeholders —
+"the skill says to create an audit.html" has twice not been enough on its own.
+
+**Then open what you made.** Serve `audit.html` and read it; `Read` the banner
+PNG and the icon renders. Writing a file proves nothing about how it looks, and
+a contact sheet whose images 404 renders as an empty page that no script and no
+summary will ever mention. Ask each one *"what is wrong with this?"*
+
 ## Phase 6 — Ship
 
 Commit at checkpoints (brief agreed; skill built; evals graded; panel
