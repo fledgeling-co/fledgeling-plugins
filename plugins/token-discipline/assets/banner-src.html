@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  token-discipline README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  Subject-mined from the shipping icon rather than decorated to match it. The icon's whole
+  argument is a travel that ended at a line: the vermilion collar seated hard on the guide.
+  In the shipped raster that collar's centre sits at y = 0.503 of the tile, so at a 300px
+  icon placed with 110px of top margin it lands at y = 261. The banner's stop rule is drawn
+  at exactly that y and runs on to the right edge, and the wordmark sits hard on it. The
+  type stops where the shaft stopped. Any change to the icon crop or its placement must be
+  re-derived here, or the rule floats off the collar and the move is gone.
+
+  Everything above the rule is open porcelain: the travel not taken. That is the same claim
+  the block makes, which is why the banner is mostly empty and should stay that way.
+
+  Type is Archivo, a grotesque drawn for signage and small optical sizes, with the tight
+  apertures and flat terminals of a gauge face. No sibling in this marketplace uses it:
+  improve-skill has IBM Plex Sans, and the model's own default reaches (Inter, Space Grotesk)
+  are avoided on purpose.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background: #F6F2EA;
+    font-family: "Archivo", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* the cushion: the banner ground is itself softly extruded, like every tile in the set */
+  .cushion { position: absolute; inset: 0;
+             background:
+               radial-gradient(120% 150% at 50% 30%, #FFFDF9 0%, #F7F3EB 58%, #EDE7DB 100%); }
+  .vignette { position: absolute; inset: 0;
+              box-shadow: inset 0 0 180px rgba(138, 122, 94, .18); }
+
+  /* THE STOP. One rule, at the collar's exact y, running to the edge. */
+  .stop { position: absolute; left: 0; right: 0; top: 261px; height: 5px;
+          background: linear-gradient(90deg, #D8431F 0%, #E85028 62%, rgba(232,80,40,0) 100%); }
+  .stop-bloom { position: absolute; left: 0; right: 0; top: 249px; height: 30px;
+                background: linear-gradient(90deg, rgba(216,67,31,.16) 0%, rgba(216,67,31,.05) 55%, transparent 100%);
+                filter: blur(9px); }
+
+  .lockup { position: absolute; left: 128px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 92px; }
+  .icon { width: 300px; height: 300px; flex: none;
+          filter: drop-shadow(0 20px 40px rgba(110, 86, 54, .28)); }
+
+  .words { position: relative; }
+  /* the wordmark rests ON the rule: its baseline is the stop */
+  .wordmark { font-size: 104px; font-weight: 600; letter-spacing: -0.030em;
+              line-height: .86; color: #241F1A; }
+  .tagline { margin-top: 30px; font-size: 30px; font-weight: 400;
+             letter-spacing: .002em; color: #6A6055; }
+  .tagline b { font-weight: 500; color: #3C352D; }
+</style>
+</head>
+<body>
+  <div class="cushion"></div>
+  <div class="vignette"></div>
+  <div class="stop-bloom"></div>
+  <div class="stop"></div>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div class="words">
+      <div class="wordmark">token&#8203;-discipline</div>
+      <div class="tagline">Spend fewer tokens <b>without doing less work</b>.</div>
+    </div>
+  </div>
+</body>
+</html>

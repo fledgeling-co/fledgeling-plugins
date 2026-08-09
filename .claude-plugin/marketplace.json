@@ -127,6 +127,17 @@
       },
       "source": "./plugins/mac-doctor",
       "category": "development"
+    },
+    {
+      "name": "token-discipline",
+      "description": "Session-start operating defaults that cut token spend without cutting task success, tuned for Claude Opus 5 agentic coding. Ships a byte-stable 220-token block for the cached system prefix plus the measured evidence behind every clause, including a paired 106-task benchmark showing that caveman-style response compression cost 7.6 points of task score on Opus 5, with 78% of its apparent saving coming from the agent taking fewer steps rather than writing more tersely.",
+      "version": "4.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/token-discipline",
+      "category": "development"
     }
   ]
 }
