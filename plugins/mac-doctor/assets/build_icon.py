@@ -41,7 +41,10 @@ CX = CY = 512
 R = 292                 # ring radius
 W = 108                 # ring stroke
 GAP_MID = -55.0         # bisector of the gap, degrees, 0 = +x, y down
-GAP_HALF = 35.0         # half-width of the gap
+# Half-width of the gap. 35 made a 70 degree hole, which is 19% of the ring
+# empty; the machine this was built for was at 6% free. 25 is both truer and
+# more legible, because a smaller hole lets the freed wedge match its width.
+GAP_HALF = 25.0
 # Half-width of the freed wedge, and its lift along the bisector. These two
 # trade against each other and were swept rather than guessed, because both
 # failure modes look reasonable in isolation:
@@ -52,8 +55,8 @@ GAP_HALF = 35.0         # half-width of the gap
 # 19 / 88 keeps the pale track visible either side of the wedge while leaving
 # clear daylight between them. Note the round caps add (W/2)/R radians at each
 # end, 21.2 degrees in total, so the authored 38 degrees reads as about 59.
-WEDGE_HALF = 19.0
-WEDGE_LIFT = 88
+WEDGE_HALF = 24.0
+WEDGE_LIFT = 118
 SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
 
 # ---- material ---------------------------------------------------------------
