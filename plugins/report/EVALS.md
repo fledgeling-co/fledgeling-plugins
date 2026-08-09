@@ -237,6 +237,67 @@ arithmetic," even while the other judge marked the same care as the
 reason to trust it. Bounding the range is the right answer to that. Being
 vague to look decisive is not.
 
+### Round three: the one-pager, again
+
+Only the case that kept losing. Regenerated with the round-two fixes,
+same unchanged baseline, assignment re-randomised, fresh CTO-lens judge.
+
+**It lost again.** And one of my own fixes caused it.
+
+The ask itself is no longer the problem. The judge preferred this one's:
+"priced in hours and machine-minutes, explicitly sequenced, and it names
+what it needs from me (an owner and your yes)", against the rival's four
+cards of equal weight that "read as a menu, not an ask". Both picked the
+same cheapest-first action, so that rule holds.
+
+What killed it was the rule I added in round two saying the ask goes
+last. The sheet spilled to two pages and the ask opened page two.
+"Whoever reads only the sheet I was handed first never sees the ask."
+That is a real conflict between two good rules, and the resolution is
+now written down: **one page beats correct ordering.** If the sheet
+spills, the ask moves up rather than off.
+
+The methods fix half-worked in a way worth recording. The tooling
+narration was gone, and the same defect came back wearing
+evidence-gathering clothes: a sources header announcing "five files read
+in full, every figure recomputed from the raw counts", a footnote
+printing the `grep` command that was run, a read-date on every source.
+The judge read all of it as "the document describing its own
+evidence-gathering rather than describing ingest". Provenance belongs in
+the ledger, where it is inspectable. The page cites and stops.
+
+And a small one with a large effect: `./fixture` appeared in a sources
+line, and the reaction was "you analysed a fixture, not our repo?" A
+working path in a source label undercuts everything above it.
+
+### Three rounds in, what the recipient lens is actually telling me
+
+Recipient lens across all rounds: **1 win, 4 losses.** Editorial and
+design: 4 out of 4. That is a consistent enough split to stop treating as
+noise and start treating as the finding.
+
+This lens rewards a confident, compact memo and penalises visible
+epistemic apparatus, even where the apparatus is what makes the document
+correct. The clearest evidence is that the winning baseline carries an
+overclaim that **three separate judges have now independently flagged**:
+a hero tile reading "LOSS BEGINS AT 3,000/s", which its own chart caption
+contradicts eight centimetres below, and which 3,000/s does not support
+because it is merely the lowest rate anyone sampled. Every one of those
+judges called it the sentence a CTO would repeat to a board and be wrong
+about. It won anyway, three times.
+
+So the honest reading is not "the skill loses to a better document". It
+is that a decision-maker skimming for sixty seconds will take a clean
+wrong number over a careful bounded one, and that this skill is built to
+refuse that trade. Bounding a range, marking an inference and citing a
+line are what a reader needs six months later when someone asks where a
+figure came from. They cost something at the sixty-second mark, and the
+right response is to make them cheaper to read, not to drop them.
+
+What is fixed is everything that cost nothing: the ask, its pricing, its
+placement, the provenance narration, the path leak. What is not fixed,
+and should not be, is the apparatus itself.
+
 ## What it costs
 
 All three tasks, measured:
@@ -303,10 +364,12 @@ available, or it turns into a rule that quietly gets dropped.
   panel judged two rendered pairs. It tells you the contract holds and
   that two of three lenses prefer the output; it doesn't tell you either
   holds on a codebase fifty times the size.
-- **Whether round two's fixes work.** The round-one fixes were re-judged
-  and the results are above. Round two's three (the ask carrying the
-  cheapest action, the ask going last, the methods note serving the
-  reader) are applied and unjudged.
+- **Whether round three's fixes work.** Rounds one and two were both
+  re-judged and the results are above. Round three's three (one page
+  beats ask-goes-last, no evidence-gathering narration, no working paths
+  in source labels) are applied and unjudged. I stopped there: three
+  rounds established a stable pattern, and a fourth would be tuning one
+  fixture rather than learning anything new.
 
 ## Running it yourself
 
