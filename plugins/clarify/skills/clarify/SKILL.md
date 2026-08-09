@@ -10,8 +10,11 @@ description: >
   earlier agent output before asking anything, kills questions whose answer would not change
   the work, then emits a single batched AskUserQuestion — plain wording, a marked
   recommendation with its reason, options described by what changes if chosen — and treats any
-  note the user attaches to an answer as binding. Not for routine judgment calls you should
-  make yourself, and not a substitute for investigating first.
+  note the user attaches to an answer as binding. Routes technical questions to a second model
+  first (fable-5, or gpt-5.6-sol via the Codex CLI for a different family) so what reaches the
+  user is taste, cost, scope and risk rather than something another model could have settled.
+  Not for routine judgment calls you should make yourself, and not a substitute for
+  investigating first.
 license: MIT
 ---
 
@@ -25,7 +28,7 @@ So this is two jobs, and they fail differently:
 
 | Job | The failure it prevents |
 | --- | --- |
-| **The gate** — should this be a question at all? | Interrupting for something already on disk, something that changes nothing, or something you were supposed to decide |
+| **The gate** — should this be a question at all? | Interrupting for something already on disk, something that changes nothing, something you were supposed to decide, or something another model could have settled |
 | **The craft** — what does the question look like? | A question that costs more to answer than to ignore |
 | **The handling** — what happens to the answer? | Reading the option label and discarding the note attached to it |
 
@@ -72,6 +75,47 @@ one option is standard and nothing in the project contradicts it.
 *their* system or preference that is not written down anywhere you can reach.
 
 If you are unsure, ask which way the mistake is cheaper to undo. Cheap to undo is yours.
+
+### 4. Could another model settle it instead?
+
+The question has survived three gates, so it is real. Before it reaches the user, ask what
+kind of question it is. A **technical** one — which library, which architecture, whether this
+approach has a flaw, which of two designs holds up — is a question about the world, and the
+user is not the only thing in the world that can answer it. A question about *their* taste,
+budget, priorities or systems is not, and no model can stand in for them.
+
+For the technical kind, get a second opinion and then decide. Two lanes, both verified:
+
+```bash
+# A different Claude — fast, no cost beyond the subscription
+claude --model claude-fable-5 --effort high -p "<the question, plus the evidence>"
+
+# A different model FAMILY — the point when everything else is Claude checking Claude
+perl -e 'alarm shift @ARGV; exec @ARGV' 600 \
+  codex exec -m gpt-5.6-sol -c model_reasoning_effort="high" \
+  -s read-only -o /tmp/second-opinion.md "<prompt>" < /dev/null \
+  > /tmp/second-opinion.log 2>&1
+grep -qx "model: gpt-5.6-sol"    /tmp/second-opinion.log || echo "WRONG-MODEL — lane failed"
+grep -qx "reasoning effort: high" /tmp/second-opinion.log || echo "WRONG-EFFORT — lane failed"
+```
+
+Four rules make this worth doing rather than theatre:
+
+- **Send the evidence, not the question.** A model asked "should we use Clerk or WorkOS?" gives
+  you the blog-post answer. One given the auth requirements, the existing session handling, and
+  the constraint that nobody can reach App Store Connect gives you a verdict on *this* codebase.
+- **Reach for codex when independence is the thing you need**, and fable when speed is. Codex is
+  a different family, so it does not share the blind spot — that is its whole value as an oracle.
+- **Verify the lane ran.** The header lines above are the evidence, not the command you typed;
+  launch parameters have been observed not to stick. An absent or empty `-o` file is a lane
+  failure, not a quiet pass. A failed lane means you decide alone, and say so.
+- **You still decide.** A second opinion is an input, not a verdict, and you are the one holding
+  the repo context. When it changes your mind, say so in a clause; when you overrule it, say that
+  too. Consulting two models and forwarding both answers to the user is the same abdication as
+  asking, with extra latency.
+
+What survives all four gates is what actually reaches the user: taste, cost, scope, risk, and
+their own systems. Those are the higher-level questions, and they are worth interrupting for.
 
 ### The override: unrecoverable beats routine
 
