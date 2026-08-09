@@ -1,6 +1,6 @@
 import { generateObject } from "ai";
 import { z } from "zod";
-import { MODELS, hasCredentials, resolveModel } from "@/lib/ai";
+import { EFFORT, MODELS, hasCredentials, resolveModel } from "@/lib/ai";
 import { callerKey, check } from "@/lib/rate-limit";
 import { getSkills } from "@/lib/skills";
 
@@ -36,7 +36,11 @@ const Answer = z.object({
           ),
       }),
     )
-    .max(MAX_MATCHES),
+    .max(MAX_MATCHES)
+    // Defaulted, not required: a model that has nothing to say for a field
+    // legitimately omits it, and a required-but-empty array turns an honest
+    // "nothing fits" answer into a schema failure and a 502.
+    .default([]),
   alsoConsider: z
     .array(
       z.object({
@@ -44,7 +48,8 @@ const Answer = z.object({
         why: z.string().describe("One short clause on why it pairs with the matches above."),
       }),
     )
-    .max(2),
+    .max(2)
+    .default([]),
   noMatch: z
     .string()
     .describe("Set only when nothing in the catalogue fits; say so plainly in one sentence.")
@@ -52,8 +57,12 @@ const Answer = z.object({
 });
 
 /**
- * The catalogue, rendered once per process. Sent as its own system message with a
- * cache breakpoint, so the marginal cost of a query is the query plus the answer.
+ * The catalogue, rendered once per process and sent as its own system message.
+ *
+ * It is byte-identical on every request and sits at the head of the prompt, which
+ * is the shape OpenAI's automatic prompt caching keys on — no explicit cache
+ * breakpoint to place, and none available for this provider. That is what keeps
+ * the marginal cost of a public query close to the query plus the answer.
  */
 let catalogueBlock: string | null = null;
 
@@ -131,18 +140,13 @@ export async function POST(request: Request) {
       model: resolveModel(MODELS.search),
       schema: Answer,
       // AI SDK v7 takes system content through `instructions`, not in `messages`.
-      // An array of system messages is how a cache breakpoint gets placed: the
-      // catalogue is identical on every request, and caching it is what keeps a
-      // public search endpoint cheap.
+      // The catalogue goes first and alone so the cacheable prefix is stable.
       instructions: [
-        {
-          role: "system",
-          content: catalogue(),
-          providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
-        },
+        { role: "system", content: catalogue() },
         { role: "system", content: INSTRUCTIONS },
       ],
       messages: [{ role: "user", content: `QUERY: ${query}` }],
+      providerOptions: { openai: { reasoningEffort: EFFORT.search } },
     });
 
     // Second gate. The schema constrains the shape; this constrains the content

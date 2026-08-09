@@ -1,34 +1,34 @@
 import "server-only";
-import { anthropic } from "@ai-sdk/anthropic";
 
 /**
  * Model wiring for the search lane.
  *
- * Model IDs live in one object so a swap is one line. A `provider/model` string
- * routes through Vercel AI Gateway when a gateway credential is present; without
- * one it falls back to the direct Anthropic API, where the version separator is a
- * dash rather than a dot.
+ * Model IDs live in one object so a swap is one line. The `provider/model`
+ * string form routes through Vercel AI Gateway, which is the only path this
+ * lane uses — there is no direct-provider fallback, because a credential for
+ * one provider cannot serve a model from another and a silent wrong-provider
+ * call is worse than an honest 503.
  */
 
 export const MODELS = {
   /** Search ranking: small, fast, and cheap enough to sit on a public URL. */
-  search: "anthropic/claude-haiku-4.5",
+  search: "openai/gpt-5.6-luna",
 } as const;
 
-/** Direct-API ids, which are dated and cannot be derived from the gateway id. */
-const DIRECT_IDS: Record<string, string> = {
-  "anthropic/claude-haiku-4.5": "claude-haiku-4-5-20251001",
-};
+/** Reasoning effort per call. Ranking sixteen items against one query is a
+ *  shallow task; more thinking buys nothing and costs latency on every query. */
+export const EFFORT = {
+  search: "low",
+} as const;
 
 export function hasCredentials(): boolean {
-  return Boolean(
-    process.env.AI_GATEWAY_API_KEY ||
-      process.env.VERCEL_OIDC_TOKEN ||
-      process.env.ANTHROPIC_API_KEY,
-  );
+  return Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN);
 }
 
-export function resolveModel(id: string) {
-  if (process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN) return id;
-  return anthropic(DIRECT_IDS[id] ?? id.replace(/^anthropic\//, "").replace(/\./g, "-"));
+/**
+ * The gateway takes the `provider/model` string directly. Returning it unchanged
+ * keeps the model id the single thing that changes when the model changes.
+ */
+export function resolveModel(id: string): string {
+  return id;
 }

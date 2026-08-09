@@ -2,7 +2,7 @@
   "name": "fledgeling-skills-site",
   "version": "0.1.0",
   "private": true,
-  "description": "skills.fledgeling.app \u2014 searchable directory for the fledgeling-plugins marketplace",
+  "description": "skills.fledgeling.app — searchable directory for the fledgeling-plugins marketplace",
   "type": "module",
   "engines": {
     "node": ">=20.9.0"
@@ -18,7 +18,6 @@
     "embeddings": "node scripts/build-embeddings.mjs"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "latest",
     "ai": "^7",
     "next": "latest",
     "react": "latest",
