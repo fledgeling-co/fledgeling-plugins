@@ -100,11 +100,52 @@ single-family panel reporting 11 to 2 would have overstated the effect.
 Bundles, the withheld key, the raw verdicts and the scorer are in `docs/blind-panel/` and `evals/`
 so the whole thing can be re-run or disputed.
 
+## The arm landed, and it is a split result
+
+106 paired tasks, one sample each against the baseline's two-sample window.
+
+| | baseline | caveman | discipline v4 |
+| --- | --- | --- | --- |
+| Task score | 63.3% | 55.7% | **61.6%** |
+| Direction vs baseline | | 48 worse / 15 better, p < 0.0001 | **32 worse / 30 better, p = 0.90** |
+| Cost | $229.02 | $152.34 | **$303.77** |
+| Steps per task | 24.5 | 16.5 | 21.6 |
+
+**The score regression is gone.** Caveman cost 7.61 points with a sign test at p < 0.0001. v4 sits
+1.73 points below baseline at 32 worse against 30 better, p = 0.90, which is indistinguishable from
+no difference. On the thing this rebuild was for, the work floor did its job: the block no longer
+buys its saving by making the agent investigate less, and steps per task fell 12% rather than 33%.
+
+**And it did not save anything. It cost 32.6% more than running no block at all.** That is the
+opposite of the point, and it is the headline for anyone deciding whether to switch this on.
+
+Three readings, and this measurement cannot separate them.
+
+1. **Clause 6 may be doing too much.** "Take the steps the task needs" protects investigation, and
+   protecting investigation costs money. A clause written to stop the model doing less can push it
+   into doing more.
+2. **The one-sample window inflates the sum.** Baseline cost is a mean over two samples per task, so
+   an unlucky expensive run is halved; v4's is a single draw, so one 40-minute task lands at full
+   weight. With per-task costs ranging past $5, that alone could account for much of a 33% gap. The
+   two arms are not on equal footing for cost, and the score comparison is the part this run
+   supports properly.
+3. **The block's own token overhead is about 220 tokens per turn**, far too small to explain the gap.
+
+**What this changes.** The claim "spend fewer tokens without doing less work" is now half-supported.
+The second half is measured and holds. The first half is not supported by this run and is
+contradicted by it, so until a two-sample cost arm exists the block should be described as removing
+caveman's quality regression rather than as a saving.
+
+The regression this project set out to fix is fixed. The benefit it was supposed to deliver is not
+demonstrated.
+
 ## What is not yet measured
 
-**Whether v4 beats v3, or beats nothing at all.** The work-floor clause is an argument from the
-numbers above, not a result. A third arm is running as this ships; until it lands, the honest
-statement is that the diagnosis is measured and the fix is reasoned.
+**Whether v4 beats v3.** The arm above compares v4 against no block, not against v3. Nothing here
+says the work-floor clause improves on the block that preceded it.
+
+**Whether v4 saves anything.** It did not on this run. A cost claim needs a two-sample arm measured
+on the same footing as the baseline.
 
 **Whether the block's saving exceeds its own cost on real traffic.** The right measurement is total
 session tokens including cache misses, never this-turn output length. A preamble can always be tuned
