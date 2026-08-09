@@ -1,0 +1,125 @@
+ /* Stacked, not two columns. A skill with one example prompt puts a 107px
+    block beside a 432px one, which is 325px of void the eye reads as a missing
+    element — and the mono output wants the full width anyway. */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 82%, var(--color-paper));
+}
+
+/* -------------------------------------------------------------- prompts -- */
+.prompts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.promptList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  padding: 0;
+  margin-top: 2px;
+  list-style: none;
+}
+
+/* Quoted, because these are things a person says — not commands they run. The
+   mono face would make them read as syntax you have to get right. */
+.prompt {
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.prompt::before {
+  content: "“";
+  color: color-mix(in oklab, var(--color-muted) 70%, var(--color-paper));
+}
+
+.prompt::after {
+  content: "”";
+  color: color-mix(in oklab, var(--color-muted) 70%, var(--color-paper));
+}
+
+.promptNote {
+  margin-top: var(--space-2xs);
+  max-width: 68ch;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+/* -------------------------------------------------------------- example -- */
+ /* The output is authored at ~60 characters a line, so the block hugs its
+    content rather than stretching to the container and leaving the same void
+    inside itself that stacking just removed from beside it. */
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.exampleHead {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* The marker. Stated once, in full words, above the thing it qualifies —
+   a caveat repeated on every line stops being read, which is the failure the
+   caveat was inserted to prevent. */
+.illustrative {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--color-muted);
+  max-width: 52ch;
+}
+
+.examplePrompt {
+  display: flex;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: 10px 10px 0 0;
+  background: color-mix(in oklab, var(--color-ink) 6%, var(--color-code-bg));
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.exampleCaret {
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+}
+
+.exampleOutput {
+  margin-top: -1px;
+  padding: var(--space-sm);
+  border-radius: 0 0 10px 10px;
+  background: var(--color-code-bg);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--color-ink);
+  white-space: pre;
+  overflow-x: auto;
+  font-variant-numeric: tabular-nums;
+  scrollbar-width: thin;
+}

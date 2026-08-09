@@ -49,6 +49,32 @@ Two things to verify before committing, because both fail silently:
   anything executable. A script committed 644 fails at runtime for everyone who
   installs it, though it works fine on the machine that wrote it.
 
+The first of those now has a second net: `site/scripts/build-catalogue.mjs` runs
+before every site build and **exits non-zero** on a missing icon, a missing
+SKILL.md, or a version that disagrees between `plugin.json` and
+`marketplace.json`. It does not run on a plain `git commit`, so the README check
+above still matters — but a broken plugin can no longer reach production.
+
+## The site indexes this repo — there is no fifth registration
+
+`site/` is a Next.js app deployed to **skills.fledgeling.app** (its own Vercel
+project, Root Directory `site`). It builds its catalogue from
+`.claude-plugin/marketplace.json` plus each plugin's `plugin.json`, `SKILL.md`,
+`README.md` and icon, at build time. A new plugin that lands in the four places
+above appears on the site automatically on the next deploy; nothing there needs
+editing by hand.
+
+Two things in `site/` are hand-maintained, and both degrade quietly rather than
+breaking when a new plugin arrives:
+
+- `site/scripts/build-catalogue.mjs` → `GROUP_OF`, which places each plugin on
+  the browse axis. An unlisted plugin lands under "Uncategorised" and warns.
+- `site/content/examples.ts`, the only content on the site not extracted from the
+  repo: a representative sample output per skill, rendered with a visible
+  "illustrative, not captured from a run" marker. A plugin with no entry simply
+  renders no example. Do not add one whose claims are not traceable to that
+  skill's own documentation.
+
 Icons follow the family: squircle silhouette from
 `plugins/create-mac-icon/assets/squircle-path.txt`, one metaphor, restrained
 palette, one warm accent. Sizes are 1024 (`icon.png`), 256 and 128. Keep the

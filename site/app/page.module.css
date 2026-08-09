@@ -1,0 +1,94 @@
+.hero {
+  padding-block: clamp(48px, 7vw, 88px) clamp(40px, 6vw, 72px);
+}
+
+.eyebrow {
+  text-align: center;
+}
+
+.title {
+  margin: var(--space-sm) auto 0;
+  max-width: 17ch;
+  text-align: center;
+  font-size: clamp(2.3rem, 1.4rem + 3.6vw, 3.9rem);
+  font-weight: 600;
+}
+
+.lede {
+  margin: var(--space-md) auto 0;
+  max-width: 60ch;
+  text-align: center;
+}
+
+.search {
+  margin-top: clamp(32px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 48px);
+}
+
+/* -------------------------------------------------------------- installing -- */
+.install {
+  margin-top: var(--space-3xl);
+  padding-block: clamp(40px, 5vw, 64px);
+  border-top: 1px solid var(--color-hairline);
+  background: color-mix(in oklab, var(--color-paper) 55%, #fff);
+}
+
+.installInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+@media (max-width: 780px) {
+  .installInner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.installCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.installTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.installBody {
+  max-width: 46ch;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.installLink {
+  align-self: start;
+  margin-top: var(--space-2xs);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 32%, transparent);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 160ms ease;
+}
+
+.installLink:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.installCommands {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
