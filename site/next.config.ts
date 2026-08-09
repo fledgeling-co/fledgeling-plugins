@@ -22,14 +22,18 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
-  // Deliberately no `outputFileTracingRoot`. The build reads ../plugins, but
-  // only in the prebuild step — the app itself imports a generated JSON and
-  // touches nothing outside site/ at runtime. Pointing the tracing root at the
-  // repo relocates next-server.js.nft.json, and Vercel's onBuildComplete then
-  // fails on a file it cannot find, after an otherwise clean build.
+  // Two Next options are deliberately NOT set here. Both were present when the
+  // Vercel build died in onBuildComplete on a missing next-server.js.nft.json,
+  // after an otherwise clean build that rendered all 23 pages:
+  //
+  //   output: "standalone"   Vercel runs its own file-tracing step and owns that
+  //                          manifest; standalone is for containerised
+  //                          self-hosting and is documented as unnecessary here.
+  //   outputFileTracingRoot  only the prebuild step reads outside site/, and the
+  //                          app imports a generated JSON at runtime, so there
+  //                          is nothing outside to trace.
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
