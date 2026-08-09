@@ -1,0 +1,270 @@
+.card {
+  position: relative;
+  display: grid;
+  /* An undeclared column sizes to max-content and is NOT clamped by the card's
+     own width, so a long skill name pushes every child past the card edge and
+     the page scrolls sideways at 390px. minmax(0, 1fr) is the floor that stops
+     it — `1fr` alone is `minmax(auto, 1fr)`, and `auto` floors at min-content. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  /* Cards sit on equal-height rows, but their content starts at the top rather
+     than stretching to fill. A pinned footer on a short card opens a hole in the
+     middle that reads as a missing element. */
+  align-content: start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--site-surface);
+  /* Depth is paper on paper: a hairline, never a drop shadow. */
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  transition:
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+}
+
+.card:hover {
+  background: color-mix(in oklab, var(--color-paper) 30%, #fff);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 22%, transparent);
+}
+
+.card:focus-within {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-accent) 55%, var(--color-hairline));
+}
+
+/* --------------------------------------------------------------- header -- */
+.head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-sm);
+}
+
+.icon {
+  /* App icons carry the one shadow recipe the system allows. */
+  border-radius: 26%;
+  box-shadow:
+    0 1px 2px rgba(38, 35, 30, 0.14),
+    0 6px 14px rgba(38, 35, 30, 0.1);
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+/* The whole card is the link. The overlay must belong to the <a>, not to the
+   <h3> around it: an ::after on the heading covers the card and swallows the
+   click without being a link, so everything except the title text becomes dead
+   — worse than having no overlay, because the card still looks clickable. */
+.name a {
+  cursor: pointer;
+}
+
+.name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.metaDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--color-muted) 55%, transparent);
+}
+
+/* ----------------------------------------------------------------- body -- */
+.blurb {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-muted);
+  text-wrap: pretty;
+  /* Blurbs run 200–840 characters. Cards sit on equal-height grid rows, so the
+     text is clamped rather than allowed to set the row — and clamped in the
+     body, never into the heading. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+/* -------------------------------------------------------------- boundary -- */
+/* The skill's own "NOT for X (use Y)" clause. It is a scope fact, not a hazard,
+   so it reads as a spec line — muted, hairline-separated, no colour, no icon.
+   Anything red or boxed here would tell the visitor to be careful when what it
+   actually says is "this is the neighbouring tool's job". */
+.boundary {
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--color-hairline);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.boundaryLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 78%, var(--color-paper));
+}
+
+.boundaryText {
+  display: block;
+  margin-top: 3px;
+}
+
+/* A referral to a skill that is not in this marketplace. Saying so here is the
+   difference between a helpful pointer and sending someone to install something
+   that cannot be installed from this page. */
+.elsewhere {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: color-mix(in oklab, var(--color-muted) 80%, var(--color-paper));
+}
+
+/* -------------------------------------------------------------- signals -- */
+.signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.signal {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding: 3px 9px;
+  border-radius: var(--radius-chip);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ AI reason -- */
+/* Marked so it can never be mistaken for the authored blurb: its own rule, its
+   own label, its own colour. This is the one place besides the hero headline
+   where the accent is spent on this page. */
+.reason {
+  margin: 0;
+  padding: var(--space-xs) 0 var(--space-xs) var(--space-sm);
+  box-shadow: inset 2px 0 0 0 var(--color-accent);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.reasonLabel {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* --------------------------------------------------------------- compact -- */
+/* Below the promotion line. Still present, still a real link, still readable —
+   the roster never hides a skill, it only changes how much room it takes. */
+.compact {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px transparent;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.compact:hover {
+  background: color-mix(in oklab, var(--color-ink) 4%, transparent);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
+}
+
+.compactIcon {
+  border-radius: 26%;
+  opacity: 0.75;
+}
+
+.compactBody {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.compactName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.compactName a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+
+.compactBlurb {
+  font-size: 13.5px;
+  color: var(--color-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compactGroup {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-muted) 75%, var(--color-paper));
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .compactBlurb {
+    display: none;
+  }
+}

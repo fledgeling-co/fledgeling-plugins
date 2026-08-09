@@ -1,0 +1,59 @@
+/* Fledgeling design tokens — VENDORED, do not edit by hand.
+ *
+ * Source of truth: fledgeling-app/packages/design-tokens/src/tokens.ts, generated
+ * to packages/design-tokens/tokens.css. Copied here rather than shared because
+ * that package is in another repo and this file is 60 stable lines; publishing a
+ * package across two repos to share them would cost more than it saves.
+ *
+ * Only the umbrella (`fledgeling`) theme is carried over. The four product themes
+ * (typewright / lattice / lectern / gridmd) are omitted — this site is one
+ * surface with one accent, and an unused theme block is a thing that silently
+ * drifts. If a product theme is ever needed here, copy it from upstream whole.
+ *
+ * Last synced: 2026-08-10 against tokens.css @ fledgeling-app main.
+ */
+
+:root {
+  /* Type families (wired to next/font CSS variables in app/layout.tsx). */
+  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-instrument-sans), system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SF Mono", Menlo,
+    monospace;
+
+  /* Corner radii. */
+  --radius-window: 14px;
+  --radius-card: 12px;
+  --radius-chip: 999px;
+  --radius-pill: 999px;
+
+  /* Spacing scale. */
+  --space-3xs: 4px;
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 128px;
+
+  /* Fledgeling umbrella brand. Never pure #FFF, never pure #000. */
+  --color-paper: #f5f3ef;
+  --color-ink: #24221e;
+  --color-muted: #6b665d;
+  --color-hairline: rgba(36, 34, 30, 0.12);
+  --color-accent: #c4622d;
+  --color-accent-soft: #f1e4d7;
+  --color-accent-deep: #a44e20;
+  --color-code-bg: #edeae3;
+  --color-brand: #26231e;
+  --color-brand-ink: #f5f3ef;
+  --section: 128px;
+
+  /* Site-local additions. Not upstream — everything below is this site's own,
+   * and is named so a future sync can tell it apart from the vendored block. */
+  --site-container: 1120px;
+  --site-surface: color-mix(in oklab, var(--color-paper) 55%, #fff);
+}
