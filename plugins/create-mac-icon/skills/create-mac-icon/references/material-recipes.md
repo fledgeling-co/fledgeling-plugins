@@ -340,3 +340,37 @@ by 0.024.
   its contact shadows more than its gradients; adding two small blurred
   ellipses under the front elements closed most of the perceived gap.
   Lesson: *contact shadows are the highest ratio-of-effect-to-bytes layer.*
+
+## Ring / annulus edge catch (mac-doctor, 2026-08)
+
+A stroked ring lit from a single top source catches light in two places, and a
+master that authors neither reads flat no matter how good its body gradient is.
+
+The failure this replaces: authoring the rim as a **displaced copy** of the arc,
+a narrower stroke of the same path translated upward. It produces no visible
+edge, because the displaced copy sits *inside* the stroke width rather than
+along its boundary.
+
+The construction. Two concentric strokes at the annulus boundaries:
+
+```
+outer catch:  arc at radius R + W/2 - 5,  stroke-width ~9
+inner bounce: arc at radius R - W/2 + 6,  stroke-width ~7
+```
+
+Each carries a vertical gradient that fades as the curve turns away from the
+light, so the catch dies out rather than ringing the whole circle:
+
+```
+outer:  #C9D2E2 at 0.90 -> 0.22 by 38% -> 0 by 75%
+inner:  weaker and inverted (y1=1 -> y2=0), #93A0B8 at 0.55 -> 0
+```
+
+The inner line is the bounce off the ring's own concave face, so it is always
+weaker than the outer catch and starts from the opposite end of the gradient.
+Both are drawn outside the drop-shadow filter group; inside it they get blurred
+into the shadow and disappear.
+
+Confirmed against a GPT Image 2 raster take that won the material judgment: the
+gap between master and raster was mostly this, plus a cooler body (sampled
+(60,81,110) against (75,85,99)).

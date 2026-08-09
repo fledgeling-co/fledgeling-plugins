@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mac-doctor icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>mac-doctor icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Instrument Emblem in the Tahoe gel porcelain register: capacity arc with a freed wedge" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables. Mask discipline correct: authored against the family superellipse from create-mac-icon/assets/squircle-path.txt, no baked corners. Silhouette names the subject as a filled solid, and at 16px the ring, its gap and the freed wedge all still read as three distinct marks. Ground values sampled from the family's own icons (#FDFDFC to #EDE9DF warm porcelain) rather than from Apple's cooler #FEFFFF to #DFE3EB, because family consistency outranks the platform sample here. Round two added concentric edge catches, outer top and inner bounce, after C showed the master was flat: the first take used a displaced copy of the arc, which produced no visible edge at all. Loses one point on 11 (personality): the device is a ring gauge, which is a legible but not a surprising mark.</td>
+  </tr>
+  <tr>
+    <td class="take fail">C · icon-engineC-raster.png<small>GPT Image 2, corpus-referenced raster — material target, not shipped</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">Wins the material read outright and lost on everything structural. Genuine gel: volumetric body, strong rim, authored translucency, the richest of the three. But it fails check 1 by baking its own dark rounded-square frame inside the tile, which survives the squircle mask as a black border, and it changed the concept: the freed wedge became a solid triangle, so the mark reads as a play button beside a ring rather than a segment lifted out of a gauge. A stray dark horizontal band across the middle is bleed from the reference captures' backgrounds. Salvaged into A rather than converged on, per the rule that the rubric outranks the gate: the concentric edge catches and a bluer graphite body (sampled 60,81,110 against the master's 75,85,99).</td>
+  </tr>
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Real vector and cleanly editable, but the geometry is wrong in the way that matters. The ring is nearly complete with only a small notch, so it does not read as a gauge that is nearly full, which is the entire concept. A second stray arc sits at the lower right with a visible seam. The ground is flat with no vignette or rim light, so the tile reads as a print rather than a cushion, and it supplies its own rounded-rectangle corners instead of the family superellipse. Nothing salvaged.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take passing checks 1 to 4 on real renders. This is a decorative marketplace mark rather than an Icon Composer package, so the material belongs in the file; nothing downstream will apply glass a second time. Material provenance is explicit: the ground and the gel falloff were sampled from the family icons and the Apple corpus, and the edge treatment was rebuilt from take C after C won the material judgment. Known liabilities to revisit: the master is still less volumetric than C at 1024, and closing that gap properly means a bounded fidelity run against a raster whose composition is corrected first, since converging on the current C would import its baked frame. Check 10, variant robustness, is untested; the mark has not been rendered against Dark, Clear or Tinted grounds, and a warm porcelain ground is exactly the kind that can collapse under Tinted. The ring gauge is legible but conventional, which is where the one lost rubric point sits.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, `sips -Z` for rasters.</div>
+</body>
+</html>
