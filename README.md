@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="14 skills" src="https://img.shields.io/badge/skills-14-C4622D">
+  <img alt="15 skills" src="https://img.shields.io/badge/skills-15-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -137,6 +137,14 @@ Drop a short block at the top of a session and Claude spends less without doing 
 ### [loop-harness](plugins/loop-harness/README.md)
 
 A loop can tick on schedule for a full day and accomplish nothing, because since v2.1.196 a scheduled fire hands any skill Claude may not invoke itself to the run as plain text, `/verify` and `/code-review` included, with no error anywhere. The other half is that a dynamic loop has no visible process, so a working one and a dead one look identical. This picks the mechanism before it writes anything (an event monitor usually beats polling, and work with a finish line belongs to goal-harness instead), size-checks `.claude/loop.md` against its 25,000-byte cap, and arms the wake signal with a heartbeat, a renewal reminder before the seven-day expiry, and a ledger you can read without interrupting the run.
+
+<br clear="left" />
+
+<a href="plugins/report/README.md"><img src="plugins/report/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [report](plugins/report/README.md)
+
+A session works something out over two hours, you ask for the write-up, and what comes back reads well and can't be checked. Three different things leave a session looking identical on the page: a number that was measured, one read off a single sample, and one worked out from two other facts. This compiles the session's own evidence trail into a claim ledger before it designs anything, so the page is generated from the ledger rather than cited afterwards, and reasoning renders visibly as reasoning. One self-contained HTML file that paginates to a real A4 PDF with the motion stripped out, plus a one-page TLDR derived from the same ledger so the two can't disagree. Its own blind panel went 4-2 for it and told it what it was missing: an ask.
 
 <br clear="left" />
 
