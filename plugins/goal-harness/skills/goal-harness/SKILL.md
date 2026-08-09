@@ -23,6 +23,7 @@ where two readings would produce materially different goals.
 
 `references/mechanics.md` is the ground truth for every claim above.
 `references/failure-modes.md` maps each observed failure to its fix.
+`references/presets.md` carries the two recipes people type most often.
 
 ## Protocol
 

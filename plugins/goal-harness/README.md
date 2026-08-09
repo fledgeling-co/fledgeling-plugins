@@ -119,6 +119,7 @@ skills/goal-harness/
     mechanics.md         how /goal actually works, with the binary and doc citations
     failure-modes.md     twelve observed failures, each mapped to its fix
     condition-craft.md   writing the <=4,000-character condition, with a worked example
+    presets.md           the two recipes people type most often, and the originals
     templates.md         the brief, the state file, the ledger, the settings block
   scripts/
     preflight.sh         the six checks; read-only, exits 1 if anything blocks
