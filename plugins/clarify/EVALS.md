@@ -109,29 +109,43 @@ Two evals were measuring nothing, and both were rebuilt rather than reinterprete
 
 A third defect turned up in the harness rather than the evals: the first run had no working-directory isolation, so an agent told to "set up the deploy config" wrote a `vercel.json` into the repository itself. Each arm now runs in its own copied fixture directory.
 
-## What has not been measured: whether it fires on its own
+## Does it fire on its own?
 
-Everything above tests what the skill does **once it is running**. None of it tests whether it starts.
+Everything above tests what the skill does once it is running. This tests whether it starts, which for a skill meant to fire unprompted is the question the rest depends on.
 
-That matters more here than for most skills. This one is meant to fire unprompted, at the moment an agent is about to ask you something. If the description under-triggers, the skill does nothing in exactly the case it exists for, and every number above describes a thing that never ran.
+It took three attempts, and the first two failed for the same reason.
 
-A trigger-optimisation run was attempted with skill-creator's `run_loop.py`: twenty realistic queries, ten that should fire the skill and ten near-misses that should not, split 12 train / 8 test, three runs per query. It was stopped after two of four iterations because it was producing no signal.
+**Attempt 1, skill-creator's `run_loop.py`.** Twenty queries, ten positive and ten near-miss, three runs each. Iteration 1 on the shipped description: 18/36 train, 12/24 test, 0% recall. Iteration 2 on a complete rewrite: identical to the digit. Stopped after two of four iterations, because rewriting the variable under test and getting the same number means the variable under test is not what is being measured.
 
-| Iteration | Description | Train | Test | Recall |
-|---|---|---|---|---|
-| 1 | the shipped one | 18/36 | 12/24 | **0%** |
-| 2 | a full rewrite, trigger-conditions first | 18/36 | 12/24 | **0%** |
+**Attempt 2.** A substantive-sounding prompt, in a directory containing only the skill. It did not fire, and the run said exactly why:
 
-Identical to the digit, on a completely different description. The skill fired on none of thirty positive runs, including `"stop guessing at what I want and just ask me"`, which is close to verbatim from the description it was tested against.
+> There is no app here. "This app" in the prompt has no referent, so there is nothing to add offline support *to*. I also didn't ask you a clarifying question about offline strategy, deliberately. Any such question would have taken the missing app as given and made the premise look confirmed.
 
-**Read that as a broken measurement, not as a result about the skill.** When rewriting the variable under test changes nothing, the variable under test is not what is being measured. Two candidate causes, neither ruled out:
+That is the gate behaving correctly on an empty room, and it is the same flaw as attempt 1: skill-creator warns that Claude only consults a skill for work it cannot do inline, so a prompt with nothing behind it tests nothing.
 
-- **The queries were not substantive enough.** skill-creator warns that Claude only consults a skill for work it cannot easily handle inline, so bare conversational lines are poor trigger tests. Most of the positives here were exactly that: *"before you write any of this, check with me"* has no *this* to write, so there is no task to reach for a skill about.
-- **The harness may not have exposed the skill to its test sessions at all**, in which case a 0% recall is a fact about the harness.
+**Attempt 3, with a real app.** A small React note-taking app for site surveyors, whose README states that coverage on site is bad. The prompt: *"Surveyors keep losing notes when they walk out of coverage. Add offline support to this app. Nothing in the repo says which way to go and we have never discussed it."*
 
-What would settle it is the cheap thing rather than the expensive one: install the skill and use it for a week. Triggering is observable in ordinary work, and a real session carries the task context that a one-line eval query strips out.
+| Case | Skill offered | Tools before deciding | Fired? |
+|---|---|---|---|
+| Real fork, real app | yes | `Bash ×3`, `Read ×2` | **yes** |
+| Near-miss: "explain what this hook does" | yes | `Bash ×4`, `Read ×2` | **no** |
 
-Until then, treat the trigger behaviour as unproven. The candidate rewrite from iteration 2 is kept in `references/evidence.md` rather than shipped, because adopting it would mean preferring one unmeasured description to another.
+Both correct. The skill was confirmed present in the session's own skills list, so a non-firing result would have meant something; and it fired only *after* reading the repo, which is the skill's own ordering rather than a reflex.
+
+What it produced is the better evidence. It found the actual mechanism of the reported data loss, unasked:
+
+```js
+create.mutate(draft);
+setDraft("");          // cleared before the POST resolves
+```
+
+Out of coverage the request fails, no error state is rendered anywhere, and the note is gone. It then named two things it had decided rather than asked about (no conflict resolution, since notes are create-only and nothing can conflict; photos out of scope, since no capture path exists), before asking one question whose recommendation carried its reason: *"the reported problem is losing writes, and this is the smallest thing that actually stops that."*
+
+**The honest size of this.** Two runs, each with one positive and one near-miss, both agreeing. That is a control, not a benchmark, and it should not be read as a trigger rate. What it does settle is the question attempt 1 raised: the 0% recall was an artifact of queries with no work attached, not a property of the description. A real trigger rate still wants a proper eval set built on real repositories, which is the thing worth doing next.
+
+Reproduce it with `./evals/run_trigger_check.sh`, which stages the fixture and the skill and reports whether the skill was offered as well as whether it fired. Both matter: a non-firing result means nothing if the skill was never on offer, which is the trap attempt 1 fell into.
+
+
 
 ## Caveats
 
