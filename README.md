@@ -106,6 +106,12 @@ macOS app icons, measured against the reference instead of eyeballed. A directio
 
 A research question in, one published page out. It runs a paid and free research panel, reads every report end to end rather than the merged summary, turns the corpus into a list of claims with sources attached, then designs the page from scratch around its own subject so consecutive pages do not converge on one look. Every claim carries a citation you can open, and the build fails on one that does not resolve.
 
+<a href="plugins/mac-doctor/README.md"><img src="plugins/mac-doctor/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [mac-doctor](plugins/mac-doctor/README.md)
+
+Your Mac did not fill up because of one thing, it filled up because a hundred reasonable defaults each left something behind and nobody was counting. Five scheduled jobs, from every fifteen minutes to weekly, with what each may do on its own widening as the gap between runs grows. Running low makes it check sooner, never delete more. The interesting part is what it refuses: a worktree needs three separate proofs before it is touched, and on the machine it was built for it declined to remove a single one of 620 GB.
+
 <br clear="left" />
 
 > [!NOTE]
