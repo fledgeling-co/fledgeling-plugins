@@ -25,9 +25,11 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
-  // The indexer reads ../plugins and ../.claude-plugin at build time. Trace that
-  // so `output: standalone` doesn't prune files the build genuinely touched.
-  outputFileTracingRoot: new URL("..", import.meta.url).pathname,
+  // Deliberately no `outputFileTracingRoot`. The build reads ../plugins, but
+  // only in the prebuild step — the app itself imports a generated JSON and
+  // touches nothing outside site/ at runtime. Pointing the tracing root at the
+  // repo relocates next-server.js.nft.json, and Vercel's onBuildComplete then
+  // fails on a file it cannot find, after an otherwise clean build.
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
