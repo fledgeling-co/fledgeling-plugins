@@ -141,6 +141,13 @@ This skill runs in-session. Spawn a subagent only to survey a backlog too large
 to read directly — one agent, not several — and never to check the condition or
 review the brief. The guard is the verifier.
 
+**If this skill is itself running in a subagent**, the session id it can see is
+the subagent's, not the driving session's. Arming with it registers a guard that
+is inert everywhere it matters. Write the brief and the state file, run
+preflight, leave `session_id` empty, and hand back the one-line `jq` command
+that stamps the real id — plus the `/goal` line. Say plainly that nothing is
+armed yet.
+
 ## Operating rules
 
 - **A condition nothing can settle is a defect.** If neither a command nor the

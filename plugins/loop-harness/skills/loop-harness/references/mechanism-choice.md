@@ -73,6 +73,56 @@ Before arming, ask: *if this process crashed right now, would my filter emit
 anything?* If not, widen it. For poll loops over a job's status, emit on every
 terminal state — `succeeded|failed|cancelled|timeout` — not just success.
 
+### A log filter alone cannot see a silent death
+
+Widening the grep is not enough, and this is the part that gets missed. A
+process that dies without writing a final line produces **no log output at
+all**, so no filter over that log can emit. The same is true of a hang: the log
+simply stops. In both cases the monitor is silent, and silence is
+indistinguishable from healthy work.
+
+So watch the process as well as its output. Poll liveness beside the tail and
+emit on the transitions the log cannot report:
+
+```bash
+PAT='benchmark|eval-harness'; LOG=runs/current.log; STALL=600; last=$(date +%s); was=0
+tail -F "$LOG" 2>/dev/null | while IFS= read -r l; do
+  case "$l" in *sample_complete*|*Traceback*|*FAILED*|*OOM*|*Killed*)
+    echo "LOG $l"; last=$(date +%s) ;;
+  esac
+done &
+while true; do
+  now=$(date +%s)
+  if pgrep -f "$PAT" >/dev/null; then
+    [ "$was" -eq 0 ] && echo "PROC-START $PAT is running"
+    was=1
+    [ $((now - last)) -ge "$STALL" ] && { echo "PROC-STALL alive but silent ${STALL}s"; last=$now; }
+  else
+    [ "$was" -eq 1 ] && echo "PROC-EXIT $PAT was running and is gone"
+    was=0
+  fi
+  sleep 20
+done
+```
+
+Three emissions a grep cannot produce: **PROC-EXIT** (died without writing),
+**PROC-STALL** (alive, log gone quiet), and a periodic **NO-PROC** when nothing
+matches at all, which catches a run that never started. `tail -F` rather than
+`-f` so a log that does not exist yet, or is rotated mid-run, does not leave a
+dead watcher.
+
+### Where the loop can be armed from
+
+`Monitor`, `CronCreate` and `ScheduleWakeup` belong to the session that owns the
+conversation. A subagent has `Monitor` but not the schedulers, and a Monitor it
+arms dies when the subagent's thread ends. So a subagent can build the protocol,
+the brief and the watcher script, and cannot arm the loop.
+
+When this skill runs in a subagent, write the files, run preflight, and hand
+back the exact arming sequence for the main session to run. Say plainly that
+nothing is armed yet; a report that reads as though it armed something, when
+nothing is scheduled, is the same failure as an invisible loop.
+
 Mechanics that bite:
 
 - Every pipe stage must flush per line: `grep --line-buffered`, `awk` with
