@@ -142,7 +142,7 @@
     {
       "name": "goal-harness",
       "description": "Turn a rough intent into a hardened, armed /goal run that actually keeps going. Claude Code's /goal is a session-scoped prompt Stop hook judged by Haiku on transcript text alone, with a 4,000-character condition limit, and Claude Code overrides any Stop hook after 8 consecutive blocks — which is why a goal set for hours of work stops on its own. goal-harness grounds the condition in the repo's real worklist, writes the full brief to docs/goals/goal-<slug>.md, composes a transcript-verifiable condition under the limit, preflights the six conditions that silently kill a goal (trust, disabled hooks, permission mode, block cap, non-model-invocable skills, resource contention), applies the settings changes after showing a diff, then arms a deterministic session-gated Stop guard that runs real verification commands and writes a progress ledger. Answers \"has the goal been met?\" and \"why did you stop?\" from a file instead of a guess.",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
