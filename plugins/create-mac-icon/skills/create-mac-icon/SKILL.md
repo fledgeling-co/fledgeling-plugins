@@ -88,12 +88,48 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
      material target, never the shipped master.
    - media-gen-pro unavailable → say so, widen Engine A to 2-3 genuinely
      different hand-authored takes.
-7. **Audit — written, not narrated.** Render every take at 1024/128/32/16
+7. **Audit — written, mechanically checked, and looked at.** Render every take
    and write `audit.html` from `assets/icon-audit-template.html` (2× retina
-   sources shown at half size, pixelated ×6 squint magnification, losers
-   stay scored, recommendation names known liabilities). The 12-point rubric
-   bar: ≥10/12, checks 1-4 non-negotiable. A commission without `audit.html`
-   on disk is incomplete.
+   sources shown at half size, pixelated ×6 squint magnification, losers stay
+   scored, recommendation names known liabilities). The 12-point rubric bar:
+   ≥10/12, checks 1-4 non-negotiable.
+
+   Three steps, in this order, because the first two have each been skipped on
+   a real commission and the third is what the sheet is *for*:
+
+   ```bash
+   python3 scripts/audit_sheet.py render <commission-dir>   # retina sources for every take
+   #   ... write audit.html from the template ...
+   python3 scripts/audit_sheet.py check  <commission-dir>   # must exit 0
+   ```
+
+   `check` reads the sheet, resolves every `<img src>` against the directory,
+   and fails on a missing image, an unfilled `{{PLACEHOLDER}}`, a missing
+   master, or a take short of its retina sources. This is not ceremony: writing
+   the file tells you nothing about whether its paths resolve, and a sheet whose
+   images 404 is precisely the artifact that ships unseen. Twice on record the
+   user asked *"why no audit.html? doesn't the skill say to create one?"* and
+   *"I don't see any audit.html or the various icon versions"* — the instruction
+   was already here both times, which is why it is now a command with an exit
+   code.
+
+   Then **open the sheet in a browser and read it.** `check` proves the files
+   exist; only looking proves the icons are good. Ask each row *"what is wrong
+   with this?"*, not *"is this done?"*
+
+   **Sizes are retina pairs: 256 / 128 / 96 / 64 / 32 sources shown at 128 / 64
+   / 48 / 32 / 16 css px**, plus the 1024 hero. The 48px row is there because a
+   Finder list and a plugin marketplace tile render at it, and an icon that
+   survives 128 and 16 can still collapse between them.
+
+   **One silhouette across the set.** Every icon in a family, variant row, or
+   marketplace lineup shares the same outer shape from
+   `assets/squircle-path.txt`. A single icon whose corner radius or outline
+   differs from its siblings reads as an error at every size; that has been
+   caught by the user rather than by this pipeline.
+
+   A commission without a passing `check` is incomplete — say which step is
+   outstanding rather than reporting the icon done.
 8. **The fidelity loop** (`references/fidelity-loop.md`) — when a raster
    take wins the material read, or the user supplies a reference to match:
    `scripts/fidelity.py` scores the master against the reference at five
