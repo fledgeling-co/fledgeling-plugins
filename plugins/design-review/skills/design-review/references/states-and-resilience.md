@@ -58,6 +58,20 @@ Never an indefinite spinner with no information. Start a timeout on every reques
 - Spinner indicates activity without previewing — use for short blocking actions
 - Optimistic UI updates instantly, assuming success — only for binary, low-risk, high-success actions (like, favourite, reorder). It must include a rollback path and a visible error, never a silent revert. Never optimistic for money, destructive actions, or anything affecting other users
 
+**Auditing a skeleton is a two-capture measurement, not a look.** Capture the surface loading and resolved, then diff them. Seven findings live here, and each has reached a real user through a review that only looked at the loading state on its own:
+
+| Check | How to measure | Finding when it fails |
+|---|---|---|
+| Size parity | `getBoundingClientRect()` on the skeleton node and on the element that replaces it | Layout shift on resolve; report with both heights and the CLS it causes |
+| Shape parity | Child count and internal structure of the skeleton subtree vs the resolved subtree | One flat block standing in for three stacked elements is a slot placeholder, not a content placeholder |
+| Ground match | Skeleton fill against the `background-color` of the surface it sits on | Grey blocks on a coloured or dark ground read as breakage, not as loading |
+| Animation present | `getAnimations()` on the skeleton node | A static block is indistinguishable from a broken image or a failed fetch. Also check the `prefers-reduced-motion` branch degrades to a visible static block plus text, not to nothing |
+| Clears per section | Capture mid-resolve, not only at the two endpoints | A skeleton still painted under resolved content reads as stuck; section headers usually resolve first and should stop being skeletons first |
+| Stack separation | Vertical gap between sibling skeleton blocks | Below ~1–2px a run of blocks reads as one large block |
+| Not over-applied | Which skeleton nodes correspond to elements whose content is static | A skeleton on a button, nav item or fixed heading invents a loading state for something that was never loading |
+
+**Coverage, not just quality.** Enumerate the surface's async actions — record, save, upload, generate, submit, delete, refresh — and check each has its own in-flight, success and failure treatment. A surface offering only the ideal state and an empty state is incomplete however good the ideal state looks; *"nothing shows when I record an asset … the states are all static or empty states"* is the shape of that report when the user writes it instead of the review.
+
 ## Empty states
 
 The product's first impression, and most products waste them. `data.length === 0` rendering a bare `<div>` is a defect, not a state.

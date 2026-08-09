@@ -10,6 +10,26 @@ The lesson generalises: **a gate set that stops at WCAG will go green on a broke
 
 `scripts/probes.js` → `probeLayoutIntegrity()`, included in `runAll()`.
 
+**First, prove the page rendered at all — every probe below passes vacuously on a blank one.** An empty viewport has nothing to overflow, no rows to misalign and no text to overlap, so an all-green layout report and a page that renders nothing are the same output. This is not hypothetical: a real app shipped `@media (max-width:1000px){ .app{display:none} .gate{display:flex} }` ported from a mock whose `.gate` explainer element was never ported with it. Below 1000px `.app` was hidden, nothing replaced it, and `document.body.innerText` was fifteen characters — a black screen at 390 and 768 on every route, on which `scrollWidth === clientWidth` returned a confident PASS.
+
+The precondition is cheap, and it belongs at the top of every viewport's run:
+
+```js
+const de = document.documentElement;
+({
+  inkHeight:  document.body.getBoundingClientRect().height,
+  textLength: document.body.innerText.trim().length,
+  visibleEls: [...document.querySelectorAll('body *')]
+                .filter(el => el.getBoundingClientRect().width > 0 &&
+                              el.getBoundingClientRect().height > 0).length,
+  scrollable: de.scrollHeight > window.innerHeight,
+})
+```
+
+A viewport whose `textLength` collapses to near-zero, or whose `scrollHeight` equals exactly the viewport height while a wider viewport scrolled to several thousand pixels, has **not rendered**. Record that as a Blocker in its own right and mark every other layout cell for that viewport `n/a: page did not render` rather than `done`. A green cell there is worse than an open one, because it is evidence of the wrong thing.
+
+Where the cause is a media query hiding a container, check whether the element it reveals actually exists — `display:none` on the app plus a `.gate` that was never ported is a whole-page failure that greps clean in the stylesheet, since the rule itself is correct and only its counterpart is missing.
+
 Almost every defect here lives inside a **repeated group** — any container with three or more visible element children sharing a class signature. A table body, a card grid, a settings list, a nav. `findRepeatedGroups()` finds them; the rest of the probes reason over them. The count is reported so you can tell "no findings" from "nothing matched".
 
 | Check | Fires when | The defect |

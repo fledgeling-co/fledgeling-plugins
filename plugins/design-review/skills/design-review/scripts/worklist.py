@@ -33,7 +33,7 @@ from pathlib import Path
 
 # Stages 2-8 of the pipeline. Each finds a defect class the others are blind to,
 # which is why a partial stage set is a coverage gap rather than a shortcut.
-STAGES = ["gates", "render", "states", "inventory", "craft", "flow", "system"]
+STAGES = ["gates", "render", "states", "inventory", "craft", "flow", "system", "intent"]
 
 OPEN = "open"
 DONE = "done"
