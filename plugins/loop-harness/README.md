@@ -121,7 +121,26 @@ skills/loop-harness/
     status.sh             reads the ledger, warns near the expiry
     disarm.sh             removes the active loop.md, prints what's left to cancel
 evals/evals.json          six cases plus the process evals
+EVALS.md                  the measured result against the no-skill baseline
 ```
+
+## Does it earn its place
+
+Measured the same way as its sibling: each case run twice from an identical
+fixture, once with the skill and once with nothing, graded blind. Across both,
+**32 of 33 assertions against the baseline's 12**, and **8 preferences out of
+8**.
+
+The two cases that carry it are the ones where the baseline was not merely
+thinner but wrong. Asked what performs a no-interval loop, it said there is no
+timer and the loop ended with the turn; dynamic pacing schedules a real pending
+wakeup, so acting on that answer means re-arming something already scheduled.
+Told to run `/verify` every 30 minutes, it concluded `/verify` does not exist,
+missing that it is a bundled skill a scheduled fire delivers as plain text.
+
+Against that, one honest tie: on "don't arm a loop with a dead verifier" the
+baseline matched it 3/3. [EVALS.md](EVALS.md) has the table, the tie, the three
+defects the run found in these skills, and what was never measured.
 
 ## What it doesn't do
 

@@ -128,7 +128,28 @@ skills/goal-harness/
     status.sh            reads the ledger
     disarm.sh            stops the guard; --remove also unregisters the hook
 evals/evals.json         six cases plus the process evals
+EVALS.md                 the measured result against the no-skill baseline
 ```
+
+## Does it earn its place
+
+Measured, not asserted: each case run twice from an identical fixture, once with
+the skill and once with nothing loaded, graded by an independent agent that saw
+each response alone with no arm label.
+
+Across both harness skills, **32 of 33 structural assertions against the
+baseline's 12**, and the grader preferred the skill arm in **8 cases out of 8**.
+
+Two results worth reading before you trust that number. On the `/code-review`
+case the baseline scored the same 3/3: a capable model with the docs finds that
+trap on its own, and the skill's headline claim is not what separates them
+there. And the arming case is confounded, because the fixture is deliberately
+thin and both arms spend real effort discovering it.
+
+The run also found three defects in these skills, including a deadline parsed as
+local time that disarmed a goal ten hours early on AEST. All three are fixed;
+the scores were produced before the fixes. [EVALS.md](EVALS.md) carries the
+per-case table, the ties, and what was not measured.
 
 ## What it doesn't do
 
