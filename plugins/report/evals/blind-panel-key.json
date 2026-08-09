@@ -1,0 +1,10 @@
+{
+  "pair-1-investigation": {
+    "option-A": "baseline",
+    "option-B": "with_skill"
+  },
+  "pair-2-onepager": {
+    "option-A": "with_skill",
+    "option-B": "baseline"
+  }
+}
