@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+  <!-- PLANE 1: ground. A cushion, not a print: vertical ramp, edge vignette,
+       and a faint inner rim light around the perimeter. -->
+  <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"    stop-color="#FDFDFC"/>
+    <stop offset="0.52" stop-color="#F5EEE7"/>
+    <stop offset="1"    stop-color="#EDE9DF"/>
+  </linearGradient>
+  <radialGradient id="vignette" cx="0.30" cy="0.26" r="0.92">
+    <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0.55"/>
+    <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
+    <stop offset="1"    stop-color="#8C8577" stop-opacity="0.16"/>
+  </radialGradient>
+  <!-- the ember is a light source, not just a saturated fill: it spills onto
+       the porcelain it sits on. Vibrancy is emission, not saturation. -->
+  <radialGradient id="emberSpill" gradientUnits="userSpaceOnUse"
+                  cx="672.6" cy="282.6" r="330">
+    <stop offset="0"    stop-color="#F07A2A" stop-opacity="0.16"/>
+    <stop offset="0.45" stop-color="#F07A2A" stop-opacity="0.06"/>
+    <stop offset="1"    stop-color="#F07A2A" stop-opacity="0"/>
+  </radialGradient>
+
+  <radialGradient id="sectionRing" gradientUnits="userSpaceOnUse"
+                  cx="512" cy="512" r="356.00">
+    <stop offset="0.5730"      stop-color="#2E3951"/>
+    <stop offset="0.6456" stop-color="#3A455E"/>
+    <stop offset="0.7993"   stop-color="#16283F"/>
+    <stop offset="0.9231"   stop-color="#505E7C"/>
+    <stop offset="1.0000"      stop-color="#37455F"/>
+  </radialGradient>
+  <radialGradient id="sectionEmber" gradientUnits="userSpaceOnUse"
+                  cx="512" cy="512" r="356.00">
+    <stop offset="0.5730"      stop-color="#E73C0B"/>
+    <stop offset="0.6456" stop-color="#EF4713"/>
+    <stop offset="0.7993"   stop-color="#D42E08"/>
+    <stop offset="0.9231"   stop-color="#FF5D23"/>
+    <stop offset="1.0000"      stop-color="#F44B15"/>
+  </radialGradient>
+  <linearGradient id="wallRing" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#465272"/>
+    <stop offset="0.52" stop-color="#132639"/>
+    <stop offset="1"    stop-color="#132639"/>
+  </linearGradient>
+  <linearGradient id="wallEmber" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#E75C35"/>
+    <stop offset="0.52" stop-color="#C2351C"/>
+    <stop offset="1"    stop-color="#C2351C"/>
+  </linearGradient>
+  <linearGradient id="keyRing" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0.13"/>
+    <stop offset="0.40" stop-color="#FFFFFF" stop-opacity="0"/>
+    <stop offset="0.60" stop-color="#06162B" stop-opacity="0"/>
+    <stop offset="1"    stop-color="#06162B" stop-opacity="0.3"/>
+  </linearGradient>
+  <linearGradient id="keyEmber" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#FFF0E2" stop-opacity="0.22"/>
+    <stop offset="0.40" stop-color="#FFF0E2" stop-opacity="0"/>
+    <stop offset="0.60" stop-color="#5E1A03" stop-opacity="0"/>
+    <stop offset="1"    stop-color="#5E1A03" stop-opacity="0.16"/>
+  </linearGradient>
+  <linearGradient id="specRing" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#EEF3FB" stop-opacity="0.95"/>
+    <stop offset="0.34" stop-color="#EEF3FB" stop-opacity="0.589"/>
+    <stop offset="0.68" stop-color="#EEF3FB" stop-opacity="0.133"/>
+    <stop offset="1"    stop-color="#EEF3FB" stop-opacity="0.0"/>
+  </linearGradient>
+  <linearGradient id="specEmber" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#FFE0C4" stop-opacity="0.88"/>
+    <stop offset="0.34" stop-color="#FFE0C4" stop-opacity="0.546"/>
+    <stop offset="0.68" stop-color="#FFE0C4" stop-opacity="0.123"/>
+    <stop offset="1"    stop-color="#FFE0C4" stop-opacity="0.0"/>
+  </linearGradient>
+  <linearGradient id="rimRing" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0.72"/>
+    <stop offset="0.34" stop-color="#FFFFFF" stop-opacity="0.446"/>
+    <stop offset="0.68" stop-color="#FFFFFF" stop-opacity="0.101"/>
+    <stop offset="1"    stop-color="#FFFFFF" stop-opacity="0.1"/>
+  </linearGradient>
+  <linearGradient id="rimEmber" gradientUnits="userSpaceOnUse"
+                   x1="405.2" y1="134.6" x2="618.8" y2="889.4">
+    <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0.66"/>
+    <stop offset="0.34" stop-color="#FFFFFF" stop-opacity="0.409"/>
+    <stop offset="0.68" stop-color="#FFFFFF" stop-opacity="0.092"/>
+    <stop offset="1"    stop-color="#FFFFFF" stop-opacity="0.1"/>
+  </linearGradient>
+  <radialGradient id="end0Ring" gradientUnits="userSpaceOnUse"
+                  cx="782.46" cy="439.53" r="96.0">
+    <stop offset="0"    stop-color="#98A1B9" stop-opacity="0.85"/>
+    <stop offset="0.45" stop-color="#98A1B9" stop-opacity="0.468"/>
+    <stop offset="1"    stop-color="#98A1B9" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="end1Ring" gradientUnits="userSpaceOnUse"
+                  cx="487.60" cy="233.07" r="96.0">
+    <stop offset="0"    stop-color="#98A1B9" stop-opacity="0.72"/>
+    <stop offset="0.45" stop-color="#98A1B9" stop-opacity="0.396"/>
+    <stop offset="1"    stop-color="#98A1B9" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="end0Ember" gradientUnits="userSpaceOnUse"
+                  cx="584.47" cy="241.54" r="96.0">
+    <stop offset="0"    stop-color="#F0A470" stop-opacity="0.55"/>
+    <stop offset="0.45" stop-color="#F0A470" stop-opacity="0.303"/>
+    <stop offset="1"    stop-color="#F0A470" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="end1Ember" gradientUnits="userSpaceOnUse"
+                  cx="741.36" cy="351.40" r="96.0">
+    <stop offset="0"    stop-color="#F0A470" stop-opacity="0.42"/>
+    <stop offset="0.45" stop-color="#F0A470" stop-opacity="0.231"/>
+    <stop offset="1"    stop-color="#F0A470" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- The two shading passes that are NOT on the key axis: a vertical shade
+       under the whole face, and the ground bounce, which comes from below. -->
+  <linearGradient id="shadeRing" gradientUnits="userSpaceOnUse" x1="0" y1="156.0" x2="0" y2="868.0">
+    <stop offset="0"    stop-color="#08172C" stop-opacity="0"/>
+    <stop offset="0.55" stop-color="#08172C" stop-opacity="0.07"/>
+    <stop offset="1"    stop-color="#08172C" stop-opacity="0.28"/>
+  </linearGradient>
+  <linearGradient id="shadeEmber" gradientUnits="userSpaceOnUse" x1="0" y1="156.0" x2="0" y2="868.0">
+    <stop offset="0"    stop-color="#6B1A02" stop-opacity="0"/>
+    <stop offset="0.55" stop-color="#6B1A02" stop-opacity="0.03"/>
+    <stop offset="1"    stop-color="#6B1A02" stop-opacity="0.14"/>
+  </linearGradient>
+  <linearGradient id="bounceRing" gradientUnits="userSpaceOnUse" x1="0" y1="868.0" x2="0" y2="156.0">
+    <stop offset="0"    stop-color="#A9B8D4" stop-opacity="0.62"/>
+    <stop offset="0.42" stop-color="#A9B8D4" stop-opacity="0.24"/>
+    <stop offset="1"    stop-color="#A9B8D4" stop-opacity="0.04"/>
+  </linearGradient>
+  <linearGradient id="bounceEmber" gradientUnits="userSpaceOnUse" x1="0" y1="868.0" x2="0" y2="156.0">
+    <stop offset="0"    stop-color="#F7B98E" stop-opacity="0.58"/>
+    <stop offset="0.42" stop-color="#F7B98E" stop-opacity="0.22"/>
+    <stop offset="1"    stop-color="#F7B98E" stop-opacity="0.04"/>
+  </linearGradient>
+
+  <filter id="soften" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="5"/>
+  </filter>
+  <filter id="hairline" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="1.6"/>
+  </filter>
+  <!-- The specular gets its own, tighter blur. Sharing the 5px soften made it
+       a pale wash rather than a catch; a specular is the one pass whose
+       sharpness carries how hard the surface reads. -->
+  <filter id="specular" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="2.8"/>
+  </filter>
+  <!-- Contact shadows, tinted toward each object's own hue but at identical
+       offset and blur, so the ring and the ember read as one plane. -->
+  <filter id="castCool" x="-40%" y="-40%" width="180%" height="190%">
+    <feGaussianBlur stdDeviation="19"/>
+  </filter>
+  <filter id="castTight" x="-40%" y="-40%" width="180%" height="190%">
+    <feGaussianBlur stdDeviation="6"/>
+  </filter>
+
+  <clipPath id="sq"><path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z"/></clipPath>
+</defs>
+
+<g clip-path="url(#sq)">
+  <g id="ground-plane">
+    <rect width="1024" height="1024" fill="url(#ground)"/>
+    <rect width="1024" height="1024" fill="url(#vignette)"/>
+    <path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(512,512) scale(0.93) translate(-512,-512)">
+    <rect width="1024" height="1024" fill="url(#emberSpill)"/>
+
+    <!-- PLANE 2: the shadow the whole band casts. One offset, one blur, two
+         hues, so a warm segment and a cool arc still sit on the same table. -->
+    <g id="cast-shadow">
+      <g transform="translate(0,17)" filter="url(#castCool)">
+        <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="#2A2F38" stroke-opacity="0.30"
+              stroke-width="152.0" stroke-linecap="butt"/>
+        <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="#C0430F" stroke-opacity="0.34"
+              stroke-width="152.0" stroke-linecap="butt"/>
+      </g>
+      <g transform="translate(0,5)" filter="url(#castTight)">
+        <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="#2A2F38" stroke-opacity="0.22"
+              stroke-width="152.0" stroke-linecap="butt"/>
+        <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="#C0430F" stroke-opacity="0.24"
+              stroke-width="152.0" stroke-linecap="butt"/>
+      </g>
+    </g>
+
+    <!-- PLANE 3: the band itself. No track behind it — a visible pale track
+         makes the hole read as a filled lighter segment rather than as free
+         space, which is the read the whole mark depends on. -->
+  <g id="used-arc">
+    <!-- glass edge: ONE hairline, drawn under the mass so the lit lip spills
+         onto the ground rather than ringing it, and modulated by the key so
+         it is a catch on the lit side rather than a uniform outline. A second
+         wide halo was tried and removed: at any opacity that showed, it read
+         as a sticker cut line. -->
+    <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="url(#rimRing)"
+          stroke-width="159.0" stroke-linecap="butt" filter="url(#hairline)"/>
+    <!-- the bevel wall: the dark moulded rim the inset face sits inside -->
+    <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="url(#wallRing)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <!-- the inset face, carrying the cross-section ramp -->
+    <path d="M 784.87 449.23 A 280.00 280.00 0 1 1 477.65 234.11" fill="none" stroke="url(#sectionRing)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+    <!-- the single key light, modelling the whole segment along one axis.
+         Applied to the SHELL, not the face: lighting only the inset face left
+         the bevel wall unlit, which reads as an inked outline. -->
+    <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="url(#keyRing)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <path d="M 782.46 439.53 A 280.00 280.00 0 1 1 487.60 233.07" fill="none" stroke="url(#shadeRing)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <!-- the lit shoulder: a soft specular that exists only on the key side -->
+    <path d="M 832.28 438.33 A 328.64 328.64 0 1 1 471.69 185.84" fill="none" stroke="url(#specRing)"
+          stroke-width="17.5" stroke-linecap="round" filter="url(#specular)"/>
+    <!-- bounce off the porcelain into the inner wall, strongest at the bottom -->
+    <path d="M 735.99 460.48 A 229.84 229.84 0 1 1 483.81 283.90" fill="none" stroke="url(#bounceRing)"
+          stroke-width="14.4" stroke-linecap="round" filter="url(#soften)"/>
+    <!-- the two cut cross-sections, paler than the body and fading inward -->
+    <path d="M 784.87 449.23 A 280.00 280.00 0 1 1 477.65 234.11" fill="none" stroke="url(#end0Ring)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+    <path d="M 784.87 449.23 A 280.00 280.00 0 1 1 477.65 234.11" fill="none" stroke="url(#end1Ring)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+  </g>
+  <g id="reclaimed-segment">
+    <!-- glass edge: ONE hairline, drawn under the mass so the lit lip spills
+         onto the ground rather than ringing it, and modulated by the key so
+         it is a catch on the lit side rather than a uniform outline. A second
+         wide halo was tried and removed: at any opacity that showed, it read
+         as a sticker cut line. -->
+    <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="url(#rimEmber)"
+          stroke-width="159.0" stroke-linecap="butt" filter="url(#hairline)"/>
+    <!-- the bevel wall: the dark moulded rim the inset face sits inside -->
+    <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="url(#wallEmber)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <!-- the inset face, carrying the cross-section ramp -->
+    <path d="M 594.08 244.30 A 280.00 280.00 0 0 1 735.48 343.31" fill="none" stroke="url(#sectionEmber)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+    <!-- the single key light, modelling the whole segment along one axis.
+         Applied to the SHELL, not the face: lighting only the inset face left
+         the bevel wall unlit, which reads as an inked outline. -->
+    <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="url(#keyEmber)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <path d="M 584.47 241.54 A 280.00 280.00 0 0 1 741.36 351.40" fill="none" stroke="url(#shadeEmber)"
+          stroke-width="152.0" stroke-linecap="butt"/>
+    <!-- the lit shoulder: a soft specular that exists only on the key side -->
+    <path d="M 608.34 197.80 A 328.64 328.64 0 0 1 774.30 314.01" fill="none" stroke="url(#specEmber)"
+          stroke-width="17.5" stroke-linecap="round" filter="url(#specular)"/>
+    <!-- bounce off the porcelain into the inner wall, strongest at the bottom -->
+    <path d="M 579.38 292.26 A 229.84 229.84 0 0 1 695.45 373.53" fill="none" stroke="url(#bounceEmber)"
+          stroke-width="14.4" stroke-linecap="round" filter="url(#soften)"/>
+    <!-- the two cut cross-sections, paler than the body and fading inward -->
+    <path d="M 594.08 244.30 A 280.00 280.00 0 0 1 735.48 343.31" fill="none" stroke="url(#end0Ember)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+    <path d="M 594.08 244.30 A 280.00 280.00 0 0 1 735.48 343.31" fill="none" stroke="url(#end1Ember)"
+          stroke-width="132.0" stroke-linecap="butt"/>
+  </g>
+  </g>
+</g>
+</svg>

@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-clean.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r02 detail: figure-ground restored to 3.04:1, ember section flattened, tighter specular",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1432,
+      "ssim": 0.6951,
+      "edge_f1": 0.0089,
+      "mask_iou": 0.9998,
+      "self_contrast": 0.7163,
+      "ref_self_contrast": 0.6807,
+      "composite": 0.4298
+    },
+    "256": {
+      "lum_delta": 0.1427,
+      "ssim": 0.4818,
+      "edge_f1": 0.1203,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.7169,
+      "ref_self_contrast": 0.6804,
+      "composite": 0.373
+    },
+    "128": {
+      "lum_delta": 0.142,
+      "ssim": 0.4105,
+      "edge_f1": 0.3006,
+      "mask_iou": 0.9981,
+      "self_contrast": 0.7148,
+      "ref_self_contrast": 0.6795,
+      "composite": 0.3906
+    },
+    "32": {
+      "lum_delta": 0.138,
+      "ssim": 0.5921,
+      "edge_f1": 0.9281,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6939,
+      "ref_self_contrast": 0.6772,
+      "composite": 0.7901
+    },
+    "16": {
+      "lum_delta": 0.1329,
+      "ssim": 0.6254,
+      "edge_f1": 1.0,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6688,
+      "ref_self_contrast": 0.6682,
+      "composite": 0.8266
+    }
+  },
+  "render_hash": "ee8368a22e1ef7ef"
+}

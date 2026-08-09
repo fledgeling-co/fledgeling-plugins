@@ -1,0 +1,50 @@
+{
+  "label": "r01 gel-torus rebuild vs shipped master",
+  "mapping": {
+    "A": "baseline",
+    "B": "candidate"
+  },
+  "tally": {
+    "overall": {
+      "votes": {
+        "candidate": 2,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "candidate"
+    },
+    "material": {
+      "votes": {
+        "candidate": 2,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "candidate"
+    },
+    "silhouette": {
+      "votes": {
+        "candidate": 0,
+        "baseline": 2,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "baseline"
+    },
+    "smallsize": {
+      "votes": {
+        "candidate": 0,
+        "baseline": 2,
+        "tie": 0
+      },
+      "judges_ran": 2,
+      "winner": "baseline"
+    }
+  },
+  "judges": {
+    "claude": "ok",
+    "cursor": "ok",
+    "openai": "failed"
+  }
+}

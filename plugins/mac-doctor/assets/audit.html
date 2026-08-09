@@ -8,13 +8,14 @@
   :root { color-scheme: dark; }
   body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
-  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; color: #d7e3e7; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
   .sheet { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; min-width: 860px; }
   th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
-  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
   .renders { display: flex; align-items: center; gap: 18px; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
@@ -23,56 +24,92 @@
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
   .ship { color: #ffd98f; }
   .fail { color: #e0826a; }
-  .verdict { max-width: 420px; color: #a9bec5; }
+  .verdict { max-width: 430px; color: #a9bec5; }
   .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .metrics { min-width: 700px; font-variant-numeric: tabular-nums; }
+  .metrics td, .metrics th { padding: 9px 14px; font-size: 13px; }
+  .up { color: #8fd6a4; }
+  .down { color: #e0826a; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #cbd9de; }
 </style>
 </head>
 <body>
 <h1>mac-doctor icon — contact sheet &amp; audit</h1>
-<div class="sub">Direction "Instrument Emblem in the Tahoe gel porcelain register: capacity arc with a freed wedge" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<div class="sub">Direction "Instrument Emblem in the Tahoe gel porcelain register: a capacity ring whose reclaimed segment sits inline in the same band" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 128 / 64 / 48 / 32 / 16. This revision is round 7, which took three named preferences off take C — a brighter, redder ember, a tighter hole, and a wedge that stands proud of the ring — and closed the small-size liability round 6 left open.</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, emitted by build_icon.py — SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A rendered at 48 pixels"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
     <td class="score ship">11 / 12</td>
-    <td class="verdict">Ships. Passes all four non-negotiables, and after a late composition change it now carries the subject better
- than any other take. The ember was originally a wedge detached outside the ring, meaning "a piece came out". Inline it
- says what the tool actually reports: three quantities at once, dark for used, ember for just reclaimed, and the
- remaining hole for free. That is also the conventional gauge idiom, so it reads without being learned. The segment sits centred in the hole with clearance either side, on butt caps and carries only its own edge catch, since an inline element that casts a float shadow
- reads as sitting on top rather than in the track. Geometry and material are named constants in build_icon.py, so it
- stays editable and can be made variant-aware. The ring is also heavier than the early builds, R 280 W 152 against 292 108, because a thin ring reads as a progress spinner and loses its divisions below 32px. Loses one point on 11: a ring gauge is legible but conventional.</td>
+    <td class="verdict">Ships. Passes all four non-negotiables on real renders. Round 7 changed three things, each measured rather than adjusted.
+      <strong>The ember is redder.</strong> Sampled over the full 1024 render, its mean went (225,124,70) to (236,102,64) against take C's (235,110,77), and its luminance spread 0.376 to 0.407 against C's 0.424. The ramp is C's hue, not the family accent's: C sits at 10.5° at its dark end and 14.6° at its lit end where the old ramp ran 18–26° and read orange.
+      <strong>The hole is tighter.</strong> 80° with 20° clear each side became 66° with 13°, chosen off a sweep of 10–14: below 12 the clearance on the ring's clockwise side stops resolving at 32px, and clearance on <em>both</em> sides is what stops the segment reading as continuous with what is occupied.
+      <strong>The wedge stands proud.</strong> 10% of the band width past the ring's outer radius, so the outer circle is deliberately broken — measured on the render, the graphite arc ends at r=331 and the ember at r=345.
+      <strong>What did not change.</strong> The inner boundary. It is 189–190 at every angle sampled through both segments, because <code>band()</code> still emits the whole material stack for either arc and the protrusion is a parameter it takes, not a second code path. Loses one point on 11: a ring gauge is legible but conventional, and no amount of material fixes that.</td>
   </tr>
+
   <tr>
-    <td class="take">C · icon-engineC-clean.png<small>GPT Image 2, corpus-referenced raster, deframed and remasked — material reference</small></td>
+    <td class="take">A₁ · round-6 master<small>the take this round replaced, at <code>fidelity/runs/r03/baseline-r02.svg</code></small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A1-256.png" width="128" height="128" alt="Round-6 master rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A1-128.png" width="64" height="64" alt="Round-6 master rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A1-96.png" width="48" height="48" alt="Round-6 master rendered at 48 pixels"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A1-64.png" width="32" height="32" alt="Round-6 master rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A1-32.png" width="16" height="16" alt="Round-6 master rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A1-32.png" width="96" height="96" alt="Round-6 master 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">11 / 12</td>
+    <td class="verdict">Superseded on preference, not on the rubric — it scores the same 11, and it is the take that fixed the inner-edge fault and rebuilt the material as a gel puck. Three things read weaker beside C: the ember is orange rather than scarlet, the 20°-a-side hole is airy enough that the segment floats, and the band's outer boundary is flush all the way round, so nothing marks the reclaimed segment as reclaimed. Its specular also ran at full strength into the 32 and 16px rasters, which is the streak both blind judges named.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A₀ · the flat original<small><code>icon-src.svg</code>, the hand-authored take that preceded the fidelity loop</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A0-256.png" width="128" height="128" alt="Flat original rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A0-128.png" width="64" height="64" alt="Flat original rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A0-96.png" width="48" height="48" alt="Flat original rendered at 48 pixels"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A0-64.png" width="32" height="32" alt="Flat original rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A0-32.png" width="16" height="16" alt="Flat original rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A0-32.png" width="96" height="96" alt="Flat original 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Superseded, and kept on the sheet because it is the take both blind judges preferred at 32 and 16px — the claim is checkable in this row against A above. The composition was already right; the material was one stroke with one linear ramp, a luminance spread of 0.228 against C's 0.439 and no specular at all, which is most of what "the raster looks richer" meant. Loses 8 as well as 11: the ring carried an inner edge catch that the ember did not, so the band's inner boundary was a lit arc for 280 degrees and an unlit one for 40. That is what read as a broken circle, and it survived five rounds of moving the ember, which was never the thing at fault. It also failed the loop's <code>structure</code> gate outright, with zero named layer groups. Its 32/16px advantage is now closed: A's small rasters render with the specular floored, and A's self-contrast beats it 0.741 to 0.673 at 32px and 0.724 to 0.590 at 16px.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C · icon-engineC-clean.png<small>GPT Image 2, corpus-referenced raster, deframed and remasked — the material reference</small></td>
     <td class="renders">
       <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="Take C rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="Take C rendered at 48 pixels"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
     <td class="score">10 / 12</td>
-    <td class="verdict">Kept as the material reference, not shipped. Its gel is still the richest here: volumetric body, strong rim,
- authored translucency. Its disqualifying frame did turn out to be croppable (inner tile x 78-948, y 66-953, aspect
- 0.981), and for a while it shipped on that basis. It lost the place on composition rather than material: its ember is
- a solid triangle baked outside the ring, so it cannot express the inline three-part read, and being pixels it cannot
- be changed to. Also fails check 10 outright, since a baked raster cannot adapt to Dark, Clear or Tinted.</td>
+    <td class="verdict">Won the material judgment outright and stays as the fidelity target for material only, never for composition. It loses on composition, not on score: its ember is a solid triangle baked outside the ring, so it cannot express the inline read the mark depends on, and being pixels it cannot be changed to. Fitting circles to its ring puts R_out at 376 and R_in at 227, and its wedge runs to r=448 — standing proud by 48% of the band width, and starting 11px <em>outside</em> the ring's inner radius rather than on it. A ships 10% proud with the inner boundary shared, which takes the read the user asked for without giving up the continuity that took five rounds to buy. Loses 10 as well, because a flat pre-masked raster carries identity in a colour relationship and cannot be relayered for Dark, Clear or Tinted. Its own figure-ground measures 2.50:1, below the bar the master clears at 3.02:1 — which is exactly why converging the master all the way onto it was never the goal.</td>
   </tr>
+
   <tr>
-    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="take">B · icon-engineB-arrow.svg<small>Arrow vector take from the shared spec</small></td>
     <td class="renders">
       <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="Take B rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="Take B rendered at 48 pixels"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B rendered at 32 pixels"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B rendered at 16 pixels"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -81,17 +118,44 @@
     <td class="verdict">Real vector and cleanly editable, but the geometry is wrong in the way that matters. The ring is nearly complete with only a small notch, so it does not read as a gauge that is nearly full, which is the entire concept. A second stray arc sits at the lower right with a visible seam. The ground is flat with no vignette or rim light, so the tile reads as a print rather than a cushion, and it supplies its own rounded-rectangle corners instead of the family superellipse. Nothing salvaged.</td>
   </tr>
 
+  <tr>
+    <td class="take fail">C-raw · icon-engineC-raster.png<small>the same raster as generated, before deframing</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/Craw-256.png" width="128" height="128" alt="Take C-raw rendered at 128 pixels"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/Craw-128.png" width="64" height="64" alt="Take C-raw rendered at 64 pixels"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/Craw-96.png" width="48" height="48" alt="Take C-raw rendered at 48 pixels"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/Craw-64.png" width="32" height="32" alt="Take C-raw rendered at 32 pixels"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/Craw-32.png" width="16" height="16" alt="Take C-raw rendered at 16 pixels"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/Craw-32.png" width="96" height="96" alt="Take C-raw 16 pixel render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard-fails 1. The generator baked a dark frame and its own rounded corners into the pixels, so there is no mask discipline to speak of and the tile reads as a photograph of an icon rather than an icon. Kept because an audit that hides its losers is not an audit, and because the crop that rescued it is take C above (inner tile x 78–948, y 66–953, aspect 0.981).</td>
+  </tr>
+
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> The raster won the material judgment and held
- the shipping slot for a while once its baked frame proved croppable, but composition decided it: only the authored
- vector could move the ember inline, and inline is what makes the mark state used, reclaimed and free at once instead
- of only "a piece came out". Editability is the second reason, and the one that matters over time.
- Known liabilities to revisit: the master is still less volumetric than C at 1024, and closing that means a bounded
- fidelity run against a raster regenerated with the inline composition rather than the current one. Check 10, variant
- robustness, remains untested; nothing has been rendered against Dark, Clear or Tinted, and a warm porcelain ground is
- exactly the kind that collapses under Tinted. The ring gauge is conventional, which is the lost rubric point.</div>
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take carrying the composition the mark needs, and it clears every non-negotiable on real renders: designed for the family superellipse, optically centred, nameable as a solid, and legible at 16px where the ring, the hole and the reclaimed segment still separate. Round 7's three changes all measure toward take C without giving anything back to it: ember mean (236,102,64) against C's (235,110,77), ember spread 0.407 against 0.424, ring spread 0.450 against 0.439, figure-ground 3.02:1 against C's own 2.50:1, and the Pareto gate ACCEPTs at every one of the five sizes for the first time in this fixture.
+<strong>The 32/16px liability is closed rather than restated.</strong> A radial profile through the key side found what the judges were describing: at full strength the specular lifted the stroke's outer third to L 0.53 against a body of 0.23 at 32px, so the lit edge dissolved toward the porcelain. The 64px and smaller rasters now render from <code>icon-small.svg</code> with the specular's peak opacity at 0.30, which drops that lift to +0.18 and <em>raises</em> 32px self-contrast from 0.733 to 0.741. The 1024 master is untouched. This is the size-aware parameter the previous round named as the fix, not a retreat from the material.
+<strong>The blind panel agrees, including where it previously did not.</strong> Two families (Claude Opus, grok-4.5 via cursor-agent), seeing only renders and not knowing which take was which, voted this round the winner on overall, material <em>and</em> small size, with silhouette a tie — where round 6's panel had preferred the older take at 32 and 16px. Both named the accent's chroma as the reason at small size. Note the honest limit: the panel's small-size strips are rendered from the master, so it judged the un-floored specular; the rasters that ship at those sizes are the floored ones, which measure strictly better.
+Known liabilities: <em>(1)</em> at 16px the tighter hole costs some clarity — the clearance pixels read L 0.79 and 0.89 against a ground of 0.94, where at 20° a side they read 0.95 and 0.92. The break is still present and still much lighter than the object, but it is softer. At 32px both gaps still reach full ground. <em>(2)</em> The protrusion is sub-pixel below about 128px (0.44px at 32), so it is a large-size feature that pays nothing and costs nothing small. <em>(3)</em> The ember's darkest pixel is (213,55,25) at saturation 0.88 against C's (227,21,1) at 1.00 — the dark end is still shallower and less saturated than the reference's, the one place the ramp did not fully close. <em>(4)</em> The third judge family (gpt-5.6-sol) still did not run, for a missing API key, so the panel is two families rather than three — recorded in <code>fidelity/runs/r03/panel/verdict-openai.json</code>, never silently dropped. <em>(5)</em> A ring gauge remains a conventional device, which is the one rubric point this mark has never held.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, `sips -Z` for rasters.</div>
+<h2>Fidelity run — the master scored against take C</h2>
+<div class="sheet"><table class="metrics">
+  <caption class="visually-hidden">Composite score per render size across the fidelity rounds</caption>
+  <tr><th scope="col">Round</th><th scope="col">1024</th><th scope="col">256</th><th scope="col">128</th><th scope="col">32</th><th scope="col">16</th><th scope="col">mean</th><th scope="col">gate</th></tr>
+  <tr><td>r00 — baseline, the previous master</td><td>0.4389</td><td>0.3530</td><td>0.3544</td><td>0.7763</td><td>0.8145</td><td>0.5474</td><td>—</td></tr>
+  <tr><td>r01 — material: the gel-torus rebuild</td><td class="down">0.4302</td><td class="up">0.3735</td><td class="up">0.3915</td><td class="up">0.7900</td><td class="up">0.8265</td><td class="up">0.5623</td><td class="down">REJECT (1024)</td></tr>
+  <tr><td>r02 — detail: figure-ground, ember section, tighter specular</td><td>0.4298</td><td>0.3730</td><td>0.3906</td><td>0.7901</td><td>0.8266</td><td>0.5620</td><td class="up">ACCEPT vs r01</td></tr>
+  <tr><td>r03 — brighter ember, 13° clearance, 10% protrusion</td><td class="up">0.4412</td><td class="up">0.3866</td><td class="up">0.4046</td><td class="up">0.8037</td><td class="up">0.8330</td><td class="up">0.5738</td><td class="up">ACCEPT vs r02</td></tr>
+</table></div>
+<div class="rubric">The r01 rejection is the mechanism this loop has already documented rather than a bad edit. At 1024, <code>lum_delta</code> improved 0.1472&nbsp;→&nbsp;0.1428, <code>edge_f1</code> improved and <code>self_contrast</code> improved; only SSIM fell, because surface structure the reference carries at different coordinates raises local variance without raising covariance. r02 then traded 0.0003 of mean composite to lift figure-ground from 2.97:1 to 3.04:1, clearing rubric 7 outright — the rubric outranks the gate. r03 is the first round in this fixture to improve every size at once, and it did so on three changes a human asked for rather than on anything the metric suggested: <code>edge_f1</code> rose at all five sizes (0.009→0.035 at 1024, 0.928→0.945 at 32) and SSIM rose at 32 and 16 where the small-size complaint lived. Figure-ground moved 3.04:1 to 3.02:1, still clear of the bar. Run directories, per-round <code>score.json</code>, residual and edge maps, the geometry and ember sweeps, and the blind panel's per-judge verdicts are in <code>fidelity/runs/</code>.</div>
+
+<h2>The sweeps this round decided from</h2>
+<div class="rubric">Neither the hole nor the protrusion was picked; both were swept and measured, and the sweep renders are in <code>fidelity/runs/r03/sweep/</code>.
+<strong>Hole.</strong> GAP_HALF 30–34, i.e. 10–14° clear each side of the 40° ember, rendered at 1024/32/16. At 32px the clockwise-side clearance peaks at L 0.856 against a ground of 0.941 for 10–12° and only opens to full ground at 13°; the ember must keep clearance on <em>both</em> sides or it reads as continuous with the used arc. 13° chosen.
+<strong>Protrusion.</strong> PROTRUDE_FRAC 0–13% of the band width. Take C's own wedge measures 48% proud, but it is a separate triangle that also floats 11px clear of the ring's inner radius, which is the composition this mark rejects. 10% reads as unmistakably proud at 256 and above while the segment still belongs to the band. Self-contrast at 32 and 16px is flat across the whole protrusion sweep, because 10% of the band is 0.44px at 32.
+<strong>Ember ramp.</strong> Three sweeps, the first two discarded for measuring the wrong thing: a multiplicative value gain clipped three of five face stops at V=1.0 and collapsed the cross-section while the whole-image spread still <em>rose</em> (the specular owns that number), and an error term over R and G alone bought its score by driving blue to zero. The kept ramp is an affine remap into V 0.82–1.00 with a 9°→14° hue tilt and 5% more saturation, scored on all three channels at p10 and p50.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {256,128,96,64,32}</code> via <code>render_audit.py</code> for SVGs; rasters resampled with Pillow LANCZOS under the family superellipse as an alpha mask.</div>
 </body>
 </html>

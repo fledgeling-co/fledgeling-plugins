@@ -4,25 +4,95 @@
 Geometry and material live as named constants so a fidelity round is a
 parameter edit rather than path surgery.
 
-Values sampled from the corpus rather than assumed (create-mac-icon step 4):
+WHAT THIS BUILD CHANGED (round 7)
+---------------------------------
+Three preferences taken off take C, each swept and measured rather than
+adjusted. Full write-up in icon-notes.md; the numbers and the sweep renders are
+in fidelity/runs/r03/.
+
+  1. A brighter, redder ember. C's accent is a near-constant hue -- 10.5 degrees
+     at its core p10, 14.6 at its p90 -- where this ramp ran 18 to 26 and read
+     orange. Rotated onto a 9-to-14-degree tilt, value-remapped into 0.82-1.00,
+     5% more saturated. Sampled mean went (225,124,70) to (236,102,64) against
+     C's (235,110,77).
+
+  2. A tighter hole. GAP_HALF 40 to 33: 20 degrees clear each side becomes 13.
+     Swept 10 to 14 and decided at 32px, where below 13 the clockwise-side
+     clearance stops reaching the ground value and the segment starts fusing
+     with the arc it has to stay clear of.
+
+  3. The ember stands proud of the ring, 10% of the band width. See PROTRUDE_FRAC
+     below for why this is a parameter of band() and not a second code path.
+
+Round 7 also closed the liability round 6 left open: the specular's peak
+opacity is floored for the 64px-and-smaller rasters, which render from
+icon-small.svg. See build()'s docstring.
+
+WHAT ROUND 6 CHANGED (the fidelity round)
+-----------------------------------------
+Two faults were open against take C:
+
+  1. The ember did not sit cleanly in the ring's band. Geometrically it always
+     shared the inner radius -- measured on the render, both boundaries sat at
+     190 and 332 at every angle. What broke the read was that the RING carried
+     an inner edge-catch stroke and the EMBER did not, so the band's inner
+     boundary was a lit arc for 280 degrees and an unlit one for 40. The eye
+     reads that as a broken circle. The fix is structural rather than
+     cosmetic: `band()` below emits the whole nine-layer stack for any arc,
+     and it is called twice -- once for graphite, once for ember. Every
+     boundary, shoulder and bevel radius is therefore shared by construction
+     and cannot drift apart in a later edit.
+
+  2. The material was flat beside the raster. It was a single stroke with one
+     linear ramp; C is a gel torus. Rebuilt as the bevelled-puck construction
+     C actually uses (see the sampled numbers below).
+
+Values sampled from the corpus and from take C rather than assumed
+(create-mac-icon step 4; material-recipes.md "measure, never assume"):
 
   House porcelain, from armada-sync / dossier-report / create-mac-icon at 256:
       top    (253,253,252)   mid (245,238,231)   bottom (237,233,223)
   This is WARM. Apple's own porcelain is cool (254,255,255 -> 223,227,235);
   the family's is cream, and family consistency wins over the platform sample.
 
-  Gel falloff, Safari dial top to bottom:
-      (112,184,239) -> (57,113,241), about a 40% luminance drop at constant
-  hue. The object is a value ramp, tone on tone, never a hue shift.
+  Take C's ring body, sampled over 267k pixels:
+      darkest (18,49,75) L 0.174 -- a deep cool navy, not a neutral graphite
+      brightest (246,252,255) L 0.984 -- a near-white specular
+      p5..p95 luminance spread 0.439
+  The shipped master ran #5C6880 to #252B36, a spread of 0.24 with no
+  specular at all. That one number is most of what "the raster looks richer"
+  meant, and adding a real specular is the largest single move here.
+
+  Take C's cross-section across the band, t=0 inner to t=1 outer:
+      facing the key (225 deg): 0.28 rising monotonically to 0.84 at t=0.88
+      level with the centre (180 deg): flat 0.28-0.30, lifting to 0.50 at t=0.91
+      away from the key (45 deg): 0.29 falling to 0.20 mid, no outer lift
+  So the cross-section is a shallow radial ramp with its minimum near the band
+  centre, and the drama is ANGULAR: the specular exists only on the key side.
+  Hence a radial gradient for the section and a separate key-axis-faded stroke
+  for the specular, rather than one gradient trying to be both.
+
+  Take C's cut ends: every terminus is a bevelled puck -- a dark wall around a
+  paler inset face, the face lifting to L 0.36-0.53 against a body at 0.255,
+  with a white hairline against the ground. Confirmed as era grammar in the
+  corpus (apple-08's concentric ridges carry the same lit-shoulder / dark-
+  terminator / bounced-inner-edge stack).
+
+  Take C's ember: darkest (227,21,1) L 0.248 at saturation 0.996; brightest
+  (254,226,193) L 0.900. Its hue is near-constant at 10.5 to 14.6 degrees --
+  a vermilion, not the family accent's 21-degree orange. Round 7 moved the
+  ramp onto it; see the ember constants below.
 
   Contact shadow, Safari, just under the object:
       local ground (233,234,235), shadow (205,215,232). About 12% darker and
   tinted toward the object's own hue, not a neutral grey. So the graphite
-  ring casts cool and the ember wedge casts warm.
+  ring casts cool and the ember casts warm, at identical offset and blur so
+  the two read as one plane.
 
-The composition is the capacity arc: a ring 290 degrees closed in graphite over
-a recessed track, with one wedge lifted out of the gap in the family ember. The
-gap is the message.
+The composition is the capacity arc: a ring 294 degrees closed in graphite
+over no track at all, with one ember segment sitting INLINE in the same band,
+clear of the used arc on both sides and standing slightly proud of its outer
+edge. The gap is the message.
 """
 
 import math
@@ -38,59 +108,329 @@ SQUIRCLE = (Path(__file__).resolve().parents[2] / "create-mac-icon" /
 # ---- geometry ---------------------------------------------------------------
 S = 1024
 CX = CY = 512
-R = 280                 # ring radius, pulled in as the stroke thickened
-W = 152                 # ring stroke; heavier reads better at small sizes
+R = 280                 # ring centreline radius
+W = 152                 # band width; heavier reads better at small sizes
 GAP_MID = -55.0         # bisector of the gap, degrees, 0 = +x, y down
-# Half-width of the gap. 35 made a 70 degree hole, which is 19% of the ring
-# empty; the machine this was built for was at 6% free. 25 is both truer and
-# more legible, because a smaller hole lets the freed wedge match its width.
-GAP_HALF = 40.0
-# The reclaimed segment now sits INLINE in the ring rather than floating outside
-# it. Detached said "a piece came out"; inline says what the tool actually
-# reports, which is three quantities at once: dark for used, ember for just
-# reclaimed, and the remaining hole for free. It is also the conventional gauge
-# idiom, so it reads without being learned.
+GAP_HALF = 33.0         # half-width of the hole: a 66 degree opening
+EMBER_SPAN = 40.0       # the reclaimed segment, centred in the hole
+SCALE = 0.93            # composition scale, keeps the band off the tile edge
+
+R_IN = R - W / 2        # 204 -- the band's inner boundary, shared by both arcs
+R_OUT = R + W / 2       # 356 -- the band's outer boundary of the GRAPHITE arc
+
+# How far the ember stands proud of the ring's outer boundary, as a fraction of
+# the band width. Take C's wedge breaks the outer circle -- that protrusion is
+# most of what makes its segment read as reclaimed rather than as a coloured
+# slice of the same dial, and the user asked for it by name.
 #
-# The segment is CENTRED in the hole, with clearance on both sides. Abutting the
-# used arc made it read as continuous with it, as though the reclaimed space were
-# still part of what is occupied. Free space either side says the opposite, which
-# is the true statement: 80 degrees of hole, 40 of ember, 20 clear each side.
-# Butt caps, matching the ring.
-EMBER_SPAN = 40.0
-SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
+# It breaks the flush OUTER boundary deliberately and the INNER one not at all:
+# `band(grow=)` moves only the outer radius, so R_IN is shared by construction
+# exactly as before. A discontinuous inner edge is the fault this file was
+# rebuilt to cure (see the header), and a parameter that could reintroduce it
+# would be the same mistake wearing a different name.
+PROTRUDE_FRAC = 0.10
+
+# Bevel: the dark wall between the silhouette and the lit inset face. Measured
+# off C at roughly 0.08 of the band width. It is what makes a gel puck read as
+# moulded rather than printed, and it is applied identically to both arcs.
+BEVEL = 10.0
+# Angular inset for the face, so the CUT ENDS are bevelled too and not just the
+# long sides. A stroke cannot inset its own caps, so the face arc is shortened
+# by the same 12px expressed as an angle at that segment's centreline radius
+# (computed inside band(), because a protruding segment's centreline moves).
+
+# Cross-section landmarks as fractions of the band width, from the C samples.
+T_BOUNCE = 0.17         # inner shoulder, where ground bounce lands
+T_DARK = 0.53           # the section minimum
+T_SPEC = 0.82           # the lit shoulder carrying the specular
+SPEC_FRAC = 0.115       # specular stroke width, as a fraction of band width
+BOUNCE_FRAC = 0.095     # inner-bounce stroke width, same
+END_FADE = 96.0         # radius over which a cut end's pale face fades out
+
+# The key light. One source, upper-left. Every angular gradient hangs on this
+# ONE axis, expressed in USER SPACE (material-recipes: "one key, one axis").
+# Object-bounding-box units were the first attempt and are wrong here: they
+# rescale the axis to each shape, so a 40-degree ember got its own private
+# light direction and broke rubric 5 on a mark whose whole point is that the
+# two segments are one physical band.
+# Measured off C rather than assumed: its specular runs along the TOP of the
+# arc and wraps a little into the upper left, its darkest body sits at the
+# bottom, and its left and right flanks at centre height read the same mid
+# value. That is a near-vertical key tilted about 16 degrees left, not the
+# 45-degree diagonal the first draft used. The diagonal put the ember at t=0.41
+# on the axis, which is the neutral point, and the segment came out muddy while
+# the ring around it was lit -- one object, two lighting stories.
+KEY = (CX - 0.30 * R_OUT, CY - 1.06 * R_OUT,
+       CX + 0.30 * R_OUT, CY + 1.06 * R_OUT)
+# The vertical axis, for gravity-driven passes: the shade a form takes toward
+# its base, and the bounce it picks up off the porcelain.
+VERT_TOP, VERT_BOT = CY - R_OUT, CY + R_OUT
 
 # ---- material ---------------------------------------------------------------
 GROUND_TOP, GROUND_MID, GROUND_BOT = "#FDFDFC", "#F5EEE7", "#EDE9DF"
-# Graphite gel, value ramp. Nudged bluer than the first take: the raster's body
-# sampled (60,81,110) against the master's (75,85,99), and the cooler read is
-# part of why its material looked richer.
-RING_HI, RING_LO = "#5C6880", "#252B36"
-RING_RIM = "#8E97AA"                            # top-edge rim light
-EMBER_HI, EMBER_MID, EMBER_LO = "#FFB483", "#F4652C", "#D8410F"
-EMBER_RIM = "#FFD3B4"
+
+# Graphite gel. Slate-navy rather than neutral graphite: C's body measured
+# (71,90,119) mean and the cool read is part of why it looked like material.
+WALL_LIT, WALL_DARK = "#465272", "#132639"      # the bevel wall, key to far
+FACE_IN = "#2E3951"     # inset face at the inner bevel line
+FACE_BOUNCE = "#3A455E"  # inner shoulder, lifted by ground bounce
+FACE_DARK = "#16283F"   # the section minimum, L 0.208 against C's 0.20
+FACE_SHOULDER = "#505E7C"  # the lit outer shoulder
+FACE_OUT = "#37455F"    # turning down again at the outer bevel line
+SPEC = "#EEF3FB"        # near-white specular, against C's (246,252,255)
+BOUNCE = "#A9B8D4"      # cool bounce off the porcelain into the inner wall
+END_FACE = "#98A1B9"    # the cut cross-section, L 0.40 against C's 0.36-0.53
+
+# The ember. Round 7 moved this ramp toward take C, which the user preferred
+# for "the brighter red". Measured rather than eyeballed: C's ember core sits
+# at hue 10.5 degrees at its p10 and 14.6 at its p90 -- a near-scarlet that
+# gets marginally warmer as it lights, where the shipped ramp ran 18 to 26 and
+# read orange. C is also brighter through the midtones, median (244,88,49)
+# against the master's (224,108,48).
+#
+# So the ramp is the old one rotated to a 9-to-14-degree hue tilt (dark end
+# reddest, lit end warmest, matching C's direction), remapped affinely into
+# V 0.82-1.00, and 5% more saturated. Affinely, not multiplicatively: a value
+# GAIN clipped three of the five face stops at V=1.0 and collapsed the
+# cross-section into one colour, while the whole-image spread still rose --
+# the specular carries that number, so the metric paid for destroying the
+# section. The remap keeps the ramp monotone by construction.
+#
+# The specular is deliberately untouched: EM_SPEC already matched C's
+# brightest ember pixel, and the gap the user named was in the face and wall.
+EM_WALL_LIT, EM_WALL_DARK = "#ED542D", "#D13115"
+EM_FACE_IN = "#ED3000"
+EM_FACE_BOUNCE = "#F33A08"
+EM_FACE_DARK = "#DF2700"     # L 0.295 at saturation 1.00, against C's 0.248/0.996
+EM_FACE_SHOULDER = "#FF4E18"
+EM_FACE_OUT = "#F63D0A"
+EM_SPEC = "#FFE0C4"          # against C's brightest (254,226,193)
+EM_BOUNCE = "#F7B98E"
+EM_END_FACE = "#F0A470"
+
 SHADOW_COOL = "#2A2F38"
 SHADOW_WARM = "#C0430F"
+RIM = "#FFFFFF"
+
+# What the specular's peak opacity is multiplied by for the 64px and smaller
+# rasters. Measured on a radial profile through the key side: at full strength
+# the specular lifts the stroke's outer third to L 0.53 against a body of 0.23
+# at 32px, which is the "light streak inside the stroke" both blind judges
+# named when they preferred the flat predecessor at 32 and 16px. At 0.30 that
+# lift falls from +0.30 to +0.18 and 32px self-contrast RISES, 0.733 to 0.742.
+SPEC_SMALL = 0.30
 
 
-def pt(deg, r=R):
+# ---- helpers ----------------------------------------------------------------
+
+def pt(deg, r):
     a = math.radians(deg)
     return CX + r * math.cos(a), CY + r * math.sin(a)
 
 
-def arc(a0, a1, large, sweep, r=R):
+def arc(a0, a1, r):
+    """Clockwise arc from a0 to a1 (a1 > a0) at radius r."""
     x0, y0 = pt(a0, r)
     x1, y1 = pt(a1, r)
-    return f"M {x0:.1f} {y0:.1f} A {r} {r} 0 {large} {sweep} {x1:.1f} {y1:.1f}"
+    large = 1 if (a1 - a0) > 180 else 0
+    return f"M {x0:.2f} {y0:.2f} A {r:.2f} {r:.2f} 0 {large} 1 {x1:.2f} {y1:.2f}"
 
 
-def build():
+def off(t, grow=0.0):
+    """Band fraction t (0 inner, 1 outer) as a radialGradient offset.
+
+    `grow` is the segment's outward extension; the inner end of the section is
+    R_IN whatever it is, so t=0 lands on the shared boundary either way.
+    """
+    return (R_IN + t * (W + grow)) / (R_OUT + grow)
+
+
+def section_gradient(gid, c_in, c_bounce, c_dark, c_shoulder, c_out, grow=0.0):
+    """The cross-section ramp, in user space so it is the same physical
+    section on every arc that uses it."""
+    return f'''  <radialGradient id="{gid}" gradientUnits="userSpaceOnUse"
+                  cx="{CX}" cy="{CY}" r="{R_OUT + grow:.2f}">
+    <stop offset="{off(0.0, grow):.4f}"      stop-color="{c_in}"/>
+    <stop offset="{off(T_BOUNCE, grow):.4f}" stop-color="{c_bounce}"/>
+    <stop offset="{off(T_DARK, grow):.4f}"   stop-color="{c_dark}"/>
+    <stop offset="{off(T_SPEC, grow):.4f}"   stop-color="{c_shoulder}"/>
+    <stop offset="{off(1.0, grow):.4f}"      stop-color="{c_out}"/>
+  </radialGradient>'''
+
+
+def key_gradient(gid, colour, peak, tail=0.0):
+    """An opacity ramp along the single key axis: full at the lit corner,
+    gone by the far one. Used for additive passes (specular, rim)."""
+    x1, y1, x2, y2 = KEY
+    return f'''  <linearGradient id="{gid}" gradientUnits="userSpaceOnUse"
+                   x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}">
+    <stop offset="0"    stop-color="{colour}" stop-opacity="{peak}"/>
+    <stop offset="0.34" stop-color="{colour}" stop-opacity="{peak * 0.62:.3f}"/>
+    <stop offset="0.68" stop-color="{colour}" stop-opacity="{peak * 0.14:.3f}"/>
+    <stop offset="1"    stop-color="{colour}" stop-opacity="{tail}"/>
+  </linearGradient>'''
+
+
+def key_ramp(gid, lit, dark):
+    """An OPAQUE colour ramp along the key axis, lit corner to far corner.
+
+    The bevel wall's first draft used key_gradient for this, which ramps
+    opacity rather than colour: the wall dissolved to nothing on the unlit
+    side and the whole mark washed out. A wall is opaque everywhere; only its
+    colour changes with the light.
+    """
+    x1, y1, x2, y2 = KEY
+    return f'''  <linearGradient id="{gid}" gradientUnits="userSpaceOnUse"
+                   x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}">
+    <stop offset="0"    stop-color="{lit}"/>
+    <stop offset="0.52" stop-color="{dark}"/>
+    <stop offset="1"    stop-color="{dark}"/>
+  </linearGradient>'''
+
+
+def key_modelling(gid, lit, lit_op, dark, dark_op):
+    """The face's own modelling: a lift toward the key, a fall away from it,
+    on the same one axis."""
+    x1, y1, x2, y2 = KEY
+    return f'''  <linearGradient id="{gid}" gradientUnits="userSpaceOnUse"
+                   x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}">
+    <stop offset="0"    stop-color="{lit}" stop-opacity="{lit_op}"/>
+    <stop offset="0.40" stop-color="{lit}" stop-opacity="0"/>
+    <stop offset="0.60" stop-color="{dark}" stop-opacity="0"/>
+    <stop offset="1"    stop-color="{dark}" stop-opacity="{dark_op}"/>
+  </linearGradient>'''
+
+
+def end_gradient(gid, deg, colour, peak, r=R):
+    """A pale cut-face that fades away from one terminus."""
+    x, y = pt(deg, r)
+    return f'''  <radialGradient id="{gid}" gradientUnits="userSpaceOnUse"
+                  cx="{x:.2f}" cy="{y:.2f}" r="{END_FADE}">
+    <stop offset="0"    stop-color="{colour}" stop-opacity="{peak}"/>
+    <stop offset="0.45" stop-color="{colour}" stop-opacity="{peak * 0.55:.3f}"/>
+    <stop offset="1"    stop-color="{colour}" stop-opacity="0"/>
+  </radialGradient>'''
+
+
+def seg_geom(grow=0.0):
+    """Radii for a segment extended outward by `grow`.
+
+    One place computes this, and both the band and the shadow it casts read it
+    from here, so a protruding segment cannot end up floating over a shadow
+    that was drawn for the flush one.
+    """
+    r_out = R_OUT + grow
+    return (R_IN + r_out) / 2, r_out - R_IN     # centreline, width
+
+
+def band(a0, a1, keyname, opts, grow=0.0):
+    """Emit the full material stack for one segment of the band.
+
+    Called once for the graphite arc and once for the ember. Both get the same
+    inner radius, the same bevel, the same shoulder fractions and the same
+    cut-end construction, so the band's INNER boundary is a continuous arc by
+    construction rather than by a matched pair of edits.
+
+    `grow` extends a segment OUTWARD only. It is the one deliberate break in
+    the flush geometry: the outer boundary runs to R_OUT + grow while R_IN is
+    untouched, which is what lets the ember stand proud the way take C's wedge
+    does without reopening the inner-edge fault. Everything that scales with
+    the band -- bevel angle, shoulder radii, stroke widths, the cast shadow --
+    is derived from `grow` here rather than restated, so there is still exactly
+    one code path.
+    """
+    r_mid, w = seg_geom(grow)
+    bevel_deg = math.degrees(BEVEL / r_mid)
+    fa0, fa1 = a0 + bevel_deg, a1 - bevel_deg   # face arc, inset at both ends
+    face_w = w - 2 * BEVEL
+    shell = arc(a0, a1, r_mid)
+    face = arc(fa0, fa1, r_mid)
+    spec = arc(fa0, fa1, R_IN + T_SPEC * w)
+    bounce = arc(fa0, fa1, R_IN + T_BOUNCE * w)
+    return f'''  <g id="{keyname}">
+    <!-- glass edge: ONE hairline, drawn under the mass so the lit lip spills
+         onto the ground rather than ringing it, and modulated by the key so
+         it is a catch on the lit side rather than a uniform outline. A second
+         wide halo was tried and removed: at any opacity that showed, it read
+         as a sticker cut line. -->
+    <path d="{shell}" fill="none" stroke="url(#{opts['rim']})"
+          stroke-width="{w + 7}" stroke-linecap="butt" filter="url(#hairline)"/>
+    <!-- the bevel wall: the dark moulded rim the inset face sits inside -->
+    <path d="{shell}" fill="none" stroke="url(#{opts['wall']})"
+          stroke-width="{w}" stroke-linecap="butt"/>
+    <!-- the inset face, carrying the cross-section ramp -->
+    <path d="{face}" fill="none" stroke="url(#{opts['section']})"
+          stroke-width="{face_w}" stroke-linecap="butt"/>
+    <!-- the single key light, modelling the whole segment along one axis.
+         Applied to the SHELL, not the face: lighting only the inset face left
+         the bevel wall unlit, which reads as an inked outline. -->
+    <path d="{shell}" fill="none" stroke="url(#{opts['key']})"
+          stroke-width="{w}" stroke-linecap="butt"/>
+    <path d="{shell}" fill="none" stroke="url(#{opts['shade']})"
+          stroke-width="{w}" stroke-linecap="butt"/>
+    <!-- the lit shoulder: a soft specular that exists only on the key side -->
+    <path d="{spec}" fill="none" stroke="url(#{opts['spec']})"
+          stroke-width="{SPEC_FRAC * w:.1f}" stroke-linecap="round" filter="url(#specular)"/>
+    <!-- bounce off the porcelain into the inner wall, strongest at the bottom -->
+    <path d="{bounce}" fill="none" stroke="url(#{opts['bounce']})"
+          stroke-width="{BOUNCE_FRAC * w:.1f}" stroke-linecap="round" filter="url(#soften)"/>
+    <!-- the two cut cross-sections, paler than the body and fading inward -->
+    <path d="{face}" fill="none" stroke="url(#{opts['end0']})"
+          stroke-width="{face_w}" stroke-linecap="butt"/>
+    <path d="{face}" fill="none" stroke="url(#{opts['end1']})"
+          stroke-width="{face_w}" stroke-linecap="butt"/>
+  </g>'''
+
+
+def build(spec_scale=1.0):
+    """Emit the master SVG.
+
+    `spec_scale` multiplies the specular's peak opacity and nothing else. It
+    exists for the small rasters. Both blind judges preferred the flat
+    predecessor at 32 and 16px even though self-contrast and edge F1 favour
+    the rebuild, and a radial profile through the key side says what they were
+    seeing: at 32px the specular lifts the outer third of the stroke to
+    L 0.53 against a body of 0.23, so the lit edge dissolves toward the
+    porcelain and the ring reads thin and doubled. Below about 64px the
+    specular is carrying no material information -- it is one or two pixels --
+    while costing the silhouette, so the small rasters are rendered with it
+    floored. The 1024 master is untouched; this is a size-aware render
+    parameter, not a retreat from the material.
+    """
     squircle = SQUIRCLE.read_text().strip()
 
-    ring_start = GAP_MID + GAP_HALF          # clockwise from here...
-    ring_end = GAP_MID - GAP_HALF + 360      # ...all the way round
-    ring_d = arc(ring_start, ring_end - 360, 1, 1)
+    grow = PROTRUDE_FRAC * W
+    em_r, em_w = seg_geom(grow)
+    ring_r, ring_w = seg_geom(0.0)
 
-    wedge_d = arc(GAP_MID - EMBER_SPAN/2, GAP_MID + EMBER_SPAN/2, 0, 1)
+    ring_a0 = GAP_MID + GAP_HALF
+    ring_a1 = GAP_MID - GAP_HALF + 360
+    em_a0 = GAP_MID - EMBER_SPAN / 2            # -75
+    em_a1 = GAP_MID + EMBER_SPAN / 2            # -35
+
+    ring_shell = arc(ring_a0, ring_a1, ring_r)
+    em_shell = arc(em_a0, em_a1, em_r)
+    em_cx, em_cy = pt(GAP_MID, em_r)
+
+    defs = "\n".join([
+        section_gradient("sectionRing", FACE_IN, FACE_BOUNCE, FACE_DARK,
+                         FACE_SHOULDER, FACE_OUT),
+        section_gradient("sectionEmber", EM_FACE_IN, EM_FACE_BOUNCE,
+                         EM_FACE_DARK, EM_FACE_SHOULDER, EM_FACE_OUT,
+                         grow=grow),
+        key_ramp("wallRing", WALL_LIT, WALL_DARK),
+        key_ramp("wallEmber", EM_WALL_LIT, EM_WALL_DARK),
+        key_modelling("keyRing", "#FFFFFF", 0.13, "#06162B", 0.30),
+        key_modelling("keyEmber", "#FFF0E2", 0.22, "#5E1A03", 0.16),
+        key_gradient("specRing", SPEC, 0.95 * spec_scale),
+        key_gradient("specEmber", EM_SPEC, 0.88 * spec_scale),
+        key_gradient("rimRing", RIM, 0.72, tail=0.10),
+        key_gradient("rimEmber", RIM, 0.66, tail=0.10),
+        end_gradient("end0Ring", ring_a0, END_FACE, 0.85, r=ring_r),
+        end_gradient("end1Ring", ring_a1, END_FACE, 0.72, r=ring_r),
+        end_gradient("end0Ember", em_a0, EM_END_FACE, 0.55, r=em_r),
+        end_gradient("end1Ember", em_a1, EM_END_FACE, 0.42, r=em_r),
+    ])
 
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {S} {S}" width="{S}" height="{S}">
 <defs>
@@ -106,94 +446,102 @@ def build():
     <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
     <stop offset="1"    stop-color="#8C8577" stop-opacity="0.16"/>
   </radialGradient>
+  <!-- the ember is a light source, not just a saturated fill: it spills onto
+       the porcelain it sits on. Vibrancy is emission, not saturation. -->
+  <radialGradient id="emberSpill" gradientUnits="userSpaceOnUse"
+                  cx="{em_cx:.1f}" cy="{em_cy:.1f}" r="330">
+    <stop offset="0"    stop-color="#F0582A" stop-opacity="0.16"/>
+    <stop offset="0.45" stop-color="#F0582A" stop-opacity="0.06"/>
+    <stop offset="1"    stop-color="#F0582A" stop-opacity="0"/>
+  </radialGradient>
 
-  <!-- PLANE 3: the gel ring. Value ramp at constant hue, per the Safari sample. -->
-  <linearGradient id="ring" x1="0.18" y1="0" x2="0.82" y2="1">
-    <stop offset="0"    stop-color="{RING_HI}"/>
-    <stop offset="0.55" stop-color="#3B4250"/>
-    <stop offset="1"    stop-color="{RING_LO}"/>
-  </linearGradient>
-  <linearGradient id="ringRim" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0"   stop-color="{RING_RIM}" stop-opacity="0.85"/>
-    <stop offset="0.4" stop-color="{RING_RIM}" stop-opacity="0"/>
-  </linearGradient>
-  <!-- Edge catches fade with the light: strong where the form faces the top
-       light, gone by the time the curve turns away. -->
-  <linearGradient id="edgeTop" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0"    stop-color="#C9D2E2" stop-opacity="0.90"/>
-    <stop offset="0.38" stop-color="#C9D2E2" stop-opacity="0.22"/>
-    <stop offset="0.75" stop-color="#C9D2E2" stop-opacity="0"/>
-  </linearGradient>
-  <linearGradient id="edgeInner" x1="0" y1="1" x2="0" y2="0">
-    <stop offset="0"    stop-color="#93A0B8" stop-opacity="0.55"/>
-    <stop offset="0.45" stop-color="#93A0B8" stop-opacity="0.10"/>
-    <stop offset="1"    stop-color="#93A0B8" stop-opacity="0"/>
-  </linearGradient>
+{defs}
 
-  <!-- PLANE 3b: the freed wedge, the one warm element in the icon. -->
-  <linearGradient id="ember" x1="0.1" y1="1" x2="0.9" y2="0">
-    <stop offset="0"    stop-color="{EMBER_LO}"/>
-    <stop offset="0.5"  stop-color="{EMBER_MID}"/>
-    <stop offset="1"    stop-color="{EMBER_HI}"/>
+  <!-- The two shading passes that are NOT on the key axis: a vertical shade
+       under the whole face, and the ground bounce, which comes from below. -->
+  <linearGradient id="shadeRing" gradientUnits="userSpaceOnUse" x1="0" y1="{VERT_TOP}" x2="0" y2="{VERT_BOT}">
+    <stop offset="0"    stop-color="#08172C" stop-opacity="0"/>
+    <stop offset="0.55" stop-color="#08172C" stop-opacity="0.07"/>
+    <stop offset="1"    stop-color="#08172C" stop-opacity="0.28"/>
   </linearGradient>
-  <linearGradient id="emberEdge" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0"    stop-color="{EMBER_RIM}" stop-opacity="0.95"/>
-    <stop offset="0.45" stop-color="{EMBER_RIM}" stop-opacity="0.20"/>
-    <stop offset="0.8"  stop-color="{EMBER_RIM}" stop-opacity="0"/>
+  <linearGradient id="shadeEmber" gradientUnits="userSpaceOnUse" x1="0" y1="{VERT_TOP}" x2="0" y2="{VERT_BOT}">
+    <stop offset="0"    stop-color="#6B1A02" stop-opacity="0"/>
+    <stop offset="0.55" stop-color="#6B1A02" stop-opacity="0.03"/>
+    <stop offset="1"    stop-color="#6B1A02" stop-opacity="0.14"/>
+  </linearGradient>
+  <linearGradient id="bounceRing" gradientUnits="userSpaceOnUse" x1="0" y1="{VERT_BOT}" x2="0" y2="{VERT_TOP}">
+    <stop offset="0"    stop-color="{BOUNCE}" stop-opacity="0.62"/>
+    <stop offset="0.42" stop-color="{BOUNCE}" stop-opacity="0.24"/>
+    <stop offset="1"    stop-color="{BOUNCE}" stop-opacity="0.04"/>
+  </linearGradient>
+  <linearGradient id="bounceEmber" gradientUnits="userSpaceOnUse" x1="0" y1="{VERT_BOT}" x2="0" y2="{VERT_TOP}">
+    <stop offset="0"    stop-color="{EM_BOUNCE}" stop-opacity="0.58"/>
+    <stop offset="0.42" stop-color="{EM_BOUNCE}" stop-opacity="0.22"/>
+    <stop offset="1"    stop-color="{EM_BOUNCE}" stop-opacity="0.04"/>
   </linearGradient>
 
-  <!-- Contact shadows, tinted toward each object's own hue. -->
-  <filter id="ringShadow" x="-30%" y="-30%" width="160%" height="170%">
-    <feDropShadow dx="0" dy="16" stdDeviation="20"
-                  flood-color="{SHADOW_COOL}" flood-opacity="0.26"/>
-    <feDropShadow dx="0" dy="4" stdDeviation="5"
-                  flood-color="{SHADOW_COOL}" flood-opacity="0.20"/>
+  <filter id="soften" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="5"/>
   </filter>
-  <filter id="emberShadow" x="-60%" y="-60%" width="220%" height="220%">
-    <feDropShadow dx="0" dy="14" stdDeviation="17"
-                  flood-color="{SHADOW_WARM}" flood-opacity="0.34"/>
-    <feDropShadow dx="0" dy="3" stdDeviation="4"
-                  flood-color="{SHADOW_WARM}" flood-opacity="0.22"/>
+  <filter id="hairline" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="1.6"/>
+  </filter>
+  <!-- The specular gets its own, tighter blur. Sharing the 5px soften made it
+       a pale wash rather than a catch; a specular is the one pass whose
+       sharpness carries how hard the surface reads. -->
+  <filter id="specular" x="-25%" y="-25%" width="150%" height="150%">
+    <feGaussianBlur stdDeviation="2.8"/>
+  </filter>
+  <!-- Contact shadows, tinted toward each object's own hue but at identical
+       offset and blur, so the ring and the ember read as one plane. -->
+  <filter id="castCool" x="-40%" y="-40%" width="180%" height="190%">
+    <feGaussianBlur stdDeviation="19"/>
+  </filter>
+  <filter id="castTight" x="-40%" y="-40%" width="180%" height="190%">
+    <feGaussianBlur stdDeviation="6"/>
   </filter>
 
   <clipPath id="sq"><path d="{squircle}"/></clipPath>
 </defs>
 
 <g clip-path="url(#sq)">
-  <rect width="{S}" height="{S}" fill="url(#ground)"/>
-  <rect width="{S}" height="{S}" fill="url(#vignette)"/>
-  <!-- inner rim light: the perimeter catch that stops the tile reading as a print -->
-  <path d="{squircle}" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="3"/>
+  <g id="ground-plane">
+    <rect width="{S}" height="{S}" fill="url(#ground)"/>
+    <rect width="{S}" height="{S}" fill="url(#vignette)"/>
+    <path d="{squircle}" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="3"/>
+  </g>
 
   <g transform="translate({CX},{CY}) scale({SCALE}) translate({-CX},{-CY})">
-    <!-- No track. This was the defect reported twice as "wrong placement of
-         the red section", and the placement was correct both times: measured on
-         the render, the gap centred at -54 degrees and the ember at -55, widths
-         48 and 50. What was wrong was that a visible track makes the gap read as
-         a filled lighter segment, so the mark said "two-tone ring with an orange
-         blob nearby" instead of "ring with a piece removed, and there it is".
-         The gauge convention costs more than it buys here. -->
+    <rect width="{S}" height="{S}" fill="url(#emberSpill)"/>
 
-    <!-- the filled capacity, 290 degrees of graphite gel -->
-    <g filter="url(#ringShadow)">
-      <path d="{ring_d}" fill="none" stroke="url(#ring)"
-            stroke-width="{W}" stroke-linecap="butt"/>
+    <!-- PLANE 2: the shadow the whole band casts. One offset, one blur, two
+         hues, so a warm segment and a cool arc still sit on the same table. -->
+    <g id="cast-shadow">
+      <g transform="translate(0,17)" filter="url(#castCool)">
+        <path d="{ring_shell}" fill="none" stroke="{SHADOW_COOL}" stroke-opacity="0.30"
+              stroke-width="{ring_w}" stroke-linecap="butt"/>
+        <path d="{em_shell}" fill="none" stroke="{SHADOW_WARM}" stroke-opacity="0.34"
+              stroke-width="{em_w}" stroke-linecap="butt"/>
+      </g>
+      <g transform="translate(0,5)" filter="url(#castTight)">
+        <path d="{ring_shell}" fill="none" stroke="{SHADOW_COOL}" stroke-opacity="0.22"
+              stroke-width="{ring_w}" stroke-linecap="butt"/>
+        <path d="{em_shell}" fill="none" stroke="{SHADOW_WARM}" stroke-opacity="0.24"
+              stroke-width="{em_w}" stroke-linecap="butt"/>
+      </g>
     </g>
-    <!-- Edge catches as CONCENTRIC strokes, not a displaced copy. A ring lit
-         from above catches light along its outer top curve and bounces a
-         weaker line along the inner curve; the raster take reads richer
-         largely because it has both. Clipped to the filled arc so the empty
-         track stays matte. -->
-    <path d="{arc(ring_start, ring_end - 360, 1, 1, R + W/2 - 5)}" fill="none"
-          stroke="url(#edgeTop)" stroke-width="9" stroke-linecap="round"/>
-    <path d="{arc(ring_start, ring_end - 360, 1, 1, R - W/2 + 6)}" fill="none"
-          stroke="url(#edgeInner)" stroke-width="7" stroke-linecap="round"/>
 
-    <!-- the reclaimed segment, inline and abutting the ring -->
-    <path d="{wedge_d}" fill="none" stroke="url(#ember)"
-          stroke-width="{W}" stroke-linecap="butt"/>
-    <path d="{arc(GAP_MID - EMBER_SPAN/2, GAP_MID + EMBER_SPAN/2, 0, 1, R + W/2 - 5)}" fill="none"
-          stroke="url(#emberEdge)" stroke-width="9" stroke-linecap="round"/>
+    <!-- PLANE 3: the band itself. No track behind it — a visible pale track
+         makes the hole read as a filled lighter segment rather than as free
+         space, which is the read the whole mark depends on. -->
+{band(ring_a0, ring_a1, "used-arc", dict(
+        wall="wallRing", section="sectionRing", key="keyRing", shade="shadeRing",
+        spec="specRing", bounce="bounceRing", end0="end0Ring", end1="end1Ring",
+        rim="rimRing"))}
+{band(em_a0, em_a1, "reclaimed-segment", dict(
+        wall="wallEmber", section="sectionEmber", key="keyEmber", shade="shadeEmber",
+        spec="specEmber", bounce="bounceEmber", end0="end0Ember", end1="end1Ember",
+        rim="rimEmber"), grow=grow)}
   </g>
 </g>
 </svg>
@@ -201,14 +549,23 @@ def build():
 
 
 def main():
-    svg = build()
     master = OUT / "icon.svg"
-    master.write_text(svg)
-    for size, name in ((1024, "icon.png"), (256, "icon-256.png"), (128, "icon-128.png"),
-                       (32, "icon-32.png"), (16, "icon-16.png")):
+    master.write_text(build())
+    # The small rasters come from the same build with the specular floored --
+    # see build()'s docstring for the profile that motivated it. Written to
+    # disk rather than through a temp file so anyone re-rendering icon-32.png
+    # by hand gets the file that actually produced it.
+    small = OUT / "icon-small.svg"
+    small.write_text(build(spec_scale=SPEC_SMALL))
+    for size, name, src in ((1024, "icon.png", master),
+                            (256, "icon-256.png", master),
+                            (128, "icon-128.png", master),
+                            (64, "icon-64.png", small),
+                            (32, "icon-32.png", small),
+                            (16, "icon-16.png", small)):
         subprocess.run(["rsvg-convert", "-w", str(size), "-h", str(size),
-                        str(master), "-o", str(OUT / name)], check=True)
-    print(f"wrote {master} and 5 rasters")
+                        str(src), "-o", str(OUT / name)], check=True)
+    print(f"wrote {master}, {small} and 6 rasters")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-clean.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r01 material: gel-torus rebuild, one band() for both arcs",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1428,
+      "ssim": 0.6947,
+      "edge_f1": 0.0088,
+      "mask_iou": 0.9998,
+      "self_contrast": 0.7046,
+      "ref_self_contrast": 0.6807,
+      "composite": 0.4302
+    },
+    "256": {
+      "lum_delta": 0.1423,
+      "ssim": 0.4824,
+      "edge_f1": 0.119,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.7063,
+      "ref_self_contrast": 0.6804,
+      "composite": 0.3735
+    },
+    "128": {
+      "lum_delta": 0.1416,
+      "ssim": 0.412,
+      "edge_f1": 0.2996,
+      "mask_iou": 0.9981,
+      "self_contrast": 0.7029,
+      "ref_self_contrast": 0.6795,
+      "composite": 0.3915
+    },
+    "32": {
+      "lum_delta": 0.138,
+      "ssim": 0.5919,
+      "edge_f1": 0.9281,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6842,
+      "ref_self_contrast": 0.6772,
+      "composite": 0.79
+    },
+    "16": {
+      "lum_delta": 0.1329,
+      "ssim": 0.6249,
+      "edge_f1": 1.0,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6594,
+      "ref_self_contrast": 0.6682,
+      "composite": 0.8265
+    }
+  },
+  "render_hash": "ab3bf12a32ab0933"
+}

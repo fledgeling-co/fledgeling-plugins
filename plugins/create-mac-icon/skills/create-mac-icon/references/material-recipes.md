@@ -65,6 +65,117 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · mac-doctor round 7 — breaking one boundary on purpose, and two
+  ways a colour sweep pays you to be wrong.**
+
+  **(a) A deliberate discontinuity is safe when it is a parameter of the shared
+  generator.** The previous round's whole lesson was that continuity has to be a
+  construction rather than a matched pair of edits. This round had to break the
+  band's OUTER boundary — the accent segment stands proud of the ring, which is
+  what makes it read as reclaimed rather than as a coloured slice of the same
+  dial — while keeping the INNER one flush. Adding `grow` to the one `band()`
+  generator does both: the outer radius is `R_OUT + grow`, `R_IN` is not a
+  function of it, and every derived quantity (bevel angle, shoulder radii,
+  stroke widths, the cast shadow, the section gradient's stops) is computed from
+  `grow` inside the same function rather than restated. Verified on the render:
+  inner radius 189.0–190.2 at every angle through both segments, outer 331 on
+  the arc and 345 on the segment.
+  *Generalise:* an intentional asymmetry belongs in the shared generator's
+  signature. A second code path would deliver the same picture and lose the
+  guarantee, which is the whole asset.
+
+  **(b) A multiplicative value gain clips, and clipping flattens the ramp it was
+  brightening — while the whole-image metric goes UP.** Sweeping the accent
+  ramp's HSV value by a gain scored best at 1.14 and was unusable: three of the
+  five face stops pinned at V=1.0, so the section's shoulder, its minimum and
+  its outer stop became one colour. The measured p5–p95 luminance spread still
+  rose, because the specular and the bevel wall own that statistic, not the
+  face. Remap value affinely into `[v_lo, v_hi]` instead and the ramp stays
+  monotone by construction.
+  *Generalise:* when the edit is "make this ramp brighter", check the ramp's own
+  stop ordering after the transform, not the image's spread. This is the same
+  shape of error as r06's "find out which pixels own your percentiles".
+
+  **(c) An error term over the channels the gap is in buys its score with the
+  channel you left out.** The accent's gap against the reference was in R and G,
+  so the first sweep scored |ΔR| + |ΔG| at p10 and p50 — and picked a ramp that
+  cut G by raising saturation, which drove B to zero. The reference's median
+  accent carries B=49 at saturation 0.80. Score all three channels even when you
+  only mean to move two.
+
+  **(d) A warm spill on the ground defeats a warmth-based boundary detector.**
+  Checking that the segment's inner boundary matched the arc's, a detector using
+  `R > B + 40` counted the accent's low-opacity spill on the porcelain as
+  object, and reported the segment's inner radius 23px inside the arc's — an
+  artifact indistinguishable, on the number alone, from the exact fault the
+  build exists to prevent. `R > B + 90` separates the body from its own light.
+
+  **(e) A specular is worth flooring below ~64px, and the profile proves it
+  rather than the composite.** Two blind judges had preferred a flat predecessor
+  at 32 and 16px while self-contrast and edge F1 both favoured the material
+  rebuild. A radial profile along the key axis found the mechanism: at 32px the
+  specular lifted the stroke's outer third to L 0.53 against a body of 0.23, so
+  the lit edge dissolved into the ground and the stroke read thin and doubled.
+  Rendering the ≤64px rasters from the same build with the specular's peak
+  opacity at 0.30 drops that lift to +0.18 and *raises* 32px self-contrast,
+  0.733 → 0.741. One parameter, one extra file, master untouched.
+  *Generalise:* a highlight narrower than about two rendered pixels carries no
+  material information and costs silhouette. Make it a size-aware render
+  parameter rather than removing it from the master.
+
+- **2026-08 · mac-doctor capacity ring — one `band()`, two hues, and the
+  bevelled-puck section** — a ring gauge whose reclaimed segment sits INLINE in
+  the same track. Two findings, both reusable.
+
+  **(a) Continuity is a construction, not a pair of matched edits.** The segment
+  and the arc measured identical inner and outer radii and still read as a broken
+  circle, because the arc carried an inner edge-catch stroke that the segment did
+  not: one boundary lit for 280 degrees and unlit for 40. Five hand-adjustment
+  rounds moved the segment and never touched the cause. The fix is to emit the
+  whole material stack from ONE function called once per segment, so every
+  boundary, shoulder, bevel and cut-end radius is shared by construction and
+  cannot drift apart later. Verified on the render: object at r=192 and ground at
+  r=334 at every angle, through arc and segment alike.
+  *Generalise:* when two parts of one object must read as one object, share the
+  generator, not the numbers.
+
+  **(b) A gel band is a bevelled puck: dark wall, inset face, section ramp.**
+  Sampled off the raster, every terminus is a dark moulded wall around a paler
+  inset cross-section face, and the same wall runs the long sides. Build it as
+  two concentric strokes on the same arc — the shell at full width in an OPAQUE
+  key-axis colour ramp, then the face at `W - 2·BEVEL` — and shorten the face arc
+  by `degrees(BEVEL/R)` at each end so the CUT ENDS are bevelled too, which a
+  stroke cap cannot do for you. Bevel measured at 0.08 of the band width.
+
+  Three traps this cost, each worth its own line.
+  **The wall must ramp COLOUR, not opacity.** Authoring it as an opacity ramp
+  dissolved the wall to nothing on the unlit side and washed the whole mark out;
+  a wall is opaque everywhere and only its colour changes with the light.
+  **Light the shell, not the face.** Modelling only the inset face left the wall
+  unlit, which reads as an inked outline round the shape.
+  **`objectBoundingBox` gradient units are wrong for a multi-part object.** They
+  rescale the axis to each shape, so a 40-degree segment got its own private
+  light direction while the arc around it got another — a rubric-5 break on a
+  mark whose whole point is that the two are one physical band. Every angular
+  gradient goes in `userSpaceOnUse` on one shared axis.
+
+  **And the key direction is measurable, not a default.** The 45-degree diagonal
+  everyone reaches for put the segment at t=0.41 on the axis, the neutral point,
+  and it came out muddy. Reading the raster instead — specular along the TOP,
+  darkest body at the BOTTOM, left and right flanks equal at centre height —
+  gives a near-vertical key tilted about 16 degrees, which lit both parts as one.
+
+  **What it cost on the gate, and why it shipped anyway.** Every term improved at
+  every size except SSIM at 1024, which fell 0.733 to 0.695 and tripped the
+  Pareto gate — the documented mechanism, since new surface structure the
+  reference carries at different coordinates raises local variance without
+  covariance. Net composite +0.0730 across five sizes. A blind two-family panel
+  (Claude, grok-4.5) then voted the rebuild the winner on OVERALL and MATERIAL
+  unanimously, so it shipped: panel over gate, exactly as the ordering says.
+  Both judges also preferred the flat baseline at 32/16px, where the measured
+  self-contrast and edge F1 both favour the rebuild — a disagreement recorded
+  rather than resolved.
+
 - **2026-08 · clarify "The Drawn Card" — a gradient's dominant axis is the one it is
   measured along.** An extrusion wall 32px tall and 470px wide was given a
   gradient meant to run *down* it, written as a vector from `(x, y+h)` to

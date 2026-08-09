@@ -1,0 +1,41 @@
+claude: ok {'exit': 0, 'harness': 'claude -p (opus)'}
+cursor: ok {'exit': 0, 'harness': 'cursor-agent (grok-4.5)'}
+openai: FAILED {'error': 'no OPENAI_API_KEY (pass --env-file)'}
+{
+  "overall": {
+    "votes": {
+      "candidate": 2,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 2,
+    "winner": "candidate"
+  },
+  "material": {
+    "votes": {
+      "candidate": 2,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 2,
+    "winner": "candidate"
+  },
+  "silhouette": {
+    "votes": {
+      "candidate": 0,
+      "baseline": 0,
+      "tie": 2
+    },
+    "judges_ran": 2,
+    "winner": "tie"
+  },
+  "smallsize": {
+    "votes": {
+      "candidate": 2,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 2,
+    "winner": "candidate"
+  }
+}

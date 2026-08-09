@@ -1,0 +1,18 @@
+{
+  "verdict": {
+    "overall": "B",
+    "material": "B",
+    "silhouette": "A",
+    "smallsize": "A",
+    "rationale": {
+      "overall": "B reads much closer to the REFERENCE's glossy, three-dimensional object sitting on a warm ivory plate, whereas A is a flat vector wedge chart with only a faint sheen.",
+      "material": "B has the rounded tube cross-section, specular top-edge highlight, soft contact shadow and translucent depth the REFERENCE shows; A's arc is a flat fill with a thin rim and no volume.",
+      "silhouette": "A's arc terminals are crisper and the orange wedge is a cleaner, more legible shape, while B's wedge is muddied by its own reflections and its terminals blur into the background.",
+      "smallsize": "A holds a harder, higher-contrast ring and a distinct orange mark at 32px and 16px, whereas B's softer gradients and lighter navy lose edge definition and the wedge starts to smear."
+    }
+  },
+  "meta": {
+    "exit": 0,
+    "harness": "claude -p (opus)"
+  }
+}
