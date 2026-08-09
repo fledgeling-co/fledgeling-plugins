@@ -53,36 +53,57 @@ json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 canon() { ( cd "$1" 2>/dev/null && pwd -P ) || printf '%s' "$1"; }
 
 MAX_VERIFY_FILES="${MAX_VERIFY_FILES:-4000}"
+REACHABLE_TIMEOUT="${REACHABLE_TIMEOUT:-60}"
+
+# Blobs reachable from a ref that will still exist after the worktree goes.
+# Built once per repo and cached, because `rev-list --objects --all` is a single
+# history walk where `cat-file -e` per file is N lookups.
+#
+# Presence is weaker than reachability, and the difference is not academic: a
+# blob can sit in the object database unreferenced, having come from an aborted
+# commit or a discarded branch, and `git gc` will prune it. Content whose only
+# witness is the directory being deleted is not preserved by the fact that git
+# currently happens to have a copy.
+_reach_repo=""; _reach_file=""
+reachable_blobs() {
+  local repo="$1"
+  [ "$repo" = "$_reach_repo" ] && return 0
+  _reach_repo="$repo"
+  _reach_file=$(mktemp -t mdreach-XXXXXX)
+  bounded "$REACHABLE_TIMEOUT" git -C "$repo" rev-list --objects --all 2>/dev/null \
+    | awk '{print $1}' | sort -u > "$_reach_file" || :
+  [ -s "$_reach_file" ] || return 1     # walk failed or was bounded out
+  return 0
+}
 
 # Decide whether a DEREGISTERED worktree can be removed without losing anything.
 #
 # `git status` cannot run in one (its admin directory is gone), which is why an
-# earlier version of this script gave up and called them all unverifiable. That
-# was over-conservative: the question is not "what does git say", it is "does
-# this directory hold any content that exists nowhere else". That is answerable
-# without the admin directory, by hashing each file and asking the parent repo's
-# object database whether it already has that blob.
+# earlier version gave up and called them all unverifiable. That was
+# over-conservative: the question is not "what does git say", it is "does this
+# directory hold content that exists nowhere else", and that is answerable by
+# hashing each file and asking whether the blob is reachable from a surviving
+# ref.
 #
-# Commits need no check at all. They live in the parent repo, so deleting a
-# worktree directory cannot destroy history even on an unmerged branch -- the
-# branch ref and its objects stay behind.
+# Commits need no separate check. They live in the parent repo, so deleting a
+# worktree directory cannot destroy history even on an unmerged branch: the
+# branch ref and its objects stay behind, and `git checkout <branch>` restores
+# the tree. Verified on the fixture.
 #
-# Returns 0 = every file already in the object DB (safe)
-#         1 = holds content found nowhere else (keep)
-#         2 = could not decide (too large, or a notable ignored file present)
+# Returns 0 = every file reachable from a surviving ref (safe)
+#         1 = holds content reachable from nowhere else (keep)
+#         2 = could not decide (too large, dotenv present, or the walk failed)
 content_all_reachable() {
   local repo="$1" wt="$2" n=0 h
-  # Files ignored by convention are regenerable and not worth hashing. Dotenv
-  # files are the exception: gitignored, never in the object DB, and the one
-  # thing in a worktree a person would actually miss.
   if find "$wt" -maxdepth 2 -type f \( -name '.env' -o -name '.env.*' \) 2>/dev/null | grep -q .; then
     return 2
   fi
+  reachable_blobs "$repo" || return 2
   while IFS= read -r f; do
     n=$((n + 1))
     [ "$n" -gt "$MAX_VERIFY_FILES" ] && return 2
     h=$(git -C "$repo" hash-object "$f" 2>/dev/null) || return 2
-    git -C "$repo" cat-file -e "$h" 2>/dev/null || return 1
+    grep -qxF "$h" "$_reach_file" || return 1
   done < <(find "$wt" -type f \
              -not -path '*/.git/*' -not -name '.git' \
              -not -path '*/node_modules/*' -not -path '*/dist/*' -not -path '*/build/*' \
