@@ -65,6 +65,34 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · clarify "The Drawn Card" — a gradient's dominant axis is the one it is
+  measured along.** An extrusion wall 32px tall and 470px wide was given a
+  gradient meant to run *down* it, written as a vector from `(x, y+h)` to
+  `(x + 0.28w, y+body_h)` — a small lateral lean on a mostly-vertical run, or so
+  it read. It is not: that vector is 132 long in x and 30 in y, so every point on
+  the band projects past offset 1 and **the whole wall rendered as one flat
+  colour**. Measured, the master's wall was 0.617 for 32 consecutive pixels where
+  the reference ramped 0.702 → 0.628. The fix is two constructions, not one: a
+  purely vertical `linearGradient` for the ramp, plus a *separate* horizontal
+  overlay clipped to the same band for the lean. Lesson: *a gradient carries one
+  axis; a second direction is a second layer.* The failure is invisible in the
+  source, where the intent is legible, and invisible to a composite average,
+  where a flat band and a ramped one differ by a few thousandths — it shows up
+  only in a perpendicular profile.
+
+  **The same fixture also has the cleanest case yet of the reference being the
+  wrong target.** The raster was porcelain cards on a porcelain ground; at 16px
+  that has no value separation between glyph and field, so the master converged
+  faithfully onto a pale blob with two accent specks. Nine rounds of gate ACCEPTs
+  had been buying similarity to a weakness. Moving the *glyph* down the value ramp
+  (two of three cards to clay, the focal one left porcelain) took the 16px
+  contrast spread 0.229 → 0.362 against the reference's 0.326 and cost 0.075 of
+  1024 composite, gating REJECT on all five sizes. Ship it anyway: the check the
+  rubric is protecting (#4, 16px identity) is one the reference itself fails, and
+  the shelf the icon lives on is the real judge. *Before a small-size round, put
+  the master at 16px beside the siblings it will sit next to — the reference is
+  not that shelf.*
+
 - **2026-08 · a spine crest on a warm-lit object is never `#FFFFFF`** — the
   dossier-report fold shipped a crease highlight as a pure white hairline at
   0.55 opacity. It is a hard specular in a scene lit by nothing white, which
