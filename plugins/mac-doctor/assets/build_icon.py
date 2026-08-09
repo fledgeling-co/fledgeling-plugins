@@ -61,7 +61,6 @@ SCALE = 0.93            # composition scale, keeps the lifted wedge off the edge
 
 # ---- material ---------------------------------------------------------------
 GROUND_TOP, GROUND_MID, GROUND_BOT = "#FDFDFC", "#F5EEE7", "#EDE9DF"
-TRACK_HI, TRACK_LO = "#E4DED1", "#D3CCBC"      # recessed groove
 # Graphite gel, value ramp. Nudged bluer than the first take: the raster's body
 # sampled (60,81,110) against the master's (75,85,99), and the cooler read is
 # part of why its material looked richer.
@@ -109,12 +108,6 @@ def build():
     <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
     <stop offset="1"    stop-color="#8C8577" stop-opacity="0.16"/>
   </radialGradient>
-
-  <!-- PLANE 2: the track. Recessed, so it reads as a groove the ring sits in. -->
-  <linearGradient id="track" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="{TRACK_LO}"/>
-    <stop offset="1" stop-color="{TRACK_HI}"/>
-  </linearGradient>
 
   <!-- PLANE 3: the gel ring. Value ramp at constant hue, per the Safari sample. -->
   <linearGradient id="ring" x1="0.18" y1="0" x2="0.82" y2="1">
@@ -174,12 +167,13 @@ def build():
   <path d="{squircle}" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="3"/>
 
   <g transform="translate({CX},{CY}) scale({SCALE}) translate({-CX},{-CY})">
-    <!-- recessed track -->
-    <circle cx="{CX}" cy="{CY}" r="{R}" fill="none"
-            stroke="url(#track)" stroke-width="{W}"/>
-    <circle cx="{CX}" cy="{CY}" r="{R}" fill="none"
-            stroke="#B9B1A0" stroke-opacity="0.35" stroke-width="{W}"
-            style="filter:none"/>
+    <!-- No track. This was the defect reported twice as "wrong placement of
+         the red section", and the placement was correct both times: measured on
+         the render, the gap centred at -54 degrees and the ember at -55, widths
+         48 and 50. What was wrong was that a visible track makes the gap read as
+         a filled lighter segment, so the mark said "two-tone ring with an orange
+         blob nearby" instead of "ring with a piece removed, and there it is".
+         The gauge convention costs more than it buys here. -->
 
     <!-- the filled capacity, 290 degrees of graphite gel -->
     <g filter="url(#ringShadow)">

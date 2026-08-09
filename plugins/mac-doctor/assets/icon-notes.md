@@ -34,29 +34,31 @@ a local ground of `(233,234,235)`: roughly 12% darker and tinted toward the
 object's own hue, not a neutral grey. So the graphite ring casts cool
 (`#2A2F38`) and the ember wedge casts warm (`#C0430F`).
 
-## Wedge placement, and why the first two attempts failed
+## The defect was the track, not the wedge
 
-Reported twice as wrong placement, and both times it was. The measurement that
-finally explained it: the ember spanned radius 289 to 389 while the track's
-outer edge sits at 322, so the wedge was overlapping the gap by 33px. It was
-sitting partly ON the hole rather than clear of it, which is why it read as
-hovering rather than lifted out.
+Reported three times as wrong placement of the red section. The first two fixes
+moved the wedge, and both were wrong, because the placement was never the fault.
+Measured on the rendered pixels: the gap centred at -54 degrees and the ember at
+-55, widths 48 and 50 degrees. Aligned and matched.
 
-Two other things were wrong with the original 70 degree gap. It is 19% of the
-ring empty, where the machine this was built for was at 6% free, so it was not
-even truthful. And a hole that wide cannot be matched by a wedge of the same
-visible width without the wedge dominating the mark.
+What actually broke the read was the **track**. A visible pale band filling the
+gap makes the mark say "two-tone ring with an orange blob nearby" rather than
+"ring with a piece removed, and there it is". The eye needs the gap to be
+absent, not merely lighter.
 
-| gap / wedge / lift | what it does |
-|---|---|
-| 70 / 34 / 104 | wedge half the width of the hole, far out; reads as an unrelated bean |
-| 70 / 48 / 88 | overlaps the track by 33px; hovers over the gap |
-| **50 / 48 / 118** | **shipped.** Same visible width as the gap, sits just clear of it |
+Removing the track fixed it outright. The gauge convention costs more than it
+buys here: the arc length still encodes how full the disk is, and a real hole
+carries the story the skill is actually about.
 
-Worth leaving for whoever edits these constants: round caps extend the arc by
-(W/2)/R radians at each end, 21.2 degrees in total here, so the authored 48
-degrees renders as about 69. The authored number is not the number you see, and
-that is most of why the first attempt was misjudged.
+Two things are worth keeping from the earlier rounds, because the constants
+still reflect them. The gap is 50 degrees rather than 70, since 70 is 19% of the
+ring empty where the reference machine was at 6% free. And the wedge matches the
+gap's visible width, which needs allowing for the round caps: they extend the
+arc by (W/2)/R radians at each end, 21.2 degrees in total, so the authored 48
+degrees renders as about 69.
+
+The lesson for the next commission: when a measurement says an element is
+correctly placed and it still looks wrong, stop adjusting that element.
 
 ## What the raster take changed
 
