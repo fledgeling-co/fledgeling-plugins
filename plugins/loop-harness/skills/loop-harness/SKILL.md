@@ -129,5 +129,14 @@ work happens.
   expiry the user knows about.
 - **One loop per concern.** Two loops in one session compete for idle time and
   both slow down.
+- **A human verdict never blocks a tick.** Where the protocol has a review step,
+  the loop queues the item for the human and *carries on with the next one*;
+  it does not park until an answer arrives. The owner's standing instruction is
+  explicit — *"don't wait on me for future rounds, I can provide my feedback
+  later once the AI models have performed their own reviews"* — and a loop
+  waiting on a person who is asleep is a loop that has stopped, indistinguishable
+  from one that crashed. Write the queue to disk (a review file, a ledger
+  column), let model-side review gate the round instead, and apply human verdicts
+  whenever they land.
 - **The ledger is the answer.** "How's it going" is read from the file, never
   inferred from the transcript.
