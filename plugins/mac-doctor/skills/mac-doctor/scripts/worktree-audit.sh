@@ -52,6 +52,45 @@ json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 # like this to behave.
 canon() { ( cd "$1" 2>/dev/null && pwd -P ) || printf '%s' "$1"; }
 
+MAX_VERIFY_FILES="${MAX_VERIFY_FILES:-4000}"
+
+# Decide whether a DEREGISTERED worktree can be removed without losing anything.
+#
+# `git status` cannot run in one (its admin directory is gone), which is why an
+# earlier version of this script gave up and called them all unverifiable. That
+# was over-conservative: the question is not "what does git say", it is "does
+# this directory hold any content that exists nowhere else". That is answerable
+# without the admin directory, by hashing each file and asking the parent repo's
+# object database whether it already has that blob.
+#
+# Commits need no check at all. They live in the parent repo, so deleting a
+# worktree directory cannot destroy history even on an unmerged branch -- the
+# branch ref and its objects stay behind.
+#
+# Returns 0 = every file already in the object DB (safe)
+#         1 = holds content found nowhere else (keep)
+#         2 = could not decide (too large, or a notable ignored file present)
+content_all_reachable() {
+  local repo="$1" wt="$2" n=0 h
+  # Files ignored by convention are regenerable and not worth hashing. Dotenv
+  # files are the exception: gitignored, never in the object DB, and the one
+  # thing in a worktree a person would actually miss.
+  if find "$wt" -maxdepth 2 -type f \( -name '.env' -o -name '.env.*' \) 2>/dev/null | grep -q .; then
+    return 2
+  fi
+  while IFS= read -r f; do
+    n=$((n + 1))
+    [ "$n" -gt "$MAX_VERIFY_FILES" ] && return 2
+    h=$(git -C "$repo" hash-object "$f" 2>/dev/null) || return 2
+    git -C "$repo" cat-file -e "$h" 2>/dev/null || return 1
+  done < <(find "$wt" -type f \
+             -not -path '*/.git/*' -not -name '.git' \
+             -not -path '*/node_modules/*' -not -path '*/dist/*' -not -path '*/build/*' \
+             -not -path '*/.next/*' -not -path '*/.turbo/*' -not -path '*/target/*' \
+             -not -path '*/.venv/*' -not -path '*/__pycache__/*' 2>/dev/null)
+  return 0
+}
+
 default_branch() {
   local repo="$1" b
   b=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null) && {
@@ -106,8 +145,17 @@ for wtroot in "$ROOT"/*/.claude/worktrees "$ROOT"/*/.worktrees; do
     # an unsatisfiable one: unregistered is precisely the state in which clean
     # and merged are unknowable.
     if [ "$is_registered" != true ]; then
-      verdict="unverifiable"; dirty="unknown"; unmerged="unknown"
-      reason="not registered with git, so uncommitted work cannot be ruled out; needs a human"
+      # git cannot speak for this one, so ask the object database instead.
+      content_all_reachable "$repo" "$wt"; rc=$?
+      dirty="unknown"; unmerged="n/a"
+      case $rc in
+        0) verdict="reclaimable"
+           reason="deregistered, but every file already exists in the object database, and commits live in the parent repo" ;;
+        1) verdict="keep"
+           reason="deregistered and holds file content found nowhere in the object database" ;;
+        *) verdict="unverifiable"
+           reason="deregistered, and too large or holds a dotenv file, so content cannot be cleared" ;;
+      esac
     elif ! git -C "$wt" rev-parse --git-dir >/dev/null 2>&1; then
       verdict="unverifiable"; dirty="unknown"; unmerged="unknown"
       reason="registered but unreadable as a git worktree"
