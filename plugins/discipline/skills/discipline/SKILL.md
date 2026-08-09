@@ -197,7 +197,13 @@ treat the exact magnitudes as unverified.
   measurement is **total session tokens including cache misses**, never this-turn output length — a
   preamble can always be tuned to shrink visible output while forcing more turns to finish the same
   task, and the per-turn number improves while total spend rises.
-- **That v4 beats v3.** Clause 6 is a correctness argument from the measurement, not an A/B result.
+- **That v4 saves anything. It did not on the one arm that has run.** 106 paired tasks, one
+  sample each: score 63.3% -> 61.6% (32 worse / 30 better, p = 0.90, so no detectable
+  difference), and cost $229.02 -> $303.77, **32.6% MORE than no block at all**. The work
+  floor did its job on quality, and the saving did not appear. The cost arms are not on equal
+  footing (one sample against two), so treat the cost number as unresolved rather than
+  settled, and do not describe this block as a saving until a two-sample arm says so.
+- **That v4 beats v3.** The arm compares v4 against no block, not against v3.
 - **The instrument exists; the answer does not.** PERCH-0333 ships a three-arm experiment enrolled at
   0% by default. Its results are **per cache-conversation segment**, not per session — a `claude` the
   user starts is not a Perch child and its segments are not summed. Do not report a figure from it as

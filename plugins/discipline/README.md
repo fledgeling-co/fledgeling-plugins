@@ -2,7 +2,7 @@
 
 # discipline
 
-**Spend fewer tokens without doing less work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
+**Stop an agent buying cheap tokens with worse work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
 
 
 ## The problem
@@ -52,7 +52,8 @@ All three leaned the same way, on a coin-flip-unlikely margin.
 
 ## Honest limits
 
-- Whether this block beats its own previous version is not yet measured. The new clause is an argument from the numbers above, not a result. A three-arm experiment exists and is switched off by default.
+- **It has not been shown to save money.** On a 106-task arm it scored level with no block at all (61.6% against 63.3%, p = 0.90) and cost 32.6% more. The quality half of the claim is measured and holds; the saving half is not, and that arm ran one sample per task against the baseline's two, so the cost figure is unresolved rather than settled. Read [EVALS.md](EVALS.md) before switching it on expecting a lower bill.
+- Whether this block beats its own previous version is not measured either.
 - The persona-length research behind the size target was run on much smaller models. It is a reason to keep the block short, not proof about Opus 5.
 - The compressed-prose skill this replaces is **not** overselling itself. Its README reports the 8.5% figure, links an independent study, and warns savings can go negative. The disagreement is with its rules, not its marketing.
 
