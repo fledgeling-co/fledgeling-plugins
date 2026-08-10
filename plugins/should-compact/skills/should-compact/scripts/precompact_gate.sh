@@ -113,7 +113,7 @@ if [ "$score" -lt "$THRESHOLD" ] && [ "$headroom_ok" -eq 1 ]; then
 fi
 
 # Proceed. Hand the summariser the pinned tier from the log as its custom instructions, plain text.
-# This is the hand-off to compaction-quality: FACTS is already the verbatim tier it asks for,
+# This is the hand-off to braindump: FACTS is already the verbatim tier it asks for,
 # extracted while the session was fresh rather than reconstructed from the whole transcript.
 if [ -x "$HERE/session_log.py" ]; then
   facts="$("$HERE/session_log.py" tail --session "$session" --narrative 0 2>/dev/null)" || facts=""

@@ -9,7 +9,7 @@ description: >
   that". Reads only the last few turns plus an append-only session log it maintains itself, so it
   stays cheap enough to run on Haiku-class models and fast enough to sit in a hook. Scores the
   BOUNDARY, not the token count: an open tool chain or a half-finished edit is a hard zero however
-  full the window is. Pairs with compaction-quality, which writes the summary once this says go, and
+  full the window is. Pairs with braindump, which writes the summary once this says go, and
   uses the session log as extra grounding. Not for writing the summary itself, and not a token
   budget — for where to CAP a conversation, that is a different decision.
 license: MIT
@@ -107,7 +107,7 @@ session that the signals say is perfectly safe to compact.
 requirements, mid-exploration with no mutation plan formed yet. Compaction here is not dangerous, it
 is just premature: you would pay three minutes to lose exploration you are still using.
 
-**Score 7-10 — a real seam.** Use this table; it is the same one `compaction-quality` scores
+**Score 7-10 — a real seam.** Use this table; it is the same one `braindump` scores
 summaries against, so the two skills agree about what a boundary is:
 
 | boundary | score | why |
@@ -154,7 +154,7 @@ Two sections, because they decay differently:
 
 **FACTS is the tier that must never be lossy** — constraints, corrections, rejected approaches with
 their reasons, and exact identifiers. These are the items a successor cannot re-derive, and
-`compaction-quality` measured what happens to them under an ordinary summary: rejected approaches
+`braindump` measured what happens to them under an ordinary summary: rejected approaches
 survive at **0.3%**, standing constraints at **33.8%**. Anything you put in FACTS survives because
 it is never rewritten.
 
@@ -186,20 +186,20 @@ score and the action are different questions" above. `precompact_gate.sh` enforc
 independently, by reading the transcript size, so a scorer that gets it wrong still cannot veto at
 the wall.
 
-## Handing off to compaction-quality
+## Handing off to braindump
 
 When the verdict is `compact`, the session log is the best grounding available for the summary that
-follows — FACTS is already the pinned tier `compaction-quality` asks for, extracted incrementally
+follows — FACTS is already the pinned tier `braindump` asks for, extracted incrementally
 while the session was still fresh rather than reconstructed at the end from a 1M-token transcript.
 
-Pass the log path to `/compaction-quality:compaction-quality`, or let the PreCompact hook emit the
+Pass the log path to `/braindump:braindump`, or let the PreCompact hook emit the
 FACTS block as `newCustomInstructions` so it lands in the summarisation prompt directly.
 
 ## What this is not
 
 - **Not a token budget.** Where to cap a conversation is a different decision with different
   evidence; this only answers "is right now a seam".
-- **Not the summariser.** `compaction-quality` writes the summary and scores retention.
+- **Not the summariser.** `braindump` writes the summary and scores retention.
 - **Not a reason to compact.** A high score means compacting here would be cheap, not that it is
   worth doing. Compaction measures out as the weakest context-management strategy available —
   roughly +2.6 points on task success where moving work into tool calls buys +9.4 to +13.3. If the

@@ -26,17 +26,30 @@ decide the result:
 Both are printed beside every score. A win that disappears once they are
 matched is not a win.
 
-Arms (three, per the research's recommendation, not two):
+Arms (four; three were the research's recommendation, the fourth is a candidate):
   cli        the /compact summary already on disk           (free)
   skill      the skill's summary, generated now             (costs a call)
   pinning    incumbent structure + a verbatim pinned block  (costs a call)
+  pinning2   the v2 addendum candidate: same block, plus where to sweep and
+             the two kinds of dead end                      (costs a call)
 The pinning arm exists to answer "is the rest of the skill decoration?" If
-it captures most of the gain, ship the smaller thing.
+it captures most of the gain, ship the smaller thing. pinning2 exists because
+v1's one observed field failure was a sweep that stopped at recency; it is
+unshipped until it beats pinning on the soft matcher.
+
+TWO MATCHERS. Semantic classes (corrections, constraints, rejected approaches)
+are scored on distinctive-token overlap as well as exact substring, and the
+soft column is the one to compare arms on. Exact match cannot see a faithful
+restatement: measured on one paired case, two summaries each carrying 7-8
+correctly-reasoned rejected approaches both scored exact 0.0% over 49 spans.
+An instrument that scores a full pinned block the same as an empty one cannot
+tell you whether pinning worked. See references/case-study-paired.md.
 
 Usage:
   python3 benchmark_vs_compact.py --list                 # what's available
   python3 benchmark_vs_compact.py --arms cli             # baseline only, free
   python3 benchmark_vs_compact.py --arms cli,skill -n 8  # head-to-head
+  python3 benchmark_vs_compact.py --arms cli,pinning,pinning2 -n 8
 """
 import argparse
 import glob
@@ -156,11 +169,48 @@ def label_spans(rows):
             "rejected approaches": rejections}
 
 
-def recall(items, summary):
+SEMANTIC = ("CORRECTIONS", "constraints", "rejected approaches")
+
+STOPWORDS = frozenset(
+    "a an and are as at be but by for from had has have if in into is it its of on "
+    "or that the their then there these this to was were what when which who will "
+    "with you your i we they them he she do does did not no so than too very can "
+    "could would should may might must been being over under about after before "
+    "again once here now also just only own same such other more most any each".split())
+
+
+def _distinctive(span):
+    toks = re.findall(r"[\w./\-']{2,}", span.lower())
+    return [t for t in toks
+            if t not in STOPWORDS and (len(t) > 3 or any(c.isdigit() for c in t))]
+
+
+def _soft_hit(span, summary_norm):
+    toks = _distinctive(span)
+    if len(toks) < 3:
+        return span.lower() in summary_norm
+    present = [t for t in toks if t in summary_norm]
+    if len(present) / len(toks) < 0.6:
+        return False
+    return any(len(t) >= 6 or not t.isalpha() for t in present)
+
+
+def recall(items, summary, soft=False):
+    """Fraction of labelled spans the summary kept.
+
+    `soft` credits a faithful restatement -- same distinctive tokens, reason
+    intact -- which is what a pinned constraint or rejected approach actually
+    looks like. Exact stays the default and stays correct for paths and ids,
+    where a nearly-right string is worthless.
+    """
     items = list(dict.fromkeys(items))
     if not items:
         return None, 0, []
-    missing = [x for x in items if x not in summary]
+    if soft:
+        norm = re.sub(r"\s+", " ", re.sub(r"[`*_#>|]", " ", summary.lower()))
+        missing = [x for x in items if not _soft_hit(x, norm)]
+    else:
+        missing = [x for x in items if x not in summary]
     return (len(items) - len(missing)) / len(items), len(items), missing
 
 
@@ -193,16 +243,29 @@ def summarise_with(arm, rows, workdir):
     if arm == "skill":
         instr = (f"Read {SKILL_MD} and follow it exactly to write the compaction "
                  f"summary for the transcript at {tpath}.")
-    else:  # pinning-only: the minimum change that might capture the gain
+    else:  # pinning arms: the minimum change, and the candidate successor to it
         instr = (
             f"Read the transcript at {tpath} and write a compaction summary for a fresh "
             f"session, in Claude Code's nine standard sections (Primary Request and Intent; "
             f"Key Technical Concepts; Files and Code Sections; Errors and fixes; Problem "
-            f"Solving; All user messages; Pending Tasks; Current Work; Optional Next Step).\n\n"
+            f"Solving; All user messages; Pending Tasks; Current Work; Optional Next Step)."
+            f"\n\n"
             f"One addition: open with a PINNED block reproducing VERBATIM, word for word, "
             f"every standing constraint, every user correction, and every rejected approach "
             f"with its reason. Quote them; do not paraphrase them. Everything else may be "
             f"summarised normally.")
+        if arm == "pinning2":
+            # The v2 candidate in references/compact-addendum.md. It exists because v1's one
+            # observed field failure was a sweep that stopped at recency and returned only
+            # one of the two kinds of dead end. Unshipped until this arm beats `pinning`.
+            instr += (
+                "\n\nSweep the whole conversation for that block, starting from its oldest "
+                "turn. Rejected approaches come in two kinds and sit in different places: "
+                "how to work (a check that lies, a command that silently fails) and what to "
+                "build (an architecture, library or approach ruled out, and why). A "
+                "correction from a subagent or peer agent counts as a correction. If an "
+                "earlier pinned block is already in the conversation, carry every item it "
+                "holds.")
     instr += "\n\nOutput only the summary itself. Do not use any tool other than Read."
     env = {k: v for k, v in os.environ.items()
            if k not in ("CLAUDE_CODE_DISABLE_1M_CONTEXT", "CLAUDE_CODE_SESSION_ID",
@@ -219,7 +282,7 @@ def summarise_with(arm, rows, workdir):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--arms", default="cli", help="comma list of cli,skill,pinning")
+    ap.add_argument("--arms", default="cli", help="comma list of cli,skill,pinning,pinning2")
     ap.add_argument("-n", "--limit", type=int, default=6)
     ap.add_argument("--max-chars", type=int, default=1_500_000)
     ap.add_argument("--out", default="")
@@ -255,8 +318,11 @@ def main():
                 continue
             scores = {}
             for cat, items in spans.items():
-                r, n, missing = recall(items, summary)
-                scores[cat] = {"recall": r, "n": n, "missed": len(missing)}
+                soft = cat in SEMANTIC
+                r, n, missing = recall(items, summary, soft=soft)
+                scores[cat] = {"recall": r, "n": n, "missed": len(missing),
+                               "matcher": "soft" if soft else "exact",
+                               "exact": recall(items, summary)[0] if soft else r}
             row["arms"][arm] = {
                 "chars": len(summary),
                 "extractiveness": round(extractiveness(summary, e["rows"]), 3),
@@ -276,6 +342,17 @@ def main():
             vals = [r["arms"][arm]["scores"][cat]["recall"] for r in results
                     if arm in r["arms"] and r["arms"][arm]["scores"][cat]["recall"] is not None]
             line += f"  {arm}: {statistics.mean(vals)*100:5.1f}% (n={len(vals)})" if vals else f"  {arm}:   n/a"
+        if cat in SEMANTIC:
+            line += "   [soft]"
+        print(line)
+    print("\n  Semantic classes are scored on distinctive-token overlap. Exact match, for")
+    print("  reference — it scores a full pinned block near zero, so do not compare arms on it:")
+    for cat in SEMANTIC:
+        line = f"    {cat:<22}"
+        for arm in arms:
+            vals = [r["arms"][arm]["scores"][cat]["exact"] for r in results
+                    if arm in r["arms"] and r["arms"][arm]["scores"][cat]["exact"] is not None]
+            line += f"  {arm}: {statistics.mean(vals)*100:5.1f}%" if vals else f"  {arm}: n/a"
         print(line)
     print("\n  CONFOUNDS (a win that vanishes when these match is not a win)")
     for arm in arms:
