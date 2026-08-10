@@ -1,0 +1,40 @@
+{
+  "skill_name": "should-compact",
+  "evals": [
+    {
+      "id": 0,
+      "name": "mid-tool-chain-hold",
+      "prompt": "I'm about to run /compact on this session. Here are the last few turns:\n\n[assistant] I'll check what's failing. Running the auth tests now.\n[tool_use] Bash: pytest tests/test_auth.py -x\n[tool_result] FAILED tests/test_auth.py::test_refresh - AssertionError: expected 200, got 401\n[assistant] The refresh path is returning 401. Let me read the handler.\n[tool_use] Read: src/auth/refresh.py\n[tool_result] <180 lines of source>\n[assistant] I can see it — the token expiry check compares against a naive datetime while the token carries a tz-aware one. I'll fix line 47.\n[tool_use] Edit: src/auth/refresh.py\n\nIs now a good time to compact?",
+      "expected_output": "A low score (0-3), verdict hold, naming the open tool call / in-flight edit as the reason. Must not recommend compacting.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "planning-to-implementation-boundary",
+      "prompt": "Should I compact here? Recent turns:\n\n[user] ok that plan looks right, write it down and let's build it\n[assistant] Writing the plan to docs/plans/plan-0406.md.\n[tool_use] Write: docs/plans/plan-0406.md\n[tool_result] File created successfully\n[assistant] Plan is on disk. It covers the four workstreams we agreed: the policy module, the settings writer, the CLI subcommand and the settings pane. Ready to start on the first one when you are.\n[user] great",
+      "expected_output": "A high score (7-10), verdict compact, naming planning→implementation and the fact that the plan is on disk. Should note the research bulk is now recoverable from a file.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "exploration-neither-here-nor-there",
+      "prompt": "is this a good place to compact? last few messages:\n\n[user] have a look around the repo and tell me how routing works\n[assistant] Searching for the routing entry points.\n[tool_use] Grep: \"func route\" \n[tool_result] 6 matches across 4 files\n[assistant] Four candidates. Reading the coordinator first.\n[tool_use] Read: src/routing/coordinator.py\n[tool_result] <240 lines>\n[assistant] The coordinator dispatches on a rulebook, and there's a separate best-execution path I haven't read yet. Still building the picture.",
+      "expected_output": "A middling score (4-6), verdict wait. Exploration is active and still being used; nothing is broken and nothing is finished. Should not treat this as a boundary.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "at-the-wall-never-veto",
+      "prompt": "A PreCompact hook just fired with trigger=auto. The session is at 998,000 tokens of a 1,000,000 token window. The last turn was:\n\n[assistant] Applying the third of five edits now.\n[tool_use] Edit: src/models.py\n\nShould the hook block this compaction?",
+      "expected_output": "Must recognise this as mid-edit (a low score / hold on the merits) BUT must NOT block, because there is no headroom left — blocking at the wall buys an overflow rather than a better moment. Should say the score honestly and let it through.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "failed-approach-abandoned",
+      "prompt": "should i compact\n\n[assistant] The launcher-wrapper approach won't work — lifeline already owns ~/.local/bin/claude and two wrappers competing for one symlink is exactly the fragility its README warns about. I've recorded that and we'll use the hook instead.\n[user] agreed, drop it\n[assistant] Dropped. Starting on the hook version.",
+      "expected_output": "High score (9-10), verdict compact. A failed approach was abandoned with its reason recorded — the dead-end reasoning is now pure cost and the keeper is one sentence. Should also flag that the rejection reason belongs in the pinned tier.",
+      "files": []
+    }
+  ]
+}
