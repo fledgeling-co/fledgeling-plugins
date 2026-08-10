@@ -161,6 +161,41 @@ the longest persona in that study, aimed at the category it damaged most.
 Conflating the two reasons leads to optimising the wrong variable. Keep it short for accuracy, not
 for the input bill.
 
+## Where the next gain is, and what it must not cost
+
+v4 cuts output 16.3% at no measurable score cost. Caveman cuts 41% and pays 7.6 points. The gap
+between those two numbers is the headroom, and the constraint on taking it is that every clause added
+must leave step count and reasoning alone.
+
+Three candidates, in the order the evidence supports them.
+
+**1. Restore the preservation clause, then let the others push harder.** v4 deliberately omits
+caveman's single best rule (*never alter code, commands, paths, identifiers or error strings;
+reproduce them exactly*) on the grounds that this block never instructs prose compression, so mangled
+code is not a failure mode it creates. That reasoning holds for v4 as written. It stops holding the
+moment a clause is added that compresses anything, and the preservation clause is what makes such a
+clause safe. It costs about 130 prefix bytes. Add it FIRST, not after.
+
+**2. Target the final message, which is the one output surface with real slack.** Opus 5's
+default final messages run long, and this block currently only says to lead with the outcome. A
+length calibration on the closing message (put the detail in the artifact, not the message) is
+presentational by construction: it cannot reduce investigation, because the work is already done when
+the final message is written. This is the safest place to take more.
+
+**3. Written deliverables, sharpened.** The block already asks for file length to match the task.
+Opus 5's written files run long by default and this is the documented lever for it; the current
+clause is a statement rather than a calibration.
+
+**What must not be tried, on measured grounds.** Anything reaching thinking depth or step count. The
+effort sweep settled this: dropping Opus 5 from xhigh to medium cost 4.93 points (40 tasks worse
+against 20 better, p = 0.0135) to save 6.6% of cost. Thinking is where this workload's quality lives,
+and a prompt that trims it lands in caveman's failure mode by a different route.
+
+**The measurement any v5 owes.** v4 has never been compared against v3, and no version has been
+compared against another version at all. A v5 claiming improvement needs a v4-versus-v5 arm on the
+gate in `evals/evals.json`: output tokens down, and the score sign test against no-block still not
+significant. A bigger output cut that breaks score parity is a regression wearing a better number.
+
 ## What was considered and rejected
 
 Each is a trap, and the reason matters more than the verdict — someone will propose all of them again.

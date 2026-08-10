@@ -97,5 +97,30 @@
       ],
       "files": []
     }
-  ]
+  ],
+  "standing_benchmark_eval": {
+    "name": "three-arm output-token comparison with a score-parity gate",
+    "question": "Does the block cut output tokens materially, while its task score stays statistically indistinguishable from using no block at all?",
+    "arms": [
+      "claude-opus-5",
+      "claude-opus-5-caveman",
+      "claude-opus-5-tokendiscipline"
+    ],
+    "effort": "must be identical across all three; the shipped result is at xhigh, a high-effort replication is in progress",
+    "primary_metric": "output tokens (data.usage.outputTokens), summed over per-task means. NOT total cost: cost mixes input and cache, and is dominated by variance when arms have unequal sample windows.",
+    "gate": "PASS requires (a) output tokens materially below the no-block arm, and (b) the score sign test against the no-block arm NOT significant at p<0.05. A bigger output cut that fails (b) is a regression, not a win.",
+    "result_xhigh_2026_08": {
+      "output_tokens": {
+        "baseline": "4.09M",
+        "caveman": "2.41M (-41.0%)",
+        "discipline": "3.43M (-16.3%)"
+      },
+      "score": {
+        "baseline": "63.3%",
+        "caveman": "55.7% (p<0.0001, FAILS the gate)",
+        "discipline": "61.6% (p=0.90, PASSES)"
+      }
+    },
+    "reproduce": "python3 evals/three_arm_compare.py, plus the output-token query in EVALS.md"
+  }
 }
