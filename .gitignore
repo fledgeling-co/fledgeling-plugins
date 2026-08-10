@@ -9,3 +9,9 @@ plugins/*-workspace/
 .claude/
 .vercel
 .env*
+
+# improve-skill iteration output — 715MB of r00..r21 loop runs, referenced by
+# nothing in the skill, README or evals. Kept locally, out of the repo: the
+# marketplace is vendored as a submodule by dAIolog's studio agent, where a
+# 1GB checkout for one 6.4MB skill aborted the deploy upload.
+plugins/improve-skill/assets/loop-runs/

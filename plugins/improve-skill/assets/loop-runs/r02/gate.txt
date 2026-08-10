@@ -1,2 +1,0 @@
-REJECT  (net composite delta +0.0000 across 5 sizes)
-  - negligible edit: render hash unchanged (oscillation guard)

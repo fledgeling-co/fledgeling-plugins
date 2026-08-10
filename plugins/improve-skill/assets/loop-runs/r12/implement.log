@@ -1,9 +1,0 @@
-**Gate: ACCEPT, +0.0029 net across five sizes.** 1024 0.4912 → **0.4927**, 256 0.4704 → **0.4713**, 128 0.5149 → **0.5153**, 32 0.7855 → **0.7858**, 16 0.8383 → **0.8381**. Worst size −0.0002 against a −0.005 tolerance; four of five up. Structure PASS at 1726 paths / 323,357 bytes (−1,348). Polarity invariant +0.155, trued brighter. Contrast floors clear: 32px 0.6129, 16px 0.6092.
-
-**What changed and why.** Connected-component measurement of the reference at five stations showed coverage already matched (17–23% both) but C2 spends it on 2.3–2.9× as many marks, each 1.6–2.7× shorter, at aspect 1.7–2.0 against our 3.6–4.8 — and its mark length is flat across both planes. The old `_dash` handed `tear` straight to the gap, so faint regions asked for sub-pixel breaks and runs fused into 170-unit streaks. Now the mark is drawn from the reference's measured distribution, duty comes from `tear`, and the gap is floored at 1.9 stroke widths (swept; clear interior optimum). `GRAIN_WID = 1.20` buys back the spent coverage. Counts 87→125, median length 6.2→4.5.
-
-**Rubric:** unchanged at 32/16px; at 1024 the plane moved from ruled cross-hatch toward fleck field. Mean λ regressed ~8%, band-mid anisotropy 10.84→11.43 — noted, not chased.
-
-**Reusable:** *specify the mark, derive the gap, floor the break* — never let one parameter set both dash numbers; floor gaps at ~1.9× stroke width against antialiasing; restore coverage with a global width factor solved as a ratio so pair neutrality survives.
-
----STDERR---

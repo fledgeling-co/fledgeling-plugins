@@ -1,9 +1,0 @@
-**Gate: REJECT, −0.0335 net.** 1024 0.3950→0.3926, 256 0.3869→0.3830, 128 0.3940→0.3862, 32 0.7098→0.7056, 16 0.7748→0.7596. `build_icon.py` restored from `_before/`, regenerated; re-score reproduces all five r01 composites exactly. Structure PASS (2437 paths, 307678 B); polarity +0.146, trued brighter.
-
-**What motivated it.** Differencing `SHAVING=1`/`SHAVING=0` gave the curl's exact footprint. Master curl sits at ground:curl 1.33:1; the reference ribbon at 1.09:1, its dark end 0.29 L brighter than ours (p1 0.598 vs 0.310) though both are warm. At 32px the master reads as *two* dark masses — dark-mask IoU 0.539 — the blob's mouth matching the iron's own value. I set the curl's stops to the reference's measured bands and broadened the lit crown; physics then matched almost exactly (mean 0.724 vs 0.729). The composite fell anyway.
-
-**Rubric vs gate.** The edit fixes figure-ground and loses. Two measured reasons: the over-dark blob was earning edge recall by accident (32px misses 11→18→24 as it's corrected then removed), and 65/90 of 32px and 10/10 of 16px false edges are the squircle corner arc — format, not fidelity. Next round should take a different class; this one can't be won by tuning these constants.
-
-**Reusable:** before repairing a region toward a reference, re-score it *absent*. If removal costs the same term the repair costs, the error is sitting inside the metric's tolerance radius around a true feature and the metric will pay you to stay wrong.
-
----STDERR---
