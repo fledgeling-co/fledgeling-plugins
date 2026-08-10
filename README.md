@@ -128,7 +128,7 @@ Your Mac did not fill up because of one thing, it filled up because a hundred se
 
 ### [discipline](plugins/discipline/README.md)
 
-Drop a short block at the top of a session and Claude spends less without doing less. It targets the three habits that quietly run up the bill: re-printing plans and diffs already on your screen, opening a whole file to find one line, and handing small jobs to sub-agents that each pay for a fresh context. The nearest alternative is caveman, which compresses the prose instead. Measured across 106 tasks that bought a third off the cost and gave back 7.6 points of task score, because most of its saving came from the agent investigating less rather than writing less. This one never touches your writing style, and states the boundary the other is missing: it changes how much you write, never how much you do.
+Drop a short block at the top of a session and Claude spends less without doing less. It targets the three habits that quietly run up the bill: re-printing plans and diffs already on your screen, opening a whole file to find one line, and handing small jobs to sub-agents that each pay for a fresh context. The nearest alternative is caveman, and the choice between them is measured rather than argued. On the same 106 tasks caveman cut output tokens 41% against this skill's 16%, so caveman is better at the thing both are for. It also gave up 7.6 points of task score where this one gives up nothing detectable, because 78% of caveman's saving came from the agent taking fewer steps rather than writing more tersely. Pick caveman if the token count is all you are optimising; pick this one if the agent is doing long work you intend to trust.
 
 <br clear="left" />
 
