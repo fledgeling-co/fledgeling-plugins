@@ -76,9 +76,9 @@ The surgical counterpart to ship-armada: after work happens anywhere in the port
 
 <br clear="left" />
 
-<a href="plugins/compaction-quality/README.md"><img src="plugins/compaction-quality/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/braindump/README.md"><img src="plugins/braindump/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [compaction-quality](plugins/compaction-quality/README.md)
+### [braindump](plugins/braindump/README.md)
 
 Writes context-compaction summaries that survive being the only thing the next session has. Rebuilt on four research reports and a fresh measurement across 121 real compaction events: rejected approaches survive at 0.3%, and standing constraints at somewhere between a third and a half depending on the sample. Ships a deterministic scorer and a head-to-head benchmark against the built-in /compact whose baseline arm costs nothing.
 

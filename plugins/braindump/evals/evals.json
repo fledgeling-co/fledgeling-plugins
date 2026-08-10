@@ -1,0 +1,162 @@
+{
+  "skill_name": "compaction-quality",
+  "notes": "Assertions are checkable by scripts/score_retention.py, scripts/benchmark_vs_compact.py, or exact string match against the source transcript. Deliberately no LLM-judge assertions: G-Eval correlates with humans at rho~0.514 against 0.8-0.9 inter-human, and self-preference bias disqualifies judging a Claude-written summary with a Claude judge. The head-to-head against the built-in /compact is the comparison that matters; its baseline arm is free because those summaries are already on disk. Evals 8-12 come from references/case-study-paired.md, a three-arm paired measurement on one real session; each encodes a failure mode observed there rather than a hypothesised one. Read semantic classes on the soft matcher — evals 5, 8 and 9 all score 0.0% on exact match even when passed perfectly.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "corrections-survive",
+      "prompt": "This session is about to run out of context. Write the compaction summary. The user corrected me three times: they said not to use the Agent tool for this task, they told me the benchmark data was already in the sqlite db rather than needing a fresh run, and they pointed out that ponytail was only run on 4.8. Also I'm mid-way through fixing a chart that clips on mobile.",
+      "expected_output": "A summary carrying all three corrections as standing constraints, not as history, plus the unfinished chart work with its failure mode stated.",
+      "assertions": [
+        "All three user corrections appear in the summary",
+        "Corrections are framed as standing constraints rather than narrated as past events",
+        "The unfinished chart work is described as unfinished, not as done",
+        "No file contents are pasted into the summary"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "verbatim-preserved",
+      "prompt": "Summarise this session for handover. Key facts: the proxy binds 127.0.0.1:8787, the state file is at ~/Library/Application Support/Perch/usage.json, the failing test is `packageBundleNameMatchesSwiftPM`, and the error is `Cannot find 'SavingsDisplaySource' in scope`. The user's constraint was that tokens live only in the macOS Keychain under `dev.perch.account.<id>`.",
+      "expected_output": "Every path, port, identifier and error string reproduced byte-for-byte.",
+      "assertions": [
+        "The string 127.0.0.1:8787 appears exactly",
+        "The path ~/Library/Application Support/Perch/usage.json appears exactly",
+        "The identifier packageBundleNameMatchesSwiftPM appears exactly",
+        "The error string Cannot find 'SavingsDisplaySource' in scope appears exactly",
+        "The keychain identifier dev.perch.account.<id> appears exactly",
+        "None of the above are paraphrased or reformatted"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "drops-the-recoverable",
+      "prompt": "Compact this session. I read 40 files while exploring, ran the test suite 6 times, and searched for the router config in three places before finding it at macos/Sources/RelayCore/Config.swift. The conclusion was that the port is picked by PortPicker and persisted to UserDefaults. Nothing else came of the exploration.",
+      "expected_output": "The conclusion and the found path kept; the 40 files, the 6 test runs and the two dead-end search locations dropped or reduced to one line.",
+      "assertions": [
+        "The path macos/Sources/RelayCore/Config.swift appears exactly",
+        "The conclusion about PortPicker and UserDefaults is present",
+        "The 40 explored files are not enumerated",
+        "The 6 test runs are not enumerated turn by turn",
+        "Summary is shorter than 6000 characters"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "states-the-failure",
+      "prompt": "Write the handover summary. Current state: I merged wave C, the swift tests pass at 3856 but two of the eight items shipped with their out-of-family review never returning, and CACHE-03 shipped zero commits so the dependency CACHE-04 was built against does not exist.",
+      "expected_output": "Current state names the verification debt and the missing dependency explicitly rather than reporting the merge as clean.",
+      "assertions": [
+        "The out-of-family review gap is stated as outstanding, not omitted",
+        "CACHE-03 shipping zero commits is stated",
+        "The consequence for CACHE-04 is stated",
+        "The summary does not describe the wave as fully complete"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "negative-knowledge-survives",
+      "prompt": "Compact this session. Over the last two hours I tried three things that did not work: the Agent tool for the icon rounds (it kept losing the build script state), caching the renders in /tmp (stale hits made two rounds score identically), and running the panel before the gate (wasted judge calls on rejected candidates). The thing that finally worked was scoring in the harness after the agent finishes. Now I am mid-way through wiring the review sheet.",
+      "expected_output": "All three dead ends carried with their reasons, in a pinned verbatim block, not narrated away. The built-in /compact retains this category at 0.3% across 68 measured events, so this is the eval that discriminates.",
+      "assertions": [
+        "All three rejected approaches appear, each with the reason it failed",
+        "They appear in a pinned block near the top, not scattered through the narrative sections",
+        "Each is phrased so a fresh session would not retry it",
+        "The approach that worked is stated as the current one",
+        "The unfinished review-sheet work is described as unfinished"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "quantifier-and-scope-survive-verbatim",
+      "prompt": "Write the compaction summary. Standing instructions from the user: use type hints everywhere; only ever edit build_icon.py, never icon.svg directly; and remove the deprecated calls in relay.py but leave proxy.py untouched.",
+      "expected_output": "Absolute quantifiers and scope boundaries reproduced word for word. These are the two documented mutation failures: 'everywhere' silently dropped, and a scoped instruction widened into a global one.",
+      "assertions": [
+        "The word 'everywhere' appears verbatim with the type-hints constraint",
+        "The 'only ever edit build_icon.py' constraint appears with its 'never icon.svg directly' half intact",
+        "The relay.py instruction retains the 'leave proxy.py untouched' boundary",
+        "None of the three is generalised, softened, or widened in scope",
+        "All three appear in the pinned tier rather than inside a narrative section"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "beats-the-builtin-on-the-same-transcript",
+      "prompt": "Run the head-to-head benchmark against the built-in /compact on real transcripts and report the result honestly.",
+      "expected_output": "A paired comparison on identical transcripts, with the confounds reported and the sample size stated.",
+      "assertions": [
+        "scripts/benchmark_vs_compact.py was run with at least the cli and skill arms",
+        "Results are paired per transcript rather than compared as two independent means",
+        "Summary length and extractiveness are reported alongside every recall figure",
+        "The sample size is stated and no bare percentage is reported without it",
+        "If the skill does not beat the baseline on a category, that appears in the table"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "both-kinds-of-dead-end-survive",
+      "prompt": "Compact this session. Early on we settled some architecture: we rejected the Safari web-extension converter because it emits its own container app, and we rejected Boolean() for the allowPaid default because stored revisions are immutable so coercion reads every existing one as false and silently refuses paid work — use ?? instead. In the last hour I also learned two things about how to work here: `git log --grep=<id>` does not prove a merge because ids appear in other items' commit bodies, and backticks inside an inline `git commit -m` run as shell substitution and silently delete text, so write messages from a file. Now I am part-way through wiring the review sheet.",
+      "expected_output": "All four dead ends pinned with reasons — two product-level from early in the session, two method-level from the last hour. This is the discriminating eval: the measured failure is returning only one kind.",
+      "assertions": [
+        "Both product dead ends appear with their reasons (the converter's container app; immutable revisions making Boolean() read false)",
+        "Both method dead ends appear with their reasons (ids in other items' commit bodies; backticks as shell substitution)",
+        "The two older product dead ends are not dropped in favour of the two recent method ones",
+        "The `??` replacement for Boolean() is stated, not just the rejection",
+        "All four are in the pinned block rather than narrated in Errors and fixes",
+        "The unfinished review-sheet work is described as unfinished"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "pin-or-point-never-assume",
+      "prompt": "Write the compaction summary. I have just consolidated our method notes into ORCHESTRATOR.md under a section called 'Method notes — bought with wasted work', which now holds every verification and git lesson we learned. Separately there are three architecture rejections from last week that live nowhere except this conversation: no direct OpenAI routing (it reverses merged resolveModel hardening), no refresh-token families for the extension (auth-server.ts already gives the web session the same shape), and no headless rung for X (measured returning the identical 3,740-byte shell a plain fetch returns).",
+      "expected_output": "The consolidated notes are pointed at by file AND section name; the three homeless rejections are pinned verbatim with reasons. Neither is dropped on the assumption it is recoverable.",
+      "assertions": [
+        "The pointer names both the file ORCHESTRATOR.md and the section 'Method notes — bought with wasted work'",
+        "All three architecture rejections appear pinned with their reasons",
+        "The three rejections are not replaced by a pointer, since no durable file holds them",
+        "The method notes are not also pasted in full, since the pointer covers them",
+        "The string 3,740-byte appears exactly"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "unfinished-obligation-not-just-clean-tree",
+      "prompt": "Write the handover summary. State of the work: all 27 items merged and verified by ancestry, cold gate passes on main, no branches, no worktrees, tree clean. What I was doing when this ran: I armed the goal and created the cron, but I had not yet printed the closing report block — the condition line, the four gates and their readings, the bounds, the ledger path, and how to check status or stop early.",
+      "expected_output": "Current Work reports the clean tree AND names the unprinted closing report block as outstanding. A clean tree is not evidence the obligation was met.",
+      "assertions": [
+        "Current Work states that the closing report block was not printed",
+        "The summary does not describe the turn as complete on the strength of the clean tree",
+        "The specific unprinted contents are named (condition line, gates and readings, bounds, ledger path, how to stop)",
+        "The merged-and-verified state is also stated, so the successor does not redo it",
+        "Optional Next Step begins with finishing the outstanding obligation rather than starting new work"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "pinned-block-buys-the-narrative-no-slack",
+      "prompt": "Compact this session. Pin these two: never `git add -A`, stage by explicit path; and we rejected adding a DELETE route to satisfy the popup mock — correct the mock instead. For context, the route collision was resolved by moving the board endpoint, and I added this header comment to the new file: '// Lives at /api/board, not /api/items. HOP-0015 and HOP-0016 were built in parallel and each created /api/items, because neither existed when either started. They are not two versions of one endpoint: this one returns a BOARD (rows plus per-status counts, from the same readBoard the first paint uses, so a refresh cannot disagree with the page it refreshes), while /api/items returns items to any signed-in client and is what the phone calls. The name follows the shape.' The schema repair was `closedAt: { type: Date, default: null },` inside the timestamps block.",
+      "expected_output": "Both pinned items verbatim; the resolution stated in a line; the nine-line header comment and the schema fragment dropped, because both are on disk and regenerable.",
+      "assertions": [
+        "Both pinned items appear verbatim with the `git add -A` and DELETE-route reasons",
+        "The header comment is not reproduced in full",
+        "The `closedAt` code fragment is not reproduced",
+        "The route resolution is stated in prose with the two paths named",
+        "Summary is shorter than 4000 characters"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "peer-agent-correction-is-a-correction",
+      "prompt": "Compact this session. A runner sent this back to me, and it was right: 'That commit message says the three files reference types that are not declared yet, so the package does not build. That is not right. Isolation.swift declares all six of them and it was in the same set you committed. I ran swift build on that exact tree: Build complete! (6.32s). The WIP was a complete, building layer, not a broken starting point.' I have corrected the ledger; the commit message itself is still wrong.",
+      "expected_output": "The peer correction pinned as a standing correction, with the superseded claim named. A correction does not have to come from the user to bind.",
+      "assertions": [
+        "The correction appears in the pinned block, not only in Errors and fixes",
+        "It states that the 'does not build' note was wrong",
+        "It states that the commit message is still wrong and has been superseded",
+        "The string Build complete! (6.32s) appears exactly",
+        "A fresh session reading it would not act on the false 'does not build' note"
+      ]
+    }
+  ]
+}

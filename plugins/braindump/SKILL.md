@@ -1,5 +1,5 @@
 ---
-name: compaction-quality
+name: braindump
 description: >
   Write a context-compaction summary that survives being the only thing the next session
   has, and prove it against the transcript it replaced and against Claude Code's own
@@ -34,11 +34,25 @@ defeats itself.
 1. **Standing constraints and prohibitions** — every "always", "never", "don't", scope
    fence and boundary the user or the project set. Quote them word for word.
 2. **User corrections** — every time the user rejected, redirected or corrected you.
-   Quoted, with what it supersedes.
+   Quoted, with what it supersedes. A correction from a peer agent or subagent counts:
+   in a fleet run it is often the most consequential one in the window.
 3. **Rejected approaches and dead ends, each with its reason** — "tried X, failed because
-   Y, don't retry unless Z".
+   Y, don't retry unless Z". Sweep for **two kinds**, because they live in different parts
+   of the transcript and a single undifferentiated sweep returns only whichever is nearer:
+   - **Method dead ends** — how to work. A verification command that lies, a shell quoting
+     trap, a tool invoked the wrong way, a check that reads green when it is not.
+   - **Product dead ends** — what to build. A rejected architecture, a library that emits
+     the wrong artifact, a coercion that corrupts stored data, a route deliberately not
+     added.
 4. **Exact identifiers** — absolute paths, commands, error strings, failing test names,
    IDs, ports, versions, flags. The tokens a successor cannot re-derive or guess.
+
+Measured on a paired case: two summaries of the same window, one written by this skill and
+one by the wire addendum, each pinned seven or eight rejected approaches with reasons — and
+the two sets were **almost disjoint**. One returned only method dead ends, the other only
+product dead ends, and the items each missed were sitting in its own context. Naming the two
+kinds is what stops a sweep from stopping at the first pile it finds.
+(`references/case-study-paired.md`.)
 
 **Tier 2 — narrative. Genuinely summarised.**
 
@@ -69,6 +83,12 @@ and tool noise, and a summary carrying them all would be worse.
 Read the bold row second. **Negative knowledge does not survive compaction at all.** Two
 thirds of standing constraints go too. Those are the rows that make the next session repeat
 work the user already paid for, and they are cheap to keep — a handful of items each.
+
+These are exact-match figures, so read them as a floor on the built-in rather than a scale to
+be beaten: the same matcher scores a full pinned block at 0.0% on the rejected-approach row.
+The claim they carry is "the built-in drops this class", which a separately-observed
+untouched `/compact` reproduces — one buried fragment out of fifteen traceable dead ends
+(`references/case-study-paired.md`). To compare two arms, read `--against`, not this table.
 
 ## The keep/drop decision
 
@@ -121,8 +141,53 @@ and connective filler. The tokens you save are what buys room for Tier 1.
 2. **Then compress** Tier 2 into the remaining budget.
 3. **Then verify against the transcript** — not against your summary. Re-read the source
    asking "did every correction, constraint and dead end reach Tier 1?" That is a retrieval
-   check with external evidence. Re-reading only your own summary is intrinsic
-   self-correction, which does not reliably improve output and sometimes degrades it.
+   check with external evidence, and it is not the redundant kind: it looks for spans you
+   never wrote down, which re-reading your own output cannot surface. Re-reading only your
+   own summary is intrinsic self-correction, which does not reliably improve output and
+   sometimes degrades it.
+
+Do the sweep yourself. A subagent returns what it judged salient, and salience is the
+judgment being replaced here — the whole method is that these items are exempt from
+summarisation rather than well-summarised.
+
+### Sweep the whole window, not the recent stretch
+
+The measured failure is not forgetting to look. It is looking near the end.
+
+In the paired case, the addendum arm rebuilt its pinned block from the transcript and
+returned every dead end from the last two hours and none of the older ones — with a
+finished pinned block containing the missing eight sitting in its own context. Recent work
+is denser, more vivid and more recently attended to, so an unguided sweep terminates there.
+
+Two habits that fix it:
+
+- **Start at the oldest turn in the window and walk forward.** The items with one chance
+  left are the ones stated once, long ago; anything from the last few turns is still
+  legible in the recent context a compaction usually preserves.
+- **Sweep once per category, not once overall.** Ask "every standing constraint", then
+  "every correction", then "every method dead end", then "every product dead end". Four
+  passes over one window beat one pass looking for four things.
+
+If a previous summary is in your context, treat it as a **checklist, not a source**: every
+Tier 1 item it carries is one you must decide about explicitly — re-pin it, or point at
+where it now lives durably. Silently rebuilding from scratch is how eight items were lost.
+
+### Pin it, or point at it — decide per item, never drop on assumption
+
+Tier 1 has exactly two safe destinations. For each item, pick one:
+
+- **Pin** it verbatim in the block, or
+- **Point** at a durable file *and the section inside it* that provably contains it — you
+  wrote it there, or you have just read it there.
+
+"It's somewhere in the repo" is not a destination. A rejected approach nobody finds is a
+rejected approach somebody retries, and that is the *wrong*-not-*slower* side of the
+keep/drop rule.
+
+In the paired case this is the whole difference in the method-dead-end column: the arm that
+dropped them had first consolidated them into a named file section and pointed there, and
+the pointer checked out. The same arm pinned the product dead ends verbatim, because those
+had no durable home.
 
 ## Structure
 
@@ -142,8 +207,16 @@ Two additions inside the standard shape:
 
 - **Mark user corrections as standing instructions**, not as history. A correction is a
   rule that still binds; a self-caught slip is past tense.
-- **Make "Current Work" state the failure mode.** "Tests green" and "tests failing on 2 auth
-  cases" lead to completely different next actions.
+- **Make "Current Work" state the failure mode, and the unfinished obligation.** "Tests
+  green" and "tests failing on 2 auth cases" lead to completely different next actions —
+  and so do "tree clean" and "tree clean, but the deliverable this turn promised was never
+  printed". Report the state of the work *and* the state of the turn in progress. A summary
+  written while a task is half-done inherits that task, and a clean tree is not evidence
+  the obligation was met.
+
+  In the paired case, the arm that scored better on every other axis said "Wave 1 complete…
+  Nothing is failing" and omitted the half-finished deliverable of the turn it was written
+  in; the other arm named it. Accurate about the tree, wrong about the obligation.
 
 Outside Claude Code, use whatever shape fits, but keep the pinned tier and sections 1, 4, 7
 and 8.
@@ -154,6 +227,19 @@ Observed median for `/compact` is about 20.6k characters. That is a ceiling, not
 summary is too long when it contains material the next session could regenerate, too short
 when a correction or constraint is missing. If you are over budget, cut file contents and
 intermediate reasoning first. **Never cut Tier 1 to fit.**
+
+Judge the two tiers on different scales. The pinned block is measured in **items carried**;
+the narrative is measured by **whether anything in it is regenerable**. A pinned block does
+not buy the narrative any slack — the keep/drop rule still applies to every line after it.
+
+The paired case makes the point concretely: one summary was 2.06× the other's length with a
+pinned block the same size, and the extra ten thousand characters were a pasted source
+comment, a code fragment, a table format and shell commands — all regenerable, all things
+the keep/drop rule already excludes. Length went entirely to the half that did not need it,
+and the longer summary still carried eight fewer dead ends.
+
+Write the summary to the length the material needs. Do not pad the nine sections to look
+thorough; an empty section that says "none" is better than a paragraph restating section 1.
 
 ## When to compact — and when to do something else
 
@@ -196,14 +282,33 @@ exactly the knowledge the next session lacks.
 
 ```bash
 python3 scripts/score_retention.py --transcript <session.jsonl> --summary <summary.md>
+python3 scripts/score_retention.py --transcript <w.jsonl> --summary <a.md> --against <b.md>
 python3 scripts/score_retention.py --scan-history          # baseline across your history
 python3 scripts/benchmark_vs_compact.py --arms cli         # score the built-in, free
 python3 scripts/benchmark_vs_compact.py --arms cli,skill -n 8   # head-to-head
+python3 scripts/benchmark_vs_compact.py --arms cli,pinning,pinning2 -n 8  # addendum v1 vs v2
 ```
 
 The correction and rejected-approach lists are the part that matters. A dropped path is a
 slower next session; a dropped correction is a wrong one. Bulk percentages are context, not
 a score to maximise — pushing paths toward 100% would mean pasting the transcript back in.
+
+**Two matchers, and they answer different questions.** `exact` is substring identity: right
+for a path, an id or an error string, where nearly-right is worthless. `soft` is
+distinctive-token overlap: right for a constraint or a rejected approach, which a summary
+legitimately restates in its own words while keeping the reason. Read the semantic classes
+on `soft`. Scored on exact alone, two summaries carrying seven or eight correctly-reasoned
+rejections apiece both report **0.0%** — an instrument that scores a full pinned block the
+same as an empty one cannot tell you whether pinning worked.
+
+**`--against` is what settles a comparison, not the percentages.** It scores two summaries of
+one window and then prints, per class, the spans each kept that the other dropped. Prefer the
+disjoint sets, because the spans a detector finds are sampled from the transcript and a long
+window's sample is dominated by its recent, denser portion — so a recall percentage quietly
+rewards a summary that swept only the recent end. On the paired case, soft recall ranks the
+recency-biased summary nearly twice as high on rejected approaches, while reading the two
+blocks shows near-disjoint sets of comparable size. Use recall to check a class did not
+vanish; use the disjoint sets to decide which summary is better.
 
 **Two confounds the benchmark reports beside every score, because they will otherwise decide
 the result:** summary length, and extractiveness. A summary that "wins" by copying more has
@@ -211,13 +316,23 @@ not won, and judges reward copied text regardless of whether it helped.
 
 ## The honest limits
 
-- Retention is exact string match, so a faithfully *paraphrased* correction scores as lost.
-  The numbers are a floor, and the miss list is there so you can read them and judge.
+- **The 0.3% is a floor on the built-in, not a gap between arms.** It was measured with the
+  exact matcher, and that matcher scores a *full* pinned block at 0.0% too. What it supports
+  is the observation that the built-in prompt carries almost no negative knowledge, which
+  the paired case independently reproduces. What it cannot support is any claim that one arm
+  beat another by some number of points. Rank arms with `--against` and read the disjoint
+  sets; use `soft` recall only to check a class did not vanish entirely.
+- Exact retention is string match, so a faithfully *paraphrased* correction scores as lost.
+  The soft matcher exists for exactly this and is reported beside it; the miss list is there
+  so you can read the spans and judge.
 - The scorer measures what was carried, not whether the summary is coherent or accurate
-  about state. A summary can score well and still misdescribe where the work stands.
+  about state. A summary can score well and still misdescribe where the work stands — the
+  paired case has one that does.
 - The correction and rejection detectors are keyword heuristics. They miss politely-phrased
   corrections and flag some non-corrections; treat the output as a candidate list to read,
-  not a count to report.
+  not a count to report. They also sample spans from the transcript, so a long window's span
+  population leans recent — which makes recall over it a poor way to rank two summaries.
 - The head-to-head is paired on identical transcripts, but n is small. Report the effect and
   the sample, never a bare percentage.
-- Evidence, with citations and the numbers' provenance: `references/evidence.md`.
+- Evidence, with citations and the numbers' provenance: `references/evidence.md`. The paired
+  three-arm case, and the instrument faults it exposed: `references/case-study-paired.md`.

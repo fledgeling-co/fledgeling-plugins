@@ -30,7 +30,7 @@ answer is decided by one boolean.
 
 ## The boundary table is shared, not invented
 
-The seams in `SKILL.md` are the same table `compaction-quality/SKILL.md` uses to decide when
+The seams in `SKILL.md` are the same table `braindump/SKILL.md` uses to decide when
 compaction is worth its cost. Two skills disagreeing about what a boundary is would be worse than
 either of them being slightly wrong.
 
@@ -41,7 +41,7 @@ must not add a network hop. That gap is what this skill fills.
 
 ## What an ordinary summary loses
 
-Scored across **121 real compaction events** (`compaction-quality/scripts/score_retention.py`):
+Scored across **121 real compaction events** (`braindump/scripts/score_retention.py`):
 
 | class | retained by the built-in `/compact` | events |
 |---|---:|---:|
@@ -102,7 +102,7 @@ force a lossy `/compact`, its `/handoff` command lets the operator declare the b
 Measured against other context-management strategies, summarisation is the weakest: roughly
 **+2.6 to +2.7 points** on task success, and *negative* for one frontier model, where moving work
 into tool calls bought **+9.4 to +13.3**. Masking old tool outputs matched summarisation's solve
-rate at about half the cost. (Cited in `compaction-quality/references/evidence.md`.)
+rate at about half the cost. (Cited in `braindump/references/evidence.md`.)
 
 A high score therefore means compacting here would be *cheap*, never that it is *worth doing*.
 

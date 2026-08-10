@@ -51,7 +51,7 @@ const GROUP_OF = {
   "goal-harness": "long-runs",
   "loop-harness": "long-runs",
   discipline: "long-runs",
-  "compaction-quality": "long-runs",
+  "braindump": "long-runs",
   clarify: "long-runs",
   "create-swe-project": "making",
   "create-mac-icon": "making",
@@ -351,7 +351,7 @@ function build() {
 
     // --- SKILL.md -----------------------------------------------------------
     // Two layouts in the repo: skills/<name>/SKILL.md for fifteen of them, and
-    // SKILL.md at the plugin root for compaction-quality.
+    // SKILL.md at the plugin root for braindump.
     const skillCandidates = [join(dir, "skills", name, "SKILL.md"), join(dir, "SKILL.md")];
     const skillPath = skillCandidates.find((candidate) => existsSync(candidate));
     if (!skillPath) {

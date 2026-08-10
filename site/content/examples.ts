@@ -92,7 +92,7 @@ Not checked: real content at length, keyboard traps
 inside the modal, anything behind auth.`,
   },
 
-  "compaction-quality": {
+  "braindump": {
     prompt: "this summary is good",
     output: `score_retention.py  summary.md  transcript.jsonl
 
