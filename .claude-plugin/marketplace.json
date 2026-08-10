@@ -53,8 +53,8 @@
     },
     {
       "name": "braindump",
-      "description": "Write a context-compaction summary that survives being the only thing the next session has, and prove it. Rebuilt on four deep-research reports plus a new measurement: across 121 real /compact events, rejected approaches survive at 0.3%, standing constraints at 33.8%. Two-tier artifact (a pinned verbatim tier of constraints, corrections, dead ends and exact identifiers, then a narrative tier), extract-then-compress-then-verify ordering, and compaction framed as a last resort against measured alternatives. Ships a deterministic retention scorer and a head-to-head benchmark against Claude Code's own /compact whose baseline arm is free.",
-      "version": "2.0.2",
+      "description": "Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it does not. Writes a pinned verbatim tier (constraints, corrections, dead ends and exact identifiers) ahead of the narrative, and ships a deterministic retention scorer plus a head-to-head benchmark whose baseline arm is free. Published as compaction-quality until 2026-08.",
+      "version": "2.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
