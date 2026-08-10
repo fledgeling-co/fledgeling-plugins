@@ -80,7 +80,7 @@ The surgical counterpart to ship-armada: after work happens anywhere in the port
 
 ### [braindump](plugins/braindump/README.md)
 
-Writes context-compaction summaries that survive being the only thing the next session has. Rebuilt on four research reports and a fresh measurement across 121 real compaction events: rejected approaches survive at 0.3%, and standing constraints at somewhere between a third and a half depending on the sample. Ships a deterministic scorer and a head-to-head benchmark against the built-in /compact whose baseline arm costs nothing.
+Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it doesn't. Writes a pinned verbatim tier ahead of the narrative, and ships a deterministic scorer plus a head-to-head benchmark whose baseline arm costs nothing. Published as `compaction-quality` until 2026-08.
 
 <br clear="left" />
 
