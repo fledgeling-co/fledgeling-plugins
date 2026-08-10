@@ -121,9 +121,21 @@ free_after=$(df -k /System/Volumes/Data | tail -1 | awk '{print $4}')
 # Ledger: record kept/skipped as carefully as reclaimed -- a target skipped
 # thirty times while always idle is itself a finding, and only the record shows it.
 if [ "$APPLY" -eq 1 ]; then
+  # Serialising actions must not depend on grep's exit status. This script runs
+  # under `set -o pipefail`, and a grep that filters every line exits 1, so the
+  # old `|| echo '[]'` fallback fired even though python3 had already printed
+  # `[]` -- emitting `[]\n[]` and splitting the record across two lines. It only
+  # went wrong on runs that reclaimed nothing, which is most of them, so the
+  # corruption hid in the common case and took the ledger with it. Recurrence
+  # detection is the whole reason this file exists, and it needs valid JSONL.
+  if [ "${#actions[@]}" -gt 0 ]; then
+    actions_json=$(printf '%s\n' "${actions[@]}" \
+      | python3 -c 'import sys,json; print(json.dumps([l.rstrip("\n") for l in sys.stdin if l.strip()]))')
+  else
+    actions_json='[]'
+  fi
   printf '{"run_id":"%s","tier":"%s","mode":"apply","free_kb_before":%s,"free_kb_after":%s,"freed_kb_est":%s,"actions":%s}\n' \
-    "$RUN_ID" "$TIER" "$free_before" "$free_after" "$freed_kb" \
-    "$(printf '%s\n' "${actions[@]:-}" | grep -v '^$' | python3 -c 'import sys,json; print(json.dumps([l.rstrip("\n") for l in sys.stdin]))' 2>/dev/null || echo '[]')" \
+    "$RUN_ID" "$TIER" "$free_before" "$free_after" "$freed_kb" "$actions_json" \
     >> "$LEDGER"
 fi
 

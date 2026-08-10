@@ -1,7 +1,7 @@
 {
   "name": "mac-doctor",
   "description": "Tiered macOS maintenance for a dev machine that agent CLIs, node/dev servers, Docker and Xcode have quietly filled up. Five launchd cadences (15m/1h/12h/1d/7d) whose autonomy widens as the cadence lengthens: short tiers act silently on provably-regenerable debris, long tiers propose and wait. Verification gates before every deletion, a findings ledger that makes recurring leaks visible, and measurement discipline that refuses to total a partial result.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
