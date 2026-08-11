@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { width:1600px; height:520px; overflow:hidden; position:relative;
+         background: radial-gradient(130% 170% at 20% 14%, #FFFFFF 0%, #F7F9FC 42%, #EDF1F6 74%, #E3E9F1 100%);
+         font-family:"Instrument Sans", sans-serif; }
+
+  /* The field echoes the skill: one lattice, soft everywhere and resolved in
+     exactly one place. The banner makes the same argument the icon does. */
+  svg.field { position:absolute; inset:0; }
+
+  .lockup { position:absolute; left:128px; top:50%; transform:translateY(-50%);
+            display:flex; align-items:center; gap:72px; }
+  .icon { width:268px; height:268px; filter:drop-shadow(0 20px 42px rgba(46,42,96,.20)); }
+  h1 { font-size:70px; font-weight:600; letter-spacing:-.028em; color:#151A2C; line-height:1; }
+  .rule { width:64px; height:3px; background:#8C7BE8; margin:26px 0 22px; border-radius:2px; }
+  p  { font-size:25px; line-height:1.42; color:#454C63; max-width:640px; font-weight:400; }
+  .verdicts { display:flex; gap:10px; margin-top:30px; }
+  .v { font-family:"IBM Plex Mono", monospace; font-size:14px; letter-spacing:.02em;
+       padding:7px 14px; border-radius:8px; }
+  .pass { background:#E4F5EC; color:#1C6B47; }
+  .adv  { background:#EEF0FB; color:#413C7A; }
+  .inc  { background:#FBF2E0; color:#8A5A0E; }
+</style></head>
+<body>
+  <svg class="field" viewBox="0 0 1600 520">
+    <defs>
+      <filter id="soft"><feGaussianBlur stdDeviation="3.2"/></filter>
+      <clipPath id="resolved"><circle cx="1245" cy="258" r="132"/></clipPath>
+    </defs>
+    <g stroke="#B9C2DA" stroke-width="1.6" opacity=".55" fill="none" filter="url(#soft)">
+      <script/>
+    </g>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon-1024.png" alt="">
+    <div>
+      <h1>be-my-witness</h1>
+      <div class="rule"></div>
+      <p>Look at a screenshot and say what it actually shows. The test is the oracle; the mock is advisory.</p>
+      <div class="verdicts">
+        <span class="v pass">gate: pass</span>
+        <span class="v adv">mock finding · advisory</span>
+        <span class="v inc">order flipped · inconclusive</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // The lattice, drawn soft across the whole field and re-drawn sharp and finer
+    // inside one circle. Same device as the icon, at banner scale.
+    const svg = document.querySelector('svg.field');
+    const mk = (spacing, stroke, w, op, clip, blur) => {
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('stroke', stroke); g.setAttribute('stroke-width', w);
+      g.setAttribute('opacity', op); g.setAttribute('fill','none');
+      if (clip) g.setAttribute('clip-path','url(#resolved)');
+      if (blur) g.setAttribute('filter','url(#soft)');
+      for (let x = -200; x < 1900; x += spacing) {
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d', `M${x} -40 L${x-190} 560`); g.appendChild(p);
+      }
+      for (let y = -120; y < 700; y += spacing) {
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d', `M-40 ${y} L1640 ${y-80}`); g.appendChild(p);
+      }
+      svg.appendChild(g);
+    };
+    mk(74, '#AEB8D6', 1.7, .50, false, true);                 // the world, soft
+    const disc = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    disc.setAttribute('cx',1245); disc.setAttribute('cy',258); disc.setAttribute('r',132);
+    disc.setAttribute('fill','#FFFFFF'); disc.setAttribute('opacity','.72');
+    svg.appendChild(disc);
+    mk(74, '#5C6698', 1.5, .70, true, false);                 // resolved
+    mk(18.5, '#5C6698', .8, .42, true, false);                // and finer
+    const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    ring.setAttribute('cx',1245); ring.setAttribute('cy',258); ring.setAttribute('r',132);
+    ring.setAttribute('fill','none'); ring.setAttribute('stroke','#2C3350');
+    ring.setAttribute('stroke-width','7'); ring.setAttribute('opacity','.9');
+    svg.appendChild(ring);
+  </script>
+</body></html>
