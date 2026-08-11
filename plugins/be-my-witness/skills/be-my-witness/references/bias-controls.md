@@ -74,6 +74,25 @@ impression is where the bias lives.
 Carry that here: findings are per-region and per-class. A verdict is assembled from
 them, not felt.
 
+## Text-priority bias
+
+**The effect.** Shown a conflict between what an image depicts and what text says,
+VLMs resolve it in favour of the text. In this skill both legs are present at once —
+an expected output in words and a screenshot in pixels — so the bias points directly
+at the thing being judged.
+
+**The control.** Describe what the image shows *before* re-reading the expectation,
+and when they conflict, say which one you are believing and why. A verdict that
+silently sides with the prose has not compared anything.
+
+## Verbosity: it arrives through the text, not the image
+
+Lengthening answers raised judge scores by 0.6 points (GPT-4V) and 0.75 (Gemini). In
+this skill that enters through the **expected-output prose**: a verbose expectation
+pulls the verdict toward "match" independent of the pixels. Fixed-length,
+atom-per-line expectations neutralise it; free-form prose does not. Ask whoever
+writes the manifest for atoms, not paragraphs.
+
 ## Scale sensitivity
 
 **The effect.** The same image at different resolutions produces different judgements,

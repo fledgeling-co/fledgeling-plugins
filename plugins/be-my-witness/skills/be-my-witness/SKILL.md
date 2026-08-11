@@ -83,6 +83,26 @@ It answers four questions, and any of them can end the run:
 Never skip to judgement because the images "obviously" differ. The pre-scan is what
 separates *different* from *wrong*.
 
+### And when a reference exists, hand over a diff mask
+
+Pixel comparison on UI screenshots scores about **100% change-accuracy and 0%
+no-change-accuracy**: it finds every real change and every anti-aliased edge, and
+cannot tell them apart. That makes it a superb detector and a useless judge — so use
+it as one, and give its output to the thing that *can* discriminate.
+
+```bash
+python3 scripts/diffmask.py mock.png shot.png --out /tmp/mask.png --json
+```
+
+Then send **three images, not two**: the reference, the candidate, and the mask. A
+model given two whole screenshots spends its attention hunting for the difference and
+often misses it; a model given the mask is doing classification instead of search.
+Red marks where the candidate is darker, green where it is lighter, because direction
+is information a flat highlight throws away.
+
+The ratio it returns is a **detector result, never a verdict**. A high ratio caused
+entirely by a legitimate data change is still a high ratio.
+
 ## Then look, and look close
 
 **A full-page thumbnail is not a look**, and the reason is mechanical rather than

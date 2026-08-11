@@ -102,6 +102,25 @@ consequence was a whole suite of scores computed against loading shimmer. Giving
 name makes it something the protocol has to check for rather than something someone
 might notice.
 
+## The sub-categories, when "structure" is too coarse
+
+A 37-rule taxonomy built for exactly this separation (Cohen's κ = 0.722 on its
+construction) splits the meaningful branch further. Use these names when reporting,
+because they predict who fixes it:
+
+**Meaningful** — missing elements · added elements · attribute modification · layout
+change · reordering · resizing · content update · thematic change · replacement.
+
+**Non-meaningful** — small positional shifts, minor spacing or padding adjustments,
+subtle alignment changes (all *framing*) · transient content such as usernames, dates
+and counters (*data*) · small colour adjustments, subtle font-size or weight changes,
+subtle typography variations (*styling*, advisory).
+
+The boundary that taxonomy draws, and the one worth copying verbatim: a **thematic
+change is global and intentional** — a light-to-dark switch — and counts as
+meaningful, while a single shadow tweak is local cosmetic noise. **Scope decides,
+not magnitude.**
+
 ## The order to test in
 
 Cheapest and most disqualifying first, because each one can make the later ones moot:

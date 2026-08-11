@@ -41,9 +41,17 @@ decides what gets compared.
 }
 ```
 
-`expected` may be prose, a path to a spec, or a list of assertions. It is the oracle,
-so it must say something falsifiable — "the header looks right" is not an expectation
-and will produce an `inconclusive` gate, correctly.
+`expected` should be **one atom per line**, not a paragraph. It is the oracle, so it
+must say something falsifiable — "the header looks right" is not an expectation and
+will produce an `inconclusive` gate, correctly. And length is not neutral: a verbose
+expectation measurably pulls a judge toward "match" independent of the pixels, so
+prose costs you accuracy as well as clarity.
+
+```
+- the header carries back, forward, search, notifications, avatar, in that order
+- the price pill shows the company ticker and a signed day change
+- the total row reads 38,000
+```
 
 `mock` is optional. Without it the run is an expectation check; without `expected` it
 is a mock-conformance check and cannot gate.
