@@ -66,9 +66,11 @@ Task state, what was built and why, what remains. Ordinary summarisation compete
 applies; the marginal return on effort here is low.
 
 The split exists because the failure is not bad prose, it is a specific span being absent.
-Measured: constraint-violation rates run at 0% when the governing constraint survives into
-the summary and 38% when it is dropped. Presence very nearly determines compliance, so the
-job is recall of a small set of must-survive items, not overall summary quality.
+ConstraintRot reports constraint-violation rates of 0% when the governing constraint survives
+into the summary and 38% when it is dropped — read from the abstract only, so treat the
+percentages as unreplicated (`references/evidence.md § Errata`). The direction is what the design
+rests on, and the paired case supports it independently: presence very nearly determines
+compliance, so the job is recall of a small set of must-survive items, not overall summary quality.
 
 ## What actually gets lost — measured on real events
 
@@ -135,6 +137,19 @@ The failure is subtler than dropping things. A constraint of "use type hints eve
 was compacted to "the user prefers a consistent code style with type hints" — the absolute
 quantifier silently deleted, the requirement changed. Scope boundaries mutate the same way:
 "remove the calls in `a.py`, leave `b.py` untouched" became a global removal instruction.
+
+**The pinned tier never contains file contents.** Not a code block, not a pasted comment, not a
+config stanza — a path plus the one sentence that matters, always. The two rules above collide in
+practice and the wrong one wins: handed a distinctive comment or a schema line, "preserve exactly,
+never paraphrase" reads as a licence to paste, and the paste lands *inside* the pinned block as a
+Tier-1 item. Measured: on the eval written to catch exactly this, both the skill arm and the
+plain-baseline arm pasted a nine-line header comment and a schema fragment, and both blew the
+length cap. The skill arm put the comment in its pinned block.
+
+"The user quoted it in this conversation" is not a reason to pin it. What makes an item Tier 1 is
+that a successor **cannot re-derive** it — an error string, an id, a port, a decision with its
+reason. Anything sitting in a file on disk is re-derivable by definition, so it is a path and a
+clause, however precisely it was quoted at you.
 
 Compress the prose *around* the quotes freely. Fragments are fine; drop articles, hedging
 and connective filler. The tokens you save are what buys room for Tier 1.
@@ -350,6 +365,14 @@ recency-biased summary nearly twice as high on rejected approaches, while readin
 blocks shows near-disjoint sets of comparable size. Use recall to check a class did not
 vanish; use the disjoint sets to decide which summary is better.
 
+**The free baseline poisons itself once the addendum ships.** A harness that splices the
+pinned-block instruction into live compactions leaves *its* summaries on disk looking like any
+other `/compact` event, so the `cli` arm quietly starts measuring the treatment. Measured on this
+machine: **27 events** in the corpus already carried the addendum marker. `find_events` now excludes
+them by default and says how many it dropped; `--include-treated` keeps them when the wire arm is
+what you want to measure. Any baseline number taken before that filter existed is contaminated by
+however many treated events the sample happened to draw.
+
 **Two confounds the benchmark reports beside every score, because they will otherwise decide
 the result:** summary length, and extractiveness. A summary that "wins" by copying more has
 not won, and judges reward copied text regardless of whether it helped.
@@ -372,6 +395,15 @@ not won, and judges reward copied text regardless of whether it helped.
   corrections and flag some non-corrections; treat the output as a candidate list to read,
   not a count to report. They also sample spans from the transcript, so a long window's span
   population leans recent — which makes recall over it a poor way to rank two summaries.
+- **On most real sessions the detectors find nothing, so the transcript benchmark cannot
+  discriminate.** Measured over 30 random compaction events: corrections yield zero spans in
+  **93%** of events (median 0, max 1), rejected approaches zero in **70%** (median 0, max 13),
+  constraints zero in 26%; a fifth of events have no span in any of the three classes. That is
+  why the 121-event table's correction row rests on 34 events rather than 121. The consequence
+  is practical: a head-to-head at n=8 will report `n/a` for the classes you care about most of
+  the time, and a controlled scenario with known ground truth — the eval set — is the better
+  instrument for "does the method work". Use the transcript benchmark for the confounds it
+  measures reliably (length, extractiveness, structure) and for the rare high-yield session.
 - The head-to-head is paired on identical transcripts, but n is small. Report the effect and
   the sample, never a bare percentage.
 - Evidence, with citations and the numbers' provenance: `references/evidence.md`. The paired

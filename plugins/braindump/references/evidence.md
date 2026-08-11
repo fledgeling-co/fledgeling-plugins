@@ -173,7 +173,39 @@ minimum. Two facts matter for this skill:
 Usage is billed as an extra sampling iteration, and top-level token counts
 exclude it — sum `usage.iterations`.
 
+## Why the built-in drops these classes — read from the prompt itself
+
+Extracted from the installed Claude Code 2.1.227 binary (`strings`), so this is the instruction the
+baseline actually follows, not a reconstruction. Four of its own clauses cause the measured
+failures, which is why the fix is an addition to the prompt rather than better summarising:
+
+- **It never asks for rejected approaches at all.** Nine sections, and none of them names a dead
+  end, an abandoned approach or a "don't retry". §4 asks for "all errors that you ran into, and how
+  you fixed them" — errors that were *fixed*, the opposite category. A class that is never requested
+  retaining 0.3% is not a summariser failure; it is the prompt working as written.
+- **It instructs recency bias, twice.** §3: "Pay special attention to the most recent messages."
+  §8: "paying special attention to the most recent messages from both user and assistant." §9 asks
+  for quotes "from the most recent conversation". The middle-of-window neglect this skill's sweep
+  section fixes is not an emergent artifact — it is the documented instruction, and it compounds
+  with the U-shaped faithfulness the summariser already has.
+- **It scopes verbatim preservation to security only.** §6: "Preserve any security-relevant
+  instructions or constraints verbatim so they remain in effect after compaction." The verbatim
+  guarantee exists, and it covers exactly one category. Every other standing constraint — scope
+  fences, absolute quantifiers, "only ever edit X" — is left to ordinary summarisation, which is
+  precisely where the measured paraphrase mutations happen.
+- **It asks for the bulk this skill drops.** §3: "include full code snippets where applicable."
+  §8: "Include file names and code snippets where applicable." So the baseline's greater length and
+  extractiveness are compliance, not sloppiness — and the keep/drop rule is a genuine disagreement
+  with the built-in prompt, not a refinement of it.
+
+This is the strongest available support for the addendum's design: it adds the one category the
+prompt omits, widens the verbatim guarantee past security, and redirects the sweep away from the
+recency the prompt explicitly asks for. It also bounds the claim — the built-in is not bad at its
+job, it is doing a different job, and a summary that keeps code snippets is following orders.
+
 ## Errata and later measurements — 2026-08-11
+
+
 
 Recorded after a grounding pass against 90 days of this operator's transcripts (counting rules:
 one response = one `(requestId, message.id)` group; scripts in `perch/scratch-contextcost/`).
