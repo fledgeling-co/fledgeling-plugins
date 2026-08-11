@@ -1,0 +1,5 @@
+The theme switch — but not because it moves more pixels. It's more serious because of what it implies about the cause: a whole-surface light-to-dark flip means something systemic changed — a theme token, a root class, a media-query default — so either the app shipped a mode the user didn't ask for, or every component is now rendering against the wrong palette, with knock-on contrast and legibility failures everywhere. It's one root cause with global blast radius, and it changes what the user experiences.
+
+The softened box-shadow is a local, cosmetic, one-element drift. Worst case it's a design-intent regression on one card; no functionality or readability is at stake.
+
+The trap to avoid is scoring by diff area alone: the theme switch wins here for its systemic cause, not its pixel count — a huge-but-intentional rebrand could be the benign one.

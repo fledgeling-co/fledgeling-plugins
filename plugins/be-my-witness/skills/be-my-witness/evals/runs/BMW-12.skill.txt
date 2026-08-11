@@ -1,0 +1,5 @@
+The theme switch (a) is more serious. Scope decides the class, not magnitude: a light-to-dark flip is a global, intentional change — every region of the surface now disagrees with the reference, so either the mock is stale or the build shipped an unauthorised appearance change. Either way someone has to decide, so it's a high-severity styling finding (failing the gate only if the expected output specified theme or named colour properties).
+
+The softened box-shadow (b) is local cosmetic noise: same structure, one property on one card. It's a Low-severity styling finding, worth a line, not an alarm.
+
+Note the trap: a naive pixel diff inverts this ranking's *evidence* — (a) produces a near-100% change ratio that looks catastrophic, (b) barely registers. The ratio is a detector, not a verdict; classification by scope is what ranks them correctly.

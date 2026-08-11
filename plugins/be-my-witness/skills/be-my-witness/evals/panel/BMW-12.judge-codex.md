@@ -1,0 +1,2 @@
+WINNER: B
+It directly treats the intentional theme switch as globally significant and the shadow tweak as local cosmetic noise. It also honestly distinguishes pixel-diff evidence from severity and acknowledges that the reference itself could be stale.

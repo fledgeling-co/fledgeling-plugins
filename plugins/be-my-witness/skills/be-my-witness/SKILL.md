@@ -198,6 +198,15 @@ theme switch — is meaningful even though it touches everything. A single shado
 is local cosmetic noise even though it is a real difference. Ask how far the change
 reaches, not how big it looks.
 
+**A class is a finding about the image, so it needs the image.** Someone describing a
+difference to you in words has not established its class; they have proposed one. When
+the capture is not in hand, the honest verdict is `inconclusive` with the class named
+as the thing to go and check, never a `pass` reached by taking the description at face
+value. This is the one eval case the skill lost to a no-skill baseline: told a pixel
+diff was 18.5%, it correctly refused the regression, then classified the difference as
+data and returned a pass without opening anything. Right answer, and the same shortcut
+it exists to stop other people taking.
+
 Each finding carries its class, the region it was found in, what the two images each
 showed there, and the evidence — the crop you were looking at when you found it.
 `references/difference-classes.md` has the discriminators for telling them apart,

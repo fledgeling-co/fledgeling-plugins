@@ -1,0 +1,3 @@
+WINNER: B
+
+B satisfies every assertion: it leads with the size difference, explicitly classifies it as framing/crop (verified pixel-identical after cropping to the common region), refuses to fail on it, and honestly scopes its score to the compared overlap while flagging the uninspected two-thirds. A misreads the aspect mismatch as a real drift in overflow behavior and docks the score to 7/10 for what is actually a cropping artifact, never proposing a common-region comparison. A is well-written but would send whoever acts on it chasing a nonexistent regression.

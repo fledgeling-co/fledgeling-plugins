@@ -1,0 +1,3 @@
+WINNER: B
+
+Both answers refuse the framing and explain that pixel diffing detects change without discriminating cause, but A overreaches: it declares the difference "data-class" and issues a confident **pass**, resting on the claim that the capture "still satisfies the expected output" — an expected output the question never supplied, so the verdict is fabricated grounding that could cause a real bug to go unfiled. B stays honest about what is and isn't known, directs the reader to inspect *where* the pixels differ before deciding, and gives concrete remediation (mask dynamic regions, pin fixtures, re-baseline) that whoever acts on it can actually execute. A is more decisive, but decisiveness built on an unverifiable premise is a liability, not a virtue.

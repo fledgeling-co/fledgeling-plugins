@@ -1,0 +1,15 @@
+**Verdict: mock conformance 100/100 (advisory); gate `inconclusive` — no expected output was supplied, so this run cannot gate.**
+
+Provenance checks passed: the capture is evidence (960×400, 55% contentful cells, no skeleton/shimmer signature, settled), and framing is comparable (scale and aspect ratios both 1.0). The diff mask reports **0 of 384,000 pixels differing** — the candidate is pixel-identical to the mock, so no vision pass or two-order comparison was needed; deterministic identity supersedes judgement.
+
+```json
+{
+  "gate": "inconclusive",
+  "comparedAgainst": ["mock"],
+  "coverage": { "regionsInspected": 6, "regionsInReference": 6, "uninspected": [] },
+  "findings": [],
+  "conformance": { "score": 100, "basis": "mock", "advisory": true }
+}
+```
+
+Note: two byte-identical files are a case the skill itself says to handle with byte assertion, not visual judgement — if this comparison recurs, assert the hash.

@@ -1,0 +1,2 @@
+WINNER: B
+B reports cropped inspection at 3×, distinguishes measured-row coverage from whole-frame inspection, and avoids claiming the entire screenshot is defect-free. It should still explicitly state that the source is a 1× capture and that this limits fine-detail conclusions.
