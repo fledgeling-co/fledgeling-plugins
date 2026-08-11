@@ -34,9 +34,37 @@ Then stop. Any finding about type, colour, spacing or alignment made at this sca
 a guess wearing a finding's clothes. Record structural observations; defer everything
 else.
 
-### Pass 2 — region by region, at ≥2× effective scale
+### Pass 2 — crop to the no-downscale ceiling, not to a multiplier
 
-This is where every real finding comes from.
+**A zoom factor is the wrong unit.** "2×" says nothing about whether the model will
+downscale your crop back below legibility on receipt, and it usually will.
+
+The unit that matters is the model's **no-resize ceiling** and the **text height that
+survives it**:
+
+- Crop so the region's **long edge lands at or under the ceiling** — 1568 px on the
+  standard tier, 2576 px on Claude 4.7 and later. Images above it are downscaled,
+  aspect preserved, before the model sees anything.
+- Crop so **body text renders at ≥7 px** in the image the model receives. Accuracy
+  falls off sharply below 7 px of text height; classical OCR shows a comparable ~6 px
+  floor.
+- Anything **under 200 px** on a side invites hallucination outright.
+
+Worked, because the arithmetic is the whole argument. A 1280 px-wide page running to
+4320 px tall is downscaled by 0.363× on the standard tier, so 14 px body text arrives
+at **~5.1 px** — under the cliff, unreadable no matter how the prompt is worded. On
+the high-resolution tier the factor is 0.596× and the same text lands at ~8.3 px,
+barely over. Cut that page into **1280×720 tiles and nothing is downscaled at all**:
+the text stays at 14 px, twice the cliff. Cost: about 952 visual tokens for the
+unreadable whole page against about 1196 per readable tile.
+
+That is the mechanical case for cropping. It is not a prompting preference.
+
+**Crop size is not monotonic, and the optimum is model-dependent.** On ScreenSpot-Pro,
+OS-Atlas-7B scored 25.1% at 512², 34.2% at 768², **40.2% at 1024²** and 40.1% at
+1280², while UGround-7B peaked at 768². Too small loses context; too large exceeds
+capacity. Around **1024²** is a reasonable default to start from and worth
+re-measuring per model.
 
 ```bash
 python3 scripts/prescan.py shot.png --json > /tmp/ps.json
@@ -45,16 +73,16 @@ python3 scripts/crop.py shot.png --tiles-from /tmp/ps.json --scale 2 --out /tmp/
 
 Inspect, in this order:
 
-1. **Every region the expected output names.** These are the gate. If the expectation
-   says "the total row reads 38,000", the crop containing that row gets looked at,
-   full stop.
-2. **The tiles the pre-scan chose.** It ranks cells by how much real content they
-   carry, so these are where a defect can actually be seen.
+1. **Every region the expected output names.** These are the gate.
+2. **The tiles the pre-scan chose**, which rank cells by real content.
 3. **Any region a Pass-1 structural observation pointed at.**
 
-**Go to 3× when** the region contains text under ~13px, a hairline border, a focus
-ring, an icon under 20px, or any judgement about letter-spacing or weight. Those live
-below the resolving power of 2× on a dense surface.
+**Keep one parent-context crop.** Cropping region by region can hide the defects
+that only exist *between* regions: sibling misalignment, an overflow that starts in
+one region and lands in another, and anything viewport-level. So alongside the tight
+crops, retain one crop of the parent container at a lower zoom, and check alignment
+across siblings there. A protocol made only of tight crops trades one blindness for
+another.
 
 ### Pass 3 — paired crops, same rectangle from both
 
@@ -94,6 +122,27 @@ For each crop you actually looked at:
 "Header looks fine" is not a record. "Header crop (0,0,520,96) at 2×: the price pill
 sits 8px from the bell, the mock shows ~14px; both carry the same three controls in
 the same order" is.
+
+## What the evidence does and does not say
+
+The strongest public numbers for cropping are **GUI grounding** results, not defect
+detection. On ScreenSpot-Pro, Qwen3-VL-8B scored 53.51% on the full image, 65.59% at
+2x, and 71.79% at roughly 3.3x zoom (Spatially Stable GUI Grounding, 2026). A separate
+adaptive-zoom preprint reports up to +13.4 points on the same benchmark, with larger
+gains specifically on icon and text targets (UI-Zoomer, 2026).
+
+Those measure whether a model can *locate* a target. This skill asks whether a
+rendered surface is *wrong*, which is a different task, and a direct benchmark for it
+does not appear to exist publicly. So read the protocol as: strongly supported by
+adjacent evidence and by the mechanism (a defect below the resolving power of the
+image cannot be reported), not as a measured claim about regression detection.
+
+Cost moves the other way. Apple's FastVLM work is explicit that resolution buys
+accuracy and spends compute and latency, and Microsoft's Phi-4-reasoning-vision
+scored 9.2% at 2048 visual tokens against 17.5% at 3600 on the same benchmark. Crop
+selectively rather than uniformly; that is what the tile ranking is for.
+
+Provenance for all of the above: `docs/deep-research/`.
 
 ## The failure this protocol exists to prevent
 
