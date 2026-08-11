@@ -52,6 +52,8 @@ The last pass before a human looks at AI-built UI. Deterministic gates first (ac
 
 <br clear="left" />
 
+<a href="plugins/be-my-witness/README.md"><img src="plugins/be-my-witness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
 ### [be-my-witness](plugins/be-my-witness/README.md)
 
 Look at a screenshot and say what it actually shows. Validates a UI capture against what a test expected and against a design mock, and hands back both a gate a build can act on and findings a person can read. Measures first (is this even evidence, did the screen finish loading, are the two framings comparable), then crops in at 2-3x rather than squinting at a thumbnail, looks at every pair in both orders because vision models flip on ordering, and classifies each difference as framing, data, structure, styling or state so a different crop or one extra row cannot turn a build red. The test wins over the mock.

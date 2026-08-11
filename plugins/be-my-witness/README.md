@@ -1,3 +1,5 @@
+![be-my-witness](assets/banner.png)
+
 # be-my-witness
 
 Look at a screenshot and say what it actually shows.
@@ -30,9 +32,13 @@ A deterministic pre-scan runs first. No model, no tokens, no guessing. It answer
 
 ## Then it looks properly
 
-A full page at thumbnail size gives you about 30 pixels of text height. A 2px spacing error is a fraction of a pixel. A wrong font weight is invisible. So the skill crops in, at two or three times scale, region by region, and compares the same rectangle from both images side by side. Cropping one and holding it against the whole of the other just reintroduces the framing problem wearing a different hat.
+A full page handed to a model whole gets downscaled before the model ever sees it, and text accuracy collapses below about seven pixels of letter height. A 1280-wide page running to 4320 tall arrives with its 14px body text at around five pixels: unreadable, however carefully you word the question. The same page cut into tiles isn't downscaled at all.
 
-It also looks twice, in both orders. Vision models carry a measured position bias: show the same two images the other way round and the answer can flip. If the two orders disagree, that's reported as inconclusive rather than averaged into a confident answer. An inconclusive result is information. It means the images are close enough that the ordering decided it.
+So the skill crops to a size that survives the trip, not to a zoom factor, and compares the same rectangle from both images side by side. Cropping one and holding it against the whole of the other just reintroduces the framing problem wearing a different hat.
+
+It also hands the model a diff mask. Pixel comparison on screenshots finds every real change and every anti-aliased edge, and can't tell them apart, which makes it a superb detector and a useless judge. So it's used as one: the detector marks where to look, and the model says what the marks mean.
+
+It also looks twice, in both orders. Vision models carry a measured position bias: across 36 models the average order-flip rate is 43%. And it's worst exactly here, because the bias grows as the two things being compared get closer, and a screenshot and its mock are supposed to be nearly identical. If the two orders disagree, that's reported as inconclusive rather than averaged into a confident answer. An inconclusive result is information. It means the images are close enough that the ordering decided it.
 
 ## What comes back
 
