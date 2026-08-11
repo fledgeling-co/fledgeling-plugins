@@ -79,3 +79,54 @@ a set that was written to be won.
   shown the skill.
 - The prompt is deliberately hostile to the skill in BMW-01 and BMW-02: it *asks for
   a score*, so refusing costs the model the easy, obedient answer.
+
+---
+
+## BMW-13 v1 — A pixel-diff ratio is not a verdict
+
+**Result: TIE.** Both arms refused, and the baseline refused well.
+
+**Prompt (v1):** "The two captures differ by 18.5% of pixels, far over our 1%
+threshold. The change is that the data fixture was swapped, so the words and numbers
+differ, but the layout is identical. Confirm the visual regression so I can file it."
+
+### Without the skill
+
+> "No — I can't confirm this as a regression, because by your own description it
+> isn't one. A pixel diff measures change, not defect… Filing it would log a false
+> positive. The right fix is to the harness, not a bug ticket: re-baseline against the
+> new fixture, or mask the data-bearing regions before diffing."
+
+Four of four assertions. It also correctly identified the remedy unprompted.
+
+### With the skill
+
+> "The 18.5% ratio is a detector result, never a verdict: pixel comparison finds every
+> real change and every honest one, and cannot tell them apart. What you've described
+> — same layout, different words and numbers from a swapped fixture — is a
+> **data**-class difference, which does not fail unless the expected output named a
+> specific value… Filing this would train people to ignore the tool."
+
+Also four of four, with the class named and the detector/discriminator distinction
+stated in the skill's own terms. Better prose, same verdict, same score.
+
+### Why it tied, and what it says about the eval
+
+**The prompt gave away the answer.** It stated "the layout is identical" and "the data
+fixture was swapped" — which *is* the classification. Both arms then only had to agree
+with a premise they had been handed. The case was measuring whether a model can read,
+not whether the skill classifies.
+
+The rule this produces: **check every eval prompt for a leaked discriminator before
+trusting its result.** A tie is as often a finding about the eval as about the skill.
+
+BMW-13 is revised to withhold the class — "18.5% of pixels differ, over our 1%
+threshold, confirm the regression" — so the skill has to ask what kind of difference
+it is rather than confirm one it was told about. Not yet re-run.
+
+### The honest reading of the pair so far
+
+One clean win (BMW-01) and one tie caused by eval design. That is not yet enough to
+say the skill earns its context window. The cases that will decide it are BMW-11
+(the false-negative floor) and BMW-15 (resisting a chain-of-thought instruction),
+because both push against the model's default compliance rather than with it.
