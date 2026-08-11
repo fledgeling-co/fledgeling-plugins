@@ -52,6 +52,17 @@
       "category": "development"
     },
     {
+      "name": "be-my-witness",
+      "description": "Validate a UI screenshot against what a test expected and against a design mock, returning a pass/fail gate plus severity-ranked findings. Runs a deterministic pre-scan first (is this evidence, did the surface settle, are the two framings even comparable), crops and zooms rather than judging a full-page thumbnail, looks at every pair in both orders to catch position bias, and classifies each difference as framing, data, structure, styling or state so a changed row count or a different crop cannot fail a build. The test expectation is the oracle; the mock is advisory.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/be-my-witness",
+      "category": "development"
+    },
+    {
       "name": "braindump",
       "description": "Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it does not. Writes a pinned verbatim tier (constraints, corrections, dead ends and exact identifiers) ahead of the narrative, and ships a deterministic retention scorer plus a head-to-head benchmark whose baseline arm is free. Published as compaction-quality until 2026-08.",
       "version": "2.3.0",
