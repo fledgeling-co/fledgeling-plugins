@@ -1,0 +1,71 @@
+<!doctype html><meta charset="utf-8"><title>be-my-witness · icon audit</title>
+<style>
+ body{margin:0;padding:40px;background:#14161c;color:#e8eaf0;font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+ h1{font-size:22px;font-weight:600;margin:0 0 4px} h2{font-size:15px;margin:36px 0 10px;color:#aab2c5}
+ .sub{color:#8a93a8;margin:0 0 28px}
+ .row{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap;margin-bottom:18px}
+ .cell{text-align:center} .cell img{display:block;image-rendering:auto;border-radius:6px}
+ .cell span{display:block;margin-top:7px;font-size:11px;color:#8a93a8;font-family:ui-monospace,monospace}
+ .squint img{image-rendering:pixelated}
+ table{border-collapse:collapse;margin-top:8px;width:100%;max-width:840px}
+ td,th{border-bottom:1px solid #262a35;padding:7px 10px;text-align:left;vertical-align:top;font-size:13px}
+ th{color:#aab2c5;font-weight:600} .pass{color:#5ad18a} .fail{color:#f0736a} .warn{color:#e5b45f}
+ .note{background:#1b1f28;border-left:3px solid #4a5costa;padding:12px 16px;margin:14px 0;max-width:840px;border-left-color:#5a6staa}
+ .liab{background:#1b1f28;border-left:3px solid #e5b45f;padding:12px 16px;margin:14px 0;max-width:840px}
+</style>
+<h1>be-my-witness</h1>
+<p class="sub">Icon audit · Engine C (Gemini 3 Pro Image, 2 takes, corpus-referenced) · shipped take: <code>bmw-raster-ee8831-2</code></p>
+
+<h2>Hero</h2>
+<div class="row"><div class="cell"><img src="icon-1024.png" width="256" height="256"><span>1024 @ 256</span></div></div>
+
+<h2>Size set — retina sources at half size</h2>
+<div class="row">
+  <div class="cell"><img src="icon-256.png" width="128" height="128"><span>256 → 128</span></div>
+  <div class="cell"><img src="icon-128.png" width="64" height="64"><span>128 → 64</span></div>
+  <div class="cell"><img src="icon-96.png" width="48" height="48"><span>96 → 48</span></div>
+  <div class="cell"><img src="icon-64.png" width="32" height="32"><span>64 → 32</span></div>
+  <div class="cell"><img src="icon-32.png" width="16" height="16"><span>32 → 16</span></div>
+</div>
+
+<h2>Squint — ×10 pixelated</h2>
+<div class="row squint">
+  <div class="cell"><img src="squint-16.png" width="160" height="160"><span>16px</span></div>
+  <div class="cell"><img src="squint-32.png" width="160" height="160"><span>32px</span></div>
+</div>
+
+<h2>Takes considered</h2>
+<div class="row">
+  <div class="cell"><img src="bmw-raster-ee8831-2.jpg" width="200" height="200"><span>take 2 — SHIPPED</span></div>
+  <div class="cell"><img src="bmw-raster-8e007a.jpg" width="200" height="200"><span>take 1 — rejected</span></div>
+</div>
+<table>
+<tr><th>Take</th><th>Read</th><th>Verdict</th></tr>
+<tr><td>take 2</td><td>Tile is the subject. The magnified cell visibly resolves into fine grid while the surrounding grid stays soft, so the concept reads. Milled rim carries the seal. Navy barrel, silver rim, near-white lens, key light upper-left.</td><td class="pass">Shipped</td></tr>
+<tr><td>take 1</td><td>Rendered the tile <em>on</em> a violet ground rather than as one; the loupe overflows and clips at the tile edge; barrel near-black so it collapses to a dark blob small; the magnified cell is a faint scribble rather than resolved detail.</td><td class="fail">Rejected</td></tr>
+</table>
+
+<h2>Rubric</h2>
+<table>
+<tr><th>#</th><th>Check</th><th>Result</th></tr>
+<tr><td>1</td><td>Silhouette names the subject</td><td class="pass">Pass — a lens, appropriate to witnessing</td></tr>
+<tr><td>2</td><td>Survives 16px</td><td class="pass">Pass — lens-on-tile holds; grid detail drops out as expected</td></tr>
+<tr><td>3</td><td>One light model</td><td class="pass">Pass — key upper-left, single soft contact shadow</td></tr>
+<tr><td>4</td><td>≤2 hue families</td><td class="pass">Pass — periwinkle/violet ground, navy/silver object</td></tr>
+<tr><td>5</td><td>Optical centring</td><td class="warn">Warn — sits slightly low-right; the barrel grazes the lower edge</td></tr>
+<tr><td>6</td><td>Material depth</td><td class="pass">Pass — volumetric barrel, translucent lens, rim light</td></tr>
+<tr><td>7</td><td>Era grammar (Tahoe gel-glass)</td><td class="pass">Pass — sampled from corpus apple-04 / apple-01</td></tr>
+<tr><td>8</td><td>Signature move present</td><td class="pass">Pass — sharp-inside-soft-outside is the whole idea</td></tr>
+<tr><td>9</td><td>No stock category glyph</td><td class="pass">Pass — a loupe, not a magnifier-with-handle</td></tr>
+<tr><td>10</td><td>Layer plan legible</td><td class="warn">Warn — raster, so not layered; no hand-authored SVG master</td></tr>
+<tr><td>11</td><td>No text in the mark</td><td class="pass">Pass</td></tr>
+<tr><td>12</td><td>Consistent silhouette with siblings</td><td class="fail">Fail — not yet cut to the marketplace squircle path</td></tr>
+</table>
+
+<div class="liab"><strong>Known liabilities, stated rather than hidden.</strong>
+Engine A (hand-authored layered SVG master) and Engine B (Arrow vector take) were not
+run, so there is no vector master and no fidelity loop against this raster — the
+skill's own pipeline calls that a named deviation, not a finished commission.
+The tile is not yet masked to <code>squircle-path.txt</code>, so its outer shape does
+not match its siblings in this marketplace, which reads as an error in a lineup.
+Composition sits slightly low-right. Score: <strong>9/12</strong>, below the 10/12 bar.</div>
