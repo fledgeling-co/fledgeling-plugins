@@ -1,0 +1,8 @@
+**Not a clean pass — the verdict can't cover what was never in evidence.**
+
+The capture ends above the footer, so one of the reference's seven regions was never inspected. What happens next depends on the expected output:
+
+- If the expected output asserts anything about the footer, the gate is `inconclusive` (arguably `invalid-capture` — the crop doesn't match the declared frame). Missing evidence is not a pass.
+- If the expected output only concerns the six inspected regions and all six agree with it, the gate may be `pass` — but the verdict must say so explicitly: `coverage: { regionsInspected: 6, regionsInReference: 7, uninspected: ["footer"] }`.
+
+Either way, report the denominator. "6 of 7 inspected, footer not reached" is a different result from "6 regions inspected," and silently serialising them the same is exactly how a green verdict sits on top of an unexamined defect.

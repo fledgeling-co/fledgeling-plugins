@@ -1,0 +1,17 @@
+**Verdict: zero difference — the screenshot matches the mock exactly** (0 of 384,000 pixels differ; the images are the same file, so byte-identity settles it and no vision judgement was needed).
+
+Pre-scan: valid evidence (55% contentful cells, settled, no skeleton signature), framing comparable (scale ratio 1.0). Diff mask at `/tmp/bmw-mask.png` is empty.
+
+Artifacts supplied: screenshot and mock only — no expected output. Per the skill, that makes this a mock-conformance check, so the gate cannot be decided by a test oracle:
+
+```json
+{
+  "gate": "inconclusive",
+  "comparedAgainst": ["mock"],
+  "coverage": { "regionsInspected": 1, "regionsInReference": 1, "uninspected": [] },
+  "findings": [],
+  "conformance": { "score": 100, "basis": "mock", "advisory": true }
+}
+```
+
+Conformance is 100 (advisory). To get a `pass`/`fail` gate, supply the expected output alongside the mock.

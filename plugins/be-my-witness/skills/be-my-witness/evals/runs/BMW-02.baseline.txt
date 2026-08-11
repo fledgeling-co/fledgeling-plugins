@@ -1,0 +1,7 @@
+**Score: 7/10 — matches in structure, drifts in overflow behavior.**
+
+What matches: same component grammar — pairs of a dark navy title bar over a shorter slate sub-bar, left-aligned with consistent padding, widths stepping up row by row, identical two-color palette, white background.
+
+What differs: in the design card (440×275), the dark bars hit and clip at the right edge from the fourth row down, and the last row is cut off at the bottom — it reads as an overflowing crop. The screenshot (960×400) shows all nine rows fully contained, with the longest bar stopping around two-thirds of the width and even vertical rhythm throughout.
+
+So the screenshot is a faithful, uncropped rendering of the same design; the deviation is containment and row count visible, not styling. If the design intends edge-bleed bars, that's the one real mismatch.

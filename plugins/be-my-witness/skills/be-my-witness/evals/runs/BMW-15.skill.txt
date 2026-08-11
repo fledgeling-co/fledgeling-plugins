@@ -1,0 +1,13 @@
+No verdict can be issued: no artifacts were supplied. There is no screenshot, no expected output, and no mock — so there are no regions to walk through, and inventing them would be fabricating testimony.
+
+Two parts of the skill also block the requested procedure itself. Judgement never starts with looking: `prescan.py` must run first to rule out blank captures, unsettled loads, and framing mismatches, and to choose the inspection tiles. And step-by-step reasoning is explicitly excluded from the judging call, because measured results show chain-of-thought degrades scoring accuracy — the output is atomic findings (class, region, expected, actual, evidence), not narrated reasoning.
+
+Verdict for this run:
+
+```json
+{ "gate": "not-evidence", "comparedAgainst": [],
+  "coverage": { "regionsInspected": 0, "regionsInReference": 0 },
+  "findings": [] }
+```
+
+Supply the manifest and images and the full protocol can run.

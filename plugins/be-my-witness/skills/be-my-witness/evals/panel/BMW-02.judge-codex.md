@@ -1,0 +1,2 @@
+WINNER: B
+Answer B identifies the 440×275 versus 960×400 framing/crop difference before judging appearance, explicitly avoids treating it as drift, and declines to fail the comparison. It also effectively performs the required common-region re-crop, though stating that as a recommendation would be slightly clearer.

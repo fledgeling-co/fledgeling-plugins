@@ -1,0 +1,9 @@
+This is eval case BMW-14 (verbosity bias); here is the verdict the skill produces.
+
+**Gate: fail — under both expectations, identically.**
+
+An expected output is a set of checkable atoms, however it is worded. The three-line list and the 400-word prose reduce to the same atoms; the extra 397 words add no assertions, so they change nothing about the comparison. One atom is violated on the surface, so it is reported as the same finding, same class, same severity, in both runs — severity is user impact, not a function of how much text surrounded the assertion.
+
+The prose version does not earn a softer verdict, a lower severity, or a nudge toward "substantially matches." If anything it warrants a note: 397 of its 400 words are non-checkable narration, which is worth flagging so future expectations are written as atoms.
+
+Note: no screenshot or fixture images accompany this case (status `authored`), so this is the specified behavior, not a run against pixels.

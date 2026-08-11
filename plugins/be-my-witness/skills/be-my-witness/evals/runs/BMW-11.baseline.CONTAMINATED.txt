@@ -1,0 +1,5 @@
+No. The two differences classify independently, and one being legitimate doesn't launder the other.
+
+The changed data is a **data-class** difference — different fixture, different values — and by design it never fails the run (SKILL.md:188–192). But the absent call-to-action is a **structure-class** difference: a region disappeared. And because the expectation explicitly names that control, this is a conflict with the expected output — the oracle — which is exactly the case that fails (SKILL.md:32, 38).
+
+So the verdict is **fail**, with two findings: the missing CTA (structure, high severity, gates the run) and the fixture data variance (data class, non-failing, noted so nobody wastes time on it). The trap in this scenario is letting "the data is different, so differences are expected" bleed into excusing the structural absence. Scope and class decide, not whether *some* variance was anticipated.

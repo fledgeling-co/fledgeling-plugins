@@ -1,0 +1,5 @@
+**Gate: fail — under both expectations, with the identical finding.**
+
+The two documents are one oracle in two costumes. They assert the same atoms, so the violated atom fails the gate whichever form is consulted; the verdict must not differ with the phrasing of the expectation. The finding is reported once: its class, the region, what the expectation asserted, what the screenshot showed, and the crop as evidence. The prose version adds no second finding — the other ~395 words that the screenshot satisfies are passes, part of the denominator, not findings.
+
+One operational note belongs in the report: the atom list is the better oracle form. Extracting checkable assertions from 400 words of prose is itself a judgement step where a violation can hide; recommend the suite gate on the atom list and keep the prose as documentation.
