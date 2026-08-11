@@ -172,3 +172,34 @@ minimum. Two facts matter for this skill:
 
 Usage is billed as an extra sampling iteration, and top-level token counts
 exclude it — sum `usage.iterations`.
+
+## Errata and later measurements — 2026-08-11
+
+Recorded after a grounding pass against 90 days of this operator's transcripts (counting rules:
+one response = one `(requestId, message.id)` group; scripts in `perch/scratch-contextcost/`).
+
+- **The trigger measurement is confirmed and sharpened.** 258 main-chain compaction events, median
+  pre-compaction context **987,636 tokens** — the wall, on 4.4× the original sample. The
+  distribution is bimodal: 59.3% of events above 900k, 29.1% below 200k (manual `/compact`), and
+  the middle nearly empty.
+- **The residue is affine, not flat.** `post ≈ 50,958 + 0.117 × pre` (n=1,037, R² ≈ 0.25 above the
+  floor). "A compaction leaves ~51k" is true only near the ~57.7k crossover below which compaction
+  grows the context; at the wall the residue is ~168k. This corrects this file's implicit
+  only-the-summary-survives framing and is consistent with the parallel-compaction finding that
+  summary output is nearly input-invariant (~3× output growth across 48× input, arXiv:2605.23296 —
+  lifted from the retired grok research file, its one distinctive contribution).
+- **Wall-clock, previously a named gap.** The turn spanning a compaction takes a median **171.6 s**
+  against **12.1 s** for an ordinary turn (n=219) — ~160 s of extra waiting per event. This fills
+  the `MISSING_DATA` cells in the gpt-5.6 research file and re-weights asynchronous compaction
+  (Slipstream) from curiosity to obvious next lever.
+- **ConstraintRot's 0%/38% figure was read from the abstract only.** No scenario counts, domains,
+  or mitigation implementation were ever verified. The two-tier design it motivates is
+  independently supported by the paired case study, but treat the specific percentages as
+  unreplicated.
+- **The CogCanvas figures are single-source.** Only the gemini research file reports them, citing
+  two different HTML versions of one arXiv id, and it is the most secondary-source-dependent file
+  in the corpus. Unreplicated.
+- **Research-file status.** `compaction-local-claude.md` and `compaction-openai-gpt56.md`: current,
+  with the errata above. `compaction-gemini.md`: single-source caveats above apply.
+  `compaction-xai-grok.md`: superseded — its two concrete Claude Code claims (~150k trigger,
+  75–95% auto-trigger) are both wrong at the measured 99.8%.

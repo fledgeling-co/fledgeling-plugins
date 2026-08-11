@@ -54,7 +54,7 @@
     {
       "name": "braindump",
       "description": "Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it does not. Writes a pinned verbatim tier (constraints, corrections, dead ends and exact identifiers) ahead of the narrative, and ships a deterministic retention scorer plus a head-to-head benchmark whose baseline arm is free. Published as compaction-quality until 2026-08.",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -186,7 +186,7 @@
     {
       "name": "should-compact",
       "description": "Score 0-10 whether NOW is a good moment to compact a coding-agent session, and say why in one line. Scores the BOUNDARY rather than the token count: an open tool chain or a half-finished edit is a hard zero however full the window is, which is the signal that decided 98.07% of holds across 1,089 measured turns. Reads only a hot buffer of recent turns plus an append-only two-tier session log it maintains itself, so it stays cheap enough for Haiku-class models and fast enough to sit in a PreCompact hook \u2014 where it can veto an ill-timed automatic compaction, and never vetoes at the wall. Pairs with compaction-quality, handing it the log's verbatim fact tier as grounding.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

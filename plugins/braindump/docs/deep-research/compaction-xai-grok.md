@@ -11,6 +11,11 @@ tools: [google_search, url_context, code_execution]
 estimated_cost_usd: 1.20
 completed: 2026-08-08T03:14:26.782Z
 ---
+
+> **SUPERSEDED 2026-08-11:** both concrete Claude Code claims here (~150k trigger, 75–95%
+> auto-trigger) are wrong at the measured 99.8% median. Its one distinctive contribution —
+> parallel compaction's output-invariance (arXiv:2605.23296) — is lifted into
+> `references/evidence.md`; prefer the other three files for everything else.
 **## Executive Summary**
 
 - (High Confidence) Long-context agent summarization reliably loses user corrections, standing constraints, and negative knowledge (rejected approaches/dead ends) due to primacy/recency biases and lost-in-the-middle effects, as quantified in the 2023 Liu et al. TACL paper (U-shaped performance curve with >30 percentage point drops for mid-context information) and reinforced in 2025–2026 analyses of context rot.[[1]](https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf)[[2]](https://www.morphllm.com/context-rot)

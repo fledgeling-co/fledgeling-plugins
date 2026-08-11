@@ -11,6 +11,10 @@ tools: [google_search, url_context, code_execution]
 estimated_cost_usd: 3.50
 completed: 2026-08-08T03:18:12.511Z
 ---
+
+> **Errata 2026-08-11:** the `MISSING_DATA` cells for Claude Code /compact are now measured:
+> trigger median 99.8% of the window; wall-clock median 171.6 s vs 12.1 s per ordinary turn;
+> residue `~51k + 0.117 × pre`. Otherwise current — see `references/evidence.md` § Errata.
 ## Executive Summary
 
 - **(High Confidence)** A continuation summary should be treated as a **lossy state checkpoint for another agent**, not as prose for a human reader. Its primary job is to preserve executable intent: current objective, acceptance criteria, user corrections, standing constraints, exact identifiers/commands/errors, completed work, rejected routes and why, and the next safe action. Anthropic’s own default compaction prompt explicitly frames the objective as preserving information needed to continue work in a future context, rather than producing a reader-oriented synopsis. [platform.claude.com](https://platform.claude.com/docs/en/build-with-claude/compaction) ([platform.claude.com](https://platform.claude.com/docs/en/build-with-claude/compaction))
