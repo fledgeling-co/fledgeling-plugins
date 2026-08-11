@@ -11,6 +11,12 @@ flip, purely because of which came first. Nothing about the images changed. This
 the best-documented failure mode in judge-as-a-service work and it is the reason a
 single ordered comparison is not evidence.
 
+**The size of it.** Claude-3.5-Sonnet scored position consistency of 0.82 on MTBench
+and 0.76 on DevBench (Shi et al., 2025) — so roughly one comparison in four flipped on
+one of those benchmarks, in a capable judge. Preference fairness on the same two was
+0.01 and 0.22, which means the bias is task-dependent and cannot be calibrated away
+once and reused.
+
 **The control.** Run every comparison twice, in both orders.
 
 - Order A: (screenshot, reference) → verdict₁
@@ -41,8 +47,13 @@ benchmark that judges generated UI this was significant enough to require a hard
 guard: candidate families are checked against judge families before scoring, and an
 overlap raises an error rather than a warning.
 
-**The control.** When the screenshot is of something a model generated, do not let
-that model's family judge it. Where only one family is available, say so in the
+**The size of it.** Self- and family-preference is measured across 12 multimodal
+models over 1.29 million caption-score pairs (Koyama et al., 2026), with ensemble
+aggregation reducing it.
+
+**The control.** Blind the judge first: neutral `image_A` / `image_B` identifiers, no
+filenames, no model or framework names. Then, when the screenshot is of something a
+model generated, do not let that model's family judge it. Where only one family is available, say so in the
 verdict — "judged by the same family that produced the candidate" is a caveat a
 reader can weigh, and its absence is a claim of independence you did not earn.
 

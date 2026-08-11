@@ -85,6 +85,24 @@ divider is Low.
 **Do not cluster at Medium.** A report where everything is Medium has not been
 triaged, and reads as one.
 
+## When this skill is being calibrated
+
+Measuring how good the judgement is takes more than an accuracy number, and reporting
+less than this flatters it:
+
+- **human-human agreement**, not only judge-human. The human ceiling is imperfect: in
+  one out-of-domain multimodal task expert agreement ran Krippendorff's alpha 0.29 to
+  0.78, median 0.55, against models at 0.51 to 0.75. A judge scoring 0.60 against
+  humans who score 0.55 against each other is not obviously worse than a human.
+- **order-swap consistency**, as its own number.
+- **per-atom confusion**, since a judge can be strong on structure and useless on
+  styling and average to "fine".
+- **abstention and unclear rates.** A judge that never abstains is not more capable.
+- **confidence intervals**, not point estimates.
+
+No public UI-specific kappa or alpha against human labels could be located, so any
+figure here has to be produced locally. `references/evidence.md` records the gap.
+
 ## Gate values
 
 | Value | Meaning |
@@ -93,10 +111,12 @@ triaged, and reads as one.
 | `fail` | At least one expectation was violated. |
 | `inconclusive` | The comparison could not decide: the symmetric swap disagreed, framing was not comparable, or there was no expectation to gate on. |
 | `not-evidence` | The capture is blank, uniform, or a loading skeleton. Nothing was judged. |
+| `invalid-capture` | The capture provenance disagrees with what the expectation declared: wrong route, viewport, DPR, locale, theme, auth state or crop. Nothing was judged, and the fix is to the capture. |
 
-`not-evidence` and `fail` are different results and a harness should treat them
-differently: one means the software is wrong, the other means the picture is. Collapsing
-them sends someone to debug a product bug that does not exist.
+`not-evidence`, `invalid-capture` and `fail` are three different results and a harness
+must treat them differently. One means the software is wrong; the other two mean the
+picture is, for different reasons and with different fixes. Collapsing them sends
+someone to debug a product bug that does not exist.
 
 ## Writing the findings
 
