@@ -54,7 +54,7 @@
     {
       "name": "braindump",
       "description": "Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it does not. Writes a pinned verbatim tier (constraints, corrections, dead ends and exact identifiers) ahead of the narrative, and ships a deterministic retention scorer plus a head-to-head benchmark whose baseline arm is free. Published as compaction-quality until 2026-08.",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

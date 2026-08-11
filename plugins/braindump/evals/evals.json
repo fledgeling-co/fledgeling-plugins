@@ -1,5 +1,5 @@
 {
-  "skill_name": "compaction-quality",
+  "skill_name": "braindump",
   "notes": "Assertions are checkable by scripts/score_retention.py, scripts/benchmark_vs_compact.py, or exact string match against the source transcript. Deliberately no LLM-judge assertions: G-Eval correlates with humans at rho~0.514 against 0.8-0.9 inter-human, and self-preference bias disqualifies judging a Claude-written summary with a Claude judge. The head-to-head against the built-in /compact is the comparison that matters; its baseline arm is free because those summaries are already on disk. Evals 8-12 come from references/case-study-paired.md, a three-arm paired measurement on one real session; each encodes a failure mode observed there rather than a hypothesised one. Read semantic classes on the soft matcher — evals 5, 8 and 9 all score 0.0% on exact match even when passed perfectly.",
   "evals": [
     {
@@ -156,6 +156,21 @@
         "It states that the commit message is still wrong and has been superseded",
         "The string Build complete! (6.32s) appears exactly",
         "A fresh session reading it would not act on the false 'does not build' note"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "reread-list-names-the-steering-files",
+      "prompt": "Compact this session. Files that came up: docs/plans/plan-PERCH-0406.md, macos/Sources/RelayCore/ProxyServer.swift, ~/Dev/perch/CLAUDE.md, three test fixtures under macos/Tests/, ~/.claude/plugins/cache/fledgeling-plugins/braindump/SKILL.md, ~/.claude/CLAUDE.md, about twenty files under docs/deep-research/, and docs/CODING_PRACTICES.md. I have been implementing the plan since the start and I'm partway through the SKILL.md procedure — extract done, compress and verify not. The user said early on to follow CODING_PRACTICES.md. The rest I opened to understand the code and the prior art.",
+      "expected_output": "A REREAD list closing the pinned block, one path per line, carrying only the files whose instructions were steering the work — the two CLAUDE.md files, the plan, the half-executed SKILL.md, and the practices file. The files opened as data are excluded from that list, though they may appear elsewhere. The eval deliberately does NOT label which is which: sorting them is the thing being tested, and a prompt that pre-sorts them tests nothing.",
+      "assertions": [
+        "The pinned block ends with a REREAD list, one path per line",
+        "Both CLAUDE.md paths appear in it (~/Dev/perch/CLAUDE.md and ~/.claude/CLAUDE.md)",
+        "The plan path docs/plans/plan-PERCH-0406.md appears in it",
+        "The half-executed SKILL.md path appears in it, and is marked as a procedure partway through",
+        "docs/CODING_PRACTICES.md appears in it, because the user said to follow it",
+        "ProxyServer.swift, the test fixtures and the deep-research files are absent FROM THE REREAD LIST — mentioning them elsewhere in the summary is fine, and a checker must test the list rather than the whole document",
+        "The list carries paths only, not paraphrases of what those files say"
       ]
     }
   ]

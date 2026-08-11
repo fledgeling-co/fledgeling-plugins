@@ -4,6 +4,66 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-11 — measurement pass
+
+A head-to-head against the built-in `/compact`, run two ways: the skill's own 12 eval scenarios
+(controlled ground truth) and 8 real compaction events sampled across length bands from 61k to
+2.9M characters. Both arms wrote every summary; nothing here is a re-read of an old number. The
+run found more wrong with the *instrument* than with the skill, and one real defect in the skill.
+
+### braindump 2.2.0 → 2.3.0
+
+- **Fixed** a defect the skill's own eval caught it committing: the pinned tier was collecting file
+  contents. Handed a distinctive header comment, "preserve exactly, never paraphrase" overrode
+  "file contents are on disk, point at them", and the paste landed *inside* the pinned block as a
+  Tier-1 item. Both the skill arm and the plain baseline did it, and both blew the length cap.
+  SKILL.md now states plainly that the pinned tier never contains file contents, and that "the user
+  quoted it in this conversation" is not a reason to pin it — Tier 1 is what a successor cannot
+  re-derive, and anything on disk is re-derivable by definition.
+- **Added** a contamination filter to `benchmark_vs_compact.py`. The free `cli` baseline poisons
+  itself once the addendum ships: a harness that splices the pinned-block instruction into live
+  compactions leaves *its* summaries on disk looking like any other `/compact` event. **27 events**
+  in this operator's corpus already carried the addendum marker, and one of six sampled baseline
+  summaries was one of them. `find_events` now excludes them by default and reports the count;
+  `--include-treated` keeps them when the wire arm is what you mean to measure.
+- **Added** the honest limit that most constrains the benchmark: on real sessions the detectors
+  usually find nothing. Measured over 30 random compaction events, corrections yield zero spans in
+  **93%** of events (median 0, max 1) and rejected approaches in **70%** (median 0, max 13); a fifth
+  of events have no span in any of the three classes. That is why the 121-event table's correction
+  row rests on 34 events, and why a controlled eval set is the better instrument for "does the
+  method work" while the transcript benchmark is the better one for length, extractiveness and
+  structure.
+- **Added** `references/evidence.md § Why the built-in drops these classes`, read out of the
+  installed Claude Code 2.1.227 rather than inferred. Its nine sections never ask for a rejected
+  approach anywhere (§4 asks for errors "and how you fixed them" — the opposite category); it
+  instructs recency bias twice, explicitly; it scopes verbatim preservation to "security-relevant"
+  constraints only; and §3 and §8 both ask for "full code snippets where applicable". So 0.3%
+  retention is the prompt working as written, and the baseline's greater length is compliance
+  rather than sloppiness — which bounds the claim as much as it supports the design.
+- **Added** eval 13, covering the REREAD list that addendum v3 already ships on the wire and that
+  nothing tested. Its first draft pre-sorted the files into "steering" and "background", which
+  telegraphed the answer well enough that the baseline passed it too; the shipped version presents
+  them undifferentiated, because sorting them is the thing being tested.
+- **Changed** ConstraintRot's 0%/38% from "Measured:" to a stated-but-unreplicated figure in
+  SKILL.md, matching the errata already recorded in `references/evidence.md`. The direction is what
+  the two-tier design rests on and the paired case supports it independently; the percentages were
+  read from an abstract.
+- **Fixed** `evals.json`'s `skill_name`, still `compaction-quality` after the rename.
+
+**What the run measured.** On the 12 eval scenarios: baseline 53/59 mechanically checkable
+assertions against the skill's 55/59, at identical median length (4,785 vs 4,788 chars) — a narrow
+margin, and the design's own ceiling, since a prompt that hands over the facts lets both arms retain
+them. The separation is structural: across those 12, a pinned block in 100% of skill summaries
+against 0%, a REREAD list in 100% against 25% incidental, and 4.2 file paths cited against 0.7, at
+the same length. On 7 usable real transcripts: 31% shorter (15,737 vs 22,946 median chars), pinned
+in 80% of cases against 16%, REREAD in 100% against 0%, rejected approaches 50% against 0% — n=2,
+a hint rather than a result. Two figures go the other way and are reported rather than buried: the
+skill is *more* extractive (0.171 against 0.132), and identifier recall is lower (80% against 86%).
+An eighth transcript was discarded: on a 944-row session the skill arm returned a continuation of
+the conversation's subject instead of a summary, which is a harness failure in the benchmark
+driver, not a summary-quality datum, and it was the sole source of an otherwise striking
+`CORRECTIONS` row.
+
 ## 2026-08-11
 
 A grounding pass driven by 90 days of this operator's own transcripts (1,037 compaction events,
