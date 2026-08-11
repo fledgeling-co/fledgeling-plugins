@@ -40,7 +40,7 @@ mutate, a paraphrase can.
 End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v3._
 ```
 
-1,124 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
+1,099 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
 the final user turn of a one-shot request, past the newest cache breakpoint, so it never rewrites a
 warm prefix and needs no per-conversation pinning. A change therefore applies to the very next
 compaction and costs nothing on any conversation.

@@ -4,6 +4,51 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-11
+
+A grounding pass driven by 90 days of this operator's own transcripts (1,037 compaction events,
+counting rules from INSAV-RECON) plus a review of the four deep-research reports against what the
+data now shows. Every number that moved traces to `perch/scratch-contextcost/`.
+
+### should-compact 0.1.0 → 0.2.0
+
+- **Changed** the residue model. "A compaction leaves ~51,000 behind" was the intercept read as the
+  value: the fitted relation is `post ≈ 50,958 + 0.117 × pre` (n=1,037), so the residue at the 1M
+  wall is ~168k, 3.3× the intercept. The floor row now carries the relation, and the crossover below
+  which compaction grows the context is confirmed at ~57.7k on 4.4× the original sample.
+- **Fixed** `precompact_gate.sh`'s token estimate to match its own comment: `bytes * 2 / 7`
+  (~3.5 chars/token) where the code divided by 4 — a 14% under-count in the direction that made
+  `at_the_wall` fire late, which is the unsafe direction for a headroom rule.
+- **Added** guidance to point `SHOULD_COMPACT_WINDOW_TOKENS` at an enforced proxy budget (Relay
+  ships one) rather than the hardware window: auto-compaction fires at the enforced wall, so
+  headroom against the 1M window reasons about a wall the session never reaches.
+- **Added** to the evidence: the 90-day trigger recount (median 987,636; bimodal — 59.3% above
+  900k, 29.1% below 200k), the wall-clock cost of a compaction (median 171.6 s against 12.1 s for
+  an ordinary turn, n=219), and the cross-reference to the time-priced budget analysis.
+
+### braindump 2.1.0 → 2.2.0
+
+- **Added** the REREAD list: the pinned block now ends with the path of every CLAUDE.md, SKILL.md,
+  plan, spec or rules file whose instructions were steering the session, so the successor re-reads
+  them instead of following the summary's paraphrase of them. Anthropic's prompting guidance names
+  compaction as a hydration point, and auto re-reading memory files after compaction is the
+  most-requested compaction fix in Claude Code's issue tracker (#21925, #31409, #9796). Addendum
+  bumped to v3 (1,099 bytes) carrying the same instruction on the wire; v2 retained under a
+  superseded fence.
+- **Changed** the opening framing, which the data contradicted: the summary is the only
+  *deliberate* survivor, not the only survivor — ~168k tokens of residue carry through a wall
+  compaction, and what the residue keeps is the recent end, which is why the middle of a long
+  window is the true one-chance region (U-shaped summariser faithfulness, PoSum-Bench).
+- **Changed** the sweep guidance to name the middle as the danger zone and to sweep by meaning
+  rather than keyword (low-lexical-overlap constraints are what retrieval misses).
+- **Added** a Tier-1 item ceiling with its number: follow-rate falls 0.964 → 0.447 between 1 and 20
+  stacked instructions, so ~20 pinned items is the ceiling and consolidation beats accumulation.
+- **Added** errata to the deep-research corpus: the auto-compaction trigger claims in all four
+  files are superseded by the 99.8% measurement; `compaction-xai-grok.md` is marked superseded
+  outright (both its concrete Claude Code figures were wrong) with its one distinctive result —
+  parallel compaction's output-invariance — lifted into `references/evidence.md`; ConstraintRot's
+  0%/38% flagged as read-from-abstract-only; CogCanvas flagged single-source.
+
 ## 2026-08-09
 
 A pass over six weeks of session transcripts — 25,917 files, 1,669 sessions using a plugin skill — reading the human messages that followed each invocation. Six categories of feedback came back; these are the changes they produced. Where a rule already existed and was skipped anyway, it became a command with an exit code rather than a more strongly-worded rule.
