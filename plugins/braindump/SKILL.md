@@ -15,10 +15,15 @@ description: >
 
 # Compaction quality
 
-A compaction summary is the only artifact that survives. Everything else — the reasoning,
-the files you read, the dead ends you already ruled out — is gone. So the summary is not a
-recap for a human. It is the **input to a stranger who has to continue your work** and who
-will confidently redo whatever you left out.
+A compaction summary is the only *deliberate* artifact that survives. It is not the only thing
+that carries through — measured at the wall, roughly 168k tokens of residue survive a 1M-window
+compaction (system prompt, tools, recent turns; `post ≈ 50,958 + 0.117 × pre`, n=1,037) and the
+summary itself is ~3% of that. What the residue keeps is the *recent* end of the window. What has
+exactly one chance to survive is everything else: the reasoning, the files you read, the dead ends
+you ruled out, and above all the middle of a long session — summariser faithfulness is measured as
+U-shaped, strong at both ends and weakest in the middle (PoSum-Bench). So the summary is not a
+recap for a human. It is the **input to a stranger who has to continue your work** and who will
+confidently redo whatever you left out.
 
 Write it as **two tiers**, not one. That single structural decision carries most of the
 value here, and the evidence for it is in `references/evidence.md`.
@@ -28,8 +33,9 @@ value here, and the evidence for it is in `references/evidence.md`.
 **Tier 1 — pinned. Reproduced verbatim, never compressed, placed first.**
 
 Four categories, and only these four. Keeping this tier short is as important as filling
-it: instruction-following degrades as instruction count rises, so a bloated pinned tier
-defeats itself.
+it: instruction-following degrades as instruction count rises — measured on Sonnet 4.6, follow-rate
+falls from 0.964 at one stacked instruction to 0.447 at twenty — so a bloated pinned tier defeats
+itself. Treat ~20 pinned items as the ceiling, and consolidate before exceeding it.
 
 1. **Standing constraints and prohibitions** — every "always", "never", "don't", scope
    fence and boundary the user or the project set. Quote them word for word.
@@ -161,12 +167,16 @@ is denser, more vivid and more recently attended to, so an unguided sweep termin
 
 Two habits that fix it:
 
-- **Start at the oldest turn in the window and walk forward.** The items with one chance
-  left are the ones stated once, long ago; anything from the last few turns is still
-  legible in the recent context a compaction usually preserves.
+- **Start at the oldest turn in the window and walk forward, and slow down in the middle.** The
+  items with one chance left are the ones stated once, long ago — and the measured danger zone is
+  the *middle* of a long window: summariser faithfulness is U-shaped (strong at both ends, weakest
+  in the middle), and the residue a compaction preserves is the recent end, so the middle is the
+  region where a missed item has no second chance anywhere.
 - **Sweep once per category, not once overall.** Ask "every standing constraint", then
   "every correction", then "every method dead end", then "every product dead end". Four
-  passes over one window beat one pass looking for four things.
+  passes over one window beat one pass looking for four things. Sweep by *meaning*, not by
+  keyword: a constraint phrased unlike anything in the current task is precisely the
+  low-lexical-overlap needle retrieval misses.
 
 If a previous summary is in your context, treat it as a **checklist, not a source**: every
 Tier 1 item it carries is one you must decide about explicitly — re-pin it, or point at
@@ -189,6 +199,36 @@ dropped them had first consolidated them into a named file section and pointed t
 the pointer checked out. The same arm pinned the product dead ends verbatim, because those
 had no durable home.
 
+### The re-read list — instruction files leave with the compaction
+
+A session is steered by files that sit *in* the context as instructions: the CLAUDE.md chain, any
+SKILL.md whose procedure is mid-execution, the plan or spec being implemented, a rules file the
+user pointed at. Compaction removes them exactly like everything else — and a successor that
+resumes without them follows the summary's paraphrase of the rules instead of the rules. That is
+the same mutation failure as paraphrasing a constraint, applied to whole files: "use type hints
+everywhere" became "prefers a consistent code style" one sentence at a time, and a paraphrased
+CLAUDE.md degrades the same way at file scale.
+
+So the pinned block ends with a **REREAD list**: one path per line, each a file whose instructions
+were actively steering the session when the summary was written. The successor re-reads them before
+continuing. A path is cheaper than a paraphrase and cannot mutate.
+
+What qualifies is *steering*, not *having been read*:
+
+- the CLAUDE.md files in scope for the work (global, project, subdirectory);
+- a SKILL.md whose procedure is partway through — highest priority, because a half-executed
+  procedure with no instructions is how a successor confidently freelances the second half;
+- the plan or spec file the work is implementing;
+- any file the user explicitly said to follow.
+
+A file that was merely read as data does not qualify; listing everything opened re-imports the bulk
+the compaction exists to shed. Anthropic's own prompting guidance names compaction as a hydration
+point — inject refreshed context "through tools … or during context compaction" — so this is the
+documented pattern, not a workaround. It is also the most-requested compaction fix in Claude Code's
+own issue tracker (auto re-reading of CLAUDE.md/MEMORY.md after compaction, e.g. #21925, #31409,
+#9796, filed because "the compaction summary neither preserves nor references them"): the REREAD
+list is the precise form of the fix those reports ask for crudely.
+
 ## Structure
 
 Claude Code's `/compact` produces nine sections, and a summary landing in a Claude Code
@@ -198,10 +238,10 @@ session should match them — the harness expects that shape and matching it cos
 4. Errors and fixes · 5. Problem Solving · 6. All user messages · 7. Pending Tasks ·
 8. Current Work · 9. Optional Next Step
 
-Put **Tier 1 first, before section 1**, as an explicit pinned block. Do not scatter it
-through the nine sections: the whole point is that these items are exempt from summarisation
-rather than well-summarised, and burying a constraint inside "Errors and fixes" invites the
-paraphrase that kills it.
+Put **Tier 1 first, before section 1**, as an explicit pinned block, and close that block with the
+REREAD list. Do not scatter it through the nine sections: the whole point is that these items are
+exempt from summarisation rather than well-summarised, and burying a constraint inside "Errors and
+fixes" invites the paraphrase that kills it.
 
 Two additions inside the standard shape:
 
