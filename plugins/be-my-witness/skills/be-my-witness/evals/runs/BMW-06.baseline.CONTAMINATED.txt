@@ -1,0 +1,8 @@
+It can pass — but only conditionally, and never silently.
+
+The skill's canonical example is exactly this scenario (`coverage: 6/7, uninspected: ["footer"]`, `limits: ["Footer not reached: the capture ends above it."]`) and it carries `gate: "pass"`. Partial coverage doesn't force `inconclusive`. What decides it:
+
+- **If no expectation targets the footer**, the gate can be `pass`, because `pass` means "every expectation held" and every expectation was checkable in the six inspected regions.
+- **If the expected output makes a claim about the footer**, you can't say every expectation held over a region you never saw — recapture (full-page or scrolled crop) or return `inconclusive`.
+
+Either way the verdict must report the denominator: `regionsInspected: 6`, `regionsInReference: 7`, `uninspected: ["footer"]`, plus the limits line. "6 of 7, footer not reached" is a result; a bare green verdict over an unstated sample is the exact failure mode the skill exists to prevent.

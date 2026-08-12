@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Five reports, four families, one usable finding</title>
+<meta name="description" content="What a five-member deep-research panel actually established about project-status-and-decision pages — nine claims with their limits, three questions it split on, and two things wrong with the panel itself.">
+<style>
+:root{--bg:#12161B;--panel:#171C23;--line:#252D37;--ink:#E8EDF2;--dim:#94A3B2;
+--sig:#4FD1C5;--warn:#F2A65A;--hot:#F0705E;--ok:#8CC98A;
+--g:"Helvetica Neue",Helvetica,Arial,sans-serif;--m:ui-monospace,"SF Mono",Menlo,monospace}
+:root[data-theme="light"]{--bg:#F7F8FA;--panel:#FFFFFF;--line:#E2E7EC;--ink:#12161B;
+--dim:#5B6773;--sig:#0F8B80;--warn:#A96A16;--hot:#C0402E;--ok:#3F7A3C}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#F7F8FA;--panel:#FFFFFF;
+--line:#E2E7EC;--ink:#12161B;--dim:#5B6773;--sig:#0F8B80;--warn:#A96A16;--hot:#C0402E;--ok:#3F7A3C}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--g);font-size:17px;
+line-height:1.6;-webkit-text-size-adjust:100%}
+.w{max-width:60rem;margin:0 auto;padding:0 1.5rem}
+a{color:var(--sig)}
+h1{font-size:clamp(2.2rem,6vw,3.9rem);line-height:1.03;letter-spacing:-.03em;margin:0;font-weight:700}
+h2{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:0 0 .3rem;font-weight:700}
+h3{font-size:1.05rem;margin:0;font-weight:650;letter-spacing:-.01em}
+.eye{font-family:var(--m);font-size:.7rem;letter-spacing:.19em;text-transform:uppercase;color:var(--dim)}
+header{padding:5rem 0 3.5rem;border-bottom:1px solid var(--line)}
+.lede{font-size:clamp(1.1rem,2.4vw,1.42rem);line-height:1.45;color:var(--ink);margin:1.6rem 0 0;max-width:38rem}
+.lede b{color:var(--sig);font-weight:650}
+.sub{color:var(--dim);margin:1.1rem 0 0;max-width:40rem;font-size:1rem}
+section{padding:3.6rem 0;border-bottom:1px solid var(--line)}
+.intro{color:var(--dim);margin:.5rem 0 2rem;max-width:42rem}
+/* the page's one visual device: support as discrete stops, never a bar */
+.stops{display:inline-flex;gap:3px;vertical-align:middle}
+.stops i{width:9px;height:16px;border-radius:1px;background:var(--line);display:block}
+.stops i.on{background:var(--sig)}
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1.35rem 1.5rem;margin:0 0 .9rem}
+.claim.inf{border-left:3px solid var(--warn)}
+.chead{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:.7rem}
+.cid{font-family:var(--m);font-size:.72rem;color:var(--dim)}
+.tag{font-family:var(--m);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+border:1px solid currentColor;border-radius:2px;padding:.1rem .4rem}
+.t-inf{color:var(--warn)}.t-dir{color:var(--dim)}
+.spacer{flex:1 1 auto}
+.dom{font-family:var(--m);font-size:.68rem;color:var(--dim)}
+.ctext{font-size:1.06rem;line-height:1.5}
+.limit{color:var(--dim);font-size:.9rem;margin:.75rem 0 0;padding-left:.9rem;border-left:1px solid var(--line)}
+.limit b{color:var(--ink);font-weight:600}
+.ref{font-family:var(--m);font-size:.72rem;text-decoration:none;padding:0 .1rem;vertical-align:.35em}
+.ref:hover,.ref:focus-visible{text-decoration:underline}
+.grid{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1.15rem 1.25rem}
+.card p{color:var(--dim);font-size:.92rem;margin:.45rem 0 0}
+.dis{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--hot);
+border-radius:4px;padding:1.35rem 1.5rem;margin:0 0 .9rem}
+.dis .split{color:var(--dim);font-size:.95rem;margin:.55rem 0 0}
+.dis .took{margin:.9rem 0 0;font-size:.95rem}
+.dis .took b{color:var(--hot);font-weight:650}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:34rem}
+.scroll{overflow-x:auto}
+th,td{text-align:left;padding:.65rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--m);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);font-weight:600}
+td.n{font-family:var(--m);color:var(--dim);white-space:nowrap}
+.reg{list-style:none;padding:0;margin:0;counter-reset:s}
+.reg li{border-bottom:1px solid var(--line);padding:.95rem 0 .95rem 2.6rem;position:relative;font-size:.94rem}
+.reg li::before{counter-increment:s;content:"[" counter(s) "]";position:absolute;left:0;top:.95rem;
+font-family:var(--m);font-size:.72rem;color:var(--sig)}
+.reg .pub{color:var(--dim);font-family:var(--m);font-size:.72rem;display:block;margin-top:.2rem}
+.reg .what{color:var(--dim);font-size:.88rem;margin-top:.4rem}
+.meth{color:var(--dim);font-size:.95rem;max-width:42rem}
+.meth b{color:var(--ink);font-weight:600}
+.meth ul{padding-left:1.1rem}
+footer{padding:3rem 0 5rem;color:var(--dim);font-size:.85rem}
+:focus-visible{outline:2px solid var(--sig);outline-offset:3px}
+:target{scroll-margin-top:2rem}
+/* Motion is additive only. `forwards` rather than `both` so nothing is hidden
+   before its range begins — a claim that exists only inside an animated frame is
+   a claim a reader who scrolls fast never sees, and one a screenshot never shows. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .claim,.dis,.card{animation:rise .5s ease-out forwards;animation-timeline:view();
+    animation-range:entry 0% entry 40%}
+    @keyframes rise{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}}}
+@media print{body{background:#fff;color:#111}.claim,.dis,.card{border:1px solid #ccc;break-inside:avoid}
+section{border-bottom:1px solid #ccc}a{color:#111}}
+</style></head>
+<body>
+<header><div class="w">
+<p class="eye">Research note · 12 August 2026 · private</p>
+<h1>Five reports,<br>four families,<br>one usable finding.</h1>
+<p class="lede">A panel of five deep-research runs was commissioned on how to build a project-status page that also asks its owner the questions stopping the work. <b>One finding was strong enough to become a data model.</b> Six more were strong enough to become rules. Three the panel could not agree on, and they are still open.</p>
+<p class="sub">This note exists to make the skill built on that research auditable from inside the repository — including the two things about the panel itself that would be easier to leave out.</p>
+</div></header>
+
+<section><div class="w">
+<h2>The claim ledger</h2>
+<p class="intro">Every claim the skill rests on, with what supports it and where it stops. The stops beside each one count <em>independent publisher domains</em>, not members who agreed — four members drawing on one paper is one source, and the panel's own composition (<a href="#C9">C9</a>) is why that distinction is not pedantry here. Claims marked <span class="tag t-inf">inference</span> were assembled by reasoning over the corpus and are not findings in it.</p>
+<article class="claim " id="C1"><div class="chead"><span class="cid">C1</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M1 M3 M4 M5</span><span class="stops" role="img" aria-label="3 independent source domains"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></div><p class="ctext">There is no industry definition of <em>done</em> to appeal to. DORA defines deployment from deployment automation and stops there.<a class="cite ref" href="#rdora" data-cite="rdora" data-n="1">[1]</a></p><p class="limit"><b>Where it stops.</b> DORA measures delivery performance, not feature completeness. That it defines no “done” is an absence, and an absence is weaker evidence than a finding — but it is the absence every member reached independently.</p></article><article class="claim " id="C2"><div class="chead"><span class="cid">C2</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M1 M5</span><span class="stops" role="img" aria-label="2 independent source domains"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></div><p class="ctext">Pre-selecting an option moves the choice hard: <strong>d = 0.68</strong> across 58 studies.<a class="cite ref" href="#rjach" data-cite="rjach" data-n="2">[2]</a><a class="cite ref" href="#rjg" data-cite="rjg" data-n="3">[3]</a></p><p class="limit"><b>Where it stops.</b> Measured on consequential real-world choices — retirement, insurance, organ donation — not on a project questionnaire answered by its own owner. The direction transfers; the magnitude is not this page's to claim.</p></article><article class="claim inf" id="C3"><div class="chead"><span class="cid">C3</span><span class="tag t-inf">inference</span><span class="spacer"></span><span class="dom">M1 M4 M5</span><span class="stops" role="img" aria-label="2 independent source domains"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></div><p class="ctext">Therefore an unconfirmed default must not export as an answer. The useful thing and the dangerous thing are the same mechanism.<a class="cite ref" href="#rjach" data-cite="rjach" data-n="2">[2]</a></p><p class="limit"><b>Where it stops.</b> This is the corpus's premise carried one step, not a finding. No member ran the experiment; the inference is the page's.</p></article><article class="claim " id="C4"><div class="chead"><span class="cid">C4</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M5</span><span class="stops" role="img" aria-label="1 independent source domain"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p class="ctext">Rank information shifts stated preference <em>beyond</em> the ratings that produced the rank, and concentrates attention at the top of a list.<a class="cite ref" href="#rchun" data-cite="rchun" data-n="4">[4]</a></p><p class="limit"><b>Where it stops.</b> One member, one paper. It is the strongest argument against the “answer these three first” strip that three other members recommend — which is why it is carried as contested rather than applied.</p></article><article class="claim " id="C5"><div class="chead"><span class="cid">C5</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M1 M3 M5</span><span class="stops" role="img" aria-label="3 independent source domains"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></div><p class="ctext">The accessibility floor is not optional and is specific: reflow at 320px, text spacing, focus not obscured by a fixed bar, target size.<a class="cite ref" href="#rwcag" data-cite="rwcag" data-n="5">[5]</a></p><p class="limit"><b>Where it stops.</b> 2.4.11 is the one that bites a page like this, because the fixed export bar at the foot of the screen is exactly the thing that obscures a focused control.</p></article><article class="claim " id="C6"><div class="chead"><span class="cid">C6</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M1 M5</span><span class="stops" role="img" aria-label="2 independent source domains"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></div><p class="ctext">A decision record carries its consequences beside it, not only its outcome — the ADR pattern, applied to a questionnaire.<a class="cite ref" href="#radr" data-cite="radr" data-n="6">[6]</a></p><p class="limit"><b>Where it stops.</b> ADRs are written by the people who will live with them, over months. A questionnaire answered in one sitting borrows the shape, not the deliberation.</p></article><article class="claim " id="C7"><div class="chead"><span class="cid">C7</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M2</span><span class="stops" role="img" aria-label="1 independent source domain"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p class="ctext">One member's citations are not fabricated. Of 46, none was invented and none was dead: 37 opened directly, 8 hit a bot wall, 1 was rate-limited.<a class="cite ref" href="#rverify" data-cite="rverify" data-n="7">[7]</a></p><p class="limit"><b>Where it stops.</b> Resolving is not supporting. Every one of those URLs proves a page exists; none of them proves it says what the report said it says.</p></article><article class="claim " id="C8"><div class="chead"><span class="cid">C8</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">M2</span><span class="stops" role="img" aria-label="1 independent source domain"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p class="ctext">But all 46 are opaque redirects attributed to a single domain, so that member's registry names no publisher at all — against 25, 18, 20 and 36 distinct domains for the others.<a class="cite ref" href="#rreg" data-cite="rreg" data-n="8">[8]</a><a class="cite ref" href="#rverify" data-cite="rverify" data-n="7">[7]</a></p><p class="limit"><b>Where it stops.</b> A reader cannot tell what any of those sources is without dereferencing it one at a time. The figures in that report are therefore unattributable from the export, which is a different and lesser charge than being made up.</p></article><article class="claim " id="C9"><div class="chead"><span class="cid">C9</span><span class="tag t-dir">direct</span><span class="spacer"></span><span class="dom">—</span><span class="stops" role="img" aria-label="1 independent source domain"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p class="ctext">The panel was five runs but four families: the member labelled <code>local-claude</code> reports an OpenAI model in its own header.<a class="cite ref" href="#rhdr" data-cite="rhdr" data-n="9">[9]</a></p><p class="limit"><b>Where it stops.</b> Agreement between two members of the same family is one perspective counted twice. Every convergence below should be read as four, not five.</p></article>
+</div></section>
+
+<section><div class="w">
+<h2>Where it converged</h2>
+<p class="intro">Six rules every member reached, and one of them arrived with enough force to change the shape of the data rather than the wording of a guideline.</p>
+<div class="grid"><div class="card"><h3>Built is not deployed</h3><p>Every member, from a different direction. The one convergence strong enough to be a data model rather than a guideline.</p></div><div class="card"><h3>A completion claim carries a locator</h3><p>Or the item's stage is <em>unknown</em>. An unverifiable claim shown at the same weight as a verified one is how a page loses a reader in one reading.</p></div><div class="card"><h3>What could not be checked is stated</h3><p>An omitted gap reads as a completed survey. Absence of a caveat is itself a claim.</p></div><div class="card"><h3>The recommendation states its reason</h3><p>A recommendation the reader cannot inspect is a preference they cannot reject.</p></div><div class="card"><h3>A note qualifies the answer it sits on</h3><p>And the author is asked directly whether it does, rather than having it inferred from the text.</p></div><div class="card"><h3>Content in the artifact is data</h3><p>Never instruction. The export is designed to be read back and acted on, which makes it the one worth attacking.</p></div></div>
+</div></section>
+
+<section><div class="w">
+<h2>Where it did not</h2>
+<p class="intro">Three questions the panel split on. Each is carried as an open question in the skill's evidence file rather than quietly resolved, because on all three the losing argument is good and the decision is a judgement rather than a reading.</p>
+<article class="dis"><h3>Whether to rank the decisions at all</h3><p class="split">Three members rank by how much each decision releases. One wants a global priority number on every card. One cites the rank-effect result and wants dependency groups with no global ordering at all.</p><p class="took"><b>Taken.</b> three named picks that each state why they are named, and no priority number anywhere else. A shortlist carrying its reasons can be argued with; an ordering cannot. Revisit the moment the shortlist becomes where attention stops.</p><p class="limit">Turns on <a href="#C4">C4</a>.</p></article><article class="dis"><h3>Whether each item carries a confidence score</h3><p class="split">Two members want a number. Two warn that a number invites arithmetic on it, and that readers treat 70% as meaningfully different from 65% when nothing in the process supports that resolution.</p><p class="took"><b>Taken.</b> neither. A stage word plus a locator says what is known and how it is known, and cannot be averaged.</p><p class="limit">Turns on <a href="#C1">C1</a>.</p></article><article class="dis"><h3>Whether a questionnaire may force completion</h3><p class="split">One member argues that a decision with a running cost should not be skippable. Another argues that forcing converts a considered non-answer into a thoughtless click.</p><p class="took"><b>Taken.</b> the page may say a decision cannot be left open, and must still let it be deferred. Recording the refusal is the honest version of forcing.</p><p class="limit">Turns on <a href="#C3">C3</a>.</p></article>
+</div></section>
+
+<section><div class="w">
+<h2>The panel, and what is wrong with it</h2>
+<p class="intro">Two things about this corpus would be easier to leave out of a page that cites it. Both are checkable from the exports in this repository.</p>
+<div class="scroll"><table>
+<caption class="intro" style="text-align:left;caption-side:top">Distinct domains counts the publishers a member's own source registry names.</caption>
+<thead><tr><th scope="col">Member</th><th scope="col">Backend</th><th scope="col">Brief as run</th><th scope="col">Cost</th><th scope="col">Distinct domains</th></tr></thead>
+<tbody><tr><td class="n">M1</td><td>OpenAI Deep Research</td><td>Designing software project status and decision aids for non-technical owners</td><td class="n">$9.00</td><td class="n">25</td></tr><tr><td class="n">M2</td><td>Gemini Deep Research</td><td>Single-File HTML Decision Capsules for AI Agents</td><td class="n">$7.00</td><td class="n">1</td></tr><tr><td class="n">M3</td><td>Perplexity</td><td>Design Rules for Single-File Project Status and Decision Documents</td><td class="n">$4.00</td><td class="n">18</td></tr><tr><td class="n">M4</td><td>Claude CLI (subscription)</td><td>Designing HTML Status and Decision Documents for Non-Technical Owners</td><td class="n">$0.00</td><td class="n">20</td></tr><tr><td class="n">M5</td><td>Codex CLI (subscription)</td><td>Empirical design rules for IT project status reporting and decision elicitation</td><td class="n">$0.00</td><td class="n">36</td></tr></tbody></table></div>
+<p class="limit" style="margin-top:1.6rem"><b>One.</b> The run labelled <code>local-claude</code> exported a report whose header reads <code>model: gpt-5.6-luna, provider: openai</code>. Five runs, four families. Read every convergence in this note as four independent perspectives, not five.<a class="cite ref" href="#rhdr" data-cite="rhdr" data-n="9">[9]</a></p>
+<p class="limit"><b>Two.</b> M2's registry names one domain across all 46 citations, because every one is an opaque grounding redirect. Dereferenced, they hold up — nothing fabricated, nothing dead, 37 of 46 opening directly<a class="cite ref" href="#rverify" data-cite="rverify" data-n="7">[7]</a> — so the honest charge is not invention. It is that no reader can tell what any of those sources is without opening them one at a time, which means the precise figures in that report cannot be attributed to a publisher from the export. They are not repeated anywhere in this note or in the skill.</p>
+<p class="limit">That distinction was corrected mid-way through writing this page. The first draft said the figures were unsourced; the verification run said they were unattributable. Those are different, and the second is the one the evidence supports.</p>
+</div></section>
+
+<section><div class="w">
+<h2>Methods</h2>
+<div class="meth">
+<p>Five deep-research runs at <code>max</code> tier, commissioned 12 August 2026 against one brief with a shared decision context. Two paid backends and one paid API run cost <b>$20.00</b> between them; two ran on existing CLI subscriptions at no marginal cost.</p>
+<ul>
+<li><b>Read in full.</b> Every member was exported whole to <code>docs/deep-research/</code> and read end to end, not through an outline and not through a merged distillation.</li>
+<li><b>Verified.</b> <code>research_verify_citations</code> was run on the member whose registry looked thinnest. Result in <a href="#C7">C7</a> and <a href="#C8">C8</a>.</li>
+<li><b>Counted.</b> Support is counted in independent publisher domains, parsed from the exported registries rather than asserted.</li>
+<li><b>Not established.</b> Whether any of these rules improves a real owner's decisions. Nothing in the corpus tests that, and this note does not claim it. What it claims is narrower: six structural properties that a page built without them measurably lacks.</li>
+</ul>
+<p><b>Departures from the usual pipeline for this page,</b> all because it is a private in-repo note rather than a published one: no divergence trawl on the visual direction, no separate voice pass, no commissioned page icon, no marketing chrome, and no motion library — the one animation is a CSS view timeline that degrades to nothing under <code>prefers-reduced-motion</code>. It is not deployed anywhere.</p>
+</div>
+</div></section>
+
+<section><div class="w">
+<h2>Sources</h2>
+<p class="intro">Only what a claim above actually leans on. The five full reports and their complete registries — 223 citations across 76 domains — sit beside this file.</p>
+<ol class="reg"><li id="rdora"><span><a href='https://dora.dev/guides/dora-metrics-four-keys/' rel=noreferrer>DORA — <em>DevOps Research and Assessment</em>, metric definitions</a></span><span class="pub">dora.dev</span><span class="what">Cited by three of the five members. Defines deployment frequency and lead time for changes from deployment automation; carries no definition of “done”.</span></li><li id="rjach"><span><a href='https://www.cambridge.org/core/journals/behavioural-public-policy/article/when-and-why-defaults-influence-decisions-a-metaanalysis-of-default-effects/67B2C6CB0FD3FC1BC61FE0F5E1E4D6D8' rel=noreferrer>Jachimowicz, Duncan, Weber &amp; Johnson (2019), <em>When and why defaults influence decisions</em></a></span><span class="pub">cambridge.org / Behavioural Public Policy</span><span class="what">Meta-analysis, 58 studies: default effect d = 0.68. The best-sourced quantitative claim in the corpus, reached independently by two members.</span></li><li id="rjg"><span><a href='https://www.science.org/doi/10.1126/science.1091721' rel=noreferrer>Johnson &amp; Goldstein (2003), <em>Do defaults save lives?</em></a></span><span class="pub">science.org</span><span class="what">The organ-donation default result. Cited as the canonical demonstration that presentation, not preference, drove the outcome.</span></li><li id="rchun"><span><a href='https://link.springer.com/journal/11238' rel=noreferrer>Chun, Ho &amp; Diecidue (2021), on rank information and preference</a></span><span class="pub">link.springer.com / Theory and Decision</span><span class="what">Finds rank information shifts stated preference beyond the underlying ratings, and concentrates attention at the top of a list.</span></li><li id="rwcag"><span><a href='https://www.w3.org/TR/WCAG22/' rel=noreferrer>W3C — <em>Web Content Accessibility Guidelines 2.2</em></a></span><span class="pub">w3.org</span><span class="what">Cited by three members. 1.4.10 reflow, 1.4.12 text spacing, 2.4.11 focus not obscured, 2.5.8 target size.</span></li><li id="radr"><span><a href='https://adr.github.io/' rel=noreferrer>Architecture Decision Record community documentation</a></span><span class="pub">adr.github.io</span><span class="what">Cited by two members for the status vocabulary — proposed, accepted, superseded — and for recording a decision's consequences alongside it.</span></li><li id="rverify"><span>Dossier <code>research_verify_citations</code>, run <code>dr_6a4a6bb1ceb4f755</code>, 12 August 2026</span><span class="pub">this run</span><span class="what">46 citations dereferenced: 0 fabricated, 0 dead, 37 resolved directly, 8 blocked by a bot wall, 1 rate-limited.</span></li><li id="rreg"><span>The five exported source registries, <code>docs/deep-research/*.sources.md</code></span><span class="pub">this repo</span><span class="what">Distinct publisher domains counted per member: 25, 1, 18, 20, 36.</span></li><li id="rhdr"><span>Run headers in the exported reports</span><span class="pub">this repo</span><span class="what">The report exported from the run labelled <code>local-claude</code> carries a header reading <code>model: gpt-5.6-luna, provider: openai</code>.</span></li></ol>
+</div></section>
+
+<footer><div class="w">Written for one reader, kept in the repository it argues about.
+Generated from the ledger in <code>build_report.py</code>; the citations, the support counts and the registry above all come from the same structure, so none of the three can disagree with the others.</div></footer>
+</body></html>

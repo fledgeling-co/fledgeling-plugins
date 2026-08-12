@@ -1,0 +1,3 @@
+WINNER: B
+
+Both rank the theme switch above the shadow and reject pixel-count ranking, but B is more honest about the decision the reader actually faces: it names the two real possibilities (stale reference vs. unauthorised appearance change), assigns actionable severity tiers to each finding, and frames the pixel ratio precisely as a detector rather than a verdict. A is well-reasoned but overstates its case — "contrast and legibility failures everywhere" is speculation, and it leans on an assumed defect where B stays calibrated about intent. B also matches the global-and-intentional framing directly, whereas A treats the flip primarily as a probable malfunction.

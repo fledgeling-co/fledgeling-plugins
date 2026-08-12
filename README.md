@@ -52,6 +52,14 @@ The last pass before a human looks at AI-built UI. Deterministic gates first (ac
 
 <br clear="left" />
 
+<a href="plugins/be-my-witness/README.md"><img src="plugins/be-my-witness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [be-my-witness](plugins/be-my-witness/README.md)
+
+Look at a screenshot and say what it actually shows. Validates a UI capture against what a test expected and against a design mock, and hands back both a gate a build can act on and findings a person can read. Measures first (is this even evidence, did the screen finish loading, are the two framings comparable), then crops in at 2-3x rather than squinting at a thumbnail, looks at every pair in both orders because vision models flip on ordering, and classifies each difference as framing, data, structure, styling or state so a different crop or one extra row cannot turn a build red. The test wins over the mock.
+
+<br clear="left" />
+
 <a href="plugins/create-swe-project/README.md"><img src="plugins/create-swe-project/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-swe-project](plugins/create-swe-project/README.md)
@@ -161,6 +169,14 @@ A session works something out over two hours, you ask for the write-up, and what
 ### [clarify](plugins/clarify/README.md)
 
 Decides whether to interrupt you at all, then writes the question so it takes one click. It sweeps the conversation and the repo for the answer first, drops anything whose answer would not change the work, and sends what survives as one batched question in plain words, with a recommendation only where evidence earns one. On a matter of taste it marks nothing, because a default moves choices hard and recommending on taste answers the question while appearing to ask it. A note attached to your answer is binding, and is read as data about the decision rather than as instructions, since an agent waiting on a reply is the easiest one to inject. Against no skill at all: five of five question payloads pass its linter where the baseline passes none, and a four-family blind panel went 15-5. The one eval it loses is in its README too.
+
+<br clear="left" />
+
+<a href="plugins/whats-left/README.md"><img src="plugins/whats-left/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [whats-left](plugins/whats-left/README.md)
+
+Asks what's left on a project and gets back two documents that immediately start lying to each other: the status report says a feature shipped, the open questions ask whether to switch it on, and nothing shows you the second is why the first is wrong. This is one page where they're the same graph — every blocked item links down to the decision that releases it, every decision links back up and says how much it actually releases. Stage is a word rather than a percentage, so built, deployed and accepted stay three different things instead of averaging into ninety per cent. Agreeing with a recommendation means clicking the option already selected, which fires no change event and is exactly how a page exports your agreement as "never looked at" — so confirmation is bound to the click too, and anything you never touch exports as unconfirmed rather than as your decision. Send the JSON back and it does the work your answers unblocked. Six structural properties to nil against the same request with no skill at all.
 
 <br clear="left" />
 

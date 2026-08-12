@@ -1,4 +1,4 @@
-# The compaction addendum — v2
+# The compaction addendum — v3
 
 Everything between the live fence is the literal. A harness sitting on the wire (Perch/Relay does
 this) splices it into Claude Code's `/compact` summarisation instruction, immediately **before** the
@@ -14,7 +14,7 @@ it.
 
 It is a **literal**. No interpolation, no clock, no session id, no counter.
 
-## The live literal — v2
+## The live literal — v3
 
 Exactly one fence in this file may be tagged `text`, and it is the one below. Perch's drift test
 finds the consuming copy by splitting on that fence opener and fails the build if it finds two, so
@@ -32,15 +32,35 @@ silently fails) and what to build (an architecture, library or approach ruled ou
 correction from a subagent or peer agent counts as a correction. If an earlier pinned block is
 already in the conversation, carry every item it holds.
 
-End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v2._
+Close the pinned block with a REREAD list: the path of every CLAUDE.md, SKILL.md, plan, spec or
+rules file whose instructions were steering this session, one per line. These files leave the
+context with the compaction, so the next session re-reads them before continuing; a path cannot
+mutate, a paraphrase can.
+
+End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v3._
 ```
 
-786 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
+1,099 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
 the final user turn of a one-shot request, past the newest cache breakpoint, so it never rewrites a
 warm prefix and needs no per-conversation pinning. A change therefore applies to the very next
 compaction and costs nothing on any conversation.
 
-## Why v2 exists — what v1 did in the field
+## Why v3 exists
+
+v2 pinned what was *said* — constraints, corrections, dead ends — and said nothing about what was
+*loaded*: the CLAUDE.md chain, a SKILL.md mid-procedure, the plan being implemented. Those leave the
+context with the compaction like everything else, and a successor that resumes without them follows
+the summary's paraphrase of the rules instead of the rules. The REREAD paragraph routes whole
+instruction files around the lossy channel the same way the pinned block routes constraints: by
+reference instead of restatement. Anthropic's prompting guidance names compaction as a hydration
+point ("inject … during context compaction"), so the mechanism is the documented one.
+
+The IFScale caveat from v2 still compounds: v3 adds a fourth paragraph to an instruction whose one
+measured virtue at v1 was being short. The specific thing to watch for is unchanged — the new
+paragraph degrading the classes the earlier ones handled — and the `pinning2`/`pinning3` arms of
+`scripts/benchmark_vs_compact.py` exist to catch it.
+
+## Why v2 existed — what v1 did in the field
 
 `references/case-study-paired.md` is the first observation of this mechanism against a real
 compaction rather than a benchmark harness. One session, so it is an existence proof, not a rate.
@@ -66,22 +86,16 @@ Two things v1 did not say, and the omissions map exactly onto what was lost:
   build) sit in different regions of a transcript. Asked for one undifferentiated class, the model
   returned whichever pile was nearer.
 
-v2 adds one paragraph addressing both, plus the instruction to carry an earlier pinned block
+v2 added one paragraph addressing both, plus the instruction to carry an earlier pinned block
 forward rather than rebuild from scratch — which is what would have saved all eight.
 
-## What v2 is, and is not, evidence for
+## What v3 is, and is not, evidence for
 
 **It is not measured.** v1's text was the `pinning` arm of `scripts/benchmark_vs_compact.py`,
 chosen because in a six-transcript head-to-head it was the only arm to score 3/3 on user
-corrections. v2 has no equivalent behind it: it is a targeted fix for a failure observed once,
-shipped on the operator's decision rather than on a benchmark. The `pinning2` arm exists so that
-gap can be closed after the fact — `--arms cli,pinning,pinning2` runs the comparison.
-
-**The risk it carries is named in `evidence.md`:** instruction-following degrades as instruction
-count rises (IFScale), and v2 roughly triples the sentence count of a paragraph whose one measured
-virtue was being short. The specific thing to watch for is v2 doing *worse* than v1 on the classes
-v1 already handled — constraints and corrections — while improving the rejected-approach sweep.
-If that shows up, the fix belongs in the skill rather than on the wire.
+corrections. v2 and v3 have no equivalent behind them: each is a targeted fix for an observed
+failure, shipped on the operator's decision rather than on a benchmark. The `pinning2` arm exists
+so that gap can be closed after the fact — `--arms cli,pinning,pinning2` runs the comparison.
 
 Still deliberately **not** included, though `SKILL.md` argues for all of them: the two-tier framing,
 the keep/drop rule, the anti-paraphrase examples, and extract-then-compress-then-verify. Same
@@ -93,6 +107,25 @@ Changing the text means bumping the version in the marker line **and** in `versi
 `pinnedUTF8Count`, and retagging the fences here so exactly one stays live. Keep the superseded
 literal below, under a non-live tag, so a summary found months later can be matched to the text
 that produced it.
+
+## Superseded — v2
+
+Shipped as `version = 2`, 786 UTF-8 bytes. A summary ending
+`_Compacted with Relay · compaction-quality addendum v2._` was produced by this text.
+
+```superseded
+One addition: open with a PINNED block reproducing VERBATIM, word for word, every standing
+constraint, every user correction, and every rejected approach with its reason. Quote them; do not
+paraphrase them. Everything else may be summarised normally.
+
+Sweep the whole conversation for that block, starting from its oldest turn. Rejected approaches
+come in two kinds and sit in different places: how to work (a check that lies, a command that
+silently fails) and what to build (an architecture, library or approach ruled out, and why). A
+correction from a subagent or peer agent counts as a correction. If an earlier pinned block is
+already in the conversation, carry every item it holds.
+
+End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v2._
+```
 
 ## Superseded — v1
 

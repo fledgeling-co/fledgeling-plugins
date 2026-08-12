@@ -1,0 +1,2 @@
+WINNER: A
+A is more useful and honest because it reports the pair as inconclusive instead of inventing a design requirement. B confidently treats an arbitrary 40px grid as authoritative and does not control for ordering.

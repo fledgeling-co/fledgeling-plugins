@@ -80,6 +80,14 @@ CONSTRAINT_RE = re.compile(
     r"\b(always |never |must not|do not |don'?t ever|only ever|make sure (?:to|you)|"
     r"under no circumstances|it'?s critical that|non-negotiable)", re.I)
 
+# The baseline corpus poisons itself once the addendum ships. A harness that splices the
+# pinned-block instruction into live compactions (Perch/Relay does) leaves ITS summaries on
+# disk looking exactly like any other /compact event, so the free `cli` arm silently starts
+# measuring the treatment. Measured: 1 of 6 sampled events was already addendum-treated.
+# Every summary the addendum produces ends with its own marker line, so they are detectable
+# and excluded by default -- keep them with --include-treated to measure the wire arm.
+ADDENDUM_MARKER_RE = re.compile(r"compaction-quality addendum v\d+", re.I)
+
 
 def text_of(o):
     m = o.get("message") or {}
@@ -115,9 +123,13 @@ def load(path):
     return rows
 
 
-def find_events(limit=None, max_chars=1_500_000):
-    """Real /compact events small enough to re-summarise in one context."""
-    out = []
+def find_events(limit=None, max_chars=1_500_000, include_treated=False):
+    """Real /compact events small enough to re-summarise in one context.
+
+    Skips events whose summary carries the addendum marker: those were written with the
+    treatment applied, so counting them as baseline compares the arm against itself.
+    """
+    out, treated = [], 0
     for f in glob.glob(os.path.expanduser("~/.claude/projects/*/*.jsonl")):
         try:
             rows = load(f)
@@ -132,8 +144,17 @@ def find_events(limit=None, max_chars=1_500_000):
             continue
         summ = (rows[cut].get("message") or {}).get("content")
         summ = summ if isinstance(summ, str) else json.dumps(summ)
+        if ADDENDUM_MARKER_RE.search(summ):
+            treated += 1
+            if not include_treated:
+                continue
         out.append({"file": f, "cut": cut, "pre_chars": chars,
-                    "cli_summary": summ, "rows": pre})
+                    "cli_summary": summ, "rows": pre,
+                    "addendum_treated": bool(ADDENDUM_MARKER_RE.search(summ))})
+    if treated:
+        sys.stderr.write(
+            f"{treated} event(s) already carried the addendum and were "
+            f"{'kept' if include_treated else 'EXCLUDED'} from the baseline\n")
     out.sort(key=lambda e: e["pre_chars"])
     return out[:limit] if limit else out
 
@@ -287,9 +308,13 @@ def main():
     ap.add_argument("--max-chars", type=int, default=1_500_000)
     ap.add_argument("--out", default="")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--include-treated", action="store_true",
+                    help="keep events whose summary already carries the addendum marker; "
+                         "off by default, because they are the treatment, not a baseline")
     args = ap.parse_args()
 
-    events = find_events(limit=args.limit, max_chars=args.max_chars)
+    events = find_events(limit=args.limit, max_chars=args.max_chars,
+                         include_treated=args.include_treated)
     if args.list:
         print(f"{len(events)} usable events (pre-transcript under {args.max_chars:,} chars)")
         for e in events:

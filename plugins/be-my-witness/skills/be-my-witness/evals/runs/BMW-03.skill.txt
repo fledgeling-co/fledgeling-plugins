@@ -1,0 +1,8 @@
+Possibly nothing — and don't touch the software yet.
+
+The test is the oracle, and this test is parameterised: "one tile per enabled tool in the *project's* column count." So the verdict depends on fixture data the images can't show. Check the manifest/fixture for the project's configured column count and enabled-tool count:
+
+- **Configured count is 3** → the screenshot agrees with the test: **pass**. The 4×2 mock is stale (drawn for a different configuration). Fix the mock, or annotate it as one example configuration — file that as an advisory finding, not a failure.
+- **Configured count is 4** → the screenshot violates the expectation: **fail**, class `structure`, and the grid code is what to fix.
+
+Until the fixture is read, the gate is `inconclusive`. What's certain either way: nobody should "fix" the renderer just to match the mock.

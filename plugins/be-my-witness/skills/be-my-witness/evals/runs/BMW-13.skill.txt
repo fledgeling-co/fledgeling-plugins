@@ -1,0 +1,5 @@
+I can't confirm it — an 18.5% pixel ratio is a detector result, not a verdict. Pixel comparison finds every real change and every legitimate one and cannot tell them apart, so the ratio alone never establishes a regression.
+
+Classified, this difference is **data**: same layout and structure, different values (changed words, counts, dates). A data-class difference does not fail unless the expected output named a specific value that's now wrong. Scope decides the class, not magnitude — 18.5% of pixels is what an ordinary content refresh looks like by pixel count.
+
+Verdict: **pass** (no structural, styling, or state difference; gate is decided by the expected output, which this capture still satisfies). Nothing to file against the build. The actionable finding is the check itself: a 1% raw-pixel threshold will red-flag every honest data change.

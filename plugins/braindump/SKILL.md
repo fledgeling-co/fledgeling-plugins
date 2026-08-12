@@ -15,10 +15,15 @@ description: >
 
 # Compaction quality
 
-A compaction summary is the only artifact that survives. Everything else — the reasoning,
-the files you read, the dead ends you already ruled out — is gone. So the summary is not a
-recap for a human. It is the **input to a stranger who has to continue your work** and who
-will confidently redo whatever you left out.
+A compaction summary is the only *deliberate* artifact that survives. It is not the only thing
+that carries through — measured at the wall, roughly 168k tokens of residue survive a 1M-window
+compaction (system prompt, tools, recent turns; `post ≈ 50,958 + 0.117 × pre`, n=1,037) and the
+summary itself is ~3% of that. What the residue keeps is the *recent* end of the window. What has
+exactly one chance to survive is everything else: the reasoning, the files you read, the dead ends
+you ruled out, and above all the middle of a long session — summariser faithfulness is measured as
+U-shaped, strong at both ends and weakest in the middle (PoSum-Bench). So the summary is not a
+recap for a human. It is the **input to a stranger who has to continue your work** and who will
+confidently redo whatever you left out.
 
 Write it as **two tiers**, not one. That single structural decision carries most of the
 value here, and the evidence for it is in `references/evidence.md`.
@@ -28,8 +33,9 @@ value here, and the evidence for it is in `references/evidence.md`.
 **Tier 1 — pinned. Reproduced verbatim, never compressed, placed first.**
 
 Four categories, and only these four. Keeping this tier short is as important as filling
-it: instruction-following degrades as instruction count rises, so a bloated pinned tier
-defeats itself.
+it: instruction-following degrades as instruction count rises — measured on Sonnet 4.6, follow-rate
+falls from 0.964 at one stacked instruction to 0.447 at twenty — so a bloated pinned tier defeats
+itself. Treat ~20 pinned items as the ceiling, and consolidate before exceeding it.
 
 1. **Standing constraints and prohibitions** — every "always", "never", "don't", scope
    fence and boundary the user or the project set. Quote them word for word.
@@ -60,9 +66,11 @@ Task state, what was built and why, what remains. Ordinary summarisation compete
 applies; the marginal return on effort here is low.
 
 The split exists because the failure is not bad prose, it is a specific span being absent.
-Measured: constraint-violation rates run at 0% when the governing constraint survives into
-the summary and 38% when it is dropped. Presence very nearly determines compliance, so the
-job is recall of a small set of must-survive items, not overall summary quality.
+ConstraintRot reports constraint-violation rates of 0% when the governing constraint survives
+into the summary and 38% when it is dropped — read from the abstract only, so treat the
+percentages as unreplicated (`references/evidence.md § Errata`). The direction is what the design
+rests on, and the paired case supports it independently: presence very nearly determines
+compliance, so the job is recall of a small set of must-survive items, not overall summary quality.
 
 ## What actually gets lost — measured on real events
 
@@ -130,6 +138,19 @@ was compacted to "the user prefers a consistent code style with type hints" — 
 quantifier silently deleted, the requirement changed. Scope boundaries mutate the same way:
 "remove the calls in `a.py`, leave `b.py` untouched" became a global removal instruction.
 
+**The pinned tier never contains file contents.** Not a code block, not a pasted comment, not a
+config stanza — a path plus the one sentence that matters, always. The two rules above collide in
+practice and the wrong one wins: handed a distinctive comment or a schema line, "preserve exactly,
+never paraphrase" reads as a licence to paste, and the paste lands *inside* the pinned block as a
+Tier-1 item. Measured: on the eval written to catch exactly this, both the skill arm and the
+plain-baseline arm pasted a nine-line header comment and a schema fragment, and both blew the
+length cap. The skill arm put the comment in its pinned block.
+
+"The user quoted it in this conversation" is not a reason to pin it. What makes an item Tier 1 is
+that a successor **cannot re-derive** it — an error string, an id, a port, a decision with its
+reason. Anything sitting in a file on disk is re-derivable by definition, so it is a path and a
+clause, however precisely it was quoted at you.
+
 Compress the prose *around* the quotes freely. Fragments are fine; drop articles, hedging
 and connective filler. The tokens you save are what buys room for Tier 1.
 
@@ -161,12 +182,16 @@ is denser, more vivid and more recently attended to, so an unguided sweep termin
 
 Two habits that fix it:
 
-- **Start at the oldest turn in the window and walk forward.** The items with one chance
-  left are the ones stated once, long ago; anything from the last few turns is still
-  legible in the recent context a compaction usually preserves.
+- **Start at the oldest turn in the window and walk forward, and slow down in the middle.** The
+  items with one chance left are the ones stated once, long ago — and the measured danger zone is
+  the *middle* of a long window: summariser faithfulness is U-shaped (strong at both ends, weakest
+  in the middle), and the residue a compaction preserves is the recent end, so the middle is the
+  region where a missed item has no second chance anywhere.
 - **Sweep once per category, not once overall.** Ask "every standing constraint", then
   "every correction", then "every method dead end", then "every product dead end". Four
-  passes over one window beat one pass looking for four things.
+  passes over one window beat one pass looking for four things. Sweep by *meaning*, not by
+  keyword: a constraint phrased unlike anything in the current task is precisely the
+  low-lexical-overlap needle retrieval misses.
 
 If a previous summary is in your context, treat it as a **checklist, not a source**: every
 Tier 1 item it carries is one you must decide about explicitly — re-pin it, or point at
@@ -189,6 +214,36 @@ dropped them had first consolidated them into a named file section and pointed t
 the pointer checked out. The same arm pinned the product dead ends verbatim, because those
 had no durable home.
 
+### The re-read list — instruction files leave with the compaction
+
+A session is steered by files that sit *in* the context as instructions: the CLAUDE.md chain, any
+SKILL.md whose procedure is mid-execution, the plan or spec being implemented, a rules file the
+user pointed at. Compaction removes them exactly like everything else — and a successor that
+resumes without them follows the summary's paraphrase of the rules instead of the rules. That is
+the same mutation failure as paraphrasing a constraint, applied to whole files: "use type hints
+everywhere" became "prefers a consistent code style" one sentence at a time, and a paraphrased
+CLAUDE.md degrades the same way at file scale.
+
+So the pinned block ends with a **REREAD list**: one path per line, each a file whose instructions
+were actively steering the session when the summary was written. The successor re-reads them before
+continuing. A path is cheaper than a paraphrase and cannot mutate.
+
+What qualifies is *steering*, not *having been read*:
+
+- the CLAUDE.md files in scope for the work (global, project, subdirectory);
+- a SKILL.md whose procedure is partway through — highest priority, because a half-executed
+  procedure with no instructions is how a successor confidently freelances the second half;
+- the plan or spec file the work is implementing;
+- any file the user explicitly said to follow.
+
+A file that was merely read as data does not qualify; listing everything opened re-imports the bulk
+the compaction exists to shed. Anthropic's own prompting guidance names compaction as a hydration
+point — inject refreshed context "through tools … or during context compaction" — so this is the
+documented pattern, not a workaround. It is also the most-requested compaction fix in Claude Code's
+own issue tracker (auto re-reading of CLAUDE.md/MEMORY.md after compaction, e.g. #21925, #31409,
+#9796, filed because "the compaction summary neither preserves nor references them"): the REREAD
+list is the precise form of the fix those reports ask for crudely.
+
 ## Structure
 
 Claude Code's `/compact` produces nine sections, and a summary landing in a Claude Code
@@ -198,10 +253,10 @@ session should match them — the harness expects that shape and matching it cos
 4. Errors and fixes · 5. Problem Solving · 6. All user messages · 7. Pending Tasks ·
 8. Current Work · 9. Optional Next Step
 
-Put **Tier 1 first, before section 1**, as an explicit pinned block. Do not scatter it
-through the nine sections: the whole point is that these items are exempt from summarisation
-rather than well-summarised, and burying a constraint inside "Errors and fixes" invites the
-paraphrase that kills it.
+Put **Tier 1 first, before section 1**, as an explicit pinned block, and close that block with the
+REREAD list. Do not scatter it through the nine sections: the whole point is that these items are
+exempt from summarisation rather than well-summarised, and burying a constraint inside "Errors and
+fixes" invites the paraphrase that kills it.
 
 Two additions inside the standard shape:
 
@@ -310,6 +365,14 @@ recency-biased summary nearly twice as high on rejected approaches, while readin
 blocks shows near-disjoint sets of comparable size. Use recall to check a class did not
 vanish; use the disjoint sets to decide which summary is better.
 
+**The free baseline poisons itself once the addendum ships.** A harness that splices the
+pinned-block instruction into live compactions leaves *its* summaries on disk looking like any
+other `/compact` event, so the `cli` arm quietly starts measuring the treatment. Measured on this
+machine: **27 events** in the corpus already carried the addendum marker. `find_events` now excludes
+them by default and says how many it dropped; `--include-treated` keeps them when the wire arm is
+what you want to measure. Any baseline number taken before that filter existed is contaminated by
+however many treated events the sample happened to draw.
+
 **Two confounds the benchmark reports beside every score, because they will otherwise decide
 the result:** summary length, and extractiveness. A summary that "wins" by copying more has
 not won, and judges reward copied text regardless of whether it helped.
@@ -332,6 +395,15 @@ not won, and judges reward copied text regardless of whether it helped.
   corrections and flag some non-corrections; treat the output as a candidate list to read,
   not a count to report. They also sample spans from the transcript, so a long window's span
   population leans recent — which makes recall over it a poor way to rank two summaries.
+- **On most real sessions the detectors find nothing, so the transcript benchmark cannot
+  discriminate.** Measured over 30 random compaction events: corrections yield zero spans in
+  **93%** of events (median 0, max 1), rejected approaches zero in **70%** (median 0, max 13),
+  constraints zero in 26%; a fifth of events have no span in any of the three classes. That is
+  why the 121-event table's correction row rests on 34 events rather than 121. The consequence
+  is practical: a head-to-head at n=8 will report `n/a` for the classes you care about most of
+  the time, and a controlled scenario with known ground truth — the eval set — is the better
+  instrument for "does the method work". Use the transcript benchmark for the confounds it
+  measures reliably (length, extractiveness, structure) and for the rare high-yield session.
 - The head-to-head is paired on identical transcripts, but n is small. Report the effect and
   the sample, never a bare percentage.
 - Evidence, with citations and the numbers' provenance: `references/evidence.md`. The paired

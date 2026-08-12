@@ -172,3 +172,66 @@ minimum. Two facts matter for this skill:
 
 Usage is billed as an extra sampling iteration, and top-level token counts
 exclude it — sum `usage.iterations`.
+
+## Why the built-in drops these classes — read from the prompt itself
+
+Extracted from the installed Claude Code 2.1.227 binary (`strings`), so this is the instruction the
+baseline actually follows, not a reconstruction. Four of its own clauses cause the measured
+failures, which is why the fix is an addition to the prompt rather than better summarising:
+
+- **It never asks for rejected approaches at all.** Nine sections, and none of them names a dead
+  end, an abandoned approach or a "don't retry". §4 asks for "all errors that you ran into, and how
+  you fixed them" — errors that were *fixed*, the opposite category. A class that is never requested
+  retaining 0.3% is not a summariser failure; it is the prompt working as written.
+- **It instructs recency bias, twice.** §3: "Pay special attention to the most recent messages."
+  §8: "paying special attention to the most recent messages from both user and assistant." §9 asks
+  for quotes "from the most recent conversation". The middle-of-window neglect this skill's sweep
+  section fixes is not an emergent artifact — it is the documented instruction, and it compounds
+  with the U-shaped faithfulness the summariser already has.
+- **It scopes verbatim preservation to security only.** §6: "Preserve any security-relevant
+  instructions or constraints verbatim so they remain in effect after compaction." The verbatim
+  guarantee exists, and it covers exactly one category. Every other standing constraint — scope
+  fences, absolute quantifiers, "only ever edit X" — is left to ordinary summarisation, which is
+  precisely where the measured paraphrase mutations happen.
+- **It asks for the bulk this skill drops.** §3: "include full code snippets where applicable."
+  §8: "Include file names and code snippets where applicable." So the baseline's greater length and
+  extractiveness are compliance, not sloppiness — and the keep/drop rule is a genuine disagreement
+  with the built-in prompt, not a refinement of it.
+
+This is the strongest available support for the addendum's design: it adds the one category the
+prompt omits, widens the verbatim guarantee past security, and redirects the sweep away from the
+recency the prompt explicitly asks for. It also bounds the claim — the built-in is not bad at its
+job, it is doing a different job, and a summary that keeps code snippets is following orders.
+
+## Errata and later measurements — 2026-08-11
+
+
+
+Recorded after a grounding pass against 90 days of this operator's transcripts (counting rules:
+one response = one `(requestId, message.id)` group; scripts in `perch/scratch-contextcost/`).
+
+- **The trigger measurement is confirmed and sharpened.** 258 main-chain compaction events, median
+  pre-compaction context **987,636 tokens** — the wall, on 4.4× the original sample. The
+  distribution is bimodal: 59.3% of events above 900k, 29.1% below 200k (manual `/compact`), and
+  the middle nearly empty.
+- **The residue is affine, not flat.** `post ≈ 50,958 + 0.117 × pre` (n=1,037, R² ≈ 0.25 above the
+  floor). "A compaction leaves ~51k" is true only near the ~57.7k crossover below which compaction
+  grows the context; at the wall the residue is ~168k. This corrects this file's implicit
+  only-the-summary-survives framing and is consistent with the parallel-compaction finding that
+  summary output is nearly input-invariant (~3× output growth across 48× input, arXiv:2605.23296 —
+  lifted from the retired grok research file, its one distinctive contribution).
+- **Wall-clock, previously a named gap.** The turn spanning a compaction takes a median **171.6 s**
+  against **12.1 s** for an ordinary turn (n=219) — ~160 s of extra waiting per event. This fills
+  the `MISSING_DATA` cells in the gpt-5.6 research file and re-weights asynchronous compaction
+  (Slipstream) from curiosity to obvious next lever.
+- **ConstraintRot's 0%/38% figure was read from the abstract only.** No scenario counts, domains,
+  or mitigation implementation were ever verified. The two-tier design it motivates is
+  independently supported by the paired case study, but treat the specific percentages as
+  unreplicated.
+- **The CogCanvas figures are single-source.** Only the gemini research file reports them, citing
+  two different HTML versions of one arXiv id, and it is the most secondary-source-dependent file
+  in the corpus. Unreplicated.
+- **Research-file status.** `compaction-local-claude.md` and `compaction-openai-gpt56.md`: current,
+  with the errata above. `compaction-gemini.md`: single-source caveats above apply.
+  `compaction-xai-grok.md`: superseded — its two concrete Claude Code claims (~150k trigger,
+  75–95% auto-trigger) are both wrong at the measured 99.8%.

@@ -20,8 +20,9 @@ license: MIT
 Compaction is the lossiest operation an agent session has, and harnesses fire it on the wrong
 signal. Claude Code compacts on **token pressure**: measured across 235 real events on this
 operator's machine, the median compaction fired at **998,289 tokens of a 1M window — 99.8% full**.
-Token pressure knows nothing about whether the agent is between tasks or three files into a
-refactor.
+A later 90-day recount (n=258 main-chain events) put the median at 987,636 — same finding, larger
+sample. Token pressure knows nothing about whether the agent is between tasks or three files into
+a refactor.
 
 This skill scores the thing token pressure cannot see: **is the work at a seam right now?**
 
@@ -91,7 +92,12 @@ open tool chain. Get that one right and most of the job is done.
 | a tool call is open, or a `tool_result` is pending | compacting splits the pair; the model resumes without the result it asked for |
 | an edit is in flight — file read, change described, not yet written | the exact line numbers and variable names are what a summary throws away first |
 | an error is actively being debugged | the traceback is the working state |
-| context is below ~56,000 tokens | a compaction leaves ~51,000 behind, so below this it makes the context **larger** |
+| context is below ~58,000 tokens | compaction leaves `~51,000 + 12% of what it had` behind (fitted on 1,037 real events), so below this it makes the context **larger** |
+
+A compaction never returns an empty window. The residue is affine, not flat: at a 250k context it
+leaves ~80k, at the 1M wall it leaves ~168k. When you reason about what a compaction buys, use the
+relation, not the intercept — "it leaves ~51k" is only true for the smallest sessions that should
+be compacting at all.
 
 Set `at_the_wall` when the session is within roughly 40,000 tokens of its limit. It does not change
 the score — the moment is as bad as it is — but it forces `block: false`, for the reason above.
@@ -181,6 +187,13 @@ agent is doing, and a hook can stop it.
 Install it with `hooks.PreCompact` on both matchers, `manual` and `auto` — the matcher is matched
 against the trigger, so a hook on one covers half the events.
 
+**Point `SHOULD_COMPACT_WINDOW_TOKENS` at the wall that actually binds.** The default is the model
+window, which is right on a stock install. When a proxy enforces a lower context budget (Relay ships
+one, stated in tokens), the enforced budget *is* the wall: auto-compaction fires there, so a gate
+still reasoning about the 1M hardware limit computes headroom against a wall the session can never
+reach and its at-the-wall rule goes inert. Set the variable to the enforced budget and everything
+downstream — headroom, the never-veto rule, the block decision — stays correct without other change.
+
 The gate blocks only when `block` is true, which is the score AND the window agreeing — see "The
 score and the action are different questions" above. `precompact_gate.sh` enforces the same rule
 independently, by reading the transcript size, so a scorer that gets it wrong still cannot veto at
@@ -198,7 +211,10 @@ FACTS block as `newCustomInstructions` so it lands in the summarisation prompt d
 ## What this is not
 
 - **Not a token budget.** Where to cap a conversation is a different decision with different
-  evidence; this only answers "is right now a seam".
+  evidence; this only answers "is right now a seam". That decision has since been measured —
+  Relay ships a context budget with the analysis behind it in
+  `perch/docs/features-for-triage/context-budget-recommendation.md` — and the two compose: the
+  budget picks the wall, this skill picks the moment short of it.
 - **Not the summariser.** `braindump` writes the summary and scores retention.
 - **Not a reason to compact.** A high score means compacting here would be cheap, not that it is
   worth doing. Compaction measures out as the weakest context-management strategy available —

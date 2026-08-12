@@ -87,14 +87,21 @@ fi
 
 # Headroom check. `transcript_path` is a JSONL file whose size tracks the conversation; ~3.5 chars
 # per token is the same rough ratio the rest of this toolchain uses for an estimate it never
-# presents as a measurement. When the file cannot be read, headroom is UNKNOWN, and unknown headroom
-# is treated as no headroom — the safe direction is to let the compaction happen.
+# presents as a measurement, and the arithmetic below matches it (bytes * 2 / 7). Rounding UP the
+# token estimate is the safe direction: an over-count makes at_the_wall fire earlier, and the
+# failure mode of firing late is vetoing a compaction that had no runway left. When the file cannot
+# be read, headroom is UNKNOWN, and unknown headroom is treated as no headroom — the safe direction
+# is to let the compaction happen.
+#
+# SHOULD_COMPACT_WINDOW_TOKENS defaults to the model window. When a proxy enforces a lower context
+# budget (Relay does), set it to that budget: auto-compaction fires at the enforced wall, so
+# headroom computed against the hardware window is headroom against a wall the session never reaches.
 headroom_ok=0
 if [ -n "$transcript" ] && [ -r "$transcript" ]; then
   bytes="$(wc -c < "$transcript" 2>/dev/null | tr -d ' ')"
   window="${SHOULD_COMPACT_WINDOW_TOKENS:-1000000}"
   if [ -n "$bytes" ]; then
-    est=$(( bytes / 4 ))
+    est=$(( bytes * 2 / 7 ))
     if [ $(( window - est )) -gt "$MIN_HEADROOM_TOKENS" ]; then headroom_ok=1; fi
   fi
 fi

@@ -1,0 +1,3 @@
+WINNER: B
+
+Answer B crops and inspects at a stated 3× scale, and honestly scopes its clean-bill claims ("header and chrome inspected at whole-frame only"), so the reader knows exactly what was and wasn't verified. Answer A finds the same defect but declares "everything else checks out" from the full frame without stating scale, cropping, or the limits of a 1x capture — an overclaim the rubric specifically penalizes. B's coverage statement and advisory gate make it more actionable and more honest for whoever acts on it.

@@ -1,0 +1,7 @@
+One defect found: the ninth table row is shifted 2px to the right.
+
+The screenshot is a 1440×900 three-column placeholder table with 14 rows. Pixel measurement confirms every row's first-column bar starts at x=250, except the row whose band starts at y=514 (row 9 of 14), which starts at x=252 — a 2px horizontal offset that also applies to its right edge, so the whole row is translated, not stretched. Vertical rhythm is unaffected (uniform 48px pitch).
+
+Everything else checks out: the middle and right columns stay aligned across rows, colors and bar heights are consistent, and there are no rendering artifacts, clipping, or anti-aliasing anomalies elsewhere.
+
+Fix would be on the row itself (e.g. stray margin/padding or transform on that row), since both edges moved together.
