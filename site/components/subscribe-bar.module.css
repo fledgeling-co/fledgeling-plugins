@@ -13,28 +13,22 @@
   background: color-mix(in oklab, var(--site-surface) 92%, transparent);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--color-hairline);
-  /* The closed state is the default, so a browser that never runs the scroll
-   * handler simply shows nothing rather than a bar stuck over the content. */
-  transform: translateY(100%);
-  visibility: hidden;
 }
 
-.open {
-  transform: none;
-  visibility: visible;
-}
-
+/* It only ever appears once, on mount, so the entrance is a single short rise
+ * rather than anything that repeats on scroll. */
 @media (prefers-reduced-motion: no-preference) {
   .bar {
-    transition:
-      transform 0.32s cubic-bezier(0.22, 0.8, 0.3, 1),
-      visibility 0s linear 0.32s;
+    animation: rise 0.34s cubic-bezier(0.22, 0.8, 0.3, 1) both;
   }
+}
 
-  .open {
-    transition:
-      transform 0.32s cubic-bezier(0.22, 0.8, 0.3, 1),
-      visibility 0s;
+@keyframes rise {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
   }
 }
 

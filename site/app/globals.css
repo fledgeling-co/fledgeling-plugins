@@ -177,3 +177,10 @@ a {
   border: 0;
   border-top: 1px solid var(--color-hairline);
 }
+
+/* The subscribe bar is fixed to the bottom, so the page has to end above it or
+ * its last line is permanently occluded. The height comes from the bar itself
+ * rather than a constant, because it grows with an error message. */
+html[data-subscribe-bar="on"] body {
+  padding-bottom: var(--subscribe-bar-h, 72px);
+}

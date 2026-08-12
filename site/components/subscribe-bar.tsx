@@ -1,30 +1,29 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useActionState, useEffect, useId, useState, useSyncExternalStore } from "react";
+import { useActionState, useEffect, useId, useRef, useSyncExternalStore } from "react";
 import { subscribeAction, type SubscribeState } from "@/app/actions/subscribe";
 import styles from "./subscribe-bar.module.css";
 
 /**
  * The always-visible signup.
  *
- * The footer block is the full pitch, but this page is ~6,300px tall, so on a
- * first visit the footer sits about 5,400px down and nobody meets it. This bar
- * is the same form as chrome instead of as content.
+ * Shown from the first paint and never hidden by scroll position: this page is
+ * ~6,300px tall, so anything that waits for a scroll or steps aside near the
+ * bottom is a signup most visitors never meet.
  *
- * Three rules keep it from being the thing everyone hates:
+ * Because it is always on screen, the footer's own form would be a second copy
+ * of itself at the bottom of every page. So this marks the document while it is
+ * mounted and the footer block hides under that mark — exactly one form exists
+ * at any moment. With JavaScript off nothing marks anything, the bar never
+ * renders, and the footer form is the one that works.
  *
- *  - It stays out of the hero. Nothing appears until the search field and the
- *    first band of the roster have scrolled away, so the page's actual job is
- *    never competing with an ask.
- *  - It retracts when the footer widget comes into view. Two identical forms on
- *    one screen reads as a bug, and the footer one is the better of the two.
- *  - Dismissing it is permanent, and remembered. A bar you have to close twice
- *    is worse than no bar.
+ * Dismissing is still possible and still permanent. A bar with no way out is
+ * the thing people install blockers for, and closing it returns the footer
+ * form, so the signup never actually disappears.
  */
 
 const DISMISS_KEY = "fledgeling-skills:subscribe-bar-dismissed";
-const SHOW_AFTER_PX = 700;
 const INITIAL: SubscribeState = { status: "idle" };
 
 /**
@@ -70,33 +69,38 @@ let dismissedThisView = false;
 export function SubscribeBar() {
   const pathname = usePathname();
   const [state, action, pending] = useActionState(subscribeAction, INITIAL);
-  const [pastHero, setPastHero] = useState(false);
-  const [footerInView, setFooterInView] = useState(false);
   const fieldId = useId();
+  const barRef = useRef<HTMLDivElement>(null);
   const dismissed = useSyncExternalStore(
     subscribeToDismissal,
     () => dismissedThisView || readDismissed(),
     () => true,
   );
 
+  // Marks the document so the footer's copy of this form stands down, and
+  // publishes the bar's own height so the page can make exactly that much room
+  // at the bottom. Measured rather than hard-coded: the bar is taller when it is
+  // showing an error, and shorter on a phone, and a fixed guess is how the last
+  // line of the colophon ends up permanently behind it.
   useEffect(() => {
-    const onScroll = () => setPastHero(window.scrollY > SHOW_AFTER_PX);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (dismissed) return;
+    const root = document.documentElement;
+    root.dataset.subscribeBar = "on";
 
-  // Retract while the footer's own form is on screen.
-  useEffect(() => {
-    const footerForm = document.querySelector("footer form");
-    if (!footerForm) return;
-    const io = new IntersectionObserver(
-      (entries) => setFooterInView(entries.some((e) => e.isIntersecting)),
-      { rootMargin: "0px 0px -40px 0px" },
-    );
-    io.observe(footerForm);
-    return () => io.disconnect();
-  }, [state.status]);
+    const el = barRef.current;
+    const publish = () => {
+      root.style.setProperty("--subscribe-bar-h", `${el?.offsetHeight ?? 0}px`);
+    };
+    publish();
+    const ro = el ? new ResizeObserver(publish) : null;
+    if (el && ro) ro.observe(el);
+
+    return () => {
+      ro?.disconnect();
+      delete root.dataset.subscribeBar;
+      root.style.removeProperty("--subscribe-bar-h");
+    };
+  }, [dismissed]);
 
   // Subscribing is its own dismissal — nobody needs the ask again.
   useEffect(() => {
@@ -109,16 +113,8 @@ export function SubscribeBar() {
   if (pathname?.startsWith("/preferences")) return null;
   if (dismissed) return null;
 
-  const open = pastHero && !footerInView;
-
   return (
-    <div
-      className={`${styles.bar} ${open ? styles.open : ""}`}
-      // Out of the tab order and the a11y tree while it is off-screen, so a
-      // keyboard user never tabs into a control they cannot see.
-      aria-hidden={open ? undefined : true}
-      inert={!open}
-    >
+    <div className={styles.bar} ref={barRef}>
       <div className={styles.inner}>
         {state.status === "ok" ? (
           <p className={styles.done} role="status">
