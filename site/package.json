@@ -18,12 +18,15 @@
     "embeddings": "node scripts/build-embeddings.mjs"
   },
   "dependencies": {
+    "@react-email/components": "^1.0.12",
     "ai": "^7",
+    "mongoose": "^9.9.2",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-markdown": "latest",
     "remark-gfm": "latest",
+    "resend": "^6.19.0",
     "server-only": "^0.0.1",
     "yaml": "latest",
     "zod": "latest"
