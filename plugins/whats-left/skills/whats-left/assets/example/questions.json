@@ -1,0 +1,216 @@
+[
+  {
+    "id": "email-token",
+    "title": "Is the email credential set on the live site?",
+    "why": "Invoice email is finished code that returns quietly when it has no credential, so nothing reports a failure — the app just says “queued”. The deploy log says the credential was never set, but that log stops on 4 July and I cannot see the live secret list. This is the only item on the page that may be losing something right now.",
+    "kind": "single",
+    "default_policy": "recommended",
+    "options": [
+      {
+        "value": "leave-it",
+        "label": "Leave it — email isn’t part of 1.0",
+        "consequence": "Honest, and it means saying so in the app rather than showing “queued”. Overdue chasing goes with it."
+      },
+      {
+        "value": "i-will-check",
+        "label": "I’ll check, and set it if it’s missing",
+        "recommended": true,
+        "consequence": "Two minutes in the hosting dashboard. It is the cheapest thing on this page and the only one where waiting has an ongoing cost.",
+        "because": "It is two minutes of your time, and it is the only thing here with a cost that is running right now."
+      },
+      {
+        "value": "you-tell-me-how",
+        "label": "Give me access and I’ll do it",
+        "consequence": "Faster for you, but it means handing over a credential store, which is a bigger decision than the one being made here."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "email-delivery",
+        "effect": "fully-releases"
+      },
+      {
+        "item": "overdue-chasing",
+        "effect": "enables-planning"
+      }
+    ],
+    "note_hint": "If it is already set, say so and I will stop reporting it as a risk."
+  },
+  {
+    "id": "recurring-switch",
+    "title": "Recurring invoices: back on now, or proven first?",
+    "why": "It was switched off on 28 June after billing one client 41 times in a night. A duplicate guard went in afterwards and has only ever run against test data. The call on 11 August already leaned towards proving it before 1.0 goes out.",
+    "kind": "single",
+    "default_policy": "recommended",
+    "options": [
+      {
+        "value": "on-now",
+        "label": "Switch it back on now",
+        "consequence": "Scheduled invoices resume today. The guard is written and reviewed but has never met real data, and the last surprise here was a client receiving 41 invoices."
+      },
+      {
+        "value": "prove-first",
+        "label": "Prove the guard first",
+        "recommended": true,
+        "consequence": "A day’s work replaying one real schedule against a copy of the data. It is what the call agreed, and the failure it protects against was visible to a client.",
+        "because": "The bug cost one client 41 invoices in a night. Proving the guard is a day; being wrong twice is worse than being a day late."
+      },
+      {
+        "value": "drop-for-1-0",
+        "label": "Leave it off for 1.0",
+        "consequence": "Ships sooner with one fewer moving part. The feature stays written and switched off, which is what the roadmap already calls shipped."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "recurring-invoices",
+        "effect": "fully-releases"
+      },
+      {
+        "item": "duplicate-proof",
+        "effect": "removes-one-blocker"
+      }
+    ],
+    "note_hint": "If there is a client you would rather not be the test case, name them."
+  },
+  {
+    "id": "tax-rounding",
+    "title": "Which tax rounding rule should Kettle use?",
+    "why": "Three rules are defensible and they disagree by cents on every invoice with more than one line. This is the last thing blocking the final roadmap feature, and it is a question about what your invoices should say rather than about code.",
+    "kind": "single",
+    "default_policy": "recommended",
+    "options": [
+      {
+        "value": "round-each-line",
+        "label": "Round each line, then add up",
+        "consequence": "What Xero does. Picking this keeps your invoices matching your accounting software to the cent, which matters more than matching a worked example."
+      },
+      {
+        "value": "sum-then-round",
+        "label": "Add the lines up, then round",
+        "recommended": true,
+        "consequence": "What the tax office’s own worked examples do for Australian dollars. Recommended on that basis — if you reconcile against Xero rather than the ATO examples, the next option is the right one and I would change my answer.",
+        "because": "It is what the tax office publishes, so it is the rule you can point at if a client ever queries a figure."
+      },
+      {
+        "value": "destination-unit",
+        "label": "Round to the other currency’s smallest unit",
+        "consequence": "Most correct-looking to a client abroad, and it disagrees with both of the above, so your books and your invoices will differ."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "multi-currency",
+        "effect": "removes-one-blocker"
+      }
+    ],
+    "note_hint": "If you reconcile against a particular accounting system, name it — that decides this."
+  },
+  {
+    "id": "currency-feed",
+    "title": "Pay for live exchange rates, or cut multi-currency from 1.0?",
+    "why": "Free rate feeds are once-a-day and do not cover the pair you need during the day. The one that does is $29 a month, forever, for a feature two clients have asked about.",
+    "kind": "single",
+    "default_policy": "recommended",
+    "options": [
+      {
+        "value": "daily-free",
+        "label": "Use the free daily rate",
+        "consequence": "No cost, and invoices are priced on yesterday’s rate. Fine for small amounts and wrong in a way clients notice on large ones."
+      },
+      {
+        "value": "pay",
+        "label": "Pay the $29 a month",
+        "consequence": "Multi-currency lands in 1.0 for a running cost of $348 a year, which starts before the first client uses it."
+      },
+      {
+        "value": "cut-from-1-0",
+        "label": "Cut it from 1.0",
+        "recommended": true,
+        "consequence": "1.0 goes out with the nine features that work. Nothing is thrown away — the conversion code stays, switched off, and this becomes a decision you make when a client actually needs it.",
+        "because": "A wrong rate is a wrong invoice, and the free feeds do not say when they were last right."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "multi-currency",
+        "effect": "removes-one-blocker"
+      }
+    ],
+    "note_hint": "A ceiling, or the number of clients that would make it worth it."
+  },
+  {
+    "id": "client-portal",
+    "title": "The client portal — in 1.0, after it, or not at all?",
+    "why": "It came up on the call as the difference between an invoicing script and a product people pay for. Nothing exists for it, and it is the largest single piece of work anyone has proposed. Nothing in the repository measures whether clients would use it — so this is appetite and scope, which is yours, and I have deliberately not put a recommendation on it.",
+    "kind": "single",
+    "default_policy": "none",
+    "options": [
+      {
+        "value": "defer",
+        "label": "After 1.0",
+        "consequence": "1.0 ships on the roadmap it already has. This is weeks of work and a public surface to defend, decided on an opinion rather than on a number."
+      },
+      {
+        "value": "in-1-0",
+        "label": "In 1.0",
+        "consequence": "1.0 becomes the product rather than the tool, and slips by weeks. Worth it if the thing being launched to is a paying audience."
+      },
+      {
+        "value": "drop",
+        "label": "Drop it",
+        "consequence": "It stops coming up. Straightforward to revisit — nothing has been built either way."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "client-portal",
+        "effect": "enables-planning"
+      }
+    ],
+    "note_hint": "If a specific client has asked for this, that changes the answer."
+  },
+  {
+    "id": "overdue-chasing",
+    "title": "Chasing overdue invoices — in 1.0?",
+    "why": "Two days of work, and it cannot be trusted at all until invoice email actually sends in production. Its value is the most direct of anything on this page: it is the feature that gets you paid sooner.",
+    "kind": "single",
+    "default_policy": "recommended",
+    "options": [
+      {
+        "value": "out",
+        "label": "Out of 1.0",
+        "consequence": "One less thing between here and shipping. The invoices still go out; nothing follows them up."
+      },
+      {
+        "value": "after-email",
+        "label": "Yes, once email is confirmed working",
+        "recommended": true,
+        "consequence": "Two days, and it depends entirely on the credential question above. Recommended only if you answered that one; on its own it would ship a feature that silently does nothing.",
+        "because": "It is the smallest version that is still useful, and it does not commit you to a tone of voice before you have seen one go out."
+      },
+      {
+        "value": "in-regardless",
+        "label": "In 1.0 either way",
+        "consequence": "Builds it now and trusts the email question gets sorted. If it does not, the nudges quietly go nowhere, which is the failure already on this page once."
+      }
+    ],
+    "unblocks": [
+      {
+        "item": "overdue-chasing",
+        "effect": "enables-planning"
+      }
+    ],
+    "note_hint": "If seven, fourteen and thirty days are the wrong intervals, say what you would use."
+  },
+  {
+    "id": "anything-else",
+    "title": "Anything else you want changed before 1.0?",
+    "why": "The page is built from what the repository and the call notes say. Anything you know that they do not has no other way onto it.",
+    "kind": "text",
+    "default_policy": "none",
+    "unblocks": [],
+    "note_hint": "Optional.",
+    "placeholder": "Free text. Something missing, something wrong, or something you have changed your mind about."
+  }
+]
