@@ -172,6 +172,14 @@ Decides whether to interrupt you at all, then writes the question so it takes on
 
 <br clear="left" />
 
+<a href="plugins/whats-left/README.md"><img src="plugins/whats-left/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [whats-left](plugins/whats-left/README.md)
+
+Asks what's left on a project and gets back two documents that immediately start lying to each other: the status report says a feature shipped, the open questions ask whether to switch it on, and nothing shows you the second is why the first is wrong. This is one page where they're the same graph — every blocked item links down to the decision that releases it, every decision links back up and says how much it actually releases. Stage is a word rather than a percentage, so built, deployed and accepted stay three different things instead of averaging into ninety per cent. Agreeing with a recommendation means clicking the option already selected, which fires no change event and is exactly how a page exports your agreement as "never looked at" — so confirmation is bound to the click too, and anything you never touch exports as unconfirmed rather than as your decision. Send the JSON back and it does the work your answers unblocked. Six structural properties to nil against the same request with no skill at all.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
