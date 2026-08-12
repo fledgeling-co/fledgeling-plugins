@@ -75,6 +75,33 @@ breaking when a new plugin arrives:
   renders no example. Do not add one whose claims are not traceable to that
   skill's own documentation.
 
+### After every new or updated skill, run the gate
+
+```bash
+node site/scripts/build-catalogue.mjs   # must exit 0
+```
+
+The four registrations above are not a checklist you can satisfy from memory, and
+`should-compact` proved it: it landed with `plugin.json`, `marketplace.json`, a
+SKILL.md and a full icon set, and no README. That is a **hard failure**, not a
+warning, so from that commit until it was noticed `skills.fledgeling.app` could
+not build at all and neither could `pnpm dev`. Nothing in the plugin looked
+broken; the site was simply gone.
+
+Check the exit code rather than the output. Piping the script through `grep` was
+how the failure got read as a pass in the first place, because `$?` is then
+grep's status and not the gate's.
+
+What the gate cannot see, so check it yourself:
+
+- **The root README row**, and its `<br clear="left" />` (the shape at the top of
+  this file). Missing rows render as an overlapping mess, not as an error.
+- **`GROUP_OF`** in `build-catalogue.mjs`, or the skill sits under
+  "Uncategorised" with only a warning.
+- **A stale sibling name** anywhere in the descriptions. Renaming a skill leaves
+  the old name in every `description` that referred to it, in both manifests, and
+  nothing checks that a named skill exists.
+
 Icons follow the family: squircle silhouette from
 `plugins/create-mac-icon/assets/squircle-path.txt`, one metaphor, restrained
 palette, one warm accent. Sizes are 1024 (`icon.png`), 256 and 128. Keep the

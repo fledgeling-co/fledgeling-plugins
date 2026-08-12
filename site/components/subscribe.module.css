@@ -1,0 +1,164 @@
+/* One column on a phone. From 56rem the copy and the form sit side by side, so
+ * the widest viewport stops being the emptiest one: at 1440 a single 30rem
+ * column left ~1100px of the footer blank. Aligned to the baseline of the copy
+ * rather than centred, which keeps the footer's left-hand editorial grammar. */
+.wrap {
+  max-width: 30rem;
+}
+
+@media (min-width: 56rem) {
+  .wrap {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem);
+    column-gap: var(--space-2xl);
+    align-items: end;
+  }
+
+  .heading,
+  .blurb {
+    grid-column: 1;
+  }
+
+  .form {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+    margin-top: 0;
+  }
+
+  /* The success line has no form beside it, so it keeps the readable measure
+   * rather than stretching across the whole grid. */
+  .done,
+  .wrap > [role="status"] {
+    grid-column: 1;
+    max-width: 34rem;
+  }
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.blurb {
+  margin: var(--space-2xs) 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.form {
+  margin-top: var(--space-sm);
+}
+
+.label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  margin-bottom: var(--space-3xs);
+}
+
+.row {
+  display: flex;
+  gap: var(--space-2xs);
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0 var(--space-xs);
+  /* 44px, so the target is real on a phone rather than nominally tappable. */
+  min-height: 44px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+}
+
+.input::placeholder {
+  color: color-mix(in oklab, var(--color-muted) 70%, transparent);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--color-accent-deep);
+  /* Never colour alone: the message below carries the same information. */
+  box-shadow: 0 0 0 1px var(--color-accent-deep);
+}
+
+.button {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0 var(--space-md);
+  min-height: 44px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-accent-deep);
+  background: var(--color-accent);
+  color: #fdfbf8;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.problem {
+  margin: var(--space-2xs) 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-accent-deep);
+}
+
+.done {
+  margin: var(--space-2xs) 0 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.done strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.correct {
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.correct:hover {
+  color: var(--color-ink);
+}
+
+/* Off-screen rather than display:none — some bots skip anything not rendered. */
+.pot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Below the wrap point the button drops onto its own line, where a hugged
+ * width reads as a half-pressed control. Fill the line instead. */
+@media (max-width: 30rem) {
+  .button {
+    flex: 1 0 100%;
+  }
+}

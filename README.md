@@ -92,6 +92,14 @@ Gets everything load-bearing out of a session and onto the page before the conte
 
 <br clear="left" />
 
+<a href="plugins/should-compact/README.md"><img src="plugins/should-compact/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [should-compact](plugins/should-compact/README.md)
+
+Scores 0-10 whether now is a good moment to compact, and says why in one line. It judges the seam in the work rather than the fullness of the window: an open tool chain or a half-finished edit is a hard zero however full the context is, and that one signal decided 98.07% of holds across 1,089 measured turns. Reads only a hot buffer plus an append-only session log it maintains itself, so it is cheap enough for Haiku and fast enough to sit in a `PreCompact` hook, where it can veto an ill-timed automatic compaction. It never vetoes at the wall, because blocking at 99.8% full loses the session rather than saving it. Beat the no-skill baseline 10-0 on a two-family blind panel.
+
+<br clear="left" />
+
 <a href="plugins/improve-skill/README.md"><img src="plugins/improve-skill/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [improve-skill](plugins/improve-skill/README.md)
