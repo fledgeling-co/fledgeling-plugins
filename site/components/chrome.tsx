@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { REPO_URL, getSkillCount } from "@/lib/skills";
 import { FooterSubscribe } from "./subscribe";
+import { SubscribeBar } from "./subscribe-bar";
 import styles from "./chrome.module.css";
 
 export function SiteNav() {
@@ -49,6 +50,7 @@ export function SiteFooter() {
           at build time, so it cannot disagree with what you install.
         </p>
       </div>
+      <SubscribeBar />
     </footer>
   );
 }
