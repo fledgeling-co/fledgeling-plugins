@@ -133,3 +133,10 @@
   margin-bottom: var(--space-lg);
   border-bottom: 1px solid var(--color-hairline);
 }
+
+/* The subscribe bar marks the document while it is mounted. It is always on
+ * screen, so the footer's copy of the same form would be a duplicate at the
+ * bottom of every page. Dismissing the bar removes the mark and this returns. */
+:global(html[data-subscribe-bar="on"]) .footerSubscribe {
+  display: none;
+}
