@@ -1,0 +1,18 @@
+{
+  "slug": "kettle-status",
+  "project": "Kettle",
+  "title": "What’s left before Kettle 1.0",
+  "generatedAt": "2026-08-12T09:00:00.000Z",
+  "audience": "you alone",
+  "standfirst": "Seven of the ten roadmap features are genuinely live. Two more are built and merged but switched off or unable to send. Two features that came up on the call are on no roadmap at all. Six things are waiting on you.",
+  "lead": "The roadmap says **nine of ten shipped**. Two of those nine are not running: recurring invoices has been switched off in production since the night it created 41 duplicate invoices for one client, and invoice email has never had its sending token set on the live site — it returns quietly rather than failing, so the app shows **queued** for mail that never left.",
+  "completionContract": "all ten roadmap features are running on the live site and have been used once each in anger, the two features raised on the 11 August call are either scoped or explicitly dropped, and nothing on this page is still marked as not verifiable from here.",
+  "items_note": "Each item says the stage it actually reached. Built is not deployed and deployed is not accepted, so nothing here can be averaged into a percentage.",
+  "q_note": "Where an option is pre-selected it is my suggestion and nothing more. It becomes your answer when you click it — including clicking the one already selected. Anything you never touch is exported as unconfirmed, and I will not act on it.",
+  "unknowns": [
+    "Whether the email sending token is set on the live site. The deploy log says it never was, but that log’s last entry is 4 July 2026 and I have no access to the live secret list. You can see it; I cannot.",
+    "Whether the duplicate guard added after the incident actually holds. It has never run against production data, and nothing in the repo can tell us.",
+    "How many clients would use a portal. Nothing here measures that, and the case for it in the call notes is an opinion rather than a number."
+  ],
+  "methods": "Built from the repository as it stands: the roadmap, the production configuration, the deploy log, the source of the three features in question, and the notes from the call on 11 August. Where the documents and the code disagree, the code is what is reported and the disagreement is named. Nothing here was checked against the running system, which is why the unchecked list above exists."
+}
