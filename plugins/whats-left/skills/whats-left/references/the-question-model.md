@@ -1,5 +1,10 @@
 # The question model
 
+`title`, `why`, and every option's `label`, `consequence` and `because` are
+Luke-voice prose. Write them through `/create-luke-content` (format `marketing`)
+before building the page; its lint catches the em dashes and AI phrasings that
+`validate_model.py` does not look at.
+
 ```json
 {
   "id": "recurring-switch",

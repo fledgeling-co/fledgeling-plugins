@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that surveys what a project still needs, then asks you the questions that are stopping it — on one page.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.1.1" src="https://img.shields.io/badge/version-0.1.1-D33C21">
   <img alt="SWE skill: status" src="https://img.shields.io/badge/SWE_skill-status-434A55">
   <img alt="Beats no-skill baseline 6-0" src="https://img.shields.io/badge/vs_no--skill-6--0-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
