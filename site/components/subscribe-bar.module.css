@@ -1,0 +1,192 @@
+/* The always-visible signup bar.
+ *
+ * Chrome, not content: it sits on the paper ground with a hairline above it and
+ * borrows nothing from the card system, so it never reads as a row of the
+ * roster that has come loose. */
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: color-mix(in oklab, var(--site-surface) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--color-hairline);
+  /* The closed state is the default, so a browser that never runs the scroll
+   * handler simply shows nothing rather than a bar stuck over the content. */
+  transform: translateY(100%);
+  visibility: hidden;
+}
+
+.open {
+  transform: none;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    transition:
+      transform 0.32s cubic-bezier(0.22, 0.8, 0.3, 1),
+      visibility 0s linear 0.32s;
+  }
+
+  .open {
+    transition:
+      transform 0.32s cubic-bezier(0.22, 0.8, 0.3, 1),
+      visibility 0s;
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: var(--site-container);
+  margin: 0 auto;
+  padding: var(--space-xs) 24px;
+}
+
+.pitch {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  min-width: 0;
+}
+
+.pitch strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  gap: var(--space-2xs);
+  margin-left: auto;
+  flex: 0 1 auto;
+}
+
+.input {
+  flex: 0 1 15rem;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0 var(--space-xs);
+  min-height: 44px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+}
+
+.input::placeholder {
+  color: color-mix(in oklab, var(--color-muted) 70%, transparent);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--color-accent-deep);
+  box-shadow: 0 0 0 1px var(--color-accent-deep);
+}
+
+/* accent-deep, matching the footer button: #fdfbf8 on plain accent measures
+ * 3.96:1 and AA wants 4.5 at this size. */
+.button {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0 var(--space-sm);
+  min-height: 44px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-accent-deep);
+  background: var(--color-accent-deep);
+  color: #fdfbf8;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: #8f4319;
+}
+
+.button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.close {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(var(--space-2xs) * -1);
+  border: 0;
+  background: none;
+  border-radius: var(--radius-chip);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--color-ink);
+  background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+}
+
+.done {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.done strong {
+  font-weight: 600;
+}
+
+.problem {
+  margin: 0;
+  padding: 0 24px var(--space-2xs);
+  max-width: var(--site-container);
+  margin-inline: auto;
+  font-size: 0.82rem;
+  color: var(--color-accent-deep);
+}
+
+.pot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Below the two-column point the sentence loses its tail and the form takes the
+ * width. The bar stays one line high, because a phone gives up too much of the
+ * viewport otherwise. */
+@media (max-width: 60rem) {
+  .pitchRest {
+    display: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .inner {
+    padding: var(--space-2xs) 16px;
+    gap: var(--space-2xs);
+  }
+
+  .pitch {
+    display: none;
+  }
+
+  .form {
+    flex: 1 1 auto;
+    margin-left: 0;
+  }
+
+  .input {
+    flex: 1 1 auto;
+  }
+}
