@@ -61,6 +61,7 @@ const GROUP_OF = {
   trawl: "research",
   "dossier-report": "research",
   report: "research",
+  "whats-left": "research",
   "ship-armada": "orchestration",
   "armada-sync": "orchestration",
   "mac-doctor": "machine",

@@ -1,0 +1,7 @@
+**Verdict: one finding, gate `inconclusive`** — no expected output or mock was supplied, so this run is advisory and cannot pass or fail anything.
+
+Pre-scan: real evidence, settled (no skeleton), 1440×900 as declared.
+
+**Finding — class: styling, severity: low.** The 9th table row (y≈514–526) is shifted 2px right: its first-column bar spans x=252–552 while every other row spans x=250–550. Confirmed both by measurement (leftmost-dark-pixel scan across all 14 rows) and visually at 3× (`/tmp/bmw-rows.png`, middle bar indented relative to neighbours). Vertical rhythm is intact — all rows sit on a consistent 48px pitch, so this is horizontal misalignment only.
+
+Coverage: 14 of 14 table rows measured; header and page chrome inspected at whole-frame only, where nothing anomalous appeared.

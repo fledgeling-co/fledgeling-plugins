@@ -1,0 +1,10 @@
+{
+  "featureFlags": {
+    "recurringInvoices": false,
+    "csvImport": true,
+    "multiCurrency": false
+  },
+  "_comment": "recurringInvoices was switched off on 2026-06-28 after the first live run created 41 duplicate invoices for one client. It has not been switched back on.",
+  "database": { "poolSize": 10 },
+  "email": { "provider": "postmark" }
+}

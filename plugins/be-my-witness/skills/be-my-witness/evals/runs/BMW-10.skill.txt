@@ -1,0 +1,9 @@
+A 2× zoom on the whole page doesn't work here, because zoom isn't the unit — the long edge is. Scaling 1280×4320 by 2× gives 2560×8640, and the model's downscale ceiling (2576px long edge) shrinks that back to ~0.30×, landing the 14px body text at ~8px: technically above the 7px floor, but with no margin and the whole frame competing for attention.
+
+The protocol instead:
+
+1. One whole-frame look for layout only — no fine conclusions.
+2. `python3 scripts/crop.py shot.png --tiles --out /tmp/tiles` to cut the page into crops whose long edge stays under the ceiling (~1024² default, or 1280×720 bands), so nothing is downscaled and 14px glyphs arrive at full size.
+3. For suspect text regions, `--region x,y,w,h --scale 2`, giving ~28px effective glyph height.
+
+Read body copy tile by tile at that scale; that's where real text defects are findable.

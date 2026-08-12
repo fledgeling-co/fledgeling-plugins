@@ -1,0 +1,17 @@
+Nothing visual can be judged here — this run ends at capture provenance, before any image is opened.
+
+The manifest check fails: the capture is 390px wide against an expectation declaring a 1440px desktop viewport. That is an `invalid-capture`, and it is neither a pass nor a visual failure. At 390px the page has rendered its mobile breakpoint — stacked regions, collapsed navigation, different typography — so every difference downstream would be a **framing** artifact of the wrong viewport, not evidence about the product. Judging it anyway would send someone to debug working software.
+
+Verdict:
+
+```json
+{
+  "gate": "not-evidence",
+  "findings": [{
+    "class": "framing", "severity": "high", "region": "whole-frame",
+    "expected": "1440px desktop viewport", "actual": "390px capture (mobile breakpoint)"
+  }]
+}
+```
+
+What's wrong is the harness: re-capture at 1440px (deviceScaleFactor ≥2), then re-run the comparison.

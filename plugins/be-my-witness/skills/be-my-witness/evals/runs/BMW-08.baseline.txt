@@ -1,0 +1,5 @@
+**Pass — identical.** The screenshot and the mock are the same file (`populated.png`), so the comparison is pixel-for-pixel exact by definition; no diff is possible.
+
+Content, for the record: nine rows of placeholder bars on a white background, each row a dark navy primary bar over a shorter slate-blue secondary bar. The navy bars step up in width monotonically from top (~32% of canvas width) to bottom (~65%), while the slate bars stay a constant width (~19%), left-aligned with consistent vertical rhythm throughout.
+
+Nothing to flag: no layout drift, color deviation, missing rows, or spacing changes — a self-comparison can't produce any. If the intent was to validate a *different* screenshot against this mock, point me at the other file and I'll run a real diff.

@@ -11,6 +11,11 @@ tools: [google_search, url_context, code_execution]
 estimated_cost_usd: 0.00
 completed: 2026-08-08T03:24:21.439Z
 ---
+
+> **Errata 2026-08-11:** the 75%/95% auto-compaction `CONFLICTING_EVIDENCE` and the matching
+> Knowledge Gap entry are resolved by first-party measurement: **median 99.8% of the window**
+> (n=235; reconfirmed n=258 at median 987,636 tokens). Otherwise current — see
+> `references/evidence.md` § Errata.
 I have enough primary material. Writing the report.
 
 ---

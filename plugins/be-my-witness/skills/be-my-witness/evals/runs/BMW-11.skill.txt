@@ -1,0 +1,7 @@
+No. The data difference is fine; the run still fails.
+
+These are two separate findings in two different classes, and the benign one doesn't excuse the other. The changed data is a **data** class difference — same layout, different values from a different fixture — and it fails nothing unless the expected output named a specific value.
+
+But the missing call-to-action is a **structure** difference: a control the expected output explicitly names is absent from the capture. The gate is decided by the expected output alone, and the screenshot conflicts with it directly. That's a **fail**, with the missing control reported as a high-severity or blocker finding (a vanished control is maximum user impact), evidenced by the crop of the region where it should appear.
+
+Verdict: `gate: fail`, one structure finding (the CTA), with the fixture change noted as a non-failing data observation.

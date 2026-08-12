@@ -18,6 +18,38 @@ The difference is the reason `precompact_gate.sh` has a headroom rule at all. At
 fifth of a window to spend waiting for a boundary; at 99.8% there is essentially none, so a veto
 that does not check headroom converts a lossy compaction into a hard overflow.
 
+A 90-day recount (INSAV-RECON counting rules, one response = one `(requestId, message.id)` group)
+found **258 main-chain compaction events, median pre-compaction context 987,636** — the same wall,
+on 4.4× the original sample. The distribution is bimodal: 59.3% of events fire above 900k (the
+window filled) and 29.1% below 200k (someone typed `/compact`); the middle barely exists.
+
+## The residue is affine, and the flat "~51k" reading is wrong above small contexts
+
+Fitted on **1,037 compaction events** across the same 90 days:
+
+```
+post_context ≈ 50,958 + 0.117 × pre_context
+```
+
+Two consequences, and they pull in different directions:
+
+- **The floor stands.** Compaction shrinks the context only when `pre > ~57,700` — the fitted
+  crossover, independently confirming the ~56–58k hard-hold row on a sample 4.4× larger than the
+  one that set it.
+- **"It leaves ~51,000 behind" is only true at the floor.** At a 250k context the residue is ~80k;
+  at the 1M wall it is ~168k — 3.3× the intercept. Any reasoning about how much runway a compaction
+  buys must use the relation. The fit is noisy above the floor (R² ≈ 0.25 on the earlier n=190
+  sample), so treat the slope as central tendency, the floor as solid.
+
+## What a compaction costs in wall-clock
+
+Measured from transcript timestamps across **219 real compaction events**: the turn spanning a
+compaction takes a median of **171.6 s**, against **12.1 s** for an ordinary turn — roughly
+**160 seconds of extra waiting per compaction**. This is why "blocking is for buying minutes at 60%
+full" is literally minutes, and it is the cost axis the token-only view of compaction cannot see.
+The full time-priced analysis (which moved Relay's context budget off the token-only optimum) is in
+`perch/docs/features-for-triage/context-budget-recommendation.md`.
+
 ## One signal dominates
 
 Perch's `CompactionAdvisor` scored 1,089 real turns for whether a compaction would be safe.
@@ -131,5 +163,8 @@ blog sources disagree on details that decide whether a hook works at all:
   cheaper; it does not close the loop.
 - **Small-model agreement is unmeasured on real transcripts.** The rubric is built on what raises
   reliability in the literature, not on a scored corpus of this operator's own sessions.
-- **The headroom estimate is an estimate.** `precompact_gate.sh` reads transcript bytes and divides;
-  it is a floor for deciding whether to veto, never a figure to render.
+- **The headroom estimate is an estimate.** `precompact_gate.sh` reads transcript bytes and divides
+  (~3.5 chars/token, rounded toward over-counting because the safe failure is firing the wall rule
+  early); it is a floor for deciding whether to veto, never a figure to render.
+- **The residue slope is central tendency, not a prediction.** R² ≈ 0.25 above the floor; a given
+  compaction's residue varies widely around the affine fit. The floor is the reproducible part.

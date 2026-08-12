@@ -11,6 +11,10 @@ tools: [google_search, url_context, code_execution]
 estimated_cost_usd: 3.00
 completed: 2026-08-08T03:24:56.075Z
 ---
+
+> **Errata 2026-08-11:** the 150k figure is the Messages API compaction default, not Claude
+> Code's product trigger (measured median 99.8% of a 1M window). The CogCanvas figures here are
+> single-source and unreplicated. See `references/evidence.md` § Errata.
 # Context-Compaction Strategies and Continuity Benchmarks for LLM Coding Agents
 
 ## Executive Summary

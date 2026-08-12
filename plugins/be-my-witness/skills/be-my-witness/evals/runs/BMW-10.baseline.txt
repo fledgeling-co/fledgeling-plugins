@@ -1,0 +1,7 @@
+There's no capture in the working directory, so here's the correct procedure for that scenario.
+
+Don't zoom the full image — at 1280×4320 it exceeds Claude's vision budget and gets downsampled roughly 3×, leaving 14px body text at ~5px, unreadable no matter what "zoom" you request. Reading it whole silently destroys the evidence.
+
+Instead, slice then scale: cut the capture into ~4 horizontal tiles of about 1280×1080 (with slight overlap so no line of text falls on a seam), upscale each tile 2× with ImageMagick (`magick input.png -crop 1280x1080 +repage -resize 200% tile_%d.png`), and Read each tile. That renders body text at an effective 28px inside a size that survives ingestion.
+
+Then check each tile for: truncation/ellipsis mid-sentence, clipped descenders, overlapping lines, orphaned words, placeholder/lorem text, typos, inconsistent line-height, and low-contrast text.

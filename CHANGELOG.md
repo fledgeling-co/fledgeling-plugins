@@ -4,6 +4,111 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-11 — measurement pass
+
+A head-to-head against the built-in `/compact`, run two ways: the skill's own 12 eval scenarios
+(controlled ground truth) and 8 real compaction events sampled across length bands from 61k to
+2.9M characters. Both arms wrote every summary; nothing here is a re-read of an old number. The
+run found more wrong with the *instrument* than with the skill, and one real defect in the skill.
+
+### braindump 2.2.0 → 2.3.0
+
+- **Fixed** a defect the skill's own eval caught it committing: the pinned tier was collecting file
+  contents. Handed a distinctive header comment, "preserve exactly, never paraphrase" overrode
+  "file contents are on disk, point at them", and the paste landed *inside* the pinned block as a
+  Tier-1 item. Both the skill arm and the plain baseline did it, and both blew the length cap.
+  SKILL.md now states plainly that the pinned tier never contains file contents, and that "the user
+  quoted it in this conversation" is not a reason to pin it — Tier 1 is what a successor cannot
+  re-derive, and anything on disk is re-derivable by definition.
+- **Added** a contamination filter to `benchmark_vs_compact.py`. The free `cli` baseline poisons
+  itself once the addendum ships: a harness that splices the pinned-block instruction into live
+  compactions leaves *its* summaries on disk looking like any other `/compact` event. **27 events**
+  in this operator's corpus already carried the addendum marker, and one of six sampled baseline
+  summaries was one of them. `find_events` now excludes them by default and reports the count;
+  `--include-treated` keeps them when the wire arm is what you mean to measure.
+- **Added** the honest limit that most constrains the benchmark: on real sessions the detectors
+  usually find nothing. Measured over 30 random compaction events, corrections yield zero spans in
+  **93%** of events (median 0, max 1) and rejected approaches in **70%** (median 0, max 13); a fifth
+  of events have no span in any of the three classes. That is why the 121-event table's correction
+  row rests on 34 events, and why a controlled eval set is the better instrument for "does the
+  method work" while the transcript benchmark is the better one for length, extractiveness and
+  structure.
+- **Added** `references/evidence.md § Why the built-in drops these classes`, read out of the
+  installed Claude Code 2.1.227 rather than inferred. Its nine sections never ask for a rejected
+  approach anywhere (§4 asks for errors "and how you fixed them" — the opposite category); it
+  instructs recency bias twice, explicitly; it scopes verbatim preservation to "security-relevant"
+  constraints only; and §3 and §8 both ask for "full code snippets where applicable". So 0.3%
+  retention is the prompt working as written, and the baseline's greater length is compliance
+  rather than sloppiness — which bounds the claim as much as it supports the design.
+- **Added** eval 13, covering the REREAD list that addendum v3 already ships on the wire and that
+  nothing tested. Its first draft pre-sorted the files into "steering" and "background", which
+  telegraphed the answer well enough that the baseline passed it too; the shipped version presents
+  them undifferentiated, because sorting them is the thing being tested.
+- **Changed** ConstraintRot's 0%/38% from "Measured:" to a stated-but-unreplicated figure in
+  SKILL.md, matching the errata already recorded in `references/evidence.md`. The direction is what
+  the two-tier design rests on and the paired case supports it independently; the percentages were
+  read from an abstract.
+- **Fixed** `evals.json`'s `skill_name`, still `compaction-quality` after the rename.
+
+**What the run measured.** On the 12 eval scenarios: baseline 53/59 mechanically checkable
+assertions against the skill's 55/59, at identical median length (4,785 vs 4,788 chars) — a narrow
+margin, and the design's own ceiling, since a prompt that hands over the facts lets both arms retain
+them. The separation is structural: across those 12, a pinned block in 100% of skill summaries
+against 0%, a REREAD list in 100% against 25% incidental, and 4.2 file paths cited against 0.7, at
+the same length. On 7 usable real transcripts: 31% shorter (15,737 vs 22,946 median chars), pinned
+in 80% of cases against 16%, REREAD in 100% against 0%, rejected approaches 50% against 0% — n=2,
+a hint rather than a result. Two figures go the other way and are reported rather than buried: the
+skill is *more* extractive (0.171 against 0.132), and identifier recall is lower (80% against 86%).
+An eighth transcript was discarded: on a 944-row session the skill arm returned a continuation of
+the conversation's subject instead of a summary, which is a harness failure in the benchmark
+driver, not a summary-quality datum, and it was the sole source of an otherwise striking
+`CORRECTIONS` row.
+
+## 2026-08-11
+
+A grounding pass driven by 90 days of this operator's own transcripts (1,037 compaction events,
+counting rules from INSAV-RECON) plus a review of the four deep-research reports against what the
+data now shows. Every number that moved traces to `perch/scratch-contextcost/`.
+
+### should-compact 0.1.0 → 0.2.0
+
+- **Changed** the residue model. "A compaction leaves ~51,000 behind" was the intercept read as the
+  value: the fitted relation is `post ≈ 50,958 + 0.117 × pre` (n=1,037), so the residue at the 1M
+  wall is ~168k, 3.3× the intercept. The floor row now carries the relation, and the crossover below
+  which compaction grows the context is confirmed at ~57.7k on 4.4× the original sample.
+- **Fixed** `precompact_gate.sh`'s token estimate to match its own comment: `bytes * 2 / 7`
+  (~3.5 chars/token) where the code divided by 4 — a 14% under-count in the direction that made
+  `at_the_wall` fire late, which is the unsafe direction for a headroom rule.
+- **Added** guidance to point `SHOULD_COMPACT_WINDOW_TOKENS` at an enforced proxy budget (Relay
+  ships one) rather than the hardware window: auto-compaction fires at the enforced wall, so
+  headroom against the 1M window reasons about a wall the session never reaches.
+- **Added** to the evidence: the 90-day trigger recount (median 987,636; bimodal — 59.3% above
+  900k, 29.1% below 200k), the wall-clock cost of a compaction (median 171.6 s against 12.1 s for
+  an ordinary turn, n=219), and the cross-reference to the time-priced budget analysis.
+
+### braindump 2.1.0 → 2.2.0
+
+- **Added** the REREAD list: the pinned block now ends with the path of every CLAUDE.md, SKILL.md,
+  plan, spec or rules file whose instructions were steering the session, so the successor re-reads
+  them instead of following the summary's paraphrase of them. Anthropic's prompting guidance names
+  compaction as a hydration point, and auto re-reading memory files after compaction is the
+  most-requested compaction fix in Claude Code's issue tracker (#21925, #31409, #9796). Addendum
+  bumped to v3 (1,099 bytes) carrying the same instruction on the wire; v2 retained under a
+  superseded fence.
+- **Changed** the opening framing, which the data contradicted: the summary is the only
+  *deliberate* survivor, not the only survivor — ~168k tokens of residue carry through a wall
+  compaction, and what the residue keeps is the recent end, which is why the middle of a long
+  window is the true one-chance region (U-shaped summariser faithfulness, PoSum-Bench).
+- **Changed** the sweep guidance to name the middle as the danger zone and to sweep by meaning
+  rather than keyword (low-lexical-overlap constraints are what retrieval misses).
+- **Added** a Tier-1 item ceiling with its number: follow-rate falls 0.964 → 0.447 between 1 and 20
+  stacked instructions, so ~20 pinned items is the ceiling and consolidation beats accumulation.
+- **Added** errata to the deep-research corpus: the auto-compaction trigger claims in all four
+  files are superseded by the 99.8% measurement; `compaction-xai-grok.md` is marked superseded
+  outright (both its concrete Claude Code figures were wrong) with its one distinctive result —
+  parallel compaction's output-invariance — lifted into `references/evidence.md`; ConstraintRot's
+  0%/38% flagged as read-from-abstract-only; CogCanvas flagged single-source.
+
 ## 2026-08-09
 
 A pass over six weeks of session transcripts — 25,917 files, 1,669 sessions using a plugin skill — reading the human messages that followed each invocation. Six categories of feedback came back; these are the changes they produced. Where a rule already existed and was skipped anyway, it became a command with an exit code rather than a more strongly-worded rule.

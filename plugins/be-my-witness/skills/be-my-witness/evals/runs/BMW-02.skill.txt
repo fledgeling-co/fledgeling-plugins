@@ -1,0 +1,8 @@
+**Yes — within its frame, it matches the design exactly. Conformance: 95–100 band (advisory, basis: mock).**
+
+The pre-scan flagged the only real difference as **framing**: card.png (440×275) is a crop, not a drifted render — it's pixel-identical (diff ratio 0.0) to the top-left 440×275 region of populated.png once the reference is cropped to the same frame. No structure, styling, data, or state differences in the compared region.
+
+Caveats that keep the score honest:
+
+- **Coverage:** roughly a third of the mock (the right side and lower rows) lies outside the card's frame and was not inspected. The score covers only the overlap.
+- **No expected output was supplied**, so this is a mock-conformance check: the gate is `inconclusive` and the score is advisory — it can't pass or fail a build.

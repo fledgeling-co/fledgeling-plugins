@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>whats-left — icon audit</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;background:#0B1418;color:#E6F0F2;font:15px/1.5 -apple-system,system-ui,sans-serif;padding:2.5rem 1.25rem 4rem}
+main{max-width:86rem;margin:0 auto}
+h1{font-size:1.6rem;margin:0 0 .3rem}
+p.sub{color:#7FA0AA;margin:0 0 2rem;max-width:46rem}
+.sheet{overflow-x:auto;border:1px solid #1D2E34;border-radius:6px}
+table{border-collapse:collapse;min-width:58rem;width:100%}
+caption{text-align:left;padding:.9rem 1rem;color:#7FA0AA;font-size:.85rem;border-bottom:1px solid #1D2E34}
+th,td{padding:.85rem .7rem;text-align:center;vertical-align:middle;border-bottom:1px solid #16252A}
+thead th{color:#7FA0AA;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+th[scope=row]{text-align:left;width:13rem}
+th[scope=row] img{display:block;border-radius:9px;margin-bottom:.45rem}
+th[scope=row] span{display:block;font-weight:600;font-size:.9rem}
+th[scope=row] b{display:block;color:#7FA0AA;font-weight:600;font-size:.8rem;margin-top:.2rem}
+td.v{text-align:left;color:#B9CCD2;font-size:.82rem;width:22rem;line-height:1.45}
+img{image-rendering:auto}
+.px{image-rendering:pixelated;border:1px solid #1D2E34}
+tr.recommended{background:#10222A}
+tr.recommended th[scope=row] span::after{content:" ▸ ships";color:#E0854F;font-weight:700}
+.rec{margin:2rem 0 0;border-left:2px solid #E0854F;padding:.2rem 0 .2rem 1rem;color:#B9CCD2;max-width:52rem}
+.rec b{color:#E6F0F2}
+</style></head><body><main>
+<h1>whats-left — icon audit</h1>
+<p class="sub">Direction 2, sub-register (a): porcelain cushion + gel objects, in the fledgeling-plugins house palette sampled out of <code>clarify</code> and <code>report</code>. Four takes across three engines; losers stay in with their scores.</p>
+<div class="sheet"><table>
+<caption>Sources are rendered at 2× and shown at half size. The final column magnifies the 32px render six times without smoothing — the squint test.</caption>
+<thead><tr><th scope="col">Take</th><th scope="col">128px</th><th scope="col">64px</th><th scope="col">48px</th><th scope="col">32px</th><th scope="col">16px</th><th scope="col">32px ×6</th><th scope="col">Verdict</th></tr></thead>
+<tbody>
+<tr class="recommended">
+  <th scope="row"><img src="audit-renders/master-1024.png" width="96" height="96" alt="Engine A — hand-authored SVG master at full size"><span>Engine A — hand-authored SVG master</span><b>11/12</b></th>
+  <td><img src="audit-renders/master-256.png" width="128" height="128" alt="Engine A — hand-authored SVG master at 128 css px"></td><td><img src="audit-renders/master-128.png" width="64" height="64" alt="Engine A — hand-authored SVG master at 64 css px"></td><td><img src="audit-renders/master-96.png" width="48" height="48" alt="Engine A — hand-authored SVG master at 48 css px"></td><td><img src="audit-renders/master-64.png" width="32" height="32" alt="Engine A — hand-authored SVG master at 32 css px"></td><td><img src="audit-renders/master-32.png" width="16" height="16" alt="Engine A — hand-authored SVG master at 16 css px"></td><td><img class="px" src="audit-renders/master-32.png" width="192" height="192" alt="Engine A — hand-authored SVG master, 32px render magnified six times"></td>
+  <td class="v">Ships. The stack thins upward and the one standing card carries the only saturated colour on the tile, so the read survives to 16px as shape-and-value rather than as hue. Known liability: the tick marks are a 128px-and-up detail and are gone by 32 — deliberate, since the bars carry the identity without them.</td>
+</tr><tr class="">
+  <th scope="row"><img src="audit-renders/engineC-988692-masked-1024.png" width="96" height="96" alt="Engine C — Gemini 3 Pro raster, family squircle applied at full size"><span>Engine C — Gemini 3 Pro raster, family squircle applied</span><b>9/12</b></th>
+  <td><img src="audit-renders/engineC-988692-masked-256.png" width="128" height="128" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 128 css px"></td><td><img src="audit-renders/engineC-988692-masked-128.png" width="64" height="64" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 64 css px"></td><td><img src="audit-renders/engineC-988692-masked-96.png" width="48" height="48" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 48 css px"></td><td><img src="audit-renders/engineC-988692-masked-64.png" width="32" height="32" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 32 css px"></td><td><img src="audit-renders/engineC-988692-masked-32.png" width="16" height="16" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 16 css px"></td><td><img class="px" src="audit-renders/engineC-988692-masked-32.png" width="192" height="192" alt="Engine C — Gemini 3 Pro raster, family squircle applied, 32px render magnified six times"></td>
+  <td class="v">Not shipped, but it won two material arguments and both were salvaged into the master: a line of text inside each settled row, which turns blank bars into list items, and a darker bottom lip under each bar that gives the gel real extrusion. Fails #1 in its own right — it authored its own inset tile rather than going full-bleed, so the silhouette is a rounded rect floating inside the canvas.</td>
+</tr><tr class="">
+  <th scope="row"><img src="audit-renders/engineC-988692-1024.png" width="96" height="96" alt="Engine C — raster, as generated at full size"><span>Engine C — raster, as generated</span><b>7/12</b></th>
+  <td><img src="audit-renders/engineC-988692-256.png" width="128" height="128" alt="Engine C — raster, as generated at 128 css px"></td><td><img src="audit-renders/engineC-988692-128.png" width="64" height="64" alt="Engine C — raster, as generated at 64 css px"></td><td><img src="audit-renders/engineC-988692-96.png" width="48" height="48" alt="Engine C — raster, as generated at 48 css px"></td><td><img src="audit-renders/engineC-988692-64.png" width="32" height="32" alt="Engine C — raster, as generated at 32 css px"></td><td><img src="audit-renders/engineC-988692-32.png" width="16" height="16" alt="Engine C — raster, as generated at 16 css px"></td><td><img class="px" src="audit-renders/engineC-988692-32.png" width="192" height="192" alt="Engine C — raster, as generated, 32px render magnified six times"></td>
+  <td class="v">Kept for the record. Same take before masking; the baked inner tile and its own drop shadow are visible against the family silhouette, which is exactly the pre-masked-raster failure the corpus census names.</td>
+</tr><tr class="">
+  <th scope="row"><img src="audit-renders/engineB-arrow-100d38-1024.png" width="96" height="96" alt="Engine B — Arrow 1.1, independent vector take at full size"><span>Engine B — Arrow 1.1, independent vector take</span><b>5/12</b></th>
+  <td><img src="audit-renders/engineB-arrow-100d38-256.png" width="128" height="128" alt="Engine B — Arrow 1.1, independent vector take at 128 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-128.png" width="64" height="64" alt="Engine B — Arrow 1.1, independent vector take at 64 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-96.png" width="48" height="48" alt="Engine B — Arrow 1.1, independent vector take at 48 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-64.png" width="32" height="32" alt="Engine B — Arrow 1.1, independent vector take at 32 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-32.png" width="16" height="16" alt="Engine B — Arrow 1.1, independent vector take at 16 css px"></td><td><img class="px" src="audit-renders/engineB-arrow-100d38-32.png" width="192" height="192" alt="Engine B — Arrow 1.1, independent vector take, 32px render magnified six times"></td>
+  <td class="v">Loses. Real vector source and clean geometry, but flat throughout: no cushion, no rim light, no contact shadow, and the value spread across the three bars is too narrow for the recede to read. Nothing salvaged.</td>
+</tr>
+</tbody></table></div>
+<p class="rec"><b>Recommendation: the Engine A master.</b> It is the only take that is full-bleed against the family silhouette, and the only one whose three settled rows carry a wide enough value spread for the recede to read below 64px. Its known liability is that the ticks vanish by 32px; that is accepted, because the identity is the thinning stack plus one standing card with a warm dial, and all three survive. Against its sibling <code>clarify</code> — three equal cards, one chosen — this reads as progress rather than as choice, which is the distinction the two skills need at marketplace size.</p>
+</main></body></html>

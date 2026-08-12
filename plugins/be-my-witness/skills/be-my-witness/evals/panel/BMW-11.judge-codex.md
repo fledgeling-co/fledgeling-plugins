@@ -1,0 +1,1 @@
+WINNER: A — It cleanly separates benign fixture data from the missing structural control, explicitly sets `gate: fail`, and assigns High/Blocker severity.

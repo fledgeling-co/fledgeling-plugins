@@ -1,0 +1,9 @@
+No — a 2× zoom won't work here, and the skill's reading protocol (`SKILL.md:109-121`) says why. Anthropic models downscale any image whose long edge exceeds the ceiling (1568px standard, 2576px on Claude 4.7+) *before* the model sees it. A 1280×4320 capture is downscaled by 0.363×, so 14px body text arrives at ~5.1px of glyph height — well below the ~7px floor where text accuracy collapses. Zooming into the already-attached image afterwards recovers nothing, because the detail was never sampled.
+
+The correct move is to crop, not zoom: split the page into tiles whose long edge stays under the ceiling (e.g. 1280×720 slices, or the ~1024² default), so the tiles aren't downscaled at all and 14px text stays legible:
+
+```
+python3 scripts/crop.py shot.png --tiles --out /tmp/tiles
+```
+
+Then read the body copy tile by tile.

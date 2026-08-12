@@ -1,0 +1,5 @@
+The capture itself is what's wrong — this comparison can't validly proceed. The screenshot was taken at 390px (a mobile viewport) while the expectation declares a 1440px desktop viewport, so the two show different responsive layouts by design.
+
+Verdict: **environment mismatch, not a UI defect**. Any differences you'd flag — stacked columns, hamburger navigation instead of a full nav bar, wrapped headings, hidden sidebars — are legitimate responsive behaviour at 390px, not failures against the desktop expectation. Reporting them as defects would be false positives; equally, a desktop-only bug could hide entirely at this width, so a "pass" would be meaningless too.
+
+The fix is upstream of judgement: recapture at 1440px (check the harness's viewport config or device emulation setting for how 390px leaked in), then run the comparison against the correct capture.

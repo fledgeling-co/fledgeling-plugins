@@ -1,0 +1,5 @@
+Nothing, until you look up the project's configured column count — that setting decides who's wrong. The expectation is the authority here, and it doesn't say "four columns"; it says "the project's column count". The mock's 4×2 layout is advisory: a drawing of one configuration, not the contract.
+
+So: if the project is configured for 3 columns, the screenshot is correct and the mock is stale — record it as a finding (structure class, mock-side) rather than failing the build. If it's configured for 4, the implementation has a real structure defect and that's the fix.
+
+Separately, check the count, not just the shape: the mock shows 8 tiles, and the expectation ties tile count to *enabled tools*. Three columns vs four could be the same 8 tiles rewrapped (framing/config) or missing tiles (a genuine bug). Verify enabled-tool count first.
