@@ -1,0 +1,9 @@
+{
+  "name": "be-my-witness",
+  "description": "Validate a UI screenshot against what a test expected and against a design mock, returning a pass/fail gate plus severity-ranked findings. Runs a deterministic pre-scan first (is this evidence, did the surface settle, are the two framings even comparable), crops and zooms rather than judging a full-page thumbnail, looks at every pair in both orders to catch position bias, and classifies each difference as framing, data, structure, styling or state so a changed row count or a different crop cannot fail a build. The test expectation is the oracle; the mock is advisory.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
