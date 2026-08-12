@@ -162,8 +162,8 @@ model exercised.
 ## Install
 
 ```
-/plugin marketplace add lprhodes/fledgeling-plugins
-/plugin install should-compact@fledgeling
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install should-compact@fledgeling-plugins
 ```
 
 Then ask it directly, or wire it into `hooks.PreCompact`:

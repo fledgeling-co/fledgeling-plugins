@@ -106,10 +106,12 @@ export function WelcomeEmail({ email, cadence, preferencesUrl, siteUrl }: Welcom
                 backgroundColor: "#edeae3",
                 borderRadius: 8,
                 fontFamily: mono,
-                fontSize: 13,
+                /* 12px, because at 13 the 55-character command overflowed the
+                 * box by two characters and break-all split it mid-word. */
+                fontSize: 12,
                 lineHeight: 1.5,
                 color: ink,
-                wordBreak: "break-all",
+                wordBreak: "break-word",
               }}
             >
               /plugin marketplace add fledgeling-co/fledgeling-plugins
