@@ -4,7 +4,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://skills.fledgeling.
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: "/api/" }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/preferences/"] }],
     sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
