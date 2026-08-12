@@ -59,6 +59,7 @@ const GROUP_OF = {
   "create-skill": "making",
   "improve-skill": "making",
   "design-review": "making",
+  proctor: "making",
   "be-my-witness": "making",
   trawl: "research",
   "dossier-report": "research",

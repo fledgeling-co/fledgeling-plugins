@@ -1,0 +1,129 @@
+{
+  "skill_name": "proctor",
+  "notes": "Behavioural evals for running a macOS test campaign. Each prompt is chosen because the naive answer is both plausible and wrong in a specific, checkable way, so the no-skill baseline has a real chance of failing rather than being set up to lose. Six were run against that baseline; the results, including the assertions the baseline also passed, are in EVALS.md. Eval 3 was replaced after the baseline passed the original 4/4 — an eval the model passes unaided measures the model, and keeping it would have inflated the skill's score.",
+  "baseline": "Same prompt, same MCP server available, no skill loaded.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "preflight-before-work",
+      "prompt": "Test the login flow in my app Ledger.app. Start now.",
+      "expected_output": "Readiness is established before any test work, because a missing grant presents as elements not being found and reads exactly like a selector bug.",
+      "assertions": [
+        "proctor_doctor is called before proctor_snapshot or proctor_act",
+        "If a required grant is missing, the run stops and surfaces the named fix rather than retrying element lookups",
+        "proctor_apps attach is called once and its handles reused, rather than re-enumerating per step",
+        "The reason attachment is stateful — retained references surviving a Space change — is either stated or evidently acted on"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "background-plane-by-default",
+      "prompt": "Exercise the Preferences window of Ledger.app: flip every toggle and confirm each one persists after closing and reopening. I'm using the machine while you do it.",
+      "expected_output": "The campaign runs through the process-directed plane without foregrounding, since that is what makes it safe to run while the machine is in use.",
+      "assertions": [
+        "proctor_act is called with foreground false, or foreground is left unset",
+        "Toggles are driven with press or setValue rather than click",
+        "If any step requires the foreground, that step is identified as a different mode and its narrower guarantee is stated",
+        "The user's stated constraint — that they are using the machine — is reflected in the approach rather than ignored"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "settle-reason-taxonomy",
+      "prompt": "Two steps in the same flow both came back settled:true. Step 2 has settle.reason 'allSignalsQuiet' with signals ['capture','ax']. Step 5 has settle.reason 'axQuietOnly' with signals ['capture','ax','captureNeverQuiet']. Step 5's assertion then failed. How much should I trust step 5's failure?",
+      "expected_output": "Both settled, but on different evidence. Step 5's capture signal never went quiet — the window animates continuously — so the settle rests on the accessibility tree alone and a pixel-level failure there is weaker evidence than the same failure after step 2's conjunction.",
+      "assertions": [
+        "Both steps are recognised as having settled, rather than step 5 being read as a failure to settle",
+        "captureNeverQuiet is identified as meaning the window animates continuously, so pixel-quiet was unreachable",
+        "Step 5's failure is characterised as resting on the tree alone and therefore weaker than a conjunction-backed one",
+        "Whether the failed assertion is a pixel assertion or a tree assertion is named as the thing that decides how much the weaker settle matters"
+      ],
+      "notes": "Replaces the original eval 3, which a no-skill baseline passed 4/4 — it measured the model, not the skill. This version turns on the settle-reason taxonomy and the captureNeverQuiet marker, which are specific to this server's reporting."
+    },
+    {
+      "id": 4,
+      "name": "untrustworthy-capture-is-not-evidence",
+      "prompt": "proctor_capture on the background window returned trustworthy:false, status 'idle', caveat about pointer movement on the display, and the PNG shows the old content. The new content should be there by now. Is this a rendering bug?",
+      "expected_output": "The stale frame is identified as a known ScreenCaptureKit behaviour on off-screen windows rather than as an app defect.",
+      "assertions": [
+        "The answer is that this is not established as a rendering bug",
+        "The pointer-movement behaviour on off-screen windows is named as the likely cause",
+        "The capture is not used as evidence of the app's state",
+        "A way to get a trustworthy frame is proposed, and the fact that doing so changes the conditions is acknowledged"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "flaky-separated-from-broken",
+      "prompt": "Three of my twelve flows failed this run. Give me the defect list.",
+      "expected_output": "Determinism is measured before failures are reported as defects, so a race is not filed as a bug.",
+      "assertions": [
+        "proctor_stability is run on the failing flows before they are reported as defects",
+        "firstDivergence and step instability are used to decide which failures are real",
+        "Nondeterministic failures are reported in a separate category from defects",
+        "The distinction is explained in terms of what each category costs the reader to investigate"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "no-invented-computed-styles",
+      "prompt": "Get me the exact corner radius, shadow spread and label font weight of the primary button in Numbers.app so I can match it.",
+      "expected_output": "For an app the user does not own there is no computed-style source, so geometry and pixel measurements are offered and the unmeasurable values are named as unmeasurable.",
+      "assertions": [
+        "No corner radius, shadow or font weight is stated as a read value for a third-party app",
+        "The absence of a cross-process computed-style API on macOS is given as the reason",
+        "What can be measured — frame geometry from the tree, colours sampled from pixels, approximate radius from the rendered image — is offered with its accuracy characterised",
+        "ProctorReflector is named as the route that would make these values readable in an app the user owns"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "skipped-is-not-passed",
+      "prompt": "The assert run came back: 8 passed, 2 skipped (no capture available), 0 failed. Can I ship?",
+      "expected_output": "Two assertions were not evaluated, so the run does not establish what a 10-for-10 pass would, and the ship answer reflects that.",
+      "assertions": [
+        "The two skipped assertions are not counted as passes",
+        "What they would have checked, and why that matters to the ship decision, is stated",
+        "The blocker to evaluating them — the missing capture — is named with a way to resolve it",
+        "The verdict is qualified rather than a flat yes"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "observer-effect-disclosed",
+      "prompt": "Write the methods section for the report on my Electron app's accessibility audit.",
+      "expected_output": "The methods note discloses that AXManualAccessibility was applied, since the flag is detectable by the app and changes its performance, so the app was observed in a mode real users never see.",
+      "assertions": [
+        "The application of AXManualAccessibility is disclosed",
+        "The reason it matters — detectable by the app, changes its performance — is given rather than the flag merely being named",
+        "The implication is drawn: real users running without a client setting the flag get a different tree and different performance",
+        "Other honest limits are stated: which settle signals were available, and whether any capture came back untrustworthy",
+        "The methods section is delivered complete rather than as a fragment or an outline to be filled in"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "routes-rather-than-duplicates",
+      "prompt": "Test my Mac app and also tell me whether the new onboarding screen actually looks any good, and whether it matches the Figma.",
+      "expected_output": "Testing is done here; the aesthetic judgement goes to design-review and the mockup comparison follows the fidelity-ledger method, with captures supplied to both rather than the judgement being improvised.",
+      "assertions": [
+        "The rendered-quality judgement is routed to design-review rather than answered by eyeballing a screenshot",
+        "Captures and accessibility data are supplied to the routed skill rather than it being invoked bare",
+        "The mockup comparison is done as a present/divergent/absent ledger with measured numbers, not adjectives",
+        "The testing work itself is still completed rather than the whole request being deflected"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "coverage-stated-honestly",
+      "prompt": "Give me the final report. I ran out of time so we only got through the light-mode cases on one display.",
+      "expected_output": "The report names the matrix cells that were not run, so a reader does not read partial coverage as full coverage.",
+      "assertions": [
+        "Dark mode, larger text sizes and the second-display cases are explicitly listed as not covered",
+        "The verdict is scoped to what was actually exercised",
+        "No claim is made about behaviour in an unrun cell",
+        "The uncovered cells are ranked by what they would most likely have caught, so the reader can decide what to run next"
+      ]
+    }
+  ]
+}

@@ -188,6 +188,14 @@ Asks what's left on a project and gets back two documents that immediately start
 
 <br clear="left" />
 
+<a href="plugins/proctor/README.md"><img src="plugins/proctor/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [proctor](plugins/proctor/README.md)
+
+Tests a native Mac app the way an instrument does rather than the way a screenshot does. A screenshot you looked at is an impression; a screenshot carrying a frame status and a dirty-rect summary is a reading, and only one of those can be wrong in a way you would notice. It ships with its own MCP server, which actuates through the accessibility plane rather than by injecting events, so it drives windows that are behind other windows, on another Space, or simply not in front — without stealing focus, and while you keep using the machine. Where the accessibility tree, the layer geometry and the captured pixels disagree about the same instant, that disagreement is the defect: an unexposed control, a ghost node, a control you can focus but cannot see. Waiting is a conjunction of quiet frames, quiet notifications and the app's own idle signal, never a sleep, and each wait reports which of those it actually got — an app with a blinking caret can never go pixel-quiet, so it says so instead of claiming agreement it did not have. Flows replay N times to separate a race from a bug before either gets filed. For apps you own, an embeddable debug-only reflector returns resolved colours, fonts and radii, because macOS has no cross-process computed style and guessing one is worse than saying so.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
