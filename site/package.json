@@ -15,7 +15,11 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsgo --noEmit",
-    "embeddings": "node scripts/build-embeddings.mjs"
+    "embeddings": "node scripts/build-embeddings.mjs",
+    "digest:seed": "node --env-file-if-exists=.env.local scripts/digest-seed.mjs",
+    "digest:draft": "node --env-file-if-exists=.env.local scripts/digest-draft.mjs",
+    "digest:approve": "node --env-file-if-exists=.env.local scripts/digest-approve.mjs",
+    "digest:hold": "node --env-file-if-exists=.env.local scripts/digest-hold.mjs"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",

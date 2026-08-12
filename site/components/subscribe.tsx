@@ -73,8 +73,8 @@ export function Subscribe({ source = "site" }: { source?: string }) {
     <div className={styles.wrap}>
       <p className={styles.heading}>Hear when there&rsquo;s a new one</p>
       <p className={styles.blurb}>
-        An email when a skill lands or changes. Nothing else goes out on this list, and you pick
-        daily or weekly.
+        An email when a new skill lands. Nothing else goes out on this list, and you pick daily or
+        weekly.
       </p>
 
       <form className={styles.form} action={action} noValidate>

@@ -23,13 +23,13 @@ const OPTIONS: { value: Cadence; label: string; when: string; body: string }[] =
     value: "daily",
     label: "Daily",
     when: "The day it lands",
-    body: "An email on any day something is new or has changed. Quiet days stay quiet.",
+    body: "An email on any day a new skill lands. Quiet days stay quiet.",
   },
   {
     value: "weekly",
     label: "Weekly",
     when: "Once a week",
-    body: "The past seven days in one email. This is the default, and it's what most people want.",
+    body: "Anything new from the past seven days, in one email. This is the default, and it's what most people want.",
   },
   {
     value: "paused",
