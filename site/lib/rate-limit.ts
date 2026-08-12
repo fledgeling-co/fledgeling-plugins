@@ -53,7 +53,17 @@ export function check(key: string, now = Date.now()): Verdict {
 
 /** Identify the caller. Behind Vercel the leftmost x-forwarded-for is the client. */
 export function callerKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
+  return callerKeyFromHeaders(request.headers);
+}
+
+/**
+ * The same derivation from a bare Headers.
+ *
+ * A Server Action has `headers()` rather than a Request, and both lanes need to
+ * land on the same key or one caller counts twice under two identities.
+ */
+export function callerKeyFromHeaders(headers: Headers): string {
+  const forwarded = headers.get("x-forwarded-for");
   const first = forwarded?.split(",")[0]?.trim();
-  return first || request.headers.get("x-real-ip") || "unknown";
+  return first || headers.get("x-real-ip") || "unknown";
 }

@@ -1,7 +1,7 @@
 {
   "name": "whats-left",
   "description": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page: a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph, so each blocked item deep-links to the decision that releases it and each decision names how much it actually releases. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

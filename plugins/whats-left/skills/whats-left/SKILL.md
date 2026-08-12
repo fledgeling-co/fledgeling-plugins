@@ -78,7 +78,16 @@ could not verify reads as a complete survey, and it is not one.
 Ten fields, all required, each answering a different question. The model and the
 full field-by-field discipline are in `references/the-item-model.md`.
 
-The two that carry the weight:
+Every field a human reads is prose written in Luke's voice, so **route the
+writing through `/create-luke-content` (format `marketing`) before the page is
+built, not after it renders.** That covers `plain`, `state`, `live`, `from_you`
+and `remaining` on every item, and every question's `title`, `why` and option
+copy. The voice skill carries a deterministic lint the page's own validator does
+not: it hard-fails on an em dash and on the AI phrasings that make a status
+report read as generated. Editing that back in afterwards means rewriting the
+model and re-running both validators, which is the expensive order.
+
+The two fields that carry the weight:
 
 `plain` is the whole report for someone who has never opened the repository.
 One sentence, under forty words, no file names, no identifiers, no ticket

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { REPO_URL, getSkillCount } from "@/lib/skills";
+import { FooterSubscribe } from "./subscribe";
 import styles from "./chrome.module.css";
 
 export function SiteNav() {
@@ -32,6 +33,7 @@ export function SiteNav() {
 export function SiteFooter() {
   return (
     <footer className={styles.footer}>
+      <FooterSubscribe className={`container ${styles.footerSubscribe}`} />
       <div className={`container ${styles.footerInner}`}>
         <p>
           {getSkillCount()} skills · MIT · built and used daily by{" "}
