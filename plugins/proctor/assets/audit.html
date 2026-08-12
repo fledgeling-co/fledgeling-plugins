@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>proctor icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 940px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 200px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 940px; }
+  .rec strong { color: #ffd98f; }
+  .hero { margin-top: 28px; display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  .hero figure { margin: 0; }
+  .hero img { display: block; border-radius: 14px; background: #08252e; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 940px; }
+</style>
+</head>
+<body>
+<h1>proctor icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;Out of True&rdquo; &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. One macOS window form registered three times &mdash; the accessibility tree as a slate keyline, the layer geometry as a solid porcelain plane, the captured pixels as discrete samples &mdash; offset by a hair, with the disagreement in vermilion.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, <code>build_icon.py</code> — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Four named layers over a swappable ground, full-bleed, no baked corner or shadow. Clears every non-negotiable. Measured on the shipped render: tree keyline <strong>4.34:1</strong> against the tile, slate sidebar <strong>3.33:1</strong>, delta run <strong>3.68:1</strong>, 32px luminance spread <strong>0.584</strong> — identity is carried by shape and value, not by the pale plane. Loses <strong>#7</strong> because the solid geometry plane itself is <strong>1.01:1</strong> against the porcelain beside it, the register&rsquo;s standing trade shared with <code>create-skill</code> and <code>create-mac-icon</code>. Two rounds were bought by looking rather than measuring: the sidebar went porcelain &rarr; clay &rarr; slate after the 16px row proved the first draft was the palest tile on the shelf (the recorded <code>clarify</code> failure), and the clay fix was reverted because it introduced a third hue. Absorbed C2&rsquo;s dissolving fringe.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-6269c5.png<small>GPT Image 2, 3 reference images (two siblings + Safari)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Wins the material read — the warmest porcelain and the most convincing contact shadow of the five. Fails <strong>#10</strong> as any flat raster does. Fails <strong>#2/#11</strong> on the thing that matters most here: its three registrations are offset far enough to read as a <em>stack of three windows</em>, which is the sibling <code>design-review</code>&rsquo;s composition and the exact thing this icon has to avoid. A stack varies in depth; a misregistration does not.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC-72c971-2.png<small>GPT Image 2, same references — the loop&rsquo;s material reference</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Contributed <strong>the single best idea in the commission</strong> and lost anyway: its delta does not stop at a clean edge, it <em>disintegrates into loose samples</em>. A clean orange border reads as a drop shadow that has been colourised; a disintegrating one reads as an instrument disagreeing. Rebuilt into the master as a seeded dissolve. Fails <strong>#10</strong> (flat raster) and <strong>#3</strong> — filled black, its front plane and its fringe merge into one blob.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B1 · icon-engineB-arrow-e8b602.svg<small>Arrow 1.1 vector</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B1-256.png" width="128" height="128" alt="Take B1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B1-128.png" width="64" height="64" alt="Take B1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B1-96.png" width="48" height="48" alt="Take B1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B1-64.png" width="32" height="32" alt="Take B1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B1-32.png" width="16" height="16" alt="Take B1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B1-32.png" width="96" height="96" alt="Take B1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard-fails <strong>#1</strong> (baked squircle and corner radius) and <strong>#5/#6</strong>. The instructive failure is <strong>reference capture</strong>: given two sibling icons as style references it copied <code>clarify</code>&rsquo;s motion-line device wholesale, so the tile carries three orange speed lines that mean nothing here. Salvaged nothing.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B2 · icon-engineB-arrow-23b7c2.svg<small>Arrow 1.1 vector, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B2-256.png" width="128" height="128" alt="Take B2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B2-128.png" width="64" height="64" alt="Take B2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B2-96.png" width="48" height="48" alt="Take B2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B2-64.png" width="32" height="32" alt="Take B2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B2-32.png" width="16" height="16" alt="Take B2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B2-32.png" width="96" height="96" alt="Take B2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">3 / 12</td>
+    <td class="verdict">The same capture, complete: this is <code>clarify</code>&rsquo;s icon redrawn — three dark cards, a vermilion dot, three motion lines — with no window, no registration and no delta. It answers a different brief. Kept in the sheet because a contact sheet that hides how badly an engine went is not an audit.</td>
+  </tr>
+
+</table></div>
+
+<div class="hero">
+  <figure><img src="audit-renders/A-1024.png" width="420" height="420" alt="Take A at 1024px"><figcaption>A — the master, 1024</figcaption></figure>
+  <figure><img src="audit-renders/C2-1024.png" width="260" height="260" alt="Take C2 at 1024px"><figcaption>C2 — the material reference, squircle-masked</figcaption></figure>
+  <figure><img src="audit-renders/C1-1024.png" width="260" height="260" alt="Take C1 at 1024px"><figcaption>C1 — reads as a stack, not a misregistration</figcaption></figure>
+</div>
+
+<div class="rec"><strong>Recommendation: ship A (<code>icon.svg</code>).</strong> Four real layers — <code>#bg</code> cushion and spill, <code>#mid</code> the solid geometry plane, <code>#fg</code> the capture samples and the tree keyline, <code>#highlight</code> the rim lights — so it maps onto Icon Composer and survives Dark/Clear/Tinted, which no raster take does. Full-bleed, no baked mask or shadow. The non-negotiables were checked on the real renders above, not imagined: silhouette nameable as a window at 32, and at 16, set beside the eight siblings it will sit next to, it holds as a pale plane with a slate left block and a warm near-corner. The dissolving fringe is C2&rsquo;s idea rebuilt as geometry rather than copied as pixels.
+Known liabilities to revisit: <strong>(1)</strong> the geometry plane is 1.01:1 against the tile, so half the object separates from the ground by rim light and keyline alone and will soften under a heavy tint; <strong>(2)</strong> at 16px the three registrations collapse into one form — the icon still reads, but the <em>tri-observer</em> idea that makes it this icon is a 48px-and-up device; <strong>(3)</strong> the capture&rsquo;s sample grid and the two content bars are legible only from 64px, so 32 and 16 lean entirely on the keyline and the delta; <strong>(4)</strong> a warm fringe on the lower-right of a pale rectangle can still be misread as a coloured drop shadow at a glance — the 1.5&deg; rotation and the dissolve are what argue against that reading, and both are large-size cues; <strong>(5)</strong> the sibling <code>design-review</code> also owns a window form, and the separation rests on register (warm vs its cool tile), on materials rather than depth, and on this one having no reticle.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>

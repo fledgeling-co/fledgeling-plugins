@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<!--
+  proctor README banner, 1600x520, rendered at 2x to 3200x1040.
+
+  The icon is a vector master with published constants, so nothing here is
+  eyeballed: every number in the script below is read out of `build_icon.py`
+  and scaled, which means a change to the icon's registration offsets or its
+  sample pitch re-derives the banner rather than leaving it quietly out of
+  register. The four that matter:
+
+    W,H  566,396   the window form, drawn identically three times
+    R    36        its corner radius
+    AX   -26,-23   the accessibility tree's offset, and -1.0 deg of rotation
+    CAP  +25,+22   the captured pixels' offset, and +1.5 deg
+    CELL 25        the capture's sample pitch, which sets the delta's grain
+
+  The field on the right is the rest of the campaign. Every window in it is
+  the SAME window at the SAME misregistration the icon carries, checked over
+  and over and running off the right edge — which is what a proctor's run
+  actually is. Most of them are clean. Three are not, at three different
+  severities, and those three are the only place the vermilion is spent. That
+  ratio is the argument: a campaign is mostly quiet, and the report is the
+  short list of cells where the observers disagreed.
+
+  The field deliberately does NOT recede in scale or perspective. The icon has
+  no ground plane — it is a flat tile with a cast shadow, not a bench — so a
+  vanishing point here would be a second scene rather than the same one. Depth
+  comes from opacity alone, which is the icon's own vocabulary.
+
+  Ground is the porcelain register the marketplace uses by default; the dark
+  register belongs to the sibling trawl.
+
+  Type is Space Grotesk, whose squared terminals and tight apertures read as a
+  measuring instrument rather than a voice. No sibling in this marketplace
+  uses it.
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+
+  /* Same sheet the icon's tile is cut from: warm porcelain, cushion-lit, and
+     deliberately not page-white so it holds on GitHub's light and dark
+     grounds alike. */
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(120% 150% at 34% -14%, rgba(255,255,255,.92) 0%, rgba(255,255,255,0) 56%),
+      radial-gradient(115% 165% at 50% 50%, rgba(122,112,92,0) 52%, rgba(122,112,92,.17) 100%),
+      linear-gradient(176deg, #FAF8F2 0%, #F1EEE4 52%, #E4E0D3 100%);
+    font-family: "Space Grotesk", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  svg.field { position: absolute; inset: 0; }
+
+  .lockup { position: absolute; left: 112px; top: 0; height: 520px;
+            display: flex; align-items: center; gap: 74px; }
+  .icon { width: 288px; height: 288px; flex: none;
+          filter: drop-shadow(0 17px 36px rgba(92,82,64,.26)); }
+
+  .wordmark { font-size: 104px; font-weight: 700; letter-spacing: -.042em;
+              line-height: 1; color: #2E343D; white-space: nowrap; }
+  .tagline { margin-top: 22px; font-size: 26px; font-weight: 400;
+             letter-spacing: -.004em; line-height: 1.44; color: #6A6558;
+             max-width: 700px; }
+  .tagline b { color: #2E343D; font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="field" width="1600" height="520" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- the plane of every window in the field, lit from the same top-left
+           key the icon's own face gradient uses -->
+      <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0"    stop-color="#FEFDFA"/>
+        <stop offset="0.54" stop-color="#F2ECE0"/>
+        <stop offset="1"    stop-color="#DBD2C0"/>
+      </linearGradient>
+      <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#838D9C"/>
+        <stop offset="1" stop-color="#636D7B"/>
+      </linearGradient>
+      <!-- the delta's own ramp, hottest where two planes first part company -->
+      <linearGradient id="delta" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0"    stop-color="#FF7A2E"/>
+        <stop offset="0.48" stop-color="#EE3B0D"/>
+        <stop offset="1"    stop-color="#B81C02"/>
+      </linearGradient>
+      <!-- the icon's own ground spill, continuing past the edge of its tile -->
+      <radialGradient id="spill" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0"    stop-color="#FF9060" stop-opacity=".22"/>
+        <stop offset="0.46" stop-color="#FF9060" stop-opacity=".08"/>
+        <stop offset="1"    stop-color="#FF9060" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="bloom" x="-70%" y="-70%" width="240%" height="240%">
+        <feGaussianBlur stdDeviation="7"/>
+      </filter>
+    </defs>
+    <g id="field"></g>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="">
+    <div>
+      <div class="wordmark">proctor</div>
+      <div class="tagline">Test a Mac app with instruments, not impressions.<br><b>Three observers, and the disagreement is the defect.</b></div>
+    </div>
+  </div>
+
+  <script>
+    // ---- read straight out of the icon's build script -------------------
+    const ICON = {
+      TILE: 1024, W: 566, H: 396, R: 36, CELL: 25,
+      AX:  { dx: -26, dy: -23, rot: -1.0 },   // the accessibility tree
+      CAP: { dx:  25, dy:  22, rot:  1.5 },   // the captured pixels
+    };
+    const ICON_LEFT = 112, ICON_SIZE = 288;
+    const ICON_TOP = (520 - ICON_SIZE) / 2;
+    const si = ICON_SIZE / ICON.TILE;          // icon space -> banner space
+
+    // The field's windows are the icon's window at 1.06 of the size it appears
+    // at on the tile. Everything else — corner radius, both registration
+    // offsets, both rotations, the sample pitch — scales with it, so a window
+    // out here is misregistered by exactly the proportion the icon is.
+    //
+    // The first cut of this ran three rows of five at 0.84, and at that size
+    // the registration offset is sub-pixel: the field read as wallpaper, and
+    // the one device the banner exists to carry was invisible in every tile of
+    // it. Fewer and larger is the only way the offset survives out here.
+    const k = si * 1.06;
+    const W = ICON.W * k, H = ICON.H * k, R = ICON.R * k, CELL = ICON.CELL * k;
+    const AX  = { dx: ICON.AX.dx * k,  dy: ICON.AX.dy * k,  rot: ICON.AX.rot };
+    const CAP = { dx: ICON.CAP.dx * k, dy: ICON.CAP.dy * k, rot: ICON.CAP.rot };
+
+    const f = (n) => n.toFixed(2);
+    const rr = (x, y, w, h, r, attrs) =>
+      `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" ` +
+      `rx="${f(r)}" ry="${f(r)}" ${attrs}/>`;
+
+    // One window of the field: the geometry plane, the tree's keyline offset
+    // up-left, and — only where the run found something — the capture's
+    // disagreement offset down-right, dissolving as it goes.
+    function window_(x, y, o, defect) {
+      const cx = x + W / 2, cy = y + H / 2;
+      const TB = H * 0.207, SB = W * 0.30;      // titlebar, sidebar: the icon's
+      let s = `<g opacity="${f(o)}">`;
+
+      s += `<g filter="url(#bloom)" opacity=".18">` +
+           rr(x + W * 0.03, y + H * 0.10, W, H, R, 'fill="#6B5C42"') + `</g>`;
+
+      // the capture's delta: drawn first so the solid plane sits over its inner
+      // half, which is what makes the run read as emerging from behind rather
+      // than as an outline laid on top
+      if (defect > 0) {
+        const dx = x + CAP.dx, dy = y + CAP.dy;
+        const nx = Math.ceil(W / CELL), ny = Math.ceil(H / CELL);
+        const corner = [dx + W, dy + H];
+        let cells = '';
+        for (let iy = -2; iy < ny + 2; iy++) {
+          for (let ix = -2; ix < nx + 2; ix++) {
+            const lx = dx + ix * CELL, ly = dy + iy * CELL;
+            const mx = lx + CELL / 2, my = ly + CELL / 2;
+            // a sample is a delta when it lands where the geometry says there
+            // is nothing — the same test the icon's `probe` makes
+            if (mx > x && mx < x + W && my > y && my < y + H) continue;
+            if (mx < dx || mx > dx + W || my < dy || my > dy + H) {
+              // past the capture's own frame: the dissolve, on the two edges
+              // where the capture actually overhangs and nowhere else
+              const ox = Math.max(mx - (dx + W), 0), oy = Math.max(my - (dy + H), 0);
+              if (ox === 0 && oy === 0) continue;
+              const out = Math.hypot(ox, oy) / CELL;
+              if (out > 2.4) continue;
+              const keep = 1 - out / 2.4;
+              if (hash(ix, iy, x) > keep * keep * keep) continue;
+              const a = falloff(mx, my, corner) * keep;
+              const sz = (CELL - 1.1) * (0.62 + 0.38 * keep);
+              cells += rr(lx, ly, sz, sz, 1.4, `fill="url(#delta)" fill-opacity="${f(a)}"`);
+              continue;
+            }
+            cells += rr(lx, ly, CELL - 1.1, CELL - 1.1, 1.4,
+                        `fill="url(#delta)" fill-opacity="${f(falloff(mx, my, corner))}"`);
+          }
+        }
+        const g = `<g transform="rotate(${CAP.rot} ${f(dx + W / 2)} ${f(dy + H / 2)})">${cells}</g>`;
+        s += `<g opacity="${f(0.34 + 0.66 * defect)}">` +
+             `<g filter="url(#bloom)" opacity=".38">${g}</g>${g}</g>`;
+      }
+
+      // the layer geometry: the only plane with mass
+      s += rr(x, y, W, H, R, 'fill="url(#face)"');
+      s += `<clipPath id="c${Math.round(x)}-${Math.round(y)}">${rr(x, y, W, H, R, '')}</clipPath>`;
+      s += `<g clip-path="url(#c${Math.round(x)}-${Math.round(y)})">` +
+           rr(x, y + TB, SB, H - TB, 0, 'fill="url(#panel)"') +
+           rr(x, y + TB - 0.5, W, 0.5, 0, 'fill="#A2957E" fill-opacity=".36"') +
+           `</g>`;
+
+      // the accessibility tree: structure, no substance
+      s += `<g transform="rotate(${AX.rot} ${f(cx)} ${f(cy)})">` +
+           rr(x + AX.dx, y + AX.dy, W, H, R,
+              'fill="none" stroke="#333C4A" stroke-opacity=".62" stroke-width="1.6"') +
+           `<path d="M${f(x + AX.dx)},${f(y + AX.dy + TB)} h${f(W)}" fill="none" ` +
+           `stroke="#333C4A" stroke-opacity=".38" stroke-width="1"/></g>`;
+
+      return s + '</g>';
+    }
+
+    // the delta is worst where the two planes part company furthest, and dies
+    // along both arms — the icon's own corner falloff, scaled
+    function falloff(mx, my, corner) {
+      const d = Math.hypot(mx - corner[0], my - corner[1]);
+      return Math.max(0.30, Math.min(1, 1.10 - d / (620 * k)));
+    }
+    // a stable stand-in for the icon's seeded RNG, so the dissolve is the same
+    // shape on every render without shipping a generator
+    function hash(a, b, c) {
+      const n = Math.sin(a * 127.1 + b * 311.7 + c * 0.37) * 43758.5453;
+      return n - Math.floor(n);
+    }
+
+    let out = '';
+
+    // The icon's own ground spill, continuing past the edge of its tile. Hung
+    // off the tile's lower-right, which is where the icon throws it.
+    out += `<ellipse cx="${f(ICON_LEFT + 0.80 * ICON_SIZE)}" ` +
+           `cy="${f(ICON_TOP + 0.86 * ICON_SIZE)}" rx="230" ry="196" fill="url(#spill)"/>`;
+
+    // The rest of the campaign. Three staggered rows running off the right
+    // edge; `defect` is 0 for a window the run cleared and 0 < d <= 1 for one
+    // it did not. Most are clean, which is the honest ratio.
+    // Six checks, two of them findings. Placed individually rather than on a
+    // grid: a regular lattice reads as a table of contents, and this is a run
+    // of the same window checked over and over, not a layout. `dy` is a small
+    // per-item stagger for the same reason.
+    const CHECKS = [
+      { x: 1196, y: 52,  dy:  -6, defect: 0    },
+      { x: 1420, y: 52,  dy:  48, defect: 0.40 },
+      { x: 1644, y: 52,  dy: -22, defect: 0    },
+      { x: 1150, y: 296, dy:  38, defect: 0    },
+      { x: 1374, y: 296, dy: -30, defect: 1.0  },
+      { x: 1598, y: 296, dy:  22, defect: 0    },
+    ];
+    for (const c of CHECKS) {
+      // the field fades in from the left so it never competes with the
+      // tagline, and holds its strength as it leaves the frame
+      const o = Math.max(0, Math.min(0.68, (c.x - 1110) / 200 * 0.68));
+      if (o <= 0.02) continue;
+      out += window_(c.x, c.y + c.dy, o, c.defect);
+    }
+
+    document.getElementById('field').innerHTML = out;
+  </script>
+</body>
+</html>
