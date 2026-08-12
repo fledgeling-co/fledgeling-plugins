@@ -126,7 +126,7 @@ export function SubscribeBar() {
             <p className={styles.pitch}>
               <strong>Hear when there&rsquo;s a new one.</strong>{" "}
               <span className={styles.pitchRest}>
-                An email when a skill lands or changes, daily or weekly.
+                An email when a new skill lands, daily or weekly.
               </span>
             </p>
 

@@ -27,7 +27,10 @@ const ink = "#24221e";
 const muted = "#6b665d";
 const paper = "#f5f3ef";
 const surface = "#fbfaf8";
-const accent = "#c4622d";
+/* The deep accent, not --color-accent. #c4622d measures 3.92:1 as link text on
+ * this card and AA wants 4.5; the deep one is the same hue at 5.46:1, and it is
+ * already what the site's own buttons use. */
+const accent = "#a44e20";
 const hairline = "#e0dbd2";
 
 const serif = 'Newsreader, Georgia, "Times New Roman", serif';
@@ -45,7 +48,7 @@ export function WelcomeEmail({ email, cadence, preferencesUrl, siteUrl }: Welcom
   return (
     <Html lang="en">
       <Head />
-      <Preview>An email when a skill lands or changes. You&rsquo;re on {cadence}; daily is one click away.</Preview>
+      <Preview>An email when a new skill lands. You&rsquo;re on {cadence}; daily is one click away.</Preview>
       <Body style={{ backgroundColor: paper, margin: 0, padding: "32px 12px", fontFamily: sans }}>
         <Container
           style={{
@@ -78,16 +81,16 @@ export function WelcomeEmail({ email, cadence, preferencesUrl, siteUrl }: Welcom
           </Heading>
 
           <Text style={{ margin: "0 0 16px", fontSize: 16, lineHeight: 1.6, color: ink }}>
-            Thanks for signing up. You&rsquo;ll get an email when a skill is new or has changed, and
-            nothing else; there&rsquo;s no newsletter attached to this.
+            Thanks for signing up. You&rsquo;ll get an email when a new skill lands, and nothing
+            else; there&rsquo;s no newsletter attached to this.
           </Text>
 
           <Text style={{ margin: "0 0 24px", fontSize: 16, lineHeight: 1.6, color: ink }}>
             You&rsquo;re on <strong style={{ color: ink }}>{cadence}</strong> at the moment, so
             that&rsquo;s{" "}
             {cadence === "daily"
-              ? "an email on any day something lands, and quiet days stay quiet"
-              : "everything from the past seven days in one go"}
+              ? "an email on any day a new skill lands, and quiet days stay quiet"
+              : "anything new from the past seven days in one go"}
             .{" "}
             <Link href={preferencesUrl} style={{ color: accent, textDecoration: "underline" }}>
               {cadence === "daily" ? "Switch to weekly" : "Switch to daily"}

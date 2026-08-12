@@ -55,6 +55,28 @@ SKILL.md, or a version that disagrees between `plugin.json` and
 `marketplace.json`. It does not run on a plain `git commit`, so the README check
 above still matters — but a broken plugin can no longer reach production.
 
+## Adding a plugin now also drafts an email
+
+A `pre-push` hook in `.githooks/` watches `.claude-plugin/marketplace.json`. When
+a push changes it, the hook runs `site/scripts/digest-draft.mjs`, which finds any
+skill the catalogue has and the database does not, and writes its announcement
+copy with `claude --model claude-sonnet-5 --effort high` through
+`/create-luke-content`. That copy goes out to subscribers at 10am Sydney time,
+daily or weekly, from `site/app/api/cron/digest`.
+
+Consequences worth knowing before you push:
+
+- **Only genuinely new skills mail.** A version bump on an existing skill never
+  does; the row already exists and the unique index on `skill` keeps it that way.
+- **The push blocks for about a minute per new skill.** `SKIP_DIGEST=1 git push`
+  or `git push --no-verify` skips it, and `pnpm digest:draft` in `site/` catches
+  up later. Drafting never sends, so skipping costs nothing but time.
+- **The hook needs installing once**: `git config core.hooksPath .githooks`.
+- **A fresh database needs `pnpm digest:seed` first**, or every published skill
+  looks new at once. The drafter refuses to run until it has been seeded.
+- Auto-send is on after the first issue is approved. `pnpm digest:hold` turns it
+  back off; `pnpm digest:approve` releases whatever is waiting.
+
 ## The site indexes this repo — there is no fifth registration
 
 `site/` is a Next.js app deployed to **skills.fledgeling.app** (its own Vercel
