@@ -102,13 +102,16 @@
   min-height: 44px;
   border-radius: var(--radius-card);
   border: 1px solid var(--color-accent-deep);
-  background: var(--color-accent);
+  /* accent-deep, not accent: #fdfbf8 on #c4622d measures 3.96:1 and WCAG AA
+   * wants 4.5 for this size. accent-deep is 5.54:1 and was already the border,
+   * so the button gets darker rather than the palette getting a new colour. */
+  background: var(--color-accent-deep);
   color: #fdfbf8;
   cursor: pointer;
 }
 
 .button:hover:not(:disabled) {
-  background: var(--color-accent-deep);
+  background: #8f4319;
 }
 
 .button:disabled {

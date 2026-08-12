@@ -31,6 +31,12 @@ Cheap, silent, no judgement calls. Should complete in seconds.
   PIDs — 167 leaked MCP servers is one finding with a count.
 - Exited Docker containers (`docker container prune -f`), only ones in `exited`
   or `created` state.
+- Exited Apple `container` containers (`container prune`, which removes all
+  stopped ones). This is a **second engine, not a synonym for Docker** — it has
+  its own store under `~/Library/Application Support/com.apple.container`,
+  measured at **94 GB** on the reference machine while `docker system df`
+  reported the disk as healthy. Check `command -v container` first; the CLI
+  ships at `/usr/local/bin/container` and is absent on most machines.
 - Leaked automation browser trees: a Playwright/Puppeteer driver whose parent is
   gone and which holds no established connections, killed as a whole tree
   (server → browser → renderers), SIGTERM then SIGKILL. Chromium ignores
@@ -62,6 +68,12 @@ Adds shared caches. Dry-run first, report the total, then execute.
 - `docker image prune -f` (dangling only, ~3.7G reclaimable) and
   `docker builder prune -f`. Not `-a` — that removes images nothing is running
   right now, which includes everything you will run tomorrow.
+- `container image prune` for the Apple engine, and `container image ls` to
+  report old tags separately. Its store grows the same way Docker's does and
+  nothing else on the machine reports it: a 94 GB store came down to 54 GB on
+  stopped containers and old tags alone. Size it by measuring
+  `~/Library/Application Support/com.apple.container` directly — the CLI has no
+  `system df` equivalent, so a total is otherwise invisible.
 - Tool caches under `~/Library/Caches` with a known owner and refill path:
   `ms-playwright`, `typescript`, `go-build`, `pip`, `deno`, `electron`,
   `org.swift.swiftpm`. CocoaPods (13G, the largest single cache) refills slowly
