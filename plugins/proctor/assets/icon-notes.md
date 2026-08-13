@@ -66,25 +66,27 @@ near-neutral cool slate, which is the same three-part scheme `armada-sync`,
 | Cushion ground | `#FCFAF5` → `#F3EEE3` → `#DCD3C1`, vignette `#8A7A62` |
 | Geometry plane, face | `#FEFDFA` → `#F2ECE0` → `#DBD2C0` |
 | Titlebar / content field | `#FEFCF8` → `#F4EFE4` / `#F1EBDF` → `#DBD2BF` |
-| Sidebar, slate | `#838D9C` → `#636D7B` |
-| Tree keyline | `#333C4A` at 0.70 |
-| Capture samples | `#EDF1F6` .16 · `#DCE2EB` .14 · `#E4EAF2` .13 · `#8B97A9` .46 |
-| Delta (the one accent) | `#FF7A2E` → `#EE3B0D` → `#B81C02` |
-| Exterior spill (delta onto porcelain) | `#FF9060` |
+| Tree keyline | `#333C4A` at 0.72 |
+| Solid traffic dots | `#D8CEBB` (the dark sidebar was removed — see Revision) |
+| Capture samples | `#E7ECF3` .12 · `#E0E5ED` .12 · `#8B97A9` .50 |
+| Delta (the one accent) | `#FF7C33` → `#F4551C` → `#D33E0B` |
+| Exterior spill (delta onto porcelain) | `#FF9257` |
 
 **Light model.** One soft key up and to the left, on every plane and on the
-cushion, plus a restrained bloom under the delta.
+cushion, plus a restrained bloom under the delta and soft inter-plane shadows
+that carry the depth stack.
 
-**Layer plan (#10).** `#bg` cushion, vignette, inner rim, spill, contact
-shadow · `#mid` the solid geometry plane · `#fg` the capture's samples and the
-tree's keyline · `#highlight` rim lights and the capture's aperture edge. Maps
-1:1 onto Icon Composer.
+**Layer plan (#10).** `#bg` cushion, vignette, inner rim, ground shadow ·
+`#tree` the accessibility keyline (at the back) · `#mid` the solid geometry
+plane and the shadow it casts · `#fg` the capture's samples, its cast shadow and
+the delta spill · `#highlight` rim lights and the capture's aperture edge.
 
-**Geometry.** One window rect (566 × 396, R 36) drawn three times at identical
+**Geometry.** One window rect (548 × 380, R 34) drawn three times at identical
 size — a stack varies in scale, a misregistration does not — offset
-`AX (-26, -23, -1.0°)`, `GEO (0, 0, 0°)`, `CAP (+25, +22, +1.5°)`. The rotation
-is load-bearing: a pure translation makes the near band a uniform strip, which
-reads as a drop shadow that has been colourised. Every capture sample is looked
+`AX (-70, -62, -1.3°)`, `GEO (0, 0, 0°)`, `CAP (+68, +60, +1.4°)`. The offsets
+are large enough now to read as three windows stacked in depth (see Revision);
+the rotation keeps the near band a wedge rather than a colourised drop shadow.
+Every capture sample is looked
 up against the geometry beneath it by `probe()`, so the two planes cannot drift
 apart anywhere except where they are offset — the pixel grid is a measurement,
 not a texture.
@@ -120,8 +122,34 @@ squint: `audit.html`.
 
 Measured figure-ground on the shipped 1024 render (`render_audit.py` prints
 these, so they are read off the artwork rather than remembered): tree keyline
-vs tile **4.34:1**, slate sidebar **3.33:1**, delta run **3.68:1**, solid plane
-**1.01:1**, 32px luminance spread **0.584**.
+vs tile **4.97:1**, content rows **2.46:1**, delta run **2.50:1**, 32px
+luminance spread **0.502**. The solid geometry plane stays near-flat against the
+porcelain (the #7 loss), which is the register's standing trade.
+
+---
+
+## Revision — the depth-stack pass
+
+The first cut kept the three registrations offset by only a hair, on purpose: a
+wide stack reads like the sibling `design-review` (a translucent window stack
+with a registration reticle). Held against the raster takes it lost anyway — the
+near-aligned forms ghosted into one muddy double, and the dark sidebar greyed
+the focal plane. This pass takes the read C1/C2 won: the offsets open into a
+legible depth stack, the dark sidebar is gone (value moves to the tree keyline,
+the two content rows and the accent), soft inter-plane shadows carry the depth,
+the accent warms toward the takes' vermilion, and the dissolve tightens to a
+clean extrusion rather than confetti.
+
+The move toward a stack is checked against the `design-review` differentiation,
+which still holds on all three counts the separation always rested on:
+**register** (this tile is warm porcelain; `design-review` is the cool-ground
+sibling), **the distinction carried** (three *materials* of one form — keyline,
+porcelain, pixel-grid — not three identical panes at different depths), and **no
+reticle**. And the accent is held to the rule the icon is *about*, borrowed from
+`be-my-witness`, the skill that judges a screenshot as testimony: the accent is
+the disagreement, located and directional — vermilion only where the capture
+overhangs the true edge, and faintly where the tree strays outside it — never a
+decorative wash.
 
 ---
 

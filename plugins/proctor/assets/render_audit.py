@@ -72,17 +72,25 @@ def main():
         print(f"  {out.name}")
 
     rgb = base.convert("RGB")
+
+    def darkest(x0, y0, x1, y1):
+        return min((rgb.getpixel((x, y)) for x in range(x0, x1, 3)
+                    for y in range(y0, y1, 3)), key=lum)
+
+    def most_orange(x0, y0, x1, y1):
+        # the pixel with the strongest warm chroma — R high, B low
+        return max((rgb.getpixel((x, y)) for x in range(x0, x1, 3)
+                    for y in range(y0, y1, 3)), key=lambda p: p[0] - p[2])
+
     ground_l = rgb.getpixel((110, 500))
-    ground_r = rgb.getpixel((930, 760))
-    keyline = min((rgb.getpixel((x, 500)) for x in range(170, 290)), key=lum)
-    sidebar = rgb.getpixel((300, 560))
-    delta = rgb.getpixel((806, 600))
-    chrome = rgb.getpixel((600, 320))
+    ground_r = rgb.getpixel((930, 780))
+    keyline = darkest(165, 300, 320, 640)      # the tree's slate left edge
+    rows = darkest(420, 470, 720, 610)         # the content rows / their samples
+    delta = most_orange(770, 560, 890, 780)    # the delta run, bottom-right overhang
     print("\nfigure-ground, measured on the shipped 1024 render")
     print(f"  tree keyline vs tile   {ratio(keyline, ground_l):.2f}:1")
-    print(f"  sidebar vs tile        {ratio(sidebar, ground_l):.2f}:1")
+    print(f"  content rows vs tile   {ratio(rows, ground_l):.2f}:1")
     print(f"  delta run vs tile      {ratio(delta, ground_r):.2f}:1")
-    print(f"  solid plane vs tile    {ratio(chrome, rgb.getpixel((600, 180))):.2f}:1")
     grey = rgb.convert("L").resize((32, 32), Image.LANCZOS)
     px = list(grey.getdata())
     print(f"  32px luminance spread  {(max(px) - min(px)) / 255:.3f}")
