@@ -194,6 +194,12 @@ still reasoning about the 1M hardware limit computes headroom against a wall the
 reach and its at-the-wall rule goes inert. Set the variable to the enforced budget and everything
 downstream — headroom, the never-veto rule, the block decision — stays correct without other change.
 
+**Relay's managed minimum is 350,000 tokens.** When Relay supplies this variable, it writes its
+current enforced floor (350,000 or higher), not an estimate from the transcript. This skill must use
+that exact caller-supplied wall and must not clamp it upward or downward: raising an unknown 220,000
+wall to 350,000 would make the gate veto at a wall it has already crossed, while lowering a supplied
+350,000 wall would reintroduce the premature compactions the setting prevents.
+
 The gate blocks only when `block` is true, which is the score AND the window agreeing — see "The
 score and the action are different questions" above. `precompact_gate.sh` enforces the same rule
 independently, by reading the transcript size, so a scorer that gets it wrong still cannot veto at
