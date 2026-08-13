@@ -1,6 +1,6 @@
 {
   "skill_name": "proctor",
-  "notes": "Behavioural evals for running a macOS test campaign. Each prompt is chosen because the naive answer is both plausible and wrong in a specific, checkable way, so the no-skill baseline has a real chance of failing rather than being set up to lose. Six were run against that baseline; the results, including the assertions the baseline also passed, are in EVALS.md. Eval 3 was replaced after the baseline passed the original 4/4 — an eval the model passes unaided measures the model, and keeping it would have inflated the skill's score.",
+  "notes": "Behavioural evals for running a macOS test campaign. Each prompt is chosen because the naive answer is both plausible and wrong in a specific, checkable way, so the no-skill baseline has a real chance of failing rather than being set up to lose. Six were run against that baseline; the results, including the assertions the baseline also passed, are in EVALS.md. Eval 3 was replaced after the baseline passed the original 4/4 — an eval the model passes unaided measures the model, and keeping it would have inflated the skill's score. Evals 11 and 12 were added in 0.2.0 for the native-conformance and given-suite capabilities and judged by a blind three-model panel (two same-family, one different) on anonymised A/B pairs with the skill side hidden; the skill won 3-0 on each, tying on the two criteria a model handles unaided and winning on its distinctive mechanisms. See EVALS.md.",
   "baseline": "Same prompt, same MCP server available, no skill loaded.",
   "evals": [
     {
@@ -124,6 +124,32 @@
         "No claim is made about behaviour in an unrun cell",
         "The uncovered cells are ranked by what they would most likely have caught, so the reader can decide what to run next"
       ]
+    },
+    {
+      "id": 11,
+      "name": "native-conformance-without-mockup",
+      "prompt": "I built a Mac app called Jotter.app — a notes app. There's no mockup and no design spec. Tell me whether its main window is a good, native Mac UI. It's running.",
+      "expected_output": "Native correctness is measured against the platform's own rules, which need no mockup, and is kept separate from the aesthetic judgement, which is routed to design-review.",
+      "assertions": [
+        "Whether the UI is native and correct is measured against a concrete platform rubric — the macOS control-size ladder, the type ramp, the 8pt grid, label tiers, Liquid Glass discipline, or the native-tells audit — rather than eyeballed",
+        "The absence of a mockup is treated as fine, because the platform itself is the reference for native conformance, rather than a spec being requested or assumed",
+        "The aesthetic 'is it any good' judgement is routed to design-review and kept distinct from the native-conformance measurement, rather than the two being improvised as one impression",
+        "Findings are expressed as measured deviations — a control off the size ladder, body text off the type ramp, a floating panel with no scroll-edge material — rather than adjectives"
+      ],
+      "notes": "Turns on the native-conformance oracle added in 0.2.0: mac-design-studio's native-foundation as the rubric for 'is this native' when there is no mockup, distinct from design-review's craft judgement. The naive answer screenshots the window and gives impressionistic aesthetic feedback, conflating native with good and measuring nothing."
+    },
+    {
+      "id": 12,
+      "name": "given-suite-traceability",
+      "prompt": "Here's my test suite for Ledger.app. Run it and report. TC-1: adding a transaction updates the running balance. TC-2: deleting the last transaction shows the empty state. TC-3: the Export button is disabled when there are zero transactions. It's running.",
+      "expected_output": "The given suite is the spine: each case is traced to a flow and an outcome assertion and reported passed, failed or skipped, and a case that cannot be evaluated is a visible gap rather than a silent pass.",
+      "assertions": [
+        "A case-to-evidence matrix is built from the three given cases, each mapped to the flow and assertion that will verify it, before or as the spine of the report",
+        "Each case asserts its promised outcome — the balance updates, the empty state renders, the button is disabled — rather than merely that an element exists",
+        "A case that cannot be evaluated is reported as skipped with a reason, rather than dropped or assumed passed",
+        "Each result is reported per-case and traceable back to its TC id"
+      ],
+      "notes": "Turns on the given-suite entry mode added in 0.2.0: a handed-over suite is traced case-by-case through the matrix, not run ad hoc. The naive answer executes the three cases loosely and reports pass/fail without a traceability spine or a visible-gap rule for the unevaluable."
     }
   ]
 }
