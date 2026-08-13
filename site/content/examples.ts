@@ -231,46 +231,54 @@ This one changes how much you write, never how much
 you do.`,
   },
 
-  "goal-harness": {
+  "better-goal": {
     prompt: "set a goal to ship the rest of the backlog",
     output: `arm.sh --dry-run   (writes nothing)
 
 PREFLIGHT
   ✓ worklist grounded in the repo — 11 items with IDs
-  ✓ brief 3,412 / 4,000 chars
   ✗ 2 items have no gate command — added
-  ✓ 6 settings that end a run silently: 6 fixed
+  ✗ stop-hook block cap unset → 8 blocks, then the turn
+    is reported as "completed". Raised.
 
 DIFF
-  stopHookActive        -  false   +  true
-  maxConsecutiveBlocks  -  8       +  unset
+  hooks.Stop            +  guard.sh (command hook)
+  BLOCK_CAP             -  unset    +  500
 
 WRITES
   docs/goals/goal-backlog.md
-  .claude/goal-guard.sh   decides by exit code, not by
-                          reading the transcript
+  .claude/goals/backlog.json   gates decided by exit
+                               code, not by transcript
 
-Ledger at docs/goals/ledger.md — answers "is it still
-going" without interrupting the run.`,
+ARMED
+  guard     runs the gates at the end of every turn
+  watcher   Monitor, for the turns that never end
+
+Turn 4: tests failed identically for the third time.
+Disarmed as stuck rather than re-sending it.`,
   },
 
-  "loop-harness": {
+  "better-loop": {
     prompt: "keep checking the deploy",
     output: `Mechanism picked BEFORE anything is written.
 
-  event monitor   ← chosen: the deploy emits status
-  polling         rejected: 30s of nothing, 120 times
-  goal-harness    rejected: no finish line here
+  change-gated watcher  ← chosen
+  5-minute cron         rejected: 120 wakes to find 2
+                        changes, each re-billing the
+                        whole session prefix
+  better-goal           rejected: no finish line here
 
-  ✓ .claude/loop.md  8,204 / 25,000 bytes
-  ✗ /verify passed as plain text — a scheduled fire hands
-    any skill you may not invoke to the run as prose,
-    with no error. Rewritten as an explicit instruction.
+  probe   vercel ls --json | jq -r '.[0].state'
+  ✓ deterministic — ran twice, identical
 
-ARMED
-  wake signal   deploy webhook
-  heartbeat     every 20 min, writes to the ledger
-  renewal       reminder at day 6 of the 7-day expiry`,
+ARMED   Monitor, persistent. No cron, so no 7-day expiry.
+
+  18:04  baseline   BUILDING
+  18:06  (quiet)
+  18:12  CHANGE     BUILDING → ERROR      ← woke the session
+  18:31  repeat     ERROR seen ×3, suppressed until 19:01
+
+polls 47 · wakes 2 · budget 12/h`,
   },
 
   report: {

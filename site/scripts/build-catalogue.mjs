@@ -48,8 +48,8 @@ const GROUPS = [
 ];
 
 const GROUP_OF = {
-  "goal-harness": "long-runs",
-  "loop-harness": "long-runs",
+  "better-goal": "long-runs",
+  "better-loop": "long-runs",
   discipline: "long-runs",
   "braindump": "long-runs",
   "should-compact": "long-runs",
