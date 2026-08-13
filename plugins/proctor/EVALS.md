@@ -71,6 +71,47 @@ the mechanisms — which is why the two cases it wins outright are the two about
 disclosing what the instrument did, and why the case it ties is the one that
 needed judgement rather than knowledge.
 
+## The 0.2.0 additions, judged blind
+
+Version 0.2.0 added two capabilities: measuring native correctness against the
+platform's own rules when there is no mockup, and running a handed-over test
+suite case by case through a traceability matrix. Two new prompts were written
+for them (11 and 12 in the grading file), each around a mistake that is easy to
+make and easy to check.
+
+These were graded differently, and harder. Each prompt was answered twice — with
+the skill and with nothing — and the two answers were handed to a **panel of
+three judges as an anonymised A/B pair, with the skill's side hidden and the
+order swapped between the two prompts**, so a judge could not pattern-match
+which side to favour. Two of the judges were the working model; one was a
+different model family. None was told a skill existed.
+
+The panel was unanimous both times: the skill's answer won 3–0 on prompt 11 and
+3–0 on prompt 12.
+
+**And both wins were narrow in the same honest way.** On each prompt, two of the
+four criteria were a tie — and they were the two a competent model already
+handles unaided. On the native-conformance prompt both arms measured against
+*something* and both reported measured deviations; the skill won only on naming
+a **concrete** rubric (the control ladder, the 13pt type ramp, the 8pt grid, the
+native-tells audit) instead of generic "HIG conventions", and on **routing the
+aesthetic verdict to design-review** instead of delivering "good/not good" as
+its own impression. On the given-suite prompt both arms asserted the promised
+outcome and reported per case; the skill won only on building the
+**case-to-evidence matrix as the report's spine** and on the rule that an
+**unevaluable case surfaces as a visible skip** rather than a loose caveat.
+
+It is the same shape as the original six. The model brings the competence; the
+skill supplies the mechanism the model has no way to know it should reach for —
+here, that "is it native" and "is it good" are two different questions with two
+different oracles, and that a handed-over suite is a spine to trace rather than a
+list to run through.
+
+**The rewrite did not cost anything.** The 0.2.0 edit rewrote the visual-fidelity
+stage, where three of the original assertions live. All ten prior behaviours were
+re-checked against the new document and every one is still instructed, quoted
+line for line.
+
 ## Reproducing it
 
 The prompts and assertions are in [`evals/evals.json`](evals/evals.json). Run
