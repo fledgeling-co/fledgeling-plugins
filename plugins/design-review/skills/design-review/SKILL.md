@@ -132,18 +132,19 @@ If analytics exist, read them first — bounce/time/conversion patterns point at
 Run the extraction scripts. Nothing here is a finding; it is the evidence later stages reason over.
 
 ```bash
-python scripts/run_review.py --url <url> --out <workdir>          # Playwright: capture + probe sweep
-node   scripts/run_review.mjs --url <url> --out <workdir>         # Puppeteer: same output layout
+python scripts/run_review.py --url <url> --out <workdir>          # capture + probe sweep
+node   scripts/run_review.mjs --url <url> --out <workdir>         # same, in Node — same output layout
 python scripts/analyze_styles.py <workdir>/probes/                # variance, near-misses, scales
 python scripts/scan_source.py <src-dir>                           # greppable anti-patterns
 ```
 
-Both runners write the same manifest shape, so the analysis scripts read either. Add `--tile` for long pages, `--states` for staged interaction states, `--motion` for mid-flight frames. For the MCP paths, see `references/browser-drivers.md`.
+Both runners write the same manifest shape, so the analysis scripts read either. Add `--tile` for long pages and `--states` for staged interaction states. `--motion` exits with an error: Obscura does not execute CSS animations or transitions, so mid-flight frames would be N copies of one still. See `references/browser-drivers.md`.
 
-**Settle the page, then prove it settled.** Both runners now scroll the whole document and drain `document.getAnimations()` before probing, and record what was still running in `animationsRunningAtMeasure`. Both halves are load-bearing:
+**Settle the page, then prove it settled.** Both runners scroll the whole document and drain `document.getAnimations()` before probing, and record what was still running in `animationsRunningAtMeasure`. Both halves are load-bearing:
 
 - **Scroll first.** A scroll-reveal system leaves every band below the fold at `opacity: 0`, and `loading="lazy"` images report `naturalWidth === 0` until they enter the viewport. A capture at load has already been misread here as a broken reveal system, and an image probe run without scrolling reported five of eight images as broken when all eight load.
 - **Then wait, and record the wait's result.** A contrast or accessibility gate sampled mid-entrance reports precise, confident, wrong numbers. On a real run, axe fired 400ms into a 700ms reveal with an 80ms stagger, read a `#E85A2A` accent as `#6a2d18`, and reported a surface going from 13 failures to **28** after a fix that provably removed them. `animationsRunningAtMeasure > 0` does not weaken that row's numbers — it voids them.
+- **On Obscura that proof is unavailable, and the zero says so.** The engine never runs the animations, so `document.getAnimations()` reports none whatever the page declares and `animationsRunningAtMeasure` is 0 on every row. Read it as the absence of a signal, not as evidence the surface had settled; the runner prints that caveat with the summary. Anything that turns on entrance timing needs a different engine.
 
 A gate that samples during an animation is worse than no gate, because its output is indistinguishable from a real measurement.
 
@@ -255,19 +256,17 @@ Keep the report proportional to the findings, not to the template. Drop any sect
 
 ## Rendering
 
-This skill depends on real renders. Five paths — use whichever the project already has rather than installing a second stack:
+This skill depends on real renders. One driver — **Obscura**, on PATH as `obscura` — reached three ways:
 
 | Path | Entry point |
 |---|---|
-| Playwright | `scripts/run_review.py` |
-| Puppeteer | `scripts/run_review.mjs` |
-| chrome-devtools-mcp | MCP tools — CWV traces and Lighthouse natively |
-| agent-browser | CLI or MCP — snapshot/ref loop, `vitals`, `a11y`, session reuse |
-| claude-in-chrome | `mcp__claude-in-chrome__*` |
+| `obscura serve` + CDP | `scripts/run_review.py` / `scripts/run_review.mjs` — the viewport matrix and probe sweep |
+| `obscura fetch` | one page, one capture: `--screenshot`, `--eval`, `--dump` |
+| `obscura mcp` | driving a surface interactively — click, fill, scroll, tabs, auth state |
 
-`references/browser-drivers.md` covers all five, including how to attach to an authenticated session and where each degrades.
+`references/browser-drivers.md` covers all three, including the localhost flag, the computed-style longhand rule, and where the engine degrades.
 
-If none is available, say so plainly in the summary and run the static checks only. Never imply a page was seen. The difference between "the lint passed" and "I opened captures X, Y, Z and looked for A, B, C" is the difference between a review and a claim, and both belong in the report as separate sentences.
+If Obscura is not on PATH, say so plainly in the summary, give the one-line fix (download the `aarch64-macos` release from the repo into `~/.local/bin`), and run the static checks only. Never imply a page was seen. The difference between "the lint passed" and "I opened captures X, Y, Z and looked for A, B, C" is the difference between a review and a claim, and both belong in the report as separate sentences.
 
 ## Iteration budgets
 
@@ -302,7 +301,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 ## References
 
 - `references/reliability-envelope.md` — what automated review can and cannot detect, with the numbers. Read once before your first review.
-- `references/browser-drivers.md` — Playwright, Puppeteer, chrome-devtools-mcp, agent-browser, claude-in-chrome. Setup, probe injection, performance traces, and where each degrades.
+- `references/browser-drivers.md` — Obscura: the three ways in, the localhost flag, the computed-style longhand rule, and where the engine degrades.
 - `references/gates-accessibility.md` — WCAG 2.2 AA gates, contrast, focus, targets, the commonly-skipped criteria, RTL, dark patterns.
 - `references/gates-performance-motion.md` — Core Web Vitals, motion anti-patterns, durations and easing, the motion budget by frequency.
 - `references/capture-protocol.md` — viewports, DPR, tiling, state staging, coordinate overlays, the in-page probes.
@@ -318,8 +317,8 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 
 ## Scripts
 
-- `scripts/run_review.py` — Playwright capture and probe sweep across the viewport matrix. Scrolls the document and drains running animations before probing, and records what was still moving
-- `scripts/run_review.mjs` — Puppeteer equivalent, same output layout
+- `scripts/run_review.py` — capture and probe sweep across the viewport matrix, driving `obscura serve` over CDP. Scrolls the document and drains running animations before probing, and records what was still moving
+- `scripts/run_review.mjs` — Node equivalent, same output layout
 - `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **implicit grid tracks and zero-sized cells**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
 - `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
 - `scripts/scan_source.py` — greppable anti-patterns in source, tagged by tier

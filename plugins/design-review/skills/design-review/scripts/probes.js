@@ -11,10 +11,12 @@
  * colour probe sampled mid-entrance returns confident, precise, wrong numbers.
  * `runAll().settled` records whether that actually happened.
  *
- * Usage (Playwright):
+ * Usage (CDP, against `obscura serve`):
  *   const probes = fs.readFileSync('probes.js', 'utf8');
- *   await page.addScriptTag({ content: probes });
- *   const result = await page.evaluate(() => window.__designReviewProbes.runAll());
+ *   await send('Runtime.evaluate', { expression: probes }, sessionId);
+ *   const r = await send('Runtime.evaluate',
+ *     { expression: 'JSON.stringify(window.__designReviewProbes.runAll())',
+ *       returnByValue: true, awaitPromise: true }, sessionId);
  *
  * Every probe returns plain JSON-serialisable data. No findings, no judgment —
  * later stages reason over this.
