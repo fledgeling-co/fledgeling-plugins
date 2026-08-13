@@ -4,44 +4,56 @@ run_review.py — capture and probe a surface across the viewport matrix.
 
 Produces the evidence base for stages 1-4 of the review: renders, tiles,
 per-viewport probe output, console logs, and (optionally) staged interaction
-states and mid-flight animation frames.
+states.
 
 This script does not judge anything. It gathers facts so the review reasons over
 evidence rather than recollection.
 
-Requires Playwright:
-    pip install playwright && playwright install chromium
+Requires Obscura on PATH and nothing else:
+    download the aarch64-macos release from
+    https://github.com/h4ckf0r0day/obscura and put it in ~/.local/bin
+
+The CDP client below is stdlib-only, so there is no pip install and no virtualenv
+to keep in step with the Node path — both scripts drive the same `obscura serve`.
 
 Usage:
     python run_review.py --url http://localhost:3000 --out ./review-work
-    python run_review.py --url ... --states --motion --tile
+    python run_review.py --url ... --states --tile
     python run_review.py --url ... --viewports 375,1280
 
 Output layout:
     <out>/
       manifest.json                 index of everything captured
       probes/<w>x<h>.json           probe results per viewport
-      console/<w>x<h>.json          console messages + page errors
+      console/<w>x<h>.json          console messages + failed requests
       shots/<w>x<h>-full.png        full-page capture
       shots/<w>x<h>-fold.png        above-the-fold only
       tiles/<w>x<h>-tile-NN.png     viewport-sized tiles of the full page
       states/<name>.png             staged interaction states
-      motion/<name>-tNNN.png        mid-flight animation frames
 """
 
 from __future__ import annotations
 
 import argparse
+import base64
 import json
+import os
+import random
+import shutil
+import socket
+import struct
+import subprocess
 import sys
+import time
+import urllib.request
 from pathlib import Path
+from urllib.parse import urlparse
 
-try:
-    from playwright.sync_api import sync_playwright, Error as PWError
-except ImportError:
+if shutil.which("obscura") is None:
     sys.exit(
-        "Playwright is not installed.\n"
-        "  pip install playwright && playwright install chromium\n"
+        "Obscura is not on PATH.\n"
+        "  download the aarch64-macos release from\n"
+        "  https://github.com/h4ckf0r0day/obscura and put it in ~/.local/bin\n"
         "If no browser automation is available at all, say so in the review "
         "summary and run the static checks only — never imply a page was seen."
     )
@@ -65,25 +77,201 @@ DPR_OVERVIEW = 1
 DPR_DETAIL = 2
 
 
-def wait_settled(page, extra_ms: int) -> None:
-    """Network idle plus an explicit wait for async renderers.
-
-    Charts and canvas need 2-4s after networkidle. A screenshot of a
-    half-rendered chart generates a false finding, which costs more than the
-    wait does.
-    """
-    try:
-        page.wait_for_load_state("networkidle", timeout=15000)
-    except PWError:
-        pass  # some pages never go idle (polling, websockets) — carry on
-    try:
-        page.evaluate("document.fonts && document.fonts.ready")
-    except PWError:
-        pass
-    page.wait_for_timeout(extra_ms)
+class CDPError(RuntimeError):
+    pass
 
 
-REVEAL_JS = """async () => {
+# ---------------------------------------------------------------------------
+# Obscura driver.
+#
+# `obscura serve` speaks Chrome-compatible CDP over a WebSocket. Python has no
+# WebSocket in the standard library, and the alternative — driving `obscura
+# fetch` per capture — cannot set a viewport at all, which would delete the
+# viewport matrix this whole script exists for. So the framing is done here:
+# ~70 lines of RFC 6455, no dependency to install.
+# ---------------------------------------------------------------------------
+
+
+class _WebSocket:
+    """Just enough RFC 6455 to carry CDP: masked text out, fragmented text in."""
+
+    def __init__(self, url: str, timeout: float = 30.0):
+        u = urlparse(url)
+        self.sock = socket.create_connection((u.hostname, u.port or 80), timeout=timeout)
+        self.sock.settimeout(timeout)
+        key = base64.b64encode(os.urandom(16)).decode()
+        path = u.path + (("?" + u.query) if u.query else "")
+        req = (
+            f"GET {path} HTTP/1.1\r\n"
+            f"Host: {u.hostname}:{u.port}\r\n"
+            "Upgrade: websocket\r\nConnection: Upgrade\r\n"
+            f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n"
+        )
+        self.sock.sendall(req.encode())
+        self._buf = b""
+        while b"\r\n\r\n" not in self._buf:
+            chunk = self.sock.recv(4096)
+            if not chunk:
+                raise CDPError("websocket handshake closed early")
+            self._buf += chunk
+        head, self._buf = self._buf.split(b"\r\n\r\n", 1)
+        if b"101" not in head.split(b"\r\n")[0]:
+            raise CDPError("websocket handshake refused: " + head.split(b"\r\n")[0].decode())
+
+    def _recv_exact(self, n: int) -> bytes:
+        while len(self._buf) < n:
+            chunk = self.sock.recv(65536)
+            if not chunk:
+                raise CDPError("websocket closed")
+            self._buf += chunk
+        out, self._buf = self._buf[:n], self._buf[n:]
+        return out
+
+    def send(self, text: str) -> None:
+        payload = text.encode()
+        n = len(payload)
+        header = bytearray([0x81])          # FIN + text
+        if n < 126:
+            header.append(0x80 | n)
+        elif n < (1 << 16):
+            header.append(0x80 | 126)
+            header += struct.pack(">H", n)
+        else:
+            header.append(0x80 | 127)
+            header += struct.pack(">Q", n)
+        mask = os.urandom(4)
+        header += mask
+        masked = bytes(b ^ mask[i % 4] for i, b in enumerate(payload))
+        self.sock.sendall(bytes(header) + masked)
+
+    def recv(self) -> str | None:
+        """Next complete text message, or None when the peer closed."""
+        parts: list[bytes] = []
+        while True:
+            b0, b1 = self._recv_exact(2)
+            fin, opcode = b0 & 0x80, b0 & 0x0F
+            length = b1 & 0x7F
+            if length == 126:
+                length = struct.unpack(">H", self._recv_exact(2))[0]
+            elif length == 127:
+                length = struct.unpack(">Q", self._recv_exact(8))[0]
+            data = self._recv_exact(length) if length else b""
+            if opcode == 0x8:               # close
+                return None
+            if opcode == 0x9:               # ping — keep the session alive
+                self.sock.sendall(b"\x8a\x80" + os.urandom(4))
+                continue
+            if opcode in (0x1, 0x0):
+                parts.append(data)
+                if fin:
+                    return b"".join(parts).decode("utf-8", "replace")
+            # binary and pong frames carry nothing CDP needs
+
+    def close(self) -> None:
+        try:
+            self.sock.sendall(b"\x88\x80" + os.urandom(4))
+        except OSError:
+            pass
+        try:
+            self.sock.close()
+        except OSError:
+            pass
+
+
+class CDP:
+    """A CDP connection. Replies are matched by id; events are collected."""
+
+    def __init__(self, port: int):
+        raw = urllib.request.urlopen(f"http://127.0.0.1:{port}/json/version", timeout=10).read()
+        self.ws = _WebSocket(json.loads(raw)["webSocketDebuggerUrl"])
+        self._id = 0
+        self.events: list[dict] = []
+
+    def send(self, method: str, params: dict | None = None, session_id: str | None = None) -> dict:
+        self._id += 1
+        msg = {"id": self._id, "method": method, "params": params or {}}
+        if session_id:
+            msg["sessionId"] = session_id
+        self.ws.send(json.dumps(msg))
+        while True:
+            raw = self.ws.recv()
+            if raw is None:
+                raise CDPError(f"connection closed waiting for {method}")
+            frame = json.loads(raw)
+            if frame.get("id") == self._id:
+                return frame
+            if "method" in frame:
+                self.events.append(frame)
+
+    def drain(self, seconds: float) -> None:
+        """Read pending events for a while. CDP is push-based; without this the
+        network bookkeeping only advances when a command happens to be sent."""
+        deadline = time.time() + seconds
+        self.ws.sock.settimeout(0.2)
+        try:
+            while time.time() < deadline:
+                try:
+                    raw = self.ws.recv()
+                except (socket.timeout, TimeoutError):
+                    continue
+                except OSError:
+                    return
+                if raw is None:
+                    return
+                frame = json.loads(raw)
+                if "method" in frame:
+                    self.events.append(frame)
+        finally:
+            self.ws.sock.settimeout(30.0)
+
+    def close(self) -> None:
+        self.ws.close()
+
+
+def start_obscura(port: int) -> subprocess.Popen:
+    """Start `obscura serve`. --allow-private-network is not optional: a dev
+    server on 127.0.0.1 is blocked by default and the capture fails as an SSRF
+    block, which reads like a broken page rather than a blocked fetch."""
+    proc = subprocess.Popen(
+        ["obscura", "--allow-private-network", "serve", "--port", str(port), "--quiet"],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    deadline = time.time() + 15
+    while time.time() < deadline:
+        try:
+            urllib.request.urlopen(f"http://127.0.0.1:{port}/json/version", timeout=1).read()
+            return proc
+        except Exception:
+            time.sleep(0.2)
+    proc.kill()
+    raise CDPError(f"obscura serve did not come up on port {port}")
+
+
+# Obscura emits neither Runtime.consoleAPICalled nor Log.entryAdded, so the
+# console gate is served by a page-side hook installed before navigation. It
+# records what the page's own scripts log plus uncaught errors and rejections.
+# It cannot see browser-emitted subresource failures ("Failed to load resource
+# … 404") — those come from the network list instead, which is why both are
+# written out and why a console count alone is never a finding.
+CONSOLE_HOOK = """
+(() => {
+  if (window.__drConsole) return;
+  window.__drConsole = [];
+  const push = (type, text) => { try { window.__drConsole.push({ type, text: String(text).slice(0, 500) }); } catch (e) {} };
+  const fmt = v => {
+    if (typeof v === 'string') return v;
+    if (v instanceof Error) return v.stack || v.message;
+    try { return JSON.stringify(v); } catch (e) { return String(v); }
+  };
+  for (const k of ['log', 'info', 'warn', 'error', 'debug']) {
+    const orig = console[k];
+    console[k] = (...a) => { push(k, a.map(fmt).join(' ')); if (orig) orig.apply(console, a); };
+  }
+  addEventListener('error', e => push('pageerror', e.message || e.error));
+  addEventListener('unhandledrejection', e => push('pageerror', e.reason));
+})();"""
+
+REVEAL_JS = """(async () => {
   const step = Math.max(200, Math.round(window.innerHeight * 0.8));
   const end = document.documentElement.scrollHeight;
   for (let y = 0; y < end; y += step) {
@@ -92,20 +280,137 @@ REVEAL_JS = """async () => {
   }
   window.scrollTo(0, 0);
   await new Promise(r => setTimeout(r, 400));
-}"""
+})()"""
 
-SETTLE_JS = """async (timeout) => {
-  const deadline = Date.now() + timeout;
+SETTLE_JS = """(async () => {
+  const deadline = Date.now() + %d;
   const running = () => (document.getAnimations ? document.getAnimations() : [])
     .filter(a => a.playState === 'running');
   while (Date.now() < deadline && running().length) {
     await new Promise(r => setTimeout(r, 100));
   }
   return running().length;
-}"""
+})()"""
 
 
-def reveal_pass(page) -> None:
+class Page:
+    """One Obscura target plus the bookkeeping the review needs from it."""
+
+    def __init__(self, cdp: CDP, width: int, height: int, dpr: int):
+        self.cdp = cdp
+        target = cdp.send("Target.createTarget", {"url": "about:blank"})
+        self.target_id = target["result"]["targetId"]
+        attached = cdp.send("Target.attachToTarget",
+                            {"targetId": self.target_id, "flatten": True})
+        self.session_id = attached["result"]["sessionId"]
+        for domain in ("Page", "Runtime", "Network", "DOM"):
+            cdp.send(f"{domain}.enable", {}, self.session_id)
+        cdp.send("Page.addScriptToEvaluateOnNewDocument",
+                 {"source": CONSOLE_HOOK}, self.session_id)
+        self._event_mark = len(cdp.events)
+        self.set_viewport(width, height, dpr)
+
+    def set_viewport(self, width: int, height: int, dpr: int) -> None:
+        self.cdp.send("Emulation.setDeviceMetricsOverride",
+                      {"width": width, "height": height, "deviceScaleFactor": dpr,
+                       "mobile": width <= 480}, self.session_id)
+
+    def goto(self, url: str, timeout_ms: int = 30000) -> None:
+        r = self.cdp.send("Page.navigate", {"url": url}, self.session_id)
+        if "error" in r:
+            raise CDPError(f"navigate failed: {r['error']}")
+        deadline = time.time() + timeout_ms / 1000
+        while time.time() < deadline:
+            if self.evaluate("document.readyState") in ("complete", "interactive"):
+                return
+            time.sleep(0.15)
+
+    def evaluate(self, expression: str, await_promise: bool = False):
+        r = self.cdp.send("Runtime.evaluate",
+                          {"expression": expression, "returnByValue": True,
+                           "awaitPromise": await_promise}, self.session_id)
+        if "error" in r or r.get("result", {}).get("exceptionDetails"):
+            return None
+        return r.get("result", {}).get("result", {}).get("value")
+
+    def console_messages(self) -> list[dict]:
+        raw = self.evaluate("JSON.stringify(window.__drConsole || [])")
+        try:
+            return json.loads(raw or "[]")
+        except (TypeError, ValueError):
+            return []
+
+    def failed_requests(self) -> list[dict]:
+        """Failed subresources. Obscura reports an HTTP error as an ordinary
+        response with a 4xx/5xx status rather than as Network.loadingFailed, so
+        both shapes are read."""
+        out = []
+        for frame in self.cdp.events[self._event_mark:]:
+            if frame.get("method") == "Network.loadingFailed":
+                out.append({"url": "(unknown)",
+                            "failure": str(frame.get("params", {}).get("errorText", ""))[:200]})
+            elif frame.get("method") == "Network.responseReceived":
+                resp = frame.get("params", {}).get("response", {})
+                if resp.get("status", 0) >= 400:
+                    out.append({"url": str(resp.get("url", ""))[:200],
+                                "failure": f"HTTP {resp['status']}"})
+        return out
+
+    def screenshot(self, path: Path, full_page: bool = False, clip: dict | None = None) -> bool:
+        params: dict = {"format": "png"}
+        if clip:
+            params["clip"] = {**clip, "scale": 1}
+            params["captureBeyondViewport"] = True
+        elif full_page:
+            metrics = self.cdp.send("Page.getLayoutMetrics", {}, self.session_id)
+            size = (metrics.get("result", {}).get("contentSize")
+                    or metrics.get("result", {}).get("cssContentSize"))
+            if size:
+                params["clip"] = {"x": 0, "y": 0, "width": size["width"],
+                                  "height": size["height"], "scale": 1}
+                params["captureBeyondViewport"] = True
+        r = self.cdp.send("Page.captureScreenshot", params, self.session_id)
+        data = r.get("result", {}).get("data")
+        if not data:
+            return False
+        path.write_bytes(base64.b64decode(data))
+        return True
+
+    def box_of(self, selector: str) -> dict | None:
+        raw = self.evaluate(
+            "(() => { const e = document.querySelector(%s);"
+            " if (!e) return null; const r = e.getBoundingClientRect();"
+            " return JSON.stringify({x: r.left, y: r.top, width: r.width, height: r.height}); })()"
+            % json.dumps(selector))
+        return json.loads(raw) if raw else None
+
+    def mouse_move(self, x: float, y: float) -> None:
+        self.cdp.send("Input.dispatchMouseEvent",
+                      {"type": "mouseMoved", "x": x, "y": y}, self.session_id)
+
+    def press_key(self, key: str, code: str, key_code: int) -> None:
+        for kind in ("keyDown", "keyUp"):
+            self.cdp.send("Input.dispatchKeyEvent",
+                          {"type": kind, "key": key, "code": code,
+                           "windowsVirtualKeyCode": key_code}, self.session_id)
+
+    def close(self) -> None:
+        self.cdp.send("Target.closeTarget", {"targetId": self.target_id})
+
+
+def wait_settled(page: Page, extra_ms: int) -> None:
+    """Let the network go quiet, then wait explicitly for async renderers.
+
+    Charts and canvas need 2-4s after the last response. A screenshot of a
+    half-rendered chart generates a false finding, which costs more than the
+    wait does.
+    """
+    page.cdp.drain(1.5)
+    page.evaluate("document.fonts && document.fonts.ready", await_promise=True)
+    time.sleep(extra_ms / 1000)
+
+
+def reveal_pass(page: Page) -> None:
     """Scroll the whole document, then return to the top, before probing.
 
     Two defect classes hide behind a page that was never scrolled, and both have
@@ -114,13 +419,10 @@ def reveal_pass(page) -> None:
     and `loading="lazy"` images have naturalWidth 0 until they enter the
     viewport, so an image probe reports five of eight as broken.
     """
-    try:
-        page.evaluate(REVEAL_JS)
-    except PWError:
-        pass
+    page.evaluate(REVEAL_JS, await_promise=True)
 
 
-def prove_settled(page, timeout_ms: int = 5000) -> int:
+def prove_settled(page: Page, timeout_ms: int = 5000) -> int:
     """Drain running animations, then RETURN how many were still running.
 
     Draining is not the point; the returned count is. A gate that samples during
@@ -128,29 +430,22 @@ def prove_settled(page, timeout_ms: int = 5000) -> int:
     run a 400ms-after-scroll axe pass read a `#E85A2A` accent as `#6a2d18` and
     reported a surface getting worse after a fix that provably removed its
     failures. Any count above zero invalidates the colour numbers in that row.
+
+    Obscura does not execute CSS animations or transitions, so under it this
+    returns 0 whatever the page declares. A zero here is the absence of a signal
+    rather than proof of settling, which is what the run summary says.
     """
-    try:
-        return page.evaluate(SETTLE_JS, timeout_ms)
-    except PWError:
-        return -1
+    v = page.evaluate(SETTLE_JS % timeout_ms, await_promise=True)
+    # Obscura returns JSON numbers as floats, so this is a number check, not an
+    # int check — `isinstance(v, int)` reads a perfectly good 0.0 as a failure.
+    return int(v) if isinstance(v, (int, float)) else -1
 
 
-def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
+def capture_viewport(cdp: CDP, url, width, height, out: Path, settle_ms: int,
                      tile: bool, dpr: int):
-    ctx = browser.new_context(
-        viewport={"width": width, "height": height},
-        device_scale_factor=dpr,
-    )
-    page = ctx.new_page()
+    page = Page(cdp, width, height, dpr)
 
-    console: list[dict] = []
-    page.on("console", lambda m: console.append({"type": m.type, "text": m.text[:500]}))
-    page.on("pageerror", lambda e: console.append({"type": "pageerror", "text": str(e)[:500]}))
-    failed: list[dict] = []
-    page.on("requestfailed", lambda r: failed.append(
-        {"url": r.url[:200], "failure": (r.failure or "")[:200]}))
-
-    page.goto(url, wait_until="domcontentloaded", timeout=30000)
+    page.goto(url)
     wait_settled(page, settle_ms)
     reveal_pass(page)
     still_running = prove_settled(page)
@@ -161,13 +456,15 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
     (out / "probes").mkdir(parents=True, exist_ok=True)
     (out / "console").mkdir(parents=True, exist_ok=True)
 
-    page.screenshot(path=str(out / "shots" / f"{tag}-fold.png"))
-    page.screenshot(path=str(out / "shots" / f"{tag}-full.png"), full_page=True)
+    page.screenshot(out / "shots" / f"{tag}-fold.png")
+    page.screenshot(out / "shots" / f"{tag}-full.png", full_page=True)
 
-    page.add_script_tag(content=PROBES_JS.read_text())
-    probes = page.evaluate("() => window.__designReviewProbes.runAll()")
+    page.evaluate(PROBES_JS.read_text())
+    probes = json.loads(page.evaluate("JSON.stringify(window.__designReviewProbes.runAll())"))
     (out / "probes" / f"{tag}.json").write_text(json.dumps(probes, indent=2))
 
+    console = page.console_messages()
+    failed = page.failed_requests()
     (out / "console" / f"{tag}.json").write_text(json.dumps(
         {"messages": console, "failedRequests": failed}, indent=2))
 
@@ -180,9 +477,9 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
         offset, idx = 0, 0
         while offset < total and idx < 30:
             page.evaluate(f"window.scrollTo(0, {offset})")
-            page.wait_for_timeout(220)
+            time.sleep(0.22)
             p = out / "tiles" / f"{tag}-tile-{idx:02d}.png"
-            page.screenshot(path=str(p))
+            page.screenshot(p)
             tiles.append(p.name)
             offset += height
             idx += 1
@@ -195,8 +492,8 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
         "dpr": dpr,
         "shots": {"fold": f"{tag}-fold.png", "full": f"{tag}-full.png"},
         "tiles": tiles,
-        # Settling proof. Any non-zero value here invalidates every colour number
-        # in this row — do not report them, re-measure.
+        # Settling proof on an engine that runs animations. Obscura does not, so
+        # a zero here means "no signal" — see prove_settled.
         "animationsRunningAtMeasure": still_running,
         "elementsBelowFullOpacity": probes["settled"]["partiallyTransparentElements"],
         "consoleErrorCount": len(errors),
@@ -215,113 +512,71 @@ def capture_viewport(browser, url, width, height, out: Path, settle_ms: int,
         "missingTitle": not (probes["semantics"].get("title") or "").strip(),
         "unconsumedTokenCount": len([t for t in tokens.get("unconsumed", []) if "token" in t]),
     }
-    ctx.close()
+    page.close()
     return result
 
 
-def capture_states(browser, url, out: Path, settle_ms: int, selectors: list[str]):
+def capture_states(cdp: CDP, url, out: Path, settle_ms: int, selectors: list[str]):
     """Stage interaction states deliberately.
 
     Hover contaminates a selected-state capture unless the pointer is moved away
     first, so each state is captured in isolation.
     """
-    ctx = browser.new_context(viewport={"width": 1280, "height": 900},
-                              device_scale_factor=DPR_DETAIL)
-    page = ctx.new_page()
-    page.goto(url, wait_until="domcontentloaded", timeout=30000)
+    page = Page(cdp, 1280, 900, DPR_DETAIL)
+    page.goto(url)
     wait_settled(page, settle_ms)
     (out / "states").mkdir(parents=True, exist_ok=True)
 
-    captured = []
+    captured: list[str] = []
     if not selectors:
         selectors = ["button", "a[href]", "input", "[role='button']"]
 
     for sel in selectors:
-        try:
-            el = page.query_selector(sel)
-            if not el:
-                continue
-            safe = sel.replace("[", "_").replace("]", "_").replace("'", "").replace(" ", "")[:30]
-
-            el.scroll_into_view_if_needed()
-            page.mouse.move(0, 0)
-            page.wait_for_timeout(150)
-            p = out / "states" / f"{safe}-rest.png"
-            el.screenshot(path=str(p))
-            captured.append(p.name)
-
-            el.hover()
-            page.wait_for_timeout(400)  # let the transition finish
-            p = out / "states" / f"{safe}-hover.png"
-            el.screenshot(path=str(p))
-            captured.append(p.name)
-
-            page.keyboard.press("Tab")
-            page.wait_for_timeout(200)
-            p = out / "states" / f"{safe}-focus-page.png"
-            page.screenshot(path=str(p))
-            captured.append(p.name)
-        except PWError:
+        box = page.box_of(sel)
+        if not box or box["width"] <= 0 or box["height"] <= 0:
             continue
+        safe = sel.replace("[", "_").replace("]", "_").replace("'", "").replace(" ", "")[:30]
+
+        page.evaluate("document.querySelector(%s).scrollIntoView({block: 'center'})"
+                      % json.dumps(sel))
+        time.sleep(0.15)
+        rest = page.box_of(sel)
+        if not rest:
+            continue
+        clip = {"x": rest["x"], "y": rest["y"], "width": rest["width"], "height": rest["height"]}
+
+        page.mouse_move(0, 0)
+        time.sleep(0.15)
+        p = out / "states" / f"{safe}-rest.png"
+        page.screenshot(p, clip=clip)
+        captured.append(p.name)
+
+        page.mouse_move(rest["x"] + rest["width"] / 2, rest["y"] + rest["height"] / 2)
+        time.sleep(0.4)  # let the transition finish
+        p = out / "states" / f"{safe}-hover.png"
+        page.screenshot(p, clip=clip)
+        captured.append(p.name)
+
+        page.press_key("Tab", "Tab", 9)
+        time.sleep(0.2)
+        p = out / "states" / f"{safe}-focus-page.png"
+        page.screenshot(p)
+        captured.append(p.name)
 
     # Reduced motion and print are two at-rest checks that catch content which
-    # only exists because an animation ran.
-    for media, name in ((("reduce",), "reduced-motion"), (None, "print")):
-        try:
-            if name == "print":
-                page.emulate_media(media="print")
-            else:
-                page.emulate_media(reduced_motion="reduce")
-            page.reload(wait_until="domcontentloaded")
-            wait_settled(page, settle_ms)
-            p = out / "states" / f"page-{name}.png"
-            page.screenshot(path=str(p), full_page=True)
-            captured.append(p.name)
-        except PWError:
-            continue
-        finally:
-            page.emulate_media(media="screen", reduced_motion="no-preference")
+    # only exists because an animation ran. Obscura accepts
+    # Emulation.setEmulatedMedia and then ignores it — matchMedia and the cascade
+    # do not change — so capturing here would write the ordinary rendering under
+    # a name claiming otherwise. Record the gap instead: a review showing a
+    # screen-media screenshot named `page-print.png` is worse than one saying the
+    # check did not run.
+    skipped = [
+        "page-reduced-motion.png (Obscura cannot emulate prefers-reduced-motion)",
+        "page-print.png (Obscura cannot emulate print media)",
+    ]
 
-    ctx.close()
-    return captured
-
-
-def capture_motion(browser, url, out: Path, settle_ms: int, selector: str,
-                   trigger_class: str, frames: int, interval_ms: int):
-    """Mid-flight frames.
-
-    Every static check reads the DOM at rest, where an entrance has finished and
-    a transient overlay is invisible. A whole class of defect lives in neither
-    state, so restart the animation deterministically and capture through it.
-    """
-    ctx = browser.new_context(viewport={"width": 1280, "height": 900},
-                              device_scale_factor=DPR_DETAIL)
-    page = ctx.new_page()
-    page.goto(url, wait_until="domcontentloaded", timeout=30000)
-    wait_settled(page, settle_ms)
-    (out / "motion").mkdir(parents=True, exist_ok=True)
-
-    page.evaluate(
-        """([sel, cls]) => {
-            const el = document.querySelector(sel);
-            if (!el) return false;
-            el.classList.remove(cls);
-            void el.offsetWidth;      // force reflow — this restarts the animation
-            el.classList.add(cls);
-            return true;
-        }""",
-        [selector, trigger_class],
-    )
-
-    captured = []
-    for i in range(frames):
-        p = out / "motion" / f"frame-t{i * interval_ms:03d}.png"
-        page.screenshot(path=str(p))
-        captured.append(p.name)
-        page.wait_for_timeout(interval_ms)
-
-    ctx.close()
-    return captured
+    page.close()
+    return captured, skipped
 
 
 def _layout_finding_count(L):
@@ -352,7 +607,6 @@ def mark_worklist(workdir: Path, surface: str) -> None:
     if not ledger.exists():
         print(f"\n(no ledger at {ledger}; skipping worklist update)", file=sys.stderr)
         return
-    import subprocess
     script = HERE / "worklist.py"
     for stage in ("gates", "render"):
         subprocess.run(
@@ -369,20 +623,27 @@ def main():
     ap.add_argument("--url", required=True, help="Served URL. Never file:// — module scripts and fonts silently fail.")
     ap.add_argument("--out", default="./review-work")
     ap.add_argument("--viewports", help="Comma-separated widths, e.g. 375,1280. Default: full matrix.")
-    ap.add_argument("--settle-ms", type=int, default=2500, help="Extra wait after networkidle for async renderers.")
+    ap.add_argument("--settle-ms", type=int, default=2500, help="Extra wait after the network quietens, for async renderers.")
     ap.add_argument("--dpr", type=int, default=DPR_OVERVIEW, help="1 for 'what a user sees', 2-3 for defect inspection.")
     ap.add_argument("--tile", action="store_true", help="Tile long pages into viewport chunks.")
     ap.add_argument("--states", action="store_true", help="Capture staged interaction states.")
     ap.add_argument("--state-selectors", help="Comma-separated selectors to stage.")
-    ap.add_argument("--motion", action="store_true", help="Capture mid-flight animation frames.")
-    ap.add_argument("--motion-selector", default="body")
-    ap.add_argument("--motion-class", default="seen")
-    ap.add_argument("--motion-frames", type=int, default=6)
-    ap.add_argument("--motion-interval", type=int, default=200)
+    ap.add_argument("--motion", action="store_true", help="Unavailable: Obscura does not execute CSS animations.")
+    ap.add_argument("--cdp-port", type=int, help="Attach to an `obscura serve` already running on this port "
+                                                 "instead of starting one.")
     ap.add_argument("--worklist", help="Workdir holding worklist.md. Marks this surface's "
                                        "gates and render cells done once capture succeeds.")
     ap.add_argument("--surface", help="This surface's name in the worklist (default: --url).")
     args = ap.parse_args()
+
+    if args.motion:
+        sys.exit(
+            "ERROR: --motion is unavailable under Obscura. It does not execute CSS\n"
+            "animations or transitions — a declared `animation: fade 3s` never advances\n"
+            "and document.getAnimations() reports none — so the frames would be N copies\n"
+            "of one still. Report the motion pass as not performed rather than reading a\n"
+            "mid-flight defect off identical frames."
+        )
 
     if args.url.startswith("file://"):
         print("WARNING: file:// breaks module scripts, fetches and some fonts. "
@@ -397,28 +658,27 @@ def main():
     else:
         sizes = DEFAULT_VIEWPORTS
 
-    manifest = {"url": args.url, "viewports": [], "states": [], "motion": []}
+    manifest = {"url": args.url, "viewports": [], "states": [], "statesSkipped": [], "motion": []}
 
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+    port = args.cdp_port or random.randint(9200, 9499)
+    server = None if args.cdp_port else start_obscura(port)
+    cdp = CDP(port)
+
+    try:
         for w, h in sizes:
             print(f"  capturing {w}x{h} ...", file=sys.stderr)
             manifest["viewports"].append(
-                capture_viewport(browser, args.url, w, h, out, args.settle_ms, args.tile, args.dpr))
+                capture_viewport(cdp, args.url, w, h, out, args.settle_ms, args.tile, args.dpr))
 
         if args.states:
             print("  staging interaction states ...", file=sys.stderr)
             sels = [s.strip() for s in args.state_selectors.split(",")] if args.state_selectors else []
-            manifest["states"] = capture_states(browser, args.url, out, args.settle_ms, sels)
-
-        if args.motion:
-            print("  capturing mid-flight frames ...", file=sys.stderr)
-            manifest["motion"] = capture_motion(
-                browser, args.url, out, args.settle_ms,
-                args.motion_selector, args.motion_class,
-                args.motion_frames, args.motion_interval)
-
-        browser.close()
+            manifest["states"], manifest["statesSkipped"] = capture_states(
+                cdp, args.url, out, args.settle_ms, sels)
+    finally:
+        cdp.close()
+        if server:
+            server.kill()
 
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
 
@@ -445,12 +705,15 @@ def main():
             flags.append(f"{v['unconsumedTokenCount']} declared-but-unread tokens")
         print(f"  {v['viewport']:>10}  {' · '.join(flags)}")
 
-    unsettled = [v for v in manifest["viewports"] if v.get("animationsRunningAtMeasure")]
-    if unsettled:
-        print("\nWARNING: at least one viewport was measured while animations were still")
-        print("running. Colour and contrast numbers from those rows are not usable — a")
-        print("mid-entrance sample reads a partially-composited colour as a real one.")
-        print("Re-run with a longer --settle-ms before reporting any of them.")
+    if manifest["statesSkipped"]:
+        print("\nNot captured:")
+        for s in manifest["statesSkipped"]:
+            print(f"  {s}")
+
+    print("\nObscura does not run CSS animations or transitions, so")
+    print("animationsRunningAtMeasure is 0 on every row whatever the page declares.")
+    print("That zero is the absence of a signal, not proof the surface had settled —")
+    print("any finding that turns on entrance timing needs a different engine.")
 
     types = [v.get("componentTypeCount") for v in manifest["viewports"]
              if v.get("componentTypeCount") is not None]

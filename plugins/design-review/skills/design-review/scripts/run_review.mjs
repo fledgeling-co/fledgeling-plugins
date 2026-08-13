@@ -1,44 +1,43 @@
 #!/usr/bin/env node
 /**
- * run_review.mjs — Puppeteer equivalent of run_review.py.
+ * run_review.mjs — Obscura equivalent of run_review.py.
  *
  * Same output layout, same manifest shape, so analyze_styles.py and annotate.py
- * read either interchangeably. Use whichever browser stack the project already
- * has; there is no reason to install a second one.
+ * read either interchangeably. Both drive the same engine over CDP; pick the
+ * language the project already speaks.
  *
- *   npm i puppeteer
  *   node run_review.mjs --url http://localhost:3000 --out ./review-work
- *   node run_review.mjs --url ... --states --motion --tile
+ *   node run_review.mjs --url ... --states --tile
  *   node run_review.mjs --url ... --viewports 375,1280
  *
- * Puppeteer-core with an existing Chrome also works:
- *   node run_review.mjs --url ... --executable-path "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+ * Needs `obscura` on PATH and nothing else — Node 22 has a global WebSocket, so
+ * the CDP client below has no npm dependency. The script starts its own
+ * `obscura serve` and shuts it down again; point it at a running one with
+ * --cdp-port if you would rather share a session.
+ *
+ * A dev server on 127.0.0.1 or localhost is blocked by default, so the serve is
+ * started with --allow-private-network. Without it every capture fails as an
+ * SSRF block, which reads like a broken page rather than a blocked fetch.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PROBES_JS = path.join(HERE, 'probes.js');
 
-let puppeteer;
-try {
-  puppeteer = (await import('puppeteer')).default;
-} catch {
-  try {
-    puppeteer = (await import('puppeteer-core')).default;
-  } catch {
-    console.error(
-      'Puppeteer is not installed.\n' +
-      '  npm i puppeteer        (bundles Chromium)\n' +
-      '  npm i puppeteer-core   (then pass --executable-path)\n' +
-      'If no browser automation is available at all, say so in the review summary\n' +
-      'and run the static checks only — never imply a page was seen.'
-    );
-    process.exit(1);
-  }
+if (spawnSync('obscura', ['--version'], { stdio: 'ignore' }).error) {
+  console.error(
+    'Obscura is not on PATH.\n' +
+    '  download the aarch64-macos release from\n' +
+    '  https://github.com/h4ckf0r0day/obscura and put it in ~/.local/bin\n' +
+    'If no browser is available at all, say so in the review summary and run the\n' +
+    'static checks only — never imply a page was seen.'
+  );
+  process.exit(1);
 }
 
 // The review matrix. 375 is the true stress test; breakpoint transitions break
@@ -55,7 +54,7 @@ function parseArgs(argv) {
     url: null, out: './review-work', viewports: null, settleMs: 2500,
     dpr: DPR_OVERVIEW, tile: false, states: false, stateSelectors: null,
     motion: false, motionSelector: 'body', motionClass: 'seen',
-    motionFrames: 6, motionInterval: 200, executablePath: null,
+    motionFrames: 6, motionInterval: 200, cdpPort: null,
   };
   for (let i = 2; i < argv.length; i++) {
     const k = argv[i];
@@ -74,7 +73,7 @@ function parseArgs(argv) {
       case '--motion-class': a.motionClass = next(); break;
       case '--motion-frames': a.motionFrames = Number(next()); break;
       case '--motion-interval': a.motionInterval = Number(next()); break;
-      case '--executable-path': a.executablePath = next(); break;
+      case '--cdp-port': a.cdpPort = Number(next()); break;
       default:
         console.error(`Unknown argument: ${k}`);
         process.exit(1);
@@ -87,18 +86,206 @@ function parseArgs(argv) {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const mkdir = p => fs.mkdirSync(p, { recursive: true });
 
+// ---------------------------------------------------------------------------
+// Obscura driver. `obscura serve` speaks Chrome-compatible CDP, so a raw
+// WebSocket is the whole client — no puppeteer, no playwright, no `ws`.
+// ---------------------------------------------------------------------------
+
+async function startObscura(port) {
+  const proc = spawn(
+    'obscura',
+    ['--allow-private-network', 'serve', '--port', String(port), '--quiet'],
+    { stdio: ['ignore', 'ignore', 'pipe'] }
+  );
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline) {
+    try {
+      const r = await fetch(`http://127.0.0.1:${port}/json/version`);
+      if (r.ok) return proc;
+    } catch { /* not up yet */ }
+    await sleep(200);
+  }
+  proc.kill();
+  throw new Error(`obscura serve did not come up on port ${port}`);
+}
+
+async function connect(port) {
+  const version = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
+  const ws = new WebSocket(version.webSocketDebuggerUrl);
+  const pending = new Map();
+  const listeners = [];
+  ws.addEventListener('message', e => {
+    const msg = JSON.parse(e.data);
+    if (msg.id && pending.has(msg.id)) {
+      const { resolve } = pending.get(msg.id);
+      pending.delete(msg.id);
+      resolve(msg);
+    } else if (msg.method) {
+      for (const fn of listeners) fn(msg);
+    }
+  });
+  await new Promise((res, rej) => {
+    ws.addEventListener('open', res);
+    ws.addEventListener('error', rej);
+  });
+
+  let nextId = 0;
+  const send = (method, params = {}, sessionId) => new Promise(resolve => {
+    const id = ++nextId;
+    pending.set(id, { resolve });
+    ws.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
+  });
+
+  return { ws, send, on: fn => listeners.push(fn), close: () => ws.close() };
+}
+
+/**
+ * A page: one Obscura target plus the bookkeeping the review needs from it.
+ *
+ * Obscura does not emit Runtime.consoleAPICalled or Log.entryAdded, so the
+ * console gate is served by a page-side hook installed before navigation. It
+ * records everything the page's own scripts log plus uncaught errors and
+ * rejections. It cannot see browser-emitted subresource failures ("Failed to
+ * load resource … 404") — those come from the network list instead, which is
+ * why both are written out and why a console count alone is never a finding.
+ */
+const CONSOLE_HOOK = `
+(() => {
+  if (window.__drConsole) return;
+  window.__drConsole = [];
+  const push = (type, text) => { try { window.__drConsole.push({ type, text: String(text).slice(0, 500) }); } catch (e) {} };
+  const fmt = v => {
+    if (typeof v === 'string') return v;
+    if (v instanceof Error) return v.stack || v.message;
+    try { return JSON.stringify(v); } catch (e) { return String(v); }
+  };
+  for (const k of ['log', 'info', 'warn', 'error', 'debug']) {
+    const orig = console[k];
+    console[k] = (...a) => { push(k, a.map(fmt).join(' ')); if (orig) orig.apply(console, a); };
+  }
+  addEventListener('error', e => push('pageerror', e.message || e.error));
+  addEventListener('unhandledrejection', e => push('pageerror', e.reason));
+})();`;
+
+async function newPage(cdp, { width, height, dpr }) {
+  const created = await cdp.send('Target.createTarget', { url: 'about:blank' });
+  const targetId = created.result?.targetId;
+  const attached = await cdp.send('Target.attachToTarget', { targetId, flatten: true });
+  const sessionId = attached.result?.sessionId;
+
+  for (const domain of ['Page', 'Runtime', 'Network', 'DOM']) {
+    await cdp.send(`${domain}.enable`, {}, sessionId);
+  }
+
+  // Failed subresources come from the network list, not the console: Obscura
+  // reports an HTTP error as a normal response with a 4xx/5xx status rather
+  // than as Network.loadingFailed.
+  const failed = [];
+  let inflight = 0;
+  let lastActivity = Date.now();
+  cdp.on(msg => {
+    if (msg.sessionId && msg.sessionId !== sessionId) return;
+    if (msg.method === 'Network.requestWillBeSent') { inflight++; lastActivity = Date.now(); }
+    if (msg.method === 'Network.loadingFinished' || msg.method === 'Network.loadingFailed') {
+      inflight = Math.max(0, inflight - 1); lastActivity = Date.now();
+    }
+    if (msg.method === 'Network.loadingFailed') {
+      failed.push({ url: '(unknown)', failure: String(msg.params?.errorText ?? '').slice(0, 200) });
+    }
+    if (msg.method === 'Network.responseReceived') {
+      const r = msg.params?.response ?? {};
+      if (r.status >= 400) {
+        failed.push({ url: String(r.url ?? '').slice(0, 200), failure: `HTTP ${r.status}` });
+      }
+    }
+  });
+
+  await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: CONSOLE_HOOK }, sessionId);
+
+  const page = {
+    targetId,
+    sessionId,
+    failed,
+    async setViewport(w, h, deviceScaleFactor) {
+      await cdp.send('Emulation.setDeviceMetricsOverride',
+        { width: w, height: h, deviceScaleFactor, mobile: w <= 480 }, sessionId);
+    },
+    async goto(url, timeoutMs = 30000) {
+      const r = await cdp.send('Page.navigate', { url }, sessionId);
+      if (r.error) throw new Error(`navigate failed: ${JSON.stringify(r.error)}`);
+      const deadline = Date.now() + timeoutMs;
+      while (Date.now() < deadline) {
+        const state = await page.evaluate('document.readyState');
+        if (state === 'complete' || state === 'interactive') return;
+        await sleep(150);
+      }
+    },
+    async evaluate(expression, { awaitPromise = false } = {}) {
+      const r = await cdp.send('Runtime.evaluate',
+        { expression, returnByValue: true, awaitPromise }, sessionId);
+      if (r.error || r.result?.exceptionDetails) return undefined;
+      return r.result?.result?.value;
+    },
+    async consoleMessages() {
+      const raw = await page.evaluate('JSON.stringify(window.__drConsole || [])');
+      try { return JSON.parse(raw ?? '[]'); } catch { return []; }
+    },
+    networkQuiet(idleMs) { return inflight === 0 && Date.now() - lastActivity > idleMs; },
+    async screenshot(file, { fullPage = false, clip = null } = {}) {
+      let params = { format: 'png' };
+      if (clip) {
+        params.clip = { ...clip, scale: 1 };
+        params.captureBeyondViewport = true;
+      } else if (fullPage) {
+        const m = await cdp.send('Page.getLayoutMetrics', {}, sessionId);
+        const size = m.result?.contentSize ?? m.result?.cssContentSize;
+        if (size) {
+          params.clip = { x: 0, y: 0, width: size.width, height: size.height, scale: 1 };
+          params.captureBeyondViewport = true;
+        }
+      }
+      const r = await cdp.send('Page.captureScreenshot', params, sessionId);
+      const data = r.result?.data;
+      if (!data) return false;
+      fs.writeFileSync(file, Buffer.from(data, 'base64'));
+      return true;
+    },
+    /** Element box in viewport coordinates, or null when the selector misses. */
+    async boxOf(selector) {
+      const raw = await page.evaluate(
+        `(() => { const e = document.querySelector(${JSON.stringify(selector)});
+          if (!e) return null; const r = e.getBoundingClientRect();
+          return JSON.stringify({ x: r.left, y: r.top, width: r.width, height: r.height }); })()`
+      );
+      return raw ? JSON.parse(raw) : null;
+    },
+    async mouseMove(x, y) {
+      await cdp.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y }, sessionId);
+    },
+    async pressKey(key, code, keyCode) {
+      await cdp.send('Input.dispatchKeyEvent',
+        { type: 'keyDown', key, code, windowsVirtualKeyCode: keyCode }, sessionId);
+      await cdp.send('Input.dispatchKeyEvent',
+        { type: 'keyUp', key, code, windowsVirtualKeyCode: keyCode }, sessionId);
+    },
+    async close() { await cdp.send('Target.closeTarget', { targetId }); },
+  };
+
+  await page.setViewport(width, height, dpr);
+  return page;
+}
+
 /**
  * Network idle plus an explicit wait for async renderers. Charts and canvas need
  * 2-4s after idle; a screenshot of a half-rendered chart generates a false
  * finding, which costs more than the wait does.
  */
 async function waitSettled(page, extraMs) {
-  try {
-    await page.waitForNetworkIdle({ idleTime: 500, timeout: 15000 });
-  } catch { /* polling and websockets never go idle — carry on */ }
-  try {
-    await page.evaluate(() => document.fonts && document.fonts.ready);
-  } catch { /* no font API */ }
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline && !page.networkQuiet(500)) {
+    await sleep(150); // polling and websockets never go idle — the deadline ends it
+  }
+  await page.evaluate('document.fonts && document.fonts.ready', { awaitPromise: true });
   await sleep(extraMs);
 }
 
@@ -112,8 +299,7 @@ async function waitSettled(page, extraMs) {
  * so an image probe reports five of eight as broken.
  */
 async function revealPass(page) {
-  try {
-    await page.evaluate(async () => {
+  await page.evaluate(`(async () => {
       const step = Math.max(200, Math.round(window.innerHeight * 0.8));
       const end = document.documentElement.scrollHeight;
       for (let y = 0; y < end; y += step) {
@@ -122,8 +308,7 @@ async function revealPass(page) {
       }
       window.scrollTo(0, 0);
       await new Promise(r => setTimeout(r, 400));
-    });
-  } catch { /* no document — carry on */ }
+    })()`, { awaitPromise: true });
 }
 
 /**
@@ -134,39 +319,29 @@ async function revealPass(page) {
  * run a 400ms-after-scroll axe pass read a `#E85A2A` accent as `#6a2d18` and
  * reported a surface getting worse after a fix that provably removed its
  * failures. Any count above zero invalidates the colour numbers in that row.
+ *
+ * Obscura does not execute CSS animations or transitions, so under it this
+ * returns 0 whatever the page declares. A zero here is therefore the absence of
+ * a signal, not proof of settling — which is exactly why the summary says so
+ * rather than printing a clean row.
  */
 async function proveSettled(page, timeoutMs = 5000) {
-  try {
-    return await page.evaluate(async (timeout) => {
-      const deadline = Date.now() + timeout;
+  const v = await page.evaluate(`(async () => {
+      const deadline = Date.now() + ${timeoutMs};
       const running = () => (document.getAnimations ? document.getAnimations() : [])
         .filter(a => a.playState === 'running');
       while (Date.now() < deadline && running().length) {
         await new Promise(r => setTimeout(r, 100));
       }
       return running().length;
-    }, timeoutMs);
-  } catch { return -1; }
+    })()`, { awaitPromise: true });
+  return typeof v === 'number' ? v : -1;
 }
 
-function attachLogging(page) {
-  const console_ = [];
-  const failed = [];
-  page.on('console', m => console_.push({ type: m.type(), text: m.text().slice(0, 500) }));
-  page.on('pageerror', e => console_.push({ type: 'pageerror', text: String(e).slice(0, 500) }));
-  page.on('requestfailed', r => failed.push({
-    url: r.url().slice(0, 200),
-    failure: (r.failure()?.errorText ?? '').slice(0, 200),
-  }));
-  return { console_, failed };
-}
+async function captureViewport(cdp, url, width, height, out, settleMs, tile, dpr) {
+  const page = await newPage(cdp, { width, height, dpr });
 
-async function captureViewport(browser, url, width, height, out, settleMs, tile, dpr) {
-  const page = await browser.newPage();
-  await page.setViewport({ width, height, deviceScaleFactor: dpr });
-  const { console_, failed } = attachLogging(page);
-
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.goto(url);
   await waitSettled(page, settleMs);
   await revealPass(page);
   const stillRunning = await proveSettled(page);
@@ -174,16 +349,19 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
   const tag = `${width}x${height}`;
   for (const d of ['shots', 'probes', 'console']) mkdir(path.join(out, d));
 
-  await page.screenshot({ path: path.join(out, 'shots', `${tag}-fold.png`) });
-  await page.screenshot({ path: path.join(out, 'shots', `${tag}-full.png`), fullPage: true });
+  await page.screenshot(path.join(out, 'shots', `${tag}-fold.png`));
+  await page.screenshot(path.join(out, 'shots', `${tag}-full.png`), { fullPage: true });
 
-  await page.addScriptTag({ content: fs.readFileSync(PROBES_JS, 'utf8') });
-  const probes = await page.evaluate(() => window.__designReviewProbes.runAll());
+  await page.evaluate(fs.readFileSync(PROBES_JS, 'utf8'));
+  const probes = JSON.parse(
+    await page.evaluate('JSON.stringify(window.__designReviewProbes.runAll())')
+  );
   fs.writeFileSync(path.join(out, 'probes', `${tag}.json`), JSON.stringify(probes, null, 2));
 
+  const console_ = await page.consoleMessages();
   fs.writeFileSync(
     path.join(out, 'console', `${tag}.json`),
-    JSON.stringify({ messages: console_, failedRequests: failed }, null, 2)
+    JSON.stringify({ messages: console_, failedRequests: page.failed }, null, 2)
   );
 
   const tiles = [];
@@ -191,18 +369,18 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
     // Never feed a monolithic full-page scroll to a vision model: extreme aspect
     // ratios hit image-token compression limits. Tile instead.
     mkdir(path.join(out, 'tiles'));
-    const total = await page.evaluate(() => document.documentElement.scrollHeight);
+    const total = await page.evaluate('document.documentElement.scrollHeight');
     let offset = 0, idx = 0;
     while (offset < total && idx < 30) {
-      await page.evaluate(y => window.scrollTo(0, y), offset);
+      await page.evaluate(`window.scrollTo(0, ${offset})`);
       await sleep(220);
       const name = `${tag}-tile-${String(idx).padStart(2, '0')}.png`;
-      await page.screenshot({ path: path.join(out, 'tiles', name) });
+      await page.screenshot(path.join(out, 'tiles', name));
       tiles.push(name);
       offset += height;
       idx += 1;
     }
-    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.evaluate('window.scrollTo(0, 0)');
   }
 
   const errors = console_.filter(m => m.type === 'error' || m.type === 'pageerror');
@@ -211,12 +389,12 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
     dpr,
     shots: { fold: `${tag}-fold.png`, full: `${tag}-full.png` },
     tiles,
-    // Settling proof. Any non-zero value here invalidates every colour number in
-    // this row — do not report them, re-measure.
+    // Settling proof on an engine that runs animations. Obscura does not, so a
+    // zero here means "no signal" — see proveSettled.
     animationsRunningAtMeasure: stillRunning,
     elementsBelowFullOpacity: probes.settled.partiallyTransparentElements,
     consoleErrorCount: errors.length,
-    failedRequestCount: failed.length,
+    failedRequestCount: page.failed.length,
     pageOverflowsHorizontally: probes.overflow.pageOverflowsHorizontally,
     escapingElementCount: probes.overflow.escaping.length,
     // Numerator AND denominator. `contrastFailureCount: 0` on its own cannot be
@@ -248,100 +426,59 @@ async function captureViewport(browser, url, width, height, out, settleMs, tile,
  * Stage interaction states deliberately. Hover contaminates a selected-state
  * capture unless the pointer moves away first, so each state is isolated.
  */
-async function captureStates(browser, url, out, settleMs, selectors) {
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: DPR_DETAIL });
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+async function captureStates(cdp, url, out, settleMs, selectors) {
+  const page = await newPage(cdp, { width: 1280, height: 900, dpr: DPR_DETAIL });
+  await page.goto(url);
   await waitSettled(page, settleMs);
   mkdir(path.join(out, 'states'));
 
   const captured = [];
+  const skipped = [];
   const sels = selectors?.length ? selectors : ['button', 'a[href]', 'input', '[role="button"]'];
 
   for (const sel of sels) {
-    try {
-      const el = await page.$(sel);
-      if (!el) continue;
-      const safe = sel.replace(/[[\]'" ]/g, '_').slice(0, 30);
+    const box = await page.boxOf(sel);
+    if (!box || box.width <= 0 || box.height <= 0) continue;
+    const safe = sel.replace(/[[\]'" ]/g, '_').slice(0, 30);
 
-      await el.scrollIntoView();
-      await page.mouse.move(0, 0);
-      await sleep(150);
-      let name = `${safe}-rest.png`;
-      await el.screenshot({ path: path.join(out, 'states', name) });
-      captured.push(name);
+    await page.evaluate(
+      `document.querySelector(${JSON.stringify(sel)}).scrollIntoView({ block: 'center' })`);
+    await sleep(150);
+    const rest = await page.boxOf(sel);
+    if (!rest) continue;
+    const clip = { x: rest.x, y: rest.y, width: rest.width, height: rest.height };
 
-      await el.hover();
-      await sleep(400); // let the transition finish
-      name = `${safe}-hover.png`;
-      await el.screenshot({ path: path.join(out, 'states', name) });
-      captured.push(name);
-
-      await page.keyboard.press('Tab');
-      await sleep(200);
-      name = `${safe}-focus-page.png`;
-      await page.screenshot({ path: path.join(out, 'states', name) });
-      captured.push(name);
-    } catch { continue; }
-  }
-
-  // Two at-rest checks that catch content which only exists because an
-  // animation ran.
-  try {
-    await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-    await page.reload({ waitUntil: 'domcontentloaded' });
-    await waitSettled(page, settleMs);
-    await page.screenshot({ path: path.join(out, 'states', 'page-reduced-motion.png'), fullPage: true });
-    captured.push('page-reduced-motion.png');
-  } catch { /* feature emulation unsupported */ }
-
-  try {
-    await page.emulateMediaFeatures([]);
-    await page.emulateMediaType('print');
-    await page.reload({ waitUntil: 'domcontentloaded' });
-    await waitSettled(page, settleMs);
-    await page.screenshot({ path: path.join(out, 'states', 'page-print.png'), fullPage: true });
-    captured.push('page-print.png');
-  } catch { /* print emulation unsupported */ }
-  finally {
-    try { await page.emulateMediaType('screen'); } catch { /* ignore */ }
-  }
-
-  await page.close();
-  return captured;
-}
-
-/**
- * Mid-flight frames. Every static check reads the DOM at rest, where an
- * entrance has finished and a transient overlay is invisible. A whole class of
- * defect lives in neither state.
- */
-async function captureMotion(browser, url, out, settleMs, selector, triggerClass, frames, intervalMs) {
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: DPR_DETAIL });
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await waitSettled(page, settleMs);
-  mkdir(path.join(out, 'motion'));
-
-  await page.evaluate(([sel, cls]) => {
-    const el = document.querySelector(sel);
-    if (!el) return false;
-    el.classList.remove(cls);
-    void el.offsetWidth;      // force reflow — this restarts the animation
-    el.classList.add(cls);
-    return true;
-  }, [selector, triggerClass]);
-
-  const captured = [];
-  for (let i = 0; i < frames; i++) {
-    const name = `frame-t${String(i * intervalMs).padStart(3, '0')}.png`;
-    await page.screenshot({ path: path.join(out, 'motion', name) });
+    await page.mouseMove(0, 0);
+    await sleep(150);
+    let name = `${safe}-rest.png`;
+    await page.screenshot(path.join(out, 'states', name), { clip });
     captured.push(name);
-    await sleep(intervalMs);
+
+    await page.mouseMove(rest.x + rest.width / 2, rest.y + rest.height / 2);
+    await sleep(400); // let the transition finish
+    name = `${safe}-hover.png`;
+    await page.screenshot(path.join(out, 'states', name), { clip });
+    captured.push(name);
+
+    await page.pressKey('Tab', 'Tab', 9);
+    await sleep(200);
+    name = `${safe}-focus-page.png`;
+    await page.screenshot(path.join(out, 'states', name));
+    captured.push(name);
   }
 
+  // Reduced motion and print are two at-rest checks that catch content which
+  // only exists because an animation ran. Obscura accepts
+  // Emulation.setEmulatedMedia and then ignores it — matchMedia and the cascade
+  // do not change — so capturing here would write the ordinary rendering under
+  // a name claiming otherwise. Record the gap instead; a review that shows a
+  // screen-media screenshot labelled `page-print.png` is worse than one that
+  // says the check did not run.
+  skipped.push('page-reduced-motion.png (Obscura cannot emulate prefers-reduced-motion)');
+  skipped.push('page-print.png (Obscura cannot emulate print media)');
+
   await page.close();
-  return captured;
+  return { captured, skipped };
 }
 
 async function main() {
@@ -352,6 +489,17 @@ async function main() {
       'WARNING: file:// breaks module scripts, fetches and some fonts. ' +
       'Serve over HTTP instead (python3 -m http.server).'
     );
+  }
+
+  if (args.motion) {
+    console.error(
+      'ERROR: --motion is unavailable under Obscura. It does not execute CSS\n' +
+      'animations or transitions — a declared `animation: fade 3s` never advances\n' +
+      'and document.getAnimations() reports none — so the frames would be N copies\n' +
+      'of one still. Report the motion pass as not performed rather than reading a\n' +
+      'mid-flight defect off identical frames.'
+    );
+    process.exit(1);
   }
 
   const out = path.resolve(args.out);
@@ -365,35 +513,30 @@ async function main() {
       })
     : DEFAULT_VIEWPORTS;
 
-  const manifest = { url: args.url, viewports: [], states: [], motion: [] };
+  const manifest = { url: args.url, viewports: [], states: [], statesSkipped: [], motion: [] };
 
-  const launchOpts = { headless: 'new' };
-  if (args.executablePath) launchOpts.executablePath = args.executablePath;
-  const browser = await puppeteer.launch(launchOpts);
+  const port = args.cdpPort ?? 9200 + Math.floor(Math.random() * 300);
+  const server = args.cdpPort ? null : await startObscura(port);
+  const cdp = await connect(port);
 
   try {
     for (const [w, h] of sizes) {
       console.error(`  capturing ${w}x${h} ...`);
       manifest.viewports.push(
-        await captureViewport(browser, args.url, w, h, out, args.settleMs, args.tile, args.dpr)
+        await captureViewport(cdp, args.url, w, h, out, args.settleMs, args.tile, args.dpr)
       );
     }
 
     if (args.states) {
       console.error('  staging interaction states ...');
       const sels = args.stateSelectors ? args.stateSelectors.split(',').map(s => s.trim()) : [];
-      manifest.states = await captureStates(browser, args.url, out, args.settleMs, sels);
-    }
-
-    if (args.motion) {
-      console.error('  capturing mid-flight frames ...');
-      manifest.motion = await captureMotion(
-        browser, args.url, out, args.settleMs,
-        args.motionSelector, args.motionClass, args.motionFrames, args.motionInterval
-      );
+      const staged = await captureStates(cdp, args.url, out, args.settleMs, sels);
+      manifest.states = staged.captured;
+      manifest.statesSkipped = staged.skipped;
     }
   } finally {
-    await browser.close();
+    cdp.close();
+    if (server) server.kill();
   }
 
   fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify(manifest, null, 2));
@@ -416,12 +559,15 @@ async function main() {
     console.log(`  ${v.viewport.padStart(10)}  ${flags.join(' · ')}`);
   }
 
-  if (manifest.viewports.some(v => v.animationsRunningAtMeasure)) {
-    console.log('\nWARNING: at least one viewport was measured while animations were still');
-    console.log('running. Colour and contrast numbers from those rows are not usable — a');
-    console.log('mid-entrance sample reads a partially-composited colour as a real one.');
-    console.log('Re-run with a longer --settle-ms before reporting any of them.');
+  if (manifest.statesSkipped.length) {
+    console.log('\nNot captured:');
+    for (const s of manifest.statesSkipped) console.log(`  ${s}`);
   }
+
+  console.log('\nObscura does not run CSS animations or transitions, so');
+  console.log('animationsRunningAtMeasure is 0 on every row whatever the page declares.');
+  console.log('That zero is the absence of a signal, not proof the surface had settled —');
+  console.log('any finding that turns on entrance timing needs a different engine.');
 
   const types = manifest.viewports.map(v => v.componentTypeCount).filter(n => n != null);
   if (types.length) {
