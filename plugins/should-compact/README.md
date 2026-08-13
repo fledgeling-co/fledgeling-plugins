@@ -126,6 +126,11 @@ actually binds: if a proxy enforces a lower budget than the model window, that
 budget is the wall, and a gate still reasoning about 1M computes headroom against
 a limit the session can never reach.
 
+Relay currently manages an automatic-compaction minimum of **350,000 tokens**.
+When it supplies `SHOULD_COMPACT_WINDOW_TOKENS`, use that exact value — do not
+round it up or down inside the gate. The supplied value is the real wall, even if
+another integration has a smaller window.
+
 The gate enforces the never-veto-at-the-wall rule independently by reading the
 transcript size, so a scorer that gets it wrong still cannot strand you.
 

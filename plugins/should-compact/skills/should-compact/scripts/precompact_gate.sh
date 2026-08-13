@@ -96,6 +96,8 @@ fi
 # SHOULD_COMPACT_WINDOW_TOKENS defaults to the model window. When a proxy enforces a lower context
 # budget (Relay does), set it to that budget: auto-compaction fires at the enforced wall, so
 # headroom computed against the hardware window is headroom against a wall the session never reaches.
+# Relay's managed floor is currently 350,000 tokens. Do NOT clamp this value here: the caller's exact
+# value is the wall, and inventing a larger wall could veto an already-full smaller-window session.
 headroom_ok=0
 if [ -n "$transcript" ] && [ -r "$transcript" ]; then
   bytes="$(wc -c < "$transcript" 2>/dev/null | tr -d ' ')"
