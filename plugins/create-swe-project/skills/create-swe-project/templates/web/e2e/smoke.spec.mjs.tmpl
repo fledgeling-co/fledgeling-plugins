@@ -1,0 +1,21 @@
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { startStack, connect, newPage } from './harness.mjs';
+
+let stop, cdp;
+
+before(async () => { stop = await startStack(); cdp = await connect(); });
+after(async () => { cdp?.close(); stop?.(); });
+
+// Assert real content, not just "it rendered" (BP §15).
+test('home renders the product name', async () => {
+  const page = await newPage(cdp);
+  try {
+    await page.goto('/');
+    const heading = await page.byRole('heading', '{{DISPLAY}}');
+    assert.ok(heading, 'no heading with the product name was found');
+    assert.equal(heading.visible, true, 'the product-name heading is not visible');
+  } finally {
+    await page.close();
+  }
+});
