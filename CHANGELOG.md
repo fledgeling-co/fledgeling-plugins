@@ -4,6 +4,65 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-13 — the harnesses stop borrowing mechanisms
+
+`goal-harness` and `loop-harness` are now **`better-goal`** and **`better-loop`**. Both were
+hardening layers over `/goal` and `/loop`; both now arm mechanisms they create themselves, and
+neither built-in is load-bearing any more. The rename is not cosmetic — a skill whose whole job
+was "make the built-in survive" is a different thing from one that replaces it.
+
+### goal-harness 1.0.3 → better-goal 2.0.0
+
+- **Changed** the armed mechanism from `/goal`'s prompt Stop hook to a `command` Stop hook the
+  skill writes and registers itself. Gates are judged by exit code rather than by a small model
+  reading the transcript, so "all screens now match the mock" no longer passes.
+- **Added** a stall watcher under `Monitor`. A Stop hook fires when a turn *ends*; a run wedged on
+  a permission prompt never ends one, so nothing was reported. The watcher reads the ledger's
+  timestamp from outside and emits `STALL` when it goes stale, with exponential backoff capped
+  at four hours.
+- **Added** stuck-detection, which is the cost fix on this side. The guard fingerprints the failing
+  set: an identical second failure blocks with the output **withheld** — it is already in the
+  context verbatim — and an identical third disarms the run and says so. `stuck_after` is
+  configurable; a run making progress never reaches it.
+- **Changed** state from a single `.claude/goal-state.json` to per-slug `.claude/goals/<slug>.json`,
+  after two runs in one repo collided over the shared file.
+- **Added** `disarm.sh` restoring the block cap it raised, so teardown is one command rather than a
+  settings edit by hand.
+- **Renamed** `goal-guard.sh` → `guard.sh` and `condition-craft.md` → `gate-craft.md`, which is the
+  same shift in one word: the artifact is a gate that can fail, not a condition to be judged.
+
+### loop-harness 1.0.2 → better-loop 2.0.0
+
+- **Changed** the armed mechanism from a session cron to a `Monitor` running `watch.sh`, which polls
+  a probe command outside the session. Polling costs nothing; only a change wakes anything. No cron
+  means no seven-day expiry, no missed fires while the session is busy, and nothing in settings to
+  clean up.
+- **Added** the known-state register, for the defect that prompted this work: five of twelve of the
+  heaviest measured sessions re-sent the same unmet condition and the same failing tasks turn after
+  turn, re-billing the whole prefix each time, and accounted for 91% of input between them. A state
+  seen before is suppressed and backed off rather than re-reported, and the suppression is written
+  to the ledger so a quiet loop can prove it was working.
+- **Added** three more bounds beside it: a wake budget per rolling hour, a dry-stop after N
+  unchanged polls, and `--stop-when`. A wake now carries **the delta** rather than the whole probe
+  output.
+- **Added** `--tick-cmd`, which dispatches a detached `claude -p` on a change so the session is
+  never woken at all — the cheapest tick available, at the cost of failing quietly.
+- **Added** probe determinism as a blocking preflight check: it runs the probe twice and compares.
+  A probe carrying a timestamp or a PID turns a change-gated watcher back into a cron with extra
+  steps, and nothing else would have caught it.
+- **Added** a wake-to-poll ratio warning to `status.sh`, which is the number that says whether the
+  gate is doing any work.
+
+### Both
+
+- **Rewrote** every reference and script against the current Opus 5 prompting guidance — complete
+  spec up front, no verification scaffolding, an explicit subagent cap, calm trigger language.
+- **Kept** composition with the built-ins where it still helps (`/goal /better-goal …`), and kept
+  back-compatibility with the old state-file layout so a run armed by 1.x still disarms cleanly.
+- **Re-rendered** both banners, which surfaced three obscura gaps now recorded in
+  `banner-src.html`: no file:// sub-resource loads at all, remote web fonts never load, and
+  `obscura fetch` has no viewport flag.
+
 ## 2026-08-11 — measurement pass
 
 A head-to-head against the built-in `/compact`, run two ways: the skill's own 12 eval scenarios

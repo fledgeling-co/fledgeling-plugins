@@ -148,19 +148,19 @@ Drop a short block at the top of a session and Claude spends less without doing 
 
 <br clear="left" />
 
-<a href="plugins/goal-harness/README.md"><img src="plugins/goal-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/better-goal/README.md"><img src="plugins/better-goal/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [goal-harness](plugins/goal-harness/README.md)
+### [better-goal](plugins/better-goal/README.md)
 
-`/goal` looks like it keeps working until the job is done, and it does not: the condition is judged by a small model reading the transcript, so it grades what the run said rather than what is true, and Claude Code overrides the hook after eight consecutive blocks and reports that turn as completed. Nine turns of real work trips it, silently. This grounds the condition in the repo's actual worklist, keeps it inside the 4,000-character limit with a bound and a blocked-item policy, fixes the six settings that end a run without an error, and arms a session-gated guard that decides by exit code and writes a ledger. Built from 114 real goal runs, where the most common follow-up was the word "resume", six times in a row.
+`/goal` looks like it keeps working until the job is done, and it does not: the condition is judged by a small model reading the transcript, so it grades what the run said rather than what is true, and Claude Code overrides the hook after eight consecutive blocks and reports that turn as completed. Nine turns of real work trips it, silently. This arms its own guard instead — a command Stop hook that runs the gates and decides by exit code — plus a watcher outside the turn loop, because a run that dies mid-turn never reaches a Stop hook at all. It also knows when to give up: a gate failing identically turn after turn disarms the run rather than re-sending the same failure at the price of the whole session prefix. Built from 114 real goal runs, where the most common follow-up was the word "resume", six times in a row.
 
 <br clear="left" />
 
-<a href="plugins/loop-harness/README.md"><img src="plugins/loop-harness/assets/icon-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/better-loop/README.md"><img src="plugins/better-loop/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [loop-harness](plugins/loop-harness/README.md)
+### [better-loop](plugins/better-loop/README.md)
 
-A loop can tick on schedule for a full day and accomplish nothing, because since v2.1.196 a scheduled fire hands any skill Claude may not invoke itself to the run as plain text, `/verify` and `/code-review` included, with no error anywhere. The other half is that a dynamic loop has no visible process, so a working one and a dead one look identical. This picks the mechanism before it writes anything (an event monitor usually beats polling, and work with a finish line belongs to goal-harness instead), size-checks `.claude/loop.md` against its 25,000-byte cap, and arms the wake signal with a heartbeat, a renewal reminder before the seven-day expiry, and a ledger you can read without interrupting the run.
+A loop that fires on a clock re-sends the same unmet condition and the same six failing tasks turn after turn, and each fire re-bills the session's whole accumulated prefix — five of twelve heavy sessions did that and accounted for 91% of input between them. Nothing about a smaller context window stops a loop from restarting. So this arms a watcher instead of a schedule: it polls one deterministic probe command in the background, wakes the session only when the answer changes, sends the delta rather than the state, and goes progressively quieter about a failure it has already reported. A quiet system costs nothing at all, and a tick that needs no conversation can run detached, where there is no prefix to pay for.
 
 <br clear="left" />
 
