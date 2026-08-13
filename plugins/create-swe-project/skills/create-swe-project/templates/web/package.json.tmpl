@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsgo --noEmit",
     "test": "echo 'unit tests: add vitest for pure lib/ logic (BP \u00a715)'",
-    "test:e2e": "playwright test"
+    "test:e2e": "node --test e2e/"
   },
   "dependencies": {
     "ai": "catalog:",
@@ -33,7 +33,6 @@
     "eslint": "catalog:",
     "eslint-config-next": "catalog:",
     "typescript": "catalog:",
-    "@typescript/native-preview": "catalog:",
-    "@playwright/test": "latest"
+    "@typescript/native-preview": "catalog:"
   }
 }

@@ -1,0 +1,144 @@
+// The project's own e2e harness — the acceptance-e2e skill builds suites in here.
+// Run: pnpm --filter web test:e2e   (starts the dev server itself)
+//
+// One Obscura CDP session, shared by every spec, plus the dev server. Node's own
+// test runner does the assertions, so there is no test framework to install.
+import { spawn } from 'node:child_process';
+
+export const BASE_URL = process.env.E2E_BASE_URL ?? 'http://localhost:{{PORT_WEB}}';
+const CDP_PORT = Number(process.env.E2E_CDP_PORT ?? 9222);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function waitFor(url, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    try { if ((await fetch(url)).ok) return true; } catch {}
+    await sleep(250);
+  }
+  return false;
+}
+
+/** Dev server + `obscura serve`. --allow-private-network is required: localhost is
+ *  blocked by default and every navigation fails as an SSRF block. */
+export async function startStack() {
+  const procs = [];
+  if (!(await waitFor(BASE_URL, 1000))) {
+    procs.push(spawn('pnpm', ['dev'], { stdio: 'ignore' }));
+    if (!(await waitFor(BASE_URL, 60_000))) throw new Error(`dev server never came up at ${BASE_URL}`);
+  }
+  procs.push(spawn('obscura', ['--allow-private-network', 'serve', '--port', String(CDP_PORT), '--quiet'],
+    { stdio: 'ignore' }));
+  if (!(await waitFor(`http://127.0.0.1:${CDP_PORT}/json/version`, 15_000))) {
+    throw new Error('obscura serve never came up');
+  }
+  return () => { for (const p of procs) p.kill(); };
+}
+
+export async function connect() {
+  const version = await (await fetch(`http://127.0.0.1:${CDP_PORT}/json/version`)).json();
+  const ws = new WebSocket(version.webSocketDebuggerUrl);
+  const pending = new Map();
+  ws.addEventListener('message', (e) => {
+    const m = JSON.parse(e.data);
+    if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
+  });
+  await new Promise((res, rej) => { ws.addEventListener('open', res); ws.addEventListener('error', rej); });
+  let id = 0;
+  const send = (method, params = {}, sessionId) => new Promise((resolve) => {
+    const i = ++id;
+    pending.set(i, resolve);
+    ws.send(JSON.stringify({ id: i, method, params, ...(sessionId ? { sessionId } : {}) }));
+  });
+  return { send, close: () => ws.close() };
+}
+
+/** A page with the handful of verbs a spec needs. Add to it rather than reaching
+ *  for raw CDP in a spec — a spec that speaks protocol is a spec nobody edits. */
+export async function newPage(cdp, { width = 1280, height = 900 } = {}) {
+  const { result: created } = await cdp.send('Target.createTarget', { url: 'about:blank' });
+  const { result: attached } = await cdp.send('Target.attachToTarget',
+    { targetId: created.targetId, flatten: true });
+  const sid = attached.sessionId;
+  for (const d of ['Page', 'Runtime', 'DOM']) await cdp.send(`${d}.enable`, {}, sid);
+  await cdp.send('Emulation.setDeviceMetricsOverride',
+    { width, height, deviceScaleFactor: 1, mobile: width <= 480 }, sid);
+
+  const evaluate = async (expression) => {
+    const r = await cdp.send('Runtime.evaluate',
+      { expression, returnByValue: true, awaitPromise: true }, sid);
+    if (r.result?.exceptionDetails) {
+      throw new Error(r.result.exceptionDetails.exception?.description ?? 'evaluate threw');
+    }
+    return r.result?.result?.value;
+  };
+
+  const page = {
+    evaluate,
+    async goto(path = '/') {
+      await cdp.send('Page.navigate', { url: new URL(path, BASE_URL).href }, sid);
+      const deadline = Date.now() + 30_000;
+      while (Date.now() < deadline) {
+        if (await evaluate('document.readyState') === 'complete') return;
+        await sleep(150);
+      }
+      throw new Error(`navigation to ${path} never completed`);
+    },
+    /** Wait for a selector to exist and be non-empty, then return its trimmed text. */
+    async textOf(selector, timeoutMs = 10_000) {
+      const deadline = Date.now() + timeoutMs;
+      while (Date.now() < deadline) {
+        const text = await evaluate(
+          `(() => { const e = document.querySelector(${JSON.stringify(selector)});
+             return e ? e.textContent.trim() : null; })()`);
+        if (text) return text;
+        await sleep(100);
+      }
+      throw new Error(`selector never produced text: ${selector}`);
+    },
+    /** Accessible-name lookup, so specs assert on roles rather than CSS classes. */
+    async byRole(role, name, timeoutMs = 10_000) {
+      const deadline = Date.now() + timeoutMs;
+      const expr = `(() => {
+        const wanted = ${JSON.stringify(name)};
+        const sel = ${JSON.stringify(ROLE_SELECTORS[role] ?? '*')};
+        for (const e of document.querySelectorAll(sel)) {
+          const label = (e.getAttribute('aria-label') || e.textContent || '').trim();
+          if (label === wanted) { const r = e.getBoundingClientRect();
+            return JSON.stringify({ text: label, visible: r.width > 0 && r.height > 0 }); }
+        }
+        return null; })()`;
+      while (Date.now() < deadline) {
+        const hit = await evaluate(expr);
+        if (hit) return JSON.parse(hit);
+        await sleep(100);
+      }
+      return null;
+    },
+    async click(selector) {
+      await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+    },
+    async fill(selector, value) {
+      await evaluate(`(() => { const e = document.querySelector(${JSON.stringify(selector)});
+        e.value = ${JSON.stringify(value)};
+        e.dispatchEvent(new Event('input', { bubbles: true }));
+        e.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+    },
+    async screenshot(file) {
+      const r = await cdp.send('Page.captureScreenshot', { format: 'png' }, sid);
+      if (r.result?.data) {
+        const { writeFileSync } = await import('node:fs');
+        writeFileSync(file, Buffer.from(r.result.data, 'base64'));
+      }
+    },
+    async close() { await cdp.send('Target.closeTarget', { targetId: created.targetId }); },
+  };
+  return page;
+}
+
+const ROLE_SELECTORS = {
+  heading: 'h1,h2,h3,h4,h5,h6,[role=heading]',
+  button: 'button,[role=button],input[type=submit]',
+  link: 'a[href],[role=link]',
+  textbox: 'input:not([type=submit]),textarea,[role=textbox]',
+};

@@ -457,7 +457,7 @@ fi
   fi
   echo '## Testing'
   echo
-  has_module web && echo '- Web e2e (Playwright): one-time `pnpm --filter web exec playwright install chromium`, then `pnpm --filter web test:e2e`. Build suites with the acceptance-e2e skill.'
+  has_module web && echo '- Web e2e (Obscura + `node --test`): needs `obscura` on PATH (aarch64-macos release from https://github.com/h4ckf0r0day/obscura into ~/.local/bin), then `pnpm --filter web test:e2e`. Build suites with the acceptance-e2e skill.'
   has_module api && echo '- API unit (jest + @swc/jest): `pnpm --filter api test`.'
   has_module rn && echo '- Mobile device E2E (Maestro): `brew install maestro`, app in simulator, then `cd apps/mobile && maestro test .maestro/`.'
   has_module rust && echo '- Rust: `cargo test` at the repo root.'
