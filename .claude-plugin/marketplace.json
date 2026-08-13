@@ -219,7 +219,7 @@
     {
       "name": "proctor",
       "description": "Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Ships with the Proctor MCP server: an unsandboxed launchd agent that reads the accessibility tree and screen contents and actuates through the process-directed plane, so background, occluded and other-Space windows are reachable without stealing focus, plus an embeddable DEBUG reflector that gives apps you own a real computed-style source. Use it when someone asks to test, QA, exercise or find bugs in a Mac app, whether a flow still works, why a test is flaky, or what breaks in dark mode.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

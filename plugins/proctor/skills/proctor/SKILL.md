@@ -1,6 +1,6 @@
 ---
 name: proctor
-description: Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives the Proctor MCP server, which reads the accessibility tree and screen contents and actuates through the process-directed plane, so background, occluded and other-Space windows are all reachable without stealing focus. Use this when someone asks to test, QA, exercise, audit, smoke-test or find bugs in a Mac app, a SwiftUI or AppKit or Catalyst or Electron app, a menu bar app or a preference pane — when they ask whether a Mac app is ready to ship, whether a flow still works, why a test is flaky, or what breaks in dark mode or at a larger text size. Also use it when a macOS UI needs checking against acceptance criteria or a mockup, and when someone wants a Mac app driven end to end by an agent rather than by hand.
+description: Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives the Proctor MCP server, which reads the accessibility tree and screen contents and actuates through the process-directed plane, so background, occluded and other-Space windows are all reachable without stealing focus. Use this when someone asks to test, QA, exercise, audit, smoke-test or find bugs in a Mac app, a SwiftUI or AppKit or Catalyst or Electron app, a menu bar app or a preference pane — when they ask whether a Mac app is ready to ship, whether a flow still works, why a test is flaky, or what breaks in dark mode or at a larger text size. Use it too for the UI/UX design side of a Mac app: checking a rendered UI against acceptance criteria or a mockup, and checking whether it is native and correct — right control sizes, right type ramp, no non-native tells — a design test the platform itself is the answer key for. Also use it when a specific test case or suite needs running against a Mac app, and when someone wants a Mac app driven end to end by an agent rather than by hand.
 ---
 
 # Proctor
@@ -24,6 +24,7 @@ adjacent ground and are better at it:
 |---|---|
 | `acceptance-e2e` | Web features and Playwright suites. Proctor is the native counterpart, not a replacement. |
 | `design-review` | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
+| `mac-design-studio` | The native-conformance rubric when there is no mockup — the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
 | `mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline — present, divergent, absent, with the burden of proof on the build — is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
 | `macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
 
@@ -71,6 +72,15 @@ effect is still a finding, but it is not the same finding.
 Seven stages. Run them in order — each one's output narrows the next — and
 stop early with what you have if the app turns out to be unreachable.
 
+**Two ways in.** When someone hands you a specific test case or a written
+suite, each case is a row: you trace it to the flow and assertion that verify
+it and report it passed, failed or skipped, and coverage is measured against
+that suite. When the ask is open — "is this ready", "find the bugs", "does the
+onboarding still work" — you build the spine yourself from the app's acceptance
+criteria and the sweeps below. Either way the report is organised around a
+matrix of cases to evidence, and a case with no evidence is a visible gap
+rather than a silent one.
+
 ### 1. Exploratory sweep
 
 `proctor_snapshot` the main window, then walk outward: menus via the menu bar,
@@ -85,6 +95,13 @@ under a rich-looking view is usually a custom control that never adopted
 accessibility, and that is both a finding and a limit on what you can test.
 
 ### 2. Acceptance criteria into flows
+
+Build the case-to-evidence matrix first: every acceptance criterion, or every
+case in a suite you were handed, as a row mapped to the flow and the assertion
+that will verify it, each marked covered, partial or gap. Writing it before you
+touch the app is what forces complete coverage and exposes the deferred and the
+backend-only criteria honestly, rather than letting what is easy to click drive
+what gets tested. It is the report's spine.
 
 Turn each criterion into a `proctor_flow` recording. Start one with
 `action: "start"`, then pass its name as `record` on each `proctor_act` call so
@@ -127,7 +144,7 @@ the pass that finds what neither a screenshot review nor a tree dump finds
 alone, because it is looking for the disagreement rather than at either
 source.
 
-### 5. Visual and fidelity
+### 5. Visual fidelity and native conformance
 
 `proctor_capture` each state. Every capture reports its own trustworthiness —
 frame status, content rect, dirty area, frames waited. When `trustworthy` is
@@ -137,6 +154,20 @@ ScreenCaptureKit behaviour rather than a bug in the run. Never treat an
 untrustworthy frame as evidence; capture again with the window raised and say
 that you did.
 
+Two questions live here and they need different oracles. *Does it match the
+design* is the fidelity ledger — and it needs a reference mockup. *Is it a
+correct, native Mac UI* stands on its own and takes the platform as the
+reference: `mac-design-studio`'s `native-foundation.md` is the rubric — the
+macOS 27 control ladder, the 11-role type ramp, the label tiers, the 8pt grid,
+concentric radii and Liquid Glass discipline — and its ten-point native-tells
+audit is the checklist. Measure the rendered tree and the captures against it:
+a control off the size ladder, body text off the 13pt ramp, a floating panel
+with no scroll-edge material, tracked-uppercase labels where the platform uses
+sentence case — each is a conformance defect a mockup-free app still carries,
+and each is a "ui/ux design test" that neither the accessibility pass nor the
+fidelity ledger names. Its essence test — the surface's one question, its
+signature, its worst state's behaviour — is the UX oracle for a flow.
+
 For an app that embeds `ProctorReflector`, `proctor_inspect` returns resolved
 colours, fonts, corner radii, constraints and both layer model and
 presentation values. That is measurement. For an app you do not own there is
@@ -144,8 +175,10 @@ no cross-process computed-style API on macOS, so the ceiling is the
 accessibility tree plus pixels — say so rather than approximating a value you
 cannot read.
 
-Route the question "does this look right" to `design-review`, with your
-captures attached.
+Route the judged question "does this look any good" to `design-review`, with
+your captures attached; route "is this native" to the `mac-design-studio`
+rubric above. The two are complementary — one judges craft, the other judges
+platform fit — and a Mac app can pass one and fail the other.
 
 ### 6. Determinism
 

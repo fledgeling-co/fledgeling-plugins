@@ -308,6 +308,49 @@ area is in scope, and a header the app draws is content.
 
 ---
 
+## Native conformance
+
+The fidelity ledger answers *does the build match its design*. A different
+question sits next to it — *is the build a correct, native Mac app* — and it
+needs no mockup, because the platform is the reference. This is the pass that
+covers "ui/ux design tests" for an app that was never given a design of record,
+and it is where a build that renders cleanly and passes every accessibility
+assertion can still be quietly wrong for macOS.
+
+The rubric is `mac-design-studio`'s `references/native-foundation.md`, and the
+numbers behind it are the macOS 27 UI kit and the HIG in `macosify`'s
+`reference/`. Do not restate them here; read them there and measure against
+them. What Proctor contributes is the measurement: the rendered accessibility
+tree carries roles, frames and font attributes, and the captures carry pixels,
+and both can be checked against the ladder rather than eyeballed.
+
+The conformance defects worth naming, each measurable from the tree or a
+capture:
+
+- **Off the control ladder.** A control whose height is not a kit tier — a
+  27pt push button where the ramp says 21 or 32 — reads as almost-native, which
+  is worse than obviously custom because nobody notices to fix it.
+- **Off the type ramp.** Body text that is not 13pt, a title that lands between
+  two roles. Read the font size from the node where the reflector is present,
+  or measure cap height from a capture where it is not.
+- **The 8pt grid, broken.** Padding and gaps that are not multiples of the grid
+  unit, caught by differencing sibling frames.
+- **Liquid Glass without discipline.** A floating panel or toolbar with no
+  scroll-edge treatment where content meets chrome, or the material used on a
+  surface that is not floating chrome at all.
+- **Non-native tells.** Tracked-uppercase section labels, a full-width busy
+  gradient, a card grid with iOS-sized corner radii — the tropes
+  `mac-design-studio`'s ten-point audit and `design-craft`'s `ai-slop-check`
+  enumerate. Each is a finding phrased in the platform's own vocabulary, which
+  is what makes it actionable.
+
+The judged half of the question — whether the result is *good*, not merely
+conformant — is `design-review`'s, with the captures attached. Conformance is
+measured here; craft is judged there; and an app can pass one while failing the
+other, which is exactly why they are two passes and not one.
+
+---
+
 ## Disclosure requirements
 
 Four things go in the report's methods note. Each exists because a reader who
