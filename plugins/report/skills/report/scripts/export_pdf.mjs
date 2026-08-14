@@ -40,14 +40,51 @@ const args = parseArgs();
 const src = path.resolve(args.file);
 const out = path.resolve(args.out || src.replace(/\.html?$/i, '.pdf'));
 
+// --- which reading -----------------------------------------------------------------------
+// The report ships three registers over one ledger. Exactly one prints, and the PDF stamps
+// which — a document carrying one of three readings with nothing saying which is ambiguous
+// the moment it is forwarded.
+//
+// The register is selected by REWRITING THE SOURCE, not by setting .checked from script.
+// The registers are resolved by a :has(#rd-<name>:checked) selector, and at least one engine
+// in this stack does not re-evaluate :has() when checked is set programmatically — so a
+// scripted toggle silently exports the default register under a different filename. Rewriting
+// cannot fail that way on any engine. The temp file is a sibling so relative assets resolve.
+const READINGS = ['primer', 'brief', 'technical'];
+let printSrc = src, temp = null;
+
+if (args.reading) {
+  if (!READINGS.includes(args.reading)) {
+    console.error(`export_pdf: --reading must be one of ${READINGS.join(', ')}`);
+    process.exit(2);
+  }
+  const html = fs.readFileSync(src, 'utf8');
+  if (!html.includes('id="rd-' + args.reading + '"')) {
+    console.error(`export_pdf: ${path.basename(src)} has no #rd-${args.reading} control`);
+    process.exit(2);
+  }
+  const picked = html
+    .replace(/(<input[^>]*name="reading"[^>]*?)\s+checked/g, '$1')
+    .replace(new RegExp(`(<input[^>]*id="rd-${args.reading}"[^>]*?)(\\s*/?>)`),
+             '$1 checked$2')
+    .replace(/(<html[^>]*\bdata-active-reading=")[^"]*(")/, `$1${args.reading}$2`);
+  temp = path.join(path.dirname(src), `.export-${args.reading}-${path.basename(src)}`);
+  fs.writeFileSync(temp, picked);
+  printSrc = temp;
+}
+
 // Print with reduced motion forced. The static branch is the authored print frame, so this is
 // the composition the report intends to put on paper — not whatever the tween happened to reach.
-const b = await open(src, { settleMs: 2000, reducedMotion: true });
+const b = await open(printSrc, { settleMs: 2000, reducedMotion: true });
 
-let blocks = 0, figures = 0;
+let blocks = 0, figures = 0, reading = null;
 try {
   blocks = await b.ev('document.querySelectorAll(".block").length');
   figures = await b.ev('document.querySelectorAll("figure, .fig").length');
+  // Read the register back off the rendered page rather than trusting the flag: this is the
+  // one check that proves the rewrite actually took.
+  reading = await b.ev(
+    '(document.querySelector(\'input[name="reading"]:checked\')||{}).value || null');
   const r = await b.send('Page.printToPDF', {
     printBackground: true,
     preferCSSPageSize: true,        // honour @page { size: A4 } instead of guessing at letter
@@ -59,6 +96,7 @@ try {
   fs.writeFileSync(out, Buffer.from(r.result.data, 'base64'));
 } finally {
   await b.close();
+  if (temp) { try { fs.unlinkSync(temp); } catch {} }
 }
 
 const rows = [];
@@ -66,6 +104,15 @@ const add = (level, check, detail) => rows.push({ level, check, detail });
 const kb = (fs.statSync(out).size / 1024).toFixed(0);
 
 add('PASS', 'wrote', `${path.relative(process.cwd(), out)} (${kb} KB)`);
+
+if (args.reading) {
+  add(reading === args.reading ? 'PASS' : 'FAIL', 'reading',
+    reading === args.reading
+      ? `${reading} register printed`
+      : `asked for ${args.reading}, the page printed ${reading || 'none'} — the register did not switch`);
+} else if (reading) {
+  add('PASS', 'reading', `${reading} register printed (default)`);
+}
 
 // --- link annotations -------------------------------------------------------------------
 // Uncompressed annot dicts are the common case for this producer. A compressed object stream

@@ -163,18 +163,20 @@ export async function open(file, opts = {}) {
   return { url, ev, send, shot, close, cdpPort, httpPort };
 }
 
-/** <file> [--out path] [--json] */
+/** <file> [--out path] [--reading primer|brief|technical] [--json] */
 export function parseArgs(argv = process.argv.slice(2)) {
-  const out = { file: null, out: null, json: false, rest: [] };
+  const out = { file: null, out: null, reading: null, json: false, rest: [] };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--out') out.out = argv[++i];
+    else if (a === '--reading') out.reading = argv[++i];
     else if (a === '--json') out.json = true;
     else if (!out.file && !a.startsWith('--')) out.file = a;
     else out.rest.push(a);
   }
   if (!out.file) {
-    console.error('usage: node scripts/export_pdf.mjs <report.html> [--out report.pdf] [--json]');
+    console.error('usage: node scripts/export_pdf.mjs <report.html> [--out report.pdf] ' +
+                  '[--reading primer|brief|technical] [--json]');
     process.exit(2);
   }
   return out;

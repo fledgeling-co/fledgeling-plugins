@@ -31,12 +31,20 @@ import json
 import pathlib
 import re
 import sys
+from html.parser import HTMLParser
 
 ERROR, WARN, PASS = "ERROR", "WARN", "PASS"
+
+READINGS = ("primer", "brief", "technical")
 
 # Hosts a self-contained report may legitimately reach for. Everything else is a live
 # dependency on a document meant to outlast whatever is serving it.
 ALLOWED_HOSTS = ("cdnjs.cloudflare.com", "cdn.jsdelivr.net", "unpkg.com")
+
+# Floor for the gap between a text ink box and a vertical rule. The real check measures
+# rendered ink (design-review's probeDividerProximity); this file can only see what was
+# declared, which is why a var() resolves to a warning rather than a pass.
+DIVIDER_FLOOR_PX = 16
 
 
 class Findings:
@@ -180,6 +188,296 @@ def check_citations(html: str, ledger, f: Findings) -> None:
             else:
                 f.ok("inference marking", f"{len(infer)} inference(s) visibly marked")
 
+
+# --------------------------------------------------------------------------- readings
+
+class ReadingScanner(HTMLParser):
+    """Walk the document tracking which readings each citation marker is visible under.
+
+    An element carrying data-reading="brief technical" is visible only in those two, and
+    everything inside it inherits that constraint. An element with no data-reading is
+    visible in all three. So the readings a marker belongs to are the intersection of its
+    own constraint with every ancestor's.
+
+    This is the only way to answer the question that matters: "is each reading, taken
+    alone, still fully cited?" A page can satisfy cite->source globally while its Primer
+    lost every marker during simplification, and nothing about the whole-document check
+    would notice.
+    """
+
+    VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
+            "meta", "param", "source", "track", "wbr"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[tuple[str, frozenset]] = []
+        self.active = frozenset(READINGS)
+        self.cites: dict[str, set[str]] = {r: set() for r in READINGS}
+        self.claims: dict[str, set[str]] = {r: set() for r in READINGS}
+        self.tagged = 0          # elements carrying data-reading at all
+        self.registry: set[str] = set()
+        # One record per element carrying data-claims: which claims it renders, which
+        # readings it renders in, and which of those readings a citation appeared under
+        # inside it. A reading that keeps a claim but drops its marker is the failure
+        # this exists to catch, and "does the page cite anything" cannot see it.
+        self.blocks: list[dict] = []
+        self._open: list[dict] = []
+
+    def _constraint(self, attrs: dict) -> frozenset:
+        raw = attrs.get("data-reading")
+        if raw is None:
+            return self.active
+        named = frozenset(w for w in raw.split() if w in READINGS)
+        self.tagged += 1
+        # An unrecognised value constrains to nothing rather than silently to everything;
+        # a typo'd register should fail loudly, not render in all three.
+        return self.active & named
+
+    def handle_starttag(self, tag, attrs):
+        a = {k: (v or "") for k, v in attrs}
+        here = self._constraint(a)
+
+        if "data-cite" in a:
+            for r in here:
+                self.cites[r].add(a["data-cite"])
+            for blk in self._open:
+                blk["cited"] |= (here & blk["readings"])
+        if "data-claims" in a or "data-claim" in a:
+            ids = (a.get("data-claims") or a.get("data-claim", "")).split()
+            for cid in ids:
+                for r in here:
+                    self.claims[r].add(cid)
+            rec = {"claims": ids, "readings": set(here), "cited": set(), "depth": len(self.stack)}
+            self.blocks.append(rec)
+            self._open.append(rec)
+        if tag == "li" and re.fullmatch(r"r[\w-]+", a.get("id", "")):
+            self.registry.add(a["id"])
+
+        if tag not in self.VOID:
+            self.stack.append((tag, self.active))
+            self.active = here
+
+    def handle_startendtag(self, tag, attrs):
+        a = {k: (v or "") for k, v in attrs}
+        here = self._constraint(a)
+        if "data-cite" in a:
+            for r in here:
+                self.cites[r].add(a["data-cite"])
+            for blk in self._open:
+                blk["cited"] |= (here & blk["readings"])
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                self.active = self.stack[i][1]
+                del self.stack[i:]
+                self._open = [b for b in self._open if b["depth"] < len(self.stack)]
+                return
+
+
+def check_readings(html: str, ledger, f: Findings) -> None:
+    s = ReadingScanner()
+    try:
+        s.feed(html)
+    except Exception as e:                                    # noqa: BLE001
+        f.add(WARN, "readings", f"could not parse the document to check readings: {e}")
+        return
+
+    if not s.tagged:
+        f.add(ERROR, "readings",
+              "no [data-reading] anywhere. The report ships three registers — "
+              "Primer, Brief, Technical — over one ledger; see references/readings.md")
+        return
+
+    # Each reading, alone, must satisfy the same cite<->source contract as the whole page.
+    for r in READINGS:
+        cited = s.cites[r]
+        if not cited:
+            f.add(ERROR, f"cited:{r}",
+                  f"the {r} reading carries no citation markers at all. Simplifying the "
+                  "words never removes the sources")
+            continue
+        missing = sorted(cited - s.registry)
+        if missing:
+            f.add(ERROR, f"cite->source:{r}",
+                  f"{r}: cited but never listed: {', '.join(missing[:6])}")
+        else:
+            f.ok(f"cite->source:{r}", f"{r}: all {len(cited)} markers resolve")
+
+    # A source nobody cites in ANY reading is unused; one cited in only some readings is
+    # fine, because registers legitimately carry different spans.
+    everywhere = set().union(*s.cites.values())
+    unused = sorted(s.registry - everywhere)
+    if unused:
+        f.add(ERROR, "source->cite", f"listed but never cited in any reading: "
+                                     f"{', '.join(unused[:8])}")
+
+    # The default register has to render with no script and no :has() evaluation, which
+    # means one radio is checked in the markup and <html> mirrors it.
+    if not re.search(r'<html[^>]+data-active-reading=', html):
+        f.add(WARN, "readings:default",
+              "no data-active-reading on <html> — print and any second script have "
+              "nothing to read the current register from")
+    checked = re.findall(r'<input[^>]*name="reading"[^>]*\bchecked', html)
+    if len(checked) != 1:
+        f.add(ERROR, "readings:default",
+              f"{len(checked)} reading radios carry `checked` in the markup; exactly one "
+              "must, or the document has no register with JavaScript off")
+
+    if ledger:
+        claims = ledger["claims"]
+        by_id = {str(c.get("id")): c for c in claims}
+
+        # A claim that needs a source needs its marker SOMEWHERE in every register it
+        # renders in — not in every block that mentions it. A stat row repeating a claim
+        # id is supporting furniture; requiring a marker there would report a defect on
+        # a page that cites the claim perfectly well two blocks earlier.
+        #
+        # An inference cites the claims it rests on rather than a source, so it is
+        # exempt; a direct claim with no sources already failed the ledger check above.
+        renders: dict[tuple[str, str], bool] = {}
+        for blk in s.blocks:
+            for cid in blk["claims"]:
+                c = by_id.get(cid, {})
+                if c.get("kind") != "direct" or not c.get("sources"):
+                    continue
+                for r in blk["readings"]:
+                    renders[(cid, r)] = renders.get((cid, r), False) or (r in blk["cited"])
+
+        uncited = sorted(f"{cid} in {r}" for (cid, r), ok_ in renders.items() if not ok_)
+        if uncited:
+            f.add(ERROR, "cited:per-claim",
+                  "claim(s) rendered in a reading that never cites them: "
+                  + "; ".join(uncited[:6])
+                  + ". Simplifying the words never removes the source")
+        elif renders:
+            f.ok("cited:per-claim",
+                 f"{len(renders)} claim/reading pair(s) each carry a marker")
+
+        for c in claims:
+            cid, rd = str(c.get("id")), c.get("readings") or {}
+            omit = set(c.get("omit") or [])
+            missing = [r for r in READINGS if r not in rd and r not in omit]
+            if missing:
+                f.add(ERROR, "ledger:readings",
+                      f"claim {cid} has no wording for {', '.join(missing)} and does not "
+                      "omit them. A register with a silent gap is a different document")
+            if omit and not c.get("omitReason"):
+                f.add(ERROR, "ledger:readings",
+                      f"claim {cid} omits {', '.join(sorted(omit))} with no omitReason")
+            # The finding and the ask are the two claims no register may drop.
+            if omit and c.get("role") in ("finding", "ask"):
+                f.add(ERROR, "ledger:readings",
+                      f"claim {cid} is the {c['role']} and may not be omitted from any "
+                      "reading — a register without the conclusion is a different report")
+        if not any(c.get("readings") for c in claims):
+            f.add(WARN, "ledger:readings",
+                  "no claim carries a `readings` object; the three registers were written "
+                  "into the page rather than derived from the ledger")
+        else:
+            f.ok("ledger:readings", f"{sum(1 for c in claims if c.get('readings'))} of "
+                                    f"{len(claims)} claims carry all three wordings")
+
+
+# --------------------------------------------------------------------------- dividers
+
+def check_dividers(html: str, f: Findings) -> None:
+    """A vertical rule is drawn in a gap, never beside words.
+
+    Source-level only, and deliberately modest about it: the gap a reader perceives runs
+    from the text INK to the line, and the padding declared here belongs to a different
+    element from the one painting the border. design-review's probeDividerProximity
+    measures the rendered ink and is the real gate. What this catches is the cheap,
+    common form — a divider declared with no gutter on that side at all.
+    """
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", html, re.S))
+    if not css:
+        return
+    # Strip comments first, or their prose is parsed as a selector and reported as one.
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+
+    findings, unresolved, ok = [], [], 0
+    for block in re.finditer(r"([^{}]+)\{([^{}]*)\}", css):
+        sel, body = block.group(1).strip(), block.group(2)
+        if sel.startswith("@") or not sel:
+            continue
+        for side in ("left", "right"):
+            m = re.search(rf"border-{side}\s*:\s*([^;]+)", body)
+            if not m:
+                continue
+            decl = m.group(1).strip()
+            if re.match(r"^(0|none|hidden)\b", decl) or "transparent" in decl:
+                continue
+            pad = re.search(rf"padding-{side}\s*:\s*([^;]+)", body) \
+                or re.search(r"padding-inline\s*:\s*([^;]+)", body) \
+                or re.search(r"padding\s*:\s*([^;]+)", body)
+            if not pad:
+                findings.append(f"{sel} sets border-{side} with no padding-{side}")
+                continue
+            px = re.match(r"^\s*(\d+(?:\.\d+)?)px", pad.group(1))
+            if px:
+                if float(px.group(1)) < DIVIDER_FLOOR_PX:
+                    findings.append(
+                        f"{sel} sets border-{side} with padding-{side}: {px.group(1)}px "
+                        f"(floor is {DIVIDER_FLOOR_PX}px)")
+                else:
+                    ok += 1
+            else:
+                unresolved.append(f"{sel} (border-{side}, padding is {pad.group(1).strip()})")
+
+    if findings:
+        f.add(ERROR, "divider gutter",
+              f"{len(findings)} rule(s) draw a vertical line with no gap beside it: "
+              + "; ".join(findings[:4]))
+    if unresolved:
+        f.add(WARN, "divider gutter",
+              f"{len(unresolved)} divider(s) whose gutter is a variable and cannot be "
+              "resolved here — confirm with design-review's ink measurement: "
+              + "; ".join(unresolved[:3]))
+    if ok and not findings:
+        f.ok("divider gutter", f"{ok} divider(s) declare a gutter at or above the floor")
+
+
+# --------------------------------------------------------------------------- theme
+
+def check_theme(html: str, f: Findings) -> None:
+    """Light and dark both ship, and print is always light.
+
+    The failure this catches is specific and renders as black on black: a token whose
+    ONLY definition sits inside a dark block is undefined when the print rules land, and
+    the PDF is the artifact nobody previews before sending.
+    """
+    has_dark = "prefers-color-scheme: dark" in html or '[data-theme="dark"]' in html
+    if not has_dark:
+        f.add(ERROR, "theme", "no dark rendering — both themes ship")
+        return
+
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", html, re.S))
+    root = re.search(r":root\s*\{([^}]*)\}", css)
+    base = set(re.findall(r"(--[\w-]+)\s*:", root.group(1))) if root else set()
+
+    dark_only = set()
+    for m in re.finditer(r"(?:prefers-color-scheme:\s*dark|\[data-theme=\"dark\"\])[^{]*\{(.*?)\}\s*\}?",
+                         css, re.S):
+        dark_only |= set(re.findall(r"(--[\w-]+)\s*:", m.group(1)))
+    orphan = sorted(dark_only - base)
+    if orphan:
+        f.add(ERROR, "theme:tokens",
+              f"token(s) defined only in a dark block: {', '.join(orphan[:6])}. "
+              "They are undefined in print, which renders as ink on ink")
+    else:
+        # Say so on success too. A check that only ever speaks when it fails is
+        # indistinguishable from a check that never ran.
+        f.ok("theme", f"light defined unconditionally, {len(dark_only)} token(s) overridden in dark")
+
+    if "@media print" in html:
+        printed = re.search(r"@media\s+print\s*\{(.*)", css, re.S)
+        if printed and not re.search(r":root[^{]*\{[^}]*--", printed.group(1)):
+            f.add(WARN, "theme:print",
+                  "the print block does not re-declare the light tokens. A reader in dark "
+                  "mode prints dark token values onto a white sheet")
+        else:
+            f.ok("theme:print", "print re-declares the light tokens")
 
 # --------------------------------------------------------------------------- print
 
@@ -327,6 +625,9 @@ def check_conclusion_first(html: str, f: Findings) -> None:
 def audit_file(path: pathlib.Path, ledger, f: Findings, *, full: bool) -> None:
     html = path.read_text(errors="ignore")
     check_citations(html, ledger if full else None, f)
+    check_readings(html, ledger if full else None, f)
+    check_dividers(html, f)
+    check_theme(html, f)
     check_print(html, f)
     check_motion(html, f)
     check_self_contained(path, html, f)
