@@ -67,6 +67,7 @@ const GROUP_OF = {
   "whats-left": "research",
   "ship-armada": "orchestration",
   "armada-sync": "orchestration",
+  "anvil-errand": "orchestration",
   "mac-doctor": "machine",
 };
 

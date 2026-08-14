@@ -25,7 +25,7 @@
       "id": "orchestration",
       "label": "Orchestration",
       "blurb": "More than one repo, more than one runner.",
-      "count": 2
+      "count": 3
     },
     {
       "id": "machine",
@@ -732,6 +732,40 @@
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/proctor/EVALS.md",
         "scripts": false,
         "references": 3
+      },
+      "neighbours": []
+    },
+    {
+      "name": "anvil-errand",
+      "version": "0.1.0",
+      "group": "orchestration",
+      "description": "Send a Claude Code agent to work in a container on another machine through Anvil, using the single `anvil errand` verb, and read its refusals correctly when a piece of the path is missing. Covers the whole loop — check the preconditions, start the errand, watch it, stop it — and translates each stable refusal kind (errand_no_node, node_unreachable, image_absent, image_unverified, errand_ticket_unavailable, errand_proxy_unreachable) into the one next step that clears it. Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.md in the anvil repo, which stays the source of record.",
+      "trigger": "Send a Claude Code agent to work in a container on another machine through Anvil, using the single `anvil errand` verb, and read its refusals correctly when a piece of the path is missing. Covers the whole loop — check the preconditions, start the errand, watch it, stop it — and translates each stable refusal kind (errand_no_node, node_unreachable, image_absent, image_unverified, errand_ticket_unavailable, errand_proxy_unreachable) into the one next step that clears it. Use when someone wants to run an agent on their node, spare PC, or second machine rather than on this Mac — \"run an errand\", \"send this to the node\", \"run Claude Code on the other machine\", \"offload this to the PC\", \"why was my errand refused\", \"anvil errand says image_absent\". Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.md in the anvil repo, which stays the source of record.",
+      "blurb": "One verb for work that belongs on another machine. `anvil errand` sends a Claude Code agent into a container on your node or spare PC and, before anything starts, asks whether every piece of the path is actually there: a node, a link to it, the image, the credential, the proxy. It reports the first blocker in that order and only the first, because a list assembled past the first failure carries entries nobody measured; the image lives on the node, so asking about it before the link is up returns an answer about the link wearing the image's words. Each of the six refusal kinds is a stable identifier carrying the one next step that clears it, and `--check` runs the whole preflight while changing nothing. The failure it removes isn't the errand not working; it's finding the missing piece halfway through a container start, from a symptom that points somewhere else. After that it's the ordinary job verbs, and `anvil attach` is read-only on purpose: the container starts detached, so PID 1's stdin is at EOF from the first instant. It provisions nothing, deliberately; standing up the node, engine, image, pairing and proxy from scratch is the runbook in the anvil repo, which stays the source of record. Worth knowing before you lean on it: `--check` passing is not the errand working, and the verb has not yet been driven against a live node from the gate.",
+      "readme": "Send a Claude Code agent to work in a container on a machine that is not this\none, through [Anvil](https://github.com/lprhodes/anvil), and read the refusal\ncorrectly when it cannot.\n\n## What it is for\n\nAnvil can run an agent on a paired node — a spare PC, a second Mac, a WSL2\ndistro on a Windows box. Every piece of that path was built and proved on real\nhardware separately: a workload running on the node, the Mac app watching one,\na real provider call going out through the credential-holding proxy.\n\nWhat was missing was one name for them. `anvil errand` is that name, and this\nskill is the human-facing side of it.\n\n```bash\nanvil errand --check                    # can this work? changes nothing\nanvil errand -p \"review /work and list the three worst bugs\"\n```\n\n## The part that earns its keep\n\nNot starting the errand — reading the refusal.\n\nThe verb asks whether every piece is in place *before* anything starts, and\nwhen one is missing it answers with a stable identifier rather than a symptom.\n`errand_no_node` and `node_unreachable` are different facts with opposite next\nsteps; so are `image_absent` and `image_unverified`, and telling someone to\nbuild an image they already have is exactly the nearest-fit failure that split\nexists to prevent.\n\nThe skill carries the table that turns each kind into the one step that clears\nit, plus the two refusals from further down the path whose cause is usually not\nwhat they first look like.\n\n## What it deliberately does not do\n\nIt starts nothing on your behalf — not the proxy, not a pairing, not a\nprovision, not an install. It reports what is missing and stops, because\nsetting the path up has real consequences on someone else's machine.\n\nWhen a precondition fails nothing is started: no container, and no idempotency\nkey spent, so re-running after the fix is a clean first attempt.\n\n## Where the recipe lives\n\n`docs/ERRAND_RUNBOOK.md`, in the anvil repo. That is the source of record for\nprovisioning, it carries the evidence behind each of its claims, and this skill\ndoes not replace or reproduce it — a second copy of a recipe drifts, and the\none everybody cites ends up being the stale one.\n\nUse this skill for the verb and its refusals. Send anyone provisioning a\nmachine to the runbook.\n\n## Status\n\nVersion 0.1.0. Shipped alongside the `anvil errand` verb (ANV-0365).\n\nThis plugin carries no icon, banner or eval suite yet — the pieces of the\nstandard `create-skill` brand treatment that need a human-chosen concept, or\nthat spend money, were left for a later pass rather than guessed at. The\nsubstance — the SKILL.md, checked line by line against the verb's actual\nbehaviour — is complete.",
+      "license": "MIT",
+      "keywords": [],
+      "allowedTools": null,
+      "boundary": {
+        "text": "Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.",
+        "referrals": []
+      },
+      "examplePrompts": [
+        "run an errand",
+        "send this to the node",
+        "run Claude Code on the other machine",
+        "offload this to the PC",
+        "why was my errand refused",
+        "anvil errand says image_absent"
+      ],
+      "icon": "/icons/anvil-errand.png",
+      "install": "/plugin install anvil-errand@fledgeling-plugins",
+      "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/anvil-errand",
+      "signals": {
+        "evals": false,
+        "evalsUrl": null,
+        "scripts": false,
+        "references": 0
       },
       "neighbours": []
     }
