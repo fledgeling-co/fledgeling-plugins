@@ -1,10 +1,36 @@
-# The eleven tools
+# The tools
 
 Every argument name, default and enum below comes from the server's tool
 catalogue. An argument absent from this page is absent from the schema — the
 server rejects unknown keys rather than ignoring them, so a guessed argument
 fails the call. All example values are **illustrative**: plausible shapes, not
 captured runs.
+
+## What gets advertised, and what it costs
+
+The server ships **19 tools** and advertises a subset chosen by the shim's
+`--profile` flag. The catalogue is re-sent on every turn and survives context
+compaction, so it is a standing cost paid before any work happens:
+
+| Profile | Tools | Roughly |
+|---|---|---|
+| `core` | `apps` `snapshot` `find` `act` `capture` `zoom` `wait` `assert` `menu` `doctor` | 6.8k tokens |
+| `scripting` | core + `flow` `stability` `dictionary` `policy` | — |
+| `full` | all 19 | 11.3k tokens |
+
+`core` is the ten that actually drive a Mac and is the right default. Widen only
+when the campaign genuinely needs flows, determinism runs, policy, `kill`, or
+the CUA adapters.
+
+This page documents the tools a campaign uses directly. Six more exist and are
+named here rather than specified, because their schemas belong to the profiles
+that advertise them: `proctor_flow` and `proctor_stability` (documented below),
+`proctor_policy` and `proctor_kill` (the policy gate and process control),
+`proctor_dictionary` and `proctor_unlock` (scripting-dictionary introspection
+and the unlock path), and `proctor_computer` / `proctor_openai_computer` (the
+CUA schema façades, which exist so a model trained on Anthropic's or OpenAI's
+computer-use schema can drive Proctor without translation). Read the live
+catalogue for their arguments rather than guessing.
 
 ## `proctor_doctor`
 
@@ -43,12 +69,13 @@ What is under test, and handles that keep resolving for the rest of the run.
 
 | Argument | Type | Default | Notes |
 |---|---|---|---|
-| `action` | `list` \| `attach` \| `detach` | — | Required. |
+| `action` | `list` \| `attach` \| `activate` \| `detach` | — | Required. |
 | `bundleId` | string | — | e.g. `com.apple.TextEdit`. |
 | `pid` | integer | — | When the bundle identifier is ambiguous or absent. |
 | `name` | string | — | Localised app name, matched case-insensitively. |
-| `app` | string | — | An existing app handle, for `detach`. |
+| `app` | string | — | An existing app handle, for `detach` or `activate`. |
 | `includeWindowless` | boolean | false | Include background apps with no windows. |
+| `timeoutMs` | integer | 5000 | `activate` only: how long to wait for a window to appear. |
 
 Returns app handles (`id`, `pid`, `bundleId`, `name`), window handles (`id`,
 `app`, `title`, `frame`, `isMain`, `isMinimized`, `isOnActiveSpace`,
@@ -64,6 +91,15 @@ the server re-walked; that is the normal Chromium and Electron path.
 `attach` starts retaining element references, and a retained reference is the
 only thing that keeps resolving after its window moves to another Space.
 Attaching twice discards the first set, so attach once and carry the handles.
+
+**`activate` is the answer to `"windows": []`.** Every actuating tool resolves a
+window handle first, so an app whose windows are all closed cannot be driven —
+and the menu item that would reopen one cannot be reached without the window it
+creates. `activate` launches or reopens the app the way a Dock click does, waits
+for a window, attaches, and returns the handles. An attach that comes back with
+an empty `windows` array is the signal; reach for `activate` rather than
+concluding the app is unreachable. It goes through the same policy gate and
+audit trail as driving the app.
 
 ```jsonc
 { "action": "attach", "bundleId": "com.example.Ledger" }
@@ -165,6 +201,7 @@ honesty recorded.
 | `foreground` | boolean | false | Activate the app first. Required for synthetic-event kinds. |
 | `captureEach` | boolean | false | Capture a frame after every step. |
 | `diffEach` | boolean | true | Return a tree diff after every step. |
+| `pointerMarks` | boolean | false | With `captureEach`, composite a marker at each step's target onto that step's frame, as a marked sibling PNG. |
 | `record` | string | — | Append these steps to the named flow as they run. |
 
 Step fields: `kind` (required), `node`, `value`, `menuPath`, `text`, `key`,
@@ -186,6 +223,18 @@ Returns `window`, `steps[]`, `completed`, `failedAt`, `finalHash`; each step
 result carries `index`, the submitted `step`, `ok`, `plane`, `error`, a
 `SettleReport`, `stateHash`, `diff`, `elapsedMs`. On failure the batch stops, so
 you get the state at the point of failure rather than a cascade.
+
+**`diffEach` is the argument that will blow your tool result.** It defaults to
+true, and on a rich Electron or Chromium tree a per-step diff of several hundred
+nodes across a six-step batch overruns the result limit and gets spilled to a
+file you then have to read back. Pass `diffEach: false` whenever you are driving
+a browser-shaped app and do not need the per-step delta; `stateHash` still tells
+you whether anything changed, and `proctor_snapshot` with `sinceRevision` gives
+you the diff on demand when it matters.
+
+`pointerMarks` annotates the point each step *acted on*, which is not the same
+claim as a cursor: Proctor does not move the system pointer, and the marker is
+composited into the evidence rather than photographed from the screen.
 
 **Over its neighbour:** batch aggressively. Six steps in one call settle six
 times regardless, so splitting them buys six round trips and six chances to
@@ -221,27 +270,55 @@ stale one.
 | Argument | Type | Default | Notes |
 |---|---|---|---|
 | `window` | string | — | Required. |
-| `path` | string | session temp dir | Where to write the PNG. |
+| `path` | string | session temp dir | Where to write the image. |
 | `waitForComplete` | boolean | true | Pull frames until one is `.complete` or the timeout expires. |
 | `timeoutMs` | integer | 3000 | |
 | `scale` | number | display backing scale | |
+| `format` | enum | `png` | `png` or `jpeg`. |
+| `quality` | integer | 90 | 60–100. Ignored for PNG. |
+| `normalize` | boolean | true | Fit the frame to the vision ceiling and report the exact scale. |
+| `normalizeMaxLongEdge` | integer | 1568 | Long-edge ceiling in pixels. |
+| `normalizeMaxPixels` | integer | 1150000 | Total-pixel ceiling. |
+| `annotate` | boolean | false | Burn numbered marks over interactable elements and return the mark→node map. |
+| `annotateAll` | boolean | false | Mark every element carrying a frame. Implies `annotate`. |
+| `maxMarks` | integer | 150 | Overflow is dropped in reading order and reported as `truncated`. |
+| `grid` | boolean | false | Overlay reference grid lines. Independent of `annotate`. |
+| `gridSpacing` | number | 100 | Points between grid lines. |
 | `tileHashes` | boolean | false | Per-tile perceptual hashes, for determinism comparison. |
 | `includeCursor` | boolean | false | A cursor in the frame is a source of false diffs. |
 
 Returns `path`, `width`, `height`, `scale`, `status` (`complete` \| `idle` \|
 `blank` \| `suspended` \| `stopped` \| `unknown`), `contentRect`,
 `dirtyRectCount`, `dirtyArea` (0–1), `capturedAt`, `framesWaited`,
-`trustworthy`, `caveat`, and `tileHashes` when requested. The filter is
-window-scoped, so the image holds that window and not what is on top of it,
-which is what makes an occluded window capturable. Bytes are never inline.
+`trustworthy`, `caveat`, `normalization`, `annotation` when marks were drawn,
+and `tileHashes` when requested. The filter is window-scoped, so the image holds
+that window and not what is on top of it, which is what makes an occluded window
+capturable. Bytes are never inline.
+
+**Normalisation is on by default and you must map coordinates back through it.**
+An oversized frame gets downsampled by the vision API anyway; the only question
+was whether that happens where the factor is measured and reported or where it
+is invisible. `normalization.scale` carries the exact factor, so a coordinate
+returned by a model maps to the real screen with `native = normalised / scale`.
+Pass `normalize: false` when you want native pixels for a pixel-plane assertion,
+or set the two ceilings to a provider's tile grid (768 for Gemini, where
+crossing a tile boundary by a few pixels can double the token cost).
+
+**PNG is the default because it is what keeps small UI text readable.** On a
+3456x2234 retina capture normalised to the vision ceiling, macOS Vision OCR
+recovered 94% of the native-resolution words from PNG, 91% at JPEG q85 and 78%
+at q50 — and the count of words misread as a *different real word*, which a
+model will act on rather than flag, rose from 11 to 20 to 66. Treat JPEG as a
+way to archive many frames, not a way to read a UI.
 
 **Over its neighbour:** `capture` answers "what does it look like"; `inspect`
-answers "what are the values". For an app embedding `ProctorReflector` a colour
-question goes to `inspect`, because a colour sampled from a PNG has been through
-the compositor, the display profile and any scaling, and is not the number the
-developer wrote. For an app you do not own there is no such source — a limit to
-state, not a number to approximate. Use `tileHashes` when you intend to compare
-two captures rather than look at one.
+answers "what are the values"; `zoom` answers "what does that small thing say".
+For an app embedding `ProctorReflector` a colour question goes to `inspect`,
+because a colour sampled from a PNG has been through the compositor, the display
+profile and any scaling, and is not the number the developer wrote. For an app
+you do not own there is no such source — a limit to state, not a number to
+approximate. Use `tileHashes` when you intend to compare two captures rather
+than look at one.
 
 ```jsonc
 { "window":"win:17301:0", "path":"/tmp/proctor/dark-empty.png", "tileHashes":true }
@@ -250,7 +327,74 @@ two captures rather than look at one.
 //     "trustworthy":true,"caveat":null,"tileHashes":["9f31…","0ab7…"] }
 ```
 
+## `proctor_zoom`
+
+A native-resolution crop of one region or one element, for reading small text or
+fine detail a whole-window capture loses.
+
+| Argument | Type | Default | Notes |
+|---|---|---|---|
+| `window` | string | — | Required. |
+| `region` | `[x,y,w,h]` | — | Points from the window's top-left. Supply this or `node`. |
+| `node` | string | — | A node id from `find`; its frame is resolved and cropped. |
+| `padding` | number | 0 | Context points added on every side. |
+| `scale` | number | display backing scale | Defaults to native, which is the point. |
+| `format` | enum | `png` | PNG is what makes small text readable. |
+| `quality` | integer | 90 | Ignored for PNG. |
+| `waitForComplete` | boolean | true | |
+| `timeoutMs` | integer | 3000 | |
+| `path` | string | session temp dir | |
+
+**Why this exists.** `capture` normalises to the vision ceiling by default, and
+the pixels a label, glyph or numeric field is written in do not survive that
+downscale. `zoom` restores them without shipping a full 2x screenshot.
+Published benchmarks put the gain large: iterative crop-and-zoom lifts GUI
+grounding accuracy on high-resolution desktop software from roughly 19% to
+48–73%. Aim for a region around 1000px on its long edge; much smaller and the
+surrounding context that disambiguates the target is gone too. The compose path
+is **find → zoom → assert**.
+
+The crop is cut from a native-scale window capture, so it carries that capture's
+freshness metadata unchanged: check `trustworthy` and `caveat` exactly as with
+`capture`. The descriptor names the pixel rect actually cut, whether it was
+clamped to the window, and the path to the un-cropped image. Reading the text is
+left to you; this restores the pixels, it does not OCR them.
+
+```jsonc
+{ "window":"win:17301:0", "node":"n:882", "padding":24 }
+// → { "path":"/tmp/proctor/zoom-882.png","pixelRect":{"x":248,"y":712,"w":416,"h":96},
+//     "clamped":false,"trustworthy":true,"fullPath":"/tmp/proctor/zoom-882.full.png" }
+```
+
+## `proctor_menu`
+
+The application's whole menu bar, with each item's path, enabled state, and the
+keyboard shortcut reconstructed from its accessibility attributes.
+
+| Argument | Type | Default | Notes |
+|---|---|---|---|
+| `app` | string | — | An app handle. Supply this or `window`. |
+| `window` | string | — | A window handle; its owning application's menu bar is read. |
+
+**Why the shortcut matters.** Walking `AXMenuBar` to a submenu item is slow,
+focus-sensitive and brittle across localisations. Each item carries its shortcut
+two ways: the normalised string (`cmd+shift+n`) and a `key` plus `modifiers`
+pair in exactly the shape `proctor_act`'s `key` step reads, so an item can be
+invoked straight from this enumeration.
+
+Note the plane difference. A `key` step is a synthetic event and needs the app
+frontmost; a `menu` step with the `menuPath` this tool returns actuates the same
+command through the accessibility plane without stealing focus. Both routes come
+from the one walk, and the background-safe one is usually the one you want.
+
+This is a pure accessibility read: no synthetic events, no permission beyond the
+Accessibility grant, and it reaches a background or other-Space app. macOS
+builds some submenus only when they are opened; such a submenu is reported as a
+single item with `submenuPopulated: false` rather than fabricating contents that
+were never read. Open it with a `menu` or `press` step and re-read to see inside.
+
 ## `proctor_wait`
+
 
 Blocking on something nameable, when "the UI stopped moving" is not the thing
 you are waiting for.

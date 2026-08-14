@@ -4,6 +4,47 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-14 — proctor catches up with its own MCP server
+
+### proctor 0.2.0 → 0.3.0
+
+The skill described an eleven-tool server that now ships nineteen, and it was missing every
+capability added since it was written. This is the catch-up pass, plus the operational traps that
+cost real time in a live campaign.
+
+- **Added** `proctor_zoom` and the reason to reach for it. `proctor_capture` normalises to the
+  vision ceiling by default, and the pixels a label or a numeric field is written in do not survive
+  that downscale, so a whole-window capture is the wrong instrument for "what does that say".
+  Iterative crop-and-zoom lifts GUI grounding accuracy on high-resolution desktop software from
+  roughly 19% to 48-73%; the compose path is find → zoom → assert.
+- **Added** `proctor_menu`: the whole menu bar in one accessibility read, reaching a background or
+  other-Space app, with each item carrying both the `menuPath` that actuates on the accessibility
+  plane and the `key` plus `modifiers` pair a synthetic shortcut needs.
+- **Added** capture normalisation and formats. `normalization.scale` is the factor to map a
+  coordinate back with (`native = normalised / scale`), and PNG stays the default because OCR
+  recovered 94% of words from PNG against 78% at JPEG q50, with words misread as a *different real
+  word* rising sixfold.
+- **Added** `proctor_apps action: "activate"`, and named the symptom it answers. An attach returning
+  an empty `windows` array reads as an unreachable app and usually means every window is closed;
+  activate is the only way in, because the menu item that would reopen a window cannot be reached
+  without the window it creates.
+- **Added** the `--profile` cost table. The catalogue is re-sent every turn and survives compaction,
+  so `core` at ~6.8k against `full` at ~11.3k is a standing cost paid before any work happens.
+- **Added** a section on the cursor overlay, which draws the cause of what a run is doing. Three
+  things matter to a campaign: it never appears in a capture (window-scoped, so it cannot move a
+  state hash), `PROCTOR_CURSOR=0` turns it off, and it draws one panel per display because a panel
+  spanning the union of several is accepted by the window server, reported onscreen with alpha 1,
+  and never presented.
+- **Added** "Traps that cost real time", each of which has cost an hour somewhere. The sharpest:
+  an accessibility press on an Electron outline row selects it, reports `ok: true`, sets focused and
+  selected, and does not navigate — Slack, VS Code and Discord all do this, and the fix is a
+  synthetic click with `foreground: true`. Also: node ids die when the agent restarts, `diffEach`
+  defaults true and will overrun the tool result on a Chromium tree, and `find` beats a screenshot
+  for "did that land".
+- **Added** an honest warning to Scale. The server is one process behind one socket and does not yet
+  arbitrate between MCP clients, so two campaigns on one Mac interleave their steps. Reads are safe;
+  actuation is not.
+
 ## 2026-08-13 — the harnesses stop borrowing mechanisms
 
 `goal-harness` and `loop-harness` are now **`better-goal`** and **`better-loop`**. Both were

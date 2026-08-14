@@ -39,7 +39,12 @@ campaign and an hour of retries.
 When no `proctor_*` tool is available at all, the MCP server is not configured
 in this host. Point the user at `~/Dev/proctor-mcp` — `scripts/install.sh`
 builds and loads it and prints the `claude mcp add` line — and stop, since
-there is nothing to drive until it is there.
+there is nothing to drive until it is there. The line it prints ends in
+`--profile core`, which advertises the ten tools that drive a Mac at roughly
+6.8k tokens rather than all nineteen at 11.3k; the catalogue is re-sent every
+turn and survives compaction, so that difference is a standing cost paid before
+any work happens. Widen to `--profile scripting` or `--profile full` when a
+campaign needs flows, determinism runs, policy, `kill` or the CUA adapters.
 
 A missing Accessibility grant presents as elements not being found, which
 reads exactly like a selector bug and which a model will paper over by trying
@@ -67,6 +72,37 @@ the flag is detectable by the app and changes its performance. Carry that into
 the report's methods note. A fidelity finding measured under an observer
 effect is still a finding, but it is not the same finding.
 
+When the attach comes back with an empty `windows` array, the app is running
+with every window closed rather than being unreachable. `action: "activate"`
+reopens one the way a Dock click does, waits for it, attaches, and hands back
+the handles — and it is the only way in, because every actuating tool resolves a
+window handle first, so the menu item that would reopen a window cannot be
+reached without the window it creates.
+
+## What the person watching sees
+
+Proctor draws a pointer on screen while it drives an app: it travels to each
+step's target before the step fires, leans into the direction of travel, and
+pulses where it acts. This exists because the property that makes Proctor
+useful also makes it illegible — an accessibility press actuates a button with
+nothing moving on screen, so somebody watching sees menus open and text appear
+with no cause.
+
+Three things follow that matter to a campaign:
+
+- **It never appears in a capture.** Every capture is window-scoped to the app
+  under test, and the overlay belongs to the agent's own process, so it cannot
+  move a state hash or change a pixel assertion. You therefore cannot verify the
+  overlay through `proctor_capture`, and you do not need to account for it in
+  fidelity work.
+- **`PROCTOR_CURSOR=0` turns it off.** Set it for an unattended suite, or on a
+  machine somebody else is working on.
+- **One panel per display.** Worth knowing if you ever extend it: a single panel
+  spanning the union of several displays is a large enough backing store that the
+  window server accepts it, reports it `onscreen` with `alpha 1`, and never
+  presents it. A panel that reports healthy and draws nothing is the failure mode
+  to expect from any overlay work here.
+
 ## The campaign
 
 Seven stages. Run them in order — each one's output narrows the next — and
@@ -83,9 +119,19 @@ rather than a silent one.
 
 ### 1. Exploratory sweep
 
-`proctor_snapshot` the main window, then walk outward: menus via the menu bar,
-each window the app offers, each tab or sidebar section. Use `proctor_find`
-rather than pulling whole trees once you know what you are looking for.
+`proctor_snapshot` the main window, then walk outward: `proctor_menu` for the
+whole menu bar in one read, each window the app offers, each tab or sidebar
+section. Use `proctor_find` rather than pulling whole trees once you know what
+you are looking for.
+
+`proctor_menu` is worth reaching for early. It returns every item's path,
+enabled state and keyboard shortcut in a single accessibility read, reaching a
+background or other-Space app, and each item comes back both as a `menuPath` you
+can actuate on the accessibility plane and as the `key` plus `modifiers` pair a
+synthetic shortcut needs. That gives you the app's whole command surface before
+you have clicked anything. A submenu macOS has not built yet is reported with
+`submenuPopulated: false` rather than invented; open it and re-read to see
+inside.
 
 You are building an inventory, not testing yet: which controls exist, which
 carry `AXIdentifier` (those are the durable selectors — a developer set them
@@ -174,6 +220,25 @@ presentation values. That is measurement. For an app you do not own there is
 no cross-process computed-style API on macOS, so the ceiling is the
 accessibility tree plus pixels — say so rather than approximating a value you
 cannot read.
+
+**Read small things with `proctor_zoom`, not with a bigger screenshot.**
+`proctor_capture` normalises to the vision ceiling by default, and the pixels a
+label, a numeric field or a glyph is written in do not survive that downscale —
+so a whole-window capture is the wrong instrument for "what does that say".
+`zoom` cuts a native-resolution crop of a region or a resolved node, and the
+published gain is large: iterative crop-and-zoom lifts GUI grounding accuracy on
+high-resolution desktop software from roughly 19% to 48–73%. The compose path is
+**find → zoom → assert**, and a region around 1000px on its long edge keeps
+enough context to disambiguate what you are looking at.
+
+Two capture arguments change what a measurement means, so state them when a
+finding rests on them. `normalization.scale` is the exact factor a normalised
+frame was shrunk by, and a coordinate maps back with
+`native = normalised / scale`; pass `normalize: false` when an assertion is on
+the pixel plane. And PNG stays the default because it is what keeps UI text
+readable — on a retina capture normalised to the ceiling, OCR recovered 94% of
+words from PNG against 78% at JPEG q50, with words misread as a *different real
+word* rising sixfold. A model acts on a misread word rather than flagging it.
 
 Route the judged question "does this look any good" to `design-review`, with
 your captures attached; route "is this native" to the `mac-design-studio`
@@ -271,6 +336,17 @@ Apple silicon caps concurrent macOS guests at two, so a VM fleet is not the
 answer, and more real parallelism past that is a hardware purchase rather than
 a configuration change. Do not design a campaign that assumes otherwise.
 
+**Several sessions on one Mac is a different question, and the server does not
+yet arbitrate it.** The agent is one process behind one socket and any number of
+MCP clients can connect. Nothing schedules between them today, so two campaigns
+running at once interleave their steps, and the second one's synthetic click
+lands in whatever window the first just raised. Reads are safe — `snapshot`,
+`find`, `capture`, `menu`, `zoom` and `assert` observe without mutating.
+Actuation is not. Until a scheduler exists, treat "is anything else driving this
+Mac right now" as a precondition you check rather than an invariant you assume,
+and keep synthetic-event work out of any campaign that might overlap another,
+since those contend globally rather than per app.
+
 ## Delegating
 
 Most campaigns run in one session. Spawn subagents only for genuinely
@@ -281,10 +357,46 @@ each other's windows is the common failure.
 
 Subagents never run git operations.
 
+## Traps that cost real time
+
+Each of these has cost an hour somewhere. They are cheap to avoid once named.
+
+**An accessibility press on an Electron row selects it without navigating.**
+Slack, VS Code, Discord and Chromium-shelled apps build their sidebars as
+`AXOutlineRow` elements that accept `AXPress`, report `ok: true`, set
+`focused` and `selected` — and do not change the view. Pressing again changes
+nothing, because the press landed correctly and the app simply does not act on
+it. Reach for a synthetic `click` with `foreground: true` on the same node; the
+result comes back `plane: "syntheticEvent"`, which is the honest record that
+this one needed the front. Check the window title or a `find` for the expected
+new content rather than trusting `ok`.
+
+**Node ids do not survive the agent restarting.** A step returning
+`nodeNotFound` after an upgrade, a `launchctl kickstart`, or a crash means the
+retained element cache went with the process, not that the element is gone.
+Re-run `find` or `snapshot` and carry the new ids. Ids also do not survive
+`attach` being called twice.
+
+**Reach for `find`, not a screenshot, to learn whether an action landed.** A
+capture costs an image in context and answers "what does it look like"; the
+question after a step is almost always "did the thing I expected appear", which
+is a `find` predicate and a fraction of the tokens. Screenshots earn their place
+when the question is genuinely visual.
+
+**A settle that concludes on `axQuietOnly` with `captureNeverQuiet` in its
+signals is normal for a window that animates continuously** — a caret, a
+spinner, a live feed. It is not a warning; pixel-quiet was simply unreachable
+and the tree concluded instead. Treat it as adequate evidence and say which
+signal you got if a result is surprising.
+
+**Attach reporting `"windows": []` is not an unreachable app.** It usually means
+every window is closed. `proctor_apps` with `action: "activate"` reopens one the
+way a Dock click would, then attaches.
+
 ## Depth
 
-- `references/tools.md` — the eleven tools, their arguments, and the
-  decision each one exists to serve.
+- `references/tools.md` — the tools, their arguments, the `--profile` cost, and
+  the decision each one exists to serve.
 - `references/methodology.md` — the state matrix in full, the accessibility
   rubric, the fidelity ledger, and the disclosure requirements.
 - `references/evidence.md` — the research behind every rule above, with
