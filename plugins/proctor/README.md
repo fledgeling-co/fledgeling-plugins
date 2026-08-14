@@ -48,7 +48,9 @@ What breaks in dark mode at a larger text size?
 
 The first thing it does is call `proctor_doctor`, because a missing Accessibility grant returns an empty tree rather than an error, which reads exactly like a selector bug and which a model will paper over by retrying forever.
 
-## The eleven tools
+## The tools
+
+Nineteen ship; the installer's `claude mcp add` line advertises `--profile core`, the ten that actually drive a Mac, at roughly 6.8k tokens against 11.3k for all of them. The catalogue is re-sent every turn and survives compaction, so that is a standing cost paid before any work happens. Widen with `--profile scripting` or `--profile full` for flows, determinism runs, policy, `kill` and the CUA adapters.
 
 | Tool | What it does |
 |---|---|
@@ -56,15 +58,20 @@ The first thing it does is call `proctor_doctor`, because a missing Accessibilit
 | `proctor_snapshot` | The pruned semantic accessibility tree with a stable id per node. Pass `sinceRevision` for a diff instead of a full tree. |
 | `proctor_find` | Only the nodes matching a predicate, so locating one button doesn't cost a whole tree. |
 | `proctor_act` | Run a step sequence, settling after each, returning per-step outcome, actuation plane, post-state hash and tree diff. A six-step login is one call. |
-| `proctor_capture` | Window-scoped ScreenCaptureKit screenshot with frame status, dirty-rect coverage, frames waited, and a verdict on whether the frame can be believed. |
+| `proctor_capture` | Window-scoped ScreenCaptureKit screenshot with frame status, dirty-rect coverage, frames waited, and a verdict on whether the frame can be believed. Normalises to the vision ceiling by default and reports the exact scale factor, so a coordinate maps back rather than being quietly offset. Can burn numbered marks over interactable elements and hand back the mark→node map. |
+| `proctor_zoom` | A native-resolution crop of a region or a resolved element, for reading the small text a normalised capture loses. Iterative crop-and-zoom lifts GUI grounding accuracy on high-resolution desktop software from roughly 19% to 48-73%. |
+| `proctor_menu` | The whole menu bar in one accessibility read, reaching a background or other-Space app: every item's path, enabled state, and its keyboard shortcut reconstructed from the accessibility attributes. |
 | `proctor_wait` | Block until a nameable condition holds: an element appearing, a value reaching a target, a region going quiet. Bounded by a timeout. |
 | `proctor_assert` | Assertions over tree, geometry, pixels and accessibility auditing, returning the observed value beside the expected one. |
 | `proctor_flow` | Record, list, show, replay and delete named step sequences, with per-step hashes so a divergent replay says where. |
 | `proctor_stability` | Replay a flow N times and report `firstDivergence` plus per-step instability. |
 | `proctor_inspect` | Resolved styles and layer geometry from an app embedding `ProctorReflector`: colours, fonts, radii, constraints, CALayer model versus presentation. |
 | `proctor_doctor` | Agent liveness, TCC grants with the exact fix for the running OS, attachments, observer health, Secure Event Input. |
+| `proctor_policy` · `proctor_kill` | The policy gate and process control, in the `scripting` and `full` profiles. |
+| `proctor_dictionary` · `proctor_unlock` | Scripting-dictionary introspection and the unlock path. |
+| `proctor_computer` · `proctor_openai_computer` | CUA schema façades, so a model trained on Anthropic's or OpenAI's computer-use schema drives Proctor without translation. |
 
-## Four things it does differently
+## Five things it does differently
 
 **It reaches background windows without stealing focus.** Actions travel through the process-directed plane by default (`AXUIElementPerformAction`, attribute writes, Apple Events), which addresses a specific element in a specific process. Non-frontmost, occluded and other-Space windows are all reachable, and Secure Event Input doesn't block any of it. A campaign can run while you're using the machine, and proving a flow works in the background is worth more than proving it works with the window raised.
 
@@ -73,6 +80,8 @@ The first thing it does is call `proctor_doctor`, because a missing Accessibilit
 **Settling is a conjunction, never a sleep.** Quiet frames, quiet accessibility notifications, and the app's own idle signal where one exists, with a timeout as the backstop. Each settle reports which signals it actually had, and they don't weigh the same: `reflectorIdle` is the app saying it's done, `allSignalsQuiet` is strong inference, one signal is adequate, and `timeout` means nothing went quiet at all. A failure that lands after a timeout settle gets filed as unproven.
 
 **Determinism is measured.** `proctor_stability` replays a flow five times by default and returns `firstDivergence` with a per-step instability score. A step above zero is nondeterministic before anyone argues about whether it's correct, and flaky stays in its own section of the report, because conflating it with broken sends somebody hunting a bug that's a race.
+
+**It draws the cause of what it's doing.** The property that makes Proctor useful also makes it illegible: an accessibility press actuates a button with nothing moving on screen, so somebody watching sees menus open and text appear for no reason. A pointer travels to each step's target before the step fires, leans into the direction it's travelling, and pulses where it acts. It belongs to the agent's own process and every capture is window-scoped to the app under test, so it can't move a state hash or change a pixel assertion; `PROCTOR_CURSOR=0` turns it off for an unattended run.
 
 ## ProctorReflector
 
@@ -89,6 +98,8 @@ This is the part I'd read first.
 **Observing an Electron app changes it.** Chromium-based apps expose no tree until `AXManualAccessibility` is set, so attaching sets it. The flag is detectable by the target app and it changes that app's performance, which means you're observing it in a mode real users never see. That's a genuine validity threat, not a footnote, and the skill requires it be disclosed in the report's methods note.
 
 **Parallelism is bounded by hardware.** Apple silicon hard-caps concurrent macOS guests at two, so a VM fleet isn't the answer. Scaling happens across windows inside one session, and past that, more real parallelism means buying another machine.
+
+**Nothing arbitrates between two clients yet.** The agent is one process behind one socket and any number of MCP clients can connect to it. Reads are safe, because they observe without mutating. Actuation isn't: two campaigns running at once interleave their steps, and the second one's synthetic click lands in whatever window the first just raised. A scheduler is designed and not yet built, so for now treat "is anything else driving this Mac" as a precondition rather than an invariant.
 
 Note: the development build is ad-hoc signed, which ties the TCC grants to the exact bytes of that build. Every rebuild revokes them, and the symptom is "elements not found", which doesn't look like a permission error at all.
 
