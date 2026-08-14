@@ -226,6 +226,17 @@
       },
       "source": "./plugins/proctor",
       "category": "development"
+    },
+    {
+      "name": "anvil-errand",
+      "description": "Send a Claude Code agent to work in a container on another machine through Anvil, using the single `anvil errand` verb, and read its refusals correctly when a piece of the path is missing. Covers the whole loop — check the preconditions, start the errand, watch it, stop it — and translates each stable refusal kind (errand_no_node, node_unreachable, image_absent, image_unverified, errand_ticket_unavailable, errand_proxy_unreachable) into the one next step that clears it. Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.md in the anvil repo, which stays the source of record.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/anvil-errand",
+      "category": "development"
     }
   ]
 }
