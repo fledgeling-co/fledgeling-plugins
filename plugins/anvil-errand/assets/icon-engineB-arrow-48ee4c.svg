@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {fill:#EB6C29;}
+.cls-2 {fill:url(#XMLID_7_);}
+.cls-3 {fill:url(#XMLID_8_);}
+.cls-4 {fill:url(#XMLID_5_);}
+.cls-5 {opacity:0.7;fill:url(#XMLID_10_);enable-background:new    ;}
+.cls-6 {fill:#E2E6ED;}
+.cls-7 {fill:#7A828D;}
+.cls-8 {fill:#616B77;}
+.cls-9 {fill:url(#XMLID_11_);}
+.cls-10 {fill:url(#XMLID_12_);}
+.cls-11 {fill:none;}
+.cls-12 {fill:#505A64;}
+.cls-13 {fill:url(#XMLID_14_);}</style>
+  <linearGradient id="SVGID_1_" x1="90" x2="90" y1="180" y2="-9.095e-13" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#1F1E21" offset="0"/>
+    <stop stop-color="#303542" offset="1"/>
+  </linearGradient>
+  <radialGradient id="XMLID_7_" cx="79.5" cy="91.8" r="32.4" gradientTransform="matrix(1 0 0 -1 0 180)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FD7F35" offset=".3416"/>
+    <stop stop-color="#FF7718" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <path class="cls-2" d="m112 73c0 16.5-11.2 27-32.5 27s-32.5-10.4-32.5-27 8-26.3 32.5-26.3 32.5 9.8 32.5 26.3z"/>
+  <polygon class="cls-1" points="57.4 78.9 62.6 65.5 97.3 65.5 102.5 78.9"/>
+  <linearGradient id="XMLID_8_" x1="80.4" x2="80.4" y1="115.3" y2="103.9" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFE3CC" offset="0"/>
+    <stop stop-color="#FFAA52" offset="1"/>
+  </linearGradient>
+  <polygon class="cls-3" points="62.7 65.5 64.7 75.8 95.4 75.7 97.3 65.4"/>
+  <linearGradient id="XMLID_5_" x1="87.6" x2="87.6" y1="136.9" y2="102.1" gradientTransform="matrix(1 0 0 -1 0 180)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#EF822B" offset="0"/>
+    <stop stop-color="#EF8029" offset="1"/>
+  </linearGradient>
+  <path class="cls-4" d="m78.7 64.1c4.4-10.3 15.3-20.6 31.3-21 16.8-0.5 35.4 12.9 34.2 37.9-0.3-21.8-15.8-36.4-34.2-36.5-11.7-0.1-25.9 7.1-31.3 19.6z"/>
+  <linearGradient id="XMLID_10_" x1="79.85" x2="79.85" y1="104.7" y2="100.8" gradientTransform="matrix(1 0 0 -1 0 180)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FC8A11" offset="0"/>
+    <stop stop-color="#EA6A2B" offset="1"/>
+  </linearGradient>
+  <polygon class="cls-5" points="58.7 75.7 57.4 79.2 102.3 79.2 102 75.8"/>
+  <polygon class="cls-6" points="35.5 78.8 35.5 80.7 106.7 80.7 106.7 78.8"/>
+  <polygon class="cls-6" points="106.7 80.9 115.2 80.9 115.2 82.4 144.2 82.3 106.6 83.4"/>
+  <linearGradient id="XMLID_11_" x1="125.4" x2="125.4" y1="98.1" y2="76.92" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#DFE2EA" offset="0"/>
+    <stop stop-color="#8E96A3" offset=".5385"/>
+    <stop stop-color="#636B77" offset="1"/>
+  </linearGradient>
+  <path class="cls-9" d="m106.8 82.3h37.4c-2.3 5.6-11.3 17.6-37.2 19.5l-0.1-6.4v-13.1z"/>
+  <linearGradient id="XMLID_12_" x1="79.85" x2="79.85" y1="101.1" y2="42.9" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#878F99" offset="0"/>
+    <stop stop-color="#DCE2EA" offset="1"/>
+  </linearGradient>
+  <path class="cls-10" d="m35.5 88v-4.8h71.2v18.8c-3.8 0.4-7.9 2.7-7.8 8.6 0.1 6 4.9 10.9 9.1 12.3 1 0.2 1.9 1 1.9 1l5.3 4.6h-16.2c-1.6-2.7-6-10.3-15.1-10.5-9.6-0.1-14.3 7-15.7 10.5h-16.4c5.4-3 16.6-9.6 16.5-19.8-0.1-8.2-7.9-15-17.8-17.7-6-1.7-15-3-15-3z"/>
+  <path class="cls-6" d="m115.4 88.4c7.1-0.4 19.2-1.6 28.8-6.1h-28.8v6.1z"/>
+  <polygon class="cls-8" points="35.5 80.7 35.5 83.2 106.8 83.2 106.7 80.8"/>
+  <linearGradient id="XMLID_14_" x1="51.79" x2="115.3" y1="133.4" y2="133.4" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#7A828D" offset=".2079"/>
+    <stop stop-color="#7A828D" offset="1"/>
+  </linearGradient>
+  <path class="cls-13" d="m51.8 128.7h16.5v8.7l-16.5 0.1v-8.8zm47.2 0v8.8h16.3v-8.8h-16.3z"/>
+  <path class="cls-12" d="m68.3 128.7v8.8c2.7-0.6 8.6-1.7 15.7-1.7 6.4 0 13 0.6 15 1.7v-8.8c-1.1-2.2-4.9-10.2-15.1-10.7-10.7-0.1-15 8.9-15.6 10.7z"/>
+  <linearGradient id="XMLID_15_" x1="73.3" x2="94.1" y1="128.4" y2="128.4" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#505A64" offset="0"/>
+    <stop stop-color="#5F6875" offset=".5"/>
+  </linearGradient>
+  <path d="m73.3 122.1 0.1 14.3c3-0.4 7.1-0.7 10.6-0.7 2.7 0 7 0.1 10.1 0.6v-14.1c-2.2-2-5.6-4.1-10.2-4.2-4.9-0.1-8.3 1.9-10.6 4.1z" fill="url(#XMLID_15_)"/>
+  <path class="cls-12" d="m94.1 122.1v14.2c2.5 0.3 4.2 0.7 4.9 1.2v-8.8c-0.5-1.2-2.2-4.3-4.9-6.6z"/>
+  <path class="cls-12" d="m73.3 122.1v14.2c-2.2 0.3-4.3 0.7-5 1.1v-8.7c0.4-1 2.2-4.2 5-6.6z"/>
+</svg>
