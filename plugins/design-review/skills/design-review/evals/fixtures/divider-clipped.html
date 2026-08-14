@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fixture — text clipped by the cell that holds it</title>
+<!--
+  The other half of the divided-row defect, kept in its own file so the
+  divider-gutter.html / divider-gutter-clean.html calibration pair stays at a
+  clean 3 rules / 15 violations and 3 rules / 0 violations.
+
+  A row that is too tight is usually also a row whose last cell loses its final
+  words. The gutter is legal here — 28px, above the 24px target — so
+  `violations` stays empty and `clipped` is the only thing that should fire.
+  That separation is the point: the two defects travel together on real pages
+  and have different fixes, so a fixture that mixed them would not tell you
+  which one you had.
+
+  ENGINE-DEPENDENT. Expected on Chrome: clipped >= 2.
+  Expected on Obscura: clipped == 0 — measured 14 Aug 2026, Obscura reports
+  `overflow-x: hidden` as `auto` and clamps an overflowing text node's own
+  client rect to its container's width, so the overflow is arithmetically
+  invisible.
+
+  Render it on Obscura before trusting that zero. Two of the three cells come
+  back cut mid-word — "340 observations across 28 consecutive windo", "of every
+  token sent, measured at the boundar" — while the probe reports nothing. The
+  screenshot and the probe disagree and the screenshot is right, which is the
+  reason this skill opens the capture instead of reading the exit code.
+-->
+<style>
+  body { font: 16px/1.4 system-ui, sans-serif; margin: 0; padding: 40px;
+         background: #fbfaf7; color: #16150f; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr);
+         border-top: 1px solid #ddd8c9; }
+  /* A legal gutter. Only the clipping is wrong here. */
+  .row > div { border-left: 1px solid #cfcabb; padding-left: 28px; padding-right: 28px;
+               overflow-x: hidden; }
+  .nowrap { white-space: nowrap; }
+  .label { font: 600 11px/1.2 ui-monospace, monospace; letter-spacing: .08em;
+           color: #5d5a4e; }
+  .big { font: 700 34px/1 ui-monospace, monospace; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em;
+       color: #777; margin: 0 0 8px; }
+</style>
+</head>
+<body>
+
+<h2>Legal gutters, cut text</h2>
+<div class="row">
+  <div>
+    <p class="label">WEEKLY WINDOW</p>
+    <p class="big nowrap">3.48B raw</p>
+    <p class="nowrap">340 observations across 28 consecutive windows</p>
+  </div>
+  <div>
+    <p class="label">CACHE READ SHARE</p>
+    <p class="big nowrap">95.4%</p>
+    <p class="nowrap">of every token sent, measured at the boundary</p>
+  </div>
+  <div>
+    <p class="label">QUOTA UNIT</p>
+    <p class="big nowrap">not established</p>
+    <p class="nowrap">two lines lean one way; neither settles it</p>
+  </div>
+</div>
+
+</body>
+</html>

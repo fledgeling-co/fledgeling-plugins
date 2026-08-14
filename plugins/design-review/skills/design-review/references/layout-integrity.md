@@ -45,6 +45,9 @@ Almost every defect here lives inside a **repeated group** — any container wit
 | `columnVoids.seams` | Never fires — it is the band-rhythm table, reported unfiltered | The whole-page form of the same defect, which no single band trips |
 | `implicitTracks.spilledRows` | A grid with unequal columns holds more children than it declares tracks, and the trailing row holds fewer children than there are columns | The row template was written for N children and renders N+1, so `grid-auto-flow` invents a row. See below |
 | `implicitTracks.emptyCells` | A grid child computes to zero width or height | An element emitted for a field the record does not carry. It occupies a track and paints nothing |
+| `dividerProximity.violations` | A text **ink box** sits closer than 24px (16px under 900px wide) to a visible vertical rule | The rule reads as attached to the words rather than as the boundary between two cells. See below |
+| `dividerProximity.crossings` | Text runs through a rule | The divider is drawn over the words |
+| `dividerProximity.clipped` | A text ink box extends past an ancestor that clips or scrolls horizontally | The last cell of a too-tight row loses its final words. **Under-reports on Obscura** — see below |
 | `affordance.unactionableRows` | A repeated row containing chip-shaped short text but nothing focusable | A settings list made of status labels. Every user reads them as controls. **Tier 2, not a gate** — see below |
 | `affordance.pointerCursorNotFocusable` | `cursor: pointer` on something not reachable by keyboard | Mouse-only interaction |
 | `tokenOverload` | A class whose name matches `warn\|error\|danger\|success\|ok\|info\|alert\|critical\|…` carrying ≥3 distinct strings | A status token that means four things has stopped being a signal — and every instance passes contrast individually, so no colour check notices |
@@ -80,7 +83,31 @@ The real instance: an index row's trailing arrow sat underneath its row number, 
 
 Fixtures: `evals/fixtures/implicit-tracks.html` and its control `implicit-tracks-clean.html`. The defective one returns `spilledRows: 4, emptyCells: 4`; the control returns `0, 0`; and neither reports the healthy four-card / three-column grid on the same page. A probe that fires on the control is miscalibrated and a probe that fires on neither never ran.
 
-## Thresholds
+## The divider gutter — the defect that passes every check by construction
+
+A stat row divided into three cells. The label and the number begin immediately to the right of each rule. Contrast passes, nothing overflows, the columns are even to the pixel, the grid is a textbook `repeat(3, 1fr)` — and the row reads as a table that was squeezed rather than a set of cells that were spaced.
+
+**The reason no gate caught it is worth stating exactly, because it generalises.** The gutter is declared on one element and the rule is painted on another. A cell with `padding-left: 24px` carrying its own `border-left` satisfies any element-box check trivially: the padding *is* the gap, measured from the element's own edge. But the number a reader perceives is the distance from the **ink** to the line, and between those two numbers sit the cell's inner wrapper margins, the text element's own box, and — the case that bites — a neighbouring cell whose `padding-right` is a different value from its `padding-left`. The declared gutter and the perceived gutter are two different measurements, and only one of them is on screen.
+
+So `probeDividerProximity()` measures ink. `Range.getClientRects()` on each text node returns one box per line box, which also means wrapped text is measured where it actually lands rather than where its container starts.
+
+Three rule shapes are found:
+
+- **`border-left` / `border-right`** on any visible box over 24px tall. This is how nearly every divided row is built.
+- **Element rules** — an `<hr>`, `[role="separator"]`, or anything classed as a divider that computes to under 3px wide and over 24px tall.
+- **`column-rule`**, which is reported rather than measured. The line sits between generated column boxes that have no node to measure, so the probe returns the column gap, the rule width, and whether `(gap - rule) / 2` clears the threshold. Saying "unmeasurable, check by eye" is the honest output; silence would read as a pass.
+
+`declaredPadPx` is reported beside every violation precisely so the gap between declared and perceived is visible in the finding. A real page in this portfolio returned `gapPx: 14.5` against `declaredPadPx: 14` — the padding was doing what it said and was simply below the floor — while another returned `gapPx: 14.3` against `declaredPadPx: 0`, where the gutter came from somewhere else entirely and nobody had decided it.
+
+**Two numbers, deliberately.** `dividerGutterPx: 16` is the floor — below it the layout is wrong. `dividerGutterWantPx: 24` is what a divided cell should carry at 900px and wider, and is what the probe reports against. Violations carry `belowFloor` so the blocking set and the attention set stay separable.
+
+Calibration: the fixture pair is a three-cell row at `padding: 5px` and the same row at `32px`. The tight row returns 15 violations — three text elements against five (cell, rule) pairs, since each cell's text is measured against both the rule on its own left edge and the rule on the next cell's — and the roomy row returns none. A probe that fires on the roomy row is measuring boxes again.
+
+**Engine caveat, measured 14 Aug 2026.** On Obscura, a `overflow-x: hidden; white-space: nowrap` box whose text is wider than it reports `overflowX` as `auto` and clamps the text node's own client rect to the container width, so the overflow is arithmetically invisible. `evals/fixtures/divider-clipped.html` renders with two of its three cells cut mid-word — "340 observations across 28 consecutive windo", "of every token sent, measured at the boundar" — and the probe returns `clipped: 0` on that render. The screenshot and the probe disagree, and the screenshot is right.
+
+That fixture is worth keeping for the general lesson rather than only for this probe: a page can be visibly broken and arithmetically clean on the engine measuring it, which is why this skill's rule is to open the capture and ask what is wrong with it rather than to read an exit code. `clipped` under-reports on Obscura and an empty array there is a known blind spot, not a pass. The gap measurement itself is unaffected and was verified correct to a tenth of a pixel against a fixture whose expected value was known.
+
+
 
 All of them live in one `LI` object at the top of the layout block, so they are decided once rather than per-review. The current values were calibrated against a surface with known defects until the true positives survived and the noise stopped. If you retune, retune against a surface you already understand.
 
@@ -89,6 +116,7 @@ columnDriftPx: 4      headerDriftPx: 8      railDriftPx: 8
 zeroGapPx: 1          overlapMinPx: 3       deadSpaceRatio: 0.55
 deadSpaceMinPx: 200   controlTextMax: 24    semanticTokenTexts: 3
 bandMinHeightPx: 80   bandInkMinPx: 24      bandFillMin: 0.25
+dividerGutterPx: 16   dividerGutterWantPx: 24
 ```
 
 Five calibration lessons worth keeping. Every one came from driving the set to

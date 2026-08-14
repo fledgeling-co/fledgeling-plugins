@@ -570,6 +570,10 @@
     bandFillMin: 0.25,       // ink height / box height. Below this the band is mostly its own margins
     spilledTrackRatio: 0.75, // an implicit trailing grid row this much shorter than the
                              // authored rows is an orphan, not a ragged last row of cards
+    dividerGutterPx: 16,     // hard floor between a text ink box and a vertical rule.
+                             // Below this the rule reads as attached to the words rather
+                             // than as the boundary between two cells
+    dividerGutterWantPx: 24, // what a divided cell should actually carry at >=900px wide
     maxReported: 40,         // per-probe cap, so one bad page cannot flood the report
   };
 
@@ -1423,6 +1427,184 @@
     return { spilledRows: cap(spilledRows), emptyCells: cap(emptyCells) };
   }
 
+  /**
+   * A vertical rule is drawn in a gap, never beside words.
+   *
+   * The defect this exists for: a stat row divided into cells, where the label
+   * and the number start immediately to the right of the rule. Every automated
+   * gate passes it — the contrast is fine, nothing overflows, the grid is even —
+   * and it reads as a table that has been squeezed rather than a set of cells
+   * that were spaced.
+   *
+   * Measure the TEXT INK BOX, never the element box. A cell with
+   * `padding-left: 24px` and a rule on its own left border passes an
+   * element-box check by construction, which is exactly how this ships: the
+   * padding belongs to a different element from the one carrying the border,
+   * so the declared gutter and the perceived one are different numbers.
+   * `Range.getClientRects()` gives one box per line box, so wrapped text is
+   * measured where it actually lands.
+   */
+  function probeDividerProximity() {
+    const wide = window.innerWidth >= 900;
+    const want = wide ? LI.dividerGutterWantPx : LI.dividerGutterPx;
+    const rules = [];
+
+    const paint = (colorStr, styleStr, width) => {
+      if (!(width > 0)) return false;
+      if (styleStr === 'none' || styleStr === 'hidden') return false;
+      const c = parseColor(colorStr);
+      return !!c && c.a > 0.05;
+    };
+
+    // (a) Real vertical borders. This is how nearly every divided row is built.
+    for (const el of [...document.querySelectorAll('*')].slice(0, MAX_NODES)) {
+      if (!visible(el)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.height < 24 || r.width < 4) continue;
+      const cs = getComputedStyle(el);
+      for (const side of ['Left', 'Right']) {
+        const w = parseFloat(cs[`border${side}Width`]) || 0;
+        if (!paint(cs[`border${side}Color`], cs[`border${side}Style`], w)) continue;
+        rules.push({
+          kind: `border-${side.toLowerCase()}`,
+          owner: cssPath(el),
+          x: side === 'Left' ? r.left + w / 2 : r.right - w / 2,
+          top: r.top, bottom: r.bottom,
+          declaredPadPx: Math.round(parseFloat(cs[`padding${side}`]) || 0),
+        });
+      }
+    }
+
+    // (b) Elements standing in for a rule: a thin tall painted box.
+    for (const el of document.querySelectorAll(
+      'hr,[role="separator"],[class*="divider"],[class*="rule"],[class*="separator"]')) {
+      if (!visible(el)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width > 3 || r.height < 24) continue;
+      rules.push({
+        kind: 'element-rule', owner: cssPath(el),
+        x: r.left + r.width / 2, top: r.top, bottom: r.bottom, declaredPadPx: null,
+      });
+    }
+
+    // (c) Multi-column rules. The line sits between generated column boxes, which
+    // have no node to measure, so this is reported rather than measured — saying
+    // "unmeasurable" is the honest output, and silence would read as a pass.
+    const columnRules = [];
+    for (const el of document.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+      const w = parseFloat(cs.columnRuleWidth) || 0;
+      if (!paint(cs.columnRuleColor, cs.columnRuleStyle, w)) continue;
+      const gap = parseFloat(cs.columnGap);
+      columnRules.push({
+        el: cssPath(el),
+        columnGapPx: Number.isFinite(gap) ? Math.round(gap) : null,
+        ruleWidthPx: w,
+        sufficient: Number.isFinite(gap) ? (gap - w) / 2 >= want : null,
+        note: 'column-rule sits in the column gap; each side gets (gap - rule) / 2. ' +
+              'Not measured against real text — check by eye at this viewport.',
+      });
+    }
+
+    if (!rules.length) {
+      return {
+        rules: 0, floorPx: LI.dividerGutterPx, wantPx: want,
+        violations: [], crossings: [], clipped: [], columnRules: cap(columnRules),
+      };
+    }
+
+    // Text ink boxes, one per line box.
+    const texts = [];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n && texts.length < MAX_NODES; n = walker.nextNode()) {
+      const t = n.textContent.trim();
+      if (!t) continue;
+      const el = n.parentElement;
+      if (!el || !visible(el)) continue;
+      const range = document.createRange();
+      range.selectNodeContents(n);
+      for (const box of range.getClientRects()) {
+        if (box.width < 1 || box.height < 1) continue;
+        texts.push({ box, text: t.slice(0, 48), el });
+      }
+    }
+
+    // Worst offence per (rule, element) pair. A three-line cell against one rule
+    // is one defect to fix, not three rows in a report.
+    const worst = new Map();
+    const crossings = [];
+    for (const rule of rules) {
+      for (const t of texts) {
+        const b = t.box;
+        // Only text the rule actually runs alongside.
+        if (b.bottom <= rule.top + 2 || b.top >= rule.bottom - 2) continue;
+        if (b.left < rule.x - 0.5 && b.right > rule.x + 0.5) {
+          crossings.push({
+            rule: rule.owner, kind: rule.kind, text: t.text, el: cssPath(t.el),
+            note: 'text runs through the rule — the divider is drawn over the words',
+          });
+          continue;
+        }
+        const gap = b.left >= rule.x ? b.left - rule.x : rule.x - b.right;
+        if (gap >= want) continue;
+        const key = `${rule.owner}|${rule.kind}|${cssPath(t.el)}`;
+        const prev = worst.get(key);
+        if (!prev || gap < prev.gapPx) {
+          worst.set(key, {
+            rule: rule.owner, kind: rule.kind, el: cssPath(t.el), text: t.text,
+            gapPx: Math.round(gap * 10) / 10,
+            declaredPadPx: rule.declaredPadPx,
+            side: b.left >= rule.x ? 'after' : 'before',
+            belowFloor: gap < LI.dividerGutterPx,
+          });
+        }
+      }
+    }
+
+    // Text cut off by an ancestor that clips. The row that is too tight is
+    // usually also the row whose last cell loses its final words.
+    //
+    // MEASURED CAVEAT, Obscura, 14 Aug 2026: on a `overflow-x: hidden;
+    // white-space: nowrap` box whose text is twice its width, Obscura reports
+    // `overflowX` as `auto` and clamps the text's own client rect to the
+    // container width, so the overflow is arithmetically invisible. Both halves
+    // of this check therefore under-report on that engine, and an empty
+    // `clipped` array is not evidence that nothing is cut. Chrome returns the
+    // true inline extent and the check works there. `auto` and `scroll` are
+    // accepted below because a horizontally scrolling row that cuts its last
+    // cell is the same defect to a reader who never scrolls it.
+    const clipped = [];
+    const CLIPS = new Set(['hidden', 'clip', 'auto', 'scroll']);
+    for (const t of texts) {
+      for (let n = t.el; n && n !== document.body; n = n.parentElement) {
+        const cs = getComputedStyle(n);
+        if (!CLIPS.has(cs.overflowX)) continue;
+        const c = n.getBoundingClientRect();
+        if (t.box.right > c.right + 0.5 || t.box.left < c.left - 0.5) {
+          clipped.push({
+            el: cssPath(t.el), clipper: cssPath(n), text: t.text,
+            overflow: cs.overflowX,
+            overflowPx: Math.round(Math.max(t.box.right - c.right, c.left - t.box.left)),
+          });
+        }
+        break;
+      }
+    }
+
+    const violations = [...worst.values()].sort((a, b) => a.gapPx - b.gapPx);
+    return {
+      rules: rules.length,
+      floorPx: LI.dividerGutterPx,
+      wantPx: want,
+      viewportWidth: window.innerWidth,
+      violations: cap(violations),
+      belowFloor: violations.filter(v => v.belowFloor).length,
+      crossings: cap(crossings),
+      clipped: cap(clipped),
+      columnRules: cap(columnRules),
+    };
+  }
+
   function probeLayoutIntegrity() {
     const g = probeRepeatedGroupIntegrity();
     return {
@@ -1437,6 +1619,7 @@
       deadSpace: probeDeadSpace(),
       columnVoids: probeColumnVoids(),
       implicitTracks: probeImplicitTracks(),
+      dividerProximity: probeDividerProximity(),
       affordance: probeAffordanceGaps(),
       tokenOverload: probeTokenOverload(),
       inventory: probeComponentInventory(),
@@ -1472,7 +1655,7 @@
     probeLayoutIntegrity, probeRepeatedGroupIntegrity, probeColumnHeaderAlignment,
     probeSiblingGaps, probeSharedRails, probeTextOverlap, probeDeadSpace,
     probeColumnVoids, inkBox, probeUnconsumedTokens, probeAnimationSettled,
-    probeImplicitTracks,
+    probeImplicitTracks, probeDividerProximity,
     probeAffordanceGaps, probeTokenOverload, findRepeatedGroups,
     probeComponentInventory,
   };

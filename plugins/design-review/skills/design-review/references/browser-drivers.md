@@ -103,6 +103,33 @@ back as `{}`. Anything needing a specific viewport, a full-page capture, or
 async evaluation has to go through `serve` + CDP.
 
 
+## Layout gaps that compute correctly and render wrongly
+
+The worst class of divergence, because the usual defence — read the computed
+value on the node — returns the right answer while the pixels are wrong. All
+three measured 14 August 2026 against minimal fixtures.
+
+| What | Obscura does | The tell |
+|---|---|---|
+| **`display: revert`** | computes to `none` rather than the UA default | a show-the-match rule blanks the page. Invert it: hide the non-matches, and never rely on `revert` |
+| **A bare text node as a flex item** | is not wrapped into an anonymous flex item | `Name<span>desc</span>` inside `flex-direction: column` puts the span *beside* the word and collapses the container to one line, while `display`, `flexDirection` and the span's own `display: block` all read correct. Wrap every text run in an element |
+| **`:has()` re-evaluation** | does not re-run when `.checked` is set from script | a scripted state toggle measures the same state twice and reports two passes. Set the state in the served source and render again |
+| **Physical units** | resolve to the container, not to a physical size | `width: 210mm` computed to **1264px** (the container width) and `height: 297mm` to **0**; `16mm` also gave 1264px. `794px` was exact. A print sheet sized in millimetres reviews as a full-bleed page with no margins, which invites a fix for a defect that exists only in the review engine |
+
+`:has()` itself works, including as a descendant combinator, and
+`CSS.supports('selector(:has(*))')` correctly returns true — which is precisely
+why the support query is no defence here. `flex-direction: column` also works in
+isolation; only the anonymous-item case fails.
+
+The general rule these share: **assert the geometry, not the declaration.** A
+computed style tells you the cascade resolved; only a bounding box tells you the
+layout ran. Where a component's correctness depends on one element sitting above
+another, measure the two boxes.
+
+Two properties are simply absent rather than wrong, and a state signal riding on
+either is invisible in every capture: `boxShadow` and `backgroundImage` return
+empty. Carry state on border, background colour, weight or position instead.
+
 ## What Obscura is not
 
 It is a Rust engine, not packaged Chrome, and its own documentation expects
