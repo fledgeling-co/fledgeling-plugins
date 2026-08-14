@@ -319,7 +319,7 @@ Every finding needs an observation, a mechanism, and a consequence. A mechanism 
 
 - `scripts/run_review.py` — capture and probe sweep across the viewport matrix, driving `obscura serve` over CDP. Scrolls the document and drains running animations before probing, and records what was still moving
 - `scripts/run_review.mjs` — Node equivalent, same output layout
-- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **implicit grid tracks and zero-sized cells**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
+- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **implicit grid tracks and zero-sized cells**, **text set too close to a vertical divider**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
 - `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
 - `scripts/scan_source.py` — greppable anti-patterns in source, tagged by tier
 - `scripts/annotate.py` — crop, slice and overlay coordinate grids on captures

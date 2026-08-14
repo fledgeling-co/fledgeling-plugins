@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fixture — text set too close to a vertical divider</title>
+<!--
+  The defect: a divided stat row whose cells carry 5px of padding, so every
+  label and figure begins immediately to the right of its rule.
+
+  Every other gate passes this by construction. Contrast is fine, the grid is
+  an even repeat(3, 1fr), nothing overflows, and the declared padding is a real
+  number that an element-box check reads as the gutter. Only the distance from
+  the text INK to the line is wrong, and only measuring ink finds it.
+
+  Expected: probeDividerProximity() returns 15 violations, all belowFloor.
+  Fifteen because each cell's three text elements are measured against two
+  rules — the one on its own left edge and the one on the next cell's — which
+  is five (cell, rule) pairs across the row.
+
+  Control: divider-gutter-clean.html, same markup at 32px, returns 0.
+-->
+<style>
+  body { font: 16px/1.4 system-ui, sans-serif; margin: 0; padding: 40px;
+         background: #fbfaf7; color: #16150f; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr);
+         border-top: 1px solid #ddd8c9; }
+  .row > div { border-left: 1px solid #cfcabb; padding-left: 5px; padding-right: 5px; }
+  .label { font: 600 11px/1.2 ui-monospace, monospace; letter-spacing: .08em;
+           color: #5d5a4e; }
+  .big { font: 700 34px/1 ui-monospace, monospace; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em;
+       color: #777; margin: 0 0 8px; }
+</style>
+</head>
+<body>
+
+<h2>Divided stat row — every cell's text is 5.5px from its rule</h2>
+<div class="row">
+  <div>
+    <p class="label">WEEKLY WINDOW</p>
+    <p class="big">3.48B raw</p>
+    <p>340 observations, 28 windows</p>
+  </div>
+  <div>
+    <p class="label">CACHE READ SHARE</p>
+    <p class="big">95.4%</p>
+    <p>of every token sent</p>
+  </div>
+  <div>
+    <p class="label">QUOTA UNIT</p>
+    <p class="big">not established</p>
+    <p>two lines lean one way; neither settles it</p>
+  </div>
+</div>
+
+</body>
+</html>
