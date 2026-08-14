@@ -108,7 +108,9 @@ class ReadingScanner(HTMLParser):
         here = self._constraint(a)
         self._mark(a, here)
         if "data-claims" in a or "data-claim" in a:
-            ids = (a.get("data-claims") or a.get("data-claim", "")).split()
+            ids = [i for i in re.split(r"[\s,]+",
+                                       a.get("data-claims") or a.get("data-claim", ""))
+                   if i]
             rec = {"claims": ids, "readings": set(here), "cited": set(),
                    "depth": len(self.stack)}
             self.blocks.append(rec)
@@ -490,6 +492,178 @@ def check_weight(path: pathlib.Path, html: str, f: Findings) -> None:
         f.ok("weight", msg)
 
 
+# --- Text of the page, with markup and the source registry removed. -----------
+# Everything below reasons over what a reader actually reads, so a source titled
+# "Conflicting evidence on X" must not be mistaken for the page saying so itself.
+
+def _prose(html: str) -> str:
+    body = re.sub(r"<(script|style)\b.*?</\1>", " ", html, flags=re.S | re.I)
+    body = re.sub(r'<ol\b[^>]*>.*?</ol>', " ", body, flags=re.S | re.I)
+    body = re.sub(r"<[^>]+>", " ", body)
+    return re.sub(r"\s+", " ", body)
+
+
+# A page whose subject genuinely has no contested question is possible and rare.
+# These are the constructions that carry a stated limit, not hedging words like
+# "may" or "often", which appear in confident prose too.
+UNCERTAINTY = re.compile(
+    r"\b("
+    r"disagree\w*|contradict\w*|"
+    r"unverified|unresolved|contested|inconclusive|single[- ]sourced|"
+    r"could not (?:be )?(?:establish|verify|confirm|resolve|find)\w*|"
+    r"(?:not|never) (?:been )?(?:established|verified|confirmed|corroborated|measured)|"
+    r"no (?:published|public|first-party|primary|documented|traceable) (?:figure|source|number|benchmark|data|record)|"
+    r"nobody (?:has |)(?:published|written|measured|benchmark\w*|knows)|"
+    r"low confidence|treat as unverified|do not tune against"
+    r")\b", re.I)
+
+
+def check_uncertainty(html: str, f: Findings) -> None:
+    """A page that resolves everything reads as generated, and usually is.
+
+    This is the one Tier-1 check on the argument rather than the markup, and it
+    exists because two pages from this skill were measured side by side: the
+    weaker carried a single uncertainty construction in 8,400 words, the stronger
+    twenty-four. Both were fully cited, both passed every other gate here, and a
+    blind judge in both orderings picked the second on exactly this axis.
+
+    The check is deliberately generous - one construction anywhere clears it.
+    It cannot see whether the uncertainty is load-bearing; it can see that a page
+    claiming to be built on five disagreeing backends never once says so.
+    """
+    prose = _prose(html)
+    hits = UNCERTAINTY.findall(prose)
+    words = len(prose.split())
+    if not hits:
+        f.add(ERROR, "uncertainty",
+              f"{words} words and not one stated limit, disagreement or "
+              "unestablished claim. A page with real sources almost always has "
+              "something it is unsure about; a page with none reads as generated. "
+              "Say where the panel split and what could not be established, in "
+              "every reading - see references/readings.md")
+        return
+    kinds = len({h.lower() for h in hits})
+    if kinds < 2 and words > 3000:
+        f.add(ERROR, "uncertainty",
+              f"one uncertainty construction in {words} words is effectively "
+              "none. The page reads as settled. Name where the panel split, what "
+              "the corpus could not establish, and which figures are single-sourced "
+              "- in every reading, not only in the methods note")
+    elif kinds < 4 and words > 3000:
+        f.add(WARN, "uncertainty",
+              f"only {kinds} distinct uncertainty construction(s) across {words} "
+              "words. Check the disagreements survived into all three readings "
+              "rather than sitting in the methods note alone")
+    else:
+        f.ok("uncertainty",
+             f"{len(hits)} stated limit(s)/disagreement(s), {kinds} distinct kinds")
+
+
+def check_claim_graph(path: pathlib.Path, html: str, f: Findings) -> None:
+    """The claim graph has to reach the markup, or nothing checks it.
+
+    A ledger sitting in claims.json that no block references is an artifact the
+    page does not use: the per-claim/reading check below silently finds nothing
+    to test, and reports a clean run. That has shipped - one page carried a full
+    27-claim ledger beside it and zero data-claims attributes, and every gate
+    here went green.
+    """
+    graph = path.parent / "claims.json"
+    wired = len(re.findall(r'data-claims?=', html))
+    if not graph.is_file():
+        if wired:
+            f.ok("claim graph", f"{wired} block(s) carry claim ids")
+        return
+
+    try:
+        data = json.loads(graph.read_text())
+    except Exception as e:                                    # noqa: BLE001
+        f.add(WARN, "claim graph", f"claims.json present but unreadable: {e}")
+        return
+
+    claims = data.get("claims") or []
+    ids = {c.get("id") for c in claims if isinstance(c, dict)}
+    if not wired:
+        f.add(ERROR, "claim graph",
+              f"claims.json holds {len(ids)} claim(s) and the page references "
+              "none of them. Put data-claims on the blocks that render each "
+              "claim, or the per-claim citation check has nothing to test and "
+              "passes vacuously")
+        return
+
+    used = set()
+    for m in re.finditer(r'data-claims?="([^"]*)"', html):
+        used |= {i for i in re.split(r"[\s,]+", m.group(1)) if i}
+    orphan = sorted(used - ids) if ids else []
+    if orphan:
+        f.add(ERROR, "claim graph",
+              f"block(s) cite claim id(s) not in claims.json: {', '.join(orphan[:6])}")
+    missing = sorted(ids - used)
+    if missing:
+        f.add(WARN, "claim graph",
+              f"{len(missing)} claim(s) in the ledger reach no block: "
+              + ", ".join(missing[:6])
+              + ". Expected for a claim carrying omit/omitReason; a defect otherwise")
+    if not orphan:
+        f.ok("claim graph", f"{len(used)} claim id(s) wired into the page")
+
+    # An inference rendered as an empirical finding is the failure the ledger's
+    # kind field exists to prevent, so the page has to say the word somewhere.
+    inferred = [c.get("id") for c in claims
+                if isinstance(c, dict) and c.get("kind") == "inference"]
+    if inferred:
+        prose = _prose(html)
+        if not re.search(r"\b(inference|inferred|derived, not|reasoned from|"
+                         r"arithmetic on|not a measurement|order[- ]of[- ]magnitude)\b",
+                         prose, re.I):
+            f.add(ERROR, "inference marking",
+                  f"{len(inferred)} claim(s) are marked kind=inference in the "
+                  "ledger and the page never labels anything as inferred. "
+                  "Something assembled by reasoning is being rendered as an "
+                  "empirical finding")
+        else:
+            f.ok("inference marking",
+                 f"{len(inferred)} inference(s) in the ledger, labelled in the page")
+
+
+def check_self_description(html: str, f: Findings) -> None:
+    """What the page says about its own evidence must match its own registry.
+
+    Caught by a blind judge on a page from this skill: a colophon advertising
+    "200+ primary sources" above a registry listing 21. The number is the easiest
+    thing on an evidence page to check and the most damaging to get wrong, because
+    a reader who checks it once stops believing the rest.
+    """
+    listed = len(set(re.findall(r'<li\s+id="(r[\w-]+)"', html)))
+    if not listed:
+        return
+    prose = _prose(html)
+    bad = []
+    for m in re.finditer(r"\b(\d[\d,]*)\s*\+?\s*(?:primary\s+|cited\s+|first-party\s+)?sources?\b",
+                         prose, re.I):
+        claimed = int(m.group(1).replace(",", ""))
+        # A page legitimately cites a bigger corpus than it lists - "233 sources
+        # across five backends", 35 of them in the registry. A count carrying its
+        # own scope is a statement about the corpus; a bare boast is a statement
+        # about the list below it, and only the second is checkable here.
+        window = prose[max(0, m.start() - 110):m.end() + 30].lower()
+        scoped = any(w in window for w in (
+            "across", "backend", "panel", "corpus", "in total", "combined",
+            "between them", "read in full", "reports"))
+        own = any(w in window for w in (
+            "registry", "listed", "sources below", "primary sources",
+            "cited below", "source list"))
+        if own and not scoped and claimed > listed * 1.5:
+            bad.append(f"{m.group(0).strip()} against {listed} listed")
+    if bad:
+        f.add(ERROR, "self-description",
+              "the page advertises more sources than its registry holds: "
+              + "; ".join(bad[:3]))
+    else:
+        f.ok("self-description", f"registry of {listed} matches what the page claims")
+
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("page", type=pathlib.Path)
@@ -504,8 +678,9 @@ def main() -> int:
     f = Findings()
     for check in (check_citations, check_readings, check_dividers, check_theme,
                   check_self_contained, check_motion, check_chrome, check_head,
-                  check_a11y):
+                  check_a11y, check_uncertainty, check_self_description):
         check(html, f)
+    check_claim_graph(args.page, html, f)
     check_weight(args.page, html, f)
 
     if args.json:

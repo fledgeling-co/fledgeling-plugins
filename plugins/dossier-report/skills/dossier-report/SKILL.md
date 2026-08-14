@@ -35,6 +35,7 @@ Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
 | 0 | Sharpen the brief | `/clarify` |
 | 1 | Diverge on research angles | `/trawl` |
 | 2 | Run the panel, read all of it | Dossier MCP |
+| 2.5 | Settle what the panel disputes | the artifact itself |
 | 3 | Compile the claim graph | — |
 | 4 | Name, aesthetic and icon concept | `/clarify` |
 | 5 | Diverge on visual direction | `/trawl` |
@@ -104,6 +105,57 @@ into the page as stated uncertainty rather than silently picking a side.
 A member that finishes early is one backend's answer. Do not read it to
 fill the wait and do not report from it: support is counted in
 independent domains, not in how many backends agreed.
+
+## Phase 2.5 — When they disagree about what *exists*, go and look
+
+Sort the disagreements into two kinds, because they need opposite
+handling:
+
+- **They disagree about what it means.** Carry it onto the page as
+  stated uncertainty. Neither you nor the corpus can settle it, and
+  pretending otherwise is the overclaiming this skill exists to prevent.
+- **They disagree about what exists.** Does this API ship? Is this
+  endpoint live? What does this file actually say? That is not a matter
+  of interpretation and it is not settled by counting backends. **Stop
+  reading and check the artifact.**
+
+The artifact is whatever the claim is ultimately about, and it is
+usually already on the machine: an SDK header, a framework's own
+availability macros, `--help`, a package's `.d.ts`, a real API response,
+the binary, the config file, the repository. Web research locates the
+question; a local read answers it.
+
+This is not a nicety. Measured on one run, five backends returned
+**three incompatible answers** about what a named OS release had added
+to a framework: one said the surface had been frozen for two years and
+reasoned it from the vendor's changelog, one announced a new API sourced
+to a third-party vendor forum while naming the OS by a version that does
+not exist, and one reported a policy documented as Beta. Two `#define`
+lines in the shipping SDK settled it in seconds, agreed with none of them
+completely, and became the finding the page was built on. The panel cost
+$9.70 and 233 sources; the grep cost nothing. **The panel earned its
+money by disagreeing** — without three answers there was no reason to
+look, and no way to know what to look for.
+
+Three rules keep this honest:
+
+- **Record the environment.** OS and build number, SDK path, tool
+  version, the date. A local read is only primary evidence if a reader
+  can tell what was read and where. Put it in the claim graph and in the
+  methods note.
+- **Quote verbatim.** The value of a header over a summary of a header
+  is that it is not a summary.
+- **Absence is weaker than presence.** "Not in the shipping SDK" is a
+  fact about today; it is not proof a symbol never existed, and beta
+  seeds carry symbols that are later withdrawn. Say the narrow true
+  thing: *it is not callable now*. A backend that reported a
+  since-withdrawn API was wrong about the present and may have been
+  right about the past — characterise it no more strongly than that.
+
+Where the check is genuinely unavailable — no licence, no hardware, a
+paid API you should not call — say so in the methods note and keep the
+disagreement live on the page. An unsettled split, declared, is a better
+page than a settled one that guessed.
 
 ## Phase 3 — Compile the claim graph
 
@@ -216,6 +268,25 @@ The page is published under Luke's name and reads as his.
 
 The rules that matter most, in short:
 
+- **The page's skeleton comes from the evidence, never from the brief.**
+  This is the single most reliable difference between a page that reads
+  as authored and one that reads as generated, and it is invisible from
+  inside: a research brief with six numbered subtopics produces six
+  sections in that order, each titled with its subtopic, and every gate
+  passes. What you have then is the *prompt's* outline with citations
+  attached — the same outline any of the backends would have returned.
+  Measured on two pages built from one corpus, two blind judges in
+  opposite orderings both named this first. Before building, write the
+  section list from the claim graph alone, then check it against the
+  brief's enumeration: if the two match, the structure was inherited
+  rather than found. Sections should be able to appear in an order the
+  brief never suggested, and some of the brief's subtopics should be
+  absent because the evidence did not support a section on them.
+- **Headings are claims, not labels.** "Process topology and the
+  extension contract" is a filing label; "The reach of the two calls is
+  not the same" is something a reader can disagree with. A page whose
+  headings are all noun phrases has a table of contents where its
+  argument should be.
 - **Lead with the conclusion.** Median scroll depth is ~50%, ~38% of
   arrivals leave immediately, and only a quarter pass the 1,600th pixel
   of a 2,000-pixel article. A structure that withholds the finding until
@@ -324,7 +395,17 @@ existing pages ship with no `og:image` at all and share as bare links.
    every register that renders it, the default register with script off,
    divider gutters, the theme contract, self-containment, reduced-motion,
    WebGL fallback, both chrome blocks, share tags, alt text, weight.
-   Errors block; warnings are for the reviewer.
+   Four of its gates are about the argument rather than the markup, and
+   each exists because a page passed everything else without it:
+   **uncertainty** (a page that never states a limit or a disagreement
+   reads as generated — one construction in 3,700 words is effectively
+   none), **claim graph** (a `claims.json` no block references means the
+   per-claim check has nothing to test and passes vacuously),
+   **inference marking** (a claim the ledger calls an inference must be
+   labelled as one in the page), and **self-description** (a colophon
+   advertising more sources than the registry holds; a reader who checks
+   the easiest number once stops believing the rest). Errors block;
+   warnings are for the reviewer.
 2. `design-review` against the real render at multiple viewports —
    **six passes, not one**: three readings × light and dark.
    **Open the renders yourself first** — serve the page, capture each at 1440 and
@@ -365,6 +446,15 @@ there is no editorial tension anywhere on it.
 
 - **Never write the page from the distillation.** The whole skill exists
   because that has already happened twice.
+- **When the panel disputes what exists, check the artifact** before
+  writing a word about it. See Phase 2.5. The corpus cannot settle a
+  question about the present state of a thing you can open.
+- **A page that resolves everything is a page that hid something.** Real
+  sources disagree and real corpora have holes; if the draft contains no
+  stated limit, no split and no "we could not establish", the honest
+  version is still in the reports and did not make it out. The auditor
+  fails on this now, and it failed a published page that passed every
+  other gate.
 - **Engagement is not comprehension.** The measured result across six
   studies is that this format buys attention and perceived clarity, not
   understanding. Never claim otherwise in the page's own copy.

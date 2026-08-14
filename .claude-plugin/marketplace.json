@@ -120,7 +120,7 @@
     {
       "name": "dossier-report",
       "description": "dossier-report: turn a research question into one published, uniquely-themed HTML page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and published to <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph (Primer / Brief / Technical), toggled by the reader, each independently and fully cited from one shared registry and working with JavaScript off. Every page gets its own visual language, light and dark both measured, GSAP motion, conditional three.js behind a six-test gate, animated and interactive visualisations pitched per reading via dataviz, captioned media-gen-pro imagery and vector artwork, claim-local citations with source popups, a verified source registry, a measured divider-gutter rule, and the Dossier/Margin marketing chrome. Design routed through design-craft and ux-craft.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -219,7 +219,7 @@
     {
       "name": "proctor",
       "description": "Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Ships with the Proctor MCP server: an unsandboxed launchd agent that reads the accessibility tree and screen contents and actuates through the process-directed plane, so background, occluded and other-Space windows are reachable without stealing focus, plus an embeddable DEBUG reflector that gives apps you own a real computed-style source. Use it when someone asks to test, QA, exercise or find bugs in a Mac app, whether a flow still works, why a test is flaky, or what breaks in dark mode.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

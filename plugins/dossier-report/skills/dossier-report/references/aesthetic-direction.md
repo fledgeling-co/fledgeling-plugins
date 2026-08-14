@@ -85,6 +85,11 @@ none.
 Run against the built page, with the previously published pages open
 beside it. The page **fails** if:
 
+- its section list matches the research brief's own enumerated subtopics
+  in order — the structure was inherited from the prompt rather than
+  found in the evidence, and no amount of visual work repairs it
+- its headings are all noun phrases, so the page has a table of contents
+  where its argument should be
 - its section silhouette matches a previous report once colour and copy
   are stripped
 - changing the subject noun leaves the visual metaphor intact
@@ -98,7 +103,11 @@ beside it. The page **fails** if:
 
 That last one is not a visual test, and it belongs on this list anyway. A
 page that resolves everything reads as generated because a human author
-with real sources almost always has something they are unsure about.
+with real sources almost always has something they are unsure about. It
+is also the one item here that is now machine-checked — `audit_page.py`'s
+`uncertainty` gate fails a page carrying fewer than two distinct stated
+limits, after a published page from this skill was measured at exactly
+one in 3,700 words and beaten in a blind comparison largely on that axis.
 
 **The cheap version of the silhouette check**: screenshot the new page
 and each previous one full-length, convert to greyscale, blur heavily,
