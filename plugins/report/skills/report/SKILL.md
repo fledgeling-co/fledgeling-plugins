@@ -1,13 +1,16 @@
 ---
 name: report
-description: Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Leads with the conclusion, cites claim-locally with source popups and a persistent registry, uses the project's DESIGN.md when one exists and generates one from the topic when it doesn't, and keeps motion on screen and out of the print. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report", "/report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).
+description: Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, builds animated and interactive visualisations pitched at each reading, and routes design through design-craft and ux-craft. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report", "/report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).
 ---
 
 # Writing the session up
 
 One session in, one report out: argued from what the session actually
-established, designed around its own subject, and written to disk as a
-page you can read and a PDF you can send.
+established, designed around its own subject, written to disk as a page
+you can read and a PDF you can send, and offered in three registers so
+the same evidence reaches a specialist, a decision-maker and someone
+meeting the subject for the first time.
+
 
 ## The failure this exists to prevent
 
@@ -40,22 +43,30 @@ Read it when you need to justify or tune a rule, not on every run.
 |---|---|---|
 | 0 | Scope the report | — |
 | 1 | Harvest the evidence trail into a claim ledger | — |
-| 2 | Resolve the design system | project `DESIGN.md`, or `design-craft` |
-| 3 | Compose the argument as page-safe blocks | `ux-craft` |
-| 4 | Build the page | `design-craft`, `create-luke-content`, `dataviz` |
-| 5 | Derive the TLDR one-pager | — |
-| 6 | Export, audit, fix | `scripts/`, `design-review` |
+| 2 | Write the three readings of every claim | `create-luke-content` |
+| 3 | Resolve the design system, light and dark | project `DESIGN.md`, or `design-craft` |
+| 4 | Compose the argument as page-safe blocks | `ux-craft` |
+| 5 | Build the page | `design-craft`, `ux-craft`, `create-luke-content`, `dataviz` |
+| 6 | Derive the TLDR one-pager | — |
+| 7 | Export, audit, fix | `scripts/`, `design-review` |
 
 Output lands in `<project>/docs/reports/<slug>/`. The run ends when the
 files are written. Publishing and deploying are somebody's deliberate
 next act, not this skill's.
 
 **`/report tldr` asks for the one-pager, so the one-pager is the
-deliverable.** Phases 0 to 2 still run in full, because the ledger and the
-design system are what the one-pager is built from. Phases 3 and 4 shrink
-to whatever the single page needs. Build the long report as well only if
-the argument turned out to need more room than one sheet gives it, and say
-so rather than shipping it silently.
+deliverable.** Phases 0 to 3 still run in full, because the ledger, the
+three readings and the design system are what the one-pager is built from.
+Phases 4 and 5 shrink to whatever the single page needs. Build the long
+report as well only if the argument turned out to need more room than one
+sheet gives it, and say so rather than shipping it silently.
+
+**Design work goes through `design-craft` with `ux-craft`'s lens**, not
+straight into markup — layout, the reading control, theme, motion and
+every visual decision. `design-craft` owns the visual craft and the
+anti-slop discipline; `ux-craft` owns flow, states, and the copy that
+labels a control. Where either is not installed, say which substitution
+you made in the methods note.
 
 ## Phase 0 — Scope it from what you already have
 
@@ -114,7 +125,49 @@ Where the session was uncertain, the report says so. A report that
 resolves everything reads as generated, because a human with real sources
 almost always has something they are unsure about.
 
-## Phase 2 — Resolve the design system
+## Phase 2 — Write the three readings
+
+Full contract, markup and gates: `references/readings.md`.
+
+The report ships three registers of one argument over one ledger, and the
+reader chooses which they get:
+
+| Reading | Written for | What it does |
+|---|---|---|
+| **Primer** | someone meeting the subject cold, around an 11-year-old reading level | the finding as something concrete, an analogy doing the work a definition would |
+| **Brief** | the informed non-specialist who has to decide | what was found, what it means, what should happen |
+| **Technical** | someone who will check the work | mechanism, numbers, method, limits, the shape of the uncertainty |
+
+`brief` is the default — the register a bare link lands on and the one the
+PDF exports unless another is asked for.
+
+**The rule that makes three readings honest, and the reason this is a
+phase rather than a formatting step:**
+
+> A reading may change the words. It may never change what is claimed.
+
+Simplifying is choosing shorter words for the same proposition. Dropping
+the caveat that bounds a number is a *different and stronger* claim, and
+it is the one a Primer produces by default, because the simplified
+sentence genuinely reads better. Confidence, limits and the inference
+mark survive into all three; a re-expressed number stays the same number.
+
+So every claim in `claims.json` gains a `readings` object holding all
+three wordings, written from the ledger row rather than by rewriting
+another register. Three passes from the ledger produce three registers of
+one argument; one pass plus two rewrites produces one register and two
+translations of it, and it reads that way.
+
+A claim may be omitted from a register when it genuinely has no useful
+form there — declared with `omit` and an `omitReason`. The finding and the
+ask may never be omitted from any reading: a register without the
+conclusion is a different document, not a simpler one.
+
+Route every word through `create-luke-content`, once per reading. The
+voice does not change across registers — Luke writing for an
+eleven-year-old is still Luke, not a children's-textbook persona.
+
+## Phase 3 — Resolve the design system, light and dark
 
 If the project has a `DESIGN.md`, use it — the report should look like it
 belongs to the product it is about. Copy it into the report directory so
@@ -146,7 +199,32 @@ previous report changes nothing that reads as sameness. Read any sibling
 reports in `docs/reports/` and treat their section silhouettes, hero
 shapes and chart grammars as taken.
 
-## Phase 3 — Compose the argument as page-safe blocks
+**Both themes ship, and the PDF is always the light one.** Three rules,
+each of which has a failure mode that only shows up in the artifact
+nobody previews:
+
+- **Light is defined unconditionally; dark only ever overrides.** A token
+  whose only definition sits inside a dark block is undefined when the
+  print rules land, and that renders as ink on ink. The auditor fails on
+  it because reading the CSS will not.
+- **Dark is written twice** — once under `prefers-color-scheme: dark`
+  guarded so an explicit light choice wins, and once under
+  `[data-theme="dark"]` so the control wins in both directions.
+- **Print re-declares the light tokens**, not just `body`'s colours. A
+  reader in dark mode otherwise prints dark values onto white.
+
+The theme control is script-created on purpose: with JavaScript off the
+page already follows the OS preference, so a dead button would be worse
+than no button. The *reading* control is the opposite — it is content,
+and works unaided. Three theme states, not two, so "auto" stays reachable
+after a manual choice.
+
+**Dark is measured, not assumed.** Contrast, focus visibility and divider
+gutters are checked in both themes at Phase 7. A dark palette derived by
+inverting a light one passes by luck if it passes at all, and the theme
+nobody measured is the one that ships broken.
+
+## Phase 4 — Compose the argument as page-safe blocks
 
 `references/report-craft.md` carries the buildable rules and the evidence
 behind each.
@@ -208,12 +286,13 @@ row group, or a caption away from its chart.
 - **Native scrolling is untouched.** No wheel, momentum, direction or
   history override; `normalizeScroll()` is prohibited.
 
-## Phase 4 — Build the page
+## Phase 5 — Build the page
 
 Route the layout to `design-craft` and the flow and states to
 `ux-craft`. Route **every word of prose** to `create-luke-content` —
-headline, standfirst, block copy, chart captions, the closing note.
-Charts go through `dataviz` for form and colour.
+headline, standfirst, block copy, chart captions, the closing note, once
+per reading. Charts go through `dataviz` for form and colour, and
+`references/visualisation.md` for which form each register gets.
 
 Where one of those isn't installed, use this skill's own
 `references/report-craft.md` and `references/design-system.md` in its
@@ -233,13 +312,51 @@ The marker is an anchor, never a button — a `<button>` is inert with
 JavaScript off, which breaks the claim-to-source bond in exactly the case
 the page is supposed to survive. The anchor jumps to the registry
 unaided; the hover, focus and tap preview is enhancement layered on top.
-The registry at the foot is real DOM with full metadata and backlinks.
+The registry at the foot is real DOM with full metadata and backlinks,
+and it is **shared across all three readings** — the marker moves with the
+wording, the source does not.
+
+**A vertical rule is drawn in a gap, never beside words.** Keep at least
+24px between a rule and the nearest text at 900px and wider, 16px below
+that, applied on **both** sides of the rule. This is measured from the
+text's ink to the line rather than from the element box, because the
+padding is usually declared on a different element from the border and
+the two numbers disagree — a cell with `padding-left: 24px` and a rule on
+its own left border passes an element-box check by construction while
+reading as a squeezed table. `design-review` measures the ink; the
+auditor here catches the cheap form. A run of this skill against an
+already-published page returned twenty violations.
+
+**Motion is standard on screen and absent from the ink.** Load GSAP when
+an argument has a scrubbed or pinned moment and use CSS scroll timelines
+for reveals, which run off the main thread. Every moving block ships an
+authored static frame that doubles as the reduced-motion branch and the
+print frame — three readings means a static frame per register wherever
+the figure differs. `references/report-craft.md` carries the tiering, the
+GSAP hazards, and the six-test gate before any three.js reaches a report.
 
 **Imagery** through `media-gen-pro`, only where a picture genuinely
 carries something prose does not, and never for charts, numbers, labelled
 diagrams, tables or anything with exact text — image models garble those
 and re-prompting garbles them differently. Say what a run will spend
 before spending it.
+
+Every generated asset carries a caption naming what it is, and the
+methods note records that it was generated. An illustration a reader
+could mistake for a photograph of the thing under discussion is a
+provenance failure, not a decoration choice — the same rule the claim
+ledger applies to numbers. Diagrams and vector artwork go through
+`media-gen-pro`'s `svg: true` path, which returns editable vector rather
+than a raster imitation of one, and which also survives print at any size.
+
+Two things measured by putting a real generated image through the whole
+path. **Resize it to the width it displays at** before wiring it in: a
+614KB hero arrived at 1408px and nearly doubled the PDF on its own, and a
+report with three of them is several megabytes of attachment. And **the
+finding still comes first** — a full-width hero at the top pushes the
+conclusion below the fold on screen and onto page two in print, which
+costs more than the picture is worth. Put imagery after the finding, or
+beside it.
 
 Two things measured by putting a real generated image through the whole
 path. **Resize it to the width it displays at** before wiring it in: a
@@ -260,10 +377,10 @@ Calibrate length to the argument. A report covers its substance and stops
 and a section per heading you thought of is how a three-block finding
 becomes twelve blocks nobody finishes.
 
-## Phase 5 — Derive the TLDR
+## Phase 6 — Derive the TLDR
 
 `assets/tldr-template.html` is the starting structure. Same ledger, same
-design system, same citation contract, one page:
+three readings, same design system, same citation contract, one page:
 
 brand band · the finding in one sentence · one hero visual · three to six
 cited claims · sources footer.
@@ -273,29 +390,48 @@ traces to a ledger row that also appears in the full report. Two
 documents that disagree about the finding is the failure mode here, and
 generating both from one ledger is what prevents it.
 
-Aim for one A4. Spilling to a second page is acceptable when the source
-list is long; spilling because the prose is loose is not.
+Aim for one A4 **per reading**. The registers differ in length, so check
+the sheet count in each rather than in the default one: a Primer that
+spills because its analogies run long is the same defect as a loose
+Technical, and only rendering all three shows it. Spilling because the
+source list is long is acceptable; spilling because the prose is loose is
+not.
 
-## Phase 6 — Export, audit, fix
+## Phase 7 — Export, audit, fix
 
 ```bash
 node scripts/export_pdf.mjs docs/reports/<slug>/index.html --out docs/reports/<slug>/report.pdf
+node scripts/export_pdf.mjs docs/reports/<slug>/index.html --reading technical \
+     --out docs/reports/<slug>/report-technical.pdf
 node scripts/export_pdf.mjs docs/reports/<slug>/tldr.html  --out docs/reports/<slug>/tldr.pdf
 python3 scripts/audit_report.py docs/reports/<slug>/
 ```
 
 The exporter checks the PDF it produced rather than assuming it: page
 count against block count, real A4 geometry, surviving link annotations,
-and no transient animation text frozen into the ink. The auditor checks
-citation integrity both ways, ledger-to-page agreement, self-containment,
-reduced-motion, print rules, and accessibility basics. Errors block;
-warnings are for the reader.
+and no transient animation text frozen into the ink. `--reading` selects
+the register; the default is Brief, and every PDF stamps which one it is,
+because a document carrying one of three readings with nothing saying
+which becomes ambiguous the moment it is forwarded.
 
-Then `design-review` against the real render, and open the PDF and look
-at it. Rendering a page and reading a tool's exit code is not the same as
-seeing it — the defects that survive automated gates are the ones a human
-catches instantly, a void where a panel got pushed down, a chart clipped
-at a page boundary, a caption orphaned from its figure.
+The auditor checks citation integrity both ways, **each reading
+independently**, the per-claim marker in every register that renders it,
+ledger-to-page agreement, the reading parity of the ledger, divider
+gutters, the theme contract, self-containment, reduced-motion, print
+rules, and accessibility basics. Errors block; warnings are for the
+reader.
+
+Then `design-review` against the real render — **six captures, not one**:
+three readings × light and dark. The register is set in the served source
+rather than by clicking, because setting `.checked` from script does not
+re-evaluate the `:has()` selector on Obscura, so a scripted toggle
+measures the same register three times and reports three passes.
+
+Then open the PDF and look at it. Rendering a page and reading a tool's
+exit code is not the same as seeing it — the defects that survive
+automated gates are the ones a human catches instantly, a void where a
+panel got pushed down, a chart clipped at a page boundary, a caption
+orphaned from its figure.
 
 ## Scope and delegation
 

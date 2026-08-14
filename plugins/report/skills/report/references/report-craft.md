@@ -50,6 +50,41 @@ Rules that make a block page-safe:
 - **Headings carry `break-after: avoid`** so a heading never lands alone
   at the foot of a sheet.
 
+### The divider gutter
+
+A vertical rule is drawn in a gap, never beside words. Keep **24px** between the
+rule and the nearest text at 900px and wider, **16px** below that, applied on
+*both* sides of the rule.
+
+The measurement runs from the text's **ink** to the line, and that distinction
+is the whole rule rather than a pedantic refinement of it. The gutter is
+normally declared on one element and the rule painted on another, so a cell with
+`padding-left: 24px` carrying its own `border-left` satisfies any element-box
+check by construction — while what the reader sees is the distance from the
+glyphs, after the cell's inner wrapper margins and the *neighbouring* cell's
+`padding-right`, which is frequently a different number. The declared gutter and
+the perceived gutter are two measurements and only one of them is on screen.
+
+Three consequences for the markup:
+
+- **Put the rule and both paddings on the same element.** `.divided > *` with a
+  `border-left` and matching `padding-left`/`padding-right` keeps the two numbers
+  together where they can be read at once. Drop the rule on the first child, not
+  its padding, so every cell's text stays on one rail.
+- **`min-width: 0` on grid children.** A grid child's implicit minimum is
+  `min-content`, so one long unbroken figure widens the track and walks the row
+  past its container instead of wrapping — which is the clipped-last-cell defect,
+  and a one-property fix.
+- **Nothing in a divided row may clip.** A row that runs out of width wraps or
+  stacks; it never cuts a cell's final words.
+
+`design-review`'s `probeDividerProximity` measures the rendered ink and is the
+real gate; `scripts/audit_report.py` catches the cheap source-level form — a
+rule declared with no gutter on that side at all. Run against an
+already-published page in this portfolio, the ink measurement returned **twenty
+below-floor violations**, several of them on cells whose declared padding was
+doing exactly what it said.
+
 ### Blocks that move
 
 A scrubbed or pinned episode has no print equivalent — the printer gets
@@ -109,7 +144,18 @@ Points that repay attention:
   asks for them to be marked as artifacts so screen readers skip them.
 - **The PDF is the light rendering.** A dark report on paper is a
   different document and an expensive one. Force light in `@media print`
-  regardless of the screen theme.
+  regardless of the screen theme — and force it by **re-declaring the
+  tokens**, not just `body`'s colours. Every `var(--ink)`, `var(--rule)`
+  and `var(--panel)` is still holding its dark-scheme value when the print
+  rules land, so a reader in dark mode prints dark values onto white.
+  Repeat the `[data-theme="dark"]` selector inside the print block too: it
+  beats bare `:root` on specificity and would otherwise survive into the
+  ink.
+- **Light is defined unconditionally; dark only ever overrides.** A token
+  whose only definition sits inside a dark block is *undefined* in print,
+  which renders as ink on ink in the one artifact nobody previews before
+  sending. `audit_report.py` fails on it, because reading the CSS will not
+  catch it.
 - **Colour is never the only encoding**, which matters more in print
   because a reader may have printed it in greyscale.
 
@@ -182,10 +228,51 @@ participants declined. More staging is not better: extreme staging was
 | IntersectionObserver | Discrete state changes | Low cost, universal |
 | GSAP ScrollTrigger | Scrub and pinning CSS cannot express | The technique with the strongest comprehension evidence behind it |
 
-GSAP is not mandatory here — unlike a published page, a report's job is
-to be read and printed, and most reports have no scrubbed moment. Load it
-when an argument genuinely has one, and say in the methods note when it
-does not, rather than reaching for it by default.
+GSAP is the standing motion layer on screen, and a report that has a scrubbed
+or pinned moment should load it rather than approximating one. What makes that
+safe here — and what made this file previously say "not mandatory" — is the
+**authored static frame**: every moving block ships the composition that carries
+its claim without the motion, and that one artifact serves print, reduced
+motion, and any browser that does not run the animation. With that contract in
+place, motion costs the printed document nothing, so the question is only
+whether the motion earns its place on screen by the test above.
+
+Where an argument genuinely has no scrubbed or pinned moment, reveals compile to
+CSS scroll timelines and GSAP is not loaded — say so in the methods note rather
+than reaching for it to look busy. Three readings means a static frame per
+register wherever the figure differs, not one shared frame that matches none.
+
+**three.js is gated, and the gate is high.** Six tests, all of which must pass,
+run against a *claim id* rather than against the topic:
+
+1. **Spatial claim** — a major claim depends on depth, volume, orientation,
+   topology, occlusion, assembly, or movement through physical space.
+2. **Viewpoint necessity** — changing viewpoint *reveals evidence*, rather than
+   showcasing an object.
+3. **2D insufficiency** — a map, cutaway, orthographic diagram, annotated image
+   or small multiple cannot communicate the claim at least as clearly.
+4. **Narrative mapping** — every camera or object transition maps to a claim id.
+   No decorative idle orbit.
+5. **Equivalent fallback** — static images, diagrams and text carry the same
+   conclusion without WebGL, because device capability cannot be reliably
+   feature-detected.
+6. **Performance and reduced motion** — meets the CWV budget on the target
+   mobile tier, and fully disables non-essential camera motion under
+   `prefers-reduced-motion`.
+
+Why the bar is that high: four data stories built in static, animated and
+immersive variants found the immersive version rated **more interesting and more
+persuasive, and no more understandable or trustworthy**. A scene that raises
+persuasiveness without raising understanding is rhetoric charged to the reader's
+battery — and on a document whose argument rests on its evidence, that is the
+wrong trade. Most reports fail test 3. When 3D is rejected, say so in the
+methods note and ship the annotated static graphic; recording the rejection is
+what stops the gate decaying into a formality.
+
+If approved: dynamic-import after the content, render on demand rather than in
+an unconditional loop, `dispose()` between chapters, cap device pixel ratio,
+handle `webglcontextlost`, and keep labels, transcript and sources **outside**
+the canvas in normal DOM order.
 
 **Hazards, from GSAP's own docs**, each a build rule: never animate the
 pinned element itself; an ancestor with `transform` or `will-change`

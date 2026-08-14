@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-active-reading="brief">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +13,8 @@
   REPORT SKELETON — structure and behaviour only.
 
   What is reused between reports: this file's markup contract, the citation behaviour, the
-  print rules, the reduced-motion gate. Standardising the invisible layer is what buys the
-  budget to make the visible layer different every time.
+  reading contract, the print rules, the reduced-motion gate. Standardising the invisible
+  layer is what buys the budget to make the visible layer different every time.
 
   What is NEVER reused: the palette, the type, the hero, the section silhouette, the chart
   grammar. Layout similarity across the web fell 44% in a decade and the strongest correlate
@@ -23,6 +23,7 @@
   Replace every token in the :root block from the report's own DESIGN.md, then compose the
   blocks around the subject. The classes below are load-bearing for the auditor:
     .block[data-claims]   .episode / .episode-static   a.cite[data-cite][data-n]   li#rN
+    [data-reading]        the three registers — see references/readings.md
 -->
 
 <style>
@@ -36,7 +37,20 @@
   --display:600 clamp(2rem,5vw,3.4rem)/1.06 ui-serif,Charter,Georgia,serif;
   --label:600 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
   --measure:66ch;
+
+  /* Space either side of a vertical rule. A divider is drawn in a gap, never beside
+     words — and the gap is measured from the INK to the line, not from the element
+     box, because a cell's padding and its neighbour's are two different numbers with
+     the rule sitting between them. 16px is the floor; this is the target. */
+  --gutter-rule:24px;
 }
+@media (max-width:899px){ :root{ --gutter-rule:16px } }
+
+/* Light is defined unconditionally above. Dark only ever OVERRIDES, and is written twice:
+   once for the OS preference (yielding to an explicit light choice) and once for the
+   explicit dark choice, so the control wins in both directions. Never give a token its
+   only definition inside one of these blocks — a token defined only here is undefined in
+   print, and that renders as black on black in the one artifact nobody previews. */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#14130f; --ink:#eae6db; --muted:#9a9585; --rule:#33302a;
@@ -49,7 +63,7 @@
 }
 
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:5.5rem}
 body{margin:0;background:var(--bg);color:var(--ink);font:var(--body);
      text-rendering:optimizeLegibility}
 h1,h2,h3{font-weight:600;letter-spacing:-.01em;text-wrap:balance}
@@ -59,10 +73,71 @@ p{margin:0 0 var(--s4);max-width:var(--measure)}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 
+/* ── the three readings ───────────────────────────────────────────────────────────────
+   Primer / Brief / Technical over one claim ledger. Same evidence, three registers.
+
+   HIDE THE INACTIVE ONES; never show the active one. The obvious inverse —
+   [data-reading]{display:none} plus display:revert on the match — is wrong twice: it
+   flattens a <figure>, an <h2> and a <div> onto one display value, and `display: revert`
+   computes to `none` on Obscura (measured 14 Aug 2026), which renders the whole page
+   blank on the engine that reviews it. :has() itself works there.
+
+   This form also fails better. Without :has() support nothing is hidden and the reader
+   gets all three registers stacked — redundant, complete, still fully cited. The other
+   way round, the same engine serves a blank document. */
+html:has(#rd-primer:checked)    [data-reading]:not([data-reading~="primer"]),
+html:has(#rd-brief:checked)     [data-reading]:not([data-reading~="brief"]),
+html:has(#rd-technical:checked) [data-reading]:not([data-reading~="technical"]){display:none}
+
+/* The control. A real fieldset with real radios, so keyboard and screen-reader behaviour
+   come free and the whole thing works with JavaScript off — which the citation contract
+   already promises of this document. Do not rebuild it from divs. */
+.chrome{position:sticky;top:0;z-index:40;background:var(--bg);
+        border-bottom:1px solid var(--rule);padding:var(--s3) 0}
+.chrome-in{max-width:1080px;margin:0 auto;padding:0 var(--s5);
+           display:flex;gap:var(--s5);align-items:center;flex-wrap:wrap}
+.readings{border:0;margin:0;padding:0;display:flex;gap:var(--s2);align-items:center}
+/* The <legend> is visually hidden and a plain span carries the visible text. A legend is
+   rendered outside normal flow by the UA and lays out unpredictably inside a flex row;
+   hiding it keeps the accessible grouping without letting it near the layout. */
+.readings-label{font:var(--label);letter-spacing:.09em;text-transform:uppercase;
+                color:var(--muted);padding-right:var(--s3)}
+.readings input{position:absolute;opacity:0;width:1px;height:1px}
+/* Block stacking, not flex-direction:column. Both work in a compliant engine; block
+   layout also survives Obscura, which does not wrap a bare text node into an anonymous
+   flex item (measured 14 Aug 2026) — so `Primer<span>…</span>` inside a column flex
+   container renders the span BESIDE the word while every computed style reads correct.
+   The name is wrapped in <b> for the same reason. */
+.readings label{display:block;min-height:44px;padding:var(--s2) var(--s4);cursor:pointer;
+                border:1px solid transparent;border-radius:3px;line-height:1.2}
+.readings label b{display:block;font-weight:inherit}
+/* The one-line description is not decoration. A three-way control whose options are
+   single abstract nouns makes the reader click to find out what they get, and most
+   will not. */
+.readings label span{display:block;font:var(--label);font-weight:400;letter-spacing:.02em;
+                     text-transform:none;color:var(--muted);margin-top:2px}
+.readings label:hover{background:var(--panel)}
+.readings input:focus-visible + label{outline:2px solid var(--accent);outline-offset:2px}
+/* Current state carries weight, a background AND a coloured border — never a tint alone,
+   because colour is never the only signal for "where am I". Deliberately not a
+   box-shadow: Obscura does not paint one, so a state signal riding on it is invisible
+   in every review capture while looking correct in the source. */
+.readings input:checked + label{background:var(--panel);border-color:var(--accent);
+                                font-weight:600}
+@media (prefers-reduced-motion: no-preference){
+  .readings label{transition:background .18s ease,border-color .18s ease}
+}
+.theme-toggle{margin-left:auto;min-height:44px;min-width:44px;padding:0 var(--s4);
+              background:none;border:1px solid var(--rule);border-radius:3px;
+              color:var(--ink);font:var(--label);letter-spacing:.06em;cursor:pointer}
+.theme-toggle:hover{background:var(--panel)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+    white-space:nowrap}
+
 /* ── the page-safe block ──────────────────────────────────────────────────────────────
    One argument step. May break at its boundary; never inside a figure or a caption group. */
 .wrap{max-width:1080px;margin:0 auto;padding:0 var(--s5)}
-.block{padding:var(--s8) 0;border-top:1px solid var(--rule)}
+.block{padding:var(--s8) 0;border-top:1px solid var(--rule);scroll-margin-top:5.5rem}
 .block:first-of-type{border-top:0}
 figure{margin:0 0 var(--s5);break-inside:avoid}
 figcaption{font:var(--label);color:var(--muted);margin-top:var(--s3);
@@ -74,6 +149,24 @@ figcaption{font:var(--label);color:var(--muted);margin-top:var(--s3);
 
 .lede{font-size:1.25rem;line-height:1.4;color:var(--ink);max-width:58ch}
 .label{font:var(--label);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+
+/* ── a divided row ────────────────────────────────────────────────────────────────────
+   Ships correct because this is exactly where the defect lives. The rule goes on the
+   cell and the gutter is applied on BOTH sides of it, so the gap a reader sees is the
+   gap that was declared. The first cell drops its rule rather than its padding, which
+   keeps every cell's text on the same rail. */
+.divided{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+         border-top:1px solid var(--rule);break-inside:avoid}
+.divided > *{border-left:1px solid var(--rule);
+             padding-left:var(--gutter-rule);padding-right:var(--gutter-rule);
+             padding-block:var(--s5);min-width:0}
+.divided > *:first-child{border-left:0;padding-left:0}
+.divided .big{font-size:2rem;line-height:1.05;margin:var(--s2) 0;
+              font-variant-numeric:tabular-nums}
+.divided p:last-child{margin-bottom:0;color:var(--muted);font-size:.92rem}
+/* min-width:0 above matters: a grid child's implicit minimum is min-content, so a long
+   unbroken figure widens the track and walks the row past its container instead of
+   wrapping. That is the clipped-last-cell defect, and it is a one-property fix. */
 
 /* ── the finding, above the fold ──────────────────────────────────────────────────────
    Median scroll depth is about half the page and ~38% of arrivals leave immediately, so
@@ -89,7 +182,9 @@ figcaption{font:var(--label);color:var(--muted);margin-top:var(--s3);
 .asks li{break-inside:avoid}
 
 /* Inference renders differently from finding. The ledger's whole point is that a reader
-   can tell them apart, and that only exists if it survives into the markup. */
+   can tell them apart, and that only exists if it survives into the markup. It sits on
+   the BLOCK, above the readings, so the mark holds in all three registers structurally
+   rather than by the writer remembering to carry it. */
 [data-kind="inference"]{border-left:2px solid var(--muted);padding-left:var(--s4)}
 [data-kind="inference"] .kindmark{font:var(--label);color:var(--muted);
       letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:var(--s2)}
@@ -144,40 +239,100 @@ a.cite::after{content:"]"}
   /* Re-declare the LIGHT tokens, not just body's colours. A reader in dark mode
      otherwise prints dark token values onto a white sheet: every var(--ink),
      var(--rule) and var(--panel) is still holding its dark-scheme value when the
-     print rules land. Found by looking at a rendered PDF, not by any exit code. */
-  :root{
+     print rules land. Found by looking at a rendered PDF, not by any exit code.
+     The [data-theme="dark"] selector is repeated here because it beats bare :root
+     on specificity and would otherwise survive into the ink. */
+  :root,:root[data-theme="dark"]{
     --bg:#fff; --ink:#111; --muted:#555; --rule:#ccc;
     --accent:#9a3b1f; --accent-soft:#f2e5de; --panel:#f7f5f0;
   }
   html,body{background:#fff;color:#111;font-size:10.5pt}
+  html{scroll-padding-top:0}
   .wrap{max-width:none;padding:0}
-  .nav,.theme-toggle,.scroll-hint,.toc-float{display:none}
-  .block{padding:0 0 10mm;border-top:0;break-inside:auto}
-  figure,table,.tldr,.kpi,.callout{break-inside:avoid}
+  .nav,.theme-toggle,.scroll-hint,.toc-float,.chrome{display:none}
+  .block{padding:0 0 10mm;border-top:0;break-inside:auto;scroll-margin-top:0}
+  figure,table,.tldr,.kpi,.callout,.divided{break-inside:avoid}
   h1,h2,h3{break-after:avoid}
   .citepop{display:none}
+  /* Which register is this? A PDF carrying one of three readings with nothing saying
+     which becomes ambiguous the moment it is forwarded. The stamp is per-reading and
+     inherits the same [data-reading] gate as everything else, so exactly one prints. */
+  .reading-stamp{display:block;font:var(--label);letter-spacing:.09em;
+                 text-transform:uppercase;color:#555;margin:0 0 6mm}
   /* Paper has no hyperlinks: print the registry's destinations. Not the inline markers —
      those already carry a number that resolves below. */
   .registry a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt;color:#555}
   a.cite{color:#111;text-decoration:none}
 }
+.reading-stamp{display:none}
 </style>
 </head>
 
 <body>
+
+<!-- ───── the reading control ─────
+     Three registers of one argument over one claim ledger. The names describe the
+     DOCUMENT, never the reader: "Primer" is a book that starts at the beginning, which
+     is a respectable thing for a document to be. Nothing here grades the person choosing.
+
+     Radios rather than buttons so this works with JavaScript off, and so the browser
+     supplies the roving-tabindex, arrow-key and announced-group behaviour that a
+     hand-rolled control gets wrong. The radios stay in the DOM (visually hidden, not
+     display:none) — display:none removes them from the tab order and from :checked. -->
+<header class="chrome">
+  <div class="chrome-in">
+    <fieldset class="readings">
+      <legend class="sr">Read this as</legend>
+      <span class="readings-label" aria-hidden="true">Read this as</span>
+      <input type="radio" name="reading" id="rd-primer" value="primer">
+      <label for="rd-primer"><b>Primer</b><span>from scratch</span></label>
+      <input type="radio" name="reading" id="rd-brief" value="brief" checked>
+      <label for="rd-brief"><b>Brief</b><span>what it means</span></label>
+      <input type="radio" name="reading" id="rd-technical" value="technical">
+      <label for="rd-technical"><b>Technical</b><span>how we know</span></label>
+    </fieldset>
+    <!-- The theme control is created by script, deliberately. With JavaScript off the
+         page already follows the OS preference, so a dead button would be worse than
+         no button. The reading control is content and must work unaided; the theme
+         control is presentation with a correct automatic default. -->
+  </div>
+</header>
+<!-- Switching register replaces most of the page's text with no visible motion, which a
+     screen-reader user has no way to notice. One polite announcement on change, and only
+     on change — never one per block. -->
+<p class="sr" id="reading-live" aria-live="polite"></p>
+
 <main class="wrap">
 
-  <!-- ───── block 1: the finding. Never below the fold. ───── -->
+  <!-- Exactly one of these prints, carrying the same [data-reading] gate as the prose. -->
+  <p class="reading-stamp" data-reading="primer">Primer reading</p>
+  <p class="reading-stamp" data-reading="brief">Brief reading</p>
+  <p class="reading-stamp" data-reading="technical">Technical reading</p>
+
+  <!-- ───── block 1: the finding. Never below the fold. ─────
+       The finding and the ask are the two claims that may NEVER be omitted from a
+       register. A reader given a reading without the conclusion has been handed a
+       different document, not a simpler one. -->
   <section class="block" id="b1" data-claims="{{HEADLINE_CLAIM_IDS}}">
     <p class="label">{{KICKER}} · {{DATE}}</p>
-    <h1>{{TITLE}}</h1>
-    <p class="lede">{{ONE_SENTENCE_FINDING}}</p>
+    <h1 data-reading="primer">{{TITLE_FROM_SCRATCH}}</h1>
+    <h1 data-reading="brief technical">{{TITLE}}</h1>
+    <p class="lede" data-reading="primer">{{THE_FINDING_WITH_AN_ANALOGY_CARRYING_IT}}</p>
+    <p class="lede" data-reading="brief">{{ONE_SENTENCE_FINDING}}</p>
+    <p class="lede" data-reading="technical">{{THE_FINDING_WITH_ITS_NUMBERS_AND_SCOPE}}</p>
 
     <div class="tldr">
       <p class="label">In short</p>
       <ul>
-        <li>{{CLAIM_TEXT}}<a class="cite" href="#r1" data-cite="r1" data-n="1"
-             aria-describedby="r1">1</a></li>
+        <!-- One <li> per register, each citing the SAME source for the same claim.
+             The marker moves because the span a source supports is a different span in
+             each wording; the source does not move, and the registry is shared. -->
+        <li data-reading="primer">{{CLAIM_IN_PRIMER_WORDS}}<a class="cite" href="#r1"
+             data-cite="r1" data-n="1" aria-describedby="r1">1</a></li>
+        <li data-reading="brief">{{CLAIM_TEXT}}<a class="cite" href="#r1"
+             data-cite="r1" data-n="1" aria-describedby="r1">1</a></li>
+        <li data-reading="technical">{{CLAIM_WITH_N_AND_INTERVAL}}<a class="cite" href="#r1"
+             data-cite="r1" data-n="1" aria-describedby="r1">1</a></li>
       </ul>
       <!-- The ask, in the same box as the finding. Both blind judges reading as the
            person RECEIVING the document preferred a rival that named the next action
@@ -188,24 +343,64 @@ a.cite::after{content:"]"}
     </div>
   </section>
 
-  <!-- ───── an evidence block: one claim, one visual delta ───── -->
+  <!-- ───── an evidence block: one claim, one visual delta ─────
+       The block carries the claim ids; the registers carry the wording. A claim omitted
+       from a register needs "omit" and an "omitReason" in claims.json — and its figure
+       goes with it, because a chart with no accompanying claim is decoration that
+       survived an edit. -->
   <section class="block" id="b2" data-claims="{{CLAIM_ID}}">
-    <h2>{{BLOCK_HEADING}}</h2>
+    <h2 data-reading="primer">{{HEADING_AS_A_QUESTION_A_BEGINNER_WOULD_ASK}}</h2>
+    <h2 data-reading="brief">{{BLOCK_HEADING}}</h2>
+    <h2 data-reading="technical">{{HEADING_NAMING_THE_MEASUREMENT}}</h2>
     <figure>
       <p class="fig-title">{{TITLE_STATING_THE_CONCLUSION}}</p>
       <!-- Inline SVG or a data table, so the figure exists without script and reaches
-           the PDF. Script enhances it; script is never what creates it. -->
+           the PDF. Script enhances it; script is never what creates it.
+
+           Per register: Primer shows one comparison with direct labels and no legend;
+           Brief shows the comparison that carries the decision; Technical shows the
+           distribution, the interval and the outliers. The SCALES AGREE across all
+           three — round the labels, never the geometry, or a reader who switches sees
+           the data change. -->
       {{INLINE_SVG_OR_TABLE}}
       <figcaption>{{WHAT_THIS_SHOWS_AND_ITS_LIMITS}}</figcaption>
     </figure>
-    <p>{{PROSE}}<a class="cite" href="#r2" data-cite="r2" data-n="2" aria-describedby="r2">2</a></p>
+    <p data-reading="primer">{{PROSE_FROM_SCRATCH}}<a class="cite" href="#r2"
+       data-cite="r2" data-n="2" aria-describedby="r2">2</a></p>
+    <p data-reading="brief">{{PROSE}}<a class="cite" href="#r2"
+       data-cite="r2" data-n="2" aria-describedby="r2">2</a></p>
+    <p data-reading="technical">{{PROSE_WITH_METHOD}}<a class="cite" href="#r2"
+       data-cite="r2" data-n="2" aria-describedby="r2">2</a></p>
   </section>
 
-  <!-- ───── a reasoned block, visibly marked ───── -->
-  <section class="block" id="b3" data-claims="{{INFERENCE_CLAIM_ID}}" data-kind="inference">
+  <!-- ───── a divided stat row ─────
+       The rule sits in a gap on both sides, from --gutter-rule. Text set hard against a
+       vertical rule reads as a table that was squeezed rather than cells that were
+       spaced, and it passes every element-box check by construction because the padding
+       belongs to a different element from the border. design-review measures the INK. -->
+  <section class="block" id="b3" data-claims="{{CLAIM_IDS}}">
+    <div class="divided">
+      <div>
+        <p class="label">{{WHAT_THIS_MEASURES}}</p>
+        <p class="big">{{FIGURE}}</p>
+        <p>{{ITS_SCOPE}}</p>
+      </div>
+      <div>
+        <p class="label">{{WHAT_THIS_MEASURES}}</p>
+        <p class="big">{{FIGURE}}</p>
+        <p>{{ITS_SCOPE}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── a reasoned block, visibly marked ─────
+       data-kind sits on the BLOCK, above the readings, so the inference mark holds in
+       all three registers structurally rather than by the writer remembering it. -->
+  <section class="block" id="b4" data-claims="{{INFERENCE_CLAIM_ID}}" data-kind="inference">
     <span class="kindmark">Inference — not measured here</span>
     <h2>{{HEADING}}</h2>
-    <p>{{THE_REASONING_STEP_IN_ONE_SENTENCE}}</p>
+    <p data-reading="primer">{{THE_REASONING_STEP_IN_PLAIN_WORDS_STILL_HEDGED}}</p>
+    <p data-reading="brief technical">{{THE_REASONING_STEP_IN_ONE_SENTENCE}}</p>
     <p class="label">Rests on: {{CLAIM_IDS_IT_BUILDS_ON}}</p>
   </section>
 
@@ -213,8 +408,11 @@ a.cite::after{content:"]"}
        The title and the caption sit OUTSIDE the toggle, so both branches carry them.
        Putting them inside .episode-static hides them on screen, which strips the caveat
        from exactly the readers most likely to need it and leaves a screen reader with an
-       untitled graphic. A blind judge caught that on a page this template produced. -->
-  <section class="block" id="b4" data-claims="{{CLAIM_ID}}">
+       untitled graphic. A blind judge caught that on a page this template produced.
+
+       Three registers means three static frames where the figure differs per register,
+       not one — print runs no animation and neither does a browser with script off. -->
+  <section class="block" id="b5" data-claims="{{CLAIM_ID}}">
     <h2>{{HEADING}}</h2>
     <figure>
       <p class="fig-title">{{TITLE_STATING_THE_CONCLUSION}}</p>
@@ -266,6 +464,102 @@ a.cite::after{content:"]"}
 </main>
 
 <script>
+/* Reading control — enhancement over a control that already works.
+
+   The CSS does the switching on its own via :has(). Everything here is the part CSS
+   cannot do: remembering the choice, honouring a shared link, keeping the reader's
+   place, announcing the change, and mirroring the state onto <html> so print and any
+   other script have one thing to read. If this file fails to parse, the control still
+   switches registers — it just forgets. */
+(() => {
+  const NAMES = ['primer', 'brief', 'technical'];
+  const radios = Object.fromEntries(
+    NAMES.map(n => [n, document.getElementById('rd-' + n)]).filter(([, el]) => el));
+  if (!Object.keys(radios).length) return;
+  const live = document.getElementById('reading-live');
+  const root = document.documentElement;
+
+  const current = () => NAMES.find(n => radios[n] && radios[n].checked) || 'brief';
+
+  /* Registers differ in length, so a naive swap moves the text under the reader's eyes
+     and reads as the page breaking. Pin the block they are actually looking at. */
+  const anchorBlock = () => {
+    for (const b of document.querySelectorAll('.block')) {
+      const r = b.getBoundingClientRect();
+      if (r.bottom > 80) return { el: b, top: r.top };
+    }
+    return null;
+  };
+  const restore = (a) => {
+    if (!a) return;
+    const now = a.el.getBoundingClientRect().top;
+    scrollBy({ top: now - a.top, behavior: 'instant' });
+  };
+
+  const apply = (name, { announce = true } = {}) => {
+    if (!radios[name]) return;
+    const a = anchorBlock();
+    radios[name].checked = true;
+    root.setAttribute('data-active-reading', name);
+    try { localStorage.setItem('report:reading', name); } catch {}
+    const url = new URL(location.href);
+    url.searchParams.set('reading', name);
+    history.replaceState(null, '', url);   // replace, so switching does not fill the back button
+    restore(a);
+    if (announce && live) live.textContent = name[0].toUpperCase() + name.slice(1) + ' reading';
+  };
+
+  /* URL beats storage, so a shared link lands where the sender meant rather than where
+     the recipient last was. A bare #b7 block fragment still resolves untouched. */
+  const url = new URL(location.href);
+  const hash = location.hash.replace('#', '');
+  let want = url.searchParams.get('reading')
+          || (NAMES.includes(hash) ? hash : null);
+  if (!want) { try { want = localStorage.getItem('report:reading'); } catch {} }
+  if (want && radios[want]) apply(want, { announce: false });
+  else root.setAttribute('data-active-reading', current());
+
+  for (const n of NAMES) {
+    if (radios[n]) radios[n].addEventListener('change', () => apply(n));
+  }
+})();
+
+/* Theme control — created here rather than in the markup, deliberately.
+
+   With script off the page already follows prefers-color-scheme, so a button that does
+   nothing would be worse than no button at all. Three states, not two: "Auto" has to be
+   reachable again after a manual choice, or the reader can never hand the decision back
+   to their OS. Print ignores all of it and renders light. */
+(() => {
+  const bar = document.querySelector('.chrome-in');
+  if (!bar) return;
+  const MODES = ['auto', 'light', 'dark'];
+  const LABEL = { auto: 'Theme: auto', light: 'Theme: light', dark: 'Theme: dark' };
+  let mode = 'auto';
+  try { mode = localStorage.getItem('report:theme') || 'auto'; } catch {}
+  if (!MODES.includes(mode)) mode = 'auto';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'theme-toggle';
+
+  const paint = () => {
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = LABEL[mode];
+    btn.setAttribute('aria-label', LABEL[mode] + ' — activate to change');
+  };
+
+  btn.addEventListener('click', () => {
+    mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+    try { localStorage.setItem('report:theme', mode); } catch {}
+    paint();
+  });
+
+  paint();
+  bar.appendChild(btn);
+})();
+
 /* Citation preview — progressive enhancement over anchors that already work.
 
    WCAG 1.4.13 asks that hover content be hoverable, dismissible and persistent, which is

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-active-reading="brief">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,10 @@
 
   Cover, body and back matter are merged deliberately: a cover page on a one-page document
   spends half the artifact on a title.
+
+  Three readings, same as the full report and from the same ledger. Aim for one sheet in
+  EACH — the registers differ in length, so a Primer that spills because its analogies run
+  long is the same defect as a loose Technical, and only rendering all three shows it.
 -->
 
 <style>
@@ -29,7 +33,12 @@
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:22px; --s6:30px;
   --body:14.5px/1.5 ui-serif,Charter,"Iowan Old Style",Georgia,serif;
   --label:600 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gutter-rule:24px;
 }
+@media (max-width:899px){ :root{ --gutter-rule:16px } }
+/* Light is defined unconditionally above; dark only ever overrides, and is written twice so
+   the control wins in both directions. A token defined ONLY in a dark block is undefined
+   when the print rules land, which renders as ink on ink. */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#14130f; --ink:#eae6db; --muted:#9a9585; --rule:#33302a;
@@ -45,8 +54,58 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:var(--body)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
-/* On screen the sheet is shown as a sheet, so what you see is what prints. */
-.sheet{width:210mm;min-height:297mm;margin:0 auto;padding:16mm 15mm 18mm;
+/* ── the three readings ──
+   Hide the inactive registers; never show the active one with display:revert, which
+   computes to `none` on at least one engine in this stack and blanks the sheet. Without
+   :has() support nothing is hidden and the reader gets all three — redundant, complete,
+   still cited. See references/readings.md. */
+html:has(#rd-primer:checked)    [data-reading]:not([data-reading~="primer"]),
+html:has(#rd-brief:checked)     [data-reading]:not([data-reading~="brief"]),
+html:has(#rd-technical:checked) [data-reading]:not([data-reading~="technical"]){display:none}
+
+/* The control sits OUTSIDE the sheet: it is apparatus for reading on screen, and a one-page
+   document cannot spend a band of its only sheet on chrome. It never prints. */
+.chrome{max-width:210mm;margin:0 auto;padding:var(--s4) 15mm 0;display:flex;
+        gap:var(--s4);align-items:center;flex-wrap:wrap}
+.readings{border:0;margin:0;padding:0;display:flex;gap:var(--s2);align-items:center}
+.readings-label{font:var(--label);letter-spacing:.09em;text-transform:uppercase;
+                color:var(--muted);padding-right:var(--s3)}
+.readings input{position:absolute;opacity:0;width:1px;height:1px}
+/* Block stacking rather than flex-direction:column, and the name wrapped in <b>: a bare
+   text node is not wrapped into an anonymous flex item on Obscura, so the description
+   lands beside the word while every computed style reads correct. */
+.readings label{display:block;min-height:44px;padding:var(--s2) var(--s4);cursor:pointer;
+                border:1px solid transparent;border-radius:3px;line-height:1.2}
+.readings label b{display:block;font-weight:inherit}
+.readings label span{display:block;font:var(--label);font-weight:400;letter-spacing:.02em;
+                     text-transform:none;color:var(--muted);margin-top:2px}
+.readings label:hover{background:var(--panel)}
+.readings input:focus-visible + label{outline:2px solid var(--accent);outline-offset:2px}
+/* Weight, background AND a coloured border — never a tint alone, and never a box-shadow,
+   which Obscura does not paint. */
+.readings input:checked + label{background:var(--panel);border-color:var(--accent);
+                                font-weight:600}
+.theme-toggle{margin-left:auto;min-height:44px;padding:0 var(--s4);background:none;
+              border:1px solid var(--rule);border-radius:3px;color:var(--ink);
+              font:var(--label);letter-spacing:.06em;cursor:pointer}
+.theme-toggle:hover{background:var(--panel)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* A divided row: the rule sits in a gap on both sides, measured from the ink to the line. */
+.divided{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+         border-top:1px solid var(--rule);break-inside:avoid}
+.divided > *{border-left:1px solid var(--rule);
+             padding-left:var(--gutter-rule);padding-right:var(--gutter-rule);
+             padding-block:var(--s3);min-width:0}
+.divided > *:first-child{border-left:0;padding-left:0}
+
+/* On screen the sheet is shown as a sheet, so what you see is what prints.
+   Sized in PIXELS, not millimetres: 794 × 1123px is A4 at 96dpi, and the real A4 is
+   enforced by @page at print time where it belongs. Measured on Obscura 14 Aug 2026,
+   a physical unit resolves to the container width — `width: 210mm` computed to 1264px
+   and `height: 297mm` to 0 — so a millimetre sheet reviews as a full-bleed page with no
+   margins and invites a fix for a defect that only exists in the review engine. */
+.sheet{width:794px;max-width:100%;min-height:1123px;margin:0 auto;padding:60px 57px 68px;
        background:var(--bg);display:flex;flex-direction:column;gap:var(--s5)}
 
 /* ── brand band ── */
@@ -99,45 +158,85 @@ a.cite::before{content:"["} a.cite::after{content:"]"}
   /* Re-declare the LIGHT tokens, not just body's colours. A reader in dark mode
      otherwise prints dark token values onto a white sheet: every var(--ink),
      var(--rule) and var(--panel) is still holding its dark-scheme value when the
-     print rules land. Found by looking at a rendered PDF, not by any exit code. */
-  :root{
+     print rules land. Found by looking at a rendered PDF, not by any exit code.
+     The [data-theme="dark"] selector is repeated because it beats bare :root on
+     specificity and would otherwise survive into the ink. */
+  :root,:root[data-theme="dark"]{
     --bg:#fff; --ink:#111; --muted:#555; --rule:#ccc;
     --accent:#9a3b1f; --accent-soft:#f2e5de; --panel:#f7f5f0;
   }
   html,body{background:#fff;color:#111}
-  .sheet{width:auto;min-height:0;margin:0;padding:0}
-  .hero,.claims li,.sources li{break-inside:avoid}
+  .chrome{display:none}
+  .sheet{width:auto;max-width:none;min-height:0;margin:0;padding:0}
+  .hero,.claims li,.sources li,.divided{break-inside:avoid}
   h1{break-after:avoid}
+  /* Which register is this sheet? One line, because a one-pager gets forwarded more
+     often than anything else here and three of them look identical at a glance. */
+  .reading-stamp{display:inline;font:var(--label);letter-spacing:.09em;
+                 text-transform:uppercase;color:#555}
   .sources a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt}
 }
+.reading-stamp{display:none}
 </style>
 </head>
 
 <body>
+
+<!-- Apparatus for reading on screen, outside the sheet, and never printed. A one-page
+     document cannot spend a band of its only sheet on chrome. -->
+<header class="chrome">
+  <fieldset class="readings">
+    <legend class="sr">Read this as</legend>
+    <span class="readings-label" aria-hidden="true">Read this as</span>
+    <input type="radio" name="reading" id="rd-primer" value="primer">
+    <label for="rd-primer"><b>Primer</b><span>from scratch</span></label>
+    <input type="radio" name="reading" id="rd-brief" value="brief" checked>
+    <label for="rd-brief"><b>Brief</b><span>what it means</span></label>
+    <input type="radio" name="reading" id="rd-technical" value="technical">
+    <label for="rd-technical"><b>Technical</b><span>how we know</span></label>
+  </fieldset>
+</header>
+<p class="sr" id="reading-live" aria-live="polite"></p>
+
 <article class="sheet">
 
   <header class="band">
     <span class="mark">{{PROJECT_OR_MARK}}</span>
-    <span class="meta">{{KICKER}} · {{DATE}}</span>
+    <span class="meta">{{KICKER}} · {{DATE}}
+      <span class="reading-stamp" data-reading="primer"> · Primer</span>
+      <span class="reading-stamp" data-reading="brief"> · Brief</span>
+      <span class="reading-stamp" data-reading="technical"> · Technical</span>
+    </span>
   </header>
 
   <div class="block" data-claims="{{HEADLINE_CLAIM_IDS}}">
-    <h1>{{TITLE}}</h1>
+    <h1 data-reading="primer">{{TITLE_FROM_SCRATCH}}</h1>
+    <h1 data-reading="brief technical">{{TITLE}}</h1>
   </div>
 
-  <p class="finding">{{ONE_SENTENCE_FINDING}}</p>
+  <p class="finding" data-reading="primer">{{THE_FINDING_WITH_AN_ANALOGY_CARRYING_IT}}</p>
+  <p class="finding" data-reading="brief">{{ONE_SENTENCE_FINDING}}</p>
+  <p class="finding" data-reading="technical">{{THE_FINDING_WITH_ITS_NUMBERS_AND_SCOPE}}</p>
 
   <figure class="hero block" data-claims="{{HERO_CLAIM_ID}}">
     <p class="fig-title">{{TITLE_STATING_THE_CONCLUSION}}</p>
+    <!-- Primer gets one comparison with direct labels; Technical gets the interval. The
+         SCALES AGREE across registers — round the labels, never the geometry. -->
     {{INLINE_SVG_OR_KPI_STRIP}}
     <figcaption>{{WHAT_IT_SHOWS_AND_ITS_LIMITS}}</figcaption>
   </figure>
 
   <ul class="claims">
+    <!-- Every register cites. The marker moves with the wording because the span a source
+         supports differs per register; the source and the registry below do not move. -->
     <li class="block" data-claims="{{CLAIM_ID}}">
       <span class="n">01</span>
-      <span>{{CLAIM_TEXT}}<a class="cite" href="#r1" data-cite="r1" data-n="1"
-            aria-describedby="r1">1</a></span>
+      <span data-reading="primer">{{CLAIM_IN_PRIMER_WORDS}}<a class="cite" href="#r1"
+            data-cite="r1" data-n="1" aria-describedby="r1">1</a></span>
+      <span data-reading="brief">{{CLAIM_TEXT}}<a class="cite" href="#r1"
+            data-cite="r1" data-n="1" aria-describedby="r1">1</a></span>
+      <span data-reading="technical">{{CLAIM_WITH_N_AND_INTERVAL}}<a class="cite" href="#r1"
+            data-cite="r1" data-n="1" aria-describedby="r1">1</a></span>
     </li>
     <li class="block" data-claims="{{INFERENCE_CLAIM_ID}}" data-kind="inference">
       <span class="n">02</span>
@@ -178,5 +277,65 @@ a.cite::before{content:"["} a.cite::after{content:"]"}
   </footer>
 
 </article>
+
+<script>
+/* The register switching is pure CSS and works with this file absent. What is here is only
+   what CSS cannot do: remember the choice, honour a shared link, announce the change, and
+   offer a theme control. The storage keys are the ones the full report uses, so a reader
+   who picked Technical there gets Technical here — the two documents are one argument. */
+(() => {
+  const NAMES = ['primer', 'brief', 'technical'];
+  const radios = Object.fromEntries(
+    NAMES.map(n => [n, document.getElementById('rd-' + n)]).filter(([, el]) => el));
+  const live = document.getElementById('reading-live');
+  const root = document.documentElement;
+
+  const apply = (name, announce) => {
+    if (!radios[name]) return;
+    radios[name].checked = true;
+    root.setAttribute('data-active-reading', name);
+    try { localStorage.setItem('report:reading', name); } catch {}
+    const u = new URL(location.href);
+    u.searchParams.set('reading', name);
+    history.replaceState(null, '', u);
+    if (announce && live) live.textContent = name[0].toUpperCase() + name.slice(1) + ' reading';
+  };
+
+  // URL beats storage, so a shared link lands where the sender meant.
+  const hash = location.hash.replace('#', '');
+  let want = new URL(location.href).searchParams.get('reading')
+          || (NAMES.includes(hash) ? hash : null);
+  if (!want) { try { want = localStorage.getItem('report:reading'); } catch {} }
+  if (want && radios[want]) apply(want, false);
+
+  for (const n of NAMES) if (radios[n]) radios[n].addEventListener('change', () => apply(n, true));
+
+  /* Built here rather than in the markup: with script off the sheet already follows the OS
+     preference, so a dead button would be worse than none. Three states, so "auto" stays
+     reachable after a manual choice. Print ignores all of it and renders light. */
+  const bar = document.querySelector('.chrome');
+  if (!bar) return;
+  const MODES = ['auto', 'light', 'dark'];
+  let mode = 'auto';
+  try { mode = localStorage.getItem('report:theme') || 'auto'; } catch {}
+  if (!MODES.includes(mode)) mode = 'auto';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'theme-toggle';
+  const paint = () => {
+    if (mode === 'auto') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', mode);
+    btn.textContent = 'Theme: ' + mode;
+    btn.setAttribute('aria-label', 'Theme: ' + mode + ' — activate to change');
+  };
+  btn.addEventListener('click', () => {
+    mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+    try { localStorage.setItem('report:theme', mode); } catch {}
+    paint();
+  });
+  paint();
+  bar.appendChild(btn);
+})();
+</script>
 </body>
 </html>
