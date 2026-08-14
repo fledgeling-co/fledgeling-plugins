@@ -1,13 +1,15 @@
 ---
 name: dossier-report
-description: Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Every page gets its own visual language, GSAP motion, conditional three.js, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
+description: Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry. Every page gets its own visual language, light and dark, GSAP motion, conditional three.js, animated and interactive visualisations pitched at each reading, captioned generated imagery and vector artwork, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
 ---
 
 # Publishing a research page
 
 One topic in, one page out: researched by a panel, argued from a claim
-graph, designed around its own subject, and published to its own
-subdomain.
+graph, designed around its own subject, published to its own subdomain,
+and offered in three registers so the same evidence reaches a specialist,
+a decision-maker and a reader meeting the subject for the first time.
+
 
 The failure this exists to prevent is specific and has happened twice
 already in this repo. A panel of five backends ran, `research_synthesise`
@@ -25,8 +27,8 @@ in it. Read it when you need to justify or tune a rule, not on every run.
 
 ## The shape of a run
 
-Nine phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
-4 and 8 are the human checkpoints.
+Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
+4 and 9 are the human checkpoints.
 
 | # | Phase | Routes to |
 |---|---|---|
@@ -36,9 +38,18 @@ Nine phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
 | 3 | Compile the claim graph | — |
 | 4 | Name, aesthetic and icon concept | `/clarify` |
 | 5 | Diverge on visual direction | `/trawl` |
-| 6 | Build the page | `design-craft`, `ux-craft`, `create-luke-content` |
-| 7 | Build the page icon | `create-mac-icon` |
-| 8 | Audit, index, ask before deploy | `design-review` |
+| 6 | Write the three readings | `create-luke-content` |
+| 7 | Build the page | `design-craft`, `ux-craft`, `create-luke-content`, `dataviz` |
+| 8 | Build the page icon | `create-mac-icon` |
+| 9 | Audit, index, ask before deploy | `design-review` |
+
+**Every design decision goes through `design-craft` with `ux-craft`'s
+lens** — the aesthetic direction, the reading control, the theme, layout,
+motion, states and the copy that labels a control. `design-craft` owns the
+visual craft and the anti-slop discipline; `ux-craft` owns flow, states
+and interface words. Where either is unavailable, say which substitution
+you made in the methods note.
+
 
 ## Phase 0 — Sharpen the brief before spending
 
@@ -102,7 +113,8 @@ the citation UI is generated from rather than retrofitted onto.
 
 Every claim carries: an id, its exact text, a confidence, whether it is
 **direct or inference**, its source ids, the specific passage or table
-that supports it, and its scope and limits.
+that supports it, its scope and limits, and a `readings` object holding
+how each of the three registers says it (Phase 6).
 
 The build fails if a quantitative or attributed claim has no source, if a
 cited source supports only a nearby proposition rather than the claim
@@ -145,7 +157,55 @@ Before designing, read `~/Dev/dossier/*/index.html` — the pages already
 published — and treat their section silhouettes, hero shapes, chart
 grammars and transition metaphors as **taken**.
 
-## Phase 6 — Build the page
+## Phase 6 — Write the three readings
+
+Full contract, markup, toggle and gates: `references/readings.md`.
+
+The page ships three registers of one argument over one claim graph, and
+the reader toggles between them:
+
+| Reading | Written for | What it does |
+|---|---|---|
+| **Primer** | someone meeting the subject cold, around an 11-year-old reading level | the finding as something concrete, an analogy doing the work a definition would |
+| **Brief** | the informed non-specialist the page is trying to persuade | what was found, what it means, what follows |
+| **Technical** | someone who will check the work | mechanism, numbers, method, limits, where the backends disagreed |
+
+`brief` is the default — the register a bare link lands on and the one
+`og:description` quotes.
+
+**The rule that makes three readings honest:**
+
+> A reading may change the words. It may never change what is claimed.
+
+Simplifying is choosing shorter words for the same proposition. Dropping
+the caveat that bounds a number is a *different and stronger* claim, and
+it is the one a Primer produces by default, because the simplified
+sentence genuinely reads better.
+
+On a published page that risk is sharper than on an internal report,
+because the page goes out under a real name and its argument is usually
+that somebody else overclaimed. **Where the panel disagreed, the
+disagreement survives into every register** — the Primer says "the people
+who looked at this do not agree yet" rather than picking the tidier side
+because a split is hard to say simply. Resolving a split for a simpler
+register is overclaiming committed against your own corpus, which is the
+one form of it this skill has already shipped once.
+
+Confidence, limits and the inference mark travel into all three. A
+re-expressed number stays the same number: Primer may round and change
+the unit, never drop it or lose an order of magnitude.
+
+A claim may be omitted from a register with `omit` and an `omitReason`.
+The **finding** and the page's **editorial tension** may never be omitted
+— a register that resolves the tension the other two leave open is a
+different page.
+
+Route every word through `create-luke-content`, once per reading, from
+the claim graph rather than by rewriting another register. The voice does
+not change across registers: Luke writing for an eleven-year-old is still
+Luke, not a children's-textbook persona.
+
+## Phase 7 — Build the page
 
 Full craft rules, with the evidence behind each: `references/page-craft.md`.
 
@@ -190,6 +250,24 @@ The rules that matter most, in short:
 - **Charts are validated at generation**: axes, baselines, units,
   intervals, legends, uncertainty. Truncation inflates perceived
   differences by 58–130%, and instructing readers does not fix it.
+  Route form and colour through `dataviz`, and
+  `references/visualisation.md` for which form each register gets and
+  what may move or be interactive in it.
+- **A vertical rule is drawn in a gap, never beside words.** At least
+  24px between a rule and the nearest text at 900px and wider, 16px
+  below, on **both** sides. Measured from the text's ink to the line, not
+  from the element box — the padding is usually declared on a different
+  element from the border, so a cell with `padding-left: 24px` and its own
+  `border-left` passes an element-box check by construction while reading
+  as a squeezed table. `design-review` measures the ink; the auditor here
+  catches the cheap form. Run against a page already published from this
+  skill, the ink measurement returned **twenty below-floor violations**.
+- **Light and dark both ship, and both are measured.** Light is defined
+  unconditionally on bare `:root`; dark only overrides, written twice so
+  the control wins in both directions. No token gets its only definition
+  inside a dark block. Contrast, focus and divider gutters are checked in
+  each theme, because a dark palette derived by inverting a light one
+  passes by luck if it passes at all.
 
 Generate the marketing chrome with `scripts/build_chrome.py` rather than
 hand-writing it — the sticky masthead marketing Dossier and Margin
@@ -209,7 +287,29 @@ which must pass, run against a claim id rather than against the topic.
 When 3D is rejected, say so in the page's own notes and ship the
 annotated static graphic.
 
-## Phase 7 — The page icon
+**Imagery, video and vector artwork through `media-gen-pro`**, where a
+picture genuinely carries something prose does not — and never for
+charts, numbers, labelled diagrams, tables or anything with exact text,
+which image models garble and re-prompting garbles differently. Say what
+a run will spend before spending it.
+
+Three rules that make generated media safe on a page whose argument is
+its evidence:
+
+- **Every generated asset carries a caption naming what it is**, and the
+  methods note records that it was generated. An illustration a reader
+  could mistake for a photograph of the thing under discussion is a
+  provenance failure, not a decoration choice — the same standard the
+  claim graph applies to numbers.
+- **Diagrams and vector artwork use the `svg: true` path**, which returns
+  editable vector rather than a raster imitation of one, scales without
+  resampling, and keeps its text as text.
+- **Resize a raster to the width it displays at** before wiring it in,
+  and keep it out of the hero. A full-width generated image at the top
+  pushes the finding below the fold, which costs more than the picture is
+  worth.
+
+## Phase 8 — The page icon
 
 Route to `create-mac-icon` with the chosen concept and the page's own
 palette. It returns the layered master, the rasters and `audit.html`
@@ -217,19 +317,24 @@ with every take scored. Wire the result in as the favicon, the
 `apple-touch-icon`, and the basis of the `og:image` — two of the three
 existing pages ship with no `og:image` at all and share as bare links.
 
-## Phase 8 — Audit, index, and stop
+## Phase 9 — Audit, index, and stop
 
 1. `python3 scripts/audit_page.py <page>/index.html` — cite↔source
-   integrity both ways, self-containment, reduced-motion, WebGL
-   fallback, both chrome blocks, share tags, alt text, weight. Errors
-   block; warnings are for the reviewer.
-2. `design-review` against the real render at multiple viewports.
-   **Open the render yourself first** — serve the page, capture it at 1440 and
+   integrity both ways **and once per reading**, the per-claim marker in
+   every register that renders it, the default register with script off,
+   divider gutters, the theme contract, self-containment, reduced-motion,
+   WebGL fallback, both chrome blocks, share tags, alt text, weight.
+   Errors block; warnings are for the reviewer.
+2. `design-review` against the real render at multiple viewports —
+   **six passes, not one**: three readings × light and dark.
+   **Open the renders yourself first** — serve the page, capture each at 1440 and
    390, and read the captures asking *"what is wrong with this?"*. The auditor
    proves structure; only looking proves the page is any good, and a script
    reporting success on a page nobody opened is the failure this step exists
-   for. Same rule for the PDF export: render it to images and read them, since
-   print CSS breaks in ways the screen version never shows.
+   for. Set the register in the **served source** rather than by clicking: on
+   Obscura, setting `.checked` from script does not re-evaluate the `:has()`
+   selector, so a scripted toggle captures the same register three times and
+   reports three passes.
 3. Fix what both find, then re-run the auditor.
 4. Add the row to `~/Dev/dossier/home/index.html`, matching the existing
    markup.

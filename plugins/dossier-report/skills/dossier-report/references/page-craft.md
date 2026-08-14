@@ -14,6 +14,8 @@ number nobody can source is a number nobody should tune against.
 6. [Performance floor](#6-performance-floor)
 7. [Chart integrity](#7-chart-integrity)
 8. [Mobile](#8-mobile)
+9. [The divider gutter](#9-the-divider-gutter)
+10. [Light and dark](#10-light-and-dark)
 
 ---
 
@@ -456,3 +458,72 @@ memorable third against 8% of the least.
   genuinely meaningful — change over time and spatial movement qualify.
 - Expect to redesign the graphic two or three times to work on both
   desktop and mobile. That is the documented cost, not a failure.
+
+---
+
+## 9. The divider gutter
+
+A vertical rule is drawn in a gap, never beside words. Keep **24px**
+between the rule and the nearest text at 900px and wider, **16px** below
+that, applied on *both* sides of the rule.
+
+The measurement runs from the text's **ink** to the line, and that
+distinction is the whole rule rather than a refinement of it. The gutter
+is normally declared on one element and the rule painted on another, so a
+cell with `padding-left: 24px` carrying its own `border-left` satisfies
+any element-box check by construction — while what a reader sees is the
+distance from the glyphs, after the cell's inner wrapper margins and the
+*neighbouring* cell's `padding-right`, which is frequently a different
+number. The declared gutter and the perceived gutter are two
+measurements, and only one of them is on screen.
+
+This is not hypothetical here. `design-review`'s `probeDividerProximity`
+run against a page already published from this skill returned **twenty
+below-floor violations** — one stat cell measuring 14.3px from its rule
+with `padding-right: 0` (the gap came from somewhere nobody had decided),
+another at 14.5px where the declared padding was 14px and simply below
+the floor.
+
+Three consequences for the markup:
+
+- **Put the rule and both paddings on the same element**, so the two
+  numbers sit where they can be read at once. Drop the rule on the first
+  child, not its padding, so every cell's text stays on one rail.
+- **`min-width: 0` on grid children.** A grid child's implicit minimum is
+  `min-content`, so one long unbroken figure widens the track and walks
+  the row past its container instead of wrapping — which is the
+  clipped-last-cell defect, and a one-property fix.
+- **Nothing in a divided row may clip.** A row that runs out of width
+  wraps or stacks; it never cuts a cell's final words.
+
+`design-review` measures the rendered ink and is the real gate;
+`scripts/audit_page.py` catches the cheap source-level form — a rule
+declared with no gutter on that side at all.
+
+---
+
+## 10. Light and dark
+
+Both ship, and both are measured.
+
+- **Light is defined unconditionally on bare `:root`.** Dark only ever
+  overrides. A token whose only definition sits inside a dark block is
+  undefined wherever that branch does not apply, and the failure renders
+  as ink on ink.
+- **Dark is written twice** — once under `prefers-color-scheme: dark`,
+  guarded as `:root:not([data-theme="light"])` so an explicit light
+  choice wins, and once under `:root[data-theme="dark"]` so the control
+  wins in the other direction.
+- **`body` carries an explicit token background.** A transparent body
+  borrows whatever is behind it.
+- **The theme control is script-created.** With JavaScript off the page
+  already follows the OS preference, so a dead button would be worse than
+  none — unlike the *reading* control, which is content and works
+  unaided. Three states, so "auto" stays reachable after a manual choice.
+
+**Measured, not authored.** Contrast, focus visibility and divider
+gutters are checked in each theme at Phase 9. A dark palette assembled by
+inverting a light one passes by luck if it passes at all, and the theme
+nobody measured is the theme that ships broken. That is six review passes
+on a page with three readings, and they are cheap next to publishing a
+surface whose dark mode nobody opened.
