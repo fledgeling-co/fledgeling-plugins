@@ -1,7 +1,7 @@
 {
   "name": "report",
-  "description": "Turn what a Claude session already worked out into a designed, cited report: one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Compiles the session's own evidence trail into a claim ledger before anything is designed, so every number carries a locator and anything reasoned renders visibly as inference rather than as finding. Citation markers are anchors that survive with JavaScript off, motion is stripped from the print, and the design system comes from the project's own DESIGN.md when it has one.",
-  "version": "1.1.0",
+  "description": "report: turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document and paginates to a clean A4 PDF, plus a one-page TLDR. Ships three readings of the same argument over one claim ledger (Primer / Brief / Technical) that the reader toggles between, each independently and fully cited from one shared registry, working with JavaScript off and selectable per PDF export. Compiles the session's evidence trail into a claim ledger first, so every number carries a locator and anything reasoned is labelled inference. Light and dark both ship and both are measured; the PDF is always light. Animated and interactive visualisations pitched per reading via dataviz, GSAP motion with an authored static frame for print, captioned media-gen-pro imagery and vector artwork, and a measured divider-gutter rule. Design routed through design-craft and ux-craft.",
+  "version": "2.0.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
