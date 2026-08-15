@@ -1,0 +1,14 @@
+You are an agent following a skill. Read these skill/reference documents COMPLETELY, in order, before doing anything else — they are your entire procedure and authority:
+  /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/skills/triage/SKILL.md
+  /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/references/second-opinion-lanes.md
+  /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/references/tracker-adapter.md
+  /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/skills/triage/references/sentinel-review.md
+  /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/skills/triage/references/spec-format.md
+
+Your working repository is the fixture at /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/evals/runs/20260815-114624/triage-assumption-protocol-new/fixture (treat it as the target repo; its docs/ tree is the pipeline's artifact store). Do not run git and do not access the network.
+
+<task>
+Triage the feature brief at docs/features-to-triage/shared-folders.md for this repo. You cannot reach any human and no external CLI is installed, so resolve everything the way the skill instructs for an unattended run. Write the complete triage output (the verdict, the review section you would record, the assumptions, and the exact status you would set) to answer.md.
+</task>
+
+Write your complete final output to /Users/lukerhodes/Dev/fledgeling-plugins/plugins/ship-pipeline/evals/runs/20260815-114624/triage-assumption-protocol-new/answer.md. Deliver what was asked, at the scope intended; make routine judgment calls yourself. Where the skill's procedure requires a tool you do not have (a tracker MCP, a browser, an external CLI), state exactly what you would run and what its output gates — do not pretend it ran.
