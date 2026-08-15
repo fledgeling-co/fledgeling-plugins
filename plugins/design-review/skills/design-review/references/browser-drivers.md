@@ -103,6 +103,44 @@ back as `{}`. Anything needing a specific viewport, a full-page capture, or
 async evaluation has to go through `serve` + CDP.
 
 
+## The Target domain is scoped to the connection, and `/json/list` will not tell you
+
+Measured 15 Aug 2026. Open a CDP socket, `Target.createTarget`, then drop the
+socket and open a new one:
+
+- `GET /json/list` still lists the page, with the same id.
+- `Target.getTargets` on the new socket returns **an empty list**.
+- `Target.attachToTarget` with that id answers **"Target not found"**.
+
+So a `sessionId` dies with the socket that issued it and the target cannot be
+recovered. Anything that needs to survive a dropped or desynced connection has
+to create a **new** target and re-navigate — which means the document is
+re-loaded, so scroll position, settle state and any accumulated page state are
+gone, and measurements taken afterwards are not continuous with the ones before.
+`run_review.py`'s `Page.recover()` does exactly this and records which probes ran
+on the rebuilt document. The HTTP listing is not evidence that a target is
+reachable.
+
+Two consequences worth carrying:
+
+- **Retry with backoff.** The timeout that forces recovery usually means the
+  renderer is still finishing the call that overran, and it cannot service a
+  `createTarget` until it is done — an immediate single attempt fails on exactly
+  the case worth recovering. 0 / 2 / 4 / 8s works.
+- **An infinite loop in page JS is not recoverable at all.** The renderer never
+  returns, so every attempt fails. That is the correct outcome to report; the
+  wrong one is to mark the remaining checks clean.
+
+## `Emulation.setDeviceMetricsOverride` needs the session, and then it works
+
+The viewport matrix is real: `375 / 768 / 1024 / 1280 / 1920` each report the
+requested `innerWidth`. But the call only takes effect when it is sent **with the
+page's `sessionId`**, after `Target.createTarget` → `Target.attachToTarget`. Sent
+on the bare browser connection it is accepted and silently does nothing — which
+looks identical to an engine that ignores the domain, and has been mistaken for
+one. If a capture comes back at the wrong size, check that the session id was
+passed before concluding the engine is at fault.
+
 ## Layout gaps that compute correctly and render wrongly
 
 The worst class of divergence, because the usual defence — read the computed
