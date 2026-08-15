@@ -1,6 +1,7 @@
 ---
 name: be-my-witness
-description: Validate a UI screenshot against what a test expected and against a design mock, and return both a pass/fail gate and severity-ranked findings. Use whenever a test, capture suite, or review step has produced a screenshot that something now has to judge — "does this screenshot match the expected output", "does the build still look like the mock", "score this capture against the design", "why did the visual check fail", "compare these two renders" — and whenever an automated suite needs a visual assertion that will not fail on legitimate differences like changed data or a different crop. Not for reviewing a live page in a browser (use design-review) or pixel-matching an implementation against a mock by measuring the DOM (use mockup-fidelity).
+description: >-
+  Validate a UI screenshot against what a test expected and against a design mock, and return both a pass/fail gate and severity-ranked findings. Use whenever a test, capture suite, or review step has produced a screenshot that something now has to judge — "does this screenshot match the expected output", "does the build still look like the mock", "score this capture against the design", "why did the visual check fail", "compare these two renders" — and whenever an automated suite needs a visual assertion that will not fail on legitimate differences like changed data or a different crop. Not for reviewing a live page in a browser (use design-review) or pixel-matching an implementation against a mock by measuring the DOM (use mockup-fidelity).
 ---
 
 # Be my witness

@@ -1,0 +1,6 @@
+{
+  "name": "ship-armada",
+  "version": "1.2.1",
+  "description": "Portfolio-wide orchestrator across every project in ~/Dev — the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, routes, and dispatches. Route mode lands a single directive ('research feature X and incorporate it into <project>') in the right project's pipeline — deep research into docs/deep-research, a brief into features-to-triage, an inbox row in the project's ORCHESTRATOR.md that any active fleet picks up (or a new ship-fleet run when approved), and the master manifest updated. Dispatch runs per-repo backlogs through ship-fleet and cross-project rollouts as dependency-ordered campaigns with capped concurrency. Daemon mode proposes on a schedule and executes only what the user has approved.",
+  "category": "development"
+}

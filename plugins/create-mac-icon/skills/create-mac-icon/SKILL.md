@@ -1,6 +1,7 @@
 ---
 name: create-mac-icon
-description: Create a macOS app icon end-to-end — direction chosen from a 532-icon corpus catalogue, subject-mined glyph, three generation engines (hand-authored layered SVG, Arrow vector, corpus-referenced raster), a written audit.html contact sheet, and a measured fidelity loop that iterates the SVG master against the winning raster reference until the material matches. Use whenever the user asks for a mac app icon, dock icon, macOS icon, app icon for a Mac tool, an icon "in the macOS style", asks to improve or iterate an existing icon against a reference image, or asks to make a vector icon look like a raster/generated one — including when they just say "make an icon for my app" on a Mac-adjacent project.
+description: >-
+  Create a macOS app icon end-to-end — direction chosen from a 532-icon corpus catalogue, subject-mined glyph, three generation engines (hand-authored layered SVG, Arrow vector, corpus-referenced raster), a written audit.html contact sheet, and a measured fidelity loop that iterates the SVG master against the winning raster reference until the material matches. Use whenever the user asks for a mac app icon, dock icon, macOS icon, app icon for a Mac tool, an icon "in the macOS style", asks to improve or iterate an existing icon against a reference image, or asks to make a vector icon look like a raster/generated one — including when they just say "make an icon for my app" on a Mac-adjacent project.
 ---
 
 # Create Mac Icon

@@ -1,0 +1,6 @@
+{
+  "name": "dossier-report",
+  "version": "2.1.0",
+  "description": "dossier-report: turn a research question into one published, uniquely-themed HTML page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and published to <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph (Primer / Brief / Technical), toggled by the reader, each independently and fully cited from one shared registry and working with JavaScript off. Every page gets its own visual language, light and dark both measured, GSAP motion, conditional three.js behind a six-test gate, animated and interactive visualisations pitched per reading via dataviz, captioned media-gen-pro imagery and vector artwork, claim-local citations with source popups, a verified source registry, a measured divider-gutter rule, and the Dossier/Margin marketing chrome. Design routed through design-craft and ux-craft.",
+  "category": "development"
+}

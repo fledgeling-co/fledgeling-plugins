@@ -1,0 +1,6 @@
+{
+  "name": "better-loop",
+  "version": "2.0.0",
+  "description": "Arm recurring or event-driven work as a change-gated watcher this skill creates itself, so a tick fires only when something has actually changed. A scheduled loop re-sends the same unmet condition and the same failing tasks turn after turn, re-billing the session's whole prefix each time: five of twelve measured heavy sessions did exactly that and accounted for 91% of input between them. better-loop (formerly loop-harness) polls a deterministic probe command in the background, wakes the session only on a change and sends the delta rather than the state, backs off on a state it has seen before, holds a wake budget per hour, and can dispatch the tick detached so the session is never woken at all. It picks the mechanism first, preflights the probe for determinism and the skills the tick names, and routes to better-goal when the work has a verifiable finish line. No cron, so no seven-day expiry and nothing left behind in settings.",
+  "category": "development"
+}

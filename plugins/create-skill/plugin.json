@@ -1,0 +1,6 @@
+{
+  "name": "create-skill",
+  "version": "1.2.0",
+  "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve.",
+  "category": "development"
+}

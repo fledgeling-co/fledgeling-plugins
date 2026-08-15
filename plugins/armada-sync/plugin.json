@@ -1,0 +1,6 @@
+{
+  "name": "armada-sync",
+  "version": "1.0.0",
+  "description": "Keep the portfolio manifest ~/Dev/ARMADA.md truthful after working in any ~/Dev project. Surgical, single-entry updates: status, features, key-file references, updated stamp, index row, one changelog line. The counterpart maintenance skill to ship-armada — every project's CLAUDE.md points here so the manifest stays fresh even when work happens outside the orchestrator.",
+  "category": "development"
+}
