@@ -125,7 +125,10 @@ unclosable row is a blocker and the status stays put.
 Fan out one reviewer per dimension — requirement completeness, correctness, guardrails
 (the target repo's own load-bearing invariants, read from its CLAUDE.md + the plan's
 constraints — never an assumed list), UI fidelity vs the mock index (measured, not read),
-security (tenancy, visibility, injection, untrusted input), simplicity & surgical diff. Findings
+security (tenancy, visibility, injection, untrusted input), simplicity & surgical diff. Where
+the `code-review` skill is installed, run it over the branch diff as one more lens — it carries
+its own multi-pass sharding and verifier fan-out, and its findings merge into the same
+disposition queue rather than a separate report. Findings
 tagged Critical→Low with `file:line` and the exact clause violated. Never brief a reviewer to be
 conservative — report everything, filter at disposition. **Adversarially verify aimed, not
 blanket**: every Critical, every structural fix, anything reversing a locked decision. Criticals

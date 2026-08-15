@@ -25,6 +25,7 @@ done
 STATE="$HOME/.claude/mac-doctor"
 LEDGER="$STATE/ledger.jsonl"
 PROTECTED="$STATE/protected"
+SCRIPT_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
 mkdir -p "$STATE/findings" "$STATE/logs"
 RUN_ID="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 freed_kb=0; actions=()
@@ -62,6 +63,29 @@ repo_root() { git -C "$1" rev-parse --show-toplevel 2>/dev/null; }
 free_before=$(df -k /System/Volumes/Data | tail -1 | awk '{print $4}')
 
 # ---- 15m band ---------------------------------------------------------------
+# Runaway and orphan processes. Delegated to runaway.sh, which keeps a watchlist
+# across runs because a single sample cannot tell a spin loop from a build --
+# nothing is signalled until it has been seen runaway on several separate runs
+# spanning at least half an hour. Its stderr is progress for this log; its
+# stdout is TSV records folded into the ledger below.
+RUNAWAY_RECORDS=""
+if [ -x "$SCRIPT_DIR/runaway.sh" ]; then
+  if [ "$APPLY" -eq 1 ]; then
+    RUNAWAY_RECORDS=$("$SCRIPT_DIR/runaway.sh" --apply)
+  else
+    RUNAWAY_RECORDS=$("$SCRIPT_DIR/runaway.sh")
+  fi
+  # KILLED records join `actions` so they show up in the existing log line and
+  # the existing ledger field; WATCH/KEPT/USER are carried separately, because
+  # "seen but not acted on" is the half of the record that makes a recurring
+  # leak visible and `actions` has never meant that.
+  while IFS=$'\t' read -r kind id units detail; do
+    [ -n "$kind" ] || continue
+    [ "$kind" = "KILLED" ] && { actions+=("$id ($units)"); log "reclaimed $id ($units processes)"; }
+    [ "$kind" = "USER" ] && log "needs user: $id ($units) — $detail"
+  done <<< "$RUNAWAY_RECORDS"
+fi
+
 # Exited containers only. `exited`/`created` are states a running workload
 # cannot be in, which is what makes this safe without judgement.
 if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
@@ -134,8 +158,31 @@ if [ "$APPLY" -eq 1 ]; then
   else
     actions_json='[]'
   fi
-  printf '{"run_id":"%s","tier":"%s","mode":"apply","free_kb_before":%s,"free_kb_after":%s,"freed_kb_est":%s,"actions":%s}\n' \
-    "$RUN_ID" "$TIER" "$free_before" "$free_after" "$freed_kb" "$actions_json" \
+  # Process records carry their own array rather than collapsing into `actions`.
+  # A ledger that records only what was done is a log of the tool, not a picture
+  # of the machine: an id seen in `observed` across thirty runs and never acted
+  # on is the highest-value shape in the file, and `actions` cannot express it.
+  # Verdicts use the vocabulary in references/ledger.md.
+  processes_json=$(printf '%s' "${RUNAWAY_RECORDS:-}" | python3 -c '
+import sys, json
+verdict = {"KILLED":"reclaimed","WATCH":"observed","KEPT":"kept","USER":"deferred_to_user"}
+out = []
+for line in sys.stdin:
+    parts = line.rstrip("\n").split("\t")
+    if len(parts) < 4 or not parts[0]:
+        continue
+    kind, ident, units, detail = parts[0], parts[1], parts[2], parts[3]
+    try:
+        units = int(units)
+    except ValueError:
+        units = 0
+    out.append({"id": ident, "action": verdict.get(kind, "observed"),
+                "count": units, "reason": detail})
+print(json.dumps(out))')
+  [ -n "$processes_json" ] || processes_json='[]'
+
+  printf '{"run_id":"%s","tier":"%s","mode":"apply","free_kb_before":%s,"free_kb_after":%s,"freed_kb_est":%s,"actions":%s,"processes":%s}\n' \
+    "$RUN_ID" "$TIER" "$free_before" "$free_after" "$freed_kb" "$actions_json" "$processes_json" \
     >> "$LEDGER"
 fi
 

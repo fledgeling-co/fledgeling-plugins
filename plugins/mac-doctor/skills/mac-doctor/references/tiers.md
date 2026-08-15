@@ -28,7 +28,12 @@ quoting the container figure overstates what is available.
 Cheap, silent, no judgement calls. Should complete in seconds.
 
 - Orphan process families passing the gate in `processes.md`. Families, not
-  PIDs — 167 leaked MCP servers is one finding with a count.
+  PIDs — 167 leaked MCP servers is one finding with a count. Implemented in
+  `scripts/runaway.sh`, which never signals on first sight: a process must be
+  seen runaway on three separate runs spanning at least half an hour, because
+  one sample cannot tell a spin loop from a build. Idle orphan families are
+  reported and never killed; only sustained CPU and leaked automation browser
+  trees are reaped unattended.
 - Exited Docker containers (`docker container prune -f`), only ones in `exited`
   or `created` state.
 - Exited Apple `container` containers (`container prune`, which removes all

@@ -87,6 +87,115 @@ Terminate only when all of these hold, and say which were checked.
 Prefer SIGTERM, wait, escalate to SIGKILL for what ignores it. Chromium ignores
 SIGTERM routinely; that is expected.
 
+**Signal by explicit pid, never by command pattern.** On a machine with many
+worktrees checked out, a pattern that describes one fleet's process describes
+every fleet's — a `pkill -f` here has previously killed another runner's
+`cargo test`. Build the pid list from a `ps` snapshot and signal that list.
+
+## The automated lane — `scripts/runaway.sh`
+
+The 15m tier runs this unattended, so its gate is narrower than the manual one
+above. It is called by `reclaim.sh`; run it directly to see what it would do.
+
+**Nothing is signalled on first sight.** `ps` %CPU answers "what did this do just
+now", and even sustained CPU reads 100% for a Rust compile as readily as for a
+spin loop. The difference is only visible over time, so a process must be seen
+runaway on `RUNAWAY_CONFIRMATIONS` separate runs spanning at least
+`RUNAWAY_MIN_WATCH_SECONDS` before it is eligible. State is one line per process
+in `~/.claude/mac-doctor/watchlist.tsv`, rewritten every run: a process that
+stops being runaway leaves the list and starts again from zero.
+
+The span requirement is not redundant with the count. Under load these runs
+stack — measured on this machine at load 418, a 15m job still alive after 8
+minutes having accumulated 0.02s of CPU — so three "separate" runs can otherwise
+land within a minute of each other and confirm nothing.
+
+Identity is pid plus the kernel's start timestamp, not pid alone. A recycled pid
+would otherwise inherit another process's sightings and be killed on its first
+run. `etime` is unusable for this: its one-second resolution wobbles between
+samples, so a key built from it never matches itself.
+
+### Three classes, two autonomy levels
+
+| Class | Test | Verdict |
+| --- | --- | --- |
+| `runaway-cpu` | orphaned, ≥10 min old, ≥60% sustained | killed after confirmation |
+| `orphan-family` | orphaned automation browser, ≥30 min old | killed after confirmation, whole tree |
+| `idle-orphan` | orphaned, ≥24h old, ≤2% sustained, ≥5 sharing a name | **reported only, never killed** |
+
+The idle class is the 167-MCP-server and 548-log-follower shape — near-zero CPU,
+so the sustained test cannot see it. It is reported rather than reaped because
+it costs RSS and not CPU, so there is no urgency to buy with the risk, and from
+outside a hundred idle orphans are indistinguishable from another fleet's live
+workers. Family size is the discriminator that makes it a finding at all: one
+long-lived idle orphan is usually a daemon doing its job.
+
+### Why orphans only, and why that is not enough
+
+Nothing with a live owner is ever signalled. A build has cargo as a parent, a
+dev server has a shell, a test has its harness; something is waiting on all of
+them. A leak has nobody.
+
+That rule alone would sweep up every GUI application, because macOS launches
+those from launchd too — **measured on this machine, 93 applications sit at
+PPID 1**, and your own Chrome is indistinguishable from a leaked one by parentage
+alone. The discriminator is the automation flags: a driver-spawned browser
+carries `--disable-field-trial-config`, `--headless`, `--remote-debugging-port`
+or a scratch `--user-data-dir`, and renderers inherit them. A `.app` without
+those markers, and anything below it, is never a candidate.
+
+### Declaring an instrument
+
+A deliberate CPU load fixture and a leak look identical from outside: both
+orphaned, both burning a core, neither with an owner you can ask. That ambiguity
+is real — a batch of load burners on this machine was killed by hand about
+seventy seconds before their own runner would have reaped them.
+
+So a runner that spawns load can say so. Any file under
+`~/.claude/mac-doctor/instruments/` is read as TSV:
+
+```
+<pid>	<expires_unix_epoch>	<owner label>
+```
+
+An unexpired declaration makes the pid invisible to this lane. An **expired** one
+does the opposite of protecting it: the declaration is the runner's own promise
+about when the load should be gone, so a burner outliving its stamp is a
+stranded instrument — precisely the leak worth reaping. Expiry is what separates
+the two, and only the spawner can supply it.
+
+Better still, make the load self-limiting so a dead runner cannot strand it at
+all: `timeout 600 yes > /dev/null` gives the burner its own deadline and turns
+the reap into an optimisation rather than the only exit.
+
+### The false positive this cannot rule out
+
+A deliberately detached long-running compute job — `nohup python train.py &` —
+is orphaned, pegs a core, holds no connections, and is indistinguishable from a
+spin loop by every test here. It will be killed after confirmation. The escape
+hatch is `~/.claude/mac-doctor/protected`, one glob per line, matched against the
+command line as well as against paths; or a declaration as above. Say this
+plainly when recommending the lane to someone, rather than after it has happened.
+
+### Tunables
+
+`RUNAWAY_MIN_ELAPSED` (600), `RUNAWAY_SUSTAINED_PCT` (60),
+`RUNAWAY_CONFIRMATIONS` (3), `RUNAWAY_MIN_WATCH_SECONDS` (1800),
+`RUNAWAY_BROWSER_MIN_ELAPSED` (1800), `RUNAWAY_IDLE_MIN_ELAPSED` (86400),
+`RUNAWAY_IDLE_MAX_SUSTAINED` (2), `RUNAWAY_IDLE_MIN_FAMILY` (5).
+
+Lowering the thresholds for a test also lowers them for real work: at
+`RUNAWAY_SUSTAINED_PCT=10` this machine's `swiftpm-testing-helper` became a
+candidate. Never combine lowered thresholds with `--apply`.
+
+### Verifying a reap
+
+Count processes alive before and against after. A loop of `kill "$p" 2>/dev/null`
+reporting `killed $(wc -l < pidfile)` prints the file's line count, not the
+number of processes that died — a number that looks like a measurement and is
+not. `runaway.sh` re-checks every pid with `kill -0` after escalating and reports
+survivors as `KEPT` rather than claiming the kill.
+
 ## macOS specifics
 
 - Killing a browser tree's leaf leaves renderers behind. Collect the whole tree —

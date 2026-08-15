@@ -11,7 +11,8 @@ description: >
   the work, then emits a single batched AskUserQuestion — plain wording, a marked
   recommendation with its reason, options described by what changes if chosen — and treats any
   note the user attaches to an answer as binding. Routes technical questions to a second model
-  first (fable-5, or gpt-5.6-sol via the Codex CLI for a different family) so what reaches the
+  first (fable-5 for speed; codex, agy or grok for a different family, with a three-family panel
+  for genuinely open forks and Dossier deep research for questions about the world) so what reaches the
   user is taste, cost, scope and risk rather than something another model could have settled.
   Not for routine judgment calls you should make yourself, and not a substitute for
   investigating first.
@@ -84,28 +85,46 @@ approach has a flaw, which of two designs holds up — is a question about the w
 user is not the only thing in the world that can answer it. A question about *their* taste,
 budget, priorities or systems is not, and no model can stand in for them.
 
-For the technical kind, get a second opinion and then decide. Two lanes, both verified:
+For the technical kind, get a second opinion and then decide. Four lanes, ordered — the first
+two verified in production, the second two probed before first use in a session (confirm the
+flags against `--help`; a CLI's argv is not stable across versions):
 
 ```bash
 # A different Claude — fast, no cost beyond the subscription
 claude --model claude-fable-5 --effort high -p "<the question, plus the evidence>"
 
-# A different model FAMILY — the point when everything else is Claude checking Claude
+# A different model FAMILY — the default when independence is the point
 perl -e 'alarm shift @ARGV; exec @ARGV' 600 \
   codex exec -m gpt-5.6-sol -c model_reasoning_effort="high" \
   -s read-only -o /tmp/second-opinion.md "<prompt>" < /dev/null \
   > /tmp/second-opinion.log 2>&1
 grep -qx "model: gpt-5.6-sol"    /tmp/second-opinion.log || echo "WRONG-MODEL — lane failed"
 grep -qx "reasoning effort: high" /tmp/second-opinion.log || echo "WRONG-EFFORT — lane failed"
+
+# The Google family (gemini-flash-3.7) — output buffers to exit; never poll its stdout
+perl -e 'alarm shift @ARGV; exec @ARGV' 600 \
+  agy -p "<the question, plus the evidence>" > /tmp/so-agy.md 2>/tmp/so-agy.log
+
+# The xAI family (grok-4.6) — harness fallback: cursor-agent -p --force with the same prompt
+perl -e 'alarm shift @ARGV; exec @ARGV' 600 grok -p "<the question, plus the evidence>" > /tmp/so-grok.md 2>&1
 ```
+
+When a lane is down (binary missing, not signed in, usage limit, empty output file, deadline
+fired), take the next family and say which one answered — a rate-limited lane is reported and
+substituted, never retried into the ground. The same model through a different harness is an
+honest substitute; name the harness. Every out-of-family call is egress: the packet and every
+file the lane opens go to that vendor, so respect a repo's `ANTHROPIC-ONLY` /
+`NO EXTERNAL MODEL CLIS` markers, checked per invocation.
 
 Four rules make this worth doing rather than theatre:
 
 - **Send the evidence, not the question.** A model asked "should we use Clerk or WorkOS?" gives
   you the blog-post answer. One given the auth requirements, the existing session handling, and
   the constraint that nobody can reach App Store Connect gives you a verdict on *this* codebase.
-- **Reach for codex when independence is the thing you need**, and fable when speed is. Codex is
-  a different family, so it does not share the blind spot — that is its whole value as an oracle.
+- **Reach for an out-of-family lane when independence is the thing you need**, and fable when
+  speed is. A different family does not share the blind spot — that is its whole value as an
+  oracle, and it is why the fallback order stays out of family (codex, then agy, then grok)
+  before it ever falls back to a second Claude.
 - **Verify the lane ran.** The header lines above are the evidence, not the command you typed;
   launch parameters have been observed not to stick. An absent or empty `-o` file is a lane
   failure, not a quiet pass. A failed lane means you decide alone, and say so.
@@ -113,6 +132,25 @@ Four rules make this worth doing rather than theatre:
   the repo context. When it changes your mind, say so in a clause; when you overrule it, say that
   too. Consulting two models and forwarding both answers to the user is the same abdication as
   asking, with extra latency.
+
+**A panel, for the fork one opinion should not settle.** When the call is genuinely open and
+high-leverage — an architecture everything downstream amplifies, a verdict two lanes already
+split on — put it to three families at once (codex, agy, grok; add fable as a fourth voice).
+Same packet to each, candidate options in swapped order between members, verdict-line answers
+(`VERDICT:` + one reason), members that return nothing counted and reported rather than dropped.
+Majority informs you; a split *is* the answer — it says the fork is real, and that is exactly
+the question worth carrying to the user with the split quoted. Measured grounding: diverse
+panels beat a single frontier judge at roughly a seventh of the cost, and position bias is real,
+which is why the order swaps. Never panel a routine call — three opinions on a two-space-indent
+question is theatre.
+
+**Dossier, for the question that is about the world.** When the fork turns on external facts
+(what competing products do, a vendor's actual behaviour, prior art, market norms) rather than
+on this repo, it is a research question: `research_plan` (free) to see the panel and cost, then
+`research_start` with no provider for the free-CLI + paid panel, read the exported reports in
+full, and `research_verify_citations` before relying on anything. Say what it cost. A lane
+answers from what it already knows; Dossier goes and looks — pick by whether the answer should
+be sourced or reasoned.
 
 What survives all four gates is what actually reaches the user: taste, cost, scope, risk, and
 their own systems. Those are the higher-level questions, and they are worth interrupting for.
