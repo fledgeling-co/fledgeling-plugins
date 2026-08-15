@@ -68,6 +68,30 @@ A complete, working new project from an idea. One front-loaded interview, then s
 
 <br clear="left" />
 
+<a href="plugins/shipyard/README.md"><img src="plugins/shipyard/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [shipyard](plugins/shipyard/README.md)
+
+The feature-delivery stage skills: intake, triage, plan, design, work, verify and gap-fix, on one tracker adapter and one complete status machine. Built on a 110-ticket audit of its predecessors, with typed evidence rules and a cross-family verifier as the only path to done. The report card and blind-panel results ship in the repo.
+
+<br clear="left" />
+
+<a href="plugins/ship-feature/README.md"><img src="plugins/ship-feature/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [ship-feature](plugins/ship-feature/README.md)
+
+The end-to-end conductor: one feature from rough idea to merged, verified code, running the shipyard stages in order with plan and design in parallel, a fresh-context cross-family verifier before merge, and a fail-closed gate where every box is checked now rather than recalled.
+
+<br clear="left" />
+
+<a href="plugins/ship-fleet/README.md"><img src="plugins/ship-fleet/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [ship-fleet](plugins/ship-fleet/README.md)
+
+The backlog orchestrator: surveys everything left in a repo, writes one durable ledger before any execution, then conducts concurrent ship-feature runners under a global agent budget, with per-item verification and merges serialized. Done means the ledger says so, never that a dispatch returned.
+
+<br clear="left" />
+
 <a href="plugins/ship-armada/README.md"><img src="plugins/ship-armada/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [ship-armada](plugins/ship-armada/README.md)
@@ -205,7 +229,7 @@ One verb for work that belongs on another machine. `anvil errand` sends a Claude
 <br clear="left" />
 
 > [!NOTE]
-> Some skills depend on each other by design: ship-armada dispatches through skills that live in a sibling marketplace, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
+> Some skills depend on each other by design: ship-armada dispatches through ship-fleet and ship-feature, which conduct the shipyard stage skills, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
 ## Licence
 
