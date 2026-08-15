@@ -12,14 +12,18 @@ This replaces a tracker (e.g. Diolog Tasks) issue + comment thread with three ma
 
 The status field is the pipeline state — the doc equivalent of a tracker issue status. Use exactly these values, in this order:
 
-`Triage` → `Needs More Info` → `Ready for Plan` → `Ready for Work` → `In Progress` → `In Review`
+`Triage` → `Needs More Info` → `Ready for Plan` → `Ready for Work` → `In Progress` → `In Review` → `Done` | `Needs More Work`
+
+These are the markdown-lane surface forms of the pipeline's canonical status enum — the mapping (To Do ↔ Ready for Plan, Ready for AI ↔ Ready for Work, Developer Review ↔ In Review) lives in `../../../references/tracker-adapter.md`.
 
 - `Triage` — spec created, triage in progress.
 - `Needs More Info` — triage found an essential gap; waiting on a human answer.
 - `Ready for Plan` — triage passed; `/plan` can run.
 - `Ready for Work` — `/plan` wrote the plan; `/work` can run. (set by `/plan`)
 - `In Progress` — `/work` is implementing. (set by `/work`)
-- `In Review` — `/work` finished; the local branch awaits human review. (set by `/work`)
+- `In Review` — the worker finished; the branch awaits verification. (set by `work`)
+- `Done` — the cross-family verifier graded it complete. (set by `verify` — nothing else may set it)
+- `Needs More Work` — verification failed; the verdict table is gap-fix's work order. (set by `verify` — the one permitted downgrade)
 
 Never downgrade a status (e.g. don't move `Ready for Work` back to `Ready for Plan`).
 
