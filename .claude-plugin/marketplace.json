@@ -10,7 +10,7 @@
     {
       "name": "ship-armada",
       "description": "Portfolio-wide orchestrator across every project in ~/Dev \u2014 the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, routes, and dispatches. Route mode lands a single directive ('research feature X and incorporate it into <project>') in the right project's pipeline \u2014 deep research into docs/deep-research, a brief into features-to-triage, an inbox row in the project's ORCHESTRATOR.md that any active fleet picks up (or a new ship-fleet run when approved), and the master manifest updated. Dispatch runs per-repo backlogs through ship-fleet and cross-project rollouts as dependency-ordered campaigns with capped concurrency. Daemon mode proposes on a schedule and executes only what the user has approved.",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -131,7 +131,7 @@
     {
       "name": "mac-doctor",
       "description": "Tiered macOS maintenance for a dev machine that agent CLIs, node/dev servers, Docker and Xcode have quietly filled up. Five launchd cadences (15m/1h/12h/1d/7d) whose autonomy widens as the cadence lengthens: short tiers act silently on provably-regenerable debris, long tiers propose and wait. Verification gates before every deletion, a findings ledger that makes recurring leaks visible, and measurement discipline that refuses to total a partial result.",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -186,7 +186,7 @@
     {
       "name": "clarify",
       "description": "Decide whether to interrupt the user with a question, then ask it so it takes one click to answer. Sweeps the conversation, the repo and earlier agent output for the answer before asking anything, kills questions whose answer would not change the work, then emits a single batched AskUserQuestion in plain words \u2014 a marked recommendation carrying its reason, options described by what changes if chosen, and hard caps on length. Treats a note attached to an answer as binding rather than reading the label alone. Ships a deterministic linter for the question payload.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -242,7 +242,7 @@
       "name": "shipyard",
       "source": "./plugins/shipyard",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "development"
     },
     {
@@ -256,7 +256,7 @@
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "category": "development"
     }
   ]

@@ -86,6 +86,27 @@ Name a family for the thing that leaked — the leaf, not its wrapper.
 `action` is one of `reclaimed`, `kept`, `proposed`, `deferred_to_user`,
 `observed`.
 
+## The `processes` key
+
+`reclaim.sh` writes process findings from `runaway.sh` into their own array
+rather than collapsing them into `actions`, because `actions` records only what
+was done and the interesting shape here is what was *not*:
+
+```json
+"processes": [
+  {"id": "runaway-cpu:yes", "action": "reclaimed", "count": 48,
+   "reason": "pid 64230 + 0 descendants, 82.8% sustained, confirmed 3 runs over 2711s"},
+  {"id": "idle-orphan:node", "action": "observed", "count": 7,
+   "reason": "7 processes; first: pid 10805, 0.0% sustained over 109827s, sighting 2/3"}
+]
+```
+
+`observed` is a sighting on the watchlist that has not yet been confirmed, and
+it is emitted every run the process stays runaway. That repetition is the point:
+an id in `observed` across thirty runs and never acted on means the gate does not
+understand it, which is a different finding from one killed on its third
+sighting.
+
 ## Field rules
 
 **Always record bytes**, estimated or measured, and mark which. Over weeks this

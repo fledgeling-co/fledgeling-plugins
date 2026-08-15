@@ -35,6 +35,7 @@ worse tool.
 | `status` `agents?` `scheduled` | `scripts/install-agents.sh --status`, plus the last ledger entry per tier |
 | `report` `check` `dry` `dry-run` | Survey and explain at `7d` depth; change nothing, whatever the thresholds say |
 | `worktrees` | `scripts/worktree-audit.sh` only, with verdicts |
+| `processes` `runaway` `orphans` | `scripts/runaway.sh` only. Add `--apply` to act; without it nothing is signalled |
 | anything else | Treat it as intent, not a token. "docker is eating my disk" is a `12h` scoped to Docker; say which tier you chose and why |
 
 Two things the argument controls that are easy to drop:
@@ -59,6 +60,7 @@ is useful without being a surprise.
 /mac-doctor            # longest overdue tier
 /mac-doctor 15m|1h|12h|1d|7d
 /mac-doctor report     # measure and explain, change nothing
+/mac-doctor processes  # runaway/orphan lane only
 /mac-doctor --setup    # install the launchd agents
 /mac-doctor status     # what is scheduled, when each last ran, what it reclaimed
 /mac-doctor worktrees  # audit only
@@ -132,6 +134,16 @@ per-worktree verdict.
 Processes get the connection and idleness checks in
 [references/processes.md](references/processes.md) — the CPU/memory/orphan lane,
 absorbed from the former `process-hygiene` skill.
+
+`scripts/runaway.sh` runs that lane unattended in the 15m band, and its gate is
+narrower than the manual one because nobody is reading the result. Nothing is
+signalled on first sight: one `ps` sample cannot tell a spin loop from a build,
+so a process must be seen runaway on three separate runs spanning at least half
+an hour, tracked in `~/.claude/mac-doctor/watchlist.tsv`. Sustained CPU and
+leaked automation browser trees are reaped; idle orphan families are reported and
+left alone. A runner that spawns deliberate load can declare it under
+`~/.claude/mac-doctor/instruments/` with an expiry, which is the only thing that
+distinguishes a live instrument from a leak — see `references/processes.md`.
 
 ## What is never touched
 

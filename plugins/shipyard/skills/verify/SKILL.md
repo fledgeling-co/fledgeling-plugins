@@ -59,7 +59,8 @@ while reading as complete. This stage exists to be the stranger.
    - **Behavioural** → exercise: click the path; replay the exact request; record verbatim
      status + body fragment; confirm persistence by re-reading, then restore.
    - **Persistence** → the producer at `file:line` plus a stored row / fired job / received
-     message from a real run.
+     message from a real run — the `spec-validation` skill's REAL/AUTHORED/MOCK bar; invoke it
+     where installed rather than re-deriving its rubric.
    - **Static** → `file:line`.
    - **Tests** → run the feature's acceptance suite via the `/acceptance-e2e` harness lane (the
      suite the plan's test strategy promised — a committed spec with no recorded run is a

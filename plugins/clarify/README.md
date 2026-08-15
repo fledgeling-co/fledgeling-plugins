@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that decides whether to interrupt you, then writes the question so it takes one click.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.2.0" src="https://img.shields.io/badge/version-1.2.0-D33C21">
   <img alt="SWE skill: interaction" src="https://img.shields.io/badge/SWE_skill-interaction-434A55">
   <img alt="Blind panel 15-5" src="https://img.shields.io/badge/blind_panel-15--5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -46,6 +46,8 @@ Same decision. Six words instead of 57.
 Three parts, and they fail differently.
 
 **The gate: is this a question at all?** Sweep the conversation, the repo and earlier agent output first, because the answer is usually already somewhere. Then run a divergence test: sketch what you'd build under each reading, and if the sketches match, there's nothing to ask. That test is the one rule here with a measured result behind it; asking only on divergence lifted a code benchmark's pass rate from **70.96% to 80.80%** (p = 3.2e-05).
+
+Since 1.2.0 the gate has a fourth step before anything reaches you: a technical question goes to another model first. Four lanes in fallback order (fable for speed, then codex, agy and grok for a different family), each verified on the wire rather than trusted; an empty output file counts as a failed lane, not a quiet pass. A genuinely open, high-leverage fork goes to a three-family panel with the options in swapped order, and a split panel is itself the answer: it means the fork is real, and it's carried to you with the split quoted. A question about the world (what competitors do, prior art, a vendor's actual behaviour) routes to Dossier deep research instead, citations verified before anything leans on them. What still reaches you is taste, cost, scope and risk.
 
 **The craft: what does the question look like?** One call, one question by default and three at most. Question stem under 20 words. Options 2 to 4, each described by what changes if you pick it. Plain words, so the choice reads as consequences rather than vocabulary.
 

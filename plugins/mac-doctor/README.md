@@ -24,13 +24,17 @@ What each run may do on its own widens as the gap between runs grows. A 15-minut
 
 | Every | What it handles | On its own? |
 |---|---|---|
-| 15 min | Dead processes, exited containers, finished-run temp files | Yes, quietly |
+| 15 min | Runaway and orphaned processes, exited containers, finished-run temp files | Yes, quietly |
 | 1 hour | Build output in repos nobody's working in | Yes, quietly |
 | 12 hours | Package caches, dangling Docker images | Dry run, then yes |
 | 1 day | Unused Docker volumes, dead simulators, CLI state | Dry run, then yes |
 | 7 days | Worktrees, node_modules, transcripts, simulator runtimes | Asks you first |
 
 **Running low doesn't unlock anything.** When the disk gets tight it runs the bigger jobs sooner and puts the pending suggestions in front of you. It doesn't start deleting things it would normally ask about; a nearly-full disk is exactly when a mistake is hardest to undo.
+
+**A process is never killed on first sight.** One `ps` reading can't tell a spin loop from a build — both show 100%. So a runaway has to turn up on three separate runs, at least half an hour apart, before anything is signalled; what's being watched sits in `~/.claude/mac-doctor/watchlist.tsv` and a process that settles down drops off it. Only two things get reaped unattended: something orphaned that's been pegging a core, and a leaked automation browser tree. A hundred idle orphans get reported and left alone, because from outside they look exactly like another job's workers.
+
+If you're deliberately generating load, say so — drop a line of `pid`, expiry, label into `~/.claude/mac-doctor/instruments/` and it'll be left alone until the stamp passes. Past it, the same declaration is what marks it as stranded.
 
 ## It refuses more than it deletes
 
