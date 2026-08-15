@@ -8,9 +8,9 @@
 A SWE skill for Claude Code that runs a real test campaign against a native macOS app, and the MCP server that gives it the instruments.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
-  <img alt="MCP tools: 11" src="https://img.shields.io/badge/MCP_tools-11-756E60">
+  <img alt="MCP tools: 20" src="https://img.shields.io/badge/MCP_tools-20-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -50,7 +50,7 @@ The first thing it does is call `proctor_doctor`, because a missing Accessibilit
 
 ## The tools
 
-Nineteen ship; the installer's `claude mcp add` line advertises `--profile core`, the ten that actually drive a Mac, at roughly 6.8k tokens against 11.3k for all of them. The catalogue is re-sent every turn and survives compaction, so that is a standing cost paid before any work happens. Widen with `--profile scripting` or `--profile full` for flows, determinism runs, policy, `kill` and the CUA adapters.
+Twenty ship; the installer's `claude mcp add` line advertises `--profile core`, the ten that actually drive a Mac, at roughly 6.8k tokens against 11.3k for all of them. The catalogue is re-sent every turn and survives compaction, so that is a standing cost paid before any work happens. Widen with `--profile scripting` or `--profile full` for flows, determinism runs, policy, `kill` and the CUA adapters.
 
 | Tool | What it does |
 |---|---|
@@ -65,6 +65,7 @@ Nineteen ship; the installer's `claude mcp add` line advertises `--profile core`
 | `proctor_assert` | Assertions over tree, geometry, pixels and accessibility auditing, returning the observed value beside the expected one. |
 | `proctor_flow` | Record, list, show, replay and delete named step sequences, with per-step hashes so a divergent replay says where. |
 | `proctor_stability` | Replay a flow N times and report `firstDivergence` plus per-step instability. |
+| `proctor_ios` | Drives an iOS Simulator rather than a window: lists the devices on this machine, boots one, opens a deep link on a booted device, screenshots the device surface, and runs a `.maestro` flow file, scoring the repeats when you ask for more than one. |
 | `proctor_inspect` | Resolved styles and layer geometry from an app embedding `ProctorReflector`: colours, fonts, radii, constraints, CALayer model versus presentation. |
 | `proctor_doctor` | Agent liveness, TCC grants with the exact fix for the running OS, attachments, observer health, Secure Event Input. |
 | `proctor_policy` · `proctor_kill` | The policy gate and process control, in the `scripting` and `full` profiles. |
@@ -99,21 +100,21 @@ This is the part I'd read first.
 
 **Parallelism is bounded by hardware.** Apple silicon hard-caps concurrent macOS guests at two, so a VM fleet isn't the answer. Scaling happens across windows inside one session, and past that, more real parallelism means buying another machine.
 
-**Nothing arbitrates between two clients yet.** The agent is one process behind one socket and any number of MCP clients can connect to it. Reads are safe, because they observe without mutating. Actuation isn't: two campaigns running at once interleave their steps, and the second one's synthetic click lands in whatever window the first just raised. A scheduler is designed and not yet built, so for now treat "is anything else driving this Mac" as a precondition rather than an invariant.
+**Two clients are arbitrated, and the arbitration is visible.** The agent is one process behind one socket and any number of MCP clients can connect to it. Reads are safe, because they observe without mutating. Actuation is scheduled across three lanes rather than interleaved, so a second campaign waits for the machine instead of landing its click in whatever window the first just raised. A run held because somebody else holds the machine says whose run it is waiting on, rather than reporting a wedge.
 
-Note: the development build is ad-hoc signed, which ties the TCC grants to the exact bytes of that build. Every rebuild revokes them, and the symptom is "elements not found", which doesn't look like a permission error at all.
+Note: a release is Developer ID signed, notarised and stapled, which is what makes the TCC grants survive an upgrade, because they key on the team-scoped signature rather than on the bytes. Ad-hoc signing is for a throwaway build you will run once on the machine that made it; it ties the grants to the exact bytes and throws them away on the next rebuild, and the symptom is "elements not found", which doesn't look like a permission error at all.
 
-## Where 0.1.0 actually is
+## Where 0.4.0 actually is
 
 Worth being straight about, since the version number is doing real work here.
 
-What's there, and verified running: all four Swift targets build, 23 unit tests pass, and the full stack has been driven end to end against TextEdit and Finder on macOS 26.6 — attach, a snapshot of a window that was neither frontmost nor in front of its siblings, a ScreenCaptureKit capture of an occluded window with no overlap from the two windows stacked on it, and accessibility-plane actuation that never took the foreground. The reflector was verified separately against a live `NSWindow`, returning resolved colours with their semantic names intact and a layer whose model value read 14 while its presentation value read 18.55 mid-animation.
+What's there: 1,416 tests across 157 suites pass. `scripts/install.sh` is exercised routinely, including a Developer ID signed install with both grants surviving the upgrade byte for byte. `dragPath` is implemented. The iOS lane was verified live against maestro 2.4.0 and a real simulator, including a two-repeat flow that scored deterministic and a deliberately failing one that came back with Maestro's own hierarchy attached.
 
-Running it found four defects that reading it did not. A step whose accessibility route the element refused fell back to a synthetic event and activated the app, reporting success — it now fails and names both ways forward. Settle timed out on every step, because ScreenCaptureKit stops delivering frames for a static window and the poll kept re-reading the last frame's dirty area; a poll with no new frame is now the quiet signal, and an app with a blinking caret concludes on the signals it has rather than waiting for one that will never arrive. A tree walk read one attribute per round trip, and the documented default of 2000 nodes never returned on a large Finder window; attributes are batched now and every walk has a wall-clock deadline, so it always returns and always says what it truncated.
+What isn't: **nothing in the delegated Cua lane has run against a real `cua-driver`.** It isn't installed on the machine this was built on, so that whole lane is proved behind a fake transport, and its version gate, its element addressing and its process-identity check are all read from Cua's documentation rather than from the binary. The parts of it that could fail closed do, so being wrong costs a refused lane or a pointer that doesn't draw rather than a guard that quietly isn't there. Treat the first delegated step on a real driver as a probe rather than as a step.
 
-What isn't: the agent runs from a development build rather than an installed, Developer ID-signed bundle, so `scripts/install.sh` and the launchd path are written but not exercised end to end. `dragPath` is unimplemented. `wait`'s `region` argument is accepted and reported as unhonoured, because the quiet watch reports whole-frame dirty area only. Nothing has been tested against an Electron app, so the manual-accessibility warm-up is built to the research and not to an observation.
+Two more, smaller: `proctor_inspect` still needs the reflector embedded, which is permanent rather than pending, and three tests are load-sensitive enough to redden a full suite roughly one run in ten, which is tracked and not yet fixed.
 
-The ten behavioural evals have been run against a no-skill baseline; the results and the honest caveats are in [EVALS.md](EVALS.md).
+The behavioural evals were run against a no-skill baseline; the results and the honest caveats are in [EVALS.md](EVALS.md).
 
 ## What it hands off
 

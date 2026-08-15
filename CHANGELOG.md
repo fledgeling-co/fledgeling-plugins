@@ -4,6 +4,20 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-16
+
+### proctor 0.3.0 → 0.4.0: the skill describes what the server actually became
+
+The proctor-mcp server stopped competing on actuation and now delegates it to Cua Driver, an MIT-licensed project doing the same job across three platforms with far more behind it. Proctor keeps observation, and that half is not a preference: Cua's screenshots carry no frame-status metadata, while Apple defines six `SCFrameStatus` values and makes checking them a precondition of trusting a frame. A layer that exists to catch other people's silent failures needs at least one channel it can trust. Proctor also keeps the verdict layer and the whole supervised-run surface. This release is the skill catching up with all of it: 772 insertions across `SKILL.md` and `references/tools.md`, and no code change, because the code was right and its description was not.
+
+- **"Two planes" is now "Planes and lanes".** Six plane values rather than four, including `routedEvent` for an injected event delivered to one process, and `unknown` for a delivery mode this build does not recognise. A `backend` field says who actuated. The honesty rule survives intact: a synthetic-plane result still proves the narrower claim.
+- **A new iOS section, leading with its ceiling.** An iOS target is not a window, and the Mac's accessibility API does not reach into the simulator, so there is no tree, no elements and no geometry assertions. A model that assumes parity with the macOS lane will waste a campaign, so the limit is stated before the capability.
+- **`doctor` went from two grants to five questions.** It reports a toolchain now, with a table mapping each missing piece to the lane it disables.
+- **What Proctor observes is a section rather than a footnote.** It is the centre of the product now, and captures carrying frame trustworthiness is the reason a Proctor capture is worth more than a screenshot from anything else.
+- **Six drifts, found by checking every claim against the source rather than against the brief.** The tool count was 19 and is 20. The `scripting` profile was documented as carrying `policy`, which is `full` only. The `ax` profile was undocumented. "Sixteen assertion kinds" is seventeen, and `horizontalAlignment` was missing from the enum. `snapshot`'s `maxNodes` default is 600, not 2000. And the honesty section described a synthetic-plane step as the server falling back, which is true only for `type` and `scroll`; an outright refusal fails the step, which is the opposite guarantee and the one a reader would have acted on wrongly.
+- **Three supervision regressions the project's own direction document had implied away.** It said supervision holds intact under delegation. Reading the implementation spec instead: an off-Space window is refused on the Cua lane and reachable on the native one; the takeover statement goes up after an unrequested foreground escalation rather than before it; and a batch whose driver Proctor cannot identify arms no input block, so click-to-Stop is never consulted and the person keeps Escape, the menu bar and the gaps between steps. All three are in the text.
+- **The caveat is in the text, not in a commit message.** `which cua-driver` returns nothing on the machine this was written on, so the skill tells anyone selecting that lane to treat the first delegated step as a probe. `maestro` and `simctl` both resolve, so the Maestro lane carries no such caveat and was verified live against maestro 2.4.0 and a real simulator.
+
 ## 2026-08-15
 
 ### resume-session 1.0.0 : Universal Multi-CLI Session Continuity Engine
