@@ -5,6 +5,16 @@ Notable changes to the plugins in this marketplace. Newest first.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
 ## 2026-08-15
+ 
+### be-my-witness 0.1.0 → 0.2.0 · Dual-Oracle Visual Governance & Component Slice Diffing
+
+- **Dual-Oracle Visual Governance**: Clarified authority model so that while test expectations govern behavioral logic, the **Design Mock is the visual Oracle** for spatial layout, typography ramps, control hierarchy, padding, and iconography. Structural deviations (e.g. centered button text vs leading-aligned row with trailing chevron) are classified as High-Severity Visual Regressions rather than stale mocks.
+- **Component Slice Diffing**: Mandated component/row-level bounded slice diffs to prevent local layout defects from hiding behind global image noise and anti-aliasing.
+
+### proctor 0.3.0 → 0.4.0 · Native Layout & Geometry Inspection
+
+- **Live Window & Popover Life-Cycle**: Mandated that macOS UI tests attach to live AppKit/SwiftUI windows and menu extras rather than headless SPM rasterizers (`ImageRenderer`) which emit placeholder glyphs for native controls.
+- **Element Geometry & Layout Inspection**: Added guidance for element bounding box, horizontal text alignment, and child offset verification.
 
 ### Antigravity & Strict YAML 1.2 Frontmatter Normalisation
 
