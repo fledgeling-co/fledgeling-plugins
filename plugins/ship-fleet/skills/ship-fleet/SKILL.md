@@ -29,7 +29,7 @@ preflight → survey → hygiene → artifacts (ORCHESTRATOR.md + hierarchy html
 ```
 
 Everything is **discovered inside the project — never hardcode paths**. Conventional layout
-(markdown lane; the tasks lane swaps the ledger/specs for the board, per ship-pipeline's
+(markdown lane; the tasks lane swaps the ledger/specs for the board, per shipyard's
 `references/tracker-adapter.md`): ledger at `docs/features-to-triage/LEDGER.md` (older repos
 `docs/feature-specs/LEDGER.md` — pick what exists, never create both), specs `docs/specs/`,
 plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, research
@@ -102,7 +102,7 @@ minted later follow the ledger-lock rule in the scheduling reference.
 
 Slots filled with the highest-value ready item; refill on free — don't barrier on whole waves
 when the DAG allows overlap (the ready-queue + `Promise.race` scheduler is in the scheduling
-reference; guard the empty-race and null-return rules from ship-pipeline's
+reference; guard the empty-race and null-return rules from shipyard's
 `references/operational-rules.md`).
 
 Each slot = one Opus runner (verified lane, first-action self-check, transcript-verified) whose
@@ -129,7 +129,7 @@ hierarchy refreshed, needs-input items presented as one consolidated list (atten
 ## Model routing
 
 The lane table, effort discipline, and both invariants (REVIEWER ≥ WRITER; VERIFIER ∉ writer's
-family) are canonical in ship-pipeline's `references/model-lanes.md` +
+family) are canonical in shipyard's `references/model-lanes.md` +
 `references/model-and-effort.md` — propagate them into every runner prompt rather than pinning
 everything to Opus. Fleet-level notes: runner top level stays Opus-at-high via the verified
 lane; executor lanes per `executor-lanes.md` (agy → grok → codex-terra → Claude, verify-fix
@@ -150,7 +150,7 @@ they exist), the root DESIGN md, the repo's practices docs, and the item's match
 doc(s) — **in full, not skimmed**. Compaction rule in every prompt: after any compaction,
 re-read the brief, spec, plan, and DESIGN md — the on-disk artifacts are the memory. For the
 codex executor the rule is enforced mechanically by the re-context harness
-(ship-pipeline `references/codex-cli.md`); install and self-test it before the first delegation.
+(shipyard `references/codex-cli.md`); install and self-test it before the first delegation.
 
 ## Resuming
 
