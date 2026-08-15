@@ -124,6 +124,14 @@ Scores 0-10 whether now is a good moment to compact, and says why in one line. I
 
 <br clear="left" />
 
+<a href="plugins/resume-session/README.md"><img src="plugins/resume-session/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [resume-session](plugins/resume-session/README.md)
+
+When an AI coding session ends unexpectedly (a token limit, an API timeout, an unexpected context compaction, or simply switching between tools like Claude Code, Antigravity, Cursor, Codex, or Grok), the next agent typically starts blind. This scans your local machine to discover past sessions across all major agent CLIs, parses their exact transcripts on disk, extracts the 6-dimensional takeover state (original goal, terminal errors, modified files, config keys, decisions, and immediate next steps), and produces an uncorrupted continuity handover without redundant re-discovery.
+
+<br clear="left" />
+
 <a href="plugins/improve-skill/README.md"><img src="plugins/improve-skill/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [improve-skill](plugins/improve-skill/README.md)
@@ -225,8 +233,6 @@ Tests a native Mac app the way an instrument does rather than the way a screensh
 ### [anvil-errand](plugins/anvil-errand/README.md)
 
 One verb for work that belongs on another machine. `anvil errand` sends a Claude Code agent into a container on your node or spare PC and, before anything starts, asks whether every piece of the path is actually there: a node, a link to it, the image, the credential, the proxy. It reports the first blocker in that order and only the first, because a list assembled past the first failure carries entries nobody measured; the image lives on the node, so asking about it before the link is up returns an answer about the link wearing the image's words. Each of the six refusal kinds is a stable identifier carrying the one next step that clears it, and `--check` runs the whole preflight while changing nothing. The failure it removes isn't the errand not working; it's finding the missing piece halfway through a container start, from a symptom that points somewhere else. After that it's the ordinary job verbs, and `anvil attach` is read-only on purpose: the container starts detached, so PID 1's stdin is at EOF from the first instant. It provisions nothing, deliberately; standing up the node, engine, image, pairing and proxy from scratch is the runbook in the anvil repo, which stays the source of record. Worth knowing before you lean on it: `--check` passing is not the errand working, and the verb has not yet been driven against a live node from the gate.
-
-<br clear="left" />
 
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through ship-fleet and ship-feature, which conduct the shipyard stage skills, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.

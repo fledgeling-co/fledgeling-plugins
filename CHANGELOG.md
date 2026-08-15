@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-15
 
+### resume-session 1.0.0 : Universal Multi-CLI Session Continuity Engine
+
+Upgraded and rebranded from `resume-claude-session` into a universal multi-agent session discovery and handover engine across Claude Code, Google Antigravity (AGY), Cursor IDE, Codex / OpenAI CLI, Grok / X.AI CLI, and repository workspace ledgers.
+
+- **Universal Multi-CLI Engine (`find_session.py`):** Pure Python 3 standard library script with discovery adapters across all five major agent platforms. Extracts the 6-dimensional takeover state: session ID & provenance, initial user prompt, terminal error state, modified files, technical config keys (Apple Team IDs, OAuth Client IDs, bundle identifiers, ports), and actionable immediate next steps.
+- **Brand Asset Suite (Concept A: The Golden Thread):** Master SVG generated via `build_icon.py` in the Fledgeling porcelain house palette (`#F8F5EE` to `#E4DDCB`), pairing a muted obsidian transcript strata card on the left with an energized golden-vermilion filament on the right via a Tahoe gel-glass coupler node. Multi-scale renders generated down to 16px along with an audit contact sheet (`audit.html`) and high-res banner (`banner.png`).
+- **Comprehensive Documentation & Benchmark (`EVALS.md`):** Complete 4-phase guide and per-CLI cheatsheet in `SKILL.md`, structural evals demonstrating 100% discovery recall and 0-token local context recovery vs the 45,000+ token cost of raw transcript ingestion.
+
 ### design-review 1.7.0 → 1.8.0 — the sweep no longer dies on a large page
 
 `run_review.py` crashed with a `TimeoutError` traceback on its **third viewport**

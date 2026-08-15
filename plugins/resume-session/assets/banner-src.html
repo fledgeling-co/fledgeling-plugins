@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;650;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+
+  /* Porcelain register in fledgeling house palette */
+  body {
+    width: 1600px;
+    height: 520px;
+    overflow: hidden;
+    position: relative;
+    background: radial-gradient(130% 190% at 22% 34%, #fdfcfa 0%, #f4f0e9 44%, #e8e2d7 78%, #ddd6c9 100%);
+    font-family: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  }
+
+  /* Decorative golden thread background spline */
+  svg.thread-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .lockup {
+    position: absolute;
+    left: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 72px;
+  }
+
+  .icon {
+    width: 290px;
+    height: 290px;
+    filter: drop-shadow(0 22px 48px rgba(64, 58, 48, 0.28));
+  }
+
+  .words {
+    padding-bottom: 6px;
+  }
+
+  .wordmark {
+    font-size: 124px;
+    font-weight: 700;
+    letter-spacing: -0.038em;
+    line-height: 1;
+    color: #2f343e;
+  }
+
+  .wordmark .hyphen {
+    color: #e0491f;
+  }
+
+  .tagline {
+    margin-top: 24px;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 0.002em;
+    line-height: 1.4;
+    color: #6f7683;
+  }
+
+  .tagline b {
+    color: #2f343e;
+    font-weight: 650;
+  }
+</style>
+</head>
+<body>
+  <svg class="thread-bg" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fadeThread" x1="1600" y1="260" x2="800" y2="260" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#8b93a3" stop-opacity="0.25"/>
+        <stop offset="0.7" stop-color="#8b93a3" stop-opacity="0.10"/>
+        <stop offset="1" stop-color="#8b93a3" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="glowFilament" x1="1100" y1="200" x2="1550" y2="380" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#de5f2c" stop-opacity="0.8"/>
+        <stop offset="0.5" stop-color="#ff763b" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#ffae6b" stop-opacity="0.4"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Continuity wave connecting sessions across the right half -->
+    <path d="M 850 360 C 1050 360, 1100 160, 1300 160 C 1450 160, 1500 280, 1600 280" fill="none" stroke="url(#fadeThread)" stroke-width="16" stroke-linecap="round"/>
+    <path d="M 1120 180 C 1220 180, 1320 220, 1480 340 C 1540 380, 1580 390, 1600 390" fill="none" stroke="url(#glowFilament)" stroke-width="20" stroke-linecap="round"/>
+    
+    <!-- Data points / checkpoints -->
+    <circle cx="1300" cy="160" r="14" fill="#de5f2c" opacity="0.85"/>
+    <circle cx="1300" cy="160" r="6" fill="#ffffff"/>
+    <circle cx="1480" cy="340" r="18" fill="#ff763b" opacity="0.9"/>
+    <circle cx="1480" cy="340" r="8" fill="#ffffff"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="icon" src="icon.png" alt="resume-session icon">
+    <div class="words">
+      <div class="wordmark">resume<span class="hyphen">-</span>session</div>
+      <div class="tagline">When your agent crashes, compacts, or runs out of tokens.<br>
+        <b>Resume the work</b> without losing the thread.</div>
+    </div>
+  </div>
+</body>
+</html>
