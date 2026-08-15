@@ -23,7 +23,8 @@ adjacent ground and are better at it:
 
 | Hand off to | For |
 |---|---|
-| `acceptance-e2e` | Web features and Playwright suites. Proctor is the native counterpart, not a replacement. |
+| `acceptance-e2e` | End-to-end acceptance criteria traceability, multi-surface sweeps (Web, macOS, iOS, Windows), and test suite orchestration. `acceptance-e2e` invokes `proctor` for all macOS native app execution and geometry assertions. |
+| `be-my-witness` | Automated visual diff-masking and comparison against reference design mocks. Proctor captures live UI frames and component slices, then hands them to `be-my-witness` to classify layout, styling, and typography deviations with mock-as-oracle discipline. |
 | `design-review` | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
 | `mac-design-studio` | The native-conformance rubric when there is no mockup — the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
 | `mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline — present, divergent, absent, with the burden of proof on the build — is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
@@ -177,11 +178,15 @@ a narrow window, and a second display where one exists.
 Record which cells you actually exercised. A matrix with unrun cells is fine;
 a matrix that implies it was fully run is not.
 
-### 4. Accessibility audit
+### 4. Accessibility & Geometry Assertions
 
-`proctor_assert` with the auditing kinds: every interactive node has a label,
-contrast meets threshold, hit targets meet a minimum size, focus order
-follows visual order.
+`proctor_assert` validates the live accessibility tree and spatial geometry across sixteen distinct assertion kinds:
+- **Structural Accessibility**: `exists`, `absent`, `valueEquals`, `valueContains`, `enabled`, `disabled`, `focused`, `hasLabel`, `minHitSize`, `contrast`, `focusOrder`.
+- **Spatial Geometry & Alignment**:
+  - `kind: "horizontalAlignment"`: verifies whether a row or control is aligned `leading` / `left` (or `center` / `trailing`) relative to its container or window. **Essential for catching AppKit `Menu` / `NSPopUpButton` centering defects** where SwiftUI centered button text instead of a full-width leading row.
+  - `kind: "alignedWith"`: verifies alignment along specific edges (`left`, `right`, `top`, `bottom`, `centerX`, `centerY`) against another node or reference rect within a `tolerance`.
+  - `kind: "containedIn"`: validates strict spatial containment inside a parent frame.
+  - `kind: "frameEquals"`: asserts exact `[x, y, w, h]` bounding boxes within an epsilon tolerance.
 
 Then run the tri-observer check — `kind: "agree"`. Where the accessibility
 tree, the geometry source and the pixels disagree about the same instant, the
@@ -191,7 +196,9 @@ the pass that finds what neither a screenshot review nor a tree dump finds
 alone, because it is looking for the disagreement rather than at either
 source.
 
-### 5. Visual fidelity and native conformance
+### 5. Visual Fidelity, Automated Diff-Masking & Native Conformance
+
+**Mandatory Rule for Visual Proof**: UI verification must attach to **live AppKit/SwiftUI windows and menu extras** via Proctor. **Never rely on headless SPM `ImageRenderer` output as visual proof**; headless renderers lack an active window server and silently emit placeholder glyphs for native controls (like `Menu` and `NSPopUpButton`).
 
 `proctor_capture` each state. Every capture reports its own trustworthiness —
 frame status, content rect, dirty area, frames waited. When `trustworthy` is
@@ -201,9 +208,15 @@ ScreenCaptureKit behaviour rather than a bug in the run. Never treat an
 untrustworthy frame as evidence; capture again with the window raised and say
 that you did.
 
-Two questions live here and they need different oracles. *Does it match the
-design* is the fidelity ledger — and it needs a reference mockup. *Is it a
-correct, native Mac UI* stands on its own and takes the platform as the
+**Automated Diff-Masking with `/be-my-witness`**:
+When verifying an implementation against reference design mocks:
+1. Capture the live window or menu extra at native 2x resolution.
+2. Use `proctor_zoom` or bounding-box crops to extract component slices (e.g. Menu Header, Meter Bar, Command Rows).
+3. Hand off the capture and reference mock slices to `/be-my-witness`.
+4. `/be-my-witness` runs deterministic pre-scan, computes YIQ delta masks, and applies the **Dual-Oracle Discipline** (design mock is the visual oracle for layout, typography, and control hierarchy; test expectation is the behavioral oracle). Any text alignment shifts or missing trailing tokens are flagged as High-Severity Visual Regressions.
+
+**Native Conformance Rubric (`mac-design-studio`)**:
+*Is it a correct, native Mac UI* stands on its own and takes the platform as the
 reference: `mac-design-studio`'s `native-foundation.md` is the rubric — the
 macOS 27 control ladder, the 11-role type ramp, the label tiers, the 8pt grid,
 concentric radii and Liquid Glass discipline — and its ten-point native-tells
@@ -212,15 +225,11 @@ a control off the size ladder, body text off the 13pt ramp, a floating panel
 with no scroll-edge material, tracked-uppercase labels where the platform uses
 sentence case — each is a conformance defect a mockup-free app still carries,
 and each is a "ui/ux design test" that neither the accessibility pass nor the
-fidelity ledger names. Its essence test — the surface's one question, its
-signature, its worst state's behaviour — is the UX oracle for a flow.
+fidelity ledger names.
 
 For an app that embeds `ProctorReflector`, `proctor_inspect` returns resolved
 colours, fonts, corner radii, constraints and both layer model and
-presentation values. That is measurement. For an app you do not own there is
-no cross-process computed-style API on macOS, so the ceiling is the
-accessibility tree plus pixels — say so rather than approximating a value you
-cannot read.
+presentation values. That is measurement.
 
 **Read small things with `proctor_zoom`, not with a bigger screenshot.**
 `proctor_capture` normalises to the vision ceiling by default, and the pixels a
@@ -231,15 +240,6 @@ published gain is large: iterative crop-and-zoom lifts GUI grounding accuracy on
 high-resolution desktop software from roughly 19% to 48–73%. The compose path is
 **find → zoom → assert**, and a region around 1000px on its long edge keeps
 enough context to disambiguate what you are looking at.
-
-Two capture arguments change what a measurement means, so state them when a
-finding rests on them. `normalization.scale` is the exact factor a normalised
-frame was shrunk by, and a coordinate maps back with
-`native = normalised / scale`; pass `normalize: false` when an assertion is on
-the pixel plane. And PNG stays the default because it is what keeps UI text
-readable — on a retina capture normalised to the ceiling, OCR recovered 94% of
-words from PNG against 78% at JPEG q50, with words misread as a *different real
-word* rising sixfold. A model acts on a misread word rather than flagging it.
 
 Route the judged question "does this look any good" to `design-review`, with
 your captures attached; route "is this native" to the `mac-design-studio`
