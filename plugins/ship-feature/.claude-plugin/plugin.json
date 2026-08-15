@@ -1,0 +1,9 @@
+{
+  "name": "ship-feature",
+  "description": "End-to-end feature delivery conductor: one feature from rough idea to merged, cross-family-verified production code by conducting the ship-pipeline stages - intake, triage, plan in parallel with design, work, the deferred loop, gap-fix, acceptance-e2e, verify (the only path to Done), and a fail-closed merge with a decided-in-advance rollback. Holds the thread in-session, defers decisions through the second-opinion lanes instead of stalling on questions, and treats every stage artifact as the resumable memory.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
