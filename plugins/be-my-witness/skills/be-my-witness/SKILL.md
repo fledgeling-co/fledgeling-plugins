@@ -30,18 +30,20 @@ root of most bad verdicts.
 | Artifact | What it is | Authority |
 |---|---|---|
 | **The screenshot** | What the software actually rendered | The subject. Never the arbiter. |
-| **The expected output** | What the test asserts should be true | **The oracle.** A conflict here is a failure. |
-| **The mock** | What the design says it should look like | **Advisory.** A conflict here is a finding, classified by kind. |
+| **The expected output** | What the functional test asserts should happen | **Behavioral Oracle.** Governs data, business logic, state machines, and API interactions. |
+| **The design mock** | What the design specifies for layout, typography, and controls | **Visual Oracle.** Governs spatial layout, text alignment, typography ramp, control hierarchy, padding, and iconography. |
 
-**The test wins over the mock.** A mock is a drawing made at a point in time; the
-test encodes what the team decided the software must do. When the screenshot agrees
-with the test and disagrees with the mock, the mock is stale — say so, and do not
-fail the run. Inverting this is the most expensive mistake available here, because it
-sends people to fix working software.
+**The Dual-Oracle Discipline:**
+- For **business logic and state behavior** (e.g. dwell timer counts, error alerts appear), the test expectation governs.
+- For **visual presentation, typography, component alignment, and control hierarchy**, the design mock is the authority. A screenshot that satisfies a functional test (e.g. element exists) but visually deviates from the design mock (e.g. centered menu buttons instead of leading-aligned rows with trailing chevrons) is a **High-Severity Visual Regression Defect**, NOT a stale mock.
+- Never dismiss structural or alignment mismatches as "rendering differences" or "stale mocks" without explicit human approval.
 
-State which artifacts you were given. A run with no expected output is a *mock
-conformance* check and cannot gate; a run with no mock is an *expectation* check and
-should not comment on design quality.
+## Component-Level Slicing & Isolated Inspection
+
+Full-page screenshots mask small, high-impact structural defects under global image noise.
+- Always slice surfaces into logical component bounding boxes (Header, Meter, Control Rows, Action Buttons, Footnotes).
+- Compare candidate slices directly against reference mock component slices.
+- Flag text alignment changes (e.g. `center` vs `leading`), missing trailing glyphs (e.g. `›` vs system `⌄`), and incorrect paddings as blocking visual findings.
 
 ## Before anything: capture provenance
 
