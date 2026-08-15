@@ -43,9 +43,12 @@ generous — divergent, exploratory, audience-minded — because everything afte
    `docs/deep-research/<slug>.md`). Skip research when the idea is already concrete and internal.
 
 3. **Decompose.** Break the idea into features sized for one pipeline run each (a vertical slice
-   a user could see working — "what can I demo when this is done?" is the size test). For an
-   app-shaped idea, the standard surface set applies: **iPhone, iPad, Mac, and Web always;
-   Windows optional** — record that expectation in each brief so triage and design inherit it.
+   a user could see working — "what can I demo when this is done?" is the size test). Platforms:
+   a **new** app-shaped idea gets the standard surface set (**iPhone, iPad, Mac, and Web always;
+   Windows optional**), recorded in each brief so triage and design inherit it. An **existing**
+   product keeps its current platforms on the asked-for briefs — expanding it to new platforms
+   is its own `proposed-by-ai` brief, never a default silently attached to someone else's
+   feature.
 
 4. **Ideate past the ask.** Run the `trawl` skill for a divergent pass over the idea, then write
    the additional features/concepts the **target audience would likely want or benefit from** —

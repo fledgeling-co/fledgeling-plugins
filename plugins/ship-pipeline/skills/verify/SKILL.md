@@ -103,6 +103,9 @@ while reading as complete. This stage exists to be the stranger.
 
 - **Never water down.** A failed requirement is Missed/Partial with the evidence shown — not
   reinterpreted until it passes. Ambiguity → state the reading you tested.
+- **Never present an unexecuted check as exercised** — in dry-run, in a blocked environment, in
+  any narration: an intended check is written as "would run: <command>", never as ran. A verifier
+  caught describing ceremony it never executed loses exactly the trust it exists to provide.
 - **Evidence over prose** — every row carries something a human can re-check. "Looks right" is
   not admissible, including from you.
 - **Caveats propagate.** If the operator later merges despite unverified rows, this comment's

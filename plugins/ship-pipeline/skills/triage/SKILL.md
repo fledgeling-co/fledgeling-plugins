@@ -59,7 +59,12 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
    genuinely open **technical** fork, a second-opinion lane or — when the verdict itself is
    contested — a three-family panel, its split recorded. **Every essential question stalls the
    whole pipeline, so when in doubt, assume and proceed.** What survives is genuinely the
-   human's: it becomes an Essential Question.
+   human's: it becomes an Essential Question. One class is presumptively essential rather than
+   assumable: **access-control, visibility, and sharing-scope defaults** (who can see, manage,
+   or share what). These are the expensive-to-undo, genuinely-the-owner's calls; assume one only
+   when the repo already encodes the answer, and never bury one mid-list — a permissions default
+   hidden among mechanical assumptions is the exact miss a blind panel caught in this skill's
+   own evals.
 
 6. **Out-of-family spec review (mandatory where available).** Before the status flips to
    `To Do`, the written verdict + assumptions go to a reviewer outside Claude's family — the
@@ -79,7 +84,11 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
 8. **Decide, write, and move the status** (shapes and language rules:
    `references/spec-format.md` + `${CLAUDE_PLUGIN_ROOT}/references/comment-format.md`):
    - **Ready** → the "Ready for Implementation Plan" section/comment (Sentinel verdict, UI &
-     logic preview, Assumptions block, gate tallies) → status **`To Do`**.
+     logic preview, Assumptions block) → status **`To Do`**. The Assumptions block is
+     owner-facing: consequential assumptions only, each with its "rather than" alternative;
+     mechanical defaults and all gate/lane accounting (review verdicts, tallies, downgrades) go
+     in the machine trailer / a separate pipeline-record note, never interleaved with what the
+     owner reads — an owner-facing section that reads as process notes fails at its one job.
    - **Needs improvement** (≥1 essential gap, an uncovered S3 gap, or a genuine contradiction
      only the author can resolve) → Essential Questions (numbered, lens-tagged, multi-choice
      with a recommendation) + an "Easy reply" block + Assumptions for the rest → status
