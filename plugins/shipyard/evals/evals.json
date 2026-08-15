@@ -1,0 +1,95 @@
+{
+  "description": "Structural-assertion evals for the shipyard rebuild. Each eval runs twice — the new skills vs the diolog 2.4.0/1.10.0 baseline snapshots in evals/baseline/ — on the same fixture and prompt, same model, same tool whitelist. Assertions are checkable properties of the written answer, graded with quoted evidence. Old-skill absences fail honestly; that asymmetry is the point of the comparison.",
+  "fixture": "evals/fixtures/scribble",
+  "evals": [
+    {
+      "id": "triage-assumption-protocol",
+      "skill_new": ["skills/triage/SKILL.md", "references/second-opinion-lanes.md", "references/tracker-adapter.md", "skills/triage/references/sentinel-review.md", "skills/triage/references/spec-format.md"],
+      "skill_old": ["evals/baseline/triage-SKILL.md", "evals/baseline/triage-sentinel-review.md", "evals/baseline/triage-spec-format.md"],
+      "task": "Triage the feature brief at docs/features-to-triage/shared-folders.md for this repo. You cannot reach any human and no external CLI is installed, so resolve everything the way the skill instructs for an unattended run. Write the complete triage output (the verdict, the review section you would record, the assumptions, and the exact status you would set) to answer.md.",
+      "assertions": [
+        "The answer states a verdict line (READY or NEEDS IMPROVEMENT) plus the status it sets, by name",
+        "Internal ambiguities (e.g. what the folder menu contains, how drag works, archive semantics) are recorded as assumptions, not questions to the human",
+        "At least one assumption names the alternative it beat (an 'assuming X (rather than Y)' shape)",
+        "The review section contains no file paths, code identifiers, or architecture nouns (module, route, endpoint, schema...)",
+        "Any claim about what the app currently shows on screen is marked measured or assumed-from-source, not stated as rendered fact"
+      ]
+    },
+    {
+      "id": "plan-test-strategy",
+      "skill_new": ["skills/plan/SKILL.md", "skills/plan/references/plan-tiers.md", "references/test-strategy.md", "references/tracker-adapter.md"],
+      "skill_old": ["evals/baseline/plan-SKILL.md", "evals/baseline/plan-tiers.md"],
+      "task": "The shared-folders feature (docs/features-to-triage/shared-folders.md) has been triaged READY with assumptions: folders are flat (no nesting, rather than a tree), archive hides rather than deletes, sharing reuses the single-note permission model. Write the implementation plan for it as the skill directs — classify the tier, ground in the fixture source under src/, and produce the full plan document in answer.md, including whatever the skill requires beyond the build steps.",
+      "assertions": [
+        "The plan names the test seams it will test at, before or alongside the test list",
+        "Every user-visible action in the brief (create folder, drag note in, share folder, rename, archive) maps to at least one named e2e flow or test",
+        "At least one acceptance criterion is stated so it would be false at the current commit (falsifiable at base), or the plan states the falsifiability requirement explicitly",
+        "UI state coverage (empty/loading/error or a state matrix) appears in the test strategy",
+        "The plan commits itself (or states the commit + sha requirement) rather than existing only as an untracked file"
+      ]
+    },
+    {
+      "id": "verify-failure-and-family",
+      "skill_new": ["skills/verify/SKILL.md", "references/evidence-rules.md", "references/model-lanes.md", "references/tracker-adapter.md"],
+      "skill_old": ["evals/baseline/verify-SKILL.md"],
+      "task": "A ticket reads: 'Archive button on each note row: clicking it hides the note and shows an Undo toast for 5 seconds. The notes heading must use the serif title style.' The worker's completion comment claims every row done, citing src/notes-list.tsx line numbers for both items, with gates green (typecheck + lint + 12 unit tests). You are the verifier. Describe exactly what you would do, in order, and produce the verdict comment you would post given that (a) exercising the archive click shows the note hidden but NO toast appears, and (b) you could not measure the heading because the dev server would not start. Include the status change you would make. Write it all to answer.md.",
+      "assertions": [
+        "The verifier derives its own requirement list from the ticket BEFORE reading the worker's completion record, and says so",
+        "The toast requirement is graded Missed/Partial on exercised behavioural evidence, not reinterpreted to pass",
+        "The unmeasured heading is reported as unverified/blocker backed by two independent probes (or the two-probe requirement is stated), never as done",
+        "The verdict routes to (or records) a model outside the implementer's family, or explicitly marks the verification as in-family/degraded",
+        "The answer names the failure-path status transition it makes (a Needs More Work / equivalent failure state with re-entry), not just 'leave the status'"
+      ]
+    },
+    {
+      "id": "conductor-design-gates",
+      "skill_new": ["../ship-feature/skills/ship-feature/SKILL.md", "skills/design/SKILL.md"],
+      "skill_old": ["evals/baseline/ship-feature-SKILL.md"],
+      "task": "You are conducting the full pipeline for the shared-folders feature (docs/features-to-triage/shared-folders.md) in this repo, which ships as an iPhone, iPad, Mac and Web app. Lay out the exact stage sequence you will run, and for the design stage specify: what gets produced, for which platforms, what gates it must pass before the worker builds from it, and what happens to gate findings. Write it to answer.md.",
+      "assertions": [
+        "A design stage produces mocks/representations for iPhone, iPad, Mac and Web (not a single generic mock)",
+        "design-review and be-my-witness (or equivalently-named rendered-review gates) are named as gates on the mocks",
+        "Gate findings are actioned and the changed surfaces re-reviewed before handoff — not merely collected",
+        "A surface-by-state inventory (state matrix) is produced and handed to later stages",
+        "Verification by a different model family (or a fresh-context verifier) appears in the stage sequence before merge"
+      ]
+    },
+    {
+      "id": "intake-idea-expansion",
+      "skill_new": ["skills/intake/SKILL.md"],
+      "skill_old": ["evals/baseline/ship-feature-SKILL.md"],
+      "task": "A founder says: 'Rough idea: scribble should become a proper team notes app.' Turn that into the pipeline's intake output for this repo — list every brief you would write (title + the frontmatter lines + a 2-sentence what/why each), following your skill's rules about what intake may and may not do. Write it to answer.md.",
+      "assertions": [
+        "More than one brief is produced (the idea is decomposed, not passed through)",
+        "At least one brief is an AI-proposed companion feature explicitly marked as proposed (separable from the asked-for work)",
+        "Briefs carry a platforms line covering iPhone, iPad, Mac and Web",
+        "No spec ids are allocated and no implementation decisions are made (paths/architecture absent from briefs)",
+        "Research (deep-research/market context) is considered — either run, pointed at, or explicitly judged unnecessary"
+      ]
+    },
+    {
+      "id": "status-machine-complete",
+      "skill_new": ["references/tracker-adapter.md", "skills/verify/SKILL.md", "skills/gap-fix/SKILL.md"],
+      "skill_old": ["evals/baseline/verify-SKILL.md", "evals/baseline/triage-spec-format.md"],
+      "task": "Walk through the full status lifecycle of a feature ticket that gets built, fails independent verification once, is remediated, and then passes. Name every status it passes through, who sets each one, and what artifact each transition requires. Write it to answer.md.",
+      "assertions": [
+        "A named failure state exists after failed verification (Needs More Work or equivalent), with the verifier's verdict as the remediation work order",
+        "A terminal Done state exists and only the independent verifier can set it",
+        "Every named transition requires a named artifact (comment/table/sha), not just a status flip",
+        "The remediation stage returns the item to review/verification rather than granting Done itself"
+      ]
+    },
+    {
+      "id": "evidence-rules-guard",
+      "skill_new": ["references/evidence-rules.md", "skills/work/SKILL.md"],
+      "skill_old": ["evals/baseline/verify-SKILL.md", "evals/baseline/plan-SKILL.md"],
+      "task": "A teammate argues: 'The clause table can mark the toast row partial — the code is there and typecheck is clean, we just could not run the browser today.' Reply with your pipeline's ruling and what must happen to that row and the item's status. Write it to answer.md.",
+      "assertions": [
+        "Partial status is refused — the row is failed/blocked, not partial",
+        "'In the code and typecheck clean' is rejected as evidence for a behavioural/visual claim",
+        "A blocker requires the failing command plus a second independent probe, and carries a dissolution condition",
+        "The status does not advance while the row is open, and the caveat must propagate to any later record"
+      ]
+    }
+  ]
+}

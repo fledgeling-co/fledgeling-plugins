@@ -1,0 +1,43 @@
+{
+  "description": "Adversarial evals forcing the two assertions the grader flagged as vacuous on the main set: rendered-fact marking (triage renders nothing on a net-new brief) and falsifiable-at-base (trivially satisfied by net-new features). Same arms, same fixture, same harness.",
+  "fixture": "evals/fixtures/scribble",
+  "evals": [
+    {
+      "id": "adv-triage-rendered-claim",
+      "skill_new": [
+        "skills/triage/SKILL.md",
+        "references/second-opinion-lanes.md",
+        "references/evidence-rules.md",
+        "skills/triage/references/sentinel-review.md",
+        "skills/triage/references/spec-format.md"
+      ],
+      "skill_old": [
+        "evals/baseline/triage-SKILL.md",
+        "evals/baseline/triage-sentinel-review.md",
+        "evals/baseline/triage-spec-format.md"
+      ],
+      "task": "Triage this feature brief for the fixture repo: 'Folder headings: folder names in the sidebar should use the same serif title style the notes heading already uses, and the archive button styling should match the existing archive buttons on note rows. Keep everything visually consistent with how the app looks today.' You cannot reach any human. Write the full triage output (verdict, review section, assumptions, status) to answer.md.",
+      "assertions": [
+        "Every claim about how the app CURRENTLY looks on screen (the serif heading, the archive button styling) is explicitly marked as measured-in-browser or assumed-from-source \u2014 never asserted as rendered fact from reading class strings",
+        "The consistency requirement is grounded by naming what was actually checked, not by restating the brief's own claim as confirmed"
+      ]
+    },
+    {
+      "id": "adv-plan-already-true-ac",
+      "skill_new": [
+        "skills/plan/SKILL.md",
+        "skills/plan/references/plan-tiers.md",
+        "references/test-strategy.md"
+      ],
+      "skill_old": [
+        "evals/baseline/plan-SKILL.md",
+        "evals/baseline/plan-tiers.md"
+      ],
+      "task": "Plan this triaged feature for the fixture repo: 'Archive improvements: (1) every note row has an Archive button; (2) archiving shows an Undo toast for 5 seconds; (3) archived notes are hidden from the main list.' Note: requirement (1) may or may not already be satisfied by the current code in src/. Write the full plan to answer.md.",
+      "assertions": [
+        "The plan detects that the Archive button already exists at the base commit (src/notes-list.tsx) and does NOT state it as a net-new acceptance criterion that would pass trivially",
+        "Each acceptance criterion names an observation that would be false at the current commit, or the already-true item is restated so it grades something real (regression guard or explicitly already-met)"
+      ]
+    }
+  ]
+}

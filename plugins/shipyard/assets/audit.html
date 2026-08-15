@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>shipyard icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 190px; }
+  .renders .strip { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric h2 { color: #a9bec5; font-size: 13px; margin: 22px 0 6px; }
+  .rubric table { min-width: 0; width: auto; }
+  .rubric td, .rubric th { padding: 5px 18px 5px 0; border-bottom: 1px solid #14232a; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>shipyard icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, porcelain register — a hull mid-build on its slipway, and the next plank arriving lit" · one shared spec, three engines, six takes · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The master (take A) is the state after a nine-round fidelity loop against take C1.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>Engine A — hand-authored layered SVG, emitted by build_icon.py — SHIPS</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables on the renders left of this cell. Ink bbox centres on (512, 515) after r08; silhouette names "hull in frame" filled black; at 16px the dark mass plus the ember streak still separates it from every sibling on the shelf (16px luminance spread 0.851). Four real layer groups — <em>bg / mid / fg / highlight</em> — carry identity in shape and value, so #10 holds. Docked one point on #7: the cradle measures 1.56:1 against the tile and dissolves by 32px while the hull holds 8.34:1 and the frames 9.98:1.</td>
+  </tr>
+
+  <tr>
+    <td class="take">Av1 · icon-A-v1.svg<small>Engine A, pre-loop draft — kept as the loop's before row</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/Av1-256.png" width="128" height="128" alt="Av1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/Av1-128.png" width="64" height="64" alt="Av1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/Av1-96.png" width="48" height="48" alt="Av1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/Av1-64.png" width="32" height="32" alt="Av1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/Av1-32.png" width="16" height="16" alt="Av1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/Av1-32.png" width="96" height="96" alt="Av1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Lost on #8. A flat side elevation with no interior: the blind judge, seeing only renders, wrote that the ember "never attaches to the form" and the hull reads as a squat canoe — which is also the sibling it must not be confused with (create-swe-project). Also docked #7 for the same pale cradle. Its one win is real and recorded: the panel preferred it at 32px, where its smaller mass stayed legible; r07 exists to answer that.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-8da398.svg<small>Engine B — Arrow 1.1 vector, briefed from the shared spec</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard-fails #1 (it bakes its own rounded-rect ground inside the canvas, so the delivered mask cuts a second corner), #3 (an outline drawing has no fillable silhouette), #4 (the hairlines smear to nothing by 32px) and #7 (roughly 1.3:1 hull against ground). Nothing was salvaged into the master: it read the brief as a technical elevation rather than an object, and its one idea — the sheer battens running the full length — is already carried better by the master's mouth band.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B2 · icon-engineB-arrow-1a7fde.svg<small>Engine B — Arrow 1.1, second take (the call that timed out and landed anyway)</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/B2-256.png" width="128" height="128" alt="B2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B2-128.png" width="64" height="64" alt="B2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B2-96.png" width="48" height="48" alt="B2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B2-64.png" width="32" height="32" alt="B2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B2-32.png" width="16" height="16" alt="B2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B2-32.png" width="96" height="96" alt="B2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">The better of the two Arrow takes and still not shippable: it bakes a rounded-rect ground (#1), seats the object high with a dead band beneath it (#2), turns its internal hatching to noise by 48px and loses the plank at 16 (#4), floats a pale upper hull at roughly 1.5:1 against a near-white ground (#7), and ships as one flat illustration with no named layers (#10). Its palette is also the blue family create-swe-project already owns. One idea was worth keeping and is in the master: the plank crossing the frames at a visible angle rather than lying parallel to the sheer — the master expresses it as a lift that decays along the run (30px forward, 2.5px aft) instead of a rotation.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 · icon-engineC-b3fcac.png<small>Engine C — GPT Image 2, four apple-2026 porcelain exemplars as references. The material target the loop scored against.</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">Won the material judgment and lost the delivery. Hard-fails #1 and #10 by construction — a flat pre-masked raster whose identity is a colour relationship, the exact failure mode the pipeline exists to avoid — and #2: its ink bbox centres 34px below the tile centre, which is why converging the master on it had to be overruled at r08. What it taught, and what the loop rebuilt into A: the far sheer above the near one (the whole three-quarter read), seams as dark grooves at L 0.04–0.08 rather than paired light/dark lines, a single lit gunwale line at L 0.59, and the porcelain's bounce lifting the bilge back to L 0.20. It also read "plank" as a vertical frame; the master keeps the horizontal strake the brief asked for.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C2 · icon-engineC-37fa47-2.png<small>Engine C — second GPT Image 2 take, same prompt and references</small></td>
+    <td class="renders"><div class="strip">
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The better ribcage — evenly pitched frames with clean gaps, which is where the master's r07 frame pitch came from — and the worse object. Same #1 and #10 failure as C1, plus #2 (bbox centres 23px high) and #8: its keel blocks stand on three different ground planes and the aft pair floats, so the cradle does not resolve into one structure. Not used as the loop reference for that reason.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg), exported as icon.png / icon-256.png / icon-128.png.</strong> It is the only take that is layered — <em>bg</em> cushion tile, <em>mid</em> floor shadow and slipway cradle, <em>fg</em> backbone, frames, far sheer and planked skin, <em>highlight</em> the ember plank and everything its light touches — so it survives Dark/Clear/Tinted where both rasters die, and it carries the raster's material after eight measured rounds: mean composite against C1 rose 0.6215 → 0.6654 and its own p90–p10 self-contrast 0.379 → 0.678, against the reference's 0.718. A blind Claude judge, shown only renders, preferred it over the pre-loop master on overall, material and silhouette. Known liabilities to revisit: <strong>(1)</strong> the cradle sits at 1.56:1 against the tile and dissolves by 32px, so the hull can read as floating — darkening it further would put a second dark mass under the object, which is why it was left, but it is the first thing to fix; <strong>(2)</strong> the mark shares a family with create-swe-project's launched hull, and at 16px the separation is carried by value and by the ember, not by outline; <strong>(3)</strong> the fidelity gate rejects the shipped state at 1024 and 256px against C1 — those losses are registration against a reference whose own composition fails rubric #2, and the rubric was taken as the authority; <strong>(4)</strong> the master depends on three feGaussianBlur filters for its bloom and contact shadows, so a renderer without filter support would show it flat.</div>
+
+<div class="rubric">
+<h2>The loop, round by round</h2>
+<table>
+<tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col">1024</th><th scope="col">16</th><th scope="col">Gate</th></tr>
+<tr><td>r00</td><td>baseline (Engine A v1)</td><td>0.5377</td><td>0.7472</td><td>—</td></tr>
+<tr><td>r01</td><td>coarse structure — depth, mass, the three-quarter mouth</td><td>0.5673</td><td>0.7977</td><td>ACCEPT +0.2599</td></tr>
+<tr><td>r02</td><td>material — seams, gunwale lip, per-frame cross gradients</td><td>0.5716</td><td>0.7972</td><td>REJECT −0.0085</td></tr>
+<tr><td>r03</td><td>material (smaller) — emitter falloff as a radial, not a curtain</td><td>0.5716</td><td>0.7972</td><td>REJECT, panel says candidate</td></tr>
+<tr><td>r04</td><td>small-size repair — plank thickness, cradle weight</td><td>0.5729</td><td>0.7988</td><td>ACCEPT +0.0126</td></tr>
+<tr><td>r05</td><td>detail — seam depth, porcelain bounce onto the bilge</td><td>0.5723</td><td>0.7981</td><td>ACCEPT −0.0088</td></tr>
+<tr><td>r06</td><td>detail — slipway sole plate, plank's aft end tapers</td><td>0.5743</td><td>0.8028</td><td>ACCEPT +0.0272</td></tr>
+<tr><td>r07</td><td>small-size repair — four frames on a 62px pitch</td><td>0.5745</td><td>0.8054</td><td>REJECT +0.0076 (256px)</td></tr>
+<tr><td>r08</td><td>grid — centre the ink bbox on 512</td><td>0.5581</td><td>0.8071</td><td>REJECT, rubric #2 overrules</td></tr>
+<tr><td>r09</td><td>family — warm the porcelain to the shelf's own band</td><td>0.5559</td><td>0.8024</td><td>ACCEPT −0.0162</td></tr>
+</table>
+<p>Two rounds shipped over the gate's objection, both recorded rather than hidden. r07 raised 32px composite by 0.0105 and 16px self-contrast by 0.012 — its stated job, and the defect a blind judge had named — while regressing 256px by 0.0064 past the 0.005 tolerance, a similarity loss from having four frames where the reference has six. r09 warmed the ground from the corpus-sampled neutral (247,248,249)→(229,232,237) into the band every sibling on this shelf occupies, R&gt;G&gt;B; it costs a little similarity to a reference whose ground is cool, and it is what makes the tile belong to the set. r08 moved the object 18px left and 6px up so its ink bbox centres on the tile; the reference's own bbox centres 34px low, so every size regressed. The gate's 16px self-contrast floor fired on r08; measured directly, the shipped 16px render's darkest pixel is <em>darker</em> than r07's (0.149 against 0.200) and the change is sub-pixel sampling phase, not flattening.</p>
+
+<h2>Rubric</h2>
+<p>The 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Figure-ground numbers measured on the shipped 1024 render by <code>render_audit.py</code>.</p>
+</div>
+</body>
+</html>
