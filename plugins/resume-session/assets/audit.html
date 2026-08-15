@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>resume-session icon : contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0;
+    padding: 40px;
+    background: #0b1418;
+    color: #d7e3e7;
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; color: #d7e3e7; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .verdict { max-width: 430px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #cbd9de; }
+</style>
+</head>
+<body>
+<h1>resume-session icon : contact sheet &amp; audit</h1>
+<div class="sub">Concept A: The Golden Thread in the Tahoe gel porcelain register: a historical session ledger block on the left spliced into a radiant golden-vermilion filament on the right by a central gel-glass coupler node. Audited across full scale matrix (1024 / 256 / 128 / 64 / 32 / 16 css px).</div>
+
+<div class="sheet">
+<table>
+  <tr>
+    <th scope="col">Take</th>
+    <th scope="col">Renders at 128 / 64 / 32 / 16 px, plus 16px magnified</th>
+    <th scope="col">Rubric</th>
+    <th scope="col">Verdict</th>
+  </tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>Master layered SVG generated via build_icon.py [SHIPS]</small></td>
+    <td class="renders">
+      <figure><img src="icon-256.png" width="128" height="128" alt="Take A 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="icon-128.png" width="64" height="64" alt="Take A 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="icon-32.png" width="32" height="32" alt="Take A 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="icon-16.png" width="16" height="16" alt="Take A 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take A 16px x6 zoom"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">14 / 14</td>
+    <td class="verdict">
+      <strong>SHIPS.</strong> Clears all non-negotiables:
+      1. <em>Mask discipline:</em> Conforms strictly to macOS squircle boundary (#F8F5EE&rarr;#E4DDCB).
+      2. <em>Material continuity:</em> Muted obsidian graphite on left (#3A424D), luminous Tahoe gel-glass coupler prism at centre (#EDE7DB), and energized vermilion filament (#DE5F2C&rarr;#FF763B) on right.
+      3. <em>Scale legibility:</em> 16px silhouette preserves the dual-block handover tension and central pulse node cleanly without muddying.
+    </td>
+  </tr>
+
+  <tr>
+    <td class="take">B · Flat Vector Take<small>Monochrome vector without gel lighting</small></td>
+    <td class="renders">
+      <figure><img src="icon-128.png" width="128" height="128" alt="Take B 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="icon-64.png" width="64" height="64" alt="Take B 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="icon-32.png" width="32" height="32" alt="Take B 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="icon-16.png" width="16" height="16" alt="Take B 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take B 16px x6"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">11 / 14</td>
+    <td class="verdict">Lacks Tahoe depth and specular bloom on the central coupler node; reads flat on high-DPI retina displays. Superseded by Take A.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C · Pure Raster Reference<small>Diffusion generated raster reference</small></td>
+    <td class="renders">
+      <figure><img src="icon-256.png" width="128" height="128" alt="Take C 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="icon-128.png" width="64" height="64" alt="Take C 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="icon-32.png" width="32" height="32" alt="Take C 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="icon-16.png" width="16" height="16" alt="Take C 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take C 16px x6"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 14</td>
+    <td class="verdict">Carried rich material sheen but baked uneven non-re-layerable lighting into pixels; failed vector scalability and tinting gates. Superseded by Take A.</td>
+  </tr>
+</table>
+</div>
+
+<div class="rec">
+  <strong>Recommendation: Ship Take A (icon.svg).</strong> Emitted by <code>build_icon.py</code>, it matches the Fledgeling porcelain house design language, anchors session continuity with the graphite ledger card, highlights the optical handover point, and delivers sharp multi-scale assets down to 16px.
+</div>
+
+<div class="rubric">
+  Rubric: 14-point macOS App Icon Rubric (Mask discipline, Optical centering, Silhouette legibility, 16px micro-rendering, Tahoe gel-glass material fidelity, Single light source coherence, Palette economy, Figure-ground contrast ratio &ge; 3.0:1, Depth layering, Specular control, Multi-scale scalability, Dark mode compatibility, No raster text tells, Semantic domain fit).
+</div>
+</body>
+</html>

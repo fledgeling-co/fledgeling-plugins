@@ -1,0 +1,9 @@
+{
+  "name": "resume-session",
+  "description": "Locate, parse, and resume work from past sessions across any agent CLI (Claude Code, Antigravity/AGY, Cursor, Codex, Grok, or repo workspaces). Discovers sessions by query, ID, path, or recency, extracts the 6D takeover state (original goal, terminal errors, modified files, config keys, decisions, and immediate next steps), and produces an uncorrupted continuity briefing without redundant re-discovery.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

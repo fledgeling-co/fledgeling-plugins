@@ -53,6 +53,7 @@ const GROUP_OF = {
   discipline: "long-runs",
   "braindump": "long-runs",
   "should-compact": "long-runs",
+  "resume-session": "long-runs",
   clarify: "long-runs",
   "create-swe-project": "making",
   "create-mac-icon": "making",
