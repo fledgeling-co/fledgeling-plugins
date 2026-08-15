@@ -88,11 +88,18 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
      owner-facing: consequential assumptions only, each with its "rather than" alternative;
      mechanical defaults and all gate/lane accounting (review verdicts, tallies, downgrades) go
      in the machine trailer / a separate pipeline-record note, never interleaved with what the
-     owner reads — an owner-facing section that reads as process notes fails at its one job.
+     owner reads. The two are **separate artifacts**: the owner-facing review comment/section
+     contains zero commands, zero tool names, zero lane accounting; the pipeline record (gate
+     verdicts, would-run commands, downgrades) is its own clearly-labelled note or trailer that
+     an owner never has to scroll past — an owner-facing section that reads as process notes
+     fails at its one job.
    - **Needs improvement** (≥1 essential gap, an uncovered S3 gap, or a genuine contradiction
      only the author can resolve) → Essential Questions (numbered, lens-tagged, multi-choice
      with a recommendation) + an "Easy reply" block + Assumptions for the rest → status
-     **`Needs More Info`**.
+     **`Needs More Info`**. Run the divergence test on the question list itself before posting:
+     a question whose recommended answer you would proceed on either way is an assumption
+     wearing a question's clothes — record it and cut it. Fewer, sharper questions beat a
+     complete-looking list.
    - Re-triage appends a new dated section opening with "Resolved:" for what the answers
      settled. Dry-run reports without writing.
 
