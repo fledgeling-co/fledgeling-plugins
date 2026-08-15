@@ -15,3 +15,4 @@ plugins/*-workspace/
 # marketplace is vendored as a submodule by dAIolog's studio agent, where a
 # 1GB checkout for one 6.4MB skill aborted the deploy upload.
 plugins/improve-skill/assets/loop-runs/
+plugins/*/evals/runs/

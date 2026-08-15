@@ -3,7 +3,7 @@ name: ship-feature
 description: >-
   End-to-end feature delivery conductor — takes ONE feature (a rough idea, inline text, a brief
   file, or a tracked ticket) from bare idea to a merged, verified, production-ready feature by
-  conducting the ship-pipeline stage skills in a single in-session flow: intake (briefs +
+  conducting the shipyard stage skills in a single in-session flow: intake (briefs +
   ideation, when handed a rough idea) → triage → plan ∥ design (all-platform mocks gated by
   design-review and be-my-witness) → work (worktree build through the executor lanes) →
   deferred-work loop → gap-fix → acceptance-e2e → cross-family verify (the only path to Done) →
@@ -16,7 +16,7 @@ description: >-
 # Ship Feature — the end-to-end conductor
 
 Take **one** feature from a bare description to **merged, verified, production code** by
-conducting the ship-pipeline stage skills in sequence. You are the conductor: you hold the
+conducting the shipyard stage skills in sequence. You are the conductor: you hold the
 feature's intent from first read to final merge, invoke each stage skill, verify its artifact
 landed, carry the right context forward, and make the between-stage judgment calls no single
 stage can. You never re-implement a stage here — you run them and thread them together.
@@ -35,7 +35,7 @@ brief/ticket ─→ triage     readiness verdict + assumptions            → To
                finalize    fail-closed gate → rebase → merge → push → cleanup
 ```
 
-Canonical shared rules ride with the stage skills in the ship-pipeline plugin's `references/`
+Canonical shared rules ride with the stage skills in the shipyard plugin's `references/`
 (tracker adapter, model lanes, evidence rules, second-opinion lanes, operational rules). This
 skill's own references: `references/orchestration-model.md` (read first),
 `references/deferred-work-loop.md`, `references/e2e-and-finalize.md`.
@@ -70,7 +70,7 @@ skill's own references: `references/orchestration-model.md` (read first),
   tiers lead; a non-UI feature skips design with a recorded reason; a self-contained feature has
   an empty 4b loop.
 - **Decisions defer before they escalate.** At every fork, run the decision gate
-  (ship-pipeline `references/second-opinion-lanes.md`): look it up, divergence-test it, settle
+  (shipyard `references/second-opinion-lanes.md`): look it up, divergence-test it, settle
   technical calls with a lane or panel, record assumptions with the alternative they beat. What
   genuinely survives — taste, cost, scope, risk, Essential Questions — goes to the human in an
   attended run, and **parks without blocking** in an unattended one (`Needs More Info` with an
@@ -146,7 +146,7 @@ decided before it is needed.
   an unlogged fallback is indistinguishable from a skip and is treated as one.
 - **Respect the egress opt-out** (per invocation); an opted-out repo runs in-family and that
   satisfies the gates, with the degraded-verification buy-back from
-  ship-pipeline `references/model-lanes.md`.
+  shipyard `references/model-lanes.md`.
 - **One branch, one merge; docs in the main tree; only verify sets `Done`.**
 - **Cap your own delegation**: the stage skills fan out internally; you spawn only what this
   file names (the verify agent, the parallel design/plan invocations). Don't wrap the pipeline

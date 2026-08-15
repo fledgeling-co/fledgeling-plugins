@@ -118,7 +118,7 @@ faster than Opus-at-high, and nothing in the launch result tells you it happened
    "no task was provided" — the guard turns that into a fast, free failure.
 
 2. **Set `effort` explicitly — and read the effort dial before you pick.** Full per-lane guidance is
-   canonical in ship-pipeline's `references/model-and-effort.md`; the three facts that
+   canonical in shipyard's `references/model-and-effort.md`; the three facts that
    change launch decisions here: (a) an agent spawned with no `effort` runs at `high`, so a leaf reader
    left unset is over-spending — `low` is the level built for subagents; (b) a feature runner is
    long-horizon agentic work (multi-phase, >30 min), which is what **`xhigh`** is for — `effort: 'high'`
@@ -146,7 +146,7 @@ faster than Opus-at-high, and nothing in the launch result tells you it happened
    evidence lenses, adversarial finding-verifiers, e2e Phases 0–4, design leaf verifiers + page assembly,
    Sentinel verdict + Assumptions, Trivial/Small plan synthesis → `sonnet`; mechanical Phase B/E slices
    meeting the delegation criteria → the external executor lanes (the executor lane order (agy gemini-flash-3.7 `high` → grok grok-4.6 `high` → codex `gpt-5.6-terra` `medium` → Claude) by
-   default, else ship-pipeline's `executor-lanes.md`); the three out-of-family review gates (triage spec review, plan
+   default, else shipyard's `executor-lanes.md`); the three out-of-family review gates (triage spec review, plan
    review gate, work Phase D completeness critic) → codex `gpt-5.6-sol` at `max`, read-only; everything on
    the never-downgrade list (Large plan synthesis, work Phase A synthesis, Phase C conflicts,
    security/guardrails/client-asserted-identity lenses, gap-fix audit over
@@ -157,7 +157,7 @@ faster than Opus-at-high, and nothing in the launch result tells you it happened
    lane's model, and you spot-grep `"model":"…"` from routed transcripts exactly as for runners (a
    downgrade that silently lands on the session model at xhigh is the expensive failure; an upgrade
    that silently lands on haiku is the corrupting one). The executor lanes are optimizations
-   with an **Opus fallback** (ship-pipeline's `executor-lanes.md` §"Fallback") — a lane failure routes the work back
+   with an **Opus fallback** (shipyard's `executor-lanes.md` §"Fallback") — a lane failure routes the work back
    to Opus, never to a sibling cheap lane, never silently skipped. The codex `max` review gates are
    **not** a cost lane and route sideways for independence, not savings: mandatory where available,
    exempt from the kill-switch, and their fallback is a *logged* in-family downgrade in the artifact
@@ -195,7 +195,7 @@ propagate this whole block into every prompt that itself spawns agents:
   Give every routed agent a first-action self-check for ITS lane's model. Mechanical
   Phase B/E slices may go to the external executor lanes ONLY per their references
   (codex gpt-5.6-sol at medium — the default, with its post-compaction re-context hooks
-  installed and self-tested — else ship-pipeline executor-lanes.md): delegation criteria + Opus
+  installed and self-tested — else shipyard executor-lanes.md): delegation criteria + Opus
   verify-fix loop + per-lane kill-switch; any lane failure falls back to Opus — never to
   a sibling cheap lane, never skipped.
   OUT-OF-FAMILY GATES (read-only, max effort): the triage spec review, the plan review
@@ -249,8 +249,8 @@ Rules that override ship-feature's defaults:
   first; never stash-pop blindly over a live runner's work.
 - Propagate the context contract: every subagent you or ship-feature spawns gets the same
   source/design/practices/research paths above. ⟨+ executor lane block when enabled —
-  codex per ship-pipeline references/codex-cli.md §R3, else
-  ship-pipeline executor-lanes.md⟩
+  codex per shipyard references/codex-cli.md §R3, else
+  shipyard executor-lanes.md⟩
 - LEDGER.md writes (child-spec triage) only under the ledger lock rule: ⟨rule⟩.
 - Keep design-system changes feature-scoped; do not edit shared tokens/base elements —
   if a shared change seems required, report it instead of making it.
