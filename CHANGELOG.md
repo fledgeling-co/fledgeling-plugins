@@ -4,6 +4,13 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-15
+
+### Antigravity & Strict YAML 1.2 Frontmatter Normalisation
+
+- **Antigravity CLI Compatibility**: Added top-level `plugin.json` manifests across all plugins in the marketplace to enable seamless zero-config discovery in Google Antigravity CLI (`agy`).
+- **Strict YAML 1.2 Frontmatter Formatting**: Formatted description frontmatters in all `SKILL.md` files to standard YAML 1.2 block scalars (`description: >-`), preventing strict YAML parsers from dropping skills containing colons or quotation marks.
+
 ## 2026-08-14 — proctor catches up with its own MCP server
 
 ### proctor 0.2.0 → 0.3.0

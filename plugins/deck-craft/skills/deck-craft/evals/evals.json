@@ -1,0 +1,26 @@
+{
+  "skill_name": "deck-craft",
+  "evals": [
+    {
+      "id": 0,
+      "name": "html-deck-from-prd",
+      "prompt": "I've got a PRD at ~/Dev/dAIolog/docs/alfabs-9-slide-deck-prompt.md. Build me a 6-slide HTML deck out of it for an engineering all-hands - something I can just open in a browser and present. Save it to /tmp/deck-eval-0/deck.html",
+      "expected_output": "Single self-contained HTML file, fixed 1920x1080 stage that scales+letterboxes, 6 slides, type at projection sizes, committed direction, no filler slides.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "pptx-board-pack",
+      "prompt": "Need a 5-slide board pack as an actual .pptx I can open in PowerPoint. Topic: Q3 engineering update - shipped the new auth system, cut p95 latency from 840ms to 210ms, headcount went 14 to 17, two incidents (both resolved, 4h total downtime), Q4 is the migration off the legacy queue. Put it in /tmp/deck-eval-1/",
+      "expected_output": "deck.json authored as lecturn.deck/1, validated, converted to .pptx. stat.value fields are short figures not prose. No group/widget/embed elements.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "diolog-investor-templates",
+      "prompt": "Author the 9-slide ALFABS investor update described in ~/Dev/dAIolog/docs/alfabs-9-slide-deck-prompt.md. Work in /tmp/deck-eval-2/ and write deck.json there. The slide template library is at ~/Dev/dAIolog/scripts/generated/diolog-slide-templates-skill/",
+      "expected_output": "lecturn.deck/1 deck.json using templateId+slots from the library, x.diolog.structure with one entry per slide in order, theme.tokens set to ALFABS charcoal/red/Figtree, no invented figures.",
+      "files": []
+    }
+  ]
+}

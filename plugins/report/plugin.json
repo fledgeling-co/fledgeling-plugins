@@ -1,0 +1,6 @@
+{
+  "name": "report",
+  "version": "2.0.0",
+  "description": "report: turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document and paginates to a clean A4 PDF, plus a one-page TLDR. Ships three readings of the same argument over one claim ledger (Primer / Brief / Technical) that the reader toggles between, each independently and fully cited from one shared registry, working with JavaScript off and selectable per PDF export. Compiles the session's evidence trail into a claim ledger first, so every number carries a locator and anything reasoned is labelled inference. Light and dark both ship and both are measured; the PDF is always light. Animated and interactive visualisations pitched per reading via dataviz, GSAP motion with an authored static frame for print, captioned media-gen-pro imagery and vector artwork, and a measured divider-gutter rule. Design routed through design-craft and ux-craft.",
+  "category": "development"
+}
