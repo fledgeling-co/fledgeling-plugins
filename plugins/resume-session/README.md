@@ -4,9 +4,24 @@
 
 # resume-session
 
-When an AI coding session ends unexpectedly (a token limit, an API timeout, an unexpected context compaction, or simply switching between tools like Claude Code, Antigravity, Cursor, Codex, or Grok), the next agent typically starts blind. It spends hundreds of tokens re-reading files you already modified, asking questions you already answered, or guessing at environment variables that were established an hour ago.
+**The multi-model handover skill for agentic coding.**
 
-`resume-session` stops that waste. It scans your local machine to discover past sessions across all major agent CLIs, parses their exact transcripts on disk, extracts the **6-dimensional takeover state**, and produces an actionable continuity handover so the next agent picks up immediately where the last one stopped.
+When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, token window exhaustion, or your weekly quota on Claude Opus 5), you should not have to wait hours or start from scratch. You switch to another model or CLI — Antigravity (AGY), Codex, Cursor, Grok, or Claude Sonnet — and keep building.
+
+The problem is that the new model starts completely blind. It spends thousands of tokens re-reading files you already modified, re-asking questions you answered an hour ago, guessing at database configs, and re-writing plans from zero.
+
+`resume-session` eliminates that handover penalty. It scans your local machine to discover sessions across all major AI coding CLIs, parses their exact transcripts on disk, extracts the **6-dimensional takeover state**, and hands the incoming agent a complete continuity briefing so it immediately picks up execution where the last model stopped.
+
+---
+
+## The Cross-Model Takeover Workflow
+
+```mermaid
+graph LR
+    A[Claude Opus 5<br><i>Hits Rate / Token Limit</i>] -->|Transcript saved to disk| B[find_session.py]
+    B -->|Extract 6D Takeover State| C[Takeover Briefing]
+    C -->|Zero rediscovery| D[Antigravity / Codex / Cursor / Grok<br><i>Resumes Active Task Instantly</i>]
+```
 
 ---
 
@@ -14,12 +29,12 @@ When an AI coding session ends unexpectedly (a token limit, an API timeout, an u
 
 Every resumed session is distilled into six concrete vectors:
 
-1. **Session Identity & Provenance**: UUID, CLI engine, model used, git branch, and exact active timestamps.
+1. **Session Identity & Provenance**: UUID, source CLI, model that hit limits, git branch, and exact active timestamps.
 2. **Initial Goal & Intent**: The verbatim initial user prompt, target scope, and linked plan/goal docs.
-3. **Terminal State & Errors**: The exact reason the run stopped (429 rate limit, 503 timeout, failed bash command, compaction) plus the last assistant thought.
+3. **Terminal State & Errors**: The exact reason the run stopped (429 rate limit, 503 reserve cap, compaction boundary, interrupted turn) plus the last assistant thought.
 4. **Modified Files & Artifacts**: The full ledger of created, edited, and deleted files, avoiding duplicate work.
 5. **Technical Config & Keys**: Apple Team IDs, Bundle IDs, OAuth client IDs, port numbers, and database connection settings found during the run.
-6. **Immediate Next Steps**: A concrete, numbered checklist for the incoming agent to verify workspace status and continue active work.
+6. **Immediate Next Steps**: A concrete, numbered checklist for the incoming agent to verify workspace status and continue active work immediately.
 
 ---
 

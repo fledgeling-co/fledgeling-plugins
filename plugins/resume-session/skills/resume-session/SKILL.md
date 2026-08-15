@@ -5,10 +5,13 @@ description: >-
 ---
 
 # `resume-session`
+The multi-model takeover skill for agentic coding.
 
-When an AI coding session ends unexpectedly (whether from a token limit, a compaction, an API timeout, a context clear, or simply switching between agent tools: Claude Code, Antigravity, Cursor, Codex, Grok), the next agent typically spends hundreds of tokens re-exploring the codebase, re-discovering environment configuration, or re-asking the user for context that was already established.
+When an AI model hits its usage limit (e.g. a 503 reserve limit, a 429 rate limit, token exhaustion, or quota cap on Claude Opus 5), you switch to another model or CLI — Antigravity (AGY), Codex, Cursor, Grok, or Claude Sonnet — to keep working.
 
-`resume-session` discovers past sessions across all major agent CLIs, parses their exact transcripts on disk, extracts the **6-dimensional takeover state**, and produces an actionable continuity handover so work continues immediately without lost context or redundant discovery.
+Without this skill, the new agent starts blind: it burns context re-reading already-modified files, re-asking questions already answered, and re-writing plans.
+
+`resume-session` discovers past sessions across all major agent CLIs, parses their exact transcripts on disk, extracts the **6-dimensional takeover state**, and produces an actionable continuity handover so the new model continues execution immediately without lost context or redundant discovery.
 
 ---
 
