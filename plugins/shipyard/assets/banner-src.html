@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* Archivo: a grotesque drawn as an industrial workhorse for places where work
+     gets done and filed. The stages plugin is a workplace, not an instrument;
+     the conductors keep Instrument Sans, this one gets the shop floor face. */
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(125% 160% at 28% 30%, #F7F1E6 0%, #F1E9DA 46%, #E7DCC8 84%, #DED1BA 100%);
+         font-family: "Archivo", sans-serif; }
+  svg.draft { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 132px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 320px; height: 320px;
+          filter: drop-shadow(0 22px 40px rgba(96, 76, 48, .30))
+                  drop-shadow(0 4px 10px rgba(96, 76, 48, .18)); }
+  .words { padding-bottom: 6px; }
+  .wordmark { font-size: 118px; font-weight: 700; letter-spacing: -0.03em;
+              line-height: 1; color: #333E48; display: flex; align-items: center; }
+  /* the plank being fitted: the icon's signature move as the wordmark's accent.
+     The only chroma outside the icon. */
+  .plank { width: 58px; height: 14px; margin-left: 26px; border-radius: 7px; flex: none;
+           background: linear-gradient(90deg, #E8702E 0%, #D33C21 78%);
+           box-shadow: 0 0 18px rgba(232, 112, 46, .45); transform: rotate(-4deg); }
+  .tagline { margin-top: 26px; font-size: 30px; font-weight: 400;
+             letter-spacing: .002em; color: #5A6570; }
+  .tagline b { color: #2E3841; font-weight: 600; }
+</style>
+</head>
+<body>
+  <svg class="draft" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- a naval architect's lines drawing: station grid plus body-plan sections.
+         The background is the drawing the yard builds from. -->
+    <g stroke="#6E7A86" stroke-opacity=".10" stroke-width="1.4">
+      <path d="M 200 -40 V 560"/><path d="M 340 -40 V 560"/><path d="M 480 -40 V 560"/>
+      <path d="M 620 -40 V 560"/><path d="M 760 -40 V 560"/><path d="M 900 -40 V 560"/>
+      <path d="M 1040 -40 V 560"/><path d="M 1180 -40 V 560"/><path d="M 1320 -40 V 560"/><path d="M 1460 -40 V 560"/>
+      <path d="M -40 110 H 1640"/><path d="M -40 260 H 1640"/><path d="M -40 410 H 1640"/>
+    </g>
+    <!-- hull sections nested like a body plan, off to the right where the words breathe -->
+    <g stroke="#8A8168" stroke-opacity=".28" fill="none" transform="translate(1210 258)">
+      <path d="M -190 -150 C -190 -40, -160 70, -95 118 C -50 150, 50 150, 95 118 C 160 70, 190 -40, 190 -150" stroke-width="3.4"/>
+      <path d="M -152 -128 C -152 -34, -128 58, -76 98 C -40 124, 40 124, 76 98 C 128 58, 152 -34, 152 -128" stroke-width="2.8"/>
+      <path d="M -114 -106 C -114 -26, -95 44, -57 78 C -30 100, 30 100, 57 78 C 95 44, 114 -26, 114 -106" stroke-width="2.4"/>
+      <path d="M -78 -84 C -78 -20, -63 32, -38 58 C -20 76, 20 76, 38 58 C 63 32, 78 -20, 78 -84" stroke-width="2.0"/>
+      <path d="M -44 -62 C -44 -12, -34 20, -20 38 C -10 50, 10 50, 20 38 C 34 20, 44 -12, 44 -62" stroke-width="1.7"/>
+    </g>
+    <g stroke="#6E7A86" stroke-opacity=".16" stroke-width="2" fill="none">
+      <path d="M 1210 108 V 92"/><path d="M 1210 424 V 440"/>
+      <path d="M 1012 258 H 996"/><path d="M 1408 258 H 1424"/>
+    </g>
+  </svg>
+  <div class="lockup">
+    <img class="icon" src="icon-256.png" alt="">
+    <div class="words">
+      <div class="wordmark">shipyard<span class="plank"></span></div>
+      <div class="tagline">Where features get built, <b>stage by stage</b>.</div>
+    </div>
+  </div>
+</body>
+</html>

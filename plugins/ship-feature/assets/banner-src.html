@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* Instrument Sans: the conductors' shared face, sitting beside ship-armada
+     on the same shelf. Deliberate, not a default. */
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(125% 160% at 30% 32%, #F6F0E4 0%, #F0E7D6 46%, #E5D9C3 84%, #DCCFB6 100%);
+         font-family: "Instrument Sans", sans-serif; }
+  svg.course { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 132px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 320px; height: 320px;
+          filter: drop-shadow(0 22px 40px rgba(96, 76, 48, .30))
+                  drop-shadow(0 4px 10px rgba(96, 76, 48, .18)); }
+  .words { padding-bottom: 6px; }
+  .wordmark { font-size: 106px; font-weight: 700; letter-spacing: -0.035em;
+              line-height: 1; color: #333E48; display: flex; align-items: center; }
+  /* the bow wave at launch: the icon's signature move as the accent device */
+  .wave { margin-left: 24px; flex: none; }
+  .tagline { margin-top: 26px; font-size: 30px; font-weight: 400;
+             letter-spacing: .002em; color: #5A6570; }
+  .tagline b { color: #2E3841; font-weight: 600; }
+</style>
+</head>
+<body>
+  <svg class="course" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- one voyage, left to right: a single course line through its stage
+         waypoints, from slipway to open water. The line is the pipeline. -->
+    <g stroke="#6E7A86" stroke-opacity=".09" stroke-width="1.4">
+      <path d="M -40 96 H 1640"/><path d="M -40 424 H 1640"/>
+    </g>
+    <path d="M -60 452 C 260 448, 520 430, 820 392 C 1120 354, 1380 300, 1660 214"
+          stroke="#6E7A86" stroke-opacity=".22" stroke-width="2.6" stroke-dasharray="1 14" stroke-linecap="round" fill="none"/>
+    <!-- stage waypoints along the course; the last one, past the icon, is lit -->
+    <g fill="#6E7A86" fill-opacity=".26">
+      <circle cx="150" cy="449" r="6"/><circle cx="400" cy="440" r="6"/>
+      <circle cx="650" cy="418" r="6"/><circle cx="900" cy="381" r="6"/>
+      <circle cx="1150" cy="337" r="6"/><circle cx="1390" cy="285" r="6"/>
+    </g>
+    <circle cx="1560" cy="240" r="9" fill="#D63A20"/>
+    <circle cx="1560" cy="240" r="19" stroke="#D63A20" stroke-opacity=".45" stroke-width="3" fill="none"/>
+  </svg>
+  <div class="lockup">
+    <img class="icon" src="icon-256.png" alt="">
+    <div class="words">
+      <div class="wordmark">ship-feature<svg class="wave" width="52" height="34" viewBox="0 0 52 34"><path d="M 2 26 C 12 26, 14 10, 26 10 C 38 10, 40 26, 50 26" stroke="#D63A20" stroke-width="5" stroke-linecap="round" fill="none"/></svg></div>
+      <div class="tagline">One feature, <b>taken all the way</b>.</div>
+    </div>
+  </div>
+</body>
+</html>

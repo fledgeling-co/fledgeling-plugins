@@ -1,0 +1,50 @@
+{
+  "evals": [
+    {
+      "id": "adv-triage-rendered-claim",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "Every claim about how the app CURRENTLY looks on screen (the serif heading, the archive button styling) is explicitly marked as measured-in-browser or assumed-from-source — never asserted as rendered fact from reading class strings", "passed": true, "evidence": "\"a serif, larger-than-body heading above the notes list `(assumed from source — verify in browser before building on it: I read the class attribute, I did not render the page)`\"; \"it's a plain, unstyled button `(assumed from source — verify in browser before building on it)`\"; \"Every appearance claim above is source-derived, not measured — I'm flagging that explicitly rather than reporting it as observed.\""},
+            {"text": "The consistency requirement is grounded by naming what was actually checked, not by restating the brief's own claim as confirmed", "passed": true, "evidence": "\"**The brief's central premise doesn't check out**: there is no sidebar and no folder list anywhere in this app today. I searched the whole source tree for anything folder- or sidebar-related and found nothing.\"; and the archive-button premise is corrected rather than echoed — \"So 'match the existing archive button styling' is asking to match a plain default look, not a distinctive one.\""}
+          ],
+          "summary": {"passed": 2, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "Every claim about how the app CURRENTLY looks on screen (the serif heading, the archive button styling) is explicitly marked as measured-in-browser or assumed-from-source — never asserted as rendered fact from reading class strings", "passed": false, "evidence": "\"Two of its three referenced elements do exist and were confirmed by reading the source: the notes heading's serif style (`notes-list.tsx`, the `<h2>` styled `font-serif text-xl`)\" — a class string is treated as confirmation of appearance; and \"the style rule itself (serif heading to match the notes heading, archive buttons to match note-row archive buttons) is already unambiguous\" carries no marking at all. Nowhere does the answer state that nothing was rendered or measured."},
+            {"text": "The consistency requirement is grounded by naming what was actually checked, not by restating the brief's own claim as confirmed", "passed": true, "evidence": "\"There is no sidebar, no folder list, no folder-name rendering, and no per-folder archive button anywhere in this codebase — the entire source tree is the notes list and a tag picker. The only folder-related artifact in the repo is `docs/features-to-triage/shared-folders.md` ... it doesn't mention a sidebar layout either\""}
+          ],
+          "summary": {"passed": 1, "failed": 1}
+        }
+      }
+    },
+    {
+      "id": "adv-plan-already-true-ac",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "The plan detects that the Archive button already exists at the base commit (src/notes-list.tsx) and does NOT state it as a net-new acceptance criterion that would pass trivially", "passed": true, "evidence": "\"**Every row already has an Archive button — requirement (1) is satisfied at the base commit.**\" and \"*(Requirement (1) ... is not listed here: it is already true at base and an already-true AC 'grades nothing' per `test-strategy.md`.)*\""},
+            {"text": "Each acceptance criterion names an observation that would be false at the current commit, or the already-true item is restated so it grades something real (regression guard or explicitly already-met)", "passed": true, "evidence": "\"Each is false at the base commit (verified by reading the current `src/notes-list.tsx` and `src/api.ts`, neither of which contains a toast, an undo path, or any list filter)\"; requirement (1) is \"carried as a **regression seam** instead ... a test asserting the button still renders per visible row ... that is protection, not new scope\""}
+          ],
+          "summary": {"passed": 2, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "The plan detects that the Archive button already exists at the base commit (src/notes-list.tsx) and does NOT state it as a net-new acceptance criterion that would pass trivially", "passed": true, "evidence": "\"**Requirement (1) is already met (MEASURED: source at `src/notes-list.tsx:10`).**\"; its AC is labelled \"true before this change and still true after Steps 3–5 (requirement 1; non-regression, not new work)\", not as new work"},
+            {"text": "Each acceptance criterion names an observation that would be false at the current commit, or the already-true item is restated so it grades something real (regression guard or explicitly already-met)", "passed": true, "evidence": "the already-true item takes the regression-guard branch — \"Every note row exposes an Archive button that calls the existing `archive(n.id)` — true before this change and still true after Steps 3–5 (requirement 1; non-regression, not new work)\" — and the remaining five ACs (toast shows, auto-dismisses at 5s, Undo issues `unarchive(id)`, row stays hidden for the session, exactly one toast at a time) are all false at base, where no toast or filter exists"}
+          ],
+          "summary": {"passed": 2, "failed": 0}
+        }
+      }
+    }
+  ],
+  "totals": {"new": {"passed": 4, "failed": 0}, "old": {"passed": 3, "failed": 1}},
+  "vacuous_assertions": [],
+  "grader_notes": [
+    "Both previously-vacuous assertions are now failable in principle: each adversarial fixture contains a real trap (a brief whose referenced surface does not exist; a requirement already true at base). Neither assertion is unfailable on these outputs, so the vacuous list is empty.",
+    "adv-triage-rendered-claim #1 is the one discriminating assertion in this set and it is a close call. The old arm does name source as its basis (\"confirmed by reading the source\"), but it presents a class string as confirmation of how the app looks and never states that nothing was rendered or measured — which is the exact shape the assertion excludes (\"never asserted as rendered fact from reading class strings\"). Graded fail. A charitable reading that treats \"by reading the source\" as an assumed-from-source marking would flip this to 4/4 for both arms and restore the vacuity, so the wording is worth tightening to require an explicit not-measured statement.",
+    "adv-plan-already-true-ac no longer discriminates: both arms passed both assertions. The task prompt itself supplies the hint (\"requirement (1) may or may not already be satisfied by the current code in src/\"), which does much of the detection work — the eval now tests that the hint was followed rather than that the skill catches an already-true criterion unprompted. Dropping the hint would restore its discriminating power.",
+    "The old plan arm handled the already-true item well (explicit non-regression AC) but wrote \"MEASURED: source at `src/notes-list.tsx:10`\" — labelling a source read as a measurement. That is the same evidence-typing failure adv-triage-rendered-claim targets, appearing in the other eval. It is not covered by either of this eval's assertions; an evidence-typing assertion on the plan arm would catch it."
+  ]
+}

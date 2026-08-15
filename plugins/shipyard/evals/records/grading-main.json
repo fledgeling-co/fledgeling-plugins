@@ -1,0 +1,192 @@
+{
+  "evals": [
+    {
+      "id": "triage-assumption-protocol",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "The answer states a verdict line (READY or NEEDS IMPROVEMENT) plus the status it sets, by name", "passed": true, "evidence": "\"**READY** — SCR-0001 ... status set to **`Ready for Plan`** (tracker-adapter equivalent: `To Do`)\""},
+            {"text": "Internal ambiguities (e.g. what the folder menu contains, how drag works, archive semantics) are recorded as assumptions, not questions to the human", "passed": true, "evidence": "twelve assumptions incl. \"a per-folder menu with rename, archive, and share\", \"On narrow screens, moving a note into a folder is a menu action, not drag-only\", \"Archiving a folder hides it from the active list but leaves its notes reachable\"; \"**No essential questions were raised.**\""},
+            {"text": "At least one assumption names the alternative it beat (an 'assuming X (rather than Y)' shape)", "passed": true, "evidence": "\"A shared folder stays live: notes added later become visible ... *(a shared folder is a container, not a one-time snapshot)*\"; \"Archiving a folder hides it ... *(safer than silently archiving content the user didn't ask to archive)*\""},
+            {"text": "The review section contains no file paths, code identifiers, or architecture nouns (module, route, endpoint, schema...)", "passed": true, "evidence": "Triage section (verdict, UI & logic preview, Assumptions, Review gates) is plain-language throughout — e.g. \"Notes list: notes can be dragged onto a folder, or moved to one from a menu on small screens.\" Paths/commands appear only under \"Process notes (not part of the spec)\"."},
+            {"text": "Any claim about what the app currently shows on screen is marked measured or assumed-from-source, not stated as rendered fact", "passed": true, "evidence": "current-app claims are carried in the Assumptions block with provenance, e.g. \"Sharing a folder invites by email — the same flow as sharing a single note today. *(matches existing pattern)*\"; no rendered-fact claim is asserted"}
+          ],
+          "summary": {"passed": 5, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "The answer states a verdict line (READY or NEEDS IMPROVEMENT) plus the status it sets, by name", "passed": true, "evidence": "\"**Verdict: NEEDS IMPROVEMENT** — SCR-0001\" / \"**Status set:** `Needs More Info` (spec header + ledger row)\""},
+            {"text": "Internal ambiguities (e.g. what the folder menu contains, how drag works, archive semantics) are recorded as assumptions, not questions to the human", "passed": false, "evidence": "two internal product ambiguities are escalated to the unreachable human instead of defaulted: \"**Essential Questions** (2 ...) 1. Can a note live in more than one folder at once...? 2. Who can add or remove notes in a shared folder...?\" — with \"re-run `/triage SCR-0001`\" awaiting answers, in a run the task defines as unattended. Folder-menu contents are not recorded as an assumption at all."},
+            {"text": "At least one assumption names the alternative it beat (an 'assuming X (rather than Y)' shape)", "passed": true, "evidence": "\"Folders are single-level — no nesting in this pass. *(brief describes flat folders only)*\"; \"Direct shares survive folder removal; only folder-based access is revoked when removed.\""},
+            {"text": "The review section contains no file paths, code identifiers, or architecture nouns (module, route, endpoint, schema...)", "passed": true, "evidence": "\"Complete triage section (as written to the spec)\" is plain language throughout — \"**Sentinel review:** S1 (standard B2B feature — a small notes app...)\"; no paths inside it (`src/api.ts` appears only in the surrounding narrative)"},
+            {"text": "Any claim about what the app currently shows on screen is marked measured or assumed-from-source, not stated as rendered fact", "passed": true, "evidence": "\"my first draft assumed folder archiving would be reversible via 'unarchive,' but `src/api.ts` only exposes `archive()` — there's no restore/unarchive call anywhere in the code I read\" — current-behaviour claim explicitly sourced, not rendered"}
+          ],
+          "summary": {"passed": 4, "failed": 1}
+        }
+      }
+    },
+    {
+      "id": "plan-test-strategy",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "The plan names the test seams it will test at, before or alongside the test list", "passed": true, "evidence": "\"**Seams** (existing seam preferred, highest possible): - **Client API seam** ... - **Component seam** ... - **E2E seam**\" — first subsection of Test strategy, before the coverage lists"},
+            {"text": "Every user-visible action in the brief (create folder, drag note in, share folder, rename, archive) maps to at least one named e2e flow or test", "passed": true, "evidence": "\"**E2E flows** ... 1. Create folder → appears in list — AC1. 2. Drag note into folder ... 4. Share folder as user A → user B ... 6. Rename folder ... 7. Archive folder → disappears from active list\""},
+            {"text": "At least one acceptance criterion is stated so it would be false at the current commit (falsifiable at base), or the plan states the falsifiability requirement explicitly", "passed": true, "evidence": "\"Creating a folder with a name persists it; it appears in the folder list on a fresh load. *(False today — no folder concept exists at the base commit.)*\""},
+            {"text": "UI state coverage (empty/loading/error or a state matrix) appears in the test strategy", "passed": true, "evidence": "\"Forms (create/rename): empty, valid, invalid (blank/duplicate name), server error, loading, success.\" plus list/permission/drag state rows"},
+            {"text": "The plan commits itself (or states the commit + sha requirement) rather than existing only as an untracked file", "passed": true, "evidence": "\"git add docs/plans/shared-folders.md / git commit -m ...\" and \"(committed: `<short sha>`, tier: Large)\" — \"No sha exists because no commit was made — this run must not claim repo presence for a file it did not commit.\""}
+          ],
+          "summary": {"passed": 5, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "The plan names the test seams it will test at, before or alongside the test list", "passed": false, "evidence": "absent — the word 'seam' does not occur; the Verify section jumps straight to \"`pnpm typecheck` / `lint` / `test` green for the new/changed files\""},
+            {"text": "Every user-visible action in the brief (create folder, drag note in, share folder, rename, archive) maps to at least one named e2e flow or test", "passed": true, "evidence": "\"manual walkthrough (create → drag-in → share → rename → archive) in a running app\" plus one acceptance criterion per action (create/drag/share/rename/archive); note the named Playwright spec covers only \"drag-in and the two-user share check\""},
+            {"text": "At least one acceptance criterion is stated so it would be false at the current commit (falsifiable at base), or the plan states the falsifiability requirement explicitly", "passed": true, "evidence": "\"Creating a folder with a name persists it and `listFolders()` returns it\" — false at base since no folder concept exists (falsifiability is not stated explicitly, but the criterion satisfies the first branch)"},
+            {"text": "UI state coverage (empty/loading/error or a state matrix) appears in the test strategy", "passed": false, "evidence": "absent — no empty/loading/error states and no state matrix anywhere in Verify or Acceptance criteria; the only adjacent line is \"update the folder's local note count optimistically\" in a build step"},
+            {"text": "The plan commits itself (or states the commit + sha requirement) rather than existing only as an untracked file", "passed": false, "evidence": "absent — step 7 shows only a markdown pointer (\"Implementation plan: `docs/plans/plan-shared-folders.md` (Plan size: Standard).\"); no git commit and no sha requirement"}
+          ],
+          "summary": {"passed": 2, "failed": 3}
+        }
+      }
+    },
+    {
+      "id": "verify-failure-and-family",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "The verifier derives its own requirement list from the ticket BEFORE reading the worker's completion record, and says so", "passed": true, "evidence": "\"## 1. Requirement list — derived from the ticket alone, before reading the worker's comment\" (R1–R5), then \"**Diff against the worker's record**\""},
+            {"text": "The toast requirement is graded Missed/Partial on exercised behavioural evidence, not reinterpreted to pass", "passed": true, "evidence": "\"| R3 | Clicking Archive shows an Undo toast | Behavioural | **Missed** | Exercised click → no toast rendered; corroborated by source...\""},
+            {"text": "The unmeasured heading is reported as unverified/blocker backed by two independent probes (or the two-probe requirement is stated), never as done", "passed": true, "evidence": "\"| R5 | ... | **Unverified — blocker** | Two independent probes: (1) `pnpm run dev` fails ... (2) no alternate serving path ... Dissolution: blocked until the app can be served\""},
+            {"text": "The verdict routes to (or records) a model outside the implementer's family, or explicitly marks the verification as in-family/degraded", "passed": true, "evidence": "\"`agy`, `codex`, `grok` all unavailable in this session (binaries not on PATH) — `verification: in-family (degraded)`, Opus 5, one extra adversarial round\""},
+            {"text": "The answer names the failure-path status transition it makes (a Needs More Work / equivalent failure state with re-entry), not just 'leave the status'", "passed": true, "evidence": "\"**`Developer Review` → `Needs More Work`.** The verdict table above travels with it as gap-fix's work order\""}
+          ],
+          "summary": {"passed": 5, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "The verifier derives its own requirement list from the ticket BEFORE reading the worker's completion record, and says so", "passed": true, "evidence": "\"**Ticket is the oracle** — requirements below are derived from the ticket text alone, before reading the worker's completion comment, any plan doc, or the diff.\""},
+            {"text": "The toast requirement is graded Missed/Partial on exercised behavioural evidence, not reinterpreted to pass", "passed": true, "evidence": "\"| 2 | Clicking Archive shows an Undo toast | behavioural | Missed | No toast node rendered within the observation window.\""},
+            {"text": "The unmeasured heading is reported as unverified/blocker backed by two independent probes (or the two-probe requirement is stated), never as done", "passed": true, "evidence": "\"Two independent probes, per the skill's 'two independent probes' bar ... Probe 1 — `package.json`'s `dev` script is `node server.js`... Probe 2 — no fallback entrypoint exists either\"; graded \"Unverified — blocker\""},
+            {"text": "The verdict routes to (or records) a model outside the implementer's family, or explicitly marks the verification as in-family/degraded", "passed": false, "evidence": "absent — no model, lane, family or degraded marker anywhere in the answer or the verdict comment (the only 'family' string in the file is `fontFamily`)"},
+            {"text": "The answer names the failure-path status transition it makes (a Needs More Work / equivalent failure state with re-entry), not just 'leave the status'", "passed": false, "evidence": "\"**Leave the ticket exactly where it is (Developer Review is not exited).** ... No status is changed, no description is edited, and no status is downgraded\" — the exact 'leave the status' shape the assertion excludes"}
+          ],
+          "summary": {"passed": 3, "failed": 2}
+        }
+      }
+    },
+    {
+      "id": "conductor-design-gates",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "A design stage produces mocks/representations for iPhone, iPad, Mac and Web (not a single generic mock)", "passed": true, "evidence": "\"**iPhone, iPad, Mac** — through `mac-design-studio`: one native-idiom mock set per platform ... **Web** — mirrors the Mac set's information architecture ... with web-native controls (not the Mac chrome ported as-is)\""},
+            {"text": "design-review and be-my-witness (or equivalently-named rendered-review gates) are named as gates on the mocks", "passed": true, "evidence": "\"Two gates run on the rendered mock set ... 1. **`design-review`**, worklist-tracked per surface ... 2. **`be-my-witness`** on the same rendered set, dual-oracle\""},
+            {"text": "Gate findings are actioned and the changed surfaces re-reviewed before handoff — not merely collected", "passed": true, "evidence": "\"**Critical / High** — every one gets actioned before handoff ... **One bounded re-review** of the changed surfaces only after fixes land\""},
+            {"text": "A surface-by-state inventory (state matrix) is produced and handed to later stages", "passed": true, "evidence": "\"**State matrix** ... each surface above × default / loading / empty / error / success, plus **permission** variants ... Every cell is either mocked or explicitly waived\"; \"That's what the planner's test strategy and the worker both read\""},
+            {"text": "Verification by a different model family (or a fresh-context verifier) appears in the stage sequence before merge", "passed": true, "evidence": "\"| 7 | `verify` (fresh subagent) | Cross-family evidence against the running branch app; sets `Done` or `Needs More Work` |\" — before stage 8 Finalize/merge"}
+          ],
+          "summary": {"passed": 5, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "A design stage produces mocks/representations for iPhone, iPad, Mac and Web (not a single generic mock)", "passed": true, "evidence": "\"Four representations, not one generic pass reused across breakpoints, because the interaction paradigms genuinely differ: **Web** ... **Mac** ... **iPad** ... **iPhone**\""},
+            {"text": "design-review and be-my-witness (or equivalently-named rendered-review gates) are named as gates on the mocks", "passed": false, "evidence": "be-my-witness absent; design-review is explicitly not a gate — \"Phase 1 in this version of the skill has **no equivalent out-of-family or structured review gate** — only the render check\", and the design-review addition is \"a recommendation to strengthen a thin gate, not a claim that the SKILL.md requires it\" (and only against the rendered Web mock)"},
+            {"text": "Gate findings are actioned and the changed surfaces re-reviewed before handoff — not merely collected", "passed": true, "evidence": "\"Renders blank, errors, or the inventory is visibly thin ... I fix it and re-run the render check before advancing\" (thin pass: applies to the binary render gate only; the answer states \"Phase 1 has no equivalent structured disposition process\")"},
+            {"text": "A surface-by-state inventory (state matrix) is produced and handed to later stages", "passed": true, "evidence": "\"2. **A UI inventory** (surfaces × states × interactions/flows × overlays × components), kept in context for triage/plan/work to cite.\""},
+            {"text": "Verification by a different model family (or a fresh-context verifier) appears in the stage sequence before merge", "passed": true, "evidence": "stage table gates: \"READY verdict; cross-family (Codex) review ran and dispositioned\" (stage 2), \"Codex `max`-effort review\" (stage 3), \"Codex completeness-critic line present\" (stage 4) — all before stage 7 Finalize/merge; note there is no independent verify stage"}
+          ],
+          "summary": {"passed": 4, "failed": 1}
+        }
+      }
+    },
+    {
+      "id": "intake-idea-expansion",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "More than one brief is produced (the idea is decomposed, not passed through)", "passed": true, "evidence": "\"**Briefs:** 6 total — 3 asked-for (workspaces, roles/permissions, real-time editing), 3 proposed-by-ai\""},
+            {"text": "At least one brief is an AI-proposed companion feature explicitly marked as proposed (separable from the asked-for work)", "passed": true, "evidence": "\"## Briefs — proposed by AI, trawl pass (3)\" with \"- proposed-by-ai: true\" on each; \"A human can veto any proposed-by-ai brief by deleting its file; nothing bundles a proposal into an asked-for feature.\""},
+            {"text": "Briefs carry a platforms line covering iPhone, iPad, Mac and Web", "passed": true, "evidence": "\"- platforms: iphone, ipad, mac, web\" on all six briefs"},
+            {"text": "No spec ids are allocated and no implementation decisions are made (paths/architecture absent from briefs)", "passed": true, "evidence": "\"**Ids:** none allocated here — markdown lane, id allocation is a serialized triage write.\"; brief bodies are user-outcome prose only"},
+            {"text": "Research (deep-research/market context) is considered — either run, pointed at, or explicitly judged unnecessary", "passed": true, "evidence": "\"## Step 2 — research ... I'd run the Dossier MCP free lane first ... **This did not run** — the task disallows network access ... I'd run it for real before this backlog reaches plan.\""}
+          ],
+          "summary": {"passed": 5, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "More than one brief is produced (the idea is decomposed, not passed through)", "passed": true, "evidence": "\"### 1. Team workspaces & invites\" and \"### 2. Note permission levels (view vs. edit)\""},
+            {"text": "At least one brief is an AI-proposed companion feature explicitly marked as proposed (separable from the asked-for work)", "passed": false, "evidence": "absent — companion features are explicitly declined: \"## Considered, deliberately not written up as briefs ... real-time co-editing/presence, comments/activity feed, and notifications ... Writing briefs for them now would be intake inventing product scope\""},
+            {"text": "Briefs carry a platforms line covering iPhone, iPad, Mac and Web", "passed": false, "evidence": "absent — frontmatter lines are only origin / audience / what-why; the strings iphone, ipad, mac and platform do not occur"},
+            {"text": "No spec ids are allocated and no implementation decisions are made (paths/architecture absent from briefs)", "passed": true, "evidence": "\"none of this has gone through `/triage`, so no ID has been allocated to either new brief\"; briefs name only the existing `share(id, email)` behaviour, no paths or architecture"},
+            {"text": "Research (deep-research/market context) is considered — either run, pointed at, or explicitly judged unnecessary", "passed": false, "evidence": "absent — no research step, no market/deep-research mention anywhere in the answer"}
+          ],
+          "summary": {"passed": 2, "failed": 3}
+        }
+      }
+    },
+    {
+      "id": "status-machine-complete",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "A named failure state exists after failed verification (Needs More Work or equivalent), with the verifier's verdict as the remediation work order", "passed": true, "evidence": "\"| 6 | `Status: Needs More Work` | `verify` | The verifier's verdict comment/section ... This is the **one downgrade the pipeline allows**\"; step 7: \"The verdict table from step 6 is merged into a fresh full audit\""},
+            {"text": "A terminal Done state exists and only the independent verifier can set it", "passed": true, "evidence": "\"| 9 | `Status: Done` | `verify` (re-run, fresh context) | A second, independent verdict comment ... from a **new session with no memory of the build or the first verify pass**\"; \"`gap-fix` ... **never** sets `Done` itself\""},
+            {"text": "Every named transition requires a named artifact (comment/table/sha), not just a status flip", "passed": true, "evidence": "column \"Required artifact for the transition\" filled on every row, e.g. \"The plan **committed** ... plus its short sha — never claimed as 'in the repo' without one\"; \"**A status move without its artifact is invalid**\""},
+            {"text": "The remediation stage returns the item to review/verification rather than granting Done itself", "passed": true, "evidence": "\"| 8 | `Status: In Review` (tasks-lane: `Developer Review`) | `gap-fix` (Phase C) | ... `gap-fix` hands back to `Developer Review` — it **never** sets `Done` itself.\""}
+          ],
+          "summary": {"passed": 4, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "A named failure state exists after failed verification (Needs More Work or equivalent), with the verifier's verdict as the remediation work order", "passed": false, "evidence": "absent — \"**Status:** stays `In Review`. ... No `Failed Verification` status exists in `triage-spec-format.md`'s vocabulary, and the skill forbids downgrading anyway, so there is nothing to set.\""},
+            {"text": "A terminal Done state exists and only the independent verifier can set it", "passed": false, "evidence": "absent — \"nothing in it names a post-verification status (`Merged`, `Done`, `Verified`, or otherwise) ... I'm not going to invent one\"; even a clean pass \"keeps the spec at `In Review`\" for a human operator to move"},
+            {"text": "Every named transition requires a named artifact (comment/table/sha), not just a status flip", "passed": true, "evidence": "column \"Artifact required for the transition\" filled on every listed row, e.g. \"a `## Triage — <date>` section (Sentinel review verdict, UI & logic preview, Assumptions) appended to the spec; header `Status`/`Last updated` + ledger row updated\""},
+            {"text": "The remediation stage returns the item to review/verification rather than granting Done itself", "passed": true, "evidence": "\"**Pass 2 — a genuinely fresh session, not the remediation session — passes.**\" and \"The status does **not** regress to `In Progress` — it stays `In Review` throughout\" (degenerate pass: nothing is granted because no Done exists and the status never moves at all)"}
+          ],
+          "summary": {"passed": 2, "failed": 2}
+        }
+      }
+    },
+    {
+      "id": "evidence-rules-guard",
+      "arms": {
+        "new": {
+          "expectations": [
+            {"text": "Partial status is refused — the row is failed/blocked, not partial", "passed": true, "evidence": "\"**No.** The row cannot be marked partial, and it does not close.\"; \"**'There is no partial status: a row without admissible evidence is ✗ ...'** So the row is not 'partial' — it is ✗, full stop\""},
+            {"text": "'In the code and typecheck clean' is rejected as evidence for a behavioural/visual claim", "passed": true, "evidence": "\"*'In the code and typecheck clean' is never evidence for a visual, behavioural, or persistence clause.* A green gate is necessary, never sufficient\""},
+            {"text": "A blocker requires the failing command plus a second independent probe, and carries a dissolution condition", "passed": true, "evidence": "\"1. The exact failing command and its output. 2. A second, independent probe agreeing\"; \"File it as a **blocker naming the row**, with its dissolution condition — e.g. 'blocked until the worktree/branch is served and the toast is exercised'\""},
+            {"text": "The status does not advance while the row is open, and the caveat must propagate to any later record", "passed": true, "evidence": "\"'`Developer Review` is not set while any Clause or Reachability row is not ✅.' ... nothing moves until the row closes on real evidence\"; \"Carry the caveat verbatim into any later summary, merge record, or closing comment ... it may not be softened to 'mostly done'\""}
+          ],
+          "summary": {"passed": 4, "failed": 0}
+        },
+        "old": {
+          "expectations": [
+            {"text": "Partial status is refused — the row is failed/blocked, not partial", "passed": true, "evidence": "\"the correct label is not Partial — it's **Unverified — blocker**\"; \"Partial ... is not a softer bucket for a requirement you never exercised\""},
+            {"text": "'In the code and typecheck clean' is rejected as evidence for a behavioural/visual claim", "passed": true, "evidence": "\"'Code is there' is exactly the kind of source-level claim the skill calls out as inadmissible for a visual clause\"; \"**Never grade a visual item from source.**\""},
+            {"text": "A blocker requires the failing command plus a second independent probe, and carries a dissolution condition", "passed": false, "evidence": "two-probe half present — \"**two independent probes** proving the incapacity\" — but the failing command and its output are never required (only illustrative probes, \"e.g., dev server won't boot\"), and no dissolution condition is attached to the blocker"},
+            {"text": "The status does not advance while the row is open, and the caveat must propagate to any later record", "passed": false, "evidence": "first half present — \"The item's status does not advance today. It stays wherever it currently sits\" — but caveat propagation to later summaries/merge records is absent"}
+          ],
+          "summary": {"passed": 2, "failed": 2}
+        }
+      }
+    }
+  ],
+  "totals": {"new": {"passed": 33, "failed": 0}, "old": {"passed": 19, "failed": 14}},
+  "vacuous_assertions": [
+    "triage-assumption-protocol: The answer states a verdict line (READY or NEEDS IMPROVEMENT) plus the status it sets, by name — the task prompt literally asks for \"the verdict ... and the exact status you would set\", so any answer that follows the prompt passes; it tests instruction-following, not the skill.",
+    "triage-assumption-protocol: Any claim about what the app currently shows on screen is marked measured or assumed-from-source, not stated as rendered fact — triage renders nothing, so neither answer makes an on-screen claim at all; both pass by absence rather than by doing anything.",
+    "plan-test-strategy: At least one acceptance criterion is stated so it would be false at the current commit (falsifiable at base) — the feature is net-new (no folder concept exists), so every concrete AC about folders is automatically false at base; only the explicit-marking branch discriminates, and the assertion accepts either.",
+    "status-machine-complete: Every named transition requires a named artifact (comment/table/sha), not just a status flip — the task prompt asks \"what artifact each transition requires\", so both arms produced an artifact column by construction."
+  ],
+  "grader_notes": [
+    "New arm swept 33/33; old arm 19/33. Every old-arm failure is a genuine absence (no seams, no state matrix, no commit+sha, no model-family record, no failure/Done states, no AI-proposed briefs, no platforms line, no research step, no be-my-witness), not a formatting miss.",
+    "Judgment call, triage old #2: the exemplars named in the assertion (folder menu, drag, archive) are mostly handled, but the old arm escalated two purely internal product ambiguities (folder multi-membership, who may manage a shared folder) to Essential Questions for a human the task declares unreachable — the new arm defaulted both. Graded fail on the assertion's general clause; a stricter reading of 'the listed exemplars only' would flip it to a pass and make the eval 20/33 for old.",
+    "Judgment call, triage old #4: the review section written to the spec is clean, but the adjacent review narrative contains `src/api.ts` and `archive()`. The assertion says 'the review section' (singular, definite); graded against the spec-bound section. Worth disambiguating in evals.json which section is under test.",
+    "Generous pass, plan old #2: only two of the five actions get a named e2e spec (\"covering drag-in and the two-user share check\"); the pass rests on the manual walkthrough \"(create → drag-in → share → rename → archive)\" plus one AC per action. Tightening the assertion to 'named automated e2e flow' would fail the old arm here.",
+    "Thin pass, conductor old #3 and #5: #3 rests on the binary render gate (\"I fix it and re-run the render check\") in an answer that states Phase 1 has no structured disposition process; #5 rests on the Codex review gates listed at stages 2/3/4 rather than a verification stage — there is no verify stage in the old sequence at all. Adding 'a dedicated verification stage' to #5 would make it discriminate.",
+    "Degenerate pass, status-machine old #4: the old arm never moves the status at any point in the lifecycle, so it cannot grant Done and cannot fail this assertion. Consider requiring a named transition back to review, which would make it fail honestly alongside #1 and #2.",
+    "Both evidence-rules assertions that the old arm failed are conjunctive (failing command + second probe + dissolution condition; status held + caveat propagates). The old arm satisfies roughly half of each. If partial credit is ever wanted, these two are the places to split.",
+    "verify #1/#2/#3 and evidence-rules #1/#2 passed on both arms: the baseline verify skill already carries ticket-as-oracle, never-grade-visual-from-source, no-partial and the two-probe bar. The new arm's discriminating additions are the model-family record and the failure-path status transition."
+  ]
+}
