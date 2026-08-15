@@ -8,7 +8,7 @@ The pipeline's **cross-family** lane. Everything else in this pipeline is Claude
 | **R2 — Completeness critic** | `max` | `read-only` | **Replaces** the Claude completeness critic that closes the work skill's Phase D acceptance review |
 | **R3 — Implementation executor** | `medium` | `workspace-write` | Writes plan-scoped code in the feature worktree, under Claude's verify-fix loop |
 
-R1 and R2 are **mandatory where Codex is available and the repo has not opted out** — they are verification, not cost optimization. R3 is an executor lane like the ones in ship-fleet's `references/cursor-composer.md`, and is subject to the same verify-fix loop, kill-switch, and fallback rules.
+R1 and R2 are **mandatory where Codex is available and the repo has not opted out** — they are verification, not cost optimization. R3 is an executor lane like the ones in `executor-lanes.md`, and is subject to the same verify-fix loop, kill-switch, and fallback rules.
 
 Availability and the repo opt-out are the *only* licensed reasons to skip any of them (see "Fallback"). "It looked fine" is not.
 
@@ -161,7 +161,7 @@ A clean pass here is only meaningful because it came from outside the family tha
 Codex writes plan-scoped code inside the feature worktree; Claude keeps the phases, the gates, and the judgment. Run it **inside the worktree** so edits land on the branch.
 
 ```bash
-codex exec -C "$WT" -m gpt-5.6-sol -c model_reasoning_effort="medium" \
+codex exec -C "$WT" -m gpt-5.6-terra -c model_reasoning_effort="medium" \
   -s workspace-write --dangerously-bypass-hook-trust \
   -o "$WT/.codex/last-<slice>.md" "<prompt>" < /dev/null
 ```
@@ -171,7 +171,7 @@ codex exec -C "$WT" -m gpt-5.6-sol -c model_reasoning_effort="medium" \
 - `--dangerously-bypass-hook-trust` — required, and narrower than it sounds: it only skips the interactive "trust these hooks?" review, which cannot be answered in a non-interactive run. It does not widen the sandbox. The hooks it lets run are the two you generate below, in this worktree.
 - **Claude runs the gates, not Codex.** `workspace-write` has no network, so treat Codex's output as *typed*, never as *verified* — the typecheck/codegen/lint/test gates are yours.
 
-What to delegate follows ship-fleet's `references/cursor-composer.md` §"What to delegate" unchanged — the plan has already made the decisions, the executor just types. In particular the **never-delegate** list still holds in full: no architectural or data-model decisions, no security-sensitive code (auth, secret custody, webhook signature verification, tenancy/authz boundaries, payment), no maker≠checker or atomic-claim idempotency logic, no provenance-honesty judgment, no contract-version changes, no cross-cutting refactors, no merge-conflict resolution, no e2e debugging, no design work, and nothing the plan marks "investigate".
+What to delegate follows `executor-lanes.md` §"What to delegate" unchanged — the plan has already made the decisions, the executor just types. In particular the **never-delegate** list still holds in full: no architectural or data-model decisions, no security-sensitive code (auth, secret custody, webhook signature verification, tenancy/authz boundaries, payment), no maker≠checker or atomic-claim idempotency logic, no provenance-honesty judgment, no contract-version changes, no cross-cutting refactors, no merge-conflict resolution, no e2e debugging, no design work, and nothing the plan marks "investigate".
 
 Keep each invocation to **one coherent plan step**. Many small runs beat one sprawling session: cheaper retries, cleaner verification, and far less compaction.
 
@@ -329,4 +329,4 @@ codex-exec:    N tasks · M retries · K reverted
 
 Record the **effort that was on the wire**, not the one you asked for — that is the whole point of the header check, and a gate note reading `max` when the run was `high` is a false record of how strong the evidence was.
 
-The R3 lane carries the same **per-lane revert-rate kill-switch** as every other downgraded lane (`cursor-composer.md` §"Accounting honesty"): if a repo's early items show Codex reverting more than roughly **1 task in 3**, stop using it as an executor for that repo, route its work to Claude, and note why. R1/R2 are exempt from the kill-switch — they are verification, and a reviewer that keeps finding real defects is *working*, not thrashing. But do track the **rejection rate**: a reviewer whose findings you reject far more often than you accept is either mis-prompted or being handed artifacts it can't ground, and both are worth fixing rather than tolerating.
+The R3 lane carries the same **per-lane revert-rate kill-switch** as every other downgraded lane (`executor-lanes.md` §"Accounting and the kill-switch"): if a repo's early items show Codex reverting more than roughly **1 task in 3**, stop using it as an executor for that repo, route its work to Claude, and note why. R1/R2 are exempt from the kill-switch — they are verification, and a reviewer that keeps finding real defects is *working*, not thrashing. But do track the **rejection rate**: a reviewer whose findings you reject far more often than you accept is either mis-prompted or being handed artifacts it can't ground, and both are worth fixing rather than tolerating.

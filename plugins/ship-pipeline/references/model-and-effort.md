@@ -1,6 +1,6 @@
 # Model, effort, and what still needs verifying — the pipeline-wide calibration
 
-**Canonical for the whole pipeline.** `triage`, `plan`, `work`, `gap-fix`, `tasks-*`, `ship-feature`, and `ship-fleet` all point here rather than re-deriving this; the Codex lane's own mechanics stay in `codex-cli.md`, and the fleet's launch/propagation mechanics stay in ship-fleet's `references/scheduling-and-concurrency.md`. Change it here.
+**Canonical for the whole pipeline.** Every stage skill and both conductors point here rather than re-deriving this; the Codex lane's own mechanics stay in `codex-cli.md`, and the fleet's launch/propagation mechanics stay in ship-fleet's `references/scheduling-and-concurrency.md`. Change it here.
 
 Three things in this pipeline were calibrated against an older model generation and are worth re-reading before a long run: which dial you turn to control spend, how much of the built-in verification is still buying anything, and how long the written artifacts should be.
 
