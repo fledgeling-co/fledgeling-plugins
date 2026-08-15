@@ -8,29 +8,35 @@ captured runs.
 
 ## What gets advertised, and what it costs
 
-The server ships **19 tools** and advertises a subset chosen by the shim's
+The server ships **20 tools** and advertises a subset chosen by the shim's
 `--profile` flag. The catalogue is re-sent on every turn and survives context
 compaction, so it is a standing cost paid before any work happens:
 
-| Profile | Tools | Roughly |
-|---|---|---|
-| `core` | `apps` `snapshot` `find` `act` `capture` `zoom` `wait` `assert` `menu` `doctor` | 6.8k tokens |
-| `scripting` | core + `flow` `stability` `dictionary` `policy` | — |
-| `full` | all 19 | 11.3k tokens |
+| Profile | Adds | Total | Roughly |
+|---|---|---|---|
+| `ax` | `apps` `snapshot` `find` `menu` `act` `wait` `assert` `doctor` | 8 | — |
+| `core` | + `capture` `zoom` | 10 | 6.8k tokens |
+| `scripting` | + `flow` `stability` `dictionary` | 13 | — |
+| `full` | + `inspect` `policy` `kill` `unlock` `ios` `computer` `openai_computer` | 20 | — |
 
-`core` is the ten that actually drive a Mac and is the right default. Widen only
-when the campaign genuinely needs flows, determinism runs, policy, `kill`, or
-the CUA adapters.
+The profiles nest: `ax ⊂ core ⊂ scripting ⊂ full`. `core` is the ten that
+actually drive a Mac and is the right default. `ax` drops capture and zoom, so
+take it only when the campaign will never look at a pixel. Widen to `scripting`
+for flows and determinism runs, and to `full` for the iOS lane, `inspect`, the
+policy gate, `kill`, and the CUA schema façades.
 
-This page documents the tools a campaign uses directly. Six more exist and are
+`proctor_ios` is in `full` only, which is worth knowing before planning an iOS
+campaign against a host launched with `--profile core`.
+
+This page documents the tools a campaign uses directly. Five more exist and are
 named here rather than specified, because their schemas belong to the profiles
-that advertise them: `proctor_flow` and `proctor_stability` (documented below),
-`proctor_policy` and `proctor_kill` (the policy gate and process control),
-`proctor_dictionary` and `proctor_unlock` (scripting-dictionary introspection
-and the unlock path), and `proctor_computer` / `proctor_openai_computer` (the
-CUA schema façades, which exist so a model trained on Anthropic's or OpenAI's
-computer-use schema can drive Proctor without translation). Read the live
-catalogue for their arguments rather than guessing.
+that advertise them: `proctor_policy` and `proctor_kill` (the policy gate and
+process control), `proctor_dictionary` and `proctor_unlock`
+(scripting-dictionary introspection and the unlock path), and
+`proctor_computer` / `proctor_openai_computer` (the CUA schema façades, which
+exist so a model trained on Anthropic's or OpenAI's computer-use schema can
+drive Proctor without translation). Read the live catalogue for their arguments
+rather than guessing.
 
 ## `proctor_doctor`
 
@@ -39,28 +45,92 @@ Whether a campaign can run at all, before anything is attributed to the app.
 | Argument | Type | Default | Notes |
 |---|---|---|---|
 | `verbose` | boolean | false | Per-app observer and cache detail. |
+| `requestAccessibility` | boolean | false | Ask macOS to show its Accessibility consent dialog if the grant is missing. |
+| `requestScreenRecording` | boolean | false | Ask macOS for the Screen Recording consent dialog. |
 
-Returns `agentVersion`, `protocolVersion`, `osVersion`, `agentRunning`,
-`socketPath`, `grants[]` (`name`, `granted`, `required`, `howToFix`),
-`attachedApps[]`, `observersLive`, `secureEventInputActive`,
-`shortcutsCLIAvailable`, `ready`, `blockers[]`. `howToFix` is version-specific
-because the fix genuinely differs by OS version.
+Either request flag shows its dialog **once per app identity**. If the user has
+already answered it, macOS shows nothing and returns the recorded answer
+silently, so pair either one with the System Settings route rather than assuming
+a prompt was seen, and read the result from a fresh `doctor` call.
+
+Returns `agentVersion`, `agentBuild`, `protocolVersion`, `osVersion`,
+`agentRunning`, `socketPath`, `grants[]`, `attachedApps[]`, `observersLive`,
+`secureEventInputActive`, `shortcutsCLIAvailable`, `obscuraAvailable`,
+`obscura`, `obscuraUnavailable`, `tools[]`, `lanes[]`, `policy`, `secondLane`,
+`ready`, `blockers[]`.
+
+**`grants[]` is three-state.** Each row carries `name`, `granted`, `required`,
+`howToFix` and `state`. `state` is `granted`, `denied` or `unconfirmed`, and the
+`granted` boolean is derived from it fail-closed, so an unconfirmed grant reads
+`false` exactly as a denied one does. Read `state` before putting a remedy in
+front of anybody: `unconfirmed` means a bounded probe did not get an answer, and
+the permission may be perfectly in place. `howToFix` is version-specific because
+the fix genuinely differs by OS version.
+
+**`tools[]` is the toolchain Proctor depends on and does not ship** — Obscura,
+`browser-use` when the second lane names it, `simctl`, `cua-driver`, `maestro`.
+Each row carries where the tool was found, everywhere it was looked for, its
+version, and a `usability` of `usable`, `unusable` or `unconfirmed`. **This call
+runs none of them**, so `unconfirmed` is a fact about what Proctor established
+rather than a fault, and calling again will not change it. `obscuraAvailable`
+and `obscura` are the grandfathered flat spelling of this array's first entry and
+agree with it. A launchd agent does not inherit a login shell's `PATH`, so
+Proctor's answer and your shell's can legitimately differ; the recorded search
+paths are how you settle that.
+
+**`lanes[]` derives what this machine can actually do** from the grants and the
+tool rows, so a lane cannot claim readiness while the thing it needs is missing.
+Four rows — `mac`, `browser`, `ios`, `cua` — each with `state` (`ready` /
+`unavailable` / `unconfirmed`), a fail-closed `ready` boolean, `requires`,
+`blockers` and a `note`. The `mac` row turns on the grants alone, because that
+lane needs no external tool. The `ios` row turns on `simctl`; `maestro` is named
+in its note rather than in `requires`, because deep links and screenshots work
+without it and only flow files need it. The `cua` row says whether the machine
+is ready for the delegated lane, which is a different claim from anything using
+it — its note says which of the two you are looking at.
+
+A tool row's `available` and a lane row's `ready` are deliberately different
+words: the first means a file of that name is there, the second means the lane
+is confirmed usable.
+
+**`policy` is posture, not rules**: `mode` (`allowList` / `blockOnly` / `open`),
+the list sizes, `approvalTokenLive`, `fsJailDeclared` and `fsRootCount`, and the
+trail's `auditWritable`, `auditSealed`, `auditSigned`, `auditClean`,
+`auditKeyConfirmed` and `auditEntries`. The lists themselves, the filesystem
+roots, the trail's path and any key are deliberately absent, because `doctor` is
+called before anything is established and a health check is the wrong place to
+hand out configuration. That is a convention rather than a boundary —
+`proctor_policy` action `status` answers in full to any caller.
 
 **Over its neighbour:** always before `apps`. An attach with no Accessibility
 grant returns an empty tree, indistinguishable from an app that never adopted
 accessibility — one costs thirty seconds in System Settings, the other an hour
 of selector debugging. `secureEventInputActive: true` is not a blocker but
 narrows the plan: process-directed steps all still run, synthetic-event steps
-become unreliable.
+become unreliable. And with wave 7's lanes, `doctor` is now also the call that
+tells you an iOS campaign is impossible on this machine before you plan one.
 
 ```jsonc
 { "verbose": true }
 // → { "osVersion":"26.5.1", "ready":false, "secureEventInputActive":true,
-//     "grants":[{"name":"Screen Recording","granted":false,"required":true,
-//       "howToFix":"System Settings > Privacy & Security > Screen & System Audio Recording."}],
+//     "agentBuild":{"descriptor":"0.4.0+3f21ac9"},
+//     "grants":[{"name":"Screen Recording","granted":false,"state":"denied","required":true,
+//       "howToFix":"System Settings > Privacy & Security > Screen & System Audio Recording."},
+//       {"name":"Accessibility","granted":false,"state":"unconfirmed","required":true,
+//       "howToFix":"System Settings > Privacy & Security > Accessibility."}],
+//     "tools":[{"tool":"obscura","available":true,"usability":"usable","path":"/opt/homebrew/bin/obscura"},
+//       {"tool":"simctl","available":true,"usability":"usable"},
+//       {"tool":"cua-driver","available":false,"usability":"none"},
+//       {"tool":"maestro","available":true,"usability":"usable"}],
+//     "lanes":[{"lane":"mac","state":"unavailable","ready":false,
+//       "blockers":["Screen Recording is not granted."]},
+//       {"lane":"ios","state":"ready","ready":true,"requires":["simctl"],
+//       "note":"Maestro is installed, so flow files can run beside the deep-link actions."},
+//       {"lane":"cua","state":"unavailable","ready":false,"requires":["cua-driver"],
+//       "note":"Not the actuation lane in force: Proctor's own planes are performing steps."}],
+//     "policy":{"mode":"blockOnly","blockCount":4,"auditSigned":true,"auditClean":true},
 //     "blockers":["Screen Recording not granted — capture and its settle signal unavailable."] }
 ```
-
 
 
 ## `proctor_apps`
@@ -86,6 +156,18 @@ Returns app handles (`id`, `pid`, `bundleId`, `name`), window handles (`id`,
 needs it, so a window without one is readable and actionable but not
 screenshottable. `warmupWalks` above 1 means the first walk came back empty and
 the server re-walked; that is the normal Chromium and Electron path.
+
+When a browser renders the window the attach also returns a `browser` handoff:
+`boundary`, `browser`, `bundleId`, `surface`, `use`, `why`, `flags`,
+`continuity`, `url`, `notes`, `caveats` and `toolUnavailable`. **`surface` is
+`browserWindow` or `installedWebApp`**, and it is what disambiguates `use ==
+null`: that means "no lane", and `surface` says whether the reason is that
+nothing should drive the page or that Proctor drives this one itself.
+**`flags`** is the machine-readable half of the prose and names what the
+recommended instrument commits you to — `actsOutsideThisWindow`, `autonomous`,
+`canActAsThisPerson`, `outsideTheAuditTrail`, `billed` — present exactly when
+there is such an instrument. `outsideTheAuditTrail` is the one that changes what
+a campaign can later claim was recorded.
 
 **Over its neighbour:** `list` touches nothing and answers "what is running".
 `attach` starts retaining element references, and a retained reference is the
@@ -118,7 +200,7 @@ What is in this window right now, as structure rather than as a picture.
 | `window` | string | — | Required. Handle from `proctor_apps`. |
 | `sinceRevision` | integer | — | Return a diff from this revision instead of the whole tree. |
 | `maxDepth` | integer | 24 | Truncation reported in provenance. |
-| `maxNodes` | integer | 2000 | Truncation reported in provenance. |
+| `maxNodes` | integer | 600 | Truncation reported in provenance. |
 | `includeInvisible` | boolean | false for reading, true when auditing | Keeps zero-area and offscreen nodes. |
 | `root` | string | — | Walk from this node id instead of the window root. |
 
@@ -205,24 +287,65 @@ honesty recorded.
 | `record` | string | — | Append these steps to the named flow as they run. |
 
 Step fields: `kind` (required), `node`, `value`, `menuPath`, `text`, `key`,
-`modifiers`, `delta`, `point`, `label`, `settle`. Step kinds: `press`,
-`setValue`, `focus`, `menu`, `type`, `key`, `scroll`, `increment`, `decrement`,
-`pick`, `confirm`, `cancel`, `raise`, `close`, `resize`, `move`, `dragPath`,
-`hover`, `click`, `shortcut`, `appleScript`, `waitFor`. Of these, `dragPath`,
-`hover` and `click` are the synthetic-event kinds — they need the target
-foreground and report `plane: "syntheticEvent"`. `shortcut` runs the app's
-declared contract and reports `declared`; `appleScript` reports `appleEvents`;
-everything else travels `accessibility`.
+`modifiers`, `delta`, `point`, `path`, `durationMs`, `label`, `settle`. Step
+kinds: `press`, `setValue`, `focus`, `menu`, `type`, `key`, `scroll`,
+`increment`, `decrement`, `pick`, `confirm`, `cancel`, `raise`, `close`,
+`resize`, `move`, `dragPath`, `hover`, `click`, `shortcut`, `appleScript`,
+`waitFor`.
+
+`path` and `durationMs` belong to `dragPath`. `path` is the route as
+`[[x,y], ...]` in window coordinates; a press and a release at two positions is
+a click, so the gesture is interpolated to intermediate movements no more than
+10 points apart and capped at 240 events. Omit it and the drag runs from `point`
+(or the node's centre) to `point + delta`. `durationMs` defaults to 300 and is
+clamped to 30s; events are spaced evenly across it with a 2 ms floor each, so a
+long path can take longer than asked — raise it for an application that drops
+fast drags.
+
+**Which kinds need the foreground is a question for the backend, not a property
+of the step.** On the native backend `dragPath`, `hover`, `click` and `key` are
+the synthetic-event kinds and report `plane: "syntheticEvent"`; `shortcut` runs
+the app's declared contract and reports `declared`; `appleScript` reports
+`appleEvents`; everything else travels `accessibility`. A delegated backend can
+answer differently, which is why the refusal, the foreground disclosure and the
+queue's lane demand all ask the backend rather than consulting a list of kinds.
 
 The `settle` object takes `quietFrames`, `dirtyThreshold`, `axQuietMs`,
 `timeoutMs`, `requireReflectorIdle` — defaults 2, 0.002, 250 ms, 5000 ms,
 false. Raise `timeoutMs` for a step that genuinely takes time rather than
 accepting a `timeout` settle and reasoning over an unproven result.
 
-Returns `window`, `steps[]`, `completed`, `failedAt`, `finalHash`; each step
-result carries `index`, the submitted `step`, `ok`, `plane`, `error`, a
-`SettleReport`, `stateHash`, `diff`, `elapsedMs`. On failure the batch stops, so
-you get the state at the point of failure rather than a cascade.
+Returns `window`, `steps[]`, `completed`, `failedAt`, `finalHash`, and a
+foreground block; each step result carries `index`, the submitted `step`, `ok`,
+`plane`, `route`, `error`, a `SettleReport`, `stateHash`, `diff`, `elapsedMs`,
+and `backend`. On failure the batch stops, so you get the state at the point of
+failure rather than a cascade.
+
+**Read the foreground block's `measured` count rather than re-deriving it from
+the kinds.** It reports how many steps were known before the run to need the app
+in front, how many might have, and how many actually travelled as synthetic
+events. A `type` or `scroll` into an element the accessibility plane cannot
+write falls back to the event stream, and no count made from the step list would
+show it. A run whose `measured` count is above zero cannot be repeated
+unattended.
+
+**Delegated steps carry five more fields, absent on a native run**:
+`reportedMode` (the backend's own word for the delivery mode, verbatim),
+`effect` (`confirmed` / `unverifiable` / `suspectedNoOp` — nil natively, because
+the native backend judges a write by reading it back rather than reporting a
+confidence), `unrequestedForeground` (the backend took the front for a step that
+asked to stay in the background), `retriedOnStale` (the handle went stale and
+was re-resolved before the step ran, which is a determinism signal about a
+moving target), and `transportMs` (round trip to the backend, separate from
+`elapsedMs`, which already includes settle).
+
+`hashSubject` appears on a step that ran in a window a browser renders, and says
+which side of the page boundary the target fell on — `pageContent`,
+`browserChrome` or `unclassified` — and therefore which tree the state hash was
+taken over. It is measured at the step while it ran rather than scanned before
+the batch, because a step's target usually does not exist until the steps before
+it have run. Its absence on a step that ran means one thing: no browser renders
+this window.
 
 **`diffEach` is the argument that will blow your tool result.** It defaults to
 true, and on a rich Electron or Chromium tree a per-step diff of several hundred
@@ -441,7 +564,8 @@ Assertion fields: `kind` (required), `node`, `find`, `expected`, `tolerance`,
 `reference` (path to a reference PNG, for `regionMatches`), `label`. Kinds:
 `exists`, `absent`, `valueEquals`, `valueContains`, `enabled`, `disabled`,
 `focused`, `hasLabel`, `frameEquals`, `containedIn`, `alignedWith`,
-`minHitSize`, `contrast`, `focusOrder`, `regionMatches`, `agree`.
+`horizontalAlignment`, `minHitSize`, `contrast`, `focusOrder`, `regionMatches`,
+`agree`.
 
 Returns pass or fail per assertion with the observed value beside the expected
 one. `agree` returns `Disagreement` records: `kind` (`unexposedControl`,
@@ -523,9 +647,23 @@ Whether a flow is deterministic enough to trust as a gate, as a number.
 
 Returns `flow`, `runs`, `stepCount`, `firstDivergence`, `stepInstability` (0–1
 per step), `deterministic`, `divergenceDetail` (step index to distinct hashes
-seen), `notes[]`. `stepInstability` is the fraction of runs that did not reach
-the modal state at that step. Three runs detects gross nondeterminism; five to
-ten is the useful range for a flow about to become a gate.
+seen), `notes[]`, `backend`, and — when there is anything to disclose —
+`stepBasis`, `pageContent` and `captures`. `stepInstability` is the fraction of
+runs that did not reach the modal state at that step. Three runs detects gross
+nondeterminism; five to ten is the useful range for a flow about to become a
+gate.
+
+**The score is unreadable without the three disclosure fields beside it.**
+`backend` names the actuation lane every pass was measured on — one value for
+the report, because a session's lane is fixed — and a comparison whose halves
+ran through different lanes is measuring the lanes rather than the application.
+`pageContent` is present when at least one step in at least one repeat was
+measured over a browser's render tree, and names the browser, the steps
+affected, and what that does to their numbers; a page's own render churn is not
+the application's nondeterminism. `stepBasis` holds one entry per step saying
+what that number was taken over and what it was computed from, including where a
+repeat withheld a hash, and reads in parallel with `stepInstability`. Quote the
+pair rather than the number alone.
 
 **Over its neighbour:** re-running a flow by hand and watching it pass twice
 tells you almost nothing — a 20% flake passes twice in a row 64% of the time.
@@ -582,11 +720,100 @@ flight, making their agreement a settle signal in its own right.
 Model opacity 1.0 against presentation 0.62 means a fade is in flight. The model
 value alone would report a state the user cannot yet see.
 
+## `proctor_ios`
+
+Putting an iOS app into a named state on a booted Simulator, and reading back
+what actually happened. `--profile full` only, and it needs Xcode, which is
+where `simctl` lives.
+
+| Argument | Type | Default | Notes |
+|---|---|---|---|
+| `action` | `list` \| `boot` \| `open` \| `screenshot` \| `flow` | `list` | |
+| `device` | string | the single booted device | A `dev-` handle from `list`, a udid, or a name like `iPhone 16 Pro`. Ambiguity is an error naming the candidates rather than a guess. |
+| `url` | string | — | The deep link to open. |
+| `bundleId` | string | — | The app you expect to receive it. A consistency check, not the gate key. |
+| `pixelEvidence` | boolean | true | Capture the device screen before and after the open and compare. |
+| `changeThreshold` | number | 0.0005 | Fraction of changed pixels before the screen counts as changed. |
+| `path` | string | session temp dir | Where to write a screenshot; for `flow`, the absolute path of the Maestro flow file. |
+| `runs` | integer | 1 | For `flow`. Above 1, repeats are scored against each other. |
+| `timeoutMs` | integer | 15000 (120000 for `boot`) | Bound on the simctl call. |
+
+**A device handle is not a window handle, and the difference is not cosmetic.**
+`proctor_snapshot`, `proctor_find`, `proctor_assert`, `proctor_act` and
+`proctor_capture` refuse a `dev-` handle by name. The Mac's accessibility API
+does not cross into a simulated device, so there is no tree, no elements, no
+geometry and no actuation steps. What exists instead is three channels —
+whether the app's process is running, what the device screen looks like, and
+what `simctl` said — reported separately rather than blended.
+
+**`open` returns a verdict, and a zero exit is not one.** The same open run twice
+exits zero both times and only the first changes anything. `targetChanged` means
+delivered, the resolved app is running, and the screen changed; `screenChanged`
+means the screen moved but the change cannot be attributed to the app the URL
+named; `deliveredOnly` means nothing observable changed, which is inconclusive
+rather than failed, because a deep link to the screen the app is already on looks
+exactly like one the app ignored; `refused` means the gate or the device declined
+it. None of them claims the app reached a particular screen — the frontmost app
+on the device is not observable through this lane.
+
+`changeThreshold`'s default is calibrated against an idle floor measured at
+exactly 0 and a smallest real navigation at 0.002.
+
+`open` never boots anything and refuses a device that is not booted, because
+folding a stateful minute-long side effect into a call whose result is "did this
+navigate" would make both meaningless. `boot` is explicit, gated and audited.
+Nothing here shuts a device down or reboots one; a device this session booted is
+marked in `list`.
+
+**A device screenshot carries no ScreenCaptureKit frame status**, so its
+freshness cannot be established and it comes back marked untrustworthy with that
+as the reason. The pixels are real; the guarantee a window capture carries is
+not.
+
+**`flow` runs a Maestro file, and the unit is the file.** Maestro is a separate
+binary that executes the whole file and reports at the end, so `flowPassed`
+means the driver executed the sequence and reported success — not that Proctor
+observed the app reach any state. Proctor did not run these commands and has no
+independent observation of any of them; the only observer of the steps is
+Maestro. Individual Maestro commands are never routed through `proctor_act`,
+because a tool driving its own engine is not driving what Proctor is attached to.
+
+With `runs` above 1 the repeats are scored **against each other**, never against
+a recording, because there is none. `firstDivergence` is where two repeats
+stopped agreeing, indexed by Maestro's own sequence numbering. Maestro prepends
+two commands present in no flow file, marked `injected`, so an index does not map
+onto a line of your YAML without checking. Durations sit beside the score and are
+never folded into it: one unchanged command measured 634, 91, 88, 96 and 91 ms
+across five repeats. A repeat that failed in the driver rather than the app — no
+per-command record, a failed launch, a device that went away — is excluded and
+makes the sweep `truncated`, so driver flake is never published as the app's
+nondeterminism. Budget 70 to 90 seconds for a five-run sweep, most of it driver
+start-up.
+
+**Gating keys on the device, not on what you passed.** `open` is gated on the app
+the URL actually resolves to on the device; `bundleId` is a consistency check and
+a disagreement is reported. iOS targets are named `ios:<bundleId>`, so a Mac app
+on an allow list does not silently authorise the iOS app of the same identifier,
+and a block on either spelling blocks both. A flow's gate judges the apps the
+flow **declares**, which is weaker, and the result says `declared` for that
+reason; a construct Proctor cannot resolve — a script, an interpolated app id, an
+unreadable include — is refused whenever an application policy is in force. An
+`openLink` inside a flow is gated on what the device resolves it to.
+
+The trail records a URL's scheme and host in the clear and reduces its path and
+query to a length and a hash, because a deep link routinely carries a token. For
+a flow it records the file's path and a hash of its contents.
+
+**Over its neighbour:** there is no neighbour. Nothing else in this catalogue
+reaches a simulated device, and nothing in this catalogue gives an iOS target the
+tree, elements or geometry the Mac tools give a window. Plan the iOS half of a
+campaign around the verdicts above rather than around what the Mac lane can do.
+
 ---
 
 ## Reading results honestly
 
-Five results whose obvious reading is wrong in a specific way.
+Seven results whose obvious reading is wrong in a specific way.
 
 **A capture with `trustworthy: false`.** The wrong read is to open the PNG, see
 a window that looks right, and use it as evidence — a stale frame is
@@ -614,11 +841,32 @@ The wrong read is that it is equivalent to the rest of the flow. It travelled
 the single system event stream, so it needed the app in front, it interfered
 with anyone using the machine, and Secure Event Input can stop it arriving — it
 proves the narrower thing, that the app works when frontmost. The right read
-starts with the step kind: if it is `dragPath`, `hover` or `click`, the plane is
-correct and the narrower claim is what you have. If it is not, the accessibility
-path did not exist for that node and the server fell back — itself a finding,
-because a control reachable only by synthetic click is a control an assistive
-technology cannot operate either.
+starts with the step kind: if it is `dragPath`, `hover`, `click` or `key`, the
+plane is correct and the narrower claim is what you have. If it is a `type` or a
+`scroll`, every accessibility route was tried and conceded to the event stream,
+which is itself a finding, because a control reachable only by synthetic input
+is a control an assistive technology cannot operate either. What does not
+happen is a silent fallback on an outright refusal: a node whose accessibility
+route is refused fails the step and names both ways forward.
+
+**A delegated step reporting `effect: "unverifiable"` or
+`effect: "suspectedNoOp"`.** The wrong read is to take `ok: true` beside it and
+count the step as done. `ok` says the call completed; `effect` is what the
+backend claims about the action landing, and these two values are its way of
+saying it cannot vouch for the second. Read `suspectedNoOp` as a step that
+probably changed nothing and `unverifiable` as unproven, and settle it the way
+you would settle any unproven claim — a `find` or an `assert` on the change the
+step was supposed to make. This field is absent on a native run rather than
+false, because the native backend judges a write by reading it back and has no
+equivalent concept.
+
+**A step or run recorded with the outcome `indeterminate`.** The wrong read is
+to sort it into either pile. It means the delegated subprocess died mid-step or
+answered too late, so nothing here can say whether the machine was touched.
+Reporting it as a defect sends someone hunting a bug that may not exist;
+counting it as a pass claims something nobody observed. The right read is
+unproven in both directions: report it beside the skipped assertions, and re-run
+the step if the answer matters.
 
 **An assertion returned as skipped.** The wrong read is to count it with the
 passes, or omit it because nothing failed. A skipped assertion was never
