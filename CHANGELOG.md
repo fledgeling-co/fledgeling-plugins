@@ -5,6 +5,52 @@ Notable changes to the plugins in this marketplace. Newest first.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
 ## 2026-08-15
+
+### design-review 1.7.0 → 1.8.0 — the sweep no longer dies on a large page
+
+`run_review.py` crashed with a `TimeoutError` traceback on its **third viewport**
+against a 3.2 MB, 12-slide single-file deck: no probes written, two captures
+orphaned, and nothing in the output naming what was responsible.
+
+- **Root cause, measured rather than guessed.** Timing each probe individually:
+  `probeLayoutIntegrity` took **26.8s of a 27.6s sweep**, and inside it
+  `probeTextOverlap` was the whole cost. It is an O(n²) pair loop that called
+  `floatLayer()` — which walks ancestors calling `getComputedStyle` — **twice per
+  pair**. On ~250 text nodes that is ~62,500 ancestor walks. The 30s CDP socket
+  timed out mid-frame.
+- **Fix:** resolve `floatLayer()` once per node, and sweep-line the pair loop —
+  sorted by top edge, the inner loop breaks as soon as a candidate starts at or
+  below the current node's bottom. The cheap rect test now runs before
+  `contains()` and the layer comparison. **26.8s → 0.77s** for the whole
+  layout-integrity probe; 1.6s for the full sweep. Output verified
+  **byte-identical** against the previous implementation on a fixture built with
+  genuine overlaps, nested pairs and separate float layers (41 records, 6.61s →
+  0.41s), and the results are re-sorted into document order so `cap()` keeps the
+  same subset run to run.
+- **Per-probe isolation.** `runAll()` is now driven one probe per round trip.
+  A probe that throws or overruns the socket costs its own key instead of the
+  whole review: it is recorded as `null` and named in `probeErrors`, which is
+  deliberately distinguishable from a probe that ran and found nothing.
+- **`Page.recover()` and `CDP.reconnect()`.** After a read timeout the reply is
+  still in flight, so the next command reads the *previous* reply and every
+  result afterwards is attributed to the wrong probe — plausible numbers, wrong
+  labels. The socket is now rebuilt. Two engine facts, both measured 15 Aug 2026
+  and now in `references/browser-drivers.md`:
+  - **Obscura scopes the Target domain to the connection.** On a fresh socket
+    `Target.getTargets` returns an empty list and `Target.attachToTarget` answers
+    "Target not found" — while `GET /json/list` still lists the page. The HTTP
+    listing is not evidence a target is reachable, so recovery must create a
+    *new* target and re-navigate. Probes taken after that ran on a re-loaded
+    document, and the output records which ones in `reloadedAfter`.
+  - **`Emulation.setDeviceMetricsOverride` works, but only with the session id.**
+    Sent on the bare browser connection it is accepted and silently does nothing,
+    which is indistinguishable from an engine that ignores the domain. The
+    viewport matrix was verified genuinely varying (375/768/1024/1280/1920 each
+    report the requested `innerWidth`) rather than assumed.
+  - Recovery retries with 0/2/4/8s backoff, because the renderer is usually still
+    finishing the call that overran. An infinite loop in page JS is not
+    recoverable at all; that is reported rather than marked clean.
+
  
 ### be-my-witness 0.1.0 → 0.2.0 · Dual-Oracle Visual Governance & Component Slice Diffing
 

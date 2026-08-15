@@ -855,30 +855,52 @@
       if (!visible(el)) continue;
       const own = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
       if (!own) continue;
+      // floatLayer() walks ancestors calling getComputedStyle, so it is resolved
+      // ONCE per node here rather than twice per PAIR in the loop below. That
+      // single change is most of the win: measured on a 12-slide deck with ~250
+      // text nodes, this probe took 26.8s of a 27.6s sweep and blew the CDP
+      // socket's 30s timeout, which surfaced as the whole review crashing on
+      // its third viewport rather than as a slow probe.
+      const layer = floatLayer(el);
       // Per-fragment, not the bounding box. An inline element that wraps returns
       // a bounding rect spanning both lines, which "overlaps" everything sitting
       // between them. getClientRects() gives one rect per line fragment.
       for (const r of el.getClientRects()) {
         if (r.width < 1 || r.height < 1) continue;
-        nodes.push({ el, r, t: shortText(el).slice(0, 30) });
+        nodes.push({ el, r, layer, t: shortText(el).slice(0, 30), i: nodes.length });
       }
     }
+    // Sweep line. Sorted by top edge, the inner loop stops as soon as a
+    // candidate starts at or below the current node's bottom, because every
+    // node after it starts lower still and cannot overlap vertically. The
+    // cheap rect test runs before contains() and the layer comparison, so the
+    // expensive checks only ever see pairs that already share pixels.
+    const byTop = nodes.slice().sort((a, b) => a.r.top - b.r.top || a.i - b.i);
     const out = [];
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i], b = nodes[j];
-        if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
-        if (floatLayer(a.el) !== floatLayer(b.el)) continue;
+    for (let i = 0; i < byTop.length; i++) {
+      const a = byTop[i];
+      for (let j = i + 1; j < byTop.length; j++) {
+        const b = byTop[j];
+        if (b.r.top >= a.r.bottom) break;
         const w = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+        if (w < LI.overlapMinPx) continue;
         const h = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
-        if (w >= LI.overlapMinPx && h >= LI.overlapMinPx) {
-          out.push({
-            a: cssPath(a.el), aText: a.t, b: cssPath(b.el), bText: b.t,
-            overlapPx2: Math.round(w * h),
-          });
-        }
+        if (h < LI.overlapMinPx) continue;
+        if (a.layer !== b.layer) continue;
+        if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const p = a.i <= b.i ? a : b, q = a.i <= b.i ? b : a;
+        out.push({
+          _i: p.i, _j: q.i,
+          a: cssPath(p.el), aText: p.t, b: cssPath(q.el), bText: q.t,
+          overlapPx2: Math.round(w * h),
+        });
       }
     }
+    // Emit in document order. The sweep visits pairs geometrically, so without
+    // this the output would reorder run to run and cap() would keep a different
+    // subset — a diff against an earlier run would show churn that is not there.
+    out.sort((x, y) => x._i - y._i || x._j - y._j);
+    for (const o of out) { delete o._i; delete o._j; }
     return cap(out);
   }
 

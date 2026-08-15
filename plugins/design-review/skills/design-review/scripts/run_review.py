@@ -182,10 +182,28 @@ class CDP:
     """A CDP connection. Replies are matched by id; events are collected."""
 
     def __init__(self, port: int):
+        self.port = port
         raw = urllib.request.urlopen(f"http://127.0.0.1:{port}/json/version", timeout=10).read()
         self.ws = _WebSocket(json.loads(raw)["webSocketDebuggerUrl"])
         self._id = 0
         self.events: list[dict] = []
+
+    def reconnect(self) -> None:
+        """Drop a desynced socket and open a fresh one.
+
+        After a read timeout the reply is still in flight, so the next command's
+        recv() picks up the PREVIOUS reply and from then on every result is
+        attributed to the wrong caller. That is worse than the timeout, because
+        the numbers stay plausible. Ids restart from zero on the new socket.
+        """
+        try:
+            self.ws.close()
+        except Exception:
+            pass
+        raw = urllib.request.urlopen(
+            f"http://127.0.0.1:{self.port}/json/version", timeout=10).read()
+        self.ws = _WebSocket(json.loads(raw)["webSocketDebuggerUrl"])
+        self._id = 0
 
     def send(self, method: str, params: dict | None = None, session_id: str | None = None) -> dict:
         self._id += 1
@@ -298,6 +316,8 @@ class Page:
 
     def __init__(self, cdp: CDP, width: int, height: int, dpr: int):
         self.cdp = cdp
+        self.width, self.height, self.dpr = width, height, dpr
+        self.url: str | None = None
         target = cdp.send("Target.createTarget", {"url": "about:blank"})
         self.target_id = target["result"]["targetId"]
         attached = cdp.send("Target.attachToTarget",
@@ -315,7 +335,52 @@ class Page:
                       {"width": width, "height": height, "deviceScaleFactor": dpr,
                        "mobile": width <= 480}, self.session_id)
 
+    def recover(self) -> bool:
+        """Rebuild this page after a desynced socket. Returns True on success.
+
+        Re-attaching to the SAME target is not available on this engine.
+        Measured 15 Aug 2026: on a fresh socket Obscura's `Target.getTargets`
+        returns an empty list and `Target.attachToTarget` answers "Target not
+        found", because the Target domain is scoped to the connection that
+        created it — while `/json/list` still cheerfully lists the page. The
+        HTTP listing is not evidence that a target is reachable.
+
+        So recovery is a new target and a fresh navigation, and it is not free:
+        scroll position, settle state and anything the page accumulated are
+        gone, so probes taken afterwards were taken on a re-loaded document.
+        `run_probes()` records which ones those were.
+        """
+        if not self.url:
+            return False
+        # The renderer is usually still finishing the call that overran and
+        # cannot service a createTarget until it is done, so an immediate single
+        # attempt fails on exactly the case worth recovering.
+        last: Exception | None = None
+        for delay in (0, 2, 4, 8):
+            if delay:
+                time.sleep(delay)
+            try:
+                self.cdp.reconnect()
+                target = self.cdp.send("Target.createTarget", {"url": "about:blank"})
+                self.target_id = target["result"]["targetId"]
+                attached = self.cdp.send("Target.attachToTarget",
+                                         {"targetId": self.target_id, "flatten": True})
+                self.session_id = attached["result"]["sessionId"]
+                for domain in ("Page", "Runtime", "Network", "DOM"):
+                    self.cdp.send(f"{domain}.enable", {}, self.session_id)
+                self.cdp.send("Page.addScriptToEvaluateOnNewDocument",
+                              {"source": CONSOLE_HOOK}, self.session_id)
+                self._event_mark = len(self.cdp.events)
+                self.set_viewport(self.width, self.height, self.dpr)
+                self.goto(self.url)
+                return True
+            except Exception as e:                    # busy renderer, refused socket
+                last = e
+        print(f"  ! page recovery failed after retries: {last}", file=sys.stderr)
+        return False
+
     def goto(self, url: str, timeout_ms: int = 30000) -> None:
+        self.url = url
         r = self.cdp.send("Page.navigate", {"url": url}, self.session_id)
         if "error" in r:
             raise CDPError(f"navigate failed: {r['error']}")
@@ -441,6 +506,71 @@ def prove_settled(page: Page, timeout_ms: int = 5000) -> int:
     return int(v) if isinstance(v, (int, float)) else -1
 
 
+# The probe roster, run one at a time. runAll() remains probes.js's contract
+# and the analysis scripts read the same shape — but a probe that throws or
+# overruns the CDP socket now costs its own key instead of the whole review.
+# Measured before this existed: probeTextOverlap took 26.8s on a 12-slide deck,
+# the 30s socket timed out mid-frame, and the run died on its THIRD viewport with
+# a TimeoutError traceback — no probes written, two captures orphaned, and
+# nothing in the output naming the probe responsible.
+PROBE_ROSTER = [
+    ("settled", "probeAnimationSettled"),
+    ("contrast", "probeContrast"),
+    ("contrastExamined", "contrastExamined"),
+    ("overflow", "probeOverflow"),
+    ("images", "probeImages"),
+    ("targets", "probeTargets"),
+    ("semantics", "probeSemantics"),
+    ("focus", "probeFocusStyles"),
+    ("layout", "probeLayoutIntegrity"),
+    ("tokens", "probeUnconsumedTokens"),
+    ("styles", "dumpStyles"),
+]
+
+
+def run_probes(page: Page, tag: str) -> dict:
+    """runAll(), one probe per round trip, with failures named rather than lost."""
+    probes: dict = {
+        "url": page.evaluate("location.href"),
+        "viewport": json.loads(page.evaluate(
+            "JSON.stringify({width:innerWidth,height:innerHeight,dpr:devicePixelRatio})") or "{}"),
+        "prefersReducedMotionSupported": page.evaluate(
+            "matchMedia('(prefers-reduced-motion: reduce)').media !== 'not all'"),
+    }
+    failed: list[str] = []
+    for key, fn in PROBE_ROSTER:
+        started = time.time()
+        try:
+            raw = page.evaluate(f"JSON.stringify(window.__designReviewProbes.{fn}())")
+            probes[key] = json.loads(raw) if raw else None
+            if probes[key] is None:
+                failed.append(f"{fn}: returned nothing")
+        except Exception as e:                        # socket timeout, closed, decode
+            probes[key] = None
+            failed.append(f"{fn}: {type(e).__name__} after {time.time() - started:.0f}s")
+            if not page.recover():
+                probes["probeErrors"] = failed + [
+                    "page recovery failed — remaining probes NOT RUN (this is not clean)"]
+                return probes
+            try:
+                page.evaluate(PROBES_JS.read_text())
+                reveal_pass(page)
+                prove_settled(page)
+            except Exception as e2:
+                probes["probeErrors"] = failed + [
+                    f"re-injection failed ({type(e2).__name__}) — remaining probes NOT RUN"]
+                return probes
+            # Everything measured from here came off a re-loaded document.
+            probes.setdefault("reloadedAfter", []).append(fn)
+    if failed:
+        # NOT the same as a probe that ran and found nothing. Both the analysis
+        # scripts and the reviewer need to tell "checked, clean" from "never ran".
+        probes["probeErrors"] = failed
+        print(f"  ! {tag}: {len(failed)} probe(s) did not run — recorded as null, "
+              f"NOT as clean: {'; '.join(failed)}", file=sys.stderr)
+    return probes
+
+
 def capture_viewport(cdp: CDP, url, width, height, out: Path, settle_ms: int,
                      tile: bool, dpr: int):
     page = Page(cdp, width, height, dpr)
@@ -460,7 +590,7 @@ def capture_viewport(cdp: CDP, url, width, height, out: Path, settle_ms: int,
     page.screenshot(out / "shots" / f"{tag}-full.png", full_page=True)
 
     page.evaluate(PROBES_JS.read_text())
-    probes = json.loads(page.evaluate("JSON.stringify(window.__designReviewProbes.runAll())"))
+    probes = run_probes(page, tag)
     (out / "probes" / f"{tag}.json").write_text(json.dumps(probes, indent=2))
 
     console = page.console_messages()
