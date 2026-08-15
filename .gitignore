@@ -16,3 +16,4 @@ plugins/*-workspace/
 # 1GB checkout for one 6.4MB skill aborted the deploy upload.
 plugins/improve-skill/assets/loop-runs/
 plugins/*/evals/runs/
+.rebuild-workspace/

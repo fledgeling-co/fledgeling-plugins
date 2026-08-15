@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* Instrument Sans: the conductors' shared face, matching ship-armada and
+     ship-feature on the shelf. */
+  body { width: 1600px; height: 520px; overflow: hidden; position: relative;
+         background: radial-gradient(125% 160% at 30% 32%, #F6F0E4 0%, #F0E7D6 46%, #E5D9C3 84%, #DCCFB6 100%);
+         font-family: "Instrument Sans", sans-serif; }
+  svg.plan { position: absolute; inset: 0; }
+  .lockup { position: absolute; left: 132px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; gap: 76px; }
+  .icon { width: 320px; height: 320px;
+          filter: drop-shadow(0 22px 40px rgba(96, 76, 48, .30))
+                  drop-shadow(0 4px 10px rgba(96, 76, 48, .18)); }
+  .words { padding-bottom: 6px; }
+  .wordmark { font-size: 112px; font-weight: 700; letter-spacing: -0.035em;
+              line-height: 1; color: #333E48; display: flex; align-items: center; }
+  /* the departing berth: one lit slip in a row of held ones. The icon's
+     signature move as the accent device. */
+  .berth { display: flex; gap: 8px; margin-left: 26px; flex: none; align-items: flex-end; }
+  .berth i { width: 14px; height: 30px; border-radius: 4px; background: #A9A399; opacity: .55; }
+  .berth i.lit { background: #D63A20; opacity: 1; height: 38px;
+                 box-shadow: 0 0 16px rgba(214, 58, 32, .40); }
+  .tagline { margin-top: 26px; font-size: 30px; font-weight: 400;
+             letter-spacing: .002em; color: #5A6570; }
+  .tagline b { color: #2E3841; font-weight: 600; }
+</style>
+</head>
+<body>
+  <svg class="plan" width="1600" height="520" viewBox="0 0 1600 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- a harbour master's berth plan: finger piers off a quay wall, slip
+         numbers implied, one channel running out. The plan is the backlog. -->
+    <g stroke="#8A8168" stroke-opacity=".26" stroke-width="3" fill="none">
+      <path d="M 1520 -40 V 560"/>
+      <path d="M 1520 60 H 1236"/><path d="M 1520 168 H 1180"/>
+      <path d="M 1520 276 H 1236"/><path d="M 1520 384 H 1180"/><path d="M 1520 492 H 1236"/>
+    </g>
+    <g stroke="#8A8168" stroke-opacity=".14" stroke-width="2" fill="none">
+      <path d="M 1236 40 V 80"/><path d="M 1180 148 V 188"/>
+      <path d="M 1236 256 V 296"/><path d="M 1180 364 V 404"/><path d="M 1236 472 V 512"/>
+    </g>
+    <!-- the channel out, dashed, with a wake curl where the lit berth empties -->
+    <path d="M 1160 114 C 900 130, 560 170, -60 296"
+          stroke="#6E7A86" stroke-opacity=".20" stroke-width="2.6" stroke-dasharray="1 14" stroke-linecap="round" fill="none"/>
+    <g stroke="#D63A20" stroke-opacity=".55" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <path d="M 1236 100 C 1216 106, 1200 110, 1180 112"/>
+      <path d="M 1244 122 C 1220 126, 1204 128, 1188 129"/>
+    </g>
+    <g stroke="#6E7A86" stroke-opacity=".09" stroke-width="1.4">
+      <path d="M -40 96 H 1100"/><path d="M -40 424 H 1100"/>
+    </g>
+  </svg>
+  <div class="lockup">
+    <img class="icon" src="icon-256.png" alt="">
+    <div class="words">
+      <div class="wordmark">ship-fleet<span class="berth"><i class="lit"></i><i></i><i></i><i></i></span></div>
+      <div class="tagline">The whole backlog, <b>readied and launched</b>.</div>
+    </div>
+  </div>
+</body>
+</html>

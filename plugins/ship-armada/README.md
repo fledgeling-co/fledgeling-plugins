@@ -8,7 +8,7 @@
 A portfolio-orchestration SWE skill for Claude Code, sitting one layer above <code>ship-fleet</code>.</p>
 
 <p align="center">
-  <img alt="Version 1.2.0" src="https://img.shields.io/badge/version-1.2.0-D63A20">
+  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D63A20">
   <img alt="SWE skill: portfolio orchestration" src="https://img.shields.io/badge/SWE_skill-portfolio_orchestration-5A6570">
   <img alt="Five modes" src="https://img.shields.io/badge/modes-5-8E1922">
   <img alt="Concurrency: 3 repos" src="https://img.shields.io/badge/concurrency-3_repos-7A6244">
@@ -28,8 +28,8 @@ ship-armada holds that layer. Its memory is a single file, **`~/Dev/ARMADA.md`**
 ```text
 ship-armada   (the portfolio: ~/Dev)
   → ship-fleet     (one repo's whole backlog)
-    → ship-feature (one feature: design → triage → plan → work → gap-fix → e2e → merge)
-      → stage skills
+    → ship-feature (one feature: intake → triage → plan ∥ design → work → gap-fix → e2e → verify → merge)
+      → the shipyard stage skills
   → armada-sync    (one manifest entry; also runs on its own, from any repo)
 ```
 
@@ -65,6 +65,8 @@ That last step is the load-bearing one. `ORCHESTRATOR.md` is the channel to agen
 
 **Dispatch** executes, choosing the smallest vehicle that covers the job. One feature goes to `ship-feature`; a repo with several items goes to `ship-fleet`; a mechanical change like a model-ID swap goes to a worktree edit behind a `code-review` gate, with no spec pipeline at all.
 
+Three things changed in 2.0, each closing a gap the rebuild's audit named. Ticking a project off now runs `scripts/check_completion.sh`, which cross-checks the ledger against git reality (open rows, unmerged branches, leftover worktrees) instead of trusting prose; the completion rule was the armada's most safety-critical check and it was previously enforced by memory. The repo-ownership allow-list moved out of the skill text into your portfolio's own `CLAUDE.md`, so it's configuration rather than someone else's hardcoded org names. And open technical calls inside a campaign now go to a second model family before they reach you; what lands on your desk is taste, cost, scope and risk.
+
 **Daemon** is the same survey-and-plan loop on a schedule, set up with `/loop` or a scheduled routine. Each tick does the freshness check, scans for tech worth adopting, and appends new opportunities as `proposed`.
 
 > [!IMPORTANT]
@@ -99,7 +101,7 @@ Two things, and both are worth knowing before you install.
 
 **The manifest.** ship-armada plans from `~/Dev/ARMADA.md` and can't do much without it. If it's missing or structurally broken it rebuilds it first, with a full survey: one reviewer per repo, fanned out, then synthesised into groups and a cross-project opportunities register. Entries are kept short on purpose (20 lines each) because the manifest is planning context, not documentation.
 
-**Skills from a sibling marketplace.** Dispatch hands real work to `ship-fleet` and `ship-feature`, which live in **`diolog-plugins`**, not here. `armada-sync` is the one dependency that ships alongside it in `fledgeling-plugins`, and it maintains a single manifest entry after you've worked in a repo directly. Without the diolog-plugins skills installed you still get Survey, Plan and Route; Dispatch is the mode that needs them.
+**Everything ships from this marketplace now.** Dispatch hands real work to [ship-fleet](../ship-fleet/README.md) and [ship-feature](../ship-feature/README.md), which as of 2.0 live here in `fledgeling-plugins` beside the [shipyard](../shipyard/README.md) stage skills; `armada-sync` maintains a single manifest entry after you've worked in a repo directly. Without those installed you still get Survey, Plan and Route; Dispatch is the mode that needs them.
 
 ## The rails
 

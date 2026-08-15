@@ -1,0 +1,30 @@
+{
+  "conductor-design-gates": {
+    "A": "new",
+    "B": "old"
+  },
+  "evidence-rules-guard": {
+    "A": "old",
+    "B": "new"
+  },
+  "intake-idea-expansion": {
+    "A": "old",
+    "B": "new"
+  },
+  "plan-test-strategy": {
+    "A": "new",
+    "B": "old"
+  },
+  "status-machine-complete": {
+    "A": "old",
+    "B": "new"
+  },
+  "triage-assumption-protocol": {
+    "A": "new",
+    "B": "old"
+  },
+  "verify-failure-and-family": {
+    "A": "old",
+    "B": "new"
+  }
+}
