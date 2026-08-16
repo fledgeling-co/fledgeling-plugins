@@ -170,6 +170,35 @@ decide what you can conclude:
 Attaching to a browser is not a reason to leave Proctor. It is a reason to know
 which half of the window is whose.
 
+## Authenticated browsers, 1Password, and Sift mail OTPs
+
+When driving web applications or authentication flows inside a browser, Proctor coordinates across three capabilities:
+
+### 1. Driving authenticated Chrome sessions
+
+Proctor can drive existing, logged-in Google Chrome or Safari windows directly on its accessibility plane.
+
+Chrome only exposes its internal web accessibility tree when accessibility is active. If `proctor_apps` attach returns an `AXWebArea` with zero children or `manualAccessibilityApplied: false`, launch Chrome with `--force-renderer-accessibility` (or restart with that flag) so that all inputs, buttons, and links populate the accessibility tree.
+
+When complex autonomous web navigation or direct browser profile manipulation is needed, use the `browser-use` CLI or Chrome MCP. These tools connect directly to the running, authenticated Chrome instance with existing cookies and session state, avoiding clean-slate sandboxes that lack credentials.
+
+### 2. Selecting 1Password credentials and autofill
+
+Authentication pages frequently integrate with the 1Password extension. 1Password renders autofill suggestions as native accessibility elements:
+
+- In Google Chrome, 1Password autofill items appear in the accessibility tree as `AXButton` nodes (for example, "Apple username@example.com" or "Sign in with 1Password").
+- Actuating these with an accessibility `press` step (`kind: "press"`) triggers the autofill in the background (`ranInForeground: false`). This bypasses Secure Event Input restrictions because accessibility actions do not inject synthetic hardware events.
+- In Safari or custom web views, suggestions may appear as `AXMenuItem` or popups. Selecting them autofills usernames, passwords, passkeys, and triggers TOTP token insertion.
+- When an overlay ignores accessibility presses, switch to synthetic coordinate clicks (`kind: "click"`, `point: [x, y]`, `foreground: true`), ensuring Secure Event Input is inactive.
+
+### 3. Resolving OTP codes and magic links via Sift
+
+Automated login and verification flows often send one-time passcodes (OTPs) or magic login links via email. When `sift` (the local mail MCP server) is available in the toolbelt:
+
+- Query recent messages with `mcp__sift__get_emails` or search by sender with `mcp__sift__search`.
+- Fetch the message body via `mcp__sift__get_email_body` to extract 6-digit OTP tokens, or use `mcp__sift__get_email_links` to retrieve authentication URLs.
+- Input the extracted code into the browser form via `setValue` or navigate to the auth link, completing the login loop end to end without human interruption.
+
 ## What the person watching sees
 
 Proctor draws a pointer on screen while it drives an app: it travels to each
