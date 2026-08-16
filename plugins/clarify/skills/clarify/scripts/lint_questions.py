@@ -31,8 +31,17 @@ from dataclasses import dataclass, field
 # outcome-per-question ratio asked 1.39-3.06 questions per task, and the one
 # asking 6.02 got worse with the information it obtained.
 MAX_QUESTIONS = 3
+# Two options is the default and the shape the gate is built to produce: gate 4
+# refers the fork to another model, and narrowing to two is that referral's
+# output rather than a truncation. A third slot is allowed but has to be earned
+# — a distinct shape the referral surfaced, named in the preamble with what it
+# trades differently — so 3 warns rather than passing silently. The ceiling is
+# not moved to 4: this skill's own eval set contains one case (a migration fork
+# whose winning answer was a third shape) where a thin option set lost 4-0, so
+# the warning at 3 is the reminder that the missing-option failure is invisible.
 MIN_OPTIONS = 2
-MAX_OPTIONS = 4
+DEFAULT_OPTIONS = 2
+MAX_OPTIONS = 3
 MAX_HEADER_CHARS = 12
 MAX_QUESTION_WORDS = 20
 MAX_LABEL_WORDS = 5
@@ -103,12 +112,20 @@ def opposed(a: str, b: str) -> bool:
     return any(pair <= diff for pair in OPPOSED)
 
 
-def check_plain_language(text: str, where: str, rep: Report) -> None:
-    """Flag vocabulary that makes a reader decode rather than decide."""
-    if PATH_RE.search(text):
-        rep.warn(where, "contains a file path — say what it does, not where it lives")
-    if CAMEL_RE.search(text) or SNAKE_RE.search(text):
-        rep.warn(where, "contains a code identifier — translate it into plain words")
+def check_plain_language(text: str, where: str, rep: Report, allow_identifiers: bool = False) -> None:
+    """Flag vocabulary that makes a reader decode rather than decide.
+
+    `allow_identifiers` suppresses the path and identifier warnings. It is set
+    for the stem of a question declared irreversible, where SKILL.md requires
+    the opposite of translation: the exact table, branch or environment being
+    destroyed has to appear verbatim, because "the accounts table" and
+    `legacy_accounts` are not the same claim when the row count is 2.4M.
+    """
+    if not allow_identifiers:
+        if PATH_RE.search(text):
+            rep.warn(where, "contains a file path — say what it does, not where it lives")
+        if CAMEL_RE.search(text) or SNAKE_RE.search(text):
+            rep.warn(where, "contains a code identifier — translate it into plain words")
     unknown = {a for a in ACRONYM_RE.findall(text) if a not in ACRONYM_ALLOW}
     if unknown:
         rep.warn(where, f"unexplained acronym(s): {', '.join(sorted(unknown))}")
@@ -141,6 +158,7 @@ def lint(payload: dict) -> Report:
         header = (q.get("header") or "").strip()
         options = q.get("options") or []
         multi = bool(q.get("multiSelect"))
+        irreversible = bool(q.get("irreversible"))
 
         # --- the question itself
         if not text:
@@ -151,7 +169,7 @@ def lint(payload: dict) -> Report:
                 rep.error(where, f"question is {n} words, cap is {MAX_QUESTION_WORDS}")
             if not text.endswith("?"):
                 rep.warn(where, "does not end in a question mark")
-            check_plain_language(text, f"{where} question", rep)
+            check_plain_language(text, f"{where} question", rep, allow_identifiers=irreversible)
 
         # --- the header
         if not header:
@@ -202,20 +220,45 @@ def lint(payload: dict) -> Report:
                     rep.error(ow, f"description is {n} words, cap is {MAX_DESCRIPTION_WORDS}")
                 check_plain_language(desc, f"{ow} description", rep)
 
+        # --- an earned third slot
+        if len(options) > DEFAULT_OPTIONS:
+            rep.warn(
+                where,
+                f"{len(options)} options — the default is {DEFAULT_OPTIONS}; keep the third "
+                "only if the referral surfaced it as a distinct shape and the preamble says "
+                "what it trades differently",
+            )
+
         # --- the recommendation
-        # Missing is a WARNING, not an error, because there are two valid
-        # shapes: a grounded fork (recommend it, list it first) and a matter
-        # of taste (no recommendation, neutral order). A marked option acts as
-        # a default, and defaults move choices hard — so recommending on a
-        # preference question puts a thumb on a scale that was never yours.
+        # A marked option is a default, and defaults move choices hard. Under
+        # gate 5 a fork that evidence actually settles is one you take yourself,
+        # so a question reaching the user sits on the user's axis — where a mark
+        # answers the question while appearing to ask it. The single exception
+        # is the unrecoverable-action question, which is asked despite a known
+        # answer so the reversible path can be offered and marked.
+        #
+        # Destructiveness cannot be read out of prose: "delete the flags this
+        # week, or quarantine them?" is a scope question that happens to contain
+        # a destructive verb, and keyword matching would demand a mark on it.
+        # So the author declares it with `"irreversible": true` on the question,
+        # and the linter checks the two against each other.
+        # `q.get("irreversible")` was read at the top of the loop.
         if not multi:
-            if len(recommended) == 0:
+            if recommended and not irreversible:
+                rep.error(
+                    where,
+                    "(Recommended) on a question not declared irreversible — either the fork "
+                    "was yours to settle (take it, do not ask), or the axis is the user's "
+                    "(mark nothing); set \"irreversible\": true only for an action that "
+                    "cannot be undone",
+                )
+            elif irreversible and not recommended:
                 rep.warn(
                     where,
-                    "no option marked (Recommended) — right only if this is a matter of "
-                    "taste; if evidence favours one, mark it and list it first",
+                    "declared irreversible but no option marked (Recommended) — mark the "
+                    "reversible path and list it first",
                 )
-            elif len(recommended) > 1:
+            if len(recommended) > 1:
                 rep.error(where, f"{len(recommended)} options marked (Recommended), want exactly 1")
             if recommended and not RECOMMENDED_RE.search(labels[0] if labels else ""):
                 rep.warn(where, "the recommended option is not listed first")

@@ -28,6 +28,53 @@ Citation check on the strongest member: **zero fabricated citations** out of 62;
 85% confirmed to exist, the rest blocked by publisher bot-walls rather than
 missing.
 
+## The 1.3.0 review, and what it refused
+
+The gate rewrite in 1.3.0 was itself put through the referral it prescribes, on
+16 Aug 2026. The packet carried the current gates, the proposed change, the
+documented 4-0 eval loss, and the 93-95% over-asking datum, and asked for flaws
+rather than agreement.
+
+| Lane | Outcome |
+| --- | --- |
+| `codex exec -m gpt-5.6-sol` at high | **Failed** — usage limit, no output file. Reported and substituted rather than retried, per the lane rule. |
+| `grok -m grok-4.6 --effort xhigh` | Answered. Read the eval set and the linter before responding. |
+| `agy --model gemini-3.7-flash-high` | Answered. |
+
+Both responding families **refused two items independently and for the same
+reasons**, which is what a split panel is for:
+
+- **A hard cap of exactly two options.** Both said it would worsen the measured
+  4-0 loss. See "Options and ordering" for what shipped and what it costs.
+- **"If you can name a recommendation, take it."** Both said it collapses into
+  never-ask, including on the carve-outs it was written to protect. See "The
+  recommendation". The shipped predicate is the axis, not certainty.
+
+Both also flagged that mandating referral for *any* technical fork is a tax;
+SKILL.md answers that by scoping gate 4 to forks that already survived gates 1-3,
+and by demoting Dossier from a rung on the ladder to a separate branch for
+questions about the world — grok's point that "Dossier is for the world, not for
+residual uncertainty".
+
+Recording this because the alternative is a skill whose own central rule was
+never put through its own gate.
+
+## CLI facts behind the lanes
+
+Measured on the authoring machine, 16 Aug 2026. Re-confirm against `--help`
+before first use in a session; a CLI's argv is not stable across versions.
+
+| Fact | How it was established |
+| --- | --- |
+| `grok --effort` accepts exactly `xhigh, high, medium, low` | `grok --effort bogus -p hi` → "unknown effort level 'bogus'; use one of: xhigh, high, medium, low" |
+| `grok models` → `grok-4.6` (default), `grok-4.5` | `grok models` |
+| `agy` exposes `gemini-3.7-flash-high` and a separate `--effort low\|medium\|high` | `agy models`, `agy --help` |
+| `codex` does **not** validate `-m` or `model_reasoning_effort` | `codex exec -m bogus -c model_reasoning_effort="bogus"` printed `model: bogus` / `reasoning effort: bogus` in its header and failed later |
+
+The last row is why an empty output file is the load-bearing failure signal on
+the codex lane rather than the header grep: the header echoes what was
+configured, not what the API served.
+
 ## The gate
 
 **The divergence test.** ClarifyGPT generates candidate solutions from an
@@ -105,10 +152,42 @@ availability, and the 34.7% is why an unanswered question needs a fallback.
 
 ## Options and ordering
 
-**2-4 options, aim for 3.** Two panel members independently landed on "2-4,
-default 3".
+**Two options by default; a third only when the referral earns it.** This is the
+one rule in the skill that the evidence does *not* cleanly support, and it is
+recorded that way on purpose.
 
-**The usual reason for this is wrong.** Choice overload pools to a mean effect
+The original rule was "2-4, aim for 3" — two panel members independently landed
+there. Version 1.3.0 moved the default to two on the reasoning that narrowing is
+the work gate 4 now does, and that a shape the referral rules out gets named in
+the preamble rather than occupying a slot.
+
+**What argued against it.** Three independent sources:
+
+1. **This skill's own eval set.** One case goes 4-0 against the skill in both A/B
+   orders, and three attempted fixes did not shift it: a migration fork where the
+   no-skill arm reached a shape the skill never did. The loss was compositional —
+   synonym-collapse plus the word caps produced a tidy binary that was not the
+   real fork.
+2. **gemini-3.7-flash-high**, asked adversarially: forcing exactly two "forces an
+   artificial binary" wherever a domain has more than two valid strategies, and
+   "user attention anchors to interactive option buttons, not prompt text", so a
+   named-but-unclickable third does not substitute for a listed one.
+3. **grok-4.6 at xhigh**, which read the eval before answering: the 4-0 "was not a
+   missing fact a panel would fetch", the skill already had a Gaps rule, and a
+   hard cap "writes that collapse into the spec". It also noted that splitting
+   into two questions to keep lists short pays the interruption cost the skill
+   exists to avoid — which `evidence.md` already flags below.
+
+**What was shipped, and why.** Two as the default, three when you can name a
+distinct shape the referral surfaced and say what it trades differently; the
+linter warns at three rather than erroring, so the third slot is visible but not
+free. The compensating control is in gate 4: every lane and every panel member is
+now asked directly whether there is a better approach than the ones listed,
+because the missing shape is a research failure and an out-of-family model is the
+cheapest instrument that finds one. Whether that control actually covers the 4-0
+case is **unmeasured**. It is the first thing to re-run against the eval set.
+
+**The usual argument for a cap is wrong.** Choice overload pools to a mean effect
 size of virtually zero across 63 conditions from 50 experiments (N = 5,036),
 with no sufficient conditions identified for reliable overload. *Scheibehenne,
 Greifeneder & Todd, JCR 37(3), 2010.* A later meta-analysis (99 observations,
@@ -127,6 +206,9 @@ Schneider, QJEP 2018.* Note the trap that follows from it — three sequential
 5-option steps can cost more than one 15-option step, so splitting a question to
 shorten each list can lose more than it saves.
 
+Nobody has measured 2 against 3 against 4 in this setting. Treat the default as a
+design choice with a stated cost, not as a finding.
+
 ## The recommendation
 
 This is where the panel actually disagreed, and the disagreement changed the
@@ -139,20 +221,67 @@ skill.
   constraints make it superior**; use neutral ordering and no recommendation
   when eliciting a subjective preference.
 
-SKILL.md takes the third position, because it explains the other two rather than
-splitting them.
+SKILL.md took the third position through 1.2.x, because it explains the other two
+rather than splitting them.
 
-**The asymmetry that justifies it.** In a controlled e-prescribing experiment,
-correct decision support cut omission errors by 38.3-46.6%; *incorrect* support
-raised them by 24.5-33.3% and produced commission-error rates of 51.7-65.8%.
-*Lyell et al., 2017.* Meanwhile the upside is capped: measured weight-of-advice
-is 0.20-0.30 in the classic review (*Bonaccio & Dalal, OBHDP 101(2), 2006*) and
-0.39 [0.37, 0.42] in a 2024 meta-analysis (*Bailey et al.*) — people move only
-20-40% toward advice, and discount it harder when unsolicited.
+**1.3.0 collapsed it further, and the reason is structural rather than new
+evidence.** Once gate 5 says a fork the repo settles is a fork you settle
+yourself, the "grounded fork" case stops reaching the user at all — so the marked
+recommendation has one home left: the unrecoverable-action question, which is
+asked *despite* a known answer. Everything that still reaches the user sits on the
+user's axis, which is precisely the case all three members agreed should carry no
+mark. The rule did not change; its domain collapsed.
+
+**Why the predicate is the axis and not confidence.** Both out-of-family reviewers
+converged on the same failure independently. gemini-3.7-flash-high called it
+"recommendation inflation": the model "will almost always find a post-hoc
+technical reason to prefer one side of a trade-off", after which a
+recommend-then-act rule "silences the question... because the model reclassifies
+subjective trade-offs (maintainability vs. velocity) as objective technical
+optimizations". grok-4.6 put the same point as a closed loop — "refer until you
+can recommend; if you can recommend, take it; the panel exists so you become
+sure" — and supplied the fix the skill adopted verbatim in substance: bind the
+permission to gate 3's axis test, not to certainty, because "you almost always
+can" name a recommendation.
+
+The operational test in SKILL.md — *name what the losing option would have been
+better at* — is the cheapest way to tell a dominated option from a trade-off.
+
+**The asymmetry that justifies marking sparingly.** In a controlled e-prescribing
+experiment, correct decision support cut omission errors by 38.3-46.6%;
+*incorrect* support raised them by 24.5-33.3% and produced commission-error rates
+of 51.7-65.8%. *Lyell et al., 2017.* Meanwhile the upside is capped: measured
+weight-of-advice is 0.20-0.30 in the classic review (*Bonaccio & Dalal, OBHDP
+101(2), 2006*) and 0.39 [0.37, 0.42] in a 2024 meta-analysis (*Bailey et al.*) —
+people move only 20-40% toward advice, and discount it harder when unsolicited.
 
 Small upside, large downside, and the downside lands hardest exactly when you
 are confidently wrong. Hence: the reason carries the recommendation, not the
 label.
+
+**Defaults are strong, which is the risk not the benefit.** A default-effects
+meta-analysis of 58 studies (n = 73,675) puts the pooled effect at d = 0.68,
+95% CI [0.53, 0.83]. Opt-out versus opt-in roughly doubled consent, ~42% → ~82%
+(*Johnson & Goldstein, Science 302, 2003*), and their proposed mechanism is that
+people read a default as an implicit recommendation. Marking an option is
+therefore not a neutral act.
+
+Held loosely: the broader nudge literature does not survive bias correction
+intact. Pooled d = 0.43 with a significant Egger's test, dropping 22.5% under
+moderate-bias adjustment (*Mertens et al., PNAS 119(1), 2022*); a robust
+Bayesian re-analysis of the same data found **no evidence** for an overall
+nudging effect (*Maier et al., PNAS 119(31), 2022*). Do not design as though
+"(Recommended)" moves choices by a known amount.
+
+**Why the linter needs a declared flag rather than a keyword rule.** The invariant
+"a mark implies an irreversible action" is enforceable; "an irreversible action
+implies a mark" is not, because destructiveness cannot be read out of prose.
+grok-4.6 supplied the false-positive class: *"How aggressive should cleanup be —
+delete the flags this week, or quarantine them?"* contains `delete` and is a pure
+scope question, so a keyword rule would demand a mark on exactly the question that
+must not carry one. Hence `"irreversible": true`, declared by the author and
+checked against the mark. The same flag exempts the question stem from the
+code-identifier warning, since naming `legacy_accounts` is required there.
 
 **Defaults are strong, which is the risk not the benefit.** A default-effects
 meta-analysis of 58 studies (n = 73,675) puts the pooled effect at d = 0.68,
@@ -295,13 +424,23 @@ regex or a hook. Worth folding in whichever description ships.
 ## Gaps worth measuring
 
 1. **Option count in this exact setting.** Nobody has varied 2 / 3 / 4 / 6
-   options on matched forks in a real agent. The 2-4 rule is an inference from
-   order bias and reading cost, not a measurement.
-2. **The note, as an A/B.** How often it is used, and how often its content
+   options on matched forks in a real agent. The two-option default is an
+   inference from order bias and reading cost, plus a design choice about where
+   narrowing happens — not a measurement, and two out-of-family reviewers argued
+   against it.
+2. **Whether gate 4 recovers the 4-0 case.** 1.3.0's compensating control for the
+   narrower option set is asking every lane and panel member for a shape better
+   than the ones listed. This is untested against the eval that motivated it, and
+   it is the first thing to re-run.
+3. **How often gate 5 fires correctly.** The axis test (*name what the losing
+   option would have been better at*) has no measured false-positive rate. The
+   failure to watch for is a trade-off reclassified as a dominated option, which
+   silently converts the user's call into yours.
+4. **The note, as an A/B.** How often it is used, and how often its content
    reveals a category the options missed.
-3. **Batch size.** No controlled comparison of 1 / 2 / 3 questions in a coding
+5. **Batch size.** No controlled comparison of 1 / 2 / 3 questions in a coding
    agent exists.
-4. **Every agent benchmark cited here uses a simulated user**, and at least two
+6. **Every agent benchmark cited here uses a simulated user**, and at least two
    of the papers flag that simulated users are unnaturally cooperative. Every
    measured benefit of asking is therefore an upper bound. A real person answers
    late, partially, or not at all.
