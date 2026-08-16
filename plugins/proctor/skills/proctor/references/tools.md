@@ -169,6 +169,12 @@ recommended instrument commits you to — `actsOutsideThisWindow`, `autonomous`,
 there is such an instrument. `outsideTheAuditTrail` is the one that changes what
 a campaign can later claim was recorded.
 
+**Authenticated browsers, 1Password, and Sift OTPs:**
+- **Chrome accessibility:** Chrome exposes web DOM elements to Proctor only when accessibility is active. If an attach returns an `AXWebArea` with zero children or `manualAccessibilityApplied: false`, launch Chrome with `--force-renderer-accessibility` so that all input fields, buttons, and links populate the accessibility tree.
+- **browser-use and Chrome MCP:** When complex autonomous web navigation or existing authenticated browser profiles are needed, utilize the `browser-use` CLI or Chrome MCP. These tools connect directly to the running, authenticated Chrome session with existing cookies and credentials.
+- **1Password autofill:** 1Password extension suggestions appear as native accessibility elements in browser windows (such as `AXButton` nodes in Chrome). Actuating them with an accessibility `press` (`kind: "press"`) triggers credential or passkey autofill in the background (`ranInForeground: false`) without being blocked by Secure Event Input. When an overlay ignores accessibility presses, use synthetic coordinate clicks (`kind: "click"`, `point: [x, y]`, `foreground: true`).
+- **Sift Mail MCP:** When authentication flows require OTP codes or magic verification links sent via email, use `sift` tools (`mcp__sift__get_emails`, `mcp__sift__get_email_body`, `mcp__sift__get_email_links`) to search and extract the verification tokens directly, keeping the login loop automated.
+
 **Over its neighbour:** `list` touches nothing and answers "what is running".
 `attach` starts retaining element references, and a retained reference is the
 only thing that keeps resolving after its window moves to another Space.
