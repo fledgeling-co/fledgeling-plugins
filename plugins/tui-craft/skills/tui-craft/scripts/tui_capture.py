@@ -182,6 +182,7 @@ class BuiltinScreen:
                           italic=False, underline=False, reverse=False)
         self.unknown: dict[str, int] = {}
         self._pending_wrap = False
+        self._last_printed = ""
 
     # -- writing ---------------------------------------------------------
     def _blank(self) -> Cell:
@@ -217,6 +218,7 @@ class BuiltinScreen:
                 cont = self._blank()
                 cont.ch, cont.w = "", 0
                 self.grid[self.y][self.x + k] = cont
+        self._last_printed = ch
         self.x += w
         if self.x >= self.cols:
             self.x = self.cols - 1
@@ -347,6 +349,13 @@ class BuiltinScreen:
         elif final == "u":
             self.x, self.y = self.saved
             self._clamp()
+        elif final == "b":
+            # REP — repeat the last printed character n times. Emitted by
+            # terminals and libraries that compress runs of the same glyph;
+            # ignoring it silently loses a whole run of border or padding.
+            if self._last_printed:
+                for _ in range(p(0)):
+                    self.put(self._last_printed)
         elif final in ("t", "n", "c", "p", "q"):
             pass  # window ops / device status / cursor style: no visual effect here
         else:
@@ -661,6 +670,8 @@ FIXTURES: list[tuple[str, str, int, int, list[str]]] = [
     ("autowrap", "abcdef", 3, 2, ["abc", "def"]),
     ("osc_title", "\x1b]0;My App\x07hi", 10, 1, ["hi"]),
     ("scroll_up", "a\r\nb\r\nc\r\n", 4, 3, ["b", "c", ""]),
+    ("rep", "-\x1b[4b", 10, 1, ["-----"]),
+    ("rep_after_wide", "\u65e5\x1b[2b", 10, 1, ["\u65e5\u65e5\u65e5"]),
 ]
 
 
