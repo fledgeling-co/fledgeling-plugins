@@ -62,6 +62,7 @@ const GROUP_OF = {
   "design-review": "making",
   proctor: "making",
   "be-my-witness": "making",
+  "tui-craft": "making",
   trawl: "research",
   "dossier-report": "research",
   report: "research",

@@ -1,0 +1,9 @@
+{
+  "name": "tui-craft",
+  "description": "Design, build and review terminal user interfaces against a captured cell grid rather than against source code. Captures the running app through a pty into a typed frame, runs mechanical gates on it (border integrity, cell-width arithmetic, overflow, truncation markers, glyph risk), then applies a pattern catalogue drawn from 48 shipped TUIs and a cited set of terminal constraints. Both building and reviewing enter the same capture-gate-look-fix loop.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

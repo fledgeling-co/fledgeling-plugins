@@ -60,6 +60,14 @@ Look at a screenshot and say what it actually shows. Validates a UI capture agai
 
 <br clear="left" />
 
+<a href="plugins/tui-craft/README.md"><img src="plugins/tui-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [tui-craft](plugins/tui-craft/README.md)
+
+Design and review terminal interfaces against what the terminal actually drew, not the code that meant to draw it. Captures the running app through a pty into a typed cell grid, then runs the arithmetic nobody eyeballs correctly: a box that opens and never closes, a row shoved past its neighbours by a double-width glyph, text cut with no ellipsis to say so. Every finding lands on a row and a column. On top sits a pattern catalogue built from 48 shipped TUIs, an anti-pattern list where each entry shipped in a real app, and terminal constraints cited rather than asserted. A claim about a screen needs a captured frame; capture failure is reported as the result rather than papered over by reading the source.
+
+<br clear="left" />
+
 <a href="plugins/create-swe-project/README.md"><img src="plugins/create-swe-project/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-swe-project](plugins/create-swe-project/README.md)
