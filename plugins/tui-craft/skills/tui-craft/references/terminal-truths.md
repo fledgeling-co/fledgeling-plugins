@@ -81,6 +81,12 @@ terminfo entry advertising 256 colours even when the renderer does 24-bit —
 `tput colors` returns 256 unless `TERM` is set to a direct-colour entry such as
 `xterm-direct`. Treat it as a floor, not an answer.
 
+**macOS Terminal.app caps at 256 colours**, and it is still the default terminal
+on every Mac. A truecolour gradient does not degrade gracefully there; it hits a
+hard ceiling. If your design leans on 24-bit colour, a large share of your users
+are not seeing it, and `--no-color` is not the only degraded path worth
+capturing.
+
 Multiplexers complicate this further: tmux and screen need explicit
 `terminal-overrides` carrying `Tc` or `RGB` for truecolour to reach the
 application inside them.
@@ -117,18 +123,37 @@ background colour at all) and let the user's theme show through.
 
 ## 4. Fonts and glyphs
 
-**Nerd Font glyphs are a dependency.** Private-use-area code points render as
-tofu boxes for anyone without the font installed, and several corpus apps
-(croft, Gitwig, the MongoDB TUI, SOT, the epub reader) depend on them for file
-type icons and branch markers.
+**Nerd Font glyphs are a dependency, and they are width-ambiguous.** Private-use
+-area code points render as tofu boxes for anyone without the font installed, and
+several corpus apps (croft, Gitwig, the MongoDB TUI, SOT, the epub reader) depend
+on them for file-type icons and branch markers.
+
+The width problem is subtler than the missing-glyph one and worth checking
+yourself:
+
+```python
+>>> import unicodedata
+>>> unicodedata.east_asian_width('')   # a common powerline separator
+'A'
+```
+
+`A` is **Ambiguous**, not Neutral. Ambiguous resolves to one cell in a Western
+locale and two in a CJK one, so the same icon can occupy a different number of
+cells for two different users of the same build, and the layout only breaks for
+one of them. That is a bug report you cannot reproduce.
+
+`scripts/tui_capture.py` resolves Ambiguous to one cell, which matches what
+mainstream terminals do by default. It will therefore agree with a Western-locale
+terminal and disagree with a CJK-locale one, so a capture is evidence about the
+first and not the second.
 
 Box-drawing characters and braille are far safer — they are in standard Unicode
 blocks and covered by most monospace fonts — but braille density plots depend on
 the font having genuinely proportional braille cells, and some do not.
 
-**What to do:** treat icon glyphs as an enhancement with a text fallback, detect
-nothing (you cannot reliably), and let the user configure it off. State the font
-requirement in the README rather than assuming it.
+**What to do:** treat icon glyphs as an enhancement with a text fallback, default
+them off rather than trying to detect a font (you cannot), and let the user turn
+them on. State the font requirement in the README rather than assuming it.
 
 `glyph-risk` in the gates reports private-use code points so the dependency is at
 least visible.

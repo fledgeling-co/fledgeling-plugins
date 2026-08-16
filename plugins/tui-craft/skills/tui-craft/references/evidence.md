@@ -102,6 +102,15 @@ terminal, and tools like `ucs-detect` probe at startup to build a per-session
 table.
 → <https://www.jeffquast.com/post/perfecting-terminal-character-width-using-correction-tables/>
 
+**macOS Terminal.app restricts colour to ANSI 256**, a hard ceiling for anyone
+who has not moved to a third-party emulator.
+→ Gemini report, citing <https://marvinh.dev/blog/terminal-colors/>
+
+**Nerd Font private-use code points carry East Asian Width `A` (Ambiguous)**, so
+the same icon is one cell in a Western locale and two in a CJK one. Not from the
+panel: verified directly against the Unicode character database with
+`unicodedata.east_asian_width` on this machine, 2026-08-16.
+
 **OSC 11 queries the terminal's background colour**, implemented by xterm and by
 VTE since 0.35.2. `COLORFGBG` exists but support is partial and values go stale.
 → Perplexity report §"Background Colour, Dark/Light Themes, and OSC 11"
@@ -146,12 +155,29 @@ The xAI lane contributed three corrections adopted here:
 
 - **Do not hand-roll the escape-sequence parser without fixtures.** A wrong
   parser makes every gate lie confidently. Hence `--self-test`, the 16 golden
-  fixtures, and the refusal to emit `captured` when they fail.
+  fixtures (now 18), and the refusal to emit `captured` when they fail.
 - **Two producers, one schema.** Framework snapshot tests are a cleaner producer
   than a pty capture when you own the source, but they skip host negotiation, so
   they are not a second evidence type — run one pty capture before shipping.
 - **"Every app in the corpus is dark" is a convenience sample, not a law.** It
   became an OSC 11 recommendation rather than a dark-background default.
+
+## Facts the eval baseline contributed
+
+Two claims surfaced by the no-skill arm of the evals rather than by the research
+panel. Both were checked before being folded in rather than taken on trust, and
+one came back sharper than the claim:
+
+- **Terminal.app's 256-colour ceiling** turned out to be corroborated by the
+  panel's own Gemini report, which had it and which I had not surfaced.
+- **Nerd Font glyph width** was claimed as "no defined East Asian Width". That is
+  not quite right: the property is defined, and its value is `A` (Ambiguous),
+  which is a more specific and more awkward problem than being undefined. The
+  reference states the checked version.
+
+A third claim from the same source, that Nerd Fonts v3 moved the Material Design
+range out of U+F500-FD46, is plausible and unverified. It is not stated anywhere
+in this skill.
 
 ## What is not evidenced
 

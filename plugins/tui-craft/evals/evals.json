@@ -6,15 +6,39 @@
       "name": "review-defective-tui",
       "prompt": "I've got a small Go dashboard at /tmp/tuieval/pipelines.py (yes it's python, long story) that renders a pipeline table. Something looks off about it when I run it but I can't put my finger on what. Can you take a look and tell me what's wrong?",
       "expected_output": "Identifies the missing right border on the CJK row (cell-width arithmetic), the footer wrapping mid-word, and the unmarked truncation — with row/column locations, having actually run the program rather than only reading its source.",
-      "files": ["/tmp/tuieval/pipelines.py"],
+      "files": [
+        "/tmp/tuieval/pipelines.py"
+      ],
       "assertions": [
-        {"id": "a1", "text": "Ran the program and captured its rendered output rather than only reading the source"},
-        {"id": "a2", "text": "Identified that a double-width (CJK) string breaks the table's right border"},
-        {"id": "a3", "text": "Identified the footer overflowing/wrapping off the right edge"},
-        {"id": "a4", "text": "Identified truncated text with no ellipsis or marker"},
-        {"id": "a5", "text": "Gave at least one finding with a specific row and column location"},
-        {"id": "a6", "text": "Explained the mechanism (character count vs cell width) rather than only naming the symptom"}
-      ]
+        {
+          "id": "a1",
+          "text": "Ran the program and captured its rendered output rather than only reading the source"
+        },
+        {
+          "id": "a2",
+          "text": "Identified that a double-width (CJK) string breaks the table's right border"
+        },
+        {
+          "id": "a3",
+          "text": "Identified the footer overflowing/wrapping off the right edge"
+        },
+        {
+          "id": "a4",
+          "text": "Identified truncated text with no ellipsis or marker"
+        },
+        {
+          "id": "a5",
+          "text": "Gave at least one finding with a specific row and column location"
+        },
+        {
+          "id": "a6",
+          "text": "Explained the mechanism (character count vs cell width) rather than only naming the symptom"
+        }
+      ],
+      "result": {
+        "with_skill": "5/5 content assertions; 4 frames + a controlled root-cause probe",
+        "without_skill": "5/5 content assertions; 1 self-written render"
+      }
     },
     {
       "id": 1,
@@ -23,14 +47,39 @@
       "expected_output": "A working TUI plus evidence it was actually rendered and checked: a capture at more than one size, gates run, and the six states considered. Design should show corpus patterns (border metadata, dual focus signalling, live footer) rather than generic advice.",
       "files": [],
       "assertions": [
-        {"id": "b1", "text": "Produced a runnable TUI program"},
-        {"id": "b2", "text": "Captured and inspected the rendered output, not just written the code"},
-        {"id": "b3", "text": "Checked at more than one terminal size, or explicitly at 80x24"},
-        {"id": "b4", "text": "Handled at least the empty and error states, not only the populated happy path"},
-        {"id": "b5", "text": "Computed display width in a way that accounts for wide characters, or explicitly addressed it"},
-        {"id": "b6", "text": "Focus or selection is signalled by more than one visual channel"},
-        {"id": "b7", "text": "Did not claim the layout is correct without having rendered it"}
-      ]
+        {
+          "id": "b1",
+          "text": "Produced a runnable TUI program"
+        },
+        {
+          "id": "b2",
+          "text": "Captured and inspected the rendered output, not just written the code"
+        },
+        {
+          "id": "b3",
+          "text": "Checked at more than one terminal size, or explicitly at 80x24"
+        },
+        {
+          "id": "b4",
+          "text": "Handled at least the empty and error states, not only the populated happy path"
+        },
+        {
+          "id": "b5",
+          "text": "Computed display width in a way that accounts for wide characters, or explicitly addressed it"
+        },
+        {
+          "id": "b6",
+          "text": "Focus or selection is signalled by more than one visual channel"
+        },
+        {
+          "id": "b7",
+          "text": "Did not claim the layout is correct without having rendered it"
+        }
+      ],
+      "result": {
+        "with_skill": "0 high gate findings at 140x40 / 100x30 / 80x24 / 60x20; 15 frames persisted",
+        "without_skill": "4 / 13 / 10 / 9 high gate findings at the same sizes; 0 frames persisted"
+      }
     },
     {
       "id": 2,
@@ -39,13 +88,44 @@
       "expected_output": "Names the specific portability failures with correct mechanisms: NO_COLOR and the colour-depth chain, nerd font tofu, light-terminal inversion, and how to test each. Should be concrete and cite real detection methods rather than generic advice.",
       "files": [],
       "assertions": [
-        {"id": "c1", "text": "Named NO_COLOR and that it must be checked before capability detection"},
-        {"id": "c2", "text": "Described the COLORTERM / TERM colour-depth chain with correct values"},
-        {"id": "c3", "text": "Flagged nerd font glyphs as a dependency that renders as tofu without the font"},
-        {"id": "c4", "text": "Raised light-vs-dark background rather than assuming a dark terminal"},
-        {"id": "c5", "text": "Gave a concrete way to test the degraded path, not just a warning"},
-        {"id": "c6", "text": "Mentioned a specific detection mechanism (OSC 11 query, tput, or environment chain) rather than only 'detect capabilities'"}
-      ]
+        {
+          "id": "c1",
+          "text": "Named NO_COLOR and that it must be checked before capability detection"
+        },
+        {
+          "id": "c2",
+          "text": "Described the COLORTERM / TERM colour-depth chain with correct values"
+        },
+        {
+          "id": "c3",
+          "text": "Flagged nerd font glyphs as a dependency that renders as tofu without the font"
+        },
+        {
+          "id": "c4",
+          "text": "Raised light-vs-dark background rather than assuming a dark terminal"
+        },
+        {
+          "id": "c5",
+          "text": "Gave a concrete way to test the degraded path, not just a warning"
+        },
+        {
+          "id": "c6",
+          "text": "Mentioned a specific detection mechanism (OSC 11 query, tput, or environment chain) rather than only 'detect capabilities'"
+        }
+      ],
+      "result": {
+        "with_skill": "5/5 content assertions; reported capture-blocked and returned a capture matrix",
+        "without_skill": "5/5 content assertions; longer, and contributed three facts not in the references"
+      }
     }
-  ]
+  ],
+  "measured": {
+    "date": "2026-08-16",
+    "model": "claude-opus-5",
+    "arms": [
+      "with_skill",
+      "no skill at all"
+    ],
+    "headline": "Draw on both knowledge tasks. On the build task: 0 high findings at every size vs 4-13."
+  }
 }
