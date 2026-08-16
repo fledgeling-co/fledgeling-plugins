@@ -305,24 +305,25 @@ TLDR from the same ledger so the two cannot disagree.`,
   clarify: {
     prompt: "ask me what you need",
     output: `Swept the conversation and the repo first. Two questions
-died there — already answered. One survived the
-divergence test.
+died there — already answered. One went to a lane.
 
-  One migration file, or split into several?
+  Writing the migration as one file. Everything here so
+  far is single-file, and a single unit applies and rolls
+  back together. Fable agreed and had nothing to add.
 
-  › One file (Recommended)
-    Applies and rolls back as a single unit, so a failure
-    halfway leaves nothing half-done.
+One survived, because the fact that decides it is missing.
 
-  › Schema now, backfill after
-    Structure ships quickly; the backfill runs separately
-    without holding a lock on a large table.
+  Does this migration carry a data backfill?
 
-  › One file per table
-    Each re-runs on its own, at the cost of more files to
-    order correctly.
+  › Schema-only
+    Runs in seconds; one file applies and rolls back as a
+    unit.
 
-Six words in the stem. The no-skill arm asked the same
-thing in 57.`,
+  › It backfills a large table
+    Ships the structure first and fills after, so nothing
+    holds a lock during the backfill.
+
+Two options, nothing marked. A mark would mean the fork was
+mine to take. The no-skill arm asked this in 57 words.`,
   },
 };
