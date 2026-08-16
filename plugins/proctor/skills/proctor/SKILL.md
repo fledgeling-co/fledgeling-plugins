@@ -180,7 +180,7 @@ Proctor can drive existing, logged-in Google Chrome or Safari windows directly o
 
 Chrome only exposes its internal web accessibility tree when accessibility is active. If `proctor_apps` attach returns an `AXWebArea` with zero children or `manualAccessibilityApplied: false`, launch Chrome with `--force-renderer-accessibility` (or restart with that flag) so that all inputs, buttons, and links populate the accessibility tree.
 
-When complex autonomous web navigation or direct browser profile manipulation is needed, use the `browser-use` CLI or Chrome MCP. These tools connect directly to the running, authenticated Chrome instance with existing cookies and session state, avoiding clean-slate sandboxes that lack credentials.
+When a page needs autonomous navigation Proctor's own planes cannot express, `browser-use` is the second lane, and it reaches the real signed-in browser rather than a clean-slate engine. It is **off unless `PROCTOR_SECOND_LANE` names it**: `proctor_doctor` reports `secondLane` as `off`, `enabled` or `unavailable`, and `off` is this machine's standing default. Check that field before recommending it, because a lane that is named but not enabled is advice nobody can take. Obscura, the default lane, runs its own engine with its own cookie jar, so it cannot see a session or a password manager at all.
 
 ### 2. Selecting 1Password credentials and autofill
 
@@ -191,13 +191,18 @@ Authentication pages frequently integrate with the 1Password extension. 1Passwor
 - In Safari or custom web views, suggestions may appear as `AXMenuItem` or popups. Selecting them autofills usernames, passwords, passkeys, and triggers TOTP token insertion.
 - When an overlay ignores accessibility presses, switch to synthetic coordinate clicks (`kind: "click"`, `point: [x, y]`, `foreground: true`), ensuring Secure Event Input is inactive.
 
-### 3. Resolving OTP codes and magic links via Sift
+### 3. Resolving OTP codes and magic links from mail
 
-Automated login and verification flows often send one-time passcodes (OTPs) or magic login links via email. When `sift` (the local mail MCP server) is available in the toolbelt:
+Login and verification flows often send a one-time passcode or a magic link by email. **Proctor ships no mail tool and reads no mail itself**, so this depends entirely on what else is connected to the same host.
 
-- Query recent messages with `mcp__sift__get_emails` or search by sender with `mcp__sift__search`.
-- Fetch the message body via `mcp__sift__get_email_body` to extract 6-digit OTP tokens, or use `mcp__sift__get_email_links` to retrieve authentication URLs.
-- Input the extracted code into the browser form via `setValue` or navigate to the auth link, completing the login loop end to end without human interruption.
+When a mail MCP server is connected, read the code or the link from it, then feed the code back into the form with `setValue` or drive the link as a navigation. Sift is the server named for this on Luke's machines.
+
+Two honest limits, because getting either wrong wastes a campaign:
+
+- **Discover the tool names from the connected server's own catalogue.** They are not Proctor's, they are not reported by `proctor_doctor`, and they are not stable enough to hard-code into a plan.
+- **Check it is actually connected before planning around it.** A mail server that is configured somewhere and not connected here looks identical to one that is, until the call fails.
+
+When no mail tool is connected, the OTP step belongs to the person. Say so in the report rather than describing the flow as automated end to end.
 
 ## What the person watching sees
 
