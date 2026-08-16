@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 158">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:#F4EFE9;}
+.cls-1 {opacity:6.000000e-02;enable-background:new    ;}
+.cls-2 {fill:url(#SVGID_1_);}
+.cls-3 {fill:none;stroke:#363D42;stroke-width:0.5;stroke-miterlimit:10;}
+.cls-4 {fill:#EA4730;}</style>
+  <ellipse class="cls-1" cx="75" cy="138.5" rx="67.7" ry="10.3"/>
+  <linearGradient id="SVGID_1_" x1="74.9" x2="74.9" y1="-317.1" y2="-181.4" gradientTransform="matrix(1 0 0 -1 0 -173)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#0B121A" offset="0"/>
+    <stop stop-color="#1D262C" offset="1"/>
+  </linearGradient>
+  <path class="cls-2" d="m108.7 9.3h-67.2c-17.9 0-33 14.4-33 32.3v68c0 17.9 14.1 33 33 33h67.3c17.9 0 32.9-14.6 32.9-32.6v-68.4c-0.1-17.9-15.1-32.3-33-32.3z"/>
+  <polyline class="cls-3" points="83.2 24.9 83.2 125.1 83.2 24.9"/>
+  <polyline class="cls-3" points="66.7 24.9 66.7 125.1 66.7 24.9"/>
+  <polyline class="cls-3" points="49.9 24.9 49.9 125.1 49.9 24.9"/>
+  <polyline class="cls-3" points="99.9 24.9 99.9 125.1 99.9 24.9"/>
+  <line class="cls-3" x1="25.3" x2="124.6" y1="47.5" y2="47.5"/>
+  <line class="cls-3" x1="25.3" x2="124.6" y1="65.9" y2="65.9"/>
+  <line class="cls-3" x1="25.3" x2="124.6" y1="82.8" y2="82.8"/>
+  <line class="cls-3" x1="25.3" x2="124.6" y1="99.5" y2="99.5"/>
+  <polygon class="cls-3" points="117.2 31 32.6 31 32.6 117.8 117.2 117.8"/>
+  <path class="cls-4" d="m58 87.4v26.9h34.3v-26.9h-34.3zm28.7 20.9h-23.3v-15.5h23.3v15.5z"/>
+  <rect class="cls-4" x="66.9" y="47.7" width="15.9" height="17.3"/>
+</svg>

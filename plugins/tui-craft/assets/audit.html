@@ -1,0 +1,139 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>tui-craft icon audit</title>
+<style>
+  :root { --ink:#1c1f24; --dim:#6b7280; --line:#e3e0d9; --accent:#E8542A; }
+  body { margin:0; padding:48px 56px; background:#F6F4EF; color:var(--ink);
+         font:15px/1.6 ui-sans-serif,-apple-system,'Helvetica Neue',sans-serif; }
+  h1 { font-size:26px; margin:0 0 4px; letter-spacing:-0.02em; }
+  .sub { color:var(--dim); margin:0 0 40px; }
+  h2 { font-size:15px; text-transform:uppercase; letter-spacing:0.09em;
+       color:var(--dim); margin:44px 0 14px; font-weight:600; }
+  table { border-collapse:collapse; width:100%; background:#fff;
+          border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line);
+          vertical-align:middle; }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:0.07em; color:var(--dim);
+       font-weight:600; background:#FBFAF7; }
+  tr:last-child td { border-bottom:none; }
+  .sizes { display:flex; gap:26px; align-items:flex-end; }
+  .sz { text-align:center; color:var(--dim); font-size:11px; }
+  .sz img { display:block; margin-bottom:6px; border-radius:6px; }
+  .squint img { image-rendering:pixelated; border-radius:2px; }
+  .verdict { font-weight:600; }
+  .win { color:#1a7f42; } .lose { color:var(--dim); }
+  .rubric td:first-child { width:56%; }
+  .pass { color:#1a7f42; font-weight:600; } .warn { color:#b7791f; font-weight:600; }
+  .hero { display:flex; gap:36px; align-items:center; margin-bottom:8px; }
+  .hero img { border-radius:22px; }
+  code { background:#F1EEE8; padding:1px 5px; border-radius:4px; font-size:13px; }
+</style>
+
+<h1>tui-craft — icon audit</h1>
+<p class="sub">Decorative marketplace tile, not an Icon Composer production package —
+the material has to be in the file because nothing downstream will add it.
+Three engines, master shipped from Engine A.</p>
+
+<div class="hero">
+  <img src="audit-renders/master-512.png" width="256" height="256" alt="master at 512">
+  <div>
+    <strong>Direction:</strong> warm-neutral ground, charcoal device, single vermilion accent —
+    matched to the marketplace family (proctor, discipline, should-compact) by sampling their
+    grounds and accents rather than describing them.<br>
+    <strong>Device:</strong> a terminal panel with its character grid ruled across it. One glyph
+    occupies <em>two</em> cells, with a caliper measuring that width.<br>
+    <strong>Signature move:</strong> the hairline splitting the lit glyph down the middle — it is
+    one glyph across two cells, which is the entire difference between counting characters and
+    measuring cells.<br>
+    <strong>Runner-up direction:</strong> a panel border with one corner visibly open (the
+    border-integrity gate). Rejected: illegible below 64px and reads as a rendering bug.
+  </div>
+</div>
+
+<h2>Size ladder — retina sources at half size</h2>
+<table>
+  <tr><th>Take</th><th>128 / 64 / 48 / 32 / 16 css px</th><th>Verdict</th></tr>
+  <tr>
+    <td><strong>Engine A — hand-authored SVG</strong><br><span class="sub">the master</span></td>
+    <td><div class="sizes">
+      <div class="sz"><img src="audit-renders/master-256.png" width="128" height="128">128</div>
+      <div class="sz"><img src="audit-renders/master-128.png" width="64" height="64">64</div>
+      <div class="sz"><img src="audit-renders/master-96.png" width="48" height="48">48</div>
+      <div class="sz"><img src="audit-renders/master-64.png" width="32" height="32">32</div>
+      <div class="sz"><img src="audit-renders/master-32.png" width="16" height="16">16</div>
+    </div></td>
+    <td class="verdict win">SHIP</td>
+  </tr>
+  <tr>
+    <td>Engine B — Arrow vector</td>
+    <td><div class="sizes">
+      <div class="sz"><img src="audit-renders/engineB-256.png" width="128" height="128">128</div>
+      <div class="sz"><img src="audit-renders/engineB-128.png" width="64" height="64">64</div>
+      <div class="sz"><img src="audit-renders/engineB-64.png" width="32" height="32">32</div>
+      <div class="sz"><img src="audit-renders/engineB-32.png" width="16" height="16">16</div>
+    </div></td>
+    <td class="verdict lose">Flat — no light model, no contact shadow. Composition confirmed
+      the metaphor reads; nothing salvaged into the master.</td>
+  </tr>
+  <tr>
+    <td>Engine C — Gemini raster (take 2)</td>
+    <td><div class="sizes">
+      <div class="sz"><img src="audit-renders/engineC-raster-256.png" width="128" height="128">128</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-128.png" width="64" height="64">64</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-64.png" width="32" height="32">32</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-32.png" width="16" height="16">16</div>
+    </div></td>
+    <td class="verdict lose">Won the material read: the rim light and the glow bloom around the
+      lit cell were both lifted into the master. Lost on geometry — one-cell glyph, so the
+      metaphor collapses.</td>
+  </tr>
+  <tr>
+    <td>Engine C — Gemini raster (take 1)</td>
+    <td><div class="sizes">
+      <div class="sz"><img src="audit-renders/engineC-raster-2-256.png" width="128" height="128">128</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-128.png" width="64" height="64">64</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-64.png" width="32" height="32">32</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-32.png" width="16" height="16">16</div>
+    </div></td>
+    <td class="verdict lose">Nested squircle inside a squircle — breaks the family silhouette.</td>
+  </tr>
+</table>
+
+<h2>Squint test — ×6 pixelated</h2>
+<table>
+  <tr><th>Take</th><th>32px source, magnified</th></tr>
+  <tr><td><strong>Master</strong></td>
+      <td class="squint"><img src="audit-renders/master-32.png" width="192" height="192"></td></tr>
+  <tr><td>Engine C take 2</td>
+      <td class="squint"><img src="audit-renders/engineC-raster-32.png" width="192" height="192"></td></tr>
+</table>
+<p class="sub">At 16–32px the master reduces to a dark rounded panel with a warm mark
+right of centre. That is the intended reduction: recognisable as a terminal, distinct from
+every other tile in the marketplace, and it does not attempt to keep the caliper.</p>
+
+<h2>The 12-point rubric</h2>
+<table class="rubric">
+  <tr><th>Check</th><th>Result</th></tr>
+  <tr><td>1. Silhouette names the subject at 16px</td><td class="pass">PASS — dark panel + warm mark</td></tr>
+  <tr><td>2. One metaphor, not two</td><td class="pass">PASS — measuring the cell grid</td></tr>
+  <tr><td>3. Family silhouette (shared squircle path)</td><td class="pass">PASS — <code>squircle-path.txt</code>, clipped at the tile</td></tr>
+  <tr><td>4. Optically centred</td><td class="pass">PASS — device inset 168/236, weight balanced</td></tr>
+  <tr><td>5. ≤2 hue families</td><td class="pass">PASS — warm neutral ground + charcoal, one vermilion accent</td></tr>
+  <tr><td>6. One light model</td><td class="pass">PASS — key from top-left; rim on top edge, shadow below</td></tr>
+  <tr><td>7. Material present in the file</td><td class="pass">PASS — device gradient, glow bloom, contact shadow, rim</td></tr>
+  <tr><td>8. Layer plan (bg / mid / fg / highlight)</td><td class="pass">PASS — ground / device / grid+runs / accent+caliper</td></tr>
+  <tr><td>9. Distinct from siblings in the lineup</td><td class="pass">PASS — only landscape dark panel; nearest is should-compact's blocks</td></tr>
+  <tr><td>10. No stock category glyph</td><td class="pass">PASS — not a terminal prompt chevron, not a gear</td></tr>
+  <tr><td>11. Survives the 48px Finder/marketplace tile</td><td class="pass">PASS — accent still registers; caliper merges, which is acceptable</td></tr>
+  <tr><td>12. Source is rebuildable</td><td class="pass">PASS — <code>build_icon.py</code>, geometry as named constants</td></tr>
+</table>
+
+<h2>Known liabilities</h2>
+<ul>
+  <li>The caliper is lost below ~64px. Deliberate — it is the third read, not the first.</li>
+  <li>The grid is deliberately low-contrast (0.22 opacity). On a very dim display it may read as
+    a flat panel rather than a ruled one.</li>
+  <li>Rendered with <code>rsvg-convert</code>. ImageMagick's internal SVG engine silently drops
+    the gradients and filters — it produced an all-black tile on the first pass, which is why the
+    build documents the renderer.</li>
+</ul>

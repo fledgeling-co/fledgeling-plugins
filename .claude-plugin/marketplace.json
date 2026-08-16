@@ -269,6 +269,17 @@
         "email": "lukerhodes27@gmail.com"
       },
       "category": "development"
+    },
+    {
+      "name": "tui-craft",
+      "description": "Design, build and review terminal user interfaces (TUIs) against a captured cell grid rather than against source code, because a string template does not tell you how many cells it occupies and that gap is where terminal defects live. Use whenever someone builds, redesigns, reviews or polishes anything that draws to a terminal — dashboard, log viewer, file browser, installer, wizard, admin panel, data browser, or a CLI being turned into a full-screen app — and whenever they name a TUI framework (Bubble Tea, Textual, Ratatui, Ink, Blessed, prompt_toolkit, crossterm, tview, urwid). Also for a terminal UI that \"looks broken\": torn or missing borders, misaligned columns, text running off the edge, tofu boxes, colours that vanish when piped, breakage on resize. The spine is an instrument: scripts/tui_capture.py drives the running app under a pty at a fixed size, replays its byte stream through a fixture-gated terminal model, and emits a typed frame carrying provenance (command, size, TERM, parser, raw hash); scripts/frame_from_ansi.py produces the same frame from a framework snapshot test, so teatest, TestBackend, Textual run_test and ink-testing-library all feed one set of checks. scripts/tui_gates.py then runs the arithmetic nobody eyeballs correctly — a box that opens and never closes on the same column, a row shoved past its neighbours by a double-width glyph, content that wrapped mid-word off the edge, text cut with no ellipsis to say so, private-use glyphs that need a font the reader may lack, and a frame with no bold and no dim anywhere — each finding located to a row and column. A claim about a screen needs a captured frame: a hand-drawn mock is labelled and may never support a finding, and capture failure is reported as the result rather than papered over by reading the code. On top sits a pattern catalogue traced to 48 shipped TUIs (the border as a metadata shelf, mnemonics marked on the thing they operate, focus signalled twice because a terminal has no hover, the footer as a live surface showing current values, six chart techniques from braille to treemaps) and an anti-pattern list where every entry was observed in a real application. Terminal constraints are cited rather than asserted: NO_COLOR before capability checks, why UAX #11 alone is insufficient and grapheme segmentation is required, OSC 11 to ask the terminal whether it is light or dark instead of assuming, DEC mode 2026 against frame tearing, and gh a11y as the shipped blueprint for an accessible mode. Routes flow, states and the trunk test to ux-craft, hierarchy and restraint to design-craft, and raster comparison to be-my-witness. Not for web or desktop GUI work.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/tui-craft",
+      "category": "development"
     }
   ]
 }
