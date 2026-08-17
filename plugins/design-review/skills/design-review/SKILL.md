@@ -13,6 +13,8 @@ Two failure modes to avoid, both worse than a short report:
 - **Fabricated confidence.** Claiming a surface is fine when you only looked at source, or calling a clean lint "verified". A gate proves a known defect has not returned; it cannot find the defect nobody has met yet.
 - **Undifferentiated noise.** Flagging every padding value at the same volume as a keyboard trap. Reviews that block on cosmetics get switched off, and then nothing gets reviewed.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then run the pipeline with the overrides it names. Most of this skill's defences are already mechanical — a ledger on disk, an exit code, a denominator beside every count — and on that family none of them are optional: `scripts/worklist.py check` becomes the verdict rather than a scaffold, and every number carries the command that produced it. It also documents the canonical fabricated review, engine and all, as the thing that fills the gap when the report's shape is known and the procedure is not. Other models skip it.
+
 ## Scope
 
 Review what was pointed at. If nothing was named, propose recent UI changes (`git diff --name-only HEAD~5` filtered to UI files) or ask which surface — never sweep a codebase uninvited.
