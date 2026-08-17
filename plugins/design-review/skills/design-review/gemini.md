@@ -93,7 +93,7 @@ Three rules on top of the skill's own:
 names the failure it prevents — **Ambiguity**: *"Avoid using subjective or relative
 qualifiers that lack a concrete, measurable definition. Instead, provide objective
 constraints (for example, 'write a summary of 3 sentences or less' instead of 'write a
-brief summary')."* "Review every surface and state" is a relative qualifier; a 50-row
+brief summary')."* `Review every surface and state` is a relative qualifier; a 50-row
 grid is an objective constraint. And the model executes an enumerated list readily, so
 the grid gets followed where the sentence does not.
 
@@ -113,14 +113,14 @@ applicable information*. Apply it to the report, literally:
 - **A denominator of zero is a gate that never ran.** Record it as `open`, never as
   `done`, and never as a pass.
 - **An engine that errored is not an engine.** If the driver failed, the honest line is
-  *"no render engine available; static checks only"* — and that line changes the whole
+  `no render engine available; static checks only` — and that line changes the whole
   report's authority, which is the point. Two attempts per tool, then a different
   approach: **[docs]** retry transient errors only, and *"change your strategy or
   arguments, not repeat the same failed call."* A `command not found` is permanent, so
   one attempt is the whole budget. Reading the repo's own driver constraints first
   costs one call and would have saved four.
 - **"Needs verification" is never empty, and never a resolved-issues count.** That
-  run's report closed with *"Issues Found & Resolved: 1"*, which occupies the position
+  run's report closed with `Issues Found & Resolved: 1`, which occupies the position
   of the honest-limits section and inverts it. If you believe the section is empty, you
   have confused the scope of your checks with the scope of the artifact.
 
