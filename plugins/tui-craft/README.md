@@ -1,14 +1,32 @@
 # tui-craft
 
-Design, build and review terminal interfaces against what the terminal actually
-drew, not against the code that meant to draw it.
+Design, mock, build and review terminal interfaces against what a terminal
+actually draws, not against the code or the drawing that meant to draw it.
 
-The gap between those two is where terminal bugs live. `len("🚀 Deploy")` is 8 in
+The gap between those is where terminal bugs live. `len("🚀 Deploy")` is 8 in
 Python and 9 cells on screen, and that one cell tears the panel border on every
-row below it. You cannot see that by reading the source; you can only see it by
-looking at the grid.
+row below it. You cannot see that by reading the source, and you cannot see it by
+sketching a layout in a code block either, because sketching one means counting
+characters and characters are not cells.
 
-So this skill starts with an instrument.
+So both skills here start from a cell grid instead.
+
+## Two skills
+
+| Skill | When | What it works on |
+|---|---|---|
+| **`tui-design`** | Before the app exists. Designing, laying out, mocking, comparing two layouts, proving a screen fits at 80x24. | A spec you write, compiled into a real frame. |
+| **`tui-craft`** | Once it runs. Building, reviewing, polishing, deciding whether it ships. | A frame captured from the running program. |
+
+They share one width function, which is the reason they sit in one plugin. A mock
+measured by different arithmetic from the capture it will later be compared
+against disagrees with the instrument for reasons that have nothing to do with
+the design, and the disagreement looks exactly like a layout bug.
+
+The split between them is author versus instrument, not "does a program exist
+yet". A composed frame supports claims about a design: what it occupies at this
+size, whether its roles form a ladder, whether its selection survives losing
+colour. It supports no claim about a running program. Those need a capture.
 
 ## What it does
 
@@ -107,6 +125,46 @@ otherwise meet.
 Sources are in `references/evidence.md` and the full research is in
 `docs/deep-research/`.
 
+## Designing a screen: `tui-design`
+
+You cannot capture a screen that does not exist. The usual substitute is a
+terminal layout drawn by hand, and it is almost always wrong for a mechanical
+reason rather than a careless one: one wide glyph puts every column after it off
+by one, the border stops closing, and the drawing looks fine in the message that
+produced it because nothing in that message measured anything.
+
+So the spec contains no column numbers. You declare what the screen holds and how
+it divides, and a compiler does every piece of cell arithmetic.
+
+```bash
+python3 scripts/tui_mock.py spec.json -o frame.json --dump
+python3 scripts/tui_design_gates.py frame.json --strict
+python3 ../tui-craft/scripts/tui_gates.py frame.json
+```
+
+What did not fit comes back as a fit report with a non-zero exit: a column
+narrower than its own content, a border label too wide for its rule, a panel whose
+fixed children want more room than it has. Those are findings a hand-drawn mock
+cannot produce.
+
+Three gates can fail a design, and each is a principle rather than a corpus
+average:
+
+| Gate | The rule |
+|---|---|
+| `role-ladder` | Roles carrying information clear 3:1, roles the reader must read clear 4.5:1, and nothing meant to be quieter out-contrasts what it is quieter than |
+| `state-carrier` | A row distinguished from its siblings stays distinguished when colour is removed, so a background fill is not enough |
+| `focus-channels` | A focused element differs on at least two channels, because a terminal has no hover, no shadow and no blur |
+
+Everything measured from the corpus is reported beside the result and never used
+to fail: role budget, rail concentration, panel fill, chrome share. The corpus is
+48 shipped applications, 27 of whose 34 colour-measurable frames carry a glyph
+role under 3:1. It is evidence about what ships, not an authority on contrast.
+
+`assets/example-failing.json` is there to be run. It fails all three gates on four
+planted defects, which is how you confirm a gate can fail before trusting one that
+passes.
+
 ## What it doesn't do
 
 It doesn't own design judgement. Hierarchy and restraint route to `design-craft`;
@@ -122,6 +180,10 @@ It's also not for web or desktop GUI work.
 /plugin marketplace add fledgeling-co/fledgeling-plugins
 /plugin install tui-craft
 ```
+
+One install brings both skills. `tui_mock.py` imports its cell arithmetic from
+`tui_capture.py` and refuses to run if it cannot, rather than guessing at widths
+that every column depends on.
 
 `pyte` is optional. Install it (`pip install pyte`, pure Python, no compiler) and
 the capture uses it; without it the bundled parser runs instead, gated by 16

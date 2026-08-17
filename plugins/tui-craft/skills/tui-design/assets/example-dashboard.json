@@ -1,0 +1,75 @@
+{
+  "schema": "tui-design/spec/1",
+  "title": "queuectl — dashboard",
+  "size": { "cols": 100, "rows": 30 },
+  "theme": "dark",
+  "root": {
+    "dir": "col",
+    "children": [
+      { "h": 1, "chips": { "items": [
+        { "label": "PROCESSED", "value": "1.4M", "role": "accent" },
+        { "label": "FAILED", "value": "51.7K", "role": "danger" },
+        { "label": "BUSY", "value": "33", "role": "ok" },
+        { "label": "ENQUEUED", "value": "4,001", "role": "warn" }
+      ] } },
+      { "h": 1, "blank": {} },
+      { "flex": 1, "dir": "row", "gap": 1, "children": [
+        { "flex": 3, "panel": {
+          "title": "Scheduled",
+          "shelf_right": "PAGE 1/391",
+          "shelf_bottom_right": "SIZE 9.8K",
+          "border": "round",
+          "focus": true,
+          "pad": 1,
+          "child": { "table": {
+            "selected": 2,
+            "selected_marker": "▸",
+            "columns": [
+              { "name": "WHEN", "w": 8 },
+              { "name": "QUEUE", "w": 10, "role": "accent" },
+              { "name": "JOB", "flex": 2 },
+              { "name": "TRIES", "w": 5, "align": "right" }
+            ],
+            "rows": [
+              ["10s", "critical", "NotificationJob", "1"],
+              ["36s", "default", "DemoActiveJob", "1"],
+              ["58s", "low", "AnalyticsJob", "3"],
+              ["1m14s", "low", "AnalyticsJob", "1"],
+              ["1m33s", "critical", "PaymentProcessingJob", "2"],
+              ["1m52s", "default", "ImageProcessingJob", "1"],
+              ["2m22s", "critical", "WebhookDeliveryJob", "7"],
+              ["3m01s", "low", "CleanupJob", "1"]
+            ]
+          } }
+        } },
+        { "flex": 1, "dir": "col", "gap": 1, "children": [
+          { "h": 8, "panel": {
+            "title": "Throughput",
+            "border": "round",
+            "pad": 1,
+            "child": { "dir": "col", "children": [
+              { "h": 1, "gauge": { "label": "cpu", "value": 62, "readout": "62%" } },
+              { "h": 1, "gauge": { "label": "mem", "value": 41, "readout": "41%", "role": "ok" } },
+              { "h": 1, "gauge": { "label": "lat", "value": 88, "readout": "88ms", "max": 200, "role": "warn" } },
+              { "flex": 1, "blank": {} }
+            ] }
+          } },
+          { "flex": 1, "panel": {
+            "title": "Workers",
+            "border": "round",
+            "pad": 1,
+            "child": { "pairs": { "items": [
+              ["host", "wrk-01"],
+              ["threads", "16"],
+              ["uptime", "6d 4h"],
+              ["version", "2.2.1"]
+            ] } }
+          } }
+        ] }
+      ] },
+      { "h": 1, "keybar": { "style": "bracket", "items": [
+        ["j/k", "move"], ["enter", "open"], ["r", "retry"], ["d", "delete"], ["?", "help"]
+      ] } }
+    ]
+  }
+}
