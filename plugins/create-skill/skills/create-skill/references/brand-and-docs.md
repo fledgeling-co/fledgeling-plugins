@@ -74,10 +74,59 @@ generated image standing in for typography:
 - The **real icon asset** beside a **set wordmark** (a deliberate,
   defensible font choice; never the model's default reach), one-line
   essence, subject-mined palette.
-- `banner-src.html` kept in assets/ so it's editable forever; rendered
-  via agent-browser at `viewport 1600 520 2` (verify 3200×1040), on a
-  **port no sibling agent is using**.
-- Look at the render before accepting it.
+- `banner-src.html` kept in assets/ so it's editable forever.
+- **Derive the composition from the icon's own build script**, not from a
+  sibling banner. The icon is a hand-authored master with named constants,
+  so its cell sizes, light axis and accent are readable facts rather than
+  estimates. Copying a sibling's measured light vector is the
+  re-eyeballing the derivation exists to prevent; each icon is lit
+  differently.
+- Look at the render before accepting it, and crop into the small
+  elements. A device that reads at 300px in the icon may be illegible at
+  the same scale out on a 1600x520 bench, and the honest fix is usually to
+  simplify it rather than to enlarge it and break the claim it was making.
+
+### Render it with the script, because every failure here is silent
+
+```bash
+python3 scripts/render_banner.py plugins/<name>/assets/banner-src.html \
+        --font "<Family>" --weight 700
+```
+
+It asserts five things, each of which has produced a wrong banner that
+looked right:
+
+1. **The viewport override took effect.** A CDP method returning without an
+   error proves only that it was accepted, so `window.innerWidth` is read
+   back.
+2. **The font loaded**, measured as an advance against a monospace control.
+3. **Every image decoded.**
+4. **Nothing overflows the frame**, so no text is cropped in the PNG.
+5. **The PNG is exactly 3200x1040**, from 1600x520 at deviceScaleFactor 2.
+
+It also picks a port no sibling agent is using, because two parallel
+renders on one port is a race whose symptom is a blank capture rather than
+an error.
+
+Three facts about this environment's browser, measured 2026-08-17, each of
+which cost a debugging round:
+
+- **`obscura serve` needs a flattened CDP session.** Connecting to the page
+  socket at `/json/list` succeeds and then fails every page, runtime and
+  emulation call with `{"code": -32601, "message": "No page for session"}`,
+  which reads like a missing method and is a missing session. Connect to
+  the **browser** socket from `/json/version`, `Target.createTarget`,
+  `Target.attachToTarget` with `flatten: true`, and pass the returned
+  `sessionId` on every command. With that, `Emulation.setDeviceMetricsOverride`
+  works and the viewport reads back correctly.
+- **A `file://` page does not load `file://` subresources.** The `<img>`
+  reports `complete: false` and `naturalWidth: 0`, the banner renders with a
+  hole where the icon goes, and nothing errors. Inline artwork as a data
+  URI, sized to what it actually displays at.
+- **`document.fonts.check()` under-reports.** It returned `false` for a font
+  the engine was demonstrably rendering with, so the advance measurement is
+  the oracle and `check()` is advisory. Web fonts *do* load, given a settle
+  window.
 
 media-gen-pro is for imagery a design genuinely needs (icon engines,
 scene art); diagrams are mermaid, natively rendered and maintainable —
@@ -107,6 +156,16 @@ Structure for a **non-technical reader**:
 
 - Add the skill's row to the marketplace root README: icon (128px
   raster), description in the table's established voice, README link.
+- **Every row needs its own `<br clear="left" />` before it.** The icon is
+  floated left, so a row without one floats up beside the previous entry's
+  paragraph and renders as an overlapping mess that reads to a human as
+  "my plugin isn't in the README". No script checks this; one row in the
+  repo is currently missing it.
+- Run `node site/scripts/build-catalogue.mjs` and check the **exit code**.
+  It fails on a missing SKILL.md, a missing icon, a missing banner, or a
+  version that disagrees between `plugin.json` and the marketplace
+  manifest. It cannot see the root-README row or its `<br clear>`, so read
+  those yourself.
 - Commit at checkpoints (skill built · evals graded · panel judged ·
   brand landed), push when pushing is in scope, update the portfolio
   manifest if the marketplace is tracked in one, and fix the GitHub

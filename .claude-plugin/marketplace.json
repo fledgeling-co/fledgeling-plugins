@@ -108,8 +108,8 @@
     },
     {
       "name": "create-skill",
-      "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve.",
-      "version": "1.2.0",
+      "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve. v1.3.0 hardens the brand phase, which is where this pipeline was quietly skippable: a bundled `render_banner.py` renders banner-src.html and asserts the five things that fail silently (viewport override took effect, web font actually loaded, every image decoded, nothing overflows the frame, PNG is exactly 3200x1040), the marketplace catalogue gate now fails on a missing banner, and the pipeline has answers for three cases it previously had none for: the user forbidding questions, an existing in-repo research corpus that makes a second panel redundant, and a skill that joins an existing plugin rather than getting one of its own.",
+      "version": "1.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

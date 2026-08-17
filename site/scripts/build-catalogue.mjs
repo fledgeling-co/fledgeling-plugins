@@ -11,7 +11,8 @@
  *   public/icons/<n>.png   the 256px icons, copied because Next can't serve files
  *                          from above the app root
  *
- * It throws on a missing SKILL.md or a missing icon. Both of those fail silently
+ * It throws on a missing SKILL.md, a missing icon, or a missing banner (except
+ * for the named BANNER_DEBT list). All of those fail silently
  * today — CLAUDE.md documents the broken-image case as a known trap — so this turns
  * them into a red build.
  */
@@ -380,6 +381,37 @@ function build() {
     const iconPath = iconCandidates.find((candidate) => existsSync(candidate));
     if (!iconPath) fail(`${name}: no assets/icon-256.png — the card would render a broken image`);
     copyFileSync(iconPath, join(OUT_ICONS, `${name}.png`));
+
+    // --- banner -------------------------------------------------------------
+    // Every plugin README in this marketplace opens with assets/banner.png, and
+    // until this check existed nothing anywhere verified it. tui-craft shipped
+    // with a complete icon set, an audit sheet, a README, a root-README row and
+    // no banner at all: the catalogue built, the site deployed, and the only
+    // symptom was a README that opened on a heading. The registration checklist
+    // in the repo's CLAUDE.md does not contain the word "banner" either, which
+    // is why prose was never going to catch this.
+    //
+    // BANNER_DEBT is a named, dated list rather than a silent exemption. Two
+    // plugins predate the check and are owed real banners; rushing two bad ones
+    // to turn the gate green would defeat the point of having it. Adding a name
+    // here is a deliberate act that shows up in review. Removing one is the fix.
+    const BANNER_DEBT = new Set([
+      "should-compact",   // owed since 2026-08-17
+      "anvil-errand",     // owed since 2026-08-17
+    ]);
+    const bannerPath = join(dir, "assets", "banner.png");
+    if (!existsSync(bannerPath)) {
+      if (BANNER_DEBT.has(name)) {
+        warnings.push(`${name}: no assets/banner.png — on the named banner-debt list`);
+      } else {
+        fail(`${name}: no assets/banner.png — every plugin README in this ` +
+             `marketplace opens with one, and a missing banner is invisible ` +
+             `to every other check. Compose assets/banner-src.html and render ` +
+             `it with create-skill's scripts/render_banner.py, which asserts ` +
+             `the 3200x1040 size, that the web font loaded, and that no ` +
+             `artwork silently failed to load.`);
+      }
+    }
 
     // --- README -------------------------------------------------------------
     const readmeRaw = readIfExists(join(dir, "README.md"));
