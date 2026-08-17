@@ -44,6 +44,28 @@ The short version:
 Do not start the research panel until the interview has landed. Research
 scoped by a guess buys a survey of the wrong field.
 
+**When the user forbids questions.** "Build it, don't ask me anything" is a
+real instruction and it arrives often enough to need an answer, because
+until it had one the whole of Phase 0 and Phase 4 simply did not run and
+nothing recorded that they had been skipped. The substitution:
+
+- Take every decision you can from the material, which is where most of
+  the interview's answers were going to come from anyway.
+- Put each genuinely open fork to the referral lanes instead of to the
+  user — the four CLI lanes in `clarify`, out-of-family where it matters,
+  with the candidate options in swapped order to control for
+  first-position bias. Give them the actual evidence, not the question
+  alone.
+- **Record the substitution in the skill's own `EVALS.md`**: which
+  checkpoints were not asked, who answered instead, and what they said.
+  A skipped hard gate that leaves no trace reads afterwards as a gate
+  that passed.
+
+The lanes replace the interview's *decisions*. They cannot replace taste,
+cost, scope or risk tolerance, so if a fork turns on one of those, say
+plainly in the final report that it was decided without the user and name
+the assumption.
+
 ## Phase 1 — Research (starts as soon as the brief is fixed)
 
 Kick off the Dossier panel on the skill's *domain* — the techniques,
@@ -56,6 +78,14 @@ While it runs, survey the prior art the skill will sit beside: existing
 skills in this marketplace and the user's others, so the new one routes
 to them rather than duplicating them, and so its name and shape fit the
 family.
+
+**Check for a corpus before buying one.** A sibling skill's
+`docs/deep-research/` may already cover this domain, and a panel bought
+twice on one field returns the same field. Where an existing corpus
+covers it, read that in full instead, cite it from the new skill's
+`evidence.md`, and say in the run report that the panel was reused rather
+than run. Where it covers the domain only partly, run a narrower panel on
+the gap rather than the whole subject.
 
 ## Phase 2 — Build it through skill-creator
 
@@ -93,6 +123,17 @@ If the skill does not beat the no-skill baseline, say so plainly and fix
 it or drop it. A skill that changes nothing is worse than no skill: it
 costs context and implies a guarantee it does not keep.
 
+**If the evals cannot be run, the skill ships saying so.** Some sessions
+cannot spawn the runners: subagents are off, the budget is not there, or
+the user has asked for the skill and not for a benchmark. That is a
+legitimate outcome and inventing numbers is not, so `EVALS.md` opens with
+the fact that no run happened, lists what *was* verified mechanically
+(self-tests, golden cases, gates demonstrated failing on a deliberately
+bad fixture), and names the two or three tasks that would settle the
+open question. An unevaluated skill with that section is honest. An
+unevaluated skill whose EVALS.md merely omits the subject is not, and it
+reads to every later reader as though the pipeline ran.
+
 ## Phase 4 — Name and concepts (user checkpoint)
 
 Present via AskUserQuestion, before any icon or banner generation:
@@ -102,7 +143,29 @@ Present via AskUserQuestion, before any icon or banner generation:
 2. **Icon concept options** — 2-3 subject-mined directions described in
    words (register, device, signature move).
 
-Do not proceed to Phase 5 until both are answered.
+Do not proceed to Phase 5 until both are answered, or until the
+no-questions substitution in Phase 0 has supplied them and recorded that
+it did.
+
+**When the skill joins an existing plugin.** This pipeline assumes one new
+skill in one new plugin, and that assumption is wrong often enough to
+name: a skill that must share scripts with a sibling belongs in the
+sibling's plugin, because a plugin is a distribution unit and two
+separately installed plugins cannot import each other's code or resolve
+each other's paths. When that is the shape:
+
+- There is no new icon and no new banner. The plugin owns both, and the
+  skills inside it share them. Say so rather than leaving the brand phase
+  looking half-run.
+- The plugin's `plugin.json` description, its marketplace entry, its
+  README and the root-README row all have to grow to cover both skills,
+  and the version bumps on the plugin.
+- **The site indexes one SKILL.md per plugin** (`skills/<plugin-name>/SKILL.md`),
+  so a second skill is invisible to the catalogue except through the
+  plugin description and README. Put what a reader needs there.
+- Each skill still gets its own SKILL.md, description and EVALS section,
+  because the epistemic split between them is the reason they are two
+  skills at all.
 
 ## Phase 5 — Brand treatment
 
@@ -118,10 +181,30 @@ with its `scripts/audit_sheet.py check <assets-dir>` (exit 0 required), which
 resolves every image the sheet references and fails on unfilled placeholders —
 "the skill says to create an audit.html" has twice not been enough on its own.
 
+**Render the banner with `scripts/render_banner.py`**, which asserts the things
+that fail silently: that the viewport override took effect rather than merely
+being accepted, that the web font actually loaded (measured against a fallback
+control, because `document.fonts.check()` under-reports), that every image
+decoded, that nothing overflows the frame, and that the PNG is exactly
+3200x1040. A banner whose icon failed to load renders as a correct layout with
+a hole in it and reports no error at all.
+
 **Then open what you made.** Serve `audit.html` and read it; `Read` the banner
 PNG and the icon renders. Writing a file proves nothing about how it looks, and
 a contact sheet whose images 404 renders as an empty page that no script and no
 summary will ever mention. Ask each one *"what is wrong with this?"*
+
+**Then run the marketplace's own gate**, which is the only check that sees the
+registration as a whole:
+
+```bash
+node site/scripts/build-catalogue.mjs   # must exit 0
+```
+
+It fails on a missing SKILL.md, a missing icon, a version that disagrees
+between `plugin.json` and the marketplace manifest, and a missing banner. Read
+the exit code, not the output: piping it through `grep` reports grep's status
+and has already turned a failure into a pass once.
 
 ## Phase 6 — Ship
 

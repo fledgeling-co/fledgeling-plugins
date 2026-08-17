@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="tui-craft: a porcelain icon of a terminal panel with its character grid ruled across it, one vermilion glyph occupying two cells and a caliper measuring that width, beside the wordmark and the line: a terminal is a grid of cells, design on it, then measure it" width="100%" />
+</p>
+
 # tui-craft
 
 Design, mock, build and review terminal interfaces against what a terminal
@@ -154,7 +158,7 @@ average:
 |---|---|
 | `role-ladder` | Roles carrying information clear 3:1, roles the reader must read clear 4.5:1, and nothing meant to be quieter out-contrasts what it is quieter than |
 | `state-carrier` | A row distinguished from its siblings stays distinguished when colour is removed, so a background fill is not enough |
-| `focus-channels` | A focused element differs on at least two channels, because a terminal has no hover, no shadow and no blur |
+| `focus-channels` | A focused element differs on at least two channels, since one signal is all a terminal gets to spare |
 
 Everything measured from the corpus is reported beside the result and never used
 to fail: role budget, rail concentration, panel fill, chrome share. The corpus is
