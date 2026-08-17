@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "geminify-engineC-f9f80d.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r08-value-restored",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0817,
+      "ssim": 0.8203,
+      "edge_f1": 0.0812,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.4507,
+      "ref_self_contrast": 0.4043,
+      "composite": 0.584
+    },
+    "256": {
+      "lum_delta": 0.0805,
+      "ssim": 0.6775,
+      "edge_f1": 0.3275,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.4484,
+      "ref_self_contrast": 0.4043,
+      "composite": 0.5902
+    },
+    "128": {
+      "lum_delta": 0.0793,
+      "ssim": 0.6015,
+      "edge_f1": 0.532,
+      "mask_iou": 0.9565,
+      "self_contrast": 0.4484,
+      "ref_self_contrast": 0.4017,
+      "composite": 0.6126
+    },
+    "32": {
+      "lum_delta": 0.0766,
+      "ssim": 0.6231,
+      "edge_f1": 0.9792,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.4409,
+      "ref_self_contrast": 0.4034,
+      "composite": 0.8447
+    },
+    "16": {
+      "lum_delta": 0.075,
+      "ssim": 0.6475,
+      "edge_f1": 1.0,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.4442,
+      "ref_self_contrast": 0.4031,
+      "composite": 0.863
+    }
+  },
+  "render_hash": "8510c05698fecba4"
+}

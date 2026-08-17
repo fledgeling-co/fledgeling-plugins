@@ -1,0 +1,104 @@
+<!doctype html>
+<!--
+  icon-audit-template.html — the contact-sheet/audit artifact every icon commission ships.
+  Filled from the create-mac-icon template; one row per take, losers kept with their scores.
+  Hard requirements baked in from a design-review pass on a real instance of this page:
+  · retina discipline: render at 2x and display at half (256→128, 128→64, 96→48, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
+  · the 48px row is not optional: a Finder list and a plugin marketplace tile render at it, and an icon that survives 128 and 16 can still collapse between them
+  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered — it resolves every <img src> and fails on any unfilled template placeholder
+  · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
+  · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
+  · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
+  · <caption> + scope="col" on every th — it's a data table, treat it as one
+  · every row carries its rubric score and a verdict that names WHY, including the losing takes — a sheet that hides its losers isn't an audit
+  · the recommendation block names the shipping take AND its known liabilities
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>geminify icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>geminify icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Second Leaf" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">C · icon.png<small>GPT Image 2 raster, corpus-referenced — SHIPS as the tile</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Wins the material read outright and, unexpectedly, the small-size read as well: at 32px the V is unmistakable and the lens is a single bright ember teardrop dead centre, where the vector master goes to a grey mass beside a tan one. Real translucency — the clay capsule is visible THROUGH the amber one — an almond blend that carries its own lit boundary, and an emissive bar that lights the trough it lies in. Masked to the set superellipse from squircle-path.txt, so the silhouette is byte-identical to every sibling. Checks 1-4 pass on the real renders. Loses #10: it is a flat raster, so its identity is a colour relationship that will not survive Dark/Clear/Tinted.</td>
+  </tr>
+  
+<tr>
+    <td class="take ">A · icon.svg<small>hand-authored layered SVG — the editable master, not yet the tile</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ">10 / 12</td>
+    <td class="verdict">The canonical layered master: bg / mid / fg / highlight as real groups, geometry and material as named constants, so #10 holds by construction and every future round is a parameter edit. Measured against take C over eight rounds it reached a five-size mean composite of 0.699 from a 0.655 baseline, with the geometry SOLVED numerically rather than by eye after four rounds of guessing (the pair kept coming out 74-87% of the tile wide because a low pivot swings each top outward by (pivot - top)·sin(lean)). Fitted to the reference's own measured numbers — disjoint capsules across the upper third, a 60%-wide union, a fifth of the union in the crossing — it now splays as a real V with a 3.95:1 figure-ground at 16px. What it still lacks is C's material: the clay body reads flat and grey rather than translucent, and the lens rim is faint. Round r07 tried lightening the clay for a stronger crown, lost figure-ground with the porcelain field — clarify's documented failure — and was reverted at a cost of 0.004 composite. Rubric outranks gate.</td>
+  </tr>
+  
+<tr>
+    <td class="take fail">B · geminify-engineB-arrow-03ba9b.svg<small>Arrow 1.1 vector take — loser, kept for its agreement</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Independently confirms the composition: briefed from the same spec, blind to both the master and the raster, it also built two overlapping capsules with a pointed almond and three tally bars, which is what justified spending rounds on that arrangement rather than treating it as one opinion. Loses on material and on two non-negotiables: it BAKED a rounded-corner artboard mask (check 1) after being told not to, and it has no lean at all, so the pair reads as two parallel slabs rather than a V. Flat fills, no crown, no contact shadow, no emission. Nothing salvaged into the master beyond the confirmation.</td>
+  </tr>
+  
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship C (icon.png), with A (icon.svg) as the editable master.</strong> C is the take that survives the shelf: this marketplace tile is a decorative PNG with no macOS compositor downstream, so the material has to be in the file, and C has it where A does not. Checks 1-4 audited on the real renders above rather than on the 1024 hero: mask discipline holds because the raster was masked with the set's own superellipse path, the pair is optically centred at 63% of the tile wide, the silhouette names itself filled black, and the 32px render is the strongest of the three. A ships alongside it as the layered, editable master and is the file every future round edits. Known liabilities to revisit: C is a flat raster and therefore hard-fails variant robustness (#10) — the exact failure mode 76% of the shipping field has — so a Dark/Clear/Tinted context needs A, not C. A itself is one material round short of C: its clay body is opaque where C's is translucent, and its lens rim reads faint at 128px. Neither take has been judged by a blind panel yet, and the fidelity composite is measured on luminance + SSIM + edges only (no torch/LPIPS on this machine), which is documented as blind to exactly the material differences this commission turned on.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

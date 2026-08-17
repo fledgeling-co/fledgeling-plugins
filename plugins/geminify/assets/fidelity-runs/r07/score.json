@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "geminify-engineC-f9f80d.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r07-material",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0828,
+      "ssim": 0.8218,
+      "edge_f1": 0.0792,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.4507,
+      "ref_self_contrast": 0.4043,
+      "composite": 0.5826
+    },
+    "256": {
+      "lum_delta": 0.0817,
+      "ssim": 0.6807,
+      "edge_f1": 0.2876,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.4484,
+      "ref_self_contrast": 0.4043,
+      "composite": 0.5798
+    },
+    "128": {
+      "lum_delta": 0.0805,
+      "ssim": 0.6085,
+      "edge_f1": 0.5098,
+      "mask_iou": 0.9565,
+      "self_contrast": 0.4484,
+      "ref_self_contrast": 0.4017,
+      "composite": 0.6081
+    },
+    "32": {
+      "lum_delta": 0.0779,
+      "ssim": 0.6319,
+      "edge_f1": 0.972,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.4368,
+      "ref_self_contrast": 0.4034,
+      "composite": 0.8436
+    },
+    "16": {
+      "lum_delta": 0.076,
+      "ssim": 0.656,
+      "edge_f1": 1.0,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.4319,
+      "ref_self_contrast": 0.4031,
+      "composite": 0.8645
+    }
+  },
+  "render_hash": "5ccd0928601bef2e"
+}

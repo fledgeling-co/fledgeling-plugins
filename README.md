@@ -156,6 +156,14 @@ The sibling of improve-skill, for when there is nothing to improve yet. It inter
 
 <br clear="left" />
 
+<a href="plugins/geminify/README.md"><img src="plugins/geminify/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [geminify](plugins/geminify/README.md)
+
+A skill is a prompt, and most skills here were tuned against a Claude model's habits. Point this one at any of them and it writes the sibling `gemini.md` that recalibrates it for Gemini: every categorical scope in the target turned into a counted row, the verification put back with its command attached, and every claim about Gemini tagged with whether Google published it, someone measured it, or you reasoned your way to it. A script checks each quoted claim appears verbatim in Google's own corpus, because a paraphrase in quotation marks got attributed to them three times before it existed.
+
+<br clear="left" />
+
 <a href="plugins/create-mac-icon/README.md"><img src="plugins/create-mac-icon/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-mac-icon](plugins/create-mac-icon/README.md)
