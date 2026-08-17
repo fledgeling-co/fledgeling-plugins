@@ -12,11 +12,23 @@ which the HTML is not.
 
     python3 build_banner.py            # writes banner-src.svg + banner.png (3200x1040)
 
-Type is Superclarendon Bold: a slab serif, unused elsewhere in this set, whose
-heavy verticals give the name's TWO i-stems the presence the wordmark device needs
-— the same mark twice, one of them counted. It is a locally installed family
-because rsvg resolves system fonts (and, measured on this build, Obscura does the
-opposite: it shapes Google-hosted webfonts and ignores installed families).
+Type is Rockwell Bold: a slab serif, unused elsewhere in this set, whose heavy
+verticals give the name's TWO i-stems the presence the wordmark device needs — the
+same mark twice, one of them counted. It has to be a LOCALLY INSTALLED family
+because rsvg resolves system fonts and not webfonts, which is the reverse of
+Obscura on this machine (measured: Obscura shapes a Google-hosted webfont and
+ignores installed families). That rules out the sans webfonts the set's other
+banners use, since they reach rsvg as nothing at all.
+
+The first version specified Superclarendon and shipped a banner set in the default
+sans, because rsvg silently resolves that family to its fallback: measured, the
+string "geminify" inked 390px wide at weight 700 under BOTH "Superclarendon" and
+"Helvetica", and 353px under both at weight 400, while Rockwell inked 458/420 and
+Georgia 435 — so rsvg does resolve installed families, just not this one, at any
+spelling or weight. The whole slab-serif rationale above was unrealised in the
+artifact while the docstring asserted it, and `tittle_centres()` still succeeded
+because the fallback font also has dotted i's. `assert_font_resolves()` below now
+fails the build instead, by measuring the family against a known fallback.
 
 The two tittles are found by MEASUREMENT rather than by guessing at x offsets: the
 wordmark is rendered twice, once with dotless i (U+0131) and once with the font's
@@ -35,7 +47,7 @@ from PIL import Image
 ASSETS = pathlib.Path(__file__).resolve().parent
 W, H, SCALE = 1600, 520, 2
 
-FONT = "Superclarendon"
+FONT = "Rockwell"
 WORD_SIZE = 96
 WORD_X, WORD_BASELINE = 452, 272
 TAG_SIZE = 26
@@ -52,9 +64,29 @@ VIGNETTE = "rgba(122,112,92,0.16)"
 # The pair again at banner scale, bleeding off the right edge: same construction as
 # the icon master — two capsules, the front one translucent, the tally rules landing
 # in the crossing.
-LEAF_W, LEAF_H = 252, 336
-PAIR_CX, PAIR_TOP = 1470, 96
-LEAN = 14
+#
+# Its PROPORTIONS are derived from the master's constants rather than chosen, which
+# is the same lesson the icon commission spent four rounds learning. The first
+# version used 252x336 (0.75) with the pair's centres 112px apart, against the
+# master's 330x600 (0.55) at 50px apart — squatter and four times as separated, so
+# the device read as an abstract Venn blob rather than as two crossing capsules.
+# Scale k = 252/330; everything else follows.
+LEAF_W = 252
+_K = LEAF_W / 330                       # master LEAF_W
+LEAF_H = round(600 * _K)                # master LEAF_H  -> 458
+PAIR_SEP = 50 * _K                      # master (LEAF_W - OVERLAP) -> 38.2
+PAIR_CX, PAIR_TOP = 1380, 96
+LEAN = 18                               # master LEAN
+PIVOT_F = (780 - 218) / 600             # master (PIVOT_Y - L_Y) / LEAF_H -> 0.937
+# PAIR_CX was 1470, which put the right lobe half off the frame: measured on an
+# isolated flat-ground render, the two lobes at 12% of the pair's height came out
+# 171u and 103u, so the device read as one lozenge with a stray edge rather than as
+# a V. At 1380 they measure 171u and 171u and the union still runs past the frame
+# edge, which is the bleed the composition wants. Two other things that grid showed:
+# LEAN 14 MERGES the lobes into a single 369u run at the master's separation (18
+# does not), and widening PAIR_SEP is the wrong lever — it narrows each lobe without
+# improving balance. Do not re-tune these by eye; the probe is ~20 lines and the
+# banner's own gradient defeats any threshold applied to the finished PNG.
 # The right-edge pair is drawn in the SHEET's own porcelain, not in the icon's clay
 # and ember. Rendered at the icon's values it became a second, darker icon at the
 # far end of the banner, competing with the real one for the eye; the set's other
@@ -82,6 +114,47 @@ def render_svg(svg: str, out: pathlib.Path, width: int) -> None:
                        check=True, cwd=ASSETS)
     finally:
         tmp.unlink(missing_ok=True)
+
+
+def _ink_width(family: str, weight: str, text: str = "geminify") -> int:
+    """Rendered ink width of one string in one family, in px."""
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="300">'
+           f'<rect width="100%" height="100%" fill="#FFFFFF"/>'
+           f'<text x="40" y="200" font-family="{family}" font-weight="{weight}" '
+           f'font-size="{WORD_SIZE}" fill="#000000">{text}</text></svg>')
+    out = ASSETS / ".fontprobe.png"
+    render_svg(svg, out, 1600)
+    a = np.asarray(Image.open(out).convert("L")).astype(float)
+    out.unlink(missing_ok=True)
+    cols = np.where((a < 200).any(axis=0))[0]
+    return int(cols[-1] - cols[0] + 1) if len(cols) else 0
+
+
+def assert_font_resolves(family: str = FONT) -> None:
+    """Fail the build if rsvg is silently substituting its fallback for `family`.
+
+    rsvg reports no error for an unresolvable family; it just shapes the string in
+    the default sans, so a banner can ship in entirely the wrong face while every
+    other check passes. The only signal available is the geometry: a family that
+    resolved inks to a different width than the fallback does. Superclarendon
+    matched Helvetica to the pixel at both weights, which is how the first version
+    of this banner shipped as a sans.
+
+    A family whose real metrics happened to match Helvetica's exactly would pass
+    this wrongly. That is a narrower hole than no check, and the failure it exists
+    to catch is exact equality across two weights."""
+    fallback = [_ink_width("Helvetica", w) for w in ("400", "700")]
+    got = [_ink_width(family, w) for w in ("400", "700")]
+    if got == fallback:
+        raise SystemExit(
+            f"font not resolved: '{family}' inks {got} at weights 400/700, "
+            f"identical to the Helvetica fallback {fallback}. rsvg is substituting "
+            f"and would report success. Pick a family rsvg resolves (measured on "
+            f"this machine: Rockwell {[420, 458]}, Georgia 435 at 700) or install "
+            f"the intended one where fontconfig can see it.")
+    if 0 in got:
+        raise SystemExit(f"font '{family}' rendered no ink at all: {got}")
+    print(f"font ok: '{family}' inks {got} vs Helvetica {fallback}")
 
 
 def tittle_centres() -> list[tuple[float, float]]:
@@ -121,20 +194,28 @@ def tittle_centres() -> list[tuple[float, float]]:
     return out
 
 
+PIVOT_Y = PAIR_TOP + LEAF_H * PIVOT_F
+
+
 def leaf(x: float, lean: float, ramp, alpha: float, gid: str) -> str:
-    cx = x + LEAF_W / 2
-    pivot_y = PAIR_TOP + LEAF_H * 0.92
+    """One capsule, leaned about the PAIR's shared low pivot rather than its own.
+
+    Rotating each capsule about its own centre line is the mistake the icon
+    commission made four times: the two pivots sit ~2xLEAF_W apart, so the tops
+    swing outward independently and the pair reads squat with a narrow slot between
+    them instead of as a V. One shared pivot on the pair's centre line is what
+    makes it a V, so the x here is PAIR_CX for both leaves."""
     op = "" if alpha >= 1 else f' opacity="{alpha}"'
-    return (f'<g transform="rotate({lean} {cx:.1f} {pivot_y:.1f})"{op}>'
+    return (f'<g transform="rotate({lean} {PAIR_CX} {PIVOT_Y:.1f})"{op}>'
             f'<rect x="{x:.1f}" y="{PAIR_TOP}" width="{LEAF_W}" height="{LEAF_H}" '
             f'rx="{LEAF_W / 2}" fill="url(#{gid})"/></g>')
 
 
 def build() -> str:
     dots = tittle_centres()
-    lx = PAIR_CX - LEAF_W / 2 - 56
-    rx = PAIR_CX - LEAF_W / 2 + 56
-    pivot_y = PAIR_TOP + LEAF_H * 0.92
+    lx = PAIR_CX - LEAF_W / 2 - PAIR_SEP / 2
+    rx = PAIR_CX - LEAF_W / 2 + PAIR_SEP / 2
+    pivot_y = PIVOT_Y
 
     def ramp(gid, stops, y0, y1):
         s = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in stops)
@@ -163,10 +244,10 @@ def build() -> str:
         ramp("gel", ((0, GEL[0]), (0.5, GEL[1]), (1, GEL[2])), 0, 14),
         f'<clipPath id="leafL"><rect x="{lx:.1f}" y="{PAIR_TOP}" width="{LEAF_W}" '
         f'height="{LEAF_H}" rx="{LEAF_W / 2}" '
-        f'transform="rotate({-LEAN} {lx + LEAF_W / 2:.1f} {pivot_y:.1f})"/></clipPath>',
+        f'transform="rotate({-LEAN} {PAIR_CX} {pivot_y:.1f})"/></clipPath>',
         f'<clipPath id="leafR"><rect x="{rx:.1f}" y="{PAIR_TOP}" width="{LEAF_W}" '
         f'height="{LEAF_H}" rx="{LEAF_W / 2}" '
-        f'transform="rotate({LEAN} {rx + LEAF_W / 2:.1f} {pivot_y:.1f})"/></clipPath>',
+        f'transform="rotate({LEAN} {PAIR_CX} {pivot_y:.1f})"/></clipPath>',
         '<filter id="glow" x="-80%" y="-80%" width="260%" height="260%">'
         '<feGaussianBlur stdDeviation="11"/></filter>',
         '<filter id="drop" x="-40%" y="-40%" width="180%" height="180%">'
@@ -230,6 +311,7 @@ def build() -> str:
 
 
 if __name__ == "__main__":
+    assert_font_resolves()
     svg = build()
     src = ASSETS / "banner-src.svg"
     src.write_text(svg)

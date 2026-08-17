@@ -2,7 +2,7 @@
   <img src="assets/banner.png" alt="geminify: a porcelain icon of two poured-gel capsules splayed into a V, one clay and one amber glass, with three tally rules engraved where they cross and the bottom one glowing, beside the wordmark and the line: one skill, two model families, say the number not the word" width="100%" />
 </p>
 
-<h1 align="center"><img src="assets/icon.png" alt="" width="34" valign="middle" /> geminify</h1>
+<h1 align="center"><img src="assets/icon-128.png" alt="" width="34" valign="middle" /> geminify</h1>
 
 <p align="center"><strong>One skill, two model families. Say the number, not the word.</strong><br />
 A SWE skill for Claude Code that writes the companion file an existing skill needs before a Gemini model can run it properly.</p>
