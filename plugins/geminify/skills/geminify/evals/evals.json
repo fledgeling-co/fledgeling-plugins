@@ -1,0 +1,119 @@
+{
+  "skill_name": "geminify",
+  "notes": "Two eval families. OUTPUT evals (1-4) compare the artifact this skill exists to produce — a gemini.md for a named target — against the honest baseline of the same prompt with no skill at all. The author in both arms is a Gemini model (agy, gemini-3.7-flash-high), which is both out-of-family from the skill's author and the family the artifact is written for, so the arms measure the skill rather than a Claude model's ability to follow it. Two targets, chosen to sit at opposite ends of the module scan: be-my-witness (renders, ships probes, enumerates regions — should trigger several modules) and clarify (renders nothing, ships no probe — should trigger almost none). PROCESS evals (5-9) are checkable properties of a geminify run itself, in the same spirit as create-skill's own process evals: they test that the scan happens before the writing, that the quote gate is run rather than asserted, that evidence tiers are not inflated, and that a target earning no modules gets none. Assertions are properties of the artifact and the transcript, never 1-10 scores.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "author_model": "gemini-3.7-flash-high via agy, run from the repo root with file access",
+  "judge_lane": "grok-4.6 --effort xhigh, blind pairwise, seeded order, no access to the skill",
+  "evals": [
+    {
+      "id": 1,
+      "name": "quota-ledger-has-numbers",
+      "family": "output",
+      "target": "plugins/be-my-witness/skills/be-my-witness/SKILL.md",
+      "prompt": "Read the skill at <target> in full. Then write a file named gemini.md that would sit beside that SKILL.md and recalibrate that skill for Google Gemini models. Output ONLY the complete markdown content of gemini.md.",
+      "expected_output": "The file converts at least one of the target's own categorical scopes into a count, and the count is a number the reader could check against the artifact.",
+      "assertions": [
+        "The file contains at least one integer quantity attached to a deliverable the target skill enumerates (regions, crops, tiles, orders)",
+        "At least one of those numbers is presented as something to report at delivery — a fraction, a denominator, or a filled ledger — rather than as prose advice",
+        "The file quotes at least one sentence from the target SKILL.md, so it is specific to this target rather than a template"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "citations-are-real",
+      "family": "output",
+      "target": "plugins/be-my-witness/skills/be-my-witness/SKILL.md",
+      "expected_output": "Every sentence presented in quotation marks as Google's guidance appears verbatim in Google's published corpus.",
+      "assertions": [
+        "Every double-quoted span in a paragraph that claims vendor provenance verifies against references/gemini-corpus.md under scripts/verify_quotes.py",
+        "No quoted span is a paraphrase of a real passage",
+        "verify_quotes.py reports a non-zero checked count — a zero denominator is a file that cites nothing, not a pass"
+      ],
+      "notes": "This is the eval the skill was built around. A hand-authored pass produced three files carrying the same fabricated citation, and re-reading never caught it."
+    },
+    {
+      "id": 3,
+      "name": "evidence-tiers-not-inflated",
+      "family": "output",
+      "target": "plugins/be-my-witness/skills/be-my-witness/SKILL.md",
+      "expected_output": "The file distinguishes what Google published from what was observed from what was reasoned, and names what is unmeasured on this target.",
+      "assertions": [
+        "Claims carry a tier marker, and no claim about this specific target is tagged as measured unless a transcript for it exists",
+        "An epistemic-status block appears in the first third of the file",
+        "An explicit unmeasured-on-this-skill list is present and non-empty"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "no-modules-earned-no-modules-written",
+      "family": "output",
+      "target": "plugins/clarify/skills/clarify/SKILL.md",
+      "prompt": "Read the skill at <target> in full. Then write a file named gemini.md that would sit beside that SKILL.md and recalibrate that skill for Google Gemini models. Output ONLY the complete markdown content of gemini.md.",
+      "expected_output": "A file about a skill that renders nothing contains no capture protocol, no contrast guidance and no design vocabulary; it is shorter than the file for a rendering target, and says what it left out.",
+      "assertions": [
+        "No section prescribes screenshots, crops, viewports, contrast ratios or design tokens",
+        "The file is shorter than the same arm's file for be-my-witness",
+        "The file names at least one module or concern it deliberately did not include, with the reason"
+      ],
+      "notes": "The discriminating eval for the module scan. An earlier version of scan_skill.py fired 7 of 8 modules on this target; a classifier that says yes to everything discriminates as poorly as a gate that always passes."
+    },
+    {
+      "id": 5,
+      "name": "scan-before-write",
+      "family": "process",
+      "expected_output": "scan_skill.py runs against the target before any gemini.md content is authored, and its output is read rather than only produced.",
+      "assertions": [
+        "The transcript shows scan_skill.py invoked on the target path before the first line of gemini.md is written",
+        "The written file's module set is a subset of the scan's triggered modules, or a departure is stated with its reason",
+        "Quota rows the scan reported as candidates and the author judged to be prose are counted as dropped, with the count stated"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "gate-run-not-asserted",
+      "family": "process",
+      "expected_output": "verify_quotes.py is executed and its output pasted; the exit code is not narrated in place of running it.",
+      "assertions": [
+        "The transcript contains the command and its real output, including the checked count",
+        "A reported pass with a checked count of zero is treated as a failure, not a pass",
+        "No claim of the form 'all quotes verified' appears without the command's output beside it"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "docs-only-file-is-acceptable",
+      "family": "process",
+      "expected_output": "Given a target with no measured Gemini run, the skill produces a docs-grounded file rather than refusing or inventing a measurement.",
+      "assertions": [
+        "No measured claim is attributed to this target",
+        "The file is produced rather than blocked on the absence of a run",
+        "The absence of a run is stated in the epistemic-status block"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "pointer-installed-and-version-synced",
+      "family": "process",
+      "expected_output": "install_pointer.py inserts the conditional block above a real heading, bumps plugin.json, and syncs the same version into marketplace.json.",
+      "assertions": [
+        "The pointer lands above a heading that exists in the target, near the top rather than at the end",
+        "plugin.json and marketplace.json carry the same new version after the run",
+        "A second run of the same command changes nothing and does not bump again"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "skill-not-rewritten",
+      "family": "process",
+      "expected_output": "The target SKILL.md is unchanged apart from the inserted pointer.",
+      "assertions": [
+        "git diff on the target shows only the pointer insertion",
+        "Any defect found in the target that affects every model is mentioned in a sentence and left for improve-skill",
+        "No reference file of the target is edited"
+      ]
+    }
+  ]
+}
