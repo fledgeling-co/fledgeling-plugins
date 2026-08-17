@@ -1,0 +1,26 @@
+{
+ "skill_name": "tui-design",
+ "status": "prompts drafted, not run \u2014 see EVALS.md",
+ "evals": [
+  {
+   "id": 0,
+   "prompt": "Design me a terminal dashboard for a background job queue. It should show throughput, the scheduled jobs, and worker health.",
+   "expected_output": "A compiled frame plus its spec, gated, and shown to hold at both the target size and 80x24. Not ASCII art in a code block.",
+   "files": []
+  },
+  {
+   "id": 1,
+   "prompt": "Here's a mock of a TUI I drew. Does the layout work?",
+   "expected_output": "The mock is transcribed to a spec and compiled so its columns are measured, rather than read and approved. Any width defect is named with a row and column.",
+   "files": [
+    "fixtures/hand-drawn-mock.txt"
+   ]
+  },
+  {
+   "id": 2,
+   "prompt": "Lay out a log viewer two different ways and tell me which one to build.",
+   "expected_output": "Two compiled frames, gate output for each with denominators, and a recommendation that turns on something the gates or the fit report actually measured.",
+   "files": []
+  }
+ ]
+}

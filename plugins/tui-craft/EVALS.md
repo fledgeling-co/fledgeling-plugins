@@ -1,5 +1,8 @@
 # EVALS: tui-craft
 
+Covers the `tui-craft` skill. `tui-design` ships unevaluated, and the section at
+the end says what that means and what would settle it.
+
 Measured against **no skill at all**, which is the honest baseline for something
 new: it answers "does this earn its place in the context window", rather than
 "is it better than the thing it replaced".
@@ -180,3 +183,57 @@ double-width repeat.
   measurement rather than a preference, so a panel would have added cost without
   changing the conclusion; the two analysis tasks were a draw on the assertions
   and a panel might have separated them.
+
+
+---
+
+# `tui-design`: not evaluated
+
+The design skill in this plugin has **not been through an eval run**, and this
+section exists so that absence is stated rather than inferred from silence.
+
+What *is* verified is mechanical, and it is verified by artifacts in the repo
+rather than by assertion:
+
+- The cell arithmetic passes seven golden cases, including the four where `len()`
+  disagrees with the screen. `tui_mock.py --self-test`.
+- The compiler refuses to run at all when it cannot import that arithmetic,
+  instead of guessing at widths every column depends on. Checked by running it in
+  a directory where the import fails.
+- Layout splits sum to exactly their parent across fixed, weighted and gapped
+  cases, so a layout cannot come out one cell short of the frame.
+- All three enforced design gates fail on `assets/example-failing.json`, catching
+  four planted defects, and pass on `assets/example-dashboard.json`, exiting 1 and
+  0 respectively. A gate that has never been seen to fail is not a gate.
+- The gates report `examined=0` with a stated reason on a real pty capture rather
+  than a false pass, because a captured frame's colours resolve in the reader's
+  palette and a ladder is genuinely unmeasurable from it.
+
+Two defects were found in this plugin's own output during that checking, and both
+are recorded in the skill rather than left for someone to rediscover:
+`border-integrity` reports a false positive where two panels stack with a gap row
+between them, and `tui_capture.py` returns `kind: "captured"` with exit 0 for a
+command that does not exist.
+
+## What an eval would have to measure
+
+The interesting question is not whether the compiler computes widths correctly,
+which is settled above. It is whether handing a model a spec format and a set of
+gates produces a **better-designed screen** than letting it draw one, and that is
+the same gap this file already names as unmeasured for the pattern catalogue.
+
+Three tasks would test it, each needing a blind panel rather than assertions,
+because the output is a preference judgement:
+
+1. "Design me a terminal dashboard for a job queue." Baseline draws ASCII art;
+   the skill compiles a spec. Score both on whether they hold at 80x24, which is
+   objective, and on composition, which is not.
+2. "Here is a hand-drawn mock of a TUI. Is it right?" Tests whether the skill
+   leads to compiling and measuring it rather than reading it approvingly.
+3. "Lay this out two ways and recommend one." Tests whether the gates change the
+   recommendation or only decorate it.
+
+The failure mode to watch for is the one the corpus figures were nearly written
+into: gates that pass typical screens and fail unusual ones. Any eval should
+include a good design that is deliberately atypical, and a bad design that is
+entirely conventional.

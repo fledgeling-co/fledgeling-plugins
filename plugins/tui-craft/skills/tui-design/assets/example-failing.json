@@ -1,0 +1,37 @@
+{
+  "schema": "tui-design/spec/1",
+  "title": "the same screen, built the easy way",
+  "size": { "cols": 76, "rows": 14 },
+  "theme": "dark",
+  "roles": {
+    "text-dim": { "fg": "#F2F4F8" },
+    "text": { "fg": "#767E8C" },
+    "label": { "fg": "#3A4150" }
+  },
+  "root": {
+    "dir": "col",
+    "children": [
+      { "flex": 1, "panel": {
+        "title": "Hosts",
+        "border": "single",
+        "focus": true,
+        "border_role": "border",
+        "child": { "table": {
+          "selected": 1,
+          "selected_role": "selected-fill",
+          "columns": [
+            { "name": "HOST", "w": 14 },
+            { "name": "STATE", "w": 10, "role": "ok" },
+            { "name": "NOTE", "flex": 1, "role": "label" }
+          ],
+          "rows": [
+            ["wrk-01", "ready", "shipping traffic"],
+            ["wrk-02", "ready", "shipping traffic"],
+            ["wrk-03", "drain", "held for release"]
+          ]
+        } }
+      } },
+      { "h": 1, "keybar": { "items": [["q", "quit"]] } }
+    ]
+  }
+}

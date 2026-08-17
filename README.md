@@ -64,7 +64,7 @@ Look at a screenshot and say what it actually shows. Validates a UI capture agai
 
 ### [tui-craft](plugins/tui-craft/README.md)
 
-Design and review terminal interfaces against what the terminal actually drew, not the code that meant to draw it. Captures the running app through a pty into a typed cell grid, then runs the arithmetic nobody eyeballs correctly: a box that opens and never closes, a row shoved past its neighbours by a double-width glyph, text cut with no ellipsis to say so. Every finding lands on a row and a column. On top sits a pattern catalogue built from 48 shipped TUIs, an anti-pattern list where each entry shipped in a real app, and terminal constraints cited rather than asserted. A claim about a screen needs a captured frame; capture failure is reported as the result rather than papered over by reading the source.
+Design, mock and review terminal interfaces against what a terminal actually draws, not the code or the sketch that meant to draw it. Two skills over one cell grid. Before the app exists, you declare what a screen holds and a compiler does the width arithmetic, because drawing a layout by hand means counting characters and `len("🚀 Deploy")` is 8 where the screen spends 9; then it gates the design on a role ladder, on selection that survives losing colour, and on focus signalled twice. Once it runs, it captures the app through a pty and runs the arithmetic nobody eyeballs correctly: a box that opens and never closes, a row shoved past its neighbours by a double-width glyph, text cut with no ellipsis to say so. Every finding lands on a row and a column. Both halves share one width function, so a mock and its capture never disagree for reasons that are not about the design.
 
 <br clear="left" />
 

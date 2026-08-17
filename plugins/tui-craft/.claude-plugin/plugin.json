@@ -1,7 +1,7 @@
 {
   "name": "tui-craft",
-  "description": "Design, build and review terminal user interfaces against a captured cell grid rather than against source code. Captures the running app through a pty into a typed frame, runs mechanical gates on it (border integrity, cell-width arithmetic, overflow, truncation markers, glyph risk), then applies a pattern catalogue drawn from 48 shipped TUIs and a cited set of terminal constraints. Both building and reviewing enter the same capture-gate-look-fix loop.",
-  "version": "0.1.0",
+  "description": "Design, mock, build and review terminal user interfaces against a cell grid rather than against source code, because a string template does not tell you how many cells it occupies and that gap is where terminal defects live. Two skills. `tui-design` compiles a declarative spec into a real cell frame so the compiler does the width arithmetic instead of a model counting characters in a code block, then gates the design: role ladder, state that survives losing colour, focus on two channels. `tui-craft` captures the running app through a pty into a typed frame and runs the arithmetic gates on it (border integrity, cell-width, overflow, truncation markers, glyph risk), then applies a pattern catalogue drawn from 48 shipped TUIs and a cited set of terminal constraints. One width function serves both, so a mock and the capture it is compared against never disagree for reasons that are not about the design.",
+  "version": "0.2.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
