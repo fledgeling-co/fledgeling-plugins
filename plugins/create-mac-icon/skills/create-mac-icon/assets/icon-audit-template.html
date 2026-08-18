@@ -37,6 +37,11 @@
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
   .renders { display: flex; align-items: center; gap: 18px; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
@@ -63,7 +68,7 @@
   <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
   <tr>
     <td class="take {{ship|fail|}}">{{TAKE_ID}} · {{FILENAME}}<small>{{ENGINE_AND_ROLE — e.g. "hand-authored layered SVG — SHIPS" / "Arrow vector take" / "GPT-Image raster, corpus-referenced"}}</small></td>
-    <td class="renders">
+    <td><div class="renders">
       <figure><img src="audit-renders/{{take}}-1024.png" width="160" height="160" alt="{{TAKE_ID}} hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-256.png" width="128" height="128" alt="{{TAKE_ID}} at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-128.png" width="64" height="64" alt="{{TAKE_ID}} at 64px"><figcaption>64</figcaption></figure>
@@ -71,7 +76,7 @@
       <figure><img src="audit-renders/{{take}}-64.png" width="32" height="32" alt="{{TAKE_ID}} at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-32.png" width="16" height="16" alt="{{TAKE_ID}} at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/{{take}}-32.png" width="96" height="96" alt="{{TAKE_ID}} 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score {{ship|fail|}}">{{N}} / 12</td>
     <td class="verdict">{{WHY: what passes, which rubric checks failed and the mechanism, what was salvaged into the master. Losing takes state the reason they lost.}}</td>
   </tr>

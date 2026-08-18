@@ -16,7 +16,10 @@ from PIL import Image
 ASSETS = pathlib.Path(__file__).resolve().parent
 OUT = ASSETS / "audit-renders"
 OUT.mkdir(exist_ok=True)
-SIZES = (1024, 256, 64, 32)
+# 96 and 128 are the Finder-list and marketplace-tile sizes, and audit_sheet.py
+# check requires a source at each. This tuple predated them, so running this
+# script left every take short of two sources and failed the gate.
+SIZES = (1024, 256, 128, 96, 64, 32)
 SQUIRCLE = (ASSETS / "squircle-path.txt").read_text().strip()
 
 RASTERS = {

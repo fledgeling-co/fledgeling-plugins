@@ -20,7 +20,9 @@ from PIL import Image
 
 OUT = Path(__file__).resolve().parent
 DEST = OUT / "audit-renders"
-SIZES = (256, 128, 96, 64, 32)
+# 1024 is the hero the sheet displays and audit_sheet.py check requires a source
+# for it, so leaving it out left every take without a hero render.
+SIZES = (1024, 256, 128, 96, 64, 32)
 
 
 def src_for(take, size):

@@ -65,6 +65,48 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · anvil-errand "The Struck Billet" — a profile silhouette cannot
+  carry material, and three lighting bugs that all look like colour bugs.**
+  Confirmed during the porcelain re-ground; recorded here because that
+  commission's scope was its own plugin.
+
+  **A profile silhouette cannot carry material. Extrude it.** The predecessor
+  measured 77.3% locally uniform and no amount of gradient work moved it,
+  because a profile has one visible face and one face can carry one gradient.
+  Rebuilt as a solid, the measured profile extruded along one oblique axis with
+  the horn tapering to a cone, every visible face valued by a single Lambert
+  term against one key: 62.4% uniform, and 16px contrast 0.160 to 0.258. Hang
+  every face gradient on one shared user-space axis so the faces read as one
+  object under one light rather than as adjacent panels.
+
+  **A recess's walls are not lit bands.** Authoring the arch's edge-on wall as
+  its own shape rendered a 10px dark parallelogram lying along the arch's
+  boundary, which reads as a scribe mark on the casting rather than as depth.
+  Fill the recess with the shadow it casts and skip its walls entirely.
+
+  **A warm bounce on cool graphite goes muddy long before it goes warm.** The
+  porcelain bounce onto a dark body's lower edge has to be tight, brighter than
+  seems right, and in the paler spill hue rather than the accent's own. Widen or
+  dim it and the flank turns to mud with every hex still correct.
+
+  **A highlight in `#highlight` paints over an occluder in `#fg`.** The tool's
+  rim catch ran straight across the hot billet as a pale scratch, because the
+  layer plan puts highlights above everything. Clip the highlight subtractively
+  against whatever stands in front of it. This is a layer-order bug that
+  presents as a stray light leak.
+
+  Sibling separation worth keeping: this graphite is deliberately cooler than
+  `improve-skill`'s warm charcoal whetstone, the one sibling close enough to
+  collide in the metalworking register.
+
+  **Template finding, not a material one.** `display:flex` on a `<td>` in
+  `icon-audit-template.html` computes as flex in the scoring browser and still
+  lays its children out as blocks, stacking all seven renders into a column, so
+  the sheet reads as one tall strip per take and nothing errors. `deck-craft`'s
+  commission hit the same thing independently. The flex now lives on an inner
+  div. `white-space: nowrap` on `.take` also took that column to 519px and
+  squeezed the verdict into a 124px ribbon.
+
 - **2026-08 · mac-craft "The Registered Line" — a cut is a valley, a tool's
   registration edge is chosen by where its tail goes, and a family accent has a
   luminance.** Five findings, three of them silhouette properties that no amount

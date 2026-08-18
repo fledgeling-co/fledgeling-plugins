@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>anvil-errand icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  /* not nowrap: these filenames carry an engine name and a hash, and holding
+     them on one line took the Take column to 519px and squeezed the verdict
+     into a 124px ribbon 1540px tall. */
+  .take { font-weight: 650; max-width: 210px; overflow-wrap: anywhere; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* the flex container is a div, not the <td>: one renderer here computes
+     display:flex on a table cell and still lays its children out as blocks,
+     which stacked all seven renders into a column. */
+  td > .renders { display: flex; align-items: center; gap: 18px; }
+  td.rendercell { width: 1%; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric h2 { color: #d7e3e7; font-size: 13px; margin: 22px 0 6px; }
+  .rubric table { min-width: 0; width: auto; }
+  .rubric td, .rubric th { padding: 5px 18px 5px 0; border-bottom: none; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>anvil-errand icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The Return Arc&rdquo;, rebuilt on the family register &middot; one shared spec, three engines, run twice: the three porcelain takes from this commission and the three dark-field takes from the one it replaces &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>hand-authored layered SVG &mdash; SHIPS</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes 1&ndash;4 on the renders, not on intent: filled solid black the shape is unmistakably an anvil (heel, face, horn, waist, arched foot), and 16px RMS luminance contrast measures 0.258 against a family median of 0.152. The anvil is a solid rather than a silhouette &mdash; the profile extruded along one oblique axis, the horn tapering to a cone &mdash; and every visible face takes its value from one Lambert term against one key, giving top plane 7.41:1 and near flank 12.79:1 against the porcelain. Docked one point on <strong>#8</strong>: the step's far strip is occluded by paint order rather than by computed geometry, so the boundary where it meets the horn's top band is a straight cut where two surfaces at different heights should overlap. Salvaged from B and C, which agreed independently: the horn is a separately-valued rounded cone, not a flat wedge sharing the slab's gradient.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C &middot; icon-engineC-porcelain-c23701.png<small>GPT Image 2 raster, corpus-referenced &mdash; material target</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/C-1024.png" width="160" height="160" alt="C hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Best material in the set and it still loses, on two hard checks. <strong>#1 fails</strong>: it baked its own rounded-corner mask <em>and</em> a white inset border, so it ships as a tile inside a tile &mdash; the renders here are its squircle-masked version, which is the only way it can be audited beside its siblings. <strong>#10 fails</strong> by construction as a flat pre-masked raster. <strong>#11 is weak</strong>: the trajectory came back as a bent plastic wire that dies to a hairline, so the one move the icon exists to make &mdash; out and back &mdash; is the thing it lost. What it won: real ambient occlusion, rounded fillets, a genuine contact shadow, and the horn as a rounded cone. That last one went into the master.</td>
+  </tr>
+
+  <tr>
+    <td class="take">Cdark &middot; icon-engineC-forge-9f7b8f.png<small>GPT Image 2 raster, dark register &mdash; the previous commission's material target</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/Cdark-1024.png" width="160" height="160" alt="Cdark hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/Cdark-256.png" width="128" height="128" alt="Cdark at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/Cdark-128.png" width="64" height="64" alt="Cdark at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/Cdark-96.png" width="48" height="48" alt="Cdark at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/Cdark-64.png" width="32" height="32" alt="Cdark at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/Cdark-32.png" width="16" height="16" alt="Cdark at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/Cdark-32.png" width="96" height="96" alt="Cdark 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The handsomest artifact on the sheet and disqualified before it is scored: the dark deep-sea register belongs to <code>trawl</code> alone in this marketplace, and this is the take the replaced master was built to match, which is how that master ended up dark. <strong>#1 fails</strong> (a plain square field, no tile designed for the mask) and <strong>#10 fails</strong> as a flat raster. Its spark is genuinely better than the master's in one respect &mdash; a thin bright core inside a glow, thickening as it lands. On porcelain that construction measures under 3:1 and dissolves, which is why the shipping arc is a deeper ember ribbon instead: the same idea, re-valued for a light ground.</td>
+  </tr>
+
+  <tr>
+    <td class="take">Adark &middot; icon-engineA-darkfield-2c2f3e.svg<small>hand-authored layered SVG, dark register &mdash; the take being replaced</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/Adark-1024.png" width="160" height="160" alt="Adark hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/Adark-256.png" width="128" height="128" alt="Adark at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/Adark-128.png" width="64" height="64" alt="Adark at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/Adark-96.png" width="48" height="48" alt="Adark at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/Adark-64.png" width="32" height="32" alt="Adark at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/Adark-32.png" width="16" height="16" alt="Adark at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/Adark-32.png" width="96" height="96" alt="Adark 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">10 / 12</td>
+    <td class="verdict">Clears the delivery bar and is still the wrong icon, which is worth recording because a rubric score is not a shelf test. It loses on a house rule the rubric does not carry &mdash; the dark register is reserved &mdash; and at 16px it read as <code>trawl</code>'s sibling. Docked <strong>#8</strong> and <strong>#5</strong> for the same cause: form is carried by a radial vignette centred on the object rather than by authored planes lit from the stated key, which is why it measured the flattest icon in the set at 77.3% of interior pixels locally uniform. Its geometry was never the defect and is carried over intact: face proportions, horn tip in the upper third, waist at half the face, and the arched foot that two independent engines drew before the master had it.</td>
+  </tr>
+
+  <tr>
+    <td class="take">B &middot; icon-engineB-arrow-593458.svg<small>Arrow 1.1 vector, porcelain spec</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard fails <strong>#1</strong> and <strong>#4</strong>. It bakes a plain rounded-rect mask rather than the set's superellipse, and at 32px the facets mush into one grey mass while the trajectory closes into a handle over the tool &mdash; the kettle-handle failure the previous commission already diagnosed, reproduced independently, which is useful evidence that an arc touching the horn will always read as a grip. Also fails <strong>#5</strong> (the horn is lit as a pale cone from the opposite side to the body), <strong>#8</strong> (flat facets, no occlusion, no contact shadow) and <strong>#9</strong>. Salvaged: the horn drawn as a form with its own value, which agrees with C and is the one change the master took from either.</td>
+  </tr>
+
+  <tr>
+    <td class="take">Bdark &middot; icon-engineB-arrow-48ee4c.svg<small>Arrow vector, dark register</small></td>
+    <td class="rendercell"><div class="renders">
+      <figure><img src="audit-renders/Bdark-1024.png" width="160" height="160" alt="Bdark hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/Bdark-256.png" width="128" height="128" alt="Bdark at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/Bdark-128.png" width="64" height="64" alt="Bdark at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/Bdark-96.png" width="48" height="48" alt="Bdark at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/Bdark-64.png" width="32" height="32" alt="Bdark at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/Bdark-32.png" width="16" height="16" alt="Bdark at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/Bdark-32.png" width="96" height="96" alt="Bdark 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">4 / 12</td>
+    <td class="verdict">The weakest take across both runs. No tile at all &mdash; a flat black square, so <strong>#1</strong> fails outright &mdash; and the work reads as an orange dome capping the anvil with a wire hoop behind it, so at 32px the whole thing is a lamp rather than a tool. Fails <strong>#4</strong>, <strong>#5</strong>, <strong>#8</strong>, <strong>#9</strong> and <strong>#11</strong>. Kept on the sheet because it is the second time Arrow has closed this trajectory into a handle, on two independently written briefs.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is both on the family register and Icon-Composer&ndash;shaped: four named layers, the anvil solid entirely in <code>#mid</code> so dropping <code>#fg</code> and <code>#highlight</code> leaves a graphite anvil on porcelain that still names itself, no <code>&lt;image&gt;</code> embeds, 58 paths and 40&nbsp;KB inside the complexity envelope, and <code>fidelity.py structure</code> passing. Checks 1&ndash;4 were audited on the renders above rather than on the source: silhouette verified by filling the object solid black, 16px identity verified at 0.258 RMS luminance contrast against a family median of 0.152. Material provenance is the macOS 26 corpus, sampled rather than described &mdash; porcelain ramp from apple-10 / 06 / 18 / 23, satin dark metal from apple-15's hammer head, emissive-on-porcelain behaviour from apple-06, contact-shadow depth and hue from apple-12 &mdash; with the horn's cone taken from B and C agreeing against the master.
+<br><br>
+Known liabilities to revisit: <strong>(1)</strong> the step's far strip is occluded by paint order, not by computed geometry, so its boundary against the horn's top band is a straight cut rather than a real overlap &mdash; visible at 1024, invisible by 128. <strong>(2)</strong> The near flank is still the largest low-variation region in the tile; it carries the key-axis ramp, one satin band and the porcelain up-bounce, and it would take a real surface treatment rather than another global gradient to improve. <strong>(3)</strong> The arc's tail tapers to zero opacity above the horn, so at 16px it reads as a detached warm smudge rather than as a trajectory leaving the tip &mdash; deliberate (a graspable loop reads as a handle, twice proven by Arrow) but it does cost the out-and-back reading at the smallest size. <strong>(4)</strong> The graphite is cooler than the family's warm palette, chosen so it stays separable from <code>improve-skill</code>'s warm charcoal whetstone; if the shelf ever reads cold, that is the constant to move. <strong>(5)</strong> No fidelity loop ran: LPIPS engages only at 256 and 1024 and torch is not installed here, so the gate would refuse the degraded tier rather than guess &mdash; the material was scored against the corpus and by eye, and was never measured against the winning raster.</div>
+
+<div class="rubric">
+Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render assets</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.
+
+<h2>What moved, measured the same way before and after</h2>
+<p>The commission was opened on two numbers from an external audit pass whose script is not in this repository, so both were re-derived here and the definition is stated rather than assumed. 16px RMS luminance contrast reproduces the audit's figure exactly (0.160 on the replaced master), which is what makes the flatness comparison trustworthy even though its 78.7% could not be reproduced to the decimal.</p>
+<table>
+  <tr><th scope="col">Measure</th><th scope="col">Adark (replaced)</th><th scope="col">A (ships)</th></tr>
+  <tr><td>16px RMS luminance contrast &mdash; standard deviation of relative luminance over the squircle interior of a 16px render</td><td>0.160</td><td>0.258</td></tr>
+  <tr><td>Locally uniform &mdash; share of interior pixels whose 3&times;3 luminance neighbourhood spans under 1/255, at a 512px render</td><td>77.3%</td><td>62.4%</td></tr>
+  <tr><td>&hellip; the same test at 1024px</td><td>86.7%</td><td>78.7%</td></tr>
+  <tr><td>&hellip; 5&times;5 neighbourhood at 1024px</td><td>76.6%</td><td>58.2%</td></tr>
+  <tr><td>&hellip; 3&times;3 at 256px, tolerance 2/255</td><td>81.4%</td><td>76.8%</td></tr>
+  <tr><td>Locally uniform inside the tool only, 512px</td><td>&mdash;</td><td>42.4%</td></tr>
+</table>
+<p>Every definition moves the same way, which is the point of reporting five of them: the gain is in the construction, not in the choice of threshold. The ground stays smooth at 69.3% uniform because a Tahoe cushion is a smooth ramp with a rim light and a vignette &mdash; adding local variation there would be noise, not material.</p>
+</div>
+</body>
+</html>
