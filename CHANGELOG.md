@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-19
 
+### create-skill 1.3.1, create-mac-icon 1.4.1, stocktake 0.2.1: patch bumps the rename earned
+
+Three plugins carried content changes across the `create-test-suite` to `test-campaign` rename and the conformance pass without their versions moving. `stocktake` matters most of the three: its SKILL.md and `references/testing-adequacy.md` route to the skill by name, so the old name there was a dangling reference rather than stale prose. `create-skill`'s `references/brand-and-docs.md` and `scripts/banner_sheet.py` and `create-mac-icon`'s `references/material-recipes.md` cite it as a worked example. Nothing behavioural moved in any of the three.
+
 ### create-test-suite → test-campaign, 0.4.0 → 0.5.0: the suite that never ran, and the rung that let it pass
 
 **Renamed.** `create-` implied a one-shot generator and "suite" named the smallest of the things the skill leaves behind. It sets the test strategy, decides what a given run needs to cover, keeps the suite alive across runs, and publishes the evidence — and `campaign` was already the word the code used throughout (`campaign.py`, `docs/test-campaign/`, `CASE-0001`). Put to gemini-3.7-flash-high and grok-4.6 with the candidates in swapped order; both landed on the campaign noun and split only on whether to keep a `test-` prefix. The old name stays in the entries above, because rewriting history is worse than a stale name in it.
