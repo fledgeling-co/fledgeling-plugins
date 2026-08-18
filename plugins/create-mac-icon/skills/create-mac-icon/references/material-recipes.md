@@ -65,6 +65,188 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · improve-skill round 21 — a texture emitted as a filter does not
+  downsample, it re-samples; and a texture's path budget is spent on the amplitude
+  solve, which is a gradient.** The fixture ran twenty fidelity rounds against a
+  *declared* envelope of `--max-paths 3000 --max-bytes 350000`, argued in writing
+  each time, and never reconciled it with the *delivery* envelope the marketplace
+  gate runs — `400 / 200,000`, the same script's default. Every round passed its own
+  structure check while the shipped master failed the shipping one at 1042 paths /
+  231,249 bytes. Two constructions were built and measured against the round-20
+  master. **The first check, before either, is which region owns the overrun**: the
+  torn-ground grain held 830 of the 1042 paths and 152,573 of the 231,249 bytes, so
+  the 96-band swept shaving that the audit sheet also named was never the problem and
+  was left alone — which mattered, because that feature had a standing warning
+  against any further change to its rims.
+
+  **(a) The filter answer matches at full size and fails one size down, for a reason
+  that generalises to every `feTurbulence` texture.** One noise field in the object's
+  own frame, lit by `feDiffuseLighting` from the icon's key, costs **no paths** and
+  reproduced the strokes almost exactly at 1024: the grain's spectrum isolated in
+  quadrature against a grain-free control agreed in all four octaves (0.0081 / 0.0034
+  / 0.0019 / 0.0011 against 0.0077 / 0.0035 / 0.0017 / 0.0010 at 3-8 / 8-16 / 16-32 /
+  32-64px), 16px RMS contrast identical to four decimals, plane means within 0.0006 L,
+  and boundary-crossing continuity *improved* because both planes take the same field.
+  It then read as leather at 256. **`feTurbulence` is point-sampled at device
+  resolution while geometry is area-sampled**, so a stroke averages down on the way to
+  a small raster and a filter re-samples. Measured as the sd of (pixel − 3×3 box mean)
+  on clean patches of the *direct* small renders, the relief ran **1.5× the strokes'
+  per-pixel residual at 256 and 3.3× at 128**, and nothing moved it: `baseFrequency`
+  swept over 5× changes the residual by 0.0002, deadbanding the field into sparse
+  marks makes it *worse* (sparse marks at matched sd are higher-amplitude marks), and
+  terracing buys `edge_f1` by drawing contours the reference does not have. **The
+  residual is set by amplitude, and holding the full-size texture fixes the
+  amplitude.** So the noise-relief recipe holds for a *small, low-contrast* surface —
+  the same fixture's iron face, 10% of the tile, has shipped it since round 12 — and
+  does not hold for a whole ground plane in an icon that also ships at 256 and 128.
+  Test any relief on the smallest delivered raster, rendered directly at that size,
+  before believing a full-size statistic about it.
+
+  **(b) The path budget is not the marks, it is the amplitude solve — and that solve
+  is usually a gradient.** "Specify ornament in luminance, not in alpha" is right, and
+  the obvious way to honour it is to cut each mark into pieces and re-solve
+  `amp / (substrate − mark)` per piece. That subdivision *is* the path count: 79
+  ridges had become 830 paths almost entirely through it. But check whether the
+  substrate's field is a coordinate a gradient can express — a radial ramp about a
+  fitted point source, a linear ramp along the key's axis, which is what the
+  "fit the coordinate before you fit the curve" recipe hands you. If it is, then
+  `1 / (substrate − mark)` is a gradient too and it can be the mark's own **stroke
+  paint**: continuous where the piecewise solve is stepwise, free in paths rather than
+  25× their cost, and unable to drift from the field it corrects because it rides the
+  same coordinate. 830 paths → 316 with no change to any mark.
+
+  **(c) With opacity out of the element, the marks merge.** All that is left on a mark
+  is stroke width and dash pattern, so quantise those onto a small grid and emit one
+  path per occupied cell with every mark in it as a **subpath**. `stroke-dasharray`
+  restarts at the beginning of each subpath — verified in `rsvg-convert`, where the
+  merged and separate forms render bit-identically — so the merge is exact for
+  identical attributes. 316 paths → 102 on a 3 × 3 × 3 grid, 102 of 108 cells
+  occupied, and the grid was swept from 3/3/3 to 5/5/2 with the composite flat to
+  0.0016, so the coarsest one ships and the paths go to headroom. Final: **1042 paths /
+  231,249 bytes → 314 / 142,554, and the 16px render bit-identical**, 32px agreeing to
+  0.5/255, SSIM(before, after) 0.9996 at 32 and 0.8951 at 1024 with every fixture
+  invariant — 16px RMS contrast, split polarity, block figure-ground, the honed
+  boundary's step and ratio — holding to three decimals.
+
+  **(d) Three traps in bucketing, each of which cost a build.** Bucket
+  **representatives must be the range's ends**, `lo + (hi − lo)·i/(n − 1)`, not its
+  centres, whenever anything downstream reads a *tail* — edge and threshold metrics do,
+  and centres capped mark strength at 0.92 of the original maximum and cost 12% of the
+  plane's Sobel edges at the same band sd. A bucket's shared random parameter must be a
+  **quantile of its distribution, not a draw from it**: three draws from a wide dash
+  distribution gave duties of 0.39, 0.91 and 0.96 against a mean of 0.58, and the 0.96
+  pattern — near-continuous line, almost no ends — landed in the most populated bucket
+  and cost 46% of the plane's edges on its own. And a shared dash pattern needs its
+  phase put into **geometry**, by starting each mark a random fraction of one period
+  back behind a clip that removes it, because `stroke-dashoffset` is a per-element
+  attribute and merging was the whole point; without it the marks land in step and draw
+  a moiré band across the field.
+
+  **(e) The metric was partly paid by the error being fixed, so decompose before
+  reading the verdict.** `edge_f1` at 1024 fell 0.1252 → 0.0910 and the convergence
+  gate REJECTed on that one size at −0.0059 (net −0.0080). Rebuilding the *old*
+  generator with its subdivision progressively removed — same marks, only the piece
+  length — isolates why: 190 → 1042 paths and 14,958 plane edges, 400 → 698 and 14,439,
+  900 (no subdivision) → 504 and 12,276. **0.0117 of the 0.0342 was subdivision
+  artifacts** the reference does not have, and reintroducing them deliberately as
+  subpaths — free in paths — made `edge_f1` *worse* (0.0910 → 0.0849), because it is an
+  F1 and false edges cost precision. The rest is the tail: pixels clearing the metric's
+  0.10 gradient threshold went 4.73% → 2.28%, and raising the amplitude to recover them
+  costs more in SSIM than it returns. A similarity metric can be earning part of its
+  score from a construction artifact, so when a cheaper emission loses ground on one
+  sub-metric, rebuild the predecessor with the suspected artifact removed and read the
+  difference rather than the total. Fixture: `plugins/improve-skill/assets`,
+  `icon-notes.md` round 21, `loop-runs/r16/`.
+
+- **2026-08 · resume-session "The Kept Place" — which faces an oblique projection
+  reveals is computable, a corner trim is not the radius, and thickness is what
+  stops a lid being a mortarboard.** A shut graphite ledger on porcelain with a
+  vermilion register ribbon folding over its fore-edge. Six findings, four of them
+  construction bugs that no palette work could have reached.
+
+  **(a) The visible side faces are a property of the axes, so derive them rather
+  than choosing them.** With the depth axis `Q` travelling down-**right**, the tile
+  shows the top face, the near face and the **left** face; the right-hand face
+  folds back onto the top and is never seen. The test is one cross product: along
+  the edge two faces share, a vertex of each must fall on opposite sides. Painting
+  the folded-back face instead left the visible one unpainted, and the silhouette's
+  own fill showed through it as a dark tab beside the spine — a colour-looking
+  defect with a geometric cause.
+
+  **(b) A rounded polygon's corner is trimmed by `r / tan(theta/2)`, not by `r`.**
+  Trimming by the radius and then drawing an arc of that radius is tangent only at
+  90 degrees. On this projection's 154-degree corners the trim points land 84.6
+  apart for a radius of 43.4 — nearly a full diameter — so each "corner" rendered
+  as a **protruding half-disc** on the silhouette. Two of them, at 512px, on an
+  otherwise finished tile. Clamp the tangent length to 0.46 of each edge and
+  recompute the radius from it, and pass a zero-radius corner straight through.
+  Related: **a hull written down by hand is often not convex.** The first hexagon
+  used the base's far corner and the top's near corner, which put two reflex
+  vertices in a polygon rounded as though convex; check the turn signs before
+  rounding anything, since the spikes are the only symptom.
+
+  **(c) Thickness, not material, is what separates a book from a mortarboard.** At
+  `BOOK_T` 98 on a 452x436 plan the tile read as a graduation cap with the ribbon
+  for a tassel, and two rounds of shading, blooms and rim work moved it not at all.
+  At 152 it is a ledger. *Generalise:* sweep the dimension the object's identity
+  rests on at 512px before authoring any material, and look at the silhouette while
+  you do — this is `better-loop`'s step-height sweep applied to a solid's depth.
+
+  **(d) A pale band under a dark lid is an open laptop, and it takes three changes
+  together.** The page block first read as light spilling out from under a raised
+  cover. Darkening it to the reference's *measured* value (a warm tan at Y 0.397,
+  hue 33, sat 0.31 — not the ivory that "pages" suggests), recessing it 22px behind
+  the boards so they visibly overhang, and bowing its outer profile inward with one
+  quadratic (a real fore-edge is concave) fixed it. Each alone left the laptop read
+  intact. The corollary is `design-craft`'s pale-element rule from the other side:
+  when a mid-tone band must sit inside a dark body, its own boundary is the body's,
+  and its ground-relation is a liability to publish (1.97:1 here) rather than a
+  number to fix by lightening anything.
+
+  **(e) An accent lying directly on porcelain has its luminance set by rubric #7,
+  and the raster already knows the number.** At Y 0.205 the ribbon measured
+  **2.87:1** against this ground by the dilated ring and failed; at Y 0.185 falling
+  to 0.135 its median is 0.152 and it measures **3.58:1** by a clean patch pair.
+  The Engine C raster's own ribbon sits at Y 0.132-0.138 on its lit faces. What
+  keeps a deep accent from reading brown is not its hue but its **HSL lightness
+  against the family** — 0.44 here, the marketplace's shared value, with the
+  subject's own hue point at 16 degrees — and that is only visible on a shelf strip.
+  This is `mac-craft`'s finding (e) with the numbers attached, and the two
+  constraints (deep enough for 3:1, light enough not to be brown) leave a window
+  roughly 0.14 to 0.19 wide in Y on this ground.
+
+  **(f) A dome bloom buys the material read and costs figure-ground; quote both.**
+  `apple-23`'s soft top bloom, hung at the key's own bearing rather than the face
+  centre and clipped to the face, at 0.085 peak: the cover's median Y went
+  0.038 -> 0.049, its ring figure-ground 8.90 -> 7.88:1, and 16px contrast
+  0.2238 -> 0.2178. Worth it — the cover stops reading as flat paint — but it is a
+  trade against the one number rubric #7 is about, so publish the pair rather than
+  the improvement alone.
+
+  **Device findings, from three-value mocks at 512px before any material existed.**
+  A latching hook is a **power button**. A baton with a collar is a **cigarette**,
+  and its rubric numbers came back the best on the sheet while its picture was the
+  worst — accent 4.40:1, dark mass 10.07:1, and nothing legible. A pointed oval
+  with a bright core is an **eye**, which `be-my-witness` owns. What collides on
+  this shelf is the *silhouette class* rather than the metaphor: a ring is both a
+  power symbol and `mac-doctor`'s gauge, and a bar with a warm band is
+  `better-loop` in any orientation. Two mocks cost about ten minutes and killed
+  three devices.
+
+  **Sheet finding, extending `whats-left`'s.** Its `<colgroup>` fix is necessary
+  and not sufficient: a twelve-item rubric walkthrough *inside* a verdict cell
+  produced a 1400px-tall row with the seven renders floating in the vertical middle
+  of it, and nothing errors. Moving the walkthrough to a section below the table,
+  leaving three sentences and the decisive numbers in the cell, and setting
+  `vertical-align: top` on the cells, took the shipping take's row from 1400px to
+  **329px** with the renders at the top where they are compared.
+
+  **Engine note.** Engine B can refuse for a reason that is neither a timeout nor a
+  bad brief: the Arrow gateway returned `A positive credit balance is required for
+  all requests, including BYOK` and wrote no file. That is a named unavailability
+  to record on the sheet, with Engine A widened to three devices in its place —
+  not a skipped step.
+
 - **2026-08 · better-goal "The Held Needle" — an accent's *radial depth* decides
   whether it exists at 16px, a stop needs parallel flanks, and the shelf-collision
   metric cannot be satisfied by resizing.** A machined graphite dial on porcelain,
