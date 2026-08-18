@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="generate-investor-portal: a porcelain app icon of an open strongroom door with a warm lit room behind it and one pale record standing inside, beside the wordmark and the line: one generated record per company, and a gate reads it back before anything publishes, a figure with no provenance is refused, not flagged. To the right, the same room at scale, cropped by the frame." width="100%" />
+</p>
+
 # generate-investor-portal
 
 <p align="center">

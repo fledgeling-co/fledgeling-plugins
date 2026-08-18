@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="should-compact: a porcelain app icon of two graphite blocks held apart by a narrow lit seam, beside the wordmark and the line: is the work at a seam right now, it scores the boundary, not the fullness of the window, so an open tool chain is a hard zero. To the right, the same two blocks stand either side of a taller vermilion seam." width="100%" />
+</p>
+
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> should-compact</h1>
 
 <p align="center"><strong>Is now a good moment to compact? A score out of 10, and one line saying why.</strong><br />

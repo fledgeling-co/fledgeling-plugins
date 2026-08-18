@@ -93,18 +93,10 @@ const NOT_PLUGINS = /-workspace$/;
  * indistinguishable from a check somebody switched off.
  */
 const DEBT = [
-  {
-    plugin: "should-compact", dimension: "banner", since: "2026-08-17",
-    why: "Predates the banner check. Owed a composed 3200x1040 artifact, not a render.",
-  },
-  {
-    plugin: "anvil-errand", dimension: "banner", since: "2026-08-17",
-    why: "Predates the banner check. Its icon is also being rebuilt, so the banner derives from a master that is still moving.",
-  },
-  ...["design-craft", "ux-craft", "deck-craft", "mac-craft", "mac-design-digest", "generate-investor-portal"].map(
+  ...["design-craft", "ux-craft", "deck-craft", "mac-craft", "mac-design-digest"].map(
     (plugin) => ({
       plugin, dimension: "banner", since: "2026-08-18",
-      why: "One of six that landed together as a migration out of diolog-plugins. Registered without banners so they were installable; a banner is a composed artifact per plugin rather than a render.",
+      why: "One of six that landed together as a migration out of diolog-plugins. Registered without banners so they were installable; a banner is a composed artifact per plugin rather than a render. generate-investor-portal, the sixth, was paid off on 2026-08-19.",
     }),
   ),
   {
