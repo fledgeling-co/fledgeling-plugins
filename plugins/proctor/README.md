@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that runs a real test campaign against a native macOS app, and the MCP server that gives it the instruments.</p>
 
 <p align="center">
-  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-D33C21">
+  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="MCP tools: 20" src="https://img.shields.io/badge/MCP_tools-20-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -104,7 +104,7 @@ This is the part I'd read first.
 
 Note: a release is Developer ID signed, notarised and stapled, which is what makes the TCC grants survive an upgrade, because they key on the team-scoped signature rather than on the bytes. Ad-hoc signing is for a throwaway build you will run once on the machine that made it; it ties the grants to the exact bytes and throws them away on the next rebuild, and the symptom is "elements not found", which doesn't look like a permission error at all.
 
-## Where 0.4.0 actually is
+## Where 0.5.0 actually is
 
 Worth being straight about, since the version number is doing real work here.
 
