@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-test-suite icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 900px; }
+  .measured table { min-width: 0; width: auto; }
+  .measured td, .measured th { padding: 6px 18px 6px 0; border-bottom: 1px solid #16262c; }
+  .measured code { color: #ffd98f; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<h1>create-test-suite icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, sub-register (a): porcelain cushion + gel objects" · one shared spec, three engines · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/A-1024.png" width="256" height="256" alt="Take A, the shipping master, at 256px from the 1024 render"><figcaption>A · ships · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/B-1024.png" width="128" height="128" alt="Take B at 128px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+  <figure><img src="audit-renders/C-1024.png" width="128" height="128" alt="Take C at 128px from the 1024 render"><figcaption>C · raster, material target</figcaption></figure>
+</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Both readings survive to 16px, checked on the render rather than assumed: the vermilion cell and the empty ninth cell are each still present in the &times;6 squint. Four named layer groups, so identity sits in shape and value and the lighting is a plane that can drop. Figure-ground measured 4.55:1 against the cushion; the accent separates from its neighbours by 1.87:1 in grayscale, which was 1.19:1 before the quiet frames were darkened and the accent was invisible without colour. Loses #11: a grid of rounded squares is one step from a category glyph, and it is the drawn absence, not the grid, that makes it this app's.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-7ad2c3.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Lost on the one thing the icon is about: it drew the ninth cell as a pale gradient-filled tile, so the grid reads as nine tiles of which one is beige rather than eight and a gap. That is the same failure the master went through twice and it is why the master ends with no fill there at all. Also ships a flat white ground with no cushion rim or vignette, which breaks the family register, and carries no layer plan, so #10 fails by construction. Nothing salvaged.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C · icon-engineC-0ae063-masked.png<small>GPT Image 2 raster, corpus-referenced — material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="Take C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="Take C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Won the material read and that is why it exists: real cushion volume, believable soft extrusion on the tiles, and an empty cell drawn as a lit keyline socket rather than a shadow. Fails #10 as every flat raster does, fails #2 on an irregular grid (the gaps are not equal and the cells are not square), and only passes #1 because the family squircle was applied to it afterwards rather than designed into it. Salvaged into the master: a stronger top-edge catch, a seated shadow along each tile's lower lip, and the keyline reading of the socket.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take with a real layer plan — <code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code>, confirmed by <code>fidelity.py structure</code> — so it maps onto Icon Composer layers and its identity is not hostage to the ground colour. Checks 1&ndash;4 were confirmed on actual renders, not imagined: the 16px squint still carries the accent cell and the gap, and the grayscale pass shows both without any colour at all. Material provenance is take C, ported as parameter edits rather than by converging the master onto the raster. Known liabilities to revisit: the grid is one move away from a generic app-grid glyph and leans on the absence to be specific; the master is measurably flatter than C at 1024 (composite 0.599 against it) and a later round could deepen the cushion volume without touching geometry; the accent separates from its neighbours by 1.87:1 in grayscale, which is enough to see but not comfortable, so a tinted-variant pass should be re-checked rather than assumed.</div>
+
+<div class="measured">
+  <strong>Measured, not eyeballed</strong>
+  <table>
+    <tr><th scope="col">Reading</th><th scope="col">Value</th><th scope="col">Why it was taken</th></tr>
+    <tr><td>gel frame vs cushion</td><td>4.55:1</td><td>rubric #7 bar is 3:1; the first draft used near-white frames and measured 1.1:1</td></tr>
+    <tr><td>accent vs its neighbours</td><td>1.87:1</td><td>was 1.19:1, i.e. invisible in grayscale, which is failure mode #3</td></tr>
+    <tr><td>empty cell vs frames</td><td>3.92:1</td><td>the gap must not read as a tile</td></tr>
+    <tr><td>empty cell vs cushion</td><td>1.16:1</td><td>it is the cushion, pressed; anything higher makes it an object</td></tr>
+    <tr><td>grid width</td><td>646 / 1024 = 63%</td><td>composition constant is one focal at 55&ndash;65% of tile width</td></tr>
+    <tr><td><code>fidelity.py structure</code></td><td>PASS, 4 named groups</td><td>failed on the first build with 0 groups; that is rubric #10 by construction</td></tr>
+    <tr><td>composite vs take C</td><td>0.599 @1024 &middot; 0.936 @16</td><td>material gap is at large sizes only; small sizes already agree</td></tr>
+  </table>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand. Fidelity scores from `fidelity.py`, numpy tier (no torch, so luminance + SSIM + edges only).</div>
+</body>
+</html>

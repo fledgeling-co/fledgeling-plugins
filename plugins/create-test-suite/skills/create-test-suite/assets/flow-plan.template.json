@@ -1,0 +1,101 @@
+{
+  "$comment": [
+    "flow-plan.template.json — the user-flow storyboard, portable.",
+    "",
+    "A flow is a named journey. Each step names the surface it lands on and the",
+    "ATOMS the capture of that surface should show. The atom is the unit, not the",
+    "step and not the surface — a shared surface collects atoms from every flow",
+    "routed to it, and many of those cannot be answered by a still picture.",
+    "",
+    "Measured: 21 'should see' lines from 19 different flows landed on one",
+    "navigation bar, including 'a spinner, then a fresh briefing, then a toast'.",
+    "Handing all 21 to a judge as the bar for that one image fails healthy",
+    "software loudly and confidently. Each atom is answered on its own, and",
+    "'not-observable' is a real answer.",
+    "",
+    "Copy this file, replace the contents, and feed it to both the capture pass",
+    "and the judge. Ids are stable: FLOW-002 and FLOW-002.03 are what a review",
+    "comment points at a year later."
+  ],
+
+  "flows": [
+    {
+      "id": "FLOW-001",
+      "label": "Publish a record",
+      "critical": true,
+      "req": ["REQ-004", "REQ-011"],
+      "$comment": "critical:true means the campaign gate requires at least one case here at oracle rung outcome, metamorphic or visual. Presence-only proof of a critical flow is the failure that rule exists for.",
+
+      "steps": [
+        {
+          "id": "FLOW-001.01",
+          "label": "Open the record with two sections pending",
+          "surface": "recordConsole",
+          "state": "populated",
+          "atoms": [
+            { "id": "a1", "text": "the release bar names a count of pending changes" },
+            { "id": "a2", "text": "each pending section carries the reason it is pending" },
+            { "id": "a3", "text": "the publish control is enabled" }
+          ]
+        },
+        {
+          "id": "FLOW-001.02",
+          "label": "Review and publish",
+          "surface": "reviewSheet",
+          "state": "populated",
+          "atoms": [
+            { "id": "a1", "text": "the sheet lists every pending change, none collapsed" },
+            { "id": "a2", "text": "a change can be reverted from the row it sits on" },
+            { "id": "a3", "text": "the confirm control states what will become public" }
+          ]
+        },
+        {
+          "id": "FLOW-001.03",
+          "label": "The record is live",
+          "surface": "recordConsole",
+          "state": "populated",
+          "atoms": [
+            { "id": "a1", "text": "the release bar reports nothing pending" },
+            { "id": "a2", "text": "the published-at instant is shown and is not a placeholder" },
+            {
+              "id": "a3",
+              "text": "the public page serves the new section",
+              "$comment": "Expect not-observable in a still of the console. It is still worth declaring — the judge marks it not-observable with a reason, and the deterministic case at oracle rung `outcome` is what actually proves it."
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "FLOW-002",
+      "label": "A refused write is reported as refused",
+      "critical": true,
+      "req": ["REQ-019"],
+      "$comment": "The honesty-guardrail flow. Force the server to refuse and assert the interface says so — see references/sweeps.md §H. Four live production defects of this class were invisible to every element-exists test, every screenshot and every visual judge.",
+
+      "steps": [
+        {
+          "id": "FLOW-002.01",
+          "label": "Attempt a change the server will refuse",
+          "surface": "recordConsole",
+          "state": "refused",
+          "atoms": [
+            { "id": "a1", "text": "the refusal sentence on screen is the server's own, not a local stand-in" },
+            { "id": "a2", "text": "no success affordance is shown" },
+            { "id": "a3", "text": "the optimistic state has rolled back" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "$schema-notes": {
+    "flow.id": "stable, referenceable, and the anchor on the evidence page",
+    "flow.critical": "gates the oracle rung — see scripts/campaign.py",
+    "flow.req": "the requirements this flow serves; the gate traces every non-deferred requirement to at least one case",
+    "step.surface": "a key in surface-map.template.mjs — that file says where it lives; this one says what it should show",
+    "step.state": "the cell of the coverage model this step occupies",
+    "step.atoms": "one observable claim each. Write what a person would SEE, not what the code does."
+  }
+}
