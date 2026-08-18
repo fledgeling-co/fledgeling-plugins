@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-18
 
+### create-test-suite 0.2.0 → 0.3.0: unchecked is failed, and the screenshots were never attached
+
+Four changes, all from running the skill against a large monorepo and then against eleven other campaigns on disk.
+
+**A definition of done that a pass cannot slip through.** `campaign.py check` asks whether every case is accounted for, and a campaign can clear it with 187 passes that were never watched fail and prove only that an element exists. The skill now states the stricter bar in its own terms — a case is CHECKED only if it passes, was watched to fail, and asserts an effect — and `strict-check.py` reports it. Two real campaigns the same day scored 62 of 70 and 20 of 262, so the bar is reachable and a low score is a fact about the campaign. It ratchets rather than gating on 100% immediately, because a gate that opens 97% red is switched off inside a week. The one honest route to a higher number is checking more things, and the section says so: raising it by weakening an assertion, dropping a rung or marking a reachable case `n/a` raises the score and lowers what the suite knows.
+
+**Arming that scales.** Arming cases by hand does not survive a generated family of 83 surfaces sharing one predicate, and marking them all armed from one observation claims a uniformity nobody measured. Phase 6 now shows the sweep running its own positive control inline, first, every run — plant the defect, require it to fire, then measure. On the campaign that prompted this it took armed from 12 of 187 to 107, in two edits.
+
+**`attach-shots.py`, because the evidence pages were empty beside their evidence.** A surface gains a wall cell only when its inventory entry names a `shot`, and nothing ever wrote one. Measured across twelve campaigns: one had 22 surfaces, 22 PNGs on disk and zero attached, and its page rendered no images at all. The script wires them by id and then by an unambiguous lane-plus-keyword match, refusing to guess where two surfaces both fit, and prints images that matched no surface alongside surfaces that got no image. `evidence-page.py` now refuses to render that silently too: where images exist unattached it says so instead of "no captures yet".
+
+**`capture-pairs.template.mjs` and `witness-worklist.py`, so the mock comparison happens at all.** Phase 8 reads the DOM and cannot see what a person sees; `be-my-witness` can, but needs a shot and a reference. Eleven of twelve campaigns had captured no mock. The template photographs both halves at the same viewport and settle and records them, because a difference the capture caused is read as design drift by whatever judges it, and the worklist counts surfaces that cannot be judged rather than letting an uncompared surface pass for a compared one.
+
+
 ### agent-voice 0.1.0 → 0.1.1: how to make it the default rather than an option
 
 Documentation only; the skill and its lint are unchanged. Installing the plugin makes the skill available, and the README stopped there — so the routing decision was left to whoever happened to remember the skill existed mid-task. The new *Making it the default* section carries a pasteable prompt that puts the routing in a user-scoped `CLAUDE.md` or `AGENTS.md`, where it loads before the first reply of a session rather than halfway through one.
