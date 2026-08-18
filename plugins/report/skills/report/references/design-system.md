@@ -102,6 +102,43 @@ Before designing, read the sibling reports in `docs/reports/`. Treat
 their section silhouettes, hero shapes, chart grammars and transition
 metaphors as taken.
 
+### The Mobbin trawl, and its ledger
+
+Reference before divergence, because divergence against memory converges
+on whatever shape the category always ships. `search_sections` returns real
+shipped web sections and takes only a query — there is no `platform`
+parameter on sections, unlike `search_screens` and `search_flows`. Two or
+three aimed searches on the blocks a report is made of: a long-form reading
+surface with citations, a comparison table with a recommended option, a
+statistics row, a running header.
+
+Open the images rather than reading their titles, then record the ledger in
+this file, because an instruction-only step has a measured history of being
+skipped:
+
+```
+MOBBIN TRAWL
+  q1  "long-form article with inline citations and a source list"  → opened 4
+  q2  "comparison table with recommended option highlighted"       → opened 3
+  TOOK  the recommended column is a raised card, not a badge (q2)
+  TOOK  density: 9 elements above the fold, not 4
+  LEFT  the tinted full-bleed section bands — identity, not a mechanism
+```
+
+`LEFT` is the line between reference and imitation. **Structure, density,
+sequence and state coverage transfer; identity never does** — the palette
+still comes from the subject. The density observation repays the trawl most
+often: generated layouts are reliably sparser than shipped ones, and
+sparseness reads as unfinished rather than calm.
+
+Where the MCP is not installed, say so in one line and substitute
+deliberately — sibling reports, the project's own screens, any design
+system in the repo. Never imply a reference pass happened.
+
+`design-craft`'s `references/mobbin-trawl.md` is the fuller playbook,
+including the competitor-diagnosis method for when a named page feels
+better than yours.
+
 **Reuse freely** — and deliberately, because standardising the invisible
 layer is what buys the budget to vary the visible one:
 

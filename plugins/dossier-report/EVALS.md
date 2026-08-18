@@ -4,6 +4,13 @@ Short answer: it does the job it's for, and it doesn't do the job people
 will assume it's for. Both halves are measured below, including the runs
 it lost.
 
+**Everything here was measured on version 2.1.** The TLDR band, the verdict
+layer, the imagery provenance rules, the compulsory motion layer and the
+TanStack build lane landed in 2.2 and have not been through the panel yet.
+The five gates behind them are tested (each one fails a deliberately broken
+fixture and passes a conforming one) and that is a different claim from the
+ones below.
+
 Every skill in this marketplace ships with numbers. This is the first one
 whose numbers point two ways depending on what you measure, so both
 readings are here.

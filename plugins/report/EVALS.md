@@ -3,6 +3,13 @@
 What this skill was tested against, what it won, what it didn't, and the
 things the tests broke that I then had to fix.
 
+**These numbers were measured on version 2.0.** The TLDR section, the
+verdict layer, the imagery provenance rules, the compulsory motion layer
+and the TanStack build lane landed in 2.1 and have not been through the
+harness yet. The five gates behind them are tested (each one fails a
+deliberately broken fixture and passes a conforming one) and that is a
+different claim from the ones below.
+
 ## The short version
 
 Three tasks, each run twice: once with the skill, once with **no skill at

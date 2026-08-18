@@ -16,6 +16,7 @@ number nobody can source is a number nobody should tune against.
 8. [Mobile](#8-mobile)
 9. [The divider gutter](#9-the-divider-gutter)
 10. [Light and dark](#10-light-and-dark)
+11. [The reading surface](#11-the-reading-surface)
 
 ---
 
@@ -35,6 +36,49 @@ pageviews: ~38% of arrivals leave immediately, median scroll depth ~50%
 2,000-pixel article, and scroll depth correlates only very weakly with
 sharing. The load-bearing finding belongs above the fold or in the first
 two states.
+
+### The TLDR band — required on every page
+
+Leading with the conclusion is a principle, and principles get
+interpreted. The band is the enforceable form of it, and **every page
+ships one**, in every register, as the first content block after the
+masthead.
+
+It is a named section (`<section id="tldr">`), not a hero with a slogan in
+it, and it holds five things and nothing else:
+
+1. **The finding, in one sentence**, cited. The sentence a reader would
+   repeat to someone else.
+2. **Three to five cited claims** carrying the argument — the ones a
+   sceptic would need before believing the finding, not the ones that were
+   easiest to establish.
+3. **The one thing that would change it** — the live disagreement, the
+   limit, the missing measurement. A TLDR that reads as settled has hidden
+   the page's own tension in the place a reader is most likely to stop.
+4. **Where the page goes next**, in a clause. Not a table of contents.
+5. **On a page recommending something, the verdict** — the pick, its cost,
+   and the date the price or version was checked. See
+   `product-verdicts.md`; on those pages the winner *is* the TLDR's first
+   line.
+
+Three rules keep it honest:
+
+- **It is a derivation, not a summary written separately.** Every line
+  traces to a claim in the graph that also appears further down the page. A
+  TLDR and a page that disagree about the finding is the failure mode here,
+  and generating both from one graph is what prevents it.
+- **Every claim in it carries its marker, in every register.** The band is
+  the most-read and most-quoted part of the page, so it is the last place
+  an uncited number may sit.
+- **Its arithmetic is recomputed before shipping.** Every ratio,
+  percentage and multiple in the band, in each register — a Primer that
+  re-expresses 95.4% as "about 19 in every 20" has done arithmetic the
+  graph should record. A judge recomputed a rival page's opening bullet
+  inside the sixty seconds it was built for and found it wrong; this is
+  the cheapest possible way to lose a reader.
+
+The band earns its space by being short. If it runs past a screen on a
+phone, it is a section rather than a summary.
 
 **Section rhythm.** Alternate ordinary document flow with bounded visual
 episodes. Pinning the whole page sacrifices orientation, accessibility
@@ -73,13 +117,29 @@ literacy confound it. Derive from the argument, not from a number.
 
 ## 2. The motion budget
 
-**The test.** An animation is admissible only when you can finish:
+**Two budgets, and conflating them is why this section used to read as
+hostile to motion.** They answer different questions, they rest on
+different evidence, and a page needs both.
+
+| Budget | Answers | Governed by |
+|---|---|---|
+| **Evidence motion** | does this movement help the reader *perceive the data* | the test below, and it is strict |
+| **Interface feedback** | does the reader know their input registered | the micro-interaction tier, and it is mandatory |
+
+A control that does not acknowledge a press reads as broken; a chart that
+animates for delight reads as untrustworthy. The same page owes the first
+and must refuse the second.
+
+### Evidence motion — the test
+
+Motion inside a figure, an episode, or a transition between claims is
+admissible only when you can finish:
 
 > *"This motion lets the reader perceive ___ that would otherwise
 > require a difficult mental comparison."*
 
 If the blank is "energy", "delight", "premium quality" or "immersion", it
-is decoration and does not get spent from the evidence-motion budget.
+is decoration and does not get spent from this budget.
 
 **Where animation measurably helps.** Heer & Robertson (n=24): animated
 transitions between two states of *one encoding* reduced tracking error
@@ -103,26 +163,84 @@ and keep scales common.
 animate as a substitute for a static explanation. Provide persistent
 static views wherever the task is comparison or verification.
 
-### The three-tier motion stack
+### Interface feedback — the micro-interaction tier, and it is required
 
-GSAP is the standing orchestration layer and **every page loads it** —
-that is a house rule, not an inference from the evidence below. It owns
-at least one scrubbed or pinned episode. Simple reveals still compile to
-CSS scroll timelines underneath, because those run off the main thread
-and GSAP timelines do not.
+Every interactive element carries **default, hover, `:focus-visible`,
+active and disabled**, and every async control carries loading. This is
+not decoration and it is not drawn from the evidence budget: it is the
+answer to *did that work*. A page whose reading toggle, theme control,
+citation markers, filters and disclosures respond to a press with nothing
+reads as broken regardless of how good its argument is.
 
-> An eval run followed the tiering below to its logical end and shipped a
-> page with **no GSAP at all** — all reveals plus one derived-state
-> episode, documented and defensible. The evidence supports that reading.
-> The house rule overrides it. If an argument truly has no scrubbed or
-> pinned moment, record that in the methods note rather than dropping the
-> layer silently.
+The numbers are tight, because the reader is mid-sentence rather than
+watching a show:
+
+- **120–250ms** on a state change, `ease-out` on entry. Under ~100ms reads
+  as instant and jarring; past ~400ms reads as laggy. Never
+  `transition: all`.
+- **The focus ring is never removed without a replacement**, and it is
+  visible in both themes — `:focus-visible { outline: 2px solid
+  var(--focus); outline-offset: 2px }`.
+- **`cursor: pointer` on everything clickable**, including a card or a
+  citation marker acting as one. A clickable thing with a default cursor
+  reads as static text.
+- **The active reading, the active theme and the current section are
+  visually distinct**, not merely stored. A reader who cannot see which
+  register they are in has lost the control the page is built around.
+- **A citation preview appears on hover, focus *and* tap**, is hoverable,
+  dismissible and persistent (WCAG 1.4.13), and closes on Escape with
+  focus returning to the marker.
+
+Micro-interactions are exempt from the evidence test and bound by
+`prefers-reduced-motion` like everything else: under `reduce` a state
+change lands instantly rather than not at all. A feedback state that
+disappears under reduced motion has removed the feedback, not the motion.
+
+### The motion stack, and GSAP as the standing layer
+
+**GSAP is a hard requirement: every page loads it, and it owns the
+choreographed reveal sequence, at least one scrubbed or pinned episode
+where the argument has one, and any tween between two compiled figure
+states.** That is a house rule and it is not an inference from the
+evidence above — the evidence sets the *bar for what may move*, and the
+house rule sets *what does the moving*. The two do not conflict: a page
+that has earned no evidence motion at all has still earned its interface
+feedback and its entrance choreography.
+
+> An earlier version of this file let a page ship with no GSAP when its
+> argument had no scrubbed moment, and an eval run took that to its
+> logical end — a page with **no GSAP at all**, documented and defensible
+> on the evidence. That escape hatch is closed. Where an argument
+> genuinely has no scrubbed or pinned episode, say so in the methods note
+> and spend the layer on the reveal choreography and the micro-interaction
+> tier; the layer is present either way.
 
 | Tier | Use for | Why |
 |---|---|---|
+| **Tier 0 — CSS transitions** | every hover, focus, active, disabled and selected state; all of the feedback above | Cheapest possible, no library involved, survives a script failure |
 | CSS `animation-timeline: scroll()` / `view()` | Entrance reveals, progress bars, sticky-header states — anything expressible as transform/opacity over scroll progress | Runs off the main thread; browsers scroll on a separate process. Guard with `@supports (animation-timeline: scroll())`; **not Baseline in 2026**, so never the only carrier of meaning |
 | IntersectionObserver | Discrete state changes: step *n* selects chart state *n* | Low cost, universal, no scroll listener |
-| GSAP ScrollTrigger | **Scrub** and pinning that CSS cannot express | Precomputes positions, debounces scroll, syncs to rAF, throttles resize to a 200ms gap |
+| GSAP ScrollTrigger | **Scrub** and pinning that CSS cannot express; choreographed multi-element sequences needing runtime control | Precomputes positions, debounces scroll, syncs to rAF, throttles resize to a 200ms gap |
+
+Tier 0 stays in CSS even with GSAP loaded. A hover state written as a
+GSAP tween is a library call on every pointer move where a declarative
+transition would do, and it stops working the moment the script does.
+
+**Load it pinned, with SRI.** GSAP's plugins are all free including
+commercial use since the Webflow acquisition — there is no membership, no
+licence key and no private registry, so never generate `.npmrc` auth-token
+instructions. Pin the version, keep `integrity` and `crossorigin`, and
+register plugins once. GSAP and three.js are this page's only deliberate
+CDN exceptions; §6 owns why.
+
+**Choreograph with a timeline, not chained delays.** The position
+parameter is the craft — `"-=0.35"` to overlap the previous tween's tail,
+`"<0.15"` to start just after it began, labels for named beats. Entrances
+that overlap read composed; strictly sequential entrances read as a
+slideshow. Use `autoAlpha` rather than `opacity` so a faded-out element
+stops eating clicks, set `gsap.defaults()` once as the motion tokens, and
+put the reduced-motion and viewport branches in `gsap.matchMedia()`, which
+reverts its own animations when a condition stops matching.
 
 > **Contested, and stated as such.** Practitioner sources disagree on
 > whether ScrollTrigger materially harms INP, and every specific claim on
@@ -130,8 +248,8 @@ and GSAP timelines do not.
 > "≤30 active triggers" figure has **no traceable empirical basis**. What
 > is primary-sourced is only the mechanism: CSS scroll timelines run off
 > the main thread, GSAP timelines do not. No published benchmark compares
-> INP across the three tiers on mid-tier mobile. Do not tune against a
-> number that does not exist.
+> INP across the tiers on mid-tier mobile. Do not tune against a number
+> that does not exist.
 
 ### GSAP hazards, from its own documentation
 
@@ -527,3 +645,104 @@ inverting a light one passes by luck if it passes at all, and the theme
 nobody measured is the theme that ships broken. That is six review passes
 on a page with three readings, and they are cheap next to publishing a
 surface whose dark mode nobody opened.
+
+---
+
+## 11. The reading surface
+
+A report page is a **Read** surface: the visitor is here to understand
+something, so comprehension and wayfinding outrank expression, and the
+craft goes into making the reading worth staying in. That single
+classification decides most of what follows, and it is the one this file
+previously left implicit — which is how a page ends up with a beautiful
+hero and an unreadable 96-character measure.
+
+Route the layout through `design-craft` with `ux-craft`'s lens on flow and
+states. State the mode once in the direction record and let it bind.
+
+### Measure, scale and rhythm
+
+- **45–75 characters per line** for body prose, and check it in the widest
+  viewport rather than the design one. A full-bleed 1440px column is the
+  most common way an evidence page becomes unreadable while looking
+  expensive. Data, tables and code run wider; prose does not.
+- **Leading 1.5–1.6** on body text at this length, tightening as the
+  measure narrows. Body at **17–19px**, not 16, because the page is asking
+  for sustained attention rather than a scan.
+- **Hierarchy from size and space, not from stacking styles.** Roughly 20%
+  between levels, with spatial separation doing the rest — measured far
+  stronger as a hierarchy cue than weight or case.
+- **A real spacing scale, stated as numbers**, and everything on it.
+  Twenty sections of ad-hoc spacing is not a design; inconsistent alignment
+  measurably costs reading speed where a consistent grid buys up to 22%.
+- **Left-aligned, ragged right.** Justified prose opens rivers that disrupt
+  tracking; centred body text costs up to 30% reading time because the
+  return sweep has no fixed anchor.
+- **Sentence-case headings**, bold for one or two phrases per paragraph as
+  scanning anchors, italics only for genuine editorial convention, and no
+  all-caps on anything multi-line — it destroys word shape and forces
+  letter-by-letter decoding.
+- **Display type is tracked** at −0.02 to −0.03em above 48px, with a hard
+  floor of −0.04em, and all-caps labels at +0.06 to +0.1em. Untracked caps
+  and untracked display are the two most reliable machine-made tells.
+- **Avoid the convergent defaults** — Inter, Roboto, Arial, Space Grotesk,
+  and the purple-gradient-on-white register. Distinctiveness lives in the
+  choice of faces and the composition, never in decorating body text; and
+  cartoon styling and hand-drawn faces measurably *reduce* perceived
+  credibility, so distinctive is not the same as arbitrary.
+
+### Wayfinding — the three questions, answered continuously
+
+A reader landing mid-page from a shared link, or returning after a day,
+has to be able to answer *where am I, what can I do here, what happens
+next* without scrolling to find out. On a long single-page argument with
+three registers, that means:
+
+- **The active register is visible at all times**, not only inside the
+  control. A reader who cannot tell which of three readings they are in
+  cannot trust anything they are reading.
+- **Section position is legible** — a progress indicator, a sticky
+  section label, or numbered sections. Pick one; three is chrome.
+- **Every heading is a claim rather than a label.** "The reach of the two
+  calls is not the same" is something a reader can disagree with;
+  "Process topology and the extension contract" is a filing label. A page
+  whose headings are all noun phrases has a table of contents where its
+  argument should be — and it fails wayfinding too, because a label does
+  not tell a scanning reader whether to stop.
+- **Deep links land where they say.** Every section and every registry
+  entry has a stable id, and `scroll-margin-top` clears the sticky
+  masthead so an anchored heading is not hidden under it.
+- **Persistent chrome reserves its own space.** A sticky masthead or a
+  floating control that overlaps the text is occlusion even when it
+  happens to miss the last line, and it will cover whatever the next
+  revision puts there. Reserve the band in the layout and size the content
+  against the reduced box.
+
+### The controls are content, and they have states
+
+The reading toggle is the page's primary control, so it takes the
+treatment a primary control gets: a real `<label>`-wrapped radio group
+that works with script off, a visible selected state, a visible focus
+ring, keyboard operation by arrow keys as a radio group already gives,
+and hit targets at **44×44px** as the craft floor (24×24 is the WCAG 2.2
+AA minimum, and it is a floor rather than a target).
+
+The theme control is script-created on purpose — with JavaScript off the
+page already follows the OS preference, so a dead button would be worse
+than none. Three states, so "auto" stays reachable after a manual choice.
+
+**Design the states rather than reading a rule about them.** Fill the grid
+before building: rows for the reading control, the theme control, a
+citation marker, a figure, an interactive figure, the source registry;
+columns for default, hover, focus, active, selected, and — where the
+element loads anything — loading and error. Every cell carries its real
+treatment or `n/a` with a reason. A categorical instruction ("all states
+designed") ships as one state; a grid with cells in it does not.
+
+### What a Read surface does not need
+
+Skip the component-density rules that belong to product UI, and resist
+three habits that arrive with them: a dashboard-style KPI strip where a
+sentence and one number would do, cards around prose that was already
+readable, and an orchestrated entrance on a page a reader may open from a
+search result to check one fact. The page's job is to be read.

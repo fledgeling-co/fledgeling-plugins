@@ -664,6 +664,297 @@ def check_self_description(html: str, f: Findings) -> None:
 
 
 
+def check_tldr(html: str, f: Findings) -> None:
+    """The TLDR band exists, leads, cites, and reaches every register.
+
+    "Lead with the conclusion" is a principle and principles get interpreted;
+    the band is the enforceable form of it. Three ways it fails while looking
+    fine: it is not there at all, it is there but sits below the first argument
+    block, or it renders in two registers and not the third - which is worst,
+    because the register that lost it is the one a reader lands on by link.
+    """
+    m = re.search(r'<section\b[^>]*\bid="tldr"[^>]*>', html, re.I)
+    if not m:
+        f.add(ERROR, "tldr",
+              'no <section id="tldr"> - every page opens with a TLDR band '
+              "carrying the finding, its supporting claims and the one thing "
+              "that would change it")
+        return
+
+    # Nothing carrying claims may precede it: the band is the first content block.
+    before = html[:m.start()]
+    early = re.search(r'<section\b[^>]*data-claims?=', before, re.I)
+    if early:
+        f.add(ERROR, "tldr",
+              "a block carrying data-claims appears before the TLDR band - the "
+              "band is the first content block after the masthead")
+
+    end = html.find("</section>", m.end())
+    band = html[m.end():end if end != -1 else len(html)]
+
+    if 'class="cite' not in band and "class='cite" not in band:
+        f.add(ERROR, "tldr",
+              "the TLDR band carries no citation marker - it is the most quoted "
+              "block on the page and the last place an uncited number may sit")
+
+    regs = set()
+    for attr in re.findall(r'data-reading="([^"]*)"', band):
+        regs |= {r for r in re.split(r"[\s,]+", attr) if r}
+    known = {"primer", "brief", "technical"}
+    if not regs:
+        f.add(WARN, "tldr",
+              "the TLDR band carries no data-reading attributes, so one wording "
+              "serves all three registers. Intended only where the wording is "
+              "genuinely identical in each")
+    else:
+        missing = sorted(known - regs)
+        if missing:
+            f.add(ERROR, "tldr",
+                  "the TLDR band renders for "
+                  + ", ".join(sorted(regs & known))
+                  + " but not " + ", ".join(missing)
+                  + " - a register without the finding is a different page")
+        else:
+            f.ok("tldr", "band present, cited, and rendering in all three readings")
+
+
+def check_motion_feedback(html: str, f: Findings) -> None:
+    """GSAP is a hard requirement, and so are the states it choreographs.
+
+    Two separate failures wear the same face. A page with no motion layer at all
+    passed every earlier gate because the layer was a house rule with an escape
+    hatch in it. And a page whose controls have no hover, focus or active state
+    reads as broken however good its argument is - the reading toggle is the
+    page's primary control, and a primary control that acknowledges a press with
+    nothing is the first thing a reader distrusts.
+    """
+    has_gsap = re.search(r'(?:src|import)\s*[=(]\s*["\'][^"\']*gsap|'
+                         r'\bgsap\.(?:to|from|timeline|registerPlugin|matchMedia|'
+                         r'defaults|quickTo|set)\s*\(',
+                         html, re.I) is not None
+    if not has_gsap:
+        f.add(ERROR, "gsap",
+              "GSAP is not loaded. It is the standing motion layer on every page "
+              "- entrance choreography, reveals, micro-interaction feedback, and "
+              "any scrubbed or pinned episode. Where the argument has no scrubbed "
+              "moment, record that in the methods note and still ship the layer")
+    else:
+        f.ok("gsap", "motion layer present")
+
+    if re.search(r'\bgsap\.(?:to|from|fromTo)\s*\([^)]*:hover', html):
+        f.add(WARN, "gsap",
+              "a hover state appears to be driven from GSAP - tier-0 states stay "
+              "in CSS so they survive a script failure")
+
+    for sel, level, why in (
+        (":focus-visible", ERROR,
+         "no :focus-visible rule - the focus ring may never be removed without a "
+         "visible replacement, in both themes"),
+        (":hover", ERROR,
+         "no :hover rule - every interactive element carries hover, focus, active "
+         "and disabled"),
+        (":active", WARN,
+         "no :active rule - a control that does not acknowledge a press reads as "
+         "broken"),
+        (":disabled", WARN,
+         "no :disabled rule - a disabled control that looks enabled feels broken "
+         "on click"),
+    ):
+        if sel not in html:
+            f.add(level, "micro-interaction", why)
+
+    # outline:none is only a defect when the same block offers no other visible
+    # change. A published page in this portfolio sets background and color there,
+    # which is a legitimate indicator, and an unconditional check called it broken.
+    for blk in re.finditer(r':focus-visible[^{]*\{([^}]*)\}', html, re.I):
+        body = blk.group(1)
+        if not re.search(r'outline\s*:\s*(?:none|0)\s*[;}]?', body, re.I):
+            continue
+        if re.search(r'\b(background|background-color|box-shadow|border|'
+                     r'border-color|text-decoration|color|filter)\s*:', body, re.I):
+            continue
+        f.add(ERROR, "micro-interaction",
+              ":focus-visible removes the outline and sets nothing else visible - "
+              "the replacement has to be seen")
+        break
+
+    if "cursor:pointer" not in html.replace(" ", ""):
+        f.add(WARN, "micro-interaction",
+              "no cursor:pointer anywhere - a clickable card or citation marker "
+              "with a default cursor reads as static text")
+
+
+def check_verdict(path: pathlib.Path, html: str, f: Findings) -> None:
+    """A recommendation is a judgement, and it renders as one.
+
+    A ranking is assembled by reasoning across claims, so it is the strongest
+    thing on the page and the one most likely to arrive with no evidence attached.
+    Two failures this catches: a pick recorded as an empirical finding, and a
+    winner with nothing it loses on - which is a product page, not a verdict.
+    """
+    graph = path.parent / "claims.json"
+    if not graph.is_file():
+        return
+    try:
+        data = json.loads(graph.read_text())
+    except Exception:                                         # noqa: BLE001
+        return
+
+    claims = [c for c in (data.get("claims") or []) if isinstance(c, dict)]
+    picks = [c for c in claims if c.get("rank") is not None or c.get("category")]
+    if not picks:
+        return
+
+    bad_kind = [c.get("id") for c in picks if c.get("kind") != "inference"]
+    if bad_kind:
+        f.add(ERROR, "verdict",
+              f"{len(bad_kind)} pick(s) are not kind=inference: "
+              + ", ".join(str(i) for i in bad_kind[:6])
+              + ". A ranking is assembled by reasoning across claims and renders "
+                "as reasoning, not as a finding")
+    no_from = [c.get("id") for c in picks
+               if c.get("kind") == "inference" and not c.get("from")]
+    if no_from:
+        f.add(ERROR, "verdict",
+              f"{len(no_from)} pick(s) name no claims in `from`: "
+              + ", ".join(str(i) for i in no_from[:6])
+              + ". A reader who disagrees with the ranking needs to see which "
+                "claim to attack")
+
+    cats = {c.get("category") for c in picks if c.get("category")}
+    overfull = [c for c in cats
+                if len([p for p in picks if p.get("category") == c]) > 3]
+    if overfull:
+        f.add(WARN, "verdict",
+              "categories with more than three picks: " + ", ".join(sorted(overfull)[:4])
+              + " - the contract is a top three")
+
+    prose = _prose(html)
+    if not re.search(r"\b(loses on|weaker|worse (?:on|at)|against it|the trade|"
+                     r"downside|it is not the|falls short|costs? more)\b", prose, re.I):
+        f.add(ERROR, "verdict",
+              "the page recommends something and never says what the winner "
+              "loses on. A winner with no stated weakness is a product page")
+    if not re.search(r"\b(would change|changes? (?:the|this) pick|unless you|"
+                     r"if you (?:need|have)|not the pick (?:for|if))\b", prose, re.I):
+        f.add(WARN, "verdict",
+              "no stated condition on the recommendation - a pick with no "
+              "conditions has not been thought about")
+    if not re.search(r"\bas at\b|\bas of\b|\bchecked\b|\bpriced?\s+\w+\s+20\d\d",
+                     prose, re.I):
+        f.add(WARN, "verdict",
+              "no as-at date near the recommendation - a price or version with "
+              "no date is wrong within a quarter and does not know it")
+    if not (bad_kind or no_from):
+        f.ok("verdict", f"{len(picks)} pick(s) across {len(cats) or 1} category(ies), "
+                        "each marked as an inference")
+
+
+def check_imagery(html: str, f: Findings) -> None:
+    """An image is a claim, so it carries provenance.
+
+    An uncaptioned picture on an evidence page is the one element asserting
+    something with no attribution at all - and a generated illustration a reader
+    could mistake for a photograph of the thing under discussion is the same
+    defect the claim graph exists to prevent, arriving through the artwork.
+    """
+    before_rows = len(f.rows)
+    figures = re.findall(r"<figure\b.*?</figure>", html, re.S | re.I)
+    asset_figs = [x for x in figures if re.search(r"<(?:img|video)\b", x, re.I)]
+
+    # Mask every figure out, then anything left is an asset with no caption near it.
+    outside = re.sub(r"<figure\b.*?</figure>", " ", html, flags=re.S | re.I)
+    loose = len(re.findall(r"<(?:img|video)\b", outside, re.I))
+    if loose:
+        f.add(WARN, "imagery",
+              f"{loose} <img>/<video> outside a <figure> - an asset carrying "
+              "evidence needs a caption and a provenance line")
+
+    for fig in asset_figs:
+        if not re.search(r"<figcaption\b", fig, re.I):
+            f.add(ERROR, "imagery",
+                  "a figure containing an image or video has no <figcaption> - "
+                  "every asset carries a caption naming what it is")
+            break
+    for fig in asset_figs:
+        cap = re.search(r"<figcaption\b.*?</figcaption>", fig, re.S | re.I)
+        body = cap.group(0) if cap else ""
+        if not (re.search(r'class="(?:cite|prov)', body)
+                or re.search(r"\bgenerated\b|\bpress kit\b|\bpublic domain\b|"
+                             r"\bCC BY\b|\bcaptured\b|\bretrieved\b", body, re.I)):
+            f.add(ERROR, "imagery",
+                  "an image caption carries no provenance - name the origin and "
+                  "cite it into the registry, or label it as generated")
+            break
+
+    for vid in re.findall(r"<video\b[^>]*>", html, re.I):
+        if "autoplay" in vid.lower():
+            f.add(ERROR, "imagery",
+                  "<video autoplay> - a clip never starts on its own, and never "
+                  "under reduced motion")
+        for attr, why in (("muted", "no muted attribute"),
+                          ("playsinline", "no playsinline attribute"),
+                          ("controls", "no controls attribute"),
+                          ("poster", "no poster - the poster frame is the static "
+                                     "figure and the reduced-motion branch")):
+            if attr not in vid.lower():
+                f.add(WARN, "imagery", f"<video> {why}")
+
+    # Only claim a pass when this gate found nothing: a check whose pass and its
+    # failures print side by side is indistinguishable from one that did not run.
+    if asset_figs and len(f.rows) == before_rows:
+        f.ok("imagery", f"{len(asset_figs)} asset figure(s), each captioned with "
+                        "its provenance")
+
+
+def check_figure_alternatives(html: str, f: Findings) -> None:
+    """Every meaningful figure states its conclusion in text somewhere.
+
+    A chart's text alternative names the message, not the encoding - and it is
+    the only form of the figure available to a reader with a screen reader, with
+    images off, or holding the page printed in greyscale. TanStack's SVG host
+    refuses to render without an aria-label for this reason; a hand-authored
+    figure has to be given one deliberately.
+    """
+    # Strip markup that only *looks* like a DOM element: an <svg> inside a
+    # data:image/svg+xml favicon is a string in an attribute, and counting it
+    # reported a missing label on a page whose figures were all labelled.
+    scan = re.sub(r"<(?:link|meta)\b[^>]*>", " ", html, flags=re.I)
+    scan = re.sub(r"data:image/svg\+xml[^\"\')]*", " ", scan, flags=re.I)
+
+    svgs = re.findall(r"<svg\b[^>]*>", scan, re.I)
+    if not svgs:
+        return
+
+    # An <svg> is covered when it is decorative, self-labelled, or sits in a
+    # figure that carries a caption.
+    captioned_spans = [(m.start(), m.end()) for m in
+                       re.finditer(r"<figure\b.*?</figure>", scan, re.S | re.I)
+                       if re.search(r"<figcaption\b", m.group(0), re.I)]
+
+    def in_captioned_figure(pos: int) -> bool:
+        return any(a <= pos < b for a, b in captioned_spans)
+
+    bare = []
+    for m in re.finditer(r"<svg\b[^>]*>", scan, re.I):
+        tag = m.group(0)
+        if 'aria-hidden="true"' in tag or "aria-label" in tag:
+            continue
+        if in_captioned_figure(m.start()):
+            continue
+        bare.append(tag)
+
+    if bare:
+        f.add(ERROR, "figures",
+              f"{len(bare)} <svg> with no aria-label, no aria-hidden and no "
+              "enclosing <figcaption> - a meaningful figure needs a text "
+              "alternative stating its conclusion; a decorative one needs "
+              "aria-hidden=\"true\"")
+    else:
+        f.ok("figures",
+             f"{len(svgs)} inline figure(s), each labelled, captioned or decorative")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("page", type=pathlib.Path)
@@ -678,9 +969,12 @@ def main() -> int:
     f = Findings()
     for check in (check_citations, check_readings, check_dividers, check_theme,
                   check_self_contained, check_motion, check_chrome, check_head,
-                  check_a11y, check_uncertainty, check_self_description):
+                  check_a11y, check_uncertainty, check_self_description,
+                  check_tldr, check_motion_feedback, check_imagery,
+                  check_figure_alternatives):
         check(html, f)
     check_claim_graph(args.page, html, f)
+    check_verdict(args.page, html, f)
     check_weight(args.page, html, f)
 
     if args.json:
