@@ -187,10 +187,28 @@ never raster.
 ## README and EVALS.md
 
 Both through **create-luke-content** (marketing persona over the base
-voice), then `voice_lint.py --format marketing` until hard-checks clean.
-The em-dash ban covers alt text, table cells, and the GitHub repo
-description. Ground every claim in the built artifacts; numbers come
-from the evals, never from enthusiasm.
+voice), then its voice lint until hard-checks clean.
+
+**The lint belongs to `create-luke-content`, not to this skill, and the path
+matters.** This line used to read `voice_lint.py --format marketing` with no
+owner named, which reads as this skill's own `scripts/` directory, where no such
+file has ever been. An audit concluded from that the gate had never been
+runnable here. It is runnable, and it works:
+
+```bash
+python3 ~/.claude/plugins/cache/diolog-plugins/create-luke-content/<version>/skills/create-luke-content/scripts/voice_lint.py \
+        --format marketing plugins/<name>/README.md
+```
+
+Resolve the version at run time rather than pinning it, since a cache path rots.
+`site/scripts/check-conformance.mjs` does exactly that and runs the lint on every
+README and EVALS.md, so this is now enforced rather than merely asked for. When
+the plugin is not installed that script says the lint was skipped instead of
+passing quietly.
+
+The em-dash ban is one of its hard checks, and it covers alt text, table cells,
+and the GitHub repo description. Ground every claim in the built artifacts;
+numbers come from the evals, never from enthusiasm.
 
 Structure for a **non-technical reader**:
 
