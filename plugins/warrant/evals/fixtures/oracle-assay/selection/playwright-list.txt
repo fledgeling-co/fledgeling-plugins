@@ -1,0 +1,5 @@
+Listing tests:
+  [chromium] › apps/web/e2e/tests/campaign/coverage.spec.ts:14:5 › campaign coverage › ledger rows carry a stable id
+  [chromium] › apps/web/e2e/tests/campaign/coverage.spec.ts:31:5 › campaign coverage › unarmed assertions are counted apart
+  [chromium] › apps/web/e2e/tests/tasks/dictation.spec.ts:9:5 › dictation › the origin is a secure context
+Total: 3 tests in 2 files

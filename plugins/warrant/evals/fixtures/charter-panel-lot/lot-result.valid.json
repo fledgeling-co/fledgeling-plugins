@@ -1,0 +1,14 @@
+{
+ "_note": "Fixture: an assembled lot result with all five required fields present. Each selftest that checks a missing field deletes exactly one key from this file, so every field is observed firing on its own.",
+ "lot_id": "lot-194",
+ "warrant_version": "1",
+ "population": {"id": "lot-194", "size": 194, "queue_positions": 198},
+ "tolerable_error_rate": 0.05,
+ "risk_limit": 0.05,
+ "intolerable_at": 10,
+ "planned_initial_sample": 50,
+ "sample_size": 56,
+ "errors_found": 0,
+ "seed_recovery": {"recovered": 4, "seeded": 4},
+ "decision": "accept the lot: 0 error(s) in 56 of 194 items sampled, and every seeded defect was recovered"
+}

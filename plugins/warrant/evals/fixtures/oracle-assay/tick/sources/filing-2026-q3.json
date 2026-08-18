@@ -1,0 +1,10 @@
+{
+ "id": "filing-2026-q3",
+ "revenue": 1204000,
+ "margin": 18.4,
+ "npat_loss": -88000,
+ "segments": [
+  {"name": "network", "amount": 700000},
+  {"name": "services", "amount": 504000}
+ ]
+}

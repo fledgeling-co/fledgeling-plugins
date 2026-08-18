@@ -1,0 +1,7 @@
+# CI's selected set. Mixed granularity on purpose: two test ids, one whole file,
+# and one id that no longer exists in the authored set.
+apps/web/e2e/tests/campaign/coverage.spec.ts::campaign coverage › ledger rows carry a stable id
+apps/web/e2e/tests/campaign/coverage.spec.ts::campaign coverage › unarmed assertions are counted apart
+apps/web/e2e/tests/tasks/dictation.spec.ts::dictation › the origin is a secure context
+apps/web/e2e/tests/storyboard/sweeps.spec.ts
+apps/web/e2e/tests/tasks/dictation.spec.ts::dictation › a test that was renamed away

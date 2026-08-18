@@ -1,0 +1,21 @@
+<!doctype html>
+<!-- One figure per failure mode: an integer off by one, a float well outside
+     tolerance, a recomputed count that does not match, a value no parser can
+     read, a reference to a record that does not exist, and one figure that ties
+     so the report has to name the right ones. -->
+<html lang="en">
+  <body>
+    <main id="results">
+      <section data-source-ref="filing-2026-q3">
+        <span data-figure-id="revenue-total" data-source-field="revenue">$1,204,000</span>
+        <span data-figure-id="margin" data-source-field="margin">19.1%</span>
+        <span data-figure-id="segment-count" data-source-expr="count(segments)">3</span>
+        <span data-figure-id="npat-loss" data-source-field="npat_loss">n/a</span>
+      </section>
+      <span data-figure-id="headcount" data-source-ref="hr-census-2026-08"
+            data-source-field="headcount">313</span>
+      <span data-figure-id="guidance-fy27" data-source-ref="nope-2026"
+            data-source-field="revenue">$1,500,000</span>
+    </main>
+  </body>
+</html>

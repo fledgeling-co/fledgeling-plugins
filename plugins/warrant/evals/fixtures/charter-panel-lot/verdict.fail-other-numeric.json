@@ -1,0 +1,19 @@
+{
+ "schema_version": "1",
+ "lane": "lens-lineage",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "figure-lineage",
+ "state": "fail",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [
+  {
+   "id": "F-5",
+   "kind": "other",
+   "statement": "Something is off: the surface totals 12.4% where the lodged filing supports 9.8%, so the figure does not tie to its source.",
+   "evidence": "captures/inbox.txt against the source record MARGIN_H1",
+   "locator": "#margin-figure"
+  }
+ ],
+ "uncertainty": {"declared": true}
+}

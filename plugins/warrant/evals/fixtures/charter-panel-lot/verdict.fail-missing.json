@@ -1,0 +1,19 @@
+{
+ "schema_version": "1",
+ "lane": "lens-lineage",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "figure-lineage",
+ "state": "fail",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [
+  {
+   "id": "F-2",
+   "kind": "missing-element",
+   "statement": "The provenance token for the throughput figure is not rendered on the surface.",
+   "evidence": "captures/inbox.txt carries no data-source attribute for #yard-throughput",
+   "locator": "#yard-throughput"
+  }
+ ],
+ "uncertainty": {"declared": true}
+}

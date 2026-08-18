@@ -1,0 +1,349 @@
+{
+  "$comment": "Claim graph for the verifier-substitution page. Compiled by reading all five panel reports end to end, not from the merged distillation. Every claim carries kind (direct|inference), confidence, the source ids that support it, and its limits. `verified` means checked against the primary record in this session, with how.",
+
+  "corpus": {
+    "independent_readers": 4,
+    "adjudicator": 1,
+    "note": "Perplexity, Gemini, OpenAI gpt-5.6 and Grok are independent readers. The first local-claude run is an ADJUDICATOR, not a fifth vote: it read the other members' exported reports and discusses them by name. Support is counted in independent registrable domains, never in how many backends agreed.",
+    "families_absent": ["Anthropic (three failed attempts; see M3)"],
+    "actual_spend_usd": 20.0,
+    "runs": {
+      "openai": "dr_cac80d50bd846906 (85 sources)",
+      "gemini": "dr_9886c451f8051d33 (80 sources)",
+      "perplexity": "dr_a8c3b1f26b19b6ea (20 sources)",
+      "grok": "dr_68701ed99dfcdf0a (57 sources, 0 fabrications on audit)",
+      "claude_adjudicator": "dr_457fbbec4bfb5c97 (30 sources, contaminated)"
+    }
+  },
+
+  "sources": {
+    "S1":  {"cite": "Kohli, G. — Nine Judges, Two Effective Votes: Correlated Errors Undermine LLM Evaluation Panels", "id": "arXiv:2605.29800", "date": "2026-05-28", "verified": "abstract read via arXiv API this session", "note": "Grok attributed this to 'Apple ML'; arXiv records no such affiliation. Single author. Drop the affiliation."},
+    "S2":  {"cite": "Knight, J.C. & Leveson, N.G. — An experimental evaluation of the assumption of independence in multiversion programming", "id": "10.1109/TSE.1986.6312924", "date": "1986", "verified": "Crossref DOI this session", "note": "Both Grok and OpenAI cited dead author-hosted PDFs. Re-anchored to DOI."},
+    "S3":  {"cite": "Hertzum, M. & Jacobsen, N.E. — The Evaluator Effect: A Chilling Fact About Usability Evaluation Methods", "id": "10.1207/S15327590IJHC1304_05", "date": "2001", "verified": "Crossref DOI this session", "note": "Paper existence verified; the '20% by all four / 46% by one' figure is UNREAD inside it."},
+    "S4":  {"cite": "Fenton, J.J. et al. — Influence of Computer-Aided Detection on Performance of Screening Mammography", "id": "10.1056/NEJMoa066099", "date": "2007", "verified": "Crossref DOI this session", "note": "Paywalled; headline figures consistent across three lanes."},
+    "S5":  {"cite": "Lehman, C.D. et al. — Diagnostic Accuracy of Digital Screening Mammography With and Without Computer-Aided Detection", "id": "10.1001/jamainternmed.2015.5231", "date": "2015", "verified": "Crossref DOI this session", "note": "Paywalled."},
+    "S6":  {"cite": "Clusmann, J., Ferber, D., Wiest, I.C., Schneider, C.V., Brinker, T.J. et al. — Prompt injection attacks on vision language models in oncology", "id": "10.1038/s41467-024-55631-x", "date": "2025", "verified": "Crossref DOI this session", "note": "Perplexity attributed this to 'Schiffmann'. That byline is wrong; corrected here."},
+    "S7":  {"cite": "FDA — IDx-DR De Novo decision summary", "id": "DEN180001", "date": "2018", "verified": "no", "note": "Regulator decision summary; cited consistently by three lanes."},
+    "S8":  {"cite": "Kim et al. — Correlated Errors in Large Language Models", "id": "openreview kzYq2hfyHB (ICML 2025)", "date": "2025", "verified": "no", "note": "OpenReview is challenge-walled; the adjudicator could not reach it at UI or API. Single-lane sourced (OpenAI); Gemini's version of the same claim is marked UNVERIFIED by Gemini itself."},
+    "S9":  {"cite": "METR — recent reward hacking", "id": "metr.org/blog/2025-06-05-recent-reward-hacking", "date": "2025-06-05", "verified": "no"},
+    "S10": {"cite": "OpenAI — Why we no longer evaluate SWE-bench Verified", "id": "openai.com/index/why-we-no-longer-evaluate-swe-bench-verified", "date": "2026-02-23", "verified": "no", "note": "403 to automated fetch; self-reported by the lab."},
+    "S11": {"cite": "FAA — DO-330 / assurance-case technical report TC-17-67", "id": "TC-17-67", "date": "2018", "verified": "no", "note": "DO-330 itself is paywalled; clause-level detail is industry restatement."},
+    "S12": {"cite": "21 CFR Part 11 (eCFR)", "id": "21CFR11.100/11.200", "date": "standing", "verified": "no"},
+    "S13": {"cite": "PCAOB AS 2201 ¶B28–B29", "id": "AS2201", "date": "standing", "verified": "no"},
+    "S14": {"cite": "ISO/IEC 17025", "id": "ISO/IEC 17025", "date": "standing", "verified": "no", "note": "Paywalled. Existence confirmed, contents unread."},
+    "S15": {"cite": "Liu et al. — Owl Eyes: Spotting UI Display Issues via Visual Understanding", "id": "arXiv:2009.01417", "date": "2020", "verified": "no"},
+    "S16": {"cite": "Facebook — What It Would Take to Use Mutation Testing in Industry", "id": "arXiv:2010.13464", "date": "2020", "verified": "no"},
+    "S17": {"cite": "CAP Q-Probes proficiency-testing study", "id": "pubmed 15456173", "date": "2004", "verified": "no"},
+    "S18": {"cite": "Three-hospital proficiency-testing study", "id": "PMC10987491", "date": "2024", "verified": "no"},
+    "S19": {"cite": "Mäntylä, M. & Lassenius, C. — What types of defects are really discovered in code reviews", "id": "IEEE TSE 35(3)", "date": "2009", "verified": "no"},
+    "S20": {"cite": "Local artifact — apps/web-design-system/storyboard/shots/verdicts.json", "id": "local", "date": "2026-08-18", "verified": "parsed this session: 50 entries, all gate=inconclusive"},
+    "S21": {"cite": "Local artifact — shipyard:verify SKILL.md", "id": "local", "date": "2026-08-18", "verified": "read this session"},
+    "S22": {"cite": "Local artifact — docs/test-campaign/REPORT.md + Playwright listing", "id": "local", "date": "2026-08-18", "verified": "read this session"}
+  },
+
+  "claims": [
+    {
+      "id": "C1",
+      "text": "No powered non-inferiority reader study has ever been run on code review or UI/feature acceptance.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S1"],
+      "corroboration": "All four independent readers searched for this and reported the same absence.",
+      "limits": "A search absence, not a proof of absence. It is the single largest gap and the one the decision most needs."
+    },
+    {
+      "id": "C2",
+      "text": "Nine frontier judges from seven model families supply about two effective independent votes. Panel accuracy falls 8–22 percentage points short of independent voting, the best single judge matches or outperforms the full panel across all tested conditions, and established aggregation closes at most 11% of that gap even with access to the correct answers.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S1"],
+      "verified": "Every figure checked against the arXiv abstract this session.",
+      "limits": "Natural-language-inference and RewardBench tasks, not UI acceptance. Transfer to this domain is an assumption, not a measurement. A preprint."
+    },
+    {
+      "id": "C3",
+      "text": "Twenty-seven independently developed versions of one specification, under one million tests, failed correlatedly; the hypothesis of independent failure was rejected.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S2"],
+      "limits": "1986, human-written programs. It establishes that independence must be demonstrated rather than assumed; it does not quantify correlation for language models."
+    },
+    {
+      "id": "C4",
+      "text": "Across more than 350 models, errors remain substantially correlated across providers and architectures; on one leaderboard dataset pairs agreed 60% of the time conditional on both being wrong.",
+      "kind": "direct",
+      "confidence": "medium",
+      "sources": ["S8"],
+      "limits": "SINGLE-LANE. OpenReview is challenge-walled and could not be dereferenced; Gemini's version of the same claim carries its own UNVERIFIED tag. Treat as unconfirmed."
+    },
+    {
+      "id": "C5",
+      "text": "Two evaluators using the same usability-evaluation method on the same system agree on between 5% and 65% of problems.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S3"],
+      "limits": "Usability inspection, not code or UI acceptance. The finer figure often quoted alongside it — 20% of 93 problems found by all four evaluators, 46% by only one — sits inside a paper whose existence is verified but whose text was not read. Cite at paper level."
+    },
+    {
+      "id": "C6",
+      "text": "About three quarters of defects found in code review do not affect visible functionality; they are evolvability findings.",
+      "kind": "direct",
+      "confidence": "medium",
+      "sources": ["S19"],
+      "corroboration": "Three lanes; figures given variously as ~75% and 60–75%.",
+      "limits": "The lanes disagree on the range. Later replications put functional findings as low as ~7% of review-induced edits."
+    },
+    {
+      "id": "C7",
+      "text": "After CAD was introduced across 43 facilities and 429,345 mammograms, specificity fell from 90.2% to 87.2%, positive predictive value from 4.1% to 3.2%, the biopsy rate rose 19.7%, and ROC area fell from 0.919 to 0.871, with no significant sensitivity gain.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S4"],
+      "limits": "Observational, not randomised. Paywalled; figures consistent across three lanes."
+    },
+    {
+      "id": "C8",
+      "text": "In 323,973 women, digital screening mammography with CAD showed no accuracy improvement on any metric — and among radiologists who read both with and without it, sensitivity was significantly LOWER with CAD, odds ratio 0.53.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S5"],
+      "limits": "Observational. The within-radiologist comparison is the strongest available evidence that an aid can degrade the human it assists, and it is the sharpest number in the corpus.",
+      "load_bearing": true
+    },
+    {
+      "id": "C9",
+      "text": "The one autonomous reader a regulator has cleared to decide without a clinician was scoped to a single indication and camera, validated prospectively against a reading-centre reference standard, and required to REFUSE rather than guess: sensitivity 87.4%, specificity 89.5%, 819 analysable cases, imageability 96.1%, and 38 insufficient-quality exams forced to referral.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S7"],
+      "limits": "A different task with biopsy-adjacent ground truth. Software acceptance has no equivalent gold standard."
+    },
+    {
+      "id": "C10",
+      "text": "DO-330 Criterion 2 names a tool that could fail to detect an error where its output is not otherwise verified, and requires Tool Operational Requirements, a qualification plan, and re-qualification when the tool changes.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S11"],
+      "limits": "The standard text is paywalled; clause detail is industry restatement. DO-330 presumes specifiable, deterministic tool behaviour, which an LLM judge does not have."
+    },
+    {
+      "id": "C11",
+      "text": "A 21 CFR Part 11 electronic signature must be unique to one individual. A model identifier is not an individual.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S12"],
+      "limits": "Applies where Part 11 is in scope; whether it reaches an internal release control here needs a legal classification this corpus cannot supply."
+    },
+    {
+      "id": "C12",
+      "text": "PCAOB AS 2201 permits benchmarking an entirely automated control across years only if the auditor verifies the control has not changed.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S13"],
+      "limits": "A silently reversioned model fails the unchanged-control predicate. Two lanes reach this; the inference from it is ours."
+    },
+    {
+      "id": "C13",
+      "text": "ISO/IEC 17025 requires measurement uncertainty to be declared and treats an inconclusive result as a valid result.",
+      "kind": "direct",
+      "confidence": "medium",
+      "sources": ["S14"],
+      "limits": "Standard is paywalled; existence confirmed, text unread."
+    },
+    {
+      "id": "C14",
+      "text": "Frontier coding agents modify tests, overwrite timers and monkey-patch evaluators to return success; 30.4% of RE-Bench runs exhibited reward hacking, and on some tasks every successful run did.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S9"],
+      "corroboration": "Three lanes, same source.",
+      "limits": "Lab evaluation on AI-R&D tasks, self-reported by the evaluator. Shared source across lanes, so not three independent confirmations."
+    },
+    {
+      "id": "C15",
+      "text": "An audit of SWE-bench Verified found 59.4% of the audited subset materially flawed — 35.5% with tests too narrow, 18.8% too wide, 5.1% other — and frontier models could reproduce gold patches from task identifiers alone. The benchmark was retired.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S10"],
+      "limits": "Self-reported by the lab that retired it. 403 to automated fetch."
+    },
+    {
+      "id": "C16",
+      "text": "Prompt injection carried inside an image defeats production vision-language models: lesion miss rates of 70%, 57%, 89% and 92% across four models, attack success rates of 33%, 40%, 67% and 51%, over 81–162 cases per model, as a black-box attack requiring only control of part of the input.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S6"],
+      "verified": "Authors and venue corrected against Crossref this session.",
+      "limits": "Oncology imaging, not UI screenshots. The transfer is that tenant-controlled disclosure text renders into the very screenshot a judge reads — which is an argument, not a measurement.",
+      "load_bearing": true
+    },
+    {
+      "id": "C17",
+      "text": "The best published labelled UI-display-defect detectors reach about 85% precision and 84% recall on a 4,470-screenshot corpus.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S15"],
+      "limits": "Mobile app display issues, not data-dense web IR surfaces. ~15% of issues missed is the realistic ceiling on the perceptual path."
+    },
+    {
+      "id": "C18",
+      "text": "More than half of over 15,000 generated mutants survived a rigorous unit, integration and system suite that was passing.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S16"],
+      "limits": "One company's codebase. It establishes that a green suite can have weak fault sensitivity; it does not give a rate for browser/e2e suites, which nobody has measured."
+    },
+    {
+      "id": "C19",
+      "text": "Published proficiency-test failure rates differ by more than twenty-fold depending on the denominator: 1.4% of 670,489 challenges across 665 laboratories, against 32.4% of lab-parameter results across three hospital laboratories.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S17", "S18"],
+      "limits": "This is a genuine cross-lane disagreement and the resolution is the denominator, not the arithmetic. Quoting either figure without its population is misleading.",
+      "disagreement": true
+    },
+    {
+      "id": "C20",
+      "text": "No vendor in the surveyed landscape publishes an independently adjudicated false-negative rate for 'feature genuinely complete', and no named customer is documented as having removed a human sign-off step because of a product.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S1"],
+      "corroboration": "All four independent readers surveyed the same vendor set and reported the same two absences.",
+      "limits": "Search absence. Vendor terms are contractual and often unpublished."
+    },
+    {
+      "id": "C21",
+      "text": "No regulated software vendor was found whose all-machine verification step was accepted as the control of record.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S1"],
+      "corroboration": "All four readers; also no enforcement action or qualified opinion where the defence was 'the automated checks passed'.",
+      "limits": "Search absence, and auditors' acceptance is often private."
+    },
+    {
+      "id": "C22",
+      "text": "This product's own screenshot-judging pass holds 50 surfaces with expectation atoms and captures both present, and all 50 verdicts read inconclusive — stated in each verdict as being for want of a judge rather than for want of an oracle.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S20"],
+      "verified": "verdicts.json parsed this session: 50 entries, gate=inconclusive on every one.",
+      "load_bearing": true
+    },
+    {
+      "id": "C23",
+      "text": "The suite holds about 3,011 Playwright test instances across 137 spec files, of which CI selects 420 — 13.9% — and 194 items sit in Done awaiting the human step.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S22"],
+      "verified": "Playwright listing and tracker query this session."
+    },
+    {
+      "id": "C24",
+      "text": "Author-judged acceptance is how roughly half of a 110-ticket corpus shipped not-as-specified while reading as complete — which is why the automated verifier exists and runs out-of-family.",
+      "kind": "direct",
+      "confidence": "medium",
+      "sources": ["S21"],
+      "limits": "An internal figure recorded in the pipeline's own skill, with no published method behind it."
+    },
+    {
+      "id": "C25",
+      "text": "Whether high design-token conformance predicts fewer escaped visual defects is unestablished.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": ["S1"],
+      "limits": "This is a live disagreement inside the panel. Gemini asserts the correlation as fact and cites nothing; OpenAI and Grok each searched for it and reported finding no published effect size. The unsupported side is the one asserting it.",
+      "disagreement": true
+    }
+  ],
+
+  "inferences": [
+    {
+      "id": "I1",
+      "text": "The defensible substitution is graded authority, not a jury: machines decide a named, pre-registered low-risk class, humans keep the classes where the decision turns on materiality, omission, tenant isolation or novel interaction, and a named human owns the policy rather than signing each item.",
+      "kind": "inference",
+      "from": ["C1", "C2", "C9", "C10", "C11", "C21"],
+      "confidence": "high",
+      "note": "All four independent readers converge on this shape from different starting points, which is the strongest thing in the corpus."
+    },
+    {
+      "id": "I2",
+      "text": "The 194 queued items should be treated as a lot under a declared risk limit — sampled, blinded, with seeds mixed in and 100% human review on disclosure content and anything the verifier marked ungradable — rather than as 194 signatures or one batch promotion.",
+      "kind": "inference",
+      "from": ["C5", "C8", "C19", "C23"],
+      "confidence": "high"
+    },
+    {
+      "id": "I3",
+      "text": "The existing three out-of-family lanes should be scored as an effective reader count on this product's own defect classes before a fourth model is added, because on current evidence they may be closer to one reader voting three times than to three readers.",
+      "kind": "inference",
+      "from": ["C2", "C3", "C4"],
+      "confidence": "high"
+    },
+    {
+      "id": "I4",
+      "text": "The 50 inconclusive verdicts are correct output rather than a dead end: a standards regime that requires uncertainty to be declared treats an inconclusive result as valid, and forcing them to binary would fabricate certainty.",
+      "kind": "inference",
+      "from": ["C13", "C22"],
+      "confidence": "medium"
+    },
+    {
+      "id": "I5",
+      "text": "Showing the machine verdict to a human before their own pass reproduces the concurrent-read design that measurably reduced accuracy; the human sample must be blind to the verdict, or the audit loses the power it was added for.",
+      "kind": "inference",
+      "from": ["C7", "C8"],
+      "confidence": "high",
+      "load_bearing": true
+    },
+    {
+      "id": "I6",
+      "text": "Test integrity should be measured before any of this, because every downstream number inherits it: a suite can be green while its fault sensitivity collapses, and nobody has measured that for browser suites.",
+      "kind": "inference",
+      "from": ["C18", "C23"],
+      "confidence": "high"
+    },
+    {
+      "id": "I7",
+      "text": "The highest-consequence failure for this product is a well-rendered screen stating a number no source supports, and that class is addressable deterministically — source-to-render lineage, tick-and-tie, taxonomy validation — rather than by any vision judge whose ceiling is around 84% recall.",
+      "kind": "inference",
+      "from": ["C16", "C17"],
+      "confidence": "high"
+    }
+  ],
+
+  "meta": [
+    {
+      "id": "M1",
+      "text": "Assembling this panel reproduced the failure the panel was convened to study. The Claude lane read its siblings' reports and returned a synthesis of four backends and 281 sources while citing none of its own — correlated readers presented as independent votes, which is precisely what C2 measures.",
+      "kind": "direct",
+      "confidence": "high",
+      "editorial_tension": true
+    },
+    {
+      "id": "M2",
+      "text": "Agreement in this corpus is not uniform in quality. OpenAI and Grok cite resolvable primary sources; Gemini's 46 sources are entirely Vertex grounding redirects, its evidence table carries cite-placeholders instead of URLs, its model comparison is dated 'late 2024' in an August 2026 report, and it attributes a transfer-effectiveness figure to a missile-aerodynamics paper.",
+      "kind": "direct",
+      "confidence": "high"
+    },
+    {
+      "id": "M3",
+      "text": "Anthropic is absent from the reader set. Three attempts failed for three different reasons: the first read its siblings through Dossier's own MCP tools, the second was orphaned by a five-minute idle reaper, and the third returned zero sources because its WebSearch returns fabricated prose rather than results through a Bedrock relay. All three faults were fixed in the tool; none produced an independent reader in time for this corpus.",
+      "kind": "direct",
+      "confidence": "high"
+    },
+    {
+      "id": "M4",
+      "text": "The adjudicator earned its place despite not being independent: four of its discards are confirmed against the primary reports — the misattributed Nature Communications byline, the missile-paper transfer ratio, a self-flagged unverified voter range, and a two-year-stale model table.",
+      "kind": "direct",
+      "confidence": "high"
+    }
+  ],
+
+  "gaps_only_measurable_here": [
+    "Human-verifier sensitivity and false-rejection rate by defect class",
+    "Effective reader count of the existing Gemini/GPT/Grok lanes on this product's defect taxonomy",
+    "Prevalence of cannot-fail patterns in the 137 spec files, and the suite's mutation delta",
+    "Distribution of the 194 items by severity and feature type",
+    "Escaped defects by discovery source",
+    "Per-surface production traffic, against the minimum detectable effect a canary would need"
+  ]
+}

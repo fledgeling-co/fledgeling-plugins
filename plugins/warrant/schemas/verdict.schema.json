@@ -1,0 +1,163 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "warrant/verdict.schema.json",
+ "title": "warrant lane verdict",
+ "description": "What one lane returns about one item. Consumed through Structured Outputs rather than a prefill, which current models reject. Three terminal states: pass, fail and inconclusive — and inconclusive is a valid terminal answer that routes to a person, not a retry, because measurement uncertainty has to be declarable. Note what is absent: the verdict carries no model id or version. The operator's pin in lanes.toml is authoritative for those, so a lane cannot report a model it was not run as, and additionalProperties is false so it cannot smuggle one in.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "schema_version",
+  "lane",
+  "item",
+  "defect_class",
+  "state",
+  "evidence_digest",
+  "findings",
+  "uncertainty"
+ ],
+ "properties": {
+  "schema_version": {
+   "const": "1"
+  },
+  "lane": {
+   "description": "The lane id from lanes.toml. lane_run.py rejects a verdict written for a different lane than the one it ran.",
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 80
+  },
+  "item": {
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 200
+  },
+  "surface": {
+   "type": "string",
+   "maxLength": 400
+  },
+  "defect_class": {
+   "description": "A class named in the warrant. A class the warrant does not name defaults to tier 0, and no machine may close it.",
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 120
+  },
+  "state": {
+   "type": "string",
+   "enum": [
+    "pass",
+    "fail",
+    "inconclusive"
+   ]
+  },
+  "evidence_digest": {
+   "description": "The digest snapshot_evidence.py printed before any judging. A verdict whose digest does not match the snapshot on disk is void.",
+   "type": "string",
+   "minLength": 64,
+   "maxLength": 64
+  },
+  "findings": {
+   "type": "array",
+   "maxItems": 200,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "kind",
+     "statement",
+     "evidence"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+     },
+     "kind": {
+      "description": "What sort of proposition this is. adjudicate.py routes a disagreement by kind: numeric to tick_and_tie.py, missing-element to lineage_gate.py, classification to taxonomy_check.py, anything else to a named person.",
+      "type": "string",
+      "enum": [
+       "numeric",
+       "missing-element",
+       "classification",
+       "perceptual",
+       "other"
+      ]
+     },
+     "statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+     },
+     "evidence": {
+      "description": "Where in the snapshot this is visible. A finding with no locatable evidence cannot be settled by a deterministic check.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+     },
+     "locator": {
+      "type": "string",
+      "maxLength": 400
+     }
+    }
+   }
+  },
+  "uncertainty": {
+   "description": "Declared, not inferred. An inconclusive verdict must say why and what would settle it.",
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "declared"
+   ],
+   "properties": {
+    "declared": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string",
+     "maxLength": 2000
+    },
+    "what_would_settle_it": {
+     "type": "string",
+     "maxLength": 2000
+    }
+   }
+  }
+ },
+ "oneOf": [
+  {
+   "description": "A terminal pass or fail.",
+   "type": "object",
+   "required": [
+    "state"
+   ],
+   "properties": {
+    "state": {
+     "enum": [
+      "pass",
+      "fail"
+     ]
+    }
+   }
+  },
+  {
+   "description": "Inconclusive, which is terminal too — and has to carry the reason and what would settle it, or it is a shrug rather than a result.",
+   "type": "object",
+   "required": [
+    "state",
+    "uncertainty"
+   ],
+   "properties": {
+    "state": {
+     "const": "inconclusive"
+    },
+    "uncertainty": {
+     "type": "object",
+     "required": [
+      "reason",
+      "what_would_settle_it"
+     ]
+    }
+   }
+  }
+ ]
+}

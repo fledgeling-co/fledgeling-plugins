@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>warrant icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 28px; max-width: 900px; }
+  .measured table { min-width: 0; }
+  .measured td { font-variant-numeric: tabular-nums; padding: 7px 16px; }
+  .measured td:first-child { color: #a9bec5; }
+  .rounds { margin-top: 28px; max-width: 900px; color: #a9bec5; }
+  .rounds table { min-width: 0; }
+  .rounds td, .rounds th { padding: 8px 16px; font-size: 13px; }
+  .rounds td:first-child { color: #7fa0aa; white-space: nowrap; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>warrant icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "the ladder, settling" · Tahoe gel-glass, porcelain sub-register (a) · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">ship · icon.svg<small>hand-authored layered SVG (Engine A, round 8) — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/ship-1024.png" width="160" height="160" alt="ship take hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/ship-256.png" width="128" height="128" alt="ship take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/ship-128.png" width="64" height="64" alt="ship take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/ship-96.png" width="48" height="48" alt="ship take at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/ship-64.png" width="32" height="32" alt="ship take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/ship-32.png" width="16" height="16" alt="ship take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/ship-32.png" width="96" height="96" alt="ship take 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Non-negotiables 1&ndash;4 all pass on real renders: the tile is authored full-bleed with the squircle applied at export, the ink bbox centres on (511, 521) at 65% of the tile, the silhouette is nameable as a narrowing stack, and a centre-column probe counts five separate bars at 128, 64, 48 and 32px. Docked on #10: flattened to a mono tint the five-slab structure and the landed slab's contact line both survive, but the accent's <em>emission</em> does not &mdash; the well is a chroma shift at near-equal luminance, so in grey the narrowest slab reads as the palest rather than as the lit one, which is the apple-13 inversion this direction exists to refuse. Fixing it would mean darkening the slab that has to look lit in the register that actually ships.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">left · icon-A-left.svg<small>hand-authored layered SVG (Engine A, alternative composition)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/left-1024.png" width="160" height="160" alt="left-aligned take hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/left-256.png" width="128" height="128" alt="left-aligned take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/left-128.png" width="64" height="64" alt="left-aligned take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/left-96.png" width="48" height="48" alt="left-aligned take at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/left-64.png" width="32" height="32" alt="left-aligned take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/left-32.png" width="16" height="16" alt="left-aligned take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/left-32.png" width="96" height="96" alt="left-aligned take 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Identical material, identical stand-off decay, one change: the five slabs share a left edge instead of a centre line. It reads as a horizontal bar chart with the shortest bar highlighted &mdash; i.e. as "the smallest value", which is the meaning inversion the direction was briefed to avoid, and depth does not rescue it because a chart's bars have depth too. It also loses #2 perceptually: the mass collapses to the left and the lower-right quadrant empties out, so the tile is bbox-centred while looking off-centre. This take is why the ship take is centred, and it is on the sheet so that choice rests on a render rather than on an assertion.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">v1 · icon-A-v1.svg<small>hand-authored layered SVG (Engine A, first draft)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/v1-1024.png" width="160" height="160" alt="v1 take hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/v1-256.png" width="128" height="128" alt="v1 take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/v1-128.png" width="64" height="64" alt="v1 take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/v1-96.png" width="48" height="48" alt="v1 take at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/v1-64.png" width="32" height="32" alt="v1 take at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/v1-32.png" width="16" height="16" alt="v1 take at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/v1-32.png" width="96" height="96" alt="v1 take 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The same five widths and the same palette with the signature move removed: no top face, no stand-off, one shared floor shadow. It is the take that proves the direction needs depth. Fails #8 (nothing is at any height, so the shadow under the stack belongs to nothing), #11 (with the stand-off gone there is no nameable device left and it is glyph-on-gradient), and #6 (the accent is a flat chip, so the teal is decoration rather than the one lit element). It also lands squarely in the two readings the direction has to avoid &mdash; a flat centred stack of rectangles is a bar chart or a signal meter, both of which invert the meaning. Nothing was salvaged; every parameter it establishes was kept and every material choice was replaced.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship ship (icon.svg).</strong> The master is four named layers &mdash; <code>bg</code> cushion tile and the accent's wide well, <code>mid</code> the five cast shadows that are the only record of stand-off, <code>fg</code> the four slate slabs, <code>highlight</code> the accent slab with its tight well and the one rim its light puts on the slab above &mdash; carrying identity in shape and value with hue as the last 10%, so it is not a baked raster and does not depend on one ground colour. It is a decorative marketplace PNG rather than Icon Composer input, so the squircle mask and the material are correctly baked into the exports; <code>fidelity.py structure</code> passes at 39 paths, 29 gradients, 3 filters, 4 named groups. The palette was sampled out of <code>references/corpus/apple-2026/</code> rather than described &mdash; apple-26 for the porcelain ramp and the emissive-on-porcelain recipe, apple-13 for the stacked-slab construction and the value inversion to avoid, apple-12 for one bounded accent on a warm-neutral ground &mdash; and the ground constants are lifted verbatim from <code>plugins/shipyard/assets/build_icon.py</code>. Known liabilities to revisit: (1) at 16px the accent's hue is lost, so the tile reads as a dark narrowing wedge and the "which scope was earned" half of the story goes with it &mdash; the silhouette survives, the accent does not; (2) under a mono tint the narrowest slab is the palest mass, the #10 dock above; (3) <code>report</code> is the closest neighbour on this shelf and is also stacked bars on porcelain with one accent, separated here by inverted value (dark slate slabs against its pale cards) and by hue, not by outline; (4) the slate at H219 and the teal at H188 are only 31&deg; apart, which is good for palette economy and costs the accent some separation at small sizes; (5) three <code>feGaussianBlur</code> filters carry the cast shadows and the well, so a renderer without filter support shows the tile flat and the signature move disappears entirely &mdash; verified in <code>rsvg-convert</code>.</div>
+
+<div class="measured">
+<table>
+  <caption class="visually-hidden">Figure-ground and small-size measurements from the shipped 1024 render</caption>
+  <tr><th scope="col">Measured on the shipped 1024 render</th><th scope="col">Value</th></tr>
+  <tr><td>slate front face vs tile</td><td>7.48:1</td></tr>
+  <tr><td>slate lit top face vs tile</td><td>3.48:1</td></tr>
+  <tr><td>accent front face vs tile</td><td>5.63:1</td></tr>
+  <tr><td>accent lit top vs its own front face</td><td>2.94:1 &mdash; matched to the slate slabs' 2.59:1 so the fold reads as one object</td></tr>
+  <tr><td>accent lit top vs slate lit top</td><td>1.82:1</td></tr>
+  <tr><td>ink bbox</td><td>(178, 186)&ndash;(844, 856), 666&times;670, centre (511, 521) against a 512 target</td></tr>
+  <tr><td>object fills</td><td>65% &times; 65% of the tile (composition constant: 55&ndash;65%)</td></tr>
+  <tr><td>32px luminance spread</td><td>0.784</td></tr>
+  <tr><td>16px luminance spread</td><td>0.733</td></tr>
+  <tr><td>countable bars, centre column</td><td>5 at 128px (runs 11/12/11/11/8 device px), 5 at 64, 5 at 48, 5 at 32</td></tr>
+</table>
+</div>
+
+<div class="rounds">
+<table>
+  <caption class="visually-hidden">What each round changed and why</caption>
+  <tr><th scope="col">Round</th><th scope="col">What the render said, and what changed</th></tr>
+  <tr><td>r01</td><td>Shadows drawn straight below each slab and scaled by blur: all five read as the same grey smear and nothing floated, so the signature move was absent from the artifact that was supposed to carry it.</td></tr>
+  <tr><td>r02</td><td>50+26px slabs read as a stripe with a highlight on it. Raised to 62+32 and widened the top face to a third of the object, which also stops five centred bars reading as a loading skeleton. Accent lit face measured 1.02:1 against the slate lit faces &mdash; identical luminance, adjacent hue &mdash; so the accent read as "the teal one" rather than as the lit one.</td></tr>
+  <tr><td>r03</td><td>Offset the shadow along the key, down-and-right, so each is a displaced copy of its own slab rather than a pool under it. Wells re-centred on the slab's middle: they had been pooling downward into empty porcelain and were the brightest softest thing in the tile. Fold given a real AO band; rim light given a falloff instead of one opacity end to end.</td></tr>
+  <tr><td>r04</td><td>The displacement worked and cost the thing the direction is graded on: a 94px shadow offset 34px down pokes below its own slab and the countability probe read SIX bars at 128px. Traded vertical offset for horizontal &mdash; a higher key light, same read, shadow slides onto clear porcelain instead of stacking under the slab. Back to 5.</td></tr>
+  <tr><td>r05</td><td>The accent measured 3.43:1 across its own fold where every slate slab measures 2.23:1, so its pale top read as a mint cap stuck onto a dark body. Body now starts bright immediately under the fold and deepens from there (apple-06's emissive-from-within tell); lit face kept chromatic rather than near-white.</td></tr>
+  <tr><td>r06</td><td>Rubric #7: the slate lit top faces measured 2.89:1 against the tile, under the 3:1 floor, with a third of each slab's area below the bar. Darkened ~12% &rarr; 3.48:1, which also widened the accent's lit face from 1.51:1 to 1.82:1.</td></tr>
+  <tr><td>r07</td><td>The mono-tint check found the #10 problem: flattened to grey the accent was the palest mass. Deepened its body and raised the well, on the reasoning that a pool on the ground can say "lit" where an object's own luminance can only say "pale".</td></tr>
+  <tr><td>r08</td><td>The well's radius (118) barely exceeded the slab's own half-width (101), so nearly all of it was painted and then covered &mdash; it measured 1.08:1 because there was almost no visible ring. Both wells re-proportioned off the slab and squashed to ellipses, since a circular pool around a 202&times;94 slab either misses the sides or floods above and below.</td></tr>
+</table>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Engines B (media-gen-pro Arrow) and C (media-gen-pro raster) were not run: this commission was scoped to a fixed deliverable list that admits no alternate-engine files, so Engine A was widened to three genuinely different hand-authored takes per the skill's stated fallback and the deviation is recorded here rather than left implicit. Without those a raster material reference does not exist, so the fidelity loop was not run either &mdash; and torch is absent on this machine, which would have made its gate refuse as a degraded tier regardless. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Every take is reproducible from one generator &mdash; <code>python3 build_icon.py</code>, <code>--variant v1</code>, <code>--variant left</code> &mdash; and the master rebuilds byte-identically, so a row on this sheet can be regenerated rather than trusted. The direction, the sampled palette, the eight rounds and the full liability list are in <code>icon-notes.md</code> beside this file.</div>
+</body>
+</html>

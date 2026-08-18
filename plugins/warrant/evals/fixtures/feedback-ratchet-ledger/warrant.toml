@@ -1,0 +1,56 @@
+# A fixture warrant. Comments are here on purpose: revoke.py edits this file
+# surgically rather than re-serialising it, and the selftest asserts the
+# comments survive.
+version = "1.4.0"
+owner = "Luke Rhodes"
+signed_at = "2026-06-01T00:00:00+00:00"
+renewal = "2026-12-01"
+staleness_days = 120
+
+[thresholds]
+oracle_coverage_tier1 = 0.95
+mutation_score_min = 0.60
+cannot_fail_max = 0
+
+[westgard]
+# Declared baseline for the regression pass-rate chart.
+mean = 0.95
+sd = 0.01
+
+# figure-lineage sits at tier 2 and is the class every revocation trigger is
+# tested against.
+[[classes]]
+name = "figure-lineage"
+tier = 2
+lanes = ["grader"]
+oracle_coverage_min = 0.95
+
+[classes.calibration]
+at = "2026-07-01T00:00:00+00:00"
+models = ["grader=anthropic/claude-opus-4.8@2026-07-01"]
+
+[[classes]]
+name = "layout-drift"
+tier = 1
+lanes = ["grader", "lens-mock"]
+oracle_coverage_min = 0.90
+
+[classes.calibration]
+at = "2026-07-01T00:00:00+00:00"
+models = [
+  "grader=anthropic/claude-opus-4.8@2026-07-01",
+  "lens-mock=google/gemini-3.1-pro-preview@2026-06-15",
+]
+
+# A class the machine only advises on. Nothing here can be revoked because
+# there is no authority to take away, and max_tier stops the ratchet proposing
+# any: disclosure content is census-reviewed, not sampled.
+[[classes]]
+name = "disclosure-content"
+tier = 0
+max_tier = 0
+lanes = ["grader"]
+
+[classes.calibration]
+at = "2026-07-01T00:00:00+00:00"
+models = ["grader=anthropic/claude-opus-4.8@2026-07-01"]

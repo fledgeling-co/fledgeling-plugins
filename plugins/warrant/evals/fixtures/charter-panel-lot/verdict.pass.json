@@ -1,0 +1,11 @@
+{
+ "schema_version": "1",
+ "lane": "grader-primary",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "figure-lineage",
+ "state": "pass",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [],
+ "uncertainty": {"declared": true, "reason": "", "what_would_settle_it": ""}
+}

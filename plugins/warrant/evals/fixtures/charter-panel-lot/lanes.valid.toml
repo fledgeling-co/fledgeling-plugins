@@ -1,0 +1,27 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Fixture: lanes.toml with every model pinned to an id AND a version.
+#
+# One primary grader out of the family that built the work, plus lens lanes on
+# orthogonal questions. None of them vote: `adjudicate.py` routes a disagreement
+# to a deterministic check rather than counting lanes.
+#
+# `cmd` is the operator's own command. lane_run.py substitutes {prompt_file} and
+# {model} and shells out; it never calls an API itself.
+# ──────────────────────────────────────────────────────────────────────────────
+
+[[lanes]]
+id = "grader-primary"
+role = "grader"
+model = "example/grader-v2"
+version = "2026-06-01"
+classes = ["figure-lineage", "render-fidelity"]
+cmd = "python3 {prompt_file} --model {model}"
+
+[[lanes]]
+id = "lens-lineage"
+role = "lens"
+question = "does every rendered figure tie to a source record"
+model = "example/lens-v3"
+version = "2026-05-14"
+classes = ["figure-lineage"]
+cmd = "python3 {prompt_file} --model {model}"

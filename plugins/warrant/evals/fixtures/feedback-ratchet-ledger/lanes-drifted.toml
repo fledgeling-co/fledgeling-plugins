@@ -1,0 +1,11 @@
+# Same lanes, grader reversioned. The control changed, so every class that
+# depends on the grader drops to tier 0 until it re-earns it (C12).
+[[lanes]]
+role = "grader"
+model_id = "anthropic/claude-opus-4.8"
+version = "2026-08-14"
+
+[[lanes]]
+role = "lens-mock"
+model_id = "google/gemini-3.1-pro-preview"
+version = "2026-06-15"
