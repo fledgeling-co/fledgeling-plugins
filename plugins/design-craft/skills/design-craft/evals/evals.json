@@ -190,7 +190,7 @@
       "The contrast checklist opened with a script path that may not resolve outside the skill. accessibility-audit.md now says what to do when it does not.",
       "The re-measurement probe could be run with nothing animating and its zero filed as a pass. Caught by the xAI judge; the probe now carries its precondition.",
       "The inline-the-library route was named and never shown. Caught by the xAI judge; gsap-motion.md now shows the three-tag shape.",
-      "Six findings in total, two of them real arithmetic defects in a technique this rebuild introduced, found by judges who could see neither the code nor each other."
+      "Seven findings in total, two of them real arithmetic defects in a technique this rebuild introduced, found by judges who could see neither the code nor each other."
     ],
     "result": "9 of 9 for the rebuild, unanimous across three families, blind. Three families, not four; reported as three."
   }
