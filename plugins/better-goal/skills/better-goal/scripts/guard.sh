@@ -187,10 +187,10 @@ $TAIL
   if [ "$FP" = "$LAST_FP" ]; then REPEATS=$((REPEATS + 1)); else REPEATS=1; ESCALATED=false; fi
 
   if [ "$REPEATS" -gt "$STUCK_AFTER" ] && [ "$ESCALATED" = "true" ]; then
-    ledger_row "$NEXT" "stop" "$FAILED_NAMES" "identical failure ×$REPEATS after escalation — stuck, disarmed"
+    ledger_row "$NEXT" "stop" "$FAILED_NAMES" "identical failure ×$REPEATS after escalation, stuck, disarmed"
     disarm "stuck"
     state_set "$STATE" --arg f "$FAILED_NAMES" '.stuck_on=$f'
-    log "$SLUG: identical failure ×$REPEATS — disarmed as stuck"
+    log "$SLUG: identical failure ×$REPEATS, disarmed as stuck"
     return 0
   fi
 

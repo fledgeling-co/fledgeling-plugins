@@ -156,7 +156,7 @@ while true; do
     if [ "$NOW" -lt "$NEXT" ]; then
       seen_write "$FP" "$((COUNT + 1))" "$NEXT"
       printf '%s' "$OUT" >"$PREV"
-      ledger_row "repeat" "$FP" "seen ×$((COUNT + 1)) — suppressed until $(date -r "$NEXT" +%H:%M 2>/dev/null || echo "$NEXT")"
+      ledger_row "repeat" "$FP" "seen ×$((COUNT + 1)), suppressed until $(date -r "$NEXT" +%H:%M 2>/dev/null || echo "$NEXT")"
       UNCHANGED=0; sleep "$INTERVAL"; continue
     fi
     BACKOFF=$((REPEAT_AFTER * (COUNT + 1))); [ "$BACKOFF" -gt 14400 ] && BACKOFF=14400
