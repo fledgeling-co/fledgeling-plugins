@@ -1,5 +1,12 @@
 # Deck Craft
 
+<p align="center">
+  <img alt="Version 1.15.0" src="https://img.shields.io/badge/version-1.15.0-D33C21">
+  <img alt="SWE skill: making" src="https://img.shields.io/badge/SWE_skill-making-434A55">
+  <img alt="Gate assertions: 17 to 3" src="https://img.shields.io/badge/gate_assertions-17_to_3-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 A Claude Code plugin for slide decks: build, review, convert. **Self-contained: it needs no other skill installed.**
 
 ## Three targets, one body of craft

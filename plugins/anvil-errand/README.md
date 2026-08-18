@@ -1,5 +1,12 @@
 # anvil-errand
 
+<p align="center">
+  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="SWE skill: orchestration" src="https://img.shields.io/badge/SWE_skill-orchestration-434A55">
+  <img alt="Evals: 8 defined, not yet run" src="https://img.shields.io/badge/evals-8_defined,_not_run-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 Send a Claude Code agent to work in a container on a machine that is not this
 one, through [Anvil](https://github.com/lprhodes/anvil), and read the refusal
 correctly when it cannot.

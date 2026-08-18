@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ux-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>: the scoring browser
+     computes display:flex on a table cell and still lays its children out as
+     blocks, so every row reads as one tall strip and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measure { margin-top: 24px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measure table { min-width: 0; width: auto; }
+  .measure td, .measure th { padding: 6px 18px 6px 0; border-bottom: 1px solid #16252b; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>ux-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, sub-register (a): porcelain cushion + gel object" — device "The Spacing Circle" · one shared spec, four engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">engineA · icon.svg<small>hand-authored layered SVG — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA-1024.png" width="160" height="160" alt="engineA hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-256.png" width="128" height="128" alt="engineA at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-128.png" width="64" height="64" alt="engineA at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-96.png" width="48" height="48" alt="engineA at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-64.png" width="32" height="32" alt="engineA at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-32.png" width="16" height="16" alt="engineA at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-32.png" width="96" height="96" alt="engineA 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Two reach envelopes as low pucks of graphite gel on a porcelain bench, sized to the 44:24 ratio of the two figures that disagreed in this skill's own files, crossing where the criterion forbids it — and the crossing is the only lit thing in the tile. Checks 1–4 clear on the renders: masked to the family superellipse, centred to the pixel (166px margins both sides), the silhouette nameable as two crossing discs, and 0.243 RMS luminance contrast at 16px against a family median of 0.174. Fails <strong>#10 variant robustness</strong>: the four named layers satisfy it by construction, but Dark, Clear and Tinted were never rendered, and in grayscale the crossing holds only 1.45:1 against the gel it sits in, so some of the signature is carried by hue. Deviation, documented rather than hidden: the focal is 67% of the tile width against the grammar's 55–65%, which is what buys the 16px mass on a deliberately flat object (46% tall).</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineA2 · icon-engineA2-thumb.svg<small>second hand-authored SVG — lost</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA2-1024.png" width="160" height="160" alt="engineA2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA2-256.png" width="128" height="128" alt="engineA2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA2-128.png" width="64" height="64" alt="engineA2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA2-96.png" width="48" height="48" alt="engineA2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA2-64.png" width="32" height="32" alt="engineA2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA2-32.png" width="16" height="16" alt="engineA2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA2-32.png" width="96" height="96" alt="engineA2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">"The Thumb's Measure" — the human as the unit, a graphite thumb cut by the bottom edge landing on a vermilion key plainly narrower than its own pad. Clears 1–4 and measures 0.243 at 16px, so it lost on craft and on ownability rather than on legibility. Fails <strong>#8 depth coherence</strong> (one across-the-digit ramp gives the pad no form, and the nail plate reads as a patch stuck on rather than a plate catching the key light), <strong>#9 era coherence</strong> (flat satin where the register wants poured gel), <strong>#10</strong>, and <strong>#11 personality</strong> — a finger pressing a button is the corpus's failure mode #1, stock tap-target art, and the shape also collects a wrong reading as a mitten. Kept because its own weakness is the argument for the winner: the size comparison it states literally, the shipping take states as geometry.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineB · icon-engineB-arrow-e6712a.svg<small>Arrow 1.1 vector take — lost</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB-1024.png" width="160" height="160" alt="engineB hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="engineB at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="engineB at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="engineB at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="engineB at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="engineB at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="engineB 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Briefed with the spec verbatim, hexes and radii included. Fails <strong>#1 mask discipline</strong> — it ships no ground field at all and bakes its own soft circular shadow, so it floats in the Dock — and <strong>#7 figure-ground</strong>, since grey keys on grey circles separate by almost nothing (0.194 at 16px, the lowest of the set). It also discarded the one piece of arithmetic in the brief, drawing the two envelopes at near-equal radii instead of 44:24, which turns the subject into a pair of goggles and the crossing into a hairline. Nothing salvaged; its one genuine contribution is negative evidence that a horizontal pair reads as a device rather than as two targets.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC1 · icon-engineC-crossing-04a62e.png<small>GPT Image 2 raster, corpus-referenced — material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC1-1024.png" width="160" height="160" alt="engineC1 hero at 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-256.png" width="128" height="128" alt="engineC1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-128.png" width="64" height="64" alt="engineC1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-96.png" width="48" height="48" alt="engineC1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-64.png" width="32" height="32" alt="engineC1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-32.png" width="16" height="16" alt="engineC1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC1-32.png" width="96" height="96" alt="engineC1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict"><strong>Won the material and composition read, and is the reason engineA was rebuilt twice.</strong> It solved what two hand-authored rounds could not: the reach zones are <em>foreshortened</em> pucks with a visible edge band and a seat, which is what stops a plan-view circle with a radial gradient reading as a ball bearing, and its value ramp runs across both pucks off one key rather than per puck. Its crossing glows from inside with the boundary going to near-black graphite. It cannot ship: fails <strong>#1</strong> as delivered (opaque square corners — masked for this sheet), <strong>#2</strong> (the object is 85% of the tile width with 72px of margin on the left), and <strong>#10</strong> by construction, since a flat raster's identity is a colour relationship. Most contrasty take in the set at 0.299.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC2 · icon-engineC-thumb-6a977a.png<small>GPT Image 2 raster, second composition — lost</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC2-1024.png" width="160" height="160" alt="engineC2 hero at 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-256.png" width="128" height="128" alt="engineC2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-128.png" width="64" height="64" alt="engineC2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-96.png" width="48" height="48" alt="engineC2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-64.png" width="32" height="32" alt="engineC2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-32.png" width="16" height="16" alt="engineC2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC2-32.png" width="96" height="96" alt="engineC2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The thumb composition rendered by the material engine — and the best-looking thumb of the four, which is what settled that composition rather than rescuing it. Fails <strong>#1</strong> as delivered, <strong>#2</strong> (the thumb is cut by the bottom edge with zero margin and no safe zone anywhere), <strong>#6 palette economy</strong> (the key is a slab of flat saturated orange at roughly a tenth of the tile, an accent spread rather than reserved), and <strong>#10</strong>. It confirmed the objection instead of answering it: made beautiful, a finger on a button is still a finger on a button.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship engineA (icon.svg).</strong> It is the only take that is layered — four named groups, bg / mid / fg / highlight, mapping 1:1 onto Icon Composer layers — with 34 paths, 25.6 KB and a clean <code>fidelity.py structure</code> pass; the two rasters carry their identity as a flat colour relationship and the Arrow take has no ground at all. Checks 1–4 are clear on real renders rather than on intent, its material language is ported by hand from engineC1 (foreshortened pucks with edge bands, one shared user-space ramp across both, a crossing lit from inside with its boundary falling to near-black), and its 16px contrast is 0.243 against the 0.086 of the template icon it replaces. Known liabilities to revisit: <strong>#10 is satisfied by construction and never tested</strong> — Dark, Clear and Tinted are unrendered, and in grayscale the crossing holds only 1.45:1 against the gel, so part of the signature is hue; the focal is 67% of the tile width against the grammar's 55–65%; the silhouette is nameable as two crossing discs but does <em>not</em> name the subject, so the meaning arrives at 48px and up with the keys, not at 16px; the raster is measurably more contrasty at every size (0.299 against 0.243) and the gel faces are still one ramp plus one soft catch where the reference has an inner top glow; and the pair with <code>design-craft</code>, rebuilt in parallel, has not been read side by side after both land.</div>
+
+<div class="measure">
+  <table>
+    <caption class="visually-hidden">Measured values behind the scores</caption>
+    <tr><th scope="col">Measure</th><th scope="col">Value</th></tr>
+    <tr><td>16px RMS luminance contrast — the icon this replaces</td><td>0.086</td></tr>
+    <tr><td>16px RMS — shipping take (engineA)</td><td><strong>0.243</strong></td></tr>
+    <tr><td>16px RMS — family median across 36 plugin icons</td><td>0.174</td></tr>
+    <tr><td>16px RMS — engineC1 / engineC2 / engineA2 / engineB</td><td>0.299 / 0.284 / 0.243 / 0.194</td></tr>
+    <tr><td>Figure-ground, dilated-ring: gel pucks against their surround</td><td>6.45:1</td></tr>
+    <tr><td>Figure-ground, dilated-ring: the crossing against the gel it sits in</td><td>1.45:1</td></tr>
+    <tr><td>Focal footprint</td><td>691 &times; 472 px (67% &times; 46% of tile), margins 166 / 166 / 258 / 293</td></tr>
+  </table>
+  Method: alpha-masked RMS of Rec.709 luminance on a 16px Lanczos downsample of the 256px render — the metric this icon family is compared on. Figure-ground is every pixel of a colour mask against a 45px MaxFilter dilation of that mask, median to median, because a hand-placed sample lands where you point it.
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>
