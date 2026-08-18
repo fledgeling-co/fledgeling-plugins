@@ -1003,6 +1003,312 @@ trying to fix. It is one regex and one render, and here it would have prevented 
 authored against the wrong branch from a crop that looked conclusive. Cost: about 200
 lines of numpy, `loop-runs/r14/work3/`.
 
+## Round 21 (`loop-runs/r16`) — the envelope round: twenty rounds gated themselves at 3000 paths and the marketplace gates at 400
+
+*Bookkeeping, since this file's numbering is ambiguous in two directions.* This is round
+21 by the count the rounds above run on, and `loop-runs/r16` by the run directory; the
+second track's "round N is r(N-1)" rule would call it 17. Edit class: **envelope**. It is
+the first round on this fixture whose subject is the delivery of the file rather than the
+appearance of the artwork, and the whole of its job was to change one without changing the
+other.
+
+**The defect, and why it is not carelessness.** Every round from 7 to 20 ran the structure
+check with the fixture's declared envelope, `--max-paths 3000 --max-bytes 350000`, stated
+in writing seven separate times with an argument attached: a swept ribbon's 96 shaded bands
+and a torn field's ridges are construction, not path soup. Nothing was concealed and no
+gate was weakened. What nobody did was reconcile that envelope with the **delivery**
+envelope the marketplace gate actually runs, which is `400 / 200,000` — the default on the
+same script. So twenty rounds legitimately passed their own structure check while the
+shipped master failed the shipping one, at **1042 paths / 231,249 bytes**, and
+`audit_sheet.py check` exited 1. `banner-verdict.md` records the same liability as inherited
+rather than introduced, which is correct and was also the only place it was written down.
+
+**Where the overrun was, which decides the whole round.** Counting paths and bytes by the
+comment blocks of the generated file:
+
+| region | paths | bytes |
+|---|---:|---:|
+| **grain** | **830** | **152,573** |
+| shaving (96 bands, rims, cut, silhouette) | 187 | 26,087 |
+| everything else | 25 | 52,589 |
+
+The grain is 80% of the path count and 66% of the file. Deleting it alone clears both limits
+with room to spare, so **the shaving was never the problem and was not touched** — which
+matters, because round 15 left a standing warning that the curl now has no mean-level margin
+against its ground and that softening its rims or narrowing its internal range any further
+would make it vanish at small size with no metric on this harness saying so. The audit
+sheet's own diagnosis named both texture families; the arithmetic says one.
+
+### The construction that was tried first, measured, and rejected
+
+The sheet's suggested fix was "emitted as filters or patterns rather than as paths", and
+the file already contained most of a filter answer: `relief_filter`, wired to the block's
+grit since round 12, plus `FIBRE_BF / FIBRE_SCALE / FIBRE_ELEV` authored in round 8 against
+C2 for the ground and **never wired to anything**. Wired up it is one `feTurbulence` in the
+blade's own frame, lit by `feDiffuseLighting` from the icon's key, and it costs **216 paths
+/ 81,954 bytes**. Three properties made it look like the right answer, and two of them are
+real:
+
+- the lit flank of every fibre derives from `LIGHT`, so the single-light model is
+  structural rather than authored — the guarantee round 12 bought with hand-paired lit and
+  shadowed strokes, here for no paths at all;
+- both planes take the **same** field in the **same** frame, so continuity across the cut is
+  true by construction rather than by solving each ridge's bearing once and reusing it. The
+  measured correlation of the high-passed field in matched strips 45 units either side of
+  the boundary went **+0.560 → +0.638**, the best this fixture has recorded;
+- and it matched the strokes at 1024 on everything that was measured. The grain's own
+  spectrum, isolated in quadrature against a grain-free control render, agreed in all four
+  octaves: rough **0.0081 / 0.0034 / 0.0019 / 0.0011** against **0.0077 / 0.0035 / 0.0017 /
+  0.0010** at 3-8 / 8-16 / 16-32 / 32-64px. 16px RMS contrast identical to four decimals.
+  Plane means within 0.0006 L.
+
+**Two corrections it needed on the way, both worth keeping.** A *multiplicative* relief —
+which is what the block's grit is, and right for a face whose own luminance spans 0.21-0.29
+— does two wrong things on a ground that spans 0.55-0.94. Its absolute swing scales with the
+surface, so the texture fades by 1.7× from the far corner to the key, which is the exact
+fault round 12 fixed by solving each stroke against the ground beneath it. And its bright
+excursions **clip**: built that way and measured, the un-planed plane lost 0.008 L and the
+trued plane lost 0.008 L from a modulation whose own sd was 0.002 — four times its own
+amplitude, because half of every fibre's highlight ran past white and only the shadowed half
+survived. Round 12 met the same ceiling from the other side and paid for it with
+`GRAIN_BAL_TRUED = 1.45`, a fudge factor on a stroke that was clipping. Centring the lit
+field on its own mean and **adding** it fixes both at once, and the mean has to be the
+field's own measured value rather than the flat-surface `sin(elevation)`: 0.6646 against
+0.6691, and as an intercept error that 0.7% is a straight luminance shift on both planes.
+
+**And then it failed at 256.** Not on any statistic taken at 1024 — on the delivered raster
+one size down. `feTurbulence` is **point-sampled at device resolution** while a stroke is
+area-sampled, so geometry averages down and a filter *re-samples*. Measured as the sd of
+(pixel − 3×3 box mean) on clean ground patches of the direct renders, far patch / near-key
+patch:
+
+| | 256 | 128 |
+|---|---|---|
+| round-20 strokes | 0.0124 / 0.0073 | 0.0092 / 0.0039 |
+| **filter relief** | **0.0144 / 0.0109** | **0.0140 / 0.0128** |
+
+At 1:1 the 256 render's un-planed plane reads as fine leather where round 20's reads as
+matte porcelain with faint tear-out. Three attempts to move it all failed for the same
+reason, and the reason is that the residual is set by **amplitude**, and holding the 1024
+texture fixes the amplitude:
+
+- **frequency**: swept `baseFrequency` from (0.055, 0.025) to (0.30, 0.07). The residual is
+  flat across the whole sweep to 0.0002. Coarser noise resolves properly at 256 but then
+  carries its energy in the wrong octaves at 1024.
+- **coverage**: the strokes put the plane's whole texture budget into about a fifth of its
+  area; a noise field spreads it over every pixel. Deadbanding the field — a high-gain copy
+  of the same lit field saturated to 0 or 1 except within *d* sigma of the mean, then a
+  four-bin `discrete` transfer as a tail selector, two primitives and no paths — makes it
+  genuinely sparse and makes the residual **worse**, 0.019-0.024 at 128, because sparse marks
+  at matched sd are higher-amplitude marks.
+- **terracing** the lit field into 3-10 levels buys `edge_f1` (0.0713 → 0.3165 at three
+  levels) by drawing contours the reference does not have, and costs SSIM 0.6366 → 0.5081.
+
+Net composite against C2: **−0.0278**, with `edge_f1` at 1024 at 0.0713. The block's grit
+gets away with the same physics because it is 10% of the tile at low contrast; a whole plane
+does not. The construction is kept in `material-recipes.md` with its limit stated, because
+the limit is the transferable part.
+
+### What ships instead: the same strokes, emitted twice as cheaply
+
+Two changes, and neither touches a mark's position, bearing, wander, width range, tear range
+or amplitude.
+
+**One: the amplitude moves into the paint.** Round 12 established that ornament has to be
+specified in luminance rather than alpha, because constant alpha over a graded ground is a
+texture that fades with the shading, and it solved that by cutting every ridge into
+190-unit pieces and re-solving `amp / (ground − stroke)` per piece. That subdivision *is*
+what the path count was being spent on — 79 ridges became 830 paths almost entirely through
+it. But the ground is not an arbitrary field: round 11 measured the un-planed plane as radial
+about the key at (75, 25) and round 10 put the trued plane on the key's own diagonal, so
+`1 / (ground − stroke)` **is** a gradient, and a gradient can be a stroke paint. Four of
+them — one per plane per flank, carrying the field's own knot table, the stroke's luminance,
+the lit flank's balance factor and the radial gain — and every ridge becomes one polyline.
+Continuous where the piecewise version was stepwise, so strictly more accurate, and
+**830 paths become 316**. The gradients live in the blade's local frame because that is the
+user space in effect where they are referenced; a rotation preserves distance, so `r = 1000`
+carries over unchanged.
+
+**Two: subpaths.** `stroke-dasharray` restarts at the beginning of each subpath — verified in
+`rsvg-convert`, where two dashed lines drawn as separate paths and as two subpaths of one
+path render bit-identically — so any number of ridges sharing a stroke width and a break
+pattern can live in one path element. Ridges are bucketed onto a 3 × 3 × 3 grid of widths,
+break patterns and amplitude jitters and emitted one path per occupied cell: **316 paths
+become 102**, 102 of the 108 cells being occupied. This is the round's one real approximation
+to the artwork and it is bounded and swept: from 3/3/3 to 5/5/2 the composite is flat to
+0.0016 and `edge_f1` to 0.0029, so the coarsest grid ships and the paths go to headroom.
+
+**Three things that had to be got right, each of which was wrong first.**
+
+- **The bucket representatives are the range's ENDS**, `lo + (hi − lo)·i/(n − 1)`, not the
+  bucket centres. Sobel edge count is threshold-limited, so what a bucketed field loses
+  against a continuously jittered one is the *tail*: centres cap mark strength at 0.92 of the
+  original maximum and cost 12% of the un-planed plane's edges for the same band sd. Ends
+  keep the extremes and the mean both, because the bucketed quantity is uniform over its
+  range.
+- **The dash pattern per bucket is the distribution's own 0.30 and 0.70 quantiles, not four
+  random draws.** Three random draws from a wide distribution are not the distribution: the
+  first cut drew duties of 0.39, 0.91 and 0.96 against a mean of 0.58, and the 0.96 pattern —
+  near-continuous line, almost no ends — landed in the most populated bucket and cost 46% of
+  the plane's Sobel edges on its own.
+- **The phase has to be geometry.** Ridges in one bucket share their dasharray, and every
+  ridge used to start at t = 4 just off the cut, so their marks would have landed in step and
+  drawn a moiré band across the field perpendicular to the grain. Each ridge now starts at a
+  *negative* t, up to one dash period on the far side of the boundary where the plane's own
+  clip removes it, so the visible run begins at whatever phase that start implies. A
+  `stroke-dashoffset` attribute cannot vary inside a merged path; the start point can.
+
+**One thing that was tried because it looked free and measured worse.** Breaking each ridge
+into 190-unit *subpaths* — which is what the old per-piece paths incidentally did, restarting
+the dash and re-jittering the nodes at every junction — costs no paths at all. It took
+`edge_f1` at 1024 from 0.0910 to **0.0849**: the junction breaks add Sobel responses the
+reference does not have, and `edge_f1` is an F1, so they cost precision. Free in paths is not
+free in the metric.
+
+**And one bookkeeping hazard closed in the same edit.** `grain()` used to take 3,946 draws
+off the shared LCG between the shaving, which draws first, and the mottle, which draws next.
+The rewrite takes a different number, and the marks' own detail now comes off a second
+stream, so the state the old one left is restored explicitly at the old call site. Without
+that line a rewrite here silently re-phases the mottle, the stone texture and the shaving —
+the same trap round 14 recorded from the other direction, where adding one draw moved the
+output size by 8%.
+
+### Scored, not asserted
+
+**Structure: 1042 paths / 231,249 bytes → 314 paths / 142,554 bytes**, gradients 12 → 16,
+filters 12 unchanged, four named layers unchanged. **PASS against 400 / 200,000** with 21.5%
+path headroom and 28.7% byte headroom. `audit_sheet.py check plugins/improve-skill/assets`
+exits 0 for the first time.
+
+**The icon, against the round-20 master it replaces.** Mean |ΔRGB| per channel out of 255,
+and structural similarity of the two renders to each other:
+
+| size | mean abs diff | p99 | SSIM(before, after) |
+|---:|---:|---:|---:|
+| 1024 | 1.352 | 17 | 0.8951 |
+| 512 | 1.201 | 14 | 0.9064 |
+| 256 | 0.922 | 9 | 0.9528 |
+| 128 | 0.625 | 5 | 0.9874 |
+| 64 | 0.469 | 3 | 0.9972 |
+| 32 | 0.496 | 3 | 0.9996 |
+| **16** | **0.000** | **0** | **1.0000** |
+
+The 16px render is **bit-identical**. Everything that moves is where an individual grain mark
+landed, because the detail stream re-phased; nothing that moves is a decision.
+
+**Every invariant the fixture polices, before → after.** 16px RMS contrast, gamma-encoded
+relative luminance on the alpha-masked downsample, the family's own definition: **0.2193 →
+0.2193**; 32px **0.2207 → 0.2207**. Split polarity by `measure.py icon.png 33.0 543 604 640`:
+**+0.149 → +0.150**, un-planed 0.703 and trued 0.852 in both. The honed boundary, sampled
+20-140 local units either side of the cut and off the blade's own span where both sides are
+visible: trued L **0.884 → 0.884**, un-planed **0.616 → 0.616**, step **+0.268 → +0.267**,
+ratio **1.434:1 → 1.435:1**. The vermilion's 16px footprint **9.77% → 10.16%** of tile.
+Figure-ground at 128px: block L **0.244 → 0.244**, **2.82:1** against the un-planed field and
+**3.52:1** against the trued, both unchanged. `mask_iou` bit-identical at all five sizes;
+`self_contrast` unchanged to four decimals at 1024, 256 and 16.
+
+**The texture itself.** Un-planed band sd at 3-12px **0.0118 → 0.0118**, trued **0.0022 →
+0.0023**, gradient-energy bearing **138° → 138°**. Held flat across radius from the key,
+which is the thing the gradient paint replaced the per-piece solve to do — band sd at
+r 150-350 / 350-550 / 550-750 / 750-950: **0.0332 / 0.0276 / 0.0343 / 0.0324** before,
+**0.0332 / 0.0276 / 0.0340 / 0.0326** after. Boundary-crossing continuity **+0.560 →
++0.579**. Per-pixel residual on the direct small renders, far / near-key: 256 **0.0124 /
+0.0073 → 0.0124 / 0.0085**, 128 **0.0092 / 0.0039 → 0.0096 / 0.0052** — within a fifth of the
+strokes' own figure where the filter route ran 1.5× and 3.3× it.
+
+The orientation lobe broadens, and that is a move toward the reference rather than away from
+it: rough peak/mean **5.82 → 5.23** and peak/cross **12.84 → 7.17**, trued peak/mean **5.67 →
+3.53** and peak/cross **5.96 → 2.58**, against C2's measured 2.18 / 3.48 on its un-planed
+plane and 1.15 on its trued one. Round 12 flagged the master's lobe as too spiky and it is
+now less so.
+
+**The composite against C2, metric v2** (`loop-runs/r16/base/score.json` →
+`loop-runs/r16/final/score.json`):
+
+| size | before (r14) | after (r16) | delta |
+|---:|---:|---:|---:|
+| 1024 | 0.4580 | **0.4521** | −0.0059 |
+| 256 | 0.4786 | **0.4770** | −0.0016 |
+| 128 | 0.5271 | **0.5266** | −0.0005 |
+| 32 | 0.7999 | **0.7999** | 0.0000 |
+| 16 | 0.8419 | **0.8419** | 0.0000 |
+
+Net **−0.0080**. The gate **REJECTs**, on one size, for one reason: at 1024 `edge_f1` falls
+**0.1252 → 0.0910** while SSIM *rises* **0.6327 → 0.6386** and `lum_delta` is flat at 0.1258.
+Weighted, that is −0.0086 against +0.0024, which is the whole of the 1024 number.
+
+**And the gate's own number turns out to have been partly paid by the error this round
+fixes.** Rebuilding the *old* generator with its subdivision progressively removed isolates
+where those edges came from — same marks, same everything, only `GRAIN_PIECE`:
+
+| old generator | paths | un-planed Sobel edges | edge_f1 @1024 |
+|---|---:|---:|---:|
+| `GRAIN_PIECE = 190` (what shipped at r20) | 1042 | 14,958 | 0.1252 |
+| `GRAIN_PIECE = 400` | 698 | 14,439 | 0.1309 |
+| `GRAIN_PIECE = 900` (no subdivision at all) | 504 | 12,276 | 0.1135 |
+| **this round** | **314** | **8,033** | **0.0910** |
+
+C2's own un-planed field carries **37,101**, so the master was already 60% short of the
+reference on this metric and is now 78% short. Of the 0.0342 lost, **0.0117 is subdivision
+artifacts** — junction breaks and kinks the reference does not have, the same responses the
+subpath experiment above proved cost precision when reintroduced deliberately. The rest is
+the tail: the fraction of un-planed pixels clearing the metric's 0.10 gradient threshold goes
+**4.73% → 2.28%**, with the un-subdivided old build at 4.09%, so a continuously
+parameterised field puts more marks over a hard threshold than nine discrete strength levels
+do at the same band sd. Raising `GRAIN_AMP_A` recovers the edges and nothing else — 0.062
+gives `edge_f1` 0.1027 and 0.070 gives 0.1138, and the net gets *worse* at both (−0.0104,
+−0.0126) as SSIM pays for it. Tuning the constant against the composite without a physical
+reason is how this loop breaks, so it stays at 0.055.
+
+**The verdict, and which instrument decides it.** `references/fidelity-loop.md`: *the gate
+informs; the rubric decides shipping.* The gate measures similarity to a reference on a
+**degraded tier** — torch is not installed on this machine, so LPIPS did not run and the gate
+refused a verdict until forced, correctly, because LPIPS engages only at 256 and 1024 and
+that is exactly where material lives. **No material verdict at 256 or 1024 was computed this
+round and none is claimed.** What was computed is the icon against itself, at every delivery
+size, on the invariants the fixture has policed since round 4: they hold to three decimals,
+16px is bit-identical, and the file is deliverable for the first time. The rubric's open #4
+deduction is the curl's small-size noise and the curl was not touched. **Audit holds at
+11/12** and `audit_sheet.py check` now exits 0.
+
+**What it does not cost, and this is worth stating because it was the risk.** No constant the
+banner derives from moved: `ANGLE` 33°, `EDGE_MID` (543, 604), `BLADE_LEN` 640, the boundary
+at (0, 957) → (1024, 292), the solid's bbox and focal centre, the safe-zone margins L179 R216
+T140 B250, and every palette entry are unchanged. `banner-src.html` generates its own grain in
+JavaScript from its own constants and never referenced the master's, so the split needs no
+re-derivation — and the liability `banner-verdict.md` records against it, that a banner
+derived from a path-soup master cannot be re-derived cleanly from named constants, is cleared
+by this round rather than by a banner edit. **One thing did move and it is recorded rather
+than fixed:** the banner's lockup embeds a **600px raster** of the tile, and a raster of the
+master is a copy of the master. Against the round-21 build it reads mean |ΔRGB| **2.414/255**
+with p99 17, against **1.292/255** and p99 6 for the round-20 build it was already drifting
+from — the same sub-3/255 class of drift `banner-verdict.md` opens with, visible to a hash
+and not to an eye. Re-rendering it is a banner change with its own verdict and this round was
+scoped to the icon, so it is written into `banner-verdict.md` as one re-render to take the
+next time the banner is touched.
+
+**Reusable construction — "the compensation is a gradient, and the buckets are subpaths".**
+Two moves, and they compose because the first one empties the element of everything the
+second needs to share. When ornament is emitted as many marks whose *amplitude* has to track
+the substrate — the round-12 rule that ornament is specified in luminance and not in alpha —
+the naive fix is to subdivide each mark and re-solve per piece, and that is what a path
+budget gets spent on. Check first whether the substrate's field is a coordinate a gradient can
+express: a radial ramp about a point source, a linear ramp along a light's axis. If it is,
+then `amp / (substrate − mark)` is a gradient too, and it can be the mark's own **stroke
+paint** — continuous instead of stepwise, free in paths, and it cannot drift from the field it
+corrects because it rides the same coordinate. With opacity out of the element, all that is
+left on it is stroke width and dash pattern, so quantise those onto a small grid and merge
+every mark in a cell into the **subpaths of one path**: `stroke-dasharray` restarts per
+subpath, so the merge is bit-exact for identical attributes. Three traps, each of which cost
+a build here. Bucket **representatives must be the range's ends, not its centres**, whenever
+anything downstream reads a tail — edge and threshold metrics do. A bucket's shared random
+parameter must be a **quantile of its distribution, not a draw from it**, because three draws
+from a wide distribution are not the distribution. And a shared dash pattern needs its phase
+put into **geometry** — start each mark a random fraction of one period back, behind a clip
+that removes it — because `stroke-dashoffset` is an attribute and the whole point was to stop
+having those. Cost here: about 110 lines in the generator plus four gradients, and 1042 paths
+became 314 with the 16px render bit-identical.
+
 ## The other takes
 
 **Three engines, all four takes on the sheet.** Engine A now takes 12/12. Engine C raster took 9/12 (C1) and 7/12 (C2); both stay on disk as the reference takes the rebuild was judged against, and both hard-fail #10 as flat pre-masked rasters — the corpus's single most common failure. C1 additionally fails #11: its two sides sit only 0.09 L apart, so its improvement is present but too faint to be the read. Engine B (Arrow vector) came last at 5/12 with hard fails on silhouette and 16px: the blade forked into a wishbone and the vermilion hone line, the entire signature, was absent. Its steeper, flatter diagonal was the one thing worth salvaging.

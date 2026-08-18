@@ -126,6 +126,15 @@ def inv_matrix(a, b, c, d, e, f):
 
 
 MATRIX_INV = inv_matrix(UX, UY, NX, NY, AX, AY)
+
+# The key's own geometry in the blade's LOCAL frame, for the grain's amplitude gradients:
+# they are referenced inside the frame, so their coordinates have to be. (75, 25) is the point
+# source round 11 fitted the un-planed field to; the other two are the ends of the key's
+# diagonal that round 10 put both ground fields on. A rotation preserves distance, so the
+# radial gradient's r = 1000 carries over unchanged.
+_KL75 = to_local(75.0, 25.0)
+_KL00 = to_local(0.0, 0.0)
+_KL11 = to_local(float(W), float(W))
 MATRIX_TOP_INV = inv_matrix(UX, UY - K_RISE, NX, NY, AX, AY - RISE_NEAR)
 
 
@@ -253,89 +262,141 @@ CONTACT = FOOT_LOWER
 
 
 # ---------------------------------------------------------------- ground texture
-# The ground's own luminance, fitted quadratically over each masked plane of the
-# render (x, y in units of the 1024 tile; rms residual 0.035 rough / 0.019 trued).
-# A ridge has to know what it is drawn on. A fixed-opacity dark stroke loses its
-# contrast wherever the field darkens, which is exactly why the master's texture
-# faded out away from the key while the reference's held flat: measured band sd
-# 0.0114 near the key falling to 0.0039 far from it, against a reference that sits
-# at 0.013-0.022 the whole way across.
-GROUND_ROUGH = (+0.98889, -0.85663, -0.53139, +0.38975, +0.04117, +0.73688)
-GROUND_TRUED = (-1.08929, +2.33595, +3.19389, -0.54761, -1.13929, -2.24668)
-
+# ROUND 21 (envelope). The grain is the same family of torn ridges it has been since round
+# 12 - same bearings, same wander, same lit/shadowed pairs, same tear - and it is EMITTED
+# differently. It was 830 dashed polylines and it is now 102, because two things that were
+# per-element became shared: the amplitude moved into the stroke paint, and ridges that end
+# up with the same width and break pattern are merged into the subpaths of one path.
+#
+# Why it had to change. Twenty fidelity rounds ran against a DECLARED envelope of
+# --max-paths 3000 --max-bytes 350000, argued in writing on the grounds that a swept
+# ribbon's bands and a torn field's ridges are construction rather than path soup. Nothing
+# was concealed and no gate was weakened - but that argument was never reconciled with the
+# DELIVERY envelope the marketplace gate actually runs, 400 / 200,000, so every round passed
+# its own structure check while the shipped file failed the shipping one at 1042 paths /
+# 231,249 bytes. The grain owned 830 of those paths and 152,573 of those bytes: 80% of the
+# path count and 66% of the file. It is the whole of the overrun.
+#
+# What paid for it, first half: the AMPLITUDE MOVES INTO THE PAINT. Round 12 established
+# that ornament has to be specified in luminance rather than in alpha, because a constant
+# alpha over a graded ground is a texture that fades with the shading, and it solved that by
+# breaking each ridge into 190-unit pieces and re-solving `amp / (ground - stroke)` per
+# piece. That is what the path count was actually being spent on: 79 ridges became 830 paths
+# almost entirely through subdivision. But the ground is not an arbitrary field - round 11
+# measured the un-planed plane as radial about the key at (75, 25) and the trued plane as
+# linear along the key's own diagonal - so `1 / (ground - stroke)` IS a gradient, and a
+# gradient can be the stroke paint. Four of them, one per plane per flank, carry the
+# compensation continuously instead of in 190-unit steps, and every ridge becomes one
+# polyline. Strictly more accurate than the piecewise version, and 830 paths become 316.
+#
+# Second half: SUBPATHS. `stroke-dasharray` restarts at the beginning of each subpath -
+# verified in rsvg-convert, where two dashes drawn as separate paths and as two subpaths of
+# one path render bit-identically - so any number of ridges sharing a stroke width and a
+# break pattern can live in one path element. Ridges are therefore bucketed onto a small
+# grid of widths, break patterns and amplitude jitters and emitted one path per occupied
+# cell: 316 paths become 102. The quantisation is the round's one real approximation to the
+# artwork and it is bounded: three width levels across a range the strokes drew from
+# uniformly, three break patterns, three amplitude levels.
+#
+# The phase trap that came with it, and the fix. Ridges in one bucket share their dasharray,
+# and every ridge used to start at t = 4 just off the cut, so their marks would have landed
+# in step and drawn a moire banding across the field perpendicular to the grain. Each ridge
+# now starts at a NEGATIVE t - up to one dash period on the far side of the boundary, where
+# the plane's own clip removes it - so the visible run begins at whatever phase that start
+# implies. The phase is geometry rather than an attribute, which is the only way it can vary
+# inside a merged path.
+GROUND_ROUGH_KNOTS = [(0.0000, 0.940), (0.0350, 0.917), (0.0950, 0.865), (0.1550, 0.815),
+                      (0.2300, 0.752), (0.2900, 0.718), (0.3500, 0.681), (0.4100, 0.652),
+                      (0.4700, 0.650), (0.5300, 0.625), (0.5900, 0.602), (0.6500, 0.578),
+                      (0.7100, 0.566), (0.8300, 0.564), (1.0000, 0.548)]
+GROUND_TRUED_KNOTS = [(0.4558, 0.863), (0.5248, 0.871), (0.5939, 0.869), (0.6629, 0.852),
+                      (0.7320, 0.848), (0.8010, 0.809), (0.8701, 0.747), (0.9391, 0.700),
+                      (0.9999, 0.683)]
 GRAIN_DARK, GRAIN_DARK_L = "#4E4636", 0.277    # the shadowed flank of a torn ridge
 GRAIN_LITE, GRAIN_LITE_L = "#FFF4DE", 0.960    # its lit flank, half a stroke keyward
 GRAIN_OFFSET = 1.7                             # flank separation
-GRAIN_PIECE = 190.0                            # re-solve the field every this far
 GRAIN_AMP_A = 0.055      # travel-direction family: luminance swing, held flat in r
 GRAIN_TRUE_F = 0.13      # the trued plane's share of it
-# ROUND 11 (detail). The second family is gone, and the first one wanders.
-# The cross-hatch was authored on the claim that C2 carries a lattice. Binning the
-# gradient ENERGY of each field by ridge bearing says it does not. On C2's clean
-# un-planed windows the histogram is ONE broad lobe centred near the travel
-# direction: peak/mean 2.18, peak/cross 3.48. Ours was two spikes exactly 90 deg
-# apart - peak/mean 6.73, and peak/cross 1.66, which is the number a cross returns
-# by construction. The trued plane says the same thing twice over: C2's is
-# directionless fine noise (peak/mean 1.15) at sd 0.0086 where ours ran the same
-# energy, sd 0.0098, organised into the same lattice (peak/mean 3.39).
-# So the lobe is not made of two bearings. It is made of ONE bearing that wanders,
-# which is also what tear-out along a fibre physically is. Its width is carried by
-# WANDER rather than by fanning the ridges, because a fan of straight lines at
-# mixed bearings is a randomised lattice - still crossings, just untidy ones.
-GRAIN_SKEW = 15.0        # per-ridge bearing scatter, deg. Was 11 (A) / 13 (B)
-GRAIN_WANDER = 11.0      # node amplitude across the ridge's own axis. Was 3.4, which
-                         # bent a ridge by ~1.6 deg over a node and ruled the field
-GRAIN_NODE = 34.0        # node spacing. Was 60: the wander needs the frequency to
-                         # reach the bearings, not just the amplitude
-# Pitch along local x. Dropping family B removes about half the strokes, and the
-# strokes were adding incoherently, so the field's texture sd falls by roughly
-# root-2 - 0.028 toward 0.020 against C2's measured 0.022. That is the right
-# direction and about the right distance, so the pitch is left where it was and
-# the energy is allowed to land where the deletion puts it.
+# ROUND 11 (detail). The second family is gone, and the first one wanders. The cross-hatch
+# was authored on the claim that C2 carries a lattice. Binning the gradient ENERGY of each
+# field by ridge bearing says it does not: on C2's clean un-planed windows the histogram is
+# ONE broad lobe centred near the travel direction, peak/mean 2.18, peak/cross 3.48. So the
+# lobe is not made of two bearings. It is made of ONE bearing that wanders, which is also
+# what tear-out along a fibre physically is.
+GRAIN_SKEW = 15.0        # per-ridge bearing scatter, deg
+GRAIN_WANDER = 11.0      # node amplitude across the ridge's own axis
+GRAIN_NODE = 34.0        # node spacing: the wander needs the frequency to reach the
+                         # bearings, not just the amplitude
 GRAIN_PITCH_LO, GRAIN_PITCH_HI = 11.0, 14.0
-# The lit flanks all paint over the shadowed ones (one group each, so the file can
-# carry the colour once instead of 1500 times), so a little of every dark flank is
-# erased at a crossing; and on the trued plane the ground is already at 0.85, so an
-# off-white twin has almost no headroom left and clips against its own ceiling.
-# These are the measured corrections. Rendered against a grain-free ground the pair
-# now moves the un-planed plane by -0.0002 and the trued plane by +0.0001.
+# The lit flanks all paint over the shadowed ones, so a little of every dark flank is erased
+# at a crossing; and on the trued plane the ground is already at 0.85, so an off-white twin
+# has almost no headroom left and clips against its own ceiling. These are the measured
+# corrections that keep the pair mean-neutral.
 GRAIN_BAL_ROUGH = 1.00
 GRAIN_BAL_TRUED = 1.45
+GRAIN_PREC = 0           # vertex quantisation, one local unit, on a polyline that already
+                         # wanders +-11: worth about 9% of the file
+GRAIN_WID_LEVELS = 3     # The bucket grid: 27 cells per plane per flank, 102 of the 108
+GRAIN_DASH_LEVELS = 3    # occupied. Swept from 3/3/3 to 5/5/2 against the harness and the
+GRAIN_AMP_LEVELS = 3     # composite is flat to 0.0016 across the whole grid, so the coarsest
+                         # one ships and the paths go to headroom instead of to variety the
+                         # eye cannot find.
 
 
-def ground_lum(coef, px, py):
-    x, y = px / 1024.0, py / 1024.0
-    a, b, c, d, e, f = coef
-    return min(0.94, max(0.42, a + b * x + c * y + d * x * x + e * y * y + f * x * y))
+def _grain_rng():
+    """A second stream for the marks' own detail, so bucketing and the phase fix cannot
+    re-phase the ridge LAYOUT - positions, bearings, widths and tears all still come off the
+    shared LCG in the order they always did."""
+    s = [77_003_311]
+
+    def r():
+        s[0] = (s[0] * 1103515245 + 12345) % (1 << 31)
+        return s[0] / (1 << 31)
+    return r
 
 
-def _key_local():
-    """The one key light, re-expressed in the blade's frame, so the lit flank of a
-    ridge faces the same source as every other highlight in the icon."""
-    lx, ly = LIGHT
-    kx, ky = -(UX * lx + UY * ly), -(NX * lx + NY * ly)
-    m = math.hypot(kx, ky)
-    return kx / m, ky / m
+def grain_amp_stops(knots, span, flank, bal, amp_nom):
+    """`1 / (ground - stroke)` as gradient stops: the amplitude compensation round 12 solved
+    per 190-unit piece, carried continuously by the paint instead. `span` converts a stop
+    offset into the distance from the key that the field's own knot table is indexed by, so
+    the radial gain the strokes applied - the reference does not merely hold its texture away
+    from the key, it gains about 22% - rides along for nothing."""
+    out = []
+    for off, gl in knots:
+        d = off * span
+        a = amp_nom * (0.90 + 0.35 * d / 1000.0)
+        if flank == "dark":
+            o = min(0.55, a / max(gl - GRAIN_DARK_L, 0.10))
+        else:
+            o = min(0.55, bal * a / 1.15 / max(GRAIN_LITE_L - gl, 0.10))
+        out.append(f'<stop offset="{off:.4f}" stop-color="{GRAIN_DARK if flank == "dark" else GRAIN_LITE}"'
+                   f' stop-opacity="{o:.4f}"/>')
+    return "\n    ".join(out)
 
 
 def _dash(tear):
-    """Four numbers, so the break pattern's period is ~40 units rather than the dash
-    pitch - long enough that a stroke reads as torn rather than ruled, and cheap
-    enough to put a whole run of a ridge in one path element instead of thirty.
-    Short marks: the reference tears in 6-20px flecks, and the first cut of this
-    used 8-42, which read as brickwork."""
-    v = []
-    for _ in range(2):
-        v.append(f"{(4 + rnd() * 15) * (1.15 - 0.45 * tear):.1f}")
-        v.append(f"{(2.5 + rnd() * 13) * tear:.1f}")
-    return " ".join(v)
+    """Four numbers, so the break pattern's period is ~32 units rather than the dash pitch -
+    long enough that a stroke reads as torn rather than ruled. The reference tears in 6-20px
+    flecks; the first cut of this used 8-42, which read as brickwork.
+
+    ROUND 21. The two mark lengths and two gaps used to be four random draws, taken per
+    190-unit piece, so the field carried hundreds of patterns and their mean duty was the
+    distribution's. Bucketing leaves three patterns per plane, and three RANDOM draws from a
+    wide distribution are not the distribution: the first cut of this drew duties of 0.39,
+    0.91 and 0.96 against a mean of 0.58, and the 0.96 pattern - near-continuous line with
+    almost no ends - landed in the most populated bucket and cost 46% of the un-planed
+    plane's Sobel edges. The four numbers are now the distribution's own 0.30 and 0.70
+    quantiles instead, so a bucket's pattern has internal variety, its duty is the mean by
+    construction, and there is nothing left for a small sample to get wrong."""
+    k = 1.15 - 0.45 * tear
+    return [(4 + 0.30 * 15) * k, (2.5 + 0.70 * 13) * tear,
+            (4 + 0.70 * 15) * k, (2.5 + 0.30 * 13) * tear]
 
 
 def _clip_span(px, py, dx, dy, t0, t1):
-    """Trim a ridge to the part that can actually land on the tile. The frame is a
-    rotation, so a unit of t is a unit of canvas; without this, family B's ridges
-    each run the full 1500-unit diagonal of the local frame and most of every one
-    of them is paths spent outside the artboard."""
+    """Trim a ridge to the part that can actually land on the tile. The frame is a rotation,
+    so a unit of t is a unit of canvas; without this each ridge runs the full 1500-unit
+    diagonal of the local frame and most of it is path data outside the artboard."""
     cx, cy = to_canvas(px, py)
     ex, ey = to_canvas(px + dx, py + dy)
     lo, hi = t0, t1
@@ -349,99 +410,117 @@ def _clip_span(px, py, dx, dy, t0, t1):
     return (lo, hi) if hi - lo > 8.0 else None
 
 
-def _ridge(dark, lite, coef, px, py, dx, dy, t0, t1, amp, wid, tear, bal):
-    """One ridge as a lit/shadowed pair, emitted in GRAIN_PIECE-long pieces, each
-    piece a short polyline that wanders off its own axis. A tear in end grain is not
-    a ruled line, and two exactly perpendicular families of ruled lines at an even
-    pitch read as brickwork, which is what the first cut of this looked like.
+def _level(v, lo, hi, n):
+    """Which bucket, and the value that bucket stands for.
 
-    Each piece solves for the opacities that put a luminance swing of exactly +-amp
-    on the ground it actually lands on, and that make the pair mean-neutral: the
-    dark flank removes as much light as the twin adds. That balance is the whole
-    reason this can be dense. r02's texture was dense too, and it moved the plane's
-    mean, so it cost lum on every size and was rejected."""
-    span = _clip_span(px, py, dx, dy, t0, t1)
-    if span is None:
-        return
-    t0, t1 = span
-    kx, ky = _key_local()
-    ox, oy = -dy, dx
-    if ox * kx + oy * ky < 0:
-        ox, oy = -ox, -oy
-    ox, oy = ox * GRAIN_OFFSET, oy * GRAIN_OFFSET
-    ux, uy = ox / GRAIN_OFFSET, oy / GRAIN_OFFSET
-    wl = wid * 1.15
-    t = t0
-    while t < t1:
-        e = min(t + GRAIN_PIECE, t1)
-        cx, cy = to_canvas(px + dx * (t + e) / 2, py + dy * (t + e) / 2)
-        g = ground_lum(coef, cx, cy)
-        # the reference does not merely hold its texture away from the key, it gains
-        # a little: band sd 0.0166 at r 160-320 against 0.0202 at r 800-960
-        a = amp * (0.90 + 0.35 * math.hypot(cx - 75.0, cy - 25.0) / 1000.0)
-        od = min(0.55, a / max(g - GRAIN_DARK_L, 0.10))
-        ol = min(0.55, bal * a * wid / (wl * max(GRAIN_LITE_L - g, 0.10)))
-        n = max(2, int((e - t) / GRAIN_NODE) + 1)
-        pts = []
-        for i in range(n + 1):
-            s = t + (e - t) * i / n
-            j = (rnd() - 0.5) * GRAIN_WANDER
-            pts.append((px + dx * s + ux * j, py + dy * s + uy * j))
-        d = _dash(tear)
-        seg = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in pts)
-        dark.append(f'<path d="{seg}" stroke-opacity="{od:.3f}" '
-                    f'stroke-width="{wid:.2f}" stroke-dasharray="{d}"/>')
-        seg = "M " + " L ".join(f"{x + ox:.1f} {y + oy:.1f}" for x, y in pts)
-        lite.append(f'<path d="{seg}" stroke-opacity="{ol:.3f}" '
-                    f'stroke-width="{wl:.2f}" stroke-dasharray="{d}"/>')
-        t = e
+    The representatives are the range's ENDS and the points between - lo + (hi - lo) * i /
+    (n - 1) - not the bucket centres, and that is worth measuring rather than assuming.
+    Sobel edge count is threshold-limited, so what a bucketed field loses against a
+    continuously jittered one is the TAIL: centres cap mark strength at 0.92 of the original
+    maximum and cost 12% of the un-planed plane's edges against C2, for the same band sd.
+    Ends keep the extremes and the mean both, because the quantity being bucketed is uniform
+    over its range."""
+    i = min(n - 1, max(0, int((v - lo) / (hi - lo) * n)))
+    return i, lo + (hi - lo) * i / max(n - 1, 1)
+
+
+WID_RANGE = {"rough": (1.5, 2.4), "trued": (1.3, 2.0)}
+TEAR_RANGE = {"rough": (0.52, 1.00), "trued": (0.06, 0.22)}
+AMP_RANGE = (0.7, 1.3)
 
 
 def grain():
-    """ONE family of grain, and the SAME lines cross the boundary: torn and broken
-    on the un-planed side, near-continuous and faint on the trued side. That
-    continuity is what makes the split read as one surface in two states rather
-    than as two different materials. Drawn right across the tile and clipped per
-    side, so the block sits ON the grain rather than beside it.
+    """ONE family of grain, and the SAME lines cross the boundary: torn and broken on the
+    un-planed side, near-continuous and faint on the trued side. That continuity is what
+    makes the split read as one surface in two states rather than as two different
+    materials. Drawn right across the tile and clipped per side, so the block sits ON the
+    grain rather than beside it.
 
-    One family, not two. Binning C2's own un-planed pixels by ridge bearing returns
-    a single broad lobe near the travel direction (peak/mean 2.18, peak/cross 3.48),
-    not the two lobes 90 deg apart that a cross-hatch gives; its trued plane is
-    directionless noise at peak/mean 1.15. The lobe's WIDTH is authored as wander
-    along each ridge, so a mark curves the way a torn fibre does and the field gets
-    its angular spread without any two ridges meeting at a hard angle.
-
-    The bearing is solved ONCE per line and used on both sides of the cut. It used
-    to be redrawn per side, so a line arrived at the hone on one bearing and left it
-    on another - a kink at the exact place the icon's argument is made, invisible at
-    11 deg of scatter and not invisible at 15."""
-    rough_d, rough_l, true_d, true_l = [], [], [], []
+    The bearing is solved ONCE per line and used on both sides of the cut. It used to be
+    redrawn per side, so a line arrived at the hone on one bearing and left it on another -
+    a kink at the exact place the icon's argument is made."""
+    rng = _grain_rng()
+    cells = {}          # (side, flank, wid_i, dash_i, amp_i) -> [subpath, ...]
+    dashes = {}         # (side, dash_i) -> the bucket's four dash numbers
 
     def skew(deg):
-        """A ridge's own bearing. The lobe is broad, but it is still a lobe: the
-        scatter stays modest and the width comes from GRAIN_WANDER instead."""
         a = math.radians((rnd() - 0.5) * 2 * deg)
         return math.cos(a), math.sin(a)
 
-    # --- the one family: along the travel direction (local x fixed), crossing the cut
+    def emit(side, flank, px, py, dx, dy, t1, amp_j, wid, tear):
+        span = _clip_span(px, py, dx, dy, 0.0, t1)
+        if span is None:
+            return
+        t_end = span[1]
+        wid_i, _ = _level(wid, *WID_RANGE[side], GRAIN_WID_LEVELS)
+        dash_i, dash_v = _level(tear, *TEAR_RANGE[side], GRAIN_DASH_LEVELS)
+        amp_i, _ = _level(amp_j, *AMP_RANGE, GRAIN_AMP_LEVELS)
+        if (side, dash_i) not in dashes:
+            dashes[(side, dash_i)] = _dash(dash_v)
+        # Start up to one dash period on the far side of the cut, where the plane's own clip
+        # removes it, so ridges sharing a dasharray do not also share its phase and draw a
+        # moire band across the field.
+        t = -rng() * sum(dashes[(side, dash_i)])
+        ox, oy = -dy, dx
+        kx, ky = _key_local()
+        if ox * kx + oy * ky < 0:
+            ox, oy = -ox, -oy
+        ox, oy = ox * GRAIN_OFFSET, oy * GRAIN_OFFSET
+        # One polyline for the whole ridge. Breaking it into GRAIN_PIECE-long subpaths - which
+        # is what the old per-piece paths incidentally did, restarting the dash and re-jittering
+        # the nodes at each junction - was tried and measured WORSE, edge_f1 0.0913 -> 0.0849 at
+        # 1024: the junction breaks add Sobel responses the reference does not have, and edge_f1
+        # is an F1, so they cost precision. Subpaths would have been free in paths; they were
+        # not free in the metric.
+        n = max(2, int((t_end - t) / GRAIN_NODE) + 1)
+        off = 0.0 if flank == "dark" else 1.0
+        pts = []
+        for i in range(n + 1):
+            u = t + (t_end - t) * i / n
+            j = (rng() - 0.5) * GRAIN_WANDER / GRAIN_OFFSET
+            pts.append((px + dx * u + ox * (j + off), py + dy * u + oy * (j + off)))
+        seg = "M " + " L ".join(f"{x:.{GRAIN_PREC}f} {y:.{GRAIN_PREC}f}" for x, y in pts)
+        cells.setdefault((side, flank, wid_i, dash_i, amp_i), []).append(seg)
+
     x = LX_MIN - 40
     while x < LX_MAX + 40:
         tear = 0.52 + rnd() * 0.48
         sy, sx = skew(GRAIN_SKEW)
-        _ridge(rough_d, rough_l, GROUND_ROUGH, x, 0.0, sx, sy, 4.0, LY_MAX + 30,
-               GRAIN_AMP_A * (0.7 + rnd() * 0.6), 1.5 + rnd() * 0.9, tear,
-               GRAIN_BAL_ROUGH)
-        _ridge(true_d, true_l, GROUND_TRUED, x, 0.0, sx, -sy, 4.0, -(LY_MIN - 30),
-               GRAIN_AMP_A * GRAIN_TRUE_F * (0.7 + rnd() * 0.6),
-               1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16, GRAIN_BAL_TRUED)
+        r_amp, r_wid = 0.7 + rnd() * 0.6, 1.5 + rnd() * 0.9
+        t_amp, t_wid, t_tear = 0.7 + rnd() * 0.6, 1.3 + rnd() * 0.7, 0.06 + rnd() * 0.16
+        for flank in ("dark", "lite"):
+            emit("rough", flank, x, 0.0, sx, sy, LY_MAX + 30, r_amp, r_wid, tear)
+            emit("trued", flank, x, 0.0, sx, -sy, -(LY_MIN - 30), t_amp, t_wid, t_tear)
         x += GRAIN_PITCH_LO + rnd() * GRAIN_PITCH_HI
 
-    def wrap(dark, lite):
-        return (f'<g stroke="{GRAIN_DARK}">\n      ' + "\n      ".join(dark) +
-                f'\n      </g>\n      <g stroke="{GRAIN_LITE}">\n      ' +
-                "\n      ".join(lite) + "\n      </g>")
+    def wrap(side):
+        out = []
+        for (s, flank, wid_i, dash_i, amp_i), segs in sorted(cells.items()):
+            if s != side:
+                continue
+            lo, hi = WID_RANGE[side]
+            wid = lo + (hi - lo) * (wid_i + 0.5) / GRAIN_WID_LEVELS
+            amp = AMP_RANGE[0] + (AMP_RANGE[1] - AMP_RANGE[0]) * \
+                (amp_i + 0.5) / GRAIN_AMP_LEVELS
+            da = " ".join(f"{v:.1f}" for v in dashes[(side, dash_i)])
+            out.append(f'<path d="{" ".join(segs)}" '
+                       f'stroke="url(#grain{side.capitalize()}{flank.capitalize()})" '
+                       f'stroke-opacity="{amp:.3f}" '
+                       f'stroke-width="{wid * (1.0 if flank == "dark" else 1.15):.2f}" '
+                       f'stroke-dasharray="{da}"/>')
+        return "\n      ".join(out)
 
-    return wrap(rough_d, rough_l), wrap(true_d, true_l)
+    return wrap("rough"), wrap("trued")
+
+
+def _key_local():
+    """The one key light, re-expressed in the blade's frame, so the lit flank of a ridge
+    faces the same source as every other highlight in the icon."""
+    lx, ly = LIGHT
+    kx, ky = -(UX * lx + UY * ly), -(NX * lx + NY * ly)
+    m = math.hypot(kx, ky)
+    return kx / m, ky / m
+
 
 
 def mottle():
@@ -494,22 +573,29 @@ def stone():
 # the iron's own face the gap is worse - C2 21.3%, ours 6.1%, and in a clean patch of
 # stone C2 measures sd 4.6 against our 0.9. That is the whole of edge_f1 0.048 at 1024.
 #
-# Answering it with paths is the wrong instrument: matching C2's fibre count would cost
-# several thousand of them. It is authored instead as a HEIGHT FIELD - one feTurbulence
-# lit by feDiffuseLighting from the icon's own key, multiplied back over the surface it
-# belongs to. Three properties come free and are the reason for the construction:
+# Answering it with paths is the wrong instrument for the BLOCK: matching C2's fibre count
+# on that face would cost several thousand of them. It is authored instead as a HEIGHT FIELD
+# - one feTurbulence lit by feDiffuseLighting from the icon's own key, multiplied back over
+# the surface it belongs to. Three properties come free and are the reason for the
+# construction:
 #   - it costs no paths at all;
 #   - the light is the scene's one light, re-expressed in the surface's frame, so the
 #     relief cannot introduce a second source the way hand-drawn ticks can;
 #   - normalised on the flat-surface value (1/sin elevation) it is a pure MODULATION, so
 #     a surface with no relief comes out unchanged and the field means - which is what
 #     polarity, figure-ground and the whole small-size read are made of - do not move.
-FIBRE_BF = (0.26, 0.038)      # across-grain / along-grain noise frequency, LOCAL frame.
-                              # 1/0.26 ~ 4px fibres, 1/0.038 ~ 26px long: measured off C2
-FIBRE_SCALE = 0.80            # surfaceScale. Calibrated in rsvg-convert against C2's
-                              # sd 18.3 in its worst band; lands at 17.4 alone, ~18 once
-                              # the existing tear dashes are counted
-FIBRE_ELEV = 42.0             # raking, because torn end-grain is what casts these
+#
+# ROUND 21 tried the same construction on the GROUND, to retire the grain's paths, and it
+# does not survive delivery. The relief matched the strokes at 1024 on every statistic that
+# was measured - isolated grain spectrum within 0.0004 in all four octaves, plane means
+# within 0.0006 L, 16px RMS contrast identical to four decimals - and then read as leather
+# at 256, because feTurbulence is POINT-SAMPLED at device resolution while a stroke is
+# area-sampled. Geometry averages down; a filter re-samples. Measured on clean ground patches
+# of the direct renders, the relief ran 1.5x the strokes' per-pixel residual at 256 and 3.3x
+# at 128 near the key, and no amount of frequency, coverage or deadband moved it - the
+# residual is set by amplitude, and holding the 1024 texture fixes the amplitude. The block's
+# grit gets away with it because it is 10% of the tile at low contrast; a whole plane does
+# not. Recorded in icon-notes.md round 21 with the numbers.
 # ROUND 12 (detail). r08 authored these three and then never wired the filter to
 # anything, so the iron's face has been shipping dead flat ever since: measured over the
 # whole top face at 1024, our 12px high-pass runs sd 0.0033 against C2's 0.0338 and 0.0%
@@ -575,25 +661,15 @@ def relief_filter(fid, bf, scale, elev, azimuth, seed):
 """
 
 
-def fibre_ramp_stops():
-    """The fibre's amplitude along local y, as mask stops. Two things are encoded and
-    both were measured off C2 rather than chosen: the STEP at the cut, and the fade
-    toward the key. Reading C2 in the master's own frame, its texture runs sd 12.6 just
-    above the cut, peaks at 18.3 about 285 local units out, and collapses to 5.6 by 513
-    - the corner nearest its key light, where the field is blown near white and micro
-    relief has no contrast left to show. Ours ran the wrong way round (10.1 near the cut,
-    11.7 up by the light). Below the cut C2 measures sd 1.2-2.0: a planed surface is
-    nearly glass. Because BOTH sides are the same noise field in the same frame, a fibre
-    that crosses the cut continues on the far side at a tenth of its height - which is
-    the icon's whole argument, made literally rather than by analogy."""
-    span = LY_MAX - LY_MIN
-    def off(ly):
-        return (ly - LY_MIN) / span
-    stops = [(0.0, 0.05), (off(0.0), 0.12), (off(0.0), 0.80),
-             (off(285.0), 1.00), (off(513.0), 0.34), (1.0, 0.24)]
-    return "\n    ".join(
-        f'<stop offset="{o:.4f}" stop-color="#FFFFFF" stop-opacity="{a:.2f}"/>'
-        for o, a in stops)
+# ROUND 21. r08's fibre_ramp_stops() lived here: an amplitude ramp along local y, with
+# the texture peaking 285 units above the cut and collapsing by 513. It was never wired
+# to anything and it is not adopted now, because round 12's later and better-controlled
+# reading contradicts it - windows admitted only when wholly inside one plane, with the
+# block and the curl dilated out, put C2's texture sd FLAT in distance from the key
+# (0.0239 / 0.0211 / 0.0211 / 0.0255 over r 300-1100). The earlier ramp was measured in
+# bands that cross both planes, so it was reading the step at the cut and the blown
+# near-key field rather than a within-plane fade. The step at the cut survives, as the
+# ratio of the two mask alphas; the within-plane ramp does not.
 
 
 # ---------------------------------------------------------------- the shaving
@@ -898,6 +974,12 @@ SHAVING_BODY, SHAVING_GRAIN, SHAVING_NEAR_RIM, SHAVING_FAR_RIM, \
     SHAVING_CUT, SHAVING_SIL, _CN, _CF = shaving()
 
 ROUGH_GRAIN, TRUE_GRAIN = grain()
+# ROUND 21. The rewritten grain() takes a different NUMBER of draws off the shared LCG than
+# the old one did - it no longer subdivides, and the marks' own detail comes off a second
+# stream - so restoring the state the old one left is what keeps the mottle, the stone
+# texture and the shaving byte-identical. Without it a rewrite here silently re-phases every
+# jittered feature downstream of it.
+_seed = 564692731
 ROUGH_MOTTLE, TRUE_MOTTLE = mottle()
 STONE = stone()
 
@@ -1217,7 +1299,36 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W}" width="{
        second source, and normalised on the flat-surface value so it is pure modulation:
        the face's mean, and with it polarity and figure-ground, do not move. -->
 {relief_filter("ironGrit", PIT_BF, PIT_SCALE, PIT_ELEV,
-               frame_azimuth(UX, UY - K_RISE, NX, NY), 11)}</defs>
+               frame_azimuth(UX, UY - K_RISE, NX, NY), 11)}
+  <!-- ROUND 21: the grain's amplitude, as its own stroke paint rather than as one opacity
+       per 190-unit piece. `amp / (ground - stroke)` is what round 12 solved per piece to
+       keep the texture's swing flat in LUMINANCE over a ground that runs L 0.94 near the
+       key to 0.55 in the far corner; round 11 then measured that ground, and its two planes
+       turn out to be exactly the two coordinates a gradient can express - radial about the
+       key at (75, 25) for the un-planed plane, linear along the key's own diagonal for the
+       trued one. So the compensation becomes the paint: continuous instead of stepwise,
+       four gradients instead of 671 extra path elements, and a ridge that no longer has to
+       be cut up to know what it is drawn on. Stops carry the field's own knot table, the
+       stroke's own luminance, the lit flank's balance factor and the radial gain, so an
+       element only has to say how wide it is and how it breaks.
+       These live in the blade's LOCAL frame, because that is the user space in effect where
+       they are referenced. -->
+  <radialGradient id="grainRoughDark" cx="{_KL75[0]:.1f}" cy="{_KL75[1]:.1f}" r="1000"
+                  fx="{_KL75[0]:.1f}" fy="{_KL75[1]:.1f}" gradientUnits="userSpaceOnUse">
+    {grain_amp_stops(GROUND_ROUGH_KNOTS, 1000.0, "dark", GRAIN_BAL_ROUGH, GRAIN_AMP_A)}
+  </radialGradient>
+  <radialGradient id="grainRoughLite" cx="{_KL75[0]:.1f}" cy="{_KL75[1]:.1f}" r="1000"
+                  fx="{_KL75[0]:.1f}" fy="{_KL75[1]:.1f}" gradientUnits="userSpaceOnUse">
+    {grain_amp_stops(GROUND_ROUGH_KNOTS, 1000.0, "lite", GRAIN_BAL_ROUGH, GRAIN_AMP_A)}
+  </radialGradient>
+  <linearGradient id="grainTruedDark" x1="{_KL00[0]:.1f}" y1="{_KL00[1]:.1f}"
+                  x2="{_KL11[0]:.1f}" y2="{_KL11[1]:.1f}" gradientUnits="userSpaceOnUse">
+    {grain_amp_stops(GROUND_TRUED_KNOTS, 1448.0, "dark", GRAIN_BAL_TRUED, GRAIN_AMP_A * GRAIN_TRUE_F)}
+  </linearGradient>
+  <linearGradient id="grainTruedLite" x1="{_KL00[0]:.1f}" y1="{_KL00[1]:.1f}"
+                  x2="{_KL11[0]:.1f}" y2="{_KL11[1]:.1f}" gradientUnits="userSpaceOnUse">
+    {grain_amp_stops(GROUND_TRUED_KNOTS, 1448.0, "lite", GRAIN_BAL_TRUED, GRAIN_AMP_A * GRAIN_TRUE_F)}
+  </linearGradient></defs>
 
 <g clip-path="url(#tileMask)">
 

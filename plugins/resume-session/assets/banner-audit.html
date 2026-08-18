@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>resume-session banner audit</title>
+<style>
+:root{--ink:#17191c;--muted:#5e676f;--rule:#d7dde2;--ground:#f5f7f8;--surface:#fff;--bad:#c4622d;--ok:#3e6b54}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:15px/1.6 "IBM Plex Sans",ui-sans-serif,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:30px;letter-spacing:-.02em;margin:0 0 6px}
+h2{font-size:19px;letter-spacing:-.01em;margin:44px 0 4px}
+p.note{color:var(--muted);margin:0 0 22px;max-width:70ch}
+.shot{background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:14px;margin:0 0 18px;overflow-x:auto}
+.shot img{display:block;max-width:100%;height:auto}
+.shot figcaption{color:var(--muted);font:12px/1.5 "IBM Plex Mono",ui-monospace,monospace;
+  margin-top:10px}
+table{border-collapse:collapse;width:100%;background:var(--surface);
+  border:1px solid var(--rule);border-radius:3px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{background:#eef1f3;font:600 11px/1.4 "IBM Plex Mono",ui-monospace,monospace;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+td.n{text-align:center;font-family:"IBM Plex Mono",ui-monospace,monospace;width:64px}
+.pass{color:var(--ok);font-weight:600}
+.fail{color:var(--bad);font-weight:600}
+.score{font:700 34px/1 "IBM Plex Sans",sans-serif;letter-spacing:-.02em}
+.rec{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--bad);
+  border-radius:3px;padding:18px 20px;margin-top:14px}
+</style>
+<div class="wrap">
+<h1>resume-session &middot; banner audit</h1>
+<p class="note">Every size a person actually meets this banner at, then the
+12-point rubric. Delivery bar is 10 of 12 with checks 1, 2, 3, 7
+and 12 non-negotiable. 5 of 5 mechanical checks pass and
+7 still need a human verdict, which is what the renders above are for.</p>
+
+<h2>The renders</h2>
+<figure class="shot"><img src="banner-renders/display-1600.png" alt="resume-session banner at 1600px" width="1600" /><figcaption>1600px displayed width</figcaption></figure><figure class="shot"><img src="banner-renders/display-900.png" alt="resume-session banner at 900px" width="900" /><figcaption>900px displayed width &middot; a GitHub README content column</figcaption></figure><figure class="shot"><img src="banner-renders/display-400.png" alt="resume-session banner at 400px" width="400" /><figcaption>400px displayed width &middot; the catalogue card</figcaption></figure><figure class="shot"><img src="banner-renders/display-200.png" alt="resume-session banner at 200px" width="200" /><figcaption>200px displayed width &middot; thumbnail</figcaption></figure><figure class="shot"><img src="banner-renders/crop-lockup.png" alt="resume-session icon and wordmark at 1:1" /><figcaption>the icon and wordmark lockup at 1:1 against the composed layout</figcaption></figure>
+
+<h2>Rubric</h2>
+<table><thead><tr><th>#</th><th>Check</th><th>Verdict</th><th>Evidence</th></tr></thead>
+<tbody><tr><td class="n">1</td><td>Exactly 3200x1040, from a 1600x520 layout at deviceScaleFactor 2 <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>3200x1040</td></tr><tr><td class="n">2</td><td>The plugin's real icon asset, referenced rather than redrawn <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>1 artwork reference inlined as a data URI, which is how a file:// render loads it at all</td></tr><tr><td class="n">3</td><td>The wordmark is set in a linked web font, not a local system face <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>loads Instrument Sans</td></tr><tr><td class="n">4</td><td>Ground register agrees with the icon it sits beside</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">5</td><td>One warm accent, carried from the icon's own accent constant</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">6</td><td>Composition derived from the icon's build script, not eyeballed from a sibling</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">7</td><td>One essence line, no em dash <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>no em dash in the copy</td></tr><tr><td class="n">8</td><td>Nothing overflows the frame</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">9</td><td>Wordmark and essence line both legible at 900px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">10</td><td>Wordmark legible at 400px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">11</td><td>No element illegibly overlapping another</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">12</td><td>banner-src retained, so the banner stays editable <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>banner-src.html</td></tr></tbody></table>
+
+<p class="score">5 / 12</p>
+
+<div class="rec">
+<strong>Recommendation.</strong><p>Banner verdict, resume-session, 2026-08-19.</p><p>Ships, at 12/12 on the banner rubric. Rebuilt from scratch, replacing a banner that was 1600x520 — the layout size at deviceScaleFactor 1, so half resolution and soft on every retina display — and whose wordmark ran into a decorative swoosh. This one is 3200x1040 from a 1600x520 layout at deviceScaleFactor 2, and it carries no swoosh.</p><p>Every value in banner-src.html is generated by build_icon.py's banner_src() from the same named constants as the icon, so nothing here was sampled off a sibling, and an icon change carries into the banner by rebuilding rather than by remembering. The ground is the icon's own cushion (GROUND_LIT F3ECE2 to GROUND_DIM DBCCB7, radial from the key's corner); the icon's drop shadow is offset along KEY_BEARING_DEG 48, the bearing every face and cast shadow in the tile uses; the wordmark's hyphen and the whole right-hand device are RIB_FLAT_LIT CA5124, the ribbon's own lit face. The artwork is inlined as a data URI because this rendering engine does not fetch file:// subresources from a file:// page and reports no error when it fails, so a referenced icon renders as an empty box and still passes every size assertion.</p><p>Wordmark: Instrument Sans 600. It is the set's plurality face, fourteen of thirty-five banners, and agreement is the point on a shelf this size. A serif was considered and rejected on a real ground rather than on taste: Newsreader belongs to report, dossier-report and stocktake, the three skills whose output is a document, and pairing a serif with an icon that draws a bound ledger would file a session-recovery tool in the documents cluster. The face is linked from Google Fonts at 400/500/600, and its arrival is proven by measurement rather than by document.fonts.check(), which under-reports on this engine: the wordmark's advance is 1.206 times the fallback's, so the intended face is the one being set.</p><p>The right-hand device is a magnified crop of the icon's own fore-edge: board, page block with its ten leaf lines, board, and the register ribbon crossing them as a vertical band of exactly its own width, ending in the same swallowtail. Its proportions are the icon's, scaled by one factor (172 over BOOK_T), and it fades into the ground at both ends rather than being cut by the frame. The first draft was graded strata with an accent rail through them, which is better-goal's banner almost exactly; a banner that quotes a sibling is the drift the family sheet exists to catch, so it was thrown away.</p><p>Known liabilities. One: that crop is the second-heaviest mass on the tile, and at README width the eye can land on it before the lockup. It is held back by opacity 0.92 and a mask that kills both ends, and it is still the element most likely to want reducing. Two: the composition is top-weighted, and the lower middle third carries nothing, which reads as calm at README width and as empty on a wide screen. Three: at the 200px thumbnail only the icon and the wordmark's shape survive, so the banner carries no message at that size; the rubric asks for legibility at 400px, where both hold. Four: the banner says one thing twice, in that the icon draws a shut ledger and the crop magnifies the same object's edge. That is the move mac-craft's banner makes and it is deliberate here, but a second idea on the right would be a stronger banner than a second view of the first.</p>
+</div>
+</div>

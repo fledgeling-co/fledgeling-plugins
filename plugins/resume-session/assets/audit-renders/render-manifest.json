@@ -3,8 +3,26 @@
     "A": {
       "source": "icon.svg",
       "kind": "svg",
-      "source_mtime": 1786777103.1993182,
-      "rendered_at": 1787063111.800315
+      "source_mtime": 1787092149.2915082,
+      "rendered_at": 1787092150.75024
+    },
+    "B": {
+      "source": "icon-alt-key.svg",
+      "kind": "svg",
+      "source_mtime": 1787092149.2929502,
+      "rendered_at": 1787092151.067799
+    },
+    "C": {
+      "source": "icon-alt-baton.svg",
+      "kind": "svg",
+      "source_mtime": 1787092149.29387,
+      "rendered_at": 1787092151.407404
+    },
+    "D": {
+      "source": "icon-raster-c1.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787090342.2699478,
+      "rendered_at": 1787092152.020555
     }
   },
   "sizes": [
