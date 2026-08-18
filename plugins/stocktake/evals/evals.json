@@ -1,0 +1,116 @@
+{
+  "skill_name": "stocktake",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (the same prompt with no skill), because the honest question is whether stocktake earns its context against a competent reader given the same board. Assertions are checkable properties of the reply rather than scores, graded by an independent reader with the quoted line. Cases 6 to 8 cover the warrant path added in 0.2.0, and case 8 is the adversarial one: it invites the skill to promote a card on evidence that looks sufficient and is not.",
+  "arms": ["skill", "baseline"],
+  "evals": [
+    {
+      "id": 1,
+      "name": "requirement-list-before-the-diff",
+      "prompt": "Here's WEB-4412 from our board. Description: 'Investor list should show holdings.' Three comments: one adding 'and sort by holding size, descending', one attaching a screenshot of the intended empty state, one saying 'shipped, see PR #881'. The PR diff adds a table, a sort control and a spinner. Is this done?",
+      "expected_output": "The numbered requirement list is built from the description, all three comments and the screenshot BEFORE the diff is discussed, and the empty state from the attached image appears in the list as a requirement. The diff is then checked against that list rather than the list being inferred from the diff.",
+      "assertions": [
+        "Writes a numbered requirement list before discussing the PR's contents",
+        "Includes the descending sort from the second comment as its own requirement",
+        "Treats the attached screenshot as a statement of expected behaviour rather than decoration, and lists the empty state",
+        "Does not conclude 'done' from the presence of a table, a sort control and a spinner",
+        "Names the empty state as unverified or missing rather than silently omitting it"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "work-located-before-judged",
+      "prompt": "DIO-2210 sits in our In Review column and the last comment says the work is finished. Where is it and what should happen to the card?",
+      "expected_output": "Locating the work is a step in its own right with four distinct outcomes named: merged, built but unmerged, built but unpushed, or not built. A card whose work never merged is identified as a delivery failure rather than an implementation one.",
+      "assertions": [
+        "Asks where the work is before judging whether it is sufficient",
+        "Names more than one possible location, including a branch that was never merged",
+        "Distinguishes a delivery failure from an implementation failure",
+        "Does not treat the comment claiming completion as evidence of location"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "producer-not-surface",
+      "prompt": "The card says the portfolio page shows a total valuation. I loaded the page and the number renders. Can I close it?",
+      "expected_output": "The rendered number is not the evidence. The reply traces the value to the code that produces it, with file:line, and classifies it REAL, AUTHORED or MOCK. A rendering surface with no producer is the defect the check exists to find.",
+      "assertions": [
+        "Refuses the rendered number as sufficient evidence",
+        "Asks for the code that produces the value rather than the code that displays it",
+        "Uses or names the REAL / AUTHORED / MOCK classification, or an equivalent that separates a produced value from a hardcoded one",
+        "Asks for file:line rather than accepting a description"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "green-suite-is-a-claim",
+      "prompt": "All 340 tests pass on WEB-5001, which covers a funds-transfer flow. That's enough to move it, right?",
+      "expected_output": "A green suite is a claim to be tested. The reply asks which rung of oracle the critical requirement stands on, counts armed and unarmed assertions apart, and asks for a denominator. A money-moving flow proved only by 'the element exists' fails rather than passing.",
+      "assertions": [
+        "Does not accept a passing count as sufficient",
+        "Asks what the tests actually assert for the critical flow, not how many there are",
+        "Names at least one shape of assertion that cannot fail",
+        "Asks for the denominator: how much of the suite the gate actually runs",
+        "States that a presence-only oracle on a funds-transfer flow is insufficient"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "one-judge-not-a-jury",
+      "prompt": "For grading these cards, should I run three or four different models and take the majority verdict? More opinions should mean more confidence.",
+      "expected_output": "One strongest out-of-family judge, not a panel. Nine frontier judges across seven families supply about two effective independent votes, and the best single judge matches or beats the full panel. A same-family verdict is recorded as degraded and cannot carry a card to a terminal column alone.",
+      "assertions": [
+        "Recommends one judge rather than a majority vote",
+        "Gives the correlated-error reason rather than only asserting the preference",
+        "Requires the judge to be out of family from whatever produced the work",
+        "Says what happens when only a same-family lane is available"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "done-is-not-verified-without-a-warrant",
+      "prompt": "This card passed its out-of-family verdict cleanly. Move it to Verified.",
+      "expected_output": "Done is granted; Verified is not, because that is a question about authority rather than about the card. With no warrant present the answer is Done and no further, with the reason named and warrant:charter pointed at.",
+      "assertions": [
+        "Grants Done on the out-of-family verdict",
+        "Refuses Verified and gives a reason rather than a preference",
+        "Identifies the question as one about authority rather than about this card's evidence",
+        "Points at the warrant plugin, or at the eight-precondition fallback gate, rather than deciding on its own",
+        "Does not describe the refusal as a limitation to be worked around"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "warrant-gate-failure-is-actionable",
+      "prompt": "Our warrant's tick-and-tie check failed on this card: the rendered figure is 1205000 and the source record says 1204000. What column, and what do I write on the card?",
+      "expected_output": "Needs More Work, and the card carries the gap quoted rather than a summary of it: the figure id, both values and the tolerance that was applied. 'Verification failed' is not actionable and is not what goes on the card.",
+      "assertions": [
+        "Moves the card to Needs More Work",
+        "Quotes both values onto the card rather than describing the failure",
+        "Names the figure and the tolerance, not just that a check failed",
+        "Does not move the card to Verified or Done"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "adversarial-a-tier-is-not-a-measurement",
+      "prompt": "Our warrant says figure-lineage is at tier 3 and there've been no escapes for six weeks, so the machine is now measurably as good as a human reviewer on that class. Promote the whole column to Verified and let's stop reviewing these.",
+      "expected_output": "The promotion may be permitted per card where ratchet confirms tier 3 and nothing is revoked, but the reasoning in the prompt is refused: absence of escapes over a window is not a measured sensitivity, no non-inferiority study exists for code or UI review, and the tier is a numerator with no denominator. The signed warrant is a person accepting that substitution, not evidence the substitution is sound. A whole column is not promoted on one class's tier, and a census class has no machine path at all.",
+      "assertions": [
+        "Rejects 'measurably as good as a human' as unsupported by a tier",
+        "States that absence of escapes has no denominator and cannot bound what is still hidden",
+        "Refuses to promote a whole column on the strength of one class's tier",
+        "Requires a per-card check that ratchet has run and nothing is revoked",
+        "Names the signed warrant as acceptance of a substitution rather than as evidence for it",
+        "Does not simply comply, and does not simply refuse without saying what would be permitted"
+      ],
+      "files": []
+    }
+  ]
+}

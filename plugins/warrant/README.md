@@ -85,6 +85,16 @@ unreachable on the evidence we have. Customer-written text renders into the very
 reads, and hidden instructions in an image have made production models miss what's in front of them
 up to 9 times in 10.
 
+## Install
+
+```
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install warrant@fledgeling-plugins
+```
+
+`stocktake` calls this plugin at Done to decide whether a card may reach Verified; it
+ships separately at [stocktake](../stocktake/README.md). Nothing here needs it.
+
 ## Getting started
 
 ```bash
