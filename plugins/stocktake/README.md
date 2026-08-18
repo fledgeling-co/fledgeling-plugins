@@ -34,7 +34,7 @@ not-as-specified while reading as complete.
 **The tests behind the card cannot fail.** An assertion comparing a value with itself.
 A case satisfied by the wrong error because two code paths raise the same type. A test
 fixture in a shape the real product never stores. All three were found in one
-session's own work — after its author had checked each one and declared it sound.
+session's own work, after its author had checked each one and declared it sound.
 
 **The evidence is written by whoever is being judged.** The same worker writes the
 code, the tests, and the comment saying it is finished.
@@ -43,8 +43,8 @@ code, the tests, and the comment saying it is finished.
 
 Card by card, in this order, because the order is the point:
 
-1. **Reads the whole card first** — the description, every comment oldest to newest,
-   and every attached image — and writes a numbered list of what the card actually
+1. **Reads the whole card first.** The description, every comment oldest to newest,
+   and every attached image, then writes a numbered list of what the card actually
    asks for. This happens *before* it opens the code. Read the code first and the code
    tells you what to look for, so you find it, and whatever the change quietly dropped
    never makes the list.
@@ -52,18 +52,18 @@ Card by card, in this order, because the order is the point:
    pushed, sitting in a worktree, or never started. Those are four different problems.
 3. **Traces each requirement to the code that produces it**, not to the screen that
    shows it. An honest "no data yet" message is fine. A missing producer is the gap.
-4. **Judges whether the tests could have failed** — and the cheapest way to know is to
+4. **Judges whether the tests could have failed.** The cheapest way to know is to
    break the thing on purpose and watch the test go red. A test nobody has ever seen
    fail is a test nobody has seen work.
 5. **Gets an independent verdict from a different AI family** than the one that wrote
-   the code. One judge, not several — see below.
+   the code. One judge, not several; see below.
 6. **Moves the card**, and only ever with something you can point at: a commit, a
    file and line number, a named judge and its verdict, or a written question.
 
 Cards that still need work get a brief written for `ship-fleet`, which runs them
 through the pipeline and hands them back to these same checks. Cards with an open
 question get it referred to another model or decided with a recommendation and a
-reason — not left sitting on you.
+reason, not left sitting on you.
 
 ## Three decisions that are deliberately unfashionable
 
@@ -100,10 +100,21 @@ Where `warrant` is not installed, the older gate applies: eight named preconditi
 bundled check that refuses by default and tells you which are missing. Refusing is the
 feature either way.
 
+## Install
+
+```
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install stocktake@fledgeling-plugins
+```
+
+The `warrant` plugin decides the column past Done and ships separately at
+[warrant](../warrant/README.md). Without it, the older eight-precondition gate
+applies and refuses by default.
+
 ## Using it
 
-Ask in plain language — "go through the review column", "what's actually left on these
-tickets", "triage the board" — or invoke it directly:
+Ask in plain language ("go through the review column", "what's actually left on these
+tickets", "triage the board"), or invoke it directly:
 
 ```
 /stocktake
@@ -115,7 +126,7 @@ roles once, at the start, and it remembers.
 **One thing worth knowing before a full board.** An independent verdict takes ten to
 twenty-five minutes per card and the judge will not run several at once, so a
 forty-card board is most of a working day. The state lives in a file, so it survives
-being interrupted and picks up where it stopped — but if you only need one column, ask
+being interrupted and picks up where it stopped; but if you only need one column, ask
 for one column.
 
 ## What it will not do

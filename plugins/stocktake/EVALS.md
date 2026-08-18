@@ -1,4 +1,4 @@
-# Evals — stocktake 0.1.0
+# Evals: stocktake 0.1.0
 
 ## No comparative evaluation has been run
 
@@ -14,7 +14,7 @@ would settle the open question.
 
 ## What was verified, mechanically
 
-Each bundled script was run and each gate was **red-armed** — deliberately given input
+Each bundled script was run and each gate was **red-armed**, deliberately given input
 it should reject, to confirm it can fail rather than merely pass.
 
 | Check | Given | Result |
@@ -28,50 +28,50 @@ it should reject, to confirm it can fail rather than merely pass.
 | `gates.py briefs-written` | a brief path that is not on disk | exit 1 |
 | `gates.py inconclusive-reported` | a reason under 30 characters | exit 1 |
 | `gates.py verified-gate` | a card promoted with no preconditions | exit 1 |
-| `check_verified_gate.py` with no config | — | exit 1, names all eight |
-| …with the template, nothing asserted | — | exit 1 |
-| …with one precondition asserted but no evidence | — | exit 1 |
-| …with all eight held and evidenced for a named class | — | exit 0 |
+| `check_verified_gate.py` with no config | n/a | exit 1, names all eight |
+| …with the template, nothing asserted | n/a | exit 1 |
+| …with one precondition asserted but no evidence | n/a | exit 1 |
+| …with all eight held and evidenced for a named class | n/a | exit 0 |
 | `locate_work.sh` against a real repository | a card key with five commits | reported `merged` |
 | `verify_queue.sh` | a missing packet | `NO-PACKET`, did not proceed |
-| …an empty lane output | — | `NO-VERDICT`, not treated as a pass |
+| …an empty lane output | n/a | `NO-VERDICT`, not treated as a pass |
 
 Five gates, five refusals. Four exit paths on the Verified gate, all four correct.
 
 ## What was substituted, and by whom
 
 **The research panel was neither run nor reused.** The originating project's
-`status-check.md` describes a completed four-family panel on the adjacent question —
-whether an automated verifier can replace a human acceptance step — but its report
+`status-check.md` describes a completed four-family panel on the adjacent question
+(whether an automated verifier can replace a human acceptance step), but its report
 files were not present on disk and could not be read. No replacement panel was bought,
 because spending is the reader's decision and it was not asked for.
 
 So the evidence base is that document's own primary-source-verified findings, cited in
-`references/evidence.md` with each claim's provenance marked. The load-bearing ones —
+`references/evidence.md` with each claim's provenance marked. The load-bearing ones,
 the panel-independence result, the concurrent-read result, the regulatory constraints
-on signatures — are verified at primary-source level there. **The gap: no independent
+on signatures, are verified at primary-source level there. **The gap: no independent
 survey of board-triage practice specifically informs this skill.** Its process rules
 come from measured practice in one codebase, not from literature.
 
 **The discovery interview was not skipped.** Three decisions were put to the reader
-before anything was written — how much of a board one run covers, whether the skill
-may ever promote into a human's column, and where the skill lives — and all three were
+before anything was written: how much of a board one run covers, whether the skill
+may ever promote into a human's column, and where the skill lives; and all three were
 answered. The name and icon checkpoint was also asked and answered.
 
 ## Where the rules came from
 
 Every structural rule traces to something. The unusual ones and their sources:
 
-- **One judge, not a panel** — nine frontier judges across seven families give ~2
+- **One judge, not a panel.** Nine frontier judges across seven families give ~2
   effective independent votes; the best single judge matches or beats the panel in all
   conditions tested. Verified against the paper's abstract.
-- **Requirement list before the diff** — the same positioning failure as showing a
+- **Requirement list before the diff.** The same positioning failure as showing a
   reader the machine's marks first: across 429,345 real cases that cost specificity
   and detection while gaining nothing.
-- **Inconclusive blocks** — laboratory practice treats it as a valid result; the one
+- **Inconclusive blocks.** Laboratory practice treats it as a valid result; the one
   autonomous-diagnosis approval on record was granted *with* a mandatory can't-tell
   path that forced 38 of 819 cases to refer.
-- **The five unarmed-assertion shapes** — observed directly, in one session, in work
+- **The five unarmed-assertion shapes.** Observed directly, in one session, in work
   its author had already declared sound. Ten independent verifications of ten
   finished-looking commits returned ten findings and zero clean bills of health.
 
@@ -90,5 +90,5 @@ Three tasks, in order of value:
    Verified gate asks for a control chart.
 
 Until at least the first two have run, treat this skill as unevaluated. It is built on
-sourced findings and its machinery demonstrably refuses bad input — but neither of
+sourced findings and its machinery demonstrably refuses bad input; but neither of
 those is evidence that its judgement is good.
