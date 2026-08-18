@@ -119,8 +119,8 @@ wrong through that gap while passing every check made of them:
 
 - `resume-session` at 1600x520, the layout size at deviceScaleFactor 1, so half
   resolution and soft on every retina display.
-- `create-test-suite` and `whats-left` at 3200x840 from a 1600x420 layout.
-- `create-test-suite` and `whats-left` again, for a defect no size check could
+- `test-campaign` and `whats-left` at 3200x840 from a 1600x420 layout.
+- `test-campaign` and `whats-left` again, for a defect no size check could
   ever find: their wordmarks are set in `Iowan Old Style` and `Avenir Next`,
   local macOS faces with nothing linked, so re-rendering either on another
   machine or in CI silently substitutes a different face. The banner still

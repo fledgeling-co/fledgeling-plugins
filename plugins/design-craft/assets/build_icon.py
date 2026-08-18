@@ -57,7 +57,7 @@ SHADE_DIR = (-LIGHT_AXIS[0], LIGHT_AXIS[1])
 # ---------------------------------------------------------------- the cushion
 # Porcelain/daylight, sampled off the family's shipped tiles rather than
 # invented: deck-craft #FAF7F0→#EDE7DA, proctor #FBF9F3→#EFEADF,
-# whats-left #FCFAF6→#EFEBE0, create-test-suite #F7F4EC→#E8E2D5.
+# whats-left #FCFAF6→#EFEBE0, test-campaign #F7F4EC→#E8E2D5.
 GROUND_HI = "#FDFAF4"
 GROUND_MID = "#F0EADD"
 GROUND_LO = "#DCD3C0"
@@ -68,7 +68,7 @@ SHADOW = "#3B3327"           # warm, never blue — the corpus's shaded faces ar
 # ---------------------------------------------------------------- the accent
 # One warm hue, spent once, on the one leaf that was taken to finish. Family band
 # measured off the siblings: proctor #E35721, clarify #DF6435, report #D65B30,
-# create-test-suite #E46B35 — hue 16-21°, saturation 0.67-0.85 — kin to
+# test-campaign #E46B35 — hue 16-21°, saturation 0.67-0.85 — kin to
 # Fledgeling #C4622D. The corpus's own gel objects sit at lightness 0.50-0.60
 # (Photos #DC6324, News #EC4B61), which is where this lands.
 ACCENT = "#CE4A18"

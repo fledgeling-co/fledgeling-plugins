@@ -56,7 +56,7 @@ const MARKETPLACE_NAME = "fledgeling-plugins";
  * This is asserted rather than merely documented because three banners had
  * already drifted without anything noticing. resume-session shipped at
  * 1600x520, which is the layout size at scale 1, so it was half resolution on
- * every retina display. create-test-suite and whats-left render 3200x840 from a
+ * every retina display. test-campaign and whats-left render 3200x840 from a
  * 1600x420 layout. All three passed every assertion render_banner.py makes,
  * because none of them is about the family agreeing with itself.
  */
@@ -112,7 +112,7 @@ const DEBT = [
     why: "Its banner has no icon at all. The right side is a related illustration of document cards rather than the icon tile every sibling carries beside its wordmark, so brand-and-docs' \"the real icon asset beside a set wordmark\" is unmet by composition rather than by a stale render. Fixing it is a layout change, not a re-render, so it is owed a deliberate pass.",
   },
   {
-    plugin: "create-test-suite", dimension: "banner", since: "2026-08-18",
+    plugin: "test-campaign", dimension: "banner", since: "2026-08-18",
     why: "3200x840 from a 1600x420 layout against the family's 520, and its wordmark is set in Iowan Old Style with no web font linked, so it is unreproducible on another machine. Both need a recomposition at the family height rather than a re-render, and squeezing that in beside nine icon commissions is how the 420 got there.",
   },
   {
@@ -121,7 +121,7 @@ const DEBT = [
   },
   {
     plugin: "whats-left", dimension: "banner", since: "2026-08-18",
-    why: "3200x840 like create-test-suite, wordmark in Iowan Old Style with nothing linked, and its icon is being rebuilt as this list is written, so the banner would be stale the moment it was rendered. Owed once the icon lands.",
+    why: "3200x840 like test-campaign, wordmark in Iowan Old Style with nothing linked, and its icon is being rebuilt as this list is written, so the banner would be stale the moment it was rendered. Owed once the icon lands.",
   },
   ...["clarify", "dossier-report", "generate-investor-portal", "proctor", "report"].map(
     (plugin) => ({
@@ -350,7 +350,7 @@ for (const name of dirs) {
 
   // --- banner reproducibility ---------------------------------------------
   // A banner is reproducible only when its wordmark face arrives with the
-  // document. whats-left and create-test-suite set theirs in Iowan Old Style
+  // document. whats-left and test-campaign set theirs in Iowan Old Style
   // and Avenir Next, which are local macOS faces with nothing linked, so
   // re-rendering either on another machine or in CI silently substitutes a
   // different face and produces a different banner that still passes every

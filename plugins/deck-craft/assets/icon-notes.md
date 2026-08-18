@@ -1,7 +1,7 @@
 # Icon notes — `deck-craft`
 
 Direction 2 (Tahoe gel-glass), sub-register (a): porcelain cushion carrying gel
-objects. Same register as `create-test-suite`, `whats-left`, `proctor` and
+objects. Same register as `test-campaign`, `whats-left`, `proctor` and
 `report`, which it sits beside in the marketplace lineup.
 
 Replaces the 2026-08-18 template icon — a blank `#FAF9F4` rectangle in a flat
@@ -29,7 +29,7 @@ Device #20 from the bank (data-as-glyph abstraction, one accent datum) crossed
 with #16 (the icon performs the verb) and #13 (a sequence resolving into a
 direction). Differentiated from its neighbours by what the accent is doing:
 `report` is stacked document cards with a rule on the top card only,
-`armada-sync` is a column of slate bars with one lit, `create-test-suite` is a
+`armada-sync` is a column of slate bars with one lit, `test-campaign` is a
 matrix with one drawn absence. Here the mark is on *every* element and the
 information is in its position.
 
@@ -46,7 +46,7 @@ Read out of the corpus captures and the sibling PNGs before anything was authore
 
 | | value | source |
 |---|---|---|
-| cushion | `#FCFAF4` → `#F3EDE1` → `#DED5C2` | create-test-suite `#F8F5EE`→`#E4DDCB`, whats-left `#F6F3EA`→`#E0D9C8`, proctor `#F8F4EC`→`#E9E2D4` |
+| cushion | `#FCFAF4` → `#F3EDE1` → `#DED5C2` | test-campaign `#F8F5EE`→`#E4DDCB`, whats-left `#F6F3EA`→`#E0D9C8`, proctor `#F8F4EC`→`#E9E2D4` |
 | inner rim | `#FFFDF8` | every Tahoe capture carries one; a flat ground is previous-era |
 | vignette | `#8B7F66` at 0.26 | corpus apple-23 / apple-28, both porcelain register |
 | leading plate | `#6E6353` → `#413929`, edge `#241E13` | apple-24 (black gel binoculars): a near-black object stays readable on a lit tile via rim light |
@@ -79,7 +79,7 @@ Named constants for the things a banner will need: `LIGHT_ANGLE_DEG` /
 |---|---|---|---|
 | **A** | `icon.svg` (+ `build_icon.py`) | **11 / 12** | **ships.** Four named layers, 25 paths, 16.8 KB, `fidelity.py structure` PASS. |
 | **B** | `icon-engineB-arrow-e21b68.svg` | 5 / 12 | Arrow 1.1. Lost on two non-negotiables: it bakes its own corner radius (not the family superellipse) and draws the title bands as 0.75px hairlines that vanish by 32px. Nothing salvaged. |
-| **C1** | `icon-engineC-9a8f54.png` | 8 / 12 | GPT Image 2 with four references (corpus apple-23 / 28 / 26 plus the create-test-suite tile). **Won the material and composition read** and is why A was rebuilt twice. Fails #10 by construction and #1 as delivered (opaque square corners). |
+| **C1** | `icon-engineC-9a8f54.png` | 8 / 12 | GPT Image 2 with four references (corpus apple-23 / 28 / 26 plus the test-campaign tile). **Won the material and composition read** and is why A was rebuilt twice. Fails #10 by construction and #1 as delivered (opaque square corners). |
 | **C2** | `icon-engineC-aa7201-2.png` | 7 / 12 | Second raster take, kept for the record. Flatter, and its band runs off the plate edges so it wraps the slab instead of titling a face. |
 
 `audit.html` carries the scored contact sheet with all four takes and every

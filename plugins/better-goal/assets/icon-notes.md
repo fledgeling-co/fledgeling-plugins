@@ -72,7 +72,7 @@ line of the build script, not reasoned about.
 
 | Role | Hex | Provenance |
 |---|---|---|
-| cushion, lit | `#FCFAF4` | family: deck-craft, create-test-suite, whats-left |
+| cushion, lit | `#FCFAF4` | family: deck-craft, test-campaign, whats-left |
 | cushion, mid | `#F3EDE1` | " |
 | cushion, corners | `#DED5C2` | " |
 | inner rim light | `#FFFDF8` | the cushion tell every Tahoe tile carries |

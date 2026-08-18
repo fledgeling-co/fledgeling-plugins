@@ -13,10 +13,10 @@ any good or whether it agrees with its siblings:
 
   resume-session      1600x520, which is the layout size at deviceScaleFactor 1,
                       so it is half resolution and soft on every retina display.
-  create-test-suite   3200x840 from a 1600x420 layout, against the family's 520.
+  test-campaign   3200x840 from a 1600x420 layout, against the family's 520.
   whats-left          3200x840, same cause.
 
-And a fourth defect that no size check would ever have found: create-test-suite
+And a fourth defect that no size check would ever have found: test-campaign
 and whats-left set their wordmarks in `Iowan Old Style` and `Avenir Next`, which
 are local macOS system faces with no web font linked. Those two banners are not
 reproducible. Re-render them on a machine without those fonts, or in CI, and the
