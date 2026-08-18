@@ -65,6 +65,71 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · ux-craft "The Spacing Circle" — a plan-view circle cannot be an
+  object, a shelf strip is the only place a device collision exists, and an
+  anisotropic region needs an anisotropic gradient.** Two reach envelopes as low
+  pucks of gel on porcelain, crossing, with the accent existing only in the
+  crossing.
+
+  **(a) A plan-view circle with a radial gradient is a ball bearing, whatever you
+  name the layer.** Two hand-authored rounds drew each reach zone as a circle
+  filled with a focal-offset radial: at 1024 they read as two spheres with a leaf
+  stuck between them, and the second round — narrowing the value range, killing
+  the sheen, containing the lens light — improved the surface without touching the
+  problem. The construction that reads as an object standing on a bench is a
+  **foreshortened ellipse with a visible edge band**: `ry = r × 0.66`, the same
+  outline dropped by a thickness of ~0.11 r to expose a band, the band a step
+  darker than the face, a porcelain bounce stroked along the band's far arc, and
+  two cast shadows (one tight at 0.30, one wide at 0.17) offset along the light
+  axis from the band's base rather than the face's centre.
+  *Generalise:* a region drawn in plan is a diagram; the same region drawn with a
+  thickness is an object. If two material rounds do not move a read, the fault is
+  in the construction and no parameter will find it.
+
+  **(b) One user-space ramp across BOTH objects, not one radial per object.** With
+  a radial per puck each one became its own little sun, which is most of the
+  sphere read. A single `userSpaceOnUse` linear gradient spanning the whole union
+  along the key axis, with the edge bands on a second ramp of the same axis a step
+  darker, makes two objects read as two objects under one light. This is the
+  mac-doctor/anvil "one key, one axis" rule applied across a *pair* rather than
+  across the faces of one solid.
+
+  **(c) A device collision exists only on the shelf strip, and a referred panel
+  cannot see it.** The first framing here — two overlapping shapes with a lit seam
+  — was measured, mocked and defensible in isolation, and rendered at 96px between
+  its siblings it sat exactly between `geminify` (two overlapping capsules, warm
+  blend) and `should-compact` (two dark slabs, vermilion seam). Two out-of-family
+  lanes given the full taken-devices list as text did not catch it; the pixels did,
+  in one second. The rescue was material rather than conceptual — pucks with bands
+  and contact shadows are not in either neighbourhood, because neither sibling
+  renders an object standing on the tile. *Generalise:* build the shelf strip
+  before committing a device, and again after the material lands.
+
+  **(d) A radial gradient on an anisotropic region has to carry the anisotropy
+  explicitly.** The crossing of two circles is a vesica at roughly 1:2.4. Sizing
+  its core gradient from the region's half-*width* (with a vertical stretch to
+  compensate) put the falloff's dark stop well inside the lens, so the accent
+  rendered as a half-sized blob clipped by an invisible edge and every hex was
+  still correct. Size it from the half-*height* and squeeze x by
+  `half_w / half_h` in the `gradientTransform`. Compute both from the circle
+  intersection rather than measuring the render.
+
+  **(e) Foreshortening costs contrast, and the currency is footprint.** Flattening
+  the pucks took 16px RMS from 0.282 to 0.236 because the dark mass fell from 30%
+  of the tile to 17%. A swept scale-up gave 0.244 at 67% tile width and 0.255 at
+  73%; the second crowds the safe zone. Sweep the object's scale and publish the
+  curve rather than defending a size — the grammar's 55-65% focal width assumes a
+  compact object, and a deliberately flat one buys its legibility with width.
+
+  **(f) An accent that is a relationship rather than a mark measures weak and
+  reads fine — check it in grayscale, not in the ring.** Dilated-ring: the gel
+  pucks read 6.45:1 against their surround while the crossing read only 1.45:1
+  against the gel it sits in, because a light trapped in doubled gel has a
+  near-black boundary by construction. The grayscale render settles it: the
+  crossing survives as a visibly lighter lens, so #7 holds, but part of the
+  signature is hue and #10 is an honest fail rather than a formality. Render
+  grayscale before claiming a hue-carried accent is value-carried.
+
 - **2026-08 · whats-left "The Open Crown" — the void is part of the silhouette,
   and three mocks died proving it.** A gateway with its keystone lifted out of
   the crown. Every finding here is about NEGATIVE space, which no material work

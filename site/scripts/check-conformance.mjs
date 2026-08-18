@@ -367,7 +367,20 @@ for (const name of dirs) {
   } else {
     const head = readme.split("\n").slice(0, 12).join("\n");
     if (!/banner\.(png|svg)/i.test(head)) {
-      fail(name, "readme", `no banner image in the first 12 lines. Every README in this marketplace opens with one.`);
+      // A plugin whose banner is on the dated debt list cannot open with one, so
+      // reporting the README separately double-counts a single accepted decision
+      // and buries the eleven real README defects under nine consequences of it.
+      // The banner entry is the debt; this follows it.
+      if (debtFor(name, "banner")) {
+        excused.push({
+          plugin: name, dimension: "readme",
+          message: "no banner image in the first 12 lines",
+          ...debtFor(name, "banner"),
+          why: `Follows the banner debt: ${debtFor(name, "banner").why}`,
+        });
+      } else {
+        fail(name, "readme", `no banner image in the first 12 lines. Every README in this marketplace opens with one.`);
+      }
     }
     if (!/img\.shields\.io/.test(readme.split("\n").slice(0, 24).join("\n"))) {
       fail(name, "readme", `no badges near the top.`);
