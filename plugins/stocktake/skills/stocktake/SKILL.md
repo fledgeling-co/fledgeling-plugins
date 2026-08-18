@@ -104,7 +104,7 @@ Invoke that skill where it is installed rather than reimplementing it.
 ### 4 · Judge whether the tests could fail
 
 A green suite is a claim, and `references/testing-adequacy.md` carries the checks that
-test it, drawn from `create-test-suite`:
+test it, drawn from `test-campaign`:
 
 - **Which rung of oracle** each critical requirement stands on. "The element exists"
   under a flow that moves money fails the gate rather than passing quietly.
@@ -138,14 +138,49 @@ Where only a same-family lane is available, the verdict is recorded as
 
 - **Inconclusive is a result, not a retry.** ISO/IEC 17025 treats it as valid output.
   It blocks; it never rounds up to a pass.
-- **Done and Verified are different claims.** Done is what an out-of-family verdict
-  can grant. Verified is a human's, and stays one until the preconditions in
-  `references/column-policy.md` §Verified exist — `scripts/check_verified_gate.py`
-  reports which are missing rather than letting the question go unasked.
 - **Needs More Info carries the question**, phrased so a reply unblocks it. A card
   moved there with no question is a card nobody can answer.
 
-### 7 · Open decisions get referred, not parked
+Done is where an out-of-family verdict alone can take a card. What happens next is
+step 7.
+
+### 7 · At Done, ask the warrant whether the card may go further
+
+Whether a card can leave Done is a question about *authority* rather than about the
+card, so it is not answered here. The `warrant` plugin is where that authority is
+written down, earned per defect class and revoked on evidence, and this skill reads
+its answer:
+
+```bash
+S=<this-skill-dir>/scripts
+python3 $S/warrant_column.py --warrant-root <repo> --class <defect-class> --verdict pass
+```
+
+Its exit code is the column:
+
+| Exit | Column | Why |
+|---|---|---|
+| 0 | **Verified** | the class holds warrant tier 3, ratchet fired nothing, and the substitution is printed with the grant |
+| 2 | **Needs More Work** | a warrant gate failed on this card's own evidence, named in the output |
+| 3 | **Done**, and no further | the authority is not there. Every reason is named: no signed warrant, no owner, an unnamed class, a census class, a tier not earned, or a revocation |
+| 4 | no move | the verdict was inconclusive, which blocks |
+
+Pass `--card-gate-failed '<gate>: <detail>'` for each warrant gate that failed on
+this card, and the answer is Needs More Work with the gap quoted onto the card. A
+`tick_and_tie` mismatch already names the figure, both values and the tolerance, so
+the card gets something actionable rather than "verification failed".
+
+**What a grant rests on, and it is stated on every one.** A warrant tier is earned by
+absence of escapes over a declared window, not by a measured non-inferiority study;
+no such study exists for code or UI review. The signed warrant is a person accepting
+that substitution in advance. Two consequences worth holding: a class the warrant does
+not name can never reach Verified, because an unnamed class defaults to no authority
+at all; and a census class has no machine path past Done however good its evidence is.
+
+Where `warrant` is not installed, `scripts/check_verified_gate.py` is the fallback and
+it refuses by default. Refusing is the feature.
+
+### 8 · Open decisions get referred, not parked
 
 A decision the reader has to make is a cost to them. Apply `clarify`'s gate: settle it
 from the material where it is settled, refer it out of family where it is technical,
@@ -153,7 +188,7 @@ and take your own recommendation where you can name one and say why. What surviv
 taste, cost, scope, risk, their own systems — reaches them as one question, and
 anything irreversible reaches them regardless of how certain you are.
 
-### 8 · Write the briefs, then run them
+### 9 · Write the briefs, then run them
 
 Cards with work remaining get one brief each in `docs/features-to-triage/`, written so
 `ship-fleet` can orchestrate without re-deriving anything: the requirement list, what
