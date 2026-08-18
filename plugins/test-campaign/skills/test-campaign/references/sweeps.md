@@ -4,12 +4,17 @@ A requirement suite proves the product does what was asked. The sweeps prove it
 survives what nobody asked about, and that is where most field defects live.
 
 Each sweep is **driven and asserted**, scaled to the feature, and recorded as
-`ran` / `skipped: <reason>` — never omitted. Each prints its denominator
-(`examined=41 failures=0`), because a predicate that matches nothing returns
-clean and looks exactly like a clean surface.
+`ran` / `skipped: <reason>` / `inconclusive: <reason>` — never omitted. Each
+prints its denominator (`examined=41 failures=0`), because a predicate that
+matches nothing returns clean and looks exactly like a clean surface. And a sweep
+the instrument could not actually perform is `inconclusive`, not clean: those two
+are the same shape of green and only one of them is a measurement.
 
 Scale: a copy change gets none. A new data surface gets A–E. Anything
-collaborative, permissioned, or that writes on behalf of a user gets all of them.
+collaborative, permissioned, or that writes on behalf of a user gets A–J. **K**
+applies to anything with a real window on a real display server, and **L** to
+anything that is more than one process — neither is optional on a desktop app,
+and neither can run at all on a lane that never attached.
 
 ---
 
@@ -199,6 +204,86 @@ Of 79 documented reproducible bugs in one benchmark, **9 still reproduced** late
 — selector drift, changed permissions, dead services. So every flow versions its
 fixtures, accounts, permissions and environment alongside itself, and the sweep
 checks that those still resolve before trusting anything downstream of them.
+
+---
+
+## K · Desktop shell, window and display invariants
+
+**Only runs on a lane that is actually on glass**, and that is the sweep's first
+finding either way: a headless lane cannot run any of it, so a campaign that
+reports K as clean without an attached process is reporting on nothing.
+`references/on-glass.md` has the attachment proof this sweep depends on.
+
+Unlike sweeps A–J, none of the checks below rests on a published measurement of
+how often they catch something. They are here because each one is a defect class a
+window has and a viewport does not, and each is cheap to force. Treat them as a
+checklist earned by structure rather than by evidence, and do not report a yield
+figure the skill does not have.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Display scaling** | 100% · 125% · 150% · 200% | no clipped text, no overlapping controls, no control pushed outside its window |
+| **Window size limits** | drag below the stated minimum, and to full screen | the window refuses below a usable size rather than collapsing its layout |
+| **Menu-bar extra / tray popover** | open it from the status item | the popover is anchored to *its own status item*, not centred on the screen |
+| **Runtime theme change** | toggle the OS appearance **while the app runs** | whatever the framework guarantees, and no stale palette left behind |
+| **Multi-monitor move** | drag between displays of different scale factors | layout re-resolves rather than staying at the old scale |
+| **Occlusion and workspace change** | cover the window, send it to another Space or virtual desktop, lock the screen | the app survives it, and the *campaign* notices its capture channel has stopped delivering frames rather than recording the last good one again |
+
+Two mechanics that decide whether this sweep measures anything:
+
+**A theme toggle is not a repaint, and "without a relaunch" is not a universal
+expectation.** Writing the OS appearance setting is not enough on Windows: a
+running app only re-themes when the change is *broadcast* to it, and while the
+shell and modern frameworks reload immediately, a classic Win32 app may not
+subscribe at all and structurally requires a relaunch. So establish what the
+framework under test guarantees, assert that, and record the rest as a platform
+fact rather than a defect. Where the lane exposes no resolved colour to assert
+against — which is every native lane — this check is `inconclusive`, not clean.
+
+Two further traps: the tray icon of a crashed app **stays in the notification
+area** until something forces the shell to invalidate it, so a stale icon is a
+real defect class rather than a rendering artefact; and a display-scaling change
+moves the coordinate space, so a harness that is not scaling-aware will click
+where the control used to be and report the control dead.
+
+**Occlusion is where the sweep and the instrument collide.** A compositor is
+entitled to stop drawing a window nobody can see, and on macOS there is no
+supported way to force it from outside the app. So a capture taken during
+occlusion may be a stale frame rather than a current one. Read the per-frame
+status and mark the cell `inconclusive` when it is anything but complete; a stale
+frame recorded as evidence asserts the previous state of the application. On
+Windows there is no per-frame status to read at all, so the same situation is
+undetectable from the image and has to be avoided rather than measured: never
+capture a minimised window or one on an inactive virtual desktop, because both
+return black without erroring.
+
+---
+
+## L · Live process and IPC chaos
+
+For any product that is more than one process — a daemon, a helper, a service, a
+menu-bar app talking to a background worker. This sweep exists because the
+integration seam is the one place unit tests on both halves can both pass while
+the product does not work.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Peer disappears** | kill the daemon while the UI is open | the UI transitions to a named degraded state, promptly, without crashing — and *says* the peer is gone rather than showing stale data as current |
+| **Peer returns** | restart it | the client re-establishes its connection and resumes, inside a stated bound, with no user action |
+| **Half-open connection** | drop the socket without closing it | the client notices, rather than waiting on a read that will never return |
+| **Privilege separation** | send a supervisor-level command from an unprivileged client | refused **on the peer side**, not merely hidden in the UI |
+| **Startup order** | launch the UI first, with no peer running at all | the first-run path is the degraded path, not a crash or an indefinite spinner |
+
+The assertion that matters most here is the one shared with sweep H: **after the
+peer goes away, is the interface's claim still true?** A client that keeps
+rendering the last telemetry it received, with no staleness marker, is not
+degrading — it is reporting a machine state that no longer exists. That is a
+refusal-honesty defect wearing a process costume, and it is invisible to a test
+that only checks the app did not crash.
+
+Write posture applies as it does in sweep C: killing a real daemon on a shared
+machine affects whoever else is using it. Run against a disposable target, or
+against your own instance, and say which.
 
 ---
 

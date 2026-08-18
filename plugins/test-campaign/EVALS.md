@@ -15,19 +15,27 @@ None of them. The README and the references carry a lot of figures, all of them 
 | 27% valuable, 50.5% duplicates, 22.5% invalid | LLM-generated QA plans against an application owner's own QA team | Mozilla Foundation / Mujahid et al., Jan 2026 |
 | 49% over 71 bugs | a model's detection ceiling as a non-crash functional oracle | Ju et al., Jul 2024 |
 | 42.5% to 47.6% across 214 components | behavioural relations exercised far more than validated | Pei, Zhang, Sohn, Papadakis, Aug 2026 preprint, no independent replication |
+| DISTS +34.5%, LPIPS +36.8%, VIF +98.0%, HaarPSI +22.6% with human opinion flat or falling | perceptual metrics are gameable by imperceptible perturbation, which is why a similarity score is a tripwire here and never a verdict | metric-robustness work, via the Aug 2026 research panel |
+| 1024×768 | the default screen resolution of a hosted `windows-latest` CI runner | `actions/runner-images` issue 2935 |
+| "neither GetLastError nor the return value will indicate the failure was caused by UIPI blocking" | Windows silently discards synthetic input aimed at a higher-integrity process | Microsoft's own `SendInput` reference, fetched and read |
 
-That third one is the weakest and the README says so already. It is directional, not a threshold.
+That third one is the weakest and the README says so already. It is directional, not a threshold. The last two are capability facts rather than measurements of anything; they say what a platform does, not how often a check catches a defect.
 
-**Field observations from the campaign that motivated the skill.** Real, local, and measured *before* this skill existed, using the predecessor method. They are facts about those applications and about `acceptance-e2e`-era work, not about this skill's behaviour. The trace is in `skills/create-test-suite/references/evidence.md` and `docs/meta-pass-gap-analysis.md`.
+**Field observations from the campaign that motivated the skill.** Real, local, and measured *before* this skill existed, using the predecessor method. They are facts about those applications and about `acceptance-e2e`-era work, not about this skill's behaviour. The trace is in `skills/test-campaign/references/evidence.md` and `docs/meta-pass-gap-analysis.md`.
 
 - 524 assertions across 13 tenants, all opening `/` at 1280px or wider against the reference build.
 - Six screens on one console, five of which received none of the sweeps.
+- **100% checked, 22 armed cases and 59 passing tests reported for a macOS app and a Windows app, neither of which had ever attached a GUI process to a window server.** Swift view structs initialised in memory, C# never compiled, and the evidence page's screenshots taken from an HTML mock in a browser. This is the observation the 0.5.0 work exists for, and every number in that report was individually true.
 - Four live instances of the `errorPolicy: 'all'` confident-falsehood defect across three screens.
 - Six working presets reported dead by a length-neutral dead-control sweep.
 - A driving sweep writing to a live tenant record four times in one morning.
 - One judging pass costing 178 calls, 1.69M input tokens, 65.6k output and roughly US$6, returning 11 pass, 13 fail and 36 inconclusive. That is in `assets/judge-contract.md` under Cost, stated.
 
 **Measurements of this skill.** There are none. What they would be: the per-assertion results of the nine prompts in `evals/evals.json` across two arms, graded by an independent subagent. That is the gap this file exists to name rather than to fill.
+
+The 0.5.0 gates are each proved to fire and then proved to clear, and that proof is a file rather than a paragraph: [`tests/run.sh`](tests/run.sh), 15 assertions, re-runnable. It builds a campaign designed to trip every new blocker (a non-image artifact, a zero-byte file, a 1×1 placeholder, two cases sharing one screenshot byte for byte, a pixel claim with no stated capture channel, a lane claiming on-glass with no proof, a case on the legacy `visual` rung, and the inconclusive and blocked statuses), asserts each one fires *with its own distinguishing message* rather than merely exiting non-zero, then resolves the same campaign and asserts it clears. The ratchet's three paths are covered too.
+
+The suite is itself armed, which is the only reason to believe it. Disabling the duplicate-artifact blocker in `campaign.py` turns it red; restoring the line turns it green. It also went red once on its own account, when a fixture edit stopped exercising the missing-capture-channel blocker and the suite noticed before I did. That is a test of the gate, not a measurement of the skill, and it belongs in this paragraph rather than in the table above.
 
 Two further figures were withdrawn during the research pass when their only source turned out not to exist, and they appear nowhere in the skill. `references/evidence.md` records both.
 
@@ -55,13 +63,13 @@ So the gate discriminates in both directions, which is the property that matters
 
 **The selection ladder holds.** `scope --selective` was refused with exit 1 when no full run had been recorded: "no lastFullRun recorded, so there is no full result for a selective run to carry". `carry` was refused with exit 1 outside a declared selective run. And on a properly declared selective run, `carry` reported `ran 1 · carried 0 · protected 1`, naming the critical flow's outcome-rung case as the always-run floor and refusing to carry it. That is the documented behaviour, measured.
 
-### Two things failed, and one of them matters
+### Two things failed, and both are now fixed
 
-**An empty campaign passes the gate.** `campaign.py init` followed immediately by `campaign.py check` exits **0** on zero requirements, zero surfaces and zero cases. Every count on the page is a truthful zero and the verdict reads clear. That is a gate that cannot fail on the emptiest possible input, in a skill whose first rule is that a check which matches nothing returns clean and is indistinguishable from a clean surface. It is not a false pass in the ordinary sense, because nothing was claimed, but a run that crashed after `init` leaves a workdir that clears the gate.
+**An empty campaign passed the gate.** `campaign.py init` followed immediately by `campaign.py check` exited **0** on zero requirements, zero surfaces and zero cases. Every count on the page was a truthful zero and the verdict read clear. That is a gate that cannot fail on the emptiest possible input, in a skill whose first rule is that a check which matches nothing returns clean and is indistinguishable from a clean surface. It was not a false pass in the ordinary sense, because nothing was claimed, but a run that crashed after `init` left a workdir that cleared the gate. Fixed in 0.5.0: no cases and no surfaces are each a blocker, with the reason stated in the output. Re-tested in both directions, since a gate that now always fails would be no better.
 
-**The case record's requirement field is `req`, and nothing documents it.** `add --kind case` validates the surface id and the oracle rung and accepts every other key silently. A case written with `"requirement": "REQ-001"`, which is the word the SKILL.md and every reference use, is stored intact and then reported by `check` as a requirement nothing checks. Neither the SKILL.md nor any file under `references/` names the `req` key. I hit this while building the fixtures above, and it cost a round of debugging on a blocker that pointed at the wrong thing. Eval 9 in the set exists because of it.
+**The case record's requirement field is `req`, and nothing documented it.** `add --kind case` validated the surface id and the oracle rung and accepted every other key silently. A case written with `"requirement": "REQ-001"`, which is the word the SKILL.md and every reference use, was stored intact and then reported by `check` as a requirement nothing checks. I hit this while building the fixtures above, and it cost a round of debugging on a blocker that pointed at the wrong thing. Fixed in 0.5.0 from both ends: `add` reads `requirement` as `req` and says so, and phase 5 of the SKILL.md now names the key. Eval 9 in the set still exists, because the general property, that the registry round-trips what the plan claims, is worth grading whatever the key is called.
 
-**No prior run exists.** No `grading.json`, no `results/` directory, no `benchmark.json`, no committed judge log, no blind-panel key anywhere under `plugins/create-test-suite/`. Checked, not assumed. The only judge artifact in the plugin is `assets/judge-contract.md`, which is a specification rather than a run.
+**No prior run exists.** No `grading.json`, no `results/` directory, no `benchmark.json`, no committed judge log, no blind-panel key anywhere under `plugins/test-campaign/`. Checked, not assumed. The only judge artifact in the plugin is `assets/judge-contract.md`, which is a specification rather than a run.
 
 ## What the eval set would settle
 
@@ -80,8 +88,8 @@ Grade with a subagent that never sees the skill, marking each assertion passed o
 ## Caveats, stated rather than buried
 
 - **Nothing above measures the skill.** The gate results are facts about `campaign.py`. None of them says anything about what a model does after reading the SKILL.md.
-- **The empty-campaign pass is a real hole and is not fixed.** It is named here rather than patched, because the fix belongs to whoever owns the script and this file owns only the evals.
-- **Only the web lane was exercised at all, and only through the registry.** No iOS, macOS, SwiftUI or React Native lane was touched, no browser was opened, no sweep was run, and no evidence page was reviewed by a person. The lane ceilings in `references/harness-lanes.md` are unverified here.
+- **The two script defects found here are fixed, and the fix is the same kind of evidence as the finding.** Both were re-tested in both directions: the empty campaign now fails, and a fully-resolved campaign still clears. Neither says anything about the skill's behaviour under a model.
+- **Only the web lane was exercised at all, and only through the registry.** No iOS, macOS, Windows, Linux, SwiftUI or React Native lane was touched, no browser was opened, no sweep was run, and no evidence page was reviewed by a person. The lane ceilings in `references/harness-lanes.md` are documentation, not observations made here: the Windows and Linux rows come from vendor references and issue trackers read during the research pass, and nobody has stood either lane up against a real application on this machine.
 - **The judge is unexercised.** `assets/judge-contract.md` describes a judge; no judge ran.
 - **A defined eval set proves nothing.** Written assertions are a plan for a measurement.
 - **The set may contain assertions that cannot fail.** Which ones is unknown until both arms run, and any a baseline also passes measure the model rather than the skill and should be relabelled as regression guards or dropped.

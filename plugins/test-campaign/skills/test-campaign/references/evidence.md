@@ -17,11 +17,27 @@ Three deep-research panels, run 2026-08-18, on the same four-part question
 dashboards · cross-platform capture). Reports are in `docs/deep-research/`, each
 beside its own `.sources.md`.
 
+A **fourth pass, 2026-08-19**, on native desktop verification, after a campaign
+reported 100% checked over two desktop applications that had never drawn a window
+(`on-glass.md` §1). It ran in two halves: a sweep of 452 existing reports in the
+local research store for what was already known about macOS, and one new
+deep-research run for Windows and Linux, where the sweep found **nothing usable
+at all** — no UI Automation, no Windows capture semantics, no AT-SPI2, no
+Wayland. That run is
+`docs/deep-research/gemini-native-desktop-on-glass.md` (`dr_520a53de0ba977ac`,
+max tier, 106 sources, ~$7).
+
 Citations were dereferenced afterwards. **That check earns its place:** the
 OpenAI report came back 83% live with its one 404 a moved NIST page whose claim
 had other live sources, while the Gemini report came back with two figures whose
 *only* source no longer exists. Those two are recorded below as withdrawn, and
 neither appears anywhere in the skill.
+
+The 2026-08-19 run came back **101 of 106 citations live**, with five that do not
+resolve and two claims left with no surviving source. Both were chased by hand
+rather than dropped or kept on trust, and the outcome is recorded under *Native
+desktop* below: one turned out to be **better** sourced than the report had it,
+straight from the vendor's own API reference; the other is withdrawn.
 
 `live` means the URL resolves. It does not mean the source supports the claim
 attached to it — that still needs a reader, and the numbers below were read.
@@ -165,6 +181,60 @@ lane (`harness-lanes.md` carries the operational version).
 
 ---
 
+## Native desktop, and verification on glass
+
+The operational version is `on-glass.md` and `harness-lanes.md`. What follows is
+where each claim came from and how far it goes.
+
+| Finding | Source | Standing |
+|---|---|---|
+| `SendInput` fails under UIPI, and **neither the return value nor `GetLastError` indicates UIPI as the cause**; injection is permitted only into applications at equal or lesser integrity | Microsoft's `SendInput` reference, `winuser.h` | **Highest in this section.** Verbatim from the vendor's own API documentation, fetched and read. The single best-evidenced silent-failure mode on any lane. |
+| Deep UIA tree enumeration in WinUI 3 can raise a native `0xc0000005` in `Microsoft.UI.Xaml.dll`; the workaround is depth-capping plus per-node `try`/`catch` | `microsoft/microsoft-ui-xaml` issue 11028 | High. Vendor's own issue tracker, with the workaround stated there rather than inferred. |
+| Qt's UIA backend (5.11+) distinguishes controls largely by `LocalizedControlType` rather than semantic control type, and does not raise some state-change events | `nvaccess/nvda` issue 8604 | Medium–high. A screen-reader project's issue tracker — a practitioner report rather than a vendor statement, and the practitioners in question are the ones who consume the API. |
+| Windows has **no per-frame validity signal**; desktop duplication offers only dirty-rects and move-rects | Microsoft desktop-duplication API docs | High, and it is an *absence* — the strongest asymmetry with macOS in the whole matrix. |
+| A minimised window has no current composition to capture; the compositor retains only the last bitmap it drew | vendor docs plus secondary corroboration | Medium. The behaviour is consistently reported and the mechanism is documented; the exact retention semantics are not stated in one authoritative place. |
+| `WDA_EXCLUDEFROMCAPTURE` removes a window from all capture | Windows display-affinity docs | High for the API. One of the two sources attached to it in the report is dead; the surviving one is the vendor's. |
+| Hybrid-GPU mismatch fails desktop duplication with `DXGI_ERROR_UNSUPPORTED` | practitioner write-up | Medium. Reproducible and widely reported, not vendor-confirmed in the material read. |
+| GitHub's `windows-latest` runner provides an interactive desktop, and defaults to **1024×768** | `actions/runner-images` issue 2935 | High. The runner project's own tracker. The resolution is the number to act on. |
+| Windows services run in Session 0 with no interactive desktop | Windows session-isolation docs | High, and long-standing. |
+| Closing RDP locks the desktop and destroys the GUI context; `tscon %sessionname% /dest:console` is the documented workaround | test-tool vendor documentation | Medium–high. Vendor documentation for the technique rather than a Microsoft statement, and the technique is decades old. |
+| Wayland removes X11's global capture and injection; automation goes through the XDG RemoteDesktop portal with `libei`, and the consent dialog blocks unattended runs without a cached `restore_token` | freedesktop portal docs, `libei` maintainer's write-up, tool issue trackers | High for the mechanism. That a CI environment can be provisioned with a token cleanly is explicitly **an open problem**, not a solved one. |
+| `wlr-virtual-pointer-unstable-v1` and `wlr-screencopy-unstable-v1` bypass portal consent on wlroots compositors | Wayland protocol registry | High for the protocols' existence; whether a given compositor exposes them is per-compositor. |
+| AT-SPI2 exposes a detailed GTK/Qt widget tree; sandboxed apps and custom renderers frequently do not implement it and are invisible | freedesktop AT-SPI2 documentation | High for the interface. "Frequently" is not quantified anywhere. |
+| Xvfb proves the view layer renders without crashing, and does not prove compositor behaviour, hardware acceleration, or portal permission flows | tooling documentation plus reasoning | Medium, and partly inference — the inference is stated as such in `harness-lanes.md`. |
+| jsdom places layout "outside the scope of jsdom" and returns "zeros for many layout-related properties" | jsdom's own README, fetched and read | High. Primary, from the project itself. |
+| macOS: `SCFrameStatus` per frame; off-screen windows emit frames only under pointer movement; no supported way to composite an occluded window from outside it; a sandboxed app cannot use the accessibility API even with a user grant; no cross-process computed style | prior research corpus, Apple documentation and sample code | High for the documented parts. Two items remain open there and are flagged at the point of use: `SCStream` behaviour during **display sleep** has no authoritative source, and whether Secure Event Input degrades accessibility *reads* as distinct from event taps is untested. |
+
+**Disagreement #4 — is SSIM the answer for native visual parity?** The
+2026-08-19 run concludes that structural similarity "is the only mathematically
+proven approach to measuring cross-platform geometry tolerances". The skill does
+**not** adopt that, and the reason is evidence rather than preference. That
+conclusion rests on a single hobby repository, not on a measurement. Against it
+sits a directly relevant result from the earlier corpus: imperceptible
+perturbations raised DISTS by up to 34.5%, LPIPS by 36.8%, VIF by 98.0% and
+HaarPSI by 22.6% **while human opinion scores stayed flat or fell**, and every
+metric tested was susceptible. SSIM and PSNR survived those particular attacks,
+which is exactly what makes SSIM usable as a **tripwire** and still unfit as a
+verdict — a threshold an implementation can be tuned toward without getting
+better. So the skill keeps the quantised-geometry band it already had, and treats
+a similarity score as a prompt to go and read the structure. `differential.md`.
+
+**Withdrawn from the 2026-08-19 run.** One claim is dropped: that adjusting a
+hosted Azure DevOps agent's resolution requires a specific marketplace task which
+silently fails without interactive autologon. Its only citation 404s, and nothing
+else in the report supports it. The *underlying* point — that a CI runner's
+resolution is a campaign-relevant default — survives on the GitHub runner-images
+issue instead.
+
+**Promoted from the same run.** The UIPI silent-failure claim arrived as an
+explicitly-marked inference whose only citation 404'd, which by the rule above
+would have made it unusable. Fetching Microsoft's `SendInput` reference directly
+found the vendor stating it outright, and more precisely than the report had.
+Recorded here because it is the case that justifies chasing a dead citation
+rather than deleting the claim attached to it.
+
+---
+
 ## Withdrawn
 
 Two figures appeared in one report and are **not used anywhere in this skill**.
@@ -207,6 +277,9 @@ has each gap with its measurement. The trace:
 | Plan generation had no method | `coverage-model.md` |
 | No component axis, so a shared-component defect was found once per page or never | `component` as an inventory kind and a page section |
 | *(added by the requester)* nothing read what the project says it does | `project-comprehension.md`, and the requirement trace in the gate |
+| A campaign reported 100% checked, 22 armed cases and 59 passing tests across two desktop apps, neither of which had ever drawn a window | `on-glass.md`; the `-glass` lane proof and the raster-artifact checks in `campaign.py`; the `visual` rung split; sweeps K and L |
+| `visual` bought effect credit for a case asserting a title string, so the score rose while the coverage did not | `raster-visual` and `structural-visual` as separate rungs, with an evidence obligation on the first |
+| A check that could not run and a check that passed arrived in the report identically | `inconclusive` and `blocked` as first-class blocking statuses, and observation coverage printed beside the verdict |
 
 ---
 
@@ -233,3 +306,15 @@ extrapolating:
 - **Two of the most load-bearing recent findings are unreplicated preprints** —
   the metamorphic coverage result and the no-strategy-dominates study. Both are
   used directionally and both are flagged at the point of use.
+- **The desktop evidence is documentation, not measurement.** Everything in
+  `harness-lanes.md`'s desktop matrix is an API contract, a vendor statement or an
+  issue-tracker report: what the platform *can* do. None of it measures how often
+  a given check catches a real defect, so sweeps K and L are justified by
+  structure rather than by yield, and they say so. Specifically absent: any
+  formal quantification of scaling-induced layout defects at particular DPI
+  thresholds (searched for, and explicitly reported missing), and any
+  vendor-independent flake data for agent-driven native desktop suites.
+- **Nobody has published doing this.** Across all the material read, no first-hand
+  account was found of anyone running a computer-use agent against an application
+  as QA and reporting the results. The lane designs here are built from platform
+  capability, not from somebody else's experience of using them this way.

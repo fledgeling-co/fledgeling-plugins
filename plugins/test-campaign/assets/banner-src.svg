@@ -38,7 +38,7 @@
 
   <g font-family="Iowan Old Style, Palatino, Georgia, serif">
     <text x="412" y="185" font-size="88" font-weight="600" fill="#2B2620"
-          letter-spacing="-1.9">create-test-suite</text>
+          letter-spacing="-1.9">test-campaign</text>
   </g>
   <g font-family="Avenir Next, Helvetica Neue, sans-serif" font-size="33">
     <text x="412" y="245" fill="#5E564A">A test campaign<tspan fill="#C9541F">,</tspan> and <tspan

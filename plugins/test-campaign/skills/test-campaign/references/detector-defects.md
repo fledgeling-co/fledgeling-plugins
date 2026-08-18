@@ -194,6 +194,87 @@ partial state exit non-zero rather than print a warning.
 
 ---
 
+## 11. The action that reports success and does nothing
+
+A driven step returns without error, the driver reports the action landed, and
+nothing happened. Documented instances on macOS: a keyboard commit to a
+**minimised** window reports success without committing; a canvas surface
+silently no-ops; a coordinate that misses its target fails without refusing.
+
+This is the actuation-side twin of the vacuous assertion, and it is worse,
+because the assertion that follows is asserting about a state the step never
+produced.
+
+**Fix.** Never accept the driver's own word for it. A step is proved by an
+observable the step was supposed to change, read back through a different
+channel from the one that struck. The vocabulary matters here: a backend is
+told what to strike and asked what it did; it is never the authority on what is
+there. And a zero exit from a deep link means the URL was delivered, not that
+the app went anywhere — the same `open` run twice exits zero both times and only
+the first changes anything.
+
+---
+
+## 12. The accessibility tree that materialises on the second ask
+
+Chromium and Electron build their accessibility tree only when a client asks for
+it, via `AXEnhancedUserInterface` or `AXManualAccessibility` on the application
+element. The measured consequence: **the first walk returns empty and subsequent
+walks work.** A capture pipeline that bails on the first miss concludes there is
+no tree and falls back to OCR, silently, for the rest of the run.
+
+**Fix.** Set the flag on the application element rather than a renderer helper,
+then walk twice and treat a first-walk miss as unproven rather than as absence.
+
+**The general form, and it is the uncomfortable one:** reading the tree can
+change the application. A target can detect that it is being driven this way and
+behave differently, so an accessibility-driven suite is measuring the application
+*in its assistive-technology configuration* — a different code path with a
+documented performance profile. Say so, rather than claiming to have measured the
+shipping configuration.
+
+---
+
+## 13. Two correct methods that disagree about whether the window exists
+
+A retained handle to a window that has moved to another Space **remains valid and
+readable**, while a fresh enumeration will not find that window at all. Both
+behaviours are correct. Which one you used decides whether the surface is
+present or gone.
+
+Related, and measured on macOS 26: window enumeration reports **every menu-bar
+status item as belonging to Control Center**, so a menu-bar extra's owner is
+misattributed by the instrument rather than by the app.
+
+**Fix.** Cache handles across the steps of a flow rather than re-enumerating per
+step, and when two channels disagree about the same instant, record the
+disagreement as the finding instead of picking the convenient one.
+
+---
+
+## 14. The capture that was never a capture
+
+Four artifact-level lies, all exact to detect and all seen:
+
+| The artifact | What it looked like |
+|---|---|
+| a zero-byte file | a screenshot, in the file listing |
+| an HTML error page saved to a `.png` path | a screenshot, in the file listing |
+| a 1×1 placeholder | a screenshot, in the file listing |
+| **one screenshot attached to twelve cases** | twelve pieces of evidence |
+
+The last is the one that survives review, because every case genuinely names an
+artifact and the artifact genuinely exists.
+
+**Fix.** `campaign.py check` reads the magic number, the dimensions and a hash of
+every `raster-visual` artifact, and fails on a non-image, a placeholder, or two
+cases whose evidence is byte-identical. What it deliberately does not do is score
+the picture: no single density or entropy metric separates a failed capture from a
+legitimately sparse screen, so a density floor would fail in both directions and
+fail quietly. `references/on-glass.md` §5.
+
+---
+
 ## Using this list
 
 Two moments:

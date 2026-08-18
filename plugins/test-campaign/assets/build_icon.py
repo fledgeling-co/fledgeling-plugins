@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""build_icon.py — Engine A master for the `create-test-suite` icon.
+"""build_icon.py — Engine A master for the `test-campaign` icon.
 
 Direction 2, sub-register (a): porcelain cushion + gel objects, in the
 fledgeling-plugins house palette sampled out of its two nearest siblings

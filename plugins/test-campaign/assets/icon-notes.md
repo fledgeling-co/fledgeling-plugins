@@ -1,4 +1,4 @@
-# Icon notes — `create-test-suite`
+# Icon notes — `test-campaign`
 
 Direction 2, sub-register (a): porcelain cushion + gel objects. Same register as
 `whats-left` and `proctor`, which it sits beside in the marketplace.

@@ -72,7 +72,22 @@ def main() -> int:
         print(f"no surfaces in {inv_path} — nothing to attach to")
         return 1
 
-    images = sorted(p for p in shots_dir.rglob("*") if p.suffix.lower() in IMAGE_SUFFIXES) if shots_dir.exists() else []
+    # THE BUILD, NEVER THE MOCK.
+    #
+    # capture-pairs writes the reference under `mock/` with the SAME surface id,
+    # so a naive walk attaches whichever sorts last and the wall then shows the
+    # DESIGN while labelling it the product. Measured: 15 of 56 surfaces were
+    # pointed at their own mock. A reference belongs to the pair file, which is
+    # what be-my-witness reads; it is never the surface's shot.
+    images = (
+        sorted(
+            p for p in shots_dir.rglob("*")
+            if p.suffix.lower() in IMAGE_SUFFIXES
+            and "mock" not in {part.lower() for part in p.relative_to(shots_dir).parts[:-1]}
+        )
+        if shots_dir.exists()
+        else []
+    )
     print(f"surfaces={len(surfaces)}  images={len(images)}  shots dir={shots_dir}")
     if not images:
         print(f"\nNo images under {shots_dir}. This campaign captured nothing, which is a")

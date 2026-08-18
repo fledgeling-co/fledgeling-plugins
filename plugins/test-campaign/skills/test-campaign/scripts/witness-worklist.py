@@ -35,6 +35,22 @@ def main() -> int:
     rel = args[args.index("--pairs") + 1] if "--pairs" in args else "evidence/shots/pairs.json"
     pairs_path = d / rel
 
+    # Merge every worker's file. A single pairs.json cannot survive a worker
+    # recycle — Playwright restarts a worker after a failing test, so the last
+    # writer clobbers the rest. Measured: 61 captures produced a pairs.json with
+    # one entry in it. The template writes pairs-<pid>.json; this joins them.
+    shards = sorted(pairs_path.parent.glob("pairs-*.json")) if pairs_path.parent.exists() else []
+    if shards:
+        merged = []
+        for sh in shards:
+            try:
+                merged += json.loads(sh.read_text())
+            except (ValueError, OSError):
+                print(f"   ! unreadable shard: {sh.name}")
+        by_surface = {p.get("surface"): p for p in merged}
+        pairs_path.write_text(json.dumps(list(by_surface.values()), indent=1) + "\n")
+        print(f"merged {len(shards)} worker file(s) -> {len(by_surface)} unique surfaces")
+
     if not pairs_path.exists():
         print(f"no pairs at {pairs_path}.")
         print("Nothing has been captured for comparison, so NO surface in this campaign has")
