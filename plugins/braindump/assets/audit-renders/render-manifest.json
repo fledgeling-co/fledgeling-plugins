@@ -1,0 +1,49 @@
+{
+  "takes": {
+    "c1": {
+      "source": "icon-c1.png",
+      "kind": "raster-mask",
+      "source_mtime": 1786100849.5988283,
+      "rendered_at": 1787062477.73951
+    },
+    "c2": {
+      "source": "icon-c2.png",
+      "kind": "raster-mask",
+      "source_mtime": 1786100849.6578217,
+      "rendered_at": 1787062478.338461
+    },
+    "engineB": {
+      "source": "icon-engineB-arrow.svg",
+      "kind": "svg",
+      "source_mtime": 1786100819.4220357,
+      "rendered_at": 1787062478.597675
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786342257.6647804,
+      "rendered_at": 1787062479.243547
+    },
+    "v1": {
+      "source": "icon-v1.svg",
+      "kind": "svg",
+      "source_mtime": 1786101122.4109123,
+      "rendered_at": 1787062479.866642
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

@@ -32,20 +32,34 @@
   .loop td, .loop th { padding: 8px 14px; font-variant-numeric: tabular-nums; }
   .loop caption { text-align: left; color: #7fa0aa; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 0 0 10px; }
   code { color: #cfe0e6; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>create-skill icon - contact sheet &amp; audit</h1>
-<div class="sub">Direction "The Pour" · porcelain register, one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 32 / 16. Contrast figures below are relative-luminance ratios measured on the 1024 renders, not estimated.</div>
+<div class="sub">Direction "The Pour" · porcelain register, one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. Contrast figures below are relative-luminance ratios measured on the 1024 renders, not estimated.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/a-1024.png" width="256" height="256" alt="Take A, the shipping master, shown at 256px from the 1024 render"><figcaption>A · ships · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/c2-1024.png" width="112" height="112" alt="Take C2, the material target the loop ran against, at 112px from the 1024 render"><figcaption>C2 · raster, material target</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="112" height="112" alt="Take C1, a raster take, at 112px from the 1024 render"><figcaption>C1 · raster</figcaption></figure>
+  <figure><img src="audit-renders/b-1024.png" width="112" height="112" alt="Take B, the Arrow vector take, at 112px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py - SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -58,6 +72,8 @@
     <td class="take fail">B · icon-engineB-arrow-d2f7ef.svg<small>Arrow 1.1 vector take, spec as brief</small></td>
     <td class="renders">
       <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -70,6 +86,8 @@
     <td class="take">C1 · icon-engineC-4a73ea-masked.png<small>GPT Image 2 raster, three porcelain-register corpus exemplars as references</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -82,6 +100,8 @@
     <td class="take">C2 · icon-engineC2-6c0a72-masked.png<small>GPT Image 2 raster, second take - the material target the loop ran against</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -109,6 +129,6 @@
 <p class="rubric">The 1024 composite is the material gap and it moved 0.4268 to 0.4528 across r00&ndash;r05, then to 0.5005 in <code>feedback-r01</code>; the five-size mean went 0.5434 to 0.5600 to 0.6253. r02 to r05 were four consecutive neutral rounds, which is the loop's stop condition, and the loop was correctly stopped there &mdash; what restarted it was a human comparing the master against its own rasters and naming four differences the metric stack could not see. Three of those four (the missing notch, the concentric mouth, the unranked light) are invisible to area, saturation and luminance-range measures, and the fourth was <em>inverted</em> by them: the master measured more saturated than both rasters (0.673 against 0.552) while reading muted, because vibrancy here is emission, not saturation. Fixing what the human named happened to move the composite as well, which is not the general case and is not the reason the round was kept. Round sources are kept at <code>fidelity-runs/rNN.icon.svg</code> and <code>fidelity-runs/feedback-r01.icon.svg</code> with their score JSON, residual and edge maps.</p>
 </div>
 
-<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) - checks 1 to 4 non-negotiable, delivery bar 10/12 or better. Raster takes are audited on their squircle-masked 1024 versions, masked with the set's exact path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, PIL LANCZOS for rasters, both via <code>render_audit.py</code>.</div>
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) - checks 1 to 4 non-negotiable, delivery bar 10/12 or better. Raster takes are audited on their squircle-masked 1024 versions, masked with the set's exact path and never a rounded-rect approximation &mdash; verified rather than asserted: all four extreme corner pixels of both raster renders are fully transparent. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.<br><br>Sheet provenance: the takes, scores, verdicts, recommendation and loop table are the original commission's, from 8 Aug 2026 against <code>icon.svg</code> as it still stands &mdash; the master has not changed since, and it passes <code>fidelity.py structure</code> today at 42 paths, 24 gradients, 5 filters and 4 named groups, inside the 400-path envelope. Re-rendered on 19 Aug 2026 to add the 128px and 96px sources (and so the 64 and 48 css-px display rows) and the 1024px hero row, which the earlier sheet's subtitle claimed but never displayed. Nothing was re-scored and no panel was re-run; the new 48px row does corroborate liability (3) above, in that the parting key and the detached droplet are both gone at that size while the pour still reads.</div>
 </body>
 </html>

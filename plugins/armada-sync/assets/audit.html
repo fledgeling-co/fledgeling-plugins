@@ -28,20 +28,34 @@
   .rec strong { color: #f8845a; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>armada-sync icon contact sheet &amp; audit</h1>
-<div class="sub">Direction "Entry of Record" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<div class="sub">Direction "Entry of Record" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/masterA-1024.png" width="256" height="256" alt="Take A-v2, the shipping master, shown at 256px from the 1024 render"><figcaption>A-v2 · ships · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/masterAv1-1024.png" width="112" height="112" alt="Take A-v1 at 112px from the 1024 render"><figcaption>A-v1</figcaption></figure>
+  <figure><img src="audit-renders/engineB-1024.png" width="112" height="112" alt="Take B, the Arrow vector take, at 112px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+  <figure><img src="audit-renders/engineC1-1024.png" width="112" height="112" alt="Take C1, a raster take, at 112px from the 1024 render"><figcaption>C1 · raster</figcaption></figure>
+  <figure><img src="audit-renders/engineC2-1024.png" width="112" height="112" alt="Take C2, a raster take, at 112px from the 1024 render"><figcaption>C2 · raster, material target</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A-v2 · icon.svg<small>Engine A, hand-authored layered SVG, SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/masterA-256.png" width="128" height="128" alt="Engine A master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/masterA-128.png" width="64" height="64" alt="Engine A master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/masterA-96.png" width="48" height="48" alt="Engine A master at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/masterA-64.png" width="32" height="32" alt="Engine A master at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/masterA-32.png" width="16" height="16" alt="Engine A master at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/masterA-32.png" width="96" height="96" alt="Engine A master 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -54,6 +68,8 @@
     <td class="take">A-v1 · icon-v1.svg<small>Engine A, first pass</small></td>
     <td class="renders">
       <figure><img src="audit-renders/masterAv1-256.png" width="128" height="128" alt="Engine A first pass at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/masterAv1-128.png" width="64" height="64" alt="Engine A first pass at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/masterAv1-96.png" width="48" height="48" alt="Engine A first pass at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/masterAv1-64.png" width="32" height="32" alt="Engine A first pass at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/masterAv1-32.png" width="16" height="16" alt="Engine A first pass at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/masterAv1-32.png" width="96" height="96" alt="Engine A first pass 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -66,6 +82,8 @@
     <td class="take fail">B · icon-engineB-arrow-4683c4.svg<small>Engine B, Arrow 1.1 vector take</small></td>
     <td class="renders">
       <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B Arrow take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Engine B Arrow take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Engine B Arrow take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B Arrow take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B Arrow take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Engine B Arrow take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -78,6 +96,8 @@
     <td class="take fail">C1 · icon-engineC-4da0c8.png<small>Engine C, GPT Image 2 raster, corpus-referenced</small></td>
     <td class="renders">
       <figure><img src="audit-renders/engineC1-256.png" width="128" height="128" alt="Engine C first raster take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-128.png" width="64" height="64" alt="Engine C first raster take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-96.png" width="48" height="48" alt="Engine C first raster take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineC1-64.png" width="32" height="32" alt="Engine C first raster take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineC1-32.png" width="16" height="16" alt="Engine C first raster take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineC1-32.png" width="96" height="96" alt="Engine C first raster take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -90,6 +110,8 @@
     <td class="take fail">C2 · icon-engineC-7896e3-2.png<small>Engine C, GPT Image 2 raster, second take</small></td>
     <td class="renders">
       <figure><img src="audit-renders/engineC2-256.png" width="128" height="128" alt="Engine C second raster take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-128.png" width="64" height="64" alt="Engine C second raster take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-96.png" width="48" height="48" alt="Engine C second raster take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineC2-64.png" width="32" height="32" alt="Engine C second raster take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineC2-32.png" width="16" height="16" alt="Engine C second raster take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineC2-32.png" width="96" height="96" alt="Engine C second raster take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -102,6 +124,6 @@
 
 <div class="rec"><strong>Recommendation: ship A-v2 (icon.svg).</strong> It is the only take that passes all four non-negotiables on real renders, and the only one authored as separate layers, so #10 variant robustness holds by construction rather than by luck: identity rides on shape and value (the fattest banded row with a knocked-out core), with colour as the last ten percent. Material provenance is honest: the cushion tile, the frosted bleed-through and the authored overlap are hand-built in SVG, with C2 confirming the frosted-core read and C1 driving the ragged line-length pass. Known liabilities to revisit: <strong>(1)</strong> the #7 deduction is real and was verified on a rendered grayscale proof, not assumed. Desaturated, the vermilion seal resolves <em>lighter</em> than the graphite lines, so the value hierarchy inverts and the focal stops being the darkest element; the mark still reads because the seal is the fattest, widest row with a knocked-out core, but under Tinted the figure-ground argument is carried entirely by shape. <strong>(2)</strong> At 16px on a non-retina display the frosted core is roughly one device pixel and can collapse into the seal, which costs the entry-inside-the-seal nuance while leaving the identity intact. <strong>(3)</strong> Red on a stack of rows carries a standing error-state association; it is held off by making the accent a band that <em>contains</em> the row rather than a red row, and both raster takes are on the sheet as evidence of what happens when that discipline slips.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs; rasters clipped through the same squircle path before downsampling so every take is judged on equal terms.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.<br><br>Sheet provenance: the scores, verdicts and recommendation above are the original commission's, written 7 Aug 2026 against <code>icon.svg</code> as it still stands — the master has not changed since. Re-rendered on 19 Aug 2026 to add the 128px and 96px sources (and so the 64 and 48 css-px display rows) and the 1024px hero row, which the earlier sheet rendered but never showed. Nothing in the verdicts was re-judged; the two new display rows are additional evidence for the same master, not a second opinion on it.</div>
 </body>
 </html>
