@@ -185,8 +185,8 @@
       "install": "/plugin install design-review@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/design-review",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/design-review/EVALS.md",
         "scripts": true,
         "references": 14
       },
@@ -284,8 +284,8 @@
       "install": "/plugin install braindump@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/braindump",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/braindump/evals/EVALS.md",
         "scripts": true,
         "references": 3
       },
@@ -1156,8 +1156,8 @@
       "install": "/plugin install ux-craft@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/ux-craft",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ux-craft/evals/EVALS.md",
         "scripts": true,
         "references": 11
       },
@@ -1226,8 +1226,8 @@
       "install": "/plugin install mac-craft@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/mac-craft",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mac-craft/EVALS.md",
         "scripts": true,
         "references": 17
       },

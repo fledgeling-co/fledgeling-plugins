@@ -1,0 +1,113 @@
+<!doctype html>
+<!--
+  deck-craft icon — contact sheet & audit.
+  Written from create-mac-icon/assets/icon-audit-template.html; verified by
+  `python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py check .`
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>deck-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 460px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric code { color: #a9bec5; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<h1>deck-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The running order&rdquo; — Tahoe gel-glass, porcelain sub-register &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>hand-authored layered SVG (build_icon.py) — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineA-1024.png" width="160" height="160" alt="Take A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Four named layers (bg / mid / fg / highlight), 25 paths, 16.8&nbsp;KB, <code>fidelity.py structure</code> PASS. Checks 1&ndash;4 clear on the renders: the family squircle unaltered, one key light at 118&deg;, the filled silhouette names a stepped deck, and 16px RMS luminance contrast measures <strong>0.179</strong> against a family median of 0.152&ndash;0.176 (the icon it replaces measured 0.087). Deducted on #7: the deck against its own surround measures 4.41:1, but the three porcelain plates alone measure only 1.18:1 against the cushion and are carried by their seat edges and cast shadows &mdash; a weakness shared with <code>report</code> and <code>whats-left</code>. Took C1&rsquo;s composition reading (recession in depth, air and occlusion between plates, graphite leading slab) and rebuilt it as parameters; kept the 16:9 stage C1 abandoned.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow-e21b68.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineB-1024.png" width="160" height="160" alt="Take B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Lost, and on two of the non-negotiables. #1: it bakes its own rounded-corner ground at a radius that is not the family superellipse, so it would ship a different outer shape from every sibling. #4: the title bands are 0.75&ndash;1px hairline strokes, which vanish by 32px and leave a dark blob with nothing warm in it. Also flat &mdash; no cushion, no rim light, no cast shadow (#5, #8). Nothing salvaged: it drew the plates as outlines rather than volumes, and the glyph occupies barely 45% of the tile.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 &middot; icon-engineC-9a8f54.png<small>GPT Image 2, four corpus/sibling references, squircle-masked</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineC1-1024.png" width="160" height="160" alt="Take C1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Won the material and composition read, and is why take A was rebuilt twice. It showed what four flat overlapping congruent rectangles could not: recession in depth, real occlusion, and enough air between plates that the climbing title bands read as a sequence rather than as stripes on one slab. Lost on #10 (a flat pre-masked raster: the layer plan cannot exist in it) and #1 (delivered with opaque square corners &mdash; only masking made it shippable at all). It also quietly abandoned the subject: its plates are roughly 4:3, and the fixed 16:9 stage is the one thing deck-craft&rsquo;s first rule is about. Its ground is a dished tray rather than a cushion.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 &middot; icon-engineC-aa7201-2.png<small>GPT Image 2, second take, squircle-masked</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/engineC2-1024.png" width="160" height="160" alt="Take C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">7 / 12</td>
+    <td class="verdict">The weaker of the two rasters and kept for the record. Same #10 and #1 failures as C1, plus a flatter leading plate, a title band that runs to the plate&rsquo;s own edges so it reads as a stripe wrapping the slab rather than as a title on a face, and less separation between the porcelain plates &mdash; at 32px the deck behind collapses into one pale mass. Nothing was taken from it that C1 did not already say better.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take with a real layer plan &mdash; bg / mid / fg / highlight as named groups, identity carried by shape and value rather than by hue &mdash; so it is the only one that can survive Dark / Clear / Tinted, and the only one whose geometry is a parameter edit next time. Checks 1&ndash;4 were read on the renders above rather than assumed: family squircle, optical centring nudged +10px against the shadow bias, a nameable filled silhouette, and 0.179 RMS luminance contrast at 16px. Known liabilities to revisit: <strong>(a)</strong> the three porcelain plates measure 1.18:1 against the cushion, so at 16px the deck behind the leading slab is carried almost entirely by its cast shadows; <strong>(b)</strong> take A measures flatter than C1 at every size (own-contrast 0.46&ndash;0.49 against C1&rsquo;s 0.53&ndash;0.55), which is real material still missing from the gel faces; <strong>(c)</strong> #10 is satisfied by construction, not by test &mdash; the tinted and Clear variants have not been rendered; <strong>(d)</strong> four rounded rectangles is one step from a card stack, and <code>report</code> owns stacked document cards, so the climbing title band is doing all the differentiating work at 16px; <strong>(e)</strong> the fidelity score ran on the numpy tier with no torch, so the material gap in (b) is measured by luminance, SSIM and edges only and the number is not trustworthy as a material verdict.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked versions per <code>audit-renders/render-manifest.json</code>. Renders produced by <code>audit_sheet.py render</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Contrast figures are alpha-masked RMS relative luminance on a 16px downsample, and ring contrasts are region-versus-45px-dilation medians, not hand-placed samples.</div>
+</body>
+</html>

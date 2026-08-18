@@ -1,0 +1,43 @@
+{
+  "takes": {
+    "engineA": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1787047219.7604373,
+      "rendered_at": 1787047220.394015
+    },
+    "engineB": {
+      "source": "icon-engineB-arrow-e21b68.svg",
+      "kind": "svg",
+      "source_mtime": 1787046370.3475745,
+      "rendered_at": 1787047220.503668
+    },
+    "engineC1": {
+      "source": "icon-engineC-9a8f54.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787046333.8543541,
+      "rendered_at": 1787047220.8227499
+    },
+    "engineC2": {
+      "source": "icon-engineC-aa7201-2.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787046333.904886,
+      "rendered_at": 1787047221.130829
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
