@@ -100,7 +100,7 @@ register (apple-05, apple-11, apple-18, apple-23, apple-26, apple-28):
 | darkest in-tile pixel | 0.12-0.14, **cool** (hue 200-214) | 0.06, warm |
 
 Two deliberate divergences from the corpus, both on set kinship: the ground runs
-about 0.10 darker at the bottom because `create-test-suite` and `resume-session`
+about 0.10 darker at the bottom because `test-campaign` and `resume-session`
 measure TL 0.92-0.93 / BL 0.81 / top-mid 0.95 and the shelf is the real judge; and
 the shadows are warm because every shadow in this family is warm.
 
@@ -143,7 +143,7 @@ Measured on the masked 1024 renders, WCAG relative luminance, object against a
 beside it" sample has hidden a real figure-ground defect in this marketplace
 before:
 
-| | A (ships) | B | C1 | C2 | create-test-suite | create-skill |
+| | A (ships) | B | C1 | C2 | test-campaign | create-skill |
 |---|---|---|---|---|---|---|
 | object vs its own surround | **4.03:1** | 5.51:1 | 3.84:1 | 3.79:1 | 2.95:1 | 2.18:1 |
 | object's lightest decile vs surround | 2.40:1 | 1.92:1 | 1.70:1 | 1.74:1 | 2.06:1 | 1.48:1 |
@@ -232,7 +232,7 @@ the reference.
 1. **The slab's lit top rim and bevel sit at 2.40:1 against the porcelain beside
    them.** Half the object's boundary is carried by rim light and contact shadow
    alone, so it will soften under a heavy tint or in grayscale. This is the
-   porcelain register's standing trade - `create-test-suite` sits at 2.06:1 and
+   porcelain register's standing trade - `test-campaign` sits at 2.06:1 and
    `create-skill` at 1.48:1 on the same measure - and the object as a whole clears
    the #7 floor at 4.03:1.
 2. **The silhouette is nameable but generic.** Filled black it is two offset
@@ -244,7 +244,7 @@ the reference.
    16px the icon is a dark slab with a warm L, which is the right read but a
    shallower one.
 4. **The ember is 8.5% of the tile**, generous against this family's usual accent
-   restraint (`create-test-suite` 3.3%). It is the first thing to reduce if the
+   restraint (`test-campaign` 3.3%). It is the first thing to reduce if the
    icon shouts on a shelf, and the honest reason it is that big is that the gap is
    drawn to scale.
 5. **The material was never measured by an instrument.** numpy tier, no LPIPS, no
