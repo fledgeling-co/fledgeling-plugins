@@ -15,7 +15,11 @@
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
-  .renders { display: flex; align-items: center; gap: 18px; }
+  /* The flex lives on an inner div, never on the <td>. This browser computes
+     display:flex on a table cell and still lays its children out as blocks, so
+     every render stacks into a column and the row reads as one tall strip. The
+     sheet looks broken and nothing errors. Measured stacked on 19 Aug 2026. */
+  .renders .strip { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
@@ -28,60 +32,79 @@
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; gap: 22px; align-items: flex-start; margin: 8px 0 30px; flex-wrap: wrap; }
+  .hero figure { margin: 0; }
+  .hero img { display: block; border-radius: 18px; background: #08252e; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; max-width: 320px; }
 </style>
 </head>
 <body>
 <h1>ship-armada icon: contact sheet &amp; audit</h1>
-<div class="sub">Direction "Plot Table" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<div class="sub">Direction "Plot Table" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/master-1024.png" width="320" height="320" alt="ship-armada master at 1024px">
+    <figcaption>Take A &mdash; the shipping master, <code>icon.svg</code>. Three vermilion gel hulls in echelon on a course of 020&deg;, each trailing a plotted wake in chart ink; the rest of the portfolio lies at anchor as engraved outlines swung to their own headings, and the graticule and its rhumb fan run off all four edges.</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="320" height="320" alt="Engine C take 1 at 1024px">
+    <figcaption>Take C1 &mdash; GPT Image 2, corpus-referenced. Won the material comparison and donated the hollow hull with its raised gunwale and darker inner well; never a shipping candidate. Its three tapers stand abreast and symmetric, which is why it reads as flames rather than as vessels.</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A · icon.svg<small>hand-authored layered SVG · SHIPS</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">Three gel hulls in echelon on a course of 020&deg;, over a graticule that bleeds off all four edges. Checks 1&ndash;4 verified on real renders, not imagined: the filled-black silhouette is nameable (pointed stem, sustained beam, flat transom, stepped formation), and the 16px squint sheds the cockpit cleanly to three diagonal marks with no smear. Dominant gel measures 4.09:1 against the vellum plate, so #7 holds on value alone. Sole deduction is #2: the focal runs 68.4% of tile width against the 55&ndash;65% composition constant, the direct cost of a diagonal composition whose bbox is wide and short (its height is only 49.7%, and margins stay &ge;162px). Layers #bg/#mid/#fg/#highlight intact and 1:1 with Icon Composer.</td>
   </tr>
 
   <tr>
     <td class="take">C1 · icon-c1.png<small>GPT Image 2 raster, corpus-referenced · material donor</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">9 / 12</td>
     <td class="verdict">Best material of the set and the reason the master looks the way it does: it discovered that a <em>hollow</em> hull with a raised gunwale and a darker inner well is what makes a plan view read as a vessel rather than a leaf. That was rebuilt into Take A per the pipeline rule. It cannot ship itself: #1 fails on a baked inset plate frame, #3 fails because three symmetric near-vertical tapers set abreast read as flames (no transom, no formation), and #10 fails by construction since a flat raster has no layers to survive Dark/Clear/Tinted.</td>
   </tr>
 
   <tr>
     <td class="take">C2 · icon-c2.png<small>GPT Image 2 raster, second material take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">7 / 12</td>
     <td class="verdict">Handsome portolan net of rhumb rays and range circles, and that idea was salvaged into the master's chart layer. Everything else loses: the plate sits inset inside a wide cream border (#1), the focal collapses to roughly a third of tile width with the rest given to margin (#2), the same abreast-taper silhouette problem as C1 (#3), and the flat-raster #10 liability. The debossed drafting-board surface also reads previous-era rather than as a Tahoe cushion (#9).</td>
   </tr>
 
   <tr>
     <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">5 / 12</td>
     <td class="verdict">The miss of the set. The hulls resolved as symmetric lenses with neither stem nor transom, so #3 fails outright: at any size they read as seeds. Set abreast rather than in formation, on a flat field with no cushion (#1, #9), lit by a vertical split gradient that implies no source (#5), and a stray white wedge bleeds across the lower third and z-fights the ground (#8). Structurally layered, so #10 would have passed had anything else. Nothing was salvaged. Kept on the sheet because a variation set that hides its losers is not an audit.</td>
   </tr>
@@ -90,6 +113,7 @@
 
 <div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready as four real layers, clean on the non-negotiable checks 1&ndash;4 against actual small renders rather than imagined ones, and carrying the material that won the raster comparison: C1's hollow-hull-with-gunwale, rebuilt as vector, plus C2's rhumb net in the chart layer. Known liabilities to revisit: the focal runs 68.4% of tile width, over the 55&ndash;65% constant, and pulling it back in would cost the diagonal its presence; at 16px the mark reads as three diagonal strokes in formation rather than as legible vessels, which is correct degradation but does mean the ships-specifically read is a large-size reward; and the light porcelain register makes this the rare icon whose <em>dark</em> system variant is the one to check first, since the vellum plate carries much of the calm and the gel loses its chart context when the ground inverts.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: `rsvg-convert -w {1024,256,64,32}` for SVGs, raster takes masked through an SVG clip then rendered at the same sizes.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions.
+<br><br>Provenance of the renders on this sheet: every source is in this directory, so <code>audit-renders/render-manifest.json</code> records all four takes and the whole sheet is machine-checkable &mdash; <strong>master</strong> from <code>icon.svg</code> (an SVG that carries its own <code>clipPath id="sq"</code>, so it needs no external mask), <strong>c1</strong> and <strong>c2</strong> from <code>icon-c1.png</code> and <code>icon-c2.png</code> as <code>raster-mask</code>, and <strong>engineB</strong> from <code>icon-engineB-arrow.svg</code> as <code>svg-letterbox</code>. The master's 1024 and 256 renders reproduce the shipped <code>icon.png</code> and <code>icon-256.png</code> byte for byte, so the sheet and the delivery are provably the same artifact. Re-rendered 19 Aug 2026 with <code>audit_sheet.py render</code>, which added the 64 and 48 columns and the 1024 hero the sheet had claimed since it was written but never shown, and put the Arrow take through the family squircle: it had been carrying its own corner rounding, which left it the only tile on the sheet with a different corner geometry from its siblings and so scored its silhouette against the wrong outline. Nothing in any verdict or score changed &mdash; the RGB of the Arrow renders is identical, only the corner alpha moved &mdash; and the two raster takes differ from their earlier renders only in resampling (mean absolute channel difference 9.9 of 255 at 256px, no visible change).</div>
 </body>
 </html>

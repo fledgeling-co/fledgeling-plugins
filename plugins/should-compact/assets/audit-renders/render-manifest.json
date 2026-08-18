@@ -1,0 +1,37 @@
+{
+  "takes": {
+    "capsule": {
+      "source": "icon-take-capsule.svg",
+      "kind": "svg",
+      "source_mtime": 1787063329.8982608,
+      "rendered_at": 1787063342.4611268
+    },
+    "lift34": {
+      "source": "icon-take-lift34.svg",
+      "kind": "svg",
+      "source_mtime": 1787063329.8905263,
+      "rendered_at": 1787063342.955294
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786342947.0112047,
+      "rendered_at": 1787063343.577659
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

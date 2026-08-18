@@ -31,11 +31,22 @@
   .rubric h2 { color: #a9bec5; font-size: 13px; margin: 22px 0 6px; }
   .rubric table { min-width: 0; width: auto; }
   .rubric td, .rubric th { padding: 5px 18px 5px 0; border-bottom: 1px solid #14232a; font-variant-numeric: tabular-nums; }
+  .hero { display: flex; gap: 22px; align-items: flex-start; margin: 8px 0 30px; flex-wrap: wrap; }
+  .hero figure { margin: 0; }
+  .hero img { display: block; border-radius: 18px; background: #08252e; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; max-width: 320px; }
 </style>
 </head>
 <body>
 <h1>shipyard icon — contact sheet &amp; audit</h1>
 <div class="sub">Direction "Tahoe gel-glass, porcelain register — a hull mid-build on its slipway, and the next plank arriving lit" · one shared spec, three engines, six takes · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The master (take A) is the state after a nine-round fidelity loop against take C1.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/A-1024.png" width="320" height="320" alt="shipyard master at 1024px">
+    <figcaption>Take A &mdash; the shipping master, <code>icon.svg</code> exported through the squircle. A graphite hull mid-build, four bare frames open to the left and the planked skin closed to the right, standing on a pale slipway cradle with its sole plate; the one ember plank runs the sheer from the bow, and its light is the only warm thing on the tile.</figcaption></figure>
+  <figure><img src="audit-renders/C1-1024.png" width="320" height="320" alt="Engine C raster take 1 at 1024px">
+    <figcaption>Take C1 &mdash; GPT Image 2, corpus-referenced. Won the material judgment and became the fidelity loop's target; never a shipping candidate (flat pre-masked raster, #1 and #10). It read "plank" as a vertical glowing frame, and its ground is a cool neutral rather than this shelf's porcelain &mdash; both corrected in A.</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
@@ -148,6 +159,11 @@
 
 <h2>Rubric</h2>
 <p>The 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Figure-ground numbers measured on the shipped 1024 render by <code>render_audit.py</code>.</p>
+
+<h2>Provenance of the renders on this sheet</h2>
+<p><code>audit-renders/render-manifest.json</code> records four takes against sources in this directory: <strong>A</strong> (<code>icon.svg</code>), <strong>Av1</strong> (<code>icon-A-v1.svg</code>) and <strong>B</strong> (<code>icon-engineB-arrow-8da398.svg</code>) squircle-masked, and <strong>B2</strong> (<code>icon-engineB-arrow-1a7fde.svg</code>) unmasked. A's 1024 render reproduces the shipped <code>icon.png</code> byte for byte, so the sheet and the delivery are provably the same artifact.</p>
+<p>Two things about these renders are worth knowing, because both were wrong on this sheet before 19 Aug 2026 and neither announced itself. <strong>First, the master is not self-masking.</strong> <code>icon.svg</code> paints a full-bleed square ground and draws the squircle as a white stroke over it; the corner mask is applied at export, not in the file. So rendering <code>icon.svg</code> straight through <code>rsvg-convert</code> — the obvious way to rebuild the exports, and how the A, Av1 and B rows were first produced — yields a square-cornered tile, and the sheet spent four months showing a square tile in the row whose verdict says mask discipline passes. The masked renders here are produced with <code>audit_sheet.py render . --take A=icon.svg:svg-letterbox</code>, whose <code>svg-letterbox</code> kind is the only one that applies the family squircle to an SVG source. Anyone rebuilding <code>icon.png</code> has to mask it afterwards; that is a liability of the master rather than of this sheet. <strong>Second, B2's source is not square</strong> (a 165&times;136 viewBox), so it is shown stretched to the tile exactly as the engine delivered it, unmasked over its own baked rounded-rect ground. Letterboxing it instead fills the bands above and below with solid black, which would make a losing take look like a different and worse failure than the one it actually committed.</p>
+<p>The C1 and C2 rows are frozen history: their sources (<code>icon-engineC-b3fcac.png</code>, <code>icon-engineC-37fa47-2.png</code>, both audited on their squircle-masked versions) and the <code>runs/</code> directory behind the round table above live in the commission workspace, which is deliberately outside the repo, so those two rows are not machine-checkable from this directory and are recorded here as evidence rather than as reproducible renders. <code>build_icon.py</code> also reads <code>squircle-path.txt</code> from beside itself and that file was never copied here, so the master is not rebuildable in place until it is.</p>
 </div>
 </body>
 </html>

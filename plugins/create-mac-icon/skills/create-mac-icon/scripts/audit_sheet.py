@@ -145,7 +145,15 @@ def render(base: pathlib.Path, takes: dict[str, tuple[str, str]]):
                 canvas = Image.new("RGBA", (s, s), (0, 0, 0, 0))
                 canvas.alpha_composite(im, (0, max(0, (s - im.height) // 2)))
                 if d:
-                    canvas.putalpha(alpha_mask(s, d, out, Image))
+                    # Intersect with the squircle rather than replacing the alpha.
+                    # putalpha() overwrites the channel outright, which turns the
+                    # transparent letterbox bands of a non-square source into
+                    # opaque black inside the mask. That made a losing take look
+                    # like a worse failure than it had actually committed, which is
+                    # the one thing a contact sheet must never do.
+                    from PIL import ImageChops
+                    canvas.putalpha(ImageChops.multiply(canvas.split()[3],
+                                                        alpha_mask(s, d, out, Image)))
                 canvas.save(dst)
                 tmp.unlink(missing_ok=True)
             elif kind == "raster-mask":

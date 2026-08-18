@@ -15,7 +15,11 @@
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
-  .renders { display: flex; align-items: center; gap: 18px; }
+  /* The flex lives on an inner div, never on the <td>. This browser computes
+     display:flex on a table cell and still lays its children out as blocks, so
+     every render stacks into a column and the row reads as one tall strip. The
+     sheet looks broken and nothing errors. Measured stacked on 19 Aug 2026. */
+  .renders .strip { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
@@ -28,72 +32,93 @@
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; gap: 22px; align-items: flex-start; margin: 8px 0 30px; flex-wrap: wrap; }
+  .hero figure { margin: 0; }
+  .hero img { display: block; border-radius: 18px; background: #08252e; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; max-width: 320px; }
 </style>
 </head>
 <body>
 <h1>Trawl icon — contact sheet &amp; audit</h1>
-<div class="sub">Direction "Deep Cast" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<div class="sub">Direction "Deep Cast" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The dark register is deliberate and is this plugin's alone on the shelf: trawl is the one skill that goes looking in the dark, and the ground is the subject rather than a style choice.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/master-v2-1024.png" width="320" height="320" alt="trawl master at 1024px">
+    <figcaption>Take A-v2 &mdash; the shipping master, <code>icon.svg</code>. A trawl mouth held open by a lit cyan rim, its mesh wall falling away into a pendulous cod-end, with one amber catch glowing through the net from inside and plankton motes in the water around it.</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="320" height="320" alt="Engine C take 1 at 1024px">
+    <figcaption>Take C1 &mdash; GPT-Image, corpus-referenced. Won the material comparison: the volumetric gel of the net wall, the broad glow-through at the catch and the aspect of 1.32 were all measured off this raster and rebuilt into A-v2. Never a shipping candidate (flat raster, #10).</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A-v2 · icon.svg<small>hand-authored layered SVG, C1 material rebuilt in — SHIPS</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/master-v2-256.png" width="128" height="128" alt="v2 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-v2-128.png" width="64" height="64" alt="v2 at 64"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-v2-96.png" width="48" height="48" alt="v2 at 48"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/master-v2-64.png" width="32" height="32" alt="v2 at 128 at 32"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/master-v2-32.png" width="16" height="16" alt="v2 at 128 at 16"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/master-v2-32.png" width="96" height="96" alt="v2 at 128 16px magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">Volumetric gel wall with C1's proportions (aspect 1.31 vs C1's 1.32) and richer amber catch, glow bleeding through the pendulous cod-end. Checks 1–4 pass on real renders — the elongation fixed the old 16px net-vs-lamp ambiguity outright. Sole deduction moved to #2: the 81%-height glyph runs an 86px bottom margin, tighter than the conventional safe zone; the direct cost of the C1 proportion. Layers #bg/#mid/#fg/#highlight intact.</td>
   </tr>
 
   <tr>
     <td class="take">A-v1 · icon-v1.svg<small>original hand-authored master</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/v1-256.png" width="128" height="128" alt="v1 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/v1-128.png" width="64" height="64" alt="v1 at 64"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/v1-96.png" width="48" height="48" alt="v1 at 48"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/v1-64.png" width="32" height="32" alt="v1 at 128 at 32"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/v1-32.png" width="16" height="16" alt="v1 at 128 at 16"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/v1-32.png" width="96" height="96" alt="v1 at 128 16px magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">11 / 12</td>
     <td class="verdict">Same geometry, flatter material: gradient wall rather than gel skin, warm halo pooled at the catch. Superseded by v2 on light model, figure-ground and depth coherence (#5, #7, #8) while scoring the same headline number — the rubric can't see material nuance the eye can.</td>
   </tr>
 
   <tr>
     <td class="take">C1 · icon-c1.png<small>GPT-Image raster, corpus-referenced — material winner</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="C1 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="C1 at 64"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="C1 at 48"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="C1 at 128 at 32"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="C1 at 128 at 16"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="C1 at 128 16px magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">9 / 12</td>
     <td class="verdict">Best raw material of the set: soft volumetric gel, broad glow-through. Fails #10 (variant robustness) by construction — a flat raster has no layers, so macOS tinted/clear variants degrade — and loses a point on optical centring (subject rides low). Its material was rebuilt into A-v2 rather than shipped, per the pipeline rule.</td>
   </tr>
 
   <tr>
     <td class="take">C2 · icon-c2.png<small>GPT-Image raster, diamond mesh</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="C2 at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="C2 at 64"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="C2 at 48"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="C2 at 128 at 32"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="C2 at 128 at 16"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="C2 at 128 16px magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">8 / 12</td>
     <td class="verdict">Handsome literal mesh, but the diamond lattice smears to noise at 32 and vanishes at 16 (check #4 marginal on the real render), and the same #10 raster liability applies. Kept as an alternate.</td>
   </tr>
 
   <tr>
     <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B at 128"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Engine B at 64"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Engine B at 48"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B at 32"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B at 16"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Engine B 16px magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">6 / 12</td>
     <td class="verdict">The miss of the set: silhouette reads as a cauldron (#3 fail), catch not held in the net, composition drifts off-centre, no full-bleed artwork. Nothing salvaged beyond the rim ellipse treatment. Kept for the record — a variation set that hides its losers isn't an audit.</td>
   </tr>
@@ -101,6 +126,7 @@
 
 <div class="rec"><strong>Recommendation: ship A-v2 (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready (layered SVG), rubric-clean on the non-negotiable checks 1–4 against real small renders, and carrying the material that won the raster comparison. The banner was regenerated with A-v2 as its style reference so both assets share one material language. Known liability: the bottom safe-zone margin runs tight (86px) from matching C1's elongation; the light Tinted variant remains the weakest of the four, carried by silhouette alone.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from mac-design-studio's icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions.</div>
+<div class="rubric">Rubric: the 12-point icon audit from mac-design-studio's icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions.
+<br><br>Provenance of the renders on this sheet: every source is in this directory, so <code>audit-renders/render-manifest.json</code> records all five takes and the whole sheet is machine-checkable &mdash; <strong>master-v2</strong> from <code>icon.svg</code> and <strong>v1</strong> from <code>icon-v1.svg</code>, both of which carry their own <code>clipPath id="squircle"</code> and so need no external mask; <strong>c1</strong> and <strong>c2</strong> from <code>icon-c1.png</code> and <code>icon-c2.png</code>, which arrive from the image engine already squircle-masked and are recorded as <code>png</code> rather than <code>raster-mask</code> for that reason; and <strong>engineB</strong> from <code>icon-engineB-arrow.svg</code>, whose 144&times;167 viewBox is rendered to the square tile as the engine delivered it. The master's 1024 and 256 renders reproduce the shipped <code>icon.png</code> and <code>icon-256.png</code> byte for byte, so the sheet and the delivery are provably the same artifact. Re-rendered 19 Aug 2026 with <code>audit_sheet.py render</code>, which added the 64 and 48 columns and the 1024 hero the sheet had claimed since it was written but never shown, and filled in the 96 and 128 sources that were missing for every take. Every render below 1024 for the master, v1 and the Arrow take came back byte-identical to the ones already on the sheet; the two raster takes moved only in mask-edge resampling (mean absolute channel difference 0.9 of 255 at 256px). No verdict or score changed.</div>
 </body>
 </html>
