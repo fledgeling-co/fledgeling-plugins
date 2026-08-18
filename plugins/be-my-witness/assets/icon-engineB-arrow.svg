@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159.8 159.8">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {opacity:0.4;fill:none;stroke:#A69F97;stroke-width:0.25;stroke-miterlimit:10;}
+.cls-2 {fill:url(#SVGID_2_);}
+.cls-3 {fill:#DDC39E;}
+.cls-4 {fill:url(#SVGID_3_);}
+.cls-5 {fill:#EAE6DF;}
+.cls-6 {opacity:0.35;fill:#BBBBBB;}
+.cls-7 {fill:#F4F2EE;}
+.cls-8 {fill:#DE471B;}
+.cls-9 {fill:none;stroke:#DE471B;stroke-width:0.25;stroke-linecap:round;stroke-miterlimit:10;stroke-dasharray:1,2;}
+.cls-10 {fill:#E0DAD3;}</style>
+  <radialGradient id="SVGID_1_" cx="79.97" cy="79.94" r="79.94" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F4EEE8" offset="0"/>
+    <stop stop-color="#D6CBC2" offset="1"/>
+  </radialGradient>
+  <path class="cls-0" d="m150.5 160h-141.1c-5.2 0-9.4-4.2-9.4-9.4v-141.2c0-5.2 4.2-9.4 9.4-9.4h141.1c5.2 0 9.4 4.2 9.4 9.4v141.2c0 5.2-4.2 9.4-9.4 9.4z"/>
+  <polyline class="cls-1" points="132.9 41.2 79.9 68 -3.1 23"/>
+  <polyline class="cls-1" points="130.8 38.5 69.4 69.5 0 33.7"/>
+  <polyline class="cls-1" points="138.5 45.7 80.6 77.1 4.4 37.1"/>
+  <polyline class="cls-1" points="145.7 49 81 78.5 5.2 46.5"/>
+  <polyline class="cls-1" points="152.1 60.9 80.7 97.1 5.6 62.6"/>
+  <polyline class="cls-1" points="151.6 68.6 80.1 106.3 3.4 69"/>
+  <polyline class="cls-1" points="152.8 75.6 79.8 115.1 4.4 79"/>
+  <polyline class="cls-1" points="153.2 82.4 79.6 124.1 7 85"/>
+  <polyline class="cls-1" points="153.8 89.8 79.8 129.9 9.6 93"/>
+  <polyline class="cls-1" points="150.4 98.2 79.8 138.9 14.1 108.3"/>
+  <polyline class="cls-1" points="143.4 110.6 79.3 145 19.6 115.2"/>
+  <polyline class="cls-1" points="126.1 38.5 80 63.4 22.7 34.9"/>
+  <polyline class="cls-1" points="121.6 34.7 69.7 60.7 17 31.7"/>
+  <polyline class="cls-1" points="114.1 31.7 69.5 56.1 10.1 28"/>
+  <polyline class="cls-1" points="152 71.9 80.3 108.6 4.8 72.9"/>
+  <polyline class="cls-1" points="152.6 79.9 80.2 117.3 5.6 83.1"/>
+  <polyline class="cls-1" points="153.2 90.3 80 127.8 7 90.6"/>
+  <polyline class="cls-1" points="149.4 99.8 79.6 138.1 9.5 102"/>
+  <polyline class="cls-1" points="142.1 110.4 79.3 144.6 19.5 115"/>
+  <polyline class="cls-1" points="95 26.6 69.1 38.9 36.6 32.4"/>
+  <polyline class="cls-1" points="80.1 27 69.4 32.7 47.2 30.2"/>
+  <polyline class="cls-1" points="151.9 61.3 80.5 97.5 6.1 63"/>
+  <linearGradient id="SVGID_2_" x1="43.55" x2="116.3" y1="95.24" y2="95.24" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#16120D" offset=".003985"/>
+    <stop stop-color="#302A25" offset=".4982"/>
+    <stop stop-color="#16120D" offset="1"/>
+  </linearGradient>
+  <path class="cls-2" d="m116.3 69.9-72.7-0.3v19.4c0.4 12.2 14.5 21.7 36.1 21.7 20.1 0 36.5-8.6 36.6-20.7v-20.1z"/>
+  <path class="cls-3" d="m79.8 45.9c-18.6-0.1-36.2 9.4-36.2 24 0 8.8 9.7 23.5 36.3 23.5 20 0 36.4-8.8 36.4-23s-14.4-24.5-36.5-24.5z"/>
+  <linearGradient id="SVGID_3_" x1="45.8" x2="114.1" y1="67.25" y2="67.25" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#695642" offset="0"/>
+    <stop stop-color="#967B5F" offset="1"/>
+  </linearGradient>
+  <path class="cls-4" d="m79.4 47.2c-17.4 0-33.7 8.8-33.6 22.7 0.1 7.4 8.2 17.2 21.3 20 4 0.9 8 1.5 12.8 1.5 17.8 0 34.2-7.8 34.2-21 0-9.4-11.1-23.2-34.7-23.2z"/>
+  <path class="cls-5" d="m79.9 51c-13.5 0-34.1 7.1-33.5 23.3 2.1 5.4 11.9 17.4 33.5 17.3 20.9-0.1 32.6-8.7 33.8-17.4-1-6.6-11.6-23.2-33.8-23.2z"/>
+  <path class="cls-6" d="m52.7 67.9c0-4.9 8.1-12.1 13-14.6-8.7 2.4-18.4 8.7-19.9 16.6l0.7 4.5c0.7-2.6 4.1-5.2 6.2-6.5z"/>
+  <path class="cls-6" d="m79.9 51c-4.1 0-7.8 0.5-14.2 2.3-6.7 3.1 18.3 2.1 31.2 6.8 3-1.3 6.6-3.3 9.4-0.2 0.5 2.7 0.6 7 0.5 8.2l6.9 6.1 0.4-3.8c-0.4-7.4-11-19.4-34.2-19.4z"/>
+  <path class="cls-7" d="m79.9 57.6c-12.9 0-28.1 4.3-33.3 16.5 4.2 1.8 11.7 10.3 23.2 10.1 19.2 0.8 37.1 0.1 36.8-19-3.8-3-11.7-7.6-26.7-7.6z"/>
+  <path class="cls-8" d="m88.5 72.2-4.8-2.4c-0.9-0.4-2.5-0.4-3.5 0.1l-10.6 6.1c-0.9 0.6-0.6 1.9 0.5 1.9l4.2 2.3c0.6 0.5 3.1 0.1 3.5-0.4l10.6-5.8c1.1-0.6 1-1.4 0.1-1.8z"/>
+  <path class="cls-9" d="m96.5 60.7-14.8 8.3m15.4 0.4-8.1-4.8"/>
+  <path class="cls-9" d="m88.8 72.6-11.2 6.1m-7.6-3.1 11-5.5"/>
+  <path class="cls-10" d="m79.8 91.4"/>
+  <path class="cls-6" d="m65.3 53.4"/>
+</svg>

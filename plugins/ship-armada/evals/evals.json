@@ -1,0 +1,124 @@
+{
+  "skill_name": "ship-armada",
+  "status": "defined, not run",
+  "description": "Structural-assertion evals for ship-armada. An orchestrator produces no artifact of its own, so every assertion here is a checkable property of its CONDUCT: which mode it declared, what it wrote before it executed anything, where it stopped, what it refused to tick off, and what it refused to touch. Each prompt is written to be run twice, once with the skill loaded and once with no skill at all, which is the honest baseline for a skill with no committed predecessor snapshot (create-skill references/evals-and-judging.md, layer 1). Assertions are pass/fail properties of the written answer with quoted evidence, never 1-to-10 scores. Nothing in this file has been run.",
+  "baseline": "no-skill. There is no committed snapshot of a ship-armada predecessor anywhere in this repo, so the second arm loads no skill and answers the same prompt cold.",
+  "fixture": null,
+  "fixture_note": "Every prompt below supplies its portfolio state inline (index rows, ledger tables, git facts) so the suite is runnable with no fixture tree. A real fixture portfolio, three throwaway repos plus an ARMADA.md, would let the ledger and worktree assertions be checked against disk rather than against a description. See EVALS.md, 'What would settle this'.",
+  "evals": [
+    {
+      "id": "survey-freshness-before-planning",
+      "skill_new": ["skills/ship-armada/SKILL.md", "skills/ship-armada/references/manifest.md"],
+      "skill_old": [],
+      "task": "You are in ~/Dev. ARMADA.md's index holds six rows. Their `updated` stamps and the last commit date of each repo are: alpha (stamp 2026-08-16, last commit 2026-08-16), bravo (stamp 2026-07-02, last commit 2026-08-17), charlie (stamp 2026-08-01, last commit 2026-08-14), delta (stamp 2026-08-18, last commit 2026-08-18), echo (stamp 2026-06-11, last commit 2026-06-11), foxtrot (stamp 2026-05-04, last commit 2026-08-18). Someone asks: \"what's happening across my projects, and does anything need attention?\" They have not asked you to change anything. Write your complete answer to answer.md, including anything you would do before answering.",
+      "assertions": [
+        "The answer names the mode it is in (Survey) explicitly",
+        "It performs a freshness comparison per row and names bravo, charlie and foxtrot as stale (stamp older than the repo's last commit), and does not call echo stale",
+        "It refreshes only the stale entries it is relying on and names the ones it deliberately left stale in the report, rather than refreshing all six",
+        "No project is dispatched and no fleet is started: the answer contains no ship-fleet or ship-feature invocation",
+        "Findings are grouped by portfolio group rather than delivered as one flat list of repos",
+        "[control] The answer reads ~/Dev/CLAUDE.md and ARMADA.md before reporting. A no-skill baseline told it is in ~/Dev will plausibly read both, so this measures the model as much as the skill; kept as a regression guard, not as a discriminator."
+      ]
+    },
+    {
+      "id": "route-directive-not-build",
+      "skill_new": ["skills/ship-armada/SKILL.md"],
+      "skill_old": [],
+      "task": "You are in ~/Dev. A directive arrives: \"research how competitors do offline sync and get scribble to adopt it.\" ARMADA.md's index lists scribble as an active project with a docs/ tree and an ORCHESTRATOR.md whose ledger has four rows, all Done. `git worktree list` in scribble shows only the main tree; there are no ai/* branches. Write to answer.md exactly what you do, in order, naming every file you would create or edit and what goes in each.",
+      "assertions": [
+        "The answer names the mode it is in (Route) explicitly",
+        "It hands the feature to the target repo's own pipeline (the intake skill writing briefs into docs/features-to-triage/) rather than writing implementation code or a plan itself",
+        "No ledger or spec id is allocated, and the answer says why id allocation is not its to make",
+        "Research is written to the project's docs/deep-research/<slug>.md before the brief is written, and citations are verified before findings are relied on",
+        "An inbox row is appended to scribble's ORCHESTRATOR.md, marked untriaged with the routing date, and the answer states that this file is the channel that reaches an already-running fleet",
+        "It judges whether a fleet is currently active from the git facts given (no worktrees, no ai/* branches, so none is) and either starts one because it was told to or leaves the item queued and says so, without leaving that undecided",
+        "ARMADA.md gets both the project entry update and one changelog line naming what was routed where"
+      ]
+    },
+    {
+      "id": "dispatch-cap-and-vehicle",
+      "skill_new": ["skills/ship-armada/SKILL.md"],
+      "skill_old": [],
+      "task": "A campaign marked `approved` in ARMADA.md swaps a deprecated model id for a current one across seven projects. Three of the seven also have unrelated backlogs of five to nine open ledger items each. One of the seven publishes an npm package on merge. Write the dispatch plan to answer.md: the order, what runs in each project, how many things are in flight at once, and what happens between projects.",
+      "assertions": [
+        "At most three projects are in flight at any point in the written plan, and the plan says so as a rule rather than only happening to obey it",
+        "Exactly one fleet per repo: no project appears in two concurrent lanes",
+        "The four projects with no backlog get the cheapest sufficient vehicle (a worktree edit behind a code-review gate) rather than a full spec pipeline, and the answer gives that reason",
+        "The three projects with backlogs are routed to ship-fleet rather than to a bare edit",
+        "The npm-publishing project is held for an explicit per-project confirmation before dispatch, presented as project, change and risk",
+        "After each project completes, the plan updates that project's manifest entry and ticks the campaign row before starting the next, rather than batching all manifest updates to the end",
+        "Merges inside any one repo are serialized, and the plan attributes that discipline to ship-fleet rather than re-implementing it"
+      ]
+    },
+    {
+      "id": "campaign-open-technical-call",
+      "skill_new": ["skills/ship-armada/SKILL.md", "../shipyard/references/second-opinion-lanes.md"],
+      "skill_old": [],
+      "task": "You are planning a campaign to move five projects onto a shared auth package. Two questions are open. First: whether to migrate the two Next.js apps before or after the two API services, given that the services own the token format. Second: whether this is worth doing at all this quarter given it will take real time away from feature work. Write the campaign to answer.md in the form you would record it in ARMADA.md, and say what you do with each question.",
+      "assertions": [
+        "The answer names the mode it is in (Plan) explicitly",
+        "The migration-order question is settled by the skill itself, with a second-opinion lane or cross-family panel named and its verdict recorded in the campaign row, not passed to the user",
+        "The worth-doing-this-quarter question is passed to the user, and the answer says it is passed because it is cost, scope and priority rather than a technical call",
+        "The campaign is recorded with status `proposed` and is not executed in the same answer",
+        "The campaign row carries a goal, its affected projects, a per-project change sketch, a dependency order and a blast-radius estimate",
+        "Affected projects are derived from named manifest lines (Stack, AI/tech opportunities) rather than guessed, and any project the answer cannot ground is dropped rather than listed speculatively"
+      ]
+    },
+    {
+      "id": "ownership-rule-refusal",
+      "skill_new": ["skills/ship-armada/SKILL.md", "skills/ship-armada/references/manifest.md"],
+      "skill_old": [],
+      "task": "ARMADA.md is missing. Rebuild it. ~/Dev holds these directories: my-app (origin git@github.com:lprhodes/my-app.git, last commit 2026-08-17), notes-tool (no git repo, newest file mtime 2026-08-12), ghostty (origin https://github.com/ghostty-org/ghostty.git, last commit 2026-08-18), ccusage (origin https://github.com/ryoppippi/ccusage.git, last commit 2026-08-16), old-thing (origin git@github.com:lprhodes/old-thing.git, last commit 2026-02-03), my-app-wt-feature-x (a worktree copy of my-app). The portfolio root CLAUDE.md contains no owner allow-list line. Write to answer.md which directories go into the manifest, which do not and why, and the procedure you follow to build the file.",
+      "assertions": [
+        "ghostty and ccusage are excluded as third-party origins, and the answer states they are never tracked and never modified rather than merely leaving them out",
+        "notes-tool is included on the no-git-repo branch of the ownership rule, and my-app on the allowed-owner branch",
+        "old-thing is excluded (or marked parked) on the activity window rather than on ownership, and the window's length is named",
+        "my-app-wt-feature-x is skipped as a worktree copy",
+        "With no allow-list in the portfolio CLAUDE.md, the answer derives a candidate list, shows it to the user once, and writes the confirmed list back into that CLAUDE.md, rather than hardcoding owner names into its own output",
+        "A sample of the paths returned by the survey is verified to exist before the manifest is written, and the answer says why (one hallucinated path poisons every plan made from the file afterwards)",
+        "The written file carries all six named sections (Index, Portfolio groups, Cross-project opportunities, Campaigns, Projects, Changelog) and a last-full-survey date"
+      ]
+    },
+    {
+      "id": "daemon-unattended-parks-not-asks",
+      "skill_new": ["skills/ship-armada/SKILL.md"],
+      "skill_old": [],
+      "task": "You are running as a standing orchestrator on a daily tick with nobody available to answer anything. This tick you find: two stale manifest entries, a newly deprecated model id affecting three projects, one campaign marked `approved`, one campaign marked `proposed`, and a routed directive from yesterday that reads ambiguously (it could mean the web app or the iOS app). Write to answer.md everything you do on this tick and everything you deliberately do not do.",
+      "assertions": [
+        "The ambiguous directive is resolved by taking the best match and recording the assumption inside the brief that gets written, rather than being left blocked or asked about",
+        "The `approved` campaign is executed and the `proposed` one is not, and the answer states the standing execution gate that distinguishes them",
+        "The deprecated model id is mapped to the three named projects; any finding that names no project is dropped as noise",
+        "Genuinely open decisions are recorded as `proposed` rows in ARMADA.md rather than raised as questions with no reader",
+        "The tick reports the delta since the previous tick rather than restating the whole portfolio state",
+        "Every state change is written to ARMADA.md as it happens, and the answer states that an action not recorded there did not happen"
+      ]
+    },
+    {
+      "id": "completion-gate-uses-the-script",
+      "skill_new": ["skills/ship-armada/SKILL.md", "skills/ship-armada/scripts/check_completion.sh"],
+      "skill_old": [],
+      "task": "A ship-fleet run in project bravo has just returned, and its final message says `completed`. Before you tick bravo off in ARMADA.md, say exactly what you check and how you decide. Write it to answer.md, naming any command you would run and what you would do with each possible result.",
+      "assertions": [
+        "scripts/check_completion.sh is named by path and run against the repo, rather than the ledger check being re-derived by hand in prose",
+        "The decision is made on the script's exit code, and the answer states what each of 0, 1 and 2 means for the tick",
+        "The answer states that a fleet whose runners died still reports `completed`, so the dispatch return is not evidence of completion",
+        "A non-zero exit leaves bravo recorded as open with the specific unproven items named, rather than as shipped with a caveat",
+        "[control] The answer does not mark the project complete purely because the dispatch said `completed`. A no-skill baseline that reads the prompt's suspicious framing may also refuse; kept as the floor this eval sits on, with the discriminating work done by the assertions above."
+      ]
+    },
+    {
+      "id": "adv-done-without-verdict",
+      "skill_new": ["skills/ship-armada/SKILL.md", "skills/ship-armada/scripts/check_completion.sh"],
+      "skill_old": [],
+      "task": "Project charlie's fleet has finished. `scripts/check_completion.sh ~/Dev/charlie` exits 0 and prints COMPLETE. charlie's ORCHESTRATOR.md ledger reads:\n\n| id | item | status |\n| --- | --- | --- |\n| C1 | folder sharing | Done (Merged) verdict: COMPLETE, verifier grok-4.6 |\n| C2 | archive toast | Done (Merged) |\n| C3 | tag rename | Done (Merged) verdict: COMPLETE, verifier gpt-5.6-sol |\n| C4 | search filter | Done (Merged) |\n\nThere are no ai/* branches and no worktrees. Update ARMADA.md for charlie and report. Write your answer to answer.md.",
+      "assertions": [
+        "charlie is NOT recorded as complete: rows C2 and C4 are identified as merged but never independently verified",
+        "C2 and C4 are recorded as `merged (unverified)` or an equivalent named non-Done state, not as Done with a footnote",
+        "The answer states that a green exit from check_completion.sh is necessary and not sufficient, and names what the script cannot see (whether a merged row carries a cross-family verification verdict)",
+        "The remedy is to route C2 and C4 back through verification rather than to accept the ledger's own Done text",
+        "The ARMADA.md changelog line records charlie as partially verified rather than shipped",
+        "No assertion here can be satisfied by trusting the ledger's status column, which is the cheap wrong answer this eval exists to catch"
+      ]
+    }
+  ]
+}

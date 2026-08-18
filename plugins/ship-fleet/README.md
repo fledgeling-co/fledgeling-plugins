@@ -41,7 +41,13 @@ Expects [shipyard](../shipyard/README.md) and [ship-feature](../ship-feature/REA
 
 ## Does it actually work?
 
-The fleet's operating rules are the part with the longest evidence trail: nearly every line in its scheduling reference records a dated incident from real fleet runs (the `git add -A` that swept three runners' work onto main, the `pkill` that killed a sibling's test run, the model override that didn't stick, the seven runners lost to transport failures). Those rules survive here verbatim, and the rebuild's eval story for the stages underneath it is in [shipyard's EVALS.md](../shipyard/evals/EVALS.md).
+Honestly: less is proven here than this section used to claim, and the eval suite that would settle it was only written today. [EVALS.md](evals/EVALS.md) has the detail, including the audit that caught the overclaim.
+
+What is real. The model-routing rule in `references/scheduling-and-concurrency.md` is field-learned from an actual fleet run and the reference calls it the single most expensive thing to get wrong, because a fleet of runners silently on the wrong model is expensive and invisible at the same time. The stages underneath this conductor are genuinely measured, in [shipyard's EVALS.md](../shipyard/evals/EVALS.md), and one of those evals puts ship-feature's own SKILL.md in the tested arm, where it scored 5 of 5 against its committed predecessor's 4 of 5 and took a blind panel 3 to 0 across three model families.
+
+What is not. This section previously said that nearly every line of the scheduling reference recorded a dated incident. That file is 357 lines and carries two dated stamps, both section headings. It also listed four incidents as this skill's own evidence: the `git add -A` that swept three runners' work onto main and the `pkill` that killed a sibling's test run are real, but they are recorded in other skills' references rather than here; the model override is genuinely this skill's; and "the seven runners lost to transport failures" appears nowhere in this repository except the sentence that claimed it.
+
+Nothing has run ship-fleet itself against a baseline. The suite now defines what that would take.
 
 ## Credit
 

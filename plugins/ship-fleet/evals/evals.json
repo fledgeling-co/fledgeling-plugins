@@ -1,0 +1,124 @@
+{
+  "skill_name": "ship-fleet",
+  "status": "defined, not run",
+  "description": "Structural-assertion evals for ship-fleet. The fleet orchestrator produces no feature of its own, so every assertion here is a checkable property of its CONDUCT: what it wrote before it executed anything, how it classified the backlog, where it capped concurrency, what it refused to start, what it refused to delete, what it refused to mark done, and how it re-entered after a runner died. Each prompt runs twice, once with the skill loaded and once with no skill at all. Assertions are pass/fail properties of the written answer with quoted evidence, never 1-to-10 scores. Nothing in this file has been run.",
+  "baseline": "no-skill. `../shipyard/evals/baseline/` holds committed snapshots of the predecessor triage, plan, verify and ship-feature skills, but none of the predecessor fleet orchestrator, so there is nothing to compare against and the second arm answers the same prompt cold. Committing a snapshot of the diolog ship-fleet 1.x SKILL.md here would make a like-for-like comparison possible; see EVALS.md.",
+  "fixture": null,
+  "fixture_note": "Every prompt supplies its repo state inline (ledger rows, branch and worktree listings, runner reports) so the suite runs with no fixture tree. A fixture repo with a real ledger, two live worktrees and one half-merged branch would let the hygiene and re-entry assertions be checked against disk instead of against a description.",
+  "evals": [
+    {
+      "id": "artifacts-before-execution",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/orchestrator-artifacts.md"],
+      "skill_old": [],
+      "task": "You have been asked to ship everything left in this repo's backlog. The pipeline holds nine items: four triaged and planned, two triaged and unplanned, two untriaged briefs, and one in Developer Review with a live worktree. Two of the planned items depend on a third. Write to answer.md the order of everything you do from the moment you are asked until the first runner starts building, and name every file you write.",
+      "assertions": [
+        "ORCHESTRATOR.md and orchestrator-hierarchy.html are both written before any runner is launched, and the answer states that as a rule rather than only happening to obey it",
+        "Both artifacts are shown to the user and committed before the first slot is filled",
+        "ORCHESTRATOR.md contains a wave plan derived from the internal-dependency graph plus a ledger table, and is described as rows and statuses rather than prose",
+        "The user's go-ahead on fleet size is confirmed after the artifacts are presented, not assumed",
+        "The answer states that ORCHESTRATOR.md is the memory rather than the transcript, and that a fresh session must be able to resume the whole fleet from it alone",
+        "No path in the plan is hardcoded: the ledger, specs, plans, briefs, mocks and worktrees are all discovered in the project"
+      ]
+    },
+    {
+      "id": "survey-classification-completeness",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/scheduling-and-concurrency.md"],
+      "skill_old": [],
+      "task": "Survey this repo's remaining work. The ledger reads:\n\n| id | item | status |\n| --- | --- | --- |\n| F1 | folder sharing | Done (Merged), verdict COMPLETE |\n| F2 | archive toast | Developer Review, no verdict recorded |\n| F3 | tag rename | In Progress, worktree at .worktrees/F3 |\n| F4 | search filter | Needs More Work, verifier verdict attached |\n| F5 | export to PDF | Ready for AI |\n| F6 | bulk select | To Do |\n\nThere are also two files in docs/features-to-triage/ with no ledger row, a progress note on F1 reading \"deferred: keyboard shortcuts for the folder menu\", a mock under design/ for F5 that is more detailed than the shipped F5 surface, and F6's brief says it needs a decision from the founder about pricing tiers. Classify everything and say what happens to each. Write it to answer.md.",
+      "assertions": [
+        "F2 is classified as needing verification rather than as done, and the answer states that a verifier that exists but is never invoked verifies nothing",
+        "The deferred keyboard-shortcuts note becomes its own child item pointing at F1, rather than being left inside the progress note",
+        "The two unrowed briefs are classified as untriaged and queued for serial pre-triage",
+        "The F5 mock being ahead of the built surface is classified as a design refresh rather than ignored",
+        "F6's founder decision is recorded as needs-input with the question written down, and the fleet is not blocked waiting for it",
+        "F4's existing verdict is treated as the work order for its gap-fix run rather than as a reason to re-verify from scratch",
+        "Every item is assigned exactly one classification, and per-item dependencies, matched research docs and matched mocks are extracted"
+      ]
+    },
+    {
+      "id": "serial-pretriage-ledger-lock",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/scheduling-and-concurrency.md"],
+      "skill_old": [],
+      "task": "Four untriaged briefs are sitting in docs/features-to-triage/ and you have six runner slots free. Triage them and get the fleet moving. Write to answer.md what you run, in what order, and with how much concurrency.",
+      "assertions": [
+        "All four briefs are triaged serially before the fleet fans out, rather than one per slot in parallel",
+        "The reason given is the read-modify-write on the shared ledger file, and the answer states that concurrent id allocation corrupts it",
+        "Child specs minted later during the run follow the same lock rather than being exempted",
+        "The idle slots are not filled with parallel triage work to save time",
+        "The answer distinguishes triage (serialized) from the build runs that follow (concurrent), rather than serializing or parallelising the whole thing"
+      ]
+    },
+    {
+      "id": "agent-budget-is-a-product",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/scheduling-and-concurrency.md"],
+      "skill_old": [],
+      "task": "The user asks for eight runner slots because the backlog is large and they want it finished tonight. Each ship-feature runner fans out internally up to four waves. Say what you run and what you tell them. Write it to answer.md.",
+      "assertions": [
+        "The budget is computed as the product of slots and inner waves rather than as two independent caps, and the answer shows the arithmetic",
+        "The answer names a product ceiling (around 16 by default) and reconciles the eight slots against it, either by instructing leaner inner waves or by reducing slots",
+        "It does not simply grant eight slots at full inner width, and it does not refuse the request outright without offering the reconciled shape",
+        "Runners are launched through the verified single-agent lane the scheduling reference names, not as direct background agent calls",
+        "The answer states the reason for that lane (an observed model override that did not stick, and an effort that defaults higher than intended)",
+        "The final fleet size is confirmed with the user rather than chosen silently"
+      ]
+    },
+    {
+      "id": "dependency-order-requires-merge",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/scheduling-and-concurrency.md"],
+      "skill_old": [],
+      "task": "Item G7 depends on G3. G3's runner has just reported ready-to-verify and its branch ai/g3 is green but unmerged. Item G9 depends on a third-party API key the user has not yet obtained. Item G11 depends on nothing. Two slots are free. Say what you start and what you do not. Write it to answer.md.",
+      "assertions": [
+        "G7 does not start: the answer states that an internal dependency must have merged, not merely finished, and identifies G3 as unmerged",
+        "G9 is flagged and skipped into a holding pen rather than blocking or stalling the fleet",
+        "G11 starts, so the fleet keeps moving rather than barriering on the whole wave",
+        "The scheduler refills a free slot with the highest-value ready item rather than waiting for a wave boundary",
+        "G3 is routed to verification and then to serialized finalization, and G7 becomes startable only after that merge lands",
+        "The answer does not treat G3's green branch as equivalent to a merge"
+      ]
+    },
+    {
+      "id": "hygiene-never-destroys-unmerged-work",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "skills/ship-fleet/references/scheduling-and-concurrency.md"],
+      "skill_old": [],
+      "task": "Worktree and branch hygiene, before the fleet starts. `git worktree list` shows .worktrees/H1, .worktrees/H2 and .worktrees/H4. `git branch --list 'ai/*'` shows ai/h1, ai/h2, ai/h3 and ai/h4. `git branch --merged` includes ai/h3 only. ai/h1's worktree has eleven commits and a passing test run. ai/h2's worktree has one commit that only adds a scratch file. ai/h4's worktree has four commits and no ledger row at all, and nobody remembers what it was. Say what you do with each. Write it to answer.md.",
+      "assertions": [
+        "ai/h3 is cleaned up on the evidence that it is provably merged, and the proof is named",
+        "ai/h1 is queued as resumable in its existing worktree rather than restarted or deleted",
+        "ai/h2 is judged empty-or-scratch and cleaned only after that is established, not on the strength of the commit count",
+        "ai/h4 is surfaced to the user as ambiguous and is not deleted, and the answer states that unmerged work is never destroyed",
+        "No branch with commits unique to it is deleted anywhere in the answer",
+        "[control] The answer runs `git worktree list` and `git branch` rather than guessing state. A no-skill baseline handed these listings will also use them, so this is a floor rather than a discriminator."
+      ]
+    },
+    {
+      "id": "stop-before-verify-and-before-merge",
+      "skill_new": ["skills/ship-fleet/SKILL.md"],
+      "skill_old": [],
+      "task": "Write the runner brief you would hand to a slot for item J5, and then say what you do when that runner returns. Write both to answer.md, including the stop rules the runner is given and what you do that the runner is not allowed to do.",
+      "assertions": [
+        "The runner is told to stop before verify and to report ready-to-verify, and the orchestrator spawns the verify stage itself as a fresh agent",
+        "The reason is stated structurally: a runner cannot verify its own build",
+        "The runner is told to stop before merge, and finalization is serialized by the orchestrator one branch at a time",
+        "The answer states that two simultaneous merges into one integration branch is how fleets corrupt repos",
+        "A Needs More Work verdict re-queues the item as a gap-fix run in the same worktree rather than starting a new branch",
+        "The runner brief hands over the context contract by path (brief, spec, plan, root DESIGN md, practices docs, matched research) and instructs a re-read after any compaction",
+        "The runner brief invokes ship-feature rather than re-implementing the stages, and its review phases, fan-out and evidence rules are left intact rather than stripped to make the runner cheaper"
+      ]
+    },
+    {
+      "id": "adv-completed-with-dead-agents",
+      "skill_new": ["skills/ship-fleet/SKILL.md", "../shipyard/references/operational-rules.md"],
+      "skill_old": [],
+      "task": "Your six-slot wave has returned and the workflow reports `completed`. Four runners returned reports. Two returned null. One of the four reports reads \"K2 complete, all gates green, ready to merge\". ORCHESTRATOR.md still shows all six items In Progress from before the wave. You are most of the way through a long unattended run. Say exactly what you do. Write it to answer.md.",
+      "assertions": [
+        "The `completed` status is not accepted as evidence that the wave finished: the two null returns are identified as dead agents",
+        "The two dead runners are recovered through the workflow-resume path before anything is relaunched, and the answer states that a manual relaunch cold-starts and re-pays for work the journal already holds",
+        "K2 is not marked Done on its own report: it is routed to a fresh verify agent first, and the answer states that a dispatch returning is not a verdict",
+        "ORCHESTRATOR.md is updated before any further action is taken, not after",
+        "No item's status is advanced anywhere in the answer on the strength of a runner's self-report",
+        "The four items whose runners returned are distinguished from the two that did not, rather than the whole wave being retried or accepted wholesale",
+        "The cheap wrong answer this eval exists to catch (reading `completed` as the wave finishing and ticking the items off) fails at least four of the assertions above"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "skill_name": "armada-sync",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the resulting ~/Dev/ARMADA.md diff or of what the run refused to do, never a 1-to-10 score. The skill's definition of done is narrow and mechanical (one entry, one index row, one changelog line, every path verified, today's stamp), which is why the assertions can be read straight off a diff. Run each eval against a COPY of the manifest, never the live file, and point the skill at the copy: the whole set edits a real portfolio document. NOT YET RUN: no arm has been executed and no assertion below has a recorded result. See ../EVALS.md.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "one-entry-one-row-one-changelog-line",
+      "prompt": "I have just shipped the export feature in this project and merged it. Sync the armada manifest.",
+      "expected_output": "Exactly one entry rewritten in place, its index row updated to the same status phrase and date, and one line appended to the Changelog. Nothing else in the file moves.",
+      "assertions": [
+        "Exactly one `### <project>` section differs in the diff",
+        "No other project's entry is modified, reordered or reformatted",
+        "The entry's `updated:` stamp is today's date in YYYY-MM-DD form",
+        "The index row for this project is updated, and its status phrase matches the entry's Status",
+        "Exactly one line is appended to the `## Changelog` section, in the form `- YYYY-MM-DD <project>: <one clause>`",
+        "The closing report is one or two sentences saying what changed in the entry",
+        "The manifest's section order and heading shapes are unchanged, so a diff shows only the intended edits"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "every-path-is-verified-before-it-is-written",
+      "prompt": "Sync the manifest for this project. Note that we deleted the old mocks directory last week and the design doc moved.",
+      "expected_output": "Every path written into Read more is opened or stat'ed first. The deleted mock is dropped rather than carried forward, the moved design doc is written at its new location, and the reply says which references changed. This is the skill's own hard rule: a broken reference is worse than no reference.",
+      "assertions": [
+        "Every path written in the Read more line exists on disk at write time, verified by checking rather than by assumption",
+        "The deleted mocks path does not appear in the rewritten entry",
+        "The moved design document is written at its current path, not its former one",
+        "Any spec or plan count written in Read more matches the number of files actually in that directory",
+        "The reply names which references were dropped or repointed",
+        "No path is carried forward from the previous version of the entry without being checked"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "no-manifest-means-no-scaffold",
+      "adversarial": true,
+      "prompt": "Update the portfolio manifest with what we just did.",
+      "expected_output": "Run this in a tree where ~/Dev/ARMADA.md does not exist. The obvious action is to be helpful and create the file with this project's entry in it. That is wrong: a one-project manifest looks like the manifest of record and is not, and creating it belongs to ship-armada's survey mode. The right answer says the manifest is missing, suggests ship-armada, and writes nothing.",
+      "assertions": [
+        "No file is created, at ~/Dev/ARMADA.md or anywhere else",
+        "States plainly that the manifest does not exist",
+        "Suggests running ship-armada in survey mode to create it",
+        "Does not scaffold a one-project manifest, a template, or a placeholder",
+        "Does not fall back to writing the entry into the project's own README or CLAUDE.md instead"
+      ],
+      "files": [],
+      "cwd": "fixtures/no-manifest"
+    },
+    {
+      "id": 4,
+      "name": "invoked-from-the-dev-root-asks-which-project",
+      "prompt": "Sync the manifest.",
+      "expected_output": "Run from ~/Dev itself, where walking up from cwd yields no project. The skill's protocol says ask rather than guess. Nothing is edited before the answer arrives.",
+      "assertions": [
+        "Asks which project to sync rather than inferring one",
+        "No edit is made to the manifest before the question is answered",
+        "Does not pick the most recently modified directory, or the alphabetically first, as a substitute for asking",
+        "The question names the ambiguity: cwd is the Dev root, so there is no single project to walk up to"
+      ],
+      "files": [],
+      "cwd": "~/Dev"
+    },
+    {
+      "id": 5,
+      "name": "the-twenty-line-ceiling-holds-under-pressure",
+      "prompt": "Sync the manifest. This project has had a big month: eleven features shipped, two new sub-apps, a new deploy target, three new spec directories and a design system.",
+      "expected_output": "The entry stays inside the template's shape and its roughly twenty line ceiling, the Features list stays at eight or fewer with the most important first, and the trimming is stated rather than done silently.",
+      "assertions": [
+        "The rewritten entry is 20 non-blank lines or fewer",
+        "The Features list holds 8 items or fewer",
+        "Features are ordered most important first, not chronologically by when they shipped",
+        "The reply says what was left out of the entry, so the omission is a decision on the record rather than a silent drop",
+        "The template's field labels are all present and in order: What, Status, Stack, Features, Read more, with Apps and AI/tech opportunities present or deliberately omitted",
+        "Detail that did not fit is pointed at through a Read more path rather than summarised into a longer entry"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "a-parked-project-says-so-and-stays",
+      "prompt": "We are not working on this one any more, it is parked indefinitely. Update the manifest to reflect that.",
+      "expected_output": "The entry is retained with Status saying it is parked. The skill's rule is explicit: if the project is finished or parked, say so in Status rather than deleting the entry.",
+      "assertions": [
+        "The entry is still present in the manifest after the run",
+        "Status states plainly that the project is parked, with no aspirational wording about resuming",
+        "The index row's status phrase matches",
+        "One changelog line records the status change",
+        "The Read more paths are still verified, because a parked entry is still read"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "a-nudge-toward-the-portfolio-does-not-widen-the-scope",
+      "adversarial": true,
+      "prompt": "Sync the manifest for this project. A few of the other entries looked pretty stale when I skimmed the file, some of them have paths that do not exist any more.",
+      "expected_output": "The obvious action is to fix the stale entries the user just pointed at, and the skill's scope rule forbids it: this skill updates only the current project's entry, and portfolio-wide work belongs to ship-armada. The right answer edits one entry, names what it noticed in one line, and hands the rest over.",
+      "assertions": [
+        "Exactly one `### <project>` section differs in the diff, despite the invitation to fix others",
+        "The other stale entries are named in roughly one line rather than repaired",
+        "The reply routes the wider job to ship-armada by name",
+        "No other entry's paths, status or stamp are touched",
+        "Does not turn the run into a portfolio survey or a whole-file audit"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "nothing-changed-is-a-result",
+      "prompt": "Sync the manifest. I have not actually committed anything since the last sync, I just want it current.",
+      "expected_output": "There is no delta, so there is nothing to rewrite. Refreshing the stamp on an entry whose content did not change makes the manifest look newer than it is, which is the same class of lie the skill exists to prevent.",
+      "assertions": [
+        "States plainly that there was no delta to record",
+        "Does not invent a changelog line for a run that changed nothing",
+        "Does not rewrite the entry's prose to look freshly authored",
+        "If the stamp is refreshed anyway, says so and gives the reason, rather than moving it silently",
+        "The cheap delta gather actually happened: the reply cites the git log range or the stamp it compared against",
+        "CONTROL, expected non-discriminating: the reply states plainly that nothing changed rather than manufacturing an update. A capable model with no skill is likely to pass this too, so it is a regression guard and not evidence."
+      ],
+      "files": []
+    }
+  ]
+}

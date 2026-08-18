@@ -44,6 +44,7 @@ headless engine is where silent failures live, and a resize cannot fail silently
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html.parser
 import json
 import pathlib
@@ -62,6 +63,11 @@ DISPLAY_WIDTHS = (1600, 900, 400, 200)
 
 RUBRIC_TOTAL = 12
 RUBRIC_BAR = 10
+
+# A banner and the icon it displays, produced by the same build, land within
+# seconds of each other. A stale banner is days behind. Anything inside this
+# window is treated as the same build rather than as drift.
+SAME_BUILD_SECONDS = 600
 
 RUBRIC = [
     (1, "Exactly 3200x1040, from a 1600x520 layout at deviceScaleFactor 2", True),
@@ -85,6 +91,14 @@ def load_pil():
     except ImportError:
         return None
     return Image
+
+
+def sha256_of(path: pathlib.Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def png_size(path: pathlib.Path) -> tuple[int, int] | None:
@@ -151,6 +165,28 @@ def visible_text(src: pathlib.Path) -> str:
     return re.sub(r"<[^>]+>", " ", text)
 
 
+PLACEHOLDER_REC = (
+    "<strong>Recommendation.</strong> No verdict written yet. Put it in "
+    "<code>banner-verdict.md</code> beside this file: does this banner ship, and "
+    "what are its known liabilities? That file is a sidecar precisely so that "
+    "re-rendering this sheet cannot destroy it. The rows above marked as needing "
+    "an eye are the reason this is a sheet rather than a script's exit code."
+)
+
+
+def recommendation_html(base: pathlib.Path) -> str:
+    """The human verdict, read from its sidecar so a re-render never clobbers it."""
+    verdict = base / "banner-verdict.md"
+    if not verdict.exists():
+        return PLACEHOLDER_REC
+    text = verdict.read_text(encoding="utf-8").strip()
+    if not text:
+        return PLACEHOLDER_REC
+    paras = [p.strip().replace("\n", " ") for p in re.split(r"\n\s*\n", text) if p.strip()]
+    body = "".join(f"<p>{p}</p>" for p in paras)
+    return f"<strong>Recommendation.</strong>{body}"
+
+
 # ------------------------------------------------------------------ sheet
 
 def render_displays(base: pathlib.Path, Image) -> dict[str, str]:
@@ -176,9 +212,11 @@ def render_displays(base: pathlib.Path, Image) -> dict[str, str]:
     crop.save(crop_path)
     written["crop-lockup"] = crop_path.name
 
+    icon = base / "icon.png"
     manifest = {
         "banner": banner.name,
         "banner_mtime": banner.stat().st_mtime,
+        "icon_sha": sha256_of(icon) if icon.exists() else None,
         "source_size": [im.width, im.height],
         "displays": written,
     }
@@ -257,6 +295,7 @@ def build_sheet(base: pathlib.Path, plugin: str, written: dict[str, str],
     won = sum(1 for m in scored if m[2])
     unjudged = RUBRIC_TOTAL - len(scored)
 
+    recommendation = recommendation_html(base)
     doc = f"""<!doctype html>
 <meta charset="utf-8">
 <title>{plugin} banner audit</title>
@@ -278,10 +317,7 @@ and 12 non-negotiable. {won} of {len(scored)} mechanical checks pass and
 <p class="score">{won} / {RUBRIC_TOTAL}</p>
 
 <div class="rec">
-<strong>Recommendation.</strong> Replace this with the verdict: does this banner
-ship, and what are its known liabilities? The mechanical half is filled in
-above. The rows marked as needing an eye are the reason this file is a sheet
-rather than a script's exit code.
+{recommendation}
 </div>
 </div>
 """
@@ -353,6 +389,40 @@ def mechanical(base: pathlib.Path) -> list[tuple[int, str, bool | None, str]]:
     results.append((7, labels[7], dashes == 0,
                     "no em dash in the copy" if dashes == 0
                     else f"{dashes} em dash(es) in the visible copy"))
+
+    # A banner shows the icon it was rendered against, and an icon rebuild
+    # silently invalidates it. Nothing caught this before: be-my-witness's icon
+    # moved from a periwinkle-violet ground to warm porcelain, and its banner
+    # kept displaying the purple one at a correct 3200x1040 with a properly
+    # linked font, so every other check passed.
+    #
+    # Two ways of deciding it, because the cheap one alone is wrong. An exact
+    # answer needs the icon's hash as it was when the banner was rendered, which
+    # `sheet` now records; where that exists it is definitive. Where it does not,
+    # fall back to mtimes with a generous margin, because a banner and an icon
+    # produced by the same build land within seconds of each other and a strict
+    # comparison then fails on sub-second write order. clarify tripped exactly
+    # that: same minute, same build, flagged as stale.
+    banner, icon = base / "banner.png", base / "icon.png"
+    if banner.exists() and icon.exists():
+        recorded = None
+        manifest = base / "banner-renders" / "banner-manifest.json"
+        if manifest.exists():
+            try:
+                recorded = json.loads(manifest.read_text()).get("icon_sha")
+            except Exception:
+                recorded = None
+        if recorded:
+            if recorded != sha256_of(icon):
+                results.append((4, labels[4], False,
+                                "the icon has changed since this banner was rendered, so the "
+                                "banner displays a previous version of it. Re-render it."))
+        elif icon.stat().st_mtime - banner.stat().st_mtime > SAME_BUILD_SECONDS:
+            age = (icon.stat().st_mtime - banner.stat().st_mtime) / 86400
+            results.append((4, labels[4], False,
+                            f"icon.png is {age:.1f} days newer than banner.png, so the banner "
+                            "very likely displays a previous version of the icon. Re-render it, "
+                            "which also records the icon's hash so this stops being a guess."))
     return results
 
 
@@ -393,9 +463,15 @@ def cmd_check(base: pathlib.Path) -> int:
         if not re.search(rf"\d+\s*/\s*{RUBRIC_TOTAL}", text):
             problems.append((0, f"no N / {RUBRIC_TOTAL} score in banner-audit.html"))
             print(f"FAIL   0. banner-audit.html carries no N / {RUBRIC_TOTAL} score")
-        if "Replace this with the verdict" in text:
-            problems.append((0, "the recommendation block is still the template's placeholder"))
-            print("FAIL   0. the recommendation block is still the template placeholder prose")
+        # Test the sidecar itself rather than sniffing the rendered HTML. Sniffing
+        # meant a sheet generated before the sidecar existed carried older
+        # placeholder prose, matched nothing, and passed unsigned.
+        verdict = base / "banner-verdict.md"
+        if not verdict.exists() or not verdict.read_text(encoding="utf-8").strip():
+            problems.append((0, "no banner-verdict.md, so nobody has signed this banner off"))
+            print("FAIL   0. no banner-verdict.md beside the sheet, so nobody has signed this "
+                  "banner off. Write the verdict there: does it ship, and what are its known "
+                  "liabilities?")
         banner = base / "banner.png"
         if banner.exists() and sheet.stat().st_mtime < banner.stat().st_mtime:
             problems.append((0, "banner-audit.html is older than the banner it describes"))
