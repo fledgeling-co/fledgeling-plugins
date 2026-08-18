@@ -276,6 +276,39 @@ scheme, the artifact bundle and the judge's constraints;
 
 ---
 
+## What counts as done
+
+**A case that has not been checked has failed.** Not "pending", not "covered",
+not a pass with an asterisk — failed, and counted with the failures. A case is
+CHECKED only when all three hold:
+
+| | |
+|---|---|
+| **it passes** | the assertion ran and was satisfied |
+| **it was watched to fail** | inline via the sweep's own control, or by reverting the behaviour once |
+| **it asserts an effect** | `outcome`, `metamorphic` or `visual` — not that an element exists |
+
+`campaign.py check` answers a different and easier question: is every case
+accounted for. Both run, and `strict-check.py` is the one that reports the number
+a reader should believe. Measured on two real campaigns the same day: one scored
+62 of 70, the other 20 of 262. The bar is reachable; a low score is a fact about
+that campaign, not about the bar.
+
+**The target is 100%, and there is exactly one honest route to it: check more
+things.** Raising the number by weakening an assertion, dropping a case to a
+lower rung, deleting an inconvenient test, marking something `n/a` that could
+have been reached, or asserting a value the test itself wrote — each of those
+raises the score and lowers what the suite knows. Tests verify the product; they
+do not define it. If a case cannot be checked, say why in the structural terms
+that make it permanent (this lane exposes no accessibility tree; the only
+reachable database is production), and let it count against the total rather
+than disappearing from it.
+
+`strict-check.py` therefore ratchets rather than gates on 100% from day one: it
+prints the honest number every run and fails when it FALLS. A gate that opens
+97% red is switched off within a week, and a switched-off gate checks nothing.
+Raise the ratchet in the same commit that earns it.
+
 ## Standing rules
 
 **No artifact, no verdict.** A conclusion reached by looking is not a
@@ -365,6 +398,14 @@ run reported in the shape of a full one.
   places the research disagrees with itself, and the two figures withdrawn when
   their only citation turned out not to exist.
 
+## Scripts
+
+- `campaign.py` — the registry: init, scope, add, set, carry, check, report.
+- `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet.
+- `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps.
+- `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be judged.
+- `evidence-page.py` — the living page.
+
 ## Assets
 
 Copy these into the project rather than authoring the shapes from scratch:
@@ -374,6 +415,8 @@ Copy these into the project rather than authoring the shapes from scratch:
   statuses so an unreachable surface is counted rather than absent.
 - `assets/flow-plan.template.json` — the user-flow storyboard: flows, steps, and
   the observable atoms each capture should show.
+- `assets/capture-pairs.template.mjs` — photograph the build and its design of
+  record as pairs, under identical conditions, so a comparison is possible at all.
 - `assets/judge-contract.md` — the screenshot judge, implementable against any
   provider: the verdict schema, the bias controls, the ceilings, and the reason a
   model verdict annotates a campaign rather than gating it.
