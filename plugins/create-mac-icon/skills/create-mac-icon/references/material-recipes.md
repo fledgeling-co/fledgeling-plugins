@@ -65,6 +65,84 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · proctor "The Side Port" — a cylinder is one path with a derived
+  gradient, an oblique box's silhouette is a convex hexagon, and a coaxial
+  barrel is a camera.** Six findings from rebuilding a line-art window outline
+  as a graphite casting with an ember hex fitting. Four are construction rules
+  that no palette work could have repaired, one is a device-level misread caught
+  only by looking, and the last is about the metric rather than the material.
+
+  **Shade a cylinder with ONE path and a Lambert-derived multi-stop gradient;
+  never tile its surface into bands.** The first draft cut each cylinder into 28
+  flat quads, one per angular band, each carrying its own Lambert value — the
+  physically correct construction, and `rsvg-convert` antialiased every seam into
+  a thin light line, so the quill rendered as corrugated hose. The fix: sample
+  the visible arc at ~22 angles, take each angle's Lambert term as its stop
+  colour and its projected offset as its stop position, and hang the gradient on
+  an axis measured **perpendicular to the tube's own screen axis** so the
+  iso-lines run along the tube rather than skewing across it. One path, one
+  gradient, no seams, and the values are still derived rather than eyeballed.
+
+  **A cylinder's outline is the convex hull of both cap ellipses, not the swept
+  front-facing band.** The band (arc at u0, then arc at u1 reversed) leaves the
+  back of every cross-section unpainted, so whatever sits behind shows through as
+  a stray ellipse — on a four-piece stepped assembly that produced two ghost
+  ellipses nobody could place. Paint the hull; cap it separately.
+
+  **A cylinder takes no falloff along its own axis.** Its normal has no component
+  along that axis, so the Lambert term is constant there and any ramp along it is
+  invented light. Worse, the "one shared falloff" that seemed like layer
+  discipline was laid over a convex hull of the whole assembly, and a hull bridges
+  every concavity — so a dark wash at 0.34 opacity sat over the porcelain in the
+  waist between two pieces and read as a grey smear on the ground.
+
+  **A box in this projection has a convex HEXAGONAL silhouette, so one rounded
+  hexagon as a clipPath gives the whole casting a radius.** Vertices:
+  top-front-left, top-back-left, top-back-right, bottom-back-right,
+  bottom-front-right, bottom-front-left. This is the cheapest route to the Tahoe
+  "poured, not drawn" radius on a hard-edged oblique box, and it was the loudest
+  material difference between the raster takes and the master. Rounding each
+  visible face separately does **not** work: the faces then pull apart at the
+  corners and show ground through, and an underlay to fill those gaps has to be
+  un-rounded, which puts the square corners straight back on the silhouette.
+
+  **A sub-part takes its values from its own normals, not from its own palette.**
+  A base plinth authored with its own darker set (top 0.28, front 0.104) read as a
+  separate flat tray sitting under the casting. Given the body's values for the
+  identical normals it read as one casting — and then it was dropped anyway,
+  because the step carried no meaning and the seat shadow does the standing. Two
+  lessons: match values across a shared normal, and a detail that survives only
+  because it was authored is a detail to delete.
+
+  **A graphite box with a coaxial round barrel on its face is a camera.** No
+  amount of material work fixed it; three drafts read as a camcorder, which in
+  this family is the worst available misread, since `design-review` owns the
+  reticle and `be-my-witness` owns the lens. Two changes fixed it together: a
+  **hex** union nut instead of a barrel, and a **portrait** case instead of a
+  landscape one, with the fitting **low** on the flank rather than centred on it.
+  The hex pays for itself twice — its three visible flats take three separate
+  Lambert values (0.80 / 0.77 / 0.03 against the one key), which is more per-face
+  separation than a smooth barrel of the same size can carry. Sanity-check any
+  box-plus-protrusion device against "what appliance is this" before authoring
+  material for it.
+
+  **The 16px number rewards mass and is blind to whether the accent survived.**
+  The family metric is the luminance standard deviation of the 16px downsample
+  composited over white; the median across all 36 marketplace icons is 0.176,
+  this commission's predecessor measured 0.102 and the shipped master 0.276. Both
+  Engine C rasters measured **higher** than the master (0.308 and 0.320) while
+  their accent was a single pixel at 16px and their figure-ground was 2.4:1,
+  under rubric 7's floor. A large mid-value mass on a plain ground maximises the
+  statistic; it does not make the tile say anything. Quote the number, then look
+  at the ×6 magnification before believing it.
+
+  **Negative result on Engine C steering.** Four same-register corpus references
+  transferred the material and the ground treatment faithfully and transferred
+  **emphasis** not at all: both rasters shrank the fitting the prompt named as
+  the hero into a cable-gland-sized detail. Reference images steer how a thing is
+  rendered, not what the picture is about.
+
+
 - **2026-08 · design-craft "The Sample Fan" — translucency has a paint-order
   prerequisite, and one rotated body can be lit without per-edge geometry.** Five
   findings from a three-leaf fan of material samples on a porcelain cushion, four
