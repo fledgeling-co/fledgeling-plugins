@@ -37,80 +37,98 @@
 </head>
 <body>
 <h1>dossier-report icon contact sheet &amp; audit</h1>
-<div class="sub">Direction &ldquo;The Folded Sheet&rdquo; &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16. The fidelity loop ran twelve rounds; rounds r00&ndash;r07 were scored on a degraded metric tier and have been re-scored here at full tier (torch + LPIPS), which reversed the shipping decision.</div>
+<div class="sub">Direction &ldquo;The Folded Sheet&rdquo; &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The fidelity loop ran twelve rounds; rounds r00&ndash;r07 were scored on a degraded metric tier and have been re-scored here at full tier (torch + LPIPS), which reversed the shipping decision.</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A-r11 &middot; icon.svg<small>Engine A, hand-authored layered SVG, SHIPS</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/a-1024.png" width="160" height="160" alt="Shipping master hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Shipping master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="Shipping master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="Shipping master at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Shipping master at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Shipping master at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Shipping master 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">A porcelain sheet 580&times;665 (56.6% of tile width, inside the 55&ndash;65% band) caught mid-fold on a porcelain cushion, the crease running 46&deg; from the bottom edge to the right edge so the flap is a third of the sheet &mdash; a fold, not the legacy-era page curl. The inner face is vermilion and carries a stepped chart rule, so the icon shows evidence held inside the page. Checks 1&ndash;4 pass on real renders: full-bleed 1024 with the set's exact superellipse as a <em>clip</em>, sheet centred at (510, 512) with 220/224/180/179 margins, and at 16px the diagonal survives as a clean vermilion wedge. Four layers <code>#bg</code>/<code>#mid</code>/<code>#fg</code>/<code>#highlight</code> map 1:1 onto Icon Composer. Sole deduction on #7: see the recommendation.</td>
   </tr>
 
   <tr>
     <td class="take">A-r07 &middot; candidate-r07.svg<small>Engine A, the take the degraded metric shipped</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/a07-1024.png" width="160" height="160" alt="Round 07 take hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/a07-256.png" width="128" height="128" alt="Round 07 take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a07-128.png" width="64" height="64" alt="Round 07 take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a07-96.png" width="48" height="48" alt="Round 07 take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a07-64.png" width="32" height="32" alt="Round 07 take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a07-32.png" width="16" height="16" alt="Round 07 take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a07-32.png" width="96" height="96" alt="Round 07 take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">10 / 12</td>
     <td class="verdict">Same composition, three material rounds further on &mdash; and measurably worse for them. Re-scored at full tier it is the <em>weakest</em> of the eight archived candidates on 1024 LPIPS (0.4883) and the weakest on absolute self-contrast at every size (0.4447 at 1024 against r11's 0.4748). Two independent blind judges, shown it against r11 without labels, named the same defect: a pure-white hairline specular along the crease reading as &ldquo;a gloss decal rather than volume&rdquo;. Loses on #9 era coherence (Tahoe grammar sanctions one soft light and <em>zero</em> hard speculars) and on the flattened accent ramp.</td>
   </tr>
 
   <tr>
     <td class="take">A-r00 &middot; candidate-r00.svg<small>Engine A, first material rebuild</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/a0-1024.png" width="160" height="160" alt="Round 00 take hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Round 00 take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-128.png" width="64" height="64" alt="Round 00 take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a0-96.png" width="48" height="48" alt="Round 00 take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Round 00 take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Round 00 take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Round 00 take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">10 / 12</td>
     <td class="verdict">The loop's starting state, kept on the sheet because the full-tier replay makes it the honest yardstick: at 1024 it already scored 0.5233 composite / 0.4730 LPIPS, and eight rounds of work on a broken instrument ended <em>below</em> it. Its crease carries no occlusion at all &mdash; the two AO bands were authored on the wrong side of the fold and clipped away by <code>flapClip</code> for the whole run &mdash; so the V does not close and the flap reads as a printed triangle rather than a lifted plane. Loses on #8 depth coherence.</td>
   </tr>
 
   <tr>
     <td class="take fail">B &middot; icon-engineB-arrow-ecc20a.svg<small>Engine B, Arrow 1.1 vector take</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/b-1024.png" width="160" height="160" alt="Engine B Arrow take hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Engine B Arrow take at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="Engine B Arrow take at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="Engine B Arrow take at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Engine B Arrow take at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Engine B Arrow take at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Engine B Arrow take 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">5 / 12</td>
     <td class="verdict">Hard-fails three of the four non-negotiables. #1: a square card with baked square corners and a baked drop shadow, floating on transparency &mdash; no squircle discipline at all. #2: the card is offset down-right with no safe zone. #4: the vermilion resolves to a needle whose tip is sub-pixel by 32px and gone by 16px. It also lost the brief entirely &mdash; the double-curved sliver reads as a swallow or a paper dart, not a fold, and the inner face carries no chart rule, so the signature move is absent. Its one contribution: it independently reached a ~45&deg; diagonal as the axis, which corroborated the crease angle.</td>
   </tr>
 
   <tr>
     <td class="take">C1 &middot; icon-engineC-c57a8c<small>Engine C raster, GPT Image 2, material reference</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/c1-1024.png" width="160" height="160" alt="Engine C1 raster hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Engine C1 raster at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Engine C1 raster at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Engine C1 raster at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Engine C1 raster at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Engine C1 raster at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Engine C1 raster 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">6 / 12</td>
     <td class="verdict">Won the material read and is the reference the blind panel judged against &mdash; genuinely volumetric frosted gel, a thick translucent edge, a real contact shadow, and the accent visible <em>through</em> the underside. It ships nothing. #1: a freestanding object on white with a 174px top margin, so masking it to the squircle just crops a photograph &mdash; the tile is not a cushion, it is a backdrop. #10: a flat pre-masked raster, the corpus's named 76% failure. And it lost the subject: the form reads as a tilted cone or a paper cup, not a folded sheet, which one judge noted unprompted.</td>
   </tr>
 
   <tr>
     <td class="take">C2 &middot; icon-engineC2-597699<small>Engine C raster, second take, fidelity reference</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/c2-1024.png" width="160" height="160" alt="Engine C2 raster hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Engine C2 raster at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Engine C2 raster at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Engine C2 raster at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Engine C2 raster at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Engine C2 raster at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Engine C2 raster 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">6 / 12</td>
     <td class="verdict">Carried as the fidelity loop's reference because it shares the master's frontal-card geometry, so the residual isolates material instead of arguing about pose. As artwork it fails the same way C1 does &mdash; an inset card on a white backdrop, #1 and #10 &mdash; and it fails one more: its flap is <em>flat</em>, a printed triangle with no occlusion where the V closes. That flatness is why the gate rejected the round that finally gave the master a real crease shadow, and why 20% of the composite (edge F1, 0.057 at 1024) was never winnable: the reference's card edges are 120px inside the master's full-bleed sheet.</td>
   </tr>

@@ -37,68 +37,83 @@
 </head>
 <body>
 <h1>clarify icon — contact sheet &amp; audit</h1>
-<div class="sub">Direction "The Drawn Card" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<div class="sub">Direction "The Drawn Card" &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A · icon.svg<small>hand-authored layered SVG, fidelity round 12 — SHIPS</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/a-1024.png" width="160" height="160" alt="Take A hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">Full-bleed 1024 with the marketplace superellipse as a <em>clip</em>: no baked corner radius, no baked drop shadow. Four real layers (<code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code>) with the drawn card, its bead and the margin note in <code>fg</code>, so identity survives Dark/Clear/Tinted. Value carries the hierarchy and colour is the last ten percent: the two options still in the stack are clay in shade (2.25–3.60:1 against the tile, walls 5.0–6.4:1), the option drawn out of it is porcelain in the light, and the bead clears the bar at 3.04:1 against its own card. Silhouette proof (ground layer subtracted, threshold 0.10) names "three stacked cards, the middle one marked, a note beside it"; at a true 16px it still resolves dark band / light band with a warm mark / dark band. Point deducted at #7 — see liabilities.</td>
   </tr>
 
   <tr>
     <td class="take">A0 · icon-r00-baseline.svg<small>the same master before the fidelity loop — kept as the before</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/a0-1024.png" width="160" height="160" alt="Take A0 hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Take A0 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-128.png" width="64" height="64" alt="Take A0 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a0-96.png" width="48" height="48" alt="Take A0 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Take A0 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Take A0 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Take A0 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">7 / 12</td>
     <td class="verdict">Three cards separated by gaps rather than stacked, so the icon read as a settings list — the sibling <code>armada-sync</code>'s territory — instead of a deck with one card drawn out of it. Materially flat: the extrusion wall rendered as one dead colour, no occlusion anywhere in the stack, and a warm bloom under the bead that read as a stain. Its whole-image contrast spread was 0.214 at 1024 against the reference's 0.351. Lost on #7, #8, #9 and the 32px read; every one of those is what the loop then bought.</td>
   </tr>
 
   <tr>
     <td class="take fail">B · icon-engineB-arrow-954e4a.svg<small>Arrow 1.1 vector take from the spec-as-brief</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/b-1024.png" width="160" height="160" alt="Take B hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">4 / 12</td>
     <td class="verdict">Hard-fails #1: a rounded-corner tile is <em>baked into the artwork</em>, on a 154.6&times;154.9 viewBox that is not square, so it can never be masked with the set's superellipse. No named layer groups at all (#10). Flat CSS-class fills with one linear ramp — no rim, no occlusion, no contact shadow (#8, #9). It did get the brief's structure right: three slabs, a bead on the middle one, three margin strokes. Nothing was salvaged geometrically; its contribution was a negative control showing that the concept survives being drawn by something with no material at all, and that the material is therefore doing separate work.</td>
   </tr>
 
   <tr>
     <td class="take">C2 · icon-engineC-4c230c-2-masked.png<small>GPT Image 2, corpus-referenced — the fidelity reference</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/c2-1024.png" width="160" height="160" alt="Take C2 hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">9 / 12</td>
     <td class="verdict">Won the material comparison, as the pipeline expects, and it is why the master was rebuilt: the cards genuinely <em>overlap</em> into a stack, every arris is a rolled fillet rather than a step, and the bead sits in a recessed well instead of glowing on the surface. Cannot ship — a flat raster is failure mode #10 by definition (no layers to survive tinting), its ground is dead-flat white with no cushion, which the Tahoe grammar names as the previous era's tell, and its focal group spans 75% of the tile against the 55–65% constant. Kept squircle-masked with the set's exact path.</td>
   </tr>
 
   <tr>
     <td class="take">C1 · icon-engineC-9153f5-masked.png<small>GPT Image 2, second take</small></td>
-    <td class="renders">
+    <td><div class="renders">
+      <figure><img src="audit-renders/c1-1024.png" width="160" height="160" alt="Take C1 hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">8 / 12</td>
     <td class="verdict">Same failure class as C2 and a colder, greyer palette that drifts out of the marketplace's warm-porcelain family (#6, #9). Its middle card overlaps its neighbours awkwardly and its margin note breaks into strokes of near-equal length, which reads closer to a menu glyph than to handwriting. Lost the reference slot to C2 on those two counts, not on score alone.</td>
   </tr>
@@ -129,6 +144,6 @@
 <p style="color:#a9bec5;max-width:900px;margin-top:14px">Why the last three rounds ship against the gate: the reference is porcelain cards on a porcelain ground, and at 16px that has almost no value separation between glyph and field — downsampled beside <code>armada-sync</code> and <code>improve-skill</code>, whose glyphs are genuinely dark, the master went to a pale blob with two vermilion specks. The accent survived, so it did not read as broken; the subject did not survive, which is a hard failure of check #4. Converging further on the reference would have made that worse, because the reference has the same weakness and merely hides it behind a flat white ground and heavy shadows. So the two options still in the stack were taken down the value ramp into clay, and the one drawn out of it was left porcelain — the ground never changed register, the glyph did. The measured result is a 16px contrast spread of 0.362 against the reference's 0.326, and a composite that falls by 0.075 at 1024 for it. Gate informs; rubric decides.</p>
 </div>
 
-<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse (<code>squircle-path.txt</code>), never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Lanczos resample for rasters, via <code>render_audit.py</code>.</div>
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse (<code>squircle-path.txt</code>), never a rounded-rect approximation. Sources rendered by <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .</code> at 1024 / 256 / 128 / 96 / 64 / 32 &mdash; <code>rsvg-convert</code> for the SVG takes, Lanczos resample for the masked rasters &mdash; and every image on this page proved to resolve by its <code>check</code> subcommand.</div>
 </body>
 </html>

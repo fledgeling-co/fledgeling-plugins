@@ -1,0 +1,49 @@
+{
+  "takes": {
+    "a": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.265446,
+      "rendered_at": 1787089660.591481
+    },
+    "a0": {
+      "source": "icon-r00-baseline.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.2644045,
+      "rendered_at": 1787089660.854114
+    },
+    "b": {
+      "source": "icon-engineB-arrow-954e4a.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.2550368,
+      "rendered_at": 1787089660.9661162
+    },
+    "c1": {
+      "source": "icon-engineC-9153f5-masked.png",
+      "kind": "png",
+      "source_mtime": 1786275094.2602553,
+      "rendered_at": 1787089661.1363251
+    },
+    "c2": {
+      "source": "icon-engineC-4c230c-2-masked.png",
+      "kind": "png",
+      "source_mtime": 1786275094.2555788,
+      "rendered_at": 1787089661.300462
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
