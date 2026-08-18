@@ -65,6 +65,130 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · mac-craft "The Registered Line" — a cut is a valley, a tool's
+  registration edge is chosen by where its tail goes, and a family accent has a
+  luminance.** Five findings, three of them silhouette properties that no amount
+  of gradient work could have repaired.
+
+  **(a) A groove is a valley cross-section; a monotonic ramp across its width is
+  a lit slope.** Three consecutive rounds drew the scribed cut as [dark flank |
+  bright band | light lip] and all three read as a *raised bar with a drop
+  shadow* — at 48px, as an orange pencil lying on the frame. The construction is
+  wrong in principle: a dark edge on one side and a light edge on the other is
+  the signature of a **convex** form lit from the light side. A valley is dark at
+  BOTH edges with its bright zone off-centre toward the key. It needs a second
+  layer, because it is a second axis: the band's *length* ramp rides the shared
+  key axis, and a separate `userSpaceOnUse` gradient spanning exactly the band's
+  *width* carries the cross-section — stops `0/0.74 → 0.15/0.22 → 0.52/0 →
+  0.88/0.16 → 1/0.46` of a deep accent, over the accent fill. Asymmetric, so the
+  lit flank keeps less shadow than the shadowed one.
+  *Generalise:* a cut is defined by both its edges being darker than its middle.
+  One dark edge and one light edge is a solid, whatever you name the layers.
+
+  **(b) Register a tool on the edge whose TAIL has somewhere to go.** The first
+  draft put the marking gauge on the sash's top rail. Anatomically correct — and
+  visually fatal, because a gauge's beam is perpendicular to the reference edge
+  with its tail behind the stock, and on a near-plan projection that direction is
+  straight up out of the tile. Truncating the tail to fit turned it into a lug and
+  the tool read as a separate object stuck on the frame. Re-registering on the
+  *left stile* points the tail horizontally, where the tile has width and the mask
+  can cut it as a boundary (device #18) rather than clipping it as an accident.
+  *Generalise:* pick the registration edge from the tail's exit direction, not
+  from which face of the work reads best.
+
+  **(c) A tool whose stock sits mid-beam is a plus sign.** With an 82-unit tail
+  and a 62-unit working length, the stock landed in the middle of the visible beam
+  and the whole assembly read as **+** — a UI affordance, not a tool. Push the
+  stock to one end (long tail one side, short working length the other) and it
+  reads as a T. Pure silhouette; invisible in every measurement, obvious in the
+  first second of looking.
+
+  **(d) The porcelain register has a figure-ground ceiling, and the ground truth
+  is sitting on it.** Measured with the dilated-ring method: `apple-18`'s own
+  object median against its ground is **1.92:1**, and the two raster takes for
+  this commission came in at **1.27:1** and **1.40:1**. Rubric #7's 3:1 is
+  reachable in this register only on the *darkest defining mass*, never on the
+  object's median — a mid-tone object on near-white cannot get there without
+  either a near-black object or abandoning the register. So budget the tiers
+  explicitly: focal at ≥3:1 (here the tool, 3.36:1), the object's flanks ≥2.3:1
+  (2.35:1), and record the mid-tone face's shortfall (1.76:1) as a **fail** in
+  the audit rather than lightening the ground or blackening the object to hide it.
+
+  **(e) A family accent has a LUMINANCE, and matching only its hue family reads
+  as a different colour.** The cut was authored at the raster's measured hue
+  (H 17–20°, S 0.84–0.91) and at L 0.30 — and on a 96px shelf strip beside four
+  siblings whose shared `#E9562A` sits at L 0.447, it read brown. Nothing inside
+  the tile said anything was wrong; the tile's own measurements all passed. The
+  fix was to match the siblings' luminance exactly while keeping the subject's own
+  hue point (`#DE5A1E`, H 19, against their shared H 12), which is also what stops
+  a sixth sibling looking like a fifth copy.
+  *Generalise:* joining an existing icon family, take the accent's **luminance
+  from the family** and its **hue from the subject** — and read it on a shelf
+  strip, because that comparison is the only place the error exists.
+
+- **2026-08 · generate-investor-portal "The Strongroom, Open" — a lit interior
+  behind a dark object, and four ways a shared light model lies to you.**
+
+  **(a) A dilated-ring figure-ground measure reports an object against ITSELF
+  when the object carries its own lit face.** The mac-doctor entry's rule (f)
+  replaced hand-placed samples with a 45px `MaxFilter` ring, and this fixture
+  found the ring's own failure mode: the door slab measured **1.07:1** against
+  its surround, which would have been a hard #7 fail on the object the whole
+  device rests on. The ring had swallowed the door's own warm-lit leading edge
+  and the lit zone beyond it, so the measure was comparing the object to its
+  brightest part. Clean patches on either side of the boundary that actually
+  matters returned **2.2–2.5:1** (door face 0.079–0.094 against an unlit back
+  wall at 0.008), with the whole opening at 6.75:1 against the porcelain.
+  *Generalise:* box out the object's own lit faces before believing a ring
+  number, and run both measures — a ring and a patch pair — because their
+  disagreement localises the defect. Neither alone is trustworthy on an object
+  that is also a light-catching surface.
+
+  **(b) A recess's inner faces are lit OPPOSITE to the rim lights of an object
+  standing in front of it, and the sign is computable rather than guessable.**
+  Illumination is `-dot(N, L)`: with the family key travelling down-right, a
+  recess's LEFT inner jamb (normal +x) is a back face and goes to shadow while
+  the RIGHT one is lit, and the soffit is dark while the sill is bright. The
+  first draft copied the object's own pattern — bright on the left, because that
+  is where the key is — and the opening read as a beige picture frame stuck onto
+  the tile rather than as a cut into it. Fixing the sign also makes the two light
+  sources agree, since an interior emitter on the right lights the same jamb the
+  key does. *Generalise:* for a recess, compute each face's sign from the one
+  light vector; do not transfer the lighting of the objects around it.
+
+  **(c) A small feature hung on the scene's shared key axis can land at that
+  ramp's dark end and vanish.** The handwheel and the lower dogging bolt were
+  authored with the shared graphite `userSpaceOnUse` gradient, per "one key, one
+  axis". At their positions on that axis the ramp's *lit* stop is a mid grey, so
+  against a dark door face the wheel read as a ghost and the bolt rendered as a
+  crescent of its own offset shadow with no body at all. Both recovered with two
+  dedicated values each — a lit value that is not on the shared ramp, plus a dark
+  under-shadow. *Generalise:* the shared axis governs **faces**, not hardware. A
+  stud, a boss or a wheel sitting ON a shaded plane is lit by the same key but
+  measured against a different local ground, so it needs its own pair.
+
+  **(d) The porcelain bounce onto a dark body's lower edge is in the corpus, and
+  it is what stops a shaded flank reading as a hole.** Sampled off `apple-12`
+  (Calculator): the dark body's bottom edge reads **V 0.318** against its own
+  middle at **V 0.133** — the tile throws light back up into it. Authoring that
+  as a bottom-anchored porcelain gradient at 0.20 falling to 0 over ~190px, over
+  the body's own ramp, is one path. Without it the flank goes to near-black and
+  the object stops being a face; with it the same geometry reads as satin.
+
+  **(e) The composition trap here was that a dark mass buys the contrast and the
+  accent buys none — and six sketches died proving it.** Rendered as three-value
+  mocks at 1024/128/32/16 before any material was authored, the failures were
+  each a *recognition* error no metric names: a pale bar across an ember disc is
+  a **no-entry road sign**; a dark object with a pale inner panel is an
+  **appliance or a screen**; a dark plate with one cut corner is a **file**; a
+  lone warm dot on a dark mass is a **notification badge**. What survived was a
+  large dark mass on porcelain with the accent spent as *interior light* — 16px
+  luminance contrast **0.050 → 0.266** against a family median of 0.175, and the
+  accent at 4.5% of the tile as a saturated core. *Generalise:* draw the
+  three-value mock and look at it at 16px before authoring anything; the accent
+  is where the meaning goes, and the dark mass is where the legibility comes
+  from. Making the accent bigger buys nothing and costs the register.
+
 - **2026-08 · ship-fleet harbour — a wake is a fan, a bollard is a moulding, and
   a quay bar with equal teeth is a letter.**
 
