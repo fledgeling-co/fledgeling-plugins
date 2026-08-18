@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>better-loop icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 22px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measured table { min-width: 0; width: auto; }
+  .measured th, .measured td { padding: 5px 18px 5px 0; border-bottom: none; font-size: 12px; }
+  .measured td { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>better-loop icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, porcelain register — the stepped rail" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The commission exists because the shipped icon was the same dial as <code>better-goal</code>; the take it replaces is scored in the last row.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Checks 1&ndash;4 clean on the renders, not on imagination: the step, the vermilion shim and the steel saddle are all still separable at 16px, where the tile measures 0.2331 RMS luminance contrast against a family median of 0.1805. Graphite reads 8.98:1 to 11.21:1 against the porcelain. One deduction, on #10: the four layers are there and identity is carried by profile rather than by hue, so a grayscale step is still a step &mdash; but Dark, Clear and Tinted have not been rendered, so that is satisfied by construction and not by test. The wrapped crown on the saddle is salvaged from C1 and C2, which both drew the follower as a clip turned over the rail rather than as a block cut flat.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-2e7a75.png<small>GPT Image 2 raster, corpus-referenced (apple-05 / apple-10 / apple-23), squircle-masked</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C1-1024.png" width="160" height="160" alt="C1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">7 / 12</td>
+    <td class="verdict">The material target, and it did its job: satin graphite with a machined top chamfer, a warm gel block whose shaded face stays saturated, and a clip that wraps the rail. It loses on the two things the icon is about. Fails #2, because the object sits in the upper 45% of the tile with a dead lower half; fails #3 and #4, because it made the rise about a fifth of the rail's own thickness, so at 48px the step &mdash; the whole subject &mdash; is gone and what is left is a bar with a red button on it; and fails #10 as any flat raster does. Salvaged into the master: the wrapped crown on the follower, and the reading that a machined top chamfer running the full length is what makes graphite look cut rather than drawn.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC-cc2708-2.png<small>GPT Image 2 raster, second take, squircle-masked</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C2-1024.png" width="160" height="160" alt="C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">6 / 12</td>
+    <td class="verdict">Same register, worse geometry. It drew two rises rather than one, so the tile now carries two events and the accent no longer marks the only one; that is a metaphor pile-up rather than a step. The rail is thinner again, which pushes #3 and #4 further under, and the composition repeats C1's empty lower half. Kept on disk as the second raster take and scored here rather than quietly dropped.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-bf638b.svg<small>Arrow 1.1 vector take from the spec-as-brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">3 / 12</td>
+    <td class="verdict">Ships no ground at all, so it floats in the Dock: #1 and #7 fail outright, and #2 goes with them because the geometry sits in the lower left of an empty canvas. It also read the shim as a slab lying on top of the raised run rather than as the riser, which inverts the one idea in the brief &mdash; the accent becomes a thing on the rail instead of the difference between two levels. The follower is a floating chevron lit from its own direction, so #5 and #8 fail too. Nothing salvaged; its axonometric treads were already the construction the master uses.</td>
+  </tr>
+
+  <tr>
+    <td class="take">prev · predecessor-dial.svg<small>the icon this commission replaces &mdash; retained for the before row</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/prev-1024.png" width="160" height="160" alt="prev hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/prev-256.png" width="128" height="128" alt="prev at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/prev-128.png" width="64" height="64" alt="prev at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/prev-96.png" width="48" height="48" alt="prev at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/prev-64.png" width="32" height="32" alt="prev at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/prev-32.png" width="16" height="16" alt="prev at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/prev-32.png" width="96" height="96" alt="prev 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Competent and unusable, which is why the score is the least interesting thing about this row. It fails #6, because the accent is scattered across the rim ticks instead of reserved for a focal element &mdash; measured, its warm pixels are 0.75% of the tile spread across a 123&times;98px box, where the shipping take's are 2.41% inside 29&times;59px. It fails #11, because its one nameable device is <code>better-goal</code>'s: same cream dial, same charcoal hub with a cream centre, same needle, same vermilion top dot, separated only by a grey sweep arc and the tick pattern. At 16px it measures 0.1135 RMS contrast against better-goal's 0.1142, and the two are not distinguishable. The 12-point rubric never asks whether an icon is different from its sibling, which is exactly how this shipped.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that keeps the step legible at 16px, and the step is the icon: the vermilion shim's height <em>is</em> the change, so what the tile hands the reader is the delta rather than the state. Non-negotiable checks 1&ndash;4 pass on the actual renders &mdash; the master is masked by the family superellipse from <code>assets/squircle-path.txt</code>, optically centred with a stated bleed, nameable as a filled silhouette, and measured at 0.2331 RMS contrast at 16px against a 36-icon family median of 0.1805. Its material provenance is the corpus rather than prose: the light axis, the porcelain range, the accent's hue band and the fact that a warm gel object's catch is cream rather than white were all sampled off <code>apple-05</code> and <code>apple-10</code> before the first line of the build script, and the follower's wrapped crown came off the raster takes. Known liabilities to revisit: (1) the shim reads 2.79:1 against the graphite on its down-light side, under the 3:1 bar &mdash; it survives because its up-light edge sits against porcelain at 3.22:1, but a deeper graphite or a wider cream catch would fix it properly; (2) the steel saddle is 2.92:1 against the cushion, so the part of it standing above the rail is the weakest element in the tile and is the first thing to go at 32px; (3) the object bleeds the full tile width where the composition guidance asks for 55&ndash;65%, a deliberate use of the edge-bleed device that has not been tested against a Dock full of inset siblings; (4) #10 is satisfied by construction and not by test &mdash; Dark, Clear and Tinted have not been rendered; (5) the doubling backoff, one of the skill's three ideas, is deliberately absent, because every sketch that encoded it spent the warm accent two or three times and turned the tile into a bar chart; (6) the large empty upper-left quadrant is load-bearing for the "mostly silent" reading and is also the thing most likely to read as an unfinished tile to someone who does not know the subject.</div>
+
+<div class="measured">
+<table>
+  <caption class="visually-hidden">Measurements taken on the shipped render</caption>
+  <tr><th scope="col">Measurement</th><th scope="col">Value</th><th scope="col">Reference</th></tr>
+  <tr><td>16px RMS luminance contrast, alpha-masked</td><td>0.2331</td><td>family median 0.1805 across 36 marketplace icons; rank 10 of 36</td></tr>
+  <tr><td>the same, rendered straight to 16px</td><td>0.2329</td><td>agrees with the 256&rarr;16 downsample to within 0.0002</td></tr>
+  <tr><td>the icon this replaces</td><td>0.1135</td><td>better-goal 0.1142 &mdash; the pair were indistinguishable</td></tr>
+  <tr><td>graphite vs porcelain</td><td>8.98:1 to 11.21:1</td><td>rubric #7 bar is 3:1</td></tr>
+  <tr><td>vermilion shim vs graphite</td><td>2.79:1</td><td>under the bar; carried by its porcelain-side edge at 3.22:1</td></tr>
+  <tr><td>steel saddle vs cushion</td><td>2.92:1</td><td>the weakest element, and a stated liability</td></tr>
+  <tr><td>accent share of the tile</td><td>2.41%, inside 29&times;59px</td><td>predecessor 0.75% spread across 123&times;98px</td></tr>
+  <tr><td>SVG master complexity</td><td>24 paths, 4 named layers, 15.0KB</td><td>fidelity.py structure PASS</td></tr>
+</table>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 ../scripts/audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Contrast figures are RMS of gamma-encoded relative luminance on a 16px downsample over pixels with alpha &gt; 0.5, which is the metric the family's earlier commissions used.</div>
+</body>
+</html>
