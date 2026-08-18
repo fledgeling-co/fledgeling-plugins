@@ -80,7 +80,54 @@ the registry can deduplicate:
 ```
 
 `kind` is one of `file`, `command`, `test`, `document`, `url`, `render`,
-`user`.
+`asset`, `user`.
+
+`asset` is an image, diagram or clip the report displays — a captured
+render, a press-kit photograph, a licensed figure, a generated
+illustration. It gets a row like anything else, because an image on an
+evidence page asserts something and a reader is owed its origin. The row
+carries the licence basis alongside the locator:
+
+```json
+{
+  "id": "s9",
+  "kind": "asset",
+  "locator": "assets/queue-depth-panel.png",
+  "title": "staging dashboard at 3,000 events/min",
+  "basis": "captured here",
+  "accessed": "2026-08-09"
+}
+```
+
+`basis` is one of `captured here`, `press kit`, `CC BY 4.0`, `public
+domain`, `vendor drawing`, `generated`. Where the basis cannot be stated,
+the image does not ship — `references/source-imagery.md` carries why, and
+what to write instead.
+
+## Independent testing behind a paywall
+
+A lab that publishes its ranking and keeps the measurements paid — Which?,
+RTINGS, Consumer Reports, Choice, Stiftung Warentest, and the software
+equivalents — is a `document` or `url` source, and a strong one. The row
+shape is what keeps it honest:
+
+```json
+{
+  "id": "c22",
+  "text": "Which? rates the C3 a Best Buy and measured the highest carpet pickup in its 2026 group test.",
+  "kind": "direct",
+  "confidence": "medium",
+  "sources": ["s14"],
+  "support": "Published verdict and Best Buy badge; group test of 14 machines, same carpet and fill level across units.",
+  "limits": "Score and ranking published; the underlying measurements are paywalled. Test year 2026."
+}
+```
+
+The claim is about *what the organisation published*, which is precise and
+checkable, rather than about a number you have seen — and `limits` says so
+in a clause. Refusing such a source because the table is unreachable leaves
+the report arguing from affiliate roundups and vendor claims, which is
+worse evidence rather than more rigorous. Never redraw their tables.
 
 ## Inference rows
 
@@ -145,8 +192,12 @@ judge whether the correction was sound.
 
 - The citation markers and the source registry, generated rather than
   written.
-- The TLDR's claims, selected from the same rows so the two documents
-  cannot disagree.
+- The TLDR section at the top of the report and the TLDR one-pager, whose
+  claims are selected from the same rows so the two cannot disagree.
+- The verdict layer, where the report recommends something: every pick is
+  an inference row naming the claims it rests on
+  (`references/product-verdicts.md`).
+- Every image's caption and provenance line, from its `asset` row.
 - The methods note, which is largely a summary of this file's contents
   for the specific run.
 - The auditor, which reads `claims.json` and the built page and checks

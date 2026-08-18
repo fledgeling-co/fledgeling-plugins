@@ -181,6 +181,47 @@ opening to detail, sources and drill-down. Free exploration is never the
 sole delivery mode — introductory stories measurably do *not* increase
 later exploration.
 
+### The TLDR section — required on every report
+
+Leading with the conclusion is a principle, and principles get
+interpreted. The section is the enforceable form, and **every report ships
+one** as the first content block, in every register.
+
+It is a named `<section id="tldr">`, not a hero with a slogan in it, and it
+holds:
+
+1. **The finding, in one sentence**, cited. The sentence a reader would
+   repeat to someone else.
+2. **The ask** — the cheapest high-payoff action, sized, with a named
+   decision. On a comparison report this is the overall winner
+   (`product-verdicts.md`), so the two are one artifact rather than two
+   summaries competing at the top of the page.
+3. **Three to five cited claims** carrying the argument — the ones a
+   sceptic needs before believing the finding, not the ones that were
+   easiest to establish.
+4. **The one thing that would change it** — the limit, the untested case,
+   the disagreement. A TLDR that reads as settled has hidden the report's
+   own uncertainty in the place a reader is most likely to stop.
+
+Four rules keep it honest:
+
+- **It is a derivation, not a summary written separately.** Every line
+  traces to a ledger row that also appears further down, and to the same
+  row the one-pager uses. Two documents disagreeing about the finding is
+  the failure mode here, and generating both from one ledger prevents it.
+- **Every claim in it carries its marker, in every register.** It is the
+  most-read and most-quoted block, so it is the last place an uncited
+  number may sit.
+- **Its arithmetic is recomputed before shipping**, in each register. A
+  judge recomputed a rival report's opening bullet inside the sixty seconds
+  it was built for and found two of its figures wrong; on a report whose
+  thesis is that nobody was checking, that is the cheapest possible way to
+  lose the reader.
+- **It fits on page one with room left**, because the ask sits at the end
+  of the scrolling report and the reader who stops at the fold still has to
+  leave with the conclusion. If the section fills a sheet on its own, it is
+  a section rather than a summary.
+
 **One claim per block.** Each block carries one `claim_id`; its caption
 states that claim in a sentence; the visual delta changes only the
 encodings supporting it. If a caption contains two independent
@@ -201,6 +242,21 @@ padding costs readers — so a report that has said its piece stops.
 
 ## 4. The motion budget
 
+**Two budgets, and conflating them is why this section used to read as
+grudging about motion.** They answer different questions and a report needs
+both.
+
+| Budget | Answers | Governed by |
+|---|---|---|
+| **Evidence motion** | does this movement help the reader *perceive the data* | the test below, and it is strict |
+| **Interface feedback** | does the reader know their input registered | the micro-interaction tier, and it is mandatory |
+
+A control that does not acknowledge a press reads as broken; a chart that
+animates for delight reads as untrustworthy. The same document owes the
+first and must refuse the second — and neither reaches the ink.
+
+### Evidence motion — the test
+
 **The test.** An animation is admissible only when you can finish:
 
 > *"This motion lets the reader perceive ___ that would otherwise
@@ -220,27 +276,92 @@ week, text-studying participants improved while animation-studying
 participants declined. More staging is not better: extreme staging was
 *worse* than direct animation for value changes (`p=0.024`).
 
+### Interface feedback — the micro-interaction tier, and it is required
+
+Every interactive element carries **default, hover, `:focus-visible`,
+active and disabled**, and every async control carries loading. This is not
+decoration and it is not drawn from the evidence budget: it is the answer
+to *did that work*. A report whose reading toggle, theme control, citation
+markers and disclosures respond to a press with nothing reads as broken
+however good its argument is — and unlike the evidence motion, none of this
+survives into the ink, so it costs the printed document nothing.
+
+The numbers are tight, because the reader is mid-sentence rather than
+watching a show:
+
+- **120–250ms** on a state change, `ease-out` on entry. Under ~100ms reads
+  as instant and jarring; past ~400ms reads as laggy. Never
+  `transition: all`.
+- **The focus ring is never removed without a replacement**, visible in
+  both themes — `:focus-visible { outline: 2px solid var(--focus);
+  outline-offset: 2px }`.
+- **`cursor: pointer` on everything clickable**, including a card or a
+  citation marker acting as one.
+- **The active reading, the active theme and the reader's position are
+  visually distinct**, not merely stored. A reader who cannot see which
+  register they are in has lost the control the document is built around.
+- **A citation preview appears on hover, focus *and* tap**, is hoverable,
+  dismissible and persistent (WCAG 1.4.13), and closes on Escape with focus
+  returning to the marker.
+
+Micro-interactions are exempt from the evidence test and bound by
+`prefers-reduced-motion` like everything else: under `reduce` a state
+change lands instantly rather than not at all. A feedback state that
+disappears under reduced motion has removed the feedback, not the motion.
+
+### The stack, and GSAP as the standing layer
+
 **The stack**, cheapest first:
 
 | Tier | Use for | Why |
 |---|---|---|
+| **Tier 0 — CSS transitions** | every hover, focus, active, disabled and selected state; all of the feedback above | Cheapest possible, no library involved, survives a script failure, absent from print |
 | CSS `animation-timeline: scroll()` / `view()` | Entrance reveals, progress, sticky states | Runs off the main thread. Guard with `@supports`; not Baseline, so never the only carrier of meaning |
 | IntersectionObserver | Discrete state changes | Low cost, universal |
-| GSAP ScrollTrigger | Scrub and pinning CSS cannot express | The technique with the strongest comprehension evidence behind it |
+| GSAP ScrollTrigger | Scrub and pinning CSS cannot express; choreographed sequences needing runtime control | The technique with the strongest comprehension evidence behind it |
 
-GSAP is the standing motion layer on screen, and a report that has a scrubbed
-or pinned moment should load it rather than approximating one. What makes that
-safe here — and what made this file previously say "not mandatory" — is the
-**authored static frame**: every moving block ships the composition that carries
-its claim without the motion, and that one artifact serves print, reduced
-motion, and any browser that does not run the animation. With that contract in
-place, motion costs the printed document nothing, so the question is only
-whether the motion earns its place on screen by the test above.
+Tier 0 stays in CSS even with GSAP loaded. A hover state written as a GSAP
+tween is a library call on every pointer move where a declarative
+transition would do, and it stops working the moment the script does.
 
-Where an argument genuinely has no scrubbed or pinned moment, reveals compile to
-CSS scroll timelines and GSAP is not loaded — say so in the methods note rather
-than reaching for it to look busy. Three readings means a static frame per
-register wherever the figure differs, not one shared frame that matches none.
+**GSAP is a hard requirement on screen. Every report loads it**, and it owns
+the entrance choreography, the reveal sequence as blocks arrive, the
+micro-interaction feedback above, any scrubbed or pinned episode the
+argument has, and any tween between two compiled figure states.
+
+What makes that safe on a document that prints — and what made this file
+previously say "not mandatory" — is the **authored static frame**: every
+moving block ships the composition that carries its claim without the
+motion, and that one artifact serves print, reduced motion, and any browser
+that does not run the animation. With that contract in place, motion costs
+the printed document nothing, so the only question left is whether it earns
+its place on screen by the test above. Three readings means a static frame
+per register wherever the figure differs, not one shared frame that matches
+none.
+
+Where an argument genuinely has no scrubbed or pinned moment, say so in the
+methods note and spend the layer on the reveal choreography and the feedback
+tier rather than reaching for a scrubbed episode to look busy. The layer is
+present either way: an earlier version of this file let a report ship
+without it, and a page whose controls acknowledge nothing is the result.
+
+**Load it pinned, with SRI.** GSAP's plugins are all free including
+commercial use since the Webflow acquisition — no membership, no licence
+key, no private registry, so never generate `.npmrc` auth-token
+instructions. Pin the version, keep `integrity` and `crossorigin`, and
+register plugins once. On a document aiming at zero network requests, GSAP
+is a deliberate exception and the alternative is inlining ~70KB into every
+report; §9 owns the trade. Where a report genuinely has to be offline-clean,
+inline the minified source and say so in the methods note.
+
+**Choreograph with a timeline, not chained delays.** The position parameter
+is the craft — `"-=0.35"` to overlap the previous tween's tail, `"<0.15"` to
+start just after it began, labels for named beats. Overlapping entrances
+read composed; strictly sequential ones read as a slideshow. Use
+`autoAlpha` rather than `opacity` so a faded-out element stops eating
+clicks, set `gsap.defaults()` once as the motion tokens, and put the
+reduced-motion and viewport branches in `gsap.matchMedia()`, which reverts
+its own animations when a condition stops matching.
 
 **three.js is gated, and the gate is high.** Six tests, all of which must pass,
 run against a *claim id* rather than against the topic:
@@ -448,6 +569,55 @@ convergent defaults — Inter, Roboto, Arial, and the purple-gradient-on-
 white register that reads instantly as machine-made. One counterweight:
 cartoon styling and hand-drawn fonts measurably *reduced* perceived
 credibility. Distinctive is not the same as arbitrary.
+
+Two numbers the print research adds that a screen-only rule set misses:
+**display type is tracked** at −0.02 to −0.03em above 48px with a hard floor
+of −0.04em, and all-caps labels at +0.06 to +0.1em. Untracked caps and
+untracked display are the two most reliable machine-made tells, and they
+survive into the PDF where nothing about the motion does.
+
+### Wayfinding, and the controls as content
+
+A reader opening the file a month later, or landing on a heading from a
+search, has to answer *where am I, what can I do here, what happens next*
+without scrolling to find out. On a long single document with three
+registers:
+
+- **The active register is visible at all times**, not only inside the
+  control. A reader who cannot tell which of three readings they are in
+  cannot trust what they are reading.
+- **Position is legible** — a running header, numbered blocks, or a section
+  label. Pick one; three is chrome, and the printer flattens two of them
+  anyway.
+- **Every heading is a claim rather than a label.** "The reach of the two
+  calls is not the same" is something a reader can disagree with; "Process
+  topology and the extension contract" is a filing label. A report whose
+  headings are all noun phrases has a table of contents where its argument
+  should be — and it fails wayfinding too, because a label does not tell a
+  scanning reader whether to stop.
+- **Deep links land where they say.** Every block and registry entry has a
+  stable id, and `scroll-margin-top` clears any sticky chrome so an anchored
+  heading is not hidden under it.
+- **Persistent chrome reserves its own space.** A floating control that
+  overlaps the text is occlusion even when it happens to miss the last
+  line, and it will cover whatever the next revision puts there. Reserve
+  the band and size the content against the reduced box.
+
+The **reading control** is the document's primary control, so it takes the
+treatment one gets: a real `<label>`-wrapped radio group that works with
+script off, a visible selected state, a visible focus ring, and hit targets
+at **44×44px** as the craft floor — 24×24 is the WCAG 2.2 AA minimum, and it
+is a floor rather than a target. The **theme control** is script-created on
+purpose, because with JavaScript off the page already follows the OS
+preference and a dead button would be worse than none.
+
+**Design the states rather than reading a rule about them.** Fill a grid
+before building: rows for the reading control, the theme control, a citation
+marker, a figure, an interactive figure and the registry; columns for
+default, hover, focus, active, selected, and loading and error wherever the
+element fetches anything. Every cell carries its real treatment or `n/a`
+with a reason. A categorical instruction — "all states designed" — ships as
+one state; a grid with cells in it does not.
 
 ---
 

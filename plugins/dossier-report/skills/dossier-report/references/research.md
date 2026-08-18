@@ -36,6 +36,36 @@ For a report page the highest-value subtopic is usually **what is
 contested**. A page whose centre is a live disagreement reads as
 authored; a page that resolves everything reads as a summary.
 
+## When the question is which one to buy
+
+A buying or adoption question needs a differently-shaped brief, because
+the corpus a general research prompt returns is dominated by affiliate
+content that exists to rank rather than to inform.
+
+- **Name the independent testing organisations as subtopics.** Which?,
+  RTINGS, Consumer Reports, Choice, Stiftung Warentest, the relevant trade
+  lab. Ask for their published verdicts, their stated protocols, and the
+  dates of the group tests. This single change is what separates a corpus
+  of measurements from a corpus of opinions.
+- **Ask for the dimensions buyers actually split on**, not a feature
+  matrix — what fails first, what the running cost is, what the repair
+  story is, what the licence or subscription does over three years. These
+  become the categories in `product-verdicts.md`.
+- **Ask what the enthusiast consensus disagrees with the labs about.** The
+  split is a finding, and it is usually where the interesting page is.
+- **Exclude explicitly**: affiliate roundups with no stated method,
+  retailer star averages, and vendor benchmark claims. Excluding them is
+  what stops the panel spending its budget on them.
+- **Bound the model years.** A group test of a line refreshed since is
+  evidence about things nobody can buy, and the panel will happily return
+  it.
+
+**A paywalled verdict is admissible and valuable.** Where a lab publishes
+its ranking and keeps the measurements behind a paywall, cite the ranking
+as the ranking it is, name the protocol from the free portion, and record
+in `limits` that the underlying numbers are not public. Never redraw their
+tables. `product-verdicts.md` carries the full rule and the reasoning.
+
 ## Read in full — the gate
 
 This is the rule the whole skill exists for. Two pages in this repo were

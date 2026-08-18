@@ -1,7 +1,7 @@
 ---
 name: report
 description: >-
-  Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, builds animated and interactive visualisations pitched at each reading, and routes design through design-craft and ux-craft. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report", "/report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).
+  Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry, and every report opens with a named TLDR section carrying the finding, its supporting claims, the one thing that would change it and the ask. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched, renders captured) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Comparison and evaluation work additionally ships a verdict layer: three ranked picks in each of the categories readers actually differ on, plus one overall winner with its cost, its weaknesses and a named decision — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, animates throughout with GSAP including the micro-interaction feedback on every control, builds figures through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time, uses imagery from the evidence trail with full provenance, and routes every visual and flow decision through design-craft and ux-craft with a Mobbin trawl behind the layout. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report", "/report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly", "which of these should we use" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).
 ---
 
 # Writing the session up
@@ -45,9 +45,9 @@ Read it when you need to justify or tune a rule, not on every run.
 | 0 | Scope the report | — |
 | 1 | Harvest the evidence trail into a claim ledger | — |
 | 2 | Write the three readings of every claim | `create-luke-content` |
-| 3 | Resolve the design system, light and dark | project `DESIGN.md`, or `design-craft` |
+| 3 | Resolve the design system, light and dark | project `DESIGN.md`, or Mobbin MCP + `/trawl` + `design-craft` |
 | 4 | Compose the argument as page-safe blocks | `ux-craft` |
-| 5 | Build the page | `design-craft`, `ux-craft`, `create-luke-content`, `dataviz` |
+| 5 | Build the page | `design-craft`, `ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content` |
 | 6 | Derive the TLDR one-pager | — |
 | 7 | Export, audit, fix | `scripts/`, `design-review` |
 
@@ -66,8 +66,21 @@ sheet gives it, and say so rather than shipping it silently.
 straight into markup — layout, the reading control, theme, motion and
 every visual decision. `design-craft` owns the visual craft and the
 anti-slop discipline; `ux-craft` owns flow, states, and the copy that
-labels a control. Where either is not installed, say which substitution
-you made in the methods note.
+labels a control. Neither is a gesture at a skill name: load `design-craft`
+and read its `references/mobbin-trawl.md` before settling the skeleton, its
+`references/gsap-motion.md` before writing a timeline, its
+`references/data-viz.md` before the first figure, and
+`references/visitor-modes.md` for the Read-surface rules that govern a
+document whose reader is here to understand something. From `ux-craft`, the
+non-negotiables and its state grid bind the controls. Where either is not
+installed, say which substitution you made in the methods note.
+
+**Five things carry hard requirements on every run**, each with a gate
+behind it rather than a request: `design-craft` and `ux-craft` on every
+visual and flow decision, `dataviz` on every figure, the Mobbin trawl
+behind the skeleton, GSAP as the motion layer on screen, and the TLDR
+section at the top. A run that skipped one says so in the methods note; a
+run that skipped one silently is the failure this list prevents.
 
 ## Phase 0 — Scope it from what you already have
 
@@ -115,6 +128,33 @@ output, a research report in the repo, a URL that was actually fetched, a
 test run, a screenshot. **What does not**: recollection, a plausible
 figure, a statistic you know but did not check here. Those are either
 labelled inference with their basis named, or cut.
+
+**An independent lab's published verdict counts, even without the raw
+numbers.** Which?, RTINGS, Consumer Reports, Choice and Stiftung
+Warentest — and their software equivalents, a benchmark with a published
+methodology and a private dataset — run the tests nobody else runs, and a
+paywall over the measurements does not make the verdict weak evidence.
+Cite the ranking as the ranking it is, name the protocol from the free
+portion, record in `limits` that the underlying numbers are not public,
+and stamp the test year. Declining it leaves the report arguing from
+affiliate roundups and vendor claims, which is worse evidence, not more
+rigorous. `references/product-verdicts.md` carries the rule.
+
+### The verdict layer, when the report recommends something
+
+Where the session was choosing between things — libraries, vendors,
+models, services, hardware, architectures — the ledger gains a verdict
+layer, and `references/product-verdicts.md` is the contract: **3–6
+categories** derived from how readers actually differ, **three ranked
+picks** in each with what they cost and what the runner-up does better,
+and **one overall winner** with what it loses on and what would change it.
+
+Two integrations matter. **A ranking is an inference**, so every pick is
+`kind: "inference"` with a non-empty `from` — a pick rendered as a finding
+is the strongest claim in the document wearing no evidence, and the
+auditor fails it. And **the winner is the report's ask**, so it carries a
+size and a named decision rather than sitting beside a second summary at
+the top of the page.
 
 The build fails on three things, and each has burned a real page: a
 quantitative or attributed claim with no source; a source that supports
@@ -186,12 +226,49 @@ justifying it, a type pairing that belongs to this material, and a motion
 signature with a perceptual job.
 
 **Look at real editorial and data-heavy pages before settling the
-skeleton.** Where the Mobbin MCP is installed, `search_sections`
-(`platform: web`) returns shipped versions of the blocks a report is made
-of — comparison tables, stat rows, evidence callouts, long-form reading
-surfaces. Two searches, images opened, and a line in the report's
-direction comment naming what you took. The trawl feeds structure and
-density, never identity; the palette still comes from the subject.
+skeleton.** Where the Mobbin MCP is installed, `search_sections` returns
+shipped versions of the blocks a report is made of. It takes only a query
+— sections are web by definition, so there is no `platform` parameter to
+pass; `search_screens` and `search_flows` do take one. Run two or three
+aimed searches, describing what is on the screen rather than how it should
+feel:
+
+- `"long-form article with sidenotes and inline citations"`
+- `"comparison table with recommended option highlighted"`
+- `"statistics section with large figures and short labels"`
+
+**Open the images.** A result you did not look at is a result you did not
+use. For each one worth keeping, ask what it is doing that a generated
+page would not have thought to do — where the eye lands and what earned
+that, how dense the first screen is (generated layouts are reliably
+sparser than shipped ones, and sparse reads as unfinished rather than
+calm), what carries the identity when the logo is off screen, and what is
+deliberately plain.
+
+**Write the ledger into the report's `DESIGN.md`**, because an
+instruction-only step has a measured history of being skipped and a ledger
+is the difference between a trawl and a claim about one:
+
+```
+MOBBIN TRAWL
+  q1  "long-form article with inline citations and a source list"  → 14 results, opened 4
+  q2  "comparison table with recommended option highlighted"       → opened 3
+  TOOK  the recommended column is a raised card, not a badge (q2)
+  TOOK  density: 9 elements above the fold, not 4
+  LEFT  the tinted full-bleed section bands — identity, not a mechanism
+```
+
+`LEFT` matters as much as `TOOK`: it records that you looked at something
+distinctive and declined to lift it. **Structure, density, sequence and
+state coverage transfer; identity never does** — the palette still comes
+from the subject. Where the MCP is not installed, say so in one line and
+substitute deliberately rather than implying a reference pass happened.
+
+**Then diverge with `/trawl` where the skeleton is genuinely open**, giving
+it the subject matter as frame material. Reference tells you what shipped
+pages do; divergence is what stops this report looking like the last one.
+Skip it for a report whose project `DESIGN.md` already binds the layout —
+there is nothing open to diverge on.
 
 **Between reports, vary the skeleton, not the palette.** Layout
 similarity across the web fell 44% in a decade and the strongest
@@ -243,6 +320,17 @@ row group, or a caption away from its chart.
   readers who never arrive. The TLDR is the top of the full report, not
   only a separate file.
 
+  **It is a named section, and every report has one.** Leading with the
+  conclusion is a principle and principles get interpreted;
+  `<section id="tldr">` as the first content block is the enforceable form.
+  It holds the finding in one sentence, three to five cited claims, the one
+  thing that would change it, the ask, and — where the report recommends
+  something — the verdict with its cost and its as-at date. It is a
+  derivation from the ledger rather than a summary written separately, every
+  claim in it carries its marker in every register, and its arithmetic is
+  recomputed before shipping. `references/report-craft.md` §3 carries the
+  contract.
+
   **The finding is not the whole job.** A blind panel of six judges split
   cleanly: the editorial and design lenses preferred this skill's output
   four times out of four, and both judges reading as *the person receiving
@@ -286,14 +374,29 @@ row group, or a caption away from its chart.
   fails safe.
 - **Native scrolling is untouched.** No wheel, momentum, direction or
   history override; `normalizeScroll()` is prohibited.
+- **The report is a Read surface, so comprehension outranks expression.**
+  Prose at 45–75 characters, body at 17–19px with 1.5–1.6 leading,
+  hierarchy from size and space rather than stacked styles, and the active
+  register and the reader's position legible at all times. A reader opening
+  the file a month later, or landing on a heading from a search, has to be
+  able to tell where they are. Resist the three habits that arrive from
+  product UI: a KPI strip where a sentence and one number would do, cards
+  around prose that was already readable, and an orchestrated entrance on a
+  document someone may open to check one fact.
+  `references/report-craft.md` §7 carries the typography, and
+  `design-craft`'s `references/visitor-modes.md` the mode it belongs to.
 
 ## Phase 5 — Build the page
 
 Route the layout to `design-craft` and the flow and states to
 `ux-craft`. Route **every word of prose** to `create-luke-content` —
 headline, standfirst, block copy, chart captions, the closing note, once
-per reading. Charts go through `dataviz` for form and colour, and
-`references/visualisation.md` for which form each register gets.
+per reading. **Route every figure's form and colour through `dataviz`** —
+it owns the form heuristic and the palette formula, and a report that
+argues from numbers and picks its own chart colours has spent the
+credibility its evidence bought. `references/visualisation.md` carries the
+three build lanes — native CSS/DOM, TanStack Charts compiled to static SVG
+at build time, and hand-authored SVG — plus which form each register gets.
 
 Where one of those isn't installed, use this skill's own
 `references/report-craft.md` and `references/design-system.md` in its
@@ -328,27 +431,82 @@ reading as a squeezed table. `design-review` measures the ink; the
 auditor here catches the cheap form. A run of this skill against an
 already-published page returned twenty violations.
 
-**Motion is standard on screen and absent from the ink.** Load GSAP when
-an argument has a scrubbed or pinned moment and use CSS scroll timelines
-for reveals, which run off the main thread. Every moving block ships an
-authored static frame that doubles as the reduced-motion branch and the
-print frame — three readings means a static frame per register wherever
-the figure differs. `references/report-craft.md` carries the tiering, the
-GSAP hazards, and the six-test gate before any three.js reaches a report.
+**Motion is standard on screen and absent from the ink, and GSAP is a hard
+requirement.** Every report loads it, and it animates throughout on screen
+— the entrance choreography, the reveal sequence as blocks arrive, the
+micro-interaction feedback on the reading toggle, theme control, citation
+markers and disclosures, and any scrubbed or pinned episode the argument
+has. `references/report-craft.md` §4 carries the two budgets and why they
+do not conflict: **evidence motion** is strict and must justify itself
+against a perceptual test, while **interface feedback** is mandatory
+because a control that acknowledges a press with nothing reads as broken
+however good the argument is. Tier-0 hover and focus transitions stay in
+CSS even with GSAP loaded.
 
-**Imagery** through `media-gen-pro`, only where a picture genuinely
-carries something prose does not, and never for charts, numbers, labelled
-diagrams, tables or anything with exact text — image models garble those
-and re-prompting garbles them differently. Say what a run will spend
-before spending it.
+What makes that safe on a document that prints is the **authored static
+frame**: every moving block ships the composition that carries its claim
+without the motion, and that one artifact serves print, reduced motion, and
+any browser that does not run the animation. Three readings means a static
+frame per register wherever the figure differs. So motion costs the printed
+document nothing, and the only question left is whether it earns its place
+on screen.
 
-Every generated asset carries a caption naming what it is, and the
-methods note records that it was generated. An illustration a reader
-could mistake for a photograph of the thing under discussion is a
-provenance failure, not a decoration choice — the same rule the claim
-ledger applies to numbers. Diagrams and vector artwork go through
-`media-gen-pro`'s `svg: true` path, which returns editable vector rather
-than a raster imitation of one, and which also survives print at any size.
+`references/report-craft.md` also carries the GSAP hazards and the six-test
+gate before any three.js reaches a report.
+
+### Imagery — from the evidence trail first, generated second
+
+`references/source-imagery.md` is the contract. Two requirements sit above
+the detail.
+
+**Where the evidence trail holds images the argument needs, the report uses
+them.** A render or screenshot the session itself produced is the strongest
+option here — it is the same class of evidence as a command's output, it
+can be remade, and the ledger already has a row shape for it. After that:
+the vendor's own press asset, a source's openly-licensed figure, a
+generated illustration, an honest placeholder. An image found by search
+with no traceable origin is not admissible in a document that gets
+forwarded.
+
+**An image is a claim, so it carries provenance**: a caption naming what it
+is, a citation marker into the shared registry, a registry row recording
+the origin, the licence basis and the date, and alt text describing what
+matters about it rather than what it is of. Assets live in `assets/`
+referenced relatively, and the figure and its caption are one `<figure>`
+with `break-inside: avoid` — otherwise the printer separates them and the
+caption opens the next sheet describing something the reader can no longer
+see.
+
+Never reproduce a paywalled publisher's own figures, and never let the
+working path into a caption: `./fixture/dashboard.png` tells the reader you
+analysed a fixture.
+
+**Generated stills and clips through `media-gen-pro`**, only where a
+picture genuinely carries something prose does not, and never for charts,
+numbers, labelled diagrams, tables or anything with exact text — image
+models garble those and re-prompting garbles them differently:
+
+- **Every generated asset is captioned as generated**, in words a skimming
+  reader cannot miss, and the methods note records it. An illustration a
+  reader could mistake for a photograph of the thing under discussion is a
+  provenance failure, not a decoration choice — the same rule the ledger
+  applies to numbers.
+- **Diagrams and vector artwork use the `svg: true` path**, which returns
+  editable vector rather than a raster imitation of one, keeps its text as
+  text, and survives print at any size.
+- **Hold one visual language across the set** — pass the first accepted
+  illustration back as `referenceImages` on later calls and put the design
+  system's palette in `context`. Four illustrations prompted from scratch
+  have four styles and read as four sources.
+- **A generated clip is the narrow case and it is screen-only.**
+  `generate_video` earns its place where the change over time *is* the
+  evidence; generate the still first and pass it as `sourceImage` so the
+  poster and the clip agree. Five seconds, one motion, `muted`,
+  `playsinline`, `controls`, no autoplay, and the poster is the printed
+  figure. No claim lives only in the clip — the PDF has to carry the same
+  argument without it.
+- **Say what a run will spend before spending it**, and report the actual
+  after.
 
 Two things measured by putting a real generated image through the whole
 path. **Resize it to the width it displays at** before wiring it in: a
@@ -358,16 +516,6 @@ finding still comes first** — a full-width hero at the top pushes the
 conclusion below the fold on screen and onto page two in print, which
 costs more than the picture is worth. Put imagery after the finding, or
 beside it.
-
-Two things measured by putting a real generated image through the whole
-path. **Resize it to the width it displays at** before wiring it in: a
-614KB hero arrived at 1408px and nearly doubled the PDF on its own, and a
-report with three of them is several megabytes of attachment. And **the
-finding still comes first** — a full-width hero at the top pushes the
-conclusion below the fold on screen and onto page two in print, which
-costs more than the picture is worth. Put imagery after the finding, or
-beside it.
-
 **Self-contained**: one file, aiming at zero network requests. Inline the
 CSS, the data and the static fallbacks. A webfont is a live CDN
 dependency on a document meant to outlast the CDN; prefer a system stack
@@ -419,7 +567,16 @@ The auditor checks citation integrity both ways, **each reading
 independently**, the per-claim marker in every register that renders it,
 ledger-to-page agreement, the reading parity of the ledger, divider
 gutters, the theme contract, self-containment, reduced-motion, print
-rules, and accessibility basics. Errors block; warnings are for the
+rules, and accessibility basics.
+
+Five gates cover the hard requirements: **tldr** (the section exists, leads,
+is cited, and renders in every register), **gsap** (the motion layer is
+loaded and the micro-interaction states are declared), **verdict** (every
+pick in a recommendation set is an inference with a non-empty `from`, and
+the winner names what it loses on), **imagery** (every image has a caption,
+a provenance line and a registry row, generated assets say so, and no video
+autoplays), and **figures** (every meaningful figure carries a text
+alternative stating its conclusion). Errors block; warnings are for the
 reader.
 
 Then `design-review` against the real render — **six captures, not one**:
@@ -452,6 +609,16 @@ before it saves time.
   rewritten, not re-cited.
 - **"The session did not establish this" is publishable.** Reaching for
   a weaker source, or a remembered figure, is not.
+- **A paywalled lab verdict is a source, and a good one.** Cite the
+  published ranking as the ranking it is, name the protocol, record in
+  `limits` that the measurements are not public, stamp the test year, and
+  never redraw their tables. The free alternatives are worse evidence, so
+  declining a paywalled verdict makes the report weaker rather than more
+  rigorous.
+- **A comparison report recommends.** Where the session was choosing
+  between things, the categories, the three ranked picks and the overall
+  winner are the deliverable — and the winner is the report's ask, sized
+  and owned. A ranking is an inference and renders as one.
 - **Characterise uncertainty no more strongly than the evidence does.**
   Overclaiming about the corpus is the same defect as overclaiming from
   it.

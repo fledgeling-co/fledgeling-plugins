@@ -1,7 +1,7 @@
 ---
 name: dossier-report
 description: >-
-  Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry. Every page gets its own visual language, light and dark, GSAP motion, conditional three.js, animated and interactive visualisations pitched at each reading, captioned generated imagery and vector artwork, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
+  Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry, and every page opens with a TLDR band carrying the finding, its supporting claims and the one thing that would change it. Product and buying research additionally ships a verdict layer: three ranked picks in each of the categories buyers actually differ on, plus one overall winner with its cost, its weaknesses and the reasons written out — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Every page gets its own visual language, light and dark, GSAP motion and micro-interactions throughout, conditional three.js, animated and interactive visualisations pitched at each reading — built through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time — imagery taken from the research sources themselves with full provenance, generated stills and clips where a picture carries what prose cannot, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Design direction comes from a trawl of real shipped UI via the Mobbin MCP plus divergent ideation, and every visual and flow decision routes through design-craft and ux-craft. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page, a buying guide or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W", "which X should I buy", "compare the best X", "what's the best X for Y" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
 ---
 
 # Publishing a research page
@@ -37,11 +37,11 @@ Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
 | 1 | Diverge on research angles | `/trawl` |
 | 2 | Run the panel, read all of it | Dossier MCP |
 | 2.5 | Settle what the panel disputes | the artifact itself |
-| 3 | Compile the claim graph | — |
+| 3 | Compile the claim graph, and the verdict where there is one | — |
 | 4 | Name, aesthetic and icon concept | `/clarify` |
-| 5 | Diverge on visual direction | `/trawl` |
+| 5 | Diverge on visual direction | Mobbin MCP, `/trawl` |
 | 6 | Write the three readings | `create-luke-content` |
-| 7 | Build the page | `design-craft`, `ux-craft`, `create-luke-content`, `dataviz` |
+| 7 | Build the page | `design-craft`, `ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content` |
 | 8 | Build the page icon | `create-mac-icon` |
 | 9 | Audit, index, ask before deploy | `design-review` |
 
@@ -49,8 +49,22 @@ Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
 lens** — the aesthetic direction, the reading control, the theme, layout,
 motion, states and the copy that labels a control. `design-craft` owns the
 visual craft and the anti-slop discipline; `ux-craft` owns flow, states
-and interface words. Where either is unavailable, say which substitution
-you made in the methods note.
+and interface words. Neither is a gesture at a skill name: load
+`design-craft` and read its `references/mobbin-trawl.md` before committing
+a direction, its `references/gsap-motion.md` before writing a timeline,
+its `references/data-viz.md` before the first figure, and
+`references/visitor-modes.md` for the Read-surface rules that govern a page
+whose visitor is here to understand something. From `ux-craft`, the
+non-negotiables and its state grid bind the controls. Where either is
+unavailable, say which substitution you made in the methods note.
+
+**Six skills carry hard requirements on every run**, and each has a gate
+behind it rather than a request: `design-craft` and `ux-craft` on every
+visual and flow decision, `dataviz` on every figure, `/trawl` on both the
+research angles and the aesthetic, the Mobbin MCP on the layout reference,
+and GSAP as the motion layer. A run that skipped one says so in the
+methods note; a run that skipped one silently is the failure this list
+exists to prevent.
 
 
 ## Phase 0 — Sharpen the brief before spending
@@ -106,6 +120,18 @@ into the page as stated uncertainty rather than silently picking a side.
 A member that finishes early is one backend's answer. Do not read it to
 fill the wait and do not report from it: support is counted in
 independent domains, not in how many backends agreed.
+
+**When the question is which one to buy, the brief asks for the labs by
+name.** Enumerate the independent testing organisations that cover the
+category — Which?, RTINGS, Consumer Reports, Choice, Stiftung Warentest,
+the relevant trade lab — and ask for their published verdicts and stated
+protocols alongside the general findings. **A verdict whose raw
+measurements sit behind a paywall is still high-value evidence**, and
+often the best available: refusing it because the table is unreachable
+leaves the page arguing from affiliate listicles and vendor claims, which
+are systematically worse. `references/product-verdicts.md` carries how to
+cite one honestly, what to record in `limits`, and why their
+disagreements are findings rather than problems.
 
 ## Phase 2.5 — When they disagree about what *exists*, go and look
 
@@ -174,6 +200,32 @@ cited source supports only a nearby proposition rather than the claim
 itself, or if something assembled by reasoning is rendered as an
 empirical finding. Inferences are labelled as inferences on the page.
 
+### The verdict layer, when the page recommends something
+
+A page about which thing to get owes an answer, and a survey of the
+field is not one. Where the question is a choice — hardware, appliances,
+software, models, services, plans — the graph gains a verdict layer and
+`references/product-verdicts.md` is the contract:
+
+- **3–6 categories**, each derived from how buyers actually differ rather
+  than from a spec sheet's headings, each with a line saying who it is
+  for. A category the corpus never examined does not ship; the gap is
+  named instead.
+- **Three ranked picks per category**, each carrying what it is best at,
+  what it costs, the claims it rests on, what would change it, and the
+  genuine thing the runner-up does better. Fewer than three is a
+  legitimate answer.
+- **One overall winner**, with the reasons written out as prose a reader
+  can disagree with, what it loses on, and what would change it. "No
+  overall winner" is publishable where the field genuinely splits.
+- **Every pick is `kind: "inference"` with a non-empty `from`.** A ranking
+  is assembled by reasoning across claims, so it is marked as reasoning —
+  a pick rendered as a finding is the strongest claim on the page wearing
+  no evidence, and the auditor fails it.
+
+The winner is also the page's TLDR first line, so this phase decides what
+the reader meets before anything is designed.
+
 ## Phase 4 — Name, aesthetic and icon concept
 
 Run `/clarify` again, now that the research is read and you can describe
@@ -189,16 +241,56 @@ what the page is actually about.
 
 ## Phase 5 — Diverge on visual direction
 
-Trawl reference before diverging, where the MCP is installed: `search_sections`
-(`platform: web`) on the block types this report is made of — evidence callouts,
-comparison tables, stat rows, long-form reading surfaces. Two searches, images
-opened, and one line in the direction record naming what transferred. Structure
-and density transfer; identity does not.
+Two inputs, in this order: reference evidence from real shipped UI, then
+divergence against it. Doing them the other way round produces a direction
+that has to be retrofitted onto what real pages actually do.
 
-Run `/trawl` on the aesthetic before designing, and give it the subject
-matter as the frame material. This is what makes each page different from
-the last, and skipping it is how a producer of many pages converges on
-one look.
+**Trawl the Mobbin MCP first.** `search_sections` returns shipped web
+sections and takes only a query — sections are web by definition, so
+there is no `platform` parameter to pass; `search_screens` and
+`search_flows` do take one. Run **two or three aimed searches** on the
+block types this page is made of, and describe what is on the screen
+rather than how it should feel:
+
+- `"long-form article with sidenotes and inline citations"`
+- `"comparison table with recommended option highlighted"`
+- `"statistics section with large figures and short labels"`
+- `"report page with sticky section navigation"`
+
+**Open the images.** A result you did not look at is a result you did not
+use, and the metadata names an app without saying why its section works.
+For each one worth keeping, ask what it is doing that a generated page
+would not have thought to do — where the eye lands and what earned that,
+how dense the first viewport is (generated layouts are reliably sparser
+than shipped ones, and sparse reads as unfinished rather than calm), what
+carries the identity when the logo is off screen, and what is deliberately
+plain.
+
+**Write the ledger into the direction record**, because an
+instruction-only step in this pipeline has a measured history of being
+skipped and a ledger is the difference between a trawl and a claim about
+one:
+
+```
+MOBBIN TRAWL
+  q1  "long-form article with inline citations and a source list"  → 14 results, opened 4
+  q2  "comparison table with recommended option highlighted"       → opened 3
+  TOOK  the recommended column is a raised card, not a badge (q2)
+  TOOK  density: 9 elements above the fold, not 4 — every result was denser than our draft
+  TOOK  citation markers sit in the margin, not inline, above 1100px (q1)
+  LEFT  the tinted full-bleed section bands — identity, not a mechanism
+```
+
+`LEFT` matters as much as `TOOK`: it records that you looked at something
+distinctive and declined to lift it, which is the line between reference
+and imitation. **Structure, density, sequence and state coverage transfer;
+identity never does.** Where the MCP is not installed, say so in one line
+in the methods note and substitute deliberately — never imply a reference
+pass happened.
+
+**Then run `/trawl` on the aesthetic**, and give it the subject matter as
+the frame material. This is what makes each page different from the last,
+and skipping it is how a producer of many pages converges on one look.
 
 The evidence is blunt about why: measured across ~2M pairwise
 comparisons, layout similarity fell 44% over a decade, and the strongest
@@ -253,6 +345,15 @@ The **finding** and the page's **editorial tension** may never be omitted
 — a register that resolves the tension the other two leave open is a
 different page.
 
+**The TLDR band is written three times, like everything else.** It is the
+most-read block on the page, so it takes the same discipline: the finding
+in one sentence, three to five cited claims, the one thing that would
+change it, and — on a page that recommends something — the verdict with
+its cost and its as-at date. Every line is a derivation from a claim that
+also appears further down; a TLDR written separately from the graph is how
+a page ends up disagreeing with itself about its own finding.
+`references/page-craft.md` §1 carries the band's contract.
+
 Route every word through `create-luke-content`, once per reading, from
 the claim graph rather than by rewriting another register. The voice does
 not change across registers: Luke writing for an eleven-year-old is still
@@ -292,6 +393,20 @@ The rules that matter most, in short:
   arrivals leave immediately, and only a quarter pass the 1,600th pixel
   of a 2,000-pixel article. A structure that withholds the finding until
   state twelve is built for the readers who never arrive.
+- **Every page opens with a TLDR band**, and it is the enforceable form of
+  the rule above: a named `<section id="tldr">` holding the finding in one
+  sentence, three to five cited claims, the one thing that would change it,
+  and the verdict where the page recommends something. It is derived from
+  the claim graph rather than written separately, every claim in it carries
+  its marker in every register, and its arithmetic is recomputed before
+  shipping. `references/page-craft.md` §1 owns the contract.
+- **The page is a Read surface, so comprehension outranks expression.**
+  Prose at 45–75 characters, body at 17–19px with 1.5–1.6 leading,
+  hierarchy from size and space rather than stacked styles, and the active
+  register and section position legible at all times. A reader landing
+  mid-page from a shared link has to be able to tell where they are.
+  `references/page-craft.md` §11 carries the reading surface,
+  `design-craft`'s `references/visitor-modes.md` the mode it belongs to.
 - **Martini glass by default** — authored stem, then open to sources,
   data and drill-down.
 - **One claim per scroll state**, with one visual delta that supports it.
@@ -322,9 +437,12 @@ The rules that matter most, in short:
 - **Charts are validated at generation**: axes, baselines, units,
   intervals, legends, uncertainty. Truncation inflates perceived
   differences by 58–130%, and instructing readers does not fix it.
-  Route form and colour through `dataviz`, and
-  `references/visualisation.md` for which form each register gets and
-  what may move or be interactive in it.
+  **Route every figure's form and colour through `dataviz`** — it owns the
+  form heuristic and the palette formula, and a page that argues from
+  numbers and picks its own chart colours has spent the credibility its
+  evidence bought. `references/visualisation.md` carries the three build
+  lanes, which form each register gets, and what may move or be
+  interactive in it.
 - **A vertical rule is drawn in a gap, never beside words.** At least
   24px between a rule and the nearest text at 900px and wider, 16px
   below, on **both** sides. Measured from the text's ink to the line, not
@@ -346,40 +464,78 @@ hand-writing it — the sticky masthead marketing Dossier and Margin
 discreetly, and the overt closing band. Both are required on every page.
 It is the one constant between pages, which is why it is a script.
 
-**GSAP is the standing motion layer and every page loads it.** It owns at
-least one scrubbed or pinned episode; simple reveals still compile to CSS
-scroll timelines underneath, which run off the main thread. If an
-argument genuinely has no scrubbed or pinned moment, say so in the
-methods note rather than quietly shipping without GSAP — an eval run
-reasoned its way to zero GSAP from the tiering rules alone, which is
-defensible on the evidence and is not the house rule.
+**GSAP is a hard requirement. Every page loads it, and it animates
+throughout** — the choreographed entrance, the reveal sequence as sections
+arrive, the micro-interaction feedback on the reading toggle, theme
+control, citation markers, filters and disclosures, at least one scrubbed
+or pinned episode where the argument has one, and any tween between two
+compiled figure states. `references/page-craft.md` §2 carries the two
+budgets and why they do not conflict: **evidence motion** is strict and
+must justify itself against a perceptual test, while **interface
+feedback** is mandatory because a control that acknowledges a press with
+nothing reads as broken however good the argument is. Tier-0 hover and
+focus transitions stay in CSS even with GSAP loaded.
+
+The escape hatch that used to sit here is closed. An eval run reasoned its
+way from the tiering rules to a page with no GSAP at all — defensible on
+the evidence, and not the house rule. Where an argument genuinely has no
+scrubbed or pinned moment, record that in the methods note and spend the
+layer on the entrance choreography and the feedback tier.
 
 **three.js is gated** — six tests in `references/page-craft.md`, all of
 which must pass, run against a claim id rather than against the topic.
 When 3D is rejected, say so in the page's own notes and ship the
 annotated static graphic.
 
-**Imagery, video and vector artwork through `media-gen-pro`**, where a
-picture genuinely carries something prose does not — and never for
-charts, numbers, labelled diagrams, tables or anything with exact text,
-which image models garble and re-prompting garbles differently. Say what
-a run will spend before spending it.
+### Imagery — from the sources first, generated second
 
-Three rules that make generated media safe on a page whose argument is
-its evidence:
+`references/source-imagery.md` is the contract. Two requirements sit above
+the detail:
 
-- **Every generated asset carries a caption naming what it is**, and the
-  methods note records that it was generated. An illustration a reader
-  could mistake for a photograph of the thing under discussion is a
-  provenance failure, not a decoration choice — the same standard the
-  claim graph applies to numbers.
+**Where the subject has a visible form, the page shows it, and the images
+come from the research sources.** A page about products, hardware,
+interfaces, places or documents that renders as pure typography has thrown
+away evidence the corpus already contains — and on a buying guide it has
+withheld the one thing a reader deciding between physical objects needs.
+Take the vendor's or publisher's own press asset first, a source's
+openly-licensed figure second, a generated illustration third, an honest
+placeholder last. An image found by search with no traceable origin is not
+admissible on a page published under a real name.
+
+**An image is a claim, so it carries provenance**: a caption naming what
+it is, a citation marker into the shared registry, a registry row
+recording the origin, the licence basis and the retrieval date, and alt
+text describing what matters about it rather than what it is of. Download
+into `assets/`, never hotlink, and resize to the width it displays at.
+
+Never reproduce a paywalled publisher's own figures — a Which? or RTINGS
+chart is the paid product. Cite the verdict and describe the method.
+
+**Generated stills and clips through `media-gen-pro`**, where a picture
+genuinely carries something prose does not, and never for charts, numbers,
+labelled diagrams, tables or anything with exact text, which image models
+garble and re-prompting garbles differently:
+
+- **Every generated asset is captioned as generated**, in words a skimming
+  reader cannot miss, and the methods note records it. An illustration a
+  reader could mistake for a photograph of the thing under discussion is a
+  provenance failure, not a decoration choice.
 - **Diagrams and vector artwork use the `svg: true` path**, which returns
   editable vector rather than a raster imitation of one, scales without
   resampling, and keeps its text as text.
-- **Resize a raster to the width it displays at** before wiring it in,
-  and keep it out of the hero. A full-width generated image at the top
-  pushes the finding below the fold, which costs more than the picture is
-  worth.
+- **Hold one visual language across the set** — pass the first accepted
+  illustration back as `referenceImages` on later calls and put the page's
+  palette in `context`. Four illustrations prompted from scratch have four
+  styles and read as four sources.
+- **A generated clip is the narrow case**: `generate_video` earns its place
+  only where the change over time *is* the evidence. Generate the still
+  first and pass it as `sourceImage` so the poster frame and the clip agree;
+  five seconds, one motion; `muted`, `playsinline`, `controls`, a poster
+  that is the real static figure, no autoplay under reduced motion, and no
+  claim that lives only in the clip.
+- **Keep imagery out of the hero and say what a run will spend before
+  spending it.** A full-width image at the top pushes the finding below
+  the fold, which costs more than the picture is worth.
 
 ## Phase 8 — The page icon
 
@@ -405,8 +561,16 @@ existing pages ship with no `og:image` at all and share as bare links.
    **inference marking** (a claim the ledger calls an inference must be
    labelled as one in the page), and **self-description** (a colophon
    advertising more sources than the registry holds; a reader who checks
-   the easiest number once stops believing the rest). Errors block;
-   warnings are for the reviewer.
+   the easiest number once stops believing the rest).
+
+   Five gates cover the hard requirements: **tldr** (the band exists, is
+   cited, and renders in every register), **gsap** (the motion layer is
+   loaded and the micro-interaction states are declared), **verdict** (every
+   pick in a recommendation set is an inference with a non-empty `from`, and
+   the winner names what it loses on), **imagery** (every image has a
+   caption, a provenance line and a registry row, and generated assets say
+   so), and **figures** (every chart carries a text alternative stating the
+   conclusion). Errors block; warnings are for the reviewer.
 2. `design-review` against the real render at multiple viewports —
    **six passes, not one**: three readings × light and dark.
    **Open the renders yourself first** — serve the page, capture each at 1440 and
@@ -440,8 +604,10 @@ illustration system, transition metaphor, typography, palette.
 A page fails the authored review if its silhouette matches the previous
 report once colour and copy are stripped, if changing the subject noun
 leaves the visual metaphor intact, if motion is repeated fade-slide-reveal
-recipes, if the hero is more specific than the evidence beneath it, or if
-there is no editorial tension anywhere on it.
+recipes, if the hero is more specific than the evidence beneath it, if the
+subject has a visible form and the page shows none of it, if it asks which
+one to buy and never says, or if there is no editorial tension anywhere on
+it.
 
 ## Operating rules
 
@@ -461,6 +627,18 @@ there is no editorial tension anywhere on it.
   understanding. Never claim otherwise in the page's own copy.
 - **A claim with no source does not ship.** Say "no public data" rather
   than reaching for a weaker source.
+- **A paywalled lab verdict is a source, and a good one.** Which?, RTINGS,
+  Choice, Consumer Reports and Stiftung Warentest run tests nobody else
+  runs. Cite the published verdict as the verdict it is, name the protocol
+  where they state it, record in `limits` that the underlying measurements
+  are not public, stamp the test year, and never redraw their tables. The
+  free alternatives — affiliate listicles, vendor claims, retailer star
+  averages — are systematically worse evidence, so declining a paywalled
+  verdict makes the page weaker rather than more rigorous.
+- **A recommendation page recommends.** Where the question is which one to
+  get, the categories, the three ranked picks and the overall winner are
+  the deliverable, and a survey of the field is not a substitute for them.
+  A ranking is an inference and renders as one.
 - **Characterise a disagreement no more strongly than the evidence
   does.** A page this skill produced wrote that a backend "invented" a
   figure, when the evidence said only that the figure circulated without

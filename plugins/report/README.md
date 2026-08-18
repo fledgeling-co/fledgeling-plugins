@@ -84,7 +84,75 @@ the same folder.
 **It uses your project's design system** when there's a `DESIGN.md` sitting
 there, so the report looks like it belongs to the thing it's about. When
 there isn't one, it derives one from the subject and leaves it in the
-folder for next time.
+folder for next time. Either way it looks at real shipped pages first,
+through the Mobbin MCP, and writes down what it took and what it left
+alone. Settling a layout from memory is how you get the shape every model
+ships for the category.
+
+**The TLDR is a named section, not a hope.** First block on the page, in
+every register: what was found, said once, plus the ask, the three to five
+claims holding it up, and the one thing that would change it. Most people
+stop around the middle of a document, so a conclusion sitting at block nine
+was written for readers who never get there. It's built from the same rows
+the one-pager uses, so the two can't start disagreeing with each other.
+
+## If the session was choosing between things
+
+Six queue libraries in, and a write-up with six sections describing each
+one hasn't answered the question. So comparison work gets a verdict layer.
+
+You get the categories readers actually split on (already on Postgres, no
+new infrastructure; highest throughput and willing to operate it; cheapest
+that isn't a false economy), three ranked picks in each, and one overall
+winner with the reasoning written out. Each pick carries its cost, what
+it's best at, what would change it, and the genuine thing the runner-up
+does better. The winner names what it loses on.
+
+The winner is also the report's ask, so it arrives sized and owned: "one
+afternoon to port the two producers, needs your yes on adding Redis to the
+deploy". A reader who agrees with you and doesn't know what to do next has
+been handed a diagnosis.
+
+Two things keep it honest. **A ranking is reasoning, not a measurement**,
+so it renders as reasoning: it names the ledger rows it rests on, and a
+pick dressed up as a finding is an error. And **independent testing behind
+a paywall still counts**. Which?, RTINGS, Choice and Consumer Reports run
+the tests nobody else runs; locking the raw numbers away doesn't make their
+verdict weak evidence. Cite the published ranking as a ranking, name the
+protocol, say in a clause that the measurements aren't public, stamp the
+test year, and don't redraw their tables. The alternative is arguing from
+vendor benchmarks, which is worse evidence and not more rigorous.
+
+## Charts, pictures and motion
+
+**Charts go through `dataviz`**, and there are three ways to build one:
+plain CSS and DOM for a handful of rows, hand-authored SVG where the
+drawing is the argument, or TanStack Charts compiled to static SVG at build
+time. That last one is worth a note, because TanStack Charts is pre-alpha
+and never ships to the reader. It runs in Node, emits an SVG string, and
+that string goes in the page. You get a real chart grammar, nothing
+loading at runtime, and ink in the PDF; if the API moves next month the
+documents you've already sent keep rendering, because what shipped was
+markup.
+
+**Pictures come from the evidence trail.** A screenshot the session took is
+the strongest option, since it's the same class of thing as a command's
+output. After that: the vendor's own press asset, a source's licensed
+figure, a generated illustration, an honest placeholder. Every image
+carries a caption saying what it is and where it came from, plus a row in
+the same registry the text cites. And the working path never makes it into
+a caption; a source line reading `./fixture/dashboard.png` tells the reader
+you analysed a fixture, which is a good way to lose the strongest claim on
+the page.
+
+**GSAP is compulsory on screen.** Not for atmosphere; motion inside a
+figure still has to earn its place by showing a change you couldn't
+otherwise track. But a reading toggle that acknowledges a press with
+nothing reads as broken however good the argument is, so interface feedback
+gets its own budget and that one is mandatory. What makes it safe on a
+document that prints is the still frame every moving block already ships:
+one artifact covering print, reduced motion, and any browser that doesn't
+run the animation. So none of it costs the PDF anything.
 
 ## How it differs from dossier-report
 

@@ -50,6 +50,30 @@ patterns around **specific reader questions** rather than generic
 layouts, and introduced each only after it had already worked on a
 prominent story. The pattern earned its reuse by working once.
 
+## Reference before divergence — the Mobbin trawl
+
+Divergence works better against evidence than against memory, so the
+reference pass runs first. `search_sections` returns real shipped web
+sections and takes only a query — there is no `platform` parameter on
+sections, unlike `search_screens` and `search_flows`. Two or three aimed
+searches on the block types a report page is made of: a long-form reading
+surface with citations, a comparison table, a statistics row, sticky
+section navigation.
+
+Open the images rather than reading their titles, and record a ledger in
+the direction record — `TOOK` lines naming the mechanism and the search it
+came from, `LEFT` lines naming what you looked at and declined. **Structure,
+density, sequence and state coverage transfer; identity never does.** The
+`LEFT` lines are the ones that make it reference rather than imitation.
+
+The density observation is the one that repays the trawl most often:
+generated layouts are reliably sparser than shipped ones, and sparseness
+reads as unfinished rather than calm.
+
+`design-craft`'s `references/mobbin-trawl.md` is the fuller playbook —
+query-writing, what to look for, and the competitor-diagnosis method for
+when a named page feels better than yours.
+
 ## Running `/trawl` on the aesthetic
 
 Give trawl the *subject matter* as frame material, not "design a page".
