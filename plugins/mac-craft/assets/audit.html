@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mac-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 30px 0 8px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .meas { border-collapse: collapse; min-width: 620px; font-variant-numeric: tabular-nums; }
+  .meas td, .meas th { padding: 7px 14px; font-size: 13px; }
+  .meas td:first-child { color: #a9bec5; }
+  .good { color: #9ed6a8; }
+  .warn { color: #e0c07a; }
+</style>
+</head>
+<body>
+<h1>mac-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Registered Line" — Tahoe gel-glass, porcelain sub-register (a), hybridised with Object Tile's toy-scale softening · one shared spec, three engines · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">master · icon.svg<small>Engine A — hand-authored layered SVG, cavalier oblique — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="master hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes 1–4 on the renders. 16px RMS luminance contrast <strong>0.213</strong> against a 29-icon family median of 0.173 (the commission brief's stated median is 0.152); the predecessor measured 0.052 and was joint worst of the set. Silhouette filled black is nameable — a slab with a T-shaped tool clamped to its edge. One hue family: 96% of chromatic pixels fall in a single 30° bin. Per-face separation authored to the corpus ratio (top face 0.50 / flank 0.36 / tool 0.23), wide shallow contact pool plus a narrow seat at the measured depths. Fails <strong>#7</strong> on the timber's top face at 1.76:1 against clean porcelain — the darkest defining masses clear it (tool 3.36:1, flank 2.35:1, the cut 2.45:1) and apple-18's own object median sits at 1.92:1, so this is the register's ceiling rather than a construction fault, but it is a fail and it is recorded as one.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC1 · icon-engineC-7d777b.png<small>Engine C — GPT Image 2, corpus-referenced, squircle-masked. Material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/rasterC1-1024.png" width="160" height="160" alt="rasterC1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-256.png" width="128" height="128" alt="rasterC1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-128.png" width="64" height="64" alt="rasterC1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-96.png" width="48" height="48" alt="rasterC1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-64.png" width="32" height="32" alt="rasterC1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-32.png" width="16" height="16" alt="rasterC1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC1-32.png" width="96" height="96" alt="rasterC1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The best material in the set and it still loses. Won the read on volume and on the gauge's anatomy — the long beam crossing the work with the stock clamped on the edge is its idea, and it is the composition the master now uses. Hard-fails <strong>#7</strong>: timber L p50 0.628 against a 45px dilated porcelain ring at 0.882 is <strong>1.40:1</strong>, measured with the ring method rather than by hand-placed samples. Hard-fails <strong>#4</strong>: the scribed line is 13px wide on a 1024 canvas, so the icon's one semantic element is gone by 32px. Also fails <strong>#2</strong> — the object runs to 80% of the tile width with the beam nearly out of the mask on two sides. Salvaged into the master: the gauge anatomy, the long tail, the mitred solid, the accent's measured hue (H 17–20°, S 0.84–0.91). Not converged on: its value structure, deliberately.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC2 · icon-engineC-521645.png<small>Engine C — GPT Image 2, second take, squircle-masked</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/rasterC2-1024.png" width="160" height="160" alt="rasterC2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-256.png" width="128" height="128" alt="rasterC2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-128.png" width="64" height="64" alt="rasterC2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-96.png" width="48" height="48" alt="rasterC2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-64.png" width="32" height="32" alt="rasterC2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-32.png" width="16" height="16" alt="rasterC2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC2-32.png" width="96" height="96" alt="rasterC2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Better margins than C1 and a stronger extruded flank, worse everything else. Figure-ground is the worst of the four at <strong>1.27:1</strong> timber-to-ring; the pane is near-white so the frame's interior and the bench are one value; the accent is 12.6px and dies before 32px. The assembly also sits high-right with a dead quarter bottom-left, which is <strong>#2</strong>. Contributed the reading that both raster takes independently chose a steep projection whose silhouette stops saying "window" — which is why the master uses a cavalier oblique with only a 6° tilt instead.</td>
+  </tr>
+
+  <tr>
+    <td class="take">arrowB · icon-engineB-arrow-fd0889.svg<small>Engine B — Arrow 1.1, real vector, from the spec as brief</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/arrowB-1024.png" width="160" height="160" alt="arrowB hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-256.png" width="128" height="128" alt="arrowB at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-128.png" width="64" height="64" alt="arrowB at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-96.png" width="48" height="48" alt="arrowB at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-64.png" width="32" height="32" alt="arrowB at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-32.png" width="16" height="16" alt="arrowB at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/arrowB-32.png" width="96" height="96" alt="arrowB 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Clean isometric geometry, no material and no scene. Fails <strong>#1</strong> — flat ground with no cushion, no rim, no vignette, and the diamond runs into the mask's corners. Fails <strong>#4</strong> and <strong>#3</strong>: the tool resolves into an arrowhead by 48px and is a smudge at 16. Fails <strong>#8</strong> — no contact shadow at all, so the solid floats. Fails <strong>#6</strong>: the pane is a large cool grey-blue mass, a second hue family carrying 40% of the object. And the accent escapes the member and runs off the tile edge, which inverts the whole idea — a gauge line that leaves the work is not registered to anything. Kept for one contribution: the bright stepped lip around the glazing rebate, which the master now draws on the near inner edges.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship master (icon.svg).</strong> It is the only take that is layered (bg / mid / fg / highlight as named groups, so identity survives Dark / Clear / Tinted by construction), the only one that clears the 16px check the whole commission was raised to fix, and the only one whose accent is still present at 16px — 36 of 256 pixels still read as the warm hue, against zero for both rasters. It passes <code>fidelity.py structure</code> at 37 paths / 18KB, well inside the envelope, with no <code>&lt;image&gt;</code> embed and no <code>&lt;text&gt;</code>. Known liabilities to revisit: <strong>(1)</strong> rubric #7 fails on the timber's top face at 1.76:1 against clean porcelain — carried deliberately, because converging on 3:1 there means either a near-black frame or abandoning the porcelain register, and the ground-truth captures sit at 1.92:1 themselves; the darkest defining masses do clear it. <strong>(2)</strong> The cut is 1.27% of the tile — better than the predecessor's 0.7% and now unmistakably the focal, but on a shelf strip beside proctor, mac-doctor, clarify and report it is still the least conspicuous accent in the row. <strong>(3)</strong> The beam is cut by the mask on the left edge on purpose (device #18); it is the one element that could be read as an overflow rather than a boundary, and it is the first thing to change if a reviewer's eye catches on it. <strong>(4)</strong> No fidelity loop was run: neither raster is a legitimate convergence target, because the two properties the master had to fix — pale timber and a hairline accent — are exactly the properties a similarity score would have rewarded. The rubric outranks the gate, so the material was rebuilt from measurements off <code>apple-2026/</code> instead, and the master's material is therefore <em>authored</em> rather than <em>measured against a reference</em>. <strong>(5)</strong> The mitre joints read as four faint diagonals that can group into an X at 128px; they are at 0.34 opacity and were louder before, but they have not been eliminated. <strong>(6)</strong> LPIPS was unavailable in this environment (no torch), so nothing here is a machine judgment about material — every material claim on this sheet is a sampled measurement or an eye.</div>
+
+<h2>Measured, not asserted</h2>
+<div class="sheet"><table class="meas">
+  <caption class="visually-hidden">Measurements taken on the shipped master's real renders</caption>
+  <tr><th scope="col">Check</th><th scope="col">Master</th><th scope="col">Reference / bar</th></tr>
+  <tr><td>16px RMS luminance contrast, std(L)</td><td class="good">0.213</td><td>family median 0.173 · brief's stated median 0.152 · predecessor 0.052</td></tr>
+  <tr><td>32px / 48px std(L)</td><td class="good">0.218 / 0.220</td><td>holds across the collapse zone</td></tr>
+  <tr><td>16px p90−p10 spread</td><td class="good">0.536</td><td>—</td></tr>
+  <tr><td>the tool vs clean porcelain</td><td class="good">3.36:1</td><td>rubric #7 bar 3:1</td></tr>
+  <tr><td>timber flank vs clean porcelain</td><td class="good">2.35:1</td><td>—</td></tr>
+  <tr><td>the cut vs clean porcelain</td><td class="good">2.45:1</td><td>—</td></tr>
+  <tr><td>timber top face vs clean porcelain</td><td class="warn">1.76:1</td><td>apple-18's own object median 1.92:1 — #7 fail, recorded</td></tr>
+  <tr><td>accent area</td><td class="good">1.27%</td><td>predecessor 0.7% · rasters 0.3–0.5%</td></tr>
+  <tr><td>accent pixels surviving at 16px</td><td class="good">36 / 256</td><td>rasters 0 / 256</td></tr>
+  <tr><td>hue families (chromatic pixels, S&gt;0.14)</td><td class="good">one — 96% in a single 30° bin</td><td>rubric #6 bar ≤2</td></tr>
+  <tr><td>ground vignette, top to bottom edge</td><td class="good">L 0.986 → 0.884</td><td>apple-18 measured 0.993 → 0.923</td></tr>
+  <tr><td>contact shadow depth</td><td class="good">wide pool −0.05 L, narrow seat −0.11 L</td><td>apple-18 measured −0.058 / −0.114</td></tr>
+  <tr><td>per-face separation, top : flank</td><td class="good">0.50 : 0.36 (1.93:1) + tool 0.23 (2.35:1)</td><td>apple-30 measured 0.968 : 0.413 = 2.34:1</td></tr>
+  <tr><td><code>fidelity.py structure</code></td><td class="good">PASS — 37 paths, 14 gradients, 4 filters, 4 named groups, 18,058 bytes</td><td>≤400 paths, ≤200KB, ≥2 named layers</td></tr>
+  <tr><td>LPIPS / perceptual material metric</td><td class="warn">could not run — no torch in this environment</td><td>not a pass; the material was never machine-measured</td></tr>
+</table></div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render assets</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Figure-ground read with the dilated-ring method (object's colour mask against a 45px MaxFilter dilation of it, median to median) rather than hand-placed samples, per material-recipes § harbour (f) — a hand sample on the same icon returned 3.10:1 where the ring returned 1.85:1.</div>
+</body>
+</html>

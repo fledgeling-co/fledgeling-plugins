@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 157.9 126.8">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {fill:#8E7D6B;}
+.cls-2 {fill:#5F5446;}
+.cls-3 {fill:#BCA793;}
+.cls-4 {fill:#9C8977;}
+.cls-5 {fill:#7C7162;}
+.cls-6 {fill:#605749;}
+.cls-7 {fill:#889BA0;}
+.cls-8 {fill:#BECACC;}
+.cls-9 {fill:#BF361C;}
+.cls-10 {fill:none;stroke:#EF8218;stroke-width:1.4237;stroke-linecap:round;stroke-miterlimit:10;}
+.cls-11 {fill:#BABDBF;}
+.cls-12 {fill:#6E7578;}
+.cls-13 {fill:#212728;}
+.cls-14 {fill:#303637;}
+.cls-15 {fill:#141818;}
+.cls-16 {fill:#303738;}
+.cls-17 {fill:#AEB1B3;}
+.cls-18 {fill:#888D8F;}
+.cls-19 {fill:#969696;}
+.cls-20 {fill:#F6861F;}
+.cls-21 {fill:#2E3535;}
+.cls-22 {fill:#AEAFB2;}
+.cls-23 {fill:#97999B;}</style>
+  <linearGradient id="SVGID_1_" x1="68.16" x2="89.56" y1="-5.503" y2="131.5" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F4F1EE" offset="0"/>
+    <stop stop-color="#E8E4DF" offset="1"/>
+  </linearGradient>
+  <path class="cls-0" d="m0 0h157.9v126.6h-157.9v-126.6z"/>
+  <polygon class="cls-1" points="6.5 61.7 6.5 68.4 77.7 115.6 77.7 108.4"/>
+  <polygon class="cls-2" points="77.7 108.4 146.3 63.2 146.3 69.9 77.7 115.6"/>
+  <polygon class="cls-3" points="6.5 61.8 77.7 108.4 146.3 63.2 82.1 21.1"/>
+  <polygon class="cls-4" points="18.3 62 77.7 101 134.8 63.1 75.1 24.3"/>
+  <polygon class="cls-5" points="19.5 62 77.3 100.4 133.6 63.2 75.2 25.2"/>
+  <polygon class="cls-6" points="20.8 62 75 97.8 131.5 63.5 75.1 26.2"/>
+  <polygon class="cls-7" points="23.2 62.8 77.7 99.3 129.4 65 75.4 27.3"/>
+  <path class="cls-8" d="m25 64.6c10.3-6.7 50.1-33.9 50.1-33.9l52.8 35.3 1-0.6-53.8-36.7-51.3 35.1 1.2 0.8z"/>
+  <polygon class="cls-9" points="73.3 22.6 15.8 60.2 16.6 60.9 74 23.3"/>
+  <path class="cls-6" d="m19.5 62 0.8 0.5c-0.5 0.5 52.7-30.3 54.8-32.6l-0.1-1.7-55.5 33.8z"/>
+  <path class="cls-8" d="m25.2 64.7c5 3 23.6 15.2 23.6 15.2s11.7-4.4 30.8-2.3 48.4-11.8 47.1-12.5l-51.6-36.4-49.9 36z" opacity=".3"/>
+  <line class="cls-10" x1="54.4" x2="73.3" y1="35" y2="23.2"/>
+  <polygon class="cls-11" points="51.2 26 55.3 23.7 58.3 25.4 54.4 27.8"/>
+  <polygon class="cls-12" points="51.2 26 51.2 32.3 54.4 34.1 54.4 27.8"/>
+  <polygon class="cls-13" points="55.1 28 55.1 33.1 58.3 31 58.3 25.3"/>
+  <polygon class="cls-14" points="63.7 13.6 67.7 10.8 72.3 13.8 72.3 21 63.7 23.4"/>
+  <polygon class="cls-13" points="58.3 25.3 58.3 31 72.5 22.3 72.5 21.9 72.5 19.5 75.9 16.4 84.4 7.5 84.4 22.5 75.5 16.4 72.1 19.3 72.2 22.3 55.1 33.1 55.1 27.9"/>
+  <polyline class="cls-15" points="72 19.3 72 22.2 98.1 38.1 98.1 35.5 72 19.4"/>
+  <polygon class="cls-16" points="75.9 16.4 72 19.3 98.3 35.5 102.2 32.9"/>
+  <polygon class="cls-15" points="98.1 35.8 98.1 38 102.2 35.5 102.2 32.9"/>
+  <path class="cls-17" d="m99.2 37.4-0.3-0.6c-0.3-1 1-2.8 2.4-2.3l0.3 1.4-2.4 1.5z"/>
+  <path class="cls-18" d="m101.5 35.8c0 0.6-1.6 1.9-2 1.2s-0.2-1.6 0.4-2c0.9-0.6 1.9-0.5 1.6 0.8z"/>
+  <path class="cls-21" d="m58.3 24.4 24.8-17.8 1.3 0.9-26.1 17.9s-0.4-0.5 0-1z"/>
+  <path class="cls-15" d="m84.4 7.5v14.9 0.1c-0.2 0-0.1-0.1 0-15z"/>
+  <path class="cls-13" d="m72.1 19.3 0.1 2.8 12.2-14.6s-11.2 7.1-12.3 11.8z"/>
+  <polygon class="cls-4" points="77.7 100.4 77.9 101 134.6 63.4 133.9 63.2"/>
+  <path class="cls-20" d="m53.4 35 0.8 0.9 1-0.3 0.2-1.1-0.8-0.6s-1.1 0.4-1.2 1.1z"/>
+  <polygon class="cls-22" points="54.4 27.8 58.3 25.3 58.3 26.4 55.1 28"/>
+  <path class="cls-23" d="m55.1 28v5.3l0.2-0.1 0.1-5.1z"/>
+</svg>
