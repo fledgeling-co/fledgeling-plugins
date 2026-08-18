@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>compaction-quality icon: contact sheet &amp; audit</title>
+<title>braindump icon: contact sheet &amp; audit</title>
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; padding: 40px; background: #14120F; color: #E3DED5; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
@@ -28,20 +28,34 @@
   .rec strong { color: #FF9260; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #A79C89; font-size: 12px; max-width: 940px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #221E19; border-radius: 18px; }
+  .hero figcaption { color: #A79C89; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
-<h1>compaction-quality icon: contact sheet &amp; audit</h1>
-<div class="sub">Direction "Load-Bearing" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16.</div>
+<h1>braindump icon: contact sheet &amp; audit</h1>
+<div class="sub">Direction "Load-Bearing" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/master-1024.png" width="256" height="256" alt="Take A-v5, the shipping master, shown at 256px from the 1024 render"><figcaption>A-v5 · ships · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/v1-1024.png" width="112" height="112" alt="Take A-v1 at 112px from the 1024 render"><figcaption>A-v1</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="112" height="112" alt="Take C1, the material winner, at 112px from the 1024 render"><figcaption>C1 · raster, material winner</figcaption></figure>
+  <figure><img src="audit-renders/c2-1024.png" width="112" height="112" alt="Take C2 at 112px from the 1024 render"><figcaption>C2 · raster</figcaption></figure>
+  <figure><img src="audit-renders/engineB-1024.png" width="112" height="112" alt="Take B, the Arrow vector take, at 112px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A-v5 · icon.svg<small>hand-authored layered SVG, rebuilt twice against C1. SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A-v5 master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A-v5 master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A-v5 master at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A-v5 master at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A-v5 master at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A-v5 master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -54,6 +68,8 @@
     <td class="take">A-v1 · icon-v1.svg<small>first hand-authored master</small></td>
     <td class="renders">
       <figure><img src="audit-renders/v1-256.png" width="128" height="128" alt="A-v1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/v1-128.png" width="64" height="64" alt="A-v1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/v1-96.png" width="48" height="48" alt="A-v1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/v1-64.png" width="32" height="32" alt="A-v1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/v1-32.png" width="16" height="16" alt="A-v1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/v1-32.png" width="96" height="96" alt="A-v1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -66,6 +82,8 @@
     <td class="take">C1 · icon-c1.png<small>GPT Image 2 raster, corpus-referenced, material winner</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -78,6 +96,8 @@
     <td class="take">C2 · icon-c2.png<small>GPT Image 2 raster, rounder pebble form</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -90,6 +110,8 @@
     <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
     <td class="renders">
       <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Engine B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Engine B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Engine B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -102,6 +124,6 @@
 
 <div class="rec"><strong>Recommendation: ship A-v5 (icon.svg).</strong> It is the only take that is simultaneously Icon-Composer-ready (four real layers, identity carried by shape and value), rubric-clean on the non-negotiable checks 1&ndash;4 against real small renders, and carrying the material that won the raster comparison. C1 remains the reference it was measured against, twice. Known liabilities to revisit: at 16px the five seams collapse into one warm band, so the icon keeps its identity but loses its argument at menu-bar size; the dark-on-light figure-ground means the macOS Dark variant is the weakest of the four and will lean entirely on the silhouette plus the seam; and the porcelain ground sits close in value to a light Tinted variant, where the graphite core is doing all the separation work.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs; rasters squircle-clipped through a base64-embedded wrapper and rendered at the same sizes.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.<br><br>Sheet provenance: the scores, verdicts and recommendation above are the original commission's, written 7 Aug 2026 across five iterations and three engines. The plugin was renamed <code>compaction-quality</code> &rarr; <code>braindump</code> on 10 Aug 2026, which rewrote <code>icon.svg</code>'s unrendered <code>&lt;title&gt;</code> and nothing else — so the master's mtime moved past this sheet's without the artwork changing, and the verdicts still describe what is on disk (<code>icon-notes.md</code> records that call). The sheet's own heading still carried the old name until 19 Aug 2026; it now reads <code>braindump</code>, and <code>icon-v1.svg</code>'s <code>&lt;title&gt;</code> deliberately keeps the old one, being a take that lost under it. Re-rendered on 19 Aug 2026 to add the 128px and 96px sources (and so the 64 and 48 css-px display rows), the missing A-v1 hero, and the 1024px hero row the earlier sheet rendered but never showed. Nothing was re-judged.</div>
 </body>
 </html>

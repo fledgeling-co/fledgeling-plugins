@@ -33,32 +33,49 @@
   td.num { text-align: right; }
   .up { color: #9ad6a4; }
   .down { color: #e0826a; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
 </style>
 </head>
 <body>
 <h1>create-mac-icon icon: contact sheet and audit</h1>
-<div class="sub">Direction "The Cast" &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16. The skill was dogfooded on its own icon: Engine A was authored through <code>build_icon.py</code>, the raster takes carried four porcelain-register exemplars from <code>corpus/apple-2026/</code> as reference images, and the shipping master was then closed against the winning raster through the skill's own measured fidelity loop.</div>
+<div class="sub">Direction "The Cast" &middot; one shared spec, three engines per the create-mac-icon pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The skill was dogfooded on its own icon: Engine A was authored through <code>build_icon.py</code>, the raster takes carried four porcelain-register exemplars from <code>corpus/apple-2026/</code> as reference images, and the shipping master was then closed against the winning raster through the skill's own measured fidelity loop &mdash; twice, and the second loop's state is unresolved. See the two loop tables and the provenance note at the foot of this sheet.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/a-1024.png" width="256" height="256" alt="Take A, the shipping master, shown at 256px from the 1024 render"><figcaption>A · ships · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/a0-1024.png" width="112" height="112" alt="Take A-r00, the pre-loop baseline, at 112px from the 1024 render"><figcaption>A-r00 · pre-loop</figcaption></figure>
+  <figure><img src="audit-renders/b-1024.png" width="112" height="112" alt="Take B, the Arrow vector take, at 112px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+  <figure><img src="audit-renders/c2-1024.png" width="112" height="112" alt="Take C2, the fidelity reference, at 112px from the 1024 render"><figcaption>C2 · raster, material target</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="112" height="112" alt="Take C1, a raster take, at 112px from the 1024 render"><figcaption>C1 · raster, material control</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG, fidelity round 8, SHIPS</small></td>
+    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG, second loop r04, SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </td>
     <td class="score ship">11 / 12</td>
-    <td class="verdict">Four real layers over a cushion tile, so identity rides on shape and value and survives Dark, Clear and Tinted by construction. The cast tile and the mould cavity are the marketplace's exact superellipse, not an approximation of it, so the artwork contains the shape it makes at three scales. Checks 1&ndash;4 verified on these renders, not imagined. Point deducted at #7: the dominant gel measures 2.72:1 against the local porcelain, under the 3:1 bar, though grayscale separation is a comfortable 99 levels.</td>
+    <td class="verdict">Four real layers over a cushion tile, so identity rides on shape and value and survives Dark, Clear and Tinted by construction. The cast tile and the mould cavity are the marketplace's exact superellipse, not an approximation of it, so the artwork contains the shape it makes at three scales. Checks 1&ndash;4 verified on these renders, not imagined. Point deducted at #7: the dominant gel measures 2.72:1 against the local porcelain, under the 3:1 bar, though grayscale separation is a comfortable 99 levels. <b>Read this row's provenance:</b> the score and the prose are the original commission's, written against the <code>fidelity-runs</code> r08 master. The renders beside it are the master on disk today, which is two accepted rounds and one ungated round further on: the arrises now carry measured rolled fillets, the gel carries an omnidirectional translucency rim, and the stray white <code>cavLip</code> stub that sat left of the cast silhouette in r08 is gone. <code>icon-notes.md</code> records the rubric as unmoved at 11/12 through r03 and re-derives figure-ground as 2.649:1 on windows that are <em>not</em> comparable to the 2.72:1 above. The 2.72:1 is therefore the r08 measurement, not a reading of what is shown.</td>
   </tr>
 
   <tr>
     <td class="take">A&#8209;r00 &middot; candidate-r00.svg<small>the same master before the fidelity loop, kept for the diff</small></td>
     <td class="renders">
       <figure><img src="audit-renders/a0-256.png" width="128" height="128" alt="Take A baseline at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a0-128.png" width="64" height="64" alt="Take A baseline at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a0-96.png" width="48" height="48" alt="Take A baseline at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a0-64.png" width="32" height="32" alt="Take A baseline at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a0-32.png" width="16" height="16" alt="Take A baseline at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a0-32.png" width="96" height="96" alt="Take A baseline 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -71,6 +88,8 @@
     <td class="take fail">B &middot; icon-engineB-arrow-626f04.svg<small>Engine B, Arrow 1.1 vector from the spec-as-brief</small></td>
     <td class="renders">
       <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -83,6 +102,8 @@
     <td class="take">C2 &middot; icon-engineC-fe8278-2-masked.png<small>Engine C raster, GPT Image 2, corpus-referenced, the material target</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -95,6 +116,8 @@
     <td class="take">C1 &middot; icon-engineC-27539d-masked.png<small>Engine C raster, second take, material control</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
@@ -108,6 +131,7 @@
 <div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take that is Icon-Composer-ready: four layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, mapping one to one, full-bleed 1024 artwork with the marketplace superellipse as a clip and no baked corner or drop shadow. Checks 1&ndash;4 were verified on the renders above rather than assumed. Its material provenance is C2, closed by seven measured fidelity rounds plus one measured correction, rather than by eye. Known liabilities to revisit: <b>(1)</b> figure-ground measures 2.72:1, under the 3:1 bar, so the cast is separated from the porcelain by 99 grayscale levels and by shape, not by a compliant contrast ratio; <b>(2)</b> the focal group spans 65.6% of tile width, a whisker over the 55&ndash;65% composition constant, taken deliberately to close the scale gap against the raster; <b>(3)</b> the plaster block sits close in value to its own porcelain ground, which is the register's nature but makes the light Tinted variant the weakest of the four, carried by the cast alone; <b>(4)</b> at 16px the cavity survives as a warm smudge rather than as a readable superellipse, so the icon keeps its subject but loses the "same shape twice" argument at menu-bar size; <b>(5)</b> the cast is authored parallel to the mould where both rasters tilt it, a deliberate divergence that keeps the mirroring legible and permanently caps how close the fidelity score can get.</div>
 
 <h2>The fidelity loop: master against the C2 raster</h2>
+<div class="rubric" style="margin-top:0">First loop, <code>fidelity-runs/</code>, scored against the <b>squircle-masked</b> C2 raster, metric v1. This is the loop the row for take A was written against; it is no longer the last word on the master.</div>
 <div class="sheet"><table class="loop">
   <caption class="visually-hidden">Fidelity rounds with composite scores per render size</caption>
   <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col" class="num">1024</th><th scope="col" class="num">256</th><th scope="col" class="num">128</th><th scope="col" class="num">32</th><th scope="col" class="num">16</th><th scope="col">Gate</th></tr>
@@ -123,6 +147,19 @@
 </table></div>
 <div class="rubric">r07 passed the Pareto gate on tolerance, because no single size regressed by more than 0.005, and was rolled back anyway: all five sizes moved the wrong way, so the round bought nothing. r08 was a single measured correction taken after the loop had closed, for a visible artifact rather than for a score: the block's lit edge peaked exactly where the cast occludes it, so the surviving stub read as a stray hairline against the porcelain. It was re-scored rather than eyeballed, and kept because it cost nothing. Baseline to shipped: <b>1024 composite 0.6546 &rarr; 0.6685</b>, 32px 0.6947 &rarr; 0.7206, 16px 0.7684 &rarr; 0.7855, with no size worse than baseline. Metric tier: numpy, luminance field plus SSIM plus edge F1 plus mask IoU. LPIPS did not run because torch is not installed on this host, so the 1024 material number is the weaker of the two available stacks and should be read as directional. Per-round state, residuals and edge maps are in <code>fidelity-runs/</code>.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 are non-negotiable, delivery bar 10 of 12 or better. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse path and never a rounded-rect approximation. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, Pillow LANCZOS for rasters, via <code>render_audit.py</code>.</div>
+<h2>The second loop, <code>loop-runs/</code> &mdash; and why it is unresolved</h2>
+<div class="rubric" style="margin-top:0">A second loop against the C2 raster <b>as generated</b> rather than the squircle-masked copy, so the corner disagreement is baked into every number and only deltas mean anything. Metric v2, so these composites are not comparable with the table above. <code>r00-baseline</code> is the r08 master re-scored under this reference. Numbers read out of each round's <code>score.json</code>; the Gate column is each round's <code>gate.txt</code>, and its absence is reported as absent rather than guessed.</div>
+<div class="sheet"><table class="loop">
+  <caption class="visually-hidden">Second-loop fidelity rounds with composite scores per render size</caption>
+  <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col" class="num">1024</th><th scope="col" class="num">256</th><th scope="col" class="num">128</th><th scope="col" class="num">32</th><th scope="col" class="num">16</th><th scope="col">Gate</th></tr>
+  <tr><td>r00</td><td>baseline &mdash; the r08 master re-scored under the unmasked reference</td><td class="num">0.5046</td><td class="num">0.4164</td><td class="num">0.3895</td><td class="num">0.6304</td><td class="num">0.7225</td><td>baseline</td></tr>
+  <tr><td>r01</td><td>material</td><td class="num">0.5020</td><td class="num">0.4158</td><td class="num">0.3787</td><td class="num">0.6372</td><td class="num">0.7188</td><td class="down">REJECT, reverted (&minus;0.0109 net; 128px 0.3895 &rarr; 0.3787)</td></tr>
+  <tr><td>r02</td><td>detail: measured rolled fillets on every convex arris (block 26px, gel 22px, lip 16px)</td><td class="num">0.5082</td><td class="num">0.4193</td><td class="num">0.3905</td><td class="num">0.6322</td><td class="num">0.7244</td><td class="up">ACCEPT (+0.0112 net, every size up)</td></tr>
+  <tr><td>r03</td><td>detail: omnidirectional translucency rim by self-stroke; <code>notTile</code> &rarr; <code>mouldKey</code></td><td class="num">0.5056</td><td class="num">0.4178</td><td class="num">0.3907</td><td class="num">0.6311</td><td class="num">0.7243</td><td class="up">ACCEPT on tolerance (&minus;0.0051 net; bought material, not score)</td></tr>
+  <tr><td><b>r04</b></td><td><b>detail</b></td><td class="num"><b>0.4994</b></td><td class="num"><b>0.4172</b></td><td class="num"><b>0.3832</b></td><td class="num"><b>0.6270</b></td><td class="num"><b>0.7215</b></td><td class="down"><b>NOT GATED &mdash; no <code>gate.txt</code>, yet this is what ships</b></td></tr>
+</table></div>
+<div class="rubric"><b>The state this sheet has to be honest about.</b> The master on disk is r04: <code>icon.svg</code> is 50,471 bytes stamped 9 Aug 2026, and <code>loop-runs/r04/cand-test.png</code> is byte-identical to the shipped <code>icon.png</code>. r04 has a <code>score.json</code> and no <code>gate.txt</code>, so the Pareto gate never ruled on it &mdash; and on its own numbers it regressed at <em>all five</em> sizes against r03 (net &minus;0.0179). <code>loop-runs/last-accepted/</code> still holds r03 (44,440 bytes, 8 Aug), and <code>icon-notes.md</code> documents the loop only through r03. So the last <em>accepted</em> master and the <em>shipped</em> master are different files, and the difference has never been adjudicated. That is a defect in the commission, not in this sheet, and it is recorded here rather than papered over: nothing in this sheet claims r04 passed a gate, and take A's 11/12 remains the r08-era judgment carried forward, re-confirmed at 11/12 through r03 by <code>icon-notes.md</code> and <b>not</b> re-scored for r04.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text). Checks 1&ndash;4 are non-negotiable, delivery bar 10 of 12 or better. Raster takes audited on their squircle-masked 1024 versions, masked with the set's exact superellipse path and never a rounded-rect approximation. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Take B is rendered <code>svg-letterbox</code>, because its 150&times;130.4 viewBox is not square artwork and stretching it to a square would flatter it.<br><br>Sheet provenance: re-rendered on 19 Aug 2026 against the master as it stands, to add the 128px and 96px sources (and so the 64 and 48 css-px display rows) and the 1024px hero row that the earlier sheet rendered but never displayed. The takes, scores, verdicts and recommendation are the original commission's from 7&ndash;8 Aug 2026. No take was re-scored on this pass and no blind panel was re-run; where the master has moved past the text, the text now says so rather than being silently restated.</div>
 </body>
 </html>

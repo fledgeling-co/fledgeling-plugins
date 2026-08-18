@@ -27,20 +27,34 @@
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>create-swe-project icon: contact sheet &amp; audit</h1>
-<div class="sub">Direction &ldquo;First Water&rdquo; · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 32 / 16. Sibling constraint: the dark deep-sea register is taken by trawl, so this commits to the porcelain daylight register instead.</div>
+<div class="sub">Direction &ldquo;First Water&rdquo; · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. Sibling constraint: the dark deep-sea register is taken by trawl, so this commits to the porcelain daylight register instead.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/a-1024.png" width="256" height="256" alt="Take A, the layered master, shown at 256px from the 1024 render"><figcaption>A · icon.svg · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="112" height="112" alt="Take C1, the material winner, at 112px from the 1024 render"><figcaption>C1 · raster, material winner</figcaption></figure>
+  <figure><img src="audit-renders/c2-1024.png" width="112" height="112" alt="Take C2, which ships as the repo brand mark, at 112px from the 1024 render"><figcaption>C2 · ships as brand mark</figcaption></figure>
+  <figure><img src="audit-renders/b-1024.png" width="112" height="112" alt="Take B, the Arrow vector take, at 112px from the 1024 render"><figcaption>B · Arrow</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A · icon.svg<small>Engine A · hand-authored layered SVG · SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -53,6 +67,8 @@
     <td class="take fail">B · icon-engineB-arrow.svg<small>Engine B · Arrow vector take from the shared spec</small></td>
     <td class="renders">
       <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -65,6 +81,8 @@
     <td class="take fail">C1 · icon-engineC1.png<small>Engine C · GPT Image 2 raster, referenced against Safari and Photos from the corpus</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -77,6 +95,8 @@
     <td class="take fail">C2 · icon-engineC2.png<small>Engine C · GPT Image 2 raster, second take</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -89,7 +109,7 @@
 
 <div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is Icon-Composer-ready, and it now carries C1&rsquo;s composition and material rather than a weaker idea of its own: four named layers, <code>#bg</code> / <code>#mid</code> / <code>#fg</code> / <code>#highlight</code>, with identity carried in shape and value so it survives Dark, Clear and Tinted. All four non-negotiable checks were verified on real renders rather than reasoned about: a solid-black silhouette render, a 32px render magnified six times for the squint, and measured margins. Its material provenance is C1, whose poured-gel hull ramp and full-length sheer highlight were rebuilt into the layered master rather than shipped as pixels. Known liabilities to revisit: the hull spans about 74% of the tile, wider than the 55&ndash;65% the composition guidance calls for, which is a deliberate call copied from C1 and worth re-testing; the sleepers and the underwater run of the way are gone by 32px, so the small-size read rests entirely on the hull, and the hull is slender enough at 16px that it is nameable rather than instant; and the porcelain ground gives the way very little separation until it reaches the water.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,64,32}</code> for SVGs, the same over a clip-path wrapper for rasters.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text); checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions &mdash; verified rather than asserted: all four extreme corner pixels of every raster render are fully transparent. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. The C1 and C2 rows are rendered from the unmasked 1254px generator output (<code>icon-engineC1.png</code>, <code>icon-engineC2.png</code>) masked through this directory's <code>squircle-path.txt</code>, which is the family superellipse sampled at lower precision than the canonical copy in <code>create-mac-icon</code> and the same shape to an IoU of 0.9999.<br><br>Sheet provenance: the takes, scores, verdicts, recommendation and the post-audit decision below are the original commission's, from 7 Aug 2026 against <code>icon.svg</code> as it still stands. Re-rendered on 19 Aug 2026 to add the 128px and 96px sources (and so the 64 and 48 css-px display rows) and the 1024px hero row, which the earlier sheet claimed in its subtitle but never displayed &mdash; and which for this commission it had not rendered at all. Nothing was re-scored and no panel was re-run.</div>
 <div class="rec"><strong>Post-audit user decision:</strong> C2 ships as the repo brand mark (icon rasters and banner) by explicit user selection, its material winning the eye despite the recorded #10 raster liability. The layered SVG master (icon.svg) remains the Icon-Composer-ready source for any macOS submission.</div>
 </body>
 </html>

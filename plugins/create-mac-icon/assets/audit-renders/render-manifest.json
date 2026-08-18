@@ -1,0 +1,49 @@
+{
+  "takes": {
+    "a": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786275388.642309,
+      "rendered_at": 1787062621.6123772
+    },
+    "a0": {
+      "source": "fidelity-runs/candidate-r00.svg",
+      "kind": "svg",
+      "source_mtime": 1786109210.33512,
+      "rendered_at": 1787062625.957439
+    },
+    "b": {
+      "source": "icon-engineB-arrow-626f04.svg",
+      "kind": "svg-letterbox",
+      "source_mtime": 1786108749.924857,
+      "rendered_at": 1787062627.389556
+    },
+    "c1": {
+      "source": "icon-engineC-27539d-masked.png",
+      "kind": "png",
+      "source_mtime": 1786110310.8379064,
+      "rendered_at": 1787062628.479291
+    },
+    "c2": {
+      "source": "icon-engineC-fe8278-2-masked.png",
+      "kind": "png",
+      "source_mtime": 1786110310.9733613,
+      "rendered_at": 1787062629.050453
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

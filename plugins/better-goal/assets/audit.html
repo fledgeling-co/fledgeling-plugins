@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>better-goal icon — contact sheet &amp; retrospective audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; }
+  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 430px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .warn { margin: 0 0 28px; padding: 18px 20px; border: 1px solid #6a4230; border-radius: 12px; background: #1c1310; max-width: 900px; color: #e6cfc4; }
+  .warn strong { color: #f0a884; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 900px; }
+  .measured table { min-width: 0; width: auto; }
+  .measured td, .measured th { padding: 6px 18px 6px 0; border-bottom: 1px solid #16262c; }
+  .measured code { color: #ffd98f; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
+  code { color: #cfe0e6; }
+</style>
+</head>
+<body>
+<h1>better-goal icon — contact sheet &amp; retrospective audit</h1>
+<div class="sub">Porcelain register, warm-neutral ground with one vermilion accent · the take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="warn"><strong>Read this before the scores.</strong> This is a <strong>retrospective</strong> sheet, written on 19 August 2026 by rendering <code>icon.svg</code> as it stands and looking at the output. It is not the record of a commission, because no commission was recorded: this directory holds one artwork, no <code>icon-notes.md</code>, no losing takes, no <code>fidelity-runs/</code> and no panel verdicts. So there was no prior reasoning to recover and nothing here is carried forward from an earlier judgment — <strong>every score below was assigned today, from the renders, against the 12-point rubric</strong>. Nothing on this page claims that three engines were run, that a fidelity loop closed the master against a reference, or that a blind panel judged it, because none of that happened as far as this directory can show.<br><br>Two consequences are stated plainly rather than worked around. <strong>One:</strong> there is a single take, and the pipeline's floor is three, so this sheet is a verdict with no comparison behind it and <code>audit_sheet.py check</code> correctly refuses it. <strong>Two:</strong> the take scores <strong>8/12</strong>, below the 10/12 delivery bar. Both are properties of the commission, not of this page, and the fix for each is named at the foot of the sheet.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/a-1024.png" width="256" height="256" alt="The better-goal master shown at 256px from the 1024 render"><figcaption>A · icon.svg · 1024 source</figcaption></figure>
+</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">The single take, with renders, its retrospective rubric score and verdict</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take">A · icon.svg<small>the only artwork in the directory; <code>icon-src.svg</code> is a byte-identical duplicate of it, and <code>icon-gen.py</code> is its generator</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="The master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="The master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="The master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="The master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="The master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="The master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">A porcelain instrument dial on a porcelain cushion tile: a taupe rim ring, a full ring of minute ticks, a graphite hub with a cream centre, a tapered needle standing near vertical, and a vermilion bracket arc with a target dot at the top of the travel. The subject reads &mdash; a gauge with a marked target the needle is arriving at &mdash; and it reads at 128 and at 48. <b>Passing:</b> #1, because the artwork is full-bleed 1024 with the family superellipse as a <code>clipPath</code> and no baked corner or drop shadow (corner alpha 0 on all four extremes, 95.0% opaque coverage); #2, with the dial at 65.1% of tile width on symmetric 178px side margins; #3, nameable in one phrase; #5 and #6, one soft top-left key and one warm-neutral family plus a single vermilion accent; #12, no text. <b>Deducted at #4, #7, #10 and #11.</b> #7 is the measured one and it is severe: the dial face sits at <b>1.05:1</b> against the tile beside it, so the primary form has essentially no figure-ground of its own and is found only by its 1.35:1 rim and by the marks standing on it. #4 follows from it &mdash; by the 32px source the tick ring and the bracket arc are gone and what survives is a pale disc with a dark hub and a faint warm speck, so the icon keeps a silhouette but loses the argument that makes it a <em>goal</em>. #10 fails by construction: <code>fidelity.py structure</code> reports <b>0 named <code>&lt;g&gt;</code> layers</b>, so there is no <code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code> plan to hand to Icon Composer and the Dark, Clear and Tinted variants have nothing to be built from. #11 is a judgment rather than a measurement: a tick-ring dial with a needle is a step from a generic speedometer glyph, and the one element that makes it specific &mdash; the bracket arc and its target dot &mdash; is also the first thing to disappear as the icon shrinks.</td>
+  </tr>
+
+</table></div>
+
+<div class="measured"><b>What was measured, and how.</b> Relative-luminance ratios computed from the sRGB values of <code>audit-renders/a-1024.png</code> (linearised, 0.2126R + 0.7152G + 0.0722B), sampled as 28&times;28px patches; the dial diameter read off the luminance profile of the row through the dial centre. These are readings of this render, not estimates.
+<table>
+  <tr><th scope="col">Quantity</th><th scope="col">Measured</th><th scope="col">Against</th></tr>
+  <tr><td>dial face vs tile beside it</td><td><code>1.05:1</code></td><td>#7 wants 3:1 &mdash; <b>fails</b></td></tr>
+  <tr><td>dial rim vs tile</td><td><code>1.35:1</code></td><td>the only separation the primary form has</td></tr>
+  <tr><td>hub vs dial face</td><td><code>10.11:1</code></td><td>strong; this is what carries the small read</td></tr>
+  <tr><td>vermilion arc and dot vs dial face</td><td><code>3.51:1</code></td><td>clears 3:1, but is gone by 16px</td></tr>
+  <tr><td>dial outer diameter</td><td><code>667px = 65.1%</code> of tile</td><td>composition constant is 55&ndash;65% &mdash; a whisker over</td></tr>
+  <tr><td>side margins</td><td><code>178px</code> both sides</td><td>symmetric</td></tr>
+  <tr><td>corner alpha, four extremes</td><td><code>0, 0, 0, 0</code></td><td>#1 mask discipline &mdash; <b>passes</b></td></tr>
+  <tr><td>named <code>&lt;g&gt;</code> layers</td><td><code>0</code> (1 group, the clip wrapper)</td><td>#10 variant robustness &mdash; <b>fails</b></td></tr>
+  <tr><td>paths / gradients / filters</td><td><code>3 / 6 / 1</code>, 11,448 bytes</td><td>well inside the 400-path, 200KB envelope</td></tr>
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship nothing further on this icon until the layer plan lands.</strong> <code>icon.svg</code> is what ships today, and this sheet records it at 8/12 against a 10/12 bar, so the honest status is &ldquo;in the marketplace, not yet delivered to the pipeline's standard&rdquo; rather than &ldquo;approved&rdquo;. Two defects block it, and both are in the artwork rather than on this page. <strong>(1) No layer plan.</strong> <code>icon-gen.py</code> emits one anonymous <code>&lt;g&gt;</code> under the clip; splitting the same three paths into named <code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code> groups would clear #10 and the <code>fidelity.py structure</code> gate without changing a single rendered pixel, which makes it the cheapest fix in the set. <strong>(2) The dial has no figure-ground.</strong> 1.05:1 against its own tile is the porcelain register's standing trade taken further than the siblings take it; the usual moves are to deepen the tile's vignette under the dial, warm or darken the face a few points, or thicken the rim, and any of them wants re-measuring rather than eyeballing. Separately, the pipeline's three-take floor has never been met here, so there is no evidence about what this direction beat. Anything that changes the artwork should re-render this sheet, and this sheet's scores should then be replaced rather than amended, because they are readings of one specific render.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Renders produced by <code>python3 audit_sheet.py render plugins/better-goal/assets --take a=icon.svg:svg</code> (1024 / 256 / 128 / 96 / 64 / 32 sources), recorded in <code>audit-renders/render-manifest.json</code>.<br><br>Sheet provenance, in full: before 19 August 2026 there was no <code>audit.html</code> in this directory at all, and <code>audit-renders/</code> held five files under the take id <code>audit</code> which were <b>byte-identical copies of the shipped <code>icon.png</code>, <code>icon-256.png</code> and <code>icon-128.png</code></b> rather than renders of the master &mdash; so the directory could not show that anything had been rendered for audit. Those copies were replaced on that date by real <code>rsvg-convert</code> renders of <code>icon.svg</code> at the six sheet sizes, under the take id <code>a</code>. The shipped <code>icon.svg</code>, <code>icon.png</code>, <code>icon-256.png</code> and <code>icon-128.png</code> were not touched and are byte-for-byte as they were.</div>
+</body>
+</html>
