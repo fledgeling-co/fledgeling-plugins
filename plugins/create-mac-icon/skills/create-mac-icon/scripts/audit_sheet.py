@@ -309,9 +309,18 @@ def check(base: pathlib.Path) -> int:
                         "called icon*.svg here, because the marketplace family requires "
                         "icon.png / icon-256.png beside it")
 
-    # The newest thing the sheet is supposed to be describing. Build scripts count:
-    # a regenerated master is the whole point of the build-script discipline.
-    sources = list(masters) + sorted(base.glob("build_icon*.py")) + sorted(base.glob("*.svg"))
+    # The newest thing the sheet is supposed to be describing.
+    #
+    # Build scripts are deliberately NOT in this set, though they were until
+    # 2026-08-19. The argument for including them was that a regenerated master
+    # is the whole point of the build-script discipline, which is true, but a
+    # regenerated master also rewrites icon.svg, and that is still checked. What
+    # including build_icon.py actually bought was a false positive: a rename sweep
+    # edited one word of a comment in seven of them within the same second, no
+    # rendered pixel moved anywhere, and four sheets that were correct flipped to
+    # "older than the master it describes". A sheet's verdicts are about an icon,
+    # so the test has to be about the icon.
+    sources = list(masters) + sorted(base.glob("*.svg"))
     for t in recorded.values():
         p = base / t.get("source", "")
         if p.exists():
