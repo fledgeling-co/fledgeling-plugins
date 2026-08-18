@@ -276,6 +276,22 @@ def main() -> int:
               f"meant to rhyme, or one of them needs a different device.")
         return 1
 
+    # This used to read "No pair at or above <flag>", which is false whenever a
+    # DECIDED pair sits above the flag: the set currently has six, topping out at
+    # mockup-fidelity vs tui-craft at 0.860, every one of them printed `ok` two
+    # lines above this sentence. A green exit here means the pairs above the flag
+    # have been ruled on, not that the shelf is clear, and the summary has to say
+    # which of those two it means or it undoes the listing it just printed.
+    above = [p for p in pairs if p[0] >= args.flag]
+    if above:
+        top = max(above, key=lambda p: p[0])
+        print(f"\nNo UNDECIDED pair at or above {args.flag:.2f}. {len(above)} decided pair(s) "
+              f"are above it, the closest being {top[2]} vs {top[3]} at {top[0]:.3f}, each "
+              f"ruled on rather than cleared by measurement. Nothing new reads as its "
+              f"neighbour by this measure, which is not the same as nothing reading as its "
+              f"neighbour.")
+        return 0
+
     print(f"\nNo pair at or above {args.flag:.2f}. Nothing reads as its neighbour by this measure, "
           f"which is not the same as nothing reading as its neighbour.")
     return 0
