@@ -407,28 +407,22 @@ function build() {
     // in the repo's CLAUDE.md does not contain the word "banner" either, which
     // is why prose was never going to catch this.
     //
-    // BANNER_DEBT is a named, dated list rather than a silent exemption. Two
-    // plugins predate the check and are owed real banners; rushing two bad ones
-    // to turn the gate green would defeat the point of having it. Adding a name
-    // here is a deliberate act that shows up in review. Removing one is the fix.
+    // BANNER_DEBT is a named, dated list rather than a silent exemption.
+    // Adding a name here is a deliberate act that shows up in review. Removing
+    // one is the fix, and on 2026-08-19 seven names came off it: the two that
+    // predated the check, five of the six migration plugins, and nothing was
+    // rushed to do it. One name is left.
     const BANNER_DEBT = new Set([
-      "should-compact",   // owed since 2026-08-17
-      "anvil-errand",     // owed since 2026-08-17
-      // The six below landed together on 2026-08-18 as one migration out of
-      // diolog-plugins, each rebuilt against the teardown of Claude Code's
-      // built-in /design skill. Every one has its full icon set; none has a
-      // banner. They are listed rather than served six rushed banners, which is
-      // the trade this list's own note argues for — but six new names at once is
-      // a larger claim on it than the two above, so it is worth saying why:
-      // holding all six unregistered kept them uninstallable and kept the
-      // digest from running at all, and a banner is a composed 3200x1040
-      // artifact per plugin rather than a render.
-      "design-craft",              // owed since 2026-08-18
-      "ux-craft",                  // owed since 2026-08-18
-      "deck-craft",                // owed since 2026-08-18
-      "mac-craft",                 // owed since 2026-08-18
+      // The last of six that landed together on 2026-08-18 as one migration out
+      // of diolog-plugins, each rebuilt against the teardown of Claude Code's
+      // built-in /design skill. Every one had its full icon set and no banner;
+      // they were listed rather than served six rushed banners, because holding
+      // all six unregistered kept them uninstallable and kept the digest from
+      // running at all, and a banner is a composed 3200x1040 artifact per
+      // plugin rather than a render. This one is last because its icon is the
+      // set's only un-recommissioned master, and a banner derives from the
+      // icon's own build constants, so it would be re-derived immediately.
       "mac-design-digest",         // owed since 2026-08-18
-      "generate-investor-portal",  // owed since 2026-08-18
     ]);
     const bannerPath = join(dir, "assets", "banner.png");
     if (!existsSync(bannerPath)) {

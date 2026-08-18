@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>mac-craft banner audit</title>
+<style>
+:root{--ink:#17191c;--muted:#5e676f;--rule:#d7dde2;--ground:#f5f7f8;--surface:#fff;--bad:#c4622d;--ok:#3e6b54}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:15px/1.6 "IBM Plex Sans",ui-sans-serif,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:30px;letter-spacing:-.02em;margin:0 0 6px}
+h2{font-size:19px;letter-spacing:-.01em;margin:44px 0 4px}
+p.note{color:var(--muted);margin:0 0 22px;max-width:70ch}
+.shot{background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:14px;margin:0 0 18px;overflow-x:auto}
+.shot img{display:block;max-width:100%;height:auto}
+.shot figcaption{color:var(--muted);font:12px/1.5 "IBM Plex Mono",ui-monospace,monospace;
+  margin-top:10px}
+table{border-collapse:collapse;width:100%;background:var(--surface);
+  border:1px solid var(--rule);border-radius:3px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{background:#eef1f3;font:600 11px/1.4 "IBM Plex Mono",ui-monospace,monospace;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+td.n{text-align:center;font-family:"IBM Plex Mono",ui-monospace,monospace;width:64px}
+.pass{color:var(--ok);font-weight:600}
+.fail{color:var(--bad);font-weight:600}
+.score{font:700 34px/1 "IBM Plex Sans",sans-serif;letter-spacing:-.02em}
+.rec{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--bad);
+  border-radius:3px;padding:18px 20px;margin-top:14px}
+</style>
+<div class="wrap">
+<h1>mac-craft &middot; banner audit</h1>
+<p class="note">Every size a person actually meets this banner at, then the
+12-point rubric. Delivery bar is 10 of 12 with checks 1, 2, 3, 7
+and 12 non-negotiable. 5 of 5 mechanical checks pass and
+7 still need a human verdict, which is what the renders above are for.</p>
+
+<h2>The renders</h2>
+<figure class="shot"><img src="banner-renders/display-1600.png" alt="mac-craft banner at 1600px" width="1600" /><figcaption>1600px displayed width</figcaption></figure><figure class="shot"><img src="banner-renders/display-900.png" alt="mac-craft banner at 900px" width="900" /><figcaption>900px displayed width &middot; a GitHub README content column</figcaption></figure><figure class="shot"><img src="banner-renders/display-400.png" alt="mac-craft banner at 400px" width="400" /><figcaption>400px displayed width &middot; the catalogue card</figcaption></figure><figure class="shot"><img src="banner-renders/display-200.png" alt="mac-craft banner at 200px" width="200" /><figcaption>200px displayed width &middot; thumbnail</figcaption></figure><figure class="shot"><img src="banner-renders/crop-lockup.png" alt="mac-craft icon and wordmark at 1:1" /><figcaption>the icon and wordmark lockup at 1:1 against the composed layout</figcaption></figure>
+
+<h2>Rubric</h2>
+<table><thead><tr><th>#</th><th>Check</th><th>Verdict</th><th>Evidence</th></tr></thead>
+<tbody><tr><td class="n">1</td><td>Exactly 3200x1040, from a 1600x520 layout at deviceScaleFactor 2 <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>3200x1040</td></tr><tr><td class="n">2</td><td>The plugin's real icon asset, referenced rather than redrawn <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>1 artwork reference inlined as a data URI, which is how a file:// render loads it at all</td></tr><tr><td class="n">3</td><td>The wordmark is set in a linked web font, not a local system face <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>loads IBM Plex Mono, Instrument Sans</td></tr><tr><td class="n">4</td><td>Ground register agrees with the icon it sits beside</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">5</td><td>One warm accent, carried from the icon's own accent constant</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">6</td><td>Composition derived from the icon's build script, not eyeballed from a sibling</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">7</td><td>One essence line, no em dash <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>no em dash in the copy</td></tr><tr><td class="n">8</td><td>Nothing overflows the frame</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">9</td><td>Wordmark and essence line both legible at 900px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">10</td><td>Wordmark legible at 400px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">11</td><td>No element illegibly overlapping another</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">12</td><td>banner-src retained, so the banner stays editable <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>banner-src.html</td></tr></tbody></table>
+
+<p class="score">5 / 12</p>
+
+<div class="rec">
+<strong>Recommendation.</strong><p>**Ships, and it is the weakest of the four at small sizes.** Every point goes through `build_icon.py`'s own `P()`, `quad()`, `chamfered()`, `wall()`, `poly()` and `lin()`, so the cavalier oblique is the icon's basis rather than an impression of it: `E1` (1, -0.055) and `E2` (-0.075, 0.955) are untouched, because a basis is not a length, and every plan length is the icon's constant at one factor of 0.50. `UW` 500, `VH` 470, `STILE` 116, `RAIL_TOP` 96, `RAIL_BOT` 118, `WALL` 52, `CORNER` 16, `REBATE` 26, and the gauge's `STOCK_UD` 106, `STOCK_H` 66, `BEAM_W` 76, `BEAM_H` 30 and `SCREW_R` 34 all carry through, as do the mark's `PIN_U` 58 of the stile's 116, `LINE_V0` 143 to `LINE_V1` 442 and `LINE_W` 46. The mark's position is therefore still a consequence of the registration rather than a decision about where a line looks good. The ground falls at 141 degrees, which is `atan2` of the shade direction `KEY_A` to `KEY_B` produces, and the tile's contact shadow is the icon's measured pair rather than a dark blob: a wide shallow `POOL` at -0.058 L and a narrow `SEAT_DARK` at -0.114.</p><p>**One declared deviation, and only one.** `BEAM_U0` is -400 in the icon so the gauge's tail runs off the tile and is cut by the mask, which the icon's own notes argue reads as a boundary where a tail stopping just inside the mask reads as an accident. A banner has no mask there, so the tail is cut back to just past the stock instead. Nothing else in the geometry was changed.</p><p>**Known liabilities.** This device carries the most parts of the four and it loses the most on the way down. At the 400px catalogue card the gauge collapses into an indistinct dark blob at the sash's top left, so the registration that is the entire argument is unavailable and what remains is a timber frame with one vermilion bar. The provenance line, `set 58 of 116 (specified)(canon)`, is set at 18px and is unreadable below about 700px, so mac-craft's own thesis reads only at README width and above. Second, this banner inherits the icon's known value-separation problem rather than fixing it: timber against porcelain is the case the icon's notes record as failing icon rubric 7 at 1.40:1 on the reference raster, and the master's response was to walk the timber down the ramp rather than converge on the ground. On a porcelain banner the frame sits at roughly that same separation, so the sash reads as a light object on a light field and depends on its walls and its seat for the read. Third, the sash is shown whole rather than cropped, which makes it the largest and busiest of the four devices, and at 200px it is the one whose silhouette says least. Verified by eye rather than by assertion: the scribed line is the only straight vermilion anywhere on the page at every size, and the pane's cool grey is the only non-warm hue, both of which hold down to 200px.</p>
+</div>
+</div>

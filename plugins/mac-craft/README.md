@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="mac-craft: a porcelain app icon of a chamfered window frame around a pale glass panel, held in a dark gauge whose jaw closes on a vermilion bar, beside the wordmark and the line: built to the platform's own published values, with contrast computed rather than claimed. To the right, the same assembly at scale, marked set 58 of 116, specified, canon." width="100%" />
+</p>
+
 # mac-craft
 
 <p align="center">
