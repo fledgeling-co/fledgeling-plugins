@@ -1,0 +1,41 @@
+{
+ "seed": 1,
+ "note": "seed chosen for a balanced 4/3 split; both orders recorded",
+ "map": [
+  {
+   "case": 1,
+   "A": "rebuild",
+   "B": "original"
+  },
+  {
+   "case": 2,
+   "A": "original",
+   "B": "rebuild"
+  },
+  {
+   "case": 3,
+   "A": "original",
+   "B": "rebuild"
+  },
+  {
+   "case": 4,
+   "A": "rebuild",
+   "B": "original"
+  },
+  {
+   "case": 5,
+   "A": "rebuild",
+   "B": "original"
+  },
+  {
+   "case": 6,
+   "A": "rebuild",
+   "B": "original"
+  },
+  {
+   "case": 7,
+   "A": "original",
+   "B": "rebuild"
+  }
+ ]
+}

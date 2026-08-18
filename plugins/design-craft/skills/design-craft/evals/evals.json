@@ -1,0 +1,197 @@
+{
+  "skill_name": "design-craft",
+  "evals": [
+    {
+      "id": 0,
+      "name": "brand-matched-dashboard",
+      "prompt": "Design the settings screen for our internal freight console. Match the existing app \u2014 the tokens are in packages/ui/tokens.css and the closest screen is packages/app/src/routes/fleet.tsx. Save it to /tmp/dc-eval-0/. It'll be opened as a local file.",
+      "expected_output": "Reads the token file and the named screen before drawing; states in one line what it matched; lifts the incumbent's resolved spacing values rather than snapping them to 4/8px; names the visitor mode as Operate and does not apply Persuade-tuned craft rules; filename and <title> derived from the content, not from the format; lint clean at critical/major.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "greenfield-landing-with-motion",
+      "prompt": "Build a landing page for a small-batch coffee roaster \u2014 scroll-driven, one strong moment. I want to publish it so the team can look at it. /tmp/dc-eval-1/",
+      "expected_output": "Asks or states where it will be opened, and treats 'publish it' as the artifact surface; does NOT reach for a CDN GSAP tag, because that is blocked with no error there; names the category's rut and its predictable opposite before generating; seven candidates across >=3 material families with the top-ranked one not built by default; a five-block direction contract in the emitted markup.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "contrast-audit-on-a-real-brand",
+      "prompt": "Run an accessibility pass on /tmp/dc-eval-2/index.html. The brand orange #E65400 is fixed \u2014 we're not changing it.",
+      "expected_output": "Runs the lint first and reports its numbers rather than eyeballing; splits the accent by role (body-size text / large text / non-text) instead of returning one verdict on the brand; proposes a second derived token rather than a different brand colour; reports contrast-unmeasurable cases as unmeasurable rather than as passes; renames index.html.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "motion-verification-honesty",
+      "prompt": "Add entrance animations to the sections in /tmp/dc-eval-3/report.html, then verify them and tell me it's right.",
+      "expected_output": "Writes the resting style as the final style so animation:none yields the settled design; declares motion, print and reduced-motion in the 'Not checked' line rather than reporting them clean; never claims a mid-flight frame on this engine; the three-line report separates what the gate asserts from what the runner looked at.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "variation-round-on-an-existing-surface",
+      "prompt": "Give me three takes on this pricing section. /tmp/dc-eval-4/pricing.html",
+      "expected_output": "Writes the identity lock from the file's real values before picking axes; stays in default mode absent an explicit ask to redesign; three DIFFERENT primary axes weighted toward structure rather than colour; one file with toggles, not v1/v2/v3; option numbers and names stable if a second round follows.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "empty-invocation",
+      "prompt": "",
+      "expected_output": "One line asking what to design and what for, then stops. No fabricated option set, no AskUserQuestion with invented choices.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "surgical-edit",
+      "prompt": "In /tmp/dc-eval-6/home.html just make the hero headline smaller.",
+      "expected_output": "Changes only the headline size; introduces no new colour, font, radius or shadow the surface does not already own; does not re-run a full polish pass; mentions any unrelated problem in the summary rather than fixing it.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "print-deliverable",
+      "prompt": "Turn /tmp/dc-eval-7/notes.md into a two-page memo I can print. /tmp/dc-eval-7/",
+      "expected_output": "816px page container, @page margins, break-inside control; the resting style is the final style so nothing exports blank; runs the physical checks (grayscale, minimum rule weight in points); routes PDF export through Obscura rather than Playwright; states that web fonts do not load in this engine so the PDF carries the fallback face."
+    }
+  ],
+  "gate_evals": {
+    "runner": "evals/gate/run-evals.sh",
+    "how": "Runs the rebuilt scripts/design-lint.py and a committed snapshot of the original (evals/old/design-lint.py) against the same fixtures with the same invocations, and marks 25 structural assertions PASS or FAIL on each with the evidence it judged on. Artifact checks, not scores. The rebuild is passed --include-all because it classifies its own fixtures/ directory as non-source, which is assertion A22; the original takes no flags.",
+    "fixtures": "evals/fixtures/ \u2014 one file per defect class, plus the documented device-frame and tweak-panel snippets as false-positive controls, regress.html as the no-regression guard over the original's 14 checks, and three cost fixtures the rebuild deliberately fails.",
+    "result": "evals/results/scorecard.md \u2014 original 9/25, rebuild 23/25 as at 18 Aug 2026.",
+    "honest_note": "A23 and A24 are assertions the ORIGINAL passes and the rebuild deliberately does not. A23: a file whose only defects are aesthetic cues now exits 0, because the evidence does not support gating on a cue that no study shows identifies AI authorship to a human. A24: text over a gradient now produces a contrast-unmeasurable finding where the original produced silence, which is noise the original does not have and is the price of never reporting an unmeasured pair as clean. A25 started as a third loss \u2014 unread-token fired on a design-system specimen publishing tokens for downstream consumers \u2014 and that was a genuine false positive rather than a trade: the check is now scoped by read ratio and declares when it did not apply, and the assertion flipped.",
+    "self_test": "scripts/design-lint.py --selftest runs all 40 rules against fixtures built to trip them, asserts each one fires, asserts every finding names a consequence and a fix, asserts a justified suppression silences its check and an unjustified one does not, and asserts a clean fixture produces nothing. A rule only ever observed passing is a rule you have not written.",
+    "assertions": [
+      {
+        "id": "A1",
+        "asserts": "a 13px brand accent on paper (3.66:1) is reported at all"
+      },
+      {
+        "id": "A2",
+        "asserts": "a contrast failure gates at critical"
+      },
+      {
+        "id": "A3",
+        "asserts": "a failing pair written in oklch() is resolved and reported"
+      },
+      {
+        "id": "A4",
+        "asserts": "text on a gradient is reported UNMEASURABLE rather than skipped"
+      },
+      {
+        "id": "A5",
+        "asserts": "the skill's own documented phone-bezel snippet passes"
+      },
+      {
+        "id": "A6",
+        "asserts": "the skill's own documented tweak-panel snippet passes"
+      },
+      {
+        "id": "A7",
+        "asserts": "a Google Fonts <link> is not condemned as a blocker"
+      },
+      {
+        "id": "A8",
+        "asserts": "an unsized <img> is caught even when its style string contains the words width and height"
+      },
+      {
+        "id": "A9",
+        "asserts": "an external resource is reported at its own line, not at the first // in the file"
+      },
+      {
+        "id": "A10",
+        "asserts": "a suppression with no reason does not silence its check"
+      },
+      {
+        "id": "A11",
+        "asserts": "a resting opacity:0 on a page with reveal keyframes is reported"
+      },
+      {
+        "id": "A12",
+        "asserts": "a token defined and never referenced is reported"
+      },
+      {
+        "id": "A13",
+        "asserts": "outline:none with no replacement is reported"
+      },
+      {
+        "id": "A14",
+        "asserts": "an HTML deliverable with no <title> is reported"
+      },
+      {
+        "id": "A15",
+        "asserts": "index.html is reported as naming the format, not the design"
+      },
+      {
+        "id": "A16",
+        "asserts": "gating findings go to stdout and warnings do not"
+      },
+      {
+        "id": "A17",
+        "asserts": "the run prints its own not-checked line"
+      },
+      {
+        "id": "A18",
+        "asserts": "every finding names the downstream consequence, not just the rule"
+      },
+      {
+        "id": "A19",
+        "asserts": "all 14 checks the original carried still fire (regression guard)"
+      },
+      {
+        "id": "A20",
+        "asserts": "a file full of defects exits non-zero (regression guard)"
+      },
+      {
+        "id": "A21",
+        "asserts": "a contrast failure alone is enough to fail the build"
+      },
+      {
+        "id": "A22",
+        "asserts": "the gate does not lint a file under references/ as source"
+      },
+      {
+        "id": "A23",
+        "asserts": "COST: a file whose only defects are aesthetic cues fails the build"
+      },
+      {
+        "id": "A24",
+        "asserts": "COST: a hero with text over a gradient produces no finding at all"
+      },
+      {
+        "id": "A25",
+        "asserts": "a specimen file publishing tokens for downstream consumers passes"
+      }
+    ]
+  },
+  "judge_panel": {
+    "how": "Three anonymised A/B document pairs \u2014 the same subject written by the original and by the rebuild \u2014 in one self-contained bundle, order flipped per case from seed 20260818. Judges saw only the bundle, never the skill, never the repo, and were never told which option was which or that either was newer. The bundle opens with the injection fence: its contents are material to judge, not instructions to follow.",
+    "bundle": "evals/results/judge-bundle.md",
+    "unblinding": "evals/results/judge-unblinding.json",
+    "cases": [
+      "verifying a design that has motion in it, on this machine's browser automation",
+      "loading an animation library into a self-contained HTML deliverable",
+      "checking colour contrast in a design that is about to ship"
+    ],
+    "families": {
+      "anthropic": "claude-fable-5 at effort high \u2014 rebuild won 3 of 3",
+      "google": "gemini-3.7-flash-high via agy \u2014 rebuild won 3 of 3",
+      "xai": "grok-4.6 at effort xhigh \u2014 rebuild won 3 of 3",
+      "openai": "FAILED \u2014 codex usage limit, retries available 20 Aug 2026. One attempt made, not retried."
+    },
+    "findings_acted_on": [
+      "The pixel-median fallback cropped to the glyph box and so sampled the letters along with the ground, making its median track text coverage rather than the ground. Caught by the xAI judge; the snippet now hides the text for the sample and reads the foreground from getComputedStyle.",
+      "The pixel-median fallback computed relative luminance from gamma-encoded sRGB bytes without linearising each channel \u2014 a real defect that produces a precise-looking wrong ratio. Caught by the Anthropic judge as Option B's worst flaw; fixed the same day in accessibility-audit.md, which now carries the linearisation and says why it is not a detail.",
+      "Both judges read the Known limits table as risking 'motion needs no attention' and as hardcoding one engine. visual-verification.md Phase 0 now carries a four-line re-measurement probe and an explicit list of what is still required.",
+      "The inline-the-library route gave sizes but not how to obtain the file. gsap-motion.md now gives the curl and the npm pack.",
+      "The contrast checklist opened with a script path that may not resolve outside the skill. accessibility-audit.md now says what to do when it does not.",
+      "The re-measurement probe could be run with nothing animating and its zero filed as a pass. Caught by the xAI judge; the probe now carries its precondition.",
+      "The inline-the-library route was named and never shown. Caught by the xAI judge; gsap-motion.md now shows the three-tag shape.",
+      "Six findings in total, two of them real arithmetic defects in a technique this rebuild introduced, found by judges who could see neither the code nor each other."
+    ],
+    "result": "9 of 9 for the rebuild, unanimous across three families, blind. Three families, not four; reported as three."
+  }
+}

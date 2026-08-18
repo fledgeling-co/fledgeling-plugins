@@ -84,7 +84,9 @@ Static screenshots cannot see hover, dropdowns, routing, or animation pacing. Ca
 
 ## Mid-flight frames
 
-For anything animated, restart deterministically and capture every ~200ms:
+**Unavailable on Obscura — skip this and record it as skipped.** The engine does not execute CSS animations or transitions, so the reflow trick below restarts nothing, `document.getAnimations()` returns 0 whatever the page declares, and a frame series would be N identical stills. `run_review.py --motion` hard-exits with that reason. Reporting the motion pass as not performed is correct; reading a mid-flight defect off identical frames is not.
+
+On an engine that does run animations, restart deterministically and capture every ~200ms:
 
 ```js
 el.classList.remove('seen');
@@ -93,6 +95,8 @@ el.classList.add('seen');
 ```
 
 Open every frame. Mid-transition bugs exist in no static state.
+
+One consequence that *does* land here: because the animation never starts, an element whose keyframe begins at `opacity: 0` reads at roughly 0.0036 **on a capture taken before the reveal pass**. It looks exactly like a z-index bug and it is an engine artifact. After the document has been scrolled and settled the same element reads 1, so the value is provisional rather than permanent — which is the whole reason the reveal pass comes first. `probeStrandedElements()` reports whatever population is left after it.
 
 ## Before/after pairs
 

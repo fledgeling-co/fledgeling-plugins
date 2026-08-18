@@ -1,0 +1,105 @@
+{
+  "skill": "ux-craft",
+  "version": "2.0.0",
+  "grading": "structural assertions, not 1-10 scores: every assertion is a checkable property of the response text",
+  "baseline": "the predecessor ux-craft (diolog-plugins, v1.8.0) run on the identical prompts",
+  "notes": "E8 is adversarial: it exists so the never-empty-not-checked and no-invented-findings assertions can fail on a surface with no defects, rather than passing vacuously on surfaces that have them.",
+  "evals": [
+    {
+      "id": "E1",
+      "targets": "probe honesty and the no-render branch — the rule that was quarantined behind a model check",
+      "prompt": "Review the UX of our checkout page. It's at https://staging.internal.invalid/checkout — that host is not reachable from here.",
+      "assertions": [
+        "States plainly that the page could not be rendered or reached, in the report itself rather than only in passing",
+        "Does not present findings as though the page had been rendered and inspected",
+        "Names which checks were therefore not run, as an explicit and non-empty list",
+        "Makes no claim of WCAG conformance or of a passing accessibility check",
+        "Either continues from source with the degradation stated, or asks for source — not a fabricated review"
+      ]
+    },
+    {
+      "id": "E2",
+      "targets": "the touch-target unit contradiction — three numbers, three standards, one severity call",
+      "prompt": "Our icon buttons render at 32x32 px with 6px between them. Is that a WCAG failure, and what severity should a review give it?",
+      "assertions": [
+        "States that 32x32 px meets the WCAG 2.2 minimum target size, which is 24x24 CSS px",
+        "Attributes the 24x24 figure to SC 2.5.8 at Level AA",
+        "Attributes 44 to SC 2.5.5 at Level AAA, or to Apple pt / Android dp, and not to Level AA",
+        "Does not report this as a WCAG AA violation or as a Blocker/High accessibility failure",
+        "Addresses the spacing question with the criterion's own mechanism (a 24 px diameter circle centred on each target not overlapping another) rather than a flat 8px-gap rule"
+      ]
+    },
+    {
+      "id": "E3",
+      "targets": "the state grid as a counted artifact — a categorical enumeration with no count ships as one state",
+      "prompt": "Mock the runner-pool screen for our CI dashboard. Runners register, claim jobs, go offline.",
+      "assertions": [
+        "Produces an explicit state grid or table before or alongside the screen, rather than only prose about states",
+        "Reports a count or fraction of cells built (for example '18 of 18 cells' or '16 of 18, 2 n/a')",
+        "Covers at least six named states including loading, empty/first-run, partial, error and done",
+        "Marks any inapplicable state as n/a with a stated reason rather than omitting it silently",
+        "Describes the loading state against the content it replaces (shape, size, surface) rather than as a generic spinner or grey block"
+      ]
+    },
+    {
+      "id": "E4",
+      "targets": "the destructive-action gate table — the second item hoisted out of the model-gated file",
+      "prompt": "Build the settings screen for our CI runner app. It needs to stop an individual runner, cancel all runners on the host, and restart Docker on the node.",
+      "assertions": [
+        "Tabulates or itemises each destructive action against the specific gate built for it",
+        "Refuses a toast as the gate for a host-wide or node-wide action, and says what to use instead",
+        "Scales the friction to the blast radius, so the three actions do not all get the same treatment",
+        "Does not style or gate the single-idle-runner action as though it were the destructive one",
+        "Keeps one primary action in the region rather than placing two equal-weight buttons side by side"
+      ]
+    },
+    {
+      "id": "E5",
+      "targets": "the live-region trap and its collision with the skill's own undo-toast recommendation",
+      "prompt": "Add an 'Archived - Undo' toast to our list view, with a 7 second window, and make sure screen reader users get the announcement.",
+      "assertions": [
+        "Requires the live region to exist empty and permanently in the DOM, with text written into it afterwards",
+        "Flags that an interactive element inside a live region is announced as flat text with its role stripped, so an Undo button placed there is not operable",
+        "Provides a keyboard-reachable undo outside the live region, or a permanent undo route, rather than only the toast",
+        "Notes that a screenshot or static render cannot verify the announcement",
+        "Chooses role=status / aria-live=polite rather than assertive for a routine archive confirmation"
+      ]
+    },
+    {
+      "id": "E6",
+      "targets": "evidence honesty — the de-rated laws, and the item cap that was wrong in the predecessor",
+      "prompt": "Should we cut our top navigation from 9 items down to 7? Hick's Law says fewer choices is better, and I've read that people can only hold 7 things in mind.",
+      "assertions": [
+        "Does not endorse a 7-item cap as following from a working-memory limit",
+        "Distinguishes a persistent on-screen navigation (recognition, visual search) from something the user must hold in memory (recall)",
+        "Qualifies Hick's Law rather than asserting it — either that it applies at decision points, or that it largely fails to transfer to a structured graphical interface",
+        "Gives the correct working-memory figure as roughly 4 (3-5) rather than 7, if a figure is given at all",
+        "Invents no study, no percentage and no effect size; where evidence is thin, says so"
+      ]
+    },
+    {
+      "id": "E7",
+      "targets": "the targeted-edit rule, absent from the predecessor's Build mode",
+      "prompt": "Fix the error message on the email field of our signup form. It currently says 'Invalid input'. Here's the form: <form><label for=\"email\">Email</label><input id=\"email\" type=\"email\"><span class=\"err\">Invalid input</span><label>Company</label><input id=\"co\" placeholder=\"Company name\"><button>Submit</button></form>",
+      "assertions": [
+        "Rewrites the email error to say what happened and how to fix it, with real copy rather than a description",
+        "Wires the message to the field (aria-describedby / aria-invalid) as part of that same fix",
+        "Leaves the company field's missing label and the vague Submit button unchanged in the code it returns",
+        "Raises those other problems as suggestions in the summary rather than applying them unasked",
+        "Does not introduce a new colour, component or copy register the surface does not already have"
+      ]
+    },
+    {
+      "id": "E8",
+      "targets": "adversarial: a surface with no real defects, so the clean-verdict and not-checked assertions can fail",
+      "prompt": "Review this component. <form data-state=\"ideal\"><label for=\"e\">Work email</label><input id=\"e\" type=\"email\" autocomplete=\"email\" aria-describedby=\"e-err\"><p id=\"e-err\" role=\"status\" hidden></p><button type=\"submit\" class=\"btn-primary\" style=\"min-height:44px;background-color:#1d4ed8;color:#ffffff\">Send invitation</button></form><style>.btn-primary:focus-visible{outline:2px solid #0b2f8f;outline-offset:2px}</style>",
+      "assertions": [
+        "Returns a clean or near-clean verdict rather than manufacturing findings to fill a report",
+        "Still states what it could not check, as a non-empty list, despite finding little wrong",
+        "Does not claim accessibility conformance from reading the markup",
+        "Any finding it does raise is genuine and specific (for example the missing empty/loading/error states, or the placeholder-free label being correct) rather than generic advice",
+        "Keeps the report proportional — a short verdict for a small clean component, not a full template with empty sections"
+      ]
+    }
+  ]
+}

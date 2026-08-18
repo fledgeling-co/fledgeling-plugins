@@ -13,6 +13,10 @@ A deck rooted in real context beats one invented from taste. Before drawing, loo
 
 Only when none of that exists do you author a direction from scratch (§2). If a brand plainly exists but wasn't supplied, ask for it rather than inventing one.
 
+**Say in one line what you matched**, before the first slide: *"matching `packages/ui` — Söhne, 6px radii, slate and indigo tokens, 34px body on a 1920 canvas"*. It takes a sentence and it is the only way the user can catch you having matched the wrong thing before twelve slides are built on it.
+
+**And when a genuine search finds nothing, say that you looked.** The two sentences are different claims: "no design system was supplied" and "I searched the project root, the token filenames above, `design-system/` and `ui/`, and the screens nearest this deck, and found none, so I authored the direction in §2" — the second one is checkable. A silent fallback to an invented direction reads exactly like a matched one.
+
 **Consuming a `DESIGN.md` well.** Take the palette roles (not just the hexes — which colour is *primary*, which is *accent*, which is background), the type ramp with its weights, the spacing scale, the radius scale, and any stated do/don'ts. Map them onto the deck's own scale: a web design system's 16px body becomes 34px on a 1920 canvas, but the *ratios* between its steps carry over. Where the system is silent (decks usually need display sizes a web system never defines), extend it in its own logic rather than importing a different system's values.
 
 ## 2. When there's no brand: commit a direction
@@ -81,9 +85,13 @@ If a block reads like a mood, the direction isn't decided yet. "Serious and conf
 
 **Three to five colours across the whole deck**, plus tints. Limit backgrounds to 1–2; a section break may take a third.
 
+**Count hue families, not swatches, and count them across the deck rather than per slide.** The failure never looks like a palette decision: a status chip takes green for *done*, another takes blue for *in progress*, a delta chip takes green for *up*, and the deck is carrying three hues while every slide in isolation looked disciplined. Measured on two decks from one brief and one brand spec: **1 hue family against 3** — and the three-hue deck's own stylesheet declared the same "one accent" rule in a comment. Semantic colours earn their place on genuine state, always paired with an icon or a word; a status column that reads correctly in greyscale never needed the hue. `deck-preflight.js` reports `hueFamilies`.
+
 **Pick a strategy, don't drift into one.** *Restrained* — tinted neutrals plus one accent under ~10% of pixels; the default for data decks. *Committed* — one saturated colour carrying 30–60% of the surface; identity decks. *Drenched* — the slide is the colour; covers and section breaks. Defaulting to Restrained without deciding is how timid, evenly-grey decks happen.
 
-**Spend the accent once per slide.** One thing matters; give it the colour. An accent on four elements is decoration.
+**Spend the accent once per slide.** One thing matters; give it the colour. An accent on four elements is decoration. The measurable form: two decks from one brief averaged **1.8 accent marks per slide against 3.7, peaking at 3 against 7**. Seven marks on a cover — eyebrow, half the headline, a rule, two pills, a progress bar, a button — is not a bold cover; it is a cover with no focal point, because everything shouting is the same as nothing shouting.
+
+**Three places the budget goes without anyone deciding**, all measured on one deck. A data table whose column headers are set in the accent spends it four times before the slide has said anything — move the colour to the 2px rule beneath the headers, which keeps the structural signal and returns the whole budget. A set of status marks spends one per row; charcoal marks distinguished by fill weight, glyph and word read correctly in greyscale and leave the accent for the one thing the slide is actually about. And a numeral chip on every card in a six-card grid is six — those are labels, so `ink-muted` is the right colour and the eye still finds them. Count in the rendered capture rather than in the stylesheet: an automated check that walks only text-bearing leaves scores filled bars, rules, tracks and dots at zero while the eye counts every one of them — which is why `deck-preflight.js` counts drawn marks alongside text ones as of 18 Aug 2026, reporting `textMarks` and `drawnMarks` separately so a slide that is over budget on geometry rather than on type says so.
 
 **Tone the neutrals.** `#FAFAFA` / `#1A1A1A` rather than pure `#FFFFFF` on `#000000` — pure black-on-white is harsh projected and reads unfinished.
 
@@ -101,11 +109,13 @@ Two failure modes, and their fixes: **flat** (everything at similar weight; step
 
 **Three weights is plenty:** body (400/450), UI and labels (510/550), headlines (590/600). Weight should jump between levels, not step — a regular→medium→semibold→bold ladder reads as a default scale rather than an authored one.
 
-**Rhythm is repetition with deliberate variation.** All spacing snaps to one scale (multiples of 8 at deck sizes). Repeated elements sit in identical positions slide to slide. Then break the pattern once or twice for emphasis — a page that varies every slide is chaos; one that never varies is a list.
+**Rhythm is repetition with deliberate variation.** All spacing snaps to one scale (multiples of 8 at deck sizes) — **unless you are matching a system whose own scale is not 8-based**, in which case its scale wins and rounding to yours is the defect. This rule is for authoring from scratch; a matched system's steps are lifted exactly, like its colours. Repeated elements sit in identical positions slide to slide. Then break the pattern once or twice for emphasis — a page that varies every slide is chaos; one that never varies is a list.
 
 **Value outranks label.** On a stat, "$48.2m" is larger and heavier than "Revenue". The label whispers; the number speaks.
 
 **Cross-slide discipline.** Section headers look identical to each other. Card groups align across columns — titles at the same Y, footers pinned to the same line — because misaligned baselines across side-by-side cards read as broken rather than varied.
+
+**A list laid out as a grid needs its rhythm from `row-gap`, not from item margins.** `li:first-child { margin-top: 0 }` zeroes only the DOM-first item, so in a two-column grid the second column's first row keeps its margin and sits a full gap below its neighbour — a misalignment that looks like a rendering fault and is arithmetic. Zero every item's margin in grid mode and let `gap: 22px 72px` carry both axes. The general form: when a rule keys off document order but the layout is two-dimensional, the rule and the layout disagree about which item is first.
 
 ## 6. Anti-slop
 
@@ -118,6 +128,7 @@ Each rule leads with the move to make; the trailing clause names what to avoid.
 - **No imitation material.** CSS bevels, embossing, faux letterpress, fake foil, stamped-metal and chalk effects standing in for a material the slide never actually renders read as machine-made faster than any other tell — and decks reach for them more than web pages do, usually on a cover. Either the material is a real asset or the surface is honestly flat. A gradient standing where a texture belongs ships the gradient.
 - **Depth with an offset and a soft blur, from one light source.** A zero-offset coloured halo is paint, not elevation; a hard offset block shadow (`4px 4px 0`) is a costume that only a genuinely neobrutalist direction earns.
 - **Backgrounds with intent.** A flat toned ground, one photograph, or one geometric device. Avoid the default corporate wash: blue-purple gradient, faint hex grid, floating translucent circles.
+- **Vary the module, not just its contents.** Reaching for the same 3-or-4-across bordered card row on slide after slide is the strongest single tell of generated layout, and it is invisible while you build because each slide's grid was a reasonable local choice. Measured: seven of twelve slides on one deck were an identical card row; the comparison deck used stat tiles, an editorial photo split, a data table, a progress matrix, a milestone grid, a shared-scale bar pair and a full-bleed photograph across the same twelve. Before building a card row, ask what this slide's content actually *is* — a comparison, a sequence, a matrix, a single figure — and let that pick the module.
 - **Card discipline.** Separate with a thin all-round border, a subtle shadow, or background contrast. **Never use `border-left: 4px solid` on generic cards, quotes, or metric tiles** — reserve left borders strictly for genuine system warnings or semantic alert banners. On quotes and leadership cards, use **top accent rules** (`border-top: 4px–6px solid var(--primary)`), subtle background contrast, and role chips instead.
 - **Asymmetric Editorial Layouts.** Move beyond identical card grids: pair a full-height editorial photograph on one half of the slide (`grid-template-columns: 1.06fr 0.94fr` or `.92fr 1.08fr`) with an overlaid gradient scrim and a zero-based chart/bullet list on the other half. Full-height imagery grounds the slide in reality.
 - **Brand Geometric Signatures.** Translate the subject's physical and industrial world into authored CSS geometry:
@@ -138,6 +149,8 @@ Not an add-on; on a projector it's just legibility. Contrast per §4. Never enco
 ## 8. The last look
 
 Before delivering, remove one thing. Review rounds accrete — a rule here, a badge there, a second accent that crept in. Find the element the deck doesn't need and cut it. If you genuinely can't find one, ship.
+
+The reliable place to find it is a **hero numeral standing for something that isn't a metric**. A stat tile reading `3` over "Jurisdictions" borrows the visual weight the deck reserves for its financial figures and spends it on a count of countries — it is a fact wearing a metric's clothes, and it is the element a sceptical reader questions first. Cut the tile, fold the fact into the prose beside it, and nothing is lost but the borrowed authority.
 
 
 ## Provenance on a slide

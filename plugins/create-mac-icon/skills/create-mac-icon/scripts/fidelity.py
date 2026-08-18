@@ -8,10 +8,21 @@ references/fidelity-loop.md). Three subcommands:
              metric stack per size, write score.json + residual/edge maps
   gate       Pareto-compare a candidate score.json against a baseline one:
              ACCEPT only if no size regresses beyond tolerance and small-size
-             floors hold. Also detects negligible edits (oscillation guard).
+             floors hold. Also detects negligible edits (oscillation guard),
+             and REFUSES to gate at all on a degraded metric tier.
   structure  static analysis of an SVG candidate BEFORE rendering: rejects
              <image> embeds (the base64 mimicry exploit), enforces the
              complexity envelope, checks named layer groups exist.
+
+Severity convention, because a caller redirecting stdout must not lose a
+failure. `structure`'s verdict, its `-` failures and its `?` advisories go to
+**stderr**, along with every REFUSED and every named dependency skip; its
+counts stay on stdout so the JSON is pipeable. `gate`'s verdict line and the
+reasons behind it stay on **stdout** deliberately — `loop_runner.py` writes
+that stream into the round's `gate.txt`, and a REJECT with its numbers is part
+of the round's record rather than an alarm. Exit codes carry the severity for
+a shell caller either way: 0 pass, 1 fail, **2 refused — a comparison that must
+not be made at all**, which is a different thing from one the candidate lost.
 
 Design rules baked in (from the deep-research evidence, docs/svg-icon-fidelity-plan.md):
   - The harness owns the canvas: candidate viewBox is never trusted; both
@@ -22,21 +33,49 @@ Design rules baked in (from the deep-research evidence, docs/svg-icon-fidelity-p
     JSON records which tier ran so a score is never silently weaker.
   - Complexity is a constraint checked in `structure`, never a reward.
 
-Dependencies: numpy + Pillow (required), rsvg-convert on PATH for SVG
-candidates, torch+lpips (optional, upgrades the material metric at 1024/256).
+Dependencies: numpy + Pillow for `score` and `gate`, rsvg-convert on PATH for
+SVG candidates, torch+lpips (optional, upgrades the material metric at
+1024/256). `structure` needs none of them. Every absence is a named skip.
 """
+from __future__ import annotations  # annotations stay strings, so numpy and
+# Pillow can be imported on demand rather than at module scope
+
 import argparse
 import hashlib
 import json
 import math
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
 
-import numpy as np
-from PIL import Image
+
+def die(msg: str, code: int = 1):
+    """A named degradation on stderr, never a traceback.
+
+    `structure` is pure text analysis and needs no third-party package at all,
+    so it must keep running on a machine that has none. Importing numpy and
+    Pillow at module scope made a missing dependency an ImportError before
+    argparse had even seen the subcommand — a traceback where the caller needed
+    a sentence naming what to install.
+    """
+    print(f"FAIL  {msg}", file=sys.stderr)
+    raise SystemExit(code)
+
+
+def need_numeric():
+    """Import numpy + Pillow on demand; name the fix if either is absent."""
+    try:
+        import numpy as np
+        from PIL import Image
+        return np, Image
+    except ImportError as e:
+        which = e.name or str(e) or "one of them"
+        die(f"score/gate needs numpy and Pillow ({which} is unavailable): "
+            f"pip install numpy Pillow. `structure` needs neither and still runs.")
+
 
 SIZES = (1024, 256, 128, 32, 16)
 # Bump whenever a metric's definition changes. The gate refuses to compare
@@ -50,6 +89,10 @@ NEUTRAL = 128  # composite ground for alpha; both sides get the same one
 
 def render_candidate(path: pathlib.Path, size: int) -> Image.Image:
     if path.suffix.lower() == ".svg":
+        if shutil.which("rsvg-convert") is None:
+            die("rsvg-convert is not on PATH and the candidate is an SVG, so it "
+                "cannot be rendered: brew install librsvg. Scoring a PNG export "
+                "instead measures the export, not the master.")
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as t:
             tmp = pathlib.Path(t.name)
         subprocess.run(
@@ -189,6 +232,8 @@ def composite_for(size: int, m: dict) -> float:
 
 
 def cmd_score(args):
+    global np, Image
+    np, Image = need_numeric()
     cand, ref = pathlib.Path(args.candidate), pathlib.Path(args.reference)
     out = pathlib.Path(args.outdir)
     out.mkdir(parents=True, exist_ok=True)
@@ -244,8 +289,43 @@ def cmd_gate(args):
     cv, bv = cand.get("metric_version", 1), base.get("metric_version", 1)
     if cv != bv:
         print(f"REFUSED: candidate scored under metric v{cv}, baseline under v{bv}. "
-              f"Re-score the baseline before gating; a mixed comparison is not a verdict.")
+              f"Re-score the baseline before gating; a mixed comparison is not a verdict.",
+              file=sys.stderr)
         sys.exit(2)
+
+    # A degraded metric tier is not a caveat on the verdict, it IS the verdict.
+    #
+    # This check lived only in loop_runner.py's harness override, which meant the
+    # headless path refused a degraded round and the hand-run sequence documented
+    # in SKILL.md and references/fidelity-loop.md — structure, score, gate — did
+    # not. The same three commands, one of them blind. It belongs here, in the
+    # command that issues the verdict, so both paths carry it.
+    #
+    # Measured on the dossier-report commission: eight rounds ran on "numpy (no
+    # torch: luminance+ssim+edges only)", the composite went backwards at every
+    # size, and the gate accepted its way to the worst take of the run.
+    # Re-scored at full tier, the accepted round placed LAST of eight on 1024
+    # LPIPS while the rounds the gate had REJECTED were the peak. LPIPS engages
+    # only at 256 and 1024, which is exactly where material lives, so without it
+    # the gate is blind to the thing it is grading — confidently wrong rather
+    # than merely uncertain.
+    degraded = {name: t for name, t in (("candidate", cand.get("tier", "unknown")),
+                                        ("baseline", base.get("tier", "unknown")))
+                if not str(t).startswith("full")}
+    if degraded:
+        detail = "; ".join(f"{name} tier '{t}'" for name, t in degraded.items())
+        if not args.allow_degraded_tier:
+            print(f"REFUSED: {detail}, not full. LPIPS engages only at 256 and 1024, "
+                  f"which is where material lives, so this gate cannot see the thing it "
+                  f"is grading. Install torch and lpips, then re-score both sides. "
+                  f"A round accepted on a degraded tier is not evidence about the "
+                  f"artwork. Pass --allow-degraded-tier to gate anyway and record that "
+                  f"the verdict is about structure only.", file=sys.stderr)
+            sys.exit(2)
+        print(f"NOTE  gating on a degraded tier by request ({detail}). This verdict is "
+              f"about structure and small-size legibility only; it is not evidence about "
+              f"material at 256 or 1024.", file=sys.stderr)
+
     if cand.get("render_hash") == base.get("render_hash"):
         verdict = "REJECT"
         reasons.append("negligible edit: render hash unchanged (oscillation guard)")
@@ -293,12 +373,22 @@ def cmd_structure(args):
         "groups_named": len(re.findall(r"<\s*g[^>]*\bid\s*=", text, re.I)),
         "bytes": len(text.encode()),
     }
+    # These three messages were annotated with their downstream consequence and
+    # then LOST a blind panel twice, in both presentation orders, to the bare
+    # originals below. Two independent families named the same defect: the
+    # annotation added "rubric stats", "token-math" and "rationale" while the
+    # original's concrete fix target — the expected layer names — got displaced by
+    # a statistic. A runner needs the thing to change, not the argument for the
+    # threshold. The consequence belongs in the reference that explains the
+    # threshold, and it is in references/fidelity-loop.md; what stays here is the
+    # violated constraint and where to look. Recorded so it is not "improved" back.
     if n["paths"] > args.max_paths:
         issues.append(f"{n['paths']} paths exceeds envelope {args.max_paths} (path-soup guard)")
     if n["bytes"] > args.max_bytes:
         issues.append(f"{n['bytes']} bytes exceeds envelope {args.max_bytes}")
     if n["groups_named"] < 2:
-        issues.append("fewer than 2 named <g> layers: the layer plan (bg/mid/fg/highlight) is missing")
+        issues.append("fewer than 2 named <g> layers: the layer plan "
+                      "(bg/mid/fg/highlight) is missing")
 
     # Advisory, never fatal: a clipPath whose subpaths were meant to subtract.
     # SVG's default fill rule is nonzero, so a two-subpath clip intended as an
@@ -317,12 +407,14 @@ def cmd_structure(args):
                 f"clipPath {cid.group(1) if cid else '(unnamed)'} has {shapes} subpaths and no "
                 f"clip-rule: nonzero unions them. If it was meant to subtract, set clip-rule=\"evenodd\"")
 
+    # Counts to stdout so the JSON stays pipeable; verdict and every actionable
+    # line to stderr, so a caller redirecting stdout cannot lose a failure.
     print(json.dumps(n, indent=2))
-    print("PASS" if not issues else "FAIL")
+    print("PASS" if not issues else "FAIL", file=sys.stderr)
     for i in issues:
-        print(f"  - {i}")
+        print(f"  - {i}", file=sys.stderr)
     for w in warnings:
-        print(f"  ? {w}")
+        print(f"  ? {w}", file=sys.stderr)
     sys.exit(0 if not issues else 1)
 
 
@@ -342,6 +434,10 @@ def main():
     g.add_argument("--edge-floor", type=float, default=0.35)
     g.add_argument("--contrast-drop", type=float, default=0.06,
                    help="max fractional drop in the candidate's own 32/16px contrast vs baseline")
+    g.add_argument("--allow-degraded-tier", action="store_true",
+                   help="gate even though LPIPS did not run. Deliberate and recorded, "
+                        "never silent: the verdict is then about structure and small-size "
+                        "legibility only, because the metric is blind at 256 and 1024.")
     g.set_defaults(fn=cmd_gate)
     st = sub.add_parser("structure")
     st.add_argument("--candidate", required=True)

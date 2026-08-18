@@ -3,6 +3,22 @@
 One block for all 200 templates in `template-catalogue.md`. Produced by running design-craft and
 ux-craft over each family, fitting every layout to the fixed 1280×720 frame.
 
+**Every number in this file is in 1280×720 units.** Multiply by 1.5 for a 1920×1080 HTML deck —
+this frame targets the JSON canvas, and the rest of the skill authors larger, so a `96` here is the
+`143` that `investor-relations.md` calls the AGM floor. They are the same rule in two unit systems.
+
+**Read this file by template id, never whole.** It is ~1,844 lines, so a full read costs about 30k
+tokens to obtain a 9-line block — which is the over-reading `diolog-templates.md` measures and
+forbids, and a rule that expensive to follow is a rule that gets skipped. Instead:
+
+```bash
+grep -n -A9 '^### kpi-row-3up' references/layout-specs.md
+```
+
+then `Read` with `offset`/`limit` if the block runs longer than the grep window. This is why the file
+stays alphabetical and in one piece: a grep-by-id lookup works here and would not across 27 family
+files, and splitting it would reinvent the discovery sweep the skill forbids.
+
 Read the block for a template before you author with it. `zones` is the geometry intent, not a
 binding coordinate set — a template expands server-side, and a hand-authored slide following the
 same zones will sit correctly beside a templated one.

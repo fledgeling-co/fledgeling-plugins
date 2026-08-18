@@ -1028,6 +1028,9 @@ def main() -> int:
     ap.add_argument("--dump", action="store_true", help="ruler dump")
     ap.add_argument("--ansi", action="store_true", help="paint into this terminal")
     ap.add_argument("--fit", action="store_true", help="fit report only")
+    ap.add_argument("--gate", action="store_true",
+                    help="compile, then run both gate suites on the result and "
+                         "combine the exit codes")
     ap.add_argument("--self-test", action="store_true")
     args = ap.parse_args()
 
@@ -1054,7 +1057,47 @@ def main() -> int:
         print(f"\nfit findings: {len(frame['fit'])}", file=sys.stderr)
         for f in frame["fit"]:
             print("  " + json.dumps(f, ensure_ascii=False), file=sys.stderr)
-    return 1 if frame["fit"] else 0
+
+    rc = 1 if frame["fit"] else 0
+    if args.gate:
+        rc = max(rc, _run_gates(frame))
+    return rc
+
+
+def _run_gates(frame: dict) -> int:
+    """Run the design gates and tui-craft's arithmetic gates on one compiled frame.
+
+    Here so the loop is one command. Documented as three commands in sequence,
+    it was three chances to skip the arithmetic pass, and the middle one carried
+    a `../tui-craft/scripts/` path that resolves only from this skill's own
+    directory. Paths are derived from this file's location instead.
+    """
+    import subprocess  # noqa: PLC0415
+    import tempfile  # noqa: PLC0415
+
+    here = Path(__file__).resolve().parent
+    suites = [
+        ("design", here / "tui_design_gates.py"),
+        ("arithmetic", here.parent.parent / "tui-craft" / "scripts" / "tui_gates.py"),
+    ]
+    worst = 0
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
+        fh.write(json.dumps(frame, ensure_ascii=False))
+        path = fh.name
+    try:
+        for label, script in suites:
+            if not script.exists():
+                print(f"\n{label} gates: NOT RUN — {script} is missing. That is not a "
+                      f"pass; say so in the report.", file=sys.stderr)
+                worst = max(worst, 2)
+                continue
+            print(f"\n=== {label} gates ===", file=sys.stderr)
+            proc = subprocess.run([sys.executable, str(script), path, "--strict"],
+                                  check=False)
+            worst = max(worst, proc.returncode)
+    finally:
+        Path(path).unlink(missing_ok=True)
+    return worst
 
 
 if __name__ == "__main__":

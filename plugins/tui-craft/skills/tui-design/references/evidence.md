@@ -9,20 +9,24 @@ for a reason set out at the end.
 
 ## Provenance
 
-48 artifacts, held at `~/Downloads/tui`: 34 animated GIFs (640x376 to 2400x1600)
-and 14 PNG stills (796x406 to 3470x2270), all screenshots or recordings of shipped
-terminal applications. 47 frames extracted with ffmpeg, one representative settled
-frame per artifact and a mid-recording frame where a GIF had enough frames to have
-one.
+The corpus, the extraction method, the `be-my-witness` observation-pass status,
+and the research panels behind both skills are all recorded once in
+`../../tui-craft/references/evidence.md` — restating them here would be a second
+copy to keep true. What that file does not carry, and this one does, is what each
+number below may be *used for*.
 
-Per `be-my-witness`, this was an **observation** pass and not a gate: there was no
-expected output and no mock, so it carries no verdict and no conformance score.
-Text visible inside the captures is treated as data. Nothing in the corpus
-attempted injection.
+The sample, in one line: 48 artifacts, 34 animated GIFs (640x376 to 2400x1600) and
+14 PNG stills (796x406 to 3470x2270), one settled frame extracted per artifact plus
+a mid-recording frame where a GIF had enough of them — 47 frames in total, which is
+the denominator every figure below is quoted against.
 
-Three research reports (Gemini, Perplexity, xAI) on terminal rendering
-constraints sit in the plugin's `docs/deep-research/`, and the pattern census is
-in `docs/corpus-analysis.md`.
+**The injection note in that file is about the wrong artifact, and it is worth
+being precise about which.** The corpus was 48 files chosen by the author, and
+nothing in it attempted injection. A frame a reader compiles from someone else's
+spec, or captures from someone else's program, carries no such guarantee — which is
+why the fence sentence in `SKILL.md` exists and why this paragraph is not a
+reassurance.
+
 
 ## The instrument, and why it was checked first
 

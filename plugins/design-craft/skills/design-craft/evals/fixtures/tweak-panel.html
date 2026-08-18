@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Kettle brand explorer</title>
+<style>
+  :root { --z-tweaks:600; --ink:#1B1A18; --ground:#FBFAF7; }
+  body { background:var(--ground); color:var(--ink); }
+  .cta { background:var(--ink); color:var(--ground); font-size:16px; }
+  .cta:hover { background:#3A3733; }
+  .cta:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+</style></head>
+<body>
+<button id="tweak-toggle" class="cta" aria-expanded="false" aria-controls="tweak-panel"
+  style="position:fixed; bottom:16px; right:16px; z-index:var(--z-tweaks);">Tweaks</button>
+<aside id="tweak-panel" hidden aria-label="Tweaks"
+  style="position:fixed; bottom:60px; right:16px; z-index:var(--z-tweaks); width:260px;"></aside>
+</body></html>

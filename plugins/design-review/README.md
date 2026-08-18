@@ -8,10 +8,10 @@
 An SWE skill for Claude Code that renders the surface, runs the checks that are deterministic, judges the ones that aren't, and tells you plainly which is which.</p>
 
 <p align="center">
-  <img alt="Version 1.5.0" src="https://img.shields.io/badge/version-1.5.0-E33B21">
+  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-E33B21">
   <img alt="SWE skill" src="https://img.shields.io/badge/type-SWE_skill-2C4C74">
-  <img alt="Pipeline: 11 stages" src="https://img.shields.io/badge/pipeline-11_stages-51657C">
-  <img alt="Browser drivers: 5" src="https://img.shields.io/badge/browser_drivers-5-6E8296">
+  <img alt="Pipeline: 12 stages" src="https://img.shields.io/badge/pipeline-12_stages-51657C">
+  <img alt="Engine: Obscura" src="https://img.shields.io/badge/engine-Obscura-6E8296">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-97A8B8">
 </p>
 
@@ -67,7 +67,7 @@ flowchart TD
     K -- no --> RPT(["Severity-ranked report,<br/>plus what was never checked"])
 ```
 
-Eleven stages, and the shape that matters is that the middle seven run **per surface**, not once. Finishing the last of them on the first screen is one row done, not the review done.
+Twelve stages, and the shape that matters is that the middle seven run **per surface**, not once. Finishing the last of them on the first screen is one row done, not the review done.
 
 The stages don't collapse into one pass because each catches a defect class the others are structurally blind to. Static checks can't see motion, for instance: at rest an entrance has finished and a transient overlay is invisible, so anything that moves needs a mid-flight frame or it goes unreviewed.
 
@@ -113,19 +113,21 @@ Every review closes with what wasn't checked: screen-reader output, whether focu
 Note: a gate can also be confidently wrong while looking completely right. A contrast probe sampled 400ms into a 700ms entrance read an `#E85A2A` accent as `#6a2d18`, and reported a surface going from 13 failures to 28 after a fix that provably removed them. The runners now scroll the whole document, drain `document.getAnimations()`, and record what was still moving when they measured. A gate that samples mid-animation is worse than no gate, because its output is indistinguishable from a real measurement.
 
 <details>
-<summary><strong>Browser drivers</strong> (five paths, whichever the project already has)</summary>
+<summary><strong>The engine</strong> (one driver, three ways in)</summary>
 
 <br />
 
+Everything runs on **Obscura**, a single static binary on PATH as `obscura`.
+
 | Path | Entry point |
 |---|---|
-| Playwright | `scripts/run_review.py` |
-| Puppeteer | `scripts/run_review.mjs` |
-| chrome-devtools-mcp | MCP tools, with CWV traces and Lighthouse natively |
-| agent-browser | CLI or MCP: snapshot and ref loop, `vitals`, `a11y`, session reuse |
-| claude-in-chrome | For a live or authenticated surface |
+| `obscura serve` + CDP | `scripts/run_review.py` — the viewport matrix and the probe sweep |
+| `obscura fetch` | One page, one capture: `--screenshot`, `--eval`, `--dump` |
+| `obscura mcp` | Driving a surface interactively: click, fill, scroll, tabs, auth state |
 
-Reach for the one that's already in the repo rather than installing a second stack. `references/browser-drivers.md` covers all five, including how to attach to an authenticated session and where each one degrades.
+Playwright, Puppeteer, `chrome-headless-shell`, `chrome-devtools-mcp`, Playwright MCP, `browser-use` and `claude-in-chrome` are not used and are not fallbacks. A review that says "install Puppeteer for the rest" is wrong advice here.
+
+That single engine is also why the skill measures what it can read rather than assuming it. `references/browser-drivers.md` carries the measurements: which computed properties answer, which come back empty whatever the CSS says, which recover from the stylesheet instead, and the three false positives the engine produces on its own.
 
 </details>
 
@@ -136,21 +138,22 @@ Reach for the one that's already in the repo rather than installing a second sta
 
 ```text
 plugins/design-review/
-├── skills/design-review/SKILL.md   the eleven stages
-│   ├── references/                 12 files: the reliability envelope, the gates,
-│   │                               layout integrity, craft numerics, severity
+├── skills/design-review/SKILL.md   the twelve stages
+│   ├── references/                 14 files: the evidence base, the reliability
+│   │                               envelope, the gates, layout integrity, severity
 │   ├── scripts/                    probes, runners, analysis, the coverage ledger
 │   ├── assets/report-template.md   the report skeleton
-│   └── evals/                      nine task evals plus a trigger set
+│   └── evals/                      eleven task evals plus a trigger set
 └── assets/                         icon, banner, icon audit
 ```
 
 The scripts, in the order a review reaches for them:
 
-- `probes.js` runs in the page: contrast with its denominator, overflow, image crop, target size, semantics, focus rules, computed styles, column and band voids, implicit grid tracks, declared-but-unread tokens, and the settling proof every other number depends on
-- `run_review.py` and `run_review.mjs` capture across the viewport matrix with staged interaction states. Identical output layout, so the analysis scripts read either
-- `analyze_styles.py` produces the systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
-- `scan_source.py` applies 25 tiered source rules
+- `probes.js` runs in the page: engine capability and the declared-style fallback, contrast with its four populations, overflow, image crop, target size, semantics, focus rules, computed styles tagged with where each value came from, column and band voids, implicit grid tracks, divider proximity, declared-but-unread tokens, and the settling proof every other number depends on
+- `run_review.py` captures across the viewport matrix with staged interaction states, measures what the engine can actually read before it reads anything, and isolates each probe so one failure costs its own number instead of the whole run
+- `analyze_styles.py` produces the systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence, and a measurability state per metric so a channel the engine cannot read reports as unmeasurable rather than as zero
+- `audit_run.py` is the pair of gates over the review's own honesty: `capability` refuses to let an unmeasurable metric be quoted as a count, and `claims` checks every number in the written report against what the run actually recorded
+- `scan_source.py` applies 28 tiered source rules
 - `annotate.py` crops, slices and overlays coordinate grids for visual evidence
 - `worklist.py` is the coverage ledger and its gate
 

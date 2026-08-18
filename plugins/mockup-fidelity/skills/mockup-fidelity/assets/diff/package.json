@@ -1,0 +1,10 @@
+{
+  "name": "mockup-fidelity-diff",
+  "version": "2.6.0",
+  "private": true,
+  "description": "Runtime deps for the mockup-fidelity raster layer (capture.mjs). analyze.js itself is a zero-dep browser IIFE; the harness drives `obscura serve` over CDP with Node 22's global WebSocket, so odiff-bin is the only dependency.",
+  "type": "module",
+  "dependencies": {
+    "odiff-bin": "4.3.8"
+  }
+}

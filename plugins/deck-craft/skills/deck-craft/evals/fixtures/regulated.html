@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deck</title>
+<style>
+  :root { --accent:#D72229; --ink:#1a1818; --paper:#f7f5f2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; font-family:Georgia, serif; }
+  .slide { position:relative; width:100vw; height:56.25vw; max-height:100vh;
+           max-width:177.78vh; margin:0 auto; overflow:hidden; background:var(--paper); }
+  .stage { position:absolute; top:0; left:0; width:1920px; height:1080px;
+           transform-origin:top left; padding:96px 120px; color:var(--ink); }
+  h1 { font-size:132px; line-height:1.05; font-weight:700; }
+  h2 { font-size:76px; line-height:1.1; }
+  p  { font-size:34px; line-height:1.45; margin-top:32px; max-width:1200px; }
+  .chip { display:inline-block; font-size:28px; padding:10px 22px;
+          background:var(--accent); color:#fff; margin-top:40px; }
+  .bars { display:flex; gap:28px; margin-top:56px; align-items:flex-end; height:240px; }
+  .bar  { width:120px; background:var(--accent); }
+  .rule { width:420px; height:12px; background:var(--accent); margin-top:48px; }
+</style>
+<script>
+  // Scale the authored stage into the slide box. Fixed 16:9, letterboxed.
+  function fit(){
+    document.querySelectorAll('.slide').forEach(function(sl){
+      var st = sl.querySelector('.stage');
+      var k = Math.min(sl.clientWidth/1920, sl.clientHeight/1080);
+      st.style.transform = 'scale(' + k + ')';
+    });
+  }
+  window.addEventListener('resize', fit); window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+
+<section class="slide" id="slide-1"><div class="stage">
+  <h1>Fourth Quarter<br>Operating Review</h1>
+  <p>Prepared for the board.</p>
+</div></section>
+
+<section class="slide" id="slide-2"><div class="stage">
+  <h2>Revenue by division</h2>
+  <p>Engineering services carried the quarter, with fabrication steady.</p>
+  <div class="bars">
+    <div class="bar" style="height:62%"></div>
+    <div class="bar" style="height:78%"></div>
+    <div class="bar" style="height:94%"></div>
+    <div class="bar" style="height:41%"></div>
+  </div>
+  <div class="rule"></div>
+</div></section>
+
+<section class="slide" id="slide-3"><div class="stage">
+  <h2>Outlook</h2>
+  <p>Underlying EBITDA of 12.4 million on revenue of 88.1 million.</p>
+  <span class="chip">Guidance reaffirmed</span>
+</div></section>
+
+</body>
+</html>

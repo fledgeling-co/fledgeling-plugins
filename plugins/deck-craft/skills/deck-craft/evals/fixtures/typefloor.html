@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hunter Valley Engineering — FY26 Interim Review</title>
+<style>
+  :root { --ink:#1a1818; --paper:#f7f5f2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; font-family:Georgia, serif; }
+  .slide { position:relative; width:100vw; height:56.25vw; max-height:100vh;
+           max-width:177.78vh; margin:0 auto; overflow:hidden; background:var(--paper); }
+  .stage { position:absolute; top:0; left:0; width:1920px; height:1080px;
+           transform-origin:top left; padding:96px 120px; color:var(--ink); }
+  h1 { font-size:120px; line-height:1.05; }
+  h2 { font-size:72px; line-height:1.1; }
+  /* 16px body on a 1920 canvas: two-thirds of the 24px floor. */
+  .body16 { font-size:16px; line-height:1.5; margin-top:14px; max-width:1100px; }
+</style>
+<script>
+  function fit(){
+    document.querySelectorAll('.slide').forEach(function(sl){
+      var st = sl.querySelector('.stage');
+      var k = Math.min(sl.clientWidth/1920, sl.clientHeight/1080);
+      st.style.transform = 'scale(' + k + ')';
+    });
+  }
+  window.addEventListener('resize', fit); window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+
+<section class="slide" id="slide-1"><div class="stage">
+  <h1>FY26 Interim Review</h1>
+  <div class="body16">Prepared for the board, as at 30 June 2026. Unaudited.</div>
+</div></section>
+
+<section class="slide" id="slide-2"><div class="stage">
+  <h2>Divisional detail</h2>
+  <div class="body16">Engineering services revenue rose against the prior corresponding period.</div>
+  <div class="body16">Fabrication throughput held at nameplate across the half.</div>
+  <div class="body16">Maintenance contracts renewed on existing commercial terms.</div>
+  <div class="body16">Labour availability improved in the second quarter.</div>
+  <div class="body16">Consumables pricing was flat on the prior half.</div>
+  <div class="body16">Plant utilisation averaged above the internal target.</div>
+  <div class="body16">No material customer concentration change occurred.</div>
+  <div class="body16">Order book coverage extends through the next half.</div>
+</div></section>
+
+<section class="slide" id="slide-3"><div class="stage">
+  <h2>Balance sheet</h2>
+  <div class="body16">Net debt reduced over the half on operating cash generation.</div>
+  <div class="body16">The facility remains undrawn beyond working capital needs.</div>
+  <div class="body16">Covenant headroom was maintained at every test date.</div>
+  <div class="body16">Capital expenditure tracked the approved programme.</div>
+  <div class="body16">Lease liabilities are unchanged in structure.</div>
+  <div class="body16">Trade receivables ageing improved modestly.</div>
+  <div class="body16">Inventory turns were stable across both divisions.</div>
+  <div class="body16">No off-balance-sheet arrangements were entered.</div>
+</div></section>
+
+</body>
+</html>

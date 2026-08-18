@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Revenue and Headcount — FY26 Half Year</title>
+<style>
+  :root { --ink:#1a1818; --paper:#f7f5f2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; font-family:Georgia, serif; }
+  .slide { position:relative; width:100vw; height:56.25vw; max-height:100vh;
+           max-width:177.78vh; margin:0 auto; overflow:hidden; background:var(--paper); }
+  .stage { position:absolute; top:0; left:0; width:1920px; height:1080px;
+           transform-origin:top left; padding:96px 120px; color:var(--ink); }
+  h1 { font-size:120px; } h2 { font-size:72px; }
+  p  { font-size:32px; margin-top:24px; }
+  text { font-size:26px; font-family:Georgia, serif; }
+</style>
+<script>
+  function fit(){
+    document.querySelectorAll('.slide').forEach(function(sl){
+      var st = sl.querySelector('.stage');
+      var k = Math.min(sl.clientWidth/1920, sl.clientHeight/1080);
+      st.style.transform = 'scale(' + k + ')';
+    });
+  }
+  window.addEventListener('resize', fit); window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+
+<section class="slide" id="slide-1"><div class="stage">
+  <h1>Revenue and Headcount</h1>
+  <p>As at 30 June 2026. Unaudited. Statutory revenue as reported.</p>
+</div></section>
+
+<!-- A DUAL AXIS: revenue on the left (0-100), headcount on the right (0-500).
+     Two independent vertical scales on one chart. -->
+<section class="slide" id="slide-2"><div class="stage">
+  <h2>Revenue against headcount</h2>
+  <svg width="1400" height="600" viewBox="0 0 1400 600">
+    <text x="60" y="80">100</text>
+    <text x="60" y="200">75</text>
+    <text x="60" y="320">50</text>
+    <text x="60" y="440">25</text>
+    <text x="1320" y="80">500</text>
+    <text x="1320" y="200">375</text>
+    <text x="1320" y="320">250</text>
+    <text x="1320" y="440">125</text>
+    <polyline points="200,420 500,340 800,260 1100,150" fill="none" stroke="#1a1818" stroke-width="6"/>
+    <polyline points="200,440 500,400 800,300 1100,180" fill="none" stroke="#888" stroke-width="6"/>
+  </svg>
+  <p>Source: management accounts. Statutory revenue as reported.</p>
+</div></section>
+
+<!-- An INVERTED AXIS: the larger number sits lower down the page. -->
+<section class="slide" id="slide-3"><div class="stage">
+  <h2>Days to close</h2>
+  <svg width="1400" height="600" viewBox="0 0 1400 600">
+    <text x="60" y="80">10</text>
+    <text x="60" y="200">20</text>
+    <text x="60" y="320">30</text>
+    <text x="60" y="440">40</text>
+    <text x="60" y="540">50</text>
+    <text x="300" y="580">Q1</text>
+    <polyline points="200,120 600,240 1000,380" fill="none" stroke="#1a1818" stroke-width="6"/>
+  </svg>
+  <p>Source: management accounts. Statutory reporting basis, as reported.</p>
+</div></section>
+
+</body>
+</html>

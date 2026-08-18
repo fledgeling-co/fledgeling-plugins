@@ -62,14 +62,35 @@ Capture the same route across 3–5 instances and measure what actually differs:
 
 ```js
 // per instance, on the same route
-({
-  tokens: Object.fromEntries([...document.styleSheets].flatMap(() => [])) , // read :root custom props
-  bands:  [...document.querySelectorAll('main > section')].map(s => s.className),
-  fonts:  [...new Set([...document.querySelectorAll('h1,h2,body,p')]
-            .map(e => getComputedStyle(e).fontFamily))],
-  hero:   document.querySelector('h1')?.textContent?.trim(),
-})
+(() => {
+  // Custom properties declared on :root, read back resolved. The earlier version
+  // of this snippet was `Object.fromEntries([...document.styleSheets].flatMap(() => []))`,
+  // which always evaluates to {} — so a reviewer following it measured zero tokens
+  // on every instance and landed on this section's expected conclusion through a
+  // dead instrument. Exactly the defect this file exists to catch, in this file.
+  const root = getComputedStyle(document.documentElement);
+  const names = new Set();
+  for (const sheet of document.styleSheets) {
+    let rules; try { rules = sheet.cssRules; } catch { continue; }   // cross-origin
+    if (!rules) continue;
+    for (const r of rules) {
+      const text = String(r.cssText || '');
+      for (const m of text.matchAll(/(--[\w-]+)\s*:/g)) names.add(m[1]);
+    }
+  }
+  return {
+    tokens: Object.fromEntries([...names].sort()
+      .map(n => [n, root.getPropertyValue(n).trim()])
+      .filter(([, v]) => v)),
+    bands:  [...document.querySelectorAll('main > section')].map(s => s.className),
+    fonts:  [...new Set([...document.querySelectorAll('h1,h2,body,p')]
+              .map(e => getComputedStyle(e).fontFamily))],
+    hero:   document.querySelector('h1')?.textContent?.trim(),
+  };
+})()
 ```
+
+Two caveats on the output, both measured. A cross-origin stylesheet throws on `cssRules` and is skipped, so `tokens` is a floor rather than a census — count the skips if the number matters. And `fonts` records what the CSS asked for: web fonts never load on this engine, so a font set that differs across instances is a real difference while an *identical* one is not evidence the rendered type matches.
 
 Then ask what varies: **only the content**, or the structure and the system too? Content-only variation with an identical band skeleton, identical token values and identical section order means the generator is a template with slots, whatever the brief promised. That is a High finding against the brief, and the root cause is upstream in the generator — name it there rather than filing fourteen cosmetic findings.
 

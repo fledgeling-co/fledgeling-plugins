@@ -1,0 +1,4 @@
+/* trips: contrast-below-floor (warn) */
+.meta { color: #9aa0a6; background-color: #ffffff; font-size: 14px; }
+.chip { color: rgb(120,120,120); background-color: rgb(200,200,200); font-size: 13px; }
+.token { color: var(--fg); background-color: #ffffff; }

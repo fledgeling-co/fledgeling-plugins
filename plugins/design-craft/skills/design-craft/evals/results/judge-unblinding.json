@@ -1,0 +1,23 @@
+{
+  "seed": 20260818,
+  "map": [
+    {
+      "case": 1,
+      "topic": "Instructions for verifying a design that has motion in it, on this machine's browser automation.",
+      "A": "candidate",
+      "B": "incumbent"
+    },
+    {
+      "case": 2,
+      "topic": "Instructions for loading an animation library into a self-contained HTML deliverable.",
+      "A": "incumbent",
+      "B": "candidate"
+    },
+    {
+      "case": 3,
+      "topic": "Instructions for checking colour contrast in a design that is about to ship.",
+      "A": "incumbent",
+      "B": "candidate"
+    }
+  ]
+}

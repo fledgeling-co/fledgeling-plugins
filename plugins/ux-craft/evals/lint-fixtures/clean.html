@@ -1,0 +1,21 @@
+<!doctype-free fragment: must pass every failure check -->
+<form id="invite" data-state="ideal">
+  <label for="email">Work email</label>
+  <input type="email" id="email" name="email" autocomplete="email"
+         aria-describedby="email-error" placeholder="name@company.com" />
+  <p id="email-error" class="field-error visually-hidden" role="status"></p>
+  <img src="/logo.svg" alt="" />
+  <button type="submit" class="btn-primary">Send invitation</button>
+</form>
+<div data-state="loading" class="skeleton" aria-busy="true" hidden></div>
+<div data-state="empty" class="empty-state" hidden>No invitations yet</div>
+<div data-state="error" class="error" hidden></div>
+<div data-state="partial" class="partial" hidden></div>
+<div data-state="done" class="done" hidden></div>
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px;
+                     overflow: hidden; clip-path: inset(50%); }
+  .btn-primary { min-height: 44px; padding: 12px 20px;
+                 background-color: #1d4ed8; color: #ffffff; }
+  .btn-primary:focus-visible { outline: 2px solid #0b2f8f; outline-offset: 2px; }
+</style>

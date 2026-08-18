@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Engine A — the hand-authored layered SVG master for the token-discipline icon.
+"""Engine A — the hand-authored layered SVG master for the discipline icon.
 
 Direction: "The Set Stop". Geometry and material live as named constants so a fidelity round is a
 parameter edit, not path surgery.

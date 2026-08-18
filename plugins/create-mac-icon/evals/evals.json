@@ -42,6 +42,62 @@
         "The master applies at least two constructions from material-recipes.md (identifiable in the SVG: e.g. per-face gradients, contact shadow, cushion tile with inner rim)",
         "No claim of raster-reference fidelity is made, since no raster reference exists in this run"
       ]
+    },
+    {
+      "id": 4,
+      "name": "gate-holes-fixture-suite",
+      "prompt": "Deterministic, no model required. Build the nine commission fixtures in evals/fixtures/ (one per measured hole in `audit_sheet.py check`, plus a clean control and a keeps-the-template-instructions control) and run `check` on each.",
+      "expected_output": "Every fixture that encodes a hole exits 1 and names it; both controls exit 0. Recorded old-vs-new so the comparison stays honest: the original exits 0 on all seven holes.",
+      "assertions": [
+        "F1 prose-placeholder: a sheet whose recommendation block reads literally {{WHY_IT_SHIPS — …}} and {{LIABILITIES — …}} exits 1 (the original regex read only {{ALL_CAPS}} and exited 0)",
+        "F2 stale-render: a sheet whose renders predate the master they came from exits 1, naming both the sheet and the affected take",
+        "F3 all-remote-src: a sheet whose every <img src> is https:/data: exits 1 rather than reporting 'all resolve'",
+        "F4 below-rubric-bar: a sheet whose best take scores 8/12 exits 1 against the >=10/12 delivery bar, and the bar is read from the score CELLS rather than the page (the rubric footer's own '>=10/12' sentence must not satisfy it)",
+        "F5 hero-not-shown: a sheet that renders the 1024 hero for every take and displays it in no <img> exits 1",
+        "F6 unmasked-raster: a take rendered as kind 'png' whose corners are opaque exits 1, detected via audit-renders/render-manifest.json",
+        "F7 master-embeds-raster: a master containing <image> exits 1 because `check` now runs `fidelity.py structure` on it (eval 1 asserted this invariant and nothing in the commission path enforced it)",
+        "F8 clean control: a correct commission exits 0",
+        "F9 keeps-instructions control: a correct sheet that retains the template's instructional comment exits 0 — the comment documents the convention using placeholder-shaped strings, and the original failed such a sheet on its own documentation"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "gate-refuses-degraded-tier-both-paths",
+      "prompt": "Deterministic. Run `fidelity.py gate` on two score.json files that were scored without torch+lpips — for instance this plugin's own assets/fidelity-runs/r00 and r01, every round of which ran on the numpy-only tier.",
+      "expected_output": "Exit 2 REFUSED, naming the tier and the fix, from the gate itself rather than from the headless runner's override.",
+      "assertions": [
+        "`gate` exits 2 (REFUSED) when either side's score.json tier does not start with 'full', and the message names which side and what to install",
+        "The refusal fires on the hand-run sequence documented in SKILL.md and references/fidelity-loop.md, not only inside loop_runner.py — the original exited 0 ACCEPT on exactly these inputs",
+        "`--allow-degraded-tier` proceeds, emits a NOTE to stderr, and states that the verdict covers structure and small-size legibility only",
+        "The refusal is exit 2, distinct from a REJECT's exit 1: a comparison that must not be made is not a comparison the candidate lost"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "promotion-armed-patience-replay",
+      "prompt": "Deterministic. Replay the documented improve-skill 20-round panel trace against the naive stopping rule and the promotion-armed one.",
+      "expected_output": "The naive rule stops at r04 having seen no panel win; promotion-armed stops at r13 and ships r11.",
+      "assertions": [
+        "The reconstructed trace reproduces every documented count: 13 judged rounds, 7 baseline-preferred, wins at r07/r10/r11, and five baseline plus one tie in the six judged rounds after r11",
+        "The naive rule (patience counted from round 1) stops at r04 and ships nothing the panel ever preferred",
+        "Promotion-armed patience stops at r13, ships r11, and skips six rounds",
+        "`loop_runner.py` arms `panel_nonwins` on `st['promoted']` rather than from round 1 — the harness implemented the naive rule its own reference had already rejected",
+        "A fixture that never earns a promotion is bounded by EXPLORATION_CAP and escalated to the review queue rather than running to the hard ceiling",
+        "A panel verdict of `no-decisive-judges` neither increments nor resets the counter: an absent measurement is not evidence in either direction"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "panel-protocol-position-and-self-preference",
+      "prompt": "Deterministic on the harness, model-metered on a live run. Inspect `judge_panel.py`'s bundle construction and tally.",
+      "expected_output": "Each judge is asked in both presentation orders; a swap-flip is a tie; the generator's family is recorded but not decisive.",
+      "assertions": [
+        "build_bundle writes bundle/ and bundle-swapped/ with identical pixels and inverted A/B roles, so the second pass tests position rather than resampling the judge",
+        "A judge whose verdict differs between the two orders is recorded as 'tie' on that dimension, with the flip named in verdict-<family>.json",
+        "panel.json separates votes_all from votes_decisive, and the winner is a majority of the decisive set only",
+        "The generator's family (default `claude`, since the round agent is `claude -p`) appears in panel.json as recorded-but-excluded, and `--generator-family none` records that the exclusion was disabled",
+        "A panel with no surviving out-of-family judge reports `no-decisive-judges` rather than a winner"
+      ]
     }
   ]
 }

@@ -8,7 +8,7 @@ A Claude Code plugin for slide decks — build, review, convert. **Self-containe
 |---|---|---|
 | **HTML** | Present it, share a link, open in a browser | One self-contained file, fixed 1920x1080 stage that scales and letterboxes rather than reflowing |
 | **lecturn.deck/1 JSON** | A `.pptx` handoff, or an existing `.pptx` to read/diff/edit | Validated JSON, converted both ways by the stdlib-only `deckconv` |
-| **Diolog templates** | ASX investor artifacts: results, 4C, AGM, board pack, roadshow, capital raising, IPO, investor day, ESG, M&A scheme, site visit | `lecturn.deck/1` assembled from 140 templates + 12 recipes, submitted to the deck producer |
+| **Diolog templates** | ASX investor artifacts: results, 4C, AGM, board pack, roadshow, capital raising, IPO, investor day, ESG, M&A scheme, site visit | `lecturn.deck/1` assembled from 200 layouts in 27 families and 21 recipes, submitted to the deck producer |
 
 The router picks the target from the *destination*, not the content. Each reference is self-contained, so only one is read per deck.
 
@@ -20,7 +20,9 @@ The router picks the target from the *destination*, not the content. Each refere
 
 **Verification that isn't ceremonial.** A per-slide gate while building, and one delivery pass at the end. Built on three rules: rendering an image is not seeing one; the question you bring to a capture determines what you find in it (ask "what is wrong with this?", never "is this done?"); and a clean gate means *no known defect is present*, never *verified* — reported as separate claims with a never-empty not-checked line.
 
-**First-pass design resilience (v1.8.0).** Pure deterministic SVG charts by default (eliminates external CDN failures), automated image downsampling and Base64 inlining for single-file portability, strict dual-theme contrast rules for dark bands, `IntersectionObserver` active slide tracking with sticky header offset guards, and clean card semantic discipline.
+**First-pass design resilience.** Pure deterministic SVG charts by default (eliminates external CDN failures), automated image downsampling and Base64 inlining for single-file portability, strict dual-theme contrast rules for dark bands, `IntersectionObserver` active slide tracking with sticky header offset guards, and clean card semantic discipline.
+
+**A gate that cannot pass silently.** The preflight probe carries its own blocker/warning policy and a stated consequence for every finding, refuses a config key it does not recognise, and echoes its configuration back so the runner can prove the settings you asked for actually arrived. Only exit 0 is a pass: a probe that returned nothing, a config that did not land, a check that threw, and a run that examined zero slides each get their own exit code and their own refusal, because an absence of findings is not an absence of defects.
 
 **Progressive direction-finding.** The template libraries on the machine are read as evidence, not menus — the bold pack's selection index before any `design.md`, two or three matching open-design systems, a named brand's portable design system. No bulk reads.
 

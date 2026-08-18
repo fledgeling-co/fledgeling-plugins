@@ -1,6 +1,6 @@
 # SYNTHESIS — 532-icon corpus (500 macosicongallery + 32 Apple Tahoe captures)
 
-> Aggregated 2026-08-07 from `batch-01…10.md` (500 gallery icons, 2022-02 → 2026-07, newest-first batches) + `apple-2026.md` (32 ground-truth macOS 26 captures). Per-icon evidence lives in those files; raw images in `../macosicongallery/` (+ `manifest.json`) and `../apple-2026/`.
+> Aggregated 2026-08-07 from a 500-icon macosicongallery census (2022-02 → 2026-07) and 32 ground-truth macOS 26 captures. **Only the captures are bundled here:** `apple-2026.md` plus the 32 tiles in `apple-2026/`, upsampled to ~512px so a raster engine can take them as style references. The gallery census below is a **finding retained from that analysis**, not a corpus this plugin can re-open — its 500 source PNGs were deliberately dropped, because at 256px they are 27 MB that cannot do the style-reference job the captures were upsampled for. Per-app evidence for the exemplar roster is being consolidated as `exemplar-index.md` in the sibling `mac-design-studio` skill (diolog-plugins), one line per app naming its era and the single move it demonstrates — **not bundled here**, and not a path this plugin can open.
 
 ## Era census (n=500 gallery)
 

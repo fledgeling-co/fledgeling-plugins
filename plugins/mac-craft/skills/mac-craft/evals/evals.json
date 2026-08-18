@@ -1,0 +1,121 @@
+{
+  "skill": "mac-craft",
+  "note": "Structural assertions, not 1-10 scores: the judge-bias literature is clear that scores collapse, while artifacts are checkable. Most assertions below are graded by running scripts/mock_check.py and grep over the run's own output, so the grader is deterministic rather than persuadable. The spine is eval 1 assertion 4: the predecessor's recorded failure was a self-authored review reporting PASS on contrast while a glyph sat at 1.00:1 against its own background, so the assertion is not 'is the contrast good' but 'is the number computed and quoted, or asserted'.",
+  "evals": [
+    {
+      "id": "MC-1",
+      "name": "Two-surface commission, light and dark",
+      "prompt": "The app is Ledgerline, a macOS personal-finance reconciliation tool for people who keep their own books. It imports bank statements and helps the user match transactions against what they expected. Audience: pro/power, single-user, used weekly in long sessions. Design two surfaces, in both light and dark appearance: the main window (the account view where reconciliation happens), and the settings pane. Deliver the mock artifacts plus whatever the skill tells you to deliver alongside them.",
+      "assertions": [
+        {
+          "id": "A1",
+          "text": "Every delivered mock file is named from the app, not from the tool: no mock.html, index.html, design.html, ui.html, window.html, macos.html or untitled.html.",
+          "graded_by": "mock_check.py [naming], exit code",
+          "why": "Teardown P24. The filename is what the design is called wherever it is opened; the predecessor named nothing and the generic set passed."
+        },
+        {
+          "id": "A2",
+          "text": "Each mock is self-contained: zero external stylesheet, script, image, font or @import references.",
+          "graded_by": "mock_check.py [self-contained], external_refs == 0",
+          "why": "A web font silently falls back in this house's browser, so the typography audited is not the typography shipped."
+        },
+        {
+          "id": "A3",
+          "text": "Each mock carries a metric block in which every row has a value AND a tier from the closed set, every kit-tagged row matches the published kit value, and every declared value also appears in the stylesheet.",
+          "graded_by": "mock_check.py [metrics], examined > 0 and failures == 0",
+          "why": "The measured run put a 48px titlebar into a mock whose own reference specifies 33pt. A cell you cannot tag is a value you invented; a value declared and absent from the CSS is a claim the artifact does not support."
+        },
+        {
+          "id": "A4",
+          "text": "The delivery reports contrast as a computed count with the examined/failures/unresolved numbers quoted, not as an assertion or a word. A claimed pass with examined=0 fails this assertion.",
+          "graded_by": "grep the run's own report for the counter line; cross-check against a fresh mock_check.py run",
+          "why": "THE SPINE. Measured on the predecessor: all five surfaces reported PASS in a self-authored review, an engine named in it had failed all four invocation attempts and never ran, '100% pass rate on contrast (>=4.5:1)' was claimed, and one + glyph measured 1.00:1 against its own background."
+        },
+        {
+          "id": "A5",
+          "text": "Zero contrast failures across every appearance context the mock declares, with disabled elements exempt and unresolvable pairs reported as unresolved rather than counted as passes.",
+          "graded_by": "mock_check.py [contrast], failures == 0 and contexts >= 2",
+          "why": "Contrast Dilution appears in 72 of 135 corpus apps. Two contexts minimum because the kit's secondary label tier passes in dark and fails in light, so a one-appearance check cannot see it."
+        },
+        {
+          "id": "A6",
+          "text": "A focus ring is declared on :focus-visible, and no non-semantic element carries a click handler without a role and tabindex.",
+          "graded_by": "mock_check.py [keyboard], focus_visible > 0 and clickable_nonsemantic == 0",
+          "why": "Measured on the predecessor: :focus-visible 0, :focus 0, and 12 <div onclick> across two apps. Conviction 7 is greppable."
+        },
+        {
+          "id": "A7",
+          "text": "A colour token layer exists on :root and at most six distinct colour literals appear outside it.",
+          "graded_by": "mock_check.py [tokens], token_block_colours > 0 and distinct_outside <= 6",
+          "why": "Measured: 11 custom properties beside 45 raw hex literals, so no token layer existed for a theme switch to move."
+        },
+        {
+          "id": "A8",
+          "text": "An empty or first-run state is present in the artifact, or its absence is explicitly declared in the delivery as specified-in-the-matrix rather than left silent.",
+          "graded_by": "mock_check.py [states] empty_state_markers, plus grep of the report",
+          "why": "An ideal-state-only mock is a third of a design. Silence about the omission is what makes it read as a decision."
+        },
+        {
+          "id": "A9",
+          "text": "The delivery names at least one thing it did NOT check, and does not claim motion or web-font fidelity.",
+          "graded_by": "human/grader read of the report",
+          "why": "Teardown P7. This house's browser executes no CSS animation and loads no web font, so a motion-floor pass is unobtainable and claiming one is the failure."
+        },
+        {
+          "id": "A10",
+          "text": "Increased contrast, where declared, is authored per appearance rather than once scheme-agnostically.",
+          "graded_by": "mock_check.py [contrast] with a dark+contrast context present and failing zero",
+          "why": "Found by the gate on this skill's own fixture: one shared prefers-contrast block painted black on graphite in dark mode, an increased-contrast mode that reduced contrast. Invisible in any light-mode review."
+        }
+      ]
+    },
+    {
+      "id": "MC-2",
+      "name": "Icon request must be refused and routed",
+      "prompt": "Make an icon for my Mac app. It's called Ledgerline and it reconciles bank statements.",
+      "assertions": [
+        {
+          "id": "B1",
+          "text": "The run does not author an icon, an SVG master, a glyph spec or an icon direction here.",
+          "graded_by": "directory listing of the run's output",
+          "why": "The predecessor's own description triggered on this exact phrasing and then carried a 237-line near-clone of create-mac-icon's catalogue plus a superseded audit template. The two drifted."
+        },
+        {
+          "id": "B2",
+          "text": "It names create-mac-icon as the owner and either invokes it or states plainly that it is not installed and stops.",
+          "graded_by": "grep the run's report",
+          "why": "Teardown P22: name the tempting improvisation and forbid it. One honest gap beats two copies diverging."
+        }
+      ]
+    },
+    {
+      "id": "MC-3",
+      "name": "Targeted edit stays targeted",
+      "prompt": "Given the delivered Ledgerline main-window mock: make the accent warmer. Nothing else.",
+      "assertions": [
+        {
+          "id": "C1",
+          "text": "The diff touches only the accent tokens and the metric block row that records them.",
+          "graded_by": "diff of the mock before and after",
+          "why": "Teardown P18. The predecessor mandated a full seven-audit pass before any delivery, which on a one-colour change is a strong pull toward touching everything."
+        },
+        {
+          "id": "C2",
+          "text": "The gate and the render are re-run, and the audits that could not have moved are named as not re-run rather than silently re-reported.",
+          "graded_by": "grep the run's report",
+          "why": "Re-reporting an unchanged audit row as freshly verified is the same false-pass mechanism at a smaller scale."
+        }
+      ]
+    }
+  ],
+  "grading": {
+    "deterministic": "A1, A2, A3, A5, A6, A7, A10 and the mechanical half of A4 and A8 are graded by running scripts/mock_check.py on the run's own output and reading its counters. That is the point: a grader that can be argued with grades the argument.",
+    "read_by_grader": "A4's quoting requirement, A8's declaration branch, A9, B1, B2, C1, C2.",
+    "vacuous_assertion_rule": "An assertion that cannot fail on the current outputs is a finding about the evals, not a pass. Write an adversarial case that makes it bite."
+  },
+  "baseline": {
+    "against": "mac-design-studio (diolog-plugins), the direct predecessor, run on the identical prompt with the identical environment note and no gate script available.",
+    "honesty": "If the predecessor wins an assertion, it goes in the table. A scorecard that only shows wins convinces nobody."
+  },
+  "cost_note": "MC-1 is two full design commissions per version and takes tens of minutes each. Run it deliberately, not on every edit. MC-2 and MC-3 are cheap."
+}

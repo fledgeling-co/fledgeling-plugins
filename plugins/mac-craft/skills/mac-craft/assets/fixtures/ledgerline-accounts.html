@@ -1,0 +1,170 @@
+<!-- Ledgerline — main window, light appearance.
+     This fixture exists to prove the gate is passable. A gate nothing can satisfy is
+     not a gate, it is a wall; every check below is cleared by a mock that follows the
+     skill, and the diff between this file and fixtures/mock.html is the skill. -->
+<title>Ledgerline — Accounts</title>
+
+<!-- mac-craft:metrics
+# metric            value   tier
+titlebar            33px    kit
+unified-toolbar     52px    kit
+control-regular     24px    kit
+body-type           13px    kit
+sidebar             256px   kit
+sidebar-row-medium  32px    kit
+selection-radius    8px     kit
+accent              #0088FF kit
+accent-ink          #0071E3 research
+ground              #FFFFFF direction
+mono-figure         34px    direction
+-->
+
+<style>
+  :root {
+    --window-bg: #FFFFFF;
+    --chrome-bg: #F6F6F8;
+    --accent: #0088FF;
+    /* Text-bearing accent fills need their own token: white 13pt on the kit's Blue
+       #0088FF measures 3.52:1, below the AA floor. #0071E3 is 4.70:1 and reads as the
+       same blue. The kit hue stays for rings and selection, where no text sits on it. */
+    --accent-ink: #0071E3;
+    --label-primary: rgba(0, 0, 0, 0.85);
+    --label-secondary: rgba(0, 0, 0, 0.60);
+    --label-disabled: rgba(0, 0, 0, 0.25);
+    --divider: rgba(0, 0, 0, 0.29);
+    --fill-selected: rgba(0, 0, 0, 0.08);
+    --positive: #1D7A33;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --window-bg: #1E1E1E;
+      --chrome-bg: #2C2C2E;
+      --label-primary: rgba(255, 255, 255, 1);
+      --label-secondary: rgba(255, 255, 255, 0.60);
+      --label-disabled: rgba(255, 255, 255, 0.25);
+      --divider: rgba(255, 255, 255, 0.29);
+      --fill-selected: rgba(255, 255, 255, 0.10);
+      --positive: #30D158;
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .toolbar { backdrop-filter: none; background: var(--chrome-bg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms; }
+  }
+  @media (prefers-contrast: more) {
+    /* Increased contrast has to be authored per appearance, like dark mode itself.
+       A single scheme-agnostic override here set the secondary label to black at 85%
+       and, in dark, painted it on graphite at 1.23:1 — an increased-contrast mode that
+       *reduced* contrast. Nothing in a light-mode review would have shown it. */
+    :root { --label-secondary: rgba(0, 0, 0, 0.85); --divider: rgba(0, 0, 0, 0.6); }
+  }
+  @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+    :root { --label-secondary: rgba(255, 255, 255, 0.95); --divider: rgba(255, 255, 255, 0.6); }
+  }
+
+  body {
+    margin: 0;
+    font: 13px/16px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    background: var(--window-bg);
+    color: var(--label-primary);
+  }
+  .titlebar {
+    height: 33px; background: var(--chrome-bg);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lights { width: 68px; height: 14px; margin-left: 9px; }
+  .lights i { width: 12px; height: 12px; border-radius: 6px; display: inline-block; }
+  .win-title { font-weight: 600; color: var(--label-primary); }
+  .toolbar {
+    height: 52px; background: var(--chrome-bg);
+    border-bottom: 1px solid var(--divider);
+    display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  }
+  .tool { height: 24px; min-width: 24px; border: 0; background: transparent;
+          color: var(--label-primary); border-radius: 6px; font-size: 13px; }
+  .tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .primary {
+    height: 24px; background: var(--accent-ink); color: #FFFFFF;
+    border: 0; border-radius: 12px; padding: 0 14px; font-weight: 600;
+  }
+  .primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .shell { display: flex; }
+  .sidebar {
+    width: 256px; background: var(--chrome-bg);
+    border-right: 1px solid var(--divider); padding: 8px 0;
+  }
+  .group { font-weight: 600; color: var(--label-secondary);
+           font-size: 11px; padding: 6px 16px; }
+  .nav { list-style: none; margin: 0; padding: 0 4px; }
+  .nav button {
+    display: block; width: 100%; text-align: left; height: 32px;
+    border: 0; background: transparent; color: var(--label-primary);
+    border-radius: 8px; padding: 0 12px; font-size: 13px;
+  }
+  .nav button[aria-current="page"] { background: var(--fill-selected); font-weight: 600; }
+  .nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .nav button[disabled] { color: var(--label-disabled); }
+  .content { flex: 1; padding: 20px 24px; }
+  .figure { font: 600 34px/38px ui-monospace, "SF Mono", monospace;
+            font-variant-numeric: tabular-nums; color: var(--label-primary); }
+  .caption { color: var(--label-secondary); font-size: 11px; }
+  .delta { color: var(--positive); font-weight: 600; }
+  .rows { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .rows th { text-align: left; font-weight: 600; font-size: 11px;
+             color: var(--label-secondary); padding: 4px 8px;
+             border-bottom: 1px solid var(--divider); }
+  .rows td { padding: 6px 8px; border-bottom: 1px solid var(--divider); }
+  .empty-state { padding: 40px 0; text-align: center; color: var(--label-secondary); }
+  .empty-state h2 { font: 600 15px/20px inherit; color: var(--label-primary); margin: 0 0 4px; }
+</style>
+
+<div class="titlebar">
+  <span class="lights" aria-hidden="true"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></span>
+  <span class="win-title">Accounts</span>
+</div>
+
+<div class="toolbar">
+  <button class="tool" aria-label="Add account">+</button>
+  <button class="tool" aria-label="Filter">Filter</button>
+  <span style="flex:1"></span>
+  <button class="primary">Reconcile</button>
+</div>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Ledgers">
+    <div class="group">Ledgers</div>
+    <ul class="nav">
+      <li><button aria-current="page">Everyday</button></li>
+      <li><button>Savings</button></li>
+      <li><button>Offset</button></li>
+      <li><button disabled>Archived ledgers</button></li>
+    </ul>
+    <div class="group">Reports</div>
+    <ul class="nav">
+      <li><button>This month</button></li>
+      <li><button>Year to date</button></li>
+    </ul>
+  </nav>
+
+  <main class="content">
+    <div class="figure">$4,182.60</div>
+    <div class="caption">Cleared balance &middot; reconciled to 16 August <span class="delta">+$312.40</span></div>
+
+    <table class="rows">
+      <thead><tr><th>Date</th><th>Payee</th><th>Amount</th></tr></thead>
+      <tbody>
+        <tr><td>16 Aug</td><td>Roasters on Gould</td><td>&minus;$18.50</td></tr>
+        <tr><td>15 Aug</td><td>Transfer to Offset</td><td>&minus;$500.00</td></tr>
+        <tr><td>15 Aug</td><td>Salary &mdash; Fledgeling</td><td>+$4,120.00</td></tr>
+      </tbody>
+    </table>
+
+    <div class="empty-state" hidden>
+      <h2>No transactions yet</h2>
+      <p>Import a statement or add the first entry to start reconciling.</p>
+      <button class="primary">Import statement&hellip;</button>
+    </div>
+  </main>
+</div>

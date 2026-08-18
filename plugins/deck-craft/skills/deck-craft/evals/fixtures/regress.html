@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Alfabs FY26 Workshop Consolidation Review</title>
+<style>
+ *{margin:0;padding:0;box-sizing:border-box}
+ body{background:#000;font-family:Georgia,serif}
+ .slide{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;
+        margin:0 auto;overflow:hidden;background:#f7f5f2}
+ .stage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;
+        padding:80px 100px;color:#1a1818}
+ h1{font-size:120px} h2{font-size:64px;line-height:1.1;width:900px}
+ p{font-size:32px;margin-top:28px}
+ .tall{margin-top:40px}
+ .tall li{font-size:34px;line-height:1.5;list-style:none;margin-top:22px}
+</style>
+<script>
+ function fit(){document.querySelectorAll('.slide').forEach(function(sl){
+   var st=sl.querySelector('.stage');
+   st.style.transform='scale('+Math.min(sl.clientWidth/1920,sl.clientHeight/1080)+')';});}
+ window.addEventListener('resize',fit);window.addEventListener('load',fit);
+</script></head><body>
+<section class="slide" id="slide-1"><div class="stage">
+  <h1>Workshop Review</h1><p>As at 30 June 2026. Unaudited.</p></div></section>
+<section class="slide" id="slide-2"><div class="stage">
+  <h2>The consolidation of the Hunter Valley fabrication workshop into a single
+      site and the resulting annualised benefit across both divisions</h2>
+  <p>As at 30 June 2026.</p></div></section>
+<section class="slide" id="slide-3"><div class="stage">
+  <h2>Detail</h2>
+  <ul class="tall">
+   <li>One</li><li>Two</li><li>Three</li><li>Four</li><li>Five</li><li>Six</li>
+   <li>Seven</li><li>Eight</li><li>Nine</li><li>Ten</li><li>Eleven</li><li>Twelve</li>
+  </ul></div></section>
+</body></html>

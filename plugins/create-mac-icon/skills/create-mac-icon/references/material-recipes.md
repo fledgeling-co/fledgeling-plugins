@@ -65,6 +65,93 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · ship-fleet harbour — a wake is a fan, a bollard is a moulding, and
+  a quay bar with equal teeth is a letter.**
+
+  **(a) A trailing wake is a DIVERGING FAN of fine foam streaks over a shallow
+  trough, not one tapered band.** The first draft drew the wake as a single
+  tapered translucent polygon with a foam line down each edge; at every size it
+  read as a smear on the water rather than as a vessel moving. The raster take
+  that won the material judgment draws five fine streaks whose lateral offset
+  grows astern — `spread = 9 + 30·t^0.8` off the centreline, opacity falling as
+  `(1−t)^1.25`, outer streaks starting two samples further aft than the inner
+  ones — laid over one broad `feGaussianBlur`-softened trough of displaced water
+  at 24% dark-warm. Rebuilding it that way is most of what makes a plan-view hull
+  read as *under way* rather than *placed*, and it costs five polylines.
+  *Generalise:* motion in plan view is carried by the divergence of the trail,
+  not by its length or its opacity.
+
+  **(b) Two concentric circles is a decal; a moulding needs four elements.** Flat
+  bollards drawn as a dark disc plus a lighter disc read as paint applied to the
+  pier surface — a plane error the eye catches instantly and no gradient work on
+  the pier itself can repair. The construction that reads as an object standing
+  proud: a blurred cast-shadow ellipse offset toward the light's far side, a
+  rounded-rect body in the scene's key-axis ramp, a cap ellipse a step lighter
+  than the body, and a small offset catch at ~0.55 white. Four elements, ~15px
+  tall on a 1024 canvas, and they carry the toy-scale render more than the
+  slab gradients do.
+
+  **(c) The composition trap, which no metric will ever name for you.** A quay
+  drawn as a *bar* spanning the tile with four equal piers off it **is a letter
+  E**. It was the first draft here, and — independently briefed, with no sight of
+  the draft — the raster engine produced the same E. Two fixes, both cheap: draw
+  the SHORE rather than the quay, as a filled apron cut by the mask on three
+  edges so the harbour reads as larger than the frame (device #18), and stagger
+  the pier lengths (0.80 / 0.95 / 1.05 / 1.00 of the longest) so the teeth stop
+  being a comb. Neither change appears in a residual; both were obvious in the
+  first second of looking at a render.
+
+  **(d) The ground register can be forced by a measurement.** On the family's
+  pale vellum plate, the pier stone measured **1.11:1** against the water it sits
+  in — the icon's entire signature move with no figure-ground. Deepening the
+  basin to a warm sand field (`#A38C61→#6E5A33` at 0.27→0.47 over the plate) took
+  stone/water to 1.52:1, berthed craft to 2.07:1 and the focal to 3.10:1. When a
+  register choice and a contrast floor conflict, measure both before defending
+  either; here "porcelain ground" survived as the stone rather than as the field.
+
+  **(e) A rejected round that changes two things has to be split before you can
+  learn anything from it.** r04 bundled a broad water-sheen ellipse with a warm
+  re-hue of the clay and gated REJECT at −0.0121. Re-running with only the sheen
+  (r05, −0.0114) put the cost on the sheen, not the clay — the tile already
+  carried a plate radial, a vignette and the water ramp, and a fourth broad field
+  bought nothing at any size. One edit class per round is the rule; one edit
+  *within* the class is what makes a rejection informative.
+
+  **(f) Measure a region against its own surround, never against a point you
+  chose — a hand-placed sample hid this icon's one real defect for six rounds.**
+  Sampling "the focal" and "the ground beside it" by eye returned a comfortable
+  **3.10:1** and closed the rubric-#7 question. A dilated-ring measure — every
+  pixel of the object's colour mask against a 45px `MaxFilter` dilation of that
+  mask, median to median — returned **1.85:1**. The hand sample had landed on the
+  hull's shaded side and on a bright patch of basin, and nothing in the loop
+  caught it because the composite is a *similarity* score and the reference
+  carries the same weakness. The ring measure is six lines of Pillow and numpy and
+  it should run on every commission before #7 is scored.
+
+  **(g) A whole-image contrast floor can fire in exactly the wrong direction, and
+  the fix is to re-measure at the size it fired on.** Lightening the basin gained
+  **+0.0800** of composite, the run's largest move, and `gate` rejected it because
+  32px self-contrast fell 0.338 → 0.309. That statistic is a p90−p10 spread the
+  tile *ground* dominates, and the edit had moved the ground toward the stone laid
+  over it. At the same 32px, on an identical 37-pixel footprint, the focal's
+  contrast against its own surround went the other way, 1.93 → 2.17:1, and the
+  secondary objects 2.07 → 2.32:1. The loop reference already names this blind
+  spot for object-level *flattening*; this is the same blind spot with the sign
+  reversed — a ground converging on itself while its objects separate.
+  *Generalise:* when the floor fires, render at that exact size and measure the
+  object, not the image. The floor is evidence about the histogram, never about
+  the mark.
+
+  **(h) A three-tier value stack has no free parameter.** Light stone / mid water
+  / dark vessels: deepening the water helps the light tier and hurts the dark one,
+  by construction, and no global setting lifts both. Sweeping four basin depths
+  made the trade explicit (focal 1.85 → 2.28:1 as the pier ratio fell 1.52 →
+  1.28:1) and turned a taste argument into a choice with a number on it. Where a
+  scene has three tiers, sweep the middle one and publish the curve before
+  defending a setting; and when the trade is genuinely balanced, the real fix is
+  local (shade the enclosed water, leave the open water bright), not another
+  global gradient.
+
 - **2026-08 · ship-feature "The Launch" — breaking water needs an asymmetric
   profile, and three scaffolds proved it the expensive way.**
 
@@ -416,8 +503,12 @@ by 0.024.
   so the composite punishes surface texture on principle.
   **Do not read this as "texture loses".** Read it as: the composite cannot
   currently see surface texture as an improvement, so a texture round needs human
-  or panel adjudication rather than the gate's verdict. The recovered source is at
-  `plugins/improve-skill/assets/loop-runs/r02/build_icon.candidate-recovered.py`.
+  or panel adjudication rather than the gate's verdict. The recovered source was
+  kept at `assets/loop-runs/r02/build_icon.candidate-recovered.py` in the
+  improve-skill plugin and is **no longer on disk** — which is itself the lesson
+  the round bought: *a rejected round whose source is destroyed cannot be restored
+  when the human disagrees.* The construction is recorded here precisely because
+  the file it came from is gone.
   Reusable construction confirmed: a filter on a transformed `<g>` runs in that
   element's local frame, and the inverse-transform-on-contents idiom applies it
   without disturbing geometry or gradients.
@@ -539,98 +630,3 @@ into the shadow and disappear.
 Confirmed against a GPT Image 2 raster take that won the material judgment: the
 gap between master and raster was mostly this, plus a cooler body (sampled
 (60,81,110) against (75,85,99)).
-# Proposed addition to `references/material-recipes.md`
-
-Two confirmed constructions and one composition trap from the ship-fleet
-commission. Written here rather than appended directly because this commission
-was scoped to its own workspace; splice the block below at the top of the
-**Marketplace-confirmed wins** list (newest first).
-
----
-
-- **2026-08 · ship-fleet harbour — a wake is a fan, a bollard is a moulding, and
-  a quay bar with equal teeth is a letter.**
-
-  **(a) A trailing wake is a DIVERGING FAN of fine foam streaks over a shallow
-  trough, not one tapered band.** The first draft drew the wake as a single
-  tapered translucent polygon with a foam line down each edge; at every size it
-  read as a smear on the water rather than as a vessel moving. The raster take
-  that won the material judgment draws five fine streaks whose lateral offset
-  grows astern — `spread = 9 + 30·t^0.8` off the centreline, opacity falling as
-  `(1−t)^1.25`, outer streaks starting two samples further aft than the inner
-  ones — laid over one broad `feGaussianBlur`-softened trough of displaced water
-  at 24% dark-warm. Rebuilding it that way is most of what makes a plan-view hull
-  read as *under way* rather than *placed*, and it costs five polylines.
-  *Generalise:* motion in plan view is carried by the divergence of the trail,
-  not by its length or its opacity.
-
-  **(b) Two concentric circles is a decal; a moulding needs four elements.** Flat
-  bollards drawn as a dark disc plus a lighter disc read as paint applied to the
-  pier surface — a plane error the eye catches instantly and no gradient work on
-  the pier itself can repair. The construction that reads as an object standing
-  proud: a blurred cast-shadow ellipse offset toward the light's far side, a
-  rounded-rect body in the scene's key-axis ramp, a cap ellipse a step lighter
-  than the body, and a small offset catch at ~0.55 white. Four elements, ~15px
-  tall on a 1024 canvas, and they carry the toy-scale render more than the
-  slab gradients do.
-
-  **(c) The composition trap, which no metric will ever name for you.** A quay
-  drawn as a *bar* spanning the tile with four equal piers off it **is a letter
-  E**. It was the first draft here, and — independently briefed, with no sight of
-  the draft — the raster engine produced the same E. Two fixes, both cheap: draw
-  the SHORE rather than the quay, as a filled apron cut by the mask on three
-  edges so the harbour reads as larger than the frame (device #18), and stagger
-  the pier lengths (0.80 / 0.95 / 1.05 / 1.00 of the longest) so the teeth stop
-  being a comb. Neither change appears in a residual; both were obvious in the
-  first second of looking at a render.
-
-  **(d) The ground register can be forced by a measurement.** On the family's
-  pale vellum plate, the pier stone measured **1.11:1** against the water it sits
-  in — the icon's entire signature move with no figure-ground. Deepening the
-  basin to a warm sand field (`#A38C61→#6E5A33` at 0.27→0.47 over the plate) took
-  stone/water to 1.52:1, berthed craft to 2.07:1 and the focal to 3.10:1. When a
-  register choice and a contrast floor conflict, measure both before defending
-  either; here "porcelain ground" survived as the stone rather than as the field.
-
-  **(e) A rejected round that changes two things has to be split before you can
-  learn anything from it.** r04 bundled a broad water-sheen ellipse with a warm
-  re-hue of the clay and gated REJECT at −0.0121. Re-running with only the sheen
-  (r05, −0.0114) put the cost on the sheen, not the clay — the tile already
-  carried a plate radial, a vignette and the water ramp, and a fourth broad field
-  bought nothing at any size. One edit class per round is the rule; one edit
-  *within* the class is what makes a rejection informative.
-
-  **(f) Measure a region against its own surround, never against a point you
-  chose — a hand-placed sample hid this icon's one real defect for six rounds.**
-  Sampling "the focal" and "the ground beside it" by eye returned a comfortable
-  **3.10:1** and closed the rubric-#7 question. A dilated-ring measure — every
-  pixel of the object's colour mask against a 45px `MaxFilter` dilation of that
-  mask, median to median — returned **1.85:1**. The hand sample had landed on the
-  hull's shaded side and on a bright patch of basin, and nothing in the loop
-  caught it because the composite is a *similarity* score and the reference
-  carries the same weakness. The ring measure is six lines of Pillow and numpy and
-  it should run on every commission before #7 is scored.
-
-  **(g) A whole-image contrast floor can fire in exactly the wrong direction, and
-  the fix is to re-measure at the size it fired on.** Lightening the basin gained
-  **+0.0800** of composite, the run's largest move, and `gate` rejected it because
-  32px self-contrast fell 0.338 → 0.309. That statistic is a p90−p10 spread the
-  tile *ground* dominates, and the edit had moved the ground toward the stone laid
-  over it. At the same 32px, on an identical 37-pixel footprint, the focal's
-  contrast against its own surround went the other way, 1.93 → 2.17:1, and the
-  secondary objects 2.07 → 2.32:1. The loop reference already names this blind
-  spot for object-level *flattening*; this is the same blind spot with the sign
-  reversed — a ground converging on itself while its objects separate.
-  *Generalise:* when the floor fires, render at that exact size and measure the
-  object, not the image. The floor is evidence about the histogram, never about
-  the mark.
-
-  **(h) A three-tier value stack has no free parameter.** Light stone / mid water
-  / dark vessels: deepening the water helps the light tier and hurts the dark one,
-  by construction, and no global setting lifts both. Sweeping four basin depths
-  made the trade explicit (focal 1.85 → 2.28:1 as the pier ratio fell 1.52 →
-  1.28:1) and turned a taste argument into a choice with a number on it. Where a
-  scene has three tiers, sweep the middle one and publish the curve before
-  defending a setting; and when the trade is genuinely balanced, the real fix is
-  local (shade the enclosed water, leave the open water bright), not another
-  global gradient.

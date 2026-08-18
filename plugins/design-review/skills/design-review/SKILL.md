@@ -1,7 +1,7 @@
 ---
 name: design-review
 description: >-
-  Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast, motion and layout-integrity gates, then structural, state, component-inventory, craft, flow and design-system passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Use this whenever someone asks to review, audit, critique, QA, sanity-check or "give feedback on" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI "looks AI-generated", "looks off", "feels cheap", "needs polish", "isn't accessible", or asks whether something is ready to ship or ready for a human to look at. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word "review".
+  Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast, motion and layout-integrity gates, then structural, state, component-inventory, craft, flow, design-system and intent-conformance passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Every gate reports failed, passed, could-not-run and the population examined, because a check whose pass and cannot-run look identical is indistinguishable from a real measurement — engine capability is measured before anything is read, each value carries whether it came from the cascade or a stylesheet declaration, geometry findings are clustered by root cause before ranking, and a gate checks every number in the finished report against what the run recorded. Use this whenever someone asks to review, audit, critique, QA, sanity-check or "give feedback on" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI "looks AI-generated", "looks off", "feels cheap", "needs polish", "isn't accessible", or asks whether something is ready to ship or ready for a human to look at. Also covers a design review, design audit, UI review, UX audit, accessibility review, visual QA or pre-ship design pass by any of those names. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word "review".
 ---
 
 # Design Review
@@ -12,6 +12,18 @@ Two failure modes to avoid, both worse than a short report:
 
 - **Fabricated confidence.** Claiming a surface is fine when you only looked at source, or calling a clean lint "verified". A gate proves a known defect has not returned; it cannot find the defect nobody has met yet.
 - **Undifferentiated noise.** Flagging every padding value at the same volume as a keyboard trap. Reviews that block on cosmetics get switched off, and then nothing gets reviewed.
+
+## The rule everything else here follows
+
+**A check whose "pass" and "cannot run" look identical must report which one it is.** Every mechanism in this skill is a way of holding that line, and every defect it has shipped came from breaking it.
+
+The shape is always the same. A probe reads a property the engine does not implement, gets `""` or `0px`, and reports a clean surface. Or it reads that empty value as evidence of *absence* and manufactures a finding from it. Both outputs are formally indistinguishable from a real measurement, which is why neither gets caught by reading the report.
+
+It has happened here, measured on this machine, obscura 0.2.0, 18 August 2026, on this skill's own eval fixture. `probeContrast()` guarded the unresolvable-backdrop case with `if (cs.backgroundImage && ...)`; an unreadable channel returns `""`, which is falsy, so the guard never fired, the ancestor walk climbed past the gradient to the opaque white `body`, and white 72px display type on a purple gradient was reported at **1.0:1** — a fabricated Tier 1 Blocker. **Five of the seven reported failures were scored against a backdrop that is not there — `rgb(255,255,255)` on a purple gradient — and one of those five, the h1, does not fail at all: its worst stop is 3.53:1 against a 3.0 floor.** The other four are real failures carrying materially wrong ratios (1.0 or 1.59 quoted where 3.53 or 2.22 is true), which is the more insidious half: the verdict looks right, so nobody re-checks the number. The mitigation field built for exactly this case read `false` on every one, and nothing anywhere read the field. Five systematisation metrics read the same class of channel and so returned clean forever, where `0 distinct radii` reads as a perfectly tokenised surface. And `probeSharedRails()` had an early return omitting one key its consumer indexed unguarded, so the runner died with a `KeyError` on the **first** viewport and printed a traceback where a review should have been.
+
+So three things are now mechanical rather than remembered. **Capability is measured, not assumed** — `probeEngineCapability()` plants known values through a stylesheet and reads them back, so an unreadable channel is a fact about this run rather than a line in a document that may have gone stale. **Every value carries its provenance** — `computed`, `computed-longhand`, `declared` or `unreadable` — so a count of declared intent is never quoted as a measurement. And **the unmeasurable population is a reported number**, printed beside the findings and gated by `scripts/audit_run.py`, because a review that silently drops what it could not judge is reporting a denominator it did not measure.
+
+The names for these states are not invented here. W3C's ACT Rules Format defines `passed`, `failed`, `cantTell`, `untested` and `inapplicable`, and `cantTell` is the one a two-state gate destroys; axe-core ships it as `incomplete`. Counting axe's incompletes as violations on a 285-homepage scan moved the reported failure rate to 97.9% — that gap is the size of the population a boolean gate absorbs in silence. See `references/evidence.md`.
 
 **Running as a Gemini model?** Read `gemini.md` in this directory first, then run the pipeline with the overrides it names. Most of this skill's defences are already mechanical — a ledger on disk, an exit code, a denominator beside every count — and on that family none of them are optional: `scripts/worklist.py check` becomes the verdict rather than a scaffold, and every number carries the command that produced it. It also documents the canonical fabricated review, engine and all, as the thing that fills the gap when the report's shape is known and the procedure is not. Other models skip it.
 
@@ -104,7 +116,7 @@ Twelve stages. Stages 2–9 feed one unfiltered finding pool, and each runs **pe
 | # | Stage | Method | Reference |
 |---|---|---|---|
 | 0 | Scope and context | read, ask, **fix the worklist** | this file, `scripts/worklist.py`, `references/severity-and-report.md` |
-| 1 | Static extraction | scripts | `scripts/probes.js`, `scripts/analyze_styles.py`, `references/browser-drivers.md` |
+| 1 | Static extraction | scripts | `scripts/probes.js`, `scripts/analyze_styles.py`, `scripts/audit_run.py`, `references/browser-drivers.md`, `references/evidence.md` |
 | 2 | Deterministic gates | scripts | `references/gates-accessibility.md`, `references/gates-performance-motion.md` |
 | 3 | Structural render | capture + look | `references/capture-protocol.md` |
 | 4 | State matrix | drive + capture | `references/states-and-resilience.md` |
@@ -114,7 +126,7 @@ Twelve stages. Stages 2–9 feed one unfiltered finding pool, and each runs **pe
 | 8 | Systematisation | scripts | `references/systematisation.md` |
 | 9 | Intent conformance | diff vs target | `references/intent-conformance.md` |
 | 10 | Aggregate, severity | judgment | `references/severity-and-report.md` |
-| 11 | Report | write | `references/severity-and-report.md`, `assets/report-template.md` |
+| 11 | Report | write, then gate | `scripts/audit_run.py`, `references/severity-and-report.md`, `assets/report-template.md` |
 
 ### 0 — Context before judgment
 
@@ -136,22 +148,31 @@ Run the extraction scripts. Nothing here is a finding; it is the evidence later 
 
 ```bash
 python scripts/run_review.py --url <url> --out <workdir>          # capture + probe sweep
-node   scripts/run_review.mjs --url <url> --out <workdir>         # same, in Node — same output layout
 python scripts/analyze_styles.py <workdir>/probes/                # variance, near-misses, scales
 python scripts/scan_source.py <src-dir>                           # greppable anti-patterns
+python scripts/audit_run.py capability <workdir>                  # which of this run's zeros are real
 ```
 
-Both runners write the same manifest shape, so the analysis scripts read either. Add `--tile` for long pages and `--states` for staged interaction states. `--motion` exits with an error: Obscura does not execute CSS animations or transitions, so mid-flight frames would be N copies of one still. See `references/browser-drivers.md`.
+One runner, deliberately. A Node twin existed and lacked the per-probe isolation the Python one was rewritten to add, while the SKILL offered them as equals — so a reviewer taking the other path silently got the pre-fix behaviour. Two runners where one lacks the other's failure isolation is worse than one runner.
 
-**Settle the page, then prove it settled.** Both runners scroll the whole document and drain `document.getAnimations()` before probing, and record what was still running in `animationsRunningAtMeasure`. Both halves are load-bearing:
+Add `--tile` for long pages and `--states` for staged interaction states. `--motion` exits with an error: Obscura does not execute CSS animations or transitions, so mid-flight frames would be N copies of one still. A second run over a workdir that already holds one is refused without `--force`, because overwriting it destroys the before-captures a fix has to be scored against.
+
+**Read the capability block before you read any zero.** `probes/*.json` opens with `capability`, measured on this page rather than assumed, and the run summary prints the channels the engine would not answer. On Obscura that list runs to eighteen. Each entry is a check whose clean result is indistinguishable from a real one.
+
+Where a computed channel is dark, `probes.js` consults the stylesheet instead and tags the value `declared`. That recovers all five previously-dead metrics, and the tag is load-bearing: a declaration says what the author asked for, a computed value says what the cascade resolved, and a count of the former is quoted as declared or not at all. Where neither channel answers, the value is `null` and `analyze_styles.py` prints `UNMEASURABLE` rather than a count. `references/browser-drivers.md` has the measurements.
+
+**Settle the page, then prove it settled.** The runner scrolls the whole document and drains `document.getAnimations()` before probing, and records what was still running. Both halves are load-bearing:
 
 - **Scroll first.** A scroll-reveal system leaves every band below the fold at `opacity: 0`, and `loading="lazy"` images report `naturalWidth === 0` until they enter the viewport. A capture at load has already been misread here as a broken reveal system, and an image probe run without scrolling reported five of eight images as broken when all eight load.
-- **Then wait, and record the wait's result.** A contrast or accessibility gate sampled mid-entrance reports precise, confident, wrong numbers. On a real run, axe fired 400ms into a 700ms reveal with an 80ms stagger, read a `#E85A2A` accent as `#6a2d18`, and reported a surface going from 13 failures to **28** after a fix that provably removed them. `animationsRunningAtMeasure > 0` does not weaken that row's numbers — it voids them.
-- **On Obscura that proof is unavailable, and the zero says so.** The engine never runs the animations, so `document.getAnimations()` reports none whatever the page declares and `animationsRunningAtMeasure` is 0 on every row. Read it as the absence of a signal, not as evidence the surface had settled; the runner prints that caveat with the summary. Anything that turns on entrance timing needs a different engine.
+- **Then wait, and record the wait's result.** A gate sampled mid-entrance reports precise, confident, wrong numbers. On a real run, axe fired 400ms into a 700ms reveal with an 80ms stagger, read a `#E85A2A` accent as `#6a2d18`, and reported a surface going from 13 failures to **28** after a fix that provably removed them. `animationsRunningAtMeasure > 0` does not weaken that row's numbers — it voids them.
+- **On Obscura that proof is unavailable, and the zero says so.** The engine never runs animations, so the count is 0 on every row whatever the page declares. Read it as the absence of a signal. Anything turning on entrance timing needs a different engine.
+- **A stranded entrance is not a defect, and it is not permanent either.** Because the animation never runs, an `opacity: 0` keyframe reads at roughly 0.0036 on a capture taken before the reveal pass — non-zero, so an exact-zero test lets it into every geometric probe where it looks exactly like a z-index bug. After the scroll-and-settle it reads 1 and `probeStrandedElements()` correctly finds none. Treat any first reading of opacity as provisional; the probe reports whatever survives settling, geometry excludes it, and `dumpStyles()` deliberately includes it because a stranded element's radii and shadows are real design decisions.
 
 A gate that samples during an animation is worse than no gate, because its output is indistinguishable from a real measurement.
 
-The highest-value move available: if a token source exists (`tokens.css`, `theme.ts`, DTCG JSON, `design.md`, a Figma MCP connection), compare it against live computed CSS. That converts "does this button look right?" into "does this node's border-radius equal `$radius-md`?" — a deterministic check that needs no visual judgment and carries no model variance. Push as much load onto that comparison as the surface allows.
+**Ground against the token source, and say what you found either way.** If one exists (`tokens.css`, `theme.ts`, DTCG JSON, `design.md`, `_variables.scss`, `tailwind.config.js`, a Figma MCP connection), compare it against live computed CSS: that converts "does this button look right?" into "does this node's border-radius equal `$radius-md`?" — deterministic, no visual judgment, no model variance. Follow variables through to resolved values rather than rounding to a 4/8px grid.
+
+Then report it in one line in the Coverage block: *"matched against `packages/ui/tokens.css` — 34 tokens, 6 values off-token"*, or *"searched for a token source and found none"*. Both lines are required, because without one a review that never looked and a review of a project with no tokens produce the same report.
 
 ### 2 — Gates
 
@@ -159,16 +180,27 @@ Run first: cheap, deterministic, and empirically where the failures are. Six err
 
 Details in `references/gates-accessibility.md`, `references/gates-performance-motion.md` and `references/layout-integrity.md`.
 
-**A clean gate run is not a verdict on the design.** It says no *known, computable* defect is present. Report the two claims as separate sentences, and never let "0 contrast failures" stand where "the layout is sound" is what a reader will take from it.
+**A clean gate run is not a verdict on the design.** It says no *known, computable* defect is present. Report the two claims as separate sentences, and never let "0 contrast failures" stand where "the layout is sound" is what a reader will take from it. The strongest sentence available is "no failures detected among the checks that ran" — W3C's ACT states that a passed rule often still means further testing is needed, because a rule checks one implementation condition rather than a whole success criterion.
+
+**Every gate reports four numbers, not one.** Failures, passes, could-not-run, and the population examined. The third is the one that used to vanish: contrast now returns `failureCount`, `passCount`, `unresolvedCount` and `examined`, and the run summary prints them together —
+
+```
+contrast 6 fail / 18 pass / 0 cantTell of 24 examined (5 judged against gradient stops)
+```
+
+A `cantTell` is not a pass and not a failure. It is an unresolvable backdrop, an unreadable channel, or a probe that did not complete, and it goes to a named population that gets looked at by eye. Dropping it is how a gradient hero became a Blocker.
+
+**On a gradient, score the worst stop and say so.** A gradient is a range of backdrops, not one, and W3C's ACT rule publishes worked examples of exactly that — a passing gradient spanning 12.6:1 to 7:1, a failing image spanning 1.4:1 to 4.7:1. The operative sentence is that text fails if *any* relevant portion falls below threshold, and WebAIM's practitioner guidance says the same: test where contrast is lowest. So the gate takes the worst recovered stop. The cost is declared on the record: a glyph may not sit over that stop, so **a gradient-stop failure is a High rather than a Blocker unless it fails against every stop**, and `backdropSource` on each finding says whether the backdrop was computed, declared, a gradient stop, or an assumed canvas. `references/evidence.md` carries the disagreement in the sources, which is real.
 
 **Prove the gate can fail before you trust it passing.** A predicate that matches nothing returns clean and looks identical to a clean surface. The way this actually happens: you filter a probe's output on a field it does not set — `results.filter(x => x.fail)` against a probe that returns `{ratio, required}` and no `fail` — and every surface reports zero, forever, across the whole sweep. Uniform zeros across many surfaces are the signature; real surfaces vary.
 
-Two cheap defences, both before the sweep rather than after:
+Three cheap defences, all before the sweep rather than after:
 
 - **Print the denominator, not just the numerator.** `examined=41 failures=0` is a result; `failures=0` is not. A row reading `examined=0` is a gate that never ran, and it must never be recorded as `done`.
 - **Assert against the probe's actual return shape** — log one raw record and read it — rather than against the shape you assumed it had.
+- **Run `audit_run.py capability <workdir>`.** It splits every headline metric into measured, declared and unmeasurable, and exits non-zero while any metric the report would quote as a count is unmeasurable. That is the vacuity test as an exit code rather than a habit.
 
-When a probe's own limits make its numbers unusable on this surface (see the ancestor-walking caveat in `gates-accessibility.md`), say so and substitute a measurement that works. A gate you have quietly stopped believing is worse than one you have openly replaced.
+When a probe's own limits make its numbers unusable on this surface, say so and substitute a measurement that works. A gate you have quietly stopped believing is worse than one you have openly replaced.
 
 Loop: fix → re-run → verify, three attempts per issue. An issue surviving three targeted fixes usually means the diagnosis is wrong — report that as the finding rather than continuing.
 
@@ -188,7 +220,9 @@ Per viewport in severity order: overflow (use the programmatic probe, not the ey
 
 Shipping only the populated state is the most reliable failure in AI-generated UI. Per data surface, drive and capture nine states: default, empty, loading, partial, error, success, offline, disabled, overflow. Per interactive element: default, hover, focus-visible, active, disabled, loading.
 
-Static checks are structurally blind to motion — at rest an entrance has finished and a transient overlay is invisible. Capture mid-flight frames for anything that moves. See `references/states-and-resilience.md`.
+Static checks are structurally blind to motion — at rest an entrance has finished and a transient overlay is invisible. On an engine that runs animations, capture mid-flight frames for anything that moves.
+
+**Three of these states are unavailable here, and each is recorded as skipped rather than approximated.** Obscura accepts `Emulation.setEmulatedMedia` and ignores it, so there is no print pass and no `prefers-reduced-motion` pass — `matchMedia` stays false and the cascade is unchanged. It never executes CSS animations, so there is no mid-flight capture and no `getAnimations()` signal on a skeleton. `capture_states()` writes a `statesSkipped` list naming each with its reason, and those names belong in the report's standing "Not checked" list rather than being rediscovered every review. Writing a screen-media screenshot under the name `page-print.png` is worse than saying the check did not run. See `references/states-and-resilience.md`.
 
 ### 5 — Component inventory
 
@@ -213,7 +247,7 @@ The stage that most needs discipline, because visual judgment is where automated
 
 Work the inventory from stage 5. Three rules make it work:
 
-**Decompose to binary.** Every visual judgment is MET or UNMET against a named criterion. Never a 1–10 score. Model agreement on free-form visual scoring is worse than chance across models; on atomic binary checklists it approaches human levels. The difference is entirely in the decomposition.
+**Decompose to binary.** Every visual judgment is MET or UNMET against a named criterion. Never a 1–10 score. The evidence for that is narrower than an earlier version of this file claimed, and the narrower version is more useful: on UI-mockup feedback, GPT-4 reached F1 0.466 against a constructed issue set while an average individual human evaluator reached 0.478 — and **human inter-rater agreement was Fleiss' κ = 0.112**. So a model performs at roughly one human's level, and humans barely agree with each other. Disagreement is intrinsic to the task rather than a model defect, and agreement between models does not convert a preference into a defect. What that licenses is atomic binary checks against a named criterion, and what it forbids is a score. Absolute grading is the mode with the worst calibration in every study; pairwise against a known-good baseline is the mode that survives. (`references/evidence.md`)
 
 **Inspect crops, not pages.** At page scale a 161px void reads as generous whitespace. Crop to the component at DPR 2–3 and open each one. A page capture you skimmed is not coverage for the twelve components inside it.
 
@@ -245,13 +279,25 @@ The stage every other stage is blind to, because the rest of this pipeline judge
 
 Merge duplicates and let agreement carry weight: a finding two lenses raised independently outranks a same-severity single-lens finding; three or more is high priority regardless of individual estimates.
 
-Assign severity here and only here. Four levels, calibrated to user impact rather than fix effort. `references/severity-and-report.md`.
+**Cluster geometry findings by root cause before ranking them.** A raw geometry count inflates badly and the size of the inflation is published: ReDeCheck reported **147 findings on one page that were one underlying failure**, and needed 4.2 viewport inspections per real failure across 26 live pages. This skill measured the same shape independently — 2 real, 35 false on one 14-screen surface. So the run summary prints both numbers, `layoutFindingCount` beside `layoutRootCauseCount`, and the report ranks the clustered ones. One finding per `{mechanism, component, state, viewport interval}`, with the repetition named as a count rather than as rows.
+
+Assign severity here and only here. Four levels, calibrated to user impact rather than fix effort, and **severity is admission control rather than description**: Blocker and High require complete deterministic evidence, a judged finding starts lower, and a target whose deterministic result was `cantTell` cannot be promoted on judgement alone. `references/severity-and-report.md`.
 
 Your issue *detection* is stronger than your severity *ranking* — so every finding carries rationale, affected task, frequency and evidence, letting a human re-rank cheaply.
 
 ### 11 — Report
 
-Run `python scripts/worklist.py check <workdir>` first. A non-zero exit means the review is not finished, and the report either waits or declares the stop with its resume point. Writing a full-shaped report over open cells is the failure this whole mechanism exists to prevent.
+Two gates before writing, both exit codes rather than intentions:
+
+```bash
+python scripts/worklist.py check <workdir>                            # coverage: exits 1 on any open cell
+python scripts/audit_run.py capability <workdir>                      # measurability: exits 1 on an unquotable metric
+python scripts/audit_run.py claims <workdir> --report <report.md>     # after writing: every number traces to the run
+```
+
+A non-zero exit from `worklist.py check` means the review is not finished, and the report either waits or declares the stop with its resume point. Writing a full-shaped report over open cells is the failure that whole mechanism exists to prevent.
+
+`audit_run.py claims` runs *after* the draft and is the one that catches the canonical fabrication. It parses the report's quantified assertions — element counts, component fractions, contrast ratios, surface fractions, captures opened, viewport widths — and checks each against the manifest. A claim of "47 buttons" against an inventory of 9 comes back as a failure naming both numbers, and a ratio no probe recorded within 0.05 comes back with the recorded set beside it. **A number in a review is a measurement or it is nothing**; fix the claim or take the measurement, and never soften the wording to get past the gate.
 
 Format, template and the mandatory closing block are in `references/severity-and-report.md`.
 
@@ -259,15 +305,17 @@ Keep the report proportional to the findings, not to the template. Drop any sect
 
 ## Rendering
 
-This skill depends on real renders. One driver — **Obscura**, on PATH as `obscura` — reached three ways:
+This skill depends on real renders. One driver — **Obscura**, on PATH as `obscura`. Playwright, Puppeteer, `chrome-headless-shell`, `chrome-devtools-mcp`, Playwright MCP, `browser-use` and `claude-in-chrome` are gone; do not reintroduce one and do not suggest installing one as a fallback, because "install Puppeteer for the rest" is now wrong advice. Three ways in:
 
 | Path | Entry point |
 |---|---|
-| `obscura serve` + CDP | `scripts/run_review.py` / `scripts/run_review.mjs` — the viewport matrix and probe sweep |
+| `obscura serve` + CDP | `scripts/run_review.py` — the viewport matrix and probe sweep |
 | `obscura fetch` | one page, one capture: `--screenshot`, `--eval`, `--dump` |
 | `obscura mcp` | driving a surface interactively — click, fill, scroll, tabs, auth state |
 
-`references/browser-drivers.md` covers all three, including the localhost flag, the computed-style longhand rule, and where the engine degrades.
+`references/browser-drivers.md` covers all three, including the localhost flag, the computed-style longhand rule, the declared-value fallback, the three known false positives, and where the engine degrades.
+
+**When a capture fails, quote obscura's own stderr before interpreting it.** The message names the flag and the version; a paraphrase names neither and can be wrong for the environment the reader is in. The SSRF refusal on a dev server is the case that bites — the output names `--allow-private-network`, and "the capture failed" sends the reader to look at their page.
 
 If Obscura is not on PATH, say so plainly in the summary, give the one-line fix (download the `aarch64-macos` release from the repo into `~/.local/bin`), and run the static checks only. Never imply a page was seen. The difference between "the lint passed" and "I opened captures X, Y, Z and looked for A, B, C" is the difference between a review and a claim, and both belong in the report as separate sentences.
 
@@ -301,29 +349,46 @@ Lead with the outcome. First sentence of your reply says what you found, not wha
 
 Every finding needs an observation, a mechanism, and a consequence. A mechanism without an observation is a lecture; an observation without a mechanism is an opinion.
 
+**Machinery names belong in the report file, not in the reply.** The report may say `probeColumnVoids` — that is how a reader re-checks a finding. The conversational reply names the surface and the defect, because a reader who has to learn this pipeline's vocabulary to understand what is wrong with their page has been handed the wrong artifact.
+
+| Mechanism word | In the reply, say |
+|---|---|
+| `runAll`, `probeContrast`, `probeColumnVoids`, probe names generally | the check, or name the defect directly |
+| `cantTell`, `unresolved`, `bgAssumed` | "couldn't measure — the text sits on a gradient" |
+| `unreadable channel`, `capability` | "this engine can't read box-shadows, so that check didn't run" |
+| `examined=41`, `denominator` | "41 text elements checked, 3 failed" |
+| `worklist`, `ledger`, `open cell` | "7 of 14 screens done so far" |
+| `Tier 1 / Tier 2 / Tier 3` | "blocks release" / "worth fixing" / "a question for you" |
+| `declared` vs `computed` | "the stylesheet asks for it; I couldn't confirm the browser applied it" |
+| `root cause clustering`, `layoutRootCauseCount` | "the same bug on all fourteen rows" |
+| `audit_run.py`, `exit code` | say the outcome, not the command |
+
+The report's own numbers stay exact. This governs how the reply reads, not what the review measured.
+
 ## References
 
+- `references/evidence.md` — **where every number here comes from**, what it actually measures, and the four places the sources disagree. The ACT outcome taxonomy, the gradient-contrast conflict, the reconciled 57%-vs-32% coverage figures, the published geometry over-fire numbers, and the judge-bias measurements. Read alongside `reliability-envelope.md`.
 - `references/reliability-envelope.md` — what automated review can and cannot detect, with the numbers. Read once before your first review.
-- `references/browser-drivers.md` — Obscura: the three ways in, the localhost flag, the computed-style longhand rule, and where the engine degrades.
+- `references/browser-drivers.md` — Obscura: the three ways in, the localhost flag, the computed-style longhand rule, the declared-value fallback, the known false positives, and where the engine degrades.
 - `references/gates-accessibility.md` — WCAG 2.2 AA gates, contrast, focus, targets, the commonly-skipped criteria, RTL, dark patterns.
 - `references/gates-performance-motion.md` — Core Web Vitals, motion anti-patterns, durations and easing, the motion budget by frequency.
 - `references/capture-protocol.md` — viewports, DPR, tiling, state staging, coordinate overlays, the in-page probes.
 - `references/states-and-resilience.md` — the nine states, loading thresholds, i18n expansion, stress prompts, undo.
-- `references/layout-integrity.md` — **the computable layout checks and the component inventory.** Column alignment, shared rails, section gaps, text overlap, dead space, implicit grid tracks, affordance, token overloading; thresholds, calibration lessons, and what geometry cannot tell you
+- `references/layout-integrity.md` — **the computable layout checks and the component inventory.** Column alignment, shared rails, section gaps, text overlap, dead space, implicit grid tracks, divider proximity, affordance, token overloading; thresholds, calibration lessons, root-cause clustering, and what geometry cannot tell you
 - `references/craft-visual.md` — hierarchy vectors, typography numerics, optical alignment, depth, density, the swap test.
 - `references/flows-forms-copy.md` — walkthrough discipline, lens pass, form UX, microcopy, mechanisms worth citing.
-- `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, DTCG, design.md, the Tier 3 tell-list.
+- `references/systematisation.md` — style-variance metrics, token adherence, near-miss weighting, which metrics are measured vs declared on this engine, DTCG, design.md, the Tier 3 tell-list.
 - `references/parity-oracle.md` — reviewing a **re-implementation** (ported stack, componentised, data-driven): replace "does it still look right" with a measured token / skeleton / computed-style diff, and the negative test that proves a new data path is actually being used.
 - `references/intent-conformance.md` — **stage 9: did the build become the thing that was chosen?** Direction conformance (diffing the render against its committed direction, mock or DESIGN.md — the half-converted redesign that passes every gate), shared chrome reviewed as its own subject rather than as page background, and cross-instance differentiation for templated or multi-tenant output where the usual consistency lens rewards the defect.
-- `references/severity-and-report.md` — severity scale, finding format, report template, the closing block.
+- `references/severity-and-report.md` — severity as admission control, finding format, the machine-readable findings schema, report template, the closing block, and the house-style override this skill declares.
 - `assets/report-template.md` — the report skeleton to fill in.
 
 ## Scripts
 
-- `scripts/run_review.py` — capture and probe sweep across the viewport matrix, driving `obscura serve` over CDP. Scrolls the document and drains running animations before probing, and records what was still moving
-- `scripts/run_review.mjs` — Node equivalent, same output layout
-- `scripts/probes.js` — in-page probes: contrast (with its denominator), overflow, image crop, target size, semantics, focus, computed-style dump, ink measurement, **column/band voids**, **implicit grid tracks and zero-sized cells**, **text set too close to a vertical divider**, **declared-but-unread design tokens**, and the **settling proof** every other number depends on
-- `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence
+- `scripts/run_review.py` — capture and probe sweep across the viewport matrix, driving `obscura serve` over CDP. Measures engine capability first, scrolls the document and drains running animations before probing, records what was still moving, isolates each probe so one failure costs its own key, and refuses to overwrite a workdir that already holds a run
+- `scripts/probes.js` — in-page probes: **engine capability and the declared-style fallback**, contrast (with its four populations), overflow, image crop, target size, semantics, focus, computed-style dump with per-value provenance, ink measurement, column/band voids, implicit grid tracks and zero-sized cells, text set too close to a vertical divider, declared-but-unread design tokens, engine-stranded elements, and the settling proof every other number depends on
+- `scripts/analyze_styles.py` — systematisation metrics: distinct-value counts, implicit scales, near-misses, token adherence, and a measurability state per metric so an unreadable channel reports as unmeasurable rather than as zero
+- `scripts/audit_run.py` — **the two gates over the run's own honesty.** `capability` splits every headline metric into measured / declared / unmeasurable and exits non-zero on one a report would quote as a count; `claims` checks the written report's numbers against the manifest and exits non-zero on any the run cannot support
 - `scripts/scan_source.py` — greppable anti-patterns in source, tagged by tier
 - `scripts/annotate.py` — crop, slice and overlay coordinate grids on captures
 - `scripts/worklist.py` — the coverage ledger and its gate: `init` fixes the surface count at stage 0, `set` marks cells, `check` exits 1 while any cell is open

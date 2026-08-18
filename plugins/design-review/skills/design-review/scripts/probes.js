@@ -50,7 +50,14 @@
   function visible(el) {
     const cs = getComputedStyle(el);
     if (cs.display === 'none' || cs.visibility === 'hidden') return false;
-    if (parseFloat(cs.opacity) === 0) return false;
+    // An entry animation that starts at `opacity: 0` is stranded part-way on an
+    // engine that never runs it: measured at 0.03 and frozen there forever, not
+    // at 0. So an exact `=== 0` test lets a stranded element through into every
+    // geometric probe, where it looks exactly like a z-index bug. Anything under
+    // 0.05 is treated as not visible and counted, because a real design does not
+    // ship 3%-opacity text and the alternative is a page of invented overlaps.
+    const op = parseFloat(cs.opacity);
+    if (!(op > 0.05)) return false;
     // Content inside a collapsed <details>, or skipped by content-visibility,
     // still returns a non-zero rect in Chrome. Every probe that reasons about
     // geometry has to exclude it or it invents overlaps that no user can see.
@@ -64,6 +71,513 @@
                               opacityProperty: true, visibilityProperty: true })) return false;
     const r = el.getBoundingClientRect();
     return r.width > 0 && r.height > 0;
+  }
+
+  /**
+   * Elements this engine stranded rather than the page hiding.
+   *
+   * An `opacity: 0` entry keyframe leaves its element at ~0.0036 on a read taken
+   * before the document has been scrolled and settled (after it, the same element
+   * reads 1 — the value is provisional, not permanent),
+   * which is a false-positive source in both directions: it reads as a defect
+   * that is really an engine artifact, and it reads as visible to any test using
+   * an exact zero. Reported as its own population so a reviewer can tell a
+   * stranded entrance from a genuinely hidden element.
+   */
+  function probeStrandedElements() {
+    const stranded = [];
+    for (const el of [...document.querySelectorAll('body *')].slice(0, MAX_NODES)) {
+      const cs = getComputedStyle(el);
+      const op = parseFloat(cs.opacity);
+      if (op > 0 && op <= 0.05) {
+        stranded.push({ selector: cssPath(el), opacity: cs.opacity,
+                        text: (el.textContent || '').trim().slice(0, 40) });
+      }
+      if (stranded.length >= 40) break;
+    }
+    return {
+      count: stranded.length,
+      sample: stranded,
+      note: stranded.length
+        ? 'Near-zero but non-zero opacity. On an engine that does not execute animations this is usually a stranded entry keyframe, not a design defect — and it is excluded from geometric probes.'
+        : null,
+    };
+  }
+
+  /* ---------------------------------------------- engine capability */
+
+  /**
+   * Which CSS channels this engine will actually answer.
+   *
+   * The rule this file enforces everywhere, and the one it used to apply to
+   * exactly one layer: **a check whose "pass" and "cannot run" look identical
+   * must report which one it is.** Six metrics here read channels that return
+   * `""` or `0px` on the review engine whatever the CSS says. Five of them
+   * therefore reported clean forever. The sixth was worse: `probeContrast`
+   * guarded the unresolvable-backdrop case with `if (cs.backgroundImage &&
+   * cs.backgroundImage !== 'none')`, an empty string is falsy, so the guard
+   * never fired, the ancestor walk climbed past the gradient to the opaque
+   * white `body`, and white 72px display type on a purple gradient was
+   * reported at **1.0:1** — a fabricated Tier 1 Blocker, with `bgAssumed:
+   * false` beside it.
+   *
+   * Measured 18 Aug 2026 against `evals/fixtures/landing.html` on obscura
+   * 0.2.0: five of seven reported contrast failures on that fixture were scored
+   * against `rgb(255,255,255)` on a purple gradient, `skipped` was 0, and
+   * `bgAssumed` was false on all seven. One of the five — the h1 — does not fail
+   * at all (worst stop 3.53:1 against a 3.0 floor); the other four are real
+   * failures whose ratios were wrong by 1.9 to 2.5 points.
+   *
+   * So capability is **measured, not assumed**, against a scratch element whose
+   * values this function sets itself. Ground truth is known, so an answer that
+   * disagrees with it is an unreadable channel rather than a surprising page.
+   * Measuring beats hardcoding for two reasons: an engine that gains a property
+   * is believed the day it does, and a different engine is characterised
+   * without editing this file.
+   *
+   * **The ground truth is planted through a stylesheet, never inline, and that
+   * detail is the whole measurement.** Measured 18 Aug 2026 on obscura 0.2.0:
+   * this engine hands back an inline declaration verbatim without resolving it,
+   * and resolves a stylesheet-set property properly — which for these
+   * properties means empty or zero. The same element, same values, two routes:
+   *
+   *   property            inline        via stylesheet
+   *   background-image    the gradient  `""`
+   *   border-radius       `24px`        `0px`
+   *   text-transform      `uppercase`   `""`
+   *   box-shadow          the shadow    `""`
+   *   gap                 `13px`        `normal`
+   *   padding             `16px`        `0px`
+   *
+   * A first version of this probe set its values inline and concluded the engine
+   * could read all six. Real pages use stylesheets, so that reading would have
+   * disabled every fallback below on exactly the pages that need it. It is the
+   * same lesson the browser-drivers reference already carries about CDP — assert
+   * the observable the way the page will actually produce it.
+   */
+  function probeEngineCapability() {
+    const CLS = '__drCapProbe';
+    const sheet = document.createElement('style');
+    sheet.textContent = `.${CLS}{` + [
+      'position:absolute', 'left:-99999px', 'top:0', 'width:40px', 'height:40px',
+      'padding:16px', 'margin:40px', 'border:1px solid #123456', 'border-radius:24px',
+      'box-shadow:0 8px 32px rgba(0,0,0,0.18)', 'text-transform:uppercase',
+      'background-image:linear-gradient(90deg,#000000,#ffffff)',
+      'outline:2px solid #654321', 'display:flex', 'flex:1 1 auto', 'gap:13px',
+      'transition:all 0.3s ease-in', 'letter-spacing:1px', 'font-size:17px',
+      'background-color:rgb(1,2,3)', 'color:rgb(4,5,6)',
+    ].join(';') + `}.${CLS}::after{content:"CAPOK"}`;
+    document.head.appendChild(sheet);
+
+    const probe = document.createElement('div');
+    probe.setAttribute('aria-hidden', 'true');
+    probe.className = CLS;
+    const child = document.createElement('span');
+    child.textContent = 'Xx';
+    probe.appendChild(child);
+    document.body.appendChild(probe);
+
+    const cs = getComputedStyle(probe);
+    const nonEmpty = v => typeof v === 'string' && v.trim() !== '';
+    const px = v => nonEmpty(v) && parseFloat(v) > 0;
+    // A shorthand answering `0px` against a 16px padding is not reporting the
+    // padding — it is reporting that it does not compose. That is the whole
+    // reason the test plants a known value instead of reading a real page.
+    const ch = (name, ok) => {
+      let raw;
+      try { raw = cs[name]; } catch (e) { raw = undefined; }
+      return { got: raw === undefined ? null : String(raw), readable: !!ok(raw) };
+    };
+
+    const channels = {
+      backgroundImage: ch('backgroundImage', v => nonEmpty(v) && v !== 'none'),
+      boxShadow: ch('boxShadow', v => nonEmpty(v) && v !== 'none'),
+      textTransform: ch('textTransform', v => nonEmpty(v) && v !== 'none'),
+      outline: ch('outline', nonEmpty),
+      outlineWidth: ch('outlineWidth', px),
+      flex: ch('flex', nonEmpty),
+      flexGrow: ch('flexGrow', nonEmpty),
+      borderRadius: ch('borderRadius', px),
+      borderTopLeftRadius: ch('borderTopLeftRadius', px),
+      borderWidth: ch('borderWidth', px),
+      borderTopWidth: ch('borderTopWidth', px),
+      padding: ch('padding', px),
+      paddingTop: ch('paddingTop', px),
+      margin: ch('margin', px),
+      marginTop: ch('marginTop', px),
+      gap: ch('gap', px),
+      rowGap: ch('rowGap', px),
+      columnGap: ch('columnGap', px),
+      transitionProperty: ch('transitionProperty', nonEmpty),
+      transitionDuration: ch('transitionDuration', v => nonEmpty(v) && parseFloat(v) > 0),
+      // The shorthand is probed too, and it needs a stricter test than
+      // "non-empty": this engine answers `none` for it, which is a resolved
+      // value that carries no transition and would be trusted by any
+      // emptiness check. Demand the duration we planted.
+      transition: ch('transition', v => nonEmpty(v) && /0\.3s|300ms/.test(v)),
+      letterSpacing: ch('letterSpacing', px),
+      fontSize: ch('fontSize', px),
+      color: ch('color', nonEmpty),
+      backgroundColor: ch('backgroundColor', nonEmpty),
+      // `borderColor` resolves to `rgb(0, 0, 0)` on every node here whether or
+      // not a border colour is set, which is the same failure as an empty string
+      // wearing a plausible value: non-empty, parseable, and not a measurement.
+      // A truthiness test passes it, so the planted colour is the test.
+      borderColor: ch('borderColor', v => nonEmpty(v) && /18,\s*52,\s*86|#123456/i.test(v)),
+      borderTopColor: ch('borderTopColor', v => nonEmpty(v) && /18,\s*52,\s*86|#123456/i.test(v)),
+    };
+
+    // Pseudo-element content. A gate reading `::after` content to check an icon
+    // or a required-field marker gets `""` here whether or not one is set. The
+    // rule is already in the scratch sheet, planted the same way a page would.
+    let pseudoContent = { got: null, readable: false };
+    try {
+      const got = getComputedStyle(probe, '::after').content;
+      pseudoContent = { got: got === undefined ? null : String(got),
+                        readable: typeof got === 'string' && got.indexOf('CAPOK') !== -1 };
+    } catch (e) { /* leave unreadable */ }
+
+    // The fallback channel gets the same treatment as the channels it covers.
+    // Assuming the fallback works is the same mistake one level down.
+    let declarationChannel = { readable: false, note: 'CSSOM style accessors not verified' };
+    try {
+      const style = document.createElement('style');
+      style.textContent = '.__drCapDecl{text-transform:uppercase;background:linear-gradient(90deg,#000,#fff)}';
+      document.head.appendChild(style);
+      const sheet = style.sheet;
+      const rule = sheet && sheet.cssRules && sheet.cssRules[0];
+      const tt = rule && rule.style ? rule.style.textTransform : '';
+      const bg = rule && rule.style ? (rule.style.background || rule.style.backgroundImage) : '';
+      declarationChannel = {
+        readable: tt === 'uppercase' && /linear-gradient/.test(String(bg)),
+        selectorText: rule ? rule.selectorText : null,
+        textTransform: tt || null,
+        background: bg || null,
+        note: 'Declared values read from document.styleSheets, used where a computed channel is unreadable.',
+      };
+      style.remove();
+    } catch (e) { declarationChannel.error = String(e && e.message); }
+
+    // SVG path geometry. Returns an all-zero box on this engine and does NOT
+    // throw, so a try/catch is no defence — the zero has to be recognised.
+    let svgBBox = { readable: false, got: null };
+    try {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M0 0 L 40 0 L 40 40 Z');
+      svg.appendChild(path);
+      probe.appendChild(svg);
+      const b = path.getBBox();
+      svgBBox = { readable: !!(b && b.width > 0 && b.height > 0),
+                  got: b ? `${b.width}x${b.height}` : null };
+    } catch (e) { svgBBox.error = String(e && e.message); }
+
+    probe.remove();
+    sheet.remove();
+
+    // Media emulation. `Emulation.setEmulatedMedia` is accepted and inert here,
+    // so the print and reduced-motion passes are impossible rather than clean.
+    // A CDP method returning without an error proves only that it was accepted.
+    const media = {
+      printEmulated: (() => { try { return matchMedia('print').matches; } catch (e) { return null; } })(),
+      reducedMotionQuerySupported: (() => {
+        try { return matchMedia('(prefers-reduced-motion: reduce)').media !== 'not all'; }
+        catch (e) { return null; }
+      })(),
+      reducedMotionActive: (() => {
+        try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return null; }
+      })(),
+      widthQueryWorks: (() => {
+        try { return matchMedia('(min-width: 1px)').matches && !matchMedia('(min-width: 99999px)').matches; }
+        catch (e) { return null; }
+      })(),
+    };
+
+    // Animation execution. Declare one, then ask whether it is running. Zero
+    // here is the absence of a signal, never a settled page.
+    let animation = { readable: false, got: null };
+    try {
+      const style = document.createElement('style');
+      style.textContent = '@keyframes __drCapSpin{from{opacity:.2}to{opacity:1}}' +
+                          '.__drCapAnim{animation:__drCapSpin 9s linear infinite}';
+      document.head.appendChild(style);
+      const a = document.createElement('div');
+      a.className = '__drCapAnim';
+      a.setAttribute('aria-hidden', 'true');
+      a.style.cssText = 'position:absolute;left:-99999px;width:10px;height:10px';
+      document.body.appendChild(a);
+      const n = document.getAnimations ? document.getAnimations().length : -1;
+      animation = { readable: n > 0, got: n, note: n > 0 ? null : 'CSS animations do not execute on this engine' };
+      a.remove(); style.remove();
+    } catch (e) { animation.error = String(e && e.message); }
+
+    // Web fonts. A loaded face and a 404'd one measure identically here, so the
+    // whole font-fidelity class is unavailable rather than zero-divergence.
+    const fonts = (() => {
+      try {
+        if (!document.fonts) return { readable: false, got: 'no document.fonts' };
+        const faces = [...document.fonts];
+        const loaded = faces.filter(f => f.status === 'loaded').length;
+        return { readable: faces.length === 0 || loaded > 0,
+                 declaredFaces: faces.length, loadedFaces: loaded,
+                 note: faces.length && !loaded ? 'every @font-face stayed unloaded' : null };
+      } catch (e) { return { readable: false, got: String(e && e.message) }; }
+    })();
+
+    const unreadable = Object.keys(channels).filter(k => !channels[k].readable);
+    if (!pseudoContent.readable) unreadable.push('::after content');
+    if (!svgBBox.readable) unreadable.push('SVG getBBox');
+    if (!animation.readable) unreadable.push('CSS animation execution');
+    if (!fonts.readable) unreadable.push('web font loading');
+    if (media.printEmulated === false) unreadable.push('print media emulation');
+
+    return {
+      channels,
+      pseudoContent,
+      declarationChannel,
+      svgBBox,
+      media,
+      animation,
+      fonts,
+      // The headline number. A reviewer reading a probe dump should not have to
+      // work out which of its zeros are real.
+      unreadableCount: unreadable.length,
+      unreadable,
+      note: 'readable:false means the engine does not answer this question. It never means the CSS is absent.',
+    };
+  }
+
+  /* ------------------------------------------- declared-style fallback */
+
+  /**
+   * Selector-to-declaration index, built from the stylesheets the page actually
+   * loaded. This is the witness for every property whose computed channel this
+   * engine does not implement.
+   *
+   * It is the trick `probeFocusStyles()` already used for `outline` and
+   * `box-shadow` and that nothing else in this file applied. Measured 18 Aug
+   * 2026 on obscura 0.2.0, the declared channel answers every property the
+   * computed channel drops: `.hero` background reads
+   * `linear-gradient(135deg,#6366F1,#A855F7,#EC4899)`, `.eyebrow`
+   * text-transform reads `uppercase`, `.card` box-shadow reads
+   * `0 8px 32px rgba(0,0,0,.18)`, `.btn` transition reads `all 0.3s ease-in`,
+   * `.grid` gap reads `13px` — and computed `gap`, `rowGap` and `columnGap` are
+   * all `normal` on that same element, so gap has no longhand escape.
+   *
+   * Two structural facts about this engine's CSSOM, both measured, both
+   * load-bearing:
+   *
+   * - A top-level rule is a real `CSSStyleRule`: `selectorText` and the `style`
+   *   accessors work exactly. No parsing needed for the common case.
+   * - An `@media` or `@supports` block is a bare `CSSRule` with `type: 0`, no
+   *   `conditionText`, no `media`, no `cssRules` and no `style` — but `cssText`
+   *   carries the whole block verbatim. So at-rules are recovered by parsing
+   *   `cssText` and gating the condition with `matchMedia`, which does work for
+   *   width queries. An earlier read of this concluded at-rules were dropped
+   *   entirely; they are not, they are unmodelled, and the difference is a
+   *   whole class of responsive declarations.
+   *
+   * **A declaration is not a rendering.** It says what the author asked for;
+   * the computed value says what the cascade resolved. On an engine that
+   * answers both they agree, and where they disagree the computed value wins.
+   * Every value sourced here is tagged `declared` so a finding built on it can
+   * be read for what it is, and so nobody quotes it as a measurement.
+   */
+  function buildDeclaredIndex() {
+    const PROPS = ['background', 'background-image', 'background-color', 'box-shadow',
+                   'text-transform', 'transition', 'transition-property',
+                   'transition-duration', 'gap', 'row-gap', 'column-gap',
+                   'border-radius', 'border-width', 'letter-spacing', 'outline'];
+    const camel = p => p.replace(/-([a-z])/g, (m, c) => c.toUpperCase());
+    // Source order is the tie-break the cascade uses at equal specificity, so
+    // rules are kept in the order they were read and the last match wins.
+    const rules = [];
+    let sheetsRead = 0, sheetsUnreadable = 0, atRulesParsed = 0, rulesUnparsed = 0;
+    let atRuleConditionsSkipped = 0;
+
+    const addDecl = (selectorText, styleLike, under) => {
+      if (!selectorText) return;
+      const decls = {};
+      let any = false;
+      for (const p of PROPS) {
+        let v = '';
+        try {
+          v = typeof styleLike.getPropertyValue === 'function'
+            ? styleLike.getPropertyValue(p) : (styleLike[camel(p)] || '');
+        } catch (e) { v = ''; }
+        if (v && String(v).trim()) { decls[camel(p)] = String(v).trim(); any = true; }
+      }
+      if (any) rules.push({ selectorText, decls, under: under || null });
+    };
+
+    // Minimal declaration parser, used ONLY for at-rule bodies this engine does
+    // not model. Deliberately not a CSS parser: it splits `sel { a:b; c:d }`
+    // blocks and nothing else, because that is all the recovered text contains.
+    const parseBlocks = (css, under) => {
+      const re = /([^{}]+)\{([^{}]*)\}/g;
+      let m;
+      while ((m = re.exec(css))) {
+        const sel = m[1].trim();
+        if (!sel || sel.charAt(0) === '@') continue;
+        const body = m[2];
+        const bag = {};
+        for (const part of body.split(';')) {
+          const i = part.indexOf(':');
+          if (i < 1) continue;
+          const prop = part.slice(0, i).trim().toLowerCase();
+          const val = part.slice(i + 1).trim();
+          if (val) bag[prop] = val;
+        }
+        addDecl(sel, { getPropertyValue: p => bag[p] || '' }, under);
+      }
+    };
+
+    for (let i = 0; i < document.styleSheets.length; i++) {
+      const ss = document.styleSheets[i];
+      let cssRules = null;
+      try { cssRules = ss.cssRules; } catch (e) { cssRules = null; }
+      if (!cssRules) { sheetsUnreadable++; continue; }
+      sheetsRead++;
+      for (let j = 0; j < cssRules.length; j++) {
+        const r = cssRules[j];
+        if (r.type === 1 && r.style && r.selectorText) {
+          addDecl(r.selectorText, r.style, null);
+          continue;
+        }
+        // Unmodelled group rule. `cssText` is the only witness.
+        const text = (() => { try { return String(r.cssText || ''); } catch (e) { return ''; } })();
+        const at = text.match(/^\s*@(media|supports)\s*([^{]*)\{([\s\S]*)\}\s*$/);
+        if (at) {
+          const kind = at[1], cond = at[2].trim(), body = at[3];
+          let applies = null;
+          if (kind === 'media') {
+            try { applies = matchMedia(cond).matches; } catch (e) { applies = null; }
+          } else {
+            try { applies = CSS && CSS.supports ? CSS.supports(cond.replace(/^\(|\)$/g, '')) : null; }
+            catch (e) { applies = null; }
+          }
+          if (applies === true) { parseBlocks(body, `@${kind} ${cond}`); atRulesParsed++; }
+          else if (applies === false) { atRulesParsed++; }
+          else { atRuleConditionsSkipped++; }
+          continue;
+        }
+        if (r.style && r.selectorText) { addDecl(r.selectorText, r.style, null); continue; }
+        // @font-face, @keyframes, @import and friends carry no declarations we
+        // index. Counted so the denominator is real rather than implied.
+        if (!/^\s*@(font-face|keyframes|import|charset|namespace|page|layer|property)/i.test(text)) {
+          rulesUnparsed++;
+        }
+      }
+    }
+
+    /** Last matching declaration wins, inline style beats every stylesheet. */
+    function declaredValue(el, prop) {
+      const key = camel(prop);
+      try {
+        const inline = el.style && el.style.getPropertyValue ? el.style.getPropertyValue(prop) : '';
+        if (inline && inline.trim()) return { value: inline.trim(), from: 'inline' };
+      } catch (e) { /* fall through */ }
+      let hit = null;
+      for (const r of rules) {
+        if (!(key in r.decls)) continue;
+        let matches = false;
+        try { matches = el.matches(r.selectorText); } catch (e) { matches = false; }
+        if (matches) hit = { value: r.decls[key], from: r.under ? `sheet ${r.under}` : 'sheet',
+                             selector: r.selectorText };
+      }
+      return hit;
+    }
+
+    /** Resolve a `var(--x)` reference off the element it applies to. */
+    function resolveVars(el, value) {
+      if (!value || value.indexOf('var(') === -1) return value;
+      let out = value, guard = 0;
+      const cs = getComputedStyle(el);
+      while (out.indexOf('var(') !== -1 && guard++ < 8) {
+        out = out.replace(/var\(\s*(--[\w-]+)\s*(?:,([^()]*))?\)/g, (m, name, fallback) => {
+          let v = '';
+          try { v = cs.getPropertyValue(name); } catch (e) { v = ''; }
+          v = (v || '').trim();
+          return v || (fallback || '').trim() || m;
+        });
+        if (/var\(/.test(out) && guard >= 8) break;
+      }
+      return out;
+    }
+
+    return {
+      declaredValue,
+      resolveVars,
+      stats: {
+        sheetsRead, sheetsUnreadable, indexedRules: rules.length,
+        atRulesParsed, atRuleConditionsSkipped, rulesUnparsed,
+        // The unmeasurable population for this channel. A cross-origin sheet
+        // makes every declaration in it invisible, and that is a coverage gap
+        // rather than an absence of declarations.
+        partial: sheetsUnreadable > 0 || atRuleConditionsSkipped > 0 || rulesUnparsed > 0,
+      },
+    };
+  }
+
+  // Built once per run. `runAll()` refreshes it; a direct probe call builds it
+  // lazily so calling one probe from the console still works.
+  let DECLARED = null;
+  let CAPABILITY = null;
+  function declared() { if (!DECLARED) DECLARED = buildDeclaredIndex(); return DECLARED; }
+  function capability() { if (!CAPABILITY) CAPABILITY = probeEngineCapability(); return CAPABILITY; }
+
+  /**
+   * Build both indexes and return the capability report.
+   *
+   * A runner calling probes one at a time (which is how a probe that overruns
+   * costs its own key instead of the whole review) needs the caches populated
+   * once, deliberately, rather than by whichever probe happens to run first.
+   * Returns the capability so this doubles as the roster's first entry.
+   */
+  function initRun() {
+    CAPABILITY = probeEngineCapability();
+    DECLARED = buildDeclaredIndex();
+    return Object.assign({}, CAPABILITY, { declaredIndex: DECLARED.stats });
+  }
+
+  /**
+   * The value of `prop` on `el`, and where it came from.
+   *
+   * Computed first, because it is the resolved cascade. Declared second, and
+   * only when the engine has been measured unable to answer the computed
+   * channel — never as a general-purpose second opinion, which would let a
+   * declaration override a computed value that disagreed with it.
+   *
+   * Returns `{ value, source }` where source is `computed`, `declared` or
+   * `unreadable`. `unreadable` is the state this whole mechanism exists to make
+   * visible: it is not `null`, not `""`, and not zero.
+   */
+  function styleValue(el, prop, computedKey) {
+    const cap = capability();
+    const key = computedKey || prop.replace(/-([a-z])/g, (m, c) => c.toUpperCase());
+    const chan = cap.channels[key];
+    if (!chan || chan.readable) {
+      let v = '';
+      try { v = getComputedStyle(el)[key]; } catch (e) { v = ''; }
+      if (v !== undefined && v !== null && String(v).trim() !== '') {
+        return { value: String(v), source: 'computed' };
+      }
+      // A readable channel returning empty on this element is a real absence.
+      if (chan && chan.readable) return { value: null, source: 'computed' };
+    }
+    if (!cap.declarationChannel.readable) {
+      return { value: null, source: 'unreadable', reason: 'computed channel and declared channel both unavailable' };
+    }
+    const d = declared().declaredValue(el, prop);
+    if (!d) {
+      // Nothing declared for it anywhere the index could see. That is an
+      // absence only if the index was complete.
+      return declared().stats.partial
+        ? { value: null, source: 'unreadable', reason: 'no declaration found and the declaration index is partial' }
+        : { value: null, source: 'declared', absent: true };
+    }
+    return { value: declared().resolveVars(el, d.value), source: 'declared',
+             selector: d.selector, from: d.from };
   }
 
   /* ---------------------------------------------------------------- colour */
@@ -97,27 +611,171 @@
     };
   }
 
-  /** Walk ancestors to find the first opaque-enough background. */
+  /**
+   * Colour stops out of a gradient declaration.
+   *
+   * A gradient is not one backdrop, it is a range of them, and WCAG's ratio has
+   * to hold everywhere the text actually sits. So the honest reduction is the
+   * **worst stop**, not an average and not the first one: a white heading over
+   * `#6366F1 → #A855F7 → #EC4899` is legible against all three, and a heading
+   * that failed against only the lightest stop would still be a real failure at
+   * that end of the sweep.
+   *
+   * This reads stops, not pixels. It cannot see where the sweep sits under a
+   * given glyph, so it answers "is there any stop this text fails against",
+   * which is the conservative direction. Positional stops, `color-mix()` and
+   * image URLs are not reduced at all — those stay unresolved rather than
+   * guessed.
+   */
+  function gradientStops(decl) {
+    if (!decl) return null;
+    const s = String(decl);
+    if (!/gradient\(/i.test(s)) return null;
+    const open = s.indexOf('(');
+    const close = s.lastIndexOf(')');
+    if (open < 0 || close < open) return null;
+    const inner = s.slice(open + 1, close);
+    // Split on top-level commas so `rgba(0,0,0,.5)` survives.
+    const parts = [];
+    let depth = 0, buf = '';
+    for (const c of inner) {
+      if (c === '(') depth++;
+      if (c === ')') depth--;
+      if (c === ',' && depth === 0) { parts.push(buf); buf = ''; continue; }
+      buf += c;
+    }
+    if (buf.trim()) parts.push(buf);
+
+    const stops = [];
+    for (const raw of parts) {
+      const p = raw.trim();
+      if (!p) continue;
+      // Direction / interpolation prefixes carry no colour.
+      if (/^(to\b|-?[\d.]+(deg|rad|grad|turn)\b|at\b|circle\b|ellipse\b|closest|farthest|in\s)/i.test(p)) continue;
+      const colourText = p.replace(/\s+-?[\d.]+(%|px|em|rem)\s*$/g, '')
+                          .replace(/\s+-?[\d.]+(%|px|em|rem)\s+-?[\d.]+(%|px|em|rem)\s*$/g, '')
+                          .trim();
+      const c = parseNamedOrFunctional(colourText);
+      if (c) stops.push(c);
+    }
+    return stops.length ? stops : null;
+  }
+
+  /**
+   * A colour from a declaration rather than from a computed value. Declarations
+   * carry hex and named forms that `parseColor()`'s rgb() matcher never sees.
+   * Anything outside this set returns null and becomes unresolved, deliberately:
+   * a wrong backdrop is what produced the fabricated Blocker in the first place.
+   */
+  function parseNamedOrFunctional(text) {
+    if (!text) return null;
+    const t = String(text).trim().toLowerCase();
+    const rgb = parseColor(t);
+    if (rgb) return rgb;
+    let m = t.match(/^#([0-9a-f]{3,8})$/);
+    if (m) {
+      let h = m[1];
+      if (h.length === 3 || h.length === 4) h = h.split('').map(c => c + c).join('');
+      if (h.length !== 6 && h.length !== 8) return null;
+      return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16),
+               b: parseInt(h.slice(4, 6), 16),
+               a: h.length === 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1 };
+    }
+    const NAMED = {
+      white: [255, 255, 255], black: [0, 0, 0], red: [255, 0, 0], green: [0, 128, 0],
+      blue: [0, 0, 255], yellow: [255, 255, 0], gray: [128, 128, 128], grey: [128, 128, 128],
+      silver: [192, 192, 192], navy: [0, 0, 128], teal: [0, 128, 128], purple: [128, 0, 128],
+      orange: [255, 165, 0], transparent: null,
+    };
+    if (t in NAMED) {
+      const v = NAMED[t];
+      return v ? { r: v[0], g: v[1], b: v[2], a: 1 } : { r: 0, g: 0, b: 0, a: 0 };
+    }
+    return null;
+  }
+
+  /**
+   * Walk ancestors to find the first opaque-enough background.
+   *
+   * Three outcomes, and keeping them apart is the point:
+   *
+   * - `color` — a resolved opaque backdrop. Safe to compute a ratio against.
+   * - `range` — a gradient whose stops were recovered. Ratio is computed against
+   *   the worst stop and the record says so.
+   * - `unresolved` — the backdrop cannot be established. **This is not a pass
+   *   and not a failure.** It goes into a reported population and gets looked
+   *   at by eye. The old code reached this state and silently kept walking,
+   *   which is how white-on-gradient became 1.0:1.
+   *
+   * The guard that used to fail: `if (cs.backgroundImage && cs.backgroundImage
+   * !== 'none')`. An unreadable channel returns `""`, which is falsy, so an
+   * image was indistinguishable from no image. Capability is consulted now
+   * instead of truthiness.
+   */
   function effectiveBackground(el) {
+    const cap = capability();
+    const bgImageReadable = cap.channels.backgroundImage.readable;
     let node = el;
-    let stack = [];
-    while (node && node !== document.documentElement.parentElement) {
+    const stack = [];
+    while (node && node.nodeType === 1 && node !== document.documentElement.parentElement) {
       const cs = getComputedStyle(node);
       const c = parseColor(cs.backgroundColor);
-      if (cs.backgroundImage && cs.backgroundImage !== 'none') {
-        return { color: null, unresolved: 'background-image', node: cssPath(node) };
+
+      // What is painted behind this node, image-wise. Computed first; declared
+      // only where the computed channel has been measured unreadable.
+      let imageDecl = null, imageSource = null;
+      if (bgImageReadable) {
+        const v = cs.backgroundImage;
+        if (v && v !== 'none') { imageDecl = v; imageSource = 'computed'; }
+      } else if (cap.declarationChannel.readable) {
+        const d = declared().declaredValue(node, 'background-image') ||
+                  declared().declaredValue(node, 'background');
+        if (d) {
+          const resolved = declared().resolveVars(node, d.value);
+          if (/gradient\(|url\(|image-set\(/i.test(resolved)) {
+            imageDecl = resolved; imageSource = 'declared';
+          }
+        }
+      } else {
+        // Neither channel answers. Every backdrop on this page is unconfirmable,
+        // which is a whole-gate outcome rather than a per-element one.
+        return { unresolved: 'background-image channel unreadable and no declaration index',
+                 node: cssPath(node) };
       }
+
+      if (imageDecl) {
+        const stops = gradientStops(imageDecl);
+        if (stops) {
+          // Composite each stop under anything translucent already stacked over it.
+          const flatten = (base) => {
+            let out = base;
+            for (let i = stack.length - 1; i >= 0; i--) out = composite(stack[i], out);
+            return out;
+          };
+          return { range: stops.map(flatten), declaration: imageDecl.slice(0, 120),
+                   source: imageSource, node: cssPath(node) };
+        }
+        return { unresolved: imageSource === 'declared'
+                   ? 'background-image declared but not reducible to colour stops'
+                   : 'background-image',
+                 declaration: imageDecl.slice(0, 120), source: imageSource, node: cssPath(node) };
+      }
+
       if (c && c.a > 0) {
+        if (c.a >= 0.999) {
+          let base = c;
+          while (stack.length) base = composite(stack.pop(), base);
+          return { color: base, node: cssPath(node) };
+        }
         stack.push(c);
-        if (c.a >= 0.999) break;
       }
       node = node.parentElement;
     }
-    if (!stack.length) return { color: { r: 255, g: 255, b: 255, a: 1 }, assumed: true };
-    let base = stack.pop();
-    if (base.a < 0.999) base = composite(base, { r: 255, g: 255, b: 255, a: 1 });
+    // Ran out of ancestors with nothing opaque. The canvas is the user agent's,
+    // conventionally white, and that assumption is carried on the record.
+    let base = { r: 255, g: 255, b: 255, a: 1 };
     while (stack.length) base = composite(stack.pop(), base);
-    return { color: base };
+    return { color: base, assumed: true };
   }
 
   function contrastRatio(a, b) {
@@ -132,13 +790,29 @@
    * Text contrast. WCAG 2.2: 4.5:1 normal, 3:1 large.
    * Large = >=24px, or >=18.66px at weight >=700.
    * Thresholds are inclusive with no rounding — 4.499 fails.
+   *
+   * Returns an object, not an array. The array form could only carry failures,
+   * so "no failures" and "the probe never ran" serialised identically, and an
+   * element whose backdrop could not be resolved had nowhere to go but into the
+   * failure list or into silence. Four populations now, and they sum to
+   * `examined`:
+   *
+   *   failures + passes + unresolved + assumed-backdrop passes/failures
+   *
+   * `unresolved` is the one that matters. It is the honest home for a gradient
+   * this engine will not reduce, and it must reach the report as a number — a
+   * gate that quietly drops the cases it could not judge is reporting a
+   * denominator it did not measure.
    */
   function probeContrast() {
-    const out = [];
+    const failures = [];
+    const unresolved = [];
+    const ratios = [];
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const seen = new Set();
-    let n;
-    while ((n = walker.nextNode()) && out.length < 600) {
+    let n, examined = 0, passes = 0, assumedBackdrop = 0, gradientJudged = 0;
+
+    while ((n = walker.nextNode()) && examined < 600) {
       const text = n.textContent.trim();
       if (!text) continue;
       const el = n.parentElement;
@@ -147,34 +821,108 @@
       const cs = getComputedStyle(el);
       const fg = parseColor(cs.color);
       if (!fg) continue;
+      examined++;
+
       const bgInfo = effectiveBackground(el);
-      if (!bgInfo.color) {
-        out.push({
-          selector: cssPath(el), text: text.slice(0, 60),
-          skipped: bgInfo.unresolved, note: 'background not resolvable — check visually',
-        });
-        continue;
-      }
-      const fgFlat = fg.a < 0.999 ? composite(fg, bgInfo.color) : fg;
       const size = parseFloat(cs.fontSize);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const isLarge = size >= 24 || (size >= 18.66 && weight >= 700);
       const required = isLarge ? 3.0 : 4.5;
-      const ratio = contrastRatio(fgFlat, bgInfo.color);
-      if (ratio < required) {
-        out.push({
+
+      if (bgInfo.unresolved) {
+        unresolved.push({
+          selector: cssPath(el), text: text.slice(0, 60), color: cs.color,
+          fontSize: size, fontWeight: weight, isLarge, required,
+          reason: bgInfo.unresolved,
+          declaration: bgInfo.declaration || null,
+          at: bgInfo.node || null,
+          note: 'Backdrop not resolvable on this engine — confirm by eye against the capture. Not a pass and not a failure.',
+        });
+        continue;
+      }
+
+      // A gradient: score against the worst stop and say which.
+      const candidates = bgInfo.range || [bgInfo.color];
+      let worst = null;
+      const allStops = [];
+      for (const bg of candidates) {
+        const fgFlat = fg.a < 0.999 ? composite(fg, bg) : fg;
+        const ratio = contrastRatio(fgFlat, bg);
+        allStops.push(Math.round(ratio * 100) / 100);
+        if (!worst || ratio < worst.ratio) worst = { ratio, bg };
+      }
+      if (bgInfo.range) gradientJudged++;
+      if (bgInfo.assumed) assumedBackdrop++;
+
+      // Every examined element's ratio, pass or fail, and every stop of a
+      // gradient rather than only the worst one.
+      //
+      // Recording failures alone made this probe unable to support its own
+      // report. A review legitimately quotes a ratio for an element that
+      // PASSED ("the body text is fine at 8.3:1") and legitimately quotes the
+      // intermediate stops of a gradient it scored — and `audit_run.py claims`,
+      // checking the report against the run, called both of those fabrications
+      // because the run had not written them down. A gate that fires on correct
+      // work is worse than no gate: it gets switched off, and then nothing is
+      // checked. So the population the report may quote from is the population
+      // the probe records.
+      ratios.push({
+        selector: cssPath(el),
+        ratio: Math.round(worst.ratio * 100) / 100,
+        stops: allStops.length > 1 ? allStops : undefined,
+        required,
+        passed: worst.ratio >= required,
+      });
+
+      if (worst.ratio < required) {
+        failures.push({
           selector: cssPath(el),
           text: text.slice(0, 60),
           color: cs.color,
-          background: `rgb(${Math.round(bgInfo.color.r)}, ${Math.round(bgInfo.color.g)}, ${Math.round(bgInfo.color.b)})`,
+          background: `rgb(${Math.round(worst.bg.r)}, ${Math.round(worst.bg.g)}, ${Math.round(worst.bg.b)})`,
           fontSize: size, fontWeight: weight, isLarge,
-          ratio: Math.round(ratio * 100) / 100,
+          ratio: Math.round(worst.ratio * 100) / 100,
+          stops: allStops.length > 1 ? allStops : undefined,
           required,
+          // Where the backdrop came from, on every record. A ratio measured
+          // against a declared gradient stop is a weaker claim than one
+          // measured against a computed opaque colour, and the reader gets to
+          // know which they are holding.
+          backdropSource: bgInfo.range ? (bgInfo.source === 'declared' ? 'declared-gradient-stop'
+                                                                      : 'computed-gradient-stop')
+                        : bgInfo.assumed ? 'assumed-white-canvas' : 'computed',
+          backdropStops: bgInfo.range ? bgInfo.range.length : undefined,
+          // A gradient-stop failure that fails against EVERY stop is
+          // unconditional; one that fails against some is conditional on where
+          // the glyph sits. Severity follows this, so it is recorded rather
+          // than re-derived.
+          failsAllStops: allStops.every(r => r < required),
+          declaration: bgInfo.declaration || undefined,
           bgAssumed: !!bgInfo.assumed,
         });
+      } else {
+        passes++;
       }
     }
-    return out;
+
+    return {
+      examined,
+      failures,
+      failureCount: failures.length,
+      passCount: passes,
+      // The full ratio population, so a report quoting a passing element's
+      // ratio or an intermediate gradient stop is quoting the run.
+      ratios,
+      // The three numbers that used to be invisible.
+      unresolved,
+      unresolvedCount: unresolved.length,
+      assumedBackdropCount: assumedBackdrop,
+      gradientJudgedCount: gradientJudged,
+      capped: examined >= 600,
+      note: unresolved.length
+        ? `${unresolved.length} of ${examined} text nodes have a backdrop this engine cannot resolve. They are neither passes nor failures and must be confirmed by eye.`
+        : null,
+    };
   }
 
   /* -------------------------------------------------------------- overflow */
@@ -461,16 +1209,73 @@
   /* -------------------------------------------------- computed style dump */
 
   /**
+   * The visibility test the systematisation pass wants, which is not the one the
+   * geometric probes want.
+   *
+   * A geometric probe must exclude a stranded element or it invents overlaps.
+   * `dumpStyles()` is counting design decisions — how many distinct radii, how
+   * many shadows, whether caps are tracked — and a stranded element's tokens are
+   * perfectly real. Measured on `evals/fixtures/landing.html`: the three `.card`
+   * elements carry the page's only `box-shadow` and one of its two radii, and on
+   * a capture taken before the reveal pass they read at opacity 0.0036 because
+   * their entry animation never runs. Using one filter for both jobs threw the
+   * fixture's whole shadow population away and reported `0 distinct shadows`,
+   * which reads as a surface with no elevation at all. (After the reveal pass
+   * they read 1, so on a properly settled run this filter changes nothing — it
+   * is insurance for the one-shot capture, which is exactly when it is needed.)
+   *
+   * So: hidden by the author stays excluded; stranded by the engine is included.
+   */
+  function visibleForStyle(el) {
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+    if (el.closest && el.closest('details:not([open])')) return false;
+    // Deliberately NOT testing opacity: a near-zero value here is the engine's
+    // stranded entrance, and an exact zero is usually the same thing pre-reveal.
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0;
+  }
+
+  /**
    * The evidence base for the systematisation pass. Every visible element's
    * design-relevant computed values, so variance and token adherence can be
    * measured offline rather than judged by eye.
+   *
+   * Five keys here used to be structurally dead on the review engine, and the
+   * consequence was worse than missing data: `analyze_styles.py` counted the
+   * empties as zeros, so `0 distinct radii` and `0 shadows` read as a perfectly
+   * tokenised surface, and the untracked-caps tell and the `transition: all`
+   * detector could never fire. Measured 18 Aug 2026 on obscura 0.2.0 against
+   * `evals/fixtures/landing.html`, which plants every one of them:
+   *
+   *   borderRadius        `0px`     ← shorthand; `borderTopLeftRadius` gives 24px
+   *   borderWidth         `0px`     ← shorthand; `borderLeftWidth` gives 1px
+   *   gap                 `normal`  ← and `rowGap`/`columnGap` are ALSO `normal`,
+   *                                   so gap has no longhand escape at all
+   *   textTransform       `""`
+   *   boxShadow           `""`
+   *   transitionProperty  `""`
+   *   transitionDuration  `""`
+   *
+   * Three routes, in this order: compose from longhands where they answer, read
+   * the declaration where they do not, and emit `null` with the channel named
+   * where neither works. Every value carries a `*_src` tag so a metric built on
+   * a declaration is never quoted as a measurement, and so the consumer can
+   * report an unmeasurable channel as unmeasurable instead of as zero.
    */
   function dumpStyles() {
-    const nodes = [...document.querySelectorAll('*')].filter(visible).slice(0, MAX_NODES);
+    const cap = capability();
+    const nodes = [...document.querySelectorAll('*')].filter(visibleForStyle).slice(0, MAX_NODES);
+    const C = cap.channels;
+
+    // Compose a shorthand from its longhands when the shorthand does not
+    // compose but the parts do. This is what already rescued margin and padding.
+    const compose = (cs, keys) => keys.map(k => cs[k]).join(' ');
+
     return nodes.map(el => {
       const cs = getComputedStyle(el);
       const r = el.getBoundingClientRect();
-      return {
+      const row = {
         selector: cssPath(el),
         tag: el.tagName.toLowerCase(),
         hasText: !!(el.childNodes.length && [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())),
@@ -479,30 +1284,86 @@
         fontWeight: cs.fontWeight,
         lineHeight: cs.lineHeight,
         letterSpacing: cs.letterSpacing,
-        textTransform: cs.textTransform,
         color: cs.color,
         backgroundColor: cs.backgroundColor,
-        borderRadius: cs.borderRadius,
-        borderWidth: cs.borderWidth,
         borderColor: cs.borderColor,
-        boxShadow: cs.boxShadow,
-        margin: [cs.marginTop, cs.marginRight, cs.marginBottom, cs.marginLeft].join(' '),
-        padding: [cs.paddingTop, cs.paddingRight, cs.paddingBottom, cs.paddingLeft].join(' '),
-        gap: cs.gap,
+        margin: compose(cs, ['marginTop', 'marginRight', 'marginBottom', 'marginLeft']),
+        padding: compose(cs, ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft']),
         display: cs.display,
         maxWidth: cs.maxWidth,
         zIndex: cs.zIndex,
-        transition: cs.transition,
-        transitionProperty: cs.transitionProperty,
-        transitionDuration: cs.transitionDuration,
-        transitionTimingFunction: cs.transitionTimingFunction,
-        animation: cs.animation,
         opacity: cs.opacity,
         cursor: cs.cursor,
         fontVariantNumeric: cs.fontVariantNumeric,
         width: Math.round(r.width),
         height: Math.round(r.height),
       };
+
+      // Fonts are recorded, but the engine may not load them. The consumer needs
+      // to know that a family count here is a count of what the CSS asked for.
+      row.fontFamily_src = cap.fonts.readable ? 'computed' : 'declared-only (web fonts do not load on this engine)';
+
+      const shorthandOrLonghand = (key, longhands, prop) => {
+        if (C[key] && C[key].readable) return { value: cs[key], src: 'computed' };
+        const composed = compose(cs, longhands);
+        if (longhands.every(k => C[k] === undefined || C[k].readable) &&
+            /[1-9]/.test(composed)) return { value: composed, src: 'computed-longhand' };
+        const sv = styleValue(el, prop, key);
+        return { value: sv.value, src: sv.source === 'declared' ? 'declared' : sv.source };
+      };
+
+      const br = shorthandOrLonghand('borderRadius',
+        ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius'],
+        'border-radius');
+      row.borderRadius = br.value; row.borderRadius_src = br.src;
+
+      const bw = shorthandOrLonghand('borderWidth',
+        ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth'],
+        'border-width');
+      row.borderWidth = bw.value; row.borderWidth_src = bw.src;
+
+      // Gap is the one with no longhand escape measured on this engine, so it
+      // goes straight to the declaration.
+      const gap = (C.gap.readable || C.rowGap.readable)
+        ? { value: C.gap.readable ? cs.gap : compose(cs, ['rowGap', 'columnGap']), src: 'computed' }
+        : (() => { const sv = styleValue(el, 'gap', 'gap');
+                   return { value: sv.value, src: sv.source }; })();
+      row.gap = gap.value; row.gap_src = gap.src;
+
+      for (const [key, prop] of [['textTransform', 'text-transform'],
+                                 ['boxShadow', 'box-shadow'],
+                                 ['transitionProperty', 'transition-property'],
+                                 ['transitionDuration', 'transition-duration']]) {
+        const sv = styleValue(el, prop, key);
+        row[key] = sv.value;
+        row[key + '_src'] = sv.source;
+        if (sv.source === 'unreadable') row[key + '_reason'] = sv.reason;
+      }
+
+      // `transition: all 0.3s ease-in` declares property and duration together,
+      // and the declaration index carries the shorthand where the longhands are
+      // dead. Split it so the consumer's existing property/duration logic works.
+      if (row.transitionProperty_src !== 'computed' || row.transitionDuration_src !== 'computed') {
+        const t = styleValue(el, 'transition', 'transition');
+        // `none` is this engine's resolved answer for the shorthand and means
+        // nothing here — a transition set in a stylesheet resolves to it too.
+        const usable = t.value && !/^(none|all)$/i.test(String(t.value).trim());
+        if (usable) {
+          row.transitionShorthand = t.value;
+          row.transitionShorthand_src = t.source;
+          const first = String(t.value).split(',')[0].trim();
+          const dur = first.match(/(^|\s)(-?[\d.]+m?s)(\s|$)/);
+          const prop = first.split(/\s+/)[0];
+          if (!row.transitionProperty && prop) {
+            row.transitionProperty = prop; row.transitionProperty_src = t.source;
+          }
+          if (!row.transitionDuration && dur) {
+            row.transitionDuration = dur[2]; row.transitionDuration_src = t.source;
+          }
+        }
+      }
+
+      return row;
     });
   }
 
@@ -814,7 +1675,17 @@
     const heads = [...document.querySelectorAll('h1,h2,h3')].filter(visible)
       .filter(h => shortText(h).length > 0)
       .filter(h => !h.closest(INSET));
-    if (heads.length < 2) return { clusters: [], disagreementPx: 0 };
+    // Every early return has to carry the SAME keys as the full one. This one
+    // did not, and the consumer read `L["rails"]["exceedsThreshold"]` unguarded:
+    // measured 18 Aug 2026, `run_review.py` died with `KeyError:
+    // 'exceedsThreshold'` on the first viewport of this skill's own eval
+    // fixture, wrote probes for one width, orphaned two captures and reported a
+    // traceback instead of a review. A partial result shape is the same class of
+    // defect as a partial result.
+    if (heads.length < 2) {
+      return { clusters: [], disagreementPx: 0, exceedsThreshold: false,
+               skipped: 'fewer than two page-rail headings on this surface' };
+    }
     const lefts = heads.map(h => ({ left: Math.round(h.getBoundingClientRect().left), el: h }));
     const clusters = [];
     for (const x of lefts.sort((a, b) => a.left - b.left)) {
@@ -1262,25 +2133,6 @@
   }
 
   /**
-   * The denominator `probeContrast()` does not carry. It returns failures only,
-   * so `failures: 0` and "the probe never ran" serialise to the same output.
-   * Report the pair or report nothing.
-   */
-  function contrastExamined() {
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    const seen = new Set();
-    let n, examined = 0;
-    while ((n = walker.nextNode()) && examined < 600) {
-      if (!n.textContent.trim()) continue;
-      const el = n.parentElement;
-      if (!el || seen.has(el) || !visible(el)) continue;
-      seen.add(el);
-      examined++;
-    }
-    return examined;
-  }
-
-  /**
    * Proof that the page was at rest when it was measured.
    *
    * A colour or accessibility gate sampled mid-animation reports precise,
@@ -1479,17 +2331,37 @@
     };
 
     // (a) Real vertical borders. This is how nearly every divided row is built.
+    //
+    // A border is only a DIVIDER if it stands between two things. A border on a
+    // box that also has top and bottom borders is that box's own outline, and
+    // measuring the box's own text against it measures the padding — which is
+    // exactly what a padding is for.
+    //
+    // Measured 18 Aug 2026 on `evals/fixtures/landing.html`: without this test
+    // the probe returned three violations and zero true positives, every one
+    // naming a hero button's own 1px border as the divider and the button's own
+    // label as the encroaching ink, and one reporting `gapPx: -139.5` — a
+    // negative distance, which this measurement cannot produce. A probe with a
+    // 3:0 false-positive rate is worse than an absent one, because it is the
+    // reason the whole layout set stops being read.
+    let selfOutlineSkipped = 0;
     for (const el of [...document.querySelectorAll('*')].slice(0, MAX_NODES)) {
       if (!visible(el)) continue;
       const r = el.getBoundingClientRect();
       if (r.height < 24 || r.width < 4) continue;
       const cs = getComputedStyle(el);
+      // Painted on the perpendicular axis too? Then it is a frame, not a rule.
+      const framed =
+        paint(cs.borderTopColor, cs.borderTopStyle, parseFloat(cs.borderTopWidth) || 0) &&
+        paint(cs.borderBottomColor, cs.borderBottomStyle, parseFloat(cs.borderBottomWidth) || 0);
       for (const side of ['Left', 'Right']) {
         const w = parseFloat(cs[`border${side}Width`]) || 0;
         if (!paint(cs[`border${side}Color`], cs[`border${side}Style`], w)) continue;
+        if (framed) { selfOutlineSkipped++; continue; }
         rules.push({
           kind: `border-${side.toLowerCase()}`,
           owner: cssPath(el),
+          ownerEl: el,
           x: side === 'Left' ? r.left + w / 2 : r.right - w / 2,
           top: r.top, bottom: r.bottom,
           declaredPadPx: Math.round(parseFloat(cs[`padding${side}`]) || 0),
@@ -1532,6 +2404,10 @@
       return {
         rules: 0, floorPx: LI.dividerGutterPx, wantPx: want,
         violations: [], crossings: [], clipped: [], columnRules: cap(columnRules),
+        selfOutlineSkipped,
+        note: selfOutlineSkipped
+          ? `${selfOutlineSkipped} side border(s) skipped as box outlines rather than dividers (they also paint top and bottom).`
+          : null,
       };
     }
 
@@ -1568,6 +2444,19 @@
           continue;
         }
         const gap = b.left >= rule.x ? b.left - rule.x : rule.x - b.right;
+        // A negative gap is not a small gap. This measurement is a distance
+        // between a rule and an ink box on one side of it, so a negative value
+        // means the box straddles the rule in a way the crossing test above did
+        // not catch — the text is ON the rule, not near it. Reporting it as
+        // `gapPx: -139.5` was arithmetically meaningless and read as the worst
+        // violation on the page.
+        if (!(gap >= 0)) {
+          crossings.push({
+            rule: rule.owner, kind: rule.kind, text: t.text, el: cssPath(t.el),
+            note: 'ink box straddles the rule — measured as a crossing, not a gap',
+          });
+          continue;
+        }
         if (gap >= want) continue;
         const key = `${rule.owner}|${rule.kind}|${cssPath(t.el)}`;
         const prev = worst.get(key);
@@ -1624,6 +2513,13 @@
       crossings: cap(crossings),
       clipped: cap(clipped),
       columnRules: cap(columnRules),
+      // How many side borders were rejected as box outlines. A reviewer seeing
+      // zero violations should be able to tell "no dividers were tight" from
+      // "everything that looked like a divider was a button".
+      selfOutlineSkipped,
+      note: selfOutlineSkipped
+        ? `${selfOutlineSkipped} side border(s) skipped as box outlines rather than dividers (they also paint top and bottom).`
+        : null,
     };
   }
 
@@ -1651,14 +2547,27 @@
   /* ------------------------------------------------------------------ run */
 
   function runAll() {
+    // Capability first, and the declaration index second, because every probe
+    // below may consult them. Rebuilt per run rather than cached across
+    // navigations: the index is a property of the document that is loaded now,
+    // and a stale one would answer for a page that is gone.
+    CAPABILITY = probeEngineCapability();
+    DECLARED = buildDeclaredIndex();
+
     return {
       url: location.href,
       viewport: { width: window.innerWidth, height: window.innerHeight, dpr: window.devicePixelRatio },
+      // What this engine will and will not answer, measured on this page. Read
+      // this before reading any zero below it: an unreadable channel and a clean
+      // surface produce the same number, and this is the only thing that tells
+      // them apart.
+      capability: CAPABILITY,
+      declaredIndex: DECLARED.stats,
       // Every count below is meaningless without this pair. `settled: false` means
       // the numbers were sampled mid-animation and must be re-taken, not reported.
       settled: probeAnimationSettled(),
+      stranded: probeStrandedElements(),
       contrast: probeContrast(),
-      contrastExamined: contrastExamined(),
       overflow: probeOverflow(),
       images: probeImages(),
       targets: probeTargets(),
@@ -1672,7 +2581,7 @@
   }
 
   window.__designReviewProbes = {
-    runAll, probeContrast, contrastExamined, probeOverflow, probeImages, probeTargets,
+    runAll, probeContrast, probeOverflow, probeImages, probeTargets,
     probeSemantics, probeFocusStyles, dumpStyles, probeInk, contrastRatio,
     probeLayoutIntegrity, probeRepeatedGroupIntegrity, probeColumnHeaderAlignment,
     probeSiblingGaps, probeSharedRails, probeTextOverlap, probeDeadSpace,
@@ -1680,5 +2589,9 @@
     probeImplicitTracks, probeDividerProximity,
     probeAffordanceGaps, probeTokenOverload, findRepeatedGroups,
     probeComponentInventory,
+    // The capability layer, exported so it can be run alone. `probeEngineCapability()`
+    // in a console is the fastest way to characterise a new engine.
+    initRun, probeEngineCapability, buildDeclaredIndex, styleValue, gradientStops,
+    effectiveBackground, probeStrandedElements,
   };
 })();

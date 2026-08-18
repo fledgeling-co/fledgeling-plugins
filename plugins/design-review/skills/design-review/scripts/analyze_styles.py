@@ -210,6 +210,25 @@ def analyze(nodes: list[dict], tokens: dict[str, str] | None) -> dict:
     caps_untracked, transition_all, pointer_missing = [], [], []
     tabular_candidates = []
 
+    # Where each metric's values came from, so a zero can be told apart from a
+    # channel the engine would not answer. `dumpStyles()` tags every value it
+    # recovers with a `*_src` of `computed`, `computed-longhand`, `declared` or
+    # `unreadable`; this counts them per metric.
+    #
+    # The failure this prevents: five metrics here used to read computed
+    # properties that return `""` or `0px` on the review engine whatever the CSS
+    # said, so `radii.count: 0` and `shadows.distinct_count: 0` reported a
+    # perfectly tokenised surface on a page carrying two radii and a shadow.
+    # A rule matching nothing passes silently; a metric measuring nothing does too.
+    prov = {}
+
+    def note_src(metric, node, key):
+        src = node.get(key + "_src")
+        if src is None:
+            return
+        bag = prov.setdefault(metric, Counter())
+        bag[src] += 1
+
     for n in nodes:
         fs = px(n.get("fontSize", ""))
         if fs:
@@ -224,12 +243,15 @@ def analyze(nodes: list[dict], tokens: dict[str, str] | None) -> dict:
             line_heights.append(round(lh / fs, 3))
 
         ls = n.get("letterSpacing", "normal")
+        note_src("uppercase_untracked", n, "textTransform")
         if n.get("textTransform") == "uppercase" and n.get("hasText"):
             # ALL CAPS needs +0.06 to +0.1em. Untracked caps is one of the two
             # most reliable typographic tells.
             lsv = px(ls) if ls != "normal" else 0.0
             if fs and (lsv is None or lsv / fs < 0.04):
-                caps_untracked.append({"selector": n["selector"], "letterSpacing": ls, "fontSize": n.get("fontSize")})
+                caps_untracked.append({"selector": n["selector"], "letterSpacing": ls,
+                                       "fontSize": n.get("fontSize"),
+                                       "source": n.get("textTransform_src")})
         if ls and ls != "normal":
             v = px(ls)
             if v is not None and fs:
@@ -242,21 +264,25 @@ def analyze(nodes: list[dict], tokens: dict[str, str] | None) -> dict:
         if b:
             bgs.append(b)
 
+        note_src("radii", n, "borderRadius")
         for r in (n.get("borderRadius") or "").split():
             v = px(r)
             if v:
                 radii.append(v)
 
+        note_src("shadows", n, "boxShadow")
         sh = n.get("boxShadow", "none")
         if sh and sh != "none":
             shadows.append(re.sub(r"\s+", " ", sh.strip())[:120])
 
         for prop in ("margin", "padding"):
             spacing.extend(split_spacing(n.get(prop, "")))
+        note_src("gap", n, "gap")
         g = n.get("gap")
         if g and g != "normal":
             spacing.extend(split_spacing(g))
 
+        note_src("durations", n, "transitionDuration")
         td = n.get("transitionDuration", "")
         active_durations = [p.strip() for p in (td or "").split(",")
                             if p.strip() and p.strip() not in ("0s", "0ms")]
@@ -265,6 +291,7 @@ def analyze(nodes: list[dict], tokens: dict[str, str] | None) -> dict:
         # `transitionProperty` computes to `all` on every element that has no
         # transition at all, so the property alone proves nothing. Only count it
         # where a non-zero duration means a transition will actually run.
+        note_src("transition_all", n, "transitionProperty")
         tp = n.get("transitionProperty", "")
         if tp and "all" in [p.strip() for p in tp.split(",")] and active_durations:
             transition_all.append(n["selector"])
@@ -284,8 +311,46 @@ def analyze(nodes: list[dict], tokens: dict[str, str] | None) -> dict:
         if n.get("hasText") and n.get("fontVariantNumeric") in ("normal", ""):
             tabular_candidates.append(n["selector"])
 
+    def measurability(metric):
+        """How this metric's population was obtained, as a reportable state.
+
+        Three outcomes, and the middle one is the whole point:
+
+        - `measured` — every value came from the engine's own computed cascade.
+        - `declared` — some or all values came from the stylesheet because the
+          computed channel is unreadable here. The count is real, but it is a
+          count of what the CSS asked for rather than of what the cascade
+          resolved. Weaker, and labelled.
+        - `unmeasurable` — no value could be obtained at all. A count of 0 in
+          this state means nothing was measured, NOT that the surface is clean,
+          and a consumer that prints `0 distinct radii` from it is reporting a
+          perfectly tokenised surface on no evidence.
+        """
+        bag = prov.get(metric)
+        if not bag:
+            return {"state": "measured", "sources": {}}
+        total = sum(bag.values())
+        unreadable = bag.get("unreadable", 0)
+        declared_n = bag.get("declared", 0)
+        if unreadable == total:
+            return {"state": "unmeasurable", "sources": dict(bag),
+                    "note": "This engine answers neither the computed property nor a "
+                            "declaration for it. A zero here is the absence of a "
+                            "measurement, not the absence of the thing."}
+        if declared_n or unreadable:
+            return {"state": "declared", "sources": dict(bag),
+                    "note": f"{declared_n} of {total} values came from the stylesheet "
+                            f"because the computed channel is unreadable on this engine"
+                            + (f"; {unreadable} could not be obtained at all" if unreadable else "")
+                            + ". Counts reflect declared intent, not the resolved cascade."}
+        return {"state": "measured", "sources": dict(bag)}
+
     result = {
         "node_count": len(nodes),
+        # Per-metric provenance, so no consumer has to guess which zeros are real.
+        "measurability": {m: measurability(m) for m in
+                          ("uppercase_untracked", "radii", "shadows", "gap",
+                           "durations", "transition_all")},
         "typography": {
             "font_families": families.most_common(10),
             "font_sizes": {
@@ -399,6 +464,57 @@ def analyze_label_value_pairs(pairs: list[dict]) -> dict:
 
 def summarize(a: dict) -> list[str]:
     lines = []
+    # Measurability first, because it decides which of the lines below mean
+    # anything. A metric reported `unmeasurable` and then summarised as a count
+    # is the exact failure this block exists to stop: the summary is the only
+    # part of this output most reviewers read.
+    m = a.get("measurability") or {}
+    dark = [k for k, v in m.items() if v.get("state") == "unmeasurable"]
+    declared = [k for k, v in m.items() if v.get("state") == "declared"]
+    if dark:
+        lines.append(f"! UNMEASURABLE on this engine: {', '.join(sorted(dark))} — "
+                     f"a zero for these is the absence of a measurement, not a clean "
+                     f"surface. Do not report them as counts.")
+    if declared:
+        lines.append(f"~ {', '.join(sorted(declared))} recovered from the stylesheet "
+                     f"rather than the computed cascade — counts reflect declared "
+                     f"intent. Say 'declared' when quoting them.")
+
+    # The distinct-value counts themselves, printed unconditionally.
+    #
+    # `systematisation.md` tells a reviewer to "count distinct type sizes, spacing
+    # values, colours, radii, shadows and durations" and names this script as the
+    # instrument. It only ever printed the values that BREACHED a healthy range,
+    # so a reviewer following the reference had to recompute the counts by hand
+    # from the probe JSON — which is what happened on a real run. A count inside a
+    # healthy range is still the measurement the reference asked for, and printing
+    # it is also what makes the denominator visible: `radii 2` and a silent line
+    # are different claims.
+    t0 = a["typography"]
+    sh0, mo0, co0, sp0 = a["shape"], a["motion"], a["color"], a["spacing"]
+
+    def band(n, healthy):
+        lo, hi = healthy
+        return "" if lo <= n <= hi else f" (healthy {lo}-{hi})"
+
+    counts = [
+        f"type sizes {t0['font_sizes']['count']}{band(t0['font_sizes']['count'], t0['font_sizes']['healthy'])}",
+        f"weights {t0['font_weights']['count']}{band(t0['font_weights']['count'], t0['font_weights']['healthy'])}",
+        f"colours {co0['total_distinct']}{band(co0['total_distinct'], co0['healthy'])}",
+        f"spacing {sp0['distinct_count']}",
+        f"radii {sh0['radii']['count']}{band(sh0['radii']['count'], sh0['radii']['healthy'])}",
+        f"shadows {sh0['shadows']['distinct_count']}{band(sh0['shadows']['distinct_count'], sh0['shadows']['healthy'])}",
+        f"durations {mo0['durations']['count']}{band(mo0['durations']['count'], mo0['durations']['healthy'])}",
+        f"max-widths {sh0['max_widths']['count']}{band(sh0['max_widths']['count'], sh0['max_widths']['healthy'])}",
+        f"z-indexes {sh0['z_indexes']['count']}",
+    ]
+    # A metric measured off a dead channel must not appear here as a number.
+    for metric, label in (("radii", "radii"), ("shadows", "shadows"), ("durations", "durations")):
+        if (m.get(metric) or {}).get("state") == "unmeasurable":
+            counts = [c for c in counts if not c.startswith(label + " ")]
+            counts.append(f"{label} UNMEASURABLE")
+    lines.append("distinct values — " + " · ".join(counts))
+
     t = a["typography"]
     fs = t["font_sizes"]
     lo, hi = fs["healthy"]
@@ -479,10 +595,15 @@ def main():
         print(f"note: no tokens parsed from {args.tokens}", file=sys.stderr)
 
     everything = {}
+    empty = []
     for f in files:
         data = json.loads(f.read_text())
         nodes = data.get("styles", [])
         if not nodes:
+            # `styles: null` is what run_probes writes when dumpStyles did not
+            # run. Counting that file as "no outliers" is the silent-coverage
+            # failure scan_source.py already exits non-zero over.
+            empty.append(f.name)
             continue
         result = analyze(nodes, tokens)
         pairs = (data.get("semantics") or {}).get("labelValuePairs") or []
@@ -505,6 +626,16 @@ def main():
 
     print("\nThese are observations, not findings. A surface may exceed a healthy")
     print("range deliberately — the finding is an outlier with no reason behind it.")
+
+    if empty:
+        print(f"\n! {len(empty)} probe file(s) carried no style dump: {', '.join(empty)}",
+              file=sys.stderr)
+        print("  dumpStyles did not run for those viewports. Nothing was analysed for",
+              file=sys.stderr)
+        print("  them — this is not a clean result.", file=sys.stderr)
+    if not everything:
+        # Zero analysed and exit 0 is a gate that never ran reporting success.
+        sys.exit("Nothing was analysed — this is not a clean result.")
 
 
 if __name__ == "__main__":

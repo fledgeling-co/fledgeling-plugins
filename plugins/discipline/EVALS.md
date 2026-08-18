@@ -139,6 +139,77 @@ caveman's quality regression rather than as a saving.
 The regression this project set out to fix is fixed. The benefit it was supposed to deliver is not
 demonstrated.
 
+## The structural gate: before and after
+
+The two instruments above are expensive and slow. This one is deterministic, free, and runs on every
+commit: `skills/discipline/scripts/block-check.py`. It exists because seven properties of this skill
+were previously asserted in prose — "a test asserts they do not drift" — with no test anywhere in the
+repo. Prose claiming a gate already runs is worse than prose asking for one, because it reads as
+covered.
+
+Both trees scored on the same 19 assertions. "Before" is this skill's own predecessor, the v3-era copy,
+with the gate copied in and its paths remapped so the comparison is like-for-like.
+
+| Assertion | before (v3-era) | after |
+| --- | --- | --- |
+| `block/retention` — every shipped literal still present | **FAIL** (2 of 3) | pass |
+| `block/v4` — byte count and sha256 | n/a (no v4) | pass, 881 B |
+| `block/v3` — byte count and sha256 | pass, 736 B | pass |
+| `block/v1` — byte count and sha256 | pass, 1,029 B | pass |
+| `block/ceiling` — inside 1,200 bytes | pass, **464 B spare** | pass, 319 B spare |
+| `block/literal` — nothing that varies | pass | pass |
+| `block/register` — no MUST / CRITICAL | pass | pass |
+| `block/quality-floor` — all five survivors named | pass | pass |
+| `block/work-floor` — clause 6 present | **FAIL** | pass |
+| `block/no-verification-ban` — has not re-acquired v1 clause 4 | pass | pass |
+| `block/no-self-audit` — never asks for compliance confirmation | pass | pass |
+| `provenance/mark` — both marks real, one per family | **FAIL** (no registry) | pass, 24 rows |
+| `provenance/promotion` — independence pinned per row | **FAIL** (no registry) | pass, 24 pins |
+| `provenance/observed` — living sources dated | **FAIL** (no registry) | pass |
+| `provenance/drift` — registry matches the prose | **FAIL** (no registry) | pass |
+| `provenance/coverage` — no untiered figure in SKILL.md | **FAIL** (no registry) | pass, 34 figures |
+| `provenance/assumed-containment` × 3 files | **FAIL** (no registry) | pass |
+| `references/exist` — every pointer resolves | pass | pass |
+| **Total** | **9 pass / 3 fail** (11 unscoreable) | **20 pass / 0 fail** |
+
+**Where the older version wins, because a scorecard that only shows wins convinces nobody:** its block
+is 736 bytes against 881, so it leaves 464 bytes of headroom where this one leaves 319, and it is
+cheaper per turn in the cached prefix. Clause 6 is what bought those 145 bytes. Whether that trade is
+worth it has never been measured — v4 has never been compared against v3 — so on pure prefix cost the
+predecessor is the better artifact and the case for v4 rests on the correctness argument, not a number.
+
+### The gate was mutation-tested, because a gate that only ever passes is decoration
+
+Twenty-six deliberate defects were introduced one at a time into a scratch copy. **All twenty-six were
+caught**, each with a message naming the silent downstream consequence rather than just "invalid":
+
+*Block* — same-length edit to a literal · block over the byte ceiling · a date inside the literal ·
+`CRITICAL:` in the register · quality floor losing a survivor · work floor removed · v1's verification
+ban returning · a self-audit clause added · a retained literal deleted · a dead reference pointer.
+
+*Provenance shape* — an invented mark · a single bare mark · two independence marks · two verification
+marks · the two families written in the wrong order · `assumed` paired with a verification state ·
+`none` paired with a real source · a living-source date stripped · a date in the future · the registry
+drifting from the prose · an untiered figure added to SKILL.md · an assumed figure moved into the
+argument.
+
+*Promotion* — `self-report` → `independent` · `anecdote` → `independent` · `assumed` → `first-party` ·
+a new row added with no pin. And the converse case is checked too: a legitimate move along the
+verification axis (`summarised` → `results-read`, once someone reads the PDF) still **passes**, because
+a guard that blocked real corrections would just get switched off.
+
+Four of those defects were not hypothetical. On its first run against the real tree the gate failed
+`provenance/assumed-containment` and `provenance/drift`, finding that the README stated an unmeasured
+output share as though it were a finding, and that the Giskard figures the prose claimed to carry had
+gone missing in a migration. It then caught two more figures the author added untiered while writing
+this very section — and one in this very paragraph.
+
+The promotion guard exists because of a miss. The first version of the two-family check passed a row
+that had been quietly changed from `self-report` to `independent`, since both marks are individually
+well-formed and a stateless gate has no history. Pinning each row's independence mark inside the script,
+the same way the block literals are pinned, is what closed it: independence can still be changed, but
+not without editing the gate in the same commit.
+
 ## What is not yet measured
 
 **Whether v4 beats v3.** The arm above compares v4 against no block, not against v3. Nothing here
@@ -158,16 +229,38 @@ judging other models.
 is thin, and JetBrains' warning applies here too: never trust a k=1 eval, and treat a two-sample
 window as only a little better.
 
-## A correction worth recording
+## A correction worth recording, and then a correction to the correction
 
-An earlier internal brief criticised caveman for a 65% headline. That criticism is out of date. Its
-current README reports 8.5% for agentic runs, links the independent JetBrains study, warns that
-savings can go net negative on already-terse workloads, and says plainly that neither number is
-yours. The disagreement in this repo is with the skill's rules, not with how it presents itself.
+An earlier internal brief criticised caveman for a 65% headline. A later version of this file said
+that criticism was out of date because caveman's README now reported 8.5% for agentic runs and linked
+the independent JetBrains study.
+
+**Both documents were fetched on 18 August 2026, and that second claim does not hold.** The README's
+headline is still 65%; the string `8.5` appears in neither the README nor its
+`docs/HONEST-NUMBERS.md`; neither mentions JetBrains.
+
+What is verbatim there, and is genuinely to caveman's credit: an "Honest number warning" stating that
+only output tokens shrink, that the skill adds roughly 1 to 1.5k input tokens per turn, and that
+savings can go net negative on already-terse workloads. `HONEST-NUMBERS.md` goes further than this
+repo had credited and lists the aggregate output reduction as "Not published", telling readers to
+measure their own A/B.
+
+So the substance survives — **the disagreement here is with the skill's rules, not with how it
+presents itself** — but the sentence describing a third-party document did not, and it was wrong in
+four files at once for about a week. The fix is structural rather than editorial: every figure now has
+a row in `skills/discipline/references/provenance.md`, and a row citing a living document must carry
+the date it was read. `scripts/block-check.py` fails the build on one that does not.
+
+That is the most useful thing in this file for anyone building something similar. A claim about what a
+competitor's README "currently says" has a shelf life, and without a date on it nobody can tell
+whether it has expired.
 
 ## Reproducing
 
 ```bash
+# the structural gate: block pins, byte stability, register, floors, provenance tiering
+python3 skills/discipline/scripts/block-check.py --verbose   # must exit 0
+
 # the paired comparison, from the benchmark's own store
 sqlite3 "~/Library/Application Support/Benchwarmer/benchwarmer.sqlite"   # see evidence.md for the query
 
@@ -176,3 +269,7 @@ python3 evals/build_blind_bundles.py /tmp/td-blind 14
 ./evals/run_blind_panel.sh /tmp/td-blind
 python3 evals/score_blind_panel.py /tmp/td-blind
 ```
+
+The gate is the only one of the three that is deterministic and free, so it is the one that runs on
+every commit. Check its exit code rather than its output: piping it through `grep` makes `$?` grep's
+status and not the gate's, which is how a failing gate gets read as a pass.

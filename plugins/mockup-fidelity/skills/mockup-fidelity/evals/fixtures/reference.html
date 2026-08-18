@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Discover</title><style>
+  :root { --ink:#0a1733; --muted:#9ca0ac; --line:#e5e9f0; --accent:#2f6df6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#ffffff; font-family: Georgia, serif; color:var(--ink); }
+  .scr { width:1180px; margin:0 auto; padding:32px; }
+  h1 { font-size:34px; line-height:41px; margin:0 0 20px; }
+  .eyebrow { font-size:13px; letter-spacing:1.2px; color:var(--muted); margin:0 0 10px;
+             text-transform: uppercase; }                                  /* D7 lives here */
+  .card { border:1px solid var(--line); border-top-left-radius:12px; border-top-right-radius:12px;
+          border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+          padding-top:16px; padding-right:20px; padding-bottom:16px; padding-left:20px;
+          margin-bottom:18px; background:#ffffff;
+          box-shadow: 0 2px 8px rgba(10,23,51,.14); }                      /* D4 lives here */
+  .card h2 { font-size:19px; line-height:24px; margin:0 0 6px; }
+  .card p  { font-size:15px; line-height:23px; color:var(--muted); margin:0; }
+  .row { display:flex; flex-direction:row; row-gap:12px; column-gap:12px; align-items:center; }
+  .row .ic { width:40px; height:40px; }
+  .band { padding-top:26px; padding-bottom:26px; padding-left:20px; padding-right:20px;
+          border-top-left-radius:10px; border-top-right-radius:10px;
+          background-image: linear-gradient(120deg, #eaf1ff, #dbe7ff); }   /* D10 lives here */
+  .band h2 { font-size:22px; line-height:28px; margin:0 0 8px; }
+  .cta { display:inline-flex; flex-direction:row; align-items:center; column-gap:8px;
+         padding-top:11px; padding-bottom:11px; padding-left:18px; padding-right:18px;
+         border-top-left-radius:8px; border-top-right-radius:8px;
+         background:var(--accent); color:#fff; font-size:15px; text-decoration:none; }
+</style></head><body>
+<div class="scr">
+  <h1>Discover</h1>
+
+  <p class="eyebrow">market coverage</p>
+
+  <div class="card" id="picks">
+    <h2>Editor's picks</h2>
+    <p>Five companies our analysts are reading closely this week.</p>
+  </div>
+
+  <div class="card" id="watchlist">
+    <h2>Your watchlist</h2>
+    <p>Twelve holdings, two with announcements today.</p>
+  </div>
+
+  <div class="card row" id="sectors">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 L9 10 L14 14 L21 5" stroke="#2f6df6" stroke-width="2" fill="none"/></svg>
+    <div>
+      <h2>Browse by sector</h2>
+      <p>Materials, financials, healthcare and eight more.</p>
+    </div>
+  </div>
+
+  <div class="band">
+    <h2>Ask in plain English</h2>
+    <a class="cta" href="#">Try a question
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8 H12 L8 4 M12 8 L8 12" stroke="#ffffff" stroke-width="2" fill="none"/></svg>
+    </a>
+  </div>
+</div>
+</body></html>

@@ -165,6 +165,62 @@ an inline element that wraps returns a rect spanning both line fragments, and so
 Any new geometric probe must route through `visible()` rather than testing rects
 directly, and must use per-fragment rects for anything inline.
 
+## Report each sub-check's scope beside its zero
+
+There are thirteen sub-checks here, and on a real surface most of them return zero.
+Measured on `evals/fixtures/landing.html`, 18 Aug 2026: **12 of 13 returned 0 at
+all seven viewports, and two of those zeros sat over defects that were genuinely
+computable** — a five-way left-rail disagreement measuring 15/43/32/32/0/24px, and
+a hero at 30% fill carrying a 747px void.
+
+Neither was a bug. `probeSharedRails()` clusters `h1`–`h3` only and excludes
+anything inside a card, panel or dialog, so a rail disagreement between card
+interiors is outside its population by design. `probeDeadSpace()` needs a row to
+measure across, and the hero is a column. **Both were working exactly as
+documented and blind to the defect anyway** — which is the whole problem, because
+the output gave a reader no way to tell that from a clean surface.
+
+So the aggregate `layoutFindingCount` is not a verdict on the layout, and must
+never be offered as one. Report the sub-checks individually and put each zero
+beside the population it examined:
+
+```
+rails            0   examined 4 page-rail headings (h1-h3, card interiors excluded)
+deadSpace        0   examined 6 rows (columns are outside this check)
+columnVoids      2   examined 5 bands
+textOverlap      0   examined 41 ink boxes
+dividerProximity 0   3 rules found, 2 side borders excluded as box outlines
+```
+
+A zero with its denominator is a result. A zero on its own is the same output a
+broken probe produces, and this file exists because a review went green on a
+surface carrying five computable layout defects.
+
+Two of the thirteen have a stated scope narrow enough that a defect of their own
+kind can hide outside it — rails and dead space, above. When a surface's structure
+puts the interesting geometry outside a check's population, say so in **Needs
+verification** rather than only in your own reasoning: *"rail alignment across
+card interiors was not measured — the probe clusters page-rail headings only."*
+
+## Cluster by root cause before reporting anything
+
+Geometry inflates, and the published numbers are larger than intuition suggests. **ReDeCheck** (Walsh, Kapfhammer & McMinn, ISSTA 2017) modelled 26 live pages across viewport widths from DOM coordinates and found 33 distinct responsive layout failures — while reporting **137 distinct viewport ranges**, i.e. 4.2 viewport inspections per real failure. On one page it produced **147 small-range findings that collapsed to a single underlying failure.**
+
+This skill's own measured rate on one 14-screen surface — 2 real, 35 false — sits in the same range, which is mild evidence it was not a fluke of one bad page.
+
+ReDeCheck also names the four mechanisms, and every one of them is reachable by the probes in this file:
+
+- a collision caused only by **invisible padding** — the boxes touch, the ink does not;
+- a protrusion that is **non-observable** because `overflow: hidden` clips it;
+- **coincidental alignment** mislabelled as a defect;
+- a **row inferred incorrectly**, producing a wrapping false positive.
+
+**Verve** (Althomali et al., *STVR* 2021) exists specifically to sort DOM-reported layout failures into true positive, false positive and **non-observable**. That third category is the one prose loses and the one that matters here: a finding can be geometrically real and visually absent.
+
+So: one finding per `{mechanism, root component, UI state, viewport interval}`, with repetition carried as a count rather than as rows. `run_review.py` prints `layoutRootCauseCount` beside `layoutFindingCount` — 15 findings resolving to 4 root causes is the normal shape — and the report ranks the clustered number. Collapse descendant events into their parent: two overlapping boxes inside one broken card is one broken card.
+
+The ceiling worth knowing about: **VizAssert** (PLDI 2018) formalises the browser rendering algorithm and verifies layout assertions across *all possible* renderings rather than a sampled few, covering 14 accessibility and usability guidelines. That is what a provable layout check looks like. Everything in this file samples viewports instead, which is why the findings here are prompts with measurements attached rather than proofs.
+
 ## `affordance.unactionableRows` is Tier 2
 
 Measured over-fire rate on one 14-screen surface: **2 real, 35 false**. It found
@@ -179,6 +235,8 @@ row's trailing column.
 So treat it as a prompt to go and look, never as a blocking finding. The
 question it answers well is *"which rows would a user try to click?"* — and that
 list is worth reading even when most of it is fine.
+
+**One engine-specific false positive on this probe.** Obscura does not render native form controls at all, so a real `<input type="radio">` renders as nothing — which is exactly the shape this probe fires on: a repeated row with chip-shaped text and nothing focusable. Before reporting an affordance finding on a row that should hold a native control, grep the source for `input type="radio|checkbox|range|color|date"` and report the check as unavailable for that row rather than as a defect.
 
 ## Fixed chrome over content — check it separately
 

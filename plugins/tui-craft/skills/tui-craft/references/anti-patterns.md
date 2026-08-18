@@ -42,7 +42,14 @@ place a user looks when lost. A footer that breaks is a broken map.
 and when the list outgrows it, demote to a `? help` overlay rather than letting
 it wrap. Order by frequency, not by keyboard layout.
 
-**Gate:** `overflow-wrap`.
+**Gate:** `overflow-wrap`, with a caveat this entry needs. The gate compares the
+edges of each *content column*, found by splitting the row on its vertical rules,
+and Cronboard's footer sits inside a bordered frame — the shape the predecessor
+gate was structurally blind to, because it compared column 0 against column
+`cols-1` and on a bordered app both hold `│`. It fires on bordered panels now, but
+it tolerates only one pad column on each side. A panel padded by two or more hides
+the wrap from it again, and a footer that wrapped *and* was then truncated shows
+neither tell. Read the dump.
 
 ---
 
@@ -183,3 +190,50 @@ occupies. `len("🚀 Deploy")` is 8 in Python and 9 cells on screen, and that
 one-cell difference tears the border on every row below it.
 
 **Fix:** capture the frame. It is the whole loop in `SKILL.md`.
+
+---
+
+## Generated tells
+
+Everything above was observed in a shipped application. This section is the one
+exception and is marked as such: these are the tells that a terminal screen was
+*generated* rather than designed. They are not drawn from the corpus, because the
+corpus is 48 applications people chose to ship — they are the moves a model
+reaches for when it is decorating rather than deciding, and each one is greppable
+in a diff.
+
+`design-craft` owns the general anti-slop pass and cannot see a cell grid, so the
+terminal-specific list has to live here.
+
+**1. A truecolour gradient across a header row.** The one effect that degrades to
+*nothing* rather than to less: it vanishes under `NO_COLOR`, through a pipe, and on
+a 16-colour terminal, taking the header's only hierarchy with it. Gradients also
+need a colour per cell, which is the opposite of a role.
+
+**2. Emoji as panel titles.** Two cells wide, font-dependent, and the arithmetic
+breaks the border of the panel being titled — the `len("🚀 Deploy")` failure
+applied to chrome, where it tears every row below.
+**Gate:** `width-arithmetic` catches the tear, `glyph-risk` the font dependency.
+
+**3. A figlet or block-art wordmark on a screen that is not the splash.** Four to
+six rows of an 80×24 budget spent saying the name the user just typed.
+**Gate:** `glyph-risk` where it uses private-use glyphs; the budget question is
+yours.
+
+**4. Three border weights on one screen**, or `╔═╗` double-lines everywhere. A
+border weight that means nothing is decoration on the one channel a terminal
+cannot spare — and rounded on some panels with square on others, in the same
+frame, with no rule behind which is which.
+
+**5. A spinner on an operation that completes inside one frame.** It flashes once
+and reads as a glitch. A spinner is a promise that waiting is happening.
+
+**6. Four or more chip hues with no legend.** Colour marks one axis; past that it
+has stopped encoding and started decorating.
+**Gate:** `colour-inventory` counts distinct foreground colours and flags above
+six.
+
+**7. A `│` gutter down the middle of a screen with nothing either side of it
+that differs.** A rule that separates two things of the same kind is a rule that
+is only there to look structural.
+

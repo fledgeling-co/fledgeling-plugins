@@ -15,6 +15,35 @@ unblinded tally in <outdir>/panel.json. Judges never learn which take is the
 candidate; the bundle prompt carries the injection guard. A judge that fails
 to run is recorded as failed, never silently dropped from the tally count.
 
+Two protocol rules come from the evaluation literature rather than from a run
+here, and both change what the panel is allowed to conclude. See
+references/evidence.md for the citations.
+
+**Seeded order-randomisation is necessary and not sufficient.** It balances
+which take sits in slot A across a batch; it does nothing about a single
+verdict that would have flipped had the pair been swapped. Measured on
+deliberately close pairs, order-consistency was 23.8% for Claude-v1, 46.2% for
+GPT-3.5 and 65.0% for GPT-4 (Zheng et al., NeurIPS 2023); a later study found
+order reversals of 25% / 58% / 89% across three evaluators (Panickssery et al.,
+NeurIPS 2024); and position bias grows as the quality gap narrows (Shi et al.,
+2025, 15 judges over >150k instances) — which is exactly this loop's regime,
+since consecutive rounds differ by one edit class. So every judge is asked
+twice, once per order, and **a judge that changes its answer when the pair is
+swapped is recorded as a tie on that dimension rather than as a winner.** The
+MT-Bench protocol that does this raised consistency from 16.2% to 65.0%.
+`--no-swap` halves the cost and is honest about what it buys: it is for a cheap
+inner round, never for a shipping decision.
+
+**The family that generated the candidate does not get a decisive vote.**
+Self-preference is documented across evaluators, self-refinement amplifies it,
+and in one study evaluator self-preference exceeded the quality differences a
+900-comparison human study could measure (Panickssery et al., 2024; Xu et al.,
+ACL 2024). The round agent here is `claude -p`, so the `claude` judge is
+same-family as the generator: its verdict is recorded in full and excluded from
+the majority. `--generator-family` names it; `none` disables the exclusion and
+says so in panel.json. A panel whose only surviving judges are the generator's
+own family reports `no-decisive-judges`, not a winner.
+
 OpenAI key: --env-file (a dotenv with OPENAI_API_KEY=...) or the environment.
 Truncated sol verdicts are retried once at 4x the output budget (the
 documented max-effort failure mode).
@@ -80,19 +109,30 @@ def small_strip(path: pathlib.Path) -> Image.Image:
 
 
 def build_bundle(args, out: pathlib.Path) -> dict:
+    """Write the primary bundle and its position-swapped twin.
+
+    Both carry identical pixels; only which take is called A differs. That is
+    what makes the second pass a test of position bias rather than a second
+    sample of the judge.
+    """
     seed = int(hashlib.sha256((args.label + args.candidate).encode()).hexdigest(), 16)
     cand_is_a = seed % 2 == 0
     mapping = {"A": "candidate" if cand_is_a else "baseline",
                "B": "baseline" if cand_is_a else "candidate"}
-    srcs = {"A": pathlib.Path(args.candidate if cand_is_a else args.baseline),
-            "B": pathlib.Path(args.baseline if cand_is_a else args.candidate)}
-    bundle = out / "bundle"
-    bundle.mkdir(parents=True, exist_ok=True)
-    render(pathlib.Path(args.reference), 1024).save(bundle / "REF-1024.png")
-    for k, p in srcs.items():
-        render(p, 1024).save(bundle / f"{k}-1024.png")
-        small_strip(p).save(bundle / f"{k}-small.png")
-    (out / "panel-map.json").write_text(json.dumps(mapping, indent=2))
+    swapped = {"A": mapping["B"], "B": mapping["A"]}
+    paths = {"candidate": pathlib.Path(args.candidate),
+             "baseline": pathlib.Path(args.baseline)}
+
+    ref = render(pathlib.Path(args.reference), 1024)
+    for sub, m in (("bundle", mapping), ("bundle-swapped", swapped)):
+        b = out / sub
+        b.mkdir(parents=True, exist_ok=True)
+        ref.save(b / "REF-1024.png")
+        for slot, role in m.items():
+            render(paths[role], 1024).save(b / f"{slot}-1024.png")
+            small_strip(paths[role]).save(b / f"{slot}-small.png")
+    (out / "panel-map.json").write_text(json.dumps(
+        {"bundle": mapping, "bundle-swapped": swapped}, indent=2))
     return mapping
 
 
@@ -169,11 +209,21 @@ def main():
     ap.add_argument("--label", default="")
     ap.add_argument("--judges", default="claude,cursor,openai")
     ap.add_argument("--env-file", default="")
+    ap.add_argument("--no-swap", action="store_true",
+                    help="ask each judge once instead of once per order. Halves the cost "
+                         "and gives up the position-bias correction: for a cheap inner "
+                         "round, never for a shipping decision.")
+    ap.add_argument("--generator-family", default="claude",
+                    help="the family that produced the candidate. Its verdict is recorded "
+                         "in full and excluded from the majority (self-preference). "
+                         "'none' disables the exclusion and records that it was disabled.")
     args = ap.parse_args()
     out = pathlib.Path(args.outdir)
     out.mkdir(parents=True, exist_ok=True)
     mapping = build_bundle(args, out)
-    bundle = out / "bundle"
+    swapped = {"A": mapping["B"], "B": mapping["A"]}
+    passes = [("bundle", mapping)] if args.no_swap else [("bundle", mapping),
+                                                         ("bundle-swapped", swapped)]
 
     key = os.environ.get("OPENAI_API_KEY", "")
     if args.env_file and not key:
@@ -181,40 +231,105 @@ def main():
             if line.startswith("OPENAI_API_KEY="):
                 key = line.split("=", 1)[1].strip().strip('"')
 
+    def ask(fam, bundle):
+        if fam == "claude":
+            return run_claude(bundle)
+        if fam == "cursor":
+            return run_cursor(bundle)
+        if fam == "openai":
+            if not key:
+                raise RuntimeError("no OPENAI_API_KEY (pass --env-file)")
+            return run_openai(bundle, key)
+        raise RuntimeError(f"unknown judge family {fam}")
+
     results = {}
     for fam in [f.strip() for f in args.judges.split(",") if f.strip()]:
-        try:
-            if fam == "claude":
-                verdict, meta = run_claude(bundle)
-            elif fam == "cursor":
-                verdict, meta = run_cursor(bundle)
-            elif fam == "openai":
-                if not key:
-                    raise RuntimeError("no OPENAI_API_KEY (pass --env-file)")
-                verdict, meta = run_openai(bundle, key)
+        runs = {}
+        for sub, m in passes:
+            try:
+                verdict, meta = ask(fam, out / sub)
+            except Exception as e:  # a failed judge is a recorded fact, not a silent drop
+                verdict, meta = None, {"error": str(e)}
+            # Resolve each slot answer to a role while the order is known.
+            resolved = ({d: m.get(verdict[d], "tie") for d in DIMENSIONS}
+                        if verdict else None)
+            runs[sub] = {"verdict": verdict, "resolved": resolved, "meta": meta,
+                         "order": m}
+        ok = [r for r in runs.values() if r["resolved"]]
+
+        # Per dimension: both passes must agree on the ROLE. A flip is a
+        # position artefact, not a preference, and is recorded as a tie.
+        per_dim, flips = {}, []
+        for d in DIMENSIONS:
+            answers = [r["resolved"][d] for r in ok]
+            if not answers:
+                per_dim[d] = None
+            elif len(set(answers)) == 1:
+                per_dim[d] = answers[0]
             else:
-                raise RuntimeError(f"unknown judge family {fam}")
-        except Exception as e:  # a failed judge is a recorded fact, not a silent drop
-            verdict, meta = None, {"error": str(e)}
-        results[fam] = {"verdict": verdict, "meta": meta}
+                per_dim[d] = "tie"
+                flips.append(d)
+        consistent = len(ok) == len(passes) and not flips
+        results[fam] = {"runs": runs, "resolved": per_dim,
+                        "passes_ran": len(ok), "passes_asked": len(passes),
+                        "swap_flipped": flips, "swap_consistent": consistent,
+                        "status": "ok" if ok else "failed"}
         (out / f"verdict-{fam}.json").write_text(json.dumps(results[fam], indent=2))
-        print(f"{fam}: {'ok' if verdict else 'FAILED'} {meta}")
+        note = ("failed" if not ok else
+                f"ok ({len(ok)}/{len(passes)} passes"
+                + (f", swap-flipped on {', '.join(flips)} -> tie" if flips else
+                   ", swap-consistent") + ")")
+        print(f"{fam}: {note}")
+
+    gen = args.generator_family.strip().lower()
+    decisive = [f for f in results if gen == "none" or f != gen]
+    excluded = [f for f in results if f not in decisive]
 
     tally = {}
     for dim in DIMENSIONS:
         votes = {"candidate": 0, "baseline": 0, "tie": 0}
+        dvotes = {"candidate": 0, "baseline": 0, "tie": 0}
         for fam, r in results.items():
-            if r["verdict"]:
-                v = r["verdict"][dim]
-                votes[mapping.get(v, "tie")] += 1
-        ran = sum(1 for r in results.values() if r["verdict"])
-        winner = max(votes, key=votes.get)
-        tally[dim] = {"votes": votes, "judges_ran": ran,
-                      "winner": winner if votes[winner] > ran / 2 else "no-majority"}
-    panel = {"label": args.label, "mapping": mapping, "tally": tally,
-             "judges": {f: ("ok" if r["verdict"] else "failed") for f, r in results.items()}}
+            v = (r["resolved"] or {}).get(dim)
+            if v is None:
+                continue
+            votes[v] += 1
+            if fam in decisive:
+                dvotes[v] += 1
+        ran = sum(1 for r in results.values() if r["status"] == "ok")
+        dran = sum(1 for f, r in results.items()
+                   if f in decisive and r["status"] == "ok")
+        if dran == 0:
+            winner = "no-decisive-judges"
+        else:
+            top = max(dvotes, key=dvotes.get)
+            winner = top if dvotes[top] > dran / 2 else "no-majority"
+        tally[dim] = {"votes_all": votes, "votes_decisive": dvotes,
+                      "judges_ran": ran, "decisive_judges_ran": dran,
+                      "winner": winner}
+
+    panel = {
+        "label": args.label, "mapping": mapping, "tally": tally,
+        "swap_protocol": "off (--no-swap): position bias uncorrected"
+                         if args.no_swap else "on: each judge asked in both orders",
+        "generator_family": gen,
+        "generator_family_excluded_from_majority": excluded if gen != "none" else [],
+        "exclusion_disabled": gen == "none",
+        "judges": {f: {"status": r["status"], "decisive": f in decisive,
+                       "swap_consistent": r["swap_consistent"],
+                       "swap_flipped": r["swap_flipped"],
+                       "passes_ran": f"{r['passes_ran']}/{r['passes_asked']}"}
+                   for f, r in results.items()},
+    }
     (out / "panel.json").write_text(json.dumps(panel, indent=2))
     print(json.dumps(tally, indent=2))
+    if excluded and gen != "none":
+        print(f"\n{', '.join(excluded)} recorded but excluded from the majority "
+              f"(same family as the generator).", file=sys.stderr)
+    if any(t["winner"] == "no-decisive-judges" for t in tally.values()):
+        print("\nNo decisive judge produced a verdict. This is not a tie and not a "
+              "win: the panel did not run. Substitute a family or say so.",
+              file=sys.stderr)
 
 
 if __name__ == "__main__":

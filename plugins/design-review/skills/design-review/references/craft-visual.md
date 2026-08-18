@@ -2,7 +2,7 @@
 
 Tier 2, and the stage where automated review is least reliable. Three rules make it work.
 
-**Decompose to binary.** Every judgment is MET or UNMET against a named criterion. Never a 1–10 score. Cross-model agreement on free-form visual scoring is worse than chance; on atomic binary checklists it approaches human levels. The decomposition is doing all the work.
+**Decompose to binary.** Every judgment is MET or UNMET against a named criterion. Never a 1–10 score. The decomposition is doing all the work, and the evidence for that is more specific than "cross-model agreement is worse than chance" — an earlier version of this line, which overstated it. Measured on UI-mockup feedback (Duan et al., CHI 2024): GPT-4 reached F1 0.466 against a constructed issue set where an average individual human evaluator reached 0.478, and **human inter-rater agreement was Fleiss' κ = 0.112** — slight. So a model scores at roughly one human's level on this task, and humans barely agree with each other about it. Low agreement is a property of free-form visual scoring rather than a defect in the scorer, which is exactly why a score is the wrong output and a named binary criterion is the right one. Absolute grading has the worst calibration in every study; pairwise against a known-good baseline survives. `references/evidence.md`.
 
 **Inspect crops, not pages.** At page scale a 161px void reads as generous whitespace and an orphaned chip is a few ragged pixels. Judging from thumbnails is looking at an image in which the defect cannot exist and concluding there is none.
 

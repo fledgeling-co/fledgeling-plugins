@@ -1,0 +1,11 @@
+{
+  "F8-clean": "control: a correct commission. Both versions must exit 0.",
+  "F1-prose-placeholder": "recommendation reads literally {{WHY_IT_SHIPS \u2014 ...}} and {{LIABILITIES \u2014 ...}}",
+  "F2-stale-render": "the fidelity loop changed the master after the sheet was rendered",
+  "F3-all-remote-src": "all <img src> are https:, so nothing local is displayed",
+  "F4-below-rubric-bar": "best take scores 8/12, under the >=10 bar",
+  "F5-hero-not-shown": "1024 rendered for every take, shown in no <img>",
+  "F6-unmasked-raster": "Engine C take rendered kind=png: square corners beside squircle siblings",
+  "F7-master-embeds-raster": "master contains <image>: raster embedding, the metric-gaming exploit",
+  "F9-keeps-instructions": "correct sheet that keeps the template comment: old false-positives on its own docs"
+}

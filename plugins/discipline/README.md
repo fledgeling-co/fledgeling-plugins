@@ -7,11 +7,11 @@
 
 ## The problem
 
-The obvious way to cut an AI coding agent's bill is to make it talk less. There is a popular skill that does exactly that, and it is honest about its own numbers: about 8.5% off output tokens on real agentic work, against 65% on chat-style prose.
+The obvious way to cut an AI coding agent's bill is to make it talk less. There is a popular skill that does exactly that, and it advertises 65% off output tokens on chat-style prose. An independent study then measured it on real agentic work and got about 8.5%.
 
 Run it on a real benchmark and something worse than "only 8.5%" shows up.
 
-Across 106 tasks measured twice each on Claude Opus 5, the compressed-prose skill cut cost by a third, and cut task success by 7.6 points. Digging into where the saving came from explains why. The agent's steps per task fell by 33%. Its tokens *per step* fell by only 14%. So roughly **78% of the "saving" was the agent doing less work**, not writing more briefly.
+Across 106 tasks measured twice each on Claude Opus 5, the compressed-prose skill cut cost by a third, and cut task success by 7.6 points. Digging into where the saving came from explains why. The agent's steps per task fell by 33%. Its tokens *per step* fell by only 13.6%. So roughly **78% of the "saving" was the agent doing less work**, not writing more briefly.
 
 That is the trap. Told to spend fewer tokens, the cheapest way to comply is to investigate less, and every token metric rewards it while the work quietly gets worse.
 
@@ -77,16 +77,27 @@ short or you will check the work yourself, caveman is the stronger tool and its 
 about its own numbers. If the agent is doing long unattended work you intend to trust, the 16% cut
 that costs nothing measurable is the better trade, and the 41% cut that costs 7.6 points is not.
 
-Two things to size the win honestly. Output is roughly 14% of a cache-warm session, so a 16% output
-cut is worth about 2 to 3% of total spend: real, and small. And the score comparison is the part this
-measurement supports properly; see [EVALS.md](EVALS.md) for where it is thinner.
+**Or run both, which nobody has tested.** They attack different axes: caveman shrinks what gets
+written, this shrinks what gets re-sent, re-read and re-delegated. Running the pair is coherent, and
+the four-arm comparison that would show whether they compose or interfere has never been run. Until it
+has, "pick one" is a convenience rather than a finding.
+
+Caveman also has one advantage this skill cannot match: it installs anywhere, across 30-plus agents,
+with no proxy and no assumptions about where its text lands. This one needs a cached system prefix to
+inject into, and without one the honest move is not to install it at all.
+
+The score comparison is the part this measurement supports properly; see [EVALS.md](EVALS.md) for
+where it is thinner.
 
 ## Honest limits
 
 - **It has not been shown to save money.** On a 106-task arm it scored level with no block at all (61.6% against 63.3%, p = 0.90) and cost 32.6% more. The quality half of the claim is measured and holds; the saving half is not, and that arm ran one sample per task against the baseline's two, so the cost figure is unresolved rather than settled. Read [EVALS.md](EVALS.md) before switching it on expecting a lower bill.
+- **The prize is small, and that is now measured rather than assumed.** An independent study of 2,848 Claude Code runs puts generated output at **10.4% of the actual bill** — cache reads and cache writes are about 80% of it — and finds that the share of input cost any user-side layer can reach at all is roughly 5 to 6%. So a 16% output cut is worth low single digits of total spend at the very best. This skill used to assume 14% with nothing behind it; the real number is smaller.
+- **A bigger study found the same trap this one did.** That paper is called *Token Reduction Is Not Cost Reduction*, and its heaviest compression arm cut delivered tokens by 38% while the bill went **up** 6.8%. Its correlation between tokens saved and money saved was statistically indistinguishable from zero. That is the same shape as this skill's own result, from another lab at 27 times the scale.
 - Whether this block beats its own previous version is not measured either.
+- **It needs somewhere cached to live.** The block only pays for itself inside a cached system prefix. Without an injection point it costs full price on every turn, forever, to deliver instructions about spending less, so the right answer with no injection point is not to install it.
 - The persona-length research behind the size target was run on much smaller models. It is a reason to keep the block short, not proof about Opus 5.
-- The compressed-prose skill this replaces is **not** overselling itself. Its README reports the 8.5% figure, links an independent study, and warns savings can go negative. The disagreement is with its rules, not its marketing.
+- The compressed-prose skill this replaces is **not** overselling its mechanism. Its README carries an honest-number warning, and its own numbers file lists the aggregate output saving as unpublished. The disagreement is with its rules, not its marketing.
 
 ## Install
 
@@ -102,7 +113,9 @@ The idea of a terse-output skill, and the honest agentic number that started thi
 
 - [`SKILL.md`](skills/discipline/SKILL.md): why each clause earns its bytes, and what was rejected
 - [`references/evidence.md`](skills/discipline/references/evidence.md): every number, with what it rests on
+- [`references/provenance.md`](skills/discipline/references/provenance.md): the tier and source of every figure, and the gate reads it
 - [`references/injected-block.md`](skills/discipline/references/injected-block.md): the literal itself
+- [`scripts/block-check.py`](skills/discipline/scripts/block-check.py): the gate. Run it; it must exit 0
 - [`EVALS.md`](EVALS.md): the deep half of the comparison, with the caveats stated
 - [`docs/blind-panel/`](docs/blind-panel/): the raw verdicts and the withheld key
 - [`docs/deep-research/`](docs/deep-research/): the four research reports behind it
