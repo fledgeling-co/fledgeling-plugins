@@ -54,7 +54,7 @@
     {
       "name": "be-my-witness",
       "description": "Validate a UI screenshot against what a test expected and against a design mock, returning a pass/fail gate plus severity-ranked findings. Runs a deterministic pre-scan first (is this evidence, did the surface settle, are the two framings even comparable), crops and zooms rather than judging a full-page thumbnail, looks at every pair in both orders to catch position bias, and classifies each difference as framing, data, structure, styling or state so a changed row count or a different crop cannot fail a build. The test expectation is the oracle; the mock is advisory.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -65,7 +65,7 @@
     {
       "name": "mockup-fidelity",
       "source": "./plugins/mockup-fidelity",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "category": "development"
     },
     {
@@ -137,7 +137,7 @@
     {
       "name": "dossier-report",
       "description": "dossier-report: turn a research question into one published, uniquely-themed HTML page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and published to <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph (Primer / Brief / Technical), toggled by the reader, each independently and fully cited from one shared registry and working with JavaScript off, opening with a required TLDR band. Product and buying research also ships a verdict layer: three ranked picks per buyer category plus one overall winner with its cost and its weaknesses, where a paywalled Which?/RTINGS/Choice verdict counts as high-value evidence and every ranking renders as a marked inference. Every page gets its own visual language, light and dark both measured, GSAP as a hard requirement covering micro-interactions and choreography, conditional three.js behind a six-test gate, figures through dataviz in native CSS/DOM, hand-authored SVG or TanStack Charts compiled to static SVG at build time, imagery taken from the research sources with full provenance plus captioned media-gen-pro stills and clips, claim-local citations with source popups, a verified source registry, a measured divider-gutter rule, and the Dossier/Margin marketing chrome. Layout direction comes from a Mobbin trawl with a took/left ledger and /trawl divergence, routed through design-craft and ux-craft.",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -192,7 +192,7 @@
     {
       "name": "report",
       "description": "report: turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document and paginates to a clean A4 PDF, plus a one-page TLDR. Ships three readings of the same argument over one claim ledger (Primer / Brief / Technical) that the reader toggles between, each independently and fully cited from one shared registry, working with JavaScript off and selectable per PDF export, opening with a required TLDR section carrying the finding and the ask. Compiles the session's evidence trail into a claim ledger first, so every number carries a locator and anything reasoned is labelled inference — including a comparison's ranked picks, which are inferences by construction, and paywalled lab verdicts, which count as evidence with the paywall stated. Light and dark both ship and both are measured; the PDF is always light. GSAP is a hard requirement on screen, covering micro-interactions and choreography, with an authored static frame keeping all of it out of the ink. Figures go through dataviz in native CSS/DOM, hand-authored SVG or TanStack Charts compiled to static SVG at build time; imagery comes from the evidence trail with full provenance. Layout direction comes from a Mobbin trawl with a took/left ledger, routed through design-craft and ux-craft.",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -236,7 +236,7 @@
     {
       "name": "proctor",
       "description": "Run a real test campaign against a native macOS app or an iOS Simulator: exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Ships with the Proctor MCP server: an unsandboxed launchd agent that reads the accessibility tree and screen contents, and captures through ScreenCaptureKit so every frame carries its own trustworthiness rather than being believed on sight. Actuation runs on Proctor's own process-directed plane by default, so background, occluded and other-Space windows are reachable without stealing focus, and can be delegated to Cua Driver when an operator selects that lane. iOS is a second lane: deep links through simctl and Maestro flow files, scored for determinism. Also ships an embeddable DEBUG reflector that gives apps you own a real computed-style source. Use it when someone asks to test, QA, exercise or find bugs in a Mac or iOS app, whether a flow still works, why a test is flaky, or what breaks in dark mode.",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -245,14 +245,14 @@
       "category": "development"
     },
     {
-      "name": "create-test-suite",
-      "description": "Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; every pass names an artifact; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, macOS, iOS and SwiftUI, planning each lane to what that lane can actually observe.",
-      "version": "0.3.0",
+      "name": "test-campaign",
+      "description": "Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.",
+      "version": "0.5.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
       },
-      "source": "./plugins/create-test-suite",
+      "source": "./plugins/test-campaign",
       "category": "development"
     },
     {
@@ -308,7 +308,7 @@
     {
       "name": "tui-craft",
       "description": "Design, mock, build and review terminal user interfaces (TUIs) against a cell grid rather than against source code, because a string template does not tell you how many cells it occupies and that gap is where terminal defects live. Use whenever someone builds, redesigns, reviews or polishes anything that draws to a terminal — dashboard, log viewer, file browser, installer, wizard, admin panel, data browser, or a CLI being turned into a full-screen app — and whenever they name a TUI framework (Bubble Tea, Textual, Ratatui, Ink, Blessed, prompt_toolkit, crossterm, tview, urwid). Also for a terminal UI that \"looks broken\": torn or missing borders, misaligned columns, text running off the edge, tofu boxes, colours that vanish when piped, breakage on resize. The spine is an instrument: scripts/tui_capture.py drives the running app under a pty at a fixed size, replays its byte stream through a fixture-gated terminal model, and emits a typed frame carrying provenance (command, size, TERM, parser, raw hash); scripts/frame_from_ansi.py produces the same frame from a framework snapshot test, so teatest, TestBackend, Textual run_test and ink-testing-library all feed one set of checks. scripts/tui_gates.py then runs the arithmetic nobody eyeballs correctly — a box that opens and never closes on the same column, a row shoved past its neighbours by a double-width glyph, content that wrapped mid-word off the edge, text cut with no ellipsis to say so, private-use glyphs that need a font the reader may lack, and a frame with no bold and no dim anywhere — each finding located to a row and column. A claim about a screen needs a captured frame: a hand-drawn mock is labelled and may never support a finding, and capture failure is reported as the result rather than papered over by reading the code. On top sits a pattern catalogue traced to 48 shipped TUIs (the border as a metadata shelf, mnemonics marked on the thing they operate, focus signalled twice because a terminal has no hover, the footer as a live surface showing current values, six chart techniques from braille to treemaps) and an anti-pattern list where every entry was observed in a real application. Terminal constraints are cited rather than asserted: NO_COLOR before capability checks, why UAX #11 alone is insufficient and grapheme segmentation is required, OSC 11 to ask the terminal whether it is light or dark instead of assuming, DEC mode 2026 against frame tearing, and gh a11y as the shipped blueprint for an accessible mode. Routes flow, states and the trunk test to ux-craft, hierarchy and restraint to design-craft, and raster comparison to be-my-witness. Not for web or desktop GUI work. Ships two skills: `tui-design` for composing and mocking a screen before the app exists, which compiles a spec into a real frame so cell arithmetic is never counted by hand, and gates the design on a role ladder, colour-independent state and two-channel focus; and `tui-craft` for capturing and gating the running program. Use tui-design whenever someone asks to design, lay out, mock up, wireframe or compare terminal layouts, or asks what a TUI screen should look like, how to lay out panels at 80x24, or how to signal focus and selection. v0.2.1 adds the plugin's banner, composed from the icon's own build constants: the character grid leaves the tile and rules the whole bench at the icon's real cell size, phase-locked to its grid origin.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -341,7 +341,7 @@
     {
       "name": "ux-craft",
       "description": "Book-grounded UX engine for building, mocking and reviewing web and mobile UIs, forms, flows and emails — the UX brain that pairs with design-craft's visual hands. Three modes (Build / Review / Advise) over eleven references, and a deterministic gate that refuses what prose only asks: stdlib-only ux-lint.py runs static over HTML/JSX/CSS and probes a rendered page through Obscura, with every finding naming what you did, what the user silently gets, and the fix. Only exit 0 is a pass — a run that examined zero files refuses rather than reporting a clean sheet, and every run prints a never-empty not-checked list, because a check that cannot measure must say so instead of reporting zero. v2 resolves the accessibility floor against the standards themselves: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 CSS px is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. Twelve non-negotiables each carry the silent symptom that appears when they break, the state grid is a counted artifact rather than a rule that was read, and the destructive-action gate table, the probe-honesty rule and the model-family evidence taxonomy are available to every model rather than quarantined behind a model check. Carries a Known limits section, an evidence file rating the replication status of every behavioural law it cites (including the ones it argues against), the measured blind spots of the only sanctioned browser, and an autonomous-mode carve-out so a pipeline run is not told both to ask and not to ask.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -363,7 +363,7 @@
     {
       "name": "mac-craft",
       "description": "Design and review authentically native macOS application interfaces — mock windows as self-contained HTML/CSS or a token-precise spec, with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast instead of asserting it. Grounded in Apple's macOS UI kit deconstructed to exact (specified) values, the published HIG, an August 2026 four-backend research panel across 110 sources, and taste learned from 135 curated macOS apps. Ships scripts/mock_check.py: WCAG contrast computed from the declared cascade across light, dark and increased-contrast contexts with alpha compositing; a metric block cross-checked against both the kit and the stylesheet; keyboard, token-discipline, casing, cursor, self-containment, content and artifact-naming checks. It exits 2 rather than 0 when a check cannot be performed, because examined=0 is a gate that never ran. Replaces mac-design-studio and answers to that name. App icons are not designed here — they route to create-mac-icon.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -374,7 +374,7 @@
     {
       "name": "mac-design-digest",
       "description": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits into a persistent design corpus — per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md — where every value carries a provenance mark from a closed set and every written file is checked by an executable gate before the run is reported done. Ships corpus_check.py (twelve checks over seventeen named invariants over the written corpus — ledger integrity and append-only rows, every ledger target existing, cross-app patterns recorded, the 3-independent-apps canon bar, the native-lineage gate, canon traceability, cluster contradiction budget, placeholders, dated and levelled headers, non-empty knowledge gaps below Proficient, one mark per axis with a composed pair where the row's role needs both, the app count a (recurring)/(canon) mark claims, and a pinned precision baseline so a value cannot silently gain precision it never earned) and sketch_extract.py (reads .sketch archive JSON in memory, derives the control ladder from symbol frames, classifies capsule radii by geometry rather than by an undocumented sentinel, and flags instruction-shaped strings it reads out of the archive). Use whenever the user provides mac app screenshots or icons and wants to digest, study, learn from, analyze, or add to the corpus — and when ingesting a Figma or Sketch UI kit export. Routes generation out: mocks to mac-craft, icons to create-mac-icon.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Luke Rhodes"
       },
@@ -384,7 +384,7 @@
     {
       "name": "generate-investor-portal",
       "description": "Generate a complete investor-portal record — theme tokens, section content, provenance-marked figures, imagery and motion — into a database from a company's DESIGN.md and a crawled company overview, so a new company is a generated record rather than new code and one generic renderer serves it at that company's own subdomain. Its distinguishing feature is that it ships the gate instead of describing it: assets/record-gate.mjs runs 600+ record-level checks with no server, no database and no network, and refuses the write rather than the read, so a rule added to it can never take a live portal down. The check that matters most is that a figure is not allowed to live in prose — a currency amount, a percentage or a date in any prose slot without a provenance object around it is refused, because that is the channel a plausible fabricated number actually arrives through, and a missing figure has to become a visibly marked unavailable state with a reason code instead. It treats the crawled overview as untrusted third-party content and carries a verbatim injection fence into every subagent brief and every paid image prompt; it refuses a republish before anything is crawled or generated rather than after; it measures accent contrast arithmetically on hex against role-aware floors so a brand colour is never rejected where it belongs; and it detects the defect no per-tenant gate can see, two companies publishing the same portal, by comparing three collision keys against the published peer set. Use it when someone wants an investor portal built, generated or refreshed for a company, wants a company onboarded onto a portal platform, or hands over a DESIGN.md plus a company overview and asks for a portal from them.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
