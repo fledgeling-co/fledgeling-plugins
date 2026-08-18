@@ -1,0 +1,43 @@
+{
+  "takes": {
+    "A": {
+      "source": "icon.svg",
+      "kind": "svg-letterbox",
+      "source_mtime": 1786762211.812289,
+      "rendered_at": 1787062825.703999
+    },
+    "Av1": {
+      "source": "icon-A-v1.svg",
+      "kind": "svg-letterbox",
+      "source_mtime": 1786760173.531543,
+      "rendered_at": 1787062827.15328
+    },
+    "B": {
+      "source": "icon-engineB-arrow-8da398.svg",
+      "kind": "svg-letterbox",
+      "source_mtime": 1786760153.1983123,
+      "rendered_at": 1787062827.8937101
+    },
+    "B2": {
+      "source": "icon-engineB-arrow-1a7fde.svg",
+      "kind": "svg",
+      "source_mtime": 1786760085.7025373,
+      "rendered_at": 1787062828.175012
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

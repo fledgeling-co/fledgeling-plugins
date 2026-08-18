@@ -15,7 +15,11 @@
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 190px; }
-  .renders { display: flex; align-items: center; gap: 18px; }
+  /* The flex lives on an inner div, never on the <td>. This browser computes
+     display:flex on a table cell and still lays its children out as blocks, so
+     every render stacks into a column and the row reads as one tall strip. The
+     sheet looks broken and nothing errors. Measured stacked on 19 Aug 2026. */
+  .renders .strip { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
@@ -56,84 +60,84 @@
 
   <tr>
     <td class="take ship">A &middot; icon.svg<small>Engine A &mdash; hand-authored layered SVG, closed against C1 &mdash; SHIPS</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">Checks 1&ndash;4 clean on real renders. Full-bleed 1024 with the set&rsquo;s squircle as a <em>clip</em>, no baked corner or shadow (#1). The filled-black silhouette is nameable (#3), and at 16px the icon sheds coursing, bollards and foam to four pale stepped bars plus one ember dash &mdash; identity intact, no smear (#4). One key light on a single axis carries every ramp (#5); two hue families, vermilion reserved strictly for the departing vessel (#6). Focal against its local water measures <strong>2.18:1</strong> at 1024 and <strong>2.17:1</strong> at 32px (#7). Four real layers <code>bg/mid/fg/highlight</code> with identity in <code>fg</code>&rsquo;s filled shapes (#10). <strong>Deducted at #7:</strong> nothing here reaches the 3:1 bar against the basin &mdash; the focal is 2.18:1 and the berthed pair 2.32:1. Both are in family (the sibling create-mac-icon measures 1.96:1 and the winning raster 2.28:1 by the same ring measure), and the berthed craft clear 3.14:1 against the pier stone that frames them, but the bar is the bar.</td>
   </tr>
 
   <tr>
     <td class="take">A0 &middot; icon-A0-predraft.png<small>Engine A before the fidelity loop &mdash; kept to show what the rounds bought</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/A0-256.png" width="128" height="128" alt="A0 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A0-128.png" width="64" height="64" alt="A0 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/A0-96.png" width="48" height="48" alt="A0 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/A0-64.png" width="32" height="32" alt="A0 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A0-32.png" width="16" height="16" alt="A0 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A0-32.png" width="96" height="96" alt="A0 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">10 / 12</td>
     <td class="verdict">Same composition, same layer plan, materially thinner &mdash; and it is the honest baseline the loop is measured against. Bollards were flat two-circle decals that read as paint on the pier rather than mouldings standing proud of it, the stone had no coursing so the slabs read as cut paper, and the wake was one tapered band that reads as a smear rather than a vessel moving. The gel ramp lost chroma into shadow (darkest S 0.80 / V 0.59) so the hull read as opaque paint. Loses #8 on the decal bollards and #7 with A.</td>
   </tr>
 
   <tr>
     <td class="take fail">B &middot; icon-engineB-arrow-e5f2b5.svg<small>Engine B &mdash; Arrow 1.1 vector, from the spec as brief</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">5 / 12</td>
     <td class="verdict"><strong>Hard-fails #1:</strong> it baked its own rounded-corner ground, so a cream field sits outside a self-made mask &mdash; unusable at any size. It also drew the wake in the <em>accent</em> as red diagonal streaks, putting the one reserved colour on something that is not the focal (#6, #11), and the basin came back an opaque mid-brown far outside the porcelain register. At 32px the berthed craft dissolve into the water entirely (#4). Salvaged into the master: nothing geometric &mdash; but it independently arrived at the same plan (shore left, staggered piers right, one vessel out on a diagonal), which was useful confirmation that the composition reads without the author&rsquo;s knowledge of what it is meant to be.</td>
   </tr>
 
   <tr>
     <td class="take fail">B0 &middot; icon-engineB-arrow-3ea7ec.svg<small>Engine B &mdash; Arrow 1.1, first attempt (long brief)</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/B0-256.png" width="128" height="128" alt="B0 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/B0-128.png" width="64" height="64" alt="B0 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/B0-96.png" width="48" height="48" alt="B0 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/B0-64.png" width="32" height="32" alt="B0 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/B0-32.png" width="16" height="16" alt="B0 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/B0-32.png" width="96" height="96" alt="B0 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">3 / 12</td>
     <td class="verdict">The worst take of the six, kept because it shows the failure mode the brief was rewritten to avoid. The tool call reported a timeout and the file landed anyway. <strong>Hard-fails #1</strong> twice over: it baked a corner mask <em>and</em> cut its ground into a folded parallelogram that leaves bare canvas in two corners, so the dominant silhouette is the artwork's own boundary rather than the harbour (#3). Ground is a golden-brown gradient nowhere near the porcelain register (#6, #9), the wake is again drawn in the reserved accent as red streaks (#6, #11), and the berthed craft carry a hard grey keyline that reads as an outline sticker (#8). At 32px it is a brown tile with a red mark.</td>
   </tr>
 
   <tr>
     <td class="take">C1 &middot; icon-engineC-78c359.png<small>Engine C &mdash; GPT Image 2, three corpus/family references &mdash; MATERIAL TARGET</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score">8 / 12</td>
     <td class="verdict">Wins the material judgment outright and takes #5, #8 and #11: slab coursing on the stone, bollards as real mouldings with their own cast shadows, a fan of fine foam streaks astern, and a gel whose darkest pixel holds S 0.98 / V 0.78. All four were rebuilt into the master. <strong>Not shippable:</strong> a flat pre-masked raster with no layers is failure mode #10 and cannot pass #1. And its own composition is the trap this commission started in &mdash; a single quay bar with three equal piers reads at 32px as a literal letter <strong>E</strong>, which is why the master bleeds its shore off three edges instead (#3). Its berthed craft also dissolve at 32px, where the master&rsquo;s survive.</td>
   </tr>
 
   <tr>
     <td class="take fail">C2 &middot; icon-engineC-603382-2.png<small>Engine C &mdash; GPT Image 2, second take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">7 / 12</td>
     <td class="verdict">The same material strengths as C1 and a worse read. Its berthed craft are near-white on a near-white basin &mdash; a tone-on-tone silhouette collapse (#7) that is total by 32px, where only the ember and two pier bars survive (#4). The quay runs in perspective off the top-left, which pushes the whole harbour into the left third and leaves the right half of the tile empty (#2). Lost to C1 on the material comparison as well: cooler, greyer, less coursing. Nothing was salvaged from it.</td>
   </tr>
@@ -160,6 +164,7 @@
 
 <div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take with real layers &mdash; <code>bg</code> cushion and basin, <code>mid</code> berth structure, <code>fg</code> vessels, <code>highlight</code> lit lips and rim &mdash; so it survives Dark / Clear / Tinted where both rasters fail #10 by delivery format. Checks 1&ndash;4 were verified on the renders above and on the filled-black silhouette, not from memory. Its material provenance is C1: the slab coursing, the three-dimensional bollards, the diverging foam fan and the gel ramp (whose darkest stop now holds S 0.94 / V 0.80 against the reference&rsquo;s S 0.98 / V 0.78) were all measured off that raster and rebuilt as layered SVG constructions. Known liabilities to revisit: <strong>(1)</strong> no element reaches the 3:1 figure-ground bar against the basin &mdash; focal 2.18:1, berthed pair 2.32:1, pier stone 1.36:1 &mdash; and r08 established that the basin&rsquo;s depth trades the vessels against the piers rather than lifting both, so a real fix means a local edit (shading the slips while leaving the open water bright), not another global one; <strong>(2)</strong> in filled black the berthed craft merge into the piers they lie between, so the silhouette names the harbour and the departing vessel but not the held fleet; <strong>(3)</strong> the composition runs 67.2% of tile width excluding the deliberate edge-bleed shore, marginally over the 55&ndash;65% constant &mdash; the cost of a scene rather than a single object; <strong>(4)</strong> the ground is a warm sand basin rather than the vellum plate the sibling icons float their objects on, so the <em>dark</em> system variant is the one to check first on any revision.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Fidelity numbers from <code>fidelity.py</code>, metric tier: numpy (luminance + SSIM + edge F1 + mask IoU; no LPIPS on this machine).</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Fidelity numbers from <code>fidelity.py</code>, metric tier: numpy (luminance + SSIM + edge F1 + mask IoU; no LPIPS on this machine).
+<br><br>Provenance of the renders on this sheet: <code>audit-renders/render-manifest.json</code> records take <strong>A</strong> against <code>icon.svg</code>, and re-rendering A from the shipped master reproduces <code>icon.png</code> and <code>icon-256.png</code> byte for byte, so the sheet and the delivery are provably the same artifact. <code>silhouette.png</code> is a 512px render of the mid and fg layers flattened to black, regenerable in place with <code>python3 silhouette.py</code>. The A0, B, B0, C1 and C2 renders are frozen history: their sources (<code>icon-A0-predraft.png</code>, <code>icon-engineB-arrow-e5f2b5.svg</code>, <code>icon-engineB-arrow-3ea7ec.svg</code>, <code>icon-engineC-78c359.png</code>, <code>icon-engineC-603382-2.png</code>) and the <code>runs/</code> directory behind the fidelity numbers live in the commission workspace, which is deliberately outside the repo, so those five rows are not machine-checkable from this directory and are recorded here as evidence rather than as reproducible renders.</div>
 </body>
 </html>

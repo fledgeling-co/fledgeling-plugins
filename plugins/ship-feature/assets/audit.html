@@ -15,7 +15,11 @@
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
-  .renders { display: flex; align-items: center; gap: 18px; }
+  /* The flex lives on an inner div, never on the <td>. This browser computes
+     display:flex on a table cell and still lays its children out as blocks, so
+     every render stacks into a column and the row reads as one tall strip. The
+     sheet looks broken and nothing errors. Measured stacked on 19 Aug 2026. */
+  .renders .strip { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
@@ -50,70 +54,70 @@
 
   <tr>
     <td class="take ship">A · icon.svg<small>hand-authored layered SVG — SHIPS</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score ship">11 / 12</td>
     <td class="verdict">Checks 1–4 all clear on the real renders. At 16px the wedge keeps a legible deckhouse notch and one ember spark at the leading tip — the identity survives where every raster take's does not. Four genuine layers (<code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code>), identity carried by the hull's shape and value, so #10 holds with the ember demoted to a droppable highlight plane. Measured figure-ground 4.04:1 at 48px (hull darkest 5% 0.199 against porcelain 0.958); whole-image self-contrast 0.415. Loses one point on <strong>#2 grid</strong>: the vessel spans 69% of the tile against the catalogue's 55–65% band — deliberate, bought in r11/r12 to keep 16px identity, and the one number a future round should revisit first.</td>
   </tr>
 
   <tr>
     <td class="take">A0 · fidelity-runs/r00<small>Engine A before the loop — the &ldquo;before&rdquo; row</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/A0-256.png" width="128" height="128" alt="A0 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A0-128.png" width="64" height="64" alt="A0 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/A0-96.png" width="48" height="48" alt="A0 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/A0-64.png" width="32" height="32" alt="A0 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/A0-32.png" width="16" height="16" alt="A0 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/A0-32.png" width="96" height="96" alt="A0 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">9 / 12</td>
     <td class="verdict">Kept in because it is the measurement, not decoration: same composition, same palette, twelve loop rounds earlier. Fails <strong>#8 depth coherence</strong> — the bow wave is a smooth mound with no breaking asymmetry, so it reads as a moulded object of unclear depth sitting under the hull rather than as displaced water — and <strong>#11 personality</strong>, because the waterline crossing was drawn as a hard rule rather than a material event. Marginal on #4: at 16px the vessel is 0.411 self-contrast against A's 0.417 and the deckhouse notch has already closed. What the loop actually bought is visible in this row.</td>
   </tr>
 
   <tr>
     <td class="take">B · icon-engineB-arrow-b549df.svg<small>Arrow 1.1 vector take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">6 / 12</td>
     <td class="verdict">Loses on the two non-negotiables and three more. <strong>#3 silhouette</strong>: it drew an open dinghy, which is the exact glyph <code>create-swe-project</code> already owns on this shelf, and the tile splits 50/50 on a hard horizon so the mark is a colour relationship rather than a shape. <strong>#4</strong>: the hull dissolves by 32px and the wave becomes one red pixel cluster. Also #5 (no light model — flat fills throughout), #8 and #10. Salvaged into the master: nothing geometric, but it was the take that made the horizon-splits-the-tile failure obvious early enough to fix in A, where the waterline now crosses the object rather than the frame.</td>
   </tr>
 
   <tr>
     <td class="take">C1 · icon-engineC-dcf6f9.png<small>GPT Image 2, corpus-referenced — MATERIAL TARGET</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">9 / 12</td>
     <td class="verdict">The best material in the set and it still cannot ship. <strong>#4 16px</strong>: the failure is not contrast — its whole-image spread is 0.565 against A's 0.415 — it is silhouette definition. The gunwale, the wheelhouse and the sheer all dissolve into one undifferentiated dark lozenge with a faint orange edge, and at 16px you cannot tell it is a boat. <strong>#10</strong>: flat pre-masked raster, the corpus's single most common failure. #7 is marginal at 48px (darkest 5% 0.254 on a warm beige ground rather than porcelain). Used as the loop reference for thirteen scored rounds; what it taught the master is the mirrored water reflection, the vertical ember streak, the wheelhouse window band, and that a hot core belongs on the waterline and white belongs only on the lip.</td>
   </tr>
 
   <tr>
     <td class="take">C2 · icon-engineC-0b4986-2.png<small>GPT Image 2, second take</small></td>
-    <td class="renders">
+    <td class="renders"><div class="strip">
       <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    </div></td>
     <td class="score fail">8 / 12</td>
     <td class="verdict">Handsomer hull than C1 and further from the brief. The ground went cool photographic grey, which is the trawl icon's register rather than this shelf's porcelain, so it fails <strong>#6 palette economy</strong> and <strong>#9 era coherence</strong> together — the water is rendered photographically, not as Tahoe gel. Same #4 and #10 failures as C1, and its slipway became a plain grey wedge that reads as a rock rather than a ramp. Lost the material judgment to C1 on register alone; kept because the disagreement between two takes off one prompt is itself the finding about how far the raster engine will drift on ground colour.</td>
   </tr>
@@ -123,6 +127,7 @@
 <div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that clears all four non-negotiables on real renders, and the only one that is genuinely layered — <code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code> map 1:1 onto Icon Composer, the waterline crossing is an authored overlap of two real planes rather than a baked gradient, and the ember is a highlight layer the hull survives without. Material provenance: thirteen scored fidelity rounds against C1 (fidelity-runs/r00 → r13), mean composite 0.5827 → 0.6177, 1024px 0.4909 → 0.5090, 32px 0.7307 → 0.7673, 16px 0.7648 → 0.7861. Fourteen scored rounds, four of them rejected by the gate and two of those kept anyway: r02 (the ember bounce that had turned the whole bow bronze) and r11 (the vessel scaled up for 16px identity) both cost composite and both fixed a rubric-visible defect, which is the loop's own rule that a gate ACCEPT is evidence and never a verdict.
 <br><br>Known liabilities to revisit: <strong>(1)</strong> the vessel spans 69% of tile width against the catalogue's 55–65% band — bought deliberately for 16px identity in r11/r12 and pulled back from 72% and the first number a future round should test. <strong>(2)</strong> The bow wave took three separate scaffolds (smooth mound → filament comb → explicit breaking profile) and the third is the least wrong rather than clearly right; at 128px it still reads slightly as a lit mass rather than as broken water. <strong>(3)</strong> <code>create-swe-project</code> already owns a boat-on-a-slipway glyph on this shelf; the separation here is deliberate and complete at 128px (decked vessel vs open dinghy, porcelain/graphite vs cool blue, ember on the water vs amber on the hull, motion vs repose) but at 16px both reduce to a raked hull, and that collision is real. <strong>(4)</strong> The three wave-train arcs are the only element that reads as drawn rather than lit; they were dimmed by a third in r11 and could still go. <strong>(5)</strong> The gate rejected r09 and r11 and the rubric shipped them anyway — the reference frames its vessel smaller and carries less small-size definition than the master needs, so the last two rounds deliberately moved away from it.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 scripts/audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 scripts/audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.
+<br><br>Provenance of the renders on this sheet: <code>audit-renders/render-manifest.json</code> records take <strong>A</strong> against <code>icon.svg</code>, and re-rendering A from the shipped master reproduces <code>icon.png</code> and <code>icon-256.png</code> byte for byte, so the sheet and the delivery are provably the same artifact. The A0, B, C1 and C2 renders are frozen history: their sources (<code>fidelity-runs/r00</code>, <code>icon-engineB-arrow-b549df.svg</code>, <code>icon-engineC-dcf6f9.png</code>, <code>icon-engineC-0b4986-2.png</code>) and the fourteen scored fidelity rounds behind the recommendation live in the commission workspace, which is deliberately outside the repo, so those four rows are not machine-checkable from this directory and are recorded here as evidence rather than as reproducible renders.</div>
 </body>
 </html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>should-compact icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 200px; }
+  /* The flex lives on an inner div, never on the <td>. The scoring browser computes
+     display:flex on a table cell and still lays its children out as blocks, so all
+     seven renders stack into a column and every row reads as one tall strip. The
+     sheet looks broken and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 440px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .note { margin: 0 0 30px; padding: 16px 20px; border: 1px solid #4a3a24; border-radius: 12px; background: #1a1408; color: #d8c9a8; max-width: 900px; }
+  .note strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; gap: 22px; align-items: flex-start; margin: 8px 0 26px; flex-wrap: wrap; }
+  .hero figure { margin: 0; }
+  .hero img { display: block; border-radius: 18px; background: #08252e; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; max-width: 320px; }
+</style>
+</head>
+<body>
+<h1>should-compact icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Seam" &mdash; Tahoe gel-glass sub-register (a), a porcelain cushion carrying two graphite gel masses whose gap is the brightest element on the tile. Every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<p class="note"><strong>This sheet was written on 19 August 2026, not at commission time.</strong> The commission shipped
+<code>icon.svg</code>, its eight PNG exports and <code>build_icon.py</code> with no audit sheet at all, so there is no
+original verdict to reproduce and none is claimed here. What follows is honest about which parts are recovered and
+which are new. <strong>Recovered:</strong> the direction, the runner-up direction and the reason it lost, the family
+argument against <code>braindump</code>, the corpus samples behind the palette, and two rejected states of the master
+&mdash; all of them written down in <code>build_icon.py</code>'s own docstring and comments, quoted below where they are
+used. <strong>New on this date:</strong> the two losing takes' renders, which were reconstructed by rebinding the single
+constant each comment names in the master's own <code>svg()</code> function (the script refuses to write unless a control
+run with the shipped parameters reproduces <code>icon.svg</code> byte for byte, and it does), and every rubric score and
+verdict on this page, which were scored retrospectively against the 12-point rubric from the renders shown here. No
+fidelity loop, no blind judge panel and no image-model engine ran on this commission; the sheet says so rather than
+implying a set was judged. Only Engine A ran, and the three takes are three states of it.</p>
+
+<div class="hero">
+  <figure><img src="audit-renders/master-1024.png" width="320" height="320" alt="should-compact master at 1024px">
+    <figcaption>Take A &mdash; the shipping master, <code>icon.svg</code>. Two graphite gel slabs, the right one held 78px
+    above the left, with a vermilion seam running between them and past both ends. The focal element is the gap: the light
+    is in the space where an object is not, which is the one thing this skill is pointing at.</figcaption></figure>
+  <figure><img src="silhouette.png" width="320" height="320" alt="the master's two masses flattened to solid black">
+    <figcaption>Check #3 on a real render rather than from memory: the two masses flattened to black, the seam left as the
+    space it is. Regenerate with <code>python3 silhouette.py</code>. Two stepped slabs with a clean channel between them
+    &mdash; nameable, and not any category glyph. The honest caveat is that this is a modest outline: in the full render
+    the identity is carried as much by the seam's light as by the silhouette.</figcaption></figure>
+</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>Engine A &mdash; hand-authored layered SVG from build_icon.py &mdash; SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">10 / 12</td>
+    <td class="verdict">Clears all four non-negotiables on these renders. <strong>#1</strong>: the squircle is a
+      <code>clipPath</code> over the whole group, taken from <code>squircle-path.txt</code> &mdash; no baked corner radius
+      and no baked drop shadow, and every render's corners are transparent. <strong>#3</strong>: see the silhouette above.
+      <strong>#4</strong>: at 16px it holds two dark blocks split by a bright line that visibly overruns the top of the
+      right one, with no smear. <strong>#7</strong> is the strongest number on the tile &mdash; the graphite mass measures
+      <strong>11.3:1</strong> against the porcelain ground (mean relative luminance 0.040 against 0.968), so figure-ground
+      survives grayscale outright. <strong>#5</strong> one soft top light plus the sanctioned emissive interior, no hard
+      speculars anywhere; <strong>#8</strong> the seam is drawn behind the masses and clipped by them, and the bloom and
+      contact shadow both centre under the gap, so the plane order agrees with where the light is.
+      Two points off. <strong>#2</strong>: the focal is 63.5% of tile width, inside the 55&ndash;65% band, but its measured
+      ink bbox centres at x&nbsp;469 with margins of 145 left and 229 right &mdash; the seam is centred on the tile and the
+      mass is not, which is the direct cost of deliberately unequal slabs. <strong>#10</strong>: the identity is not
+      hostage to a hue, but the <em>argument</em> is hostage to a light ground &mdash; the docstring's own reason for
+      rejecting the dark register is that a bright gap "needs a light ground to read as <em>empty</em> rather than as
+      another glowing thing on black", and that is exactly what Dark and Tinted do to it. Untested against real variant
+      renders; a reasoned prediction, not a measurement, and the first thing a revision should measure.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A&minus; · icon-take-lift34.svg<small>Engine A, the rejected 34px lift &mdash; reconstructed 19 Aug 2026</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/lift34-1024.png" width="160" height="160" alt="A-minus hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/lift34-256.png" width="128" height="128" alt="A-minus at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/lift34-128.png" width="64" height="64" alt="A-minus at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/lift34-96.png" width="48" height="48" alt="A-minus at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/lift34-64.png" width="32" height="32" alt="A-minus at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/lift34-32.png" width="16" height="16" alt="A-minus at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/lift34-32.png" width="96" height="96" alt="A-minus 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">One constant apart from the master: <code>RIGHT_LIFT</code> at 34 rather than 78. The comment beside
+      that constant is the whole verdict &mdash; "At 34 it read as a misalignment; it has to be unmistakably deliberate or
+      it looks like a bug rather than a pause." The renders bear it out. <strong>#11 fails</strong>: the held beat is this
+      icon's one nameable device, and at 34px of lift (3.3% of the tile) the pair reads as two blocks that failed to line
+      up, so the device is not present &mdash; a bug, not a pause. It also costs the silhouette: at 34 the two slabs sit
+      near enough to level that the filled outline is a single interrupted bar, where the master's step is what makes the
+      pair asymmetric and therefore nameable, so <strong>#3</strong> is marginal here rather than clean. Worst at 16px,
+      where 34px of lift is half a pixel and the step vanishes entirely. Carries the master's own <strong>#2</strong>
+      offset and <strong>#10</strong> liability unchanged, because the x geometry and the palette are identical.
+      <strong>Rejected.</strong> What it bought the master is the number 78.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">A&#8253; · icon-take-capsule.svg<small>Engine A, the rejected capped seam &mdash; reconstructed 19 Aug 2026</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/capsule-1024.png" width="160" height="160" alt="A-capsule hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/capsule-256.png" width="128" height="128" alt="A-capsule at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/capsule-128.png" width="64" height="64" alt="A-capsule at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/capsule-96.png" width="48" height="48" alt="A-capsule at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/capsule-64.png" width="32" height="32" alt="A-capsule at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/capsule-32.png" width="16" height="16" alt="A-capsule at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/capsule-32.png" width="96" height="96" alt="A-capsule 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The seam drawn on top of the masses, with rounded caps, bounded by its own rectangle instead of
+      overrun and clipped by the blocks. Again the comment is the verdict &mdash; "Drawn on top with rounded caps it became
+      a glowing capsule sitting between two blocks, which is an object, and the whole point is that the focal element is
+      empty." <strong>#3 fails outright</strong>, which is a non-negotiable: filled black, the capsule is ink and it
+      bridges the two masses, so the channel that IS the subject disappears and the silhouette collapses into one
+      connected blob with a notch. <strong>#8</strong> goes with it: a lit object lying across the front faces of both
+      slabs puts the light in front of the masses rather than between them, so the plane order now contradicts the light
+      model the bloom and contact shadow still describe. <strong>#11</strong> is lost for the reason the comment gives:
+      the signature move was that the focal element is empty, and an object in the gap is an ordinary glyph-plus-accent.
+      Carries the master's <strong>#2</strong> and <strong>#10</strong> deductions too. <strong>Rejected on a
+      non-negotiable.</strong> What it bought the master is the 34px overrun at each end, which is what makes the blocks
+      rather than a rectangle decide where the light stops.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg)</strong> as <code>icon.png</code> / <code>icon-1024.png</code> /
+<code>icon-512.png</code> / <code>icon-256.png</code> / <code>icon-128.png</code> / <code>icon-96.png</code> /
+<code>icon-64.png</code> / <code>icon-32.png</code> / <code>icon-16.png</code>. It scores <strong>10 / 12</strong> and is
+the only take that clears all four non-negotiable checks on real renders: the two rejected states each fail a check the
+other passes, and the capsule fails #3. It is the only one of the three whose gap survives the silhouette test, which for
+this subject is the whole icon. Provenance is unusually clean for a retrospective sheet: re-rendering <code>icon.svg</code>
+reproduces all six of the shipped exports the audit sizes cover &mdash; 1024, 256, 128, 96, 64 and 32 &mdash; byte for
+byte, so the sheet is auditing the delivered artifact and not a look-alike.
+<br><br>Known liabilities to revisit, in the order a revision should take them:
+<strong>(1)</strong> <strong>#10, and it is the real one.</strong> The argument depends on a light ground: a bright gap
+reads as empty only against porcelain, and under Dark or Tinted it becomes another glowing thing on a dark field, which is
+the exact failure the docstring cites when it rejects the dark register. Never rendered in a real variant &mdash; a
+reasoned prediction, and the first measurement a revision owes.
+<strong>(2)</strong> The composition sits left of optical centre: measured margins 145 left against 229 right, because the
+seam is centred on the tile while the unequal masses are centred on the seam. Centring the ink bbox instead would move the
+seam off the tile's axis, which is a real trade rather than a fix, and it is the point dropped on #2.
+<strong>(3)</strong> The layer plan is a comment, not a structure. <code>#bg</code>, <code>#mid</code>, <code>#fg</code> and
+<code>#highlight</code> appear in <code>icon.svg</code> as HTML comments, and the only named groups in the file are
+<code>mass-left</code> and <code>mass-right</code>. It renders identically and it carries identity in shape and value, so
+#10 is not lost on this alone, but nothing downstream can address those planes and an Icon Composer import would have to
+rebuild them by hand.
+<strong>(4)</strong> One engine, not three. The commission floor is three engines &mdash; hand-authored SVG, Arrow vector,
+corpus-referenced raster &mdash; and only Engine A ran. Stated as a deviation rather than presented as a full commission:
+the three takes above are three states of one engine, two of them reconstructed on 19 Aug 2026 from the parameters the
+build script records, and no take on this sheet was ever judged by a panel or a fidelity loop.
+<strong>(5)</strong> At 16px the step reduces to about a pixel. It survives, and the master is visibly better than the 34px
+take there, but the "held mid-step" reading is a large-size reward and the small-size mark is "two blocks, one bright
+line".</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px
+identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness,
+personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12.
+<br><br>Provenance of the renders on this sheet: every source is in this directory, so
+<code>audit-renders/render-manifest.json</code> records all three takes and the whole sheet is machine-checkable &mdash;
+<strong>master</strong> from <code>icon.svg</code>, <strong>lift34</strong> from <code>icon-take-lift34.svg</code> and
+<strong>capsule</strong> from <code>icon-take-capsule.svg</code>, all three as <code>svg</code>, since the master carries
+its own <code>clipPath</code> and needs no external mask. Rendered with
+<code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .</code> at 1024 / 256 / 128 / 96
+/ 64 / 32 sources, displayed at half; verified with its <code>check</code> subcommand. One naming note for anyone
+regenerating: this commission exports the full-size raster as <code>icon-1024.png</code> as well as <code>icon.png</code>,
+and the two are byte-identical, so the marketplace family and the size ladder are both satisfied by the same file.
+Figure-ground and bbox numbers were measured on the 1024 renders on this page: relative luminance per WCAG, the mass
+sampled over the left slab's interior and the ground over an empty quadrant, and the ink bbox taken as the pixels that are
+either dark or chromatic inside the mask.</div>
+</body>
+</html>
