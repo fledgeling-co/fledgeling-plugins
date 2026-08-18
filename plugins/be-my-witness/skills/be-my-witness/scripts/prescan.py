@@ -6,7 +6,7 @@ Four questions, none of which need judgement, all of which can end a run:
 
   1. is-evidence     a blank, uniform or near-empty capture is not evidence
   2. settled         a capture taken mid-load is a picture of a skeleton
-  3. comparable      framing: is the aspect/scale close enough to compare at all
+  3. comparable      framing: aspect AND dimension ratio, DPR steps excepted
   4. tiles           where the ink actually is, so the vision pass has somewhere to start
 
 Why this exists: a real capture suite scored design mocks against LOADING SKELETONS
@@ -156,6 +156,27 @@ def analyse(path: Path, cols=16, rows=10):
     }
 
 
+# Standard device-pixel-ratio steps. A DPR difference is a hardware raster
+# multiplier applied to exact CSS pixel coordinates, so a whole-frame render at a
+# different DPR lands on one of these to within integer rounding — it does not
+# drift by 8%. That tightness is the whole point: it is what lets a 1/3-scale CROP
+# be told apart from a genuine 3x render of the same frame.
+DPR_STEPS = (0.25, 1 / 3, 0.5, 2 / 3, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0, 4.0)
+
+
+def dpr_step(shot_w, ref_w, scale):
+    """The DPR step this width ratio matches, or None.
+
+    Tolerance is 2 px or 1.5% relative, whichever is looser — that is pixel
+    discretisation and nothing more. A looser band would readmit the defect this
+    check exists for: a 440x1440 crop sits at 0.306, only 8% from 1/3.
+    """
+    for k in DPR_STEPS:
+        if abs(shot_w - round(ref_w * k)) <= 2 or abs(scale - k) / k <= 0.015:
+            return k
+    return None
+
+
 def verdicts(a, ref=None):
     out, notes = {}, []
 
@@ -181,15 +202,39 @@ def verdicts(a, ref=None):
     if ref:
         ar = a["aspect"] / ref["aspect"] if ref["aspect"] else None
         scale = (a["width"] / ref["width"]) if ref["width"] else None
-        out["framingComparable"] = bool(ar and 0.8 <= ar <= 1.25)
+        aspect_ok = bool(ar and 0.8 <= ar <= 1.25)
+
+        # Framing hides inside MATCHING aspect ratios: a 440x275 card cut from a
+        # 1440x900 viewport has the identical 1.6 aspect and is not remotely the
+        # same frame. Only the dimension ratio shows it, which is why SKILL.md
+        # specifies "aspect ratio AND dimension ratio" — the dimension half was
+        # computed here and never used, so the founding incident this script was
+        # written for passed its own check.
+        step = dpr_step(a["width"], ref["width"], scale) if scale else None
+        scale_ok = bool(scale and (step is not None or 0.8 <= scale <= 1.25))
+
+        out["framingComparable"] = aspect_ok and scale_ok
         out["aspectRatioOfRatios"] = round(ar, 3) if ar else None
         out["scaleRatio"] = round(scale, 3) if scale else None
-        if not out["framingComparable"]:
+        out["scaleExplainedByDpr"] = round(step, 3) if step else None
+
+        if not aspect_ok:
             notes.append(
                 f"Framing differs: {a['width']}x{a['height']} vs reference "
                 f"{ref['width']}x{ref['height']} (aspect ratio {round(ar, 2)}). "
                 "This is a FRAMING difference, not visual drift — re-crop to the same "
                 "region before drawing any conclusion about how it looks."
+            )
+        elif not scale_ok:
+            notes.append(
+                f"Framing differs by SCALE: {a['width']}x{a['height']} vs reference "
+                f"{ref['width']}x{ref['height']} is {round(scale, 3)}x, which is not a "
+                "device-pixel-ratio step. The aspect ratios match, so this reads as the "
+                "same frame and is not — it is a crop or a zoom. Re-crop to the same "
+                "region before drawing any conclusion about how it looks. Dimensions "
+                "alone cannot separate a crop that happens to land exactly on a DPR "
+                "ratio from a real DPR render: for that, check whether the landmark "
+                "separations scale with the frame (references/difference-classes.md)."
             )
     return out, notes
 
@@ -234,7 +279,7 @@ def main():
         "checks": v,
         "notes": notes,
         "inspectionTiles": tiles(a, args.tiles),
-        "proceed": v["isEvidence"] and v["settled"],
+        "proceed": v["isEvidence"] and v["settled"] and v.get("framingComparable", True),
     }
 
     if args.json:

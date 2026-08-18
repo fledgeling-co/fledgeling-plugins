@@ -22,6 +22,8 @@ One sentence governs the rest: **the model is a localised visual critic and an
 explanation layer, never the release oracle.** Deterministic checks decide the gate;
 the looking says what changed and where.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns the verdict's coverage, bias-control and settle fields into numbers that carry the command that set them, and reads each script by its return shape rather than its exit code — `checks` over `$?` on prescan, and `diffBox`/`diffBoxDensity` over `aboveRatio` on diffmask, whose whole-frame ratio stays False for a localised change. Other models skip it.
+
 ## The three artifacts, and which one wins
 
 Almost every visual check involves up to three things, and conflating them is the
@@ -64,7 +66,7 @@ Run `scripts/prescan.py` first. It is cheap, it never hallucinates, and it catch
 the failures that make everything downstream meaningless.
 
 ```bash
-python3 scripts/prescan.py shot.png --reference mock.png --json
+python3 scripts/prescan.py shot.png --reference mock.png --json > /tmp/ps.json
 ```
 
 It answers four questions, and any of them can end the run:
@@ -120,7 +122,7 @@ and body text stays above 7 px. Around 1024² is a good default crop size; the o
 is model-dependent and non-monotonic.
 
 ```bash
-python3 scripts/crop.py shot.png --tiles --out /tmp/tiles     # inspection tiles
+python3 scripts/crop.py shot.png --tiles-from /tmp/ps.json --out /tmp/tiles   # inspection tiles
 python3 scripts/crop.py shot.png --region 0,0,480,300 --scale 2 --out /tmp/hdr.png
 ```
 

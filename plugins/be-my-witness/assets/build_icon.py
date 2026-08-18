@@ -27,7 +27,7 @@ DEVICE  A witness's loupe laid on a plane of evidence. The lattice outside the
 REGISTER  Tahoe gel-glass, sub-register (a): porcelain cushion carrying one lit
           object. Ground lifted from the fledgeling family rather than invented —
           #F9F5EE -> #DED7C5 is the warm porcelain 20-odd siblings share (measured
-          off whats-left, create-test-suite, clarify, proctor), with the ember
+          off whats-left, test-campaign, clarify, proctor), with the ember
           accent kin to Fledgeling's #C4622D. Corpus values sampled from
           apple-23 (Safari: porcelain #FFFFFF -> #DFE3EB, L 1.000 -> 0.898, one
           high-chroma warm accent at 1.77% of the tile on an otherwise cool
