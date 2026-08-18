@@ -1,4 +1,4 @@
-# EVALS — what was measured, and what was not
+# EVALS: what was measured, and what was not
 
 Written for someone deciding whether to trust this skill, not for someone who already
 believes it. The numbers below are small. They are reported with their limits attached,
@@ -42,11 +42,11 @@ instructions. Prompts and outputs are in `evals/runs/`.
 
 | Task | Register | Arm | Hard failures | Advisories | Non-empty lines |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `reply` — is this retry logic idempotent? | no skill | 0 | 1 | 5 |
+| 1 | `reply`, is this retry logic idempotent? | no skill | 0 | 1 | 5 |
 | 1 | | **skill** | **0** | **0** | **2** |
-| 2 | `skill` — write a SKILL.md section on checking UI states | no skill | **1** | 2 | 52 |
+| 2 | `skill`, write a SKILL.md section on checking UI states | no skill | **1** | 2 | 52 |
 | 2 | | **skill** | **0** | 3 | **23** |
-| 3 | `report` — report on this work | no skill | **1** | 3 | 20 |
+| 3 | `report`, report on this work | no skill | **1** | 3 | 20 |
 | 3 | | **skill** | **0** | **0** | **3** |
 | **Total** | | no skill | **2** | 6 | 77 |
 | | | **skill** | **0** | **3** | **28** |
@@ -94,7 +94,7 @@ Recorded because a gate that never fired is not evidence that it works.
    `(e.g., <context>, <task>)`; two files had `(e.g. <context>, <task>)`. `verify_quotes.py`
    found it. A sibling skill in this repository previously shipped three of its own sentences
    attributed to Google, which is why that script exists.
-2. **Five citations whose words were the source's but whose sentence boundaries were mine** —
+2. **Five citations whose words were the source's but whose sentence boundaries were mine**:
    a bolded heading joined to its bullet body with punctuation I added. Rewritten to quote
    contiguous runs, with elisions marked.
 3. **An unmeasurable qualifier in the skill's own worked example** ("it is reasonable to say so
@@ -170,7 +170,7 @@ not happen.
 
 ---
 
-## Referrals — who decided what, when the user was not asked
+## Referrals: who decided what, when the user was not asked
 
 Recorded because a skipped checkpoint that leaves no trace reads afterwards as a checkpoint that
 passed.

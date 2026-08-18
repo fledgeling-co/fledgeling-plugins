@@ -6,6 +6,13 @@
   <strong>Get what you just worked out written up, with the receipts still attached.</strong>
 </p>
 
+<p align="center">
+  <img alt="Version 2.1.0" src="https://img.shields.io/badge/version-2.1.0-D33C21">
+  <img alt="SWE skill: reporting" src="https://img.shields.io/badge/SWE_skill-reporting-434A55">
+  <img alt="Structural checks: 19 of 19" src="https://img.shields.io/badge/structural_checks-19_of_19-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 ---
 
 You spend two hours in a session getting to the bottom of something. You
@@ -59,6 +66,13 @@ on a one-page document spends half the document on a title.
 Note: the short version is *derived* from the same ledger as the long one,
 never summarised from it. Two documents disagreeing about the finding is
 the thing that arrangement exists to prevent.
+
+## Install
+
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install report@fledgeling-plugins
+```
 
 ## The bits that took the most work
 
@@ -191,3 +205,13 @@ errors.
 
 Both are built to fail loudly. A gate that can't fail looks exactly like
 one that passes.
+
+## Does it actually work
+
+Three tasks, run with the skill and again with no skill at all, nineteen
+mechanical checks each. The full write-up is in [EVALS.md](EVALS.md),
+including the part that isn't flattering: on the analysis itself the
+no-skill runs did just as well, and the checks that separated the two are
+the ones about provenance and structure rather than reasoning. The numbers
+there were measured on version 2.0, and the file says which 2.1 additions
+have not been through the harness yet.

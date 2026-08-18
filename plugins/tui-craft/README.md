@@ -4,6 +4,13 @@
 
 # tui-craft
 
+<p align="center">
+  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
+  <img alt="SWE skill: terminal UI" src="https://img.shields.io/badge/SWE_skill-terminal_UI-434A55">
+  <img alt="Corpus: 48 shipped applications" src="https://img.shields.io/badge/corpus-48_applications-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 Design, mock, build and review terminal interfaces against what a terminal
 actually draws, not against the code or the drawing that meant to draw it.
 
@@ -134,7 +141,7 @@ should: the 899 lines under `docs/deep-research/` are the raw research reports
 that the two `references/evidence.md` files were written from, and
 `docs/corpus-analysis.md` is the app index that makes every "Observed: `<app>`"
 claim in the pattern catalogue falsifiable. They sit outside the skill-loading
-path deliberately — they cost install weight and zero context — and they are there
+path deliberately (they cost install weight and zero context) and they are there
 so a claim can be checked against its source, not so anyone reads them front to
 back.
 
@@ -186,7 +193,7 @@ to fail: role budget, rail concentration, panel fill, chrome share. The corpus i
 role under 3:1. It is evidence about what ships, not an authority on contrast.
 
 `assets/example-failing.json` is there to be run. It is a *spec*, so compile it
-first — the design gates read a frame, and handing them a spec is a `KeyError`,
+first: the design gates read a frame, and handing them a spec is a `KeyError`,
 not a failed gate:
 
 ```bash
@@ -210,7 +217,7 @@ It's also not for web or desktop GUI work.
 
 ```
 /plugin marketplace add fledgeling-co/fledgeling-plugins
-/plugin install tui-craft
+/plugin install tui-craft@fledgeling-plugins
 ```
 
 One install brings both skills. `tui_mock.py` imports its cell arithmetic from
@@ -228,7 +235,7 @@ confidence.
 `tui_gates.py --self-test` is the same idea one layer up: it drives each
 arithmetic gate against in-code fixtures that should trip it and frames that
 should not, so a gate that has stopped firing is caught before it reports a clean
-frame. Both self-tests must exit 0 — the capture one buys trust in the parser, the
+frame. Both self-tests must exit 0: the capture one buys trust in the parser, the
 gates one buys trust in the findings.
 
 ## Evals

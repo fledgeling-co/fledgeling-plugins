@@ -61,6 +61,13 @@ On top sits a **dialects layer**, because the same rule needs different phrasing
 
 Every rule carries a marker naming its evidence: a quoted line of Anthropic guidance, a quoted line of Google's, a recorded measurement, or the bundled AI-writing field guide. **82 of those quotes verify verbatim against the source documents**, checked by a script rather than by eye, because a sibling skill in this repo once shipped three of its own sentences inside quotation marks attributed to Google.
 
+## Install
+
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install agent-voice@fledgeling-plugins
+```
+
 ## How to use it
 
 Install the plugin, then just work. It fires when someone wants agent output to read better, or before writing an instruction file another model will execute.
@@ -86,7 +93,7 @@ python3 scripts/agent_voice_lint.py --self-test     # 18 fixtures
 
 ### Making it the default
 
-Installing makes it available. To make it the standing rule for everything an agent writes, put the routing in your **user-scoped `CLAUDE.md`** (or `AGENTS.md`, for harnesses that read that instead) — it loads into every session, so the routing is decided before the first reply rather than remembered halfway through one. Paste this:
+Installing makes it available. To make it the standing rule for everything an agent writes, put the routing in your **user-scoped `CLAUDE.md`** (or `AGENTS.md`, for harnesses that read that instead); it loads into every session, so the routing is decided before the first reply rather than remembered halfway through one. Paste this:
 
 ```text
 Update my user-scoped CLAUDE.md (or AGENTS.md) so agent-voice is the default for
@@ -116,7 +123,7 @@ on every turn. Keep it out of files, commit messages, PR bodies, code, comments
 and anything written for another agent.
 ```
 
-A missing emoji on the next reply means the file did not load. The file-only exclusion is what makes it a probe rather than a decoration — it also proves the session can tell a conversation from a deliverable, which is the same distinction every register in this skill turns on.
+A missing emoji on the next reply means the file did not load. The file-only exclusion is what makes it a probe rather than a decoration. It also proves the session can tell a conversation from a deliverable, which is the same distinction every register in this skill turns on.
 
 ## What it refuses to do
 

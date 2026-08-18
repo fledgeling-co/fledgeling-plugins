@@ -20,9 +20,9 @@ A run held to a finish line by gates it can actually fail, and the sibling of <a
 
 A long run needs two things the conversation cannot give it: something that decides at the end of every turn whether the work is actually done, and something that notices when a turn stops ending at all. Claude Code ships `/goal`, which is neither.
 
-Setting a goal registers **one session-scoped prompt Stop hook** whose entire text is your condition, capped at **4,000 characters**. After every turn a small fast model reads the transcript and answers yes or no. That model runs no commands and opens no files. It judges what the run *said*, not what is true — and "all screens now match the mock" reads as a pass.
+Setting a goal registers **one session-scoped prompt Stop hook** whose entire text is your condition, capped at **4,000 characters**. After every turn a small fast model reads the transcript and answers yes or no. That model runs no commands and opens no files. It judges what the run *said*, not what is true, and "all screens now match the mock" reads as a pass.
 
-Then there's the part that ends the run without saying so. **Claude Code overrides any Stop hook after 8 consecutive blocks**, and reports that turn as `completed`. Nine turns of real work is enough. There's a second silent exit: the evaluator can return an `impossible` verdict, which clears the goal outright. And a goal changes no permissions, so in the default permission mode an unallowed tool call sits waiting — which from outside looks exactly like a model that gave up.
+Then there's the part that ends the run without saying so. **Claude Code overrides any Stop hook after 8 consecutive blocks**, and reports that turn as `completed`. Nine turns of real work is enough. There's a second silent exit: the evaluator can return an `impossible` verdict, which clears the goal outright. And a goal changes no permissions, so in the default permission mode an unallowed tool call sits waiting, which from outside looks exactly like a model that gave up.
 
 This skill was built from 114 real `/goal` invocations across 13 projects between June and August 2026. What people typed straight afterwards is the evidence:
 
@@ -37,9 +37,9 @@ And `/goal /create-fleet-goal`, typed 13 times, which sets the condition to the 
 
 It arms its own mechanism rather than borrowing one. Two pieces, both created here:
 
-**A `command` Stop hook** — `guard.sh` — which runs your gate commands at the end of every turn and decides on exit codes. If they pass, the turn ends and the run is over. If they fail, it blocks with the failing gate, its output, the iteration count, the remaining budget and the path to the brief. That reason text becomes the run's next instruction, so it is written as one.
+**A `command` Stop hook** (`guard.sh`), which runs your gate commands at the end of every turn and decides on exit codes. If they pass, the turn ends and the run is over. If they fail, it blocks with the failing gate, its output, the iteration count, the remaining budget and the path to the brief. That reason text becomes the run's next instruction, so it is written as one.
 
-**A stall watcher** — `watch.sh` under `Monitor` — for the failure the guard structurally cannot see. A guard fires when a turn *ends*; a run wedged on a permission prompt at 3am never ends one, so no hook runs and nothing is reported. The watcher reads the ledger's timestamp from outside and emits a line when it goes stale, which wakes the session.
+**A stall watcher** (`watch.sh` under `Monitor`) for the failure the guard structurally cannot see. A guard fires when a turn *ends*; a run wedged on a permission prompt at 3am never ends one, so no hook runs and nothing is reported. The watcher reads the ledger's timestamp from outside and emits a line when it goes stale, which wakes the session.
 
 It stops at arming. It does not start the work; the armed run does that.
 
@@ -65,12 +65,12 @@ It stops at arming. It does not start the work; the armed run does that.
 
 ### Stop when the failure stops changing
 
-The defect that costs the most is not a run that stops early. It is a run that does not stop at all, re-sending the same six failing tasks turn after turn and re-paying the whole session prefix each time — 91% of the input in the heaviest sessions measured.
+The defect that costs the most is not a run that stops early. It is a run that does not stop at all, re-sending the same six failing tasks turn after turn and re-paying the whole session prefix each time: 91% of the input in the heaviest sessions measured.
 
-So the guard fingerprints the failing set. The first failure blocks with the full output. An identical second failure blocks with the output **withheld** — it is already in the context, verbatim, from last turn — and asks for a different approach instead. An identical third disarms the run and says why:
+So the guard fingerprints the failing set. The first failure blocks with the full output. An identical second failure blocks with the output **withheld** (it is already in the context, verbatim, from last turn) and asks for a different approach instead. An identical third disarms the run and says why:
 
 ```text
-better-goal: backlog: identical failure ×3 — disarmed as stuck
+better-goal: backlog: identical failure ×3, disarmed as stuck
 ```
 
 The threshold is `stuck_after`, default 3. A run that is making progress never reaches it, because the fingerprint moves.
@@ -114,7 +114,7 @@ Once armed, `scripts/status.sh` answers "is it still going" from the ledger, and
 
 **Never arm past a failed preflight.** A run that stalls on a permission prompt at 3am looks exactly like a run that finished.
 
-**Every run is bounded** — iterations, a deadline, and a repeat count, all in the state file, so it ends on your terms rather than on the block cap's.
+**Every run is bounded**: iterations, a deadline, and a repeat count, all in the state file, so it ends on your terms rather than on the block cap's.
 
 **A wake carries new information or it does not happen.** Re-sending output already in the context is the expensive failure, not a safe default.
 

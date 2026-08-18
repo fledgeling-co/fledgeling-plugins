@@ -4,45 +4,52 @@
 
 # resume-session
 
+<p align="center">
+  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="SWE skill: session recovery" src="https://img.shields.io/badge/SWE_skill-session_recovery-434A55">
+  <img alt="CLI platforms: 5" src="https://img.shields.io/badge/CLI_platforms-5-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 **The multi-model handover skill for agentic coding.**
 
-When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, token window exhaustion, or your weekly quota on Claude Opus 5), you should not have to wait hours or start from scratch. You switch to another model or CLI — Antigravity (AGY), Codex, Cursor, Grok, or Claude Sonnet — and keep building.
+When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, token window exhaustion, or your weekly quota on Claude Opus 5), you should not have to wait hours or start from scratch. You switch to another model or CLI, such as Antigravity (AGY), Codex, Cursor, Grok, or Claude Sonnet, and keep building.
 
 The problem is that the new model starts completely blind. It spends thousands of tokens re-reading files you already modified, re-asking questions you answered an hour ago, guessing at database configs, and re-writing plans from zero.
 
-`resume-session` eliminates that handover penalty. It scans your local machine to discover sessions across all major AI coding CLIs, parses their exact transcripts on disk, extracts the **6-dimensional takeover state**, and hands the incoming agent a complete continuity briefing so it immediately picks up execution where the last model stopped.
+`resume-session` moves that rediscovery off the model and onto your own machine. It scans for sessions across the CLIs listed below, parses their transcripts on disk, extracts six things the incoming agent would otherwise have to work out for itself, and hands it a written briefing to start from.
 
 ---
 
-## The Cross-Model Takeover Workflow
+## The cross-model takeover workflow
 
 ```mermaid
 graph LR
     A[Claude Opus 5<br><i>Hits Rate / Token Limit</i>] -->|Transcript saved to disk| B[find_session.py]
-    B -->|Extract 6D Takeover State| C[Takeover Briefing]
+    B -->|Extract the takeover state| C[Takeover Briefing]
     C -->|Zero rediscovery| D[Antigravity / Codex / Cursor / Grok<br><i>Resumes Active Task Instantly</i>]
 ```
 
 ---
 
-## What It Recovers: The 6D Takeover State
+## What it recovers
 
-Every resumed session is distilled into six concrete vectors:
+Every resumed session is distilled into six concrete things:
 
-1. **Session Identity & Provenance**: UUID, source CLI, model that hit limits, git branch, and exact active timestamps.
-2. **Initial Goal & Intent**: The verbatim initial user prompt, target scope, and linked plan/goal docs.
-3. **Terminal State & Errors**: The exact reason the run stopped (429 rate limit, 503 reserve cap, compaction boundary, interrupted turn) plus the last assistant thought.
-4. **Modified Files & Artifacts**: The full ledger of created, edited, and deleted files, avoiding duplicate work.
-5. **Technical Config & Keys**: Apple Team IDs, Bundle IDs, OAuth client IDs, port numbers, and database connection settings found during the run.
-6. **Immediate Next Steps**: A concrete, numbered checklist for the incoming agent to verify workspace status and continue active work immediately.
+1. **Session identity and provenance**: UUID, source CLI, model that hit limits, git branch, and exact active timestamps.
+2. **Initial goal and intent**: The verbatim initial user prompt, target scope, and linked plan/goal docs.
+3. **Terminal state and errors**: The exact reason the run stopped (429 rate limit, 503 reserve cap, compaction boundary, interrupted turn) plus the last assistant thought.
+4. **Modified files and artifacts**: The full ledger of created, edited, and deleted files, avoiding duplicate work.
+5. **Technical config and keys**: Apple Team IDs, Bundle IDs, OAuth client IDs, port numbers, and database connection settings found during the run.
+6. **Immediate next steps**: A concrete, numbered checklist for the incoming agent to verify workspace status and continue active work immediately.
 
 ---
 
-## Universal Multi-CLI Discovery
+## Universal multi-CLI discovery
 
 `resume-session` includes a standalone, pure Python 3 discovery engine (`find_session.py`) that indexes sessions across your entire environment:
 
-| CLI Platform | Transcripts Discovered | Supported Formats |
+| CLI platform | Transcripts discovered | Supported formats |
 | :--- | :--- | :--- |
 | **Claude Code** | `~/.claude/projects/<slug>/*.jsonl`<br>`~/.claude/sessions/`<br>`<repo>/.claude/` | JSONL turns, tool invocations, `aiTitle`, `cwd`, branch |
 | **Antigravity (AGY)** | `~/.gemini/antigravity-cli/brain/<uuid>/` | Multi-agent step transcripts, tool calls, checkpoints, plans |
@@ -53,9 +60,29 @@ Every resumed session is distilled into six concrete vectors:
 
 ---
 
-## Quick Start
+## Install
 
-### 1. Find Recent Sessions Across All CLIs
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install resume-session@fledgeling-plugins
+```
+
+---
+
+## Does it actually work
+
+Six structural evals across the five CLI platforms, run against a no-skill
+baseline and against the predecessor skill, are written up in
+[EVALS.md](EVALS.md). Read the caveat at the top of that file before quoting
+any of its numbers: the timing and cost figures come from informal observation
+during development rather than from a harness, and that file names the runs
+that would settle them.
+
+---
+
+## Quick start
+
+### 1. Find recent sessions across all CLIs
 
 ```bash
 # Show the 5 most recent sessions across any CLI on your Mac
@@ -77,7 +104,7 @@ Output:
     Prompt:      "Determine whether the work from the Spreadsheet improvements..."
 ```
 
-### 2. Search by Project Name or Keyword
+### 2. Search by project name or keyword
 
 ```bash
 # Find sessions matching a keyword or project
@@ -89,10 +116,10 @@ python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --c
 python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --cli claude --path ~/Dev/my-app
 ```
 
-### 3. Generate a Complete Takeover Briefing
+### 3. Generate a complete takeover briefing
 
 ```bash
-# Print detailed 6D handover report to the terminal
+# Print the detailed handover report to the terminal
 python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --id daaf6175 --details
 
 # Export to a markdown file for the next agent
@@ -104,7 +131,7 @@ python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --i
 
 ---
 
-## Anatomy of a Takeover Handover
+## Anatomy of a takeover handover
 
 Here is what the generated briefing looks like:
 
@@ -155,7 +182,7 @@ The session modified 4 files:
 
 ---
 
-## Command-Line Reference
+## Command-line reference
 
 ```text
 usage: find_session.py [-h] [--name NAME] [--id ID] [--cli {all,claude,agy,cursor,codex,grok,repo}]

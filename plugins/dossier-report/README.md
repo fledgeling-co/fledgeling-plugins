@@ -6,6 +6,13 @@
   <strong>Ask a question. Get a published page that can prove what it says.</strong>
 </p>
 
+<p align="center">
+  <img alt="Version 2.2.0" src="https://img.shields.io/badge/version-2.2.0-1c7889">
+  <img alt="Structural evals: 31 of 31" src="https://img.shields.io/badge/structural_evals-31_of_31-ee7027">
+  <img alt="Blind panel: 2 judge families" src="https://img.shields.io/badge/blind_panel-2_judge_families-5cc7d6">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
+</p>
+
 ---
 
 You run deep research on something. Five backends come back with a few
@@ -128,9 +135,9 @@ hover, focus or active state.
 
 ## Install
 
-```
+```text
 /plugin marketplace add fledgeling-co/fledgeling-plugins
-/plugin install dossier-report
+/plugin install dossier-report@fledgeling-plugins
 ```
 
 Then just ask:

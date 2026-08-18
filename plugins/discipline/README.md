@@ -4,6 +4,13 @@
 
 **Stop an agent buying cheap tokens with worse work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
 
+<p align="center">
+  <img alt="Version 4.1.0" src="https://img.shields.io/badge/version-4.1.0-1c7889">
+  <img alt="Block size: 220 tokens" src="https://img.shields.io/badge/block_size-220_tokens-ee7027">
+  <img alt="Benchmark: 106 paired tasks" src="https://img.shields.io/badge/benchmark-106_paired_tasks-5cc7d6">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
+</p>
+
 
 ## The problem
 
@@ -92,7 +99,7 @@ where it is thinner.
 ## Honest limits
 
 - **It has not been shown to save money.** On a 106-task arm it scored level with no block at all (61.6% against 63.3%, p = 0.90) and cost 32.6% more. The quality half of the claim is measured and holds; the saving half is not, and that arm ran one sample per task against the baseline's two, so the cost figure is unresolved rather than settled. Read [EVALS.md](EVALS.md) before switching it on expecting a lower bill.
-- **The prize is small, and that is now measured rather than assumed.** An independent study of 2,848 Claude Code runs puts generated output at **10.4% of the actual bill** — cache reads and cache writes are about 80% of it — and finds that the share of input cost any user-side layer can reach at all is roughly 5 to 6%. So a 16% output cut is worth low single digits of total spend at the very best. This skill used to assume 14% with nothing behind it; the real number is smaller.
+- **The prize is small, and that is now measured rather than assumed.** An independent study of 2,848 Claude Code runs puts generated output at **10.4% of the actual bill** (cache reads and cache writes are about 80% of it) and finds that the share of input cost any user-side layer can reach at all is roughly 5 to 6%. So a 16% output cut is worth low single digits of total spend at the very best. This skill used to assume 14% with nothing behind it; the real number is smaller.
 - **A bigger study found the same trap this one did.** That paper is called *Token Reduction Is Not Cost Reduction*, and its heaviest compression arm cut delivered tokens by 38% while the bill went **up** 6.8%. Its correlation between tokens saved and money saved was statistically indistinguishable from zero. That is the same shape as this skill's own result, from another lab at 27 times the scale.
 - Whether this block beats its own previous version is not measured either.
 - **It needs somewhere cached to live.** The block only pays for itself inside a cached system prefix. Without an injection point it costs full price on every turn, forever, to deliver instructions about spending less, so the right answer with no injection point is not to install it.
@@ -101,7 +108,8 @@ where it is thinner.
 
 ## Install
 
-```
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
 /plugin install discipline@fledgeling-plugins
 ```
 

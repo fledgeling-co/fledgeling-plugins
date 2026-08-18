@@ -4,6 +4,13 @@
 
 # mac-doctor
 
+<p align="center">
+  <img alt="Version 1.0.3" src="https://img.shields.io/badge/version-1.0.3-D33C21">
+  <img alt="SWE skill: maintenance" src="https://img.shields.io/badge/SWE_skill-maintenance-434A55">
+  <img alt="Cadences: 5" src="https://img.shields.io/badge/cadences-5-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 Your Mac didn't fill up because of one thing. It filled up because a hundred sensible defaults each left something behind, and nothing was counting.
 
 Claude keeps every transcript. Dev servers leave build output. Docker holds volumes for containers you stopped weeks ago. Xcode keeps DerivedData for a project you haven't opened since March. Every one of those is the right default on its own. Together they took a terabyte off my machine, and I found out when a build died at 2am with `No space left on device`.
@@ -32,9 +39,9 @@ What each run may do on its own widens as the gap between runs grows. A 15-minut
 
 **Running low doesn't unlock anything.** When the disk gets tight it runs the bigger jobs sooner and puts the pending suggestions in front of you. It doesn't start deleting things it would normally ask about; a nearly-full disk is exactly when a mistake is hardest to undo.
 
-**A process is never killed on first sight.** One `ps` reading can't tell a spin loop from a build — both show 100%. So a runaway has to turn up on three separate runs, at least half an hour apart, before anything is signalled; what's being watched sits in `~/.claude/mac-doctor/watchlist.tsv` and a process that settles down drops off it. Only two things get reaped unattended: something orphaned that's been pegging a core, and a leaked automation browser tree. A hundred idle orphans get reported and left alone, because from outside they look exactly like another job's workers.
+**A process is never killed on first sight.** One `ps` reading can't tell a spin loop from a build; both show 100%. So a runaway has to turn up on three separate runs, at least half an hour apart, before anything is signalled; what's being watched sits in `~/.claude/mac-doctor/watchlist.tsv` and a process that settles down drops off it. Only two things get reaped unattended: something orphaned that's been pegging a core, and a leaked automation browser tree. A hundred idle orphans get reported and left alone, because from outside they look exactly like another job's workers.
 
-If you're deliberately generating load, say so — drop a line of `pid`, expiry, label into `~/.claude/mac-doctor/instruments/` and it'll be left alone until the stamp passes. Past it, the same declaration is what marks it as stranded.
+If you're deliberately generating load, say so: drop a line of `pid`, expiry, label into `~/.claude/mac-doctor/instruments/` and it'll be left alone until the stamp passes. Past it, the same declaration is what marks it as stranded.
 
 ## It refuses more than it deletes
 
