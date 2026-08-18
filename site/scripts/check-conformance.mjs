@@ -104,6 +104,22 @@ const DEBT = [
     }),
   ),
   {
+    plugin: "report", dimension: "banner", since: "2026-08-18",
+    why: "Its banner has no icon at all. The right side is a related illustration of document cards rather than the icon tile every sibling carries beside its wordmark, so brand-and-docs' \"the real icon asset beside a set wordmark\" is unmet by composition rather than by a stale render. Fixing it is a layout change, not a re-render, so it is owed a deliberate pass.",
+  },
+  {
+    plugin: "create-test-suite", dimension: "banner", since: "2026-08-18",
+    why: "3200x840 from a 1600x420 layout against the family's 520, and its wordmark is set in Iowan Old Style with no web font linked, so it is unreproducible on another machine. Both need a recomposition at the family height rather than a re-render, and squeezing that in beside nine icon commissions is how the 420 got there.",
+  },
+  {
+    plugin: "resume-session", dimension: "banner", since: "2026-08-18",
+    why: "Rendered at 1600x520, which is the layout size at deviceScaleFactor 1, so it is half resolution and soft on every retina display. A straight re-render at scale 2 is most of the fix, but its composition also runs the wordmark into the decorative swoosh, so it wants a look rather than a command.",
+  },
+  {
+    plugin: "whats-left", dimension: "banner", since: "2026-08-18",
+    why: "3200x840 like create-test-suite, wordmark in Iowan Old Style with nothing linked, and its icon is being rebuilt as this list is written, so the banner would be stale the moment it was rendered. Owed once the icon lands.",
+  },
+  {
     plugin: "geminify", dimension: "banner", since: "2026-08-18",
     why: "Sets its wordmark in Rockwell, a local face, on purpose. Its assets/build_banner.py records the reason: it renders through rsvg, which resolves system fonts and ignores webfonts, the reverse of the browser here. Unlike the other two the web-font check catches, it ships assert_font_resolves() and a dotless-i comparison, so a missing Rockwell fails loudly instead of silently substituting. Machine-dependent with a guard is a different thing from machine-dependent by accident.",
   },
