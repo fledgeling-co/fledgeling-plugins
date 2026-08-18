@@ -60,6 +60,14 @@ Look at a screenshot and say what it actually shows. Validates a UI capture agai
 
 <br clear="left" />
 
+<a href="plugins/mockup-fidelity/README.md"><img src="plugins/mockup-fidelity/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [mockup-fidelity](plugins/mockup-fidelity/README.md)
+
+Does the built screen actually match the mock? Measures the rendered tree rather than eyeballing a screenshot or reading the source, treats the mock as the authority, and inverts the burden of proof so a difference is a defect until a citation proves it deliberate. Every element of the mock ends up in one of three states, present, divergent or absent, so a ledger of agreements cannot hide the thing nobody looked at. It also refuses to certify a property the engine cannot measure: a preflight proves each detector class can run, and a class that cannot is reported inconclusive with its reason rather than counted as a match. On this machine all nine classes are silenced by the browser engine, which its own EVALS.md says out loud.
+
+<br clear="left" />
+
 <a href="plugins/tui-craft/README.md"><img src="plugins/tui-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [tui-craft](plugins/tui-craft/README.md)

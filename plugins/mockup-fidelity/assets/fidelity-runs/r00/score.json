@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4e2ac1-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r00 baseline: Engine A first material draft",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0725,
+      "ssim": 0.8415,
+      "edge_f1": 0.0813,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.5827,
+      "ref_self_contrast": 0.5635,
+      "composite": 0.6054
+    },
+    "256": {
+      "lum_delta": 0.0723,
+      "ssim": 0.7528,
+      "edge_f1": 0.1813,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.5833,
+      "ref_self_contrast": 0.5638,
+      "composite": 0.5952
+    },
+    "128": {
+      "lum_delta": 0.0722,
+      "ssim": 0.7091,
+      "edge_f1": 0.6451,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.5832,
+      "ref_self_contrast": 0.5624,
+      "composite": 0.6938
+    },
+    "32": {
+      "lum_delta": 0.0691,
+      "ssim": 0.736,
+      "edge_f1": 0.9464,
+      "mask_iou": 1.0,
+      "self_contrast": 0.5633,
+      "ref_self_contrast": 0.5622,
+      "composite": 0.8738
+    },
+    "16": {
+      "lum_delta": 0.0669,
+      "ssim": 0.7448,
+      "edge_f1": 0.984,
+      "mask_iou": 1.0,
+      "self_contrast": 0.5766,
+      "ref_self_contrast": 0.5607,
+      "composite": 0.8905
+    }
+  },
+  "render_hash": "a3304da375d4f621"
+}

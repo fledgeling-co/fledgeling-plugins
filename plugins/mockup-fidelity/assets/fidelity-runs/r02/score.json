@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4e2ac1-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r02 material: perimeter bevel evened to C1's continuous transmitted edge, top rim cooled",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0686,
+      "ssim": 0.8426,
+      "edge_f1": 0.1099,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.6082,
+      "ref_self_contrast": 0.5635,
+      "composite": 0.6185
+    },
+    "256": {
+      "lum_delta": 0.0684,
+      "ssim": 0.7607,
+      "edge_f1": 0.2952,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.6085,
+      "ref_self_contrast": 0.5638,
+      "composite": 0.6323
+    },
+    "128": {
+      "lum_delta": 0.0686,
+      "ssim": 0.7216,
+      "edge_f1": 0.6626,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.6138,
+      "ref_self_contrast": 0.5624,
+      "composite": 0.7083
+    },
+    "32": {
+      "lum_delta": 0.0658,
+      "ssim": 0.7518,
+      "edge_f1": 0.9525,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6088,
+      "ref_self_contrast": 0.5622,
+      "composite": 0.8818
+    },
+    "16": {
+      "lum_delta": 0.0653,
+      "ssim": 0.7587,
+      "edge_f1": 0.9741,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6019,
+      "ref_self_contrast": 0.5607,
+      "composite": 0.8914
+    }
+  },
+  "render_hash": "95503317e4b4db1f"
+}

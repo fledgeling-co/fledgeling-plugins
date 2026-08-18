@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-4e2ac1-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r01 material: gel body deepened, dominant axis vertical per C1, transmitted rim on all edges, hotter seam core",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.0687,
+      "ssim": 0.842,
+      "edge_f1": 0.1044,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.609,
+      "ref_self_contrast": 0.5635,
+      "composite": 0.6167
+    },
+    "256": {
+      "lum_delta": 0.0685,
+      "ssim": 0.7608,
+      "edge_f1": 0.3067,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.6096,
+      "ref_self_contrast": 0.5638,
+      "composite": 0.6351
+    },
+    "128": {
+      "lum_delta": 0.0687,
+      "ssim": 0.7214,
+      "edge_f1": 0.6647,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.6141,
+      "ref_self_contrast": 0.5624,
+      "composite": 0.7086
+    },
+    "32": {
+      "lum_delta": 0.0659,
+      "ssim": 0.7514,
+      "edge_f1": 0.9525,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6094,
+      "ref_self_contrast": 0.5622,
+      "composite": 0.8817
+    },
+    "16": {
+      "lum_delta": 0.0652,
+      "ssim": 0.759,
+      "edge_f1": 0.9902,
+      "mask_iou": 1.0,
+      "self_contrast": 0.6019,
+      "ref_self_contrast": 0.5607,
+      "composite": 0.8972
+    }
+  },
+  "render_hash": "945f627a4198de04"
+}
