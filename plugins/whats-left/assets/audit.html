@@ -1,52 +1,129 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>whats-left — icon audit</title>
+<!--
+  Contact sheet for the `whats-left` icon commission, written from
+  create-mac-icon/assets/icon-audit-template.html. Gated by
+  `python3 .../scripts/audit_sheet.py check plugins/whats-left/assets`.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>whats-left icon — contact sheet &amp; audit</title>
 <style>
-:root{color-scheme:dark}
-body{margin:0;background:#0B1418;color:#E6F0F2;font:15px/1.5 -apple-system,system-ui,sans-serif;padding:2.5rem 1.25rem 4rem}
-main{max-width:86rem;margin:0 auto}
-h1{font-size:1.6rem;margin:0 0 .3rem}
-p.sub{color:#7FA0AA;margin:0 0 2rem;max-width:46rem}
-.sheet{overflow-x:auto;border:1px solid #1D2E34;border-radius:6px}
-table{border-collapse:collapse;min-width:58rem;width:100%}
-caption{text-align:left;padding:.9rem 1rem;color:#7FA0AA;font-size:.85rem;border-bottom:1px solid #1D2E34}
-th,td{padding:.85rem .7rem;text-align:center;vertical-align:middle;border-bottom:1px solid #16252A}
-thead th{color:#7FA0AA;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-th[scope=row]{text-align:left;width:13rem}
-th[scope=row] img{display:block;border-radius:9px;margin-bottom:.45rem}
-th[scope=row] span{display:block;font-weight:600;font-size:.9rem}
-th[scope=row] b{display:block;color:#7FA0AA;font-weight:600;font-size:.8rem;margin-top:.2rem}
-td.v{text-align:left;color:#B9CCD2;font-size:.82rem;width:22rem;line-height:1.45}
-img{image-rendering:auto}
-.px{image-rendering:pixelated;border:1px solid #1D2E34}
-tr.recommended{background:#10222A}
-tr.recommended th[scope=row] span::after{content:" ▸ ships";color:#E0854F;font-weight:700}
-.rec{margin:2rem 0 0;border-left:2px solid #E0854F;padding:.2rem 0 .2rem 1rem;color:#B9CCD2;max-width:52rem}
-.rec b{color:#E6F0F2}
-</style></head><body><main>
-<h1>whats-left — icon audit</h1>
-<p class="sub">Direction 2, sub-register (a): porcelain cushion + gel objects, in the fledgeling-plugins house palette sampled out of <code>clarify</code> and <code>report</code>. Four takes across three engines; losers stay in with their scores.</p>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 1360px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 430px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .measure { margin-top: 22px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measure table { min-width: 620px; }
+  .measure caption { text-align: left; padding: 0 14px 8px; color: #7fa0aa; }
+  .measure td, .measure th { padding: 8px 14px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>whats-left icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Open Crown" — Tahoe gel-glass, porcelain sub-register: a toy-scale stone gateway whose keystone is out of its housing and held clear above it, aligned. One shared spec, three engines, every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The icon this replaces measured 0.075 16px luminance contrast against a sibling median of 0.199 (n=35), and spent its accent on a 0.5% dot.</div>
+
 <div class="sheet"><table>
-<caption>Sources are rendered at 2× and shown at half size. The final column magnifies the 32px render six times without smoothing — the squint test.</caption>
-<thead><tr><th scope="col">Take</th><th scope="col">128px</th><th scope="col">64px</th><th scope="col">48px</th><th scope="col">32px</th><th scope="col">16px</th><th scope="col">32px ×6</th><th scope="col">Verdict</th></tr></thead>
-<tbody>
-<tr class="recommended">
-  <th scope="row"><img src="audit-renders/master-1024.png" width="96" height="96" alt="Engine A — hand-authored SVG master at full size"><span>Engine A — hand-authored SVG master</span><b>11/12</b></th>
-  <td><img src="audit-renders/master-256.png" width="128" height="128" alt="Engine A — hand-authored SVG master at 128 css px"></td><td><img src="audit-renders/master-128.png" width="64" height="64" alt="Engine A — hand-authored SVG master at 64 css px"></td><td><img src="audit-renders/master-96.png" width="48" height="48" alt="Engine A — hand-authored SVG master at 48 css px"></td><td><img src="audit-renders/master-64.png" width="32" height="32" alt="Engine A — hand-authored SVG master at 32 css px"></td><td><img src="audit-renders/master-32.png" width="16" height="16" alt="Engine A — hand-authored SVG master at 16 css px"></td><td><img class="px" src="audit-renders/master-32.png" width="192" height="192" alt="Engine A — hand-authored SVG master, 32px render magnified six times"></td>
-  <td class="v">Ships. The stack thins upward and the one standing card carries the only saturated colour on the tile, so the read survives to 16px as shape-and-value rather than as hue. Known liability: the tick marks are a 128px-and-up detail and are gone by 32 — deliberate, since the bars carry the identity without them.</td>
-</tr><tr class="">
-  <th scope="row"><img src="audit-renders/engineC-988692-masked-1024.png" width="96" height="96" alt="Engine C — Gemini 3 Pro raster, family squircle applied at full size"><span>Engine C — Gemini 3 Pro raster, family squircle applied</span><b>9/12</b></th>
-  <td><img src="audit-renders/engineC-988692-masked-256.png" width="128" height="128" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 128 css px"></td><td><img src="audit-renders/engineC-988692-masked-128.png" width="64" height="64" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 64 css px"></td><td><img src="audit-renders/engineC-988692-masked-96.png" width="48" height="48" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 48 css px"></td><td><img src="audit-renders/engineC-988692-masked-64.png" width="32" height="32" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 32 css px"></td><td><img src="audit-renders/engineC-988692-masked-32.png" width="16" height="16" alt="Engine C — Gemini 3 Pro raster, family squircle applied at 16 css px"></td><td><img class="px" src="audit-renders/engineC-988692-masked-32.png" width="192" height="192" alt="Engine C — Gemini 3 Pro raster, family squircle applied, 32px render magnified six times"></td>
-  <td class="v">Not shipped, but it won two material arguments and both were salvaged into the master: a line of text inside each settled row, which turns blank bars into list items, and a darker bottom lip under each bar that gives the gel real extrusion. Fails #1 in its own right — it authored its own inset tile rather than going full-bleed, so the silhouette is a rounded rect floating inside the canvas.</td>
-</tr><tr class="">
-  <th scope="row"><img src="audit-renders/engineC-988692-1024.png" width="96" height="96" alt="Engine C — raster, as generated at full size"><span>Engine C — raster, as generated</span><b>7/12</b></th>
-  <td><img src="audit-renders/engineC-988692-256.png" width="128" height="128" alt="Engine C — raster, as generated at 128 css px"></td><td><img src="audit-renders/engineC-988692-128.png" width="64" height="64" alt="Engine C — raster, as generated at 64 css px"></td><td><img src="audit-renders/engineC-988692-96.png" width="48" height="48" alt="Engine C — raster, as generated at 48 css px"></td><td><img src="audit-renders/engineC-988692-64.png" width="32" height="32" alt="Engine C — raster, as generated at 32 css px"></td><td><img src="audit-renders/engineC-988692-32.png" width="16" height="16" alt="Engine C — raster, as generated at 16 css px"></td><td><img class="px" src="audit-renders/engineC-988692-32.png" width="192" height="192" alt="Engine C — raster, as generated, 32px render magnified six times"></td>
-  <td class="v">Kept for the record. Same take before masking; the baked inner tile and its own drop shadow are visible against the family silhouette, which is exactly the pre-masked-raster failure the corpus census names.</td>
-</tr><tr class="">
-  <th scope="row"><img src="audit-renders/engineB-arrow-100d38-1024.png" width="96" height="96" alt="Engine B — Arrow 1.1, independent vector take at full size"><span>Engine B — Arrow 1.1, independent vector take</span><b>5/12</b></th>
-  <td><img src="audit-renders/engineB-arrow-100d38-256.png" width="128" height="128" alt="Engine B — Arrow 1.1, independent vector take at 128 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-128.png" width="64" height="64" alt="Engine B — Arrow 1.1, independent vector take at 64 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-96.png" width="48" height="48" alt="Engine B — Arrow 1.1, independent vector take at 48 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-64.png" width="32" height="32" alt="Engine B — Arrow 1.1, independent vector take at 32 css px"></td><td><img src="audit-renders/engineB-arrow-100d38-32.png" width="16" height="16" alt="Engine B — Arrow 1.1, independent vector take at 16 css px"></td><td><img class="px" src="audit-renders/engineB-arrow-100d38-32.png" width="192" height="192" alt="Engine B — Arrow 1.1, independent vector take, 32px render magnified six times"></td>
-  <td class="v">Loses. Real vector source and clean geometry, but flat throughout: no cushion, no rim light, no contact shadow, and the value spread across the three bars is too narrow for the recede to read. Nothing salvaged.</td>
-</tr>
-</tbody></table></div>
-<p class="rec"><b>Recommendation: the Engine A master.</b> It is the only take that is full-bleed against the family silhouette, and the only one whose three settled rows carry a wide enough value spread for the recede to read below 64px. Its known liability is that the ticks vanish by 32px; that is accepted, because the identity is the thinning stack plus one standing card with a warm dial, and all three survive. Against its sibling <code>clarify</code> — three equal cards, one chosen — this reads as progress rather than as choice, which is the distinction the two skills need at marketplace size.</p>
-</main></body></html>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <colgroup><col style="width:212px"><col style="width:700px"><col style="width:74px"><col style="width:378px"></colgroup>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">master · icon.svg<small>Engine A, hand-authored layered SVG from build_icon.py — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="master hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Checks 1&ndash;4 clear on the renders: the family squircle from the shared path, ink centred at (518, 499) with margins of 161px or more, a filled-black silhouette that names itself as a gateway, and a 16px read of dark mass plus bright opening plus one warm cap that survives the shelf strip beside all 35 siblings. Figure-ground 3.13:1 by the dilated-ring measure, which is the register's hard part &mdash; the two raster takes came in at 1.75:1 and 1.98:1. One key, one Lambert term: top course 0.318 &gt; front face 0.256 &gt; right flank 0.142, and the recesses computed from the same vector, so the housing (back wall 0.167, side wall 0.130) sits below the front face rather than beside it. <strong>Docked #8, depth coherence:</strong> the housing is a stopped mortise rather than the full-depth cut a real missing keystone would leave. Painted as a through-void it read as a decanter in negative space, twice, at two tapers &mdash; the fiction buys the whole silhouette.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC-2 · icon-engineC-9aca22-2.png<small>Engine C, GPT Image 2, four corpus references &mdash; material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-2-1024.png" width="160" height="160" alt="engineC-2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-2-256.png" width="128" height="128" alt="engineC-2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-2-128.png" width="64" height="64" alt="engineC-2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-2-96.png" width="48" height="48" alt="engineC-2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-2-64.png" width="32" height="32" alt="engineC-2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-2-32.png" width="16" height="16" alt="engineC-2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-2-32.png" width="96" height="96" alt="engineC-2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The best material in the set, and the reason the master was rebuilt twice: individually dressed voussoirs with real mortar joints, a stepped plinth, matte-satin clay with a short soft contact shadow, and a keystone whose proportion reads instantly. It cannot ship. <strong>Fails #4</strong> &mdash; pale sandstone at object median luminance 0.458 on porcelain leaves 1.98:1, so at 32px the gateway is a grey smudge and by 16px only the ember wedge survives; <strong>fails #7</strong> on the same number, and <strong>#10</strong> because it is a flat pre-masked raster with no layers. Salvaged into the master: the two-course plinth, and the two-stroke mortar joint (dark groove plus a pale lip 3px up-key) that turns incised lines into separate stones.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC-1 · icon-engineC-561389.png<small>Engine C, GPT Image 2, same brief and references</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-1-1024.png" width="160" height="160" alt="engineC-1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-1-256.png" width="128" height="128" alt="engineC-1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-1-128.png" width="64" height="64" alt="engineC-1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-1-96.png" width="48" height="48" alt="engineC-1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-1-64.png" width="32" height="32" alt="engineC-1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-1-32.png" width="16" height="16" alt="engineC-1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-1-32.png" width="96" height="96" alt="engineC-1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The same object one step worse on every axis that decides the commission: paler stone still (object median 0.528, figure-ground 1.75:1, the weakest in the set), a smaller keystone at 2.37% of the tile, and a housing so shallow it reads as a chip rather than a socket. Lost to engineC-2 on accent size and on the depth of the notch, and to the master on <strong>#4</strong>, <strong>#7</strong> and <strong>#10</strong> for the same reasons. Kept on disk because it is half the evidence that the porcelain register has a figure-ground ceiling a diffusion model will always sit under.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineB-arrow · icon-engineB-arrow-1acc57.svg<small>Engine B, Arrow 1.1 vector take from the spec as brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB-arrow-1024.png" width="160" height="160" alt="engineB-arrow hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-256.png" width="128" height="128" alt="engineB-arrow at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-128.png" width="64" height="64" alt="engineB-arrow at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-96.png" width="48" height="48" alt="engineB-arrow at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-64.png" width="32" height="32" alt="engineB-arrow at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-32.png" width="16" height="16" alt="engineB-arrow at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-arrow-32.png" width="96" height="96" alt="engineB-arrow 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Converged on the same object independently, which is the useful thing it produced: three engines briefed once all drew a gateway with a socket in its crown and the wedge above, so the device reads without explanation. As an icon it loses everywhere. <strong>Fails #1</strong> &mdash; a 144.7&times;152.6 canvas with a full-bleed ground and no squircle discipline, audited letterboxed; <strong>#5</strong>, face values assigned per shape with no shared light; <strong>#7</strong> and <strong>#4</strong>, since the openings are drawn near-black voids that swallow the arch at 32px; <strong>#9</strong>, flat isometric vector, previous era; <strong>#10</strong>, no layer plan. Nothing salvaged: its socket is a rectangular hole punched in a top slab, which is the reading the master's aligned wedge exists to avoid.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship master (icon.svg), 11/12.</strong> It is the only take that clears the four non-negotiable checks, and the only one built as four real layers (bg / mid / fg / highlight) with geometry and material as named constants, so the banner can be derived from it and a later round is a parameter edit. Its 16px luminance contrast is 0.277 against a sibling median of 0.199 (n=35, interquartile 0.161 to 0.244) and the 0.075 it replaces, which ranks it 31st of 36 from the bottom; its accent is 3.7% of the tile as one saturated fired-clay wedge rather than 0.5% as a dot; and it shares no device with any sibling, least of all <code>clarify</code>, whose taupe option cards it used to duplicate. Known liabilities to revisit: <strong>(1)</strong> the housing is a stopped mortise, not a through-cut, which is the docked check and a deliberate fiction; <strong>(2)</strong> the opening carries a 134px flat where the keystone's seat is, so at 128px the arch can read as a hearth mouth before it reads as a gateway &mdash; narrowing <code>KEY_W_BASE</code> to 118 rounds the crown and costs 0.3 points of accent share, and that trade was measured and left as it is; <strong>(3)</strong> the ink is 67.5% of the tile width against the grammar's 55&ndash;65% band, because the band assumes the focal is one object and here the lifted piece is part of it; <strong>(4)</strong> the lit top course measures 2.86:1 against the porcelain, just under rubric #7's floor, which is recorded rather than fixed by lightening the ground; <strong>(5)</strong> the material was never measured against the raster reference, because <code>fidelity.py</code>'s scorer needs torch and this machine has none, so the transfer from engineC-2 was done by eye and by the four numbers in the table below.</div>
+
+<div class="measure">
+<table>
+  <caption>Measured on the 256px renders. Figure-ground is object mask against a 45px dilated ring of itself, median to median; 16px contrast is the standard deviation of sRGB luminance over a 16&times;16 downsample, the measure the family audit uses.</caption>
+  <tr><th scope="col">Take</th><th scope="col">16px contrast</th><th scope="col">Figure-ground</th><th scope="col">Accent share</th><th scope="col">Object median luminance</th></tr>
+  <tr><td>master</td><td>0.277</td><td>3.13:1</td><td>3.7%</td><td>0.252</td></tr>
+  <tr><td>engineC-2</td><td>0.230</td><td>1.98:1</td><td>4.4%</td><td>0.458</td></tr>
+  <tr><td>engineC-1</td><td>0.209</td><td>1.75:1</td><td>2.4%</td><td>0.528</td></tr>
+  <tr><td>engineB-arrow</td><td>0.270</td><td>2.16:1</td><td>2.3%</td><td>0.405</td></tr>
+  <tr><td>predecessor (checklist pills)</td><td>0.075</td><td>&mdash;</td><td>0.5%</td><td>&mdash;</td></tr>
+</table>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions; the Arrow take audited letterboxed because its canvas is not square. Renders produced by `python3 create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render plugins/whats-left/assets` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand, which also runs `fidelity.py structure` on the master (68 paths, 10 gradients, 4 named layers, 17.5KB).</div>
+</body>
+</html>
