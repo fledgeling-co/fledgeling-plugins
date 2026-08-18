@@ -1,0 +1,287 @@
+{
+  "_fixture": "FAIL, deliberately. Structurally, motionally and verbally identical to the published peer in fixtures/peers — the previous company’s portal in a new palette. Every per-tenant check on this record passes; only a pairwise one can see it. Derived from pass-minimal.json plus the canvas vector the peer also carries.",
+  "companyId": "fixture-northbridge-rail",
+  "slug": "northbridge-rail-free",
+  "category": "free",
+  "status": "draft",
+  "title": "Northbridge Rail Limited (ASX:NBR) - Investor portal",
+  "archetype": "index",
+  "identity": {
+    "legalName": "Northbridge Rail Limited",
+    "tradingName": "Northbridge Rail",
+    "listingCode": "ASX: NBR"
+  },
+  "theme": {
+    "primary": "#0B4F9E",
+    "primaryHover": "#093F7E",
+    "primaryPressed": "#072F5E",
+    "primaryTint": "#E7F0FA",
+    "primaryOnDark": "#7FB2E8",
+    "onPrimary": "#FFFFFF",
+    "link": "#0A4A96",
+    "focusRing": "#4C8FD9",
+    "canvas": "#FAFAF8",
+    "surface": "#FFFFFF",
+    "surfaceSunken": "#F1F0EC",
+    "surfaceDark": "#1F2933",
+    "surfaceDarkRaised": "#2D3742",
+    "surfaceFooter": "#141A20",
+    "onDark": "#FFFFFF",
+    "onDarkMuted": "#B9C2CC",
+    "ink": "#14181D",
+    "inkBody": "#3A4048",
+    "inkMuted": "#62686F",
+    "border": "#E3E1DC",
+    "borderStrong": "#C5C2BC",
+    "colorScheme": "light",
+    "fontDisplay": "Georgia, 'Times New Roman', serif",
+    "fontBody": "'Helvetica Neue', Arial, sans-serif",
+    "fontMono": "'Courier New', monospace"
+  },
+  "webfonts": [],
+  "assets": [],
+  "chrome": {
+    "header": {
+      "brand": {
+        "name": "Northbridge Rail",
+        "monogram": "NR"
+      },
+      "nav": [
+        {
+          "label": "Overview",
+          "href": "/"
+        },
+        {
+          "label": "Governance",
+          "href": "/governance"
+        },
+        {
+          "label": "Disclosures",
+          "href": "/disclosures"
+        }
+      ],
+      "cta": {
+        "label": "Contact investor relations",
+        "href": "/disclosures"
+      }
+    },
+    "footer": {
+      "columns": [
+        {
+          "heading": "Corporate",
+          "links": [
+            {
+              "label": "Governance",
+              "href": "/governance"
+            },
+            {
+              "label": "Disclosures",
+              "href": "/disclosures"
+            }
+          ]
+        }
+      ],
+      "identityBlock": [
+        {
+          "label": "Registered office",
+          "from": "record",
+          "value": "Level 4, 210 Hunter Street, Newcastle NSW 2300",
+          "asAt": "2026-06-30",
+          "source": "Annual Report 2026",
+          "sourceHref": "https://example-registry.test/nbr/annual-report-2026.pdf"
+        },
+        {
+          "label": "ABN",
+          "from": "record",
+          "value": "41 118 934 402",
+          "asAt": "2019-11-04",
+          "source": "ASX listing notice",
+          "sourceHref": "https://example-registry.test/nbr/listing.pdf"
+        }
+      ],
+      "venueNote": "Documents are lodged with ASX."
+    }
+  },
+  "pages": [
+    {
+      "pageId": "home",
+      "path": "/",
+      "title": "Northbridge Rail Limited (ASX:NBR) - Investor portal",
+      "sections": [
+        {
+          "id": "hero",
+          "kind": "hero",
+          "enabled": true,
+          "order": 1,
+          "band": "canvas",
+          "divider": false,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§01 · ASX listed since 2019 · Updated June 2026",
+          "heading": "Track, structures and signalling for state rail operators",
+          "sub": "Northbridge Rail maintains and renews rail infrastructure across the eastern seaboard.",
+          "cta": "Read the disclosures as lodged",
+          "assetIds": [],
+          "props": {
+            "layout": "typeLed"
+          }
+        },
+        {
+          "id": "facts",
+          "kind": "companyFacts",
+          "enabled": true,
+          "order": 2,
+          "band": "surface",
+          "divider": true,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§02 · What we hold",
+          "heading": "Company facts",
+          "sub": "Every row carries the date the fact was true and the document it came from.",
+          "assetIds": [],
+          "props": {
+            "rows": [
+              {
+                "label": "Legal name",
+                "from": "record",
+                "value": "Northbridge Rail Limited",
+                "asAt": "2019-11-04",
+                "source": "ASX listing notice",
+                "sourceHref": "https://example-registry.test/nbr/listing.pdf"
+              },
+              {
+                "label": "Ordinary shares on issue",
+                "from": "record",
+                "value": "184,502,113",
+                "asAt": "2026-06-30",
+                "source": "Appendix 2A",
+                "sourceHref": "https://example-registry.test/nbr/appendix-2a.pdf"
+              },
+              {
+                "label": "Net debt",
+                "from": "unavailable"
+              },
+              {
+                "label": "Dividend status",
+                "from": "unavailable"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "pageId": "governance",
+      "path": "/governance",
+      "title": "Corporate governance - Northbridge Rail Limited",
+      "sections": [
+        {
+          "id": "governance",
+          "kind": "governanceSnapshot",
+          "enabled": true,
+          "order": 1,
+          "band": "canvas",
+          "divider": false,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§01 · Board and policies",
+          "heading": "Corporate governance",
+          "sub": "We do not currently hold Northbridge Rail's governance documents. The company's governance statement is lodged with ASX under Listing Rule 4.7.4.",
+          "assetIds": [],
+          "props": {
+            "notice": {
+              "label": "Governance statement",
+              "from": "unavailable"
+            }
+          }
+        },
+        {
+          "id": "registry",
+          "kind": "registryBlock",
+          "enabled": true,
+          "order": 2,
+          "band": "sunken",
+          "divider": true,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§02 · How to act on a holding",
+          "heading": "Share registry",
+          "sub": "Holdings are managed by the registry rather than by the company.",
+          "assetIds": [],
+          "props": {
+            "rows": [
+              {
+                "label": "Share registry",
+                "from": "record",
+                "value": "Computershare Investor Services",
+                "asAt": "2026-06-30",
+                "source": "Annual Report 2026",
+                "sourceHref": "https://example-registry.test/nbr/annual-report-2026.pdf"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "pageId": "disclosures",
+      "path": "/disclosures",
+      "title": "Disclosures - Northbridge Rail Limited",
+      "sections": [
+        {
+          "id": "disclosures",
+          "kind": "disclosureIndex",
+          "enabled": true,
+          "order": 1,
+          "band": "canvas",
+          "divider": false,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§01 · Lodged with the exchange",
+          "heading": "Every announcement as lodged",
+          "sub": "Titles are rendered whole and each links the document itself.",
+          "assetIds": [],
+          "props": {
+            "documents": [
+              {
+                "title": "Half Year Report and Appendix 4D",
+                "href": "https://example-registry.test/nbr/hy-appendix-4d.pdf",
+                "from": "record",
+                "value": "2026-02-24",
+                "asAt": "2026-02-24",
+                "source": "ASX Market Announcements Platform",
+                "sourceHref": "https://example-registry.test/nbr/hy-appendix-4d.pdf"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "ledger": [],
+  "omitted": [
+    {
+      "what": "projectRail",
+      "why": "the overview names no individual projects, so a project rail would be a band with a hole in it"
+    }
+  ],
+  "generation": {
+    "brandPrimaryStated": "#0B4F9E",
+    "archetype": "index",
+    "imagery": "0 crawled, 0 generated, 5 sections without - declined, and a free record is not publish-blocked on it"
+  },
+  "canvas": {
+    "preset": "pointField",
+    "palette": "accentOnDark",
+    "density": 1,
+    "figure": "planar",
+    "stroke": "solid",
+    "accentRation": "standard",
+    "intensity": "standard"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "_fixture": "FAIL, deliberately. The governance and disclosure PAGES are gone and only footer links still carry the words, which is exactly what an earlier version of the levy check accepted: it matched the whole record as one string, so a footer link reading \"Governance\" satisfied a gate that is supposed to ask whether a governance SURFACE exists. Derived from pass-minimal.json.",
+  "companyId": "fixture-northbridge-rail",
+  "slug": "northbridge-rail-free",
+  "category": "free",
+  "status": "draft",
+  "title": "Northbridge Rail Limited (ASX:NBR) - Investor portal",
+  "archetype": "index",
+  "identity": {
+    "legalName": "Northbridge Rail Limited",
+    "tradingName": "Northbridge Rail",
+    "listingCode": "ASX: NBR"
+  },
+  "theme": {
+    "primary": "#0B4F9E",
+    "primaryHover": "#093F7E",
+    "primaryPressed": "#072F5E",
+    "primaryTint": "#E7F0FA",
+    "primaryOnDark": "#7FB2E8",
+    "onPrimary": "#FFFFFF",
+    "link": "#0A4A96",
+    "focusRing": "#4C8FD9",
+    "canvas": "#FAFAF8",
+    "surface": "#FFFFFF",
+    "surfaceSunken": "#F1F0EC",
+    "surfaceDark": "#1F2933",
+    "surfaceDarkRaised": "#2D3742",
+    "surfaceFooter": "#141A20",
+    "onDark": "#FFFFFF",
+    "onDarkMuted": "#B9C2CC",
+    "ink": "#14181D",
+    "inkBody": "#3A4048",
+    "inkMuted": "#62686F",
+    "border": "#E3E1DC",
+    "borderStrong": "#C5C2BC",
+    "colorScheme": "light",
+    "fontDisplay": "Georgia, 'Times New Roman', serif",
+    "fontBody": "'Helvetica Neue', Arial, sans-serif",
+    "fontMono": "'Courier New', monospace"
+  },
+  "webfonts": [],
+  "assets": [],
+  "chrome": {
+    "header": {
+      "brand": {
+        "name": "Northbridge Rail",
+        "monogram": "NR"
+      },
+      "nav": [
+        {
+          "label": "Overview",
+          "href": "/"
+        },
+        {
+          "label": "Governance",
+          "href": "/governance"
+        },
+        {
+          "label": "Disclosures",
+          "href": "/disclosures"
+        }
+      ],
+      "cta": {
+        "label": "Contact investor relations",
+        "href": "/disclosures"
+      }
+    },
+    "footer": {
+      "columns": [
+        {
+          "heading": "Corporate",
+          "links": [
+            {
+              "label": "Governance",
+              "href": "/"
+            },
+            {
+              "label": "Disclosures",
+              "href": "/"
+            },
+            {
+              "label": "Share registry",
+              "href": "/"
+            }
+          ]
+        }
+      ],
+      "identityBlock": [
+        {
+          "label": "Registered office",
+          "from": "record",
+          "value": "Level 4, 210 Hunter Street, Newcastle NSW 2300",
+          "asAt": "2026-06-30",
+          "source": "Annual Report 2026",
+          "sourceHref": "https://example-registry.test/nbr/annual-report-2026.pdf"
+        },
+        {
+          "label": "ABN",
+          "from": "record",
+          "value": "41 118 934 402",
+          "asAt": "2019-11-04",
+          "source": "ASX listing notice",
+          "sourceHref": "https://example-registry.test/nbr/listing.pdf"
+        }
+      ],
+      "venueNote": "Documents are lodged with ASX."
+    }
+  },
+  "pages": [
+    {
+      "pageId": "home",
+      "path": "/",
+      "title": "Northbridge Rail Limited (ASX:NBR) - Investor portal",
+      "sections": [
+        {
+          "id": "hero",
+          "kind": "hero",
+          "enabled": true,
+          "order": 1,
+          "band": "canvas",
+          "divider": false,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§01 · ASX listed since 2019 · Updated June 2026",
+          "heading": "Track, structures and signalling for state rail operators",
+          "sub": "Northbridge Rail maintains and renews rail infrastructure across the eastern seaboard.",
+          "cta": "Read the disclosures as lodged",
+          "assetIds": [],
+          "props": {
+            "layout": "typeLed"
+          }
+        },
+        {
+          "id": "facts",
+          "kind": "companyFacts",
+          "enabled": true,
+          "order": 2,
+          "band": "surface",
+          "divider": true,
+          "motion": {
+            "kind": "reveal"
+          },
+          "eyebrow": "§02 · What we hold",
+          "heading": "Company facts",
+          "sub": "Every row carries the date the fact was true and the document it came from.",
+          "assetIds": [],
+          "props": {
+            "rows": [
+              {
+                "label": "Legal name",
+                "from": "record",
+                "value": "Northbridge Rail Limited",
+                "asAt": "2019-11-04",
+                "source": "ASX listing notice",
+                "sourceHref": "https://example-registry.test/nbr/listing.pdf"
+              },
+              {
+                "label": "Ordinary shares on issue",
+                "from": "record",
+                "value": "184,502,113",
+                "asAt": "2026-06-30",
+                "source": "Appendix 2A",
+                "sourceHref": "https://example-registry.test/nbr/appendix-2a.pdf"
+              },
+              {
+                "label": "Net debt",
+                "from": "unavailable"
+              },
+              {
+                "label": "Dividend status",
+                "from": "unavailable"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "ledger": [],
+  "omitted": [
+    {
+      "what": "projectRail",
+      "why": "the overview names no individual projects, so a project rail would be a band with a hole in it"
+    }
+  ],
+  "generation": {
+    "brandPrimaryStated": "#0B4F9E",
+    "archetype": "index",
+    "imagery": "0 crawled, 0 generated, 5 sections without - declined, and a free record is not publish-blocked on it"
+  }
+}

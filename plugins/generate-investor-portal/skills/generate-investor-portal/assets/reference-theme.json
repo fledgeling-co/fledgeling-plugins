@@ -1,0 +1,60 @@
+{
+  "_provenance": {
+    "what": "The reference build's colour theme, as measured and quoted in references/tokens-and-motion.md.",
+    "why": "record-gate.mjs COMPUTES its palette-completeness token list from this file rather than listing tokens inline, so a twenty-sixth colour added to the contract is covered the day it lands here rather than the day somebody remembers the gate. It is also the fixture for the derivation reproduction test: strip a token, re-derive, and the reference's own value must come back.",
+    "measured": "2026-08-08, production reference tenant (alfabs). Values quoted in tokens-and-motion.md.",
+    "not": "This is not the contract. The authority is libs/shared/src/investor-portal/portal-contract.ts in the dAIolog repo. If the two disagree, the contract wins and this file is stale — the gate prints its own provenance line so a stale reference is visible rather than silent."
+  },
+  "colour": {
+    "primary": "#D72229",
+    "primaryHover": "#B91D23",
+    "primaryPressed": "#9E1318",
+    "primaryTint": "#FDECEC",
+    "primaryOnDark": "#F0666B",
+    "onPrimary": "#FFFFFF",
+    "link": "#B91D23",
+    "focusRing": "#D72229",
+    "canvas": "#F7F6F5",
+    "surface": "#FFFFFF",
+    "surfaceSunken": "#EFEDEC",
+    "surfaceDark": "#2E2B2B",
+    "surfaceDarkRaised": "#3C3939",
+    "surfaceFooter": "#181717",
+    "onDark": "#FFFFFF",
+    "onDarkMuted": "#B7B2B1",
+    "ink": "#1C1B1B",
+    "inkBody": "#3A3A3A",
+    "inkMuted": "#6B6766",
+    "border": "#E2DFDD",
+    "borderStrong": "#C4C0BE"
+  },
+  "semanticConventions": {
+    "_why": "Named as the ONE exclusion from palette completeness rather than silently skipped: these are green-amber-red-blue, not anybody's brand, so a record inheriting them inherits nothing about another company.",
+    "success": "#1B7F4B",
+    "warning": "#B26A00",
+    "danger": "#B3261E",
+    "info": "#1B5FA8"
+  },
+  "derivations": {
+    "_why": "The offsets the derivation must reproduce. The test is mechanical: strip the token from this file, run the derivation, and this file's own value must come back. If it does not, the derivation was invented.",
+    "borderStrong": { "from": "border", "channelDelta": [-30, -31, -31] },
+    "surfaceDarkRaised": { "from": "surfaceDark", "channelDelta": [14, 14, 14] },
+    "surfaceFooter": { "from": "surfaceDark", "channelDelta": [-21, -20, -20] },
+    "onDarkMuted": { "from": "onDark", "channelDelta": [-72, -72, -72], "flooredAt": "AA on surfaceDark" },
+    "surfaceSunken": { "from": "canvas", "channelDelta": [-8, -9, -9] },
+    "inkBody": { "from": "ink", "channelDelta": [30, 31, 31] },
+    "focusRing": { "from": "primary", "identity": true },
+    "onDark": { "from": "surface", "identity": true },
+    "link": { "from": "primary", "rule": "adjusted until readable on the record's own light grounds — not a fixed offset" },
+    "primaryHover": { "from": "primary", "rule": "one step along the state sequence; direction read off whichever of the pair the record states" },
+    "primaryPressed": { "from": "primary", "rule": "two steps along the same sequence, same direction" }
+  },
+  "stylesheetFallbacks": {
+    "_why": "Tokens the stylesheet declares as var(--primary), so an unresolved one still PAINTS something. The gate asserts these are never among its skips: a skipped pairing here is a measurement not taken on a pairing that is definitely being rendered.",
+    "primaryOnDark": "var(--primary)",
+    "primaryHover": "var(--primary)",
+    "primaryPressed": "var(--primary)",
+    "link": "var(--primary)",
+    "focusRing": "var(--primary)"
+  }
+}
