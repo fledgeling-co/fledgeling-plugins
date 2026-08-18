@@ -1,7 +1,7 @@
 {
   "name": "agent-voice",
   "description": "Give agent-authored text a real voice: the prose an agent emits inside Claude Code and other harnesses. Seven registers (terminal reply, work report, commit and PR, review comment, written document, SKILL.md and instruction file, subagent brief), a deterministic lint that hard-fails closing flourishes, self-congratulation, preamble openers, unmeasurable qualifiers, uncounted categorical scope, pressure language and misplaced verification scaffolding, and a per-family dialect layer because Claude runs long while Gemini runs terse. Every rule traces to a quoted line of Anthropic or Google guidance, or to a recorded benchmark.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Luke Rhodes"
   }

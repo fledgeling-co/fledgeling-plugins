@@ -4,6 +4,15 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-18
+
+### agent-voice 0.1.0 → 0.1.1: how to make it the default rather than an option
+
+Documentation only; the skill and its lint are unchanged. Installing the plugin makes the skill available, and the README stopped there — so the routing decision was left to whoever happened to remember the skill existed mid-task. The new *Making it the default* section carries a pasteable prompt that puts the routing in a user-scoped `CLAUDE.md` or `AGENTS.md`, where it loads before the first reply of a session rather than halfway through one.
+
+- **The routing is by authorship, not by format.** The agent as author takes agent-voice, including chat replies, and that is the default whenever no voice or persona is named; a named person or brand takes their own content skill, and content published under their name takes their voice even when the request never names it. One skill per piece, a named voice wins, and a request spanning both is two pieces.
+- **A probe, because a global instruction file that failed to load looks exactly like one being followed.** The prompt adds an agreed emoji at the front of every chat response, excluded from files, commits, PR bodies and anything written for another agent. A missing emoji on the next reply is the signal. The exclusion is what makes it a probe rather than a decoration: it also tests whether the session distinguishes a conversation from a deliverable, which is the distinction all seven registers turn on.
+
 ## 2026-08-16
 
 ### clarify 1.2.0 → 1.3.0: the gate now ends in a decision, not a question
