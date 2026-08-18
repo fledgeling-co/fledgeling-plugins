@@ -78,6 +78,7 @@ const GROUP_OF = {
   "dossier-report": "research",
   report: "research",
   "whats-left": "research",
+  stocktake: "orchestration",
   "ship-armada": "orchestration",
   "ship-fleet": "orchestration",
   "ship-feature": "orchestration",

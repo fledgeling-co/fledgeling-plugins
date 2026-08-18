@@ -244,6 +244,14 @@ Asks what's left on a project and gets back two documents that immediately start
 
 <br clear="left" />
 
+<a href="plugins/stocktake/README.md"><img src="plugins/stocktake/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [stocktake](plugins/stocktake/README.md)
+
+A board is a set of claims about a codebase, and nobody checks them. Cards drift into review and stay there, work gets finished on a branch nobody merged, and a ticket reads as done because somebody wrote a comment saying so. The uncomfortable part is that checking looks like it already happened: the surface renders, the schema validates, the suite is green, and none of that is the same as the number on the screen having been produced by code somebody wrote. So this goes card by card and, before it opens any diff, rebuilds the numbered requirement list from the description, every comment and every attached image — because a diff read first supplies the frame, and whatever the change quietly dropped never enters the list. Then it finds where the work actually is (merged, on a branch nobody merged, finished but never pushed, in a worktree, or never started — four different problems), traces each requirement to the code that produces its value rather than the screen that shows it, and asks whether the tests behind it could ever have failed: which rung of oracle each one stands on, armed and unarmed assertions counted apart, and a denominator for what the gate really runs. It grades out of family with one judge rather than a panel, because nine frontier judges across seven families supply about two independent votes and the best single judge beats the group. “I could not tell” is a real answer that blocks rather than rounding up. Cards with work left get a brief for ship-fleet; cards with an open question get it referred or decided with a reason instead of parked on you; and it promotes to Done and stops — a human’s column stays a human’s until eight named preconditions hold, which a bundled gate refuses by default and tells you which are missing.
+
+<br clear="left" />
+
 <a href="plugins/proctor/README.md"><img src="plugins/proctor/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [proctor](plugins/proctor/README.md)
