@@ -313,6 +313,71 @@
       },
       "source": "./plugins/agent-voice",
       "category": "development"
+    },
+    {
+      "name": "design-craft",
+      "description": "Design or review a user-facing visual artifact \u2014 a landing page, app screen, dashboard, clickable prototype, native mobile mockup, wireframe, variation set, tweakable panel, motion piece, 3D hero, print document, generated imagery or design system \u2014 as an opinionated designer rather than a code generator. Roots every hi-fi build in existing context by default and lifts a matched system's resolved values exactly, never rounding them to a 4/8px grid and reporting the rounding as a fix. Names the category's rut and its predictable opposite before generating, derives seven candidates across at least three material families as a probability distribution rather than a best answer, and writes the chosen direction into the artifact as a five-block contract the critique gate then audits promise by promise \u2014 because more than a quarter of a generative UI tool's stated design rationales are measured not to appear in what it built. Ships a deterministic gate that computes WCAG contrast from source across hex, rgba, hsl and oklch, follows tokens to their :root definitions, composites opacity, and treats contrast as tri-state: a gradient, image or undeclared ground is reported UNMEASURABLE rather than skipped, since an unmeasured pair and a passing pair otherwise serialise identically. The gate names the silent downstream consequence of every finding, gates on mechanism and warns on fashion, runs markup checks through a real HTML parser, refuses to lint its own documentation, requires a reason on every suppression, proves each of its forty rules can still fire, and prints what it did not check so a clean run cannot be read as verified. Carries a Known limits section measured against the one sanctioned browser, so motion, print, reduced-motion and type fidelity are declared unchecked rather than reported clean \u2014 and names the delivery surface's own refusals, because a CDN script inside a published artifact is blocked with no error and the page ships motionless. Thirty phased procedures, per-unit critique gates with a computed disposition, an autonomous mode, and a standing pairing with ux-craft for flows, forms and UX review.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/design-craft",
+      "category": "development"
+    },
+    {
+      "name": "ux-craft",
+      "description": "Book-grounded UX engine for building, mocking and reviewing web and mobile UIs, forms, flows and emails \u2014 the UX brain that pairs with design-craft's visual hands. Three modes (Build / Review / Advise) over eleven references, and a deterministic gate that refuses what prose only asks: stdlib-only ux-lint.py runs static over HTML/JSX/CSS and probes a rendered page through Obscura, with every finding naming what you did, what the user silently gets, and the fix. Only exit 0 is a pass \u2014 a run that examined zero files refuses rather than reporting a clean sheet, and every run prints a never-empty not-checked list, because a check that cannot measure must say so instead of reporting zero. v2 resolves the accessibility floor against the standards themselves: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 CSS px is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. Twelve non-negotiables each carry the silent symptom that appears when they break, the state grid is a counted artifact rather than a rule that was read, and the destructive-action gate table, the probe-honesty rule and the model-family evidence taxonomy are available to every model rather than quarantined behind a model check. Carries a Known limits section, an evidence file rating the replication status of every behavioural law it cites (including the ones it argues against), the measured blind spots of the only sanctioned browser, and an autonomous-mode carve-out so a pipeline run is not told both to ask and not to ask.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/ux-craft",
+      "category": "development"
+    },
+    {
+      "name": "deck-craft",
+      "description": "Build, review or convert a slide deck across three targets from one body of craft: a self-contained fixed-stage HTML presentation, lecturn.deck/1 JSON with a .pptx round-trip, or an investor deck assembled from a bundled library of 200 slide layouts in 27 families and 21 recipes. Carries its own design layer rather than depending on a general design skill \u2014 a supplied DESIGN.md or token file is binding, a direction is authored on three named axes when no brand exists, and type is sized from a viewing-angle derivation rather than from web habit. Deck-specific narrative discipline: the title sequence written before any slide because the titles read in order are the argument, speaking-versus-reading density as an explicit fork, one idea per slide, and a named slide count treated as a contract. Ships a deterministic preflight gate that runs in a headless browser and is built to be unable to pass silently: the probe carries its own blocker and warning policy plus a stated consequence for every finding, refuses a config key it does not recognise, and echoes its configuration back so the runner can prove the settings that were asked for actually arrived. Only exit 0 is a pass \u2014 a probe that returned nothing, a config that never landed, a check that threw and a run that examined zero slides each get their own code and their own refusal. Regulated decks add per-slide disclosure checks sourced to SEC Regulation G and Item 10(e), the December 2022 Compliance and Disclosure Interpretations on equal-or-greater prominence, and ASIC RG 230; chart integrity covers truncated baselines, dual axes and inverted axes; and given the source document it cross-checks every figure on the deck against it, because fabrication arrives as texture around a real number rather than as an invented headline.",
+      "version": "1.15.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/deck-craft",
+      "category": "development"
+    },
+    {
+      "name": "mac-craft",
+      "description": "Design and review authentically native macOS application interfaces \u2014 mock windows as self-contained HTML/CSS or a token-precise spec, with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast instead of asserting it. Grounded in Apple's macOS UI kit deconstructed to exact (specified) values, the published HIG, an August 2026 four-backend research panel across 110 sources, and taste learned from 135 curated macOS apps. Ships scripts/mock_check.py: WCAG contrast computed from the declared cascade across light, dark and increased-contrast contexts with alpha compositing; a metric block cross-checked against both the kit and the stylesheet; keyboard, token-discipline, casing, cursor, self-containment, content and artifact-naming checks. It exits 2 rather than 0 when a check cannot be performed, because examined=0 is a gate that never ran. Replaces mac-design-studio and answers to that name. App icons are not designed here \u2014 they route to create-mac-icon.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/mac-craft",
+      "category": "development"
+    },
+    {
+      "name": "mac-design-digest",
+      "description": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits into a persistent design corpus \u2014 per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md \u2014 where every value carries a provenance mark from a closed set and every written file is checked by an executable gate before the run is reported done. Ships corpus_check.py (twelve checks over seventeen named invariants over the written corpus \u2014 ledger integrity and append-only rows, every ledger target existing, cross-app patterns recorded, the 3-independent-apps canon bar, the native-lineage gate, canon traceability, cluster contradiction budget, placeholders, dated and levelled headers, non-empty knowledge gaps below Proficient, one mark per axis with a composed pair where the row's role needs both, the app count a (recurring)/(canon) mark claims, and a pinned precision baseline so a value cannot silently gain precision it never earned) and sketch_extract.py (reads .sketch archive JSON in memory, derives the control ladder from symbol frames, classifies capsule radii by geometry rather than by an undocumented sentinel, and flags instruction-shaped strings it reads out of the archive). Use whenever the user provides mac app screenshots or icons and wants to digest, study, learn from, analyze, or add to the corpus \u2014 and when ingesting a Figma or Sketch UI kit export. Routes generation out: mocks to mac-craft, icons to create-mac-icon.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Luke Rhodes"
+      },
+      "source": "./plugins/mac-design-digest",
+      "category": "development"
+    },
+    {
+      "name": "generate-investor-portal",
+      "description": "Generate a complete investor-portal record \u2014 theme tokens, section content, provenance-marked figures, imagery and motion \u2014 into a database from a company's DESIGN.md and a crawled company overview, so a new company is a generated record rather than new code and one generic renderer serves it at that company's own subdomain. Its distinguishing feature is that it ships the gate instead of describing it: assets/record-gate.mjs runs 600+ record-level checks with no server, no database and no network, and refuses the write rather than the read, so a rule added to it can never take a live portal down. The check that matters most is that a figure is not allowed to live in prose \u2014 a currency amount, a percentage or a date in any prose slot without a provenance object around it is refused, because that is the channel a plausible fabricated number actually arrives through, and a missing figure has to become a visibly marked unavailable state with a reason code instead. It treats the crawled overview as untrusted third-party content and carries a verbatim injection fence into every subagent brief and every paid image prompt; it refuses a republish before anything is crawled or generated rather than after; it measures accent contrast arithmetically on hex against role-aware floors so a brand colour is never rejected where it belongs; and it detects the defect no per-tenant gate can see, two companies publishing the same portal, by comparing three collision keys against the published peer set. Use it when someone wants an investor portal built, generated or refreshed for a company, wants a company onboarded onto a portal platform, or hands over a DESIGN.md plus a company overview and asks for a portal from them.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/generate-investor-portal",
+      "category": "development"
     }
   ]
 }
