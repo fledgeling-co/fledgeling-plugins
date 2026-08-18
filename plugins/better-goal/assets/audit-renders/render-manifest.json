@@ -1,10 +1,46 @@
 {
   "takes": {
-    "a": {
+    "B": {
+      "source": "icon-engineB-arrow-48d0c1.svg",
+      "kind": "svg",
+      "source_mtime": 1787065068.3579051,
+      "rendered_at": 1787066580.0500412
+    },
+    "B2": {
+      "source": "icon-engineB2-arrow-7676a8.svg",
+      "kind": "svg",
+      "source_mtime": 1787064940.5461285,
+      "rendered_at": 1787066580.191152
+    },
+    "C": {
+      "source": "icon-engineC-80617e.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787064989.0111952,
+      "rendered_at": 1787066580.510035
+    },
+    "a1": {
       "source": "icon.svg",
       "kind": "svg",
-      "source_mtime": 1786626181.1432188,
-      "rendered_at": 1787063021.6744251
+      "source_mtime": 1787066008.7158706,
+      "rendered_at": 1787066580.8191848
+    },
+    "a2": {
+      "source": "icon-takeA2-latched-bezel.svg",
+      "kind": "svg",
+      "source_mtime": 1787066008.761652,
+      "rendered_at": 1787066581.13094
+    },
+    "a3": {
+      "source": "icon-takeA3-sunk-dial.svg",
+      "kind": "svg",
+      "source_mtime": 1787066008.8073082,
+      "rendered_at": 1787066581.4051762
+    },
+    "prev": {
+      "source": "predecessor-dial.svg",
+      "kind": "svg",
+      "source_mtime": 1787063524.9593282,
+      "rendered_at": 1787066581.633297
     }
   },
   "sizes": [

@@ -65,6 +65,125 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · better-goal "The Held Needle" — an accent's *radial depth* decides
+  whether it exists at 16px, a stop needs parallel flanks, and the shelf-collision
+  metric cannot be satisfied by resizing.** A machined graphite dial on porcelain,
+  with a vermilion accept band cut through the face and out to the rim and a graphite
+  pawl standing proud of the bezel.
+
+  **(a) Compute an accent's thickness in *display* pixels before authoring it, not
+  its area.** The band was first drawn as a 36px-thick inlay in the bezel, spanning
+  58° of arc — a perfectly reasonable-looking 1024px object. At 16px that is
+  **0.56px thick**, so the render was a plain dark disc with no accent anywhere and
+  the entire device was missing exactly where it has to survive. Nothing at 1024
+  hints at this; the tile looks finished. Cutting the band inward to 116px of radial
+  depth gives 1.8px at 16px and it reads.
+  *Generalise:* for every element the identity depends on, divide its **smallest**
+  dimension by 64 and ask whether the answer is over 1.5px. Arc length is free;
+  radial depth is what is scarce. An accent that is long and thin dies before an
+  accent that is short and fat, at equal area.
+
+  **(b) A radial sector reads as a ribbon tab; a constant-width bar reads as
+  hardware.** The stop was authored three ways. As a vermilion annular sector at the
+  band's end it fanned outward and read as a folded bookmark at every size. As a
+  54px-wide, 32px-proud constant-width bar in graphite it read as a stick poking out
+  of the dial. What works is **two parts through the rim on one gradient axis**: a
+  46px wall inside the face that caps the band, and a 96px × 22px boss on the rim
+  that stands proud. Short-and-wide reads as cast into the body; long-and-narrow
+  reads as bolted on. `_bar(deg, r0, r1, half)` — parallel flanks from a centre
+  angle — is the primitive; `sector()` is the wrong one for any machined part.
+
+  **(c) Put the mechanism in graphite and keep the accent for the semantic element.**
+  The gate and the accept band are two ideas, and spending the warm hue on both made
+  one contiguous warm L that no longer said which was which. Graphite for the pawl
+  gives the tile its highest-contrast edge — a dark bar across a warm wedge — at
+  precisely the one place the boundary closes, and it keeps the accent at 2.52% of
+  the tile in one place.
+
+  **(d) Re-run a body's seat edge AFTER an inset accent, so the accent borrows the
+  body's boundary.** A warm gel object squeezed between a Y 0.833 porcelain ground
+  and a Y 0.084 graphite body cannot clear 3:1 against both: measured 2.44:1 against
+  the tile and 2.71:1 against the face. The corpus does not solve this with a value
+  — apple-12's orange operator column is 2.29:1 against its own charcoal body — it
+  solves it by **putting the accent inside a dark body**, so the edge the eye uses is
+  the body's at 12:1. Drawing the rim's seat-edge stroke a second time over the band
+  raises the band's boundary against the tile from 2.44:1 to 3.36:1 and costs one
+  path. Do this for any accent that touches the ground directly.
+
+  **(e) A graduation ring that closes is a clock, whatever the material does.** Two
+  rounds shipped a full 36-tick ring with a pale needle near vertical, and no palette
+  or lighting change moved the read. Opening the scale to a ~190° sweep with a clear
+  sector, running from the foot of the travel to where the accent starts, makes it an
+  instrument with a **direction** — and one engraved groove at the band's inner
+  radius, running the same span, fills the face without adding graduations. This is
+  the ux-craft finding again: when two material rounds do not move a read, the fault
+  is in the construction.
+
+  **(f) On a dial, light the face as a dome and put the terminator down-light.** An
+  inner shadow on the up-light side inside the rim fights the face gradient — the
+  gradient says the crown is lightest, the shadow says it is darkest — and two planes
+  disagreeing about where the lamp is costs #8. Author the occlusion ring offset
+  *toward* the light so what survives the face clip is the far arc. apple-23's dial
+  "reads as domed glass with a soft top bloom", which is the construction, and its
+  bloom belongs at the key's own bearing (≈0.34, 0.19 in object-bounding-box terms
+  for a 118° key) rather than at the centre.
+
+  **(g) One `scale` constant over every radial dimension, because object diameter is
+  the lever on shelf collision — and it cannot clear the bar.** Swept 0.84 to 1.00
+  (52.3% to 62.5% of tile width) against the worst 16px signature correlation over
+  the other 37 icons: 0.871 `proctor` → 0.827 `proctor` → **0.810 `geminify`** →
+  0.840 `mockup-fidelity`. There is no setting under 0.80. **Shrinking a dark
+  centred object moves the flag from the dark-slab cluster onto the dark-box cluster
+  rather than removing it**, and the cost curve is nearly flat in contrast (0.2710 to
+  0.2998 RMS). Note the direction against ux-craft, which scaled its object *up* to
+  buy contrast: the same knob buys distinctiveness run the other way, and neither
+  commission can have both. Publish the curve rather than defending a size.
+
+  **The second lever is the object's *vertical position*, and it is the one that
+  cleared the bar** — worst pair 0.830 at `cy` 526, 0.810 at 498, 0.800 at 478,
+  0.797 at 470, 0.795 at 466, for 0.0006 of contrast across the whole range. A 42px
+  lift on a 1024 canvas is inside what a cast shadow's own reach below the object
+  accounts for, so the composition reads no higher; check it side by side at 384px
+  before taking it. Sweep *position* before concluding a collision is structural, and
+  sweep both before adding a `DECIDED` entry: this commission needed neither in the
+  end, and the whole 703-pair set came back green.
+
+  **(h) Two out-of-family engines agreeing on one construction is the cheapest
+  evidence this pipeline produces — and their shared mistake is evidence too.** Both
+  Arrow vector takes and the GPT-Image raster drew the bezel as a **complete pale
+  annulus**; the master had that catch on the lit arc only, so its rim read as a
+  highlight rather than as a turned part. A full-circle hairline at a sixth of the
+  lit arc's opacity was the whole fix. All three engine takes *also* put the accent
+  band inside the graduation ring as a floating arc, which is the construction that
+  dies at 16px — so the engines independently confirmed both the material to add and
+  the placement to avoid.
+
+  **(i) A vector engine can invert your meaning while satisfying every visual
+  instruction, and a raster brief cannot fix it.** Handed "a band the reading has to
+  be inside, with a stop at one end", both Arrow calls produced a **tachometer
+  redline** — a ceiling not to be exceeded, needle pressed against it from below.
+  Every colour, radius and count was honoured; the semantics were reversed. A goal is
+  a floor you reach and hold and a redline is a limit you stay under, and nothing in
+  a style brief distinguishes them. When an engine take's *reading* is wrong rather
+  than its material, salvage the material and drop the composition — there is nothing
+  to converge on.
+
+  **(j) Check the output directory before believing a reported timeout.** One
+  `generate_image` call returned a timeout error to its caller and wrote its SVG to
+  disk regardless; the file was found afterwards and scored as a sixth take. Treating
+  the error as "the engine is unavailable" would have cost an engine from the floor
+  and lost the finding in (i), which came from exactly that take.
+
+  **(i) A losing take can be the measurement that settles the brief.** The
+  alternative value relation — a graphite bezel ring around a *porcelain* face — was
+  built rather than argued about, and its face measures **1.00:1 against the tile**:
+  the predecessor's exact defect, preserved inside a new ring. The third take, a
+  disc half-sunk in a graphite housing, posted the sheet's *highest* 16px RMS
+  (0.3216) while reading as a lump, because it bought the contrast with 52.8% of the
+  tile in dark mass against the winner's 24.0%. **A high whole-image contrast number
+  earned by dark area is not the same as figure-ground**, and only the object-versus-
+  ground ratio separates them.
+
 - **2026-08 · ux-craft "The Spacing Circle" — a plan-view circle cannot be an
   object, a shelf strip is the only place a device collision exists, and an
   anisotropic region needs an anisotropic gradient.** Two reach envelopes as low

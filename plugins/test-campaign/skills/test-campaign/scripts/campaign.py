@@ -21,17 +21,26 @@ than trusted:
   4. Armed and unarmed passes are counted separately. An assertion nobody has
      watched fail is not known to bite, and a suite that reports one number for
      both is claiming a uniformity it has not measured.
+  5. A lane that claims the app was running and drawn proves it once, with the
+     artifact, the command that built it and what witnessed it attaching. A
+     campaign once reported 100% checked over two native apps while no GUI
+     process had ever existed; every number in it was true.
 
 Ids are stable and referenceable, because the evidence page, the report and a
 later conversation all need to point at the same thing: SURF-001, FLOW-001.03,
 CMP-001, CASE-0001, DEF-001.
 
 Usage:
-    campaign.py init   <dir> --project NAME --lanes web,macos [--sample "..."]
+    campaign.py init   <dir> --project NAME --lanes web,macos-glass [--sample "..."]
+    campaign.py lane   <dir> --lane macos-glass --artifact build/App.app \\
+                             --built-by "xcodebuild -scheme App" \\
+                             --attached "pid 4412 owns window 'App'" \\
+                             --capture "ScreenCaptureKit, SCFrameStatus=complete"
     campaign.py add    <dir> --kind surface --file surfaces.json
     campaign.py add    <dir> --kind case    --file cases.json
     campaign.py set    <dir> --case CASE-0007 --status pass \\
                              --evidence evidence/shots/dash.png --armed
+    campaign.py carry  <dir> --ran CASE-0007 --basis "unchanged since v2.3.1"
     campaign.py check  <dir> [--json]
     campaign.py report <dir> [--json]
 
@@ -42,6 +51,7 @@ cases.json (what was checked). ledger.md is generated from them for a human.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone
@@ -60,15 +70,64 @@ RESOLVED = ("pass", "fail")
 REASONED = ("skip", "n/a", "unselected")
 CARRIED = "unselected"
 
+# Recognised, explained, and still a blocker. These exist because a check that
+# COULD NOT RUN and a check that RAN AND PASSED must never reach the report
+# wearing the same face. `equal(a, b)` is only a legal claim when both sides
+# were measured; where one was not, the honest verdict is "we do not know",
+# which is a weaker claim than "no difference found" and a different one from
+# "this does not apply here".
+#
+#   n/a           the lane structurally cannot support this check, ever
+#   skip          this case should not run
+#   inconclusive  it was attempted and the instrument could not measure it
+#   blocked       the thing under test never ran, so nothing downstream is valid
+#
+# n/a and skip are decisions. inconclusive and blocked are unfinished business,
+# so they hold the gate shut while still being counted and explained rather
+# than sitting in the report as an unexplained dash. See references/on-glass.md.
+UNRESOLVED_REASONED = ("inconclusive", "blocked")
+
 # What a case actually checks, weakest first. The rung is a field rather than a
 # judgement because UI suites execute behaviour far more often than they assert
 # it — inferred metamorphic relations across 214 components were exercised at
 # high rates and explicitly validated only 42.5%-47.6% of the time. A plan can
 # therefore look complete while proving very little, and no count of tests shows
 # it. See references/coverage-model.md §3.
-ORACLE_RUNGS = ("touch", "presence", "structural", "outcome", "metamorphic", "visual")
+#
+# `visual` split into two rungs, because one word was covering both halves of a
+# distinction that decides whether a campaign is honest. Asserting that a card's
+# title property equals "AGGREGATE CPU" is a data-model assertion; it was
+# claiming the visual rung, counting as an effect, and carrying a campaign to
+# 100% while no window had ever been drawn.
+#
+#   structural-visual  labels, hierarchy tokens and structural metadata exist
+#   raster-visual      pixels were captured off a display server and compared
+ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
+                "outcome", "metamorphic", "raster-visual", "visual")
 # A critical flow promises an effect. Only these rungs assert one.
-EFFECT_RUNGS = ("outcome", "metamorphic", "visual")
+EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual")
+# Retained so an existing campaign loads rather than silently re-rating its
+# cases as `unrated`, and reported as a migration blocker so the split is made
+# deliberately. It buys no effect credit in the meantime.
+LEGACY_RUNGS = ("visual",)
+# These rungs claim pixels, so they must produce pixels. See `inspect_raster`.
+RASTER_RUNGS = ("raster-visual",)
+
+# A lane whose name ends in `-glass` claims the application was verified while
+# actually running and drawn by a display server — a real window, composited,
+# photographed. That is a much stronger claim than the same lane run headless,
+# and it is the one claim a campaign can make that nothing else can check for
+# it, so the lane carries the burden of proving it. See `cmd_lane`.
+GLASS_SUFFIX = "-glass"
+
+# Raster magic numbers, so "is this actually an image" is read from the bytes
+# rather than trusted from the extension. A .png written by a failed capture is
+# frequently an HTML error page or a zero-byte file.
+RASTER_MAGIC = {
+    b"\x89PNG\r\n\x1a\n": "png",
+    b"\xff\xd8\xff": "jpeg",
+    b"RIFF": "webp",
+}
 
 
 def paths(d: Path) -> dict[str, Path]:
@@ -92,14 +151,75 @@ def save(d: Path, name: str, value) -> None:
 
 
 def state_of(status: str) -> str:
-    """pass | fail | skip | n/a | unselected | open. Unrecognised is open, deliberately."""
+    """pass | fail | skip | n/a | unselected | inconclusive | blocked | open.
+
+    Unrecognised is open, deliberately.
+    """
     s = (status or "").strip().lower()
     if s in RESOLVED:
         return s
-    for r in REASONED:
+    for r in REASONED + UNRESOLVED_REASONED:
         if s.startswith(r):
             return r
     return "open"
+
+
+def inspect_raster(path: Path) -> dict:
+    """Read what a capture file actually is, from its bytes.
+
+    A `raster-visual` case claims pixels came off a display server, and the
+    cheapest way that claim goes wrong is an artifact that is not an image:
+    a zero-byte file from a capture that failed, an HTML error page saved with
+    a .png suffix, or a path that no longer resolves. Those are decidable from
+    the first eight bytes and the file length, so they are decided here.
+
+    What this deliberately does NOT do is score the picture. A density,
+    entropy or unique-colour floor cannot separate a failed capture from a
+    legitimately sparse screen — an empty-state surface is mostly background
+    by design, and a shell error message has much the same ink as the empty
+    state it replaced. So `bytesPerPixel` is recorded as a regression signal
+    for runs already known to have launched, and it never gates. What gates is
+    provenance: did a process run, did it attach, what did the capture channel
+    say about the frame. See references/on-glass.md.
+    """
+    out = {"path": str(path), "exists": path.exists(), "kind": None,
+           "width": None, "height": None, "bytes": None, "sha256": None,
+           "bytesPerPixel": None, "reason": None}
+    if not out["exists"]:
+        out["reason"] = "no file at that path"
+        return out
+
+    raw = path.read_bytes()
+    out["bytes"] = len(raw)
+    out["sha256"] = hashlib.sha256(raw).hexdigest()
+    if not raw:
+        out["reason"] = "zero-byte file — the capture wrote nothing"
+        return out
+
+    for magic, kind in RASTER_MAGIC.items():
+        if raw.startswith(magic):
+            out["kind"] = kind
+            break
+    if not out["kind"]:
+        head = raw[:40].decode("utf-8", "replace").strip().replace("\n", " ")
+        out["reason"] = (f"not a raster image — starts {head[:32]!r}. A capture "
+                         f"that failed often writes an error page to the path "
+                         f"the test expected a screenshot at")
+        return out
+
+    if out["kind"] == "png" and len(raw) >= 24 and raw[12:16] == b"IHDR":
+        out["width"] = int.from_bytes(raw[16:20], "big")
+        out["height"] = int.from_bytes(raw[20:24], "big")
+        if out["width"] and out["height"]:
+            out["bytesPerPixel"] = round(len(raw) / (out["width"] * out["height"]), 5)
+        if out["width"] <= 1 or out["height"] <= 1:
+            out["reason"] = (f"{out['width']}x{out['height']} — a capture this "
+                             f"size is a placeholder, not a window")
+    return out
+
+
+def lane_needs_glass(lane: str) -> bool:
+    return (lane or "").strip().lower().endswith(GLASS_SUFFIX)
 
 
 def next_id(kind: str, existing: list[dict]) -> str:
@@ -159,6 +279,15 @@ def cmd_add(args) -> int:
             rung = item.get("oracle")
             if rung and rung not in ORACLE_RUNGS:
                 sys.exit(f"case oracle '{rung}' is not a rung. One of: {', '.join(ORACLE_RUNGS)}.")
+            # The field is `req`, and the prose everywhere calls it a requirement.
+            # A case written with `requirement:` used to be stored intact and then
+            # reported as a requirement nothing checks — a blocker pointing at the
+            # wrong thing, which cost a round of debugging. Accept the word the
+            # documentation uses instead of silently disagreeing with it.
+            if "requirement" in item and "req" not in item:
+                item["req"] = item.pop("requirement")
+                print(f"note: 'requirement' read as 'req' ({item['req']}); "
+                      f"the registry field is `req`.")
     else:
         inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
         store = inventory.setdefault(kind, [])
@@ -200,13 +329,95 @@ def cmd_set(args) -> int:
             hit["evidence"].append(e)
     if args.armed:
         hit["armed"] = True
+    if args.capture_method or args.frame_status:
+        cap = hit.setdefault("capture", {})
+        if args.capture_method:
+            cap["method"] = args.capture_method
+        if args.frame_status:
+            cap["frameStatus"] = args.frame_status
     if args.note:
         hit["note"] = args.note
 
     save(d, "cases", cases)
     print(f"{hit['id']}: {hit['status']}"
           + (f" · {len(hit['evidence'])} evidence" if hit["evidence"] else "")
-          + (" · armed" if hit.get("armed") else ""))
+          + (" · armed" if hit.get("armed") else "")
+          + (f" · {hit['capture']['method']}" if (hit.get("capture") or {}).get("method") else ""))
+    return 0
+
+
+# ── the artifact under test, and whether it ever ran ────────────────────────
+
+def cmd_lane(args) -> int:
+    """Record what this lane actually tested, and what proved it was running.
+
+    A campaign once reported 100% checked, 22 armed cases and 59 passing tests
+    for two native desktop applications while no GUI process had ever attached
+    to a window server. The Swift half initialised SwiftUI view structs in
+    memory — value types, so nothing renders; the Windows half was C# that had
+    never been compiled; and the screenshots on the evidence page came from an
+    HTML mock photographed in a browser. Every individual number was true.
+
+    Nothing in the ledger could catch that, because the ledger only ever asked
+    whether cases resolved. So a lane claiming `-glass` names three things
+    here, and the gate refuses to clear without them:
+
+      --artifact    what was tested, as a path that exists
+      --built-by    the command that produced it, so "never compiled" is visible
+      --attached    what proved a process from that artifact reached a display
+                    server — a window id, a pid owning a window, a frame status
+
+    `--cannot-attach` is the honest alternative and is not a failure of
+    diligence: it records the lane as unreachable with a structural reason, and
+    its cases then resolve to `blocked: <reason>` rather than to a pass nobody
+    could have earned.
+    """
+    d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+    lanes = campaign.setdefault("laneProof", {})
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+    if args.cannot_attach:
+        lanes[args.lane] = {"attached": False, "reason": args.cannot_attach,
+                            "declaredAt": now}
+        save(d, "campaign", campaign)
+        print(f"{args.lane}: NOT attached — {args.cannot_attach}")
+        print("Its cases resolve to `blocked: <reason>`. A lane that never ran "
+              "cannot hold a pass.")
+        return 0
+
+    missing = [f for f, v in (("--artifact", args.artifact),
+                              ("--built-by", args.built_by),
+                              ("--attached", args.attached)) if not v]
+    if missing:
+        sys.exit(f"A lane claiming on-glass verification needs {', '.join(missing)}. "
+                 f"Use --cannot-attach '<reason>' if it genuinely could not be "
+                 f"reached; that is a recorded limit, not a failure.")
+
+    artifact = Path(args.artifact)
+    if not artifact.exists():
+        sys.exit(f"--artifact {artifact} does not exist. This is the failure the "
+                 f"command is for: source that was authored and never built "
+                 f"cannot carry a case, and its absence is checkable.")
+
+    lanes[args.lane] = {
+        "attached": True,
+        "artifact": str(artifact),
+        "artifactBytes": artifact.stat().st_size if artifact.is_file() else None,
+        "builtBy": args.built_by,
+        "attachedBy": args.attached,
+        "captureChannel": args.capture or "",
+        "declaredAt": now,
+    }
+    save(d, "campaign", campaign)
+    print(f"{args.lane}: attached · {artifact}")
+    print(f"  built by  {args.built_by}")
+    print(f"  proved by {args.attached}")
+    if args.capture:
+        print(f"  capture   {args.capture}")
+    else:
+        print("  capture   none declared — a raster-visual case on this lane will "
+              "have no channel to cite")
     return 0
 
 
@@ -309,9 +520,15 @@ def audit(d: Path) -> dict:
         elif sid:
             orphans.append(c["id"])
 
-    counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0, "open": 0}
+    counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0,
+              "inconclusive": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
     carried_unbased = []
+    legacy_rung, bad_raster, unwitnessed_raster = [], [], []
+    seen_artifacts: dict[str, list[str]] = {}
+    lane_proof = campaign.get("laneProof", {})
+    glass_lanes_unproved: dict[str, list[str]] = {}
+    glass_lanes_unattached: dict[str, str] = {}
     for c in cases:
         st = state_of(c.get("status", "open"))
         counts[st] += 1
@@ -319,11 +536,51 @@ def audit(d: Path) -> dict:
             open_ids.append(c["id"])
         if st == CARRIED and not (c.get("selectionBasis") or ":" in (c.get("status") or "")):
             carried_unbased.append(c["id"])
+        if c.get("oracle") in LEGACY_RUNGS:
+            legacy_rung.append(c["id"])
+
+        # A lane that claims the application was running and drawn has to have
+        # said so once, with an artifact and a witness. Checked for every case
+        # on the lane, not only the passing ones, because a lane that never
+        # attached makes its failures uninterpretable too.
+        lane = c.get("lane") or ""
+        if lane_needs_glass(lane):
+            proof = lane_proof.get(lane)
+            if not proof:
+                glass_lanes_unproved.setdefault(lane, []).append(c["id"])
+            elif not proof.get("attached"):
+                glass_lanes_unattached[lane] = proof.get("reason", "no reason recorded")
+                if st not in ("blocked", "n/a", "skip"):
+                    unwitnessed_raster.append(
+                        f"{c['id']} ({lane} never attached, so its status "
+                        f"'{st}' cannot mean what it says)")
+
         if st == "pass":
             if not c.get("evidence"):
                 unevidenced.append(c["id"])
             if c.get("armed"):
                 armed += 1
+
+        # A rung that claims pixels must produce pixels, and they must be this
+        # case's pixels. One screenshot attached to twelve cases is the cheapest
+        # way a wall of captures comes to mean nothing, and it is exact to
+        # detect, so it is detected rather than trusted.
+        if c.get("oracle") in RASTER_RUNGS and st == "pass":
+            shots = [e for e in c.get("evidence", [])]
+            if not shots:
+                bad_raster.append(f"{c['id']} claims raster-visual and names no artifact")
+            for e in shots:
+                info = inspect_raster((d / e) if not Path(e).is_absolute() else Path(e))
+                if info["reason"]:
+                    bad_raster.append(f"{c['id']} → {e}: {info['reason']}")
+                elif info["sha256"]:
+                    seen_artifacts.setdefault(info["sha256"], []).append(f"{c['id']}:{e}")
+            if not (c.get("capture") or {}).get("method"):
+                unwitnessed_raster.append(
+                    f"{c['id']} names no capture method, so nothing says these "
+                    f"pixels came off a display server")
+
+    duplicate_artifacts = {h: ids for h, ids in seen_artifacts.items() if len(ids) > 1}
 
     uncovered = [sid for sid, cs in by_surface.items() if not cs]
 
@@ -394,8 +651,53 @@ def audit(d: Path) -> dict:
         age_days = None
 
     blockers = []
+    # A gate that cannot fail on the emptiest possible input is the failure this
+    # skill's first rule describes: a check that matches nothing returns clean and
+    # is indistinguishable from a clean surface. `init` followed by `check` used to
+    # exit 0 on zero requirements, zero surfaces and zero cases, with every count a
+    # truthful zero, so a run that crashed straight after init left a directory
+    # that cleared the gate.
+    if not cases:
+        blockers.append("no cases at all — an empty campaign is not a passing one. "
+                        "Every count here is a truthful zero, which is exactly why "
+                        "this cannot be allowed to read as clear")
+    if not surfaces:
+        blockers.append("no surfaces enumerated — nothing has a denominator, so "
+                        "there is nothing for a case to be a sample of")
     if open_ids:
         blockers.append(f"{len(open_ids)} case(s) still open")
+    if counts["inconclusive"]:
+        blockers.append(f"{counts['inconclusive']} case(s) inconclusive — attempted, "
+                        f"and the instrument could not measure. Not a pass and not "
+                        f"an n/a: 'we do not know' is a weaker claim than 'no "
+                        f"difference found' and a different one from 'does not apply'")
+    if counts["blocked"]:
+        blockers.append(f"{counts['blocked']} case(s) blocked — the thing under test "
+                        f"never ran, so nothing downstream of it is valid")
+    if glass_lanes_unproved:
+        blockers.append(f"{len(glass_lanes_unproved)} lane(s) claim on-glass "
+                        f"verification with no proof recorded "
+                        f"({', '.join(sorted(glass_lanes_unproved))}) — run "
+                        f"`campaign.py lane` with the artifact, how it was built "
+                        f"and what witnessed it attaching")
+    if legacy_rung:
+        blockers.append(f"{len(legacy_rung)} case(s) still on the legacy `visual` "
+                        f"rung ({', '.join(legacy_rung[:5])}) — split each into "
+                        f"`structural-visual` (labels and hierarchy exist) or "
+                        f"`raster-visual` (pixels captured off a display server). "
+                        f"`visual` buys no effect credit until you do")
+    if bad_raster:
+        blockers.append(f"{len(bad_raster)} raster-visual claim(s) whose artifact is "
+                        f"not a usable capture — a visual claim without pixels is a "
+                        f"structural assertion in disguise")
+    if duplicate_artifacts:
+        n = sum(len(v) for v in duplicate_artifacts.values())
+        blockers.append(f"{n} raster-visual case(s) share {len(duplicate_artifacts)} "
+                        f"identical artifact(s) byte for byte — one screenshot cannot "
+                        f"be evidence for two different assertions")
+    if unwitnessed_raster:
+        blockers.append(f"{len(unwitnessed_raster)} pixel claim(s) with nothing saying "
+                        f"where the pixels came from")
     if uncovered:
         blockers.append(f"{len(uncovered)} surface(s) with no case at all")
     if unevidenced:
@@ -425,10 +727,33 @@ def audit(d: Path) -> dict:
                         f"maxFullRunAgeDays — selection has been carrying this verdict "
                         f"too long; run full")
 
+    # Observation coverage, kept apart from the verdict on purpose. "34 of 42
+    # measured and all 34 equal" is not 100% agreement, it is a result over a
+    # population of 34 with 8 observations missing, and the two read identically
+    # unless the denominator is printed beside them. So the campaign reports what
+    # it asked for, what it actually measured, and what it could not.
+    measured = counts["pass"] + counts["fail"]
+    unavailable = counts["inconclusive"] + counts["blocked"] + counts["n/a"]
+    deferred = counts["skip"] + counts["unselected"] + counts["open"]
+
     return {
         "project": campaign.get("project", ""),
         "lanes": campaign.get("lanes", []),
+        "laneProof": lane_proof,
+        "glassLanesUnproved": {k: v for k, v in glass_lanes_unproved.items()},
+        "glassLanesUnattached": glass_lanes_unattached,
         "sample": campaign.get("sample", ""),
+        "observations": {
+            "requested": len(cases),
+            "measured": measured,
+            "unavailable": unavailable,
+            "deferred": deferred,
+            "coverage": (f"{measured}/{len(cases)}" if cases else "0/0"),
+        },
+        "legacyRungCases": legacy_rung,
+        "badRasterClaims": bad_raster,
+        "duplicateArtifacts": duplicate_artifacts,
+        "unwitnessedPixelClaims": unwitnessed_raster,
         "runScope": scope,
         "selectionBasis": basis,
         "lastFullRun": last_full,
@@ -466,11 +791,21 @@ def cmd_check(args) -> int:
         return 0 if a["clear"] else 1
 
     c = a["counts"]
+    o = a["observations"]
     print(f"{a['project']} · lanes: {', '.join(a['lanes']) or 'none declared'}")
     print(f"Requirements: {a['requirements']} inventoried, {len(a['requirementsUntested'])} with no case")
     print(f"Surfaces:   {a['surfaces']} enumerated, {len(a['surfacesUncovered'])} with no case")
     print(f"Cases:      {c['pass']} pass · {c['fail']} fail · {c['skip']} skip · "
-          f"{c['n/a']} n/a · {c['unselected']} carried · {c['open']} open  (of {a['cases']})")
+          f"{c['n/a']} n/a · {c['unselected']} carried · {c['inconclusive']} inconclusive · "
+          f"{c['blocked']} blocked · {c['open']} open  (of {a['cases']})")
+    print(f"Observed:   {o['coverage']} cases produced a measurement · "
+          f"{o['unavailable']} could not be measured · {o['deferred']} not attempted")
+    for lane, proof in sorted(a["laneProof"].items()):
+        if proof.get("attached"):
+            print(f"On glass:   {lane} → {proof.get('artifact', '?')} "
+                  f"({proof.get('attachedBy', 'no witness recorded')})")
+        else:
+            print(f"On glass:   {lane} → NOT attached: {proof.get('reason', '?')}")
     mix = a["oracleMix"]
     print("Oracles:    " + " · ".join(f"{k} {v}" for k, v in mix.items() if v))
     print(f"Armed:      {a['armedOfPassing']} passing cases have been watched to fail")
@@ -518,6 +853,30 @@ def cmd_check(args) -> int:
         print(f"  Passes with no artifact: {', '.join(a['unevidencedPasses'][:12])}")
         print("  A pass you reached by looking is not a measurement. Attach the artifact "
               "or reopen the case.")
+    if a["glassLanesUnproved"]:
+        for lane, ids in sorted(a["glassLanesUnproved"].items()):
+            print(f"\n  Lane '{lane}' claims on-glass verification and has no proof "
+                  f"({len(ids)} case(s), e.g. {', '.join(ids[:4])}).")
+        print("  Record it once:  campaign.py lane <dir> --lane <lane> --artifact <path> \\")
+        print("                     --built-by '<build command>' --attached '<what witnessed it>'")
+        print("  Or say it could not be reached:  --cannot-attach '<structural reason>'")
+    if a["badRasterClaims"]:
+        print("\n  Pixel claims with no usable pixels:")
+        for line in a["badRasterClaims"][:10]:
+            print(f"    · {line}")
+    if a["duplicateArtifacts"]:
+        print("\n  The same capture standing in for several cases:")
+        for ids in list(a["duplicateArtifacts"].values())[:6]:
+            print(f"    · {', '.join(ids)}")
+    if a["unwitnessedPixelClaims"]:
+        print("\n  Pixels with no stated origin:")
+        for line in a["unwitnessedPixelClaims"][:10]:
+            print(f"    · {line}")
+    if a["legacyRungCases"]:
+        print(f"\n  On the legacy `visual` rung: {', '.join(a['legacyRungCases'][:12])}")
+        print("  Asserting that a card's title property equals a string is a data-model "
+              "check, not a visual one. Split each into structural-visual or "
+              "raster-visual; the second needs a capture off a display server.")
     if a["openCases"]:
         print(f"  Open: {', '.join(a['openCases'][:20])}"
               + (" …" if len(a["openCases"]) > 20 else ""))
@@ -595,12 +954,37 @@ def main() -> int:
     s.add_argument("--case", required=True)
     s.add_argument("--status",
                    help="pass | fail | skip: <reason> | n/a: <reason> | "
-                        "unselected: <basis>")
+                        "unselected: <basis> | inconclusive: <reason> | "
+                        "blocked: <reason>")
     s.add_argument("--evidence", action="append")
     s.add_argument("--armed", action="store_true",
                    help="This assertion was watched to fail with the behaviour removed.")
+    s.add_argument("--capture-method",
+                   help="How these pixels were obtained, e.g. 'ScreenCaptureKit "
+                        "window-scoped'. Required for a raster-visual pass.")
+    s.add_argument("--frame-status",
+                   help="What the capture channel said about the frame, e.g. "
+                        "SCFrameStatus=complete. An idle or blank frame is not "
+                        "evidence of anything.")
     s.add_argument("--note")
     s.set_defaults(fn=cmd_set)
+
+    ln = sub.add_parser("lane", help="Record the artifact a lane tested and what "
+                                     "proved it was running.")
+    ln.add_argument("dir")
+    ln.add_argument("--lane", required=True,
+                    help="Lane name. A name ending in '-glass' claims the app was "
+                         "running and drawn, and must carry the three proofs below.")
+    ln.add_argument("--artifact", help="The built thing under test, as a path.")
+    ln.add_argument("--built-by", help="The command that produced it.")
+    ln.add_argument("--attached", help="What witnessed a process from that artifact "
+                                       "reaching a display server.")
+    ln.add_argument("--capture", help="The capture channel and its per-frame status "
+                                      "signal, where the platform has one.")
+    ln.add_argument("--cannot-attach", help="A structural reason the lane could not be "
+                                            "reached. Its cases become blocked, which "
+                                            "is honest; a pass would not be.")
+    ln.set_defaults(fn=cmd_lane)
 
     sc = sub.add_parser("scope", help="Declare what this run covered. Full is a decision.")
     sc.add_argument("dir")
