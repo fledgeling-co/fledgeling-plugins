@@ -32,3 +32,30 @@ Everything else is neutral, so the crease is the only thing the eye is sent to.
 via `rsvg-convert`. Every proportion is a named constant at the top of the file; a fidelity
 round is a parameter edit, never path surgery on the output. The squircle silhouette is
 read from `create-mac-icon/assets/squircle-path.txt` so the whole family shares one tile.
+
+## The engines, run 19 Aug 2026
+
+The icon shipped on 9 Aug from Engine A alone. The other two were commissioned on 19 Aug and
+one of them came back.
+
+- **Engine B (Arrow 1.1, `svg: true`) refused** — "A positive credit balance is required for
+  all requests, including BYOK". There is no independent vector take, and nothing was salvaged
+  from one.
+- **Engine C returned two rasters** (GPT Image 2, one call, `n: 2`), steered with
+  `apple-23` / `apple-28` / `apple-31` / `apple-27` from `create-mac-icon`'s
+  `references/corpus/apple-2026/` — the porcelain register. `icon-engineC-c04596.png` and
+  `icon-engineC-b88abc-2.png`. Both carry the best *material* in the set and both fail check 4
+  outright: at 16px the panel is a ghost at 1.05:1 against the ground and only the accent
+  survives. Both also read the crease as a cylindrical rod laid across the front of the sheet,
+  which is a highlighter marking a page rather than a fold generating the pagination below it.
+- **Engine A was widened instead**, per the skill's own fallback clause, to
+  `build_icon_a2.py` → `icon-A2-fold-inverted.svg`: the same fold with its values inverted —
+  graphite sheet on the same porcelain ground, ruling knocked out in porcelain, crease as a
+  recessed slit of light. It answers the shipping take's figure-ground failure by 9.2× and
+  loses a point of its own, because the slit touches neither plane it is supposed to join.
+
+`audit.html` carries all four takes with their scores, the measurements behind them, and the
+Dark and Tinted variant renders that `variants.py` produces. The recommendation there is A2 at
+11/12 against the master's 11/12, on the substance of the two failures rather than the count —
+and nothing was swapped, because which take ships is not a decision this pass gets to make.
+
