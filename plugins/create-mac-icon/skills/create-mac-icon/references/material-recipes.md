@@ -65,6 +65,73 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · whats-left "The Open Crown" — the void is part of the silhouette,
+  and three mocks died proving it.** A gateway with its keystone lifted out of
+  the crown. Every finding here is about NEGATIVE space, which no material work
+  can reach and no metric in this skill measures.
+
+  **(a) A tapered void rising out of a round-topped opening is a bottle, and the
+  material cannot save it.** Three three-value mocks failed in a row, each read
+  in one second at 128px: a half-round voussoir ring severed at the crown is a
+  perfume bottle with its stopper above it; flattening the arc to a segmental
+  span is a squatter bottle; cutting the taper from 13 degrees to 5 is a bottle
+  with a straighter neck. The defect is topological rather than geometric — the
+  missing piece's socket connects to the opening below it, so the two voids read
+  as ONE shape, and that shape is a body with a neck. Two fixes together, and
+  both were needed: make the outer silhouette a RECTANGULAR block with the arch
+  cut into it (a curved outer contour over vertical sides is a bottle's shoulder
+  whatever fills it), and paint the socket as a solid recess so the porcelain
+  shows through the opening only.
+  *Generalise:* when a device is defined by a piece being absent, draw the void
+  as a filled shape and squint at THAT. The object's own outline is not where the
+  failure is.
+
+  **(b) A recess whose only visible surface is one side wall reads as a loose
+  stone standing in the hole.** With the camera above-right and the key
+  upper-left, the socket's single visible face is its left wall, which turns away
+  from the key, so it rendered as a dark tilted slab against the porcelain above
+  the block's top edge — indistinguishable from a separate object. Cutting the
+  socket as a STOPPED housing (`SOCKET_K = 0.62` of the block's depth) adds a
+  back wall parallel to the near face, which is a plane the key can land on:
+  measured, back wall 0.167 and side wall 0.130 against a front face of 0.256, so
+  the recess sits below the face rather than beside it. It is a deliberate
+  fiction — a real missing keystone leaves a full-depth cut — and it is the
+  docked rubric check, paid knowingly for the silhouette.
+  *Generalise:* a recess needs at least two faces at different values to read as
+  depth. If the projection gives you only one, change the recess, not the light.
+
+  **(c) A masonry joint is two strokes, and the pale one is what makes stones.**
+  Incised single dark lines around the arch ring read as ink drawn on one slab.
+  The raster take's advantage was that its courses were separate blocks, and the
+  cheap version of that is a 3.4px dark groove plus a 2.2px pale lip offset 3.1px
+  along `-LIGHT` (the key side) at 0.34 opacity. Same paths, same geometry, and
+  the ring stops being a decal. This is mac-craft's valley rule at a scale where a
+  full three-stop cross-section will not fit.
+
+  **(d) A dark mass is how the porcelain register clears rubric #7, and it is
+  worth the whole commission.** The predecessor measured 0.075 16px contrast on
+  the family measure (n=36, median 0.196) and spent its accent on a 0.5% dot. The
+  rebuild measures 0.275 with figure-ground 3.13:1 by the dilated-ring method,
+  against 1.75:1 and 1.98:1 for the two diffusion takes of the same object —
+  which is mac-craft's measured ceiling for this register showing up again, from
+  the other side. The raster is the material target and never the contrast target.
+
+  **(e) Three engines briefed once all drew the same object, and that is a
+  reading of the DEVICE, not of the engines.** Both GPT Image takes and the Arrow
+  take independently produced a gateway with a socket in its crown and the wedge
+  above it. When the takes converge on the composition, the metaphor needs no
+  explaining; when they diverge (ship-fleet's quay, where the raster reproduced
+  the draft's letter-E), the convergence is the warning instead. Either way it is
+  free evidence available before any material work starts.
+
+  **(f) Sheet finding: a long verdict column collapses the contact sheet.** With
+  the template's `min-width: 860px` and four prose verdicts, the browser gave the
+  verdict cell 165px and every row grew to 1078px tall, with the renders floating
+  in the vertical middle of a mostly-empty cell. Nothing errors and `check`
+  passes. A `<colgroup>` of 212 / 700 / 74 / 378 and `min-width: 1360px` puts the
+  rows back at 427px; `.sheet`'s own `overflow-x` absorbs the extra width, so the
+  page body still does not scroll.
+
 - **2026-08 · proctor "The Side Port" — a cylinder is one path with a derived
   gradient, an oblique box's silhouette is a convex hexagon, and a coaxial
   barrel is a camera.** Six findings from rebuilding a line-art window outline
