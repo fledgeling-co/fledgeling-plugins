@@ -12,7 +12,7 @@ Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; s
 
 ---
 
-Fledgeling makes AI-native software for founders and developers; these are the SWE skills that come out of building it. Each one exists because a real workflow needed it, and each carries its own README, evals or references where the work justified them. Every icon below came through the same three-engine design pipeline with its audit sheet committed beside it.
+Fledgeling makes AI-native software for founders and developers; these are the SWE skills that come out of building it. Each one exists because a real workflow needed it, and each carries its own README, evals or references where the work justified them. Every icon below sits on the same measured family silhouette, and the three-engine pipeline with its scored audit sheet is the standard they are held to, with a gate that says which ones do not meet it yet.
 
 **[skills.fledgeling.app](https://skills.fledgeling.app)** is the same set, searchable: describe the problem you have and it finds the skill, without you knowing its name.
 
