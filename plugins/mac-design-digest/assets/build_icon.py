@@ -148,12 +148,19 @@ def build() -> str:
     add('</defs>')
 
     # Everything lives inside the family squircle — one silhouette across the set.
-    add('<g clip-path="url(#tile)">')
+    # The strata are named groups rather than section comments: `fidelity.py
+    # structure` counts `<g id=…>`, so a commented layer plan satisfied nothing.
+    # The ids avoid `ground`, `plate`, `seal`, `mark`, `boss` and `glow`, which are
+    # gradient ids already live in <defs>. Naming them changed no pixels.
+    add('<g id="art" clip-path="url(#tile)">')
 
-    # ---------------- ground
+    # ---------------- bg: ground
+    add('<g id="bg">')
     add(f'<rect width="{S}" height="{S}" fill="url(#ground)"/>')
+    add('</g>')
 
-    # ---------------- the value-plate
+    # ---------------- mid: the value-plate and its rim light
+    add('<g id="mid">')
     add('<g filter="url(#plateshadow)">')
     add(f'<path d="{rounded(PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R)}" fill="url(#plate)"/>')
     add('</g>')
@@ -164,10 +171,13 @@ def build() -> str:
         f'stroke="{PLATE_RIM}" stroke-width="4" stroke-opacity="0.95" stroke-linecap="round"/>')
     add(f'<path d="M{PLATE_X + 2.5},{PLATE_Y + PLATE_R} v{PLATE_H - 2 * PLATE_R}" fill="none" '
         f'stroke="{PLATE_RIM}" stroke-width="4" stroke-opacity="0.7" stroke-linecap="round"/>')
+    add('</g>')
 
     add('<g clip-path="url(#plateclip)">')
 
-    # ---------------- the recorded value: rules and one heavy bar, never glyphs
+    # ---------------- fg: the recorded value (rules and one heavy bar, never
+    # glyphs) and the socket the seal was pressed into
+    add('<g id="fg">')
     add(f'<rect x="{LABEL_X}" y="{LABEL_Y}" width="{LABEL_W}" height="{LABEL_H}" rx="{LABEL_H / 2}" '
         f'fill="{MARK}" fill-opacity="0.30"/>')
     add(f'<rect x="{VALUE_X}" y="{VALUE_Y}" width="{VALUE_W}" height="{VALUE_H}" '
@@ -186,8 +196,10 @@ def build() -> str:
         f'stroke="{SOCKET_DARK}" stroke-width="7" stroke-opacity="0.34" stroke-linecap="round"/>')
     add(f'<path d="{arc(SEAL_CX, SEAL_CY, SOCKET_R - 4, 315, 135)}" fill="none" '
         f'stroke="#FFFFFF" stroke-width="7" stroke-opacity="0.95" stroke-linecap="round"/>')
+    add('</g>')
 
-    # ---------------- the seal: a separate object, proud of the plate
+    # ---------------- highlight: the seal, a separate object, proud of the plate
+    add('<g id="highlight">')
     add(f'<ellipse cx="{SEAL_CX}" cy="{SEAL_CY}" rx="{SEAL_R_OUT * 1.5}" '
         f'ry="{SEAL_R_OUT * 1.5}" fill="url(#glow)" filter="url(#softglow)"/>')
     add('<g filter="url(#sealshadow)">')
@@ -203,9 +215,10 @@ def build() -> str:
     add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SEAL_BOSS_R}" fill="url(#boss)"/>')
     add(f'<path d="{arc(SEAL_CX, SEAL_CY, SEAL_BOSS_R - 3, 155, 295)}" fill="none" '
         f'stroke="#FFD3BC" stroke-width="5" stroke-opacity="0.55" stroke-linecap="round"/>')
+    add('</g>')
 
     add('</g>')  # plateclip
-    add('</g>')  # tile
+    add('</g>')  # art / tile
     add('</svg>')
     return "\n".join(parts)
 

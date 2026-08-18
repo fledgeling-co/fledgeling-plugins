@@ -99,12 +99,20 @@ def build() -> str:
     add('</defs>')
 
     # Everything lives inside the family squircle — one silhouette across the set.
-    add('<g clip-path="url(#tile)">')
+    # The four named layers below are the layer plan the audit sheet claims and
+    # `fidelity.py structure` requires: bg / mid / fg / highlight. They are pure
+    # wrappers carrying no presentation attributes, so grouping is free — adding
+    # them left the 1024 render byte-identical. The ids cannot reuse `ground`,
+    # `device` or `accent`, which are gradient ids already live in <defs>.
+    add('<g id="art" clip-path="url(#tile)">')
 
-    # ---------------- ground
+    # ---------------- bg: ground
+    add('<g id="bg">')
     add(f'<rect width="{S}" height="{S}" fill="url(#ground)"/>')
+    add('</g>')
 
-    # ---------------- device
+    # ---------------- mid: device shell and its rim light
+    add('<g id="mid">')
     add(f'<g filter="url(#devshadow)">')
     add(f'<path d="{rounded(DEV_X, DEV_Y, DEV_W, DEV_H, DEV_R)}" fill="url(#device)"/>')
     add('</g>')
@@ -114,11 +122,12 @@ def build() -> str:
         f'stroke="{DEV_RIM}" stroke-width="3" stroke-opacity="0.55"/>')
     add(f'<path d="M{DEV_X + DEV_R},{DEV_Y + 2} h{DEV_W - 2 * DEV_R}" fill="none" '
         f'stroke="#7C8695" stroke-width="3" stroke-opacity="0.5" stroke-linecap="round"/>')
+    add('</g>')
 
     add('<g clip-path="url(#devclip)">')
 
-    # ---------------- grid
-    add(f'<g stroke="{GRID_LINE}" stroke-opacity="{GRID_OPACITY}" stroke-width="2">')
+    # ---------------- fg: grid
+    add(f'<g id="fg" stroke="{GRID_LINE}" stroke-opacity="{GRID_OPACITY}" stroke-width="2">')
     for c in range(cols + 1):
         x = gx0 + c * CELL_W
         add(f'<line x1="{x}" y1="{gy0}" x2="{x}" y2="{gy0 + rows * CELL_H}"/>')
@@ -139,7 +148,8 @@ def build() -> str:
         add(f'<rect x="{x}" y="{y:.0f}" width="{w}" height="{CELL_H * 0.34:.0f}" rx="6" '
             f'fill="{TEXT_DIM}" fill-opacity="0.30"/>')
 
-    # ---------------- the lit glyph: TWO cells wide
+    # ---------------- highlight: the lit glyph, TWO cells wide, and its caliper
+    add('<g id="highlight">')
     add(f'<ellipse cx="{lx + lw / 2}" cy="{ly + CELL_H / 2}" rx="{lw * 0.95}" '
         f'ry="{CELL_H * 1.1}" fill="url(#glow)" filter="url(#softglow)"/>')
     add(f'<rect x="{lx + 5}" y="{ly + 5}" width="{lw - 10}" height="{CELL_H - 10}" rx="8" '
@@ -157,8 +167,9 @@ def build() -> str:
     add(f'<line x1="{lx + 4}" y1="{cy}" x2="{lx + lw - 4}" y2="{cy}"/>')
     add('</g>')
 
+    add('</g>')  # highlight
     add('</g>')  # devclip
-    add('</g>')  # tile
+    add('</g>')  # art / tile
     add('</svg>')
     return "\n".join(parts)
 

@@ -1,0 +1,43 @@
+{
+  "takes": {
+    "engineB": {
+      "source": "engineB-arrow.svg",
+      "kind": "svg",
+      "source_mtime": 1786962824.3244622,
+      "rendered_at": 1787090997.693399
+    },
+    "engineC-raster": {
+      "source": "engineC-raster.jpg",
+      "kind": "raster-mask",
+      "source_mtime": 1786962824.3302064,
+      "rendered_at": 1787090997.932719
+    },
+    "engineC-raster-2": {
+      "source": "engineC-raster-2.jpg",
+      "kind": "raster-mask",
+      "source_mtime": 1786962824.3266313,
+      "rendered_at": 1787090998.17111
+    },
+    "master": {
+      "source": "icon-src.svg",
+      "kind": "svg",
+      "source_mtime": 1787090990.1433394,
+      "rendered_at": 1787090998.3534799
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

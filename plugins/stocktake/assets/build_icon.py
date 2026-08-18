@@ -78,9 +78,15 @@ def build() -> str:
     a(f'<clipPath id="tile"><path d="{squircle()}"/></clipPath>')
     a('</defs>')
 
-    a('<g clip-path="url(#tile)">')
+    # bg / mid / fg / highlight are named groups rather than section comments,
+    # because `fidelity.py structure` counts `<g id=…>` and a comment satisfies
+    # nothing. The wrappers carry no presentation attributes, so naming them left
+    # the 1024 render byte-identical.
+    a('<g id="art" clip-path="url(#tile)">')
+    a('<g id="bg">')
     a(f'<path d="{squircle()}" fill="url(#ground)"/>')
     a('<ellipse cx="512" cy="378" rx="262" ry="224" fill="url(#halo)"/>')
+    a('</g>')
 
     # The column sits LOW and the lifted card sits HIGH, because the gap between
     # them is the subject. A card resting flush on the stack reads as the top of
@@ -89,6 +95,7 @@ def build() -> str:
     # The cards fan by FAN px per row so the column reads as filed paper rather
     # than as three identical bars — which is what an evenly stacked set becomes
     # at 64px, and it looked like a server rack.
+    a('<g id="mid">')
     CW, CH, CX, FAN = 340, 62, 342, 24
     for i, top in enumerate((672, 748, 824)):
         x = CX + (i - 1) * FAN
@@ -99,7 +106,9 @@ def build() -> str:
     # The cast shadow lands ON the face of the top card, not behind it, so the
     # air under the lifted card is visible rather than implied.
     a(f'<ellipse cx="500" cy="700" rx="118" ry="14" fill="{WARM_SHADOW}" opacity="0.38"/>')
+    a('</g>')
 
+    a('<g id="fg">')
     LX, LY, LW, LH = CX + 4, 300, CW - 8, 168
     # Translucent, not opaque: the halo behind reads through the lower half, which
     # is the whole difference between this card and the ones it came from.
@@ -107,9 +116,12 @@ def build() -> str:
     a(f'<path d="{card(LX, LY, LW, LH, 18)}" fill="none" stroke="{GLOW_EDGE}" stroke-width="7"/>')
     a(f'<rect x="{LX+34}" y="{LY+52}" width="{LW-150}" height="9" rx="4.5" fill="{GLOW_EDGE}" opacity="0.34"/>')
     a(f'<rect x="{LX+34}" y="{LY+88}" width="{LW-230}" height="9" rx="4.5" fill="{GLOW_EDGE}" opacity="0.22"/>')
+    a('</g>')
 
+    a('<g id="highlight">')
     a(f'<path d="{squircle()}" fill="url(#vig)"/>')
     a(f'<path d="{squircle()}" fill="none" stroke="{TILE_RIM}" stroke-width="3" opacity="0.8"/>')
+    a('</g>')
     a('</g></svg>')
     return "\n".join(o)
 

@@ -20,10 +20,21 @@
   .sz { text-align:center; color:var(--dim); font-size:11px; }
   .sz img { display:block; margin-bottom:6px; border-radius:6px; }
   .squint img { image-rendering:pixelated; border-radius:2px; }
+  .take { font-weight:600; }
   .verdict { font-weight:600; }
   .win { color:#1a7f42; } .lose { color:var(--dim); }
-  .rubric td:first-child { width:56%; }
+  .score { text-align:center; white-space:nowrap; font-variant-numeric:tabular-nums;
+           font-weight:700; }
+  .score small { display:block; font-weight:400; font-size:11px; color:var(--dim); }
+  .retro { max-width:76ch; margin:0 0 32px; padding:14px 18px; background:#FDF1E7;
+           border:1px solid #E9C4A8; border-left:4px solid var(--accent); border-radius:8px;
+           color:#5a4436; font-size:13.5px; line-height:1.6; }
+  .rec { margin-top:28px; padding:18px 20px; border:1px solid #E9C4A8; border-radius:10px;
+         background:#FDF6F0; max-width:88ch; }
+  .rec strong { color:#9c3d16; }
+  .rubric td:first-child { width:44%; }
   .pass { color:#1a7f42; font-weight:600; } .warn { color:#b7791f; font-weight:600; }
+  .fail { color:#b03a1a; font-weight:600; }
   .hero { display:flex; gap:36px; align-items:center; margin-bottom:8px; }
   .hero img { border-radius:22px; }
   code { background:#F1EEE8; padding:1px 5px; border-radius:4px; font-size:13px; }
@@ -32,10 +43,24 @@
 <h1>tui-craft — icon audit</h1>
 <p class="sub">Decorative marketplace tile, not an Icon Composer production package —
 the material has to be in the file because nothing downstream will add it.
-Three engines, master shipped from Engine A.</p>
+Three engines, four takes, master shipped from Engine A. Every take audited on real
+renders at 1024 / 128 / 64 / 48 / 32 / 16.</p>
+
+<p class="retro"><strong>Scores on this sheet are retrospective, written 19 Aug 2026.</strong>
+The commission (17 Aug) produced the four takes, their renders and the per-take verdicts below,
+but recorded no numeric rubric score, so the sheet carried a comparison with no arithmetic behind
+it. The four scores were assigned on 19 Aug by reading the twelve-point rubric in
+<code>icon-directions.md</code> against the renders in <code>audit-renders/</code> — not at
+commission time. The prose verdicts are the commission's own and are unchanged except where a
+render contradicted one, which is marked in place. Two things this sheet does <em>not</em> record,
+because the directory holds no evidence of them: no fidelity loop ran (there is no
+<code>fidelity-runs/</code> here and no <code>icon-notes.md</code>), and no blind judge panel saw
+these takes. The rubric table below was also relabelled on 19 Aug from the commission's own
+twelve-item wording onto the canonical numbering, so that <q>11 / 12</q> is checkable against the
+marketplace's rubric rather than against a private one.</p>
 
 <div class="hero">
-  <img src="audit-renders/master-512.png" width="256" height="256" alt="master at 512">
+  <img src="audit-renders/master-1024.png" width="256" height="256" alt="Shipping master, 1024px source">
   <div>
     <strong>Direction:</strong> warm-neutral ground, charcoal device, single vermilion accent —
     matched to the marketplace family (proctor, discipline, should-compact) by sampling their
@@ -52,50 +77,82 @@ Three engines, master shipped from Engine A.</p>
 
 <h2>Size ladder — retina sources at half size</h2>
 <table>
-  <tr><th>Take</th><th>128 / 64 / 48 / 32 / 16 css px</th><th>Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources)</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
   <tr>
-    <td><strong>Engine A — hand-authored SVG</strong><br><span class="sub">the master</span></td>
+    <td class="take"><strong>Engine A — hand-authored SVG</strong><br><span class="sub">the master</span></td>
     <td><div class="sizes">
-      <div class="sz"><img src="audit-renders/master-256.png" width="128" height="128">128</div>
-      <div class="sz"><img src="audit-renders/master-128.png" width="64" height="64">64</div>
-      <div class="sz"><img src="audit-renders/master-96.png" width="48" height="48">48</div>
-      <div class="sz"><img src="audit-renders/master-64.png" width="32" height="32">32</div>
-      <div class="sz"><img src="audit-renders/master-32.png" width="16" height="16">16</div>
+      <div class="sz"><img src="audit-renders/master-1024.png" width="160" height="160" alt="master hero, 1024px source">hero 1024</div>
+      <div class="sz"><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128px">128</div>
+      <div class="sz"><img src="audit-renders/master-128.png" width="64" height="64" alt="master at 64px">64</div>
+      <div class="sz"><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48px">48</div>
+      <div class="sz"><img src="audit-renders/master-64.png" width="32" height="32" alt="master at 32px">32</div>
+      <div class="sz"><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16px">16</div>
     </div></td>
-    <td class="verdict win">SHIP</td>
+    <td class="score win">11 / 12<small>clears 1&ndash;4</small></td>
+    <td class="verdict win">SHIP &mdash; drops #10 only. Full-bleed 1024 with
+      <code>squircle-path.txt</code> as a <em>clip</em>, no baked radius and no baked tile shadow;
+      device inset 168/236 with the mass balanced; at a true 16px it resolves to a dark panel with
+      a warm mark right of centre, which is the intended reduction. #10 is the deduction and it is
+      measured, not predicted: see the liabilities.</td>
   </tr>
   <tr>
-    <td>Engine B — Arrow vector</td>
+    <td class="take">Engine B — Arrow vector</td>
     <td><div class="sizes">
-      <div class="sz"><img src="audit-renders/engineB-256.png" width="128" height="128">128</div>
-      <div class="sz"><img src="audit-renders/engineB-128.png" width="64" height="64">64</div>
-      <div class="sz"><img src="audit-renders/engineB-64.png" width="32" height="32">32</div>
-      <div class="sz"><img src="audit-renders/engineB-32.png" width="16" height="16">16</div>
+      <div class="sz"><img src="audit-renders/engineB-1024.png" width="160" height="160" alt="Engine B Arrow take hero, 1024px source">hero 1024</div>
+      <div class="sz"><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Engine B Arrow take at 128px">128</div>
+      <div class="sz"><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Engine B Arrow take at 64px">64</div>
+      <div class="sz"><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Engine B Arrow take at 48px">48</div>
+      <div class="sz"><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Engine B Arrow take at 32px">32</div>
+      <div class="sz"><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Engine B Arrow take at 16px">16</div>
     </div></td>
-    <td class="verdict lose">Flat — no light model, no contact shadow. Composition confirmed
-      the metaphor reads; nothing salvaged into the master.</td>
+    <td class="score">4 / 12<small class="fail">fails 1, 3, 4, 5, 8, 9, 10, 11</small></td>
+    <td class="verdict lose">Hard-fails three non-negotiables. #1: a rounded-rect tile and an
+      elliptical drop shadow are both <em>baked into the artwork</em>, on a 150&times;158 viewBox
+      that is not square, so it can never take the family superellipse. #3: filled solid black it is
+      a rounded rectangle and nothing is nameable. #4: at 16px the filled cell and the hollow cell
+      merge into one warm smear and the metaphor is gone. Flat fills carry no light model at all
+      while the baked shadow implies one (#5, #8, #9), and there are no layers (#10). The
+      commission's note read &ldquo;no contact shadow&rdquo;; the render shows a baked elliptical one
+      under the tile, which is worse than none &mdash; corrected here on 19 Aug against
+      <code>engineB-1024.png</code>. Composition confirmed the metaphor reads; nothing was salvaged
+      into the master.</td>
   </tr>
   <tr>
-    <td>Engine C — Gemini raster (take 2)</td>
+    <td class="take">Engine C — Gemini raster (take 2)</td>
     <td><div class="sizes">
-      <div class="sz"><img src="audit-renders/engineC-raster-256.png" width="128" height="128">128</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-128.png" width="64" height="64">64</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-64.png" width="32" height="32">32</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-32.png" width="16" height="16">16</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-1024.png" width="160" height="160" alt="Engine C raster take 2 hero, 1024px source">hero 1024</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-256.png" width="128" height="128" alt="Engine C raster take 2 at 128px">128</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-128.png" width="64" height="64" alt="Engine C raster take 2 at 64px">64</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-96.png" width="48" height="48" alt="Engine C raster take 2 at 48px">48</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-64.png" width="32" height="32" alt="Engine C raster take 2 at 32px">32</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-32.png" width="16" height="16" alt="Engine C raster take 2 at 16px">16</div>
     </div></td>
-    <td class="verdict lose">Won the material read: the rim light and the glow bloom around the
-      lit cell were both lifted into the master. Lost on geometry — one-cell glyph, so the
-      metaphor collapses.</td>
+    <td class="score">9 / 12<small class="fail">fails 1, 10, 11</small></td>
+    <td class="verdict lose">Won the material read, as the pipeline expects: the rim light on the
+      device's top edge and the glow bloom around the lit cell were both lifted into the master.
+      Ships nothing. #1: the device is drawn as a second rounded rect with its own baked shadow
+      inside the frame, so masking it to the squircle just crops a picture of a tile. #10: a flat
+      pre-masked raster is the corpus's named 76% failure by definition. #11: the lit glyph occupies
+      <em>one</em> cell and the caliper is a hairline, so the signature device &mdash; one glyph
+      across two cells, measured &mdash; is absent, and what is left is a glyph on a grid. Below the
+      bar and failing a non-negotiable.</td>
   </tr>
   <tr>
-    <td>Engine C — Gemini raster (take 1)</td>
+    <td class="take">Engine C — Gemini raster (take 1)</td>
     <td><div class="sizes">
-      <div class="sz"><img src="audit-renders/engineC-raster-2-256.png" width="128" height="128">128</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-2-128.png" width="64" height="64">64</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-2-64.png" width="32" height="32">32</div>
-      <div class="sz"><img src="audit-renders/engineC-raster-2-32.png" width="16" height="16">16</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-1024.png" width="160" height="160" alt="Engine C raster take 1 hero, 1024px source">hero 1024</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-256.png" width="128" height="128" alt="Engine C raster take 1 at 128px">128</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-128.png" width="64" height="64" alt="Engine C raster take 1 at 64px">64</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-96.png" width="48" height="48" alt="Engine C raster take 1 at 48px">48</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-64.png" width="32" height="32" alt="Engine C raster take 1 at 32px">32</div>
+      <div class="sz"><img src="audit-renders/engineC-raster-2-32.png" width="16" height="16" alt="Engine C raster take 1 at 16px">16</div>
     </div></td>
-    <td class="verdict lose">Nested squircle inside a squircle — breaks the family silhouette.</td>
+    <td class="score">8 / 12<small class="fail">fails 1, 3, 10, 11</small></td>
+    <td class="verdict lose">Nested squircle inside a squircle inside a squircle &mdash; three
+      concentric frames before the subject starts. #3 is the hard one: filled black it is a tile in a
+      tile, which names no subject and breaks the family silhouette outright. Carries the same #1 and
+      #10 raster failures as its sibling and the same one-cell glyph (#11). Kept on the sheet as the
+      reason a second raster prompt was run at all.</td>
   </tr>
 </table>
 
@@ -111,29 +168,61 @@ Three engines, master shipped from Engine A.</p>
 right of centre. That is the intended reduction: recognisable as a terminal, distinct from
 every other tile in the marketplace, and it does not attempt to keep the caliper.</p>
 
-<h2>The 12-point rubric</h2>
+<h2>The 12-point rubric, master — 11 / 12</h2>
+<p class="sub" style="margin-bottom:14px;max-width:78ch">Numbering is <code>icon-directions.md</code>'s.
+Where a row's observation is the commission's own it is kept verbatim; where the row is new, or where
+a measurement contradicted the commission, it says so.</p>
 <table class="rubric">
-  <tr><th>Check</th><th>Result</th></tr>
-  <tr><td>1. Silhouette names the subject at 16px</td><td class="pass">PASS — dark panel + warm mark</td></tr>
-  <tr><td>2. One metaphor, not two</td><td class="pass">PASS — measuring the cell grid</td></tr>
-  <tr><td>3. Family silhouette (shared squircle path)</td><td class="pass">PASS — <code>squircle-path.txt</code>, clipped at the tile</td></tr>
-  <tr><td>4. Optically centred</td><td class="pass">PASS — device inset 168/236, weight balanced</td></tr>
-  <tr><td>5. ≤2 hue families</td><td class="pass">PASS — warm neutral ground + charcoal, one vermilion accent</td></tr>
-  <tr><td>6. One light model</td><td class="pass">PASS — key from top-left; rim on top edge, shadow below</td></tr>
-  <tr><td>7. Material present in the file</td><td class="pass">PASS — device gradient, glow bloom, contact shadow, rim</td></tr>
-  <tr><td>8. Layer plan (bg / mid / fg / highlight)</td><td class="pass">PASS — ground / device / grid+runs / accent+caliper</td></tr>
-  <tr><td>9. Distinct from siblings in the lineup</td><td class="pass">PASS — only landscape dark panel; nearest is should-compact's blocks</td></tr>
-  <tr><td>10. No stock category glyph</td><td class="pass">PASS — not a terminal prompt chevron, not a gear</td></tr>
-  <tr><td>11. Survives the 48px Finder/marketplace tile</td><td class="pass">PASS — accent still registers; caliper merges, which is acceptable</td></tr>
-  <tr><td>12. Source is rebuildable</td><td class="pass">PASS — <code>build_icon.py</code>, geometry as named constants</td></tr>
+  <tr><th scope="col">Check</th><th scope="col">Result</th></tr>
+  <tr><td>1. Mask discipline — designed for the squircle, no baked corners or shadow <em>(non-negotiable)</em></td><td class="pass">PASS — <code>squircle-path.txt</code> as a <code>clipPath</code> at the tile. The only <code>feDropShadow</code> is the device's own, inside the clip.</td></tr>
+  <tr><td>2. Grid adherence — optically centred, safe-zone margins <em>(non-negotiable)</em></td><td class="pass">PASS — device inset 168/236, weight balanced. Its 688px width is 67% of the tile, a little over the 55–65% band; noted rather than deducted.</td></tr>
+  <tr><td>3. Silhouette test — nameable filled solid black <em>(non-negotiable)</em></td><td class="warn">PASS with a note — the filled silhouette is a landscape panel inside the tile, nameable as a terminal. Added 19 Aug: the <em>distinguishing</em> half of the metaphor, one glyph across two cells with a caliper, does not survive to silhouette; it is carried by value and accent, which #4 covers and #3 does not.</td></tr>
+  <tr><td>4. 16px squint — survives menu-bar and Spotlight <em>(non-negotiable)</em></td><td class="pass">PASS — verified on <code>master-32.png</code> at true 16px: dark panel, warm mark right of centre.</td></tr>
+  <tr><td>5. Single light model</td><td class="pass">PASS — key from top-left; rim on the top edge, contact shadow below.</td></tr>
+  <tr><td>6. Palette economy — ≤2 hue families, accent reserved for the focal</td><td class="pass">PASS — warm neutral ground + charcoal, one vermilion accent spent on the lit cell and its caliper.</td></tr>
+  <tr><td>7. Figure-ground — glyph vs ground ≥3:1, survives grayscale</td><td class="pass">PASS (added 19 Aug) — charcoal device on porcelain is the widest value gap in the set; it survives grayscale outright.</td></tr>
+  <tr><td>8. Depth coherence — planes ordered, shadows match light</td><td class="pass">PASS — device gradient, glow bloom, contact shadow and rim, in that order, all consistent with the top-left key.</td></tr>
+  <tr><td>9. Era coherence</td><td class="pass">PASS (added 19 Aug) — one soft key, no hard specular, cushioned ground: the current era's language throughout.</td></tr>
+  <tr><td>10. Variant robustness — survives Default/Dark/Clear/Tinted, identity not hostage to one background <em>(76% of the corpus fails here)</em></td><td class="fail">FAIL — the point drops, on the variant read alone. The identity is a charcoal panel on a porcelain ground that loses its separation the moment the ground changes register, and Dark, Clear and Tinted were never rendered, so that half rests on a reasoned read of the value scheme rather than on captures. The structural half of this row is now settled the other way: the commission claimed <q>ground / device / grid+runs / accent+caliper</q> and the file carried <strong>0 named <code>&lt;g id&gt;</code> layers</strong>, which was corrected here on 19 Aug and then <em>fixed</em> in <code>build_icon.py</code> the same day. <code>fidelity.py structure</code> now reports <strong>5 named layers</strong> (<code>art / bg / mid / fg / highlight</code>) and passes. The grouping wrappers carry no presentation attributes, so the 1024 render came back byte-identical: rms 0.000000, no changed bounding box, and the shipped <code>icon.png</code> needed no re-export.</td></tr>
+  <tr><td>11. Personality — ≥1 nameable device beyond glyph-on-gradient</td><td class="pass">PASS — the hairline splitting one lit glyph across two cells, with a caliper measuring that width. Not a prompt chevron, not a gear.</td></tr>
+  <tr><td>12. No-text</td><td class="pass">PASS (added 19 Aug) — the ruled runs are abstract bars, no glyphs, no words, no screenshot.</td></tr>
 </table>
+<p class="sub" style="margin-top:12px;max-width:78ch">Three further checks the commission ran that sit
+outside the canonical twelve, kept because they are real findings: the master is the only landscape
+dark panel in the marketplace lineup (nearest neighbour is <code>should-compact</code>'s blocks); it
+survives the 48px Finder and marketplace tile with the accent still registering and the caliper
+merged; and it is rebuildable from <code>build_icon.py</code>, where every proportion is a named
+constant.</p>
 
-<h2>Known liabilities</h2>
+<div class="rec"><strong>Recommendation: ship Engine A (<code>icon-src.svg</code> → <code>icon.png</code> /
+<code>icon-256.png</code> / <code>icon-128.png</code> / <code>icon-96.png</code> / <code>icon-64.png</code> /
+<code>icon-48.png</code> / <code>icon-32.png</code>), 11 / 12.</strong> It is the only take that clears
+all four non-negotiables on real renders, the only one whose material is authored rather than
+photographed, and the only one carrying the two-cell metaphor the skill is named for. Engine C won the
+material read and both of its takes were mined for it — the rim light and the glow bloom around the lit
+cell are in the master because of them — but a flat pre-masked raster cannot ship. Engine B contributed
+a negative control. Known liabilities to revisit: <strong>(1)</strong> the #10 failure above is the
+substantive one, and it is now half closed: the named layer plan was authored into
+<code>build_icon.py</code> on 19 Aug, pixel-neutrally, so the structure gate passes. What remains is the
+variant read, which is why the point still drops. <strong>(2)</strong> The
+caliper is lost below ~64px; deliberate, it is the third read rather than the first.
+<strong>(3)</strong> The grid is deliberately low-contrast at 0.22 opacity, so on a dim display the
+panel may read as flat rather than ruled. <strong>(4)</strong> The focal group is 67% of tile width
+against the 55–65% composition constant. <strong>(5)</strong> Dark, Clear and Tinted variants were
+never rendered, so the #10 verdict rests on the structural measurement plus a reasoned read of the
+value scheme, not on variant captures.</div>
+
+<h2>Known liabilities of the sheet itself</h2>
 <ul>
-  <li>The caliper is lost below ~64px. Deliberate — it is the third read, not the first.</li>
-  <li>The grid is deliberately low-contrast (0.22 opacity). On a very dim display it may read as
-    a flat panel rather than a ruled one.</li>
   <li>Rendered with <code>rsvg-convert</code>. ImageMagick's internal SVG engine silently drops
     the gradients and filters — it produced an all-black tile on the first pass, which is why the
     build documents the renderer.</li>
+  <li>Corrected 19 Aug: both Engine C takes were previously shown on this sheet <em>unmasked</em> —
+    full-bleed 1024 JPEGs resampled square, so they sat as square-cornered tiles beside their
+    squircle-masked siblings and read as a worse silhouette failure than they had actually committed.
+    They are now rendered with <code>--take &lt;id&gt;=&lt;file&gt;:raster-mask</code> against the
+    family superellipse, which is how a raster take is supposed to be audited.</li>
+  <li>Engine B's source has a 150×158 viewBox. It is rasterised here at a forced square 1:1, which
+    stretches it about 5% vertically — the same way the commission rendered it, so the verdicts above
+    describe what was judged. Its failures are structural and none of them turn on that 5%.</li>
 </ul>

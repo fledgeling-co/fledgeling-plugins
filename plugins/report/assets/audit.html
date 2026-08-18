@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>report icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; }
+  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 90ch; }
+  .band { max-width: 90ch; margin: 0 0 28px; padding: 14px 18px; border: 1px solid #7a4a2a;
+          border-left: 4px solid #e0826a; border-radius: 10px; background: #1a1210;
+          color: #dcc0b4; font-size: 13.5px; line-height: 1.6; }
+  .band strong { color: #ffb99f; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>: this browser computes
+     display:flex on a table cell and still lays its children out as blocks, so
+     every render stacks into one tall column and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; text-align: center; }
+  .score small { display: block; font-weight: 400; font-size: 11px; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .pass { color: #9fd6a6; }
+  .warn { color: #e8c07a; }
+  .verdict { max-width: 440px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 96ch; }
+  .rec strong { color: #ffd98f; }
+  .rubric { width: 100%; min-width: 0; margin-top: 4px; }
+  .rubric td:first-child { width: 42%; }
+  .rubric td, .rubric th { padding: 9px 14px; font-size: 13px; vertical-align: top; }
+  .foot { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 96ch; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  code { background: #10222a; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>report icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The Fold&rdquo; &middot; one engine, one take &middot; audited on real
+renders at 1024 / 128 / 64 / 48 / 32 / 16 css px from 2&times; retina sources.</div>
+
+<div class="band"><strong>This sheet was written retrospectively on 19 Aug 2026, and it records a
+commission that is short of the pipeline's floor.</strong> The icon was built on 9 Aug and shipped
+without a contact sheet, so there was no verdict to preserve. The direction, the small-size argument
+and the palette rationale below are the commission's own, quoted from <code>icon-notes.md</code>, which
+is a genuine commission record and says so explicitly; the geometry is read from the named constants in
+<code>build_icon.py</code>. What this directory does <em>not</em> hold: any Engine B or Engine C
+artifact, any <code>fidelity-runs/</code>, any judge record. So <strong>no fidelity loop ran, no blind
+panel saw this icon, and there is exactly one take</strong> against a floor of three. The score was
+assigned on 19 Aug by reading the twelve-point rubric in <code>icon-directions.md</code> against the
+renders in <code>audit-renders/</code> — a retrospective judgment, not the original verdict, because
+there was none. <code>audit_sheet.py check</code> still fails here on the take floor and on the
+structure gate; both are true statements about the commission rather than defects in this page, and no
+row has been invented to clear the count.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">The single icon take, with renders, rubric score and verdict</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG &mdash; the only take, and it ships</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="The master, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="The master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="The master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="The master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">10 / 12<small class="fail">fails 7, 10</small></td>
+    <td class="verdict">One porcelain sheet 552px wide, creased once across its full width at y=505,
+      doing two things at once. Above the crease it is a single uninterrupted column of ruling — the
+      report as it reads on screen, continuous, no seams. Below it the same sheet has separated into
+      stepped leaves, each inset 46px and offset 34px from the one above — the same document paginated.
+      The crease is the only place the two states meet and the only place colour appears. That is the
+      skill's architecture in one silhouette: one source, two renderings. Clears all four
+      non-negotiables on real renders; loses #7 and #10, both measured. Exactly at the delivery bar.</td>
+  </tr>
+</table></div>
+
+<h2>The 12-point rubric, scored 19 Aug against the renders</h2>
+<table class="rubric">
+  <tr><th scope="col">Check</th><th scope="col">Result</th></tr>
+  <tr><td>1. Mask discipline — designed for the squircle, no baked corners or shadow <em>(non-negotiable)</em></td><td class="pass">PASS — full-bleed 1024 with the family superellipse read from <code>create-mac-icon/assets/squircle-path.txt</code> and applied as a clip, so the whole family shares one tile. No baked corner radius, no baked tile shadow.</td></tr>
+  <tr><td>2. Grid adherence — optically centred, safe-zone margins <em>(non-negotiable)</em></td><td class="pass">PASS — the sheet is 552px wide at x=236, so its side margins are identical, and the group runs from y=142 to roughly y=870, which is a deliberate downward bias so the paginated stack has room. At 53.9% of tile width it sits just under the 55–65% composition constant; noted, not deducted, because the stepped leaves widen the read below the crease.</td></tr>
+  <tr><td>3. Silhouette test — nameable filled solid black <em>(non-negotiable)</em></td><td class="pass">PASS — and this is the check the design was driven by. Filled to one tone it is a tall block, a band, then narrower stepped blocks. The commission's own note records why: the first cut used leaves the same width as the sheet with 20px gaps, which at 32px survives as 0.6 of a pixel, so the pagination vanished and the metaphor went with it. The fix was to make the two halves differ in <em>silhouette</em> rather than in spacing.</td></tr>
+  <tr><td>4. 16px squint — survives menu-bar and Spotlight <em>(non-negotiable)</em></td><td class="pass">PASS — verified on <code>master-32.png</code> at true 16px and again at ×6: pale block, grey striping, one warm band, two paler stepped blocks below. The stepped silhouette does survive, though it is delineated by the leaf shadows rather than by the fills, which is what #7 is about.</td></tr>
+  <tr><td>5. Single light model</td><td class="pass">PASS — one key from the upper left. The sheet takes <code>#FFFEFC</code> at top-left falling to <code>#F2ECE1</code> bottom-right, each leaf casts onto the one below it in the same direction, and the crease's own gradient runs light-to-dark on that axis.</td></tr>
+  <tr><td>6. Palette economy — ≤2 hue families, accent reserved for the focal</td><td class="pass">PASS — warm porcelain ground, warm-grey ruling, one vermilion. <code>ACCENT_HI</code>/<code>ACCENT_MID</code>/<code>ACCENT_LO</code> are three values of one hue, and the accent is spent on the crease alone — the family's single warm note, the same register as <code>dossier-report</code> and <code>create-mac-icon</code>.</td></tr>
+  <tr><td>7. Figure-ground — glyph vs ground ≥3:1, survives grayscale</td><td class="fail">FAIL — the narrowest value band of any icon in this set. The paper <code>#F2ECE1</code> against the ground <code>#EFE8DB</code> is <strong>1.04:1</strong>, and the ruling <code>#B4AA96</code> — which is the icon's entire texture — is <strong>1.96:1</strong> against the paper's shaded end and 2.28:1 against its lit end, both under the 3:1 bar. Only the crease clears, at 3.27:1. In grayscale the object is held together by its drop shadows and a <code>#DCD2BF</code> hairline; take those away and there is a warm line on an empty field. The subject still reads at every size, so this is a deduction rather than a hard failure, but it is the substantive one.</td></tr>
+  <tr><td>8. Depth coherence — planes ordered, shadows match light</td><td class="pass">PASS — ground, sheet, crease, then leaves in front of and below the sheet, each casting onto its neighbour. The crease is where the two planes meet rather than a line drawn across one plane, which is what makes the fold read as a fold.</td></tr>
+  <tr><td>9. Era coherence</td><td class="pass">PASS — cushioned ground with a soft vignette, one soft key, no hard specular anywhere. Deliberately not the previous era's page curl: the crease is horizontal and spans the full width, where <code>dossier-report</code>'s is a diagonal corner flap.</td></tr>
+  <tr><td>10. Variant robustness — survives Default/Dark/Clear/Tinted, identity not hostage to one background <em>(76% of the corpus fails here)</em></td><td class="fail">FAIL — on the variant read alone, and the structural half of this row is now closed. <code>build_icon.py</code>'s docstring stated &ldquo;Layers map onto bg / mid / fg / highlight&rdquo; while <code>fidelity.py structure</code> reported <strong>0 named <code>&lt;g id&gt;</code> layers</strong> in <code>icon.svg</code>: the words were there as XML comments and the file carried no groups. Fixed in <code>build_icon.py</code> on 19 Aug; structure now reports <strong>5 named layers</strong> (<code>art / bg / mid / fg / highlight</code>) and passes, at rms 0.000000 against the previous render with no changed bounding box, so the shipped PNGs were re-exported byte-identical. The same pass corrected the docstring's &ldquo;three stacked leaves&rdquo;, which had described a file that always drew two. What still drops the point: by the #7 measurement the identity is porcelain-on-porcelain held up by shadows, which is precisely the relationship that dies when the ground changes register, and no variant was ever captured.</td></tr>
+  <tr><td>11. Personality — ≥1 nameable device beyond glyph-on-gradient</td><td class="pass">PASS — a crease that turns a continuous scroll into a paginated stack, with the colour coming out only where the two states meet. Not a document glyph, not a chart, not a clipboard.</td></tr>
+  <tr><td>12. No-text</td><td class="pass">PASS — the ruling is abstract bars sized to read as texture rather than as countable lines. No glyphs, no words, no screenshot.</td></tr>
+</table>
+
+<div class="rec"><strong>Recommendation: ship take A (<code>icon.svg</code> → <code>icon.png</code> /
+<code>icon-256.png</code> / <code>icon-128.png</code>), 10 / 12.</strong> It clears all four
+non-negotiable checks on real renders, its silhouette was designed against the 32px read rather than
+checked afterwards, and it separates deliberately from <code>dossier-report</code> on axis, object and
+what the fold reveals. It sits exactly on the delivery bar, and both dropped points are real.
+Known liabilities to revisit, in the order a revision should take them:
+<strong>(1) The layer plan is documented but absent (#10).</strong> A defect in the master, not in this
+sheet: the four strata need authoring as named <code>&lt;g id="bg|mid|fg|highlight"&gt;</code> groups in
+<code>build_icon.py</code>, and until they are, <code>audit_sheet.py check</code> fails here on the
+structure gate. Deliberately not fixed on this pass, because it changes the shipped artwork.
+<strong>(2) Figure-ground at 1.04:1 paper-to-ground and 1.96:1 ink-to-paper (#7).</strong> Darkening
+<code>RULE_INK</code> is a one-constant edit and would take the texture past 3:1, but it changes every
+shipped raster, so it belongs with (1).
+<strong>(3) One take, not three.</strong> Engines B and C never ran, so nothing here is a comparison,
+and the shortfall is stated at the top rather than buried in this list.
+<strong>(4) Variants unrendered</strong> — Dark, Clear and Tinted were never captured, so the #10
+verdict rests on the structural measurement plus the value scheme rather than on screenshots.
+<strong>(5) A stale docstring.</strong> <code>build_icon.py</code> still describes &ldquo;three stacked
+leaves&rdquo;; the shipped icon has two, and <code>icon-notes.md</code> records why — the third bought
+nothing once the gaps had to be wide enough to survive reduction. The notes are right and the docstring
+is out of date, which matters because the docstring is otherwise the thing a reader trusts.</div>
+
+<div class="foot">Rubric: the 12-point icon audit in
+<code>create-mac-icon/references/icon-directions.md</code> (mask discipline, grid, silhouette, 16px
+squint, single light model, palette economy, figure-ground, depth coherence, era coherence, variant
+robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Contrast ratios are
+WCAG relative-luminance, computed from the named colour constants in <code>build_icon.py</code>.
+Renders produced by <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py
+render . --take master=icon.svg:svg</code> at 1024 / 256 / 128 / 96 / 64 / 32 via
+<code>rsvg-convert</code>, and every image on this page is proved to resolve by the same script's
+<code>check</code> subcommand.</div>
+</body>
+</html>
