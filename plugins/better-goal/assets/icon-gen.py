@@ -96,10 +96,15 @@ DEFS = f"""  <clipPath id="squircle"><path d="{SQUIRCLE}"/></clipPath>
   </filter>"""
 
 
-def base():
-    return f"""  <rect width="1024" height="1024" fill="url(#ground)"/>
-    <ellipse cx="512" cy="596" rx="352" ry="336" fill="#8A7A5E" opacity="0.16" filter="url(#soft)"/>
-    <circle cx="{CX}" cy="{CY}" r="{R_DIAL}" fill="url(#dial)" stroke="#C7BCA4" stroke-width="7"/>
+def bg_layer():
+    """#bg: the cushion and the contact shadow the dial sits in."""
+    return f"""    <rect width="1024" height="1024" fill="url(#ground)"/>
+    <ellipse cx="512" cy="596" rx="352" ry="336" fill="#8A7A5E" opacity="0.16" filter="url(#soft)"/>"""
+
+
+def mid_layer():
+    """#mid: the dial body and its graduations."""
+    return f"""    <circle cx="{CX}" cy="{CY}" r="{R_DIAL}" fill="url(#dial)" stroke="#C7BCA4" stroke-width="7"/>
     {ticks()}"""
 
 
@@ -120,21 +125,30 @@ def goal_svg():
         ox, oy = polar(r_gate + 34, d)
         jaws.append(f'<line x1="{ix:.1f}" y1="{iy:.1f}" x2="{ox:.1f}" y2="{oy:.1f}" '
                     f'stroke="url(#accent)" stroke-width="26" stroke-linecap="round"/>')
-    return f"""{base()}
+    return f"""  <g id="bg">
+{bg_layer()}
+  </g>
+  <g id="mid">
+{mid_layer()}
+  </g>
+  <g id="fg">
     <!-- the gate the bearing is locked into -->
     <path d="{arc(r_gate, -jaw, jaw)}" fill="none" stroke="url(#accent)" stroke-width="26"
           stroke-linecap="round"/>
     {''.join(jaws)}
     <!-- the mark it is held on -->
     <circle cx="{mx:.1f}" cy="{my:.1f}" r="26" fill="url(#accent)"/>
-    <circle cx="{mx:.1f}" cy="{my:.1f}" r="26" fill="none" stroke="#FFF6E4" stroke-width="6" opacity="0.85"/>
     {needle(0.0)}
     <circle cx="{CX}" cy="{CY}" r="112" fill="url(#hub)"/>
+  </g>
+  <g id="highlight">
+    <circle cx="{mx:.1f}" cy="{my:.1f}" r="26" fill="none" stroke="#FFF6E4" stroke-width="6" opacity="0.85"/>
     <circle cx="{CX}" cy="{CY}" r="112" fill="none" stroke="#FFF8EA" stroke-width="8" opacity="0.30"/>
-    <circle cx="{CX}" cy="{CY}" r="34" fill="#FFF8EA"/>"""
+    <circle cx="{CX}" cy="{CY}" r="34" fill="#FFF8EA"/>
+  </g>"""
 
 
-def loop_svg():
+def loop_svg():  # noqa: retained for provenance; better-loop now has its own build_icon.py
     """Same needle, circling a fixed watch-point; vermilion ticks accumulate per pass."""
     wx, wy = polar(R_TICKS - 4, 0)
     passes = []
@@ -144,7 +158,8 @@ def loop_svg():
         passes.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
                       f'stroke="url(#accent)" stroke-width="15" stroke-linecap="round" '
                       f'opacity="{1.0 - i * 0.21:.2f}"/>')
-    return f"""{base()}
+    return f"""{bg_layer()}
+{mid_layer()}
     <!-- the watch-point the loop keeps returning to -->
     <circle cx="{wx:.1f}" cy="{wy:.1f}" r="27" fill="url(#accent)"/>
     <circle cx="{wx:.1f}" cy="{wy:.1f}" r="27" fill="none" stroke="#FFF6E4" stroke-width="6" opacity="0.85"/>
