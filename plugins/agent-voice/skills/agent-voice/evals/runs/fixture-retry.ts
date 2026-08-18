@@ -1,0 +1,12 @@
+export async function submitPayment(order: Order, attempt = 0): Promise<Receipt> {
+  const res = await stripe.paymentIntents.create({
+    amount: order.totalCents,
+    currency: order.currency,
+    customer: order.customerId,
+  });
+  await db.insert(payments).values({ orderId: order.id, intentId: res.id });
+  if (res.status === "requires_action" && attempt < 3) {
+    return submitPayment(order, attempt + 1);
+  }
+  return toReceipt(res);
+}

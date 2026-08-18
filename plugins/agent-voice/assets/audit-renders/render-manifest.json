@@ -1,0 +1,37 @@
+{
+  "takes": {
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1787023752.9470055,
+      "rendered_at": 1787023759.5984309
+    },
+    "t2": {
+      "source": "icon-take2.svg",
+      "kind": "svg",
+      "source_mtime": 1787023752.973089,
+      "rendered_at": 1787023759.876008
+    },
+    "t3": {
+      "source": "icon-take3.svg",
+      "kind": "svg",
+      "source_mtime": 1787023752.9994073,
+      "rendered_at": 1787023760.242521
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

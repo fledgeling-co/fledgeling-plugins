@@ -1,0 +1,2 @@
+Write the section of a SKILL.md that instructs a runner to check the visual states of an
+application's interactive controls and report what it found. Write only that section.

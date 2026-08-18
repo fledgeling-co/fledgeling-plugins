@@ -291,6 +291,17 @@
       },
       "source": "./plugins/tui-craft",
       "category": "development"
+    },
+    {
+      "name": "agent-voice",
+      "description": "Give agent-authored text a real voice: the prose an agent emits inside Claude Code and other harnesses. Seven registers, split by who reads the text, because the reader decides the failure mode. Text a person reads (terminal reply, work report, commit and PR, review comment, written document) fails as padding; text a model reads (SKILL.md and instruction files, subagent briefs) fails as ambiguity, and a single set of rules cannot hold both. Both halves are gated by agent_voice_lint.py, which hard-fails closing flourishes, self-congratulation and preamble openers in the human-read registers, and unmeasurable qualifiers, uncounted categorical scope, pressure language and misplaced verification scaffolding in the agent-read ones. Length is a stated rule rather than a disposition, because nothing else controls it: effort governs how much a model thinks rather than how much it says, and sampling parameters are rejected outright on current models, so prose is the only lever. The bound on the whole package is a measurement: a response-compression style on 106 paired agentic tasks cut cost 33.5% and score 7.61 points, with 78% of the saving coming from the agent taking fewer steps rather than writing more tersely, so this skill changes how much gets written and never how much gets done, and uncertainty, risk, security implications and verification that actually happened are content that stays. A dialects layer carries the phrasing each family needs, including the one rule that inverts: Claude Opus 5 self-verifies and its verification instructions are deleted, while a Gemini runner needs the verification step named with its command attached, and one recorded Gemini run satisfied every categorically-named requirement with a single instance (\"all states\" to 1, \"all menus\" to 0). Every rule carries a marker naming its evidence, and verify_quotes.py checks each attributed span verbatim against the vendor documents; 82 verify, 0 unverified. Use whenever someone wants agent output to read better (\"why are your answers so long\", \"make this reply shorter\", \"write the commit message\", \"tighten this report\", \"review this SKILL.md\", \"this prompt is too vague\", \"rewrite this brief for Gemini\", \"lint this doc\") and before writing any instruction file another model will execute. Not for content written in a person's voice (use that person's content skill, or create-voice-persona to build one), and not for retrofitting a whole skill to another model (use geminify).",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/agent-voice",
+      "category": "development"
     }
   ]
 }

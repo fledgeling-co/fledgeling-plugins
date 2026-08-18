@@ -1,0 +1,13 @@
+Here is what happened during a task.
+
+<log>
+Asked to add a rate limiter to the public API. Built it in api/middleware/rate-limit.ts,
+100 req/min per API key, in-memory Map keyed by the X-API-Key header, falling back to the
+socket address. Mounted it in api/routes/public.ts ahead of auth.
+Ran `pnpm test api/middleware`: 12 passed, 0 failed. Did not run the full suite.
+The limiter is per-process, so with N instances the effective limit is N x 100.
+The user mentioned a Redis-backed store in passing; I did not build it, but put the store
+behind an interface. Also noticed api/routes/admin.ts has no rate limiting at all; left it.
+</log>
+
+Based on the log above, report on this work to the person who asked for it.

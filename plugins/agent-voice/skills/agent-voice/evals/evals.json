@@ -1,0 +1,100 @@
+{
+  "skill": "agent-voice",
+  "version": "0.1.0",
+  "note": "Process evals for the skill itself. The output evals are deterministic and live in scripts/: agent_voice_lint.py --self-test, check_examples.sh, check_package.sh. These cases cover the things a runner can get wrong that no script sees.",
+  "cases": [
+    {
+      "id": "routes-by-reader-not-format",
+      "prompt": "Tighten this up for me: a SKILL.md section that says 'review the states thoroughly and make sure the design is robust'.",
+      "assert": [
+        "Routes to the skill-and-instruction register, not to written-doc, because the reader is a model",
+        "Loads references/agent-voice.md plus references/registers/skill-and-instruction.md and no other register file",
+        "Replaces 'thoroughly' and 'robust' with objective constraints carrying a count",
+        "Runs the lint at --format skill and reports the result"
+      ]
+    },
+    {
+      "id": "human-and-agent-halves-differ",
+      "prompt": "Why does the lint fail my report for saying 'successfully implemented' but not my SKILL.md?",
+      "assert": [
+        "Explains that self-congratulation is a hard failure in human-read registers only",
+        "Names the reason: the two halves are judged by different tests, padding versus ambiguity",
+        "Does not claim the lint checks the same things in both halves"
+      ]
+    },
+    {
+      "id": "length-target-is-countable",
+      "prompt": "Make the skill tell runners to be more concise.",
+      "assert": [
+        "Refuses to write 'be concise' as the rule, or writes it and immediately states a countable target",
+        "Cites that effort controls thinking rather than visible length, so prose is the only lever",
+        "Gives the target in the register's own units, not as an adjective"
+      ]
+    },
+    {
+      "id": "does-not-shorten-the-work",
+      "prompt": "This work report is too long. Cut it in half.",
+      "assert": [
+        "Cuts restatement, padding and narration rather than evidence",
+        "Keeps the quoted verification output, the named skipped step, and any risk or uncertainty",
+        "Says in the delivery note what was cut, so a dropped caveat is visible rather than silent"
+      ]
+    },
+    {
+      "id": "dialect-inverts-for-gemini",
+      "prompt": "Rewrite this subagent brief so it works on Gemini.",
+      "assert": [
+        "Loads references/dialects.md",
+        "Adds an explicit verification step rather than removing one",
+        "Converts every categorical scope to a count or an enumeration",
+        "Runs the lint with --target gemini, and does not report verification instructions as failures"
+      ]
+    },
+    {
+      "id": "no-invented-completeness",
+      "prompt": "Report on the work. I ran the middleware tests only.",
+      "assert": [
+        "Says which tests ran and that the full suite did not",
+        "Does not write 'all tests pass' or any claim covering unrun tests",
+        "Does not invent next steps, offers, or significance the task did not supply"
+      ]
+    },
+    {
+      "id": "worked-examples-hold-the-line",
+      "prompt": "Add an eighth register for release notes.",
+      "assert": [
+        "Writes two worked examples, one of them a tension case",
+        "Runs scripts/check_examples.sh and gets exit 0, fixing the example rather than the rule if it fails",
+        "Adds the format key to scripts/agent-voice-lint.json and to the routing table in SKILL.md",
+        "Traces each new rule to references/evidence.md or marks it as an inference"
+      ]
+    },
+    {
+      "id": "quotes-stay-verbatim",
+      "prompt": "Add a rule about output format, citing Google's guidance.",
+      "assert": [
+        "Quotes the source verbatim rather than paraphrasing inside quotation marks",
+        "Runs scripts/verify_quotes.py against a local copy of the source and gets 0 unverified",
+        "Marks the claim as an inference if no source copy is available, rather than attributing it"
+      ]
+    },
+    {
+      "id": "declines-a-human-voice",
+      "prompt": "Write a LinkedIn post in my voice about this release.",
+      "assert": [
+        "Says this skill does not cover content authored as a named person",
+        "Points at that person's own content skill, or at create-voice-persona to build one",
+        "Does not draft the post in the agent voice as a substitute"
+      ]
+    },
+    {
+      "id": "advisory-is-a-question",
+      "prompt": "The lint warns about a repeated phrase in my doc. Fix it.",
+      "assert": [
+        "Reads the phrase and judges whether it is a natural term or a rhetorical tic",
+        "Leaves a repeated natural term alone and says why, rather than rewriting to silence the warning",
+        "Does not treat an advisory as a failure"
+      ]
+    }
+  ]
+}
