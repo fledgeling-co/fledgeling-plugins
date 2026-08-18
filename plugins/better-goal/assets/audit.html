@@ -3,19 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>better-goal icon — contact sheet &amp; retrospective audit</title>
+<title>better-goal icon — contact sheet &amp; audit</title>
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
   h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; }
-  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 900px; }
+  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 940px; }
   .sheet { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  table { border-collapse: collapse; width: 100%; min-width: 900px; }
   th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .take { font-weight: 650; white-space: nowrap; }
-  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 210px; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 216px; }
+  /* The flex lives on an inner div, never on the <td>: the scoring browser computes
+     display:flex on a table cell and still lays its children out as blocks. */
   .renders { display: flex; align-items: center; gap: 18px; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
@@ -24,16 +26,16 @@
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
   .ship { color: #ffd98f; }
   .fail { color: #e0826a; }
-  .verdict { max-width: 430px; color: #a9bec5; }
-  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .verdict { max-width: 460px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 940px; }
   .rec strong { color: #ffd98f; }
-  .warn { margin: 0 0 28px; padding: 18px 20px; border: 1px solid #6a4230; border-radius: 12px; background: #1c1310; max-width: 900px; color: #e6cfc4; }
-  .warn strong { color: #f0a884; }
+  .note { margin: 0 0 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 940px; color: #c3d5db; }
+  .note strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
-  .measured { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 900px; }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 940px; }
+  .measured { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 940px; }
   .measured table { min-width: 0; width: auto; }
-  .measured td, .measured th { padding: 6px 18px 6px 0; border-bottom: 1px solid #16262c; }
+  .measured td, .measured th { padding: 6px 20px 6px 0; border-bottom: 1px solid #16262c; }
   .measured code { color: #ffd98f; }
   .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
   .hero figure { margin: 0; text-align: center; }
@@ -43,51 +45,163 @@
 </style>
 </head>
 <body>
-<h1>better-goal icon — contact sheet &amp; retrospective audit</h1>
-<div class="sub">Porcelain register, warm-neutral ground with one vermilion accent · the take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+<h1>better-goal icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction 2 &ldquo;Tahoe gel-glass&rdquo;, sub-register (a): a porcelain cushion carrying one graphite object &middot; one shared spec through three hand-authored takes, an Arrow vector take and a corpus-referenced raster &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
 
-<div class="warn"><strong>Read this before the scores.</strong> This is a <strong>retrospective</strong> sheet, written on 19 August 2026 by rendering <code>icon.svg</code> as it stands and looking at the output. It is not the record of a commission, because no commission was recorded: this directory holds one artwork, no <code>icon-notes.md</code>, no losing takes, no <code>fidelity-runs/</code> and no panel verdicts. So there was no prior reasoning to recover and nothing here is carried forward from an earlier judgment — <strong>every score below was assigned today, from the renders, against the 12-point rubric</strong>. Nothing on this page claims that three engines were run, that a fidelity loop closed the master against a reference, or that a blind panel judged it, because none of that happened as far as this directory can show.<br><br>Two consequences are stated plainly rather than worked around. <strong>One:</strong> there is a single take, and the pipeline's floor is three, so this sheet is a verdict with no comparison behind it and <code>audit_sheet.py check</code> correctly refuses it. <strong>Two:</strong> the take scores <strong>8/12</strong>, below the 10/12 delivery bar. Both are properties of the commission, not of this page, and the fix for each is named at the foot of the sheet.</div>
+<div class="note"><strong>What this commission was for.</strong> The icon this replaces was never put through the pipeline: it carried one take against a floor of three, and a retrospective scoring on 19 August 2026 put it at <strong>8/12</strong> against a 10/12 bar. Its measured defect was figure-ground — a pale cream dial on a pale cream cushion, <strong>1.05:1</strong> face against tile where check&nbsp;7 asks for 3:1, and 0.1142 RMS contrast at 16px against a family median of 0.2002 across 38 marketplace icons measured today. The device was not in question: <code>better-goal</code> keeps the dial and the target band, and <code>better-loop</code> was rebuilt away from that device the day before so this one could keep it. So every take below is the same instrument at a different value relation, and the shipping one takes the family's own answer — a dark object on porcelain rather than a pale one.</div>
 
 <div class="hero">
-  <figure><img src="audit-renders/a-1024.png" width="256" height="256" alt="The better-goal master shown at 256px from the 1024 render"><figcaption>A · icon.svg · 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/a1-1024.png" width="256" height="256" alt="The shipping master shown at 256px from its 1024 render"><figcaption>a1 &middot; icon.svg &middot; 1024 source &middot; SHIPS</figcaption></figure>
+  <figure><img src="audit-renders/prev-1024.png" width="160" height="160" alt="The predecessor shown at 160px from its 1024 render"><figcaption>prev &middot; the icon replaced</figcaption></figure>
+  <figure><img src="audit-renders/C-1024.png" width="160" height="160" alt="The raster take shown at 160px from its masked 1024 render"><figcaption>C &middot; the material target</figcaption></figure>
 </div>
 
 <div class="sheet"><table>
-  <caption class="visually-hidden">The single take, with renders, its retrospective rubric score and verdict</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take">A · icon.svg<small>the only artwork in the directory; <code>icon-src.svg</code> is a byte-identical duplicate of it, and <code>icon-gen.py</code> is its generator</small></td>
-    <td class="renders">
-      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="The master at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="The master at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="The master at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="The master at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="The master at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="The master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </td>
+    <td class="take ship">a1 &middot; icon.svg<small>hand-authored layered SVG, from <code>build_icon.py --variant a1</code> &mdash; SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a1-1024.png" width="160" height="160" alt="a1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a1-256.png" width="128" height="128" alt="a1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a1-128.png" width="64" height="64" alt="a1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a1-96.png" width="48" height="48" alt="a1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a1-64.png" width="32" height="32" alt="a1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a1-32.png" width="16" height="16" alt="a1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a1-32.png" width="96" height="96" alt="a1's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict"><b>The held needle.</b> A machined graphite dial on porcelain: cream graduations run from the foot of the travel clockwise up the left flank and stop where a vermilion target band is cut through the face and out to the rim; a porcelain needle stands inside the band; a graphite pawl straddles the band's counter-clockwise end and stands proud of the bezel. <b>Passing 1&ndash;4 on the renders:</b> full-bleed 1024 on the family superellipse with corner alpha 0 at all four extremes and no baked shadow (#1); 60.0% of tile width on symmetric 205px side margins, lifted 42px for the down-right shadow (#2); nameable filled black, and not a plain circle, because the pawl breaks the rim (#3); at 16px the disc, the warm crown and the needle all survive, verified on the magnified 32px source (#4). The measurement the commission turned on: the graphite face reads <b>12.34:1</b> against the tile beside it, against 1.05:1 for the icon it replaces. One key at 118&deg; with every face gradient on one user-space axis (#5); two hue families and one vermilion accent at 2.52% of the tile in one contiguous place (#6); ordered planes and one shadow direction (#8); cushion tile, satin extrusion, real contact shadow, no hard speculars (#9); a nameable device beyond glyph-on-gradient (#11); no text (#12). <b>Deducted at #10:</b> the four named layers are there and <code>fidelity.py structure</code> passes, but Dark, Clear and Tinted have not been rendered, so variant robustness is constructed rather than verified &mdash; and an unverified check is not a passing one.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">a2 &middot; icon-takeA2-latched-bezel.svg<small>hand-authored layered SVG &mdash; the pale-face value relation</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a2-1024.png" width="160" height="160" alt="a2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a2-256.png" width="128" height="128" alt="a2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a2-128.png" width="64" height="64" alt="a2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a2-96.png" width="48" height="48" alt="a2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a2-64.png" width="32" height="32" alt="a2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a2-32.png" width="16" height="16" alt="a2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a2-32.png" width="96" height="96" alt="a2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
     <td class="score fail">8 / 12</td>
-    <td class="verdict">A porcelain instrument dial on a porcelain cushion tile: a taupe rim ring, a full ring of minute ticks, a graphite hub with a cream centre, a tapered needle standing near vertical, and a vermilion bracket arc with a target dot at the top of the travel. The subject reads &mdash; a gauge with a marked target the needle is arriving at &mdash; and it reads at 128 and at 48. <b>Passing:</b> #1, because the artwork is full-bleed 1024 with the family superellipse as a <code>clipPath</code> and no baked corner or drop shadow (corner alpha 0 on all four extremes, 95.0% opaque coverage); #2, with the dial at 65.1% of tile width on symmetric 178px side margins; #3, nameable in one phrase; #5 and #6, one soft top-left key and one warm-neutral family plus a single vermilion accent; #12, no text. <b>Deducted at #4, #7, #10 and #11.</b> #7 is the measured one and it is severe: the dial face sits at <b>1.05:1</b> against the tile beside it, so the primary form has essentially no figure-ground of its own and is found only by its 1.35:1 rim and by the marks standing on it. #4 follows from it &mdash; by the 32px source the tick ring and the bracket arc are gone and what survives is a pale disc with a dark hub and a faint warm speck, so the icon keeps a silhouette but loses the argument that makes it a <em>goal</em>. #10 fails by construction: <code>fidelity.py structure</code> reports <b>0 named <code>&lt;g&gt;</code> layers</b>, so there is no <code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code> plan to hand to Icon Composer and the Dark, Clear and Tinted variants have nothing to be built from. #11 is a judgment rather than a measurement: a tick-ring dial with a needle is a step from a generic speedometer glyph, and the one element that makes it specific &mdash; the bracket arc and its target dot &mdash; is also the first thing to disappear as the icon shrinks.</td>
+    <td class="verdict"><b>The latched bezel</b> &mdash; a graphite bezel ring around a porcelain face, the other half of the value sweep. It lost on a measurement, which is the useful part: <b>the pale face reads 1.00:1 against the tile</b>, so the predecessor's exact defect survives inside the ring and only the ring is doing any work (<b>#7</b>). <b>#4</b> follows &mdash; at 16px it is a dark annulus with a pale centre and the needle is gone into the face, and its 16px RMS is 0.2166 against a1's 0.2929, the lowest of the three hand-authored takes. <b>#11</b> fails because a graphite bezel around a pale face with a needle is a wall clock: the object names a category, not this subject, and at 16px it sits in <code>mac-doctor</code>'s and <code>be-my-witness</code>'s neighbourhood rather than its own. <b>#10</b> deducted as unverified, as for every layered take here. Kept in because it settles the brief's open question &mdash; a graphite bezel around a pale face was one of the two relations worth sweeping, and it is the worse one.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">a3 &middot; icon-takeA3-sunk-dial.svg<small>hand-authored layered SVG &mdash; tile-as-machine, edge-bleed</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a3-1024.png" width="160" height="160" alt="a3 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a3-256.png" width="128" height="128" alt="a3 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a3-128.png" width="64" height="64" alt="a3 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a3-96.png" width="48" height="48" alt="a3 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a3-64.png" width="32" height="32" alt="a3 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a3-32.png" width="16" height="16" alt="a3 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a3-32.png" width="96" height="96" alt="a3's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict"><b>The sunk dial</b> &mdash; the same instrument half-buried in a graphite housing that bleeds off both edges, borrowing devices #17 and #18. Its 16px RMS is the highest of the six at 0.3216, and that number is the trap: the contrast is bought with <b>52.8% of the tile in dark mass</b> rather than with a relation. <b>#3</b> fails because the disc reads <b>1.18:1 against the housing</b>, so filled black the two merge into one lump on a bar and the object stops being a dial. <b>#4</b> follows at 16px. <b>#2</b> fails on grid: the housing occupies the bottom third and the disc is pushed high, so nothing is optically centred. <b>#8</b> fails at 96px, where the housing's own shadow and the disc's contact shadow do not resolve into one scene. <b>#10</b> unverified. A real option honestly tried: it is the only take that says &ldquo;the run continues past this window&rdquo;, which is <code>better-loop</code>'s idea rather than this one's, and that is the second reason to drop it.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C &middot; icon-engineC-80617e.png<small>GPT Image 2, corpus-referenced (apple-23, apple-12, apple-10) &mdash; the material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C-1024.png" width="160" height="160" alt="C hero at 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="C's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The material engine, and it got the material right: satin graphite with a turned rim, cream graduations only on the flank, the vermilion band as a raised gel inlay, a real contact shadow on porcelain. It loses on the three things a flat raster cannot win. <b>#1</b>: it baked its own squircle and its own drop shadow, and masking that a second time leaves a visible double edge &mdash; measured as a value step from 224 to 246 across x&nbsp;&asymp;&nbsp;28 on the row through the centre of the masked 1024 render. <b>#2</b>: the dial is about 78% of the tile, well over the grammar's 55&ndash;65%. <b>#10</b>: one flat layer, so identity is a colour relationship and dies under Dark, Clear and Tinted. <b>#4</b> is partial &mdash; the band and the stop survive 16px but the graduations dither. <b>Salvaged into the master:</b> the bezel's <em>continuous</em> inner-lip hairline. The master had that catch on the lit arc only, so the rim read as a highlight rather than as a turned part; this take and the Arrow take independently drew the rim as a complete pale annulus, and an unbroken line at a sixth of the lit arc's opacity was the whole fix.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B &middot; icon-engineB-arrow-48d0c1.svg<small>Arrow 1.1 vector take, from the spec as brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">An independent vector take, and it is the clearest evidence on the sheet for why the shipping construction is what it is. It put the vermilion band <b>inside the tick ring as a floating arc</b> &mdash; not on the object's silhouette edge &mdash; and at 16px that arc is a smear, which is exactly the failure the master was rebuilt to avoid. It also drew a <b>full 360&deg; graduation ring</b>, which is a clock rather than an instrument with a travel, and left a stray black slab beside the hub where the stop block was asked for. <b>#1</b> fails on a baked bevel frame with no cushion; <b>#9</b> on the same frame, which is on the anti-checklist's legacy-era list; <b>#3</b> and <b>#11</b> on a generic speedometer plus an artifact; <b>#5</b> because the frame is lit and the face is dead flat; <b>#4</b> and <b>#10</b> as above. Passes #2, #6, #7, #8 and #12. <b>Salvaged:</b> the continuous pale bezel annulus, the same finding as take C.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B2 &middot; icon-engineB2-arrow-7676a8.svg<small>Arrow 1.1, the first call &mdash; the one that reported a timeout and wrote its file anyway</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/B2-1024.png" width="160" height="160" alt="B2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B2-256.png" width="128" height="128" alt="B2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B2-128.png" width="64" height="64" alt="B2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B2-96.png" width="48" height="48" alt="B2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B2-64.png" width="32" height="32" alt="B2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B2-32.png" width="16" height="16" alt="B2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B2-32.png" width="96" height="96" alt="B2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The better of the two vector takes, and its failure is <em>semantic</em>, which is the most interesting thing on this sheet. It read the target band as a <b>tachometer redline</b> &mdash; a limit not to be exceeded &mdash; and put the needle hard against it from below with the stop outside the rim. That is the opposite of what the skill does: a redline is a ceiling you must stay under, a goal is a floor you must reach and hold. No palette or geometry note in the brief could have prevented it, and it is worth recording that a model handed &ldquo;a band the reading has to be inside, with a stop at one end&rdquo; produced the inverse meaning twice out of two vector calls. <b>#1</b> fails: it baked its own rounded-corner mask at a smaller radius than the family superellipse, so masking it leaves a visible cream ring inside our corners. <b>#4</b> fails &mdash; the arc sits inside the tick ring, exactly as take B put it, and at 16px it is a smear; its 16px RMS of 0.3568 is the highest number on the sheet and it is bought almost entirely by a near-black face. <b>#9</b> fails on a flat pre-masked tile with no cushion; <b>#10</b> on no layer plan; <b>#11</b> on a stock tachometer. Passes #2, #3, #5, #6, #7, #8 and #12. Kept in because two independent Arrow calls agreeing on the losing accent placement is evidence, and because it is the reason to check an output directory before believing a reported timeout.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">prev &middot; predecessor-dial.svg<small>the icon being replaced, and its generator <code>predecessor-gen.py</code></small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/prev-1024.png" width="160" height="160" alt="prev hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/prev-256.png" width="128" height="128" alt="prev at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/prev-128.png" width="64" height="64" alt="prev at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/prev-96.png" width="48" height="48" alt="prev at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/prev-64.png" width="32" height="32" alt="prev at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/prev-32.png" width="16" height="16" alt="prev at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/prev-32.png" width="96" height="96" alt="prev's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The before row, carried at the score its retrospective sheet gave it on 19 August 2026. <b>#7</b> is the severe one: the dial face sits at <b>1.05:1</b> against the tile beside it, so the primary form has no figure-ground of its own and is found only by its 1.35:1 rim. <b>#4</b> follows &mdash; by the 32px source the tick ring and the bracket arc are gone and what is left is a pale disc with a dark hub and a warm speck, so the argument that makes it a <em>goal</em> does not survive. <b>#11</b> is a judgment: a tick-ring dial with a needle is a step from a generic speedometer, and the one element that made it specific is the first to disappear. <b>#10</b> was a hard fail on zero named layers until the morning of 19 August, when its generator was given the <code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code> plan and both files began passing the structure gate pixel-identically; it is deducted here as unverified rather than absent, on the same standard as every other layered take. Its 16px RMS is <b>0.1142</b>, rank 35 of 38 in the marketplace.</td>
   </tr>
 
 </table></div>
 
-<div class="measured"><b>What was measured, and how.</b> Relative-luminance ratios computed from the sRGB values of <code>audit-renders/a-1024.png</code> (linearised, 0.2126R + 0.7152G + 0.0722B), sampled as 28&times;28px patches; the dial diameter read off the luminance profile of the row through the dial centre. These are readings of this render, not estimates.
+<div class="rec"><strong>Recommendation: ship a1 (<code>icon.svg</code>).</strong> It is the only take that clears the 10/12 bar, and it is the only one that fixes the defect this commission exists for without introducing a new one: the graphite face reads <b>12.34:1</b> against the tile against the predecessor's 1.05:1, and 16px RMS contrast goes from <b>0.1142 (rank 35 of 38)</b> to <b>0.2929 (rank 3 of 38)</b> against a family median of 0.2002 measured across all 38 marketplace icons today. Checks 1&ndash;4 are clean on the real renders, four named layers pass <code>fidelity.py structure</code>, and the accent is spent once, on the silhouette edge, at 2.52% of the tile. <strong>Known liabilities to revisit:</strong>
+<ul>
+<li><b>The band itself is under 3:1 on both sides</b> &mdash; 2.44:1 against the tile and 2.71:1 against the graphite face. A warm gel object squeezed between a Y&nbsp;0.833 ground and a Y&nbsp;0.084 body cannot clear 3:1 against both, and the corpus does not solve it with a value either: apple-12's orange operator column measures 2.29:1 against its own charcoal body. The boundary the eye actually uses here is the rim's seat edge, at 3.36:1 against the tile, which is why that edge is now re-run over the band. It works, and it works by borrowing rather than by the accent earning its own separation.</li>
+<li><b>#10 is constructed, not tested.</b> Four named layers, identity carried by shape and value, and the band sits at Y&nbsp;0.311 between the face at 0.084 and the tile at 0.833, so a grayscale band is still a band. Dark, Clear and Tinted have not been rendered, because the browser engine available here accepts <code>Emulation.setEmulatedMedia</code> and does nothing with it.</li>
+<li><b>The device resolves at 32px, not at 16px.</b> At 16px what survives is a dark disc, a warm crown and a pale needle &mdash; a gauge with a marked target. The asymmetry that makes it <em>this</em> gauge, open on one side and stopped on the other, needs the 32px source to read.</li>
+<li><b>No shelf pair is above the 0.80 collision bar &mdash; but the margin is 0.003.</b> <code>better-loop</code> is 0.326 and nowhere near this tile, so the pair the two icons formed is properly broken. The nearest neighbours are <code>shipyard</code> 0.797, <code>geminify</code> 0.794 and <code>proctor</code> 0.790, and getting there took two swept constants rather than one design change: the object's diameter (<code>scale</code>) and its vertical position (<code>cy</code>). Diameter alone never cleared the bar at any setting between 52% and 62% of the tile &mdash; shrinking the disc moves the flag onto <code>proctor</code>'s dark box (0.871 at 52%) instead of removing it, which is the structural convergence <code>shelf_check.py</code>'s own docstring predicts. Both curves are in <code>icon-notes.md</code>. A sibling icon changing could put this back over the bar, and the honest reading is that several of these tiles are the same value recipe with different shapes in it.</li>
+<li><b>The minor graduations are 3.08:1 against the face and dither to a grey fringe by 32px.</b> They are texture, not identity, but they are the first thing that looks noisy under magnification.</li>
+<li><b><code>banner.png</code> and <code>banner-src.html</code> still show the predecessor.</b> Built 13 August against the pale dial and now wrong. Separately-owned banner debt, not fixed here; the numbers a banner pass needs are <code>LIGHT_ANGLE_DEG&nbsp;=&nbsp;118</code>, <code>LIGHT_AXIS&nbsp;&asymp;&nbsp;(-0.47,&nbsp;+0.88)</code> and the <code>ACCENT*</code> ramp, all in <code>build_icon.py</code>.</li>
+</ul></div>
+
+<div class="measured"><b>What was measured, and how.</b> Relative-luminance ratios computed from the sRGB values of <code>icon.png</code> (linearised, 0.2126R&nbsp;+&nbsp;0.7152G&nbsp;+&nbsp;0.0722B), sampled as 16&times;16px patches at polar coordinates off the dial centre, 6&times;6px on the graduations and the seat edge. 16px RMS contrast is the RMS of gamma-encoded relative luminance on a 16px Lanczos downsample over pixels with alpha&nbsp;&gt;&nbsp;0.5 &mdash; the same definition <code>better-loop</code>'s commission published, so the family figures are comparable. These are readings of these renders, not estimates.
 <table>
   <tr><th scope="col">Quantity</th><th scope="col">Measured</th><th scope="col">Against</th></tr>
-  <tr><td>dial face vs tile beside it</td><td><code>1.05:1</code></td><td>#7 wants 3:1 &mdash; <b>fails</b></td></tr>
-  <tr><td>dial rim vs tile</td><td><code>1.35:1</code></td><td>the only separation the primary form has</td></tr>
-  <tr><td>hub vs dial face</td><td><code>10.11:1</code></td><td>strong; this is what carries the small read</td></tr>
-  <tr><td>vermilion arc and dot vs dial face</td><td><code>3.51:1</code></td><td>clears 3:1, but is gone by 16px</td></tr>
-  <tr><td>dial outer diameter</td><td><code>667px = 65.1%</code> of tile</td><td>composition constant is 55&ndash;65% &mdash; a whisker over</td></tr>
-  <tr><td>side margins</td><td><code>178px</code> both sides</td><td>symmetric</td></tr>
+  <tr><td>graphite face vs the tile beside it</td><td><code>12.34:1</code></td><td>#7 wants 3:1 &mdash; <b>passes</b>; the predecessor was 1.05:1</td></tr>
+  <tr><td>bezel vs the tile below it</td><td><code>12.59:1</code></td><td>the object's own boundary</td></tr>
+  <tr><td>lit bezel vs the tile beside it</td><td><code>3.76:1</code></td><td>the rim's up-light arc, its weakest boundary</td></tr>
+  <tr><td>target band vs the tile</td><td><code>2.44:1</code></td><td><b>under 3:1</b> &mdash; a stated liability</td></tr>
+  <tr><td>target band vs the graphite face</td><td><code>2.71:1</code></td><td><b>under 3:1</b>; apple-12's accent is 2.29:1 against its body</td></tr>
+  <tr><td>the band's seat edge vs the tile</td><td><code>3.36:1</code></td><td>the boundary the eye uses instead</td></tr>
+  <tr><td>pawl boss vs the tile</td><td><code>7.70:1</code></td><td>the silhouette break</td></tr>
+  <tr><td>needle vs the face it stands on</td><td><code>7.19:1</code></td><td>the second read after the disc</td></tr>
+  <tr><td>major graduation vs the face</td><td><code>12.20:1</code></td><td>value-separated, as apple-23 does it</td></tr>
+  <tr><td>minor graduation vs the face</td><td><code>3.08:1</code></td><td>texture; first to dither</td></tr>
+  <tr><td>bearing collar vs the face</td><td><code>3.49:1</code></td><td></td></tr>
+  <tr><td>16px RMS contrast, <code>icon-256.png</code></td><td><code>0.2929</code></td><td>rank <b>3 of 38</b>; family median 0.2002; the predecessor 0.1142 at rank 35</td></tr>
+  <tr><td>grayscale spread, alpha-masked p2/p50/p98</td><td><code>0.117 / 0.876 / 0.962</code></td><td>the predecessor was 0.285 / 0.955 / 0.988</td></tr>
+  <tr><td>warm accent share, one contiguous piece</td><td><code>2.52%</code></td><td><code>better-loop</code>'s discipline figure is 2.41%</td></tr>
+  <tr><td>object width</td><td><code>614px = 60.0%</code> of tile</td><td>the grammar's focal band is 55&ndash;65%</td></tr>
+  <tr><td>side margins</td><td><code>205px</code> both sides, 147 top / 247 bottom</td><td>symmetric</td></tr>
+  <tr><td>dark mass share of tile</td><td><code>24.0%</code></td><td>a3, the losing take, is 52.8%</td></tr>
   <tr><td>corner alpha, four extremes</td><td><code>0, 0, 0, 0</code></td><td>#1 mask discipline &mdash; <b>passes</b></td></tr>
-  <tr><td>named <code>&lt;g&gt;</code> layers</td><td><code>0</code> (1 group, the clip wrapper)</td><td>#10 variant robustness &mdash; <b>fails</b></td></tr>
-  <tr><td>paths / gradients / filters</td><td><code>3 / 6 / 1</code>, 11,448 bytes</td><td>well inside the 400-path, 200KB envelope</td></tr>
+  <tr><td>paths / gradients / filters / named layers</td><td><code>24 / 12 / 4 / 4</code>, 17,650 bytes</td><td><code>fidelity.py structure</code> <b>PASS</b>; well inside the envelope</td></tr>
+  <tr><td>nearest shelf neighbour at 16px</td><td><code>shipyard 0.797</code></td><td><code>better-loop</code> is <code>0.326</code> &mdash; the pair is broken</td></tr>
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship nothing further on this icon until the layer plan lands.</strong> <code>icon.svg</code> is what ships today, and this sheet records it at 8/12 against a 10/12 bar, so the honest status is &ldquo;in the marketplace, not yet delivered to the pipeline's standard&rdquo; rather than &ldquo;approved&rdquo;. Two defects block it, and both are in the artwork rather than on this page. <strong>(1) No layer plan.</strong> <code>icon-gen.py</code> emits one anonymous <code>&lt;g&gt;</code> under the clip; splitting the same three paths into named <code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code> groups would clear #10 and the <code>fidelity.py structure</code> gate without changing a single rendered pixel, which makes it the cheapest fix in the set. <strong>(2) The dial has no figure-ground.</strong> 1.05:1 against its own tile is the porcelain register's standing trade taken further than the siblings take it; the usual moves are to deepen the tile's vignette under the dial, warm or darken the face a few points, or thicken the rim, and any of them wants re-measuring rather than eyeballing. Separately, the pipeline's three-take floor has never been met here, so there is no evidence about what this direction beat. Anything that changes the artwork should re-render this sheet, and this sheet's scores should then be replaced rather than amended, because they are readings of one specific render.</div>
-
-<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Renders produced by <code>python3 audit_sheet.py render plugins/better-goal/assets --take a=icon.svg:svg</code> (1024 / 256 / 128 / 96 / 64 / 32 sources), recorded in <code>audit-renders/render-manifest.json</code>.<br><br>Sheet provenance, in full: before 19 August 2026 there was no <code>audit.html</code> in this directory at all, and <code>audit-renders/</code> held five files under the take id <code>audit</code> which were <b>byte-identical copies of the shipped <code>icon.png</code>, <code>icon-256.png</code> and <code>icon-128.png</code></b> rather than renders of the master &mdash; so the directory could not show that anything had been rendered for audit. Those copies were replaced on that date by real <code>rsvg-convert</code> renders of <code>icon.svg</code> at the six sheet sizes, under the take id <code>a</code>. The shipped <code>icon.svg</code>, <code>icon.png</code>, <code>icon-256.png</code> and <code>icon-128.png</code> were not touched and are byte-for-byte as they were.</div>
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. One standard applied to every take on this sheet: <b>#10 is deducted wherever variant robustness has not been rendered in the six appearance variants</b>, which is every take here, because the browser engine available accepts <code>Emulation.setEmulatedMedia</code> and leaves <code>prefers-color-scheme</code> untouched. Takes B and C would fail it outright in any case, having no layer plan at all. Raster takes are audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render plugins/better-goal/assets --take a1=icon.svg:svg --take a2=&hellip; --take C=icon-engineC-80617e.png:raster-mask</code> at 1024 / 256 / 128 / 96 / 64 / 32 sources, recorded in <code>audit-renders/render-manifest.json</code>; verified by its <code>check</code> subcommand.<br><br>Engines: the three-engine floor was met. Engine A was widened to three genuinely different hand-authored takes because the value relation was the open question and one image per relation is what settles it; Engine B produced a real Arrow 1.1 vector; Engine C produced one GPT Image 2 raster steered by three porcelain-register corpus exemplars (<code>apple-23</code> Safari, <code>apple-12</code> Calculator, <code>apple-10</code> ChatGPT). The first Arrow call reported a timeout to its caller and <b>wrote its SVG anyway</b>, which is why there are two vector takes here: B2 was found on disk afterwards and is scored rather than deleted. Check the output directory before believing a reported timeout. <code>icon.svg</code> is byte-reproducible from <code>build_icon.py --variant a1</code>, checked with <code>cmp</code> after the last edit to that script, so the master on disk and the generator cannot have drifted apart. No fidelity loop was run: the raster take did not win the material read, and the two constructions it and the vector take agreed on were salvaged directly rather than converged upon.</div>
 </body>
 </html>
