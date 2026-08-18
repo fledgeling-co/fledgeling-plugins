@@ -4,25 +4,37 @@
       "source": "icon.svg",
       "kind": "svg-letterbox",
       "source_mtime": 1786762211.812289,
-      "rendered_at": 1787062825.703999
+      "rendered_at": 1787091871.6076841
     },
     "Av1": {
       "source": "icon-A-v1.svg",
       "kind": "svg-letterbox",
       "source_mtime": 1786760173.531543,
-      "rendered_at": 1787062827.15328
+      "rendered_at": 1787091872.895125
     },
     "B": {
       "source": "icon-engineB-arrow-8da398.svg",
       "kind": "svg-letterbox",
       "source_mtime": 1786760153.1983123,
-      "rendered_at": 1787062827.8937101
+      "rendered_at": 1787091873.498581
     },
     "B2": {
       "source": "icon-engineB-arrow-1a7fde.svg",
       "kind": "svg",
       "source_mtime": 1786760085.7025373,
-      "rendered_at": 1787062828.175012
+      "rendered_at": 1787091873.80496
+    },
+    "C1": {
+      "source": "icon-engineC-b3fcac.png",
+      "kind": "raster-mask",
+      "source_mtime": 1786760000.5955153,
+      "rendered_at": 1787091874.973351
+    },
+    "C2": {
+      "source": "icon-engineC-37fa47-2.png",
+      "kind": "raster-mask",
+      "source_mtime": 1786760002.8597333,
+      "rendered_at": 1787091875.781162
     }
   },
   "sizes": [
