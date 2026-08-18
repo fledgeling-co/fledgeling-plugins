@@ -3,7 +3,7 @@
 
 Direction 2 (Tahoe gel-glass), sub-register (a): porcelain cushion tile carrying
 one coloured gel object, in the fledgeling-plugins house palette lifted from its
-siblings (`create-test-suite` and `resume-session` share the #F8F5EE -> #E4DDCB
+siblings (`test-campaign` and `resume-session` share the #F8F5EE -> #E4DDCB
 ground; the accent family is `#E4652E`, kin to Fledgeling's `#C4622D`).
 
 CONCEPT - "The Overlay". The reference is scribed into the tile itself: a
@@ -67,7 +67,7 @@ S = 1024
 # Two hue families and no more: warm porcelain/clay, and the one ember accent.
 # The ground is calibrated to the siblings rather than to Apple's own porcelain,
 # which runs about 0.10 brighter at the bottom corners: measured on the shelf,
-# `create-test-suite` and `resume-session` read TL 0.92-0.93 / BL 0.81 / top-mid
+# `test-campaign` and `resume-session` read TL 0.92-0.93 / BL 0.81 / top-mid
 # 0.95, and matching the shelf is what makes a set read as a set.
 GROUND_TOP, GROUND_MID, GROUND_BOT = "#F9F6EE", "#F3EFE4", "#E4DDCB"
 RIM = "#FFFDF8"
@@ -82,7 +82,7 @@ MOCK_FLOOR_TOP, MOCK_FLOOR_BOT = "#F0E9D9", "#DFD5BE"
 SCRIBE = "#8A7A61"
 
 # The build. A porcelain slab on a porcelain cushion measures about 1.1:1 and
-# reads as white on white at every size (measured on `create-test-suite`), so
+# reads as white on white at every size (measured on `test-campaign`), so
 # the implementation is the family's clay gel and carries the figure-ground.
 GEL_TOP, GEL_MID, GEL_BOT = "#8E8168", "#736752", "#504534"
 GEL_WALL_TOP, GEL_WALL_BOT = "#4B4133", "#342C21"
