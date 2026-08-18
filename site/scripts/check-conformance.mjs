@@ -112,6 +112,37 @@ const DEBT = [
 const debtFor = (plugin, dimension) =>
   DEBT.find((d) => d.plugin === plugin && d.dimension === dimension);
 
+/**
+ * The voice gate brand-and-docs.md has always prescribed, and which this script
+ * originally could not run.
+ *
+ * The audit that commissioned this file reported that no `voice_lint.py` existed
+ * anywhere in the repo, so the em-dash count below was a hand proxy for its one
+ * hard check. That was wrong in substance. The script exists and works; it just
+ * does not live here. It ships with the installed `create-luke-content` plugin,
+ * and both create-skill and improve-skill cite it as a bare relative path with
+ * no owner named, which reads as the citing skill's own `scripts/` directory.
+ * That is the real defect, and it is exactly the failure mode mac-craft's
+ * SKILL.md documents and writes its paths out in full to avoid.
+ *
+ * Resolved dynamically because a cache path carries a version number, so pinning
+ * one here would rot. When the plugin is not installed the em-dash check still
+ * runs and the report says the fuller lint was skipped, rather than passing
+ * quietly as though it had run.
+ */
+function findVoiceLint() {
+  const cache = join(process.env.HOME || "", ".claude", "plugins", "cache", "diolog-plugins", "create-luke-content");
+  if (!existsSync(cache)) return null;
+  const versions = readdirSync(cache).filter((v) => /^\d/.test(v)).sort().reverse();
+  for (const v of versions) {
+    const candidate = join(cache, v, "skills", "create-luke-content", "scripts", "voice_lint.py");
+    if (existsSync(candidate)) return candidate;
+  }
+  return null;
+}
+
+const VOICE_LINT = findVoiceLint();
+
 // ---------------------------------------------------------------------------
 
 const args = new Set(process.argv.slice(2));
@@ -343,9 +374,19 @@ for (const name of dirs) {
 
   // --- voice --------------------------------------------------------------
   for (const surface of voiceSurfaces(dir)) {
+    const shown = surface.replace(`${REPO_DIR}/`, "");
     const count = countEmDashes(readFileSync(surface, "utf8"));
     if (count > 0) {
-      fail(name, "voice", `${surface.replace(`${REPO_DIR}/`, "")} carries ${count} em dash${count === 1 ? "" : "es"}. The ban covers body text, headings, alt text and table cells.`);
+      fail(name, "voice", `${shown} carries ${count} em dash${count === 1 ? "" : "es"}. The ban covers body text, headings, alt text and table cells.`);
+    }
+    if (VOICE_LINT) {
+      try {
+        execFileSync("python3", [VOICE_LINT, "--format", "marketing", surface], { stdio: "pipe" });
+      } catch (error) {
+        const out = `${error.stdout || ""}${error.stderr || ""}`;
+        const hard = out.split("\n").filter((l) => /^(fail|error)/i.test(l.trim())).slice(0, 4);
+        fail(name, "voice", `${shown} fails voice_lint --format marketing: ${hard.length ? hard.join(" | ") : out.trim().slice(0, 200)}`);
+      }
     }
   }
 
@@ -411,6 +452,9 @@ if (AS_JSON) {
 
   const clean = dirs.length - byPlugin.size + (byPlugin.has("(root)") ? 1 : 0);
   console.log(`\ncheck-conformance: ${dirs.length} plugins, ${registered.size} registered, ${clean} fully conformant, ${failures.length} failures across ${byPlugin.size} names, ${excused.length} excused.`);
+  console.log(VOICE_LINT
+    ? `  voice: em dashes plus voice_lint --format marketing (${VOICE_LINT.replace(process.env.HOME || "", "~")})`
+    : `  voice: em dashes only. voice_lint.py was not found, so the fuller lint brand-and-docs.md prescribes did NOT run. It ships with the create-luke-content plugin.`);
 }
 
 process.exit(failures.length ? 1 : 0);
