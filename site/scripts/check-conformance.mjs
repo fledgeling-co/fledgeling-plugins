@@ -103,6 +103,10 @@ const DEBT = [
       why: "One of six that landed together as a migration out of diolog-plugins. Registered without banners so they were installable; a banner is a composed artifact per plugin rather than a render.",
     }),
   ),
+  {
+    plugin: "geminify", dimension: "banner", since: "2026-08-18",
+    why: "Sets its wordmark in Rockwell, a local face, on purpose. Its assets/build_banner.py records the reason: it renders through rsvg, which resolves system fonts and ignores webfonts, the reverse of the browser here. Unlike the other two the web-font check catches, it ships assert_font_resolves() and a dotless-i comparison, so a missing Rockwell fails loudly instead of silently substituting. Machine-dependent with a guard is a different thing from machine-dependent by accident.",
+  },
 ];
 
 const debtFor = (plugin, dimension) =>
@@ -285,6 +289,27 @@ for (const name of dirs) {
   }
   if (bannerSize && !existsSync(join(dir, "assets", "banner-src.html")) && !existsSync(join(dir, "assets", "banner-src.svg"))) {
     fail(name, "banner", `has a rendered banner but no assets/banner-src, so it can never be edited again.`);
+  }
+
+  // --- banner reproducibility ---------------------------------------------
+  // A banner is reproducible only when its wordmark face arrives with the
+  // document. whats-left and create-test-suite set theirs in Iowan Old Style
+  // and Avenir Next, which are local macOS faces with nothing linked, so
+  // re-rendering either on another machine or in CI silently substitutes a
+  // different face and produces a different banner that still passes every
+  // size and overflow assertion. The full 12-point rubric lives in
+  // create-skill's scripts/banner_sheet.py; this is the subset a build can
+  // decide without a person looking.
+  const LOCAL_ONLY_FACES = /\b(Iowan Old Style|Palatino|Avenir|Segoe UI|Helvetica Neue|Lucida|Baskerville|Optima|Futura|Gill Sans)\b/i;
+  const bannerSrc = [join(dir, "assets", "banner-src.html"), join(dir, "assets", "banner-src.svg")]
+    .map((p) => read(p)).find(Boolean);
+  if (bannerSrc) {
+    const linksWebFont = /fonts\.googleapis\.com/.test(bannerSrc)
+      || (/@font-face/.test(bannerSrc) && /url\(\s*['"]?data:/.test(bannerSrc));
+    if (!linksWebFont) {
+      const named = bannerSrc.match(LOCAL_ONLY_FACES);
+      fail(name, "banner", `its banner-src links no web font${named ? ` and sets ${named[0]}` : ""}, so the wordmark is whatever the rendering machine happens to have installed. Link the face or inline it as a data URI.`);
+    }
   }
 
   // --- README -------------------------------------------------------------

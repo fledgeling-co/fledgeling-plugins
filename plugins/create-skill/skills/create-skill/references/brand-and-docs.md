@@ -108,6 +108,58 @@ It also picks a port no sibling agent is using, because two parallel
 renders on one port is a race whose symptom is a blank capture rather than
 an error.
 
+### Then score it, because five assertions are not a review
+
+`render_banner.py` proves the banner rendered. It says nothing about whether
+the banner is any good or whether it agrees with its siblings, and for a long
+time nothing else did either. An icon commission gets a corpus, three engines,
+a 12-point rubric, a contact sheet at six sizes and a fidelity loop. A banner
+got the five assertions above and no eyes at all, and three banners shipped
+wrong through that gap while passing every check made of them:
+
+- `resume-session` at 1600x520, the layout size at deviceScaleFactor 1, so half
+  resolution and soft on every retina display.
+- `create-test-suite` and `whats-left` at 3200x840 from a 1600x420 layout.
+- `create-test-suite` and `whats-left` again, for a defect no size check could
+  ever find: their wordmarks are set in `Iowan Old Style` and `Avenir Next`,
+  local macOS faces with nothing linked, so re-rendering either on another
+  machine or in CI silently substitutes a different face. The banner still
+  renders, still passes, and is a different banner.
+
+So a banner now gets its own sheet and its own 12-point rubric, same shape as
+the icon's and with the same 10/12 delivery bar:
+
+```bash
+python3 scripts/banner_sheet.py sheet  plugins/<name>/assets   # renders + banner-audit.html
+python3 scripts/banner_sheet.py check  plugins/<name>/assets   # exit 0 required
+python3 scripts/banner_sheet.py family .                       # every banner, one page
+```
+
+Checks 1, 2, 3, 7 and 12 are non-negotiable and mechanical, so `check` decides
+them: the exact 3200x1040, the real icon asset referenced rather than redrawn, a
+**linked** web font rather than the rendering machine's furniture, no em dash in
+the copy, and a retained `banner-src`. The other seven are register, accent,
+derivation from the icon's own build constants, overflow, legibility at 900px
+and at 400px, and whether anything overlaps illegibly. Those need a person, and
+the renders are what they look at. `check` also resolves every image the sheet
+displays and refuses a sheet older than the banner it describes, both lessons
+borrowed from the icon sheet.
+
+Rendering the display sizes needs no browser: the banner already exists and each
+size is a downscale. That is deliberate. A resize cannot fail silently, and the
+icon pipeline learned where the silent failures live.
+
+**`family` is the view that matters most and the one nobody had.** Drift across
+a set is invisible one banner at a time: each looks considered alone. Stacked at
+README width, the set currently shows twelve different display faces across
+twenty-seven banners, where this document asks for "a set wordmark". Whether
+that is variety or drift is a taste call, but it cannot be made without the page.
+
+Note that a `file://` load of any of these sheets renders with no images, because
+the browser here refuses `file://` subresources. That looks exactly like a 404
+and is not one. Serve the directory and open it over http, or trust `check`,
+which resolves the paths on disk.
+
 Three facts about this environment's browser, measured 2026-08-17, each of
 which cost a debugging round:
 
