@@ -115,6 +115,30 @@ Full protocol: `references/brand-and-docs.md`. In brief:
   the design needs, never for diagrams.
 - **Root README**: add the skill's row — icon, description, link.
 
+**Then run the marketplace's own gate**, which is the only check that sees the
+registration as a whole:
+
+```bash
+node site/scripts/build-catalogue.mjs   # must exit 0
+```
+
+It fails on a missing SKILL.md, a missing `assets/icon-256.png`, a missing
+`assets/banner.png`, a missing plugin README, and a version that disagrees
+between `plugin.json` and the marketplace manifest. Read the exit code, not the
+output: piping it through `grep` reports grep's status and has already turned a
+failure into a pass once.
+
+This line is here because every deliverable above was already named in prose and
+that was not enough. A real run of this pipeline produced the skill, the
+references, the scripts and the plugin README, then stopped before the icon,
+the banner, the audit sheet and the root-README row, and nothing failed — the
+user had to ask what was missing. Prose describes the finish line; an exit code
+is the only thing that notices you did not cross it.
+
+Note what the gate still will not catch: a missing root-README row is a
+**warning** there, not a failure, and it falls back to `plugin.json` for the card
+copy. Until that is promoted, the row is on you to verify by eye.
+
 ## Phase 6 — Ship
 
 Commit at sensible checkpoints throughout (skill built; evals graded;

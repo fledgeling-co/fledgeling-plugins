@@ -59,6 +59,7 @@ const GROUP_OF = {
   "create-swe-project": "making",
   "create-mac-icon": "making",
   "create-skill": "making",
+  "create-test-suite": "making",
   "improve-skill": "making",
   geminify: "making",
   "agent-voice": "making",
@@ -66,6 +67,8 @@ const GROUP_OF = {
   proctor: "making",
   "be-my-witness": "making",
   "tui-craft": "making",
+  "mockup-fidelity": "making",
+  "deck-craft": "making",
   trawl: "research",
   "dossier-report": "research",
   report: "research",
@@ -419,9 +422,27 @@ function build() {
     if (!readmeRaw) fail(`${name}: missing README.md`);
     const readme = absolutiseLinks(replaceMermaid(stripReadmeChrome(readmeRaw), name), name);
 
+    // The root-README row is a deliverable, not a nicety: it is the best-written
+    // one-liner in the repo and it becomes the card copy. It was a warning until
+    // 2026-08-18, and a warning is not a gate — a real pipeline run shipped a
+    // complete plugin with no row and nothing objected, because the fallback to
+    // plugin.json makes the omission invisible. Same shape as BANNER_DEBT above:
+    // an existing offender is named with a date, a new one fails.
+    const ROW_DEBT = new Set([
+      // Empty on purpose. Every listed plugin had a row when this became a gate.
+      // Add a name here with a date rather than reverting the check.
+    ]);
     const blurb = blurbs[name];
     if (!blurb) {
-      warnings.push(`${name}: no entry under "## The skills" in the root README — falling back to plugin.json`);
+      if (ROW_DEBT.has(name)) {
+        warnings.push(`${name}: no entry under "## The skills" in the root README — on the named row-debt list, falling back to plugin.json`);
+      } else {
+        fail(`${name}: no entry under "## The skills" in the root README. ` +
+             `Add a row — icon anchor, "### [${name}](plugins/${name}/README.md)", ` +
+             `and one paragraph of card copy. Without it the catalogue falls ` +
+             `back to plugin.json, so the omission renders as a plausible card ` +
+             `and nothing else in this build notices.`);
+      }
     }
 
     // --- signals ------------------------------------------------------------
