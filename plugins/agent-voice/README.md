@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that gives agent-authored text a register, split by who reads it, with a deterministic lint behind every rule.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.1.1" src="https://img.shields.io/badge/version-0.1.1-D33C21">
   <img alt="SWE skill: authoring" src="https://img.shields.io/badge/SWE_skill-authoring-434A55">
   <img alt="7 registers" src="https://img.shields.io/badge/registers-7-756E60">
   <img alt="82 quotes verified verbatim" src="https://img.shields.io/badge/vendor_quotes-82_verbatim-756E60">
@@ -83,6 +83,40 @@ python3 scripts/agent_voice_lint.py --self-test     # 18 fixtures
 ```
 
 `--format` is one of `reply`, `report`, `commit`, `review`, `doc`, `skill`, `brief`. `--target` names the family that will read it and changes one check: verification instructions hard-fail for a Claude reader and are expected for a Gemini one.
+
+### Making it the default
+
+Installing makes it available. To make it the standing rule for everything an agent writes, put the routing in your **user-scoped `CLAUDE.md`** (or `AGENTS.md`, for harnesses that read that instead) — it loads into every session, so the routing is decided before the first reply rather than remembered halfway through one. Paste this:
+
+```text
+Update my user-scoped CLAUDE.md (or AGENTS.md) so agent-voice is the default for
+every piece of prose, routed by authorship:
+
+- The agent is the author -> agent-voice. This is the default whenever no voice
+  or persona is named. It covers chat and terminal replies, in-task narration,
+  work reports and status write-ups, commit messages and PR bodies, code-review
+  findings, documents written for a person (plans, specs, findings reports,
+  READMEs, post-mortems), SKILL.md and other instruction files, and subagent
+  briefs. Hand it the piece and let it choose the register.
+- A named person or brand is the author -> that voice's skill. Content published
+  under their name takes their voice even when the request does not name it,
+  because the byline is the specification.
+
+One voice skill per piece, and a named voice wins over the default. A request
+spanning both is several pieces: route each and produce both. Load agent-voice
+once per session and its guidance holds for the rest of it. Write code, config
+and machine-read data files directly.
+```
+
+The routing only works when the file actually reaches the session, and a global instruction file that silently failed to load looks exactly like one being followed. A visible probe settles it:
+
+```text
+Also begin every chat response with a single agreed emoji, before the first word,
+on every turn. Keep it out of files, commit messages, PR bodies, code, comments
+and anything written for another agent.
+```
+
+A missing emoji on the next reply means the file did not load. The file-only exclusion is what makes it a probe rather than a decoration — it also proves the session can tell a conversation from a deliverable, which is the same distinction every register in this skill turns on.
 
 ## What it refuses to do
 
