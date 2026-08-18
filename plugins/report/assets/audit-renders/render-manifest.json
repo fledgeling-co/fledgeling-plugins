@@ -1,10 +1,28 @@
 {
   "takes": {
+    "A2": {
+      "source": "icon-A2-fold-inverted.svg",
+      "kind": "svg",
+      "source_mtime": 1787094976.3461785,
+      "rendered_at": 1787094982.0414872
+    },
+    "C1": {
+      "source": "icon-engineC-c04596.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787094725.979074,
+      "rendered_at": 1787094982.361417
+    },
+    "C2": {
+      "source": "icon-engineC-b88abc-2.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787094726.0358315,
+      "rendered_at": 1787094982.669197
+    },
     "master": {
       "source": "icon.svg",
       "kind": "svg",
       "source_mtime": 1787091094.874234,
-      "rendered_at": 1787091190.010685
+      "rendered_at": 1787094982.8531961
     }
   },
   "sizes": [

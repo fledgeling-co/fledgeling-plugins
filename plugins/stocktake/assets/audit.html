@@ -9,15 +9,21 @@
   body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
   h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; }
-  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 90ch; }
-  .band { max-width: 90ch; margin: 0 0 28px; padding: 14px 18px; border: 1px solid #7a4a2a;
+  .sub { color: #7fa0aa; margin-bottom: 24px; max-width: 92ch; }
+  .band { max-width: 92ch; margin: 0 0 28px; padding: 14px 18px; border: 1px solid #7a4a2a;
           border-left: 4px solid #e0826a; border-radius: 10px; background: #1a1210;
           color: #dcc0b4; font-size: 13.5px; line-height: 1.6; }
   .band strong { color: #ffb99f; }
   .sheet { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  table { border-collapse: collapse; width: 100%; min-width: 1180px; }
   th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  /* Explicit column widths. Left to the browser, the long verdict prose in the
+     last column collapses it to ~200px and hands the surplus to the render
+     strip, which then sits in a field of whitespace. */
+  .sheet col.c-take { width: 210px; }
+  .sheet col.c-rubric { width: 92px; }
+  .sheet col.c-verdict { width: 430px; }
   .take { font-weight: 650; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
   /* The flex lives on an inner div, never on the <td>: this browser computes
@@ -34,113 +40,242 @@
   .fail { color: #e0826a; }
   .pass { color: #9fd6a6; }
   .warn { color: #e8c07a; }
-  .verdict { max-width: 440px; color: #a9bec5; }
+  .verdict { max-width: 430px; color: #a9bec5; vertical-align: top; }
   .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 96ch; }
   .rec strong { color: #ffd98f; }
   .rubric { width: 100%; min-width: 0; margin-top: 4px; }
-  .rubric td:first-child { width: 42%; }
+  .rubric td:first-child { width: 40%; }
   .rubric td, .rubric th { padding: 9px 14px; font-size: 13px; vertical-align: top; }
-  .foot { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 96ch; }
+  .metrics { margin-top: 8px; color: #a9bec5; font-size: 12.5px; max-width: 100ch; }
+  .metrics table { min-width: 0; width: auto; }
+  .metrics td, .metrics th { padding: 7px 20px 7px 0; border-bottom: 1px solid #16262b;
+                             font-variant-numeric: tabular-nums; }
+  .metrics th { white-space: normal; max-width: 16ch; }
+  .foot { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 100ch; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   code { background: #10222a; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
 </style>
 </head>
 <body>
 <h1>stocktake icon — contact sheet &amp; audit</h1>
-<div class="sub">Direction &ldquo;The Card Held to the Light&rdquo; &middot; one engine, one take &middot;
-audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16 css px from 2&times; retina sources.</div>
+<div class="sub">Direction &ldquo;The Card Held to the Light&rdquo; &middot; four takes across two engines, one shared spec &middot;
+every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16 css px from 2&times; retina sources, and every
+number below measured off those renders rather than asserted.</div>
 
-<div class="band"><strong>This sheet was written retrospectively on 19 Aug 2026, and it records a
-commission that is short of the pipeline's floor.</strong> The icon was built on 18 Aug and shipped
-without a contact sheet, so there was no verdict to preserve. The direction, the signature move, the
-light model and the separation argument below are the commission's own, quoted from the docstring and
-named constants of <code>build_icon.py</code>, which is the only commission record here — there is no
-<code>icon-notes.md</code>. Nor is there any Engine B or Engine C artifact, nor a
-<code>fidelity-runs/</code>, nor any judge record: <strong>no fidelity loop ran, no blind panel saw this
-icon, and there is exactly one take</strong> against a floor of three. The score was assigned on 19 Aug
-by reading the twelve-point rubric in <code>icon-directions.md</code> against the renders in
-<code>audit-renders/</code> — a retrospective judgment, not the original verdict, because there was
-none. <code>audit_sheet.py check</code> still fails here on the take floor and on the structure gate;
-both are true statements about the commission rather than defects in this page, and no row has been
-invented to clear the count. This sheet covers the icon only; the banner in this directory has its own
-audit and its own verdict and is not in scope here.</div>
+<div class="band"><strong>What ran, what refused, and what still has not happened.</strong>
+The icon was built on 18 Aug 2026 and shipped with no contact sheet; a one-take sheet was written
+retrospectively on 19 Aug and failed <code>audit_sheet.py check</code> on the three-take floor, which is what
+this rebuild closes. <strong>Engine B did not run.</strong> media-gen-pro's Arrow 1.1 vector lane
+(<code>svg: true</code>) refused on 19 Aug with <em>&ldquo;A positive credit balance is required for all requests,
+including BYOK&rdquo;</em>, so there is no independent vector take and there is no Arrow artifact to show. The
+skill's stated fallback is to widen Engine A rather than to present one take as three, so Engine A carries two
+genuinely different hand-authored takes and Engine C carries two rasters — four takes, four sources, all four
+committed in this directory. <strong>Engine C ran</strong> as GPT Image 2 through the direct route, steered by four
+porcelain-register corpus exemplars (<code>apple-06</code> Home, <code>apple-05</code> Infuse,
+<code>apple-26</code> Reminders, <code>apple-18</code> spyglass).
+Still absent, and not glossed: <strong>no fidelity loop ran, no blind panel has seen any of these takes, and no
+appearance variant was rendered</strong> — Dark, Clear and Tinted were never captured, so every #10 verdict below
+rests on layer structure plus contrast computed from the named colour constants, not on screenshots. This sheet
+covers the icon only; the banner in this directory has its own audit and its own signed verdict and is not in
+scope here.</div>
 
 <div class="sheet"><table>
-  <caption class="visually-hidden">The single icon take, with renders, rubric score and verdict</caption>
+  <caption class="visually-hidden">Four icon takes across two engines, with renders, rubric scores and verdicts</caption>
+  <colgroup><col class="c-take"><col><col class="c-rubric"><col class="c-verdict"></colgroup>
   <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG &mdash; the only take, and it ships</small></td>
+    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG from <code>build_icon.py</code> &mdash; SHIPS</small></td>
     <td><div class="renders">
-      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="The master, 1024px source"><figcaption>hero 1024</figcaption></figure>
-      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The master at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="The master at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="The master at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="The master at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The master at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="Take A, the shipping master, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
     <td class="score ship">11 / 12<small class="fail">fails 10</small></td>
-    <td class="verdict">A short column of three filed cards low in the tile, fanned 24px per row, with
-      one card lifted clear above it and lit from behind so that card alone is translucent and
-      saturated. The column is the board — orderly, uniform, unexamined. The lifted card is the act of
-      checking. Same width, same corner radius, same silhouette; one has been put under a light and the
-      others have not, and it is the only warm thing on the tile because it is the only thing that has
-      been looked at. Clears all four non-negotiables on real renders and drops only #10, which is
-      measured. The gap between the two elements is deliberate — a card resting flush reads as the top
-      of the stack, a card with air under it reads as having been taken out — and it is also the source
-      of the one composition note below.</td>
+    <td class="verdict">Three filed cards low in the tile, fanned 24px per row, one card lifted clear above them
+      and lit from behind so that card alone is translucent and saturated. It owns the set's signature move and
+      the set's best small-size read of the <em>subject</em>: at 16px the void between the two elements recovers
+      to <strong>98%</strong> of the tile ground's luminance, against 94% for A2 and 61&ndash;64% for the two
+      rasters, whose bloom fills the gap that carries the meaning. Clears all four non-negotiables on the renders
+      beside it. What it loses, and both are now comparisons rather than assertions: its focal group is
+      <strong>37.9%</strong> of tile width against a 55&ndash;65% composition band that every other take lands
+      inside, and its 16px luminance spread is <strong>0.186</strong>, the lowest of the four and only 1.06&times;
+      the 36-icon family median of 0.176. Its one rubric failure is #10.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A2 &middot; icon-A2-wide.svg<small>Engine A widened, hand-authored from <code>build_icon_A2.py</code> &mdash; the take Engine B's refusal bought</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/A2-1024.png" width="160" height="160" alt="Take A2, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A2-256.png" width="128" height="128" alt="Take A2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A2-128.png" width="64" height="64" alt="Take A2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A2-96.png" width="48" height="48" alt="Take A2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A2-64.png" width="32" height="32" alt="Take A2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A2-32.png" width="16" height="16" alt="Take A2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A2-32.png" width="96" height="96" alt="Take A2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">11 / 12<small class="fail">fails 10</small></td>
+    <td class="verdict">The same committed idea re-proportioned and re-lit, briefed directly at the two
+      liabilities the master's own sheet measured. Cards 560&times;72 fanned 40px put the focal group at
+      <strong>62.5% &times; 64.6%</strong> — inside the band on both axes, against the master's 37.9% — with the
+      fan scaled to the card so the filed-paper read survives (40/560 = 7.1%, against 24/340 = 7.1%). Its lit
+      plane is value-carried rather than outline-carried: opaque through the upper two thirds and 0.72 only in the
+      lower third, giving <strong>1.69:1</strong> against the local ground where the master's fill gives 1.52:1,
+      behind a darker <code>#C4622D</code> rim at 3.76:1 against the master's <code>#DD6413</code> at 3.27:1.
+      Each filed card carries a bright <code>#EFE7D6</code> lit arris, which is the only real #10 mitigation in
+      the set: on a charcoal ground that edge holds <strong>11.47:1</strong> where the master's darker cap holds
+      2.52:1 — but it is 10px of a 72px card, 14% of the mass, and no variant was rendered, so it does not buy
+      the point. What it costs is the reason it does not ship: opaque through two thirds, the lifted card reads as
+      a warm label with a keyline rather than a plane with a light behind it, and &ldquo;the only warm thing on the
+      tile because it is the only thing that has been looked at&rdquo; needs backlighting, not paint. Its 16px
+      spread is 0.232, 25% above the master's.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 &middot; icon-engineC-5cd65c-2.png<small>Engine C, GPT Image 2 raster, four porcelain corpus references &mdash; the material donor</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C2-1024.png" width="160" height="160" alt="Take C2, 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">11 / 12<small class="fail">fails 10</small></td>
+    <td class="verdict">The best material in the set and the reason a fidelity loop is the honest next step: matte-satin
+      slabs with real thickness, ambient occlusion between the filed cards, generous rounded arrises, a real
+      contact shadow on the porcelain under the bottom card, and the Tahoe cushion tell the hand-authored takes
+      only gesture at — its inner rim light is present on <strong>94.3%</strong> of the sampled perimeter at a
+      median 10px inset, against 51.4% for the two SVG takes, whose 3px stroke sits within 0.035 luminance of the
+      porcelain across the tile's upper half. Focal group 60.8% &times; 69.8%: the width is in the band, the
+      height overshoots it by 4.8 points. It fails #10 the way a raster always does — one flat layer, nothing to
+      swap, which is the named 76% failure mode, and the reason the skill's rule is that a raster is the material
+      target and never the shipped master. Two liabilities beyond the score. The gap that carries the subject
+      recovers to only <strong>61%</strong> of ground luminance at 16px, so the tile reads as a bright mass
+      resting on a dark one — the air is gone. And the lifted element is 1.88:1 in aspect against the filed
+      cards' 6.9:1, so the same-width, same-radius, same-silhouette move the commission committed to is absent;
+      four corpus references transferred the material and the ground treatment and did not transfer the
+      relationship, which is the same negative result this pipeline recorded on <code>proctor</code>.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C1 &middot; icon-engineC-d5a874.png<small>Engine C, the same call's first image &mdash; same references, worse modelling</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C1-1024.png" width="160" height="160" alt="Take C1, 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">10 / 12<small class="fail">fails 8, 10</small></td>
+    <td class="verdict">C2's material with a modelling failure in the one element that has to be perfect. The
+      lifted card is a trapezoid: its top and bottom edges are not parallel, its left edge is shorter than its
+      right, its corner radii disagree corner to corner, and a second lip runs along the bottom edge that reads
+      as a duplicate surface fused to the first. That is a depth-coherence failure (#8) — two planes occupying
+      one place — and it is visible at 1024 and at 128. It fails #10 for the same structural reason as C2 and
+      carries the same two liabilities: the 16px gap recovers to 64% of ground, and the lifted element is 1.55:1
+      in aspect against the filed cards' roughly 7:1. Kept on the sheet rather than deleted because it is the
+      same prompt and the same four references as C2, one image apart in the same call, which is the useful thing
+      it records: the raster engine's material is reliable and its geometry is not.</td>
   </tr>
 </table></div>
 
-<h2>The 12-point rubric, scored 19 Aug against the renders</h2>
+<h2>Measured, not asserted</h2>
+<div class="metrics">Every figure below is computed off the 1024px renders in <code>audit-renders/</code> by one
+method applied to all four takes, so the columns are comparable. Focal extents are the bounding box of the dark
+and saturated masses at a fixed threshold; figure-ground is WCAG relative luminance against the median ground
+luminance in the band the element occupies; the 16px spread is on the 32px render downsampled to 16 and
+composited over white, and the family median across the 36 marketplace icons is 0.176. <strong>Gap recovery</strong>
+is the one number that separates the hand-authored takes from the rasters: the peak luminance of the void between
+the lifted card and the column at 16px, as a fraction of the tile ground — the subject of this icon is that void,
+so a take that fills it has lost the thing it was drawing.
+<table>
+  <tr><th scope="col">Take</th><th scope="col">Focal width (band 55&ndash;65%)</th><th scope="col">Focal height</th>
+      <th scope="col">Filed card vs local ground</th><th scope="col">Lit plane vs local ground</th>
+      <th scope="col">16px spread</th><th scope="col">Gap recovery at 16px</th>
+      <th scope="col">Inner rim present on perimeter</th><th scope="col">Named layers</th></tr>
+  <tr><td>A (ships)</td><td class="fail">37.9%</td><td>58.5%</td><td>6.02:1</td><td>1.52:1</td>
+      <td>0.186 &middot; 1.06&times;</td><td class="pass">98%</td><td>51.4% at 1px</td><td>5</td></tr>
+  <tr><td>A2</td><td class="pass">62.5%</td><td class="pass">64.6%</td><td>6.13:1</td><td>1.69:1</td>
+      <td>0.232 &middot; 1.32&times;</td><td class="pass">94%</td><td>51.4% at 1px</td><td>5</td></tr>
+  <tr><td>C2</td><td class="pass">60.8%</td><td class="warn">69.8%</td><td>4.10:1</td><td>1.49:1</td>
+      <td>0.262 &middot; 1.49&times;</td><td class="fail">61%</td><td class="pass">94.3% at 10px</td><td class="fail">1 &mdash; flat raster</td></tr>
+  <tr><td>C1</td><td class="pass">56.2%</td><td class="warn">66.3%</td><td>4.34:1</td><td>1.67:1</td>
+      <td>0.257 &middot; 1.46&times;</td><td class="fail">64%</td><td class="pass">89.7% at 14px</td><td class="fail">1 &mdash; flat raster</td></tr>
+</table>
+</div>
+
+<h2>The 12-point rubric, scored against the renders — take A, the shipping master</h2>
 <table class="rubric">
   <tr><th scope="col">Check</th><th scope="col">Result</th></tr>
-  <tr><td>1. Mask discipline — designed for the squircle, no baked corners or shadow <em>(non-negotiable)</em></td><td class="pass">PASS — full-bleed 1024 with the family superellipse read from <code>create-mac-icon/assets/squircle-path.txt</code> and applied as a <code>clipPath</code>. No baked corner radius and no baked drop shadow; the one tile-level treatment is a 3px <code>#FFFDF8</code> rim stroke at 0.8 opacity drawn on the squircle itself, which is a rim light on the family path rather than a substitute for it.</td></tr>
-  <tr><td>2. Grid adherence — optically centred, safe-zone margins <em>(non-negotiable)</em></td><td class="warn">PASS with a note, and it is the note a revision should read first. The solid focal group — three 340px cards fanned 24px, spanning x=318 to x=706 — is <strong>37.9% of tile width</strong>, well under the 55–65% composition constant, and the group runs y=300 to y=886, or 57.2% of height. Counting the halo (an ellipse rx=262 centred at x=512, so x=250 to x=774) the visual mass reaches 51.2% of width, which is why this is a note rather than a deduction: the glow is real mass and the vertical span is inside the band. The offset is deliberate — the 204px void between the lifted card and the column is the subject — but it does leave the object reading small in a large field, and the marketplace has failed sibling takes on grid adherence at 29% and 37% before now.</td></tr>
-  <tr><td>3. Silhouette test — nameable filled solid black <em>(non-negotiable)</em></td><td class="pass">PASS — filled to one tone it is three stacked bars with a single rounded plane floating clear above them. Nameable as a card lifted off a stack. The halo contributes nothing to the silhouette, so the geometry is carrying this on its own, which is the right way round.</td></tr>
-  <tr><td>4. 16px squint — survives menu-bar and Spotlight <em>(non-negotiable)</em></td><td class="pass">PASS, and the cleanest of the set. Verified on <code>master-32.png</code> at true 16px and again at ×6: a warm glowing plane above a dark fanned cluster, two elements, unambiguous. The translucency and the two rules on the lifted card dissolve; the relationship that carries the meaning does not.</td></tr>
-  <tr><td>5. Single light model</td><td class="pass">PASS — one light, behind and above the lifted card. The column's top arrises catch it as <code>#6E675A</code> caps while their faces fall to <code>#5A5449</code>, and the cast shadow is warm <code>#3E2A18</code> rather than blue, which is the tell the commission explicitly avoided.</td></tr>
-  <tr><td>6. Palette economy — ≤2 hue families, accent reserved for the focal</td><td class="pass">PASS — porcelain ground, one dark neutral for the filed cards, and one warm family for the light: <code>#FFD9A8</code> core through <code>#DD6413</code> edge to the <code>#FFB661</code> halo are values of a single amber-vermilion ramp, spent entirely on the lifted card.</td></tr>
-  <tr><td>7. Figure-ground — glyph vs ground ≥3:1, survives grayscale</td><td class="pass">PASS — the widest value gap of the icons audited on 19 Aug. The card face <code>#5A5449</code> reads <strong>5.54:1</strong> against the ground and survives grayscale outright. The lifted card's own core is only 1.23:1 against the ground, but it is held by a 7px <code>#DD6413</code> edge stroke at 3.27:1, so it separates by outline where it cannot separate by fill — a deliberate structure rather than an accident.</td></tr>
-  <tr><td>8. Depth coherence — planes ordered, shadows match light</td><td class="pass">PASS — halo behind everything, then the column, then the cast shadow, then the lifted card in front. The ellipse lands <em>on the face of the top card</em> rather than behind it, which is what makes the air under the lifted card visible instead of implied. Each fanned card carries its own 40%-opacity underside.</td></tr>
-  <tr><td>9. Era coherence</td><td class="pass">PASS — cushioned porcelain tile with a 20% vignette, one soft light, no hard specular. The accent glows rather than reflects, which is also how it separates from <code>whats-left</code>, its nearest neighbour: that one is an extruded warm keystone with a hole through it, this is flat planes seen near-on.</td></tr>
-  <tr><td>10. Variant robustness — survives Default/Dark/Clear/Tinted, identity not hostage to one background <em>(76% of the corpus fails here)</em></td><td class="fail">FAIL — on the variant read alone, and the structural half of this row is now closed. The sheet first recorded <strong>0 named <code>&lt;g id&gt;</code> layers</strong> in <code>icon.svg</code>, everything sitting inside one unnamed <code>&lt;g clip-path&gt;</code>. Fixed in <code>build_icon.py</code> on 19 Aug; <code>fidelity.py structure</code> now reports <strong>5 named layers</strong> (<code>art / bg / mid / fg / highlight</code>) and passes, and because the wrappers carry no presentation attributes all five shipped sizes re-render byte-identical: rms 0.000000, no changed bounding box, at 1024, 256, 128, 64 and 16. What still drops the point: the identity rests on a warm glow reading against a light ground, and under Dark the glow gains contrast while the porcelain cushion it is glowing on stops being porcelain. The named layers make that separable now; nothing has separated it yet, and no variant was captured.</td></tr>
-  <tr><td>11. Personality — ≥1 nameable device beyond glyph-on-gradient</td><td class="pass">PASS — a translucent backlit card held above an opaque filed column, identical in width and radius to the cards it came from. Nothing else in this marketplace has a backlit plane above an opaque stack.</td></tr>
-  <tr><td>12. No-text</td><td class="pass">PASS — the two marks on the lifted card are abstract rules at 34% and 22% opacity. No glyphs, no words, no screenshot.</td></tr>
+  <tr><td>1. Mask discipline — designed for the squircle, no baked corners or shadow <em>(non-negotiable)</em></td><td class="pass">PASS — full-bleed 1024 with the family superellipse read from <code>create-mac-icon/assets/squircle-path.txt</code> and applied as a <code>clipPath</code>. No baked corner radius and no baked drop shadow; the one tile-level treatment is a 3px <code>#FFFDF8</code> rim stroke at 0.8 opacity drawn on the squircle itself, which is a rim light on the family path rather than a substitute for it. A2 is identical here. Both rasters bake their own rounded-rect tile with a cream margin outside it, and pass only because the family mask cuts entirely inside that corner — measured: alpha is 0 out to 65px along the diagonal while their baked corner ridge peaks at 20&ndash;40px, so no double corner survives in the audited masked render. They pass this check by luck rather than by discipline, which is worth saying even though nothing on the sheet turns on it.</td></tr>
+  <tr><td>2. Grid adherence — optically centred, safe-zone margins <em>(non-negotiable)</em></td><td class="warn">PASS on the check's own terms, and this is the note a revision should read first. The group is optically centred — halo and cards both on x=512 — and its margins are generous, which is what #2 asks. What it is not is correctly <em>sized</em>: the solid focal group, three 340px cards fanned 24px spanning x=318 to x=706, is <strong>37.9% of tile width</strong>, or 51.2% counting the halo ellipse (rx=262 at x=512, so x=250 to x=774), against the 55&ndash;65% composition constant. It runs y=300 to y=886, 57.2% of height, measured 58.5% on the render with the cards' undersides. The previous sheet said a second reader could reasonably fail this row; three takes have now been rendered and all three land inside the band at 56.2%, 60.8% and 62.5%, so the shortfall is 17 to 25 points against measured rivals rather than against a constant in a document. The offset is deliberate — the 204px void between the lifted card and the column is the subject — but the trade is now visible, and A2 shows the void survives at 62.5%.</td></tr>
+  <tr><td>3. Silhouette test — nameable filled solid black <em>(non-negotiable)</em></td><td class="pass">PASS — filled to one tone it is three stacked bars with a single rounded plane floating clear above them. Nameable as a card lifted off a stack. The halo contributes nothing to the silhouette, so the geometry is carrying this on its own, which is the right way round. All four takes pass.</td></tr>
+  <tr><td>4. 16px squint — survives menu-bar and Spotlight <em>(non-negotiable)</em></td><td class="pass">PASS, and the claim it used to carry has to be corrected. Verified on <code>master-32.png</code> at true 16px and at &times;6: a warm glowing plane above a dark fanned cluster, two elements, unambiguous. On the family's tracked metric it is now the <strong>weakest</strong> of the four — 16px luminance spread 0.186 against A2's 0.232, C1's 0.257 and C2's 0.262 — so the previous sheet's &ldquo;the cleanest 16px read&rdquo; was true only of a set of one. What it does still own is the read that matters: the void recovers to 98% of ground luminance where the rasters recover to 61&ndash;64%, so the two elements stay separate. The spread metric rewards the rasters' bloom, and the bloom is what destroys the subject.</td></tr>
+  <tr><td>5. Single light model</td><td class="pass">PASS — one light, behind and above the lifted card. The column's top arrises catch it as <code>#6E675A</code> caps while their faces fall to <code>#5A5449</code>, and the cast shadow is warm <code>#3E2A18</code> rather than blue, which is the tell the commission explicitly avoided. All four takes pass; both rasters render the source as emissive and light the column from it consistently.</td></tr>
+  <tr><td>6. Palette economy — ≤2 hue families, accent reserved for the focal</td><td class="pass">PASS — porcelain ground, one dark neutral for the filed cards, and one warm family for the light: <code>#FFD9A8</code> core through <code>#DD6413</code> edge to the <code>#FFB661</code> halo are values of a single amber-vermilion ramp, spent entirely on the lifted card. All four takes pass; the rasters honoured the two-family constraint given four references in one register.</td></tr>
+  <tr><td>7. Figure-ground — glyph vs ground ≥3:1, survives grayscale</td><td class="pass">PASS — the filed cards read <strong>6.02:1</strong> against the median ground luminance in the band they occupy, the widest gap of the four (A2 6.13:1, C1 4.34:1, C2 4.10:1) and it survives grayscale outright. The lifted card's own fill is only <strong>1.52:1</strong>, held by a 7px <code>#DD6413</code> edge stroke at 3.27:1 against the porcelain, so it separates by outline where it cannot separate by fill — a deliberate structure, and the one A2 rebuilt as fill instead.</td></tr>
+  <tr><td>8. Depth coherence — planes ordered, shadows match light</td><td class="pass">PASS — halo behind everything, then the column, then the cast shadow, then the lifted card in front. The ellipse lands <em>on the face of the top card</em> rather than behind it, which is what makes the air under the lifted card visible instead of implied; neither raster honoured that instruction, putting a warm bloom there instead. Each fanned card carries its own 40%-opacity underside. This is the row C1 fails: its lifted card carries a duplicated bottom lip and non-parallel edges, two surfaces in one place.</td></tr>
+  <tr><td>9. Era coherence</td><td class="pass">PASS — cushioned porcelain tile with a 20% vignette, one soft light, no hard specular. The accent glows rather than reflects, which is also how it separates from <code>whats-left</code>, its nearest neighbour: that one is an extruded warm keystone with a hole through it, this is flat planes seen near-on. The honest comparison, though, is that both rasters are more Tahoe-correct on material than either SVG take: real ambient occlusion between planes, generous rounded arrises, and an inner rim light present on 90&ndash;94% of the perimeter against this master's 51.4%.</td></tr>
+  <tr><td>10. Variant robustness — survives Default/Dark/Clear/Tinted, identity not hostage to one bg colour <em>(76% of the corpus fails here)</em></td><td class="fail">FAIL — and it is the only row all four takes fail, for two different reasons. The structural half is closed here: <code>fidelity.py structure</code> reports <strong>5 named layers</strong> (<code>art / bg / mid / fg / highlight</code>) and passes, and because the wrappers carry no presentation attributes all five shipped sizes re-render byte-identical to before they were named — rms 0.000000 at 1024, 256, 128, 64 and 16. What still drops the point is the value scheme: the identity rests on a warm glow reading against a light ground, and on a charcoal ground the filed cards' <code>#5A5449</code> face falls to <strong>1.88:1</strong> and their <code>#6E675A</code> cap to 2.52:1, so the column that carries the silhouette collapses into the ground while the glow gains contrast at 10.58:1. A2's bright <code>#EFE7D6</code> arris answers exactly this at 11.47:1, which is the strongest #10 argument in the set — and it covers 10px of a 72px card. The rasters fail the row by construction: one flat layer, nothing to swap. <strong>No variant was rendered for any take</strong>, so all of this is computed from the colour constants rather than seen.</td></tr>
+  <tr><td>11. Personality — ≥1 nameable device beyond glyph-on-gradient</td><td class="pass">PASS — a translucent backlit card held above an opaque filed column, identical in width and radius to the cards it came from. Nothing else in this marketplace has a backlit plane above an opaque stack, and this is the one check where the master beats every rival on more than a margin: A2 keeps the device and weakens it to a warm keyline label, and both rasters drop the same-silhouette half of it outright, at 1.55:1 and 1.88:1 aspect against the filed cards' roughly 7:1.</td></tr>
+  <tr><td>12. No-text</td><td class="pass">PASS — the two marks on the lifted card are abstract rules at 34% and 22% opacity. No glyphs, no words, no screenshot. All four takes pass; neither raster invented a letterform, which is not the usual outcome.</td></tr>
 </table>
 
 <div class="rec"><strong>Recommendation: ship take A (<code>icon.svg</code> → <code>icon.png</code> /
 <code>icon-256.png</code> / <code>icon-128.png</code> / <code>icon-64.png</code> /
-<code>icon-16.png</code>), 11 / 12.</strong> It clears all four non-negotiable checks on real renders,
-it has the best 16px read of the icons audited on this date, its material and its light model are
-authored in the file rather than photographed into it, and its device is unique in the set. One point
-down. Known liabilities to revisit, in the order a revision should take them:
-<strong>(1) The layer plan is missing (#10).</strong> A defect in the master, not in this sheet: the
-strata need authoring as named <code>&lt;g id="bg|mid|fg|highlight"&gt;</code> groups in
-<code>build_icon.py</code>, and until they are, <code>audit_sheet.py check</code> fails here on the
-structure gate. Deliberately not fixed on this pass, because it changes the shipped artwork.
-<strong>(2) Focal width at 37.9% solid, 51.2% with the halo (#2).</strong> The void that carries the
-subject is also what keeps the object small in the tile, so this is a genuine trade rather than a
-mistake — but it is a trade, and scaling the group up while keeping the gap proportional is the obvious
-first experiment. Judged here as a note rather than a deduction; a second reader could reasonably score
-#2 as a failure, and the measurements are given above so they can.
-<strong>(3) One take, not three.</strong> Engines B and C never ran, so nothing on this page is a
-comparison, and the shortfall is stated at the top rather than buried here.
-<strong>(4) Variants unrendered</strong> — Dark, Clear and Tinted were never captured, so the #10
-verdict rests on the structural measurement plus the value scheme rather than on screenshots.
-<strong>(5) The lifted card's fill is 1.23:1 against the ground</strong> and depends entirely on its
-7px edge stroke. That stroke thins with the icon, so at 16px the card is a warm patch rather than a
-lit plane — acceptable, and the reason the halo is doing as much work as it is.</div>
+<code>icon-16.png</code>), 11 / 12 — unchanged by the comparison, and now for a stated reason rather than for
+want of a rival.</strong> Three takes tie at 11/12 and the tie breaks on what cannot be fixed. C2 and C1 cannot
+ship at any score: a single-layer flat raster is rubric #10's named failure mode by construction, and this
+pipeline's own rule is that the raster is the material target and never the master. Between A and A2, A keeps the
+device that is the identity — a plane with a light behind it, 98% gap recovery at 16px — and A2 trades it for
+composition: it is the better-composed tile at 62.5% against 37.9% and the livelier one at 16px, 0.232 against
+0.186, and its lifted card reads as a warm label with a keyline rather than as something backlit. On this sheet's
+own authority — the rubric outranks any single measurement — that trade does not carry, so <strong>A2 does not
+beat the master; it proves the master's #2 note is fixable and shows what the naive fix costs.</strong> The one
+call worth a human eye is whether that is the right way round.
+Known liabilities, in the order a revision should take them:
+<strong>(1) Focal width 37.9% against a 55&ndash;65% band (#2), now measured against three rivals inside it.</strong>
+The experiment worth running is neither take on this sheet: A's material and halo at A2's scale — 560px cards,
+40px fan, the group at 62.5% — keeping the lifted card translucent over a halo rather than opaque with a keyline.
+A2 establishes that the void survives the scale-up; it does not establish that the material has to be given up
+for it.
+<strong>(2) Variant robustness (#10), unrendered for all four takes.</strong> Dark, Clear and Tinted were never
+captured. The named layer plan makes the ground and the glow separable and nothing has separated them; the
+numbers above are computed from constants, and the honest statement is that the icon has not been seen in three
+of its four appearances.
+<strong>(3) Material, where both rasters beat both SVG takes.</strong> Inner rim on 94.3% of perimeter against
+51.4%, real ambient occlusion between planes, real contact shadow under the bottom card. That is what
+<code>references/fidelity-loop.md</code> exists for and it has not been run here — with C2 as the reference, this
+is the commission's clearest unclaimed gain.
+<strong>(4) The lifted card's fill is 1.52:1 against the local ground</strong> and depends on its 7px edge
+stroke, which thins with the icon, so at 16px the card is a warm patch rather than a lit plane. Acceptable, and
+the reason the halo is doing as much work as it is.
+<strong>(5) Engine B never ran and no blind panel has judged any of this.</strong> The Arrow lane refused on
+credit balance; the four scores above are one reader's, against the rubric numbering in
+<code>icon-directions.md</code>, on the renders shown.</div>
 
 <div class="foot">Rubric: the 12-point icon audit in
-<code>create-mac-icon/references/icon-directions.md</code> (mask discipline, grid, silhouette, 16px
-squint, single light model, palette economy, figure-ground, depth coherence, era coherence, variant
-robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Contrast ratios are
-WCAG relative-luminance, computed from the named colour constants in <code>build_icon.py</code>;
-geometry percentages are computed from the same constants against the 1024px canvas. Renders produced by
-<code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render . --take
-master=icon.svg:svg</code> at 1024 / 256 / 128 / 96 / 64 / 32 via <code>rsvg-convert</code>, and every
-image on this page is proved to resolve by the same script's <code>check</code> subcommand.</div>
+<code>create-mac-icon/references/icon-directions.md</code> (1 mask discipline, 2 grid, 3 silhouette, 4 16px
+squint, 5 single light model, 6 palette economy, 7 figure-ground, 8 depth coherence, 9 era coherence, 10 variant
+robustness, 11 personality, 12 no-text) — checks 1&ndash;4 non-negotiable, delivery bar ≥10/12. Contrast ratios
+are WCAG relative luminance; those quoted against a named hex are computed from the colour constants in
+<code>build_icon.py</code> and <code>build_icon_A2.py</code>, and those quoted against &ldquo;local ground&rdquo;
+are measured off the 1024px renders. Raster takes are audited on their squircle-masked 1024 versions. Every take
+on this sheet has its source committed in this directory: <code>icon.svg</code> with
+<code>build_icon.py</code>, <code>icon-A2-wide.svg</code> with <code>build_icon_A2.py</code>,
+<code>icon-engineC-5cd65c-2.png</code> and <code>icon-engineC-d5a874.png</code>. Renders produced by
+<code>python3 create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render plugins/stocktake/assets
+--take master=icon.svg:svg --take A2=icon-A2-wide.svg:svg --take C1=icon-engineC-d5a874.png:raster-mask --take
+C2=icon-engineC-5cd65c-2.png:raster-mask</code> at 1024 / 256 / 128 / 96 / 64 / 32 via
+<code>rsvg-convert</code>, recorded in <code>audit-renders/render-manifest.json</code>, and every image on this
+page is proved to resolve by the same script's <code>check</code> subcommand.</div>
 </body>
 </html>
