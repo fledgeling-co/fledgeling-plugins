@@ -4,25 +4,31 @@
       "source": "icon.svg",
       "kind": "svg",
       "source_mtime": 1787049860.2266755,
-      "rendered_at": 1787049923.1702569
+      "rendered_at": 1787091854.433627
     },
     "B": {
       "source": "icon-engineB-arrow-6d3194.svg",
       "kind": "svg",
       "source_mtime": 1787049538.1802778,
-      "rendered_at": 1787049923.308449
+      "rendered_at": 1787091854.702566
     },
     "C1": {
       "source": "icon-engineC-f10c19.png",
       "kind": "raster-mask",
       "source_mtime": 1787049484.2489955,
-      "rendered_at": 1787049923.6141398
+      "rendered_at": 1787091855.1525362
     },
     "C2": {
       "source": "icon-engineC-1b7c33-2.png",
       "kind": "raster-mask",
       "source_mtime": 1787049484.3189592,
-      "rendered_at": 1787049923.910866
+      "rendered_at": 1787091855.600093
+    },
+    "prev": {
+      "source": "superseded-2026-08-13/icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786598118.0,
+      "rendered_at": 1787091856.162143
     }
   },
   "sizes": [

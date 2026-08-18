@@ -468,6 +468,23 @@ def check(base: pathlib.Path) -> int:
             notes.append("no 96px source: the 48px display row is the Finder-list and "
                          "marketplace-tile size, and nothing else covers it")
 
+        # Takes on disk that the manifest never recorded. Every check below walks
+        # `recorded`, so an unrecorded take is outside the staleness net and the
+        # mask net both: nothing says what it was rendered from or as. That is not
+        # hypothetical — ship-feature displayed five takes and recorded one, and
+        # ship-fleet six and one, so four and five takes per sheet were unaudited
+        # while `check` exited 0 on the strength of the one it could see. The
+        # take-count floor reads the sheet, which is why this passed: the sheet was
+        # populated and the provenance was not.
+        if manifest.exists():
+            unrecorded = sorted(set(by_take) - set(recorded))
+            if unrecorded:
+                problems.append(
+                    f"{len(unrecorded)} take(s) rendered but absent from {MANIFEST}: "
+                    f"{', '.join(unrecorded)}. Staleness and mask checks only walk the "
+                    f"manifest, so these are displayed without provenance — re-run "
+                    f"`render` naming every take with --take <id>=<file>[:kind]")
+
         # Stale renders. `check` proved files existed; nothing compared them to the
         # master. A sheet showing the pre-loop icon beside a post-loop master passed
         # cleanly, and the loop guarantees the master moves after the sheet is written.
