@@ -1,0 +1,10 @@
+{
+ "schema_version": "1",
+ "lane": "grader-primary",
+ "item": "WEB-5042",
+ "defect_class": "figure-lineage",
+ "state": "inconclusive",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [],
+ "uncertainty": {"declared": true}
+}

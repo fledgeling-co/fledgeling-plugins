@@ -1,0 +1,80 @@
+{
+  "$comment": "Process evals for the warrant plugin. These assert that the pipeline's own invariants hold, not that a model behaved well. Each id maps to a check in run_evals.sh.",
+  "evals": [
+    {
+      "id": "W-01",
+      "asserts": "every script in scripts/ exposes --help, --root, --json, --now and --selftest",
+      "why": "a gate whose flags differ from its siblings is a gate nobody can script around"
+    },
+    {
+      "id": "W-02",
+      "asserts": "every script's --selftest exits 0",
+      "why": "the self-tests are the only evidence the rules were written rather than described"
+    },
+    {
+      "id": "W-03",
+      "asserts": "every script's --selftest contains at least one case that observes a rule FAILING",
+      "why": "a rule only ever observed passing has not been written"
+    },
+    {
+      "id": "W-04",
+      "asserts": "no script imports a third-party module",
+      "why": "a verification tool with a dependency tree stops running"
+    },
+    {
+      "id": "W-05",
+      "asserts": "charter_validate.py exits 3 with no warrant, and 2 on each of its six named failures",
+      "why": "the outermost gate must distinguish absent from invalid"
+    },
+    {
+      "id": "W-06",
+      "asserts": "ledger_verify.py exits 2 on a single flipped byte in a historical row",
+      "why": "a ledger that cannot detect tampering proves nothing"
+    },
+    {
+      "id": "W-07",
+      "asserts": "blind_queue.py builds the reviewer artifact from an allowlist so a verdict cannot reach it, and exits 2 when --carry would leak one",
+      "why": "I5: a reviewer who has seen the verdict is no longer measuring anything"
+    },
+    {
+      "id": "W-08",
+      "asserts": "escape_report.py exits 1 when asked for a rate",
+      "why": "C19: feedback is a numerator with no denominator"
+    },
+    {
+      "id": "W-09",
+      "asserts": "adjudicate.py exits 1 on --majority and routes a valid disagreement to the settling check with no winner named",
+      "why": "C2: majority logic is the measured failure"
+    },
+    {
+      "id": "W-10",
+      "asserts": "ratchet.py exits 4 and drops the class to tier 0 when a pinned model version changes",
+      "why": "C12: the control changed, so the benchmark no longer holds"
+    },
+    {
+      "id": "W-11",
+      "asserts": "_state.tier_of() returns 0 for a class the warrant does not name",
+      "why": "a class nobody wrote down is a class no machine may close"
+    },
+    {
+      "id": "W-12",
+      "asserts": "lot_report.py exits 2 when any of its five required fields is absent",
+      "why": "a rate without its population is the C19 error"
+    },
+    {
+      "id": "W-13",
+      "asserts": "every claim id cited in a SKILL.md or reference resolves in docs/deep-research/claims.json",
+      "why": "a rule nobody can trace is a rule nobody should follow"
+    },
+    {
+      "id": "W-14",
+      "asserts": "no SKILL.md or reference fails the agent-voice lint at format=skill",
+      "why": "an unmeasurable qualifier in an instruction file is a slot the runner fills with its own priors"
+    },
+    {
+      "id": "W-15",
+      "asserts": "every flag and positional a SKILL.md or reference shows exists on that script",
+      "why": "a skill documenting a flag the script lacks fails at runtime for everyone who installs it; this gate found 13 such mismatches on the first build"
+    }
+  ]
+}

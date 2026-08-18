@@ -1,0 +1,15 @@
+{
+ "schema_version": "1",
+ "lane": "lens-lineage",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "figure-lineage",
+ "state": "inconclusive",
+ "findings": [],
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "uncertainty": {
+  "declared": true,
+  "reason": "The capture is present but the expectation for this surface is absent, so there is nothing to compare the figure against.",
+  "what_would_settle_it": "An expectation file for this surface, or a tick-and-tie run against the source record."
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "classes": {
+  "disclosure-content": {
+   "covered": 40,
+   "coverage": 1.0,
+   "lineage_gaps": 0,
+   "total": 40
+  },
+  "figure-lineage": {
+   "covered": 190,
+   "coverage": 0.979,
+   "lineage_gaps": 0,
+   "total": 194
+  },
+  "layout-drift": {
+   "covered": 176,
+   "coverage": 0.907,
+   "lineage_gaps": 0,
+   "total": 194
+  }
+ },
+ "generated_at": "2026-08-15T00:00:00+00:00"
+}

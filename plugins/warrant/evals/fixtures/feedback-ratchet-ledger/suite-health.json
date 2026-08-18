@@ -1,0 +1,17 @@
+{
+ "cannot_fail": {
+  "count": 0,
+  "scanned_spec_files": 137
+ },
+ "generated_at": "2026-08-15T00:00:00+00:00",
+ "mutation": {
+  "killed": 318,
+  "score": 0.72,
+  "total": 442
+ },
+ "selection_gap": {
+  "authored": 3011,
+  "selected": 420,
+  "surfaces_unguarded": []
+ }
+}

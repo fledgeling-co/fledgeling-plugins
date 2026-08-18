@@ -1,0 +1,35 @@
+{
+ "_note": "Side file, deliberately NOT the warrant. The warrant is signed, diffable and shared, so a seed rate written there is a rate the reviewer can read and calibrate to. Keep this file out of version control.",
+ "rate": 0.25,
+ "salt": "lot-2026-08-fixture",
+ "items": [
+  {
+   "id": "WEB-4871",
+   "surface": "apps/web/app/(dash)/inbox/page.tsx",
+   "defect": "the half-year margin is rendered from the prior period's record",
+   "expected": "fail",
+   "defect_class": "figure-lineage"
+  },
+  {
+   "id": "WEB-4872",
+   "surface": "apps/web/app/(dash)/filings/page.tsx",
+   "defect": "the provenance token is stripped from the throughput figure",
+   "expected": "fail",
+   "defect_class": "figure-lineage"
+  },
+  {
+   "id": "WEB-4873",
+   "surface": "apps/web/app/(dash)/portal/page.tsx",
+   "defect": "segment revenue is carried in the operating-cost field",
+   "expected": "fail",
+   "defect_class": "taxonomy-classification"
+  },
+  {
+   "id": "WEB-4874",
+   "surface": "apps/web/app/(dash)/deck/page.tsx",
+   "defect": "the stat card omits the comparative period the spec required",
+   "expected": "fail",
+   "defect_class": "spec-conformance"
+  }
+ ]
+}

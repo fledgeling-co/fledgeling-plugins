@@ -1,0 +1,8 @@
+{
+ "_note": "Fixture: regress_run.py output. Tier 2 entry needs every historical escape in the class re-caught, so this carries cases and recaught per class rather than a bare rate.",
+ "classes": {
+  "figure-lineage": {"cases": 7, "recaught": 7},
+  "render-fidelity": {"cases": 12, "recaught": 12}
+ },
+ "generated": "2026-08-18T09:00:00+00:00"
+}

@@ -1,0 +1,26 @@
+{
+ "at": "2026-08-17T00:00:00+00:00",
+ "by_class": {
+  "figure-lineage": {
+   "cases": 2,
+   "caught": 2,
+   "not_caught": []
+  },
+  "layout-drift": {
+   "cases": 2,
+   "caught": 2,
+   "not_caught": []
+  },
+  "tenant-leak": {
+   "cases": 1,
+   "caught": 1,
+   "not_caught": []
+  }
+ },
+ "cases": 5,
+ "caught": 5,
+ "not_caught": [],
+ "ok": true,
+ "pass_rate": 1.0,
+ "verdict_cmd": "the fixture verdict source"
+}

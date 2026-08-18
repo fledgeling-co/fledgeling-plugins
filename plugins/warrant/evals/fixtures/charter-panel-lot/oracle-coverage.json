@@ -1,0 +1,14 @@
+{
+ "_note": "Fixture: oracle plane coverage per defect class. charter_validate.py reads figures_with_source/figures when both are present and falls back to `coverage`, so a rate always travels with its population.",
+ "classes": {
+  "figure-lineage": {
+   "figures": 120,
+   "figures_with_source": 118
+  },
+  "render-fidelity": {
+   "figures": 100,
+   "figures_with_source": 97
+  }
+ },
+ "generated": "2026-08-18T09:00:00+00:00"
+}

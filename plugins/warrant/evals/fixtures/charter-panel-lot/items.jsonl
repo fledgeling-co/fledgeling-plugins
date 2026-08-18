@@ -1,0 +1,12 @@
+{"defect_class": "render-fidelity", "id": "WEB-5001", "state": "pass", "surface": "apps/web/app/(dash)/surface-1/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "figure-lineage", "id": "WEB-5002", "state": "fail", "surface": "apps/web/app/(dash)/surface-2/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "fail"}}
+{"defect_class": "render-fidelity", "id": "WEB-5003", "state": "pass", "surface": "apps/web/app/(dash)/surface-3/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "figure-lineage", "id": "WEB-5004", "state": "inconclusive", "surface": "apps/web/app/(dash)/surface-4/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "inconclusive"}}
+{"defect_class": "render-fidelity", "id": "WEB-5005", "state": "pass", "surface": "apps/web/app/(dash)/surface-5/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "figure-lineage", "id": "WEB-5006", "state": "pass", "surface": "apps/web/app/(dash)/surface-6/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "render-fidelity", "id": "WEB-5007", "state": "fail", "surface": "apps/web/app/(dash)/surface-7/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "fail"}}
+{"defect_class": "figure-lineage", "id": "WEB-5008", "state": "pass", "surface": "apps/web/app/(dash)/surface-8/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "render-fidelity", "id": "WEB-5009", "state": "pass", "surface": "apps/web/app/(dash)/surface-9/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "figure-lineage", "id": "WEB-5010", "state": "inconclusive", "surface": "apps/web/app/(dash)/surface-10/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "inconclusive"}}
+{"defect_class": "render-fidelity", "id": "WEB-5011", "state": "pass", "surface": "apps/web/app/(dash)/surface-11/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}
+{"defect_class": "figure-lineage", "id": "WEB-5012", "state": "pass", "surface": "apps/web/app/(dash)/surface-12/page.tsx", "tier": 2, "verdict": {"confidence": 0.9, "lane": "grader-primary", "state": "pass"}}

@@ -1,0 +1,19 @@
+{
+ "schema_version": "1",
+ "lane": "lens-lineage",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "taxonomy-classification",
+ "state": "fail",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [
+  {
+   "id": "F-3",
+   "kind": "classification",
+   "statement": "The segment revenue value is carried in the operating-cost field.",
+   "evidence": "schemas/figure.schema.json names segment_revenue; the payload puts it under operating_cost",
+   "locator": "$.segments[0]"
+  }
+ ],
+ "uncertainty": {"declared": true}
+}

@@ -1,0 +1,7 @@
+{
+ "currency": {"allowed": ["AUD", "USD", "NZD"], "required": true},
+ "period_type": {"allowed": ["FY", "H1", "H2", "Q1", "Q2", "Q3", "Q4"], "required": true},
+ "unit": {"allowed": ["thousands", "millions", "units"], "required": false},
+ "tags": {"allowed": ["guidance", "actual", "restated"], "required": false},
+ "note": {"allowed": [], "required": false}
+}

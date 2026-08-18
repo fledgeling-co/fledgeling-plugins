@@ -1,0 +1,10 @@
+[
+ {
+  "record_id": "filing-2026-q3",
+  "currency": "AUD",
+  "period_type": "Q3",
+  "unit": "thousands",
+  "tags": ["actual", "restated"],
+  "note": "free text, because an empty allowed list means the field is unconstrained"
+ }
+]

@@ -1,0 +1,18 @@
+<!doctype html>
+<!-- Every figure ties: an exact integer, a float inside the default relative
+     tolerance, an accounting negative, and two recomputed aggregates. -->
+<html lang="en">
+  <body>
+    <main id="results">
+      <section data-source-ref="filing-2026-q3">
+        <span data-figure-id="revenue-total" data-source-field="revenue">$1,204,000</span>
+        <span data-figure-id="margin" data-source-field="margin">18.42%</span>
+        <span data-figure-id="npat-loss" data-source-field="npat_loss">(88,000)</span>
+        <span data-figure-id="segment-sum" data-source-expr="sum(segments.amount)">$1,204,000</span>
+        <span data-figure-id="segment-count" data-source-expr="count(segments)">2</span>
+      </section>
+      <span data-figure-id="headcount" data-source-ref="hr-census-2026-08"
+            data-source-field="headcount">312</span>
+    </main>
+  </body>
+</html>

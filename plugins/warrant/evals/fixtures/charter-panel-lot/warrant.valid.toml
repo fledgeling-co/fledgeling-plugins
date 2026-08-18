@@ -1,0 +1,67 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Fixture: a warrant that charter_validate.py accepts.
+#
+# Every selftest that needs a FAILING warrant copies this file and breaks exactly
+# one key, so each failure mode is observed against a known-good baseline rather
+# than against another failure. `--now 2026-08-19T00:00:00+00:00` is the instant
+# the dates here are written for.
+# ──────────────────────────────────────────────────────────────────────────────
+
+version = "1"
+signed = "2026-08-01"
+renewal = "2030-02-01"
+
+[owner]
+name = "Ada Lovelace"
+email = "ada@example.test"
+
+# tier 1: the oracle plane is green and no perceptual judgement is needed.
+[[classes]]
+name = "figure-lineage"
+tier = 1
+escalation = "owner"
+census = false
+plane = "oracle"
+surfaces = ["**/*.html"]
+
+# tier 2: assay green and every historical escape re-caught in this class.
+[[classes]]
+name = "render-fidelity"
+tier = 2
+escalation = "owner"
+census = false
+plane = "panel"
+surfaces = ["**/*.stories.tsx"]
+
+# tier 0: census-reviewed, and tier 4 is unreachable.
+[[classes]]
+name = "disclosure-content"
+tier = 0
+escalation = "owner"
+census = true
+plane = "human"
+surfaces = ["**/*"]
+
+[oracle]
+lineage_coverage_min = 0.95
+tick_and_tie_abs_tolerance = 0.01
+tick_and_tie_rel_tolerance = 0.005
+taxonomy_violations_max = 0
+
+[lot]
+tolerable_error_rate = 0.05
+risk_limit = 0.05
+census_classes = ["disclosure-content", "inconclusive"]
+
+[tiers]
+tier1_oracle_coverage_min = 0.95
+tier2_requires_assay_green = true
+tier2_regression_recatch_min = 1.0
+tier3_items_closed_min = 200
+tier3_window_days = 90
+tier4_reachable = false
+
+[staleness]
+calibration_max_days = 30
+snapshot_max_hours = 24
+renewal_window_days = 180

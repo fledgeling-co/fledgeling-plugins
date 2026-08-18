@@ -1,0 +1,10 @@
+# A warrant whose only job is to move two tolerances off their defaults, so the
+# self-test can watch a declared tolerance change a verdict in both directions:
+# margin tightens until a rounded render fails, headcount widens until an
+# off-by-one passes.
+version = "2026.08.19-fixture"
+
+[oracle.tolerance]
+default_float_relative = 0.005
+margin = "rel:0.0001"
+headcount = "abs:1"

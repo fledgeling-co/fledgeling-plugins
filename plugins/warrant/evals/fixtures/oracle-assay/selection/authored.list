@@ -1,0 +1,8 @@
+apps/web/e2e/tests/campaign/coverage.spec.ts::campaign coverage › ledger rows carry a stable id
+apps/web/e2e/tests/campaign/coverage.spec.ts::campaign coverage › unarmed assertions are counted apart
+apps/web/e2e/tests/tasks/dictation.spec.ts::dictation › the origin is a secure context
+apps/web/e2e/tests/tasks/dictation.spec.ts::dictation › the mic control renders
+apps/web/e2e/tests/storyboard/sweeps.spec.ts::sweeps › a dialog surface resolves as its own region
+apps/web/e2e/tests/storyboard/sweeps.spec.ts::sweeps › every route reports rendered content
+apps/web/e2e/tests/presentations/deck-export.spec.ts::deck export › the pptx round-trips
+apps/web/e2e/tests/presentations/deck-export.spec.ts::deck export › slide count matches the outline

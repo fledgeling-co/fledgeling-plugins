@@ -1,0 +1,19 @@
+{
+ "schema_version": "1",
+ "lane": "lens-lineage",
+ "item": "WEB-5042",
+ "surface": "docs/ui-mockups/dashboard.html",
+ "defect_class": "render-fidelity",
+ "state": "fail",
+ "evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+ "findings": [
+  {
+   "id": "F-4",
+   "kind": "perceptual",
+   "statement": "The card feels visually heavier than the design of record and the hierarchy reads wrong.",
+   "evidence": "the capture against docs/ui-mockups/dashboard.html",
+   "locator": ".stat-card"
+  }
+ ],
+ "uncertainty": {"declared": true}
+}

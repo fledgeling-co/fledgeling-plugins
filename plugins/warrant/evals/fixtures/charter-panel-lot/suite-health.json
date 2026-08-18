@@ -1,0 +1,7 @@
+{
+ "_note": "Fixture: assay output. `green` is the ratcheted verdict on the suite; charter_validate.py also accepts `assay_green`.",
+ "green": true,
+ "mutation_score": {"killed": 268, "mutants": 420},
+ "cannot_fail_assertions": 3,
+ "generated": "2026-08-18T09:00:00+00:00"
+}
