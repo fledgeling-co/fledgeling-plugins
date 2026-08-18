@@ -123,6 +123,12 @@ const DEBT = [
     plugin: "whats-left", dimension: "banner", since: "2026-08-18",
     why: "3200x840 like create-test-suite, wordmark in Iowan Old Style with nothing linked, and its icon is being rebuilt as this list is written, so the banner would be stale the moment it was rendered. Owed once the icon lands.",
   },
+  ...["clarify", "dossier-report", "generate-investor-portal", "proctor", "report"].map(
+    (plugin) => ({
+      plugin, dimension: "skill", since: "2026-08-19",
+      why: "Over the 500-line ceiling, held rather than split, on a referral rather than a preference. fable-5 was given the fork and named the asymmetry that decides it: a reference is read only if the model chooses to read it, so moving a mandatory step into references/ converts a guaranteed instruction into a probabilistic one whose failure is silent. Length costs tokens on every trigger, which is a spend argument; splitting control flow costs compliance. There is no published evidence that a 600-900 line SKILL.md degrades instruction-following, and Anthropic's own 500 is explicitly approximate. So ordered steps, refusals and gates stay inline, and only taxonomy, rationale and worked examples are candidates to move. clarify was inspected line by line against that rule and is rules interleaved with the evidence that makes them stick, 16 lines over a proxy threshold, with references/evidence.md already carrying the depth: shaving it would be cosmetic. The other four additionally have uncommitted edits from concurrent sessions as of 2026-08-19, so touching them would collide. Revisit by capping non-procedural inline material rather than total lines.",
+    }),
+  ),
   {
     plugin: "geminify", dimension: "banner", since: "2026-08-18",
     why: "Sets its wordmark in Rockwell, a local face, on purpose. Its assets/build_banner.py records the reason: it renders through rsvg, which resolves system fonts and ignores webfonts, the reverse of the browser here. Unlike the other two the web-font check catches, it ships assert_font_resolves() and a dotless-i comparison, so a missing Rockwell fails loudly instead of silently substituting. Machine-dependent with a guard is a different thing from machine-dependent by accident.",

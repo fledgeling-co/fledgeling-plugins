@@ -6,13 +6,35 @@
 # Usage: canary.sh [--quick]   (--quick runs only the all-modules permutation)
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# An unrecognised flag used to fall straight through this test and scaffold every
+# permutation, which is minutes of work and gigabytes of disk the caller did not
+# ask for. A typo should cost nothing.
+QUICK=0
+case "${1:-}" in
+  "")        ;;
+  --quick)   QUICK=1 ;;
+  -h|--help) echo "usage: canary.sh [--quick]"; exit 0 ;;
+  *)         echo "canary.sh: unrecognised argument '$1'" >&2
+             echo "usage: canary.sh [--quick]" >&2
+             exit 2 ;;
+esac
+
+# Each permutation scaffolds a full monorepo into a temp dir. The loop removes
+# its own, but only on the way past: interrupt the run and the current one
+# survives, which is how 1.4GB was left behind in /var/folders once. The trap
+# makes cleanup unconditional.
+DEST=""
+cleanup() { [ -n "$DEST" ] && [ -d "$DEST" ] && rm -rf "$DEST"; }
+trap cleanup EXIT INT TERM
+
 PERMS=(
   "all:web,api,macos,ios,rn,tokens,data,auth,admin,push,waitlist,rust"
   "saas:web,tokens,data,auth,admin"
   "native:macos,ios,rust"
   "site:web,tokens"
 )
-[ "${1:-}" = "--quick" ] && PERMS=("${PERMS[0]}")
+[ "$QUICK" = 1 ] && PERMS=("${PERMS[0]}")
 fail=0
 for perm in "${PERMS[@]}"; do
   name="${perm%%:*}"; modules="${perm#*:}"
