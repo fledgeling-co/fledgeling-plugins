@@ -20,6 +20,26 @@ thing. A pixel comparison is a **tripwire**: useful to say "look here", never to
 say "this is wrong". Where one is used, it starts from a deterministic fixture
 and its verdict is a prompt for a structural read.
 
+**And not a perceptual score either, which is the more tempting mistake.** The
+natural upgrade from pixel equality is a similarity metric with a tolerance —
+SSIM, LPIPS, DISTS. Measured: imperceptible perturbations raised **DISTS by up to
+34.5%, LPIPS by 36.8%, VIF by 98.0% and HaarPSI by 22.6% while human opinion
+scores stayed flat or fell**, and every metric tested could be pushed this way.
+PSNR and SSIM were immune to those particular attacks, which makes them usable as
+tripwires and still not as the verdict — SSIM separately penalises small
+alignment errors no human notices, and is blind to localised texture and material
+changes people see immediately.
+
+Two consequences for how a tolerance is set:
+
+- **A universal percentage tolerance across properties is indefensible.** There
+  is no published tolerance that makes a `0.5px` difference in line-height,
+  letter-spacing, width or height harmless, so a band is chosen per property with
+  a stated reason, or not at all.
+- **Widening a tolerance to absorb an unmeasurable read is a category error.** It
+  converts "we do not know" into "we will ignore some differences" — a weaker
+  claim wearing the same green tick. The honest move is `inconclusive`.
+
 **Not eyeballing two screenshots.** That is the failure the whole measurement
 discipline exists to prevent.
 
@@ -149,6 +169,42 @@ And plan to the lane's ceiling. SwiftUI exposes no runtime style tree, so its
 style vector is a triangulation — token conformance, element-scoped raster crops,
 the platform audit's own contrast findings — not a read. `harness-lanes.md` has
 the rest.
+
+---
+
+## A native desktop window against an HTML mock
+
+This is the comparison a desktop campaign actually wants, and the first thing to
+say about it is that **no product does it.** The commercial visual-testing tools
+cover web and mobile; none covers a native Mac or Windows application. So this
+comparison is hand-built or it is absent, and absent is a legitimate answer that
+gets written into the not-covered section rather than filled with a screenshot
+somebody looked at.
+
+When it is hand-built, the four vectors survive but only two of them can be read
+directly, because there is no `getComputedStyle` for a foreign native window:
+
+| Vector | On a native lane |
+|---|---|
+| **Structure** | readable — the accessibility tree gives role, label, value, identifier |
+| **Vocabulary** | readable — control names, headings, labels come off the same tree |
+| **Geometry** | readable — accessibility frames, and assertable |
+| **Resolved style** | **not readable.** Triangulate, or mark the vector `inconclusive` with that reason |
+
+Geometry is where the temptation to reach for a similarity score returns, and the
+answer is the same as everywhere else in this file: **quantise it, do not score
+it.** Compare the bounding boxes of named regions — the header, the card grid, the
+sidebar — snapped to a band chosen per lane, and report a region whose box moved
+beyond the band. A band is a claim you can defend in a review; a similarity number
+above a threshold is not, and it is the number an implementation can be tuned
+toward without getting better.
+
+Three things to fix before comparing at all, or the comparison measures the
+capture rather than the build: the same nominal size and scale factor on both
+sides, fonts loaded and settled, and animation stopped. On a native lane the last
+one is the hard one — there is no equivalent of the browser's animation
+disabling, and no OS-level virtual clock, so a frame captured mid-transition is a
+real risk and a stated limit rather than something to average away.
 
 ---
 

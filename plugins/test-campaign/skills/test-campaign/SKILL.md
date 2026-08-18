@@ -1,15 +1,15 @@
 ---
-name: create-test-suite
+name: test-campaign
 description: >-
-  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; every pass names an artifact; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, macOS, iOS and SwiftUI, planning each lane to what that lane can actually observe.
+  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.
 ---
 
-# Create test suite
+# Test campaign
 
 You are running a test campaign, and leaving behind something a person can read.
 
-Two failure modes shape everything below, and both produce a report that looks
-finished:
+Three failure modes shape everything below, and all of them produce a report that
+looks finished:
 
 **Covering a subset and reporting it as the whole.** One console had six screens,
 five of which received none of the sweeps, and nothing said so — because the
@@ -21,9 +21,19 @@ denominator would have shown `1/6` on sight.
 under 1280px, or a build other than the reference one. It stayed green for months
 while every generated tenant shipped with no header, no navigation and no footer.
 
-Both are defended mechanically here, because prose does not defend against them.
+**Testing the parts on paper and reporting it as the product on glass.** A
+campaign reported 100% checked, 22 armed cases and 59 passing tests across a
+macOS app and a Windows app. No GUI process had ever attached to a window server:
+the Swift half initialised view structs in memory, the Windows half had never been
+compiled, and the screenshots came from an HTML mock in a browser. Every number in
+it was true. `references/on-glass.md`.
+
+All three are defended mechanically here, because prose does not defend against
+them.
 
 ---
+
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It extends the campaign's existing count contract to the cells `campaign.py check` cannot see — surfaces, states, controls, captures, flow atoms — and requires every number in the delivery note to be pasted output from `campaign.py check`, `strict-check.py`, `attach-shots.py` or `witness-worklist.py` rather than a claim about them. Other models skip it.
 
 ## The campaign
 
@@ -32,8 +42,8 @@ file rather than a memory of the conversation.
 
 ```bash
 S=<this-skill-dir>/scripts
-python3 $S/campaign.py init <dir> --project NAME --lanes web,ios \
-    --axes "surface,state,viewport,theme,role,data-shape" \
+python3 $S/campaign.py init <dir> --project NAME --lanes web,macos-glass \
+    --axes "surface,state,viewport,theme,role,data-shape,execution-plane" \
     --sample "one cell per axis + dark×mobile, error×modal, viewer×write" \
     --design-of-record docs/ui-mockups/console.html
 ```
@@ -90,6 +100,13 @@ Two facts to establish here because they change what is safe to do at all:
 **where the development API writes**, and **whether the feature needs a secure
 context** — a feature gated on one silently hides itself on an origin that is not
 one, and the symptom reads as a styling bug.
+
+And one that decides whether the campaign can make its central claim at all:
+**for each lane, what gets built and whether it can be drawn.** A lane whose
+artifact is a binary somebody runs is a different lane from one whose artifact is
+a test process, and only the first can be photographed. Name lanes that will be
+verified running and composited with a `-glass` suffix; that suffix commits the
+campaign to proving it, and `references/on-glass.md` is the whole of why.
 
 And two about what already runs, because an existing suite is part of this
 campaign's subject rather than its background. **Whether the harness selects
@@ -153,13 +170,30 @@ Now open it. Find the real affordances — role and accessible name first, `data
 where there is no name, exact matching wherever one name is a substring of
 another. Find the real payload shapes you will assert against.
 
+On a `-glass` lane, "open it" is a claim to be recorded rather than a step to be
+taken for granted — build the artifact, launch it, and prove a process from it
+reached a display server:
+
+```bash
+python3 $S/campaign.py lane <dir> --lane macos-glass \
+    --artifact build/Release/App.app --built-by "xcodebuild -scheme App" \
+    --attached "pid 4412 owns window 'App'" \
+    --capture "ScreenCaptureKit window-scoped, SCFrameStatus per frame"
+# or, honestly:
+python3 $S/campaign.py lane <dir> --lane windows-glass \
+    --cannot-attach "no Windows host with an interactive desktop is reachable"
+```
+
+`check` refuses to clear while a `-glass` lane has neither. A lane recorded as
+unreachable is finished work; a lane silently assumed is the third failure mode.
+
 Seed the data-shape axis **through the API**, as predicates rather than proper
 nouns: "a record with a 200-character name", created if absent.
 
 ### 5 · Write the cases
 
-Each case carries an id, the requirement it verifies, its cell, its lane, **its
-oracle rung**, and — once run — its status and evidence.
+Each case carries an id, the requirement it verifies (the field is `req`), its
+cell, its lane, **its oracle rung**, and — once run — its status and evidence.
 
 ```bash
 python3 $S/campaign.py add <dir> --kind case --file cases.json
@@ -171,13 +205,25 @@ The rung is the field that makes the rest honest:
 |---|---|
 | `touch` `presence` | the step ran · an element exists |
 | `structural` | role, accessible name, enabled state, scoped ARIA snapshot |
+| `structural-visual` | the labels and hierarchy tokens a render would use exist |
 | `outcome` | the promised effect — data rendered, state changed, record written |
 | `metamorphic` | a relation across runs — undo restores, count tracks the store |
-| `visual` | the rendered result against a reference |
+| `raster-visual` | pixels captured off a display server, against a reference |
 
 A flow marked `critical` that carries no case at `outcome` or above **fails the
 gate**. That single rule is what separates "we have 200 tests" from a claim worth
 making, and it is checked rather than reviewed.
+
+`structural-visual` and `raster-visual` were one rung called `visual`, and that
+was the hole: asserting a card's title property equals `"AGGREGATE CPU"` is a
+data-model check, and it was buying effect credit. Only `raster-visual` does now,
+and it owes an artifact that is a real image, is not another case's image, and
+names the channel it came from.
+
+A case the instrument could not measure resolves to `inconclusive: <reason>`, and
+one whose lane never ran to `blocked: <reason>`. Both hold the gate shut: "we do
+not know" is a weaker claim than "no difference found", and folding the two
+together is how a partial measurement comes to read as agreement.
 
 Do not let a model plan the coverage. Hand it a path and a cell from the sample
 and ask for the implementation. Generated plans measured against a real QA team's
@@ -198,8 +244,14 @@ red, restore. An assertion nobody has watched fail is not known to bite.
 
 ```bash
 python3 $S/campaign.py set <dir> --case CASE-0117 --status pass \
-    --evidence evidence/shots/publish.png --armed
+    --evidence evidence/shots/publish.png --armed \
+    --capture-method "ScreenCaptureKit window-scoped" --frame-status complete
 ```
+
+The two capture flags are required for a `raster-visual` pass and cost nothing
+elsewhere. Where the platform reports a per-frame status, anything but a complete
+frame makes the case `inconclusive` — a stale frame recorded as evidence asserts
+the application's previous state.
 
 On a selective run, name what ran and carry the rest — everything unnamed becomes
 `unselected: <basis>`, except the always-run floor, which `carry` refuses and
@@ -224,7 +276,11 @@ measured.
 
 `references/sweeps.md`. State matrix, fault injection, interaction integrity,
 keyboard and the accessibility floor, data-shape stress, security surface,
-multi-user, **refusal honesty**, metamorphic relations, freshness.
+multi-user, **refusal honesty**, metamorphic relations, freshness. Then, where the
+product has a real window on a real display server, **desktop shell and window
+invariants** (scaling, size limits, popover anchoring, runtime theme change,
+occlusion), and where it is more than one process, **live process and IPC chaos**
+(peer dies, peer returns, privilege separation, startup order).
 
 Two preconditions, both non-negotiable:
 
@@ -262,10 +318,12 @@ python3 $S/campaign.py     check <dir>       # exit 0, or the reasons why not
 python3 $S/evidence-page.py       <dir> --out evidence.html [--embed]
 ```
 
-`check` refuses to clear while any case is open, any surface has no case, any
-pass names no artifact, any non-deferred requirement has no case, or any critical
-flow is proved only by presence. Resolve each, or mark it `skip: <reason>` /
-`n/a: <reason>` — an unrecognised status counts as open, deliberately.
+`check` refuses to clear while any case is open or inconclusive, any lane's work
+is blocked, any `-glass` lane is unproved, any surface has no case, any pass names
+no artifact, any pixel claim has no usable capture or shares one with another
+case, any non-deferred requirement has no case, or any critical flow is proved
+only by presence. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
+unrecognised status counts as open, deliberately.
 
 `evidence-page.py` builds the page: coverage with the oracle mix and the armed ratio,
 requirements and what checked them, the wall of every capture, flow storyboards
@@ -286,7 +344,7 @@ CHECKED only when all three hold:
 |---|---|
 | **it passes** | the assertion ran and was satisfied |
 | **it was watched to fail** | inline via the sweep's own control, or by reverting the behaviour once |
-| **it asserts an effect** | `outcome`, `metamorphic` or `visual` — not that an element exists |
+| **it asserts an effect** | `outcome`, `metamorphic` or `raster-visual` — not that an element exists |
 
 `campaign.py check` answers a different and easier question: is every case
 accounted for. Both run, and `strict-check.py` is the one that reports the number
@@ -314,6 +372,17 @@ Raise the ratchet in the same commit that earns it.
 **No artifact, no verdict.** A conclusion reached by looking is not a
 measurement.
 
+**Prove it ran before reading what it shows.** Classify the launch first — did a
+process start, from which built artifact, and did it reach a display server. When
+it did not, the checks downstream are not failing, they are vacuous, and running
+them produces a green that means nothing. A lane that cannot be reached is
+recorded as unreachable with its reason. `references/on-glass.md`.
+
+**A check that could not run is not a check that passed.** Where the instrument
+returns nothing, `"" === ""` is true and certifies agreement it never measured. So
+report `inconclusive` with the reason and the population, never a clean row, and
+never widen a tolerance to make an unmeasurable read pass.
+
 **Print the denominator.** Everywhere, in every sweep, in the report, in the
 reply.
 
@@ -332,9 +401,10 @@ nobody has executed in a fortnight.
 **Prove a check can fail before trusting it passing.** A predicate that matches
 nothing returns clean and is indistinguishable from a clean surface.
 
-**Plan to the lane's ceiling.** iOS Simulator exposes no accessibility tree;
-SwiftUI exposes no runtime style tree. Mark what a lane cannot support as `n/a`
-with the structural reason rather than leaving it open forever.
+**Plan to the lane's ceiling.** iOS Simulator exposes no accessibility tree; no
+desktop platform exposes a cross-process computed style; `SendInput` fails under
+Windows UIPI without saying so. Mark what a lane cannot support as `n/a` with the
+structural reason rather than leaving it open forever.
 `references/harness-lanes.md`.
 
 **Characterise, do not assert-correct.** When a red assertion is a real defect,
@@ -384,14 +454,18 @@ run reported in the shape of a full one.
   the always-run floor, deriving the blast radius from the surface map and
   component atlas, the carried-case ledger contract, and retrofitting the same
   model onto an existing suite and its CI gates.
-- `references/sweeps.md` — ten sweeps with their mechanics, the write firewall,
-  refusal honesty, metamorphic relations.
+- `references/sweeps.md` — twelve sweeps with their mechanics, the write firewall,
+  refusal honesty, metamorphic relations, and the two that need a real window.
 - `references/differential.md` — measuring the build against its design of
   record; the four vectors and the three subtractions.
-- `references/detector-defects.md` — ten measured ways a check lies, each with
-  its fix.
-- `references/harness-lanes.md` — what each lane can observe; plane versus lane;
-  reaching a surface a URL cannot address.
+- `references/on-glass.md` — proving the thing under test actually ran: the
+  paper-versus-glass failure, the three proofs a `-glass` lane owes, why the
+  launch is classified before the picture is read, and why there is no entropy
+  gate on a screenshot.
+- `references/detector-defects.md` — fourteen measured ways a check lies, each
+  with its fix.
+- `references/harness-lanes.md` — what each lane can observe, web through native
+  Windows and Linux; plane versus lane; reaching a surface a URL cannot address.
 - `references/evidence-and-ids.md` — the id scheme, the artifact bundle, the page
   contract, the judge's ceiling.
 - `references/evidence.md` — every rule above traced to its source, the three
@@ -400,8 +474,9 @@ run reported in the shape of a full one.
 
 ## Scripts
 
-- `campaign.py` — the registry: init, scope, add, set, carry, check, report.
-- `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet.
+- `campaign.py` — the registry: init, lane, scope, add, set, carry, check, report.
+- `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet
+  and the one reason the ratchet may be lowered.
 - `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps.
 - `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be judged.
 - `evidence-page.py` — the living page.

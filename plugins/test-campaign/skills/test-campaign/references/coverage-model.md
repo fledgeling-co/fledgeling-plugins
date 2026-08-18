@@ -28,6 +28,7 @@ carries all ten, and an axis with one value is still declared, as held fixed.
 | **Data shape** | zero · one · typical · large · long-string · unicode/emoji · null-optional · malformed | Seeded through the API as predicates, never proper nouns. |
 | **Input modality** | pointer · keyboard · touch · screen reader · accessibility action | Keyboard-only reachability is a requirement, not a sweep. |
 | **Network** | normal · slow · offline · 4xx · 5xx · abort · duplicate submit | Forced by interception; not an environment you wait for. |
+| **Execution plane** | headless · on glass (running, composited, photographed) | The axis a campaign is most likely to hold fixed at `headless` without noticing. A suite of 59 passing tests over two desktop apps never varied it, and neither app had ever drawn a window. `references/on-glass.md`. |
 | **Oracle facet** | which *property* the case checks — see §3 | The axis everyone omits, and the reason a plan can look complete while proving nothing. |
 
 **The product is constrained, and the constraints are part of the model.** A
@@ -102,18 +103,65 @@ field in the registry:
 | **touch** | the step ran without throwing | everything |
 | **presence** | an element exists / is visible | wrong content, wrong destination, lost persistence |
 | **structural** | role, accessible name, enabled state, scoped ARIA snapshot | a correct-looking tree over wrong data |
+| **structural-visual** | the labels, hierarchy tokens and structural metadata a rendering *would* use exist | whether anything was ever drawn |
 | **outcome** | the promised effect — data rendered, state changed, record written, navigation completed | a change that is right once and wrong on the second run |
 | **metamorphic** | a relation across two runs — undo restores, row count tracks the store, sort is a permutation, locale change preserves affordances | absolute correctness of the first value |
-| **visual** | the rendered result against a design of record | anything not visible |
+| **raster-visual** | pixels captured off a display server, compared against a design of record | anything not visible |
+
+**`visual` used to be one rung, and that was the hole.** It covered both "a
+label exists in the view hierarchy" and "pixels arrived from a compositor", and
+the first of those is a data-model assertion. A case asserting that a card's
+title property equalled `"AGGREGATE CPU"` claimed the visual rung, counted as an
+effect, was watched to fail, and carried a campaign across two native desktop
+applications to 100% checked while no window had ever been drawn. Splitting the
+rung is what makes that case describe itself accurately.
+
+`raster-visual` therefore carries an evidence obligation the other rungs do not:
+an artifact that is a real image, is not another case's artifact, and names the
+channel it came from. `campaign.py` enforces all three, and
+`references/on-glass.md` has the reasoning.
 
 **The planning gate:** a flow the requirement inventory marks critical may not
-consist only of `touch` and `presence` cases. That single rule is what converts
-"we have 200 tests" into a claim worth making, and it is checkable — which is why
-it lives in `campaign.py` rather than in prose.
+consist only of `touch`, `presence`, `structural` and `structural-visual` cases.
+That single rule is what converts "we have 200 tests" into a claim worth making,
+and it is checkable — which is why it lives in `campaign.py` rather than in prose.
 
 `presence` is not banned. It is the right rung for "the nav renders on every
 screen". It is the wrong rung for "publishing the record makes it live", and the
 gate exists because that substitution is silent.
+
+---
+
+## 3a. The fourth answer a check can give
+
+Every rung above assumes the check produced a reading. Often it did not, and the
+failure is that *could not measure* and *measured, found no difference* arrive in
+the report wearing the same face. Where an engine returns an empty string for a
+property it does not implement, `"" === ""` evaluates true and vacuously
+certifies that two layouts are identical. The set of differences such a check
+could detect is **strictly empty**, which is the textbook shape of vacuous truth
+rather than a bug in the comparison.
+
+So equality is only a legal claim when both sides were measured, and a case
+resolves to one of four things rather than two:
+
+| Status | Means | Gate |
+|---|---|---|
+| `pass` / `fail` | an observation was made | clears |
+| `n/a: <reason>` | the lane structurally cannot support this check, ever | clears |
+| `skip: <reason>` | this case should not run | clears |
+| `inconclusive: <reason>` | it was attempted and the instrument could not measure | **holds** |
+| `blocked: <reason>` | the thing under test never ran | **holds** |
+
+And the population goes beside the verdict, always. *34 of 42 measured and all 34
+equal* is not 100% agreement; it is a result over 34 with 8 observations missing,
+and the two are indistinguishable unless the denominator is printed. `check`
+prints `requested / measured / unavailable / not attempted` for exactly that
+reason.
+
+The move to resist is widening a tolerance to make an unmeasurable read pass.
+That converts "we do not know" into "we will ignore some differences", which is a
+different and weaker claim wearing the same green tick.
 
 ---
 
@@ -171,6 +219,14 @@ What replaces it, and what the living page shows:
   unarmed pass is not evidence, and the two are never summed.
 - **Examined denominators** — `examined=41 failures=0`. A row reading
   `examined=0` is a check that never ran.
+- **Observation coverage** — how many cases produced a reading, how many could
+  not, how many were never attempted, as three separate numbers. Folding the
+  second into the first is how a partial measurement comes to read as full
+  agreement (§3a).
+- **What ran, and whether it was drawn** — per lane, the artifact under test, the
+  command that built it, and what witnessed a process from it reaching a display
+  server. A lane with none of those has not been tested, however many of its
+  cases resolved.
 - **Not covered** — a named, first-class section. Deferred requirements, blocked
   lanes, axes held fixed, cells dropped. A campaign that omits this reads as
   complete and is not.

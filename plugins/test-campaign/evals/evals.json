@@ -1,5 +1,5 @@
 {
-  "skill_name": "create-test-suite",
+  "skill_name": "test-campaign",
   "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the campaign registry, the exit code of scripts/campaign.py, or the wording of the verdict, never a 1-to-10 score. The skill exists to defend two failure modes mechanically, covering a subset and reporting it as the whole, and proving a surface rendered and calling it proof the product works, so most evals below hand the run a situation where the comfortable report is the wrong one. Run every eval against a disposable target: several prompts drive sweeps that enumerate and actuate controls. The set holds 9 rather than the standard's 6 to 8, because eval 9 was added after a mechanical check found a registry field mismatch that no other eval in the set would have caught. NOT YET RUN: no arm has been executed and no assertion below has a recorded result. See ../EVALS.md.",
   "arms": [
     "skill",

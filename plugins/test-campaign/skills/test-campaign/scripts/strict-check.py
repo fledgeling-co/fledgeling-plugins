@@ -27,17 +27,32 @@ switched-off gate checks nothing. So this reports the honest number and enforces
 only that it never goes DOWN. The bar rises as the suite earns it, and a change
 that quietly unarms a case or drops it to presence fails immediately.
 
+Lowering the ratchet therefore needs a reason, recorded in the file. There is
+exactly one good one, and it is not "the gate was inconvenient": the definition
+of checked got stricter, so the old number was measuring something laxer. That
+happened once already — `visual` used to buy effect credit, which let a case
+asserting `card.title == "AGGREGATE CPU"` count as visual proof, and a campaign
+reach 100% while no window had ever been drawn. Splitting it into
+`structural-visual` and `raster-visual` made those scores fall. The fall was the
+correction.
+
     python3 strict-check.py <campaign-dir>
     python3 strict-check.py <campaign-dir> --set-ratchet
+    python3 strict-check.py <campaign-dir> --set-ratchet --reason "..."
 """
 from __future__ import annotations
 
 import json
 import sys
 from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 
-EFFECT_RUNGS = {"outcome", "metamorphic", "visual"}
+# Only these assert an effect. `visual` is deliberately absent: it covered both
+# "a label exists in the view hierarchy" and "pixels were captured off a display
+# server", and the first of those is a data-model check. See campaign.py.
+EFFECT_RUNGS = {"outcome", "metamorphic", "raster-visual"}
+LEGACY_RUNGS = {"visual"}
 RATCHET_FILE = "strict-ratchet.json"
 
 
@@ -45,12 +60,18 @@ def main() -> int:
     d = Path(sys.argv[1] if len(sys.argv) > 1 else "docs/test-campaign")
     cases = json.loads((d / "cases.json").read_text())
     total = len(cases)
+    if not total:
+        print("No cases. An empty campaign is not a passing one.")
+        return 1
 
     checked, reasons = [], Counter()
+    legacy = []
     for c in cases:
         armed = bool(c.get("armed"))
         effect = c.get("oracle") in EFFECT_RUNGS
         passing = c.get("status") == "pass"
+        if c.get("oracle") in LEGACY_RUNGS:
+            legacy.append(c.get("id", "?"))
         if passing and armed and effect:
             checked.append(c)
         elif not passing:
@@ -67,22 +88,52 @@ def main() -> int:
     print(f"UNCHECKED {total - n}  — and unchecked is failed\n")
     for reason, count in reasons.most_common():
         print(f"  {count:>4}  {reason}")
+    if legacy:
+        print(f"\n  {len(legacy):>4}  on the legacy `visual` rung, which buys no effect "
+              f"credit: {', '.join(legacy[:8])}")
 
     ratchet_path = d / RATCHET_FILE
+    prior = json.loads(ratchet_path.read_text()) if ratchet_path.exists() else None
+
     if "--set-ratchet" in sys.argv:
-        ratchet_path.write_text(json.dumps({"checked": n, "total": total}, indent=1) + "\n")
-        print(f"\nratchet set to {n}")
+        reason = ""
+        if "--reason" in sys.argv:
+            i = sys.argv.index("--reason")
+            reason = sys.argv[i + 1] if i + 1 < len(sys.argv) else ""
+        if prior and n < prior["checked"] and not reason:
+            print(f"\nREFUSED — that would lower the ratchet from {prior['checked']} to "
+                  f"{n} with no reason recorded. Lowering it is sometimes right, and it "
+                  f"is never routine: pass --reason \"...\" and it goes in the file, so "
+                  f"the next reader sees why the bar moved rather than finding a bar "
+                  f"that quietly drops whenever it is inconvenient.")
+            return 1
+        record = {"checked": n, "total": total,
+                  "at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+        if reason:
+            record["loweredBecause" if prior and n < prior["checked"] else "reason"] = reason
+        if prior:
+            record["previous"] = prior["checked"]
+        ratchet_path.write_text(json.dumps(record, indent=1) + "\n")
+        print(f"\nratchet set to {n}"
+              + (f" (was {prior['checked']})" if prior else "")
+              + (f" — {reason}" if reason else ""))
         return 0
 
-    if not ratchet_path.exists():
+    if not prior:
         print(f"\nno ratchet recorded yet — run with --set-ratchet to pin {n}")
         return 1
 
-    floor = json.loads(ratchet_path.read_text())["checked"]
-    print(f"\nratchet: {floor}")
+    floor = prior["checked"]
+    print(f"\nratchet: {floor}"
+          + (f" — lowered on {prior.get('at', '?')}: {prior['loweredBecause']}"
+             if prior.get("loweredBecause") else ""))
     if n < floor:
         print(f"FAILED — checked fell from {floor} to {n}. Something was unarmed, "
               f"dropped below an effect rung, or stopped passing.")
+        if legacy:
+            print(f"  {len(legacy)} case(s) sit on the legacy `visual` rung. If this fall "
+                  f"is the rung split rather than a regression, re-pin with "
+                  f"--set-ratchet --reason and say so.")
         return 1
     if n > floor:
         print(f"checked ROSE from {floor} to {n} — raise the ratchet with --set-ratchet "

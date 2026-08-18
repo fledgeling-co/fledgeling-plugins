@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  banner-src.svg — the marketplace banner, 1600x420, rendered at 2x to banner.png.
+
+      rsvg-convert -w 3200 -h 840 banner-src.svg -o banner.png
+
+  Its siblings keep this artwork in an HTML file screenshotted by a browser. This
+  one is SVG because no HTML renderer on this machine lays the page out at the
+  authored width: QuickLook clips the body at its own viewport and cut the title,
+  and the Obscura engine does not implement flex, so both produced a banner that
+  was wrong in a different way. rsvg-convert already renders the icon in this
+  same pipeline, so the artwork is deterministic here and needs nothing else.
+
+  The palette is the icon's, sampled from the two nearest siblings; the type
+  ramp matches theirs (Iowan Old Style at 88, Avenir Next at 33).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1600 420" width="1600" height="420">
+  <defs>
+    <radialGradient id="ground" cx=".22" cy=".20" r="1.35">
+      <stop offset="0" stop-color="#FBF8F1"/>
+      <stop offset=".46" stop-color="#F1EADC"/>
+      <stop offset="1" stop-color="#E6DDCA"/>
+    </radialGradient>
+    <radialGradient id="vig" cx=".5" cy=".45" r=".95">
+      <stop offset=".52" stop-color="#4A3F2E" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4A3F2E" stop-opacity=".14"/>
+    </radialGradient>
+    <filter id="lift" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#4A3F2E" flood-opacity=".24"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="420" fill="url(#ground)"/>
+  <rect width="1600" height="420" fill="url(#vig)"/>
+
+  <image xlink:href="icon.png" x="96" y="85" width="250" height="250" filter="url(#lift)"/>
+
+  <g font-family="Iowan Old Style, Palatino, Georgia, serif">
+    <text x="412" y="185" font-size="88" font-weight="600" fill="#2B2620"
+          letter-spacing="-1.9">test-campaign</text>
+  </g>
+  <g font-family="Avenir Next, Helvetica Neue, sans-serif" font-size="33">
+    <text x="412" y="245" fill="#5E564A">A test campaign<tspan fill="#C9541F">,</tspan> and <tspan
+      font-weight="600" fill="#2B2620">a page that shows what it</tspan></text>
+    <text x="412" y="290" font-weight="600" fill="#2B2620">actually proved<tspan
+      font-weight="400" fill="#5E564A">.</tspan></text>
+  </g>
+</svg>
