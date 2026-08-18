@@ -1,0 +1,55 @@
+{
+  "takes": {
+    "a": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786195583.3939917,
+      "rendered_at": 1787089663.539809
+    },
+    "a0": {
+      "source": "fidelity-runs/candidate-r00.svg",
+      "kind": "svg",
+      "source_mtime": 1786195583.102017,
+      "rendered_at": 1787089663.839963
+    },
+    "a07": {
+      "source": "fidelity-runs/candidate-r07.svg",
+      "kind": "svg",
+      "source_mtime": 1786195583.1040254,
+      "rendered_at": 1787089664.1671932
+    },
+    "b": {
+      "source": "icon-engineB-arrow-ecc20a.svg",
+      "kind": "svg",
+      "source_mtime": 1786195583.3348856,
+      "rendered_at": 1787089664.273653
+    },
+    "c1": {
+      "source": "icon-engineC-c57a8c-masked.png",
+      "kind": "png",
+      "source_mtime": 1786195583.3356512,
+      "rendered_at": 1787089664.443962
+    },
+    "c2": {
+      "source": "icon-engineC2-597699-masked.png",
+      "kind": "png",
+      "source_mtime": 1786195583.3843844,
+      "rendered_at": 1787089664.6161869
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
