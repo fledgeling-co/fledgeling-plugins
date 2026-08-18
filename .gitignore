@@ -17,3 +17,6 @@ plugins/*-workspace/
 plugins/improve-skill/assets/loop-runs/
 plugins/*/evals/runs/
 .rebuild-workspace/
+
+# Audit and report scratch, not repo content
+.scratch/
