@@ -89,11 +89,11 @@ side", not "these are duplicates": `ship-armada` and `ship-fleet` are deliberate
 near-siblings, and a metric cannot know that a pair is meant to rhyme. Read it as
 a prompt to look, and record the decision in both `icon-notes.md` files.
 
-Deliberately not wired into `site/scripts/check-conformance.mjs`. Six pairs are
-currently above the bar and undecided, so as a gate it would be red from the day
-it landed, and a permanently red gate teaches people to ignore gates. Wire it in
-once `DECIDED` below covers the set, and it becomes a real check that any *new*
-collision trips.
+Wired into `site/scripts/check-conformance.mjs` as of 2026-08-19. It was held back
+while six pairs sat above the bar undecided, because a gate that is red from the day
+it lands teaches people to ignore gates. All six have since been looked at and
+recorded in `DECIDED`, so the check is green on the current set and any genuinely
+new collision fails the build.
 """
 
 from __future__ import annotations
@@ -113,8 +113,53 @@ FLAG = 0.80
 # review, not a silent exemption. An entry says "these two are allowed to read
 # alike, and here is why", so a genuinely new collision still trips.
 #
-# Empty on purpose. Six pairs currently sit above FLAG and none has been decided.
+# All six pairs that were above FLAG on 2026-08-18 have now been looked at, at 16px
+# and magnified, and decided. Two were real and are allowed to stand; four were a
+# partial or a false positive of the metric. Because the set is covered, this check
+# is wired into site/scripts/check-conformance.mjs, where any genuinely new
+# collision now fails the build.
 DECIDED: dict[frozenset[str], str] = {
+    frozenset(("mockup-fidelity", "tui-craft")): (
+        "0.860. Both are a dark rounded mass centred on porcelain carrying one small "
+        "warm mark, confirmed by rendering them at 16px rather than by trusting the "
+        "metric. Allowed to stand: the shared reading is a value layout, not a shared "
+        "device (offset slabs with an ember sliver against a terminal with a block "
+        "cursor), and the two skills are never offered as alternatives to each other, "
+        "so nothing depends on telling them apart at 16px. The convergence is also "
+        "structural: the house style fixes porcelain, one warm accent and a volumetric "
+        "object, which leaves shape and accent placement as the only axes of "
+        "distinction. Decided 2026-08-19."
+    ),
+    frozenset(("be-my-witness", "mac-doctor")): (
+        "0.827. Both are a ring with a small warm mark. Allowed to stand for the same "
+        "reason, with one addition in its favour: mac-doctor is measurably cooler, and "
+        "be-my-witness was re-grounded to warm porcelain on 2026-08-18 specifically to "
+        "join the family, so the residual similarity is the cost of that correction "
+        "rather than a defect introduced by it. A graticule lens and a usage ring are "
+        "different devices doing different jobs. Decided 2026-08-19."
+    ),
+    frozenset(("braindump", "tui-craft")): (
+        "0.844, and a partial rather than a real collision. braindump is a horizontal "
+        "striated band and tui-craft is a square panel; they share a value recipe (dark "
+        "mass, warm stripe) and not a shape, and at 16px the horizontal band is the "
+        "distinguishing feature. Recorded rather than acted on. Decided 2026-08-19."
+    ),
+    frozenset(("braindump", "mockup-fidelity")): (
+        "0.840, same reading as the pair above and for the same reason: a striated "
+        "horizontal drum against two offset slabs. Both carry a dark mass and one warm "
+        "element, which is what the metric is responding to. Decided 2026-08-19."
+    ),
+    frozenset(("agent-voice", "generate-investor-portal")): (
+        "0.827 and a clean false positive. Rendered at 16px these are two vertical warm "
+        "bars against a dark panel with an interior glow. They do not look alike at any "
+        "size, and the correlation is an artefact of both concentrating dark mass "
+        "centre-right on porcelain. Kept as a worked example of the metric's precision "
+        "limit rather than deleted. Decided 2026-08-19."
+    ),
+    frozenset(("agent-voice", "mockup-fidelity")): (
+        "0.819 and a false positive for the same reason as the pair above. "
+        "Decided 2026-08-19."
+    ),
 }
 
 SIG = 16          # signature grid
