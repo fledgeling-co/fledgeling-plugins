@@ -49,7 +49,7 @@ The five thinkers work in isolation on purpose. Letting them see each other's id
 
 ```text
 /plugin marketplace add fledgeling-co/fledgeling-plugins
-/plugin install trawl
+/plugin install trawl@fledgeling-plugins
 ```
 
 ## Using it

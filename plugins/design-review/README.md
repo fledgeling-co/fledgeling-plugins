@@ -121,7 +121,7 @@ Everything runs on **Obscura**, a single static binary on PATH as `obscura`.
 
 | Path | Entry point |
 |---|---|
-| `obscura serve` + CDP | `scripts/run_review.py` — the viewport matrix and the probe sweep |
+| `obscura serve` + CDP | `scripts/run_review.py`: the viewport matrix and the probe sweep |
 | `obscura fetch` | One page, one capture: `--screenshot`, `--eval`, `--dump` |
 | `obscura mcp` | Driving a surface interactively: click, fill, scroll, tabs, auth state |
 
@@ -143,7 +143,7 @@ plugins/design-review/
 │   │                               envelope, the gates, layout integrity, severity
 │   ├── scripts/                    probes, runners, analysis, the coverage ledger
 │   ├── assets/report-template.md   the report skeleton
-│   └── evals/                      eleven task evals plus a trigger set
+│   └── evals/                      thirteen task evals plus a trigger set
 └── assets/                         icon, banner, icon audit
 ```
 
@@ -164,7 +164,7 @@ The scripts, in the order a review reaches for them:
 
 <br />
 
-`skills/design-review/evals/` holds nine task evals plus a 32-query trigger set for tuning the description.
+`skills/design-review/evals/` holds thirteen task evals plus a 32-query trigger set for tuning the description.
 
 They cover the awkward cases rather than the easy one: a seeded landing page, a repo with no browser available at all, a scoped diff, an 11-screen coverage contract, and a run told up front that there's only time for part of the job.
 

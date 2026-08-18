@@ -383,12 +383,18 @@ function build() {
     if (!trigger) fail(`${name}: SKILL.md has no description in its frontmatter`);
 
     // --- icon ---------------------------------------------------------------
-    // create-skill is the one plugin whose published icon is icon-c1-256.png; the
-    // root README points at that file too, so following it keeps the site and the
-    // README showing the same mark.
-    const iconCandidates = [join(dir, "assets", "icon-c1-256.png"), join(dir, "assets", "icon-256.png")];
-    const iconPath = iconCandidates.find((candidate) => existsSync(candidate));
-    if (!iconPath) fail(`${name}: no assets/icon-256.png — the card would render a broken image`);
+    // One filename, no candidates. This used to prefer create-skill's
+    // icon-c1-256.png, on the belief that it was that plugin's published icon
+    // because the root README pointed at it. Both were wrong: create-skill's own
+    // assets/icon-notes.md scores take A (the layered icon.svg) at 11/12 and
+    // "ships", and take C1 at 9/12, failing check #10 as, in its words, "a flat
+    // raster is failure mode #10 by construction, whatever it scores". So the
+    // special case made the site serve a losing take, and the README agreed with
+    // it rather than with the audit sheet. If a plugin's winning take is a
+    // raster, promote it to icon-256.png rather than teaching this loader a
+    // second filename.
+    const iconPath = join(dir, "assets", "icon-256.png");
+    if (!existsSync(iconPath)) fail(`${name}: no assets/icon-256.png — the card would render a broken image`);
     copyFileSync(iconPath, join(OUT_ICONS, `${name}.png`));
 
     // --- banner -------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 A skill costs context every time it loads, and it implies a guarantee. So the
 question worth answering is not "is this good" but "does the model do better
-with it than without it" — and the honest way to find out is to run the same
+with it than without it", and the honest way to find out is to run the same
 prompts twice, once with the skill and once with nothing, and grade both
 against the same checklist.
 
@@ -26,7 +26,7 @@ quote the sentence that decided it. No quote meant fail.
 | 1 | Checks the tool is actually ready before starting work | 0 / 4 | 2 / 4 |
 | 3 | Reads two different "it settled" results correctly | 4 / 4 | 4 / 4 |
 | 4 | Doesn't treat a stale screenshot as evidence | 2 / 4 | 4 / 4 |
-| 5 | *(excluded — see below)* | — | — |
+| 5 | *(excluded, see below)* | n/a | n/a |
 | 6 | Won't invent design values it cannot measure | 1 / 4 | 4 / 4 |
 | 8 | Discloses that the measurement changed the thing measured | 0 / 4 | 4 / 4 |
 | | **Total** | **7 / 20** | **18 / 20** |
@@ -35,7 +35,7 @@ quote the sentence that decided it. No quote meant fail.
 
 **Case 3 was a tie, and it should not have been in the set.** The unaided model
 got all four points: it withheld the verdict, blamed the right thing, noticed
-the evidence was thin, and proposed the check that would settle it — then added
+the evidence was thin, and proposed the check that would settle it, then added
 a hazard the skill arm missed. An eval the model passes on its own measures the
 model, not the skill. It has been replaced with one that turns on this server's
 own reporting, which the model has no way to know.
@@ -45,7 +45,7 @@ the grading file. They are not evidence for the skill.
 
 **The first run of this comparison was invalid.** Both arms shared a working
 directory, and several of the no-skill runs simply read the skill document off
-the disk — one of them read the answer key and said so. Four of six cases were
+the disk; one of them read the answer key and said so. Four of six cases were
 the skill arm running twice under two names. The whole thing was re-run with
 each arm in its own empty directory. One case leaked again even then and is
 excluded above rather than reported as a tie, because a contaminated tie
@@ -67,7 +67,7 @@ does not know that off-screen windows only refresh when the pointer moves on
 their display.
 
 So the skill is not supplying caution. The model brought that. It is supplying
-the mechanisms — which is why the two cases it wins outright are the two about
+the mechanisms, which is why the two cases it wins outright are the two about
 disclosing what the instrument did, and why the case it ties is the one that
 needed judgement rather than knowledge.
 
@@ -79,8 +79,8 @@ suite case by case through a traceability matrix. Two new prompts were written
 for them (11 and 12 in the grading file), each around a mistake that is easy to
 make and easy to check.
 
-These were graded differently, and harder. Each prompt was answered twice — with
-the skill and with nothing — and the two answers were handed to a **panel of
+These were graded differently, and harder. Each prompt was answered twice, with
+the skill and with nothing, and the two answers were handed to a **panel of
 three judges as an anonymised A/B pair, with the skill's side hidden and the
 order swapped between the two prompts**, so a judge could not pattern-match
 which side to favour. Two of the judges were the working model; one was a
@@ -90,7 +90,7 @@ The panel was unanimous both times: the skill's answer won 3–0 on prompt 11 an
 3–0 on prompt 12.
 
 **And both wins were narrow in the same honest way.** On each prompt, two of the
-four criteria were a tie — and they were the two a competent model already
+four criteria were a tie, and they were the two a competent model already
 handles unaided. On the native-conformance prompt both arms measured against
 *something* and both reported measured deviations; the skill won only on naming
 a **concrete** rubric (the control ladder, the 13pt type ramp, the 8pt grid, the
@@ -102,7 +102,7 @@ outcome and reported per case; the skill won only on building the
 **unevaluable case surfaces as a visible skip** rather than a loose caveat.
 
 It is the same shape as the original six. The model brings the competence; the
-skill supplies the mechanism the model has no way to know it should reach for —
+skill supplies the mechanism the model has no way to know it should reach for:
 here, that "is it native" and "is it good" are two different questions with two
 different oracles, and that a handed-over suite is a spine to trace rather than a
 list to run through.
@@ -117,4 +117,4 @@ line for line.
 The prompts and assertions are in [`evals/evals.json`](evals/evals.json). Run
 each in an empty directory, once with `skills/proctor/SKILL.md` prepended and
 once without, and grade against the assertions. Keep the arms in separate
-directories — that is the mistake that cost this comparison its first run.
+directories; that is the mistake that cost this comparison its first run.

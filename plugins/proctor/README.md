@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="proctor: a porcelain app icon showing one macOS window registered three times — a slate keyline, a solid plane, and discrete pixel samples — offset by a hair, with vermilion spent only on the disagreement, beside the wordmark and the line: three observers, and the disagreement is the defect" width="100%" />
+  <img src="assets/banner.png" alt="proctor: a porcelain app icon showing one macOS window registered three times (a slate keyline, a solid plane, and discrete pixel samples) offset by a hair, with vermilion spent only on the disagreement, beside the wordmark and the line: three observers, and the disagreement is the defect" width="100%" />
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> proctor</h1>
@@ -122,7 +122,7 @@ The behavioural evals were run against a no-skill baseline; the results and the 
 |---|---|
 | [`design-review`](../design-review/README.md) | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
 | `acceptance-e2e` | Web features and Playwright suites. Proctor is the native counterpart, not a replacement. |
-| `mac-design-studio` | The native-conformance rubric when there's no mockup — the macOS 27 control ladder, type ramp and native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures; that skill says what native is. |
+| `mac-design-studio` | The native-conformance rubric when there's no mockup: the macOS 27 control ladder, type ramp and native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures; that skill says what native is. |
 | `mockup-fidelity` | React and React Native measured against a mockup. Its present/divergent/absent ledger is the right method for native fidelity too, so this skill reuses it. |
 | `macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
 

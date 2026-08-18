@@ -2,27 +2,27 @@
 
 Two eval rounds live in this file.
 
-**Round 2 (18 Aug 2026) — the rebuild against the version it replaced.** Six
+**Round 2 (18 Aug 2026), the rebuild against the version it replaced.** Six
 prompts aimed at defects that were measured in the old version, plus three
 regression guards aimed at the fix itself. Read this round first: it is the one
 that answers "was the rebuild worth doing", and it is honest enough to lose.
 Reproducible from `evals/rebuild-evals.json`.
 
-**Round 1 (16 Aug 2026) — the original against no skill at all.** Further down.
+**Round 1 (16 Aug 2026), the original against no skill at all.** Further down.
 It answers "does this earn its place in the context window" and its headline still
 stands: on knowledge questions the skill is a draw, and what it changes is whether
 the model looks.
 
 ---
 
-# Round 2 — the rebuild against its predecessor
+# Round 2: the rebuild against its predecessor
 
 ## The headline, in one line each
 
 **Mechanically, the rebuild refuses eight inputs the old version passed as clean
-work, and gains nothing false in exchange.** Five of those eight — a missing
+work, and gains nothing false in exchange.** Five of those eight (a missing
 binary, a non-executable file, a Python traceback, a shell syntax error, and
-`echo hello` — came back from the old version as `kind: "captured"`, exit 0, and
+`echo hello`) came back from the old version as `kind: "captured"`, exit 0, and
 **zero high findings under `--strict`**. A capture that is a shell error and a
 capture of a well-built dashboard produced the same verdict.
 
@@ -32,7 +32,7 @@ rebuild took three cases, the old version took one, and two were deadlocks. The
 loss and the deadlocks were both informative and both were fixed, and on a blind
 re-run in a fresh order **the lost case flipped to a unanimous rebuild win.**
 
-## Round 2, layer 1 — mechanical
+## Round 2, layer 1: mechanical
 
 Every row is a real command on this machine, both arms, same input. `--strict`
 throughout.
@@ -65,7 +65,7 @@ because it compared column 0 against the last column and on a bordered app both
 hold `│`. It was the named gate for a footer-overflow case in
 `references/anti-patterns.md` that it could never have caught.
 
-## Round 2, layer 2 — the blind panel
+## Round 2, layer 2: the blind panel
 
 Both arms answered the same six prompts and each saw the real output of **its
 own** tooling, so the difference measured is the difference the rebuild makes
@@ -90,15 +90,15 @@ two produced usable verdicts.
 |---|---|---|
 | Google | `agy`, gemini-3.7-flash-high | **counted** |
 | Anthropic | isolated subagent, bundle-only read scope | **counted** |
-| OpenAI | `codex exec`, gpt-5.6-sol at high | **failed** — usage limit until 20 Aug. No substitute lane exists for this family here, so it is recorded as failed rather than quietly dropped |
-| xAI | `grok -m grok-4.6 --effort xhigh` | **discarded** — its harness read the plugin source mid-judgement, so it could infer which option came from which version. A contaminated verdict is worse than a missing one |
+| OpenAI | `codex exec`, gpt-5.6-sol at high | **failed**: usage limit until 20 Aug. No substitute lane exists for this family here, so it is recorded as failed rather than quietly dropped |
+| xAI | `grok -m grok-4.6 --effort xhigh` | **discarded**: its harness read the plugin source mid-judgement, so it could infer which option came from which version. A contaminated verdict is worse than a missing one |
 
 Two families is a thin panel and the two deadlocks are partly an artefact of that.
 
 ## Why the old version did not simply fail e1 and e2
 
 This is the most useful thing the round produced. Handed a frame holding a shell
-error, the old version's answer **worked out that it had been fooled** — it
+error, the old version's answer **worked out that it had been fooled**: it
 reasoned from 2% ink and zero colours to "they had nothing to read rather than
 that the layout is clean", and even named the capture trap by name. It did that
 because the warning existed as prose in the sibling skill, and both skills were
@@ -112,7 +112,7 @@ same as a good instrument, and it is not something to rely on.
 
 **The deadlocks named a real weakness in the rebuild, and it was fixed.** Both
 judges preferred the old version's explanation of *why* the clean gate report
-meant nothing. The rebuild's answer was correct and terse — it relayed the
+meant nothing. The rebuild's answer was correct and terse; it relayed the
 refusal and stopped. `SKILL.md` now requires the missing sentence: say what the
 refusal protected you from. On the re-run the rebuild's answer carries it
 ("had the capture been accepted, the border, column-alignment, overflow and
@@ -137,14 +137,14 @@ and seeds recorded alongside `evals/rebuild-evals.json`.
 
 | Case | Google family | Claude family | Was | Now |
 |---|---|---|---|---|
-| e4 | rebuild | **rebuild — flipped** | outright loss | **unanimous rebuild win** |
+| e4 | rebuild | **rebuild, flipped** | outright loss | **unanimous rebuild win** |
 | e1 | rebuild | old | deadlock | deadlock, different reason |
 
 **e4 is the strongest single piece of evidence here.** It was the one case the
 rebuild lost outright, both judges agreed on why, the rule that caused it was
 rewritten, and on a blind re-run in a fresh order both families reversed. The
-Claude-family judge named the mechanism it had previously missed — that the
-failing example is a spec and must be compiled before gating — plus the
+Claude-family judge named the mechanism it had previously missed (that the
+failing example is a spec and must be compiled before gating) plus the
 recommendation-with-a-stated-reversal-condition the fix introduced.
 
 **e1 is still a deadlock, and the reason moved**, which is the more useful
@@ -152,7 +152,7 @@ outcome than a flip would have been. The rebuild's answer now carries the
 vacuous-gates sentence the first round wanted. The Claude-family judge held for
 the old version on a different ground entirely: the new answer "ends on a request
 for the path instead of a runnable next capture". That is specific, correct, and
-was fixed in turn — `SKILL.md` now requires handing back the capture command with
+was fixed in turn: `SKILL.md` now requires handing back the capture command with
 the correction already written into it rather than asking a question.
 
 **That last fix is not re-judged.** It was applied after the second panel and is
@@ -162,7 +162,7 @@ this file, and the third would be needed to claim the flip.
 ## The single clearest result
 
 Set aside the judges. `tui-craft`'s description used to open with the word
-"Design", and it mentioned its sibling design skill **zero times** — so a request
+"Design", and it mentioned its sibling design skill **zero times**, so a request
 to design a screen that has no code yet landed in the skill that forbids the only
 thing it could do. Both arms were re-run with `tui-craft` loaded *alone*, which is
 the condition that actually occurs.
@@ -170,7 +170,7 @@ the condition that actually occurs.
 The old version drew a 23-row dashboard by hand in a code fence, with its own
 hand-counted column ruler and a "column contract" table. Measured with the
 plugin's own width function, that frame has **five different widths across its 23
-rows** — 76, 78, 79, 80 and 81 cells — while claiming to be an 80-column design.
+rows** (76, 78, 79, 80 and 81 cells) while claiming to be an 80-column design.
 It is the exact defect the plugin exists to prevent, produced by the plugin's own
 skill, because the alternative was never named.
 
@@ -191,8 +191,8 @@ fence."
   anything about routing at all.
 - **The injection case is a draw and the fence is not what settled it.** Both arms
   refused the planted instruction and reported it as content. The fence's actual
-  justification is the *delegated* case — a subagent that cannot see the parent
-  skill — and this round did not test that. Naming it here rather than claiming
+  justification is the *delegated* case (a subagent that cannot see the parent
+  skill) and this round did not test that. Naming it here rather than claiming
   the draw as a win.
 - **Two judge families, not four.** See the failure table.
 - **The 6% ink line in `render-proof` is the one corpus number in a gate**, and it
@@ -205,13 +205,13 @@ fence."
 The old version's e1 answer is the warning. **A model can reason its way out of a
 bad instrument, which means a skill can look fine in an eval while its tooling is
 broken.** Any future round should include a case where the correct answer is only
-reachable from the tool's output — no ink count, no ratio, nothing the model can
-infer around — so the instrument is what is being scored rather than the
+reachable from the tool's output, with no ink count, no ratio, nothing the model can
+infer around, so the instrument is what is being scored rather than the
 reasoning on top of it.
 
 ---
 
-# Round 1 — the original against no skill at all
+# Round 1: the original against no skill at all
 
 Covers the `tui-craft` skill as it stood on 16 Aug 2026.
 
@@ -407,7 +407,7 @@ that absence is stated rather than inferred from silence. What changed in round 
 is that its evals now exist as checkable assertions rather than as prose
 intentions: `evals/tui-design-evals.json` carries three prompts with six
 assertions each, in the same shape as `evals/evals.json`, and its fixtures are now
-in the repo — `evals/fixtures/hand-drawn-mock.txt` is a hand-drawn dashboard whose
+in the repo: `evals/fixtures/hand-drawn-mock.txt` is a hand-drawn dashboard whose
 `🚀` row measures 63 cells where every other row measures 62, so it is uniform to a
 character count and off by one to anything counting cells. Previously that file was
 referenced by an eval and existed nowhere.
@@ -431,14 +431,14 @@ rather than by assertion:
   `assets/example-dashboard.json` at exit 0. The compile step is not optional and
   was missing from all three places this was documented: handed the spec directly,
   the gates raise `KeyError: 'cols'`. A gate that has never been seen to fail is
-  not a gate — and an artifact that crashes when run as documented is a reason to
+  not a gate, and an artifact that crashes when run as documented is a reason to
   distrust the gate rather than trust it.
 - The gates report `examined=0` with a stated reason on a real pty capture rather
   than a false pass, because a captured frame's colours resolve in the reader's
   palette and a ladder is genuinely unmeasurable from it.
 
 Three defects were found in this plugin's own output during that checking. Two are
-fixed in round 2 — the crashing prove-it-can-fail instruction, and
+fixed in round 2: the crashing prove-it-can-fail instruction, and
 `tui_capture.py` returning `kind: "captured"` with exit 0 for a command that does
 not exist. One remains and is recorded in the skill rather than left for someone
 to rediscover: `border-integrity` reports a false positive where two panels stack

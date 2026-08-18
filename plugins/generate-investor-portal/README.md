@@ -1,5 +1,12 @@
 # generate-investor-portal
 
+<p align="center">
+  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="SWE skill: generation" src="https://img.shields.io/badge/SWE_skill-generation-434A55">
+  <img alt="Blind panel: 6 of 7 tasks" src="https://img.shields.io/badge/blind_panel-6_of_7_tasks-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
 Turns a company's design tokens and a crawl of its own website into one validated database record, then refuses to write it until a gate has read it back.
 
 An investor portal built this way is not a website. The website already exists: one generic renderer serves every company from a record, resolved by hostname, so onboarding a new company is a generated record rather than new code. What this skill produces is that record, and what makes it worth using is what it will not let into one.
@@ -7,6 +14,7 @@ An investor portal built this way is not a website. The website already exists: 
 ## Install
 
 ```
+/plugin marketplace add fledgeling-co/fledgeling-plugins
 /plugin install generate-investor-portal@fledgeling-plugins
 ```
 
@@ -58,6 +66,12 @@ node assets/record-gate.mjs --self-test                       # proves the gate 
 The self-test runs four fixtures in `assets/fixtures/`, three of which are supposed to fail, and reports it as a failure if they pass. A gate that has quietly stopped catching things looks identical to a clean run, which is the whole reason the self-test exists.
 
 Those fixtures are also the dry-run path. The record layer can be exercised end to end against a fictional company with no crawl, no database and no spend.
+
+## Does it actually work
+
+Eight tasks, run once under the original version of this skill and once under this one, then paired up and handed to three judges from three different model families with neither version shown to them. Over the six tasks both versions completed the report card was 28 of 30 for the original and 30 of 30 for this one, and the panel picked this version on six of the seven tasks it could judge, including two it first gave to the original and reversed after the losses were fixed.
+
+The two losses, the task that never completed, the four assertions that could not fail, and the judge lane that hit a usage limit are all in [`evals/EVALS.md`](evals/EVALS.md), which also says plainly what the numbers cannot tell you.
 
 ## Honesty about the gate
 

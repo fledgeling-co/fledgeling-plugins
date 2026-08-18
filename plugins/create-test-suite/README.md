@@ -103,8 +103,8 @@ It's the successor to `acceptance-e2e`. Ten gaps in that skill were each measure
 ## Install
 
 ```
-/plugin marketplace add lprhodes/fledgeling-plugins
-/plugin install create-test-suite
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install create-test-suite@fledgeling-plugins
 ```
 
 Then `/create-test-suite`, or just ask Claude to test something properly.

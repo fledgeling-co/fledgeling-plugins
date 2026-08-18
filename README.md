@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="16 skills" src="https://img.shields.io/badge/skills-16-C4622D">
+  <img alt="36 skills" src="https://img.shields.io/badge/skills-36-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -148,7 +148,7 @@ The pipeline that built half this marketplace, as a skill. Point it at an existi
 
 <br clear="left" />
 
-<a href="plugins/create-skill/README.md"><img src="plugins/create-skill/assets/icon-c1-256.png" align="left" width="110" alt="" /></a>
+<a href="plugins/create-skill/README.md"><img src="plugins/create-skill/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-skill](plugins/create-skill/README.md)
 

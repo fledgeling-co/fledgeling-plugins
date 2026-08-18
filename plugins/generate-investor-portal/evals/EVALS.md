@@ -2,7 +2,7 @@
 
 The short version: on the six tasks both versions completed, the report card was **28 of 30 for the
 original and 30 of 30 for this one**, and the blind panel picked this version on **six of the seven
-tasks it could judge** — including two it first gave to the original and then reversed after the
+tasks it could judge**, including two it first gave to the original and then reversed after the
 losses were fixed. One of those reversals was unanimous.
 
 The two losses are the most useful part of this document, and they are written up in full below.
@@ -11,7 +11,7 @@ Two things were measured, and they are deliberately different in kind.
 
 **A report card.** Eight tasks, run twice: once by an agent whose only instructions were the
 *original* version of this skill, and once by an agent whose only instructions were this one. Both
-answers were then checked against a fixed list of things that either happened or did not — a figure
+answers were then checked against a fixed list of things that either happened or did not: a figure
 appeared or it did not, a refusal fired before the spend or after it. Not scores out of ten, because
 an opinion out of ten collapses toward the middle and tells you nothing about a trade-off.
 
@@ -24,7 +24,7 @@ learn a pattern.
 
 Each of the sixteen answers was produced by one call with a self-contained prompt: the skill's own
 text in full, the material it was allowed to use, and then the user's request. Nothing else was
-available — no web, no image model, no database. Every prompt is on disk beside the answer it
+available: no web, no image model, no database. Every prompt is on disk beside the answer it
 produced, so any result here can be reproduced or disputed.
 
 The material was a fictional company, Northbridge Rail Limited, with a crawl of a website that does
@@ -70,14 +70,14 @@ skill. Every assertion is passed or failed with a quote; an absence is a fail.
 
 **Like for like, over the six tasks both answered: 28/30 against 30/30.**
 
-The original's three failures are all one story — a check that does not exist where the skill says
+The original's three failures are all one story, a check that does not exist where the skill says
 it does:
 
 - **E6, twice.** It could not name a runnable verification command, because it has none: its own
   answer says the skill "supplies the regex rather than the script". And it named
   `npm run test:contrast`, which the grader checked and found in no `package.json` anywhere on the
-  machine and in no file in the renderer repository. The answer's own placeholder — `node
-  scripts/<the role-aware contrast case>` — concedes the point.
+  machine and in no file in the renderer repository. The answer's own placeholder, `node
+  scripts/<the role-aware contrast case>`, concedes the point.
 - **E3, once.** The one image prompt it described carried no statement that the crawled overview is
   untrusted material, which is the gap this version's fence closes.
 
@@ -104,7 +104,7 @@ Three judges, three model families, none shown either skill.
 | E7 | this | original | this | this version, 2-1 |
 | E5 (first round) | original | this | original | *original, 1-2* |
 | E8 (first round) | this | original | original | *original, 1-2* |
-| E5 (after the fix) | this | this | this | **this version, 3-0 — unanimous reversal** |
+| E5 (after the fix) | this | this | this | **this version, 3-0, a unanimous reversal** |
 | E8 (after the fix) | this | this | original | this version, 2-1 |
 
 E1 is worth a footnote: the two answers were produced at **different thinking budgets**. The
@@ -112,18 +112,18 @@ original's ran at high effort; this version's kept exceeding a fifteen-minute ce
 and was run at medium instead. The asymmetry favours the original, so a 3-0 against it is a
 conservative result rather than a flattering one.
 
-E3 has no entry. This version's answer never completed — two attempts died on a time limit and two
-on a prompt-length limit — so there is nothing to pair against the original's. It is the one task in
+E3 has no entry. This version's answer never completed: two attempts died on a time limit and two
+on a prompt-length limit, so there is nothing to pair against the original's. It is the one task in
 the set with no comparison, and the grader marked it *not run* rather than counting it as a failure.
 
 ## What the two losses were, and what changed
 
 Both losses were real defects, both are fixed, and both fixes are enforced rather than described.
 
-**E5 — the accent was lifted against one dark ground.** A judge caught a repaired `primaryOnDark`
+**E5, the accent was lifted against one dark ground.** A judge caught a repaired `primaryOnDark`
 clearing 4.5:1 against `surface-dark` and measuring **3.78:1 against `surface-dark-raised`**, a token
 the same answer emitted three lines earlier. The rule was already "lift against whichever ground the
-accent reads worst on". What was missing was the *list of grounds* — and "worst" over an unenumerated
+accent reads worst on". What was missing was the *list of grounds*, and "worst" over an unenumerated
 set is whichever one the author happened to think of. The gate now asks about every dark ground and
 every light one, and prints the judge's own figure, 3.78:1, when it fires.
 
@@ -133,11 +133,11 @@ clean test fixture carried the same defect at 1.85:1. Neither had ever been meas
 `focus-ring = primary` was written down as an identity. A new check is the cheapest chance you will
 get to discover your control was never clean.
 
-**E8 — a date was borrowed from the row next door.** Asked what to stamp two undated facts with, this
+**E8, a date was borrowed from the row next door.** Asked what to stamp two undated facts with, this
 version reached for "listed on ASX in November 2019" from elsewhere in the same document. That dates
 the listing *event*; it does not date the legal name, and a company can rename after listing. The
-original refused it explicitly, and won. The rule is now stated as its own claim — a date is sourced
-to the fact it dates, or the field is empty — and it is marked as one no gate can catch, because a
+original refused it explicitly, and won. The rule is now stated as its own claim (a date is sourced
+to the fact it dates, or the field is empty) and it is marked as one no gate can catch, because a
 borrowed date is well-formed, plausible, and genuinely inside the source.
 
 **Two further findings came out of tasks this version won**, which is the part a scoreboard hides:
@@ -145,7 +145,7 @@ borrowed date is well-formed, plausible, and genuinely inside the source.
 - Judges read *"measured on production 2026-08-08"* and *"a junior explorer and a national telco"* as
   **invented**, because from the reader's seat they are unsourced specifics about companies nobody
   mentioned. That reading is correct. The skill now forbids narrating its own incident history to the
-  person asking — the same rule it applies to figures, turned on its own prose.
+  person asking, the same rule it applies to figures, turned on its own prose.
 - Both readable judges penalised an answer for proposing copy citing **Listing Rule 4.7.4** for a
   company whose filing regime had never been established. An unsourced regulatory claim is the same
   defect as an unsourced figure. The model sentence is now conditional, and the shorter uncited
@@ -158,13 +158,13 @@ borrowed date is well-formed, plausible, and genuinely inside the source.
 | Anthropic | `claude` CLI, Fable model, high effort | ran |
 | Google | `agy` CLI, Gemini 3.7 Flash, high effort | ran |
 | xAI | `grok` CLI, Grok 4.6, high effort | ran |
-| OpenAI | `codex` CLI, GPT-5.6 | **failed** — usage limit, available again 20 August |
+| OpenAI | `codex` CLI, GPT-5.6 | **failed**: usage limit, available again 20 August |
 
 The OpenAI lane is recorded as a failure rather than dropped from the count. It was probed twice:
 once from a directory it refused to trust, and once correctly, which returned the real reason. Two
 probes, then stop. A lane retried into the ground produces the same answer more expensively.
 
-xAI returned an unparseable verdict twice — narration where the verdict line should have been. Each
+xAI returned an unparseable verdict twice, narration where the verdict line should have been. Each
 was re-run once and parsed on the retry. A mangled output is a failed call, not a vote, and was never
 imputed.
 
@@ -189,7 +189,7 @@ second round, so a judge could not carry a pattern across. The un-blinding maps 
 - **The fictional company is a fixture, not a portfolio.** It was built to withhold specific things.
   A real company withholds different things, and some of them will be things nobody thought to test.
 - **A judge preferring an answer is not the same as the answer being correct.** Where a judge and
-  the report card disagree, both are recorded rather than reconciled — E5 is exactly that case: the
+  the report card disagree, both are recorded rather than reconciled. E5 is exactly that case: the
   grader marked it 7/7 for both variants while the panel found a real 3.78:1 defect the assertions
   did not ask about. **The report card is not a ceiling either.**
 - **Four assertions were unmeasured**, not satisfied. See the report card section.

@@ -127,7 +127,7 @@ budget is the wall, and a gate still reasoning about 1M computes headroom agains
 a limit the session can never reach.
 
 Relay currently manages an automatic-compaction minimum of **350,000 tokens**.
-When it supplies `SHOULD_COMPACT_WINDOW_TOKENS`, use that exact value — do not
+When it supplies `SHOULD_COMPACT_WINDOW_TOKENS`, use that exact value; do not
 round it up or down inside the gate. The supplied value is the real wall, even if
 another integration has a smaller window.
 

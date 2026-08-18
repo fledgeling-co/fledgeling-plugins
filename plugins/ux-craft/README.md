@@ -1,6 +1,13 @@
 # UX Craft
 
-A Claude Code plugin for the UX half of building interfaces: forms, flows, states, error recovery, interface copy, and the review that catches what a screenshot hides. It pairs with **design-craft** — that one is the visual hands, this one is the UX brain.
+<p align="center">
+  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="SWE skill: UX" src="https://img.shields.io/badge/SWE_skill-UX-434A55">
+  <img alt="References: 11" src="https://img.shields.io/badge/references-11-756E60">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
+
+A Claude Code plugin for the UX half of building interfaces: forms, flows, states, error recovery, interface copy, and the review that catches what a screenshot hides. It pairs with **design-craft**: that one is the visual hands, this one is the UX brain.
 
 > This README is the functional version. It gets its voice pass, its icon and its banner in the brand phase; the content below is accurate now.
 
@@ -10,13 +17,13 @@ Three modes, picked from the shape of what you ask:
 
 | You have | Mode | You get |
 |---|---|---|
-| Something that exists — code, a URL, a screenshot, an email, a flow description | **Review** | A prioritised report with pasteable fixes, severity calibrated to user impact, and an honest list of what could not be checked |
-| Something to build or mock — a screen, a flow, a form, an email | **Build** | The goal sentence, the existing system matched, the flow shaped and settled, a counted state grid, the real words, then the gate |
-| A question about behaviour — "why do users drop off", "modal or inline" | **Advise** | The answer in the first sentence, the mechanism chain behind it, both options argued honestly, and a rating of how strong the evidence actually is |
+| Something that exists (code, a URL, a screenshot, an email, a flow description) | **Review** | A prioritised report with pasteable fixes, severity calibrated to user impact, and an honest list of what could not be checked |
+| Something to build or mock (a screen, a flow, a form, an email) | **Build** | The goal sentence, the existing system matched, the flow shaped and settled, a counted state grid, the real words, then the gate |
+| A question about behaviour ("why do users drop off", "modal or inline") | **Advise** | The answer in the first sentence, the mechanism chain behind it, both options argued honestly, and a rating of how strong the evidence actually is |
 
 ## The gate
 
-`skills/ux-craft/scripts/ux-lint.py` — stdlib-only Python, no dependencies, two modes.
+`skills/ux-craft/scripts/ux-lint.py`: stdlib-only Python, no dependencies, two modes.
 
 ```bash
 ux-lint.py --static src/checkout        # walk HTML/JSX/TSX/Vue/Svelte/CSS
@@ -27,8 +34,8 @@ It refuses the failures that ship silently: a `<div onclick>` carrying navigatio
 
 Three properties are the point:
 
-- **Every finding names three things** — what you did, what the user silently gets, and the fix. Not "invalid".
-- **Only exit 0 is a pass.** A run that examined zero files exits 2, because a clean sheet over nothing is a lie. A check that raised exits 4 — unknown, not clean.
+- **Every finding names three things**: what you did, what the user silently gets, and the fix. Not "invalid".
+- **Only exit 0 is a pass.** A run that examined zero files exits 2, because a clean sheet over nothing is a lie. A check that raised exits 4: unknown, not clean.
 - **Every run prints a never-empty "Not checked" list.** A check that cannot measure says so rather than reporting zero. Screen-reader output, real keyboard traversal, colours behind a `var()`, and everything the render engine cannot see all appear there by name.
 
 ## The accessibility floor, resolved
@@ -37,12 +44,19 @@ The three touch-target numbers in circulation are not interchangeable, and mixin
 
 | Number | Standard | Level |
 |---|---|---|
-| **24 × 24 CSS px** | WCAG 2.2 SC 2.5.8 Target Size (Minimum) | **AA** — the only one a WCAG failure may cite |
-| **44 × 44 CSS px** | WCAG 2.2 SC 2.5.5 Target Size (Enhanced) | **AAA** — a craft target; a miss is not an AA failure |
+| **24 × 24 CSS px** | WCAG 2.2 SC 2.5.8 Target Size (Minimum) | **AA**, the only one a WCAG failure may cite |
+| **44 × 44 CSS px** | WCAG 2.2 SC 2.5.5 Target Size (Enhanced) | **AAA**, a craft target; a miss is not an AA failure |
 | **44 × 44 pt** | Apple Human Interface Guidelines | not WCAG; `pt` is density-independent |
 | **48 × 48 dp** | Android / Material | not WCAG; `dp` is density-independent |
 
 Both WCAG numbers were read at `w3.org` with their exceptions. Neither vendor page could be read at source in the session that wrote this, and the evidence file says so rather than smoothing it over.
+
+## Install
+
+```text
+/plugin marketplace add fledgeling-co/fledgeling-plugins
+/plugin install ux-craft@fledgeling-plugins
+```
 
 ## What it knows about its own limits
 
@@ -70,7 +84,7 @@ Eleven, each justified by the failure it prevents rather than by a contents list
 
 ## Browsers
 
-Obscura only. Playwright, Puppeteer, chrome-devtools-mcp, Playwright MCP and browser-use are not used and not recommended. The playbook carries that engine's measured blind spots as a table, because a reviewer who does not know them files engine artifacts as product defects — and the sharpest one lands exactly on this skill's subject: a native radio input renders as nothing, which looks precisely like a missing affordance.
+Obscura only. Playwright, Puppeteer, chrome-devtools-mcp, Playwright MCP and browser-use are not used and not recommended. The playbook carries that engine's measured blind spots as a table, because a reviewer who does not know them files engine artifacts as product defects, and the sharpest one lands exactly on this skill's subject: a native radio input renders as nothing, which looks precisely like a missing affordance.
 
 ## Credit
 

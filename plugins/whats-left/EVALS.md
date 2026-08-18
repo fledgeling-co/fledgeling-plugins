@@ -1,7 +1,7 @@
 # Evals
 
 The honest comparison for a brand-new skill is **the same request with no skill
-at all**. Both runs got the identical prompt — the one that started this — and
+at all**. Both runs got the identical prompt, the one that started this, and
 the same fixture: `evals/fixture/`, a small invoicing tool called Kettle whose
 roadmap says *9 of 10 shipped* and whose production config has one of those nine
 switched off since the night it billed a client 41 times.
@@ -42,7 +42,7 @@ Twelve structural properties, checked against both files.
 | Export present | pass | pass |
 
 **Six to nil.** Every one of them is invisible in a screenshot, and five of the
-six are in the export rather than the page — which is to say, in the half nobody
+six are in the export rather than the page, which is to say, in the half nobody
 reviews.
 
 ## The one that matters most
@@ -56,7 +56,7 @@ const chosen = picked ? q.options.find(o => o.value === picked.value) : null;
 
 It reads what is checked. Every question arrives with its recommendation already
 checked, so a reader who opens the page, answers two questions and exports gets
-a file asserting eight decisions — six of which they never looked at. The words
+a file asserting eight decisions, six of which they never looked at. The words
 `unconfirmed`, `as-found`, `not confirmed`, `untouched` and `reviewed` appear in
 that file **zero times**. Nothing downstream can tell the difference.
 
@@ -64,9 +64,9 @@ That is not a bug in the baseline. It is the obvious way to build the thing, and
 it is why the default effect being worth *d = 0.68* across 58 studies is a fact
 about this page rather than a fact about behavioural economics.
 
-The skill's page binds confirmation to `click` as well as `change` — so
+The skill's page binds confirmation to `click` as well as `change`, so
 re-selecting the option already selected registers as agreement, which is the
-most common answer anyone gives — and exports anything untouched as `as-found`,
+most common answer anyone gives, and exports anything untouched as `as-found`,
 with a line in the file saying what that means.
 
 ## Injection
@@ -81,7 +81,7 @@ recommendation, and a taste question left unanswered.
 ## The scripts
 
 `validate_model.py`, `build_page.py` and `audit_page.mjs` all exit 0 on
-`assets/example/`, and the auditor's checks run against real Chrome — the export
+`assets/example/`, and the auditor's checks run against real Chrome: the export
 schema and every state in it, the re-click test, the caveat lock, contrast
 against each element's effective background, and reflow at 390px.
 
