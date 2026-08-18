@@ -5,7 +5,7 @@ Hand-authored layered SVG master for the `report` icon.
 Direction "The Fold": one sheet, creased once across its width, doing two things at
 once. Above the crease it is a single uninterrupted column of ruling — the report as it
 reads on screen, continuous, no seams. Below the crease the same sheet has separated
-into three stacked leaves, each carrying a shorter run of ruling — the same document
+into two stacked leaves, each carrying a shorter run of ruling — the same document
 paginated onto A4. The crease is the only place the two states meet and it is where the
 colour comes out.
 
@@ -14,12 +14,16 @@ It is deliberately NOT dossier-report's icon, which is a page with a diagonal co
 flap. This crease is horizontal, spans the full width, and what it reveals is a stack
 rather than an underside — different axis, different object, same family.
 
-Legibility at 32px was the constraint that set every proportion: three leaves rather
+Legibility at 32px was the constraint that set every proportion: two leaves rather
 than five, one crease rather than a fold sequence, ruling that reads as texture rather
 than as countable lines. The silhouette survives flattening to a single tone.
+`icon-notes.md` records why the first cut's three leaves became two; this docstring said
+three for a file that has always drawn `range(2)`, and was corrected on 19 Aug.
 
-Layers map onto bg / mid / fg / highlight. A fidelity round is a parameter edit here,
-never path surgery in the output.
+Layers are the named groups bg / mid / fg / highlight in the output. They used to be
+XML comments with those words in them, which read as a layer plan and satisfied nothing:
+`fidelity.py structure` counts `<g id=…>` and reported zero. A fidelity round is a
+parameter edit here, never path surgery in the output.
 """
 
 import pathlib
@@ -120,40 +124,46 @@ def build() -> str:
   <clipPath id="tile"><path d="{squircle}"/></clipPath>
 </defs>
 
-<g clip-path="url(#tile)">
-  <!-- bg -->
-  <rect width="{S}" height="{S}" fill="url(#ground)"/>
-  <rect width="{S}" height="{S}" fill="url(#crown)"/>
+<g id="art" clip-path="url(#tile)">
+  <g id="bg">
+    <rect width="{S}" height="{S}" fill="url(#ground)"/>
+    <rect width="{S}" height="{S}" fill="url(#crown)"/>
+  </g>
 
   <!-- mid: the sheet's cast shadow, then the continuous half -->
-  <g filter="url(#soft)" opacity="0.30">
-    <rect x="{SHEET_X+10}" y="{SHEET_Y+26}" width="{SHEET_W}" height="{scroll_h+250}"
-          rx="{CORNER}" fill="#6B5A3E"/>
-  </g>
-  <rect x="{SHEET_X}" y="{SHEET_Y}" width="{SHEET_W}" height="{scroll_h:.1f}"
-        rx="{CORNER}" fill="url(#paper)" stroke="{PAPER_EDGE}" stroke-width="2.5"/>
-  <g fill="{RULE_INK}" opacity="0.92">
-    {''.join(scroll)}
-  </g>
-
-  <!-- fg: the paginated leaves, each with its own contact shadow -->
-  <g filter="url(#tight)" opacity="0.22">
-    <rect x="{SHEET_X+LEAF_INSET+6}" y="{CREASE_Y+64}" width="{SHEET_W-LEAF_INSET*2}" height="{LEAF_H*2+LEAF_GAP:.1f}"
-          rx="{CORNER}" fill="#6B5A3E"/>
-  </g>
-  {''.join(leaves)}
-  <g fill="{RULE_INK}" opacity="0.92">
-    {''.join(leaf_rules)}
+  <g id="mid">
+    <g filter="url(#soft)" opacity="0.30">
+      <rect x="{SHEET_X+10}" y="{SHEET_Y+26}" width="{SHEET_W}" height="{scroll_h+250}"
+            rx="{CORNER}" fill="#6B5A3E"/>
+    </g>
+    <rect x="{SHEET_X}" y="{SHEET_Y}" width="{SHEET_W}" height="{scroll_h:.1f}"
+          rx="{CORNER}" fill="url(#paper)" stroke="{PAPER_EDGE}" stroke-width="2.5"/>
+    <g fill="{RULE_INK}" opacity="0.92">
+      {''.join(scroll)}
+    </g>
   </g>
 
-  <!-- the crease: the only place the two states meet, and where the colour is -->
-  <rect x="{SHEET_X-6}" y="{CREASE_Y:.1f}" width="{SHEET_W+12}" height="38" rx="19"
-        fill="url(#crease)"/>
-  <rect x="{SHEET_X-6}" y="{CREASE_Y:.1f}" width="{SHEET_W+12}" height="38" rx="19"
-        fill="url(#creaseRoll)"/>
+  <!-- fg: the paginated leaves, each with its own contact shadow, then the crease -->
+  <g id="fg">
+    <g filter="url(#tight)" opacity="0.22">
+      <rect x="{SHEET_X+LEAF_INSET+6}" y="{CREASE_Y+64}" width="{SHEET_W-LEAF_INSET*2}" height="{LEAF_H*2+LEAF_GAP:.1f}"
+            rx="{CORNER}" fill="#6B5A3E"/>
+    </g>
+    {''.join(leaves)}
+    <g fill="{RULE_INK}" opacity="0.92">
+      {''.join(leaf_rules)}
+    </g>
 
-  <!-- highlight -->
-  <rect width="{S}" height="{S}" fill="url(#vig)"/>
+    <!-- the crease: the only place the two states meet, and where the colour is -->
+    <rect x="{SHEET_X-6}" y="{CREASE_Y:.1f}" width="{SHEET_W+12}" height="38" rx="19"
+          fill="url(#crease)"/>
+    <rect x="{SHEET_X-6}" y="{CREASE_Y:.1f}" width="{SHEET_W+12}" height="38" rx="19"
+          fill="url(#creaseRoll)"/>
+  </g>
+
+  <g id="highlight">
+    <rect width="{S}" height="{S}" fill="url(#vig)"/>
+  </g>
 </g>
 </svg>
 """
