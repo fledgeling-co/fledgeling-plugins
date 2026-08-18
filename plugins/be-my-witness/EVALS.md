@@ -166,13 +166,13 @@ not an ordering artifact.
 
 | Check | Result |
 |---|---|
-| `tests/run.sh`, the deterministic regression suite | **Passes, 5 of 5, exit 0.** A loading skeleton exits 2, a blank capture exits 2, a populated surface exits 0, a card against a viewport reports `framingComparable: False`, and a paired crop writes a real image. |
+| `tests/run.sh`, the deterministic regression suite | **Passes, 8 of 8, exit 0.** A loading skeleton exits 2, a blank capture exits 2, a populated surface exits 0, a card against a viewport reports `framingComparable: False`, and a paired crop writes a real image. Three added 2026-08-18 with the fixes below: a same-aspect 440×275 crop against a 1440×900 viewport exits 2 (it exited **0** before — the founding incident passed the script written to catch it, because `framingComparable` tested aspect ratio only and the two aspects are both 1.6), a legitimate 2× render still exits 0, and `diffmask.py` returns a `diffBox` and density. |
 | Does the pre-scan gate fail closed on a bad fixture | **Yes**, and both directions are covered. The two "not evidence" fixtures return 2 rather than a low score, and the populated control returns 0, so a pass and a refusal cannot be confused. |
 | `SKILL.md` frontmatter parses | Passes. `name: be-my-witness` matches the directory and the plugin manifest. |
 | SKILL.md against the 500-line conformance ceiling | Passes, at 301 lines. |
 | Every `references/` and `scripts/` path named in SKILL.md resolves | Passes, all 9. |
 | The three scripts byte-compile | Passes: `crop.py`, `diffmask.py`, `prescan.py`. |
-| Everything the plugin claims to ship exists | Passes. Eight test fixtures, six references, three scripts, four committed deep-research reports with their source lists. |
+| Everything the plugin claims to ship exists | Passes. Nine test fixtures, six references, three scripts, four committed deep-research reports with their source lists. |
 | Every numeric claim in the README traces to a committed file | Passes. The 43.0% order-flip rate across 36 models is in `references/evidence.md` and in `docs/deep-research/2026-08-11-panel-claude.md` with a citation; the 904 green assertions are in `references/looking-protocol.md`; the four healthy surfaces reported as drifted are in `references/difference-classes.md`. |
 | Version agreement across the manifests | **Drifts.** `plugin.json` and `marketplace.json` both say 0.1.0 and agree, but `evals.json` says `"version": "0.2.0"` and `RESULTS.md` is titled v0.1.0. One of those three is wrong and nothing checks it. |
 

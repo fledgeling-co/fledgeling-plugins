@@ -33,6 +33,10 @@ USAGE
 EXIT CODES
     0  differing pixels within maxDiffPixelRatio  (noise-level)
     1  above the ratio                            (worth a look)
+
+    The ratio is a whole-frame measure, so exit 0 does NOT mean "no visible
+    change": a localised edit is small against a full frame. Branch on diffBox
+    and diffBoxDensity, never on the exit code alone.
     2  the two images are not the same size       (framing, not drift)
 """
 from __future__ import annotations
@@ -82,6 +86,8 @@ def main():
     mask = Image.new("RGB", (w, h))
     pm = mask.load()
     differing = 0
+    bx0 = by0 = 10**9
+    bx1 = by1 = -1
     for y in range(h):
         for x in range(w):
             r1, g1, b1 = pa[x, y]
@@ -97,6 +103,10 @@ def main():
             delta = 0.5053 * dy * dy + 0.299 * di * di + 0.1957 * dq * dq
             if delta > cutoff:
                 differing += 1
+                if x < bx0: bx0 = x
+                if x > bx1: bx1 = x
+                if y < by0: by0 = y
+                if y > by1: by1 = y
                 # Red where the candidate is darker than the baseline, green where
                 # lighter: direction is information a flat highlight throws away.
                 pm[x, y] = (255, 60, 60) if y2 < y1 else (60, 200, 90)
@@ -107,6 +117,23 @@ def main():
 
     total = w * h
     ratio = differing / total
+
+    # WHY THIS IS REPORTED. maxDiffPixelRatio is a whole-frame threshold, and a
+    # localised structural change is small against a whole frame: an injected
+    # 300x40 block on a 1440x900 capture is 12,000 px, or 0.93% — under the 0.01
+    # default, so `aboveRatio` is False and the exit code is 0. That is the
+    # documented contract, not a defect, but it means the exit code alone cannot
+    # see a missing button. Density separates the two cases: differing pixels
+    # packed into their own bounding box (density near 1) are one solid edit,
+    # while the same count sprayed across the frame (density near 0) is
+    # anti-aliasing. Report both; classify from them.
+    if bx1 >= 0:
+        box = {"x": bx0, "y": by0, "w": bx1 - bx0 + 1, "h": by1 - by0 + 1}
+        box_area = box["w"] * box["h"]
+        box_cov = round(box_area / total, 6)
+        density = round(differing / box_area, 4)
+    else:
+        box, box_cov, density = None, 0.0, 0.0
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         mask.save(args.out)
@@ -115,15 +142,23 @@ def main():
         "comparable": True, "width": w, "height": h,
         "differingPixels": differing, "totalPixels": total,
         "diffRatio": round(ratio, 6),
+        "diffBox": box,
+        "diffBoxCoverage": box_cov,
+        "diffBoxDensity": density,
         "threshold": args.threshold, "maxDiffPixelRatio": args.max_ratio,
         "aboveRatio": ratio > args.max_ratio,
         "mask": str(args.out) if args.out else None,
         "note": ("A diff ratio is a DETECTOR result, never a verdict. Pixel comparison "
                  "scores ~100% change-accuracy and ~0% no-change-accuracy on UI "
-                 "screenshots: everything it flags still needs classifying."),
+                 "screenshots: everything it flags still needs classifying. "
+                 "aboveRatio is a WHOLE-FRAME threshold and will be False for a "
+                 "localised change: read diffBox and diffBoxDensity, not the exit "
+                 "code, to tell one solid edit from scattered anti-aliasing."),
     }
     print(json.dumps(result, indent=1) if args.json
           else f"{differing}/{total} px differ ({ratio:.4%}) · above ratio: {result['aboveRatio']}"
+               + (f" · box {box['w']}x{box['h']} @ {box['x']},{box['y']} density {density:.2f}"
+                  if box else " · no differing pixels")
                + (f" · mask: {args.out}" if args.out else ""))
     sys.exit(1 if result["aboveRatio"] else 0)
 

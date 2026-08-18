@@ -14,15 +14,44 @@ check "a loading skeleton is not evidence"  skeleton.png  2
 check "a blank capture is not evidence"     blank.png     2
 check "a populated surface proceeds"        populated.png 0
 
-python3 scripts/prescan.py tests/fixtures/card.png --reference tests/fixtures/populated.png 2>/dev/null \
-  | grep -q "framingComparable: False" \
-  && echo "ok   a card against a viewport is framing, not drift" \
-  || { echo "FAIL framing check did not fire"; fail=1; }
+out=$(python3 scripts/prescan.py tests/fixtures/card.png --reference tests/fixtures/populated.png 2>/dev/null)
+case "$out" in
+  *"framingComparable: False"*) echo "ok   a card against a viewport is framing, not drift" ;;
+  *) echo "FAIL framing check did not fire"; fail=1 ;;
+esac
 
 python3 scripts/crop.py tests/fixtures/populated.png --pair tests/fixtures/card.png \
   --region 0,0,300,200 --scale 2 --out /tmp/bmw-pair.png >/dev/null 2>&1 \
   && [ -s /tmp/bmw-pair.png ] \
   && echo "ok   paired crop writes a real image" \
   || { echo "FAIL paired crop produced nothing"; fail=1; }
+
+# The founding incident, pinned with the numbers from the docstring: a 440x275 card
+# against a 1440x900 viewport. Both are aspect 1.6, so the aspect check alone passes
+# it and the script missed the exact case it was written for. The case above only
+# ever failed on aspect (1.6 vs populated.png's 2.4), so it never covered this.
+python3 scripts/prescan.py tests/fixtures/card.png --reference tests/fixtures/table-2px-defect.png \
+  >/dev/null 2>&1
+[ $? = 2 ] \
+  && echo "ok   a same-aspect crop is framing, and does not proceed" \
+  || { echo "FAIL same-aspect crop (440x275 vs 1440x900) still proceeds"; fail=1; }
+
+# The other side of that fix: the skill mandates deviceScaleFactor >= 2, so a 2x
+# render of the reference must stay comparable. If this fails, the scale check is
+# too tight and every healthy retina capture is a false alarm.
+python3 scripts/prescan.py tests/fixtures/retina-2x.png --reference tests/fixtures/populated.png \
+  >/dev/null 2>&1
+[ $? = 0 ] \
+  && echo "ok   a 2x render of the reference is not framing" \
+  || { echo "FAIL a legitimate 2x capture was flagged as framing"; fail=1; }
+
+# A localised change sits under the whole-frame ratio, so the exit code cannot see
+# it. Density is what tells one solid edit from scattered anti-aliasing.
+dm=$(python3 scripts/diffmask.py tests/fixtures/pair-a.png tests/fixtures/pair-b.png --json 2>/dev/null)
+if printf '%s' "$dm" | python3 -c "import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get('diffBox') and d.get('diffBoxDensity',0) > 0 else 1)"; then
+  echo "ok   diffmask locates the change, not just counts it"
+else
+  echo "FAIL diffmask reported no diffBox/density"; fail=1
+fi
 
 exit $fail
