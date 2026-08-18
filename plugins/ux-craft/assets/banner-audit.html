@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>ux-craft banner audit</title>
+<style>
+:root{--ink:#17191c;--muted:#5e676f;--rule:#d7dde2;--ground:#f5f7f8;--surface:#fff;--bad:#c4622d;--ok:#3e6b54}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:15px/1.6 "IBM Plex Sans",ui-sans-serif,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:30px;letter-spacing:-.02em;margin:0 0 6px}
+h2{font-size:19px;letter-spacing:-.01em;margin:44px 0 4px}
+p.note{color:var(--muted);margin:0 0 22px;max-width:70ch}
+.shot{background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:14px;margin:0 0 18px;overflow-x:auto}
+.shot img{display:block;max-width:100%;height:auto}
+.shot figcaption{color:var(--muted);font:12px/1.5 "IBM Plex Mono",ui-monospace,monospace;
+  margin-top:10px}
+table{border-collapse:collapse;width:100%;background:var(--surface);
+  border:1px solid var(--rule);border-radius:3px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{background:#eef1f3;font:600 11px/1.4 "IBM Plex Mono",ui-monospace,monospace;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+td.n{text-align:center;font-family:"IBM Plex Mono",ui-monospace,monospace;width:64px}
+.pass{color:var(--ok);font-weight:600}
+.fail{color:var(--bad);font-weight:600}
+.score{font:700 34px/1 "IBM Plex Sans",sans-serif;letter-spacing:-.02em}
+.rec{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--bad);
+  border-radius:3px;padding:18px 20px;margin-top:14px}
+</style>
+<div class="wrap">
+<h1>ux-craft &middot; banner audit</h1>
+<p class="note">Every size a person actually meets this banner at, then the
+12-point rubric. Delivery bar is 10 of 12 with checks 1, 2, 3, 7
+and 12 non-negotiable. 5 of 5 mechanical checks pass and
+7 still need a human verdict, which is what the renders above are for.</p>
+
+<h2>The renders</h2>
+<figure class="shot"><img src="banner-renders/display-1600.png" alt="ux-craft banner at 1600px" width="1600" /><figcaption>1600px displayed width</figcaption></figure><figure class="shot"><img src="banner-renders/display-900.png" alt="ux-craft banner at 900px" width="900" /><figcaption>900px displayed width &middot; a GitHub README content column</figcaption></figure><figure class="shot"><img src="banner-renders/display-400.png" alt="ux-craft banner at 400px" width="400" /><figcaption>400px displayed width &middot; the catalogue card</figcaption></figure><figure class="shot"><img src="banner-renders/display-200.png" alt="ux-craft banner at 200px" width="200" /><figcaption>200px displayed width &middot; thumbnail</figcaption></figure><figure class="shot"><img src="banner-renders/crop-lockup.png" alt="ux-craft icon and wordmark at 1:1" /><figcaption>the icon and wordmark lockup at 1:1 against the composed layout</figcaption></figure>
+
+<h2>Rubric</h2>
+<table><thead><tr><th>#</th><th>Check</th><th>Verdict</th><th>Evidence</th></tr></thead>
+<tbody><tr><td class="n">1</td><td>Exactly 3200x1040, from a 1600x520 layout at deviceScaleFactor 2 <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>3200x1040</td></tr><tr><td class="n">2</td><td>The plugin's real icon asset, referenced rather than redrawn <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>1 artwork reference inlined as a data URI, which is how a file:// render loads it at all</td></tr><tr><td class="n">3</td><td>The wordmark is set in a linked web font, not a local system face <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>loads IBM Plex Mono, Instrument Sans</td></tr><tr><td class="n">4</td><td>Ground register agrees with the icon it sits beside</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">5</td><td>One warm accent, carried from the icon's own accent constant</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">6</td><td>Composition derived from the icon's build script, not eyeballed from a sibling</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">7</td><td>One essence line, no em dash <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>no em dash in the copy</td></tr><tr><td class="n">8</td><td>Nothing overflows the frame</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">9</td><td>Wordmark and essence line both legible at 900px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">10</td><td>Wordmark legible at 400px</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">11</td><td>No element illegibly overlapping another</td><td class="">&mdash;</td><td>judged by eye on the renders above; fill this in</td></tr><tr><td class="n">12</td><td>banner-src retained, so the banner stays editable <strong>(non-negotiable)</strong></td><td class="pass">pass</td><td>banner-src.html</td></tr></tbody></table>
+
+<p class="score">5 / 12</p>
+
+<div class="rec">
+<strong>Recommendation.</strong><p>**Ships.** The crossing is computed rather than drawn. `build_icon.py`'s own `vesica()` intersects the two reach envelopes in the flat plan and foreshortens the result, `lens_centre()` places the core ramp where the doubled gel is thickest, and `puck()` and `key()` emit both objects, all against the icon's constants scaled by one factor of 0.52. `R_SMALL` is left as the derived `R_BIG` x `ENVELOPE_AA` / `ENVELOPE_AAA`, so the 44:24 ratio survives the scaling instead of being re-entered by hand: measured back out of the emitted SVG, 81.7 / 149.8 = 0.5455, which is 24/44 exactly. `SQUASH` 0.66, `THICK` 32, `OFFSET_X` 246 and `OFFSET_Y` 222 are the icon's, as are the one shared light ramp both pucks hang off, the occlusion crescent, the rim light, the porcelain bounce, `GEL_ALPHA`, the frosted keys at `KEY_ALPHA`, and the accent's four stops from `ACCENT_CORE` through `ACCENT_DEEP`. The ground falls at 152 degrees, which is the shade direction `LIGHT_ANGLE_DEG` 118 produces.</p><p>**Known liabilities.** The 44 and 24 are the only type on the right half and they are set at 20px, so they are gone by about 600px displayed width: at the 400px catalogue card and the 200px thumbnail the device is two dark pucks and a hot crossing with no figures at all, and the arithmetic that is the whole point of the geometry is unavailable to anyone who never sees it larger. They read cleanly at 900px, which is where most people meet a banner, so this was accepted rather than fixed by enlarging them, but it is the sharpest thing wrong with this banner. Second, the accent occupies a genuinely small area by construction, because it exists only where the two envelopes overlap; at 200px the banner is very nearly monochrome and the one hot pixel cluster is easy to miss. Third, the two numerals sit beside their pucks with no leader, so which number belongs to which envelope is inferred from size rather than stated. A tick or a rule would fix that and would also be one more mark than this composition can carry.</p><p>**Deliberate absences.** No accent rule under the wordmark, because the accent here is a property of a relationship rather than a colour this skill owns, and painting it on the type would say the opposite. The tile's own inner rim light is not carried either, since there is no tile out here. Verified by eye rather than by assertion: the crossing's hot core survives the downscale to 400px as a legible warm lens rather than a smear, and the small puck's key still reads as a separate frosted object at 900px rather than merging into the gel it sits on.</p>
+</div>
+</div>

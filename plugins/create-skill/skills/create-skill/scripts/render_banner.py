@@ -37,6 +37,7 @@ import asyncio
 import base64
 import json
 import os
+import re
 import shutil
 import signal
 import socket
@@ -325,6 +326,53 @@ async def render(src: Path, out: Path, width: int, height: int, scale: int,
     return report
 
 
+# CSS this engine accepts and never paints. Each was measured on 2026-08-19
+# against a deterministic fixture: a hard black shadow at a 30px offset on white
+# read (255,255,255) where `filter: drop-shadow` specified it and (0,0,0) where
+# the identical `box-shadow` did, and an `inset` band specified black read as the
+# element's own grey. Nothing errors, `banner_sheet.py check` passes, and the
+# banner simply has no contact shadow or no rim light.
+#
+# This is the same class as the five assertions above and it was the largest one:
+# 28 of the family's banner sources declared a drop-shadow that has never painted
+# once, and 7 declared inset shadows, 13 in total. `clip-path: ellipse()` is inert
+# too and no banner uses it; it is listed so the next author does not discover it
+# the slow way. Refusing here is deliberate, and it refuses at re-render time
+# rather than in any gate: a banner already shipped stays shipped, and the defect
+# gets fixed by whoever next opens that source.
+INERT_CSS = (
+    (re.compile(r"filter\s*:[^;{}]*\bdrop-shadow\s*\(", re.I),
+     "filter: drop-shadow()",
+     "put a box-shadow on a backing box behind the element, or draw the shadow "
+     "in inline SVG with feDropShadow, which does render"),
+    (re.compile(r"box-shadow\s*:[^;{}]*\binset\b", re.I),
+     "inset box-shadow",
+     "draw the rim or seat as its own absolutely positioned element, or as an "
+     "inline SVG stroke"),
+    (re.compile(r"clip-path\s*:[^;{}]*\bellipse\s*\(", re.I),
+     "clip-path: ellipse()",
+     "clip-path: polygon() renders, and so does an SVG <clipPath>"),
+)
+
+
+def assert_effects_paint(src_text: str) -> None:
+    """Refuse a source whose declared effects this engine will silently drop."""
+    body = re.sub(r"<!--.*?-->", "", src_text, flags=re.S)
+    body = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+    found = []
+    for rx, name, fix in INERT_CSS:
+        n = len(rx.findall(body))
+        if n:
+            found.append(f"  {n}x {name}\n      instead: {fix}")
+    if found:
+        raise SystemExit(
+            "render_banner: the source declares effects this engine accepts and "
+            "never paints, so the banner would render without them and pass every "
+            "check:\n" + "\n".join(found) +
+            "\n  (measured 2026-08-19 against a fixture; comments are ignored, so "
+            "documenting the trap in a comment is fine)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -342,6 +390,7 @@ def main() -> int:
     src = Path(args.src)
     if not src.exists():
         raise SystemExit(f"no such file: {src}")
+    assert_effects_paint(src.read_text(errors="replace"))
     out = Path(args.out) if args.out else src.with_name("banner.png")
 
     report = asyncio.run(render(src, out, args.width, args.height, args.scale,

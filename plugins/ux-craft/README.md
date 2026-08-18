@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="ux-craft: a porcelain app icon of two dark glass discs overlapping, each carrying a pale rounded target, with the overlap lit vermilion, beside the wordmark and the line: the UX canon made mechanical, behind a gate that refuses what prose only asks. To the right, the same pair at scale with the figures 44 and 24 marked against them." width="100%" />
+</p>
+
 # UX Craft
 
 <p align="center">

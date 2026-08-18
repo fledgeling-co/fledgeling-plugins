@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="design-craft: a porcelain app icon of three overlapping paddle shapes fanned into a V, two of them pale and dark grey and the third a glossy vermilion with a dark pivot stud, beside the wordmark and the line: names the rut and its predictable opposite, then derives past both and commits. To the right, the same fan of three at scale." width="100%" />
+</p>
+
 # design-craft
 
 <p align="center">
