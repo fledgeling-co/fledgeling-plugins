@@ -1,0 +1,422 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>be-my-witness</title>
+  <desc>A witness's loupe on a plane of evidence; under the glass the lattice resolves and
+one cell has slipped off its gridline, marked in ember with its expected position ghosted.</desc>
+  <defs>
+    <!-- Porcelain cushion. Range and falloff sampled off corpus apple-23 (Safari):
+         L 1.000 at the key down to 0.898 at the far edge, saturation under 0.10. -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0.18" y2="1">
+      <stop offset="0" stop-color="#F9F5EE"/>
+      <stop offset=".54" stop-color="#F1EBDF"/>
+      <stop offset="1" stop-color="#DED7C5"/>
+    </linearGradient>
+
+    <!-- One soft key, upper-left. Zero hard speculars anywhere in the tile. -->
+    <radialGradient id="key" cx=".26" cy=".16" r=".92">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".62"/>
+      <stop offset=".48" stop-color="#FFFFFF" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Warm edge vignette. A grey vignette on warm porcelain reads as dirt. -->
+    <radialGradient id="vignette" cx=".5" cy=".46" r=".76">
+      <stop offset=".52" stop-color="#8A7A62" stop-opacity="0"/>
+      <stop offset=".84" stop-color="#8A7A62" stop-opacity=".10"/>
+      <stop offset="1" stop-color="#8A7A62" stop-opacity=".26"/>
+    </radialGradient>
+
+    <linearGradient id="barrel" x1=".16" y1="0" x2=".88" y2="1">
+      <stop offset="0" stop-color="#6E5F4E"/>
+      <stop offset=".42" stop-color="#3E342A"/>
+      <stop offset="1" stop-color="#221B14"/>
+    </linearGradient>
+
+    <!-- Milled metal: non-monotonic so the band carries local highlight geometry
+         rather than one sweep (material-recipes, metallic accent). -->
+    <linearGradient id="milled" x1=".08" y1="0" x2=".92" y2="1">
+      <stop offset="0" stop-color="#8A7C67"/>
+      <stop offset=".34" stop-color="#3C352C"/>
+      <stop offset=".62" stop-color="#8A7C67" stop-opacity=".82"/>
+      <stop offset="1" stop-color="#14100C"/>
+    </linearGradient>
+
+    <!-- Annulus edge catch: outer catch strong and dying by 75%, inner bounce
+         weaker and inverted. Both live outside any blur group. -->
+    <linearGradient id="catchOuter" x1="0" y1="0" x2=".25" y2="1">
+      <stop offset="0" stop-color="#F6EFE0" stop-opacity=".90"/>
+      <stop offset=".38" stop-color="#F6EFE0" stop-opacity=".22"/>
+      <stop offset=".75" stop-color="#F6EFE0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="catchInner" x1="0" y1="1" x2=".2" y2="0">
+      <stop offset="0" stop-color="#A89C88" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#A89C88" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- The glass. Bright where the key lands, cooling to the edge so it reads as
+         a lens rather than a disc; held at S <= 0.14 so it is not a hue family. -->
+    <radialGradient id="glass" cx=".33" cy=".24" r=".94">
+      <stop offset="0" stop-color="#FDFEFF" stop-opacity=".30"/>
+      <stop offset=".56" stop-color="#E4E8EC" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#C2C9D1" stop-opacity=".44"/>
+    </radialGradient>
+    <!-- Biased away from the key, so the far wall of the barrel darkens under the
+         glass and the lens reads as a tube rather than a printed disc. -->
+    <radialGradient id="well" cx=".40" cy=".34" r=".72">
+      <stop offset=".46" stop-color="#4A3A22" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4A3A22" stop-opacity=".34"/>
+    </radialGradient>
+    <linearGradient id="specular" x1=".18" y1="0" x2=".72" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".78"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- The barrel's own silhouette catch. Without it the protruding crescent is
+         an unlit black edge and the loupe reads as a ring with a shadow cut
+         behind it rather than as a cylinder. -->
+    <linearGradient id="barrelCatch" x1=".3" y1=".18" x2=".92" y2=".96">
+      <stop offset=".38" stop-color="#3C352C" stop-opacity="0"/>
+      <stop offset="1" stop-color="#8A7C67" stop-opacity=".58"/>
+    </linearGradient>
+
+    <!-- The caught cell: a gel chip, top-lit, so the accent is an object on the
+         plane rather than a swatch of colour. -->
+    <linearGradient id="chip" x1=".2" y1="0" x2=".7" y2="1">
+      <stop offset="0" stop-color="#F0854F"/>
+      <stop offset=".46" stop-color="#DA5526"/>
+      <stop offset="1" stop-color="#A93E16"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#DA5526" stop-opacity=".46"/>
+      <stop offset=".55" stop-color="#DA5526" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#DA5526" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6.5"/>
+    </filter>
+    <filter id="contact" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <filter id="tight" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="11"/>
+    </filter>
+
+    <!-- The marketplace squircle, from create-mac-icon/assets/squircle-path.txt.
+         One silhouette across the family; a bespoke radius reads as a mistake. -->
+    <clipPath id="tile"><path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z"/></clipPath>
+    <clipPath id="lens"><circle cx="512" cy="484" r="230"/></clipPath>
+  </defs>
+
+  <!-- ══ bg — the cushion tile ══════════════════════════════════════════════ -->
+  <g id="bg" clip-path="url(#tile)">
+    <rect width="1024" height="1024" fill="url(#ground)"/>
+    <rect width="1024" height="1024" fill="url(#key)"/>
+    <rect width="1024" height="1024" fill="url(#vignette)"/>
+  </g>
+
+  <!-- ══ mid — the plane of evidence, and the body of the instrument ═════════ -->
+  <g id="mid" clip-path="url(#tile)">
+    <g transform="rotate(-5.5 512 484)">
+      <g stroke="#B9AE97" stroke-width="3.2" opacity=".30" fill="none" stroke-linecap="square" filter="url(#soft)">
+        <path d="M-370.0 -276 L-370.0 1244"/>
+        <path d="M-248 -398.0 L1272 -398.0"/>
+        <path d="M-286.0 -276 L-286.0 1244"/>
+        <path d="M-248 -314.0 L1272 -314.0"/>
+        <path d="M-202.0 -276 L-202.0 1244"/>
+        <path d="M-248 -230.0 L1272 -230.0"/>
+        <path d="M-118.0 -276 L-118.0 1244"/>
+        <path d="M-248 -146.0 L1272 -146.0"/>
+        <path d="M-34.0 -276 L-34.0 1244"/>
+        <path d="M-248 -62.0 L1272 -62.0"/>
+        <path d="M50.0 -276 L50.0 1244"/>
+        <path d="M-248 22.0 L1272 22.0"/>
+        <path d="M134.0 -276 L134.0 1244"/>
+        <path d="M-248 106.0 L1272 106.0"/>
+        <path d="M218.0 -276 L218.0 1244"/>
+        <path d="M-248 190.0 L1272 190.0"/>
+        <path d="M302.0 -276 L302.0 1244"/>
+        <path d="M-248 274.0 L1272 274.0"/>
+        <path d="M386.0 -276 L386.0 1244"/>
+        <path d="M-248 358.0 L1272 358.0"/>
+        <path d="M470.0 -276 L470.0 1244"/>
+        <path d="M-248 442.0 L1272 442.0"/>
+        <path d="M554.0 -276 L554.0 1244"/>
+        <path d="M-248 526.0 L1272 526.0"/>
+        <path d="M638.0 -276 L638.0 1244"/>
+        <path d="M-248 610.0 L1272 610.0"/>
+        <path d="M722.0 -276 L722.0 1244"/>
+        <path d="M-248 694.0 L1272 694.0"/>
+        <path d="M806.0 -276 L806.0 1244"/>
+        <path d="M-248 778.0 L1272 778.0"/>
+        <path d="M890.0 -276 L890.0 1244"/>
+        <path d="M-248 862.0 L1272 862.0"/>
+        <path d="M974.0 -276 L974.0 1244"/>
+        <path d="M-248 946.0 L1272 946.0"/>
+        <path d="M1058.0 -276 L1058.0 1244"/>
+        <path d="M-248 1030.0 L1272 1030.0"/>
+        <path d="M1142.0 -276 L1142.0 1244"/>
+        <path d="M-248 1114.0 L1272 1114.0"/>
+        <path d="M1226.0 -276 L1226.0 1244"/>
+        <path d="M-248 1198.0 L1272 1198.0"/>
+        <path d="M1310.0 -276 L1310.0 1244"/>
+        <path d="M-248 1282.0 L1272 1282.0"/>
+        <path d="M1394.0 -276 L1394.0 1244"/>
+        <path d="M-248 1366.0 L1272 1366.0"/>
+        <path d="M1478.0 -276 L1478.0 1244"/>
+        <path d="M-248 1450.0 L1272 1450.0"/>
+      </g>
+    </g>
+
+    <!-- contact shadows: broad ambient, then a tight one under the barrel. The
+         highest ratio-of-effect-to-bytes layer there is. -->
+    <ellipse cx="542" cy="778" rx="274" ry="76"
+             fill="#4A3A22" opacity=".30" filter="url(#contact)"/>
+    <ellipse cx="532" cy="796" rx="204" ry="30"
+             fill="#4A3A22" opacity=".40" filter="url(#tight)"/>
+
+    <!-- barrel: offset down-right of the rim so the loupe reads as a solid body -->
+    <circle cx="534" cy="514" r="282" fill="url(#barrel)"/>
+    <path d="M348 698 A 282 282 0 0 0 774 606"
+          fill="none" stroke="#3C352C" stroke-opacity=".42" stroke-width="8"/>
+    <!-- and the catch along that silhouette. Drawn here, not in `highlight`: the
+         rim disc paints over the arc everywhere the barrel is hidden, so only the
+         protruding crescent keeps its lit edge. -->
+    <circle cx="534" cy="514" r="280" fill="none"
+            stroke="url(#barrelCatch)" stroke-width="8"/>
+  </g>
+
+  <!-- ══ fg — the milled rim, the glass, and what the glass resolves ═════════ -->
+  <g id="fg" clip-path="url(#tile)">
+    <circle cx="512" cy="484" r="298" fill="url(#milled)"/>
+    <g>
+        <polygon points="791.94,489.60 808.90,491.72 808.69,497.48 791.63,498.39" fill="url(#milled)" opacity=".93"/>
+        <polygon points="790.83,509.55 807.59,512.88 806.98,518.61 789.89,518.30" fill="url(#milled)" opacity=".93"/>
+        <polygon points="788.30,529.38 804.78,533.89 803.76,539.57 786.74,538.04" fill="url(#milled)" opacity=".93"/>
+        <polygon points="784.36,548.98 800.47,554.65 799.05,560.24 782.18,557.50" fill="url(#milled)" opacity=".93"/>
+        <polygon points="779.03,568.24 794.70,575.05 792.88,580.52 776.25,576.59" fill="url(#milled)" opacity=".93"/>
+        <polygon points="772.34,587.07 787.48,594.99 785.28,600.32 768.97,595.20" fill="url(#milled)" opacity=".93"/>
+        <polygon points="764.32,605.38 778.86,614.36 776.28,619.51 760.38,613.25" fill="url(#milled)" opacity=".93"/>
+        <polygon points="755.02,623.08 768.88,633.06 765.94,638.02 750.53,630.64" fill="url(#milled)" opacity=".93"/>
+        <polygon points="744.48,640.06 757.59,651.01 754.31,655.75 739.46,647.28" fill="url(#milled)" opacity=".93"/>
+        <polygon points="732.75,656.25 745.05,668.10 741.44,672.59 727.23,663.09" fill="url(#milled)" opacity=".93"/>
+        <polygon points="719.90,671.55 731.33,684.26 727.40,688.48 713.91,677.99" fill="url(#milled)" opacity=".93"/>
+        <polygon points="705.99,685.91 716.48,699.40 712.26,703.33 699.55,691.90" fill="url(#milled)" opacity=".93"/>
+        <polygon points="691.09,699.23 700.59,713.44 696.10,717.05 684.25,704.75" fill="url(#milled)" opacity=".93"/>
+        <polygon points="675.28,711.46 683.75,726.31 679.01,729.59 668.06,716.48" fill="url(#milled)" opacity=".93"/>
+        <polygon points="658.64,722.53 666.02,737.94 661.06,740.88 651.08,727.02" fill="url(#milled)" opacity=".93"/>
+        <polygon points="641.25,732.38 647.51,748.28 642.36,750.86 633.38,736.32" fill="url(#milled)" opacity=".93"/>
+        <polygon points="623.20,740.97 628.32,757.28 622.99,759.48 615.07,744.34" fill="url(#milled)" opacity=".93"/>
+        <polygon points="604.59,748.25 608.52,764.88 603.05,766.70 596.24,751.03" fill="url(#milled)" opacity=".93"/>
+        <polygon points="585.50,754.18 588.24,771.05 582.65,772.47 576.98,756.36" fill="url(#milled)" opacity=".93"/>
+        <polygon points="566.04,758.74 567.57,775.76 561.89,776.78 557.38,760.30" fill="url(#milled)" opacity=".93"/>
+        <polygon points="546.30,761.89 546.61,778.98 540.88,779.59 537.55,762.83" fill="url(#milled)" opacity=".93"/>
+        <polygon points="526.39,763.63 525.48,780.69 519.72,780.90 517.60,763.94" fill="url(#milled)" opacity=".93"/>
+        <polygon points="506.40,763.94 504.28,780.90 498.52,780.69 497.61,763.63" fill="url(#milled)" opacity=".93"/>
+        <polygon points="486.45,762.83 483.12,779.59 477.39,778.98 477.70,761.89" fill="url(#milled)" opacity=".93"/>
+        <polygon points="466.62,760.30 462.11,776.78 456.43,775.76 457.96,758.74" fill="url(#milled)" opacity=".93"/>
+        <polygon points="447.02,756.36 441.35,772.47 435.76,771.05 438.50,754.18" fill="url(#milled)" opacity=".93"/>
+        <polygon points="427.76,751.03 420.95,766.70 415.48,764.88 419.41,748.25" fill="url(#milled)" opacity=".93"/>
+        <polygon points="408.93,744.34 401.01,759.48 395.68,757.28 400.80,740.97" fill="url(#milled)" opacity=".93"/>
+        <polygon points="390.62,736.32 381.64,750.86 376.49,748.28 382.75,732.38" fill="url(#milled)" opacity=".93"/>
+        <polygon points="372.92,727.02 362.94,740.88 357.98,737.94 365.36,722.53" fill="url(#milled)" opacity=".93"/>
+        <polygon points="355.94,716.48 344.99,729.59 340.25,726.31 348.72,711.46" fill="url(#milled)" opacity=".93"/>
+        <polygon points="339.75,704.75 327.90,717.05 323.41,713.44 332.91,699.23" fill="url(#milled)" opacity=".93"/>
+        <polygon points="324.45,691.90 311.74,703.33 307.52,699.40 318.01,685.91" fill="url(#milled)" opacity=".93"/>
+        <polygon points="310.09,677.99 296.60,688.48 292.67,684.26 304.10,671.55" fill="url(#milled)" opacity=".93"/>
+        <polygon points="296.77,663.09 282.56,672.59 278.95,668.10 291.25,656.25" fill="url(#milled)" opacity=".93"/>
+        <polygon points="284.54,647.28 269.69,655.75 266.41,651.01 279.52,640.06" fill="url(#milled)" opacity=".93"/>
+        <polygon points="273.47,630.64 258.06,638.02 255.12,633.06 268.98,623.08" fill="url(#milled)" opacity=".93"/>
+        <polygon points="263.62,613.25 247.72,619.51 245.14,614.36 259.68,605.38" fill="url(#milled)" opacity=".93"/>
+        <polygon points="255.03,595.20 238.72,600.32 236.52,594.99 251.66,587.07" fill="url(#milled)" opacity=".93"/>
+        <polygon points="247.75,576.59 231.12,580.52 229.30,575.05 244.97,568.24" fill="url(#milled)" opacity=".93"/>
+        <polygon points="241.82,557.50 224.95,560.24 223.53,554.65 239.64,548.98" fill="url(#milled)" opacity=".93"/>
+        <polygon points="237.26,538.04 220.24,539.57 219.22,533.89 235.70,529.38" fill="url(#milled)" opacity=".93"/>
+        <polygon points="234.11,518.30 217.02,518.61 216.41,512.88 233.17,509.55" fill="url(#milled)" opacity=".93"/>
+        <polygon points="232.37,498.39 215.31,497.48 215.10,491.72 232.06,489.60" fill="url(#milled)" opacity=".93"/>
+        <polygon points="232.06,478.40 215.10,476.28 215.31,470.52 232.37,469.61" fill="url(#milled)" opacity=".93"/>
+        <polygon points="233.17,458.45 216.41,455.12 217.02,449.39 234.11,449.70" fill="url(#milled)" opacity=".93"/>
+        <polygon points="235.70,438.62 219.22,434.11 220.24,428.43 237.26,429.96" fill="url(#milled)" opacity=".93"/>
+        <polygon points="239.64,419.02 223.53,413.35 224.95,407.76 241.82,410.50" fill="url(#milled)" opacity=".93"/>
+        <polygon points="244.97,399.76 229.30,392.95 231.12,387.48 247.75,391.41" fill="url(#milled)" opacity=".93"/>
+        <polygon points="251.66,380.93 236.52,373.01 238.72,367.68 255.03,372.80" fill="url(#milled)" opacity=".93"/>
+        <polygon points="259.68,362.62 245.14,353.64 247.72,348.49 263.62,354.75" fill="url(#milled)" opacity=".93"/>
+        <polygon points="268.98,344.92 255.12,334.94 258.06,329.98 273.47,337.36" fill="url(#milled)" opacity=".93"/>
+        <polygon points="279.52,327.94 266.41,316.99 269.69,312.25 284.54,320.72" fill="url(#milled)" opacity=".93"/>
+        <polygon points="291.25,311.75 278.95,299.90 282.56,295.41 296.77,304.91" fill="url(#milled)" opacity=".93"/>
+        <polygon points="304.10,296.45 292.67,283.74 296.60,279.52 310.09,290.01" fill="url(#milled)" opacity=".93"/>
+        <polygon points="318.01,282.09 307.52,268.60 311.74,264.67 324.45,276.10" fill="url(#milled)" opacity=".93"/>
+        <polygon points="332.91,268.77 323.41,254.56 327.90,250.95 339.75,263.25" fill="url(#milled)" opacity=".93"/>
+        <polygon points="348.72,256.54 340.25,241.69 344.99,238.41 355.94,251.52" fill="url(#milled)" opacity=".93"/>
+        <polygon points="365.36,245.47 357.98,230.06 362.94,227.12 372.92,240.98" fill="url(#milled)" opacity=".93"/>
+        <polygon points="382.75,235.62 376.49,219.72 381.64,217.14 390.62,231.68" fill="url(#milled)" opacity=".93"/>
+        <polygon points="400.80,227.03 395.68,210.72 401.01,208.52 408.93,223.66" fill="url(#milled)" opacity=".93"/>
+        <polygon points="419.41,219.75 415.48,203.12 420.95,201.30 427.76,216.97" fill="url(#milled)" opacity=".93"/>
+        <polygon points="438.50,213.82 435.76,196.95 441.35,195.53 447.02,211.64" fill="url(#milled)" opacity=".93"/>
+        <polygon points="457.96,209.26 456.43,192.24 462.11,191.22 466.62,207.70" fill="url(#milled)" opacity=".93"/>
+        <polygon points="477.70,206.11 477.39,189.02 483.12,188.41 486.45,205.17" fill="url(#milled)" opacity=".93"/>
+        <polygon points="497.61,204.37 498.52,187.31 504.28,187.10 506.40,204.06" fill="url(#milled)" opacity=".93"/>
+        <polygon points="517.60,204.06 519.72,187.10 525.48,187.31 526.39,204.37" fill="url(#milled)" opacity=".93"/>
+        <polygon points="537.55,205.17 540.88,188.41 546.61,189.02 546.30,206.11" fill="url(#milled)" opacity=".93"/>
+        <polygon points="557.38,207.70 561.89,191.22 567.57,192.24 566.04,209.26" fill="url(#milled)" opacity=".93"/>
+        <polygon points="576.98,211.64 582.65,195.53 588.24,196.95 585.50,213.82" fill="url(#milled)" opacity=".93"/>
+        <polygon points="596.24,216.97 603.05,201.30 608.52,203.12 604.59,219.75" fill="url(#milled)" opacity=".93"/>
+        <polygon points="615.07,223.66 622.99,208.52 628.32,210.72 623.20,227.03" fill="url(#milled)" opacity=".93"/>
+        <polygon points="633.38,231.68 642.36,217.14 647.51,219.72 641.25,235.62" fill="url(#milled)" opacity=".93"/>
+        <polygon points="651.08,240.98 661.06,227.12 666.02,230.06 658.64,245.47" fill="url(#milled)" opacity=".93"/>
+        <polygon points="668.06,251.52 679.01,238.41 683.75,241.69 675.28,256.54" fill="url(#milled)" opacity=".93"/>
+        <polygon points="684.25,263.25 696.10,250.95 700.59,254.56 691.09,268.77" fill="url(#milled)" opacity=".93"/>
+        <polygon points="699.55,276.10 712.26,264.67 716.48,268.60 705.99,282.09" fill="url(#milled)" opacity=".93"/>
+        <polygon points="713.91,290.01 727.40,279.52 731.33,283.74 719.90,296.45" fill="url(#milled)" opacity=".93"/>
+        <polygon points="727.23,304.91 741.44,295.41 745.05,299.90 732.75,311.75" fill="url(#milled)" opacity=".93"/>
+        <polygon points="739.46,320.72 754.31,312.25 757.59,316.99 744.48,327.94" fill="url(#milled)" opacity=".93"/>
+        <polygon points="750.53,337.36 765.94,329.98 768.88,334.94 755.02,344.92" fill="url(#milled)" opacity=".93"/>
+        <polygon points="760.38,354.75 776.28,348.49 778.86,353.64 764.32,362.62" fill="url(#milled)" opacity=".93"/>
+        <polygon points="768.97,372.80 785.28,367.68 787.48,373.01 772.34,380.93" fill="url(#milled)" opacity=".93"/>
+        <polygon points="776.25,391.41 792.88,387.48 794.70,392.95 779.03,399.76" fill="url(#milled)" opacity=".93"/>
+        <polygon points="782.18,410.50 799.05,407.76 800.47,413.35 784.36,419.02" fill="url(#milled)" opacity=".93"/>
+        <polygon points="786.74,429.96 803.76,428.43 804.78,434.11 788.30,438.62" fill="url(#milled)" opacity=".93"/>
+        <polygon points="789.89,449.70 806.98,449.39 807.59,455.12 790.83,458.45" fill="url(#milled)" opacity=".93"/>
+        <polygon points="791.63,469.61 808.69,470.52 808.90,476.28 791.94,478.40" fill="url(#milled)" opacity=".93"/>
+    </g>
+    <circle cx="512" cy="484" r="258" fill="#2B231B" opacity=".90"/>
+
+    <g clip-path="url(#lens)">
+      <!-- the resolved plane: same origin, wider pitch — the lens magnifies -->
+      <circle cx="512" cy="484" r="230" fill="#FBF7F0"/>
+      <g transform="rotate(-5.5 512 484)">
+        <g stroke="#8E8674" stroke-width="1.2" opacity=".30" fill="none" stroke-linecap="square">
+        <path d="M66.5 64 L66.5 904"/>
+        <path d="M92 38.5 L932 38.5"/>
+        <path d="M99.5 64 L99.5 904"/>
+        <path d="M92 71.5 L932 71.5"/>
+        <path d="M132.5 64 L132.5 904"/>
+        <path d="M92 104.5 L932 104.5"/>
+        <path d="M165.5 64 L165.5 904"/>
+        <path d="M92 137.5 L932 137.5"/>
+        <path d="M198.5 64 L198.5 904"/>
+        <path d="M92 170.5 L932 170.5"/>
+        <path d="M231.5 64 L231.5 904"/>
+        <path d="M92 203.5 L932 203.5"/>
+        <path d="M264.5 64 L264.5 904"/>
+        <path d="M92 236.5 L932 236.5"/>
+        <path d="M297.5 64 L297.5 904"/>
+        <path d="M92 269.5 L932 269.5"/>
+        <path d="M330.5 64 L330.5 904"/>
+        <path d="M92 302.5 L932 302.5"/>
+        <path d="M363.5 64 L363.5 904"/>
+        <path d="M92 335.5 L932 335.5"/>
+        <path d="M396.5 64 L396.5 904"/>
+        <path d="M92 368.5 L932 368.5"/>
+        <path d="M429.5 64 L429.5 904"/>
+        <path d="M92 401.5 L932 401.5"/>
+        <path d="M462.5 64 L462.5 904"/>
+        <path d="M92 434.5 L932 434.5"/>
+        <path d="M495.5 64 L495.5 904"/>
+        <path d="M92 467.5 L932 467.5"/>
+        <path d="M528.5 64 L528.5 904"/>
+        <path d="M92 500.5 L932 500.5"/>
+        <path d="M561.5 64 L561.5 904"/>
+        <path d="M92 533.5 L932 533.5"/>
+        <path d="M594.5 64 L594.5 904"/>
+        <path d="M92 566.5 L932 566.5"/>
+        <path d="M627.5 64 L627.5 904"/>
+        <path d="M92 599.5 L932 599.5"/>
+        <path d="M660.5 64 L660.5 904"/>
+        <path d="M92 632.5 L932 632.5"/>
+        <path d="M693.5 64 L693.5 904"/>
+        <path d="M92 665.5 L932 665.5"/>
+        <path d="M726.5 64 L726.5 904"/>
+        <path d="M92 698.5 L932 698.5"/>
+        <path d="M759.5 64 L759.5 904"/>
+        <path d="M92 731.5 L932 731.5"/>
+        <path d="M792.5 64 L792.5 904"/>
+        <path d="M92 764.5 L932 764.5"/>
+        <path d="M825.5 64 L825.5 904"/>
+        <path d="M92 797.5 L932 797.5"/>
+        <path d="M858.5 64 L858.5 904"/>
+        <path d="M92 830.5 L932 830.5"/>
+        <path d="M891.5 64 L891.5 904"/>
+        <path d="M92 863.5 L932 863.5"/>
+        <path d="M924.5 64 L924.5 904"/>
+        <path d="M92 896.5 L932 896.5"/>
+        <path d="M957.5 64 L957.5 904"/>
+        <path d="M92 929.5 L932 929.5"/>
+        <path d="M990.5 64 L990.5 904"/>
+        <path d="M92 962.5 L932 962.5"/>
+      </g>
+        <g stroke="#4A4234" stroke-width="3.2" opacity=".84" fill="none" stroke-linecap="square">
+        <path d="M-82.0 64 L-82.0 904"/>
+        <path d="M92 -110.0 L932 -110.0"/>
+        <path d="M50.0 64 L50.0 904"/>
+        <path d="M92 22.0 L932 22.0"/>
+        <path d="M182.0 64 L182.0 904"/>
+        <path d="M92 154.0 L932 154.0"/>
+        <path d="M314.0 64 L314.0 904"/>
+        <path d="M92 286.0 L932 286.0"/>
+        <path d="M446.0 64 L446.0 904"/>
+        <path d="M92 418.0 L932 418.0"/>
+        <path d="M578.0 64 L578.0 904"/>
+        <path d="M92 550.0 L932 550.0"/>
+        <path d="M710.0 64 L710.0 904"/>
+        <path d="M92 682.0 L932 682.0"/>
+        <path d="M842.0 64 L842.0 904"/>
+        <path d="M92 814.0 L932 814.0"/>
+        <path d="M974.0 64 L974.0 904"/>
+        <path d="M92 946.0 L932 946.0"/>
+        <path d="M1106.0 64 L1106.0 904"/>
+        <path d="M92 1078.0 L932 1078.0"/>
+        <path d="M1238.0 64 L1238.0 904"/>
+        <path d="M92 1210.0 L932 1210.0"/>
+      </g>
+
+        <!-- the verdict: where the cell was expected, and where it actually is -->
+        <rect x="531.8" y="488.0"
+              width="105.6" height="81.8" rx="22"
+              fill="none" stroke="#C4622D" stroke-opacity=".62" stroke-width="4"
+              stroke-dasharray="15 11"/>
+        <ellipse cx="616.9" cy="555.9" rx="142.6" ry="122.8"
+                 fill="url(#bloom)"/>
+        <rect x="571.1" y="526.0"
+              width="105.6" height="81.8" rx="22"
+              fill="#4A3A22" opacity=".34" filter="url(#tight)"/>
+        <rect x="564.1" y="515.0"
+              width="105.6" height="81.8" rx="22"
+              fill="url(#chip)"/>
+        <path d="M573.1 523.0
+                 h87.6" fill="none" stroke="#FFFFFF" stroke-opacity=".30"
+              stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- the glass film itself, over the resolved plane so the plane reads
+           THROUGH it — authored translucency, not a tint -->
+      <circle cx="512" cy="484" r="230" fill="url(#glass)"/>
+      <circle cx="512" cy="484" r="230" fill="url(#well)"/>
+
+      <!-- the meniscus. Salvaged from the engine C2 raster, which was the one
+           thing it had that the master did not: real glass shows a bright ring
+           where its curved edge meets the bezel, with a thin dark line inboard
+           of it giving the glass its thickness. -->
+      <circle cx="512" cy="484" r="225" fill="none"
+              stroke="#FDFEFF" stroke-opacity=".38" stroke-width="7"/>
+      <circle cx="512" cy="484" r="217" fill="none"
+              stroke="#4A3A22" stroke-opacity=".18" stroke-width="7"/>
+    </g>
+  </g>
+
+  <!-- ══ highlight — speculars, edge catches, tile rim ═══════════════════════ -->
+  <g id="highlight" clip-path="url(#tile)">
+    <path d="M316 396 A 214 214 0 0 1 546 246
+             A 230 230 0 0 0 316 396 Z"
+          fill="url(#specular)" opacity=".52"/>
+    <circle cx="512" cy="484" r="227" fill="none"
+            stroke="#FFFFFF" stroke-opacity=".50" stroke-width="4"
+            stroke-dasharray="440 900" transform="rotate(-150 512 484)"/>
+    <circle cx="512" cy="484" r="303" fill="none"
+            stroke="url(#catchOuter)" stroke-width="9"/>
+    <circle cx="512" cy="484" r="271" fill="none"
+            stroke="url(#catchInner)" stroke-width="7"/>
+    <path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z" fill="none" stroke="#FFFDF8" stroke-opacity=".70"
+          stroke-width="3"/>
+  </g>
+</svg>
+

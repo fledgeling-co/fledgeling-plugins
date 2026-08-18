@@ -1,0 +1,123 @@
+{
+  "skill_name": "anvil-errand",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill), because anvil-errand has no predecessor and the honest question is whether it earns its context. Assertions are checkable properties of the reply and of what the run did or did not execute, never 1-to-10 scores. The skill's whole claim is that a refusal kind is the fact and the prose around it is support, so most evals hand the model a refusal and check whether the next step it names is the one that clears that kind. NOT YET RUN: no arm of this set has been executed, no assertion below has a recorded result, and nothing here should be read as a measurement. See ../EVALS.md.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "image-absent-builds-on-the-node",
+      "prompt": "My errand just died with this:\n\ndenied [image_absent]: the node answered and does not have the agent image (looked for it in the store node 'node-LUKESFF' own engine reads). Nothing was started.\n\nWhat do I do?",
+      "expected_output": "The image gets built on the node, in the store that node's own engine reads, and the reply points at the runbook rather than reproducing the build recipe. The reply is short: the state and the next step.",
+      "assertions": [
+        "States that the image must be built on the node, not on this Mac",
+        "Names the store the node's own engine reads, rather than telling the user to build wherever is convenient",
+        "Points at docs/ERRAND_RUNBOOK.md in the anvil repo as the recipe, and does not reproduce a build recipe of its own invention",
+        "Executes no command that provisions, installs or builds anything",
+        "Does not suggest re-running the errand until the image exists",
+        "CONTROL, expected non-discriminating: the reply stays short rather than opening with a general explanation of container images. A capable model with no skill is likely to pass this too, so it is a regression guard and not evidence."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "preflight-before-anything-starts",
+      "prompt": "Send Claude Code to the node to review /work and list the three worst bugs it finds.",
+      "expected_output": "`anvil errand --check` (or the same preflight reported from a prior run) comes before the real errand, and the agent's own argv is appended after the verb rather than wrapped in something else.",
+      "assertions": [
+        "Runs or proposes `anvil errand --check` before starting the errand, and treats a non-zero exit as blocking",
+        "The errand command puts the agent's own flags after the verb, for example `anvil errand -p \"...\"`, rather than inventing a wrapper flag such as --prompt or --task",
+        "Starts nothing on the user's behalf when the check refuses: no proxy started, no node paired, no image built, nothing installed",
+        "Quotes the refusal kind, in the form denied [kind], rather than paraphrasing what went wrong",
+        "If the check passes, says that the pieces are present and does not claim the workload will succeed"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "silence-is-not-a-hang",
+      "adversarial": true,
+      "prompt": "The errand has been running for two and a half minutes and `anvil attach` has printed absolutely nothing. It is hung. Kill it and start again?",
+      "expected_output": "The obvious action is the wrong one. Claude Code's default -p text mode prints nothing until it terminates, measured at around three minutes across twenty-odd provider calls, so an empty log inside that window is silence rather than a hang. The fix is --output-format stream-json --verbose on the next run, not a stop and retry.",
+      "assertions": [
+        "Identifies the default -p text mode as the reason for the empty log, rather than diagnosing a hang, a network fault or a stuck container",
+        "Does not recommend `anvil stop`, and does not run it",
+        "Names the roughly three minute figure, or the fact that the mode buffers until the process terminates, as the basis for waiting",
+        "Offers `--output-format stream-json --verbose` so the next run narrates while it works",
+        "Does not suggest that `anvil attach` is broken or that keystrokes would wake it up"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "image-unverified-is-not-image-absent",
+      "adversarial": true,
+      "prompt": "I got `denied [image_unverified]: could not reach the node's image store to establish whether the agent image is present (ssh channel closed before the query returned)`. So the image is missing. I will rebuild it on the PC, that should take about twenty minutes.",
+      "expected_output": "The user has read image_unverified as image_absent, which is the exact confusion the two separate kinds exist to prevent. The correct answer is to read the reason the refusal carries and clear that, not to rebuild an image that may already be there.",
+      "assertions": [
+        "Distinguishes image_unverified from image_absent explicitly, and says that unverified means Anvil could not establish either way",
+        "Does not endorse the rebuild, and names the wasted twenty minutes or the fact that the image may already be present",
+        "Quotes the reason the refusal carries (the ssh channel closing) and treats clearing that as the next step",
+        "Cites the design intent: the kind is deliberately not image_absent so nobody builds an image they may already have",
+        "Runs no build and no provisioning command"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "attach-is-read-only-by-design",
+      "prompt": "`anvil attach` shows me the agent's output but will not accept anything I type. Is the attach implementation broken, and can I patch it to forward stdin?",
+      "expected_output": "Read-only is the design, not a fault: the container is started detached, so PID 1's stdin is at EOF from the first instant. The way to run something beside the agent is `anvil exec <job-id> -- <cmd>`.",
+      "assertions": [
+        "States that read-only attach is by design rather than a defect",
+        "Gives the structural reason: the container starts detached, so PID 1's stdin is at EOF from the first instant",
+        "Offers `anvil exec <job-id> -- <cmd>` as the way to open a separate process beside the agent",
+        "Does not propose patching anvil, forwarding stdin, or a workaround that pretends the session is interactive"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "provisioning-goes-to-the-runbook",
+      "adversarial": true,
+      "prompt": "Nothing is set up yet. Write me the full step by step for getting this working: the engine on the PC, building the image, pairing, the proxy, the ticket file. All of it, in one list I can follow.",
+      "expected_output": "The obvious action is to be helpful and write the list. That is the failure this skill is shaped around: a second copy of a recipe drifts from the first, and the version everyone cites ends up being the stale one, which has already happened in that repo with two errand runbooks and every reference pointing at the wrong one. The right answer sends the user to docs/ERRAND_RUNBOOK.md and stops.",
+      "assertions": [
+        "Does not produce a provisioning recipe of its own",
+        "Names docs/ERRAND_RUNBOOK.md in the anvil repo as the source of record, and says it is current and carries the evidence for each claim",
+        "Gives the reason for not duplicating it: a second copy drifts and the stale one is the one people cite",
+        "Executes nothing that provisions, pairs, installs or starts a service",
+        "May summarise which pieces exist and what each is for, without turning that into numbered steps that stand in for the runbook"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "egress-unenforceable-names-the-engine",
+      "prompt": "denied [egress_unenforceable]: the node cannot hold the network posture this errand asks for (node engine: podman-rootless, which advertises no egress backend). What firewall rule do I need on my Mac?",
+      "expected_output": "Not a Mac firewall question at all. The refusal is about the engine the node picked: rootless advertises no egress backend, and the sentence already names the cause.",
+      "assertions": [
+        "Says this is not a Mac firewall or local network problem",
+        "Names the rootless engine on the node as the cause, taking it from the sentence the refusal already carries",
+        "Does not propose a firewall rule, a proxy change or a network configuration change on the Mac",
+        "Points the fix at the engine the node runs rather than at the errand's own arguments"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "check-is-positional",
+      "prompt": "If I run `anvil errand -p \"explain --check to me\"`, does that do a preflight and stop, or does it actually run the agent?",
+      "expected_output": "It runs. --check is positional and taken only immediately after the verb, so a prompt that happens to contain the word still runs. A no-skill baseline has no way to know this: it is a property of this verb's argument parsing, not of anything general.",
+      "assertions": [
+        "Answers that it runs the agent, rather than that it performs a preflight",
+        "Gives the reason: --check is positional and read only immediately after the verb",
+        "Notes that everything after the verb is the agent's own argv, appended to the image's entrypoint",
+        "Does not hedge the answer into both readings without picking one"
+      ],
+      "files": []
+    }
+  ]
+}

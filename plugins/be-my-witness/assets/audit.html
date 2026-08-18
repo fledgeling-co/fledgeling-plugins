@@ -1,82 +1,135 @@
-<!doctype html><meta charset="utf-8"><title>be-my-witness · icon audit</title>
+<!doctype html>
+<!--
+  Written from create-mac-icon/skills/create-mac-icon/assets/icon-audit-template.html.
+  Retina discipline: 256/128/96/64/32 sources shown at 128/64/48/32/16 css px, plus the
+  1024 hero and a pixelated x6 magnification of the same 32px render. Losers stay in with
+  their scores. Gated by `python3 .../scripts/audit_sheet.py check .` exiting 0.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>be-my-witness icon — contact sheet &amp; audit</title>
 <style>
- body{margin:0;padding:40px 44px;background:#14161c;color:#e8eaf0;font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
- h1{font-size:23px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
- h2{font-size:14px;margin:38px 0 12px;color:#aab2c5;text-transform:uppercase;letter-spacing:.09em;font-weight:600}
- .sub{color:#8a93a8;margin:0 0 6px;max-width:760px}
- .row{display:flex;gap:28px;align-items:flex-end;flex-wrap:wrap;margin:14px 0 6px}
- .cell{text-align:center}.cell img{display:block;border-radius:5px}
- .cell span{display:block;margin-top:8px;font-size:10.5px;color:#8a93a8;font-family:ui-monospace,monospace}
- .squint img{image-rendering:pixelated}
- table{border-collapse:collapse;margin-top:10px;width:100%;max-width:900px}
- td,th{border-bottom:1px solid #262a35;padding:8px 11px;text-align:left;vertical-align:top;font-size:13px}
- th{color:#aab2c5;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
- .pass{color:#5ad18a}.fail{color:#f0736a}.warn{color:#e5b45f}
- .box{background:#1b1f28;border-left:3px solid #3d4657;padding:13px 17px;margin:16px 0;max-width:900px;border-radius:0 6px 6px 0}
- .box.ship{border-left-color:#5ad18a}.box.liab{border-left-color:#e5b45f}
- code{font-family:ui-monospace,monospace;font-size:12px;color:#c3cbdd}
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  h2 { font-size: 13px; font-weight: 650; text-transform: uppercase; letter-spacing: .06em; color: #7fa0aa; margin: 34px 0 10px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 460px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .data { min-width: 0; width: auto; max-width: 900px; font-variant-numeric: tabular-nums; }
+  .data td, .data th { padding: 8px 14px; font-size: 13px; }
+  .kept { color: #ffd98f; }
+  code { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: #b9d3da; }
 </style>
+</head>
+<body>
+<h1>be-my-witness icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, porcelain sub-register (a)" · device: a witness's loupe on a plane of evidence, where the lattice resolves and steps up in pitch only under the glass, and exactly one cell has slipped off its gridline · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.
+<br><br>This is a re-ground, not a rebuild. The previous master carried the same lens device on a periwinkle-to-violet ground and was the only icon in this marketplace at <strong>0.0% warm pixels</strong>, with 77% of its pixels in the cold 180–285&deg; band, in a family of thirty-four warm ones. The device and its material survived; the palette did not.</div>
 
-<h1>be-my-witness</h1>
-<p class="sub">Icon audit · three engines · shipped master: <code>icon-master.svg</code> (Engine A)</p>
-<p class="sub">Device: a jeweller's loupe over a wireframe grid, the cell under the lens resolving finer while the surroundings stay soft, rim milled like a wax seal. One object, two readings: the instrument that looks close, and the mark of attestation.</p>
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
-<h2>Hero — the shipped master</h2>
-<div class="row"><div class="cell"><img src="icon-1024.png" width="288" height="288"><span>icon-master.svg @ 288</span></div>
-<div class="cell"><img src="engineB-512.png" width="180" height="180"><span>Engine B, for comparison</span></div></div>
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="Take A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables on the real renders: the shared squircle from <code>squircle-path.txt</code>, optically centred at 59% of tile width, a filled-black silhouette that names a loupe, and a 16px read of dark ring / bright interior / warm pip at a p90&minus;p10 contrast of <strong>0.508</strong> against a 34-icon family median of 0.344. Four named layers (<code>bg/mid/fg/highlight</code>), so #10 holds by construction. Two nameable devices beyond glyph-on-gradient: the lattice steps up 1.57&times; in pitch at the glass edge, and the one caught cell carries both readings of the verdict — where it is, in ember, and where it was expected, ghosted. <strong>#7 is the one check called failed</strong>: the ring and barrel measure 2.37:1 on p90:p10 (family median 1.65:1), but the lens interior sits at roughly 1.1:1 against the porcelain beside it, so the whole object does not clear 3:1 — only its rim does.</td>
+  </tr>
 
-<h2>Size set — retina sources shown at half size</h2>
-<div class="row">
-  <div class="cell"><img src="audit-renders/master-256.png" width="128" height="128"><span>256 → 128</span></div>
-  <div class="cell"><img src="audit-renders/master-128.png" width="64" height="64"><span>128 → 64</span></div>
-  <div class="cell"><img src="audit-renders/master-96.png" width="48" height="48"><span>96 → 48</span></div>
-  <div class="cell"><img src="audit-renders/master-64.png" width="32" height="32"><span>64 → 32</span></div>
-  <div class="cell"><img src="audit-renders/master-32.png" width="16" height="16"><span>32 → 16</span></div>
-</div>
-<p class="sub">The 48px row is here because a Finder list and a marketplace tile render at it, and an icon surviving 128 and 16 can still collapse between them.</p>
+  <tr>
+    <td class="take">C2 · icon-engineC2-raster.png<small>GPT Image 2 raster, corpus-referenced (apple-27, apple-23, apple-19) — material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C2-1024.png" width="160" height="160" alt="Take C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The best material in the set and the only take that executes the magnification step more legibly than the master: fine grid outside, coarse grid inside, a real glass edge, a warm graphite barrel with a lit lower-right silhouette, the strongest 16px contrast (0.586) and figure-ground (2.73:1) of the four. It loses on two non-negotiables, so its score is beside the point: the object runs about 72% of tile width against the 55–65% composition constant (#2), and filled black it names a tall cylinder or jar rather than a loupe (#3). As a flat pre-masked raster it also re-creates the #10 failure the whole layer plan exists to avoid. <strong>Salvaged into the master:</strong> the meniscus — a bright ring where curved glass meets the bezel, with a thin dark line inboard giving the glass thickness. Not salvaged: its ochre inner grid, which puts a second warm hue in competition with the accent.</td>
+  </tr>
 
-<h2>Squint — ×10 pixelated</h2>
-<div class="row squint">
-  <div class="cell"><img src="engineA-squint16.png" width="160" height="160"><span>master @ 16px</span></div>
-  <div class="cell"><img src="engineA-squint32.png" width="160" height="160"><span>master @ 32px</span></div>
-</div>
+  <tr>
+    <td class="take">C · icon-engineC-raster.png<small>GPT Image 2 raster, corpus-referenced (apple-23, apple-27, apple-26, previous master)</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C-1024.png" width="160" height="160" alt="Take C hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="Take C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="Take C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="Take C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="Take C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="Take C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="Take C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Lost on the signature move: the lattice is the same pitch inside the glass as outside it, so nothing in the picture says the lens is magnifying, and the chip floats rather than sitting in a cell (#11). Figure-ground is 1.52:1 and 16px contrast 0.302, both below family median, because the barrel came back grey-steel rather than warm graphite — which also makes it the take least at home beside its siblings. The knurled band reads as a gear rather than as milling. Kept on disk as the first raster attempt; it is what made the second prompt name the pitch step explicitly.</td>
+  </tr>
 
-<h2>Engines — all three, losers scored</h2>
-<div class="row">
-  <div class="cell"><img src="audit-renders/master-256.png" width="150" height="150"><span>A — hand-authored SVG · SHIPPED</span></div>
-  <div class="cell"><img src="audit-renders/engineB-256.png" width="150" height="150"><span>B — Arrow vector</span></div>
-  <div class="cell"><img src="bmw-raster-ee8831-2.jpg" width="150" height="150"><span>C — Gemini raster, take 2</span></div>
-  <div class="cell"><img src="bmw-raster-8e007a.jpg" width="150" height="150"><span>C — take 1, rejected</span></div>
-</div>
-<table>
-<tr><th>Engine</th><th>Read</th><th>Verdict</th></tr>
-<tr><td>A · hand-authored layered SVG</td><td>Milled rim reads as a seal rather than a gear (88 fine teeth; at 36 long teeth it read as a cog, which is a different object with a different meaning). Barrel offset with a lit edge gives it body. Lens resolves a grid at a quarter the outside spacing, so "sharper inside" is a visible contrast rather than an assertion. Ground and key light sampled from corpus apple-04.</td><td class="pass">Shipped</td></tr>
-<tr><td>B · Arrow vector</td><td>Cleanest inside/outside grid contrast of the three, which pushed A's further. But it drew the grid as a <em>room</em> — floor plus back wall — rather than a plane, dropped the milled notches entirely, and its body reads as a pedestal. Independent enough to be worth having; not the stronger take.</td><td class="warn">Kept, not shipped</td></tr>
-<tr><td>C · Gemini raster, take 2</td><td>Best material realism of the four: real volumetric barrel, genuine translucency. Concept reads. Set the target A was rebuilt toward. Not shippable as the master — raster, so it cannot be edited as shapes or re-parameterised.</td><td class="warn">Material target</td></tr>
-<tr><td>C · take 1</td><td>Drew the tile <em>on</em> a violet ground rather than as one; loupe overflows and clips at the tile edge; barrel near-black so it collapses to a dark blob small; the magnified cell is a faint scribble rather than resolved detail.</td><td class="fail">Rejected</td></tr>
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take, spec-as-brief</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="Take B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">4 / 12</td>
+    <td class="verdict">Fails three of the four non-negotiables. It baked its own corner radius instead of taking the family squircle (#1); filled black it is an isometric drum, which both misnames the subject and collides with <code>braindump</code>'s striated charcoal drum (#3); and at 16px its contrast is 0.131 against a 0.344 median, with the chip reduced to a two-pixel smudge (#4). Figure-ground 1.08:1. The graph plane came back as chevrons and the ghost outline as a stray diagonal, so the verdict device is absent. Kept on disk: its one usable idea is the low, wide barrel proportion, which is closer to a real loupe than the master's.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg), exported to icon.png at 1024, icon-256.png and icon-128.png.</strong> It is the only take that clears all four non-negotiable checks on real renders, and the only one that is layered rather than flat: four named groups mean the identity survives Dark, Clear and Tinted by construction, which is the failure mode 76% of the shipping corpus falls to. Its material provenance is stated rather than assumed — the porcelain ground is the exact ramp twenty-odd siblings share (<code>#F9F5EE</code> to <code>#DED7C5</code>), the accent is kin to Fledgeling's <code>#C4622D</code> at 0.88% of the tile against Safari's 1.77%, and the ground luminance range and falloff were sampled off <code>corpus/apple-2026/apple-23.png</code> rather than described from memory. The one construction lifted from a raster take is the glass meniscus, credited to C2 above.
+<br><br>Known liabilities to revisit: <strong>(1)</strong> rubric #7 is a partial pass — the ring carries the figure-ground at 2.37:1 but the lens interior is only about 1.1:1 against the porcelain beside it, so a viewer at 16px is reading the rim, not the object; deepening the resolved plane is the obvious next parameter, and it costs some of the "clean evidence" read. <strong>(2)</strong> The material was never measured. <code>fidelity.py</code>'s perceptual tier needs torch, which is not installed here, and the gate refuses a degraded tier by design rather than guessing — so the claim that A's material is close to C2's rests on looking at both, not on a number, and C2 is visibly richer in the barrel and the glass edge. <strong>(3)</strong> No blind panel was run, for the same reason: nothing independent has preferred A over C2. <strong>(4)</strong> The barrel is still slightly too tall in proportion for a real loupe; B, of all takes, had the better proportion. <strong>(5)</strong> The accent chip measures 1.60:1 against the plane it sits on — hue-separated more than value-separated, the same trade Safari's needle makes at roughly 1:1, so it is defensible but it is a trade.</div>
+
+<h2>The one swept parameter, and why</h2>
+<table class="data">
+  <caption class="visually-hidden">Instrument darkness sweep against figure-ground and 16px contrast</caption>
+  <tr><th scope="col">milled band</th><th scope="col">ring vs ground</th><th scope="col">p90:p10 at 256</th><th scope="col">16px contrast</th></tr>
+  <tr><td>pale metal <code>#E7DECE</code> (first draft)</td><td>1.39:1</td><td>1.44:1</td><td>0.314</td></tr>
+  <tr><td>warm gun <code>#C4B7A2</code></td><td>1.75:1</td><td>&mdash;</td><td>0.375</td></tr>
+  <tr><td>gunmetal <code>#AC9E88</code></td><td>2.02:1</td><td>&mdash;</td><td>0.406</td></tr>
+  <tr><td>graphite <code>#9C8F7A</code></td><td>2.24:1</td><td>1.91:1</td><td>0.424</td></tr>
+  <tr class="kept"><td>graphite dark <code>#8A7C67</code> + wider bezel &mdash; kept</td><td>2.56:1</td><td>2.37:1</td><td>0.502</td></tr>
 </table>
+<div class="rubric" style="margin-top:10px">A pale milled rim on a porcelain ground put the first draft at 1.44:1 on the family's p90:p10 luminance measure, against a 34-icon median of 1.65:1 — below-median figure-ground on the one register where the object has to carry it, since the ground cannot. Four settings were measured before one was kept, and the ground register was left alone: the fix belonged to the instrument, not to the porcelain. Sibling context for the same statistics: family 16px contrast median 0.344 (min 0.094, max 0.831), p90:p10 median 1.65:1.</div>
 
-<h2>Rubric</h2>
-<table>
-<tr><th>#</th><th>Check</th><th>Result</th></tr>
-<tr><td>1</td><td>Silhouette names the subject</td><td class="pass">Pass — a lens, which is what witnessing looks like</td></tr>
-<tr><td>2</td><td>Survives 16px</td><td class="pass">Pass — lens-on-tile holds; grid detail drops out as expected</td></tr>
-<tr><td>3</td><td>One light model</td><td class="pass">Pass — key upper-left, single contact shadow down-right, consistent across barrel, rim and glass</td></tr>
-<tr><td>4</td><td>≤2 hue families</td><td class="pass">Pass — periwinkle/violet ground, navy/silver object. No third accent.</td></tr>
-<tr><td>5</td><td>Optical centring</td><td class="pass">Pass — centre at 512,496, nudged up because the barrel carries weight low</td></tr>
-<tr><td>6</td><td>Material depth</td><td class="pass">Pass — barrel gradient, milled rim gradient, translucent glass, specular sweep, rim light, blurred contact shadow</td></tr>
-<tr><td>7</td><td>Era grammar (Tahoe gel-glass)</td><td class="pass">Pass — values sampled from corpus apple-04 / apple-01, not inferred from prose</td></tr>
-<tr><td>8</td><td>Signature move present</td><td class="pass">Pass — sharp-inside/soft-outside is the whole device</td></tr>
-<tr><td>9</td><td>No stock category glyph</td><td class="pass">Pass — a loupe, not a magnifier-with-handle</td></tr>
-<tr><td>10</td><td>Layer plan legible</td><td class="pass">Pass — 10 named layers emitted by <code>build-icon.py</code>; geometry and material are constants, so a fidelity round is a parameter edit</td></tr>
-<tr><td>11</td><td>No text in the mark</td><td class="pass">Pass</td></tr>
-<tr><td>12</td><td>Consistent silhouette with siblings</td><td class="pass">Pass — cut to <code>squircle-path.txt</code>, the marketplace path</td></tr>
-</table>
-<div class="box ship"><strong>12/12.</strong> Checks 1–4, the non-negotiable ones, all pass.</div>
+<h2>Family fit</h2>
+<div class="rubric">Warm-pixel share on the shipping render: <strong>97.2% warm, 0.0% in the cold 180–285&deg; band</strong>, against 0.0% / 99.6% for the master this replaces. Nearest neighbour is <code>design-review</code>, which owns glass panels plus a crosshair reticle on a <em>cool</em> porcelain ground (hue ~207&deg;); this icon takes the family's warm porcelain (hue ~40&deg;) and a round instrument, so the two separate on both ground hue and device. At 32px one reads as stacked rectangles with a cross and the other as a dark ring with a warm pip. The dark deep-sea register stays <code>trawl</code>'s alone.</div>
 
-<h2>Known liabilities</h2>
-<div class="box liab">
-<strong>The fidelity loop was not run.</strong> Engine C's raster won the material read and A was rebuilt toward it by eye across two rounds, not by <code>fidelity.py</code> scoring at five sizes. The gap that closes is measurable and was not measured.<br><br>
-<strong>Rendered with <code>rsvg-convert</code>, not ImageMagick.</strong> IM's built-in SVG renderer dropped every gradient and produced a black tile — worth knowing before anyone re-renders these with <code>magick</code> and concludes the master is broken.<br><br>
-<strong>Two rounds, not a converged loop.</strong> Round 1 read as a gear with an invisible barrel and a lattice too faint to resolve from; round 2 fixed all three. A third round would likely still buy something on the glass.
-</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked versions. Renders produced by <code>python3 create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Measurements in this sheet are p90&minus;p10 grayscale spread at the stated size and p90:p10 luminance ratios over opaque pixels, computed the same way for every icon in the marketplace so the family figures are comparable.</div>
+</body>
+</html>

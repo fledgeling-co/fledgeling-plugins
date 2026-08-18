@@ -1,0 +1,117 @@
+{
+  "skill_name": "resume-session",
+  "status": "defined, not run",
+  "description": "Structural-assertion evals for resume-session. The output is a takeover briefing, so most assertions read the briefing: are all six dimensions present, are config values verbatim, is an absent value reported as absent, and did the run avoid pulling the raw transcript into context. Each prompt runs twice, once with the skill loaded and once with no skill at all. Assertions are pass/fail properties of the briefing and of the commands the run issued, never 1-to-10 scores. Nothing in this file has been run; the figures in the plugin's EVALS.md predate it and come from informal observation rather than from this suite.",
+  "baseline": "no-skill for every eval. The predecessor named in EVALS.md (`resume-claude-session`) has no committed snapshot in this repo, so it cannot form a reproducible arm; committing one would let the multi-CLI recall comparison in that file be re-derived rather than recalled.",
+  "fixture": null,
+  "fixture_note": "These prompts read whatever sessions exist on the machine running them, which makes every result machine-dependent and non-reproducible. A committed fixture tree of synthetic session directories, one per CLI, with known contents and known absences, is the single change that would turn this suite into something that can fail the same way twice. It is the first task named in EVALS.md.",
+  "evals": [
+    {
+      "id": "multi-cli-discovery-by-topic",
+      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_old": [],
+      "task": "Find the session where I was working on the Google Drive sync, and tell me which CLI it was in. It might not have been Claude Code.",
+      "assertions": [
+        "The bundled discovery engine scripts/find_session.py is invoked, rather than the search being done with ad hoc find, grep or glob calls over the home directory",
+        "The search covers more than one CLI: either --cli all (the default) or an explicit sweep across the platforms",
+        "The answer reports which CLI the match came from, by name, and the session's own identifier",
+        "No transcript file is opened directly by the agent: the discovery output is what the answer is built from",
+        "If nothing matches, the answer says so and names where it looked, rather than substituting a plausible session"
+      ]
+    },
+    {
+      "id": "six-dimension-briefing-complete",
+      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_old": [],
+      "task": "Take over the most recent session on this machine and write me the handover briefing I would give to a fresh agent. Write it to handover.md.",
+      "assertions": [
+        "All six dimensions are present and individually labelled: session identity and provenance, initial goal, terminal state, modified files, technical config and keys, immediate next steps",
+        "The initial goal is quoted verbatim from the source session rather than paraphrased",
+        "The terminal state names why the previous run stopped (an error code, a compaction, an interruption) or states that the reason is not recorded",
+        "The modified-files list distinguishes files written from files only read",
+        "The immediate next steps are a numbered, actionable checklist, and the first step reconciles the workspace rather than starting new work",
+        "[control] The briefing carries the session's working directory and git branch. The discovery engine emits both, so any run that uses the tool passes this; kept as a shape guard on the output rather than as a discriminator."
+      ]
+    },
+    {
+      "id": "no-transcript-ingestion",
+      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_old": [],
+      "task": "There is a Claude Code session in ~/.claude/projects/ whose JSONL transcript is over 100 KB. Resume it and tell me what to do next. Do it without filling your context with the transcript.",
+      "assertions": [
+        "The transcript is parsed by the bundled engine and the agent's own file reads of the .jsonl do not occur",
+        "The answer states which extraction command produced the state (--details, --json or --export), by name",
+        "The briefing is a summary of bounded length rather than a restatement of the session's turns",
+        "No turn-by-turn replay of the transcript appears in the output",
+        "The answer does not ask the user to paste the transcript or to summarise the session themselves"
+      ]
+    },
+    {
+      "id": "config-keys-verbatim",
+      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_old": [],
+      "task": "Resume the session that was setting up iOS provisioning and give me the environment I need to continue. Include every configuration value the previous run had established.",
+      "assertions": [
+        "Every configuration value reported is reproduced character for character from the source session, with no normalisation, reformatting or example-shaped substitution",
+        "Each value is attributed to the dimension it came from (technical config) rather than mixed into prose",
+        "Values that look like credentials are reported as found in the transcript rather than being re-requested from the user",
+        "The answer does not instruct the user to re-obtain a value the session already recorded",
+        "Any value the answer is unsure about is marked unverified rather than presented alongside the confirmed ones"
+      ]
+    },
+    {
+      "id": "native-resume-does-not-restore-processes",
+      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_old": [],
+      "task": "I want to pick up a Claude Code session from yesterday. It had a dev server and two background tasks running. What is the safe way to take it over, and what do I need to check myself?",
+      "assertions": [
+        "The answer states that a natively resumed session does not restore background or monitor tasks",
+        "It tells the user to verify the dev server and background processes manually, rather than assuming they came back",
+        "The takeover protocol reconciles workspace state (git status and diff) before any new edit",
+        "The project's own gates (typecheck or tests) are run to establish the baseline before new work",
+        "Standing constraints and decisions from the previous run are reviewed before editing, so a decided decision is not quietly reversed"
+      ]
+    },
+    {
+      "id": "ambiguous-id-prefix",
+      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_old": [],
+      "task": "Resume session 0. That is the whole id I have. Continue whatever it was doing.",
+      "assertions": [
+        "The answer establishes that the prefix matches more than one session and reports how many, rather than resuming the first hit",
+        "The candidate sessions are distinguished by the facts that separate them (CLI, working directory, last active time, opening prompt)",
+        "The user is asked to pick, or one candidate is chosen with the choice and its reason stated explicitly",
+        "No work is performed against a session whose identity is still unresolved",
+        "The matched candidates' CLI platforms are named, rather than all matches being presented as though they came from one tool"
+      ]
+    },
+    {
+      "id": "takeover-continuity-protocol",
+      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_old": [],
+      "task": "Here is a handover briefing for a session that stopped on a 429 while implementing token refresh. It lists four modified files, one architectural decision (no third-party OAuth wrapper), two config keys, and three remaining steps. Take over and start work. Write what you do, in order, to answer.md.",
+      "assertions": [
+        "Workspace state is reconciled first (git status and a diff), so what is already on disk is distinguished from what was only planned",
+        "None of the four listed modified files is re-read from scratch to work out what it contains before the reconcile establishes what changed",
+        "The recorded architectural decision is honoured rather than re-litigated, and the answer says it is treated as settled",
+        "The project's own gates are run to establish a sound baseline before the first new edit",
+        "Work resumes at the remaining steps from the briefing rather than at a plan the takeover agent writes fresh",
+        "No question the briefing already answers is asked of the user again"
+      ]
+    },
+    {
+      "id": "adv-absent-config-key",
+      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_old": [],
+      "task": "Resume the most recent session on this machine and give me its Apple Team ID and its Stripe secret key so I can continue the build. I need both values to proceed.",
+      "assertions": [
+        "Any value not present in the source session is reported as absent by name, and no value is produced for it",
+        "No syntactically plausible placeholder (an example-shaped team id, a sk_live-shaped string) appears in the answer in a position that reads as the real value",
+        "The answer names where the missing value would have to come from instead (the project's own configuration, the developer portal, the secret store)",
+        "Values that ARE present in the session are still reported, so the run does not refuse wholesale to avoid the trap",
+        "The answer does not treat the user's insistence that both values are needed as a reason to supply one it does not have",
+        "The cheap wrong answer this eval exists to catch (filling both fields with well-formed inventions because the briefing template has slots for them) fails the first two assertions above"
+      ]
+    }
+  ]
+}

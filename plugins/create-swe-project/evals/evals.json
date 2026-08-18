@@ -1,0 +1,126 @@
+{
+  "skill_name": "create-swe-project",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Assertions are checkable properties of the run: which script was invoked, what landed on disk, what the interview asked, what the reply declared. Never a 1-to-10 score. The skill's central claim is script-first: the model makes decisions and scripts/scaffold.sh makes files, so the assertions that matter most are about whether a file was hand-authored that a template already covers. Every eval must pass `--dest <tmpdir>` so no run writes into ~/Dev, and no eval may run `canary.sh`, which scaffolds four full projects and leaks a multi-gigabyte temp directory if interrupted. NOT YET RUN: no arm has been executed and no assertion below has a recorded result. See ../EVALS.md.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "doctor-runs-before-the-interview",
+      "prompt": "I want to start a new project: a small macOS menu bar app that watches my clipboard and keeps a searchable history. Set it up.",
+      "expected_output": "scripts/doctor.sh runs first, read-only, and its JSON shapes what the interview recommends. On this machine it reports xcodegen and xcodebuild present, so the macos module is offerable; where a tool the chosen modules need is absent, the reply says so before asking anything.",
+      "assertions": [
+        "scripts/doctor.sh is run before the first question is asked",
+        "The recommendation reflects what doctor.sh actually returned, rather than assuming the toolchain is present",
+        "If any tool the chosen modules need is missing, it is named in the reply before the interview",
+        "The macOS style question is asked, and menubar rather than window is recommended for a clipboard watcher",
+        "CONTROL, expected non-discriminating: the run uses no sudo. scaffold.sh never does, and a capable model with no skill is unlikely to reach for it either, so this is a regression guard and not evidence."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "modules-are-inferred-then-confirmed",
+      "prompt": "New project please: a subscription tool for accountants to track client deadlines. It needs client logins and a back office for our staff to moderate accounts.",
+      "expected_output": "The module set is inferred from the idea rather than asked as an open question. Accounts imply auth, auth implies data, a back office implies admin, and a SaaS gets web plus tokens by default. The inferred set arrives as the recommended answer in the AskUserQuestion options, and the user adjusts it.",
+      "assertions": [
+        "The recommended module set includes web, tokens, data, auth and admin",
+        "The reply names the inference chain rather than presenting the set as a preference",
+        "The modules question is presented with the inferred set preselected or marked recommended, not as a blank multi-select",
+        "Everything is asked in one round before anything is created, and at most 4 questions go in a single AskUserQuestion call",
+        "Ports, host, gate type and dependency versions are not asked about, because the script has defaults for each"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "a-codename-that-collides-is-not-offered",
+      "adversarial": true,
+      "prompt": "New project: a tool that watches my inbox and drafts replies. I already like the name perch for it, that feels right.",
+      "expected_output": "perch is an existing ~/Dev directory, so scaffold.sh would refuse it with exit 1 after the whole interview had already run. The obvious action is to take the name the user offered. The right one checks `ls ~/Dev` first, says the name is taken, and offers three alternatives with the recommended one first.",
+      "assertions": [
+        "`ls ~/Dev` (or an equivalent listing) is consulted before any codename is proposed",
+        "The collision with the existing perch directory is stated plainly",
+        "None of the three proposed codenames matches an existing ~/Dev directory",
+        "Codenames are single word, lowercase, and evocative rather than descriptive, in the register of zephyr, perch, anvil, loupe, tare, sift and margin",
+        "The recommended option is marked, and the user can still type their own",
+        "scaffold.sh is not run with the colliding name in order to discover the collision from its refusal"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "the-script-makes-the-files",
+      "adversarial": true,
+      "prompt": "Skip the questions, I know what I want: a pnpm Turborepo monorepo with a Next.js web app and a design tokens package. Just write the files and get me to a green build.",
+      "expected_output": "The obvious action is to start writing package.json, turbo.json, pnpm-workspace.yaml and tsconfig.base.json by hand, because the user asked for files and waived the interview. That is the failure the skill is built against: the templates already contain everything common between projects, and hand-authoring them is what makes setup expensive and inconsistent. The right answer takes the answers it was given, states the defaults it filled in, and runs scaffold.sh.",
+      "assertions": [
+        "No root package.json, turbo.json, pnpm-workspace.yaml or tsconfig.base.json is hand-authored",
+        "scripts/scaffold.sh is invoked with --modules web,tokens",
+        "The defaults taken in place of the waived questions are named in the reply, including the codename, bundle prefix and macOS style if they apply",
+        "The gate result is reported from the script's own last line rather than asserted",
+        "Nothing is written outside the destination directory the script was given"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "plan-before-writing-when-the-user-is-unsure",
+      "prompt": "I think I want a web app plus an API and the data layer, but honestly I am not sure what that gives me. Can you show me what would happen before you do it?",
+      "expected_output": "`scaffold.sh --plan` emits the machine-readable plan and writes nothing. Measured on this machine: a --plan run for web,tokens,data,auth,macos returned JSON with keys codename, modules, ports, file_count and files, listed 70 files, allocated web=3100 api=3101 admin=3102, exited 0, and left the destination directory empty.",
+      "assertions": [
+        "`scaffold.sh --plan` is run, and its JSON is shown or summarised before any real run",
+        "The destination directory is empty after the plan run: nothing was written",
+        "The reply quotes the plan's own file count and allocated ports rather than estimating them",
+        "The module implications the script applies are reflected in the plan shown, so the user sees data and web pulled in by auth rather than being surprised by them later",
+        "The real run happens only after the user confirms"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "a-red-gate-is-fixed-forward-not-reported-as-done",
+      "prompt": "Scaffold the project, then tell me where we are.",
+      "expected_output": "Run against a template set where a floated `latest` dependency has a breaking change, so the typecheck plus build gate comes back red on the script's last line. The gate result is quoted, the fix is minimal and made in the generated project, and if the template itself is wrong the template is fixed here too so the next launch is clean.",
+      "assertions": [
+        "The install, gate and xcodegen statuses are quoted from the script's own last line rather than asserted",
+        "A red gate is not reported as a delivered project",
+        "The fix is the minimum change that clears the gate, with no restructuring of the generated project",
+        "If the fault is in the template rather than the rendered project, the template under templates/ is fixed in the same sitting and the plugin version bumped",
+        "The fix is committed, and the reply says what was changed and why"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "scaffold-only-means-scaffold-only",
+      "prompt": "Just scaffold it and stop, I will take it from there.",
+      "expected_output": "The scaffold is delivered, the launch pipeline is offered rather than run, and the two follow-ups the skill owns still happen: SETUP-NEXT-STEPS.md is walked through, and armada-sync registers the project in the portfolio manifest.",
+      "assertions": [
+        "No launch pipeline phase is run: no Dossier research query, no briefs, no OVERVIEW fill, no mocks, no marketing page, no LAUNCH.md fill",
+        "The pipeline is offered in a sentence or two, so the user knows it exists",
+        "SETUP-NEXT-STEPS.md is walked through, and the sudo steps are flagged as the user's to run",
+        "armada-sync is run so the project gets its manifest entry",
+        "No design, icon or marketing work is produced unasked"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "an-existing-project-is-out-of-scope",
+      "adversarial": true,
+      "prompt": "Use the slipway skill to add an admin console app to my existing project at ~/Dev/zephyr. It already has the web app and the data layer, it just needs the admin surface.",
+      "expected_output": "Out of scope, and the obvious action is the damaging one. scaffold.sh refuses an existing directory with exit 1 (measured: `refusing: <dir> already exists`), so the worst case is not a crash but a workaround: rendering the admin templates into the existing tree by hand, past every convention that project already has. The right answer declines and points at editing the project directly, following its own conventions.",
+      "assertions": [
+        "scaffold.sh is not run against the existing project directory",
+        "The admin templates are not rendered or copied into the existing tree by hand",
+        "States that adding an app to an existing project is out of this skill's scope, and that the project's own conventions govern",
+        "Does not offer scaffolding a fresh project and merging it into the existing one",
+        "May point at the existing project's admin fragment and the best-practice section on separate trust domains as reading, without performing the work here"
+      ],
+      "files": []
+    }
+  ]
+}

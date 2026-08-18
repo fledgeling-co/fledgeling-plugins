@@ -1,0 +1,87 @@
+# Evals
+
+**Nothing in this file is a measured result about the skill.** The eval suite exists now, in [`evals/evals.json`](evals/evals.json), and it has not been run. No prompt has been executed with the skill loaded, none without it, no judge has looked at any output, and there is no pass rate. Saying so is the point: an unevaluated skill whose EVALS.md omits the subject reads to every later reader as though the pipeline ran.
+
+This skill's own first rule is that a conclusion reached by looking is not a measurement, and it applies here first.
+
+## Which numbers in this project are about this skill
+
+None of them. The README and the references carry a lot of figures, all of them real and all of them about something else. Because this is a skill about denominators, the provenance is worth putting on the record in one table.
+
+**Borrowed external research.** Published work about UI testing in general. It motivates the design and measures nothing here.
+
+| figure | claim | source |
+|---|---|---|
+| 27% valuable, 50.5% duplicates, 22.5% invalid | LLM-generated QA plans against an application owner's own QA team | Mozilla Foundation / Mujahid et al., Jan 2026 |
+| 49% over 71 bugs | a model's detection ceiling as a non-crash functional oracle | Ju et al., Jul 2024 |
+| 42.5% to 47.6% across 214 components | behavioural relations exercised far more than validated | Pei, Zhang, Sohn, Papadakis, Aug 2026 preprint, no independent replication |
+
+That third one is the weakest and the README says so already. It is directional, not a threshold.
+
+**Field observations from the campaign that motivated the skill.** Real, local, and measured *before* this skill existed, using the predecessor method. They are facts about those applications and about `acceptance-e2e`-era work, not about this skill's behaviour. The trace is in `skills/create-test-suite/references/evidence.md` and `docs/meta-pass-gap-analysis.md`.
+
+- 524 assertions across 13 tenants, all opening `/` at 1280px or wider against the reference build.
+- Six screens on one console, five of which received none of the sweeps.
+- Four live instances of the `errorPolicy: 'all'` confident-falsehood defect across three screens.
+- Six working presets reported dead by a length-neutral dead-control sweep.
+- A driving sweep writing to a live tenant record four times in one morning.
+- One judging pass costing 178 calls, 1.69M input tokens, 65.6k output and roughly US$6, returning 11 pass, 13 fail and 36 inconclusive. That is in `assets/judge-contract.md` under Cost, stated.
+
+**Measurements of this skill.** There are none. What they would be: the per-assertion results of the nine prompts in `evals/evals.json` across two arms, graded by an independent subagent. That is the gap this file exists to name rather than to fill.
+
+Two further figures were withdrawn during the research pass when their only source turned out not to exist, and they appear nowhere in the skill. `references/evidence.md` records both.
+
+## What was checked, and what it found
+
+The scripts are testable without an agent. Everything below was run on 18 Aug 2026 against throwaway campaign directories under `/tmp`.
+
+**The SKILL.md parses.** Frontmatter reads as strict YAML, carries exactly `name` and `description`, and the name matches the plugin directory.
+
+**Everything it points at exists.** Twelve internal paths are cited in the SKILL.md across `references/`, `scripts/` and `assets/`, and all twelve resolve, including the three templates it tells you to copy into the project. Both scripts compile.
+
+**The gate fires on a bad fixture, and it names the reason.** This is the central mechanical claim, so it was worked through case by case.
+
+| the fixture | exit | what `campaign.py check` said |
+|---|---|---|
+| a critical flow whose only case is at the presence rung | 1 | `1 critical flow(s) proved only by presence-level cases`, naming FLOW-001 and instructing that a case at outcome, metamorphic or visual be added or the flag dropped with a reason |
+| a case left open | 1 | `1 case(s) still open`, then `Open: CASE-0001` |
+| a pass with no artifact attached | 1 | `Passes with no artifact: CASE-0001`, and "a pass you reached by looking is not a measurement" |
+| a status of `probably-fine` | 1 | counted as **open**, exactly as documented, so an unrecognised status cannot slip through as a result |
+| a requirement no case traces to | 1 | `Requirements nothing checks: REQ-001` |
+| a case referencing a surface nobody enumerated | 1 | refused at `add` time: "a case against a surface nobody enumerated has no denominator" |
+| a complete campaign, one armed outcome-rung pass, one surface, one requirement | **0** | the clear verdict, carrying the fraction and the armed ratio |
+
+So the gate discriminates in both directions, which is the property that matters. `evidence-page.py` then built the page from that clear campaign and exited 0.
+
+**The selection ladder holds.** `scope --selective` was refused with exit 1 when no full run had been recorded: "no lastFullRun recorded, so there is no full result for a selective run to carry". `carry` was refused with exit 1 outside a declared selective run. And on a properly declared selective run, `carry` reported `ran 1 · carried 0 · protected 1`, naming the critical flow's outcome-rung case as the always-run floor and refusing to carry it. That is the documented behaviour, measured.
+
+### Two things failed, and one of them matters
+
+**An empty campaign passes the gate.** `campaign.py init` followed immediately by `campaign.py check` exits **0** on zero requirements, zero surfaces and zero cases. Every count on the page is a truthful zero and the verdict reads clear. That is a gate that cannot fail on the emptiest possible input, in a skill whose first rule is that a check which matches nothing returns clean and is indistinguishable from a clean surface. It is not a false pass in the ordinary sense, because nothing was claimed, but a run that crashed after `init` leaves a workdir that clears the gate.
+
+**The case record's requirement field is `req`, and nothing documents it.** `add --kind case` validates the surface id and the oracle rung and accepts every other key silently. A case written with `"requirement": "REQ-001"`, which is the word the SKILL.md and every reference use, is stored intact and then reported by `check` as a requirement nothing checks. Neither the SKILL.md nor any file under `references/` names the `req` key. I hit this while building the fixtures above, and it cost a round of debugging on a blocker that pointed at the wrong thing. Eval 9 in the set exists because of it.
+
+**No prior run exists.** No `grading.json`, no `results/` directory, no `benchmark.json`, no committed judge log, no blind-panel key anywhere under `plugins/create-test-suite/`. Checked, not assumed. The only judge artifact in the plugin is `assets/judge-contract.md`, which is a specification rather than a run.
+
+## What the eval set would settle
+
+Nine prompts, in `evals/evals.json`. Each runs twice, once with the skill and once with no skill at all, because there is no predecessor and the honest question is whether the skill earns its context. Run every one against a disposable target: several prompts drive sweeps that enumerate and actuate controls.
+
+Three prompts are where the answer would come from:
+
+1. **`a-selective-green-cannot-read-as-a-full-one`.** The user touched the pricing page and wants to know if they are good to deploy. The comfortable answer runs the pricing tests, sees green and says yes. Grade four properties off the registry: is the scope declared with a reproducible basis, are the unrun cases carried rather than left looking passed, is the always-run floor protected, and does the verdict decline to say the suite passes. Every one of those is a file on disk, so this grades without judgment.
+
+2. **`uniform-zeros-are-the-instrument-first`.** A sweep reports zero failures across 41 surfaces. Grade whether the check was proved able to fail before the result was written up. A baseline will almost certainly write up the clean sweep, which is what makes this the clearest discriminator in the set.
+
+3. **`the-registry-round-trips-what-the-plan-claims`.** The one the `req` finding produced. Grade whether `check` reports zero untraced requirements after loading, and whether an untraced requirement is reconciled against the case records rather than accepted as a coverage gap.
+
+Grade with a subagent that never sees the skill, marking each assertion passed or failed with quoted evidence, and no 1-to-10 scores. Every assertion in the set is a property of the registry, an exit code, or the wording of the verdict.
+
+## Caveats, stated rather than buried
+
+- **Nothing above measures the skill.** The gate results are facts about `campaign.py`. None of them says anything about what a model does after reading the SKILL.md.
+- **The empty-campaign pass is a real hole and is not fixed.** It is named here rather than patched, because the fix belongs to whoever owns the script and this file owns only the evals.
+- **Only the web lane was exercised at all, and only through the registry.** No iOS, macOS, SwiftUI or React Native lane was touched, no browser was opened, no sweep was run, and no evidence page was reviewed by a person. The lane ceilings in `references/harness-lanes.md` are unverified here.
+- **The judge is unexercised.** `assets/judge-contract.md` describes a judge; no judge ran.
+- **A defined eval set proves nothing.** Written assertions are a plan for a measurement.
+- **The set may contain assertions that cannot fail.** Which ones is unknown until both arms run, and any a baseline also passes measure the model rather than the skill and should be relabelled as regression guards or dropped.
