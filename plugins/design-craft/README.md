@@ -31,7 +31,7 @@ The second is a design rationale nobody checked. More than a quarter of one gene
 
 ## Does it actually work
 
-Twenty-five structural assertions, run against both this version and its predecessor, graded by someone who saw one output at a time and never the skill.
+Twenty-five structural assertions, run against both this version and its predecessor over the same fixtures with the same invocations. Every row is an artifact check ("did the run produce X") rather than a rating, and each one records the evidence it judged on.
 
 | | predecessor | this |
 | --- | --- | --- |
@@ -43,7 +43,13 @@ A blind panel of three model families judged three document pairs and chose this
 
 **Two assertions the predecessor won, deliberately.** A file whose only defects are aesthetic cues now exits 0, because no study supports gating on a cue as proof of AI authorship. And text on a gradient now produces a finding where the predecessor was silent: real noise the predecessor does not have, and the stated price of never reporting an unmeasured pair as clean.
 
-The panel also found two arithmetic defects in this version's own pixel-median fallback: it computed luminance on gamma-encoded bytes without linearising, and cropped to the glyph box so it sampled the letters along with the ground. Both fixed.
+The panel also found two arithmetic defects in this version's own pixel-median fallback: it computed luminance on gamma-encoded bytes without linearising, and cropped to the glyph box so it sampled the letters along with the ground. Both fixed. Seven findings came out of those three verdicts in total, and they are worth more than the 9 of 9.
+
+**What the comparison has that no sibling here does: a predecessor you can run.** The version this replaces is committed at `skills/design-craft/evals/old/design-lint.py` and the runner's paths are relative, so the 9 against 23 is reproducible rather than a record. Of the nine skills audited alongside this one, it is the only plugin that ships the version it replaces.
+
+**What none of it establishes.** Twenty-five assertions measure a lint script's behaviour, and three families preferring this version's prose says nothing about whether that script is correct. Neither layer measures whether the designs this skill produces are any good. The eight authoring prompts written to ask that question, from a brand-matched dashboard against an existing token file through to a print deliverable, have never been run: no outputs and no grading, and three of them point at working directories that no fixture in the repository creates. Both layers are single runs, one per version per assertion and one judgement per family per case, so nothing here is a rate.
+
+The full tables, the judges' own words, all seven findings and the rest of the caveats are in [EVALS.md](EVALS.md).
 
 ## Honest limits
 

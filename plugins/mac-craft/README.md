@@ -43,6 +43,12 @@ A blind panel of three model families chose this version unanimously, and all th
 
 **One thing the predecessor did better, kept unchanged.** Its supersede table in `references/mac-essence.md` overrides eight design-craft and ux-craft rules under one governing sentence (native wins inside app chrome), and then names what is *not* overridden. That second half is the part most override sections omit.
 
+**Where this version's column comes from, and what has not run.** This version's column is its worked example, `assets/fixtures/ledgerline-accounts.html`, measured by its own gate, and all five rows were reproduced from scratch on 18 August 2026. So the table is a pair of records rather than a head-to-head. The one eval that would put both versions on the same brief, a two-surface personal-finance app built twice, was launched and never produced artifacts: both runs were still reading references at 27 minutes with nothing on disk, and nothing has been produced since. Its grader is not committed either, so on any other machine that eval currently has none.
+
+The panel carries the matching limit. It compared two fixtures rather than two runs, one reproducing the predecessor's recorded failure and one this skill's worked example. That is a fair test of whether three families can see the defect in a render, and it is not a test of what either skill produces on a fresh brief. Judges saw renders only and never source, so the metric block, the token layer and the exit-code contract earn nothing on the panel by design; the 19-case gate suite is what covers those. One judgement per family and one run per gate case, so nothing here is a rate. Distinctiveness stays unmeasured, and by the skill's own reasoning a script cannot gate it.
+
+The gate suite, the panel verdicts, the counters reproduced line by line and the three tasks that would settle the rest are in [EVALS.md](EVALS.md).
+
 ## Honest limits
 
 Obscura is the only sanctioned browser here, and its gaps bound the gate. CSS animations and transitions never execute. `Emulation.setEmulatedMedia` is accepted and inert. Web fonts never load. Shorthand computed styles return `0px` or empty while longhands are correct. **Native form controls do not render at all**: a real radio input renders as nothing, which looks exactly like a missing affordance, and matters more here than anywhere because macOS mockups are full of them.
