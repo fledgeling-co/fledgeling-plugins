@@ -1,4 +1,26 @@
-import json, sys, re
+#!/usr/bin/env python3
+"""Grade two mockup-fidelity runs against the ten planted defects in the fixture.
+
+Takes two run directories, each holding a `target.findings.json` written by
+`assets/diff/capture.mjs --out <dir>`, and reports which planted defect each run
+caught, declared inconclusive, or silently graded clean. A false pass is the
+defect this whole skill exists to prevent, so it is counted separately.
+
+    python3 grade.py <old-run-dir> <new-run-dir>
+    python3 grade.py                       # defaults to out-old/ and out-new/
+
+The paths used to be hardcoded relative to the working directory with no
+argument interface and no check, so running this file as shipped raised a bare
+FileNotFoundError from json.load several frames deep. Neither directory has ever
+been committed, and they cannot be: a run directory is output. So the honest fix
+is an interface plus a refusal that says what the inputs are and how to make
+them, which is what an audit on 2026-08-19 asked for.
+"""
+
+import argparse
+import json
+import pathlib
+import sys
 
 # Answer key. `probe` = a predicate over the findings list that means "this planted defect was caught".
 KEY = [
@@ -29,12 +51,36 @@ KEY = [
 # which capability silences which defect, for the inconclusive credit
 SILENCES = {"D4":"shadow","D7":"textTransform","D10":"gradient","D8":"svgGlyphExtent"}
 
-def load(p):
-    d=json.load(open(p)); return d.get('findings',[]), d.get('inconclusive',[]), d.get('summary',{})
+def load(p: pathlib.Path):
+    d = json.loads(p.read_text())
+    return d.get('findings', []), d.get('inconclusive', []), d.get('summary', {})
+
+
+def resolve(arg: str, label: str) -> pathlib.Path:
+    """A run directory, or the findings file inside one. Refuse with a sentence."""
+    p = pathlib.Path(arg)
+    candidate = p if p.suffix == '.json' else p / 'target.findings.json'
+    if candidate.is_file():
+        return candidate
+    print(f"grade.py: no {label} findings at {candidate}", file=sys.stderr)
+    print(f"  A run directory is output, never committed, so this file has to be produced first:",
+          file=sys.stderr)
+    print(f"  node ../assets/diff/capture.mjs --ref <mock> --target <build> --out {p}",
+          file=sys.stderr)
+    print(f"  Then: python3 grade.py <old-run-dir> <new-run-dir>", file=sys.stderr)
+    raise SystemExit(2)
+
+
+ap = argparse.ArgumentParser(description=__doc__.split(chr(10))[0])
+ap.add_argument('old', nargs='?', default='out-old',
+                help="the baseline run's directory (default: out-old)")
+ap.add_argument('new', nargs='?', default='out-new',
+                help="the run being graded (default: out-new)")
+args = ap.parse_args()
 
 rows=[]
-oldF,oldI,oldS = load('out-old/target.findings.json')
-newF,newI,newS = load('out-new/target.findings.json')
+oldF,oldI,oldS = load(resolve(args.old, 'baseline'))
+newF,newI,newS = load(resolve(args.new, 'graded'))
 newIkeys = {i['capability'] for i in newI}
 oldIkeys = {i['capability'] for i in oldI}
 
