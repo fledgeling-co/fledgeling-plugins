@@ -14,17 +14,33 @@
 # Usage: check_completion.sh <repo-path>
 # Exit codes: 0 = ledger and git agree the work is done
 #             1 = open/unproven items (printed) — do NOT tick the project off
-#             2 = no ORCHESTRATOR.md ledger found (nothing to verify against)
+#             2 = nothing to verify against: no ORCHESTRATOR.md ledger, or the
+#                 path given is not a directory
+#
+# There is no code 3+, and there is deliberately no path that exits without
+# printing why. Both were true by accident until 2026-08-19: in a directory with
+# no git repo this exited 128 in silence, because errexit killed it on a failing
+# `git remote show` before the NO-INT branch could report.
 set -euo pipefail
 
 repo="${1:?usage: check_completion.sh <repo-path>}"
-cd "$repo"
+# Without this guard a bad path dies inside `cd` under errexit, so the caller
+# gets a bash line-number error instead of one of the documented codes.
+cd "$repo" 2>/dev/null || { echo "NO-PATH: $repo is not a directory"; exit 2; }
 
 orch="ORCHESTRATOR.md"
 [[ -f "$orch" ]] || { echo "NO-LEDGER: $repo has no ORCHESTRATOR.md"; exit 2; }
 
-int_branch=$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')
-git show-ref --verify --quiet refs/remotes/origin/staging && int_branch="staging"
+# `|| true` because this whole line is allowed to fail. Under `set -euo pipefail`
+# a non-git directory makes `git remote show origin` exit 128, pipefail
+# propagates it, errexit kills the script, and the NO-INT branch below becomes
+# unreachable: the caller gets a bare 128 with nothing on stdout or stderr,
+# against documented codes of 0, 1 and 2 only. Failing closed was right; failing
+# silently was not.
+int_branch=$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p') || true
+# `--quiet` hides the ref, not a "not a git repository" fatal, so this needs its
+# own redirect or the NO-INT diagnostic arrives behind a raw git error.
+git show-ref --verify --quiet refs/remotes/origin/staging 2>/dev/null && int_branch="staging"
 [[ -n "$int_branch" ]] || { echo "NO-INT: cannot determine integration branch"; exit 1; }
 
 fail=0
