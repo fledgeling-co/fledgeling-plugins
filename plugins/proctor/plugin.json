@@ -1,6 +1,6 @@
 {
   "name": "proctor",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, element layout/geometry inspection, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives live AppKit/SwiftUI windows and menu extras to verify native control rendering, alignment, and typography against design specifications.",
   "category": "development"
 }

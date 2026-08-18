@@ -52,12 +52,40 @@ adjacent ground and are better at it:
 | `acceptance-e2e` | End-to-end acceptance criteria traceability, multi-surface sweeps (Web, macOS, iOS, Windows), and test suite orchestration. `acceptance-e2e` invokes `proctor` for all macOS native app execution and geometry assertions. |
 | `be-my-witness` | Automated visual diff-masking and comparison against reference design mocks. Proctor captures live UI frames and component slices, then hands them to `be-my-witness` to classify layout, styling, and typography deviations with mock-as-oracle discipline. |
 | `design-review` | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
-| `mac-design-studio` | The native-conformance rubric when there is no mockup — the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
-| `mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline — present, divergent, absent, with the burden of proof on the build — is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
+| `mac-design-studio` | The native-conformance rubric when there is no mockup: the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
+| `mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline (present, divergent, absent, with the burden of proof on the build) is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
 | `macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
 
 A web view inside a Mac app is still Proctor's, because reaching it means
 attaching to the host process. A pure web app in a browser is not.
+
+## Orchestrating and implementing test instruments: Proctor, Deep Links, and XCTest / XCUITest
+
+Proctor knows when to use, combine, and author across three testing instruments:
+
+### 1. Proctor Native Engine (Black-Box Live Mac Testing)
+- **When to use**: Testing running macOS applications (SwiftUI, AppKit, Catalyst, Electron, Chromium, menu bar extras, preference panes) without compiling test hosts or modifying source.
+- **Capabilities**:
+  - Live accessibility tree inspection, background process-directed actions (no cursor theft).
+  - Spatial geometry assertions (`horizontalAlignment`, `alignedWith`, `containedIn`, `frameEquals`).
+  - ScreenCaptureKit frames with cryptographic trust (`trustworthy: true`, `SCFrameStatus`).
+  - Native 2x crop inspection (`proctor_zoom`), automated design diffs (`/be-my-witness`), and multi-run determinism scoring (`proctor_stability`).
+
+### 2. Deep Links (Fast Navigation & State Setup)
+- **When to use**: Navigating directly into specific views, deep screens, or authenticated states without executing dozens of manual navigation clicks.
+- **Capabilities**:
+  - On macOS: invoke custom URL schemes via macOS `open <url>` or Apple Events, settling with `proctor_wait` or `proctor_find`.
+  - On iOS Simulator: invoke `proctor_ios` with `action: "open"`, `url: "<scheme>://..."`. Proctor checks target resolution, verifies SpringBoard delivery, and measures pixel delta to confirm navigation arrived.
+
+### 3. XCTest & XCUITest (In-Process, Exception & In-Simulator Testing)
+- **When to use**:
+  - Testing internal Swift / Objective-C logic, unit models, and service contracts with direct symbol access.
+  - Testing low-level Mach exceptions, crashes, or assertions (such as `EXC_BAD_ACCESS`, `fatalError` trapping, or `XCTAssertThrowsError`).
+  - Running Xcode schemes headlessly via `xcodebuild test` or `swift test`.
+  - Driving in-device iOS accessibility elements (`XCUIElementQuery`), where external macOS accessibility APIs cannot reach.
+- **When authoring tests**:
+  - Author Swift Testing (`@Test`, `@Suite`, `#expect`) or XCTest (`XCTestCase`, `XCTAssertThrowsError`) targets when writing unit or regression test suites in the codebase.
+  - Author Proctor flows (`proctor_flow`, `proctor_act`) for black-box end-to-end user journeys and visual verification.
 
 ## Before anything else
 
