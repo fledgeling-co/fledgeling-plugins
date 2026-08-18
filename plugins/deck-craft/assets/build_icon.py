@@ -46,7 +46,7 @@ LIGHT_AXIS = (math.cos(math.radians(LIGHT_ANGLE_DEG)),
 
 # ---------------------------------------------------------------- the cushion
 # Porcelain/daylight, sampled off the family rather than invented:
-# create-test-suite #F8F5EE→#E4DDCB, whats-left #F6F3EA→#E0D9C8,
+# test-campaign #F8F5EE→#E4DDCB, whats-left #F6F3EA→#E0D9C8,
 # proctor #F8F4EC→#E9E2D4.
 GROUND_HI = "#FCFAF4"
 GROUND_MID = "#F3EDE1"

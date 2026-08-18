@@ -59,7 +59,7 @@ const GROUP_OF = {
   "create-swe-project": "making",
   "create-mac-icon": "making",
   "create-skill": "making",
-  "create-test-suite": "making",
+  "test-campaign": "making",
   "improve-skill": "making",
   geminify: "making",
   "agent-voice": "making",

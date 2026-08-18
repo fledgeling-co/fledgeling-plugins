@@ -59,7 +59,7 @@ DEPTH = (22.0, -32.0)        # back edges shift right and up
 
 # ---------------------------------------------------------------- the cushion
 # Porcelain/daylight, lifted off the family rather than invented:
-# deck-craft #FCFAF4→#DED5C2, create-test-suite #F8F5EE→#E4DDCB,
+# deck-craft #FCFAF4→#DED5C2, test-campaign #F8F5EE→#E4DDCB,
 # whats-left #F6F3EA→#E0D9C8. Measured against better-goal's own render, whose
 # ground runs Y 0.739 → 0.974, and against apple-05's porcelain at Y 0.774 →
 # 1.000, so this ground sits inside both.

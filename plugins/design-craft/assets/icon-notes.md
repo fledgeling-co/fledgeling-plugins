@@ -1,7 +1,7 @@
 # Icon notes — `design-craft`
 
 Direction 2 (Tahoe gel-glass), sub-register (a): a porcelain cushion carrying gel
-objects. Same register as `deck-craft`, `create-test-suite`, `whats-left`,
+objects. Same register as `deck-craft`, `test-campaign`, `whats-left`,
 `proctor` and `report`, which it sits beside in the marketplace lineup.
 
 Replaces the 2026-08-18 template icon — a light bezelled landscape frame holding
