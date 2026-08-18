@@ -365,8 +365,11 @@ this round finally used as one.
   the blind panels' per-judge verdicts, the variant check, the round-7 gap,
   protrusion and ember sweeps with their renders, and the samplers used for
   every material number quoted here. Kept as trajectory data.
-- `icon-src.svg` is the original flat hand-authored take that preceded this
-  commission, kept for the before and after.
+- `icon-engineA-src.svg` is the original flat hand-authored take that preceded
+  this commission, kept for the before and after. Named as an engine take
+  because that is what it is: it carries no layer plan and fails the `structure`
+  gate, and `audit_sheet.py check` runs that gate on every `icon*.svg` it does
+  not recognise as a take. It was called `icon-src.svg` until 2026-08-19.
 - `banner-src.html` composes `banner.png` at 3200×1040 from `icon.png`.
 
 ## Known liabilities

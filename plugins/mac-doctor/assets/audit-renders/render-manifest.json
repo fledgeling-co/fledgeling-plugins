@@ -1,0 +1,56 @@
+{
+  "takes": {
+    "A": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786317489.4934006,
+      "rendered_at": 1787062789.75744,
+      "note": "A-64 and A-32 are rendered from icon-small.svg by render_audit.py, not from this source: those are the rasters that actually ship at 64px and below, with the specular floored. 96 and above come from icon.svg."
+    },
+    "A0": {
+      "source": "icon-engineA-src.svg",
+      "kind": "svg",
+      "source_mtime": 1786258568.483447,
+      "rendered_at": 1787062790.5778618
+    },
+    "A1": {
+      "source": "fidelity/runs/r03/baseline-r02.svg",
+      "kind": "svg",
+      "source_mtime": 1786317489.1231985,
+      "rendered_at": 1787062792.00611
+    },
+    "B": {
+      "source": "icon-engineB-arrow.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.3319526,
+      "rendered_at": 1787062792.341342
+    },
+    "C": {
+      "source": "icon-engineC-clean.png",
+      "kind": "png",
+      "source_mtime": 1786275094.3326194,
+      "rendered_at": 1787062792.749811
+    },
+    "Craw": {
+      "source": "icon-engineC-raster.png",
+      "kind": "raster-mask",
+      "source_mtime": 1786275094.3366256,
+      "rendered_at": 1787062793.677276
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

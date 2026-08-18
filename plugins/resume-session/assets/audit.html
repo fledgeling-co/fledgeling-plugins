@@ -3,16 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>resume-session icon : contact sheet &amp; audit</title>
+<title>resume-session icon — contact sheet &amp; audit</title>
 <style>
   :root { color-scheme: dark; }
-  body {
-    margin: 0;
-    padding: 40px;
-    background: #0b1418;
-    color: #d7e3e7;
-    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
   h2 { font-size: 15px; font-weight: 650; margin: 34px 0 10px; color: #d7e3e7; }
   .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
@@ -29,78 +23,93 @@
   .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
   .ship { color: #ffd98f; }
-  .verdict { max-width: 430px; color: #a9bec5; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 460px; color: #a9bec5; }
+  .verdict ol { margin: 8px 0 0; padding-left: 20px; }
+  .verdict li { margin-bottom: 4px; }
   .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
   .rec strong { color: #ffd98f; }
+  .warn { margin-top: 28px; padding: 18px 20px; border: 1px solid #6b3c30; border-radius: 12px; background: #1a1010; max-width: 900px; }
+  .warn strong { color: #e0826a; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 900px; }
+  .measured table { min-width: 0; width: auto; }
+  .measured td, .measured th { padding: 6px 18px 6px 0; border-bottom: 1px solid #16262c; }
+  .measured code { color: #ffd98f; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
+  .evidence img { display: block; max-width: 100%; height: auto; border: 1px solid #1c2d33; border-radius: 10px; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #cbd9de; }
 </style>
 </head>
 <body>
-<h1>resume-session icon : contact sheet &amp; audit</h1>
-<div class="sub">Concept A: The Golden Thread in the Tahoe gel porcelain register: a historical session ledger block on the left spliced into a radiant golden-vermilion filament on the right by a central gel-glass coupler node. Audited across full scale matrix (1024 / 256 / 128 / 64 / 32 / 16 css px).</div>
+<h1>resume-session icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction &ldquo;The Golden Thread&rdquo; in the Tahoe gel-porcelain register &middot; <strong>one take, not three</strong> &middot; audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16, scored against the 12-point rubric retrospectively on 2026-08-19. What the tile actually carries: a warm porcelain cushion holding two rounded cards — a graphite one on the left with four ruled lines and a vermilion check badge, a near-white one on the right with four ruled lines and a vermilion play triangle — joined near their upper edges by a small gel-glass coupler disc with a vermilion core and a warm bloom around it.</div>
 
-<div class="sheet">
-<table>
-  <tr>
-    <th scope="col">Take</th>
-    <th scope="col">Renders at 128 / 64 / 32 / 16 px, plus 16px magnified</th>
-    <th scope="col">Rubric</th>
-    <th scope="col">Verdict</th>
-  </tr>
-
-  <tr>
-    <td class="take ship">A · icon.svg<small>Master layered SVG generated via build_icon.py [SHIPS]</small></td>
-    <td class="renders">
-      <figure><img src="icon-256.png" width="128" height="128" alt="Take A 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="icon-128.png" width="64" height="64" alt="Take A 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="icon-32.png" width="32" height="32" alt="Take A 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="icon-16.png" width="16" height="16" alt="Take A 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take A 16px x6 zoom"><figcaption>16 &times;6</figcaption></figure>
-    </td>
-    <td class="score ship">14 / 14</td>
-    <td class="verdict">
-      <strong>SHIPS.</strong> Clears all non-negotiables:
-      1. <em>Mask discipline:</em> Conforms strictly to macOS squircle boundary (#F8F5EE&rarr;#E4DDCB).
-      2. <em>Material continuity:</em> Muted obsidian graphite on left (#3A424D), luminous Tahoe gel-glass coupler prism at centre (#EDE7DB), and energized vermilion filament (#DE5F2C&rarr;#FF763B) on right.
-      3. <em>Scale legibility:</em> 16px silhouette preserves the dual-block handover tension and central pulse node cleanly without muddying.
-    </td>
-  </tr>
-
-  <tr>
-    <td class="take">B · Flat Vector Take<small>Monochrome vector without gel lighting</small></td>
-    <td class="renders">
-      <figure><img src="icon-128.png" width="128" height="128" alt="Take B 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="icon-64.png" width="64" height="64" alt="Take B 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="icon-32.png" width="32" height="32" alt="Take B 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="icon-16.png" width="16" height="16" alt="Take B 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take B 16px x6"><figcaption>16 &times;6</figcaption></figure>
-    </td>
-    <td class="score">11 / 14</td>
-    <td class="verdict">Lacks Tahoe depth and specular bloom on the central coupler node; reads flat on high-DPI retina displays. Superseded by Take A.</td>
-  </tr>
-
-  <tr>
-    <td class="take">C · Pure Raster Reference<small>Diffusion generated raster reference</small></td>
-    <td class="renders">
-      <figure><img src="icon-256.png" width="128" height="128" alt="Take C 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="icon-128.png" width="64" height="64" alt="Take C 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="icon-32.png" width="32" height="32" alt="Take C 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="icon-16.png" width="16" height="16" alt="Take C 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="icon-16.png" width="96" height="96" alt="Take C 16px x6"><figcaption>16 &times;6</figcaption></figure>
-    </td>
-    <td class="score">10 / 14</td>
-    <td class="verdict">Carried rich material sheen but baked uneven non-re-layerable lighting into pixels; failed vector scalability and tinting gates. Superseded by Take A.</td>
-  </tr>
-</table>
+<div class="hero">
+  <figure><img src="audit-renders/A-1024.png" width="256" height="256" alt="Take A, the shipping master, at 256px from the 1024 render"><figcaption>A · ships · 1024 source</figcaption></figure>
 </div>
 
-<div class="rec">
-  <strong>Recommendation: Ship Take A (icon.svg).</strong> Emitted by <code>build_icon.py</code>, it matches the Fledgeling porcelain house design language, anchors session continuity with the graphite ledger card, highlights the optical handover point, and delivers sharp multi-scale assets down to 16px.
+<div class="sheet"><table>
+  <caption class="visually-hidden">The one take on this commission, with its renders, its 12-point rubric score and the verdict behind it</caption>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>the only take: hand-authored layered SVG emitted by <code>build_icon.py</code>, three named groups — SHIPS, and is already the marketplace icon</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict"><strong>Scored retrospectively on 2026-08-19, from these renders, on this date — not at commission time.</strong> The sheet this replaced carried no 12-point score, so there is no original verdict to preserve and nothing here is a restatement of one. Every number below was sampled off <code>audit-renders/A-1024.png</code> and the small renders in this row.
+      <ol>
+        <li><strong>Mask discipline — pass.</strong> Built on the shared <code>squircle-path.txt</code>; the 1024 render's four corner pixels are fully transparent and no corner radius or drop shadow is baked outside the mask.</li>
+        <li><strong>Grid adherence — pass.</strong> Content bounding box 621&times;438, 60.6% of the tile wide, inside the 55&ndash;65% band; margins L201 R202 T261 B325, so it is dead centred horizontally and lifted 32px above the geometric centre, which is the conventional optical lift.</li>
+        <li><strong>Silhouette — pass, narrowly.</strong> Filled solid black it reads as two rounded cards with a small disc between them: nameable, but as &ldquo;two documents&rdquo; rather than as anything this skill owns.</li>
+        <li><strong>16px squint — fail, and this is a non-negotiable.</strong> Read off the 32px source in this row: the right card holds 1.48:1 against the ground it sits on, so the pair collapses to one dark block beside a pale smear; the coupler disc measures 1.03:1 against the ground and is simply gone; the check badge and the play triangle each reduce to a single warm pixel. The concept's own signature is the splice, and the splice is the first thing to disappear.</li>
+        <li><strong>Single light model — pass.</strong> One soft top-left key; both cards' contact shadows fall down and right and agree with each other; the coupler's warm bloom is the sanctioned emissive second source.</li>
+        <li><strong>Palette economy — pass.</strong> Two families, warm porcelain and graphite, plus one vermilion ramp reserved for the coupler, the check badge and the play triangle.</li>
+        <li><strong>Figure-ground — fail.</strong> The graphite card is strong at 5.65:1, and the rest of the composition is not: the right card 1.48:1 against the lower-right ground and 1.11:1 against the upper-left, the coupler core 1.03:1, the check badge 1.26:1, the play triangle 1.74:1, all against a 3:1 bar. Half the tile separates by hue and by its own drop shadow rather than by value, which the grayscale strip below shows directly.</li>
+        <li><strong>Depth coherence — pass.</strong> Ground vignette under both cards, each seated on a soft contact shadow, coupler above both, no z-fighting.</li>
+        <li><strong>Era coherence — pass.</strong> One register throughout, the same gel-porcelain ground five of its sibling plugins use.</li>
+        <li><strong>Variant robustness — fail.</strong> It is real layered vector and editable, but its three named groups (<code>pastSessionBlock</code>, <code>resumedActiveBlock</code>, <code>goldenThreadHandover</code>) are object groups, not the <code>bg</code>/<code>mid</code>/<code>fg</code>/<code>highlight</code> depth planes a tint remaps. Identity is hostage to the ground colour and to the accent hue: in grayscale the right card merges into the ground at 32 and 16px and all three vermilion marks become mid-grey dots.</li>
+        <li><strong>Personality — fail.</strong> The one nameable device beyond the cards is the coupler disc, and at 1.03:1 it is the least visible thing on the tile. Take it away and the mark is two document cards with a play button.</li>
+        <li><strong>No-text — pass.</strong> No words and no screenshot; the ruled bars are placeholder rules, not glyph text.</li>
+      </ol>
+      <strong>8/12, with a non-negotiable among the failures.</strong> A reviewer could reasonably read #4 as a deduction rather than a fail, since the two-card pair does survive in colour at 16px; on that reading it is 9/12. Either way it is under the 10/12 delivery bar, and #7 and #10 fail on measurements rather than on taste.</td>
+  </tr>
+</table></div>
+
+<div class="warn"><strong>Why this sheet has one row, and what the previous version claimed.</strong> Only one take exists. <code>assets/</code> holds <code>icon.svg</code> and its exports and nothing else — no Arrow take, no Engine C raster, no losing variant, no fidelity run, no panel verdict. The sheet that stood here until 2026-08-19 showed three rows, &ldquo;A · icon.svg&rdquo;, &ldquo;B · Flat Vector Take&rdquo; and &ldquo;C · Pure Raster Reference&rdquo;, scored 14/14, 11/14 and 10/14 against a 14-point rubric that is not this marketplace's rubric. Rows B and C had no artifacts behind them: all three rows displayed take A's own shipped exports, at 1&times; rather than at retina sources, so the page compared the icon with itself and reported a set having been judged. Those two rows are gone rather than rewritten, because there is nothing to write about them. Three takes is the pipeline's floor, so <code>audit_sheet.py check</code> fails this directory on the take count, and that failure is accurate: the commission ran one engine.</div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg), which is what already happened — this sheet records that rather than ratifying it.</strong> It is the only take, it is the icon on <code>skills.fledgeling.app</code> and in the root README today, and nothing in this pass changed a pixel of it. What the sheet can now say honestly is what it costs. <strong>Known liabilities, in the order they would be fixed:</strong> <em>(1)</em> the right card is 1.48:1 against its ground and carries the resumed half of the concept, so the whole right side of the tile is separated by a drop shadow — the fix is a value step between card and ground, not a hue change. <em>(2)</em> The coupler disc, the one device that makes this icon about resuming rather than about documents, measures 1.03:1 and vanishes below 32px; it needs to be the highest-contrast object on the tile rather than the lowest. <em>(3)</em> The layer ids are objects rather than depth planes, so there is nothing for Dark, Clear or Tinted to remap — the 76% failure mode the rubric calls the highest-leverage fix. <em>(4)</em> Two takes are missing, and with them any evidence that this composition beat an alternative. <strong>What this sheet does not claim:</strong> no fidelity loop ran, no blind panel ran, and no engine other than a hand-authored SVG was tried — there is no run directory, no <code>score.json</code> and no judge verdict anywhere in this plugin. Whether the icon is re-commissioned against the bar or shipped as it stands is the owner's call, and both readings are available from the numbers above.</div>
+
+<h2>Grayscale, at the sizes where it matters</h2>
+<div class="evidence"><img src="audit-renders/grayscale-strip.png" alt="The 48px, 32px and 16px displays in colour beside their grayscale twins, magnified with nearest-neighbour"><p class="rubric" style="margin-top:10px">Each pair is the same render, magnified nearest-neighbour: colour on the left, grayscale on the right. It is the evidence behind #7 and #10 — in grayscale the right card loses its boundary against the ground and the three vermilion marks flatten to mid-grey, so what survives is a dark block and a pale field.</p></div>
+
+<div class="measured">
+  <strong>Measured, not eyeballed</strong>
+  <table>
+    <tr><th scope="col">Reading</th><th scope="col">Value</th><th scope="col">Bar / why it was taken</th></tr>
+    <tr><td>graphite card vs ground</td><td>5.65:1</td><td>#7 bar is 3:1 — the one object that clears it</td></tr>
+    <tr><td>right card vs ground (lower right)</td><td>1.48:1</td><td>fails #7; it carries half the concept</td></tr>
+    <tr><td>right card vs ground (upper left)</td><td>1.11:1</td><td>worst case, where the ground is lightest</td></tr>
+    <tr><td>coupler core vs ground</td><td>1.03:1</td><td>the signature device, at the value of its own ground</td></tr>
+    <tr><td>check badge / play triangle vs ground</td><td>1.26:1 / 1.74:1</td><td>both accents read by hue, not by value</td></tr>
+    <tr><td>content bounding box</td><td>621 &times; 438 px</td><td>60.6% of tile wide, inside the 55&ndash;65% band (#2)</td></tr>
+    <tr><td>safe-zone margins</td><td>L201 R202 T261 B325</td><td>centred horizontally, 32px optical lift (#2)</td></tr>
+    <tr><td><code>fidelity.py structure</code></td><td>PASS · 8 paths, 14,381 bytes, 3 named groups</td><td>well inside the 400-path / 200KB envelope</td></tr>
+    <tr><td>takes on disk</td><td>1</td><td>the pipeline floor is 3 (A + B + C)</td></tr>
+  </table>
 </div>
 
-<div class="rubric">
-  Rubric: 14-point macOS App Icon Rubric (Mask discipline, Optical centering, Silhouette legibility, 16px micro-rendering, Tahoe gel-glass material fidelity, Single light source coherence, Palette economy, Figure-ground contrast ratio &ge; 3.0:1, Depth layering, Specular control, Multi-scale scalability, Dark mode compatibility, No raster text tells, Semantic domain fit).
-</div>
+<div class="rubric">Rubric: the 12-point icon audit from <code>icon-directions.md</code> (mask discipline, grid adherence, silhouette, 16px squint, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Renders produced by <code>python3 audit_sheet.py render &lt;dir&gt;</code> at 1024 / 256 / 128 / 96 / 64 / 32 sources through <code>rsvg-convert</code>, displayed at 128 / 64 / 48 / 32 / 16 css px, and verified by its <code>check</code> subcommand; <code>audit-renders/render-manifest.json</code> records the take's source and kind. Contrast figures are WCAG relative-luminance ratios between 24&times;24px mean patches sampled on the 1024 render. The icon itself, its exports and <code>build_icon.py</code> were not touched in this pass — only this page, and the renders it displays, which did not exist before it.</div>
 </body>
 </html>

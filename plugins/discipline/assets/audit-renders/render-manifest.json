@@ -1,0 +1,37 @@
+{
+  "takes": {
+    "A": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.3014824,
+      "rendered_at": 1787063477.5898938
+    },
+    "B": {
+      "source": "icon-engineB-arrow-cdd192.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.2969358,
+      "rendered_at": 1787063477.8854551
+    },
+    "C": {
+      "source": "icon-engineC-raster-9a63f7-masked.svg",
+      "kind": "svg",
+      "source_mtime": 1786275094.3005402,
+      "rendered_at": 1787063479.553165
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

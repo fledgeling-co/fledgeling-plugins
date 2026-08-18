@@ -34,11 +34,24 @@
   .up { color: #8fd6a4; }
   .down { color: #e0826a; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #cbd9de; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; flex-wrap: wrap; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>mac-doctor icon — contact sheet &amp; audit</h1>
-<div class="sub">Direction "Instrument Emblem in the Tahoe gel porcelain register: a capacity ring whose reclaimed segment sits inline in the same band" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 128 / 64 / 48 / 32 / 16. This revision is round 7, which took three named preferences off take C — a brighter, redder ember, a tighter hole, and a wedge that stands proud of the ring — and closed the small-size liability round 6 left open.</div>
+<div class="sub">Direction "Instrument Emblem in the Tahoe gel porcelain register: a capacity ring whose reclaimed segment sits inline in the same band" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. This revision is round 7, which took three named preferences off take C — a brighter, redder ember, a tighter hole, and a wedge that stands proud of the ring — and closed the small-size liability round 6 left open.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/A-1024.png" width="256" height="256" alt="Take A, the shipping master, at 256px from the 1024 render"><figcaption>A &middot; ships &middot; 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/A1-1024.png" width="128" height="128" alt="Round-6 master at 128px from the 1024 render"><figcaption>A₁ &middot; round-6 master</figcaption></figure>
+  <figure><img src="audit-renders/A0-1024.png" width="128" height="128" alt="Flat original at 128px from the 1024 render"><figcaption>A₀ &middot; flat original</figcaption></figure>
+  <figure><img src="audit-renders/C-1024.png" width="128" height="128" alt="Take C at 128px from the 1024 render"><figcaption>C &middot; material reference</figcaption></figure>
+  <figure><img src="audit-renders/B-1024.png" width="128" height="128" alt="Take B at 128px from the 1024 render"><figcaption>B &middot; Arrow</figcaption></figure>
+  <figure><img src="audit-renders/Craw-1024.png" width="128" height="128" alt="Take C-raw at 128px from the 1024 render"><figcaption>C-raw &middot; before deframing</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
@@ -77,7 +90,7 @@
   </tr>
 
   <tr>
-    <td class="take">A₀ · the flat original<small><code>icon-src.svg</code>, the hand-authored take that preceded the fidelity loop</small></td>
+    <td class="take">A₀ · the flat original<small><code>icon-engineA-src.svg</code>, the hand-authored take that preceded the fidelity loop</small></td>
     <td class="renders">
       <figure><img src="audit-renders/A0-256.png" width="128" height="128" alt="Flat original rendered at 128 pixels"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/A0-128.png" width="64" height="64" alt="Flat original rendered at 64 pixels"><figcaption>64</figcaption></figure>
@@ -156,6 +169,7 @@ Known liabilities: <em>(1)</em> at 16px the tighter hole costs some clarity — 
 <strong>Protrusion.</strong> PROTRUDE_FRAC 0–13% of the band width. Take C's own wedge measures 48% proud, but it is a separate triangle that also floats 11px clear of the ring's inner radius, which is the composition this mark rejects. 10% reads as unmistakably proud at 256 and above while the segment still belongs to the band. Self-contrast at 32 and 16px is flat across the whole protrusion sweep, because 10% of the band is 0.44px at 32.
 <strong>Ember ramp.</strong> Three sweeps, the first two discarded for measuring the wrong thing: a multiplicative value gain clipped three of five face stops at V=1.0 and collapsed the cross-section while the whole-image spread still <em>rose</em> (the specular owns that number), and an error term over R and G alone bought its score by driving blue to zero. The kept ramp is an affine remap into V 0.82–1.00 with a 9°→14° hue tilt and 5% more saturation, scored on all three channels at p10 and p50.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {256,128,96,64,32}</code> via <code>render_audit.py</code> for SVGs; rasters resampled with Pillow LANCZOS under the family superellipse as an alpha mask.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette economy, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Render commands: <code>rsvg-convert -w {1024,256,128,96,64,32}</code> via <code>render_audit.py</code> for SVGs; rasters resampled with Pillow LANCZOS, and masked with the family superellipse from <code>squircle-path.txt</code> where the generator left the corners opaque, which is take C-raw only. Verified by <code>audit_sheet.py check</code>, whose <code>audit-renders/render-manifest.json</code> records each take's source and kind.
+<br>Brought up to the current checker on 2026-08-19: the 1024 hero row above is new, and the flat original was renamed from <code>icon-src.svg</code> to <code>icon-engineA-src.svg</code> so the checker reads it as the losing take it is rather than as a shipping master — it fails the <code>structure</code> gate with zero named layer groups, which is recorded in its row above and is the reason it lost. No artwork, master or export changed, and no take was re-judged; every score and verdict on this page is the original from round 7.</div>
 </body>
 </html>

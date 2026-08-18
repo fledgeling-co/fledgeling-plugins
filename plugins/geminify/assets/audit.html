@@ -42,11 +42,21 @@
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>geminify icon — contact sheet &amp; audit</h1>
 <div class="sub">Direction "The Second Leaf" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/C-1024.png" width="256" height="256" alt="Take C, the shipping tile, at 256px from the 1024 render"><figcaption>C &middot; ships as the tile &middot; 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/A-1024.png" width="128" height="128" alt="Take A at 128px from the 1024 render"><figcaption>A &middot; layered editable master</figcaption></figure>
+  <figure><img src="audit-renders/B-1024.png" width="128" height="128" alt="Take B at 128px from the 1024 render"><figcaption>B &middot; Arrow</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
@@ -99,6 +109,6 @@
 
 <div class="rec"><strong>Recommendation: ship C (icon.png), with A (icon.svg) as the editable master.</strong> C is the take that survives the shelf: this marketplace tile is a decorative PNG with no macOS compositor downstream, so the material has to be in the file, and C has it where A does not. Checks 1-4 audited on the real renders above rather than on the 1024 hero: mask discipline holds because the raster was masked with the set's own superellipse path, the pair is optically centred at 63% of the tile wide, the silhouette names itself filled black, and the 32px render is the strongest of the three. A ships alongside it as the layered, editable master and is the file every future round edits. Known liabilities to revisit: C is a flat raster and therefore hard-fails variant robustness (#10) — the exact failure mode 76% of the shipping field has — so a Dark/Clear/Tinted context needs A, not C. A itself is one material round short of C: its clay body is opaque where C's is translucent, and its lens rim reads faint at 128px. Neither take has been judged by a blind panel yet, and the fidelity composite is measured on luminance + SSIM + edges only (no torch/LPIPS on this machine), which is documented as blind to exactly the material differences this commission turned on.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand. Vector takes go through `rsvg-convert` rather than a browser, and `build_banner.py` records why. Re-rendered on 2026-08-19 so the sheet carries a render manifest and shows its 1024 hero; the scores and verdicts are the originals from the commission and were not re-judged.</div>
 </body>
 </html>
