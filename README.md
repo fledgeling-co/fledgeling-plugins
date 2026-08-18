@@ -268,6 +268,54 @@ Your agent already has a voice; nobody chose it. This gives agent-authored text 
 
 <br clear="left" />
 
+<a href="plugins/design-craft/README.md"><img src="plugins/design-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [design-craft](plugins/design-craft/README.md)
+
+Designs or reviews a user-facing visual artifact as an opinionated designer rather than a code generator, and roots every hi-fi build in whatever design context already exists — lifting a matched system's resolved values exactly instead of rounding them to a 4/8px grid and reporting the rounding as a fix. It names the category's rut and its predictable opposite before generating, then derives seven candidates across at least three material families, because a model asked for something distinctive reaches for the same small set every time. The direction it picks is written into the artifact as a five-block contract its own critique gate audits promise by promise, since more than a quarter of one generative UI tool's stated rationales were measured not to appear in what it built. Its gate computes WCAG contrast from source across hex, rgba, hsl and oklch, follows tokens to their :root definitions, composites opacity, and reproduces this skill's own recorded incidents to two decimal places. Contrast is tri-state: a gradient, an image or an undeclared ground is reported UNMEASURABLE rather than skipped, because an unmeasured pair and a passing pair otherwise serialise identically. Twenty-five assertions against the version it replaces: 23 against 9, with two the predecessor won kept in the table.
+
+<br clear="left" />
+
+<a href="plugins/ux-craft/README.md"><img src="plugins/ux-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [ux-craft](plugins/ux-craft/README.md)
+
+The UX half of the pair design-craft completes — flows, forms, states, interface copy, email and mobile behaviour, in three modes over eleven references. It resolves the accessibility floor against the standards themselves rather than against habit: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. The three figures had disagreed across three files, at the exact point the accessibility claim was made. It ships a stdlib-only lint that runs static over HTML, JSX and CSS and probes a rendered page, where only exit 0 is a pass and a run that examined zero files refuses rather than reporting a clean sheet. Research deleted rules as well as adding them: the seven-item navigation limit is gone, because Miller measured recall and a navigation is recognition. Its blind panel is an honest draw — honesty about limits won 10-0 across both families and every case, and actionability lost and stayed lost, which became the rule that the fix comes before the caveat.
+
+<br clear="left" />
+
+<a href="plugins/deck-craft/README.md"><img src="plugins/deck-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [deck-craft](plugins/deck-craft/README.md)
+
+Builds, reviews and converts slide decks across three targets — a self-contained HTML presentation on a fixed 16:9 stage, editable PowerPoint through a JSON round-trip, and investor decks assembled from a bundled library of 200 layouts — and treats a deck as what it is: fixed-size content, read at distance, on someone else's clock. What makes it unusual is the gate, and specifically what the gate refuses to do. A preflight probe measures what nobody eyeballs correctly, and it is built so that failing to run cannot look like passing. It asserts the configuration it was handed is the configuration the probe received, because on the previous version reformatting two lines of the probe defeated the substitution and a regulated results deck printed a clean pass with all four disclosure checks never having run. Six summary keys that gated nothing now gate, including the type floor — the skill's loudest rule, previously computed and unable to fail a build. A check that throws is reported NOT RUN and counted, and a run that examined zero slides refuses rather than passing. Seventeen assertions: 17 against the predecessor's 3, with its three genuine passes preserved.
+
+<br clear="left" />
+
+<a href="plugins/mac-craft/README.md"><img src="plugins/mac-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [mac-craft](plugins/mac-craft/README.md)
+
+Designs and reviews macOS application interfaces against the platform's own published values rather than a web habit that happens to run on a Mac. It replaces seven prose audits that graded themselves: one recorded run reported a 100% contrast pass rate while the artifact it had just built put a glyph at 1.00:1, the same colour on the same colour, invisible. Contrast is now computed from the declared cascade with alpha compositing across four appearance contexts, exit 2 means unmeasurable, and examined=0 is never a pass. It also corrects three things the platform documentation actually says, each measured: the kit's own secondary label tier is 3.98:1 and cannot be a body-text colour, white 13pt on the kit's Blue is 3.52:1 so Apple's accent button is itself sub-AA, and the HIG specifies title case for menu items where the previous version asserted sentence case everywhere. Its corpus went from 35 MB to 608 K by cutting what nothing routed into, including 500 gallery images at a resolution that could never serve their stated purpose. It cedes icon work entirely to create-mac-icon and stops rather than running a weaker second pipeline.
+
+<br clear="left" />
+
+<a href="plugins/mac-design-digest/README.md"><img src="plugins/mac-design-digest/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [mac-design-digest](plugins/mac-design-digest/README.md)
+
+Maintains a machine-written corpus of macOS design evidence across sessions — reading screenshots, kits and design files, and writing findings that the interface skills then build against. Provenance is a type system rather than a habit: two orthogonal mark families compose, one for how precisely a value is known and one for how strongly, with promotion running along the strength axis only, so a guess never becomes a specification by being seen more often. Its gate enforces seventeen parser invariants, because a wrong number in a corpus outlives the conversation that created it. The result worth reading is a loss: its rebuild improved its structural assertions from 35 to 43 and then lost its blind panel 4-1, because having built a check for a class of problem it stopped looking past the check. Two of the three defects the panel found became checks the same day, which took a defective fixture from 10 failures to 17 and immediately revealed that its own clean control was incomplete. The third became a rule — the gate is a floor, not a ceiling — carrying that panel loss as its evidence.
+
+<br clear="left" />
+
+<a href="plugins/generate-investor-portal/README.md"><img src="plugins/generate-investor-portal/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [generate-investor-portal](plugins/generate-investor-portal/README.md)
+
+Generates a shareholder or investor portal from a company's own material, and treats a fabricated figure as the worst failure available to it. The refusal that matters is structural: a currency amount, percentage, thousands-number or date appearing in any prose slot outside a provenance object is refused outright, because a fabricated figure arrives as a sentence rather than as a marked value with a bad source, and nothing reading the provenance fields can see it. A number that is genuinely unavailable carries one of six reason codes and a readable placeholder, since one state cannot say both not obliged to hold this and obliged and missing. Its record gate runs entirely offline against a JSON file with no crawl, no database and no spend, mutation-tested at 39 of 39, and it reproduces the accent-contrast failure this skill recorded against production. The republish refusal now fires as the third of three exits before anything is crawled or generated, where it previously sat 420 lines below the inputs and let a run spend twice before refusing.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through ship-fleet and ship-feature, which conduct the shipyard stage skills, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
