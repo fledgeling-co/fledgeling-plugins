@@ -1,7 +1,7 @@
 {
   "name": "mac-craft",
   "description": "Design and review authentically native macOS application interfaces — mock windows as self-contained HTML/CSS or a token-precise spec, with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast instead of asserting it. Grounded in Apple's macOS UI kit deconstructed to exact (specified) values, the published HIG, an August 2026 four-backend research panel across 110 sources, and taste learned from 135 curated macOS apps. Ships scripts/mock_check.py: WCAG contrast computed from the declared cascade across light, dark and increased-contrast contexts with alpha compositing; a metric block cross-checked against both the kit and the stylesheet; keyboard, token-discipline, casing, cursor, self-containment, content and artifact-naming checks. It exits 2 rather than 0 when a check cannot be performed, because examined=0 is a gate that never ran. Replaces mac-design-studio and answers to that name. App icons are not designed here — they route to create-mac-icon.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

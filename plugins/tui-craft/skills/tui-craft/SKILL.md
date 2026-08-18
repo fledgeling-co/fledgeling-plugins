@@ -14,6 +14,8 @@ This skill closes that gap with an instrument. You capture the running app into
 a typed cell grid, and every claim you make about how it looks refers to that
 grid. Build and review are the same loop; they differ only in who wrote the app.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, tui-craft's prose rules become counted artifacts: a state × size capture ledger written before the first capture, gate output and capture refusals pasted verbatim instead of summarised, and every finding pinned to a file, a row and a column. Other models skip it.
+
 ## The rule that makes the rest work
 
 **A claim about a screen needs a captured frame.** Not the source, not a
