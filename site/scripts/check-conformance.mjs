@@ -42,6 +42,10 @@ const AUDIT_SHEET = join(
   PLUGINS_DIR, "create-mac-icon", "skills", "create-mac-icon", "scripts", "audit_sheet.py",
 );
 
+const SHELF_CHECK = join(
+  PLUGINS_DIR, "create-mac-icon", "skills", "create-mac-icon", "scripts", "shelf_check.py",
+);
+
 const MARKETPLACE_SLUG = "fledgeling-co/fledgeling-plugins";
 const MARKETPLACE_NAME = "fledgeling-plugins";
 
@@ -435,8 +439,30 @@ for (const name of dirs) {
 
 // --- repo-level -------------------------------------------------------------
 
-const rootEmDashes = countEmDashes(rootReadme);
-if (rootEmDashes > 0) {
+/**
+ * Whether any two icons read as each other on a shelf. This is a set property, so
+ * no per-plugin rubric can see it: the 12-point icon rubric scores the tile in
+ * front of you and never asks whether that tile already exists, which is how
+ * better-loop and better-goal both scored 11/12 as the same cream dial.
+ *
+ * shelf_check carries its own DECIDED list of pairs somebody has looked at and
+ * ruled on, so this fails only on a collision nobody has judged yet.
+ */
+if (!QUICK && existsSync(SHELF_CHECK)) {
+  try {
+    execFileSync("python3", [SHELF_CHECK, REPO_DIR], { stdio: "pipe" });
+  } catch (error) {
+    const out = `${error.stdout || ""}${error.stderr || ""}`;
+    const pairs = out.split("\n").filter((l) => l.includes("FLAG")).map((l) => l.trim().replace(/\s+/g, " "));
+    failures.push({
+      plugin: "(set)", dimension: "shelf",
+      message: `icons read as each other at 16px and nobody has ruled on it: ${pairs.join("; ") || out.trim().slice(0, 300)}. Look at each pair side by side, then either differentiate one or add it to shelf_check's DECIDED list with the reason.`,
+    });
+  }
+}
+
+
+const rootEmDashes = countEmDashes(rootReadme);if (rootEmDashes > 0) {
   failures.push({ plugin: "(root)", dimension: "voice", message: `README.md carries ${rootEmDashes} em dashes.` });
 }
 

@@ -136,6 +136,32 @@ Check what branch you are on first. This repo's plugin work happens on
 short-lived per-plugin branches, and landing a new plugin on top of an unrelated
 one entangles two things that should merge separately.
 
+## Seven plugins live in two marketplaces, and this one is canonical
+
+`ship-feature`, `ship-fleet`, `design-craft`, `ux-craft`, `deck-craft`,
+`mac-design-digest` and `generate-investor-portal` are registered here **and** in
+`diolog-plugins`. Anyone with both marketplaces added sees duplicate names, and a
+bare `/plugin install <name>` is then ambiguous, which is why every install block
+here carries the `@fledgeling-plugins` suffix.
+
+**The copy in this repo is the successor.** Each of these was rebuilt here against
+the teardown of Claude Code's built-in `/design` skill, and each README credits its
+predecessor by name. `mockup-fidelity` is the clearest case: the copy here is 474
+lines where diolog's is 233, and four sibling skills routed to it by name and were
+resolving to the older one until it was registered on 2026-08-18.
+
+Retiring the seven entries in `diolog-plugins` is the real fix and it is
+deliberately not done here, because that is a different repository and because
+`~/Dev/CLAUDE.md` still says those skills "stay installed" from diolog for
+`shipyard`'s benefit. Doing one without the other leaves a portfolio-level
+instruction file lying. Decided 2026-08-19: document canonical here, change
+nothing over there.
+
+Skills in this repo reference each other by bare name (`design-craft`,
+`ux-craft`), which resolves to whichever copy is installed. That is fine while the
+fledgeling copies are the newer ones, and it is the thing that breaks first if
+diolog's ever move ahead.
+
 ## Portfolio manifest
 
 This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-armada` orchestrator plans from. After completing work here that changes the project's status, features, or the location of its key docs (specs, plans, mocks, ORCHESTRATOR.md), refresh this project's entry with the `armada-sync` skill (fledgeling-plugins). If that skill isn't available, edit the entry directly — keep it under 20 lines, verify every path you write exists, and update its `updated:` stamp.
