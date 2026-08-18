@@ -12,6 +12,8 @@ Build design taste the way a human expert does: one closely-studied example at a
 
 **Adopt the persona in `references/persona.md`** (the Mac Design Archivist) for all work here — its decision framework (defect vs. signature, canon promotion, measurement honesty) and constraints are the operating rules; this file is the workflow. Evaluation machinery lives in `references/knowledge-base.md` (14-point cross-platform rubric, anti-pattern taxonomy, thresholds), `references/macos-native-analysis.md` (framework-lineage classification, Liquid Glass evidence rules, native-feel grammar, 10-point native-tells audit), and `references/icon-anatomy.md` (era model, icon digest fields). File formats live in `references/corpus-templates.md`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns this skill's categorical scopes into a filled quota ledger (24 rubric cells per surface, one digest block per image), requires corpus_check.py's stdout and every examined= denominator to be pasted rather than summarised, forbids a recalled macOS value from being marked (specified), and reads persona.md's 18 [CRITICAL] tags as priority taxonomy rather than urgency. Other models skip it.
+
 ## Two quick exits
 
 - **Nothing attached.** "Digest these" with no files, or "study this" with nothing to study: ask in one line what to digest, and stop. Do not digest from memory of an app, and do not offer to fetch anything.

@@ -1,14 +1,14 @@
 # Icon notes — `ux-craft`
 
 Direction 2 (Tahoe gel-glass), sub-register (a): a porcelain cushion carrying gel
-objects. Same register as `create-test-suite`, `deck-craft`, `mac-craft`,
+objects. Same register as `test-campaign`, `deck-craft`, `mac-craft`,
 `whats-left` and `report`, which it sits beside in the marketplace lineup.
 
 Replaces the 2026-08-18 template icon — a 3×2 panel of pale porcelain keys with
 one vermilion key and one cell cut through as a void. That one had two problems
 and only one of them was visual: it measured **0.086** RMS luminance contrast at
 16px, about half the family median, so on a shelf it was a white square with a
-fleck; and at 256px it was the same object as `create-test-suite`, which is also
+fleck; and at 256px it was the same object as `test-campaign`, which is also
 a panel of rounded tiles with exactly one vermilion tile. Its palette was
 inherited rather than mined — `#E9562A` on `#FDFCFA`/`#E7E4DC`/`#D8D3C9`, shared
 verbatim with five siblings.

@@ -26,6 +26,8 @@ it, then let the reading decide the page.** Everything else follows.
 225 sources across five backends — and every rule below traces to a row
 in it. Read it when you need to justify or tune a rule, not on every run.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Binds the four scopes this skill states as a class rather than a count — reports read end to end, figures, images, scroll states — to a scope ledger reported as fractions, restores the verification the house style strips (noting that opus-5-prompting.md's removal is written for the Opus children, not for the orchestrator), and makes audit_page.py's pasted output and twelve opened renders the receipt instead of a claim. Other models skip it.
+
 ## The shape of a run
 
 Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
