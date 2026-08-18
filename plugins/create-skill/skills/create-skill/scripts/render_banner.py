@@ -264,16 +264,33 @@ async def render(src: Path, out: Path, width: int, height: int, scale: int,
                     f"fetch file:// subresources from a file:// page -- inline "
                     f"the artwork as a data URI.")
 
-            # ASSERTION 2c -- nothing runs past the frame.
+            # ASSERTION 2c -- no *text* runs past the frame.
+            #
+            # This deliberately ignores elements with no text of their own. The
+            # assertion exists so nothing readable is cropped, and a decorative
+            # element bleeding off the edge under `overflow: hidden` is a
+            # composition choice the family already uses: better-loop's seal row
+            # sits at `right: -60px` on purpose, so the state reads as continuing
+            # past the window. Flagging it refused a banner whose PNG was correct
+            # and whose only overflowing nodes were six empty divs and spans.
+            #
+            # A text node's own text is what matters, not its descendants', or a
+            # wrapper inherits the blame for a child that fits.
             over = await cdp.evaluate(f"""(() => {{
+              const ownText = (el) => Array.from(el.childNodes)
+                .filter(n => n.nodeType === 3)
+                .map(n => n.textContent)
+                .join('')
+                .trim();
               const bad = [];
               for (const el of document.querySelectorAll('body *')) {{
                 const r = el.getBoundingClientRect();
-                if (r.width && r.right > {width} + 0.5)
+                const t = ownText(el);
+                if (r.width && r.right > {width} + 0.5 && t)
                   bad.push({{ tag: el.tagName.toLowerCase(),
                               cls: el.className || '',
                               right: Math.round(r.right),
-                              text: (el.textContent || '').trim().slice(0, 40) }});
+                              text: t.slice(0, 40) }});
               }}
               return JSON.stringify(bad.slice(0, 6));
             }})()""")
@@ -281,7 +298,7 @@ async def render(src: Path, out: Path, width: int, height: int, scale: int,
             report["overflow"] = spill
             if spill:
                 raise SystemExit(
-                    f"content runs past the {width}px frame and would be cropped "
+                    f"text runs past the {width}px frame and would be cropped "
                     f"in the shipped PNG: {spill}")
 
             derived = await cdp.evaluate(

@@ -1,0 +1,144 @@
+<!doctype html>
+<!--
+  design-craft icon — contact sheet & audit. Written from
+  create-mac-icon/assets/icon-audit-template.html; every {{PLACEHOLDER}} filled.
+  Renders produced by `audit_sheet.py render .`; gated by its `check` subcommand.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>: the scoring browser
+     computes display:flex on a table cell and still lays its children out as
+     blocks, so every row reads as one tall strip and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measured { margin-top: 20px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measured table { min-width: 0; width: auto; }
+  .measured td, .measured th { padding: 4px 18px 4px 0; border: 0; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>design-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "the sample fan — three materials, one finished" · one shared spec, three engines, five takes, per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">engineA · icon.svg<small>hand-authored layered SVG (build_icon.py) — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA-1024.png" width="160" height="160" alt="engineA hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-256.png" width="128" height="128" alt="engineA at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-128.png" width="64" height="64" alt="engineA at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-96.png" width="48" height="48" alt="engineA at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-64.png" width="32" height="32" alt="engineA at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-32.png" width="16" height="16" alt="engineA at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-32.png" width="96" height="96" alt="engineA 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables on real renders: family superellipse with nothing baked, optically centred at 0.67 of the tile with 183px side margins, a nameable splayed-fan silhouette, and 0.202 RMS luminance contrast at 16px where the hot leaf and the gap between it and the pale pair both survive. Four named layers, 33 paths, 18 KB, <code>fidelity.py structure</code> PASS. <strong>Fails #7 on one element:</strong> dilated-ring figure-ground measures the gel leaf at 3.37:1 and the slate at 3.74:1, but the cream leaf at 1.13:1 — it is carried by its rim, seat edge and cast shadow, and at small sizes by being flanked, not by separating from the cushion. Ported from C1 after the raster read: full capsule ends and the taper into the rivet tab.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC1 · icon-engineC-5db443.png<small>GPT Image 2 raster, four corpus references — material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC1-1024.png" width="160" height="160" alt="engineC1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-256.png" width="128" height="128" alt="engineC1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-128.png" width="64" height="64" alt="engineC1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-96.png" width="48" height="48" alt="engineC1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-64.png" width="32" height="32" alt="engineC1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC1-32.png" width="16" height="16" alt="engineC1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC1-32.png" width="96" height="96" alt="engineC1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">10 / 12</td>
+    <td class="verdict"><strong>Won the material and composition read</strong> and is why the master was rebuilt: it independently reached the same device from the same spec, and its capsule leaves and tapered tabs are better objects than the corner-radius paddles the master started with — both were ported. Measures 0.211 at 16px. Cannot ship: it bakes its own rounded tile, bezel and drop shadow inside the artwork, so it renders a double corner inside the family mask (#1, non-negotiable), and as a flat raster its identity is a colour relationship that dies under Dark/Clear/Tinted (#10). Its accent is a coral outside the family's 16–21° hue band, so it was read for material and not for palette.</td>
+  </tr>
+
+  <tr>
+    <td class="take">engineC2 · icon-engineC-3a4e16-2.png<small>GPT Image 2 raster, second take — kept for the record</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC2-1024.png" width="160" height="160" alt="engineC2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-256.png" width="128" height="128" alt="engineC2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-128.png" width="64" height="64" alt="engineC2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-96.png" width="48" height="48" alt="engineC2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-64.png" width="32" height="32" alt="engineC2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC2-32.png" width="16" height="16" alt="engineC2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC2-32.png" width="96" height="96" alt="engineC2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The same device rendered flatter and cooler: its frosted leaf sits at roughly 1.05:1 against a pure-white ground and dissolves entirely by 32px, which is the raster engine's named frost failure (#7, #4), and its accent has gone pink-red — two hue families away from the set. Same baked tile and flat delivery as C1 (#1, #10). Useful as the counter-example that decided the master's pale leaf had to be a warm off-white with a real seat edge rather than a white one.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">engineB2 · icon-engineB-arrow-921e96.svg<small>Arrow 1.1, second vector take from the spec-as-brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB2-1024.png" width="160" height="160" alt="engineB2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB2-256.png" width="128" height="128" alt="engineB2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB2-128.png" width="64" height="64" alt="engineB2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB2-96.png" width="48" height="48" alt="engineB2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB2-64.png" width="32" height="32" alt="engineB2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB2-32.png" width="16" height="16" alt="engineB2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB2-32.png" width="96" height="96" alt="engineB2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">4 / 12</td>
+    <td class="verdict">Confirms the device reads even in flat vector — three leaves on a rivet are legible with no material at all — and nothing else. Bakes its own corner radius rather than the family superellipse (#1), has no light model, no depth and no translucency (#5, #8), and its pale leaf is a near-white on a cool near-white ground that leaves the silhouette entirely: at 48px the fan reads as two leaves and at 16px as a red and black blob (#3, #4, #7). Its ground is a cool grey-blue ramp, off the porcelain register, and its accent is a pure red at roughly a third of the tile (#6). Nothing salvaged.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">engineB1 · icon-engineB-arrow-920b9d.svg<small>Arrow 1.1, first vector take — arrived after its call timed out</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB1-1024.png" width="160" height="160" alt="engineB1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB1-256.png" width="128" height="128" alt="engineB1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB1-128.png" width="64" height="64" alt="engineB1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB1-96.png" width="48" height="48" alt="engineB1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB1-64.png" width="32" height="32" alt="engineB1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB1-32.png" width="16" height="16" alt="engineB1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB1-32.png" width="96" height="96" alt="engineB1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">3 / 12</td>
+    <td class="verdict">The weaker of the two Arrow takes, kept because it was a real generation rather than a discard: it reads the leaves as pointed lens petals, bakes a tiled field of rounded grey squares behind them as though the tile were a wall, detaches the rivet into a dot below the fan, and leaves stray scribble artefacts inside the vermilion petal. Cool grey ground off the porcelain register (#1, #6), no coherent light (#5, #8), and the pale petal leaves the silhouette on a pale ground (#3, #7). It did establish one thing the second take confirmed: this engine will not hold a shared pivot unless the brief says the leaves are pinned <em>through</em> a rivet.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship engineA (icon.svg).</strong> It is the only take that is Icon-Composer-shaped — four named layers (bg / mid / fg / highlight) over a swappable ground, identity carried by shape and value rather than by hue — and the only one that passes checks 1–4 on real renders rather than at 1024 alone. Its material provenance is explicit: the capsule ends and the tapered rivet tab came from C1, which won the material read, and the light axis, cushion ramp, warm shadow hue and accent band were sampled out of the porcelain corpus captures (apple-23 / 26 / 28 / 31) and the shipped sibling tiles before anything was authored. Scored against C1 at five sizes on the numpy tier it holds 0.5566 own contrast against the raster's 0.5615 at 1024 and 0.5378 against 0.5570 at 16px, so the material gap is small and the loop was stopped deliberately rather than run to convergence — the reference's remaining advantages are exactly the two things it fails on. Known liabilities to revisit: the cream leaf measures 1.13:1 against the cushion, so at small sizes it is carried by being flanked rather than by separating — a taupe register for it would fix that and cost the "blank default" reading, and the trade has not been swept; #10 is satisfied by construction and not by test, since Dark, Clear and Tinted have not been rendered; the master is measurably flatter than the raster at 128–1024, where a second inner top glow and a tighter ambient-occlusion crescent at each overlap would close most of what remains; the gel leaf's specular is one authored slab rather than a fitted profile, so it reads glossy at 1024 and disappears by 48px; and the fan's union silhouette is close enough to a letter V that a fresh viewer may name the letter before the object.</div>
+
+<div class="measured">
+  <table>
+    <caption class="visually-hidden">Measurements behind the scores</caption>
+    <tr><th scope="col">measurement</th><th scope="col">engineA</th><th scope="col">engineB1</th><th scope="col">engineB2</th><th scope="col">engineC1</th><th scope="col">engineC2</th></tr>
+    <tr><td>16px RMS luminance contrast (alpha-masked)</td><td>0.202</td><td>0.187</td><td>0.220</td><td>0.211</td><td>0.191</td></tr>
+    <tr><td>figure-ground, dilated ring (gel / slate / cream)</td><td>3.37 : 3.74 : 1.13</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>geometry bbox as a fraction of the tile</td><td>0.67w &times; 0.64h</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>named layers / paths / bytes</td><td>4 / 33 / 18 KB</td><td>0 / 40 / 15 KB</td><td>0 / 12 / 2 KB</td><td>flat raster</td><td>flat raster</td></tr>
+  </table>
+  engineB2's 16px number is the highest on the sheet and the take is the second-worst on it — a red-on-white blob has a wide luminance spread. The number is a floor, not a verdict.
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked versions. Renders produced by `python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

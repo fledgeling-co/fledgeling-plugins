@@ -373,8 +373,8 @@
       "install": "/plugin install improve-skill@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/improve-skill",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/improve-skill/evals/EVALS.md",
         "scripts": false,
         "references": 4
       },
@@ -412,8 +412,8 @@
       "install": "/plugin install create-skill@fledgeling-plugins",
       "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/create-skill",
       "signals": {
-        "evals": false,
-        "evalsUrl": null,
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/create-skill/evals/EVALS.md",
         "scripts": true,
         "references": 5
       },

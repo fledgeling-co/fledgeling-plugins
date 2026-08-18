@@ -159,8 +159,16 @@ def font_evidence(src: pathlib.Path) -> tuple[list[str], list[str]]:
 
 
 def visible_text(src: pathlib.Path) -> str:
-    """Rough strip of markup, enough to count em dashes in copy rather than code."""
+    """Rough strip of markup, enough to count em dashes in copy rather than code.
+
+    Comments are stripped before tags, and that ordering is the whole point.
+    better-loop's banner-src carries a long comment documenting this engine's
+    rendering traps, and one of those notes uses an em dash. Counting it flagged a
+    banner whose visible copy was clean, which is a checker that cries wolf about
+    the author's own notes.
+    """
     text = src.read_text(encoding="utf-8", errors="replace")
+    text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
     text = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S | re.I)
     return re.sub(r"<[^>]+>", " ", text)
 

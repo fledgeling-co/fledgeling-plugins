@@ -65,6 +65,156 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · design-craft "The Sample Fan" — translucency has a paint-order
+  prerequisite, and one rotated body can be lit without per-edge geometry.** Five
+  findings from a three-leaf fan of material samples on a porcelain cushion, four
+  of them construction rules that no palette work could have repaired.
+
+  **Anything that belongs to a back surface is painted before the front body, or
+  masked subtractively.** The same defect arrived three times in one commission
+  with every hex correct: the rejects' rim and seat strokes, run as one pass after
+  all three bodies, painted their bright edges across the leaf standing in front
+  of them; the front leaf's ambient occlusion, clipped to the leaf behind and
+  emitted after its own face, filled the entire overlap region and read as a hard
+  diagonal cut across the face; and the warm bounce in `#highlight` did it again
+  more faintly, because the layer plan puts highlights above everything. This
+  generalises anvil-errand's stray-catch entry into a rule with two remedies:
+  emit a back-surface effect *before* the occluder's body, or mask it with
+  `<mask>` carrying the occluder in black. A stray light leak is a paint-order
+  bug, and it presents as a colour bug.
+
+  **The thickness copy blocks the transmission it sits under.** A slab's side face
+  is usually an offset copy of the body drawn behind it, which is invisible on an
+  opaque object and fatal on a translucent one: an 11px offset covers ~95% of the
+  body, so a frosted leaf at `fill-opacity 0.72` composited over its own opaque
+  side face instead of over the dark leaf behind it. Its translucency was declared
+  and not visible, and no measurement of the palette could see it. Mask the side
+  face to the sliver that actually protrudes (`<mask>`: white tile, body in black)
+  and the object behind reads through — which then became the tile's strongest
+  material tell, the Photos-petal move at full amplitude.
+
+  **A rim light can be one stroke whose opacity dies along the shared light
+  axis.** On a body rotated to an arbitrary angle, authoring per-edge catch arcs
+  means solving which edges the key reaches. Stroking the whole outline with a
+  `userSpaceOnUse` gradient hung on the light axis — 0.85-0.95 alpha at the lit
+  end, 0.18 at 0.42, zero at the shaded end — lights the correct edges for free
+  and stays correct when the angle changes. Cheap, steady across renderers, and it
+  survives being re-parameterised.
+
+  **Rotate the geometry, not the group, when several bodies must share one light.**
+  A `userSpaceOnUse` gradient referenced inside a `rotate()` group rotates with
+  it, so three rotated leaves each get their own light direction and read as three
+  objects under three lights. Emitting each body already rotated (circular arcs
+  are rotation-invariant, so only the endpoints move) lets every face hang on one
+  tile-space axis while each object keeps its own lit-to-shaded ramp.
+
+  **A negative corner radius renders as a straight chord, without erroring.** Cut
+  the specular and the occlusion copies with a `grow` parameter and the corner
+  radius goes negative before the width does; `rsvg-convert` drew a hard diagonal
+  across the finished face and reported nothing. Clamp every radius a grow
+  parameter can reach: `max(4, min(r + grow, half_width, 0.45 * length))`.
+
+  **Finished versus unfinished as a material distinction.** Where a composition
+  has to say "several candidates, one committed", the cheapest legible device is
+  not colour but completeness: give every body its gradient, seat edge, rim and
+  cast shadow so all of them are real objects, and give only the chosen one a
+  specular and a bloom. It reads at 128px as gloss and at 32px as one object being
+  brighter, and it costs two paths.
+
+  **The white-frost trap, confirmed a third time.** The raster engine again
+  rendered the pale sample as a true white on a near-white ground at ~1.05:1; it
+  dissolved by 32px. The shipped master's pale leaf is a warm off-white
+  (`#FCF7EB`→`#CEBF9C`) with a real seat edge because of it — and it still
+  measures only 1.13:1 against the cushion by the dilated-ring method, surviving
+  small sizes by being flanked by two darker bodies rather than by separating from
+  the ground. When a composition needs a pale element, plan for its neighbours to
+  carry it and say so in the liabilities.
+
+- **2026-08 · better-loop "The Stepped Rail" — a pale object on a pale ground is
+  not there, and four ways a follower stops being hardware.** Confirmed on the
+  commission that replaced a duplicate of its own sibling's dial; every entry
+  below was found on a render rather than reasoned about.
+
+  **Value first, material second: a porcelain object on a porcelain ground runs
+  about 1.15:1, so it is not present.** The follower was authored porcelain for
+  two rounds on the reasoning that the watcher should be the same material as the
+  daylight it sits in. The part of it standing above the dark rail simply was not
+  visible, and no amount of sheen, edge catch or top-face work moved it, because
+  the problem is the value relationship and not the material. Re-authored in
+  machined steel — one value band above the rail, well below the cushion — it
+  reads against both at 3.08:1 and 2.92:1. `deck-craft` recorded the same
+  relationship as a liability (three porcelain plates at 1.18:1 against its
+  cushion); this is the same finding as a build rule. **Pick each object's value
+  band against every neighbour it touches before choosing its material.**
+
+  **A pale shape interlocking with a dark band resolves to a belt buckle.** A yoke
+  the rail passes through, open on its up-light side, is a clean piece of
+  engineering and an unreadable icon: pale jaws with a dark bar threaded through
+  them is a figure-ground ambiguity, and the reading it settles on is a clasp. A
+  saddle that grips one surface and breaks the silhouette in one direction only
+  cannot go wrong the same way.
+
+  **Two dark circles on a pale body are a face, at every size.** Roller pins at
+  0.26 and 0.74 of the follower's width read as eyes from 512px down to 32px. Any
+  paired feature at roughly a third and two thirds of a body's width will do this;
+  a single continuous sole or bearing line carries the same "this is mounted" cue
+  with no anthropomorphic read.
+
+  **Three correct overlays on one small part make one dirty stripe.** A shadowed
+  lip, a graphite bearing pad and a 42px warm spill at 0.22 alpha were each
+  defensible alone and together browned the middle of the part, with every hex
+  still measuring correct. Where an accent is 70px or more away from a part, what
+  reaches it is an **edge kiss** — 18px at 0.16 — and not a wash. This is
+  `anvil-errand`'s muddy-bounce finding at the scale of a single component.
+
+  **A warm bounce onto cool graphite has to be in the pale spill hue, not the
+  accent's.** At `ACCENT_HI` over a `#7A828E` tread the bounce reads as rust; at
+  the accent's cream rim value (`#F6D3AC`, sampled as apple-05's lightest accent
+  pixel) at 0.52 over a 66px run it reads as light. Corollary worth keeping: a
+  bounce confined to a **clip path of the receiving surface** cannot spill onto the
+  face below it, which is what turned a first attempt into a horizontal brown smear
+  under the accent.
+
+  **Draw an object's seat edge with its front face, before anything set into it.**
+  The rail's `stroke` ran after the vermilion shim, so the step's own vertical edge
+  drew a dark seam down the shim's up-light side. At 1024 it is a hairline; at 256
+  it is a gap between two pieces that are supposed to be one assembly. Same class
+  as the highlight-over-occluder bug: a layer-order defect presenting as a
+  material one.
+
+  **A foreshortened top face must stop where an occluder starts, not behind it.**
+  The lower tread ran to the shim's far edge, and because a top face is a
+  parallelogram its far corner emerged past the shim as a grey tab — which reads
+  as a chipped step. Behind an occluder there is no visible surface; end the face
+  at the occluder's near edge.
+
+  **Sweep the one dimension the icon is about, at 32px, before polishing
+  anything.** The step's height was swept at 178 / 212 / 240 on a 1024 canvas.
+  Under about 190 the two runs merge into one thick band with a notch and the
+  subject is gone; over about 230 they read as two separate bars. A 200px rise on
+  a 124px section is the window, and it is roughly 3px of separation at 16px — the
+  useful general form is that **a feature needs about 3px at the smallest target
+  size, so about 190px on a 1024 canvas for a 16px target.**
+
+  **Both raster takes drew the follower as a clip wrapped over the rail rather
+  than a block cut flat**, and that is the salvage: a generous top radius plus one
+  arc catch across the crown reads as machined where a boxy block reads as a tray.
+
+  **Metric definition, not material.** The family's 16px contrast figure is RMS of
+  **gamma-encoded** relative luminance on a 16px downsample, alpha-masked.
+  Linearising first moves this commission from 0.2331 to 0.2840 and the 36-icon
+  family median from 0.1805 to 0.2380 — same ranking, incomparable numbers.
+  `deck-craft`'s recorded 0.174 reproduces only under the gamma-encoded form, so
+  quote the definition with the number.
+
+  **A gate the library does not have.** The predecessor scored 8/12 and still had
+  to be thrown away, because it was `better-goal`'s dial with a different tick
+  pattern. The 12-point rubric has no check for whether an icon differs from its
+  siblings, and in a marketplace where one pipeline generates the whole family that
+  is the failure mode most likely to ship. The cheap mechanical version is a
+  nearest-neighbour distance on the 32px renders of the existing set, run before
+  the direction is settled rather than after the master is built.
+
 - **2026-08 · anvil-errand "The Struck Billet" — a profile silhouette cannot
   carry material, and three lighting bugs that all look like colour bugs.**
   Confirmed during the porcelain re-ground; recorded here because that
