@@ -7,11 +7,11 @@ a run, and record the mapping in the ledger so a resumed session does not re-gue
 |---|---|---|
 | Backlog | Nobody has committed to this | Nothing |
 | Needs More Info | Blocked on an answer | **A written question** the reader can reply to |
-| Needs More Work | Committed, and the work is not sufficient | A named gap, with evidence |
+| Needs More Work | Committed, and at least one requirement is unmet | A named gap, with evidence |
 | Todo / Ready | Specified well enough to start | A requirement list survives a read |
 | In Review | Built, awaiting judgement | Work located; requirement list built |
-| Done | Judged sufficient on evidence | Every gate below passed |
-| Verified | A person accepted it | See §Verified |
+| Done | An out-of-family verdict granted it | Every gate below passed |
+| Verified | The warrant's authority granted it | See §Verified |
 
 ## Moving a card requires evidence you can point at
 
@@ -58,40 +58,62 @@ the two or three answers you would act on.
 Where the question is technical and evidence would settle it, it is not a Needs More
 Info card. Refer it out of family and decide.
 
-## §Verified — the human column
+## §Verified — what the warrant decides
 
-Done is what an out-of-family verdict can grant. **Verified is a person's judgement**,
-and the difference is not ceremony:
+Done is what an out-of-family verdict can grant. Whether a card goes further is a
+question about **authority**, and the `warrant` plugin holds it: authority is written
+into a signed policy, earned per defect class from evidence, and revoked
+automatically when the evidence stops supporting it. `scripts/warrant_column.py`
+reads that state and its exit code is the column.
 
-- No powered non-inferiority reader study has been run on code or UI review, and no
-  regulated vendor has had an all-machine verification step accepted as the control of
-  record. Both are search absences rather than proofs — but neither supports
-  substitution today.
-- **A model id is not an individual.** 21 CFR Part 11 signatures must be unique to a
-  person. DO-330 Criteria 2 describes exactly this case: a tool that could fail to
-  detect an error where its output is not otherwise verified.
-- **A reversioned model breaks benchmarking.** PCAOB AS 2201 requires that an
-  automated control be *unchanged* for prior testing to carry forward. A model
-  upgrade silently voids the baseline.
-- The incumbent is a weak gold standard anyway — evaluator agreement on review
-  findings runs 5–65%, typically around 27% — which argues for **sampling** rather
-  than substitution.
+The reasons Verified used to be a human-only column have not gone away. They have
+been mechanised, and the two that could not be are named below rather than dropped.
 
-So the skill promotes to Done and stops, **unless** the preconditions below exist.
-`scripts/check_verified_gate.py` reports which are missing rather than letting the
-question go unasked, and its exit code is the answer.
+| Why Verified was withheld | Where it now lives |
+|---|---|
+| A model id is not an individual (21 CFR Part 11) | The warrant carries a named owner, and validation refuses a warrant without one. The signature is on the policy, once, rather than on each card |
+| A reversioned model voids prior benchmarking (PCAOB AS 2201) | Every lane pins a model id and version. `warrant:ratchet` compares them against the last calibration and drops the class to tier 0 on any change, without asking |
+| Inconclusive must not round up | `inconclusive` is a terminal verdict state whose schema requires the reason and what would settle it. A shrug will not validate |
+| The evidence is authored by the party being judged | `warrant:panel` snapshots the diff, tests and captures to a content-addressed digest before judging, and a verdict whose digest does not match is void |
+| Drift is invisible without a chart | `warrant:ratchet` runs a Westgard multirule chart over the regression corpus and revokes on a violation. A single threshold either never fires or fires constantly on a queue like this |
+| A promotion nobody can revisit is unauditable | `warrant:ledger` is append-only and hash-chained, and names the class, the model version and the evidence digest per decision |
+| A blinded human sample, marks not shown first | `warrant:lot` builds the reviewer queue from an allowlist so a verdict cannot reach it, and refuses an explicit `--carry verdict` |
+| A seeded-defect bank | Partly. Every reported escape becomes a permanent regression case, and a class holds tier 2 only while the machine still catches all of its own historical escapes. That is a bank of real misses rather than a designed one |
 
-Preconditions for auto-Verified on **one pre-registered low-risk class only**:
+### The two that were not mechanised
 
-1. A composite reference standard — multi-person adjudication plus known escapes.
-2. A seeded-defect bank: ≥50 items, ≥8 classes, blinded, rotating.
-3. The diagnosability gate live and blocking, so inconclusive cannot pass.
-4. Producer/verifier isolation with signed attestation of test provenance.
-5. A verifier control chart with a suspend rule.
-6. A pre-registered non-inferiority study on that class alone.
-7. A blinded human sample of the existing queue, seeds mixed in, **AI marks not shown
-   first**.
-8. Retention long enough to re-adjudicate.
+**There is no composite reference standard, and there is no non-inferiority study.**
+An earlier design specified a prospective reader study to supply both. It was cut
+because it inverted the purpose: it spent human review time in order to remove human
+review time.
 
-Until all eight hold, auto-Verified is refused and the missing ones are named. That
-refusal is the feature.
+What replaced it is absence of escapes over a declared window. That is weaker, in
+three specific ways the plugin states rather than hides: it is a numerator with no
+denominator, it cannot bound what is still hidden, and it says nothing about items
+wrongly failed. So a warrant tier is not a measured sensitivity and must never be
+reported as one.
+
+**A signed warrant is a person accepting that substitution in advance.** That is the
+residual human act, and it is the whole reason this column can be reached at all.
+`warrant_column.py` prints the substitution on every grant, because a tier that
+stops being described this way reads as a measurement within about one quarter.
+
+### What refuses
+
+Verified is refused, and the reason named, when any of these holds:
+
+- no signed warrant, or a warrant with no named owner
+- the card's defect class is not named in the warrant, because an unnamed class holds
+  tier 0 by default and a class nobody wrote down is a class no machine may close
+- the class is a census class, which has no machine path past Done at any tier
+- the class has earned less than tier 3, which is the strongest evidence the warrant
+  can produce
+- `warrant:ratchet` has not run since the tier was set, so the tier is a claim rather
+  than a finding
+- any revocation trigger has fired: a model version moved, the regression corpus is
+  failing, a new escape landed, the control chart is out of control, coverage fell, or
+  the calibration went stale
+
+Refusal is the default and it is the feature. Where `warrant` is not installed,
+`scripts/check_verified_gate.py` is the fallback and refuses until eight
+preconditions are recorded as holding with evidence.

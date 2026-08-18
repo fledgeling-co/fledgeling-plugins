@@ -1,7 +1,7 @@
 # Testing adequacy
 
 A green suite is a claim about the code. These are the checks that test the claim,
-drawn from `create-test-suite` and from defects found in practice.
+drawn from `test-campaign` and from defects found in practice.
 
 ## The rung of oracle
 

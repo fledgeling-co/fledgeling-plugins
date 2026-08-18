@@ -77,11 +77,28 @@ buys agreement rather than independence.
 never quietly rounds up to a pass. This is the same rule laboratories work under, and
 it is the difference between a gate and a formality.
 
-**It will not sign off as a person.** It promotes a card to *Done* on the strength of
-an independent verdict, and stops there. Anything past that is a human's judgement,
-and it stays one until eight specific preconditions are in place for one narrow,
-pre-registered class of work. A bundled check refuses by default and tells you exactly
-which of the eight are missing. Refusing is the feature.
+**Past Done, it asks the warrant rather than deciding.** An independent verdict gets a
+card to *Done*. Whether it goes further is a question about authority rather than about
+the card, so it is handed to the `warrant` plugin, where authority is written into a
+signed policy, earned per class of defect, and taken away automatically when a model
+version moves, an escape lands or the control chart drifts.
+
+Three answers come back. **Verified**, where that class of work has earned the top tier
+and nothing has been revoked. **Needs More Work**, where one of the warrant's own checks
+failed on this card's evidence, quoted onto the card so it is actionable: a figure that
+does not tie to its source arrives as the figure, both values and the tolerance, not as
+"verification failed". Or **Done and no further**, with every reason named, which is
+what happens by default.
+
+Note: a grant says what it rests on, every time. A warrant tier is earned by nothing
+having escaped over a declared window, which is not the same as anyone having measured
+how good the machine is. No such measurement exists for code review. What a signed
+warrant means is that a named person accepted that substitution in advance, and that
+signature is the one piece of this nobody automated away.
+
+Where `warrant` is not installed, the older gate applies: eight named preconditions, a
+bundled check that refuses by default and tells you which are missing. Refusing is the
+feature either way.
 
 ## Using it
 

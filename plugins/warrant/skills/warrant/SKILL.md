@@ -111,6 +111,18 @@ sensitivity was significantly lower with the aid, odds ratio 0.53 (`C8`).
 | `references/measurement.md` | before reporting any number |
 | `references/opus5-authoring.md` | writing or editing a runner prompt in this plugin |
 
+## Who drives this
+
+`stocktake` is the board sweep that calls it. As each card reaches Done it runs
+`warrant_column.py`, which reads `.warrant/` and returns the column: Verified where the
+card's defect class holds tier 3 and nothing has been revoked, Needs More Work where a
+gate failed on the card's own evidence, and Done with the reasons named otherwise. That
+script reads this plugin's state files rather than importing its code, because two
+separately installed plugins cannot resolve each other's paths.
+
+Nothing here depends on `stocktake`. Run the skills directly on one item, or on a
+repository, without it.
+
 ## Delegation
 
 Use a subagent for a wide read across many files where you need only the conclusion, or for two
