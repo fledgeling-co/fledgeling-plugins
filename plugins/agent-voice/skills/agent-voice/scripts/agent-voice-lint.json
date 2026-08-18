@@ -1,0 +1,94 @@
+{
+  "_note": "Config for agent_voice_lint.py. Copy into a project and edit; the script merges its built-in lists rather than replacing them, so this file only ever adds.",
+  "em_dash": "advisory",
+  "categorical": "fail",
+  "banned_phrases": [
+    "as an ai assistant",
+    "i'd be happy to help",
+    "great choice",
+    "perfect!",
+    "you're all set",
+    "and there you have it",
+    "the possibilities are endless",
+    "sit back and relax",
+    "rest assured"
+  ],
+  "advisory_phrases": [
+    "note that",
+    "keep in mind",
+    "of course",
+    "simply",
+    "just run",
+    "easily"
+  ],
+  "ai_vocab_extra": [
+    "streamline",
+    "streamlined",
+    "empower",
+    "empowers",
+    "unparalleled",
+    "transformative"
+  ],
+  "unmeasurable_extra": [],
+  "acronym_allowlist": [
+    "ASX",
+    "IR",
+    "NNG",
+    "PNAS",
+    "ACL",
+    "NAACL",
+    "CDP",
+    "SSRF",
+    "GSAP",
+    "TUI"
+  ],
+  "repeat_allowlist": [
+    "layer this over",
+    "lint format key",
+    "in the base voice",
+    "the same agent",
+    "register rules",
+    "decision framework",
+    "worked examples",
+    "identity kernel",
+    "core identity",
+    "primary mission",
+    "cognitive model",
+    "shapes that work",
+    "fence the register",
+    "what to do rather than what to avoid",
+    "lead with the outcome",
+    "one recorded run",
+    "the counterweight in the base voice",
+    "read this file when"
+  ],
+  "formats": {
+    "reply": {
+      "warn_lines": 15,
+      "note": "a question gets an answer; past ~15 lines it is a report"
+    },
+    "report": {
+      "warn_lines": 30,
+      "note": "outcome, what changed, what is open"
+    },
+    "commit": {
+      "max_subject_chars": 72,
+      "note": "imperative subject under 72 chars, no full stop"
+    },
+    "review": {
+      "warn_words": 220,
+      "note": "one issue per comment, each with its failure scenario"
+    },
+    "doc": {
+      "note": "every section load-bearing for a decision"
+    },
+    "skill": {
+      "warn_lines": 300,
+      "note": "push depth to references; the runner pays for this on every call"
+    },
+    "brief": {
+      "note": "no brevity rule; an underspecified brief is the expensive failure"
+    }
+  },
+  "fingerprint": {}
+}

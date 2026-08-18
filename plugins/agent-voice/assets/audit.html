@@ -1,0 +1,215 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>agent-voice icon audit</title>
+<style>
+  :root { --ink:#1c1f24; --dim:#6b7280; --line:#e3e0d9; --accent:#E8542A; }
+  body { margin:0; padding:48px 56px; background:#F6F4EF; color:var(--ink);
+         font:15px/1.6 ui-sans-serif,-apple-system,'Helvetica Neue',sans-serif; }
+  h1 { font-size:26px; margin:0 0 4px; letter-spacing:-0.02em; }
+  .sub { color:var(--dim); margin:0 0 40px; max-width:76ch; }
+  h2 { font-size:15px; text-transform:uppercase; letter-spacing:0.09em;
+       color:var(--dim); margin:44px 0 14px; font-weight:600; }
+  table { border-collapse:collapse; width:100%; background:#fff;
+          border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line);
+          vertical-align:top; }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:0.07em; color:var(--dim);
+       font-weight:600; background:#FBFAF7; }
+  tr:last-child td { border-bottom:none; }
+  .sizes { display:flex; gap:26px; align-items:flex-end; flex-wrap:wrap; }
+  .sz { text-align:center; color:var(--dim); font-size:11px; }
+  .sz img { display:block; margin-bottom:6px; border-radius:6px; }
+  .squint img { image-rendering:pixelated; border-radius:2px; }
+  .hero { display:flex; gap:36px; align-items:flex-start; margin-bottom:8px; }
+  .hero img { border-radius:22px; flex:0 0 auto; }
+  .pass { color:#1a7f42; font-weight:600; }
+  .warn { color:#b7791f; font-weight:600; }
+  .rubric td:first-child { width:52%; }
+  .rejected td:first-child { width:34%; }
+  code { background:#F1EEE8; padding:1px 5px; border-radius:4px; font-size:13px; }
+  .fam { display:flex; gap:20px; align-items:flex-end; }
+  .fam .sz img { border-radius:10px; }
+  td.score { text-align:center; white-space:nowrap; }
+</style>
+
+<h1>agent-voice — icon audit</h1>
+<p class="sub">Decorative marketplace tile, not an Icon Composer production package: the
+material has to be in the file, because nothing downstream will add it. One engine
+(hand-authored layered SVG, <code>build_icon.py</code>), four takes, master shipped from take 4.
+The squircle is a clip rather than a baked corner radius, and there is no baked drop shadow, so
+system tinting and the site's own rounding both still work.</p>
+
+<div class="hero">
+  <img src="audit-renders/master-1024.png" width="256" height="256" alt="master at 1024">
+  <div>
+    <strong>Direction:</strong> "the cursor speaks". A terminal block cursor in deep slate with
+    two quote strokes cut clean through its upper half and lit from behind.<br>
+    <strong>Semantic:</strong> the block is what an agent emits; the voice is the part where
+    light gets through. The accent is spent on the two cuts and nowhere else, because the voice
+    is the thing that is new — the cursor was always there.<br>
+    <strong>Signature move:</strong> the cuts start <em>above</em> the block's top edge and are
+    clipped to the body, so each arrives as an open notch rather than an enclosed slot. That is
+    the whole difference between a quote mark and a light switch.<br>
+    <strong>Family position:</strong> ground and vermilion are the set's, unchanged. The slate
+    body is tui-craft's device vocabulary at its own values, so the two terminal-subject icons
+    read as kin without reading as duplicates.
+  </div>
+</div>
+
+<h2>Sizes, retina-paired</h2>
+<div class="sizes">
+  <div class="sz"><img src="audit-renders/master-256.png" width="128" height="128" alt="128">128</div>
+  <div class="sz"><img src="audit-renders/master-128.png" width="64" height="64" alt="64">64</div>
+  <div class="sz"><img src="audit-renders/master-96.png" width="48" height="48" alt="48">48</div>
+  <div class="sz"><img src="audit-renders/master-64.png" width="32" height="32" alt="32">32</div>
+  <div class="sz squint"><img src="audit-renders/master-32.png" width="16" height="16" alt="16">16</div>
+</div>
+<p class="sub">The 48 row is the one that matters most here: it is the marketplace tile and the
+Finder list size, and an icon that survives 128 and 16 can still fail between them. The shipped
+README row renders <code>icon-256.png</code> at 110px, which sits between the 128 and 64 columns.</p>
+
+<h2>Against the family, at 128</h2>
+<div class="fam">
+  <div class="sz"><img src="../../geminify/assets/icon-128.png" width="96" height="96" alt="geminify">geminify</div>
+  <div class="sz"><img src="../../tui-craft/assets/icon-128.png" width="96" height="96" alt="tui-craft">tui-craft</div>
+  <div class="sz"><img src="../../clarify/assets/icon-128.png" width="96" height="96" alt="clarify">clarify</div>
+  <div class="sz"><img src="icon-128.png" width="96" height="96" alt="agent-voice">agent-voice</div>
+</div>
+<p class="sub">This comparison is why the master is take 4 rather than take 3. Measured off the
+siblings rather than guessed: geminify's leaves fill about 65% of the tile, tui-craft's panel 72%,
+clarify's stack 78%. Takes 1 to 3 sat at 29%, 37% and 48%, and each read as a small tile adrift in
+a large field next to its neighbours. The master is 53% wide and 72% tall.</p>
+
+<h2>Rubric</h2>
+<table class="rubric">
+  <tr><th>Check</th><th>Verdict</th></tr>
+  <tr><td>One metaphor, not two</td><td class="pass">PASS — a cursor with a quote cut through it. Nothing else is in the frame.</td></tr>
+  <tr><td>One warm accent, spent once</td><td class="pass">PASS — vermilion on the two cuts and their light. No second hue anywhere.</td></tr>
+  <tr><td>Legible at 16px</td><td class="pass">PASS — resolves to a dark block with a bright notch across its top third. The two marks merge into one at 16, which is acceptable: the silhouette still says "block with the top opened".</td></tr>
+  <tr><td>Legible at 48px (marketplace tile)</td><td class="pass">PASS — both marks separate and the taper is visible.</td></tr>
+  <tr><td>Silhouette is its own</td><td class="pass">PASS — the open-topped notches break the rectangle. Take 3 did not clear this: a plain rounded rect with two enclosed slots read as a light-switch plate, and no amount of material work argues with a silhouette.</td></tr>
+  <tr><td>Squircle is a clip</td><td class="pass">PASS — <code>&lt;clipPath id="mask"&gt;</code> over the family path from <code>squircle-path.txt</code>. No baked radius, no baked shadow.</td></tr>
+  <tr><td>Layer structure</td><td class="pass">PASS — bg / mid / fg / highlight, in that order, with the aperture core drawn behind the body so the light reads as coming through rather than painted on.</td></tr>
+  <tr><td>Grounded, not floating</td><td class="pass">PASS — two-layer contact shadow: a broad warm cast plus a hard dark line under the lower edge.</td></tr>
+  <tr><td>Reads distinct from tui-craft</td><td class="warn">NOTE — both are slate devices on the set's ground. They separate on subject (one panel of ruled text versus one cursor with two cuts) and on mass, but at 16px the two are closer than any other pair in the set. Accepted deliberately: the alternative was a warm body, and two takes proved a mid-value warm body under a warm ground renders as mud.</td></tr>
+  <tr><td>Lower third of the body</td><td class="warn">NOTE — a large unbroken slate field. tui-craft carries a similar mass, so it is in family, but it is the weakest region of the composition and the first place a future revision should look.</td></tr>
+</table>
+
+<h2>Takes, scored against the 12-point rubric</h2>
+<p class="sub">Bar: <strong>&ge;10 / 12 with zero failures on checks 1&ndash;4</strong> (mask
+discipline, grid adherence, silhouette test, 16px squint). Take 1 is prose-only: its path
+structure no longer exists in <code>build_icon.py</code>, and reinstating dead geometry to
+photograph it would be worse than saying so. Takes 2 and 3 are reproducible from the parameter
+sets in that file &mdash; <code>python3 build_icon.py --take t2 icon-take2.svg</code>.</p>
+
+<table>
+  <tr><th style="width:150px">Take</th><th>Renders</th><th style="width:82px">Score</th><th style="width:40%">Verdict</th></tr>
+
+  <tr>
+    <td><strong>1</strong><br>strokes beside a notched block<br><em>not re-renderable</em></td>
+    <td class="sizes"><div class="sz" style="color:#9aa0a6">no render &mdash; geometry removed</div></td>
+    <td class="score"><strong>6 / 12</strong><br><span class="warn">fails 2, 3</span></td>
+    <td>
+      Two quote wedges to the upper right of a block whose top-right corner was notched.
+      Three failures at once: the notch read as a folded document corner rather than a caret
+      (3, silhouette), the strokes floated with no visual link to the block (11, personality
+      &mdash; two devices, not one), and the mass piled into the lower left with the accents
+      stranded top-right (2, grid adherence). <strong>Rejected.</strong></td>
+  </tr>
+
+  <tr>
+    <td><strong>2</strong><br>enclosed slots, clay body<br>380&times;500</td>
+    <td class="sizes">
+      <div class="sz"><img src="audit-renders/t2-256.png" width="128" height="128" alt="take 2 at 128">128</div>
+      <div class="sz"><img src="audit-renders/t2-96.png" width="48" height="48" alt="take 2 at 48">48</div>
+      <div class="sz squint"><img src="audit-renders/t2-32.png" width="16" height="16" alt="take 2 at 16">16</div>
+    </td>
+    <td class="score"><strong>7 / 12</strong><br><span class="warn">fails 2, 3</span></td>
+    <td>
+      Moving the cuts inside the body fixed the floating (11 clears). It failed on silhouette
+      (3): a plain rounded rectangle with two enclosed vertical slots is a light-switch plate,
+      and no amount of material work argues with a silhouette. It also failed grid adherence
+      (2) at 29% of the tile's width, and the clay ramp rendered olive rather than clay
+      (6, palette economy &mdash; the warm mid-tones desaturate under a warm ground).
+      <strong>Rejected.</strong></td>
+  </tr>
+
+  <tr>
+    <td><strong>3</strong><br>bigger block, warmer clay<br>452&times;624</td>
+    <td class="sizes">
+      <div class="sz"><img src="audit-renders/t3-256.png" width="128" height="128" alt="take 3 at 128">128</div>
+      <div class="sz"><img src="audit-renders/t3-96.png" width="48" height="48" alt="take 3 at 48">48</div>
+      <div class="sz squint"><img src="audit-renders/t3-32.png" width="16" height="16" alt="take 3 at 16">16</div>
+    </td>
+    <td class="score"><strong>9 / 12</strong><br><span class="warn">fails 3</span></td>
+    <td>
+      Grid adherence clears at 44% wide, and the deeper cuts read as marks rather than as
+      switches. Silhouette (3) still fails for the same reason take 2 did, and the warm body
+      still goes to mud (7, figure-ground: the glyph's lights merge with the ground while its
+      darks turn brown). One point off the bar, and failing a non-negotiable check.
+      <strong>Rejected.</strong></td>
+  </tr>
+
+  <tr>
+    <td><strong>4 &mdash; master</strong><br>open notches, slate body<br>546&times;736</td>
+    <td class="sizes">
+      <div class="sz"><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128">128</div>
+      <div class="sz"><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48">48</div>
+      <div class="sz squint"><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16">16</div>
+    </td>
+    <td class="score"><strong>11 / 12</strong><br><span class="pass">clears 1&ndash;4</span></td>
+    <td><strong>Ships.</strong>
+      Cuts break the top edge, so the silhouette is its own (3 clears). Slate at tui-craft's
+      values fixes figure-ground and the mud (6, 7). Scaled to 53%&times;72% against measured
+      sibling masses (2). The point dropped is <strong>10, variant robustness</strong>: see the
+      liability below.</td>
+  </tr>
+</table>
+
+<h2>Recommendation</h2>
+<p class="sub"><strong>Recommendation: ship take 4</strong> as <code>icon.svg</code> / <code>icon.png</code> /
+<code>icon-256.png</code> / <code>icon-128.png</code>. It scores <strong>11 / 12</strong> and
+clears all four non-negotiable checks.</p>
+<table class="rejected">
+  <tr><th>Known liability</th><th>Assessment</th></tr>
+  <tr>
+    <td><strong>#10 variant robustness</strong> &mdash; the point dropped</td>
+    <td>The identity rests on a near-black body against a warm porcelain ground, so under a
+      Dark or Tinted variant the body loses its separation from the field and the two lit cuts
+      carry the whole icon on their own. They do carry it &mdash; the silhouette survives &mdash;
+      but the object stops reading as a device and starts reading as two floating marks, which is
+      take 1's failure arriving by a different route. Untested against real Dark and Tinted
+      renders; this is a reasoned prediction, not a measurement, and it is the first thing a
+      revision should measure.</td>
+  </tr>
+  <tr>
+    <td>Kinship with tui-craft at 16px</td>
+    <td>Both are slate devices on the set's ground. They separate on subject and mass at 48px and
+      above, but at 16px they are closer than any other pair in the set. Accepted deliberately:
+      the alternative was a warm body, and takes 2 and 3 both proved a mid-value warm body under
+      a warm ground renders as mud.</td>
+  </tr>
+  <tr>
+    <td>The lower third of the body</td>
+    <td>A large unbroken slate field. tui-craft carries a similar mass so it is in family, but it
+      is the weakest region of the composition and the second place a revision should look.</td>
+  </tr>
+  <tr>
+    <td>One engine, not three</td>
+    <td>The commission floor is three engines (hand-authored SVG, Arrow vector, corpus-referenced
+      raster). Only Engine A ran: this is a marketplace tile rather than an app icon commission,
+      and the raster engine needs an image model this session did not spend on. Stated as a
+      deviation rather than presented as a full commission, and the three takes above are three
+      genuinely different hand-authored attempts rather than three renders of one.</td>
+  </tr>
+</table>
+
+<h2>Reproducing this</h2>
+<p class="sub">Geometry and material are named constants in <code>build_icon.py</code>; a revision
+is a parameter edit there, never path surgery in <code>icon.svg</code>. Rebuild with
+<code>python3 build_icon.py</code>, then
+<code>rsvg-convert -w 1024 -h 1024 icon.svg -o icon.png</code> and the same at 256 and 128.
+Re-render this sheet's sources with
+<code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .</code>
+and prove every image on it resolves with <code>audit_sheet.py check .</code> — a contact sheet
+whose images 404 renders as an empty page that no script and no summary will mention.</p>

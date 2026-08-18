@@ -61,6 +61,7 @@ const GROUP_OF = {
   "create-skill": "making",
   "improve-skill": "making",
   geminify: "making",
+  "agent-voice": "making",
   "design-review": "making",
   proctor: "making",
   "be-my-witness": "making",
