@@ -14,19 +14,35 @@ So measure **specification vs default**, not aesthetics. That check holds under 
 
 Count distinct values across the surface for:
 
-| Property | Healthy | Flag |
-|---|---|---|
-| Font sizes | 4–8 site-wide, ≤3 above the fold | >10, or arbitrary values off-scale |
-| Font weights | 3 | >4, or a regular→medium→semibold→bold ladder |
-| Spacing values | multiples of 4 or 8 | any off-scale value (`7px`, `18px`, `13px`) |
-| Colours | 3–5 plus tints | 8+ distinct, or >12 raw hex outside `:root` |
-| Border radii | ≤3 | a 4th distinct value |
-| Shadows | 3–4 elevation levels | ad-hoc per-component shadows |
-| Transition durations | a named set | mixed arbitrary values |
-| Content max-widths | 2–3 tiers | a 4th, or rails shifting between sections |
-| z-index values | tokenised scale | `9999`, or any ad-hoc ladder |
+| Property | Healthy | Flag | On Obscura |
+|---|---|---|---|
+| Font sizes | 4–8 site-wide, ≤3 above the fold | >10, or arbitrary values off-scale | computed |
+| Font weights | 3 | >4, or a regular→medium→semibold→bold ladder | computed |
+| Spacing values | multiples of 4 or 8 | any off-scale value (`7px`, `18px`, `13px`) | composed from longhands |
+| Colours | 3–5 plus tints | 8+ distinct, or >12 raw hex outside `:root` | computed |
+| Border radii | ≤3 | a 4th distinct value | **longhands** (the shorthand reads `0px`) |
+| Shadows | 3–4 elevation levels | ad-hoc per-component shadows | **declared** (computed reads `""`) |
+| Transition durations | a named set | mixed arbitrary values | **declared** (both longhands read `""`) |
+| Content max-widths | 2–3 tiers | a 4th, or rails shifting between sections | computed |
+| z-index values | tokenised scale | `9999`, or any ad-hoc ladder | computed |
 
 For each, report the distinct set, the implicit scale it suggests, and the outliers.
+
+**The right-hand column is why four of these rows once reported clean forever.** Radii, shadows, durations, the untracked-caps tell and the `transition: all` detector all read computed properties that return `0px` or `""` on the review engine whatever the CSS says. Measured 18 Aug 2026 on `evals/fixtures/landing.html`, which plants every one of them: `borderRadius` `0px` against `border-radius:24px`, `boxShadow` `""` against a real shadow, `textTransform` `""` against `uppercase`, both transition longhands `""` against `transition:all 0.3s ease-in`. A `0 distinct radii` result reads as a perfectly tokenised surface, and three of the nine rows above were structurally dead.
+
+They are alive now, from two routes: compose the shorthand from longhands where those answer (radii, border widths, spacing, gap), and read the stylesheet declaration where they do not (shadows, text-transform, transition). `dumpStyles()` tags every value with its source and `analyze_styles.py` prints a measurability line before the metrics:
+
+```
+~ durations, radii, shadows, transition_all, uppercase_untracked recovered from the
+  stylesheet rather than the computed cascade — counts reflect declared intent.
+```
+
+Two rules follow, and both matter when quoting these numbers:
+
+- **Say "declared" when the value came from a declaration.** It reports what the author asked for, not what the cascade resolved. On an engine that answers both they agree; here only one answered.
+- **A metric reported `UNMEASURABLE` is never printed as a count.** `audit_run.py capability` exits non-zero while any metric a report would quote is in that state. A count of zero from a dead channel is not a measurement of zero.
+
+`scan_source.py` remains the independent path for the source side of these — `transition-all`, `ease-in-on-ui`, `outline-none` — and running both is the cheap cross-check: source says what was written, the declaration index says what the served page carries, and a disagreement between them is a build-step finding.
 
 ## Near-miss weighting
 

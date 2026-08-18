@@ -4,34 +4,40 @@
     {
       "id": 0,
       "name": "review-defective-tui",
-      "prompt": "I've got a small Go dashboard at /tmp/tuieval/pipelines.py (yes it's python, long story) that renders a pipeline table. Something looks off about it when I run it but I can't put my finger on what. Can you take a look and tell me what's wrong?",
+      "prompt": "I've got a small Go dashboard at evals/fixtures/pipelines.py (yes it's python, long story) that renders a pipeline table. Something looks off about it when I run it but I can't put my finger on what. Can you take a look and tell me what's wrong?",
       "expected_output": "Identifies the missing right border on the CJK row (cell-width arithmetic), the footer wrapping mid-word, and the unmarked truncation — with row/column locations, having actually run the program rather than only reading its source.",
       "files": [
-        "/tmp/tuieval/pipelines.py"
+        "evals/fixtures/pipelines.py"
       ],
       "assertions": [
         {
           "id": "a1",
+          "kind": "process",
           "text": "Ran the program and captured its rendered output rather than only reading the source"
         },
         {
           "id": "a2",
+          "kind": "content",
           "text": "Identified that a double-width (CJK) string breaks the table's right border"
         },
         {
           "id": "a3",
+          "kind": "content",
           "text": "Identified the footer overflowing/wrapping off the right edge"
         },
         {
           "id": "a4",
+          "kind": "content",
           "text": "Identified truncated text with no ellipsis or marker"
         },
         {
           "id": "a5",
+          "kind": "content",
           "text": "Gave at least one finding with a specific row and column location"
         },
         {
           "id": "a6",
+          "kind": "content",
           "text": "Explained the mechanism (character count vs cell width) rather than only naming the symptom"
         }
       ],
@@ -90,26 +96,32 @@
       "assertions": [
         {
           "id": "c1",
+          "kind": "content",
           "text": "Named NO_COLOR and that it must be checked before capability detection"
         },
         {
           "id": "c2",
+          "kind": "content",
           "text": "Described the COLORTERM / TERM colour-depth chain with correct values"
         },
         {
           "id": "c3",
+          "kind": "content",
           "text": "Flagged nerd font glyphs as a dependency that renders as tofu without the font"
         },
         {
           "id": "c4",
+          "kind": "content",
           "text": "Raised light-vs-dark background rather than assuming a dark terminal"
         },
         {
           "id": "c5",
+          "kind": "process",
           "text": "Gave a concrete way to test the degraded path, not just a warning"
         },
         {
           "id": "c6",
+          "kind": "content",
           "text": "Mentioned a specific detection mechanism (OSC 11 query, tput, or environment chain) rather than only 'detect capabilities'"
         }
       ],

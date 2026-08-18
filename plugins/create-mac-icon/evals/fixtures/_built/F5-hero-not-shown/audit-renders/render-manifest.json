@@ -1,0 +1,31 @@
+{
+  "takes": {
+    "c": {
+      "source": "icon-c.png",
+      "kind": "raster-mask",
+      "source_mtime": 1787019777.4456494,
+      "rendered_at": 1787019777.6481438
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_mtime": 1787019777.4168699,
+      "rendered_at": 1787019777.7559302
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

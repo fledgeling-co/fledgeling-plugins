@@ -35,11 +35,20 @@ the fact always equals the numerator. -->
 - **Screens:** <n of n at which widths; which screens got the full viewport sweep>
 - **Component types:** <n of n cropped and opened, and the rule used to pick them>
 - **States driven:** <which; and which were not>
-- **Probes:** <runAll on what; analyze_styles.py on what>
+- **Probes:** <full sweep on what; analyze_styles.py on what>
+- **Tokens:** <matched against <source> — n tokens, n values off-token | searched for a token source and found none>
+- **Contrast:** <n failed / n passed / n could not be resolved, of n examined>
+- **Not measurable on this engine:** <from the run summary: the channels that would not answer, which metrics were recovered from declarations and labelled, which are dark>
 - **Ledger:** <workdir>/worklist.md — <n rows, n open cells>
 - **Not looked at:** <named, not implied>
 
 "Gates clean" and "design sound" are two sentences. Write both or neither.
+
+<!-- The unmeasurable line is not optional. A review that omits it has folded
+everything it could not measure into zero, and a zero from a dead channel reads
+exactly like a clean surface. Take the list from run_review.py's summary and
+`audit_run.py capability`. Any metric that came back UNMEASURABLE is named here
+and never printed as a count. -->
 
 <!-- If any cell in the worklist is open, say so here in the shape the skill
 requires: "7 of 14 surfaces reviewed, resuming at 8." Sampling deliberately is
@@ -79,13 +88,33 @@ defects. Anything needing a product decision rather than an engineering one.>
 
 <What this review could not prove. Never empty.
 
-Standing items unless separately covered:
+Standing items unless separately covered — these are human-judgment ceilings:
 - Screen-reader output and flow
 - Whether focus order makes sense for the task
 - Whether alt text is contextually adequate
 - Dynamic ARIA state transitions
 - Cognitive accessibility
-- Real assistive-technology behaviour on real devices>
+- Real assistive-technology behaviour on real devices
+
+Standing items unless separately covered — these are engine ceilings on Obscura,
+and they are the same every review rather than something to rediscover:
+- Motion and transitions: never execute, so no mid-flight capture, no entrance
+  timing, and getAnimations() is 0 whatever the page declares
+- Print media: setEmulatedMedia is accepted and inert, so there is no print pass
+- prefers-reduced-motion: same, so the reduced-motion branch is unverified
+- Font fidelity: web fonts never load, so a loaded face and a 404'd one measure
+  identically. Report unavailable, never zero divergence
+- box-shadow, background-image, text-transform, outline, flex and the transition
+  longhands: unreadable as computed values. Recovered from stylesheet
+  declarations where one exists, and a declaration is intent rather than a
+  resolved cascade
+- Clipped-text detection under-reports
+- Native form controls do not render, so a real radio or checkbox can read as a
+  missing affordance
+- SVG path geometry: getBBox returns zeros without throwing
+
+Anything measured against a declared gradient stop is conditional on where the
+glyph actually sits in the sweep. Say so on the finding.>
 
 ## Suggested order
 

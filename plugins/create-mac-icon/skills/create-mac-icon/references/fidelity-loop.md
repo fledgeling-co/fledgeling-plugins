@@ -35,6 +35,19 @@ python3 scripts/fidelity.py gate --candidate runs/r03/score.json \
   base64 mimicry exploit), scripts, missing layer groups, and candidates over
   the complexity envelope (defaults 400 paths / 200KB — raise the flags
   deliberately for programmatic builds, never silently).
+
+  **A gate message names the violated constraint and the fix target, not the
+  argument for the threshold.** The three envelope messages were rewritten to
+  carry their consequences inline — path-soup rots masters, a 300KB SVG is ~88k
+  tokens, the layer plan is rubric #10 with a 76% field failure rate — and lost a
+  blind panel twice, in both presentation orders, to the bare originals. Two
+  independent judge families named the same defect: the annotation read as
+  "rubric stats", "token-math" and "rationale", and the concrete fix target (the
+  expected `bg/mid/fg/highlight` names) had been displaced by a statistic. The
+  consequence belongs *here*, where the threshold is explained and a reader is
+  asking why; the message belongs at the shell, where a runner is asking what to
+  change. The revert is recorded in the script so the messages are not
+  "improved" back.
 - `score` renders both sides at 1024/256/128/32/16 on a canvas the harness
   owns (the candidate's viewBox is never trusted), computes luminance-field
   delta + SSIM + edge F1 + mask IoU per size (plus LPIPS when torch+lpips are
@@ -42,7 +55,20 @@ python3 scripts/fidelity.py gate --candidate runs/r03/score.json \
   `residual-1024.png` + edge maps for the critique step.
 - `gate` is **Pareto, not a weighted total**: ACCEPT only if no size's
   composite regresses beyond tolerance and the 32/16px edge floors hold. It
-  also rejects edits whose render hash didn't change (oscillation guard).
+  also rejects edits whose render hash didn't change (oscillation guard), and
+  **refuses outright (exit 2) when either side was scored on a degraded metric
+  tier.** That refusal used to live only in `loop_runner.py`'s harness override,
+  so the headless path was protected and this hand-run sequence — the same three
+  commands — was not. Without LPIPS the gate sees nothing at 256 or 1024, which
+  is where material lives: measured, eight rounds on the numpy-only tier walked
+  the composite backwards at every size while the gate accepted its way to the
+  worst take of the run. `--allow-degraded-tier` proceeds and records that the
+  verdict covers structure and small-size legibility only. Install `torch` and
+  `lpips` before a loop whose verdicts you intend to trust.
+
+Exit codes are the severity: 0 ACCEPT, 1 REJECT, **2 REFUSED — a comparison that
+must not be made at all**, which is a different thing from one the candidate
+lost. `FAIL`, `NOTE` and `?` lines go to stderr; check `$?` and never a pipe's.
 
 Interpreting the numbers: small-size composites converge early (composition
 is the easy half); the 1024 composite is the material gap. On the calibration
@@ -69,7 +95,8 @@ name both mechanisms; these patterns follow them.
 - **No verification scaffolding.** Opus 5 verifies its own work; "double
   check", "re-verify before reporting" and "use a subagent to confirm"
   compound with that and burn tokens for nothing. Instrument runs
-  (`structure`, `score`, `gate`, `measure.py`) are measurements the round
+  (`structure`, `score`, `gate`, and any per-fixture measurement script the
+  round writes for itself) are measurements the round
   is *made of*, not self-checks, and stay.
 - **Cap delegation explicitly.** Opus 5 delegates readily; a round is a
   single track. Say "do not delegate to subagents; spawn none."
@@ -221,6 +248,46 @@ rounds legitimately lose while the edit classes are still exploring. The rule
 that works is the same one **armed only after the first promotion**: it stops at
 r13, ships r11, and skips six rounds. Adopt that variant; the naive form
 strangles the run before it finds anything.
+
+Re-derived during the 2026-08 rebuild from the per-round counts above, the naive
+form does something worse than stop early: it stops **having seen no panel win at
+all**, so it ships nothing the panel ever preferred. `loop_runner.py` implemented
+the naive form until that rebuild — `panel_nonwins` counted from round 1 while
+this file said not to — so the reference and the harness disagreed, and the
+harness won. It is now armed by `st["promoted"]`, and a fixture that never earns
+a promotion is bounded by `EXPLORATION_CAP` and escalated to the review queue
+rather than grinding to the hard ceiling.
+
+Call it **promotion-armed patience**. It has no established name in the
+literature: the published families it resembles — delayed early stopping, warm-up
+early stopping, Keras's `start_from_epoch` — all arm after a fixed *iteration
+count* rather than after a verified success, and the nearest event-triggered
+analogue found is LToT, which begins culling only once a lateral branch clears
+the bar. Three of four research backends confirmed no published rule names this
+variant. It is a production policy with one trace behind it, not an algorithm
+with a literature; `references/evidence.md` § 3 carries the citations and the one
+backend that disagreed.
+
+**A blind panel win is the only promotion signal, and the panel needs two
+protocol rules the metrics do not.** Both come from the evaluation literature
+rather than from a run here, and both changed `judge_panel.py`:
+
+- **Ask every judge in both orders.** Seeded order-randomisation balances which
+  take sits in slot A across a batch and does nothing for the single verdict a
+  promotion turns on. Measured elsewhere: order-consistency of 23.8% / 46.2% /
+  65.0% across three evaluators on deliberately close pairs, and the swap
+  protocol raising consistency from 16.2% to 65.0%. Position bias also *grows as
+  the quality gap narrows*, which is this loop's entire regime — consecutive
+  rounds differ by one edit class. A judge that changes its answer on the swap is
+  recorded as a **tie**, because that is a position artefact and not a
+  preference.
+- **The generator's family does not get a decisive vote.** The round agent is
+  `claude -p`, so the `claude` judge is same-family as the candidate's author,
+  and self-preference is documented to exceed the quality differences a human
+  study could measure. Its verdict is recorded in full and excluded from the
+  majority. A panel with no surviving out-of-family judge returns
+  `no-decisive-judges` — neither a tie nor a win, but a statement that the panel
+  did not run, which the runner must not count in either direction.
 
 **And the panel is not a stand-in for the human.** On r04, the one round carrying
 both signals, they disagreed: the human preferred the candidate, the panel

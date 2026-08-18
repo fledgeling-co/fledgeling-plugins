@@ -1,0 +1,5 @@
+I'll read the two fixture images and the prompt next.WINNER: A
+NATIVE: A has traffic-light chrome, a titled toolbar, and a muted rounded source-list selection at Mac control height; B is a chrome-less web/iOS pane with a full-bleed neon row and a two-line pill.
+LEGIBILITY: B’s selected “AIRDROP” is cyan-on-cyan and nearly unreadable, and “THROUGHPUT” / “Updated 4 minutes ago” are too faint; A’s “Archived ledgers” is washed out but still readable.
+IDENTITY: B commits harder to one loud cyan kit, while A is a competent but anonymous stock-Mac ledger.
+WORST_DEFECT: B’s selected “AIRDROP” row is neon cyan on cyan, the least readable text in either take.

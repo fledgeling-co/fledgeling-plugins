@@ -18,7 +18,7 @@ Sections 1–18 are the **server-expandable template library (140)** — those i
 valid `templateId` values. Sections 19–27 are the deck-craft additions (60):
 **hand-author composition specs**, structures you build element-by-element. Their names are
 **never valid `templateId` values** — sending one is rejected at expansion (`ask-and-close` hit
-exactly this). See `template-additions.md` for the gap analysis and rationale behind them.
+exactly this). The gap analysis behind them is in `template-additions.md`, which is kept as provenance and is deliberately off the read list — it is a record of decisions already taken, and its only build-time content now lives in `slot-contract.md`. Don't read it to author a slide.
 
 **`layout-specs.md` carries the geometry, hierarchy and UX block for every entry here, and its
 `caps` override the `max N` values below** — those were measured against the frame; these were

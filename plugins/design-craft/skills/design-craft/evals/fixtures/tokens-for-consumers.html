@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Harbour design system specimen</title>
+<style>
+  /* Published for downstream consumers: most of these are read by other files. */
+  :root {
+    --ink:#1B1A18; --ground:#FBFAF7; --accent:#7A4A2B;
+    --space-1:4px; --space-2:8px; --space-3:16px; --space-4:24px;
+    --radius-sm:4px; --radius-md:8px; --shadow-1:0 1px 2px rgb(0 0 0 / .05);
+  }
+  body { background:var(--ground); color:var(--ink); }
+  .cta { background:var(--ink); color:var(--ground); font-size:16px; }
+  .cta:hover { background:#3A3733; }
+  .cta:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+</style></head>
+<body><div><button class="cta">Copy tokens</button></div></body></html>

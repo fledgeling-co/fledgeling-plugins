@@ -135,7 +135,7 @@ A lint, a screenshot, a computed-style probe, a subagent reading the DOM — all
 
 The documented case: a status chip's "Checking…" overlay painted *underneath* the chip's own inline text, so a real capture briefly rendered `CONSISTEN` + `CHECKING…` + `RRENT DRAFT` superimposed. Every static rule passed. The only artifact containing the bug was a frame captured 200ms in. The cause was a full-cover `position: absolute` overlay with `z-index: auto` inside a `position: relative` parent that also held inline text — so give transient overlays an explicit `z-index` rather than relying on default paint order.
 
-Verify motion in three passes:
+Verify motion in three passes — **none of which is available on Obscura.** Read the branch below before running any of them.
 
 1. **At rest under `media: print`** — anything invisible here is content missing from any PDF export
 2. **At rest under `prefers-reduced-motion: reduce`** — the same check for the audience that asked not to see motion
@@ -148,6 +148,8 @@ el.classList.add('seen');
 ```
 
 No static rule, present or future, can see what only exists at t=200ms.
+
+**On Obscura, record all three as skipped rather than performing them.** `Emulation.setEmulatedMedia` is accepted and inert — `matchMedia('print')` stays false and the cascade does not change — so passes 1 and 2 would write the ordinary screen render under a name claiming otherwise, and a screenshot named `page-print.png` that is really the screen render is worse than saying the check did not run. CSS animations and transitions never execute, so pass 3 would produce N identical stills and the reflow trick restarts nothing; `run_review.py --motion` hard-exits with that reason rather than letting it happen. `capture_states()` writes a `statesSkipped` list naming each, and the report template carries all three as standing items in "Needs verification". The whole motion class needs a different engine, and *not performed* is the correct thing to report.
 
 ## Loops and ambient motion
 

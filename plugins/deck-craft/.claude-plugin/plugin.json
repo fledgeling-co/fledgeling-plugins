@@ -1,0 +1,9 @@
+{
+  "name": "deck-craft",
+  "version": "1.15.0",
+  "description": "Build, review or convert a slide deck across three targets from one body of craft: a self-contained fixed-stage HTML presentation, lecturn.deck/1 JSON with a .pptx round-trip, or an investor deck assembled from a bundled library of 200 slide layouts in 27 families and 21 recipes. Carries its own design layer rather than depending on a general design skill — a supplied DESIGN.md or token file is binding, a direction is authored on three named axes when no brand exists, and type is sized from a viewing-angle derivation rather than from web habit. Deck-specific narrative discipline: the title sequence written before any slide because the titles read in order are the argument, speaking-versus-reading density as an explicit fork, one idea per slide, and a named slide count treated as a contract. Ships a deterministic preflight gate that runs in a headless browser and is built to be unable to pass silently: the probe carries its own blocker and warning policy plus a stated consequence for every finding, refuses a config key it does not recognise, and echoes its configuration back so the runner can prove the settings that were asked for actually arrived. Only exit 0 is a pass — a probe that returned nothing, a config that never landed, a check that threw and a run that examined zero slides each get their own code and their own refusal. Regulated decks add per-slide disclosure checks sourced to SEC Regulation G and Item 10(e), the December 2022 Compliance and Disclosure Interpretations on equal-or-greater prominence, and ASIC RG 230; chart integrity covers truncated baselines, dual axes and inverted axes; and given the source document it cross-checks every figure on the deck against it, because fabrication arrives as texture around a real number rather than as an invented headline.",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

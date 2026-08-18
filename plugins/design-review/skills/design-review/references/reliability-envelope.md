@@ -22,7 +22,24 @@ Per-category, automation is worse than the headline:
 
 **The volume trap.** Deque telemetry reports axe-core catching 57.38% of issues *by volume*. That number is inflated by a handful of high-prevalence, trivially-detectable syntax errors — low contrast, missing alt, missing labels — which exist in enormous quantities. Volume is not criteria coverage. Never quote 57% as coverage.
 
+**The two numbers reconciled, from Deque's own report.** The 57% and the "20–30%" practitioners quote back at it are both Deque's, measuring different things, and the reconciliation is what makes either quotable:
+
+| Figure | What it counts | Denominator |
+|---|---|---|
+| **57%** | issues found automatically, weighted by volume, across 2,000+ audits and 13,000+ pages | all issues recorded |
+| **~32%** (16 of 50) | Level AA success criteria for which automation detected at least one issue | WCAG 2.1 AA criteria |
+
+Seven categories carry over 80% of the volume: 3.1.1 Language of Page, 4.1.1 Parsing, 1.4.3 Contrast, 2.4.1 Bypass Blocks, 1.1.1 Non-Text Content, 4.1.2 Name/Role/Value, 1.3.1 Info and Relationships — all structural or semantic, all things a DOM read does well.
+
+**The per-criterion zeros are the number that should shape a review.** In the same report, automated issue detection was **0.00%** for: 1.3.2 Meaningful Sequence, 1.4.10 Reflow, 1.4.11 Non-text Contrast, 2.1.2 No Keyboard Trap, 2.4.3 Focus Order, 2.4.4 Link Purpose, 2.4.7 Focus Visible, 3.2.1 On Focus, 3.2.2 On Input, 3.3.1 Error Identification.
+
+Note **2.4.7 Focus Visible at 0%**. This skill has a focus gate, and it is honest about reading stylesheets rather than rendered rings — a replacement declared in a different rule is not detected, which the probe says in its own output. That 0% is why the honesty is load-bearing rather than decorative: the gate narrows a manual check, it does not replace one.
+
+**A pass is not conformance, and that is normative.** W3C's ACT Rules Format states that for many rule-to-criterion mappings, all `passed` and `inapplicable` results still mean *further testing is needed*, because a rule checks one implementation condition rather than a whole success criterion. So the strongest sentence available is "no failures detected among the checks that ran". "Passes WCAG" is never one of them, on any evidence this skill can produce.
+
 Automated tools can verify that an `aria-label` exists. They cannot evaluate whether it describes the context, or whether ARIA state transitions correctly during a dynamic interaction.
+
+`references/evidence.md` carries the sources, the confidence levels, and the places these figures disagree with each other.
 
 ## WCAG 3.0 codifies the split
 
@@ -37,6 +54,18 @@ WCAG 3.0 replaces true/false criteria with Bronze/Silver/Gold and introduces **A
 **Across models, constrained to binary checklists:** ArtifactsBench reached 94.4% ranking consistency with human preference and >90% pairwise agreement using a two-model ensemble against a strict 10-dimension rubric.
 
 The difference is entirely the decomposition. **Atomic binary criteria hold; free-form scores collapse.** This is why every visual judgment in this skill is MET/UNMET and never a 1–10 score.
+
+**And humans barely agree either, which changes what the numbers above mean.** On UI-mockup feedback (Duan et al., CHI 2024), GPT-4 reached precision 0.603 / recall 0.380 / F1 0.466 against a constructed issue set, while an average *individual human* evaluator reached 0.829 / 0.336 / **0.478** — and human inter-rater agreement was **Fleiss' κ = 0.112** on accuracy, 0.100 on helpfulness. Slight agreement.
+
+So a model performs at roughly one human evaluator's level on this task, and low agreement is a property of free-form visual judgement rather than a defect in the judge. That does not rehabilitate scoring — it explains why scoring cannot work — and it sets the honest posture: **a disagreement with a model's visual read is not evidence the model is wrong, and agreement between models is not evidence a preference is a defect.** Both directions of that error are available, and Tier 3 exists so neither one gates.
+
+Three judge biases worth knowing when reading any model's critique, including your own (Zheng et al., NeurIPS 2023):
+
+- **Position bias.** GPT-4's order-swap consistency was 65.0%; Claude-v1's 23.8% under the default prompt. And swapping order as a *fix* barely moves aggregate accuracy — so treat a verdict that flips under swap as evidence of bias, not as noise to average out.
+- **Verbosity bias.** A repetitive-list attack fooled Claude-v1 and GPT-3.5 91.3% of the time. A longer critique is not a better one, and a review padded to look thorough will score better with a model than it deserves to.
+- **Self-enhancement.** GPT-4 favoured its own output by ~10 percentage points, Claude-v1 by ~25. A model reviewing UI its own family generated is the case to distrust most, which is exactly the case this skill is usually invoked for.
+
+Across nine judges, unanimity on only 23.4% of instances while 94.6% reached majority: **majority measures consensus, not correctness.**
 
 **With interactivity in scope,** agreement drops regardless: human pairwise agreement 84.56%, best model 70.34% pairwise, 63.91% pointwise. Pointwise runs ~8% below pairwise on identical data.
 

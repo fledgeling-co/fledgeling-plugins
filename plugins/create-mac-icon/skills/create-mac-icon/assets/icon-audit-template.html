@@ -5,7 +5,15 @@
   Hard requirements baked in from a design-review pass on a real instance of this page:
   · retina discipline: render at 2x and display at half (256→128, 128→64, 96→48, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
   · the 48px row is not optional: a Finder list and a plugin marketplace tile render at it, and an icon that survives 128 and 16 can still collapse between them
-  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered — it resolves every <img src> and fails on unfilled {{PLACEHOLDER}}s
+  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered. What it gates, each one a mode that shipped silently before it did:
+      - every <img src> resolves, and at least one of them is a local render — a sheet of only remote/data: images resolved "cleanly" while auditing nothing
+      - no unfilled {{...}} placeholder of ANY form, prose ones included — the old regex read only {{ALL_CAPS}} and let the recommendation block and the liabilities field ship literal
+      - every render is NEWER than the master it came from — the fidelity loop changes the master after this sheet is first written, so a stale sheet is the normal failure, not an exotic one
+      - a rubric score of the form "N / 12" is present and the best take clears 10/12, and a "Recommendation: ship" block exists
+      - the 1024 hero is displayed, not merely rendered
+      - a raster take is masked: kind `png` with opaque corners is a square tile beside squircle siblings
+      - the SVG master passes `fidelity.py structure` (no <image> embeds, layer plan present, inside the complexity envelope)
+    FAIL and NOTE both go to stderr; a clean exit does not mean there was nothing to read.
   · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
   · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
   · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
@@ -50,12 +58,13 @@
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
   <tr>
     <td class="take {{ship|fail|}}">{{TAKE_ID}} · {{FILENAME}}<small>{{ENGINE_AND_ROLE — e.g. "hand-authored layered SVG — SHIPS" / "Arrow vector take" / "GPT-Image raster, corpus-referenced"}}</small></td>
     <td class="renders">
+      <figure><img src="audit-renders/{{take}}-1024.png" width="160" height="160" alt="{{TAKE_ID}} hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-256.png" width="128" height="128" alt="{{TAKE_ID}} at 128px"><figcaption>128</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-128.png" width="64" height="64" alt="{{TAKE_ID}} at 64px"><figcaption>64</figcaption></figure>
       <figure><img src="audit-renders/{{take}}-96.png" width="48" height="48" alt="{{TAKE_ID}} at 48px"><figcaption>48</figcaption></figure>

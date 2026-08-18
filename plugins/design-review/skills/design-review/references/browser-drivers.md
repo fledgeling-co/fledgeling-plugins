@@ -36,7 +36,14 @@ settles up to 5s and returns when the page is quiescent. Given `--wait N`, it is
 a *fixed* N-second delay, not a ceiling. `--timeout` is separate and bounds
 navigation.
 
-## Computed styles: longhands only
+## Computed styles: longhands only, and capability is measured not assumed
+
+**Do not read this table and hardcode it.** `probes.js`'s
+`probeEngineCapability()` re-measures every channel below on every run, against a
+scratch element whose values it sets itself, and `runAll().capability` carries the
+answer. The table is here so you know what to expect and why the probe exists;
+the probe is what you believe. An engine that gains a property is then believed
+the day it does, and a different engine is characterised without editing a file.
 
 Measured on this machine, 13 August 2026, against a fixture whose CSS sets
 `padding:16px` and `margin:40px`:
@@ -53,20 +60,157 @@ The **shorthand resolves to zero silently**. The layout underneath is right — 
 same element measures 332×152 with the padding applied — so nothing looks broken
 and a spacing assertion reading `computed.padding` passes when it should fail.
 
+This is not an Obscura eccentricity, which matters when deciding how much to
+trust the pattern. WebKit has carried the same behaviour for shorthands
+(bugs.webkit.org #14563), and Mozilla documented
+`getComputedStyle(el).getPropertyValue('border')` returning an empty string in
+Firefox Nightly while Blink and WebKit returned a value for the same test
+(bugzilla #137688). **Reading longhands is the standing industry mitigation, not
+a workaround for one engine.**
+
 So: read `paddingTop`/`paddingRight`/`paddingBottom`/`paddingLeft`, never
-`padding`. Same for `margin`, and assume the same of every other shorthand
-(`border`, `borderRadius`, `background`, `font`, `inset`, `gap`, `flex`) until
-one is checked against a fixture. When a spacing or border gate reports a
+`padding`. Same for `margin`. When a spacing or border gate reports a
 suspiciously round zero, this is the first thing to suspect.
 
+### The three states, and why the middle one has to exist
+
 **An empty string means "not implemented", not "not set".** `boxShadow`,
-`backgroundImage`, `textTransform`, `outline` and `flex` come back as `""`
-whether or not the CSS sets them, so you cannot distinguish an absent shadow
-from an unsupported one. Treat those properties as unreadable rather than as
-evidence of absence — a gate that reports "no box-shadow" from this is asserting
-something it did not measure.
+`backgroundImage`, `textTransform`, `outline`, `flex` and the transition
+longhands come back as `""` whether or not the CSS sets them, so an absent shadow
+and an unsupported one are the same output. A gate that reports "no box-shadow"
+from this is asserting something it did not measure.
+
+That is one instance of the rule this whole skill is built on: **a check whose
+"pass" and "cannot run" look identical must report which one it is.** W3C's ACT
+Rules Format names the states a result may take — `passed`, `failed`, `cantTell`,
+`untested`, `inapplicable` — and `cantTell` is precisely the one a boolean gate
+destroys. axe-core ships the same idea as `incomplete`, and returns it for this
+exact case, with this exact message: *"The background color could not be
+determined due to a background image."* It also documents that its
+`color-contrast` rule simply does not work under JSDOM, rather than running it
+and reporting zero.
+
+So the pattern to copy is already normative, and the cost of not copying it is
+measured: on a 285-homepage scan, counting axe's `incomplete` results as
+violations moved the reported failure rate to **97.9%**. That gap is the size of
+the population a two-state gate absorbs in silence.
+
+### Inline declarations are handed back unresolved. Stylesheet ones are not.
+
+Measured 18 August 2026, obscura 0.2.0. The same element, the same values,
+set two ways:
+
+| Property | Set inline | Set via a stylesheet |
+|---|---|---|
+| `background-image` | the gradient, verbatim | `""` |
+| `border-radius` | `24px` | `0px` |
+| `text-transform` | `uppercase` | `""` |
+| `box-shadow` | the shadow, verbatim | `""` |
+| `gap` | `13px` | `normal` |
+| `padding` | `16px` | `0px` |
+| `transition-property` / `-duration` | `""` | `""` |
+
+**A capability probe that plants its ground truth inline measures the wrong
+path** and concludes the engine can read all six. Real pages use stylesheets, so
+that reading would switch off every fallback on exactly the pages that need one.
+The first version of `probeEngineCapability()` did this and had to be corrected.
+It is the same lesson this file already carries about CDP, one level down: assert
+the observable *the way the page will actually produce it*.
+
+### The declared channel answers what the computed channel drops
+
+Where a computed property is unreadable, the stylesheet still is. This is the
+trick `probeFocusStyles()` always used for `outline` and `box-shadow`, and that
+nothing else applied until it was generalised into `buildDeclaredIndex()`.
+Measured 18 Aug 2026 against `evals/fixtures/landing.html`:
+
+| Element | Declared value recovered |
+|---|---|
+| `.hero` `background` | `linear-gradient(135deg,#6366F1,#A855F7,#EC4899)` |
+| `.eyebrow` `text-transform` | `uppercase` |
+| `.card` `box-shadow` | `0 8px 32px rgba(0,0,0,.18)` |
+| `.btn` `transition` | `all 0.3s ease-in` |
+| `.grid` `gap` | `13px` |
+
+`getPropertyValue('--brand')` resolves custom properties and they inherit to
+descendants, `el.matches()` works, `matchMedia` answers width queries correctly,
+and the `style` attribute is readable — so the index can resolve `var()`, match
+selectors, and let inline styles win.
+
+Two structural facts about this engine's CSSOM, both load-bearing:
+
+- A **top-level rule is a real `CSSStyleRule`**: `selectorText` and the `style`
+  accessors work exactly. The common case needs no parsing.
+- An **`@media` or `@supports` block is a bare `CSSRule` with `type: 0`** — no
+  `conditionText`, no `media`, no `cssRules`, no `style` — **but `cssText`
+  carries the whole block verbatim.** So at-rules are recovered by parsing
+  `cssText` and gating the condition with `matchMedia`. An earlier read of this
+  concluded at-rules were dropped entirely; they are not, they are unmodelled,
+  and the difference is every responsive declaration on the page.
+
+**A declaration is not a rendering.** It says what the author asked for; the
+computed value says what the cascade resolved. Where both answer, the computed
+value wins. Every value sourced from the index is tagged `declared` in
+`probes/*.json`, and a finding built on one says so — quoting a declaration as a
+measurement is the failure this tagging exists to prevent.
+
+`gap` is worth one note of correction: its longhands `rowGap` and `columnGap`
+**do** read correctly (`13px` on the fixture's `.grid` while `gap` says
+`normal`), so it is recoverable without the declaration index. An earlier version
+of this file said otherwise, on a measurement taken against the wrong element.
+
+## Known false positives on this engine
+
+Three shapes where the engine, not the page, produces the defect. Each has been
+mistaken for a real finding.
+
+**A stranded entry animation reads as a z-index bug — before the reveal pass.**
+An `opacity: 0` entry keyframe leaves its element at **~0.0036** on a read taken
+without scrolling, because the animation never runs. Measured 18 Aug 2026 on
+`evals/fixtures/landing.html`: a bare `obscura fetch --eval` reads the three
+`.card` elements at 0.0036, and the same page probed through `run_review.py` —
+which scrolls the whole document and settles it first — reads them at 1, with
+`probeStrandedElements()` correctly finding none.
+
+So this value is **context-dependent, not permanent**, and that is the useful
+form of the fact: opacity here is a time- and scroll-dependent property, and a
+first reading of one is provisional until the reveal pass has run. An earlier
+version of this entry called the 0.0036 permanent, which is wrong and would have
+a reviewer report a settled page as broken. The defence below is for the
+un-settled read, which is the one a one-shot capture takes. It is non-zero, so an exact `opacity === 0` test lets it
+through into every geometric probe, where it looks exactly like an element hidden
+behind something. `visible()` now excludes anything at or below 0.05 and
+`probeStrandedElements()` reports the population separately — but note the split:
+`dumpStyles()` deliberately *includes* stranded elements, because it is counting
+design decisions and a stranded element's radii and shadows are perfectly real.
+Using one filter for both jobs threw away the fixture's entire shadow population
+and reported a surface with no elevation at all.
+
+**Native form controls do not render, so a real radio looks like a missing
+affordance.** `probeAffordanceGaps().unactionableRows` fires on "a repeated row
+containing chip-shaped short text but nothing focusable", which is exactly the
+shape a rendered-as-nothing radio input produces. Before reporting an affordance
+finding on a row that should contain a native control, check the source for
+`<input type="radio|checkbox|range|color|date">` and report the check as
+unavailable for that row rather than as a defect.
+
+**Inline citation markers perturb text rects.** A line carrying an anchor eats a
+space and breaks before the marker, and both `probeTextOverlap` (≥3px on both
+axes) and `probeDividerProximity` read per-fragment rects via
+`Range.getClientRects()`. Surfaces with claim-local citation markers are a live
+false-positive source for both; review typography on a marker-stripped copy.
+
+## Relay the tool's own error before interpreting it
+
+When obscura fails, **quote its stderr verbatim in the report before saying what
+you think it means.** The message names the flag and the version; a paraphrase
+names neither and can be wrong for the environment the reader is in. The SSRF
+refusal on a dev server is the case that bites — it names
+`--allow-private-network` in the output, and the paraphrase "the capture failed"
+sends the reader looking at their page.
 
 ## Viewports work. Media emulation and animation do not.
+
 
 `Emulation.setDeviceMetricsOverride` is implemented and verified at both review
 widths — the page reports `innerWidth` 1440 and 390 exactly, and the captures

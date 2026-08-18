@@ -1,26 +1,122 @@
 {
  "skill_name": "tui-design",
- "status": "prompts drafted, not run \u2014 see EVALS.md",
+ "status": "prompts drafted with assertions, not run \u2014 see EVALS.md",
  "evals": [
   {
    "id": 0,
    "prompt": "Design me a terminal dashboard for a background job queue. It should show throughput, the scheduled jobs, and worker health.",
    "expected_output": "A compiled frame plus its spec, gated, and shown to hold at both the target size and 80x24. Not ASCII art in a code block.",
-   "files": []
+   "files": [],
+   "assertions": [
+    {
+     "id": "d1",
+     "kind": "process",
+     "text": "Wrote a spec and compiled it with tui_mock.py, rather than drawing the layout in a fenced code block"
+    },
+    {
+     "id": "d2",
+     "kind": "process",
+     "text": "Ran the design gates on the compiled frame and reported their output"
+    },
+    {
+     "id": "d3",
+     "kind": "process",
+     "text": "Showed the design at 80x24 as well as at its target size"
+    },
+    {
+     "id": "d4",
+     "kind": "content",
+     "text": "All three requested regions (throughput, scheduled jobs, worker health) appear in the compiled frame"
+    },
+    {
+     "id": "d5",
+     "kind": "content",
+     "text": "Selection or focus is signalled on more than one channel, not by a background fill alone"
+    },
+    {
+     "id": "d6",
+     "kind": "content",
+     "text": "Cited a corpus pattern by the application it was observed in, rather than giving generic layout advice"
+    }
+   ]
   },
   {
    "id": 1,
    "prompt": "Here's a mock of a TUI I drew. Does the layout work?",
    "expected_output": "The mock is transcribed to a spec and compiled so its columns are measured, rather than read and approved. Any width defect is named with a row and column.",
    "files": [
-    "fixtures/hand-drawn-mock.txt"
+    "evals/fixtures/hand-drawn-mock.txt"
+   ],
+   "assertions": [
+    {
+     "id": "e1",
+     "kind": "process",
+     "text": "Measured the mock's cell widths (transcribed to a spec and compiled, or measured the file itself) rather than reading it and approving it"
+    },
+    {
+     "id": "e2",
+     "kind": "content",
+     "text": "Reported that one row is a cell wider than the others, so its right border lands a column past the rest"
+    },
+    {
+     "id": "e3",
+     "kind": "content",
+     "text": "Attributed the extra cell to the double-width emoji in the 'deploy' row"
+    },
+    {
+     "id": "e4",
+     "kind": "content",
+     "text": "Named the defect with a row and a column, not just 'the border is off'"
+    },
+    {
+     "id": "e5",
+     "kind": "content",
+     "text": "Noted that every row holds the same number of characters, so the defect is invisible to anyone counting characters"
+    },
+    {
+     "id": "e6",
+     "kind": "process",
+     "text": "Did not state the layout works without having measured it"
+    }
    ]
   },
   {
    "id": 2,
    "prompt": "Lay out a log viewer two different ways and tell me which one to build.",
    "expected_output": "Two compiled frames, gate output for each with denominators, and a recommendation that turns on something the gates or the fit report actually measured.",
-   "files": []
+   "files": [],
+   "assertions": [
+    {
+     "id": "f1",
+     "kind": "process",
+     "text": "Produced two compiled frames, not two descriptions or two code-block sketches"
+    },
+    {
+     "id": "f2",
+     "kind": "process",
+     "text": "Ran the gates on both frames and reported each result with its denominator"
+    },
+    {
+     "id": "f3",
+     "kind": "content",
+     "text": "The two layouts differ structurally, not only in colour or wording"
+    },
+    {
+     "id": "f4",
+     "kind": "content",
+     "text": "The recommendation turns on a specific value from the gate or fit output, quoted"
+    },
+    {
+     "id": "f5",
+     "kind": "content",
+     "text": "Named what the rejected layout is better at, rather than presenting the choice as one-sided"
+    },
+    {
+     "id": "f6",
+     "kind": "process",
+     "text": "Showed both layouts at 80x24, or reported the fit failure at that size"
+    }
+   ]
   }
  ]
 }

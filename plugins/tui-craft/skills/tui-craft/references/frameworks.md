@@ -64,16 +64,26 @@ async def test_layout(snap_compare):
     assert snap_compare("myapp.py", terminal_size=(100, 30), press=["j", "enter"])
 ```
 
-For a frame the gates can read, use `App.run_test()` and export:
+For a frame the gates can read, drain the event queue first, then capture the
+process. `pilot.pause()` is the documented way to let pending messages settle
+before you assert on anything — a hardcoded `sleep` races the layout engine:
 
 ```python
 async with app.run_test(size=(100, 30)) as pilot:
     await pilot.press("j", "enter")
-    open("frame.txt", "w").write(pilot.app.screen._compositor.__rich_console__ and "")
+    await pilot.pause()          # drain the message queue; without this you race the layout
 ```
 
-Simplest reliable route is to capture the process instead:
-`python3 scripts/tui_capture.py --cmd "python3 myapp.py" --cols 100 --rows 30`.
+There is no supported one-liner that exports Textual's compositor to a text
+frame — reaching into `screen._compositor` is private and returns a renderable,
+not a string. **Capture the process instead**, which is both simpler and the
+route the gates are built for:
+
+```bash
+python3 scripts/tui_capture.py --cmd "python3 myapp.py" --cols 100 --rows 30 \
+  --settle 1.2 -o dashboard-ideal-100x30.json
+```
+
 
 **Footguns:**
 

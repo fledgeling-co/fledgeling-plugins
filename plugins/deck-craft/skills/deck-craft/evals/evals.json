@@ -22,5 +22,82 @@
       "expected_output": "lecturn.deck/1 deck.json using templateId+slots from the library, x.diolog.structure with one entry per slide in order, theme.tokens set to ALFABS charcoal/red/Figtree, no invented figures.",
       "files": []
     }
-  ]
+  ],
+  "gate_evals": {
+    "runner": "evals/gate/run-evals.sh",
+    "how": "Runs the current scripts/ and a snapshot of the previous version against the same fixtures with the same flags, and marks 17 structural assertions PASS or FAIL on each with the evidence it judged on. Artifact checks, not scores.",
+    "fixtures": "evals/fixtures/ — one deck per defect class, plus clean.html as the false-positive control and regress.html as the no-regression guard.",
+    "result": "evals/results/scorecard.md — original 3/17, rebuild 17/17 as at 18 Aug 2026.",
+    "note": "A5 and A17 interact: the previous version intermittently reports 'PASS ... across 0 slides examined' at roughly 1 run in 4, which would make every other blocker look like it stopped firing. The harness retries a zero-denominator run once and logs that it had to, so the zero-denominator defect is scored by A5 alone.",
+    "assertions": [
+      {
+        "id": "A1",
+        "asserts": "a --regulated run whose config was defeated by a reformatted probe does not print PASS"
+      },
+      {
+        "id": "A2",
+        "asserts": "typeBelowFloor can fail a build"
+      },
+      {
+        "id": "A3",
+        "asserts": "chart coverage is reported with its denominator"
+      },
+      {
+        "id": "A4",
+        "asserts": "a declared two-bar group with a truncated axis is judged"
+      },
+      {
+        "id": "A5",
+        "asserts": "a run that examined zero slides is not a pass"
+      },
+      {
+        "id": "A6",
+        "asserts": "every blocker carries its downstream consequence"
+      },
+      {
+        "id": "A7",
+        "asserts": "a generic deck title or filename is gated"
+      },
+      {
+        "id": "A8",
+        "asserts": "drawn accent marks count toward the accent budget, not only text leaves"
+      },
+      {
+        "id": "A9",
+        "asserts": "a slide leading on a non-IFRS measure needs its statutory companion on that slide"
+      },
+      {
+        "id": "A10",
+        "asserts": "dual and inverted axes are caught"
+      },
+      {
+        "id": "A11",
+        "asserts": "a misspelled config key is refused rather than ignored"
+      },
+      {
+        "id": "A12",
+        "asserts": "the browser's own stderr is relayed verbatim"
+      },
+      {
+        "id": "A13",
+        "asserts": "CONTROL — a genuinely clean deck still passes, over a real denominator"
+      },
+      {
+        "id": "A14",
+        "asserts": "the verdict names what was actually gated"
+      },
+      {
+        "id": "A15",
+        "asserts": "a check that threw is reported as unrun rather than as clean"
+      },
+      {
+        "id": "A16",
+        "asserts": "an empty probe result is refused and says so"
+      },
+      {
+        "id": "A17",
+        "asserts": "NO REGRESSION — pre-existing blockers still fire"
+      }
+    ]
+  }
 }

@@ -514,9 +514,12 @@ def prove_settled(page: Page, timeout_ms: int = 5000) -> int:
 # a TimeoutError traceback — no probes written, two captures orphaned, and
 # nothing in the output naming the probe responsible.
 PROBE_ROSTER = [
+    # Capability first, because every probe after it may consult the result, and
+    # a reviewer reading any zero below needs to know which channels answered.
+    ("capability", "initRun"),
     ("settled", "probeAnimationSettled"),
+    ("stranded", "probeStrandedElements"),
     ("contrast", "probeContrast"),
-    ("contrastExamined", "contrastExamined"),
     ("overflow", "probeOverflow"),
     ("images", "probeImages"),
     ("targets", "probeTargets"),
@@ -617,6 +620,31 @@ def capture_viewport(cdp: CDP, url, width, height, out: Path, settle_ms: int,
 
     errors = [m for m in console if m["type"] in ("error", "pageerror")]
     tokens = probes.get("tokens") or {}
+    contrast = probes.get("contrast")
+    settled = probes.get("settled") or {}
+    overflow = probes.get("overflow") or {}
+    semantics = probes.get("semantics") or {}
+    capability = probes.get("capability") or {}
+
+    # Every read below goes through a guard, because `run_probes()` writes None
+    # on a probe failure precisely so a failure is not read as clean — and then
+    # six keys here indexed it anyway. Measured 18 Aug 2026: the sharper version
+    # of that bug was `probes["layout"]["rails"]["exceedsThreshold"]`, which
+    # raised KeyError on the FIRST viewport of this skill's own eval fixture,
+    # because probeSharedRails' early return omitted the key. One capture width,
+    # two orphaned screenshots, a traceback instead of a review.
+    #
+    # A count that could not be taken is None here, never 0. `null` in the
+    # manifest is the difference between "no failures" and "never measured", and
+    # both the analysis scripts and the reviewer read this file.
+    def count(seq, pred=None):
+        if seq is None:
+            return None
+        try:
+            return len([x for x in seq if pred(x)]) if pred else len(seq)
+        except (TypeError, KeyError):
+            return None
+
     result = {
         "viewport": tag,
         "dpr": dpr,
@@ -625,22 +653,43 @@ def capture_viewport(cdp: CDP, url, width, height, out: Path, settle_ms: int,
         # Settling proof on an engine that runs animations. Obscura does not, so
         # a zero here means "no signal" — see prove_settled.
         "animationsRunningAtMeasure": still_running,
-        "elementsBelowFullOpacity": probes["settled"]["partiallyTransparentElements"],
+        "elementsBelowFullOpacity": settled.get("partiallyTransparentElements"),
+        # The engine's stranded-entrance artifact, reported rather than mixed into
+        # the geometry probes it would otherwise pollute.
+        "strandedElementCount": (probes.get("stranded") or {}).get("count"),
         "consoleErrorCount": len(errors),
         "failedRequestCount": len(failed),
-        "pageOverflowsHorizontally": probes["overflow"]["pageOverflowsHorizontally"],
-        "escapingElementCount": len(probes["overflow"]["escaping"]),
-        # Numerator AND denominator. `contrastFailureCount: 0` on its own cannot
-        # be told apart from a probe that never ran.
-        "contrastFailureCount": len([c for c in probes["contrast"] if "ratio" in c]),
-        "contrastExamined": probes.get("contrastExamined"),
+        "pageOverflowsHorizontally": overflow.get("pageOverflowsHorizontally"),
+        "escapingElementCount": count(overflow.get("escaping")),
+        # Four numbers, not one. The ACT Rules Format (W3C) names the states a
+        # result may take — passed, failed, cantTell, untested, inapplicable —
+        # and `cantTell` is the one a boolean gate destroys. axe-core does the
+        # same thing under the name `incomplete`, and returns it for exactly this
+        # case: "The background color could not be determined due to a
+        # background image." An unresolved backdrop is not a pass and not a
+        # failure, and on a 285-homepage scan, counting incompletes as failures
+        # moved the reported failure rate to 97.9% — the size of the population a
+        # pass/fail gate silently absorbs.
+        "contrastFailureCount": (contrast or {}).get("failureCount") if isinstance(contrast, dict) else None,
+        "contrastPassCount": (contrast or {}).get("passCount") if isinstance(contrast, dict) else None,
+        "contrastCantTellCount": (contrast or {}).get("unresolvedCount") if isinstance(contrast, dict) else None,
+        "contrastExamined": (contrast or {}).get("examined") if isinstance(contrast, dict) else None,
+        "contrastGradientJudged": (contrast or {}).get("gradientJudgedCount") if isinstance(contrast, dict) else None,
+        "contrastAssumedBackdrop": (contrast or {}).get("assumedBackdropCount") if isinstance(contrast, dict) else None,
         "layoutFindingCount": _layout_finding_count(probes.get("layout")),
-        "componentTypeCount": (probes.get("layout") or {}).get("inventory", {}).get("distinctTypes"),
-        "targetsBelowAA": len([t for t in probes["targets"] if t["belowAA"]]),
-        "heavyCropImages": len([i for i in probes["images"] if i["heavyCrop"]]),
+        "layoutRootCauseCount": _layout_root_cause_count(probes.get("layout")),
+        "componentTypeCount": ((probes.get("layout") or {}).get("inventory") or {}).get("distinctTypes"),
+        "targetsBelowAA": count(probes.get("targets"), lambda t: t.get("belowAA")),
+        "heavyCropImages": count(probes.get("images"), lambda i: i.get("heavyCrop")),
         # WCAG 2.4.2 Page Titled is Level A and is the cheapest gate in the set.
-        "missingTitle": not (probes["semantics"].get("title") or "").strip(),
-        "unconsumedTokenCount": len([t for t in tokens.get("unconsumed", []) if "token" in t]),
+        "missingTitle": (not (semantics.get("title") or "").strip()) if probes.get("semantics") is not None else None,
+        "unconsumedTokenCount": count((tokens.get("unconsumed") or None), lambda t: "token" in t),
+        # The headline honesty number. How many measurement channels this engine
+        # would not answer on this page, so no zero above can be mistaken for a
+        # measurement that was taken.
+        "unreadableChannelCount": capability.get("unreadableCount"),
+        "unreadableChannels": capability.get("unreadable"),
+        "probesNotRun": probes.get("probeErrors"),
     }
     page.close()
     return result
@@ -711,18 +760,100 @@ def capture_states(cdp: CDP, url, out: Path, settle_ms: int, selectors: list[str
 
 def _layout_finding_count(L):
     """Layout-integrity findings, summed. A probe nobody reads is the failure
-    this whole section exists to correct, so it surfaces in the run summary."""
+    this whole section exists to correct, so it surfaces in the run summary.
+
+    `dividerProximity` was that failure, in this function: `probes.js` ran it,
+    `layout-integrity.md` documented it, and no consumer anywhere added it up —
+    so a surface whose only layout defect was a divider gutter printed
+    `layoutFindingCount: 0` on the first line a reviewer reads. Corroborating
+    evidence that it was never wired: its three fixtures were the only orphans in
+    the eval set.
+
+    Every read is `.get()` with a default now. A probe that did not run
+    contributes nothing rather than raising, and `probesNotRun` in the summary is
+    where its absence is recorded.
+    """
     if not L:
-        return 0
-    return (len(L["shapeMismatch"]) + len(L["columnDrift"]) +
-            len(L["columnHeaderAlignment"]) + len(L["touchingHeadings"]) +
-            len(L["textOverlap"]) + len(L["deadSpace"]) +
-            len((L.get("columnVoids") or {}).get("voids", [])) +
-            len((L.get("implicitTracks") or {}).get("spilledRows", [])) +
-            len((L.get("implicitTracks") or {}).get("emptyCells", [])) +
-            len(L["affordance"]["unactionableRows"]) +
-            len(L["affordance"]["pointerCursorNotFocusable"]) +
-            len(L["tokenOverload"]) + (1 if L["rails"]["exceedsThreshold"] else 0))
+        return None
+    n = (len(L.get("shapeMismatch") or []) + len(L.get("columnDrift") or []) +
+         len(L.get("columnHeaderAlignment") or []) + len(L.get("touchingHeadings") or []) +
+         len(L.get("textOverlap") or []) + len(L.get("deadSpace") or []) +
+         len((L.get("columnVoids") or {}).get("voids") or []) +
+         len((L.get("implicitTracks") or {}).get("spilledRows") or []) +
+         len((L.get("implicitTracks") or {}).get("emptyCells") or []) +
+         len((L.get("dividerProximity") or {}).get("violations") or []) +
+         len((L.get("dividerProximity") or {}).get("clipped") or []) +
+         len((L.get("affordance") or {}).get("unactionableRows") or []) +
+         len((L.get("affordance") or {}).get("pointerCursorNotFocusable") or []) +
+         len(L.get("tokenOverload") or []))
+    if (L.get("rails") or {}).get("exceedsThreshold"):
+        n += 1
+    return n
+
+
+def _layout_root_cause_count(L):
+    """The same findings, clustered by mechanism and by the component they sit in.
+
+    A raw geometry count inflates badly, and the size of the inflation is
+    published: ReDeCheck (Walsh, Kapfhammer & McMinn, ISSTA 2017) reported **147
+    small-range findings on one page that collapsed to a single underlying
+    failure**, and needed 4.2 viewport inspections per real failure across 26
+    live pages. This skill measured the same shape independently on one
+    14-screen surface: 2 real, 35 false.
+
+    So the summary carries both numbers. The raw count says how much geometry
+    fired; this one estimates how many distinct things are actually wrong, which
+    is the number a reviewer should act on. Clustering is by
+    `{mechanism, nearest component ancestor}` — deliberately coarse, because the
+    failure being prevented is a hundred rows for one bug, not a slightly wrong
+    cluster boundary.
+    """
+    if not L:
+        return None
+
+    def component_of(selector):
+        """The nearest ancestor in the selector path that looks like a component.
+
+        A repeated defect names a different `:nth-of-type` every time while the
+        component class stays put, so truncating at the last class-bearing
+        segment is what makes fourteen rows of one bug into one row.
+        """
+        if not selector:
+            return "?"
+        segments = [s.strip() for s in str(selector).split(">") if s.strip()]
+        for seg in reversed(segments):
+            if "." in seg:
+                # Drop the positional suffix; keep the classes.
+                return seg.split(":")[0]
+        return segments[-1].split(":")[0] if segments else "?"
+
+    keys = set()
+
+    def add(mechanism, rows, *fields):
+        for row in rows or []:
+            if not isinstance(row, dict):
+                keys.add((mechanism, "?"))
+                continue
+            sel = next((row.get(f) for f in fields if row.get(f)), None)
+            keys.add((mechanism, component_of(sel)))
+
+    add("shape-mismatch", L.get("shapeMismatch"), "selector", "group", "el")
+    add("column-drift", L.get("columnDrift"), "selector", "group", "el")
+    add("header-alignment", L.get("columnHeaderAlignment"), "selector", "el", "header")
+    add("touching-headings", L.get("touchingHeadings"), "selector", "el", "second")
+    add("text-overlap", L.get("textOverlap"), "a", "selector", "el")
+    add("dead-space", L.get("deadSpace"), "selector", "el", "section")
+    add("column-void", (L.get("columnVoids") or {}).get("voids"), "selector", "el", "section")
+    add("implicit-track", (L.get("implicitTracks") or {}).get("spilledRows"), "selector", "grid", "el")
+    add("empty-cell", (L.get("implicitTracks") or {}).get("emptyCells"), "selector", "el")
+    add("divider-gutter", (L.get("dividerProximity") or {}).get("violations"), "el", "selector")
+    add("divider-clipped", (L.get("dividerProximity") or {}).get("clipped"), "el", "selector")
+    add("unactionable-row", (L.get("affordance") or {}).get("unactionableRows"), "selector", "el")
+    add("pointer-not-focusable", (L.get("affordance") or {}).get("pointerCursorNotFocusable"), "selector", "el")
+    add("token-overload", L.get("tokenOverload"), "token", "selector")
+    if (L.get("rails") or {}).get("exceedsThreshold"):
+        keys.add(("rail-disagreement", "page"))
+    return len(keys)
 
 
 def mark_worklist(workdir: Path, surface: str) -> None:
@@ -759,6 +890,8 @@ def main():
     ap.add_argument("--states", action="store_true", help="Capture staged interaction states.")
     ap.add_argument("--state-selectors", help="Comma-separated selectors to stage.")
     ap.add_argument("--motion", action="store_true", help="Unavailable: Obscura does not execute CSS animations.")
+    ap.add_argument("--force", action="store_true",
+                    help="Overwrite a workdir that already holds a run. Discards its before-captures.")
     ap.add_argument("--cdp-port", type=int, help="Attach to an `obscura serve` already running on this port "
                                                  "instead of starting one.")
     ap.add_argument("--worklist", help="Workdir holding worklist.md. Marks this surface's "
@@ -780,6 +913,19 @@ def main():
               "Serve over HTTP instead (python3 -m http.server).", file=sys.stderr)
 
     out = Path(args.out).resolve()
+    # A second run over the same workdir used to overwrite probes/, shots/ and
+    # manifest.json in place, which destroys the before-evidence that a fix has
+    # to be scored against. `capture-protocol.md` requires capturing the before
+    # BEFORE editing; nothing enforced it.
+    existing = out.exists() and any(out.glob("probes/*.json"))
+    if existing and not args.force:
+        sys.exit(
+            f"ERROR: {out} already holds a completed run.\n"
+            "Overwriting it destroys the before-captures a fix has to be scored\n"
+            "against, and a fix you cannot see in new evidence is unresolved.\n"
+            "Either write the second run somewhere else (--out <dir>-after), or\n"
+            "pass --force if you genuinely mean to discard the first one."
+        )
     out.mkdir(parents=True, exist_ok=True)
 
     if args.viewports:
@@ -818,27 +964,60 @@ def main():
         flags = []
         if v.get("animationsRunningAtMeasure"):
             flags.append(f"NOT SETTLED ({v['animationsRunningAtMeasure']} animations running)")
-        if v["pageOverflowsHorizontally"]:
+        if v.get("pageOverflowsHorizontally"):
             flags.append("H-OVERFLOW")
         if v.get("missingTitle"):
             flags.append("NO <title> (WCAG 2.4.2, Level A)")
-        if v["consoleErrorCount"]:
+        if v.get("consoleErrorCount"):
             flags.append(f"{v['consoleErrorCount']} console errors")
-        flags.append(f"contrast {v['contrastFailureCount']}/{v.get('contrastExamined')} examined")
-        if v["targetsBelowAA"]:
+        # Three numbers on one line, because two of them used to be invisible.
+        # `cantTell` is W3C ACT's name for a target the rule applied to and could
+        # not resolve. Printing it beside the failures is what stops an
+        # unresolvable backdrop being read either as a pass or as a Blocker.
+        ct = v.get("contrastCantTellCount")
+        flags.append(
+            f"contrast {v.get('contrastFailureCount')} fail"
+            f" / {v.get('contrastPassCount')} pass"
+            f" / {ct} cantTell"
+            f" of {v.get('contrastExamined')} examined"
+            + (f" ({v['contrastGradientJudged']} judged against gradient stops)"
+               if v.get("contrastGradientJudged") else ""))
+        if v.get("targetsBelowAA"):
             flags.append(f"{v['targetsBelowAA']} targets <24px")
-        if v["heavyCropImages"]:
+        if v.get("heavyCropImages"):
             flags.append(f"{v['heavyCropImages']} heavy-crop images")
         if v.get("layoutFindingCount"):
-            flags.append(f"{v['layoutFindingCount']} layout findings")
+            # Raw beside clustered. ReDeCheck measured 147 geometry findings on one
+            # page that were one bug; the clustered number is the one to act on.
+            flags.append(f"{v['layoutFindingCount']} layout findings"
+                         f" ({v.get('layoutRootCauseCount')} root causes)")
         if v.get("unconsumedTokenCount"):
             flags.append(f"{v['unconsumedTokenCount']} declared-but-unread tokens")
-        print(f"  {v['viewport']:>10}  {' · '.join(flags)}")
+        if v.get("strandedElementCount"):
+            flags.append(f"{v['strandedElementCount']} engine-stranded elements (excluded from geometry)")
+        if v.get("probesNotRun"):
+            flags.append(f"!! {len(v['probesNotRun'])} probe(s) DID NOT RUN — not clean")
+        print(f"  {v['viewport']:>10}  {' · '.join(str(f) for f in flags)}")
 
     if manifest["statesSkipped"]:
         print("\nNot captured:")
         for s in manifest["statesSkipped"]:
             print(f"  {s}")
+
+    # The unmeasurable population, printed once rather than per row. This is the
+    # generalisation of the rule the skill previously applied to one layer only:
+    # a check whose pass and cannot-run look identical must report which it is.
+    caps = [v.get("unreadableChannels") for v in manifest["viewports"]
+            if v.get("unreadableChannels")]
+    if caps:
+        merged = sorted(set(c for lst in caps for c in lst))
+        print(f"\n{len(merged)} measurement channel(s) this engine would not answer:")
+        print(f"  {', '.join(merged)}")
+        print("Every one is a check whose clean result would be indistinguishable from")
+        print("a real one. Where a fallback exists the value is tagged `declared` in")
+        print("probes/*.json `styles`; where none exists the value is null, never 0.")
+        print("Carry this list into the report's 'Not checked' line — it is not")
+        print("something to rediscover per review.")
 
     print("\nObscura does not run CSS animations or transitions, so")
     print("animationsRunningAtMeasure is 0 on every row whatever the page declares.")

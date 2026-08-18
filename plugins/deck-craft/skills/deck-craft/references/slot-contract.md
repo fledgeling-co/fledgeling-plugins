@@ -70,3 +70,21 @@ A validation error is a real authoring error. Repair the deck and retry. Never b
 ## What the gate does not prove
 
 It is arithmetic over boxes. It cannot see whether the deck reads well, whether the accent lands, whether the titles carry the argument, or whether a figure is *right* — only that it fits. A clean gate means **no known defect is present**, never *verified*; see `deck-review.md` for the pass that needs eyes.
+
+## Build notes carried over from the additions
+
+These six lines were the only live guidance in `references/template-additions.md`, which was a gap
+analysis of work already done and is no longer on the read list. They belong here, because they are
+properties of the contract rather than history:
+
+- Templates carry **no colour and no font** — the deck theme resolves those. Nothing in a slot value
+  may set a colour.
+- `stat.value` stays ≤14 characters and is always a figure. Every stat slot inherits that.
+- Every list slot needs a `max N` the layout can hold without overlap. **The caps published in
+  `template-catalogue.md` for the 60 deck-craft additions are proposals, not measurements** — they
+  were authored from intent and have not been set against rendered geometry. Where `layout-specs.md`
+  states a different cap for the same template, that one was measured against the frame and wins.
+- `non-ifrs-reconciliation` and `conflict-disclosure` carry `CAVEAT`: a mandatory footnote.
+- `claim-provenance-ledger` and `scale-anchor` carry `SOURCE`: they require a `source` slot.
+- A slot marked `[CAVEAT]` whose `footnote` is typed optional is a contract gap rather than a licence
+  to omit it — treat the marking as binding and fill it.

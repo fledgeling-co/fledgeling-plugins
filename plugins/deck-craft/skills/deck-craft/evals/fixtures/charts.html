@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Workshop Consolidation — Payback Case</title>
+<style>
+  :root { --accent:#D72229; --ink:#1a1818; --paper:#f7f5f2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; font-family:Georgia, serif; }
+  .slide { position:relative; width:100vw; height:56.25vw; max-height:100vh;
+           max-width:177.78vh; margin:0 auto; overflow:hidden; background:var(--paper); }
+  .stage { position:absolute; top:0; left:0; width:1920px; height:1080px;
+           transform-origin:top left; padding:96px 120px; color:var(--ink); }
+  h1 { font-size:120px; line-height:1.05; }
+  h2 { font-size:72px; line-height:1.1; }
+  p  { font-size:32px; margin-top:28px; }
+  .track { height:420px; display:flex; align-items:flex-end; gap:80px; margin-top:56px; }
+  .col   { width:200px; }
+  .fill  { width:200px; background:var(--accent); }
+  .lab   { font-size:30px; margin-top:18px; }
+  .fine  { font-size:20px; margin-top:36px; }
+</style>
+<script>
+  function fit(){
+    document.querySelectorAll('.slide').forEach(function(sl){
+      var st = sl.querySelector('.stage');
+      var k = Math.min(sl.clientWidth/1920, sl.clientHeight/1080);
+      st.style.transform = 'scale(' + k + ')';
+    });
+  }
+  window.addEventListener('resize', fit); window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+
+<section class="slide" id="slide-1"><div class="stage">
+  <h1>Payback Case</h1>
+  <p>As at 30 June 2026. Unaudited. Figures are indicative.</p>
+</div></section>
+
+<!-- Two declared 2-bar groups. Both are axis-truncated: the axis starts near the
+     lower value, so a 5% difference draws as a 2.35x length difference. This is the
+     shared-scale ROI pair shape. -->
+<section class="slide" id="slide-2"><div class="stage">
+  <h2>Cost before and after</h2>
+  <div class="track" data-chart="bars">
+    <div class="col"><div class="fill" data-value="100" style="height:40.0%"></div><div class="lab">Before 100</div></div>
+    <div class="col"><div class="fill" data-value="105" style="height:94.0%"></div><div class="lab">After 105</div></div>
+  </div>
+  <p class="fine">Source: management accounts. As at 30 June 2026. Unaudited.</p>
+</div></section>
+
+<section class="slide" id="slide-3"><div class="stage">
+  <h2>Benefit against outlay</h2>
+  <div class="track" data-chart="bars">
+    <div class="col"><div class="fill" data-value="8.0" style="height:30.0%"></div><div class="lab">Outlay 8.0</div></div>
+    <div class="col"><div class="fill" data-value="8.4" style="height:96.0%"></div><div class="lab">Benefit 8.4</div></div>
+  </div>
+  <p class="fine">Source: management accounts. As at 30 June 2026. Unaudited. Indicative only.</p>
+</div></section>
+
+</body>
+</html>

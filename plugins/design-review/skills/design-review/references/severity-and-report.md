@@ -1,5 +1,13 @@
 # Severity and report
 
+## One general rule is deliberately superseded here
+
+The house style says a question gets an answer rather than a report, prose by default, and no closing flourish. **This file overrides that for the report file, and only for the report file.** A review's largest failure mode is not a wrong finding, it is a confident silence over a region nobody looked at — so the Coverage block, the surface fraction in the verdict line, the non-empty "Needs verification" section and the three-line closing block are structural rather than decorative, and a shorter report that drops them is not obeying the house style, it is removing the parts that make the report checkable.
+
+Four things are load-bearing and must not be weakened: **the fraction in the verdict line**, **the Coverage block**, **the non-empty Needs verification section**, and **the closing block's third line**. Everything else in the template is proportional and droppable — a single screen gets half a page, an empty heading is padding with extra steps, and a clean surface gets a clean verdict.
+
+The conversational reply is *not* overridden. It follows the house style exactly: lead with the outcome, keep it to the verdict and the headline findings, no recap.
+
 ## Severity scale
 
 Four levels. Severity tracks **user impact** — not effort to fix, not reviewer taste.
@@ -13,6 +21,23 @@ Four levels. Severity tracks **user impact** — not effort to fix, not reviewer
 
 Severity = frequency × impact × persistence, plus market impact where reputation is at stake.
 
+## Severity is admission control, not description
+
+A taxonomy that only labels findings does nothing about false positives. This one decides what a finding is *allowed to claim*, and the entry requirements are evidential:
+
+| Level | Requires |
+|---|---|
+| **Blocker** | A fully resolved deterministic measurement. A ratio against a computed opaque backdrop, a geometry fact, a missing attribute. No judgement in the chain. |
+| **High** | A direct user-impacting failure with measured evidence — including a contrast failure scored against a **declared gradient stop**, which is real but conditional on where the glyph sits. |
+| **Medium** | A measured defect of limited scope, or two independent lenses agreeing on a judged one. |
+| **Low / Open question** | Everything judged. A single subjective flag never rises above this on its own. |
+
+Three rules make it bite:
+
+- **A `cantTell` cannot be promoted by judgement.** If the deterministic layer could not resolve a target — unresolvable backdrop, unreadable channel, probe that did not complete — a model's opinion about it does not convert it into a Blocker. It stays in the unresolved population and gets looked at by eye.
+- **A gradient-stop failure is a High, not a Blocker**, unless it fails against every recovered stop. The worst-stop reading is deliberately conservative and the record says so; treating a conditional measurement as certain is how a real finding gets over-sold.
+- **Subjective critique defaults to Open questions.** It carries no severity and never gates. That is the Tier 3 rule stated as an admission rule.
+
 **Discipline:** use the whole range. If everything landed Medium, the review hasn't decided anything — different lenses measure different things, and real reviews have spread. Lower-plane failures cap the value of upper-plane polish: don't lead with colour nits when the flow structure is broken.
 
 A cluster of Blockers or Highs in one flow is a **hotspot** — report it as one systemic finding needing redesign, not as a list of point fixes.
@@ -20,6 +45,14 @@ A cluster of Blockers or Highs in one flow is a **hotspot** — report it as one
 **When the failure is the surface rather than points on it, say so as the finding.** A patch list against a surface that failed wholesale reads as a plan to fix it, which is how a rejection becomes an approval — the reader works the list, clears every item, and ships something still broken in the way that mattered. The test is whether fixing every listed finding would produce a surface you would pass. If not, the top finding is "this needs redesigning, here is what it would have to become", and the point findings sit under it as evidence rather than as the work.
 
 Assign severity at aggregation only, never during the find passes.
+
+## One finding per root cause
+
+Geometry inflates, and the inflation is measured rather than suspected: ReDeCheck reported **147 findings on one page that were a single underlying failure**, and needed 4.2 viewport inspections per real failure across 26 live pages. This skill measured the same shape on one 14-screen surface — 2 real, 35 false.
+
+So cluster before ranking. One issue per `{mechanism, root component, UI state, viewport interval}`, with the repetition carried as a count on the finding rather than as rows: *"every row of the group (4 instances), at all widths"*. `run_review.py` prints `layoutRootCauseCount` beside `layoutFindingCount` so the two numbers are visible; rank the clustered one.
+
+Collapse descendant events into their parent. Two overlapping boxes inside one broken card is one broken card.
 
 ## Block vs advise
 
@@ -53,6 +86,38 @@ A fix: "PrimaryButton: `#6B7280` → `var(--color-brand-primary)` (`#2563EB`); c
 
 Tier 3 items don't get a severity. They go in Open Questions phrased as questions.
 
+## The machine-readable form, for anything downstream
+
+Write `<workdir>/findings.json` alongside the prose report whenever a fixing pass, a second round, or another tool will read the result. The prose report is for a person; a round-two diff and a repair pass need a stable shape, and `severity-and-report.md` already requires marking each finding **resolved / partial / unresolved** on re-review — which is not doable against prose.
+
+```json
+{
+  "finding_id": "contrast:button.primary@1280:001",
+  "category": "accessibility.contrast",
+  "severity": "high",
+  "outcome": "failed",
+  "assertion_type": "measured_fact",
+  "target": { "selector": "[data-testid='checkout-submit']", "accessible_name": "Place order" },
+  "environment": { "engine": "obscura 0.2.0", "viewport": [1280, 900], "dpr": 1, "state": "default" },
+  "measurement": {
+    "foreground": "#ffffff", "resolved_background": "#EC4899",
+    "contrast_ratio": 3.53, "threshold": 4.5,
+    "method": "declared-gradient-stop", "stops": 3
+  },
+  "evidence_ids": ["probes/1280x900.json#contrast.failures[0]", "shots/1280x900-full.png"],
+  "root_cause_key": "color-token:text-on-gradient",
+  "repetition": { "instances": 1, "surfaces": ["/"] },
+  "recommendation": "Set an opaque scrim behind hero text, or a text colour reaching 4.5:1 against the #EC4899 stop."
+}
+```
+
+Four fields carry the epistemics and none is optional:
+
+- **`assertion_type`** is one of `measured_fact`, `inference`, `design_recommendation`, `could_not_verify`. A sentence framed as an observation with `assertion_type: inference` is a reasoning step, and labelling it as one is what stops it hardening into a measurement on the next read.
+- **`outcome`** uses ACT's vocabulary — `passed`, `failed`, `cantTell`, `untested`, `inapplicable`. A `cantTell` record keeps its full target and environment and sets `measurement.status: "unresolved"` with the blocker named: `background-image-unreadable`, `cross-origin-stylesheet`, `channel-unreadable`, `probe-did-not-run`.
+- **`evidence_ids`** point at the probe record and the capture. A finding with none is a claim; `audit_run.py claims` is what makes that cost something.
+- **`root_cause_key`** is what collapses 147 rows into 1. Two findings sharing it are one finding with a repetition count.
+
 ## The coverage block
 
 Mandatory. Goes at the top of every report, above the findings, and is never omitted or softened.
@@ -72,16 +137,21 @@ A complete review says so the same way — `(14 of 14 surfaces, all stages)` —
 - Screens: 14 of 14 at 1440; Board only at 375/768/1024/1920
 - Component types: 31 of 83 cropped and opened (all layout-flagged, all interactive, all with ≥3 instances)
 - States driven: default, empty, focus, hover on Ledger. Loading/partial/error/offline not driven
-- Probes: full `runAll` on all 14 screens. `analyze_styles.py` on Board only
+- Probes: full sweep on all 14 screens. `analyze_styles.py` on Board only
+- Tokens: matched against `packages/ui/tokens.css` — 34 tokens, 6 values off-token
+- Not measurable on this engine: 18 channels (box-shadow, background-image, text-transform, transition, all shorthands, ::after content, animation execution, print emulation) — 5 metrics recovered from stylesheet declarations and labelled, the rest reported as unmeasurable
+- Contrast: 6 failed / 18 passed / 2 could not be resolved, of 26 examined
 - Ledger: `<workdir>/worklist.md` — 14 rows, 0 open cells
 - Not looked at: `directions.html`, the toast, the state gallery
 ```
 
-Three rules keep it honest:
+Five rules keep it honest:
 
 - **The component fraction is a count, not an impression.** `probeComponentInventory()` gives the denominator; the numerator is crops you actually opened. If you did not run the inventory, the fraction is `? of ?` and say so.
 - **The surface fraction comes from the stage-0 worklist**, not from what you happened to review. A denominator set after the fact always equals the numerator.
 - **"Gates clean" and "design sound" are two sentences.** Write both or neither. A report opening on "0 contrast failures across 14 screens" will be read as a verdict on the design no matter what the rest of it says.
+- **The unmeasurable population is a line, not an omission.** Take it from the run summary — the channels the engine would not answer, which metrics were recovered from declarations, and which are dark. A review that leaves it out has folded everything it could not measure into zero.
+- **Say what you looked for and did not find.** A token line reading "searched and found none" and no token line at all are different claims, and only one of them is a finished check.
 
 ## Report template
 

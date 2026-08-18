@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hunter Valley Engineering — FY26 Interim Result</title>
+<style>
+  :root { --accent:#B23A2E; --ink:#181717; --paper:#F6F3EE; --mute:#5A5350; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0b0a0a; font-family:Georgia, 'Times New Roman', serif; }
+  .slide { position:relative; width:100vw; height:56.25vw; max-height:100vh;
+           max-width:177.78vh; margin:0 auto; overflow:hidden; background:var(--paper); }
+  .stage { position:absolute; top:0; left:0; width:1920px; height:1080px;
+           transform-origin:top left; padding:104px 128px; color:var(--ink); }
+  h1 { font-size:128px; line-height:1.02; letter-spacing:-0.02em; }
+  h2 { font-size:78px;  line-height:1.08; }
+  .eyebrow { font-size:26px; letter-spacing:0.14em; text-transform:uppercase; color:var(--mute); }
+  p  { font-size:34px; line-height:1.42; margin-top:36px; max-width:1180px; }
+  .fine { font-size:20px; color:var(--mute); margin-top:44px; }
+  .rule { width:280px; height:10px; background:var(--accent); margin-top:40px; }
+  .tiles { display:flex; gap:64px; margin-top:64px; }
+  .tile .n { font-size:104px; line-height:1; font-variant-numeric:tabular-nums; }
+  .tile .l { font-size:26px; color:var(--mute); margin-top:14px; }
+  .track { height:400px; display:flex; align-items:flex-end; gap:72px; margin-top:56px; }
+  .col  { width:180px; }
+  .fill { width:180px; background:var(--ink); }
+  .lab  { font-size:28px; margin-top:16px; }
+  table { margin-top:56px; border-collapse:collapse; }
+  th, td { font-size:24px; text-align:left; padding:16px 40px 16px 0; }
+  th { color:var(--mute); font-weight:400; }
+</style>
+<script>
+  function fit(){
+    document.querySelectorAll('.slide').forEach(function(sl){
+      var st = sl.querySelector('.stage');
+      var k = Math.min(sl.clientWidth/1920, sl.clientHeight/1080);
+      st.style.transform = 'scale(' + k + ')';
+    });
+  }
+  window.addEventListener('resize', fit); window.addEventListener('load', fit);
+</script>
+</head>
+<body>
+
+<section class="slide" id="slide-1"><div class="stage">
+  <div class="eyebrow">Interim result · as at 30 June 2026</div>
+  <h1>Hunter Valley<br>Engineering</h1>
+  <div class="rule"></div>
+  <p>Prepared for the board. Unaudited and not subject to external review.</p>
+  <p class="fine">Contains forward-looking statements. No reliance should be placed on them.
+  Authorised for release by the board.</p>
+</div></section>
+
+<section class="slide" id="slide-2"><div class="stage">
+  <div class="eyebrow">Result · as at 30 June 2026</div>
+  <h2>Statutory revenue rose on the prior half</h2>
+  <div class="tiles">
+    <div class="tile"><div class="n">88.1</div><div class="l">Statutory revenue, $m</div></div>
+    <div class="tile"><div class="n">12.4</div><div class="l">Reported profit, $m</div></div>
+    <div class="tile"><div class="n">3.20</div><div class="l">Reported earnings per share, cents</div></div>
+  </div>
+  <p class="fine">Source: interim financial report. As at 30 June 2026. Unaudited.</p>
+</div></section>
+
+<section class="slide" id="slide-3"><div class="stage">
+  <div class="eyebrow">Divisions · as at 30 June 2026</div>
+  <h2>Revenue by division</h2>
+  <div class="track" data-chart="bars">
+    <div class="col"><div class="fill" data-value="41.2" style="height:46.8%"></div><div class="lab">Engineering 41.2</div></div>
+    <div class="col"><div class="fill" data-value="30.6" style="height:34.7%"></div><div class="lab">Fabrication 30.6</div></div>
+    <div class="col"><div class="fill" data-value="16.3" style="height:18.5%"></div><div class="lab">Maintenance 16.3</div></div>
+  </div>
+  <p class="fine">Axis begins at zero. Source: interim financial report. As at 30 June 2026. Unaudited.</p>
+</div></section>
+
+<section class="slide" id="slide-4"><div class="stage">
+  <div class="eyebrow">Reconciliation · as at 30 June 2026</div>
+  <h2>Reported result to underlying result</h2>
+  <table>
+    <tr><th>Measure</th><th>$m</th></tr>
+    <tr><td>Reported profit after tax, statutory</td><td>12.4</td></tr>
+    <tr><td>Restructuring costs, one-off</td><td>1.9</td></tr>
+    <tr><td>Underlying EBITDA, non-IFRS</td><td>18.7</td></tr>
+  </table>
+  <p class="fine">The statutory measure is presented first and at equal prominence. Reconciliation
+  as required by ASIC RG 230. As at 30 June 2026. Unaudited. Illustrative allocations are marked.</p>
+</div></section>
+
+</body>
+</html>

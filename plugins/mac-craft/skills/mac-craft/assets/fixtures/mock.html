@@ -1,0 +1,52 @@
+<!-- Fixture reproducing the measured failure from the recorded run
+     (`Egress Gemini`, 2026-08-17): a self-authored review reported every surface PASS
+     and claimed "100% pass rate on contrast (>=4.5:1 on text)". Measured afterwards:
+     primary buttons 3.65:1, selected sidebar rows 3.65:1, one `+` glyph at 1.00:1.
+     Also present, from the same run: a 48px titlebar against a 33pt published value,
+     raw hex literals beside a thin token layer, zero focus rings, click handlers on
+     non-semantic elements, tracked uppercase section labels, and a hand cursor in
+     app chrome.
+     This file exists to be FAILED. If mock_check.py passes it, the gate is broken. -->
+<title>Egress</title>
+<style>
+  :root {
+    --window-bg: #FFFFFF;
+    --accent: #00F0FF;
+  }
+  body { margin: 0; font: 15px/1.4 -apple-system, sans-serif; background: var(--window-bg); color: #000; }
+  .titlebar { height: 48px; background: #F5F5F7; display: flex; align-items: center; }
+  .traffic { width: 68px; height: 14px; margin-left: 9px; }
+  .sidebar { width: 240px; background: #EFEFF2; float: left; height: 500px; }
+  .sidebar-header { text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px; color: #8E8E93; padding: 8px 12px; }
+  .row { height: 45px; padding: 0 12px; cursor: pointer; color: #1C1C1E; }
+  .row.selected { background: #00F0FF; color: #33E0EC; }
+  .content { margin-left: 240px; padding: 24px; }
+  .btn-primary { height: 45px; background: #00F0FF; color: #4DE8F2; border: 0; border-radius: 12px; padding: 0 20px; cursor: pointer; }
+  .add-glyph { background: #00F0FF; color: #00F0FF; width: 28px; height: 28px; border-radius: 6px; text-align: center; cursor: pointer; }
+  .meta { color: #C7C7CC; font-size: 12px; }
+  .card { background: #FAFAFA; border: 1px solid #F0F0F0; border-radius: 12px; border-left: 3px solid #00F0FF; padding: 16px; }
+  .stat { color: #B0B0B5; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+</style>
+
+<div class="titlebar"><div class="traffic"></div></div>
+
+<div class="sidebar">
+  <div class="sidebar-header">LIBRARY</div>
+  <div class="row selected" onclick="pick(0)">All transfers</div>
+  <div class="row" onclick="pick(1)">In flight</div>
+  <div class="row" onclick="pick(2)">Completed</div>
+  <div class="row" onclick="pick(3)">Failed</div>
+  <div class="sidebar-header">DEVICES</div>
+  <div class="row" onclick="pick(4)">MacBook Pro</div>
+  <div class="row" onclick="pick(5)">Studio Display</div>
+</div>
+
+<div class="content">
+  <div class="add-glyph" onclick="add()">+</div>
+  <div class="card">
+    <div class="stat">THROUGHPUT</div>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+    <div class="meta">Updated 4 minutes ago</div>
+  </div>
+  <button class="btn-primary">Start transfer</button>
+</div>

@@ -69,6 +69,39 @@ declared value is exact, engine-independent, and is the number the author
 actually wrote. When a capture accuses a chart you believe is honest, check the
 declared geometry before changing anything: suspect the engine before the page.
 
+### 2.0 Two honest constructions, and the one the gate measures exactly
+
+Inline SVG and declared HTML bars are both legitimate; they differ in what the probe can prove.
+
+- **Declared HTML bars** — `data-chart="bars"` on the group and `data-value` plus an inline `height:NN.NN%` on each bar. The gate reads the percentage you *authored*, so the arithmetic is exact and engine-independent. This is the path to reach for on any deck carrying figures.
+- **Inline SVG** — the gate falls back to a deliberately strict detector: it needs three or more `<rect>`s sharing a baseline within 2px and matching widths within 2px, and it pairs each bar to its value label by the label's `x` **attribute**. A group that misses any of those is counted **unverified** rather than passing, so the coverage gap stays visible in `chartGroupsUnverified`.
+
+The construction that actually fails is neither of those: it is a flex column with an **indefinite** height. A percentage height has nothing to resolve against, the bar sizes itself from its content, and value labels ride up into the card title above. Give the bar a track with a **definite** height and keep the value and axis labels outside it as siblings:
+
+```html
+<div class="plot" data-chart="bars" role="img" aria-label="… The axis begins at zero.">
+  <div class="col">
+    <span class="cval">$15.4m</span>
+    <div class="track"><span class="b" data-value="15.4" style="height:96.25%"></span></div>
+    <span class="lab-x">Q2 FY26</span>
+  </div>
+  …
+</div>
+```
+
+```css
+/* gap:0 so the per-column baselines abut into ONE continuous axis rule.
+   With a gap, the axis draws as three disconnected segments and reads as
+   three charts. Bars keep their spacing via max-width inside the column. */
+.plot        { display: flex; align-items: flex-end; gap: 0; }
+.plot .col   { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.plot .track { width: 100%; height: 250px; display: flex; align-items: flex-end;
+               justify-content: center; border-bottom: 2px solid var(--border-strong); }
+.plot .b     { display: block; width: 100%; max-width: 132px; border-radius: 8px 8px 0 0; }
+```
+
+Confirm the shared baseline by measurement rather than by eye — every bar's `getBoundingClientRect().bottom` must be identical. A rasterizer resolving neighbouring percentages to slightly different pixel heights can make one bar *look* like it hangs below the axis while the declared geometry is exact.
+
 ## 2.1 Pure Deterministic SVG Charts (Banned: External JS/Canvas Libraries)
 
 **Never use external JS chart libraries (like Chart.js) for presentation decks.**
@@ -129,6 +162,8 @@ In local file runs, headless browser reviews, and offline presentation laptops, 
 </svg>
 ```
 
+**Set SVG type with inline `style`, not the `font-size` attribute.** Measured: `<text font-size="30">` reports `16px` from `getComputedStyle`, so a type-floor gate fails a value label authored well above the floor and you "fix" a chart that was already right. `style="font-size:30px"` is exact in every engine and is the number you wrote. Author the `viewBox` at the SVG's rendered pixel size (`viewBox="0 0 940 356"` at `width="940"`) so chart type and slide type share one scale, and mark axis and tick labels `data-accessory` so the gate holds them to the 18px auxiliary floor rather than the 24px primary one.
+
 ### Pattern C: Shared-Scale Horizontal Comparison Bars (ROI / Cost vs Benefit)
 When comparing a one-off cost against ongoing savings (e.g. $0.4m restructuring cost vs ~$8.0m annualised benefit), draw both bars on a **shared scale from zero**. The visual disparity instantly demonstrates the return:
 ```html
@@ -139,10 +174,23 @@ When comparing a one-off cost against ongoing savings (e.g. $0.4m restructuring 
   </div>
   <div class="hbar key">
     <p class="lab"><span>Targeted annualised pre-tax cash benefit</span></p>
-    <div class="track"><span class="fill" style="width: 100%"></span><span class="v">~$8.0m</span></div>
+    <div class="track"><span class="fill" style="width: 100%"><span class="v on">~$8.0m</span></span></div>
   </div>
 </div>
 ```
+
+**The value follows the fill; it is never pinned to the far end of the track.** Laying `.v` across the whole track and right-aligning it puts the number at a distance proportional to how *short* its bar is — measured, the 5% bar left `$0.4m` roughly 700px from the mark it belonged to, so the panel read as a column of loose figures rather than two labelled bars. Where the fill reaches 100% and leaves no room after it, the value goes *inside* the fill in the on-fill colour, which is why the key row nests it above:
+
+```css
+.hbar .track { height: 52px; background: var(--surface-sunken);
+               border-radius: var(--r-sm); display: flex; align-items: center; }
+.hbar .fill  { height: 100%; flex: none; border-radius: var(--r-sm);
+               display: flex; align-items: center; justify-content: flex-end; }
+.hbar .v     { padding-left: 18px; font-family: var(--font-mono); font-weight: 700; }
+.hbar .v.on  { padding: 0 20px 0 0; color: #FFFFFF; }
+```
+
+**A declared two-bar group IS judged, as of 18 Aug 2026.** It used to sit below the gate's three-bar minimum and go unchecked, which was the wrong place to draw that line: the three-bar floor exists because two boxes of unequal height beside two numbers is a shape card grids and date strings also make, so a *detector* needs the extra bar to avoid false positives. A *declared* pair has nothing to detect — you wrote `data-value` and an inline percentage on both bars, so the arithmetic is exact. And this pattern is a two-bar construction by definition, which meant the highest-risk chart shape in the highest-risk deck type was the one shape the gate declined to look at. Declare both bars and the check is exact; leave the percentages off and it falls back to measurement, where the three-bar floor still applies. Carry the shared scale in the `aria-label` too, because both widths are percentages of the same maximum and `0.4 / 8.0 = 5%` is the whole proof.
 
 ### Pattern D: Tabular Progress Completion Bars
 Inside project execution or equipment build tables, pair numeric percentage labels with visual horizontal progress tracks:
@@ -186,6 +234,17 @@ everywhere.
 Watch the accent budget specifically here: a chart panel is where an accent
 quietly gets spent four times — the focal bar, the headline figure, a status
 pill and a trend arrow. Pick one.
+
+**Count marks, not text.** The automated budget check walks text-bearing leaves,
+so a filled bar, a progress track, a rule and a dot all score zero. Measured on
+one slide: four accent-filled "complete" progress bars plus one accent chip read
+as five accent objects to the eye and as one to the gate. Judge the budget on the
+rendered capture, count every mark carrying the colour, and demote until one
+thing has it — a "complete" fill can be the neutral ink, because the word beside
+it already says so. The reciprocal failure is a table whose column headers are
+set in the accent: four `<th>` per table is four accent elements before the slide
+has said anything, and moving the colour to the 2px rule beneath them keeps the
+signal and returns the budget.
 
 ## 5. Say what the chart says
 

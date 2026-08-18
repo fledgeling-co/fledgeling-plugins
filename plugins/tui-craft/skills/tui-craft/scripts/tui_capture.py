@@ -528,6 +528,167 @@ def _resolve_key(token: str) -> tuple[str, float]:
     return token, 0.03
 
 
+def _reap(pid: int, grace: float = 0.6) -> tuple[int | None, bool]:
+    """Reap the child and report how it ended, without ever blocking forever.
+
+    Returns `(wait_status, exited_on_own)`. `exited_on_own` is True when the
+    child was already gone before we signalled it — for a full-screen TUI under
+    capture that is itself the interesting fact, because an interactive program
+    asked to draw a screen should still be running when the settle window ends.
+
+    Measured on this machine, 18 Aug 2026 (see references/evidence.md): reaping
+    this way recovers exit 127 for a missing binary, 126 for a non-executable
+    file, and a negative code for a signal death, while a live interactive
+    program is the class that has to be killed. The predecessor threw the status
+    away by calling waitpid(WNOHANG) after SIGKILL and discarding the result,
+    which is the root cause of a shell error being reported as a clean capture.
+
+    A negative code therefore does not mean a crash on its own: SIGTERM here is
+    usually this function's own, and a program that ignores it is reaped by the
+    SIGKILL that follows. `exited_on_own` is what separates the two, and
+    `trust_verdict` will not call a signal death a failure without it.
+
+    The wait is bounded in every branch. A blocking `waitpid` here hangs the
+    capture forever on a child that ignores SIGTERM — measured, and the reason
+    this polls instead.
+    """
+    deadline = time.time() + 0.15
+    while time.time() < deadline:
+        try:
+            got, status = os.waitpid(pid, os.WNOHANG)
+            if got == pid:
+                return status, True
+        except ChildProcessError:
+            return None, True
+        time.sleep(0.01)
+
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.kill(pid, sig)
+        except ProcessLookupError:
+            break
+        deadline = time.time() + grace
+        while time.time() < deadline:
+            try:
+                got, status = os.waitpid(pid, os.WNOHANG)
+                if got == pid:
+                    return status, False
+            except ChildProcessError:
+                return None, False
+            time.sleep(0.02)
+    return None, False
+
+
+# Cursor addressing and screen erasure. A program that draws a screen has to
+# say where — these are how it says it. SGR is deliberately NOT in this set:
+# measured, a colourised Python traceback emits 10 SGR sequences and zero
+# cursor moves, so colour alone is not evidence that anything was laid out.
+_RE_CUP = re.compile(rb"\x1b\[[0-9;]*[HfABCDdEG]")
+_RE_ERASE = re.compile(rb"\x1b\[[0-9;]*[JK]")
+_RE_ALT = re.compile(rb"\x1b\[\?(?:1049|1047|47)h")
+_RE_HIDE = re.compile(rb"\x1b\[\?25l")
+_RE_SGR = re.compile(rb"\x1b\[[0-9;]*m")
+
+# First-row text that means the program never ran, or ran and died before it
+# drew anything. Each is the shell's or the runtime's own wording, and step 2
+# of the skill relays it verbatim rather than paraphrasing it.
+LAUNCH_FAILURE_SIGNATURES = (
+    "command not found",
+    "no such file or directory",
+    "permission denied",
+    "is a directory",
+    "cannot execute binary file",
+    "exec format error",
+    "error while loading shared libraries",
+    "traceback (most recent call last)",
+    "modulenotfounderror",
+    "importerror",
+    "syntax error near unexpected token",
+    "panic: ",
+    "segmentation fault",
+    "killed",
+    "bad interpreter",
+)
+
+
+def protocol_signals(raw: bytes) -> dict:
+    """What the byte stream shows the program actually did to the terminal.
+
+    Reported so a reader — and `tui_gates.py` — can re-decide the trust
+    question from the frame file alone, rather than taking this script's word.
+    """
+    return {
+        "cursor_moves": len(_RE_CUP.findall(raw)),
+        "erases": len(_RE_ERASE.findall(raw)),
+        "sgr": len(_RE_SGR.findall(raw)),
+        "alt_screen_entered": bool(_RE_ALT.search(raw)),
+        "cursor_hidden": bool(_RE_HIDE.search(raw)),
+        "bytes": len(raw),
+    }
+
+
+def first_text_row(frame: Frame) -> str:
+    for y in range(frame.rows):
+        text = frame.row_text(y).strip()
+        if text:
+            return text
+    return ""
+
+
+def trust_verdict(frame: Frame, raw: bytes, signals: dict,
+                  exit_code: int | None, exited_on_own: bool) -> tuple[str, str] | None:
+    """Decide whether this frame may be used as evidence. None means it may.
+
+    Layered on purpose, because no single signal carries it. The research panel
+    is explicit that exit status is "strong but not infallible" (POSIX does not
+    reserve 127, so an app may return it while drawing correctly) and that the
+    absence of cursor addressing "cannot be treated as definitive failure"
+    because inline and line-oriented TUIs exist. So a refusal needs either a
+    conclusive process signal, the program's own error text, or the conjunction
+    of "stopped by itself" with "never addressed the grid".
+    """
+    ink = sum(1 for row in frame.cells for c in row if c.ch.strip())
+    row0 = first_text_row(frame)
+    low = row0.lower()
+    addressed = bool(signals["cursor_moves"] or signals["erases"]
+                     or signals["alt_screen_entered"])
+
+    if exit_code in (126, 127):
+        return ("capture-blocked",
+                f"the command never ran — the shell exited {exit_code} "
+                f"({'found but not executable' if exit_code == 126 else 'not found'})"
+                + (f'. It said: "{row0}"' if row0 else ""))
+
+    if exit_code is not None and exit_code < 0 and exited_on_own:
+        # Only when it died on its own. SIGTERM and SIGKILL are how this script
+        # ends the settle window, so every healthy long-running TUI carries a
+        # signal death — reading that as a crash refused three valid fixtures
+        # before this condition was added.
+        return ("capture-blocked",
+                f"the command was killed by signal {-exit_code} on its own, before the "
+                f"settle window closed"
+                + (f'. Last thing on screen: "{row0}"' if row0 else ""))
+
+    for sig in LAUNCH_FAILURE_SIGNATURES:
+        if sig in low:
+            return ("capture-blocked",
+                    f'the first thing on screen is the program\'s own error, not a UI: "{row0}"')
+
+    if ink == 0:
+        return ("capture-blocked",
+                "nothing was drawn — the command exited immediately, needs a longer "
+                "--settle, or refuses to draw without a real terminal")
+
+    if exited_on_own and not addressed:
+        return ("capture-blocked",
+                f"the command wrote {ink} cell(s) of plain text, never moved the cursor "
+                f"or cleared the screen, and had already exited before the settle window "
+                f"closed — that is command output, not a terminal UI"
+                + (f'. It said: "{row0}"' if row0 else ""))
+
+    return None
+
+
 def capture(cmd: str, cols: int, rows: int, settle: float, keys: str | None,
             timeout: float, env_extra: dict[str, str], parser: str):
     raw = bytearray()
@@ -570,14 +731,8 @@ def capture(cmd: str, cols: int, rows: int, settle: float, keys: str | None,
             pump(time.time() + max(pause, 0.05))
     pump(time.time() + 0.35)
 
+    status, exited_on_own = _reap(pid)
     try:
-        os.kill(pid, signal.SIGTERM)
-        time.sleep(0.08)
-        os.kill(pid, signal.SIGKILL)
-    except ProcessLookupError:
-        pass
-    try:
-        os.waitpid(pid, os.WNOHANG)
         os.close(fd)
     except OSError:
         pass
@@ -600,6 +755,13 @@ def capture(cmd: str, cols: int, rows: int, settle: float, keys: str | None,
         frame = screen.to_frame()
         unknown = screen.unknown
 
+    exit_code = None
+    if status is not None:
+        try:
+            exit_code = os.waitstatus_to_exitcode(status)
+        except ValueError:
+            exit_code = None
+
     frame.provenance = {
         "method": "pty",
         "command": cmd,
@@ -612,6 +774,9 @@ def capture(cmd: str, cols: int, rows: int, settle: float, keys: str | None,
         "raw_bytes": len(raw),
         "raw_sha256": sha256(bytes(raw)).hexdigest()[:16],
         "captured_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "exit_code": exit_code,
+        "exited_on_own": exited_on_own,
+        "signals": protocol_signals(bytes(raw)),
     }
     return frame, bytes(raw)
 
@@ -745,11 +910,11 @@ def main() -> int:
     frame, raw = capture(args.cmd, args.cols, args.rows, args.settle, args.keys,
                          args.timeout, env_extra, args.parser)
 
-    ink = sum(1 for row in frame.cells for c in row if c.ch.strip())
-    if ink == 0:
-        frame.kind = "capture-blocked"
-        frame.provenance["reason"] = "nothing was drawn — command failed, exited " \
-                                     "immediately, or needs a longer --settle"
+    verdict = trust_verdict(frame, raw, frame.provenance["signals"],
+                            frame.provenance["exit_code"],
+                            frame.provenance["exited_on_own"])
+    if verdict:
+        frame.kind, frame.provenance["reason"] = verdict
 
     if args.raw_out:
         Path(args.raw_out).write_bytes(raw)

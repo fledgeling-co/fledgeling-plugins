@@ -14,8 +14,52 @@ scoring it against a raster reference rather than by eyeballing it.
 The whole skill exists because of one repeated observation: hand-authored
 SVG masters win composition and 16px survival but lose *material* (volumetric
 shading, lighting, translucency) to diffusion rasters at equal audit scores.
-The fix is not "try harder" — it's a measured loop. Deep-research evidence
-base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
+The fix is not "try harder" — it's a measured loop.
+
+**First, two quick exits.** If the request is empty, ask in one line what the
+app is and what it does, then stop. If it is exactly one of `structure`,
+`score`, `gate`, `check`, `render` or `iterate`, it is a subcommand or a
+workflow name and not a brief — say which command you think they meant and
+confirm. But **do not design an icon named "score"**: if what follows describes
+something an icon could be *for* — a cashflow tracker, an export tool, a
+pottery-studio booking app — it is a brief, so design it.
+
+## Where a commission lands
+
+Learn the anatomy before building it. Everything below sits in the commission
+directory you were given:
+
+```
+icon.svg                  the layered master that ships (glob-required name)
+build_icon.py             the generator: geometry + material as named constants
+icon-<engine>-<id>.svg    the Arrow take
+icon-<engine>-<id>.png    the raster take (+ -masked.png)
+audit.html                the contact sheet — a gated deliverable, not a note
+audit-renders/            <take>-{1024,256,128,96,64,32}.png
+  render-manifest.json    what was rendered, from what, as what kind
+loop-runs/rNN/            score.json · residual-1024.png · edges-{candidate,reference}.png
+                          candidate-1024.png · reference-1024.png · brief.md
+                          gate.txt · review.html · review-feedback.json · _before/
+                          panel/{bundle/, bundle-swapped/, verdict-*.json, panel.json}
+loop-runs/last-accepted/  the gate's rollback point
+loop-runs/best-promoted/  the best take a blind panel ever preferred — what ships
+```
+
+**Reading the instruments at the shell.** Exit codes carry the severity: **0**
+pass, **1** fail, **2 refused — a comparison that must not be made at all**,
+which is not the same as one the candidate lost. `FAIL`, `NOTE` and `?` lines go
+to **stderr** so redirecting stdout cannot lose them; measurements stay on
+stdout. A clean exit does not mean there was nothing to read — a `NOTE` is a
+real finding that did not rise to a refusal. Check `$?` itself, never a pipe's:
+piping a gate through `grep` reports grep's status, and that is how a hard
+failure has been read as a pass here before.
+
+Deep-research evidence base for the loop's design:
+`docs/svg-icon-fidelity-plan.md` and `docs/deep-research/` in the
+**fledgeling-plugins repository** — these are not bundled in the installed
+plugin, so cite them as provenance rather than sending a runner to open them.
+The findings that changed this skill's own rules are restated in
+`references/evidence.md`, which does ship.
 
 ## Knowledge sources
 
@@ -37,8 +81,33 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
 4. `references/material-recipes.md` — raster looks as layered SVG
    constructions. Read during Engine A authoring and every loop material
    round; append to it when a loop confirms a new recipe.
+5. `references/evidence.md` — **read before changing a gate threshold, the
+   panel protocol, or the stopping rule.** What the outside literature
+   establishes about perceptual metrics, blind pairwise judging and stopping
+   under a noisy objective; where it contradicts a published rule this skill
+   rejected; what a two-family panel can and cannot support; and which of this
+   skill's numbers are transferred evidence rather than measured here.
 
 ## Procedure
+
+0. **Look at the icons this one will sit beside — by default, without being
+   asked.** An icon is never judged alone; it is judged in a Dock, a Finder
+   list, or a marketplace lineup next to its siblings. Before the brief, read
+   the repository you are adding to: any `CLAUDE.md` or brand doc for a stated
+   icon family rule and the **required export sizes**, the existing
+   `assets/icon*.png` set, whatever generator or `icon-src.svg` sits beside
+   them, and `assets/squircle-path.txt`. Lift exact values — the accent's hex,
+   the ground register, the corner geometry — rather than eyeballing or
+   rounding them.
+
+   This step exists because of a specific gap: for `fledgeling-plugins`, whose
+   every icon this skill generates, the family rule and the export sizes (1024
+   as `icon.png`, plus 256 and 128) are written in that repo's own `CLAUDE.md`,
+   and the skill did not read them. Say in one line what you matched
+   ("matching the fledgeling set — porcelain ground, one ember accent, shared
+   squircle from `assets/squircle-path.txt`"). If a genuine search turns up no
+   family and no palette, say that you looked and that you are setting the
+   precedent.
 
 1. **Brief.** The app's subject, personality (3 committed adjectives), brand
    colour constraints, and any raster reference the user already has. Ask
@@ -49,6 +118,19 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    then a subject-mined glyph device with a named signature move. Calibration
    warnings live in the reference: blue/indigo grounds and stock category
    glyphs need positive justification.
+
+   **Settle the direction before spending the engine budget.** Three engines
+   run against one direction, so a wrong direction costs the whole budget —
+   while the decision itself only needs a shape. Where the direction is
+   genuinely open, put 2-3 **low-fi silhouette sketches** in front of the user
+   first: solid black glyph shapes at 128px, each exploring an axis you can
+   name ("the ledger line" vs "the coin edge"), each with an honest motivation
+   and its main tradeoff. Decision fidelity is not deliverable fidelity, and
+   three shades of one idea is no choice at all. Step 3 already makes exactly
+   this artifact; this is the same artifact used as a decision instrument
+   instead of a private check. Once a direction is settled it stays settled —
+   keep each option's name and identity stable across turns, and don't re-ask
+   on a later turn.
 3. **Silhouette first.** The glyph as a solid shape that names the subject;
    mental 16px squint before any styling.
 4. **Look at real icons before authoring anything.** Open 4-6 exemplars from
@@ -102,17 +184,33 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    python3 scripts/audit_sheet.py render <commission-dir>   # retina sources for every take
    #   ... write audit.html from the template ...
    python3 scripts/audit_sheet.py check  <commission-dir>   # must exit 0
+   python3 scripts/fidelity.py structure --candidate icon.svg   # check runs this too
    ```
 
-   `check` reads the sheet, resolves every `<img src>` against the directory,
-   and fails on a missing image, an unfilled `{{PLACEHOLDER}}`, a missing
-   master, or a take short of its retina sources. This is not ceremony: writing
-   the file tells you nothing about whether its paths resolve, and a sheet whose
-   images 404 is precisely the artifact that ships unseen. Twice on record the
-   user asked *"why no audit.html? doesn't the skill say to create one?"* and
-   *"I don't see any audit.html or the various icon versions"* — the instruction
-   was already here both times, which is why it is now a command with an exit
-   code.
+   `check` reads the sheet, resolves every `<img src>` against the directory, and
+   fails on a missing image, an unfilled placeholder of **any** form, a missing
+   master, a take short of its retina sources, or a hidden 1024 hero. It also
+   refuses three things it used to pass silently, each measured:
+
+   - **a stale sheet** — every render must be newer than the source it came
+     from, because the fidelity loop *guarantees* the master changes after the
+     sheet is first written, and a sheet showing the pre-loop icon beside a
+     post-loop master used to pass cleanly;
+   - **a sheet that has not met the bar** — a rubric score of the form
+     `N / 12` must appear in each take's score cell and the best take must
+     clear 10/12, so `check` proves the commission *passed* rather than merely
+     that the sheet was populated;
+   - **an unmasked raster** — a take rendered as kind `png` whose corners are
+     opaque ships as a square tile beside squircle siblings, and only `render`
+     knew the kind while only `check` saw the output. `render` now records both
+     in `audit-renders/render-manifest.json` and `check` verifies against it.
+
+   This is not ceremony: writing the file tells you nothing about whether its
+   paths resolve, and a sheet whose images 404 is precisely the artifact that
+   ships unseen. Twice on record the user asked *"why no audit.html? doesn't the
+   skill say to create one?"* and *"I don't see any audit.html or the various
+   icon versions"* — the instruction was already here both times, which is why
+   it is now a command with an exit code.
 
    Then **open the sheet in a browser and read it.** `check` proves the files
    exist; only looking proves the icons are good. Ask each row *"what is wrong
@@ -152,9 +250,91 @@ base: `docs/svg-icon-fidelity-plan.md` at the marketplace root.
    that had been measured correctly. `PANEL_VETO` now ends a fixture after
    three consecutive panel losses regardless of what the score says. A gate
    ACCEPT is evidence, never a verdict.
+
+   **The gate refuses a degraded metric tier, in both paths.** LPIPS engages
+   only at 256 and 1024 — exactly where material lives — so without torch the
+   gate cannot see what it is grading and is confidently wrong rather than
+   merely uncertain. Measured: eight rounds ran on the numpy-only tier, the
+   composite went backwards at every size, and the gate accepted its way to the
+   worst take of the run. `gate` exits **2** on a degraded tier;
+   `--allow-degraded-tier` proceeds and records that the verdict covers
+   structure and small-size legibility only.
+
+   **Promote on the panel, stop on promotion-armed patience, ship the best-ever
+   promoted take** — never the latest. On the improve-skill trace that ships r11
+   over r19: the composite says r19 is 4% better and the judges say r11 is the
+   artifact. Patience is two consecutive non-wins **armed only after the first
+   promotion**; the naive form fires at r04, before all three of that run's
+   genuine wins, and ships nothing the panel ever preferred. Every judge is
+   asked in **both orders** (a swap-flip is recorded as a tie, not a winner),
+   and the generator's own family — `claude`, since the round agent is
+   `claude -p` — is recorded but excluded from the majority. Mechanism, effect
+   sizes and citations: `references/fidelity-loop.md` and
+   `references/evidence.md`.
 9. **Deliver**: the layered SVG master (+ build script), the alternates, the
    audit sheet, the fidelity run directory, and — if the loop confirmed a new
    construction — the `material-recipes.md` addition, stated in the summary.
+
+   **Say it in the user's words, not the instrument's.** This pipeline
+   generates more mechanism vocabulary than anything else in the set, and it
+   leaks into commit messages and handovers. Narrate the icon, not the harness:
+
+   | Internal | What the user hears |
+   |---|---|
+   | composite / edge_f1 / SSIM / LPIPS / mask_iou | how close the master got to the reference |
+   | the blind panel preferred the candidate | three independent judges picked the new one |
+   | gate ACCEPT / REJECT / Pareto gate | the measurements agreed / disagreed it improved |
+   | metric tier, degraded tier | never named — say the material could not be measured, so the number is not trustworthy |
+   | PROVISIONAL, PANEL_VETO, r11, render_hash | never named — say it needs your eye, or that the loop stopped improving |
+
+   The skill's most important claim has to survive that translation: *a gate
+   ACCEPT is evidence, never a verdict* becomes "the measurements liked it,
+   which is not the same as it being right — have a look."
+
+## Targeted edits — a one-constant change is a one-constant change
+
+"Make the accent warmer", "the shadow is too heavy", "lift the glyph a little"
+are single named constants in the build script. Change that constant,
+regenerate, re-render the affected rows, and say what moved. Do **not** open a
+round schedule, a structure gate, a scorer and a three-model panel for a request
+that named its own fix — the build-script discipline exists precisely so this
+kind of edit is exact. Leave every other constant alone, including ones you
+think could be better; finish what was asked and *suggest* the rest rather than
+applying it. The loop is for closing a material gap against a reference, which
+is a different job from honouring a stated preference.
+
+## Known limits (so nothing gets promised that isn't there)
+
+- **The loop measures similarity to a reference that can itself be wrong.** The
+  raster engine routinely renders frost at ~1.4:1 figure-ground, which
+  dissolves at 32px; converging on it drags the master below the rubric floor.
+  That is why the rubric outranks the gate rather than the reverse.
+- **Without torch, the gate is blind to material** (LPIPS runs only at 256 and
+  1024). It now refuses rather than guessing — but the honest version of "we
+  could not install torch" is that the material was never measured.
+- **`self_contrast` catches gross collapse, not localised flattening.** On r01
+  it did not fire (drops of 2.7% and 1.6%) because a whole-image spread is
+  dominated by the tile ground rather than the object the judges were
+  describing. The threshold was left at its principled value rather than tuned
+  until it fired on one case, which would be exactly the metric-gaming this
+  skill forbids implement agents. For object-level flattening the panel is the
+  authority, and an undecidable case ships PROVISIONAL to a human queue.
+- **A gate cannot see a self-consistent defect.** When a superseded agent's
+  ~120 stray lines collided with its replacement, every gate said ACCEPT either
+  way, because both versions were internally consistent. Only the agent caught it.
+- **The panel is a handful of model calls and can be wrong,** and it is not a
+  stand-in for a person: on r04, the one round carrying both signals, the human
+  preferred the candidate and the panel the baseline. Two families cannot form a
+  majority — `references/evidence.md` says what a two-family panel does and
+  does not support.
+- **`rsvg-convert` is the scoring renderer and it is not a browser.** A
+  construct that renders differently across the two is itself a finding.
+- **The stopping rule is ours, not the literature's.** Promotion-armed patience
+  comes from one replayed trace; the published families it resembles arm after a
+  fixed iteration count, not after a verified success. A production policy with
+  a measurement behind it, not an established algorithm.
+
+Don't promise past these.
 
 ## Iterating an existing icon against a reference
 
@@ -182,7 +362,9 @@ the end shows before/after rows.
 
   When a commission is genuinely both, deliver both: a flattened
   reference-fidelity preview and a layered production package. Provenance for
-  the Apple rules: `docs/deep-research/visual-analysis/FINDINGS.md` §4.
+  the Apple rules: `references/evidence.md` § Apple / Icon Composer, distilled
+  from `docs/deep-research/visual-analysis/FINDINGS.md` §4 in the
+  fledgeling-plugins repository (not bundled with the installed plugin).
 - **mac-design-studio installed** (diolog-plugins): it covers full app-UI
   design and delegates icon work to the same pipeline this skill carries;
   for pure icon commissions this skill is the more complete tool (it adds

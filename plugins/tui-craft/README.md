@@ -129,6 +129,15 @@ otherwise meet.
 Sources are in `references/evidence.md` and the full research is in
 `docs/deep-research/`.
 
+**`docs/` is provenance, not reading material.** Nothing loads it and nothing
+should: the 899 lines under `docs/deep-research/` are the raw research reports
+that the two `references/evidence.md` files were written from, and
+`docs/corpus-analysis.md` is the app index that makes every "Observed: `<app>`"
+claim in the pattern catalogue falsifiable. They sit outside the skill-loading
+path deliberately — they cost install weight and zero context — and they are there
+so a claim can be checked against its source, not so anyone reads them front to
+back.
+
 ## Designing a screen: `tui-design`
 
 You cannot capture a screen that does not exist. The usual substitute is a
@@ -141,10 +150,21 @@ So the spec contains no column numbers. You declare what the screen holds and ho
 it divides, and a compiler does every piece of cell arithmetic.
 
 ```bash
-python3 scripts/tui_mock.py spec.json -o frame.json --dump
-python3 scripts/tui_design_gates.py frame.json --strict
-python3 ../tui-craft/scripts/tui_gates.py frame.json
+python3 scripts/tui_mock.py spec.json -o pipelines-ideal-80x24.json --dump --gate
 ```
+
+`--gate` compiles, then runs the design gates and tui-craft's arithmetic gates on
+the result and combines every exit code, so the arithmetic pass cannot be the step
+that gets skipped. Both gate scripts only return a non-zero exit under `--strict`,
+which `--gate` passes for you. To run them one at a time instead:
+
+```bash
+python3 scripts/tui_design_gates.py pipelines-ideal-80x24.json --strict
+python3 ../tui-craft/scripts/tui_gates.py pipelines-ideal-80x24.json --strict
+```
+
+That second path resolves only from the `tui-design` directory, which is why
+`--gate` derives both script locations from its own file instead.
 
 What did not fit comes back as a fit report with a non-zero exit: a column
 narrower than its own content, a border label too wide for its rule, a panel whose
@@ -165,9 +185,17 @@ to fail: role budget, rail concentration, panel fill, chrome share. The corpus i
 48 shipped applications, 27 of whose 34 colour-measurable frames carry a glyph
 role under 3:1. It is evidence about what ships, not an authority on contrast.
 
-`assets/example-failing.json` is there to be run. It fails all three gates on four
-planted defects, which is how you confirm a gate can fail before trusting one that
-passes.
+`assets/example-failing.json` is there to be run. It is a *spec*, so compile it
+first — the design gates read a frame, and handing them a spec is a `KeyError`,
+not a failed gate:
+
+```bash
+python3 skills/tui-design/scripts/tui_mock.py skills/tui-design/assets/example-failing.json -o /tmp/ef.json
+python3 skills/tui-design/scripts/tui_design_gates.py /tmp/ef.json --strict   # 3 gates fail, exit 1
+```
+
+It fails all three gates on four planted defects, which is how you confirm a gate
+can fail before trusting one that passes.
 
 ## What it doesn't do
 
@@ -190,12 +218,18 @@ One install brings both skills. `tui_mock.py` imports its cell arithmetic from
 that every column depends on.
 
 `pyte` is optional. Install it (`pip install pyte`, pure Python, no compiler) and
-the capture uses it; without it the bundled parser runs instead, gated by 16
+the capture uses it; without it the bundled parser runs instead, gated by 18
 golden fixtures covering CJK, combining marks and ZWJ emoji. Run
 `python3 scripts/tui_capture.py --self-test` and it tells you which one you're
 getting. If the fixtures fail it refuses to report a captured frame at all,
 because a parser that quietly mis-parses makes every gate downstream lie with
 confidence.
+
+`tui_gates.py --self-test` is the same idea one layer up: it drives each
+arithmetic gate against in-code fixtures that should trip it and frames that
+should not, so a gate that has stopped firing is caught before it reports a clean
+frame. Both self-tests must exit 0 — the capture one buys trust in the parser, the
+gates one buys trust in the findings.
 
 ## Evals
 

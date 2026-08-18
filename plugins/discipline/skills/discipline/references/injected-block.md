@@ -4,8 +4,11 @@ Everything between the fences is the literal. Perch writes it into the request's
 session start; a Claude Code install can paste it into `CLAUDE.md` or an output style. It is a
 **literal**. No interpolation, no clock, no session id, no account name, no counter.
 
-Byte count is pinned by a test (881). Changing the text means bumping the version and the pinned
-number in the same commit — see `SKILL.md § Editing the block`.
+Byte count and sha256 are both pinned by `scripts/block-check.py` (881 bytes,
+`a4f1ff0d16fdb4c7`) — the digest is there because a same-length edit is the one change a byte count
+cannot see. Changing the text means bumping the version and updating `BLOCK_PINS` in that script in
+the same commit — see `SKILL.md § Editing the block`. The ceiling is 1,200 bytes, so v4 leaves 319
+bytes of headroom.
 
 ```text
 Report only deltas on plans, diffs, conclusions and explanations you have already shown; restate
@@ -38,9 +41,13 @@ to shorten working, because shortening the work is by far the cheaper way to sat
 the only clause here whose job is to *prevent* a saving.
 
 **Why there is no register instruction.** No "be terse", no "drop articles", no fragments. Brevity
-instructions have a measured accuracy cost (Renze & Guven, arXiv:2401.05618; Giskard Phare), and
-telegraphic register does not reliably save tokens under BPE anyway — common function words are
-single tokens, so dropping an article saves exactly one. See `evidence.md`.
+instructions have a measured accuracy cost — Giskard's Phare benchmark puts the loss at up to 20
+percentage points of hallucination resistance under a "be concise" system prompt, and Renze & Guven
+(arXiv:2401.05618) report a math penalty under Concise CoT. **Neither is verified in its own results table here:**
+Renze & Guven is GPT-only, and Giskard's figure is an aggregate with no per-model breakdown and no
+published list of which models were in the brevity condition. And telegraphic register does not
+reliably save tokens under BPE anyway — common function words are single tokens, so dropping an article
+saves exactly one. See `evidence.md` and `provenance.md`.
 
 **Why there is no version string in the text.** It would be useful at 3am and it costs prefix bytes
 to learn something the proxy already logs. Perch logs the block version per turn; the model does not
@@ -79,8 +86,9 @@ kind of drift the byte ceiling exists to stop. Restore it if a register clause i
 
 PERCH-0327 pins the block per conversation and replays the exact bytes that conversation started
 with, so a conversation opened before v4 must keep emitting v3's 736 bytes for the rest of its life.
-The literal below is retained verbatim in `TokenDisciplineBlock.v3Text`, and its digest is pinned by
-a test. **It is not the current block — do not edit it, and do not copy from it when editing v4.**
+The literal below is retained verbatim in `TokenDisciplineBlock.v3Text`, and both its byte count and
+its digest are pinned by `scripts/block-check.py`, which fails if this fence is deleted or edited.
+**It is not the current block — do not edit it, and do not copy from it when editing v4.**
 
 ```text
 Report only deltas on plans, diffs, conclusions and explanations you have already shown; restate

@@ -85,7 +85,7 @@ Don't hand-roll scaling per slide. The shell holds every slide, scales the stage
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Deck</title>
+  <title>NAME-THIS-FROM-THE-CONTENT</title>
   <style>
     :root { --slide-w: 1920px; --slide-h: 1080px; }
     * { box-sizing: border-box; }
@@ -157,6 +157,11 @@ Don't hand-roll scaling per slide. The shell holds every slide, scales the stage
 </html>
 ```
 
+**The filename and the `<title>` are what the deck is CALLED, and they are content rather than tool.** Name both the way the user would name the deck — `alfabs-q4-fy26-investor-update.html`, `Alfabs Q4 FY26 Investor Update` — never after the format, the tool, or a placeholder. An HTML deck is emailed, dropped in a Slack channel and attached to a board paper: the filename is what a director sees in their downloads folder, and `deck.html` beside four other files called `deck.html` is a real failure rather than an untidy one.
+
+This template shipped `<title>Deck</title>` until 18 Aug 2026, which is precisely the string the gate now refuses, so every deck built from it inherited the defect and nothing said so. The placeholder above is deliberately one that cannot survive review. `run-preflight.sh` reports `genericName` as a blocker against `deck`, `presentation`, `slides`, `untitled`, `new deck` and the matching filenames.
+
+
 Each slide is a direct child `<section class="slide">` of `#stage`, carrying a 1-indexed `data-screen-label` so the user can say "fix slide 04" and you both mean the same slide.
 
 Adapt freely — transitions, a progress bar, an ESC overview grid, wheel and swipe navigation. Keep the invariant: authored at fixed size, stage scales to fit, never re-layout for a narrow viewport.
@@ -177,10 +182,38 @@ Most of what a deck review finds is preventable in the stylesheet rather than re
   font-feature-settings: "tnum";
 }
 
+/* Keep the nowrap list to things that are genuinely atomic. `.stat` is the
+   TILE, not its number: putting the tile in this list makes white-space:nowrap
+   cascade to its label and note, so a long note cannot wrap, the tile's
+   min-content blows past its grid track, and the last tile in a four-up row is
+   clipped at the slide edge. Measured — it cost one rebuild. List `.stat-num`,
+   never `.stat`. The same trap applies to any wrapper whose child is the atom. */
+
 /* Reserve the foot of every slide. This space is structural: it is what keeps
    the last line of body copy off the footer rule and out from under any
-   floating control dock. */
+   floating control dock — and it is a QUANTITY, not a guess. The reserve must
+   exceed the foot's RENDERED height including any wrap, and a foot string that
+   fits the full width can wrap to two lines inside a column narrowed by an
+   editorial photo, which silently eats it. Measured: one 22px shortfall here
+   put content into the footer on three separate slides, and it read as three
+   separate bugs. Set it generously, and keep foot strings to one line at the
+   NARROWEST column the deck uses. */
 .slide > .pad { padding-bottom: var(--pad-bottom, 80px); }
+
+/* Two rules that keep that reserve honest, both learned the same way:
+   1. The reserve must exceed the foot's RENDERED height. A foot at
+      `bottom: 46px` with 18px padding, a 1px rule and one 21px line is 97px
+      tall from the slide's base — so 116px reserved left 19px, and a foot
+      string that wrapped to two lines on the narrowest column ate it and put
+      body copy through the rule on five slides at once.
+   2. So keep every foot string to ONE line at the deck's narrowest column.
+      An editorial split's copy column is ~810px, not 1712px; write the foot
+      to fit there and the wide slides get the margin for free. */
+
+/* A rowspan cell draws its own bottom border below the LAST row it spans, so
+   a grouped table ends with a stray hairline under one column only. It reads
+   as a rendering fault and is one declaration. */
+.data-table td[rowspan] { border-bottom: none; }
 
 /* A table given less width than its columns need clips silently at the
    container edge — no scrollbar, no warning, just a truncated last column.
@@ -195,6 +228,17 @@ Most of what a deck review finds is preventable in the stylesheet rather than re
 .slide > .copy { position: relative; }
 .scrim { position: absolute; inset: 0;
          background: linear-gradient(90deg, rgba(16,15,15,.92), rgba(20,18,18,.55)); }
+
+/* A bullet list laid out as a CSS grid: `li:first-child { margin-top: 0 }`
+   zeroes only the DOM-first item, so the second column's first row keeps its
+   margin and sits a gap lower than the first column's. Use row-gap for the
+   rhythm and zero every item's margin in grid mode. */
+.chevlist.chevgrid li { margin-top: 0; }        /* pair with `gap: 22px 72px` */
+
+/* Give a text leaf a block box wherever a gate has to measure it: an inline
+   <span> that is the only child of a plain block can return a zero-size rect
+   in some engines, which every probe reads as "invisible". */
+.card-num { display: block; margin: 0; }
 
 /* Terminate every font stack with a generic: a bare family that fails to load
    falls back to serif and the deck silently changes character. */
@@ -264,6 +308,22 @@ A slide deck is an unencumbered fullscreen presentation, **not a multi-page web 
 
 **If the deck has persistent chrome — a control bar, a progress rail — give it its own band rather than floating it over the stage.** Reserve the space in the scaling container (`inset: 0 0 104px 0`) and compute `s` against *that* box, not the viewport. Chrome floated at `bottom: 28px` sits on slide content at every 16:9-ish window, where the letterbox is only a few dozen pixels.
 
+**Size the reserve by arithmetic, then measure it.** The reserve is a quantity, not a round number that felt safe. On a vertically-centred deck the slide's margin is half the reserve, so the controller clears the stage only when
+
+```
+reserve / 2  >  controllerBottomOffset + controllerHeight   (+ ~20px of visible gap)
+```
+
+Worked on a real deck: controller at `bottom: 20px`, measured height 56px, so it occupies the lower 76px. A 156px reserve gives 78px of margin and **2px** of clearance — arithmetically a pass and visually touching. 200px gives 100px of margin and 24px of clearance, which is what shipped. Getting this wrong is not subtle at review time and is invisible at build time: a second deck from the same brief floated its controller with no reserve at all and it sat over the stage on all twelve slides, while a text-versus-dock check scored zero because the footer line happened to stop 17px short of it. Measure the box, not the last line of text:
+
+```js
+const w = document.querySelector('.slide-wrap').getBoundingClientRect();
+const c = document.getElementById('controls').getBoundingClientRect();
+({ gapToControls: Math.round(c.top - w.bottom),      // must be > 0, want ≥ 20
+   marginTop: Math.round(w.top),
+   marginBottom: Math.round(innerHeight - w.bottom) });  // these two must match
+```
+
 **Auto-hiding controls hold open on `:focus-visible`, not `document.activeElement`.** A mouse click leaves focus on the button it clicked, so an `activeElement` check re-arms the timer forever and the chrome never retires again for the rest of the session. `controls.querySelector(':focus-visible')` matches keyboard focus only, which is the case that actually needs the hold. Hidden chrome must also stay keyboard-reachable: wake it on `keydown` so the first Tab brings it back before focus resolves.
 
 **Slide visibility must not use `display`.** `.slide { display: none }` looks fine until a later layout rule sets `.slide-content { display: flex }` and every slide renders at once. Toggle with an attribute or class that controls `visibility` + `opacity` + `pointer-events`, or keep `display` toggling but assert nothing downstream overrides it. If `~/Dev/frontend-slides/viewport-base.css` is available, read it and inline its contents — it encodes this and the rest of the stage behaviour.
@@ -306,6 +366,13 @@ Add once to the base styles:
 
 Keep one in-flow wrapper per slide. **Any other top-level element must be `position: absolute` *and* excluded from that selector** — give it a `.pinned` class and extend the `:not()` chain. Positioning it absolutely is not enough on its own: the rule still applies `height: 100%`, so a footer pinned with `bottom: 44px` becomes a 1080px-tall box growing *upward*, and its flex content renders at the top of the slide instead. The tell is a sliver of footer text along the slide's top edge and nothing at the bottom — and because the element is present and styled, every overflow and collision check passes.
 
+**A percentage height resolves against a parent sized by `top`/`bottom` less reliably than against one sized by `inset`.** The editorial media column is where this bites: `.media { position: absolute; top: 0; bottom: 0; width: 700px }` with `.media img { width: 100%; height: 100% }` renders the photograph at its *natural* height in some engines, so a 3:4 image in a 700px column stops at 933px of a 1080px slide and leaves a band of blank canvas beneath it. The tell is that the full-bleed cover photo on the same deck is correct — because that one is pinned with `inset: 0`. Pin the image the same way and the class disappears:
+
+```css
+.media     { position: absolute; top: 0; bottom: 0; height: 100%; overflow: hidden; }
+.media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+```
+
 **Never negate a CSS function directly.** `-clamp(...)`, `-min(...)`, `-max(...)` are silently ignored — the declaration does nothing and the layout is subtly wrong with no error. Use `calc(-1 * clamp(...))`.
 
 ## Phase 5: Imagery
@@ -330,6 +397,18 @@ document.elementFromPoint(r.left + 10, r.top + 10);   // must be the text, not t
 
 **Check the composite, not the asset.** A texture buried under a near-opaque colour wash ships the wash, and an image at low opacity behind other paint is a compliance token rather than a material. Judge every asset in the rendered capture beside what it was meant to be.
 
+### Fonts travel with the file too
+
+A generic fallback stops a missing family from breaking the page; it does not stop the deck arriving in a different typeface. A deck that must open offline, over `file://`, or inside a sandboxed portal carries its own fonts as base64 `woff2`, which costs far less than it sounds: a variable Figtree plus two IBM Plex Mono weights is ~40KB for the latin subsets.
+
+```bash
+# Ask Google Fonts for CSS2 with a browser UA, then take the /* latin */ blocks only —
+# the response also carries cyrillic, greek and vietnamese subsets you do not need.
+curl -s -A "$UA" "https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&display=swap"
+```
+
+Parse out each `/* latin */` block's `url(...)`, fetch the `woff2`, base64 it into an `@font-face` `src`, and keep the generic at the end of the stack anyway. One variable font file covers every weight you author.
+
 ### The Asset Optimization & Inlining Pipeline (Single-File Portability)
 
 When generating high-resolution photography or renders (e.g. via `media-gen-pro`) for standalone HTML presentations:
@@ -349,6 +428,15 @@ When generating high-resolution photography or renders (e.g. via `media-gen-pro`
    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRg..." alt="Documentary description" />
    ```
 3. **Why this is mandatory**: Standalone HTML presentations must open flawlessly over `file://`, in headless browser tests, and across sandbox environments without broken relative path dependencies or CDN network latency.
+
+**Author against the placeholder even when the real images are coming.** The
+imagery is commissioned early and generated in parallel (`SKILL.md` §4b), so for
+most of the build it has not landed yet. That is not a reason to leave the slide
+half-built: a placeholder with the asset's exact box gives the layout its real
+geometry, so overflow, chrome reserve and ink extent all measure correctly, and
+the final swap is one `src` edit that moves nothing. Building the slide around a
+gap and fitting the picture afterwards inverts that and re-opens every
+measurement.
 
 With no real assets, use honest placeholders and say so: a striped background with a monospace label naming the asset and its dimensions. A placeholder shows intent; a hand-drawn SVG of a person or an abstract concept shows you didn't have the asset, and a gradient standing in for a photograph shows it while pretending otherwise.
 
@@ -377,6 +465,26 @@ Serve over HTTP, never `file://` — module scripts, fetches and some fonts fail
 **Run `scripts/run-preflight.sh <url>` first.** It measures, in one call, what would otherwise be nine slides × three tool round-trips of looking: stage geometry against 16:9, the type floor, overflow, collision with chrome, text laid over text, copy invisible under its own photograph, chart axis honesty, the accent budget, dead bands at a slide's foot, and — with `--regulated` — whether the deck states its disclosures at all. Fix what it names, then spend the looking on what it cannot see. A validation pass that inspected a nine-slide deck screenshot-by-screenshot took 24 minutes and still missed both of that deck's truncated-axis charts; the script finds them in seconds and returns the implied baseline.
 
 Read its output the way it is written: a non-empty `notes` entry saying a check *failed* means that check did **not run**, which is not the same as clean. An empty result is not a pass either — the runner exits non-zero and says so.
+
+**Measure a scaled stage in one unit system.** `getBoundingClientRect()` returns rendered pixels; `getComputedStyle()` returns the authored value. Comparing a child's rendered edge against its parent's computed padding subtracts one system from the other, and what it reports is not a defect. Measured at `s = 0.667`: an audit reported copy overflowing its container by exactly 52px on every slide, cards by 16px, stat tiles by 12px — which are `104 × (1−s)/s`, `32 × (1−s)/s` and `24 × (1−s)/s`, each container's own padding converted by the scale. Nothing was clipped. The signature is an overflow that is **constant per container class and identical on every instance**, where a real one varies with content. Convert first:
+
+```js
+const s = stage.getBoundingClientRect().width / 1920;
+const cs = getComputedStyle(parent);
+const inset = (parseFloat(cs.paddingRight) + parseFloat(cs.borderRightWidth)) * s;
+const overflowAuthored =
+  (el.getBoundingClientRect().right - (parent.getBoundingClientRect().right - inset)) / s;
+```
+
+`deck-preflight.js` already normalises sizes to the authored canvas; any probe you write beside it needs the same conversion.
+
+**On a vertical scroll deck, isolate the slide you want to capture.** A URL fragment does not reliably scroll the page before the capture fires, so `deck.html#s07` returns the same image as `deck.html`. Write a copy of the file per slide with one injected rule and capture that — the slide then sits at the top of the document, filling the viewport at exactly 16:9, with the real floating chrome over it:
+
+```js
+src.replace('</head>', `<style>.slide-wrap:not(#s07){display:none!important}</style></head>`)
+```
+
+Give every `.slide-wrap` a stable `id` for this, and the deck gains portal deep-links for free.
 
 **Capture the viewport, not the element.** An element screenshot (a `Page.captureScreenshot` with a `clip` taken from the stage's own `getBoundingClientRect()`) renders the element's own box and is structurally blind to where that box actually sits: a stage shifted 120px off-centre, half of it past the right edge of the window, screenshots as a perfect slide. So does a stage sitting under a floating control bar. Element captures are for cropping a component you have already located; they can never establish that the deck fits its window.
 
