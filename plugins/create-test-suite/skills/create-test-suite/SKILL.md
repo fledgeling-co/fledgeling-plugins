@@ -38,6 +38,47 @@ python3 $S/campaign.py init <dir> --project NAME --lanes web,ios \
     --design-of-record docs/ui-mockups/console.html
 ```
 
+### Before the phases · decide what this run covers
+
+A campaign that runs everything every time gets run less often, then stops being
+run at all — and a switched-off gate catches nothing. So **a run selects, and
+covering everything is a decision somebody made rather than a default nobody
+chose.** `references/selection.md` carries the model; the decision is yours and
+it happens here, before anything executes.
+
+Three rungs, first match wins, and the rung that fired is recorded:
+
+1. **Somebody asked** — "run everything", "full regression", "all the gates".
+   Full, no inference. A request scoped to one feature is equally a request to
+   select, and answering it with the whole suite is not thoroughness.
+2. **You infer it** from the diff you are holding: a lockfile, build config or
+   toolchain moved; a shared component, token, theme, shell, router or auth guard
+   changed; the last run failed or was itself selective; the environment, tenant
+   or base URL is new; a release or migration prompted the run; the diff is a wide
+   refactor. Any of those, run full — and say which one you inferred.
+3. **Default** — selective, against the last full run.
+
+```bash
+python3 $S/campaign.py scope <dir> --full --max-full-age-days 14 \
+    --decided-by "user asked for every gate"
+# or
+python3 $S/campaign.py scope <dir> --selective \
+    --basis "changed: src/pricing/** since v2.3.1 → SURF-004, FLOW-002" \
+    --decided-by "default"
+```
+
+The floor selection may never reach below: **every `critical` flow's effect-rung
+case, the gate's own checks, and anything the mapping could not place.** The
+default for an unmappable test is *include*. Change-to-test mapping is a
+heuristic, and the case it wrongly drops is indistinguishable from the case that
+passed.
+
+This sits deliberately close to the first failure mode above. What separates
+selection from silent narrowing is only ever mechanical: the scope is declared
+with a reproducible basis, every unrun case is *carried* with that basis rather
+than left looking like a pass, and the verdict names its own scope so a selective
+green cannot be read as a full one.
+
 ### 0 · Ground yourself in the project, not the stack
 
 Discover before assuming: where requirements live, what harness exists and how it
@@ -49,6 +90,19 @@ Two facts to establish here because they change what is safe to do at all:
 **where the development API writes**, and **whether the feature needs a secure
 context** — a feature gated on one silently hides itself on an origin that is not
 one, and the symptom reads as a styling bug.
+
+And two about what already runs, because an existing suite is part of this
+campaign's subject rather than its background. **Whether the harness selects
+natively** — Jest `--changedSince`, Vitest `--changed`, Playwright
+`--only-changed`, `pytest-testmon`, `nx affected`, Turborepo `--filter` with a git
+range, Bazel query, Gradle and Go caching — verified against the installed version
+with its own `--help`, because a flag that does not exist fails in a way that looks
+like a clean selective run of nothing. And **what every existing gate runs, on
+what trigger**: each CI job, pre-commit and pre-push hook. Those get converted to
+the same ladder, and `references/selection.md` §5 has the two shapes to look for —
+a gate that runs everything and is therefore routinely skipped, and the more
+dangerous one that already selects while reporting a green with no scope, no basis
+and no denominator. The second is the narrowing failure already in production.
 
 ### 1 · Read what the project says it does
 
@@ -147,6 +201,21 @@ python3 $S/campaign.py set <dir> --case CASE-0117 --status pass \
     --evidence evidence/shots/publish.png --armed
 ```
 
+On a selective run, name what ran and carry the rest — everything unnamed becomes
+`unselected: <basis>`, except the always-run floor, which `carry` refuses and
+reports as `protected`:
+
+```bash
+python3 $S/campaign.py carry <dir> --ran CASE-0117 --ran CASE-0118 \
+    --basis "unchanged since v2.3.1"
+```
+
+A carried case keeps the result being carried and the basis for carrying it. It is
+not a pass and not a skip: a skip says this case should not run, `unselected` says
+it did not run *this time*. And when the diff is a test rather than the code,
+selecting it is not enough — re-arm it, because an assertion edited and then passed
+is the one place selection can manufacture a green.
+
 Armed and unarmed passes are counted separately, forever. Thirteen armed out of
 225 is an honest number; folding them together claims a uniformity nobody
 measured.
@@ -215,6 +284,18 @@ measurement.
 **Print the denominator.** Everywhere, in every sweep, in the report, in the
 reply.
 
+**Running everything is a decision, not a default.** A run selects; full coverage
+is chosen by a request or by an inference you name. The three things that keep that
+honest are mechanical — a declared basis, carried cases rather than silent ones, and
+a verdict that names its own scope. A selective green says what changed passes and
+the rest is unchanged since a dated full run; it never says the suite passes.
+`references/selection.md`.
+
+**A carried verdict decays.** A carried pass is evidence about the code as it was
+at the last full run. That age goes on the verdict line, and past the declared
+bound it becomes a blocker — twelve consecutive selective runs are a full suite
+nobody has executed in a fortnight.
+
 **Prove a check can fail before trusting it passing.** A predicate that matches
 nothing returns clean and is indistinguishable from a clean surface.
 
@@ -250,8 +331,13 @@ case. A new data surface gets phases 0–7 with sweeps A–E. An app somebody wa
 to ship without human testing gets all ten phases, every sweep, the differential
 and the page.
 
+Scale is what a campaign covers; scope is what a **run** of it covers. They are
+different decisions and both get stated: a full-scale campaign re-run selectively
+next week is the normal case, not a degradation.
+
 Say which you ran. A campaign that quietly ran the small version and reported in
-the shape of the large one is the first failure mode again.
+the shape of the large one is the first failure mode again — and so is a selective
+run reported in the shape of a full one.
 
 ---
 
@@ -261,6 +347,10 @@ the shape of the large one is the first failure mode again.
   md; the requirement inventory and its four classes; the depth manifest.
 - `references/coverage-model.md` — the axes, the constrained product, t-way
   sampling and where the research disagrees, the oracle ladder.
+- `references/selection.md` — which cases a given run needs: the decision ladder,
+  the always-run floor, deriving the blast radius from the surface map and
+  component atlas, the carried-case ledger contract, and retrofitting the same
+  model onto an existing suite and its CI gates.
 - `references/sweeps.md` — ten sweeps with their mechanics, the write firewall,
   refusal honesty, metamorphic relations.
 - `references/differential.md` — measuring the build against its design of

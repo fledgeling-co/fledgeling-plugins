@@ -41,7 +41,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 STATE_TONE = {
-    "pass": "ok", "fail": "bad", "skip": "warn", "n/a": "mute", "open": "open",
+    "pass": "ok", "fail": "bad", "skip": "warn", "n/a": "mute",
+    "unselected": "carried", "open": "open",
 }
 
 # Kept in step with campaign.py, which gates on them. Weakest first.
@@ -61,6 +62,11 @@ def state_of(status: str) -> str:
         return "skip"
     if s.startswith("n/a"):
         return "n/a"
+    # A case a selective run did not select. Its own state, because rendering it
+    # as open makes a deliberate selection look like unfinished work, and
+    # rendering it as pass is the coverage theatre this file exists to prevent.
+    if s.startswith("unselected"):
+        return "unselected"
     return "open"
 
 
@@ -89,10 +95,10 @@ def is_image(rel: str) -> bool:
 
 CSS = """
 :root{--bg:#F7F8FA;--panel:#FFF;--ink:#12161C;--dim:#5C6675;--line:#E2E6EC;
---ok:#127A4A;--bad:#C0392B;--warn:#9A6300;--mute:#7A8497;--open:#B4341F;
+--ok:#127A4A;--bad:#C0392B;--warn:#9A6300;--mute:#7A8497;--open:#B4341F;--carried:#3E6D9C;
 --accent:#1F3FA6;--okbg:#E8F5EE;--badbg:#FBEAE7;--warnbg:#FBF3E2;--mutebg:#F0F2F5;--openbg:#FDECE8;}
 @media (prefers-color-scheme:dark){:root{--bg:#0D1117;--panel:#151B23;--ink:#E7EDF5;--dim:#98A3B3;
---line:#252D38;--ok:#5FD39B;--bad:#F08579;--warn:#E0B457;--mute:#8592A6;--open:#F0A08C;
+--line:#252D38;--ok:#5FD39B;--bad:#F08579;--warn:#E0B457;--mute:#8592A6;--open:#F0A08C;--carried:#7FB0DA;
 --accent:#7EA2F5;--okbg:#12291F;--badbg:#2C1714;--warnbg:#2B2312;--mutebg:#1B222C;--openbg:#2E1A15;}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -192,7 +198,8 @@ wall.querySelector('[data-100]').onclick=()=>{k=1;x=24;y=24;apply();};}
 def bar(counts: dict) -> str:
     total = sum(counts.values()) or 1
     order = [("pass", "var(--ok)"), ("fail", "var(--bad)"), ("skip", "var(--warn)"),
-             ("n/a", "var(--mute)"), ("open", "var(--open)")]
+             ("n/a", "var(--mute)"), ("unselected", "var(--carried)"),
+             ("open", "var(--open)")]
     return ('<div class="bar">' + "".join(
         f'<i style="width:{counts.get(k, 0) / total * 100:.2f}%;background:{c}"></i>'
         for k, c in order) + "</div>")
@@ -208,7 +215,7 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     flows = inventory.get("flow", [])
     components = inventory.get("component", [])
 
-    counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "open": 0}
+    counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0, "open": 0}
     for c in cases:
         counts[state_of(c.get("status"))] += 1
     armed = sum(1 for c in cases if c.get("armed") and state_of(c.get("status")) == "pass")
@@ -258,6 +265,23 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     A("<p class=lede>Every count carries its total. The armed ratio is separate on purpose: "
       "a suite is only known to bite where an assertion was watched to fail with the behaviour "
       "removed.</p>")
+
+    # A selective run says something narrower than a full one, so the page has to
+    # say which it was. Rendering a carried result as a pass is the coverage
+    # theatre this whole file exists to prevent.
+    run = campaign.get("run", {})
+    if (run.get("scope") or "full").strip().lower() == "selective":
+        A("<p class=lede><b>This is a selective run.</b> "
+          f"{len(cases) - counts['unselected']} of {len(cases)} cases ran; "
+          f"{counts['unselected']} carry a result from an earlier full run of "
+          f"{esc(run.get('lastFullRun') or 'an unrecorded date')}. "
+          f"Basis: <code>{esc(run.get('basis') or 'NONE DECLARED')}</code>. "
+          "It says what changed passes and the rest is unchanged since that date — "
+          "not that the suite passes.</p>")
+    elif run.get("lastFullRun"):
+        A("<p class=lede><b>Full run</b> — every case in the campaign was run, "
+          f"{esc(run.get('lastFullRun'))}.</p>")
+
     A("<div class=stats>"
       f"<div class=stat><b>{len(reqs)}</b><span>requirements</span></div>"
       f"<div class=stat><b>{len(surfaces)}</b><span>surfaces enumerated</span></div>"
@@ -265,7 +289,9 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
       f"<div class=stat><b>{len(cases)}</b><span>cases</span></div>"
       f"<div class=stat><b>{counts['pass']}</b><span>pass</span></div>"
       f"<div class=stat><b>{counts['fail']}</b><span>fail</span></div>"
-      f"<div class=stat><b>{armed} of {counts['pass']}</b><span>passes armed</span></div>"
+      + (f"<div class=stat><b>{counts['unselected']}</b><span>carried, not re-run</span></div>"
+         if counts['unselected'] else "")
+      + f"<div class=stat><b>{armed} of {counts['pass']}</b><span>passes armed</span></div>"
       f"<div class=stat><b>{effect} of {len(cases)}</b><span>assert an effect</span></div>"
       f"<div class=stat><b>{len(flows)}</b><span>flows</span></div>"
       f"<div class=stat><b>{len(components)}</b><span>components</span></div>"
