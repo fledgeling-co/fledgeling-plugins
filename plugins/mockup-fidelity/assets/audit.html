@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mockup-fidelity icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measures { margin-top: 28px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measures table { min-width: 0; width: auto; }
+  .measures th, .measures td { padding: 6px 14px 6px 0; border-bottom: 1px solid #16262c; }
+</style>
+</head>
+<body>
+<h1>mockup-fidelity icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Overlay" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, build_icon.py — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="Take A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables on real renders: family squircle with no baked corner or shadow, union of the two rectangles 640px wide and centred on (516, 516), a silhouette that is nameable as two plates out of register, and a 16px read of dark slab plus warm L (in-mask 16px luminance spread <strong>0.2405</strong> against a family median of 0.169). Four named layers, so the ember and every rim light can drop out without the mark ceasing to be itself. Loses <strong>#7</strong>: measured against its own dilated surround the object clears the floor at <strong>4.03:1</strong>, but the slab's lightest decile — its top rim and lit bevel — sits at 2.40:1 against the porcelain beside it, the porcelain register's standing trade (create-test-suite 2.06:1, create-skill 1.48:1 on the same measure). Material rebuilt from C1 over two measured rounds.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-fcbac9.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="Take B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard-fails <strong>#1</strong> — it drew its own rounded-square artwork boundary inside the canvas, which is a baked mask sitting inside the family's superellipse — and <strong>#2</strong>, since that artwork floats inset rather than full-bleed. Fails <strong>#6</strong> with three hue families (a blush pink upper plate, a grey diagonal field, the brown lower plate), <strong>#9</strong> on era (flat isometric, no cushion, no gel), <strong>#10</strong> as a consequence of the baked boundary, and <strong>#4</strong>: at 32px the two isometric plates fuse into one lozenge and the misregistration is gone. Salvaged into the master: nothing material, but it independently reached for corner brackets on the reference, which confirmed the device is legible as registration rather than as decoration.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-4e2ac1.png<small>GPT Image 2, 4 reference images — the material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C1-1024.png" width="160" height="160" alt="Take C1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Won the material read and became the reference the master was measured against. Fails <strong>#10</strong> the way every flat pre-masked raster does — one baked layer, identity hostage to a colour relationship. Fails <strong>#6</strong> on a measurement rather than a taste: 26.8% of its tile reads warm-saturated because its slab shares the ember's hue family, against 8.5% in the master, so the accent is not reserved to the focal. Also drifts the accent to peach (S 0.50 against the family's 0.70–0.90), which the master deliberately did not follow. What it taught, sampled on matched geometry: a gel body's face is <em>flat across its width</em> and lit top-to-bottom (0.61 at the top rim to 0.33 at the base) with lighter transmitted rims at <em>both</em> side edges (0.43 and 0.47 against a 0.37 body) — the master had a diagonal ramp and a dark right edge, which reads as a lit opaque plane.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC-d2d9dc-2.png<small>GPT Image 2, same brief, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C2-1024.png" width="160" height="160" alt="Take C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">The same construction as C1 with the misregistration halved: the exposed strip survives on the left arm and all but disappears along the top, so the mark reads as a slab with a hot left edge rather than as one thing laid off register against another — that costs <strong>#11</strong> as well as <strong>#10</strong> and <strong>#6</strong>. Its top-left bracket also came out as a rounded quarter-arc, which reads as a stray hook. Kept on disk because its slab carries the most convincing transmitted edge of any take (lightest decile 0.4112 against a 0.1616 body) and because a losing take that is deleted cannot be re-examined when someone disagrees later.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is layered, so it is the only one that can survive Dark / Clear / Tinted: four named groups (<code>#bg</code> cushion and reference, <code>#mid</code> the lit gap and the contact shadow, <code>#fg</code> the slab and the mock read through it, <code>#highlight</code> every rim and bounce), which map one-to-one onto Icon Composer layers, and identity carried by shape and value — two same-sized rectangles out of register — rather than by the ember. It passes <code>fidelity.py structure</code> at 9 paths, 11 gradients, 4 filters and 18KB, and its material was rebuilt from C1 across two measured rounds (five-size composite 0.7317 → 0.7479, then 0.7465 on a round kept against a flat score because the perimeter bevel it added is what makes the slab read as a body). Known liabilities to revisit: <strong>(1)</strong> the slab's lit top rim and bevel sit at 2.40:1 against the porcelain, so half the object's boundary is carried by rim light and contact shadow alone and will soften under a heavy tint; <strong>(2)</strong> the silhouette is nameable but generic — filled black it is two offset rounded rectangles, and what makes it <em>this</em> icon is the ember in the gap, which a silhouette test cannot see; <strong>(3)</strong> the corner brackets and the mock's line read through the gel both vanish below about 48px, so the two devices that carry the argument are large-size only; <strong>(4)</strong> the ember occupies 8.5% of the tile, which is generous for this family's usual accent restraint, and is the first thing to reduce if the icon shouts on a shelf; <strong>(5)</strong> the fidelity numbers above were computed on the numpy tier, with no torch on this machine, so LPIPS never ran — the material was <em>not</em> measured by the scorer at 256 and 1024, and every material decision here rests on hand-sampled profiles off C1 plus the eye, not on the gate. No gate verdict was taken, deliberately.</div>
+
+<div class="measures">
+  <table>
+    <caption class="visually-hidden">Measured properties of every take at 1024</caption>
+    <tr><th scope="col">Take</th><th scope="col">object vs its own dilated surround</th><th scope="col">object lightest decile vs surround</th><th scope="col">warm-saturated share of tile</th><th scope="col">16px in-mask luminance spread</th></tr>
+    <tr><td>A (ships)</td><td>4.03:1</td><td>2.40:1</td><td>8.5%</td><td>0.2405</td></tr>
+    <tr><td>B</td><td>5.51:1</td><td>1.92:1</td><td>1.3%</td><td>0.2036</td></tr>
+    <tr><td>C1</td><td>3.84:1</td><td>1.70:1</td><td>26.8%</td><td>0.2195</td></tr>
+    <tr><td>C2</td><td>3.79:1</td><td>1.74:1</td><td>21.5%</td><td>0.2217</td></tr>
+    <tr><td>sibling create-test-suite</td><td>2.95:1</td><td>2.06:1</td><td>3.3%</td><td>0.1728</td></tr>
+    <tr><td>sibling create-skill</td><td>2.18:1</td><td>1.48:1</td><td>10.6%</td><td>0.1762</td></tr>
+  </table>
+  Measured with WCAG relative luminance on the masked 1024 renders; the surround is a 45px dilation of the object's own mask, median to median, because a hand-placed sample of "the ground beside it" has hidden a real figure-ground defect in this marketplace before. The 16px column is the standard deviation of in-mask luminance on the 16px render — the family's median across 35 icons is 0.169 and its two weakest icons sit at 0.049 and 0.050.
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>
