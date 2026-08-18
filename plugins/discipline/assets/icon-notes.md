@@ -28,7 +28,14 @@ Three engines were run, per the pipeline floor.
 
 ## Audit
 
-`audit.html` carries every take at 1024/256/128/32/16 with ×6 squint magnification, losers scored.
+`audit.html` carries every take at 1024/256/128/96/64/32 sources, displayed at 128/64/48/32/16 css px
+with ×6 squint magnification, losers scored. The renders live on disk in `audit-renders/` with a
+manifest; the loose `_a*`/`_b*`/`_r*`/`_c*` PNGs are the same commission's original renders under a
+private naming scheme and are kept as the record. The shipped tile is masked through
+`icon-engineC-raster-9a63f7-masked.svg` — named `icon-raster-masked.svg` until 2026-08-19, when it was
+renamed so `audit_sheet.py check` reads it as the Engine C take it is rather than as an SVG master.
+It is not one: it is 1.08 MB of base64 JPEG in a `clipPath`, and `fidelity.py structure` forbids an
+`<image>` element outright. That is a standing icon defect, not a naming problem.
 
 **Known liabilities, stated rather than buried:**
 

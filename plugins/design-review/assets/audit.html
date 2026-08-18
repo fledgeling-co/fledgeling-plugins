@@ -28,20 +28,33 @@
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .hero { display: flex; align-items: flex-end; gap: 28px; margin: 0 0 34px; }
+  .hero figure { margin: 0; text-align: center; }
+  .hero img { display: block; background: #08252e; border-radius: 18px; }
+  .hero figcaption { color: #7fa0aa; font-size: 11px; margin-top: 6px; }
 </style>
 </head>
 <body>
 <h1>design-review icon: contact sheet &amp; audit</h1>
-<div class="sub">Direction "Press Proof" &middot; one shared spec, three engines per the mac-design-studio pipeline &middot; every take audited on real renders at 1024 / 128 / 32 / 16, each one clipped to the system squircle first.</div>
+<div class="sub">Direction "Press Proof" &middot; one shared spec, three engines per the mac-design-studio pipeline &middot; every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16, each one clipped to the system squircle first.</div>
+
+<div class="hero">
+  <figure><img src="audit-renders/master-1024.png" width="256" height="256" alt="Take A, the shipping master, at 256px from the 1024 render"><figcaption>A &middot; ships &middot; 1024 source</figcaption></figure>
+  <figure><img src="audit-renders/c2-1024.png" width="128" height="128" alt="Take C2 at 128px from the 1024 render"><figcaption>C2 &middot; raster, material winner</figcaption></figure>
+  <figure><img src="audit-renders/c1-1024.png" width="128" height="128" alt="Take C1 at 128px from the 1024 render"><figcaption>C1 &middot; raster, three columns</figcaption></figure>
+  <figure><img src="audit-renders/engineB-1024.png" width="128" height="128" alt="Take B at 128px from the 1024 render"><figcaption>B &middot; Arrow</figcaption></figure>
+</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
-  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+  <tr><th scope="col">Take</th><th scope="col">Renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
     <td class="take ship">A &middot; icon.svg<small>hand-authored layered SVG, C2 glass overlay rebuilt in; SHIPS</small></td>
     <td class="renders">
       <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -54,6 +67,8 @@
     <td class="take">C2 &middot; icon-c2.png<small>GPT Image 2 raster, corpus-referenced; material winner</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -66,6 +81,8 @@
     <td class="take">C1 &middot; icon-c1.png<small>GPT Image 2 raster, three-column variant</small></td>
     <td class="renders">
       <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -78,6 +95,8 @@
     <td class="take fail">B &middot; icon-engineB-arrow.svg<small>Arrow 1.1 vector take</small></td>
     <td class="renders">
       <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
       <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
       <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
@@ -89,6 +108,6 @@
 
 <div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is Icon-Composer-ready as four real layers, clean on the non-negotiable checks 1&ndash;4 against masked small renders rather than against the 1024 artwork, and the only one whose artwork states the subject: a column off its shared rail, with the mark set on the break. C2 won the material comparison and that material has now been rebuilt into A as real layers, so the two read as one family. Known liabilities to revisit: two offset slabs carry some duplicate-documents read, and only the mark breaking the lower-right corner keeps the silhouette from being a plain stack; the frost slab sits close in value to the porcelain along its lower left, so at 16px the surface becomes a soft mass and the mark carries the identity alone; the ring-and-crosshair detail inside the disc is fully lost by 16px, leaving a circled mark rather than a registration mark; and the light Tinted variant is the weakest of the four, since flattening the vermilion to a system tint costs the one hue that separates instrument from surface.</div>
 
-<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Every take, raster and vector alike, was clipped to a superellipse squircle before rendering, so takes that baked their own mask are judged on what the system would actually show. Render commands: `rsvg-convert -w {1024,256,64,32}` after squircle clipping.</div>
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit); checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Every take, raster and vector alike, was clipped to a superellipse squircle before rendering, so takes that baked their own mask are judged on what the system would actually show. Renders produced by `python3 audit_sheet.py render <dir>` at 1024 / 256 / 128 / 96 / 64 / 32 sources &mdash; the two engine-C takes as `raster-mask`, the two vector takes as `svg` &mdash; and verified by its `check` subcommand. The 48px row was added on 2026-08-19 when this sheet was brought up to the current checker; the scores and verdicts below are the originals from the commission and were not re-judged.</div>
 </body>
 </html>
