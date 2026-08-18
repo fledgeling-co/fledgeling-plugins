@@ -407,6 +407,21 @@ function build() {
     const BANNER_DEBT = new Set([
       "should-compact",   // owed since 2026-08-17
       "anvil-errand",     // owed since 2026-08-17
+      // The six below landed together on 2026-08-18 as one migration out of
+      // diolog-plugins, each rebuilt against the teardown of Claude Code's
+      // built-in /design skill. Every one has its full icon set; none has a
+      // banner. They are listed rather than served six rushed banners, which is
+      // the trade this list's own note argues for — but six new names at once is
+      // a larger claim on it than the two above, so it is worth saying why:
+      // holding all six unregistered kept them uninstallable and kept the
+      // digest from running at all, and a banner is a composed 3200x1040
+      // artifact per plugin rather than a render.
+      "design-craft",              // owed since 2026-08-18
+      "ux-craft",                  // owed since 2026-08-18
+      "deck-craft",                // owed since 2026-08-18
+      "mac-craft",                 // owed since 2026-08-18
+      "mac-design-digest",         // owed since 2026-08-18
+      "generate-investor-portal",  // owed since 2026-08-18
     ]);
     const bannerPath = join(dir, "assets", "banner.png");
     if (!existsSync(bannerPath)) {
