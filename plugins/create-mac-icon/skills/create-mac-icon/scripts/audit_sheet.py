@@ -180,15 +180,45 @@ def render(base: pathlib.Path, takes: dict[str, tuple[str, str]]):
 
 
 def discover(base: pathlib.Path) -> dict[str, tuple[str, str]]:
-    takes = {}
+    """Infer the takes from the directory, so `render` works with no arguments.
+
+    Two rules here exist because the naive version produced a manifest `check`
+    then rejected, which makes bare `render` look like a way to make a sheet
+    worse. Both were found by running it across twenty-three commissions at once
+    and watching nine of them regress.
+
+    First, a full-bleed raster and its squircle-masked twin are the same take,
+    and the masked one is the take that ships. Discovering both registered the
+    unmasked file under its own id, and `check` correctly failed it for opaque
+    corners. So an unmasked raster is skipped when a `-masked` sibling exists.
+
+    Second, a raster with no masked twin still has opaque corners, and the kind
+    that fixes that is `raster-mask` rather than `png`. Inferring the kind from
+    the file extension alone is what put a square-cornered tile on the sheet in
+    the first place, so the corners decide it, not the suffix.
+    """
+    Image = load_pil()
+    candidates = []
     for p in sorted(base.glob("icon*.svg")) + sorted(base.glob("icon*.png")):
         if p.parent.name == "audit-renders":
             continue
         stem = re.sub(r"^icon[-_]?", "", p.stem) or "master"
         stem = re.sub(r"[^a-zA-Z0-9]+", "-", stem).strip("-") or "master"
-        if re.fullmatch(r"\d+", stem):          # icon-256.png etc — an export, not a take
+        if re.fullmatch(r"\d+", stem):          # icon-256.png etc, an export rather than a take
             continue
-        takes[stem] = (p.name, "svg" if p.suffix == ".svg" else "png")
+        candidates.append((stem, p))
+
+    masked_stems = {s[: -len("-masked")] for s, _ in candidates if s.endswith("-masked")}
+
+    takes = {}
+    for stem, p in candidates:
+        if p.suffix == ".svg":
+            takes[stem] = (p.name, "svg")
+            continue
+        if stem in masked_stems:
+            continue                            # its masked twin is the take
+        kind = "raster-mask" if corners_opaque(p, Image) else "png"
+        takes[stem] = (p.name, kind)
     return takes
 
 
