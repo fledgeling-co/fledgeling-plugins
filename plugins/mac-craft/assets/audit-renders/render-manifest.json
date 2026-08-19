@@ -3,26 +3,30 @@
     "arrowB": {
       "source": "icon-engineB-arrow-fd0889.svg",
       "kind": "svg",
+      "source_sha256": "769110af73e7805217e2fbf68ea5e9be1a89f980380a26c8c0605436f34f8290",
       "source_mtime": 1787045323.1311414,
-      "rendered_at": 1787046815.902006
+      "rendered_at": 1787110399.607458
     },
     "master": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "31c5bef4b03d6b33d6fb4320d0390ffbc64ba66dc3d95a37be8a8459d8200de0",
       "source_mtime": 1787046815.4352202,
-      "rendered_at": 1787046816.215086
+      "rendered_at": 1787110399.874526
     },
     "rasterC1": {
       "source": "icon-engineC-7d777b.png",
       "kind": "raster-mask",
+      "source_sha256": "e65251a6e56623bf15af1fc8e8b4554740381f5c5fae4a85ea42ac8f54733eb0",
       "source_mtime": 1787046586.5377395,
-      "rendered_at": 1787046816.544606
+      "rendered_at": 1787110400.168212
     },
     "rasterC2": {
       "source": "icon-engineC-521645.png",
       "kind": "raster-mask",
+      "source_sha256": "80200b986d319bed75e9843fa1625791912bf5f442c9a8837b04579da418e8cb",
       "source_mtime": 1787046586.9410558,
-      "rendered_at": 1787046816.864547
+      "rendered_at": 1787110400.460751
     }
   },
   "sizes": [

@@ -3,20 +3,23 @@
     "capsule": {
       "source": "icon-take-capsule.svg",
       "kind": "svg",
+      "source_sha256": "8ba80f8d8ec30deb559a23685f57c85cccafbbac313b19729ab7ceced89c2f56",
       "source_mtime": 1787063329.8982608,
-      "rendered_at": 1787063342.4611268
+      "rendered_at": 1787110413.729162
     },
     "lift34": {
       "source": "icon-take-lift34.svg",
       "kind": "svg",
+      "source_sha256": "bd66e1036ffe877b5b8f1e75fe91ff6ae8afda39ab85b39c6264dabffc5f2781",
       "source_mtime": 1787063329.8905263,
-      "rendered_at": 1787063342.955294
+      "rendered_at": 1787110413.8778722
     },
     "master": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "a8a7c5974e8e18743d94d471446a76dd4e3f6caf05198df3534e94b3f23b0306",
       "source_mtime": 1786342947.0112047,
-      "rendered_at": 1787063343.577659
+      "rendered_at": 1787110414.0250518
     }
   },
   "sizes": [

@@ -3,38 +3,44 @@
     "A": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "9f183f0902400451a4c1b7eeee4b49025148ee155ff056d652c7000cfc646b6b",
       "source_mtime": 1787046882.4906247,
-      "rendered_at": 1787047375.106536
+      "rendered_at": 1787110377.624507
     },
     "Adark": {
       "source": "icon-engineA-darkfield-2c2f3e.svg",
       "kind": "svg",
+      "source_sha256": "3b0cae319bcd754b3db636ba22de5e3e8c21a200d9c42967ebb34327dd050d0d",
       "source_mtime": 1787045720.8660295,
-      "rendered_at": 1787047375.338505
+      "rendered_at": 1787110377.858706
     },
     "B": {
       "source": "icon-engineB-arrow-593458.svg",
       "kind": "svg",
+      "source_sha256": "0f1872acdf0dbdb32d63e5a75e23a25a42b0c346d8b41d6a80bc4869db8fdf65",
       "source_mtime": 1787046778.582169,
-      "rendered_at": 1787047375.453207
+      "rendered_at": 1787110377.97448
     },
     "Bdark": {
       "source": "icon-engineB-arrow-48ee4c.svg",
       "kind": "svg",
+      "source_sha256": "cc44e87ef6f4f3050aa7c7b2038b18cdf7169a33078cfbe98dfb1ac7ce4f84e3",
       "source_mtime": 1786719327.966563,
-      "rendered_at": 1787047375.566964
+      "rendered_at": 1787110378.098445
     },
     "C": {
       "source": "icon-engineC-porcelain-c23701.png",
       "kind": "raster-mask",
+      "source_sha256": "6429f3a0d95c7191555261bfbc063fca7b73f89f7a8ef019b635f86f516ffe85",
       "source_mtime": 1787046821.614379,
-      "rendered_at": 1787047375.872565
+      "rendered_at": 1787110378.404741
     },
     "Cdark": {
       "source": "icon-engineC-forge-9f7b8f.png",
       "kind": "raster-mask",
+      "source_sha256": "224545fcf8502ea1bca65e8c13c4f8c27e57eb1c51195bc16bb5584522547e4a",
       "source_mtime": 1786719295.705543,
-      "rendered_at": 1787047376.1870599
+      "rendered_at": 1787110378.7222311
     }
   },
   "sizes": [

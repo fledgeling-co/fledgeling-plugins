@@ -3,26 +3,30 @@
     "engineB": {
       "source": "engineB-arrow.svg",
       "kind": "svg",
+      "source_sha256": "4c0c30a9f249f7e9af14d5838e06f437c81aab7196c1e22f4c9184a059496ea6",
       "source_mtime": 1786962824.3244622,
-      "rendered_at": 1787090997.693399
+      "rendered_at": 1787110417.029454
     },
     "engineC-raster": {
       "source": "engineC-raster.jpg",
       "kind": "raster-mask",
+      "source_sha256": "5fb31f29ddece9cebaf00636a8cd85056ea4df9ba2385e9d2e2ea1a9ce3b6b8a",
       "source_mtime": 1786962824.3302064,
-      "rendered_at": 1787090997.932719
+      "rendered_at": 1787110417.261861
     },
     "engineC-raster-2": {
       "source": "engineC-raster-2.jpg",
       "kind": "raster-mask",
+      "source_sha256": "6e1dbdb63f81d6acc214ca89e11d6989352ef271b10accc70bc8878a03872722",
       "source_mtime": 1786962824.3266313,
-      "rendered_at": 1787090998.17111
+      "rendered_at": 1787110417.493271
     },
     "master": {
       "source": "icon-src.svg",
       "kind": "svg",
-      "source_mtime": 1787090990.1433394,
-      "rendered_at": 1787090998.3534799
+      "source_sha256": "162ce6c51f3c22ad7cf92020f8506c246da556cd772bcf0afa7cc2e5a3723373",
+      "source_mtime": 1787101555.2707298,
+      "rendered_at": 1787110417.672312
     }
   },
   "sizes": [

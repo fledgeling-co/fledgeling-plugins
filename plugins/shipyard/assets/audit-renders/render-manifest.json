@@ -3,38 +3,44 @@
     "A": {
       "source": "icon.svg",
       "kind": "svg-letterbox",
+      "source_sha256": "e934c657efd5f97f1dc22b008f9cad6a9da6f136cbe34dbcf5a936bbcf1a2865",
       "source_mtime": 1786762211.812289,
-      "rendered_at": 1787091871.6076841
+      "rendered_at": 1787110412.033673
     },
     "Av1": {
       "source": "icon-A-v1.svg",
       "kind": "svg-letterbox",
+      "source_sha256": "636391fce1ea7e96b3afe7b791b24b34ba3d48a510b052b2380aad60be1ee261",
       "source_mtime": 1786760173.531543,
-      "rendered_at": 1787091872.895125
+      "rendered_at": 1787110412.459044
     },
     "B": {
       "source": "icon-engineB-arrow-8da398.svg",
       "kind": "svg-letterbox",
+      "source_sha256": "6d7d9d4038d79eff984df2f0649cbcfd4ea05159ab722df5f24de537e82ecb4e",
       "source_mtime": 1786760153.1983123,
-      "rendered_at": 1787091873.498581
+      "rendered_at": 1787110412.7396
     },
     "B2": {
       "source": "icon-engineB-arrow-1a7fde.svg",
       "kind": "svg",
+      "source_sha256": "b50bd8d6429aea612d6e5e51263dec992685a925ceccf7cd2c3a29776c9542ca",
       "source_mtime": 1786760085.7025373,
-      "rendered_at": 1787091873.80496
+      "rendered_at": 1787110412.8807838
     },
     "C1": {
       "source": "icon-engineC-b3fcac.png",
       "kind": "raster-mask",
-      "source_mtime": 1786760000.5955153,
-      "rendered_at": 1787091874.973351
+      "source_sha256": "fa10a58e8ae33b2c5967e99b5f3c179bb90b02cf017022285fc379ab633d8c9f",
+      "source_mtime": 1787101555.1320758,
+      "rendered_at": 1787110413.188193
     },
     "C2": {
       "source": "icon-engineC-37fa47-2.png",
       "kind": "raster-mask",
-      "source_mtime": 1786760002.8597333,
-      "rendered_at": 1787091875.781162
+      "source_sha256": "9401350be0481fe6c3c0b62b98f386906957371843118ee383231deb21adcdb9",
+      "source_mtime": 1787101555.125626,
+      "rendered_at": 1787110413.5093231
     }
   },
   "sizes": [

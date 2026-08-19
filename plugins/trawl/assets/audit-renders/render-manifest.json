@@ -3,32 +3,37 @@
     "c1": {
       "source": "icon-c1.png",
       "kind": "png",
+      "source_sha256": "35da6eafdd115e4ea289cb68a377cf188298ef61ccec9db6f91184454481517d",
       "source_mtime": 1786093932.7935293,
-      "rendered_at": 1787063077.296449
+      "rendered_at": 1787110415.823912
     },
     "c2": {
       "source": "icon-c2.png",
       "kind": "png",
+      "source_sha256": "f85df7ebe6e9dd81944347dd1b1c308f5600787679b228da5bf4ebee7b8b62ee",
       "source_mtime": 1786093933.3435414,
-      "rendered_at": 1787063077.562887
+      "rendered_at": 1787110415.9695842
     },
     "engineB": {
       "source": "icon-engineB-arrow.svg",
       "kind": "svg",
+      "source_sha256": "808ace3b63abb5ea9ec6a5984d3113d8f9377deacb2e674f268c47336a983969",
       "source_mtime": 1786093408.997549,
-      "rendered_at": 1787063077.843416
+      "rendered_at": 1787110416.102463
     },
     "master-v2": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "83ee425b99f9a6c4c74d97a01d964937505137a9a782a91801e98e49746e5096",
       "source_mtime": 1786096830.3986888,
-      "rendered_at": 1787063078.7237802
+      "rendered_at": 1787110416.589788
     },
     "v1": {
       "source": "icon-v1.svg",
       "kind": "svg",
+      "source_sha256": "a4e65d4acc3ae372266183b63d7d0f080fb5d1bd358741115b0f3b6dd272eae3",
       "source_mtime": 1786092956.9079375,
-      "rendered_at": 1787063079.3428962
+      "rendered_at": 1787110416.853802
     }
   },
   "sizes": [

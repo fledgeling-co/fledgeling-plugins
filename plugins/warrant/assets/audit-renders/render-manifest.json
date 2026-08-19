@@ -3,20 +3,23 @@
     "left": {
       "source": "icon-A-left.svg",
       "kind": "svg",
+      "source_sha256": "e280e28d0dbec3366e8c547af95579232d887a0452006720eb754514edd962a6",
       "source_mtime": 1787064757.7402232,
-      "rendered_at": 1787064758.4919722
+      "rendered_at": 1787110419.3535402
     },
     "ship": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "a406181aaf05cf4546b31c5d9ac126d4dfa7e355abf38e2e84531965d4a8a32f",
       "source_mtime": 1787064756.5264196,
-      "rendered_at": 1787064759.140685
+      "rendered_at": 1787110419.574647
     },
     "v1": {
       "source": "icon-A-v1.svg",
       "kind": "svg",
+      "source_sha256": "66b25f753b9857dd0bdb89c535ed9d998ad0056eada02c8fa3a31fa85a12910d",
       "source_mtime": 1787064757.6086996,
-      "rendered_at": 1787064759.605998
+      "rendered_at": 1787110419.7361028
     }
   },
   "sizes": [

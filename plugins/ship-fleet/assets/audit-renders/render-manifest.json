@@ -3,38 +3,44 @@
     "A": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "03634f796dbffda28664ef20358b6ae768ed0f2f90826b7eb1d28ee8a93ac7bb",
       "source_mtime": 1786762211.7673666,
-      "rendered_at": 1787091861.1853921
+      "rendered_at": 1787110410.50409
     },
     "A0": {
       "source": "icon-A0-predraft.png",
       "kind": "png",
-      "source_mtime": 1786760905.02039,
-      "rendered_at": 1787091861.681957
+      "source_sha256": "07fc7ed63e1bf72e7ff3f2eb900ca5e269683fde295c243f244e5492c6311d64",
+      "source_mtime": 1787101555.0930989,
+      "rendered_at": 1787110410.617867
     },
     "B": {
       "source": "icon-engineB-arrow-e5f2b5.svg",
       "kind": "svg",
-      "source_mtime": 1786760359.1391747,
-      "rendered_at": 1787091862.298502
+      "source_sha256": "08199575aaec7e7b2bd6992c3eb78ceb19a9dbd89d774a078738df14363c2521",
+      "source_mtime": 1787101555.0941253,
+      "rendered_at": 1787110410.738632
     },
     "B0": {
       "source": "icon-engineB-arrow-3ea7ec.svg",
       "kind": "svg",
-      "source_mtime": 1786760292.9792547,
-      "rendered_at": 1787091863.156393
+      "source_sha256": "f84ebba870e200a2ece2ea01944c428c88b304db43e0bf2a1a20fb66bb83cea7",
+      "source_mtime": 1787101555.0938005,
+      "rendered_at": 1787110410.890638
     },
     "C1": {
       "source": "icon-engineC-78c359.png",
       "kind": "raster-mask",
-      "source_mtime": 1786760220.2581213,
-      "rendered_at": 1787091864.5215611
+      "source_sha256": "43b2c8e70f72ea17ec3a3737ab30e181329c0e1011d5b876e67272fdf4e6d633",
+      "source_mtime": 1787101555.116318,
+      "rendered_at": 1787110411.2033348
     },
     "C2": {
       "source": "icon-engineC-603382-2.png",
       "kind": "raster-mask",
-      "source_mtime": 1786760220.3484082,
-      "rendered_at": 1787091865.7052631
+      "source_sha256": "c9e1cdde079ea3cfc4d3b6585350c5636fb49e4ba7b5a82edd83946bfa9ac1e7",
+      "source_mtime": 1787101555.108043,
+      "rendered_at": 1787110411.5178509
     }
   },
   "sizes": [

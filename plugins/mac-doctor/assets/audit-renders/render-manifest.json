@@ -3,39 +3,47 @@
     "A": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "055e3eaaf4885d18b6ef48838cd9ffef056efff8f090de7fea5299609c44e351",
       "source_mtime": 1786317489.4934006,
-      "rendered_at": 1787062789.75744,
-      "note": "A-64 and A-32 are rendered from icon-small.svg by render_audit.py, not from this source: those are the rasters that actually ship at 64px and below, with the specular floored. 96 and above come from icon.svg."
+      "rendered_at": 1787110637.193147,
+      "small_source": "icon-small.svg",
+      "small_below": 96,
+      "small_source_sha256": "04d9d798105b640d899da0f05248b39138af1cff2e0fdee29c5f3fb399cf22be"
     },
     "A0": {
       "source": "icon-engineA-src.svg",
       "kind": "svg",
+      "source_sha256": "6579a85c4bf574019e0ed037d665cf3b7db692ce4cc6e0f4c27c1723d8026a17",
       "source_mtime": 1786258568.483447,
-      "rendered_at": 1787062790.5778618
+      "rendered_at": 1787110637.346488
     },
     "A1": {
       "source": "fidelity/runs/r03/baseline-r02.svg",
       "kind": "svg",
+      "source_sha256": "332e75ade092d9a4e0e193bcd0931b7b7ae15bb0066e456c434a86d183332726",
       "source_mtime": 1786317489.1231985,
-      "rendered_at": 1787062792.00611
+      "rendered_at": 1787110637.689234
     },
     "B": {
       "source": "icon-engineB-arrow.svg",
       "kind": "svg",
+      "source_sha256": "35d940716f31e60d0736bf2ee94315a79440b0d2327856d274584ba073ab7a03",
       "source_mtime": 1786275094.3319526,
-      "rendered_at": 1787062792.341342
+      "rendered_at": 1787110637.814008
     },
     "C": {
       "source": "icon-engineC-clean.png",
       "kind": "png",
+      "source_sha256": "f91fedad39985214cd7ef5dfa90c55b8aa87a40899430b550a0bb25a0f036062",
       "source_mtime": 1786275094.3326194,
-      "rendered_at": 1787062792.749811
+      "rendered_at": 1787110637.995358
     },
     "Craw": {
       "source": "icon-engineC-raster.png",
       "kind": "raster-mask",
+      "source_sha256": "bf89be94a5d5240ef6ca5a978065385d6b16738654320d34f14a4cb18987678b",
       "source_mtime": 1786275094.3366256,
-      "rendered_at": 1787062793.677276
+      "rendered_at": 1787110638.297207
     }
   },
   "sizes": [
