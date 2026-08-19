@@ -192,6 +192,34 @@ else
   echo "FAIL  a case written with 'requirement' should trace to REQ-001"; FAIL=$((FAIL+1))
 fi
 
+# ── interactive-glass oracle and flow atom validation ─────────────────────────
+IG="$WORK/iglass"
+python3 "$S/campaign.py" init "$IG" --project Interactive --lanes web,macos-glass >/dev/null
+python3 "$S/campaign.py" add "$IG" --kind requirement --file "$WORK/r.json" >/dev/null
+python3 "$S/campaign.py" add "$IG" --kind surface --file "$WORK/s.json" >/dev/null
+echo '[{"id":"FLOW-001","label":"Publish","critical":true,"atoms":["button_clicked","toast_shown"]}]' >"$WORK/f_atoms.json"
+python3 "$S/campaign.py" add "$IG" --kind flow --file "$WORK/f_atoms.json" >/dev/null
+
+# interactive-glass on a non-glass lane must block
+echo '[{"surface":"SURF-001","flow":"FLOW-001","req":"REQ-001","lane":"web","oracle":"interactive-glass"}]' >"$WORK/ig_bad.json"
+python3 "$S/campaign.py" add "$IG" --kind case --file "$WORK/ig_bad.json" >/dev/null
+python3 "$S/campaign.py" set "$IG" --case CASE-0001 --status pass --evidence shots/a.png --armed >/dev/null
+png "$IG/shots/a.png" 40 30 1 2 3
+expect "interactive-glass on non-glass lane blocks" 1 "$IG" "claiming interactive-glass on non-glass lane"
+
+# Fix lane to macos-glass with proof, and verify it passes and counts as an effect
+python3 "$S/campaign.py" lane "$IG" --lane macos-glass \
+  --artifact "$S/campaign.py" --built-by "swift build" \
+  --attached "pid 5500 owns window 'Interactive'" --capture "SCK" >/dev/null
+python3 - "$IG" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "cases.json"
+cases = json.loads(p.read_text())
+cases[0]["lane"] = "macos-glass"
+p.write_text(json.dumps(cases, indent=2))
+PY
+expect "interactive-glass on glass lane clears and counts as effect" 0 "$IG" "Every case accounted for"
+
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1
