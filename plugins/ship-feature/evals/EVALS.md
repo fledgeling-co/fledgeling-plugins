@@ -3,7 +3,7 @@
 **The eval suite for this skill is written down and has not been run.** Nothing in
 `evals/evals.json` has produced a result. There are no pass rates, no scores, no
 judge verdicts and no costs from it, because no runner and no panel has been
-pointed at it yet. It holds eight prompts and 46 checkable assertions.
+pointed at it yet. It holds nine prompts and 53 checkable assertions. The ninth was added on 2026-08-20 and is the only one in the set whose situation is a reproduction rather than a construction: a verify agent returning COMPLETE over a bundle holding a duplicated screenshot, a screenshot with no recorded target, an `expect(result)` with no matcher, and two rows quoting no value. It is unrun like the other eight.
 
 One thing about this conductor *has* been measured, in a sibling skill's eval run,
 and this file separates that from everything else so a reader can tell which is

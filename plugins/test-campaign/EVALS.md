@@ -1,6 +1,6 @@
 # Evals
 
-**Nothing in this file is a measured result about the skill.** The eval suite exists now, in [`evals/evals.json`](evals/evals.json), and it has not been run. No prompt has been executed with the skill loaded, none without it, no judge has looked at any output, and there is no pass rate. Saying so is the point: an unevaluated skill whose EVALS.md omits the subject reads to every later reader as though the pipeline ran.
+**Almost nothing in this file is a measured result about the skill,** and the one exception is a failure rather than a success. The eval suite exists now, in [`evals/evals.json`](evals/evals.json) — ten prompts — and it has not been run. No prompt has been executed with the skill loaded, none without it, no judge has looked at any output, and there is no pass rate. Saying so is the point: an unevaluated skill whose EVALS.md omits the subject reads to every later reader as though the pipeline ran.
 
 This skill's own first rule is that a conclusion reached by looking is not a measurement, and it applies here first.
 
@@ -28,6 +28,9 @@ That third one is the weakest and the README says so already. It is directional,
 - **100% checked, 22 armed cases and 59 passing tests reported for a macOS app and a Windows app, neither of which had ever attached a GUI process to a window server.** Swift view structs initialised in memory, C# never compiled, and the evidence page's screenshots taken from an HTML mock in a browser. This is the observation the 0.5.0 work exists for, and every number in that report was individually true.
 - Four live instances of the `errorPolicy: 'all'` confident-falsehood defect across three screens.
 - Six working presets reported dead by a length-neutral dead-control sweep.
+- **20 published surface captures showing three unrelated documents, with every gate in the skill passing.** Measured 20 Aug 2026 on a campaign built with test-campaign 0.7.0: `campaign.py check` cleared, `strict-check.py` reported 46 of 49 checked, both `-glass` lanes were proved and witnessed, and the images were of a project status report, the mock browser's own index page and a design accessibility doc. Twenty files held **six distinct images**, four groups of four byte-identical. This one is different in kind from the others above: it is a fact about a campaign *this skill produced*, not about the predecessor method, so it is the first observation here that measures a failure of the skill rather than a failure the skill was built to catch. It is what 0.8.0 exists for, and eval 10 is its reproduction.
+
+That last one is worth reading against the first entry in this table. The skill's whole design premise is that prose does not defend against a comfortable report, and here the prose defending the picture-to-surface binding was a filename-matching heuristic with a docstring saying a wrongly filed screenshot "is worse than one filed against none, because it looks right". The docstring was correct and the code only guarded the ambiguous case. A rule stated and not gated is a rule the next run does not have.
 - A driving sweep writing to a live tenant record four times in one morning.
 - One judging pass costing 178 calls, 1.69M input tokens, 65.6k output and roughly US$6, returning 11 pass, 13 fail and 36 inconclusive. That is in `assets/judge-contract.md` under Cost, stated.
 

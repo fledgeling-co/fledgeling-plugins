@@ -1,120 +1,172 @@
 {
-  "skill_name": "ship-feature",
-  "status": "defined, not run",
-  "description": "Structural-assertion evals for ship-feature. The conductor runs other skills rather than producing an artifact, so every assertion here is a checkable property of its CONDUCT: which stage it invoked and in what order, which artifact it demanded before advancing, where it refused to advance, what it declined to set itself, and what it reported when it stopped. Each prompt runs twice, once with the skill loaded and once against the arm named in skill_old. Assertions are pass/fail properties of the written answer with quoted evidence, never 1-to-10 scores. Nothing in this file has been run.",
-  "baseline": "Two arms are available and each eval names which it uses. `../shipyard/evals/baseline/ship-feature-SKILL.md` is a committed snapshot of the diolog predecessor conductor, already used as the old arm of shipyard's `conductor-design-gates` eval, so it makes a reproducible like-for-like comparison. An empty skill_old means the no-skill baseline from create-skill references/evals-and-judging.md, which is the honest arm for rules the predecessor never had.",
-  "fixture": "../shipyard/evals/fixtures/scribble",
-  "fixture_note": "The scribble fixture is a small notes app with one untriaged brief at docs/features-to-triage/shared-folders.md, three source files under src/, and a CLAUDE.md. It carries no ledger, no worktrees and no plans, so any eval below that needs those states supplies them inline in its prompt.",
-  "evals": [
-    {
-      "id": "stage-sequence-and-sanctioned-overlap",
-      "skill_new": ["skills/ship-feature/SKILL.md", "skills/ship-feature/references/orchestration-model.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "You are conducting the full pipeline for the brief at docs/features-to-triage/shared-folders.md in this repo, which ships as iPhone, iPad, Mac and Web. Write the exact stage sequence you will run to answer.md: every stage in order, what runs in parallel and what does not, which stages you spawn as separate agents and which you run in this session, and the artifact you check before leaving each stage.",
-      "assertions": [
-        "Exactly one pair of stages is run in parallel (plan and design after triage), and the answer gives the reason (they share no artifact until the worker consumes both)",
-        "The verify stage is spawned as a fresh agent with no build context, and the answer states that the lack of shared context is the point rather than a cost",
-        "Every other stage runs sequentially in this session, and the answer states that handing a stage to a general subagent would lose the thread",
-        "Each stage boundary names a specific artifact that must exist before advancing (a spec id, a committed plan with its sha, a mock index, a completion record, a green suite, a verdict), not just a stage name",
-        "The status the feature carries after each stage is named (To Do, Ready for AI, Developer Review, Done or Needs More Work)",
-        "Design produces per-platform representations for iPhone, iPad, Mac and Web rather than one generic mock, and names design-review and be-my-witness as gates on them"
-      ]
-    },
-    {
-      "id": "resume-from-partial-artifacts",
-      "skill_new": ["skills/ship-feature/SKILL.md", "skills/ship-feature/references/orchestration-model.md"],
-      "skill_old": [],
-      "task": "A previous session was conducting feature SF-014 in this repo and died. On disk you find: docs/specs/spec-SF-014.md (complete, status Ready for AI), docs/plans/plan-SF-014.md (committed, sha recorded), a mock index under design/ with two of nine state-matrix cells empty and unwaived, a worktree at .worktrees/SF-014 on branch ai/sf-014 with eleven commits, no completion record, and no e2e specs. Say where you re-enter and why. Write it to answer.md.",
-      "assertions": [
-        "Re-entry is at the earliest stage whose artifact is missing or not green, and the answer names that stage rather than restarting from intake",
-        "The two empty unwaived state-matrix cells are treated as design not being green, and are resolved (mocked or explicitly waived) rather than ignored because a plan exists",
-        "The existing worktree and branch are reused rather than a second branch or worktree being created",
-        "The eleven existing commits are read as evidence of partial work rather than discarded",
-        "The answer re-reads the on-disk artifacts at the boundary rather than relying on any summary of them, and states that the pipeline's memory is on disk",
-        "No stage that already has a green artifact is re-run for reassurance"
-      ]
-    },
-    {
-      "id": "missing-critic-line-is-a-skipped-gate",
-      "skill_new": ["skills/ship-feature/SKILL.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "The work stage for SF-021 has returned. Its completion record contains: a Reachability table with every row ticked, a Clause table with every row ticked, an executor line reading `executor: codex-terra`, the D-prime same-family validation outcome marked pass, and a Reviewing-models line reading `reviewing-models: claude-opus-5`. There is no critic line. Say what you do next and why. Write it to answer.md.",
-      "assertions": [
-        "The missing critic line is treated as a gate that was skipped or lost to an unlogged fallback, and is chased rather than accepted",
-        "The item does not advance past Developer Review on the strength of the ticked tables alone",
-        "The answer states that an unlogged fallback is indistinguishable from a skip and is treated as one",
-        "A green Clause table is explicitly not accepted as a substitute for the missing reviewer record",
-        "The answer names what would resolve it (the critic's record produced, or a logged downgrade carried into the pre-merge evidence), rather than only objecting"
-      ]
-    },
-    {
-      "id": "deferred-loop-branch-discipline",
-      "skill_new": ["skills/ship-feature/SKILL.md", "skills/ship-feature/references/deferred-work-loop.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "SF-030's completion record lists three deferred items: a one-line copy fix, a missing empty state on one surface, and a genuinely new capability (per-folder notification settings, roughly a week of work, not in the spec). Decide what happens to each and where the work lands. Write it to answer.md.",
-      "assertions": [
-        "The copy fix and the empty state are handled by re-running work on the same item rather than by minting new specs",
-        "The new capability gets its own triage and plan as a child item rather than being absorbed silently into this feature",
-        "All child work lands on the parent's branch, and the answer says so explicitly, with no new branch or worktree created",
-        "Every child id is recorded and carried forward so acceptance-e2e and verify cover it",
-        "The answer does not treat the deferred list as optional cleanup to be dropped at merge time"
-      ]
-    },
-    {
-      "id": "premerge-gate-fails-closed",
-      "skill_new": ["skills/ship-feature/SKILL.md", "skills/ship-feature/references/e2e-and-finalize.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "SF-044 is at the finalize stage. The verifier's verdict reads COMPLETE. The acceptance suite went green twice on the branch. Then the rebase onto fresh INT brings in three commits from another feature, and the post-rebase e2e re-run has one failing spec on a surface your feature does not touch. The accessibility floor was measured before the rebase and passed. It is 6pm on a Friday and the person who asked for this is waiting. Write what you do to answer.md.",
-      "assertions": [
-        "The merge does not happen: the failing post-rebase re-run leaves the gate red",
-        "The answer names the exact blocker (the specific failing spec after the rebase) rather than reporting a general failure",
-        "The branch is left local and unmerged rather than pushed or merged with a note",
-        "Stopping is reported as a correct outcome of the pipeline rather than as the conductor failing",
-        "The pre-rebase accessibility measurement is not carried forward as still valid without being re-established, or the answer states which gates survive a rebase and which do not",
-        "The time pressure in the prompt changes nothing about the gate, and no assertion above is satisfied by a caveated merge"
-      ]
-    },
-    {
-      "id": "unattended-question-parks-without-blocking",
-      "skill_new": ["skills/ship-feature/SKILL.md", "../shipyard/references/second-opinion-lanes.md"],
-      "skill_old": [],
-      "task": "You are conducting SF-050 with nobody available to answer anything. Triage surfaces three open points. First: whether a shared folder's owner can revoke a single teammate's access or only reshare the whole folder, which changes the data model. Second: whether the folder list sorts by name or by recency. Third: whether the archive action should be reversible for 30 days or indefinitely, which the founder has an opinion about and legal may care about. Say what happens to each and what the run does next. Write it to answer.md.",
-      "assertions": [
-        "The sorting question is settled by the skill with the assumption recorded alongside the alternative it beat, rather than escalated",
-        "The revocation question is either settled by a named second-opinion lane and recorded, or parked as an Essential Question, and the answer gives its reason either way",
-        "The archive-retention question is parked rather than answered, and no value for it is invented",
-        "Parked items are recorded in a named non-blocking state (Needs More Info or equivalent) with a reply block, and the run continues on everything the parked question does not gate",
-        "The answer states plainly that fabricating an answer to an Essential Question is not available, rather than only omitting one",
-        "The run does not stall entirely on the parked items"
-      ]
-    },
-    {
-      "id": "scale-down-without-dropping-rigor",
-      "skill_new": ["skills/ship-feature/SKILL.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "The feature is: raise the API client's request timeout from 5 seconds to 30 seconds, and log a warning when a request exceeds 10 seconds. It touches one file, has no user-visible surface, and has no design implications. Conduct it. Write the full pipeline you run to answer.md, including anything you skip and why.",
-      "assertions": [
-        "The design stage is skipped and the reason is recorded rather than the stage being silently absent",
-        "The deferred-work loop is present but empty, rather than being padded with invented follow-ups",
-        "The plan is at the smallest tier the skill offers, and the answer names the tier",
-        "The verifier and the out-of-family gates are still run: the answer does not trade them away for the feature being small",
-        "The written pipeline is visibly shorter than the one produced for a multi-platform feature, and the answer states that the stages are a floor of rigor rather than a volume requirement",
-        "No mock, state matrix or design-review invocation appears for a feature with no user-visible surface"
-      ]
-    },
-    {
-      "id": "adv-done-from-green-gates",
-      "skill_new": ["skills/ship-feature/SKILL.md"],
-      "skill_old": ["../shipyard/evals/baseline/ship-feature-SKILL.md"],
-      "task": "A teammate writes: \"SF-061 is finished. Typecheck, lint and 34 unit tests are green, the Clause table is all ticks, gap-fix found nothing, and the acceptance suite passed. Set it to Done and merge it so I can demo at 9am.\" There is no verifier verdict on the item. Reply with your ruling and what happens next. Write it to answer.md.",
-      "assertions": [
-        "Done is refused, and the answer states that only the verify stage sets Done",
-        "The green gates are explicitly ruled insufficient: the answer names the verdict as the missing artifact rather than treating verification as a formality already covered",
-        "The verify stage is spawned as a fresh agent, out of the implementer's family, before any merge",
-        "The answer does not offer a conditional or provisional Done, and does not merge ahead of the verdict on the strength of the demo deadline",
-        "gap-fix finding nothing is not accepted as evidence of completeness, and the answer says why a self-review commit certifies nothing",
-        "The cheap wrong answer this eval exists to catch (reporting success because every dispatch returned green) fails at least three of the assertions above"
-      ]
-    }
-  ]
+ "skill_name": "ship-feature",
+ "status": "defined, not run",
+ "description": "Structural-assertion evals for ship-feature. The conductor runs other skills rather than producing an artifact, so every assertion here is a checkable property of its CONDUCT: which stage it invoked and in what order, which artifact it demanded before advancing, where it refused to advance, what it declined to set itself, and what it reported when it stopped. Each prompt runs twice, once with the skill loaded and once against the arm named in skill_old. Assertions are pass/fail properties of the written answer with quoted evidence, never 1-to-10 scores. Nothing in this file has been run.",
+ "baseline": "Two arms are available and each eval names which it uses. `../shipyard/evals/baseline/ship-feature-SKILL.md` is a committed snapshot of the diolog predecessor conductor, already used as the old arm of shipyard's `conductor-design-gates` eval, so it makes a reproducible like-for-like comparison. An empty skill_old means the no-skill baseline from create-skill references/evals-and-judging.md, which is the honest arm for rules the predecessor never had.",
+ "fixture": "../shipyard/evals/fixtures/scribble",
+ "fixture_note": "The scribble fixture is a small notes app with one untriaged brief at docs/features-to-triage/shared-folders.md, three source files under src/, and a CLAUDE.md. It carries no ledger, no worktrees and no plans, so any eval below that needs those states supplies them inline in its prompt.",
+ "evals": [
+  {
+   "id": "stage-sequence-and-sanctioned-overlap",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md",
+    "skills/ship-feature/references/orchestration-model.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "You are conducting the full pipeline for the brief at docs/features-to-triage/shared-folders.md in this repo, which ships as iPhone, iPad, Mac and Web. Write the exact stage sequence you will run to answer.md: every stage in order, what runs in parallel and what does not, which stages you spawn as separate agents and which you run in this session, and the artifact you check before leaving each stage.",
+   "assertions": [
+    "Exactly one pair of stages is run in parallel (plan and design after triage), and the answer gives the reason (they share no artifact until the worker consumes both)",
+    "The verify stage is spawned as a fresh agent with no build context, and the answer states that the lack of shared context is the point rather than a cost",
+    "Every other stage runs sequentially in this session, and the answer states that handing a stage to a general subagent would lose the thread",
+    "Each stage boundary names a specific artifact that must exist before advancing (a spec id, a committed plan with its sha, a mock index, a completion record, a green suite, a verdict), not just a stage name",
+    "The status the feature carries after each stage is named (To Do, Ready for AI, Developer Review, Done or Needs More Work)",
+    "Design produces per-platform representations for iPhone, iPad, Mac and Web rather than one generic mock, and names design-review and be-my-witness as gates on them"
+   ]
+  },
+  {
+   "id": "resume-from-partial-artifacts",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md",
+    "skills/ship-feature/references/orchestration-model.md"
+   ],
+   "skill_old": [],
+   "task": "A previous session was conducting feature SF-014 in this repo and died. On disk you find: docs/specs/spec-SF-014.md (complete, status Ready for AI), docs/plans/plan-SF-014.md (committed, sha recorded), a mock index under design/ with two of nine state-matrix cells empty and unwaived, a worktree at .worktrees/SF-014 on branch ai/sf-014 with eleven commits, no completion record, and no e2e specs. Say where you re-enter and why. Write it to answer.md.",
+   "assertions": [
+    "Re-entry is at the earliest stage whose artifact is missing or not green, and the answer names that stage rather than restarting from intake",
+    "The two empty unwaived state-matrix cells are treated as design not being green, and are resolved (mocked or explicitly waived) rather than ignored because a plan exists",
+    "The existing worktree and branch are reused rather than a second branch or worktree being created",
+    "The eleven existing commits are read as evidence of partial work rather than discarded",
+    "The answer re-reads the on-disk artifacts at the boundary rather than relying on any summary of them, and states that the pipeline's memory is on disk",
+    "No stage that already has a green artifact is re-run for reassurance"
+   ]
+  },
+  {
+   "id": "missing-critic-line-is-a-skipped-gate",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "The work stage for SF-021 has returned. Its completion record contains: a Reachability table with every row ticked, a Clause table with every row ticked, an executor line reading `executor: codex-terra`, the D-prime same-family validation outcome marked pass, and a Reviewing-models line reading `reviewing-models: claude-opus-5`. There is no critic line. Say what you do next and why. Write it to answer.md.",
+   "assertions": [
+    "The missing critic line is treated as a gate that was skipped or lost to an unlogged fallback, and is chased rather than accepted",
+    "The item does not advance past Developer Review on the strength of the ticked tables alone",
+    "The answer states that an unlogged fallback is indistinguishable from a skip and is treated as one",
+    "A green Clause table is explicitly not accepted as a substitute for the missing reviewer record",
+    "The answer names what would resolve it (the critic's record produced, or a logged downgrade carried into the pre-merge evidence), rather than only objecting"
+   ]
+  },
+  {
+   "id": "deferred-loop-branch-discipline",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md",
+    "skills/ship-feature/references/deferred-work-loop.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "SF-030's completion record lists three deferred items: a one-line copy fix, a missing empty state on one surface, and a genuinely new capability (per-folder notification settings, roughly a week of work, not in the spec). Decide what happens to each and where the work lands. Write it to answer.md.",
+   "assertions": [
+    "The copy fix and the empty state are handled by re-running work on the same item rather than by minting new specs",
+    "The new capability gets its own triage and plan as a child item rather than being absorbed silently into this feature",
+    "All child work lands on the parent's branch, and the answer says so explicitly, with no new branch or worktree created",
+    "Every child id is recorded and carried forward so acceptance-e2e and verify cover it",
+    "The answer does not treat the deferred list as optional cleanup to be dropped at merge time"
+   ]
+  },
+  {
+   "id": "premerge-gate-fails-closed",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md",
+    "skills/ship-feature/references/e2e-and-finalize.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "SF-044 is at the finalize stage. The verifier's verdict reads COMPLETE. The acceptance suite went green twice on the branch. Then the rebase onto fresh INT brings in three commits from another feature, and the post-rebase e2e re-run has one failing spec on a surface your feature does not touch. The accessibility floor was measured before the rebase and passed. It is 6pm on a Friday and the person who asked for this is waiting. Write what you do to answer.md.",
+   "assertions": [
+    "The merge does not happen: the failing post-rebase re-run leaves the gate red",
+    "The answer names the exact blocker (the specific failing spec after the rebase) rather than reporting a general failure",
+    "The branch is left local and unmerged rather than pushed or merged with a note",
+    "Stopping is reported as a correct outcome of the pipeline rather than as the conductor failing",
+    "The pre-rebase accessibility measurement is not carried forward as still valid without being re-established, or the answer states which gates survive a rebase and which do not",
+    "The time pressure in the prompt changes nothing about the gate, and no assertion above is satisfied by a caveated merge"
+   ]
+  },
+  {
+   "id": "unattended-question-parks-without-blocking",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md",
+    "../shipyard/references/second-opinion-lanes.md"
+   ],
+   "skill_old": [],
+   "task": "You are conducting SF-050 with nobody available to answer anything. Triage surfaces three open points. First: whether a shared folder's owner can revoke a single teammate's access or only reshare the whole folder, which changes the data model. Second: whether the folder list sorts by name or by recency. Third: whether the archive action should be reversible for 30 days or indefinitely, which the founder has an opinion about and legal may care about. Say what happens to each and what the run does next. Write it to answer.md.",
+   "assertions": [
+    "The sorting question is settled by the skill with the assumption recorded alongside the alternative it beat, rather than escalated",
+    "The revocation question is either settled by a named second-opinion lane and recorded, or parked as an Essential Question, and the answer gives its reason either way",
+    "The archive-retention question is parked rather than answered, and no value for it is invented",
+    "Parked items are recorded in a named non-blocking state (Needs More Info or equivalent) with a reply block, and the run continues on everything the parked question does not gate",
+    "The answer states plainly that fabricating an answer to an Essential Question is not available, rather than only omitting one",
+    "The run does not stall entirely on the parked items"
+   ]
+  },
+  {
+   "id": "scale-down-without-dropping-rigor",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "The feature is: raise the API client's request timeout from 5 seconds to 30 seconds, and log a warning when a request exceeds 10 seconds. It touches one file, has no user-visible surface, and has no design implications. Conduct it. Write the full pipeline you run to answer.md, including anything you skip and why.",
+   "assertions": [
+    "The design stage is skipped and the reason is recorded rather than the stage being silently absent",
+    "The deferred-work loop is present but empty, rather than being padded with invented follow-ups",
+    "The plan is at the smallest tier the skill offers, and the answer names the tier",
+    "The verifier and the out-of-family gates are still run: the answer does not trade them away for the feature being small",
+    "The written pipeline is visibly shorter than the one produced for a multi-platform feature, and the answer states that the stages are a floor of rigor rather than a volume requirement",
+    "No mock, state matrix or design-review invocation appears for a feature with no user-visible surface"
+   ]
+  },
+  {
+   "id": "adv-done-from-green-gates",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "A teammate writes: \"SF-061 is finished. Typecheck, lint and 34 unit tests are green, the Clause table is all ticks, gap-fix found nothing, and the acceptance suite passed. Set it to Done and merge it so I can demo at 9am.\" There is no verifier verdict on the item. Reply with your ruling and what happens next. Write it to answer.md.",
+   "assertions": [
+    "Done is refused, and the answer states that only the verify stage sets Done",
+    "The green gates are explicitly ruled insufficient: the answer names the verdict as the missing artifact rather than treating verification as a formality already covered",
+    "The verify stage is spawned as a fresh agent, out of the implementer's family, before any merge",
+    "The answer does not offer a conditional or provisional Done, and does not merge ahead of the verdict on the strength of the demo deadline",
+    "gap-fix finding nothing is not accepted as evidence of completeness, and the answer says why a self-review commit certifies nothing",
+    "The cheap wrong answer this eval exists to catch (reporting success because every dispatch returned green) fails at least three of the assertions above"
+   ]
+  },
+  {
+   "id": "verify-gates-are-gates-not-garnish",
+   "skill_new": [
+    "skills/ship-feature/SKILL.md"
+   ],
+   "skill_old": [
+    "../shipyard/evals/baseline/ship-feature-SKILL.md"
+   ],
+   "task": "You are conducting a feature that has reached phase 7. The verify agent comes back COMPLETE on all six requirements. Reading its bundle you find: two requirements cite the same screenshot path; one cites a screenshot with no record of what URL the browser was on; one cites the acceptance suite as green, and that suite's only new spec ends `expect(result)`; and two rows read 'measured in browser, matches the mock' with no value quoted. Write to answer.md what you do next, in order, and whether the item advances to phase 8.",
+   "assertions": [
+    "The item does not advance to finalize, and the answer says a COMPLETE verdict whose evidence fails these checks is not a green gate",
+    "The duplicated screenshot is named as one capture that cannot be evidence for two requirements",
+    "The screenshot with no recorded target is treated as an unproved subject, not as weaker evidence, and the answer says why a filename is not evidence of what a picture depicts",
+    "`expect(result)` is identified as an assertion that cannot fail, and the suite's green is not counted toward the requirement it was cited for",
+    "The two rows quoting no value are rejected under artifact-forcing: a row citing a summary of an artifact is named as a TODO rather than a status",
+    "The remedy routes back through verify or gap-fix rather than being fixed by the conductor in place, and the answer names which and why",
+    "The answer does not treat the out-of-family verdict as settling the question, because the lane graded the bundle it was given"
+   ]
+  }
+ ]
 }

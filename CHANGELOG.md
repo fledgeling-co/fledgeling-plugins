@@ -4,6 +4,78 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-20
+
+### test-campaign 0.8.0, shipyard 0.3.0, ship-feature 2.2.0, ship-fleet 2.2.0: what a picture is of
+
+**The gap.** A campaign built with `test-campaign` 0.7.0 published 20 surface captures and
+cleared every gate the plugin owned: `campaign.py check` reported every case accounted for,
+`strict-check.py` reported 46 of 49 checked, and both `-glass` lanes were proved, artifact-named
+and attach-witnessed. The captures were of three unrelated documents — a project status report,
+the mock browser's own index page, and a design accessibility doc. Twenty files held **six
+distinct images**; four groups of four were byte-identical. A flow step captioned "Open pairing
+QR code sheet" showed a questionnaire about Apple developer credentials.
+
+Nothing was broken, which is the part worth recording. `attach-shots.py` binds a picture to a
+surface on a slug of its **filename** — string identity, not evidence. `evidence-page.py`
+rendered it with `alt` taken from the label, so a wrong image arrived under a right-sounding
+caption. `campaign.py check` ran `inspect_raster` and its shared-artifact detector over
+`RASTER_RUNGS` case evidence only, and the `shot` field the page actually renders was inspected
+by nothing. **The gated part of the campaign was sound and the ungated part was the part people
+look at.**
+
+The prose was already right and unenforced: `attach-shots.py`'s own docstring says a screenshot
+filed against the wrong surface "is worse than one filed against none, because it looks right",
+and the code guarded only the ambiguous-filename case. A rule stated and not gated is a rule the
+next run does not have.
+
+**`test-campaign` gains the plane, borrowed intact from `warrant:oracle`.** That plugin had
+solved the same problem one domain over for numbers: a displayed figure without a
+`data-source-ref` is the defect its lineage plane exists to find. Substitute *picture* for
+*figure* and the apparatus transfers, down to the tick-and-tie step. `capture-lineage.py` runs
+four passes, all exact, none needing a model — **unsourced** (no manifest entry, or no recorded
+target), **untied** (the target does not resolve to the subject's route), **shared** (two
+subjects, one sha256, undeclared), **unjudged** (published with no `be-my-witness` verdict, which
+ratchets rather than blocks). `--seed-swap` swaps two subjects and asserts the tie pass goes red,
+because a tie check nobody has watched fail is indistinguishable from one that reads nothing.
+
+Determinism is a requirement here rather than a preference. `be-my-witness`'s `prescan.py`
+returns `isEvidence: true, settled: true`, exit 0 against the worst capture in that campaign — a
+real, contentful, settled image of the wrong document. Image statistics cannot answer the subject
+question, and `mockup-fidelity`'s measurement puts frontier vision near 40% recall on
+fine-grained UI diffs and under 23% on hard cases. Provenance answers it, and only if it is
+recorded while the shutter is open, which is why `capture-pairs.template.mjs` now writes
+`captures.json` as it shoots and records the URL the browser *ended up at* rather than the one it
+was sent to.
+
+**The rest of the chain, because one gate in a content-blind pipeline moves the hole rather than
+closing it.** `campaign.py check` audits published shots and blocks on three new shapes;
+`attach-shots.py` refuses a write no manifest corroborates and stamps `shotProvenance` under
+`--filename-only`; `evidence-page.py` badges every capture witnessed/manifest/filename and
+anchors a flow step on its own id rather than the loop index, which used to renumber every anchor
+after a reordered step; `witness-worklist.py` demotes a reference that was never rendered to an
+image, which is why that campaign's 20 "judgeable" pairs — every reference an unrendered `.html`,
+`evidence/shots/mock/` absent — had produced no verdict and nothing had said so.
+
+**The pipeline gains the same three questions about its own evidence.** `evidence-rules.md`,
+canonical for worker, verifier, gap-fix and both conductors, adds: the screenshot-subject rule
+with its two exact checks; artifact-forcing from `mockup-fidelity`, as a precondition rather than
+an exhortation because agents under effort pressure rationalise the shortcut and models trained
+against reward-hacking learn to conceal it; and the cannot-fail scan from `warrant:assay`, where
+over half of more than 15,000 generated mutants survived a passing unit, integration and system
+suite. `verify` gains structural rule 5, the subject checks on its visual lane, the scan before
+it spends a suite's green, and step 3a — a completeness critic reading only the bundle and the
+requirement table with the app, the diff and the ticket closed. `work` runs the scan over the
+specs it touched before writing its completion record. `ship-fleet` runs the capture gate once
+per repo rather than once per item, because a fleet multiplies whatever the evidence layer gets
+wrong.
+
+**Evidence.** `capture-lineage.py --gate` against the campaign that produced this exits 2 naming
+41 unsourced captures and 6 shared images; `campaign.py check` exits 1 where it exited 0.
+`tests/run.sh` covers every new blocker in both directions plus the seeded swap: **33 passed, 0
+failed**, 12 of them new. Four evals were added — one per plugin — and **none has been run**;
+each plugin's EVALS.md says so rather than folding them into an existing total.
+
 ## 2026-08-19
 
 ### warrant 0.2.0, test-campaign 0.7.0, shipyard 0.2.0, ship-feature 2.1.0, ship-fleet 2.1.0: the oracle gap
