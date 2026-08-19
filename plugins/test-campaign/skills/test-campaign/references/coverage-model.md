@@ -107,6 +107,7 @@ field in the registry:
 | **outcome** | the promised effect — data rendered, state changed, record written, navigation completed | a change that is right once and wrong on the second run |
 | **metamorphic** | a relation across two runs — undo restores, row count tracks the store, sort is a permutation, locale change preserves affordances | absolute correctness of the first value |
 | **raster-visual** | pixels captured off a display server, compared against a design of record | anything not visible |
+| **interactive-glass** | synthetic UI events actuated (clicks, keyboard, drag, runloop dispatch) and state transitions verified on a live display server | backend isolation breaks occurring outside UI process |
 
 **`visual` used to be one rung, and that was the hole.** It covered both "a
 label exists in the view hierarchy" and "pixels arrived from a compositor", and

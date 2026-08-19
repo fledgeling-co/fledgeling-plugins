@@ -102,10 +102,11 @@ UNRESOLVED_REASONED = ("inconclusive", "blocked")
 #
 #   structural-visual  labels, hierarchy tokens and structural metadata exist
 #   raster-visual      pixels were captured off a display server and compared
+#   interactive-glass  synthetic UI events actuated and state transitions verified on-glass
 ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
-                "outcome", "metamorphic", "raster-visual", "visual")
+                "outcome", "metamorphic", "raster-visual", "interactive-glass", "visual")
 # A critical flow promises an effect. Only these rungs assert one.
-EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual")
+EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual", "interactive-glass")
 # Retained so an existing campaign loads rather than silently re-rating its
 # cases as `unrated`, and reported as a migration blocker so the split is made
 # deliberately. It buys no effect credit in the meantime.
@@ -525,6 +526,7 @@ def audit(d: Path) -> dict:
     open_ids, unevidenced, armed = [], [], 0
     carried_unbased = []
     legacy_rung, bad_raster, unwitnessed_raster = [], [], []
+    invalid_interactive_glass = []
     seen_artifacts: dict[str, list[str]] = {}
     lane_proof = campaign.get("laneProof", {})
     glass_lanes_unproved: dict[str, list[str]] = {}
@@ -554,6 +556,10 @@ def audit(d: Path) -> dict:
                     unwitnessed_raster.append(
                         f"{c['id']} ({lane} never attached, so its status "
                         f"'{st}' cannot mean what it says)")
+        elif c.get("oracle") == "interactive-glass":
+            invalid_interactive_glass.append(
+                f"{c['id']} claims interactive-glass on non-glass lane '{lane}' — "
+                f"interactive-glass requires an on-glass lane ending in '{GLASS_SUFFIX}'")
 
         if st == "pass":
             if not c.get("evidence"):
@@ -615,6 +621,18 @@ def audit(d: Path) -> dict:
         if f.get("critical")
         and not any(c.get("oracle") in EFFECT_RUNGS for c in by_flow[f["id"]])
     ]
+
+    # Flow atom validation: when a critical flow declares observable atoms, its
+    # effect cases must trace the interactive execution sequence rather than presence.
+    flow_atom_gaps = []
+    for f in flows:
+        atoms = f.get("atoms") or []
+        if f.get("critical") and atoms:
+            flow_cases = by_flow.get(f["id"], [])
+            if not any(c.get("oracle") in EFFECT_RUNGS for c in flow_cases):
+                flow_atom_gaps.append(
+                    f"{f['id']} declares {len(atoms)} atom(s) with no effect-rung or "
+                    f"interactive-glass case verifying the sequence")
 
     # A critical flow is the always-run floor. Selection may narrow anything else,
     # but a flow that promises an effect must have that effect re-proved on every
@@ -698,6 +716,9 @@ def audit(d: Path) -> dict:
     if unwitnessed_raster:
         blockers.append(f"{len(unwitnessed_raster)} pixel claim(s) with nothing saying "
                         f"where the pixels came from")
+    if invalid_interactive_glass:
+        blockers.append(f"{len(invalid_interactive_glass)} case(s) claiming interactive-glass "
+                        f"on non-glass lane(s)")
     if uncovered:
         blockers.append(f"{len(uncovered)} surface(s) with no case at all")
     if unevidenced:
@@ -707,6 +728,9 @@ def audit(d: Path) -> dict:
     if presence_only:
         blockers.append(f"{len(presence_only)} critical flow(s) proved only by "
                         f"presence-level cases")
+    if flow_atom_gaps:
+        blockers.append(f"{len(flow_atom_gaps)} critical flow(s) with declared atoms "
+                        f"lacking effect-level or interactive-glass verification")
     if critical_carried:
         blockers.append(f"{len(critical_carried)} critical flow(s) whose every effect "
                         f"case was carried forward rather than re-run "

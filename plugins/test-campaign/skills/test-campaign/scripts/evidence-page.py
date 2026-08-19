@@ -46,8 +46,9 @@ STATE_TONE = {
 }
 
 # Kept in step with campaign.py, which gates on them. Weakest first.
-ORACLE_RUNGS = ("touch", "presence", "structural", "outcome", "metamorphic", "visual")
-EFFECT_RUNGS = ("outcome", "metamorphic", "visual")
+ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
+                "outcome", "metamorphic", "raster-visual", "interactive-glass", "visual")
+EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual", "interactive-glass")
 
 
 def esc(s) -> str:

@@ -197,6 +197,26 @@ which is why they are preconditions and not troubleshooting:
 | Screen Recording grant | cannot be pre-granted by policy on macOS, user-toggled only |
 | An unsandboxed driver | the accessibility API is unavailable to a sandboxed app **even if the user grants permission** |
 | A GUI session with a display | the accessibility plane still works and pixels do not — display-scoped capture needs an enumerated display, and the headless substitutes are private API |
+
+---
+
+## 8. Interactive event actuation on glass — testing the flow, not just the frame
+
+Capturing a static window screenshot proves a visual surface was composited on glass.
+It does not prove interactive flow execution: that a click on a cancel button
+dispatches a daemon RPC, drains a queue item, and renders an animated toast.
+
+The `interactive-glass` oracle rung explicitly tests this on-glass interaction chain:
+- **Synthetic UI event dispatch**: Actual button presses, text field entry, and
+  navigation clicks dispatched to live window views.
+- **Runloop pumping**: Allowing UI runloops and async message pumps to process
+  state updates and trigger re-renders.
+- **Flow atom verification**: Tracing each declared observable atom in a critical
+  flow (`FLOW-*`) from user action to resulting on-glass state change.
+
+A critical flow whose atoms are only verified on headless model structs is a
+data-model test. `interactive-glass` on a `-glass` lane ensures the user journey
+functions end-to-end under real window server execution.
 | Not fast-user-switched away | every plane fails |
 | A settled frame | a caret that blinks can never go pixel-quiet, so a wait for quiet must say what it actually got |
 

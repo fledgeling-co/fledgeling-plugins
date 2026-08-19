@@ -209,16 +209,20 @@ The rung is the field that makes the rest honest:
 | `outcome` | the promised effect — data rendered, state changed, record written |
 | `metamorphic` | a relation across runs — undo restores, count tracks the store |
 | `raster-visual` | pixels captured off a display server, against a reference |
+| `interactive-glass` | synthetic UI events actuated and state transitions verified on-glass |
 
 A flow marked `critical` that carries no case at `outcome` or above **fails the
-gate**. That single rule is what separates "we have 200 tests" from a claim worth
-making, and it is checked rather than reviewed.
+gate**. When a critical flow declares observable `atoms`, its cases must verify
+the full interactive actuation sequence rather than presence alone. That single
+rule is what separates "we have 200 tests" from a claim worth making, and it is
+checked mechanically rather than reviewed.
 
-`structural-visual` and `raster-visual` were one rung called `visual`, and that
-was the hole: asserting a card's title property equals `"AGGREGATE CPU"` is a
-data-model check, and it was buying effect credit. Only `raster-visual` does now,
-and it owes an artifact that is a real image, is not another case's image, and
-names the channel it came from.
+`structural-visual`, `raster-visual`, and `interactive-glass` make the visual
+and interaction distinctions explicit. Asserting that a card's title property
+equals `"AGGREGATE CPU"` is a data-model check (`structural-visual`), not pixel
+proof (`raster-visual`) or live event dispatch (`interactive-glass`). Only effect
+rungs count toward the strict ratchet, and `raster-visual` / `interactive-glass`
+owe real artifacts from an attached window server.
 
 A case the instrument could not measure resolves to `inconclusive: <reason>`, and
 one whose lane never ran to `blocked: <reason>`. Both hold the gate shut: "we do
@@ -344,7 +348,7 @@ CHECKED only when all three hold:
 |---|---|
 | **it passes** | the assertion ran and was satisfied |
 | **it was watched to fail** | inline via the sweep's own control, or by reverting the behaviour once |
-| **it asserts an effect** | `outcome`, `metamorphic` or `raster-visual` — not that an element exists |
+| **it asserts an effect** | `outcome`, `metamorphic`, `raster-visual` or `interactive-glass` — not that an element exists |
 
 `campaign.py check` answers a different and easier question: is every case
 accounted for. Both run, and `strict-check.py` is the one that reports the number

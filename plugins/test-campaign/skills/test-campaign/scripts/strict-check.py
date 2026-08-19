@@ -51,7 +51,7 @@ from pathlib import Path
 # Only these assert an effect. `visual` is deliberately absent: it covered both
 # "a label exists in the view hierarchy" and "pixels were captured off a display
 # server", and the first of those is a data-model check. See campaign.py.
-EFFECT_RUNGS = {"outcome", "metamorphic", "raster-visual"}
+EFFECT_RUNGS = {"outcome", "metamorphic", "raster-visual", "interactive-glass"}
 LEGACY_RUNGS = {"visual"}
 RATCHET_FILE = "strict-ratchet.json"
 
