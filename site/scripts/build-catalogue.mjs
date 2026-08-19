@@ -409,21 +409,12 @@ function build() {
     //
     // BANNER_DEBT is a named, dated list rather than a silent exemption.
     // Adding a name here is a deliberate act that shows up in review. Removing
-    // one is the fix, and on 2026-08-19 seven names came off it: the two that
-    // predated the check, five of the six migration plugins, and nothing was
-    // rushed to do it. One name is left.
-    const BANNER_DEBT = new Set([
-      // The last of six that landed together on 2026-08-18 as one migration out
-      // of diolog-plugins, each rebuilt against the teardown of Claude Code's
-      // built-in /design skill. Every one had its full icon set and no banner;
-      // they were listed rather than served six rushed banners, because holding
-      // all six unregistered kept them uninstallable and kept the digest from
-      // running at all, and a banner is a composed 3200x1040 artifact per
-      // plugin rather than a render. This one is last because its icon is the
-      // set's only un-recommissioned master, and a banner derives from the
-      // icon's own build constants, so it would be re-derived immediately.
-      "mac-design-digest",         // owed since 2026-08-18
-    ]);
+    // one is the fix, and on 2026-08-19 the list emptied: the two names that
+    // predated the check and all six of the diolog-plugins migration plugins now
+    // ship composed banners with signed verdicts. It is kept, empty, because the
+    // mechanism is what stops the next missing banner being invisible, and
+    // because an empty list is a stronger statement than a deleted one.
+    const BANNER_DEBT = new Set([]);
     const bannerPath = join(dir, "assets", "banner.png");
     if (!existsSync(bannerPath)) {
       if (BANNER_DEBT.has(name)) {
