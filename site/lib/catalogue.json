@@ -13,7 +13,7 @@
       "id": "making",
       "label": "Making and reviewing",
       "blurb": "Producing an artifact, and checking it before a human sees it.",
-      "count": 17
+      "count": 18
     },
     {
       "id": "research",
@@ -31,12 +31,6 @@
       "id": "machine",
       "label": "Your machine",
       "blurb": "The Mac underneath all of it.",
-      "count": 1
-    },
-    {
-      "id": "uncategorised",
-      "label": "Uncategorised",
-      "blurb": "Added to the marketplace but not yet placed on the browse axis.",
       "count": 1
     }
   ],
@@ -912,7 +906,7 @@
     {
       "name": "warrant",
       "version": "0.2.0",
-      "group": "uncategorised",
+      "group": "making",
       "description": "Remove the human from per-item software verification by granting a machine a written, tiered authority and revoking it automatically on evidence. Eight skills: charter (the signed warrant, the only human-signed artifact), oracle (source-to-render lineage, tick-and-tie, taxonomy validation — the deterministic plane, built first because the highest-consequence defect is a correctly rendered screen stating a figure no source supports), assay (mutation survival and cannot-fail patterns, because every downstream verdict inherits the suite's fault sensitivity), panel (one out-of-family grader plus orthogonal lens lanes plus an adjudicator that routes disagreement to arithmetic — deliberately not a jury, since nine judges from seven families supply about two effective votes), feedback (escapes become permanent regression cases; calibration from what got missed rather than from a reader study), lot (risk-limited acceptance of a queue, blind to the machine verdict), ratchet (computes earned tiers, applies revocations without asking, and is a plain script because the component deciding a model's authority should not be the model), and ledger (the hash-chained decision record an auditor reads instead of per-item signatures). Grounded in a 22-source panel across four research backends; every rule traces to a claim id in docs/deep-research/claims.json.",
       "trigger": "The warrant pipeline's router and map — explains the eight skills (charter, oracle, assay, panel, feedback, lot, ratchet, ledger), the authority ladder they move defect classes up and down, and which skill a given situation calls for. Use when someone asks how to stop reviewing every item by hand, how much authority a model currently holds, why a class was revoked, or invokes /warrant without naming a skill. It routes and explains; the eight skills do the work.",
       "blurb": "Takes the human out of per-item verification by writing down exactly what a machine may decide, and revoking that permission automatically when a model version moves, an escape lands or the control chart drifts. Deterministic checks first, one out-of-family grader rather than a jury, and a hash-chained ledger an auditor reads instead of the signatures. Built on a 22-source panel across four research backends, with every rule traceable to a claim id.",
