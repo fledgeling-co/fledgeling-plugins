@@ -31,7 +31,8 @@
  */
 
 import { test } from '@playwright/test';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 /** Fill this in: surface id → where its design of record lives. */
@@ -48,20 +49,52 @@ const OUT = process.env.CAMPAIGN_SHOTS ?? 'evidence/shots';
 
 const pairs = [];
 
-async function shoot(page, url, file) {
+/* ── captures.json — WHAT EACH PICTURE DEPICTS ─────────────────────────────
+ * pairs.json says a shot and a reference belong together. It does NOT say what
+ * the shot is OF, and that turns out to be the claim readers actually rely on.
+ * A campaign published 20 surface captures of three unrelated documents and
+ * passed every gate it had, because the only thing binding a picture to a
+ * surface was its filename.
+ *
+ * So every shoot() records its own subject and the target the channel was
+ * actually pointed at. This has to happen HERE, at capture time: a manifest
+ * written afterwards records what somebody believed, and `capture-lineage.py`
+ * reports that as reconstructed rather than as provenance.
+ */
+const captures = [];
+
+async function shoot(page, url, file, subject) {
   await page.setViewportSize(VIEWPORT);
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   await page.waitForLoadState('networkidle', { timeout: 6000 }).catch(() => {});
   await page.waitForTimeout(SETTLE_MS);
   mkdirSync(path.dirname(file), { recursive: true });
   await page.screenshot({ path: file, fullPage: false });
+  if (subject) {
+    captures.push({
+      path: file,
+      subject,
+      target: page.url(),          // where the browser ENDED UP, not where it was sent:
+                                   // a redirect to a login page is exactly the capture
+                                   // that would otherwise be filed as the dashboard
+      channel: `playwright/${test.info().project.name ?? 'default'}`,
+      derivedFrom: null,
+      sha256: createHash('sha256').update(readFileSync(file)).digest('hex'),
+      capturedAt: new Date().toISOString(),
+      conditions: {
+        viewport: [VIEWPORT.width, VIEWPORT.height],
+        dpr: page.viewportSize()?.deviceScaleFactor ?? 1,
+        settleMs: SETTLE_MS,
+      },
+    });
+  }
   return file;
 }
 
 export function definePairCaptures(surfaces) {
   for (const s of surfaces) {
     test(`CAPTURE ${s.id} ${s.name}`, async ({ page }) => {
-      const built = await shoot(page, s.route, path.join(OUT, `${s.id}.png`));
+      const built = await shoot(page, s.route, path.join(OUT, `${s.id}.png`), s.id);
 
       const mock = MOCKS[s.id];
       if (!mock || mock.kind === 'none') {
@@ -74,7 +107,9 @@ export function definePairCaptures(surfaces) {
       }
 
       const url = mock.kind === 'file' ? `file://${path.resolve(mock.at)}` : mock.at;
-      const ref = await shoot(page, url, path.join(OUT, 'mock', `${s.id}.png`));
+      // The reference is the DESIGN, not the build — it gets no subject entry,
+      // because it depicts what the surface should look like rather than what it does.
+      const ref = await shoot(page, url, path.join(OUT, 'mock', `${s.id}.png`), null);
       pairs.push({
         surface: s.id, name: s.name, shot: built, reference: ref,
         reason: null, viewport: VIEWPORT, settleMs: SETTLE_MS,
@@ -85,13 +120,17 @@ export function definePairCaptures(surfaces) {
   test.afterAll(() => {
     mkdirSync(OUT, { recursive: true });
     writeFileSync(path.join(OUT, 'pairs.json'), JSON.stringify(pairs, null, 1));
+    writeFileSync(path.join(OUT, 'captures.json'), JSON.stringify(captures, null, 1));
     const withRef = pairs.filter((p) => p.reference).length;
     // eslint-disable-next-line no-console
     console.log(
       `\nCAPTURE PAIRS  surfaces=${pairs.length}  with a reference=${withRef}  ` +
         `without=${pairs.length - withRef}\n` +
         `Every pair carries the viewport and settle it was taken at. Hand pairs.json to\n` +
-        `be-my-witness; a pair with reference:null is an UNCOMPARED surface, not a passing one.\n`,
+        `be-my-witness; a pair with reference:null is an UNCOMPARED surface, not a passing one.\n` +
+        `captures.json records what each shot DEPICTS and where the channel was pointed.\n` +
+        `Gate it with capture-lineage.py before publishing: without it the wall rests on\n` +
+        `filenames, which is how 20 captures of three unrelated documents once passed.\n`,
     );
   });
 }

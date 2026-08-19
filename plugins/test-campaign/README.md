@@ -74,6 +74,20 @@ The same discipline runs down to the artifacts. A screenshot that's actually a z
 
 And there's a fourth thing a case can now say. `inconclusive` means the check was attempted and the instrument couldn't measure. That matters because where an engine returns nothing, `"" === ""` is true and quietly certifies that two layouts are identical. "We do not know" is a weaker claim than "no difference found", so the two get separate rows and the report prints how many observations it actually got.
 
+## And it makes you prove the picture is of the right thing
+
+A screenshot on an evidence page makes two claims. The first — that pixels came off a display server — is the one above. The second is that they're of the surface named underneath them, and until 0.8.0 nothing checked it at all.
+
+A campaign published 20 surface captures and cleared every gate this skill had: every case accounted for, 46 of 49 checked under the strict rule, every glass lane proved and witnessed. The captures were of three unrelated documents — a project status report, the mock browser's own index page, a design accessibility doc. Twenty files held six distinct images. A flow step captioned "Open pairing QR code sheet" showed a questionnaire about Apple developer credentials.
+
+Nothing was broken. Captures were bound to surfaces on a slug of the **filename**, the page rendered each one with alt text taken from the label, and the artifact checks ran over case evidence rather than over the pictures the page actually shows. The gated part of the campaign was sound; the ungated part was the part people look at.
+
+The fix is borrowed wholesale from `warrant`'s oracle plane, which had already solved it one domain over for numbers: a figure without a source reference is the defect that plane exists to find. Substitute *picture* for *figure* and it transfers intact. The capture step now records what each shot depicts and — the load-bearing part — **where the channel was actually pointed**, at capture time, because a manifest written afterwards records what somebody believed. Four passes then run, all exact, none needing a model: a capture with no recorded target, a target that doesn't resolve to its subject's route, two subjects sharing one image, and a capture published without a `be-my-witness` verdict.
+
+That last one ratchets rather than blocks. The other three fail the gate, and the whole ladder is itself watched to fail: `--seed-swap` swaps two subjects and asserts the gate goes red, because a tie check that can't be seen failing is indistinguishable from one that reads nothing.
+
+Worth saying why none of the four asks a model. Run `be-my-witness`'s prescan against the worst capture in that campaign and it returns *is evidence: true, settled: true*, exit 0 — a real, contentful, settled image of entirely the wrong document. Image statistics can't answer the subject question and frontier vision tops out near 40% recall on fine-grained UI diffs. Provenance answers it. Nothing else does.
+
 ## The defect class it's named after finding
 
 A GraphQL client configured with `errorPolicy: 'all'` **resolves** an awaited mutation when the response carries errors. So this:
