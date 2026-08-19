@@ -112,7 +112,10 @@ rules**:
 
 - **Stop before verify.** Runners run ship-feature through e2e-green and report
   *ready-to-verify*. **You** spawn the `verify` stage per item as a fresh agent (that stage's
-  fresh-context rule is structural: a runner cannot verify its own build). Verify's verdict sets
+  fresh-context rule is structural: a runner cannot verify its own build). A *ready-to-verify*
+  report is a claim about a bundle, so treat it as one: an item whose evidence bundle is empty
+  goes back to its runner rather than into the verify queue, because verify's first act would be
+  to find that out at the cost of a whole fresh agent. Verify's verdict sets
   `Done` or `Needs More Work`; `Needs More Work` re-queues the item as a gap-fix run in the same
   worktree. An item carrying `Unverified — no oracle` re-queues to phase 6 for oracle
   construction instead, because gap-fix closes a gap between the work and its spec and this is a
@@ -181,6 +184,11 @@ correct drifted rows, continue at Phase 5 or the earliest phase whose output is 
 
 ## Guardrails
 
+- **A fleet multiplies whatever the evidence layer gets wrong.** One campaign's captures being
+  filed by filename is a bad page; twenty items' verdicts resting on the same shape is a Done
+  column nobody can audit. Where the repo carries a campaign, `test-campaign`'s
+  `capture-lineage.py <dir> --gate` runs once per repo rather than once per item, and its exit
+  code gates the column — the cheapest place in the whole fleet to catch a mis-bound picture.
 - Respect ship-feature's gates — never merge a branch whose pre-merge gate hasn't passed, never
   mark `Done` without the verifier's verdict, and follow the repo's push convention.
 - Budget honestly and confirm the go-ahead with the user after presenting ORCHESTRATOR.md.
