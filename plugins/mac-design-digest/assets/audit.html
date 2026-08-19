@@ -92,7 +92,17 @@ inlaid artwork byte-for-byte, <code>icon.png</code>, <code>icon-256.png</code> a
 <code>icon-128.png</code> were re-exported from it and are <em>byte-identical</em> to the renders this
 sheet was already displaying for that take, and every number in the tables below reproduced unchanged
 under the new labels. The swap moved no pixel; it moved which artwork the shipped filenames point
-at.</div>
+at.
+<br><br>
+<strong>Then the seal moved, later still on 19 Aug, and that one did move pixels.</strong>
+<code>SEAL_CX</code> / <code>SEAL_CY</code> went from <strong>(692, 594)</strong> to
+<strong>(823, 739)</strong>, so the seal straddles the plate's lower-right corner instead of sitting
+inset inside it, and the seal group left the <code>plateclip</code> group because inside it no centre
+anywhere could have broken the outline. That was liability (2) below and it is the edit the previous
+version of this sheet named as the next commission. Every score and every measurement recorded before
+the move is kept below as the <em>before</em> figure, and the three shipped rasters were re-exported
+from the new master and verified to reproduce byte-for-byte from it. Two rows improved, one row got
+worse, and the shelf collision this sheet also records did not move at all.</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">The four icon takes, with renders, rubric scores and verdicts</caption>
@@ -109,20 +119,23 @@ at.</div>
       <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The shipping inlaid master at 16px"><figcaption>16</figcaption></figure>
       <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The shipping inlaid master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
-    <td class="score ship">11 / 12<small class="fail">loses 11</small></td>
+    <td class="score ship">12 / 12<small class="warn">#2 weakened</small></td>
     <td class="verdict">The same value-plate as A1, in two materials instead of one: a graphite glaze
       over a porcelain body, where every mark is that body showing through. The measurement is
       <em>inlaid</em> rather than printed, each inlay carrying the glaze's dark cut edge along its lit
-      side; the socket is a countersink through the glaze, so the seal is seated on a 20px porcelain
-      collar; and a porcelain fillet runs the far bottom-right edge as bounce off the ground. Plate
-      geometry, seal centre, socket radius and lobe count are held identical to A1 on purpose, so the
-      figure-ground delta is attributable to value and material rather than to a relayout. It takes
+      side; the socket is a countersink through the glaze, so the seal is seated on a porcelain
+      collar; and a porcelain fillet runs the far bottom-right edge as bounce off the ground. It takes
       #7 from 1.16:1 to 8.24:1 and #10 from 1.07:1 to 9.08:1 in grayscale, and its 16px luminance
-      spread is 0.320 against a marketplace median of 0.176. <strong>What it loses, and it ships with
-      this liability stated:</strong> #11. A dark landscape card with pale bars and a disc at the
-      right reads, at a glance, as a payment card — and this skill is about a measured value carrying
-      its provenance, so the certificate read A1 has is the semantically correct one and the shipping
-      take trades it away.</td>
+      spread is 0.333 against a marketplace median of 0.176 (0.320 before the seal moved).
+      <strong>What the seal move changed:</strong> the seal now straddles the plate's lower-right
+      corner, 53.9% of it hanging off the plate onto the porcelain ground, so #3 goes from a weak pass
+      to a real one and #11's payment-card read is broken at every size above 48px, because a card has
+      nothing notarised over its edge. <strong>What it cost:</strong> #2. The plate is still 66.4% of
+      tile width, but the object including the seal now spans 73.8% against the catalogue's 55&ndash;65%
+      composition constant, where before the seal was inset and the object was the plate. That is the
+      same warn C1 carries at 71%, and it is the price of putting the signature move into the
+      silhouette. Plate geometry, socket radius and lobe count are still held identical to A1; the
+      seal centre is now the one deliberate divergence.</td>
   </tr>
 
   <tr>
@@ -165,14 +178,17 @@ at.</div>
     <td class="score fail">8 / 12<small class="fail">loses 3, 7, 9, 10 — and 3 is non-negotiable</small></td>
     <td class="verdict">The best material in the set and the reason it was commissioned: generous
       rounded arrises on the slab, real ambient occlusion in the countersink, a seal with genuine wax
-      body and a boss that catches the light, and — the one thing no hand-authored take here does —
-      the seal straddling the slab's lower-right edge so it enters the silhouette. Out on #3
-      regardless of the score: filled solid, its slab is a near-square rounded rectangle at 71% of
+      body and a boss that catches the light, and — the one thing neither hand-authored take did when
+      this set was first judged — the seal straddling the slab's lower-right edge so it enters the
+      silhouette. That last one is no longer a difference: it is the fix the shipping take took from
+      this raster later on 19 Aug. Out on #3 regardless of the score: filled solid, its slab is a
+      near-square rounded rectangle at 71% of
       tile width, which is the tile's own silhouette inset inside itself and names nothing. Then #7
       at 1.08:1, the same porcelain-on-porcelain failure as A1; #9, because a flat canvas-textured
       warm field with no cushion, no rim and no vignette is a product render rather than Tahoe; and
       #10, because a single flat raster layer is the named 76% failure mode. Salvage worth taking into
-      a master: the seal crossing the plate edge, and the arris radius on the socket wall.</td>
+      a master: the seal crossing the plate edge, taken on 19 Aug, and the arris radius on the socket
+      wall, still outstanding.</td>
   </tr>
 
   <tr>
@@ -205,46 +221,69 @@ at.</div>
 <div class="sheet"><table class="matrix">
   <tr><th scope="col">Check</th><th scope="col">master (ships)</th><th scope="col">A1 (superseded)</th><th scope="col">C1</th><th scope="col">C2</th></tr>
   <tr><td>1. Mask discipline <em>(non-negotiable)</em></td><td class="pass">PASS clip</td><td class="pass">PASS clip</td><td class="pass">PASS masked</td><td class="pass">PASS masked</td></tr>
-  <tr><td>2. Grid adherence <em>(non-negotiable)</em></td><td class="pass">PASS 66.4%</td><td class="pass">PASS 66.4%</td><td class="warn">PASS 71%</td><td class="pass">PASS 62%</td></tr>
-  <tr><td>3. Silhouette test <em>(non-negotiable)</em></td><td class="warn">PASS weak</td><td class="warn">PASS weak</td><td class="fail">FAIL</td><td class="fail">FAIL</td></tr>
-  <tr><td>4. 16px squint <em>(non-negotiable)</em></td><td class="pass">PASS 0.320</td><td class="warn">PASS 0.157</td><td class="pass">PASS 0.225</td><td class="pass">PASS 0.194</td></tr>
+  <tr><td>2. Grid adherence <em>(non-negotiable)</em></td><td class="warn">PASS 73.8%<small>was 66.4%</small></td><td class="pass">PASS 66.4%</td><td class="warn">PASS 71%</td><td class="pass">PASS 62%</td></tr>
+  <tr><td>3. Silhouette test <em>(non-negotiable)</em></td><td class="pass">PASS<small>was PASS weak</small></td><td class="warn">PASS weak</td><td class="fail">FAIL</td><td class="fail">FAIL</td></tr>
+  <tr><td>4. 16px squint <em>(non-negotiable)</em></td><td class="pass">PASS 0.333<small>was 0.320</small></td><td class="warn">PASS 0.157</td><td class="pass">PASS 0.225</td><td class="pass">PASS 0.194</td></tr>
   <tr><td>5. Single light model</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
   <tr><td>6. Palette economy</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
   <tr><td>7. Figure-ground &ge;3:1</td><td class="pass">PASS 8.24:1</td><td class="fail">FAIL 1.16:1</td><td class="fail">FAIL 1.08:1</td><td class="fail">FAIL 1.09:1</td></tr>
   <tr><td>8. Depth coherence</td><td class="pass">PASS 5 planes</td><td class="pass">PASS 4 planes</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
   <tr><td>9. Era coherence</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="fail">FAIL</td><td class="fail">FAIL</td></tr>
   <tr><td>10. Variant robustness <em>(76% of the corpus fails here)</em></td><td class="pass">PASS 9.08:1</td><td class="fail">FAIL 1.07:1</td><td class="fail">FAIL 1 layer</td><td class="fail">FAIL 1 layer</td></tr>
-  <tr><td>11. Personality</td><td class="fail">FAIL card read</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
+  <tr><td>11. Personality</td><td class="pass">PASS<small>was FAIL card read</small></td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
   <tr><td>12. No-text</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td><td class="pass">PASS</td></tr>
-  <tr><td><strong>Total</strong></td><td class="ship"><strong>11 / 12</strong></td><td><strong>10 / 12</strong></td><td class="fail"><strong>8 / 12</strong></td><td class="fail"><strong>8 / 12</strong></td></tr>
+  <tr><td><strong>Total</strong></td><td class="ship"><strong>12 / 12</strong><small>was 11 / 12</small></td><td><strong>10 / 12</strong></td><td class="fail"><strong>8 / 12</strong></td><td class="fail"><strong>8 / 12</strong></td></tr>
 </table></div>
 
 <div class="note"><ul>
-  <li><strong>#2 is a note on all four, not a deduction.</strong> master and A1 put 66.4% of tile
-    width into the plate against the catalogue's 55&ndash;65% composition constant, C1 71%, C2 62%.
-    Both hand-authored takes are optically centred: the plate's own centre sits at y=500 against the
-    tile's 512, a deliberate 12px lift, with identical 172px left and right margins.</li>
-  <li><strong>#3 is a weak pass on both hand-authored takes, and the reason is the same for both.</strong>
-    The silhouette strip below is the real test — every authored fill and stroke forced to black with
-    the ground switched off. Both come back as a plain landscape rounded rectangle: nameable as a
-    plate, but the seal contributes <em>nothing</em>, because at r=112 centred on (692, 594) inside a
-    plate whose edges are x=852 and y=768 it is inset by roughly 28px and never breaks the outline.
-    An earlier version of this sheet claimed &ldquo;a lobed disc breaking its lower-right
-    corner&rdquo;; the render says otherwise, and that claim is withdrawn. It stays withdrawn for the
-    shipping take, which inherits the same geometry. C1 is the only take here that gets the seal into
-    its silhouette, and it is the fix to steal.</li>
+  <li><strong>#2 is a note on three of the four and a deduction on none, but the shipping take's
+    number moved and it moved the wrong way.</strong> A1 and C2 put 66.4% and 62% of tile width into
+    the plate, C1 71%. The shipping take's plate is still 66.4%, and it was the whole object until the
+    seal moved; now the seal reaches x=927 in the silhouette, so the object spans 756 of 1024 px, or
+    <strong>73.8%</strong>, against the catalogue's 55&ndash;65% composition constant. Its right margin
+    is 97px where the plate's is 172px, which is still inside the tile's safe zone and is 44% less of
+    it. Optical centring is unchanged and still true of the plate: its centre sits at y=500 against
+    the tile's 512, a deliberate 12px lift, with identical 172px left and right margins — but that
+    symmetry is now a property of the plate rather than of the object, and the object is what a viewer
+    sees.</li>
+  <li><strong>#3 was a weak pass on both hand-authored takes; it is now a real pass on the shipping
+    take and still weak on A1.</strong> The silhouette strip below is the test — every authored fill
+    and stroke forced to black with the ground switched off. A1 still comes back as a plain landscape
+    rounded rectangle, because at r=112 centred on (692, 594) inside a plate whose edges are x=852 and
+    y=768 the seal is inset by roughly 28px and never breaks the outline. The shipping take at
+    (823, 739) does break it, and the numbers say by how much: the blackened mass now puts
+    <strong>21,163px outside the plate's rounded rectangle</strong> against 3,058 before, its bounding
+    box runs to x=927 and y=843 against the plate's 852 and 768, and its IoU against that rounded
+    rectangle falls from <strong>0.9916 to 0.9447</strong> — 0.9916 being the honest way to say "the
+    silhouette was the rectangle, and the 3,058px were its outline stroke". An earlier version of this
+    sheet claimed &ldquo;a lobed disc breaking its lower-right corner&rdquo; and withdrew the claim
+    because the render said otherwise. The claim is now true of the shipping take, and the render
+    below shows it rather than asserting it. C1 was the only take in the set that got the seal into
+    its silhouette, and it was the fix to steal; it has been stolen.</li>
   <li><strong>#3 fails on both rasters for a structural reason, not a stylistic one.</strong> Their
     slab is a rounded square inset in a rounded square, so the tile's own silhouette is restated
-    inside itself and the filled shape names nothing. master and A1 clear the same check only because
-    their plate's 1.27 aspect distinguishes it from the tile it sits in.</li>
+    inside itself and the filled shape names nothing. A1 clears the same check only because its
+    plate's 1.27 aspect distinguishes it from the tile it sits in, which is why its pass is a weak
+    one; the shipping take now clears it on the seal as well as the aspect.</li>
   <li><strong>#7's failures are all on the object, never on the marks.</strong> A1's figure bar reads
     6.85:1 against its plate and its seal body 3.33:1, both clear; it is the plate against the ground
-    that measures 1.16:1. The shipping take inverts exactly that relationship and inherits one number
-    under the floor in exchange: its wax body against the glaze is 2.86:1, so the seal is carried by
-    the porcelain collar it sits in (3.19:1) rather than by the glaze. That collar is the surface the
-    seal actually sits against, which is why the check passes — but it is a load-bearing detail
-    rather than a comfortable margin.</li>
-  <li><strong>#10 is now a capture rather than a reasoned read, and it does not go one way.</strong>
+    that measures 1.16:1. The shipping take inverts exactly that relationship, and the seal move gave
+    its seal a second ground. Its inlays are 9.12:1 and 7.23:1 against the glaze, and its seal is the
+    one number near the floor. Re-measured after the move, on the render rather than from the
+    constants: the on-plate half of the wax reads <strong>2.82:1</strong> against the lit porcelain
+    collar it is seated on, where before the move the visible collar was the whole ring including its
+    shadowed inner edge and the same measurement read 2.67:1; and the 53.9% of the seal that now hangs
+    off the plate reads <strong>3.01:1</strong> against the porcelain ground it lands on. From the
+    constants the same two pairings are 3.19:1 against the collar and 2.88:1 against the ground's mid
+    stop, with 2.86:1 against the glaze the seal never touches. So the overhang clears 3:1 measured and
+    does not clear it from the constants, which it manages only because the overhanging half sits on
+    the dark end of the wax ramp. All of these are load-bearing margins rather than comfortable ones,
+    and the move did not change that. It changed which surface is the worst case.</li>
+  <li><strong>#10 is a capture rather than a reasoned read, it does not go one way, and the seal move
+    left every number in it untouched — which was checked rather than assumed.</strong> The sample
+    boxes sit on the plate's lower-left quadrant and in the tile's left margin, both clear of the seal
+    at either centre, so the #7 render figure and all three #10 figures reproduced to four decimal
+    places after the move.
     Under grayscale and Tinted — which preserve luminance and discard hue, so whatever survives one
     survives the other — A1, C1 and C2 all collapse to about 1.08:1 and the shipping take holds at
     9.08:1. Under Clear, where the ground layer is removed and the system supplies the field, the
@@ -254,15 +293,21 @@ at.</div>
     the corpus loses and Clear-on-dark is not, and because A1 fails Default as well as Tinted while
     the shipping take only fails Clear-on-dark. Both rasters fail structurally: a flat single-layer
     raster has no ground layer to remove, so the Clear read cannot even be attempted.</li>
-  <li><strong>#11's failure on the shipping take is a category read, not a missing device.</strong>
-    The seal in a visible countersink is present in all four takes and it is distinct from its nearest
-    sibling — <code>clarify</code>'s device is three option cards with one drawn out of the stack, a
-    vermilion selection dot and a margin note, checked in
+  <li><strong>#11 was a category read rather than a missing device, and the seal move is what changed
+    it.</strong> The seal in a visible countersink is present in all four takes and it is distinct from
+    its nearest sibling — <code>clarify</code>'s device is three option cards with one drawn out of the
+    stack, a vermilion selection dot and a margin note, checked in
     <code>plugins/clarify/assets/build_icon.py</code>, and carries no seal at all. What the shipping
-    take loses is what the object <em>is</em>: dark landscape card, pale bars, disc at the right. A
-    skill whose subject is a measured value carrying its provenance mark wants the certificate
-    reading, and A1 is the take that has it. This is the liability the icon ships with, stated rather
-    than closed.</li>
+    take used to lose was what the object <em>is</em>: dark landscape card, pale bars, disc at the
+    right. With the seal straddling the corner and 53.9% of it hanging off the plate, that reading is
+    broken by the object itself, because a payment card does not carry something notarised over its
+    edge. The certificate reading A1 had is now available on the graphite plate, which is what the
+    deduction was asking for, so the row is scored a pass. <strong>What survives of the card read, and
+    it is a size effect worth stating:</strong> the overhang is 89px at 1024, which is
+    <strong>1.4px at 16</strong>. At 48px and up the seal visibly breaks the outline; at 16px it does
+    not, and the tile there is still a dark landscape plate with pale bars and a warm dot near one
+    corner. The row is scored on the object's identity at reading sizes, and #4 is the check that
+    covers 16px.</li>
   <li><strong>Not measured, and therefore not claimed.</strong> The material was never scored: torch
     is absent on this machine, and the fidelity gate refuses a tier where the material metric cannot
     run rather than guessing. No fidelity loop ran and no blind judge panel saw any of these four, so
@@ -294,8 +339,8 @@ is the whole content of their #10 failure rather than a gap in this sheet.</div>
 
 <h2>Rubric #3, the silhouette test</h2>
 <div class="strip">
-  <figure><img src="variant-renders/sil-master.png" alt="The shipping inlaid master's authored shapes filled solid black"><figcaption>master — landscape rounded rectangle; the seal is inset and never reaches the outline</figcaption></figure>
-  <figure><img src="variant-renders/sil-A1.png" alt="A1's authored shapes filled solid black"><figcaption>A1 — identical outline, identical liability</figcaption></figure>
+  <figure><img src="variant-renders/sil-master.png" alt="The shipping inlaid master's authored shapes filled solid black"><figcaption>master — landscape rounded rectangle with a twelve-lobed disc breaking its lower-right corner; 21,163px outside the plate outline, IoU 0.9447 (before the seal moved: 3,058px, IoU 0.9916)</figcaption></figure>
+  <figure><img src="variant-renders/sil-A1.png" alt="A1's authored shapes filled solid black"><figcaption>A1 — the outline the shipping take used to have, and the liability it used to share</figcaption></figure>
   <figure><img src="variant-renders/sil-C1.png" alt="C1 segmented from its ground by luminance"><figcaption>C1 — segmented at L=0.7517; a rounded square, and the seal does break its edge</figcaption></figure>
   <figure><img src="variant-renders/sil-C2.png" alt="C2 segmented from its ground by luminance"><figcaption>C2 — segmented at L=0.7530; the grout survives the threshold as cross-lines</figcaption></figure>
 </div>
@@ -312,76 +357,90 @@ render column is the median luminance of one fixed sample box on the plate face 
 tile ground, the same two boxes for every take so the numbers compare. The 16px figure is the family
 metric: luminance standard deviation of the 32px render downsampled to 16 and composited over white,
 against a marketplace median of 0.176. All of it reproduces from
-<code>python3 measure_variants.py</code>, and it reproduced unchanged across the 19 Aug swap: the
-labels moved, the numbers did not.
+<code>python3 measure_variants.py</code>. It reproduced unchanged across the 19 Aug take swap, when the
+labels moved and the numbers did not; the seal move later that day changed exactly one figure in this
+table, which is the shipping take's 16px spread.
 <table>
   <tr><th scope="col">Take</th><th scope="col">#7 constants</th><th scope="col">#7 render</th><th scope="col">#10 grayscale</th><th scope="col">#10 Clear dark / light</th><th scope="col">16px std</th><th scope="col">vs median</th></tr>
-  <tr><td>master (ships)</td><td>8.24:1</td><td>9.08:1</td><td>9.08:1</td><td>1.59:1 / 9.43:1</td><td>0.320</td><td>1.82&times;</td></tr>
+  <tr><td>master (ships)</td><td>8.24:1</td><td>9.08:1</td><td>9.08:1</td><td>1.59:1 / 9.43:1</td><td>0.333<small> was 0.320</small></td><td>1.89&times;<small> was 1.82&times;</small></td></tr>
   <tr><td>A1 (superseded)</td><td>1.16:1</td><td>1.07:1</td><td>1.07:1</td><td>15.40:1 / 1.03:1</td><td>0.157</td><td>0.89&times;</td></tr>
   <tr><td>C1</td><td>&mdash; raster</td><td>1.08:1</td><td>1.08:1</td><td>no bg layer</td><td>0.225</td><td>1.28&times;</td></tr>
   <tr><td>C2</td><td>&mdash; raster</td><td>1.09:1</td><td>1.09:1</td><td>no bg layer</td><td>0.194</td><td>1.10&times;</td></tr>
 </table>
 Marks and seal, for completeness: A1's figure bar 6.85:1 against its plate and its seal body 3.33:1;
-the shipping take's inlays 9.12:1 and 7.23:1 against the glaze, its seal 2.86:1 against the glaze and
-3.19:1 against the porcelain collar it is seated on.</div>
+the shipping take's inlays 9.12:1 and 7.23:1 against the glaze, and its seal 2.86:1 against the glaze
+and 3.19:1 against the porcelain collar from the constants. Measured on the render after the seal move,
+the seal's on-plate half is 2.82:1 against the lit collar (2.67:1 before, against the whole ring) and
+its overhanging half 3.01:1 against the porcelain ground, which is a surface it did not touch before.
+Silhouette geometry, also from the render: 21,163px of the blackened mass outside the plate's rounded
+rectangle against 3,058 before, and an IoU against that rectangle of 0.9447 against 0.9916.</div>
 
-<div class="rec"><strong>Recommendation: ship the inlaid take (<code>icon-src.svg</code>), 11 / 12 —
-and record plainly that this was the user's decision rather than a measurement.</strong> The user
-chose the inlaid take on 19 Aug 2026 <em>against a recommendation to keep the porcelain master</em>.
-The recommendation weighed #11 — A1's sealed-certificate read, which is the semantically correct one
-for a skill about a measured value carrying its provenance — above the two measured checks the inlaid
-take wins, and it lost. Both halves of that are true and neither settles the other, which is why the
-call belonged to a person: the rubric arithmetic favours the inlaid take by one point, and the
-arithmetic does not adjudicate taste. The swap is now done and this sheet describes the result rather
-than proposing it.
+<div class="rec"><strong>Recommendation: ship the inlaid take (<code>icon-src.svg</code>), 12 / 12 with the
+seal moved out to the plate's corner — and record plainly that the take itself was the user's decision
+rather than a measurement.</strong> The user chose the inlaid take on 19 Aug 2026 <em>against a
+recommendation to keep the porcelain master</em>. The recommendation weighed #11 — A1's
+sealed-certificate read, which is the semantically correct one for a skill about a measured value
+carrying its provenance — above the two measured checks the inlaid take wins, and it lost. The seal
+move made later the same day is what settles that argument rather than trading it: the certificate read
+is now available <em>on</em> the graphite plate, so #11 no longer has to be spent to keep #7 and #10.
 <br><br>
 On the numbers the shipping take is the better marketplace tile. It closes both of A1's measured
 failures with margin (#7 from 1.16:1 to 8.24:1, #10 from 1.07:1 to 9.08:1 in grayscale) and it
-carries 0.320 of luminance spread at 16px where A1 carries 0.157 — below the family median, and the
+carries 0.333 of luminance spread at 16px where A1 carries 0.157 — below the family median, and the
 lowest of the four takes, at exactly the size a Finder row and a plugin tile are read. A1's identity
 is a hue relationship at 1.07:1; the shipping take's is a value relationship, and a value
 relationship is what survives Tinted.
 <br><br>
+<strong>What the seal move closed, and what it did not.</strong> <strong>Closed: the silhouette.</strong>
+Filled solid black with the ground off, the outline is now a landscape rounded rectangle with a
+twelve-lobed disc breaking its lower-right corner: 21,163px outside the plate's rounded rectangle
+against 3,058 before, IoU 0.9447 against 0.9916, and a bounding box that runs 75px past the plate in
+both axes. <strong>Closed: the card read.</strong> A payment card does not carry a wax seal over its
+edge, and 53.9% of this one hangs off the plate. <strong>Not closed, and it was the reason the move was
+commissioned: the shelf collision.</strong> <code>shelf_check.py</code> puts
+<code>mac-design-digest</code> against <code>tui-craft</code> at <strong>0.912</strong> after the move
+against 0.913 before it, still the highest of all 703 pairs in the 38-icon set, still above the 0.80
+flag, and still the only undecided pair above it. Fifty-odd seal centres were measured across the whole
+lower-right quadrant of the tile and the best any of them reached was 0.901, at centres that put 76% to
+90% of the seal off the plate and destroy the countersink relationship entirely. The metric is a 16x16
+mean-centred luminance correlation, and at that resolution the seal is a handful of pixels against a
+graphite plate covering two-thirds of the tile: the number is about the mass and its ground, not about
+where the accent sits. It has <em>not</em> been added to the script's <code>DECIDED</code> list, because
+recording a real collision as a decision would be a false statement. Fixing it means changing the mass,
+which is a different commission from this one and needs a person to choose between redrawing this icon
+and replacing the measure.
+<br><br>
 <strong>Known liabilities on the shipping take, in the order a revision should take them.</strong>
-<strong>(1) The card read (#11), and it is the cost of this decision rather than a defect discovered
-after it.</strong> Dark landscape plate, pale bars, disc at the right: the tile says payment card
-where the skill means a measured value carrying its provenance. A1 is the take that reads as a sealed
-certificate, and that reading was traded away deliberately and with the trade on the record.
-<strong>(2) The silhouette is a plain rounded rectangle on both hand-authored takes.</strong>
-Measured on the render, not assumed: the seal is inset ~28px and never reaches the plate's outline,
-so filled black neither take names its own signature move.
-<strong>(3) The shipping take collides with <code>tui-craft</code> on the shelf, measured after the
-swap.</strong> <code>shelf_check.py</code> puts the pair at <strong>0.913</strong> structure
-correlation, which is the highest of all 703 pairs in the 38-icon set and above the previous top of
-0.860. It is a real read rather than a metric artifact: tui-craft is a dark landscape rounded
-rectangle on porcelain, centred, carrying pale horizontal bars and one vermilion mark below and right
-of centre, and so is this. That number is not in the script's <code>DECIDED</code> list and has not
-been added to it; it is a set property the 12-point rubric cannot see, and it needs a person to
-decide whether the two are meant to rhyme. The prediction this sheet made before the swap was a
-collision with <code>proctor</code>, on the grounds of a shared graphite-on-porcelain register, and
-the measurement does not support it: proctor is not in this take's top twelve matches at all, because
-proctor's mass is a cube on a bench and this one's is a landscape plate, and correlation follows where
-the mass sits rather than what value it is. Before the swap the porcelain take appeared nowhere in the
-set's top twelve and the set carried two flagged pairs; it now carries three.
-<strong>(4) The seal clears #7 on the collar, not on the plate.</strong> 2.86:1 against the glaze,
-3.19:1 against the porcelain collar. Widen the collar or lift the wax ramp one step and the margin
-stops being load-bearing.
+<strong>(1) The shelf collision with <code>tui-craft</code> at 0.912</strong>, above, and it is now the
+only open defect the rubric cannot see. Both are a dark landscape rounded rectangle on porcelain,
+centred, carrying pale horizontal bars and one vermilion mark below and right of centre. The prediction
+this sheet made before the take swap was a collision with <code>proctor</code>, on the grounds of a
+shared graphite-on-porcelain register, and the measurement does not support it: proctor is not in this
+take's top twelve matches at all, because proctor's mass is a cube on a bench and this one's is a
+landscape plate, and correlation follows where the mass sits rather than what value it is.
+<strong>(2) #2 got worse, and it is the cost of the fix.</strong> The object now spans 73.8% of tile
+width against 66.4% before and a 55&ndash;65% composition constant, with a 97px right margin where the
+plate's is 172px. Nothing is clipped and the tile's safe zone holds, but the tile is fuller than the
+catalogue asks for.
+<strong>(3) The seal's margins are still load-bearing.</strong> 2.82:1 against the lit collar measured,
+3.01:1 against the porcelain ground, 3.19:1 and 2.88:1 respectively from the constants. Widen the
+collar or lift the wax ramp one step and none of them is a near miss any more.
+<strong>(4) At 16px the fix is only 1.4px wide.</strong> The 89px overhang scales to 1.4px at the size
+a Finder row and a marketplace tile are actually read, so the silhouette break that carries #3 and #11
+is a reading-size property rather than a thumbnail one. #4 covers 16px on its own terms and passes at
+0.333, but the object's <em>identity</em> at 16px is unchanged by this edit.
 <strong>(5) Engine B never ran</strong> — Arrow refused on the gateway credit balance — so this set
 has no independent vector take, and the widened Engine A is the skill's named substitute rather than
 an equivalent. <strong>(6) The material was never scored</strong>, torch being absent, and no blind
 panel judged any of it.
 <br><br>
-<strong>The named next step, and it is deliberately not done here: move <code>SEAL_CX</code> /
-<code>SEAL_CY</code> outward so the seal straddles the plate's lower-right edge.</strong> C1 is the
-only take in this set that does it, and it is the single highest-value edit available, because it
-addresses liability (2) and liability (1) in one change: a seal that breaks the outline puts the
-signature move into the silhouette, and it stops the object reading as a rectangle with a disc parked
-inside it. It moves pixels nobody has looked at yet, so it belongs to the next commission rather than
-to this one. Two further options for that commission, neither represented by any take here: keep A1's
-porcelain plate and its certificate reading while putting the dark mass <em>inside</em> the plate, as
-a graphite well holding the bright figure bar — which buys grayscale survival without inverting the
-object and without borrowing proctor's register; and steal C1's arris radius on the socket wall,
-which is the other salvage the raster earned.</div>
+<strong>The named next step.</strong> The previous version of this sheet named the seal move, and that
+is done. What is left is the mass: the shelf number will not come down while this icon and
+<code>tui-craft</code> are both a dark landscape rounded rectangle centred on porcelain. The option not
+represented by any take here is A1's porcelain plate with the dark mass put <em>inside</em> it, as a
+graphite well holding the bright figure bar — which buys grayscale survival without inverting the
+object, and puts the mass somewhere no sibling puts it. The other salvage C1 earned and this take still
+has not taken is the arris radius on the socket wall.</div>
 
 <div class="foot">Rubric: the 12-point icon audit in
 <code>create-mac-icon/references/icon-directions.md</code> (mask discipline, grid, silhouette, 16px

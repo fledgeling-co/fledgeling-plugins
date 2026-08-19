@@ -94,6 +94,32 @@ while six pairs sat above the bar undecided, because a gate that is red from the
 it lands teaches people to ignore gates. All six have since been looked at and
 recorded in `DECIDED`, so the check is green on the current set and any genuinely
 new collision fails the build.
+
+## The measure is dominated by mass, and three pairs now demonstrate it
+
+Read a number here as a prompt, never as a verdict, and know which way the measure
+errs. It is a 16x16 mean-centred luminance correlation, so it responds to where the
+dark is and barely at all to what the accent does. On a family whose house style
+fixes the silhouette, the ground and a single warm accent, that leaves it measuring
+the one thing every sibling shares.
+
+Three pairs added on 2026-08-19 make the case, and none of them was a design defect:
+
+* `report` crossed the flag against BOTH halves of an already-recorded false-positive
+  pair on the same day it swapped to a graphite panel, going 0.446 to 0.809 and 0.432
+  to 0.808 while looking nothing like either at 16px.
+* `mac-design-digest` vs `tui-craft` is the decisive one. Its device was genuinely
+  changed, moving the seal out to straddle the plate edge so the accent now sits
+  outside the mass and the silhouette is no longer a rounded rectangle, and the
+  correlation moved 0.913 to 0.912. A sweep of about 50 seal centres could not reach
+  0.90.
+
+So the honest description of this script is that it finds icons sharing a mass
+layout, which is a useful prompt on a set this size and is not the question the
+rubric asks. Replacing it means comparing something the accent can move: an
+edge-oriented signature, a per-quadrant accent-position vector, or a small
+perceptual distance rather than a luminance correlation. Until then, every entry in
+`DECIDED` below should say what was looked at, not just what was measured.
 """
 
 from __future__ import annotations
@@ -177,6 +203,28 @@ DECIDED: dict[frozenset[str], str] = {
         "already-recorded false-positive pair, which is what a metric measuring the "
         "family silhouette does as the set's dark-grounded population grows. It is an "
         "argument for eventually replacing the measure, not for redrawing a third icon. "
+        "Decided 2026-08-19."
+    ),
+    frozenset(("mac-design-digest", "tui-craft")): (
+        "0.912, the top pair of 703 and the highest this set has measured. Recorded only "
+        "after trying to fix it, which is the part worth reading. When mac-design-digest "
+        "swapped to a graphite plate on 2026-08-19 this pair went to 0.913, and it was "
+        "left FAILING rather than excused, because at that point the two icons shared "
+        "both a mass layout AND a device: a warm mark inside a dark landscape plate. The "
+        "seal was then moved from (692, 594) to (823, 739) so it straddles the plate's "
+        "lower-right edge, with 53.9% of the wax overhanging onto the porcelain. That "
+        "changed the device. Rendered at 16px this icon's accent is now a bright disc "
+        "OUTSIDE the dark mass at a corner, where tui-craft's is a small dim mark INSIDE "
+        "the mass at the centre, and the silhouette is no longer the plain rounded "
+        "rectangle it was. The number moved 0.913 to 0.912, and a sweep of about 50 seal "
+        "centres across the lower-right quadrant found 0.901 as the best reachable, at "
+        "placements that destroy the countersink. So the fix worked and the measure did "
+        "not notice. That is the finding: a 16x16 mean-centred luminance correlation is "
+        "dominated by the mass, and this graphite plate covers two thirds of the tile. "
+        "Allowed to stand on the evidence of the renders rather than of the number. The "
+        "untried alternative, if this is reopened, is to move the mass instead of the "
+        "accent: A1's porcelain plate with the graphite inside it as a well holding the "
+        "bright figure bar, which puts the dark where no sibling puts it. "
         "Decided 2026-08-19."
     ),
 }

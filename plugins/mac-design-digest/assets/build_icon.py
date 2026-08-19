@@ -34,23 +34,45 @@ Three constructions differ from A1, so the comparison is not a palette swap:
      is *inlaid* rather than printed, each inlay carrying the glaze's own dark
      cut edge along its lit side.
   2. The socket is a countersink through the glaze into the body, so the seal is
-     seated on a porcelain collar. That collar is also what keeps the seal
-     legible: vermilion on graphite measures 2.86:1, vermilion on the collar
-     3.34:1, and the collar is the surface it actually sits against.
+     seated on a porcelain collar rather than on the glaze. That collar is also
+     what keeps the seal legible: vermilion on graphite is 2.86:1 from the
+     constants and vermilion on the collar 3.19:1, and the glaze is a surface the
+     seal never actually touches. Since the seal moved to the corner it has a
+     second ground as well — see the note on the overhang below.
   3. A porcelain fillet along the plate's far bottom-right edge — bounce off the
      ground, the behaviour sampled from apple-12 and apple-27 in the corpus,
      which A1 does not carry at all.
 
-Geometry is held identical to `build_icon_a1_porcelain.py` on purpose: plate box,
-seal centre, socket radius and lobe count are the same numbers, so the audit
-sheet's #7 delta is attributable to value and material rather than to a relayout.
+Geometry follows `build_icon_a1_porcelain.py` on the plate box, socket radius and
+lobe count, so the audit sheet's #7 delta stays attributable to value and material
+rather than to a relayout. **The seal centre no longer matches A1**, and that is
+the one deliberate divergence: see below.
 
-The named next edit, deliberately NOT made here: move SEAL_CX / SEAL_CY outward
-so the seal straddles the plate's lower-right edge. Filled solid black with the
-ground off, this take is a plain landscape rounded rectangle, because the seal at
-r=112 on (692, 594) inside a plate whose edges are x=852 and y=768 is inset by
-about 28px and never reaches the outline. Moving it addresses rubric #3's weak
-pass and the card read in one edit. That is the next commission.
+The named next edit, made on 19 Aug 2026 after the shelf collision was measured:
+SEAL_CX / SEAL_CY moved from (692, 594) to (823, 739), so the seal now straddles
+the plate's lower-right corner instead of sitting inset inside it. Two things had
+to change for that to be visible at all:
+
+  * The seal group left the `plateclip` group. Inside it the seal was clipped to
+    the plate, so no centre anywhere could have broken the outline — which is the
+    mechanical reason #3 was a weak pass rather than a placement mistake. The
+    countersink stays inside the clip, so the socket is still a cut into the
+    glaze and is cut off at the plate edge along with it.
+  * 53.9% of the seal now overhangs the plate, and there is no collar out there.
+    The overhang sits on the family porcelain ground, measured at 3.01:1 against
+    it, where the on-plate half sits on the lit porcelain collar at 2.82:1 and
+    the glaze it never touches would be 2.86:1. So the overhang is the *better*
+    of the seal's two grounds and the collar remains the worst case.
+
+What the move bought, measured rather than argued: #3 goes from a weak pass to a
+real one — filled solid black with the ground off, the outline is a landscape
+rounded rectangle with a twelve-lobed disc breaking its lower-right corner, which
+is the claim an earlier sheet made falsely and this one can now show. It also
+weakens the payment-card read that is #11's deduction, because a card has nothing
+hanging over its edge. What it did NOT buy is the shelf collision with
+`tui-craft`: 0.913 before, 0.912 after, and no seal position anywhere in the tile
+brings that pair under the 0.80 flag. The number is dominated by the graphite
+plate's mass on porcelain, not by where the accent sits.
 
     python3 build_icon.py           # writes icon-src.svg beside this file
 """
@@ -92,7 +114,7 @@ FOOT_X, FOOT_Y, FOOT_W, FOOT_H = 240, 500, 168, 18
 ACCENT = "#E8542A"
 ACCENT_HI = "#F4794A"
 ACCENT_DEEP = "#B23F1C"
-SEAL_CX, SEAL_CY = 692, 594
+SEAL_CX, SEAL_CY = 823, 739     # was (692, 594) until 19 Aug; see the docstring
 SEAL_R_OUT, SEAL_R_IN, SEAL_LOBES = 112, 95, 12
 SEAL_RING_R = 66
 SEAL_BOSS_R = 40
@@ -254,7 +276,14 @@ def build() -> str:
         f'stroke="{GLAZE_EDGE}" stroke-width="3" stroke-opacity="0.55"/>')
     add('</g>')
 
-    # ---------------- highlight: the seal, proud of the collar
+    add('</g>')  # plateclip
+
+    # ---------------- highlight: the seal, proud of the collar and OUTSIDE the
+    # plate clip, because the whole point of this take is that it overhangs.
+    # Clipped to the plate it could not break the outline no matter where its
+    # centre went, which is the mechanical reason the previous version's #3 was a
+    # weak pass. What sits under the overhanging part is the porcelain ground,
+    # measured on the sheet; inside the plate edge it is still the collar.
     add('<g id="highlight">')
     add('<g filter="url(#sealshadow)">')
     add(f'<path d="{scalloped(SEAL_CX, SEAL_CY, SEAL_R_OUT, SEAL_R_IN, SEAL_LOBES)}" '
@@ -269,7 +298,6 @@ def build() -> str:
         f'stroke="#FFD3BC" stroke-width="5" stroke-opacity="0.55" stroke-linecap="round"/>')
     add('</g>')
 
-    add('</g>')  # plateclip
     add('</g>')  # art / tile
     add('</svg>')
     return "\n".join(parts)

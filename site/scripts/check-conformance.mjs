@@ -94,10 +94,6 @@ const NOT_PLUGINS = /-workspace$/;
  */
 const DEBT = [
   {
-    plugin: "mac-design-digest", dimension: "banner", since: "2026-08-18",
-    why: "The last of six that landed together as a migration out of diolog-plugins, registered without banners so they were installable. The other five were paid off on 2026-08-19. This one is last because its icon is the set's only un-recommissioned master and a banner derives from the icon's own build constants, so building it first means re-deriving it straight afterwards.",
-  },
-  {
     plugin: "report", dimension: "banner", since: "2026-08-18",
     why: "Its banner has no icon at all. The right side is a related illustration of document cards rather than the icon tile every sibling carries beside its wordmark, so brand-and-docs' \"the real icon asset beside a set wordmark\" is unmet by composition rather than by a stale render. Fixing it is a layout change, not a re-render, so it is owed a deliberate pass.",
   },
