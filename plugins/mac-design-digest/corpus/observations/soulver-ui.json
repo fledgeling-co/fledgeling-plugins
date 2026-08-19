@@ -1,0 +1,53 @@
+{
+  "slug": "soulver", "name": "Soulver", "category": "Productivity",
+  "lineage": "ios-on-mac", "lineage_confidence": "med",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.webp", "surface_type": "marketing composite — iPad app (note-list + document/answer view) inside device frame, plus brand backdrop", "mode": "light", "rubric_score": 12, "native_audit_score": 3, "failures": ["#9 colored syntax tokens (system blue ~#0088FF, magenta keyword) on #FFF land ~3:1, under 4.5:1 AA text floor", "#10 selection fill #DDD on #FAFAFA ~1.1:1 and hairline separators <3:1", "native #1/#5/#10 iOS status bar, touch density (~17pt body), tablet bezel, no traffic lights/menu-bar — surface is iPadOS not macOS", "native #6 no system-accent binding; selection is neutral gray, blues are content syntax not controlAccentColor"]}
+  ],
+  "tokens": [
+    {"token": "bg/answer-column", "value": "#F3F3F3 (~4-5% gray)", "quality": "estimated", "notes": "faint tint separating right-hand results sheet from #FFF canvas — the load-bearing product token"},
+    {"token": "bg/doc-canvas", "value": "#FFFFFF", "quality": "estimated", "notes": "editable document column, light mode"},
+    {"token": "bg/note-list", "value": "#FAFAFA", "quality": "estimated", "notes": "left navigation panel"},
+    {"token": "fill/selection", "value": "#DDDDDD inset rounded ~10-12pt radius", "quality": "estimated", "notes": "iOS grammar — no accent tint on fill or label"},
+    {"token": "syntax/number", "value": "system blue ~#0088FF", "quality": "estimated", "notes": "numerals & percentages; matches macOS-27 kit System Blue light"},
+    {"token": "syntax/unit-keyword", "value": "magenta-purple ~#CB30E0 / #FF2D55", "quality": "estimated", "notes": "km, miles, weeks; currency sign sometimes magenta"},
+    {"token": "syntax/reference", "value": "blue underline", "quality": "estimated", "notes": "cross-line references / variable links"},
+    {"token": "ink/primary", "value": "near-black ~#1A1A1A", "quality": "estimated", "notes": "titles, results, doc heading"},
+    {"token": "ink/secondary", "value": "mid-gray ~#8E8E93", "quality": "estimated", "notes": "dates, N-lines counts, # marker, connective words"},
+    {"token": "type/app-body", "value": "~17-19px SF Pro (touch density)", "quality": "estimated", "notes": "iOS 17pt-class, NOT macOS 13pt — density tell"},
+    {"token": "bg/brand-backdrop", "value": "#FCFAF6 warm cream", "quality": "estimated", "notes": "marketing panel only — brand evidence, not app chrome"},
+    {"token": "type/brand-display", "value": "high-contrast transitional/modern serif Bold ~64-72px", "quality": "estimated", "notes": "Tiempos Headline / Freight Display class (unidentified) — brand, warm-editorial"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "iOS note-list: bold title + gray date subtitle (tight pair) + right-aligned N-lines count; floated bottom folder group with hairline; inset rounded gray selection — touch density, NOT a macOS source list"},
+    {"pattern": "list", "key_values": "document = one calc line per row, ~1.5x+ leading, live per-token syntax coloring; answer column = right-aligned results on #F3F3F3 tinted panel, each locked to its source line"},
+    {"pattern": "toolbar", "key_values": "iOS top-nav row of 4 borderless monochrome SF-Symbol icons (compose, book, gear, sidebar-toggle), trailing cluster — an iOS toolbar, not a macOS unified toolbar"},
+    {"pattern": "other", "key_values": "two-pane calc-notepad: editable prose canvas + live answer margin — the transplantable cross-platform pattern"}
+  ],
+  "signature_moves": [
+    "The answer-sheet column: live right-aligned results on a ~5%-gray panel, each answer locked to its source line — 'notepad meet calculator' made literal",
+    "Semantic syntax coloring as hierarchy (numbers blue / units-keywords magenta / connectives gray / results black) — Von Restorff at token level, doubles as parse aid",
+    "The Notes.app disguise (Jakob's Law): fully conventional note-list + folder + compose shell carries the novel calc-as-you-type",
+    "Cross-line references rendered as blue underlines — spreadsheet references wearing hyperlink clothing"
+  ],
+  "defects": [
+    "Contrast Dilution (soft/semantic) — blue #0088FF and magenta syntax tokens ~3:1 on #FFF, under 4.5:1 AA; mitigated by numeral shape + near-black results, still a low-vision finding",
+    "Low-contrast selection — gray #DDD fill on #FAFAFA ~1.1:1 delta; a Mac surface would accent-tint the inset selection and its label"
+  ],
+  "aesthetic": {
+    "adjectives": ["understated", "literate", "utilitarian-calm"],
+    "direction": "neo-grotesque product / calm-utility (app UI); the cover backdrop is a separate warm-editorial treatment — cream + high-contrast serif display",
+    "peers": ["Numi", "Calca", "PCalc", "Apple Notes", "Bear"],
+    "cluster_hint": "calm-utility-monochrome (near-monochrome content + saturated semantic accents) — but do NOT open a macOS cluster from this iPad surface",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Jakob's Law — borrows the fully-conventional Apple Notes shell so the novel calculator rides in on a pre-predicted interface",
+    "Von Restorff effect — saturated numeric/keyword tokens pop out of near-monochrome prose, directing the eye to the operands",
+    "Processing fluency (Reber & Schwarz) — syntax color lets you parse the maths without reading the sentence",
+    "Hierarchy via de-emphasis (Refactoring UI) — dates, line counts, connectives all pushed to gray so numbers and answers anchor attention",
+    "Doherty threshold — inline answers imply sub-400ms live recompute as you type (motion out of scope; inferred from layout)"
+  ],
+  "notes": "CRITICAL for synthesis: the only supplied surface is a MARKETING COMPOSITE showing the iPad build inside a device frame (iOS status bar 'Sun May 31', tablet bezel, no traffic lights, touch density). It is NOT the macOS app — Soulver 3 ships a real AppKit-native Mac app that was NOT supplied. Treat all of this as CONTRAST EVIDENCE, excluded from macOS canon and clusters. Tokens are (estimated) from a downscaled WebP composite — low image quality, wide error bars. The transplantable Mac-relevant takeaway is the two-pane calc-notepad layout + semantic syntax coloring (both opaque content, glass-free). Contradiction to record: brand backdrop = warm-editorial (cream + serif); app UI = cool-flat-utility — the marketing romanticises a utilitarian app. A separate icon.png (1024x1024) exists but was not digested here (Workflow A only) — flag for a Workflow B icon pass."
+}

@@ -1,0 +1,34 @@
+{
+  "slug": "inkline-text-editor",
+  "name": "Inkline Text Editor",
+  "tagline": "Open huge files in milliseconds and format them fast.",
+  "category": "Dev",
+  "pricing": "paid",
+  "website": "https://apps.apple.com/se/app/inkline-text-editor/id6764860305?mt=12",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5236ec7b-7325-473f-b95b-2187dfd27495.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-71a55c14-f565-4d10-bb99-b4c3bb9f94a0.jpg",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-eef95c85-c9b5-47f3-bf5e-f65b9b6e88c4.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6348ba70-6d9e-4b93-8fa7-d983a76980ac.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-393d3334-4e9b-40c0-b61f-a94562afadba.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-17d90698-dd09-42ea-8276-2156685b2437.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-9a8d2f9b-462b-45cb-8d2e-674fb6c1d001.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-4f5863f2-9e73-4b89-af37-94bb3925e7c4.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-985dcaba-3282-4020-bda5-dcae4c95533e.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-ee430502-1eef-4018-a451-85e70caae301.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-d81bf07a-33a6-4246-9fc3-163570b1aa2e.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-961e483a-9331-4888-a7ac-29fd29dcf351.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/cover.jpg",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-5.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-6.png"
+    ]
+  }
+}

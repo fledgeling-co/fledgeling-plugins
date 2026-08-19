@@ -1,0 +1,23 @@
+{
+  "slug": "macrest", "name": "MacRest", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": ["#4 moon survives at 16px but gear teeth smear to a nub below ~24px (2.25:1)", "#1 artwork inside squircle but a self-drawn rounded-rect rim is visible; can't confirm full-bleed vs baked mask at 208px"],
+  "failures": ["#5 mixed light model: moon lit top-left, background ramp brightens toward bottom", "#7 figure-ground under 3:1: moon-vs-bg 2.09-2.92:1, gear-vs-bg 2.25:1; separation carried by drop shadow not fill contrast", "#10 no variant robustness: monochrome pink, hue+shadow dependent on one background, no Icon Composer layers; collapses in tinted/clear/dark"],
+  "palette": {
+    "background": "ramp #ED5F82->#FF85A7 (inverted: darker top, lighter bottom)",
+    "glyph": ["#FFF1F6", "#F8C9D7", "#F9DCE4", "#F9CED2"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "badge"
+  },
+  "light_model": "Big Sur soft-ambient intent but contradictory: crescent moon lit top-left over a bottom-brightening (inverted) background ramp; short soft baked drop shadows under moon and gear; no specular, no glass.",
+  "layer_stack": ["rose squircle w/ vertical ramp + faint rim highlight", "crescent moon w/ baked drop shadow", "gear badge (top-right, own soft shadow) overlapping moon notch"],
+  "devices": ["crescent-moon + gear-badge subject pairing (sleep + control)", "monochrome high-key rose (whole icon one hue)", "bottom-lit inverted background ramp"],
+  "adjectives": ["high-key rose", "soft-pastel", "gentle-domestic"],
+  "rhymes_hint": "monochrome-pastel Big Sur utility: single nameable object on a one-hue vertical ramp with baked micro-shadows; consumer-wellness/sleep register rather than graphite pro-utility",
+  "notes": "Resolution: source is 208x208 web render, NOT 1024 master; all hex (estimated) from render, sub-16px and mask discipline (inferred). Brand-coherence flag for synthesis: cover.webp renders the SAME icon INVERTED (pink crescent+gear on a near-black charcoal squircle) with strong figure-ground that survives dark/tinted; the marketing art fixes the shipped icon's #7 and #10 failures, and the shipped icon disagrees with the app's own hero art. Era lag: Big Sur icon shipping into macOS 26 Liquid Glass, no glass/specular/variant layers."
+}

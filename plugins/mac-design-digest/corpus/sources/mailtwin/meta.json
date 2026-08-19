@@ -1,0 +1,16 @@
+{
+  "slug": "mailtwin",
+  "name": "MailTwin",
+  "tagline": "Write the answer, not the email\u2014in Apple Mail.",
+  "category": "Productivity",
+  "pricing": "paid",
+  "website": "https://www.mailtwin.ai/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-afce92bd-43e8-4463-9c92-518ad0cd72b5.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-d6118bc3-5310-40f3-8e65-b369df12ae08.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mailtwin/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mailtwin/cover.png",
+    "shots": []
+  }
+}

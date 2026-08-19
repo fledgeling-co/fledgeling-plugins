@@ -1,0 +1,16 @@
+{
+  "slug": "alcove",
+  "name": "Alcove",
+  "tagline": "An entirely new way to experience Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://tryalcove.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2da24184-2b05-49c8-960b-0dda830fe0ad/icon-1783882469303.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2da24184-2b05-49c8-960b-0dda830fe0ad/cover-1783882778520.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/alcove/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/alcove/cover.png",
+    "shots": []
+  }
+}

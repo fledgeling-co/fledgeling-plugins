@@ -1,0 +1,53 @@
+{
+  "slug": "dropzone", "name": "Dropzone", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "cover.webp", "surface_type": "menu-bar-extra launcher panel", "mode": "light", "rubric_score": 13, "native_audit_score": 9, "failures": ["#10 section dividers and grouped-control borders near-invisible hairlines, likely <3:1", "native#2 borderline: translucent grouped control pills on translucent panel (glass-on-glass risk, acceptable in big-sur vibrancy)", "#14 focus state unverifiable in static marketing shot"]}
+  ],
+  "tokens": [
+    {"token": "chrome/panel-material", "value": "translucent light vibrancy (menu/popover material), wallpaper-tinted, subtle top-lighter vertical gradient", "quality": "estimated", "notes": "whole panel is floating chrome by nature"},
+    {"token": "radius/panel", "value": "~16-20pt (reads ~18pt)", "quality": "estimated", "notes": "render ~@2x"},
+    {"token": "chrome/toolbar-height", "value": "~44-48pt", "quality": "estimated", "notes": "one control row + padding, hairline divider below"},
+    {"token": "control/height", "value": "~28-30pt (Lg tier; kit=28)", "quality": "estimated", "notes": "add, grid pop-up, window, gear"},
+    {"token": "control/pill-radius", "value": "capsule / ~14pt", "quality": "estimated", "notes": "Main Grid pop-up + grouped containers"},
+    {"token": "tile/icon-size", "value": "~60-64pt", "quality": "estimated", "notes": "5 per row"},
+    {"token": "grid/columns", "value": "5", "quality": "measured", "notes": "uniform 5-col tile grid per section"},
+    {"token": "type/section-header", "value": "~13pt SF Pro Semibold/Bold, dark, sentence/title case", "quality": "estimated", "notes": "NOT tracked uppercase — strong native tell"},
+    {"token": "type/tile-label", "value": "~11-12pt SF Pro Regular, primary label, centered", "quality": "estimated", "notes": "one/two words under each tile"},
+    {"token": "divider/hairline", "value": "1px, very low contrast (<~10% black over vibrancy)", "quality": "estimated", "notes": "section + toolbar separators nearly invisible"},
+    {"token": "accent/chrome", "value": "minimal; glyphs monochrome gray (~secondary label)", "quality": "estimated", "notes": "little system-accent binding"},
+    {"token": "menu-bar/selection", "value": "rounded-rect light fill, ~13pt radius", "quality": "estimated", "notes": "status-item open state; matches kit menu-bar selection"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "up-caret-anchored popover; ~443pt wide; light vibrancy material; ~18pt radius; status-icon shown selected"},
+    {"pattern": "card-grid", "key_values": "5-col icon-tile grid, ~64pt tiles, icon + centered ~11-12pt label; tiles are oversized drag-drop Fitts targets, not click targets"},
+    {"pattern": "toolbar", "key_values": "3 clusters: leading grouped [add | collapse-all], centered pop-up (Main Grid), trailing grouped [window | gear] with internal divider; borderless monochrome glyphs"},
+    {"pattern": "other", "key_values": "labeled sections (Sharing / Folders-Apps / Actions) each with trailing up/down paging chevrons; sentence/title-case SF Pro semibold headers"}
+  ],
+  "signature_moves": [
+    "The drag-target grid IS the product: Launchpad/Stacks tile-grid metaphor repurposed as file destinations, chunked into 3 labeled sections; ~64pt tiles sized for throwing files at, not clicking",
+    "Legacy-skeuomorphic soul in modern chrome: glossy gel destination icons (SFTP Upload) and a glossy 3D app icon retained inside a current Sequoia translucent-vibrancy popover",
+    "Grouped-control containers: leading and trailing toolbar clusters each share one continuous rounded translucent background with internal dividers"
+  ],
+  "defects": [
+    "Low UI contrast (rubric #10) — section separators and grouped-control borders are near-invisible hairlines (<3:1); panel structure leans on the faintest fills over vibrancy",
+    "Borderline glass-on-glass (native audit #2) — translucent grouped control pills on translucent panel material; fine in big-sur vibrancy, a Liquid Glass violation if re-skinned for macOS 26+ without solidifying controls",
+    "Within-app material inconsistency — modern translucent chrome vs glossy-gel legacy content icons; two eras on one surface (systematic, so logged as signature-with-cost)"
+  ],
+  "aesthetic": {
+    "adjectives": ["utilitarian", "glossy-legacy", "translucent"],
+    "direction": "system-native vibrancy utility with a retained skeuomorphic (glossy-gel) accent language — template-default macOS material rather than a committed bespoke direction",
+    "peers": ["Yoink", "Dropover", "Launchpad/Stacks"],
+    "cluster_hint": "system-vibrancy menu-bar utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Fitts's Law — oversized ~64pt tiles are large, forgiving drag-drop targets; the interaction is throwing files, so target area is the point",
+    "Jakob's Law — reuses the familiar Launchpad grid + system folder icons; instantly legible with zero teaching",
+    "Hick's Law / Miller-Cowan chunking — ~15 destinations chunked into 3 labeled sections keeps a dense launcher scannable; a flat grid this size would exceed comfortable choice load",
+    "Recognition over recall — every target pairs a familiar icon with a text label (dual coding)",
+    "Von Restorff — deliberately NOT exploited: uniform equal-weight grid has no single focal point (correct for a launcher; wrong for a decision surface)"
+  ],
+  "notes": "Only two inputs supplied: cover.webp (this UI) and icon.webp — no shot-*.* gallery. Cover is a genuine app screenshot (menu-bar popover over the Sequoia default wallpaper), not a heavy marketing composite; backdrop is just the OS wallpaper, no brand typography to separate. Workflow A only per task, so the app icon (glossy 3D stack of lavender translucent discs with a red hot landing pad on a dark metallic squircle base — Big Sur-era skeuomorphic depth) was read for aesthetic corroboration but NOT given a full icon digest / icons/ file. Era called big-sur not liquid-glass: no lensing evidence, Sequoia wallpaper, glossy content icons; a single translucent still cannot confirm Liquid Glass vs legacy vibrancy. Only one surface (light, no dark-mode, no selected-tile state, no settings) — narrow evidence for a mature multi-window-less app. Single app, no promotions."
+}

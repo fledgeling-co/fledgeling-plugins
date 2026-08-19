@@ -1,0 +1,74 @@
+{
+  "slug": "autoshelf",
+  "name": "AutoShelf",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png (AVIF renamed .png; 1200x630 OG composite — app WINDOW embedded in right ~50%)",
+      "surface_type": "main window — Rules list (sidebar + grouped content list), dark mode; cropped/perspective-warped inside a marketing composite, bleeds off right+bottom",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 6,
+      "failures": [
+        "#9 text contrast — tertiary subtitle gray on charcoal reads ~4:1 borderline (estimated); disabled .mpkg row intentionally sub-threshold",
+        "#10 UI contrast — inter-row hairline separators and group-card edge sit <3:1 against content bg (estimated)",
+        "native#3 selection grammar — inset rounded fill is correct BUT rendered as SOLID SATURATED brand orange-red, not the standard flat translucent/vibrant selection (System-Settings-strength fill in a house hue)",
+        "native#4 section headers TRACKED UPPERCASE ('ORGANIZERS'/'SCREENSHOTS'/'NO GROUP') — should be sentence/title-case system-font secondary",
+        "native#5 density — iOS-grouped-table row heights (~50-56pt 2-line rows, ~40pt sidebar rows), not compact desktop 24-28pt",
+        "native#6 accent binding — brand orange-red overrides the user's system accent for selection+icons (internally consistent house style, but not the user's controlAccentColor)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-content", "value": "#141416 (approx) charcoal, dark mode", "quality": "estimated", "notes": "content pane; group cards sit a step lighter (~#1A1A1C)"},
+    {"token": "bg/sidebar", "value": "#0C0C0E (approx) near-black, darker than content", "quality": "estimated", "notes": "sidebar reads blacker than the content pane — standard dark two-tone"},
+    {"token": "accent/brand", "value": "orange-red ~#E5401C / #E8431E", "quality": "estimated", "notes": "THE app accent: sidebar-selection fill + file-with-gear rule icons. Replaces system accent blue. Matches the app-icon file color."},
+    {"token": "selection/sidebar", "value": "solid saturated brand orange-red rounded-rect fill, radius ~10-12pt, full-width minus ~small insets, white label + white glyph", "quality": "estimated", "notes": "Signature. NOT the standard flat translucent/vibrant inset selection; System-Settings-strength solid fill but in a brand hue, not the system accent."},
+    {"token": "type/sidebar-item", "value": "~15px SF Pro (Title3/Body-emphasized class), white primary label", "quality": "estimated", "notes": "sidebar labels run larger than content titles"},
+    {"token": "type/row-title", "value": "~13-14px SF Pro Semibold/Bold, primary white (~85-100%)", "quality": "estimated", "notes": "row headline, e.g. 'Trash .dmg files'"},
+    {"token": "type/row-subtitle", "value": "~11-12px SF Pro Regular, tertiary gray", "quality": "estimated", "notes": "middle-dot metadata triple: condition. action. destination"},
+    {"token": "type/section-header", "value": "~10-11px, tracked UPPERCASE, tertiary gray, wide letter-spacing", "quality": "estimated", "notes": "non-native tell — should be sentence-case system font per HIG"},
+    {"token": "control/status-toggle", "value": "custom pill ~30x18: green track+knob = enabled, red/maroon track+knob = disabled, knob sits LEFT in both states", "quality": "estimated", "notes": "Diverges from NSSwitch grammar (green/accent, knob-RIGHT when on). Doubles as a per-row status light. Semantic color paired with position."},
+    {"token": "icon/rule-glyph", "value": "orange-red outline document-with-gear, ~24pt", "quality": "estimated", "notes": "custom brand-colored 'rule' iconography; leading each content row"},
+    {"token": "icon/sidebar-symbols", "value": "monochrome white SF Symbols: list.bullet / square.grid.2x2 / clock / gearshape / info.circle", "quality": "estimated", "notes": "standard SF Symbols; native affiliation signal"},
+    {"token": "chrome/sidebar", "value": "~256pt-class fixed sidebar (warp-uncertain), near-black, sidebar-toggle SF Symbol at top strip", "quality": "assumed", "notes": "width matches kit 256pt sidebar; can't measure precisely on the warped composite"},
+    {"token": "chrome/traffic-lights", "value": "coloured red/yellow/green = focused window; sidebar-toggle glyph (sidebar.left) top-right of sidebar strip", "quality": "estimated", "notes": "genuine macOS chrome; minimal toolbar (title 'AutoShelf' left-aligned in content, no visible trailing toolbar buttons)"},
+    {"token": "list/grouping", "value": "inset-grouped rounded cards enclosing rows, hairline left-inset separators between rows", "quality": "estimated", "notes": "iOS/SwiftUI-multiplatform grouped-list idiom, not flat native AppKit list"},
+    {"token": "cover/aspect", "value": "1200x630 (OG social card, 1.91:1)", "quality": "measured", "notes": "marketing OpenGraph composite; app window occupies right ~50%, perspective-warped a few degrees"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "5-item flat nav source list (Rules/Templates/Activity/Settings/About), SF Symbol + label, ~40pt rows, selection = solid brand-hue rounded fill w/ white text+glyph; no section headers in sidebar"},
+    {"pattern": "list", "key_values": "grouped rule list: tracked-UPPERCASE section headers + inset rounded card groups; row = [status-toggle | brand icon | bold title / tertiary middle-dot metadata subtitle]; ~50-56pt 2-line rows; disabled rows dim in place"},
+    {"pattern": "toolbar", "key_values": "minimal unified toolbar — window controls + sidebar-toggle symbol + left-aligned app-name title; no visible trailing action group"}
+  ],
+  "signature_moves": [
+    "Single-hue brand commitment: one orange-red (~#E5401C) carries the entire identity — solid saturated sidebar-selection fill (not translucent), the file-with-gear rule icons, replacing the system accent everywhere. The app's whole personality in one color.",
+    "Status-toggle-as-traffic-light: a custom green(on)/red(off) pill per rule row doubles as an at-a-glance enabled/disabled indicator — the one place saturated color is spent in the content field, and it's spent on meaning.",
+    "Rule-as-sentence subtitle: each row's metadata reads as plain English (condition . action . destination — 'Extension is .dmg . Move to Trash . Downloads'), so an automation config is scannable without decoding a form."
+  ],
+  "defects": [
+    "Tracked-uppercase section headers — non-native tell (HIG wants sentence-case system-font secondary headers) and a mild scanning cost (ALL-CAPS uniform word shapes slow reading).",
+    "Non-system accent binding — brand orange-red overrides the user's controlAccentColor for selection/focus; internally consistent house style, but breaks the 'accent is the user's' native rule (record as tell + correction, borderline defect vs. brand signature).",
+    "Color-meaning collision (minor) — RED used for a merely-disabled rule toggle; red conventionally signals destructive/error, so an inert disabled rule can misread as a problem. Gray-off would be the safer native reading.",
+    "Contrast Dilution (soft, #9/#10) — tertiary subtitle ~4:1 and hairline separators <3:1 against the dark ground (estimated); disabled row is intentionally low.",
+    "iOS-grouped-table density on Mac (native#5) — tall 2-line inset-card rows import an iPhone-Settings rhythm rather than compact desktop list density."
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "utilitarian", "orderly"],
+    "direction": "Neo-grotesque product utility in dark neutral, but rotated OFF the reflexive electric/acid accent onto a warm orange-red brand hue — a disciplined charcoal field where one saturated warm color does all the identity work; committed (not template-default) via the single-hue commitment and the custom status-toggle language.",
+    "peers": ["CleanMyMac (brand-forward utility warmth)", "Bartender / Dropover (dark brand-accented Mac utilities)", "Things (dark) / Reeder (calm grouped-list rhythm)"],
+    "cluster_hint": "warm-accent utility (dark)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff + signal-detection — against a disciplined neutral charcoal field, the single saturated selection and the green/red status dots are the only loud things, so the eye lands exactly on state and current location; color spent only where it means something.",
+    "Tesler's Law / recognition-over-recall — the plain-English metadata subtitle spells out each rule's full logic (condition/action/destination) so the user never reconstructs an opaque config from memory; irreducible complexity absorbed into the label.",
+    "Jakob's Law (partial violation) — the inset-grouped list + tracked-uppercase headers + pill toggles import iPhone-Settings conventions onto the Mac; familiar to iOS users, but it deviates from Mac-native list expectations rather than meeting them.",
+    "Hick's Law — a 5-item sidebar keeps the primary navigation decision tiny; richness lives inside the Rules list (a browse/scan surface), correctly leaving option density there.",
+    "Aesthetic-usability — the coherent dark palette and tidy row rhythm buy perceived usability for a 'set a rule once and forget it' tool where trust-at-a-glance matters."
+  ],
+  "notes": "SINGLE surface, SINGLE mode (dark) — the app WINDOW embedded in the right ~50% of a 1200x630 marketing OG cover; no separate shot-* files were supplied (gallery empty). The window is perspective-warped a few degrees and bleeds off the right/bottom, so ALL pixel values are (estimated) with wide error bars — no clean measured tokens beyond the 1200x630 cover aspect. LINEAGE IS GENUINELY AMBIGUOUS: strong iOS idioms (inset-grouped cards, tracked-uppercase headers, pill toggles, tall 2-line rows) point at Catalyst OR an iOS-first SwiftUI-multiplatform app shipped to Mac; the SF Symbol sidebar-toggle + big brand-filled SwiftUI-style List selection + genuine traffic lights lean SwiftUI-native. Recorded as native/low-confidence with Catalyst NOT excluded — its iOS-derived list grammar must be treated as tells+corrections, NOT learned as mac canon regardless of the final lineage call. ERA 'big-sur' = the modern flat-rounded-dark idiom; NO confirmable Liquid Glass (flat opaque chrome — legitimate for a utility, absence is not a defect), and dark-mode humility means glass-vs-solid is unresolvable from this still anyway. The app icon (orange-red folded file tossed onto a dark curved shelf/smile) was digested separately as autoshelf-icon.json — referenced here only as brand-color corroboration (#E5401C family), not re-digested. Marketing copy ('watches your folders and moves files') is context, not evidence. No promotions possible from one app/one surface."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "mymind",
+  "name": "mymind",
+  "tagline": "A private place to save your notes, images, quotes and highlights. ",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://mymind.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f3605b1a-5e10-4475-8169-8e008b95347b/icon-1783882454295.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f3605b1a-5e10-4475-8169-8e008b95347b/cover-1783882791144.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mymind/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mymind/cover.jpg",
+    "shots": []
+  }
+}

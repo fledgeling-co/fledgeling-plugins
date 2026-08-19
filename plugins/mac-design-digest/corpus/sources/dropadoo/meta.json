@@ -1,0 +1,16 @@
+{
+  "slug": "dropadoo",
+  "name": "dropadoo",
+  "tagline": "send files via drop",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://apps.apple.com/us/app/dropadoo-send-files-via-drop/id6758711616?mt=12",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-bf83cc09-ba5e-45b0-87b2-12ca82ff3b6c.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c70aaacf-a0dd-4e21-99ad-44881d00505b.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropadoo/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropadoo/cover.png",
+    "shots": []
+  }
+}

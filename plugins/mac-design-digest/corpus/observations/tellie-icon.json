@@ -1,0 +1,44 @@
+{
+  "slug": "tellie", "name": "Tellie", "category": "Design",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 self-masks to squircle with no radius fighting, but bakes the drop shadow the system should apply — Tahoe-era mismatch",
+    "#3 filled black the tile is just a rounded square; identity lives in internal value/colour (notch + orange), not outer shape",
+    "#4 brand gestalt (orange field + dark top notch) survives 16px, but the caption rows + thin beige tracks smear — the live-caption subject is unreadable small",
+    "#7 white pills/black notch clear 3:1, but beige tracks #E5C19C on orange are near-isoluminant and wash out in grayscale",
+    "#9 predominantly Big Sur, but the raised bevel frame + baked tile shadow are a flat-transition/framed-tile quotation, not current-era"
+  ],
+  "failures": [
+    "#10 single baked raster with hardcoded orange field + baked shadow; not separable Icon Composer layers, so no clean dark/clear/tinted variants — lags the Liquid Glass kit"
+  ],
+  "palette": {
+    "background": "ramp #EE9550->#DD7838 (orange field) inside silver bevel frame #EFEFEF->#D0D0D0",
+    "glyph": ["#FFFFFF", "#000000", "#E5C19C"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "frame"
+  },
+  "light_model": "top-down (Big Sur); frame bevel highlights top and darkens bottom, orange ramp light-top to dark-bottom, white pills carry short soft micro-shadow; one consistent source",
+  "layer_stack": [
+    "baked drop shadow under tile",
+    "silver bevel frame ring #EFEFEF->#D0D0D0",
+    "orange ramp field #EE9550->#DD7838",
+    "black notch pill (top centre)",
+    "beige pending-word tracks #E5C19C",
+    "white caption pills #FFFFFF",
+    "white full-width title bar"
+  ],
+  "devices": [
+    "the notch as protagonist (black pill pinned to the field's top edge, literalizing 'gives every Mac a notch')",
+    "live-caption transcript (centre-aligned white word-pills flanked by dim beige tracks = current word bright, upcoming words quiet)",
+    "raised silver bevel frame (framed-tile motif enclosing the field)",
+    "baked squircle + self-baked drop shadow in a ~10% transparent margin (pre-Tahoe delivery)"
+  ],
+  "adjectives": ["diagrammatic", "notch-forward", "warm-orange"],
+  "rhymes_hint": "UI-mimic utility icons (glyph is a miniature of the app's own interface — dictation/transcription/menu-bar tools); Big-Sur framed-tile icons with a light bevel ring; warm-orange productivity icons",
+  "notes": "512x512 web render of the 1024 master, so hex are +/-3 and beige-track edges are softened by downscale. Strong subject-mining: the icon draws the product's defining behaviour (notch + word-by-word highlight) rather than a generic glyph-on-gradient, confirmed coherent against cover.png (same brand orange, same current-vs-pending highlight). Cost is detail-density that weakens the 16px and silhouette reads. Candidate cross-icon patterns for later promotion: 'app's own UI as the icon glyph' and 'current-vs-pending shown as bright-fill vs dim-track'. Single icon — nothing promotable yet."
+}

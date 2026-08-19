@@ -1,0 +1,65 @@
+{
+  "slug": "viaduct", "name": "Viaduct", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png (app window inside marketing composite)",
+      "surface_type": "main-window (single-view utility, dark)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 subtitle #7F8086 on #1A1E20 approx 4.3:1, under AA 4.5:1",
+        "#10 card hairline border <3:1 vs window bg (boundary carried by fill step, soft)",
+        "native#5 full-width ~44-52pt CTA departs 24-28pt macOS control ladder",
+        "native#6 primary bound to brand teal, not system accent (semantic green is system-correct)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#1A1E20 -> ~#222225", "quality": "estimated", "notes": "cool/teal-tinted charcoal, darker+cooler than kit dark #1E1E1E; deliberate brand tint"},
+    {"token": "bg/card", "value": "#2A2A2E", "quality": "estimated", "notes": "elevated content card; distinguished by fill lightness not border"},
+    {"token": "accent/brand-primary", "value": "#23B7A5 teal", "quality": "estimated", "notes": "the one CTA; matches icon+backdrop; brand accent NOT system accent"},
+    {"token": "semantic/success", "value": "#30D158", "quality": "estimated", "notes": "EXACT kit dark System Green; success pill, paired with checkmark glyph (platform-fidelity signal)"},
+    {"token": "label/primary", "value": "#FFFFFF", "quality": "estimated", "notes": "title + item name"},
+    {"token": "label/secondary", "value": "#7F8086 (~55% white)", "quality": "estimated", "notes": "subtitle; ~4.3:1 contrast, borderline under AA"},
+    {"token": "type/title", "value": "~20-22pt bold, SF-Pro-class", "quality": "estimated", "notes": "centred app name (render-derived range)"},
+    {"token": "type/body", "value": "~12-13pt secondary; ~16-17pt item name", "quality": "estimated", "notes": "13pt-class macOS density"},
+    {"token": "radius/window", "value": "~10-12pt", "quality": "estimated", "notes": "first (soft) data point toward kit's unknown window-radius"},
+    {"token": "radius/card", "value": "~12pt", "quality": "estimated", "notes": ""},
+    {"token": "radius/button", "value": "~10pt", "quality": "estimated", "notes": ""},
+    {"token": "radius/pill", "value": "capsule", "quality": "estimated", "notes": "status pill"},
+    {"token": "effect/cta-glow", "value": "soft teal outer glow", "quality": "estimated", "notes": "non-native flourish"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "single elevated content card #2A2A2E on #1A1E20 window, ~12pt radius, centred icon->name->status-pill stack, equal L/R inset shared with the CTA"},
+    {"pattern": "empty-state", "key_values": "onboarding-flavoured single-view: centred app-name title + 1-line secondary subtitle + one concrete example card + exactly one full-width primary CTA; one-decision surface"},
+    {"pattern": "other", "key_values": "status pill: capsule, macOS system green #30D158 fill, dark text, leading checkmark glyph = confirmed/installed state (colour always paired with glyph)"}
+  ],
+  "signature_moves": [
+    "Brand owns the actions, OS owns the meanings: CTA in brand teal #23B7A5, status state in macOS system green #30D158 with a checkmark glyph",
+    "Tinted dark ground (#1A1E20 cool/teal) instead of neutral #1E1E1E, so the surface reads as brand-owned with no accent pixel in the chrome",
+    "One-decision surface: centred name + single concrete example card + one CTA (Hick's Law at its floor)"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — subtitle #7F8086 on #1A1E20 approx 4.3:1, under AA 4.5:1",
+    "Non-native CTA idiom — full-width filled button + outer glow (web/iOS pattern) instead of a standard macOS push button; systematic/purposeful so a tell not a hard defect",
+    "Brand accent over system accent — primary binds to teal not the user's system accent (deviation, acceptable house style for a branded consumer utility)"
+  ],
+  "aesthetic": {
+    "adjectives": ["teal-branded", "dark-calm", "single-purpose"],
+    "direction": "Neo-grotesque product (dark neutral ramp + one electric accent) applied to a native Mac micro-utility; marketing layer adds a grotesk-vs-serif-italic display pairing",
+    "peers": ["Linear (dark + single accent discipline)", "CleanShot X / Setapp-class single-purpose Mac utilities"],
+    "cluster_hint": "dark-utility-accent",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal detection — the lone saturated teal CTA breaks a dark field, so the one action is instantly found",
+    "Jakob's Law — familiar Mac window frame + system green for 'installed' meets trained user expectations for a Mac utility",
+    "Peak-End / Doherty feedback — the green 'Installed in Safari' confirmation makes the success moment visible, closing the loop",
+    "Hick's Law — a one-decision surface with zero choice overload, correct for a single-task converter",
+    "Demonstrate don't describe — the card shows a real extension (Dark Reader icon + real install state) rather than abstract copy"
+  ],
+  "notes": "Evidence is the app window INSIDE a 1200x630 marketing cover, not a standalone retina screenshot: all geometry/type sizes are render-derived (estimated) with wide ranges; colours sampled from flat fills are reliable. No dedicated shot-*.* files were provided (meta.json gallery empty). The teal backdrop gradient (#0F8477->#65D1C3), white grotesk headline, and italic serif subhead are MARKETING/brand evidence, not native surface evidence. icon.png (glossy teal viaduct-arch on black squircle) recorded as brand context only; NOT run through the icon rubric per task's Workflow-A-only scope. Lineage native@med: genuine chrome + SF-Pro type + exact system-green semantic, but two cross-platform CTA idioms and a marketing-render source keep confidence off 'high'. First member of a potential dark-utility-accent cluster; no canon promotions possible from one app."
+}

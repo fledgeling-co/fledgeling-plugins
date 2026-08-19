@@ -1,0 +1,61 @@
+{
+  "slug": "tuple", "name": "Tuple", "category": "Dev",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (brand lockup + partial in-session annotation-overlay HUD over a mocked shared remote screen)",
+      "mode": "light",
+      "rubric_score": 7,
+      "native_audit_score": 6,
+      "failures": [
+        "#9 text-contrast borderline — same-hue tinted name pills (rust-on-peach, blue-on-pale-blue) likely under 4.5:1",
+        "#1 grid n/a — app rendered at unknown marketing scale, no point-accurate measurement possible",
+        "#4/#5/#6-typography n/a — no body copy in the Tuple overlay UI",
+        "#12/#13/#14 n/a — no text inputs, label pairs, or focus states in the overlay UI",
+        "native #10 partial — outer window frame is stylized-grey illustration, not a genuine focused-window chrome"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/primary-indigo", "value": "#5F52D5", "quality": "measured", "notes": "logo mark; violet-indigo brand hue, warmer/more saturated than system Blue #0088FF — brand color, not the system accent"},
+    {"token": "brand/logo-back-layer", "value": "#CDC8F1", "quality": "measured", "notes": "pale lavender offset panel behind the mark — the overlapping-screens/pairing depth device"},
+    {"token": "brand/wordmark", "value": "heavy bold grotesque, near-black warm ~#1C1C24", "quality": "estimated", "notes": "branded display face, not SF; tight high-weight geometric-grotesque"},
+    {"token": "brand/bg", "value": "#FEFEFE", "quality": "measured", "notes": "left marketing panel, near-white"},
+    {"token": "identity/mike-blue", "value": "fill #D8EAF8, label ~#3E7CB1", "quality": "estimated", "notes": "participant pill: pale tint fill + saturated same-hue label"},
+    {"token": "identity/paul-rust", "value": "fill ~#F6E7DC, label ~#BC5B3E", "quality": "estimated", "notes": "same rust used for Paul's freehand annotation squiggle — hue binds pill+cursor+ink"},
+    {"token": "identity/sarah-indigo", "value": "fill #D6D7F5, label ~#6E62D8", "quality": "estimated", "notes": "pale lavender, echoes brand indigo"},
+    {"token": "badge/shape", "value": "capsule (radius=height/2), thin same-hue border, soft drop shadow", "quality": "estimated", "notes": "floating-over-content elevation legitimate — pills sit on the shared screen"},
+    {"token": "toolbar/tools", "value": "~6 borderless monochrome grey glyphs ~#8C8C8C", "quality": "estimated", "notes": "arrow, multi-cursor, hand-pointer, freehand-draw, AI/text, pen-in-stepper-pill"},
+    {"token": "toolbar/selection", "value": "flat inset light-grey rounded-rect fill, radius ~6px at render scale", "quality": "estimated", "notes": "active tool highlighted — native selection grammar, not a saturated capsule"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "floating HUD annotation bar: borderless monochrome SF-Symbol-style tools, one active-tool inset-rounded highlight, one grouped pen+stepper pull-down pill; trailing-aligned"},
+    {"pattern": "floating-panel", "key_values": "presence overlay: capsule name-pills + colored remote cursors/I-beams + freehand ink, each keyed to a per-participant hue, pinned to live cursor positions, soft-shadow elevated over shared content"},
+    {"pattern": "other", "key_values": "collaborator identity-color system — per-person pastel hue unifies name pill, cursor, and annotation ink (Figma-multiplayer lineage)"}
+  ],
+  "signature_moves": [
+    "Per-participant identity color as a full presence system — one pastel hue binds each collaborator's name pill, live cursor, and freehand annotations into a pre-attentively locatable identity (find who-is-where by color, confirm by label)",
+    "Softening the collaborator hues to pastel tints (not saturated) is what makes a pro remote-control tool feel human",
+    "Freehand annotation over the live screen as the foregrounded default tool — pointing at code by drawing on it, not by moving a shared cursor"
+  ],
+  "defects": [
+    "Contrast Dilution (low confidence, marketing render) — same-hue tinted name pills pair a pale fill with a saturated same-hue label; rust-on-peach and blue-on-pale-blue plausibly under 4.5:1. Mitigated: label+cursor co-present, color never the sole signal. Verify against real in-app colors before treating as canon."
+  ],
+  "aesthetic": {
+    "adjectives": ["approachable", "presence-forward", "pragmatic"],
+    "direction": "friendly / humanist neo-grotesque product — heavy bold grotesque display + violet-indigo brand + a pastel multi-hue presence palette, warming the Linear/Vercel dev-tool register rather than going dark-and-electric",
+    "peers": ["Figma (multiplayer collaborator colors)", "Linear (grotesque discipline, warmer here)", "Around / video-presence tools"],
+    "cluster_hint": "friendly-pro presence tools",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff effect — each participant's distinct hue makes their presence the one different thing, so who-is-where is located pre-attentively before any name is read",
+    "Social facilitation / co-presence — visible name pills + live cursors surface collaborators, converting cold remote control into felt togetherness",
+    "Jakob's Law — annotation tools (arrow, hand, pen, draw) reuse familiar drawing-app conventions so users transfer expectations with no learning cost",
+    "Aesthetic-usability effect — pastel, rounded, hand-drawn treatment lowers the intimidation of a screen-control power tool",
+    "Signal detection / mode indication — the single highlighted active tool breaks the monochrome toolbar pattern, keeping the current annotation mode findable (predictability, the right lever for an expert tool, not option-reduction)"
+  ],
+  "notes": "PRIMARY CAVEAT: input is a single 1200x630 OG marketing composite, not a raw window capture. Left half = brand only (wordmark/logo/headline). Right half = a stylized mock of the GUEST's shared macOS screen (wallpaper + Apple menu bar + a PaidUsersList.tsx code editor) — that is NOT Tuple's UI; only the overlay layer (annotation toolbar, name pills, cursors, freehand ink) plus the wordmark are Tuple design evidence. App rendered at unknown scale => NO point-accurate control sizing derivable; all UI-size tokens are estimated/omitted. Outer-frame traffic lights are flat-grey illustration, not genuine chrome. Lineage recorded native (Tuple is a known AppKit-native app) but confidence LOW from this image alone. No glass evidence either way => insufficient-evidence for era. Most rubric/native checks are n/a because the genuine surface is a HUD, not a full window. To level this app up: request real in-app screenshots (session window, host/guest chooser, connection list, settings) at @2x."
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "dynamiclake", "name": "DynamicLake", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 8,
+  "soft_passes": ["#1 baked white bezel follows the mask radius (no mismatch) but baking bezel+inner-shadow deviates from current HIG", "#2 no discrete central glyph to grid; notch is centred and the field is full-bleed by design", "#9 internally consistent but a hybrid (Big Sur gradient squircle carrying a skeuomorphic phone-bezel quote), one era behind Liquid Glass"],
+  "failures": ["#3 filled solid black it is a blank squircle; the notch is too small to carry the silhouette", "#4 the notch (~10% width) vanishes below Dock size — at 16px it is just a purple square, subject lost", "#7 notch #2C2446 vs top field #362D55 is near-isoluminant, well under 3:1, disappears in grayscale", "#10 not built as Liquid Glass layers; in mono/tinted/clear the notch collapses and only a frame remains"],
+  "palette": {"background": "ramp #362D55->#57449A->#8E68D7->#E6A2F7 (dark indigo top to pink glow bottom, inverted sky logic)", "glyph": ["#2C2446"], "accent": "#E6A2F7"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "frame"},
+  "light_model": "internal screen glow: diffuse source at bottom-center, dark falloff to top; baked inner shadow under the top bezel; no glass specular or refraction",
+  "layer_stack": ["white/silver device bezel frame", "thin black inner bezel edge", "purple vertical gradient screen field", "recessed dark notch/pill at top-center", "baked inner top shadow"],
+  "devices": ["Dynamic-Island notch cutout", "iPhone screen-in-bezel frame quote", "bottom-up screen glow gradient"],
+  "adjectives": ["literal", "nocturnal-glow", "device-mimetic"],
+  "rhymes_hint": "gradient-field object icons that render a phone/display inside a device bezel — wallpaper managers, notch/Dynamic-Island utilities, screen-recorder tools",
+  "notes": "204x204 web render, not a 1024 master — LANCZOS-soft edges; fine bezel/specular px estimated, hash 73e116ce. Strong palette coherence with the app: cover.png shows the same purple wallpaper gradient with the black Dynamic Island notification pill, so the icon literally depicts what the app does (good subject communication). Core problem: entire identity rests on the notch, which fails silhouette (#3) and 16px (#4) — the two non-negotiable Dock/Spotlight tests. Baked bezel + inner shadow are HIG deviations for macOS 26 (system should apply bezel/shadow/glass). No overlay tool; the frame is the device quote. First screen-depicting/device-frame icon in the corpus — synthesis: candidate seed for a 'screen-quote' icon cluster, not yet promotable (single app)."
+}

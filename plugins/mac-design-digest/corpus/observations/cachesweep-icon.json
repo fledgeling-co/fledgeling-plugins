@@ -1,0 +1,32 @@
+{
+  "slug": "cachesweep", "name": "Cachesweep", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 cluster bottom-right-heavy; large-sparkle anchor below/right of optical centre, reads slightly bottom-heavy at Dock size",
+    "#4 two small sparkles smear to specks at 16px; only the large sparkle survives, so it still reads as 'a sparkle'",
+    "#8 very flat: no micro-shadow under the glyph, skipping the Big Sur depth its squircle+gradient otherwise quotes",
+    "#10 no authored dark/clear/tinted Icon-Composer layers evident (single flat masked bitmap); clean silhouette would tint gracefully but variants unverified",
+    "#11 device is exactly the generic glyph-on-gradient the check warns about; nameable but stock (sparkles), communicates 'clean/magic' not 'disk/cache'"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #89A0F6 (top-left light) -> #2A3AAD (bottom-right dark), midtone #4053C8, single indigo/royal-blue hue ~232",
+    "glyph": ["#FCFEFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "flat frontal; gradient gives a soft top-left->bottom-right luminance sweep but the white glyph is unlit with no cast/inner shadow — flatter than Big Sur's baked-micro-shadow norm",
+  "layer_stack": ["blue diagonal gradient field", "three flat white sparkle glyphs (SF Symbol `sparkles`)"],
+  "devices": [
+    "sparkle cluster (`sparkles` SF Symbol) size-cascaded small->medium->large along the ramp diagonal, so glyph motion echoes the light-to-dark sweep",
+    "monochrome-blue + single white mark, zero accent"
+  ],
+  "adjectives": ["buoyant", "hygienic", "anonymous"],
+  "rhymes_hint": "Big Sur glyph-on-indigo-gradient utility family — stock AI-assistant icons, sparkle/broom 'freshness' cleaner utilities (CleanMyMac-adjacent), periwinkle->royal productivity squircles; seed of a probable 'indigo utility, SF-Symbol-on-ramp' icon cluster",
+  "notes": "Source is a 256x256 macapp.supply web render (icon.webp), NOT the 1024 master — squircle mask and soft drop shadow are baked in with transparent corners, so full-bleed unmasked ship layers and any Icon-Composer dark/clear/tinted variants are UNVERIFIED; treat mask+shadow as the site render. Hex values sampled from the 256px bitmap, so ramp endpoints are (measured) within ~+/-3 per channel. Era is Big Sur unified language despite shipping on macOS 15+/Tahoe — no Liquid Glass layering, specular, refraction, or translucency present; #10 is therefore semi-N/A and scored as a soft pass. The icon is technically clean (12/12 craft) but template-default: the 12/12 must never travel without its 5-soft-pass asterisk. Biggest learning for synthesis: subject communication failure — sparkles reads 'magic/clean', not 'disk/cache/sweep', so it will not differentiate in a Dock of AI apps using the same symbol. Cover confirms icon<->UI palette coherence (blue wallpaper, #0A84FF-class CTA, blue menu-bar glyph)."
+}

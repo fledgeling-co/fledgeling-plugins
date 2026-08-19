@@ -1,0 +1,61 @@
+{
+  "slug": "cooldock", "name": "Cooldock", "category": "Productivity",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "product-dock-bar (glass, dark) + marketing hero", "mode": "dark", "rubric_score": 12, "native_audit_score": 3, "failures": ["#10 inter-cell dividers hairline dark-on-dark <3:1", "#9 borderline glance-text legibility over busy wallpaper", "native-audit N/A-dominant: no window chrome to classify host framework"]},
+    {"file": "shot-1.jpeg", "surface_type": "dock appearance variants (light/dark/glass)", "mode": "dark", "rubric_score": 11, "native_audit_score": 3, "failures": ["#9 light-variant + text-over-wallpaper contrast risk", "#11 ~20px app-launcher glyphs near WCAG 24px floor", "glass-on-glass risk (per-cell lensing) insufficient-evidence"]},
+    {"file": "shot-2.png", "surface_type": "widget-catalog grid", "mode": "dark", "rubric_score": 12, "native_audit_score": 3, "failures": ["#10 card fill #0A0A0A on #000 canvas ~4% lift <3:1 separation", "#11 sub-24px sub-glyphs in launcher/quick-action clusters"]},
+    {"file": "shot-3.png", "surface_type": "business-widget showcase", "mode": "dark", "rubric_score": 12, "native_audit_score": 3, "failures": ["#10 low card/canvas contrast", "#9 dim tertiary captions on pure black approach 4.5:1 floor"]}
+  ],
+  "tokens": [
+    {"token": "canvas/catalog", "value": "#000000 true black", "quality": "measured", "notes": "shot-2/shot-3 gallery ground — pure black marketing/OLED presentation"},
+    {"token": "bg/widget-card-dark", "value": "#0A0A0C-#1A1A1E", "quality": "measured", "notes": "sampled #0A0A0A on #000 = ~4% lift; cards barely separate from canvas"},
+    {"token": "bg/bar-glass-dark", "value": "dark translucent, wallpaper-lensing", "quality": "estimated", "notes": "cover + shot-1 rows 1-2: refractive glass, desktop visibly bends through the bar"},
+    {"token": "bg/bar-light", "value": "#F2F2F4 bar / #FFFFFF cells", "quality": "estimated", "notes": "shot-1 row 3 light appearance variant"},
+    {"token": "type/glance-value", "value": "~28-40pt-equiv Bold SF-family (rounded-leaning), tabular numerics", "quality": "estimated", "notes": "16:04 / 34deg / 100 / 6042 US$; NOT 13pt macOS Body ramp — surface-appropriate WidgetKit glance type"},
+    {"token": "type/caption", "value": "~10-13pt-equiv Regular secondary gray", "quality": "estimated", "notes": "Mon Jul 6 / '42 orders . last 7d' — strong de-emphasis vs value"},
+    {"token": "accent/system-green", "value": "#3DB45B", "quality": "measured", "notes": "streak heatmap + battery/charge ring; system-green adjacent (kit dark Green #30D158) = platform-palette fidelity"},
+    {"token": "accent/status-green", "value": "#2BA03A", "quality": "measured", "notes": "positive delta arrows / stock +1.12%, paired with value"},
+    {"token": "accent/today-chip-blue", "value": "~#0A84FF-class", "quality": "estimated", "notes": "calendar/weather today chip solid fill; iOS-widget selection (kit dark Blue #0091FF near)"},
+    {"token": "accent/status-orange", "value": "~#FF9F0A-class", "quality": "estimated", "notes": "Overdue / 'In Progress . Today' (Linear widget), paired with label"},
+    {"token": "identity/brand-hues", "value": "per-widget (Shopify #619129, PayPal blue, Zoom, TikTok/X mono)", "quality": "measured", "notes": "app/brand icons carry own hue, correctly separate from system accent"},
+    {"token": "radius/bar-outer", "value": "~28-34pt", "quality": "estimated", "notes": "dock pill outer radius (display scale; halve if @2x)"},
+    {"token": "radius/widget-card", "value": "~16-22pt", "quality": "estimated", "notes": "inner cell radius, steps down under bar radius (concentric-ish)"},
+    {"token": "divider/cell", "value": "hairline dark-on-dark <3:1", "quality": "measured", "notes": "inter-cell separators on the bar barely visible"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "widget-catalog masonry on #000; mixed 1x1/2x1/2x2/wide tiles; card fill #0A0A0A (~4% over canvas); radius ~16-22pt; label-value de-emphasis per tile"},
+    {"pattern": "floating-panel", "key_values": "horizontal Dock-shaped glass strip, wallpaper-lensing, 4 appearance variants (dark-glass/glass/light/dark-opaque); serial-position layout (clock leads, inbox/media trails); outer radius ~28-34pt"},
+    {"pattern": "other", "key_values": "WidgetKit-style live-widget faces: glance-value + caption, tabular numerics, today-chip selection, brand-hue icons, corner range-badges (7D/TDY); custom faces (flip-clock, contribution-heatmap, analog dial, AI 'Thinking... 1m39s' status)"}
+  ],
+  "signature_moves": [
+    "Desktop-lensing glass bar — the floating strip refracts the wallpaper behind it (desktop-as-material); floating bar glass + opaque widget faces honors the Liquid-Glass Golden Rule in spirit",
+    "Dock-as-widget-canvas — the horizontal Dock/Touch-Bar footprint reframed as a live-widget strip, inheriting Dock muscle memory (Jakob's Law)",
+    "Glance-first tabular typography applied ~50x consistently (Bold numeric value + quiet caption)",
+    "Real dogfooding as demo data — Linear 'ENG-128 Fix dock tooltip clipping' card = the dev's own live tracker",
+    "Apple-keynote cosplay on the cover (brand layer, not app UI): Apple-logo eyebrow + ultra-bold black keynote headline + hyperreal Apple-wallpaper nature hero"
+  ],
+  "defects": [
+    "Contrast Dilution (borderline) — tertiary captions on #000 and glance text on the glass bar over busy wallpapers approach the 4.5:1 floor; legibility depends on wallpaper",
+    "UI Contrast (#10) — card fill #0A0A0A on #000 (~4% lift) + hairline dark-on-dark cell dividers <3:1; cards separate almost only by radius",
+    "Target Starvation (mild) — ~20px app-launcher glyphs and small transport/edit circles near the 24px WCAG floor",
+    "Glass-on-glass risk (insufficient-evidence) — per-cell lensing on the bar may read as glass-in-content; not confirmable from stills"
+  ],
+  "aesthetic": {
+    "adjectives": ["glanceable", "glass-lensed", "vivid-on-black"],
+    "direction": "WidgetKit/iOS-widget glance-language transplanted to a Mac desktop bar — neo-grotesque-product dark canvas (near-black ramp + saturated per-app accents, glass panels) crossed with consumer-widget playfulness; not a native macOS window aesthetic",
+    "peers": ["Apple Widgets / Control Center", "Widgetsmith", "MacBook Touch Bar", "Elgato Stream Deck", "iStat Menus / One Thing menubar utilities"],
+    "cluster_hint": "glanceable-widget-dark (non-native consumer widget-canvas)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — widget faces copy Apple/iOS widget conventions exactly, so users read them instantly (borrowed familiarity); the Dock footprint reuses trained muscle memory",
+    "Von Restorff / signal-detection — each face uses ONE saturated hue against black so the glance value pops pre-attentively",
+    "Hierarchy via de-emphasis (Refactoring UI) — big tabular value + quiet gray caption on every tile; the number speaks, the label whispers",
+    "Choice overload NOT violated — the ~50-tile catalog (shot-2) is a browse/catalog surface, where option density is a feature, not a decision point",
+    "Miller/Cowan chunking — each widget = one glanceable chunk; the bar caps visible widgets to ~5-8",
+    "Aesthetic-Usability Effect — high-polish keynote-grade presentation buys first-contact trust (marketing cover especially)"
+  ],
+  "notes": "All four inputs are marketing/catalog composites of a real shipping app (dock.cool, paid), NOT standard app-window screenshots and NOT mocks — no window chrome (traffic lights/menu bar/sidebar/toolbar) appears, so host FRAMEWORK LINEAGE IS UNVERIFIABLE (recorded unknown/low). Design LANGUAGE is confidently WidgetKit/iOS-widget grammar with custom-drawn faces + a Liquid-Glass-influenced lensing bar. IMPORTANT for synthesis: exclude from macOS native canon and native style clusters — a widget-catalog/Dock-strip surface is not window-native evidence; its glance-type density and solid-fill today-chip selection are widget-surface properties, not macOS defects. Cover splits into two evidence types: the dock bar (product/design evidence) vs the Apple-cosplay backdrop+headline (brand evidence) — do not conflate. Positive platform signal: streak/ring green #3DB45B sits on the system-green swatch (#30D158). Notable modern touch: an AI 'Thinking... 1m39s' live-status widget (fits the 'smart second Dock' positioning). Measurements are display-scale estimates from ~2000px composites; halve if renders are @2x. Corpus still Novice — this is the first app profile; single-app, zero promotions."
+}

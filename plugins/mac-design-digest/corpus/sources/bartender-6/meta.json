@@ -1,0 +1,16 @@
+{
+  "slug": "bartender-6",
+  "name": "Bartender 6",
+  "tagline": "Control over your menu bar items, what is displayed, and when.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://www.macbartender.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c2c868e-3712-4fdb-b6bb-e05cfffb2b44/icon-1783882453155.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c2c868e-3712-4fdb-b6bb-e05cfffb2b44/cover-1783882756028.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bartender-6/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bartender-6/cover.png",
+    "shots": []
+  }
+}

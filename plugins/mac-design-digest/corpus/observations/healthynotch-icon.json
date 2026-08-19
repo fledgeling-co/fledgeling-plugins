@@ -1,0 +1,39 @@
+{
+  "slug": "healthynotch", "name": "HealthyNotch", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#4 16px squint: nested blue frame shrinks the heart to ~40% of canvas; individual pixels and the two-pixel sparkle smear below ~32px",
+    "#5 single light model: top-lit blue plate + heart vs bottom-glowing inner tile — two implied directions, coheres only as 'emitted screen glow'",
+    "#9 era coherence: clean Big Sur container, but baked bright top-edge specular gestures at Liquid Glass without real translucency/refraction"
+  ],
+  "failures": [
+    "#10 variant robustness: identity welded to the dark navy tile; magenta heart loses contrast in tinted/clear/light modes; not authored as robust Icon Composer light/dark/mono layers (era-conditional against the macOS-26 bar)"
+  ],
+  "palette": {
+    "background": "blue base plate ramp #ACDAFF->#3B86F6 (top-lit) + inset dark navy tile ramp #010203->#153B70 (upward bloom)",
+    "glyph": ["#CE3158", "#AD2E65", "#9C387B", "#BD3162", "#F3F9FF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "frame"
+  },
+  "light_model": "Primary top-down (blue plate bright at top edge #ACDAFF, heart brightest at top, top-left sparkle); inset dark tile inverts to a bottom-up blue bloom reading as emitted screen glow. Short baked micro-highlights, no long shadows.",
+  "layer_stack": [
+    "system squircle mask + system shadow",
+    "blue base plate (top-lit ramp #ACDAFF->#3B86F6)",
+    "inset dark navy inner tile (~10-11px border, upward blue bloom #010203->#153B70)",
+    "pixel-art heart glyph (red->magenta->purple ramp + pink outline)",
+    "two white 8-bit sparkle pixels (top-left, #F3F9FF)"
+  ],
+  "devices": [
+    "8-bit / pixel-art HP heart with the classic two-pixel specular sparkle (health + score fused for a gamified work-wellness app)",
+    "nested 'screen' tile: dark navy inner tile framed inside a bright blue squircle plate",
+    "inverted inner glow: dark-top -> lit-bottom, opposite of Big-Sur sky logic, reading as screen bloom"
+  ],
+  "adjectives": ["retro-arcade", "nocturnal", "earnest"],
+  "rhymes_hint": "pixel glyph on a framed dark screen — rhymes with 8-bit/emulator game-glyph icons and dark-tile 'glowing glyph' dev/terminal icons; structurally rhymes with Alcove (same notch niche: dark recessed field + inverted glow). Palette family: cornflower-blue plate + magenta/pink glyph.",
+  "notes": "128x128 web render only (SHA-1 2f996458), not the 1024 master: hex is reliable, fine geometry is not — pixel-heart cells blur and the sparkle is at the edge of legibility. Full-bleed squircle, art inside mask. Not genuine Liquid Glass: no translucency/refraction and a baked edge specular the system would rather apply itself; classified big-sur with a deliberate 8-bit content quotation. Strong subject communication (heart = health/care) with a gamified 'balance score' twist; the app's notch name goes unillustrated (heart metaphor wins). Cover palette coheres: cornflower blue #428EFC + single magenta heart pop."
+}

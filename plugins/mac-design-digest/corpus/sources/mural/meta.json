@@ -1,0 +1,34 @@
+{
+  "slug": "mural",
+  "name": "Mural",
+  "tagline": "Mural is a creative canvas for your Mac desktop.",
+  "category": "Utility",
+  "pricing": "paid",
+  "website": "https://muralflow.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-fa999e71-4d03-462c-9db5-a4b2f6e5a706.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-f0752d73-2760-44ff-8172-b16e937146f5.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-1d937679-2176-4bd5-9449-8c17cc97a3b0.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2be89053-48d2-4377-a14a-4408b96de653.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a631139d-bd1c-4c55-98e1-59b1fd006ada.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-7f0e54e3-4eb9-49bf-b9a6-e186910fb3dd.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-019fb501-86f0-401e-9ed8-6ced89ba67cc.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-86a957c8-3d81-41fb-b933-d10e751de987.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a90ac3bb-8429-4e51-99d1-d564af0aff7a.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-f72fe292-30a8-4482-842b-bf9919dec2f9.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-85c6d4fa-60b8-4a25-9032-4e79c334272b.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b46d7bd9-3019-4798-8016-f7237e1db926.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-5.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-6.png"
+    ]
+  }
+}

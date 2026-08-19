@@ -1,0 +1,16 @@
+{
+  "slug": "usage",
+  "name": "Usage",
+  "tagline": "System Activity Monitor",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://usage.pro/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-4fe98a14-5984-486b-8af2-7c4ca6222ffd.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-70699cd6-4c2a-4621-b785-0ff28568893f.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/usage/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/usage/cover.png",
+    "shots": []
+  }
+}

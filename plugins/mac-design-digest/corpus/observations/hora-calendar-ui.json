@@ -1,0 +1,74 @@
+{
+  "slug": "hora-calendar", "name": "hora Calendar", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-composite + small week-view window", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["backdrop/wordmark are brand evidence not app UI; embedded window too small to score independently — see shot-2/4/6"]},
+    {"file": "shot-1.jpeg", "surface_type": "menu-bar-extra popover (Upcoming/Focus)", "mode": "dark", "rubric_score": 12, "native_audit_score": 9, "failures": ["#9 some Join-pill vs label contrast borderline", "#14 focus state not evidenced"]},
+    {"file": "shot-2.jpeg", "surface_type": "main window week view + event context menu", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#9 event-metadata contrast borderline on saturated fills", "#14 focus not evidenced", "native #4 tracked-uppercase command-rail headers"]},
+    {"file": "shot-3.jpeg", "surface_type": "marketing diagram (privacy) — NO app UI", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app surface present: two rounded tiles (Mac outline / Google G) + arrow; brand/marketing only, not scored"]},
+    {"file": "shot-4.jpeg", "surface_type": "main window week view + focus-drag pill + pomodoro rail", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#9 metadata contrast borderline", "#14 focus not evidenced", "native #4 uppercase rail headers"]},
+    {"file": "shot-5.jpeg", "surface_type": "NLP quick-add popover with parsed token chips", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#10 dashed '+add' chip border <3:1", "#14 focus not evidenced", "token-chip surface is bespoke, non-native pattern"]},
+    {"file": "shot-6.jpeg", "surface_type": "multi-window theming board (Tokyo Night/Gruvbox/Osaka Jade)", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["inherits week-view #9/#14", "native #4 uppercase rail headers"]}
+  ],
+  "tokens": [
+    {"token": "bg/window-canvas", "value": "~#141417 near-black", "quality": "estimated", "notes": "week-grid canvas; every app surface is dark, no light mode supplied"},
+    {"token": "bg/sidebar", "value": "~#0D0D10", "quality": "estimated", "notes": "left calendar list + right command rail, marginally darker than canvas"},
+    {"token": "accent/brand", "value": "~#F5333B electric red-coral", "quality": "estimated", "notes": "app icon + marketing headlines + badges — brand/chrome ONLY, never an in-app primary action"},
+    {"token": "accent/interactive", "value": "system blue ~#0A84FF (kit dark #0091FF)", "quality": "estimated", "notes": "OK/Accept/Join/Today/date-badge — the in-app primary hue, kept distinct from brand red"},
+    {"token": "event/identity-palette", "value": "12-hue system-adjacent (red/orange/yellow/green/teal/cyan/blue/indigo/purple/pink)", "quality": "estimated", "notes": "per-calendar identity: translucent fill + solid edge stroke; matches macOS 12-hue logic"},
+    {"token": "type/title", "value": "~22pt Bold SF Pro; year same size lighter", "quality": "estimated", "notes": "Title1-class; de-emphasis by colour not size"},
+    {"token": "type/body", "value": "~13pt SF Pro (event titles semibold/bold)", "quality": "estimated", "notes": "matches kit Body 13pt — density reads native, not iOS 17pt"},
+    {"token": "type/secondary", "value": "~11pt SF Pro (times, TZ, W23)", "quality": "estimated", "notes": "Subheadline-class ~50-55% label"},
+    {"token": "radius/event-block", "value": "~6px", "quality": "estimated", "notes": "rounded event cards"},
+    {"token": "radius/window", "value": "~10-12px", "quality": "estimated", "notes": "observed dark-window corner (kit ships no window radius)"},
+    {"token": "chrome/toolbar-height", "value": "~48-52pt", "quality": "estimated", "notes": "unified toolbar"},
+    {"token": "control/segmented-height", "value": "~28pt Day/Week/Month capsule", "quality": "estimated", "notes": "native-reading segmented control"},
+    {"token": "sidebar/width-left", "value": "~230-256pt", "quality": "estimated", "notes": "calendar-visibility list"},
+    {"token": "sidebar/row-height", "value": "~30-32pt", "quality": "estimated", "notes": "coloured-checkbox + label rows"},
+    {"token": "rail/width-right", "value": "~260-300pt", "quality": "estimated", "notes": "keyboard-command + pomodoro inspector"},
+    {"token": "rail/section-header", "value": "tracked-UPPERCASE ~10pt secondary", "quality": "estimated", "notes": "DEFECT vs native sentence-case semibold header grammar"},
+    {"token": "now-indicator", "value": "red hairline + red time-pill", "quality": "estimated", "notes": "current-time marker in week grid"},
+    {"token": "gutter/dual-timezone", "value": "two stacked hour columns side-by-side", "quality": "estimated", "notes": "signature grid feature (home + secondary TZ)"},
+    {"token": "marketing/headline-font", "value": "bold geometric grotesque (Satoshi/General-Sans class) + brush-script wordmark", "quality": "estimated", "notes": "BRAND ONLY — app UI itself is SF Pro; do not learn as app taste"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "left ~230-256pt calendar-visibility list; sentence-case section headers (Private/Other); per-calendar coloured checkbox + name; ~30-32pt rows"},
+    {"pattern": "toolbar", "key_values": "unified ~48-52pt; borderless SF Symbols; leading sidebar-toggle/+/theme-toggle, centre Day/Week/Month segmented capsule, then <Today> date nav, trailing search/refresh/inspector-toggle"},
+    {"pattern": "inspector", "key_values": "right ~260-300pt rail; UPPERCASE groups NAVIGATION/VIEWS/ACTIONS as label+keycap-chip rows + POMODORO ring; bespoke keyboard-command cheat-sheet (non-native grammar)"},
+    {"pattern": "menu", "key_values": "native dark context menu: SF Symbol per row, right-aligned ⌘X/⌘C/⌘D + ⌫ glyphs, submenu chevrons, group separators, title-case items"},
+    {"pattern": "menu-bar-extra", "key_values": "status item 'ends in Xm' -> popover of time-stamped events, ALL-DAY badges, coloured Join pills, Tomorrow section, bottom Focus 25:00 pomodoro strip"},
+    {"pattern": "floating-panel", "key_values": "translucent dark popovers: NLP quick-add (echo + parsed person/date/location token chips + Accept default), focus-drag pill (Cancel leading / OK blue trailing)"},
+    {"pattern": "list", "key_values": "week grid: dual-TZ hour gutter; day headers with today-in-filled-circle; all-day pill row; translucent coloured event blocks ~6px radius, bold title/secondary time/video+recurrence glyphs; red now-line"}
+  ],
+  "signature_moves": [
+    "Persistent right-hand keyboard-command rail (live shortcut cheat-sheet with physical keycap chips) + embedded Pomodoro focus ring — the whole 'keyboard-driven, made-for-work' thesis on screen; also its biggest native-grammar deviation",
+    "Dual-timezone hour gutter in the week grid (two time columns side-by-side)",
+    "Code-editor theming: Tokyo Night / Gruvbox / Osaka Jade dark schemes; per-event colour stays on the system 12-hue palette so theme chrome and identity colour never collide",
+    "NLP quick-add with live parsed token chips (person=green, date=blue, location=amber) — Superhuman-grade command entry",
+    "Menu-bar-extra 'ends in Xm' countdown + one-click Join pills",
+    "Two-hue accent discipline: brand electric-red owns icon/marketing/chrome, system-blue owns every in-app primary action; deliberately never mixed"
+  ],
+  "defects": [
+    "Non-native sidebar/list header grammar — tracked-UPPERCASE NAVIGATION/VIEWS/ACTIONS in the right rail (native = sentence-case semibold secondary)",
+    "Bespoke keycap command rail is a cross-platform (Superhuman/Cron) transplant, not a macOS-native surface — recorded as a lineage tell, excluded from macOS canon",
+    "Contrast Dilution risk — secondary event metadata on translucent saturated event fills reads borderline <4.5:1 in redder/greener blocks",
+    "Focus appearance unverified — no keyboard focus ring evidenced in any still (WCAG 2.4.13 not checkable from static shots)"
+  ],
+  "aesthetic": {
+    "adjectives": ["keyboard-driven", "developer-dark", "dense-calm"],
+    "direction": "Neo-grotesque product (Linear/Vercel dark neutral + electric accent) crossed with Terminal/hacker theming — dark-only code-editor palette, keyboard-command surface, one electric-red brand accent over a near-black blueprint ground",
+    "peers": ["Notion Calendar (Cron)", "Amie", "Superhuman", "Linear", "Fantastical (native-calendar reference)"],
+    "cluster_hint": "developer-dark productivity",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Hick's Law / Jakob's Law — the keyboard command rail keeps option density for expert SCANNING (not a decision point); correct use of richness for a power-user workspace rather than a choice-overload violation",
+    "Von Restorff — a single blue primary (OK/Accept/Join) pops against the dark neutral ground; one prominent action per view is held",
+    "Fitts's Law — whole event blocks are large drag/click targets and keyboard shortcuts cut kinematic load",
+    "Zeigarnik / loss-framing — menu-bar 'ends in 42m' countdown exploits time-to-next-meeting urgency (honest, real deadline)",
+    "Miller/Cowan chunking — right rail grouped into NAVIGATION/VIEWS/ACTIONS chunks; processing-fluency helped by consistent dark theming",
+    "Aesthetic-Usability — coherent, disciplined dark system buys first-contact trust; slight cost: uppercase headers + keycap noise raise extraneous load for non-power users (acceptable for the stated audience)"
+  ],
+  "notes": "Inputs are marketing composites: shot-3 has NO app UI (privacy diagram) and the cover's headline/backdrop/script-wordmark are BRAND evidence — do not conflate with app UI (the app UI itself is SF Pro / dark-only). All app surfaces are DARK MODE ONLY; no light-mode, settings, onboarding, or empty-state evidence supplied — those are knowledge gaps. Lineage native is med-confidence: the context-menu SF-Symbol + native ⌘/⌫ glyph fidelity and the genuine menu-bar-extra are strong native tells; residual doubt only from the heavy custom theming. Non-native STYLING (tracked-uppercase rail headers, keycap command surface) is signature/tell, NOT lineage or macOS canon evidence. Era read as Big Sur→Sequoia flat-native (no Liquid Glass lensing/scroll-edge observed) despite the app plausibly running on macOS 26/27. First app profile in the corpus — everything here is single-app (inferred), nothing promotable to canon yet."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "vocal-notes",
+  "name": "Vocal Notes",
+  "tagline": "Private, on-device transcription for Apple Silicon Macs.",
+  "category": "Audio",
+  "pricing": null,
+  "website": "https://www.tychospot.com/vocal-notes/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-00bded10-0f45-4d4a-bf7d-a6c975504ff8.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-26dd31e5-29fc-49b4-b04d-7cd8ae906262.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/vocal-notes/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/vocal-notes/cover.jpg",
+    "shots": []
+  }
+}

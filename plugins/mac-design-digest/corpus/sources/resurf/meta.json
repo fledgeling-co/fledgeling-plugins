@@ -1,0 +1,16 @@
+{
+  "slug": "resurf",
+  "name": "Resurf",
+  "tagline": "A personal library and quick capture tool for thoughts, ideas, links, visuals, and more.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://resurf.so/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9b2a8a74-c59c-4ec6-bf22-bba18bae654b/icon-1783882459204.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9b2a8a74-c59c-4ec6-bf22-bba18bae654b/cover-1783882760391.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/resurf/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/resurf/cover.png",
+    "shots": []
+  }
+}

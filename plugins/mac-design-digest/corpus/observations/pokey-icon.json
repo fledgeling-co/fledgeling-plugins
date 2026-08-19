@@ -1,0 +1,15 @@
+{
+  "slug": "pokey", "name": "Pokey", "category": "Communication",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": ["#2 intentional off-centre diagonal; sleeve bleeds to bottom-right corner, not grid-centred", "#3 silhouette nameable as a hand but pointing gesture/glove-cuff split live in the white fill + keyline, lost when filled solid black", "#4 16px squint: white blob + dark stalk survives on orange, but gesture and ribbed cuff smear", "#9 era hybrid: modern flat gradient field under a bevel-embossed heavy-outlined cartoon glove"],
+  "failures": ["#1 mask discipline: ~29% corner radius baked into the PNG (transparent corners) plus baked soft drop-shadow + glove bevel — an iOS/web icon ported across, not a full-bleed square for the system to mask/light", "#10 variant robustness: single baked PNG, not layered Icon Composer; identity depends on the orange field, no dark/tinted/mono authoring"],
+  "palette": {"background": "ramp #FF9A4C->#FA7324", "glyph": ["#FFFFFF", "#D7D7D7", "#000000"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "mascot", "overlay_device": "none"},
+  "light_model": "soft top/top-left key: glove bevel (top-left highlight to bottom-right grey) + short baked drop-shadow down-right + bg ramp lighter at top; one roughly consistent source. Shadow/bevel are baked into the art, not system-supplied",
+  "layer_stack": ["orange gradient field (baked rounded-rect, transparent corners)", "soft baked drop-shadow", "white beveled glove with heavy black keyline", "striped black wrist-cuff", "black sleeve/forearm exiting bottom-right"],
+  "devices": ["pointer-cursor glove made flesh (Mickey-style white four-fingered hand = the app's subject)", "heavy comic black keyline (sticker/cartoon register)", "diagonal reach anchored to the bottom-right corner (kinetic gesture, not centred object)", "striped wrist-cuff detail"],
+  "adjectives": ["playful", "brash", "cartoon-sticker"],
+  "rhymes_hint": "cartoon-mascot / sticker icons with a heavy black keyline on a single-hue gradient (Duolingo-adjacent hand/emoji-glyph register); and the Big-Sur single-object-on-warm-sky-ramp family, but off-centre and diagonal. Style-family guess: 'kinetic cartoon-glyph on orange ramp.' Palette rhyme: single-hue orange ramps.",
+  "notes": "400x400 web/iOS render, not the 1024 master — bevel/shadow are (estimated), coarse. This is a pre-masked iOS-style asset (baked ~115px/29% corner radius, transparent corners, baked drop-shadow + emboss), so it fails macOS-26 mask discipline (#1) outright and lacks Liquid-Glass/Icon-Composer layer authoring (#10). Strong subject-mining: the white pointer-cursor glove literally is the product ('turn your cursor into the most memorable thing on the call'). One-hue orange brand, tightly coherent with the cover (same orange, same glove, same black; cover adds hand-drawn action/burst lines for the poke/click). Charming at hero size; engineered as an iOS sticker rather than a Mac-native mark. Rubric borderline-heavy: #1 fails and #2-#4 are all soft passes — the Dock-critical band is where it is weakest."
+}

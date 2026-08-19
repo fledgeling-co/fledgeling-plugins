@@ -1,0 +1,61 @@
+{
+  "slug": "healthynotch", "name": "HealthyNotch", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {"file": "shot-2.png", "surface_type": "notch dropdown HUD (health dashboard)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 non-text contrast: hairline dividers ~8% and progress tracks ~10% sit <3:1 on black (recessive by design)", "#14 focus appearance not visible in static", "native: tracked-uppercase labels (WATER/BREAKS/MOVEMENT) vs AppKit sentence-case grammar"]},
+    {"file": "shot-3.png", "surface_type": "notch reminder banner (top strip; lower two-thirds is marketing composite)", "mode": "dark", "rubric_score": 11, "native_audit_score": 7, "failures": ["#4/#5/#6/#11-14 n/a — single title + glyph, minimal by design", "composite: only the top pill is app UI; wallpaper/glass-card is brand evidence"]},
+    {"file": "shot-4.png", "surface_type": "notch reminder banner (top strip; lower two-thirds is marketing composite)", "mode": "dark", "rubric_score": 11, "native_audit_score": 7, "failures": ["#4/#5/#6/#11-14 n/a — single title + glyph, minimal by design", "composite: only the top pill is app UI"]},
+    {"file": "cover.png / shot-1.png", "surface_type": "marketing composite (no app UI — glass card + headline over gradient wallpaper)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI present — brand evidence only (pixel-heart icon, bold sans headline, frosted card, Tahoe-style wallpaper); excluded from app-UI tokens"]}
+  ],
+  "tokens": [
+    {"token": "bg/panel", "value": "opaque near-black #0A0A0B-#101012", "quality": "estimated", "notes": "HUD + banners; appearance-independent OLED-black, fuses with the physical notch bezel"},
+    {"token": "radius/panel", "value": "~28-34px bottom corners, top flush to screen edge", "quality": "estimated", "notes": "morphs down from the notch; banners share the shape at smaller scale"},
+    {"token": "radius/button", "value": "~10-12px", "quality": "estimated", "notes": "gear + water '+' log buttons, translucent fill"},
+    {"token": "radius/progress-bar", "value": "capsule", "quality": "estimated", "notes": "all three metric bars"},
+    {"token": "fill/button", "value": "white ~8-12% translucent", "quality": "estimated", "notes": "recessive, non-CTA"},
+    {"token": "type/metric-value", "value": "reads Title1-class Bold ~26-30px, white", "quality": "estimated", "notes": "1.2/2L, 4/6, 5/8 — value dominates label"},
+    {"token": "type/metric-label", "value": "reads Caption/Footnote ~10-11px, tracked-uppercase, white ~40-50%", "quality": "estimated", "notes": "WATER/BREAKS/MOVEMENT — non-native tell"},
+    {"token": "type/status-name", "value": "reads Title2-Bold ~17px white", "quality": "estimated", "notes": "'Balanced'"},
+    {"token": "type/status-subtitle", "value": "reads Body ~13px, white ~50-55%", "quality": "estimated", "notes": "'Nice and steady today' — de-emphasis tier"},
+    {"token": "type/banner-title", "value": "reads Headline-Bold ~15px white", "quality": "estimated", "notes": "playful copy, left-aligned"},
+    {"token": "accent/water", "value": "neon cyan ~#20C8F0", "quality": "estimated", "notes": "droplet glyph + progress fill + pixel-droplet banner glyph"},
+    {"token": "accent/breaks", "value": "vivid green ~#2FD855", "quality": "estimated", "notes": "check-circle + progress fill"},
+    {"token": "accent/movement", "value": "vivid orange ~#FF9A20", "quality": "estimated", "notes": "walking-figure + progress fill + pixel-equalizer banner glyph"},
+    {"token": "accent/balance", "value": "neon mint ~#3EE0C0", "quality": "estimated", "notes": "status 'mood face' glyph stroke"},
+    {"token": "track/progress", "value": "white ~10% on black (<3:1)", "quality": "estimated", "notes": "recessive unfilled remainder"},
+    {"token": "divider/hairline", "value": "white ~8% (<3:1)", "quality": "estimated", "notes": "header separator + inter-column verticals"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "notch-morph opaque-black rounded panel (~28-34px bottom radius), header row (status glyph + title/subtitle + trailing gear) over hairline divider over 3 equal-width metric columns split by vertical hairlines"},
+    {"pattern": "menu-bar-extra", "key_values": "notch-mounted utility; transient reminder pill emerges from the notch (bold-white title left + pixel-art metric glyph right), full dashboard drops down"},
+    {"pattern": "other", "key_values": "metric column = colored glyph + tracked-uppercase label + large white value (X/Y) + capsule colored progress bar on dark track; value-dominant label/value hierarchy"}
+  ],
+  "signature_moves": [
+    "The notch IS the product surface — reminders emerge as pills and the dashboard drops from the physical notch; opaque true-black chosen to fuse with the bezel (glass would break the illusion); 'right where you already look'",
+    "8-bit arcade theme carried edge to edge — pixel-heart icon, pixel-dot 'mood face' status glyph, pixel-art banner glyphs (equalizer, dot-matrix droplet) — warmth/whimsy vs clinical health gauges",
+    "Per-metric identity hue (cyan water / green breaks / orange movement / mint balance) with value-large-white, label-small-gray — Activity-ring logic without rings, hue always paired with glyph+label",
+    "Humane personified micro-voice ('Thirsty yet?', 'Move that body', 'before it starts complaining') softening interruption"
+  ],
+  "defects": [
+    "Tracked-uppercase micro-labels (mild non-native tell) — WATER/BREAKS/MOVEMENT are letter-spaced caps; web/iOS-widget convention where AppKit uses sentence-case; systematic + compact-purposeful so reads as genre styling, but leans further from native than its notch-genre peers",
+    "Contrast Dilution (non-text, minor) — hairline dividers (~8%) and progress tracks (~10%) sit below the 3:1 non-text floor; intentional recession"
+  ],
+  "aesthetic": {
+    "adjectives": ["retro-arcade", "neon-on-black", "compact-glanceable"],
+    "direction": "Playful/toy crossed with Terminal/hacker — an '8-bit health HUD': black ground, pixel-art glyphs, neon identity accents; a themed remix, not a template default",
+    "peers": ["Alcove", "DynamicLake", "Claude Notch Usage Companion", "NotchNook", "Boring Notch"],
+    "cluster_hint": "notch-hud / dynamic-island-genre (retro-pixel sub-variant)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Fitts's Law + information scent — mounting at the notch (top-center, where cursor/eyes already rest) minimizes travel to the info; the app literally states 'right where you already look'",
+    "Jakob's Law — borrows the iPhone Dynamic Island schema (pill morphs from the notch) so users already know how to read it",
+    "Goal-Gradient / Zeigarnik — X/Y progress framing (1.2/2L, 4/6, 5/8) and colored bars nag incomplete goals toward completion",
+    "Von Restorff / signal detection — neon value numbers pop against pure black for peripheral glanceability",
+    "Aesthetic-Usability effect — pixel-art warmth makes a nagging health tool feel friendly, buying forgiveness for interruptions",
+    "Hick's Law (respected) — only 3 metrics + 2 quiet actions on the panel; minimal choice at a glance",
+    "Tension (not seen in static): peripheral motion at the notch could hijack attention during deep work; app mitigates rhetorically with 'quiet nudge' copy"
+  ],
+  "notes": "Only shot-2 is a (near-)full app surface; shot-3/shot-4 carry a genuine notch banner in the top strip over a marketing composite; cover/shot-1 are marketing composites with NO app UI (brand evidence only). All renders are 1270x760 at indeterminate scale — every pt value is estimated with wide ranges; trust proportions/hierarchy over absolute sizes. Lineage runtime is confidently native (notch-morph overlay is native-only) but the visible grammar is fully custom-drawn and must not feed macOS native canon (lineage gate). Fits the corpus's emerging notch-hud/dynamic-island genre (Alcove, DynamicLake, Claude Notch Usage Companion) but differentiates via retro-pixel theme. meta.json has no long_description; tagline 'Work shouldn't cost you your health' is marketing context, not design evidence."
+}

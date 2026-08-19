@@ -1,0 +1,16 @@
+{
+  "slug": "backdrop",
+  "name": "Backdrop",
+  "tagline": "Stunning live wallpapers to your Mac desktop",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://cindori.com/backdrop",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ec5865b6-570d-471a-b8b2-978563024b86/icon-1783882459543.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ec5865b6-570d-471a-b8b2-978563024b86/cover-1783882778129.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/backdrop/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/backdrop/cover.png",
+    "shots": []
+  }
+}

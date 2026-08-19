@@ -1,0 +1,14 @@
+{
+  "slug": "viaduct", "name": "Viaduct", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11, "soft_passes": ["#1 mask discipline: fits an iOS superellipse but bakes the mask, edge-rim light, specular and drop shadow (non-native authoring)", "#7 figure-ground: lit upper glyph >3:1 on black, but shadowed lower piers (#32615E/#295D5F) dip to ~2.5:1 against the darkest bottom field", "#9 era coherence: internally consistent but Big Sur construction quoting Liquid-Glass materiality as a baked raster"],
+  "failures": ["#10 variant robustness: baked flat raster, transparent corners, no separable Icon Composer layers — dark field can't invert and teal can't recolor for dark/clear/tinted variants"],
+  "palette": {"background": "ramp #313131->#131313 (near-black charcoal, baked top-left edge rim #5D5D5D-#9F9F9F)", "glyph": ["#BFFCF4", "#458C83", "#3F8179", "#32615E", "#295D5F"], "accent": "none (teal glyph is the only hue)"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "top-down; baked specular catch (#BFFCF4) on the lintel top face and arch crown, undersides fall to #295D5F; glyph casts a soft baked ambient-occlusion shadow onto the near-black field; the arch opening is a modeled dark recess (tunnel/passage)",
+  "layer_stack": ["baked squircle mask + baked edge-rim light", "near-black charcoal ramp field (#313131->#131313)", "baked glyph ambient-occlusion shadow", "teal-glass viaduct: two piers + arched opening + horizontal lintel beam, beveled top faces", "baked specular catch + inner-arch recess shadow"],
+  "devices": ["literal-monument glyph (app named Viaduct drawn as a viaduct/aqueduct arch)", "teal-glass extrusion with beveled top faces and a bright specular catch", "dark-field spotlight (single luminous object on a near-black shelf)", "modeled inner-arch recess reading as a passage/tunnel"],
+  "adjectives": ["monumental", "glossy-teal", "moody"],
+  "rhymes_hint": "dark-field glowing-object utility/dev-tool icons that spotlight one glassy luminous object on near-black (rather than a light Big Sur squircle); extruded-3D-object-on-black family and literal-monument/architecture glyphs; palette-family rhyme is teal/viridian glass ramps",
+  "notes": "256x256 web render, not the 1024 master (SHA-1 cdabed8d) — bevel/specular/recess judged from a downscaled raster, edge treatment (estimated) not (measured). Corners are transparent (alpha 0): ships pre-masked as an iOS superellipse with baked edge-rim, baked specular (#BFFCF4) and baked drop shadow — an iOS App Store icon reused on Mac, violating HIG 'provide unmasked square layers; let the system apply effects'. That baking is exactly why #10 fails (no separable layers). Palette coheres with the cover (teal/viridian brand hue ~#0D9488 family + dark UI window). Glyph slightly heavy/large but within safe zone. Checks 1-4 all clear."
+}

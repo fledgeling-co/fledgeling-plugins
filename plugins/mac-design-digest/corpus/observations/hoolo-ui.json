@@ -1,0 +1,70 @@
+{
+  "slug": "hoolo", "name": "Hoolo", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [{
+    "file": "cover.webp (3098x1998 marketing composite; website hero + app WINDOW embedded lower-center, bleeds off bottom)",
+    "surface_type": "main window — Rules list (single-pane content window: unified toolbar + template chip strip + inset-card rule list), light mode; embedded in a marketing cover at indeterminate scale",
+    "mode": "light",
+    "rubric_score": 11,
+    "native_audit_score": 5,
+    "failures": [
+      "#8 action singularity — each rule row stacks FOUR reserved-meaning colors (green toggle + green/amber chain menu + blue pin + red trash) competing in one band; color overload dilutes the very green/amber pop it depends on",
+      "#9 text contrast — the light-green 'Continue Matching Later Rules' and amber 'Stop After Match' are CONTROLS you must read, set as thin colored text on near-white; both likely well under 4.5:1 (light green ~2:1, estimated)",
+      "native#1 lineage — body reads web/non-native (inset rounded-card rows on tinted canvas, green UISwitch-style capsule toggles, colored-TEXT menus instead of native pop-up buttons)",
+      "native#5 density — non-native inset-card row density with tall padding, not compact desktop list rhythm",
+      "native#6 accent binding — brand green replaces the user's controlAccentColor for toggle+primary menu; amber is a second reserved hue not separated from the accent"
+    ]
+  }],
+  "tokens": [
+    {"token": "bg/window-content", "value": "very light warm gray ~#F3F3F4, light mode", "quality": "estimated", "notes": "content canvas; rule cards sit a step lighter toward near-white"},
+    {"token": "bg/rule-card", "value": "near-white ~#FBFBFC with soft shadow/hairline", "quality": "estimated", "notes": "each rule is an inset rounded card, NOT a flat native list row"},
+    {"token": "accent/brand-green", "value": "~#3FB977 / #45C07E", "quality": "estimated", "notes": "THE app accent: toggle 'on' track + 'Continue Matching Later Rules' menu text/glyph; replaces system accent; matches the website's green display words"},
+    {"token": "status/amber", "value": "~#E8912E / #EF9A3A amber-orange", "quality": "estimated", "notes": "'Stop After Match' menu text+target glyph; second reserved hue for rule-chain state"},
+    {"token": "action/pin-blue", "value": "~#2F7DF6 system-blue-ish", "quality": "estimated", "notes": "filled tilted-pushpin per row (pin/prioritize rule)"},
+    {"token": "action/trash-red", "value": "~#E5533B red", "quality": "estimated", "notes": "outline trash/delete per row"},
+    {"token": "control/status-toggle", "value": "green capsule UISwitch-style, knob RIGHT = on", "quality": "estimated", "notes": "iOS switch grammar (green track), not NSSwitch/accent-bound; every visible rule is enabled"},
+    {"token": "control/chain-menu", "value": "colored TEXT + leading glyph + chevron-down (green 'Continue Matching Later Rules' / amber 'Stop After Match')", "quality": "estimated", "notes": "a pull-down styled as bare colored text — non-native (native=bordered pop-up button); doubles as at-a-glance rule-chain state"},
+    {"token": "type/row-title", "value": "bold, primary near-black (~85-100%), Body/Headline-emphasized class", "quality": "estimated", "notes": "e.g. 'Screenshot Organization'; family reads SF Pro OR Inter — cannot disambiguate, a lineage-relevant unknown"},
+    {"token": "type/secondary", "value": "gray secondary — '8 rules, 8 enabled' + Chinese section label '快捷模板'", "quality": "estimated", "notes": "de-emphasis carried by color; localized build (Chinese)"},
+    {"token": "icon/toolbar-symbols", "value": "borderless monochrome SF-Symbol-style: trash / plus / folder / clockwise-arrow (Scan) / history-clock (Logs) / import-tray / share-tray / gearshape", "quality": "estimated", "notes": "strongest native-affiliation signal in the surface"},
+    {"token": "list/grouping", "value": "inset rounded-rect cards per rule on tinted canvas, even vertical gaps", "quality": "estimated", "notes": "iOS/web card-list idiom, not a flat AppKit list/table with hairline separators"},
+    {"token": "chips/templates", "value": "borderless icon+label row (Screenshot Archive, PDF Archive, Installer Archive, Large File Review, Duplicate File Review, Screenshot App Pipeline, Downloaded Receipt Archive, Screen Recording Archive, Temporary File Quarantine), faint vertical dividers", "quality": "estimated", "notes": "quick-start '快捷模板' template strip above the rule list"},
+    {"token": "chrome/traffic-lights", "value": "coloured red/yellow/green = focused window", "quality": "estimated", "notes": "genuine macOS chrome"},
+    {"token": "chrome/toolbar", "value": "unified single row: leading '8 rules, 8 enabled' status; trailing 5 icon+label actions; far-trailing icon-only cluster (import/share/gear)", "quality": "estimated", "notes": "reads native in construction; no single filled primary (fine for a utility)"},
+    {"token": "cover/dimensions", "value": "3098x1998 marketing composite (~1.55:1)", "quality": "measured", "notes": "website hero + embedded app window; scale of the window is indeterminate so no absolute pt asserted"},
+    {"token": "brand/nav-pill-web", "value": "translucent frosted-white floating capsule nav, blurred", "quality": "estimated", "notes": "BRAND/WEB ONLY — a glassy website nav, NOT app chrome; do not read as macOS material"},
+    {"token": "brand/palette-web", "value": "soft blue-sky + wildflowers photo ground, brand green + amber display words, near-black heavy grotesk, black 'Download for Mac' capsule CTA, green 'Early Bird 20% Off' pill", "quality": "estimated", "notes": "BRAND/WEB ONLY — consumer-warm organic marketing surface, excluded from any native reading"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "unified single-row utility toolbar: leading status label ('8 rules, 8 enabled') + trailing group of 5 borderless [SF-Symbol . label] actions (Trash Cleanup / Add Rule / Choose Folder / Scan / Logs Panel) + far-trailing icon-only cluster (import / share / gearshape=Settings); monochrome, evenly spaced, no single filled primary — correct macOS toolbar construction wrapping a non-native body"},
+    {"pattern": "list", "key_values": "rule list as inset rounded cards (not flat list): row = [bold title] ... [interaction glyph] [chain-behavior menu green 'Continue Matching Later Rules' / amber 'Stop After Match'] [blue pin] [red trash] [green toggle]; trailing control cluster right-aligns across rows; FOUR reserved colors per row"},
+    {"pattern": "card-grid", "key_values": "horizontal template quick-start strip ('快捷模板'): 9 borderless icon+label chips with faint vertical dividers, a one-tap rail for common rules (Screenshot Archive, PDF Archive, Installer Archive, ...)"}
+  ],
+  "signature_moves": [
+    "Rule-chain state as color-coded flow language: each rule's matching behavior — the one confusing concept in a rules engine (continue to later rules vs stop here) — is glowed as colored text, GREEN 'Continue Matching Later Rules' (flow continues) vs AMBER 'Stop After Match' (flow halts), so the whole chain's logic is scannable down the right rail. The app's cleverest choice, spent non-natively as bare colored menu text.",
+    "Reversibility surfaced in the chrome: the toolbar leads with Trash Cleanup + Scan (dry-run) + Logs Panel (audit trail) + per-row pin — the 'keeps risky cleanup reviewable before files move' promise made physical in the most prominent chrome, a real trust decision for a tool that moves/deletes the user's files.",
+    "Brand hue owns the accent: one green (~#3FB977) does the identity work (toggle-on + primary chain menu), echoing the website's green display words — deliberate and consistent, but replacing the user's system accent."
+  ],
+  "defects": [
+    "Focal Collision / reserved-color overload — FOUR meaning-bearing colors per rule row (green toggle, green/amber chain menu, blue pin, red trash) compete in one band; caps at ~3 reserved roles per surface (hierarchy-rhythm). Fix: keep green/amber for chain state, demote pin+trash to monochrome that colorizes on hover.",
+    "Contrast Dilution (interactive text) — light-green and amber chain-menu labels are controls you must read, set as thin colored text on near-white, likely <4.5:1 (green ~2:1 estimated). Fix: darken the hues or pair color with a bordered/filled chip that carries contrast.",
+    "Non-system accent binding (native tell #6) — brand green + amber replace controlAccentColor; internally consistent house style (defect/signature boundary), recorded as tell+correction. Native correction: bind toggles/focus to the system accent, reserve green/amber for rule-chain semantics only.",
+    "Inset-grouped card list as primary content (native tell #1/#5) — rules render as rounded cards on a tinted canvas with tall padding (iOS/web idiom); native macOS would use a flat list/table on one opaque surface with hairline separators and compact desktop density."
+  ],
+  "aesthetic": {
+    "adjectives": ["breezy", "reassuring", "consumer-friendly"],
+    "direction": "Consumer-warm brand-accent utility: the marketing surface is Organic/soft (soft-focus blue-sky + wildflowers photo ground, floating frosted glass nav) crossed with Playful/toy (rounded pills, saturated-soft green + amber), and the app UI is a softened neo-grotesque product (rounded inset cards, one brand-green accent) leaning consumer rather than pro. A committed direction (green/amber flow-coding is a real authored idea), not template-default — but it spends its color budget too widely per row.",
+    "peers": ["AutoShelf (direct peer — brand-accent file-rules utility, per-row status toggle, marketing-cover-embedded window)", "Hazel (rules-based file automation — the functional archetype, far more utilitarian/native)", "CleanMyMac (consumer Mac-cleanup warmth, friendly brand-forward chrome)"],
+    "cluster_hint": "file-rules utility (brand-accent)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Forgiveness + loss-aversion (Lidwell / Kahneman-Tversky) — the entire product is built on reversibility (Scan dry-runs, Logs Panel audit trail, 'reviewable before files move', Trash Cleanup, pin), and surfacing those undo/review affordances in the top chrome directly lowers the loss-aversion friction of a scary destructive task (auto-moving/deleting files). Honest, well-placed use.",
+    "Von Restorff + signal-detection — the green/amber chain-menu coding gives rule-flow state pre-attentive pop, BUT stacking four reserved colors per row (green + amber + blue pin + red trash) erodes the very distinctiveness the coding relies on; the meanings start to collapse into 'loud row'.",
+    "Jakob's Law (partial violation) — the window frame/toolbar/gear=Settings/share glyph meet Mac expectations, but the inset-card list, green UISwitch toggles, and colored-text menus import web/iOS conventions rather than matching macOS-native list grammar.",
+    "Aesthetic-usability effect — the breezy sky-and-wildflowers hero and soft rounded UI buy first-impression trust for a utility whose actual job (delete/move my files) is anxiety-inducing; polish here is doing trust work, not just decoration.",
+    "Hick's Law (browse context, acceptable) — 9 template chips + 5 toolbar actions is a lot of surface, but it's a scan/browse rail not a decision point, so option density is a feature; the real risk is per-row color noise, not chip count."
+  ],
+  "notes": "SINGLE surface, SINGLE mode (light). No shot-* files supplied (gallery empty) — the only UI evidence is the app WINDOW embedded lower-center in a 3098x1998 marketing cover, bleeding off the bottom. cover.webp converted via 'sips -s format png' before reading. WINDOW SCALE IS INDETERMINATE (a traffic-light estimate implies ~1.2 px/pt but is unreliable off a soft render), so NO absolute pt sizes are asserted — all tokens are proportional/relative, (estimated) with wide error bars; only the 3098x1998 cover dimension is (measured). LINEAGE GENUINELY AMBIGUOUS: frame reads native (coloured traffic lights, real unified toolbar of borderless SF-Symbol glyphs, gear=Settings, share tray) but body reads web/non-native (inset rounded cards on tinted canvas, green UISwitch-style toggles, colored-TEXT menus not native pop-up buttons) — classified web-electron/low-confidence with custom-SwiftUI NOT excluded; either way its non-native idioms are tells+corrections, EXCLUDED from macOS canon. A key unresolved lineage tell is the type family (SF Pro vs Inter) — undecidable at this scale. NO Liquid Glass (flat opaque chrome+cards; legitimate absence for a utility, not a defect); the frosted nav pill is on the WEBSITE, not the app. The cover cleanly separates BRAND/WEB evidence (sky+wildflowers photo, frosted glass nav, green/amber display type, black CTA) from APP evidence — the two are not conflated. Hoolo is a near-exact analog of AutoShelf (same category, same marketing-embedded rules-list situation, same brand-hue-replaces-system-accent pattern, same per-row status toggle) — TWO such apps = (recurring) candidate cluster 'file-rules utility (brand-accent)', one more opens it; NOT a promotion. App icon (owl-like white face/eyes cut into a black squircle) digested separately if an icon pass runs — referenced here only as brand corroboration, not re-digested. Marketing copy is context, not evidence."
+}

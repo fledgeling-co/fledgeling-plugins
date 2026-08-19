@@ -1,0 +1,16 @@
+{
+  "slug": "slashit-app",
+  "name": "Slashit App",
+  "tagline": "Text Expander with AI Sentence Rewriter & Clipboard History",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.slashit.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fb2087d2-cdcd-4cb0-8c57-069315276140/icon-1783882477387.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fb2087d2-cdcd-4cb0-8c57-069315276140/cover-1783882788878.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slashit-app/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slashit-app/cover.jpg",
+    "shots": []
+  }
+}

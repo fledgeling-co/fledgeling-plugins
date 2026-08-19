@@ -1,0 +1,16 @@
+{
+  "slug": "autoshelf",
+  "name": "AutoShelf",
+  "tagline": "A macOS app that watches your folders and moves files where they belong. Set a rule once and never think about it again.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://useautoshelf.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a3b4e5b8-df8f-45ef-a7a7-6ae0932c692f/icon-1783882464512.avif",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a3b4e5b8-df8f-45ef-a7a7-6ae0932c692f/cover-1783882464633.avif",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/autoshelf/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/autoshelf/cover.png",
+    "shots": []
+  }
+}

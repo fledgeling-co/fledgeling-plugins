@@ -1,0 +1,44 @@
+{
+  "slug": "notion", "name": "Notion", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 mask: composes cleanly onto a white squircle but delivered field-less (transparent logomark, not the Dock render)",
+    "#2 grid: optically centered horizontally but bleeds to y=0 and y=1024, no safe-zone margin as a raw asset",
+    "#3 silhouette: outer form reads as a block, but the N and white faces are negative space that vanish when filled solid black",
+    "#5 light: passes by having no modeled light at all (flat isometric); no era specular/refraction cues",
+    "#9 era: internally consistent flat mark but era-detached from macOS (not Big Sur squircle, not Liquid Glass)",
+    "#12 no-text: single-letter serif monogram with strong shape logic, acceptable per monogram rule"
+  ],
+  "failures": [
+    "#10 variant robustness: black keylines + black left-face on a white-dependent field; collapses in dark/tinted/clear renders, no baked dark variant"
+  ],
+  "palette": {
+    "background": "flat #FFFFFF (transparent as delivered; white squircle field when composed as the app icon)",
+    "glyph": ["#000000", "#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "Flat / 2.5D axonometric with no modeled light source; left face is a flat solid-black tonal plane (not a cast shadow), top and front faces white; no gradient, specular, or baked drop shadow",
+  "layer_stack": [
+    "white field (when composed) / transparent (as delivered)",
+    "black isometric cube shell + left dark face",
+    "white top face (parallelogram, black keyline)",
+    "white front panel (rounded-rect, black keyline)",
+    "black serif N monogram"
+  ],
+  "devices": [
+    "the N-block: serif capital N on the front face of an isometric notebook-block (object-monogram hybrid = 'a block of notes')",
+    "monochrome-only identity, zero hue families, no accent in the mark",
+    "isometric/axonometric projection instead of front-facing (breaks Big Sur front-plane convention)",
+    "keyline-as-depth-system: one chunky black outline does all structural work, no shading or bevel",
+    "recessed rounded-rect white label plate framing the glyph"
+  ],
+  "adjectives": ["bookish", "austere", "blocky"],
+  "rhymes_hint": "Monochrome letterform/monogram logomarks that rely on a white field and ignore macOS era conventions (favicon-class marks promoted to app icons), plus isometric-object marks; opposite pole from the Big Sur diagonal-tool squircle family and the Liquid Glass layered-glass family",
+  "notes": "CRITICAL for synthesis: delivered asset is the transparent brand logomark (1024x1024, alpha), NOT the shipping macOS Dock render. The real Notion.app icon = this black cube on a solid white squircle; macapp.supply served the field-less web mark. Art is clean vector (alpha histogram bimodal 0/255, thin AA fringe) — no resolution smear, dimensions honest. Content bbox x 18->1006 (centered) but full vertical bleed y 0->1024 (no margin). Pure #000000/#FFFFFF only, verified by pixel sampling. Cover confirms monochrome-core brand: accent color (cornflower blue 'Think' pill, red/yellow avatar rings) appears only in UI, never in the mark. This is a single-appearance icon with no era participation — treat as an outlier when clustering; do not let its transparent-mark grid/mask behavior contaminate squircle-era canon."
+}

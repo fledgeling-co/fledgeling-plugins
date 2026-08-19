@@ -1,0 +1,44 @@
+{
+  "slug": "tokens-4-breakfast", "name": "Tokens 4 Breakfast", "category": "Productivity",
+  "era": "flat-transition",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 correct centred Apple squircle but pre-masked on transparent (~132px margin, no full-bleed square layer) — would double-mask in a Tahoe/Icon Composer pipeline; reads correct only as a static Dock PNG",
+    "#2 cup+saucer optically centred on x-axis but bottom-weighted (saucer near the lower safe-zone, headroom above)",
+    "#4 dominant cup glyph survives 16px, but the silver token (~2.7px @16) smears away — the subject-differentiating detail is the first casualty",
+    "#8 z-order coherent; the only incoherence is shading language (cross-ref #5), not ordering",
+    "#9 flat-graphic language consistent across field/cup/saucer/coffee; the dimensional coin is the one out-of-register element",
+    "#10 era-gated (Liquid-Glass check): single fixed-appearance flat PNG, no light/dark/clear/tinted layer separation, composition depends on the dark field to separate orange+silver — fragile if macOS 26 auto-tints; flagged forward-looking, not a hard fail for a flat-transition icon"
+  ],
+  "failures": [
+    "#5 mixed light model: flat unlit cup/saucer/coffee vs a dimensionally-shaded coin-token (lit top #DFDFE0, shadowed side #3E3838) plus a soft top-down contact shadow — mixed shading fidelity, the token belongs to a more rendered icon"
+  ],
+  "palette": {
+    "background": "flat #2F2929 (warm charcoal; slight rim-darkening to #211B1B, contact-shadow band #231C1C — no sky ramp)",
+    "glyph": ["#F8900E", "#FB9104", "#2B2424", "#DFDFE0", "#B2B1B0", "#3E3838"],
+    "accent": "#F8900E"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "No directional modeling on the primary glyph (cup/saucer/handle/coffee are flat, unlit fills, no specular, no glass). A top-lit cylindrical token and a soft contact shadow under the saucer imply a gentle top-down source, so shadow direction is consistent — but the flat cup vs the rendered coin is mixed fidelity (the basis of the #5 failure).",
+  "layer_stack": [
+    "charcoal squircle field (#2F2929)",
+    "baked contact shadow under saucer (#231C1C)",
+    "orange saucer ellipse (#F8900E)",
+    "orange cup body + handle",
+    "dark coffee well (#2B2424, reads as negative space held by the orange rim)",
+    "silver token disc (front, #DFDFE0 top / #3E3838 side)"
+  ],
+  "devices": [
+    "token-in-the-coffee pun: a coin/chip that is both 'tokens for breakfast' and 'token = currency' (the app tracks AI spend) — the icon's cleverest detail is also its exact subject",
+    "coin rendered as a short cylinder (top face + side wall) so it reads as a chip, not a marshmallow/pill",
+    "single-accent flat graphic (one amber-orange does cup+saucer+handle) on a dark field that doubles as menu-bar context",
+    "orange rim as a negative-space fence around a coffee well that is nearly the background tone"
+  ],
+  "adjectives": ["playful", "bold", "warm"],
+  "rhymes_hint": "flat single-object glyph marks on dark squircle fields (flat-transition vocabulary on a modern squircle); bold single-accent menu-bar utility icons; the coin/chip-as-token device rhymes with finance/currency/casino iconography",
+  "notes": "Clean 1024x1024 vector-origin render (flat fills + crisp token edges), not a lossy web thumbnail — resolution honest. Corners fully transparent: this is a PRE-MASKED squircle (art occupies 760px centred, ~132px transparent margin, hard alpha edges, no external drop-shadow halo), i.e. authored for direct static use, NOT as full-bleed square layers for the macOS-26 masking/tinting pipeline — Icon Composer would double-round/float it. Era is a hybrid: flat-transition flat-graphic vocabulary on a Big-Sur/Tahoe uniform squircle; decisively NOT Liquid Glass (zero glass/specular/translucency/refraction, no appearance variants). Icon<->cover palette coherent: cover reuses the exact orange (#F8900E) and shows the icon in a dark badge + a charcoal menu-bar pill (inverse grounds — cream cover, charcoal icon — tied by the shared orange). Subject communication is strong but asymmetric: the 'coffee/breakfast' half of the pun survives the 16px squint, the 'token/AI-spend' half (the coin) does not."
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "pokey", "name": "Pokey", "category": "Communication",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "marketing-cover (brand illustration, no app UI)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — brand illustration, not a UI screenshot; 14-point rubric and 10-point native audit are out of scope and were not run"]},
+    {"file": "icon.png", "surface_type": "app-icon (icon evidence; Workflow B, not graded in this UI pass)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — app icon, not a UI surface; recorded at brand level only, full 12-point icon rubric deferred"]}
+  ],
+  "tokens": [
+    {"token": "brand/orange-gradient-top", "value": "#FA872E to #F56D15", "quality": "measured", "notes": "cover backdrop upper region; warm mid-orange"},
+    {"token": "brand/orange-gradient-bottom", "value": "~#EB5A0D", "quality": "measured", "notes": "cover backdrop lower region; deeper/redder"},
+    {"token": "brand/orange-icon", "value": "#FF9A4C -> #FA7324", "quality": "measured", "notes": "icon tile gradient top->bottom; brighter than cover"},
+    {"token": "brand/orange-vs-system", "value": "macOS-27 system Orange family (#FF8D28)", "quality": "measured", "notes": "same hue family but rendered as a warm gradient, pushed deeper at base; not the flat system swatch"},
+    {"token": "brand/glove-fill", "value": "#FFFFFF", "quality": "measured", "notes": "cartoon glove"},
+    {"token": "brand/keyline", "value": "#000000 heavy", "quality": "measured", "notes": "thick uniform black outline; the defining stroke"},
+    {"token": "brand/sleeve", "value": "#000000", "quality": "measured", "notes": "forearm bleeding off tile/cover edge"},
+    {"token": "color-strategy", "value": "drenched single-hue orange (~100% of cover)", "quality": "estimated", "notes": "the surface is the color"},
+    {"token": "icon/tile-shape", "value": "full-bleed rounded-rect, motif bleeds off edge", "quality": "estimated", "notes": "not centered-glyph-on-material; legacy composition"},
+    {"token": "chrome/all", "value": "not supplied", "quality": "assumed", "notes": "no window chrome in either image; every chrome/UI token is a knowledge gap"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Cursor-as-mascot: the classic 1930s white four-fingered cartoon glove (Mickey/Cuphead lineage) literally IS the macOS pointer the app enhances — product function and brand mark are the same object",
+    "Comic 'impact' speed-lines radiating from the fingertip encode the product's attention-capture promise pictorially",
+    "Heavy black keyline + rubber-hose curves commit hard to a retro-cartoon playful register",
+    "Icon reads legacy-glossy (beveled specular sheen, dark keyline, full-bleed motif) — pre-Big-Sur skeuomorphic, NOT Liquid Glass / Icon Composer layered grammar"
+  ],
+  "defects": [
+    "No UI-surface defects loggable — no interface supplied; absence of defects is a coverage gap, not a clean bill of health",
+    "Icon (provisional, pending Workflow B) — full-bleed glossy off-centre motif likely misses current macOS icon conventions (centred glyph, layered material, no baked gloss)"
+  ],
+  "aesthetic": {
+    "adjectives": ["playful", "retro-cartoon", "loud"],
+    "direction": "Playful / toy family crossed with 1930s rubber-hose cartoon; drenched single-hue color strategy (design-craft: 'Committed'/'Drenched', heavy keyline, sticker rendering)",
+    "peers": ["Cuphead (rubber-hose cartoon)", "classic Mickey Mouse glove", "cursor/presentation utilities: Presentify, Mousepose, Cursor Pro"],
+    "cluster_hint": "retro-cartoon consumer brand (brand/icon-level only; NOT a macOS-native UI cluster — no native surface observed)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / isolation effect — the product's entire premise ('the most memorable thing on the call') IS the isolation effect; the brand mark (impact rays around one raised finger) visualizes making the cursor the single different, attention-grabbing element",
+    "Peripheral-vision attention capture (Weinschenk) — motion/pop in the periphery hijacks where eyes go next; the cursor-highlight product weaponizes exactly this, and the cover's speed-lines advertise it",
+    "First-impression 50ms appeal (Lindgaard) — saturated single-hue orange + one bold motif reads instantly as a poster/thesis statement"
+  ],
+  "notes": "CRITICAL for synthesis: neither supplied image is a macOS UI screenshot. cover.jpg is a pure brand illustration (orange gradient + white-gloved comic pointing hand + impact rays; no window/chrome/controls/text); icon.png is the app icon. Therefore NO framework lineage, era, or UI rubric could be assessed, and rubric_score/native_audit_score of 0 mean 'not applicable / not gradable', NOT 'scored and failed' — do not average these zeros into any UI quality statistic. All tokens are brand tokens, not design-system tokens, and must never feed macOS canon or a native style cluster. Pokey is a Communication-category app whose function (per tagline) is cursor highlighting for calls/screen-share — most likely a menu-bar-utility with an overlay-based UI — but that app class is INFERENCE, not evidence. The icon warrants a separate Workflow B (12-point icon) digest. To make this a real UI digest, a future pass needs at least one screenshot of an actual Pokey surface (menu-bar popover, settings, or the cursor overlay)."
+}

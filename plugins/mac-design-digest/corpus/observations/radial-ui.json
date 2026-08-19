@@ -1,0 +1,65 @@
+{
+  "slug": "radial", "name": "Radial", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "floating-panel / invoked radial menu (gesture HUD), root ring",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 center label 'Radial' pink-grey on white glow hub reads <4.5:1 (Contrast Dilution)",
+        "#4 only one app type size visible (single stylized render, scale unknown) — insufficient type evidence",
+        "#14 no focus/hover state captured (cursor rests on Safari tile with no selection highlight)",
+        "native#3 selection/hover grammar unseen — cannot confirm inset-rounded accent fill",
+        "native#6 system-accent binding not evidenced on any surface element"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "hud/material", "value": "frosted translucent glass, edge-lensing/adaptive tint over desktop", "quality": "estimated", "notes": "reads Liquid Glass; whole HUD is the floating layer so glass is legitimate (no glass-in-content)"},
+    {"token": "hud/shape", "value": "full circle disc, radius = dia/2", "quality": "estimated", "notes": "polar form is the app identity"},
+    {"token": "hud/diameter", "value": "~490-520px in 1920-wide composite (scale unknown)", "quality": "estimated", "notes": "no chrome anchor (no traffic lights/menu bar) to convert to pt"},
+    {"token": "hud/center-hub", "value": "bright white->lavender radial glow, ~0.42 x disc diameter", "quality": "estimated", "notes": "triple-duty: gesture deadzone + focal anchor + breadcrumb label"},
+    {"token": "hud/ring-radius", "value": "items at ~0.70 of disc radius", "quality": "estimated", "notes": "scale-free — the one high-confidence spatial fact"},
+    {"token": "hud/item-count", "value": "~9 items, ~even ~40deg distribution", "quality": "estimated", "notes": "two visual classes on one ring"},
+    {"token": "item/action-glyph", "value": "monochrome SF Symbol ~#2A2A2E (secondary-label) + trailing chevron", "quality": "estimated", "notes": "sparkles/folder/globe/text-A/list-badge-plus; chevron = opens nested ring"},
+    {"token": "item/launch-tile", "value": "full-color macOS app icon, superellipse, ~56-64px, no chevron", "quality": "estimated", "notes": "Safari/Music/Stickies/Zed — direct launch, identity colors separate from system accent"},
+    {"token": "type/center-label", "value": "'Radial' ~15-17pt-class, muted pink-grey ~#C9A9C0 on near-white hub", "quality": "estimated", "notes": "low contrast, likely <4.5:1"},
+    {"token": "chrome/traffic-lights", "value": "none", "quality": "estimated", "notes": "correct for a floating HUD/panel per HIG"},
+    {"token": "accent/system", "value": "not evidenced (no blue selection/focus/hover fill visible)", "quality": "assumed", "notes": "cursor on Safari shows no highlight; accent binding is the key unanswered native question"},
+    {"token": "brand/backdrop", "value": "deep purple->magenta fanned blade render (~#2A0B3D -> ~#E85CFF)", "quality": "estimated", "notes": "BRAND not app-UI; Apple M-series-keynote register"},
+    {"token": "brand/headline", "value": "bold grotesk all-caps two-tone: grey 'ONE GESTURE.' ~#8A8A8A + white 'EVERYTHING.'", "quality": "estimated", "notes": "BRAND not app-UI; grey-setup/white-payoff device"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "invoked-at-cursor radial menu / gesture HUD; chromeless (no traffic lights); frosted glass disc; center hub = deadzone + breadcrumb; item ring at ~0.70 radius"},
+    {"pattern": "menu", "key_values": "polar (radial) menu, ~9 items ~40deg apart; disclosure chevron = nested ring (submenu grammar in polar space); two item classes — expandable SF-Symbol wedges vs direct app-launch tiles"}
+  ],
+  "signature_moves": [
+    "Fitts-optimal pie menu on macOS: polar layout puts every item the same short distance from the invoke point with large directional wedge targets, enabling learned one-gesture selection",
+    "Two item classes unified on one ring: monochrome SF-Symbol wedges that expand (chevron=nested ring) beside full-color app tiles that launch directly (no chevron) — taxonomy encoded in glyph treatment (Von Restorff)",
+    "Center hub is triple-duty: gesture deadzone (release=cancel) + focal anchor (only glowing element) + breadcrumb (labels the current ring)"
+  ],
+  "defects": [
+    "Contrast Dilution — 'Radial' center label pink-grey on near-white hub reads <4.5:1 (low-stakes passive title, but a real miss)",
+    "Selection/hover grammar unseen — cursor on Safari tile with no inset-rounded accent highlight; native selection binding unverified",
+    "HUD-over-content contrast is backdrop-dependent (inherent glass-HUD risk; fine over this bright wallpaper, untested on light/busy desktops)"
+  ],
+  "aesthetic": {
+    "adjectives": ["translucent", "gestural", "restrained"],
+    "direction": "Apple-system Liquid-Glass HUD — leans on the platform's own material language rather than a committed bespoke direction; the boldness budget is spent entirely on the polar geometry, not on color or type",
+    "peers": ["Raycast (launcher)", "Blender/Maya marking menus (pie menu)", "macOS Spotlight/volume HUD (glass overlay)", "CleanShot X overlay"],
+    "cluster_hint": "invoked-overlay / gesture-HUD utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Fitts's Law — radial menu is the ideal case: constant short cursor-to-item distance + large angular wedge targets minimize acquisition time",
+    "Spatial memory / automaticity — fixed angular positions let users develop muscle-memory gestures ('flick up-right = folder'), delivering the 'one gesture' promise",
+    "Hick's Law + Progressive Disclosure — ~9 parallel-scannable items on the root ring; chevrons nest deeper actions instead of lengthening the ring",
+    "Von Restorff — monochrome glyphs vs full-color app tiles, and the lone glowing hub against the frosted field, make the differing elements the memorable ones",
+    "Aesthetic-Usability Effect — the Liquid-Glass polish buys perceived usability/trust on first contact"
+  ],
+  "notes": "Single surface from a marketing composite (cover.jpg, 1920x1080) — no captured screenshot, no chrome anchor, so scale is unknowable and all metrics are ratios/estimates at low confidence; reliable facts are scale-free ratios (hub 0.42 of disc, ring 0.70 radius). Radial/pie menu is not a stock AppKit control, but the MATERIAL grammar is genuinely native (Liquid-Glass edge-lensing, real SF Symbols, real superellipse app icons, chevron=submenu) — so this is a native app with a bespoke geometry, distinct from Alcove's iOS-transplant. Lineage-gate: material/glyph discipline may feed canon; the polar geometry may not (n=1 anyway). Liquid-Glass vs plain vibrancy not fully separable from one still (humility). The app icon (black superellipse, ring of 8 white capsule dashes depicting the menu) was NOT digested — Workflow A only — but noted for brand coherence with the dashed-ring motif. Contradiction watch: the app reads native by material yet uses zero standard AppKit controls (all custom-drawn) — treat as signature geometry, not a lineage downgrade."
+}

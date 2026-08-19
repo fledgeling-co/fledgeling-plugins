@@ -1,0 +1,16 @@
+{
+  "slug": "raycast",
+  "name": "Raycast",
+  "tagline": "A collection of powerful productivity tools all within an extendable launcher.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.raycast.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6d0ef167-072a-4e91-b117-dbc747dde96b/icon-1783882453531.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6d0ef167-072a-4e91-b117-dbc747dde96b/cover-1783882756491.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/raycast/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/raycast/cover.png",
+    "shots": []
+  }
+}

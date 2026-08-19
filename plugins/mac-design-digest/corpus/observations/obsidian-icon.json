@@ -1,0 +1,27 @@
+{
+  "slug": "obsidian", "name": "Obsidian", "category": "Writing",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 optical centring reads slightly high — crystal base terminates near the vertical midline, not below it; within tolerance",
+    "#4 16px squint — internal facet seams smear to one violet blob; mark survives on colour+silhouette, but the cut-gem detail is a >64px story",
+    "#10 variant robustness — not authored as Liquid Glass layers; light-lavender faces + violet ramp depend on the dark field and would wash on clear/light or flatten under tint; solid silhouette alone yields a usable mono variant, so it clears the silhouette bar but the colour story is background-bound"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #252525->#1A1A1A (graphite squircle, subtle top-down vignette; achromatic)",
+    "glyph": ["#F2DFFF", "#CCBAF4", "#C1AAF4", "#A683EC", "#7549CC", "#6332C6", "#5C30B3", "#5529AC", "#1C102F"],
+    "accent": "none (the violet glyph is the accent; no second hue)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "top / upper-left; facet gradients brighten to a near-white specular catch on the upper-left face and darken toward the base, consistent across every facet; background field marginally lighter at top; baked, short, soft — no resolvable cast shadow",
+  "layer_stack": ["graphite squircle field (subtle top-lit vignette)", "crystal body / lower-base facets (mid-dark violet)", "upper facets + specular highlight (light lavender -> near-white)"],
+  "devices": ["object-as-logo faceted gemstone (the obsidian crystal)", "low-poly gem rendered as flat linear-gradient faces (cut reads from gradient-direction seams, not texture)", "near-white specular catch on the upper-left facet", "monochrome-violet ramp as the entire chromatic budget on a neutral-dark field"],
+  "adjectives": ["crystalline", "nocturnal", "monochrome-violet"],
+  "rhymes_hint": "dark-tile brand-glyph family (one luminous saturated object centred on a graphite squircle, no tool overlay) and the faceted-object / low-poly-gem logo cluster (colour + silhouette carry it, monochrome hue on neutral dark)",
+  "notes": "Source is a 204x204 WebP web render, not a 1024 master — facet edges soft from compression, boundary hex approximate, any baked drop shadow below resolution floor. Squircle corners are PRE-MASKED in this render (corners already black), so this is the final composite, not unmasked Icon Composer layers. Strong icon<->brand palette coherence: cover subtitle purple ~#A88BFA matches the glyph mid-violet (#A683EC), both on near-black (#070707 cover / graphite squircle), confirming the violet-on-dark identity is systematic across the app's brand, not just the icon. Era read as big-sur (uniform dark squircle, front-facing baked-gradient glyph, no glass specular/refraction/translucency); check #10 scoped to Liquid Glass and flagged rather than failed since this is an earlier-era mark."
+}

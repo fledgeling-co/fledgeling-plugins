@@ -1,0 +1,39 @@
+{
+  "slug": "deskminder", "name": "DeskMinder", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 squircle correct but bakes own edge-rim highlight + drop shadow (double-treatment risk under macOS 26)",
+    "#3 reads as a dial/gauge class, but exact metaphor ambiguous (clock/speedometer/timer/compass)",
+    "#4 holds at 32px, thin ring stroke + 12-o'clock gap marginal at true 16px",
+    "#7 needle 4.16:1 and bright ring arcs ~3.3-3.8:1, but shadowed ring segments drop to ~1:1 (same-hue tonal cost)"
+  ],
+  "failures": [
+    "#10 baked shadows + no layer separation + green-lightness-only figure-ground: glyph collapses into ground in tinted/mono/clear renders"
+  ],
+  "palette": {
+    "background": "ramp #73D768->#1E7D20 (one green hue, light-at-top)",
+    "glyph": ["#AFED96", "#C1F4A8", "#D8F9CA"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "diagonal-tool"
+  },
+  "light_model": "top / top-left; ring highlit upper-right and shadowed lower-left, needle beveled from top-left, background ramp lit top; baked soft AO at ring-to-ground and needle-to-ring contacts; single consistent source",
+  "layer_stack": [
+    "squircle green-ramp field + baked edge-rim highlight",
+    "gauge ring (pale 3D tube, gap at 12 o'clock, baked contact shadow)",
+    "needle/dart (brightest mint, puffy bevel, own baked drop shadow)"
+  ],
+  "devices": [
+    "off-axis gauge needle (Big Sur tool-at-an-angle, mined from the countdown subject)",
+    "broken-ring gauge (open countdown arc, gap at top)",
+    "monochrome tonal figure-ground (glyph is a lighter tint of the background hue, no accent)",
+    "puffy 3D extrusion (ring + needle as rounded plastic tubes with baked bevel/AO)"
+  ],
+  "adjectives": ["monochrome-green", "puffy-dimensional", "timer-literal"],
+  "rhymes_hint": "monochrome-gradient-squircle utility icons (single-hue tile + lighter same-hue instrument glyph: generic timer/clock/speedometer/gauge apps); Big Sur tool-at-an-angle lineage rendered in the AI-3D/puffy-glossy dialect",
+  "notes": "Resolution: 420x420 web render from macapp.supply, NOT the 1024 master — hex/px are (measured) off the downscale, fine-edge readings (estimated). Committed-vs-template split worth flagging to synthesis: the mono-green palette is a genuine committed design decision (real restraint), but the puffy-3D-glossy rendering is the template-default idiom AI icon generators reach for. Strong brand coherence — cover, wallpaper, and the menu-bar reminder pill are all the same green, and the pill contains the same broken-ring gauge, so the icon is the product's own mark. HIG note: baked specular/rim/shadow contradict macOS 26 'let the system apply effects / provide unmasked layers' — Big-Sur-era-acceptable, current-era deviation, and the root cause of the #10 variant failure. Not for canon promotion on its own (single icon)."
+}

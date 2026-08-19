@@ -1,0 +1,16 @@
+{
+  "slug": "walltune",
+  "name": "WallTune",
+  "tagline": "Animated video lock screens for your Mac.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://walltune.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-d9576124-80b1-41c7-928d-c84485ac7bd9.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-49f54326-ac04-4895-8181-10b7c2b0671a.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/walltune/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/walltune/cover.png",
+    "shots": []
+  }
+}

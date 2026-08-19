@@ -1,0 +1,36 @@
+{
+  "slug": "textsniper", "name": "TextSniper", "category": "Productivity",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#3 silhouette: 'target/crosshair' reads when filled solid, but the serif-T 'text' meaning is carried by fine terminals a pure silhouette discards",
+    "#4 16px squint: coloured disc + central mark survive; the four thin diagonal stems and serif caps merge to a fuzzy X and detail smears",
+    "#10 variant robustness: white reticle is independent of one bg colour, but the whole personality is carried by the cyan->violet gradient; no dark/mono variant renders supplied to confirm authored layers"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #F5F7FF->#D8F1FF (frosted ice slab, near-white top, pale cyan-tinted edges)",
+    "glyph": ["#FFFFFF"],
+    "accent": "lens gradient #00B9FF->#4E87FF->#8A68FF (cyan->blue->violet, TL->BR)"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "abstract",
+    "overlay_device": "frame"
+  },
+  "light_model": "single top-left environmental glass source: soft top highlight on the frosted base, baked diagonal specular sheen brightening the lens toward top-left, tone deepening to violet bottom-right, short soft contact edge under the lens",
+  "layer_stack": [
+    "system squircle mask + system drop shadow",
+    "frosted ice-white squircle base slab (translucent look, cyan-tinted edges)",
+    "circular glass lens with cyan->violet TL->BR gradient + specular gloss",
+    "white serif-T crosshair reticle (4 marks, stems converging to a central X)"
+  ],
+  "devices": [
+    "serif-T capture reticle (four serif capital Ts = T-for-Text, stems meeting as an X crosshair, crossbars as selection corner brackets)",
+    "floating saturated glass lens on a pale frosted squircle slab (Liquid-Glass object-on-glass depth)",
+    "cool cyan->violet diagonal ramp that doubles as the light model"
+  ],
+  "adjectives": ["precise", "cool-luminous", "instrumental"],
+  "rhymes_hint": "instrument-lens capture/OCR/screenshot utilities (viewfinder or crosshair inside the mask); Liquid-Glass object-on-frosted-slab family; cool cyan->violet tech-ramp palettes",
+  "notes": "542x542 web downscale, not the 1024 master — lens specular and frosted translucency are estimated, not measured. Faint baked outer shadow in the transparent margin (alpha fringe ~18), likely a macapp.supply composite. Baked lens specular gloss deviates from Icon-Composer 'let the system apply effects' discipline (aesthetically coherent, worth noting for a native rebuild). Strong subject-mining: reticle states 'text' + 'aim' + 'drag a selection box' at once. Cover uses violet ground + a literal crosshair on a selection rectangle, cohering with the icon's violet lens endpoint. 12/12 with 3 soft passes; no hard failures on the non-negotiable 1-4."
+}

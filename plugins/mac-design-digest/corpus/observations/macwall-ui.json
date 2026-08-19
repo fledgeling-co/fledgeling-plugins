@@ -1,0 +1,37 @@
+{
+  "slug": "macwall", "name": "MacWall", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "marketing-composite (OG card, no app window)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["not-rubric-eligible — cover shows a B&W stock photo of a MacBook lid (no screen/UI) plus brand copy; no macOS surface exists to score"]}
+  ],
+  "tokens": [
+    {"token": "brand/bg", "value": "#F6F6F2-#F7F7F3 warm cream", "quality": "measured", "notes": "OG-card ground, NOT an app window bg; brand evidence only"},
+    {"token": "brand/ink", "value": "#2C2801 dark olive-espresso", "quality": "measured", "notes": "one committed ink: serves headline type AND CTA-pill fill AND badge stroke"},
+    {"token": "brand/cta-text", "value": "#FFFFFF knockout on espresso pill", "quality": "measured", "notes": "single primary action, centred pill"},
+    {"token": "brand/headline-face", "value": "serif display, old-style/transitional (not SF Pro)", "quality": "estimated", "notes": "editorial book-serif; marketing voice, not app type ramp"},
+    {"token": "app/*", "value": "none obtainable", "quality": "assumed", "notes": "no native UI supplied — no app tokens can be measured"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing OG/cover card (1200x630): two-column, brand stack left + rounded photo card right, floating pill CTA; NOT a macOS app pattern"}
+  ],
+  "signature_moves": [
+    "(brand, not app) single espresso ink #2C2801 doing triple duty — display type, CTA fill, badge stroke — against warm cream: the disciplined one-color move of the warm-editorial family; says nothing about the native window"
+  ],
+  "defects": [
+    "n/a — no app surface to assess; grading a marketing composite against the macOS native rubric would be a category error"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "editorial", "cinematic"],
+    "direction": "Editorial / literary (warm-editorial): cream ground + serif display + single dark espresso ink — the current default-model marketing look, per design-craft aesthetic-direction",
+    "peers": ["Craft landing page", "Things marketing site", "generic Framer OG template"],
+    "cluster_hint": "n/a for app UI — this is a marketing-brand aesthetic, not a native-app style cluster; do not open a UI cluster from it",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / action singularity — exactly one saturated pill CTA ('Try free at macwall.app') against a quiet cream field; the single different element is the remembered one (observed on the marketing card, not the app)",
+    "Aesthetic-usability effect — the cover trades on a polished B&W hero + serif type to set a premium first impression (~50ms), buying trust for a wallpaper utility before any UI is shown",
+    "Processing fluency — cream+serif+one-ink is a highly fluent, low-load composite; reads as 'considered', though it conveys no product information"
+  ],
+  "notes": "CRITICAL for synthesis: MacWall supplied NO app screenshots (macapp.supply gallery/shots empty; only cover.jpg + icon.png). The cover is a marketing OpenGraph composite whose device photo shows a MacBook from BEHIND (lid + Apple logo in a dust cloud) — there is no screen content and no app window anywhere, so the 14-point rubric and 10-point native-tells audit are not runnable. Lineage/era are genuinely unknown (the 'native macOS app' claim is marketing copy, not evidence). All recorded tokens are BRAND/marketing readings, walled off from macOS canon and clusters. icon.png (scene-in-a-squircle: pale ground, red sun disc, dark mountain silhouette) is Workflow-B scope and was NOT icon-digested here. Category + cover metaphor strongly suggest a menu-bar / live-wallpaper utility — request the main gallery window, the menu-bar-extra, and settings before profiling."
+}

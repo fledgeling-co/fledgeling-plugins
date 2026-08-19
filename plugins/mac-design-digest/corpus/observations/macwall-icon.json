@@ -1,0 +1,23 @@
+{
+  "slug": "macwall", "name": "MacWall", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#2 optically centred but bottom-heavy — busy base against empty white crown pushes visual mass low", "#4 sun-over-mountain gestalt survives 16px but three peaks and clouds smear into one dark lump, snow modelling lost", "#5 sun sits behind peaks (backlight) yet snow faces are front/right-lit — reads natural but not physically consistent"],
+  "failures": ["#10 single white-background appearance; not layered Icon Composer art — pale clouds and cool field would collapse under dark/clear/tinted renders on macOS 26"],
+  "palette": {
+    "background": "ramp #FDFEFE->#E7F3FE",
+    "glyph": ["#2A334C", "#343F59", "#B0B7C4", "#F8FCFE", "#EDF6FE"],
+    "accent": "#F91715"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "none"
+  },
+  "light_model": "soft ambient upper light; snow highlights on right/upper peak faces; warm orange sun-glow (#F8593E) blooming where the red disc meets the ridgeline; short soft baked shadows; no hard specular",
+  "layer_stack": ["near-white ice-blue background ramp", "red sun disc with internal red->warm-orange ramp", "snow-capped slate-navy triple-peak massif", "cotton cloud bank occluding the peak bases"],
+  "devices": ["rising red-sun disc as sole backlight accent", "ukiyo-e / Hokusai-Fuji red-sun-behind-snow-peak quotation", "cotton cloud-bank base hiding the peak/ground seam", "near-invisible cool white->ice-blue field ramp"],
+  "adjectives": ["serene", "cinematic", "elemental"],
+  "rhymes_hint": "illustrated-scene-on-white nature/weather utility icons in the soft-3D-gradient Big Sur idiom; landscape-vignette tiles (whole scene, not glyph-on-field); the red-sun / Fuji woodblock-quotation motif family",
+  "notes": "Source is a 192x192 web render with the squircle baked in as alpha-transparent corners (a=0), not the 1024 master; region hex reliable, sub-pixel edge/specular/shadow treatments estimated from a 4x upscale. Cannot confirm master is full-bleed square vs pre-masked. Palette discord: icon (cool white + red + slate scene) does NOT match the marketing cover's warm-cream editorial system (espresso serif type) — icon and brand system diverge. First icon in the corpus, so all rhymes are external references pending more digests."
+}

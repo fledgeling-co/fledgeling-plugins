@@ -1,0 +1,35 @@
+{
+  "slug": "tono", "name": "Tono", "category": "Lifestyle",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 grid: portrait-crop framing, optically balanced by the black body mass, but not a safe-zone-centered glyph (head/beak right-of-centre)",
+    "#4 16px: head #000 and body #3B3B3F merge on downscale to a red-and-black blob; saved by the red breast, yellow bill, and white eye dot",
+    "#6 palette: four colour zones (ivory/black/red/yellow-orange) — at the 2-family ceiling; passes because red-to-orange is one warm ramp and the bill is a small focal accent"
+  ],
+  "failures": [
+    "#10 variant robustness: pre-masked Big Sur raster with a baked ivory ground, no Icon Composer light/dark/clear/tinted layers; near-black bird collapses to a blob and depends on the baked cream field for figure-ground in a tinted/mono render"
+  ],
+  "palette": {
+    "background": "flat #FAF6F1 (warm ivory, near-flat, no ramp)",
+    "glyph": ["#000000", "#232528", "#3B3B3F", "#F52512", "#EA0C01", "#FCFBF7"],
+    "accent": "#FB8A04"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "mascot",
+    "overlay_device": "none"
+  },
+  "light_model": "Single top-down/upper light. Breast ramps lighter-warmer at top (#F52512) to deeper red at base (#EA0C01); matte-black plumage carries a cool-grey sheen band (#232528->#3B3B3F) for volume; beak top-lit; one specular catchlight in the eye. Soft short baked self-shadow, no long cast. No glass rim-light or refraction.",
+  "layer_stack": ["ivory ground", "black body/wing (sculpted sheen)", "red breast plane", "black head", "yellow-orange bill", "white eye-ring + black pupil + catchlight"],
+  "devices": [
+    "robin bust portrait cropped to the lower/right mask edges (creature as identity, not a function glyph)",
+    "sculpted matte plumage — cool-grey sheen ramp gives volume under top light with no gloss",
+    "catchlit white eye-ring as the lone specular and the small-size identification anchor",
+    "flat warm-ivory ground instead of a gradient ramp",
+    "two-tone bill (yellow upper -> deeper orange lower)"
+  ],
+  "adjectives": ["naturalist", "high-contrast", "characterful"],
+  "rhymes_hint": "warm-ground flat-illustration animal-mascot family (Big Sur era): a creature portrait on a flat cream/ivory field with sculpted matte shading and one saturated focal hue; indie wildlife/character icons that lead with brand personality over a tool glyph",
+  "notes": "Source 512x512 (half the 1024 master), likely a resized web render from macapp.supply — palette hexes reliable, sub-pixel edge/shadow detail not. RGBA pre-masked squircle (transparent corners, mask inset ~48px@512), Big Sur baked-mask delivery not full-bleed Icon Composer layers (root of #10). Brand coherence icon<->app: weak on palette (cover UI is cool sage-green Liquid-Glass chrome over green nature photos; icon is warm cream/red/black), strong on theme (cover shows rowan/mountain-ash berries, a classic robin food; bird = nature-wallpapers). Subject communication: icon signals identity (warm nature mascot) over function — a viewer cannot infer 'wallpaper manager' from it. First member of a potential illustrated-creature-on-warm-ground cluster."
+}

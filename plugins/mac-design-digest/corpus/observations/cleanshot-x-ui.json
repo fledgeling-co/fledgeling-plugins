@@ -1,0 +1,70 @@
+{
+  "slug": "cleanshot-x",
+  "name": "CleanShot X",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-share-card (1200x630 OpenGraph) — app icon hero on white confetti ground; NO app UI",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — no application UI present; 14-point rubric inapplicable (this is a marketing composite, not a screenshot)",
+        "n/a — no chrome/controls/selection to run the 10-point native-tells audit against"
+      ]
+    },
+    {
+      "file": "icon.webp",
+      "surface_type": "app icon (102x102) — same subject as cover hero, lower fidelity",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — app icon, not a UI surface; digested for brand/icon evidence only"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "icon/shape", "value": "macOS squircle, floating plate w/ soft drop shadow + underside bevel", "quality": "measured", "notes": "isometric-lift 'hovering tile' stylisation, not flat Apple grid plate"},
+    {"token": "icon/blue-sheet", "value": "#3CD8FE -> #1F83EB -> #0057EB linear ramp", "quality": "measured", "notes": "dominant surface; deeper/bluer than system Blue #0091FF at the corner"},
+    {"token": "icon/dark-panel", "value": "#4A4F59 -> #373C46", "quality": "measured", "notes": "cool blue-tinted graphite, not neutral"},
+    {"token": "icon/peel-underside", "value": "#CBE6F5 + white specular ridge", "quality": "measured", "notes": "lifted-sheet backface catching top light"},
+    {"token": "icon/accent-mint", "value": "#2EF0DD", "quality": "measured", "notes": "~ system Mint #00C8B3, brighter"},
+    {"token": "icon/accent-orange", "value": "#F97B00", "quality": "measured", "notes": "~ system Orange #FF8D28, deeper"},
+    {"token": "icon/accent-indigo", "value": "#604FD8", "quality": "measured", "notes": "~ system Indigo #6155F5"},
+    {"token": "icon/accent-pink", "value": "#E83763", "quality": "measured", "notes": "~ system Pink #FF2D55"},
+    {"token": "icon/accent-magenta", "value": "#E74D8C", "quality": "measured", "notes": "small triangle glyph"},
+    {"token": "card/ground", "value": "#FFFFFF flat", "quality": "measured", "notes": "marketing card ground, no gradient"},
+    {"token": "card/confetti", "value": "~#ECEEF1 geometric primitives, near-invisible on white", "quality": "estimated", "notes": "deliberate low-contrast texture keeping icon the sole focal object"},
+    {"token": "card/aspect", "value": "1200x630 (OpenGraph)", "quality": "measured", "notes": "confirms social composite, not a screenshot"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "app-icon marketing/share card: single centred icon hero (~30% canvas width) on flat white with scattered low-contrast decorative glyphs; restrained colour strategy, one saturated figure"}
+  ],
+  "signature_moves": [
+    "Page-curl peel as product thesis: the blue 'screenshot' sheet lifts from the lower-left to reveal a dimmed desktop + five markup glyphs beneath — the whole capture-and-annotate product in one textless gesture, legible at Dock size",
+    "Annotation palette as identity confetti: five markup glyphs (mint square, orange dot, indigo dot, pink square, magenta triangle) drawn from the macOS 12-hue system palette double as the annotation toolbar and the icon's only chroma against a blue/graphite duotone",
+    "Duotone-plus-accents economy: two hue families carry ~90% of pixels, five saturated accents the rest — disciplined palette, high figure/ground"
+  ],
+  "defects": [
+    "No design defects assessable — no app UI present. Icon passes the 16px squint test (silhouette: squircle with diagonal blue/dark split + bright curl); no icon-rubric failures visible."
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "crisp", "buoyant"],
+    "direction": "Restrained-playful consumer-utility brand card: a Big-Sur duotone icon (electric blue + cool graphite) as the single saturated figure on a Swiss-quiet white ground; decorative-primitive confetti borrowed from the Playful/toy family but desaturated to near-invisibility (Neo-grotesque restraint). NOTE: characterises the icon + share card only — no UI aesthetic could be observed.",
+    "peers": ["CleanShot own brand site", "Setapp app cards", "Raycast promo cards"],
+    "cluster_hint": "not-yet-clusterable (icon/brand only; no UI)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — a single saturated icon isolated on near-invisible gray-on-white confetti makes the one different thing the remembered thing",
+    "Information scent / Jakob's Law (recognition over recall) — the peel + markup-dots metaphor telegraphs 'screenshot + annotation' without text; the schema is instantly matched",
+    "Aesthetic-usability effect — a high-fidelity render (specular curl, layered depth) raises the trust prior before any UI is seen",
+    "Signal-detection / focal hierarchy — everything but the icon demoted to sub-threshold texture; one unambiguous focal object"
+  ],
+  "notes": "CRITICAL FOR SYNTHESIS: this source contains NO app UI. cover.png is a 1200x630 OpenGraph marketing composite (app icon on a white confetti ground); icon.webp is the same icon at 102px. Both are ONE subject (the app icon) — treat as re-evidencing icon identity, not two surfaces. Therefore: (1) lineage is UNKNOWN from evidence — do NOT let CleanShot X's external reputation as a native AppKit app promote any macOS UI canon; nothing here is native UI evidence. (2) era 'big-sur' refers to the ICON idiom only (layered opaque material, top-light, NOT Liquid Glass), not verified UI chrome. (3) rubric/native scores are 0 as an inapplicable-placeholder, NOT a quality verdict — read the failures[] notes. (4) This is icon + brand evidence; it may inform ICONS.md, never TASTE.md UI canon or a UI style cluster. To actually digest this app, real screenshots (capture HUD, annotation bar, Settings) are required — the macapp.supply gallery for this listing was empty."
+}

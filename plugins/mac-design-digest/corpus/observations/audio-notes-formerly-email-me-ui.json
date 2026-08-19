@@ -1,0 +1,67 @@
+{
+  "slug": "audio-notes-formerly-email-me",
+  "name": "Audio Notes formerly Email Me",
+  "category": "AI",
+  "lineage": "web-electron",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png (app window inside marketing composite)",
+      "surface_type": "menu-bar compose panel (floating titled window)",
+      "mode": "light",
+      "rubric_score": 10,
+      "native_audit_score": 4,
+      "failures": [
+        "rubric #9 white 'SEND' label on light-gold capsule ~1.8:1, fails WCAG 4.5:1",
+        "rubric #5/#6 n/a (empty compose, no paragraphs); #14 n/a (static, no focus state)",
+        "native #1 non-native body (uppercase branded CTA, chat compose bar) under a native frame",
+        "native #5 non-13pt density: placeholder ~16-18pt-equiv, button ~44pt touch tier",
+        "native #6 accent bound to brand-yellow, not system controlAccentColor",
+        "native #9 persistent bottom compose bar substitutes for a native top toolbar"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#F7F7F8 (light sheet, opaque)", "quality": "estimated", "notes": "faint off-white, not pure #FFF; flat content, no glass"},
+    {"token": "accent/brand", "value": "goldenrod ~#E8C04A", "quality": "estimated", "notes": "single hue across icon bg + menu-bar tint + CTA"},
+    {"token": "text/title", "value": "~#1C1C1E ~85% black, Semibold-Bold, ~15pt-equiv, centered", "quality": "estimated", "notes": "native centered placement but native titles rarely bold"},
+    {"token": "text/placeholder", "value": "~#8A8A93 gray, Regular, ~16-18pt-equiv", "quality": "estimated", "notes": "larger than native 13pt body; placeholder is the only field label"},
+    {"token": "button/primary", "value": "gold capsule, white UPPERCASE 'SEND' Bold+tracked, h~44pt-equiv, radius=height/2", "quality": "estimated", "notes": "uppercase + white-on-light-gold are the two defects"},
+    {"token": "glyph/action", "value": "~#4A4A4A monochrome, ~24-28pt-equiv (mic/photos/folder)", "quality": "estimated", "notes": "borderless SF-Symbol-style; most native-idiomatic element"},
+    {"token": "radius/window", "value": "~14-16px-equiv", "quality": "estimated", "notes": "kit window radius is unknown, can't cross-check"},
+    {"token": "chrome/traffic-lights", "value": "genuine coloured 3-dot cluster, leading inset approx equals top inset", "quality": "estimated", "notes": "real macOS frame = strongest native tell"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "floating titled window (has traffic lights + centered title, unusual for a true NSPopover), single-field compose, ~1.6:1 landscape"},
+    {"pattern": "floating-panel", "key_values": "top native title bar / full-bleed compose body / bottom action bar; no sidebar, no toolbar, no inspector"},
+    {"pattern": "toolbar", "key_values": "NON-NATIVE: actions live in a persistent BOTTOM bar (3 borderless glyphs left + 1 gold primary trailing), a chat-compose pattern not a native top toolbar"},
+    {"pattern": "empty-state", "key_values": "compose empty state = placeholder-as-label ('Write your message') + one primary CTA; no illustration"}
+  ],
+  "signature_moves": [
+    "Single warm goldenrod hue as the entire brand system, threaded icon background -> menu-bar glyph tint -> the one CTA (committed colour strategy on a near-white sheet)",
+    "Reduction to exactly one field + one send button (frictionless quick-capture), paper-plane 'send' metaphor as connective tissue"
+  ],
+  "defects": [
+    "Contrast Dilution (CTA label) — white 'SEND' on light-gold capsule ~1.8:1, fails 4.5:1; the one must-hit action is the least legible text",
+    "Non-native button label — tracked UPPERCASE 'SEND'; native uses sentence/title case",
+    "Brand accent overrides system accent — primary binds to app-yellow, not controlAccentColor",
+    "Persistent bottom compose/format bar — messaging pattern, not a native macOS toolbar",
+    "Non-native density — ~16-18pt-equiv placeholder and ~44pt touch-tier button vs native 13pt body / 24-28pt controls"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "friendly", "frictionless"],
+    "direction": "warm consumer-utility — single-hue goldenrod identity, pill CTA, generous whitespace; leans Playful/toy + Organic/soft rather than any native macOS register",
+    "peers": ["chat/quick-capture compose bars (Telegram/Spark send)", "consumer note-capture utilities (Drafts-style quick capture)"],
+    "cluster_hint": "warm-consumer-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Hick's Law / Fogg-reduction — panel exposes one field + one action, minimal decision load for quick capture (exploited well)",
+    "Von Restorff effect — the single gold CTA is the one different thing on a neutral sheet, so it pops (exploited)",
+    "Jakob's Law — borrows the familiar 'type + send' messaging metaphor so users need no learning, though it is non-native to macOS",
+    "Recognition over recall — placeholder-as-only-label ('Write your message') is a mild violation (label vanishes on input), acceptable for a single compose field",
+    "Aesthetic-usability effect — warm friendly surface buys first-contact goodwill, undercut by the low-contrast CTA label"
+  ],
+  "notes": "Only ONE UI surface exists, and it is the app window inside a MARKETING COMPOSITE (grainy yellow backdrop + heavy grotesk headline + hand-drawn arrow are brand evidence, not app design). No standalone screenshots and no dark-mode evidence were provided. All measurements are ratio-based estimates (arbitrary composite scale) — never treat as measured. The window shows the PRE-RENAME 'Email Me' UI (title reads 'Email Me'); the mic glyph foreshadows the 'Audio Notes' voice pivot. Lineage is genuinely ambiguous: native frame (real coloured traffic lights, centered title) wrapping a non-native body (uppercase branded CTA, chat compose bar, non-13pt density) — the frame-native/body-non-native split is the Electron OR heavily-custom-SwiftUI signature; classified non-native either way, so NONE of its styling should feed macOS canon or native clusters. Era is pre-Tahoe (Big Sur/Ventura wallpaper + Control Center glyph), no Liquid Glass. Icon was NOT run through the icon rubric (task scoped to Workflow A only) — recorded only as brand context."
+}

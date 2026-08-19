@@ -1,0 +1,26 @@
+{
+  "slug": "healthynotch",
+  "name": "HealthyNotch",
+  "tagline": "Work shouldn't cost you your health",
+  "category": "Productivity",
+  "pricing": "paid",
+  "website": "https://healthynotch.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-806dd665-7798-43e4-b5c0-28e5b4318b9a.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-27317da5-f6a7-4bf0-8cf3-1857ad14b613.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-98062002-4bc1-4650-b9a5-fc24513ea620.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-85333136-93cc-4f3a-ba9a-bf2ba5560241.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-18056727-b721-4690-b5b6-f5aa163d849b.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-c38b69ee-d604-4371-8dc4-8f121c52b8ac.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-4.png"
+    ]
+  }
+}

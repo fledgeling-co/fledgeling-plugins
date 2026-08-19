@@ -1,0 +1,23 @@
+{
+  "slug": "noticky", "name": "Noticky", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#4 16px squint: reads as a yellow blob on black = still a sticky note, but fold/tilt/ruled-lines smear; carried by luminance contrast not shape detail", "#9 era coherence: pure Big-Sur devices (squircle, flat matte front object, fold shadow) but the pure-black field and emissive glow are a moody dialect adjacent to a custom reading"],
+  "failures": ["#10 variant robustness: fixed Big-Sur raster, not Icon-Composer glass layers; identity is colour-locked yellow-on-black with no fg/bg separation, so no system-generated clear/tinted variants (dark-mode only coincidentally OK because the field is already black)"],
+  "palette": {
+    "background": "flat #000000 (corners), warm-olive glow bleed #12130B->#2B2B0A in a ~60px halo around the note",
+    "glyph": ["#F9D110", "#FCD111", "#E9C30B", "#D7B303", "#DAB005"],
+    "accent": "#F9D110"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "self-illuminated / emissive: the note glows and blooms a warm halo into pure black rather than receiving a top-down key; one small internal cast shadow under the peeled corner flap; single coherent model",
+  "layer_stack": ["flat black squircle field", "warm outer glow/bloom around note", "note drop shadow", "flat yellow note plane with engraved ruled lines", "peeled top-left corner flap + its cast shadow"],
+  "devices": ["glowing note on a black stage (emissive, product-thesis: always-on-top/visible-in-the-dark)", "peeled top-left corner + ~11deg tilt = instant 'sticky note' read", "engraved ruled lines suggesting text with zero letters", "dark-field inversion of a conventionally-bright subject"],
+  "adjectives": ["emissive", "committed-dark", "literal"],
+  "rhymes_hint": "dark-field single-luminous-object icons (one bright element glowing on near-black; shares staging with Backdrop's droplet though this object is flat/matte not glass) and flat-matte object-on-field Big-Sur paper/note icons; possible 'dark-stage / self-lit object' family, not yet a >=3-icon cluster",
+  "notes": "512x512 PNG web render (masters at 1024); RGB conversion flattened transparency to black and because the field IS black the true mask edges can't be isolated, only that art sits well inside the mask. Note optically dead-centre: bbox 150-366 x 144-367, centre (258,255) vs canvas (256,256), ~42% canvas width. Body fill is near-uniform flat #F9D110 (minimal gradient). NOT Liquid Glass: no translucency/refraction/specular/layer separation. Adjacent honest era read = custom (dark-stage). Tight brand coherence: same yellow across icon, black+yellow wordmark, and hero note; app uses a multi-colour note set but the icon commits to yellow."
+}

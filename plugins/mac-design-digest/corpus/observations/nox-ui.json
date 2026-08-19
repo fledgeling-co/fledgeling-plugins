@@ -1,0 +1,59 @@
+{
+  "slug": "nox", "name": "Nox", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-hero (web landing page — NOT a macOS app window; no chrome/toolbar/sidebar/traffic-lights present)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "#9 text contrast — footer disclaimer #706962 on #131110 ~3.3:1, below 4.5:1 for ~14px text",
+        "#12/#13 N/A — no form inputs or labels on the hero",
+        "#14 focus appearance not observable in a static marketing capture",
+        "native #1 — not native: this is a web marketing surface; native tells #2-#10 are N/A (no glass, sidebar, toolbar, or real chrome to audit)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/hero", "value": "#131110 warm near-black", "quality": "measured", "notes": "web/brand; warmed toward espresso, subtle centre-top radial lift"},
+    {"token": "ink/headline", "value": "#DCD6CB warm cream", "quality": "measured", "notes": "serif display fill"},
+    {"token": "accent/gold", "value": "~#B49A5E brass (ramp #8A7234->#C6A86C)", "quality": "measured", "notes": "sole brand colour: italic 'macOS', primary CTA, pill dot, buy-license link"},
+    {"token": "ink/body", "value": "#9F968C warm mid-gray", "quality": "measured", "notes": "sub-copy, ~6:1 on bg — legitimate de-emphasis"},
+    {"token": "ink/disclaimer", "value": "#706962 dim warm gray", "quality": "measured", "notes": "fine print ~3.3:1 on bg — under floor"},
+    {"token": "type/display", "value": "high-contrast transitional/modern serif, true italic, ~80-90px CSS, lh ~1.05-1.1", "quality": "estimated", "notes": "Fraunces/Canela/Recoleta-class editorial-luxury display"},
+    {"token": "type/body", "value": "humanist neo-grotesque sans, ~18-19px CSS, lh ~1.5", "quality": "estimated", "notes": "one sans for body/pill/buttons/disclaimer"},
+    {"token": "button/primary", "value": "brass filled, ~56-64px tall, radius ~6-8px, dark-ink semibold label", "quality": "estimated", "notes": "Download Free Trial"},
+    {"token": "button/secondary", "value": "ghost/outlined, warm hairline border ~#9E968B, same height", "quality": "estimated", "notes": "How it works — correct one-filled-one-outlined hierarchy"},
+    {"token": "surface/pill", "value": "#201D1A capsule eyebrow badge, hairline warm border", "quality": "estimated", "notes": "gold status dot + label"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "web marketing hero (dark): centred single column, capsule eyebrow -> 2-line serif display headline -> muted 4-line sub-copy wrapped ~45-55ch -> CTA row (filled primary + outlined secondary) -> dim disclaimer. Web vocabulary, excluded from native pattern library."}
+  ],
+  "signature_moves": [
+    "The one italic gold word: headline's final word 'macOS' set in the serif's true italic AND the brass accent, everything else upright cream — the whole brand flourish in one glyph-run (Von Restorff)",
+    "Subject-derived warmth: amber/brass-on-warm-black palette IS the product (therapeutic amber tint glasses, 'Nox'=night, low-blue-light comfort) — palette mined from the subject, not a reflex"
+  ],
+  "defects": [
+    "Default-model warm-editorial aesthetic — cream serif display + gold/amber on warm near-black is the current AI-reflex look; partially redeemed by subject-mining but still the safest family (a bolder brief would rotate to the product's own clinical narrow-band green)",
+    "Contrast Dilution — footer disclaimer #706962 ~3.3:1 on #131110, below 4.5:1 for small text",
+    "No product-UI evidence — cover is 100% marketing; zero app-window/menu-bar-extra/settings surfaces supplied (corpus gap, not an app flaw)"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "editorial", "therapeutic-premium"],
+    "direction": "Editorial/literary crossed with Luxury: cream high-contrast serif display + brass/gold single-accent on warm near-black; loose, centred, quiet-except-one-flourish",
+    "peers": ["warm-editorial/luxury wellness landing pages", "premium indie-mac utility marketing sites (register of, not clones of)"],
+    "cluster_hint": "warm-editorial-premium (brand/web cluster — NOT a macOS native cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff — the single brass CTA and lone italic-gold word are the one-different-thing that gets remembered against the warm-neutral field",
+    "Hick's Law — decision point trimmed to two actions (Download / How it works), one clearly primary",
+    "Aesthetic-Usability Effect — polished editorial hero raises the trust prior for a health/clinical claim before any evidence is read",
+    "Cialdini Authority + anchoring — 'Research-backed', 'FL-41 clinical', '480nm notch filter' assert authority; 'Like $200 therapeutic tint glasses' price-anchors to justify value",
+    "Fogg B=MAP (ability) — '14 days free / No credit card' strips friction from the prompt"
+  ],
+  "notes": "CRITICAL for synthesis: only TWO inputs existed (cover.png = web marketing hero, icon.png = app icon). NO macOS app UI surface was supplied, so lineage/era are unknown and NOTHING here may feed macOS canon or native clusters — all tokens are platform:web brand evidence. Task was Workflow A only, so icon.png was NOT run through the icon rubric; for reference it is a skeuomorphic light-gray monitor/iMac device with a yellow crescent moon over horizontal spectral tint bands (purple/orange/green/blue-gray) — a Big-Sur-era literal-object icon, warmer scene than the neutral-gray device shell; digest it under Workflow B when icons are in scope. Brand palette values are clean measurements from the PNG; type sizes/faces are estimates (no redlines). Recommend requesting the actual product surface (menu-bar-extra preset+intensity popover, Settings window) to gain any real app-UI evidence."
+}

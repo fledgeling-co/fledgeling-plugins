@@ -1,0 +1,75 @@
+{
+  "slug": "canary-mail",
+  "name": "Canary Mail",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png (app window inside marketing composite, ~1.67x render)",
+      "surface_type": "three-pane main window (sidebar + message list + reading pane)",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 9,
+      "failures": [
+        "#6 line length — reading-pane body runs full-width with no ~65ch cap (composite crops the line off-edge, real measure longer)",
+        "#14 focus appearance — not assessable in a static marketing render",
+        "native#3 selection grammar — message list uses a saturated indigo filled card (#2558C9), not the native flat inset accent-tinted fill; sidebar conforms, list does not"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/sidebar", "value": "#1B2124", "quality": "measured", "notes": "darkest pane, faint cool tint"},
+    {"token": "bg/list", "value": "#212A2E", "quality": "measured", "notes": "mid pane, lightest of three, faint cool tint"},
+    {"token": "bg/readpane", "value": "#1E1E1E", "quality": "measured", "notes": "pure neutral; matches kit dark window bg exactly"},
+    {"token": "surface/card-readpane", "value": "#2A2A2A-#323232", "quality": "measured", "notes": "message + attachment cards"},
+    {"token": "sel/sidebar-fill", "value": "#2C3235", "quality": "measured", "notes": "native flat neutral inset rounded fill"},
+    {"token": "sel/list-card", "value": "#2558C9", "quality": "measured", "notes": "house-style saturated indigo filled card, white text"},
+    {"token": "accent/azure", "value": "#0093FF (glyph #0090FA)", "quality": "measured", "notes": "filter-selected pill + sidebar glyph tint; ~kit dark system blue #0091FF"},
+    {"token": "accent/indigo-second-blue", "value": "#2558C9", "quality": "measured", "notes": "list selection uses a second, distinct blue hue vs azure accent"},
+    {"token": "identity/pip-magenta", "value": "#FF00C3", "quality": "measured", "notes": "per-account unread pip"},
+    {"token": "status/pdf-red", "value": "#D1291F", "quality": "measured", "notes": "attachment-type glyph"},
+    {"token": "text/primary", "value": "~#DFDFE0 on #1E1E1E", "quality": "measured", "notes": "contrast >12:1"},
+    {"token": "type/subject-header", "value": "~22-24pt Bold", "quality": "estimated", "notes": "reading-pane conversation title, Title1/near-LargeTitle"},
+    {"token": "type/body-read", "value": "~13-15pt Regular", "quality": "estimated", "notes": "email body; native-plausible density, not iOS 17pt"},
+    {"token": "radius/card", "value": "~7-8pt (12-14px render)", "quality": "estimated", "notes": "list card, summarize card, attachment chip"},
+    {"token": "radius/pill", "value": "capsule", "quality": "estimated", "notes": "filter chips + toolbar button groups"},
+    {"token": "chrome/sidebar-width", "value": "~140pt", "quality": "estimated", "notes": "compact — narrower than kit 256pt example"},
+    {"token": "chrome/traffic-lights", "value": "12pt dots, coloured (focused)", "quality": "measured", "notes": "genuine, top-left; used to fix 1.67x render scale"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~140pt compact source list, dark #1B2124, account-sectioned (Sarrah/Favorites/Support), sentence/title-case gray-semibold headers, native neutral inset selection #2C3235, blue glyph tint, per-account identity pips (magenta/cyan), bottom status footer"},
+    {"pattern": "list", "key_values": "3-line rows ~60pt (avatar + sender bold + greeked subject/preview), horizontal filter-chip row (All/Primary/Promotions/Social/Updates, azure-filled selected pill), selected row = saturated indigo filled card #2558C9 with white text"},
+    {"pattern": "toolbar", "key_values": "glass capsule button GROUPS (container morphing), borderless monochrome SF Symbols; list region 1 group of 3 (check/sparkle-AI/summary); read region 4 groups (compose | reply/reply-all/forward | snooze/pin/more | search); sidebar-toggle beside traffic lights"},
+    {"pattern": "inspector", "key_values": "reading pane as card-thread: large bold subject header, full-width inline AI 'Summarize this conversation' card, message cards with avatar+sender+paperclip, To: recipient, 1px rule, attachment chip (red PDF glyph/name/size), body, 'Sent from Canary' blue link"},
+    {"pattern": "other", "key_values": "triple-tone pane elevation without borders: sidebar #1B2124 < readpane #1E1E1E < list #212A2E"}
+  ],
+  "signature_moves": [
+    "AI as a persistent full-width inline reading affordance — 'Summarize this conversation' at the top of every thread plus a sparkle toolbar action; the product thesis stated in one always-visible card",
+    "Saturated indigo selection card (#2558C9, white text) as the single Von-Restorff pop against muted panes",
+    "Triple-tone pane elevation (borderless tonal steps across sidebar/list/read)",
+    "Avatar/memoji-forward list rows — consumer-social warmth on pro mail chrome"
+  ],
+  "defects": [
+    "Inconsistent selection grammar — sidebar native neutral inset fill (#2C3235) vs message-list saturated indigo card (#2558C9); two selection languages in one window",
+    "Two-blue accent split — list-selection indigo #2558C9 vs filter/glyph azure #0093FF/#0090FA (near-miss hue deviation; accent should bind to one blue)",
+    "Line Length Fatigue (potential) — reading-pane body runs full-width with no ~65ch readable-content cap (composite crops line off-edge, real measure longer)",
+    "Pane tone-temperature drift — sidebar/list faint cool tint vs pure-neutral read pane #1E1E1E (minor)"
+  ],
+  "aesthetic": {
+    "adjectives": ["saturated", "avatar-social", "AI-forward"],
+    "direction": "neo-grotesque product (dark neutral ramp + one electric accent) warmed toward consumer-social by avatar rows, rounded cards, and a saturated selection",
+    "peers": ["Spark", "Newton Mail", "Airmail", "Superhuman"],
+    "cluster_hint": "prosumer-email-dark",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — saturated selection card makes the active thread the one different element (used well)",
+    "Fogg reduction — 'Summarize this conversation' lowers reading effort; AI as ability-lever",
+    "Jakob's Law — canonical three-pane mail layout matches trained expectations",
+    "Miller/Cowan chunking + progressive disclosure — account-sectioned sidebar; Labels/More/See More collapse depth",
+    "Hick's Law (mild tension) — deep sidebar + 5+ filter chips is high option-density, acceptable as an expert workspace"
+  ],
+  "notes": "Only a marketing composite was supplied (no gallery shots); the analysed surface is the app WINDOW inside it, cropped at the right edge by the composite. Render is ~1.67x (traffic-light dot 20px -> 12pt), not clean @2x, so all sizes are estimated with wide bands; flat fill hexes are clean measurements. Blue composite backdrop + wordmark are brand evidence, not digested here. Lineage is native (med) — native chrome (real traffic lights, glass-grouped toolbar, source list) with a custom iOS-leaning brand skin on the content panes; the saturated selection + avatar rows are house style, recorded as tells/defects, not as lineage disqualifiers. Icon.webp present but NOT digested (task is Workflow A / UI only). One app, one surface -> no promotions; single-app evidence."
+}

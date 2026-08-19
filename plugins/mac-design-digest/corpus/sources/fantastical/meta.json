@@ -1,0 +1,16 @@
+{
+  "slug": "fantastical",
+  "name": "Fantastical",
+  "tagline": "Calendar app you won't be able to live without",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://flexibits.com/fantastical",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4ad4adc5-965f-41cf-9345-37aa26dad600/icon-1783882462026.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4ad4adc5-965f-41cf-9345-37aa26dad600/cover-1783882769451.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fantastical/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fantastical/cover.png",
+    "shots": []
+  }
+}

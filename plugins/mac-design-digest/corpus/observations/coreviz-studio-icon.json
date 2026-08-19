@@ -1,0 +1,35 @@
+{
+  "slug": "coreviz-studio", "name": "Coreviz Studio", "category": "AI",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 optically centred and well-weighted but glyph sits a few px right of true centre (x-span 45-160 on 200px)",
+    "#4 bold hex ring survives 16px, but the interior hex bore risks closing up/muddying at menu-bar size",
+    "#5/#8 no light model and no depth at all — vacuous passes (flat cutout has no lighting/z conflict), not crafted dimensionality",
+    "#9 internally coherent flat two-tone, but quotes no macOS icon era — reads as a Vercel/Linear-adjacent web brand mark on a black square",
+    "#11 has a nameable device (hex-nut/aperture ring) but the rounded-hex mark is a common dev/AI-startup logo shape"
+  ],
+  "failures": [
+    "#10 white-on-black mark is background-dependent; a tinted-light/clear-light render would collapse figure-ground (off-white glyph on light ground vanishes); no Icon Composer light/dark/tinted layers authored"
+  ],
+  "palette": {
+    "background": "flat #000000",
+    "glyph": ["#F8F8F8"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "None — flat two-tone vector cutout; no baked shadow, no specular, no top-down modelling. Figure-ground alone carries the mark.",
+  "layer_stack": ["black full-bleed background field", "off-white rounded-hexagon glyph", "black rounded-hexagon bore (negative-space knockout)"],
+  "devices": [
+    "concentric rounded-hexagon 'nut/aperture' ring (super-elliptical vertices, points to the sides)",
+    "negative-space hex bore as the only focal detail",
+    "max-contrast monochrome two-tone (no gradient, no accent, ~19:1)"
+  ],
+  "adjectives": ["austere", "geometric", "monochrome"],
+  "rhymes_hint": "flat monochrome geometric web brand-marks (Vercel/Linear register): black canvas + single off-white glyph + serif-display wordmark; not the lit dimensional-object icon cluster",
+  "notes": "Subject is a 200x200 web render, not a 1024 master — vertex grays (#525252/#717171) are only ~1px antialiasing; subpixel geometry estimated. Artwork is full-bleed black to all corners = mask-safe, but no system corner-radius recoverable. Strong brand coherence: #000000/#F8F8F8 matches the cover exactly (black ground + off-white hex logo + white serif type). Subject-communication gap: an AI photo/video workspace whose mark says nothing about media/images/AI — deliberate abstract identity. Cover credits 'Backed by Vercel / Antler' — web-first lineage explains the flat, platform-agnostic mark over any crafted Big Sur/Liquid Glass treatment."
+}

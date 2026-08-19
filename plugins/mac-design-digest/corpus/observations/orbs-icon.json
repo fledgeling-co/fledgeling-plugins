@@ -1,0 +1,23 @@
+{
+  "slug": "orbs", "name": "Orbs", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#3 silhouette reads as a plain dot when filled solid — identity is tonal (gloss ramp), not silhouette-borne; on-subject but leans on lighting"],
+  "failures": ["#10 variant robustness — figure wholly dependent on opaque black field; baked specular + no glass layers means no proper Liquid Glass Default/Dark/Clear/Tinted variants; reads as legacy pre-Tahoe icon"],
+  "palette": {
+    "background": "flat #000000",
+    "glyph": ["#FDFDFD", "#BFBEBE", "#7E7E7E", "#8C8B8C", "#1F1F1E", "#0F0F10"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "single top-down source; broad baked specular cap blown to #FDFDFD across the top third of the metallic annulus, flaring slightly over the inner boundary; convex glossy silver ring darkening to mid-grey (#7E) at the sides with a slight ambient lift (#8C) at the bottom; recessed inner well top-lit (#1F) to darkest-at-bottom (#0F). Baked (not system-applied) specular = legacy authoring.",
+  "layer_stack": ["black squircle field #000000 (full-bleed)", "brushed-silver annulus with vertical gloss ramp #FDFDFD->#7E7E7E + baked top specular cap", "recessed near-black inner disc, top-lit #1F1F1E -> dark #0F0F10"],
+  "devices": ["glossy monochrome orb (Aqua/chrome-sphere quotation inside a Big Sur squircle)", "concentric-ring composition that literally diagrams the radial launcher subject", "zero-hue silver-on-black hardware/pro-tool register"],
+  "adjectives": ["glossy", "austere", "tactile"],
+  "rhymes_hint": "glossy monochrome hardware-dot family: camera/PhotoBooth aperture icons, webcam/record-button orbs, Aqua-era glossy button spheres, volume/knob hardware icons; distinct from the Big Sur diagonal-tool-on-coloured-gradient mainstream (no tool overlay, no hue)",
+  "notes": "512x512 web render (half the 1024 master); PNG carries a baked drop-shadow on a white plate = an exported composite, not the delivered unmasked square layer, so true mask edge and system-vs-baked shadow are unverifiable. Palette hexes are clean (measured) from the render. Big Sur structural grammar (uniform squircle, front-facing, top-down baked light, single abstract glyph) but material is an Aqua/skeuomorphic gloss quotation applied consistently -> classified big-sur, not skeuomorphic-quote (no literal photoreal object) and not liquid-glass (baked specular, opaque field, fails #10). HIGH icon<->brand coherence: the icon IS the brand mark, reproduced identically on the cover, matching the cover's austere black/white/silver monochrome system (bold grotesk display, pure-black ground). Background is pure #000000 (harder than the kit's softened black, but conventional for an icon field). rhymes_hint left as a hint only for synthesis to cluster."
+}

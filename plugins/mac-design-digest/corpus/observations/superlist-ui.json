@@ -1,0 +1,54 @@
+{
+  "slug": "superlist", "name": "Superlist", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png (desktop window region)", "surface_type": "main-window-list-document-view", "mode": "dark", "rubric_score": 12, "native_audit_score": 2, "failures": ["#9 secondary metadata gray #747385 on #232233 = 3.36:1, below 4.5:1 body floor", "#10 meeting-transcript capsule border + checkbox rings read <3:1 (fill equals canvas)"]},
+    {"file": "cover.png (iPhone region)", "surface_type": "ios-recording-inbox-screen", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["platform: iOS — contrast evidence only, excluded from macOS canon; not rubric-scored"]}
+  ],
+  "tokens": [
+    {"token": "bg/canvas-content", "value": "#232233", "quality": "measured", "notes": "desaturated indigo-navy content pane; tinted, deviates from kit dark window #1E1E1E"},
+    {"token": "bg/chrome", "value": "#1D1C2B", "quality": "measured", "notes": "darker recessed surround; content sits as rounded pane on top"},
+    {"token": "text/primary", "value": "#FFFFFF (15.6:1 on canvas)", "quality": "measured", "notes": "pure white, no 85%-black-equiv softening"},
+    {"token": "text/secondary", "value": "#747385 (3.36:1 on canvas)", "quality": "measured", "notes": "breadcrumb/dates/durations; FAILS 4.5:1"},
+    {"token": "accent/brand-interactive", "value": "#7974D2 periwinkle; #5451A1 indigo dot", "quality": "measured", "notes": "app-defined accent, not system accent (web tell)"},
+    {"token": "brand/warm", "value": "icon red-orange ~#E8442A->#C33 ramp", "quality": "estimated", "notes": "sole warm hue; Von Restorff anchor; also the iOS waveform bars"},
+    {"token": "type/family", "value": "custom geometric grotesque (double-story a, single-story g), not SF Pro", "quality": "measured", "notes": "consistent across all text; bundled webfont; loudest non-native tell"},
+    {"token": "type/ramp", "value": "<=5 sizes, geometric steps: display(black) >> section-header(bold) > item-title(medium) > meta(regular)", "quality": "estimated", "notes": "ratios reliable; absolute pt not (render at unknown zoom)"},
+    {"token": "control/checkbox", "value": "circular empty ring ~24px @render", "quality": "estimated", "notes": "web/iOS pattern; native macOS uses square NSButton"},
+    {"token": "control/attachment-row", "value": "full capsule, outlined (border), fill=canvas", "quality": "measured", "notes": "'Meeting transcript' chip-row; border <3:1"},
+    {"token": "sidebar/icon-system", "value": "emoji per item + '>' disclosure chevrons for groups", "quality": "measured", "notes": "Notion-style emoji taxonomy, not SF Symbols"},
+    {"token": "layout/shell", "value": "full-height sidebar on #1D1C2B + rounded content pane on #232233", "quality": "estimated", "notes": "Linear/Notion inset-rounded-canvas web layout"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "full-height, dark chrome #1D1C2B, emoji-or-chevron leading glyph, title-case secondary-gray labels, collapsible groups; no tracked-uppercase headers"},
+    {"pattern": "list", "key_values": "circular checkbox + white title + calendar-glyph gray date + trailing avatar/list-button; document grammar breadcrumb->hero-title->rows"},
+    {"pattern": "other", "key_values": "attachment-as-capsule-row: outlined pill with circular avatar + title + meta + trailing icon button, inline in the document"}
+  ],
+  "signature_moves": [
+    "Document-hero title: each list opens with an oversized black-weight display heading dwarfing all chrome (magazine/editorial hierarchy reframes a to-do list as a document)",
+    "Emoji as taxonomy in the sidebar (Notion-borrowed recognition anchors instead of SF Symbols)",
+    "One warm hue in a cool room: single red-orange brand mark isolated against a uniformly desaturated indigo-navy palette; interactive accent kept cool periwinkle so warmth stays brand-only",
+    "Rich objects rendered as capsule outlined pill-rows inline (chip that is also a row)"
+  ],
+  "defects": [
+    "Contrast Dilution — secondary metadata gray #747385 on #232233 = 3.36:1 (<4.5:1); carries dates/durations/breadcrumb",
+    "UI-contrast thinness — capsule attachment border and checkbox rings read <3:1 against canvas (fill equals canvas)",
+    "Non-native tells (corrections, not defects for a web app): custom typeface->SF Pro; circular checkbox->square NSButton; app-defined accent->system accent; tinted #232233 canvas->neutral #1E1E1E; in-app <> nav->real toolbar w/ menu-bar parity"
+  ],
+  "aesthetic": {
+    "adjectives": ["editorial", "expressive", "nocturnal"],
+    "direction": "expressive editorial productivity — desaturated indigo-navy dark canvas, oversized custom-type display headings, emoji taxonomy, one warm brand accent; committed brand system, not template-default",
+    "peers": ["Linear (dark desaturated + custom type)", "Notion (emoji taxonomy, doc-as-page)", "Height", "Things (calm restraint)"],
+    "cluster_hint": "editorial-nocturnal web-productivity (NON-NATIVE cluster; keep separate from macOS native canon)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff (isolation) — lone warm red brand mark pops against an all-cool palette; oversized hero title isolates the current document",
+    "Aesthetic-Usability Effect — high structural polish and coherent hierarchy raise perceived usability",
+    "Jakob's Law — breadcrumb, checklists, and history nav borrow web-productivity conventions users already know",
+    "Recognition over recall (Nielsen) — emoji per sidebar item give fast visual scanning anchors",
+    "Hick's Law — quiet chrome, no competing saturated CTAs, keeps choice load low"
+  ],
+  "notes": "ONLY asset is a marketing cover composite (1200x630 OG image): purple brand backdrop + wordmark + icon, an angled iPhone render (iOS 'Inbox' audio-transcription screen, contrast-only), and a flat desktop window (the real evidence). Render is at unknown zoom, so absolute pt is unrecoverable — type tokens are ratios + hex, px marked estimated. Lineage is web-electron (Superlist is a cross-platform web-stack app): profile it but it feeds a non-native cluster and tells-and-corrections, NEVER macOS canon. Traffic lights / real titlebar are covered by the phone, so native chrome could not be confirmed. Icon (converted from AVIF) is a Big-Sur-era warm red-orange squircle with a curling folded-page 'S' — noted as brand evidence; no icon digest written (Workflow A only)."
+}

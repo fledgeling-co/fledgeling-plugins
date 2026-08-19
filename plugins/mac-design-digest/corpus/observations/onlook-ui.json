@@ -1,0 +1,62 @@
+{
+  "slug": "onlook",
+  "name": "Onlook",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (dark brand hero: centered app icon + 2-line headline, no app UI window)",
+      "mode": "dark",
+      "rubric_score": 7,
+      "native_audit_score": 0,
+      "failures": [
+        "SCORE NOTE: 7 reflects applicable checks only (a marketing composite, not app UI). Passing: #2 alignment (single centered axis), #3 proximity (large icon-to-headline gap vs tight interline), #4 modular (one size/one weight), #5 line-height (tight display leading), #6 measure (two short lines), #9 text-contrast (cream #F2E8CF on #080000 ~16-17:1). #1 grid not precisely measurable on a centered composite.",
+        "N/A: #7 de-emphasis (single text element) · #8 action-singularity (no CTA/buttons present) · #10 UI-contrast (no borders/UI icons) · #11 Fitts · #12 input-height · #13 label-proximity · #14 focus-appearance (no interactive elements on a static composite)",
+        "native-audit: all 10 native-tells N/A — no toolbar/sidebar/traffic-lights/selection/native controls; the only rendered surface is a brand composite"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/bg-top", "value": "#080000 near-black (warm-tinted)", "quality": "measured", "notes": "ground at top; warm-black, not pure #000"},
+    {"token": "brand/bg-glow", "value": "#39290F warm amber-brown", "quality": "measured", "notes": "bottom-center bloom; the surface IS the colour (drenched strategy)"},
+    {"token": "brand/bg-edge", "value": "#0C0401-#090401 deep warm shadow", "quality": "measured", "notes": "lower corners / mid ground behind text"},
+    {"token": "brand/ink-headline", "value": "#F2E8CF warm cream", "quality": "measured", "notes": "headline; ~16-17:1 on near-black ground"},
+    {"token": "brand/ink-warm-accent", "value": "shifts toward ~#F5E6A0 yellow on lower/right words", "quality": "estimated", "notes": "headline carries a warm gradient; 'bar.' reads more yellow than 'Ring' — type lit by the amber field"},
+    {"token": "brand/type", "value": "SF Pro (Display), Regular, sentence case, terminal period", "quality": "estimated", "notes": "system grotesque; macOS context -> SF Pro over Inter; restrained native-voiced brand"},
+    {"token": "icon/bg", "value": "warm graphite squircle ~#262721 body with warm vignette to black corners", "quality": "measured", "notes": "dark surround (not gradient-plane); frame recedes to black"},
+    {"token": "icon/light-source", "value": "pale luminous door ~#F4FFB0 (near-white warm-green highlight)", "quality": "measured", "notes": "the light IS the subject — emissive centre, soft bloom into surround"},
+    {"token": "icon/floor", "value": "warm amber trapezoid ~#AB7549 in perspective", "quality": "measured", "notes": "light spilling forward onto a floor; establishes physical-doorway depth"},
+    {"token": "icon/shape", "value": "rounded squircle, single centered emissive scene, no overlay device", "quality": "measured", "notes": "Big Sur-era grammar; painterly scene icon, not a flat glyph; 102px render, small"}
+  ],
+  "patterns": [
+    {"pattern": "empty-state", "key_values": "N/A to app — this is a marketing hero composite (dark): single centered vertical axis; app-icon squircle in upper third, large gap, 2-line SF Pro Regular headline centered beneath, one size/one weight, tight display leading; warm amber bloom from bottom-center back-lighting the type; no CTA, no wordmark, no chrome; hushed poster density"},
+    {"pattern": "menu-bar-extra", "key_values": "implied product form only (tagline 'Ring cameras in your Mac menu bar') — NOT shown; no popover/feed-grid pixels supplied"}
+  ],
+  "signature_moves": [
+    "The warm-light reframe of home security: inverts the cold blue/night-vision/alarm-red cliche of surveillance into warm chiaroscuro — a glowing open doorway spilling amber light onto a floor, drenched amber-black ground, cream type. The icon is the emotional opposite of a lens; reads 'home / presence / light left on', not 'you are being watched'. Carried consistently across background, icon, and type temperature — the whole memorable budget of the brand",
+    "Type inside the light field: the headline carries a subtle warm gradient (cooler cream on 'Ring', warmer yellow by 'bar.') so words appear lit by the same amber bloom rather than overlaid on it",
+    "Emissive single-scene icon: a doorway rendered in perspective with the light source as the subject and warm floor-glow establishing depth — distinct from the corpus-common gradient-squircle + centered-glyph grammar; reads clearly at small size as 'light through an open door'"
+  ],
+  "defects": [
+    "No true design defect observable — the composite is internally coherent (one axis, one light source, one type size, high-contrast type); it is a marketing surface, not the product",
+    "Corpus-input gap (not an app defect): submission ships a marketing composite where a native app UI screenshot belongs — almost all brand evidence, essentially no product evidence; native fidelity entirely unmeasured"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "cinematic", "hushed"],
+    "direction": "Warm-drenched cinematic ambient (Organic/soft crossed with a Drenched colour strategy): the surface IS the colour — a near-black-to-amber chiaroscuro ground with a single warm light source as the entire composition; radical-simplicity minimalism (one icon, one sentence), system SF Pro type. Deliberately NOT the neo-grotesque-product dark-neutral+electric-accent look, and NOT editorial-cream",
+    "peers": ["indie Mac menu-bar utility marketing in the warm/atmospheric register", "moody chiaroscuro product heroes (single warm light source on near-black)"],
+    "cluster_hint": "warm-drenched-ambient-marketing (brand-surface register, not a macOS-UI cluster)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / figure-ground / signal-detection — one luminous focal (the glowing doorway icon) against near-black; the single bright element is pre-attentively unmissable",
+    "Emotional framing / schema violation — warm domestic light deliberately violates the 'security = cold/clinical' schema, reframing camera monitoring as homely presence; the prediction-error is the point and it sticks",
+    "Aesthetic-usability effect — polished atmospheric hero buys the perceived-quality halo on first contact (~50ms first-impression)",
+    "Jakob's Law — system SF Pro in the marketing borrows platform familiarity and signals a native macOS product, lending trust to a solo utility",
+    "Processing fluency / thesis-in-a-viewport — radical simplicity (icon + one sentence) is maximally fluent; 'Ring cameras in your Mac menu bar' answers 'what is this' instantly"
+  ],
+  "notes": "CRITICAL for synthesis: NO native macOS app UI was provided — inputs are a marketing composite (cover.jpg, 1200x630 OG aspect) + a 102px app icon only. The app is a menu-bar Ring-camera viewer (onlook.cam), plausibly AppKit NSMenuBarExtra / native SwiftUI, but its UI lineage/era/native-fidelity are UNMEASURED — do not infer native taste from this app. All tokens above are brand/composite/icon evidence and must NOT feed macOS UI canon or clusters. rubric_score 7 = applicable-checks-only on the marketing surface (7 pass, rest N/A); native_audit 0 = all 10 tells N/A. Era 'unknown' at app level; icon reads Big Sur-era emissive scene (small render can't separate Big Sur material from soft-glow Liquid Glass). This is a second marketing-composite-only Utility submission alongside Ajar — pattern worth flagging: macapp.supply Utility covers are frequently brand heroes, not product shots. A proper icon digest belongs in icons/onlook.md under Workflow B (luminous-doorway motif may rhyme with future single-light-source scene icons). If the menu-bar popover UI is later supplied, re-digest to actually place this app."
+}

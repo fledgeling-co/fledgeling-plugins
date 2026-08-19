@@ -1,0 +1,24 @@
+{
+  "slug": "cooldock",
+  "name": "Cooldock",
+  "tagline": "Second Dock to your Mac with live widgets",
+  "category": "Productivity",
+  "pricing": "paid",
+  "website": "http://dock.cool/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/icon-1783882472369.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/cover-1783882788365.jpg",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-e71c3fe2-468e-452a-b1d2-758822ae9cc4.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-47d58420-3c8c-45cd-a5c4-b8c99dd0a8d0.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-85a2335f-6abd-478d-bcad-00a1e41840a1.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/cover.jpg",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-1.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-3.png"
+    ]
+  }
+}

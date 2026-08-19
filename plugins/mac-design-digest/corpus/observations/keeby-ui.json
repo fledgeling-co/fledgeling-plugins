@@ -1,0 +1,65 @@
+{
+  "slug": "keeby",
+  "name": "Keeby",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png (app UI inside device-frame, partially cropped)",
+      "surface_type": "menu-bar-extra menu + keyboard-profile panel",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 9,
+      "failures": [
+        "#9 text contrast on translucent dark glass unverifiable at composite scale (insufficient-evidence)",
+        "#6/#12/#13 N/A — no paragraphs, text inputs, or form labels in a menu",
+        "native #9-equiv: colored orange menu-bar glyph vs classic monochrome template symbol (minor)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/orange-wordmark", "value": "#FF8C16", "quality": "measured", "notes": "lowercase bold 'keeby' wordmark + keycap glyph"},
+    {"token": "brand/orange-icon", "value": "#F77507", "quality": "measured", "notes": "deeper orange in hero app-icon keycap"},
+    {"token": "accent/selection", "value": "#0A84FF (system blue)", "quality": "estimated", "notes": "menu selection binds to SYSTEM accent, not brand orange — accent discipline"},
+    {"token": "bg/site-backdrop", "value": "#F5F5F5", "quality": "measured", "notes": "flat warm-neutral; marketing surface only, not app bg"},
+    {"token": "ink/headline", "value": "#171717", "quality": "measured", "notes": "softened near-black, avoids pure #000"},
+    {"token": "ink/cta-pill", "value": "#0F0F0F", "quality": "measured", "notes": "black capsule CTA — action black, orange stays jewelry"},
+    {"token": "menu/material", "value": "dark translucent glass, reads ~graphite", "quality": "estimated", "notes": "panel radius ~16-20px, soft floating shadow; glass-vs-solid indistinguishable (dark-glass humility)"},
+    {"token": "menu/selection-radius", "value": "~8px full-width inset fill", "quality": "estimated", "notes": "matches macOS-27 kit menu selection radius 8"},
+    {"token": "menu/section-header", "value": "~10-11pt secondary gray, sentence case", "quality": "estimated", "notes": "'Control'/'Configure'/'Keychron' — not tracked uppercase"},
+    {"token": "type/menu-item", "value": "~13pt SF Pro Body", "quality": "estimated", "notes": "icon-leading single-line items"},
+    {"token": "menu/row-height", "value": "~24pt menu rows; ~40-44pt profile-panel rows", "quality": "estimated", "notes": "profile panel runs more generous custom cadence"},
+    {"token": "status/soon-pill", "value": "gray capsule ~9-10pt", "quality": "estimated", "notes": "custom 'Soon' badge on unreleased switch profiles"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "SwiftUI MenuBarExtra; titled sections (Control/Configure) of SF-Symbol-leading single-line items; selected item = full-width system-blue fill r~8 + white glyph + trailing chevron for submenus; ~24pt rows; ~160-170px panel width"},
+    {"pattern": "list", "key_values": "keyboard-profile panel: header + rows of leading keycap glyph + label + trailing status (checkmark.circle active / gray 'Soon' capsule for upcoming); ~40-44pt rows; disabled-don't-remove"},
+    {"pattern": "floating-panel", "key_values": "dark glass popover(s), ~16-20px corner radius, soft drop shadow, over live desktop; no window chrome/traffic lights (utility has no primary window)"}
+  ],
+  "signature_moves": [
+    "Brand hue quarantined to the icon: loud orange identity but selection/focus/primary bind to system blue #0A84FF; even the marketing CTA is black, not orange",
+    "'Soon' status pills as a roadmap-in-the-menu — dimmed rows with a quiet gray capsule (disabled-don't-remove + honest anticipation), label never color-only",
+    "Menu-bar-extra is the entire app — no primary window; the architecture is the positioning (a background sound-layer you set and forget)"
+  ],
+  "defects": [
+    "Contrast Dilution (risk, unverifiable) — secondary gray headers + 'Soon' pills on translucent dark glass cannot be confirmed >=4.5:1 at composite scale; insufficient-evidence, not logged as confirmed defect",
+    "Colored menu-bar glyph — filled orange keycap vs classic monochrome template symbol that inherits menu-bar tint (mild, increasingly common)"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "confident", "restrained"],
+    "direction": "neo-grotesque consumer-utility with a single warm brand hue — orange-as-jewelry against neutral graphite/white, black high-contrast CTA; playful icon, disciplined chrome",
+    "peers": ["Klack (functional twin)", "Lungo", "Bezel", "Raycast-adjacent indie utilities"],
+    "cluster_hint": "menu-bar-utility / warm-brand-restrained",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / accent discipline — one system-blue selection and one black CTA are the only non-neutral action signals; orange is identity, not affordance",
+    "Jakob's Law — ships as a menu-bar extra, exactly where Mac users expect a lightweight background utility to live",
+    "Hick's Law — menu kept short and chunked into titled Control/Configure groups (few choices per decision point)",
+    "Zeigarnik / Goal-Gradient + honest scarcity — 'Soon' pills tease upcoming switch profiles without hiding them",
+    "Aesthetic-Usability + trust — flat neutral surface plus '$4.99 one-time purchase' microcopy near the CTA (anti-subscription trust signal)"
+  ],
+  "notes": "ONLY asset is a 1200x630 marketing cover; real app UI is inside a MacBook device-frame at the bottom and is partially cropped (menu's last row 'Position' cut off). All app-surface values are estimated with wide ranges and LOW confidence; backdrop/brand values are cleaner (measured). No light-mode, no settings/onboarding, no window chrome seen. Do NOT promote any Keeby observation toward canon from this single low-confidence composite — it can only corroborate. Functional twin of Klack — differentiate deliberately in any derived mock. Best next asset: a real @2x screenshot of the open menu + a light-mode capture. App icon (orange smiling keycap) is brand evidence only; icon digestion (Workflow B) was out of scope for this task."
+}

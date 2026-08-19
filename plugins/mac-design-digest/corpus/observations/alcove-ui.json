@@ -1,0 +1,58 @@
+{
+  "slug": "alcove", "name": "Alcove", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "notch-island overlay (collapsed, locked state) — inside a marketing composite; scale unknowable",
+      "mode": "custom (true-black overlay over a dark purple Monterey desktop; the surrounding marketing composite is light/cream)",
+      "rubric_score": 4,
+      "native_audit_score": 1,
+      "failures": [
+        "rubric: 10 of 14 checks N/A on a single-element marketing render (no grid reference, no type, no inputs, no multi-element hierarchy); applicable #8/#9/#10/#11 pass",
+        "native #1 AppKit lineage unconfirmable from the surface (no native chrome visible; runtime inferred native from category)",
+        "native #2 no Liquid Glass — true-black opaque overlay (custom material by intent)",
+        "native #5 not native density — an iOS Dynamic Island form, not 13pt/20-28pt native controls",
+        "native #6 no system-accent binding — monochrome white glyph, ignores controlAccentColor",
+        "native #10 custom UI occupies the menu-bar/notch zone (branding.md: don't override system chrome) — deliberate, category convention"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "island/fill", "value": "true black ~#080808, opaque", "quality": "estimated", "notes": "iOS Dynamic Island true-black to merge with the physical notch/bezel; NOT Liquid Glass"},
+    {"token": "island/shape", "value": "rounded-rect, aspect ~3:1 w:h", "quality": "estimated", "notes": "collapsed state; echoes iPhone ~126x37pt island proportion"},
+    {"token": "island/radius", "value": "~0.28-0.32 x height (rounded-rect, not full capsule)", "quality": "estimated", "notes": "softer than a native search-field capsule, short of height/2"},
+    {"token": "island/glyph", "value": "white monochrome SF Symbol (lock.fill), left-inset", "quality": "estimated", "notes": "single status glyph; #FFFFFF; no accent tint"},
+    {"token": "brand/backdrop", "value": "warm cream ~#FBEFE0", "quality": "estimated", "notes": "MARKETING composite only, not an app-UI token — Apple-keynote register"},
+    {"token": "brand/highlight", "value": "pink marker-swipe ~#F7B8C4", "quality": "estimated", "notes": "MARKETING only — highlighter emphasis behind 'Mac'"},
+    {"token": "icon/aura-gradient", "value": "vertical indigo->magenta->pink (~#5B2A9E -> ~#A03BC8 -> ~#F0A6D8) inside a thick black squircle bezel", "quality": "estimated", "notes": "BRAND: icon depicts the product (a display bezel glowing from within); aura reused as marketing highlight + demo wallpaper"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "notch-zone overlay island (not a status-menu extra in the strict sense); floating always-on-top true-black capsule occupying the camera-housing/menu-bar region; collapsed compact state shows a single status glyph, reserves width for expanded live-activity content"},
+    {"pattern": "floating-panel", "key_values": "custom borderless overlay, centered top; true-black opaque, ~3:1 aspect, radius ~0.3x height; no native chrome, no traffic lights"}
+  ],
+  "signature_moves": [
+    "The entire app is the signature: import the iPhone Dynamic Island onto the MacBook notch, using a TRUE-BLACK opaque material so software fuses with the physical black notch/bezel into one perceived object (Gestalt figure-ground closure) — the same trick iPhone uses with its OLED cutout",
+    "Icon = the product literally: a thick black display-bezel squircle glowing purple->magenta->pink from within (the island's content aura); the aura hue is reused as the marketing highlight and demo wallpaper for one coherent identity"
+  ],
+  "defects": [
+    "Deliberate non-native surface (signature, not anti-pattern) — occupies the system menu-bar/notch chrome zone, ignores the user's accent color, uses no native control grammar; systematic + purposeful + accessible per defect-vs-signature, so recorded as signature but EXCLUDED from macOS canon (lineage gate)",
+    "No system-accent binding (controlAccentColor) — defensible for a true-black island but the one place a native reading diverges",
+    "Evidence poverty (not a design defect): 1 surface / 1 state from a marketing render — no grid reference, no expanded/live states, no dark-vs-light-desktop robustness, no settings/onboarding surface"
+  ],
+  "aesthetic": {
+    "adjectives": ["true-black", "iOS-mimetic", "seamless"],
+    "direction": "iOS Dynamic Island transplant — a custom consumer-utility surface (outside the range-map families); the marketing wrapper is separately Apple-keynote-mimetic (bold grotesk + cream + marker highlight + platform badge)",
+    "peers": ["NotchNook", "DynamicLake", "Boring Notch", "MediaMate"],
+    "cluster_hint": "notch-island / iOS-transplant utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law (inverted) — deliberately leans on users' iPhone Dynamic Island mental model rather than Mac conventions; borrows a cross-device familiarity instead of being conventional to macOS",
+    "Law of Pragnanz / figure-ground closure (Wertheimer) — true-black island + black notch merge into one perceived object; this Gestalt fusion is the app's core perceptual mechanism",
+    "Peripheral vision / Von Restorff (Weinschenk) — the salient dark island at the top edge sits in peripheral vision and hijacks attention for status/notifications by design",
+    "Aesthetic-usability effect (Kurosu & Kashimura) — the polished bezel-merge illusion buys perceived quality on first contact"
+  ],
+  "notes": "The ONLY app UI is the window inside cover.png, a stylized marketing composite (2400x1260) — not a captured screenshot, so scale is unknowable and every island metric is a low-confidence ratio/estimate. Everything outside the device frame (cream backdrop, bold headline, pink highlighter, 'Mac' badge, icon+wordmark lockup) is brand evidence, analyzed but never conflated with app-UI tokens. Classification tension for synthesis: NATIVE runtime (notch overlays are native-Swift-dominated; not an Electron idiom) but an entirely iOS-Dynamic-Island visible surface — treat the surface grammar as tells+corrections, not mac canon. This is the corpus's first app (previously only the macOS-27 kit). No promotions possible (single app, non-native surface). Opens a candidate 'notch-island / iOS-transplant utility' cluster with a single member."
+}

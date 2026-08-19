@@ -1,0 +1,16 @@
+{
+  "slug": "tuple",
+  "name": "Tuple",
+  "tagline": "The best remote pair programming app on macOS",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://tuple.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2032d3ef-ba11-4933-8d2c-a603ce5cd48a/icon-1783882460221.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2032d3ef-ba11-4933-8d2c-a603ce5cd48a/cover-1783882771895.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tuple/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tuple/cover.jpg",
+    "shots": []
+  }
+}

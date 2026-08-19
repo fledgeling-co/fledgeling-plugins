@@ -1,0 +1,68 @@
+{
+  "slug": "mac-4-breakfast",
+  "name": "Mac 4 Breakfast",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png (app window cropped from marketing composite)",
+      "surface_type": "menu-bar-extra panel (main 'Mac' view)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 tertiary caption 'Relative battery use right now' est. <4.5:1 on graphite",
+        "#10 charge-track fill and tab-bar divider borders borderline <3:1",
+        "native#3 selected tab is solid-blue fill + white text, not native tinted-inset selection grammar",
+        "native#7-adj segmented control used as primary navigation (Mac/Power/Devices/History/Insights)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "~#1A1A1C-#1E1E1E graphite", "quality": "estimated", "notes": "dark panel ground, near-black not pure #000; matches kit dark window #1E1E1E"},
+    {"token": "type/hero", "value": "~24-30pt Bold SF Pro", "quality": "estimated", "notes": "'8h 12m', '24%'; tilt inflates uncertainty"},
+    {"token": "type/body", "value": "~13pt Regular SF Pro", "quality": "estimated", "notes": "row labels/values; native 13pt-class density"},
+    {"token": "type/caption", "value": "~11pt Regular SF Pro, gray", "quality": "estimated", "notes": "'Until full', '11.38 V', tertiary caption"},
+    {"token": "label/secondary", "value": "~#8E8E93", "quality": "estimated", "notes": "left key column - de-emphasis honored"},
+    {"token": "accent/selection", "value": "~#2E7DF6 system blue", "quality": "estimated", "notes": "selected tab; single bound accent"},
+    {"token": "status/good", "value": "~#34C759 system green", "quality": "estimated", "notes": "charge pill, 100% health, hero bolt"},
+    {"token": "status/energy", "value": "~#FF9F0A system orange", "quality": "estimated", "notes": "energy-hog glyphs + relative-use bar meters"},
+    {"token": "radius/panel", "value": "~16-20px", "quality": "estimated", "notes": "all-corners rounded popover; measure from clean shot"},
+    {"token": "chrome/frame", "value": "none - borderless popover, no traffic lights", "quality": "estimated", "notes": "menu-bar-extra panel, ~330-360pt wide"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "~330-360pt wide borderless graphite popover; segmented tab bar top; hero status + charge card + key/value health table + energy-users list + disclosure row; dark mode"},
+    {"pattern": "list", "key_values": "two-column key/value health table: left secondary-gray labels, right primary-white values (one green), right-aligned"},
+    {"pattern": "table", "key_values": "energy-users rows = leading orange lightning glyph + app name + trailing horizontal amber bar meter (relative draw)"},
+    {"pattern": "other", "key_values": "segmented tab bar as primary nav with 1pt separators and solid-blue selected fill"}
+  ],
+  "signature_moves": [
+    "Telemetry-as-identity: raw electrical data (14.5 W, 11.38 V, 8575/8579 mAh, 32.6 C, 102 cycles) promoted to primary hero content, not hidden in an advanced pane",
+    "Label-inside-fill charge pill: the '24%' status pill sits within the leading end of the progress track, fusing value+label+fill into one object",
+    "Disciplined status-color triad - blue=selection, green=good, orange=energy-cost - each color one meaning, each paired with a glyph (color-never-alone)"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) - tertiary caption 'Relative battery use right now' est. <4.5:1 on graphite",
+    "Selection-grammar deviation (native-tell) - solid saturated-blue tab fill instead of native tinted-inset selection",
+    "Segmented-control-as-primary-navigation (native-tell) - HIG reserves segmented for in-view scope switching",
+    "REJECTED as defect: right-column values appear higher than left labels due to ~2.4deg marketing perspective tilt, not real misalignment"
+  ],
+  "aesthetic": {
+    "adjectives": ["technical", "graphite", "data-dense"],
+    "direction": "Neo-grotesque product (dark) - graphite neutral ramp with system-color status pops, native macOS flavored",
+    "peers": ["coconutBattery", "iStat Menus", "AlDente", "Battery (Boström)"],
+    "cluster_hint": "graphite-menubar-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law - mimics the native macOS battery menu-bar dropdown layout so users read it instantly",
+    "Hierarchy via de-emphasis - gray labels vs white values drive the health table (processing fluency)",
+    "Von Restorff / signal detection - the single blue selected tab is the one thing that pops",
+    "Color-never-alone honored - green/orange status always paired with a glyph+label",
+    "Progressive disclosure - deeper data hidden behind 'Battery details >' row",
+    "Miller/Cowan chunking - content grouped into ~4 chunks (status / charge / health / energy)"
+  ],
+  "notes": "ONLY a marketing cover composite was supplied (no standalone screenshots). The app window is rendered at a ~2.4deg clockwise perspective tilt, so ALL measurements are estimated with wide ranges and material/glass detail is unreadable - era 'big-sur' and lineage 'native' are both low-confidence; a clean un-tilted shot of any surface would firm both. Glass presence is insufficient-evidence, not absent. Panel width (~330-360pt) and absence of traffic lights indicate a menu-bar-extra popover, not a primary window. Corpus is at Novice: this is the FIRST app profiled (only the macOS-27 kit precedes it) - no canon promotions possible. Workflow A (UI) only per task; an icon.png exists and is flagged for a later Workflow B digest. Brand identity (violet/pink gradient wordmark, navy hero) is distinct from the app's graphite UI - recorded as brand evidence, excluded from macOS canon."
+}

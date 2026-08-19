@@ -1,0 +1,58 @@
+{
+  "slug": "pixelcasso", "name": "Pixelcasso", "category": "Design",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing composite (illustrated app-window mockup, not a captured UI)",
+      "mode": "dark",
+      "rubric_score": 8,
+      "native_audit_score": 2,
+      "failures": [
+        "#8 action singularity — N/A: no interactive controls (static marketing card, no CTA)",
+        "#11 Fitts minimums — N/A: no real interactive targets, only drawn traffic lights",
+        "#12 input height — N/A: no inputs present",
+        "#13 label proximity — N/A: no form",
+        "#14 focus appearance — N/A: no focus states in a static image",
+        "native-audit — mostly N/A: no real native surface; only coloured traffic lights + dark chrome are drawn; density/selection/toolbar/sidebar unobservable"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/backdrop", "value": "#132238 navy, vignette to ~#0F1B2E", "quality": "estimated", "notes": "drenched dark near-monochrome ground (brand surface, not app chrome)"},
+    {"token": "bg/tonal-shapes", "value": "#253851 / #262E3F faint circles", "quality": "estimated", "notes": "low-contrast geometric depth in backdrop"},
+    {"token": "brand/window-chrome", "value": "#0A1626 near-black navy", "quality": "estimated", "notes": "illustrated frame, darker than backdrop; ~28-32px radius is an illustration choice"},
+    {"token": "type/display", "value": "classical high-contrast serif ~72px, tight leading, #F8FBFF", "quality": "estimated", "notes": "Georgia/Source-Serif-class; 'Switch platforms. Keep your instincts.'"},
+    {"token": "type/eyebrow", "value": "tracked uppercase sans ~13px +0.12em, #99C4EB", "quality": "estimated", "notes": "the single chromatic type moment"},
+    {"token": "type/subhead", "value": "serif ~19px loose leading, muted", "quality": "estimated", "notes": "brand voice, not UI"},
+    {"token": "type/footer", "value": "~13px #525B6A muted slate", "quality": "estimated", "notes": "de-emphasised footer line"},
+    {"token": "accent/type", "value": "#99C4EB sky-slate", "quality": "estimated", "notes": "brand type accent; appears only on eyebrow — NOT a system controlAccentColor observation"},
+    {"token": "canvas/placeholder", "value": "diagonal #BCD5DB->#142B43", "quality": "estimated", "notes": "illustrative artwork inside mockup, not real canvas UI"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing/social OG card (1200x630): left type stack on shared ~64px axis + right floated illustrated window mockup on drenched navy; two-column brand composite, no real app pattern present"}
+  ],
+  "signature_moves": [
+    "Fine-art editorial register applied to a utility: classical serif display + drenched navy museum ground + Picasso-pun icon + 'Keep your instincts' copy reframes a Paint.NET clone as a gallery object (BRAND signature, systematic across cover+icon+copy; not UI evidence)",
+    "Brand serif carried into the illustrated HUD ('3 layers' pill in serif, not SF Pro) — consistent but non-native flourish"
+  ],
+  "defects": [
+    "No app-UI evidence — marketing-only cover; the on-screen window is a stylized illustration, not a captured surface (input limitation, not a product defect)",
+    "Non-native illustration motifs (serif HUD text, exaggerated window radius) — present only in the drawn mockup; no evidence they appear in the shipped app"
+  ],
+  "aesthetic": {
+    "adjectives": ["editorial", "museum-quiet", "classical-serif"],
+    "direction": "Editorial/literary (dark variant) — classical high-contrast serif display on drenched navy with a tracked small-cap eyebrow; a book-jacket / exhibition-poster register",
+    "peers": ["editorial/portfolio marketing sites", "museum exhibition posters", "premium serif-forward product landing pages"],
+    "cluster_hint": "editorial-serif (brand/marketing register — NOT a macOS UI style cluster)",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Jakob's Law — 'For Paint.NET users' + 'Keep your instincts' sells trained-expectation continuity: users arrive with a mental model, the copy promises no relearning (exploited well)",
+    "Aesthetic-Usability Effect — the polished serif/navy composition builds a quality-and-trust prior before the app itself is seen; buys first-contact forgiveness",
+    "Von Restorff effect — the one warm/cool canvas artwork is the sole chromatic moment against monochrome navy, so the eye lands there",
+    "Processing fluency — serif + generous leading + high contrast read as premium/credible below awareness"
+  ],
+  "notes": "CRITICAL for synthesis: cover.png is a MARKETING COMPOSITE (1200x630 OG card), not an app screenshot. The 'window' is a brand illustration (serif HUD text, decorative marquee, placeholder canvas, no toolbar/sidebar/controls). Zero native-UI evidence — do NOT feed any of this to macOS UI canon, style clusters, or native-tells corpus. Lineage/era unknown; the 'native' claim is marketing, not design evidence. All tokens are brand-surface, (estimated)(inferred). icon.png (a Picasso-style profile portrait with a pixelated mosaic band across the face — a 'Pixel'+'Picasso' wordplay) is a separate Workflow-B icon subject, not digested here. To place this app's UI in the corpus, request an actual editor-window screenshot (toolbar, tool palette, layers panel, canvas)."
+}

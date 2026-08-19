@@ -1,0 +1,55 @@
+{
+  "slug": "slapmac",
+  "name": "SlapMac",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing composite (logo mockup on studio-wall backdrop) — NOT app UI",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["rubric N/A: no window, chrome, or controls present — this is a brand logo mockup, not a UI surface; scores of 0 mean 'not applicable', not 'scored zero'"]
+    },
+    {
+      "file": "icon.webp",
+      "surface_type": "app icon (brand/icon evidence, not a UI surface)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["rubric N/A: app icon, not a UI screenshot; icon defects recorded in defects[] — low figure-ground contrast, legacy non-native rounded-rect frame"]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/green-glyph", "value": "~#8DB92E lime-olive", "quality": "estimated", "notes": "single-hue mascot fill and wordmark colour; from compressed cover render"},
+    {"token": "brand/green-ground", "value": "~#4A5411 -> ~#6E7A1E olive radial vignette", "quality": "estimated", "notes": "icon background, dark corners to lighter centre"},
+    {"token": "brand/outline", "value": "~#2E3608 dark olive", "quality": "estimated", "notes": "comic outlines on mascot and keys"},
+    {"token": "icon/frame", "value": "legacy rounded-rect, ~22% corner radius, thin light rim + outer glow", "quality": "estimated", "notes": "iOS-5/6-era idiom, NOT Big Sur squircle, NOT Liquid Glass — non-native tell"},
+    {"token": "brand/wordmark", "value": "bold rounded geometric sans, tight tracking", "quality": "estimated", "notes": "not SF Pro; a rounded display face"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Single-gag identity: an anthropomorphized 'hurt' laptop mascot carried consistently across icon and cover (committed as BRAND, but there is no UI to evaluate)"
+  ],
+  "defects": [
+    "No app UI supplied — gallery empty; only a marketing cover and an app icon exist, so no UI tokens or canon evidence can be extracted",
+    "Contrast Dilution (icon) — lime-olive glyph on same-value olive ground; silhouette fails the 16px squint test and collapses to a muddy blob at Dock size",
+    "Non-native icon frame — legacy iOS rounded-rect instead of the macOS squircle grid / Icon Composer layered idiom; reads as ported/template, not Mac-native"
+  ],
+  "aesthetic": {
+    "adjectives": ["jokey", "cartoonish", "monochrome-green"],
+    "direction": "comic-mascot novelty / meme-utility (Playful-toy family crossed with comic-book impact language) — a committed brand aesthetic, not a template default, but expressed only in marketing art",
+    "peers": ["novelty menu-bar gag utilities", "meme/joke Mac toys"],
+    "cluster_hint": "novelty-gag (brand-only; not a UI/native cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect (working against it) — the low-contrast muddy icon reads as low-quality at a glance, lowering the trust prior before the app even opens",
+    "Jakob's Law (violated by the icon) — a legacy iOS rounded-rect frame breaks the learned macOS app-icon schema, signalling 'not a native Mac app'",
+    "Von Restorff / silhouette legibility (icon fails) — an icon must win a distinct silhouette at 16px; this one has no figure-ground separation to be memorable by"
+  ],
+  "notes": "CRITICAL for synthesis: SlapMac supplied ZERO app UI. Inputs were only a marketing logo-mockup (cover.jpg) and the app icon (icon.webp). No window/chrome/controls exist, so the 14-point rubric and 10-point native-tells audit are not runnable and rubric/native scores of 0 mean 'not applicable', not a genuine zero. Lineage and era are unknown because there is no body to classify; the icon's non-native idiom is only a weak inference about the likely app, not evidence of it. This entry contributes no UI tokens and must not feed macOS canon, clusters, or pattern files. If SlapMac is wanted in the corpus for real, fetch actual app screenshots. Icon was analyzed as brand evidence only (task scoped to Workflow A / UI); a proper icon digest (Workflow B) is a separate pass. All colour values are (estimated) from compressed sources."
+}

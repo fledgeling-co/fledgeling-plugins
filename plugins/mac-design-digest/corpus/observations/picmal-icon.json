@@ -1,0 +1,31 @@
+{
+  "slug": "picmal", "name": "Picmal", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 mask: artwork fills the squircle cleanly but a ~1px saturated-blue keyline is baked onto the mask edge (system should own the stroke)",
+    "#4 16px: survives only as a blue+white colour blob; ribbon detail smears, identity is colour not form",
+    "#7 figure-ground: blue-vs-pale holds (~5.4:1) but pale-periwinkle vs near-white ribbons collapse in grayscale (~1.2:1)",
+    "#9 era: internally consistent flat-custom but declines the Tahoe/Liquid Glass material vocabulary — reads as a web-graphic tile"
+  ],
+  "failures": [
+    "#3 silhouette: filled solid black it is a bare squircle — no nameable subject; abstract field by choice but nothing says media/convert",
+    "#10 variant robustness: opaque fixed blue+white field, not a layered Icon Composer design — no dark/clear/tinted adaptation; near-white ribbons would glare in dark mode"
+  ],
+  "palette": {
+    "background": "flat #1B5BFF field (corners) with #CBDEFF + #F2F6FF flowing ribbon bands",
+    "glyph": ["#CBDEFF", "#F2F6FF"],
+    "accent": "#1B5BFF"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "flat/ambient — opaque flat fills, no directional light, no baked micro-shadows, no specular; commits to no era light model",
+  "layer_stack": ["electric-blue base field #1B5BFF", "pale-periwinkle ribbons #CBDEFF", "near-white ribbon highlights #F2F6FF", "saturated-blue hairline keyline ~#0078FF on mask edge"],
+  "devices": ["marbled flow field (full-bleed fluid S-curve ribbons, no glyph)", "single-hue tonal ramp (#1B5BFF->#CBDEFF->#F2F6FF)", "baked saturated-blue keyline on the squircle", "full-bleed no-margin field-as-mark"],
+  "adjectives": ["fluid", "electric", "flat-graphic"],
+  "rhymes_hint": "abstract fluid/marble-field utility icons — single-hue tonal tiles and flow motifs rather than glyph-on-gradient; kin to wallpaper-style abstract icons and the 'brand-blob' school",
+  "notes": "256x256 resized web render, not the 1024 master — all hex (estimated), fine ribbon/specular/keyline-width unverifiable at this size. Strong palette discipline (one hue, three stops) and strong icon<->app brand coherence: electric #1B5BFF is the app accent throughout the cover (Convert button, corner wedges, list checkboxes, footer wordmark). Weakness is legibility of purpose: no glyph/subject, so the icon communicates brand-colour not function — distinct in colour, anonymous as a media converter. Not a native layered/glass icon; flat opaque construction. #3 is a non-negotiable check (would not clear the generation bar despite 10/12)."
+}

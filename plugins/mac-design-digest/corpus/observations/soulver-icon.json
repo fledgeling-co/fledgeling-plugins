@@ -1,0 +1,23 @@
+{
+  "slug": "soulver", "name": "Soulver", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": ["#3 silhouette — solid-black fill is a plain squircle; subject carried by internal colour blocks + notepad fold, nameable only in grayscale not pure silhouette", "#4 16px squint — yellow-header + 2x2 colour-block gestalt survives and reads as 'colourful calculator', but the $/%/clock/= glyphs smear to blobs; legible ~32px+"],
+  "failures": ["#6 palette economy — 5 hue families (yellow header + red/green/purple/blue keys), no single reserved accent; purposeful multicolor-keypad signature but fails the <=2-hue rule", "#10 variant robustness — not authored for Liquid Glass; meaning rides on the white paper ground + four distinct key colours, which collapse to identical blobs under tinted/mono/clear rendering"],
+  "palette": {
+    "background": "scene: warm-white paper field #F9F8F4->#F6F6F5 with yellow header sheet ramp #F8D246->#F6CF39",
+    "glyph": ["#FFFFFF", "#F44F58", "#45D45D", "#AB6DD7", "#48A4FD"],
+    "accent": "none reserved — four equally-saturated keys (softened system hues)"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "Soft top-down; short soft drop shadows under keys and under each glyph; warm cast under the folded header edge; matte, no specular — Big Sur baked-shadow model, not Liquid Glass",
+  "layer_stack": ["white/cream paper field (back)", "yellow header sheet with page-fold + warm fold shadow", "four saturated rounded-rect keys with soft drop shadows", "white domain glyphs ($ % clock =) with micro drop shadows (front)"],
+  "devices": ["notepad page-fold header (torn/folded top sheet revealing paper beneath)", "multicolor 2x2 keypad as the glyph (rainbow = the multi-domain brand signal)", "domain-glyph storytelling: $ currency / % percent / clock time / = math spells the feature set", "concentric mask-echo corner: bottom-right key's outer radius enlarged to nest in the squircle"],
+  "adjectives": ["cheerful", "literal", "tactile"],
+  "rhymes_hint": "Big Sur multicolor-utility family — front-facing squircle with a saturated multi-hue element on a paper/neutral field; peers Apple Calculator & Numbers (multicolor grids) and Apple Notes/Stickies (yellow-paper header)",
+  "notes": "icon.png is a clean 1024x1024 full-res original (SHA-1 710aa306), no resize artefacts. SOURCE MISMATCH: cover.webp depicts 'Supaste / Clipboard history', a DIFFERENT app, not Soulver — could not assess icon-to-app palette coherence. Keys are softened/tinted versions of macOS system hues (red #F44F58 vs system #FF383C, blue #48A4FD vs #0088FF) — friendlier-than-system palette, watch as possible recurring device. #6 and #10 are honest fails but #6 is signature-over-defect (subject-driven multicolor). Not yet updated to Liquid Glass/Tahoe."
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "glance", "name": "Glance", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#1 ships pre-masked (baked squircle + transparent corners) with baked soft shadows; radius reads close to system squircle but not Liquid-Glass-ready", "#5 glyph halos are omnidirectional soft glows rather than a declared top-down direction, but internally consistent"],
+  "failures": ["#10 dark-glyph-on-white-tile depends entirely on the light background; no Dark/Mono/glass variants authored, so system dark/clear/tinted renders would break"],
+  "palette": {"background": "ramp #FFFFFF->#E7E7E7 (near-flat) + ghost grid lines ~#EBEBEB-#F2F1F2", "glyph": ["#181818", "#333333", "#414141"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "mascot", "overlay_device": "other"},
+  "light_model": "soft ambient / nominally top-down; short soft baked halos around eyes and smile, single specular dot on smile terminal, background light-top->darker-bottom ramp; soft-plastic emboss, not a hard directional drop shadow",
+  "layer_stack": ["near-white background ramp", "faint notebook/table grid lines", "soft glyph halos/shadows", "dark eyes + smile glyph"],
+  "devices": ["block-cursor eyes (vertical rounded rects that read as both eyes and code-editor block cursors)", "smiley-mascot brand", "ghost grid (whisper notebook/table lines that vanish at small sizes)", "soft-plastic emboss halos", "achromatic / color-free palette"],
+  "adjectives": ["friendly", "monochrome", "soft-embossed"],
+  "rhymes_hint": "friendly-minimal mascot / emoji-face icons, achromatic monochrome utility tiles, and paper/notebook-grid document icons",
+  "notes": "Genuine 1024x1024 asset (indexed-P PNG, alpha 0 transparent corners) — NOT a resized web render; gradients clean. Ships PRE-MASKED with baked soft shadows, conflicting with macOS 26 'deliver square unmasked, system applies mask+effects' guidance. Achromatic: 0 hue families, no accent — a committed colourless bet, distinctive by absence. Subject-mining is the standout: the two block-cursor eyes tie the smiley mascot to the Markdown-editor subject. Cover art confirms the icon at toolbar size reads as a plain white face-tile with grid invisible. Non-negotiable checks 1-4 all pass (1 soft). Candidate seed for a 'friendly-minimal mascot' icon cluster; single app, no promotions."
+}

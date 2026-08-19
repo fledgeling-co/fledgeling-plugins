@@ -1,0 +1,39 @@
+{
+  "slug": "keeby", "name": "Keeby", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 mask discipline — keycap silhouette reads as a squircle and fills the frame (good Dock conformance), but delivered as a free object on transparency with baked gloss/specular/skirt-shadow rather than a flat unmasked square layer for the system to light",
+    "#3 silhouette test — solid-black fill reads only as a generic rounded square/keycap; the differentiating cream smiley is interior and vanishes in pure silhouette"
+  ],
+  "failures": [
+    "#10 variant robustness — opaque single-object baked render with no separable foreground layer; cannot be re-lit/re-tinted, so dark/clear/tinted macOS 26 renders collapse it to a flat monochrome rounded-square+smiley, losing gloss, depth and orange identity"
+  ],
+  "palette": {
+    "background": "transparent / none — free keycap object (corners alpha-0); the keycap crown itself is a ramp #FFB057->#F9770A, skirt #EC6A0B->#711D03",
+    "glyph": ["#FCFBF0", "#FFFAE4"],
+    "accent": "none (single orange hue family; specular hotspot #FFFFFF)"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "mascot",
+    "overlay_device": "none"
+  },
+  "light_model": "top-left key light, glossy plastic; tight speculars blown to #FFFFFF on the crown plus a bright top-rim band, soft falloff down the domed face, skirt side-walls recede into #711D03 bottom-right — one coherent light, all baked in (not system-applied)",
+  "layer_stack": [
+    "transparent ground",
+    "keycap skirt / side-walls (receding, shadowed)",
+    "keycap crown face (orange gloss ramp)",
+    "embossed cream smiley glyph",
+    "specular gloss highlights (crown hotspot + top rim)"
+  ],
+  "devices": [
+    "keycap-as-icon (the app's whole subject is one literal keycap)",
+    "embossed smiley on the crown (tool becomes a friendly character)",
+    "candy-gloss injection-moulded ABS plastic (blown-white specular + hard rim)",
+    "visible keycap skirt selling real 3D depth (not a flat rounded square)"
+  ],
+  "adjectives": ["glossy-candy", "friendly", "tactile"],
+  "rhymes_hint": "glossy 3D single-object render icons (Spline/Blender indie wave, claymorphism-adjacent) and playful/toy single-glyph icons; the embossed-friendly-face-on-object motif — a committed toy/glossy family, not the flat pro-utility glyph its category would predict",
+  "notes": "312x312 WebP web render, no 1024 master — flat-face hex and gloss ramp reliable, fine gloss micro-gradients and emboss depth soft. Transparency genuine (all corners alpha-0), consistent with a rounded-square keycap silhouette; near-full-frame so low Dock-reading risk regardless. Strong brand coherence: same orange + cream carries the cover wordmark, download-button accent, app gradient and menu-bar glyph. Shares the transparent-free-object + baked-lighting + #10-fail structure with AutoShelf but conforms to the mask far better (fills frame as squircle vs floating ~52% width); candidate seed for a 'glossy-3D-render object' icon cluster distinct from 'floating-object utility'."
+}

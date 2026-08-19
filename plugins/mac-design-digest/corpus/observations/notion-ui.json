@@ -1,0 +1,69 @@
+{
+  "slug": "notion", "name": "Notion", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "main-window (AI meeting-note view), marketing perspective render",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 2,
+      "failures": [
+        "#9 tertiary gray labels ('View all', '@Today' mention) ~3-3.5:1 on white, below 4.5:1 (estimated, perspective+JPEG)",
+        "#10 mid-gray line icons ~3:1 borderline vs white",
+        "native#1 Electron/React, not AppKit-native",
+        "native#3 selection is flat gray fill but text neutral, not accent-tinted",
+        "native#5 web ~15-16px body and generous rows, not 13pt/24-28pt native ladder",
+        "native#6 no system-accent binding anywhere; color reserved for status/identity only",
+        "native#10 traffic lights rendered monochrome grey (inactive or custom, not the colored cluster)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#FFFFFF pure white, sidebar+content identical (no tonal elevation)", "quality": "estimated", "notes": "perspective render; JPEG"},
+    {"token": "type/title", "value": "~24-28px bold near-black humanist sans", "quality": "estimated", "notes": "'Stand-up' document title, relative read"},
+    {"token": "type/body", "value": "~15-16px web scale", "quality": "estimated", "notes": "sidebar rows; not 13pt macOS body — density tell"},
+    {"token": "type/section-header", "value": "~13px semibold mid-gray, sentence case", "quality": "estimated", "notes": "'Meetings'/'Teamspaces' — NOT tracked uppercase (native-correct casing)"},
+    {"token": "label/secondary", "value": "mid-gray ~50%", "quality": "estimated", "notes": "de-emphasized row text"},
+    {"token": "label/tertiary", "value": "light-gray ~30%, contrast-risk", "quality": "estimated", "notes": "'View all', '@Today' mention"},
+    {"token": "accent/system", "value": "absent — no controlAccentColor binding", "quality": "estimated", "notes": "monochrome by design; the strongest signature"},
+    {"token": "color/status", "value": "tinted red (light-pink fill + red glyph/label)", "quality": "estimated", "notes": "'Stop' record button — the only saturated action in view"},
+    {"token": "select/fill", "value": "flat light-gray rounded fill ~8-10px radius, neutral text", "quality": "estimated", "notes": "'Home' row and 'Notes' tab share one grammar"},
+    {"token": "radius/pill", "value": "~8px soft rounded (not full capsule)", "quality": "estimated", "notes": "selection + Stop button"},
+    {"token": "icon/style", "value": "monochrome line icons, uniform ~1.5px stroke", "quality": "estimated", "notes": "chat/calendar/inbox/search strip + row glyphs"},
+    {"token": "chrome/traffic-lights", "value": "monochrome grey dots", "quality": "estimated", "notes": "inactive-window render or custom; real Electron frame"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "left source list, full-height, same pure white as content (no vibrancy); selected 'Home' in gray pill + a horizontal icon strip (chat/calendar/inbox/search) = web pattern, not native vertical list; labeled sentence-case sections (Meetings, Teamspaces); generous web-density rows"},
+    {"pattern": "toolbar", "key_values": "in-content sub-toolbar, not window chrome: three-item tab group (Summary/Notes-selected/Transcript, icon+label) + audio waveform + pause + tinted-red Stop + overflow; document-scoped AI recording bar"},
+    {"pattern": "list", "key_values": "sidebar rows = leading monochrome line-icon + label; secondary rows in gray; hierarchy via de-emphasis not size"},
+    {"pattern": "other", "key_values": "content top-right cluster: timestamp + stacked collaborator avatars + Share text button + comment + star + overflow"}
+  ],
+  "signature_moves": [
+    "Grayscale-except-for-meaning: entire UI is monochrome; system accent refused; color appears only where it means something (red=recording, blue=Company OS, avatar rings=identity) — Von Restorff enforced at system level so the one red control cannot be missed",
+    "Platform-material erasure as document-first ideology: sidebar and canvas share one pure white, no vibrancy/glass/tonal elevation; the blank page IS the aesthetic and the OS is made to vanish — consistent cross-platform canvas over native fidelity",
+    "Hand-drawn black-and-white character illustrations (with colored rings) supply the only warmth against an otherwise Swiss-neutral surface"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — lightest tertiary labels ('View all', '@Today' mention) ~3-3.5:1 on white and mid-gray icons ~3:1, at/below WCAG floors (estimated, perspective+JPEG)",
+    "Accent-binding absence (lineage tell) — selection/nav neutral gray, no controlAccentColor; native correction: tint selection+focus+primary to system accent",
+    "Non-native sidebar icon strip (lineage tell) — horizontal chat/calendar/inbox/search row in the source-list header is a web pattern",
+    "Web density (lineage tell) — ~15-16px body and tall rows vs 13pt/24-28pt macOS 27 ladder"
+  ],
+  "aesthetic": {
+    "adjectives": ["monochrome", "document-first", "friendly-neutral"],
+    "direction": "Utilitarian-humanist monochrome workspace — Swiss/International structure (near-white ground, near-black ink, one color reserved for meaning) blended with humanist-sans + hand-drawn illustration warmth; a neo-grotesque product look stripped of the electric accent",
+    "peers": ["Linear (structure/neutral calm)", "Craft (document-first blank page)", "Coda"],
+    "cluster_hint": "monochrome-workspace",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff effect — the single tinted-red Stop is the one different thing in an all-gray field, so the eye locks onto the live recording control",
+    "Hierarchy via de-emphasis (processing fluency) — secondary/tertiary text pushed to gray while primary stays black; hierarchy survives entirely in grayscale",
+    "Jakob's Law — adopts the familiar web sidebar+content document convention, trading native surprise for cross-app predictability",
+    "Miller/Cowan chunking — sidebar grouped into short labeled sections (Meetings, Teamspaces), few items each",
+    "Aesthetic-usability / low perceptual load — the calm monochrome canvas minimizes extraneous visual noise"
+  ],
+  "notes": "ONLY inputs were a marketing cover (composite: white backdrop, Notion wordmark + block icon, headline 'Where teams and agents [Think] together' with a branded light-blue pill, a row of illustrated persona avatars) and the app icon; no dedicated UI screenshots. The single app surface is composited into the cover in 3D PERSPECTIVE (rotated, receding) — not axis-aligned, so no clean pixel measurement or retina scale is recoverable; all metrics are (estimated) with wide ranges, JPEG-softened, many rubric checks N/A for lack of surface content (no forms, paragraphs, focus states, settings/empty/dark surfaces). Lineage web-electron is publicly known and tell-corroborated; this app feeds CONTRAST evidence only and must not enter macOS canon or native clusters. App icon (context, not digested as icon workflow): the classic monochrome isometric 'N' block — reinforces the same grayscale brand discipline seen in the UI. Cover headline/pill/avatars are brand evidence, distinct from the app-window design evidence."
+}

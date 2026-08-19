@@ -1,0 +1,15 @@
+{
+  "slug": "fello-ai", "name": "Fello AI", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#4 16px squint — rosette silhouette survives but over-under weave smears at menu-bar size", "#11 personality — distinctive form but derivative of the OpenAI blossom/knot mark lineage"],
+  "failures": ["#10 variant robustness — near-white glyph depends on the dark bg (~14:1); would wash out in clear/light-tinted Liquid Glass renders, no tintable silhouette"],
+  "palette": {"background": "ramp #353944->#101115 (cool charcoal, light-at-top, subtle #1F2229 center lift)", "glyph": ["#FCFDFF", "#F5FAFE", "#CED9DF", "#1C1C24"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "top/top-left soft key; baked tube-roundness shading + short ambient-occlusion contact shadows at the 8 crossings; no cast drop shadow; no glass specular/refraction",
+  "layer_stack": ["charcoal vertical gradient background", "subtle center glow/vignette", "interlaced pearl quaternary knot (single self-occluding object with baked AO)"],
+  "devices": ["interwoven quaternary knot (four rings laced over-under, 4-fold rosette; on-subject metaphor for a multi-model aggregator)", "pearl/chrome tube material with baked roundness + crossing occlusion", "monochrome-on-charcoal restraint (zero chromatic accent)"],
+  "adjectives": ["interlaced", "pearlescent", "restrained"],
+  "rhymes_hint": "AI-knot / blossom-mark family (OpenAI flower-knot lineage) crossed with glossy-3D-object-on-dark-gradient Big-Sur render icons; monochrome-object-on-charcoal style family",
+  "notes": "256x256 JPG web render, not a 1024 master — material/edge readings are (estimated), softness partly JPEG compression; can't verify master full-bleed or pixel-grid. Big-Sur era: baked highlights+AO conflict with macOS 26 flat-layer guidance (system should apply specular/shadow) and drive the #10 tinted/clear failure. Brand-palette incoherence: cover is purple->blue, icon is neutral charcoal+pearl and carries none of the brand purple. Glyph metaphor (woven strands = many models) fits the aggregator product but rhymes hard with OpenAI's knot mark — distinctive yet not proprietary."
+}

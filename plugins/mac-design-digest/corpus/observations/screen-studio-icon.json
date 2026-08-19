@@ -1,0 +1,38 @@
+{
+  "slug": "screen-studio", "name": "Screen Studio", "category": "Video",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 grid: optical centering good, vertical center dead-on; horizontal centroid pulled left is a brightness artifact, not a real offset; ring outer diameter ~78% of canvas (large-ish); true grid unverifiable at 102px",
+    "#3 silhouette: a ring is instantly nameable but generic (target/lens/spinner/O); subject-communication rests on color+context, distinctiveness carried by the neon-void treatment not the outline",
+    "#5 single light model: bg is top-lit while the ring's shading is brightest lower-left; passes only under the self-luminous/emissive exemption (the ring is a light source)",
+    "#8 depth: bloom/glow is baked in (HIG says let the system apply glows) but it is systematic+purposeful+accessible, so recorded as a signature move not a defect",
+    "#10 variant robustness: ring silhouette survives dark/clear/tinted, but identity is color-bound (tinted mono keeps the O, loses the neon soul); no evidence of authored Default/Dark/Mono variants"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #1F1340->#070310 (dark indigo top to near-black bottom)",
+    "glyph": ["#A136FC", "#8436DE", "#752FC4", "#6939C4"],
+    "accent": "#A136FC"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Two-part: near-black squircle ground lit top-down (lighter indigo up top, near-black at bottom); the violet ring is emissive/self-luminous with a soft radial bloom behind it and a faintly-lit central aperture; no hard cast shadow.",
+  "layer_stack": [
+    "near-black squircle with vertical indigo->black ramp",
+    "radial violet glow/bloom behind ring",
+    "emissive violet ring/torus (record 'O')",
+    "faintly-lit central aperture"
+  ],
+  "devices": [
+    "luminous record-ring on a void (self-illuminated violet torus, subject-mined record 'O'/lens aperture)",
+    "monochrome-purple discipline (ground+glow+glyph all one hue at different values)",
+    "emissive-over-lit (glyph emits its own light rather than reflecting a top-down source)"
+  ],
+  "adjectives": ["luminous", "nocturnal", "singular"],
+  "rhymes_hint": "neon-glyph-on-void family: dark near-black squircle + one glowing brand mark in a single saturated hue, emissive with soft bloom (dark creative/AI/recording pro-tool icons); not yet a promoted icon cluster",
+  "notes": "Source is a 102x102px web render (icon.webp, SHA-1 a7bf5c48), NOT a 1024 master — grid alignment, any Liquid Glass refraction/specular, and micro-shadow detail are estimated, not measured. Era called big-sur for the unified-squircle grammar (front-facing, single centered glyph, soft top-lit ground), but it is a committed dark-luminous/neon-bloom variant that departs from Big Sur's soft-lit-surface-object+tool-overlay convention and leans toward custom. Could be a Liquid Glass DARK render, but the low-res source shows no confirmable glass edge highlights/refraction/tinted-layer evidence, so liquid-glass is unproven and not claimed. Brand-context coherence is strong: the same purple ring appears as the cover wordmark logo and the in-app sidebar mark, so the icon reads as brand primitive, not decoration. Vertical ring center dead-on (50.1/51); outer ring diameter ~78% of canvas width."
+}

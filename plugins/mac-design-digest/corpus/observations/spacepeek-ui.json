@@ -1,0 +1,79 @@
+{
+  "slug": "spacepeek",
+  "name": "SpacePeek",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png (app window inside marketing composite)",
+      "surface_type": "floating panel — Quick Look-style folder-size preview (Overview tab)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 6,
+      "failures": [
+        "#9 text contrast — tertiary percentages (33%/5%/4%) and subtitle '/Users' are ~40-50% gray sitting on a translucent warm material showing wallpaper; reads at risk of <4.5:1",
+        "#10 UI contrast — trailing disclosure chevrons are very light gray (~2:1), and rows carry no separators/borders (grouping is by tint + gap only)",
+        "native#1 macOS-correctness — every list row is a full-width rounded pill with a colored wash (iOS inset-grouped table grammar), not the flat AppKit NSTableView row + inset-rounded selection",
+        "native#3 selection grammar — segmented control's selected segment is a solid saturated system-blue capsule with white text (iOS style), not macOS's neutral elevated-fill segment",
+        "native#2 glass discipline (low confidence) — content list + summary card render on a whole-window translucent material with wallpaper visible through it (glass-in-content tension); plausibly legitimate for a transient Quick Look panel, and marketing composites exaggerate translucency"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-material", "value": "whole-window translucent light vibrancy; wallpaper visible through content, warm-tinted by the sunset scene behind", "quality": "estimated", "notes": "Quick Look-style floating panel; translucency likely exaggerated by the marketing wallpaper — treat material as (estimated)"},
+    {"token": "bg/content-card", "value": "near-white translucent rounded panel (~#F4F2EE warm-white over material)", "quality": "estimated", "notes": "summary card + list container sit slightly lighter than window ground"},
+    {"token": "accent/primary", "value": "system blue ~#0A84FF/#0088FF (segmented selection + brand headline 'See everything')", "quality": "estimated", "notes": "matches macos-27 kit Blue; used only for the one selected/prominent element"},
+    {"token": "palette/identity", "value": "system 12-hue set — blue, teal/cyan, green, yellow, purple, red, pink, gray — mapped per folder and echoed in donut arcs", "quality": "estimated", "notes": "matches kit system colours; identity colours kept separate from the blue accent (native-correct)"},
+    {"token": "text/primary", "value": "near-black ~85% black (folder names, sizes, '59.5 GB', section header)", "quality": "estimated", "notes": "aligns with kit primary label = 85% black, not pure #000"},
+    {"token": "text/secondary", "value": "~50% gray ('Files'/'Folders' sublabels, '/Users', title subtitle)", "quality": "estimated", "notes": ""},
+    {"token": "text/tertiary", "value": "~40% gray (row percentages 33%/5%/4%)", "quality": "estimated", "notes": "contrast-at-risk on translucent ground — see failure #9"},
+    {"token": "type/hero-number", "value": "'59.5 GB' — LargeTitle/Title1-class SF Pro, Bold, ~26-40px on canvas", "quality": "estimated", "notes": "canvas at unknown downscale; role read, not exact pt"},
+    {"token": "type/section-header", "value": "'Largest items' — Headline/Body 13pt-class, Bold, sentence case, primary color", "quality": "estimated", "notes": "sentence-case bold header = native-correct"},
+    {"token": "type/row-body", "value": "folder name + size — Body 13pt-class SF Pro; size in medium weight, name regular", "quality": "estimated", "notes": ""},
+    {"token": "type/caption", "value": "percentages / sublabels — Caption/Footnote 10-11pt-class, secondary/tertiary gray", "quality": "estimated", "notes": ""},
+    {"token": "control/segmented", "value": "'Overview | Contents' capsule segmented control; selected = solid blue fill + white text; unselected = neutral translucent track", "quality": "estimated", "notes": "in-view scope switch (legit use); selected-fill styling is iOS-flavored"},
+    {"token": "control/status-pill", "value": "'⚡ 801k items scanned in 2.91 s' — capsule pill, bolt glyph + text, translucent fill", "quality": "estimated", "notes": "status paired with glyph — native-correct; sells scan speed"},
+    {"token": "chrome/panel-buttons", "value": "two dark monochrome circular buttons top-left — ✕ (close) + ⊘ (stop/cancel); share glyph top-right", "quality": "estimated", "notes": "custom panel chrome, NOT red/yellow/green traffic lights; contextually OK for a Quick Look panel (panels have no traffic lights)"},
+    {"token": "radius/window", "value": "~14-16px on canvas (concentric parent)", "quality": "estimated", "notes": "kit lists window radius as (unknown); this is a measured-from-composite estimate"},
+    {"token": "radius/card", "value": "summary + list container ~12-14px", "quality": "estimated", "notes": "steps down from window radius"},
+    {"token": "radius/row", "value": "list rows ~10-12px rounded pills", "quality": "estimated", "notes": "concentric child of the list container"},
+    {"token": "radius/pill", "value": "capsule (segmented control, status pill)", "quality": "estimated", "notes": "matches kit capsule-as-default-bezel era signature"},
+    {"token": "list/row", "value": "generous rows (~40-44px equiv), colored-icon + name (leading) / size + percentage + chevron (trailing), full-width colored tint wash per row", "quality": "estimated", "notes": "row tint intensity tracks rank/proportion — the signature move"},
+    {"token": "chart/donut", "value": "ring/donut chart, padded arcs with rounded caps, 12-hue identity segments + gray 'other', center label ('wangfu' + '59.5 GB')", "quality": "estimated", "notes": "colours map 1:1 to list rows"}
+  ],
+  "patterns": [
+    {"pattern": "list", "key_values": "inset rounded rows with per-row colored tint wash encoding proportion; leading colored folder icon, trailing size + % + disclosure chevron; sentence-case bold section header; iOS-flavored (every row filled, no AppKit flat-row/selection grammar)"},
+    {"pattern": "toolbar", "key_values": "custom panel header: leading folder-icon + title/subtitle, center capsule segmented control (Overview/Contents), trailing status pill + share glyph; borderless monochrome symbols"},
+    {"pattern": "card-grid", "key_values": "summary card = hero total ('59.5 GB') + two label/value stat pairs (Files/Folders) with glyphs; value outranks label"},
+    {"pattern": "floating-panel", "key_values": "Quick Look-style transient preview invoked by spacebar in Finder ('Press Space'); whole-window translucent material; monochrome ✕/⊘ panel buttons, no traffic lights"},
+    {"pattern": "other", "key_values": "donut/ring chart with system-palette arcs + center total, colour-synced to the list rows (dual encoding of the same data)"}
+  ],
+  "signature_moves": [
+    "Per-row colored tint wash: each 'Largest items' row carries its folder's identity hue as a full-width background wash whose weight tracks rank/proportion — the list doubles as an inline bar/treemap, and the same hue reappears as that folder's donut arc, triple-encoding size (number + row-tint + arc)",
+    "Quick Look disguise: the app presents as a native Finder Quick Look panel (spacebar-invoked, translucent, ✕-to-close) rather than a document window — 'Press Space. See everything.' leverages a motion users already have trained",
+    "Speed-as-proof status pill: '⚡ 801k items scanned in 2.91 s' surfaces the Rust engine's throughput as a persistent chrome element — performance rendered as a trust signal"
+  ],
+  "defects": [
+    "Contrast Dilution (risk) — tertiary percentages + '/Users' subtitle at ~40-50% gray over a translucent, wallpaper-tinted ground likely fall below 4.5:1; a floating panel over an arbitrary desktop is the worst case for translucent secondary text",
+    "Glass-in-content (low confidence) — list rows and summary card sit on whole-window translucent material with wallpaper showing through; tension with the Liquid Glass golden rule (content opaque), softened because this is a transient Quick Look panel and the composite likely exaggerates translucency",
+    "iOS-flavored controls on macOS (native-tell, not universal) — saturated-blue selected segment and inset-grouped tinted rows follow iOS grammar rather than the AppKit segmented/table conventions; excluded from macOS canon per lineage gate"
+  ],
+  "aesthetic": {
+    "adjectives": ["translucent", "chromatic", "approachable"],
+    "direction": "Liquid-Glass consumer-utility with a chromatic data-viz core: warm-translucent light material, capsule/rounded everything, and the full system 12-hue palette used as a through-line across list rows and donut — the opposite pole from the Linear/Vercel dark-utility reflex most disk tools reach for",
+    "peers": ["DaisyDisk (chromatic disk-usage storytelling)", "GrandPerspective (treemap disk viz)", "Finder Quick Look (panel framing)", "CleanMyMac Space Lens (consumer polish)"],
+    "cluster_hint": "chromatic-glass-utility (light)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — presenting as Finder Quick Look ('Press Space') borrows an already-trained user expectation, so the tool needs almost no onboarding",
+    "Gestalt similarity / pre-attentive color coding — shared identity hues let the eye map a list row to its donut arc without reading, making the two views one glanceable model",
+    "Hierarchy via de-emphasis — value outranks label (699,142 over 'Files'; sizes darker than percentages), so the numbers anchor attention",
+    "Processing fluency + Doherty threshold — '801k items scanned in 2.91 s' converts sub-perceptual speed into an explicit trust/credibility signal",
+    "Von Restorff / signal detection — a single saturated blue (selected segment) against otherwise neutral chrome keeps one clear focal point; no focal collision",
+    "Aesthetic-usability effect — glossy translucency + saturated palette raise perceived trustworthiness of a destructive-adjacent tool (finding what to delete) on first contact"
+  ],
+  "notes": "SINGLE SURFACE, MARKETING-COVER ONLY: the only design evidence is the app window composited inside cover.png (1280x800) over a warm sunset wallpaper; there are no standalone shot-*.png files. All measurements are (estimated) at unknown downscale — type is read as roles (LargeTitle/Body/Caption), not asserted pt; translucency is likely exaggerated by the marketing wallpaper. No dark mode, no settings/empty/onboarding surfaces, no visible selection or focus state. Lineage is native (SwiftUI) at MED confidence — Catalyst cannot be fully ruled out: the inset-grouped tinted rows + per-row chevrons + saturated-blue segment are iOS-derived tells (recorded as tells + corrections, excluded from macOS canon per the lineage gate); the custom panel chrome, Mac-specific segmented control, share glyph, and Quick Look integration argue native SwiftUI. icon.png (512x512) was NOT digested — this task is Workflow A (UI) only; leave the icon for an icon pass. Reference peer DaisyDisk recurs across the corpus's disk-usage apps (drivemosaic, purge) — but SpacePeek sits in a distinct LIGHT/chromatic/glass register, not the dark-native-utility cluster those occupy."
+}

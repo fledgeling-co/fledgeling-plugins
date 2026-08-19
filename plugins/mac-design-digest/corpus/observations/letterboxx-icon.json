@@ -1,0 +1,42 @@
+{
+  "slug": "letterboxx", "name": "Letterboxx", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 self-masked transparent squircle (baked corners), not HIG square full-bleed layers",
+    "#4 16px squint: 'pale card in a blue container' gestalt survives but airmail striping smears to noise",
+    "#6 three chromatic families (teal + airmail-red + airmail-blue on cream); accent not reserved to one focal detail"
+  ],
+  "failures": [
+    "#3 silhouette collapses to a rounded-square tray blob — tray is the squircle, envelope detail never projects past the outline; identity is colour/material only",
+    "#10 fixed full-colour 3D render, baked teal background + baked lighting, no light/dark/clear/tinted layers — flattens to a blob in mono/tinted"
+  ],
+  "palette": {
+    "background": "scene — glossy teal tray fills the squircle; body #479CAF, rim specular #97EAFF, deep occlusion #31718C->#0B2567",
+    "glyph": ["#FAF6F2", "#D5463A", "#274F93", "#C9A15E"],
+    "accent": "#D5463A"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "soft global illumination, key from upper-front; broad matte ambient occlusion under stack and inside tray; glossy specular along plastic tray rim; matte paper; no long shadows (system supplies drop shadow)",
+  "layer_stack": [
+    "transparent self-masked squircle",
+    "teal tray back wall / interior",
+    "fanned pile of plain cream envelopes",
+    "mid-stack airmail-bordered envelopes",
+    "hero top airmail envelope (focal)",
+    "teal tray front lip (occludes bottom of stack)"
+  ],
+  "devices": [
+    "object-as-squircle: physical inbox tray container",
+    "airmail chevron border (red/blue nostalgia motif)",
+    "fanned document stack implying accumulation/volume",
+    "claymorphic glossy-plastic soft-body 3D render"
+  ],
+  "adjectives": ["tactile", "nostalgic", "chunky"],
+  "rhymes_hint": "contemporary 3D-render / claymorphic soft-object icons (Blender/Spline/AI-3D lineage) and skeuomorphic-quote 'container full of literal objects' icons (tray/box/shelf holding artifacts); palette-family: teal container + red-white-blue airmail. Style-family guess: '3D object-tray, colour-dependent'.",
+  "notes": "256x256 web render (transparent-masked squircle, alpha=0 outside), not the 1024 master — stripes/flap seam already softened, so #4 judged slightly generously. Self-masked (baked corners) rather than HIG square full-bleed layers, which is why no system appearance variants exist (feeds #10). Strong icon<->app palette coherence: tray teal #479CAF matches the cover's teal->blue gradient; app UI is neutral gray/teal, so the airmail red/blue lives only in the icon. Reads as a mail/comms app, accurate to the newsletter-reader function despite the Productivity category. Non-negotiable generation checks 1-4: fails #3 outright and is borderline on #4 — a cautionary example that small-size legibility here rests on colour, not silhouette."
+}

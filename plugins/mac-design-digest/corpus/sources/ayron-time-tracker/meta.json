@@ -1,0 +1,16 @@
+{
+  "slug": "ayron-time-tracker",
+  "name": "Ayron Time Tracker",
+  "tagline": "Turn tracked time into reports, insights and invoices",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://getayron.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ba1e87dd-a313-45e4-b5e8-32344cff3358.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c6b021f6-bf6f-43d1-99c9-c8f6c0d1b29d.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ayron-time-tracker/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ayron-time-tracker/cover.png",
+    "shots": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "dia", "name": "Dia", "category": "Productivity",
+  "era": "liquid-glass",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optically centred on x but seats slightly high on y; grid precision unverifiable at 204px",
+    "#3 distinctive brand-consistent silhouette but abstract (rising-sun / tooth / blob), not a literal-object metaphor",
+    "#4 blue-crown-to-warm-foot temperature travel survives 16px and IDs the app; the concave bottom scallop smears to a plain dome",
+    "#7 blue crown and coral foot clear 3:1 on white, but the pale horizon band dissolves into the pedestal / near-invisible middle in grayscale"
+  ],
+  "failures": [
+    "#6 palette economy: four hue families in one glyph (blue->cyan-neutral->yellow->orange->red), no reserved accent — deliberate signature, but breaks the <=2-family ideal",
+    "#10 variant robustness: identity is spectrum-dependent; a tinted/mono render flattens the sunset to one hue and erases the mark, and the pale horizon band leans on the white ground"
+  ],
+  "palette": {
+    "background": "ramp #FFFFFF->#E7E7F3 (near-white pedestal, cool lavender foot; blob contact-tint #E5E5F3)",
+    "glyph": ["#3C71D3", "#5B94DE", "#96BCE1", "#D0DDDD", "#E1E3C7", "#F6CF53", "#F9B73F", "#F59440", "#F26B4E"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "soft top-down ambient + subtle specular sheen on the blob crown; translucent glass tints a cool lavender contact-halo into its near-white pedestal instead of casting a grey drop shadow (Liquid-Glass 'glass tints its ground')",
+  "layer_stack": [
+    "white->lavender pedestal field (#FFFFFF->#E7E7F3)",
+    "soft lavender contact-tint under the blob (#E5E5F3)",
+    "translucent spectrum-glass blob (blue crown -> pale horizon -> coral foot, scalloped bottom edge)",
+    "specular highlight rim on the blob crown"
+  ],
+  "devices": [
+    "sunset/aurora spectrum ramp poured into a brand shape (blue->red vertical temperature travel = the memorable move)",
+    "scalloped-bottom gumdrop mark (abstract non-object logomark, dome top + concave wave base)",
+    "glass-on-white pedestal (translucent coloured layer tinting its ground, lavender contact-halo not grey shadow)"
+  ],
+  "adjectives": ["luminous", "optimistic", "prismatic"],
+  "rhymes_hint": "spectrum-gradient organic brand blobs — Arc browser's gradient mark, Apple Photos/Siri spectral orbs, Raycast-class gradient marks; a single organic shape poured full of a sky ramp",
+  "notes": "204x204 PNG web render (not the 1024 master); corners already alpha-masked into the file (web-delivery artifact, not evidence about the shipped square unmasked layers). All hex (measured) from this render, gradient stops (estimated) — banding, true specular treatment and any edge refraction are below this resolution. Non-negotiable checks 1-4 all pass. Both failures (#6, #10) stem from the same choice — the full spectrum — so this is a signature-driven, not sloppy, icon. Brand-context: cover pairs a MONOCHROME WHITE version of the identical blob + an editorial serif 'Dia' wordmark on stark black; palette deliberately does not carry between icon and cover (shape is palette-agnostic, sunset reserved as the app's face). Candidate seed for icon cluster 'spectrum-gradient organic brand blob' — needs >=3 independent icons before ICONS.md promotion."
+}

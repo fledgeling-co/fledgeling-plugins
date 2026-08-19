@@ -1,0 +1,50 @@
+{
+  "slug": "macrest", "name": "MacRest", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.webp", "surface_type": "marketing-composite (notification/permission panel + brand hero band)", "mode": "dark", "rubric_score": 11, "native_audit_score": 3, "failures": ["#1 grid unverifiable on a glow/composite render (estimated)", "#10 Block button border/fill ~<3:1 against translucent card", "native#1 non-native marketing render, no AppKit/SwiftUI surface", "native#5 density: ~58px buttons vs native 20-28pt", "native#6 app accent (rose-pink) overrides system accent", "native#7 reversed alert button order: default 'Allow' leading not trailing"]}
+  ],
+  "tokens": [
+    {"token": "bg/backdrop", "value": "#1D1218-#1E1417 warm-black", "quality": "estimated", "notes": "brand hero ground, not pure black; plum/brown"},
+    {"token": "type/headline", "value": "high-contrast Didone/luxury serif, ~48-56px, cream #EDE4DC", "quality": "estimated", "notes": "BRAND marketing headline, not app UI type"},
+    {"token": "accent/identity", "value": "rose-pink #FE87A9 (CTA) / #B14160 (icon moon)", "quality": "estimated", "notes": "app-chosen accent carried icon->CTA->glow; overrides system accent"},
+    {"token": "panel/card-fill", "value": "dark translucent, #391C18 center -> #AF301F edge", "quality": "estimated", "notes": "translucency proven by orange wallpaper reading through"},
+    {"token": "panel/card-radius", "value": "~24px", "quality": "estimated", "notes": "composite scale"},
+    {"token": "panel/title", "value": "~19-20px, bold+regular mix, #EADED7", "quality": "estimated", "notes": "native-notification title anatomy"},
+    {"token": "panel/subtitle", "value": "~16px warm gray #7C6E6C", "quality": "estimated", "notes": "de-emphasised body"},
+    {"token": "panel/timestamp", "value": "~15px muted #4A342E 'now'", "quality": "estimated", "notes": "quietest tier, trailing"},
+    {"token": "btn/primary", "value": "~56-60px tall, ~15-16px radius, pink #FE87A9 fill + glow", "quality": "estimated", "notes": "oversized/touch-scaled vs native controls"},
+    {"token": "btn/gap", "value": "~16px", "quality": "estimated", "notes": "between two buttons"},
+    {"token": "context/wallpaper", "value": "Ventura orange #F6A13A", "quality": "measured", "notes": "dates composite reference to macOS 13, pre-Tahoe"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "notification/permission alert (native-banner anatomy: 40px app icon + bold name + predicate + trailing 'now' timestamp + 2 action buttons), brand-restyled with pink primary and reversed button order"},
+    {"pattern": "empty-state", "key_values": "n/a - no functional app surface (menu-bar popover/settings unseen)"}
+  ],
+  "signature_moves": [
+    "Nocturnal rose as a throughline: one rose-pink identity hue travels icon (moon) -> primary CTA fill -> CTA glow across an all-warm palette",
+    "Editorial-luxe register on a plumbing utility: high-contrast Didone serif + warm-black + one saturated pop (fashion/luxury family) transposed onto a sleep-control utility"
+  ],
+  "defects": [
+    "Marketing render (not shipping UI) - oversized glowing buttons and brand-pink actions are not how macOS renders a real notification; shipping surface unseen",
+    "Accent override - app hard-codes rose-pink instead of binding to the user's system accent (native tell)",
+    "Reversed alert button order - default 'Allow' sits leading; native grammar puts default trailing, Cancel/dismiss leading",
+    "Iso-scale competing actions (mild) - Allow/Block near-equal footprints, differentiated only by fill",
+    "Von Restorff pointed at the anti-goal - a sleep-utility makes 'Allow [stay awake]' the single brightest element while 'Block' (the on-brand outcome) is muted"
+  ],
+  "aesthetic": {
+    "adjectives": ["nocturnal", "editorial-luxe", "glossy"],
+    "direction": "Dark boutique-nocturne: Luxury/fashion family (high-contrast Didone serif + warm-black + one saturated pop) rendered dark, with a committed rose-pink identity color",
+    "peers": ["Amphetamine / Lungo / KeepingYouAwake (same keep-awake function, far plainer)", "Aesop-style editorial-luxe brand register (marketing tone, not a Mac app)"],
+    "cluster_hint": "dark-luxe-utility (marketing-forward indie utilities that adopt an editorial/fashion brand register)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law - the panel borrows the familiar macOS notification-banner anatomy (icon/bold-name/body/timestamp/actions) so the interaction reads instantly, then restyles the surface",
+    "Von Restorff / signal detection - the single pink CTA breaks the dark field to become the eye's anchor; here it emphasises 'Allow', the action that defeats the app's stated purpose",
+    "Aesthetic-usability effect - Didone serif + glow raise perceived quality/trust of a plain plumbing utility (halo, first-impression only)",
+    "Fitts's Law - ~58px buttons are effortless targets, though oversized for a pointer-first desktop"
+  ],
+  "notes": "SINGLE marketing composite only (1280x720 webp); no shipping-app screenshot exists in the source (no gallery). The 'UI' is a brand render of a system notification, not a captured native surface - lineage cannot be confirmed and NO evidence here may feed macOS canon or native clusters. Icon (crescent moon + gear, rose-on-graphite) present in source but NOT digested here (Workflow A only; no icons/macrest.md written). Composite uses the Ventura wallpaper = pre-Tahoe reference era. Contradiction to flag for synthesis: brand accent is a fixed pink, which conflicts with the system-accent-binding convention - record as a tell, not taste. Knowledge gap: the real functional surface (menu-bar extra popover / settings) is unseen - request a shipping screenshot to classify lineage properly."
+}

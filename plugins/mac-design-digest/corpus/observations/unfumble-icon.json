@@ -1,0 +1,39 @@
+{
+  "slug": "unfumble", "name": "Unfumble", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 glyph optically low-left as sparkle counterweight — intentional but a nudge",
+    "#3 silhouette carried by interior line-art strokes, not a filled outline",
+    "#10 white glyph is background-independent so it survives, but no authored dark/tinted/glass variant ships",
+    "#11 a device exists (sparkle badge) but it is the template-default stock-symbol pairing on a blue gradient"
+  ],
+  "failures": [
+    "#4 16px squint: wireframe grille collapses to a light blob, globe-ness lost — acute for a menu-bar app that lives at ~16px"
+  ],
+  "palette": {
+    "background": "ramp #0C76FE->#4F5CF6 (diagonal azure top-left -> indigo bottom-right, hue cools ~213->230)",
+    "glyph": ["#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "badge"
+  },
+  "light_model": "Flat/non-dimensional. Gradient field implies soft top-left sky light; glyph is flat white line-art with no cast shadow, specular, bevel, or refraction. Baked system drop shadow behind the mask is a render artifact, not authored depth.",
+  "layer_stack": [
+    "azure->indigo gradient field",
+    "white wireframe globe (meridian + parallel grille)",
+    "white four-point sparkle badge (knocks out globe strokes beneath)",
+    "[baked system drop shadow behind squircle]"
+  ],
+  "devices": [
+    "sparkle-on-globe (globe=language/international, sparkle=automatic/magic) — the one identity move, but stock-symbol pairing",
+    "hue-drifting diagonal ramp (cools azure->indigo, not just value-darkens)",
+    "brand-colour coherence: icon azure is the brand accent echoed in the cover tagline"
+  ],
+  "adjectives": ["vivid-azure", "flat-wireframe", "template-default"],
+  "rhymes_hint": "the 'SF-Symbol glyph on a blue->indigo gradient squircle' utility family (translation/VPN/network/menu-bar tools reaching for the globe); style family = blue-gradient-squircle utility template; nearest reflex Apple Translate/Safari globe motifs",
+  "notes": "Delivered 512x512 not 1024 master; corners transparent with baked system drop shadow -> web render (masked+shadowed), not a raw full-bleed layer. No glass/specular/translucency present -> Big Sur flat-gradient-squircle, NOT Liquid Glass, and no Icon Composer dark/tinted variant authored. Glyph is literally the stock SF Symbols globe + sparkle composited (assembled-from-system-parts tell). Subject (keyboard language switching) is absent from the mark — defaults to generic 'internationalisation=globe' reflex; no key/cursor/glyph-pair. #4 16px fail is borderline (round silhouette persists, grille does not) but consequential for a menu-bar utility. First icon of this template family in the corpus; anchor for a future stock-symbol-utility icon cluster once >=2 more land."
+}

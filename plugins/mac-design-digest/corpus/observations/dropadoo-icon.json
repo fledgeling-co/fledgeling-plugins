@@ -1,0 +1,41 @@
+{
+  "slug": "dropadoo", "name": "dropadoo", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 focal paperclip is corner-weighted lower-right (green bbox x125-189/y95-176 of 225), not on an optical grid circle; mild bottom-right weight bias",
+    "#7 card-vs-envelope contrast is strong and paperclip clears 3:1, but the envelope's own flap geometry is charcoal-on-charcoal (~1:1) — only focal shapes hold",
+    "#1 clean squircle-native art; surrounding soft shadow on white is a render artifact of the source, not a baked glow",
+    "#3 silhouette reads (paperclip is the anchor) but leans on the white card because the envelope is tonally near-invisible"
+  ],
+  "failures": [
+    "#4 16px squint FAIL (hard four): flat #545454 envelope with ~1px #000000 fold outlines; folds, text marks and clip loops smear at Dock/menu-bar size, collapsing to dark squircle + white patch + green speck",
+    "#10 variant robustness FAIL: near-solid charcoal mass assumes a light backdrop; no Default/Dark/Tinted layer authoring; only the green paperclip would survive a tint/dark render"
+  ],
+  "palette": {
+    "background": "flat #545454 (uniform charcoal envelope field; #FFFFFF around squircle is render backdrop, not icon)",
+    "glyph": ["#E7E7E8", "#000000", "#545454"],
+    "accent": "#BDD894"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "scene",
+    "overlay_device": "diagonal-tool"
+  },
+  "light_model": "soft top-down, matte/diffuse, zero specular; one short baked micro-shadow tucking the card behind the flap; envelope is a single flat planar tone (not modelled)",
+  "layer_stack": [
+    "charcoal envelope back/field #545454 (full-bleed)",
+    "off-white letter/card #E7E7E8 emerging from top, two abstracted text marks #000000",
+    "envelope front flap triangle (same #545454, edges drawn as thin ~1px #000000 outlines) overlapping card base",
+    "sage-green paperclip #BDD894 laid diagonally, frontmost"
+  ],
+  "devices": [
+    "envelope-as-canvas (subject becomes the background field, not a centred glyph)",
+    "letter/card emerging from the envelope top carrying abstracted text lines",
+    "paperclip laid diagonally across the fold (Big Sur tool-at-an-angle) doubling as the literal attachment metaphor",
+    "single desaturated accent (#BDD894 pistachio) reserved for the focal attachment; ties to cover-art green"
+  ],
+  "adjectives": ["matte", "muted", "literal"],
+  "rhymes_hint": "envelope/mail-field icons (envelope as whole ground, not a centred glyph); Big Sur diagonal-tool-over-a-field family (Preview/TextEdit lineage); single-desaturated-accent-on-charcoal indie-utility look",
+  "notes": "Source is a 225x225 72dpi downscaled web render, not the 1024 master — all hero-size claims (estimated); small-size failures are only worse at true master. Standout learning: hero-vs-Dock split — well-composed at 512px yet fails non-negotiable #4 because structural geometry (envelope folds) is drawn below a contrast floor. Not Liquid Glass despite shipping into the Tahoe era: flat matte, no specular/refraction/translucency, no light/dark/clear/tinted variants. Icon-brand palette coherence confirmed: paperclip green matches cover-art NEW-badge/arrow green. Candidate icon-canon probe (needs 3 icons): dark-on-dark structural linework needs a >=3:1 floor or it evaporates at Dock size. Did not touch ICONS.md/ledger.md/TASTE.md (synthesis owns those)."
+}

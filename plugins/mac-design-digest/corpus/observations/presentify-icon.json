@@ -1,0 +1,28 @@
+{
+  "slug": "presentify", "name": "Presentify", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#4 16px squint: board-on-easel gestalt survives but inner screen + tripod legs smear/merge",
+    "#7 figure-ground: dominant frame passes >3:1 grayscale-safe, but inner purple-on-purple screen nearly vanishes",
+    "#10 variant robustness: light glyph is bg-independent, but Big-Sur flat render has no authored dark/tinted variant; purple-on-purple collapses in tinted/clear modes",
+    "#11 personality: easel is nameable but committed direction is thin — stock 3D object on stock same-hue gradient, template-default"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #9B64E8->#561DA4 (violet, light-top to dark-bottom, single hue)",
+    "glyph": ["#EAE1F7", "#F6F4FB", "#8F54E2", "#7A3ECD", "#6A2FBD"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "single top-down, soft/diffuse; short baked ambient-occlusion under board and behind tripod; no specular glass rim, no refraction, no long shadow (system supplies drop shadow)",
+  "layer_stack": ["violet ramp field", "tripod legs (lavender, with occlusion)", "board frame (lavender-white rounded rect)", "inset screen panel (purple ramp)", "top knob/bar (lavender pill)"],
+  "devices": ["presentation easel/whiteboard-on-tripod front-facing object (Keynote lectern lineage)", "soft-plastic claymorphic Big-Sur 3D render", "monochrome-tonal single-hue composition (object = white tint of the field's violet)", "sky-logic vertical background ramp"],
+  "adjectives": ["plush", "monochromatic-violet", "literal"],
+  "rhymes_hint": "Big-Sur monochrome-tonal single-object productivity icons; Apple Keynote/iWork lectern-easel lineage; violet/indigo productivity gradients (shares hue register with corpus-mate Alcove)",
+  "notes": "256x256 pre-masked web render (transparent outside squircle), not the 1024 master — palette hexes (measured), bevel/edge softness (estimated). NOT Liquid Glass: object is opaque matte plastic, no specular/refraction/glass layers — squarely Big-Sur unified 3D-object idiom. Icon commits fully to violet identity (bg ramp matches the violet cover art = palette-coherent brand), but reserves no accent and shows none of the app's in-product annotation colors (orange/red seen on cover). Competent but anonymous: 12/12 with no hard failures yet template-default direction. Inner screen contrast is the one real weakness for small-size and tinted-mode robustness."
+}

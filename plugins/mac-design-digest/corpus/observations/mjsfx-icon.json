@@ -1,0 +1,35 @@
+{
+  "slug": "mjsfx", "name": "MJSFX", "category": "Audio",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 inset panel's rounded corners echo the system squircle (concentric double-radius) — risks a bezel/corner-radius mismatch at Dock size",
+    "#3 silhouette is a thin line not a mass; reads as 'sine wave' by gesture, leans on cyan-on-dark contrast rather than shape mass",
+    "#4 ~4% stroke thins to ~0.6px at 16px but the single big S-gesture spanning the tile survives; baseline + panel inset vanish harmlessly",
+    "#5 flat = no light model; trivially consistent (nothing conflicts) but the absence of lighting/depth is why it reads as a flat web/brand mark"
+  ],
+  "failures": [
+    "#10 cyan #00E0FF glyph is background-dependent (dark-locked, no authored light variant, not Icon Composer layers) — washes toward low contrast on a light/clear render"
+  ],
+  "palette": {
+    "background": "two-tone inset panel: bezel field #191C20 around darker screen panel #0D0F12 (flat, no ramp); baseline hairline #1B1F24",
+    "glyph": ["#00E0FF"],
+    "accent": "#00E0FF"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "frame"
+  },
+  "light_model": "none — uniformly flat fill, no gradient, no specular, no baked shadow; only depth cue is the tonal two-tone panel inset (bezel vs screen), not a lit surface",
+  "layer_stack": ["bezel field #191C20", "inset screen panel #0D0F12", "zero-axis baseline #1B1F24", "cyan sine wave #00E0FF"],
+  "devices": [
+    "oscilloscope screen — dark inset panel framed by a lighter bezel (framed-window motif applied literally to waveform editing)",
+    "single-cycle sine wave with rounded stroke caps, near-full-bleed",
+    "zero-axis baseline hairline (the scope centerline)",
+    "monochrome-cyan-on-near-black instrument palette; accent saturation reserved entirely for the glyph"
+  ],
+  "adjectives": ["instrumental", "minimalist", "luminous"],
+  "rhymes_hint": "dark terminal/developer-tool glyph icons (single luminous accent glyph on near-black, no Big Sur material — Ghostty/iTerm-adjacent) and minimalist audio-utility/oscilloscope-app icons that draw the subject as a scope trace",
+  "notes": "Resolution: 600x600 web render, not a 1024 master; simple geometry survives downscale. Slight near-white anti-alias fringing on the cyan lower trough is a resize/compression artifact, NOT a design specular. Stroke width ~24px @600 (~4% canvas), estimated (vertical scan overreads near peaks). Strong icon<->cover brand coherence: same cyan hue family (icon #00E0FF, cover 'bleep'/label #2EC6DA) on same near-black ground (#181B1F/#0C0F11), monospace 8-bit branding; the icon mark is reproduced in the cover header logo. Key finding for synthesis: a fully flat, dark-locked accent-glyph icon that entirely sidesteps both Big Sur material conventions and the current Liquid Glass layer system — committed terminal/instrument direction, but non-native to macOS 26's icon language. Do NOT feed the flat/no-light model into native macOS icon canon; record it as an indie-brand-mark counter-example."
+}

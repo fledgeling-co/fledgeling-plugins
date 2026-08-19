@@ -1,0 +1,28 @@
+{
+  "slug": "gatheros", "name": "GatherOS", "category": "Design",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 glyph sized generously — crowds safe-zone margins but stays inside; optically centered",
+    "#3 silhouette holds as one bold mass with a counter, but subject is an ambiguous letterform (reads D/G), not instantly nameable as an object",
+    "#6 frosted body is one neutral, but prismatic dispersion adds 3 desaturated hues (blue/violet/warm) — one glass material, not competing accents",
+    "#10 glyph is luminance-driven so robust to tinting, but dark field + dispersion are baked; true light/clear/tinted layer behavior unverifiable at 204px"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #3E3E3E->#030303 (diagonal, light top-left)",
+    "glyph": ["#AEB2B5", "#84AABB", "#9786B7", "#B7B395", "#D8DCDD"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "Environmental Liquid-Glass: top-left key drives bg ramp (#3E3E3E TL -> #030303 BR) and specular catches on upper/left glass edges (#C4C8CB-#D8DCDD); short soft baked inner-shadow in the counter; prismatic chromatic dispersion stands in for a colored bounce light",
+  "layer_stack": ["dark diagonal-gradient background field", "frosted-glass letterform body (#AEB2B5)", "prismatic dispersion tint (blue/violet/warm caustics)", "specular edge highlights (#C4C8CB-#D8DCDD)"],
+  "devices": ["prismatic glass dispersion (chromatic aberration across a frosted letterform)", "dark full-bleed field with diagonal top-left light (inverts Big Sur light-sky ramp)", "bold rounded monogram with counter + side-notch (same mark as the app wordmark: logo-as-icon)"],
+  "adjectives": ["prismatic", "monolithic", "frosted-neutral"],
+  "rhymes_hint": "dark-glass monogram family — current-era utility icons rendering a single frosted-glass glyph on a near-black field with baked specular + chromatic dispersion (Raycast-adjacent dark glass, Arc-ish glass marks); style guess 'glass monogram on charcoal'",
+  "notes": "Source is a 204x204 web render, below Dock/@2x resolution — specular/dispersion read from an upscale; cannot confirm whether glass effects are Icon Composer system-applied vs baked into the artwork. Squint tests (downscaled) hold: bold mass + counter survive at 16px, notch and faint tints return by 32px, high figure-ground contrast throughout. Subject-communication miss: app is a design-inspiration/moodboard tool but the icon is an abstract monogram that depicts brand, not function (logo-as-icon; same mark appears as the app wordmark in cover.png). Palette coherence: dark field + single prismatic moment coheres with the app's black/white brand while iridescence rhymes with its colorful inspiration thumbnails. Presented as a standard system squircle in cover.png (no mask-fighting)."
+}

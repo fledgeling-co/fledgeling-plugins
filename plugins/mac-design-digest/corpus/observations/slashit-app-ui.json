@@ -1,0 +1,54 @@
+{
+  "slug": "slashit-app",
+  "name": "Slashit App",
+  "category": "Productivity",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-cover (composite — NO app UI)",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "SCOPE: no macOS UI present — cover is a marketing composite (wordmark + headline + halftone typewriter on icy-blue gradient); 14-point rubric applied only as a graphic-design artifact, native-tells audit is N/A on all 10 checks (no chrome/controls/menu bar).",
+        "#1 grid adherence unverifiable on a raster poster composite",
+        "#8/#11/#12/#13/#14 N/A — no CTAs, inputs, focusable, or interactive elements",
+        "native #1-#10 all N/A — no window frame, toolbar, sidebar, selection, or accent binding observable"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/ink", "value": "#04041A / #000014 near-black navy", "quality": "measured", "notes": "wordmark + headline ink; indigo-black, not pure #000 — BRAND, not native UI"},
+    {"token": "brand/navy-field", "value": "#040223 deep navy-indigo", "quality": "measured", "notes": "icon background field"},
+    {"token": "brand/accent-blue", "value": "#266DF0 / #2A6AF2 electric royal blue", "quality": "measured", "notes": "the / slash device + .app; MORE indigo/saturated than macOS system blue #0088FF — a brand hue, not necessarily controlAccentColor"},
+    {"token": "brand/backdrop", "value": "#D8E9FB->#E5EDF8 icy-blue gradient", "quality": "measured", "notes": "cover backdrop, cool/light"},
+    {"token": "brand/halftone-mid", "value": "#A9CCEA mid-blue dither", "quality": "measured", "notes": "dot-matrix texture + halftone typewriter fill"},
+    {"token": "brand/type", "value": "bold geometric-grotesk sans (Poppins/Montserrat-class), tight leading ~1.15", "quality": "estimated", "notes": "not confirmable to a named family from raster; ~28-32 chars/line headline"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Forward-slash '/' brand device replacing the S ascender in both wordmark and icon — literal subject-mining of slash-command triggering; the mark IS the gesture (BRAND, not UI)",
+    "Dot-matrix / halftone dither texture (corner pixel grid + halftone typewriter) evoking dot-matrix printing / early text output — thematic 'designed-not-generated' texture tied to typing (BRAND)",
+    "Subject-mining coherence: typewriter illustration = text tool; reads 'typing/text' at 50ms first impression"
+  ],
+  "defects": [
+    "Input gap (not an app defect) — no app-UI screenshot supplied; nothing auditable for native fidelity, accessibility, or platform grammar",
+    "Potential accent-hue drift (unconfirmable) — brand blue #266DF0 is more indigo/saturated than macOS system blue #0088FF; would be 'app's accent not the user's' IF bound to selection/focus/primary-action, but no UI shown to confirm"
+  ],
+  "aesthetic": {
+    "adjectives": ["cool", "crisp", "dot-matrix-retro"],
+    "direction": "Neo-grotesque product (navy neutral + one electric royal-blue accent) crossed with Retro-futurist/Y2K texture (pixel-dither halftone, dot-matrix grain) — brand evidence only",
+    "peers": ["Raycast", "Alfred", "TextExpander", "Rocket Typist", "espanso", "Maccy/Paste (clipboard)"],
+    "cluster_hint": "cool-tech-utility (BRAND cluster only — cannot seed a macOS-UI style cluster without UI evidence)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — the '/' device leverages the trained slash-command convention (Slack/Notion/Raycast) as information scent for how the tool is invoked",
+    "Von Restorff effect — a single saturated blue moment (the slash) against an otherwise navy/monochrome system makes the mark the one memorable thing",
+    "Aesthetic-Usability / first-impression (Lindgaard 50ms) — typewriter + front-loaded 'Text Expander' headline resolves 'what is this' near-instantly (F-pattern, meaning in the first two words)"
+  ],
+  "notes": "CRITICAL FOR SYNTHESIS: this app supplied ZERO macOS UI. cover.jpg is a marketing composite; icon.png is a flat brandmark (Workflow B, not run — task was Workflow A only). No lineage, no era, no native tokens, no pattern entries, no canon/cluster contribution — the record captures brand identity and flags that UI screenshots are still needed. All hex values sampled from compressed rasters (treat as estimated +/-). The brand blue #266DF0 diverges from macOS system blue; watch for accent-binding when real UI arrives. Text-expander + clipboard + AI-rewriter feature set strongly implies a menu-bar-extra + command-palette surface, but that is inference, not observed."
+}

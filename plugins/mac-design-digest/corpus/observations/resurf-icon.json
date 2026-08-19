@@ -1,0 +1,29 @@
+{
+  "slug": "resurf", "name": "Resurf", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 gem fills ~70% width, reads oversized vs ~60-65% single-object convention; R sits low-right of optical centre",
+    "#4 object survives at 16px but the R loses its letterform and reads as an arrow/cursor, not a letter",
+    "#3 clean gem silhouette but the R is figure-ground-dependent and vanishes when filled solid"
+  ],
+  "failures": [
+    "#10 the R is a knockout of the charcoal field (glyph tone == bg #2C2C2C); on any clear/tinted/light variant the letterform collapses. Fixed opaque dark-field render, not authored as adaptive Liquid Glass layers"
+  ],
+  "palette": {
+    "background": "flat #2B2B2B (charcoal, near-uniform to #2F2F2F; reads black at Dock size)",
+    "glyph": ["#F3F3F3", "#CFCFCF", "#ACACAC", "#2C2C2C"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "soft top-left key (deviates from canonical top-down but internally consistent); baked white->silver diagonal gradient on the gem (#F3F3F3 top-left -> #ACACAC lower-right); no specular hotspot, no cast shadow; opaque non-translucent (Big Sur baked-light, not Liquid Glass environmental)",
+  "layer_stack": ["charcoal squircle field #2B2B2B", "silver 3D rounded-hexagon gem/cube with diagonal white->silver ramp", "R monogram knocked out of the gem to the field tone"],
+  "devices": ["monogram-as-knockout (R carved out of the gem to the substrate tone)", "isometric gem / rounded-hexagon crystal substrate", "dark-field inversion of an otherwise airy white brand", "fully achromatic palette, no accent hue"],
+  "adjectives": ["monochrome", "faceted", "premium-utilitarian"],
+  "rhymes_hint": "crypto/web3 & '3D-utility asset-pack' gem marks (isometric crystal + monogram); Big-Sur single-object-on-field icons stripped of colour. Candidate cluster: 'achromatic gem monogram' / 'premium-utility dark-field'",
+  "notes": "Source is a 204x204 web render (webp), far below 1024 master — facet geometry and specular fineness not measurable; hex reliable to +-1 tonal step; all spatial claims estimated. Corner samples #F5F5F5/#E3E3E3 are page bg outside the squircle mask, not artwork. Cover pill logo shows the same mark inverted (white R on gray gem) with a more explicit cube-fold facet, implying the true master is a faceted 3D cube the small render smooths. Subject-mining miss: a gem+R communicates brand, not the app's library/quick-capture/resurfacing function. Icon is coherent with the brand's muted-monochrome cover but is its highest-contrast (dark-field) expression. First icon in corpus — no peers digested, promote nothing to canon yet."
+}

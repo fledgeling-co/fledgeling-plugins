@@ -1,0 +1,25 @@
+{
+  "slug": "notion-calendar", "name": "Notion Calendar", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 grid: '31' optically centred in the front card, but no squircle canvas = no safe-zone/margin discipline; mark floats with transparent bleed",
+    "#3 silhouette: solid-black fill reads as 'a stack of cards'; the calendar identity lives in the negative-space '31', not the outer silhouette",
+    "#4 16px squint: heavy '31' survives on maximal black-on-white contrast, but the two black cards merge into one blob on a dark background",
+    "#5 light model: passes vacuously — there is no lighting model at all (flat, zero shadow/specular), which is itself off-era for macOS",
+    "#7 figure-ground: internal contrast maximal (21:1); card-vs-background is wallpaper-dependent because there is no self-contained field",
+    "#12 no-text: '31' is numerals but functions as the canonical calendar date glyph (Apple Calendar convention), not a word"
+  ],
+  "failures": [
+    "#1 mask discipline: free-floating silhouette on full transparency (corners alpha 0), not designed for the squircle; no full-bleed layer for the system to mask/round — Electron/cross-platform tell",
+    "#10 variant robustness: built on black-on-transparent; black cards vanish in dark mode and a tinted/clear render flattens the black-card / white-keyline separation; no Icon Composer layered variants"
+  ],
+  "palette": {"background": "transparent (no field) — free silhouette floats on wallpaper", "glyph": ["#000000", "#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "None — flat monochrome, zero lighting: no top-down gradient, no cast shadow, no specular, no glass. Depth implied only by card offset + white keyline reading as the gap between stacked pages (sticker depth).",
+  "layer_stack": ["back black card (white keyline)", "front black card (white keyline)", "white date field", "black '31' numeral"],
+  "devices": ["stacked-cards depth without a shadow (offset + white keyline as the page gap)", "monochrome brand-mark-as-icon (zero saturation budget)", "Apple-Calendar '31' date-page quotation", "maximal achromatic contrast, no accent"],
+  "adjectives": ["stark", "austere", "graphic"],
+  "rhymes_hint": "flat monochrome brand-mark icons that ignore the squircle and float a free silhouette on transparency (logo-as-app-icon / Electron cross-platform delivery); Notion's black-and-white house system; calendar '31' date-page quotations",
+  "notes": "Resolution caveat: 204x204 web render (not a 1024 master); corner/edge AA and true squircle radius not assessable, upscaled to 512 for inspection. Palette pixel-sampled: only #000000, #FFFFFF, and AA greys present. Background confirmed fully transparent (all corners+edges alpha 0) — this is a free-floating silhouette, NOT a squircle-filling icon, so it does not feed macOS icon canon. Non-native tells cohere: transparent free silhouette + zero lighting + Electron heritage (Notion Calendar descends from Cron, an Electron app). Brand coherence with cover.png is total — the cover reuses the identical black stacked-'31' mark + black wordmark on a warm off-white (~#F5F3EF) ground; the icon IS the brand mark verbatim, achromatic throughout. Era is 'custom' rather than 'skeuomorphic-quote' because only the calendar-page MOTIF is quoted, not any skeuomorphic material/rendering."
+}

@@ -1,0 +1,34 @@
+{
+  "slug": "slashit-app", "name": "Slashit App", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 survives squircle only because ground is uniform flat navy + glyph inset; no evidence it was designed for the mask (square brand lockup, full-bleed)",
+    "#4 bold white S holds at 16px but the thin cobalt slash (the naming/trigger pun) is the first casualty and vanishes",
+    "#5 consistent only by having no light model at all; flatness is a web-brand tell, not modeled mac depth",
+    "#12 single-letter monogram — permitted because the slash+S shape logic is strong, but borderline"
+  ],
+  "failures": [
+    "#10 background-colour-dependent: the white S reads only on the dark field; no separated layers, would wash out/invert under system tinted/clear/light renders"
+  ],
+  "palette": {
+    "background": "flat #040223",
+    "glyph": ["#FFFFFF"],
+    "accent": "#266DF0"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "monogram",
+    "overlay_device": "other"
+  },
+  "light_model": "none — fully flat, no modeled source, no baked shadow, no specular; consistent by absence",
+  "layer_stack": ["flat navy field #040223", "cobalt diagonal slash #266DF0", "white S monogram #FFFFFF"],
+  "devices": [
+    "leading-slash monogram — cobalt '/' before the S, punning the app name (Slashit) and the text-expander trigger syntax (/)",
+    "single cobalt accent on near-black ink — exactly one saturated element",
+    "high-contrast display 'S' with sheared terminals (wordmark-flavoured, not geometric)"
+  ],
+  "adjectives": ["literal", "graphic-bold", "flat-brand"],
+  "rhymes_hint": "flat single-letter brand monograms dropped full-bleed on a dark field — the dev-tool/SaaS 'web logo as app icon' family (Vercel/Linear-class dark flat marks); era-agnostic, not a modeled Big Sur or Liquid Glass mac icon",
+  "notes": "1200x1200 PNG, resized web render above the 1024 master; flat fields carry no compression noise so hex samples are exact. Slash is a constant-width (~44px) flat cobalt bar, no gradient. Full-bleed square, no baked corner radius. Lineage tell: flat vector monogram with no squircle-native lighting or Icon Composer glass = brand-logo-as-app-icon, likely web/Electron-first, not AppKit-native. Strong brand coherence with cover: cover wordmark reuses exact ink #040223 + cobalt #266DF0 and repeats the leading-slash device on 'Slashit'; cover's halftone typewriter carries the text-expansion meaning the icon alone cannot. Subject communication is partial: the slash reads as a slash-command trigger only to viewers who know the convention."
+}

@@ -1,0 +1,66 @@
+{
+  "slug": "looq-preview-files-for-mac",
+  "name": "Looq: Preview Files for Mac",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-cover / feature-grid (NO app UI window present — brand evidence only)",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "#11 Fitts minimums — N/A (static marketing image, one large pill CTA only)",
+        "#12 input height — N/A (no inputs on the composite)",
+        "#14 focus appearance — N/A (static image)",
+        "native-tells audit N/A across all 10 — no app surface exists to audit; score 0 = not-applicable, not failed",
+        "score applies to the cross-platform 14-pt on the marketing layout as web/brand evidence; explicitly non-native, feeds no macOS canon"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/chroma", "value": "NONE — fully achromatic (black / grays / off-white only, no accent hue anywhere)", "quality": "measured", "notes": "the defining brand choice; a preview utility that withholds colour so rendered files supply it"},
+    {"token": "bg/cover", "value": "warm-neutral off-white ~#F6F6F7", "quality": "estimated", "notes": "Swiss near-white ground"},
+    {"token": "ink/primary", "value": "near-black ~#0A0A0A", "quality": "estimated", "notes": "wordmark + feature headlines"},
+    {"token": "ink/body", "value": "mid-gray ~#6E6E73", "quality": "estimated", "notes": "tagline, descriptions, footer — de-emphasis tier"},
+    {"token": "cta/fill", "value": "black capsule pill, white bold label + arrow", "quality": "estimated", "notes": "single filled action; affordance via fill+shape, no colour signal"},
+    {"token": "type/roles", "value": "~4 sizes: wordmark ~2x headline; headline~=tagline; body ~0.6-0.65x headline; footer=body", "quality": "estimated", "notes": "bold grotesque (SF Pro Display / Inter-class); absolute px meaningless (authored viewport unknown)"},
+    {"token": "layout/grid", "value": "3 equal columns x 4 rows, shared column edges + row baselines, gutter ~0.15x column", "quality": "estimated", "notes": "disciplined, systematic; measured proportionally"},
+    {"token": "layout/measure", "value": "~28-34 characters per body line", "quality": "estimated", "notes": "narrow columns, well under 65ch"},
+    {"token": "cover/aspect", "value": "4800x2520 = 1.905:1 (~40:21)", "quality": "measured", "notes": "wide marketing banner"},
+    {"token": "icon/ground", "value": "black vertical gradient (charcoal->black) on Big-Sur superelliptical squircle, subtle rim bevel", "quality": "estimated", "notes": "brand context only; not Liquid Glass / Icon Composer layered"},
+    {"token": "icon/motif", "value": "5 nested concentric semicircle arcs in brushed-metal GRAYSCALE, lower-centre", "quality": "estimated", "notes": "rainbow/aperture = 'a better look'; rendered achromatically, reinforcing no-chroma brand"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing feature-grid (3-col x 4-row headline+description cells) — a web/App-Store-style brand sheet, NOT a native macOS pattern; excluded from pattern canon"},
+    {"pattern": "empty-state", "key_values": "loosely: single-CTA anatomy (visual lockup + concise headline + one primary action) present at page level — but this is a marketing hero, not an in-app empty state"}
+  ],
+  "signature_moves": [
+    "Total achromatic commitment — zero accent hue on the entire cover (black wordmark, black pill, gray body, grayscale-metal icon); the preview utility withholds colour so the rendered file content owns it. Swiss/International restraint pushed past its own 'one red or blue' convention.",
+    "Von-Restorff CTA by fill alone — the single black filled pill is the one value-break in a flat gray-on-white field; action singularity achieved through shape+value, not saturation."
+  ],
+  "defects": [
+    "No app UI supplied — the only UI-adjacent asset is a marketing feature-grid with no window; yields no native surface, no lineage, no chrome/selection/material evidence. Primary corpus limitation (not an app fault). Closes with any single real app-window screenshot.",
+    "Icon is achromatic-metallic on a Big-Sur squircle, not Liquid Glass / Icon Composer — reads slightly dated vs current-era layered-glass icons; internally consistent with the monochrome brand, so signature/defect boundary.",
+    "Feature-count load (soft) — 12 feature blocks exceed ~5-chunk working-memory span; mitigated by 3-column grouping + F-pattern name-first headings. Fine for a scan surface.",
+    "No cross-platform anti-pattern triggered by the composite itself — grid/hierarchy/de-emphasis/action-singularity all clean; the sheet is competent but conventional."
+  ],
+  "aesthetic": {
+    "adjectives": ["achromatic", "disciplined", "restrained"],
+    "direction": "Swiss / International, pushed to pure achromatic (near-white ground, near-black type, hard 3-column grid, no radius on text blocks, single capsule CTA) — the family's lone accent colour deliberately dropped",
+    "peers": ["iA Writer (monochrome brand discipline)", "Things (calm restraint)", "generic Setapp/App-Store feature-grid marketing sheets (layout template)"],
+    "cluster_hint": "achromatic-utility (brand)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the single black filled pill is the one different element in a flat field, so it is found/remembered; used well (and is the only affordance signal, since there is no colour).",
+    "Aesthetic-Usability / processing fluency — the strict monochrome consistency and tight grid maximise fluency, buying a perceived-quality halo on first contact.",
+    "Jakob's Law — a conventional feature-grid hero matches trained expectations; low learning cost (also why it is unremarkable as layout).",
+    "Hick's Law / capacity — 12 feature chunks is above the ~5-slot comfort span, but this is a scan/browse surface not a decision point, so density is acceptable; column grouping keeps it navigable.",
+    "F-pattern scanning + serial position — headings front-load the feature name before its description, and the strongest features sit in the first row; the CTA takes the end position."
+  ],
+  "notes": "CRITICAL for synthesis: this app supplied NO native app UI — only a marketing feature-grid cover (no window inside) and an app icon. Do NOT feed any of this into macOS canon, native clusters, or pattern files; lineage/era are unknown because no chrome exists to read. The rubric_score of 11/14 rates the MARKETING COMPOSITE as a web/brand layout (3 checks N/A), not an app surface; native_audit_score 0 means not-applicable, not failed. meta.json markets AppKit tables + a Quick Look extension (suggesting an AppKit-native product) but marketing copy is not design evidence. The one real design finding is the fully achromatic brand direction. Re-digest with an actual app-window screenshot to obtain any native evidence."
+}

@@ -1,0 +1,28 @@
+{
+  "slug": "shake-it-on",
+  "name": "Shake it On",
+  "tagline": "The mouse jiggler, made for Mac.",
+  "category": "Utility",
+  "pricing": "paid",
+  "website": "https://shakeiton.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-c41815f5-7fb0-459c-a1e7-a7a0b5b6eb35.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-d0ca2c69-bc01-4aed-8a8e-79db6004d015.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-8de0bd6a-6e04-4532-b758-a8e7a7478dbd.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-204ab3f2-8c59-4152-916f-b616753f3419.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b4e0ffb8-501c-44c4-9c22-dae651c3d02f.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-0663bdcd-4d5d-48fc-82dd-ffacfcd9fca6.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-14097217-1fd5-4512-8d95-d5801cb2c3b8.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-5.png"
+    ]
+  }
+}

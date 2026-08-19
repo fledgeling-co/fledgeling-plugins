@@ -1,0 +1,30 @@
+{
+  "slug": "autoshelf", "name": "AutoShelf", "category": "Productivity",
+  "era": "flat-transition",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 horizontally centred and optically balanced, but object fills only ~52% of canvas width; grid/safe-zone conformance moot without a tile",
+    "#4 document survives 16px as a solid orange chit, but the ~14px shelf curve smears away so the file->shelf concept collapses to 'an orange document'",
+    "#7 figure-ground holds on light bg (vermillion ~3.3:1 on white) but the charcoal shelf disappears on dark wallpaper due to the missing background field"
+  ],
+  "failures": [
+    "#1 mask discipline: transparent background, free-form floating glyph; artwork does not fill or acknowledge the squircle, would read as a small object on the wallpaper in the Dock",
+    "#10 variant robustness: no background field + two-value orange/charcoal scheme would not survive dark/clear/tinted renders (charcoal shelf vanishes on dark; tinted/mono collapses the orange-vs-charcoal relationship)"
+  ],
+  "palette": {
+    "background": "transparent (no field, rgba 0,0,0,0)",
+    "glyph": ["#FC5128", "#FD8D63", "#3F3F3F"],
+    "accent": "#FC5128"
+  },
+  "composition": {
+    "background_type": "none (transparent, no field)",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "flat / lightless: uniform fills, no gradient (document #FC5128 constant y=35->83), no baked shadow, no specular; the lighter coral folded corner #FD8D63 is a flat tint standing in for a highlight, not a lit bevel",
+  "layer_stack": ["transparent ground (no field)", "charcoal shelf/tray curve #3F3F3F (behind/below)", "vermillion document #FC5128 (tilted ~10-15deg CCW, dominant)", "coral folded-corner tint #FD8D63 (on document, front)"],
+  "devices": ["file-dropping-onto-shelf narrative (subject-literal: the app files your files)", "shelf-curve doubling as a friendly smile under the document", "dog-eared document as the universal file/paper signifier", "flat tint-as-highlight (lighter coral flags the fold without invoking a light model)"],
+  "adjectives": ["friendly", "literal", "unshaded"],
+  "rhymes_hint": "flat single-object utility glyphs (file cleaners / auto-organisers) and iOS-style app-store marks that float one flat object instead of filling a squircle tile; flat-transition-era free-form silhouettes rather than Big-Sur/Liquid-Glass tiles",
+  "notes": "Source is a 128x128 AVIF web render (icon.png is ISO-Media/AVIF despite extension; converted with sips -s format png) — flat-interior hex is reliable but edge geometry, exact tilt, and sub-2% gradients are soft; no 1024 master to confirm. Background transparency is genuine (corners cleanly alpha-0), not obviously a strip artifact — flag the structure as non-native. Both failures (#1, #10) share one root cause: no background field; seating the glyph on a squircle (warm off-white or a soft sky ramp echoing the cover) would fix mask discipline AND dark-wallpaper/tinted robustness at once. Brand coherence with the cover is strong: the identical #FC5128 document + #3F3F3F shelf headline the cover hero and the vermillion recurs as the per-rule glyph in the app's dark-mode UI. Era tagged flat-transition for visual vocabulary (flat free-form fills, dog-eared document); 'custom' is the alternative reading given it flouts the current squircle convention entirely."
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "screen-charm", "name": "Screen Charm", "category": "Video",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#7 figure-ground: cornflower segments (#6C96FE) blow past 3:1 and carry the mark, but indigo-only segments (#614AF3) measure only ~2.6:1 on the #0A062E ground — under the 3:1 floor, nearly merging in grayscale",
+    "#3 silhouette: nameable only as a generic rounded triangle; the distinguishing weave is a color event not a shape event, so the silhouette alone is anonymous",
+    "#4 16px squint: gross blue-violet triangle survives as a Dock presence but the three-bar weave, hollow center, and vertex overlaps smear to a blob (provisional — 100px source)",
+    "#8 depth coherence: depth is implied only by alpha-overlap at the vertices; no committed over/under weave order and no shadows — no z-fighting but no crisp depth"
+  ],
+  "failures": [
+    "#5 single light model: no light model at all — no top-down cast, specular, baked micro-shadow, or refraction; two-tone is decorative and each ribbon brightens at a different end. Flat-by-choice decal, not a lit macOS object",
+    "#10 variant robustness: identity is the color-dependent two-tone weave, not authored as separable Icon-Composer layers; mono/tinted variants collapse it to an indistinct one-tone triangle and the personality dies"
+  ],
+  "palette": {
+    "background": "near-flat ramp #0A062E->#0A093A (deep indigo/navy, faint radial center-glow; corners #0C052C, hollow-center reads ground #0B072F)",
+    "glyph": ["#6C96FE", "#7CA4FD", "#6F8FEF", "#614AF3", "#675BFC", "#646EF5", "#1B1265"],
+    "accent": "#614AF3"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Flat / none — no top-down light, specular, drop shadow, or glass edge. Cornflower-to-indigo two-tone is a decorative brand gradient plus alpha-overlap translucency, not a lit surface; each ribbon lightens at a different end so no single source is implied. Only depth cue is a faint background radial center-glow. Reads as a printed decal on a dark card.",
+  "layer_stack": [
+    "deep-navy squircle field with faint radial center-glow (#0A062E edge -> #0A093A center)",
+    "three translucent rounded capsule ribbon bars forming an open (hollow-center) triangle, cornflower<->indigo two-tone",
+    "alpha-blend overlaps at the three vertices (darker violet #1B1265) as pseudo-glass depth"
+  ],
+  "devices": [
+    "woven translucent triangle knot (three overlapping rounded bars; Affinity-suite construction)",
+    "two-tone cornflower->indigo ribbon gradient standing in for lighting",
+    "alpha-overlap vertices as pseudo-glass depth",
+    "self-colored mark floated on near-black indigo (premium dark-icon idiom)"
+  ],
+  "adjectives": ["dark-premium", "woven-geometric", "brand-abstract"],
+  "rhymes_hint": "Affinity suite icons (Photo/Designer/Publisher) — the same three-bar woven-triangle knot, here a blue/indigo colorway; and dark-field flat brand-mark icons in the Linear/Raycast/Arc register. Style family: 'dark-squircle flat brand-mark / translucent-overlap logo'.",
+  "notes": "RESOLUTION: only 100x100 WebP web render (Apple masters at 1024) — barely 6x menu-bar size; #2 grid, #3 silhouette, #4 16px are provisional, not from a 1024 downscale. MASK: PNG corners baked opaque white (#FFFFFF) — squircle pre-flattened onto white for web, so full-bleed unmasked layer discipline is inferred, not verified (composition sits well inside the mask). SUBJECT MUTENESS (key learning): for a screen recorder the icon shows no camera/record-dot/screen-frame/play glyph — pure abstract brand mark, subject-mute, would read equally as a design tool or crypto app. DERIVATIVE: construction is near-identical to the Affinity suite mark. BRAND COHERENCE: tight — cover uses the same near-black indigo field + periwinkle-violet accent (~#8B7CF5) + the identical triangle mark. ERA: 'custom' — modern squircle framing but glyph commits to neither Big Sur baked depth nor Liquid Glass specular/refraction; alpha-overlap is a flat gesture toward glass, not glass."
+}

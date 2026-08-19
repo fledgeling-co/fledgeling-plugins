@@ -1,0 +1,30 @@
+{
+  "slug": "cleanmymac", "name": "CleanMyMac", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [],
+  "tokens": [
+    {"token": "brand/hue-primary", "value": "~#E0189F–#F52FB0 hot magenta/fuchsia", "quality": "estimated", "notes": "ICON/BRAND ONLY, not a UI token — the single committed brand hue on the icon object; do not feed UI canon"},
+    {"token": "icon/bg-tile", "value": "~#F4F0FA→#ECE8F5 pale-lavender squircle, subtle gradient", "quality": "estimated", "notes": "ICON ONLY — Big Sur-era background tile"},
+    {"token": "icon/neutral", "value": "~#C7C4DE lavender-grey (stand, squeegee)", "quality": "estimated", "notes": "ICON ONLY — recessive neutral against the magenta object"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "ICON/BRAND (not UI): squeegee-wiper laid diagonally across a glossy magenta display — the 'wipe a screen clean' product metaphor in one object",
+    "BRAND: monochrome-pink composite — sharp saturated icon as the sole focal element on a heavily-blurred pink-blossom landscape (Von Restorff isolation)",
+    "UI signature: unknown — no window surface supplied"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["glossy", "saturated", "friendly"],
+    "direction": "Consumer glossy / Big Sur skeuomorphic-gloss (committed single-hue object on a restrained pale ground) — icon+brand evidence only, not observed in UI",
+    "peers": ["MacPaw CleanMyMac suite (Gemini, Nektony-class cleaners)", "consumer maintenance utilities"],
+    "cluster_hint": "consumer-glossy-utility (icon/brand cluster — do not conflate with a UI cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the one sharp, saturated icon on an all-blurred ground captures 100% of attention on the cover",
+    "Aesthetic-Usability / processing fluency — high-gloss skeuomorphic icon polish raises the trust prior before any UI is seen (marketing composite, not UI)"
+  ],
+  "notes": "MARKETING-ONLY SOURCE — no UI surface to digest. cover.jpg (sha1 8784fc2b) is a composite: the app icon centered on a blurred pink-blossom landscape, zero app window/chrome/controls. icon.png (sha1 26d40ccd) is an AVIF container (not PNG despite extension); converted via sips — it is the same icon, a Big Sur-era squircle. Consequences for synthesis: (1) surfaces:[] is intentional — the 14-pt rubric and 10-pt native-tells audit are not runnable without a UI surface; (2) lineage is 'unknown' by honesty, NOT 'native' — an icon carries no reliable density/control tells, and inferring native from outside knowledge would be fabrication; (3) all tokens above are ICON/BRAND, flagged in notes, and must never feed macOS UI canon or a UI style cluster; (4) era 'unknown' refers to the app UI — the icon specifically is Big-Sur-era squircle, an icon-era marker only. To actually profile this app the corpus needs @2x window captures (scan/dashboard, module sidebar, a results/detail surface; light + dark). A proper icon digest belongs to Workflow B (icons/cleanmymac.md), not written in this Workflow-A pass."
+}

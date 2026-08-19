@@ -1,0 +1,16 @@
+{
+  "slug": "dia",
+  "name": "Dia",
+  "tagline": "Dia is the browser for your best work.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.diabrowser.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/80176ee7-84a2-47d3-bc64-d32451f00241/icon-1783882462180.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/80176ee7-84a2-47d3-bc64-d32451f00241/cover-1783882769739.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dia/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dia/cover.png",
+    "shots": []
+  }
+}

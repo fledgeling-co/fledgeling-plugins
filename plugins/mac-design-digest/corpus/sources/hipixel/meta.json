@@ -1,0 +1,16 @@
+{
+  "slug": "hipixel",
+  "name": "HiPixel",
+  "tagline": "Native AI image upscaling for macOS, free and open source.",
+  "category": "Photography",
+  "pricing": null,
+  "website": "https://hipixel.5km.tech/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/092c42da-f8b6-4602-916a-1af5ec1fb795/icon-1783882470618.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/092c42da-f8b6-4602-916a-1af5ec1fb795/cover-1783882783176.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hipixel/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hipixel/cover.jpg",
+    "shots": []
+  }
+}

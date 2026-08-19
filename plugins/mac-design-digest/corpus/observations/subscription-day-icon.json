@@ -1,0 +1,45 @@
+{
+  "slug": "subscription-day", "name": "Subscription Day", "category": "Lifestyle",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 sphere near optical centre but composition crowded right, stars push into top-right safe zone",
+    "#3 silhouette reads as refresh/renewal wheel + sparkles; the 4 category arcs are identical in shape, so the breakdown meaning lives only in colour",
+    "#4 gross amber-ring form survives 16px, but hairline spokes, small cyan chip, sphere gloss and both stars smear to sub-pixel",
+    "#7 coloured ring contrasts strongly (amber lum 212 on bg 54) but the dark sphere hub is dark-on-dark (~1.5:1 grayscale), separated only by its 3D highlight"
+  ],
+  "failures": [
+    "#6 four saturated hue families in the ring (amber/cyan/purple/green + amber stars) exceed the <=2-family floor; purposeful as a category legend but reads busy",
+    "#10 glyph meaning is colour-dependent (the 4 hues are the content) and all effects are baked (speculars, drop-shadows, vignette) rather than layered, so a tinted/mono system render would flatten it"
+  ],
+  "palette": {
+    "background": "ramp #5B5B5B->#363636 (radial vignette on charcoal; recessed dial well #262626)",
+    "glyph": ["#FFD171", "#FED06E", "#42B3CA", "#A65EE3", "#97D880", "#4B4B4B", "#636363"],
+    "accent": "#FFD171"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "badge"
+  },
+  "light_model": "single top-left key, soft top-down; baked short drop-shadows under each floating segment and the arrowhead; baked specular highlights on the upper edge of every colour bar and the central sphere; background radial vignette (lighter upper-centre, darker edges/bottom). Effects baked in, not system-applied.",
+  "layer_stack": [
+    "charcoal squircle background with radial vignette",
+    "recessed dark dial well",
+    "radial hairline spokes (radar/spider grid)",
+    "four glossy 3D colour segments (amber/cyan/purple/green donut ring)",
+    "central matte 3D sphere hub",
+    "amber circular-arrow arrowhead (renewal, front of ring)",
+    "two amber sparkle stars (frontmost, top-right)"
+  ],
+  "devices": [
+    "renewal-arrow fused with chart-arc (the largest donut segment ends in an arrowhead)",
+    "radar/spider stat hub (spokes + 3D sphere) miniaturising the app's in-product chart",
+    "category-colour donut ring encoding subscription categories",
+    "sparkle-stars insight/analyze flourish",
+    "nocturnal charcoal ground with radial vignette"
+  ],
+  "adjectives": ["dimensional", "glossy", "dashboard-literal"],
+  "rhymes_hint": "3D-rendered 'puffy/claymorphic' dark-dashboard emblems (glossy Blender/C4D-style multi-colour ring-chart on near-black, top-lit, baked speculars) common to finance/analytics/subscription trackers",
+  "notes": "894x894 webp web render, PRE-MASKED (squircle corners transparent, alpha=0) - not native 1024 full-bleed; unmasked bg layer and true margins unverifiable, mild webp softening; hex +/-3-4 levels. Cross-platform: same emblem reused on macOS/iOS/watchOS (iOS-style 3D render on Mac, not a bespoke layered Icon Composer icon - baked effects fight macOS 26's system light/dark/clear/tinted variants). Strong icon<->app coherence: dominant amber matches cover's pale-yellow brand wash, and the radar hub + coloured segments are faithful miniatures of the actual Statistics screen. Classified big-sur (squircle, front-facing, top-down light, baked micro-shadows, glossy 3D objects) as the closest era; it is decidedly NOT liquid-glass (opaque, baked speculars/shadows, no refraction/translucency)."
+}

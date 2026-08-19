@@ -1,0 +1,52 @@
+{
+  "slug": "liqoria", "name": "Liqoria", "category": "Lifestyle",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "floating-panel (now-playing HUD mini-player)", "mode": "light", "rubric_score": 12, "native_audit_score": 8, "failures": ["#9 vibrant-white secondary labels (artist, time stamps) over light translucent glass likely <4.5:1 in bright wallpaper regions", "#10 unfilled progress-track (translucent white) vs light glass borderline <3:1 — remaining duration hard to read"]}
+  ],
+  "tokens": [
+    {"token": "material/panel", "value": "Liquid Glass, translucent, wallpaper lenses through, bright refractive rim on all edges", "quality": "estimated", "notes": "glass on a floating functional HUD layer = glass-correct; album art content stays opaque"},
+    {"token": "radius/panel", "value": "large continuous rounded-rect, ~panel-height/8-9 (~28-34px composite)", "quality": "estimated", "notes": "acts as concentric parent for album art"},
+    {"token": "radius/album-art", "value": "rounded square, concentric child ~10-14px composite", "quality": "estimated", "notes": "steps down from panel radius"},
+    {"token": "type/title", "value": "bold white ~17-20pt-equiv (Title2/Title1-class emphasized)", "quality": "estimated", "notes": "hierarchy anchor"},
+    {"token": "type/artist", "value": "regular vibrant-white ~55-70% opacity, ~14-15pt-equiv", "quality": "estimated", "notes": "de-emphasis by weight+opacity, not size"},
+    {"token": "type/time", "value": "~13pt-equiv secondary white", "quality": "estimated", "notes": "flank progress capsule"},
+    {"token": "label/color", "value": "vibrant WHITE over-glass labels; no content-area ink tier used", "quality": "estimated", "notes": "kit Over-glass duality treatment"},
+    {"token": "accent/app", "value": "none — monochrome white controls on glass", "quality": "measured", "notes": "zero app accent; recessive controls vibrant white not tinted — correct native restraint"},
+    {"token": "accent/source-badge", "value": "Spotify green ~#1DB954 circle, bottom-left of album art", "quality": "estimated", "notes": "source-identity color (calendar-dot logic), NOT the app accent"},
+    {"token": "control/transport", "value": "backward.fill / pause.fill(center,emphasized) / forward.fill, white SF Symbols, borderless, evenly spaced", "quality": "estimated", "notes": "pause = single emphasized control"},
+    {"token": "control/progress", "value": "thin capsule, solid-white fill + translucent-white remainder, no visible knob", "quality": "estimated", "notes": "filled/unfilled contrast low over light glass"},
+    {"token": "chrome/window", "value": "none — chromeless HUD, no titlebar or traffic lights", "quality": "measured", "notes": "legitimate for a floating panel; not a faked frame"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "horizontal Liquid Glass now-playing HUD; album-art tile (left, opaque, source badge overlay) + title/artist stack + top-right equalizer glyph + full-width progress capsule with flanking times + centered 3-glyph transport row; loose density, monochrome white-on-glass, single-chroma source badge"}
+  ],
+  "signature_moves": [
+    "Aggregator-as-ambient-glass-widget: the whole product face is a chromeless Liquid Glass now-playing HUD, not a windowed library; boldness budget spent entirely on the material, every control kept quiet",
+    "Single-chroma discipline: exactly one color moment (Spotify-green source badge) against an otherwise pure white-on-glass field — source identity reads because nothing competes",
+    "Per-source badge collapses 'which service?' into a small circle on the album art (Apple Music / Spotify / YouTube unified under one panel)"
+  ],
+  "defects": [
+    "Contrast Dilution — vibrant-white secondary labels (artist, times) over light translucent glass likely <4.5:1 in bright wallpaper regions; bold title survives on weight, thin secondary text is exposed",
+    "Low UI contrast — unfilled progress track (translucent white) vs light glass borderline <3:1; remaining duration hard to gauge",
+    "Jakob's-Law anonymity (finding, not defect) — card is close to macOS's own Control Center Now Playing tile; native-ness doubles as lack of distinct identity",
+    "Brand mismatch (icon, not UI surface) — app icon is a legacy glossy grayscale play-orb (Web-2.0/iOS-6 skeuomorphism), following neither Big Sur squircle nor Icon Composer conventions; dated face on a current-native glass product"
+  ],
+  "aesthetic": {
+    "adjectives": ["ethereal", "translucent", "restrained"],
+    "direction": "Liquid Glass ambient / system-vibrancy — Organic-soft surface (blurred wallpaper, soft translucency, no hard edges) inheriting Apple's Tahoe material language directly rather than a template default",
+    "peers": ["macOS Control Center Now Playing tile", "Apple Music mini-player", "iOS lock-screen now-playing", "Sleeve / menubar mini-players"],
+    "cluster_hint": "liquid-glass-ambient",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — exploited: mimics the familiar system Now Playing widget for instant comprehension; risk is indistinctness (so conventional it reads as the OS module)",
+    "Aesthetic-Usability Effect — glassy polish buys perceived quality/trust on first contact",
+    "Von Restorff effect — the single Spotify-green badge and the emphasized center pause glyph are the 'one different things' against a monochrome field",
+    "Hick's Law — minimal control set (3 transport + progress) keeps decision load near zero, appropriate for an ambient player",
+    "Fitts's Law — transport glyphs generously spaced on a floating panel for easy acquisition",
+    "Processing fluency — the white-on-light-glass legibility risk is exactly the 'something feels off' failure mode when secondary text dips under contrast floors"
+  ],
+  "notes": "ONLY evidence is an idealized marketing cover composite (player card over a pink/lavender Tahoe floral wallpaper + 'Touch ID or Enter Password' lock-screen backdrop). One surface only — a chromeless floating now-playing HUD; no main window, library, sidebar, toolbar, settings, or service-picker seen, so we learn Liqoria's ambient face only. All px are estimated from a downscaled 964x578 image; trust proportions over absolutes. Lineage native but med-confidence: strong Liquid Glass/SF-Symbols/secondary-label cues, but it's a render, not a captured window, so native canon should treat this cautiously. Mode recorded 'light' (bright wallpaper environment) but the surface uses over-glass VIBRANT WHITE labels — an adaptive/duality treatment, not true light-mode ink. Icon (skeuomorphic glossy grayscale play-orb) contradicts the modern glass UI and should not feed icon canon as current-era. Not enough to promote anything; corpus is at 1 app + kit."
+}

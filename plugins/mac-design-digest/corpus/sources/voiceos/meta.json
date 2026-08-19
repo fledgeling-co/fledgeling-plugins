@@ -1,0 +1,16 @@
+{
+  "slug": "voiceos",
+  "name": "VoiceOS",
+  "tagline": "Use your voice to control apps and get work done 10\u00d7 faster.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.voiceos.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/63355494-0057-4ea3-b71e-dfda7a296cc7/icon-1783882474162.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/63355494-0057-4ea3-b71e-dfda7a296cc7/cover-1783882786371.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/voiceos/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/voiceos/cover.png",
+    "shots": []
+  }
+}

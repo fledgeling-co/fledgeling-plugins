@@ -1,0 +1,55 @@
+{
+  "slug": "unfold",
+  "name": "Unfold",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-cover (composite: hero icon + wordmark + tagline over tiled file-extension backdrop; NOT an app UI window)",
+      "mode": "dark",
+      "rubric_score": 5,
+      "native_audit_score": 0,
+      "failures": [
+        "SCOPE: no app UI surface present — 14-point rubric and native-tells audit do not meaningfully apply",
+        "rubric_score 5 = the ~5 cross-transferable checks that pass (central-axis alignment, Gestalt proximity, <=6 type sizes, de-emphasis hierarchy, wordmark text contrast); #1 grid, #5-6 line metrics, #8 action singularity, #10 UI-border contrast, #11-14 controls/inputs/focus are all N/A",
+        "native_audit_score 0 = N/A, no window chrome/controls to audit, not a native failure"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "#0D0E0F -> #191A1D cool near-black", "quality": "measured", "notes": "cover ground; sampled corners; slightly cool"},
+    {"token": "brand/wordmark", "value": "~#FCFCF9 near-white", "quality": "measured", "notes": "'Unfold', heavy weight"},
+    {"token": "brand/tagline", "value": "~#B6B6B5 mid-gray", "quality": "measured", "notes": "'Quick Look Almost Anything on Your Mac'"},
+    {"token": "brand/type-display", "value": "SF Pro Display Bold ~64px cap (poss. Rounded)", "quality": "estimated", "notes": "wordmark"},
+    {"token": "brand/type-tagline", "value": "SF Pro Display Regular/Medium ~34px, generous tracking", "quality": "estimated", "notes": "one centered line"},
+    {"token": "brand/motif", "value": "~100+ file-extension tokens tiled as a constellation", "quality": "measured", "notes": "yml/bash/jsx/svelte/graphql/mermaid/toml/plist/json5/ipynb/tsx/vue/php/zsh/latex... muted grays"},
+    {"token": "icon/canvas", "value": "monochrome squircle, transparent corners", "quality": "measured", "notes": "256px render, corner alpha 0"},
+    {"token": "icon/bg", "value": "vertical gradient #2F3033 (top) -> #0E0E0F (bottom)", "quality": "measured", "notes": "top-lit sheen, cool charcoal"},
+    {"token": "icon/glyph", "value": "metallic light bar ~#DDDDDD->#C8C8C8, dark well #1B1C1C", "quality": "measured", "notes": "the space symbol / spacebar keycap shape"},
+    {"token": "icon/palette", "value": "0 hues, pure grayscale", "quality": "measured", "notes": "total colour restraint"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "The icon IS the gesture: the glyph is the space symbol / spacebar keycap, and Quick Look is invoked by pressing spacebar — the icon depicts the trained action, not the app (Jakob's Law as brand)",
+    "Monochrome discipline: zero hue anywhere; near-black stage + metallic-white glyph differentiate by subtraction in a Dock of saturated squircles",
+    "Demonstrative backdrop: ~100+ real file extensions shown as a constellation instead of a 'supports many formats' claim (proof by display)"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["monochrome", "restrained", "tactile-dimensional"],
+    "direction": "Industrial/utilitarian minimal on an Apple hero stage: dark near-black ground, a single metallic system-glyph, system type — no accent, no illustration",
+    "peers": ["Ghostty (monochrome terminal)", "Ice / Bartender (dark menu-bar utilities)", "keyboard-driven utilities like Homerow / Shortcat"],
+    "cluster_hint": "monochrome-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — icon reuses the trained spacebar->Quick Look mental model; the mark predicts its own gesture",
+    "Von Restorff effect — a single grayscale mark reads as 'the different one' against saturated Dock neighbours; high pop at 16-32px",
+    "Aesthetic-Usability / first impression — the centered dark hero is a ~50ms thesis (premium, format-agnostic) via the extension galaxy",
+    "Description-experience gap — showing real file extensions demonstrates breadth rather than asserting it"
+  ],
+  "notes": "CRITICAL for synthesis: no app UI surface was provided. gallery is empty; the only files are a marketing cover.png (composite) and a 256px icon.png. The cover contains NO app window/chrome/controls, so lineage (unknown/low) and era (unknown) cannot be UI-evidenced and nothing here may feed macOS UI canon or a UI cluster. Inference (not evidence): a Quick Look/Finder-preview extension is near-certainly native AppKit/SwiftUI. Icon reads Big Sur->Liquid-Glass-era monochrome top-lit squircle. This was Workflow-A-scoped, so the icon was captured as brand evidence only, NOT run through the full 12-point icon rubric (Workflow B) — a dedicated icon digest would promote icon/* readings. Recommend requesting a screenshot of the actual Quick Look preview panel to obtain real UI tokens."
+}

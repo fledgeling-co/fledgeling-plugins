@@ -1,0 +1,58 @@
+{
+  "slug": "mole", "name": "Mole", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png (right window)", "surface_type": "status-dashboard (stat-card grid + process table), dark, ~0.5x mockup scale", "mode": "dark", "rubric_score": 12, "native_audit_score": 5, "failures": ["#9 contrast dilution: tertiary monospace metadata ~30-40% opacity on dark gradient likely <4.5:1", "#10 UI contrast: hairline card borders ~white@6-10% borderline <3:1", "native#1 lineage reads custom, not stock AppKit", "native#3 selection is white filled pill, not accent-tinted inset", "native#4 tracked-uppercase monospace headers (card + column) — top authenticity tell", "native#6 accent not bound (white selection + per-metric hues, no single system accent)", "native#9 toolbar used as a tab bar with pill selection"]},
+    {"file": "cover.png (left window)", "surface_type": "clean hero / reclaimable-space ready-state, dark", "mode": "dark", "rubric_score": 12, "native_audit_score": 5, "failures": ["#9 contrast: dim mono caption on navy-dusk gradient likely <4.5:1", "#10 borderline: blue-tinted button border on navy", "native#3/#4/#6/#9 inherited from shared custom chrome"]}
+  ],
+  "tokens": [
+    {"token": "bg/canvas-status", "value": "warm espresso->charcoal gradient ~#242018 -> ~#1A1611", "quality": "estimated", "notes": "full-window tinted gradient, not neutral #1E1E1E"},
+    {"token": "bg/canvas-clean", "value": "navy-dusk gradient ~#0F1B2E -> ~#0A1017 + horizon mountain silhouette", "quality": "estimated", "notes": "per-surface theming; each tab paints its own sky"},
+    {"token": "type/body", "value": "monospace SF Mono-class, ~11px-class, lh ~1.4", "quality": "estimated", "notes": "ENTIRE UI is monospace"},
+    {"token": "type/section-header", "value": "monospace UPPERCASE tracked+, tinted", "quality": "estimated", "notes": "HEALTH/CPU/NAME(50); non-native tell"},
+    {"token": "type/figure", "value": "bold proportional SF Pro-class, ~2.2-2.6x body", "quality": "estimated", "notes": "hero numbers break from mono for contrast"},
+    {"token": "accent/good", "value": "~#40CC7A / system green #34C759", "quality": "estimated", "notes": "primary status hue: health, CPU, battery"},
+    {"token": "accent/warn", "value": "~#E8934A amber", "quality": "estimated", "notes": "GPU/thermal tags, sun sphere"},
+    {"token": "accent/info-teal", "value": "~#3FB8C4", "quality": "estimated", "notes": "network sparkline"},
+    {"token": "accent/info-blue", "value": "~#3B82C4", "quality": "estimated", "notes": "disk progress + Return to Earth button"},
+    {"token": "selection/tab", "value": "white #FFFFFF filled pill, dark text", "quality": "estimated", "notes": "NOT native accent-tinted inset selection"},
+    {"token": "card/radius", "value": "~10-14px; chips read capsule", "quality": "estimated", "notes": "4x2 stat-card grid"},
+    {"token": "card/border", "value": "hairline ~white@6-10%", "quality": "estimated", "notes": "low-contrast, borderline <3:1"},
+    {"token": "row/table", "value": "dense ~24-28px-class rows, icon + bold name + dimmed process-id + numeric cols + trailing kebab", "quality": "estimated", "notes": "process monitor, no zebra"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "4x2 stat cards; header(tinted glyph + tracked-uppercase mono label + trailing status chip) -> bold hero figure+unit -> mono metadata line -> inline viz (bar-array/area/sparkline/progress/sphere); gaps ~12-16px-class"},
+    {"pattern": "table", "key_values": "process monitor; sortable cols NAME(50)/PID/CPU/PWR/MEM; tracked-uppercase headers w/ sort carets; dense rows; app-icon + bold name + dimmed process-id; trailing per-row kebab"},
+    {"pattern": "toolbar", "key_values": "centred tab group (mole glyph in rounded container + 5 text tabs Clean/Apps/Optimize/Analyze/Status); white-pill active state; toolbar-as-tab-bar (non-native)"},
+    {"pattern": "empty-state", "key_values": "Clean hero: centred stack — 3D Earth globe -> bold figure 86.4 GB -> dimmed mono caption -> single primary capsule button 'Return to Earth'"}
+  ],
+  "signature_moves": [
+    "Monospace-everywhere telemetry: whole UI in a coding monospace with tracked-uppercase section headers; only hero figures break to bold proportional — the app's htop/instrument-panel character in one decision (also the source of its non-native tells and contrast risk)",
+    "Thematic celestial visualizations: photoreal 3D Earth for Clean, plasma sun sphere for Health, per-surface gradient sky + horizon mountains, playful copy ('Return to Earth') — reframes distrusted system-cleaner category as a warm calm cosmos",
+    "Per-surface tinted gradient canvas instead of a flat neutral window background (warm espresso vs navy dusk per tab)"
+  ],
+  "defects": [
+    "Contrast Dilution — tertiary monospace metadata ~30-40% opacity on dark gradient likely <4.5:1 (process-ids, footnotes)",
+    "Tracked-uppercase headers (non-native tell) — card + column headers UPPERCASE tracked mono; top table/sidebar authenticity tell",
+    "Toolbar-is-a-tab-bar — segmented text nav in the toolbar with white-pill selection; 'a toolbar is not a tab bar'",
+    "Non-accent / unbound selection — active tab white pill; no single system-accent binding selection+focus+primary",
+    "Kebab (dot-dot-dot) row menus — web/Electron tell for row actions",
+    "Target Starvation (borderline) — sub-24px per-row kebab + sort carets"
+  ],
+  "aesthetic": {
+    "adjectives": ["telemetric", "nocturnal-warm", "playful"],
+    "direction": "Terminal/hacker family (monospace-everywhere, console/log aesthetic, green accent) remixed with Organic/soft surface (warm tinted gradients, celestial imagery) — a warm-console instrument panel",
+    "peers": ["iStat Menus", "CleanMyMac X", "Stats (menu bar)", "htop/btop", "TG Pro"],
+    "cluster_hint": "warm-terminal-telemetry (cosmic-console)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — celestial visuals + polish buy perceived trust/usability for a category users fear (system cleaners); warmth lowers the guard",
+    "Hierarchy via de-emphasis / label-value — bold hero figures dominate, tracked-mono labels whisper: value outranks label on every stat tile (correct)",
+    "Von Restorff / signal detection — single prominent 'Return to Earth' primary in Clean; in Status the white tab pill is the loudest mark",
+    "Miller/Cowan chunking — 8 stat cards in a 4x2 domain-chunked grid; 8>5-7 but this is a monitoring/browse surface not a decision point, so density is a feature (choice-overload calibration)",
+    "Jakob's Law (violated, genre-excused) — monospace-everywhere + tracked headers + tab-in-toolbar depart from trained macOS expectations, raising first-run unfamiliarity, though consistent with the htop/iStat mental model of its target audience"
+  ],
+  "notes": "Only two inputs available: a 1200x630 non-retina marketing OG composite (cover.png) containing two overlapping dark-mode app windows, plus icon.png (a flat 2-tone brand mark, not a Liquid-Glass app-icon render). NO standalone shot-* files. Both app windows are scaled ~0.5x mockups and partly cropped, so ALL metrics are (estimated) with wide ranges and NO absolute pt value is recoverable — do not promote any absolute number. Lineage is genuinely ambiguous: marketing claims 'native Mac utility', chrome/traffic-lights/arrow-cursor are genuine, density is pro-native, but the design language is so custom (monospace body, tracked-uppercase headers, white-pill tab selection, kebab menus, full-window gradients) that it departs from AppKit grammar on ~half the native-tells audit. Classified native/low-confidence; web-Electron not excludable from a still. Per the lineage/era gate, this custom evidence must NOT feed macOS native canon — timeless rules only (grid, hierarchy, label-value). No light-mode, settings, onboarding, or inspector surfaces seen. Icon not digested to a file (Workflow A only, per task)."
+}

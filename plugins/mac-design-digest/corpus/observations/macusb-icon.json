@@ -1,0 +1,41 @@
+{
+  "slug": "macusb", "name": "macUSB", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#1 mask fits the squircle but is baked into the delivered JPEG on a white page (corners reveal white), not a clean full-bleed square layer",
+    "#2 fills the diagonal and optical centre roughly holds, but mass skews lower-left",
+    "#4 USB-stick gestalt survives 16px but connector contact cutouts and keyline smear",
+    "#8 planes ordered with no z-fighting, but object floats (no contact shadow) and body gradient conflicts with the ramp",
+    "#11 keyline diagonal drive is nameable but template-default; no committed distinctive device"
+  ],
+  "failures": [
+    "#5 incoherent light: ramp implies top light, body sheen lightens toward the bottom tail (against it), keyline is uniformly flat",
+    "#9 mixed eras: Big Sur host (squircle + light vertical ramp) fused to a flat-transition keyline-outlined clip-art glyph, not a deliberate quotation",
+    "#10 near-black body + dark keyline depends on the light background; would collapse on a dark/tinted system render, not authored as light/dark layers"
+  ],
+  "palette": {
+    "background": "ramp #FFFFFF->#BEC4C2",
+    "glyph": ["#292929", "#2F2F2F", "#535554", "#424242", "#525252", "#E7EBEC"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "Ambient top-light implied only by the background ramp (white top -> gray bottom, sky logic); the object itself is rendered flat with a uniform dark keyline and a weak sheen gradient that runs counter to top-down light. No specular, no cast/contact shadow.",
+  "layer_stack": [
+    "squircle background: cool light-gray vertical ramp #FFFFFF->#BEC4C2 (mask baked in)",
+    "USB drive body: near-black flat fill #292929-#2F2F2F with subtle sheen, thick dark keyline #424242-#525252",
+    "USB-A connector: light metal panel #E7EBEC with dark keyline and two dark square contact cutouts"
+  ],
+  "devices": [
+    "diagonal object staging (drive runs lower-left to upper-right, the 'tool at an angle' tradition)",
+    "uniform dark keyline outline around the whole object (flat sticker / clip-art treatment)",
+    "fully monochrome grayscale palette, no brand color"
+  ],
+  "adjectives": ["monochrome", "keyline-flat", "literal"],
+  "rhymes_hint": "the 'underbaked utility object' family: flat, keyline-outlined literal-object icons on a Big-Sur squircle ramp; stock disk/driver/flash-tool utility icons and iOS-7-era flat object art",
+  "notes": "Provenance: genuine 1024x1024 but ~62KB JPEG with the squircle mask baked in (pre-masked web render, not a source layer); hexes measured off compression, +/-3-4. Asset discrepancy: the in-app cover screenshot shows a DIFFERENT, more polished Liquid-Glass squircle icon (glossier layered glass drive) than this submitted icon.jpeg, which looks like an older/lower-fidelity rendition; shipping icon may already be a glass treatment. Icon<->brand palette coherence is weak: cover/brand is vivid blue->teal->green with a ~#0088FF CTA, icon is fully grayscale and echoes none of it. Fundamentals (#1-4 mask/grid/silhouette/16px) all pass softly; the failures are craft-depth (light), current-era readiness (Liquid Glass dark/tinted variants), and era coherence."
+}

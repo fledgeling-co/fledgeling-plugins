@@ -1,0 +1,69 @@
+{
+  "slug": "usage",
+  "name": "Usage",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "menu-bar-extra panel (WidgetKit-style card grid) + dense menu-bar readout strip",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 4,
+      "failures": [
+        "rubric #10 UI contrast: card containers separated by only ~2-3% tonal fill (near-invisible edges); Bluetooth empty-slot diagonal-hatch tiles sit well under 3:1",
+        "rubric #9 text contrast (soft): tertiary metadata (Last 7 days / pill-tag labels) reads ~gray-300 on white, borderline for 4.5:1",
+        "native #1 not macOS-correct dialect: iOS/WidgetKit idioms (segmented-as-primary-nav, ~30pt controls, chip pills) on a Mac surface",
+        "native #5 density: controls ~30pt and ~20-24pt display numbers with generous padding — iOS density, not 13pt/24pt AppKit",
+        "native #6 accent not bound to controlAccentColor: app forces its own indigo #5953FD brand hue + fixed per-metric identity colors, ignores user system accent"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "panel/bg", "value": "#FFFFFF / #F9F9F9 near-white", "quality": "measured", "notes": "dropdown panel & card ground; cards only ~2-3% lighter/darker than panel"},
+    {"token": "accent/brand-primary", "value": "#5953FD indigo-violet", "quality": "measured", "notes": "disk gauge + primary identity hue; NOT the system accent"},
+    {"token": "accent/processor", "value": "#2A9CF9 blue", "quality": "measured", "notes": "processor-load bars & thermometer bulb identity hue"},
+    {"token": "accent/network-up", "value": "#ED58AD hot pink", "quality": "measured", "notes": "network upload histogram; gradient partner ~purple #7A5FE0 (estimated) for download"},
+    {"token": "type/stat-hero", "value": "~20-24pt Bold", "quality": "estimated", "notes": "the big percentage/value per card, ~1x scale assumed; larger than kit Title1 22pt"},
+    {"token": "type/card-title", "value": "~13-14pt, secondary gray", "quality": "estimated", "notes": "e.g. Disk / Bluetooth Devices; measurably lighter than the value (de-emphasis holds)"},
+    {"token": "type/sub-metric", "value": "~12-13pt secondary", "quality": "estimated", "notes": "406,32 / 994,66 GB, Last 7 days, etc."},
+    {"token": "control/segmented", "value": "~30pt tall, white selected pill (radius ~8pt) on gray track", "quality": "estimated", "notes": "device switcher MacBook Pro | iPhone 14 Pro; iOS UISegmentedControl scale"},
+    {"token": "pill/tag", "value": "gray capsule fill, ~11-12pt label", "quality": "estimated", "notes": "Macintosh HD, Normal — chip/tag styling"},
+    {"token": "radius/panel", "value": "~12-16pt", "quality": "estimated", "notes": "below kit popover 20pt if 1x; measured corner resolves over ~7px"},
+    {"token": "radius/card", "value": "~10-12pt", "quality": "estimated", "notes": "concentric under panel"},
+    {"token": "space/gutter", "value": "~15-16pt column gutter & card v-gap", "quality": "estimated", "notes": "reads on 8pt grid (16)"},
+    {"token": "space/card-padding", "value": "~14-16pt", "quality": "estimated", "notes": "content inset within each card"},
+    {"token": "menubar/readout", "value": "dense inline stats, 3-letter vertical labels (DSK/CPU/NET)", "quality": "measured", "notes": "iStat-style dense native menu-bar strip; the app's one austere-native surface"},
+    {"token": "menubar/strip-container", "value": "dark translucent capsule (rounded both ends)", "quality": "estimated", "notes": "MARKETING COMPOSITE treatment; real Sequoia menu bar is a square translucent strip, not a pill"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "dropdown panel ~378x406px @~1x, 2x3 card grid, near-white opaque ground, top segmented device switcher, trailing '...' more button, corner ~12-16pt; separate dense inline menu-bar readout strip with 3-letter vertical labels"},
+    {"pattern": "card-grid", "key_values": "2-column, ~16pt gutter, ~10-12pt card radius, near-borderless (~2-3% tonal separation), each card = title(secondary) + hero value(bold) + bespoke gauge/chart; grouping carried by content + padding, not by borders"},
+    {"pattern": "other", "key_values": "segmented control as primary content/device navigation (iOS idiom on Mac); WidgetKit-style gauges: dashed/segmented donut ring, mirrored up/down histogram, diagonal-hatch empty battery slots"}
+  ],
+  "signature_moves": [
+    "Fixed per-metric identity palette instead of the system accent: indigo #5953FD = storage, blue #2A9CF9 = processor, hot-pink #ED58AD <-> purple = network. Systematic across every card and shared verbatim with the iOS sibling, so each stat is pre-attentively distinguishable at a glance.",
+    "Custom WidgetKit-style gauge vocabulary with a consistent stroke language: segmented dashed donut (disk), symmetric up/down histogram (network), diagonal-hatched placeholder tiles (bluetooth) — bespoke data-viz, not stock AppKit controls.",
+    "Split personality by surface: a dense iStat-style native readout in the menu bar (3-letter vertical DSK/CPU/NET labels) opens into a colorful, roomy, consumer WidgetKit-style dropdown — austere-native glance layer, playful-consumer detail layer."
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — card containers separated by only ~2-3% tonal fill so container edges fall under 3:1; Bluetooth empty-slot diagonal-hatch tiles and tertiary metadata (Last 7 days, pill-tag labels) read too faint. Canon: give container edges >=3:1 or a stronger tonal step, and lift metadata to ~gray-500 rather than ~gray-300."
+  ],
+  "aesthetic": {
+    "adjectives": ["vivid", "rounded", "glanceable"],
+    "direction": "Consumer telemetry dashboard, WidgetKit-flavored: near-white restrained ground with a committed multi-hue identity palette carrying the data-viz (full-palette on charts, restrained everywhere else) — light-mode, soft radii, chip pills; the iOS-widget aesthetic ported to a Mac menu-bar utility rather than an AppKit-pro readout.",
+    "peers": ["iStat Menus (domain peer, but denser/austere-native)", "Stats (open-source)", "Sensei", "DataMan / iOS telemetry widgets (the colorful-consumer register)"],
+    "cluster_hint": "consumer-telemetry-dashboard (colorful-widget menu-bar utility)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal detection — one fixed hue per metric class makes each card's subject pre-attentively distinct before any label is read; strong for an at-a-glance monitor.",
+    "Aesthetic-usability effect — polished colorful gauges raise the perceived usability and trust of what is fundamentally a wall of numbers; polish is functional here, not cosmetic.",
+    "Miller/Cowan chunking — 6 cards in a 2x3 grid = 6 clean chunks (within the <=5-7 glance budget); each card self-contained.",
+    "Jakob's Law (softly violated) — iOS segmented-nav + WidgetKit cards depart from the Mac menu-bar-utility convention (iStat's dense native readout); trades native familiarity for cross-platform consistency with its own iOS app.",
+    "Serial-position / prime real estate — the most-load-bearing metric (Disk) sits top-left where the eye starts."
+  ],
+  "notes": "Cover is a MARKETING COMPOSITE: Sequoia sunburst wallpaper (brand evidence), an iPhone frame running the iOS app (LINEAGE-CONTRAST ONLY, excluded from macOS canon), and the real macOS evidence = a menu-bar-extra dropdown panel + a menu-bar readout strip. The rounded dark menu-bar 'capsule' is a composite framing device, not a real system element. Lineage read as native (a genuine Mac menu-bar-extra utility, almost certainly multiplatform SwiftUI) but the design DIALECT is iOS/WidgetKit-derived — the iOS and macOS surfaces are visually near-identical, confirming a shared design system; therefore its density, segmented-as-nav, chip pills, and non-system accent are recorded as iOS TELLS, not learnable AppKit 'mac taste'. Catalyst cannot be fully ruled out from a still but menu-bar-extra + polish favors SwiftUI. Era read as big-sur (Sequoia-continuum vibrancy, opaque rounded panel) — NOT liquid-glass; no glass lensing observable, so material appearance is (insufficient-evidence). All pixel values (estimated) at an ASSUMED ~1x scale (panel 378px wide reads as ~1x for this content); no @2x chrome available to calibrate against. Only one macOS surface available; no dark mode, no settings/onboarding surfaces seen."
+}

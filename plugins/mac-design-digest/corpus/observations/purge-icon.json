@@ -1,0 +1,45 @@
+{
+  "slug": "purge", "name": "Purge", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optically centred but oversized monogram, tight to safe-zone margins",
+    "#4 16px mass survives as a light P-blob but detail (counter tick, stem arch) and P-identity weaken",
+    "#5 top-down dominant, minor two-source tension (glyph drop cast implies upper-left)",
+    "#8 layers ordered sensibly, no z-fighting, baked bevel/inner-shadow slightly muddy",
+    "#9 Big Sur construction quoting Liquid Glass frosted-glass material but baking highlights/shadows",
+    "#11 frosted-glass material is one committed move over an otherwise template monogram-on-gradient skeleton"
+  ],
+  "failures": [
+    "#7 figure-ground contrast <3:1: frosted-white glyph on light-blue measures ~2.5:1 (crown) to ~2.1:1 (base)",
+    "#10 variant robustness: single baked layer, white glyph fully dependent on blue bg; no light/dark/clear/tinted authoring; baked rim+shadow fight system glass"
+  ],
+  "palette": {
+    "background": "ramp #60A4FF->#3B86F7 (mid #5AA0FF, single-hue sky ramp)",
+    "glyph": ["#FEFFFF", "#E1F1FF", "#A0CAF7", "#98C7FA"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down dominant; bg sky-ramp light-top->dark-bottom, glyph bright-crown->bluer-base; short soft baked drop shadow to lower-right + subtle inner bevel; baked top-edge rim highlight on squircle (system should supply this); no authentic specular",
+  "layer_stack": [
+    "system squircle mask + system shadow",
+    "blue squircle field with vertical gradient ramp",
+    "baked edge rim highlight + faint inner shadow",
+    "P drop shadow",
+    "frosted-glass P monogram (internal top-down gradient + bevel)",
+    "counter tick + specular crown edge"
+  ],
+  "devices": [
+    "frosted-glass letterform (translucent monogram treated as a glass slab, baked not layered)",
+    "counter tick inside the P bowl (cursor-like vertical accent)",
+    "arched notch cut into the base of the stem",
+    "sky-ramp brand blue (single-hue light-top->dark-bottom field)"
+  ],
+  "adjectives": ["frosted-glass", "chunky-monogram", "sky-blue"],
+  "rhymes_hint": "monogram-on-gradient-squircle utility tiles (single-letter cleaner/utility brand family); frosted-glass-glyph icons quoting Liquid Glass baked not layered; tinted single-hue sky-blue ramp utilities. Style-family guess: 'frosted-monogram blue-ramp utility'.",
+  "notes": "240x240 macapp.supply web render, not 1024 master (SHA-1 93de43fa); squircle mask baked as transparent corners (~52px radius at 240px ~= 0.22xwidth). Frosted grain/bevel/specular below resolution floor -> (estimated). Contrast measured from PNG (no JPEG artifacts); sub-3:1 finding is structural (light glyph on light blue), not compression. Era call: Big Sur construction grammar (gradient field + centred monogram + baked top-down micro-shadow) that QUOTES Liquid Glass frosted-glass material on the glyph but bakes highlights/shadows -> not authentic Icon Composer layered glass; #10 judged against that glass aspiration. Communicates brand initial only, not the disk-cleaning subject (permitted monogram, but Dock tile is not self-explaining). Brand coherence strong: icon blue reused on cover (tile on near-black cache-grain bg) and in dark-mode app sidebar; app's functional green 'Safe to Clean' accent deliberately kept out of the mark. Blue is a softened/tinted system-Blue (#0088FF)."
+}

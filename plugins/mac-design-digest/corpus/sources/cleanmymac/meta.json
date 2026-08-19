@@ -1,0 +1,16 @@
+{
+  "slug": "cleanmymac",
+  "name": "CleanMyMac",
+  "tagline": "The best Mac cleaner & maintenance software",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://macpaw.com/cleanmymac",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/61c9d7fc-778f-4e8e-9008-3751a6452c43/icon-1783882454824.avif",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/61c9d7fc-778f-4e8e-9008-3751a6452c43/cover-1783882777454.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanmymac/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanmymac/cover.jpg",
+    "shots": []
+  }
+}

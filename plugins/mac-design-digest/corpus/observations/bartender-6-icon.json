@@ -1,0 +1,38 @@
+{
+  "slug": "bartender-6", "name": "Bartender 6", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 8,
+  "soft_passes": [
+    "#2 optically centred and mirror-symmetric on the placket axis, but fills the frame with no squircle safe-zone margin",
+    "#4 bow-tie + white-V-shirt gestalt survives 16px, but buttons, pen and satin sheen all smear away",
+    "#12 no text/UI, but photoreal rendering runs against current HIG (prefer illustration to photo) — native only for its own era"
+  ],
+  "failures": [
+    "#1 artwork bleeds to all four edges with the bow tie clipped at the top edge; no squircle-aware safe zone (partly a crop artefact, but nothing in-frame is mask-aware)",
+    "#3 filled solid black it collapses to an amorphous dark rectangle; the subject reads only via internal tonal contrast (the white shirt), never via outline",
+    "#7 jacket #262626 on background #313131 measures 1.16:1 (floor is 3:1) — the dark tux merges into the dark ground; only the white shirt separates figure from field",
+    "#10 flat photoreal raster, no layer separation; a tinted/clear/dark Liquid-Glass render would destroy the baked tonal modelling it depends on"
+  ],
+  "palette": {
+    "background": "ramp #313131->#131313 (dark vertical, full-bleed; the jacket/shoulders are the background, no distinct field)",
+    "glyph": ["#F0F0F0", "#ECECEC", "#090909", "#252525", "#545454", "#3D3D3D", "#262626"],
+    "accent": "#2C3444"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "Single top-down soft studio key: broad soft highlight down the shirt placket, specular sheen on satin lapels, short soft contact shadows under buttons and bow tie — one consistent photographic light source.",
+  "layer_stack": ["dark environment ramp #313131->#131313", "jacket body + satin lapels", "navy pen tucked at right pocket", "white shirt front", "waistcoat V + lower button", "three cross-stitched shirt buttons", "black bow tie (frontmost, top)"],
+  "devices": [
+    "tuxedo-as-mascot: the menu-bar butler / maitre d' concept rendered as literal formalwear (subject communicates function)",
+    "photoreal material contrast: glossy satin lapel sheen against matte cotton shirt",
+    "cross-stitched black buttons as focal detail with micro-shadows",
+    "lone desaturated-navy pen as the single accent in an otherwise achromatic field (accent-as-jewelry)",
+    "vertical mirror symmetry about the shirt placket"
+  ],
+  "adjectives": ["formal", "tactile", "monochrome"],
+  "rhymes_hint": "Classic macOS skeuomorphic object-icons rendering a literal real-world object in photographic materials (felt/leather/wood/glass lineage: early Calendar, Game Center, Transmit/Coda). Forward-rhymes with its own successor — the white soft-embossed Big-Sur squircle tuxedo in cover.png — in the soft-monochrome relief family.",
+  "notes": "PROVENANCE MISMATCH (headline): the file served as bartender-6's icon (icon.webp, 1024x1024) is the LEGACY photoreal black-tuxedo icon, NOT Bartender 6's current shipping icon. cover.png (icon at left) shows the actual current icon: a Big-Sur/Liquid-Glass squircle with a WHITE, soft-embossed monochrome tuxedo — a full redesign (black->white tonal inversion, photoreal->soft-relief, free-bleed->squircle safe-zone). Do not let this digest represent Bartender 6's real Liquid-Glass icon; ideally re-source that icon and digest it directly. CROP CAVEAT: tightly framed web render — bow tie clipped at the top edge, no squircle margin — consistent with a resized web asset, not the delivered 1024 master. RESOLUTION: clean 1024^2 PNG (from webp); no compression banding, palette sampling reliable. BRAND CONTINUITY finding: the tuxedo signature survives the redesign intact — only tone and rendering changed, so 'formalwear = menu-bar butler' is Bartender's durable icon DNA (icon<->cover palette coherence: both achromatic tuxedos, inverted). ERA-MISMATCH note for synthesis: the 4 failures (1,3,7,10) are the modern (Big-Sur/Liquid-Glass-calibrated) rubric penalising a genuine skeuomorphic icon, not craft defects — the photoreal execution itself is competent (coherent single light, economical palette, physically plausible depth). Single icon — no promotion; feeds era distribution + the skeuomorphic-object cluster seed only."
+}

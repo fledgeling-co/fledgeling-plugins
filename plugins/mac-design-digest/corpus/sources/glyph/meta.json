@@ -1,0 +1,16 @@
+{
+  "slug": "glyph",
+  "name": "Glyph",
+  "tagline": "Beautifully Designed markdown notes app for Mac",
+  "category": "Writing",
+  "pricing": null,
+  "website": "https://glyphformac.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2474a19-f0f2-44a3-b30b-f22faa30bf4d/icon-1783882468636.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2474a19-f0f2-44a3-b30b-f22faa30bf4d/cover-1783882468809.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glyph/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glyph/cover.png",
+    "shots": []
+  }
+}

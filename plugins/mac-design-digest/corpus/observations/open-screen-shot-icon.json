@@ -1,0 +1,41 @@
+{
+  "slug": "open-screen-shot", "name": "Open Screen Shot", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optical centring carried by the window+dock system, not the window alone (window sits above geometric centre, y~240, to leave room for the dock strip)",
+    "#3 silhouette reads as a generic 'window' — the screenshot-capture meaning lives in interior linework that vanishes when filled solid",
+    "#6 palette economy strained: dual-hue blue->orange ramp is already 2 families, and the multicolor traffic-light dots (red/yellow/green) push past the <=2 economy"
+  ],
+  "failures": [
+    "#4 16px squint: the down-arrow + descending dots (the actual subject) smear into an indistinct vertical blob; at Dock/Spotlight size it reads as a generic browser window, not a screenshot tool — this is a load-bearing check (1-4)",
+    "#10 variant robustness: authored as Big Sur (baked window shadow, white window depends on the light ramp, multicolor traffic lights) — not layer-separated for Icon Composer, would not survive macOS 26 dark/clear/tinted glass renders"
+  ],
+  "palette": {
+    "background": "ramp #3596FD->#EFEEEA->#F9AE6B (blue top -> near-white mid -> warm-orange bottom)",
+    "glyph": ["#FAFBFD", "#1C83FF", "#F95D4A", "#F9BC22", "#4BC338", "#FED2A7"],
+    "accent": "#1C83FF"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "frame"
+  },
+  "light_model": "top-down soft; ramp brightens toward a white mid-band; window casts a short soft BAKED drop-shadow downward; no specular highlights — Big Sur baked-shadow model, not Liquid Glass",
+  "layer_stack": [
+    "blue->white->orange squircle ramp (background)",
+    "baked soft drop-shadow under window",
+    "warm rounded-square dock strip",
+    "white window card with macOS traffic-light dots",
+    "blue crop-brackets + descending dots + down-arrow glyph"
+  ],
+  "devices": [
+    "OS-in-a-box: depicts a macOS window + traffic lights + dock strip rather than an abstract mark (self-referential — a capture tool drawing the desktop it captures)",
+    "corner crop-bracket frame quoting the screen-capture selection marquee (subject-mined)",
+    "descending dots resolving into a down-arrow — 'long/scrolling screenshot' motion frozen in a static glyph",
+    "dual-hue sunrise ramp: blue top -> warm-orange bottom, breaking Big Sur single-hue convention"
+  ],
+  "adjectives": ["self-referential", "literal", "sunlit"],
+  "rhymes_hint": "literal-UI-depiction capture utilities (CleanShot X, Shottr, Xnapper) — window-in-a-squircle with a crop marquee; Big Sur 'mini-desktop on a sky ramp' motif icons, distinguished by the dual-hue blue->orange ramp",
+  "notes": "512px web render (half of the 1024 master) — sub-pixel edges soft, grid metrics estimated; corners transparent (system squircle mask confirmed, alpha=0). NOT Liquid Glass: baked window shadow, no glass layers/specular, white window fill depends on the background ramp colour — authored in Big Sur unified language for macOS 14+. HIG deviation: replicates UI components (traffic lights, dock strip), which HIG discourages for app icons; recorded as a signature (self-reference), not a defect. Palette coherence with cover is PARTIAL: cover shares the blue-top/warm-bottom ramp, but introduces a mint/teal brand accent (~#45E3C4) that is absent from the icon (icon accent is blue #1C83FF) — flag for synthesis if a brand-accent canon question arises."
+}

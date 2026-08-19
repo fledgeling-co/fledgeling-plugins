@@ -1,0 +1,16 @@
+{
+  "slug": "compressor",
+  "name": "Compressor",
+  "tagline": "Turn everyday images into lightweight WebP files, right on y",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://compressor.sonnylab.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/60928b1c-9ed6-4686-bc51-45fd67e3089d/icon-8a39b9e1-3700-405a-83fe-7e24fc03b35f.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-6958aa02-3166-42b7-adff-724f7d3d2526.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compressor/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compressor/cover.png",
+    "shots": []
+  }
+}

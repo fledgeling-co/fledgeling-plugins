@@ -1,0 +1,48 @@
+{
+  "slug": "raycast", "name": "Raycast", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 4,
+  "soft_passes": [
+    "#6 red-monochrome palette is economical, but the accent is spread across glow/wordmark/halo rather than reserved for one focal element",
+    "#7 white glyph on charcoal is high-contrast; but the red-on-dark wordmark is weak figure-ground",
+    "#8 layers order sensibly back-to-front with no z-fighting",
+    "#11 commits to a nameable dark-neon device (its one genuine virtue, though derivative web-neon)"
+  ],
+  "failures": [
+    "#1 baked grey bevel frame + inner-panel border fights the system squircle mask; render sits squircle-on-white, not full-bleed",
+    "#2 dominant glyph crammed into top-right corner near safe-zone edge, not optically centred; wordmark fills the bottom band",
+    "#3 solid-fill silhouette is a square + corner tick + text blob — two competing masses, no single nameable subject",
+    "#4 at 16px the 'raycast' wordmark collapses to an unreadable pink smear and the glyph becomes a red dot",
+    "#5 bottom red neon glow vs white glyph specular = glow-based web light, not one coherent mac top-down source",
+    "#9 cross-idiom mashup (skeuo bevel frame + web neon glow + baked text) belongs to no single mac era",
+    "#10 composition depends on the dark panel + red glow; glyph and wordmark would vanish under clear/tinted/light renders",
+    "#12 a literal 'raycast' wordmark is baked into the artwork"
+  ],
+  "palette": {
+    "background": "flat charcoal #1D1D1D panel (ramp #282626->#1D1D1D) inside a grey bevel frame #6D6D6D, with a red bottom glow #E06364 bleeding to #2F1613",
+    "glyph": ["#FFFFFF", "#FEF7F9"],
+    "accent": "#E06364"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "badge"
+  },
+  "light_model": "omnidirectional red neon glow rising from the bottom edge plus white specular on the angular glyph; a web-graphic glow light, not the mac top-down bake — mixed and uncanonical",
+  "layer_stack": [
+    "grey beveled squircle frame (outer)",
+    "charcoal #1D1D1D panel",
+    "red glow field, bottom-weighted",
+    "'raycast' lowercase wordmark, bottom-centre",
+    "white pointer/loupe glyph + red halo + diagonal streaks, top-right (front)"
+  ],
+  "devices": [
+    "neon glow rim (red light from bottom edge, bleeding up the sides)",
+    "baked grey bevel frame fighting the system mask",
+    "corner-crammed pointer glyph with diagonal motion streaks",
+    "baked lowercase wordmark"
+  ],
+  "adjectives": ["dark-neon", "glow-rimmed", "wordmark-burdened"],
+  "rhymes_hint": "dark-neon dev-tool / gaming badges (glow-rimmed charcoal, single saturated hue) — terminal-hacker x retro-neon family, NOT the Big-Sur mac-icon family",
+  "notes": "CRITICAL: icon.webp is a 102x102px web thumbnail that CONTRADICTS Raycast's real shipping mark. The same source's cover.png shows the true icon: a pure-black squircle with a single centred silver/chrome geometric pointer, NO wordmark, NO glow (clean Big-Sur-unified minimalist, would score ~10-11/12). The served render is almost certainly corrupted/alternate/AI-upscaled. All pixel values are (estimated) from a degraded thumbnail. Score reflects the artifact as served; do NOT promote any of this to icon canon and do NOT treat it as evidence of Raycast's actual icon. Re-digest if a clean high-res render becomes available. Mask observation: no true alpha (corners baked white), so full-bleed/mask behaviour is unverifiable."
+}

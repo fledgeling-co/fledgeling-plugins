@@ -1,0 +1,16 @@
+{
+  "slug": "hoolo",
+  "name": "Hoolo",
+  "tagline": "Keep your Mac workspace quiet, clean, and reversible with local-first file organization.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://hoolo.cc/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2cd6c6fc-9b24-423b-be66-38e4506c164f/icon-1783882471821.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2cd6c6fc-9b24-423b-be66-38e4506c164f/cover-fc06e648-a7e7-4c71-92f4-9c1a17137e9f.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hoolo/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hoolo/cover.webp",
+    "shots": []
+  }
+}

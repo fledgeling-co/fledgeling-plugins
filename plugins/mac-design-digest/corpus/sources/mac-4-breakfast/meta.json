@@ -1,0 +1,16 @@
+{
+  "slug": "mac-4-breakfast",
+  "name": "Mac 4 Breakfast",
+  "tagline": "Mac 4 Breakfast \u2014 your one battery app that does it all. Health, Smart Alerts, a sleep-drain detective, open-app energy, every Apple device, and insights no other app has. Native, private, one-time price.",
+  "category": "Productivity",
+  "pricing": "freemium",
+  "website": "https://mac4breakfast.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-88153931-ce73-4676-a9c6-bcac52e3c9f2.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-652f39e9-d6f8-4c1e-aa9a-6b44c739ec72.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mac-4-breakfast/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mac-4-breakfast/cover.png",
+    "shots": []
+  }
+}

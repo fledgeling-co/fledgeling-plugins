@@ -1,0 +1,16 @@
+{
+  "slug": "dropzone",
+  "name": "Dropzone",
+  "tagline": "Open, transfer, and install files by drag-and-drop.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://aptonic.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5c8aa5f-9d02-4f46-b58e-b96d7bf4d152/icon-1783882474310.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5c8aa5f-9d02-4f46-b58e-b96d7bf4d152/cover-1783882474416.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropzone/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropzone/cover.webp",
+    "shots": []
+  }
+}

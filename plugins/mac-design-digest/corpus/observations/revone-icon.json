@@ -1,0 +1,31 @@
+{
+  "slug": "revone", "name": "Revone", "category": "Analytics",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optically centred but the bar cluster nearly touches the bottom safe-zone margin (bottom-heavy)",
+    "#4 white bars survive 16px, but the lavender arrow (~1.8:1 on indigo) smears into the field",
+    "#7 white bars anchor figure-ground at >4:1; the lavender arrow is the weak link at ~1.8:1",
+    "#11 distinctive-ish 3D ribbon arrow, but the whole idiom is template-default 3D stock aesthetic"
+  ],
+  "failures": [
+    "#1 squircle mask baked into the PNG — corners transparent (alpha 0), art radius ~100px/1024 undercuts Apple's continuous squircle, so the system mask double-rounds",
+    "#10 single baked raster, not layered Icon Composer art; background and arrow share the indigo hue, so a tinted/clear/mono render collapses the arrow and the bars lose their ground"
+  ],
+  "palette": {
+    "background": "ramp #6166FC->#4044D5 (diagonal indigo, lighter top-left to darker bottom-right, core ~#575BEE)",
+    "glyph": ["#FAFDFE", "#E7EAF6"],
+    "accent": "#B2ADFE"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "other"
+  },
+  "light_model": "soft studio-3D: key light upper-left, short soft baked contact shadows under each form, glossy specular highlights on bar tops and the arrow ridge; omnidirectional Blender-style fill baked into the raster",
+  "layer_stack": ["indigo diagonal-ramp background field", "baked contact shadows", "three white inflated 3D bars (ascending)", "lavender 3D ribbon growth-arrow (front)"],
+  "devices": ["inflated/clay 3D bars with rounded extruded tops", "lavender 3D ribbon growth-arrow rising to upper-right", "monochromatic indigo field with near-white subject (tonal restraint)"],
+  "adjectives": ["buoyant", "glossy", "optimistic"],
+  "rhymes_hint": "web 3D-render / claymorphism stock-icon family (Iconscout/Icons8-style 3D fintech & analytics icons) — puffy objects on a vivid single-hue gradient; NOT native Big Sur unified or Liquid Glass",
+  "notes": "icon.png is a full 1024x1024 render, not a resized web thumbnail — resolution is honest. Mask caveat: art is a pre-rounded squircle (transparent corners) instead of a full-bleed square, the #1 failure. Strong brand coherence: the dark marketing cover (#171717 ground) uses the identical indigo #6166FB as its accent, so the icon is that accent saturated into a full field. The growth metaphor is stated twice (ascending bars + rising arrow) — redundant but instantly nameable. Era is 'custom' because the 3D-render/claymorphism idiom quotes none of Apple's native eras; first non-native icon in the corpus, useful as a negative exemplar of 'reads as web stock, not Mac-native.'"
+}

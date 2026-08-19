@@ -1,0 +1,16 @@
+{
+  "slug": "caesura",
+  "name": "Caesura",
+  "tagline": "Six healthy breaks for your Mac. Backed by science.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://caesura.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/64d2656d-91f8-4c81-91fe-400ddd7f0441/icon-1783882468009.png",
+  "cover": " https://caesura.rest/press/banner.png?w=1200&h=630&v=2",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/caesura/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/caesura/cover.png",
+    "shots": []
+  }
+}

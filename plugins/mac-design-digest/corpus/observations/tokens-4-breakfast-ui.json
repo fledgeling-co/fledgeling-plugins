@@ -1,0 +1,65 @@
+{
+  "slug": "tokens-4-breakfast",
+  "name": "Tokens 4 Breakfast",
+  "category": "Productivity",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite + app-representative status pill (menu-bar-extra chip); no app window shown",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 2,
+      "failures": [
+        "#9 text contrast — pill secondary label '5h window' #736D66 on #16110E ~3.9:1, under 4.5:1",
+        "#6 measure (soft) — feature strip is one long line, marketing-exempt",
+        "native#1 lineage unassessable — no window chrome shown",
+        "native#3-5,7-10 n/a — no selection/sidebar/controls/toolbar/chrome in evidence"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "chip/bg", "value": "#16110E warm near-black (range #16110E-#28201C), opaque", "quality": "estimated", "notes": "status pill body; not a system material; warm charcoal, matches icon plate"},
+    {"token": "chip/radius", "value": "~12-14px on ~52px chip (radius/height ~0.25)", "quality": "estimated", "notes": "soft rounded-rect, NOT capsule — differs from macOS 27 menu-bar selection (capsule)"},
+    {"token": "status/positive", "value": "#34D399 emerald-mint", "quality": "measured", "notes": "'22%' value; custom green between system Green #30D158 and Mint #00DAC3 — off the system palette"},
+    {"token": "type/value", "value": "~18px composite, bold SF-Pro-Display-class", "quality": "estimated", "notes": "the one saturated element in the chip"},
+    {"token": "type/label", "value": "~13px composite medium, #736D66 warm grey", "quality": "estimated", "notes": "'5h window'; ~3.9:1 on chip bg — contrast fail"},
+    {"token": "glyph/status", "value": "color emoji U+2615 coffee cup (~25px)", "quality": "measured", "notes": "NOT a template SF Symbol — non-native menu-bar tell"},
+    {"token": "brand/ground", "value": "#F7F0E2 warm cream + radial glows #E0D3BA->#E9E0D0", "quality": "measured", "notes": "BRAND evidence only, not app UI"},
+    {"token": "brand/ink", "value": "#15110D warm near-black", "quality": "measured", "notes": "BRAND; softened warm, not pure #000"},
+    {"token": "brand/accent-burnt", "value": "#C2620E burnt orange", "quality": "measured", "notes": "BRAND; tracked wordmark + 'BUILT IN' caps"},
+    {"token": "brand/accent-amber", "value": "#FFA522 amber (slight gradient)", "quality": "measured", "notes": "BRAND; headline emphasis line"},
+    {"token": "brand/grey", "value": "#69635D warm grey", "quality": "measured", "notes": "BRAND; subtitle text ~5:1 on cream (passes)"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "opaque dark rounded-rect status chip (radius ~12-14px, non-capsule); single row [color emoji glyph | bold emerald % value | warm-grey rolling-window label]; value>label de-emphasis is the whole hierarchy; one saturated element carries the glance"}
+  ],
+  "signature_moves": [
+    "Breakfast-diner metaphor carried into the data layer — warm charcoal + burnt-orange + literal coffee cup reframes rate-limit dread as warmth; the opposite of pro-monochrome iStat/Bartender house style for the same job",
+    "Budget-as-headroom: 22% used shown in reassuring emerald green as the single saturated pixel-cluster in a dark chip (Von Restorff / signal-detection focus); meaning survives colorblindness because the % number is always present"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — pill label '5h window' #736D66 on #16110E ~3.9:1, under 4.5:1 normal-text floor",
+    "Non-native menu-bar glyph — color emoji as status glyph instead of a monochrome template SF Symbol (won't tint to menu bar; legibility risk at status size)",
+    "Custom status green off the system palette — #34D399 vs system Green #30D158",
+    "Brand/icon inconsistency — cover lockup uses the coffee emoji, shipped icon.png is a different custom orange-cup-with-token illustration",
+    "Evidence gap — marketing-cover-only submission yields no app-interior/window/lineage evidence"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "punchy", "indie-utilitarian"],
+    "direction": "warm indie-utility marketing — cream/amber ground + burnt-orange accent + warm-charcoal ink + bold grotesque display; a warm remix of neo-grotesque product rather than editorial serif or pro-monochrome",
+    "peers": ["iStat Menus", "Bartender", "One Thing", "Dato (menu-bar-utility peers, but warmer/friendlier than all of them)"],
+    "cluster_hint": "warm-indie-utility (amber-charcoal menu-bar)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal detection — the single saturated emerald '22%' in a dark chip is the one thing the eye lands on; exploited well",
+    "Loss framing (honest) — 'Ship before the limit hits' + rate-limit pressure is a real loss, not fabricated scarcity",
+    "Jakob's Law / glanceability — percentage-in-menu-bar reuses the learned battery-% convention; sub-second Doherty-threshold read",
+    "Aesthetic-usability effect — the polished warm composite raises the trust prior for an unknown no-cloud indie tool",
+    "Color-as-sole-signal risk (mitigated) — budget state leans on green vs presumably amber/red, but the always-present % number keeps meaning non-color-dependent"
+  ],
+  "notes": "MARKETING-COVER-ONLY digest: gallery/shots were empty; the only inputs were a 1200x630 OG marketing composite (cover.png) and the 1024 app icon (icon.png; icon is Workflow B, not digested here). The composite contains NO app window — the sole app-representative UI is one top-right status pill, likely a MenuBarExtra chip or popover-header render, unconfirmed. Therefore lineage=unknown/low and era=unknown, and this digest produces ZERO macOS-canon evidence — only brand palette + one chip pattern. Pill measurements are in composite-pixel space (marketing asset has no reliable retina scale) and are NOT converted to points. Contradiction to flag for synthesis: the cover's brand lockup mark (coffee emoji) disagrees with the shipped custom icon. To make this profile diagnostic, a real menu-bar dropdown and/or Settings screenshot is needed."
+}

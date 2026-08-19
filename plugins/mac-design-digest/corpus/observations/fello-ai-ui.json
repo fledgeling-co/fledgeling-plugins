@@ -1,0 +1,52 @@
+{
+  "slug": "fello-ai", "name": "Fello AI", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "main chat window (dark) — extracted from marketing composite", "mode": "dark", "rubric_score": 12, "native_audit_score": 6, "failures": ["#10 UI border contrast: chip/pop-up hairlines read sub-3:1 on graphite", "#6 measure: content column runs wide though items are short (borderline)", "#14 focus appearance unverifiable in static marketing shot", "native#1 lineage reads web/custom chat, not AppKit", "native#5 density inflated (~14px body vs 13pt macOS)", "native#6 no system-accent binding (gold brand mark, no blue on selection/focus)", "native#9 custom single-chevron Mode/Model pop-ups, non-stock toolbar"]}
+  ],
+  "tokens": [
+    {"token": "bg/content", "value": "~#16181B graphite", "quality": "estimated", "notes": "main chat canvas, dark; from upscaled composite"},
+    {"token": "bg/sidebar", "value": "~#202225", "quality": "estimated", "notes": "source list, faint separation from content"},
+    {"token": "sel/sidebar-row", "value": "~#34363A inset-rounded fill, ~8px radius", "quality": "estimated", "notes": "native-correct SHAPE but grey, no accent tint"},
+    {"token": "bubble/user", "value": "~#3A3B3F, ~16px radius, right-aligned", "quality": "estimated", "notes": "generic cross-platform chat bubble"},
+    {"token": "accent/brand", "value": "gold/amber ~#F5B301 sparkle", "quality": "estimated", "notes": "assistant avatar; NO system-blue accent anywhere"},
+    {"token": "type/title", "value": "~15-16px bold near-white", "quality": "estimated", "notes": "centered window title"},
+    {"token": "type/body", "value": "~14px regular, lh ~1.5", "quality": "estimated", "notes": "answer/list text; larger than macOS 13pt body"},
+    {"token": "type/section-header", "value": "~11px secondary grey ~#8E8E94, sentence case", "quality": "estimated", "notes": "Today / Past 7 days — native-correct, not tracked uppercase"},
+    {"token": "ctrl/send", "value": "circular ~28px, light-grey fill, dark up-arrow", "quality": "estimated", "notes": "iOS/ChatGPT send affordance, non-native"},
+    {"token": "ctrl/model-pill", "value": "grouped capsule: Mode + Model pull-downs, single chevron, ~1pt divider", "quality": "estimated", "notes": "container-morph grouping; single chevron = non-native tell"},
+    {"token": "radius/family", "value": "bubbles ~16 / input ~16-20 / chips ~8 / model-pill ~14", "quality": "estimated", "notes": "3-4 tiers, roughly disciplined"},
+    {"token": "chrome/trafficlights", "value": "genuine RYG cluster, ~15px dots", "quality": "estimated", "notes": "focused window; rendered slightly large for window scale"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "source list ~230px; header '+ New Chat' text-button on traffic-light band; search field; grouped chat list with leading glyph + 2-line title/timestamp + trailing chevron; sentence-case section headers (Today/Past 7 days) in secondary grey; inset-rounded grey selection ~8px radius"},
+    {"pattern": "toolbar", "key_values": "unified-style: sidebar-toggle circular glyph + centered bold title + trailing grouped Mode/Model pop-up capsule (single chevron each)"},
+    {"pattern": "list", "key_values": "assistant answer as 6-item numbered list, bold lead-in per item + description; gold sparkle glyph leads the turn"},
+    {"pattern": "other", "key_values": "composer: multiline input + outlined chips (Attach Files, Skills, ~8px radius hairline) lower-left + circular send button lower-right; right-aligned grey user bubble"}
+  ],
+  "signature_moves": [
+    "Model-switcher-as-hero: primary chrome control is a paired Mode+Model pop-up capsule, amplified in marketing by a swarm of 9 provider pills (GPT/Claude/Gemini/Grok/Qwen/Deepseek/Perplexity/Nano Banana/GLM) — one client, every model, expressed as UI",
+    "Gold sparkle as the sole warm accent in a monochrome graphite field — a Von Restorff anchor marking assistant turns"
+  ],
+  "defects": [
+    "Trade-dress mimicry (persona lookalike constraint) — app icon near-clones OpenAI's interlocking-knot mark silver-on-graphite; assistant sparkle apes the ChatGPT/Gemini sparkle; borrows authority instead of owning a mark",
+    "Non-native controls — single-chevron Mode/Model pop-ups (native value-picker = double chevron); circular iOS send button on a desktop surface",
+    "Density inflation — ~14px body with loose leading vs macOS 13pt AppKit body",
+    "Contrast Dilution (marginal) — composer-chip / pop-up hairline borders read sub-3:1 on graphite ground"
+  ],
+  "aesthetic": {
+    "adjectives": ["dark", "glossy", "derivative"],
+    "direction": "Neo-grotesque product (dark) — the ChatGPT-desktop template: near-black graphite canvas, rounded bubbles, one warm gold accent, chrome-mimicking model pills",
+    "peers": ["ChatGPT desktop", "Raycast AI", "generic Electron AI-aggregator wrappers"],
+    "cluster_hint": "ai-chat-dark",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — leans entirely on ChatGPT's learned conventions (right-aligned user bubble, sparkle assistant, attach+send composer) for instant familiarity; innovation is only in the model-switcher",
+    "Von Restorff effect — the lone gold sparkle in a monochrome field pulls the eye to assistant turns",
+    "Hick's Law — in-app, a vast model space compressed to two compact Mode/Model pickers (good); in marketing, the 9-logo pill swarm is choice-overload SIGNALING ('we have everything')",
+    "Cialdini authority/liking (misused) — icon and sparkle borrow OpenAI/Gemini trade dress to transfer trust rather than earning a distinct identity"
+  ],
+  "notes": "CONTRAST EVIDENCE ONLY — excluded from macOS canon. Only input is a 1200x630 marketing COMPOSITE (device-frame window ~742px on a purple->blue gradient, overlaid with provider pills that cover the lower sidebar) — no clean screenshot supplied, so ALL pixel/color values are (estimated) and chrome is rendered slightly oversized vs a true logical window. meta.json points to an iOS App Store listing (formerly 'HelloAI'), so the Mac surface may be a Catalyst/cross-platform port or an idealized marketing mockup rather than a shipped AppKit app — lineage inferred from body idioms (circular send, chips, single-chevron pop-ups, ~14px body), NOT from verifiable chrome internals; could equally be catalyst or cross-platform SwiftUI, hence low confidence. The tension worth flagging to synthesis: a genuinely native-correct sidebar (inset-rounded selection, sentence-case headers) coexists with a fully web-flavored chat body. Icon digested separately (fello-ai-icon.json exists); this file is UI-only per task scope. Do not promote anything here."
+}

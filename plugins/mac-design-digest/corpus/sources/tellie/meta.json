@@ -1,0 +1,16 @@
+{
+  "slug": "tellie",
+  "name": "Tellie",
+  "tagline": "Follows your voice. Word by word. Private. Gives every Mac a notch. Free to download.",
+  "category": "Design",
+  "pricing": null,
+  "website": "https://tellieapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7df85610-2d10-4058-bcdc-60840db5bb0e.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-1f19ed26-f39e-46fd-b997-3538d0ca5cc4.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tellie/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tellie/cover.png",
+    "shots": []
+  }
+}

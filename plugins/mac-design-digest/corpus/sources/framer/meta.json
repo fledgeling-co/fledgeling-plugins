@@ -1,0 +1,16 @@
+{
+  "slug": "framer",
+  "name": "Framer",
+  "tagline": "AI website builder for professional sites",
+  "category": "Design",
+  "pricing": null,
+  "website": "https://framer.link/solt",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/16cb6450-e172-42b5-b03f-b739ec31b1f2/icon-1783882459710.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/16cb6450-e172-42b5-b03f-b739ec31b1f2/cover-1783882760931.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/framer/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/framer/cover.png",
+    "shots": []
+  }
+}

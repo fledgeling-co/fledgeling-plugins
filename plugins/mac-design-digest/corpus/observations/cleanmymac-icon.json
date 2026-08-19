@@ -1,0 +1,40 @@
+{
+  "slug": "cleanmymac", "name": "CleanMyMac", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 tool pushes mass upper-right; composite marginally off optical centre, slightly top-heavy until the cast shadow settles it",
+    "#3 silhouette: screen-on-stand is nameable but the jointed metal arm reads as an ambiguous stick, not obviously a cleaning tool",
+    "#4 16px squint: thin chrome arms smear into the magenta screen and vanish; leaves 'a pink iMac' — cleaning verb lost at Dock size"
+  ],
+  "failures": [
+    "#10 variant robustness: no authored dark/clear/tinted layers; read depends on pale-lavender field + baked magenta gloss; a Big Sur bitmap, not Liquid-Glass-ready (era-appropriate but fails the current-era check)"
+  ],
+  "palette": {
+    "background": "ramp #FEFEFE->#F3EDFF (near-white to pale periwinkle) + hot-pink ambient bloom #FF7BEE off the display",
+    "glyph": ["#FF72E9", "#EC2DCB", "#D816B8", "#AFA9E7", "#7679BC", "#6067BC", "#EDEBF4", "#DAD5EE", "#C1BED9"],
+    "accent": "#EC2DCB"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "diagonal-tool"
+  },
+  "light_model": "soft top / top-left, baked (not system-composed): specular bloom on screen top-left, bright top edges on the chrome, short cast shadow down-right beneath the display; one coherent source",
+  "layer_stack": [
+    "pale-lavender squircle field + pink ambient bloom",
+    "cast drop-shadow",
+    "periwinkle stand + foot with embossed C monogram",
+    "glossy magenta iMac display",
+    "chrome diagonal maintenance tool"
+  ],
+  "devices": [
+    "the subject IS the object (draws the Mac the app cleans, not an abstract freshness glyph)",
+    "diagonal chrome maintenance tool crossing the plane (Apple TextEdit/Preview tool-at-an-angle grammar)",
+    "candy-gloss magenta screen (skeuomorphic wet-glass quote inside a Big Sur composition; the MacPaw house saturation)",
+    "embossed tone-on-tone C brand monogram in the stand"
+  ],
+  "adjectives": ["glossy-candy", "magenta-committed", "literal-appliance"],
+  "rhymes_hint": "Big Sur glossy-object + diagonal-tool utility icons; literal-appliance maintenance marks (a device being serviced by a tool). In-corpus contrast peer: cachesweep (same 'clean my Mac' job, opposite abstract sparkle-on-indigo strategy). Seed of a probable 'literal-appliance, diagonal-tool' cluster.",
+  "notes": "Delivered file icon.png is actually an AVIF container (ftyp header), 384x384 web render (converted via sips). Squircle mask + pale field + gloss + drop-shadow are all baked into the bitmap; corners opaque near-white, not transparent. Full-bleed 1024 master and authored Icon-Composer variant layers NOT seen — mask/gloss/shadow are the site render, not verified ship layers. Chrome-arm hexes region-averaged from thin strokes -> (estimated). The embossed C is a logo mark (MacPaw broom), counted as a monogram not text, so #12 passes. Strong palette coherence with cover (same icon on pink/lavender floral scene). Score 11/12: the one hard miss is #10 (not Liquid-Glass-ready), which is honest given the Big Sur era classification."
+}

@@ -1,0 +1,34 @@
+{
+  "slug": "framer", "name": "Framer", "category": "Design",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-composite (brand mark + 'made in Framer' showcase mosaic — no app UI window)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["N/A — not a UI surface: 14-point rubric and 10-point native-tells audit both inapplicable; cover is a centred white folded-F mark on pure-black ground, ringed by ~18 third-party published-website thumbnails, none of which is the Framer editor UI — no chrome/controls/canvas/inspector to measure"]}
+  ],
+  "tokens": [
+    {"token": "brand/bg-cover", "value": "#000000 (pure black)", "quality": "measured", "notes": "brand evidence only; ~11.9k exact (0,0,0) samples, hard neutral black, not warmed/blue-black; gallery-wall stage"},
+    {"token": "brand/mark-fill", "value": "#FFFFFF (pure white)", "quality": "measured", "notes": "brand evidence; single-ink monochrome folded-F mark, no gradient in cover render"},
+    {"token": "brand/mark", "value": "two offset chevron/flag counters stacked into an F (folded-ribbon mark), hard 45-degree cuts, no rounding", "quality": "estimated", "notes": "reads as origami/fold, not a letterform outline"},
+    {"token": "brand/palette-economy", "value": "2 values in the frame (black ground + white mark); full-spectrum inside the mosaic", "quality": "measured", "notes": "monochrome brand chrome deliberately frames maximalist content"},
+    {"token": "brand/mosaic-gutter", "value": "~8-14px pure-black gutters, tiles butt into the ground", "quality": "estimated", "notes": "black ground doubles as gutter; masonry gallery reads as one dense field"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Brand (not UI): monochrome mark, maximalist frame — a two-value (pure black + pure white) brand chrome surrounds a mosaic that spans the whole aesthetic range map (Swiss, editorial/fashion, terminal, 3D-render, sports, event-poster, AI-brand, automotive); the restraint of the frame lets the range read as intentional. Thesis with no copy: any look is buildable in Framer",
+    "Brand (not UI): pure-black gallery stage (#000, not a warmed dev-tool black) — curator move (black wall = the work is the subject); single data point, uncorroborated by any UI surface"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["monochrome", "maximalist-framed", "gallery-curatorial"],
+    "direction": "Swiss/International brand chrome (pure-black + pure-white, hard geometric mark) framing a full-spectrum showcase wall — brand layer only; no product/app aesthetic observable",
+    "peers": ["Webflow", "Figma", "Editor X (design-tool brand register)", "Awwwards gallery walls"],
+    "cluster_hint": "insufficient evidence — brand-only, no UI cluster assignable",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Aesthetic-Usability / social proof (brand): the showcase mosaic is a wall of real published sites near the value proposition — 'look what people made here' as authority + social proof; observed on the cover, not a product-UI claim",
+    "Von Restorff / figure-ground (brand): pure-black ground makes each colourful thumbnail and the white mark pop as figures — maximal contrast staging, a curatorial not a UI decision",
+    "Jakob's Law (unverifiable here): as a web-based design tool Framer's desktop wrapper would inherit web-editor conventions (dense inspector, web type sizes), but no UI was supplied to confirm"
+  ],
+  "notes": "MARKETING-ONLY COVER, NO APP UI. macapp.supply payload = cover.png + icon.webp only (empty gallery, zero shot files). The cover is a brand composite (white folded-F mark on pure-black, ringed by ~18 third-party showcase-website thumbnails). Every thumbnail is an end-user WEBSITE hero (website buttons like 'VIEW PROJECTS'/'GET A QUOTE'/'Watch Reel'), NOT the Framer editor — verified by cropping. So NO UI rubric, native-tells audit, layout skeleton, or lineage-from-body was possible. lineage 'web-electron' is an EXTERNAL product-knowledge prior (Framer = browser-based website builder; desktop app is a web wrapper), NOT derived from the image — treat as low-weight, non-canon. rubric_score/native_audit_score set to 0 to denote not-applicable, not measured failure. Framer contributes NO macOS-native UI evidence to the corpus yet. Synthesis pass: do not cluster, do not promote anything, do not let brand tokens leak into UI/native canon. To advance, need a real Framer editor-window screenshot (canvas + layers/pages tree + properties inspector, light+dark). The icon.webp (charcoal squircle, white folded-F) was not digested (task scoped to Workflow A / UI only)."
+}

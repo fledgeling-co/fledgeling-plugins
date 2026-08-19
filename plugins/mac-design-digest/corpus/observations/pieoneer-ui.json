@@ -1,0 +1,65 @@
+{
+  "slug": "pieoneer", "name": "Pieoneer", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-cover (icon render on gradient backdrop — NO app UI)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A: 14-point UI rubric inapplicable — no window, chrome, text, controls, forms, or layout present; the frame is one centred 3D icon render on a gray radial-gradient ground",
+        "N/A: 10-point native-tells audit inapplicable — no macOS chrome, no traffic lights, no selection/toolbar/sidebar grammar to assess",
+        "scores of 0 mean 'not assessable', not 'failed' — see notes"
+      ]
+    },
+    {
+      "file": "icon.webp",
+      "surface_type": "app-icon (204x204 — same subject as cover)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A: this is an app icon, not a UI surface — UI rubric and native-tells audit do not apply",
+        "icon read recorded in tokens/signature_moves/defects; a full 12-point icon rubric (Workflow B) was not the assigned workflow"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "icon/tile-fill", "value": "#000000->#181818 high-gloss obsidian", "quality": "measured", "notes": "webp corner #000, body ~(24,24,24)"},
+    {"token": "icon/glyph-fill", "value": "#C5C5C5->#F1F1F1 silver->white", "quality": "measured", "notes": "webp blade (197,197,197); cover blade (241,241,241)"},
+    {"token": "icon/palette", "value": "fully achromatic (black + silver + white, zero hue)", "quality": "measured", "notes": "R=G=B at every sample point — monochrome by choice"},
+    {"token": "icon/glyph", "value": "camera aperture / iris 'pie', ~7 tapered chiral blades + open centre", "quality": "estimated", "notes": "silver metallic, beveled rims, sweeps clockwise, ~55-60% of tile"},
+    {"token": "icon/silhouette", "value": "rounded-square squircle (inflated to 3D pillow in cover render)", "quality": "estimated", "notes": "webp flatter/more conventional than the marketing render"},
+    {"token": "icon/light-model", "value": "top-lit glossy specular + soft bottom reflection (skeuomorphic 3D)", "quality": "estimated", "notes": "not flat/Icon-Composer; specular sheen across upper third"},
+    {"token": "brand/backdrop", "value": "gray radial gradient center ~#AFAFAF -> corners ~#404040, grain + vignette", "quality": "measured", "notes": "desaturated; marketing ground, not app UI"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "no UI patterns present — inputs are an app icon and a marketing render of that same icon; no sidebar/toolbar/list/settings/etc. to record"}
+  ],
+  "signature_moves": [
+    "The name is the glyph: 'Pie-oneer' -> a camera aperture / pie of blades that doubles as the radial/pie-menu wedges of an app-launcher — motif and product concept fused in one decision",
+    "Committed full monochrome (black + silver, zero hue) as a mechanical, tool-like identity stance against a 12-hue platform palette",
+    "Chrome-on-obsidian material story: glossy black pillow + machined silver metal reads as a precision instrument (lens barrel / dial)"
+  ],
+  "defects": [
+    "Off-era icon — glossy skeuomorphic 3D on a macOS 27 / Liquid Glass platform whose current icon grammar is flat layered glass (Icon Composer, 1024 flat canvas); reads dated, likely deliberate house style",
+    "Cover pillow-inflation — hero render bulges the squircle into a 3D pillow with wrap-around gloss, breaking Apple's flat front-facing icon convention (marketing artifact; shipping webp is flatter)",
+    "Motif information-scent mismatch (Jakob's Law) — a camera aperture trains the 'photo/camera app' schema, not 'app switcher/launcher'; rewards the informed, costs the cold-open user a beat of recognition"
+  ],
+  "aesthetic": {
+    "adjectives": ["glossy", "monochrome", "skeuomorphic"],
+    "direction": "obsidian-chrome skeuomorph — a glossy dark machined-metal icon idiom, off-distribution vs the platform's flat Big Sur / Liquid Glass icon direction; closest range-map neighbours are Retro-futurist/Y2K chrome and Industrial/utilitarian mechanical",
+    "peers": ["pre-2020 glossy indie utility icons", "camera/photo-app aperture marks", "radial/pie-menu launcher tools"],
+    "cluster_hint": "obsidian-chrome-skeuomorph (icon cluster, not a UI cluster)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / figure-ground — single high-contrast silver glyph on black yields a strong, memorable focal that should survive the Dock/Spotlight squint test",
+    "Aesthetic-usability effect — glossy machined-metal polish buys a first-impression quality halo before any UI is seen",
+    "Jakob's Law (violated) — aperture motif borrows the camera schema, mismatching the app's actual job (launch/switch/control apps); information scent misdirects at first glance"
+  ],
+  "notes": "CRITICAL for synthesis: Pieoneer supplied NO app UI. Both files (cover.png, icon.webp) are the SAME subject — the app icon; cover.png is a marketing hero render of it on a gradient backdrop, not a windowed screenshot. Therefore: lineage=unknown (unrecoverable from an icon), era=unknown for UI. rubric_score/native_audit_score of 0 mean NOT ASSESSABLE, not failed — do not average them into any UI score or they will falsely depress it; treat this app as icon/brand-only evidence. Do NOT assign it to a UI style cluster and do NOT let it feed macOS UI/native canon. The icon read is real evidence for an ICON corpus (Workflow B / ICONS.md) if one is built. If UI screenshots appear later (this reads as a menu-bar or global-hotkey radial-launcher utility), re-digest under Workflow A and supersede. Assigned task was 'Workflow A UI digest', but the inputs contained no UI to digest — recorded honestly."
+}

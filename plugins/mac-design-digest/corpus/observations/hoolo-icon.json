@@ -1,0 +1,29 @@
+{
+  "slug": "hoolo", "name": "Hoolo", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 pre-masked raster: baked squircle with ~13px transparent margin (opaque 13-498 of 512), not Apple's full-bleed unmasked square; glyph respects safe zone but baked corners risk double-mask/size-mismatch vs system squircle",
+    "#3 owl read present but not singular — competes with butterfly/bird and an 'oVo' monogram reading; nameable after a beat, not instantly",
+    "#4 ~19:1 contrast carries a recognizable tile to 16px, but the two ring-eyes' inner holes close to dots and ring detail smears"
+  ],
+  "failures": [
+    "#10 not authored as separable layers and depends on the black background tile — no true dark/clear/tinted Liquid Glass variants; tinting inverts legibility since the figure is negative space"
+  ],
+  "palette": {
+    "background": "flat #0C0C0E",
+    "glyph": ["#F7F7F6"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "mascot",
+    "overlay_device": "none"
+  },
+  "light_model": "None — flat two-tone; no directional light, no specular, no baked shadow. Figure is a pure negative-space cut-out, not a lit object.",
+  "layer_stack": ["near-black squircle field #0C0C0E", "white owl glyph #F7F7F6 (upswept brow-chevron + two ring-eyes)"],
+  "devices": ["owl-from-negative-space (subject carried entirely by white cut-outs on black)", "'oVo' monogram double-read (the doubled 'oo' of Hoolo with a central wedge)", "white-logo-on-black-tile (web/mobile-first idiom)"],
+  "adjectives": ["stark", "monochrome", "owlish"],
+  "rhymes_hint": "flat monochrome brand-marks on a black rounded tile (white-logo-on-black-squircle family, common to web/dev-tool and cross-platform apps); opposite pole from Big Sur tool-on-gradient and Liquid Glass layered-glass families",
+  "notes": "Resolution caveat: source is a 512x512 web render (hasAlpha:yes), not a 1024 master — hex readings reliable on large flat fields, sub-pixel edge geometry estimated. Pre-masked squircle with ~13px transparent margin (not full-bleed unmasked). Not Icon-Composer layered — cannot produce proper dark/clear/tinted variants. Brand-palette divergence: cover/site is airy sky-blue (~#87ADCE est.) + green + yellow + floral imagery (soft, friendly); the icon shares none of it and drops the brand's green accent entirely. glyph_type recorded as 'mascot' (owl, tied to the name Hoolo=owl hoot) but reads equally as an 'oVo' monogram. First icon in the corpus — no rhyme-siblings yet."
+}

@@ -1,0 +1,23 @@
+{
+  "slug": "drivemosaic", "name": "DriveMosaic", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": ["#1 ships pre-masked (alpha corners + baked darker squircle rim) rather than a square unmasked bleed layer; system re-masks fine but the rounded container is a delivered artefact", "#4 16px squint: five large blocks survive as a colourful tile grid, but the tiny cells smear to noise and the precise treemap reading is lost", "#7 figure-ground: tiles-vs-field contrast strong, tile-vs-tile weak and merges to near-uniform gray in grayscale"],
+  "failures": ["#3 silhouette: solid-black = featureless rounded square, zero contour identity; the mark reads only via internal tessellation + colour", "#6 palette economy: 12+ competing hues with no reserved accent (violates the <=2-hue rule) — purposeful, since the polychrome is a category legend, but a failure by the letter", "#10 variant robustness: tint/mono collapses all 12 hues to one and the whole colour-coded concept dies; cannot participate in macOS 26 tinted mode"],
+  "palette": {
+    "background": "flat #1A1B25 (gutters #181A23, antialiased rim ~#35373F)",
+    "glyph": ["#AF608A", "#8FA457", "#5B93C0", "#C06951", "#BA7D8B", "#69AB7C", "#7CB6B1", "#A2825C", "#6477A5", "#BFAF52", "#8667B6", "#CB8E4D"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Per-cell top-down linear gradient — every tile lighter at top, ~20L darker at bottom (e.g. #689CC5->#5282AA), consistent direction across all cells; no specular, no cast shadow. Decorative per-cell shading rather than a global scene light.",
+  "layer_stack": ["dark navy field #1A1B25 with a baked darker squircle rim", "gradient-shaded treemap tile mosaic (12 rounded-rect cells, ~8px dark gutters) floating on the field"],
+  "devices": ["the product as its own portrait (icon is a stylized render of the app's core treemap view)", "muted-rainbow treemap used as a semantic category legend, desaturated vs the cover's saturated version", "per-cell top-down gradient giving soft embossed depth without glass/gloss/bevel", "dark grout field with even ~8px gutters reading as a tiled mosaic wall"],
+  "adjectives": ["cartographic", "muted-polychrome", "matte-orderly"],
+  "rhymes_hint": "data-viz emblem family — utility icons that render their own output as the mark (disk analysers, monitors, stats tools); muted mid-century colour-block palette; dark-field flat-geometric utility icons",
+  "notes": "1024x1024 RGBA, crisp native render (clean 1px tile edges, no JPEG/resize blur) — resolution trustworthy. Delivered PRE-MASKED: alpha=0 corners + a baked darker rim at the squircle edge, so it's a finished masked icon, not the square unmasked layer Apple's HIG asks for (note #1). Field is blue-biased near-black #1A1B25, not pure black. Era call: matte/soft/front-facing/uniform-squircle reads Big Sur, but carries NO Liquid Glass layering (no specular/refraction/translucency), so on macOS 26 it renders as a legacy flat icon and cannot be tinted (see #10) — arguably 'custom' since the whole-canvas data-viz composition isn't the era's stock tool-on-field convention. Palette coherence with cover: SAME rainbow-treemap concept but icon is muted/dusty while the marketing cover uses saturated/vivid hues (#7c5cff purple, hot pink, teal) — deliberate quieting for the mark. Borderline on the HIG 'don't replicate UI components' guidance: the icon is close to a stylized screenshot of the app's own view, abstracted just enough (no chrome/labels) to read as an emblem. All three rubric fails share one root: the full-canvas polychrome pattern maximizes hero-size recognizability at the cost of silhouette, economy, and tint-survival."
+}

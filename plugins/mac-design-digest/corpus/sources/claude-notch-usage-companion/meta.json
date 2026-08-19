@@ -1,0 +1,16 @@
+{
+  "slug": "claude-notch-usage-companion",
+  "name": "Claude Notch Usage Companion",
+  "tagline": "Your live Claude usage, right in your Mac's notch.",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://github.com/stevemcqueenz/claude-notch-tracker",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-996161bf-a6c7-4daa-bba9-7ee3e8206baa.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-f845bea3-4051-453b-9d97-6e709ea7cede.gif",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/claude-notch-usage-companion/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/claude-notch-usage-companion/cover.gif",
+    "shots": []
+  }
+}

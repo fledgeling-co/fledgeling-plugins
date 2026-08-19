@@ -1,0 +1,16 @@
+{
+  "slug": "waterlemon",
+  "name": "Waterlemon",
+  "tagline": "Create icons for apps and\\nwebsites",
+  "category": "Design",
+  "pricing": null,
+  "website": "https://sohna.dev/waterlemon/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f639916c-7f84-4573-908b-f99642c9f2eb/icon-1783882458007.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f639916c-7f84-4573-908b-f99642c9f2eb/cover-1783882758853.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/waterlemon/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/waterlemon/cover.png",
+    "shots": []
+  }
+}

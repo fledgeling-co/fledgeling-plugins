@@ -1,0 +1,30 @@
+{
+  "slug": "pieoneer", "name": "Pieoneer", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#4 16px squint survives on white-on-black contrast, but 8-blade detail smears to a generic gear/flower — loses the aperture specificity",
+    "#5 single light model clean in shipped webp; cover render competes a top AND bottom specular sweep",
+    "#1/#9 shipped webp is a clean flat squircle, but the cover bakes a puffy 3D bevel into the squircle edge; squircle shape vs glossy-skeuo material mixed (coherent-by-genre)",
+    "#6 palette economy passes trivially (one neutral family) but there is zero accent — contrast-only hierarchy"
+  ],
+  "failures": [
+    "#10 not Icon-Composer-layered; gloss/bevel/shadow baked in (HIG forbids baking specular/shadow/bevel); no dark/clear/tinted variant designed, black base collapses in clear mode"
+  ],
+  "palette": {
+    "background": "ramp #222222->#000000 (near-black field with darkened-corner vignette, not a hue ramp)",
+    "glyph": ["#F1F1F1", "#CBCBCB", "#9A9A9A", "#212121"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "Soft, roughly top-down sheen on silver blades with thin baked shadow gaps between overlapping blades; cover marketing render adds heavier dual specular gloss + per-blade bevels. Single baked render, not layered glass.",
+  "layer_stack": ["black glossy squircle base + corner vignette", "inter-blade shadow gaps", "silver aperture blades (clockwise overlap)", "central hole punched to base"],
+  "devices": ["aperture-as-pie-slices double read (glyph carries the Pieoneer pun + radial pie-menu launcher metaphor)", "glossy skeuomorphic metal-on-black quote on a modern squircle", "all-neutral monochrome identity in a colourful Dock"],
+  "adjectives": ["monochrome", "glossy-skeuomorphic", "utilitarian"],
+  "rhymes_hint": "dark/monochrome pro-utility icons with a metallic dimensional glyph on a glossy black base (menu-bar tools, launchers, window managers); camera/aperture glyph motifs rendered skeuomorphic rather than flat",
+  "notes": "Subject icon is icon.webp at only 204x204 (downscaled web render) — blade edges/shadows are soft and slightly compressed; hex values are (measured) at that scale, treat as +/-. cover.png (1920x1080) is a marketing render, not the shipped Dock icon: it exaggerates gloss, bevels and a puffy 3D squircle bulge that the flat shipped webp does not show — era call is anchored to the shipped webp's glossy-metal-on-black material intent, with the cover disambiguating toward skeuomorphic rather than Big-Sur-matte. No corner-radius or true-1024 measurement possible from these sources. App is an app switcher/launcher; the aperture glyph doubles as a pie-menu metaphor and the 'pie' pun. No hue anywhere: single neutral family, so it would tint cleanly IF re-authored as layers, but as shipped it is not variant-ready for macOS 26/27."
+}

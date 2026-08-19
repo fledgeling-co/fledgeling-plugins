@@ -1,0 +1,57 @@
+{
+  "slug": "shake-it-on", "name": "Shake it On", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "shot-4.png", "surface_type": "settings", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#9 tertiary caption ~#7D7D7D on #1B1B1B ~4:1, marginal vs 4.5 floor", "#10 OFF-switch track ~#373737 on #222 group ~1.3:1 + hairline separators (native convention)", "native#6 accent hardcoded brand orange #F78523, not bound to controlAccentColor"]},
+    {"file": "cover.png", "surface_type": "marketing-composite", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI — icon on blue hero backdrop + wordmark (brand evidence only)"]},
+    {"file": "shot-1.png", "surface_type": "marketing-composite", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI — icon + tagline + '$9.99 one-time' pill (brand evidence only)"]},
+    {"file": "shot-2.png", "surface_type": "marketing-composite", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI — 'Your Mac sleeps at the worst times' problem-list slide (brand)"]},
+    {"file": "shot-3.png", "surface_type": "marketing-composite", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI — 'How it works' numbered explainer slide (brand)"]},
+    {"file": "shot-5.png", "surface_type": "marketing-composite", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["no app UI — 'Works where other tools can't' use-case cards (brand)"]}
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#1B1B1B", "quality": "measured", "notes": "dark settings window body + titlebar; kit dark window bg is #1E1E1E (within render tolerance)"},
+    {"token": "surface/group", "value": "#222222", "quality": "measured", "notes": "inset rounded row-group; ~+7L tonal-elevation step, dark-mode-correct (no pure black)"},
+    {"token": "accent/brand-orange", "value": "#F78523", "quality": "measured", "notes": "on selected radio + switch-ON tracks; NOT system accent (system orange dark #FF9230). Hardcoded brand hue"},
+    {"token": "control/switch-knob-on", "value": "#FFEDE0", "quality": "measured", "notes": "warm off-white knob, faintly cream"},
+    {"token": "control/switch-off-track", "value": "#373737", "quality": "measured", "notes": "native dark OFF track; knob ~#E1E1E1 seated left"},
+    {"token": "text/primary", "value": "#FFFFFF ~85%", "quality": "estimated", "notes": "row labels, title, bold Title-Case section headers"},
+    {"token": "text/tertiary", "value": "~#7D7D7D-#8E8E8E", "quality": "estimated", "notes": "group caption; contrast ~4:1 (marginal)"},
+    {"token": "type/body", "value": "~13-14pt SF Pro Regular", "quality": "estimated", "notes": "single-line rows; geometry estimated from tilted marketing render"},
+    {"token": "control/switch", "value": "native capsule Toggle, ~1.8:1 track", "quality": "measured", "notes": "ON=orange, OFF=dark native"},
+    {"token": "brand/blue", "value": "#4AAFE8", "quality": "measured", "notes": "BRAND ONLY (not native canon): backdrops, highlights, numbered circles, card borders"},
+    {"token": "brand/blue-tint-surface", "value": "#E8F4FD", "quality": "measured", "notes": "BRAND ONLY: explainer-slide + card backgrounds"},
+    {"token": "brand/coral", "value": "#E8734A", "quality": "measured", "notes": "BRAND ONLY: bullet markers; distinct from UI orange #F78523 — two warm accents"},
+    {"token": "brand/display", "value": "high-contrast serif italic (Playfair/Didone-class)", "quality": "estimated", "notes": "BRAND ONLY: editorial headline voice over rounded-grotesk wordmark"}
+  ],
+  "patterns": [
+    {"pattern": "settings", "key_values": "SwiftUI grouped Form; bold Title-Case section header + rounded inset group (#222 on #1B1B1B) of full-width rows w/ hairline separators + trailing tertiary caption; label-left / control-trailing row grammar; radio-pair and Toggle row types"},
+    {"pattern": "menu-bar-extra", "key_values": "app self-describes as 'Lives in menu bar with no dock icon' (shot-3); settings opened as a real ⌘, window titled 'Shake It On Settings' with zoom traffic-light dimmed"},
+    {"pattern": "other", "key_values": "declarative condition model: 'Only Shake If' OR-gate group + 'Paused When' veto group + plain-language boolean caption ('at least one must be true to shake')"}
+  ],
+  "signature_moves": [
+    "Brand-orange accent override (#F78523) on every active control — selected radio + ON switches — instead of the system accent; systematic, purposeful (carries the wooden-maraca icon warmth into a default-dark settings pane), accessible; the app's whole visual identity inside the UI, and simultaneously a native-tell deviation",
+    "Declarative smart-conditions model: when-to-jiggle logic exposed as two plain-language toggle groups with a boolean-clarifying caption (Tesler's Law + recognition-over-recall) rather than a rule editor"
+  ],
+  "defects": [
+    "Accent not system-bound (native-tell #6) — controls hardcode brand orange rather than controlAccentColor; a blue-accent user still sees orange. Deliberate brand trade-off, but prevents a system-default read",
+    "Contrast Dilution (soft) — tertiary group caption ~#7D7D7D on #1B1B1B near ~4:1, under the 4.5:1 body floor",
+    "Low UI contrast (soft, native convention) — OFF-switch track ~#373737 vs #222 group ~1.3:1; hairline separators barely present"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "utilitarian", "native-plain"],
+    "direction": "App UI: template-default native SwiftUI dark settings, differentiated only by a committed warm-orange accent. Brand layer (separate): editorial-playful — high-contrast serif italic display over a bold rounded grotesk, committed sky-blue surface with coral/orange warm accents and an emoji-composite icon.",
+    "peers": ["Amphetamine", "KeepingYouAwake", "Lungo", "System Settings (grouped Form)"],
+    "cluster_hint": "warm-indie / menu-bar-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — settings mirror System Settings' grouped-Form conventions, so the pane is learnable at first glance",
+    "Von Restorff effect — the lone orange active control pops against the neutral dark field; accent economy makes state instantly readable",
+    "Tesler's Law (conservation of complexity) — scheduling complexity absorbed into declarative toggle groups rather than pushed onto the user as scripting",
+    "Recognition over recall — the 'at least one must be true to shake' caption spells out the boolean instead of leaving AND/OR ambiguous",
+    "Hick's Law (mild violation) — six ungrouped condition switches in one group is a lot to scan, though the OR/veto split contains it"
+  ],
+  "notes": "Only shot-4 is app UI (a dark 'Shake It On Settings' window); cover + shot-1/2/3/5 are 4:5 marketing/explainer composites analysed as brand evidence only, never native canon. All geometry is (estimated) from a scaled, slightly perspective-tilted marketing render — colours sampled are reliable but no measurement resolves to true points; ask for a raw @2x app capture to confirm control ladder, window width, and radii. Lineage native/high (SwiftUI grouped Form, native Toggle/radio, real settings chrome). Two distinct warm accents exist: UI orange #F78523 vs marketing coral #E8734A — worth confirming whether intentional. Icon (emoji-composite maracas+hand+cursor) noted as brand evidence but not icon-digested here (Workflow A only). This is a menu-bar-extra utility with no dock icon; no main window, sidebar, toolbar, or empty state was supplied — those surfaces are unknown."
+}

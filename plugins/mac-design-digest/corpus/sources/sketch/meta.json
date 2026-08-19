@@ -1,0 +1,16 @@
+{
+  "slug": "sketch",
+  "name": "Sketch",
+  "tagline": "Design, prototype, collaborate and handoff",
+  "category": "Design",
+  "pricing": null,
+  "website": "http://sketch.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a6c9e4e6-095d-4e32-8595-f5b6ae0f99be/icon-1783882453373.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a6c9e4e6-095d-4e32-8595-f5b6ae0f99be/cover-1783882790861.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sketch/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sketch/cover.jpg",
+    "shots": []
+  }
+}

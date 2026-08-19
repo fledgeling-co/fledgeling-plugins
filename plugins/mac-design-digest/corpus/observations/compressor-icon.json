@@ -1,0 +1,38 @@
+{
+  "slug": "compressor", "name": "Compressor", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 8,
+  "soft_passes": [
+    "#2 optically centred but clip tab weights right of centre; free-form, no real grid",
+    "#3 silhouette reads as a pouch/food-bag, never as image compressor; subject-communication oblique, leans on tagline pun",
+    "#7 translucent near-white bag body <3:1 on a light ground; survives on fruit mass + pink cap + drop shadow, not body contrast",
+    "#12 no words/UI, but photoreal render leans into the photographic character HIG discourages"
+  ],
+  "failures": [
+    "#1 mask discipline: free-floating cut-out on alpha, no background layer fills the squircle; iOS-sticker/web-render authoring",
+    "#4 16px squint: load-bearing fruit detail (blueberries, apple seeds, strawberry) smears to a colour mass; degrades to a pale pouch, app meaning lost",
+    "#6 palette economy: 4-5 hue families (pink, strawberry-red, leaf-green, blueberry-navy, apple-cream/red); photoreal fruit blows the <=2-family budget",
+    "#10 variant robustness: no separable bg/fg layer model, not Icon Composer-authored; dark/clear/tinted render of a translucent fruit bag would be illegible"
+  ],
+  "palette": {
+    "background": "none / transparent alpha cut-out (composites on system white); no designed background field",
+    "glyph": ["#F7F4F1", "#E6E1DC", "#F0A8BC", "#F8CAD7", "#DD8AA2", "#D22E24", "#E85A44", "#6FA03C", "#4E7A2A", "#2F3B58", "#6B7A94", "#F4E8CE", "#C63A2E", "#6B4A2A"],
+    "accent": "#F0563C (brand coral from cover, NOT present in icon; icon's nearest note is strawberry-red #D22E24)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "single soft top-front studio key; one short soft contact shadow down-and-right; glossy speculars + subsurface translucency baked into the object (not system-applied)",
+  "layer_stack": ["contact shadow", "rear bag wall", "fruit mass (strawberry / blueberries / apple)", "front translucent bag wall + sheen", "pink zip band", "pink clip tab"],
+  "devices": [
+    "freshness-pouch metaphor (food-storage bag = compress-but-keep-quality, subject-mined)",
+    "translucency window (fruit read through the front bag wall via subsurface transparency)",
+    "pink zip-clip as the single saturated anchor",
+    "photoreal soft-3D product render on transparent alpha (web/App-Store authoring, no squircle)"
+  ],
+  "adjectives": ["appetizing", "tactile-translucent", "metaphor-oblique"],
+  "rhymes_hint": "photoreal soft-3D object-on-alpha renders (Blender/Spline product-render icons, App-Store literal-object style); classic skeuomorphic literal-object tradition quoted with clean studio rendering. Not Big Sur squircle, not Liquid Glass.",
+  "notes": "598x598 web render with alpha, well below 1024 master; 16px behaviour inferred from a 60px downsample. It's an alpha cut-out with NO designed background layer (mask-discipline fail). Palette coherence icon<->brand is loose: the cover's coral-red accent (#F0563C) never appears; the icon leads with rose-pink + strawberry-red. Baked lighting/specular is a HIG deviation (system should apply effects). The metaphor only fully lands with the 'Same good taste' tagline pun. Strong Personality (#11) traded against all four system-facing checks (#1/#4/#6/#10)."
+}

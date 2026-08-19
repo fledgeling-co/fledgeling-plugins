@@ -1,0 +1,33 @@
+{
+  "slug": "open-timer", "name": "Open Timer", "category": "Productivity",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#1 mask clean squircle field but bakes in effects (bevel/specular/shadow) HIG says the system should apply",
+    "#2 optically centred but case oversized near L/R safe margins, crown pushes it right",
+    "#3 silhouette reads 'watch/clock' but case blob is generic; nothing says menu-bar or tracker",
+    "#8 depth stack coherent but case drop-shadow softer/longer than a mac baked micro-shadow (web-graphic drift)",
+    "#12 no words, but the 'F' monogram is a letterform mismatched to the app name 'Open Timer'"
+  ],
+  "failures": [
+    "#4 16px squint: tick marks, brushed grain, blueprint grid, teal ring and 'F' collapse into noise; only a pale disc on blue survives",
+    "#9 era coherence: photoreal skeuomorphic watch (2010s iOS-clock language) composited over a flat vector blueprint grid (2020s generative-flat) in a Big-Sur squircle",
+    "#10 variant robustness: single baked raster, no layer separation, hard-coded blue field; no mono/tinted/clear path, not a Liquid Glass layered icon"
+  ],
+  "palette": {
+    "background": "ramp #3179BB->#214984 (blue field, lighter #66A2D8 lower-right) with #72B6E7 blueprint linework",
+    "glyph": ["#D7DCDF", "#B1B7BB", "#DDE1E5", "#EDEFF1"],
+    "accent": "#69BABE"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "single top-down key: specular on steel bezel crown, soft occlusion shadow beneath the case; second material light source is the self-illuminated (emissive/backlit) teal glass ring; case drop shadow soft and moderately long",
+  "layer_stack": ["blue gradient field", "blueprint grid linework (concentric circles + rule lines + diagonal guides)", "brushed-steel squircle watch-case", "emissive teal timer-ring with tick marks", "silver dial + 'F' monogram", "hour/minute hands", "winding crown (right edge)"],
+  "devices": ["chronograph-in-a-squircle (watch case echoes the icon squircle)", "emissive teal timer-ring", "blueprint-grid technical field", "winding crown breaking the right margin", "'F' monogram on the dial"],
+  "adjectives": ["ornate", "metallic", "blueprinted"],
+  "rhymes_hint": "current AI/generative-icon house style (photoreal hero object floated on a blueprint-grid squircle, baked specular, saturated accent ring); also quotes early-iOS skeuomorphic clock/watch app icons",
+  "notes": "Resolution: 584x554 NON-SQUARE PNG with transparent corners, not the 1024 master -- a resized web render, so fine detail is pre-softened and true squircle geometry/mask fit is unmeasurable; hexes (measured) +/-3 per channel. No clean mask measurement possible. Subject overshoot: app is a lightweight flat menu-bar time tracker (cover shows electric-blue neo-grotesque UI + dark flat timer card, #2E7BFF pause) yet the icon is an ornate luxury wristwatch -- communicates 'time' but overshoots into horology and says nothing about menu-bar/tracking. Brand palette coheres (both blue) but icon's photoreal-kitsch personality is divorced from the product's clean flat-modern UI. 'F' monogram does not match 'Open Timer'. For synthesis: the photoreal-object-on-blueprint-squircle signature needs >=2 more members before it becomes an icon cluster."
+}

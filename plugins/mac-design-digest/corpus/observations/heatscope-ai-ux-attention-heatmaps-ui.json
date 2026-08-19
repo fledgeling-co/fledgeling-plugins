@@ -1,0 +1,72 @@
+{
+  "slug": "heatscope-ai-ux-attention-heatmaps",
+  "name": "HeatScope AI UX Attention Heatmaps",
+  "category": "Design",
+  "lineage": "web-electron",
+  "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-og-composite (1200x630) wrapping a stock web SaaS admin dashboard as a heatmap demo canvas; no native app UI",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 1,
+      "failures": [
+        "native#1 lineage reads web/dashboard, not AppKit-native",
+        "native#3 sidebar selection is an elevated white pill (border+shadow), not a flat inset accent-tinted fill",
+        "native#5 web density (~14-16px body, ~40px sidebar rows), not macOS 13pt/24pt",
+        "native#6 no system-accent binding; selected item carries no accent, chart uses arbitrary multi-hue series",
+        "native#9 no toolbar present at all",
+        "native#10 faked/decorative mac window frame (traffic lights, no toolbar, no menu bar) = mockup asset, not real chrome",
+        "rubric#10 host sidebar-icon contrast borderline (~3:1, estimated)",
+        "rubric#14 no visible focus state (static composite)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop-gradient", "value": "mint #CEF0BF -> green #74D895 diagonal mesh", "quality": "measured", "notes": "single green-hue family, consumer-fresh; brand layer"},
+    {"token": "brand/cta-fill", "value": "#000000 capsule pill ~56pt tall, white label + Apple glyph", "quality": "measured", "notes": "one saturated dominant CTA"},
+    {"token": "brand/wordmark", "value": "black geometric grotesk, Regular, 'Heat Scope' wide two-word split", "quality": "estimated", "notes": "not an SF face; marketing display type"},
+    {"token": "icon/ground-dark", "value": "#2E2E2E charcoal with grain", "quality": "measured", "notes": "left half + bolt negative form"},
+    {"token": "icon/thermal-gradient", "value": "#F6F8F7 -> green #88BE66 -> amber #FCBB0B (warm-side, no blue)", "quality": "measured", "notes": "heat ramp revealed by bolt cut"},
+    {"token": "icon/shape", "value": "rounded squircle, ~22% radius, single flat gradient layer + noise", "quality": "estimated", "notes": "Big-Sur-era consumer icon, NOT layered Liquid Glass"},
+    {"token": "product/heatmap-ramp", "value": "thermal spectrum blue->cyan->green->yellow->orange->red, soft blended blobs", "quality": "measured", "notes": "core product grammar; Hotjar/Crazy Egg convention"},
+    {"token": "product/rank-badge", "value": "white disc ~22-26px, dark centered numeral, ranked 1->10", "quality": "measured", "notes": "explicit attention eye-path"},
+    {"token": "product/annotation-pill", "value": "dark ~#333 capsule, white text e.g. '65.1% attention'", "quality": "estimated", "notes": "over-content callout"},
+    {"token": "host/window-canvas", "value": "outer #F0F0F5, content #FEFDFC near-white", "quality": "measured", "notes": "host template, not HeatScope"},
+    {"token": "host/sidebar-selection", "value": "elevated white pill (border + subtle shadow) on gray sidebar", "quality": "measured", "notes": "web pattern; the anti-native tell"},
+    {"token": "host/card", "value": "white, ~12px radius, tinted status pill + large numeric value + gray desc + arrow", "quality": "estimated", "notes": "generic dashboard card anatomy"},
+    {"token": "host/body-density", "value": "~14-16px body, ~18-20px bold card titles, ~40px sidebar rows", "quality": "estimated", "notes": "web density, not macOS"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "web-style: logo + 5 line-icon Title-Case nav items; selection = elevated white pill (NOT macOS inset accent fill); host template not HeatScope"},
+    {"pattern": "card-grid", "key_values": "4-up stat cards: line-icon + bold title + tinted status pill top-right + large numeric value + gray description + arrow affordance; ~12px radius white on near-white canvas"},
+    {"pattern": "other", "key_values": "product heatmap-overlay grammar: full-spectrum thermal blobs + numbered 1-10 rank badges + dark annotation pill blended over host UI (the app's true signature surface)"}
+  ],
+  "signature_moves": [
+    "Thermal gradient as a total brand system: same heat ramp at three scales -- product heatmap (full spectrum), icon bolt-cut (green->amber), marketing backdrop (inverted to fresh mint)",
+    "Numbered attention-rank badges (1->10) over the heatmap render the F/Z reading order as explicit sequenced UI -- on-brief for an 'attention' tool",
+    "One black capsule CTA against a mint field -- disciplined single-dominant-CTA marketing hierarchy"
+  ],
+  "defects": [
+    "Faked/decorative window chrome -- mac traffic lights on a browser-style frame, no toolbar, no menu bar (mockup asset, non-native tell)",
+    "Web selection grammar -- elevated white pill instead of macOS flat inset accent-tinted fill (attributed to borrowed host template)",
+    "Evidence gap -- no HeatScope-authored app UI in inputs; the 'app' shown is a third-party AlphaVault demo dashboard obscured ~40% by the overlay"
+  ],
+  "aesthetic": {
+    "adjectives": ["thermographic", "glossy-consumer", "template-generic"],
+    "direction": "consumer-gradient SaaS marketing composite -- mint mesh-gradient ground + geometric-grotesk wordmark + capsule black CTA, a Playful/toy x Organic-soft blend; brand is committed, host UI is default-template",
+    "peers": ["Hotjar / Crazy Egg (heatmap product grammar)", "CleanShot X-style indie-Mac launch cards", "Framer/Gumroad app-hero mockup templates"],
+    "cluster_hint": "gradient-marketing-composite (non-native brand cluster, not a macOS UI cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection -- single black pill CTA against mint ground is the one thing that pops; correct one-primary hierarchy",
+    "F/Z reading pattern + serial-position -- product's whole premise; numbered 1->10 badges externalize the attention path the tool measures",
+    "Aesthetic-usability effect -- glossy gradient composite raises the trust prior before any feature is read",
+    "Jakob's Law -- borrows mac-window mockup + Apple-logo 'Download' conventions to signal 'real native Mac app' (which the evidence does not confirm)",
+    "Hick's Law -- host sidebar kept to 5 items; low decision cost (host-template credit, not HeatScope's)"
+  ],
+  "notes": "CRITICAL for synthesis: inputs are cover.png (marketing OG composite) + icon.png ONLY -- zero real app screenshots. The window interior is a THIRD-PARTY 'AlphaVault' admin-dashboard demo template used as a canvas for the heatmap product, ~40% obscured by the overlay -- do NOT attribute its tokens to HeatScope, and do NOT feed any of it to macOS canon or open a native cluster (lineage web-electron). Real HeatScope-authored evidence is only the brand layer (mint gradient, bolt/thermal icon, wordmark, black pill CTA) and the product-overlay layer (heatmap + rank badges + annotation pill). All measurements estimated/assumed from a sub-retina downscaled composite. Icon analyzed as brand evidence only (Workflow A task; no icons/ file written). This app cannot level up the corpus's macOS knowledge."
+}

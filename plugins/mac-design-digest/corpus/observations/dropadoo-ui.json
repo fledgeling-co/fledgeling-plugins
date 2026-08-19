@@ -1,0 +1,52 @@
+{
+  "slug": "dropadoo", "name": "dropadoo", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "main window (dark card dashboard) — extracted from marketing composite", "mode": "dark", "rubric_score": 12, "native_audit_score": 2, "failures": ["#9 secondary email text #919191 on #3B3B3B ~3.6:1, fails 4.5:1", "#10 dim per-card gear ~2.1:1 and grey traffic lights fail 3:1 non-text", "native#1 non-AppKit custom chrome", "native#6 app brand-green accent, not system accent", "native#9 hamburger menu in titlebar (macOS uses menu bar)", "native#10 grey faux/inactive traffic lights on hero window"]}
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#2E2E2E", "quality": "measured", "notes": "charcoal, not pure black; no vibrancy/wallpaper tint; sampled from flat region of marketing composite"},
+    {"token": "bg/card", "value": "#3B3B3B–#4C4B4B", "quality": "measured", "notes": "subtle tonal elevation over window, no shadow/border"},
+    {"token": "accent/green", "value": "#BEE294", "quality": "measured", "notes": "pistachio-lime; the sole hue; identical on wordmark, per-card send glyph, marketing pills, and app icon paperclip"},
+    {"token": "text/primary", "value": "#F4EFEF", "quality": "measured", "notes": "near-white bold card title, ~10:1 on card"},
+    {"token": "text/secondary", "value": "#919191", "quality": "measured", "notes": "email address, ~3.6:1 — fails 4.5:1"},
+    {"token": "text/tertiary", "value": "~#787878", "quality": "estimated", "notes": "'subject:' caption, ~2.6:1"},
+    {"token": "icon/dim", "value": "~#6A6A6A", "quality": "estimated", "notes": "recessive per-card gear, ~2.1:1 fails 3:1"},
+    {"token": "type/family", "value": "rounded geometric bold sans (Poppins/Nunito/Baloo-class), NOT SF Pro", "quality": "estimated", "notes": "double-story rounded a, flat-top t, monolinear terminals; the app's primary warmth vector"},
+    {"token": "type/ramp", "value": "3 sizes, title:body:caption ≈ 1.35:1:0.73", "quality": "estimated", "notes": "bold title / regular body / dimmed regular caption; absolute pt unrecoverable from a scaled composite"},
+    {"token": "radius/window", "value": "~20–24px-equiv", "quality": "estimated", "notes": "custom borderless rounded window"},
+    {"token": "radius/card", "value": "~16px-equiv", "quality": "estimated", "notes": "steps down inside window radius (concentric-plausible)"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "2x2 equal destination cards on dark field; per-card structure = bold title / grey email / dim subject-template / footer icon row (green send leading + dim gear trailing); one primary + one recessive per card region"},
+    {"pattern": "toolbar", "key_values": "custom non-native title strip: grey faux/inactive traffic lights left; right-aligned two-tone wordmark + hamburger menu + gear; 1px hairline divider — NOT a native toolbar"},
+    {"pattern": "empty-state", "key_values": "n/a — no empty/onboarding/settings surfaces available (single composite only)"}
+  ],
+  "signature_moves": [
+    "Rounded geometric bold sans (Poppins/Nunito-class) as the sole warmth vector on an otherwise greyscale charcoal utility",
+    "Destination-as-card dashboard: each predefined email target is a droppable tile with a large green 'send' affordance (recognition over recall; big drag-drop Fitts targets)",
+    "Single-hue accent economy — one pistachio green (#BEE294) does wordmark, primary action, and brand pills; no second accent",
+    "Two-tone 'dropa'(green)/'doo'(grey) wordmark echoing the green-paperclip-on-charcoal app icon"
+  ],
+  "defects": [
+    "Contrast Dilution — secondary email text ~3.6:1 and dim gear ~2.1:1 on the card fill fall below WCAG floors; de-emphasis crosses the contrast floor",
+    "Non-native chrome (native tells, excluded from macOS canon) — in-window hamburger menu instead of the menu bar; grey faux/inactive traffic lights on the hero window; app brand-green used as the control accent instead of the system accent; non-SF-Pro brand typeface; no native materials"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "geometric", "utilitarian"],
+    "direction": "friendly-dark utility — Playful/toy rounded-sans warmth grafted onto a restrained dark-neutral (Neo-grotesque-product) surface, single-accent",
+    "peers": ["indie menu-bar file utilities (Dropzone / CleanShot register)", "but with a rounded-brand-font twist unlike those SF-Pro-native tools"],
+    "cluster_hint": "friendly-dark-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — VIOLATED: hamburger menu, faux traffic lights, and non-native chrome defy the macOS conventions users arrive expecting (menu bar, coloured window controls), adding avoidable friction",
+    "Fitts's Law — EXPLOITED: large card drop-targets make the core drag-and-drop action low-error by design",
+    "Recognition over recall — EXPLOITED: each destination card shows name + address + subject template, so users pick a target by sight, not memory",
+    "Hick's Law — EXPLOITED: 'does exactly one thing'; a small fixed set of predefined destinations keeps the decision trivial",
+    "Von Restorff / accent economy — PARTIAL: the single green pops the send action against charcoal, but green also on wordmark + hamburger line slightly dilutes the 'one different thing'",
+    "Aesthetic-Usability effect — the committed rounded-friendly look buys perceived usability; the sub-floor secondary-text contrast is the crack the halo is papering over"
+  ],
+  "notes": "ONLY a marketing composite (cover.png) was available — no real screenshot, no shots[]. The app window is scaled by an unknown factor, so colours are reliable (measured from flat regions) but ALL sizes are relative/estimated and absolute pt is unrecoverable; re-digest if a true @2x screenshot arrives. The composite also contains a Finder window that is a PLATFORM PROP (genuine macOS 26 Liquid Glass Finder — white body, circular glass toolbar buttons, SF Pro, German locale 'Suchen/Objekte/verfügbar' illustrating the drag source); its tokens are Finder's, NOT dropadoo's, and were excluded. Notable contradiction worth flagging to synthesis: the prop Finder is authentically native while dropadoo's own window is deliberately non-native — the developer clearly knows the native look and chose to depart from it. The app icon (icon.png, not digested here — Workflow A is UI-only) is a charcoal squircle with a light envelope flap + green paperclip, reinforcing the same #BEE294-on-charcoal identity. Lineage set to web-electron at LOW confidence purely as the best-fit non-native bucket (card-grid + hamburger + custom chrome); it may be Flutter/Tauri/custom-SwiftUI — the load-bearing fact is only that it is not AppKit-native and must not feed macOS canon."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "cachesweep",
+  "name": "Cachesweep",
+  "tagline": "The menu-bar disk cleaner that shows you what\u2019s eating your",
+  "category": "Utility",
+  "pricing": null,
+  "website": "http://cachesweep.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0f2ade28-7f95-42b5-800a-936f320d3424.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-d4834b4a-df0b-4615-9ccb-392bacdf4703.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cachesweep/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cachesweep/cover.jpg",
+    "shots": []
+  }
+}

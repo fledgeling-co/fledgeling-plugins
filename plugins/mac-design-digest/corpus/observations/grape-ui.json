@@ -1,0 +1,62 @@
+{
+  "slug": "grape", "name": "Grape", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "main-window (4-pane notes workspace)", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": [
+      "#6 line-length: editor body runs full ~600pt column (~80ch), past 65-75ch cap",
+      "#10 border-contrast: 1px column dividers #262626-on-#1E1E1E (~1.1:1), near-invisible",
+      "native#3 selection not accent-bound (neutral gray #3C3C3C fill, white label)",
+      "native#6 accent not bound to selection/focus/primary (system accent withheld by design)"
+    ]}
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#1E1E1E", "quality": "measured", "notes": "editor + note-list content; EXACT match to macOS-27 kit dark window bg — native fidelity"},
+    {"token": "bg/sidebar", "value": "#262626", "quality": "measured", "notes": "source list a hair lighter than content panes"},
+    {"token": "fill/selection", "value": "#3C3C3C sidebar / #353535 note-card", "quality": "measured", "notes": "neutral gray inset fill, NO accent tint — the defining deviation"},
+    {"token": "text/primary", "value": "~#E8E8E8-#FFFFFF", "quality": "estimated", "notes": "white titles/body; JPEG peak read #DDDDDD"},
+    {"token": "text/secondary", "value": "#949494 (~55%)", "quality": "measured", "notes": "section headers, timestamps, count badges; matches kit Secondary label"},
+    {"token": "accent/identity", "value": "Orange #FB9800", "quality": "measured", "notes": "folder glyphs only; ~= system Orange; content identity, not bound to UI state"},
+    {"token": "type/H1", "value": "~22-24pt Bold sans", "quality": "estimated", "notes": "editor title, Title1->LargeTitle tier"},
+    {"token": "type/body", "value": "~13-14pt Regular SF-Pro-class", "quality": "estimated", "notes": "native desktop density, not 16px web / 17pt iOS"},
+    {"token": "type/meta", "value": "~11-12pt secondary gray", "quality": "estimated", "notes": "timestamp + preview snippet lines"},
+    {"token": "row/sidebar", "value": "~38-40pt (Large tier)", "quality": "estimated", "notes": "38px consistent pitch across 7 folder rows"},
+    {"token": "radius/selection", "value": "~8pt", "quality": "estimated", "notes": "inset rounded selection"},
+    {"token": "radius/note-card", "value": "~10-12pt", "quality": "estimated", "notes": "elevated selected-note card"},
+    {"token": "radius/window", "value": "~12pt", "quality": "estimated", "notes": "kit ships no window radius; measured here"},
+    {"token": "chrome/toolbar", "value": "~52-60pt unified strip", "quality": "estimated", "notes": "traffic-light top inset ~22pt"},
+    {"token": "chrome/sidebar-width", "value": "~240pt", "quality": "estimated", "notes": "kit sidebar 256pt; close"},
+    {"token": "layout/columns", "value": "sidebar~240 / note-list~325 / editor~633 / AI-pane~370 pt", "quality": "estimated", "notes": "four vertical panes, ~1570pt window; scale anchored @1x via 27px traffic-light pitch"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~240pt source list, opaque #262626, Folders header sentence-case, ~38pt Large rows, amber SF-folder glyph + label + right count badge, neutral-gray inset rounded selection (no accent)"},
+    {"pattern": "list", "key_values": "note list ~325pt, time-chunked sections (Today/Previous 30 Days), item = bold title + secondary meta line (timestamp . preview), selected = elevated #353535 rounded card ~10pt"},
+    {"pattern": "toolbar", "key_values": "editor: borderless monochrome SF-Symbol-style icons, leading formatting group (T/checklist/table/attach/blocks/draw) + trailing utilities (ellipsis/gear/split-view), no saturated primary"},
+    {"pattern": "inspector", "key_values": "AI companion pane ~370pt opened via split-view toggle; header = derivative-note title + '+' and history/clock glyphs; body = AI-generated numbered rewrite of source note"}
+  ],
+  "signature_moves": [
+    "Accent-withheld monochrome: selection is neutral gray inset fill with white (not accent) label in both sidebar and list; the single hue (amber #FB9800) is spent only on folder glyphs, never UI state",
+    "AI companion split: split-view toggle opens the source note beside an AI-generated derivative note (differently titled 'kid-simple' rewrite) with its own +/history chrome — 'thinks with you' rendered as a two-editor layout",
+    "System-fidelity under a house palette: content panes use the exact macOS-27 kit dark bg #1E1E1E and sentence-case section headers, honouring native grammar while overriding native color"
+  ],
+  "defects": [
+    "Contrast Dilution (borders) — 1px column dividers #262626-on-#1E1E1E (~1.1:1), panes separated by tone alone; <3:1",
+    "Line Length Fatigue — editor body runs full ~600pt column (~80ch), no ~65ch measure cap",
+    "Native selection grammar deviation — selection/focus/primary carry no system accent (deliberate signature; small Jakob's-Law prediction-error cost)",
+    "Minor: Settings gear in editor toolbar (macOS convention = Settings window via Cmd-,), not toolbar chrome"
+  ],
+  "aesthetic": {
+    "adjectives": ["restrained", "near-black monochrome", "warm-neutral"],
+    "direction": "Neo-grotesque product (dark-neutral variant) — but deliberately rotated OFF the default 'dark neutral + one electric accent' reflex: amber-instead-of-electric, and the accent is withheld from UI state entirely",
+    "peers": ["Apple Notes (four-pane structure)", "Bear (calm dark writing restraint)", "Craft (multi-pane notes)", "Reflect / Mem (AI-notes category)"],
+    "cluster_hint": "near-black-monochrome (quiet-dark-notes)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / Aesthetic-Usability — extreme monochrome restraint lowers perceptual load (fewer working-memory slots spent on chrome) and lets content + the single amber hue register; polish buys first-contact trust",
+    "Jakob's Law — honours native conventions (source list, traffic lights, sentence-case headers) so users feel at home, but violates the learned 'selection = accent' expectation, a small prediction-error cost",
+    "Miller/Cowan chunking — note list chunked by time (Today / Previous 30 Days), sidebar grouped under Folders; ~3-5 chunks per level",
+    "Hick's / progressive disclosure — four panes disclose folder -> note -> editor -> AI derivative left-to-right; formatting tools grouped in one toolbar cluster"
+  ],
+  "notes": "Evidence is a single marketing composite (cover.jpg): near-black hero backdrop + display-grotesque headline (brand, NOT app) framing a real app WINDOW cut off at its vertical midpoint — only the top ~40% of the workspace is visible (no empty state, settings, sheets, light mode, or scrolled content). Scale anchored to ~1x via 27px traffic-light pitch matching the macOS-27 kit; all pt values are (estimated) from a JPEG. Lineage native but confidence only medium: density + sentence-case headers + exact system bg argue native/SwiftUI, yet a polished Tauri build could mimic this — do not feed to native canon without a cleaner in-app screenshot. Dark mode prevents confirming/denying Liquid Glass on the toolbar (insufficient-evidence). Icon.png (3D purple grapes, glossy, emoji-adjacent) present but NOT digested — task is Workflow A (UI) only; it contrasts the austere UI with warmth. Brand backdrop shows correct action singularity (one filled white primary + one outlined ghost)."
+}

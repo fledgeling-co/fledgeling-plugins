@@ -1,0 +1,41 @@
+{
+  "slug": "droppy", "name": "Droppy", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 respects mask outline but bakes an inner-frame bevel + drop-shadow the system should apply",
+    "#4 survives 16px as a clean blue tile with no smear, but the notch vanishes and identity does not survive",
+    "#5 emissive-screen light model is coherent, but the frame bevel adds a mild second top-down cue",
+    "#9 commits to 'lit screen in dark device' yet mixes Big-Sur baked-bevel depth with Liquid-Glass specular"
+  ],
+  "failures": [
+    "#3 silhouette collapses to a featureless squircle when filled black; meaning lives in blue-on-black tone, not shape",
+    "#10 single baked raster with baked bevel/rim/specular, no Default/Dark/Clear/Tinted layer story; black frame is dark-mode-fragile"
+  ],
+  "palette": {
+    "background": "black device bezel #010101->#070707 (bevel highlight to #3E3E3E); screen ramp #08376E->#3C99E9",
+    "glyph": ["#08376E", "#093B73", "#1E61A4", "#2876B9", "#3C99E9", "#5EAAE7", "#4084C0"],
+    "accent": "#ABD6F7"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "object",
+    "overlay_device": "frame"
+  },
+  "light_model": "Emissive backlit screen: cyan inner-rim glow brightest at the screen edges (#ABD6F7) with an hourglass/pinched specular bloom - bright lobes upper (#5EAAE7) and lower (#4084C0) meeting a dark navy waist at centre (#08376E); plus a milder top-down bevel highlight on the black frame. Reads as a lit glass display inside a dark device.",
+  "layer_stack": [
+    "black device bezel/frame filling the squircle (baked bevel + inner shadow)",
+    "notched inner-screen recess (MacBook notch cut into top edge, centred)",
+    "blue vertical gradient field #08376E->#3C99E9",
+    "cyan inner-rim light glow #ABD6F7",
+    "hourglass specular bloom (upper + lower lobes)"
+  ],
+  "devices": [
+    "notch-as-subject (literal MacBook notch cut into the top of the screen)",
+    "front-on device portrait (screen-in-frame, not glyph-on-gradient)",
+    "backlit glass screen (rim-light + hourglass specular making a flat field read as an emissive display)"
+  ],
+  "adjectives": ["device-literal", "backlit-glassy", "brooding"],
+  "rhymes_hint": "device-portrait notch/menu-bar utility icons that depict the Mac hardware itself (NotchNook / Boring-Notch black-panel family) and glossy blue-gradient rim-lit-screen utility tiles; provisional style-family 'glossy blue-gradient device-frame utility'",
+  "notes": "icon.png is native 1024x1024 with transparent squircle corners (not a web resize) - full-res, measurements are clean. PIL flags indexed-palette+alpha but resolution is genuine. Icon bakes bevel/drop-shadow/specular/rim-glow that current HIG says the system should apply (Big-Sur-era authoring habit); it is a single raster, not Icon Composer layers, so it has no dark/clear/tinted variant path and the black bezel dissolves against a dark Dock/wallpaper. Strong subject-mining (concept = notch productivity hub, icon = the notch) is the standout, undercut by a non-existent silhouette. First device-portrait and first notch-as-subject icon in the corpus - do not promote, single app. Icon<->cover coherence is motif-based (notch / black rounded panel) not hue-based (icon saturated blue vs cover neutral-black-over-photo)."
+}

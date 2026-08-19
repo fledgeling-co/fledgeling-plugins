@@ -1,0 +1,57 @@
+{
+  "slug": "zonedial", "name": "Zonedial", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (no app window; indicative time-cards only)",
+      "mode": "dark",
+      "rubric_score": 8,
+      "native_audit_score": 2,
+      "failures": [
+        "#10 UI contrast — hairline card border likely <3:1 on dark navy (render)",
+        "#7 de-emphasis partial — city name and time both near-white; size carries hierarchy, mild dilution",
+        "native#1 lineage unreadable — no chrome, controls, or density evidence in the composite",
+        "native#10 no genuine window/traffic-lights/toolbar anywhere in image",
+        "#6/#8/#11/#12/#13/#14 and native#3/#4/#5/#7/#9 n/a — static marketing card has no paragraphs, forms, actions, selection, sidebar, toolbar, or focus states"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#000516 to #00071A, glow #022776 behind globe", "quality": "measured", "notes": "near-black navy marketing backdrop with radial blue glow; NOT a window background"},
+    {"token": "accent/brand-blue", "value": "#0E6DFF-#2367FF electric", "quality": "measured", "notes": "brand blue, more saturated/indigo than macOS system blue #0088FF/#0091FF; carries every non-white element"},
+    {"token": "type/wordmark", "value": "white #F5F4F7, bold geometric-humanist sans (SF Pro Display Bold-class)", "quality": "estimated", "notes": "marketing lockup, not UI type"},
+    {"token": "card/fill", "value": "#031232-class dark navy translucent", "quality": "measured", "notes": "Notification-tile look, floating over globe"},
+    {"token": "card/radius", "value": "~20-24px at render scale, continuous corner", "quality": "estimated", "notes": "render-scale, not point-truth"},
+    {"token": "card/text-time", "value": "#EEEDF2 white, large tabular", "quality": "measured", "notes": "dominant card element; 9:41 Apple placeholder"},
+    {"token": "card/text-abbr", "value": "brand-blue caps (PDT/BST); day (Wed) in gray", "quality": "measured", "notes": "blue is accent, gray is genuine de-emphasis"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "indicative time card: dark translucent rounded tile, ~16px pad, 3 left-aligned rows (flag+city / big time / accent-blue abbr + optional gray day chip); marketing-rendered, unconfirmed as shipped UI"}
+  ],
+  "signature_moves": [
+    "World-network marketing trope: 3D dotted globe + great-circle connection arcs + floating city time-cards + a physical 3D clock — competent but category-generic, not a distinctive design signature",
+    "One-accent discipline: a single electric blue is the only chromatic event against near-black; Von Restorff by construction",
+    "Jakob's-Law card schema: time cards borrow Apple's world-clock/Notification-tile anatomy verbatim (flag + city + big time + abbr) so the concept parses in under a second"
+  ],
+  "defects": [
+    "Accent-binding risk (unconfirmed) — brand blue ~#1666FF is more saturated than macOS system accent; if carried into app selection/focus/primary-action chrome it would violate the accent-is-the-user's-accent rule. Cannot confirm without an app screenshot",
+    "No verifiable UI evidence — cover shows no window; real spacing grid, control density, chrome, and native-tells are entirely unaudited (staged 9:41 placeholder + glow)",
+    "Marketing-render contrast watch — brand-blue abbreviations on dark navy card sit near the 4.5:1 text floor; hairline card border likely under the 3:1 non-text floor (render-only)"
+  ],
+  "aesthetic": {
+    "adjectives": ["electric", "techy", "glowing"],
+    "direction": "Neo-grotesque product (dark) — near-black navy ramp + one electric-blue accent + glass-ish translucent tiles + glow; the model-reflex dark-utility marketing look (frontend-aesthetic-direction warns this is a default, not a distinctive choice)",
+    "peers": ["dark SaaS/dev-tool landing template", "macOS World Clock / Notification Center tiles (card grammar)"],
+    "cluster_hint": "electric-dark-utility (brand-only; do not open a UI cluster from marketing evidence)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — single electric-blue accent against near-black makes every blue element (tagline, feature glyphs, card abbr, links) pre-attentively pop",
+    "Jakob's Law — time cards mimic Apple's trained world-clock/widget schema (flag + city + time + abbr), so the concept is instantly legible",
+    "Aesthetic-usability effect / 50ms first impression — polished 3D render + glow buys a quality halo, but sells perceived quality on a marketing surface rather than proving app usability",
+    "Miller/Cowan chunking — exactly 4 feature chunks, within the 3-5 comfortable band"
+  ],
+  "notes": "CRITICAL: cover.png is a marketing composite with NO captured app window (no traffic lights, toolbar, sidebar, menu bar, or frame). The timezone cards are rendered marketing floats (9:41 Apple placeholder, Apple flag emoji), read as indicative card grammar only, NOT a screenshot of the running app. Contributes brand evidence + one indicative widget-card pattern and ZERO native macOS canon evidence. Lineage/era unknowable from this image; Apple-ecosystem INTENT is clear (Built-for-macOS badge, SF-like type, Notification-tile styling) but native vs Catalyst vs SwiftUI vs Electron cannot be told. Do NOT cluster this app or promote any token to canon. Rubric/native scores apply to the indicative card component only and are heavily caveated. Icon.png (1024) is out of scope for this UI digest (Workflow A only) — a separate icon digest should handle it. A real app-window screenshot is needed before any native evidence can be taken."
+}

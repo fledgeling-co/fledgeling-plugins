@@ -1,0 +1,16 @@
+{
+  "slug": "corner-time",
+  "name": "Corner Time",
+  "tagline": "Native clock for fullscreen and hidden menubar",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://cornertime.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/57bcfaa2-de2d-499d-aac4-eee839c1e43c/icon-1783882476413.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/57bcfaa2-de2d-499d-aac4-eee839c1e43c/cover-1783882476566.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/corner-time/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/corner-time/cover.png",
+    "shots": []
+  }
+}

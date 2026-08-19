@@ -1,0 +1,61 @@
+{
+  "slug": "code-meter", "name": "Code Meter", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png#all-providers", "surface_type": "menu-bar-extra list (provider quota board)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 unfilled ring/bar tracks <3:1 on #1E1E1E ground", "#14 focus state unobservable in marketing render (not scored)"]},
+    {"file": "cover.png#provider-dashboard", "surface_type": "single-provider detail dashboard (hero gauge)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 low-contrast gauge track + faint stat-tile borders", "native#9 dashboard footer uses bordered icon buttons vs borderless-toolbar norm", "#14 focus n/s"]},
+    {"file": "cover.png#widgets-alerts", "surface_type": "desktop widget + OS notification stack", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#10 low-contrast widget-ring tracks", "notifications are OS-rendered native chrome, not app-drawn design"]},
+    {"file": "cover.png#usage-history", "surface_type": "analytics/charts (area charts + segmented range)", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#10 dashed gridlines <3:1", "#14 focus n/s"]}
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#1E1E1E", "quality": "measured", "notes": "popover ground; EXACT match to kit specified dark window bg — platform fidelity under custom theme"},
+    {"token": "bg/card", "value": "warm charcoal ~#26221E-#2A2622", "quality": "estimated", "notes": "provider cards + stat tiles; one step up from ground, faintly warm; no visible border >1px"},
+    {"token": "text/primary", "value": "#E3E3E3 warm off-white", "quality": "measured", "notes": "not pure white"},
+    {"token": "text/secondary", "value": "warm gray ~#8A857E", "quality": "estimated", "notes": "metric labels + reset captions"},
+    {"token": "status/green", "value": "#74D98C-#77DA84", "quality": "measured", "notes": "healthy/low usage; limier+brighter than system green #34C759"},
+    {"token": "status/amber", "value": "#F2A644", "quality": "measured", "notes": "warning 71-88%"},
+    {"token": "status/red", "value": "#EC6756 coral", "quality": "measured", "notes": "critical ~96%; one instance"},
+    {"token": "accent/brand-orange", "value": "#D2683E-#D57048 terracotta", "quality": "measured", "notes": "single-hue accent on widget + history surfaces only; separate from status ramp"},
+    {"token": "track/unfilled", "value": "dark gray ~#2C2A28 (~10-15% over ground)", "quality": "estimated", "notes": "ring+bar unfilled; deliberately <3:1"},
+    {"token": "type/display", "value": "pixel/bitmap mono display face (Silkscreen/Departure-Mono-class)", "quality": "estimated", "notes": "wordmark + all gauge numerals + tracked-caps labels; the signature typeface"},
+    {"token": "type/body", "value": "humanist system sans, reads as SF Pro", "quality": "estimated", "notes": "provider names, captions, notification body; clean two-face split from the pixel display font"},
+    {"token": "badge/plan", "value": "capsule pill, translucent white ~8-10% fill, secondary text", "quality": "estimated", "notes": "Max(5x)/Plus/Pro/Token Plan, trailing"},
+    {"token": "radius/card", "value": "~12-14px inside ~16-18px panel", "quality": "estimated", "notes": "concentric, child < parent"},
+    {"token": "control/segmented", "value": "capsule-pill selection, light-gray fill + white text", "quality": "estimated", "notes": "Now/6H/1D/1W range switch — HIG-correct in-view scope switching"},
+    {"token": "control/icon-button", "value": "bordered rounded-rect ~8px SF-Symbol buttons", "quality": "estimated", "notes": "dashboard footer; diverges from borderless-toolbar norm"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "MenuBarExtra-style opaque popover; pixel-font wordmark header; footer bar with refresh countdown (leading) + SF-Symbol icon cluster (gear/power/share/chart, trailing); dark #1E1E1E ground"},
+    {"pattern": "list", "key_values": "full-width provider cards; per-row dual quota reading (compact ring + horizontal bar) each status-coloured independently; leading gauge / brand-glyph+name / trailing plan pill; second line label+bar+bold %"},
+    {"pattern": "card-grid", "key_values": "dashboard stat tiles (WEEKLY/SONNET/UNDER-PACE) — tracked-caps label + glyph + bold value + thin progress bar + reset caption; ~12px radius warm-charcoal fill"},
+    {"pattern": "other", "key_values": "hero radial gauge — ~270deg thick round-cap arc, centre pixel-numeral + superscript %, tracked-caps unit label, reset caption; green fill on dark track"},
+    {"pattern": "other", "key_values": "analytics area charts — single-hue orange stepped line + vertical gradient fill, dashed 0/25/50% gridlines, tracked-caps section labels, bold current-value callout"}
+  ],
+  "signature_moves": [
+    "The meter IS the metaphor: a pixel/bitmap display face on the wordmark + every numeral, wrapped in dial gauges and a green/amber/red traffic-light ramp — the app costumes itself as a physical usage instrument (subject-mining 'meter' fully committed).",
+    "Dual-window provider card: ring (one window) + bar (another window) per row, each independently threshold-coloured, so the one at-risk provider pops pre-attentively from a green field.",
+    "Tracked-caps mono labels as systematic house style (deviates from native sentence-case type grammar but committed across all surfaces — signature-with-caveat, not defect)."
+  ],
+  "defects": [
+    "Contrast Dilution (non-text, #10) — unfilled ring/bar tracks and card borders <3:1 on #1E1E1E; conventional dark-gauge styling but strict WCAG non-text-contrast fail",
+    "Accent split (contested/low-confidence) — status green/amber/red on live surfaces vs a single terracotta-orange brand accent on widget+history; same 42% reads green (dashboard) and orange (widget); may be per-surface theming or genuine inconsistency, unsettleable from a marketing composite",
+    "Bordered icon buttons (native#9) — dashboard footer icon buttons carry visible rounded-rect borders vs the borderless-monochrome-SF-Symbol toolbar norm"
+  ],
+  "aesthetic": {
+    "adjectives": ["instrument-panel", "retro-terminal", "vigilant"],
+    "direction": "Terminal/hacker family (mono, dark, pixel display font) fused with a dashboard/instrument-panel register — a developer-tool dark theme whose numerals are LCD-style pixel readouts",
+    "peers": ["iStat Menus", "Stats (menu-bar monitor)", "TripMode", "Playdate-retro hardware UI (pixel-font flavour)"],
+    "cluster_hint": "terminal-instrument-dark",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — green/amber/red status makes the single at-risk provider (red 96%) the pre-attentive standout in a green list; the one different thing is remembered",
+    "Zeigarnik + Goal-gradient — progress rings, 'Resets in Xh/Xd', and burn-rate alerts exploit task-incompleteness/urgency to prompt pacing",
+    "Doherty / feedback — live refresh countdowns (00:04, 16:06) give constant low-latency feedback that the meter is current",
+    "Aesthetic-Usability — the fully committed instrument aesthetic buys a perceived-quality halo for a data-dense utility",
+    "Jakob's Law — familiar gauge/progress metaphors + genuinely native Notification Center banners make a novel product instantly legible",
+    "Hick's Law (respected) — the provider list is a scan/browse surface (option density is a feature there), not a decision point, so its density is appropriate not overloaded"
+  ],
+  "notes": "cover.png is a marketing composite: four app panels floated on a dark warm-amber radial backdrop (backdrop = brand evidence, panels = design evidence). Panels are enlarged and two are perspective-tilted, so ALL pixel sizes are estimated with wide ranges — proportions/colours trustworthy, absolute pt are not; retina scale indeterminate. Lineage native@med: SF-Symbol footer glyphs, OS-native notification banners, and #1E1E1E kit-exact ground read AppKit/SwiftUI, but a Tauri/Electron shell reusing SF Symbols + real macOS notifications cannot be excluded from a still — confirm with a real @2x screengrab. Heavy bespoke theming means most distinctive choices are house-style, not learnable mac canon. No light mode, no settings surface seen. First candidate member of a terminal-instrument-dark menu-bar cluster (needs >=2 more to promote a cluster identity). icon.png present but NOT digested — task scoped to Workflow A (UI) only; leave for Workflow B."
+}

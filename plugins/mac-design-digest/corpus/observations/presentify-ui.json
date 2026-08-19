@@ -1,0 +1,88 @@
+{
+  "slug": "presentify",
+  "name": "Presentify",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.jpg (center window — floating annotation toolbar)",
+      "surface_type": "floating-panel",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 9,
+      "failures": [
+        "#5/#6/#9 n/a — icon bar, no body text",
+        "#11 hit-target size on ~14-16px tool glyphs unconfirmed at composite scale",
+        "#14 focus appearance not visible",
+        "native #3 tool/ink selection state not legible in still"
+      ]
+    },
+    {
+      "file": "cover.jpg (left window — Preferences, Cursor tab)",
+      "surface_type": "settings",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 9,
+      "failures": [
+        "#14 focus appearance not visible in composite",
+        "native #6 accent binding contested — purple slider fill may be hardcoded brand over controlAccentColor"
+      ]
+    },
+    {
+      "file": "cover.jpg (right window — Spotlight/Zoom lens)",
+      "surface_type": "other",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "feature output (magnifier lens over dimmed slide), not chrome — not scored as UI"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/purple", "value": "~#7C3AED to #A855F7 gradient", "quality": "estimated", "notes": "icon + cover backdrop + slider fill all share it; the identity through-line"},
+    {"token": "chrome/annotation-bar-bg", "value": "near-black opaque ~#0B0B0E", "quality": "estimated", "notes": "always dark over any desktop; opaque, not glass/translucent"},
+    {"token": "chrome/annotation-bar-radius", "value": "~8-10px, capsule-ish ends", "quality": "estimated", "notes": "single horizontal panel"},
+    {"token": "palette/annotation-inks", "value": "5 swatches: cyan, red, green, yellow, purple", "quality": "estimated", "notes": "leading control group; cyan brighter than kit Blue #0088FF"},
+    {"token": "glyph/tools", "value": "monochrome white: pen/line, freehand, rectangle, ellipse, text T, highlighter, shuffle", "quality": "estimated", "notes": "one size, borderless, divider-grouped"},
+    {"token": "type/settings-label", "value": "~13px SF Pro primary", "quality": "estimated", "notes": "row title tier"},
+    {"token": "type/settings-desc", "value": "~11px SF Pro secondary gray", "quality": "estimated", "notes": "one-sentence helper per row"},
+    {"token": "accent/controls", "value": "purple slider fill", "quality": "estimated", "notes": "brand-purple over system accent OR user accent set purple — undecidable from one still"},
+    {"token": "bg/settings-canvas", "value": "white / ~#F5F5F7", "quality": "estimated", "notes": "Preferences is light; tool bar is dark — two fixed appearances, not a shared theme"},
+    {"token": "chrome/prefs-toolbar", "value": "icon-over-label tabs: General/Annotate/Cursor/Shortcuts/About", "quality": "estimated", "notes": "classic AppKit preferences NSToolbar; Cursor selected"},
+    {"token": "annotation/callout", "value": "rounded-rect, colored border + matching colored text", "quality": "estimated", "notes": "text-tool output; border color = ink color (orange 'This is Presentify!')"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "borderless dark opaque annotation capsule; drag handle + 5 ink swatches + divider-grouped monochrome draw tools; color-first ordering; floats over other apps"},
+    {"pattern": "settings", "key_values": "AppKit preferences icon+label toolbar (5 tabs); grouped form rows = [label/description] left + right-aligned slider; secondary-color section headers ('Spotlight'); explanatory popover callout"},
+    {"pattern": "toolbar", "key_values": "monochrome SF-Symbol-class glyphs, borderless, grouped by thin dividers, single icon size — HIG toolbar grammar honored"},
+    {"pattern": "inspector", "key_values": "rounded floating 'Zoom' popover overlaying settings content to explain a control (Zoom Level, 2.0x zoom)"}
+  ],
+  "signature_moves": [
+    "Color-swatch-first toolbar: 5 annotation inks lead the bar before any tool, carrying the only saturation on an otherwise monochrome panel — color is the fastest live-annotation choice (Von Restorff)",
+    "Chrome engineered to float over the whole OS: the product is essentially just a dark borderless panel + a spotlight lens, designed to be invisible except its tools; opaque-dark (not glass) is the deliberate legibility choice for 'readable over any background'",
+    "Two-tier self-teaching settings rows: every control pairs a bold label with a full explanatory sentence, trading density for configure-once recognition"
+  ],
+  "defects": [
+    "Accent-binding tell (contested) — purple slider fill may be brand purple hardcoded over user's controlAccentColor; native apps bind controls to the user's accent; cannot disambiguate from a single still",
+    "Selection grammar unconfirmed — active tool/ink not legible on the toolbar in this composite",
+    "Accessibility floors unverifiable — 4.5:1 text, #14 focus, and >=24px hit targets on small glyphs cannot be checked from a low-res marketing composite (provenance ceiling, not a design fault)"
+  ],
+  "aesthetic": {
+    "adjectives": ["vivid", "utilitarian", "approachable"],
+    "direction": "Split identity: committed single-hue purple consumer brand (drenched-color strategy on icon + marketing) wrapped around restrained monochrome utility chrome — closest range-map read is playful/consumer surface over an industrial/utilitarian toolbar",
+    "peers": ["Epic Pen", "Annotate", "ScreenBrush", "ZoomIt (Windows analog)", "Cursor Pro"],
+    "cluster_hint": "consumer-utility-overlay",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff — the five saturated ink swatches pop against monochrome tools, making color the pre-attentively differentiated (and most-used) control",
+    "Fitts's Law — large tappable ink circles favor fast acquisition, but the small tool glyphs risk Target Starvation unless hit areas are padded (unverifiable here)",
+    "Recognition over recall — each settings row's explanatory sentence teaches the control inline, removing the need to remember what 'Spotlight Size' does",
+    "Jakob's Law — the AppKit icon-tab Preferences window is an instantly-familiar macOS pattern; zero learning cost",
+    "Hick's Law (correctly not applied) — a live-annotation tool palette is a scan surface, so ~7 tools + 5 colors kept visible is right; thinning it would hurt, not help"
+  ],
+  "notes": "Only input is a 1200x630 JPEG marketing composite (cover.jpg) — no standalone app shots (meta.json gallery/shots empty). Design evidence is exclusively Presentify's own UI: the floating annotation toolbar, the Preferences (Cursor) window, and the spotlight/zoom lens. The center-window Xcode/SwiftUI editor and the side-window presentation slides are CONTENT being annotated (Apple's chrome + user content), NOT Presentify UI — not attributed to the app. All measurements estimated with wide bands; none promotable to (measured) without real capture. The app icon (Big-Sur layered-material purple easel squircle) was noted as brand evidence only — Workflow B (icon digest) deferred per task scope (Workflow A only). Contradiction to settle later: accent binding (purple slider) — need a capture with a non-purple system accent."
+}

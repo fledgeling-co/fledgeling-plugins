@@ -1,0 +1,16 @@
+{
+  "slug": "pixelcasso",
+  "name": "Pixelcasso",
+  "tagline": "Native image editor for Paint.NET users on Mac",
+  "category": "Design",
+  "pricing": "freemium",
+  "website": "https://pixelcasso.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ad11fd6-8c8b-4410-823d-f77fb40d9049.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-ac88fdbc-fa6c-4c5f-9350-3fde519548b5.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pixelcasso/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pixelcasso/cover.png",
+    "shots": []
+  }
+}

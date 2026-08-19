@@ -1,0 +1,37 @@
+{
+  "slug": "cooldock", "name": "Cooldock", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 optically centred horizontally but capsule sits deliberately low (~76% down) for the dock-at-bottom reading; bottom-heavy but purposeful",
+    "#10 luminance-based mono tints cleanly (dark field -> dark tint, pill stays distinct), but the all-black field has weak separation from a dark Dock tray / dark wallpaper",
+    "#11 dock-as-pill device is distinctive yet only legible once you know the app; abstract to a cold viewer"
+  ],
+  "failures": [
+    "#3 silhouette: filled solid black the icon collapses to an anonymous squircle -- the white pill is an internal figure, not part of the contour; identity lives entirely in figure-ground, not shape"
+  ],
+  "palette": {
+    "background": "ramp #282828->#0A0A0A",
+    "glyph": ["#FFFFFF", "#A0A0A0"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "single top-down source; charcoal field ramps light-top #282828 -> dark-bottom #0A0A0A; white capsule top-lit #FFFFFF -> #A0A0A0 with a short bottom micro-shadow implying it sits raised on the field; baked specular rim on the top edge (~#737373) and top corners (~#9C9C9C). Big Sur hand-baked lighting, not system-applied Liquid Glass.",
+  "layer_stack": [
+    "charcoal vertical-gradient squircle field (#282828 top -> #0A0A0A bottom)",
+    "baked top-edge specular rim highlight",
+    "glossy white capsule (dock-as-pill), horizontally centred, lower third"
+  ],
+  "devices": [
+    "dock-as-pill: one wide glossy capsule low on a dark tile abstracts the product's floating dock/widget bar",
+    "committed monochrome minimalism: near-black field + single high-key white shape, zero hue, no tool overlay",
+    "Big Sur baked gloss: charcoal ramp + top-edge specular rim + top-lit capsule micro-shadow"
+  ],
+  "adjectives": ["reductive", "glossy", "monochrome"],
+  "rhymes_hint": "dark minimalist utility tiles -- near-black field carrying a single high-key glyph with Big-Sur baked gloss; likely neighbours the digested notch/dock utilities (alcove, claude-notch-usage-companion, bartender-6)",
+  "notes": "Source is a 512x512 web render (icon.webp, ~7KB), half the 1024 master and heavily compressed, but the two-shape composition holds up; all pixel values (measured) at 512px. Icon is fully monochrome (max chroma spread=1 across the canvas). Full-bleed squircle field, no inset. Strong brand-icon coherence: the app's actual floating dock in cover.jpg is the same dark rounded-rectangle chrome, so the icon is the product's own dock reduced to one mark -- but the metaphor is not self-evident without brand context (see #3 failure). Classified big-sur, NOT liquid-glass: the baked specular rim and baked gradients are exactly what Liquid Glass tells authors to omit (ship flat layers, let the system light them). Corner values: pill bbox x69-442 y345-439; field top y0 bottom y511 at centre."
+}

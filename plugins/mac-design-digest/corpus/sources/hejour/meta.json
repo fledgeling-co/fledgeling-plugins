@@ -1,0 +1,16 @@
+{
+  "slug": "hejour",
+  "name": "Hejour",
+  "tagline": "A calm macOS notebook where every day is a page",
+  "category": "Writing",
+  "pricing": null,
+  "website": "https://hejour.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/89f09633-8757-421a-9c10-5bdbb76e685d/icon-1783882469802.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/89f09633-8757-421a-9c10-5bdbb76e685d/cover-1783882781460.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hejour/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hejour/cover.png",
+    "shots": []
+  }
+}

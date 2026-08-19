@@ -1,0 +1,16 @@
+{
+  "slug": "mux",
+  "name": "Mux",
+  "tagline": "Automatic priority-based network switching for your Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://parcse.com/mux",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-644f8dce-a7c8-4bd8-94d2-8fca1e9dca4b.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-d1d7ca9a-0e60-43e7-9171-6137df1f4802.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mux/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mux/cover.jpg",
+    "shots": []
+  }
+}

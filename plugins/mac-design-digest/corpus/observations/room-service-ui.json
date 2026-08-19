@@ -1,0 +1,82 @@
+{
+  "slug": "room-service",
+  "name": "Room Service",
+  "category": "Dev",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window / Health Check dashboard (from marketing cover composite; app window is the evidence, #0B0B0B backdrop is brand)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 dimmest tertiary metadata (category labels, unit sizes) ~2.5-3.5:1 on dark cards, below 4.5:1",
+        "#10 card/tile hairline borders ~1.1-1.3:1 vs canvas, well below 3:1 non-text floor",
+        "native#4 sidebar section header 'DEVELOPER' is tracked uppercase (native = sentence-case system semibold secondary)",
+        "native#3 sidebar selection is correct inset-rounded shape (~8pt) but neutral #242424 fill with white label, no accent tint",
+        "native#6 accent not bound to selection/focus; brand orange overloads the warning semantic hue"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#171717", "quality": "measured", "notes": "content + sidebar share one graphite field"},
+    {"token": "bg/card", "value": "#181818", "quality": "measured", "notes": "only ~1 lightness step above canvas; elevation via border not fill"},
+    {"token": "bg/row-elevated", "value": "#1C1C1C", "quality": "measured", "notes": "finding/disclosure rows"},
+    {"token": "sel/sidebar-fill", "value": "#242424", "quality": "measured", "notes": "inset rounded ~8pt, NEUTRAL not accent-tinted; label stays white"},
+    {"token": "border/hairline", "value": "~#1F-24 on #171717, 1px (~1.1-1.3:1)", "quality": "estimated", "notes": "below 3:1 UI-contrast floor"},
+    {"token": "accent/primary", "value": "#FF9300", "quality": "measured", "notes": "score ring, badges, CTA labels, 'Needs attention'; = system Orange (dark)"},
+    {"token": "status/red", "value": "~#FF3B30", "quality": "estimated", "notes": "Action Needed, paired with x glyph"},
+    {"token": "status/orange", "value": "#FF9300", "quality": "measured", "notes": "Warnings - SAME hue as brand accent (semantic overload)"},
+    {"token": "status/blue", "value": "~#0A84FF", "quality": "estimated", "notes": "Review Notes info glyph"},
+    {"token": "status/green", "value": "~#30D158", "quality": "estimated", "notes": "Healthy check glyph"},
+    {"token": "identity/sidebar-dots", "value": "12-hue system palette (e.g. purple #BC6AFF)", "quality": "estimated", "notes": "per-category dots, correctly separate from accent"},
+    {"token": "type/body", "value": "~13pt SF (cap-band 15px / 1.67 scale)", "quality": "estimated", "notes": "the native-density discriminator"},
+    {"token": "type/secondary", "value": "~11-12pt secondary gray", "quality": "estimated", "notes": "category labels, unit sizes"},
+    {"token": "type/card-heading", "value": "~15-17pt semibold", "quality": "estimated", "notes": "Title2/3 class - 'Priority Findings'"},
+    {"token": "type/title", "value": "~26-30pt bold", "quality": "estimated", "notes": "'Needs attention'"},
+    {"token": "type/section-header", "value": "tracked UPPERCASE secondary ('DEVELOPER')", "quality": "measured", "notes": "non-native tell"},
+    {"token": "space/sidebar-row", "value": "~32pt", "quality": "estimated", "notes": "kit Medium tier; comfortable native density"},
+    {"token": "radius/card", "value": "~10-12pt", "quality": "estimated", "notes": "outer cards / finding rows"},
+    {"token": "radius/badge", "value": "capsule", "quality": "measured", "notes": "count pills + status pills"},
+    {"token": "chrome/traffic-lights", "value": "genuine, 12pt dots @ 20pt spacing", "quality": "measured", "notes": "real window frame; establishes 1.67x composite scale"},
+    {"token": "chrome/top-bar", "value": "custom: PRO+version badge leading, borderless SF-Symbol capsule cluster trailing (Cmd-K palette, dark-mode, quick-actions, doc, terminal)", "quality": "measured", "notes": "replaces standard unified toolbar"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "source-list, ~256pt-ish width, ~32pt rows, inset-rounded neutral selection (~8pt radius), count-badge pills (orange), tracked-uppercase 'DEVELOPER' section header (non-native), icon-dot + right-aligned size list, pinned Settings at bottom"},
+    {"pattern": "toolbar", "key_values": "custom top bar, not a native NSToolbar; leading version/PRO badge, trailing borderless-monochrome SF-Symbol group in a capsule, includes Cmd-K command-palette affordance"},
+    {"pattern": "card-grid", "key_values": "4-up equal stat tiles (status glyph in tinted square + big number + secondary label), flat #181818 fill, hairline border elevation, ~10-12pt radius"},
+    {"pattern": "list", "key_values": "disclosure rows - warning chip + bold title + inline status badge + secondary category label + trailing chevron; 'Show N More' full-width ghost expander"},
+    {"pattern": "other", "key_values": "hero health-score card: orange progress ring (59/score, ~60% arc) + context chips + large verdict title + two equal secondary buttons (Save Report / Refresh Check)"}
+  ],
+  "signature_moves": [
+    "Borders-as-elevation, near-monochrome graphite: cards one lightness step above canvas, no shadow, no tonal ramp - the whole identity, and the main a11y liability",
+    "Single warm accent (#FF9300) as the sole chromatic event over a grayscale + glyph-paired-system-status field (restrained color strategy, accent <10% pixels)",
+    "Apple-Health-style score ring + 4-up severity triage tiles (Action Needed/Warnings/Review Notes/Healthy) transplanted onto a dev-cleanup utility"
+  ],
+  "defects": [
+    "UI Contrast (rubric #10) - hairline card/tile borders ~1.1-1.3:1, cards nearly merge into canvas; fix to kit Fills Dark #FFFFFF@8-10% or >=3:1",
+    "Sidebar authenticity - tracked-uppercase 'DEVELOPER' section header (native #1 sidebar tell); use sentence-case system semibold secondary",
+    "Selection missing accent tint - inset-rounded shape correct but neutral fill + white label instead of accent-tinted label",
+    "Accent/semantic overload (Von Restorff dilution) - brand orange identical to warning orange; focal pull of score ring diluted across warning badges",
+    "Contrast Dilution (rubric #9, soft) - faintest tertiary metadata ~2.5-3.5:1 below 4.5:1"
+  ],
+  "aesthetic": {
+    "adjectives": ["restrained", "graphite", "clinical"],
+    "direction": "Neo-grotesque product (dark neutral ramp + one accent) per frontend-aesthetic-direction range map - but rotated warm: warm-orange accent instead of the usual electric/acid; depth is borders-only, elevation refused",
+    "peers": ["Linear", "Raycast", "Vercel dashboard", "CleanMyMac X (category peer)"],
+    "cluster_hint": "graphite-dashboard (flat-dark product)",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff - the one-different-thing (orange score ring) is undercut because orange is ALSO every warning badge; accent overload dilutes the focal event",
+    "Jakob's Law - familiar SaaS-dashboard layout (sidebar + score + stat tiles + findings list) means devs already know how to read it; conventional interface, innovative product",
+    "Miller/Cowan chunking - content chunks to ~4 stat tiles + grouped finding sections, within the ~5-chunk working-memory limit",
+    "Zeigarnik / Fogg self-monitoring - '59 / Needs attention' + open triage counts create legitimate fix-me pressure (self-monitoring is the app's job)",
+    "Serial-position - most-critical tile (Action Needed) placed first in the 4-up row; good ordering",
+    "Aesthetic-usability (with a limit) - polished flat surface buys first-contact trust, but sub-3:1 borders weaken Gestalt common-region so related cards nearly read as one"
+  ],
+  "notes": "SINGLE surface only, and it is extracted from a marketing COVER composite (app window on #0B0B0B backdrop) - no dedicated screenshots (meta.json shots[] empty). Treat the backdrop as brand, the window as design evidence. Composite renders the window at ~1.67x (not clean @2x) - traffic-light dot 20px=12pt, spacing 33.5px=20pt both agree; hence wide (estimated) ranges on type/space. LINEAGE is the key judgment call: 13pt body + genuine 12pt traffic lights + 32pt source-list rows + inset-rounded selection = native (SwiftUI) density/bones, so classified native/med and its native-honoring readings may feed canon; BUT it wears a heavy web/SaaS-dashboard skin (Cmd-K palette, tracked-uppercase header, card-grid, status-pill vocabulary, custom top bar, flat border-elevation) whose deviations are logged as tells/signatures, not canon. If a later real screenshot shows a WebView/Electron tell (pointer-hand cursor, 16px body, no real menu bar), downgrade to web-electron. No settings/empty-state/light-mode/onboarding surfaces seen. Icon (icon.png, not digested here per Workflow-A-only scope) is a glassy dark torus/ring 'O' form on near-black - a Liquid-Glass-flavored monogram; queue for Workflow B. Corpus impact: first member of a proposed 'graphite-dashboard' pro-tool cluster; no promotions possible from one app."
+}

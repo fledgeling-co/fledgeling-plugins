@@ -1,0 +1,14 @@
+{
+  "slug": "audio-notes-formerly-email-me", "name": "Audio Notes formerly Email Me", "category": "AI",
+  "era": "big-sur",
+  "rubric_score": 11, "soft_passes": ["#2 grid — optically balanced but tilts high-right, tail near lower-centre; centred not grid-perfect", "#5 single light model — plane key-lit upper-left while background glow keys lower-left; warm but two light origins disagree", "#8 depth coherence — layer order sensible but relies on a baked contact shadow, the era-tell that fails #10"],
+  "failures": ["#10 variant robustness — single baked raster (fixed amber bg, baked lighting + contact shadow), not Icon Composer layers; can't render graceful dark/clear/tinted on macOS 26"],
+  "palette": {"background": "ramp #F3B606->#FF9E11 with lower-left yellow burst #FDF317", "glyph": ["#F5F5F3", "#F8F6F7", "#AEAEAE", "#8A8A8A"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "Baked matte-paper shading: plane key-lit upper-left (bright top faces, shaded underside), soft grounding contact shadow beneath; background glow keys lower-left. No glass specular/refraction.",
+  "layer_stack": ["amber->yellow gradient field with lower-left sunburst", "baked soft contact shadow under plane", "white paper-airplane object with multi-facet gray shading", "baked top-edge specular on leading fold"],
+  "devices": ["origami send-plane (folded-paper airplane as the send metaphor)", "object-at-an-angle (nose up-right, motion vector)", "sunburst backdrop (lower-left light burst, not a top-down sky ramp)", "baked contact shadow (grounds the plane; era-tell fighting Liquid Glass)"],
+  "adjectives": ["sunlit-amber", "origami-tactile", "send-kinetic"],
+  "rhymes_hint": "Telegram / generic send-share dispatch glyphs; warm-gradient single-object Big Sur utility icons (object-at-an-angle with baked micro-shadow)",
+  "notes": "Source icon.jpg is 512x512 JPEG (macapp.supply resized web render, not the 1024 master); JPEG artifacts make gray facet hexes approximate (estimated). Full-bleed square, clean corners, no mask fighting. Silhouette (#3) and 16px squint (#4) both strong — instantly a paper airplane pointing up-right. Baked shadow/specular means it is a legacy Big Sur icon, not Liquid Glass authored; only #10 fails. Brand-coherence: matches amber-yellow cover exactly (same plane glyph = menu-bar item + SEND button), but the plane communicates send/dispatch only, nothing about the app's voice/audio-capture half (no mic/waveform cue). No text/photo/UI. rubric 11/12, one failure."
+}

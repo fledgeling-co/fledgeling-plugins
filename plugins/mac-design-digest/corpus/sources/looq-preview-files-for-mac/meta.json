@@ -1,0 +1,16 @@
+{
+  "slug": "looq-preview-files-for-mac",
+  "name": "Looq: Preview Files for Mac",
+  "tagline": "A better look at your files.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://parcse.com/looq",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/261af21b-b3a4-4f49-ad8c-5958b4ad2afd/icon-1783882474588.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/261af21b-b3a4-4f49-ad8c-5958b4ad2afd/cover-1783882474833.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/looq-preview-files-for-mac/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/looq-preview-files-for-mac/cover.jpg",
+    "shots": []
+  }
+}

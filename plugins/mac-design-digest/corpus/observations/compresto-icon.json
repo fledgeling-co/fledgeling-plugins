@@ -1,0 +1,34 @@
+{
+  "slug": "compresto", "name": "Compresto", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 clean continuous-corner squircle but delivered pre-masked with transparent corners, not a square unmasked layer",
+    "#3 silhouette is crisp and memorable as a mark, but the subject (a compressor) is not nameable filled-solid; pinch->compress reads only in hindsight",
+    "#5 passes only by absence of conflicting light — there is no light model at all, fully flat",
+    "#8 one coplanar plane, coherent but zero depth; wears the modern squircle while skipping all dimensionality"
+  ],
+  "failures": [
+    "#10 single flattened bitmap, no bg/fg layer separation for dark/clear/tinted derivation; near-black #171717 field risks dissolving against a dark Dock in Dark mode; glyph depends on the one dark background colour"
+  ],
+  "palette": {
+    "background": "flat #171717",
+    "glyph": ["#F2F2F2"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "None — fully flat two-tone vector fill; no gradient, no cast/inner shadow, no specular. Consistent by absence of any light source rather than by a modelled one.",
+  "layer_stack": ["flat #171717 squircle field", "flat #F2F2F2 concave four-pointed pinch-star glyph"],
+  "devices": [
+    "concave four-pointed 'pinch-star' — compression rendered as inward squeeze to a narrow hollow waist (subject-mined, not stock)",
+    "logo-first achromatic treatment — off-white #F2F2F2 over warm-neutral near-black #171717, behaves like a brand monogram not a native utility icon",
+    "hollow negative-space waist — the dark field reads through the middle, defining the pinch by absence"
+  ],
+  "adjectives": ["stark", "abstract", "assertive"],
+  "rhymes_hint": "flat monochrome brand-mark-on-squircle family (logo-first, achromatic, depth-free — Vercel/Linear-monogram register ported to the Dock); glyph-shape rhyme with Cachesweep's concave four-pointed sparkles",
+  "notes": "Resolution caveat: 850x850 web render (not 1024), delivered PRE-MASKED (squircle cut, transparent corners, ~12px feathered edge). No strong baked drop-shadow in pixels — only edge antialiasing; the shadow on a white page is viewer compositing. Full-bleed unmasked master not seen. Background #171717 warm-neutral near-black; glyph #F2F2F2 deliberately off-white (avoids harsh #FFF). Figure-ground contrast 16:1. Glyph optically dead-centred (424,424 vs canvas 425,425), wide stance 557x421px (~1.32:1, ~65% canvas width). Single flattened layer is the #10 fail root cause. Palette-DECOUPLED from the app UI: cover shows warm floral wallpaper + frosted cream glass panel + macOS system-blue (~#0088FF) 'Compress' CTA, which is the app's real accent — the icon shares none of it. Central learning: a beautiful, committed abstract mark that communicates brand but not function; strong silhouette, weak subject-legibility."
+}

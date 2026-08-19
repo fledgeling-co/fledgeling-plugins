@@ -1,0 +1,16 @@
+{
+  "slug": "macrest",
+  "name": "MacRest",
+  "tagline": "Let your Mac actually sleep.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://macrest.appverge.net/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-2dc7f4e7-a1c8-44cf-8cc4-003f9fecbfd5.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-bef28143-d1cc-476d-bf9e-54ea5e66f98e.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macrest/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macrest/cover.webp",
+    "shots": []
+  }
+}

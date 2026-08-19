@@ -1,0 +1,40 @@
+{
+  "slug": "screenlex", "name": "ScreenLex", "category": "Photography",
+  "era": "custom",
+  "rubric_score": 6,
+  "soft_passes": [
+    "#3 concept 'cursor over framed window' is nameable but it's a 3-anchor cluster, no single clean silhouette",
+    "#5 passes only because the icon is wholly flat — no lighting to be inconsistent; zero native depth model",
+    "#6 reads as charcoal + blue + a traffic-light triad (borrowed chrome), but strictly exceeds <=2 hue families and reserves no accent for a focal element",
+    "#9 internally consistent flat vocabulary, but commits to no macOS era language at all"
+  ],
+  "failures": [
+    "#1 transparent background, no squircle field; corner brackets ~10px from edge would clip under the system mask",
+    "#2 no safe-zone margin (art to bbox edge x10-119); cursor pulls weight bottom-right, breaks optical centre",
+    "#4 three text lines + 3 dots + white-outlined cursor smear to mush at 16px; text already borderline at 128",
+    "#7 no field means contrast rides the wallpaper; pale blue card + faded text drop below 3:1 on light desktops",
+    "#10 not layered/appearance-aware; charcoal-on-light reading collapses in Dark/Clear/Tinted, no Icon Composer variants",
+    "#12 legible words baked into the card ('AI drives / efficie... / Human...') — load-bearing text that vanishes at Dock size"
+  ],
+  "palette": {
+    "background": "transparent (no squircle field)",
+    "glyph": ["#303030", "#DFF4FF", "#A9BBC6", "#242627", "#B4CEDD", "#FFFFFF"],
+    "accent": "#FF736A / #FEBC2E / #16C02E (traffic-light triad; brand blue ~#4AA3F0 in card)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "scene",
+    "overlay_device": "other"
+  },
+  "light_model": "Flat — no directional lighting, no cast shadow, no specular or bevel. Only tonal cue is the card's faint top-lighter vertical gradient. Consistent by absence of lighting, not by a committed source.",
+  "layer_stack": ["scanner corner brackets", "window card (gradient fill)", "traffic-light dots + fading text lines", "oversized cursor arrow"],
+  "devices": [
+    "scanner viewfinder corner brackets (four-corner capture frame)",
+    "traffic-light mini-window showing real captured text",
+    "top-down text opacity fade (privacy/redaction cue)",
+    "oversized macOS cursor as the fuse binding screen to action"
+  ],
+  "adjectives": ["diagrammatic", "literal", "cluttered"],
+  "rhymes_hint": "flat web/SaaS + browser-extension utility marks — multi-object explanatory glyphs (viewfinder frame + mini-window + cursor) floated on transparency; the diagrammatic-productivity-utility family, not the Big-Sur single-object-on-gradient family nor the diagonal-tool (TextEdit/Preview) family",
+  "notes": "Resolution: 128x128 ICO web render (favicon-grade), NOT the 1024 master; text/edges degraded, all hex from a 4x upscale so (estimated). Transparent background with art to the corners = either a genuinely non-native full-bleed-less icon or a favicon saved in place of the tile; nothing is designed for the macOS squircle. Traffic-light dots are borrowed macOS chrome. Cover.png reuses the exact scene beside a serif 'ScreenLex' wordmark on a Big-Sur-blue gradient wallpaper; icon's blue card = brand blue, so palette coherence is strong and deliberate. Subject (screenshot capture + OCR/translate + smart redaction) is communicated honestly, arguably over-crammed. Era-lag: a step further from native than the flat-Big-Sur laggards (agentpeek, 1password) — a transparent web-illustration mark; candidate for a 'non-native transparent web-mark' sub-family."
+}

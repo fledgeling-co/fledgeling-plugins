@@ -1,0 +1,16 @@
+{
+  "slug": "slapmac",
+  "name": "SlapMac",
+  "tagline": "Your macbook finally has feelings. Don't abuse it. Or do.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://slapmac.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2aa21789-9814-4f9e-8483-c250f38107fa/icon-1783882460720.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2aa21789-9814-4f9e-8483-c250f38107fa/cover-1783882772251.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slapmac/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slapmac/cover.jpg",
+    "shots": []
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "mural", "name": "Mural", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": ["#4 16px squint — M reads but Didone hairlines/swash smear at menu-bar size, refinement collapses", "#12 no-text — whole icon is one letterform; clears only as a single-letter monogram with shape logic, borderline of the words-are-a-defect rule"],
+  "failures": ["#10 variant robustness — black-on-white is fully background-dependent; no dark/tinted/clear variant authored, glyph vanishes on inverted fields"],
+  "palette": {"background": "flat #FFFFFF", "glyph": ["#000000"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "monogram", "overlay_device": "none"},
+  "light_model": "none — flat 2-value mark; only shading is the render frame's baked squircle drop shadow (delivery artefact, not artwork)",
+  "layer_stack": ["flat white background plate", "black serif M glyph"],
+  "devices": ["engraved museum-monogram serif (high-contrast Didone italic capital M with calligraphic swash left-leg)", "maximal-contrast achromatic field (#000 on #FFF, 21:1, no colour/gradient/material)", "confident scale — glyph fills ~78% of plate width, dead optical centre (510,510)"],
+  "adjectives": ["austere", "editorial", "engraved"],
+  "rhymes_hint": "editorial/luxury single-glyph monograms — fashion-house serif initials, Bodoni/Didot letterpress marks, museum placards; family = minimalist-monogram / editorial-serif on flat field",
+  "notes": "Delivered asset is a macapp.supply pre-masked render, not the raw master: 1024x1024 PNG but artwork inset to an 820x820 squircle (~80% of canvas), transparent corners (alpha 0), baked drop shadow (~45.7k semi-transparent px) — squircle mask+shadow composited in, so mask (#1) and margins are of the render not the submission. Pure #000/#FFF, no compression loss. Subject-communication gap: monogram signals a brand initial, not the app's function (dynamic/live desktop wallpaper). Split brand type-voice: cover wordmark is a loose white brush-script over a Sistine-Chapel 'Creation of Adam' composite — a different, painterly register from the icon's formal Didone serif. Biggest liability is dark/tinted adaptation (#10); an Icon Composer default/dark/mono authoring would fix it."
+}

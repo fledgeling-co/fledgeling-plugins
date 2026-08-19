@@ -1,0 +1,60 @@
+{
+  "slug": "textsniper",
+  "name": "TextSniper",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (no native app UI; depicts a stylized capture overlay)",
+      "mode": "light",
+      "rubric_score": 7,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A — this is a promo collage, not app UI; the 14-pt UI rubric and 10-pt native-tells audit are mostly non-applicable",
+        "#1 grid / #2 alignment — deliberate overlapping collage, not an 8pt-grid layout",
+        "#8/#11/#12/#13/#14 — no controls, inputs, or focus states present to audit",
+        "#9 text contrast — deep-teal title on chartreuse green card is the one marginal pair",
+        "native-audit — 0/10: no traffic lights, toolbar, sidebar, selection, or glass chrome observable"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "indigo->violet vertical-wave gradient ~#6055B9 deep -> #8E80CA light, darkening ~#493FA2", "quality": "estimated", "notes": "marketing ground, not a window background"},
+    {"token": "brand/headline", "value": "#FFFFFF heavy grotesque display, ~2-line tight leading", "quality": "measured", "notes": "brand display type, not a UI label"},
+    {"token": "brand/card-green", "value": "bg ~#D5F297 chartreuse, deep-teal-green title", "quality": "estimated", "notes": "'Scan QR codes on Mac' card"},
+    {"token": "brand/card-pink", "value": "magenta ~#E63FA6 bg, white QR modules", "quality": "estimated", "notes": "visual read; auto-sample polluted by pale QR overlay"},
+    {"token": "brand/card-blue", "value": "bg ~#B6D6F4 pale sky, navy title, violet waveform ~#6D4CFF->#8F8BFD", "quality": "estimated", "notes": "'Text-to-Speech / Recognize and Read Aloud' card"},
+    {"token": "brand/accent-lime", "value": "~#C5D600 chartreuse display over orange", "quality": "estimated", "notes": "inside the mock video thumbnail"},
+    {"token": "brand/card-radius", "value": "~24-34px soft rounded rects", "quality": "estimated", "notes": "marketing card radius, NOT a native control radius"},
+    {"token": "icon/base", "value": "pale-blue squircle, glossy blue->purple lens dome, 4 white serif-bracket 'T' marks in expand/X arrangement", "quality": "estimated", "notes": "Workflow B (icon) — recorded as brand context only, not digested"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "capture-overlay depiction: thin white marquee selection rectangle + crosshair/target reticle over dimmed content — a deliberate copy of macOS native cmd-shift-4 screen capture; shown in composite, not measurable as chrome"},
+    {"pattern": "card-grid", "key_values": "brand feature cards: 3 saturated cards (chartreuse/magenta/sky), ~24-34px radius, one hue per capability, collaged over indigo ground — MARKETING layer only, excluded from macOS canon"}
+  ],
+  "signature_moves": [
+    "Capture overlay mirrors the OS's own screenshot tool (marquee + crosshair) — Jakob's Law reuse of an owned mental model; the one genuine product-design idea visible",
+    "Jewel-bright feature isolation: each capability its own saturated card hue against a calm indigo backdrop (brand layer)"
+  ],
+  "defects": [
+    "Evidence gap (not a design defect) — no native app UI supplied; native-tells audit cannot be run",
+    "Contrast Dilution (marginal, marketing only) — deep-teal title on chartreuse green card is the lowest-contrast label in the composite"
+  ],
+  "aesthetic": {
+    "adjectives": ["candy-bright", "buoyant", "utility-confident"],
+    "direction": "bright-utility indie marketing — saturated jewel cards on a soft indigo wave gradient, committed and energetic rather than template-default",
+    "peers": ["CleanShot X marketing", "Raycast bright-card promos", "Setapp utility branding"],
+    "cluster_hint": "bright-utility-marketing (brand cluster, NOT a native-UI cluster)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — capture overlay copies the native macOS screenshot affordance so the interaction is instantly understood",
+    "Von Restorff (isolation) — each feature gets a distinct saturated card, making three capabilities individually memorable",
+    "Picture-superiority / recognition-over-recall — features are shown (QR panel, waveform, live capture) rather than described",
+    "Aesthetic-Usability Effect — polished bright collage primes perceived quality of the utility"
+  ],
+  "notes": "CRITICAL for synthesis: this app contributed NO native UI evidence. cover.png is a 2400x1260 marketing composite; icon.png is icon-workflow evidence (out of scope for this Workflow-A pass). Lineage 'native' and era 'big-sur' are INFERRED from product category (Vision-framework menu-bar OCR utility) and the icon's Apple-squircle grammar — NOT from any observed window — so this record must not feed macOS canon or a native style cluster. rubric_score 7 reflects competence on the ~6 applicable checks of a promo graphic; native_audit_score 0 means N/A, not failing. Brand tokens are (estimated) from pixel sampling. To actually profile TextSniper, need: menu-bar-extra dropdown, capture crosshair overlay in situ, and Settings window (light + dark)."
+}

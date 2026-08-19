@@ -1,0 +1,50 @@
+{
+  "slug": "coreviz-studio",
+  "name": "Coreviz Studio",
+  "category": "AI",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-cover (Open Graph 1200x630, not an app UI)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["N/A — no application interface present; 14-point rubric and 10-point native audit inapplicable to a brand OG composite (no chrome, no window, no controls)"]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/bg-base", "value": "#141414", "quality": "estimated", "notes": "near-black field, sampled (20,20,20)"},
+    {"token": "brand/bg-vignette", "value": "~#262727 top-left lift", "quality": "estimated", "notes": "subtle radial brightening toward logo corner"},
+    {"token": "brand/grid-line", "value": "~#201E1C, ~48px cells, near-invisible (+12 luma, faintly warm)", "quality": "estimated", "notes": "whisper blueprint grid, texture not structure"},
+    {"token": "brand/display", "value": "high-contrast modern/transitional serif (Didone-adjacent), roman + italic mix, cap-height ~90px on 630px card", "quality": "estimated", "notes": "'media workspace.' set in italic — the emphasis drop"},
+    {"token": "brand/display-fill", "value": "#FFFFFF", "quality": "estimated", "notes": "pure white headline on near-black"},
+    {"token": "brand/label-caps", "value": "#747474 tracked uppercase ~13px sans", "quality": "estimated", "notes": "'BACKED BY' trust-badge labels"},
+    {"token": "partner/antler-red", "value": "#E92F3B", "quality": "measured", "notes": "Antler partner-logo red — NOT confirmed as app's own accent; do not treat as brand accent"},
+    {"token": "brand/logo", "value": "monochrome off-white ~#F5F5F5 rounded-hexagon aperture mark", "quality": "estimated", "notes": "outlined on cover, filled in icon.png; 'core/lens' motif"},
+    {"token": "media/tile-radius", "value": "~8-10px rounded rects", "quality": "estimated", "notes": "decorative edge photo thumbnails — subject signal, not app chrome"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Cold-luxury emphasis drop: Didone-class serif with the second line in italic ('media workspace.') on near-black + a whisper grid — the warm-cream editorial-serif default rotated into a cold/black variant (brand layer only, not app UI)"
+  ],
+  "defects": [
+    "No app-UI defects recordable — no interface surface was supplied; the only finding is that this source yields zero native/UI evidence"
+  ],
+  "aesthetic": {
+    "adjectives": ["cold", "editorial", "geometric"],
+    "direction": "Neo-grotesque-product surface (dark neutral + whisper grid) crossed with Editorial/literary display type (high-contrast serif, roman->italic) — the model-default editorial-serif reflex in its cold/black variant",
+    "peers": ["Vercel marketing/OG cards", "Linear landing", "Family app brand", "Antler-ecosystem startup brands"],
+    "cluster_hint": "vercel-dark-startup-brand (cold-editorial-dark) — BRAND cluster, not a macOS UI cluster",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff effect — the single italic line ('media workspace.') is the one different element, so it is what the card is remembered by",
+    "Authority (Cialdini) + Fogg prominence — 'Backed by Vercel / Antler' badges borrow investor authority as a trust signal",
+    "Aesthetic-usability effect — polished high-contrast serif on black raises the first-impression trust prior (~50ms judgment)",
+    "Processing fluency — generous whitespace and a single headline give a fluent, low-load first read; no competing CTA"
+  ],
+  "notes": "MARKETING-ONLY COVER — no application UI was supplied (cover.png is a 1200x630 Open Graph share card; meta.json gallery/shots are empty). Therefore NO lineage, era, native-tells, or rubric evidence exists: lineage=unknown/low, era=unknown, and this app CANNOT be placed in a macOS style cluster or feed macOS canon. All tokens are brand-layer (estimated)/(inferred) from one compressed raster. Web signals (coreviz.io, Vercel og?h= route, 'Backed by Vercel') hint at a web/Next.js product and a possible web-Electron desktop wrapper, but this is a hint, not evidence. icon.png (monochrome rounded-hexagon aperture mark) exists but is Workflow B, out of scope here. partner/antler-red (#E92F3B) is a partner-logo colour, not a confirmed app accent. To digest anything native, real app screenshots (window, sidebar/toolbar, content surface) are required."
+}

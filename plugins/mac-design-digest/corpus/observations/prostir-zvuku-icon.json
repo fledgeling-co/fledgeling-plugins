@@ -1,0 +1,15 @@
+{
+  "slug": "prostir-zvuku", "name": "prostir zvuku", "category": "Lifestyle",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": ["#2 core sits slightly left/high of optical centre, tail pulls right — balanced on the black field but not grid-precise", "#4 at 16px the grain and detail smear to an indistinct gray smudge; high luminance contrast keeps it a distinct luminous mark but the waveform semantics are lost", "#9 internally consistent custom atmospheric idiom, but quotes neither Big Sur nor Liquid Glass vocabulary"],
+  "failures": ["#3 silhouette: the bloom has no hard edge — imagined filled solid black it vanishes into the background; figure exists only as a gradient", "#10 variant robustness: composition depends entirely on a pure-black background; a pale-gray emissive form has near-zero contrast on light/clear/tinted renders, and this is a fixed raster (not a layered Icon Composer doc) so macOS 26 cannot auto-generate valid appearances"],
+  "palette": {"background": "flat #000000 (corners) / #090A0A interior", "glyph": ["#DFDFDF", "#A8A7A7", "#848384", "#404040"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "Emissive / self-luminous — no directional key light; radial luminance falloff from a bright ~#DFDFDF core out to pure black, with film-grain dither baked into the ramp. No cast or top-down baked shadow.",
+  "layer_stack": ["pure-black field #000000->#090A0A", "grainy emissive grayscale bloom (waveform/plume), core ~#DFDFDF"],
+  "devices": ["emissive waveform/aurora bloom on void black", "film-grain / dithered gradient (analog airbrush, volumetric backlit-smoke feel)", "total monochrome restraint (zero hue in a blue-branded app)", "figure defined by luminance, not by silhouette"],
+  "adjectives": ["atmospheric", "luminous", "austere"],
+  "rhymes_hint": "Dark-ambient / spatial-audio / meditation icons — the Siri-orb and audio-visualizer lineage: an abstract emissive form on void black (Endel, Dark Noise, Oak, Portal-class). Not the Big Sur tool-on-gradient tradition, not Liquid Glass layered glass.",
+  "notes": "Resolution honest: full 1024x1024 native PNG (not a resized web render); corners are pure #000000, so the squircle mask is already applied in this render and is invisible because the artwork is full-bleed black. Grayscale confirmed neutral (brightest pixel channel spread = 0). Grain is intentional dither, not JPEG artifact (PNG source). Brand-coherence caveat for synthesis: the cover is a saturated royal-blue gradient with a geometric-sans 'prostir zvuku' wordmark over a dark spatial-audio head-tracking UI; the icon deliberately drops ALL color — coherence with the app runs through the dark canvas and the audio-waveform motif, never through hue. Almost certainly a raster mood-render, NOT a layered Icon Composer document, so it is non-adaptive (no dark/clear/tinted variants) — that is the root of the #10 failure. Scores 10/12 as a shipping icon but fails a non-negotiable (#3), so it is a quote-with-caution reference, not a generation template."
+}

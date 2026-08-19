@@ -1,0 +1,73 @@
+{
+  "slug": "macusb",
+  "name": "macUSB",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.jpeg", "surface_type": "launch/welcome (inside marketing composite)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["marketing composite — app window is evidence, aurora backdrop + wordmark are brand-only; not scored"]},
+    {"file": "shot-1.png", "surface_type": "download-progress wizard step-list", "mode": "dark", "rubric_score": 13, "native_audit_score": 5, "failures": ["#8 the lone prominent action is Cancel (an abort) — focal weight on the wrong control", "native: iOS-density controls (~45pt buttons, ~15px body)", "native: full-width blue capsule action bar is an iOS idiom", "native: centred rule-flanked section labels"]},
+    {"file": "shot-2.png", "surface_type": "source & target configuration form (macOS variant)", "mode": "dark", "rubric_score": 12, "native_audit_score": 5, "failures": ["#8 two saturated-blue primaries in one view (Analyze + Continue)", "#6 requirement-bullet measure borderline", "native: centred rule-flanked section headers, mixed capitalization", "native: iOS density"]},
+    {"file": "shot-3.png", "surface_type": "source & target configuration form (Windows variant)", "mode": "dark", "rubric_score": 12, "native_audit_score": 5, "failures": ["#8 dual saturated primaries (Analyze + Continue)", "native: same tells as shot-2 (OS variant of same surface)"]},
+    {"file": "shot-4.png", "surface_type": "install-config floating modal over operation-details", "mode": "dark", "rubric_score": 13, "native_audit_score": 4, "failures": ["native: centred floating modal, not a top-anchored native sheet", "native: ~26pt iOS-style filled-blue rounded checkboxes (kit macOS checkbox is 14pt)", "native: iOS density"]},
+    {"file": "shot-5.png", "surface_type": "operation-details confirm", "mode": "dark", "rubric_score": 13, "native_audit_score": 6, "failures": ["correct hierarchy here: Start primary + Back as plain text", "native: iOS density only"]},
+    {"file": "shot-6.png", "surface_type": "creation-progress wizard stage-list", "mode": "dark", "rubric_score": 13, "native_audit_score": 6, "failures": ["correct quiet abort (Stop as dark ghost) — but inconsistent with shot-1's loud blue Cancel", "native: iOS density, centred rule-labels"]}
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "~#0B0B0D near-black", "quality": "estimated", "notes": "dark ground, not pure black"},
+    {"token": "bg/card", "value": "~#1C1C1E–#2A2A2C", "quality": "estimated", "notes": "one tonal step up; requirement/summary cards"},
+    {"token": "bg/card-active", "value": "~#1E2A44 navy + blue 1px border", "quality": "estimated", "notes": "in-progress step card"},
+    {"token": "bg/status-success", "value": "~#16301C green tint", "quality": "estimated", "notes": "detection-success card"},
+    {"token": "bg/status-warning", "value": "~#3A2A15 amber tint", "quality": "estimated", "notes": "destructive-erase warning card"},
+    {"token": "accent/primary", "value": "~#0A84FF–#0088FF system blue", "quality": "estimated", "notes": "buttons/links/active/focus; reads bound to system blue (kit dark #0091FF)"},
+    {"token": "status/green", "value": "~#30D158", "quality": "estimated", "notes": "matches kit Green dark exactly"},
+    {"token": "status/amber", "value": "~#FF9F0A", "quality": "estimated", "notes": "warning glyph + text"},
+    {"token": "type/body", "value": "~15px SF Pro Regular", "quality": "estimated", "notes": "LARGER than 13pt macOS body — iOS-density tell"},
+    {"token": "type/card-title", "value": "~17–18pt SF Pro Bold", "quality": "estimated", "notes": "Title2-class"},
+    {"token": "type/section-label", "value": "~14pt secondary grey, centred between hairline rules", "quality": "estimated", "notes": "non-native header treatment"},
+    {"token": "control/primary-btn", "value": "full content-width x ~45pt capsule, circle-badged glyph", "quality": "measured", "notes": "iOS bottom-CTA transplant; kit XL control = 36pt"},
+    {"token": "control/checkbox", "value": "~26pt filled-blue rounded-square + white check", "quality": "measured", "notes": "iOS-scale; kit macOS checkbox = 14pt"},
+    {"token": "control/pop-up", "value": "~34pt tall, double up/down chevron", "quality": "measured", "notes": "genuine native pop-up button — pro-native tell"},
+    {"token": "control/text-field", "value": "~34pt, ~8pt radius, ~3pt blue focus ring", "quality": "estimated", "notes": "focus ring evidenced shot-4"},
+    {"token": "radius/card", "value": "~14–16pt", "quality": "estimated", "notes": "large rounded-rect cards"},
+    {"token": "radius/window", "value": "~16–18pt", "quality": "estimated", "notes": "fixed portrait window corner"},
+    {"token": "chrome/traffic-lights", "value": "~15pt dia @2x, zoom disabled-grey (fixed window)", "quality": "measured", "notes": "native cluster ~57pt span vs kit 68pt; disabled zoom = native lineage evidence"}
+  ],
+  "patterns": [
+    {"pattern": "onboarding", "key_values": "linear fixed-portrait wizard; centred rule-flanked section labels; persistent bottom action bar with one full-width blue capsule primary + a Back/secondary as plain text below it"},
+    {"pattern": "list", "key_values": "step/stage progress list — full-width cards; completed=green check, active=navy-tinted card w/ determinate bar + % + speed/size counters, pending=dimmed glyph"},
+    {"pattern": "settings", "key_values": "config form: grey info/requirement cards w/ glyph + bullet list; [field | bordered | bordered | filled-blue] button row; native pop-up drive selector; tinted status + warning cards"},
+    {"pattern": "floating-panel", "key_values": "centred floating modal (NOT a native sheet) over dimmed content; ~26pt blue checkboxes incl. a correctly-dimmed disabled one; trailing blue capsule Done"},
+    {"pattern": "empty-state", "key_values": "welcome screen (cover): centred USB icon + wordmark + tagline + single blue Start capsule + support footer"}
+  ],
+  "signature_moves": [
+    "Persistent full-width blue capsule action bar with a circle-badged directional glyph (Continue/Start/Cancel/Stop) — iOS bottom-CTA transplanted to a Mac window; the app's whole identity, unmissable next-step, but a non-native idiom",
+    "Tinted status-card semantics (navy=in-progress, green=success, amber=destructive-warning), each ALWAYS paired with a glyph + text label — colour is never the sole signal (the app's real accessibility strength)"
+  ],
+  "defects": [
+    "Focal Collision — two saturated-blue filled primaries in one view (Analyze + Continue, shot-2/3)",
+    "Inconsistent abort styling — loud full-width blue Cancel (shot-1) vs quiet dark-ghost Stop (shot-6) for the same action class",
+    "Focal weight on the wrong control — Cancel (an abort) is the single loudest element in shot-1; abort/destructive should never be the prominent default",
+    "Non-native section headers — centred labels flanked by hairline rules, mixed capitalization ('File selection' vs 'USB Drive Selection')",
+    "Non-native modality — centred floating modal instead of a top-anchored native sheet (shot-4)",
+    "iOS-density controls (tell) — ~45pt buttons, ~26pt checkboxes, ~34pt pop-ups, ~15px body on a pointer-first platform"
+  ],
+  "aesthetic": {
+    "adjectives": ["guided", "reassuring", "chunky"],
+    "direction": "dark-neutral product surface (near-black ground, tonal grey cards, one electric-blue accent) pushed toward consumer utility by iOS-sized oversized controls and full-width pill CTAs — neo-grotesque-product body language with a Setup-Assistant wizard spine",
+    "peers": ["Balena Etcher", "Apple Setup Assistant / macOS Installer wizard", "iOS Setup Assistant"],
+    "cluster_hint": "dark-guided-utility-wizard",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Goal-Gradient / Zeigarnik — step lists with green checks + an active card showing %, speed and byte counters give earned, motivating progress feedback toward completion",
+    "Von Restorff — the single full-width blue button is the one different thing, pulling the eye to the next action (misused in shot-1 where the different thing is Cancel/abort)",
+    "Fitts's Law — window-width capsule buttons are huge easy targets (arguably over-applied for a pointer platform)",
+    "Hick's Law — choices reduced to one obvious action per step (violated in the config view's dual primaries)",
+    "Forgiveness (Lidwell) — proportional amber WARNING before an irreversible drive erase; weakened by styling Continue identically loud regardless of the destructive consequence",
+    "Jakob's Law — linear installer wizard matches users' trained mental model of bootable-media tools",
+    "Doherty Threshold — continuous MB/s + %/byte counters keep the long write feeling responsive"
+  ],
+  "notes": "Task was Workflow A (UI) only — icon and cover analysed as brand context, no icons/ file written. Lineage is the key judgement call: macOS-correct chrome (real traffic lights, disabled-grey zoom on a fixed portrait window, a genuine double-chevron pop-up button) argues native SwiftUI, but the body is styled in an iOS-consumer idiom (oversized full-width buttons, ~26pt filled-blue checkboxes, centred floating modal, ~15px body). Classified native/med so its taste is admissible in principle, but every iOS-idiom token is flagged as a tell/defect and must NOT feed macOS canon. Rated ~12.7/14 cross-platform (it is internally systematic and accessible) but only ~5.2/10 native-tells (it does not read as a native Mac app). Colours estimated from compressed @2x dark-mode PNGs — wide ranges. shot-2/shot-3 are the same surface (macOS vs Windows source variants)."
+}

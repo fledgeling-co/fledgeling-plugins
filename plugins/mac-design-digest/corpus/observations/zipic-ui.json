@@ -1,0 +1,55 @@
+{
+  "slug": "zipic", "name": "Zipic", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "main window (batch results list)", "mode": "light", "rubric_score": 12, "native_audit_score": 8, "failures": ["#10 idle trailing action glyphs (folder/copy/undo) light-gray on white, <3:1 est", "#11 trailing row icons ~18-22px, below 24px floor (est, unverifiable under composite rotation)", "native#5 card-list rows airier/taller than native compact table rows"]},
+    {"file": "cover.png", "surface_type": "settings (Pro pane)", "mode": "light", "rubric_score": 13, "native_audit_score": 9, "failures": ["#9 some checkbox sub-labels mid-gray on white, contrast borderline (est)"]}
+  ],
+  "tokens": [
+    {"token": "accent/primary", "value": "#0080F8", "quality": "measured", "notes": "hue-reliable scan; ~= system Blue (kit Light #0088FF); binds ratio badge, format badge, checkbox, switch, tab selection"},
+    {"token": "status/success", "value": "#30C840", "quality": "measured", "notes": "hue-reliable scan; ~= system Green (kit #34C759); always paired with a checkmark glyph"},
+    {"token": "bg/canvas-main", "value": "~#ECECEE-#F2F2F4 light gray", "quality": "estimated", "notes": "content behind floating row cards"},
+    {"token": "surface/row-card", "value": "#FFFFFF, radius ~14-18px", "quality": "estimated", "notes": "each result is its own floating rounded card"},
+    {"token": "bg/window-settings", "value": "~#E8E8EA light gray", "quality": "estimated", "notes": "grouped-card settings background"},
+    {"token": "surface/settings-card", "value": "#FFFFFF, radius ~10-12px", "quality": "estimated", "notes": "one setting per card"},
+    {"token": "type/filename", "value": "bold ~14-15pt near-black", "quality": "estimated", "notes": "row anchor; reads Headline/Title3-bold"},
+    {"token": "type/secondary", "value": "~11-12pt gray", "quality": "estimated", "notes": "before->after sizes, settings sub-labels"},
+    {"token": "type/group-header", "value": "bold ~13pt Title Case + leading SF Symbol", "quality": "estimated", "notes": "settings card headers"},
+    {"token": "badge/reduction", "value": "filled blue capsule, white text, down-arrow + NN%", "quality": "estimated", "notes": "the signature element"},
+    {"token": "control/remove", "value": "solid dark circle ~#3A3A3C + white minus, ~22-24px", "quality": "estimated", "notes": "trailing destructive per-row control"},
+    {"token": "chrome/left-rail", "value": "icon-only vertical toolbar ~44-52px, borderless monochrome SF Symbols", "quality": "estimated", "notes": "main window; add-file/archive/sort top, info+sliders bottom"},
+    {"token": "chrome/tab-bar", "value": "native preferences toolbar, 4 icon-over-label items, selected=rounded fill+accent", "quality": "estimated", "notes": "General/Compression/Pro/License"}
+  ],
+  "patterns": [
+    {"pattern": "list", "key_values": "batch-results as full-width white rounded row-cards on gray canvas; thumbnail + bold filename (mid-truncated) + green success check + blue reduction/format capsules + before->after bytes + trailing action cluster (folder/copy/undo/solid-remove)"},
+    {"pattern": "settings", "key_values": "native pref tab bar (icon-over-label x4) + one-setting-per-card groups, each icon+bold-header; segmented controls (Normal/Notch/System, LZW/ZIP), native checkboxes, native switch, path field; centered titlebar title reflects tab; minimize/zoom greyed"},
+    {"pattern": "toolbar", "key_values": "toolbar rendered as a thin LEFT vertical icon-only rail of borderless monochrome SF Symbols, split top-group / bottom-pinned (info + adjustments)"}
+  ],
+  "signature_moves": [
+    "Compression result as a 'savings receipt' card: filename + green check + filled-blue down-arrow NN% badge + literal before->after byte counts — gamifies saved bytes",
+    "Inline blue '-> format' conversion capsule sharing the badge language",
+    "Settings as one-setting-per-card with icon + bold header — friendlier/airier than stock System Settings while staying in native control vocabulary",
+    "Toolbar-as-left-side-rail instead of a top toolbar"
+  ],
+  "defects": [
+    "Contrast Dilution (affordances) — idle trailing row glyphs (folder/copy/undo) light-gray monochrome on white, <3:1 est; interactive affordances recede while informational blue badge dominates",
+    "Target-size risk (est) — same trailing glyphs ~18-22px, below 24px floor unless invisibly padded; unverifiable under composite rotation",
+    "Row-card content list (deviation not defect) — floating white cards on gray instead of a flat inset NSTableView; System-Settings-adjacent but the biggest departure from native content-list grammar"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "rounded", "reassuring"],
+    "direction": "modern System-Settings rounded-card utility with consumer warmth (badge-driven feedback)",
+    "peers": ["Compressor", "Compresto", "Picmal", "HiPixel", "CleanShot X (settings feel)"],
+    "cluster_hint": "rounded-card consumer utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — polished rounded cards + green success checks make a lossy operation feel trustworthy",
+    "Immediate feedback / positive reinforcement (Doherty-adjacent) — the big blue NN% savings badge rewards each completed compression, a per-file dopamine hit",
+    "Von Restorff (isolation) — the single saturated blue badge pops against an otherwise monochrome row, aiming the eye at the payoff",
+    "Jakob's Law — settings reuse native macOS System-Settings conventions (pref tab bar, grouped cards, segmented controls) so users feel instantly at home",
+    "Hick's Law — settings chunked into labelled one-topic cards reduces choice overload"
+  ],
+  "notes": "Only evidence is cover.png, a marketing feature-grid composite; the app windows inside it are shown rotated ~5deg with slight perspective and downscaled, so ALL geometry is (estimated) with low confidence — accent HUES are reliable (scanned), pixel distances are not. No standalone gallery screenshots in source (meta.json shots: []). Accent binds to near-exact system Blue (#0080F8) and system Green (#30C840); green is correctly always glyph-paired. Native tells are strong (pref tab bar, native segmented/checkbox/switch, disabled-greyed settings minimize/zoom, 13pt-class density) despite the composite. Dark mode + Chinese localization exist (an occluded dark settings window is visible behind) but are not measurable. Icon.png was NOT digested (Workflow A / UI only, per task). Marketing copy claims 'Native Mac App' — visual evidence supports native SwiftUI, but no Liquid Glass material is present so era read as big-sur/sequoia, not liquid-glass."
+}

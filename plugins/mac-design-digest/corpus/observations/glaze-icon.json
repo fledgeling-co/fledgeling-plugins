@@ -1,0 +1,42 @@
+{
+  "slug": "glaze", "name": "Glaze", "category": "AI",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 mask discipline — designed for the squircle but the PNG bakes the rounded corners (transparent) and an edge-bevel rim highlight instead of shipping a full-bleed unmasked layer",
+    "#3 silhouette test — filled black it is an abstract four-lobed pillow; passes only because it reproduces the glaze brand mark; genericness risk vs other abstract blobs",
+    "#4 16px squint — survives as a glowing amber blob on black, but caustics/sparkles/refraction/indigo rim all smear away below ~48px; identity survives as colour, not shape",
+    "#6 palette economy — clean 2 families + neutral field, but each family packs a wide tonal range that could read as more hues in a thumbnail",
+    "#9 era coherence — internally consistent but fuses skeuomorphic-glass photorealism with Liquid-Glass iridescence into a no-single-era custom language"
+  ],
+  "failures": [
+    "#10 variant robustness — composition wholly depends on the dark ground and full-colour iridescence; the subject IS the multicolour glass, so no viable macOS 26 mono/tinted/clear render; not authored as appearance-aware layers, fixed dark-only render art"
+  ],
+  "palette": {
+    "background": "ramp #2D2D30->#0F1012 (near-black charcoal vignette; baked edge-bevel rim ~#606062; corners transparent/masked)",
+    "glyph": ["#F1CC3B", "#EFB836", "#EA7529", "#8B3217", "#521F10", "#3D3DC3", "#1B1753", "#413959"],
+    "accent": "#EFB836"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Environmental/studio glass: emissive molten amber core glowing from within (upper-centre) + refractive indigo shell on the lobes; specular glints and suspended sparkle particles imply an upper key light; chromatic dispersion at glass edges; baked squircle top rim-light agrees. One coherent 3D light setup, specular present.",
+  "layer_stack": [
+    "dark charcoal top-lit vignette squircle field",
+    "baked edge-bevel rim highlight (~#606062)",
+    "indigo/blue refractive glass shell (rim + four lobes)",
+    "molten amber/orange emissive core",
+    "specular highlights + caustic sparkle/star particles (front)"
+  ],
+  "devices": [
+    "brand mark as molten glass marble (quatrefoil logo rendered as a volumetric fluid blob)",
+    "warm/cool thermal split (emissive amber core vs refractive indigo rim inside one object)",
+    "caustic sparkle dust (suspended star particles selling a live fluid sim)",
+    "obsidian gallery field (near-black vignette as a lighting rig, dark-mode-native)"
+  ],
+  "adjectives": ["molten", "iridescent", "obsidian-lit"],
+  "rhymes_hint": "current AI-startup wave of abstract 3D glass/chrome/liquid-metal blobs on dark fields (iridescent-orb / oil-on-water / molten-glass-marble family); also skeuomorphic glass-material icons and Apple Liquid Glass material vocabulary quoted as baked render art. A 'dark-field iridescent-blob' AI-category cluster looks likely to form.",
+  "notes": "512x512 web render from macapp.supply, NOT a 1024 master; corners transparent (pre-masked), edge bevel and rim-light baked into the PNG; all hex measured at 512 and internal fluid detail is high-frequency (sampled, not authoritative). Silhouette echoes the quatrefoil brand mark in cover.jpg. Brand-coherence: cover.jpg is a strictly MONOCHROME black/white liquid-glass system with only faint chromatic-aberration glints on wave crests; the icon shares the black-liquid-glass-on-black motif and quatrefoil shape but breaks monochrome, cranking those glints into full amber/indigo iridescence — the loud member of a disciplined brand. Era-lag note: AI-category icon chases the Liquid Glass material trend (ahead of the flat Big-Sur dev-utility icons in the corpus) but as un-layered render art, so it still fails the real system-variant test (#10)."
+}

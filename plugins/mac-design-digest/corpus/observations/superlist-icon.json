@@ -1,0 +1,14 @@
+{
+  "slug": "superlist", "name": "Superlist", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11, "soft_passes": ["#4 16px squint: curl reads as a light diagonal swoosh, the S letterform does not crisply resolve; saturated red is the stronger ID anchor at menu-bar size", "#7 figure-ground: survives grayscale via shadow modeling but glyph and background are one material, so no classic hue/shape contrast", "#10 variant robustness: era-appropriate N/A, but a mono/tinted render would flatten the tonal relief and lose the letterform"],
+  "failures": ["#3 silhouette: filled solid black the icon is a featureless squircle — the S is carried entirely by tonal relief, not shape, so the subject is not nameable from silhouette alone"],
+  "palette": {"background": "ramp #FB6343->#BD0D05 (single-material sculptural relief, warm red-orange)", "glyph": ["#FB6343", "#E64427", "#D22414", "#BD0D05"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "monogram", "overlay_device": "none"},
+  "light_model": "Top-down, slight top-left soft key; short soft self-shadows pooling in the folds; faint highlight rim on lifted paper edges; matte, no specular gloss",
+  "layer_stack": ["red field plane (back)", "curled S-ribbon mid-fold", "lifted paper edge + cast shadow (front)", "baked squircle drop-shadow (web-render artifact, below tile)"],
+  "devices": ["monochrome sculptural relief (figure and ground are one material)", "folded-paper logomark (the S as a curled list page)", "full-bleed field with no background/glyph split", "tonal-only figure-ground carried entirely by baked self-shadow"],
+  "adjectives": ["sculptural", "monochromatic", "assertive"],
+  "rhymes_hint": "monochrome sculptural brand-mark family — single-hue matte logomarks modeled by baked self-shadow rather than a background+glyph split; opposite pole from the classic Big Sur field-plus-diagonal-tool tradition; consumer-productivity marks that lead with one saturated identity color as the Dock anchor",
+  "notes": "513x512 AVIF->PNG web render; mask and drop-shadow pre-baked, corners transparent, so edge crispness and micro-shadow softness are partly resize/compression artifacts (true 1024 source likely cleaner). Monochrome-relief means silhouette test hard-fails and a mono/tinted appearance variant would lose the S entirely - the mark depends on the red gradient rendering. Icon is a full-bleed logomark, not the Big Sur field+centered-glyph composition (a signature deviation). Brand-context: the Superlist app UI is dark purple/indigo (per cover) so the warm-red icon is identity/Dock-anchor duty, not subject depiction - 'tasks/notes/plans' is not illustrated, only the brand S. Cover render agrees with standalone icon (pure monochrome red, no secondary tone)."
+}

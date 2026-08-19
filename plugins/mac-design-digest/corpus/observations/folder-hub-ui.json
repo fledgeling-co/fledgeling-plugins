@@ -1,0 +1,49 @@
+{
+  "slug": "folder-hub", "name": "Folder Hub", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {"file": "cover.webp", "surface_type": "floating-panel (notch file-drawer)", "mode": "light", "rubric_score": 11, "native_audit_score": 7, "failures": ["#9 secondary tab labels + filenames low-contrast gray on ~#F0F0F2 panel, likely <4.5:1 (estimated)", "#10 hairline tab-chip border + monochrome bottom glyphs borderline 3:1 (estimated)", "#14 no verifiable focus state in a static render (n/a)", "native#3 neutral-gray selection fill + raised bordered/shadowed tab chip, not flat accent inset", "native#6 no system-accent binding visible in the UI (violet is brand-only)"]}
+  ],
+  "tokens": [
+    {"token": "brand/accent-marketing", "value": "#8C52FE", "quality": "measured", "notes": "violet brand panel + URL; only saturated hue; NOT present in the app UI"},
+    {"token": "bg/backdrop-marketing", "value": "#161616", "quality": "measured", "notes": "softened near-black with technical dot-grid texture"},
+    {"token": "bg/panel", "value": "#F0F0F2-#F5F3F3", "quality": "measured", "notes": "light neutral gray drawer body, reads translucent"},
+    {"token": "sel/grid-item-fill", "value": "~#D0D1CE neutral gray rounded rect", "quality": "measured", "notes": "inset selection behind thumbnail; neutral, not accent-tinted"},
+    {"token": "sel/tab-chip", "value": "near-white raised chip + hairline border + soft shadow", "quality": "estimated", "notes": "Big Sur segmented style"},
+    {"token": "type/tab-label", "value": "SF Pro ~11-13pt-class, 2 weights (selected dark/semibold, unselected secondary gray)", "quality": "estimated", "notes": "absolute pt unrecoverable from downscaled render"},
+    {"token": "type/filename", "value": "SF Pro ~10-11pt-class secondary gray, centered, 2-line wrap", "quality": "estimated", "notes": "Finder icon-view label grammar"},
+    {"token": "radius/panel", "value": "~16-20pt large", "quality": "estimated", "notes": "cannot tie to grid at this scale"},
+    {"token": "radius/selection", "value": "~6-8pt", "quality": "estimated", "notes": "steps down under panel radius, concentric-plausible"},
+    {"token": "chrome/bottom-toolbar", "value": "3 borderless monochrome glyphs, trailing group (grid-view / figure / account)", "quality": "measured", "notes": "secondary gray"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "notch-anchored wide-short popover, no traffic lights (correct), light translucent material, ~16-20pt radius, Finder icon grid inside"},
+    {"pattern": "card-grid", "key_values": "Finder-style icon view ~9 cols x 2 rows, thumbnail + 2-line centered filename, gray rounded-rect selection fill"},
+    {"pattern": "toolbar", "key_values": "horizontal source-switcher tabs (icon+label, selected raised chip) + trailing + button as top bar; 3 borderless monochrome glyphs as bottom bar"}
+  ],
+  "signature_moves": [
+    "Sidebar-to-top-tabs transposition: the source list a Finder window shows on the left is rotated into a horizontal segmented tab row (Screenshots/Downloads/Folder Hub) to fit the wide/short notch drawer form factor",
+    "Interactional (out of static scope, noted not scored): hover-the-notch reveals, move-away hides"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) - unselected tab labels + secondary-gray filenames likely <4.5:1 on ~#F0F0F2 panel (estimated)",
+    "Selection-grammar deviation - neutral gray selection fill + raised bordered/shadowed tab chip instead of flat accent-tinted inset; no system-accent binding in the UI",
+    "Weak information scent - bottom 'running figure' glyph has no learned convention and ambiguous meaning"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "unfussy", "compact"],
+    "direction": "Consumer-utility native popover (Big Sur neutral gray) wrapped in a playful Neo-grotesque violet marketing skin (bold white headline on softened near-black + one electric #8C52FE accent)",
+    "peers": ["NotchNook", "Boring Notch", "Dropover", "Yoink"],
+    "cluster_hint": "menu-bar / notch utility - neutral native popover",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law - reuses Finder's learned icon-grid + filename convention so the drawer is instantly legible; the notch-hover trigger is the deliberate product-level innovation (be conventional about UI, innovative about product)",
+    "Fitts's Law - the display notch is a fixed top-edge anchor (effectively infinite target along the edge), a strong acquisition point; the small bottom glyphs are the low-Fitts weak spot",
+    "Hick's Law - only 3 source tabs keeps the scope decision tiny",
+    "Von Restorff / signal-detection - one selected tab breaks the row pattern, but the neutral-gray selection makes the single-focus signal quiet",
+    "Aesthetic-Usability Effect - the polished composite (halo) raises perceived usability before first use"
+  ],
+  "notes": "Single low-resolution marketing composite only (cover.webp 1200x630); the app screen is a downscaled illustration inside a MacBook render, so all dimensions are (estimated) with low confidence - colours sampled from the webp are reliable, point sizes are not. No standalone app screenshots supplied (gallery empty); ideally re-digest with real @2x captures. icon.png (brown/orange drawer-under-notch metaphor) present but NOT digested here per UI-only task scope - it is separate brand evidence and does not match the violet marketing palette. Lineage native but confidence capped at med for lack of clean captures. Era read as big-sur/legacy-native: a floating popover showing opaque light material rather than Liquid Glass is the main era tell."
+}

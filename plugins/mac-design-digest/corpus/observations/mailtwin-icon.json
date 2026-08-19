@@ -1,0 +1,40 @@
+{
+  "slug": "mailtwin", "name": "MailTwin", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 squircle is clean and continuous-curve but baked-in/pre-masked (transparent corners) rather than the macOS-26 full-bleed unmasked square — risks corner-radius mismatch vs Tahoe's own mask",
+    "#4 primary envelope silhouette survives 16px, but the detail line, flap stroke, and both sparkles smear away — collapses to a generic envelope, losing the AI differentiator",
+    "#8 internally consistent but essentially flat — envelope floats shadowless, no baked depth beyond the top-sheen band"
+  ],
+  "failures": [
+    "#10 flat single-layer PNG, no Icon Composer layer separation; white envelope + white sparkles depend entirely on the gradient, so dark/clear/tinted variants have no fallback",
+    "#11 generic white-glyph-on-gradient composition + cliche AI sparkles; the plain envelope collides with Apple Mail's own envelope metaphor, reading as 'Mail' at Dock size rather than as its own product"
+  ],
+  "palette": {
+    "background": "ramp #F786A4->#8B6FF6 (coral-pink top-left, lightest -> magenta #C25DC8 centre -> blue-violet bottom-right); subtle lighter top-sheen band across top ~21%",
+    "glyph": ["#FFFFFF", "#8C57D9", "#F2F2F2"],
+    "accent": "#8C57D9"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "Flat: one diagonal gradient with light origin at the top-left corner (lightest) darkening to bottom-right, plus a subtle lighter horizontal top-sheen band. Envelope is flat white and shadowless; no baked micro-shadow, no specular, no refraction.",
+  "layer_stack": [
+    "squircle gradient field (pink->violet) + top-sheen band",
+    "white envelope body + faint detail line",
+    "purple V-flap stroke",
+    "two sparkle decals (large white top, small violet lower-right)"
+  ],
+  "devices": [
+    "twin 4-point AI sparkles (white + violet)",
+    "pink->violet diagonal brand ramp (coherent with the cover)",
+    "white line-art envelope with purple stroke flap",
+    "lighter horizontal top-sheen band"
+  ],
+  "adjectives": ["vivid", "friendly", "derivative"],
+  "rhymes_hint": "iOS App-Store 'AI utility' icons: saturated-gradient squircle + white line-glyph + sparkle badge (AI-writing/AI-email sub-family). Structurally rhymes with Apple Mail's own envelope, which hurts a Mail-companion app. Style family: iOS-flat gradient-glyph, 'AI sparkle' variant.",
+  "notes": "Source 512x512 (not 1024 master); corners fully transparent -> artwork ships PRE-MASKED with a baked squircle, not a full-bleed unmasked square (an iOS/App-Store/web-render convention, against macOS 26 'supply unmasked layers'). Colours measured at 512, stroke widths and corner radius estimated. Classed big-sur only for the uniform-squircle + front-facing shape language; it is really an iOS-flat App-Store icon and lacks Big Sur's baked top-down depth and tool-at-angle overlay, and lacks any Liquid Glass layering. Icon/cover palette coherence is strong: the cover hero wash and 'Insert reply into Mail' CTA reuse the same coral-pink->blue-violet ramp. Two independent flags worth watching for synthesis: (a) the pre-masked/baked-squircle delivery pattern, and (b) the 'AI sparkle' cliche device -- both likely to recur across macapp.supply AI apps."
+}

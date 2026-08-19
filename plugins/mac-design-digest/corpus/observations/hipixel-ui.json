@@ -1,0 +1,68 @@
+{
+  "slug": "hipixel",
+  "name": "HiPixel",
+  "category": "Photography",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "icon.png",
+      "surface_type": "app-icon (not a UI surface)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — app icon, not a UI window; 14-point UI rubric and native-tells audit do not apply",
+        "icon note: Big-Sur-era squircle on ~80.3% grid (native-faithful geometry), but photographic full-bleed fill behind a heavy raised white bezel is a dated construction under current HIG ('match, don't reproduce')",
+        "icon note: before/after concept + thin yellow diagonal collapse toward illegibility at 16px Dock/Spotlight size"
+      ]
+    },
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-cover composite (no app UI)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — marketing composite (before/after backdrop + floated icon + frosted headline pill); contains no window chrome, controls, or content surface to score",
+        "brand note: high-contrast serif in a glass capsule signals editorial/premium, in tension with the free/open-source utilitarian positioning"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "icon/grid-occupancy", "value": "opaque body 80.3% of canvas edge (50-461px in 512)", "quality": "measured", "notes": "matches Big Sur icon grid 824/1024 ~80.5% — shape geometry is platform-faithful"},
+    {"token": "icon/frame", "value": "cool blue-white raised bevel; highlight #FFFFFF, sides #BAC0E1-#D5D9EA", "quality": "measured", "notes": "top-lit glossy photo-frame bezel; Big Sur material, not flat, not Liquid Glass"},
+    {"token": "icon/blue-ramp", "value": "#265387 navy -> #2A6CB4 royal -> #75B7F5 sky", "quality": "measured", "notes": "3-step blue ramp = the low-res 'before' mosaic"},
+    {"token": "icon/accent-divider", "value": "~#EFCE1E saturated yellow diagonal", "quality": "estimated", "notes": "comparison-slider line; only warm hue in an all-blue field"},
+    {"token": "icon/painting-side", "value": "Starry Night blues + pale moon #EEEFC4", "quality": "measured", "notes": "photographic/illustrative full-bleed 'after' half"},
+    {"token": "brand/headline-pill", "value": "frosted-glass rounded capsule, translucent ~#586C85 over art", "quality": "estimated", "notes": "MARKETING chrome, not app chrome — do not read as native glass"},
+    {"token": "brand/cover-motif", "value": "full-bleed before/after: mosaic #202B47 left / sharp painting right", "quality": "measured", "notes": "product's single idea scaled to fill the frame"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "before/after comparison-slider as brand system — pixel-mosaic vs Van Gogh Starry Night split by a yellow diagonal, identical at icon scale and cover scale (concept-as-brand, demonstrate-don't-describe)"}
+  ],
+  "signature_moves": [
+    "Comparison-slider (blurry->crisp) IS the entire brand — scaled verbatim from 16px icon to 2400px cover; one product idea expressed at every size",
+    "Single warm yellow accent (divider + moon) as the only Von-Restorff element in an otherwise all-blue field — reads as 'the seam where bad becomes good'"
+  ],
+  "defects": [
+    "Photographic-full-bleed-in-heavy-bezel icon — dated construction vs current HIG 'match, don't reproduce'; a bold simple glyph is canon, not a shrunk painting",
+    "16px legibility failure — before/after distinction and thin yellow diagonal collapse at Dock/Spotlight sizes, the exact scale an icon must survive",
+    "Register mismatch (positioning, not craft) — editorial serif + glass pill vs free/open-source utilitarian product"
+  ],
+  "aesthetic": {
+    "adjectives": ["illustrative", "concept-literal", "glossy"],
+    "direction": "photographic-skeuomorphic app tile (Big Sur era) wrapped in a glass-pill editorial marketing layer; no committed native-UI direction observable",
+    "peers": ["Topaz-style upscaler before/after marketing", "older Pixelmator-adjacent photo-utility tiles"],
+    "cluster_hint": "concept-literal photo utility (icon/brand only — insufficient for a UI cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — one yellow accent line in an all-blue field is the single memorable, meaning-bearing mark",
+    "Description-experience gap / demonstrate-don't-describe — the visual before/after proves the value instead of claiming it in copy",
+    "Aesthetic-usability effect — the glossy cover buys a first-impression quality halo the (unseen) app must then honor",
+    "Processing fluency — the single literal metaphor is instantly legible, lowering interpretive load at first contact"
+  ],
+  "notes": "CRITICAL for synthesis: neither supplied file is an app UI. cover.jpg is a marketing composite; icon.png is the app icon. There is ZERO native-UI evidence — no window, toolbar, sidebar, control, or content surface. Lineage is genuinely unclassifiable from these inputs (marked unknown/low); the 'Native for macOS' claim is marketing copy, not visual evidence, and must not promote lineage. Nothing here may feed macOS UI canon or a UI style cluster. Era 'big-sur' applies to the ICON only. rubric_score/native_audit_score are 0 as sentinels for 'not applicable — no UI surface', not as failing scores. To actually digest HiPixel's UI, request app-window screenshots. Icon values are single-image (inferred); do not promote."
+}

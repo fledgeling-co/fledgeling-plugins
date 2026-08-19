@@ -1,0 +1,16 @@
+{
+  "slug": "open-screen-shot",
+  "name": "Open Screen Shot",
+  "tagline": "Long screenshots, right from your menu bar",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://open-ss.vercel.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/8dee9920-1926-4946-a040-066b44ac6476/icon-1783882475739.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/8dee9920-1926-4946-a040-066b44ac6476/cover-1783882788128.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-screen-shot/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-screen-shot/cover.png",
+    "shots": []
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "hora-calendar",
+  "name": "hora Calendar",
+  "tagline": "The Mac Calendar Google never built.",
+  "category": "Productivity",
+  "pricing": "paid",
+  "website": "https://horacal.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-b12fcf0b-2b95-4d25-ae17-6ebca75c8f80.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-2bf6d280-d0b0-45e2-8a7d-c5fb68b720cc.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-ad114cc7-5464-4c95-922d-6fc52dc52e0e.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e5ca7717-ce2f-4186-8881-0ba433c448fc.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a6bbd2fe-c291-428f-a577-2363b10950d4.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-3cbe7c8d-aa5d-40d2-bbfb-45c2eec547af.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-5698dad7-456f-4f24-ab31-2d6ebb5213b5.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-71a7d097-9768-4d6d-b022-01d2b19e23bb.jpeg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-014187b4-30d1-46bf-aa6b-e1d4d6bfa2ec.jpeg"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-1.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-2.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-3.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-4.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-5.jpeg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-6.jpeg"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "canary-mail",
+  "name": "Canary Mail",
+  "tagline": "Best Email App With AI & Calendar",
+  "category": "Productivity",
+  "pricing": "freemium",
+  "website": "https://canarymail.io/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ee18f351-e215-4529-b5c9-3c7ba6c707fe.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-380744cd-95a3-4724-b8ff-b4b42e0a2e19.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/canary-mail/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/canary-mail/cover.png",
+    "shots": []
+  }
+}

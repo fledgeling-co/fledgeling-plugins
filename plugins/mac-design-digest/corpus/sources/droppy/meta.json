@@ -1,0 +1,16 @@
+{
+  "slug": "droppy",
+  "name": "Droppy",
+  "tagline": "Droppy turns your Mac notch into a powerful productivity hub for files, clipboard, and extensions.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://getdroppy.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d629df66-05c8-48d7-be3f-5f91fe3aa748/icon-1783882463974.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d629df66-05c8-48d7-be3f-5f91fe3aa748/cover-1783882464142.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/droppy/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/droppy/cover.png",
+    "shots": []
+  }
+}

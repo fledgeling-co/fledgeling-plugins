@@ -1,0 +1,16 @@
+{
+  "slug": "forma",
+  "name": "Forma",
+  "tagline": "The best native whiteboard for Mac",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.useforma.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ab8756ef-1b27-490e-8110-ae89f5a53742.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-aee05e6b-930f-4471-9455-8e954742c2c6.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/forma/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/forma/cover.png",
+    "shots": []
+  }
+}

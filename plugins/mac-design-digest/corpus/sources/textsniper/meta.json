@@ -1,0 +1,16 @@
+{
+  "slug": "textsniper",
+  "name": "TextSniper",
+  "tagline": "Copy text from anywhere, Scan QR codes, Text-to-Speech",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://textsniper.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-803db164-f4fb-4614-8d43-6b37317bdef3.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-2fe0cc7e-c1e2-43f5-902b-06168e5ee6c5.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/textsniper/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/textsniper/cover.png",
+    "shots": []
+  }
+}

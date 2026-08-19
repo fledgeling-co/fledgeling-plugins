@@ -1,0 +1,44 @@
+{
+  "slug": "forma", "name": "Forma", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 pre-masked 427px web render (baked rounded corners), not square unmasked layers; composition itself respects the mask",
+    "#2 optically balanced triangular node cluster but no strict grid-centred hero; anchor sits slightly high",
+    "#3 'cards joined by a wire' reads as nodes-and-links but it's a multi-object scene with no single dominant anchor",
+    "#4 three cards survive as color blocks at 16px, but the thin grey wire and white wave-arcs smear away below ~32px — the connection half of the concept is lost small",
+    "#5 consistent top/upper-left light but two material idioms (plastic-gloss tube vs translucent-glass cards)",
+    "#8 z-order deliberate (wire weaves behind/in-front) and reflection coherent, but card translucency muddies figure-ground",
+    "#9 internally consistent glossy-glass language but straddles Web-2.0 gloss and Liquid-Glass translucency"
+  ],
+  "failures": [
+    "#6 four hue families (grey + blue->cyan + gold->orange + red->magenta), no reserved accent — a rainbow, not palette economy",
+    "#10 composition depends on fixed black ground + 3 color-coded hues; dark/clear/tinted/mono renders would flatten the cards into indistinguishable blocks — not a valid layered Icon Composer icon"
+  ],
+  "palette": {
+    "background": "ramp #000000->#373737 (near-black top to charcoal reflective floor; mid #1D1D1D)",
+    "glyph": ["#3AA9FF->#01E8FF blue-cyan card", "#FFC901->#FF8A01 gold-orange card", "#FF3546->#FF0DCB red-magenta card", "#8A8A8A grey connector-wire w/ white specular"],
+    "accent": "none reserved (all three cards are saturated; hues echo Apple system Red/Orange/Blue chips)"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "other"
+  },
+  "light_model": "top-down / upper-left, glossy; plastic-specular highlight along the grey tube, top-lit glossy gradients on each card, baked reflective floor at bottom edge; highlights+shadow+reflection are baked in (contra HIG), not system-applied",
+  "layer_stack": [
+    "dark ramp ground + baked floor reflection",
+    "grey connector-wire (glossy tube with own drop shadow)",
+    "translucent color cards weaving z-order with the wire (blue over wire left, wire over cards elsewhere)",
+    "white concentric wave-arcs on blue card + edge speculars"
+  ],
+  "devices": [
+    "connector-wire flourish (glossy grey tube looping left coil + lower-right hook, stitching the cards like mind-map links)",
+    "jewel cards on black (three translucent saturated glass tiles on a near-black stage)",
+    "system-color card palette (card hues sit on Apple's system Red/Orange/Blue chips)",
+    "baked floor reflection + glass translucency weave (wire visible through the blue card)"
+  ],
+  "adjectives": ["nocturnal", "jewel-saturated", "connective"],
+  "rhymes_hint": "glossy dark-ground multicolor icons where saturated glass/plastic shapes float on black; Web-2.0 gloss meets Liquid-Glass translucency; creative/board & node-graph tools that render canvas objects (tiles, sticky notes, connectors) as the icon subject using system-color chips",
+  "notes": "427x427 downscaled pre-masked render, not 1024 master — fine-detail calls (#3/#4/arcs/specular) soft, palette hexes are estimated pixel samples. Era classified 'custom' not 'liquid-glass': quotes Liquid Glass's translucent panes but bakes specular/shadow/reflection and depends on a fixed black ground, so it fails tinted/mono variants that real Liquid Glass passes; not big-sur (that era is matte, not high-gloss). The two failures (#6, #10) are one decision — jewel cards on black buys max personality (#11) at the cost of palette economy and variant robustness. Palette coherence with the app is loose: cover is a light blue-sky theme with charcoal cards; the icon inverts to black-ground rainbow, only the blue card rhymes with the brand blue."
+}

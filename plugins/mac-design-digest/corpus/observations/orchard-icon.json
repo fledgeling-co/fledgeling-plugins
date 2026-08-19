@@ -1,0 +1,44 @@
+{
+  "slug": "orchard", "name": "Orchard", "category": "AI",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#1 ships pre-masked (baked alpha corners); full-bleed unmasked master unverified from the 204px render",
+    "#2 optically centred but object bleeds to the mask edge (Wallet/Books full-bleed convention), not a safe-zone margin",
+    "#6 chrome is one hue + white, but the tucked app cards inject 5+ hue families — passes only as diegetic content",
+    "#7 white card on leather is >4.5:1, but the app cluster on leather turns to muddy mid-grey jumble"
+  ],
+  "failures": [
+    "#3 silhouette: filled solid black it is a featureless rounded square; wallet identity lives entirely in interior colour/texture/seam",
+    "#4 16px squint: ~8 mini app icons + barcode + logomark collapse to a two-tone brown tile with a white patch — not identifiable as Orchard",
+    "#10 variant robustness: colour/texture-dependent with no carrying mono glyph; tinted/clear/mono renders strip the meaning-bearing app-card colours"
+  ],
+  "palette": {
+    "background": "modeled leather (not a fill ramp): lit #E3A273 -> field #D08B59 -> shadowed fold #9A734E",
+    "glyph": ["#FFFFFD", "#FF7FA3", "#E7EFF8", "#D7905D", "#8A8378"],
+    "accent": "none (white membership card + barcode as neutral focal; no saturated brand accent)"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "scene",
+    "overlay_device": "badge"
+  },
+  "light_model": "soft top/top-left key; short baked contact shadows under pocketed app cards and the membership card; gentle emboss highlight on a tonal Apple logo; matte leather, no hard specular (not a glass icon)",
+  "layer_stack": [
+    "system squircle mask + system shadow",
+    "caramel leather bi-fold base with centre fold seam",
+    "debossed tonal Apple logo on right leaf",
+    "left-leaf card pocket + tucked mini macOS app-icon stack",
+    "white membership card (barcode + looping logomark) clipped on right leaf",
+    "micro contact shadows"
+  ],
+  "devices": [
+    "Passbook/Wallet skeuomorph quotation (leather + barcode loyalty card)",
+    "'your apps in a wallet' — real macOS app icons tucked as pocket cards",
+    "debossed tonal Apple logo as ecosystem/authenticity stamp",
+    "centre fold-spine dividing your-Apple-apps (left) from Apple+Orchard mark (right) — the 'bridge'"
+  ],
+  "adjectives": ["tactile", "nostalgic", "over-packed"],
+  "rhymes_hint": "leather-and-ticket Passbook-lineage skeuomorph (Apple Wallet/Find My Friends/Contacts-book, Game Center felt); and 'container holding recognisable smaller things' icons whose identity is contents not silhouette",
+  "notes": "204x204 web render only (~1/5 of the 1024 master); barcode bars, mini-icon glyphs, and stitching are at/below the resolution floor, so element values are estimated and some 'busy' read may be downscaling. Delivered asset is PRE-MASKED (corners alpha 0) — cannot confirm HIG full-bleed unmasked square master. Deliberate skeuomorphic-quote in the Liquid-Glass era: strong hero-size personality (score would be higher at 512+), but the same detail density that gives it character fails the two non-negotiable small-size checks (#3 silhouette, #4 16px) plus #10 variants. For synthesis: candidate seed for a 'skeuomorphic-revival / material-object' icon cluster; watch for other icons that encode identity in contents rather than outline (they will share the #3/#4 failure signature). Brand palette coherence icon<->cover is high (warm terracotta/tan; cover ground #FFE2D0->#FFF0E3)."
+}

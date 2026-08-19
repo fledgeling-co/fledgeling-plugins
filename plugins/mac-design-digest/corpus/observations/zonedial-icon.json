@@ -1,0 +1,38 @@
+{
+  "slug": "zonedial", "name": "Zonedial", "category": "Utility",
+  "era": "flat-transition",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#4 circular silhouette survives but ~30px ring stroke thins to a hairline at 16px; white-on-blue contrast rescues it",
+    "#5 no lighting at all — consistent only by absence; no mac-native depth",
+    "#8 single flat plane, no shadows to conflict — but zero dimensionality",
+    "#9 internally coherent flat language, but reads iOS/web not Big Sur or Liquid Glass",
+    "#10 white glyph transplants to any dark ground, but no dark/clear/tinted layers authored"
+  ],
+  "failures": [
+    "#1 mask: artwork is a pre-rounded squircle baked into alpha (corner p{5,5} transparent) — not the square unmasked layer macOS 26 expects; risks double-rounding and forfeits system variants",
+    "#11 personality: near-stock monoline clock on one flat tile — template-default, nothing subject-mined from 'timezones' (no globe/dial/multi-zone cue)"
+  ],
+  "palette": {
+    "background": "flat #3D65D9",
+    "glyph": ["#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "None — flat fill, zero gradient/shadow/specular/bevel; white monoline glyph with no lighting. Consistent by absence, carries no depth.",
+  "layer_stack": [
+    "flat royal-blue squircle field (pre-masked, alpha-transparent corners)",
+    "white monoline clock ring",
+    "two white round-capped clock hands + centre hub"
+  ],
+  "devices": [
+    "round-terminal monoline clock at a stylised ~10:10-ish angle (faint — restyled system clock symbol)"
+  ],
+  "adjectives": ["flat", "utilitarian", "anonymous"],
+  "rhymes_hint": "flat glyph-on-solid-tile utilities — recoloured-system-symbol clocks/timers/weather tiles, iOS default Clock lineage",
+  "notes": "icon.png is a genuine 1024x1024 vector-crisp export (not a resized web render) — high colour confidence, all hexes (measured). Background is truly flat: p{512,150} and p{512,880} both srgba(61,101,217). Corners alpha-transparent -> pre-masked squircle raster, the load-bearing finding (fails HIG square-unmasked-layer rule). Ring outer Ø ~655px (~64% canvas), optical centre ~(510,521), ~18% safe margins. White #FFFFFF on #3D65D9 ~5:1 contrast. Brand coherence: cover shares the royal blue but shows a 3D dimensional clock vs the flat app icon — dimensional-cover/flat-icon mismatch. #3D65D9 sits between kit system Blue #0088FF and Indigo #6155F5 (a periwinkle/royal blue). Ledger hash for icon.png: 7a51308a."
+}

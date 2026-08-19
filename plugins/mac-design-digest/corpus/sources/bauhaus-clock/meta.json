@@ -1,0 +1,16 @@
+{
+  "slug": "bauhaus-clock",
+  "name": "Bauhaus Clock",
+  "tagline": "Premium clock screensaver for Mac and App for iPhone and iPad",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://bauhausclock.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e9b49df9-4ae3-4b33-af7e-409272a12702/icon-1783882462911.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e9b49df9-4ae3-4b33-af7e-409272a12702/cover-1783882793469.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bauhaus-clock/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bauhaus-clock/cover.png",
+    "shots": []
+  }
+}

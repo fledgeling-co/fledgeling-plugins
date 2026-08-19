@@ -1,0 +1,16 @@
+{
+  "slug": "spacepeek",
+  "name": "SpacePeek",
+  "tagline": "See what\u2019s taking space in any folder\u2014right in Finder.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://spacepeek.space/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5e7caca5-feff-47c4-bb05-2da75865e88c.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-db74c0e0-7c02-4798-aa65-5b54ee6fe068.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/spacepeek/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/spacepeek/cover.png",
+    "shots": []
+  }
+}

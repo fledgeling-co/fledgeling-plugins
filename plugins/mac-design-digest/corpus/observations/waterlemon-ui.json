@@ -1,0 +1,60 @@
+{
+  "slug": "waterlemon",
+  "name": "Waterlemon",
+  "category": "Design",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (no app UI)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["n/a — not an app interface: brand mark + wordmark + 5 output-specimen icons on a flat #FAFAFA stage; no window chrome, toolbar, sidebar, list, or form to score"]
+    },
+    {
+      "file": "icon.webp",
+      "surface_type": "app-icon",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["n/a — app icon, not a UI surface; hyperreal 3D object floating on a white squircle, not a macOS Icon-Composer layered-glass icon"]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/stage-bg", "value": "#FAFAFA flat near-white", "quality": "measured", "notes": "cover backdrop; effectively flat, a clean gallery stage"},
+    {"token": "brand/wordmark", "value": "near-black ~#2A2A2A-#383838, ~Black/800 rounded geometric sans, tight tracking, soft drop shadow", "quality": "estimated", "notes": "floats off the white with a faint gradient + shadow"},
+    {"token": "output/render-style", "value": "hyperreal 3D claymoji: top-left key light, rounded bevels, glossy speculars, soft contact shadows, candy saturation", "quality": "measured", "notes": "the app's product signature — its generated output, not its UI"},
+    {"token": "output/palette", "value": "candy-saturated: cyan #77D8FA, gold-orange #F58B09, pink #FC6EB8, cream #DEC4A3", "quality": "measured", "notes": "sampled across the 5 example icons"},
+    {"token": "icon/bg", "value": "#F6F6F6 near-white soft rounded-rect squircle with floating shadow", "quality": "measured", "notes": "iOS/indie idiom, not system layered-glass"},
+    {"token": "icon/flesh", "value": "#FFDF00 lemon yellow", "quality": "measured", "notes": "watermelon shape, lemon colour = the pun"},
+    {"token": "icon/pith-rind", "value": "#FFFDC8 pale cream rind + white pith line", "quality": "measured", "notes": ""},
+    {"token": "icon/seeds", "value": "dark brown/near-black seeds scattered on flesh", "quality": "measured", "notes": ""}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing OG composite (1200x630): centered brand lockup over a horizontal gallery row of 5 output specimens on flat #FAFAFA — poster composition, not an app layout"}
+  ],
+  "signature_moves": [
+    "Name-is-icon-is-joke: 'Waterlemon' = watermelon silhouette rendered in lemon yellow with seeds — the pun is the whole brand atom (brand, not UI)",
+    "Output-as-hero: cover shows 5 specimen icons instead of feature copy — demonstrate-don't-describe",
+    "Saturated toy renders floated on a restrained flat near-white stage (color-on-white discipline, not a drenched playful background)"
+  ],
+  "defects": [
+    "None assessable — no app UI surface supplied; the missing interface screenshot is itself the finding"
+  ],
+  "aesthetic": {
+    "adjectives": ["playful", "glossy", "candy-saturated"],
+    "direction": "Playful/toy family crossed with hyperreal-3D render (claymoji), staged on a clean near-white gallery ground",
+    "peers": ["AI 3D-icon generators (Midjourney/claymoji-style output)", "indie Mac-utility clean-white OG cards (CleanShot-esque stage) with a toy mark"],
+    "cluster_hint": "playful-toy-3D / candy-render",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — glossy hyperreal specimens sell perceived output quality on first contact (~50ms appeal judgment)",
+    "Demonstrate-don't-describe (description-experience gap) — the cover leads with example outputs rather than feature claims",
+    "Von Restorff — a single bright yellow mark against flat near-white makes the brand atom the one memorable object"
+  ],
+  "notes": "CRITICAL for synthesis: neither supplied file contains any app UI. cover.png is a marketing composite (brand + output-specimen gallery); icon.webp is the app icon. So there is ZERO app-UI evidence and ZERO native-lineage evidence — do not feed Waterlemon into macOS UI canon, style clusters, or the native-tells corpus. All tokens are brand/output/icon readings at (inferred) strength from single low-res images (icon only 102x102). The app icon is real design evidence but belongs to icon analysis (Workflow B), which this task did not scope. If UI is wanted, request an actual app-window screenshot from macapp.supply. Wordmark grey samples (50-56) are anti-aliased edges; the mark reads near-black by eye."
+}

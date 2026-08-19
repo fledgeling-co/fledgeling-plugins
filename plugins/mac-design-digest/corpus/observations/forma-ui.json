@@ -1,0 +1,59 @@
+{
+  "slug": "forma", "name": "Forma", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "main-window / infinite whiteboard canvas", "mode": "light", "rubric_score": 11, "native_audit_score": 7, "failures": ["#9 text contrast — breadcrumb #A2A2A2 on #ECECEC ~2.1:1; 'Clear Canvas' ~#444 on #2F2E2D ~1.2:1", "#10 UI contrast — unchecked checkbox #5E5D5C on card #2F2E2D ~2.1:1 (<3:1)", "native #6 accent not bound to system accent — fixed brand yellow, no visible selection/focus grammar", "#2/#12/#13/#14 n/a — freeform canvas, no forms/inputs/visible focus state"]}
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#ECECEC", "quality": "measured", "notes": "warm light-gray board ground, not pure white; measured off a scaled marketing render"},
+    {"token": "canvas/texture", "value": "square grid + centred '+' tick marks + fine speckle noise", "quality": "estimated", "notes": "graph-paper / drafting motif; content-layer texture"},
+    {"token": "surface/card", "value": "#2F2E2D", "quality": "measured", "notes": "near-black warm charcoal note tiles; identical hex to the tool bar — single dark-surface token"},
+    {"token": "surface/toolbar", "value": "#2F2E2D", "quality": "measured", "notes": "floating bottom tool bar shares the card surface exactly"},
+    {"token": "text/on-dark", "value": "~#D2D2D2 monospace", "quality": "measured", "notes": "card body; ~9:1 on card, passes"},
+    {"token": "text/secondary", "value": "#A2A2A2", "quality": "measured", "notes": "breadcrumb; ~2.1:1 on #ECECEC, fails 4.5:1"},
+    {"token": "text/muted-on-dark", "value": "~#444444", "quality": "measured", "notes": "'Clear Canvas' ghost label; ~1.2:1 on #2F2E2D, near-invisible"},
+    {"token": "accent/primary", "value": "#FFD501", "quality": "measured", "notes": "vivid yellow active-tool fill, System-Yellow-adjacent; a BRAND accent, not system blue; does not bind to selection/focus"},
+    {"token": "control/checkbox", "value": "#5E5D5C unchecked, ~4-5pt radius", "quality": "measured", "notes": "~2.1:1 on card, below 3:1 UI floor"},
+    {"token": "type/body", "value": "monospace, ~13-15pt logical, lh ~1.4-1.5", "quality": "estimated", "notes": "modern coding mono (Berkeley/Commit Mono class, unidentified); used for ALL text — one size, no scale"},
+    {"token": "radius/card", "value": "~10-12pt logical (~18-22px render)", "quality": "estimated", "notes": "soft; steps down to ~4-5pt nested checkbox radius (concentric)"},
+    {"token": "radius/tool-button", "value": "~6-8pt logical", "quality": "estimated", "notes": "yellow Card button + segmented tool chips"},
+    {"token": "elevation/card", "value": "soft drop shadow, low blur, ~0 spread", "quality": "estimated", "notes": "cards float as physical tiles"},
+    {"token": "chrome/titlebar", "value": "fully transparent over live canvas; genuine macOS traffic lights #FE5F58/#FEBC30/#2BC83E in order", "quality": "measured", "notes": "no NSToolbar/sidebar; breadcrumb path in centre"},
+    {"token": "chrome/toolbar-bar", "value": "floating dark bar ~44pt logical (~80px render) tall, rounded top corners", "quality": "estimated", "notes": "bottom-anchored tool palette"},
+    {"token": "connector/edge", "value": "black hand-drawn bezier, ~2px stroke, organic wobble, pen-nib terminus", "quality": "estimated", "notes": "mind-map links between cards"},
+    {"token": "render/scale", "value": "~1.8x (approx @2x)", "quality": "estimated", "notes": "inferred from 73px traffic-light centre-to-centre vs 40pt native cluster span; halve render px for logical pt"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "floating bottom tool bar (not native NSToolbar), #2F2E2D, ~44pt tall; left tool cluster with keyboard-accelerator numerals (Card/1, Pen/2, Eraser/3), one saturated primary (yellow), trailing ghost destructive 'Clear Canvas'; centre mo-su sparkline widget (function ambiguous)"},
+    {"pattern": "card-grid", "key_values": "freeform spatial canvas cards (not a grid): #2F2E2D rounded ~10-12pt tiles, off-white mono text, soft drop shadow; checklist variant (title + checkbox rows) and note variant; user-positioned, linked by hand-drawn beziers"},
+    {"pattern": "other", "key_values": "transparent unified titlebar with genuine traffic lights + centre breadcrumb path over a live graph-paper canvas; no sidebar, no menu-bar-extra visible"}
+  ],
+  "signature_moves": [
+    "Monospace-everything on '+'-tick graph paper with paper noise — full commitment to a drafting-table / engineering-notebook register (softened Terminal-hacker family); the single decision that defines the app",
+    "Inverted note polarity — near-black #2F2E2D tiles with light text on a pale board, vs the pastel-sticky default; maximal figure-ground, cards read as physical objects",
+    "Hand-drawn bezier connectors + rendered pen-nib cursor — organic warmth against the rigid mono grid (Excalidraw-adjacent craft gesture)",
+    "Visible keyboard accelerators printed on tools (Pen 2, Eraser 3) — discoverability/expert signal in the chrome"
+  ],
+  "defects": [
+    "Contrast Dilution — breadcrumb #A2A2A2 on #ECECEC ~2.1:1 and 'Clear Canvas' ~#444 on #2F2E2D ~1.2:1; de-emphasis pushed past the 4.5:1 text floor",
+    "UI-contrast shortfall — unchecked checkbox #5E5D5C on card #2F2E2D ~2.1:1, below the 3:1 non-text floor",
+    "Flat in-card hierarchy (minor) — card titles share mono size/weight/colour with their checklist items; hierarchy rests only on position + checkbox glyphs",
+    "Accent not bound to system accent (native deviation) — fixed brand yellow is the sole saturated colour, no visible selection/focus grammar; house-style tell, not mac canon"
+  ],
+  "aesthetic": {
+    "adjectives": ["technical", "tactile", "warm-utilitarian"],
+    "direction": "engineering-notebook / drafting-table terminal — Terminal-hacker family (mono everywhere, graph-paper grid) crossed with Industrial/utilitarian (ruler/spec ticks), softened by rounded dark tiles, hand-drawn connectors and paper grain (a touch of Organic/soft)",
+    "peers": ["Excalidraw", "tldraw", "Freeform (Apple)", "Muse"],
+    "cluster_hint": "mono-canvas / drafting-table",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — the single yellow tool is the one saturated element on an otherwise mono-grey board; the active tool pops and is remembered",
+    "Information scent / discoverability — keyboard-accelerator numerals on tools let expert users predict and reach commands fast",
+    "Jakob's Law — conventional native frame (genuine traffic lights, breadcrumb path) honours trained expectations; the innovation is spent on the product (mono canvas), not the interface",
+    "Aesthetic-usability effect — a fully coherent mono+grid+texture system reads as intentional and trustworthy (first-contact halo)",
+    "Processing-fluency VIOLATION — breadcrumb ~2.1:1 and 'Clear Canvas' ~1.2:1 create legibility friction ('something feels off'); Fitts's Law is otherwise well served by large cards and a chunky ~44pt tool bar"
+  ],
+  "notes": "Single surface only, from a marketing COVER composite (blue-gradient brand panel + wordmark 'forma' + headline 'The best native whiteboard for Mac' — brand evidence, not app design; the app window inside is the sole design evidence). No settings / empty-state / onboarding / dark-mode / other surfaces. App window is a scaled render (~1.8x, approx @2x) so all pixel values are (estimated) with wide error and absolute pt is anchored only to the native traffic-light cluster; colours are clean (measured) but single-surface (inferred). Whiteboard = custom-drawn canvas: contributes minimal native-CONTROL evidence — feeds a 'mono-canvas / drafting-table' cluster idea, NOT core macOS canon. Lineage native (med) is a frame judgement (real lights over a transparent titlebar, zero web-chrome tells); interior is brand-custom. No Liquid Glass present, which is CORRECT (content opaque) rather than a defect. icon.png is present in the source folder but was NOT digested (task scoped to Workflow A / UI only). The mo-su sparkline in the tool bar has no determinable function from a still — flagged ambiguous."
+}

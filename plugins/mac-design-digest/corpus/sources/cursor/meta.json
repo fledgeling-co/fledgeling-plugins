@@ -1,0 +1,16 @@
+{
+  "slug": "cursor",
+  "name": "Cursor",
+  "tagline": "AI coding agent",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://cursor.com/referral?code=9ABQ63CZBVGL",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d3841819-e593-485a-aa33-8a999952673c/icon-1783882457172.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d3841819-e593-485a-aa33-8a999952673c/cover-1783882758510.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cursor/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cursor/cover.png",
+    "shots": []
+  }
+}

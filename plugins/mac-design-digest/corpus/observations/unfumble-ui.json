@@ -1,0 +1,44 @@
+{
+  "slug": "unfumble",
+  "name": "Unfumble",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [],
+  "tokens": [
+    {"token": "brand/bg-dark", "value": "#12202C -> #172430", "quality": "measured", "notes": "cover backdrop; very dark desaturated navy-slate (~hue 205deg), near-flat vertical falloff. Marketing composite, not app UI."},
+    {"token": "brand/keycap-texture", "value": "#1B2834", "quality": "measured", "notes": "offset rows of rounded-rect keycaps tiling the cover; only ~+9 L over bg = deliberately low-contrast texture (subject-mining: keyboard)."},
+    {"token": "brand/accent-periwinkle", "value": "#92AFFC", "quality": "measured", "notes": "tagline text; soft cornflower/periwinkle blue, positively tracked."},
+    {"token": "icon/bg-gradient", "value": "#0877FE (azure) -> #5559F5 (indigo), diagonal TL->BR", "quality": "measured", "notes": "committed brand blue->indigo; brighter/more saturated than macOS system blue #0088FF (light)."},
+    {"token": "icon/silhouette", "value": "continuous squircle, body 430x429 in 512 canvas (~8% margin), corner radius ~90-100px @512", "quality": "estimated", "notes": "correct macOS Big-Sur superellipse proportion and margin; radius from top-edge scan, hence estimated. Icon geometry is native-faithful."},
+    {"token": "icon/glyph", "value": "white line-art globe + 4-point sparkle with liquid drip, flat", "quality": "measured", "notes": "globe ~= SF Symbols 'globe'; sparkle upper-right fusing a droplet into the globe = the signature device."},
+    {"token": "icon/depth-model", "value": "flat single layer, baked bottom drop shadow, no varied foreground opacity", "quality": "measured", "notes": "pre-masked + baked shadow = Big Sur-era authoring, not Icon Composer layered Liquid Glass."},
+    {"token": "brand/wordmark-type", "value": "rounded geometric sans, white, lowercase w/ cap U, ~557px wide on cover", "quality": "estimated", "notes": "Quicksand/Comfortaa/Poppins-round family or custom; face identity not confirmable from render."}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "INFERRED / UNOBSERVED - from category (Utility) + tagline ('automatic keyboard language switcher'), the app almost certainly lives as a menu-bar-extra with a status item and dropdown, plus a Settings window. No screenshot of either was supplied; recorded only to flag what surface to request next."}
+  ],
+  "signature_moves": [
+    "Sparkle-with-a-liquid-drip fused into the globe glyph - the one custom flourish that lifts a stock globe into brand identity and encodes 'automatic' switching.",
+    "Keyboard-keycap texture as subject-mining, held at whisper contrast (~+9 L over bg) - depicts the operated object without shouting.",
+    "Rounded-friendly wordmark deliberately in tension with a dark technical neo-grotesque surface - the brand's whole personality in one pairing."
+  ],
+  "defects": [
+    "Pre-masked baked-shadow app icon (Big Sur-era in the Liquid Glass era) - icon ships with corner mask + drop shadow baked in as a single flat layer; current macOS 26/27 guidance wants square unmasked layered art in Icon Composer. Era mismatch / one-release-behind, not a construction error.",
+    "No app-UI defects recordable - no app UI was observed."
+  ],
+  "aesthetic": {
+    "adjectives": ["rounded-friendly", "dark-slate", "electric-blue"],
+    "direction": "Dark neo-grotesque product surface (dark neutral + one electric accent) crossed with a Playful/toy rounded wordmark - a friendly-technical hybrid, not a committed single family.",
+    "peers": ["Raycast (dark + accent)", "Bartender", "CleanShot X (friendly-blue utility branding)"],
+    "cluster_hint": "friendly-dark-menubar-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law - the globe is a pre-trained 'language/international' schema, giving instant recognition of the app's domain with zero copy.",
+    "Von Restorff effect - the sparkle is the single different element in the icon; it draws the eye and reads as 'automatic/magic', the product's promise.",
+    "Aesthetic-Usability effect - a polished, native-proportioned icon raises the trust prior before the app is ever opened (first-contact halo only; no UI to sustain it)."
+  ],
+  "notes": "CRITICAL FOR SYNTHESIS: no app UI was supplied - inputs were only a 1200x630 marketing/social cover (brand evidence) and the 512px app icon (icon evidence). The cover contains no app window. Therefore: lineage unclassifiable (unknown/low); app-UI era unobserved (top-level era='unknown'); zero rubric or native-tells scores; surfaces=[]. None of these tokens may feed macOS UI canon or style clusters - they are brand/icon identity only. The icon itself is a competent Big Sur-convention icon (flat gradient squircle + white globe+sparkle glyph, correct ~8% margin and continuous-squircle silhouette) but is one era behind the Liquid Glass / Icon Composer app-icon system. gallery=[] and shots=[] in meta.json confirm no additional images exist. meta.json has a tagline but no long_description. To move Unfumble past Novice, request an actual UI screenshot: the menu-bar dropdown and/or the Settings window."
+}

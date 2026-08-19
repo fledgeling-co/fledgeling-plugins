@@ -1,0 +1,70 @@
+{
+  "slug": "compresto", "name": "Compresto", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window (media grid + inspector form, single window) — marketing composite over a saturated wallpaper; window is the evidence",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 text contrast — Compress label cyan #5FFCFF on blue #0075F0 ~3.5:1, below the 4.5:1 HIG requires on a prominent tint (clears large-text 3:1)",
+        "#10 UI contrast — hairline row dividers and group-card edges read <3:1 over the warm translucency",
+        "native#2 glass-in-content — media grid + inspector sit on translucent wallpaper-tinted material instead of an opaque content surface",
+        "native#6 marginal — CTA accent possibly hard-coded rather than bound to controlAccentColor",
+        "#14 focus appearance not observable in a static cover (n/a, not counted as a fail)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "chrome/window-material", "value": "translucent whole-window material, warm wallpaper-tinted (cool at top, amber at bottom)", "quality": "estimated", "notes": "not opaque; content sits on glass — wallpaper-contaminated, intensity exaggerated by marketing backdrop"},
+    {"token": "chrome/traffic-lights", "value": "68x14pt cluster, dot ~12pt, red->green centers ~40pt", "quality": "measured", "notes": "scale anchor -> ~2.26 px/pt (~@2x)"},
+    {"token": "chrome/titlebar", "value": "unified translucent ~33pt, centered bold title, 3 trailing borderless SF Symbols (pin/clipboard/gear)", "quality": "estimated", "notes": "one toolbar group; HIG-correct"},
+    {"token": "type/title", "value": "~15-17pt bold centered (Title3/Title2 emphasized)", "quality": "estimated", "notes": ""},
+    {"token": "type/row-label", "value": "~13-14pt regular, primary label", "quality": "estimated", "notes": "cap-height 23px raw on 'Input files (5)'"},
+    {"token": "type/secondary", "value": "~11-12pt secondary label", "quality": "estimated", "notes": "'~/Desktop/', 'Target file size'"},
+    {"token": "action/primary", "value": "full-width capsule ~265x42pt, fill #0075F0, label #5FFCFF cyan bold", "quality": "measured", "notes": "fill ~ system Blue #0088FF; cyan-on-blue label ~3.5:1"},
+    {"token": "control/pop-up", "value": "native double-chevron pop-up button ~24-28pt, ~6pt radius, neutral fill", "quality": "estimated", "notes": "title shows current value - correct pop-up grammar"},
+    {"token": "control/switch", "value": "native NSSwitch capsule, off/white knob", "quality": "estimated", "notes": ""},
+    {"token": "control/bordered-button", "value": "gray Bordered push button ~24pt, ~6-8pt radius", "quality": "estimated", "notes": "[Clear] [Change] recessive"},
+    {"token": "radius/group-card", "value": "~10-12pt", "quality": "estimated", "notes": "SwiftUI Form section background"},
+    {"token": "radius/thumb", "value": "~12-16pt", "quality": "estimated", "notes": "masonry media tiles"},
+    {"token": "radius/pill", "value": "capsule (glass pills over media)", "quality": "estimated", "notes": "white translucent, dark text"},
+    {"token": "accent/primary", "value": "system blue ~#0075F0, bound only to the CTA", "quality": "measured", "notes": "possibly hard-coded"},
+    {"token": "layout/split", "value": "two-column: left media grid ~55% (2-col masonry) / right inspector ~40%", "quality": "estimated", "notes": "classic converter layout"}
+  ],
+  "patterns": [
+    {"pattern": "inspector", "key_values": "right-hand SwiftUI Form: grouped rounded cards, label-left/control-right rows, hairline dividers, pop-up buttons + switches, full-width capsule primary pinned at panel bottom"},
+    {"pattern": "card-grid", "key_values": "left masonry media grid, 2-col variable-height rounded thumbnails (~12-16pt), glass pill badges (format|size) top-left + filename capsule bottom, play glyph + duration pill on video tiles"},
+    {"pattern": "toolbar", "key_values": "unified translucent titlebar, centered title, one trailing group of 3 borderless SF Symbols (pin/clipboard/gear), no toolbar primary (primary lives in content)"}
+  ],
+  "signature_moves": [
+    "Wallpaper-tinted whole-window glass — media grid AND inspector float on one translucent, desktop-tinted sheet (identity move + native liability)",
+    "Candy-blue full-width Compress bar with a cyan (not white) label — the sole saturated element; strong action-singularity, low label contrast",
+    "Glass pill metadata (format/size badges, filenames) riding the thumbnails instead of a caption bar"
+  ],
+  "defects": [
+    "Glass-in-content — content grid + inspector on translucent wallpaper-tinted material; HIG keeps content opaque (mitigation: amplified by marketing wallpaper)",
+    "Contrast Dilution — Compress label cyan #5FFCFF on blue #0075F0 ~3.5:1, below the 4.5:1 required on a prominent tint",
+    "Faint UI contrast — hairline dividers / group-card edges likely <3:1 over the translucency",
+    "Flat label-vs-value hierarchy (minor) — pop-up row label and current value share weight/darkness",
+    "Possible hard-coded accent — CTA blue may not be bound to controlAccentColor"
+  ],
+  "aesthetic": {
+    "adjectives": ["airy", "translucent", "warm"],
+    "direction": "Apple Liquid Glass crossed with Organic/soft — wallpaper-lit consumer utility, not a template default; commits to warmth and translucency as identity rather than defaulting to neutral gray chrome",
+    "peers": ["Permute (drop-grid + right settings converter layout)", "CleanMyMac (friendly consumer-utility warmth)"],
+    "cluster_hint": "warm-glass consumer utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — conventional converter layout (sources left, settings right, big action bottom); users arrive already trained on it",
+    "Von Restorff / signal detection — one saturated blue CTA breaks a warm-neutral field so the single action is unmissable",
+    "Aesthetic-Usability Effect — the pretty translucent warmth raises perceived usability and buys first-contact forgiveness",
+    "Hick's Law (calibrated) — ~13 controls exposed at once; acceptable for an adjust-then-batch workspace, mildly heavy for casual consumers; progressive disclosure per media type would reduce it",
+    "Recognition over recall — pop-up buttons show current values inline rather than hiding state"
+  ],
+  "notes": "SINGLE marketing-composite input (cover only; gallery empty, no shots). Window is genuine design evidence; the flower-field backdrop is brand/marketing evidence and is NOT design evidence. Whole-window translucency is a real material choice but its intensity is exaggerated by the saturated wallpaper — treat glass-in-content as real-but-softened until a neutral-desktop or in-app shot arrives. No dark mode, no selection/hover/focus states, no Settings window seen. Scale ~2.26 px/pt (~@2x). Lineage native (SwiftUI) med-high; the inset-grouped rounded cards are SwiftUI's macOS Form grammar, not a Catalyst tell. Icon.png (black rounded-square with a white bowtie/butterfly 'compress-inward' mark) was present but this task is Workflow A (UI) only — not digested here; worth an icon pass later."
+}

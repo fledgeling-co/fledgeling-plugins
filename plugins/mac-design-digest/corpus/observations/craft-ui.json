@@ -1,0 +1,59 @@
+{
+  "slug": "craft", "name": "Craft", "category": "Writing",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing key-art poster (web/brand composite; NO app UI window, no device frame, no CTA, no lockup)",
+      "mode": "light",
+      "rubric_score": 4,
+      "native_audit_score": 0,
+      "failures": [
+        "SCORE CAVEAT: 4 = the ~4 genuinely-applicable checks that pass (#2 centered axis, #4 single type size, #7 trivial single element, #9 contrast). ~10 checks are N/A. NOT comparable to a full-UI rubric score.",
+        "native-audit: all 10 native-tells N/A — pictorial brand poster, no toolbar/sidebar/traffic-lights/selection/native controls to audit; app UI never supplied",
+        "#1 grid-adherence N/A · #3 gestalt-proximity N/A · #5 line-height N/A · #6 measure N/A — a single-wordmark key-art image has no component grid, no groups, no paragraphs",
+        "#8 action-singularity N/A — there is NOT EVEN a CTA on this cover (thinner than a typical marketing composite; pure key art)",
+        "#10 UI-contrast N/A — the white paper-tab motif is ~1.2:1 on pale sky, but it is soft decorative illustration, not a UI border/icon; low contrast is intentional atmosphere",
+        "#11 Fitts N/A · #12 input-height N/A · #13 label-proximity N/A · #14 focus-appearance N/A — no interactive elements exist on a static poster"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/sky-top", "value": "#8ACBEC", "quality": "measured", "notes": "top of vertical sky gradient, saturated sky-blue"},
+    {"token": "brand/sky-mid", "value": "#AAD9EF", "quality": "measured", "notes": "mid gradient"},
+    {"token": "brand/sky-horizon", "value": "#CFE9F3", "quality": "measured", "notes": "pale near-white blue where sky meets the paper plane"},
+    {"token": "brand/paper", "value": "#FFFFFF", "quality": "measured", "notes": "white page ground filling the bottom band; the 'sheet you write on' counterplane"},
+    {"token": "brand/cloud", "value": "#CBDEE5-#DDE9F8", "quality": "measured", "notes": "soft blue-white clouds TL + BR, rendered through the halftone grain"},
+    {"token": "brand/ink", "value": "#030302 near-black", "quality": "measured", "notes": "the CRAFT wordmark; only high-contrast element on the page"},
+    {"token": "brand/type-display", "value": "bespoke geometric-rounded display, black weight, single-story, mixed perfect-circle bowls + flat-cut terminals (Bauhaus/deco-flavored)", "quality": "estimated", "notes": "NOT SF Pro; a custom/foundry display face carrying the whole brand voice — playful, retro-geometric"},
+    {"token": "brand/texture", "value": "halftone / ben-day dot print grain over sky + clouds", "quality": "measured", "notes": "riso/screenprint aesthetic; visible as a regular dot matrix on cloud edges — the 'designed not generated' signal"},
+    {"token": "brand/motif", "value": "ascending diagonal row of torn notebook-paper tabs / pennants along the sky-to-paper seam", "quality": "measured", "notes": "subject-mined paper imagery for a notes app; reads as ideas/momentum climbing into open sky"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing key-art hero (web/brand, 1200x630 OG-card ratio): single centered wordmark on a drenched sky-blue vertical gradient (#8ACBEC top -> #CFE9F3 horizon), white paper plane below with a torn-notebook-tab seam ascending L->R, two halftone clouds; screenprint dot grain throughout. No app UI, no CTA, no device frame."}
+  ],
+  "signature_moves": [
+    "Riso-print sky poster: ben-day halftone screenprint grain + drenched sky-blue + a bold rounded-deco wordmark puts a printed-poster register on a digital notes app — the entire memorable budget spent on texture + bespoke letterforms, not on a product shot",
+    "Scene-as-pitch (subject-mining): the composition literally stages the concept — an open sky of 'big ideas' meeting a white page along a torn-notebook seam of ascending paper tabs; a built scene from the product's own materials (paper/notebook/sky), not a generic gradient backdrop",
+    "Bespoke geometric-rounded wordmark: CRAFT set in a custom single-story deco display (circular bowls, flat cuts) so brand identity rides entirely on the letterforms; the near-black ink is the one Von-Restorff pop on a pale field"
+  ],
+  "defects": [
+    "No true design defect observable on the poster itself — it is competent, committed key-art",
+    "Corpus-input gap (NOT an app defect): the submission ships ONLY a brand key-art cover + a 256px icon. This is thinner than a typical marketing composite — no product window, no lockup, not even a CTA — so it yields essentially zero product-design evidence"
+  ],
+  "aesthetic": {
+    "adjectives": ["buoyant", "playful", "paper-craft"],
+    "direction": "Riso-print playful-poster (screenprint brand key-art): remixes the range map's Playful/toy display type (chunky rounded-geometric) with an Organic/soft grain texture over a near-drenched sky-blue + white-paper + black palette. A committed, subject-mined direction — clearly authored, not template-default",
+    "peers": ["Paper by WeTransfer brand", "Gumroad flat-bold poster brand", "Mailchimp/Hey playful illustration marketing"],
+    "cluster_hint": "riso-print-brand-poster (web/marketing surface, NOT a macOS-UI cluster)",
+    "audience": "creative"
+  },
+  "psychology": [
+    "First-impression / 50ms thesis (Lindgaard) — the sky + rounded wordmark reads 'open, imaginative, friendly' pre-cognitively; the hero is a mood statement, correct job for an OG key-art card",
+    "Von Restorff / signal-detection — exactly one saturated-dark element (the black wordmark) on an otherwise pale-blue field makes it the unmissable focal point",
+    "Processing fluency / aesthetic-usability (Reber; Kurosu & Kashimura) — a tightly limited palette (sky-blue, white, black) plus high-craft print texture buys the perceived-quality/trust halo on first contact",
+    "Subject-mining (practitioner) — building the scene from the product's own materials (paper, notebook, sky) makes the imagery specific and ownable rather than a stock gradient"
+  ],
+  "notes": "CRITICAL for synthesis: NO native macOS app UI was provided. Inputs are a 1200x630 web/brand marketing key-art poster (cover.png) + a 256px app icon only. Craft is a well-known native-first macOS/iOS notes-and-docs app (SwiftUI, highly polished) [EXTERNAL CONTEXT / inference, NOT measured from these inputs] — but its UI lineage, era, density and native fidelity are UNMEASURED here; do NOT infer native taste from this app or feed any token above into macOS UI canon or clusters. All tokens are brand/print/scene evidence. rubric_score 4 counts only the handful of applicable checks on a single-wordmark poster and must not be compared to full-UI digests (see failures[0]). native_audit_score 0 = no native surface to audit, not a failure of the app. era 'unknown' at app level. The icon was NOT digested — task scoped to Workflow A only; a proper 12-point icon digest belongs in icons/craft.md under Workflow B. If actual Craft app UI (editor canvas, sidebar, blocks) is later supplied, re-digest to actually place this app — it is a strong candidate for a native creative-writing cluster once real surfaces exist."
+}

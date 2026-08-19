@@ -1,0 +1,36 @@
+{
+  "slug": "bauhaus-clock", "name": "Bauhaus Clock", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#2 grid: optically centred, concentric ring, but hub at geometric centre with no optical nudge",
+    "#3 silhouette: tick ring drops out; hands+hub alone read as ambiguous radiating lines, clock identity leans on the ring",
+    "#8 depth: passes only by absence — flat, nothing to z-fight (N/A rather than earned)"
+  ],
+  "failures": [
+    "#4 16px squint: ticks dissolve into white, hairline hands smear to a faint gray smudge — reads as a near-empty pale tile at Dock/Spotlight size",
+    "#7 figure-ground: tick ring #A2A2A2 on #FFFFFF = 2.55:1, below the 3:1 floor (hands fine at 15.8:1); the element that makes it read as a clock fails contrast",
+    "#10 variant robustness: baked white raster, no dark/tinted layer — inert bright slab on dark or tinted grounds; composition 100% dependent on the white background"
+  ],
+  "palette": {
+    "background": "flat #FFFFFF",
+    "glyph": ["#202322", "#2E3130", "#A2A2A2", "#B3B3B3"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "none — flat 2D vector, zero shadow/specular/gradient; flatness is a deliberate functionalist choice, not an omission",
+  "layer_stack": ["white ground", "gray tick ring", "charcoal hairline hands", "open center hub (charcoal annulus, white core)"],
+  "devices": [
+    "Braun/Max-Bill functionalist clock face (committed product-design quotation)",
+    "open-ring center hub with white core dot",
+    "hairline hands and hairline tick ring (austerity as brand)",
+    "full-bleed white ground with no drawn squircle — relies on the system mask"
+  ],
+  "adjectives": ["functionalist", "austere", "hairline-monochrome"],
+  "rhymes_hint": "flat monochrome utility marks in the Braun/Rams/Max-Bill functionalist lineage; minimalist clock/timer icons drawn as flat vector faces on white; the anti-glass, anti-depth 'flat glyph on pure white' family",
+  "notes": "204x204 web-resized .webp, not the 1024 master — hairline widths and hub geometry approximate, anti-aliasing soft; color sampling reliable (opaque, low compression noise). Background #FFFFFF, hands #202322-#2E3130, ticks #A2A2A2. Cover art shows a cyan-on-black / mint-on-cream dual scheme with numerals + 'IC' wordmark; the icon carries none of that palette (grayscale only) — icon undersells the product's dual-scheme identity, weak icon-to-brand palette coherence. Single-app observation: hold the 'flat monochrome clock on white' reading as a flat-functionalist cluster hint, do not promote to canon. Fixes are cheap: darker tick ring (>=#767676) for #7, a dark-mode layer for #10, thicker hands+ring for #4 — none would touch the direction."
+}

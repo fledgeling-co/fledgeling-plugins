@@ -1,0 +1,41 @@
+{
+  "slug": "glyph", "name": "Glyph", "category": "Writing",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 horizontally centred but plate sits low (~65% down); upper ~55% is empty field — deliberate nameplate framing, low optical weight",
+    "#3 silhouette is crisp but metaphor mismatches the category — three asterisks read as password-dots / star-rating, not writing/markdown; subject legible only to markdown-literate viewers",
+    "#4 survives 16px as a dark bar with three color dots; asterisk arms + grille texture smear, color triad carries recognition and the grille detail is wasted small",
+    "#6 three saturated hue families exceed the <=2 rule; confined to the focal glyphs and deliberate (syntax triad) so signature not defect, but no single hero hue",
+    "#9 flat Big Sur field mixed with a skeuomorphic dot-matrix display texture — one consistent plate quoting one older era, a quotation not a clash"
+  ],
+  "failures": [
+    "#10 variant robustness: figure is white-field-dependent (near-black plate only reads on the bright ground) and tinted/mono rendering collapses the blue/red/orange triad that is the entire personality; authored as a Big Sur object icon, not appearance-aware layers"
+  ],
+  "palette": {
+    "background": "near-flat white field #FDFDFD->#FFFFFF->#E5E6E6 (faint top-down shade, reads flat)",
+    "glyph": ["#3B88FF blue asterisk", "#EF4B46 red asterisk", "#F5953F orange asterisk", "#1A1A1A display plate body", "#2B2B2B plate rim / ~#333 grille dots"],
+    "accent": "none single hero hue — blue/red/orange primary triad on the focal glyphs"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "frame"
+  },
+  "light_model": "Soft top-down key light, matte finish; display plate carries a faint top rim-light and a short soft baked drop shadow onto the white field; asterisks flat-filled with slight vertical brightening; no specular or glass.",
+  "layer_stack": [
+    "off-white squircle field (faint top-down tonal shade)",
+    "soft baked drop shadow",
+    "dark dot-matrix display plate (rounded rect, perforated grille texture, faint top rim)",
+    "three primary-colored asterisk glyphs (blue / red / orange)"
+  ],
+  "devices": [
+    "dot-matrix / LED-display plate (skeuomorphic grille texture inset into a flat Big Sur icon)",
+    "markdown asterisk as literal subject (* = emphasis syntax; three of them nod at ***bold-italic***)",
+    "primary color triad reading as syntax-highlight tokens on a dark editor pane",
+    "glyphs-on-an-inset-screen framing, weight settled low like a nameplate"
+  ],
+  "adjectives": ["primary-triad-playful", "dot-matrix-mechanical", "markdown-literal"],
+  "rhymes_hint": "Big Sur object-on-white icons that inset a dark screen/display panel (developer / terminal / calculator / keycap-quoting family; colored-glyph-on-black-display). Not warm-editorial, not the single-hero-hue product family.",
+  "notes": "512x512 render (half the 1024 master) from macapp.supply — grille dots sit near the resolution floor; read cleanly here but 1024 crispness unverifiable; all hex (measured) off a downscaled web export. Transparent PNG with baked squircle art (bbox 33-479 of 512, ~6% margin) rather than full-bleed square + system mask. Palette coherence with cover is partial: site brand leans purple (~#7C3AED M-down markdown badge) with an orange notes badge; icon shares only the orange and drops the purple, so icon and site have no shared hero hue. Key learning for synthesis: subject-literal glyph whose metaphor mismatches its category (asterisk = markdown to insiders, but = password/rating to everyone else)."
+}

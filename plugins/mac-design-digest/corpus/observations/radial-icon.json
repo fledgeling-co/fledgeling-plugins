@@ -1,0 +1,37 @@
+{
+  "slug": "radial", "name": "Radial", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 pre-masked PNG: transparent squircle corners + baked edge rim-highlight and outer shadow — fights 'ship square, let system mask/shade' (glyph itself well inside safe zone)",
+    "#3 silhouette: 8 disconnected capsules read as a dashed circle — nameable but reads 'spinner' before 'radial menu'",
+    "#4 16px: bright top dashes hold a dotted-ring read, but 8-count blurs and dimmest gray dashes (#979797) drop out first",
+    "#11 personality: one nameable device (graded spinner ring) but a dashed circle is near a stock loading-spinner motif; minimalism is what saves it"
+  ],
+  "failures": [
+    "#10 variant robustness: baked dark composition, not separable Icon Composer layers; white ring depends on the fixed charcoal ground, so tinted/clear regeneration would collapse figure-ground — legacy-native, not Liquid Glass-ready"
+  ],
+  "palette": {
+    "background": "ramp #313131->#141414 (vertical charcoal, top-lit; centre ~#222223)",
+    "glyph": ["#F9F9F9", "#EAEAEA", "#979797"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "single top-down source; each capsule top-lit with a bright top edge falling to a darker base (baked micro-emboss); superimposed rotational luminance fade bright-at-12-o'clock to dim-at-lower-left (spinner motion-trail convention); soft rim highlight on mask edge; no glass specular or refraction",
+  "layer_stack": [
+    "charcoal vertical-gradient field on a squircle (mask + edge rim + soft outer shadow baked in)",
+    "ring of 8 embossed white/gray capsule dashes, ~15deg gaps, r~285 on 1024 canvas"
+  ],
+  "devices": [
+    "segmented spinner ring (8 capsule dashes = 8 pie-menu wedges; reads as both loader and radial menu)",
+    "rotational luminance fade (round-the-ring bright->dim implies motion in a static image)",
+    "capsule-dash emboss (top-lit highlight + inner micro-shadow, restrained skeuomorphic pillow)"
+  ],
+  "adjectives": ["austere", "kinetic", "monochrome"],
+  "rhymes_hint": "Big Sur monochrome dark-utility icons: a single white glyph centred on a near-black charcoal squircle, no accent hue (menu-bar launchers, command-palette / productivity utilities)",
+  "notes": "Resolution: 1024x1024 PNG but delivered PRE-MASKED (alpha-0 squircle corners) with baked edge rim + soft outer shadow rather than the full-bleed square the modern pipeline expects; can't tell developer-baked from web-render mask off a static image. Subject coherence is strong and literal: the 8-segment ring depicts a radial (pie) menu. Brand-colour INcoherence: the app's cover art is vibrant purple Liquid Glass (frosted radial menu over magenta fan wallpaper) while the icon is austere monochrome — the icon carries the product's form (the ring) but none of its colour identity. Single-app observation; no canon promotion."
+}

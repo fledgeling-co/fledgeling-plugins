@@ -1,0 +1,28 @@
+{
+  "slug": "satu",
+  "name": "Satu",
+  "tagline": "A calm productivity companion that lives in your Mac menubar",
+  "category": "Productivity",
+  "pricing": "freemium",
+  "website": "https://satu.mnmls.net/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-cce1c894-c947-4206-acdc-a77e429bd1fb.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-34c35e64-e744-446a-aac3-d665b712f81b.jpg",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-bbb8a363-2bab-41eb-8e04-7577154db9ca.jpg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fb901bc0-7718-40ed-ae8a-98eb1ec1a67d.jpg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e15c918b-055e-4a8a-8379-9ac74dd9c47f.jpg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-942dedb2-91f8-4d55-88a3-871f13a9d0a6.jpg",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6d87ef49-4ed9-4f93-a117-204c6210b611.jpg"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/cover.jpg",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-1.jpg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-2.jpg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-3.jpg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-4.jpg",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-5.jpg"
+    ]
+  }
+}

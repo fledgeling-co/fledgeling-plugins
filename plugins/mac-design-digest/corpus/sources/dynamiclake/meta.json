@@ -1,0 +1,16 @@
+{
+  "slug": "dynamiclake",
+  "name": "DynamicLake",
+  "tagline": "Dynamic Island Mac",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.dynamiclake.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/92a7ab0f-c192-4391-a767-007075c662ab/icon-1783882455023.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/92a7ab0f-c192-4391-a767-007075c662ab/cover-1783882757353.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dynamiclake/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dynamiclake/cover.png",
+    "shots": []
+  }
+}
