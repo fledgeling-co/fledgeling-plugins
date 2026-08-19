@@ -153,7 +153,16 @@ targets too and not only for native ones:
 | `borderRadius` shorthand | `0px` | layer `cornerRadius` |
 | animation in flight | `getAnimations()` returns `0` while the animation runs | model vs presentation values differ exactly while in flight |
 | whether a capture is current | no signal at all | `SCFrameStatus`, `dirtyRectCount`, `framesWaited`, `trustworthy` |
-| a control with no node behind it | not expressible | `agree` → `unexposedControl` |
+| a control with no node behind it | not expressible | **unconfirmed** — see the note below |
+
+**`unexposedControl` did not fire, measured 20 Aug 2026.** The tool documents this disagreement
+kind and gives a worked example at 96×28. A fixture planting exactly that
+(`evals/fixtures/mac-settings`) produced six to seven `agree` findings across three runs and none
+of them was `unexposedControl`, at 38×22 and again at 96×28 with a label — while
+`proctor_assert` `exists` on the same control returned `found: false` and the capture showed it
+painted. `ghostNode`, its mirror image, fired correctly in the same runs. The row above says
+unconfirmed rather than measured because a capability read from documentation and never exercised
+is the thing this file exists to stop.
 
 **Known ceilings, stated as capability rather than as clean rows.** An iOS Simulator target has no
 accessibility tree, no elements and no geometry — `proctor_ios` is a device lane and its screenshots

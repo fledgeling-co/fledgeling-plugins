@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Settings</title><style>
+  /* The design of record for the fixture app's Settings pane.
+     Longhands only — the shorthands `padding`, `margin`, `border-radius`, `border`
+     and `gap` read back as 0px or "" on this engine. engine-capability-matrix.md. */
+  :root { --ink:#101a2c; --muted:#6b7488; --line:#d9dee8; --accent:#2f6df6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f4f6fa; font-family:-apple-system, "SF Pro Text", Helvetica, sans-serif;
+         color:var(--ink); }
+  .pane  { width:560px; margin:0 auto; padding-top:24px; padding-bottom:24px;
+           padding-left:24px; padding-right:24px; }
+  h1     { font-size:22px; line-height:27px; margin:0 0 18px; font-weight:600; }
+
+  .card  { background:#ffffff;
+           border-top-left-radius:8px; border-top-right-radius:8px;
+           border-bottom-left-radius:8px; border-bottom-right-radius:8px;   /* A1 lives here */
+           border-top-width:1px; border-top-style:solid; border-top-color:var(--line);
+           padding-top:16px;                                                /* N3 lives here */
+           padding-right:18px; padding-bottom:16px; padding-left:18px;
+           margin-bottom:14px;
+           box-shadow: 0 1px 3px rgba(16,26,44,.16); }                      /* A3 lives here */
+
+  .card h2 { font-size:15px; line-height:20px; margin:0 0 4px; font-weight:600; }
+  .card p  { font-size:13px; line-height:18px; color:var(--muted); margin:0; }
+
+  .rowline { display:flex; flex-direction:row; align-items:center; column-gap:12px; }
+  .rowline .grow { flex-grow:1; }
+
+  /* The Manage button. In the build this is drawn by a plain NSView that exposes no
+     accessibility node at all — N5, and the only defect here that needs the
+     tri-observer check rather than a tree walk or a capture. */
+  .toggle { width:38px; height:22px;
+            border-top-left-radius:11px; border-top-right-radius:11px;
+            border-bottom-left-radius:11px; border-bottom-right-radius:11px;
+            background:var(--accent); }                                     /* A2 lives here */
+
+  .btn   { font-size:13px; line-height:16px;
+           padding-top:6px; padding-bottom:6px; padding-left:14px; padding-right:14px;
+           min-height:28px;                                                 /* N4 lives here */
+           border-top-left-radius:6px; border-top-right-radius:6px;
+           border-bottom-left-radius:6px; border-bottom-right-radius:6px;
+           border-top-width:1px; border-top-style:solid; border-top-color:var(--line);
+           background:#ffffff; color:var(--ink); }
+  .btn.primary { background:var(--accent); color:#ffffff; border-top-color:var(--accent); }
+</style></head><body>
+<div class="pane">
+  <h1>Settings</h1>
+
+  <div class="card rowline" id="notifications">
+    <div class="grow">
+      <h2>Notifications</h2>                                            <!-- N2 lives here -->
+      <p>Alert me when a run finishes or a gate fails.</p>
+    </div>
+    <button class="btn primary" id="manage">Manage</button>
+  </div>
+
+  <div class="card rowline" id="updates">
+    <div class="grow">
+      <h2>Automatic updates</h2>
+      <p>Check daily and install in the background.</p>
+    </div>
+    <button class="btn" id="check">Check</button>
+  </div>
+
+  <div class="card" id="location">
+    <h2>Evidence location</h2>
+    <p>Captures and ledgers are written beside the project.</p>
+  </div>
+
+  <div class="rowline">
+    <div class="grow"></div>
+    <button class="btn" id="reset">Reset to Defaults</button>            <!-- N1 lives here -->
+    <button class="btn primary">Done</button>
+  </div>
+</div>
+</body></html>
