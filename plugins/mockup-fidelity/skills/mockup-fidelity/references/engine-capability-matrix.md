@@ -122,6 +122,54 @@ to open the diff crop, never a verdict.
 
 ---
 
+## The second engine · proctor MCP · native macOS
+
+Read alongside `references/native-lane.md`, which carries the method. This section is the capability
+facts, because this file is their single home and a second copy is how the first nine classes stayed
+hidden for nine versions.
+
+**The engine's capability is not fixed — it has two tiers, and which one a run is in is measured
+per app, not assumed.** `proctor_inspect` returns a resolved view and layer hierarchy for an app
+embedding `ProctorReflector`, and `reflectorUnavailable` for one that does not. Establish the tier with
+a two-level inspect before Phase 2 and record it; every style row below inverts on it.
+
+| Read | Tier A (reflector) | Tier B (`reflectorUnavailable`) |
+|---|---|---|
+| resolved colour, font, corner radius, opacity, shadow | measured, with `CALayer` model **and** presentation values | **inconclusive** — the ceiling is the tree plus pixels |
+| layout constraints | measured (`includeConstraints`, large) | inconclusive |
+| frame geometry, containment, alignment | measured | measured |
+| hit-target size, label, role, enabled, focus order | measured | measured |
+| structure and ordering | measured | measured |
+| contrast | measured from pixels | measured from pixels |
+| observer disagreement (`agree`) | measured | measured |
+
+**What this engine measures that obscura cannot.** Five classes obscura returns `""` for are readable
+here as layer properties rather than as CSSOM declarations, which is the reason this lane exists for web
+targets too and not only for native ones:
+
+| Class | obscura | proctor, Tier A |
+|---|---|---|
+| `boxShadow` | `""`, no working longhand | layer `shadowOpacity` / `shadowOffset` / `shadowRadius` |
+| `borderRadius` shorthand | `0px` | layer `cornerRadius` |
+| animation in flight | `getAnimations()` returns `0` while the animation runs | model vs presentation values differ exactly while in flight |
+| whether a capture is current | no signal at all | `SCFrameStatus`, `dirtyRectCount`, `framesWaited`, `trustworthy` |
+| a control with no node behind it | not expressible | `agree` → `unexposedControl` |
+
+**Known ceilings, stated as capability rather than as clean rows.** An iOS Simulator target has no
+accessibility tree, no elements and no geometry — `proctor_ios` is a device lane and its screenshots
+carry no frame status, so they are untrustworthy by construction; the React Native lane remains the
+answer there. A macOS submenu built lazily reports `submenuPopulated: false` and is not descended into,
+which is inconclusive rather than an absent menu. And the reflector is a debug-build dependency, so a
+release build measures at Tier B whatever its debug twin managed.
+
+**A tolerance here is calibrated, never defaulted.** Every geometry assertion takes `tolerance` in
+points and defaults it to 1.0. The evidence behind this skill is explicit that a numeric tolerance is
+defensible only after repeated-run measurement proves non-zero variance, so `proctor_stability` runs
+first and its `stepInstability` sets the number. A default carried into a report is an assumption
+wearing a calibration's clothes.
+
+---
+
 ## Re-measuring this table
 
 `node assets/diff/capture.mjs --ref <url> --target <url> --out <dir>` prints the preflight block on every
