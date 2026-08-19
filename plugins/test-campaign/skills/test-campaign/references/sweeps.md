@@ -214,6 +214,12 @@ finding either way: a headless lane cannot run any of it, so a campaign that
 reports K as clean without an attached process is reporting on nothing.
 `references/on-glass.md` has the attachment proof this sweep depends on.
 
+When the product has a window and the signed app is not on disk, build it
+and attach before skipping K. `skipped: no -glass lane attached` is a result
+only after that build was attempted, or after a structural block that
+survived it (no interactive desktop, no signing identity). A skip because
+the binary was never compiled is the paper-versus-glass failure again.
+
 Unlike sweeps A–J, none of the checks below rests on a published measurement of
 how often they catch something. They are here because each one is a defect class a
 window has and a viewport does not, and each is cheap to force. Treat them as a

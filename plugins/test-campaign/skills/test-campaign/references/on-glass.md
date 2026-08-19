@@ -54,7 +54,9 @@ python3 $S/campaign.py lane <dir> --lane macos-glass \
 ```
 
 **`--artifact`** must exist on disk. This is the check that catches code authored
-and never built, and it is the cheapest one in the file.
+and never built, and it is the cheapest one in the file. When the path is
+missing, the next step is the project's documented build for that lane, not a
+`--cannot-attach`.
 
 **`--built-by`** is the command that produced it, so a stale binary from three
 weeks ago is visible as a stale binary rather than as a pass.
@@ -63,11 +65,24 @@ weeks ago is visible as a stale binary rather than as a pass.
 display server: a window id, a pid owning a window, a frame that arrived. Not
 "the test suite exited zero" — a headless suite exits zero beautifully.
 
-`--cannot-attach "<reason>"` is the honest alternative and is not a failure of
-diligence. It records the lane as unreachable, and its cases resolve to
-`blocked: <reason>` rather than to a pass nobody could have earned. A blocked
-lane reported as blocked is a finished piece of work. A blocked lane reported as
-green is the failure this whole file is about.
+The order is load-bearing:
+
+1. **Find the documented build** for the lane (`xcodebuild`, `swift build`,
+   `msbuild`, `cargo build`, the repo's fastlane / notarize script).
+2. **Run it** so `--artifact` exists. A missing `.app` / `.exe` / `.ipa` is a
+   build job. Recording `cannot-attach: no signed app is on disk` is how a
+   campaign once left glass closed while the source sat unbuilt.
+3. **Launch** the result and record `--attached` with a pid, window id, or
+   frame that arrived.
+4. **`--cannot-attach`** only after that, and only for a structural block that
+   the build cannot remove: no interactive desktop on this host, no signing
+   identity in the keychain, Session 0, a display server this machine cannot
+   reach. `campaign.py lane` refuses a reason that describes a missing binary.
+
+A structural block recorded as blocked is finished work. A missing app
+recorded as blocked is the paper-versus-glass failure wearing a reason
+string. A blocked lane reported as green is the failure this whole file is
+about.
 
 ---
 
@@ -197,26 +212,6 @@ which is why they are preconditions and not troubleshooting:
 | Screen Recording grant | cannot be pre-granted by policy on macOS, user-toggled only |
 | An unsandboxed driver | the accessibility API is unavailable to a sandboxed app **even if the user grants permission** |
 | A GUI session with a display | the accessibility plane still works and pixels do not — display-scoped capture needs an enumerated display, and the headless substitutes are private API |
-
----
-
-## 8. Interactive event actuation on glass — testing the flow, not just the frame
-
-Capturing a static window screenshot proves a visual surface was composited on glass.
-It does not prove interactive flow execution: that a click on a cancel button
-dispatches a daemon RPC, drains a queue item, and renders an animated toast.
-
-The `interactive-glass` oracle rung explicitly tests this on-glass interaction chain:
-- **Synthetic UI event dispatch**: Actual button presses, text field entry, and
-  navigation clicks dispatched to live window views.
-- **Runloop pumping**: Allowing UI runloops and async message pumps to process
-  state updates and trigger re-renders.
-- **Flow atom verification**: Tracing each declared observable atom in a critical
-  flow (`FLOW-*`) from user action to resulting on-glass state change.
-
-A critical flow whose atoms are only verified on headless model structs is a
-data-model test. `interactive-glass` on a `-glass` lane ensures the user journey
-functions end-to-end under real window server execution.
 | Not fast-user-switched away | every plane fails |
 | A settled frame | a caret that blinks can never go pixel-quiet, so a wait for quiet must say what it actually got |
 
@@ -226,7 +221,33 @@ to eyeball**: name the tool, say what it would have established, and stop.
 
 ---
 
-## 8. What this changes in the ledger
+## 8. Interactive event actuation on glass — testing the flow, not just the frame
+
+Capturing a static window screenshot proves a visual surface was composited on
+glass. It does not prove interactive flow execution: that a click on a cancel
+button dispatches a daemon RPC, drains a queue item, and renders an animated
+toast.
+
+The `interactive-glass` oracle rung tests that on-glass interaction chain:
+
+- **Synthetic UI event dispatch.** Button presses, text-field entry, and
+  navigation clicks dispatched to live window views.
+- **Runloop pumping.** UI runloops and async message pumps process state
+  updates and trigger re-renders.
+- **Flow atom verification.** Each declared observable atom in a critical
+  flow (`FLOW-*`) is traced from user action to the resulting on-glass
+  state change.
+
+A critical flow whose atoms are only verified on headless model structs is a
+data-model test. `interactive-glass` on a `-glass` lane is the rung that
+asserts the journey under a real window server. It still owes the three
+proofs in §2: if the app is not on disk, build it, then attach, then
+actuate. `campaign.py` counts the rung as an effect only on a lane whose
+name ends `-glass`.
+
+---
+
+## 9. What this changes in the ledger
 
 Three states, kept apart because they are three different claims:
 

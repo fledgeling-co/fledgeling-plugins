@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that reads what your project claims to do, tests it across the states and viewports and roles nobody gets to, and leaves one browsable page where the gaps are as visible as the passes.</p>
 
 <p align="center">
-  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-D33C21">
+  <img alt="Version 0.6.0" src="https://img.shields.io/badge/version-0.6.0-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="Lanes: web, RN, iOS, macOS, Windows, Linux" src="https://img.shields.io/badge/lanes-web_·_RN_·_iOS_·_macOS_·_Windows_·_Linux-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -54,6 +54,7 @@ Every case declares which rung of oracle it stands on:
 | `outcome` | the promised effect, so data rendered or a record written |
 | `metamorphic` | a relation across runs, so undo restores or the count tracks the store |
 | `raster-visual` | pixels captured off a display server, against a reference |
+| `interactive-glass` | a click, key, or gesture on a live window, then the on-glass state it caused |
 
 A flow you've marked critical that carries no case at `outcome` or above **fails the gate**. Not a model reviewing the suite and offering an opinion; a script exiting non-zero with the flow ids in the output.
 
@@ -67,7 +68,7 @@ Two more gates in the same spirit. **A pass has to name an evidence artifact on 
 
 A lane you name with a `-glass` suffix is claiming the application was running and drawn by a display server, and the gate won't clear until it carries three things: the built artifact as a path that exists, the command that produced it, and what witnessed a process from it reaching a display server. The first of those is the cheapest check in the skill and it's the one that catches a platform whose source was written and never compiled.
 
-Saying you couldn't get there is a first-class answer. `--cannot-attach "no Windows host with an interactive desktop is reachable"` marks the lane unreachable and drops its cases to `blocked`, which reads honestly on the page. A lane silently assumed to have run is the failure; a lane recorded as unreachable is finished work.
+When the artifact is not on disk, the next step is the project's documented build, then launch, then `--attached`. `--cannot-attach` is for a structural block that survives that build — `"no Windows host with an interactive desktop is reachable"` is one; `"no signed app is on disk"` is not, and `campaign.py lane` refuses it. A lane silently assumed to have run is the failure; a missing binary recorded as unreachable is the same failure wearing a reason string.
 
 The same discipline runs down to the artifacts. A screenshot that's actually a zero-byte file, an HTML error page saved to a `.png` path, a 1×1 placeholder, or **one screenshot attached to twelve different cases**. All four have shipped, all four are exact to detect from the bytes, and all four now fail the gate. What the skill deliberately doesn't do is score the picture: no density or entropy floor can separate a failed capture from a legitimately sparse screen, because an empty state is mostly background by design. So provenance gates and density only ever annotates.
 
