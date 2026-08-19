@@ -28,6 +28,8 @@ Say *"ship everything left in the backlog"* or *"run the fleet"*, and it works t
 
 Runners stop twice on purpose. They stop **before verify**, because a runner can't verify its own build; the orchestrator spawns each item's verifier as a fresh agent from a different model family. And they stop **before merge**, because two simultaneous merges into one integration branch is how fleets corrupt repos; merges go one at a time, behind the fail-closed gate.
 
+New in 2.2: a *ready-to-verify* report is treated as a claim about an evidence bundle rather than as a fact. An item whose bundle is empty goes back to its runner instead of into the verify queue, because otherwise a fresh agent gets spawned to discover that. And where the repo carries a test campaign, its capture gate runs once for the repo rather than once per item — a fleet multiplies whatever the evidence layer gets wrong, so one campaign filing its screenshots by filename is a bad page, and twenty verdicts resting on the same shape is a Done column nobody can audit.
+
 New in 2.0: the per-item cross-family verification step, a **Needs verification** survey class (an item sitting in review with no verdict is a gap, not a done), one global agent budget instead of two caps that multiplied into rate-limit storms, and a published low-cost runner shape, because the audit record shows what happens when operators hand-roll cheaper ones: the safeguards are the first thing stripped.
 
 ## Install

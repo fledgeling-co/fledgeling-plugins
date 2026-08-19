@@ -1,6 +1,6 @@
 # Does shipyard actually work? The evals, in full
 
-The short version: on a like-for-like comparison against the skills it replaces, shipyard passed **37 of 37** structural checks where the originals passed **22 of 37**, and a blind panel of three model families preferred its outputs **17 votes to 4**. One eval lost its first blind round, the loss produced three new rules in the skills, and the re-judged pair flipped. The longer version below includes the parts that didn't go smoothly, because a scorecard that only shows wins convinces nobody.
+The short version: on a like-for-like comparison against the skills it replaces, shipyard passed **37 of 37** structural checks where the originals passed **22 of 37**, and a blind panel of three model families preferred its outputs **17 votes to 4**. One eval lost its first blind round, the loss produced three new rules in the skills, and the re-judged pair flipped. Those numbers cover nine evals; a tenth was written afterwards for the 0.3.0 evidence-integrity rules and has not been run, which a section below states rather than folding into the total. The longer version includes the parts that didn't go smoothly, because a scorecard that only shows wins convinces nobody.
 
 ## How the comparison was run
 
@@ -28,6 +28,28 @@ An independent grader agent marked every assertion passed or failed with quoted 
 Every failure on the old arm was a genuine absence rather than a wording quibble: no named test seams, no state matrix, no committed plan with a checkable sha, no record of which model family verified, no failure state after review, no intake stage at all, no AI-proposed briefs, no platforms line.
 
 **The grader pushed back, and that's in the record too.** Its first pass flagged four assertions as vacuous, meaning they couldn't have failed on either arm's output. Two got adversarial follow-up evals written to force them (the `adv-` rows above); one of those now bites, and one still doesn't discriminate because the task prompt itself hints at the trap. It also flagged one old-arm failure as a close call that a charitable reading would flip, and caught the old plan arm labelling a source read as "MEASURED", which neither assertion punished. All of it is preserved verbatim in `evals/records/` (the grading files, the panel verdicts, and the un-blinding keys are committed; only the bulky raw run outputs are git-ignored).
+
+## One eval defined after the run, and not scored
+
+`verify-evidence-integrity` was added to `evals/evals.json` on 2026-08-20 and **has not been
+run on either arm**. It is not in the 37/37 above, it is not in the panel below, and the
+totals in this file are unchanged by it. Saying so matters more than usual here, because the
+row it covers is exactly the shape that makes an unrun eval look run.
+
+It exists because 0.3.0 added three rules to `verify` that the nine scored evals could not
+have exercised: that a screenshot asserts a subject as well as a capture, that a green suite
+can be green because an assertion cannot fail, and that a verdict row citing the verifier's
+summary of an artifact is not citing the artifact. The eval hands the verifier a completion
+record where every requirement looks closed — a screenshot for the visual row, a passing spec
+for the behavioural one — and where the screenshot shares a sha256 with another requirement's,
+the capture log records the browser finishing at `/login` rather than `/billing`, and the
+spec's body is `await page.click(...)` followed by a bare `expect(page)`.
+
+The old arm will fail most of its nine assertions, and that is not the interesting part. The
+interesting part is whether the new arm reaches the right verdict *from the bundle* rather
+than from noticing that the fixture looks like a trap — which is the same weakness the grader
+already found in `adv-plan-already-true-ac`, where the task prompt hints at what it is
+testing. Until it runs, treat this eval as a written intention.
 
 ## The blind taste test (panel of model families)
 

@@ -179,6 +179,20 @@ from the artifact) · D′ validation outcome. Reconcile the plan's AC checkboxe
 box appears in the note as a blocker, deferral, or Dropped row. **Caveats propagate** verbatim
 into any later record.
 
+Two mechanical checks before the record is written, both cheap and both catching a shape prose
+does not:
+
+- **Scan the specs you added or touched for assertions that cannot fail** — the eight syntactic
+  shapes in `evidence-rules.md` (`expect` with no matcher, expected == actual, constant vs
+  constant, a swallowed `catch`, an un-awaited assertion, `skip`/`todo`, a discarded
+  `expect.soft`, a spec file with zero assertions), or `warrant:assay`'s `cannotfail_scan.py`
+  where the repo carries `.warrant/`. A hit is a candidate rather than a defect, but a red→green
+  pair whose green comes from one of them discriminates nothing, and the pair is the evidence
+  the whole clause table rests on.
+- **Tie every screenshot in the record to its subject** — the URL the browser ended up at, and
+  no two clauses sharing one sha256. `evidence-rules.md` carries why: a filename is written by
+  whoever ran the capture, not by the app.
+
 **Gate on the tables**: `Developer Review` is not set while any Clause or Reachability row is
 not ✅. Then status → **`Developer Review`**. The item now awaits the `verify` skill — a
 different family, a different session; nothing in this run may grade the ticket `Done`.

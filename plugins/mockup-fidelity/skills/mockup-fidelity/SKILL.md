@@ -1,7 +1,7 @@
 ---
 name: mockup-fidelity
 description: >-
-  Validate that an implemented React or React Native UI faithfully reproduces a reference mockup, then update the code to close every gap — by measuring the rendered tree, never eyeballing or reading source. Treats the mock as the source of truth, inventories every frame, inverts the burden of proof (a difference is a defect until a citation proves it intentional), diffs structure then computed styles, and refuses to certify a property the engine cannot actually measure — a preflight proves each detector class can run, and any class that cannot is reported as inconclusive with its reason rather than as agreement. Emits a present/divergent/absent ledger, a functional-gaps doc, and a nonzero exit code. Use whenever someone wants to compare, align, pixel-match, audit, or verify a built page/screen/component against a design: 'does this match the mock?', 'align the app to the figma/html mockup', 'pixel-match this screen', 'why doesn't it look like the design?', 'verify the migration didn't drift', 'audit the UI fidelity', 'what's missing vs the mock?', 'make the react-native app match the prototype', 'does our web app match the design-system mock/preview?'. Trigger even when told 'it should already match' or 'it uses the same design system'.
+  Validate that an implemented React or React Native UI faithfully reproduces a reference mockup, then update the code to close every gap — by measuring the rendered tree, never eyeballing or reading source. Treats the mock as the source of truth, inventories every frame, inverts the burden of proof (a difference is a defect until a citation proves it intentional), diffs structure then computed styles, and refuses to certify a property the engine cannot actually measure — a preflight proves each detector class can run, and any class that cannot is reported as inconclusive with its reason rather than as agreement. Emits a present/divergent/absent ledger, a functional-gaps doc, and a nonzero exit code. Carries a second measurement engine for native macOS, Electron and web-view targets, and for the classes a browser engine reports nothing for — driving the proctor skill to read the accessibility tree, the compositor's resolved layer values and frame trustworthiness, and establishing that engine's own capability tier before a style finding may claim anything. Use whenever someone wants to compare, align, pixel-match, audit, or verify a built page/screen/component against a design: 'does this match the mock?', 'align the app to the figma/html mockup', 'pixel-match this screen', 'why doesn't it look like the design?', 'verify the migration didn't drift', 'audit the UI fidelity', 'what's missing vs the mock?', 'make the react-native app match the prototype', 'does our web app match the design-system mock/preview?'. Trigger even when told 'it should already match' or 'it uses the same design system'.
 ---
 
 # Mockup Fidelity
@@ -41,6 +41,7 @@ Read the reference that matches your target before starting:
 |---|---|
 | **React web target, or web↔web** (both sides DOM) | `references/react-web.md` |
 | **React Native target** (no DOM) | `references/react-native.md` |
+| **A native macOS app, an Electron app, or a class this engine returns `""` for** | `references/native-lane.md` |
 | **What this engine can and cannot measure** | `references/engine-capability-matrix.md` |
 | **The harness and the analyzer** — commands, flags, MODE A/B contract | `assets/diff/run.md` |
 | **Blind spots, false-positive patterns, prior art** | `assets/diff/README.md` |
@@ -135,6 +136,14 @@ rule on a laid-out node, read the computed value back, and require two different
 returns the same thing for every input passes a one-shot probe; requiring the two reads to differ is what
 catches it. A class whose probe fails is switched off and recorded as
 `{ available: false, reason }` — never left to return agreement.
+
+**A class can also be unmeasurable because it will not hold still.** The evidence behind this skill
+names four states rather than three — `MEASURED`, `UNAVAILABLE`, `UNSTABLE`, `ERROR` — and `UNSTABLE`
+carries `UNAVAILABLE`'s rule: repeated reads of a fixed input varying outside calibrated bounds are
+**not compared**. A 2026 study of 262 web visual-flakiness cases split them 59.9% structure-related and
+40.1% style-related, so instability is a classification rather than noise to be tolerated away. The web
+lane has no instrument for it; the native lane does, and `references/native-lane.md` carries how
+`proctor_stability` turns it into a number and where a defensible geometry tolerance comes from.
 
 **Relay the `reason` string verbatim.** It names the engine, the declaration that was set, and what came
 back. Those strings are the difference between "this layer cannot run here" and "the shadows match", and
@@ -314,6 +323,21 @@ a different variant off-origin. This alone caused several "I matched it exactly 
 The reference is **immutable for the whole pass**: measure it once, reuse it everywhere, re-measure only
 the target after a fix. For React Native the target side is the rendered native tree, not the DOM —
 `references/react-native.md`.
+
+**When the target is a native macOS app, an Electron app, or a web build whose divergence sits in a class
+this engine returns `""` for, the target side goes through `proctor`** — `references/native-lane.md`.
+Establish its tier first, because it decides what a finding may claim: `proctor_inspect` returns resolved
+colours, fonts, radii and opacity for an app embedding `ProctorReflector`, and `reflectorUnavailable` for
+one that does not, in which case every style class is inconclusive and the ceiling is the tree plus
+pixels. Then `proctor_stability` before `proctor_assert`, so the geometry tolerance is calibrated from
+measured variance rather than left at its 1.0 default; and `proctor_assert`'s `skipped[]` is stored whole
+and mapped to `inconclusive[]`, reason strings intact.
+
+Three things that lane can measure and this one cannot: whether a capture is even current (obscura offers
+no signal, `SCFrameStatus` does), whether an animation is in flight (`getAnimations()` returns 0 while one
+runs; the layer's model and presentation values differ exactly while it does), and a control-shaped region
+with no accessibility node behind it — which is a present-in-mock, absent-in-build finding that neither a
+tree dump nor a screenshot review reaches, because each is one observer agreeing with itself.
 
 ### Phase 3 — Validate with the burden of proof inverted
 

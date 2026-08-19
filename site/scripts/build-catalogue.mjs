@@ -60,6 +60,7 @@ const GROUP_OF = {
   "create-mac-icon": "making",
   "create-skill": "making",
   "test-campaign": "making",
+  warrant: "making",
   "improve-skill": "making",
   geminify: "making",
   "agent-voice": "making",

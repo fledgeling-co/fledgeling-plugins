@@ -32,6 +32,8 @@ Three habits do most of the work:
 - **The memory is on disk.** Every stage persists its artifact, so an interrupted run resumes at the first missing one instead of starting over.
 - **A merge instruction changes the destination, never the bar.** If a gate is red, the run stops and names it. There's also a rollback procedure decided before it's ever needed, not improvised during an incident.
 
+What's new in 2.2: the three gates inside verify that decide whether its evidence means anything. Every screenshot proves what it depicts rather than being trusted on its filename — a campaign once published 20 captures of three unrelated documents and passed every check pointed at it. Every suite cited as green is scanned first for assertions that cannot fail, because over half of more than 15,000 generated mutants once survived a passing unit, integration and system suite. And a critic reads only the evidence bundle, with the app and the diff closed, rejecting any row that cites nothing measurable. A `COMPLETE` verdict over a bundle that fails those is not a green gate, and the item doesn't advance.
+
 What's new in 2.0: the design stage (all-platform mocks gated by design-review and be-my-witness), the cross-family verify stage, the `Needs More Work` loop back through gap-fix, four new pre-merge gate boxes (verifier verdict, post-rebase e2e re-run, keyboard/accessibility floor, compliance sign-off where triage flagged it), and decision deferral through the [clarify](../clarify/README.md) gate instead of mid-run questions.
 
 ## Install

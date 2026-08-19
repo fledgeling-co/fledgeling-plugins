@@ -4,7 +4,177 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-20
+
+### test-campaign 0.8.0, shipyard 0.3.0, ship-feature 2.2.0, ship-fleet 2.2.0: what a picture is of
+
+**The gap.** A campaign built with `test-campaign` 0.7.0 published 20 surface captures and
+cleared every gate the plugin owned: `campaign.py check` reported every case accounted for,
+`strict-check.py` reported 46 of 49 checked, and both `-glass` lanes were proved, artifact-named
+and attach-witnessed. The captures were of three unrelated documents — a project status report,
+the mock browser's own index page, and a design accessibility doc. Twenty files held **six
+distinct images**; four groups of four were byte-identical. A flow step captioned "Open pairing
+QR code sheet" showed a questionnaire about Apple developer credentials.
+
+Nothing was broken, which is the part worth recording. `attach-shots.py` binds a picture to a
+surface on a slug of its **filename** — string identity, not evidence. `evidence-page.py`
+rendered it with `alt` taken from the label, so a wrong image arrived under a right-sounding
+caption. `campaign.py check` ran `inspect_raster` and its shared-artifact detector over
+`RASTER_RUNGS` case evidence only, and the `shot` field the page actually renders was inspected
+by nothing. **The gated part of the campaign was sound and the ungated part was the part people
+look at.**
+
+The prose was already right and unenforced: `attach-shots.py`'s own docstring says a screenshot
+filed against the wrong surface "is worse than one filed against none, because it looks right",
+and the code guarded only the ambiguous-filename case. A rule stated and not gated is a rule the
+next run does not have.
+
+**`test-campaign` gains the plane, borrowed intact from `warrant:oracle`.** That plugin had
+solved the same problem one domain over for numbers: a displayed figure without a
+`data-source-ref` is the defect its lineage plane exists to find. Substitute *picture* for
+*figure* and the apparatus transfers, down to the tick-and-tie step. `capture-lineage.py` runs
+four passes, all exact, none needing a model — **unsourced** (no manifest entry, or no recorded
+target), **untied** (the target does not resolve to the subject's route), **shared** (two
+subjects, one sha256, undeclared), **unjudged** (published with no `be-my-witness` verdict, which
+ratchets rather than blocks). `--seed-swap` swaps two subjects and asserts the tie pass goes red,
+because a tie check nobody has watched fail is indistinguishable from one that reads nothing.
+
+Determinism is a requirement here rather than a preference. `be-my-witness`'s `prescan.py`
+returns `isEvidence: true, settled: true`, exit 0 against the worst capture in that campaign — a
+real, contentful, settled image of the wrong document. Image statistics cannot answer the subject
+question, and `mockup-fidelity`'s measurement puts frontier vision near 40% recall on
+fine-grained UI diffs and under 23% on hard cases. Provenance answers it, and only if it is
+recorded while the shutter is open, which is why `capture-pairs.template.mjs` now writes
+`captures.json` as it shoots and records the URL the browser *ended up at* rather than the one it
+was sent to.
+
+**The rest of the chain, because one gate in a content-blind pipeline moves the hole rather than
+closing it.** `campaign.py check` audits published shots and blocks on three new shapes;
+`attach-shots.py` refuses a write no manifest corroborates and stamps `shotProvenance` under
+`--filename-only`; `evidence-page.py` badges every capture witnessed/manifest/filename and
+anchors a flow step on its own id rather than the loop index, which used to renumber every anchor
+after a reordered step; `witness-worklist.py` demotes a reference that was never rendered to an
+image, which is why that campaign's 20 "judgeable" pairs — every reference an unrendered `.html`,
+`evidence/shots/mock/` absent — had produced no verdict and nothing had said so.
+
+**The pipeline gains the same three questions about its own evidence.** `evidence-rules.md`,
+canonical for worker, verifier, gap-fix and both conductors, adds: the screenshot-subject rule
+with its two exact checks; artifact-forcing from `mockup-fidelity`, as a precondition rather than
+an exhortation because agents under effort pressure rationalise the shortcut and models trained
+against reward-hacking learn to conceal it; and the cannot-fail scan from `warrant:assay`, where
+over half of more than 15,000 generated mutants survived a passing unit, integration and system
+suite. `verify` gains structural rule 5, the subject checks on its visual lane, the scan before
+it spends a suite's green, and step 3a — a completeness critic reading only the bundle and the
+requirement table with the app, the diff and the ticket closed. `work` runs the scan over the
+specs it touched before writing its completion record. `ship-fleet` runs the capture gate once
+per repo rather than once per item, because a fleet multiplies whatever the evidence layer gets
+wrong.
+
+**Evidence.** `capture-lineage.py --gate` against the campaign that produced this exits 2 naming
+41 unsourced captures and 6 shared images; `campaign.py check` exits 1 where it exited 0.
+`tests/run.sh` covers every new blocker in both directions plus the seeded swap: **33 passed, 0
+failed**, 12 of them new. Four evals were added — one per plugin — and **none has been run**;
+each plugin's EVALS.md says so rather than folding them into an existing total.
+
+### mockup-fidelity 3.2.0: the ceiling belonged to the engine
+
+A fidelity report reading zero findings beside nine inconclusive classes was honest and useless. The
+classes obscura cannot measure — `boxShadow`, `backgroundImage`, `textTransform`, transitions,
+animations, `flex`, pseudo-elements, `getBBox()` — were unmeasured for every target the skill had, and
+the reader was left holding a screen nobody could close. **That ceiling belonged to the engine rather
+than to the build**, which is the same confusion the skill exists to prevent, arriving one level up.
+
+**A second measurement engine, driving `proctor`.** It covers a native macOS app built to a mock, an
+Electron app shipped as a Mac app, a React build inside a Mac web view — and a plain web build whose
+divergence sits in a class the browser engine returns `""` for. That last case is why this is a second
+engine rather than a native-only lane: a shadow CSSOM reports as an empty string is a `shadowRadius`, a
+`shadowOffset` and a `shadowOpacity` on a `CALayer`, and those are readable.
+
+**The lane has its own capability preflight, with two tiers, and the tier is measured rather than
+assumed.** `proctor_inspect` returns a resolved hierarchy for an app embedding `ProctorReflector` and
+`reflectorUnavailable` for one that does not. Tier B leaves every style class inconclusive with that
+reason, because an eyedropped colour is not a declared value. It is not a degraded Tier A that can be
+talked up, and the ledger records which set of questions it answered.
+
+**Three questions the browser lane cannot ask at all.** Whether a capture is current — a stale frame is
+pixel-identical to a correct one and obscura attaches no signal, where every proctor capture carries
+`SCFrameStatus`, `dirtyRectCount`, `framesWaited` and `trustworthy`. Whether an animation is in flight —
+`getAnimations()` returns 0 while one runs, and the layer's model and presentation values differ exactly
+while it does. And whether a control-shaped region has no accessibility node behind it, which is a
+present-in-mock, absent-in-build finding the skill could not previously produce, and which neither a tree
+dump nor a screenshot review reaches because each is one observer agreeing with itself.
+
+**`UNSTABLE` becomes the fourth state.** The research behind this skill names four — `MEASURED`,
+`UNAVAILABLE`, `UNSTABLE`, `ERROR` — and three were implemented. A 2026 study of 262 web
+visual-flakiness cases split them 59.9% structure-related and 40.1% style-related, so a value that will
+not hold still is a classification rather than noise to tolerate away. `proctor_stability` measures it,
+and its variance is where a defensible geometry tolerance comes from: every assertion kind defaults
+`tolerance` to 1.0, and the research is explicit that a numeric tolerance is defensible only after
+repeated-run measurement proves non-zero variance.
+
+The capability facts live in `engine-capability-matrix.md` rather than in the new file, because that is
+their single home and six copies of one paragraph is how nine classes stayed hidden for nine versions.
+Eval 9 was added and **cannot be run against the current fixtures** — its target is a running Mac app
+rather than an HTML file — which `EVALS.md` states rather than leaving to be found later.
+
 ## 2026-08-19
+
+### warrant 0.2.0, test-campaign 0.7.0, shipyard 0.2.0, ship-feature 2.1.0, ship-fleet 2.1.0: the oracle gap
+
+**The gap.** `warrant` and `test-campaign` did not reference each other — `grep` both ways
+returned nothing — so neither could produce or consume the other's state. A repository could hold
+a mature campaign and a tier-0 warrant at the same time, permanently, with each tool correct on
+its own terms.
+
+Found by running the pipeline for real rather than by reading it. A `warrant:lot` audit of a
+211-item Done column returned **143 items unverifiable in either direction**, and nothing in
+either plugin could say why or what to do next. Two failures were arriving as one status, and the
+corpus behind `warrant` had already named the distinction: a screenshot-judging pass over fifty
+surfaces returned inconclusive on all fifty, "stated each time as being for want of a judge
+rather than for want of an oracle". Want of a judge is an authority gap and `warrant` is the
+instrument; want of an oracle is a coverage gap and `test-campaign` is. Neither skill asked which
+it faced.
+
+**`test-campaign` gains the status and the remedy.** `unoracled` splits from `inconclusive`,
+because the two look identical and want opposite fixes — a better instrument, or a specification
+that names something checkable. Phase 6a builds the missing oracle down a four-rung ladder
+(specification-sourced outcome assertion → metamorphic relation → property-based invariant →
+recorded permanent limit), with `references/oracle-construction.md` behind it. Metamorphic
+relations are the standard answer to the oracle problem; the reference states that the evidence
+for them is directional rather than sized.
+
+**The bridge existed and was unwired.** `charter_validate.py` already documented the two files it
+reads and `rollup_classes.py` already existed to map surfaces onto defect classes. What was
+missing was anything writing them. `campaign.py export-warrant` now does, from numbers the
+campaign already held — the armed ratio, and the effect-rung count per surface. The first cut
+keyed coverage by surface id, which matched no glob and rolled up to zero on every class,
+indistinguishable from a campaign that measured nothing; caught by running the chain rather than
+by reading the schema, and it now emits the row shape `rollup_classes.py` consumes.
+
+**`warrant` stops permitting the order it calls forced.** `lot_plan.py` exits 3 without
+`.warrant/suite-health.json`, naming `assay`. The rule was in the skill's prose and enforced
+nowhere: the run that prompted all of this skipped `oracle` and `assay`, went straight to
+`panel` over 219 positions, passed every gate, and then measured its own reviewer at 2-of-8 seed
+recall — the number the skipped plane exists to predict. `lot_report.py` gains a sixth required
+field, the oracle mix of the sampled items, and says so when nothing in a sample stands on a rung
+that asserts an effect. `ratchet.py` emits the surfaces, the file and the commands that would
+clear a refusal, turning a permanent tier-0 into a finite task list.
+
+**The delivery ladder stops building unauditable columns.** `shipyard:verify` types each
+requirement's evidence by its oracle rung and puts it in the verdict table; a requirement proved
+only by a weak rung reads `Unverified` rather than `Done`, and a new terminal shape
+`Unverified — no oracle` cannot reach Done at all. `ship-feature` routes phase 6 to
+`test-campaign` where installed and sends a no-oracle requirement back to phase 6 rather than to
+gap-fix, which closes a different kind of gap. `ship-fleet` carries the oracle mix across the run
+and exports to the warrant once at the end.
+
+**What none of it fixes.** `C1` still bounds everything: no powered non-inferiority reader study
+exists for code review or UI acceptance, so there is no measured human baseline and no amount of
+test construction creates one. Tier 3 also stays out of reach in the near term — 200 items closed
+in a class with zero escapes over 90 days is a volume-and-time requirement, not an evidence one.
+These changes make tiers 1 and 2 earnable, which they previously were not.
+
+Analysis and the six proposals it came from: `docs/oracle-gap-warrant-test-campaign.md`.
 
 ### create-skill 1.3.1, create-mac-icon 1.4.1, stocktake 0.2.1: patch bumps the rename earned
 

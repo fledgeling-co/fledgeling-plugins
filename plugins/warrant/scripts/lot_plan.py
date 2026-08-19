@@ -21,6 +21,16 @@ to a bigger sample.
 p and alpha come from the signed warrant, not from a flag. `--rate` and
 `--risk-limit` exist for exploring a plan and both are reported as overrides, so a
 plan built on a weaker limit than the one signed cannot pass as the signed one.
+
+The suite is a precondition, not a detail. Every number this plan produces is a
+number about a sample of items whose evidence is the test suite, so the plan
+inherits that suite's fault sensitivity — and more than half of over 15,000
+generated mutants survived a passing unit, integration and system suite (`C18`).
+`warrant`'s stated order puts `assay` before any verdict for that reason. So a
+missing `.warrant/suite-health.json` exits 3 naming the step, and
+`--unmeasured-suite` proceeds while recording the omission in the plan, the same
+way `--rate` records an override. A plan built over an unmeasured suite cannot
+pass as one built over a measured one.
 """
 
 from __future__ import annotations
@@ -144,6 +154,23 @@ def extra(p: argparse.ArgumentParser) -> None:
                    help="override the warrant's tolerable error rate (reported as an override)")
     p.add_argument("--risk-limit", type=float, default=None,
                    help="override the warrant's risk limit (reported as an override)")
+    p.add_argument("--unmeasured-suite", action="store_true",
+                   help="plan without .warrant/suite-health.json; the omission is "
+                        "recorded in the plan and printed on every run")
+
+
+def read_suite_health(root: pathlib.Path) -> dict[str, object] | None:
+    """The assay plane's result, or None when it has never run.
+
+    Read rather than gated here: `main` decides what an absence costs, so the
+    shape of the file stays in one place. The keys mirror the ones
+    `charter_validate.py` accepts, so the two planes read one file the same way.
+    """
+    path = _state.state_dir(root) / "suite-health.json"
+    if not path.is_file():
+        return None
+    doc = _state.read_json(path, default=None)
+    return doc if isinstance(doc, dict) else None
 
 
 def _lot_size(args: argparse.Namespace) -> int | None:
@@ -200,11 +227,30 @@ def main(args: argparse.Namespace) -> int:
             return _cli.FAILED
     rate, alpha = float(rate), float(alpha)
 
+    suite = read_suite_health(root)
+    if suite is None and not args.unmeasured_suite:
+        _cli.say(args, "no .warrant/suite-health.json: the suite this lot's evidence "
+                       "rests on has never been measured")
+        _cli.say(args, "  run warrant:assay first — mutation survival over the tests CI "
+                       "actually selects, plus the cannot-fail scan")
+        _cli.say(args, "  more than half of over 15,000 generated mutants survived a "
+                       "passing suite (C18), so a green suite is not evidence until its "
+                       "fault sensitivity is a number")
+        _cli.say(args, "  --unmeasured-suite plans anyway and records the omission")
+        _cli.emit(args, {"ok": False, "reason": "no-suite-health",
+                         "expected": str(_state.state_dir(root) / "suite-health.json")})
+        return _cli.MISSING
+
     plan = build_plan(lot, rate, alpha)
     plan["lot_id"] = args.lot_id or f"lot-{lot}"
     plan["planned_at"] = _cli.now(args).isoformat()
     plan["warrant_version"] = warrant.get("version")
     plan["overrides"] = overrides
+    plan["suite_health"] = {
+        "measured": suite is not None,
+        "source": str(_state.state_dir(root) / "suite-health.json"),
+        "record": suite,
+    }
     census_classes = list(lot_block.get("census_classes", []))
     owner = warrant.get("owner", {}) if isinstance(warrant.get("owner"), dict) else {}
     escalation = f"{owner.get('name', '')} <{owner.get('email', '')}>".strip()
@@ -231,6 +277,25 @@ def main(args: argparse.Namespace) -> int:
                    "an intolerable lot)")
     for line in overrides:
         _cli.say(args, f"  OVERRIDE            {line}  (not the signed value)")
+    if suite is None:
+        _cli.say(args, "  UNMEASURED SUITE    no .warrant/suite-health.json; every number "
+                       "below inherits a fault sensitivity nobody has measured")
+    else:
+        bits = []
+        for label, key in (("green", "green"), ("armed", "armed_ratio"),
+                           ("effect-rung passes", "effect_rung_passes"),
+                           ("unoracled", "unoracled")):
+            value = suite.get(key)
+            if value is not None:
+                bits.append(f"{label}={value}")
+        _cli.say(args, "  suite health        " + ("  ".join(bits) or "recorded, no "
+                                                   "figures in it"))
+        if suite.get("mutation_measured") is False:
+            _cli.say(args, "                      mutation survival not measured — the "
+                           "sample's fault sensitivity rests on the armed ratio alone")
+        if suite.get("unoracled"):
+            _cli.say(args, f"                      {suite['unoracled']} case(s) unoracled "
+                           "upstream: those items have no property any check could read")
     if plan["census"]:
         detail = (f"n0 = {n0} of {lot}, which is every item"
                   if n0 is not None else
@@ -290,10 +355,12 @@ def _call(*argv: str) -> tuple[int, str, str]:
     return code, out.getvalue(), err.getvalue()
 
 
-def _root(tmp: pathlib.Path, name: str) -> pathlib.Path:
+def _root(tmp: pathlib.Path, name: str, suite: dict | None = None) -> pathlib.Path:
     root = tmp / name
     d = _state.state_dir(root, create=True)
     shutil.copy(FIXTURES / "warrant.valid.toml", d / "warrant.toml")
+    if suite is not None:
+        _state.write_json(d / "suite-health.json", suite)
     return root
 
 
@@ -310,10 +377,32 @@ def selftest() -> list[tuple[str, bool]]:
     cases: list[tuple[str, bool]] = []
     tmp = pathlib.Path(tempfile.mkdtemp(prefix="warrant-lot-plan-"))
     try:
-        root = _root(tmp, "repo")
+        root = _root(tmp, "repo", suite={"green": True, "score": 0.71})
         code, out, _ = _call("--root", str(root), "--lot", "194",
                              "--now", "2026-08-19T00:00:00+00:00")
         cases.append(("plans a lot of 194", code == _cli.OK))
+
+        # The assay precondition. A plan inherits the suite's fault sensitivity,
+        # so an unmeasured suite is a missing precondition rather than a detail.
+        bare = _root(tmp, "no-assay")
+        code_bare, out_bare, _ = _call("--root", str(bare), "--lot", "194")
+        cases.append(("an unmeasured suite refuses, and exits MISSING rather than "
+                      "FAILED", code_bare == _cli.MISSING))
+        cases.append(("the refusal names the step that would clear it",
+                      "warrant:assay" in out_bare))
+        code_ov, out_ov, _ = _call("--root", str(bare), "--lot", "194",
+                                   "--unmeasured-suite",
+                                   "--now", "2026-08-19T00:00:00+00:00")
+        cases.append(("--unmeasured-suite plans anyway", code_ov == _cli.OK))
+        cases.append(("and says so on the run itself",
+                      "UNMEASURED SUITE" in out_ov))
+        ov_plan = json.loads((_state.state_dir(bare) / "reports"
+                              / "2026-08-19-lot-plan.json").read_text())
+        cases.append(("the omission is recorded in the plan, not only printed",
+                      ov_plan["suite_health"]["measured"] is False))
+        cases.append(("a measured suite records its record in the plan",
+                      _state.read_json(_state.state_dir(root) / "suite-health.json",
+                                       default={}).get("green") is True))
         plan = build_plan(194, 0.05, 0.05)
         n0 = int(plan["initial_sample"])
         d = int(plan["intolerable_at"])

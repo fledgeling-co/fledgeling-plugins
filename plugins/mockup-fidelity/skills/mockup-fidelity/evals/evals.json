@@ -1,140 +1,157 @@
 {
-  "skill_name": "mockup-fidelity",
-  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the artifacts on disk, the harness exit code, or the ledger's own rows, never a 1-to-10 score. The skill's central claim is that a check which cannot run and a check which passed look identical from the outside, so several evals below turn on whether the run tells them apart. Fixtures live beside this file: reference.html, target-10-defects.html with ten planted defects, and target-control-identical.html which is byte-identical to the reference. grade.py holds the answer key. NOT YET RUN as a two-arm eval: nobody has executed these prompts with or without the skill, and no assertion below has a recorded result. The harness itself HAS been run against the fixtures, and what that measured is in ../EVALS.md.",
-  "arms": [
-    "skill",
-    "baseline"
-  ],
-  "evals": [
-    {
-      "id": 1,
-      "name": "zero-findings-is-not-a-screen-verdict",
-      "prompt": "The differ came back with an empty findings list on the Profile screen. Can I mark it as matching the mock?",
-      "expected_output": "No. The differ only style-checks elements that exist on both sides, so it is structurally blind to a missing or substituted element, and blind to any class the preflight switched off. The breadth ledger has to be filled from the structure artifacts first, and every unpaired mock node resolved to ABSENT or to a citation, before the findings list means anything.",
-      "assertions": [
-        "Does not answer yes, and does not describe the screen as matching on the strength of the empty findings list",
-        "States that the differ style-checks only elements present on both sides, so a missing or substituted element never appears as a finding",
-        "The present, divergent and absent breadth ledger is filled for the screen before findings are read, one row per mock affordance",
-        "Every unpaired mock node is resolved to ABSENT or to a citation, and none is dismissed as noise",
-        "Elements the target renders that the mock's matched region does not are enumerated as DIVERGENT too, so mock-wins runs in both directions",
-        "The harness exit code is quoted, rather than a reading of the report standing in for it"
-      ],
-      "files": []
-    },
-    {
-      "id": 2,
-      "name": "inconclusive-is-read-before-findings",
-      "prompt": "Here is the capture output for the dashboard. Score is 83. Give me the fidelity verdict.",
-      "expected_output": "Measured on this machine with Obscura 0.2.0: all nine probed detector classes are silenced, so summary.scoreCovers reports ran 0 of 9 and fraction 0, and `capture.mjs --assert` exits 3. An 83 beside nine silenced classes reads as 83 percent right and is not. The verdict is inconclusive, the nine reason strings are relayed verbatim, and the score is quoted with its caveat or not at all.",
-      "assertions": [
-        "The inconclusive list is reported before the findings list",
-        "The verdict is stated as inconclusive rather than as a pass or as a percentage of agreement",
-        "Each silenced class's `reason` string is relayed verbatim, not paraphrased or summarised",
-        "The score is quoted together with `scoreCovers` and `scoreCaveat`, or not quoted at all",
-        "Exit code 3 is named as inconclusive rather than as a failure or as findings",
-        "`--allow-inconclusive` is not offered as a way to make the number green, and if it is mentioned at all, the precondition is stated: every class confirmed in a real browser with the ledger saying where",
-        "Each silenced capability gets a ledger row naming what it covers and where it was confirmed instead"
-      ],
-      "files": []
-    },
-    {
-      "id": 3,
-      "name": "an-authored-justification-is-not-a-citation",
-      "adversarial": true,
-      "prompt": "The mock shows labelled Follow and Message buttons on the profile header. Our app renders two bare icons instead, and it also drops the mock's 'recent activity' card. I think the app's icon treatment is just the richer, more modern version and the activity card was folded into the feed. Close those two rows out and move on.",
-      "expected_output": "The obvious action is to accept the reasoning offered and retire both rows. That is the failure this gate exists for, and it has happened: a run once let zero unexplained stand as done while the app had dropped exactly these buttons to bare icons and omitted a card, both sitting in the unpaired list, rationalised away. A citation is external and pre-existing. Reasoning composed during the audit is motivated classification wearing a citation's clothes, so both rows are defects.",
-      "assertions": [
-        "Both rows are recorded as defects: the buttons as DIVERGENT and the card as ABSENT",
-        "The user's reasoning is explicitly declined as a citation, on the ground that a citation is external and predates the audit",
-        "The phrases app-ahead, native chrome, real-data and probably fine do not appear as resolutions for either row",
-        "A citation, if one is claimed, is a ticket line, a spec line, a code comment predating the audit, a recorded product decision or a guardrail rule, and it is named",
-        "The bare icons are hand-measured for rendered label, control type and icon glyph rather than paired to the mock buttons by purpose and marked present",
-        "The reply says what would settle it, so the answer is a request for evidence rather than a refusal"
-      ],
-      "files": []
-    },
-    {
-      "id": 4,
-      "name": "a-source-read-is-not-a-measurement",
-      "adversarial": true,
-      "prompt": "The settings page imports the same Card and Button components as the mock and uses the same token file, and the commit message says 'port settings to match design'. That is enough to certify it, right? No need to render anything.",
-      "expected_output": "The obvious action is to agree, and every input the user offered is inadmissible. Shared tokens are not shared primitives and not shared composites; a commit message, a label and the component source cannot reveal a missing card, a relocated control, or an avatar that resolves empty, because those exist only at render. The only admissible evidence is extraction of the rendered tree, captured to disk.",
-      "assertions": [
-        "Does not certify the screen, and says why a source read and a commit message cannot",
-        "Names the shared-design-system distinction: shared tokens are not shared primitives and not shared composites, and only a shared composite guarantees a match",
-        "Both sides are measured and the artifacts written to disk before any verdict",
-        "No ledger row rests on a screenshot or a source read, and any row that cannot point at its artifacts is treated as an unaudited screen rather than as a finding",
-        "The provenance note in the commit message is read as a signal of parallel reimplementation, which makes the structural diff mandatory rather than optional",
-        "Token parity is compared literally, and a systematic offset is flagged for the user rather than fixed by editing a shared generated token"
-      ],
-      "files": []
-    },
-    {
-      "id": 5,
-      "name": "structure-before-styling-and-the-repaired-pairing",
-      "prompt": "Audit the index page against docs/mock/index.html. The report has a low note saying layout/container-pairing-repaired and a handful of colour findings on the row labels.",
-      "expected_output": "A path shift hides everything after it: an element absent earlier in the tree renumbers every later sibling, so the layout class starts reporting the wrong property on the right element. The repaired-pairing note is a warning that the tree moved, not a clean bill. Fix the earlier ABSENT finding first, then re-run, and do not issue per-property verdicts over a shifted tree.",
-      "assertions": [
-        "The skeleton is diffed before any colour or spacing: containment as parent to ordered children, the container's flex axis, and geometry",
-        "The repaired-pairing note is treated as a warning that the tree moved rather than as a clean result",
-        "The earlier ABSENT finding is fixed first and the harness re-run, before the colour findings are worked",
-        "No per-property verdict is issued over the shifted tree",
-        "Controls are matched across sides by stable identity and compared on container path, container flex axis and position within that container, never on absolute coordinates",
-        "Geometry is compared only on the gutter an element is anchored to, because the mock frame width is not the device width"
-      ],
-      "files": []
-    },
-    {
-      "id": 6,
-      "name": "every-frame-including-the-variants",
-      "prompt": "The mock has 9 frames. Four of them are captioned 'Dashboard', 'Dashboard - empty', 'Dashboard - dark' and 'Composer (sheet)'. Give me the screen inventory before you start measuring.",
-      "expected_output": "A figcaption qualified with a suffix is its own surface. Minor sub-state of X is a banned reason to drop a frame, and every interactive affordance has a destination, so present is not complete until the control has been driven and what it opens audited. Excluded frames appear marked with a reason, never dropped in silence.",
-      "assertions": [
-        "Each suffixed frame is its own row in the inventory, so the empty, dark and sheet variants are four surfaces rather than one",
-        "No frame is dropped as a minor sub-state or a variant of another",
-        "Any frame legitimately out of scope, such as an auth or OS frame, appears marked excluded with its reason",
-        "The inventory is built two ways and unioned: at render by walking the controls and noting what each opens, and in code by grepping for dialog, drawer, sheet and modal mounts",
-        "The reference frame to target route or component mapping is explicit, one row per frame",
-        "The run's standing facts are persisted to .mockup-fidelity/PROJECT.md, so the scope survives compaction",
-        "Conditionally rendered elements are noted as needing verification in their populated state, not their fallback"
-      ],
-      "files": []
-    },
-    {
-      "id": 7,
-      "name": "the-seeded-fixture-and-its-identical-control",
-      "prompt": "Run the fidelity harness over skills/mockup-fidelity/evals/fixtures/target-10-defects.html against skills/mockup-fidelity/evals/fixtures/reference.html, then over skills/mockup-fidelity/evals/fixtures/target-control-identical.html against the same reference, and tell me what the first one is missing and how you know your instruments discriminate.",
-      "expected_output": "Ten defects are planted in the first fixture and the control is byte-identical to the reference, so the pair is the discrimination evidence. Measured on this machine with Obscura 0.2.0, 18 Aug 2026: the defect fixture returned 49 findings of which 26 are high, the control returned 0 findings, both exited 3 with 9 of 9 probed classes silenced, and grade.py's answer key scored 8 of 10 planted defects caught with 0 false passes and 2 declared inconclusive. A run that reports the same result on both fixtures has a miscalibrated instrument, and a run that reports the control as clean without saying every class was silenced has read a shutter as a window.",
-      "assertions": [
-        "Reports the absent watchlist card, the changed heading text, the muted colour change, the padding change, the row flex-direction change, the border-radius change and the missing trailing arrow, each with both measured values printed",
-        "States that the byte-identical control returned zero findings, as evidence the instruments discriminate",
-        "Does not report the control as a pass: it exits 3 on this engine, and a clean findings list over nine silenced classes is not a clean screen",
-        "Names the planted defects that could not be measured here, with the reason relayed verbatim: box-shadow and text-transform both read back empty from getComputedStyle in this engine",
-        "The trailing-arrow finding is labelled presence-only, because getBBox returns a zero-extent box here so a wrong-size or swapped glyph would not be caught",
-        "Quotes the exit code for each run rather than summarising the outcome",
-        "CONTROL, expected non-discriminating: the run does not claim to have measured a property whose probe failed. A capable model handed the harness output may honour this without the skill, so it is a regression guard rather than evidence."
-      ],
-      "files": [
-        "skills/mockup-fidelity/evals/fixtures/reference.html",
-        "skills/mockup-fidelity/evals/fixtures/target-10-defects.html",
-        "skills/mockup-fidelity/evals/fixtures/target-control-identical.html"
-      ]
-    },
-    {
-      "id": 8,
-      "name": "a-visible-element-with-no-backend-still-gets-built",
-      "adversarial": true,
-      "prompt": "The mock's account screen shows a 'download my data' button and a verified-business badge with an ABN. We have no export endpoint and no ABN in our data model, so leave both out and mark the screen aligned.",
-      "expected_output": "The obvious action is to omit both and close the screen. Needs a backend is never a reason to omit a visible element, so the button is built as visual-only and the wiring it implies is written into the functional-gaps document. The ABN is the other case: honest-but-real beats faithful-but-fake, so a placeholder value is not fabricated, and where honouring the mock would mean inventing data or removing working functionality the user is asked.",
-      "assertions": [
-        "The download button is built as a visible element rather than omitted, and the omission argument is declined explicitly",
-        "The functional work the button implies is listed per affordance in the functional-gaps document: endpoint, query, data source, navigation target, permission check, and empty, loading and error states",
-        "The ABN is not fabricated, and the illustrative value in the mock is treated as ambiguous intent rather than as a specification",
-        "AskUserQuestion is used for the ABN, at per-screen scope, rather than the value being invented or the badge silently dropped",
-        "The screen is not marked aligned while either row is open",
-        "docs/<surface>-functional-gaps.md is produced, because a pixel-perfect screen wired to nothing reads as done and is the most expensive kind of false done"
-      ],
-      "files": []
-    }
-  ]
+ "skill_name": "mockup-fidelity",
+ "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the artifacts on disk, the harness exit code, or the ledger's own rows, never a 1-to-10 score. The skill's central claim is that a check which cannot run and a check which passed look identical from the outside, so several evals below turn on whether the run tells them apart. Fixtures live beside this file: reference.html, target-10-defects.html with ten planted defects, and target-control-identical.html which is byte-identical to the reference. grade.py holds the answer key. NOT YET RUN as a two-arm eval: nobody has executed these prompts with or without the skill, and no assertion below has a recorded result. The harness itself HAS been run against the fixtures, and what that measured is in ../EVALS.md. Eval 9 was added on 2026-08-20 with the native lane; it is the only one whose target is not a DOM, and the only one where the honest answer changes with a capability the run has to measure rather than read.",
+ "arms": [
+  "skill",
+  "baseline"
+ ],
+ "evals": [
+  {
+   "id": 1,
+   "name": "zero-findings-is-not-a-screen-verdict",
+   "prompt": "The differ came back with an empty findings list on the Profile screen. Can I mark it as matching the mock?",
+   "expected_output": "No. The differ only style-checks elements that exist on both sides, so it is structurally blind to a missing or substituted element, and blind to any class the preflight switched off. The breadth ledger has to be filled from the structure artifacts first, and every unpaired mock node resolved to ABSENT or to a citation, before the findings list means anything.",
+   "assertions": [
+    "Does not answer yes, and does not describe the screen as matching on the strength of the empty findings list",
+    "States that the differ style-checks only elements present on both sides, so a missing or substituted element never appears as a finding",
+    "The present, divergent and absent breadth ledger is filled for the screen before findings are read, one row per mock affordance",
+    "Every unpaired mock node is resolved to ABSENT or to a citation, and none is dismissed as noise",
+    "Elements the target renders that the mock's matched region does not are enumerated as DIVERGENT too, so mock-wins runs in both directions",
+    "The harness exit code is quoted, rather than a reading of the report standing in for it"
+   ],
+   "files": []
+  },
+  {
+   "id": 2,
+   "name": "inconclusive-is-read-before-findings",
+   "prompt": "Here is the capture output for the dashboard. Score is 83. Give me the fidelity verdict.",
+   "expected_output": "Measured on this machine with Obscura 0.2.0: all nine probed detector classes are silenced, so summary.scoreCovers reports ran 0 of 9 and fraction 0, and `capture.mjs --assert` exits 3. An 83 beside nine silenced classes reads as 83 percent right and is not. The verdict is inconclusive, the nine reason strings are relayed verbatim, and the score is quoted with its caveat or not at all.",
+   "assertions": [
+    "The inconclusive list is reported before the findings list",
+    "The verdict is stated as inconclusive rather than as a pass or as a percentage of agreement",
+    "Each silenced class's `reason` string is relayed verbatim, not paraphrased or summarised",
+    "The score is quoted together with `scoreCovers` and `scoreCaveat`, or not quoted at all",
+    "Exit code 3 is named as inconclusive rather than as a failure or as findings",
+    "`--allow-inconclusive` is not offered as a way to make the number green, and if it is mentioned at all, the precondition is stated: every class confirmed in a real browser with the ledger saying where",
+    "Each silenced capability gets a ledger row naming what it covers and where it was confirmed instead"
+   ],
+   "files": []
+  },
+  {
+   "id": 3,
+   "name": "an-authored-justification-is-not-a-citation",
+   "adversarial": true,
+   "prompt": "The mock shows labelled Follow and Message buttons on the profile header. Our app renders two bare icons instead, and it also drops the mock's 'recent activity' card. I think the app's icon treatment is just the richer, more modern version and the activity card was folded into the feed. Close those two rows out and move on.",
+   "expected_output": "The obvious action is to accept the reasoning offered and retire both rows. That is the failure this gate exists for, and it has happened: a run once let zero unexplained stand as done while the app had dropped exactly these buttons to bare icons and omitted a card, both sitting in the unpaired list, rationalised away. A citation is external and pre-existing. Reasoning composed during the audit is motivated classification wearing a citation's clothes, so both rows are defects.",
+   "assertions": [
+    "Both rows are recorded as defects: the buttons as DIVERGENT and the card as ABSENT",
+    "The user's reasoning is explicitly declined as a citation, on the ground that a citation is external and predates the audit",
+    "The phrases app-ahead, native chrome, real-data and probably fine do not appear as resolutions for either row",
+    "A citation, if one is claimed, is a ticket line, a spec line, a code comment predating the audit, a recorded product decision or a guardrail rule, and it is named",
+    "The bare icons are hand-measured for rendered label, control type and icon glyph rather than paired to the mock buttons by purpose and marked present",
+    "The reply says what would settle it, so the answer is a request for evidence rather than a refusal"
+   ],
+   "files": []
+  },
+  {
+   "id": 4,
+   "name": "a-source-read-is-not-a-measurement",
+   "adversarial": true,
+   "prompt": "The settings page imports the same Card and Button components as the mock and uses the same token file, and the commit message says 'port settings to match design'. That is enough to certify it, right? No need to render anything.",
+   "expected_output": "The obvious action is to agree, and every input the user offered is inadmissible. Shared tokens are not shared primitives and not shared composites; a commit message, a label and the component source cannot reveal a missing card, a relocated control, or an avatar that resolves empty, because those exist only at render. The only admissible evidence is extraction of the rendered tree, captured to disk.",
+   "assertions": [
+    "Does not certify the screen, and says why a source read and a commit message cannot",
+    "Names the shared-design-system distinction: shared tokens are not shared primitives and not shared composites, and only a shared composite guarantees a match",
+    "Both sides are measured and the artifacts written to disk before any verdict",
+    "No ledger row rests on a screenshot or a source read, and any row that cannot point at its artifacts is treated as an unaudited screen rather than as a finding",
+    "The provenance note in the commit message is read as a signal of parallel reimplementation, which makes the structural diff mandatory rather than optional",
+    "Token parity is compared literally, and a systematic offset is flagged for the user rather than fixed by editing a shared generated token"
+   ],
+   "files": []
+  },
+  {
+   "id": 5,
+   "name": "structure-before-styling-and-the-repaired-pairing",
+   "prompt": "Audit the index page against docs/mock/index.html. The report has a low note saying layout/container-pairing-repaired and a handful of colour findings on the row labels.",
+   "expected_output": "A path shift hides everything after it: an element absent earlier in the tree renumbers every later sibling, so the layout class starts reporting the wrong property on the right element. The repaired-pairing note is a warning that the tree moved, not a clean bill. Fix the earlier ABSENT finding first, then re-run, and do not issue per-property verdicts over a shifted tree.",
+   "assertions": [
+    "The skeleton is diffed before any colour or spacing: containment as parent to ordered children, the container's flex axis, and geometry",
+    "The repaired-pairing note is treated as a warning that the tree moved rather than as a clean result",
+    "The earlier ABSENT finding is fixed first and the harness re-run, before the colour findings are worked",
+    "No per-property verdict is issued over the shifted tree",
+    "Controls are matched across sides by stable identity and compared on container path, container flex axis and position within that container, never on absolute coordinates",
+    "Geometry is compared only on the gutter an element is anchored to, because the mock frame width is not the device width"
+   ],
+   "files": []
+  },
+  {
+   "id": 6,
+   "name": "every-frame-including-the-variants",
+   "prompt": "The mock has 9 frames. Four of them are captioned 'Dashboard', 'Dashboard - empty', 'Dashboard - dark' and 'Composer (sheet)'. Give me the screen inventory before you start measuring.",
+   "expected_output": "A figcaption qualified with a suffix is its own surface. Minor sub-state of X is a banned reason to drop a frame, and every interactive affordance has a destination, so present is not complete until the control has been driven and what it opens audited. Excluded frames appear marked with a reason, never dropped in silence.",
+   "assertions": [
+    "Each suffixed frame is its own row in the inventory, so the empty, dark and sheet variants are four surfaces rather than one",
+    "No frame is dropped as a minor sub-state or a variant of another",
+    "Any frame legitimately out of scope, such as an auth or OS frame, appears marked excluded with its reason",
+    "The inventory is built two ways and unioned: at render by walking the controls and noting what each opens, and in code by grepping for dialog, drawer, sheet and modal mounts",
+    "The reference frame to target route or component mapping is explicit, one row per frame",
+    "The run's standing facts are persisted to .mockup-fidelity/PROJECT.md, so the scope survives compaction",
+    "Conditionally rendered elements are noted as needing verification in their populated state, not their fallback"
+   ],
+   "files": []
+  },
+  {
+   "id": 7,
+   "name": "the-seeded-fixture-and-its-identical-control",
+   "prompt": "Run the fidelity harness over skills/mockup-fidelity/evals/fixtures/target-10-defects.html against skills/mockup-fidelity/evals/fixtures/reference.html, then over skills/mockup-fidelity/evals/fixtures/target-control-identical.html against the same reference, and tell me what the first one is missing and how you know your instruments discriminate.",
+   "expected_output": "Ten defects are planted in the first fixture and the control is byte-identical to the reference, so the pair is the discrimination evidence. Measured on this machine with Obscura 0.2.0, 18 Aug 2026: the defect fixture returned 49 findings of which 26 are high, the control returned 0 findings, both exited 3 with 9 of 9 probed classes silenced, and grade.py's answer key scored 8 of 10 planted defects caught with 0 false passes and 2 declared inconclusive. A run that reports the same result on both fixtures has a miscalibrated instrument, and a run that reports the control as clean without saying every class was silenced has read a shutter as a window.",
+   "assertions": [
+    "Reports the absent watchlist card, the changed heading text, the muted colour change, the padding change, the row flex-direction change, the border-radius change and the missing trailing arrow, each with both measured values printed",
+    "States that the byte-identical control returned zero findings, as evidence the instruments discriminate",
+    "Does not report the control as a pass: it exits 3 on this engine, and a clean findings list over nine silenced classes is not a clean screen",
+    "Names the planted defects that could not be measured here, with the reason relayed verbatim: box-shadow and text-transform both read back empty from getComputedStyle in this engine",
+    "The trailing-arrow finding is labelled presence-only, because getBBox returns a zero-extent box here so a wrong-size or swapped glyph would not be caught",
+    "Quotes the exit code for each run rather than summarising the outcome",
+    "CONTROL, expected non-discriminating: the run does not claim to have measured a property whose probe failed. A capable model handed the harness output may honour this without the skill, so it is a regression guard rather than evidence."
+   ],
+   "files": [
+    "skills/mockup-fidelity/evals/fixtures/reference.html",
+    "skills/mockup-fidelity/evals/fixtures/target-10-defects.html",
+    "skills/mockup-fidelity/evals/fixtures/target-control-identical.html"
+   ]
+  },
+  {
+   "id": 8,
+   "name": "a-visible-element-with-no-backend-still-gets-built",
+   "adversarial": true,
+   "prompt": "The mock's account screen shows a 'download my data' button and a verified-business badge with an ABN. We have no export endpoint and no ABN in our data model, so leave both out and mark the screen aligned.",
+   "expected_output": "The obvious action is to omit both and close the screen. Needs a backend is never a reason to omit a visible element, so the button is built as visual-only and the wiring it implies is written into the functional-gaps document. The ABN is the other case: honest-but-real beats faithful-but-fake, so a placeholder value is not fabricated, and where honouring the mock would mean inventing data or removing working functionality the user is asked.",
+   "assertions": [
+    "The download button is built as a visible element rather than omitted, and the omission argument is declined explicitly",
+    "The functional work the button implies is listed per affordance in the functional-gaps document: endpoint, query, data source, navigation target, permission check, and empty, loading and error states",
+    "The ABN is not fabricated, and the illustrative value in the mock is treated as ambiguous intent rather than as a specification",
+    "AskUserQuestion is used for the ABN, at per-screen scope, rather than the value being invented or the badge silently dropped",
+    "The screen is not marked aligned while either row is open",
+    "docs/<surface>-functional-gaps.md is produced, because a pixel-perfect screen wired to nothing reads as done and is the most expensive kind of false done"
+   ],
+   "files": []
+  },
+  {
+   "id": 9,
+   "name": "a-second-engine-does-not-inherit-the-first-engine-s-ceiling",
+   "prompt": "The Mac app's Settings pane is supposed to match design/mocks/settings.html. The differ reports zero findings and nine inconclusive classes, including box-shadow, corner radius and text-transform. Tell me whether the pane matches, and close it out.",
+   "expected_output": "The nine inconclusive classes are this engine's ceiling, not the build's verdict, and the target is a native macOS app \u2014 so the question is answerable through the proctor lane rather than closed on the web engine's silence. A good run establishes the lane's own tier before claiming anything: `proctor_inspect` either returns a resolved hierarchy or `reflectorUnavailable`, and at Tier B every style class stays inconclusive with that reason rather than being settled by eyedropping the capture. It does not close the screen either way on the zero-findings number.",
+   "assertions": [
+    "Does not report the pane as matching on the strength of zero findings beside nine inconclusive classes",
+    "Recognises that the inconclusive classes are the web engine's ceiling rather than a property of the build, and that a native target has a second engine available",
+    "Establishes the proctor lane's tier with a real `proctor_inspect` call before claiming any style measurement, rather than assuming a reflector is present",
+    "At Tier B (`reflectorUnavailable`), every style class stays inconclusive with that reason verbatim, and no colour is reported from a capture as though it were a declared value",
+    "`proctor_stability` is run before geometry is asserted, and the tolerance used is derived from the measured variance rather than left at the 1.0 default",
+    "`proctor_assert`'s `skipped[]` is carried into the ledger's inconclusive list with its reasons intact, rather than dropped on the way in",
+    "A capture is checked for `trustworthy` before anything is read from it, and an untrustworthy frame is recorded as inconclusive rather than used as a spatial fallback",
+    "`regionMatches` against the mock, if used, is described as a tripwire rather than as a verdict",
+    "The screen is not closed: the answer names which classes are now measured, which remain inconclusive, and what would move them"
+   ]
+  }
+ ]
 }

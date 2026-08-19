@@ -220,6 +220,224 @@ p.write_text(json.dumps(cases, indent=2))
 PY
 expect "interactive-glass on glass lane clears and counts as effect" 0 "$IG" "Every case accounted for"
 
+# ── --cannot-attach is for a leftover structural block, not a missing build ──
+# Both directions: a reason that describes an unbuilt artifact is refused, a
+# reason that names a host that cannot draw is recorded. The skill's own
+# standing rule is that a check nobody has watched fail is not known to bite.
+lane_out() {
+  python3 "$S/campaign.py" lane "$@" 2>&1
+}
+
+B="$WORK/buildfirst"
+python3 "$S/campaign.py" init "$B" --project BuildFirst --lanes macos-glass >/dev/null
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "no signed app is on disk")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "--cannot-attach refused" <<<"$out" && grep -qF -- "missing build" <<<"$out"; then
+  say "ok    cannot-attach for a missing signed app is refused"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach 'no signed app is on disk' should be refused (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "glass stays closed")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "--cannot-attach refused" <<<"$out"; then
+  say "ok    cannot-attach 'glass stays closed' is refused"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach 'glass stays closed' should be refused (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --artifact "$B/missing.app" --built-by "xcodebuild -scheme App" --attached "pid 1")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "does not exist" <<<"$out" && grep -qF -- "Build it" <<<"$out"; then
+  say "ok    a missing --artifact path tells you to build it"; PASS=$((PASS+1))
+else
+  echo "FAIL  a missing --artifact should tell you to build it (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "no Windows host with an interactive desktop is reachable")"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "NOT attached" <<<"$out"; then
+  say "ok    cannot-attach for a missing interactive desktop is recorded"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach for a missing interactive desktop should record (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# ── capture lineage: a picture must prove what it depicts ──────────────────
+#
+# The gate this section exercises exists because a campaign published 20 captures
+# of three unrelated documents and cleared every other gate here. Both directions
+# are asserted, and the seeded swap is asserted too — a tie pass that cannot be
+# watched to fail is indistinguishable from one that does nothing.
+
+cl() { python3 "$S/capture-lineage.py" "$@" 2>&1; }
+
+L="$WORK/lineage"
+mkdir -p "$L/evidence/shots"
+png "$L/evidence/shots/SURF-001.png" 40 30 200 30 30
+png "$L/evidence/shots/SURF-002.png" 40 30 30 200 30
+cat >"$L/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"Dashboard","route":"/dashboard","shot":"evidence/shots/SURF-001.png"},
+ {"id":"SURF-002","name":"Settings","route":"/settings","shot":"evidence/shots/SURF-002.png"}]}
+JSON
+
+# no manifest at all — the measured failure's exact shape
+out="$(cl "$L" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "no entry in evidence/shots/captures.json" <<<"$out"; then
+  say "ok    a shot with no capture manifest is unsourced"; PASS=$((PASS+1))
+else
+  echo "FAIL  a shot with no manifest should be unsourced (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+manifest() { # manifest <target-001> <target-002>
+  python3 - "$L" "$1" "$2" <<'PY'
+import hashlib, json, pathlib, sys
+d, t1, t2 = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]
+def sha(rel): return hashlib.sha256((d / rel).read_bytes()).hexdigest()
+rows = []
+for sid, tgt in (("SURF-001", t1), ("SURF-002", t2)):
+    rel = f"evidence/shots/{sid}.png"
+    rows.append({"path": rel, "subject": sid, "target": tgt, "channel": "playwright/chromium",
+                 "derivedFrom": None, "sha256": sha(rel), "capturedAt": "2026-08-20T08:00:00Z",
+                 "conditions": {"viewport": [1440, 900], "dpr": 2, "settleMs": 1200}})
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PY
+}
+
+manifest "http://127.0.0.1:3000/dashboard" "http://127.0.0.1:3000/settings"
+out="$(cl "$L" --gate)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "names a target that ties to its subject" <<<"$out"; then
+  say "ok    a manifest naming each target clears"; PASS=$((PASS+1))
+else
+  echo "FAIL  a correct manifest should clear (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# the seeded swap must be caught — this is the gate watched to fail
+out="$(cl "$L" --seed-swap SURF-001,SURF-002)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "seed-swap CAUGHT" <<<"$out"; then
+  say "ok    swapping two subjects turns the tie pass red"; PASS=$((PASS+1))
+else
+  echo "FAIL  a seeded swap must be caught (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+if grep -qF '"target": "http://127.0.0.1:3000/dashboard"' "$L/evidence/shots/captures.json"; then
+  say "ok    seed-swap restores the manifest it borrowed"; PASS=$((PASS+1))
+else
+  echo "FAIL  seed-swap left the manifest swapped"; FAIL=$((FAIL+1))
+fi
+
+# a target pointing somewhere else entirely
+manifest "http://127.0.0.1:3000/dashboard" "file:///tmp/whats-left.html"
+out="$(cl "$L" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "does not resolve to route" <<<"$out"; then
+  say "ok    a target that is not the subject's route is untied"; PASS=$((PASS+1))
+else
+  echo "FAIL  a wrong target should be untied (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# a source-file route cannot be photographed by a browser, and says why
+python3 - "$L" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); inv = json.loads((d / "inventory.json").read_text())
+inv["surface"][1]["route"] = "apps/macos/Sources/AppMain/MixerHostView.swift"
+(d / "inventory.json").write_text(json.dumps(inv, indent=1) + "\n")
+PY
+out="$(cl "$L" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "no capture channel can photograph one" <<<"$out"; then
+  say "ok    a source-file route names the on-glass channel as the remedy"; PASS=$((PASS+1))
+else
+  echo "FAIL  a source-file route should name the channel problem (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# two subjects, one image
+D="$WORK/lineage-dup"
+mkdir -p "$D/evidence/shots"
+png "$D/evidence/shots/SURF-001.png" 40 30 7 7 7
+cp "$D/evidence/shots/SURF-001.png" "$D/evidence/shots/SURF-002.png"
+cat >"$D/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"A","route":"/a","shot":"evidence/shots/SURF-001.png"},
+ {"id":"SURF-002","name":"B","route":"/b","shot":"evidence/shots/SURF-002.png"}]}
+JSON
+python3 - "$D" <<'PY'
+import hashlib, json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); rows = []
+for sid, tgt in (("SURF-001", "http://h/a"), ("SURF-002", "http://h/b")):
+    rel = f"evidence/shots/{sid}.png"
+    rows.append({"path": rel, "subject": sid, "target": tgt, "channel": "playwright/chromium",
+                 "sha256": hashlib.sha256((d / rel).read_bytes()).hexdigest()})
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PY
+out="$(cl "$D" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "subjects share one image" <<<"$out"; then
+  say "ok    two subjects sharing one image fails"; PASS=$((PASS+1))
+else
+  echo "FAIL  a shared image should fail (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# ...unless the share is declared with a reason
+python3 - "$D" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); p = d / "evidence/shots/captures.json"
+rows = json.loads(p.read_text())
+rows[0]["sharesWith"] = ["SURF-002"]; rows[0]["shareReason"] = "one window serves both"
+rows[1]["sharesWith"] = ["SURF-001"]; rows[1]["shareReason"] = "one window serves both"
+p.write_text(json.dumps(rows, indent=1) + "\n")
+PY
+out="$(cl "$D" --gate)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "declared share" <<<"$out"; then
+  say "ok    a declared share passes and prints"; PASS=$((PASS+1))
+else
+  echo "FAIL  a declared share should pass (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# ── the published-shot audit inside campaign.py check ──────────────────────
+out="$(python3 "$S/campaign.py" check "$D" 2>&1)"
+if grep -qF -- "Wall:" <<<"$out"; then
+  say "ok    check reports the wall's distinct-image count"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should report the wall's distinct images"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# ── attach-shots refuses an uncorroborated write ───────────────────────────
+A2="$WORK/attach"
+mkdir -p "$A2/evidence/shots"
+png "$A2/evidence/shots/SURF-001.png" 20 20 1 2 3
+echo '{"requirement":[],"component":[],"flow":[],"surface":[{"id":"SURF-001","name":"A","route":"/a"}]}' >"$A2/inventory.json"
+out="$(python3 "$S/attach-shots.py" "$A2" --apply 2>&1)"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "REFUSED to write" <<<"$out"; then
+  say "ok    attach-shots refuses a write no capture manifest corroborates"; PASS=$((PASS+1))
+else
+  echo "FAIL  attach-shots should refuse an uncorroborated write (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/attach-shots.py" "$A2" --apply --filename-only 2>&1)"; rc=$?
+if grep -qF -- "wrote" <<<"$out" && grep -qF '"shotProvenance": "filename"' "$A2/inventory.json"; then
+  say "ok    --filename-only writes, and stamps the weakness into the inventory"; PASS=$((PASS+1))
+else
+  echo "FAIL  --filename-only should write and stamp provenance (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" check "$A2" 2>&1)"
+if grep -qF -- "bound to their subject by filename alone" <<<"$out"; then
+  say "ok    check blocks on a filename-only binding"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should block on filename-only bindings"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

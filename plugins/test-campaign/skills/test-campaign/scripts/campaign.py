@@ -53,6 +53,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -80,12 +81,24 @@ CARRIED = "unselected"
 #   n/a           the lane structurally cannot support this check, ever
 #   skip          this case should not run
 #   inconclusive  it was attempted and the instrument could not measure it
+#   unoracled     no property is specified that any check could read
 #   blocked       the thing under test never ran, so nothing downstream is valid
 #
-# n/a and skip are decisions. inconclusive and blocked are unfinished business,
-# so they hold the gate shut while still being counted and explained rather
-# than sitting in the report as an unexplained dash. See references/on-glass.md.
-UNRESOLVED_REASONED = ("inconclusive", "blocked")
+# `unoracled` is split from `inconclusive` because the two have opposite
+# remedies and one word was sending both to the wrong place. `inconclusive`
+# is an instrument problem: a property exists and the measurement failed, so
+# the fix is a better instrument. `unoracled` is a specification problem:
+# nothing was ever named that a check could read, so no instrument will help
+# and the fix is to construct an oracle. A verification pipeline reading one
+# status cannot tell "nobody looked" from "there is nothing to look at", and
+# the second is the one that needs a test written before any authority can
+# close it. See references/oracle-construction.md.
+#
+# n/a and skip are decisions. inconclusive, unoracled and blocked are
+# unfinished business, so they hold the gate shut while still being counted and
+# explained rather than sitting in the report as an unexplained dash. See
+# references/on-glass.md.
+UNRESOLVED_REASONED = ("inconclusive", "unoracled", "blocked")
 
 # What a case actually checks, weakest first. The rung is a field rather than a
 # judgement because UI suites execute behaviour far more often than they assert
@@ -120,6 +133,38 @@ RASTER_RUNGS = ("raster-visual",)
 # and it is the one claim a campaign can make that nothing else can check for
 # it, so the lane carries the burden of proving it. See `cmd_lane`.
 GLASS_SUFFIX = "-glass"
+
+# `--cannot-attach` is for a structural block that survives a successful
+# build (no interactive desktop, no signing identity, Session 0). A reason
+# that describes a missing binary is a build job, and recording it as a
+# finished limit is how a campaign once left glass closed while the source
+# sat unbuilt. See references/on-glass.md §2.
+BUILDABLE_GAP_RE = re.compile(
+    r"(?is)("
+    r"\bnot (?:on disk|built|compiled|yet built)\b|"
+    r"\bnever (?:been )?(?:built|compiled|signed)\b|"
+    r"\bno (?:signed )?(?:app|binary|artifact|bundle|ipa|apk|exe)\b|"
+    r"\bmissing (?:app|artifact|binary|bundle|ipa|apk)\b|"
+    r"\bsource (?:only|authored)\b|"
+    r"\bglass stays closed\b|"
+    r"\bnot yet (?:built|compiled|signed)\b"
+    r")"
+)
+
+
+def refuse_buildable_cannot_attach(reason: str) -> None:
+    """Exit if `--cannot-attach` is being used to skip a missing build."""
+    if BUILDABLE_GAP_RE.search(reason or ""):
+        sys.exit(
+            f"--cannot-attach refused: {reason!r} describes a missing "
+            f"build, not a structural block. Build the artifact with the "
+            f"project's documented command, launch it, and record "
+            f"--artifact / --built-by / --attached. Use --cannot-attach "
+            f"only when a structural block remains after that build "
+            f"(no interactive desktop, no signing identity in the "
+            f"keychain, Session 0, a display server this host cannot "
+            f"reach)."
+        )
 
 # Raster magic numbers, so "is this actually an image" is read from the bytes
 # rather than trusted from the extension. A .png written by a failed capture is
@@ -368,10 +413,12 @@ def cmd_lane(args) -> int:
       --attached    what proved a process from that artifact reached a display
                     server — a window id, a pid owning a window, a frame status
 
-    `--cannot-attach` is the honest alternative and is not a failure of
-    diligence: it records the lane as unreachable with a structural reason, and
-    its cases then resolve to `blocked: <reason>` rather than to a pass nobody
-    could have earned.
+    `--cannot-attach` is for a structural block that survives a successful
+    build: no interactive desktop, no signing identity, Session 0, a display
+    server this host cannot reach. A missing binary is not that block — build
+    it, then attach. The command refuses a cannot-attach reason that describes
+    a missing build, so a campaign cannot record glass as finished while the
+    source sits unbuilt.
     """
     d = Path(args.dir).resolve()
     campaign = load(d, "campaign", {})
@@ -379,12 +426,14 @@ def cmd_lane(args) -> int:
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     if args.cannot_attach:
+        refuse_buildable_cannot_attach(args.cannot_attach)
         lanes[args.lane] = {"attached": False, "reason": args.cannot_attach,
                             "declaredAt": now}
         save(d, "campaign", campaign)
         print(f"{args.lane}: NOT attached — {args.cannot_attach}")
         print("Its cases resolve to `blocked: <reason>`. A lane that never ran "
-              "cannot hold a pass.")
+              "cannot hold a pass. This is a structural limit, not a missing "
+              "build.")
         return 0
 
     missing = [f for f, v in (("--artifact", args.artifact),
@@ -392,14 +441,19 @@ def cmd_lane(args) -> int:
                               ("--attached", args.attached)) if not v]
     if missing:
         sys.exit(f"A lane claiming on-glass verification needs {', '.join(missing)}. "
-                 f"Use --cannot-attach '<reason>' if it genuinely could not be "
-                 f"reached; that is a recorded limit, not a failure.")
+                 f"If the artifact is not on disk, build it with the project's "
+                 f"documented command and re-run with --artifact / --built-by / "
+                 f"--attached. Use --cannot-attach only for a structural block "
+                 f"that remains after that build (no interactive desktop, no "
+                 f"signing identity, Session 0).")
 
     artifact = Path(args.artifact)
     if not artifact.exists():
-        sys.exit(f"--artifact {artifact} does not exist. This is the failure the "
-                 f"command is for: source that was authored and never built "
-                 f"cannot carry a case, and its absence is checkable.")
+        sys.exit(f"--artifact {artifact} does not exist. Build it with "
+                 f"{args.built_by!r}, then re-run this command with the same "
+                 f"path. --cannot-attach is for a structural block (no "
+                 f"interactive desktop, no signing identity), not for a binary "
+                 f"that has not been compiled yet.")
 
     lanes[args.lane] = {
         "attached": True,
@@ -522,7 +576,7 @@ def audit(d: Path) -> dict:
             orphans.append(c["id"])
 
     counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0,
-              "inconclusive": 0, "blocked": 0, "open": 0}
+              "inconclusive": 0, "unoracled": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
     carried_unbased = []
     legacy_rung, bad_raster, unwitnessed_raster = [], [], []
@@ -587,6 +641,36 @@ def audit(d: Path) -> dict:
                     f"pixels came off a display server")
 
     duplicate_artifacts = {h: ids for h, ids in seen_artifacts.items() if len(ids) > 1}
+
+    # THE PUBLISHED SHOTS, WHICH ARE THE PART PEOPLE LOOK AT.
+    #
+    # Everything above audits case evidence on the raster rungs. The evidence
+    # page renders a different set: the `shot` field on each surface and each
+    # flow step. Measured 20 Aug 2026: a campaign passed every check here while
+    # 20 published shots showed three unrelated documents and 20 files held six
+    # distinct images — because no rule in this function had ever read a `shot`.
+    # Provenance is `capture-lineage.py`'s job; what is decidable from the bytes
+    # is decided here, where the rest of the artifact rules already live.
+    published_shots: dict[str, str] = {}
+    for srec in inventory.get("surface", []):
+        if srec.get("shot"):
+            published_shots[srec["id"]] = srec["shot"]
+    for frec in inventory.get("flow", []):
+        for step in frec.get("steps", []):
+            if step.get("shot") and step.get("id"):
+                published_shots[step["id"]] = step["shot"]
+
+    bad_shots, shot_hashes, filename_only = [], {}, []
+    for sid, shot in sorted(published_shots.items()):
+        info = inspect_raster((d / shot) if not Path(shot).is_absolute() else Path(shot))
+        if info["reason"]:
+            bad_shots.append(f"{sid} → {shot}: {info['reason']}")
+        elif info["sha256"]:
+            shot_hashes.setdefault(info["sha256"], []).append(sid)
+    for srec in inventory.get("surface", []):
+        if srec.get("shot") and srec.get("shotProvenance") == "filename":
+            filename_only.append(srec["id"])
+    duplicate_shots = {h: ids for h, ids in shot_hashes.items() if len(ids) > 1}
 
     uncovered = [sid for sid, cs in by_surface.items() if not cs]
 
@@ -689,6 +773,11 @@ def audit(d: Path) -> dict:
                         f"and the instrument could not measure. Not a pass and not "
                         f"an n/a: 'we do not know' is a weaker claim than 'no "
                         f"difference found' and a different one from 'does not apply'")
+    if counts["unoracled"]:
+        blockers.append(f"{counts['unoracled']} case(s) unoracled — no property is "
+                        f"specified that any check could read, so no instrument will "
+                        f"settle them. These need an oracle built before any authority "
+                        f"can close them; see references/oracle-construction.md")
     if counts["blocked"]:
         blockers.append(f"{counts['blocked']} case(s) blocked — the thing under test "
                         f"never ran, so nothing downstream of it is valid")
@@ -716,6 +805,21 @@ def audit(d: Path) -> dict:
     if unwitnessed_raster:
         blockers.append(f"{len(unwitnessed_raster)} pixel claim(s) with nothing saying "
                         f"where the pixels came from")
+    if bad_shots:
+        blockers.append(f"{len(bad_shots)} published shot(s) that are not usable captures "
+                        f"— the evidence page renders these as the product")
+    if duplicate_shots:
+        n = sum(len(v) for v in duplicate_shots.values())
+        blockers.append(f"{n} published shot(s) across {len(duplicate_shots)} image(s) "
+                        f"show the same picture under different subjects "
+                        f"({'; '.join(', '.join(v[:4]) for v in list(duplicate_shots.values())[:3])}) "
+                        f"— a wall whose cells repeat is a gallery, not a survey. Declare a "
+                        f"genuine share in captures.json, or capture each subject")
+    if filename_only:
+        blockers.append(f"{len(filename_only)} shot(s) bound to their subject by filename "
+                        f"alone ({', '.join(filename_only[:5])}) — run "
+                        f"`capture-lineage.py <dir> --gate`; a filename is not evidence "
+                        f"of what a picture depicts")
     if invalid_interactive_glass:
         blockers.append(f"{len(invalid_interactive_glass)} case(s) claiming interactive-glass "
                         f"on non-glass lane(s)")
@@ -757,7 +861,8 @@ def audit(d: Path) -> dict:
     # unless the denominator is printed beside them. So the campaign reports what
     # it asked for, what it actually measured, and what it could not.
     measured = counts["pass"] + counts["fail"]
-    unavailable = counts["inconclusive"] + counts["blocked"] + counts["n/a"]
+    unavailable = (counts["inconclusive"] + counts["unoracled"]
+                   + counts["blocked"] + counts["n/a"])
     deferred = counts["skip"] + counts["unselected"] + counts["open"]
 
     return {
@@ -777,6 +882,11 @@ def audit(d: Path) -> dict:
         "legacyRungCases": legacy_rung,
         "badRasterClaims": bad_raster,
         "duplicateArtifacts": duplicate_artifacts,
+        "badShots": bad_shots,
+        "duplicateShots": duplicate_shots,
+        "filenameOnlyShots": filename_only,
+        "publishedShots": len(published_shots),
+        "distinctPublishedImages": len(shot_hashes),
         "unwitnessedPixelClaims": unwitnessed_raster,
         "runScope": scope,
         "selectionBasis": basis,
@@ -821,7 +931,8 @@ def cmd_check(args) -> int:
     print(f"Surfaces:   {a['surfaces']} enumerated, {len(a['surfacesUncovered'])} with no case")
     print(f"Cases:      {c['pass']} pass · {c['fail']} fail · {c['skip']} skip · "
           f"{c['n/a']} n/a · {c['unselected']} carried · {c['inconclusive']} inconclusive · "
-          f"{c['blocked']} blocked · {c['open']} open  (of {a['cases']})")
+          f"{c['unoracled']} unoracled · {c['blocked']} blocked · {c['open']} open  "
+          f"(of {a['cases']})")
     print(f"Observed:   {o['coverage']} cases produced a measurement · "
           f"{o['unavailable']} could not be measured · {o['deferred']} not attempted")
     for lane, proof in sorted(a["laneProof"].items()):
@@ -881,13 +992,22 @@ def cmd_check(args) -> int:
         for lane, ids in sorted(a["glassLanesUnproved"].items()):
             print(f"\n  Lane '{lane}' claims on-glass verification and has no proof "
                   f"({len(ids)} case(s), e.g. {', '.join(ids[:4])}).")
-        print("  Record it once:  campaign.py lane <dir> --lane <lane> --artifact <path> \\")
-        print("                     --built-by '<build command>' --attached '<what witnessed it>'")
-        print("  Or say it could not be reached:  --cannot-attach '<structural reason>'")
+        print("  Build the artifact if it is not on disk, launch it, then record:")
+        print("    campaign.py lane <dir> --lane <lane> --artifact <path> \\")
+        print("      --built-by '<build command>' --attached '<what witnessed it>'")
+        print("  --cannot-attach is for a structural block after that build "
+              "(no interactive desktop, no signing identity), not a missing binary.")
     if a["badRasterClaims"]:
         print("\n  Pixel claims with no usable pixels:")
         for line in a["badRasterClaims"][:10]:
             print(f"    · {line}")
+    if a.get("publishedShots"):
+        print(f"Wall:       {a['publishedShots']} published shot(s) · "
+              f"{a['distinctPublishedImages']} distinct image(s)")
+    if a.get("duplicateShots"):
+        print("   published shots showing the same picture under different subjects:")
+        for ids in list(a["duplicateShots"].values())[:6]:
+            print(f"      {', '.join(ids)}")
     if a["duplicateArtifacts"]:
         print("\n  The same capture standing in for several cases:")
         for ids in list(a["duplicateArtifacts"].values())[:6]:
@@ -952,6 +1072,138 @@ def cmd_report(args) -> int:
     return 0
 
 
+def cmd_export_warrant(args) -> int:
+    """Write the campaign's measurements where the `warrant` plugin reads them.
+
+    The two plugins measure the same repository and neither can see the other's
+    state, so a mature campaign and a tier-0 warrant coexist indefinitely:
+    `charter_validate.py` treats an absent evidence file as an unmet condition
+    by design, which makes "never measured" and "measured badly" identical to
+    it. This writes the two files it names, from numbers the campaign already
+    holds.
+
+    `suite-health.json` carries the armed ratio, because an unarmed pass is not
+    known to bite and the assay plane exists to put a number on exactly that.
+    `oracle-coverage.json` is keyed by surface rather than by defect class:
+    warrant's own `rollup_classes.py` maps surfaces onto classes using the
+    warrant's globs, and duplicating that mapping here would put the same
+    decision in two places.
+
+    Nothing is inferred. A campaign that measured little exports little, and
+    the warrant refuses the tier — which is the correct outcome and the reason
+    this is an export rather than an attestation.
+    """
+    d = Path(args.dir).resolve()
+    root = Path(args.root).resolve()
+    a = audit(d)
+    cases = load(d, "cases", [])
+    counts = a["counts"]
+
+    armed = a.get("armed", 0)
+    passing = counts["pass"]
+    effect = sum(1 for c in cases
+                 if c.get("status") == "pass" and c.get("oracle") in EFFECT_RUNGS)
+
+    # `green` is deliberately NOT written here. In warrant, that flag means the
+    # mutation score is holding at or above its high-water mark, and this plugin
+    # does not do mutation testing — `rollup_classes.py` recomputes it from a
+    # `mutation` block and would overwrite anything written here anyway. Claiming
+    # it from the campaign's own gate would assert a fault-sensitivity measurement
+    # nobody made, which is the exact conflation this export exists to end.
+    #
+    # What the campaign does measure is the armed ratio: passes that have been
+    # watched to fail. That is real evidence about whether the suite bites, and it
+    # is recorded under its own name so a reader can see which measurement they
+    # have and which they still owe.
+    suite = {
+        "source": "test-campaign",
+        "campaign_dir": str(d),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "campaign_gate_clear": bool(a["clear"]),
+        "cases": len(cases),
+        "passing": passing,
+        "armed": armed,
+        "armed_ratio": (round(armed / passing, 4) if passing else None),
+        "effect_rung_passes": effect,
+        "unoracled": counts.get("unoracled", 0),
+        "inconclusive": counts["inconclusive"],
+        "blocked": counts["blocked"],
+        "mutation_measured": False,
+        "note": ("armed_ratio is passes watched to fail over passes; an unarmed pass "
+                 "is not known to bite. `green` is not set here: in warrant it means "
+                 "the mutation score is holding, and this plugin does not measure "
+                 "mutation survival. Run warrant:assay for that number."),
+    }
+
+    # Per surface: how many of its cases stand on a rung that asserts an effect.
+    # That is the campaign's analogue of lineage coverage — the share of a
+    # surface's checks that could actually catch a wrong answer.
+    #
+    # The shape is warrant's, not the campaign's: `rollup_classes.py` reads a
+    # LIST of rows and matches `file` against the warrant's class globs. Keying
+    # this by surface id instead would match no glob and roll up to zero
+    # coverage on every class, which reads identically to a campaign that
+    # measured nothing.
+    inventory = load(d, "inventory", {})
+    path_of = {s["id"]: (s.get("path") or s.get("file") or s.get("route") or s["id"])
+               for s in inventory.get("surface", []) if s.get("id")}
+
+    tally: dict[str, dict[str, int]] = {}
+    for c in cases:
+        sid = c.get("surface") or c.get("surfaceId")
+        if not sid:
+            continue
+        file = str(path_of.get(str(sid), sid))
+        block = tally.setdefault(file, {"figures": 0, "sourced": 0})
+        block["figures"] += 1
+        if c.get("oracle") in EFFECT_RUNGS:
+            block["sourced"] += 1
+    surfaces = [
+        {"file": file,
+         "figures": block["figures"],
+         "sourced": block["sourced"],
+         "unsourced": block["figures"] - block["sourced"]}
+        for file, block in sorted(tally.items())
+    ]
+    coverage = {
+        "source": "test-campaign",
+        "campaign_dir": str(d),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "surfaces": surfaces,
+        "note": ("`figures` is cases on that surface and `sourced` is those on an "
+                 "effect rung — a check that could catch a wrong answer. Run "
+                 "warrant's rollup_classes.py to key this by defect class using "
+                 "the warrant's own globs."),
+    }
+
+    out = root / ".warrant"
+    out.mkdir(parents=True, exist_ok=True)
+    written = []
+    for name, payload in (("suite-health.json", suite),
+                          ("oracle-coverage.json", coverage)):
+        path = out / name
+        path.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
+        written.append(str(path))
+
+    if args.json:
+        print(json.dumps({"written": written, "suite": suite,
+                          "surfaces": len(surfaces)}, indent=2))
+        return 0
+
+    print(f"exported to {out}")
+    print(f"  suite-health.json      armed={armed} of {passing} passing  "
+          f"effect-rung passes={effect}  campaign gate "
+          f"{'clear' if suite['campaign_gate_clear'] else 'HOLDING'}")
+    print("                         mutation survival NOT measured here — warrant:assay "
+          "still owes that number, and tier 2 needs it")
+    if suite["unoracled"]:
+        print(f"                         {suite['unoracled']} case(s) unoracled — a "
+              f"warrant tier over these would rest on nothing")
+    print(f"  oracle-coverage.json   {len(surfaces)} surface(s), keyed by surface")
+    print("  next: warrant's rollup_classes.py, then warrant:ratchet")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Case registry and gate for a UI test campaign.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -1006,8 +1258,10 @@ def main() -> int:
     ln.add_argument("--capture", help="The capture channel and its per-frame status "
                                       "signal, where the platform has one.")
     ln.add_argument("--cannot-attach", help="A structural reason the lane could not be "
-                                            "reached. Its cases become blocked, which "
-                                            "is honest; a pass would not be.")
+                                            "reached after the artifact was built (no "
+                                            "interactive desktop, no signing identity, "
+                                            "Session 0). A missing-binary reason is "
+                                            "refused — build the artifact, then attach.")
     ln.set_defaults(fn=cmd_lane)
 
     sc = sub.add_parser("scope", help="Declare what this run covered. Full is a decision.")
@@ -1046,6 +1300,16 @@ def main() -> int:
     r.add_argument("dir")
     r.add_argument("--json", action="store_true")
     r.set_defaults(fn=cmd_report)
+
+    ew = sub.add_parser("export-warrant",
+                        help="Write suite-health.json and oracle-coverage.json where "
+                             "the warrant plugin reads them, so a campaign can earn a "
+                             "tier instead of the warrant refusing one forever.")
+    ew.add_argument("dir")
+    ew.add_argument("--root", required=True,
+                    help="The repository holding .warrant/ — the files are written there.")
+    ew.add_argument("--json", action="store_true")
+    ew.set_defaults(fn=cmd_export_warrant)
 
     args = ap.parse_args()
     return args.fn(args)

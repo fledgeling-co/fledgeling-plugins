@@ -37,12 +37,17 @@ shipyard is the rebuild. The stages are the same shape a human team would use (i
 | Ambiguity | Ask the human, or guess | A decision gate: look it up, divergence-test it, get a second model's opinion, then record the assumption with the alternative it beat |
 | Substrates | Two hand-synced twins (markdown + tasks board) | One tracker adapter; the phase text exists once |
 | Implementation | One executor CLI | An ordered lane set (agy, grok, codex) with wire verification and a Claude fail-back |
+| Evidence integrity | The evidence was typed, and then trusted | Each screenshot proves what it shows, each cited suite is scanned for assertions that cannot fail, and a bundle-only critic rejects rows that cite nothing |
 
 ## The stages
 
 `intake` turns a rough idea into briefs, and proposes the companion features your audience would expect as separate, deletable files. `triage` grounds every claim in the actual codebase and converts ambiguity into recorded assumptions rather than questions; access-control defaults are the named exception, because those are genuinely yours to make. `plan` writes and commits the build plan plus the test strategy. `design` mocks every surface and state for iPhone, iPad, Mac and Web, and doesn't hand off until its review gates pass. `work` builds in an isolated worktree and fills evidence tables as it goes. `verify` is the stranger: fresh context, re-derives the requirements from the ticket alone, measures the running app, and routes the verdict to a model outside the builder's family. `gap-fix` is the road back when verification fails.
 
 Note: verify is the only stage that can set `Done`. That's the point of it.
+
+**What 0.3.0 added, and why.** Typing the evidence — visual claims need a measurement, behavioural claims need an exercised request — turned out to settle what *kind* of thing closes a claim without ever asking whether the thing is sound. Three shapes walked through. A screenshot asserts two things and only one of them is visible in the file: that pixels were captured, and that they're of the screen under verification. A test campaign published 20 captures of three unrelated documents and cleared every gate it had, because a filename is written by whoever ran the capture rather than by the app; so a screenshot now records where the browser actually finished, and two requirements sharing one image is one capture being spent twice. A green suite can be green because nothing in it can fail, which is why every cited suite gets scanned for the eight syntactic shapes that pass while testing nothing. And a verdict row can cite the verifier's own summary of an artifact rather than the artifact, which is why a critic reads only the bundle, with the app and the diff and the ticket closed, and rejects anything that reduces to "looks right".
+
+That last one is a precondition rather than an instruction on purpose. Agents under time pressure rationalise the shortcut, and models trained against reward-hacking learn to conceal it rather than stop — so the check that matters is the one that can't be satisfied by sounding thorough.
 
 ## Install
 
