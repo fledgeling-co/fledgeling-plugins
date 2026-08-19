@@ -1,0 +1,13 @@
+{
+  "slug": "super-shortcuts", "name": "Super Shortcuts", "category": "Productivity",
+  "era": "flat-transition",
+  "rubric_score": 10, "soft_passes": ["#5 flat: consistent light model only by absence, no lighting/dimensionality", "#8 no depth system to be incoherent; single plane + glyph", "#11 lightning bolt is nameable but the automation-category cliche, not a mined device"], "failures": ["#1 mask: ships pre-masked 434px rounded-rect with 7.4% transparent margin in a 512 canvas (not full-bleed); baked ~20% corner radius won't match system squircle ~22.4%", "#10 variant robustness: flat raster, baked colours, no mono/layer separation; no dark/clear/tinted adaptation, not Icon-Composer authored"],
+  "palette": {"background": "flat #1F9D6F", "glyph": ["#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "None. Flat design: no light source, no baked shadow, no specular, zero dimensionality. Consistent only by absence.",
+  "layer_stack": ["flat green field baked into a rounded-rect with transparent corner margins", "white lightning-bolt glyph"],
+  "devices": ["lightning-bolt-as-automation (category-default speed metaphor, Apple Shortcuts lineage)", "two-colour flat field (#1F9D6F + #FFFFFF, reads at 16px)", "baked rounded-rect favicon mask transplanted onto a Mac icon"],
+  "adjectives": ["flat", "punchy", "brand-generic"],
+  "rhymes_hint": "flat single-glyph-on-solid-color brandmarks (favicon/app-tile grade, no-era flat family); automation/productivity icons using the lightning-bolt speed metaphor",
+  "notes": "512x512 delivered, NOT the 1024 master; crisp vector-origin edges. Background genuinely flat (17,890 identical samples). Glyph optically centred: dx +7 (bolt tilt), dy 0; bolt 214x352 = ~81% field height. Contrast white/green 3.44:1 (clears 3:1 graphics floor, below 4.5:1). Opaque field 38-472 both axes = pre-masked rounded-rect, corners baked into artwork with transparent margins -> the core reason it is not macOS-native. No dark/tinted variant available. Era tag is a bucketing convenience: this is really a platform-agnostic flat web brandmark, not period-accurate Yosemite-Catalina evidence; do not treat as macOS-era canon input. Brand coherence: cover reuses green family on near-black #0C120E ground (mint headline #5FD08D, cover icon tile ~#26B16B) but marketing greens are brighter/more saturated than the shipped icon's muted teal-leaning #1F9D6F -> mild palette drift, exact green not locked."
+}

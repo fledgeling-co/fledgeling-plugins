@@ -1,0 +1,43 @@
+{
+  "slug": "bauhaus-clock", "name": "Bauhaus Clock", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-composite / screensaver-canvas (dual day+night)", "mode": "light", "rubric_score": 6, "native_audit_score": 0, "failures": ["#1 grid — N/A, radial artwork not an 8pt layout", "#5 line-height — N/A, no text blocks", "#6 measure — N/A", "#8 action-singularity — N/A, no buttons", "#11 Fitts — N/A, no interactive targets", "#12 input-height — N/A", "#13 label-proximity — N/A", "#14 focus-appearance — N/A", "#9 partial — minute-track micro-labels ~2:1 but intentional decorative de-emphasis, not a defect", "native-tells 1-10 all N/A — no macOS chrome/controls/glass in a screensaver canvas"]}
+  ],
+  "tokens": [
+    {"token": "face/bg-day", "value": "#C4ECEC pale mint-aqua", "quality": "measured", "notes": "screensaver daylight ground"},
+    {"token": "face/bg-night", "value": "#011317 -> #000000 near-black teal, radial", "quality": "measured", "notes": "night ground, center lighter than corners"},
+    {"token": "ink/numeral-day", "value": "~#12242B dark slate-navy", "quality": "estimated", "notes": "hour numerals, day"},
+    {"token": "lume/numeral-night", "value": "~#4FE0E0 bright cyan", "quality": "estimated", "notes": "Super-LumiNova cue on numerals, hands, markers"},
+    {"token": "type/numerals", "value": "geometric sans ~Semibold, one size", "quality": "estimated", "notes": "hour ring; hybrid Arabic + stroke-glyphs I/II/IC"},
+    {"token": "type/minute-track", "value": "same family, ~4x smaller, tangentially rotated", "quality": "estimated", "notes": "labels 05-60, low-contrast gray, de-emphasised"},
+    {"token": "hands/style", "value": "baton hour+minute w/ lume channel; thin counter-weighted seconds", "quality": "measured", "notes": "~10:10 marketing position"},
+    {"token": "brand/backdrop", "value": "#E8F0F2 cool ice-gray, flat", "quality": "measured", "notes": "marketing layer, not app UI"},
+    {"token": "brand/headline-ink", "value": "#262E30 charcoal", "quality": "measured", "notes": "~11:1 vs backdrop"},
+    {"token": "brand/headline-type", "value": "geometric-humanist sans, reads SF Pro Display / Helvetica Now Semibold, centered", "quality": "estimated", "notes": "NOT Futura; geometric conceit is in the clock numerals, not the wordmark"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Hybrid graphic numerals: Arabic 12 & 2-9 mixed with stroke-glyphs I (1), II (11), IC (10) - shape rhyme over arithmetic; a Bauhaus typographic conceit that is the entire identity in one decision",
+    "Day/night rendered as literal watch-dial legibility (cream-on-mint vs cyan Super-LumiNova on black), not a UI appearance inversion",
+    "Tangentially-rotated outer minute track (05-60) - Braun/Rams wall-clock citation held as recessive micro-typography",
+    "Lume-channel baton hands with counter-weighted thin seconds needle"
+  ],
+  "defects": [
+    "None-as-UI - a screensaver canvas is not answerable to the interaction rubric; faulting it for lacking controls would be a category error. Minute-track low contrast is intentional decorative de-emphasis, not Contrast Dilution."
+  ],
+  "aesthetic": {
+    "adjectives": ["modernist", "horological", "luminous"],
+    "direction": "Swiss/International-modernist crossed with Industrial/instrument-dial - a Braun/Dieter-Rams wall-clock homage; restrained neutral ground + geometric numerals + exposed dial metadata (minute track)",
+    "peers": ["Braun BN/ABW wall clocks (Dieter Rams / Dietrich Lubs)", "Nomos Glashutte Tangente dial", "Mondaine", "Mac screensaver peers: Fliqlo, Padbury Clock, Word Clock"],
+    "cluster_hint": "modernist-instrument",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law - obeys the universal analog-clock mental model (12 top, clockwise), so the numeral substitution (10=IC) never blocks reading; position carries the hour, not the glyph. Mild recognition tax from the conceit is bought back by convention.",
+    "Von Restorff / hierarchy-by-de-emphasis - recessive gray minute track lets the dark/luminous hour numerals + hands own attention; the grayscale hierarchy survives colour removal.",
+    "Aesthetic-usability effect - lume realism and horological hand detailing raise perceived quality/premium of an inherently trivial utility."
+  ],
+  "notes": "Marketing-composite cover ONLY; no UI screenshots supplied. This is a macOS SCREENSAVER - a full-bleed custom canvas with no window, chrome, controls, sidebar, toolbar, or traffic lights, so lineage is unclassifiable from evidence (native by category, low confidence) and the 10-point native-tells audit is entirely N/A. Contributes aesthetic/brand evidence only; MUST NOT feed macOS UI pattern canon or native clusters. The app's real config surface (screensaver options sheet in System Settings) is unseen - a knowledge gap. Numeral system is a deliberate graphic conceit (I/II/IC), not an OCR/measurement error."
+}

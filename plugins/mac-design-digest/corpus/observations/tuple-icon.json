@@ -1,0 +1,32 @@
+{
+  "slug": "tuple", "name": "Tuple", "category": "Dev",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 pane cluster sits slightly high-and-left of geometric centre; back pane re-centres it optically",
+    "#3 two overlapping rounded rectangles is a low-distinctiveness silhouette; the offset keeps it nameable as 'stacked cards'",
+    "#4 front/back panes are close in value (#D4CEF0 vs #B4ACE1) so the pairing collapses toward a single card at 16px",
+    "#10 survives dark/tinted (light panes don't depend on the violet field), but mono/tinted flattens the front/back hue delta that carries the 'pair'"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #7A68D9->#4935B4 (violet->indigo, vertical, sky-logic)",
+    "glyph": ["#D4CEF0", "#EEECF8", "#B4ACE1", "#8275C5"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down soft; light catches upper pane edges; short soft cast shadow from front pane onto back pane and field; genuine translucency (overlap lightens additively, glass not opaque); specular character not verifiable at 204px (estimated)",
+  "layer_stack": ["violet->indigo gradient squircle field", "back translucent pane (lower-right)", "front frosted pane (upper-left) + soft cast shadow", "additive-glass overlap region"],
+  "devices": [
+    "paired translucent panes (the name made literal: tuple = pair = two shared screens)",
+    "additive-translucency overlap (panes brighten where they cross, proving glass over opaque planes)",
+    "single-hue violet sky-ramp (one hue, light-top->dark-bottom, no second accent)"
+  ],
+  "adjectives": ["frosted-violet", "paired", "buoyant"],
+  "rhymes_hint": "abstract overlapping-translucent-shape family on a single-hue gradient squircle (Apple stacked-pages / overlapping-cards motif); NOT diagonal-tool, mascot, or monogram; glyph is lightness-on-saturated-field",
+  "notes": "204x204 resized web render (webp ~8KB) - gradient hex samples clean (measured), but per-edge specular/refraction and micro-shadow softness are (estimated), not measured. Era read as liquid-glass on the strength of genuine additive translucency (overlap #EEECF8 brightens rather than occludes) + layered foreground glass over gradient field; a Big-Sur opaque-two-card reading is the alternative but the see-through overlap argues against it. Icon/brand palette coherence CONFIRMED: cover wordmark mark #5F52D5 sits inside the icon ramp, cover pane #CCC7F0 matches the front pane. Communication caveat for synthesis: the mark says 'pair/two' (on-brand for the name) but carries no dev/code/terminal signifier - it leans on the name to mean 'programming'. Primary weakness: the pairing (its whole reason to exist) degrades to a single card at Dock/Spotlight/mono sizes because front/back pane values are too close."
+}

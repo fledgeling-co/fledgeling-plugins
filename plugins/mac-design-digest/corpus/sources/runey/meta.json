@@ -1,0 +1,16 @@
+{
+  "slug": "runey",
+  "name": "Runey",
+  "tagline": "Time tracker, invoices, projects, clients, expenses, and proposals.",
+  "category": "Business",
+  "pricing": null,
+  "website": "https://runey.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fda07652-9342-4bfd-a17e-dab797743f0e/icon-1783882459042.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fda07652-9342-4bfd-a17e-dab797743f0e/cover-1783882792056.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/runey/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/runey/cover.webp",
+    "shots": []
+  }
+}

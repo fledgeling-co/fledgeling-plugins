@@ -1,0 +1,55 @@
+{
+  "slug": "caesura", "name": "Caesura", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "menu-bar-extra dropdown (Up Next popover) + status capsule", "mode": "light", "rubric_score": 12, "native_audit_score": 8, "failures": ["#1 grid — ~51px row pitch not verifiably on 8pt at marketing scale (soft/estimated)", "#9 text contrast — taupe #8A8073 tracked-caps headers ~3.5:1, below 4.5:1 for small text", "native#4 tracked-UPPERCASE section headers (UP NEXT / SNOOZE ALL), not sentence/title case", "native#6 accent bound to brand terracotta #B35A3C, not the system controlAccentColor"]}
+  ],
+  "tokens": [
+    {"token": "bg/popover", "value": "#FDFAF5 opaque cream", "quality": "estimated", "notes": "card fill; ~1 lightness step above page cream #FBF6EE (minimal tonal elevation) + soft shadow; no glass"},
+    {"token": "bg/backdrop", "value": "#FBF6EE warm paper", "quality": "measured", "notes": "MARKETING ground, brand not app — do not learn as an app token"},
+    {"token": "accent/primary", "value": "#B35A3C terracotta / burnt sienna", "quality": "measured", "notes": "selection fill; identical hex to icon stroke — one brand hue across icon+UI; OVERRIDES system accent"},
+    {"token": "ink/primary", "value": "#2B2620 warm near-black", "quality": "measured", "notes": "labels + bold '12m'; not pure #000 — avoids Contrast Dilution"},
+    {"token": "ink/secondary", "value": "#8A8073 warm taupe", "quality": "measured", "notes": "'in N min', UP NEXT/SNOOZE headers, 87%/14:30; strong de-emphasis but ~3.5:1 on cream"},
+    {"token": "selection/fill", "value": "#B35A3C, inset ~12px L/R, radius ~10px, ~47px tall", "quality": "estimated", "notes": "inset-rounded grammar CORRECT; solid saturated fill + knockout text (System-Settings house style) recolored to brand"},
+    {"token": "selection/text", "value": "#FBF6EE paper-cream knockout", "quality": "measured", "notes": "cream-on-terracotta ~5.3:1, passes 4.5:1"},
+    {"token": "type/label", "value": "sans (SF/system-class) ~20-22px @canvas, Regular", "quality": "estimated", "notes": "break names; large in marketing canvas, true pt unknowable"},
+    {"token": "type/section-header", "value": "tracked UPPERCASE ~11-12px @canvas, ~+0.12em, #8A8073", "quality": "estimated", "notes": "editorial house style; native-tell deviation vs sentence/title case"},
+    {"token": "icon/list", "value": "monochrome line icons ~20px, ~1.5px stroke, #2B2620", "quality": "estimated", "notes": "drop/eye/seated-figure/hands/figure.walk/concentric-target — SF-Symbol-class, consistent stroke"},
+    {"token": "radius/card", "value": "~16-20px", "quality": "estimated", "notes": "popover corner; useful given window-radius kit gap — themed value, not system"},
+    {"token": "bg/status-capsule", "value": "#FBF7F0 cream, capsule (radius=h/2), ~46px tall", "quality": "estimated", "notes": "compact status row: // mark + 12m(bold) + 87% + 14:30, right-aligned"},
+    {"token": "brand/mark", "value": "// two #B35A3C diagonal strokes, rounded caps, slight right slant", "quality": "measured", "notes": "the caesura (pause) glyph — logo AND in-UI status glyph; BRAND evidence"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "opaque cream popover ~18px radius + soft shadow (no glass); tracked-caps header 'UP NEXT'; 6 full-width ~51px rows (icon left-axis / label left-axis / 'in N min' right-axis); next item as terracotta inset-rounded selection w/ knockout cream text; hairline divider; footer 'SNOOZE ALL · 5M' + trailing ⌘, shortcut hint; no traffic lights (native-correct)"},
+    {"pattern": "list", "key_values": "single-select vertical list, ~51px comfortable rows, three shared axes (leading icon / label / trailing metadata); one accent row = current selection; two ink tiers (#2B2620 / #8A8073) carry all hierarchy"},
+    {"pattern": "floating-panel", "key_values": "status capsule (full-capsule cream pill, right-aligned // + countdown + battery + clock) stacked above the main popover card"}
+  ],
+  "signature_moves": [
+    "The name is the design system — 'caesura' (a musical/prosodic pause) mined end-to-end: the // caesura mark is logo + status glyph, voice is serif-editorial, palette is warm paper + terracotta. Deliberately opposite the cold clinical blue of Time Out/Stretchly/LookAway; subject-mined and EARNED, not the reflexive AI warm-editorial default.",
+    "Terracotta selection fill stands in for the system accent — one saturated moment per view (the next break), landing the eye on 'what's next' by Von Restorff.",
+    "De-emphasis via a single warm-taupe token (#8A8073) for ALL secondary strings, so two ink tiers + one accent carry the whole hierarchy without size inflation.",
+    "One brand hue everywhere — icon stroke, UI selection, and status mark are the exact same #B35A3C; total palette discipline."
+  ],
+  "defects": [
+    "Accent-binding override (signature, not anti-pattern) — selection uses brand terracotta not controlAccentColor; systematic + purposeful + accessible (5.3:1), so a signature, but excluded from macOS native canon.",
+    "Non-native section headers — tracked UPPERCASE 'UP NEXT'/'SNOOZE ALL' vs HIG sentence/title-case system font (#1 list/sidebar authenticity tell); deliberate editorial styling, low-stakes on a consumer popover.",
+    "Contrast Dilution (mild) — taupe #8A8073 on cream ~3.5:1: fine as large/non-text but below 4.5:1 for the ~11-12px tracked-caps headers; darken headers toward #000@50%-equiv.",
+    "Possible info-scent inconsistency (likely placeholder data) — highlighted 'next' is Water 'in 12 min' while Wrists shows 'in 04 min' (sooner, unflagged); content note, not a design law, unverifiable from one render."
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "literary", "calm"],
+    "direction": "Editorial / literary family (toned paper, warm ink, one terracotta accent) applied to a menu-bar utility — Committed-adjacent warm palette with strict Restrained accent budget (one saturated row per view); subject-derived from 'caesura = pause', not the reflexive warm-editorial AI default",
+    "peers": ["Things (calm restraint)", "Bear / iA Writer (paper warmth)", "Opal / Oak (mindful-app warmth)", "contrast-peers: Time Out, Stretchly, LookAway (clinical break apps it deliberately opposes)"],
+    "cluster_hint": "warm-paper utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — the single terracotta row is the one different thing; the eye lands on the next break instantly (one accent moment per view)",
+    "Hick's Law (well-applied) — 6 fixed categories surfaced under a strong-scent 'UP NEXT'; one aggregate footer action ('Snooze all'); decision points minimal without thinning a workspace",
+    "Aesthetic-usability effect — a warm, coherent, paper-calm palette buys perceived usability/trust for an app people must be willing to leave running all day (vs. clinical-blue rivals)",
+    "Jakob's Law — a menu-bar-extra dropdown with ⌘ shortcut hint reads instantly as a native Mac utility; conventional interface, innovative brand",
+    "Serial-position (partial) — the flagged 'next' break is placed first/highlighted; but it is not the soonest-timed row, a mild scent slip (see defects)"
+  ],
+  "notes": "Single image and it is a 1200x630 MARKETING OG BANNER (cover.png): analyse the two floating cards on the RIGHT (status capsule + Up Next popover) as app UI; the left half (// wordmark, serif headline 'Six healthy breaks, backed by science.', caesura.rest subtitle) and the app icon are BRAND, kept separate. No shot-* files supplied; shots array empty in meta. All panel metrics are (estimated) at unknown logical scale — no true pt sizes claimed; colors are (measured) from the PNG. Icon (cream squircle + rust // mark, Big-Sur-era flat single-layer, no glass/gradient) recorded as brand evidence only — Workflow A is UI-only, no icons/caesura.md written. Lineage native/med: behaviors are native-correct (chromeless popover, ⌘ glyph, SF-Symbol-class icons, inset-rounded selection); the only tells against are cosmetic house style (tracked caps, brand accent). Era 'custom' — opaque themed popover, no visible Liquid Glass. Opens candidate cluster 'warm-paper utility' (sole member); corpus stays Novice for UI (first UI app profile alongside atlas/agentpeek). Useful data point: an observed popover corner radius (~18px) given the kit's window-radius gap."
+}

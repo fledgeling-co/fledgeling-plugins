@@ -1,0 +1,16 @@
+{
+  "slug": "sessionwatcher",
+  "name": "SessionWatcher",
+  "tagline": "Tracks Claude, Codex, Copilot, Cursor and Gemini usage, costs and rate limits live",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://sessionwatcher.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9bf90f65-5319-409e-98f1-932758565fe3/icon-1783882465327.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9bf90f65-5319-409e-98f1-932758565fe3/cover-1783882782161.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sessionwatcher/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sessionwatcher/cover.png",
+    "shots": []
+  }
+}

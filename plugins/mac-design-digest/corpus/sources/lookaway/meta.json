@@ -1,0 +1,16 @@
+{
+  "slug": "lookaway",
+  "name": "LookAway",
+  "tagline": "The Mac app your body thanks you for",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://lookaway.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2269ad71-e4ab-4678-afaf-7c841f98aadf/icon-1783882469465.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2269ad71-e4ab-4678-afaf-7c841f98aadf/cover-1783882779509.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/lookaway/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/lookaway/cover.png",
+    "shots": []
+  }
+}

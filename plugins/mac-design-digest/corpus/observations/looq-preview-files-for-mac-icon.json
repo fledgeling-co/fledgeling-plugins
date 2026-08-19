@@ -1,0 +1,35 @@
+{
+  "slug": "looq-preview-files-for-mac", "name": "Looq: Preview Files for Mac", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 respects the squircle but delivered pre-masked (transparent corners baked into a 256px web render), not a full-bleed 1024 square",
+    "#2 horizontally centred but arc mass sits in the upper two-thirds; optically top-weighted, lower third empty",
+    "#8 bands internally coherent but glyph floats with no grounding shadow — reads as a printed plate",
+    "#9 modern squircle container wrapped around baked skeuomorphic chrome-gloss lighting; a deliberate era mix (quotation)"
+  ],
+  "failures": [
+    "#4 16px squint: 5 nested arcs (~10px band+gap at 256px) go sub-pixel at 16px and merge into a grey dome — the layered-rainbow detail smears",
+    "#10 variant robustness: baked black-background-dependent art + baked chrome specular; not Icon Composer layers, would not survive tinted/clear/dark-adaptive renders"
+  ],
+  "palette": {
+    "background": "ramp #313130->#000000",
+    "glyph": ["#6A6A6A", "#BABABA", "#C4C4C4", "#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Top-down; each of the 5 arc bands carries a baked white specular crest along its top edge fading to grey below (cylindrical/tubular chrome shading); background also lighter at top. No cast/drop shadow. Specular is baked into the art, not system-applied.",
+  "layer_stack": ["near-black vertical ramp field", "nested chrome arc bands with baked per-band highlights"],
+  "devices": [
+    "monochrome chrome rainbow (spectrum motif stripped of colour, cast in polished metal)",
+    "per-band tubular specular (white crest -> grey belly per arc)",
+    "tenebrous silver-on-black high-contrast plate"
+  ],
+  "adjectives": ["glossy", "monochrome-metallic", "retro-skeuomorphic"],
+  "rhymes_hint": "dark-chrome skeuomorphic utility marks — polished-metal-on-black in the pro-audio / Quicksilver / spectrum-analyser lineage; monochrome chrome glyph + tenebrous ramp + baked top specular",
+  "notes": "Source is a 256x256 downsized web render (not a 1024 master); corners arrive pre-masked (alpha=0), so true mask-edge behaviour and fine detail are unverifiable and slightly softened. Brightest glyph pixel hits pure #FFFFFF specular; darkest bg is true #000000. Achromatic palette is a whole-brand choice, not an icon quirk: the cover ('Built to render the rest of your files.') is strictly black/white/silver, so the colourless rainbow coheres deliberately. App is a Quick Look renderer/previewer (Markdown, code, SQLite, archives) — the rainbow/spectrum reads as 'previews everything'. Container is a Big-Sur-shape squircle but the material treatment (baked chrome gloss + black gradient) quotes classic skeuomorphic metal; not a Liquid Glass icon."
+}

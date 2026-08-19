@@ -1,0 +1,16 @@
+{
+  "slug": "creos",
+  "name": "CREOS",
+  "tagline": "A second brain for creators  - saves in, content out",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://trycreos.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-1b3aeaf1-4cfc-45e6-b648-4c865bc28492.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-beae349b-ef31-413a-88b5-7136f1f5e17e.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creos/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creos/cover.png",
+    "shots": []
+  }
+}

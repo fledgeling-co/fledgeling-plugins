@@ -1,0 +1,60 @@
+{
+  "slug": "screen-charm",
+  "name": "Screen Charm",
+  "category": "Video",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-cover (Open Graph card, 1200x630) — NO app UI present",
+      "mode": "dark",
+      "rubric_score": 9,
+      "native_audit_score": 0,
+      "failures": [
+        "#9 footer text contrast 1.9-2.4:1 vs near-black ground, below 3:1/4.5:1 floors",
+        "#1 grid adherence unverifiable at this render (unknown DPR, display type)",
+        "#6 N/A no body paragraph; #10 N/A no UI borders/icons; #12/#13 N/A no inputs/forms; #14 N/A static image no focus states",
+        "NATIVE AUDIT N/A — no macOS window, chrome, toolbar, sidebar, or control present; native-tells audit could not be run"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/gradient", "value": "#090A1C -> #262255 radial (near-black indigo to muted violet-navy)", "quality": "measured", "notes": "web/brand; marketing card ground, faint graph-grid texture overlay"},
+    {"token": "bg/base-field", "value": "#141332", "quality": "measured", "notes": "web/brand; mid gradient field behind text"},
+    {"token": "accent/violet-primary", "value": "#6F5EE8", "quality": "measured", "notes": "web/brand; single accent — CTA fill + emphasis; accent monogamy"},
+    {"token": "accent/violet-bright", "value": "#8688FF to #A388FD", "quality": "measured", "notes": "web/brand; payoff words 'look stunning'"},
+    {"token": "text/headline", "value": "#FFFFFF bold grotesque, cap-height ~48px", "quality": "measured", "notes": "web/brand; Inter/Sohne/General-Sans-class, ~590-700 wt, face not positively ID'd; 18:1"},
+    {"token": "text/subhead", "value": "#A4A3B1 ~20-22px regular", "quality": "measured", "notes": "web/brand; de-emphasised, 7.2:1"},
+    {"token": "text/footer", "value": "#4E4D5D / #424055 ~13-14px", "quality": "measured", "notes": "web/brand; 1.9-2.4:1 sub-threshold"},
+    {"token": "cta/pill", "value": "~325x62px, fill #6F5EE8, capsule radius (h/2), white label 4.73:1", "quality": "measured", "notes": "web/brand; fully-rounded, borderless, soft violet under-glow"},
+    {"token": "logo/gradient", "value": "#6A5AF0 -> ~#424A9B, specular #DCDCF8", "quality": "measured", "notes": "web/brand; abstract triangular/prism mark, top-lit"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing OG card (1200x630 web share aspect): centered vertical stack — logo+wordmark / two-tone display headline / gray subhead / single capsule CTA / dim footer. NOT an app surface; no sidebar/toolbar/list/settings pattern observable."}
+  ],
+  "signature_moves": [
+    "Two-tone value-prop headline — accent hue flips exactly the words carrying the pitch ('look stunning'); brand color doubles as semantic emphasis (common product-marketing device, executed cleanly)",
+    "Accent monogamy — one violet across logo, emphasis words, CTA and its glow; nowhere else; ~<10% of pixels"
+  ],
+  "defects": [
+    "Template-default aesthetic — dark neo-grotesque + single electric-violet accent is the model's unprompted dev-tool/product reflex (Linear/Vercel family); interchangeable, no subject-mined differentiation for a screen recorder",
+    "Contrast Dilution — footer metadata 1.9-2.4:1 vs near-black, below WCAG floors (low severity, non-interactive card)",
+    "No app UI supplied — a screen-recorder listing with zero product screenshot; the primary evidence gap, not an app defect"
+  ],
+  "aesthetic": {
+    "adjectives": ["nocturnal", "violet-charged", "template-confident"],
+    "direction": "Neo-grotesque product marketing (dark neutral ground + one electric violet accent) — the Linear/Vercel range-map family, restrained accent strategy",
+    "peers": ["Linear marketing", "Vercel/Raycast landing pages", "Screen Studio (category peer, brand unseen)", "CleanShot X (category peer)"],
+    "cluster_hint": "brand-only: nocturne-violet-marketing — NOT a macOS UI cluster; do not seed a native cluster from this",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff effect — the single violet CTA and lone accented phrase are the one different thing, made memorable against an otherwise monochrome-white/gray field",
+    "Hick's Law — exactly one action on the card; no competing choices at the decision point",
+    "Aesthetic-Usability effect — polished dark hero as a 50ms thesis statement, buying a quality-halo before any product is shown",
+    "Fitts's Law — oversized ~325x62 capsule CTA, a large easy target (though it's a static marketing graphic, not a live control)"
+  ],
+  "notes": "CRITICAL for synthesis: the ONLY supplied asset is a 1200x630 marketing Open Graph card — there is NO application UI (no window, chrome, toolbar, sidebar, list, or control) in any file. All tokens/observations are web/brand evidence and MUST be excluded from macOS canon, native clusters, and native-tells statistics. Lineage and era are genuinely unknown — not inferred from marketing copy ('Built for macOS'/'Mac only'). The rubric_score of 9 grades the marketing graphic on its applicable subset only (5 checks N/A); native_audit_score 0 means NOT-APPLICABLE, not a failing native surface. Re-digest if real app screenshots arrive. An icon.webp was also supplied but this task is Workflow A (UI) only; the icon was not digested here."
+}

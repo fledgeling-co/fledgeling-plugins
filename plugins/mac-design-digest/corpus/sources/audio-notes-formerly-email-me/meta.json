@@ -1,0 +1,16 @@
+{
+  "slug": "audio-notes-formerly-email-me",
+  "name": "Audio Notes formerly Email Me",
+  "tagline": "The fastest way to capture a thought, by voice or text.",
+  "category": "AI",
+  "pricing": null,
+  "website": "https://www.emailmeapp.net/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-1db9fe98-6dc9-4a06-8c66-2b1a0fdb4831.jpg",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-01966678-96b2-4e77-8f2c-d137f2b92d18.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/audio-notes-formerly-email-me/icon.jpg",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/audio-notes-formerly-email-me/cover.png",
+    "shots": []
+  }
+}

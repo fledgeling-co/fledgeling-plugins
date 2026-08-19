@@ -1,0 +1,60 @@
+{
+  "slug": "screenlex", "name": "ScreenLex", "category": "Photography",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "annotation-editor floating toolbar (marketing composite, chrome-only)",
+      "mode": "light",
+      "rubric_score": 9,
+      "native_audit_score": 5,
+      "failures": [
+        "native#1 lineage uncertain — Lucide/Feather icon set + localhost web canvas + composite-only; insufficient-evidence for AppKit runtime",
+        "native#9 icons are custom non-SF outline glyphs drawn near-black (#2F2F30), not SF Symbols in secondary-gray, not borderless",
+        "native#3 no active-tool selection state visible — native selection grammar unassessable",
+        "rubric#4/#5/#6/#13/#14 N/A — chrome-only composite has no body type, forms, lists or focus states to judge",
+        "note: 5 groups exceeds the <=3 toolbar-group guideline (acceptable for a pro markup palette, flagged not failed)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "chrome/toolbar-bg", "value": "#EDEDED", "quality": "measured", "notes": "flat light opaque toolbar fill; reads solid, not translucent glass, in this render"},
+    {"token": "chrome/capsule-fill", "value": "#F2F3F4", "quality": "measured", "notes": "control-group pod fill; only ~1.03:1 lighter than toolbar — pods separated by shadow+hairline, not fill contrast"},
+    {"token": "icon/stroke", "value": "~#2F2F30 near-black, uniform ~1.5-2px stroke, rounded caps", "quality": "measured", "notes": "Lucide/Feather-family, NOT SF Symbols secondary-gray (#8E8E93) — the core native-tell"},
+    {"token": "accent/brand", "value": "blue ~#0A84FF-#2F80ED", "quality": "estimated", "notes": "brand blue on canvas chip + window edge; NOT confirmed as a native accent binding (no tinted selection)"},
+    {"token": "traffic/lights", "value": "red #FE6362 / yellow #FAC51B / green #2FC650", "quality": "measured", "notes": "standard macOS cluster, coloured = focused window"},
+    {"token": "control/toolbar-tier", "value": "~34-38px capsule pods", "quality": "estimated", "notes": "reads as ~36pt XL toolbar tier; composite scale unknown, ranges only"},
+    {"token": "radius/capsule", "value": "capsule = height/2 (~17-19px)", "quality": "estimated", "notes": "every group pod and the zoom stepper is fully rounded — capsule is the default bezel"},
+    {"token": "type/numeral", "value": "'100%' ~12-13px SF-ish", "quality": "estimated", "notes": "only text in app chrome; no type ramp derivable"},
+    {"token": "brand/wordmark", "value": "serif display, near-black", "quality": "estimated", "notes": "BRAND evidence not app-UI: editorial serif wordmark over a utility"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "unified floating toolbar, light #EDEDED; controls chunked into 4 capsule container-pods by function (markup / AI-redact / actions / zoom) + ungrouped traffic lights leading + right-aligned zoom stepper; ~36pt XL tier; Lucide-family monochrome outline icons near-black"},
+    {"pattern": "other", "key_values": "value+chevron zoom stepper ('100%' + up/down) in its own capsule — native stepper pattern (stepper pairs with editable field)"}
+  ],
+  "signature_moves": [
+    "Capsule-pod chunking of a dense ~16-tool palette into 4 function-grouped container pods (Liquid-Glass container-morphing used for cognitive chunking; tight within-pod, wide between-pod gaps)",
+    "Editorial serif wordmark over utilitarian monochrome mac chrome — warm-editorial brand veneer on a neo-grotesque product (brand evidence)",
+    "Capture-reticle logo mark: four scan corner-brackets enclosing a mini window + cursor (on-subject 'capture' iconography; brand evidence)"
+  ],
+  "defects": [
+    "Non-native icon grammar — Lucide/Feather outline icons near-black instead of SF Symbols secondary-gray; deviates from toolbar convention and blocks native lineage confirmation",
+    "Pod-to-toolbar fill contrast ~1.03:1 — control pods lean entirely on shadow/hairline to separate from the bar",
+    "No visible active-tool selection state — cannot confirm inset-rounded accent-fill selection grammar (unassessed, not asserted)"
+  ],
+  "aesthetic": {
+    "adjectives": ["chunked", "monochrome-utilitarian", "soft-capsule"],
+    "direction": "macOS Liquid-Glass utility chrome (neo-grotesque product family: light neutral, capsule radius, monochrome line icons) wearing an editorial-serif brand veneer",
+    "peers": ["CleanShot X", "Open Screen Shot", "CodeShot", "Screen Charm", "Xnapper"],
+    "cluster_hint": "screenshot-annotators",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Miller/chunking — 16 controls grouped into 4 capsule pods keeps each scan target within working-memory limits; the standout, well-executed move",
+    "Jakob's Law — coloured traffic lights + unified toolbar mimic macOS-native chrome so users feel at home (conventional interface)",
+    "Von Restorff (violated/unused) — no single tool or the export action is promoted; all icons render at identical black weight, so nothing is pre-attentively emphasized",
+    "Hick's Law — a tool palette is a browse/expert surface where density is a feature; pod grouping still shortens the scan without thinning options"
+  ],
+  "notes": "SINGLE marketing composite only (1200x630 OG image, perspective-tilted, non-retina) — no dedicated UI shots supplied; icon.png is an ICO file (app icon, out of scope for Workflow A, recorded as brand context). All pixel values are estimated ranges; the only app-UI evidence is the toolbar/chrome (the canvas content is a captured localhost web page, NOT app evidence; the blue wallpaper + serif wordmark are brand, not UI). Lineage is genuinely contested: chrome targets native/Liquid-Glass competently, but Lucide icon set + web canvas + SaaS framing raise a real Tauri/Electron-wrapper possibility that a marketing render cannot settle. DO NOT feed this app to macOS canon (single surface, low lineage confidence, composite source). Needs a real @2x screenshot of an actual editing session (with a selected tool + any inspector/settings) to resolve lineage and unlock the rest of the rubric."
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "purge",
+  "name": "Purge",
+  "tagline": "Reclaim disk space by clearing caches macOS leaves behind.",
+  "category": "Utility",
+  "pricing": "open_source",
+  "website": "https://getpurge.vercel.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0746e27c-90bd-4ddc-b05f-e7ba98c4a62c.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c452c454-35cb-466f-b8ad-90b0b2be9df6.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-53cead1f-dc2f-4215-b7b3-00ad19b0efd7.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2c8c2bfd-e454-42b9-82eb-775dea974455.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/shot-2.png"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "shake-it-on", "name": "Shake it On", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 squircle baked into the PNG as transparent corners rather than a square unmasked layer — risks double-rounding on macOS 26",
+    "#2 maraca tips sit close to the top safe-zone margin; busy at the edges",
+    "#3 composite silhouette (two maracas + fist + cursor + motion arcs) is busy for a single anchor, but 'a hand shaking maracas' reads",
+    "#4 at 16px the duck engraving, motion arcs and cursor smear to noise; only the two wooden bulbs + fist survive (matters — a jiggler lives in the menu bar)",
+    "#7 duck engraving is brown-on-tan (~1.8:1), near-invisible in grayscale (secondary detail only)",
+    "#9 flat-vector cursor and motion arcs are a different rendering register than the 3D-rendered maracas and hand"
+  ],
+  "failures": [
+    "#10 background-dependent: blue shirt sleeve (#57A3D9) and blue motion arcs (#3E9DDF) share the background hue, so the composition would collapse under dark/clear/tinted renders (out-of-era check for Big Sur, but a real fragility)"
+  ],
+  "palette": {
+    "background": "ramp #40A8E8->#2870C8",
+    "glyph": ["#E0B880", "#906838", "#E08040", "#CCA36B", "#385878", "#57A3D9"],
+    "accent": "#E08040"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "other"
+  },
+  "light_model": "soft top / top-left key light; baked ambient-occlusion contact shadows at the grip; short soft drop shadows; matte clay render, no glass specular or refraction",
+  "layer_stack": ["blue gradient squircle", "motion/sound arcs", "two crossed maracas", "gripping hand", "shirt sleeve", "macOS cursor glyph"],
+  "devices": [
+    "shake-pun made literal — a mouse jiggler drawn as maracas",
+    "the macOS arrow cursor pulled into the scene as a physical prop being shaken awake",
+    "rubber-duck engraving stamped on each maraca bulb (brand easter egg)",
+    "flat-vector motion arcs conveying shake in a static frame",
+    "3D clay-render object on a gradient squircle (base Big Sur idiom)"
+  ],
+  "adjectives": ["playful", "punny-literal", "characterful"],
+  "rhymes_hint": "Big Sur 3D-render object-in-a-hand indie-utility family: matte-clay props on a saturated gradient squircle, warm-object-on-cool-field, one saturated accent on the focal detail; playful literal-mascot menu-bar utilities rather than abstract glyphs",
+  "notes": "icon.png is a 400x400 web render, not the 1024 master — edge crispness/specular soft, but hex values reliable. Squircle is baked into the PNG (transparent corners), not a square unmasked layer, so macOS 26 would re-round it. Strong subject-mining and narrative (three nameable devices: maracas-as-jiggler, cursor-as-prop, duck stamp). Chief weakness is blue-on-blue self-similarity (sleeve + arcs vs background) that hurts variant robustness and detail-density that collapses at 16px. Figure-ground move to watch corpus-wide: warm-wood figure on cool-blue ground. glyph_type='scene' because it is a small narrative (hand+maracas+cursor+arcs); primary anchor is the maracas. overlay_device='other' = flat cursor prop bottom-right + motion arcs; maracas are held diagonally (Apple tool-at-an-angle tradition)."
+}

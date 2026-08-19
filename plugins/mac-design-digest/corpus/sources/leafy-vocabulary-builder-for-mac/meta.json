@@ -1,0 +1,16 @@
+{
+  "slug": "leafy-vocabulary-builder-for-mac",
+  "name": "Leafy: Vocabulary Builder for Mac",
+  "tagline": "Press \u2325A to lookup any word on mac, auto save in vocab",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://leafyapp.uk/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/81d20f29-c9d6-4541-901d-835b9bc6b8ca/icon-1783882478709.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/81d20f29-c9d6-4541-901d-835b9bc6b8ca/cover-1783882790399.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/leafy-vocabulary-builder-for-mac/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/leafy-vocabulary-builder-for-mac/cover.png",
+    "shots": []
+  }
+}

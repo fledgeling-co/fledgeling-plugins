@@ -1,0 +1,15 @@
+{
+  "slug": "creavit-studio", "name": "Creavit Studio", "category": "Video",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#4 16px squint: dark card survives but the divider + side rails (the entire identity) smear to a generic charcoal-on-gold blob at Dock/Spotlight size", "#5 single light model: consistent only because wholly flat — no modeled light", "#8 depth coherence: no z-fighting but no depth at all; strict squircle format implies Big Sur baked lighting the art never delivers", "#10 variant robustness: not authored as glass layers, but shape-driven two-tone would survive dark/tinted trivially"],
+  "failures": ["#3 silhouette/subject: filled solid, reads as an abstract framed panel with a slit and two side tabs — not instantly nameable and communicates nothing about video/screen recording"],
+  "palette": {"background": "flat #F2BF00", "glyph": ["#2B2B2B", "#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "abstract", "overlay_device": "other"},
+  "light_model": "Flat / none — no cast shadow, no baked micro-shadow, no specular; two-tone graphic, system supplies the external drop shadow only",
+  "layer_stack": ["gold squircle field", "twin charcoal side capsule rails", "charcoal rounded-rect card", "white bisecting vertical divider"],
+  "devices": ["bisecting white seam splitting the dark panel and running past its ends into the field", "twin charcoal side capsule rails (grips/device-buttons) in the margins", "monochrome charcoal+white mark on a single saturated brand field"],
+  "adjectives": ["high-contrast", "minimal", "enigmatic"],
+  "rhymes_hint": "flat monochrome-abstract-mark-on-one-saturated-brand-field utility icons (charcoal/white glyph on a bright hue); indie-utility flat-squircle family — NOT the diagonal-tool Big Sur family and NOT Liquid Glass specular",
+  "notes": "512x512 resized web export (half the 1024 master); no @2x seen so fine specular/shadow indistinguishable from resize flattening, but unambiguously no glass and no baked depth — a genuinely flat two-tone design, not a downsampled Liquid Glass icon. Background is flat #F2BF00; the #FCC700 at the mask edge is anti-alias, not a ramp. Mask is pre-baked (transparent corners). Cover hero shows the same icon rendered in 3D with an electric-BLUE inner panel where the shipped icon uses charcoal — brand intent appears gold+blue, but shipped icon.png is gold+charcoal+white only (accent-blue present in cover, absent from icon; partial palette coherence). White seam extends beyond the card (y37-473 vs card y58-452), reading as a stand/seam not an inset stripe; sits ~4px right of true center at 512 (negligible)."
+}

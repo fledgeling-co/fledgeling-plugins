@@ -1,0 +1,70 @@
+{
+  "slug": "noticky",
+  "name": "Noticky",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "floating-panel (frameless note windows, 4 instances, in a marketing composite)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "rubric #11 target starvation — '···' menu and ink checkboxes ~16-18px, sub-24px as drawn (likely padded, unverifiable in render)",
+        "rubric #14 focus appearance unevaluable — static marketing render, no focus state visible",
+        "native #3 selection/toggle grammar deviation — custom monochrome ink checkbox instead of native accent-filled (logged as signature, not defect)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "note/paper-yellow", "value": "#FDE375", "quality": "estimated", "notes": "Q2 Roadmap; saturated hero hue"},
+    {"token": "note/paper-pink", "value": "#F5B2CD", "quality": "estimated", "notes": "Design ideas panel"},
+    {"token": "note/paper-green", "value": "#B9E17B", "quality": "estimated", "notes": "Daily goals panel"},
+    {"token": "note/paper-blue", "value": "#8EBDFC", "quality": "estimated", "notes": "API Key panel"},
+    {"token": "note/ink", "value": "near-black ~#0F0D05, title + body both", "quality": "estimated", "notes": "hierarchy is weight-only; body ink not lightened (paper convention)"},
+    {"token": "type/title", "value": "~15px SF Pro Bold", "quality": "estimated", "notes": "one bold title per note, occasional trailing emoji"},
+    {"token": "type/body", "value": "~13px SF Pro Regular", "quality": "estimated", "notes": "13pt-class macOS density"},
+    {"token": "control/checkbox", "value": "rounded square, ~1.5px black stroke, empty-off / black-check-on, radius ~4px", "quality": "estimated", "notes": "monochrome ink, NOT native accent-fill"},
+    {"token": "control/secret-field", "value": "rounded ~capsule, translucent darker fill, value + trailing lock glyph", "quality": "estimated", "notes": "masks sk_live_51H8x…"},
+    {"token": "control/overflow", "value": "'···' three-dot menu top-right of every note", "quality": "estimated", "notes": "note's only chrome affordance"},
+    {"token": "warn/link", "value": "black label + solid red underline ('Do not share')", "quality": "estimated", "notes": "custom warning, not a blue hyperlink"},
+    {"token": "radius/note", "value": "~10-12px", "quality": "estimated", "notes": "panel corner"},
+    {"token": "space/pad", "value": "~16px inner pad, ~8px item gap, ~26-28px checklist row", "quality": "estimated", "notes": "reads on 8/4 grid, no magic numbers"},
+    {"token": "elevation/note", "value": "single soft diffuse drop shadow, no border, frameless", "quality": "estimated", "notes": "paper edge + shadow = entire frame; no title bar / traffic lights"},
+    {"token": "brand/accent", "value": "#F7D155 gold-yellow (marketing panel only)", "quality": "measured", "notes": "brand evidence, NOT an app token"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "frameless colored paper note windows, ~180-190px render width, ~10-12px radius, soft drop shadow, top-right '···' menu, no traffic lights; Stickies-lineage"},
+    {"pattern": "list", "key_values": "in-note checklist — leading ink checkbox (black stroke/black check) + ~13px label, ~26-28px rows, '···' truncation indicator when overflowing"},
+    {"pattern": "other", "key_values": "in-note field block — label above a masked capsule field with lock glyph + red-underlined warning (structured/typed note content, not free text)"}
+  ],
+  "signature_moves": [
+    "Monochrome ink controls on colored paper — checkboxes/bullets/menus drawn as black ink, never the system accent, so every note reads as writable paper not a form",
+    "The note is a structured micro-record (checklist / bullet list / masked-secret+lock field), not a free-text blob — Stickies-with-schema",
+    "Color is the note's filing identity — 4 saturated pastels (yellow hero + pink/green/blue) locate a note wall pre-attentively",
+    "Chrome reduced to two identical '···' glyphs (top-right = menu, bottom-left = more-below) plus the paper edge"
+  ],
+  "defects": [
+    "Target Starvation (soft) — '···' menu and ~16-18px ink checkboxes read below the 24px WCAG hit floor as drawn; likely padded but unverifiable in a render",
+    "Warning-contrast (minor) — red underline on blue paper is a marginal non-text pairing and can read as a spellcheck squiggle; survives because paired with a label",
+    "No Contrast Dilution (positive) — black ink on light paper is high-contrast throughout; app avoids the mid-gray trap"
+  ],
+  "aesthetic": {
+    "adjectives": ["cheerful", "tactile", "unfussy"],
+    "direction": "friendly-stationery — Playful/toy range (saturated pastel paper, rounded corners, chunky bold titles, sticker-soft shadow) crossed with utilitarian restraint (monochrome ink content controls)",
+    "peers": ["Apple Stickies", "Antinote", "Notion colored callouts"],
+    "cluster_hint": "friendly-paper / playful-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law + skeuomorphic recognition — mimics real sticky notes (paper, curled-corner icon) so users arrive already knowing how it works; recognition over recall",
+    "Von Restorff / isolation effect — four distinct note colors make each note individually memorable and locatable at a glance; color-coding as a filing aid",
+    "Zeigarnik effect / goal-gradient — unchecked checklist items create open-loop tension that nags toward completion",
+    "Aesthetic-usability effect — the high-fluency cheerful paper look buys first-contact forgiveness",
+    "Recognition/security tension — masking the API secret labels-and-hides (good), but storing a live secret in an editable note is mild security theater the app itself flags with 'Do not share'"
+  ],
+  "notes": "ONLY evidence is a marketing cover composite (1200x630 OG render), not a raw screenshot — a MacBook mockup showing 4 note panels floating over a code editor (the editor is backdrop demonstrating 'always on top', NOT Noticky UI). All app-surface measurements are (estimated) from a nominal-scale render; no clean pixels, no live chrome states, no dark-mode, no settings/onboarding/menu-bar-extra surfaces. Lineage native is med-confidence (strong SF Pro + Stickies-frameless-panel + macOS scene tells, but composite prevents chrome verification). The left brand panel and the app icon (curled yellow sticky note glowing on black squircle) are brand evidence recorded separately and never merged into app canon. Single app, single surface — corpus stays Novice; no promotions. Highest-value follow-up: a real screenshot (or dark mode) to confirm lineage/era and the checkbox/field control metrics."
+}

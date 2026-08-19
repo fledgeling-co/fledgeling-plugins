@@ -1,0 +1,50 @@
+{
+  "slug": "atlas", "name": "Atlas", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "main window / library (Infinity canvas mode)", "mode": "light", "rubric_score": 11, "native_audit_score": 9, "failures": ["#2 no shared alignment axes — intentional Infinity freeform, not a true fault", "#9 '869 ITEMS' subtitle gray ~#8E8E93 on white, borderline <4.5:1", "#10 sidebar-toggle glyph light-gray on white glass, likely <3:1", "native#4 n/a — sidebar collapsed, headers unseen"]}
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#FFFFFF near-white", "quality": "estimated", "notes": "window content ground; no tint, pure gallery surface"},
+    {"token": "bg/backdrop", "value": "#E2E4E6", "quality": "estimated", "notes": "marketing composite backdrop — BRAND not app; do not learn as app token"},
+    {"token": "type/title", "value": "~13pt SF Pro Semibold, tracked caps ~+0.05-0.07em, #000@85%", "quality": "estimated", "notes": "'HELLO, ATLAS' centered window title, Photos schema, personable"},
+    {"token": "type/subtitle", "value": "~10-11pt SF Pro tracked caps, secondary gray ~#8E8E93", "quality": "estimated", "notes": "'869 ITEMS' item-count line; correctly de-emphasised but contrast borderline"},
+    {"token": "chrome/traffic-lights", "value": "68x14pt cluster in white glass capsule", "quality": "estimated", "notes": "coloured = focused window; floats over content, no titlebar"},
+    {"token": "chrome/sidebar-toggle", "value": "~28pt white glass rounded-square, ~10pt radius, light-gray SF Symbol", "quality": "estimated", "notes": "separate glass island beside traffic-light capsule"},
+    {"token": "control/view-switcher", "value": "dark graphite glass capsule segmented; selected=white capsule + black semibold label", "quality": "estimated", "notes": "floating bottom-center Grid/Canvas/Infinity; native segmented selection grammar"},
+    {"token": "control/import", "value": "~44pt white circular glass, gray tray-down SF Symbol", "quality": "estimated", "notes": "floating bottom-right, single trailing action"},
+    {"token": "radius/item", "value": "~6-8pt", "quality": "estimated", "notes": "opaque content thumbnails"},
+    {"token": "shadow/item", "value": "soft low-opacity ~y+4 blur~16", "quality": "estimated", "notes": "content-layer depth; never glass — clean discipline"},
+    {"token": "accent/primary", "value": "none / neutral (white-graphite)", "quality": "assumed", "notes": "deliberately withheld; colour budget ceded 100% to user content"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "chromeless — no toolbar bar; controls dissolved into 4 floating Liquid Glass islands (traffic-light capsule, sidebar-toggle square, bottom segmented switcher, import FAB); monochrome SF Symbols; single trailing action"},
+    {"pattern": "card-grid", "key_values": "freeform spatial canvas (Infinity mode), not snapped; opaque items ~6-8pt radius, soft shadow, generous uneven whitespace; user imagery carries all colour"},
+    {"pattern": "floating-panel", "key_values": "dark-glass segmented view-switcher (Grid/Canvas/Infinity) bottom-center + white circular import button bottom-right, floating over content"}
+  ],
+  "signature_moves": [
+    "Chromeless content-first shell — all UI dissolved into 4 floating Liquid Glass islands over edge-to-edge imagery; sidebar collapsed; the collection IS the interface. Honours the glass Golden Rule cleanly (glass only on islands, content opaque).",
+    "Zero-accent UI — chrome contributes ~no colour; selection/emphasis neutral white-on-graphite not system blue; every thumbnail becomes figure against a silent frame (Von Restorff by subtraction).",
+    "Floating dark-glass view-mode switcher (Grid/Canvas/Infinity) — spatial browsing modes as core identity; Infinity freeform canvas is the hero mode.",
+    "Personable centered title ('HELLO, ATLAS' / '869 ITEMS') — Photos-schema window title made warm; the only chrome typography."
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — '869 ITEMS' subtitle gray on white borderline <4.5:1; sidebar-toggle glyph likely <3:1. The risk a near-white zero-accent shell courts; fix by pushing subtitle to #000@50% and darkening the glyph."
+  ],
+  "aesthetic": {
+    "adjectives": ["airy", "chromeless", "content-forward"],
+    "direction": "Neo-grotesque product minimalism pushed to gallery-neutral — Restrained colour strategy at its limit, near-white ground, loose density, Liquid Glass depth, SF Pro tracked caps as the only type voice",
+    "peers": ["Apple Photos", "Eagle", "Pixave", "Cosmos"],
+    "cluster_hint": "quiet-gallery",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — stripping UI colour makes every coloured thumbnail the figure; the gallery pops because the frame is silent",
+    "Jakob's Law — coloured traffic lights + centered title + count reads instantly as a native Mac gallery (Photos schema), zero learning cost",
+    "Hick's Law (well-applied) — view modes reduced to 3 and chrome to 4 controls; decision points minimal without thinning the content workspace",
+    "Progressive disclosure — sidebar collapsed and controls hidden as floating islands until needed, foregrounding content",
+    "Aesthetic-usability effect — airy near-white polish buys perceived usability/trust on first contact (with the contrast-floor caveat above)"
+  ],
+  "notes": "Single image and it is a MARKETING COMPOSITE: app window staged on light-gray backdrop (#E2E4E6, brand not app) with generous margin — analyse window interior, treat backdrop as brand. No shot-* files supplied. Only one surface and one view-mode (Infinity freeform canvas) witnessed; disciplined Grid mode spacing unseen, so spatial-grid rubric checks are largely n/a here. All measurements (estimated) from a retina composite. Icon (white 6-point asterisk/sparkle on dark graphite radial gradient) recorded as BRAND evidence only — Workflow A is UI-only, no icon digest written. First app profile in the corpus; corpus stays Novice. Lineage native/high — no web/Catalyst tells. Proposed new cluster 'quiet-gallery' (sole member)."
+}

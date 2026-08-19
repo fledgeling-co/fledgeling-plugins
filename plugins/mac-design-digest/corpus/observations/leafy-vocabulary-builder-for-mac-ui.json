@@ -1,0 +1,61 @@
+{
+  "slug": "leafy-vocabulary-builder-for-mac",
+  "name": "Leafy: Vocabulary Builder for Mac",
+  "category": "Productivity",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (no app UI)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "not-applicable — cover is a 1200x630 Open-Graph brand lockup (icon + serif wordmark on pure-black), not a window capture; 14-point rubric and 10-point native-tells audit have no UI surface to score",
+        "#lineage undeterminable — no traffic lights, toolbar, sidebar, controls, or content present"
+      ]
+    },
+    {
+      "file": "icon.png",
+      "surface_type": "app-icon (Workflow B, out of UI scope)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "not-applicable — this is the app icon, not a UI surface; recorded as brand evidence only, excluded from UI rubric and canon",
+        "180x180 low-res master — all colour values estimated"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/icon-green", "value": "~#A6EE54 (avg 166,238,84; wide range under compression)", "quality": "estimated", "notes": "sole identity hue; chartreuse/lime graffiti glyph — logo palette, NOT a UI token"},
+    {"token": "brand/icon-bg", "value": "charcoal->near-black gradient ~#2D2D2D->#131313", "quality": "estimated", "notes": "glossy top-lit = legacy skeuomorphic light model"},
+    {"token": "brand/backdrop", "value": "#000000", "quality": "measured", "notes": "pure-black cover ground; harsh, minimal icon figure/ground separation"},
+    {"token": "brand/wordmark-ink", "value": "~#F5F5F7 near-white", "quality": "measured", "notes": "high-contrast Didone/transitional display serif"},
+    {"token": "type/wordmark", "value": "high-contrast editorial serif, descending f-swash, curved y-tail (Canela/Didot-class)", "quality": "estimated", "notes": "luxury/editorial register — clashes with the playful icon"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Brand register clash: a Playful/toy neon-graffiti app icon (acid lime on black) locked up against a Luxury/editorial high-contrast serif wordmark — memorable but unresolved, and brand-layer only (no UI evidence to attribute it to)"
+  ],
+  "defects": [
+    "No UI evidence — marketing-only cover with an empty gallery; grid, hierarchy, native fidelity, accessibility, and lineage all unassessable",
+    "Icon off current macOS icon grammar — glossy top-lit gradient + raster hand-art is pre-Big-Sur idiom, not flat-squircle/Icon-Composer (brand-level, not a UI defect; flag for Workflow B)",
+    "Contrast Dilution (cover) — near-#000 icon background on #000000 ground; the green glow does all the figure/ground work"
+  ],
+  "aesthetic": {
+    "adjectives": ["playful", "neon", "dissonant"],
+    "direction": "split-brand: Playful/toy + terminal-neon (icon) vs Luxury/editorial serif (wordmark) — no mediating layer; brand evidence only, not a UI aesthetic",
+    "peers": ["indie hand-drawn utility icons (Bartender-era menu-bar tools)", "editorial serif wordmarks (Canela/Didot-class brands)"],
+    "cluster_hint": "unresolved-brand — do not seed a UI style cluster from this; icon and wordmark pull opposite directions",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — acid-lime glyph on pure black maximises pop; the icon's one legible move",
+    "Aesthetic-usability effect — cannot be assessed: no interface was supplied, so first-impression usability of the actual app is unknown",
+    "Jakob's Law — undeterminable; without a window we cannot tell whether the app honours macOS conventions"
+  ],
+  "notes": "Marketing-only inputs: cover.png is an OG-ratio (1.90:1) brand composite, not a screenshot, and meta.json's gallery is empty. No application UI window exists in any file, so lineage/era classification, the 14-point rubric, and the 10-point native-tells audit are all not-applicable — surfaces are recorded with 0/0 to mean 'no scorable UI', NOT 'scored zero'. icon.png is a 180px low-res icon (Workflow B, excluded from this UI digest; colours estimated). The tagline implies a menu-bar-extra + lookup-popover utility, but that is inference from copy and is not design evidence. Keep brand-layer colours (acid green / black) out of any UI cluster. This app cannot advance the corpus until real app screenshots (main window, lookup popover, menu-bar extra, settings) are supplied."
+}

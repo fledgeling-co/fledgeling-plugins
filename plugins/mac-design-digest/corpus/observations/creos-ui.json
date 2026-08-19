@@ -1,0 +1,66 @@
+{
+  "slug": "creos", "name": "CREOS", "category": "Productivity",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing cover composite (brand hero + stylised save-card renders; NO app window)",
+      "mode": "dark",
+      "rubric_score": 6,
+      "native_audit_score": 0,
+      "failures": [
+        "#10 container UI-contrast <3:1 — text cards #111111 sit ~6/255 above #050505 backdrop; separate by content not fill (intentional moody look)",
+        "#1 partial — card-internal padding reads on-grid (~16px) but overall card mosaic is a free marketing scatter, off-grid by design",
+        "native-audit N/A — no window chrome present (no traffic lights/toolbar/sidebar); lineage, glass, selection, density, toolbar all unassessable; score 0 means 'cannot assess', not 'fails'",
+        "rubric denominator note — only 8 of 14 checks applicable (no controls/inputs/forms/focus/CTA on a hero); 6/8 passed"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/backdrop", "value": "#050505 near-black, faint centre vignette", "quality": "estimated", "notes": "the 'stage'; content supplies the colour"},
+    {"token": "bg/card", "value": "#111111 (text cards)", "quality": "estimated", "notes": "only ~6/255 lift over backdrop"},
+    {"token": "text/primary", "value": "#FFFFFF", "quality": "estimated", "notes": "display headline"},
+    {"token": "text/secondary", "value": "#AAAAAA (~67%)", "quality": "estimated", "notes": "tagline"},
+    {"token": "text/tertiary", "value": "#818181 (~51%)", "quality": "estimated", "notes": "card body; clean de-emphasis ladder FFF->AAA->818181"},
+    {"token": "type/display", "value": "~88-95px geometric rounded sans (Poppins-class) Bold, lh ~1.05", "quality": "estimated", "notes": "friendly-rounded, not sharp neo-grotesque"},
+    {"token": "type/card-title", "value": "~14-16px Semibold near-white", "quality": "estimated", "notes": ""},
+    {"token": "type/card-body", "value": "~12-13px Regular #818181", "quality": "estimated", "notes": ""},
+    {"token": "type/badge", "value": "~10-11px uppercase tracked", "quality": "estimated", "notes": "content-type tag"},
+    {"token": "tag/hook-amber", "value": "text #D9A520 on pill #302410", "quality": "estimated", "notes": "role-coded content type"},
+    {"token": "tag/script-blue", "value": "text #6DB7DA", "quality": "estimated", "notes": "role-coded content type"},
+    {"token": "tag/idea-green", "value": "text #40846A", "quality": "estimated", "notes": "role-coded content type"},
+    {"token": "link/thread", "value": "#4371A8 muted blue (NOT system #0088FF)", "quality": "estimated", "notes": "custom palette, not system accent — off-platform tell if it carries into real app"},
+    {"token": "radius/card", "value": "~14-16px", "quality": "estimated", "notes": "no nested controls to check concentricity"},
+    {"token": "space/card-padding", "value": "~16px internal", "quality": "estimated", "notes": "badge->title->body steps tight"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "save-card mosaic; two archetypes: text-forward (coloured type-badge -> bold title -> 2-4 line secondary body) and media (full-bleed photo thumb + overlay caption + platform provenance badge + status line 'Saved / N saves / transcript ready'); ~14-16px radius; #111 fill on #050 backdrop; free-scatter marketing layout, not a verified product grid"},
+    {"pattern": "other", "key_values": "thread-notification save card (circular avatar, name, @handle, X-dismiss, body, 'Show this thread - 1/7' muted-blue link) = ingested X/Twitter save; borrows social-feed schema wholesale (Jakob's Law)"}
+  ],
+  "signature_moves": [
+    "Stage-and-paint inversion: UI is a pure #050505 void, the user's own photographic saves supply 100% of the colour (café / strawberries / coffee / cliffs / desk gear as a curated gallery) — the whole 'second brain for creators' identity in one decision",
+    "Role-coded content-type tags (HOOK amber / SCRIPT blue / IDEA green) — a save is a typed creative artifact, chunked into 3-5 recall-friendly categories, muted mid-saturation hues on dark translucent pills",
+    "Brand tension: photoreal chrome / Y2K emblem (retro-futurist luxe) against a restrained dark-mode content tool — coherent across icon+cover but off-platform, reads 'premium marque' more than 'creator tool'"
+  ],
+  "defects": [
+    "Contrast Dilution (mild, intentional) — text cards #111111 vs #050505 backdrop give <3:1 container UI-contrast; cards read via content + faint edge only",
+    "Evidentiary: no window chrome anywhere -> lineage unverifiable -> zero contribution to macOS canon; marketing covers systematically over-polish vs the real app",
+    "Off-platform accent — bespoke muted link/tag palette instead of system accent (unverified whether it carries into the shipped app)"
+  ],
+  "aesthetic": {
+    "adjectives": ["cinematic", "curated", "content-forward"],
+    "direction": "Dark content-mosaic / gallery-consumer — a near-black neutral stage where photographic content is the color; remix of Neo-grotesque-product (dark neutral) surface with a Pinterest/lookbook mosaic, softened toward consumer by a friendly rounded display face; a Retro-futurist/Y2K flourish confined to the chrome emblem",
+    "peers": ["mymind", "Pinterest", "Cosmos", "Raycast (dark surface)"],
+    "cluster_hint": "dark-content-mosaic (gallery-consumer)",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — single white headline on a black stage is the one high-contrast focal; unmissable first-impression thesis",
+    "Aesthetic-Usability Effect (Kurosu & Kashimura) — the cinematic gallery buys first-contact trust; halo, not proof of usability",
+    "Jakob's Law / schemas — save-card + platform-provenance-badge + thread-notification borrow the trained social-feed model so creators parse the app instantly",
+    "Miller/Cowan chunking — role-coded HOOK/SCRIPT/IDEA tags keep the content taxonomy inside the 3-5 working-memory band",
+    "Picture superiority + peripheral vision — photographic thumbnails in the periphery pull the eye, apt for a visual tool (and exploited by the marketing)"
+  ],
+  "notes": "CRITICAL for synthesis: this is a macapp.supply MARKETING COVER COMPOSITE (1200x630 web render), not an app-window screenshot. There is NO native chrome (no traffic lights, toolbar, sidebar, controls, forms). Therefore: lineage=unknown/low, era=unknown, native_audit_score=0 means 'unassessable' NOT 'scored zero', and NOTHING here may feed macOS canon or a native style cluster. All tokens (estimated) from a single non-native surface — none promotable. What the render DOES evidence: the brand aesthetic (dark cinematic gallery, rounded-sans display, chrome Y2K emblem) and the information model (typed social-content saves as cards, role-coded tags, provenance badges). Weak non-native tells present (tracked-uppercase tags, card-scatter, X-dismiss, custom link-blue) lean consumer/web but are unverified marketing renders — record as tells-with-caveat only. Brand coherence with icons/creos.md is strong (same chrome glyph + white rounded-sans CREOS wordmark on near-black). Highest-value next input: one real app-window screenshot — it would establish lineage and unlock everything this cover cannot."
+}

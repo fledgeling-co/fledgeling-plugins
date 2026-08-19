@@ -1,0 +1,86 @@
+{
+  "slug": "bartender-6",
+  "name": "Bartender 6",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "settings-window / Menu Bar Style pane (focused, split-view)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 9,
+      "failures": [
+        "#10 row dividers and card borders <3:1 against dark fill; hierarchy rides on tonal fill-steps only",
+        "#14 no focus ring visible in a still — n/a not counted as pass",
+        "native#3 sidebar selection is solid-accent fill (System Settings house style) rather than the general flat-inset-translucent rule — deliberate mimicry, soft item"
+      ]
+    },
+    {
+      "file": "cover.png",
+      "surface_type": "settings-window / General pane (inactive window, behind)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 9,
+      "failures": [
+        "#10 same low-contrast dividers/borders",
+        "#14 n/a from still",
+        "re-evidences hero-card pattern and correct inactive-window accent muting (traffic lights greyed, selection de-tinted)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "~#1A1C1E near-black navy (dark)", "quality": "estimated", "notes": "kit dark window bg #1E1E1E matches within range; confirmed both panes"},
+    {"token": "bg/card-elevated", "value": "~#26282C, one tonal step up", "quality": "estimated", "notes": "hero card + every grouped container; depth by tonal elevation not shadow; confirmed"},
+    {"token": "accent/primary", "value": "system blue ~#0A84FF (kit dark Blue #0091FF)", "quality": "estimated", "notes": "single accent binds selection + all switches + the one filled primary; no colour drift; confirmed"},
+    {"token": "text/primary", "value": "#FFFFFF", "quality": "estimated", "notes": "confirmed"},
+    {"token": "text/secondary", "value": "~50-55% white grey", "quality": "estimated", "notes": "descriptions, counts, inactive toolbar title; confirmed"},
+    {"token": "type/body-label", "value": "reads 13pt SF Pro Regular/Medium", "quality": "estimated", "notes": "matches System Settings 13pt body; confirmed"},
+    {"token": "type/section-header", "value": "reads 13pt SF Pro Semibold, Title Case", "quality": "estimated", "notes": "NOT tracked uppercase — native tell #2 pass; confirmed"},
+    {"token": "type/hero-title", "value": "reads ~22-26pt SF Pro Bold, centred", "quality": "estimated", "notes": "LargeTitle/Title1 class, per-pane title inside hero card; confirmed"},
+    {"token": "selection/sidebar", "value": "solid accent-blue fill, radius ~8, full-width minus ~4px inset, white glyph-tile + text", "quality": "estimated", "notes": "System Settings house style; mutes to no-fill when window inactive; confirmed"},
+    {"token": "sidebar/layout", "value": "flat 9-item list, no headers, ~200-210px wide, rows ~28-32pt, SF Symbol on ~18-20pt rounded monochrome tile", "quality": "estimated", "notes": "near-exact System Settings sidebar clone; confirmed"},
+    {"token": "radius/card", "value": "~10-12pt hero + grouped containers", "quality": "estimated", "notes": "confirmed"},
+    {"token": "radius/tile", "value": "~5-6pt sidebar/hero icon tiles", "quality": "estimated", "notes": "concentric: child tile radius < parent card radius"},
+    {"token": "control/switch", "value": "macOS capsule switch, blue on", "quality": "estimated", "notes": "off state dimmed not hidden (native tell); confirmed"},
+    {"token": "control/popup", "value": "pop-up button, double up/down chevron, value-shows-selection", "quality": "estimated", "notes": "correct pop-up (pick-a-value) grammar; confirmed"},
+    {"token": "control/gradient-editor", "value": "capsule gradient bar, draggable ringed circular stops, Add Stop + N-stops count", "quality": "estimated", "notes": "purpose-built custom control; inferred (one pane)"},
+    {"token": "chrome/toolbar-accessory", "value": "capsule pill 'Apply to all' + inline switch, trailing", "quality": "estimated", "notes": "glass vs tinted-fill indeterminate in dark still"},
+    {"token": "divider/row", "value": "hairline <3:1 on dark fill", "quality": "estimated", "notes": "hierarchy carried by fill-step; see defects"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "flat list, no section headers, ~200-210px, SF Symbol on rounded monochrome tile per row, rows ~28-32pt, SOLID accent-blue selection radius ~8 (System Settings house style), de-tints when window inactive"},
+    {"pattern": "settings", "key_values": "split-view; scrolling detail pane on one left axis; grouped Title-Case sections each = header + rounded container of left-label/right-control rows; between-section gap > within-group gap; right controls share a right axis"},
+    {"pattern": "list", "key_values": "grouped inset form rows with hairline dividers, ~36-44pt tall, left label / right pop-up-or-switch"},
+    {"pattern": "onboarding", "key_values": "per-pane hero header card: centred icon tile + LargeTitle pane title + one-line secondary description — replaces stock straight-into-groups"},
+    {"pattern": "toolbar", "key_values": "unified titlebar: leading traffic lights, sidebar-toggle symbol + pane title at content-left, trailing capsule accessory pill with inline switch"},
+    {"pattern": "menu-bar-extra", "key_values": "styled menu-bar preview: gradient/solid capsule bar, Capsule shape, Separate Pills toggle, optional shadow/border — the product's output surface"}
+  ],
+  "signature_moves": [
+    "Hero header card per settings pane (icon tile + LargeTitle + one-line description) titling each 'chapter' of a config-heavy app — systematic across both panes",
+    "System Settings sidebar+form impersonated near-exactly as native camouflage (Jakob's Law) so a menu-bar rewriter feels OS-sanctioned",
+    "Purpose-built capsule gradient editor with ringed draggable stops — subject-mined custom control built to native standards"
+  ],
+  "defects": [
+    "Spelling typo — 'Seperate Pills' should be 'Separate Pills'; shipping in live UI, undercuts otherwise System-Settings-grade fidelity",
+    "Contrast Dilution (non-text) — row dividers and card borders <3:1 on dark fill; structural hierarchy rides entirely on tonal fill-steps (dark grouped-form convention, but near the WCAG 3:1 floor)",
+    "Secondary description text reads near the 4.5:1 floor on dark (watch, unverified from composite)"
+  ],
+  "aesthetic": {
+    "adjectives": ["orderly", "self-effacing", "orienting"],
+    "direction": "macOS System Settings idiom — platform-native dark, neo-grotesque-product family expressed through Apple's own settings chrome rather than a bespoke look; the only authored flourish is the per-pane hero card",
+    "peers": ["macOS System Settings", "Ice", "Hidden Bar", "One Switch", "iStat Menus preferences"],
+    "cluster_hint": "native-settings-idiom (System-Settings-clone utilities)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — cloning System Settings' sidebar+form means users already know how to operate a config-dense app; near-zero learning cost, and borrowed OS authority for a tool that rewrites the menu bar",
+    "Hick's Law / chunking (Miller-Cowan) — a very large option space is chunked into a flat 9-item sidebar and 3-5-row grouped sections; per-pane hero cards add progressive disclosure",
+    "Von Restorff effect — a single blue accent (selection + switches + one primary) against monochrome dark makes the active pane and action pop",
+    "Aesthetic-Usability Effect — System-Settings-grade polish buys first-contact trust for a utility making deep, slightly scary OS modifications",
+    "Doherty Threshold / feedback — the 'Apply to all' switch plus a live styled-menu-bar preview closes the see-the-result loop immediately"
+  ],
+  "notes": "Evidence is a MARKETING COMPOSITE only (two overlapping settings windows floated on a Tahoe-style wallpaper; no headline text, no standalone shots in meta.json — gallery empty). No exact pt is recoverable: window render scale is unknown, so every value is (estimated) with ranges anchored to the macos-27 kit and System Settings convention the app tracks. Both 'surfaces' are two panes of the SAME window in one image (General pane is inactive/behind), counted separately because they re-evidence tokens. Task was Workflow A (UI) ONLY — the icon.webp (a black skeuomorphic tuxedo/butler, Big Sur squircle) was read for context but NOT digested as an icon; note the cover deliberately RECOLORS that black tuxedo to white/grey (brand evidence, do not conflate with the shipped black icon). Dark-mode humility: cannot confirm Liquid Glass vs solid material on the toolbar 'Apply to all' pill from a dark still — recorded insufficient-evidence, no glass-in-content violation either way. Lineage native but confidence only med because all judgments come from one composite; a real @2x screenshot would confirm and unlock absolute pt."
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "lookaway", "name": "LookAway", "category": "Productivity",
+  "era": "liquid-glass",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 mask: reads squircle-native but bakes in its own gold specular rim and is delivered pre-masked (HIG says provide unmasked square + let system apply specular); corner is a continuous-rounded superellipse, slightly rounder than classic Big Sur",
+    "#10 variant robustness: composition survives tint/mono (meaning rides eye-arcs + blob shape) but as a baked raster it ships no true Icon Composer default/dark/clear/tinted variants"
+  ],
+  "failures": [
+    "#3 silhouette: filled solid black the contour is an un-nameable pebble and the dark eyes merge away — identity lives in interior negative-space eye-arcs, not contour (recovers under grayscale/luminance and 16px squint via strong blob-on-black figure-ground)"
+  ],
+  "palette": {
+    "background": "near-flat black #000000->#151515 (faint ambient glow under blob)",
+    "glyph": ["#F972D1", "#FF6FC1", "#FA8A8A", "#ECA15F", "#EDAC5B", "#0C0905"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "single warm environmental light from upper-right; bronze/gold specular rim on top squircle edge (brightest upper-right #634E30); emissive self-luminous gradient core rather than lit object; soft ambient bloom beneath, no hard cast shadow",
+  "layer_stack": ["black field", "ambient under-glow (blob bloom onto field)", "luminous pink->peach emissive blob", "dark eye-arcs (negative detail)", "warm specular rim on squircle edge"],
+  "devices": [
+    "closed-eyes rest-face (two upturned arcs = peaceful/sleeping eyes; literal 'look away and rest')",
+    "emissive gradient orb (self-luminous pink->peach pebble on black, no outline)",
+    "warm specular rim (single bronze/gold top-edge light-catch)",
+    "dark-field figure-ground (glow-on-black, not Big-Sur light-field)"
+  ],
+  "adjectives": ["serene", "luminous", "tender"],
+  "rhymes_hint": "dark-field emissive-orb wellness/mindfulness icons (glowing gradient blob on black, meaning carried by glow + minimal face) — rhymes with meditation/breathing/AI-assistant 'orb' icons more than any productivity-tool icon; candidate 'emissive-orb / soft-wellness' cluster, unconfirmed (first icon in corpus)",
+  "notes": "Resolution: 256x256 web render (downsized, likely from 1024) — fine specular/refraction detail and true glass layering not assessable; mild gradient banding from downscale. Baked raster, NOT Icon Composer-authored: gold rim + glow are baked in against HIG (system should apply specular; ships no light/dark/clear/tinted variants). Era classified liquid-glass on VISUAL LANGUAGE (warm specular rim, translucent emissive core, dark-mode-native field) though structurally it is a single front plane quoting the era, not a layered glass stack. Glyph_type marked 'abstract' but reads as a minimal mascot-face. Strong brand coherence: cover's timer-notification glyph reuses the same magenta->gold ramp; icon == hero app icon in cover. For SYNTHESIS: the load-bearing learning is the silhouette/luminance tradeoff — emissive-orb icons deliberately forgo contour-nameability and win at Dock/Spotlight through figure-ground glow instead; verify whether that is a defensible cluster convention against >=2 more dark-glow icons."
+}

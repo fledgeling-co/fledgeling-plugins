@@ -1,0 +1,16 @@
+{
+  "slug": "drivemosaic",
+  "name": "DriveMosaic",
+  "tagline": "Treemap disk analyzer for macOS. Spot space hogs instantly.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://drivemosaic.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ecd6891-2ef7-42cb-9e35-10dc5b4df065.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-25c97edd-13a1-47b3-a52c-633a1ee48d66.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/drivemosaic/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/drivemosaic/cover.png",
+    "shots": []
+  }
+}

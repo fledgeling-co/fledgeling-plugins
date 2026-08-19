@@ -1,0 +1,16 @@
+{
+  "slug": "ajar",
+  "name": "Ajar",
+  "tagline": "Lid Angle Sync & Keep Awake for AI Agents on Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://parcse.com/ajar",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-95f60bab-8ee8-4ddd-99f3-3c4c1a008188.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-e938bef8-0d31-438e-8b5e-92eb99d03ac6.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ajar/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ajar/cover.jpg",
+    "shots": []
+  }
+}

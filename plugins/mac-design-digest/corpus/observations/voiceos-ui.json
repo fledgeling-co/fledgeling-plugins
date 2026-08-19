@@ -1,0 +1,43 @@
+{
+  "slug": "voiceos", "name": "VoiceOS", "category": "Productivity",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-composite (OG-card 1200x630, no app UI)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — no macOS window present: no traffic lights, toolbar, sidebar, or content area; nothing scoreable"]},
+    {"file": "icon.webp", "surface_type": "app-icon tile (204x204, brand evidence — not a UI surface)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — app icon, not a UI screenshot; full icon rubric out of scope for this Workflow-A pass"]}
+  ],
+  "tokens": [
+    {"token": "brand/accent-blue", "value": "#126FF6", "quality": "measured", "notes": "the 'Voice' headline word; more saturated than kit system Blue #0088FF — a chosen brand electric-blue, NOT the platform accent. Brand-layer only."},
+    {"token": "brand/ink", "value": "#000000", "quality": "measured", "notes": "headline body text — pure black (marketing licence; native primary is 85% black)"},
+    {"token": "brand/logo-black", "value": "#0D0D0D", "quality": "measured", "notes": "VO mark on cover"},
+    {"token": "brand/bg-marketing", "value": "#F8F8F8", "quality": "measured", "notes": "flat achromatic light ground; plainer than apple.com #F5F5F7"},
+    {"token": "brand/card-fill", "value": "#F4F6F9 -> #EDEFF1", "quality": "measured", "notes": "faintly cool blue-gray app-collage card with soft diffuse shadow"},
+    {"token": "brand/headline-type", "value": "~72-80px Bold geometric-humanist sans (SF Pro Display-class)", "quality": "estimated", "notes": "two-line display, single weight, no serif pairing"},
+    {"token": "icon/tile-bg", "value": "white -> #F0F0F0 top-lit gradient", "quality": "measured", "notes": "Big Sur-era material tile, slight warm-neutral"},
+    {"token": "icon/glyph", "value": "charcoal #292929; circle edge #151515", "quality": "measured", "notes": "flat down-triangle + subtly-spherical circle; the only depth cue in the mark"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing OG-card: two-zone (display type stack | app-collage card). Not an interface pattern — no sidebar/toolbar/list/etc. evidenced."}
+  ],
+  "signature_moves": [
+    "Monochrome 'VO' mark built from two primitives — down-triangle (V) + filled circle (O); the circle carries a whisper of spherical shading while the triangle stays flat, the entire depth budget on one shape's edge",
+    "One-word accent: exactly one blue word ('Voice') in an otherwise pure-black headline (Von Restorff isolation as the brand's whole color strategy)",
+    "App-collage arc: 'works inside tools you already use' rendered as a fanned diagonal of recognizable third-party icons (positioning device, not a UI pattern)"
+  ],
+  "defects": [
+    "None assignable — no UI surface exists to audit; running the 14-point or native-tells rubric would be fabrication"
+  ],
+  "aesthetic": {
+    "adjectives": ["minimal", "monochrome", "utility-crisp"],
+    "direction": "Apple-marketing neo-grotesque minimal — restrained color strategy (single electric-blue accent ~5% of pixels), light theme, heavy single-weight display sans, monochrome mark; brand-layer only, not native-UI taste",
+    "peers": ["Superhuman (landing brand)", "Raycast (mark restraint)", "Apple product-page marketing"],
+    "cluster_hint": "not-clusterable-yet (no UI evidence); brand register would sit near a 'quiet monochrome utility' family if UI ever confirms it",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — the app-collage of familiar third-party icons signals 'fits the tools you already know', trading on trained expectations",
+    "Von Restorff effect — the single blue accent word is remembered precisely because everything around it is black",
+    "Aesthetic-Usability effect — the polished marketing surface buys a usability halo the actual (unseen) app has not yet earned"
+  ],
+  "notes": "MARKETING-ONLY DIGEST. Neither supplied image is a macOS UI screenshot: cover.png is an OG-card composite (headline + app-icon collage, zero window chrome), icon.webp is the app tile. No gallery shots were provided (meta.json shots: []). Therefore lineage and era are genuinely unknown and MUST NOT be inferred from marketing typography; rubric/native-audit scores are n/a (recorded as 0, meaning not-scoreable, not zero-quality). All tokens are BRAND-LAYER and must be excluded from macOS canon. To make VoiceOS digestible, the synthesis pass needs real app-window screenshots (the menu-bar panel / dictation HUD this voice utility presumably ships)."
+}

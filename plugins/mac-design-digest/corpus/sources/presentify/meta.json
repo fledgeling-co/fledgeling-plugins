@@ -1,0 +1,16 @@
+{
+  "slug": "presentify",
+  "name": "Presentify",
+  "tagline": "Screen Annotation",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://presentifyapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/562ee5b9-f8c8-482f-bd40-7839a734b8ad/icon-1783882475920.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/562ee5b9-f8c8-482f-bd40-7839a734b8ad/cover-1783882476053.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/presentify/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/presentify/cover.jpg",
+    "shots": []
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "cursor", "name": "Cursor", "category": "Dev",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-cover (brand lockup — no app UI window)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["N/A — not a UI surface: 14-point rubric and 10-point native-tells audit both inapplicable; cover is a centred off-white logo lockup on a warm near-black ground, no chrome/controls/content to measure"]}
+  ],
+  "tokens": [
+    {"token": "brand/bg-cover", "value": "#14120B (warm near-black, R20 G18 B11)", "quality": "measured", "notes": "brand evidence only; distinctly warm/brown-ward, not neutral or blue-black"},
+    {"token": "brand/logo-fill", "value": "#EDECEC (off-white)", "quality": "measured", "notes": "brand evidence; slightly warm-neutral, not pure #FFF; single-ink monochrome lockup"},
+    {"token": "brand/palette-economy", "value": "2 values (1 ground + 1 ink), no accent", "quality": "measured", "notes": "maximally restrained brand palette"},
+    {"token": "brand/wordmark-face", "value": "extended geometric techno-grotesk, wide tracking, monoline, squared/softened counters (Eurostile Extended / Michroma / Bank-Gothic class)", "quality": "estimated", "notes": "industrial/hardware-tech feel; likely custom or customised"},
+    {"token": "brand/mark", "value": "rounded-edge isometric cube with negative-space downward cursor arrow", "quality": "estimated", "notes": "cube/block + cursor pun in one glyph; soft-rounded corners"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Brand (not UI): cube-as-cursor negative space — an isometric cube conceals a downward pointer via cut-out geometry, encoding 'build/block' + 'cursor' in one mark",
+    "Brand (not UI): warm near-black ground (#14120B) deliberately off the dev-tool neutral/blue-black default — single data point, uncorroborated by any UI surface"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["industrial", "monochrome", "restrained"],
+    "direction": "Industrial / utilitarian brand mark (extended techno-grotesk + warm-black ground) — brand layer only; no product aesthetic observable",
+    "peers": ["Zed", "VS Code", "Windsurf", "Linear (dark dev-tool brand register)"],
+    "cluster_hint": "insufficient evidence — brand-only, no UI cluster assignable",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff / single-signal (brand): a two-value monochrome lockup makes the mark the sole focal object — nothing competes; observed on the cover, not a product claim",
+    "Jakob's Law (unverifiable here): as a VS Code fork Cursor would inherit trained editor conventions, but no UI was supplied to confirm"
+  ],
+  "notes": "MARKETING-ONLY COVER, NO APP UI. macapp.supply payload = cover.png + icon.webp only (empty gallery, zero shot files). The cover is a pure brand composite (logo lockup on flat warm-black), so NO UI rubric, native-tells audit, layout skeleton, or lineage-from-body was possible. lineage 'web-electron' is an EXTERNAL product-knowledge prior (Cursor = Electron VS Code fork), NOT derived from the image — treat as low-weight, non-canon. rubric_score/native_audit_score set to 0 to denote not-applicable, not measured failure. Cursor contributes NO macOS-native UI evidence to the corpus yet. Synthesis pass: do not cluster, do not promote anything, do not let brand tokens leak into UI/native canon. To advance, need a real Cursor app-window screenshot (light+dark). The icon.webp was not digested (task scoped to Workflow A / UI only)."
+}

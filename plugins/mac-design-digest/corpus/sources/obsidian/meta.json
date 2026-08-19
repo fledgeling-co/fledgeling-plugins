@@ -1,0 +1,16 @@
+{
+  "slug": "obsidian",
+  "name": "Obsidian",
+  "tagline": "The free and flexible app for your private thoughts.",
+  "category": "Writing",
+  "pricing": null,
+  "website": "https://obsidian.md/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7b6dd031-7525-4c6b-95c6-6b1e1701f154/icon-1783882472975.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7b6dd031-7525-4c6b-95c6-6b1e1701f154/cover-1783882786059.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/obsidian/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/obsidian/cover.png",
+    "shots": []
+  }
+}

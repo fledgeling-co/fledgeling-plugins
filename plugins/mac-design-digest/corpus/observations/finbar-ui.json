@@ -1,0 +1,68 @@
+{
+  "slug": "finbar",
+  "name": "Finbar",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png (app window inside marketing composite; right edge cropped)",
+      "surface_type": "floating search palette / menu-bar command results panel",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 selection text ~3.5-3.7:1 (white on systemBlue #0088FF) borderline vs AA 4.5:1 for 13-14pt body",
+        "#3 (rubric) full-width hairline under every row flattens within- vs between-group proximity; only section whitespace signals grouping",
+        "native #3 selection is full-bleed saturated bar with white text, not the current inset-rounded accent-tinted fill"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "accent/selection", "value": "#0088FF", "quality": "measured", "notes": "exact match to macOS-27 kit System Blue (Light); system accent correctly bound to selection + all icon glyphs"},
+    {"token": "bg/panel", "value": "#F8F8F8", "quality": "measured", "notes": "softened off-white for results + search header, not pure #FFF"},
+    {"token": "selection/style", "value": "full-bleed saturated fill, white label/glyph, translucent-white count pill", "quality": "measured", "notes": "no inset, no rounded corners; legacy NSTableView selection idiom"},
+    {"token": "selection/text-contrast", "value": "#FFFFFF on #0088FF ~= 3.5-3.7:1", "quality": "estimated", "notes": "Apple's own selection combo; below AA 4.5:1 for normal text"},
+    {"token": "icon/tint", "value": "#0088FF monochrome line-art", "quality": "measured", "notes": "3 node glyphs (menu window-outline / command menu-item / script {}) all one accent hue"},
+    {"token": "type/search", "value": "~16-18pt SF Pro Regular", "quality": "estimated", "notes": "search-field text/placeholder, larger than list body; retina scale of composite indeterminate"},
+    {"token": "type/body", "value": "~13-14pt SF Pro Regular", "quality": "estimated", "notes": "row labels; snaps to 13pt macOS Body; scale caveat applies"},
+    {"token": "type/section-header", "value": "~11pt SF Pro, gray ~#8E8E93, Title Case", "quality": "estimated", "notes": "'Menu Items'/'Scripts' — native title-case header, not tracked uppercase"},
+    {"token": "type/count-badge", "value": "~11pt dark number in gray capsule pill ~#E3E3E3", "quality": "estimated", "notes": "immediately after label, not right-aligned"},
+    {"token": "row/height", "value": "~26-28pt", "quality": "estimated", "notes": "comfortable native list row; relative-to-header ratio is the reliable read"},
+    {"token": "search-header/height", "value": "~48-52pt", "quality": "estimated", "notes": "tall borderless Spotlight-style search field"},
+    {"token": "separator", "value": "~1px #E5E5E5 hairline, full-width, under every row", "quality": "estimated", "notes": "table-with-gridlines, not source-list grouping"},
+    {"token": "chrome/search-field", "value": "borderless; leading slot holds target app icon (Finder), not a magnifier glyph", "quality": "measured", "notes": "contextual scope affordance"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "borderless search header (~48-52pt) + hairline divider + opaque results list; no traffic lights; NSPanel-style launcher"},
+    {"pattern": "list", "key_values": "single-column outline; ~28pt rows; disclosure chevron + accent glyph + label + capsule count pill; full-width per-row hairlines; depth by icon indent"},
+    {"pattern": "menu-bar-extra", "key_values": "renders a target app's full menu bar as a searchable, quantified tree (top-level menus -> commands -> sub-menus), plus a Scripts section"},
+    {"pattern": "other", "key_values": "count-badge-on-every-branch = information-scent device unique to this app vs Spotlight/Alfred flat match lists"}
+  ],
+  "signature_moves": [
+    "Quantified menu tree: a live count pill on every branch ('File 38', 'Edit 16', 'Services... 24') turns the menu bar into a browsable, sized outline and surfaces depth before you open a node",
+    "App-icon-as-search-context: the search field's leading slot shows the target app's icon (Finder) instead of a magnifier glyph, answering 'whose menus am I searching?'",
+    "Single-hue monochrome iconography: three node glyphs (menu / command / script {}) all in system accent #0088FF, so the icon column reads as structure not decoration"
+  ],
+  "defects": [
+    "Full-bleed selection idiom (native-tell, defensible) - saturated edge-to-edge bar with white text instead of the current inset-rounded accent-tinted fill; systematic + purposeful for a keyboard palette so recorded as category convention, but the clearest divergence from macOS 26+ grammar",
+    "Contrast Dilution (adjacent) - a hairline under every row (not just sections) adds grid noise and flattens the proximity ladder; source-list grouping by whitespace would let labels + badges carry structure",
+    "Selection text contrast borderline - white on systemBlue ~3.5-3.7:1, under AA 4.5:1 for body-size text (a semibold selected-row weight would help)"
+  ],
+  "aesthetic": {
+    "adjectives": ["utilitarian", "high-contrast", "system-faithful"],
+    "direction": "Neo-grotesque product / native-utilitarian - HIG-default utility carried by one saturated system accent rather than a committed bespoke look; competent-but-anonymous chrome with a strong functional idea",
+    "peers": ["macOS Spotlight", "Alfred", "Raycast"],
+    "cluster_hint": "native-utility-launcher (menu-bar-utility)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Information scent (Pirolli & Card) - count badge on every branch predicts how much lives behind a node before opening it; the app's core UX bet",
+    "Jakob's Law - search-at-top + keyboard list nav mirror Spotlight/Alfred, so the interaction is pre-learned; near-zero onboarding cost",
+    "Von Restorff effect - single saturated selection row is unmistakably the 'Enter fires this' target",
+    "Recognition over recall - shows the actual menu labels rather than requiring users to remember which menu a command lives under (the product thesis)",
+    "Fitts's Law - full-width rows are large hit targets, though the surface is keyboard-first"
+  ],
+  "notes": "ONLY evidence is the app window embedded in a marketing cover composite (1200x630), cropped at the right edge - no dedicated screenshots in sources (gallery empty). Retina scale of the embedded window is indeterminate, so all pt sizes are estimated and could be off by ~2x; relative density and the scale-independent, pixel-confirmed accent #0088FF are the trustworthy reads. No glass evidence (flat opaque panel) -> era marked 'custom'/insufficient-evidence for material, not asserted as big-sur or liquid-glass. Icon (context only, not digested under Workflow A): squircle window/menu-list half-submerged in blue water with a teal shark fin cutting through it - a 'fin + (menu) bar' visual pun with glossy/glass sheen; brand wordmark is a heavy black grotesque on white. Single surface, single app -> no canon promotion; contributes to a possible native-utility-launcher cluster and to floating-panel/list/menu-bar-extra pattern entries."
+}

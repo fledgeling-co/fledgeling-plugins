@@ -1,0 +1,16 @@
+{
+  "slug": "room-service",
+  "name": "Room Service",
+  "tagline": "Room Service brings projects, recurring routines, local serv",
+  "category": "Dev",
+  "pricing": null,
+  "website": "http://roomservices.pro/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43106b1f-ab2f-4a40-88fc-487da37be653/icon-1783882472547.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43106b1f-ab2f-4a40-88fc-487da37be653/cover-1783882472715.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/room-service/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/room-service/cover.png",
+    "shots": []
+  }
+}

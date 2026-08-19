@@ -1,0 +1,16 @@
+{
+  "slug": "nox",
+  "name": "Nox",
+  "tagline": "Adjustable display filters for light-sensitive Mac users.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://getnoxapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-94ef6eb8-9202-43c1-805e-8d04b9ffbb6a.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-1e35e9de-3f8c-42be-9fcb-fab20fcc0990.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/nox/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/nox/cover.png",
+    "shots": []
+  }
+}

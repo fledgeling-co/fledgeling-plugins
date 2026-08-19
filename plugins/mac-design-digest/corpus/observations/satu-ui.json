@@ -1,0 +1,123 @@
+{
+  "slug": "satu",
+  "name": "Satu",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "shot-3.jpg",
+      "surface_type": "menu-bar-extra popover (no-task state, lofi expanded)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": ["#9 no-task 'Stop chilling' pill grey-on-grey, low contrast", "#10 footer/chevron glyphs ~<3:1 on panel"]
+    },
+    {
+      "file": "shot-5.jpg",
+      "surface_type": "menu-bar-extra popover (active-task state, playlist)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": ["#9 task title 'Enhance floating window' grey-on-grey header card", "#10 per-row '>' chevrons faint"]
+    },
+    {
+      "file": "shot-4.jpg (right)",
+      "surface_type": "settings window — Review tab (default theme)",
+      "mode": "light",
+      "rubric_score": 13,
+      "native_audit_score": 6,
+      "failures": ["#4-native tracked-UPPERCASE accent section headers", "#9-native custom segmented tab bar not a real Settings toolbar", "#10 hairline row separators very faint"]
+    },
+    {
+      "file": "shot-4.jpg (left)",
+      "surface_type": "settings window — Pro tab (cream 'Custom' theme)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 6,
+      "failures": ["#9 subtitle contrast on cream likely <4.5:1", "#4-native tracked-UPPERCASE accent headers + tab labels", "#6-native accent-tinted headers"]
+    },
+    {
+      "file": "shot-4.jpg (top-right)",
+      "surface_type": "floating mini window (blue theme, translucent)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["insufficient-evidence — small crop, blue material; structure only (menu-bar glyph row + clock + task pill)"]
+    },
+    {
+      "file": "shot-2.jpg",
+      "surface_type": "full-screen blocking break view",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["insufficient-evidence — heavily blurred marketing render; only centered title/body/Quit legible"]
+    },
+    {
+      "file": "cover.jpg / shot-1.jpg",
+      "surface_type": "marketing composite (same popover UI over brand blue gradient)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": ["duplicate of popover evidence; backdrop gradient + headline are brand, not app"]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/popover", "value": "~#F4F6FA cool near-white", "quality": "estimated", "notes": "main panel, default/light theme, opaque soft fill, no border"},
+    {"token": "theme/cream", "value": "~#F4EEDD ground / ~#EDE6D2 cards", "quality": "estimated", "notes": "swappable 'Custom' theme recolors whole panel"},
+    {"token": "theme/blue", "value": "~#3B5BDB->#5C79E8 translucent", "quality": "estimated", "notes": "floating mini window / blue theme"},
+    {"token": "accent/primary", "value": "~#2E6BE6 blue", "quality": "estimated", "notes": "switch ON, selected tab, bar chart, play-circle; system-blue-adjacent"},
+    {"token": "accent/section-header", "value": "~#5C8DEF lighter blue", "quality": "estimated", "notes": "tracked-uppercase headers — non-native"},
+    {"token": "semantic/done", "value": "~#34C759 green", "quality": "estimated", "notes": "'Done' fill+check; off-accent completion semantic"},
+    {"token": "type/body", "value": "~13-14px SF Pro Regular", "quality": "estimated", "notes": "macOS-class, not iOS 17"},
+    {"token": "type/section-header", "value": "~11px SF Pro Semibold, +tracking, UPPERCASE, accent-blue", "quality": "estimated", "notes": "FOCUS REVIEW / WEEKLY SESSIONS / PRO FEATURES + tab labels"},
+    {"token": "type/row-subtitle", "value": "~11-12px secondary/tertiary grey", "quality": "estimated", "notes": "contrast risk, esp. on cream"},
+    {"token": "radius/panel", "value": "~16-18px", "quality": "estimated", "notes": "popover + settings window"},
+    {"token": "radius/card", "value": "~10-12px", "quality": "estimated", "notes": "task card, grouped cards, art card"},
+    {"token": "radius/pill", "value": "~8-10px", "quality": "estimated", "notes": "Float/Done/segmented"},
+    {"token": "control/switch", "value": "~40-44 x 24-26px blue capsule", "quality": "estimated", "notes": "matches SwiftUI Toggle on macOS"},
+    {"token": "row/settings-height", "value": "~44-52px", "quality": "estimated", "notes": "icon chip + title + subtitle + trailing switch, generous"},
+    {"token": "row/popover-height", "value": "~30-32px", "quality": "estimated", "notes": "disclosure rows w/ trailing chevron"},
+    {"token": "icon-chip/settings", "value": "~28px circle, blue-tinted, mono glyph", "quality": "estimated", "notes": "iOS-Settings-style leading badge"},
+    {"token": "chrome/popover-width", "value": "~340-370px", "quality": "estimated", "notes": "menu-bar-extra dropdown"},
+    {"token": "chrome/traffic-lights", "value": "genuine; grey disabled minimize/zoom on Settings window", "quality": "measured", "notes": "correct macOS Settings-window semantics"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "~360px popover; task-header card (title + count pill + Float + green Done) atop a flush disclosure list (Quick note / Notify me / Reminders / Lofi player) with trailing '>' chevrons and right-aligned grey values; footer 'Options' | 'Quit'"},
+    {"pattern": "settings", "key_values": "titled window w/ genuine traffic lights; custom 4-segment tab bar (icon over tracked-UPPERCASE label, selected = light-blue fill) instead of a native toolbar; inset-grouped rounded cards; tracked-uppercase accent section headers"},
+    {"pattern": "list", "key_values": "settings: grouped card rows w/ 28px circular icon chip + title + subtitle + trailing accent switch, hairline inset separators; ~44-52px rows"},
+    {"pattern": "card-grid", "key_values": "lofi 'vibe' art card — large rounded image block (rotating AI mascot illustration + caption) as first-class content inside the popover"},
+    {"pattern": "floating-panel", "key_values": "translucent blue mini window: mono menu-bar glyph row + clock + current-task pill; ~14px radius"},
+    {"pattern": "empty-state", "key_values": "no-task popover collapses header to a single grey full-width 'Stop chilling' pill; art card + segmented player remain"}
+  ],
+  "signature_moves": [
+    "Lofi 'vibe' art card as first-class content — a large rounded rotating AI-mascot illustration + caption carries the entire product personality inside the popover",
+    "Green 'Done' as the single saturated action on any surface — off-accent completion semantic, Von Restorff by construction",
+    "Whole-panel theming (default / cream / blue) recolors ground, cards and the floating mini window as a set",
+    "Maximal menu-bar-extra: task + timer + notify + Apple Reminders + quick note + music player + weekly review stats all stacked in one ~360px dropdown"
+  ],
+  "defects": [
+    "Tracked-UPPERCASE accent-coloured section headers — inverts the #1 sidebar/section authenticity tell (should be sentence-case, secondary grey, system font, no accent tint); appears on FOCUS REVIEW / WEEKLY SESSIONS / PRO FEATURES and the tab labels",
+    "Custom segmented 'tab bar' for Settings navigation — 'a toolbar is not a tab bar'; native macOS Settings uses a real toolbar of normal-case tab items",
+    "Contrast Dilution — task title grey-on-grey in header card; row subtitles very light grey (below 4.5:1, worst on cream theme)",
+    "Per-row '>' chevrons on popover rows — iOS/Catalyst navigation affordance in a mac popover",
+    "Accent not fully bound — blue selection/switches, accent-tinted headers, and a green primary give three colour jobs no single system-accent binding"
+  ],
+  "aesthetic": {
+    "adjectives": ["cozy", "playful", "soft"],
+    "direction": "Playful/toy family crossed with soft consumer-utility: rounded pills throughout, pastel-blue accent, one saturated green completion action, and a saturated illustrated mascot 'vibe' card carrying the personality; swappable warm themes (cream) — deliberately not neo-grotesque, not editorial",
+    "peers": ["Structured", "Amie", "One Sec", "lofi.co / Chillhop mascot branding"],
+    "cluster_hint": "cozy-consumer-utility (soft-playful-menubar)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the lone saturated green 'Done' is the one different thing, so the completion action is pre-attentively findable and rewarding",
+    "Zeigarnik / Goal-Gradient — pervasive progress signals (23/44 & 33/46 counters, 'Streak 7 days', Daily Goal meter, weekly-sessions bars) exploit incomplete-task nagging and acceleration near goals",
+    "Peak-End Rule — investment in the emotional peak/end: mascot art + the celebratory green Done at task completion, not evenly spread polish",
+    "Aesthetic-Usability Effect — the cozy illustration buys forgiveness for a dense, feature-maximal menu-bar dropdown",
+    "Hick's Law (tension) — stacking task/notify/reminders/notes/player/options/quit in one popover risks choice overload at a glance; acceptable as a browse workspace but the surface is busy",
+    "Jakob's Law — familiar iOS-style grouped-settings + switches read instantly to consumers, at a cost to strict mac-nativeness"
+  ],
+  "notes": "First app digested into this corpus (only the macOS-27 kit preceded it). cover.jpg and shot-1.jpg are the SAME marketing composite (identical popover UI over a brand blue gradient) — backdrop + headline are brand evidence, not app design. shot-2 (full-screen blocking break view) is heavily blurred — structure only, scored 0/insufficient-evidence. Floating mini window read from a small crop — insufficient-evidence, structure only. Lineage is the key open question: genuine Settings-window chrome + native-style switches + macOS 13pt density point to custom-styled SwiftUI (native, med confidence), but the surface is so heavily re-skinned (tracked-uppercase accent headers, custom tab bar, per-row chevrons, non-accent green primary) that little should feed macOS canon — treat most readings as tells-with-corrections, not native taste. Three visible themes mean color tokens are theme-dependent; values above are the default/light theme unless named. All pixel values (estimated) from downscaled 1280px marketing composites — wide ranges, no @2x source."
+}

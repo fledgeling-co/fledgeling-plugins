@@ -1,0 +1,71 @@
+{
+  "slug": "vocal-notes", "name": "Vocal Notes", "category": "Audio",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.jpg (app window inside marketing composite)",
+      "surface_type": "main window — three-pane NavigationSplitView (source list + transcript list + reader/detail)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 10,
+      "failures": [
+        "rubric #10 UI contrast — content-card hairline borders ~1.05:1, below 3:1 (near-invisible player/body card edges)",
+        "rubric #12/#13 n/a (no visible text inputs or form labels); #14 n/a (no focus state in a static render)",
+        "native audit clean 10/10 — #9 toolbar dense (~10 borderless actions, 3-4 clusters) logged as a watch-item, not a fail"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#FFFFFF content panes (opaque); sidebar ~#F4F4F5 translucent/vibrancy", "quality": "estimated", "notes": "content stays opaque; sidebar a lighter desaturated gray"},
+    {"token": "accent/primary", "value": "system blue ~#0A6CFF", "quality": "estimated", "notes": "list selection fill + language pop-up pill; reads as controlAccentColor, not a brand override"},
+    {"token": "type/reader-title", "value": "~22pt Bold, #000@85% (kit Title1)", "quality": "estimated", "notes": "'30-Second Demo Narration'"},
+    {"token": "type/reader-body", "value": "~15pt Regular, #000@85%, lh ~22pt", "quality": "estimated", "notes": "kit Title2 size; loose reading measure ~45-55 chars/line"},
+    {"token": "type/list-title", "value": "~13pt Semibold, #000@85% (Body-emphasized)", "quality": "estimated", "notes": "transcript row titles"},
+    {"token": "type/secondary", "value": "~13pt/11pt Regular, #000@50% gray", "quality": "estimated", "notes": "list preview, sidebar counts, section headers, middot metadata line"},
+    {"token": "sidebar", "value": "~220-240pt wide, full-height; ~40pt Large rows (icon+label+trailing count); selection radius ~8", "quality": "estimated", "notes": "kit Large sidebar row=40; kit example width 256, this slightly narrower"},
+    {"token": "sidebar/selection", "value": "gray inset-rounded inactive-pane fill, ~4px insets, radius ~8", "quality": "estimated", "notes": "muted because focus is on the list pane — correct two-level selection"},
+    {"token": "list/row", "value": "~64-72pt; bold title + trailing time / 1-line secondary preview / optional folder chip", "quality": "estimated", "notes": "Mail/Notes message-row anatomy"},
+    {"token": "list/selection", "value": "solid accent-blue full-width inset-rounded fill, radius ~8-10, ~8px L/R insets, knockout white text", "quality": "estimated", "notes": "Notes/Mail content-list house style (solid accent, not the flat-tint general rule)"},
+    {"token": "control/pop-up", "value": "capsule bezel, globe glyph + 'Auto(English)' + chevron, h ~30-32pt", "quality": "estimated", "notes": "language selector; capsule = macOS 26/27 bezel signature (kit delta)"},
+    {"token": "toolbar", "value": "borderless monochrome SF Symbols, ~24-28pt hit, ~10 actions in 3-4 clusters", "quality": "estimated", "notes": "transcribe/import - redo - language pill - copy/star/share/export/search"},
+    {"token": "card/content", "value": "rounded panel radius ~12-16, ~1px near-white hairline border, opaque", "quality": "estimated", "notes": "audio-player card + transcript-body card; borders near-invisible (Contrast Dilution)"},
+    {"token": "player/scrubber", "value": "thin capsule track + circular knob; skip-15/play/skip-15/times/volume/AirPlay/more; tabular times", "quality": "estimated", "notes": "Voice-Memos-class transport"},
+    {"token": "highlight/word", "value": "amber-peach ~#FDE8C8 on 'Record,'; gray ~#E5E5E7 on 'editable,'", "quality": "estimated", "notes": "inline transcript word-timing/annotation highlight — the one domain-specific token"},
+    {"token": "radius/window", "value": "~12-16px", "quality": "estimated", "notes": "kit window radius is a gap; observed data point"},
+    {"token": "chrome/traffic-lights", "value": "genuine coloured 3-dot cluster ~72px + sidebar-toggle; leading inset ~ top inset", "quality": "estimated", "notes": "real focused-window frame; calibrates image-px ~ logical-pt (kit spec 68pt)"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~220-240pt full-height vibrancy source list; sentence-case muted header 'Saved on this Mac'; 8 rows = SF Symbol + label + right-aligned secondary count; ~40pt Large rows; gray inactive-pane inset-rounded selection; borderless '+ New Folder' footer"},
+    {"pattern": "list", "key_values": "~440pt middle pane; 'Today' date header; rows = bold title + trailing time / 1-line secondary preview / folder chip; focused selection = solid accent-blue inset-rounded, knockout white; multilingual EN/JA/ZH content"},
+    {"pattern": "inspector", "key_values": "~680pt reader/detail pane; Title1 headline + middot metadata; 'Source Audio' player card + transcript body card, both opaque; two inline word highlights"},
+    {"pattern": "toolbar", "key_values": "borderless monochrome SF Symbols in reader; ~10 actions across 3-4 clusters; one capsule pop-up (language); no filled CTA; every action reads as a menu-mirrorable command"},
+    {"pattern": "floating-panel", "key_values": "capsule pop-up button 'Auto(English)' — globe + value + chevron, macOS 26/27 capsule bezel"}
+  ],
+  "signature_moves": [
+    "Audio-anchored transcript reader: a 'Source Audio' player card paired with a word-synced inline highlight (amber current-word advancing with the scrubber) is the single decision that makes this a transcription app and not a notes app — the only place originality is spent",
+    "Correct two-level selection grammar: solid accent-blue knockout-white row in the focused list pane WHILE the sidebar shows a muted gray inactive-pane selection — the eye lands on exactly one row per pane (many clones wrongly paint both accent-blue)",
+    "Near-total Apple Notes/Mail shell adoption as a deliberate Jakob's-Law bet: instant familiarity over distinct identity"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — content-card hairline borders ~1.05:1 against white; player/body card edges are near-invisible (fails rubric #10 non-text >=3:1)",
+    "Toolbar action density (watch-item, not anti-pattern) — ~10 reader-toolbar actions above HIG's <=3 groups; trailing copy/star/share/export/search run blurs into one undifferentiated cluster; overflow or grouping would sharpen scent",
+    "Near-clone identity (taste note) — shell so faithful to Apple Notes/Mail the app has minimal visual identity of its own; 'competent but anonymous' on originality, defensible for a utility"
+  ],
+  "aesthetic": {
+    "adjectives": ["native", "familiar", "unadorned"],
+    "direction": "platform-default native productivity — inherits Apple's system chrome wholesale (SF Pro type ramp, controlAccentColor blue, vibrancy sidebar, capsule bezels) with zero brand overlay in the UI; the committed look lives only in the marketing cover, not the window. Not a range-map family — this is Neo-grotesque-adjacent by way of pure macOS convention",
+    "peers": ["Apple Notes", "Apple Voice Memos", "MacWhisper", "Superwhisper"],
+    "cluster_hint": "apple-notes-shell native productivity (source-list + message-list + reader triad)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — near-total adoption of the Apple Notes/Mail three-pane convention means zero learning curve; the dominant law the app exploits (be conventional about the interface, innovative about the product)",
+    "Von Restorff effect — the single accent-blue selected row is the one different thing per pane, so it is found pre-attentively; reinforced by binding accent to nothing else",
+    "Hick's Law / chunking — 35 transcripts chunked into 8 sidebar folders (All/Starred + 6 topics) keeps the decision at each level small; three-pane drill-down is progressive disclosure (folder -> list -> reader)",
+    "Serial-position effect — 'All Transcripts' and 'Starred' pinned at the top of the sidebar where recall is best",
+    "Aesthetic-usability effect — flawless native chrome raises the trust prior for an on-device-privacy pitch; the polish is the credibility",
+    "Recognition over recall — folder chips on list rows and the persistent 'Source Audio' player re-display context so the user never has to remember which recording a transcript came from"
+  ],
+  "notes": "The ONLY UI surface is the app window inside a 2000x1250 MARKETING COMPOSITE (cover.jpg): the teal/green sunburst backdrop and the glossy chrome-glass headline 'Transcribe All on Your Mac' are BRAND evidence, kept out of the app-UI tokens. No standalone screenshots, no dark-mode, no settings/empty-state/onboarding, no recording-in-progress state. Measurement is unusually trustworthy for a render because the traffic-light cluster (~72px) calibrates against the kit's 68pt spec => image-px ~ logical-pt; still marked (estimated) for possible resampling. Lineage is unambiguously native (high) — desktop density + control grammar leave no Catalyst/web ambiguity. Era classified liquid-glass on the strength of the capsule pop-up bezel and rounded content cards, but glass MATERIAL is NOT visually confirmed (flat light chrome) — recorded (insufficient-evidence) for glass per the humility rule; a flat-chrome native window with current-era geometry. Icon (white squircle + cobalt waveform, Big-Sur-era single-glyph-on-light-material) was NOT run through the icon rubric (task scoped to Workflow A only) — recorded as brand context. This is a high-fidelity native reference for the sidebar/list/reader triad and the correct two-level selection grammar; its taste value is convention-confirmation, not novelty."
+}

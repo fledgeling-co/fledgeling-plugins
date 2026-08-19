@@ -1,0 +1,69 @@
+{
+  "slug": "runey", "name": "Runey", "category": "Business",
+  "lineage": "web-electron", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.webp (app window inside marketing composite)",
+      "surface_type": "dashboard/overview",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 1,
+      "failures": [
+        "rubric #9 pale-tint badge text (green-on-pale-green, ~13px) borderline <4.5:1",
+        "rubric #10 hairline card borders + light-gray sparkline strokes read <3:1",
+        "native #1 web/Electron, not AppKit-native",
+        "native #6 accent is the app's own green, not the system accent",
+        "native #10 no traffic lights / frameless marketing render"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#F7FAF3 warm green-tinted off-white", "quality": "estimated", "notes": "content area, light; perspective-tilted composite so all values estimated"},
+    {"token": "bg/rail", "value": "#0B0B0C near-black, ~56-64px wide full-height", "quality": "estimated", "notes": "icon-only web nav rail, not a macOS source list"},
+    {"token": "bg/hero", "value": "#0A0A0A drenched black + green liquid-glass fluid render", "quality": "estimated", "notes": "cashflow Von-Restorff card carrying primary CTAs"},
+    {"token": "text/primary", "value": "~#161616 near-black", "quality": "estimated", "notes": ""},
+    {"token": "text/secondary", "value": "~#6E7379 gray", "quality": "estimated", "notes": "labels/captions/timestamps"},
+    {"token": "accent/brand", "value": "lime->green ~#8CCB4A", "quality": "estimated", "notes": "app's own brand accent, NOT system accent"},
+    {"token": "badge/positive", "value": "text ~#3E9B2D on ~#E7F6DD pale-green pill", "quality": "estimated", "notes": "momentum %-badges"},
+    {"token": "badge/negative", "value": "text ~#E1503A on ~#FBE7E2 pale-coral pill", "quality": "estimated", "notes": ""},
+    {"token": "viz/expense", "value": "~#D69A5E orange-tan", "quality": "estimated", "notes": "coin-stack chart expense series"},
+    {"token": "type/family", "value": "rounded-geometric sans (double-story a/g, rounded terminals), brand webfont, NOT SF Pro", "quality": "estimated", "notes": "Poppins/Onest/Gordita register"},
+    {"token": "type/display", "value": "~34-40px bold/heavy", "quality": "estimated", "notes": "KPI + section values"},
+    {"token": "type/body", "value": "~15-16px regular/medium", "quality": "estimated", "notes": "web density, not 13pt macOS body"},
+    {"token": "radius/card", "value": "~18-20px", "quality": "estimated", "notes": "soft generous web cards"},
+    {"token": "radius/pill", "value": "capsule", "quality": "estimated", "notes": "badges, buttons, period picker"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "4-up KPI cards: label + trailing %-badge + ~36px value + sub-caption + faint sparkline; white cards, ~18-20px radius, soft shadow + hairline"},
+    {"pattern": "sidebar", "key_values": "web ICON RAIL (not macOS source list): ~56-64px black, ~12 monochrome line glyphs, icon-only no labels, selected = rounded-square fill; recognition-over-recall risk"},
+    {"pattern": "list", "key_values": "Activities feed: avatar + bold-lede line ('Someone viewed invoice RNY-...') + tertiary timestamp, newest-first"},
+    {"pattern": "toolbar", "key_values": "header trailing cluster: search glyph + bell w/ count badge + avatar + capsule 'Last 30 Days' period picker"},
+    {"pattern": "other", "key_values": "coin-stack area chart: each x-point is a 3-D coin token stack topped with client brand logo + '+N' counter on a green gradient area fill; green=paid, orange=expense"}
+  ],
+  "signature_moves": [
+    "Coin-stack revenue chart — abstract balance line rendered as tactile stacked-coin columns topped with client/tool brand logos and +N counters; a gamified coin-pusher money metaphor that is the app's whole personality",
+    "Single drenched-black liquid-glass hero card among all-white cards — the lone dark Von-Restorff element carries the primary CTAs and echoes the marketing backdrop's black+green fluid motif into the product",
+    "Rounded-geometric brand sans throughout — warmth-by-typeface that makes an invoicing/money tool feel approachable, deliberately anti the cold Inter/grotesque fintech default"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — hairline card borders and light-gray sparkline strokes <3:1; small pale-tint badge text borderline <4.5:1",
+    "Recognition-over-recall risk — icon-only nav rail, 11 unlabeled destinations, weak information scent",
+    "Non-native as a Mac app — zero macOS chrome/conventions; web dashboard in a frameless render (lineage finding, not a flaw of the web product)"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "energetic", "rounded"],
+    "direction": "rounded-sans playful fintech — Playful/toy type-and-shape (rounded geometric sans, pill everything, saturated lime-green) remixed onto a Neo-grotesque-product dashboard skeleton (calm white cards, one electric accent, one drenched dark hero)",
+    "peers": ["Revolut", "Cleo", "Copilot Money"],
+    "cluster_hint": "playful-fintech-dashboard (non-native/web cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the single black hero card among white cards pulls the eye to the cashflow + primary CTA region",
+    "Aesthetic-Usability effect — polished, friendly rounded surface raises the trust prior for a money/invoicing tool at first contact",
+    "Goal-Gradient / Zeigarnik — momentum %-badges ('+24%') and a newest-first activity feed create earned-progress and open-loop pull",
+    "Label/value hierarchy (Refactoring-UI) honored — KPI values outrank their gray labels in size and weight; hierarchy via de-emphasis",
+    "Recognition-over-recall VIOLATED — icon-only nav rail forces memorization; weak information scent (Pirolli & Card)"
+  ],
+  "notes": "Only input was the cover marketing composite (no standalone shots); app window is Y-axis perspective-tilted so ALL measurements are estimated with wide ranges. Cover backdrop (black + green liquid-glass waves + white rounded headline) is brand evidence, distinct from the light dashboard window which is design evidence. IMPORTANT decode anomaly: a 2400x1260 'Revone' image (blue theme, real macOS traffic lights, 'All Your Revenue in One Place for macOS') appeared from one bad webp conversion; it is a DIFFERENT product and was discarded — the reference decoders (dwebp/magick/PIL-seek/fresh-sips) all agree cover.webp is the 1920x1008 green Runey dashboard. Lineage web-electron: contrast evidence only, must NOT feed macOS canon or native clusters. The icon (R monogram, black rounded-square, chrome-beveled 'R') matches the dashboard logo and confirms identity but was not icon-digested (Workflow A task only)."
+}

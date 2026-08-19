@@ -1,0 +1,16 @@
+{
+  "slug": "tono",
+  "name": "Tono",
+  "tagline": "Menu bar wallpaper manager",
+  "category": "Lifestyle",
+  "pricing": null,
+  "website": "https://nil-byte.github.io/Tono/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7abcfa5c-cea4-4f03-b637-98f1e1a0b36a/icon-1783882470354.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7abcfa5c-cea4-4f03-b637-98f1e1a0b36a/cover-1783882782581.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tono/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tono/cover.png",
+    "shots": []
+  }
+}

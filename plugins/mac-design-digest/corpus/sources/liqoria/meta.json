@@ -1,0 +1,16 @@
+{
+  "slug": "liqoria",
+  "name": "Liqoria",
+  "tagline": "Liqoria - Mac Music Player \u2022 Apple Music \u2022 Spotify \u2022 YouTube and more",
+  "category": "Lifestyle",
+  "pricing": null,
+  "website": "https://www.liqoria.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/927168c1-9801-49ad-a323-93ced8433970/icon-1783882477546.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/927168c1-9801-49ad-a323-93ced8433970/cover-1783882789081.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/liqoria/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/liqoria/cover.png",
+    "shots": []
+  }
+}

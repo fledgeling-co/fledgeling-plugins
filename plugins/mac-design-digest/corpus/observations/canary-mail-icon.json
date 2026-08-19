@@ -1,0 +1,42 @@
+{
+  "slug": "canary-mail", "name": "Canary Mail", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 white ground fills a rounded-rect reading as the system squircle; exact superellipse match unverifiable at 204px",
+    "#2 optically centred but glyph mass sits slightly low-and-right (right-fanning darts pull weight)",
+    "#3 clean distinctive silhouette with a clear crescent anchor, but abstract — names as 'the Canary mark', not a concrete metaphor, and does not communicate 'email'",
+    "#5 reads as one top-gloss light, but the gel treatment multiplies speculars per shape",
+    "#8 depth coherent but built from baked shadow/gloss HIG would have the system generate"
+  ],
+  "failures": [
+    "#9 era coherence — Big-Sur white-squircle base wearing web-2.0 aqua-gel gloss whose light model belongs to neither the Big Sur nor Liquid Glass era",
+    "#10 variant robustness — single baked flat PNG, blue glyph depends on the white ground; no layered light/dark/clear/tinted authoring, won't survive tint or dark mode"
+  ],
+  "palette": {
+    "background": "ramp #FFFFFF->#ECECEC",
+    "glyph": ["#D0F7FF", "#68D6F8", "#3BAAF6", "#2166EC"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "baked glossy gel: top-lit specular sweep plus internal light-top-to-dark-bottom gradient per shape, over a soft baked drop shadow of the glyph on the white ground; not Big Sur matte, not system Liquid Glass",
+  "layer_stack": [
+    "white squircle ground (#FFFFFF->#ECECEC ramp)",
+    "baked soft drop shadow of glyph",
+    "blue gel crescent (C / bird body)",
+    "two blue gel send-darts (wings, front-right)",
+    "baked per-shape specular highlights"
+  ],
+  "devices": [
+    "crescent-C-plus-twin-darts logomark (Canary bird / send motif, doubles as a C monogram)",
+    "aqua-gel baked gloss with specular sweep",
+    "monochrome blue-on-white tile"
+  ],
+  "adjectives": ["aqua-glossy", "monochrome-blue", "brand-forward"],
+  "rhymes_hint": "glossy brand-logomark-on-white-squircle tiles (aqua / web-2.0 gel family, common on cross-platform / Electron productivity apps); structurally adjacent to the Big-Sur coloured-glyph-on-white family but distinguished by baked gloss and background-dependence",
+  "notes": "204x204 web render from macapp.supply, upsampled to inspect — hexes from the native source are reliable, but edge geometry, exact squircle radius and sub-pixel gloss are soft estimates; not the 1024 master. Baked gloss + baked drop shadow contradict current HIG (system should apply effects) and there is no Icon Composer layer authoring, so no dark/clear/tinted variant would generate. Subject-communication gap: an email client whose icon shows a brand logomark with no mail/envelope/@ metaphor. Strong icon-to-app palette coherence: glyph blue (#2166EC-#68D6F8) matches the cover's cyan brand field (~#7FD4FF). Era is 'custom' rather than big-sur because the base and glyph light models come from different eras."
+}

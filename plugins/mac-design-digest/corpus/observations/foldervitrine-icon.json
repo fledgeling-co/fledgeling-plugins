@@ -1,0 +1,23 @@
+{
+  "slug": "foldervitrine", "name": "FolderVitrine", "category": "Utility",
+  "era": "liquid-glass",
+  "rubric_score": 10,
+  "soft_passes": ["#2 folder mass base-heavy/below optical centre, rebalanced by protruding card", "#10 variant robustness inferred not verified — clear-frost leans on the near-white backdrop, tinted/dark contrast collapse can't be ruled out"],
+  "failures": ["#4 16px squint: collapses to a featureless pale-blue frosted square, folder/card/sun all smear; only the orange sun dot survives at 32px", "#7 figure-ground: folder #D0EBFC on base #FEFEFE far under 3:1, deepest blue only #82D3FF, folder vanishes in grayscale — root cause of #4"],
+  "palette": {
+    "background": "ramp #FEFEFE->#EFF6FF (frosted near-white, faint cool tint, #FFFFFF rim specular)",
+    "glyph": ["#E6F4FF", "#D0EBFC", "#ABE7FF", "#82D3FF", "#F6F9FE", "#AAE1FF"],
+    "accent": "#FFDFAE"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "soft top-down / environmental glass; uniform frosted base glow, folder ramps light-top to blue-pool-base, single white specular on upper-right squircle rim, internal shadows very short/soft",
+  "layer_stack": ["frosted-white translucent squircle base", "folder back panel (pale blue glass)", "photo/media card (white glass + warm sun + blue mountains glyph)", "folder front flap (pale->sky-blue glass, half-covering the card)"],
+  "devices": ["glass vitrine (frosted squircle as a display case you look into)", "folder-that-previews-its-media (photo card poking out = the app's Quick Look function)", "single warm jewel (orange sun) in an all-cool frost", "double-plane folder with content card z-sandwiched between back and flap"],
+  "adjectives": ["frosted", "airy", "delicate"],
+  "rhymes_hint": "clear-glass Liquid-Glass icons at full translucency; near-monochrome frost + one warm jewel; Big-Sur folder-object lineage (Finder/Preview-adjacent) re-rendered as frosted glass",
+  "notes": "Source is a 1200x630 JPEG web render (App-Store-OG style), icon centred at ~360x360px on a #F8F8F8 plate — NOT a native 1024 export; all hex is (estimated) off a compressed render. The render's drop shadow is macapp.supply's, not the icon's. 16px/32px squint run on the upsampled crop, but the failure is structural (pale-on-pale) so it holds at any resolution. No layered source to confirm full-bleed square layers — only that composition respects the mask. Beautiful-at-1024, illegible-at-16: the clear-frost aesthetic that makes the brand elegant costs it the two checks (#4, #7) the system actually enforces. Strong palette coherence with cover (blue glass + one orange accent)."
+}

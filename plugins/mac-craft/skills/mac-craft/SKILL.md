@@ -39,6 +39,23 @@ and it decides what a second run does — see § Running this twice.
 
 ## Knowledge sources — load before designing
 
+**The corpus, first — it ships with this marketplace.** `mac-design-digest` maintains it and
+this skill reads it; the two are one pipeline. Resolve it in this order and take the first that
+exists:
+
+1. `./design-corpus/` — a corpus the current project owns
+2. `plugins/mac-design-digest/corpus/` in this marketplace — the bundled 135-app corpus
+3. absent — say so in the delivery and work from the bundled snapshots below
+
+Load four things from it before choosing a direction, and stop there: `TASTE.md`, the one
+cluster whose audience matches the brief, the 1–2 profiles that cluster names under *Read for
+depth*, and the `patterns/` entries for the surfaces you are about to draw. Name the cluster
+you picked and its runner-up in the delivery, beside the direction.
+
+The corpus separates **canon** (≥3 independent native apps, members cited) from one app's
+habit, and keeps **contested** readings on both sides. Read its `Knowledge gaps` section too —
+a rule the corpus does not carry is one you are inventing.
+
 **Bundled, always read:**
 1. `references/native-foundation.md` — the platform floor: control ladder, type ramp, label tiers `(specified)`, chrome anatomy, materials, the ten native-grammar rules **each with the symptom of breaking it**, and the macOS 27 beta deltas kept separate.
 2. `references/mac-essence.md` — **the spine.** Eight convictions on what makes a mac app great, the essence test, and the **yield table**: where design-craft/ux-craft's web-first rules bend to platform grammar, and — the half most override sections omit — what is *not* overridden.
@@ -56,7 +73,6 @@ and it decides what a second run does — see § Running this twice.
 - **macosify** — `reference/hig/index.md` per component; its "common non-native mistakes" lists are the correction table. `reference/DESIGN.md` for the hard-HIG-numbers table.
 - **design-craft** — `wireframe`, `generate-variations`, `hierarchy-rhythm-review`, `interaction-states-pass`, `ai-slop-check`, `polish-pass` (always, before delivery), `unit-critique-gate` (per surface on multi-surface work).
 - **ux-craft** — a **standing dependency, not a conditional one**: one primary action, the trunk test, designed states, recognition over recall, undo over confirm. Load **ux-craft's own** `plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md` before any multi-step surface — the path is given in full because a bare `references/…` reads as this skill's own directory, and the predecessor shipped exactly that mistake: a rule citing `assets/squircle-path.txt`, a file that existed only in a sibling plugin.
-- **Live corpus** (default `./design-corpus/`): `TASTE.md`, `patterns/*.md`, `kit/macos-27.md`, per-app profiles. Richer and fresher than the bundled snapshots; prefer it when present.
 
 **Precedence:** Apple kit `(specified)` values and HIG → corpus canon → chosen direction's
 identity tokens → design-craft general craft. Native correctness is never traded for style;
@@ -96,7 +112,9 @@ indistinguishable to a reviewer from a mistake.
 companion / creative), which surfaces, light and/or dark. Ask only what the request leaves
 genuinely open.
 
-**2. Settle the direction — with the user when it is open.** If they gave an aesthetic, a
+**2. Settle the direction — with the user when it is open.** Start from the corpus cluster you
+matched in Knowledge sources; `references/design-directions.md` is the same nine clusters with
+buildable tokens, so the two agree by construction and the corpus is the one with members. If they gave an aesthetic, a
 reference or a design system, that decides it. If they did **not**, sketch 2–3 genuinely
 different directions as thumbnail-level descriptions and let them pick something they can
 see, rather than choosing silently — choosing silently is how you get slop. Decision fidelity
@@ -348,5 +366,5 @@ superseded audit template, and the two drifted. **One honest gap beats two copie
 - **Existing brand or design system:** it wins over the direction catalogue, mapped into the native envelope.
 - **User asks for iOS or web styling on macOS:** name the specific non-native tells it would introduce, offer the native equivalent, follow their call — and record it as a deliberate deviation in the audit rows.
 - **Deliberate non-native register** (a dense Electron/web-density surface): legitimate as a named contrast shelf, never as a tenth direction, and never seeding native canon. Say plainly in the delivery that it is non-native.
-- **Asked to clone a specific app:** decline; offer its cluster's direction instead. Appropriate the move, never the trade dress.
+- **Asked to clone a specific app:** decline; offer its cluster's direction instead. Take the move, never the trade dress.
 - **Corpus absent:** the bundled snapshots stand alone; note that live per-app profile depth is unavailable.

@@ -1,0 +1,16 @@
+{
+  "slug": "prostir-zvuku",
+  "name": "prostir zvuku",
+  "tagline": "A spatial nature sound mixer for macOS",
+  "category": "Lifestyle",
+  "pricing": null,
+  "website": "https://prostirzvuku.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-83ec34ef-ce79-47e2-a675-3f5bea4d0cfb.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-8605f459-6b01-4e9c-9ce4-304a47af12aa.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/prostir-zvuku/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/prostir-zvuku/cover.jpg",
+    "shots": []
+  }
+}

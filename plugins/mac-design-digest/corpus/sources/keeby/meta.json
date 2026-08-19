@@ -1,0 +1,16 @@
+{
+  "slug": "keeby",
+  "name": "Keeby",
+  "tagline": "Mechanical keyboard sounds for Mac.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://getkeeby.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c833156-1f4e-457e-8090-c208c186551a/icon-1783882459374.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c833156-1f4e-457e-8090-c208c186551a/cover-1783882760721.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/keeby/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/keeby/cover.png",
+    "shots": []
+  }
+}

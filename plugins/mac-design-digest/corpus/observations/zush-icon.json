@@ -1,0 +1,15 @@
+{
+  "slug": "zush", "name": "Zush", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#2 grid: torso bleeds off bottom edge, head anchor sits slightly above optical centre", "#3 silhouette: solid-black read is a rounded head + nub ears + shoulders — nameable as a mascot but leans on the ears and (colourless) eyes", "#4 16px squint: survives as white-figure-plus-two-green-eyes; facial paneling, mouth and speculars smear away"],
+  "failures": ["#10 variant robustness: fixed raster with contrast baked into the dark indigo background; white body has no dark/clear/tinted/mono adaptation and baked speculars+gloss+AO+shadow defy Liquid Glass HIG"],
+  "palette": {"background": "radial ramp #5E4FFA->#3F30ED (indigo glow, brighter behind head)", "glyph": ["#FDFEFE", "#D8D1E8", "#AFA8C5"], "accent": "#04EC77"},
+  "composition": {"background_type": "ramp", "glyph_type": "mascot", "overlay_device": "none"},
+  "light_model": "single top / upper-left key; dual white speculars per eye upper-left; soft baked ambient occlusion in eye sockets and under chin; short soft contact shadow under torso; consistent across all elements",
+  "layer_stack": ["radial indigo glow background", "white robot body/head with panel seams", "recessed eye sockets (ambient occlusion)", "green iris radial gradient #014421->#04EC77", "dual white specular highlights", "recessed dark mouth"],
+  "devices": ["3D character mascot as the entire icon (glossy Pixar-render robot, not a flat glyph)", "glossy emerald eyes as the sole saturated focal accent, dark-rim->bright-centre iris ramp with dual speculars", "radial glow vignette background (spotlight-on-mascot, not sky ramp)", "paneled-head construction seams as the robot cue", "cool-neutral white body with purple-grey tinted shadows tying figure to the field"],
+  "adjectives": ["friendly", "glossy", "characterful"],
+  "rhymes_hint": "3D-mascot-on-radial-gradient AI-app icons — glossy Pixar-render character (friendly bot/assistant) centred on a saturated glow field; playful/toy 3D-character family, character-as-whole-brand rather than flat glyph + tool overlay",
+  "notes": "Source is a 500x500 @72dpi web render, not the 1024 master — small-size behaviour inferred by downscaling, not measured from vector; icon is raster, no true layers. Strong icon<->brand palette coherence: cover heading is the same indigo, Zush wordmark the same emerald as the eyes. Subject communication is partial — mascot signals 'friendly AI assistant', not the app's actual 'file renamer/organizer' job; AI-buddy metaphor over subject-literal. Full-bleed square, mask discipline clean (corners pure background). Non-negotiable checks 1-4 all pass (some soft). Single hard fail is #10, expected for a Big Sur-era baked 3D mascot living in the Liquid Glass world."
+}

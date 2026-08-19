@@ -1,0 +1,31 @@
+{
+  "slug": "corner-time", "name": "Corner Time", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#1 designed for the squircle but ships a baked-in mask (alpha-0 corners) + baked drop shadow — an iOS/web-render composite, not unmasked Icon Composer layers",
+    "#2 no centred glyph to grid (full-bleed field); mark is top-heavy and right-weighted, optical mass sits high",
+    "#4 dark-band-on-light-body gestalt survives at 16px, but the 09:41 digits (the actual subject) smear illegibly"
+  ],
+  "failures": [
+    "#3 silhouette: solid-black fill = featureless squircle; subject carried only by internal light/dark contrast, no shape identity",
+    "#10 variant robustness: fixed greyscale render, no layer variants; hard black band + white numerals over silver gives tinted/clear/dark modes nothing to adapt",
+    "#12 no-text: baked literal numerals '09:41' plus a UI/menu-bar depiction — both explicit no-text-check violations"
+  ],
+  "palette": {
+    "background": "ramp #EAEAEA->#D2D2D2 (silver body, vertical top-light; flat #E0E0E0 left-to-right)",
+    "glyph": ["#000000", "#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "scene",
+    "overlay_device": "none"
+  },
+  "light_model": "Soft top-down; subtle vertical luminance ramp on the silver body (~#EAEAEA under the bar -> ~#D2D2D2 at base), flat black header band, no specular/refraction/translucency; short baked drop shadow under the squircle (render composite).",
+  "layer_stack": ["silver body ramp #EAEAEA->#D2D2D2", "black menu-bar band (top, full-bleed)", "white '09:41' numerals (top-right of band)", "(composite) baked squircle mask + drop shadow"],
+  "devices": ["self-referential product depiction (the icon IS the app's on-screen output)", "full-bleed field (art bleeds to mask edge; whole squircle = a screen)", "corner-anchored clock (numerals in the top-right corner, echoing the app name)"],
+  "adjectives": ["literal", "austere", "monochrome"],
+  "rhymes_hint": "austere greyscale utility icons and literal-UI-depiction marks (menu-bar tools, screenshot/display utilities); Swiss-reductive near-white/near-black with no hue, Big-Sur-era squircle",
+  "notes": "Resolution: 460x460 downscaled web render, not a 1024 master — fine detail (specular, edge treatment, exact ramp endpoints) unverifiable; simple enough that this doesn't affect the read. PNG is a composited render: alpha-0 corners = baked squircle mask, plus a baked drop shadow, so mask-discipline and Liquid-Glass layer/variant readiness cannot be judged from source layers. Pure greyscale, zero accent. Text '09:41' is Apple's canonical demo time, baked in. Subject communication is total and literal (icon depicts the exact app output). Icon<->brand palette incoherent: cover.png is Sonoma-blue + cyan wordmark; the icon carries none of that blue. Single app, no promotions — 'self-referential UI depiction' is a candidate device to test against future monochrome-utility icons."
+}

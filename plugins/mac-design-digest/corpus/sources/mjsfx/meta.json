@@ -1,0 +1,30 @@
+{
+  "slug": "mjsfx",
+  "name": "MJSFX",
+  "tagline": "MJSFX is a sounds and effects design studio.",
+  "category": "Audio",
+  "pricing": "free",
+  "website": "https://mjsfx.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-df90887b-5a46-47dd-9637-a1246897fbcb.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-8fb277bf-5046-4fb5-9416-aa1139cb6c88.png",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-f76a8a7c-3072-4ef0-a6a9-48724be713dd.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-bd05d5fe-15ea-4b84-826e-4d202475f8a4.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e7e5364a-53fd-4754-bcd7-694ebc819a41.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2815767c-7350-4012-892d-d7f263d13583.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-5d52f993-eba7-422f-ae6e-b5d2e577ea8c.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-289837bd-48b5-4113-aa58-58eacef1a1ad.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/cover.png",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-5.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-6.png"
+    ]
+  }
+}

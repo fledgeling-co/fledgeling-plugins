@@ -1,0 +1,147 @@
+{
+  "slug": "mjsfx",
+  "name": "MJSFX",
+  "category": "Audio",
+  "lineage": "web-electron",
+  "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "shot-6.png",
+      "surface_type": "workspace window (full, single-window audio studio)",
+      "mode": "dark",
+      "rubric_score": 9,
+      "native_audit_score": 1,
+      "failures": [
+        "#9 text contrast — tracked UPPERCASE micro-labels ~#6B7079 on #1C1F24 read ~2.5-3:1",
+        "#10 UI contrast — panel/card borders ~#2A2E34 on #1C1F24 below 3:1",
+        "#11 Fitts — layer-card header controls (< > mute x) ~12-14pt and ~17pt segments below 24px floor",
+        "#12 input height — value pills / segments ~15-17pt, under native 24pt",
+        "#14 focus appearance — n/a from static marketing capture",
+        "native#1 lineage — web/Electron, not AppKit",
+        "native#6 accent binding — three action hues (cyan/blue/green) not one system accent",
+        "native#10 chrome — grey monochrome faked traffic lights, dimmed title"
+      ]
+    },
+    {
+      "file": "shot-1.png",
+      "surface_type": "workspace window (hero crop, same surface)",
+      "mode": "dark",
+      "rubric_score": 9,
+      "native_audit_score": 1,
+      "failures": [
+        "same surface as shot-6 — re-evidences voice-color signature, faked chrome, non-SF typography"
+      ]
+    },
+    {
+      "file": "shot-3.png",
+      "surface_type": "marketing feature composite (voice card + module panels)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 1,
+      "failures": [
+        "component showcase, not a full app surface; strong editorial hierarchy; same web token set"
+      ]
+    },
+    {
+      "file": "shot-4.png",
+      "surface_type": "marketing feature composite (FX/LFO panel grid)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 1,
+      "failures": [
+        "component showcase; effect panels legible; per-panel accent = cyan curves on near-black wells"
+      ]
+    },
+    {
+      "file": "shot-5.png",
+      "surface_type": "marketing feature composite (bitcrush/distortion + export strip)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 1,
+      "failures": [
+        "Save button web blue #2F6DF0 with glow bloom (non-native primary); 8-bit selected shown as green text"
+      ]
+    },
+    {
+      "file": "shot-2.png",
+      "surface_type": "marketing feature composite (template chip row + waveform)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 1,
+      "failures": [
+        "template chips COINS/LASERS/EXPLOSIONS etc. as tracked-UPPERCASE pills with colored dots (voice-identity system)"
+      ]
+    },
+    {
+      "file": "cover.png",
+      "surface_type": "brand cover composite (marketing, not app UI)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "brand evidence only — logo lockup + 'SOUND PORTRAIT' oscilloscope card; no app chrome"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-content", "value": "#1C1F24", "quality": "measured", "notes": "dark blue-grey; darker than native dark #1E1E1E, same family"},
+    {"token": "bg/panel-card", "value": "#282C31", "quality": "measured", "notes": "elevated layer/effect cards, one tonal step up"},
+    {"token": "bg/scope-inner", "value": "#0D0F12", "quality": "measured", "notes": "near-black recessed oscilloscope / curve wells"},
+    {"token": "bg/backdrop-marketing", "value": "#1D1119 + radial magenta/teal glows", "quality": "measured", "notes": "hero canvas behind the window"},
+    {"token": "accent/primary-cyan", "value": "#2EC6DA", "quality": "measured", "notes": "knob arcs, active toggles, links, eyebrows, app-icon sine"},
+    {"token": "action/save-blue", "value": "#2F6DF0", "quality": "measured", "notes": "filled primary Save w/ blue glow; NOT macOS blue #0088FF"},
+    {"token": "action/play-green", "value": "#37C46E", "quality": "measured", "notes": "filled Play; third action hue"},
+    {"token": "identity/voice-pink", "value": "#FF4E7E", "quality": "estimated", "notes": "zapper layer dot + trace"},
+    {"token": "identity/voice-purple", "value": "#6D7CFF", "quality": "estimated", "notes": "swoosh"},
+    {"token": "identity/voice-green", "value": "#3ECF6E", "quality": "estimated", "notes": "digital dirt"},
+    {"token": "identity/voice-orange", "value": "#FFA23E", "quality": "estimated", "notes": "noise wave"},
+    {"token": "text/primary", "value": "#F3F5F8", "quality": "measured", "notes": "near-white headline & values"},
+    {"token": "text/secondary", "value": "#8A8F98", "quality": "estimated", "notes": "subheads, Title-case knob labels"},
+    {"token": "text/label-micro", "value": "~#6B7079", "quality": "estimated", "notes": "tracked UPPERCASE micro-labels, low contrast"},
+    {"token": "traffic-lights", "value": "#8C8C8C / #8C8C8C / #515252 (grey, faked)", "quality": "measured", "notes": "monochrome discs, not lit red/yellow/green"},
+    {"token": "type/display", "value": "geometric grotesque Bold ~64-80pt (Space Grotesk/General Sans class)", "quality": "estimated", "notes": "marketing headlines"},
+    {"token": "type/ui-numeric", "value": "monospace Bold ~15pt (JetBrains/Plex Mono class)", "quality": "estimated", "notes": "tabular value readouts; no SF Pro"},
+    {"token": "type/eyebrow", "value": "mono UPPERCASE ~11pt, ~+0.15em tracking, cyan/green", "quality": "estimated", "notes": ""},
+    {"token": "radius/card", "value": "~10-12pt", "quality": "estimated", "notes": "layer & effect panels; window ~10-12pt"},
+    {"token": "radius/button", "value": "~8pt", "quality": "estimated", "notes": "Save / segmented groups"},
+    {"token": "control/segment-h", "value": "~17pt", "quality": "estimated", "notes": "compact tab segments, below native 24pt Rg"},
+    {"token": "control/knob-dia", "value": "~20-23pt", "quality": "estimated", "notes": "rotary, cyan arc + white pointer"},
+    {"token": "space/base", "value": "8px grid, 4px micro", "quality": "estimated", "notes": "within-panel 4-6px label gaps; panel-to-panel ~16px"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "NO native toolbar — content-area segmented tab row instead (Analytical/Dominant/Blended, Scope/Bars, Lines/Bands/Outline); web tab-group grammar"},
+    {"pattern": "card-grid", "key_values": "voice-card row + effect/module panel grid; card = drag-handle . colored dot . name . nav chevrons . mute . close; ~10-12pt radius, #282C31 fill; selection = colored border glow not inset fill"},
+    {"pattern": "inspector", "key_values": "per-module curve well over knob row (Pitch/Amp Env/Filter/Modulation/Flanger/LFO); numbered badges; near-black wells with colored trace"},
+    {"pattern": "floating-panel", "key_values": "LFO/effect panels as draggable cards with X close; N-instances-allowed FX chain; parallel LFO routing"},
+    {"pattern": "other", "key_values": "oscilloscope hero — multi-voice colored waveform overlay as primary content object; bottom action bar with format/bit-depth segmented choosers + Play/Save"}
+  ],
+  "signature_moves": [
+    "Per-voice color identity threaded end-to-end: layer hue -> card dot -> selection border -> the voice's trace in the shared oscilloscope; the composited multi-hue 'SOUND PORTRAIT' waveform is the product's face and marketing centerpiece",
+    "Playful voice naming (zapper/swoosh/digital dirt/noise wave) over generic Osc-1-4 slots — warmth without layout cost",
+    "Semantic action-color triad: Play=green, Save=blue, active=cyan read pre-attentively by game-audio users",
+    "App icon rhymes the canvas: one bright-cyan #2EC6DA sine wave on near-black = the oscilloscope reduced to a glyph"
+  ],
+  "defects": [
+    "Faked/inactive window chrome — grey monochrome traffic lights (#8C8C8C/#8C8C8C/#515252) + dimmed grey title presented as a hero; contradicts the 'NATIVE MACOS' marketing claim",
+    "Contrast Dilution — tracked UPPERCASE micro-labels ~#6B7079 on #1C1F24 ~2.5-3:1; panel/card borders below 3:1 non-text floor",
+    "Focal Collision (soft) — green Play + blue Save + cyan ZOOMPLAY as three saturated filled controls competing in the bottom bar",
+    "Target Starvation — layer-card header controls ~12-14pt and ~17pt segments below the 24px WCAG floor on a pointer-first surface",
+    "Tracked-UPPERCASE section headers (LAYERS/OSCILLATOR/FX CHAIN) — web/non-native tell, though a deliberate hardware-panel convention here"
+  ],
+  "aesthetic": {
+    "adjectives": ["neon-electric", "instrument-dense", "retro-arcade"],
+    "direction": "Neo-grotesque product (dark) fused with an audio-plugin instrument panel — near-black canvas, electric multi-hue accents, glowing primary, tracked-mono eyebrows, geometric-grotesque display; a 'dark synth workstation' web look",
+    "peers": ["sfxr / jsfxr / ChipTone / Bfxr (subject lineage)", "Vital / Serum / Ableton (plugin-panel feel)", "Vercel / Linear (dark marketing surface)"],
+    "cluster_hint": "neon-instrument-dark (non-native / web contrast cluster)",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff / isolation — per-voice identity colors make each layer instantly trackable in a dense multi-object oscilloscope; correct use of option density in an expert workspace (not a decision point, so not thinned)",
+    "Jakob's Law — violated on chrome (fakes a Mac window it doesn't honor) but honored in the audio schema (knobs/ADSR/LFO match the DAW mental model sound designers already carry)",
+    "Aesthetic-Usability effect — polished neon-dark hero is a strong first-viewport thesis (what it is + one action), buying first-contact trust",
+    "Hick's Law — dense knob field left rich (expert browse), while true decision points (sample rate, bit depth) are reduced to 2-3-option segmented choosers",
+    "Fitts's Law — big Play/Save bottom-right (schema-correct primary placement) but tiny per-card header targets undercut it"
+  ],
+  "notes": "Marketing composites of a web app (mjsfx.app), not native macOS screenshots — digested as CONTRAST evidence (lineage web-electron, high confidence); excluded from macOS canon and native clusters. The 'NATIVE MACOS' eyebrow is marketing copy contradicted by the body: faked grey traffic-light frame, no native toolbar, no SF Pro (mono numerics + geometric-grotesque display), web-blue glowing primary, web tab-group segments. Shots 1 & 6 are the same workspace surface (hero vs full); shots 2-5 are frameless component showcases, not standalone app surfaces; cover is pure brand. All measurements from @2x (2880x1800 -> logical 1440x900) marketing PNGs — pixel-sampled colors are (measured), geometry is (estimated) with ranges. Icon present but NOT digested (UI-only Workflow A); noted as brand evidence. Value to synthesis: the audio-plugin instrument grammar + voice-color identity system + dark neon aesthetic — as a web/creative contrast cluster, never as native taste."
+}

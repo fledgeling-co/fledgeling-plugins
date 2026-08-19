@@ -1,0 +1,16 @@
+{
+  "slug": "1password",
+  "name": "1Password",
+  "tagline": "Password Manager",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://1password.com/downloads/mac",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c5a60050-6df2-4534-a50d-5deb87c9230c/icon-1783882461855.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c5a60050-6df2-4534-a50d-5deb87c9230c/cover-1783882781888.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/1password/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/1password/cover.jpg",
+    "shots": []
+  }
+}

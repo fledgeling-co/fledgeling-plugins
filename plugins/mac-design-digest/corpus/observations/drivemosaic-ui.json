@@ -1,0 +1,63 @@
+{
+  "slug": "drivemosaic",
+  "name": "DriveMosaic",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (web hero + drawn app main-window depiction with squarified treemap)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 3,
+      "failures": [
+        "#9 window title #3D3D44 on #0B0B10 near-black ~1.8:1, far below 4.5:1 (Contrast Dilution)",
+        "native#1 treemap palette is pixel-exact Tailwind-500, 0/10 tiles match Apple system colors - non-native color tell",
+        "native#10 traffic lights are drawn/dimmed (#E95750/#E8AC2A/#25B73B vs Apple #FF5F57/#FEBC2E/#28C840), cluster ~46px vs kit 68x14 - chrome recreated, not captured",
+        "N/A: #1 grid (tile sizes data-driven), #4-6 type/measure (no ramp/paragraphs), #12-14 inputs/labels/focus (none present); native audit #3-9 (no selection/sidebar/toolbar/dialog surfaces)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#0B0B10-#0D0D13 near-black (blue cast)", "quality": "measured", "notes": "window content + inter-tile gap fill; describes the marketing depiction"},
+    {"token": "chrome/titlebar", "value": "~35px Default style, centered title", "quality": "estimated", "notes": "approx kit 33pt Default titlebar; drawn"},
+    {"token": "chrome/traffic-lights", "value": "~10px dots, ~16px pitch, ~46px cluster, ~11px inset", "quality": "estimated", "notes": "cluster ~46px vs kit 68x14; dimmed non-Apple hexes -> drawn"},
+    {"token": "treemap/gap", "value": "~2px uniform hairline, window-bg fill", "quality": "measured", "notes": "H and V"},
+    {"token": "treemap/tile-radius", "value": "~6-8px", "quality": "estimated", "notes": "softly rounded tiles"},
+    {"token": "treemap/inset", "value": "0px full-bleed", "quality": "measured", "notes": "tiles butt window edges and the titlebar; no content padding"},
+    {"token": "title/text", "value": "#3D3D44 on #0B0B10 ~1.8:1", "quality": "measured", "notes": "fails contrast; dark-gray on near-black"},
+    {"token": "treemap/palette", "value": "Tailwind-500: indigo #6366F1, violet #8B5CF6, purple #A855F7, pink #EC4899, red #EF4444, orange #F97316, yellow #EAB308, green #22C55E, teal #14B8A6, blue #3B82F6", "quality": "measured", "notes": "10/10 exact Tailwind, 0/10 match Apple system palette (kit Blue #0088FF, Green #34C759, Red #FF383C ...)"},
+    {"token": "brand/hero-bg", "value": "#0A0A0F -> #0F0F1D radial (indigo glow)", "quality": "measured", "notes": "BRAND zone, not app token"},
+    {"token": "brand/accent", "value": "indigo->violet ~#6366F1 gradient accent word", "quality": "estimated", "notes": "BRAND; 'eating your' in headline"},
+    {"token": "brand/pills", "value": "indigo-tinted (Pro $4.99), emerald-tinted (One-time purchase), zinc ghost #71717A (macOS 14+)", "quality": "measured", "notes": "BRAND web-style pills, not app controls"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "squarified treemap / mosaic data-viz: ~2px near-black gaps, ~6-8px tile radius, 0px inset full-bleed, area encodes bytes, dominant tile ~40% area = pre-attentive focal point; unlabeled tiles in the static view"}
+  ],
+  "signature_moves": [
+    "Name-as-interface: 'DriveMosaic' literalized as a gap-separated jewel-tile mosaic; icon repeats the exact treemap motif in a squircle - total icon+UI+name identity coherence",
+    "Size-as-hierarchy: no color de-emphasis by design (correct for a treemap) - largest tile is both the visual peak and the actionable insight (biggest space hog)"
+  ],
+  "defects": [
+    "Contrast Dilution - window title #3D3D44 on #0B0B10 near-black ~1.8:1",
+    "Non-Apple palette (tell) - treemap is Tailwind-500, not the 12-hue system palette; excluded from macOS canon",
+    "Icon-vs-cover palette contradiction - the app icon renders the treemap in a muted, bevelled, hand-tuned palette (dusty mauve/sage/olive/terracotta/tan, soft top highlights) while the cover uses flat max-saturation Tailwind; the two artifacts disagree on the real look",
+    "Information-scent gap (UX, static) - tiles have color but no labels/sizes/legend; cannot identify the big block without interaction (out of static scope)"
+  ],
+  "aesthetic": {
+    "adjectives": ["dark", "jewel-saturated", "punchy"],
+    "direction": "Neo-grotesque product (dark) - the Linear/Vercel dark-hero reflex the aesthetic-direction map flags as the current default-model look: Tailwind-500 palette on near-black with an indigo gradient accent word",
+    "peers": ["DaisyDisk", "GrandPerspective", "Linear/Vercel (web-hero language)"],
+    "cluster_hint": "electric-dark-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect (Kurosu & Kashimura) - the saturated mosaic + dark hero are engineered for the ~50ms first-impression appeal; buys forgiveness on first contact",
+    "Von Restorff / signal-detection - size makes ONE tile dominant (indigo ~40%), correctly directing attention to the biggest space hog; the app's job resolved pre-attentively",
+    "Information scent (Pirolli & Card) - VIOLATED in the still: colored but unlabeled tiles give no scent for WHICH folder is the hog; a disk analyzer depends on quick what-is-this reads (likely resolved by hover, out of static scope)",
+    "Jakob's Law - mac users predict a real titlebar; the recreation mostly honors it but dimmed traffic-light hexes subtly break the prediction"
+  ],
+  "notes": "cover.png is a 1200x630 web OG composite, NOT a screenshot: brand hero (left) + a DRAWN macOS-window depiction (right). Two proofs the window is rendered not captured: dimmed non-Apple traffic-light hexes, and pixel-exact Tailwind-500 tiles. So window tokens describe the depiction, not confirmed shipping UI. Lineage is genuinely unclear: circumstantial evidence (real macOS squircle icon, single-platform 'macOS 14+', $4.99 one-time, disk-analyzer genre) leans native-indie, but the sole UI artifact reveals no AppKit tells and uses a web palette - hence lineage=unknown/low, nothing feeds macOS canon. KEY CONTRADICTION for synthesis: the app ICON uses a muted, tasteful, bevelled treemap palette while the COVER uses flat Tailwind saturation - the real app look is unresolved; a genuine screenshot would settle it (and would also let lineage/era/density be classified properly). No sidebar, toolbar, settings, forms, empty-state, or light-mode evidence yet. Icon.png was viewed for brand context only - NOT digested (Workflow A only; no icons/ file written)."
+}

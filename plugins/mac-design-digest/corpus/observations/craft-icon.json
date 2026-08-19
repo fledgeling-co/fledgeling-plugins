@@ -1,0 +1,38 @@
+{
+  "slug": "craft", "name": "Craft", "category": "Writing",
+  "era": "liquid-glass",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#3 abstract but coherent 4-quadrant/plus silhouette; nameable as a mark, not an object; quadrant identity leans on colour",
+    "#5 top-lit specular consistent across segments but unverifiable vs webp bloom at 102px source",
+    "#6 two full-saturation hues (magenta + electric blue) co-carry focus rather than one reserved accent"
+  ],
+  "failures": [
+    "#10 dark/tinted robustness: the two navy quadrants and the light plus-gutter are near-white-background-dependent; a dark render sinks the navy pair and inverts the gutter"
+  ],
+  "palette": {
+    "background": "ramp #F7F3FF->#EDE6F8 (frosted near-white, faint cool-lilac)",
+    "glyph": ["#FE61FD", "#017BFF", "#95C8FF", "#173878", "#1A3977"],
+    "accent": "#FE61FD"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down / environmental glass: specular sheen on the top edge of each segment, soft outer bloom on the magenta and blue quadrants, lighter bevel edge (#47598E) capping the navy pair, no long baked shadow",
+  "layer_stack": [
+    "frosted translucent lilac-white base ramp",
+    "four saturated glass quarter-segments arranged around a plus-shaped negative-space gutter (magenta TL, blue TR, navy BL, navy BR)",
+    "specular highlight + bloom on the two bright top-row segments"
+  ],
+  "devices": [
+    "quartered pinwheel mark (four rounded quarter-petals around a plus-gutter of negative space)",
+    "two-bright / two-dark quadrant split (top row glows, bottom row grounds)",
+    "saturated glass segments floating on a frosted field rather than an opaque gradient squircle",
+    "abstract brand mark with no subject metaphor (recognition-led, Notion/Linear register)"
+  ],
+  "adjectives": ["geometric", "luminous", "brand-abstract"],
+  "rhymes_hint": "abstract multi-colour geometric brand-marks on a light frosted field (petal/pinwheel logo-marks, glassy gradient identity tiles) — an abstract-mark/multicolour-glass family, distinct from object-glyph and monogram icons",
+  "notes": "Source is a 102x102 web render (icon.webp), not a 1024 master — specular/bloom and true Liquid Glass layering are inferred, not confirmed; a Big Sur-era flat-vector-logo reading is possible. Mark sits with ~8% safe-zone margin, optically centred, whole frame is the light field. Icon does not communicate the app's subject (notes/docs) — pure identity mark. Icon vs cover: shared rounded-geometric/airy mood but loose palette coherence (icon's electric blue + magenta are far more saturated than the cover's pastel sky; magenta unechoed on cover). Era call is liquid-glass on the frosted-field + segment-specular tells, held softly pending a higher-res source."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "pokey",
+  "name": "Pokey",
+  "tagline": "Turn your cursor into the most memorable thing on the call",
+  "category": "Communication",
+  "pricing": null,
+  "website": "https://pokeyapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/086d47db-f74f-465d-acbf-b301cb09845b/icon-1783882473421.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/086d47db-f74f-465d-acbf-b301cb09845b/cover-1783882786987.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pokey/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pokey/cover.jpg",
+    "shots": []
+  }
+}

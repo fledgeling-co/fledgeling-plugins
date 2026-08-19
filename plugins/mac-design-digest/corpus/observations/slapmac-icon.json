@@ -1,0 +1,34 @@
+{
+  "slug": "slapmac", "name": "SlapMac", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 8,
+  "soft_passes": [
+    "#1 art fills the squircle but master is a pre-masked 204px web render, not a verifiable square source",
+    "#2 scene roughly centred but busy; burst rays and hand crowd the right/upper margin rather than sitting on grid circles",
+    "#5 mostly top/front-lit drop shadows, but a sourceless lime outer-glow rim muddies the light model",
+    "#7 bright lime lid pops ~2.5-3:1 but the dark-green keyboard/base dissolves into the dark lower field",
+    "#8 planes ordered sensibly but the bottom glow rim is a depth cue with no light source"
+  ],
+  "failures": [
+    "#3 silhouette is a cluttered blob — laptop + overlapping hand + starbursts + motion ticks, no single nameable anchor",
+    "#4 comic detail smears to an olive smudge by 16px (already smearing at 204px) — fails Dock/Spotlight duty",
+    "#9 baked drop-shadows + sourceless glow + hard cartoon outlines are web-sticker tells, no macOS-era idiom",
+    "#10 flat monochrome-green illustration with no layer separation collapses in tinted/mono/dark renders"
+  ],
+  "palette": {
+    "background": "ramp #4C7A0A->#1F3300 (single green hue, light-top to dark-bottom)",
+    "glyph": ["#AFD526", "#B1D82E", "#3F6900", "#617349", "#183000", "#243500"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "mascot",
+    "overlay_device": "other"
+  },
+  "light_model": "inconsistent: short baked drop-shadows under laptop and hand (soft top/front light) plus a non-directional lime outer-glow rim at the bottom edge with no source; no specular/glass",
+  "layer_stack": ["green ramp field", "lime outer-glow rim", "laptop (screen-face + keyboard base)", "impact starburst", "slapping hand", "motion ticks"],
+  "devices": ["the comic slap (disembodied hand + radial impact starburst + motion-ticks)", "anthropomorphised laptop with a face", "monochrome-green drench (one hue carries the whole surface)"],
+  "adjectives": ["irreverent", "cartoonish", "monochrome-green"],
+  "rhymes_hint": "illustrated-mascot-sticker family (web/Gumroad-style novelty icons); the opposite pole from Big Sur tool-on-squircle and Liquid Glass layered-glass icons",
+  "notes": "Source is a 204x204 pre-masked .webp (alpha squircle corners baked in) - a resized web render, NOT a 1024 square master; no Icon Composer layers verifiable. Hex values reliable; fine edges and the screen-face already smeared at this size. Cover art (1376x768) shares the exact monochrome-green palette and shows the full crying/flushed laptop face with a red cheek-blush + a 'SLAP!' comic word - so icon<->cover brand coherence is high, but the icon crop loses the readable emotional payload (the face) that makes the cover land, and the red blush accent smears out. The icon itself contains no text (passes #12); text lives only on the cover. Failing BOTH #3 and #4 is the damning result: for icon generation those two (with #1,#2) are the non-negotiable checks, so this icon does not survive at the sizes the Dock actually uses."
+}

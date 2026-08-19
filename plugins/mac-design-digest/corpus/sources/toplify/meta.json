@@ -1,0 +1,16 @@
+{
+  "slug": "toplify",
+  "name": "Toplify",
+  "tagline": "Track your App Store ranking positions and get notified.",
+  "category": "Marketing",
+  "pricing": null,
+  "website": "https://toplify.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a51bc822-28d6-4daf-adf7-8185023cb2d0/icon-1783882458687.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a51bc822-28d6-4daf-adf7-8185023cb2d0/cover-1783882759786.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/toplify/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/toplify/cover.jpg",
+    "shots": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "slug": "codex",
+  "name": "Codex",
+  "category": "Dev",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-cover (brand composite: photographic backdrop + app icon + wordmark; NO app UI)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — 14-point rubric not run: no UI surface (no window, toolbar, sidebar, or content) exists in the image",
+        "n/a — 10-point native-tells audit not run: framework lineage cannot be classified without a UI body",
+        "coverage gap — source is marketing-only; scores of 0 mean 'not applicable', not 'failed'"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/field-bloom", "value": "#B8C7FF-#BACAFF periwinkle", "quality": "measured", "notes": "upper-left bloom of blurred photographic backdrop; compressed marketing PNG"},
+    {"token": "brand/field-deep", "value": "#3936D6 (right) -> #4F5BF3 (bottom)", "quality": "measured", "notes": "saturated indigo -> electric blue-violet; drenched cool field"},
+    {"token": "brand/icon-tile", "value": "#F2F2F2 near-white", "quality": "measured", "notes": "Big Sur+ squircle app-icon tile, frosted-glass light"},
+    {"token": "brand/icon-cloud-gradient", "value": "#8487FF (hi) -> #4C5CFF (mid) blue-violet", "quality": "measured", "notes": "multi-lobed cloud/blob glyph, glassy translucency"},
+    {"token": "brand/icon-prompt-glyph", "value": "~#FFFFFF", "quality": "measured", "notes": "white '>' chevron + '_' dash = terminal prompt overlaid on cloud"},
+    {"token": "brand/wordmark", "value": "#FFFFFF geometric-rounded sans, medium-heavy, circular bowls", "quality": "estimated", "notes": "'Codex'; face unnamed (SF-Rounded/Circular/Poppins-class); single display weight"},
+    {"token": "brand/color-strategy", "value": "drenched, cool violet-blue, dark-on-color", "quality": "estimated", "notes": "design-craft: surface IS the color; near full-viewport saturation"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "brand lockup (icon-over-wordmark, centered on full-bleed graded photographic field) — a marketing composite, NOT a UI pattern; excluded from pattern library"}
+  ],
+  "signature_moves": [
+    "[BRAND, not UI] App-mark fuses a soft cloud silhouette (cloud-agent) with the '>_' terminal prompt (CLI heritage) — 'cloud coding agent + terminal' in one glyph",
+    "[BRAND] Drenched cool violet-blue color world (backdrop + icon gradient share one blue-violet family between system Blue and Indigo)"
+  ],
+  "defects": [
+    "No UI-level defect assessable — no interface present. Corpus-level observation only: marketing-cover-only source; Codex remains undigested as a macOS UI."
+  ],
+  "aesthetic": {
+    "adjectives": ["drenched", "glassy", "geometric-rounded"],
+    "direction": "Drenched cool-violet brand field (design-craft 'Committed/Drenched' color strategy) with liquid-glass-era icon craft — a consumer-app brand skin over a developer CLI/cloud product",
+    "peers": ["OpenAI ChatGPT / Sora brand system", "Linear (violet-forward dev tool)", "Raycast (glassy dev-utility mark)"],
+    "cluster_hint": "brand-only (do-not-cluster): no UI evidence; if a UI cluster later forms, provisional 'violet-glass dev tool'",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Jakob's Law — icon adopts the conventional Apple squircle+glass grammar to borrow 'trusted native Mac app' expectations, though the product is terminal/cloud-first (brand signal, not a UI affordance)",
+    "Von Restorff / first-impression (Lindgaard ~50ms) — a single saturated violet field + one centered mark makes a strong, recall-friendly brand thesis; no interface to evaluate for it",
+    "Aesthetic-usability effect cannot be assessed — buys first-contact forgiveness only where a usable interface exists; none is shown"
+  ],
+  "notes": "CRITICAL for synthesis: the ONLY supplied UI-candidate image (cover.png, 1600x900, sha 1f7b4c8e) is a marketing composite with ZERO application UI — no window, chrome, traffic lights, toolbar, sidebar, or content. All tokens here are BRAND evidence at (inferred) strength from a compressed PNG and must NEVER feed macOS UI canon, patterns, or style clusters. Lineage/era are 'unknown' by necessity, not by ambiguity. A separate icon.webp (sha 99fd4a05) exists but this task was scoped to Workflow A (UI) only, so no icons/codex.md was written — the icon should be routed through Workflow B if desired. To actually digest Codex's macOS design, real app screenshots are required (conversation/agent surface, diff/code view, toolbar, settings). Product is OpenAI Codex, a coding agent (openai.com/codex); marketing tagline was treated as context, not design evidence."
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "room-service", "name": "Room Service", "category": "Dev",
+  "era": "liquid-glass",
+  "rubric_score": 10,
+  "soft_passes": ["#4 16px squint — ring survives but degrades to a top-weighted arc (reads 'C' not 'O') as the low-contrast bottom fades", "#9 era coherence — all Liquid-Glass vocabulary, but a baked 3D pre-render with specular baked in (HIG leaves that to the system), not a system-composed Icon Composer icon"],
+  "failures": ["#7 figure-ground — lower ring body #1B1E27 vs ground #08060E is ~1.2:1, under the 3:1 floor; bottom arc dissolves, silhouette carried by the top specular alone in grayscale", "#10 variant robustness — single flattened dark-committed PNG; aperture is background-coloured and body needs black behind it; not layered, would not survive system light/clear/tinted re-render"],
+  "palette": {"background": "flat #08060E", "glyph": ["#FEFEFA", "#BBBFC8", "#787F8C", "#50545F", "#272A33", "#1B1E27"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "Single key from top / upper-left; top-down glass logic; razor near-white (#FEFEFA) specular on the upper rim as the brightest event; body gradient light-at-top to dark-at-bottom; short soft drop shadow lower-left.",
+  "layer_stack": ["violet-black flat field #08060E (full bleed)", "soft contact/drop shadow (lower-left)", "extruded glass torus body (graphite ramp, top-lit)", "top-rim specular highlight #FEFEFA", "(center aperture is a cutout revealing the field)"],
+  "devices": ["backlit glass washer — 3D-extruded translucent ring at a slight perspective tilt", "razor top-rim specular carrying the silhouette", "hole = ground (aperture is exact background colour, ring reads as a portal)", "monochrome-on-violet-black — chroma-free graphite glass"],
+  "adjectives": ["translucent-graphite", "backlit", "abstract-austere"],
+  "rhymes_hint": "3D-glass-render icons (Spline/Blender translucent single-object forms on black — rings/loops/knots/blobs); the current indie/AI-tool glass wave and Apple's own Liquid Glass demo forms. Candidate 'monochrome glass-object on near-black' family, trend-committed and subject-mute.",
+  "notes": "Clean native 1024x1024 master, no upscale smear — measurements reliable. Ring dead-centered (bbox 834x842, center 509,511, ~9% uniform margins), background perfectly flat #08060E (no vignette). Subject mismatch: app is a dev disk-cleanup/health tool but the icon is an abstract glass ring communicating neither cleanup nor dev. Brand-palette partial coherence: cover UI is dark near-black with an ORANGE primary accent (~#F59E0B) + semantic status dots; icon shares only the dark ground and drops the orange identity entirely, carrying zero chroma. Reads as generic premium-glass, not specifically Room Service. Two failures (#7, #10) both stem from the same root: a baked, dark-committed single-image render rather than separable layers — the icon is dark-mode-first and background-dependent by construction."
+}

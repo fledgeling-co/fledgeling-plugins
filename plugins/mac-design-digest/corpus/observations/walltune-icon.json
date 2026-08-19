@@ -1,0 +1,23 @@
+{
+  "slug": "walltune", "name": "WallTune", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#2 grid — balanced as a unit but biased right; left-to-right unrolling gesture over dead-centre", "#3 silhouette — cylinder + rounded rect reads generic in solid black; wallpaper meaning needs colour, roll-mouth carries the shape", "#6 palette — one continuous ramp but spans a wide magenta->yellow arc; rich rather than economical"],
+  "failures": ["#10 variant robustness — metaphor depends entirely on the multi-hue warm gradient + dark field; collapses in tinted/mono render, no authored Icon Composer layer set. Era-expected miss (Big Sur icon predating Liquid Glass), not a craft defect"],
+  "palette": {
+    "background": "ramp #2A2E35->#1B1A1A",
+    "glyph": ["#FEF7F5", "#FDD8D2", "#F49BAA", "#DC3A75", "#D13F6E", "#FA7471", "#FFA641", "#FFBD34", "#FECE42"],
+    "accent": "#DC3A75"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "Soft top-down ambient; short soft drop shadows (roll onto card, card onto field); matte paper + matte gradient, no glass specular/refraction. Big Sur baked-shadow lighting, not Liquid Glass environmental.",
+  "layer_stack": ["dark squircle field (cool->warm vertical ramp)", "warm gradient card with soft drop shadow", "rolled cream sheet in front, casting soft shadow onto the card"],
+  "devices": ["unrolling wallpaper (rolled cream sheet peeling back to reveal a vibrant gradient field — subject-mined literalism)", "roll-mouth (magenta ring + dark inner hole selling the cylinder read and a focal pink pop)", "vibrant gradient as content, neutral-dark field as stage (UI de-emphasis logic on an icon)", "icon/brand palette coherence (wordmark is a mini of this icon; same ramp washes the cover)"],
+  "adjectives": ["warm-luminous", "tactile", "confident"],
+  "rhymes_hint": "warm-gradient-on-charcoal object-metaphor Big Sur icons; the paper/scroll/roll tactile-object family; a subject-mined object staged over a saturated gradient screen on a de-emphasised dark ground",
+  "notes": "Resolution 512x512 = half the 1024 master (macapp.supply web render); micro-shadow softness and any faint specular are estimated, not clean-measured. Corners outside the squircle are baked pure #000000 in the PNG (mask pre-applied by render, not a design layer) — mask discipline still passes. Background is a genuine subtle ramp, not flat: cool charcoal #2A2E35 (faint blue) at top -> warmer near-black #1B1A1A at bottom. Gradient card is diagonal: magenta-pink TL -> gold-yellow BR, brightest bottom-right (decorative content orientation, independent of the icon's top-down shadow lighting). Key synthesis finding: a competent, internally-coherent Big Sur-era icon shipping in the macOS 26 window WITHOUT adopting Liquid Glass layering — evidence for the kit-predicted shipping-app era lag; single #10 failure is era-structural, not craft. Strong committed personality (subject-mining), so reads as designed, not template."
+}

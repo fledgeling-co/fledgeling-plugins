@@ -1,0 +1,16 @@
+{
+  "slug": "glaze",
+  "name": "Glaze",
+  "tagline": "Create software for you and your team.",
+  "category": "AI",
+  "pricing": null,
+  "website": "https://www.glaze.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5bfa73c-2145-4feb-b383-361f969bda92/icon-1783882466694.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5bfa73c-2145-4feb-b383-361f969bda92/cover-1783882777148.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glaze/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glaze/cover.jpg",
+    "shots": []
+  }
+}

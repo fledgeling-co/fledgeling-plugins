@@ -1,0 +1,16 @@
+{
+  "slug": "screenlex",
+  "name": "ScreenLex",
+  "tagline": "screenlex is a screenshot application that focuses on privac",
+  "category": "Photography",
+  "pricing": null,
+  "website": "https://www.screenlex.cc/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eaddea5c-e35e-4807-8663-230c4e0225d0/icon-1783882469002.bin",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eaddea5c-e35e-4807-8663-230c4e0225d0/cover-1783882469132.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screenlex/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screenlex/cover.png",
+    "shots": []
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "hejour", "name": "Hejour", "category": "Writing",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#3 silhouette nameable only via hue knockout; solid-filled it is a plain rounded square",
+    "#4 16px: white tile survives on yellow but the checkmark detail risks washing (nil value contrast, saved by thick stroke)",
+    "#5 single light model passes only because it is wholly flat — no modeled light to be inconsistent",
+    "#9 borrows the Big Sur squircle format with zero Big Sur depth and no Liquid Glass — reads a generation behind macOS 26",
+    "#10 shape survives dark/tinted but it is a flat bitmap, not an Icon Composer layered/glass icon; identity rides on the field colour"
+  ],
+  "failures": [
+    "#7 figure-ground contrast: white card vs yellow field measures 1.24:1, checkmark yellow-on-white same; collapses in grayscale, relies purely on hue"
+  ],
+  "palette": {
+    "background": "flat #FEE90A",
+    "glyph": ["#FEE90A (checkmark = knockout, same as field)", "#FFFFFF (inner card)"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "frame"
+  },
+  "light_model": "None — pure flat fills; no modeled light source, no baked micro-shadow, no specular, no gradient ramp.",
+  "layer_stack": [
+    "flat yellow field #FEE90A (full-bleed base)",
+    "white squircle card #FFFFFF (centred inner plane)",
+    "checkmark knockout (yellow field revealed through the card — negative space, not an added front layer)"
+  ],
+  "devices": [
+    "squircle-in-squircle: inner white card echoes the system mask superellipse",
+    "knockout glyph: checkmark is negative space (field bleeding through the card), same colour as the field",
+    "mono-hue-plus-white economy: one committed brand colour, zero gradient, zero depth"
+  ],
+  "adjectives": ["sunny", "spare", "flat-confident"],
+  "rhymes_hint": "flat iOS-superellipse knockout icons — a single glyph knocked out of a saturated single-hue flat field; checklist/todo-app vernacular (checkmark family, Things-adjacent but flatter, depthless)",
+  "notes": "Source is 1221x1107 NON-square (resized web render, not the 1024 master) — inner-card proportions estimated, but flat-fill hex are reliable. Icon-vs-app palette disconnect: icon is canary yellow #FEE90A while the app UI is a dark charcoal editor (#1E1E1E) with a green completion accent (~#49901A); the icon's yellow appears nowhere in the product. Off-subject glyph: a checkmark says 'to-do/done', but Hejour is a day-based notebook/writing app — the icon communicates the checklist sliver, not the journal core. Not authored as Liquid Glass; single flat bitmap."
+}

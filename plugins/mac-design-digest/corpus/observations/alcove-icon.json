@@ -1,0 +1,41 @@
+{
+  "slug": "alcove", "name": "Alcove", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 baked rounded-rect bezel carries its own radius inside the system squircle — frame-within-mask, risks a subtle double-corner",
+    "#4 survives 16px with no smear but reads as a generic dark-tile-with-purple-glow, low differentiation",
+    "#5 two implied light sources (top-lit bezel + bottom-emitting field); coheres only as a 'lit recessed screen'",
+    "#9 custom hybrid — mild skeuomorphic device-bezel quotation around a flat modern gradient, no single system era",
+    "#11 framed-glow device is nameable but thin; one gesture, leans on color to differentiate"
+  ],
+  "failures": [
+    "#3 silhouette: filled solid black it is just a rounded square — frame is already black, interior has no discrete figure; identity lost when color is discarded",
+    "#10 variant robustness: identity is background-color-dependent with no carrying glyph; the cover's grayscale wordmark badge is the live mono variant and collapses to a generic dark-framed tile"
+  ],
+  "palette": {
+    "background": "ramp #25126C->#F7A5F8 vertical (deep indigo-violet top -> pale magenta-pink bottom); bezel #141414 near-black frame",
+    "glyph": ["#25126C", "#522592", "#A050C1", "#E091E3", "#F7A5F8"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "frame"
+  },
+  "light_model": "Ambiguous two-source: faint top-edge specular on the bezel (light from top) plus an inner field brightening toward the bottom (bottom-up emitted glow). Coheres only read as a lit screen recessed in a frame. No baked drop shadow (system-supplied).",
+  "layer_stack": [
+    "system squircle mask + system shadow",
+    "black beveled bezel frame (faint top-edge specular)",
+    "recessed inner field: vertical violet->pink ramp",
+    "(no glyph / no tool overlay)"
+  ],
+  "devices": [
+    "framed recessed glow ('alcove') — beveled near-black bezel wrapping a luminous inner panel; literal read of the app name and the Dynamic-Island/notch nook",
+    "inverted glow ramp — light rises from the bottom edge, opposite Big-Sur sky logic",
+    "wallpaper-echo palette — violet->pink field mirrors the Monterey-style desktop the app overlays"
+  ],
+  "adjectives": ["recessed", "luminous", "moody-violet"],
+  "rhymes_hint": "dark-bezel framed-screen/framed-window utilities executed as a solid recessed bezel; notch/menu-bar/wallpaper utilities dropping a saturated gradient inside a device frame; synthwave violet->magenta->pink ramp family",
+  "notes": "Only a 204x204 web render was available (not the 1024 master) — bezel bevel and any Icon Composer glass layering are below the resolution floor; edge treatment estimated. Secondary contested era reading: skeuomorphic-quote (the beveled device bezel), but the flat gradient interior and lack of material realism keep the honest call at custom. Subject-mining is genuinely strong: the recess metaphor matches both the name (alcove) and the function (Dynamic Island black pill), which partly redeems the generic silhouette. The #10 mono failure is directly evidenced by the app's own grayscale cover badge. Cover paper ground #FEF1DF; wordmark badge runs a neutral grayscale palette (bezel #0C0A09, field #383330->#989085) while the app icon runs violet — one mark, two palettes."
+}

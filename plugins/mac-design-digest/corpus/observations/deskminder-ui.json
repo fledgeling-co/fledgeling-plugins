@@ -1,0 +1,64 @@
+{
+  "slug": "deskminder", "name": "DeskMinder", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "floating desktop reminder pill (collapsed/active countdown state) — inside a marketing composite; true scale unknowable (1x render)",
+      "mode": "custom (dark brand-green translucent pill over a green macOS desktop; surrounding marketing backdrop is light mint)",
+      "rubric_score": 10,
+      "native_audit_score": 5,
+      "failures": [
+        "rubric #9 text contrast: 'Reminder...' muted green on green reads <4.5:1 (estimated)",
+        "rubric #10 UI contrast: dark-green pill on green wallpaper ~2:1 separation (estimated); leans on soft shadow",
+        "rubric #2/#5/#12/#13/#14 N/A on a single borderless custom widget (no alignment reference, no line-height, no inputs, no form labels, no focus state visible)",
+        "native #2 brand-tinted material, not neutral adaptive glass; inset time-chip nested in translucent pill = glass-on-glass-adjacent",
+        "native #6 accent (brand green) floods the entire surface instead of binding to one action; no controlAccentColor",
+        "native #5 density unmeasurable on a 1x composite (no pt sizes recoverable)",
+        "native #1 AppKit/SwiftUI lineage unconfirmable from the surface (no native chrome or standard controls); inferred from category"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "pill/fill", "value": "saturated brand green ~#3F9A2E-#4CA82E, slightly translucent", "quality": "estimated", "notes": "brand-tinted material, NOT neutral Liquid Glass; wallpaper faintly shows through"},
+    {"token": "pill/shape", "value": "capsule (radius = height/2, ~11px on ~22px-tall bar); aspect ~8-9:1 w:h", "quality": "estimated", "notes": "main info capsule ~185x22 render px; scale unknowable"},
+    {"token": "chip/timer", "value": "inset lighter-green rounded segment: outline clock glyph + '62 min'", "quality": "estimated", "notes": "translucent over-fill chip nested inside the translucent pill; live-activity morphing vocabulary"},
+    {"token": "glyph/timer", "value": "thin-stroke outline clock/gauge, single hand, ~14px, white monochrome", "quality": "estimated", "notes": "no accent tint"},
+    {"token": "type/value", "value": "'62 min' white, semibold-ish, ~13px-class", "quality": "estimated", "notes": "primary glanceable datum; outranks its label"},
+    {"token": "type/label", "value": "'Reminder...' muted desaturated green-white, regular, truncated ellipsis", "quality": "estimated", "notes": "secondary; de-emphasised by colour+weight; green-on-green low contrast"},
+    {"token": "close/button", "value": "detached squircle ~24-26px, dark opaque green ~#357A28, white close glyph", "quality": "estimated", "notes": "superellipse radius ~0.3x side (iOS rounded-square, not circle, not capsule)"},
+    {"token": "space/gap", "value": "~8px between close button and info capsule", "quality": "estimated", "notes": "separates two distinct groups (proximity)"},
+    {"token": "brand/hue", "value": "single committed green across icon + UI + marketing", "quality": "estimated", "notes": "mono-hue identity; confirmed across three renders in the composite"},
+    {"token": "brand/backdrop", "value": "flat mint ~#C8E6CE", "quality": "estimated", "notes": "MARKETING composite only, not an app-UI token"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "desktop reminder utility category; the visible surface is a floating desktop pill parked top-left under the notch, not a strict status-menu dropdown; always-on-top glanceable countdown"},
+    {"pattern": "floating-panel", "key_values": "borderless brand-styled overlay; capsule ~8-9:1 aspect, radius height/2; detached squircle close button + info capsule with nested time-chip; no native chrome, no traffic lights; brand-green translucent material over wallpaper"}
+  ],
+  "signature_moves": [
+    "A Mac desktop Live Activity: imports the iOS Dynamic-Island / Live-Activity capsule (inset status chip + glanceable countdown + truncated title + compact->expandable morph) and parks it always-visible on the desktop. Where Alcove fused with the physical notch via true-black, DeskMinder does it in BRAND COLOUR - the whole capsule drenched in product green so widget + icon + marketing form one continuous mono-green identity.",
+    "Countdown-as-open-loop: persistently surfacing '62 min' exploits the Zeigarnik/goal-gradient effect - an unfinished timer nags working memory, which IS the 'for people who get easily distracted' pitch. Built to be glanced, not read."
+  ],
+  "defects": [
+    "Brand-tinted material over native glass grammar - saturated brand green as the whole container instead of neutral vibrancy with accent reserved for one action. Systematic + purposeful + no hard a11y break -> signature-with-caveat, EXCLUDED from macOS canon (lineage gate).",
+    "Contrast Dilution - 'Reminder...' muted green on green (<4.5:1 est.) AND dark-green pill on green wallpaper (~2:1 est.); green-on-green undercuts the glanceability the pill exists for (Von Restorff: the one different thing must break its surround).",
+    "No system-accent binding (controlAccentColor ignored) - defensible for a branded HUD but where the native reading diverges.",
+    "Evidence poverty (not a design defect): 1 surface / 1 state from a 1x marketing render - no expanded state, no 'one click' creation flow, no settings/onboarding, no non-green-desktop robustness."
+  ],
+  "aesthetic": {
+    "adjectives": ["mono-green", "glanceable", "friendly-rounded"],
+    "direction": "iOS Live-Activity transplant in a single committed brand hue - a consumer-utility surface outside the range-map families; the marketing wrapper is separately a Committed single-hue field (heavy black grotesk wordmark + mint ground + glossy Liquid-Glass-style icon)",
+    "peers": ["Alcove", "NotchNook", "Dato", "One Thing", "iOS Live Activities / Dynamic Island"],
+    "cluster_hint": "Dynamic-Island / live-activity utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Zeigarnik effect / Goal-gradient (Hull; Kivetz) - a persistent visible countdown keeps an open loop salient in working memory; the core mechanic, well matched to the distraction-fighting pitch",
+    "Von Restorff / signal-detection theory - a glanceable widget must break its surround to be found; brand-green-on-green wallpaper nearly matches it, weakening the pop (contrast-dependent, wallpaper-dependent)",
+    "Miller/Cowan chunking + progressive disclosure - the collapsed pill shows only 2 chunks (time + label), reserving detail for an expanded state; good reduction",
+    "Jakob's Law - borrowing the iOS Live-Activity form means users arrive pre-trained on the pill's meaning; familiarity is the affordance",
+    "Fitts's Law - detached ~24px close target sits at the WCAG 24px floor; fine for pointer-first desktop, small for anything touch-adjacent"
+  ],
+  "notes": "Only a cover.jpg (marketing composite) and an icon.webp were supplied - no dedicated UI shots. Workflow A run on the sole app-UI evidence: the floating reminder pill embedded in the composite. Everything is a 1x downscaled render, so ALL metrics are (estimated) with wide ranges and NO pt sizes are recoverable - scores are soft and several rubric/native checks are N/A on a single borderless custom widget. Nearest corpus peer is Alcove (same Dynamic-Island-transplant idea); DeskMinder differs by using brand colour instead of true-black and parking on the desktop rather than the notch. Lineage native but custom-drawn brand surface -> does NOT feed macOS canon. Icon (gauge/dial in a glossy green squircle) and heavy-grotesk wordmark are brand evidence only, not app-UI tokens. Website deskminder.appps.od.ua indicates a real shipped app, not a mock."
+}

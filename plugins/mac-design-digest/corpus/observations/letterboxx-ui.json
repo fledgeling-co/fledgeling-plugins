@@ -1,0 +1,71 @@
+{
+  "slug": "letterboxx",
+  "name": "Letterboxx",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {"file": "shot-1.png", "surface_type": "main-window + stats-dashboard (three-pane, card grid)", "mode": "light", "rubric_score": 13, "native_audit_score": 10, "failures": ["#10 hairline divider/border contrast borderline <3:1 (platform-normal)"]},
+    {"file": "shot-2.png", "surface_type": "reading pane + floating glass toolbar", "mode": "light", "rubric_score": 13, "native_audit_score": 10, "failures": ["#6 long line-length is rendered newsletter HTML (content), n/a to app chrome"]},
+    {"file": "shot-3.png", "surface_type": "Clean View popover over reader", "mode": "light", "rubric_score": 13, "native_audit_score": 9, "failures": ["#10 borderline UI contrast", "native#2 popover-morph unverifiable from still"]},
+    {"file": "shot-4.png", "surface_type": "highlight-colour pull-down menu + reading", "mode": "light", "rubric_score": 13, "native_audit_score": 10, "failures": []},
+    {"file": "shot-5.png", "surface_type": "reading pane (newsletter render)", "mode": "light", "rubric_score": 13, "native_audit_score": 10, "failures": ["#6 long measure = newsletter HTML content"]},
+    {"file": "shot-6.png", "surface_type": "Message Diagnostics (composition bar + data tables)", "mode": "light", "rubric_score": 12, "native_audit_score": 8, "failures": ["native#4 tracked-UPPERCASE table column headers (web/enterprise tell)", "#9/#10 secondary-label contrast borderline in dense data"]}
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#FFFFFF", "quality": "measured", "notes": "window + reading-pane ground, light mode"},
+    {"token": "bg/sidebar", "value": "~#F4F4F6 translucent (vibrancy)", "quality": "estimated", "notes": "source list, recessed vs content"},
+    {"token": "bg/stat-tile", "value": "~#F1F1F4 flat fill", "quality": "estimated", "notes": "dashboard cards, tonal, no heavy shadow"},
+    {"token": "accent/primary", "value": "system blue ~#0088FF", "quality": "estimated", "notes": "matches kit light Blue; sidebar selection, links, unread dot"},
+    {"token": "selection/sidebar", "value": "solid accent-blue inset-rounded fill, white label, ~6-8pt radius, ~4px inset", "quality": "measured", "notes": "prominent source-list style (Mail/Reminders-like), not the subtle tinted default"},
+    {"token": "selection/list", "value": "neutral-grey inset-rounded fill when list unfocused; accent-blue + white when focused", "quality": "measured", "notes": "correct active/secondary selection duality"},
+    {"token": "type/list-title", "value": "~13pt SF Pro; semibold+near-black unread, regular+muted read", "quality": "estimated", "notes": "weight carries unread, not colour"},
+    {"token": "type/list-subLabel", "value": "~11pt SF Pro secondary grey", "quality": "estimated", "notes": "sender line + right-aligned date"},
+    {"token": "type/stat-number", "value": "~26-28pt SF Pro Bold near-black", "quality": "estimated", "notes": "value outranks label (LargeTitle/Title1 class)"},
+    {"token": "type/section-header", "value": "~11pt SF Pro Semibold secondary grey, sentence case", "quality": "estimated", "notes": "'Filters'/'Letterboxxes' — passes #1 sidebar tell"},
+    {"token": "type/table-header", "value": "~10pt secondary grey, tracked UPPERCASE", "quality": "measured", "notes": "diagnostics tables only — non-native seam"},
+    {"token": "row/list-height", "value": "~38-40pt two-line", "quality": "measured", "notes": "avatar + title + sender/date; 1px inset hairline divider"},
+    {"token": "row/sidebar-height", "value": "~28-32pt (Medium tier)", "quality": "estimated", "notes": "glyph + label"},
+    {"token": "radius/card", "value": "~13pt", "quality": "measured", "notes": "stat tiles"},
+    {"token": "radius/popover", "value": "~16-20pt", "quality": "estimated", "notes": "Clean View panel; near kit popover 20"},
+    {"token": "radius/window", "value": "~12-14pt", "quality": "estimated", "notes": "measured from screenshot; kit ships none"},
+    {"token": "chrome/toolbar", "value": "floating glass symbol-group, detail-pane top-right, ~8 borderless monochrome SF Symbols + A/ⓘ/A text trio, one continuous edge", "quality": "measured", "notes": "container-morph signature; Liquid Glass"},
+    {"token": "chrome/sidebar-width", "value": "~160-200pt", "quality": "estimated", "notes": "reads narrower than kit's 256 example"},
+    {"token": "palette/highlight", "value": "Yellow/Mint/Sky/Rose/Lavender (system-hue subset)", "quality": "measured", "notes": "identity hues, decoupled from accent"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "source list ~160-200pt, capsule search pinned top, two collapsible sections (Filters + Letterboxxes) with sentence-case secondary headers + disclosure chevrons, emoji-prefixed folder rows, solid-accent prominent selection, ~28-32pt rows"},
+    {"pattern": "list", "key_values": "two-line message rows ~38-40pt: rounded-square avatar/logo ~28-32pt + unread-bold title + secondary sender + right date; blue unread dot, yellow star; neutral-grey selection when not first responder; 1px inset hairline"},
+    {"pattern": "toolbar", "key_values": "floating Liquid-Glass symbol-group at detail-pane top-right, ~8 borderless monochrome SF Symbols in one continuous glass container, trailing A/ⓘ/A text-size controls; no bordered pills"},
+    {"pattern": "card-grid", "key_values": "stats dashboard: responsive grid of ~13pt-radius light-fill tiles, each = system-hue glyph + sentence-case secondary label (top) + bold ~26-28pt number (below); value outranks label; followed by list-card blocks (Top Letterboxxes/Senders/Highlights)"},
+    {"pattern": "floating-panel", "key_values": "Clean View detached rounded glass popover over reader: header (icon+title+size pull-down) + summary line + two mini stat-cards + link-to-diagnostics row; body radius ~16-20pt"},
+    {"pattern": "inspector", "key_values": "Message Diagnostics detail surface: segmented composition bar (5 system-hue categories with % + KB + thin track) + Background/Reader-Surface tables with colour-swatch + hex + status columns; tables use tracked-uppercase headers (defect)"},
+    {"pattern": "menu", "key_values": "highlight pull-down: 5 colour rows (dot + sentence-case name) + separator + 'Remove All Highlights' (trash glyph, not red); item selection radius ~8"}
+  ],
+  "signature_moves": [
+    "Polymorphic detail pane — one structural slot swaps between rendered newsletter, full analytics dashboard, Clean View popover, and developer-grade Message Diagnostics",
+    "Data-viz as the sole boldness budget: disciplined system-default chrome everywhere, expressive hue-coded composition bar + stat tiles as the one loud surface (80/20)",
+    "'Clean View' tracker/ad/clutter stripper surfaced as a glass popover with per-newsletter / per-sender / all-time removed-count telemetry",
+    "Highlights named in system identity hues (Yellow/Mint/Sky/Rose/Lavender) via a native pull-down — custom feature spoken in platform colour vocabulary",
+    "Unread carried by font weight + a blue dot, not colour — hierarchy by de-emphasis"
+  ],
+  "defects": [
+    "Tracked-uppercase table headers — Message Diagnostics columns ('APPEARANCE / COLOR / STATUS / DETECTED AT') set in letter-spaced caps; HIG lists-and-tables wants sentence-case secondary headers. Sporadic (one surface) web/enterprise tell, the app's only non-native seam"
+  ],
+  "aesthetic": {
+    "adjectives": ["calm", "system-faithful", "quietly data-rich"],
+    "direction": "Neo-grotesque product rendered as platform-native — no committed custom aesthetic; inherits SF Pro, system materials, single system accent, and lets one data surface carry the personality",
+    "peers": ["Apple Mail", "NetNewsWire", "Reeder", "Apple Notes"],
+    "cluster_hint": "native-faithful reader",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff — single accent + one expressive data surface; the diagnostics bar and stat numbers are the remembered 'different thing' against quiet chrome",
+    "Hierarchy via de-emphasis (Refactoring UI) — unread bold vs read regular; secondary-grey sender/label vs near-black title/number; value outranks label on tiles",
+    "Jakob's Law — three-pane Mail/reader shell means zero learning cost; users arrive pre-trained on the layout",
+    "Aesthetic-Usability + processing fluency — strict system-consistent tokens (radii, accent, selection grammar) read as trustworthy; the one tracked-uppercase-header inconsistency is the kind of near-miss that subtly costs fluency",
+    "Zeigarnik / self-monitoring — stat dashboard (counts, streák-like Today/Week/Month tallies, First Newsletter date) turns a mailbox into a progress surface"
+  ],
+  "notes": "Cover and shot-1..6 are marketing composites (device-free app window on a colour-gradient backdrop with a heavy grotesque headline); only the app window inside is design evidence, and it is high-res @2x (2880x1800, ~1440x900 logical) so measurements are reliable. The detail pane frequently renders THIRD-PARTY newsletter HTML (Techmeme, Grow Omaha, WSJ) whose centred bold headings and serif/Arial body are the newsletters' own web typography — do NOT attribute that type to Letterboxx's system. All surfaces are light mode; no dark-mode evidence. No settings window, onboarding, empty state, or sheet/alert seen. App icon (stacked-airmail-envelopes render) present but not digested (Workflow A / UI only) — flag for a later icon pass. Sole member of a proposed 'native-faithful reader' cluster; nothing here is promotable to canon alone."
+}

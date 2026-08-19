@@ -1,0 +1,16 @@
+{
+  "slug": "sero",
+  "name": "Sero",
+  "tagline": "Search with zero resistance. Private local AI retrieval for documents, research, and developer knowledge.",
+  "category": "AI",
+  "pricing": null,
+  "website": "https://sero.tanayarya.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12bfcf51-5897-4869-a354-def1048ef2a6/icon-1783882464964.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12bfcf51-5897-4869-a354-def1048ef2a6/cover-1783882775045.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sero/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sero/cover.png",
+    "shots": []
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "slug": "droppy",
+  "name": "Droppy",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "notch-hud (Now Playing media widget + Playing Next queue + detached glass launcher pill)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 text contrast — secondary gray #717171 on true black ~4.2:1, under 4.5:1 AA for the smallest labels (artist rows, 'Playing Next' header)",
+        "#6 measure/truncation — queue titles hard-clip at panel right edge with no ellipsis or fade ('Lotje (Lil Kleine Remi...'); low confidence, may be marketing framing",
+        "native#5 density — HUD runs glanceable-large (~15-24pt) not 13pt body; a Now-Playing-HUD convention, not a defect",
+        "native#6 accent — no user-accent binding; selection/primary are neutral white, app is monochrome (album art + one red source badge are the only chroma)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/panel-opaque", "value": "#000000 true black", "quality": "measured", "notes": "top of notch HUD reads pure 0,0,0"},
+    {"token": "bg/panel-glass-edge", "value": "dark translucent; samples rgb(33,44,49) over wallpaper", "quality": "measured", "notes": "lower panel dissolves to Liquid Glass, wallpaper bleeds through; floating chrome, legitimate"},
+    {"token": "text/primary", "value": "~#EBEBEB-#FFFFFF near-white", "quality": "measured", "notes": "now-playing + queue titles, very high contrast on black"},
+    {"token": "text/secondary", "value": "#717171 (~44% white)", "quality": "measured", "notes": "artist names + section header; ~4.2:1 on black, borderline"},
+    {"token": "progress/fill", "value": "#EEEEEE", "quality": "measured", "notes": "scrubber elapsed"},
+    {"token": "progress/track", "value": "#2F2F2D", "quality": "measured", "notes": "scrubber unplayed, dark neutral"},
+    {"token": "accent/source-badge", "value": "#E54C58 Apple-Music red", "quality": "measured", "notes": "source-app identity on album art, paired with meaning; NOT the app's own accent"},
+    {"token": "pill/launcher-material", "value": "translucent Liquid Glass; wallpaper visible (sampled rgb(166,147,104))", "quality": "measured", "notes": "capsule + separate rounded-square, both over desktop, no glass-on-glass"},
+    {"token": "selection/fill", "value": "lighter translucent inset rounded-rect behind house.fill", "quality": "estimated", "notes": "inset-fill selection grammar present; glyph neutral white, not accent-tinted"},
+    {"token": "radius/panel", "value": "~16-20pt bottom corners", "quality": "estimated", "notes": "flush to notch at top, only bottom rounds"},
+    {"token": "radius/album-art", "value": "~10-12px", "quality": "estimated", "notes": "concentric, < panel radius"},
+    {"token": "radius/launcher", "value": "capsule + rounded-square", "quality": "estimated", "notes": "matches macOS-27 capsule bezel convention"},
+    {"token": "type/title-nowplaying", "value": "Title1-class ~20-24pt Bold", "quality": "estimated", "notes": "glanceable HUD scale; cap-height ~1.6x queue title"},
+    {"token": "type/queue-title", "value": "Title3-class ~15pt Semibold", "quality": "estimated", "notes": "cap-height ~22px in-frame"},
+    {"token": "type/secondary", "value": "~12-13pt Regular gray", "quality": "estimated", "notes": "artist rows + section header"},
+    {"token": "symbols", "value": "SF Symbols filled: pause.fill backward.fill forward.fill list.bullet airplayaudio house.fill tray square.grid.2x2 calendar", "quality": "estimated", "notes": "monochrome native symbol set"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "notch-anchored dark HUD; top flush to notch cutout, bottom corners ~16-20pt; two-column split (media ~55% | queue ~45%) divided by ~1px vertical rule; near-opaque black dissolving to translucent glass at the lower edge"},
+    {"pattern": "list", "key_values": "queue rows = art ~48px rounded + title Bold / artist secondary + trailing reorder handle; hard right-edge truncation without ellipsis"},
+    {"pattern": "toolbar", "key_values": "transport row = queue-btn (translucent rounded-square) . backward.fill . pause.fill (centered, largest, bare glyph, the one prominent action) . forward.fill . airplayaudio trailing"},
+    {"pattern": "other", "key_values": "detached Liquid-Glass launcher = one continuous capsule [house.fill selected inset-fill | tray | square.grid.2x2] + a separate glass rounded-square [calendar]; two independent floating-glass modules (container morphing correct, no glass-on-glass)"}
+  ],
+  "signature_moves": [
+    "Colonizes the MacBook notch dead-zone as the primary interactive surface — transplants the iPhone Dynamic Island / Control-Center Now-Playing schema onto macOS (Jakob's Law borrow); the top screen edge is an infinite-depth Fitts target",
+    "Album art is the only chroma in an otherwise monochrome true-black HUD; the lone red source badge is the 'which app is playing' signal (Von Restorff), and no user-accent is spent",
+    "Two independent floating-glass modules rather than one bar: an ambient-status notch panel and a separate navigation launcher pill, each its own Liquid-Glass surface",
+    "Concept-as-icon: the app icon renders the MacBook notch itself (black bezel + notch cutout wrapping a glowing blue concave interior) — the product thesis as one object"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — secondary label gray #717171 on true black ~4.2:1, just under 4.5:1 AA for the smallest metadata; canon secondary-on-dark is #FFFFFF@55% ~#8C8C8C",
+    "Truncation without ellipsis (low confidence) — queue titles clip hard at the panel's right content edge with no ellipsis or scroll-edge fade; could be marketing-crop framing"
+  ],
+  "aesthetic": {
+    "adjectives": ["glanceable", "dark-glass", "ambient"],
+    "direction": "Platform-native Liquid-Glass HUD in the Control-Center Now-Playing register — SF Pro monochrome on true black, album art as the only color, restrained committed-neutral palette; closest range-map family is neo-grotesque product (dark neutral + glass) but it is really Apple's own HUD grammar",
+    "peers": ["NotchNook", "Boring Notch", "MediaMate", "Alcove", "Apple Control Center Now Playing", "iOS Dynamic Island"],
+    "cluster_hint": "notch-hud-ambient (dark-glass system-adjacent utility)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — deliberately mirrors the iPhone Dynamic Island / Now-Playing schema, so a Mac-first paradigm reads as pre-learned and requires no teaching",
+    "Fitts's Law — parks the HUD at the top screen edge (effectively infinite-depth acquisition target) and gives the launcher generous glass targets",
+    "Von Restorff effect — the single red source badge (and the album art) are the only saturated elements, so they carry the 'which app' signal pre-attentively",
+    "Aesthetic-Usability effect — polished Liquid Glass + full-bleed album art buy a strong ~50ms first impression",
+    "Hick's Law — the launcher reduces navigation to 3-4 clearly-iconed modules"
+  ],
+  "notes": "Only one image carried app UI (cover.png); no shot-*.* files were provided (meta.json gallery empty). The cover is a genuine over-the-desktop screenshot (app on the user's coastline wallpaper), NOT a device-frame composite, so it is real design evidence — but the capture scale is ambiguous (1816x568 crop, not a full logical screen), hence all geometry/type is estimated with wide ranges and only sampled hex is measured. icon.png was viewed for brand context (notch-as-object motif) but NOT digested under Workflow B per task scope. Lineage is 'native' at med confidence: no window chrome exists to confirm AppKit vs SwiftUI, but the SF Symbols set, Liquid-Glass launcher with container morphing, and true-black HUD material all read as a custom SwiftUI notch utility (NotchNook/Boring-Notch genre). Density and accent 'failures' in the native audit are HUD-appropriate conventions, not defects — flagged so a later synthesis pass does not treat this glanceable-large, monochrome register as general mac taste. First app profile in the corpus; kit/macos-27.md is the only prior entry."
+}

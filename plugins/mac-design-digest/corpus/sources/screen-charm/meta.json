@@ -1,0 +1,16 @@
+{
+  "slug": "screen-charm",
+  "name": "Screen Charm",
+  "tagline": "Mac Screen Recorder for Polished Videos",
+  "category": "Video",
+  "pricing": null,
+  "website": "https://screencharm.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ee3556ec-f7b2-4f70-90ac-947327012f70/icon-1783882454671.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ee3556ec-f7b2-4f70-90ac-947327012f70/cover-1783882757130.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-charm/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-charm/cover.png",
+    "shots": []
+  }
+}

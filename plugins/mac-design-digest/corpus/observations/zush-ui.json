@@ -1,0 +1,71 @@
+{
+  "slug": "zush", "name": "Zush", "category": "Utility",
+  "lineage": "web-electron", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png (app window cropped from marketing composite)",
+      "surface_type": "main window — sidebar + result list (AI Rename)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 4,
+      "failures": [
+        "14pt #10 — row dividers/borders hairline, read <3:1 on dark bg",
+        "14pt #9 — secondary grey filename ~4:1, marginally under 4.5:1 text floor",
+        "native #1 — web-electron lineage (cross-platform Mac+Windows; web body under real frame)",
+        "native #3 — selection is saturated full-bleed indigo + white text, not flat inset accent-tinted",
+        "native #5 — web density: ~15-16pt body, generous rows; not 13pt/24pt native grammar",
+        "native #6 — accent is hardcoded brand indigo (+ second green accent), not the user's system accent"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/content", "value": "~#16171E-#181A22 cool near-black navy", "quality": "estimated", "notes": "not neutral #1E1E1E; blue-tinted dark"},
+    {"token": "bg/sidebar", "value": "~#1A1C24 flat opaque", "quality": "estimated", "notes": "full-height, no visible vibrancy/material"},
+    {"token": "accent/brand-indigo", "value": "~#6C5CE7-#6D5DF0", "quality": "estimated", "notes": "selection fill, AI Title chip, PRO pill, wordmark heading; hardcoded brand hue, NOT system accent"},
+    {"token": "accent/brand-green", "value": "~#34D571-#3BE37A", "quality": "estimated", "notes": "transformation arrows, PRO star, status glyphs, wordmark Zush"},
+    {"token": "text/primary", "value": "~#F1F2F5", "quality": "estimated", "notes": "new names, sidebar labels, H1"},
+    {"token": "text/secondary", "value": "~#868892 grey", "quality": "estimated", "notes": "original filenames, de-emphasised; ~4:1 borderline"},
+    {"token": "type/h1", "value": "~20-22pt bold", "quality": "estimated", "notes": "content title 'AI Rename'"},
+    {"token": "type/sidebar-label", "value": "~15-16pt regular", "quality": "estimated", "notes": "above native 13pt body"},
+    {"token": "type/row-name", "value": "~14-15pt; source grey-regular / new medium-white", "quality": "estimated", "notes": "label-value de-emphasis"},
+    {"token": "radius/selection", "value": "~12-14px", "quality": "estimated", "notes": "selected sidebar row"},
+    {"token": "radius/icon-chip", "value": "~8px, chips ~28-32px", "quality": "estimated", "notes": "multicolor rounded-square nav icons"},
+    {"token": "radius/button", "value": "~8px web rounded-rect", "quality": "estimated", "notes": "Start Over / +; not capsule"},
+    {"token": "radius/window", "value": "~12-14pt observed", "quality": "estimated", "notes": "this app only; do not generalise"},
+    {"token": "row/file", "value": "two-line, ~64px thumb + source over green-arrow new name, ~55-60pt tall, hairline divider", "quality": "estimated", "notes": "the signature unit"},
+    {"token": "chrome/sidebar", "value": "full-height flat dark, ~240-260px, real traffic lights + toggle SF Symbol, flat 8-item list, no section headers", "quality": "estimated", "notes": "genuine frame, web body"},
+    {"token": "font/ui", "value": "SF Pro or close humanist sans", "quality": "estimated", "notes": "brand/marketing face is separate rounded geometric bold (Poppins/Satoshi-class)"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "full-height ~240-260px, flat opaque dark, multicolor rounded-square icons + label, single flat list no headers, saturated indigo selection fill + white text, bottom rail with PRO pill + status glyphs — NON-NATIVE (web-electron), corrections: monochrome SF Symbols, inset accent-tinted selection, system-accent binding"},
+    {"pattern": "list", "key_values": "two-line result rows: 64px rounded thumbnail + grey source filename + green transformation arrow + bright new name; hairline separators; ~55-60pt row height; strong label-value de-emphasis"},
+    {"pattern": "other", "key_values": "collapsible 'Template' section holding chips (indigo-bordered 'AI Title', green-tinted 'Smart Title Name'); bottom action bar with quiet dark rounded-rect buttons (Start Over, +)"}
+  ],
+  "signature_moves": [
+    "Before-after rename row: grey de-emphasised source filename to bright new name joined by a green transformation arrow, repeated down the list — the product promise rendered as one scannable unit; demonstrate-don't-describe for an AI tool",
+    "Two-accent brand system: electric indigo (identity/selection) + electric green (transformation/status) on cool near-black, consistent across UI, brand backdrop and icon",
+    "Mascot-anchored trust: glossy 3D robot with glowing green eyes on indigo-violet gradient — buys first-impression forgiveness for automated output"
+  ],
+  "defects": [
+    "Non-native selection grammar — saturated full-bleed indigo fill + white text instead of flat inset accent-tinted fill (native tell, excluded from mac canon)",
+    "Multicolor sidebar icons — iOS/web pattern instead of monochrome SF Symbols (native tell)",
+    "Accent not system-bound — hardcoded brand indigo plus a second green accent, neither bound to the user's system accent (native tell)",
+    "UI contrast (WCAG non-text) — hairline row dividers/borders read <3:1 on the dark ground; secondary grey filename ~4:1 marginally under text floor"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "glossy", "saturated"],
+    "direction": "Playful/toy crossed with neo-grotesque-product dark — dark cool-neutral ramp with electric indigo+green accents (neo-grotesque product) softened by pill-everything and a 3D mascot (toy/consumer). A 'consumer-AI dark' idiom.",
+    "peers": ["Raycast (dark neutral + accent, but far more restrained/native)", "consumer Electron utilities on Setapp-tier lists", "CleanShot-class polish but pushed toward toy warmth"],
+    "cluster_hint": "consumer-AI-dark / friendly-utility (non-native, tracked separately from macOS clusters)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — one saturated selection and one green arrow per row make the new name the remembered, pre-attentively-found element",
+    "Demonstrate-don't-describe (description-experience gap) — before-after rows show the AI output rather than describing it, the right move where trust in results drives conversion",
+    "Aesthetic-Usability effect + Fogg prominence — glossy mascot and polished dark theme form a ~50ms first impression that buys forgiveness for an automated tool",
+    "Jakob's Law — real traffic lights + Mac-shaped sidebar shell meet platform expectations, lowering learning cost despite the web internals",
+    "Hierarchy via de-emphasis (Refactoring UI) — grey source filename vs bright new name is textbook label-value contrast"
+  ],
+  "notes": "Only two source files: a marketing composite cover (no standalone gallery shots) and the app icon. The app WINDOW inside the cover is the sole UI evidence and it bleeds off the composite's right edge, so content-area width and full toolbar are unknown; all tokens are single-render (estimated) at ~@2x. Lineage is web-electron (high) — this is CONTRAST EVIDENCE ONLY: none of it may feed macOS canon or native clusters; its non-native properties are recorded as tells with native corrections. The icon (3D robot mascot) was not digested (task scoped to Workflow A / UI only) but corroborates the indigo+green brand system. Corpus remains effectively 0 native apps after this digest — Zush cannot seed a macOS cluster. macapp.supply marketing copy ('for Mac and Windows', 'Private Offline AI') is context, not design evidence."
+}

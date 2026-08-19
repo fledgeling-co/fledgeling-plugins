@@ -1,0 +1,16 @@
+{
+  "slug": "compresto",
+  "name": "Compresto",
+  "tagline": "Compress videos, images, GIFs, and PDFs without noticeable q",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://compresto.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f86b8771-7cb8-461e-9ebb-e6fb84d677cf/icon-1783882476799.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f86b8771-7cb8-461e-9ebb-e6fb84d677cf/cover-1783882794456.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compresto/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compresto/cover.png",
+    "shots": []
+  }
+}

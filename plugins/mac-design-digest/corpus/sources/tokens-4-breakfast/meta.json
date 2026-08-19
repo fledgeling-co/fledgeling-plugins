@@ -1,0 +1,16 @@
+{
+  "slug": "tokens-4-breakfast",
+  "name": "Tokens 4 Breakfast",
+  "tagline": "Track token usage, AI spend, subscriptions, and rate-limit pressure from one private Mac menu bar app. Supports Claude Code, OpenAI, Cursor, Copilot, and more. No login, no cloud, one-time Pro.",
+  "category": "Productivity",
+  "pricing": "freemium",
+  "website": "https://tokens4breakfast.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-9628c1c8-e764-4c98-bb75-73e18c6f374a.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-69bb35f2-ba5d-4586-a3ba-891e7c20b35d.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tokens-4-breakfast/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tokens-4-breakfast/cover.png",
+    "shots": []
+  }
+}

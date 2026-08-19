@@ -1,0 +1,19 @@
+{
+  "slug": "sessionwatcher", "name": "SessionWatcher", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#1 pre-masked 256px render — composition respects the squircle safe zone but the baked corner radius means a full-bleed layer can't be verified; mask-fighting unobservable rather than confirmed-absent", "#11 the 3-ascending-bar chart is an off-the-shelf analytics glyph (template on device choice); passes only on the committed monochrome-metal restraint execution"],
+  "failures": ["#10 variant robustness — single Big-Sur raster, not appearance-aware; silver glyph legibility is load-bearing on the dark field, would collapse in a macOS 26 Clear/Light-tinted render; no light/invert variant evident"],
+  "palette": {
+    "background": "ramp #313131->#131313 (near-black charcoal, top-down; faint ~#4C4C4C inner-edge rim)",
+    "glyph": ["#ECECEC", "#C9C9C9", "#888888"],
+    "accent": "none"
+  },
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "Top-down: each bar lighter at top, darker at foot; short soft baked contact shadow pools beneath each bar; no specular glass highlight, no long shadow (Big-Sur baked micro-shadow).",
+  "layer_stack": ["charcoal squircle tile (top-down ramp + faint inner-edge rim)", "per-bar baked contact shadows", "three top-lit silver bars (each own vertical gradient + slight top-edge bevel)"],
+  "devices": ["ascending-bars-as-subject (the analytics chart the app draws IS the icon)", "monochrome-metal restraint (silver-on-charcoal, zero colour, reads pro/menu-bar-native)", "baked contact shadows + top-lit bars (Big-Sur depth move)"],
+  "adjectives": ["monochrome", "instrument-like", "restrained"],
+  "rhymes_hint": "achromatic data-glyph utility family — abstract chart/meter in metallic gray on near-black, no accent (pro menu-bar instrument); shares AgentPeek's achromatic/subject-literal/dark-field-dependent logic but abstract-chart not mascot, black-ground not white",
+  "notes": "Resolution: 256x256 pre-masked web render (corners alpha 0, squircle baked in), no 1024 master — all hex/geometry estimated, single-source inferred. Era-lag: flat Big-Sur icon shipped in Liquid Glass era, not authored for tinted/clear variants (compare AgentPeek, 1Password). Brand: site wordmark logo reuses the exact bar-chart mark (icon+logo one system) on the same charcoal ground, but the site's only accent (Apple-blue ~#0088FF CTA) appears nowhere in the icon — the icon is stricter monochrome than its brand environment. Four non-negotiables (mask/grid/silhouette/16px) all clear; 16px squint verified — bars stay nameable at menu-bar size."
+}

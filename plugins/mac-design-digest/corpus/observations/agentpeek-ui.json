@@ -1,0 +1,60 @@
+{
+  "slug": "agentpeek",
+  "name": "AgentPeek",
+  "category": "Dev",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (OG social card, 1200x630) — NO app UI present",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["N/A — no app-UI surface to score; blurred grayscale fluid-mesh backdrop + centred icon + SF Pro Display wordmark only. 14-point rubric and 10-point native audit are not applicable, not failed."]
+    },
+    {
+      "file": "icon.webp",
+      "surface_type": "app icon (102x102) — icon evidence, not a UI surface",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["N/A — app icon, not a UI screenshot. Big Sur squircle, monochrome notch-as-face mascot. Digested as brand/icon evidence only."]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/wordmark-type", "value": "SF Pro Display ~Medium(500), white, camelCase, tight optical tracking", "quality": "estimated", "notes": "System font used AS the logotype; diagnostic two-story g/G-spur/t-k terminals. Native-affiliation signal, not a custom mark."},
+    {"token": "brand/backdrop", "value": "grayscale blurred fluid-mesh gradient, 0 hue, heavy blur", "quality": "estimated", "notes": "Monochrome variant of the default-model abstract soft-mesh marketing backdrop."},
+    {"token": "cover/aspect", "value": "1200x630 (OG social card, 1.91:1)", "quality": "measured", "notes": "Confirms cover is a marketing/OpenGraph asset, not a screenshot."},
+    {"token": "icon/container", "value": "Big Sur squircle, white ~#FFFFFF->#F0F0F0 faint top-down gradient", "quality": "estimated", "notes": "Standard rounded-rect icon plate; NOT a layered Liquid Glass icon."},
+    {"token": "icon/glyph", "value": "black ~#0D0D0D notch/snout blob + two white cartoon eyes", "quality": "estimated", "notes": "Reads doubly as the Mac notch and a peeking creature face."},
+    {"token": "icon/depth", "value": "soft gray rim-light + faint drop shadow, single soft top light", "quality": "estimated", "notes": "Slight raised/glossy feel; minimal depth."},
+    {"token": "icon/palette", "value": "monochrome: black + white + one gray, 0 hues", "quality": "measured", "notes": "Hue clearly absent, not muted. Extreme palette economy."}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "menu-bar-extra / notch-dwelling utility (inferred from product concept + tagline; NO UI surface supplied to evidence the pattern)"}
+  ],
+  "signature_moves": [
+    "Mac-notch-as-face: one black glyph reads simultaneously as the physical notch and a peeking creature with cartoon eyes — the whole product thesis in a single monochrome mark.",
+    "System typeface (SF Pro Display) used straight as the wordmark — deliberate native-affiliation move, inherits the platform's crafted first-impression prior."
+  ],
+  "defects": [
+    "No UI defects scorable — no app-UI surface supplied.",
+    "Icon squint-test risk (estimated) — the small peeking eyes + soft rim may collapse into a solid black blob at 16px Dock/menu-bar size; silhouette survives, the 'face' reading may not.",
+    "Marketing backdrop is the default-model abstract soft-mesh look — monochrome saves it from full template-generic; brand-asset note, not an app finding."
+  ],
+  "aesthetic": {
+    "adjectives": ["monochrome", "playful-mascot", "minimal"],
+    "direction": "Restrained monochrome (grayscale-drenched marketing ground) with the entire boldness budget spent on a single playful mascot glyph — a 'Playful/toy' signature held inside near-Swiss monochrome discipline; system-typeface logotype signals native-Mac affiliation.",
+    "peers": ["NotchNook (concept peer — notch-dwelling utility)", "Boring Notch (concept peer)", "Ice / Dropover / Rectangle (icon-style peers — monochrome-mark Mac menu-bar utilities)"],
+    "cluster_hint": "monochrome-mascot menu-bar/notch utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / distinctiveness — a single monochrome mascot mark is engineered for menu-bar/Dock recall; being the 'one different thing' at small size is the whole recognition strategy.",
+    "Aesthetic-usability + Jakob's Law — SF Pro Display as logotype borrows the platform's familiar, native-crafted first-impression prior (~50ms appeal judgment) with zero custom type investment.",
+    "Jakob's Law / schema (inferred from tagline, NOT image) — the product dwells in the notch, a habitual glance location, so status is where the eye already goes; product-concept inference, no UI evidence."
+  ],
+  "notes": "CRITICAL for synthesis: this app supplied ZERO app-UI evidence. Inputs were a 1200x630 marketing OpenGraph cover (blurred grayscale mesh backdrop + icon + wordmark) and a 102x102 app icon; gallery shots array is empty. Do not treat any token here as UI/app design evidence — they are brand + icon evidence only. Lineage is unknown from images (strong native prior from the notch-access product concept, but that is inference and must NOT feed macOS canon). All color/type values (estimated) from small compressed files; only the 1200x630 aspect and the hueless palette are (measured). Rubric/native scores of 0 mean 'not applicable — no surface', NOT 'scored zero'. To make this a real profile the corpus needs one screenshot of the live notch/menu-bar surface."
+}

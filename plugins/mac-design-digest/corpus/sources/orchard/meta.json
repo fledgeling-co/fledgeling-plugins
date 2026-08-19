@@ -1,0 +1,16 @@
+{
+  "slug": "orchard",
+  "name": "Orchard",
+  "tagline": "Bridge AI to Your Apple Ecosystem",
+  "category": "AI",
+  "pricing": null,
+  "website": "https://orchard.5km.tech/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12d96ced-89e2-4067-94a7-f9722f2ae899/icon-1783882460370.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12d96ced-89e2-4067-94a7-f9722f2ae899/cover-1783882792909.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orchard/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orchard/cover.jpg",
+    "shots": []
+  }
+}

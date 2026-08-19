@@ -1,0 +1,13 @@
+{
+  "slug": "claude-notch-usage-companion", "name": "Claude Notch Usage Companion", "category": "Dev",
+  "era": "custom",
+  "rubric_score": 9, "soft_passes": ["#4 16px squint — survives as a bold clay blob (its native notch duty), but bilinear-smeared source + thin leg/ear/eye pixels merge below ~24px, so 'reads as a creature' is borderline"], "failures": ["#1 mask discipline — delivered as 100x64 non-square opaque-black banner, no squircle canvas/safe-zone; likely a web-render crop of the notch sprite, not the true 1024 app-icon (unverifiable, not proven-bad)", "#2 grid adherence — no square canvas to check Apple grid; sprite sits slightly high-of-centre in its crop", "#10 variant robustness — flat sprite depends on the black ground for contrast, no glass layering, would not survive clear/tinted Liquid-Glass renders (era-appropriate for pixel art)"],
+  "palette": {"background": "flat #000000", "glyph": ["#CE7D5C"], "accent": "none (glyph hue is the accent; ~#CC785C Claude-clay coherence)"},
+  "composition": {"background_type": "flat", "glyph_type": "mascot", "overlay_device": "none"},
+  "light_model": "none — flat pixel-art, zero gradient/specular/top-down shading; absence is a deliberate 8-bit convention, coherent",
+  "layer_stack": ["black field", "terracotta pixel sprite with two knockout-black eye pixels"],
+  "devices": ["pixel-art mascot (Space Invaders crab-alien family)", "brand-colour subject-mining — creature body rendered in Claude clay to name its subject without a logo", "knockout-pixel eyes as the whole face", "monochrome-clay-on-black arcade framing"],
+  "adjectives": ["retro-arcade", "impish", "monochrome-clay"],
+  "rhymes_hint": "8-bit / pixel-art mascot icons (retro-arcade sprite) crossed terminal-hacker x playful-toy; a stylistic outlier vs the corpus's squircle/Big-Sur-flat icons — functionally a notch/menu-bar utility but shares no vocabulary with agentpeek/alcove/bartender",
+  "notes": "Resolution caveat: 100x64px non-square opaque-black PNG from macapp.supply — a cropped web render, not a 1024 square (crisp source likely in GitHub claude-notch-tracker repo, not provided). Edge-hue variance (#CF7D5C/#D07E5D/#C77859/#372119) is resize anti-aliasing, NOT an intended glyph ramp — the true sprite is one flat clay hue; do not record a ramp. Cover.gif confirms brand coherence: same clay sprite in a black notch pill beside white '57%' and a mint/emerald progress ring ~#55D29D-#62D2A5 (usage-remaining accent, tinted by the desaturated-green leaf photo) — that green is product-UI only, absent from the icon. One data point toward a possible pixel-art/retro-mascot dev-utility icon cluster; needs >=2 independent icons before promotion."
+}

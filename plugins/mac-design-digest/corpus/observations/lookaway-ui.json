@@ -1,0 +1,69 @@
+{
+  "slug": "lookaway", "name": "LookAway", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "pre-break reminder HUD — a floating borderless overlay panel drawn over the live desktop (custom-drawn, NOT a system notification), inside a marketing composite; scale semi-knowable",
+      "mode": "dark (translucent dark-maroon glass panel tinting a warm-orange macOS Ventura desktop wallpaper; the panel is see-through — the wallpaper's diagonal light bands read through it). Surrounding composite backdrop is near-black warm-olive.",
+      "rubric_score": 8,
+      "native_audit_score": 4,
+      "failures": [
+        "rubric: 5 of 14 checks N/A on a single glanceable HUD render (#5 line-height, #6 measure, #12 input-height, #13 label-proximity, #14 focus-appearance — no multi-line text, no inputs, no static focus state)",
+        "rubric #10 UI contrast (BORDERLINE-FAIL): the three outlined snooze pills use a thin translucent-cream stroke on dark maroon that likely reads under 3:1 — the pill borders barely register",
+        "native #1 AppKit lineage unconfirmable from the surface (no traffic lights / menu bar / sidebar visible; runtime inferred native from category + genuine material behavior)",
+        "native #5 not literal native density (headline ~28-34pt, buttons ~38-42pt tall) — but justified: a glanceable HUD read/clicked from across the room, not an iOS-density tell",
+        "native #6 no controlAccentColor binding — primary action is signaled by luminance (brighter frosted fill), not the user's accent hue (defensible on a warm-tinted panel; a blue accent would clash) — deviation, recorded as signature",
+        "native #3/#4/#9 N/A (no selection list, no sidebar, no toolbar on a HUD)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "panel/material", "value": "translucent dark scrim over wallpaper → reads maroon ~#5A1E12; wallpaper gradient visible through it", "quality": "estimated", "notes": "Liquid-Glass-era adaptive tinting — the card takes the warm hue of the desktop behind it; genuinely see-through, not opaque"},
+    {"token": "panel/radius", "value": "~24-32pt (generous rounded-rect)", "quality": "estimated", "notes": "large card radius; assumes ~@2x marketing render, scale semi-knowable"},
+    {"token": "panel/width", "value": "~520-560pt", "quality": "estimated", "notes": "wide glanceable overlay; ~1100px in the 2400px asset halved"},
+    {"token": "type/countdown", "value": "~28-34pt Bold, #FFFFFF, tabular figures (00:40)", "quality": "estimated", "notes": "primary value; rounded-terminal face"},
+    {"token": "type/subtitle", "value": "~18-20pt, warm amber-cream ~#EEC79E", "quality": "estimated", "notes": "secondary reassurance copy ('Almost time. Your eyes will appreciate this.') — de-emphasized by hue + contrast, not size alone"},
+    {"token": "type/family", "value": "rounded-terminal geometric sans, Bold — reads as SF Pro Rounded (or SF Pro Display Bold)", "quality": "estimated", "notes": "soft terminals on a/e/o/S/t; consistent across HUD + marketing headline; friendly wellness register"},
+    {"token": "btn/primary-fill", "value": "frosted white ~#FFFFFF @ 15-20% → reads pale warm on the maroon glass", "quality": "estimated", "notes": "primary 'Start break now'; promoted by LUMINANCE not accent hue"},
+    {"token": "btn/primary-text", "value": "cream-white ~#FFF6EE", "quality": "estimated", "notes": ""},
+    {"token": "btn/secondary-stroke", "value": "translucent cream ~#FFFFFF @ ~22%, ~1pt", "quality": "estimated", "notes": "outlined snooze pills (+1m/+5m/+15m); low-contrast border — see #10"},
+    {"token": "btn/shape", "value": "capsule (height/2)", "quality": "estimated", "notes": "all buttons fully-rounded — macOS-27 capsule-bezel vocabulary"},
+    {"token": "btn/height", "value": "~38-42pt", "quality": "estimated", "notes": "generous Fitts targets for a click-from-anywhere HUD"},
+    {"token": "btn/gap", "value": "~10-14pt between pills", "quality": "estimated", "notes": ""},
+    {"token": "icon/timer-glyph", "value": "pink→magenta→purple squircle (~#F58FD8 → #C24FC8 → #9B50D0), white/pink tick dial + vertical white hand", "quality": "estimated", "notes": "in-HUD timer icon; ~56-60pt squircle"},
+    {"token": "brand/app-icon", "value": "near-black squircle ~#111111, warm top rim-light ~#C9A24A; blob gradient magenta-pink→peach (~#F06FD0 → #F5B98A) with two black 'sleepy-eyes' arcs", "quality": "estimated", "notes": "BRAND mark (the resting/calm face), NOT an app-UI token — kept separate"},
+    {"token": "brand/headline", "value": "Bold rounded sans, #FFFFFF ('Smart breaks for healthy eyes and a focused mind')", "quality": "estimated", "notes": "MARKETING composite typography, not app surface"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "custom borderless break-reminder HUD over the live desktop; wide (~520-560pt) translucent wallpaper-tinting glass card, radius ~24-32pt; layout = leading timer-icon + [primary value (countdown) over secondary reassurance copy], then a full-width action row; one prominent luminance-filled primary + N quiet outlined snooze pills; no traffic lights (correct for an overlay, like a sheet/alert)"},
+    {"pattern": "other", "key_values": "break-reminder / health-nudge overlay: countdown (00:40) + graduated deferral (Start break now / +1m / +5m / +15m) — choice-architecture snooze ladder as the core interaction"},
+    {"pattern": "menu-bar-extra", "key_values": "UNSEEN but near-certain — LookAway is a menu-bar-resident break utility; the HUD is its interruption surface. Recorded as a knowledge gap, not evidence"}
+  ],
+  "signature_moves": [
+    "Signals the primary action by LUMINANCE, not the system accent hue: because the whole panel is a wallpaper-tinted warm glass, a blue controlAccentColor would clash — so 'Start break now' is promoted with a brighter frosted fill while the snooze options recede to translucent outlined pills. Correct action hierarchy achieved without the user's accent (Von Restorff via brightness).",
+    "Emotional de-escalation of an unwelcome interruption: a break nag is inherently hostile, so LookAway wraps it in warmth — soft rounded-terminal type, a calm sleepy-eyes mascot, warm amber body copy that reassures rather than commands ('Your eyes will appreciate this'), and a wallpaper-adaptive glass that feels part of the desktop rather than an alien alert. The aesthetic IS the compliance strategy.",
+    "Graduated snooze ladder (+1m / +5m / +15m) beside the primary — structured, low-friction deferral instead of a binary dismiss; keeps the choice count at 4 (Hick's) while giving the user agency over the interruption."
+  ],
+  "defects": [
+    "UI Contrast Dilution (#10, borderline) — the outlined snooze pills' translucent-cream stroke on dark maroon likely falls under the 3:1 non-text floor; the borders barely read. Corrective: raise stroke contrast or give the recessive pills a faint translucent fill for a firmer edge.",
+    "Accent binding absent (no controlAccentColor) — a native reading would bind selection/primary to the user's accent; here it's luminance-only. Systematic + purposeful + accessible on a warm-tinted HUD, so recorded as a SIGNATURE per defect-vs-signature, not an anti-pattern — but it is the one place a strict native reading diverges, and it means the surface is EXCLUDED from macOS accent canon.",
+    "Evidence poverty (not a design defect): one surface (the pre-break HUD), one state, from a stylized marketing render over a single warm wallpaper. Unseen: the menu-bar extra, settings, onboarding, the full-screen break overlay itself, and glass-tint robustness on a cool/dark desktop. All metrics are ratio estimates at ~@2x."
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "rounded", "calming"],
+    "direction": "warm wellness / calm-nudge — a friendly consumer register outside the range-map families: rounded-terminal sans + warm magenta→peach gradient palette + wallpaper-adaptive glass + a resting-face mascot. Deliberately soft, the opposite of a pro-tool's neutral density.",
+    "peers": ["Time Out", "One Sec", "Opal", "Dato", "Flow (break timers)"],
+    "cluster_hint": "warm wellness / calm-nudge utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-usability effect (Kurosu & Kashimura) — THE core mechanism: an interruption is inherently unwelcome, so the polished warm glass + mascot + gentle copy buy goodwill that makes users comply with the break rather than disable the app. Polish here is a retention lever, not decoration.",
+    "Von Restorff / action singularity — one bright luminance-filled primary among quiet outlined secondaries makes the intended action ('Start break now') pop pre-attentively, even without an accent hue.",
+    "Hick's Law — exactly 4 options at the decision point (start + three snoozes); minimal decision cost during a glanceable interruption.",
+    "Choice architecture / forgiveness (Thaler & Sunstein; Lidwell) — the graduated snooze ladder gives structured deferral instead of an all-or-nothing dismiss; the interruption tolerates 'not now' without losing the reminder.",
+    "Fitts's Law — large ~40pt-tall capsule targets on a full-screen overlay; easy to acquire from anywhere on screen."
+  ],
+  "notes": "The ONLY app UI is the floating panel inside cover.png (2400x1260) — a stylized product render, not a captured screenshot, so scale is semi-knowable and every metric is a ~@2x ratio estimate at medium-low confidence. The panel is genuinely translucent (wallpaper diagonal bands visible through it) and warm-tints to the desktop = Liquid-Glass-era adaptive material — but the surface is fully custom (no native chrome), so lineage is inferred NATIVE from category + material behavior rather than confirmed from native tells. Everything outside/around the panel — the near-black warm-olive backdrop, the 'Smart breaks...' bold rounded headline, and the sleepy-eyes app icon (a resting calm face, magenta→peach gradient on a black squircle with a warm Liquid-Glass top rim-light) — is BRAND evidence, analyzed but never conflated with app-UI tokens. Icon (Workflow B) intentionally NOT digested per task scope. Structurally this is the corpus's second marketing-cover-with-floating-custom-surface app (cf. Alcove) — but LookAway is materially MORE native (real adaptive glass, capsule controls, correct one-primary action hierarchy) where Alcove is a pure iOS transplant. No canon promotions possible from a single custom-surface app. Candidate 'warm wellness / calm-nudge utility' cluster, likely sharing members with break/screen-time timers."
+}

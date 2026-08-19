@@ -1,0 +1,63 @@
+{
+  "slug": "dynamiclake", "name": "DynamicLake", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "notch-hud / expanded Dynamic Island notification (marketing composite, island in situ on wallpaper)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 4,
+      "failures": [
+        "rubric #1 grid unverifiable from a scaled composite",
+        "rubric #11-14 N/A (passive HUD: no controls, inputs, forms, or focus)",
+        "native #1 FAIL: iOS Dynamic Island grammar, not native macOS notification (opaque black, notch-center, no timestamp vs material/top-right/timestamp)",
+        "native #5 FAIL: iOS density/scale (avatar ~75pt, badge ~27pt, body ~15-17pt vs macOS 13pt body / 20-28pt controls)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "surface/island-fill", "value": "#000000 pure opaque black", "quality": "measured", "notes": "not a macOS material; iOS OLED-black metaphor, appearance-independent (stays black in light+dark)"},
+    {"token": "surface/backdrop", "value": "periwinkle gradient #6970AD -> #A093BF", "quality": "measured", "notes": "desktop wallpaper in the composite; brand/backdrop, NOT app design evidence"},
+    {"token": "island/body-width", "value": "~1248px (~624pt @2x est)", "quality": "estimated", "notes": "~12% of 14-inch logical width; hangs from screen top-center"},
+    {"token": "island/visible-height", "value": "~348px (~174pt @2x est)", "quality": "estimated", "notes": "top edge cropped at screen top / notch anchor"},
+    {"token": "island/shoulder", "value": "concave inverse fillets: top ~1341px flares OUT to ~1248px body over first ~20px", "quality": "measured", "notes": "signature geometry; corners flare WIDER at top into the menu bar, not a normal inward radius"},
+    {"token": "island/bottom-radius", "value": "~40-50px (~20-25pt @2x est)", "quality": "estimated", "notes": "bottom-corner squircle"},
+    {"token": "type/name", "value": "~17pt SF Pro Bold, #FFFFFF", "quality": "estimated", "notes": "primary label; color measured (252,253,252), size estimated"},
+    {"token": "type/message", "value": "~15-16pt SF Pro Regular, #8B8B8B (~55% white)", "quality": "estimated", "notes": "secondary label, 2-line preview; color measured (139,139,139); proper de-emphasis vs name"},
+    {"token": "avatar", "value": "~150px circle (~75pt @2x est), photo on teal tint", "quality": "estimated", "notes": "iOS communication-notification avatar; larger than any Mac-native notification avatar"},
+    {"token": "avatar/app-badge", "value": "green Messages glyph ~56px (~28pt est) overlapping avatar bottom-right", "quality": "estimated", "notes": "system-green app-source badge, iOS composite"},
+    {"token": "badge/unread", "value": "~54px circle (~27pt @2x est), system red, white numeral", "quality": "estimated", "notes": "top-right; status color paired with numeral+glyph (legitimate)"},
+    {"token": "padding/left-inset", "value": "~64px body-edge to avatar (~32pt est)", "quality": "estimated", "notes": ""}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "notch-anchored HUD hanging from screen top-center; nearest corpus pattern label for a borderless notch panel"},
+    {"pattern": "floating-panel", "key_values": "opaque #000 pill, concave shoulder morph into menu bar, wide black content-reserve; expanded Dynamic Island notification state"},
+    {"pattern": "empty-state", "key_values": "not applicable — noted only that no list/table/form/settings/sidebar/toolbar surfaces were provided (single cover)"}
+  ],
+  "signature_moves": [
+    "Concave shoulder morph: island top corners flare OUTWARD (inverse radius) into the menu bar rather than rounding inward — the defining Dynamic Island geometry, faithfully reproduced; the whole product identity in one curve",
+    "Pure-black appearance-independent surface (#000000 opaque in all system modes) borrowing the iPhone OLED-bezel illusion so the notch reads as a seamless island",
+    "iOS communication-notification stack ported wholesale to the Mac: circular avatar + app-source glyph badge + bold name + gray preview + red unread count"
+  ],
+  "defects": [
+    "Non-native notification grammar (lineage tell, deliberate) — opaque black + notch-center + no timestamp vs native material + top-right + timestamp; correction: excluded from mac notification canon (it IS the product premise)",
+    "iOS density/scale (lineage tell) — touch-scaled avatar/badge/body type; correction: excluded from mac density canon"
+  ],
+  "aesthetic": {
+    "adjectives": ["Apple-mimetic", "OLED-black", "fluid-morph"],
+    "direction": "Platform-mimetic system replica — reproduces iOS Dynamic Island trade dress (pure-black opaque pill, concave morph shoulders, communication-notification avatar stack) on the MacBook notch; not a range-map family, a faithful Apple-surface homage",
+    "peers": ["iOS Dynamic Island (the source)", "NotchNook", "Boring Notch", "MediaMate", "alcove"],
+    "cluster_hint": "notch-hud / dynamic-island-clones",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — fully exploited: users already know the iPhone Dynamic Island, so the Mac version demands zero new learning; the entire UX thesis rests on the borrowed schema",
+    "Aesthetic-usability / processing fluency — mimicking a known, trusted Apple surface borrows Apple's polish and credibility below awareness",
+    "Von Restorff / salience — a single pure-black morphing island against the wallpaper is the one different thing on screen; anchored at prime top-center real estate",
+    "Hierarchy via de-emphasis (Refactoring UI) — white/bold sender name outranks the ~55%-gray/regular message preview; clean two-tier read",
+    "Peripheral vision decides gaze (Weinschenk) — the notch morph opening at top-center pulls the eye [inferred; motion is out of scope for a still]"
+  ],
+  "notes": "Only a marketing COVER composite was supplied (no shot-* files) — island shown in situ on a periwinkle wallpaper, which is backdrop not app evidence; the island itself is genuine UI evidence. All pt values are estimated from a possibly-scaled composite; retina scale assumed @2x, LOW confidence — trust proportions over absolute sizes. No standard Mac chrome visible anywhere, so lineage (native) is inferred from product category, not confirmed from the body — hence med confidence. CRITICAL for synthesis: this surface is an intentional iOS-metaphor and must NOT feed macOS native canon or native style clusters; record as tell+correction only. An icon.webp (204x204) exists in the source but is out of scope for this Workflow-A UI digest (Workflow B). App is a well-known third-party notch utility ('Dynamic Island Mac')."
+}

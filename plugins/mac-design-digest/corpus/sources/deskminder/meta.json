@@ -1,0 +1,16 @@
+{
+  "slug": "deskminder",
+  "name": "DeskMinder",
+  "tagline": "Create quick desktop reminders with just one click.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://deskminder.appps.od.ua/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d6106b2e-d412-4a61-9654-175d45e5babe/icon-1783882458375.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d6106b2e-d412-4a61-9654-175d45e5babe/cover-1783882791694.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/deskminder/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/deskminder/cover.jpg",
+    "shots": []
+  }
+}

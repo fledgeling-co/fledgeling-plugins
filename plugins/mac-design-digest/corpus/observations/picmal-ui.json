@@ -1,0 +1,73 @@
+{
+  "slug": "picmal",
+  "name": "Picmal",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window / batch-conversion queue (NSTableView), embedded in marketing cover",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 secondary text contrast ~3.5:1 — From-format tags and 'Waiting' status at ~#888 on #FFF fall below 4.5:1 AA for normal text (estimated)",
+        "#10 marginal — checkbox outlines and 1px header/column hairlines <3:1 on white (estimated)",
+        "#14 focus appearance unobserved — no focused control/ring visible in the render (n/a, not counted as fail)",
+        "native #6 non-system accent — brand royal-blue (~#3670F6) overrides system controlAccentColor on pop-up wells and Convert primary",
+        "native #3 selection grammar unobserved — no row shown selected (n/a, not counted as fail)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-content", "value": "#FFFFFF", "quality": "estimated", "notes": "odd table rows, light mode"},
+    {"token": "bg/zebra-stripe", "value": "~#F4F5F5 (approx 4% gray)", "quality": "estimated", "notes": "alternating even rows; subtle NSTableView striping"},
+    {"token": "bg/titlebar", "value": "~#F6F7F8", "quality": "estimated", "notes": "one hair darker than content"},
+    {"token": "accent/brand-ui", "value": "~#3670F6 to #3C81F6 royal-blue", "quality": "estimated", "notes": "pop-up chevron wells + Convert primary fill; NOT macOS-27 system blue #0088FF"},
+    {"token": "accent/brand-core", "value": "#1B5BFF", "quality": "measured", "notes": "icon body + marketing diagonal shards; the identity hue"},
+    {"token": "type/row-title", "value": "~13pt-class SF Pro, near-black ~85% black", "quality": "estimated", "notes": "filenames"},
+    {"token": "type/col-header", "value": "~11-12pt-class SF Pro, secondary gray, TITLE CASE", "quality": "estimated", "notes": "Name/From/To/Size/Saving/Status — not tracked-uppercase (good native tell)"},
+    {"token": "type/secondary-label", "value": "~12pt-class secondary gray ~#888", "quality": "estimated", "notes": "From tags + Status 'Waiting'; ~3.5:1 contrast (see failures)"},
+    {"token": "control/popup-button", "value": "white fill, ~6pt rounded-rect, ~24pt-class (Rg), accent-blue double-chevron well", "quality": "estimated", "notes": "classic Big-Sur pop-up; double chevron = choose-a-value (correct semantics)"},
+    {"token": "control/segmented", "value": "titlebar-centred 2-segment Convert|Compress; raised white selected segment in gray track", "quality": "estimated", "notes": "Big-Sur pill-in-track; used as top-level mode switch (borderline native #7)"},
+    {"token": "button/primary", "value": "Convert — filled royal-blue, white label, ~6pt rounded-rect (NOT capsule)", "quality": "estimated", "notes": "one prominent action, bottom-bar trailing; rounded-rect-not-capsule dates it pre-Tahoe"},
+    {"token": "button/secondary", "value": "Again — refresh glyph + label, borderless/quiet", "quality": "estimated", "notes": "correctly demoted vs primary"},
+    {"token": "row/height", "value": "~28pt-class single-line padded", "quality": "estimated", "notes": "compact desktop density, not touch"},
+    {"token": "control/checkbox", "value": "square ~14-16pt, faint gray outline, unchecked", "quality": "estimated", "notes": "leading row-select column"},
+    {"token": "cover/aspect", "value": "2400x1260 (~1.9:1)", "quality": "measured", "notes": "marketing composite; window occupies right ~58%; NO standalone screenshots supplied"}
+  ],
+  "patterns": [
+    {"pattern": "table", "key_values": "NSTableView with column headers (Name/From/To/Size/Saving/Status/Fi..), 1px vertical header separators, zebra striping (~4% gray alt rows), ~28pt-class single-line rows, leading checkbox select column, per-row live pop-up button in 'To' cell, trailing share glyph"},
+    {"pattern": "toolbar", "key_values": "minimal titlebar — coloured traffic lights leading + centred 2-segment Convert|Compress mode switch; no visible trailing group (cropped)"},
+    {"pattern": "other", "key_values": "bottom action bar — leading add-glyph + secondary status text ('20 images ready. Drag more images to add them.'), trailing quiet 'Again' + filled royal-blue 'Convert' primary anchored bottom-right"}
+  ],
+  "signature_moves": [
+    "The table cell IS the control — every row's 'To' cell is a live pop-up button, turning the NSTableView into an inline bulk-configuration ledger (Name -> From -> To) with one terminal Convert, instead of a modal per-file wizard",
+    "One hardcoded royal-blue (#1B5BFF core / ~#3670F6 UI) carries the entire identity — deliberately not the system blue, tying window accent -> icon marble -> marketing shards into one recognisable hue against an otherwise strictly-neutral white/gray table",
+    "Verdict: competent-but-almost-anonymous — strip the blue and it is the default AppKit table an Xcode template hands you; no depth system, no custom type, no spatial flourish"
+  ],
+  "defects": [
+    "Contrast Dilution — secondary metadata (From tags, 'Waiting' status) ~#888 on #FFF ~= 3.5:1, below 4.5:1 AA; the columns you actually scan are the quietest text on screen",
+    "Non-system accent binding (native tell #6) — brand royal-blue overrides controlAccentColor on pop-up wells + primary; internally consistent house style but not learned as canon",
+    "Accent repetition (minor) — ~20 accent-blue chevron wells stipple the table, thinning the Von-Restorff pop of the single Convert CTA (not Focal Collision — wells are not filled competing CTAs)",
+    "Segmented control as top-level mode nav (borderline, native tell #7) — Convert|Compress switches primary modes; rule reserves segmented for in-view scope, mitigated as a common titlebar-accessory pattern over one workflow",
+    "Faint UI borders (#10 marginal) — checkbox/hairline separators <3:1 on white (estimated)"
+  ],
+  "aesthetic": {
+    "adjectives": ["utilitarian", "crisp", "brand-bright"],
+    "direction": "Neo-grotesque product applied natively — light neutral ramp (white/#F4F5F5/#F6F7F8) + one electric royal-blue accent; disciplined single-accent-on-neutral (not the warm-editorial default). Marketing skin is a separate Swiss/International composite (heavy black grotesk, near-white/near-black, hard blue diagonal shards)",
+    "peers": ["Permute", "Handbrake", "ImageOptim"],
+    "cluster_hint": "electric-accent native utility (light)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law (exploited) — spreadsheet-table + traffic-light chrome is instantly legible; users arrive knowing how a column-header file list behaves",
+    "Von Restorff / signal-detection (exploited then partly spent) — single filled royal-blue Convert is the one thing the eye finds, but ~20 blue chevron wells dilute that pop",
+    "Hick's Law + Tesler's Law (well-absorbed) — irreducible per-file 'what should this become?' compressed to one pop-up per row; system infers From, user picks only To, one button commits the batch",
+    "Fitts's Law (exploited) — Convert primary is large and pinned to the bottom-right corner, an effectively oversized target at a screen corner",
+    "Processing fluency (mild friction) — low-contrast secondary metadata works against the fluency the clean table otherwise sets up"
+  ],
+  "notes": "SOURCE LIMITATION: meta.json ships empty gallery/shots — the ONLY UI evidence is the app window composited into the marketing cover.png, at an indeterminate render scale (not a captured retina screenshot). All pixel/size tokens are (estimated) as pt-classes, not measured pt; only the 2400x1260 cover aspect is (measured). The window bleeds off the right edge (final 'Fi..' column + any trailing toolbar controls cropped). No row is shown selected and no focus ring is visible, so native-audit #3 (selection grammar) and rubric #14 (focus appearance) are UNOBSERVED, not passed. Lineage is confidently native-AppKit (real NSTableView, pop-up buttons, segmented control, traffic lights, 13pt-class density); era is confidently big-sur/pre-Tahoe (rounded-rect-not-capsule controls, Big-Sur blue-gradient chevron wells, no Liquid Glass, no scroll-edge effect). Single surface -> stays local, no canon promotion. The icon (fluid pale-blue marble ribbons on #1B5BFF squircle) is brand context only; not digested as an icon here per Workflow-A-only scope."
+}

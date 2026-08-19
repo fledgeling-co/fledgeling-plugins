@@ -1,0 +1,34 @@
+{
+  "slug": "mole", "name": "Mole", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 circular web crop — raw square field/mask discipline unverifiable; brand's circular-badge habit risks a baked circle in the shipped .icns",
+    "#2 glyph sits low-left, forepaw claws crowd the lower-left safe-zone margin — reads centred but not grid-pinned",
+    "#4 silhouette survives 16px but the three claw slits, eye dot, and hairline haunch divider smear to 'a dark creature'"
+  ],
+  "failures": [
+    "#10 variant robustness — negative-space eye/claws/haunch depend on the cream field showing through; no layer separation or Icon Composer authoring, so dark/clear/tinted renders can't be system-generated (glyph collapses on a dark field)"
+  ],
+  "palette": {
+    "background": "flat #FBF3E7",
+    "glyph": ["#28190C", "#2A1A0F"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "mascot",
+    "overlay_device": "none"
+  },
+  "light_model": "flat / null — pure 2-tone silhouette; zero gradient, baked shadow, or specular; declines both Big Sur top-down lighting and Liquid Glass environmental refraction",
+  "layer_stack": ["flat cream field #FBF3E7", "espresso mole silhouette #28190C", "negative-space cutouts within the silhouette (eye dot, 3 claw slits, haunch/hind-leg divider) revealing the field beneath"],
+  "devices": [
+    "negative-space anatomy — eye, claws, and haunch cut back to the field through one espresso mass (subtractive detail, single ink)",
+    "digging-claw forepaw as subject-mining — the one detail that disambiguates mole from generic rodent and doubles as the product metaphor (digs through your disk)",
+    "two-tone flat brand-mark (logo-as-icon) — wordmark glyph on a field, deliberately no icon dimensionality",
+    "circular-badge presentation carried brand-wide (cover logo, toolbar lozenge), inverted to white-on-dark on the cool cover"
+  ],
+  "adjectives": ["warm-earthy", "hand-drawn-naturalistic", "utilitarian-flat"],
+  "rhymes_hint": "flat two-tone animal-mascot brand-marks — the 'solid creature silhouette on a warm flat field' family (Ulysses/Bear-class animal marks, Octocat-style solid-silhouette logic); lineage is branding/logo craft, not Big Sur or Liquid Glass icon craft — a future 'logo-mark-as-icon' cluster, not the dimensional-squircle cluster",
+  "notes": "Resolution caveat: 500x500 web render, circular crop by macapp.supply, corners transparent — cannot confirm shipped square field or mask discipline; re-digest at 1024 if available. Palette-temperature split: icon is warm (cream+espresso) while app UI and cover are cool-nocturnal (deep navy + teal aurora); the mole animal, not the palette, is the brand through-line (cover inverts to white mole on dark circle). Contrast espresso-on-cream = 15.5:1 (measured). One-specimen; nothing promotable. Most transferable lesson: negative-space-anatomy is elegant with one ink but is exactly what forfeits the Liquid Glass dark/clear/tinted variant set."
+}

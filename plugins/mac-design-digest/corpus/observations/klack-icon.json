@@ -1,0 +1,42 @@
+{
+  "slug": "klack", "name": "Klack", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 horizontally centred; vertical mass sits high with skirt below — perspective-correct object-optical centring, not grid-snapped",
+    "#3 filled solid reads as 'a key' but the top-face/skirt 3D separation collapses",
+    "#4 keycap silhouette survives at 16px but the 'K' legend smears to a grey blob (legible again by 32px)",
+    "#12 one letter, but a molded diegetic legend on the object rather than applied type; CG render brushes but does not cross the no-photo line"
+  ],
+  "failures": [
+    "#1 mask discipline: free object on a transparent ground with a skirt protruding below the top face — not designed for the squircle (would clip or leave empty transparent zones under the system mask)",
+    "#10 variant robustness: baked near-black raster with no dark/tinted layer; the #1B1B1B–#0A0A0A body vanishes on dark/tinted grounds and cannot accept a system tint"
+  ],
+  "palette": {
+    "background": "transparent (alpha 0 — no field)",
+    "glyph": ["#F5EFE8", "#FFFBF3"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "soft studio light, upper-left bias (left shoulder highlight 189 vs right 139); matte-diffuse with no glassy specular hotspot; short soft ambient-occlusion pool under the skirt",
+  "layer_stack": [
+    "transparent ground",
+    "keycap skirt/body in shadow #0A0A0A–#0C0C0C",
+    "dished top face #1B1B1B (lit)",
+    "soft shoulder rim highlight #373737→#828282",
+    "molded ivory 'K' legend #F5EFE8→#FFFBF3"
+  ],
+  "devices": [
+    "literal 3D matte-black mechanical keycap shot from a 3/4 downward camera (subject-mined: a keystroke-sound app rendered as the physical key)",
+    "diegetic monogram — 'K' molded into the top face, catching the same light as the plastic, not typeset over the icon",
+    "free object silhouette on transparent that deliberately refuses the squircle",
+    "warm-neutral discipline — ivory legend #FFFBF3 not pure white, tying to the cream brand ground"
+  ],
+  "adjectives": ["tactile", "photoreal-skeuomorphic", "monochrome-restrained"],
+  "rhymes_hint": "photoreal single-object / hardware-render icons (a physical prop on transparent with soft studio light, pre-Yosemite object tradition); diegetic-monogram marks where a brand initial is molded into a rendered object; the matte-monochrome near-black-object + one warm-off-white-focal family",
+  "notes": "1024x1024 native master, sharp, reliable sampling — not a resized thumbnail. Key finding: the supplied icon.webp is the marketing KEYCAP RENDER, but Klack's shipping brand mark (seen in the cover and its menu-bar shot) is a filled BLACK SQUIRCLE with a plain white K — a proper masked tile. Same idea, two jobs; the squircle variant already solves the object icon's #1 and #10 failures. Palette coheres with product on the black + warm-white axis (legend #FFFBF3 vs cover ground #FFF7ED); the cover's lilac (~#E9A5F5) and mint accents appear nowhere in the icon — it commits harder to monochrome than the brand does. Single-app; hold skeuomorphic-object / diegetic-monogram reading as a style-family hint, not canon (needs 3 independent object-render icons)."
+}

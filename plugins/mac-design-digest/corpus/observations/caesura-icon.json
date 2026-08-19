@@ -1,0 +1,36 @@
+{
+  "slug": "caesura", "name": "Caesura", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#5 single light model passes only trivially — the icon is flat with no directional lighting at all; opts out of the Big-Sur lighting language",
+    "#3 silhouette reads 'two slanted strokes / pause'; the caesura=breath reading needs the pun — abstract-but-nameable",
+    "#10 no shipped Liquid-Glass light/dark/clear/tinted variants; cream ground is load-bearing (shape would survive re-grounding, but variants can't be assumed) — reads matte beside glass icons in the macOS 26/27 Dock",
+    "#1 mask respected with margin, but corners are pre-baked into the PNG alpha (render artifact) so square-unmasked-source compliance is inferred not verified"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "flat #FBF6EE",
+    "glyph": ["#B35A3C"],
+    "accent": "none (glyph terracotta is itself the accent)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "None / flat — non-directional ambient; zero gradient, zero baked contact shadow, zero specular. Consistent by absence; a committed 2D stance, not an under-rendered 3D one.",
+  "layer_stack": [
+    "back: flat cream squircle field #FBF6EE",
+    "front: two flat terracotta #B35A3C rounded-cap slanted bars, single plane, no shadow/highlight"
+  ],
+  "devices": [
+    "caesura-mark-as-glyph — the // musical/poetic pause-and-breath notation IS the app name, function, and typographic origin",
+    "slanted-not-vertical bars — leans the literary/musical caesura over the media-pause button, choosing the editorial register",
+    "rounded (capsule) stroke caps — soft exhale-like terminals rhyming with the breath/breaks content",
+    "flat two-tone economy — cream ground + one terracotta, no gradient, no second hue, no separate accent"
+  ],
+  "adjectives": ["spare", "warm-terracotta", "notation-witty"],
+  "rhymes_hint": "flat two-tone geometric-glyph indie utility icons; warm cream + single terracotta family; typographic/notation-mark glyphs (punctuation, quote/pause marks as the whole logo). Style family: flat-minimal EDITORIAL indie (warm-editorial palette + notation wit), distinct from cool neo-grotesque-product minimalists.",
+  "notes": "512x512 downsized web render (masters at 1024) but pure flat vector, so downscale loses ~nothing — edges and 16px reading safe to infer. Corners transparent (a0): squircle mask baked into alpha, unmasked source layers unconfirmable. Figure-ground contrast measured 4.39:1 (#B35A3C on #FBF6EE), above the 3:1 icon floor. Era called 'custom': uniform Big-Sur-lineage squircle silhouette + Apple's diagonal-tool tradition, but flat surface rejects both Big-Sur lighting/micro-shadows AND Liquid-Glass material — belongs to no named era. EXACT palette coherence with cover (selected-row fill #B35A3C; same cream ground; // reused as wordmark + inline UI). Cover pairs palette with a serif display face -> coherent warm-editorial direction transplanted onto a Mac timer utility (the memorable, non-template move). For synthesis: candidate seed for a flat-warm / notation-glyph icon cluster if 2+ more flat two-tone editorial icons appear."
+}

@@ -1,0 +1,71 @@
+{
+  "slug": "screen-studio",
+  "name": "Screen Studio",
+  "category": "Video",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "editor main window (marketing composite, window bleeds off right edge, sub-1x render scale)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "#10 UI contrast — Auto/Crop control bezels are translucent white ~6-8% + hairline border on near-black, border likely <3:1",
+        "#14 focus appearance — no focused control visible, unassessable",
+        "native#6 accent bound to brand indigo #4429F3 not system controlAccentColor (deliberate deviation / signature)",
+        "native#3,#4 n/a — Screen Studio's own chrome has no source list/selection to judge; the sidebar in-frame is recorded Linear content"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-chrome", "value": "#0C0D0F", "quality": "measured", "notes": "near-black, slightly lifted from pure black; whole-app ground incl. timeline lane"},
+    {"token": "accent/brand", "value": "#4429F3 electric indigo", "quality": "measured", "notes": "zoom-clip fill + playhead; the app's own accent, NOT bound to system controlAccentColor; matches purple-gradient app icon"},
+    {"token": "clip/recording", "value": "fill #775500 dark gold, left-cap #E5A000 amber", "quality": "measured", "notes": "source-recording track segment with brighter amber handle cap"},
+    {"token": "clip/zoom", "value": "#4429F3 indigo fill, white label", "quality": "measured", "notes": "zoom-effect segment; cursor-in-box + sliders inline glyphs"},
+    {"token": "type/title", "value": "~15pt Title3-class Semibold white", "quality": "estimated", "notes": "centered window title 'New Recording'"},
+    {"token": "type/control-label", "value": "~13pt Body-class Medium white", "quality": "estimated", "notes": "Auto/Crop/clip labels"},
+    {"token": "type/ruler", "value": "~10-11pt Footnote/Caption-class secondary gray", "quality": "estimated", "notes": "1.6s time ticks; low-contrast de-emphasis, borderline legibility"},
+    {"token": "radius/control", "value": "~8pt rounded-rect", "quality": "estimated", "notes": "Auto/Crop bezels — rounded-rect, NOT macOS-27 capsule (big-sur-era shape)"},
+    {"token": "radius/clip", "value": "~6-8pt", "quality": "estimated", "notes": "timeline segment corners"},
+    {"token": "control/height", "value": "~28-32px shown -> ~36-40pt real", "quality": "estimated", "notes": "control-bar buttons, toolbar tier; sub-1x scale correction applied"},
+    {"token": "track/height", "value": "~33-34px shown -> ~40-44pt real", "quality": "estimated", "notes": "recording + zoom lanes; generous creative-tool rows"},
+    {"token": "chrome/titlebar", "value": "~38-40px shown, centered title, compact-unified-toolbar read", "quality": "estimated", "notes": "traffic lights + folder symbol leading, centered title, empty trailing, hairline divider"},
+    {"token": "control/bezel", "value": "translucent white ~6-8% fill + hairline border", "quality": "estimated", "notes": "very faint on black; likely <3:1 non-text contrast"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "compact unified ~40pt, borderless folder SF Symbol leading, centered title, no trailing actions; flat opaque near-black, no glass"},
+    {"pattern": "other", "key_values": "timeline editor — time ruler (1.6s ticks) + indigo playhead (line+knob) + stacked colour-coded track lanes; segment hue encodes type (amber=recording, indigo=zoom)"},
+    {"pattern": "floating-panel", "key_values": "control bar with 3 alignment zones: leading (Auto pop-up + Crop) / center transport triad (rewind/play/forward borderless symbols) / trailing fit-arrows"},
+    {"pattern": "other", "key_values": "canvas presentation — recorded window auto-zoomed, rounded, shadowed, padded on full-bleed gradient wallpaper; squircle webcam bubble overlay; dark rounded karaoke caption panel"}
+  ],
+  "signature_moves": [
+    "Padded-wallpaper canvas: recorded window auto-zoomed/rounded/shadowed/floated on a vivid gradient backdrop — the product promise ('beautiful recordings') rendered as the editor surface; dark chrome exists to make it the sole light source",
+    "Semantic timeline hue language: amber/gold = source recording, electric indigo = zoom/effect — type readable at a glance with no legend",
+    "Committed brand accent (indigo #4429F3) replacing the system accent across zoom clips + playhead; systematic, matches the app icon",
+    "Effect-as-content grammar: zooms/captions are selectable timeline blocks with inline settings glyphs, not modal dialogs",
+    "Near-black figure-ground discipline: chrome/timeline/bezels all within a few % of #0C0D0F so nothing competes with the canvas"
+  ],
+  "defects": [
+    "Contrast Dilution (UI, mild) — Auto/Crop control bezels (translucent white ~6-8% + hairline border on near-black) likely fall under the 3:1 non-text floor; read as faint ghosts. Consistent with 'recede all but the canvas' logic but still a WCAG non-text miss",
+    "Ruler label legibility (borderline) — ~10-11pt time labels in low tertiary gray on black sit near the 4.5:1 small-text floor"
+  ],
+  "aesthetic": {
+    "adjectives": ["cinematic", "vivid-on-black", "frictionless"],
+    "direction": "dark prosumer creative tool / 'editor-noir' — near-black committed chrome as ground, saturated content as figure",
+    "peers": ["Descript", "CapCut", "Final Cut Pro (dark editor)", "CleanShot X"],
+    "cluster_hint": "dark-creative-pro",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — the beautiful padded-canvas presentation is the entire trust proposition; polish reads as capability",
+    "Von Restorff / isolation effect — the two saturated clip hues (amber, indigo) pop against near-black, making timeline objects instantly salient",
+    "Figure-ground (Gestalt) — dark UI recedes as ground so the colourful canvas advances as figure",
+    "Jakob's Law — standard macOS chrome + familiar transport controls (rewind/play/forward) keep learning cost near zero",
+    "Hick's Law — minimal visible control set and an 'Auto' preset pop-up collapse decisions; complexity lives in the timeline, not the chrome",
+    "Miller's chunking — control bar grouped into a leading/center/trailing triad rather than an undifferentiated row"
+  ],
+  "notes": "CRITICAL for synthesis: the only image is a MARKETING COMPOSITE. Left half is brand evidence (pure-black backdrop #0A0A0A, purple-gradient ring icon, 'Screen Studio' wordmark, bold white 'Beautiful screen recordings in minutes' headline) — do NOT feed to app UI canon. Right half is the app window, which bleeds off the right edge and is rendered at ~0.77x scale (traffic-light cluster ~41px vs native ~52-54pt) so ALL pixel values are estimated with wide ranges. SECOND CRITICAL caveat: the Linear-looking dark UI *inside the canvas frame* (sidebar with Inbox/My issues/Views/Roadmaps, issue list, All/Backlog/Active/Closed tabs) is RECORDED CONTENT being edited, NOT Screen Studio's own design — none of Linear's sidebar/list/selection styling was attributed to Screen Studio. Consequently native-tells #3 (selection) and #4 (sidebar headers) are unjudgeable for this app. Only one surface, dark only; no settings/empty-state/light-mode/focus evidence. Lineage 'native' rests on chrome tells + external knowledge that Screen Studio is a native AppKit app; confidence med because the editor body is almost entirely custom-drawn. Era tagged big-sur (rounded-rect bezels, flat opaque dark chrome, no Liquid Glass) though the app wears a heavy custom creative-tool theme — 'custom' is an equally defensible era read."
+}

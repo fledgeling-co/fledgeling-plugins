@@ -1,0 +1,16 @@
+{
+  "slug": "uninstally",
+  "name": "Uninstally",
+  "tagline": "Cleanly uninstall apps and leftover files on macOS for free",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://github.com/gostonx/uninstally",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-6871b67f-e731-4502-9330-9ccff61fb837.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-ab4bd73b-3c1e-4fee-bbd3-d8a4db089e9d.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/uninstally/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/uninstally/cover.png",
+    "shots": []
+  }
+}

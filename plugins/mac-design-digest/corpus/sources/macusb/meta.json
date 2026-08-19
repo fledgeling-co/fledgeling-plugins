@@ -1,0 +1,31 @@
+{
+  "slug": "macusb",
+  "name": "macUSB",
+  "tagline": "A clean, guided way to create bootable USB media on Mac.",
+  "category": "Utility",
+  "pricing": "open_source",
+  "website": "https://macusb.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-fb82adf3-b2fe-4b22-bb9f-2fa14ff223ec.jpeg",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-89eb6e7d-9636-469a-a712-8e02788abd7a.jpeg",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6b644f6a-5f4e-417b-a1f9-b80e021c4d4d.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-03ee8890-0b3c-4b98-8db9-00b8be8c9e2b.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fb635826-2b0c-4e2c-8696-1d2e637e6d0f.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-473ce968-825b-4524-8a98-39f31c76db09.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-53fec88c-90e9-4be4-a420-6ad3ac3e1e4c.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-c0ef00f2-1070-4d34-99c6-d8f34cda51d7.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fdd882b6-eef5-4db7-9386-87dc3e38941b.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/icon.jpeg",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/cover.jpeg",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-5.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-6.png"
+    ]
+  }
+}

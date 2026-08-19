@@ -1,0 +1,57 @@
+{
+  "slug": "mailtwin", "name": "MailTwin", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-cover (1200x630 OG composite; contains an illustrated app mock, not a screenshot)", "mode": "light", "rubric_score": 11, "native_audit_score": 2, "failures": ["#8 two saturated gradient CTAs in one viewport (trial pill + Insert button) — mild focal collision", "#9 'ILLUSTRATED WORKFLOW' label ~2:1 and panel field border below floor", "#10 lavender keyword-field border <3:1 non-text contrast", "#14 no focus state assessable — static marketing render", "native#1 not native — web/consumer illustration vocabulary", "native#5 web density: ~15-16px body, ~50px+ controls, not 13pt/24pt native", "native#6 accent is a decorative pink->violet->blue gradient, not a bound system hue", "native#10 faked grey traffic-light dots on a card that is not a real window"]}
+  ],
+  "tokens": [
+    {"token": "brand/gradient", "value": "#E86A9C -> #9A62C8 -> #5B7BE0 diagonal L->R", "quality": "estimated", "notes": "connective tissue across icon, trial pill, and panel CTA"},
+    {"token": "bg/backdrop", "value": "pastel mesh: magenta bloom(L) -> near-white(centre) -> lavender(R), low-sat high-light", "quality": "estimated", "notes": "marketing ground, not an app window bg"},
+    {"token": "type/headline", "value": "heavy geometric sans ~700-800wt, cap-height ~50-56px, lh ~1.05", "quality": "estimated", "notes": "Poppins/Gilroy-class rounded terminals, not SF Pro"},
+    {"token": "type/accent-display", "value": "modern serif ITALIC, violet #8B5FBF, headline-size", "quality": "estimated", "notes": "set only on 'your voice' — the signature type-contrast move"},
+    {"token": "type/eyebrow", "value": "~12-13px tracked uppercase grey #8A8A90 in outlined capsule ~34px tall", "quality": "estimated", "notes": "'AI FOR APPLE MAIL' with violet dot"},
+    {"token": "type/subhead", "value": "~18-19px regular grey #6B6B72", "quality": "estimated", "notes": "~5:1 on white"},
+    {"token": "type/body-panel", "value": "~15-16px regular grey #5C5C63, lh ~1.5", "quality": "estimated", "notes": "WEB body size — not 13pt native macOS body"},
+    {"token": "cta/pill", "value": "gradient capsule, ~44-52px tall, radius=h/2, white bold ~15px label", "quality": "estimated", "notes": "used by both trial pill and 'Insert reply into Mail'"},
+    {"token": "panel/window", "value": "white card radius ~18-20px, soft diffuse shadow", "quality": "estimated", "notes": "illustrated floating card"},
+    {"token": "panel/chrome-dots", "value": "3 grey dots ~10px, ~18px pitch", "quality": "estimated", "notes": "faked traffic lights — grey, no colour, no real window"},
+    {"token": "panel/field", "value": "white, 1px lavender border (<3:1), radius ~12px, ~56px tall", "quality": "estimated", "notes": "keyword input"},
+    {"token": "panel/chip", "value": "pill radius ~15px ~30px tall; blue-tint #E8F0FE + grey #EDEDEF variants", "quality": "estimated", "notes": "not native selection grammar"},
+    {"token": "panel/reply-card", "value": "grey #F2F2F4 radius ~14px ~20px padding", "quality": "estimated", "notes": "bold label + regular body"},
+    {"token": "icon/squircle", "value": "Big-Sur superellipse, full-bleed brand gradient, white envelope glyph + 2 four-point sparkles, flat single-plane light", "quality": "estimated", "notes": "brand evidence; no Liquid-Glass depth/specular layers"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "illustrated 'app' card: grey header chip -> keyword field -> pill-chip row -> grey reply card -> full-width gradient primary; all rounded, web-consumer density"},
+    {"pattern": "empty-state", "key_values": "marketing hero anatomy: wordmark -> eyebrow pill -> 3-line headline -> subhead -> single gradient CTA, shared left edge, 8px-family rhythm"},
+    {"pattern": "other", "key_values": "faked macOS chrome (3 grey dots) on a marketing card — native-imitation tell, not a real window"}
+  ],
+  "signature_moves": [
+    "Violet modern-serif ITALIC on 'your voice' inside a heavy geometric-sans headline — entire brand promise in one two-word type swap (Von Restorff)",
+    "App icon is a deliberate TWIN of Apple Mail's envelope: same silhouette/flap-V, recolored onto the pink->violet gradient, + 2 AI sparkles (name-driven mimicry + Jakob's Law)",
+    "One magenta->blue gradient unifies icon, trial pill, and panel CTA — cheap cross-surface cohesion",
+    "'ILLUSTRATED WORKFLOW' disclaimer — candid that the product shot is illustrative, not a screenshot"
+  ],
+  "defects": [
+    "Faked chrome — 3 grey dots imitate a macOS traffic-light cluster on a card that is not a real window; implies a standalone Mac window a Mail plug-in doesn't have",
+    "Gradient-as-accent — decorative pink->violet->blue gradient stands in for a bound system accent; non-native the moment it enters real UI",
+    "Focal Collision (mild) — two saturated gradient CTAs in one viewport (trial pill + Insert button), region-separated",
+    "Contrast Dilution (minor) — 'ILLUSTRATED WORKFLOW' ~2:1 and lavender field border <3:1 fall below the 3:1 non-text floor"
+  ],
+  "aesthetic": {
+    "adjectives": ["soft", "pastel", "gradient-forward"],
+    "direction": "Consumer AI-SaaS / soft-gradient — Playful-toy family (pill-everything, saturated pastels, soft elevation) crossed with the current lavender-gradient + sparkles AI-product template; NOT a native-macOS aesthetic",
+    "peers": ["Apple Mail (icon rhyme)", "Superhuman (email + warmth, but this is pinker/softer)", "generic AI-writing-tool landing pages (Notion AI / GPT-wrapper marketing)"],
+    "cluster_hint": "consumer-ai-gradient (non-native / marketing)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the lone violet serif-italic 'your voice' is the remembered element; used well",
+    "Jakob's Law — icon mimics Apple Mail's trained envelope schema to signal 'works with your Mail'",
+    "Aesthetic-Usability effect — the polished pastel composite buys a perceived-usability/trust halo on first contact (marketing)",
+    "Demonstrate-don't-describe (description-experience gap) — the illustrated panel shows the 3-step flow (keywords -> tone chips -> reply -> insert) rather than describing it",
+    "Loss-aversion / commitment distance — '30-day full trial then $19.90 once' frames a one-time price (not a subscription) to lower commitment friction",
+    "Hick's Law / action singularity — the panel narrows to a single primary action, 'Insert reply into Mail'"
+  ],
+  "notes": "NO real macOS app UI in either image. cover.png is a 1200x630 marketing OG composite (~@1x); its right-side 'app window' is explicitly stamped ILLUSTRATED WORKFLOW = a stylised mock. MailTwin lives INSIDE Apple Mail ('Keep Apple Mail'), so it likely has no standalone AppKit window to digest. lineage set to web-electron/low to describe the ILLUSTRATION's design language only — treat as source:mock, contrast evidence, feeding ZERO macOS canon or native clusters. Icon (icon.png, 512x512) present as brand evidence: Big-Sur-flat squircle, envelope twin of Apple Mail + AI sparkles, brand gradient — could be run through Workflow B (icon) separately; not done here (task was Workflow A / UI only). All measurements are single-surface (estimated)(inferred) off a downscaled render — none promoted to confirmed. Re-digest if a genuine native surface (or the in-Mail plug-in UI) ever becomes available."
+}

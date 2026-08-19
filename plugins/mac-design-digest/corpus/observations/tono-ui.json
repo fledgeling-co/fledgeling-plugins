@@ -1,0 +1,68 @@
+{
+  "slug": "tono", "name": "Tono", "category": "Lifestyle",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "menu-bar-extra popover (marketing composite; app window over blurred green-foliage desktop)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 attribution text (white) over variable photo with no scrim — contrast image-dependent, can drop below 4.5:1",
+        "#10 thumbnail selection = faint low-contrast light ring; gray utility icons borderline on light material",
+        "native#3 selection grammar is a neutral ring, not accent-tinted inset fill",
+        "native#7 two equal-size filled capsules (white 换张 + black 设为壁纸) — not one prominent action (trailing placement correct)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "window/type", "value": "menu-bar-extra popover, ~340-380pt wide", "quality": "estimated", "notes": "no traffic lights (correct); scale unverifiable from composite, assumes ~@2x"},
+    {"token": "bg/panel-material", "value": "light neutral vibrancy/glass, reads sage over green desktop, ~1pt light hairline edge", "quality": "estimated", "notes": "translucent floating-chrome-only glass; green cast is backdrop bleed, not an intrinsic panel color"},
+    {"token": "radius/panel", "value": "~20-24pt", "quality": "estimated", "notes": "large soft corner"},
+    {"token": "radius/hero+thumbnail", "value": "~14-16pt", "quality": "estimated", "notes": "near-concentric with panel (ideal ~11pt), slightly loose"},
+    {"token": "radius/button", "value": "capsule (height/2)", "quality": "estimated", "notes": "era signature; app-custom fill not stock button"},
+    {"token": "control/primary-btn", "value": "black filled capsule ~#1C1C1E, white label, ~30pt tall", "quality": "estimated", "notes": "设为壁纸 Set-as-wallpaper, trailing; highest contrast on light panel"},
+    {"token": "control/secondary-btn", "value": "white filled capsule, dark label, ~30pt tall, equal size to primary", "quality": "estimated", "notes": "换张 Shuffle; iso-sized filled — competes"},
+    {"token": "icon/utility", "value": "monochrome dark-gray SF Symbols ~18-20pt (gear / arrow.down / arrow.counterclockwise), borderless", "quality": "estimated", "notes": "leading cluster in bottom action bar"},
+    {"token": "identity/favorite", "value": "coral-red filled heart ~#F0596A (approx system Pink), no button chrome", "quality": "estimated", "notes": "separate identity hue, glyph-paired, floats on hero"},
+    {"token": "selection/thumbnail", "value": "faint low-contrast light ring ~1.5-2pt", "quality": "estimated", "notes": "not accent-tinted inset; weak affordance"},
+    {"token": "space/panel-padding", "value": "~10-12pt", "quality": "estimated", "notes": "shared left/right axes for hero, thumb-row, action bar"},
+    {"token": "space/thumbnail-gap", "value": "~10pt", "quality": "estimated", "notes": "between-section gaps only marginally larger"},
+    {"token": "type/button-label", "value": "~13-15pt system PingFang SC, medium weight", "quality": "estimated", "notes": "Chinese localization"},
+    {"token": "type/attribution", "value": "~11-12pt white, author/source links underlined", "quality": "estimated", "notes": "connector words lighter than links (de-emphasis)"},
+    {"token": "accent/system-blue", "value": "absent", "quality": "estimated", "notes": "app substitutes black primary + neutral selection for controlAccentColor — deliberate"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "translucent popover shell ~22pt radius, ~11pt padding; hero + 4-thumbnail strip + action bar stack; no traffic lights"},
+    {"pattern": "floating-panel", "key_values": "light neutral vibrancy over live desktop; content (images) opaque; no glass-on-glass"},
+    {"pattern": "card-grid", "key_values": "4 equal rounded thumbnails ~14-16pt radius, ~10pt gaps, faint light-ring selection"},
+    {"pattern": "toolbar", "key_values": "bottom action bar: 3 borderless monochrome SF Symbols leading, 2 capsule actions trailing"}
+  ],
+  "signature_moves": [
+    "Content-deferential monochrome chrome: refuses system accent — black primary capsule, white secondary, neutral selection, gray glyphs — so the wallpaper photo is the only saturated thing on screen (purposeful for a wallpaper picker; trade-off: overrides user's controlAccentColor)",
+    "Chromeless favorite heart floating directly on the hero image, no button background",
+    "Translucent popover material lets the live desktop bleed through — material as message ('this is about your screen')"
+  ],
+  "defects": [
+    "Iso-styled competing actions (mild) — two equal-size filled capsules (换张 white + 设为壁纸 black); native grammar/hierarchy want one prominent + one recessive; mitigated by black-vs-white contrast + correct trailing placement",
+    "Contrast Dilution risk — white attribution text over a variable photo with no scrim guarantee",
+    "Weak selection affordance — current-thumbnail ring is very low contrast and non-standard (not accent inset)"
+  ],
+  "aesthetic": {
+    "adjectives": ["photographic", "restrained", "rounded"],
+    "direction": "content-deferential gallery chrome — neo-grotesque-product restraint (translucent neutral material + black/white capsules) applied to a consumer utility so imagery carries all color; loose density, soft large radii",
+    "peers": ["Apple Wallpaper settings", "Raycast (black-pill button language)", "Unsplash Instant / photo-first pickers"],
+    "cluster_hint": "content-deferential utility (photographic menu-bar tools)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — honored: menu-bar-extra popover is a conventional, expected Mac surface for a background utility",
+    "Von Restorff / signal detection — desaturating all chrome makes the photo and the one red heart pop; but two co-primary filled buttons split the 'one different thing' at the action level",
+    "Hick's Law — honored: minimal decision load (shuffle / set + 3 utilities)",
+    "Fitts's Law — honored: large capsule targets and full-thumbnail hit areas",
+    "Aesthetic-Usability effect — polished translucent/rounded/photographic panel buys perceived usability on first contact"
+  ],
+  "notes": "Single surface, MARKETING COMPOSITE only (no raw app screenshots): popover floats over a deliberately-blurred green-foliage desktop; green panel cast is backdrop bleed through a light neutral vibrancy material, NOT an intrinsic color. Window scale unverifiable — all tokens (estimated)(inferred), assume ~@2x. Lineage native at med confidence (SF Symbols + vibrancy + capsule + menu-bar form factor; no web tells) but a well-built Electron/Tauri menu-bar app can't be fully excluded from one image. Era liquid-glass is INTENT (capsule bezels) — cannot confirm true Liquid Glass lensing vs. plain Big Sur vibrancy from a single light still. icon.png (robin on warm cream, Big-Sur squircle, illustrative) NOT scored per Workflow-A-only scope, but recorded as brand evidence: it is warm/characterful where the UI is cool/neutral — brand mark and chrome do not share a palette family. Chinese (PingFang SC) localization. Ledger/patterns/TASTE deliberately not written — reserved for synthesis pass."
+}

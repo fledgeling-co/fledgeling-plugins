@@ -1,0 +1,16 @@
+{
+  "slug": "sweeper",
+  "name": "Sweeper",
+  "tagline": "Uninstall apps and clean up the leftovers.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://parcse.com/sweeper",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5791ec11-b73f-4b7a-a192-4c416ae91625.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-9ef597b2-7f7e-4285-9173-3ab202e5b946.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sweeper/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sweeper/cover.png",
+    "shots": []
+  }
+}

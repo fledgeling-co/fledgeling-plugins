@@ -1,0 +1,16 @@
+{
+  "slug": "supaste",
+  "name": "Supaste",
+  "tagline": "Clipboard and screenshot history",
+  "category": "Productivity",
+  "pricing": "paid",
+  "website": "https://supaste.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/396d0438-2036-4031-a21e-9ae418bdfb8b/icon-1783882477719.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/396d0438-2036-4031-a21e-9ae418bdfb8b/cover-1783882790586.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/supaste/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/supaste/cover.webp",
+    "shots": []
+  }
+}

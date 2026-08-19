@@ -1,0 +1,31 @@
+{
+  "slug": "cleanshot-x", "name": "CleanShot X", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 no centred glyph to grid; the diagonal blue/dark split is optically balanced and the peel-apex sits near centre, but safe-zone margin is moot for a full-bleed scene",
+    "#4 survives 16px as a distinctive blue tile with a curl swoosh (not generic), but the 5 confetti dots smear to specks and the specific screenshot-peel metaphor softens to 'blue tile with a light streak' at menu-bar size",
+    "#6 base is a disciplined 2-family (blue ramp + charcoal) but the 5 multi-hue confetti dots exceed the <=2-family rule; they stay tiny/peripheral/low-salience so they read as bounded confetti, not accent sprawl",
+    "#7 blue focal vs dark base measures 3.16:1 (clears the 3:1 icon floor but only just); the curl-vs-base 8.38:1 is what actually carries the read; survives grayscale on the value split"
+  ],
+  "failures": [
+    "#3 silhouette test: filled solid black the artwork collapses to a plain squircle; identity is carried entirely by internal value/colour contrast (blue-vs-charcoal split + curl), not by any nameable silhouette",
+    "#10 variant robustness (Liquid Glass): the mark leans on the bright-blue-sheet-vs-dark-desktop colour split; tinted/mono system renders collapse that relationship and the peel loses legibility; authored for Big Sur, no layer separation that survives de-colouring"
+  ],
+  "palette": {
+    "background": "scene — charcoal desktop base ramp #383D48->#565B65 under a diagonal cyan->blue screenshot sheet #37D0FE->#0981F3->#0054EB",
+    "glyph": ["#37D0FE", "#0981F3", "#0054EB", "#CBE6F5"],
+    "accent": "none (confetti set: #24F3DC mint, #F97B00 orange, #FF2B4C pink, #755CFC purple)"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "soft top-down (slightly top-left); short baked micro-shadow beneath the lifted corner and along the peeled edge cast onto the dark base; gentle specular sheen on the pale curl underside; Big Sur baked-shadow idiom, no long dramatic shadows",
+  "layer_stack": ["charcoal desktop base plane #383D48->#565B65 (back)", "5 confetti app-dots on the base (mint/orange/pink/purple + magenta triangle)", "cyan->blue screenshot sheet #37D0FE->#0054EB (covers ~75% of canvas)", "peeled lower-left corner with pale underside #CBE6F5 + its cast shadow (front)"],
+  "devices": ["capture-as-peel: the screenshot rendered as a physical blue sheet peeled off the screen, revealing the desktop beneath — the app's verb animated in a static mark", "confetti-desktop reveal: 5 saturated dots as abstract stand-ins for a colourful Mac desktop, giving the peel something worth revealing", "diagonal cyan->blue sheet ramp (sky-logic rotated to track the peel direction, not gravity)", "curl-underside gloss: pale #CBE6F5 back-face sheen selling the lifted material, the strongest value contrast in the mark (8.38:1 vs base)"],
+  "adjectives": ["kinetic", "glossy", "electric-blue"],
+  "rhymes_hint": "Big Sur glossy-blue utility tiles that state their verb with a skeuomorphic material-quote overlay on a saturated field (content-on-a-surface family, Preview/Photos-adjacent, screenshot/capture tools); and icons whose subject is communicated by a peeled/lifted/torn material revealing something beneath (page-curl, sticker-peel, screen-reveal motifs)",
+  "notes": "Digest subject icon.webp is only 102x102 (small web render); all hex and layer-order taken from the sharper cover.png (icon ~350px) and agree with the small icon, but sub-2% gradient banding, exact peel-edge geometry, and the few-px confetti-dot hues are soft — no 1024 master to confirm. Both failures (#3, #10) share one root cause: identity lives in colour, not shape; a Liquid-Glass re-author would need to split blue/dark into separable Icon Composer layers or add a shape-legible peel edge to survive tinted/mono and the solid-black silhouette. Brand coherence with the cover is strong: the identical icon headlines the cover hero and the cyan->blue + confetti palette is the app's brand signature — a faithful brand mark, not a detached render. Era is unambiguously Big Sur unified (squircle, front-facing, top-down baked light, material overlay); the page-curl is a skeuomorphic quote executed in the Big Sur flat-material idiom, not mixed-era, and not updated for Liquid Glass."
+}

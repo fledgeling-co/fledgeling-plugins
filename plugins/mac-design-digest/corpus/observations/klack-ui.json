@@ -1,0 +1,59 @@
+{
+  "slug": "klack", "name": "Klack", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {"file": "cover.png#control-panel", "surface_type": "menu-bar-extra (control panel, light glass)", "mode": "light", "rubric_score": 11, "native_audit_score": 8, "failures": ["#9 secondary-label contrast borderline ~3.5-4:1 (estimated)", "#10 slider unfilled track <3:1 on warm off-white panel (estimated)", "#14 focus state not evidenced — marketing render"]},
+    {"file": "cover.png#sound-picker", "surface_type": "menu-bar-extra (sound-profile picker popover, dark glass)", "mode": "dark", "rubric_score": 12, "native_audit_score": 8, "failures": ["#10 translucent play glyph contrast borderline on graphite (estimated)", "#14 focus state not evidenced — marketing render"]}
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "#FFF7ED warm cream", "quality": "estimated", "notes": "cover backdrop — brand evidence, not app UI"},
+    {"token": "brand/ink", "value": "#292524 warm near-black", "quality": "estimated", "notes": "wordmark + headline + light-panel title share one ink"},
+    {"token": "brand/marker", "value": "#F0ABFC lilac", "quality": "estimated", "notes": "headline highlight swipe under 'sound' — brand only"},
+    {"token": "accent/toggle-on", "value": "~#10B98C teal-green", "quality": "estimated", "notes": "master switch ON — HOUSE accent, not system blue"},
+    {"token": "panel/light-bg", "value": "#E9E2DB->#F5F0E8 warm off-white gradient, translucent", "quality": "estimated", "notes": "control panel; light glass lensing backdrop"},
+    {"token": "panel/dark-bg", "value": "#2B2628 warm graphite, translucent", "quality": "estimated", "notes": "sound-picker popover; vibrancy over wallpaper"},
+    {"token": "text/primary-dark", "value": "#FFF7ED warm white", "quality": "estimated", "notes": "sound row labels"},
+    {"token": "text/secondary", "value": "#75706F warm gray ~50-55%", "quality": "estimated", "notes": "field + section headers"},
+    {"token": "slider/filled", "value": "~#1C1C1E near-black", "quality": "estimated", "notes": "filled portion is BLACK not accent — house style"},
+    {"token": "slider/track", "value": "~#D8D4CC warm light gray", "quality": "estimated", "notes": "low contrast on warm panel"},
+    {"token": "chip/identity-gray", "value": "#2D292A", "quality": "estimated", "notes": "'+' add-chip for Japanese Black (dark switch -> dark chip)"},
+    {"token": "chip/identity-purple", "value": "#EC9DF8 magenta-purple", "quality": "estimated", "notes": "'+' chip for Crystal Purple — chip hue = switch colour"},
+    {"token": "radius/panel", "value": "~14-18pt large", "quality": "estimated", "notes": "concentric with inner rounded chips"},
+    {"token": "type/title", "value": "~17pt SF Pro Bold (Title2-class)", "quality": "estimated", "notes": "'Klack'"},
+    {"token": "type/row-label", "value": "~15pt SF Pro Medium", "quality": "estimated", "notes": "sound names"},
+    {"token": "type/section-header", "value": "~13pt SF Pro Semibold, secondary, title case", "quality": "estimated", "notes": "correct macOS section-header grammar"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "Control-Center-idiom floating panels; toggle + slider + picker stack (light) and grouped list (dark); no traffic lights (correct)"},
+    {"pattern": "floating-panel", "key_values": "warm translucent glass, large ~14-18pt radius, hairline separators, two contrasting materials (light control / dark catalog)"},
+    {"pattern": "list", "key_values": "grouped by title-case section headers; row = leading identity '+' chip | label | trailing circular audition '▶'; ~44pt rows; three aligned axes"}
+  ],
+  "signature_moves": [
+    "Two-material mood split: dark immersive catalog for choosing sounds vs light quick control panel for using them — one utility, two opposite moods",
+    "Presets-as-hardware: audio profiles named/coloured like physical switches ('CherryMX(TM) Japanese Black', 'Everglide(TM) Crystal Purple'), per-switch identity colour on each '+' chip",
+    "Audition-before-commit rows: every row pairs a leading '+' (add) with a trailing '▶' (preview) — built around the fact a sound can't be judged from its name",
+    "Monochrome control theming + one warm-teal accent: black-filled slider and teal toggle (keycap-black + one candy accent) instead of system blue"
+  ],
+  "defects": [
+    "Accent not system-bound — master toggle teal + slider black bind to neither controlAccentColor nor each other (brand tell, legitimate house style for a boutique menu-bar utility)",
+    "Contrast Dilution (borderline, estimated) — slider unfilled track ~#D8D4CC on ~#EFE9E1 panel is <3:1",
+    "Contrast (borderline, estimated) — secondary warm-gray labels ~3.5-4:1 on light panel"
+  ],
+  "aesthetic": {
+    "adjectives": ["tactile", "boutique", "warm-dark"],
+    "direction": "Boutique consumer utility — a warm-cream neo-grotesque brand shell (SF Pro Bold headline, lilac marker highlight, iridescent CD/vinyl wallpaper) wrapped around dark, product-catalog control panels; a remix of Playful/toy warmth with neo-grotesque type discipline, not a stock family",
+    "peers": ["Dato", "One Thing", "Rise", "boutique indie menu-bar utilities (polished Control-Center-idiom apps)"],
+    "cluster_hint": "boutique-menu-bar-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Description-experience gap / demonstrate-don't-describe — the '▶' audition button lets you hear each switch, since a sound is unjudgeable from its name",
+    "Jakob's Law — panels mimic Control Center's toggle+slider+list idiom, so the utility is instantly familiar",
+    "Von Restorff effect — the single teal toggle is the only saturated element in the light panel; master on/off reads pre-attentively",
+    "Hick's Law — sounds chunked under brand sections (CherryMX / Everglide) to reduce scan/decision load",
+    "Aesthetic-usability effect — high render polish (iridescent wallpaper, warm glass) buys perceived quality for a tiny utility",
+    "Zeigarnik / collectibility — '+' to add sounds to a library gamifies collecting presets like physical switches"
+  ],
+  "notes": "MARKETING COVER COMPOSITE ONLY — no live app screenshots supplied; every measurement is (estimated) from a compressed render at unknown scale, wide ranges. Brand/marketing dressing (cream backdrop, headline, lilac marker, dark rounded-pill 'menu bar', 'Sat 18:74' clock — an impossible time) is NOT literal chrome; only the two Klack menu-bar-extra panels are genuine app evidence. Lineage 'native' inferred from SF Pro + 13pt-class density + Control-Center glass grammar but unverifiable from a composite (med confidence). Surface gaps: no settings window, no main window, no onboarding, no empty state, no real focus/selection states. An app icon (icon.webp) exists in sources but was NOT digested here — task scoped to Workflow A (UI) only; leave for an icon pass. Single app, no promotions warranted."
+}

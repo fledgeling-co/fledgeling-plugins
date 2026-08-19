@@ -1,0 +1,36 @@
+{
+  "slug": "vocal-notes", "name": "Vocal Notes", "category": "Audio",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#4 16px squint — bookend dots and ribbon notches merge at menu-bar size; only the gross 'vertical bars = audio' gesture survives",
+    "#7 figure-ground — measured 3.99:1 azure-on-field, clears the 3:1 floor and survives grayscale but only just",
+    "#10 variant robustness — flat luminance-legible 2-tone would survive mono/tinted, but no dark/clear/tinted variants authored; near-white field intrinsic",
+    "#11 personality — welded ribbon + bookend dots is one nameable device, but 'blue waveform = Audio' is the category-default concept"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #FBFBFD->#F1F3F7",
+    "glyph": ["#1678E6"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Top-down, expressed only in the background ramp (light-at-top #FBFBFD to cooler-darker-at-bottom #F1F3F7); glyph is flat with no self-shadow, gradient, or specular. System-style drop shadow carried by the whole squircle in this presentation render.",
+  "layer_stack": [
+    "background: cool near-white vertical ramp #FBFBFD->#F1F3F7",
+    "glyph: flat azure #1678E6 welded-capsule waveform"
+  ],
+  "devices": [
+    "welded capsule waveform — EQ bars fused into one continuous ribbon via rounded negative-space notches, not discrete sticks",
+    "two isolated bookend dots flanking the ribbon (quiet start/end-of-recording markers)",
+    "vertically-offset inner nubs (high-left, low-right) giving a subtle oscillation instead of a static mirror",
+    "single flat brand-azure fill, no glyph gradient"
+  ],
+  "adjectives": ["restrained", "buoyant", "conventional"],
+  "rhymes_hint": "flat mono-glyph on cool near-white ramp (restrained end of Big Sur unified) + Audio-category waveform convention (Voice Memos lineage); welded-ribbon device is the differentiator",
+  "notes": "Full 1024x1024 vector-crisp, trustworthy resolution (not a resized web render). BUT it is a macapp.supply presentation render: transparent corners (a=0) + baked system drop shadow — rounded-rect mask already applied, so mask discipline judged from the masked presentation not the raw full-bleed layer. Era-lag: a 2026 Audio app on flat Big Sur-era language (no Liquid Glass, no specular/translucency, no Icon Composer variants). Brand blue #1678E6 is a custom azure, slightly deeper/less-cyan than kit system blue light #0088FF; coherent with cover title blue and UI accent. Score of 12/12 reflects technical/compositional soundness, not distinctiveness — the icon is rubric-perfect precisely because it takes zero risks."
+}

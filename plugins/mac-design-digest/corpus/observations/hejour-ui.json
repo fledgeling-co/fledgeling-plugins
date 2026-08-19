@@ -1,0 +1,61 @@
+{
+  "slug": "hejour", "name": "Hejour", "category": "Writing",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main window (partial, top ~25%) — app window embedded in marketing composite",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 secondary date + completed + markdown-syntax text all ~#565656 = 2.27:1 on #1E1E1E, below 4.5:1 (deliberate over-de-emphasis)",
+        "#10 divider ~#343434 = 1.34:1 and unchecked checkbox outline below 3:1 (native-soft hairlines, convention-consistent but low edge)",
+        "#1 grid adherence unverifiable — scaled marketing render, absolute pixel sizes untrustworthy"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#1E1E1E", "quality": "measured", "notes": "flat opaque dark; exact match to kit dark window background"},
+    {"token": "text/primary", "value": "~#DDDDDD (~85% white, 12.3:1)", "quality": "estimated", "notes": "softer than kit dark primary #FFFFFF; uniform 221 across Today/Plan/ship, so house choice not compression"},
+    {"token": "text/tertiary", "value": "~#565656 (~33% white, 2.27:1)", "quality": "estimated", "notes": "one token = date subtitle + markdown ## markers + completed-item text; below 4.5:1 floor"},
+    {"token": "divider/hairline", "value": "~#343434 (~13% white, 1.34:1)", "quality": "estimated", "notes": "full-width 1px separator under header; concentric with kit dark Fills-primary"},
+    {"token": "status/done", "value": "~#5BCB02 lime-green (7.9:1)", "quality": "estimated", "notes": "checkbox done-fill; more chartreuse than system green #34C759; paired with white check + strikethrough; only saturated hue on the surface"},
+    {"token": "chrome/traffic-lights", "value": "red #FF5C60 / yellow #FAC800 / green", "quality": "measured", "notes": "fully coloured = focused window; generous inset, no unified toolbar"},
+    {"token": "type/title", "value": "Title1-LargeTitle Bold, cap ~1.2-1.3x body cap", "quality": "estimated", "notes": "restrained title:body ratio, no size inflation"},
+    {"token": "type/body", "value": "13pt-class system sans (reads SF Pro Text; possibly SF Pro Rounded, unconfirmed)", "quality": "estimated", "notes": "standard SF terminals, double-story g"},
+    {"token": "control/checkbox", "value": "rounded-square (not circle/capsule), ~body height, ~5-6px corner", "quality": "estimated", "notes": "todo = grey outline; done = green fill + white check"}
+  ],
+  "patterns": [
+    {"pattern": "list", "key_values": "single-column markdown checklist; rows left-aligned to one margin; done = green rounded-square + white check + strikethrough dimmed text; todo = grey outline box + primary text"},
+    {"pattern": "toolbar", "key_values": "borderless monochrome SF Symbols (keyboard toggle, settings gear) trailing, tertiary tint — but embedded in content header row, not an NSToolbar"},
+    {"pattern": "other", "key_values": "document-header pattern: large bold page title (date-as-title 'Today') + inline secondary date, baseline-aligned; hairline divider; body is a live-markdown editor showing dimmed ## syntax markers inline"}
+  ],
+  "signature_moves": [
+    "Dimmed inline markdown syntax — ## markers persist in tertiary grey while the heading renders bold (iA Writer / Obsidian live-preview lineage); the note shows its own plain-text bones",
+    "Day-as-document title — the date IS the page title ('Today / Friday, July 3'), literalising 'every day, its own page'; no chrome competes with the document",
+    "Monochrome-plus-one-status palette — near-total grayscale with a single lime-green reserved exclusively for the done state (Von Restorff)",
+    "Triple-duty tertiary grey — one ~#555 token carries date subtitle, syntax markers, and completed text; de-emphasis is the entire hierarchy strategy"
+  ],
+  "defects": [
+    "Contrast Dilution (over-dim variant) — shared tertiary ~#565656 at 2.27:1, under 4.5:1; active date subtitle is live wayfinding text sitting sub-floor; fix: lift persistent metadata to kit dark-secondary #8A8A8A",
+    "Sub-3:1 UI borders — divider 1.34:1 and unchecked checkbox outline below 3:1 (native-soft hairlines, low edge of legibility)",
+    "Header-embedded toolbar controls — keyboard/gear icons in the content header rather than an NSToolbar (minor native deviation; menu-bar mirroring unverifiable)"
+  ],
+  "aesthetic": {
+    "adjectives": ["calm", "editorial", "unadorned"],
+    "direction": "In-app: restrained quiet-editorial-dark — a monochrome dark note surface, Restrained colour strategy (near-zero accent, one green status), hierarchy by de-emphasis. Brand layer (cover backdrop, out of app scope): warm-editorial (sunrise-lake photography + heavy grotesque display paired with an italic serif 'its own page').",
+    "peers": ["iA Writer", "Bear", "Obsidian (live preview)", "Day One / Reflect (day-as-page journaling)"],
+    "cluster_hint": "quiet-editorial-dark",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff effect — the single lime-green done-checkbox is the only saturated element against a monochrome field; 'completed' is the one thing that pops, used deliberately",
+    "Aesthetic-usability / perceptual load (Lavie) — heavy de-emphasis + monochrome yields a low-noise page that reads calm and effortless; the app's core promise realised typographically",
+    "Jakob's Law — day-as-page + visible markdown match two trained mental models (paper diary, markdown editors), so the surface needs no explanation",
+    "Hierarchy via de-emphasis (Refactoring UI) — metadata/syntax/completed all pushed to one recessive #555 rather than primaries amplified; but pushed past the 4.5:1 legibility floor (processing-fluency cost on the active date)",
+    "Zeigarnik / peak-end — checklist done-state with strikethrough gives visible closure on small wins"
+  ],
+  "notes": "SINGLE PARTIAL SURFACE ONLY. Evidence is the app window embedded in the marketing cover (cover.png), cropped to its top ~25% and rendered at an unknown up-scale — body x-height measures far larger than any real logical size, so absolute pixel measurements are untrustworthy and recorded as ratios/tier-IDs. Colours are reliable (sampled from flat fills). No shot-*.* files were provided; gallery is empty in meta.json. icon.png was supplied but is OUT OF SCOPE (task = Workflow A / UI only; not digested as an icon). Everything is (inferred), single-surface — no promotions possible. Era marked big-sur to signal 'modern flat-native, legacy ruled out' but Liquid-Glass era is NOT excludable (no NSToolbar/floating chrome visible, so no glass material to read). Unseen surfaces the corpus still needs from this app: full window, light mode, sidebar (if any), settings, empty state, the full note/editor body."
+}

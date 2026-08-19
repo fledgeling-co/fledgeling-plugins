@@ -1,0 +1,16 @@
+{
+  "slug": "orbs",
+  "name": "Orbs",
+  "tagline": "A native macOS radial-wheel launcher.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://orbs.studio/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-8637f1af-a914-4427-b76d-0404e8ddca1a.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2b1dd5a-6c5c-450a-b372-76ed4c2bbcab/cover-bf6ffa8b-1cfa-4db3-91f6-c6c7b5873df6.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orbs/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orbs/cover.png",
+    "shots": []
+  }
+}

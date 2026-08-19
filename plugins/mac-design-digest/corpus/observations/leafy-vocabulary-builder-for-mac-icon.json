@@ -1,0 +1,15 @@
+{
+  "slug": "leafy-vocabulary-builder-for-mac", "name": "Leafy: Vocabulary Builder for Mac", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 7,
+  "soft_passes": ["#1 pre-masked render + lettering crowds mask corners", "#5 flat, no light model to be inconsistent", "#9 internally consistent but off-era flat sticker, no macOS material language"],
+  "failures": ["#2 no safe-zone margin — full-bleed lettering crowds all four mask edges", "#3 silhouette is an illegible brush-stroke tangle, not a nameable figure", "#4 16px squint collapses to an unreadable green smear on black", "#10 identity fully dependent on green-on-black; no light/dark/tinted layer authoring", "#12 icon is the full word LEAFY — text defect"],
+  "palette": {"background": "ramp #333333->#000000", "glyph": ["#AFF85E", "#A6F252", "#B3F963", "#D5FC99"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "other"},
+  "light_model": "Effectively flat / no model — glyph is an unlit flat chartreuse fill with no baked shadow or specular; only a faint top-lighter charcoal->black wash on the background field.",
+  "layer_stack": ["baked squircle mask", "charcoal->black field (#333333 top -> #000000 bottom)", "green hand-lettered 'LEAFY' wordmark + diagonal leaf-midrib stroke"],
+  "devices": ["word-as-leaf wordmark (letterforms + diagonal midrib resolve into a leaf)", "diagonal leaf-vein stroke crossing the letters (occupies the diagonal-tool position)", "highlighter acid-green on pure black", "full-bleed lettering with zero safe zone"],
+  "adjectives": ["brash", "hand-lettered", "acid-green"],
+  "rhymes_hint": "Wordmark / logo-sticker icons — 'brand logo poured into a squircle' family; palette rhymes with acid-green-on-black terminal/hacker aesthetic but hand-brushed. Style-family guess: 'hand-lettered brand-sticker on black.'",
+  "notes": "180x180 web render, PRE-MASKED (transparent squircle corners baked in — not delivered full-bleed square as a real macOS 26 icon; #1 judged on that). 1024 master unavailable; brush texture heavily anti-aliased, core hexes (measured), edge detail (estimated). glyph_type recorded as 'abstract' but is really a full wordmark — that is the #12 defect. overlay_device 'other' = diagonal leaf-midrib vein, not a tool. Three of the four non-negotiable checks (#2/#3/#4) fail: strong brand mark, weak app icon — a cautionary reference, not a model. Cover coheres in palette (black + #AFF85E + green glow halo) but pairs a refined white serif 'Leafy' logotype against the crude brush icon — two different lettering hands; the serif is the stronger asset."
+}

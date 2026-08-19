@@ -1,0 +1,16 @@
+{
+  "slug": "codeshot",
+  "name": "Codeshot",
+  "tagline": "Turn your code into a snapshot.",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://codeshotapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/09aeccc1-6f6b-449e-a3ca-9cbbde61e4f6/icon-1783882467842.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/09aeccc1-6f6b-449e-a3ca-9cbbde61e4f6/cover-1783882779227.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codeshot/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codeshot/cover.png",
+    "shots": []
+  }
+}

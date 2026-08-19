@@ -1,0 +1,71 @@
+{
+  "slug": "glyph",
+  "name": "Glyph",
+  "category": "Writing",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window three-pane markdown editor (source-list sidebar + editor + properties inspector)",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 text contrast — white label on #5E9DC0 selection fill ~2.7:1 (below 4.5:1); '+ Add property' very light grey",
+        "#10 UI contrast — right-hand toolbar action glyphs render ~<3:1 on white",
+        "#12 input height — no visible text field to assess (n/a)",
+        "#14 focus appearance — not observable in a static marketing shot (n/a)",
+        "native #3 selection — inset rounded shape correct but solid custom-blue fill + white text, not light accent-tinted fill with accent text",
+        "native #6 accent — internally consistent but bound to the app's brand blue, not the user's system accent"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/sidebar", "value": "#F8F7F5 warm off-white", "quality": "estimated", "notes": "source list; R>G>B paper tone; composite may shift colour slightly"},
+    {"token": "bg/inspector", "value": "#F3F3F0 warm off-white", "quality": "estimated", "notes": "same paper family, marginally greyer than sidebar"},
+    {"token": "bg/editor", "value": "~#FFFFFF near-white", "quality": "estimated", "notes": "content column reads whiter than chrome — deliberate content-vs-sidebar two-tone"},
+    {"token": "accent/selection", "value": "#5E9DC0 muted steel-blue, solid fill, white text+glyph", "quality": "estimated", "notes": "not vivid system blue #0088FF, not system-accent-bound; System-Settings-style solid fill"},
+    {"token": "accent/link", "value": "steel-blue underlined", "quality": "estimated", "notes": "in-editor links, same muted-blue family"},
+    {"token": "type/ui-label", "value": "13pt-class SF Pro Regular", "quality": "estimated", "notes": "native chrome density"},
+    {"token": "type/editor-body", "value": "~14-16pt regular sans; H1 bold ~24-28pt-class", "quality": "estimated", "notes": "reading body a touch larger than chrome for comfort"},
+    {"token": "space/sidebar-row", "value": "~34-40pt row pitch, generous padding", "quality": "estimated", "notes": "roomier than compact 24-32pt tier"},
+    {"token": "radius/selection", "value": "~8-10pt, inset ~12-14pt each side", "quality": "estimated", "notes": "matches kit sidebar-selection radius 8"},
+    {"token": "chrome/traffic-lights", "value": "genuine coloured red/yellow/green, focused", "quality": "measured", "notes": "real Mac frame"},
+    {"token": "chrome/toolbar", "value": "unified single row, borderless monochrome SF Symbols in ~3 groups", "quality": "estimated", "notes": "nav / centred document-tab pill / action cluster"},
+    {"token": "identity/pinned", "value": "filled yellow star", "quality": "estimated", "notes": "per-item identity colour, paired with label"},
+    {"token": "identity/task", "value": "red hollow ring", "quality": "estimated", "notes": "status colour paired with '0 of 5 done' label"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "warm off-white source list ~230-256pt; icon+label+trailing count-badge rows (New Note/Pinned 6/All Notes 325/Collections/Connections); title-case secondary section header 'Notes' with disclosure + sort glyphs; roomy ~34-40pt rows; selected row = solid steel-blue rounded fill, white text, radius ~8-10, inset ~12-14"},
+    {"pattern": "inspector", "key_values": "~300pt right pane, warm off-white; Info|History tab chips (active = white elevated chip w/ shadow); Properties heading + list/code segmented toggle; tracked-UPPERCASE micro-headers STATS/TASKS/OUTLINE; label-left-grey / value-right-dark stat rows; red-ring task summary; ghost '+ Add property'"},
+    {"pattern": "toolbar", "key_values": "unified single row, no separate titlebar; borderless monochrome glyphs; back/forward (forward dimmed=disabled), greyed breadcrumb, centred white document-tab pill with + , trailing action group {}/edit/preview/split/panel"},
+    {"pattern": "other", "key_values": "markdown editor content — H1/H3 headings each with a small grey heading-level GUTTER BADGE in the left margin; underlined links; inline-code chip on light-grey rounded fill; single left-aligned measure column"}
+  ],
+  "signature_moves": [
+    "Heading-level gutter badges — small grey 'H1'/'H3' tags in the editor's left margin marking each markdown heading in place (the memorable, on-brand-for-Markdown move)",
+    "Warm paper two-tone — off-white warm chrome (#F8F7F5 / #F3F3F0) framing a pure-white content column; reads editorial/paper where stock macOS reads neutral grey",
+    "Muted steel-blue selection + matching link blue (#5E9DC0) — a calm bookish house accent deliberately not the vivid system blue"
+  ],
+  "defects": [
+    "Contrast Dilution — white label on #5E9DC0 selection fill ~2.7:1 (below 4.5:1); '+ Add property' and right-toolbar glyphs ~<3:1; fix by darkening the fill or using light accent-tinted fill with dark text",
+    "Non-native tell (minor) — inspector section headers STATS/TASKS/OUTLINE are tracked UPPERCASE (web/iOS micro-header convention) while the sidebar header 'Notes' correctly uses title-case; grammar is inconsistent between panes",
+    "Selection grammar deviation — solid saturated fill + white text (System-Settings house style) in a custom brand hue rather than the general light accent-tinted fill with accent-coloured text bound to the system accent"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "editorial", "calm"],
+    "direction": "Warm editorial / paper-toned product UI — Editorial-literary surface treatment (warm paper, restrained) applied to a native notes app, with a bookish muted accent instead of a techy electric one",
+    "peers": ["Bear", "Craft", "iA Writer", "Ulysses"],
+    "cluster_hint": "warm-editorial-writing",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — warm paper palette + generous spacing raise perceived usability/quality; the app's own pitch ('Beautifully Designed') banks on this first-contact halo",
+    "Hierarchy via de-emphasis (processing fluency) — grey labels vs dark values, muted counts, quiet chrome let primary content anchor attention",
+    "Von Restorff / signal detection — the single saturated selection is the one different element, kept findable by restraint elsewhere (though its ~2.7:1 contrast weakens the very signal it relies on)",
+    "Miller/Cowan chunking — sidebar chunked into ~5 nav rows + a 'Notes' group; inspector chunked STATS/TASKS/OUTLINE, holding each region within working-memory limits",
+    "Jakob's Law — conventional three-pane notes layout (sidebar / editor / inspector) matches the Bear/Craft/Notion mental model; conventional interface, differentiated product"
+  ],
+  "notes": "Single input is a marketing COVER COMPOSITE: one app-window screenshot embedded in a landing page (no standalone shots, meta.json gallery empty). Window is scaled down in the composite (~1.2x effective; traffic-light vs row measurements inconsistent ±20%) so ALL metrics are (estimated) with wide ranges, never (measured), and colours may carry slight composite shift. Only the app window is native evidence; the surrounding serif-display headline, sticker chips, black pill nav and monospace Homebrew command are BRAND evidence (recorded in the app profile, excluded from macOS canon). Lineage native at med confidence — density/traffic-lights/SF-Pro favour AppKit/SwiftUI but a well-built Electron/Tauri can't be excluded from one shot. Only light mode seen; no dark mode, settings, empty-state, search field, or focus state. First candidate for a 'warm-editorial-writing' cluster (Bear/Craft register) — needs 2+ more members before any promotion."
+}

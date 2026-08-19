@@ -1,0 +1,36 @@
+{
+  "slug": "framer", "name": "Framer", "category": "Design",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 inside safe zone but possible faint baked top rim-light/bevel on mask edge — HIG says leave edge effects to the system; unconfirmable at 102px",
+    "#4 bright upper bands survive 16px but the lower glyph band darkens (~#484848) and starts dissolving into the field",
+    "#7 upper glyph vs field ~11:1 but lower band vs dark field ~2:1, below the 3:1 floor locally"
+  ],
+  "failures": [
+    "#10 not authored as Liquid Glass layers; figure-ground depends on the baked near-black background, so no distinct fg/bg for tinted/clear/dark system variants — era-lag into macOS 26"
+  ],
+  "palette": {
+    "background": "ramp #383838->#151515 (top-lit neutral/achromatic, true corner ~#131313)",
+    "glyph": ["#EFEFEF", "#C6C6C6", "#484848"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down; background and glyph both brighten toward the top; brushed-metal specular banding on the glyph's upper facets; no baked drop shadow (system-applied); no glass refraction or translucency",
+  "layer_stack": [
+    "near-black squircle field with top-lit neutral ramp (#383838 -> #151515)",
+    "chrome/metallic Framer F logomark (two offset folded angular bands, #EFEFEF -> #484848 silver ramp)"
+  ],
+  "devices": [
+    "chrome/brushed-metal material quote (skeuomorphic metal over Big Sur front-facing grammar)",
+    "monochrome brand discipline (zero hue; contrast and metal do all the work)",
+    "logomark-as-glyph (the Framer F used directly, no tool overlay or added metaphor)"
+  ],
+  "adjectives": ["metallic", "monochrome", "architectural"],
+  "rhymes_hint": "dark achromatic pro-tool / chrome-monogram-on-black family — brand logomark rendered as machined metal on a near-black top-lit field",
+  "notes": "Subject is a 102x102 web webp, not a 1024 master; all hex values (measured) off the small render, treat as approximate, do not promote pixel-exact. Framer's brand mark ships flat pure-white on black (see cover.png) — this chrome reinterpretation may be a store/community render rather than the official Icon Composer master; flag before treating as canonical. Palette coherence with cover is strong (both strict achromatic black/white); the icon's only addition over the brand is metal. Not in ledger yet; SHA-1(8) of icon.webp = 96265ed8."
+}

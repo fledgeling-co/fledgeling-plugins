@@ -1,0 +1,30 @@
+{
+  "slug": "hora-calendar", "name": "hora Calendar", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 monogram overspills the safe zone (tail near bottom edge, ascender into the band, mass low-right) — signature-scale but not optically centered",
+    "#4 black monogram survives 16px but the ruled lines, the '18' and the coral glow smear away — the calendar meaning is lost at Dock/Spotlight size",
+    "#8 coral ground-glow behind an ink-black letter is decorative, unmotivated by the flat front-lit model",
+    "#12 contains a numeral '18' and a letterform h — both defensible (Apple Calendar's date convention; single-letter monogram exception) but not strictly text-free"
+  ],
+  "failures": [
+    "#10 not authored for Liquid Glass — colour-dependent ink-black-on-white monogram + red band won't produce clean dark/clear/tinted/mono variants; era mismatch with macOS 26"
+  ],
+  "palette": {
+    "background": "two-zone: coral header ramp #F55552->#F96D6B over paper field #F1F2F3->#FFFFFF with warm coral bleed #FFEAE9 at bottom",
+    "glyph": ["#000000", "#BFBEC1", "#707070"],
+    "accent": "#F55552"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "monogram",
+    "overlay_device": "other"
+  },
+  "light_model": "near-flat front-lit; only two events — a soft short drop-shadow lifting the black script off the paper, and a coral ground-glow halo behind the monogram base; no specular, no refraction",
+  "layer_stack": ["squircle base (coral band + white paper)", "grey agenda ruled lines", "date numeral 18", "coral ground-glow", "black brush-script h monogram + soft drop-shadow"],
+  "devices": ["signature-scale hand-inked brush-script monogram breaking across all layers", "flattened calendar-page quote (coral header + ruled agenda lines + grey date numeral)", "coral ground-glow brand-warmth halo", "short soft ink drop-shadow"],
+  "adjectives": ["hand-inked", "signature-bold", "warm-editorial"],
+  "rhymes_hint": "hand-lettered monogram-on-stationery brand icons crossed with the ruled-paper + date-number calendar/notes family (Apple Calendar date-on-icon, Fantastical date block, Apple Notes ruling) — indie-warm, ink-forward, high-contrast register",
+  "notes": "Source is a 512x512 PRE-MASKED RGBA render (squircle corners already transparent), NOT the 1024 full-bleed unmasked master — full-bleed mask authoring unverifiable, corner radius baked by exporter, gradients compression-flattened; hex (measured) from this render. Era is Big Sur flat language carrying a SEMIOTIC (not material) skeuomorphic quote of a calendar page — no texture realism, so classified big-sur rather than skeuomorphic-quote. Strong icon<->brand coherence: cover reuses the same coral-red family and the same script-h-in-a-rounded-badge as the wordmark lockup. For synthesis: first icon in corpus, no cluster yet; the oversized-hand-lettered-monogram device and the date-numeral-on-calendar-icon convention are both candidate recurring devices to watch for."
+}

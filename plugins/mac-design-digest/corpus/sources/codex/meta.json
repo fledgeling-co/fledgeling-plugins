@@ -1,0 +1,16 @@
+{
+  "slug": "codex",
+  "name": "Codex",
+  "tagline": "A coding agent that helps you build and ship with AI",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://openai.com/codex/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a59ef2d6-842d-4c09-bbdd-1d02dc174f33/icon-1783882459867.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a59ef2d6-842d-4c09-bbdd-1d02dc174f33/cover-1783882770265.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codex/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codex/cover.png",
+    "shots": []
+  }
+}

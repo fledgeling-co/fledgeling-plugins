@@ -1,0 +1,35 @@
+{
+  "slug": "sketch", "name": "Sketch", "category": "Design",
+  "era": "flat-transition",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 gem bleeds close to left/right safe-zone margins (large presence, doesn't fight the mask)",
+    "#4 16px squint verified by downscale — silhouette + amber identity hold; internal crown facet lines smear at menu-bar size",
+    "#8 depth is illustrated via facet value-steps, not stacked planes/true layers",
+    "#9 flat-transition low-poly gem glyph quoted forward into the system squircle — consistent but a legacy language"
+  ],
+  "failures": [
+    "#10 not a Liquid Glass composition — flat raster gem, no glass layers/specular/refraction or Default-Dark-tinted variant authoring; reads pre-Tahoe/legacy beside native macOS 26 icons (composition would survive dark, but it is not authored as glass)"
+  ],
+  "palette": {
+    "background": "ramp #F8F8F8->#F5F5F5 (near-white, near-flat; corners render #FFFFFF)",
+    "glyph": ["#FAFCFF", "#F8E867", "#FFAD03", "#FEAC00", "#FFCF03", "#F65F02", "#F35900", "#A32B00"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down; pale-yellow specular on crown top facets, value-stepping down the pavilion to deep burnt-orange facet edges; flat per-facet shading, no cast shadow, no true specular glass",
+  "layer_stack": ["near-white subtly-graduated ground", "amber faceted gem body (crown + pavilion, one flat illustration)", "pale-yellow crown highlight facets"],
+  "devices": [
+    "amber faceted low-poly gem (the 'jewel') as the entire identity",
+    "gem-on-white — object on a minimal near-white ground, no colored background field (flat-transition tell)",
+    "value-stepped facet shading (illustrated depth, gradients not glass)",
+    "front-facing symmetrical cut-diamond silhouette"
+  ],
+  "adjectives": ["crystalline", "amber-warm", "minimal"],
+  "rhymes_hint": "single-saturated-object-on-near-white-ground creative-tool marks; the jewel/crystal/gem logo family; flat-transition free-object glyphs — neither Big Sur glyph-on-colored-squircle nor Liquid Glass layered-glass",
+  "notes": "102x102px web render, heavily downscaled — facet hexes are clean but subtle material grain and exact mask corner-radius unverifiable; absolute corners are pure #FFFFFF, indicating a pre-masked web export not a full-bleed 1024 master. Era rests on the artwork language (unambiguous even downscaled): a flat-transition low-poly amber gem shipped inside the system squircle with no Big Sur or Liquid Glass redesign. This is the single most useful synthesis signal — Sketch sits outside both the Big Sur 'glyph-on-colored-field' cluster and the Liquid Glass cluster. Brand: cover reuses the same gem silhouette as a monochrome mark on a pink-lilac gradient; the gem SHAPE is the brand constant, hue varies. Rubric non-negotiables (#1-4 mask/grid/silhouette/16px) all pass strongly."
+}

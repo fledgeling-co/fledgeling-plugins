@@ -1,0 +1,68 @@
+{
+  "slug": "sketch",
+  "name": "Sketch",
+  "category": "Design",
+  "lineage": "native",
+  "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "main-window (source list + floating toolbar + canvas, cropped)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#7 section headers 'Documents'/'Pages' amplified bold-black rather than de-emphasised secondary",
+        "#10 sidebar divider <3:1 (native low-contrast separator, soft)",
+        "native#3 selected layer/artboard is a saturated indigo capsule with white text, not the flat inset accent-tinted fill",
+        "native#4 sidebar headers bold-black not secondary semibold (case is correct)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#F5F5F5", "quality": "measured", "notes": "design canvas, light"},
+    {"token": "bg/sidebar", "value": "#FFFFFF", "quality": "measured", "notes": "source list pure white in this render"},
+    {"token": "text/primary", "value": "#262626 (~85% black)", "quality": "measured", "notes": "matches kit softened primary, not pure #000"},
+    {"token": "accent/selection", "value": "#545CFD indigo/periwinkle", "quality": "measured", "notes": "binds selection + focused-doc text; NOT system blue #0088FF (contested: brand-bound vs user Indigo accent)"},
+    {"token": "sel/document-fill", "value": "#F0EFFF flat inset rounded, indigo text", "quality": "measured", "notes": "native-correct selection grammar"},
+    {"token": "sel/layer-capsule", "value": "#545CFD saturated capsule, white text", "quality": "measured", "notes": "house style; deviates from native selection grammar"},
+    {"token": "identity/component", "value": "#B620E1 magenta", "quality": "measured", "notes": "symbol/component-instance glyphs; separate hue from accent"},
+    {"token": "type/body", "value": "~13pt SF Pro Regular", "quality": "estimated", "notes": "layer + page row labels; ~1x render"},
+    {"token": "type/section-header", "value": "~13-14pt SF Pro Bold, primary black", "quality": "estimated", "notes": "sentence case but amplified"},
+    {"token": "chrome/toolbar", "value": "floating opaque-white capsule pills, ~28-36pt tall, <=4 function groups, capsule radius", "quality": "estimated", "notes": "over-canvas, not a unified titlebar toolbar"},
+    {"token": "chrome/sidebar-row-h", "value": "~28-34pt layer rows, ~4px insets", "quality": "estimated", "notes": "hierarchy via indented vertical guide lines"},
+    {"token": "brand/gradient", "value": "#FAF1F4 pink -> #F3E0FC lavender", "quality": "measured", "notes": "marketing backdrop only, NOT app UI"},
+    {"token": "brand/headline", "value": "high-contrast serif display ~120px, #1F2120", "quality": "measured", "notes": "editorial brand voice; app UI itself is SF Pro"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~256pt source list; two zones (documents/pages + layer tree); flat inset rounded selection (indigo tint, indigo text) for docs; saturated indigo capsule for selected layer; magenta component glyphs; indented vertical guide lines; dimmed hidden rows"},
+    {"pattern": "toolbar", "key_values": "floating opaque-white capsule pills over canvas (NOT unified titlebar); <=4 function groups [insert / crop / arrange / component]; borderless monochrome symbols + one full-colour brand diamond; leading standalone circular tool button"},
+    {"pattern": "inspector", "key_values": "layer tree as outline view: per-row monochrome glyph + label, magenta for components, trailing boolean/mask markers, disclosure via indentation"}
+  ],
+  "signature_moves": [
+    "Floating capsule toolbar: grouped opaque-white pill-clusters float over the canvas (chunked <=4 by function) instead of a unified titlebar toolbar — Sketch's chrome fingerprint",
+    "Two-hue layer semantics: indigo = selection/accent, magenta = component/symbol identity — object-type coded pre-attentively, kept orthogonal to the selection accent",
+    "Single full-colour brand diamond among monochrome toolbar glyphs (Von Restorff) draws the eye to insert/add"
+  ],
+  "defects": [
+    "Selection-grammar inconsistency — one source list uses a native-correct flat inset lavender fill for the selected document but a saturated full-bleed indigo capsule (white text) for the selected layer; the saturated capsule violates native selection grammar",
+    "Sidebar-header amplification (mild de-emphasis inversion) — 'Documents'/'Pages' rendered bold primary-black rather than HIG secondary-colour semibold",
+    "Accent possibly brand-bound not system-bound (contested) — indigo #545CFD selection accent rather than system blue #0088FF; single surface cannot disambiguate app-hardcoded vs user Indigo accent"
+  ],
+  "aesthetic": {
+    "adjectives": ["functional", "airy", "canvas-first"],
+    "direction": "neo-grotesque product (SF Pro on white/neutral surfaces, single indigo accent, floating capsule chrome) — the app UI; the marketing composite around it is a separate editorial-warm brand skin (serif display + pink-lavender gradient)",
+    "peers": ["Figma", "Framer", "Linear"],
+    "cluster_hint": "canvas-creative-tool",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff effect — the one full-colour brand diamond among monochrome toolbar glyphs is the memorable/primary action (insert)",
+    "Jakob's Law — source-list sidebar + real traffic lights + layer outline tree match trained native + design-tool expectations",
+    "Miller/Cowan chunking — toolbar chunked into <=4 function-grouped capsule clusters for scan-not-decide use",
+    "Similarity grouping (Gestalt) — magenta=components vs gray=shapes/groups codes object-type pre-attentively in the layer tree",
+    "Aesthetic-usability effect — coherent neutral chrome buys first-contact trust for a pro tool"
+  ],
+  "notes": "Only input is a MARKETING COVER COMPOSITE, not clean app shots. Left ~55% is brand backdrop (pink->lavender gradient, black high-contrast serif display headline, diamond logo) — editorial-warm brand skin, analysed separately and excluded from UI tokens. Right ~45% is the real app window but CROPPED (right edge + window bottom cut off; canvas only partially visible). Render ~1x logical (traffic-light dot ~14-15px) so px≈pt; all UI metrics estimated ranges. Only ONE surface, light mode; no settings/empty-state/dark/inspector-detail evidence. Era not confidently Liquid-Glass: floating pills read opaque-white custom, not clearly LG lensing — glass classification insufficient-evidence. Accent indigo #545CFD is contested (brand vs user-accent). Sketch is a canonical native design tool; strong candidate anchor for a canvas-creative-tool cluster once a 2nd/3rd member (Figma-native, Pixelmator Pro, Linearity Curve) is digested."
+}

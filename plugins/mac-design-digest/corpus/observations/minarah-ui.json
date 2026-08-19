@@ -1,0 +1,62 @@
+{
+  "slug": "minarah",
+  "name": "Minarah",
+  "category": "Lifestyle",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (1200x680 hero card) — NO app UI present",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A — no app-UI surface to score. Composite is a blue diagonal-gradient backdrop + centred wordmark + monospace tagline + a floating 3D claymorphic minaret with a faint concentric notification-ripple motif behind it. The 14-point rubric and 10-point native audit are not applicable, not failed."
+      ]
+    },
+    {
+      "file": "icon.png",
+      "surface_type": "app icon (112x114) — icon evidence, not a UI surface",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A — app icon, not a UI screenshot, and outside this task's Workflow-A scope. Recorded only as contrast evidence: rounded-rect silhouette with a light outer stroke reads iOS, NOT the macOS Big Sur squircle — a lineage tell that the shipping product is iOS-first."
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop-gradient", "value": "#82C2FE (top-left) -> #246ADF (bottom-right), diagonal royal-blue", "quality": "measured", "notes": "cover backdrop; brand evidence only, never macOS canon"},
+    {"token": "brand/wordmark", "value": "'Minarah' white #FFFFFF, bold neo-grotesque sans, tight tracking, ~130px cap height on a 680px canvas", "quality": "estimated", "notes": "Helvetica-Now / Inter-Display / SF-Pro-Display-Bold class; double-story a, straight terminals"},
+    {"token": "brand/tagline", "value": "white monospace, ~15-16px, fixed-width; 'Stay focused and get notified for every prayer — customizable, simple, and distraction-free.'", "quality": "estimated", "notes": "typewriter mono (SF Mono / JetBrains Mono / IBM Plex Mono class); em-dash, wide default tracking"},
+    {"token": "illustration/minaret-body", "value": "#F1D7B4 cream", "quality": "measured", "notes": "3D-rendered focal object (Spline/Blender claymorphic look)"},
+    {"token": "illustration/dome", "value": "#4081B6 blue", "quality": "measured", "notes": "dome + accent bands share the brand blue family"},
+    {"token": "illustration/crescent", "value": "~#F0A81E gold", "quality": "estimated", "notes": "crescent finial; the one warm accent against the blue"},
+    {"token": "icon/bg-gradient", "value": "#1785D5 (top) -> warm cream lower where tower sits", "quality": "measured", "notes": "iOS-style icon; contrast evidence only"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "BRAND (not UI): bold neo-grotesque wordmark paired against a monospace tagline — a deliberate contrast-axis type pairing (grotesk display + typewriter mono), the whole brand voice in one decision",
+    "BRAND (not UI): a single 3D claymorphic minaret as the sole focal object, backed by a faint concentric ripple motif that visually encodes the product promise ('get notified')",
+    "BRAND (not UI): warm gold crescent as the one accent puncturing an otherwise all-blue palette — devotional signal held to a single hue moment"
+  ],
+  "defects": [
+    "No UI defects scorable — zero app surfaces supplied. Only observation of corpus relevance: the app icon is a rounded-rect with a light outer stroke (iOS shape), not the macOS squircle — recorded as a lineage tell, not a defect."
+  ],
+  "aesthetic": {
+    "adjectives": ["confident", "serene", "approachable"],
+    "direction": "Neo-grotesque product landing with a claymorphic 3D hero — bold white grotesk logotype + monospace subhead over a royal-blue drenched gradient, warmed by a single 3D devotional object. This is marketing/brand direction, NOT an app-UI aesthetic; no committed native-Mac direction is observable.",
+    "peers": ["Spline/Blender-rendered indie-app landing pages (aesthetic peer)", "Muslim Pro / Athan (category peers, not aesthetic)", "Vercel/Linear-style grotesk+mono logotype pairing (device peer, warmer palette)"],
+    "cluster_hint": "no macOS UI cluster assignable — brand/marketing-only; would be a 'blue-devotional claymorphic landing' brand family if a brand corpus existed",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — one bold wordmark and one 3D focal object give a single unmistakable entry point; nothing competes",
+    "Information scent — the concentric ripple behind the minaret reads as broadcast/notification, reinforcing the 'get notified for every prayer' promise pre-attentively",
+    "Aesthetic-usability effect — the polished 3D render buys a trust prior on first contact (a marketing halo), though it says nothing about the actual app UI",
+    "First-impression thesis (~50ms) — the hero answers what/who quickly (name + tagline + devotional object), which is the cover's entire job"
+  ],
+  "notes": "CRITICAL for synthesis: this app supplied ZERO app-UI evidence. Inputs were a 1200x680 marketing hero composite (blue gradient backdrop + bold grotesk wordmark + monospace tagline + floating 3D claymorphic minaret) and a 112x114 iOS-style app icon; gallery/shots array is empty. Do NOT treat any token here as UI/app-design evidence — all are brand + illustration + icon evidence only, and NONE may feed macOS canon or style clusters. Lineage and era are UNKNOWN from images (no window, no chrome, no traffic lights, no surface); the icon's rounded-rect+stroke shape is a weak iOS-first tell but is not proof of the Mac build's lineage (could be Catalyst / iOS-on-Mac / a Mac listing with only mobile marketing art). No 14-point rubric or 10-point native audit was scored (0 = N/A, not a real failure) because there is no app surface to measure. Task was Workflow A (UI screenshot) ONLY; the icon is noted as contrast evidence but not digested as a Workflow-B icon profile. To place Minarah in the corpus, the user must supply an actual app-window screenshot (main window, settings, or menu-bar-extra popover — a prayer-times/notification utility most likely ships as a menu-bar extra)."
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "liqoria", "name": "Liqoria", "category": "Lifestyle",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 fills squircle but ships pre-masked with baked specular gloss the system should own",
+    "#4 charcoal play triangle survives 16px, but the orb dissolves into the field at small sizes",
+    "#7 glyph-vs-orb contrast strong; orb-vs-background ~1.1:1 (<3:1) — device barely separates from field",
+    "#8 layer order and top-down light are consistent, but low orb/field contrast collapses the depth illusion below hero size",
+    "#11 a device exists (glass-bubble play button) but it is a generic gloss trope, template-default not committed"
+  ],
+  "failures": [
+    "#9 era incoherence: a baked-gloss skeuomorphic orb inside an otherwise flat Big-Sur squircle, committing to neither language",
+    "#10 baked single-appearance PNG, not layered Icon Composer; light field + dark glyph would not adapt to dark/clear/tinted modes"
+  ],
+  "palette": {
+    "background": "ramp #DCDCDC->#B7B7B7",
+    "glyph": ["#222222", "#A6AAAB", "#B0B0B0", "#C9C9C9"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "Single top-down source: background lighter at top, glossy orb carries a baked specular highlight near its crown fading to mid-gray at base with weak contact grounding; specular is painted in, not system glass",
+  "layer_stack": [
+    "light-gray squircle field with subtle top-down ramp",
+    "glossy pearlescent glass orb (baked specular highlight + soft lower reflection)",
+    "charcoal rounded-corner play triangle glyph"
+  ],
+  "devices": [
+    "play button embedded in a glossy glass bubble/orb (Aqua-glass-button quotation)",
+    "zero-chroma monochrome grayscale palette"
+  ],
+  "adjectives": ["glossy", "monochrome", "anonymous"],
+  "rhymes_hint": "generic 'glossy orb + play triangle' media-player icons; skeuomorphic Aqua glass-button quotations transplanted into a modern squircle",
+  "notes": "Source is a 204x204 web render (small); corners transparent -> ships pre-masked as a squircle, all hexes (estimated). Palette/brand incoherence: app cover is saturated Liquid Glass (translucent media widget on pink/purple floral wallpaper) while the icon is fully grayscale — the icon communicates neither the music subject beyond the play glyph nor the product's actual colour world. Baked gloss + pre-masked shape + no dark/tinted variant all fight the macOS 26 layered/system-effect pipeline."
+}

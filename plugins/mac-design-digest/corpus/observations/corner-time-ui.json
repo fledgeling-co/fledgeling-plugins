@@ -1,0 +1,84 @@
+{
+  "slug": "corner-time", "name": "Corner Time", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "settings window (Format pane) — portrait utility panel ~299px wide, inside a marketing composite; scale ~1:1 pt (traffic-light cluster ~60px vs native 68pt)",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 9,
+      "failures": [
+        "rubric #10 UI contrast: row-divider hairlines + off-switch track borderline <3:1 on the dark blue window (Contrast-Dilution-adjacent, conventional for macOS grouped lists)",
+        "rubric #14 focus appearance unverifiable in a static render (absence noted, not counted as fail)",
+        "rubric #5/#6 line-height & measure N/A — no paragraph/text blocks; counted as pass",
+        "native #10 real chrome: traffic lights show lit-red + 2 gray, a state real macOS never renders (focused=all colored, inactive=all gray) — confirms a stylized marketing render, not a captured screenshot",
+        "native #3 selection grammar passes (neutral inset rounded fill), but segmented control is doing pane navigation (Format/Style/General) where HIG assigns an in-window tab view — accepted SwiftUI Picker idiom, minor",
+        "native #2 Liquid Glass indeterminate — dark translucent window reads near-opaque in a still, no lensing visible (dark-mode humility); content stays opaque, no glass-on-glass",
+        "native #4/#7/#9 N/A — no sidebar, no dialog, no toolbar"
+      ]
+    },
+    {
+      "file": "cover.png",
+      "surface_type": "corner-clock overlay — the product's actual runtime output (chromeless SF Pro text), top-right of the composite with a hand-drawn arrow pointing at it",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "single chromeless text element — most rubric/native checks N/A; contributes typography/brand evidence only (like a screensaver canvas), scores omitted rather than faked"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "dark blue-gray ~#2B3542", "quality": "estimated", "notes": "NOT kit neutral #1E1E1E dark; blue-shifted — reads as a translucent window material tinted by the blue desktop behind (vibrancy), not a flat paint"},
+    {"token": "bg/card", "value": "~#333E4C, one step lighter than window", "quality": "estimated", "notes": "preview card + settings card sit on a slightly-elevated dark surface (base-vs-elevated depth)"},
+    {"token": "type/row-label", "value": "~15pt SF Pro Regular, primary white", "quality": "estimated", "notes": "a touch above the 13pt kit Body"},
+    {"token": "type/preview-title", "value": "~17pt SF Pro Semibold white", "quality": "estimated", "notes": "'Corner Time' bottom-left of the preview card"},
+    {"token": "type/tab-label", "value": "~13pt SF Pro; selected primary / unselected ~55% white", "quality": "estimated", "notes": "Format(selected) / Style / General"},
+    {"token": "accent/on", "value": "system blue ~#0A84FF/#0088FF", "quality": "estimated", "notes": "'on' switch fill; reserved to switch state only; can't confirm it tracks controlAccentColor vs hardcoded blue"},
+    {"token": "control/switch", "value": "capsule ~36x21px, white knob; off=gray track knob-left, on=blue track knob-right", "quality": "estimated", "notes": "native-scale macOS/SwiftUI Toggle, not an iOS 51x31 UISwitch — a density lineage tell"},
+    {"token": "control/segmented", "value": "3 equal segments ~24-28pt tall; selected = NEUTRAL inset rounded fill", "quality": "estimated", "notes": "selection correctly neutral (segmented selection never takes accent)"},
+    {"token": "row/height", "value": "~52px comfortable", "quality": "estimated", "notes": "taller than kit 40pt Large row — consumer-comfortable density for a 4-row pane"},
+    {"token": "divider/row", "value": "hairline, left-inset to label edge, very faint", "quality": "estimated", "notes": "low contrast — borderline <3:1, see failures"},
+    {"token": "radius/preview-card", "value": "~12px", "quality": "estimated", "notes": "concentric parent for the settings card's ~14px"},
+    {"token": "radius/settings-card", "value": "~14px", "quality": "estimated", "notes": "card > rows > capsule switches, concentric"},
+    {"token": "pad/window-inset", "value": "~20px content inset each side", "quality": "estimated", "notes": "shared left/right axis for preview card, segmented control, settings card"},
+    {"token": "chrome/traffic-lights", "value": "~14px dots, ~60px cluster, top-left", "quality": "estimated", "notes": "native scale; STATE stylized (red+gray+gray) = render artifact"},
+    {"token": "chrome/help", "value": "circled '?' Help button, titlebar top-right", "quality": "estimated", "notes": "genuine native affordance"},
+    {"token": "overlay/text", "value": "'Tue Apr 1  9:41 AM' SF Pro white, chromeless (no container/bg/shadow)", "quality": "estimated", "notes": "the app's actual output surface; typeset to mimic the system menu-bar clock"},
+    {"token": "brand/backdrop", "value": "blue Sonoma/Sequoia ribbon wallpaper ~#3E6FB0->#2C517F", "quality": "estimated", "notes": "MARKETING only, not an app-UI token"},
+    {"token": "brand/wordmark", "value": "cyan-mint ~#5EC8D8 'Corner Time', medium weight", "quality": "estimated", "notes": "MARKETING only"},
+    {"token": "brand/headline", "value": "white SF Pro Display Bold ~48-56px, left-aligned", "quality": "estimated", "notes": "MARKETING only"}
+  ],
+  "patterns": [
+    {"pattern": "settings", "key_values": "portrait utility settings window ~299px wide; segmented Picker (Format/Style/General) switching panes over an inset-grouped card of label+trailing-switch rows (~52px tall, faint left-inset hairline dividers); ~20px shared content inset; native capsule switches, blue-on/gray-off; accent reserved to switch state"},
+    {"pattern": "inspector", "key_values": "WYSIWYG preview card atop the controls — a live desktop-thumbnail render of the corner-clock overlay (label bottom-left, live time top-right, r~12) sitting directly above the toggles that configure it; changes reflect in the preview"},
+    {"pattern": "menu-bar-extra", "key_values": "the shipped product is a background clock utility (fullscreen / hidden-menu-bar corner overlay) configured via this small settings window; runtime surface is chromeless SF Pro text mimicking the system menu-bar clock"}
+  ],
+  "signature_moves": [
+    "Live WYSIWYG preview card directly above the toggles: renders the actual corner clock on the actual wallpaper so an ephemeral, off-to-one-side overlay becomes tangible while you configure it — the description-experience gap answered in the layout, the one decision that lifts a stock settings pane into something owned",
+    "The product disappears into the OS: runtime output is chromeless SF Pro white text typeset to pass as the native menu-bar clock, so a third-party overlay reads as a system feature (Jakob's Law working for the app) — the app's best design choice is to have almost no visible design"
+  ],
+  "defects": [
+    "Contrast Dilution (mild) — row-divider hairlines + off-switch track borderline <3:1 against the dark blue window; conventional for macOS grouped lists, a half-step lighter divider clears it",
+    "Non-real chrome state (render artifact, not an app defect) — lit-red + 2 gray traffic lights is a state macOS never produces; confirms the window is a stylized marketing render, so all control metrics are (estimated) at unknowable scale",
+    "Segmented-control-as-tab-bar (minor) — Format/Style/General does pane navigation, which HIG assigns to an in-window tab view ('a segmented control is not a tab bar'); accepted SwiftUI Picker idiom for small settings windows, a pattern quibble not a violation"
+  ],
+  "aesthetic": {
+    "adjectives": ["native", "unobtrusive", "quiet"],
+    "direction": "Platform-default SwiftUI settings chrome — no committed aesthetic direction beyond faithful macOS convention; the character lives in one component (the live preview card) and in restraint, not in a chosen range-map family. Closest map anchor is Neo-grotesque-product only insofar as it simply IS the system.",
+    "peers": ["Alcove (settings)", "Bartender", "Itsycal / Dato", "One Thing", "Bauhaus Clock (options)"],
+    "cluster_hint": "menu-bar-utility config pane (native-default utility settings)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Description-experience gap / demonstrate-don't-describe (Hertwig & Erev) — the live preview card shows the actual overlay outcome instead of describing it; strongest possible answer for a feature you can't see while configuring",
+    "Jakob's Law (used correctly) — standard switches, segmented control, grouped list; and the overlay mimics the real menu-bar clock so the whole product reads as a familiar system feature",
+    "Feedback / Doherty Threshold — WYSIWYG design implies immediate apply: toggle -> preview updates, tightening the input->result loop",
+    "Hick's Law + progressive disclosure — ~4 toggles per pane, split across Format/Style/General so each decision point stays small",
+    "Von Restorff / accent restraint — blue reserved to the 'on' switches only; everything else neutral, so state is pre-attentively scannable",
+    "Aesthetic-usability effect (Kurosu & Kashimura) — clean, faithful native chrome buys first-contact trust for a background utility"
+  ],
+  "notes": "Single asset: a 1200x630 OG marketing composite, so three layers were separated per the cover rule and never conflated — the left app window (primary evidence), the top-right corner overlay (the product's real runtime output, a legitimate second surface), and the brand wallpaper/headline/wordmark. UNLIKE most single-cover digests in this corpus (Bauhaus Clock, Alcove — single-element renders), Corner Time's window shows a full, real settings pane with segmented control + grouped switch list, so this is a richer native-settings-pattern contribution. The window is a stylized render (red+gray+gray traffic lights prove it), so all metrics are (estimated) at ~1:1 pt scale (cluster ~60px vs native 68pt). Era called big-sur under dark-mode humility (Liquid Glass unconfirmable in a dark still). App icon (icon.png, a white Big Sur squircle with a black header bar showing '09:41' over a blank silver panel — the corner-clock-as-display-widget conceit) was NOT digested: task scope is Workflow A (UI) only; flagged here for a future Workflow B pass. Contributes to a menu-bar-utility config-pane cluster; the live-preview-card signature is worth watching for recurrence across other overlay/config utilities (Alcove, notch tools) toward canon."
+}

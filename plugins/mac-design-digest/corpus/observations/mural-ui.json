@@ -1,0 +1,65 @@
+{
+  "slug": "mural", "name": "Mural", "category": "Utility",
+  "lineage": "catalyst", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "shot-1.png", "surface_type": "main-window / My Mural (Active Wall, frame-select)", "mode": "dark", "rubric_score": 13, "native_audit_score": 7, "failures": ["#10 subtle action-card borders <3:1", "native#1 catalyst/iOS lineage", "native#5 iOS density (40pt titles, 66pt action cards, 15-17pt nav)"]},
+    {"file": "shot-2.png", "surface_type": "main-window / My Mural (Active Wall, loop-range)", "mode": "dark", "rubric_score": 13, "native_audit_score": 7, "failures": ["#10 low-contrast HUD controls", "native#1 lineage", "native#5 density"]},
+    {"file": "shot-3.png", "surface_type": "browser / Themes (Atmosphere coverflow, Lofi Focus)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 low-contrast coverflow chevrons", "native#1 lineage", "native#5 density", "coverflow is a non-native primary-browse pattern (Jakob)"]},
+    {"file": "shot-4.png", "surface_type": "browser / Themes (Atmosphere coverflow, Wild Quiet)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 low-contrast chevrons", "native#1 lineage", "native#5 density"]},
+    {"file": "shot-5.png", "surface_type": "browser / Themes (Atmosphere coverflow, Film Scene)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 low-contrast chevrons", "native#1 lineage", "native#5 density"]},
+    {"file": "shot-6.png", "surface_type": "inspector / Lab (Grading color panel, 3-pane)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 unfilled slider tracks + preset-card borders <3:1", "native#1 lineage", "native#4 tracked-uppercase section headers (PRESETS/MANUAL CONTROL)", "native#5 density"]}
+  ],
+  "tokens": [
+    {"token": "bg/content", "value": "#323232", "quality": "measured", "notes": "main canvas dark, ~gray-50 (lighter than kit dark #1E1E1E)"},
+    {"token": "bg/sidebar", "value": "#2B292B", "quality": "measured", "notes": "full-height source list, ~gray-43"},
+    {"token": "bg/inspector", "value": "#2B2B2B", "quality": "measured", "notes": "Lab right panel; darker than content = base/elevated split (rails dark, canvas lighter)"},
+    {"token": "accent/primary", "value": "#0088-0091FF (system blue); slider fill #177BE6", "quality": "measured", "notes": "selection text+glyph, slider fill, DYNAMIC badge"},
+    {"token": "accent/confirm", "value": "~#30D158 system green", "quality": "measured", "notes": "Done action check + selected-state border; second semantic accent"},
+    {"token": "selection/fill", "value": "translucent blue ~#254D8E", "quality": "measured", "notes": "nav pill: blue-tinted fill + blue label (not native gray-inset nor white-on-accent)"},
+    {"token": "label/secondary", "value": "#AAAAAA", "quality": "measured", "notes": "subtitles + uppercase section headers"},
+    {"token": "traffic-lights", "value": "#FF5F58 / #F2BB2F / #2DC241, inset ~(11,7)pt", "quality": "measured", "notes": "genuine; compact/no-toolbar archetype"},
+    {"token": "type/large-title", "value": "~40pt Bold SF Pro", "quality": "estimated", "notes": "oversized vs kit LargeTitle 26pt — iOS large-title tell"},
+    {"token": "type/section-header", "value": "~20-24pt Semibold + leading SF Symbol", "quality": "estimated", "notes": "Lofi Focus / Wild Quiet / Film Scene"},
+    {"token": "type/nav-label", "value": "~15-17pt", "quality": "estimated", "notes": "iOS density, not 13pt macOS body"},
+    {"token": "type/inspector-header", "value": "~11pt tracked UPPERCASE #AAAAAA", "quality": "measured", "notes": "non-native; HIG wants sentence-case semibold"},
+    {"token": "chrome/sidebar-width", "value": "~220pt", "quality": "measured", "notes": "full-height, transparent titlebar, no toolbar row"},
+    {"token": "chrome/inspector-width", "value": "~277pt", "quality": "measured", "notes": "Lab surface only"},
+    {"token": "radius/preview-card", "value": "~16-20pt", "quality": "estimated", "notes": "wallpaper preview + coverflow cards"},
+    {"token": "radius/action-button", "value": "~12pt", "quality": "estimated", "notes": "bottom action cards"},
+    {"token": "slider/style", "value": "native linear: blue fill + light round knob on ~#2B track", "quality": "measured", "notes": "most native control in the app"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~220pt full-height source list, dark #2B292B, logo+wordmark header, 3 nav items + 2 pinned bottom items (hairline separator); selection = translucent-blue pill + blue label (non-standard)"},
+    {"pattern": "inspector", "key_values": "~277pt right panel #2B2B2B, tracked-uppercase section headers, 2-col preset chip grid (system-palette dot + name/descriptor, checkmark on selected), native labelled sliders with right-aligned numeric readouts, Reset/Applied footer"},
+    {"pattern": "card-grid", "key_values": "3D coverflow carousel (1 focal + perspective neighbors), ~16-20pt radius media cards, bottom-left title + tracked-uppercase eyebrow, chevron paging horizontal + vertical"},
+    {"pattern": "toolbar", "key_values": "no traditional toolbar; Lab uses a centered icon+label tab strip (Grading/Widgets/Mantra/Ambience); primary actions live as a row of ~66pt cards below content, one carrying a green selected treatment"}
+  ],
+  "signature_moves": [
+    "Wallpaper-as-footage: Lab grades the desktop background like video (Noir/Cinematic-Teal/Cyber-Neon LUT presets + Scanline/Grain sliders); Active Wall does per-frame selection and loop-range scrubbing",
+    "3D coverflow theme browser — the app's most memorable gesture and its clearest (non-native) brand signature",
+    "Content-mirrors-chrome: moody purple/blue-black dark UI chosen so the app disappears into the lofi/vaporwave imagery it manages"
+  ],
+  "defects": [
+    "Non-native density (iOS sizing in a Mac frame) — ~40pt titles, ~66pt action cards, ~15-17pt nav; systematic tell, excluded from macOS canon",
+    "Tracked-uppercase section headers (PRESETS / MANUAL CONTROL) — HIG wants system-font semibold sentence/title case",
+    "Coverflow for primary browsing — Jakob's Law violation; only the focal card is legible (discoverability cost)",
+    "Selection-grammar drift — blue-translucent fill + blue label instead of native flat gray inset",
+    "Contrast Dilution (rubric #10) — unfilled slider tracks + preset-card borders <3:1 on #2B inspector; low-contrast coverflow chevrons"
+  ],
+  "aesthetic": {
+    "adjectives": ["moody", "cinematic", "consumer-playful"],
+    "direction": "Neo-grotesque product dark bent toward consumer media — dark neutral ramp + system-blue accent, but styled as a VJ/grading rig rather than a calm dev tool; imagery-forward",
+    "peers": ["iOS live-wallpaper/widget utilities (Widgetsmith-class)", "media apps that lean on cover art (Spotify-ish full-bleed cards)", "iTunes/Photos coverflow lineage"],
+    "cluster_hint": "consumer-media-dark (iOS-influenced creative utility)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect — leans hard on beautiful lofi imagery to carry perceived quality; the UI intentionally recedes behind the art",
+    "Von Restorff / single-accent — one green 'Done' among gray action cards makes the commit obvious; correct action singularity",
+    "Jakob's Law (violated) — coverflow + oversized iOS chrome defy Mac conventions users arrive expecting",
+    "Hick's Law (respected) — Grading presets capped at 6 tiles; coverflow shows one focal choice at a time",
+    "Serial-position / spatial memory — coverflow relies on position recall, but hides flanking options (recognition cost)"
+  ],
+  "notes": "Lineage is the load-bearing call: real Mac frame (genuine traffic lights, 3-pane split, native sliders) wrapping an iOS-density body (coverflow, ~40pt titles, ~66pt buttons, tracked-uppercase headers) => catalyst/iOS-influenced, med confidence; none of its density/selection/coverflow evidence should feed macOS canon. Dark mode only — no light surface, no Preferences/Settings window, no text-field or menu surface digested. cover.png is a marketing composite (brand evidence only). All numeric tokens are @2x screenshot estimates; single app => evidence (inferred). The recurring lofi-girl 'SILENCE' art is content, not app typography."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "fello-ai",
+  "name": "Fello AI",
+  "tagline": "Chat Bot Assistant App",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://apps.apple.com/app/helloai-ai-chatbot-assistant/id6447705369",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-2172ab52-802b-4f13-97d3-63c8c61dd6e9.jpg",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-59067347-2e48-4b04-88e8-874c2b740a71.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fello-ai/icon.jpg",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fello-ai/cover.png",
+    "shots": []
+  }
+}

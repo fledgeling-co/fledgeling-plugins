@@ -1,0 +1,16 @@
+{
+  "slug": "hilium",
+  "name": "Hilium",
+  "tagline": "Control your Mac wirelessly using your iPhone",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://hilium.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c50189e9-60e9-43cf-acf4-85fa5427e4d5/icon-1783882480823.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c50189e9-60e9-43cf-acf4-85fa5427e4d5/cover-1783882794170.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hilium/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hilium/cover.jpg",
+    "shots": []
+  }
+}

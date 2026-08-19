@@ -1,0 +1,68 @@
+{
+  "slug": "walltune", "name": "WallTune", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite containing app window (immersive media/wallpaper browser)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 4,
+      "failures": [
+        "#9 text-contrast: dim 'by WallTune · 1,920x1,080' metadata over busy hero art — risk, estimated (scaled render)",
+        "#10 UI-contrast: dark translucent segmented track sits over bright card art in spots, may fall <3:1 — estimated",
+        "native#3 selection not accent-tinted: 'Videos' selected as a pure-white capsule, no system-accent fill",
+        "native#9 scope not in toolbar: Images/Videos segmented control placed in a bottom floating capsule bar, no standard toolbar",
+        "native#1 lineage unverifiable: custom immersive chrome on a single marketing render can't be told from a polished Electron media app",
+        "native#5 density unverifiable: window is scaled down inside the composite, absolute pt values unreliable"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/brand-canvas", "value": "#1A1A1A near-black", "quality": "measured", "notes": "marketing backdrop; app content is full-bleed art so window base bg not independently visible"},
+    {"token": "brand/warm-gradient", "value": "terracotta #A6643C into black", "quality": "measured", "notes": "brand backdrop ONLY — not app chrome"},
+    {"token": "accent/system-blue", "value": "~#0C7DFE (system Blue family)", "quality": "measured", "notes": "Focus switch track + Active label; app's system-integration accent"},
+    {"token": "selection/in-app", "value": "pure-white capsule, dark text", "quality": "estimated", "notes": "segmented 'Videos' selected — NOT accent-tinted; deliberate house rule"},
+    {"token": "control/segmented-track", "value": "dark translucent capsule ~#26333F", "quality": "estimated", "notes": "floating bottom-right bar"},
+    {"token": "radius/media-card", "value": "~10-12px relative", "quality": "estimated", "notes": "grid thumbnails; scaled render"},
+    {"token": "radius/floating-bar", "value": "capsule (height/2)", "quality": "estimated", "notes": "search + segmented bar"},
+    {"token": "type/eyebrow", "value": "tracked UPPERCASE micro-label, tertiary white", "quality": "estimated", "notes": "'FEATURED' hero eyebrow — media-app idiom"},
+    {"token": "type/hero-title", "value": "large bold sans", "quality": "estimated", "notes": "'Jinx' primary label"},
+    {"token": "type/metadata", "value": "small secondary, mid-dot separated", "quality": "estimated", "notes": "'by WallTune · 1,920x1,080' de-emphasised"},
+    {"token": "chrome/window", "value": "full-bleed immersive, traffic lights over content, no standard toolbar", "quality": "measured", "notes": "genuine red/yellow/green cluster, correct order"},
+    {"token": "control/pagination", "value": "dark capsule '1 / 8' + prev/next chevrons", "quality": "estimated", "notes": "hero carousel affordance"},
+    {"token": "card/meta-overlay", "value": "source label + like-count (heart glyph + n)", "quality": "measured", "notes": "community/popularity signal"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "~3-col rounded full-bleed media thumbnails, ~10-12px radius, even ~16px gutters (relative), bottom overlay = source label + like-count; left edge shares hero axis"},
+    {"pattern": "floating-panel", "key_values": "bottom-right floating capsule control bar (dark translucent): search icon + Images/Videos segmented toggle; floats over content rather than docking"},
+    {"pattern": "other", "key_values": "immersive featured hero — full-bleed video wallpaper, bottom gradient scrim carrying eyebrow/title/metadata stack, pagination pill '1/8' bottom-right; interface-disappears chrome"}
+  ],
+  "signature_moves": [
+    "Interface-disappears immersion: wallpaper art is the entire canvas; chrome distilled to one floating capsule + a gradient scrim (Apple TV app's cinematic featured view, applied to a gallery)",
+    "White-not-accent selection: neutral white selected segment reserves the accent budget for the art and the single blue system-integration moment",
+    "Focus-Mode binding as the product soul: the composited 'Gaming/Active' pill states the thesis — wallpaper follows macOS Focus Mode; the one bold accent moment IS the differentiator"
+  ],
+  "defects": [
+    "Native-tells deviation (not a taxonomy anti-pattern) — scope switcher in a bottom floating bar instead of the toolbar; systematic + genre-appropriate but lowers native fidelity",
+    "Selection not accent-bound — white capsule instead of accent-tinted inset fill (native selection/accent grammar); deliberate house rule, excluded from macOS canon",
+    "Contrast Dilution risk (estimated) — dim metadata and dark segmented track over bright/busy art may fall below text 4.5:1 / UI 3:1 in places; unverifiable on a scaled marketing render"
+  ],
+  "aesthetic": {
+    "adjectives": ["cinematic", "immersive", "warm-premium"],
+    "direction": "Immersive consumer-media gallery (content-art-forward dark) with a Neo-grotesque product surface; marketing layer adds an Editorial/literary serif-italic flourish over a terracotta-into-black gradient",
+    "peers": ["Apple TV app (immersive featured hero + tracked-caps eyebrow)", "Photos immersive view", "Unsplash/Raycast Wallpapers", "Wallpaper Wizard"],
+    "cluster_hint": "immersive-media-gallery",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability effect — cinematic hero art buys a strong ~50ms first-impression halo, apt for a personalization tool whose entire value is visual",
+    "Von Restorff / signal detection — on the dark canvas the single white selected segment and the blue Active switch are the only bright non-art elements; attention lands there",
+    "Hick's Law — binary Images/Videos toggle keeps the scope decision minimal",
+    "Serial-position (primacy) — one featured hero anchors the top of the browse",
+    "Fogg B=MAP (Ability) — marketing 'No sign-up required. Free to try' strips friction at the decision point",
+    "Jakob's Law (mild violation) — scope-in-a-bottom-bar defies the trained 'scope lives in the toolbar' expectation"
+  ],
+  "notes": "SINGLE marketing composite, no real screenshot: left half is brand evidence (wordmark, serif-italic headline, terracotta gradient, ghost 'Download for free' button); right-half window is genuine app UI but SCALED DOWN, so absolute pt metrics are estimated with wide ranges — trust the proportional/topological readings over the numbers. The 'Gaming/Active' pill is a COMPOSITED stylised system notification (light material over dark window), not a real app element — it illustrates the Focus-Mode hook. Lineage genuinely ambiguous (custom immersive chrome hides AppKit/SwiftUI-vs-Electron tells); recorded native/low, do not feed macOS canon on this evidence. App icon (icon.png) present but NOT digested here (Workflow A only) — for a later Workflow B pass: dark rounded-square ground, a rolled paper/scroll on the left revealing a warm pink->orange->yellow gradient panel (wallpaper roll motif), soft top-lit. Knowledge gaps for this app: no light mode, no settings/empty-state/onboarding surfaces, no real in-app screenshot to verify density, contrast, or true lineage."
+}

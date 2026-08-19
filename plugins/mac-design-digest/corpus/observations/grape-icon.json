@@ -1,0 +1,32 @@
+{
+  "slug": "grape", "name": "Grape", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 centred only by the emoji glyph's default bbox, not by Apple-grid safe-zone design; leaf/stem crown skews optical centre up-left",
+    "#4 survives 16px as 'grapes' via silhouette + colour-coding, but sphere separations smear into one purple mass and the brown stem vanishes",
+    "#7 silhouette survives grayscale but figure-ground is undefined (transparent bg) — at risk on dark wallpapers",
+    "#9 internally coherent as an emoji but off-model for every macOS app-icon era (no squircle / Big Sur plane / glass layers)",
+    "#11 a nameable object beats glyph-on-gradient, but the personality is borrowed from the OS emoji, not authored"
+  ],
+  "failures": [
+    "#1 mask discipline: free-floating transparent object, no squircle background — macOS won't tile it; floats shadow-only in the Dock, inconsistent with neighbours (check-1 non-negotiable)",
+    "#10 variant robustness: flat emoji PNG, not layered Icon Composer art — system can't synthesise Dark/Clear/Tinted; deep-purple lower grapes muddy on dark wallpaper"
+  ],
+  "palette": {
+    "background": "transparent (no field; corners alpha 0)",
+    "glyph": ["#2A1560", "#58388F", "#6A48A8", "#B38CE4", "#527541", "#A46127"],
+    "accent": "none (green leaf #527541 and brown stem #A46127 are minor object parts, not a designed accent)"
+  },
+  "composition": {
+    "background_type": "none-transparent",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "single top / top-left source; each grape a glossy 3D sphere with upper-left specular highlight and short soft contact shadows where spheres overlap — consistent Apple-emoji glossy render",
+  "layer_stack": ["transparent canvas", "green leaf + brown stem (upper crown)", "rear grape spheres", "mid grape spheres", "front/lower grape spheres + speculars"],
+  "devices": ["raw Apple Color Emoji grapes glyph (U+1F347) used as-is", "literal name pun (app 'Grape' -> the grapes emoji)", "glossy skeuomorphic 3D shaded spheres", "single leaf + curved stem crown"],
+  "adjectives": ["literal", "glossy", "template-default"],
+  "rhymes_hint": "emoji-drop-in / found-object icon family; classic skeuomorphic glossy-object register by rendering language; consumer-playful by palette (saturated purple spheres) only accidentally",
+  "notes": "Icon is the raw Apple grapes emoji, NOT a designed macOS app icon. Source only 100x100px transparent web render -> all hex (estimated), fine detail anti-aliased away. Strongest asset: instantly-nameable silhouette + coherent single light model (both Apple's, not the dev's). Fatal issues: no squircle/background (mask fail) and no layer separation for Liquid Glass variants. Brand incoherence: cover UI is dark-charcoal monochrome bold-sans with zero purple — icon shares no palette or mood with the product. For synthesis: this is the canonical 'shipped the OS emoji as the icon' anti-pattern; keep out of any icon canon promotion. Do NOT treat its palette/economy passes as authored craft."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "creavit-studio",
+  "name": "Creavit Studio",
+  "tagline": "Turn boring screen recordings into beautiful videos",
+  "category": "Video",
+  "pricing": null,
+  "website": "https://creavit.studio/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e17b17e2-bcf0-45d7-b387-409291239296/icon-1783882466346.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e17b17e2-bcf0-45d7-b387-409291239296/cover-1783882787827.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creavit-studio/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creavit-studio/cover.png",
+    "shots": []
+  }
+}

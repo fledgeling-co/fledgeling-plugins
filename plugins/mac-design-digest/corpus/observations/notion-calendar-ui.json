@@ -1,0 +1,78 @@
+{
+  "slug": "notion-calendar", "name": "Notion Calendar", "category": "Productivity",
+  "lineage": "web-electron", "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main window — week view (from marketing composite; only the app window is design evidence)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 6,
+      "failures": [
+        "#9 colored event-label text on same-hue pastel fill likely <4.5:1 (amber/yellow 'Santiago work trip!' worst)",
+        "#10 right-panel hairline dividers ~8-12% black, below the 3:1 UI-contrast floor",
+        "#14 no focused element shown in static render — focus appearance unverifiable",
+        "native#1 web-electron (custom hollow traffic lights + inline keycaps), not AppKit-native",
+        "native#3 today = red solid square, selection = neutral grey capsule — not the inset-rounded accent-fill grammar",
+        "native#6 functional accent hardcoded red, not bound to controlAccentColor",
+        "native#10 custom hollow-ring traffic-light dots (HIG-named non-native mistake)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#FFFFFF-#FDFDFC near-white", "quality": "estimated", "notes": "center grid + right panel"},
+    {"token": "bg/sidebar-rail", "value": "#F5F4F2 warm very-light grey", "quality": "estimated", "notes": "left mini-calendar panel"},
+    {"token": "accent/functional", "value": "red ~#E5484D, hardcoded", "quality": "estimated", "notes": "today badge + urgency; NOT the user system accent"},
+    {"token": "selection/week", "value": "neutral grey rounded capsule, no accent tint", "quality": "estimated", "notes": "current-week band in mini-cal"},
+    {"token": "today/marker", "value": "red rounded-square ~6px radius, white numeral", "quality": "estimated", "notes": "mini-cal cell + day-header date badge"},
+    {"token": "event/fill", "value": "pastel tint ~12-18% sat body + ~3px saturated left rail + hue-matched label", "quality": "estimated", "notes": "core chip recipe"},
+    {"token": "identity/hues", "value": "red, blue, purple-lavender, amber-yellow, salmon-coral", "quality": "estimated", "notes": "softer pastels than macOS 12-hue kit"},
+    {"token": "type/month-title", "value": "~20-22px, 'January' heavy black + '2024' lighter grey", "quality": "estimated", "notes": "two-weight de-emphasis in one string"},
+    {"token": "type/panel-heading", "value": "~13-14px Bold near-black", "quality": "estimated", "notes": "sentence case"},
+    {"token": "type/day-header", "value": "~12-13px Regular secondary grey", "quality": "estimated", "notes": "de-emphasized"},
+    {"token": "type/family", "value": "neutral grotesque, reads as system stack (SF Pro / -apple-system)", "quality": "assumed", "notes": "cannot confirm SF vs Inter at render scale"},
+    {"token": "radius/event-chip", "value": "~4px", "quality": "estimated", "notes": ""},
+    {"token": "radius/toolbar-button", "value": "~6-8px (Week pull-down, Today)", "quality": "estimated", "notes": ""},
+    {"token": "radius/keycap", "value": "~4-5px fill-grey chip", "quality": "estimated", "notes": "single-letter S / F"},
+    {"token": "divider/hairline", "value": "~8-12% black, very faint", "quality": "estimated", "notes": "right-panel section separators, below native 29%"},
+    {"token": "control/toolbar-h", "value": "~28-30px", "quality": "estimated", "notes": ""},
+    {"token": "chrome/traffic-lights", "value": "hollow grey outline rings (custom, non-native)", "quality": "estimated", "notes": "zoom-confirmed hollow, not system dots"},
+    {"token": "chrome/titlebar", "value": "single combined title+toolbar strip ~35-40px", "quality": "estimated", "notes": "no unified NSToolbar"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "custom title strip (not NSToolbar): avatar + 'Week' pull-down + 'Today' push button + prev/next chevrons; ~28-30px controls; no single glass group"},
+    {"pattern": "sidebar", "key_values": "left ~160-170px warm-grey rail = mini month calendar; today red square, current-week grey capsule, out-of-month dimmed, month nav chevrons"},
+    {"pattern": "inspector", "key_values": "right ~205-215px white panel: search field + 3 labeled sentence-case sections (No upcoming meeting / Scheduling snippet / Quick meeting) with inline S/F keycaps"},
+    {"pattern": "list", "key_values": "week grid with dual-timezone (EST/PST) gutter+header, all-day band, colored event chips; black now-line + dot"},
+    {"pattern": "other", "key_values": "event-chip state vocabulary: solid=confirmed, hatched left rail=tentative, dashed outline=proposed, strikethrough=declined, grey=holiday"}
+  ],
+  "signature_moves": [
+    "Status-as-edge-treatment event chips: one chip vocabulary encodes 5 meeting states (confirmed/tentative/proposed/declined/holiday) via fill, hatched rail, dashed outline, and strikethrough — no status icons needed",
+    "Keyboard-first keycap chips (S, F) inline beside actions — Superhuman-lineage command identity taught in place",
+    "Dual-timezone gutter (EST/PST side-by-side) promoted into the layout skeleton",
+    "Two-weight month title ('January' black + '2024' grey) — de-emphasis inside one string",
+    "Red-as-today hardcoded (calendar-page metaphor), deliberately not the system accent; selection stays neutral grey so red always means 'now'"
+  ],
+  "defects": [
+    "Custom traffic-light dots — hollow grey rings, HIG-named non-native mistake; native fix = real NSWindow dots that fill on focus",
+    "Accent not bound to system — today/urgency hardcoded red instead of controlAccentColor",
+    "Contrast Dilution (risk) — hue-matched saturated event-label text on same-hue pastel fill; amber/yellow likely <4.5:1",
+    "Faint dividers — ~8-12% black hairlines below the 3:1 UI-contrast floor and native ~29% separator"
+  ],
+  "aesthetic": {
+    "adjectives": ["minimal", "pastel-precise", "keyboard-forward"],
+    "direction": "Neo-grotesque product (Linear/Vercel family): near-white neutral ramp, hairline borders, bold sans headings, one restrained functional color (red), dense-calm grid with generous whitespace",
+    "peers": ["Superhuman", "Linear", "Cron", "Notion"],
+    "cluster_hint": "command-driven-web (productivity-web-crisp) — non-native cluster",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff — single red 'today' marker + one quiet-fill 'Share availability' CTA pop against an otherwise neutral field; red reserved so it always signals 'now'",
+    "Jakob's Law — conventional week-grid calendar users already know; innovation spent on the product (scheduling snippets, keycaps), not the layout",
+    "Hick's / performance load — inline keycap hints let power users bypass pointer travel, cutting decision+motor cost",
+    "Miller/Cowan chunking — right panel groups meeting actions into 3 labeled chunks",
+    "Aesthetic-usability — high polish buys first-contact trust for a scheduling tool"
+  ],
+  "notes": "Marketing composite, not a raw screenshot: only the bottom app window is design evidence; the wordmark, tagline, and floating cat/coffee/bike sticker-icons are brand evidence, kept separate. Window rendered downscaled (~0.85x of 1:1) and bottom-cropped, so ALL pixel values are estimated with wide ranges and absolute pt sizes are inferred. Single surface only — no settings/empty-state/dark-mode/onboarding evidence. An icon.webp exists in sources but was NOT digested (task scoped to Workflow A / UI only). Lineage web-electron => contrast evidence, excluded from macOS canon; record as tells+corrections. Font family could not be confirmed (SF Pro vs Inter) at this scale."
+}

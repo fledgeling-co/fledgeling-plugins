@@ -1,0 +1,16 @@
+{
+  "slug": "mole",
+  "name": "Mole",
+  "tagline": "A native Mac utility for cleaning, analyzing and optimizing.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://mole.fit/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ff571479-d541-4865-93de-1baa1d155b0a/icon-1783882478024.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ff571479-d541-4865-93de-1baa1d155b0a/cover-1783882478218.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mole/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mole/cover.png",
+    "shots": []
+  }
+}

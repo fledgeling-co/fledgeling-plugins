@@ -1,0 +1,2306 @@
+{
+  "atlas": {
+    "slug": "atlas",
+    "name": "Atlas",
+    "tagline": "Native, local, and blazing fast inspiration library for macOS",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://asekachov.com/atlasformac",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f2e4df94-067f-4a0b-b9fc-0ddd529c2ff9/icon-1783882469643.jpg",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f2e4df94-067f-4a0b-b9fc-0ddd529c2ff9/cover-1783882779750.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/atlas/icon.jpg",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/atlas/cover.png",
+      "shots": []
+    }
+  },
+  "1password": {
+    "slug": "1password",
+    "name": "1Password",
+    "tagline": "Password Manager",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://1password.com/downloads/mac",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c5a60050-6df2-4534-a50d-5deb87c9230c/icon-1783882461855.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c5a60050-6df2-4534-a50d-5deb87c9230c/cover-1783882781888.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/1password/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/1password/cover.jpg",
+      "shots": []
+    }
+  },
+  "alcove": {
+    "slug": "alcove",
+    "name": "Alcove",
+    "tagline": "An entirely new way to experience Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://tryalcove.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2da24184-2b05-49c8-960b-0dda830fe0ad/icon-1783882469303.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2da24184-2b05-49c8-960b-0dda830fe0ad/cover-1783882778520.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/alcove/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/alcove/cover.png",
+      "shots": []
+    }
+  },
+  "agentpeek": {
+    "slug": "agentpeek",
+    "name": "AgentPeek",
+    "tagline": "Your coding agents, in the Mac notch",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://agentpeek.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/508dcebf-d1c5-4ccb-b004-9c9de6ea9152/icon-1783882453759.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/508dcebf-d1c5-4ccb-b004-9c9de6ea9152/cover-1783882756876.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/agentpeek/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/agentpeek/cover.jpg",
+      "shots": []
+    }
+  },
+  "audio-notes-formerly-email-me": {
+    "slug": "audio-notes-formerly-email-me",
+    "name": "Audio Notes formerly Email Me",
+    "tagline": "The fastest way to capture a thought, by voice or text.",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://www.emailmeapp.net/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-1db9fe98-6dc9-4a06-8c66-2b1a0fdb4831.jpg",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-01966678-96b2-4e77-8f2c-d137f2b92d18.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/audio-notes-formerly-email-me/icon.jpg",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/audio-notes-formerly-email-me/cover.png",
+      "shots": []
+    }
+  },
+  "ajar": {
+    "slug": "ajar",
+    "name": "Ajar",
+    "tagline": "Lid Angle Sync & Keep Awake for AI Agents on Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://parcse.com/ajar",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-95f60bab-8ee8-4ddd-99f3-3c4c1a008188.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-e938bef8-0d31-438e-8b5e-92eb99d03ac6.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ajar/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ajar/cover.jpg",
+      "shots": []
+    }
+  },
+  "autoshelf": {
+    "slug": "autoshelf",
+    "name": "AutoShelf",
+    "tagline": "A macOS app that watches your folders and moves files where they belong. Set a rule once and never think about it again.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://useautoshelf.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a3b4e5b8-df8f-45ef-a7a7-6ae0932c692f/icon-1783882464512.avif",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a3b4e5b8-df8f-45ef-a7a7-6ae0932c692f/cover-1783882464633.avif",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/autoshelf/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/autoshelf/cover.png",
+      "shots": []
+    }
+  },
+  "backdrop": {
+    "slug": "backdrop",
+    "name": "Backdrop",
+    "tagline": "Stunning live wallpapers to your Mac desktop",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://cindori.com/backdrop",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ec5865b6-570d-471a-b8b2-978563024b86/icon-1783882459543.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ec5865b6-570d-471a-b8b2-978563024b86/cover-1783882778129.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/backdrop/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/backdrop/cover.png",
+      "shots": []
+    }
+  },
+  "cachesweep": {
+    "slug": "cachesweep",
+    "name": "Cachesweep",
+    "tagline": "The menu-bar disk cleaner that shows you what\u2019s eating your",
+    "category": "Utility",
+    "pricing": null,
+    "website": "http://cachesweep.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0f2ade28-7f95-42b5-800a-936f320d3424.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-d4834b4a-df0b-4615-9ccb-392bacdf4703.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cachesweep/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cachesweep/cover.jpg",
+      "shots": []
+    }
+  },
+  "bauhaus-clock": {
+    "slug": "bauhaus-clock",
+    "name": "Bauhaus Clock",
+    "tagline": "Premium clock screensaver for Mac and App for iPhone and iPad",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://bauhausclock.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e9b49df9-4ae3-4b33-af7e-409272a12702/icon-1783882462911.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e9b49df9-4ae3-4b33-af7e-409272a12702/cover-1783882793469.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bauhaus-clock/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bauhaus-clock/cover.png",
+      "shots": []
+    }
+  },
+  "caesura": {
+    "slug": "caesura",
+    "name": "Caesura",
+    "tagline": "Six healthy breaks for your Mac. Backed by science.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://caesura.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/64d2656d-91f8-4c81-91fe-400ddd7f0441/icon-1783882468009.png",
+    "cover": " https://caesura.rest/press/banner.png?w=1200&h=630&v=2",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/caesura/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/caesura/cover.png",
+      "shots": []
+    }
+  },
+  "bartender-6": {
+    "slug": "bartender-6",
+    "name": "Bartender 6",
+    "tagline": "Control over your menu bar items, what is displayed, and when.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://www.macbartender.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c2c868e-3712-4fdb-b6bb-e05cfffb2b44/icon-1783882453155.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c2c868e-3712-4fdb-b6bb-e05cfffb2b44/cover-1783882756028.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bartender-6/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/bartender-6/cover.png",
+      "shots": []
+    }
+  },
+  "ayron-time-tracker": {
+    "slug": "ayron-time-tracker",
+    "name": "Ayron Time Tracker",
+    "tagline": "Turn tracked time into reports, insights and invoices",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://getayron.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ba1e87dd-a313-45e4-b5e8-32344cff3358.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c6b021f6-bf6f-43d1-99c9-c8f6c0d1b29d.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ayron-time-tracker/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/ayron-time-tracker/cover.png",
+      "shots": []
+    }
+  },
+  "canary-mail": {
+    "slug": "canary-mail",
+    "name": "Canary Mail",
+    "tagline": "Best Email App With AI & Calendar",
+    "category": "Productivity",
+    "pricing": "freemium",
+    "website": "https://canarymail.io/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ee18f351-e215-4529-b5c9-3c7ba6c707fe.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-380744cd-95a3-4724-b8ff-b4b42e0a2e19.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/canary-mail/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/canary-mail/cover.png",
+      "shots": []
+    }
+  },
+  "claude-notch-usage-companion": {
+    "slug": "claude-notch-usage-companion",
+    "name": "Claude Notch Usage Companion",
+    "tagline": "Your live Claude usage, right in your Mac's notch.",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://github.com/stevemcqueenz/claude-notch-tracker",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-996161bf-a6c7-4daa-bba9-7ee3e8206baa.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-f845bea3-4051-453b-9d97-6e709ea7cede.gif",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/claude-notch-usage-companion/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/claude-notch-usage-companion/cover.gif",
+      "shots": []
+    }
+  },
+  "cleanmymac": {
+    "slug": "cleanmymac",
+    "name": "CleanMyMac",
+    "tagline": "The best Mac cleaner & maintenance software",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://macpaw.com/cleanmymac",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/61c9d7fc-778f-4e8e-9008-3751a6452c43/icon-1783882454824.avif",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/61c9d7fc-778f-4e8e-9008-3751a6452c43/cover-1783882777454.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanmymac/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanmymac/cover.jpg",
+      "shots": []
+    }
+  },
+  "code-meter": {
+    "slug": "code-meter",
+    "name": "Code Meter",
+    "tagline": "AI quota usage monitor for your subscriptions",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://codemeter.dev/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ba8ebf3-6de8-49dd-b7ea-aafa2c68ee95.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-305790fa-c5f9-47a2-9d1b-45bb9ea93588.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/code-meter/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/code-meter/cover.png",
+      "shots": []
+    }
+  },
+  "cleanshot-x": {
+    "slug": "cleanshot-x",
+    "name": "CleanShot X",
+    "tagline": "Capture your Mac\u2019s screen like a pro.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://cleanshot.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/55b64b05-a54b-42b4-85c8-4c9de6e66176/icon-1783882457580.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/55b64b05-a54b-42b4-85c8-4c9de6e66176/cover-1783882755680.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanshot-x/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cleanshot-x/cover.png",
+      "shots": []
+    }
+  },
+  "codeshot": {
+    "slug": "codeshot",
+    "name": "Codeshot",
+    "tagline": "Turn your code into a snapshot.",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://codeshotapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/09aeccc1-6f6b-449e-a3ca-9cbbde61e4f6/icon-1783882467842.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/09aeccc1-6f6b-449e-a3ca-9cbbde61e4f6/cover-1783882779227.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codeshot/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codeshot/cover.png",
+      "shots": []
+    }
+  },
+  "codex": {
+    "slug": "codex",
+    "name": "Codex",
+    "tagline": "A coding agent that helps you build and ship with AI",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://openai.com/codex/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a59ef2d6-842d-4c09-bbdd-1d02dc174f33/icon-1783882459867.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a59ef2d6-842d-4c09-bbdd-1d02dc174f33/cover-1783882770265.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codex/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/codex/cover.png",
+      "shots": []
+    }
+  },
+  "compresto": {
+    "slug": "compresto",
+    "name": "Compresto",
+    "tagline": "Compress videos, images, GIFs, and PDFs without noticeable q",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://compresto.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f86b8771-7cb8-461e-9ebb-e6fb84d677cf/icon-1783882476799.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f86b8771-7cb8-461e-9ebb-e6fb84d677cf/cover-1783882794456.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compresto/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compresto/cover.png",
+      "shots": []
+    }
+  },
+  "compressor": {
+    "slug": "compressor",
+    "name": "Compressor",
+    "tagline": "Turn everyday images into lightweight WebP files, right on y",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://compressor.sonnylab.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/60928b1c-9ed6-4686-bc51-45fd67e3089d/icon-8a39b9e1-3700-405a-83fe-7e24fc03b35f.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-6958aa02-3166-42b7-adff-724f7d3d2526.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compressor/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/compressor/cover.png",
+      "shots": []
+    }
+  },
+  "cooldock": {
+    "slug": "cooldock",
+    "name": "Cooldock",
+    "tagline": "Second Dock to your Mac with live widgets",
+    "category": "Productivity",
+    "pricing": "paid",
+    "website": "http://dock.cool/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/icon-1783882472369.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/cover-1783882788365.jpg",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-e71c3fe2-468e-452a-b1d2-758822ae9cc4.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-47d58420-3c8c-45cd-a5c4-b8c99dd0a8d0.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f02d6615-a585-4eb9-873a-d8bbf92d649f/gallery-85a2335f-6abd-478d-bcad-00a1e41840a1.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/cover.jpg",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-1.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cooldock/shot-3.png"
+      ]
+    }
+  },
+  "corner-time": {
+    "slug": "corner-time",
+    "name": "Corner Time",
+    "tagline": "Native clock for fullscreen and hidden menubar",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://cornertime.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/57bcfaa2-de2d-499d-aac4-eee839c1e43c/icon-1783882476413.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/57bcfaa2-de2d-499d-aac4-eee839c1e43c/cover-1783882476566.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/corner-time/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/corner-time/cover.png",
+      "shots": []
+    }
+  },
+  "coreviz-studio": {
+    "slug": "coreviz-studio",
+    "name": "Coreviz Studio",
+    "tagline": "The visual workspace that understands your photos and videos",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://coreviz.io/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4386a682-3443-4efe-a84d-e2617c65ee36/icon-1783882471670.png",
+    "cover": "https://coreviz.io/api/og?h=2026-04-21",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/coreviz-studio/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/coreviz-studio/cover.png",
+      "shots": []
+    }
+  },
+  "craft": {
+    "slug": "craft",
+    "name": "Craft",
+    "tagline": "Your space for notes, tasks, and big ideas",
+    "category": "Writing",
+    "pricing": null,
+    "website": "https://www.craft.do/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9d7b945-6977-4895-b0b2-8c9f4e557ba1/icon-1783882454489.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9d7b945-6977-4895-b0b2-8c9f4e557ba1/cover-1783882755410.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/craft/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/craft/cover.png",
+      "shots": []
+    }
+  },
+  "creavit-studio": {
+    "slug": "creavit-studio",
+    "name": "Creavit Studio",
+    "tagline": "Turn boring screen recordings into beautiful videos",
+    "category": "Video",
+    "pricing": null,
+    "website": "https://creavit.studio/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e17b17e2-bcf0-45d7-b387-409291239296/icon-1783882466346.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/e17b17e2-bcf0-45d7-b387-409291239296/cover-1783882787827.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creavit-studio/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creavit-studio/cover.png",
+      "shots": []
+    }
+  },
+  "creos": {
+    "slug": "creos",
+    "name": "CREOS",
+    "tagline": "A second brain for creators  - saves in, content out",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://trycreos.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-1b3aeaf1-4cfc-45e6-b648-4c865bc28492.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-beae349b-ef31-413a-88b5-7136f1f5e17e.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creos/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/creos/cover.png",
+      "shots": []
+    }
+  },
+  "cursor": {
+    "slug": "cursor",
+    "name": "Cursor",
+    "tagline": "AI coding agent",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://cursor.com/referral?code=9ABQ63CZBVGL",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d3841819-e593-485a-aa33-8a999952673c/icon-1783882457172.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d3841819-e593-485a-aa33-8a999952673c/cover-1783882758510.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cursor/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/cursor/cover.png",
+      "shots": []
+    }
+  },
+  "deskminder": {
+    "slug": "deskminder",
+    "name": "DeskMinder",
+    "tagline": "Create quick desktop reminders with just one click.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://deskminder.appps.od.ua/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d6106b2e-d412-4a61-9654-175d45e5babe/icon-1783882458375.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d6106b2e-d412-4a61-9654-175d45e5babe/cover-1783882791694.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/deskminder/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/deskminder/cover.jpg",
+      "shots": []
+    }
+  },
+  "dia": {
+    "slug": "dia",
+    "name": "Dia",
+    "tagline": "Dia is the browser for your best work.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.diabrowser.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/80176ee7-84a2-47d3-bc64-d32451f00241/icon-1783882462180.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/80176ee7-84a2-47d3-bc64-d32451f00241/cover-1783882769739.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dia/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dia/cover.png",
+      "shots": []
+    }
+  },
+  "drivemosaic": {
+    "slug": "drivemosaic",
+    "name": "DriveMosaic",
+    "tagline": "Treemap disk analyzer for macOS. Spot space hogs instantly.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://drivemosaic.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ecd6891-2ef7-42cb-9e35-10dc5b4df065.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-25c97edd-13a1-47b3-a52c-633a1ee48d66.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/drivemosaic/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/drivemosaic/cover.png",
+      "shots": []
+    }
+  },
+  "dropzone": {
+    "slug": "dropzone",
+    "name": "Dropzone",
+    "tagline": "Open, transfer, and install files by drag-and-drop.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://aptonic.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5c8aa5f-9d02-4f46-b58e-b96d7bf4d152/icon-1783882474310.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5c8aa5f-9d02-4f46-b58e-b96d7bf4d152/cover-1783882474416.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropzone/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropzone/cover.webp",
+      "shots": []
+    }
+  },
+  "dropadoo": {
+    "slug": "dropadoo",
+    "name": "dropadoo",
+    "tagline": "send files via drop",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://apps.apple.com/us/app/dropadoo-send-files-via-drop/id6758711616?mt=12",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-bf83cc09-ba5e-45b0-87b2-12ca82ff3b6c.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c70aaacf-a0dd-4e21-99ad-44881d00505b.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropadoo/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dropadoo/cover.png",
+      "shots": []
+    }
+  },
+  "droppy": {
+    "slug": "droppy",
+    "name": "Droppy",
+    "tagline": "Droppy turns your Mac notch into a powerful productivity hub for files, clipboard, and extensions.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://getdroppy.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d629df66-05c8-48d7-be3f-5f91fe3aa748/icon-1783882463974.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d629df66-05c8-48d7-be3f-5f91fe3aa748/cover-1783882464142.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/droppy/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/droppy/cover.png",
+      "shots": []
+    }
+  },
+  "dynamiclake": {
+    "slug": "dynamiclake",
+    "name": "DynamicLake",
+    "tagline": "Dynamic Island Mac",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.dynamiclake.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/92a7ab0f-c192-4391-a767-007075c662ab/icon-1783882455023.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/92a7ab0f-c192-4391-a767-007075c662ab/cover-1783882757353.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dynamiclake/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/dynamiclake/cover.png",
+      "shots": []
+    }
+  },
+  "fantastical": {
+    "slug": "fantastical",
+    "name": "Fantastical",
+    "tagline": "Calendar app you won't be able to live without",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://flexibits.com/fantastical",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4ad4adc5-965f-41cf-9345-37aa26dad600/icon-1783882462026.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4ad4adc5-965f-41cf-9345-37aa26dad600/cover-1783882769451.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fantastical/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fantastical/cover.png",
+      "shots": []
+    }
+  },
+  "fello-ai": {
+    "slug": "fello-ai",
+    "name": "Fello AI",
+    "tagline": "Chat Bot Assistant App",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://apps.apple.com/app/helloai-ai-chatbot-assistant/id6447705369",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-2172ab52-802b-4f13-97d3-63c8c61dd6e9.jpg",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-59067347-2e48-4b04-88e8-874c2b740a71.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fello-ai/icon.jpg",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/fello-ai/cover.png",
+      "shots": []
+    }
+  },
+  "finbar": {
+    "slug": "finbar",
+    "name": "Finbar",
+    "tagline": "Menu bar search with superpowers.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.finbarapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7298df49-8268-4bc8-9202-09766757779c.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-93ebe3a3-69c1-41ce-8668-2dc5ff63da7f.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/finbar/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/finbar/cover.png",
+      "shots": []
+    }
+  },
+  "forma": {
+    "slug": "forma",
+    "name": "Forma",
+    "tagline": "The best native whiteboard for Mac",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.useforma.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ab8756ef-1b27-490e-8110-ae89f5a53742.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-aee05e6b-930f-4471-9455-8e954742c2c6.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/forma/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/forma/cover.png",
+      "shots": []
+    }
+  },
+  "folder-hub": {
+    "slug": "folder-hub",
+    "name": "Folder Hub",
+    "tagline": "Show File Browser Right at Your Fingertips.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://www.finderhub.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ed86f93b-8bbd-4caf-bd86-3341d692e4ea/icon-1783882479958.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ed86f93b-8bbd-4caf-bd86-3341d692e4ea/cover-1783882480234.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/folder-hub/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/folder-hub/cover.webp",
+      "shots": []
+    }
+  },
+  "foldervitrine": {
+    "slug": "foldervitrine",
+    "name": "FolderVitrine",
+    "tagline": "Beautiful folder Quick Look for Mac",
+    "category": "Utility",
+    "pricing": "paid",
+    "website": "https://apps.apple.com/us/app/foldervitrine/id6781143301?mt=12",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0328fb7b-1bcc-4d6f-bdb9-2ee46aeb491b.jpg",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-e8812067-1466-49e4-a8e3-7753ff59d9b6.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/foldervitrine/icon.jpg",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/foldervitrine/cover.webp",
+      "shots": []
+    }
+  },
+  "gatheros": {
+    "slug": "gatheros",
+    "name": "GatherOS",
+    "tagline": "The Mac app for design inspiration",
+    "category": "Design",
+    "pricing": null,
+    "website": "https://www.gatheros.co/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2a4e5c0d-e518-42fd-b126-f5507419370f/icon-1783882456693.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2a4e5c0d-e518-42fd-b126-f5507419370f/cover-1783882757964.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/gatheros/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/gatheros/cover.png",
+      "shots": []
+    }
+  },
+  "framer": {
+    "slug": "framer",
+    "name": "Framer",
+    "tagline": "AI website builder for professional sites",
+    "category": "Design",
+    "pricing": null,
+    "website": "https://framer.link/solt",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/16cb6450-e172-42b5-b03f-b739ec31b1f2/icon-1783882459710.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/16cb6450-e172-42b5-b03f-b739ec31b1f2/cover-1783882760931.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/framer/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/framer/cover.png",
+      "shots": []
+    }
+  },
+  "glaze": {
+    "slug": "glaze",
+    "name": "Glaze",
+    "tagline": "Create software for you and your team.",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://www.glaze.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5bfa73c-2145-4feb-b383-361f969bda92/icon-1783882466694.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f5bfa73c-2145-4feb-b383-361f969bda92/cover-1783882777148.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glaze/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glaze/cover.jpg",
+      "shots": []
+    }
+  },
+  "glance": {
+    "slug": "glance",
+    "name": "Glance",
+    "tagline": "Native markdown editor for macOS",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://glance.md/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ef088e32-c5e4-4301-87ad-541d74956df1.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-95c96d05-d0a0-468b-9dcc-985c651d8ec0.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glance/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glance/cover.png",
+      "shots": []
+    }
+  },
+  "glyph": {
+    "slug": "glyph",
+    "name": "Glyph",
+    "tagline": "Beautifully Designed markdown notes app for Mac",
+    "category": "Writing",
+    "pricing": null,
+    "website": "https://glyphformac.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2474a19-f0f2-44a3-b30b-f22faa30bf4d/icon-1783882468636.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2474a19-f0f2-44a3-b30b-f22faa30bf4d/cover-1783882468809.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glyph/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glyph/cover.png",
+      "shots": []
+    }
+  },
+  "hejour": {
+    "slug": "hejour",
+    "name": "Hejour",
+    "tagline": "A calm macOS notebook where every day is a page",
+    "category": "Writing",
+    "pricing": null,
+    "website": "https://hejour.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/89f09633-8757-421a-9c10-5bdbb76e685d/icon-1783882469802.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/89f09633-8757-421a-9c10-5bdbb76e685d/cover-1783882781460.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hejour/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hejour/cover.png",
+      "shots": []
+    }
+  },
+  "heatscope-ai-ux-attention-heatmaps": {
+    "slug": "heatscope-ai-ux-attention-heatmaps",
+    "name": "HeatScope AI UX Attention Heatmaps",
+    "tagline": "Analyze user attention with AI-powered heatmaps and optimize UX decisions faster.",
+    "category": "Design",
+    "pricing": null,
+    "website": "http://heatscope.space/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d2084414-140d-4e9c-977a-8904a1b154aa/icon-1783882472193.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d2084414-140d-4e9c-977a-8904a1b154aa/cover-1783882785788.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/heatscope-ai-ux-attention-heatmaps/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/heatscope-ai-ux-attention-heatmaps/cover.png",
+      "shots": []
+    }
+  },
+  "grape": {
+    "slug": "grape",
+    "name": "Grape",
+    "tagline": "The AI note taking app that thinks with you",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://grape.cool/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/0d607476-232a-4881-a923-1f6863843bd2/icon-1783882466533.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/0d607476-232a-4881-a923-1f6863843bd2/cover-1783882776759.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/grape/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/grape/cover.jpg",
+      "shots": []
+    }
+  },
+  "hilium": {
+    "slug": "hilium",
+    "name": "Hilium",
+    "tagline": "Control your Mac wirelessly using your iPhone",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://hilium.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c50189e9-60e9-43cf-acf4-85fa5427e4d5/icon-1783882480823.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/c50189e9-60e9-43cf-acf4-85fa5427e4d5/cover-1783882794170.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hilium/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hilium/cover.jpg",
+      "shots": []
+    }
+  },
+  "hoolo": {
+    "slug": "hoolo",
+    "name": "Hoolo",
+    "tagline": "Keep your Mac workspace quiet, clean, and reversible with local-first file organization.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://hoolo.cc/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2cd6c6fc-9b24-423b-be66-38e4506c164f/icon-1783882471821.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2cd6c6fc-9b24-423b-be66-38e4506c164f/cover-fc06e648-a7e7-4c71-92f4-9c1a17137e9f.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hoolo/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hoolo/cover.webp",
+      "shots": []
+    }
+  },
+  "hipixel": {
+    "slug": "hipixel",
+    "name": "HiPixel",
+    "tagline": "Native AI image upscaling for macOS, free and open source.",
+    "category": "Photography",
+    "pricing": null,
+    "website": "https://hipixel.5km.tech/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/092c42da-f8b6-4602-916a-1af5ec1fb795/icon-1783882470618.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/092c42da-f8b6-4602-916a-1af5ec1fb795/cover-1783882783176.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hipixel/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hipixel/cover.jpg",
+      "shots": []
+    }
+  },
+  "keeby": {
+    "slug": "keeby",
+    "name": "Keeby",
+    "tagline": "Mechanical keyboard sounds for Mac.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://getkeeby.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c833156-1f4e-457e-8090-c208c186551a/icon-1783882459374.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/4c833156-1f4e-457e-8090-c208c186551a/cover-1783882760721.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/keeby/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/keeby/cover.png",
+      "shots": []
+    }
+  },
+  "healthynotch": {
+    "slug": "healthynotch",
+    "name": "HealthyNotch",
+    "tagline": "Work shouldn't cost you your health",
+    "category": "Productivity",
+    "pricing": "paid",
+    "website": "https://healthynotch.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-806dd665-7798-43e4-b5c0-28e5b4318b9a.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-27317da5-f6a7-4bf0-8cf3-1857ad14b613.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-98062002-4bc1-4650-b9a5-fc24513ea620.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-85333136-93cc-4f3a-ba9a-bf2ba5560241.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-18056727-b721-4690-b5b6-f5aa163d849b.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-c38b69ee-d604-4371-8dc4-8f121c52b8ac.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/healthynotch/shot-4.png"
+      ]
+    }
+  },
+  "klack": {
+    "slug": "klack",
+    "name": "Klack",
+    "tagline": "Satisfying sound with every keystroke",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://tryklack.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7c89d348-7a9e-4ade-aa4d-0b79b1ca26ec/icon-1783882467654.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7c89d348-7a9e-4ade-aa4d-0b79b1ca26ec/cover-1783882778806.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/klack/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/klack/cover.png",
+      "shots": []
+    }
+  },
+  "leafy-vocabulary-builder-for-mac": {
+    "slug": "leafy-vocabulary-builder-for-mac",
+    "name": "Leafy: Vocabulary Builder for Mac",
+    "tagline": "Press \u2325A to lookup any word on mac, auto save in vocab",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://leafyapp.uk/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/81d20f29-c9d6-4541-901d-835b9bc6b8ca/icon-1783882478709.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/81d20f29-c9d6-4541-901d-835b9bc6b8ca/cover-1783882790399.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/leafy-vocabulary-builder-for-mac/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/leafy-vocabulary-builder-for-mac/cover.png",
+      "shots": []
+    }
+  },
+  "inkline-text-editor": {
+    "slug": "inkline-text-editor",
+    "name": "Inkline Text Editor",
+    "tagline": "Open huge files in milliseconds and format them fast.",
+    "category": "Dev",
+    "pricing": "paid",
+    "website": "https://apps.apple.com/se/app/inkline-text-editor/id6764860305?mt=12",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5236ec7b-7325-473f-b95b-2187dfd27495.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-71a55c14-f565-4d10-bb99-b4c3bb9f94a0.jpg",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-eef95c85-c9b5-47f3-bf5e-f65b9b6e88c4.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6348ba70-6d9e-4b93-8fa7-d983a76980ac.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-393d3334-4e9b-40c0-b61f-a94562afadba.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-17d90698-dd09-42ea-8276-2156685b2437.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-9a8d2f9b-462b-45cb-8d2e-674fb6c1d001.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-4f5863f2-9e73-4b89-af37-94bb3925e7c4.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-985dcaba-3282-4020-bda5-dcae4c95533e.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-ee430502-1eef-4018-a451-85e70caae301.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-d81bf07a-33a6-4246-9fc3-163570b1aa2e.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-961e483a-9331-4888-a7ac-29fd29dcf351.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/cover.jpg",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-5.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/inkline-text-editor/shot-6.png"
+      ]
+    }
+  },
+  "hora-calendar": {
+    "slug": "hora-calendar",
+    "name": "hora Calendar",
+    "tagline": "The Mac Calendar Google never built.",
+    "category": "Productivity",
+    "pricing": "paid",
+    "website": "https://horacal.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-b12fcf0b-2b95-4d25-ae17-6ebca75c8f80.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-2bf6d280-d0b0-45e2-8a7d-c5fb68b720cc.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-ad114cc7-5464-4c95-922d-6fc52dc52e0e.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e5ca7717-ce2f-4186-8881-0ba433c448fc.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a6bbd2fe-c291-428f-a577-2363b10950d4.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-3cbe7c8d-aa5d-40d2-bbfb-45c2eec547af.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-5698dad7-456f-4f24-ab31-2d6ebb5213b5.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-71a7d097-9768-4d6d-b022-01d2b19e23bb.jpeg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-014187b4-30d1-46bf-aa6b-e1d4d6bfa2ec.jpeg"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-1.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-2.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-3.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-4.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-5.jpeg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/hora-calendar/shot-6.jpeg"
+      ]
+    }
+  },
+  "liqoria": {
+    "slug": "liqoria",
+    "name": "Liqoria",
+    "tagline": "Liqoria - Mac Music Player \u2022 Apple Music \u2022 Spotify \u2022 YouTube and more",
+    "category": "Lifestyle",
+    "pricing": null,
+    "website": "https://www.liqoria.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/927168c1-9801-49ad-a323-93ced8433970/icon-1783882477546.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/927168c1-9801-49ad-a323-93ced8433970/cover-1783882789081.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/liqoria/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/liqoria/cover.png",
+      "shots": []
+    }
+  },
+  "lookaway": {
+    "slug": "lookaway",
+    "name": "LookAway",
+    "tagline": "The Mac app your body thanks you for",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://lookaway.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2269ad71-e4ab-4678-afaf-7c841f98aadf/icon-1783882469465.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2269ad71-e4ab-4678-afaf-7c841f98aadf/cover-1783882779509.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/lookaway/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/lookaway/cover.png",
+      "shots": []
+    }
+  },
+  "letterboxx": {
+    "slug": "letterboxx",
+    "name": "Letterboxx",
+    "tagline": "A dedicated reader for email newsletters.",
+    "category": "Productivity",
+    "pricing": "subscription",
+    "website": "https://letterboxx.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-d0d747aa-8ce5-4705-ad95-9eb9e8ca878e.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/23a8ecc2-83b1-4540-96d3-b86b13b59a78/cover-6eebd126-7fb9-45ef-836e-d1b55f6a88df.webp",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-0592a563-9ea5-48d1-b521-3656785e555e.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-eb7b79de-ef7c-46a4-bff9-c9a07ebfa46b.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-8b8b88c6-73f6-40c4-9973-771294c7e741.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-01141231-e987-4173-b713-e6f220ccab6f.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6dd1bd95-1779-4d1e-b601-2b69faf101fe.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-26f7114b-2459-415b-afb1-e666353f30bb.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b5ff49d2-4928-4ee6-a69d-7bc7c79e5a30.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-30f56b85-e433-434a-980d-cd8698459bdf.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-94525fa0-bd44-4b3a-90c5-32bad4a09b61.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-9735b2fd-4321-4374-a1c1-f9bd7d6bfd35.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/cover.webp",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-5.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-6.png"
+      ]
+    }
+  },
+  "looq-preview-files-for-mac": {
+    "slug": "looq-preview-files-for-mac",
+    "name": "Looq: Preview Files for Mac",
+    "tagline": "A better look at your files.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://parcse.com/looq",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/261af21b-b3a4-4f49-ad8c-5958b4ad2afd/icon-1783882474588.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/261af21b-b3a4-4f49-ad8c-5958b4ad2afd/cover-1783882474833.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/looq-preview-files-for-mac/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/looq-preview-files-for-mac/cover.jpg",
+      "shots": []
+    }
+  },
+  "mac-4-breakfast": {
+    "slug": "mac-4-breakfast",
+    "name": "Mac 4 Breakfast",
+    "tagline": "Mac 4 Breakfast \u2014 your one battery app that does it all. Health, Smart Alerts, a sleep-drain detective, open-app energy, every Apple device, and insights no other app has. Native, private, one-time price.",
+    "category": "Productivity",
+    "pricing": "freemium",
+    "website": "https://mac4breakfast.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-88153931-ce73-4676-a9c6-bcac52e3c9f2.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-652f39e9-d6f8-4c1e-aa9a-6b44c739ec72.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mac-4-breakfast/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mac-4-breakfast/cover.png",
+      "shots": []
+    }
+  },
+  "macrest": {
+    "slug": "macrest",
+    "name": "MacRest",
+    "tagline": "Let your Mac actually sleep.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://macrest.appverge.net/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-2dc7f4e7-a1c8-44cf-8cc4-003f9fecbfd5.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-bef28143-d1cc-476d-bf9e-54ea5e66f98e.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macrest/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macrest/cover.webp",
+      "shots": []
+    }
+  },
+  "macwall": {
+    "slug": "macwall",
+    "name": "MacWall",
+    "tagline": "MacWall is the native macOS app for cinematic live wallpaper",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://macwall.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a406b963-4971-49ce-bd44-d0680bf29af9/icon-1783882477867.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a406b963-4971-49ce-bd44-d0680bf29af9/cover-6eef99d8-6ffc-4315-aea9-13d064eca287.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macwall/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macwall/cover.jpg",
+      "shots": []
+    }
+  },
+  "maestri": {
+    "slug": "maestri",
+    "name": "Maestri",
+    "tagline": "Orchestration canvas for AI agents",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://www.themaestri.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/cf84da44-ebc9-499b-8266-1830873830c1/icon-1783882468177.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/cf84da44-ebc9-499b-8266-1830873830c1/cover-1783882468376.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/maestri/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/maestri/cover.png",
+      "shots": []
+    }
+  },
+  "macusb": {
+    "slug": "macusb",
+    "name": "macUSB",
+    "tagline": "A clean, guided way to create bootable USB media on Mac.",
+    "category": "Utility",
+    "pricing": "open_source",
+    "website": "https://macusb.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-fb82adf3-b2fe-4b22-bb9f-2fa14ff223ec.jpeg",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-89eb6e7d-9636-469a-a712-8e02788abd7a.jpeg",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6b644f6a-5f4e-417b-a1f9-b80e021c4d4d.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-03ee8890-0b3c-4b98-8db9-00b8be8c9e2b.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fb635826-2b0c-4e2c-8696-1d2e637e6d0f.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-473ce968-825b-4524-8a98-39f31c76db09.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-53fec88c-90e9-4be4-a420-6ad3ac3e1e4c.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-c0ef00f2-1070-4d34-99c6-d8f34cda51d7.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fdd882b6-eef5-4db7-9386-87dc3e38941b.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/icon.jpeg",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/cover.jpeg",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-5.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macusb/shot-6.png"
+      ]
+    }
+  },
+  "mailtwin": {
+    "slug": "mailtwin",
+    "name": "MailTwin",
+    "tagline": "Write the answer, not the email\u2014in Apple Mail.",
+    "category": "Productivity",
+    "pricing": "paid",
+    "website": "https://www.mailtwin.ai/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-afce92bd-43e8-4463-9c92-518ad0cd72b5.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-d6118bc3-5310-40f3-8e65-b369df12ae08.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mailtwin/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mailtwin/cover.png",
+      "shots": []
+    }
+  },
+  "minarah": {
+    "slug": "minarah",
+    "name": "Minarah",
+    "tagline": "Stay focused and get notified for every prayer ",
+    "category": "Lifestyle",
+    "pricing": null,
+    "website": "https://minarah.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-de3e41c8-8fe3-4fcf-9149-4d6e7da6b9e7.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-a2fc7535-9e3f-4a14-8479-f71e57b32b21.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/minarah/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/minarah/cover.png",
+      "shots": []
+    }
+  },
+  "mole": {
+    "slug": "mole",
+    "name": "Mole",
+    "tagline": "A native Mac utility for cleaning, analyzing and optimizing.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://mole.fit/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ff571479-d541-4865-93de-1baa1d155b0a/icon-1783882478024.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ff571479-d541-4865-93de-1baa1d155b0a/cover-1783882478218.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mole/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mole/cover.png",
+      "shots": []
+    }
+  },
+  "mongon": {
+    "slug": "mongon",
+    "name": "Enes Gen\u00e7",
+    "tagline": null,
+    "category": null,
+    "pricing": null,
+    "website": null,
+    "icon": null,
+    "cover": null,
+    "gallery": [],
+    "files": {
+      "shots": []
+    }
+  },
+  "mux": {
+    "slug": "mux",
+    "name": "Mux",
+    "tagline": "Automatic priority-based network switching for your Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://parcse.com/mux",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-644f8dce-a7c8-4bd8-94d2-8fca1e9dca4b.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-d1d7ca9a-0e60-43e7-9171-6137df1f4802.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mux/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mux/cover.jpg",
+      "shots": []
+    }
+  },
+  "mymind": {
+    "slug": "mymind",
+    "name": "mymind",
+    "tagline": "A private place to save your notes, images, quotes and highlights. ",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://mymind.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f3605b1a-5e10-4475-8169-8e008b95347b/icon-1783882454295.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f3605b1a-5e10-4475-8169-8e008b95347b/cover-1783882791144.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mymind/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mymind/cover.jpg",
+      "shots": []
+    }
+  },
+  "noticky": {
+    "slug": "noticky",
+    "name": "Noticky",
+    "tagline": "Sticky notes for Mac that stay always on top, even in fullscreen.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://noticky.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/efb66b2b-5aee-4f7a-a4bd-9e51b134f10f/icon-1783882465153.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/efb66b2b-5aee-4f7a-a4bd-9e51b134f10f/cover-1783882775375.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/noticky/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/noticky/cover.png",
+      "shots": []
+    }
+  },
+  "notion": {
+    "slug": "notion",
+    "name": "Notion",
+    "tagline": "The AI workspace that works for you.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "http://notion.so/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6cd6eeab-3761-483b-9c08-4d307fc23168/icon-1783882455207.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6cd6eeab-3761-483b-9c08-4d307fc23168/cover-1783882757599.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion/cover.jpg",
+      "shots": []
+    }
+  },
+  "mural": {
+    "slug": "mural",
+    "name": "Mural",
+    "tagline": "Mural is a creative canvas for your Mac desktop.",
+    "category": "Utility",
+    "pricing": "paid",
+    "website": "https://muralflow.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-fa999e71-4d03-462c-9db5-a4b2f6e5a706.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-f0752d73-2760-44ff-8172-b16e937146f5.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-1d937679-2176-4bd5-9449-8c17cc97a3b0.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2be89053-48d2-4377-a14a-4408b96de653.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a631139d-bd1c-4c55-98e1-59b1fd006ada.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-7f0e54e3-4eb9-49bf-b9a6-e186910fb3dd.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-019fb501-86f0-401e-9ed8-6ced89ba67cc.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-86a957c8-3d81-41fb-b933-d10e751de987.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-a90ac3bb-8429-4e51-99d1-d564af0aff7a.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-f72fe292-30a8-4482-842b-bf9919dec2f9.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-85c6d4fa-60b8-4a25-9032-4e79c334272b.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b46d7bd9-3019-4798-8016-f7237e1db926.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-5.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mural/shot-6.png"
+      ]
+    }
+  },
+  "notion-calendar": {
+    "slug": "notion-calendar",
+    "name": "Notion Calendar",
+    "tagline": "Beautifully designed and fully integrated with Notion and Google Calendar.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.notion.com/product/calendar",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/087a43b1-c7b0-4185-859d-7d1ef63cb25d/icon-1783882455368.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/087a43b1-c7b0-4185-859d-7d1ef63cb25d/cover-1783882791349.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion-calendar/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion-calendar/cover.png",
+      "shots": []
+    }
+  },
+  "nox": {
+    "slug": "nox",
+    "name": "Nox",
+    "tagline": "Adjustable display filters for light-sensitive Mac users.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://getnoxapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-94ef6eb8-9202-43c1-805e-8d04b9ffbb6a.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-1e35e9de-3f8c-42be-9fcb-fab20fcc0990.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/nox/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/nox/cover.png",
+      "shots": []
+    }
+  },
+  "obsidian": {
+    "slug": "obsidian",
+    "name": "Obsidian",
+    "tagline": "The free and flexible app for your private thoughts.",
+    "category": "Writing",
+    "pricing": null,
+    "website": "https://obsidian.md/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7b6dd031-7525-4c6b-95c6-6b1e1701f154/icon-1783882472975.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7b6dd031-7525-4c6b-95c6-6b1e1701f154/cover-1783882786059.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/obsidian/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/obsidian/cover.png",
+      "shots": []
+    }
+  },
+  "onlook": {
+    "slug": "onlook",
+    "name": "Onlook",
+    "tagline": "Bring your Ring devices to your Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://onlook.cam/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/18a8331b-281a-40b6-8cff-78e2770d108a/icon-1783882458190.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/18a8331b-281a-40b6-8cff-78e2770d108a/cover-1783882759200.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/onlook/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/onlook/cover.jpg",
+      "shots": []
+    }
+  },
+  "open-screen-shot": {
+    "slug": "open-screen-shot",
+    "name": "Open Screen Shot",
+    "tagline": "Long screenshots, right from your menu bar",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://open-ss.vercel.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/8dee9920-1926-4946-a040-066b44ac6476/icon-1783882475739.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/8dee9920-1926-4946-a040-066b44ac6476/cover-1783882788128.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-screen-shot/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-screen-shot/cover.png",
+      "shots": []
+    }
+  },
+  "open-timer": {
+    "slug": "open-timer",
+    "name": "Open Timer",
+    "tagline": "Native macOS menu bar time tracker for freelancers.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://opentimer.vercel.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/24f597b1-bd60-4f85-a5b3-6e0c5e69be7f/icon-1783882476974.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/24f597b1-bd60-4f85-a5b3-6e0c5e69be7f/cover-1783882788640.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-timer/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-timer/cover.png",
+      "shots": []
+    }
+  },
+  "orbs": {
+    "slug": "orbs",
+    "name": "Orbs",
+    "tagline": "A native macOS radial-wheel launcher.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://orbs.studio/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-8637f1af-a914-4427-b76d-0404e8ddca1a.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a2b1dd5a-6c5c-450a-b372-76ed4c2bbcab/cover-bf6ffa8b-1cfa-4db3-91f6-c6c7b5873df6.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orbs/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orbs/cover.png",
+      "shots": []
+    }
+  },
+  "orchard": {
+    "slug": "orchard",
+    "name": "Orchard",
+    "tagline": "Bridge AI to Your Apple Ecosystem",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://orchard.5km.tech/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12d96ced-89e2-4067-94a7-f9722f2ae899/icon-1783882460370.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12d96ced-89e2-4067-94a7-f9722f2ae899/cover-1783882792909.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orchard/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/orchard/cover.jpg",
+      "shots": []
+    }
+  },
+  "pieoneer": {
+    "slug": "pieoneer",
+    "name": "Pieoneer",
+    "tagline": "Switch, launch, and control apps",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://appahead.studio/apps/pieoneer/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/46bbd4f1-fd26-47c9-bfb1-231c3bcde2f9/icon-1783882460056.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/46bbd4f1-fd26-47c9-bfb1-231c3bcde2f9/cover-1783882770866.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pieoneer/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pieoneer/cover.png",
+      "shots": []
+    }
+  },
+  "picmal": {
+    "slug": "picmal",
+    "name": "Picmal",
+    "tagline": "Convert, compress, and edit your images, video, and audio right on your Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://picmal.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/894d86f7-67e6-4cf4-9169-0dfe81d81c12/icon-1783882465520.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/894d86f7-67e6-4cf4-9169-0dfe81d81c12/cover-1783882775672.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/picmal/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/picmal/cover.png",
+      "shots": []
+    }
+  },
+  "pixelcasso": {
+    "slug": "pixelcasso",
+    "name": "Pixelcasso",
+    "tagline": "Native image editor for Paint.NET users on Mac",
+    "category": "Design",
+    "pricing": "freemium",
+    "website": "https://pixelcasso.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ad11fd6-8c8b-4410-823d-f77fb40d9049.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-ac88fdbc-fa6c-4c5f-9350-3fde519548b5.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pixelcasso/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pixelcasso/cover.png",
+      "shots": []
+    }
+  },
+  "pokey": {
+    "slug": "pokey",
+    "name": "Pokey",
+    "tagline": "Turn your cursor into the most memorable thing on the call",
+    "category": "Communication",
+    "pricing": null,
+    "website": "https://pokeyapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/086d47db-f74f-465d-acbf-b301cb09845b/icon-1783882473421.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/086d47db-f74f-465d-acbf-b301cb09845b/cover-1783882786987.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pokey/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pokey/cover.jpg",
+      "shots": []
+    }
+  },
+  "presentify": {
+    "slug": "presentify",
+    "name": "Presentify",
+    "tagline": "Screen Annotation",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://presentifyapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/562ee5b9-f8c8-482f-bd40-7839a734b8ad/icon-1783882475920.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/562ee5b9-f8c8-482f-bd40-7839a734b8ad/cover-1783882476053.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/presentify/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/presentify/cover.jpg",
+      "shots": []
+    }
+  },
+  "prostir-zvuku": {
+    "slug": "prostir-zvuku",
+    "name": "prostir zvuku",
+    "tagline": "A spatial nature sound mixer for macOS",
+    "category": "Lifestyle",
+    "pricing": null,
+    "website": "https://prostirzvuku.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-83ec34ef-ce79-47e2-a675-3f5bea4d0cfb.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-8605f459-6b01-4e9c-9ce4-304a47af12aa.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/prostir-zvuku/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/prostir-zvuku/cover.jpg",
+      "shots": []
+    }
+  },
+  "purge": {
+    "slug": "purge",
+    "name": "Purge",
+    "tagline": "Reclaim disk space by clearing caches macOS leaves behind.",
+    "category": "Utility",
+    "pricing": "open_source",
+    "website": "https://getpurge.vercel.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0746e27c-90bd-4ddc-b05f-e7ba98c4a62c.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-c452c454-35cb-466f-b8ad-90b0b2be9df6.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-53cead1f-dc2f-4215-b7b3-00ad19b0efd7.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2c8c2bfd-e454-42b9-82eb-775dea974455.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/purge/shot-2.png"
+      ]
+    }
+  },
+  "radial": {
+    "slug": "radial",
+    "name": "Radial",
+    "tagline": "A powerful radial (pie) menu for macOS",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://radial.appverge.net/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-729d31ad-256b-40c7-928a-18db4dc3f92f.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-b36ec30e-25ce-4929-a912-7bd3e115fd2e.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/radial/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/radial/cover.jpg",
+      "shots": []
+    }
+  },
+  "raycast": {
+    "slug": "raycast",
+    "name": "Raycast",
+    "tagline": "A collection of powerful productivity tools all within an extendable launcher.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.raycast.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6d0ef167-072a-4e91-b117-dbc747dde96b/icon-1783882453531.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6d0ef167-072a-4e91-b117-dbc747dde96b/cover-1783882756491.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/raycast/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/raycast/cover.png",
+      "shots": []
+    }
+  },
+  "resurf": {
+    "slug": "resurf",
+    "name": "Resurf",
+    "tagline": "A personal library and quick capture tool for thoughts, ideas, links, visuals, and more.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://resurf.so/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9b2a8a74-c59c-4ec6-bf22-bba18bae654b/icon-1783882459204.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9b2a8a74-c59c-4ec6-bf22-bba18bae654b/cover-1783882760391.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/resurf/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/resurf/cover.png",
+      "shots": []
+    }
+  },
+  "revone": {
+    "slug": "revone",
+    "name": "Revone",
+    "tagline": "All your revenue. One place.",
+    "category": "Analytics",
+    "pricing": null,
+    "website": "http://revone.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9560fd89-c8c7-4e66-87c2-64edd170e3ff/icon-1783882457772.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9560fd89-c8c7-4e66-87c2-64edd170e3ff/cover-1783882777684.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/revone/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/revone/cover.webp",
+      "shots": []
+    }
+  },
+  "runey": {
+    "slug": "runey",
+    "name": "Runey",
+    "tagline": "Time tracker, invoices, projects, clients, expenses, and proposals.",
+    "category": "Business",
+    "pricing": null,
+    "website": "https://runey.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fda07652-9342-4bfd-a17e-dab797743f0e/icon-1783882459042.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fda07652-9342-4bfd-a17e-dab797743f0e/cover-1783882792056.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/runey/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/runey/cover.webp",
+      "shots": []
+    }
+  },
+  "room-service": {
+    "slug": "room-service",
+    "name": "Room Service",
+    "tagline": "Room Service brings projects, recurring routines, local serv",
+    "category": "Dev",
+    "pricing": null,
+    "website": "http://roomservices.pro/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43106b1f-ab2f-4a40-88fc-487da37be653/icon-1783882472547.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43106b1f-ab2f-4a40-88fc-487da37be653/cover-1783882472715.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/room-service/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/room-service/cover.png",
+      "shots": []
+    }
+  },
+  "mjsfx": {
+    "slug": "mjsfx",
+    "name": "MJSFX",
+    "tagline": "MJSFX is a sounds and effects design studio.",
+    "category": "Audio",
+    "pricing": "free",
+    "website": "https://mjsfx.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-df90887b-5a46-47dd-9637-a1246897fbcb.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-8fb277bf-5046-4fb5-9416-aa1139cb6c88.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-f76a8a7c-3072-4ef0-a6a9-48724be713dd.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-bd05d5fe-15ea-4b84-826e-4d202475f8a4.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e7e5364a-53fd-4754-bcd7-694ebc819a41.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-2815767c-7350-4012-892d-d7f263d13583.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-5d52f993-eba7-422f-ae6e-b5d2e577ea8c.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-289837bd-48b5-4113-aa58-58eacef1a1ad.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-5.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/mjsfx/shot-6.png"
+      ]
+    }
+  },
+  "screen-studio": {
+    "slug": "screen-studio",
+    "name": "Screen Studio",
+    "tagline": "Beautiful Screen Recordings in Minutes",
+    "category": "Video",
+    "pricing": null,
+    "website": "https://screen.studio/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eb8c7038-269e-42e9-9560-24a8de5a0d5f/icon-1783882458878.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eb8c7038-269e-42e9-9560-24a8de5a0d5f/cover-1783882760079.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-studio/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-studio/cover.png",
+      "shots": []
+    }
+  },
+  "sero": {
+    "slug": "sero",
+    "name": "Sero",
+    "tagline": "Search with zero resistance. Private local AI retrieval for documents, research, and developer knowledge.",
+    "category": "AI",
+    "pricing": null,
+    "website": "https://sero.tanayarya.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12bfcf51-5897-4869-a354-def1048ef2a6/icon-1783882464964.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/12bfcf51-5897-4869-a354-def1048ef2a6/cover-1783882775045.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sero/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sero/cover.png",
+      "shots": []
+    }
+  },
+  "screen-charm": {
+    "slug": "screen-charm",
+    "name": "Screen Charm",
+    "tagline": "Mac Screen Recorder for Polished Videos",
+    "category": "Video",
+    "pricing": null,
+    "website": "https://screencharm.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ee3556ec-f7b2-4f70-90ac-947327012f70/icon-1783882454671.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ee3556ec-f7b2-4f70-90ac-947327012f70/cover-1783882757130.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-charm/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-charm/cover.png",
+      "shots": []
+    }
+  },
+  "screenlex": {
+    "slug": "screenlex",
+    "name": "ScreenLex",
+    "tagline": "screenlex is a screenshot application that focuses on privac",
+    "category": "Photography",
+    "pricing": null,
+    "website": "https://www.screenlex.cc/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eaddea5c-e35e-4807-8663-230c4e0225d0/icon-1783882469002.bin",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eaddea5c-e35e-4807-8663-230c4e0225d0/cover-1783882469132.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screenlex/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screenlex/cover.png",
+      "shots": []
+    }
+  },
+  "sessionwatcher": {
+    "slug": "sessionwatcher",
+    "name": "SessionWatcher",
+    "tagline": "Tracks Claude, Codex, Copilot, Cursor and Gemini usage, costs and rate limits live",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://sessionwatcher.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9bf90f65-5319-409e-98f1-932758565fe3/icon-1783882465327.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9bf90f65-5319-409e-98f1-932758565fe3/cover-1783882782161.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sessionwatcher/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sessionwatcher/cover.png",
+      "shots": []
+    }
+  },
+  "sketch": {
+    "slug": "sketch",
+    "name": "Sketch",
+    "tagline": "Design, prototype, collaborate and handoff",
+    "category": "Design",
+    "pricing": null,
+    "website": "http://sketch.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a6c9e4e6-095d-4e32-8595-f5b6ae0f99be/icon-1783882453373.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a6c9e4e6-095d-4e32-8595-f5b6ae0f99be/cover-1783882790861.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sketch/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sketch/cover.jpg",
+      "shots": []
+    }
+  },
+  "slashit-app": {
+    "slug": "slashit-app",
+    "name": "Slashit App",
+    "tagline": "Text Expander with AI Sentence Rewriter & Clipboard History",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.slashit.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fb2087d2-cdcd-4cb0-8c57-069315276140/icon-1783882477387.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/fb2087d2-cdcd-4cb0-8c57-069315276140/cover-1783882788878.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slashit-app/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slashit-app/cover.jpg",
+      "shots": []
+    }
+  },
+  "slapmac": {
+    "slug": "slapmac",
+    "name": "SlapMac",
+    "tagline": "Your macbook finally has feelings. Don't abuse it. Or do.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://slapmac.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2aa21789-9814-4f9e-8483-c250f38107fa/icon-1783882460720.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2aa21789-9814-4f9e-8483-c250f38107fa/cover-1783882772251.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slapmac/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/slapmac/cover.jpg",
+      "shots": []
+    }
+  },
+  "satu": {
+    "slug": "satu",
+    "name": "Satu",
+    "tagline": "A calm productivity companion that lives in your Mac menubar",
+    "category": "Productivity",
+    "pricing": "freemium",
+    "website": "https://satu.mnmls.net/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-cce1c894-c947-4206-acdc-a77e429bd1fb.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-34c35e64-e744-446a-aac3-d665b712f81b.jpg",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-bbb8a363-2bab-41eb-8e04-7577154db9ca.jpg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-fb901bc0-7718-40ed-ae8a-98eb1ec1a67d.jpg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-e15c918b-055e-4a8a-8379-9ac74dd9c47f.jpg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-942dedb2-91f8-4d55-88a3-871f13a9d0a6.jpg",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6d87ef49-4ed9-4f93-a117-204c6210b611.jpg"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/cover.jpg",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-1.jpg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-2.jpg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-3.jpg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-4.jpg",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/satu/shot-5.jpg"
+      ]
+    }
+  },
+  "soulver": {
+    "slug": "soulver",
+    "name": "Soulver",
+    "tagline": "A natural-language notepad calculator for Mac, iPad & iPhone",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://soulver.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-8c1743bc-79f5-48fb-8e74-18d296eb5578.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-c17e4b9b-6f14-4a70-be21-368066c1db09.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/soulver/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/soulver/cover.webp",
+      "shots": []
+    }
+  },
+  "spacepeek": {
+    "slug": "spacepeek",
+    "name": "SpacePeek",
+    "tagline": "See what\u2019s taking space in any folder\u2014right in Finder.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://spacepeek.space/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5e7caca5-feff-47c4-bb05-2da75865e88c.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-db74c0e0-7c02-4798-aa65-5b54ee6fe068.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/spacepeek/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/spacepeek/cover.png",
+      "shots": []
+    }
+  },
+  "subscription-day": {
+    "slug": "subscription-day",
+    "name": "Subscription Day",
+    "tagline": "Tack of your paid subscriptions and analyze statistics.",
+    "category": "Lifestyle",
+    "pricing": null,
+    "website": "https://subsday.appps.od.ua/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/3980dea0-821c-4a36-b204-2af28ab459e3/icon-1783882458522.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/3980dea0-821c-4a36-b204-2af28ab459e3/cover-1783882759517.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/subscription-day/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/subscription-day/cover.jpg",
+      "shots": []
+    }
+  },
+  "super-shortcuts": {
+    "slug": "super-shortcuts",
+    "name": "Super Shortcuts",
+    "tagline": "Turn repetitive tasks into local automations in a few clicks",
+    "category": "Productivity",
+    "pricing": "freemium",
+    "website": "https://super-shortcuts.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-e0925779-3e2e-43ab-afaa-68bd20abfaa1.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-edd7545f-3811-41ff-b03b-8c5505a590f4.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/super-shortcuts/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/super-shortcuts/cover.png",
+      "shots": []
+    }
+  },
+  "supaste": {
+    "slug": "supaste",
+    "name": "Supaste",
+    "tagline": "Clipboard and screenshot history",
+    "category": "Productivity",
+    "pricing": "paid",
+    "website": "https://supaste.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/396d0438-2036-4031-a21e-9ae418bdfb8b/icon-1783882477719.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/396d0438-2036-4031-a21e-9ae418bdfb8b/cover-1783882790586.webp",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/supaste/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/supaste/cover.webp",
+      "shots": []
+    }
+  },
+  "superlist": {
+    "slug": "superlist",
+    "name": "Superlist",
+    "tagline": "Tasks, notes, and plans.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.superlist.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43cc16ce-7682-4ab7-8e5e-5d8cca5053a1/icon-1783882463101.avif",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43cc16ce-7682-4ab7-8e5e-5d8cca5053a1/cover-1783882769991.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/superlist/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/superlist/cover.png",
+      "shots": []
+    }
+  },
+  "sweeper": {
+    "slug": "sweeper",
+    "name": "Sweeper",
+    "tagline": "Uninstall apps and clean up the leftovers.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://parcse.com/sweeper",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-5791ec11-b73f-4b7a-a192-4c416ae91625.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-9ef597b2-7f7e-4285-9173-3ab202e5b946.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sweeper/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/sweeper/cover.png",
+      "shots": []
+    }
+  },
+  "tokens-4-breakfast": {
+    "slug": "tokens-4-breakfast",
+    "name": "Tokens 4 Breakfast",
+    "tagline": "Track token usage, AI spend, subscriptions, and rate-limit pressure from one private Mac menu bar app. Supports Claude Code, OpenAI, Cursor, Copilot, and more. No login, no cloud, one-time Pro.",
+    "category": "Productivity",
+    "pricing": "freemium",
+    "website": "https://tokens4breakfast.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-9628c1c8-e764-4c98-bb75-73e18c6f374a.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-69bb35f2-ba5d-4586-a3ba-891e7c20b35d.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tokens-4-breakfast/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tokens-4-breakfast/cover.png",
+      "shots": []
+    }
+  },
+  "tono": {
+    "slug": "tono",
+    "name": "Tono",
+    "tagline": "Menu bar wallpaper manager",
+    "category": "Lifestyle",
+    "pricing": null,
+    "website": "https://nil-byte.github.io/Tono/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7abcfa5c-cea4-4f03-b637-98f1e1a0b36a/icon-1783882470354.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7abcfa5c-cea4-4f03-b637-98f1e1a0b36a/cover-1783882782581.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tono/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tono/cover.png",
+      "shots": []
+    }
+  },
+  "tellie": {
+    "slug": "tellie",
+    "name": "Tellie",
+    "tagline": "Follows your voice. Word by word. Private. Gives every Mac a notch. Free to download.",
+    "category": "Design",
+    "pricing": null,
+    "website": "https://tellieapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7df85610-2d10-4058-bcdc-60840db5bb0e.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-1f19ed26-f39e-46fd-b997-3538d0ca5cc4.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tellie/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tellie/cover.png",
+      "shots": []
+    }
+  },
+  "textsniper": {
+    "slug": "textsniper",
+    "name": "TextSniper",
+    "tagline": "Copy text from anywhere, Scan QR codes, Text-to-Speech",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://textsniper.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-803db164-f4fb-4614-8d43-6b37317bdef3.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-2fe0cc7e-c1e2-43f5-902b-06168e5ee6c5.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/textsniper/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/textsniper/cover.png",
+      "shots": []
+    }
+  },
+  "toplify": {
+    "slug": "toplify",
+    "name": "Toplify",
+    "tagline": "Track your App Store ranking positions and get notified.",
+    "category": "Marketing",
+    "pricing": null,
+    "website": "https://toplify.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a51bc822-28d6-4daf-adf7-8185023cb2d0/icon-1783882458687.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a51bc822-28d6-4daf-adf7-8185023cb2d0/cover-1783882759786.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/toplify/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/toplify/cover.jpg",
+      "shots": []
+    }
+  },
+  "tuple": {
+    "slug": "tuple",
+    "name": "Tuple",
+    "tagline": "The best remote pair programming app on macOS",
+    "category": "Dev",
+    "pricing": null,
+    "website": "https://tuple.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2032d3ef-ba11-4933-8d2c-a603ce5cd48a/icon-1783882460221.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/2032d3ef-ba11-4933-8d2c-a603ce5cd48a/cover-1783882771895.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tuple/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/tuple/cover.jpg",
+      "shots": []
+    }
+  },
+  "unfumble": {
+    "slug": "unfumble",
+    "name": "Unfumble",
+    "tagline": "The automatic keyboard language switcher for Mac.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://unfumble.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/680682d4-dc92-43de-84a6-e8e906a7d80f/icon-1783882473163.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/680682d4-dc92-43de-84a6-e8e906a7d80f/cover-1783882786685.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfumble/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfumble/cover.png",
+      "shots": []
+    }
+  },
+  "unfold": {
+    "slug": "unfold",
+    "name": "Unfold",
+    "tagline": "Quick Look Almost Anything on Your Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://flew.gg/unfold",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/da65b409-2812-4b45-88a3-7f1414a2a46e/icon-1783882470907.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/da65b409-2812-4b45-88a3-7f1414a2a46e/cover-1783882471225.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfold/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfold/cover.png",
+      "shots": []
+    }
+  },
+  "uninstally": {
+    "slug": "uninstally",
+    "name": "Uninstally",
+    "tagline": "Cleanly uninstall apps and leftover files on macOS for free",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://github.com/gostonx/uninstally",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-6871b67f-e731-4502-9330-9ccff61fb837.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-ab4bd73b-3c1e-4fee-bbd3-d8a4db089e9d.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/uninstally/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/uninstally/cover.png",
+      "shots": []
+    }
+  },
+  "usage": {
+    "slug": "usage",
+    "name": "Usage",
+    "tagline": "System Activity Monitor",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://usage.pro/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-4fe98a14-5984-486b-8af2-7c4ca6222ffd.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-70699cd6-4c2a-4621-b785-0ff28568893f.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/usage/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/usage/cover.png",
+      "shots": []
+    }
+  },
+  "viaduct": {
+    "slug": "viaduct",
+    "name": "Viaduct",
+    "tagline": "Run any Chrome extension in Safari directly from Webstore",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://magicelklabs.com/viaduct/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/479dc0ee-d98b-4661-b8a4-1feae3d6dc04/icon-1783882480439.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/479dc0ee-d98b-4661-b8a4-1feae3d6dc04/cover-1783882480595.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/viaduct/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/viaduct/cover.png",
+      "shots": []
+    }
+  },
+  "vocal-notes": {
+    "slug": "vocal-notes",
+    "name": "Vocal Notes",
+    "tagline": "Private, on-device transcription for Apple Silicon Macs.",
+    "category": "Audio",
+    "pricing": null,
+    "website": "https://www.tychospot.com/vocal-notes/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-00bded10-0f45-4d4a-bf7d-a6c975504ff8.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-26dd31e5-29fc-49b4-b04d-7cd8ae906262.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/vocal-notes/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/vocal-notes/cover.jpg",
+      "shots": []
+    }
+  },
+  "voiceos": {
+    "slug": "voiceos",
+    "name": "VoiceOS",
+    "tagline": "Use your voice to control apps and get work done 10\u00d7 faster.",
+    "category": "Productivity",
+    "pricing": null,
+    "website": "https://www.voiceos.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/63355494-0057-4ea3-b71e-dfda7a296cc7/icon-1783882474162.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/63355494-0057-4ea3-b71e-dfda7a296cc7/cover-1783882786371.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/voiceos/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/voiceos/cover.png",
+      "shots": []
+    }
+  },
+  "wallspace": {
+    "slug": "wallspace",
+    "name": "Wallspace",
+    "tagline": "Live wallpaper for Mac",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://wallspace.app?atp=solt",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9211436-72be-435f-b7a4-fbcbf4f96efb/icon-1783882456841.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9211436-72be-435f-b7a4-fbcbf4f96efb/cover-1783882758214.jpg",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/wallspace/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/wallspace/cover.jpg",
+      "shots": []
+    }
+  },
+  "walltune": {
+    "slug": "walltune",
+    "name": "WallTune",
+    "tagline": "Animated video lock screens for your Mac.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://walltune.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-d9576124-80b1-41c7-928d-c84485ac7bd9.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-49f54326-ac04-4895-8181-10b7c2b0671a.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/walltune/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/walltune/cover.png",
+      "shots": []
+    }
+  },
+  "shake-it-on": {
+    "slug": "shake-it-on",
+    "name": "Shake it On",
+    "tagline": "The mouse jiggler, made for Mac.",
+    "category": "Utility",
+    "pricing": "paid",
+    "website": "https://shakeiton.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-c41815f5-7fb0-459c-a1e7-a7a0b5b6eb35.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-d0ca2c69-bc01-4aed-8a8e-79db6004d015.png",
+    "gallery": [
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-8de0bd6a-6e04-4532-b758-a8e7a7478dbd.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-204ab3f2-8c59-4152-916f-b616753f3419.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b4e0ffb8-501c-44c4-9c22-dae651c3d02f.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-0663bdcd-4d5d-48fc-82dd-ffacfcd9fca6.png",
+      "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-14097217-1fd5-4512-8d95-d5801cb2c3b8.png"
+    ],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/cover.png",
+      "shots": [
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-1.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-2.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-3.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-4.png",
+        "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/shake-it-on/shot-5.png"
+      ]
+    }
+  },
+  "zipic": {
+    "slug": "zipic",
+    "name": "Zipic",
+    "tagline": "Native, private image compression and conversion for macOS.",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://zipic.app/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f37d4605-43aa-4fb9-887f-99e8c35206a8/icon-1783882471486.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f37d4605-43aa-4fb9-887f-99e8c35206a8/cover-1783882783458.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zipic/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zipic/cover.png",
+      "shots": []
+    }
+  },
+  "waterlemon": {
+    "slug": "waterlemon",
+    "name": "Waterlemon",
+    "tagline": "Create icons for apps and\\nwebsites",
+    "category": "Design",
+    "pricing": null,
+    "website": "https://sohna.dev/waterlemon/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f639916c-7f84-4573-908b-f99642c9f2eb/icon-1783882458007.webp",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f639916c-7f84-4573-908b-f99642c9f2eb/cover-1783882758853.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/waterlemon/icon.webp",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/waterlemon/cover.png",
+      "shots": []
+    }
+  },
+  "zush": {
+    "slug": "zush",
+    "name": "Zush",
+    "tagline": "AI File Renamer & Organizer",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://zushapp.com/",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-20a5671e-f9ba-4d5a-98a7-7355e32d52ff.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-60575bf6-522f-4fad-9e14-f81c6a3f33d4.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zush/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zush/cover.png",
+      "shots": []
+    }
+  },
+  "zonedial": {
+    "slug": "zonedial",
+    "name": "Zonedial",
+    "tagline": "Timezone math made effortless",
+    "category": "Utility",
+    "pricing": null,
+    "website": "https://codenta.us/zonedial",
+    "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-731b540a-1d05-486c-855a-28dcbb5725d2.png",
+    "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-73c0cf55-4ad3-402b-adb2-bf562a997efa.png",
+    "gallery": [],
+    "files": {
+      "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zonedial/icon.png",
+      "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zonedial/cover.png",
+      "shots": []
+    }
+  }
+}

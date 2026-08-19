@@ -1,0 +1,16 @@
+{
+  "slug": "klack",
+  "name": "Klack",
+  "tagline": "Satisfying sound with every keystroke",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://tryklack.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7c89d348-7a9e-4ade-aa4d-0b79b1ca26ec/icon-1783882467654.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/7c89d348-7a9e-4ade-aa4d-0b79b1ca26ec/cover-1783882778806.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/klack/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/klack/cover.png",
+    "shots": []
+  }
+}

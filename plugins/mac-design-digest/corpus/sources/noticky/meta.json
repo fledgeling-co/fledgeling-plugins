@@ -1,0 +1,16 @@
+{
+  "slug": "noticky",
+  "name": "Noticky",
+  "tagline": "Sticky notes for Mac that stay always on top, even in fullscreen.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://noticky.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/efb66b2b-5aee-4f7a-a4bd-9e51b134f10f/icon-1783882465153.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/efb66b2b-5aee-4f7a-a4bd-9e51b134f10f/cover-1783882775375.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/noticky/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/noticky/cover.png",
+    "shots": []
+  }
+}

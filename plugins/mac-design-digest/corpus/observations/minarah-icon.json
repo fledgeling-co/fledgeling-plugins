@@ -1,0 +1,15 @@
+{
+  "slug": "minarah", "name": "Minarah", "category": "Lifestyle",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": ["#1 tower bleeds off bottom edge — deliberate grounded choice, unverifiable vs true master", "#4 dome+crescent+tower gestalt survives shrink but balcony/window detail smears at 16px"],
+  "failures": ["#7 blue dome (~#137DD6) on near-identical blue sky (#0978D7), contrast ~1.1:1, well below 3:1 — dome only reads via baked specular + shadow rim", "#10 single baked raster keyed to blue background — no dark/clear/tinted variants; blue-on-blue would collapse further in tinted mode (era-conditional gap vs macOS 26)"],
+  "palette": {"background": "ramp #2193D9->#0663C9", "glyph": ["#ECBF68", "#FDEAAC", "#9A5512", "#137DD6", "#013D9B"], "accent": "#E8B84A"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "soft top-left key; baked white specular on upper-left dome; short contact shadows right of dome and tower; single consistent source, no long shadow",
+  "layer_stack": ["blue gradient background field", "cream/gold minaret body (balcony ring + arched window)", "blue dome cap", "gold crescent finial"],
+  "devices": ["literal-subject depiction (icon IS a minaret — subject-mined for a prayer-times app)", "3D clay/plastic Blender-style render", "crescent finial as sole warm gold accent", "grounded bottom-bleed composition"],
+  "adjectives": ["devotional", "soft-3D-clay", "literal-architectural"],
+  "rhymes_hint": "3D clay/plastic object centred on a soft gradient squircle — the Blender-rendered single-object indie family (lifestyle/meditation/utility); style family: 3D-object-on-gradient, Big Sur clay render",
+  "notes": "112x114px web thumbnail, NOT the 1024 master — fine detail (balcony arcade, window, crescent edge) smears; hexes approximate under compression. Squircle mask already baked into PNG so full-bleed master + safe-zone unverifiable. Icon vs cover coherence strong (same 3D asset, blue+gold+cream identity) but icon render is more saturated: icon tower gold #ECBF68 vs cover cream #EFD3B2; icon dome #137DD6 vs cover steel #579BCD. The #7 figure-ground fail is partly a small-render over-saturation artifact — the cover's steel-blue dome separates cleanly. Accent hex #E8B84A is estimated (crescent sample landed on adjacent blue under compression)."
+}

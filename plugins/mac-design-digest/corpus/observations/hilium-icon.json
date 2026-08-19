@@ -1,0 +1,15 @@
+{
+  "slug": "hilium", "name": "Hilium", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": ["#3 silhouette: two competing motifs (radial burst + cursor arrow) read as a cluttered asterisk-plus-arrow, nameable but not one clean object", "#5 light model: consistent but flat — a diagonal gradient ramp only, no committed top-down lighting", "#8 depth: sensible order but near-flat; faint concentric rings are the only spatial cue"],
+  "failures": ["#4 16px squint: ~1.5-2.4:1 glyph/field contrast + fine rounded segments smear into a flat cyan tile at Dock/menu-bar size", "#7 figure-ground: aqua glyph #00FFFF vs cyan field ~#00ADFF = 1.99:1 (worst 1.46:1 over bright centre, best 2.37:1 over deepest blue), all below 3:1; vanishes in grayscale", "#10 variant robustness: not layered for Liquid Glass; separation depends entirely on the cyan field, would collapse under tinted/clear/dark; no dark/mono variant"],
+  "palette": {"background": "ramp #00C6FF->#009BFA", "glyph": ["#00FFFF", "#00FEFF"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "other"},
+  "light_model": "Minimal/flat: diagonal gradient ramp (bright cyan upper-left -> blue lower-right), faint top-brighter shading inside strokes; no committed top-down shadow, no baked micro-shadows, no specular",
+  "layer_stack": ["cyan->blue gradient field", "faint concentric ring ripples (wireless-wave texture)", "aqua radial burst segments (spinner/aperture)", "aqua inward cursor arrow"],
+  "devices": ["wireless-wave concentric rings", "radial aperture/spinner burst", "inward cursor arrow (point-to-control)"],
+  "adjectives": ["aqua-monochrome", "radial-energetic", "template-gradient"],
+  "rhymes_hint": "generic iOS/utility gradient-squircle + monoline-glyph icons (180px = iOS 60pt@3x, likely reused); connectivity/remote-control utilities with radial signal motifs on cool cyan-blue ramps",
+  "notes": "180x180 pre-masked PNG (rounded superellipse already applied, transparent outside) = iOS 60pt@3x size, likely the iOS icon reused for the Mac listing; 1024 full-bleed master and mask-fighting unverifiable, mask discipline judged on render only. Hex values indicative from a small web render, not exact master samples; concentric rings faint enough that some could be compression. Defining flaw is monochrome collapse: glyph and field share one hue, so figure-ground never resolves (1.5-2.4:1 everywhere). Brand mark IS coherent across surfaces (same burst appears white in the cover's bottom-left logo) but the icon's cyan palette does not carry into the cover's austere black/white world (palette-divergent). Not authored as Liquid Glass layers -- a currency gap for macOS 26, not just a contrast one."
+}

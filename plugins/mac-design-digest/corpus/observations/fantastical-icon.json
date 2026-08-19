@@ -1,0 +1,23 @@
+{
+  "slug": "fantastical", "name": "Fantastical", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 8,
+  "soft_passes": ["#2 scene-fill has no centered glyph to grid; page fills safe zone, balanced but tile-scatter loads bottom-right", "#4 tiles blur to dots and gridlines vanish at 16px, but red-band-over-white gestalt survives as 'calendar'"],
+  "failures": ["#3 solid-black silhouette collapses to a featureless squircle — named by color+structure, not shape (scene-icon archetype trait)", "#6 five saturated hue families vs the <=2 rule — purposeful calendar color-coding, a signature but still a rule break", "#7 figure-ground: all four event tiles below the 3:1 floor on white (yellow 1.65, green 1.74, blue 2.52, magenta 2.78:1) — only red band clears at 3.87; separation rescued only by drop-shadow edge", "#10 not authored as glass layers; white-ground+multicolor composition would not survive tinted/dark/clear renders (pre-Liquid-Glass)"],
+  "palette": {
+    "background": "scene: white page #FFFFFF (faintly cool #F9F8FD) + red header ramp #F44B42->#EE2502 with #C05043 under-shadow; ghosted gridlines ~#F5-#F9",
+    "glyph": ["#00E400", "#FFBF01", "#00ACFE", "#F85AE1"],
+    "accent": "#F43725"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "soft top-down: red band highlit at top and shadowed at its lower lip; event tiles carry a gaussian bloom + short soft drop shadow reading as defocused stickers above the page; no specular glass highlight or refraction",
+  "layer_stack": ["white calendar page + ghosted light-gray gridlines", "red header band with baked under-shadow", "four bloomed multicolor event tiles (green/yellow/blue/magenta) with drop shadows"],
+  "devices": ["red header band over white page (wall-calendar skeuomorphic quote, the 16px anchor)", "scattered soft-focus multicolor event tiles (multicolor-as-subject, not a single glyph)", "ghosted gridlines ~2% darker than white (texture not structure)"],
+  "adjectives": ["cheerful", "soft-focus", "domestic"],
+  "rhymes_hint": "Apple Calendar (red-header-over-white date-page metaphor) and Photos/App Store (multicolor-as-identity scene icons); style family = full-bleed Big Sur scene icons that spend their personality on color + a metaphor object and deliberately fail the silhouette/palette-economy rules single-glyph tool icons must pass",
+  "notes": "RESOLUTION CAVEAT: source is a 102x102 web render (upscaled 5x for inspection); no @2x/1024 master. Gridlines, tile-shadow softness and red-band gradient are at the edge of resolvability, so hex values are +/- and the gridline color (~#F5-#F9 on #FFF) is essentially subliminal at native size. MASK: system squircle, full-bleed, art bleeds to all edges. BRAND COHERENCE: red header matches the red 'cal' in the Fantastical logotype and the cover's wordmark. FOR SYNTHESIS: full-bleed multicolor SCENE icon; its #3/#6/#7 failures are the scene-icon archetype (shared with Calendar/Photos), not defects of execution — do not average it against single-glyph tool icons without noting the archetype. The measured sub-3:1 tile contrast is the one honest craft weakness (cheer bought with luminance)."
+}

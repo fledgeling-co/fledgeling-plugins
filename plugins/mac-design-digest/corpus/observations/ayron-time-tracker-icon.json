@@ -1,0 +1,14 @@
+{
+  "slug": "ayron-time-tracker", "name": "Ayron Time Tracker", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11, "soft_passes": ["#2 glyph runs conservative (~47% frame height, ~26% top/bottom margins) — optically centred but calmer than the grid's inner square allows", "#4 survives 16px on mass + one counter, but the fine apex tip and narrow crossbar aperture partially close/soften at menu-bar size"],
+  "failures": ["#10 single fully-opaque flat RGB raster, no alpha, no authored Default/Dark/Mono layers; glyph defined only by contrast against the lime field, so it does not survive tinted/clear/mono appearances — a web-logo-on-a-square, not an appearance-aware layered icon"],
+  "palette": {"background": "flat #D6FF3A", "glyph": ["#0C0C0C"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "monogram", "overlay_device": "none"},
+  "light_model": "none — dead flat, no modelled light, shadow, or specular; the absence of any depth is what reads web-brand-first rather than mac-native",
+  "layer_stack": ["flat lime field #D6FF3A", "flat black 'A' monogram #0C0C0C"],
+  "devices": ["rising-'A' double-read (letter A that also reads as an ascending diagonal / mountain-peak = 'time/productivity climbs')", "acid-lime + black athletic/performance palette (hi-vis register, committed brand direction confirmed by cover site)", "angular italic-slanted geometric letterform, all straight cuts and hard terminals with forward lean"],
+  "adjectives": ["athletic", "loud", "flat"],
+  "rhymes_hint": "startup brand-mark dropped on a flat brand-colour square — the monogram-on-flat-field family; rhymes on the acid/neon athletic-palette axis and the flat-web-logo (not mac-layered) axis",
+  "notes": "Source icon.png is 672x672, a resized web render (not the 1024 master) — flat colours compress cleanly so composition/palette reads are reliable, but native 1024 edge crispness is unverifiable. Background perfectly flat (single #D6FF3A at all corners + mid-field, no gradient). Contrast glyph/bg = 17.0:1 (measured). RGB mode, NO alpha channel — fully opaque square, no foreground layer separation (drives the #10 failure). Glyph bbox 391x314 on 672 canvas: height ~47% of frame, biased ~18px left of geometric centre (correct optical comp for right-leaning italic mass), vertically near-symmetric (top 26.3% / bottom 26.9%). Icon communicates BRAND not SUBJECT — no clock/timer/stopwatch metaphor for a time-tracking app; monogram-only. Palette coherence icon<->app is total (cover site is lime-on-black throughout). For synthesis: candidate exemplar of the 'flat logomark on saturated field' cluster and of the recurring native gap where indie web brands ship an opaque flat raster with no Icon Composer variants."
+}

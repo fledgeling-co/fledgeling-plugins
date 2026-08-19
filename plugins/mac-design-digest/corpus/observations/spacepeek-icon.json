@@ -1,0 +1,37 @@
+{
+  "slug": "spacepeek", "name": "SpacePeek", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 squircle baked into the PNG (transparent corners) not full-bleed unmasked; system would double-mask; corner curve rounder than macOS 26 continuous squircle",
+    "#3 silhouette is busy (folder tab + ring + handle); needs colour to fully parse as loupe-over-folder",
+    "#4 16px survives only via the multicolour ring; folder (1.13:1) and thin glass handle collapse at menu-bar size",
+    "#6 six-hue focal ring exceeds the <=2 hue-family guideline; justified as meaningful multicolour (disk segments) in one focal element",
+    "#9 hybrid era: Big Sur composition + baked specular, but Liquid-Glass translucency grafted on; conventions unreconciled",
+    "#10 fixed-background baked raster with intrinsically-multicolour focal element has no coherent tinted/mono variant path"
+  ],
+  "failures": [
+    "#7 figure-ground: folder #69BBFC on bg #69ADFB = 1.13:1 (floor 3:1); folder defined only by baked edge shadow, vanishes in grayscale/small; ring segments also weak vs field (blue 1.46, gold 1.48, white 2.06)"
+  ],
+  "palette": {
+    "background": "ramp #97C3FC->#5C68F7 (top-light periwinkle -> bottom indigo, slight diagonal)",
+    "glyph": ["#69BBFC", "#E8F1FE", "#4088FC", "#886CFC", "#FEC541", "#43E0B7", "#63E7FC", "#D5E4FB"],
+    "accent": "none — the multicolour ring is the accent (no single reserved hue)"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "diagonal-tool"
+  },
+  "light_model": "top-down soft, one consistent direction (upper-left); baked specular on ring rim + magnifier glass; short soft contact shadows under ring and folder — Big Sur baked-light convention (Liquid Glass would defer specular to the system)",
+  "layer_stack": ["blue squircle background ramp", "translucent folder (body + top tab)", "segmented multicolour disk-usage donut ring", "glass magnifier handle to bottom-right (ring serves as its lens)"],
+  "devices": [
+    "ring-as-lens: disk-usage donut chart doubles as the magnifier lens (the icon's whole idea in one shape)",
+    "diagonal glass tool overlay (magnifier handle breaks the front plane to the corner — Preview/loupe lineage)",
+    "in-product artifact quotation: ring palette directly quotes the app's own multicolour donut chart (icon shows the exact object you'll use)",
+    "ghosted translucent folder (background ramp reads through it — Liquid-Glass flourish on a Big-Sur base)"
+  ],
+  "adjectives": ["diagrammatic", "translucent", "cheerful"],
+  "rhymes_hint": "multicolour-diagnostic utility on a blue glass field — disk-usage segmented-ring icons (DaisyDisk/GrandPerspective lineage) re-housed on a friendly blue squircle, crossed with Apple's loupe-over-content utility family (Preview/Finder search)",
+  "notes": "512x512 web render (not the 1024 master) — no micro-measurement trust. Squircle + all effects (specular, translucency, contact shadows) baked into the raster; reads as a rendered/likely-AI-generated app icon (over-smooth gradients, soft imprecise folder edges), NOT a hand-authored layered Icon Composer file. Its one real non-template move is the ring-as-lens double-duty. Strong palette coherence between icon and cover: the icon ring quotes the in-app donut chart and the blue family matches the app's UI accent."
+}

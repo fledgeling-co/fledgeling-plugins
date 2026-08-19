@@ -1,0 +1,16 @@
+{
+  "slug": "super-shortcuts",
+  "name": "Super Shortcuts",
+  "tagline": "Turn repetitive tasks into local automations in a few clicks",
+  "category": "Productivity",
+  "pricing": "freemium",
+  "website": "https://super-shortcuts.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-e0925779-3e2e-43ab-afaa-68bd20abfaa1.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-edd7545f-3811-41ff-b03b-8c5505a590f4.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/super-shortcuts/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/super-shortcuts/cover.png",
+    "shots": []
+  }
+}

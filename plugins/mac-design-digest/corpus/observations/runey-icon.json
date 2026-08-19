@@ -1,0 +1,43 @@
+{
+  "slug": "runey", "name": "Runey", "category": "Business",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optically centred but runs large; descender leg near mask edge, margins ~11%",
+    "#4 letterform survives 16px but chrome bevel/gloss smears to a flat gray blob",
+    "#5 bevel and gloss share a top source, but a baked cast shadow adds a second depth cue",
+    "#8 planes order sensibly yet coherence relies on baked bevel/shadow the platform forbids",
+    "#11 one ownable device (the running-R), undercut by generic glossy-black + chrome template"
+  ],
+  "failures": [
+    "#1 mask — art pre-masked into its own rounded-rect (corners alpha 0) with a baked top rim highlight; fights the macOS 26 system squircle (double-round / clipped rim)",
+    "#10 variant robustness — flat pre-rendered PNG with baked gloss/bevel on a solid black field; cannot recompose into dark/clear/tinted glass, would double the system specular"
+  ],
+  "palette": {
+    "background": "ramp #313131->#000000 (baked glossy specular band upper-third, peak ~#3E3E3E)",
+    "glyph": ["#FFFFFF", "#EEEEEE", "#BDBDBD", "#191919"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "monogram",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down; beveled chrome lit from top (white top face -> dark under-edge), baked glossy specular sheen across upper third, short soft baked cast shadow beneath glyph; specular pre-baked, not system-applied",
+  "layer_stack": [
+    "pre-masked squircle envelope with baked top rim highlight",
+    "black vertical gradient field #313131->#000000",
+    "baked glossy specular sheen (upper third)",
+    "beveled chrome R monogram (white top face + silver body + dark bevel)",
+    "baked soft drop-shadow under glyph"
+  ],
+  "devices": [
+    "running-R monogram (open bowl, striding leg — subject-echo of the name, reused as in-app sidebar logo)",
+    "baked gloss dome (pre-rendered specular sheen, iOS-6-era)",
+    "beveled chrome letterform (white top face, dark under-edge)",
+    "pre-masked squircle envelope with baked edge rim (defect-device)"
+  ],
+  "adjectives": ["glossy-chrome", "stark-monochrome", "legacy-templated"],
+  "rhymes_hint": "glossy-skeuomorphic monogram family — legacy iOS-6-era chrome-initial-on-black logotype icons and app-icon-generator gloss outputs; distinct from Big Sur squircle+tool and from Liquid Glass layered glass",
+  "notes": "Asset is a genuine 1024x1024 PNG with clean alpha and crisp bevels (measured) — not a resized web render. Mask: corners sampled at alpha 0 and a baked top rim highlight (x-scan y8 ~#8D->#74->#53) confirm the art is delivered pre-masked, not full-bleed square. Brand-coherence gap: brand signature is black + lime/chartreuse green (cover swirl + in-app sidebar renders this exact R in green), but the icon is black + chrome with zero green — under-communicates palette and subject (invoicing/time-tracking). Baked specular/bevel/drop-shadow contradict current HIG ('provide square unmasked layers; let the system apply effects'). Era reads as a legacy glossy app-generator template rather than a knowing retro homage, but skeuomorphic-quote is the closest enum. Letterform carries brand continuity across surfaces even though colour does not."
+}

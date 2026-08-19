@@ -1,0 +1,66 @@
+{
+  "slug": "codeshot", "name": "Codeshot", "category": "Dev",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main window (3-pane split view: source-list sidebar / theme content-list / export canvas), inside marketing composite",
+      "mode": "light",
+      "rubric_score": 13,
+      "native_audit_score": 8,
+      "failures": [
+        "#10 UI contrast — theme-list selection band #DCDCDD on #FFFFFF ~1.1:1, colour-only",
+        "native#3 selection grammar — content list uses flat full-width gray band, not inset rounded accent fill",
+        "native#6 accent binding — selection/focus use gray, system accent never bound",
+        "#14 focus appearance unverifiable (static shot, no focused field) — not scored",
+        "provenance — window rendered ~@1x, cropped right+bottom; pixel metrics estimated, colours measured"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "chrome/sidebar-bg", "value": "#E9E9EA", "quality": "measured", "notes": "flat opaque source list, light mode; no visible glass/vibrancy"},
+    {"token": "chrome/content-bg", "value": "#FFFFFF", "quality": "measured", "notes": "theme-list column"},
+    {"token": "text/sidebar-header", "value": "#79797A secondary gray, sentence case", "quality": "measured", "notes": "'Editor' — system font, not tracked uppercase (native tell PASS)"},
+    {"token": "text/label-primary", "value": "~#000000", "quality": "measured", "notes": "theme names + sidebar labels"},
+    {"token": "selection/content-band", "value": "#DCDCDD flat full-width band (~8% black)", "quality": "measured", "notes": "colour-only, ~1.1:1, not accent-tinted — defect"},
+    {"token": "selection/sidebar", "value": "inset rounded light fill, near-black label", "quality": "estimated", "notes": "'Themes' row — correct native grammar; inconsistent with content list"},
+    {"token": "control/popup", "value": "compact bezeled pop-up ~20-22pt, double up/down chevrons", "quality": "estimated", "notes": "'swift' language picker; pick-a-value grammar; non-capsule = pre-Tahoe"},
+    {"token": "radius/window", "value": "~10-12pt", "quality": "estimated", "notes": "kit ships no window radius; measured per-app"},
+    {"token": "radius/code-card", "value": "~10pt", "quality": "estimated", "notes": "rendered snapshot card = content, theme-dependent, not app chrome"},
+    {"token": "type/body", "value": "~13px SF Pro-class", "quality": "estimated", "notes": "desktop density"},
+    {"token": "canvas/export-bg", "value": "#FF4406 vivid orange", "quality": "measured", "notes": "USER-CHOSEN export background / demo value, NOT app chrome"},
+    {"token": "codecard/bg", "value": "#222323 warm near-black", "quality": "measured", "notes": "exported snapshot = theme output content, NOT app chrome"},
+    {"token": "brand/panel-bg", "value": "#F7F6FB cool off-white", "quality": "measured", "notes": "MARKETING panel, not app UI"},
+    {"token": "brand/headline", "value": "heavy geometric grotesk (SF Pro Display Black / Inter-class), two-tone black+#888", "quality": "measured", "notes": "BRAND evidence; monochrome black feature-icon list"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "source list, ~140-150px as-rendered, section header 'Editor' secondary sentence-case, 3 nav rows with multicolor leading glyphs, inset-rounded selection on 'Themes' — navigation only, correct usage"},
+    {"pattern": "list", "key_values": "single-column theme browser; each item = primary label stacked over a row of 5 circular color chips (theme palette preview); selected row = flat gray full-width band (defect); 'list options' table that should carry a checkmark"},
+    {"pattern": "other", "key_values": "export canvas: full-bleed saturated color field as preview stage, dashed rounded-rect crop guide, rendered code card with own decorative traffic lights + soft drop shadow"},
+    {"pattern": "toolbar", "key_values": "no real toolbar; single centered pop-up ('swift' language selector) as titlebar accessory; genuine colored traffic lights (focused)"}
+  ],
+  "signature_moves": [
+    "Swatch-row theme browser: each of 80+ themes previewed as name + five circular color chips instead of full code thumbnails — scan-by-color-signature, a Hick's-Law reduction at the theme-picking decision point",
+    "Full-bleed saturated color canvas as export stage: the background/padding setting promoted to ~half the window, making the rendered snapshot the unambiguous focal object (Von Restorff)"
+  ],
+  "defects": [
+    "Contrast Dilution — theme-list selection is a #DCDCDD band on #FFFFFF (~1.1:1), colour-only, no accent tint/checkmark; canon = inset rounded accent-tinted fill with accent text, or a persistent checkmark for a list-options table",
+    "Accent not bound — selection/focus use gray, controlAccentColor never bound (theme chips are legitimate separate identity colours)",
+    "Internal selection inconsistency — sidebar uses inset-rounded selection while content list uses a full-width flat band; two grammars in one window"
+  ],
+  "aesthetic": {
+    "adjectives": ["utilitarian", "neutral", "unadorned"],
+    "direction": "platform-default / system-native utilitarian (stock AppKit, near-zero custom styling) — while the marketing panel is a restrained Swiss / neo-grotesque brand voice (bold grotesk wordmark, two-tone headline, monochrome icons on cool off-white, colour supplied only by the product screenshot)",
+    "peers": ["Carbon.now.sh", "ray.so", "CodeSnap", "Snappify", "a System-Settings-style native three-pane utility"],
+    "cluster_hint": "system-default-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Hick's Law — swatch-row theme list lets users scan 80+ themes by color signature rather than reading names or parsing previews, shortening the one real decision (theme pick)",
+    "Von Restorff / signal-detection — single saturated orange canvas makes the rendered code card the clear focal object against neutral chrome; the one loud thing is the output",
+    "Jakob's Law — three-pane source-list layout matches trained macOS expectations (Mail/Finder/System Settings), so navigation is predictable",
+    "Aesthetic-Usability limit (violated) — ~1.1:1 selection contrast is a fluency snag: 'which theme is selected?' is momentarily ambiguous"
+  ],
+  "notes": "Single input = marketing cover only (no gallery shots; meta gallery empty). Left half is brand/marketing (wordmark, headline, monochrome feature-icon list) — recorded separately, excluded from app-UI + macOS canon. Right half is the app window on a Big Sur gradient backdrop (backdrop = marketing/desktop, not chrome). Window rendered ~@1x and cropped right+bottom, so pixel metrics are estimated (colours measured). Two values that must NOT be learned as chrome: canvas/export-bg #FF4406 and codecard/bg #222323 are user-chosen export/content, not app design tokens. No settings/empty-state/dark-mode/onboarding surface seen. Lineage native (high); era Big Sur legacy (med-high) — the pre-capsule pop-up + flat gray chrome + absence of any glass/scroll-edge date it before Tahoe. Icon (icon.webp) is a separate Workflow-B subject, not digested here."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "superlist",
+  "name": "Superlist",
+  "tagline": "Tasks, notes, and plans.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.superlist.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43cc16ce-7682-4ab7-8e5e-5d8cca5053a1/icon-1783882463101.avif",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/43cc16ce-7682-4ab7-8e5e-5d8cca5053a1/cover-1783882769991.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/superlist/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/superlist/cover.png",
+    "shots": []
+  }
+}

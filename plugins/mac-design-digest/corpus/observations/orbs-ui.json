@@ -1,0 +1,73 @@
+{
+  "slug": "orbs", "name": "Orbs", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png (right ~48% of a 1600x900 marketing composite; left half is brand: app icon + 'Ten apps. One orb.' headline + tagline)",
+      "surface_type": "radial-wheel launcher HUD-style panel (frameless overlay over live desktop) — two concentric rings + Clear-glass centre hub; invoked by hold-Option-flick-release",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "#10 UI contrast — sector spokes/arc dividers ~1px white @10-15% over dark glass, below 3:1 (intentional quiet structure, but fails by the letter)",
+        "#9 text contrast (borderline) — no global backdrop scrim; outer labels (System/Keep Awak/Mirror) sit over bright sunlit rock, rely on per-wedge dark fill + text halo; risk on light wallpapers",
+        "native #3 selection grammar — solid-white 'aim' fill, not macOS inset-rounded accent-tinted highlight (deliberate house style, recorded as deviation not defect)",
+        "native #6 accent binding — selection/focus bound to WHITE, not the system accent; app draws no accent of its own (deviation)",
+        "N/A this surface: #5 line-height, #6 measure, #12 input height (no paragraphs/inputs); native #4 sidebar, #8 concentric corners, #9 toolbar (custom radial canvas, no standard chrome)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "structure/rings", "value": "2 concentric bands: inner 9-item app-launch ring + outer 7-item utility-action ring, around a central hub", "quality": "estimated", "notes": "radial equivalent of a layout grid; even angular rhythm"},
+    {"token": "selection/aim", "value": "selected wedge = solid white fill (#FFFFFF-class) with near-black glyph+label", "quality": "estimated", "notes": "flick-target spotlight; NOT accent-tinted; inverts the shortcut badge to a light disc"},
+    {"token": "material/hub", "value": "Clear glass disc, ~1px hairline ring border, desktop fully lensed through", "quality": "estimated", "notes": "clearest Liquid-Glass tell in the shot; hub = category title + '8/9' pager"},
+    {"token": "material/sector", "value": "dark translucent wedge fill (Regular dark glass or dark scrim)", "quality": "estimated", "notes": "wallpaper+stars visible through unselected wedges; dark-mode humility (glass vs solid indistinguishable from a still)"},
+    {"token": "divider/spoke", "value": "~1px hairline, white @ ~10-15%", "quality": "estimated", "notes": "radial spokes + arc rings; low contrast -> failure #10"},
+    {"token": "type/label-inner", "value": "~11-12pt SF Pro Semibold white", "quality": "estimated", "notes": "app names under each icon"},
+    {"token": "type/label-outer", "value": "~11pt SF Pro, secondary white ~55-70%", "quality": "estimated", "notes": "utility labels, de-emphasised vs inner ring"},
+    {"token": "type/hub-title", "value": "~13-15pt SF Pro Semibold white ('Utility')", "quality": "estimated", "notes": "current category name"},
+    {"token": "type/hub-pager", "value": "~17pt SF Pro Bold white '8 / 9' flanked by chevron pager arrows", "quality": "estimated", "notes": "value outranks its label — correct hierarchy"},
+    {"token": "badge/shortcut", "value": "~14-16px circular disc, ~50% grey fill, ~9-10pt white numeral (1-9, 'C')", "quality": "estimated", "notes": "keyboard-shortcut hints = expert second input path"},
+    {"token": "icon/app", "value": "genuine macOS app-icon squircles ~32-40px (Ghostty/Notes/Chrome/Spotify/Claude)", "quality": "estimated", "notes": "ONLY source of chroma in the UI"},
+    {"token": "icon/utility", "value": "white monochrome SF Symbols (eyedropper/gauge/glasses/clock/camera/chevron/tray/grid)", "quality": "estimated", "notes": "outer ring + internal inner items"},
+    {"token": "legibility/scrim", "value": "white label text with soft dark shadow/halo", "quality": "estimated", "notes": "key move for a HUD over arbitrary desktop content"},
+    {"token": "submenu/marker", "value": "'...' under Folders/System/Utility", "quality": "estimated", "notes": "wedge opens a nested sub-wheel"},
+    {"token": "brand/headline", "value": "'Ten apps. One orb.' heavy grotesk (Helvetica-Now/Sohne-Black class), white ~64-72px, tight tracking", "quality": "estimated", "notes": "BRAND evidence (left composite), not app UI; excluded from canon"},
+    {"token": "brand/ground", "value": "near-pure black #0A0A0A->#151515 subtle gradient; 'orbs.studio' set in grey monospace", "quality": "estimated", "notes": "committed monochrome brand system; matches icon's black field"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "HUD-style panel (HIG darker-translucent variant), frameless overlay, no traffic lights, transient hold-flick-release invocation; correct per HIG for immersive/transient utility"},
+    {"pattern": "other", "key_values": "radial pie-menu launcher: 2 concentric rings (9 app wedges + 7 utility wedges) around a Clear-glass hub with category label + N/M pager; per-wedge icon+label+numbered-badge triad; solid-white aimed-wedge selection; nested sub-wheels via '...'"},
+    {"pattern": "empty-state", "key_values": "n/a"}
+  ],
+  "signature_moves": [
+    "The wheel as a spatial-memory launcher: fixed wedge positions + hold-flick-release convert app-launch from read-then-click search into motor memory; Fitts best case (huge angular targets from a common origin, acquired by direction not precision)",
+    "Solid-white 'aim' selection instead of accent-blue — a reticle/spotlight, deliberately not bound to the system accent, keeping the monochrome system pure",
+    "Clear-glass status hub that lenses the live desktop while doubling as category label + '8/9' pager (pager value bolded above its whispered label)",
+    "Chroma only from borrowed app icons — the app introduces zero colour of its own; monochrome discipline enforced",
+    "Number/letter badges as a parallel expert input path (Tesler): flick to discover, press 1-9/C to accelerate"
+  ],
+  "defects": [
+    "Contrast Dilution (non-text) — ~1px @10-15% sector dividers below 3:1 (native-audit #10); intentional but firmer dividers would keep calm without failing",
+    "Label-over-photography legibility risk — no global backdrop dim; outer labels lean on per-wedge fill + text halo, at risk over light wallpapers (borderline #9)",
+    "Label truncation — 'Keep Awak'(e); a magnifier glyph sits beside the 'Volume' label (possible glyph/label mismatch)",
+    "Selection deviates from native inset-rounded accent grammar (#3/#6) — reclassified as signature (systematic+purposeful+accessible), logged so the audit reads honestly"
+  ],
+  "aesthetic": {
+    "adjectives": ["monochrome", "spatial", "gestural"],
+    "direction": "Bespoke dark HUD radial-launcher in a committed monochrome system: pure-black/white/silver, zero self-authored chroma, Swiss/neo-grotesque brand voice (heavy grotesk display + grey mono caption). Colour enters only as borrowed app-icon squircles. Not the neo-grotesque-product default look despite the register — the radial pie-menu form and white-reticle selection are genuinely off-distribution for a macOS launcher.",
+    "peers": ["Raycast", "Alfred", "CleanShot X (indie-utility brand register)", "game/DCC radial pie menus (Blender, Maya marking menus)"],
+    "cluster_hint": "monochrome-HUD / spatial-launcher (candidate; synthesis to confirm — pairs with other frameless dark-HUD utilities if any exist in corpus)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Fitts's Law — radial wedges radiating from a common origin are enormous, roughly-equidistant targets; the flick-release gesture acquires by direction, collapsing pointing distance/precision (best-case target acquisition)",
+    "Spatial/motor memory + Jakob's Law inversion — fixed wedge positions let power users flick without reading; deliberately unconventional interface (radial, not a list) betting on learned muscle memory over first-run familiarity",
+    "Hick's Law + Miller/Cowan chunking — ~9 items per ring, paged ('8/9') and split into category sub-wheels ('...'), keeping each decision set bounded",
+    "Von Restorff effect — the single white-highlighted wedge is the one different thing, which is exactly why one-aim-at-a-time works",
+    "Tesler's Law (conservation of complexity) — dual input paths (gesture for discovery, 1-9/C shortcuts for speed) absorb the novice/expert split into the same map",
+    "Recognition over recall (partial) — app icons + labels support recognition, but the paid-off end state is pure recall/motor memory of positions"
+  ],
+  "notes": "Single UI surface, dark mode only, extracted from the RIGHT ~48% of a 1600x900 marketing composite (left half is brand: glossy orb icon + 'Ten apps. One orb.' grotesk headline + 'Hold Option, flick, release' tagline + 'orbs.studio'). Unknown retina scale and NO standard chrome (traffic lights/titlebar) to calibrate against -> ALL pixel values (estimated), everything (inferred); no canon promotions possible from one app. This is a bespoke radial canvas: cartesian grid checks reinterpreted radially (angular division + concentric rings), and much of the 10-point native-tells audit is N/A (no sidebar/toolbar/window chrome) rather than failing. CROSS-PASS CONTRADICTION for synthesis: the icon pass (orbs-icon.json) classified the app icon as big-sur/legacy baked-Aqua-gloss, but this UI is Liquid-Glass-era (Clear-glass hub) — the brand mark's material lags its own app by an era. To level up Orbs: a real @2x screenshot over a plain/light wallpaper (to test the label legibility risk), a sub-wheel ('...') state, and any settings surface."
+}

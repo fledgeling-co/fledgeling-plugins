@@ -1,0 +1,34 @@
+{
+  "slug": "letterboxx",
+  "name": "Letterboxx",
+  "tagline": "A dedicated reader for email newsletters.",
+  "category": "Productivity",
+  "pricing": "subscription",
+  "website": "https://letterboxx.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-d0d747aa-8ce5-4705-ad95-9eb9e8ca878e.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/23a8ecc2-83b1-4540-96d3-b86b13b59a78/cover-6eebd126-7fb9-45ef-836e-d1b55f6a88df.webp",
+  "gallery": [
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-0592a563-9ea5-48d1-b521-3656785e555e.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-eb7b79de-ef7c-46a4-bff9-c9a07ebfa46b.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-8b8b88c6-73f6-40c4-9973-771294c7e741.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-01141231-e987-4173-b713-e6f220ccab6f.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-6dd1bd95-1779-4d1e-b601-2b69faf101fe.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-26f7114b-2459-415b-afb1-e666353f30bb.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-b5ff49d2-4928-4ee6-a69d-7bc7c79e5a30.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-30f56b85-e433-434a-980d-cd8698459bdf.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-94525fa0-bd44-4b3a-90c5-32bad4a09b61.png",
+    "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/gallery-9735b2fd-4321-4374-a1c1-f9bd7d6bfd35.png"
+  ],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/cover.webp",
+    "shots": [
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-1.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-2.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-3.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-4.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-5.png",
+      "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/letterboxx/shot-6.png"
+    ]
+  }
+}

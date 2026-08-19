@@ -1,0 +1,16 @@
+{
+  "slug": "viaduct",
+  "name": "Viaduct",
+  "tagline": "Run any Chrome extension in Safari directly from Webstore",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://magicelklabs.com/viaduct/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/479dc0ee-d98b-4661-b8a4-1feae3d6dc04/icon-1783882480439.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/479dc0ee-d98b-4661-b8a4-1feae3d6dc04/cover-1783882480595.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/viaduct/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/viaduct/cover.png",
+    "shots": []
+  }
+}

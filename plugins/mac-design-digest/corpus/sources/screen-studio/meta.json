@@ -1,0 +1,16 @@
+{
+  "slug": "screen-studio",
+  "name": "Screen Studio",
+  "tagline": "Beautiful Screen Recordings in Minutes",
+  "category": "Video",
+  "pricing": null,
+  "website": "https://screen.studio/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eb8c7038-269e-42e9-9560-24a8de5a0d5f/icon-1783882458878.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/eb8c7038-269e-42e9-9560-24a8de5a0d5f/cover-1783882760079.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-studio/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/screen-studio/cover.png",
+    "shots": []
+  }
+}

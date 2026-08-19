@@ -1,0 +1,35 @@
+{
+  "slug": "unfold", "name": "Unfold", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#3 silhouette is a clean single ⊔ shape that holds as solid black, but names its subject only with insider knowledge (spacebar = Quick Look); in isolation it reads as a bracket/tray/staple, not a preview utility",
+    "#10 achromatic design is inherently tint/dark-robust, but a near-black icon risks low presence on dark Docks/wallpapers; Liquid-Glass variant check only partly applicable to a big-sur classification"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #29292D->#09090B (near-black charcoal, top-lit vertical ramp, opaque matte)",
+    "glyph": ["#FFFFFF", "#DEDEDE", "#CFCFCF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "single top-down source: field lightens upward (sky logic), glyph carries a crisp #FFFFFF specular only on its top-facing bevels over a mid-gray face; reads as a keycap / engraved well catching one overhead light. No coloured light, no long shadow.",
+  "layer_stack": [
+    "dark charcoal squircle field (top-lit vertical ramp, full-bleed)",
+    "embossed spacebar-keycap glyph (mid-gray body, ambient occlusion into the field)",
+    "#FFFFFF specular top-edge highlight on the glyph bevels"
+  ],
+  "devices": [
+    "spacebar-key glyph = the app's trigger gesture (Quick Look is invoked by the spacebar, so the icon depicts the keystroke, not a preview/file/eye metaphor) — the strongest subject-mine",
+    "stealth monochrome: a black key on a near-black field, separated only by a top-lit bevel; presence built from value + light, not colour",
+    "debossed key rendered as a ⊔ well carved into a filled squircle (not a free 3D object) — the minimalist inverse of the klack/keeby photoreal-keycap family that drops the squircle for transparent",
+    "a single #FFFFFF specular top-line as the sole material cue on an otherwise matte, textureless field"
+  ],
+  "adjectives": ["stealth-monochrome", "engraved", "understated"],
+  "rhymes_hint": "achromatic utility-icon family + subject-mined keyboard hardware — sits between klack (photoreal black keycap, refuses the squircle) and glance/looq (achromatic Quick Look tools); Unfold is the flat, squircle-keeping, debossed-key inverse. Outside-corpus peer: the stealth-black developer-tool icon register.",
+  "notes": "RESOLUTION: only a 256×256 web render (icon.png) was available, not the 1024 master — fine glass specular/refraction detail would be lost at this size, so a minimalist Liquid Glass execution can be neither confirmed nor ruled out. The cover render shows a glossier keycap sheen than the flat 256px icon, hinting the master may carry more gloss; classified big-sur strictly from visible evidence (opaque matte field + single embossed monochrome glyph + top-down light + baked bevel) rather than a confirmable layered-glass stack. MASK: dark field full-bleeds the squircle cleanly; the top-lighter/bottom-darker gradient could be a baked edge-bevel (HIG discourages baked edge lighting) but art-vs-system-render is indistinguishable at 256px. SUBJECT COMMUNICATION is the honest weak spot (see soft-pass #3): the glyph is legible only to viewers who know spacebar=Quick Look. BRAND COHERENCE with the cover is tight — identical monochrome charcoal→black palette and the same light-gray spacebar keycap, the cover floating that key over a cloud of file-extension names (.yml/.swift/.json/tsx…) that the icon alone can't convey. For ICONS.md synthesis: this is a candidate member of an emerging achromatic/monochrome utility-icon cluster (with glance, looq, klack, keeby) and a strong exemplar of the gesture-as-icon subject-mine."
+}

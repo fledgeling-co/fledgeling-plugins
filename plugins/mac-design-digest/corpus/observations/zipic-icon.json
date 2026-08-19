@@ -1,0 +1,31 @@
+{
+  "slug": "zipic", "name": "Zipic", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#3 silhouette: solid-black fill is a generic squircle; legibility rides entirely on internal figure-ground, not outline",
+    "#7 figure-ground: photo-on-body >7:1 but dial-face-on-body only ~2:1, separated by inset/shadow not tone",
+    "#10 variant robustness: era-exempt (Big Sur), but composition depends on the charcoal ground and would not survive Liquid Glass tinted/clear/mono without a re-author",
+    "#2 grid: balanced two-mass vertical composition, full-bleed 80.3% squircle"
+  ],
+  "failures": [
+    "#4 16px squint: verified downscale — dial, LEVEL text, numerals and tick marks smear to a gray blob; only the blue+white photo strip survives, compression idea lost; built for hero size not Dock/Spotlight",
+    "#12 no-text: baked text present — 'LEVEL' plus gauge numerals 0/5/10, the classic small-size liability that feeds the #4 smear"
+  ],
+  "palette": {
+    "background": "ramp #626262->#3D3D3D (charcoal machine body, top-lit; corners vignette ~#242424)",
+    "glyph": ["#F0F0F0", "#E4E4E4", "#C0C0C0", "#8FA0DD", "#5066B2", "#E6CA0B", "#979798", "#8D8D8E"],
+    "accent": "#FDE623"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "single soft top-down studio light; body highlight at top decaying to shadow at bottom; short soft baked micro-shadows under the photo stack, inside the slot, and beneath the knob; matte finish, no specular glass highlights",
+  "layer_stack": ["charcoal machine body (back)", "recessed gauge panel + knurled LEVEL knob + yellow LED (inset)", "recessed output slot", "stack of glossy photo prints emerging (front), top print carrying a blue landscape + gold sun"],
+  "devices": ["feature-as-machine skeuomorphism (compression level as a physical LEVEL 0-10 dial/gauge)", "photos physically dispensing from a slot as a stacked ream", "LED status light", "matte soft-3D rendered-object register (Blender/C4D studio look)"],
+  "adjectives": ["mechanical", "didactic", "matte"],
+  "rhymes_hint": "Big Sur-era app-as-appliance rendered-object icons — utilities depicted as physical gadgets/machines under soft studio light (compression-as-press/printer metaphor family); NOT the flat-gradient-glyph family and NOT the Apple diagonal-tool family",
+  "notes": "Source 512x512, likely a downscaled web render of a 1024 master — fine gauge text/ticks already soft in source, sub-pixel measurement limited. Squircle is full-bleed 411/512 = 80.3% (proper Big Sur proportion, ~822/1024 scaled), not a floating glyph. Soft outer drop shadow is BAKED into the PNG (alpha bbox 26-486 vs solid squircle 50-461); Apple HIG asks the system to apply the shadow, but baked shadows are common on macapp.supply renders and Big Sur third-party icons. Gold appears twice (LED + photo sun) as an intentional 'dial the level -> this comes out' rhyme. Brand-coherent with cover.png: charcoal grounds + periwinkle-blue headings + gold accents recur across the marketing, so icon and brand share one charcoal+indigo-blue+gold system. Strong personality (feature literalised as a machine) but two genuine small-size liabilities (detail smear + baked text) cap it at 10/12; a Dock-legible variant would drop the gauge text and thin the dial detail."
+}

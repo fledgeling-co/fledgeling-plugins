@@ -1,0 +1,16 @@
+{
+  "slug": "revone",
+  "name": "Revone",
+  "tagline": "All your revenue. One place.",
+  "category": "Analytics",
+  "pricing": null,
+  "website": "http://revone.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9560fd89-c8c7-4e66-87c2-64edd170e3ff/icon-1783882457772.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/9560fd89-c8c7-4e66-87c2-64edd170e3ff/cover-1783882777684.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/revone/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/revone/cover.webp",
+    "shots": []
+  }
+}

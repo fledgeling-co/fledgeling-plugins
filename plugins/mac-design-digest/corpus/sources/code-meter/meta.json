@@ -1,0 +1,16 @@
+{
+  "slug": "code-meter",
+  "name": "Code Meter",
+  "tagline": "AI quota usage monitor for your subscriptions",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://codemeter.dev/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7ba8ebf3-6de8-49dd-b7ea-aafa2c68ee95.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-305790fa-c5f9-47a2-9d1b-45bb9ea93588.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/code-meter/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/code-meter/cover.png",
+    "shots": []
+  }
+}

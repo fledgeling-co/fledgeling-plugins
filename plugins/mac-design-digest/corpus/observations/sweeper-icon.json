@@ -1,0 +1,31 @@
+{
+  "slug": "sweeper", "name": "Sweeper", "category": "Utility",
+  "era": "skeuomorphic-quote",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#2 optically centred but runs tall (~87% canvas height); would crowd a squircle safe zone",
+    "#4 bin reads at 16px but is indistinguishable from the system Trash icon — identity collision, not smear",
+    "#6 4+ saturated hue families in contents exceed economy rule; passes only because gray vessel dominates ~70% of pixels and colour is contained to the mouth",
+    "#7 mid-gray body vs light Dock is moderate contrast; separation leans on baked shadow + rim highlight that macOS 26 strips"
+  ],
+  "failures": [
+    "#1 transparent background, no squircle plate — free-standing object designed for pre-Big-Sur Dock; floats unmasked on macOS 26",
+    "#10 baked specular + shadow, single flat PNG, no layer authoring; polychrome contents can't tint — no dark/clear/tinted survivability"
+  ],
+  "palette": {
+    "background": "scene: none / transparent (#00000000, no plate)",
+    "glyph": ["#8C9094", "#5A6064", "#71747A", "#EAEBED", "#4F5558", "#1CA5F2", "#FFFFFF", "#AF5038", "#2078BA", "#42425F"],
+    "accent": "none reserved (polychrome); brightest focal is app-tile blue #1CA5F2"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "top-down with slight front-left key; baked specular hotspot on front rim lip (#EAEBED), soft vertical body highlight, soft contact shadow beneath — all baked, not system-generated",
+  "layer_stack": ["contact shadow (baked)", "bin back wall / dark cavity #4F5558", "card jumble: app tiles + document + photo prints", "bin front wall with specular rim"],
+  "devices": ["trash-can quote (macOS Trash silhouette as container)", "overflowing mouth (contents spill above rim, front wall occludes their base)", "monochrome vessel / polychrome contents (gray bin frames discarded colourful apps + photos)"],
+  "adjectives": ["literal", "utilitarian", "throwback"],
+  "rhymes_hint": "pre-Big-Sur free-object utility/cleaner icons (AppCleaner, TrashMe, AppZapper, CleanMyMac-adjacent) — rendered vessel + discarded contents on transparency; skeuomorphic free-object cleaner lineage",
+  "notes": "512x512 web render (half of 1024 master) — silhouette and body ramp measured cleanly; photo-card imagery and document chart are soft/estimated. Transparent background (no squircle plate) is the strongest 'not authored for macOS 26 Liquid Glass' signal — would float plateless/unmasked in a modern Dock and breaks unison with squircle icons. Trash-can silhouette collides with the system Trash icon at Dock size (identity risk). Brand cover uses white + near-black SF + one rust-orange strikethrough accent (~#C0491F); the icon does NOT carry that brand orange, so icon-brand palette coherence is only partial. First icon in the corpus — rhymes_hint is a style-family guess, no in-corpus rhyme yet."
+}

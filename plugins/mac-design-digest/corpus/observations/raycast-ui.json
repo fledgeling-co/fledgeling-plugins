@@ -1,0 +1,53 @@
+{
+  "slug": "raycast", "name": "Raycast", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "floating-panel (command-palette detail-list view: search + list + inspector)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 faint 1pt split divider ~<3:1 UI contrast", "#14 selection/focus fill only ~1.3-1.5:1 above bg, no >=3:1 shift", "native#3 selection uses neutral fill + white text, no accent tint (signature)", "native#5 ~40-48pt rows + large input = launcher density, not native 24-32pt (signature)", "native#6 no accent bound anywhere in UI (signature)"]}
+  ],
+  "tokens": [
+    {"token": "bg/panel", "value": "#090809 -> #0A0A0A near-black", "quality": "measured", "notes": "true interior sampled at panel bottom clear of red composite glow"},
+    {"token": "material/panel", "value": "dark translucent HUD, backdrop bleeds through, alpha unrecoverable", "quality": "estimated", "notes": "red bleed consistent with translucency but composite prevents confirmation (insufficient-evidence)"},
+    {"token": "radius/panel", "value": "~10-12pt window corner (~24-29px composite)", "quality": "estimated", "notes": "scale-dependent; near native ~10pt"},
+    {"token": "radius/selection", "value": "~6-8pt (~14px composite)", "quality": "estimated", "notes": "inset rounded fill; near native 8pt selection radius"},
+    {"token": "text/primary", "value": "#FFFFFF (lum ~253)", "quality": "measured", "notes": "filenames, metadata values, Metadata header; ~19:1 on bg"},
+    {"token": "text/secondary", "value": "~#909090 neutral gray (lum ~150 after de-contaminating red glow)", "quality": "estimated", "notes": "section label + metadata Name label; ~6:1 on panel bg"},
+    {"token": "selection/fill", "value": "translucent white ~6-10%, neutral (no accent tint)", "quality": "measured", "notes": "only ~4-6 lum above bg -> ~1.3-1.5:1, weak focus appearance"},
+    {"token": "accent", "value": "none present in UI", "quality": "measured", "notes": "no accent selection/focus ring/primary action; brand red lives only in composite backdrop"},
+    {"token": "space/row-pitch", "value": "97px uniform (rows 1-5) ~= 40-48pt row", "quality": "measured", "notes": "identical pitch across all five rows; very regular rhythm"},
+    {"token": "layout/split", "value": "list:detail ~= 35:65, 1pt divider", "quality": "measured", "notes": "divider at x~930 of ~306->2080 panel; faint (lum30 on 8)"},
+    {"token": "search/field", "value": "no field chrome; large input text on panel + leading rounded-square back-button (~15% white fill, white back-arrow SF Symbol)", "quality": "measured", "notes": "native launcher convention"},
+    {"token": "icons/list", "value": "genuine macOS system document icons (page + PNG badge + thumbnail)", "quality": "measured", "notes": "native tell (NSWorkspace file icons)"},
+    {"token": "type/family", "value": "SF Pro (system)", "quality": "estimated", "notes": "no web-font tells"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "dark near-black translucent HUD command palette; no title bar / traffic lights; ~10-12pt corner; search text with no field chrome + leading back-button; scroll-edge fade at list bottom"},
+    {"pattern": "list", "key_values": "vertical file list, ~97px (~40-48pt) row pitch, [system icon]+[filename] on shared axis, gray Title-Case section header above rows, top row pre-selected; neutral inset-rounded selection fill (~6-8pt), white text, NO accent tint"},
+    {"pattern": "inspector", "key_values": "right pane ~65% of split; rounded preview thumbnail (16:9) + 'Metadata' header + label<->value rows (Name gray-left / value white-right-aligned) with thin separators"}
+  ],
+  "signature_moves": [
+    "Accent suppression / the neutral stage: selection is a low-contrast NEUTRAL gray inset-rounded fill with white (not accent-tinted) text; no focus ring, no primary-action colour, no accent anywhere in chrome — the launcher stays chromatically silent so content carries all colour (deliberate inverse of native accent-tinted selection; costs selection contrast)",
+    "Palette-as-stage grammar: no window at all — full-bleed near-black translucent HUD, search text with no field chrome, generous ~40-48pt rows; the ⌘K command-palette design language (peers Spotlight/Alfred/Linear command menu) at HUD scale",
+    "Master-detail inside the palette: a two-pane list+inspector (35/65) living inside the floating launcher — the command palette becomes a mini file browser with metadata inspector without ever growing window chrome"
+  ],
+  "defects": [
+    "Weak focus/selection appearance (WCAG 2.4.13) / Contrast Dilution — selection fill ~1.3-1.5:1 above bg and no accent tint/ring/weight change, so the only cue for the keyboard-driven selection is a barely-there fill; canon would add a >=3:1 shift",
+    "Faint split divider — 1pt list/inspector divider ~<3:1 (lum ~30 on ~8), near-invisible"
+  ],
+  "aesthetic": {
+    "adjectives": ["graphite", "quiet", "precise"],
+    "direction": "Neo-grotesque product (dark-neutral ramp, Linear/Vercel family) rendered native in SF Pro — restrained/accent-suppressed colour strategy; the one brand colour (red) is reserved for marketing, never the UI chrome",
+    "peers": ["Linear (command menu)", "Alfred", "macOS Spotlight", "Superhuman"],
+    "cluster_hint": "graphite-command-palette (dark-neutral pro launcher)",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Hick's Law — collapses 'everything you can do' into one search box + a short ranked list; decision time becomes typing, not scanning a menu",
+    "Jakob's Law — adopts the Spotlight/⌘K convention users already know; conventional interface, innovative product",
+    "Von Restorff / accent discipline — suppressing accent everywhere removes false emphasis so content previews pop by contrast alone; double-edged, it also weakens the selection signal (the #14 finding)",
+    "Serial-position + goal-gradient — top result pre-selected ('the top hit is usually right'), so Enter resolves the task with zero further aiming",
+    "Aesthetic-usability effect — cinematic dark polish buys first-contact trust for a utility",
+    "Fitts's Law — full-width ~97px rows are effectively giant targets (though the surface is keyboard-first)"
+  ],
+  "notes": "ONLY a marketing cover was supplied (meta.json gallery is empty) — no real gallery screenshots. The cover is a composite: black+red-streak backdrop, Raycast wordmark, and headline 'Your shortcut to everything.' are BRAND evidence; the floating panel is the UI evidence. The red glowing rim and red interior tint are composite treatment, not app chrome — true panel bg is near-black #090809 (sampled at bottom). Retina scale is indeterminate (marketing render); all pt conversions are estimated with a ~2.37x-if-750pt-window caveat. Lineage is native (med) but the surface is a fully CUSTOM command-palette, so its selection/density/accent tokens are Raycast house-style — do NOT promote #3/#5/#6 native-audit deviations against or into general macOS canon; treat them as command-palette-cluster identity. Only one surface (dark, no light-mode evidence)."
+}

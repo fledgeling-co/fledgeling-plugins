@@ -1,0 +1,15 @@
+{
+  "slug": "wallspace", "name": "Wallspace", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": ["#4 sparkle survives 16px but concave arms flatten to a chunky plus, near detail floor", "#5 single light overall but flat unlit glyph ignores the ground's top-left light", "#11 one device (sparkle) but sits inside the dark-square+sparkle template; glyph does not communicate the subject (wallpaper)"],
+  "failures": ["#10 dark-only flat raster; no authored light/clear/tinted appearance for the macOS 26 Liquid Glass era it ships into"],
+  "palette": {"background": "ramp #333333->#0E0F0F (diagonal top-left to bottom-right, mid ~#2B2B2B)", "glyph": ["#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "Directional diagonal gradient implies a top-left light on the ground plane; foreground glyph is flat #FFFFFF with no specular, no highlight, and no anchoring micro-shadow. No glass/refraction.",
+  "layer_stack": ["back: charcoal diagonal-gradient squircle field", "front: flat white four-pointed sparkle glyph"],
+  "devices": ["AI-shine four-pointed sparkle (custom concave arms, category signifier not subject glyph)", "diagonal charcoal gradient (corner light, not canonical vertical sky-ramp)", "achromatic monochrome palette (charcoal + white, zero hue)", "total icon<->brand coherence (icon doubles as wordmark logo on the cover)"],
+  "adjectives": ["stark", "monochrome", "template-premium"],
+  "rhymes_hint": "charcoal-squircle + single white symbol family (Raycast, Arc-dark, AI/utility launchers); the generic 'AI sparkle' motif cluster; a potential mono-minimal-dark icon cluster",
+  "notes": "512x512 not 1024 (macapp.supply web render); squircle mask baked into the PNG (transparent corners) so mask discipline and safe-zone margins inferred from the masked render, not an unmasked full-bleed layer. Glyph is dead-centre (255,256 on 512) and bold at ~60% canvas width (span 310px, ~20% margins). Contrast white-on-#2B2B2B ~14:1. Key learning for synthesis: mechanically clean and economical, but the icon communicates 'premium/curated/magic' via a generic sparkle, NOT its subject (live wallpaper) - subject-mining absent. Borrows the Big Sur uniform squircle but strips all Big Sur depth (no top-down micro-shadows, no tool, no material); enters the Liquid Glass era as a flat dark-only raster. Cover confirms exact icon reused as brand wordmark - palette coherence icon<->app is total."
+}

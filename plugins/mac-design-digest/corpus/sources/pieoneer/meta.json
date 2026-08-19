@@ -1,0 +1,16 @@
+{
+  "slug": "pieoneer",
+  "name": "Pieoneer",
+  "tagline": "Switch, launch, and control apps",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://appahead.studio/apps/pieoneer/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/46bbd4f1-fd26-47c9-bfb1-231c3bcde2f9/icon-1783882460056.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/46bbd4f1-fd26-47c9-bfb1-231c3bcde2f9/cover-1783882770866.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pieoneer/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/pieoneer/cover.png",
+    "shots": []
+  }
+}

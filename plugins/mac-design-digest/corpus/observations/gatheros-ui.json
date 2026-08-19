@@ -1,0 +1,71 @@
+{
+  "slug": "gatheros",
+  "name": "GatherOS",
+  "category": "Design",
+  "lineage": "web-electron",
+  "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "library-main-window-card-grid (from marketing cover composite; window is 3D-perspective-transformed)",
+      "mode": "light",
+      "rubric_score": 9,
+      "native_audit_score": 3,
+      "failures": [
+        "#1 grid adherence unverifiable through perspective distortion (visually looks systematic)",
+        "#10 UI contrast — grey monochrome window dots and thin dividers read borderline <3:1",
+        "#11 Fitts — search glyph and window dots are small targets",
+        "native#1 lineage reads non-native (custom/web, not AppKit)",
+        "native#3 selection grammar = underline tabs, not inset-rounded accent fill",
+        "native#6 prominent action is black pill, not bound to system accent",
+        "native#10 faux monochrome grey window dots, not genuine coloured traffic lights"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/chrome", "value": "#FAFAFA", "quality": "measured", "notes": "window+toolbar surface (sampled 250,250,250); near-white"},
+    {"token": "bg/marketing", "value": "#FFFFFF", "quality": "measured", "notes": "left-half brand backdrop, pure white"},
+    {"token": "accent/brand-action", "value": "#000000", "quality": "measured", "notes": "prominent capsule pills are black, NOT system accent — brand signature, non-native"},
+    {"token": "accent/icon-mark", "value": "~#3B7BF5 blue", "quality": "estimated", "notes": "only saturated brand hue; confined to the app-icon 'D' glyph, absent from UI chrome"},
+    {"token": "text/primary", "value": "~#1A1A1A", "quality": "estimated", "notes": "card titles, active tab, wordmark"},
+    {"token": "text/secondary", "value": "~#9A9A9E grey", "quality": "estimated", "notes": "'N saves' counts + deselected tabs — clean de-emphasis"},
+    {"token": "surface/card", "value": "#FFFFFF + soft low-opacity shadow", "quality": "estimated", "notes": "elevated collection cards, M3-Elevated-like float"},
+    {"token": "radius/card", "value": "~10-14px", "quality": "estimated", "notes": "perspective-distorted"},
+    {"token": "radius/thumbnail", "value": "~10-12px", "quality": "estimated", "notes": "steps down from card radius → roughly concentric"},
+    {"token": "radius/pill", "value": "capsule (infinite)", "quality": "estimated", "notes": "both product 'Library' pill and marketing 'Download for Mac' pill — consistent brand shape"},
+    {"token": "type/card-title", "value": "~13-14px semibold sans", "quality": "estimated", "notes": "Interfaces / Branding / Type"},
+    {"token": "type/card-meta", "value": "~10-11px regular grey", "quality": "estimated", "notes": "'5 saves' etc."},
+    {"token": "type/headline", "value": "heavy geometric grotesque (Inter-Display-Black / TT-Norms class)", "quality": "estimated", "notes": "marketing side; large, tight-tracked, black weight"},
+    {"token": "chrome/window-dots", "value": "3 monochrome grey dots top-left", "quality": "measured", "notes": "faux/inactive traffic lights, colourless"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "Pinterest-style masonry of image thumbnails; upper band = small elevated white 'collection' cards with two-line caption (bold title + grey N-saves), lower band = larger full-bleed variable-height image cards; content is the hero, colour comes entirely from user artwork"},
+    {"pattern": "toolbar", "key_values": "near-white #FAFAFA header, no hard bottom divider; leading = app-icon + 'Library' pop-up switcher, trailing = search glyph only; one black capsule pill as sole prominent action"},
+    {"pattern": "other", "key_values": "scope nav = underline tabs (All active w/ short black underline · Unsorted · Trash) — non-native scope switch; 'Library ⌄' double-chevron pop-up is the one native-grammar-correct affordance (pick-a-value)"}
+  ],
+  "signature_moves": [
+    "Colourless chrome as a gallery wall: entire UI is black/white/#FAFAFA/grey with ZERO accent tint in the chrome, so the saved (saturated) design thumbnails carry 100% of the screen's colour — reverse Von Restorff, the frame recedes so content pops",
+    "Black capsule = the one brand action, echoed identically from marketing ('Download for Mac') to product ('Library' pill) — a single consistent high-contrast action shape"
+  ],
+  "defects": [
+    "Non-native scope switch — underline tabs (All/Unsorted/Trash) instead of a segmented control or source-list sidebar",
+    "Accent not bound to system — prominent action is a hardcoded black pill, not the user's system accent",
+    "Faux/colourless chrome — three monochrome grey window dots instead of genuine coloured traffic lights (possibly a deliberate inactive-window marketing render — noted, not asserted)"
+  ],
+  "aesthetic": {
+    "adjectives": ["colourless-chrome", "content-forward", "gallery-crisp"],
+    "direction": "Neo-grotesque product taken to a monochrome-gallery extreme — near-white surface, heavy geometric-grotesque brand type, black-and-white chrome, saturation delegated entirely to user content (design-craft: 'Restrained' colour strategy pushed to its limit; chrome is jewelry-free so the collection is the palette)",
+    "peers": ["Eagle", "Cosmos (cosmos.so)", "Mobbin", "Pinterest", "Raycast gallery"],
+    "cluster_hint": "gallery-white content-forward",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff (reverse) — colourless chrome means the single black pill and the saturated content thumbnails are the only things that stand out; the frame deliberately never competes",
+    "Aesthetic-Usability Effect — crisp white gallery + polished brand type buys a trust halo on first contact (fitting for a taste-signalling design tool)",
+    "Law of Proximity / Common Region — collection cards use white-card enclosure + tight caption proximity to bind thumbnail and label into one unit",
+    "Jakob's Law — the masonry card grid mimics Pinterest/Eagle conventions the target designer audience already knows; conventional for the genre",
+    "Hierarchy via de-emphasis — bold card title over grey 'N saves' is textbook label/value de-emphasis"
+  ],
+  "notes": "SINGLE ASSET, MARKETING COVER ONLY: a 1200x630 OG composite, no clean app screenshots supplied. The app window is 3D-perspective-transformed, so NO reliable pixel measurements are possible — all spatial/type tokens are (estimated) with wide ranges. Left half = brand evidence (wordmark, headline, CTA); right half = the app window; analysed separately, never conflated. Lineage is non-native (web-electron, low confidence — could be bespoke SwiftUI going custom); either way it feeds NO macOS canon. meta.json has no long_description, only tagline 'The Mac app for design inspiration'. Value to corpus = the gallery-white content-forward AESTHETIC pattern, not any native token. A clean @2x light+dark screenshot would materially raise lineage confidence and unlock real measurements."
+}

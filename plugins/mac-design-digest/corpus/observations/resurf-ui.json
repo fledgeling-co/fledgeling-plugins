@@ -1,0 +1,75 @@
+{
+  "slug": "resurf",
+  "name": "Resurf",
+  "category": "Productivity",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window (three-pane: source-list sidebar + masonry card library + AI inspector), inside a marketing composite",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 faint 'Areas' sidebar items (~#000 @25-30%) sit near the 4.5:1 text-contrast floor",
+        "#10 card and divider borders ~#000 @8% (~1.1:1) fall well under the 3:1 non-text floor",
+        "native#3 split selection grammar: sidebar = neutral grey inset fill, content card = system-blue ring",
+        "native#6 partial: functional accent (blue) consistent, but the sidebar-grey vs content-blue selection split undercuts accent binding"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/content", "value": "~#FCFCFC near-white", "quality": "estimated", "notes": "content pane; scale-uncertain composite"},
+    {"token": "bg/sidebar", "value": "~#F4F4F4 warm-grey", "quality": "estimated", "notes": "subtly grayer than content — native two-tone chrome"},
+    {"token": "text/primary", "value": "~#1D1D1F near-black", "quality": "estimated", "notes": "labels, card titles, assistant body"},
+    {"token": "text/secondary", "value": "~#8A8A8E system grey", "quality": "estimated", "notes": "section headers, count badges, type-icons"},
+    {"token": "text/tertiary-dimmed", "value": "~#B0B0B4", "quality": "estimated", "notes": "faint Areas items — borderline legibility"},
+    {"token": "accent/functional", "value": "system blue ~#0088FF", "quality": "estimated", "notes": "content-card selection ring; matches kit Blue-light #0088FF (specified)"},
+    {"token": "accent/brand", "value": "pink/magenta ~#E15A95-#FF3B8F", "quality": "measured", "notes": "Beta pill + Assistant sparkle only; jewelry, never a CTA"},
+    {"token": "selection/sidebar", "value": "neutral grey inset-rounded fill ~#000 @6-8%, radius ~8pt", "quality": "estimated", "notes": "NOT accent-tinted; radius matches kit sidebar-selection 8 (specified)"},
+    {"token": "selection/content", "value": "~2px system-blue ring", "quality": "estimated", "notes": "different grammar from sidebar"},
+    {"token": "radius/card", "value": "~12pt outer / ~8pt inner preview (concentric)", "quality": "estimated", "notes": "child radius steps down under parent"},
+    {"token": "radius/chip", "value": "capsule", "quality": "estimated", "notes": "Recent-x filter token; search field ~10-12pt"},
+    {"token": "border/card", "value": "~#000 @8%, 1px (~1.1:1)", "quality": "estimated", "notes": "under 3:1 non-text floor"},
+    {"token": "type/body", "value": "~13pt-class SF Pro Regular, lh ~1.5", "quality": "estimated", "notes": "maps to kit Body 13pt (specified)"},
+    {"token": "type/card-title", "value": "~14-15pt SF Pro Medium", "quality": "estimated", "notes": "card footer label"},
+    {"token": "chrome/sidebar", "value": "~200pt wide, full-height, flat opaque, ~24-28pt rows", "quality": "estimated", "notes": "kit example 256pt; width app-specific"},
+    {"token": "chrome/toolbar", "value": "flat opaque, borderless mono SF Symbols, ~40-52pt tall", "quality": "estimated", "notes": "no glass material, no scroll-edge effect visible"},
+    {"token": "brand/display-marketing", "value": "transitional serif, ~48-56pt", "quality": "estimated", "notes": "headline only; app UI carries no serif"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~200pt source list, flat rows leading mono SF Symbol + label, sentence-case collapsible section headers (Triage/Library/Areas) with disclosure chevrons, right-aligned count badges, neutral-grey inset-rounded selection (radius ~8), per-area pastel identity icons"},
+    {"pattern": "toolbar", "key_values": "leading nav cluster (back/forward/sidebar-toggle) + breadcrumb path 'Library > All', trailing borderless +/sparkle/overflow; flat opaque, no glass"},
+    {"pattern": "card-grid", "key_values": "masonry variable-height preview cards, ~12pt radius, ~1px @8% border, footer = type-icon + title; one card selected via blue ring"},
+    {"pattern": "inspector", "key_values": "right-side opt-in Assistant panel, header sparkle + title + Beta pill + history/+/filled-circle-close, body = bold pull-quote then bold-lead-in bullet list"},
+    {"pattern": "list", "key_values": "in-content search/filter row: capsule search field with removable 'Recent x' token + placeholder, four trailing view-controls (filter/focus/sort/grid)"}
+  ],
+  "signature_moves": [
+    "Masonry visual-library card wall as the primary content surface — web/Pinterest pattern borrowed deliberately for a heterogeneous visual everything-bucket (systematic + purposeful = signature, not defect)",
+    "AI 'Assistant' copilot lodged in the native inspector slot rather than a modal, with its own reserved pink Beta identity",
+    "Two-hue accent discipline: system blue = all functional selection/focus; a single pink = AI/Beta identity only, used as jewelry; per-area muted-pastel identity icons kept separate",
+    "Serif brand / sans app split — editorial serif display lives only in marketing; the app is disciplined all-SF-Pro"
+  ],
+  "defects": [
+    "Split selection grammar (native-tell #3) — sidebar neutral-grey inset fill vs content system-blue ring; canon wants one accent-bound selection language",
+    "Contrast Dilution — card/divider borders ~1.1:1 (under 3:1) and faint Areas labels near the 4.5:1 text floor; soft aesthetic bought partly with legibility",
+    "Minor UIKit tell — filled-circle close button on the Assistant panel"
+  ],
+  "aesthetic": {
+    "adjectives": ["calm", "soft-neutral", "quietly-premium"],
+    "direction": "restrained neutral product-UI (near-white grounds, soft radii, one electric accent) with an editorial-serif brand layer bolted on outside the window",
+    "peers": ["mymind", "Craft", "Raindrop.io", "Notion", "Anybox"],
+    "cluster_hint": "calm-neutral library",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — three-pane sidebar/content/inspector plus a Pinterest-style card wall means users arrive already knowing how to drive it; near-zero learning cost",
+    "Hick's Law / chunking (Miller-Cowan) — navigation chunked into three labeled collapsible groups (Triage/Library/Areas) keeps each decision point small",
+    "Von Restorff / signal-detection — the lone blue selection ring and the single pink Beta pill are the only saturated marks, so attention lands exactly where intended",
+    "Progressive disclosure — collapsible sidebar sections and an opt-in Assistant inspector keep the default view quiet",
+    "Aesthetic-usability effect (with its limit) — high spatial polish buys perceived usability, but the sub-3:1 borders and faint tertiary labels are where the halo starts writing checks legibility can't cash"
+  ],
+  "notes": "Single surface, and it is a MARKETING COMPOSITE: serif headline + sans subhead on a warm-grey backdrop above the window, plus a floating white 'Resurf' brand pill composited over the grid (both excluded from app evidence). The window is scaled for the composite (traffic-light cluster ~56px against a ~2085px window — neither clean @1x nor @2x), so absolute pt values are estimated with a scale caveat; ratios/proportions are the trustworthy readings. Lineage reads native (13pt-class body, ~24pt rows, genuine coloured traffic-lights, sentence-case collapsible source-list headers, borderless SF-Symbol toolbar, breadcrumb path) but confidence is only medium: the masonry grid and a filled-circle close button carry web/UIKit flavor, and 'local-first mac app' marketing copy doesn't prove the toolkit (could be polished SwiftUI or a native-styled Tauri/Electron build). Era marked liquid-glass for the 2026 capsule-bezel language, but NO Liquid Glass material is shown — chrome is flat opaque, so glass-discipline audit items are N/A (legitimate absence), and the look would read equally as late Big-Sur. The icon.webp (a soft 3D isometric cube, calm premium utility) was noted as brand context only — not digested (Workflow A / UI only)."
+}

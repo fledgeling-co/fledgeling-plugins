@@ -1,0 +1,75 @@
+{
+  "slug": "sero",
+  "name": "Sero",
+  "category": "AI",
+  "lineage": "web-electron",
+  "lineage_confidence": "high",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png (marketing composite; app window is the evidence, backdrop/headline/pill are brand)",
+      "surface_type": "main window — three-pane (source list / light document card / assistant chat)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 3,
+      "failures": [
+        "#8 focal collision — two filled toolbar pills adjacent (white 'How it works' + blue 'Open Document')",
+        "#9 severity-chip text contrast — pink-on-pink / yellow-on-yellow likely <4.5:1",
+        "#10 card-border contrast — ~1px near-white hairlines on white doc card likely <3:1",
+        "#6 marginal — content-doc body lines run ~75-85ch",
+        "native#1 lineage reads web-electron, not AppKit-native",
+        "native#3 selection is a bordered navy fill, not the flat inset accent fill",
+        "native#6 accent is brand-splashed blue (#0A84FF), not bound to system accent",
+        "native#7 two prominent actions in one region",
+        "native#9 toolbar carries a wordmark + filled pills, not borderless SF Symbols"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/chrome-toolbar", "value": "#0E1012", "quality": "measured", "notes": "near-black toolbar"},
+    {"token": "bg/sidebar", "value": "#000000", "quality": "measured", "notes": "pure black — dark-mode anti-pattern (HIG: avoid pure black)"},
+    {"token": "bg/assistant-pane", "value": "#1A1C1E", "quality": "measured", "notes": "third distinct dark value; no coherent single elevation ramp across panes"},
+    {"token": "bg/document-card", "value": "#FFFFFF", "quality": "measured", "notes": "pure-white light page floated on dark canvas"},
+    {"token": "accent/primary", "value": "#0A84FF", "quality": "measured", "notes": "system-blue-adjacent (Big Sur-era iOS blue); NOT macOS 27 kit blue #0091FF dark; used as brand colour on wordmark o-dot, both CTAs, chat bubble, selection"},
+    {"token": "selection/sidebar-fill", "value": "~#112D4B navy translucent + faint blue border, blue label", "quality": "measured", "notes": "custom bordered navy fill, NOT native flat inset accent selection"},
+    {"token": "type/body", "value": "~13-14px equiv (reads web-generous)", "quality": "estimated", "notes": "cannot confirm native 13pt from downscaled composite"},
+    {"token": "type/section-header", "value": "~11px tracked UPPERCASE, secondary gray", "quality": "estimated", "notes": "web tell; native uses sentence/title case"},
+    {"token": "radius/card", "value": "~8-10px", "quality": "estimated", "notes": "callout cards + chat response bubble"},
+    {"token": "radius/pill", "value": "capsule", "quality": "estimated", "notes": "toolbar CTAs, sidebar selection, chat send button"},
+    {"token": "chrome/sidebar", "value": "~210px wide, full-height, opaque (no vibrancy)", "quality": "estimated", "notes": "narrower than kit 256pt example; flat opaque"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~210px, pure-black, title-case section headers Active/Recent (native-correct), bordered navy selection with blue label (non-native), doc-glyph rows, trash affordance in Recent header"},
+    {"pattern": "toolbar", "key_values": "single unified row ~40-52pt-equiv; leading brand wordmark; centered doc title + '● Ready' status subtitle; trailing 2 filled pills + gear + dark-mode moon; NON-NATIVE (wordmark, filled marketing pills, in-app appearance toggle)"},
+    {"pattern": "list", "key_values": "colour-coded finding cards — green Strengths / orange Issues / blue Recommendations left rules, dot bullets, Critical-Major-Minor severity chips, '· Aligns with / · Violates' metadata (web callout grammar)"},
+    {"pattern": "inspector", "key_values": "right assistant pane ~240px: header + trash, right-aligned blue user bubble (iMessage mimic), dark structured 'Page N Highlights' response card, bottom composer 'Ask about this document…' with circular ↑ send"},
+    {"pattern": "other", "key_values": "light document card (#FFFFFF) floated on dark canvas — a rendered page in a card, not a native content list/table"}
+  ],
+  "signature_moves": [
+    "Dual 'report card' language: UX audit as colour-coded left-ruled finding cards with Critical/Major/Minor chips, mirrored by the assistant's structured 'Page N Highlights' text summary — coherent and purposeful, but a web signature (component callouts + chat), not transferable mac taste",
+    "AI-orb brand through-line: the icon's luminous blue→lavender ring echoed in the wordmark's glowing 'o'",
+    "Overall verdict: competent-but-web — polished dark AI-assistant wrapper in the 2025 'dark neutral + electric blue' idiom"
+  ],
+  "defects": [
+    "Focal Collision — two filled toolbar pills adjacent (white 'How it works' + blue 'Open Document'); canon = one filled primary per region",
+    "Contrast Dilution (mild) — severity chip text pink-on-pink/yellow-on-yellow (<4.5:1); 'Aligns with/Violates' metadata not de-emphasized from body",
+    "Pure-black dark surfaces — sidebar #000000 plus three unrelated dark values across panes; HIG dark-mode correction = avoid pure black, one elevated tonal ramp",
+    "Non-native selection — bordered navy fill vs the flat inset accent fill (visible border is the tell)",
+    "Faint card borders — ~1px near-white hairlines on the white document card likely <3:1"
+  ],
+  "aesthetic": {
+    "adjectives": ["dark", "luminous", "chat-forward"],
+    "direction": "Neo-grotesque product (dark neutral ramp + one electric-blue accent + glow), delivered in an Electron/webview wrapper — the current default-model 'dark SaaS' reach-for look",
+    "peers": ["Raycast (dark command idiom)", "Linear/Vercel (dark neutral + electric accent)", "ChatGPT/Claude desktop wrappers", "Cursor"],
+    "cluster_hint": "electron-ai-dark (non-native web cluster; excluded from macOS canon)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — the single blue 'Open Document' should be the one different thing, but the adjacent white filled pill dilutes it (violation → focal collision)",
+    "Aesthetic-usability effect (Kurosu & Kashimura) — the luminous dark polish buys first-impression trust; used well as a halo",
+    "Miller/Cowan chunking + progressive disclosure — findings chunked into Strengths/Issues/Recommendations with severity tiers reduces working-memory load (good use)",
+    "Jakob's Law — apes iMessage bubbles and web-SaaS chrome so users feel at home in WEB conventions, at the cost of Mac-native expectations (in-app dark toggle, wordmark toolbar, filled pills)",
+    "Recognition over recall — assistant composer uses placeholder-as-label ('Ask about this document…'); acceptable in a chat box, minor"
+  ],
+  "notes": "Only one asset: a 1200x630 marketing composite (blue gradient backdrop, 'Search with Zero Resistance' headline, 'Download Sero' pill, floating AI-orb icon). The app window is rendered BELOW 1:1 inside it — no clean @2x, so all geometry is (estimated) with wide ranges and low precision; colour samples are clean sRGB and more trustworthy. No discrete screenshots and no light-mode surface were supplied. icon.png (1024²) exists — a black squircle with a glowing blue→lavender orb ring — but was NOT digested (task scope is Workflow A / UI only); note it for a future Workflow B icon pass. LINEAGE GATE: web-electron (high) — profile it, but exclude every property from macOS canon and native clusters; record only as tells + corrections. Accent #0A84FF is system-blue-adjacent, which slightly softens the 'wrong accent' finding, but it is still applied as a brand colour rather than bound to the system accent."
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "uninstally", "name": "Uninstally", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": ["#4 broom silhouette survives at 16px but thin bristle strokes merge to a paddle and the two smaller sparkles vanish", "#8 only two planes, no micro-shadow under the glyph, so the broom reads as a flat sticker rather than the era's 2-3 lit planes", "#2 optically balanced across the diagonal but the broom is large and its handle tip runs near the upper-right safe-zone margin"],
+  "failures": ["#1 squircle mask AND drop-shadow baked into the artwork on a transparent canvas (corner alpha 0, outer shadow alpha ~23) rather than a square unmasked layer for the system to mask/shadow; double-shadows and risks corner mismatch under macOS 26", "#10 white glyph depends entirely on the violet field for contrast and the mark is a single flat raster, not separable Icon Composer layers, so dark/clear/tinted variants cannot render legibly"],
+  "palette": {"background": "ramp #9E93F3->#523DC6 (single violet/indigo hue ~252 deg, light-at-top)", "glyph": ["#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "diagonal-tool"},
+  "light_model": "top-down ambient; background gradient lighter at top; no specular, no glass edge highlight; flat opaque glyph with zero self-shadow; one baked soft drop-shadow outside the squircle emulating the system shadow",
+  "layer_stack": ["baked outer drop-shadow", "violet gradient squircle field #9E93F3->#523DC6", "white broom glyph (diagonal, handle upper-right -> brush lower-left)", "three white four-point sparkles (upper-left, scaling large->small)"],
+  "devices": ["diagonal broom as the Big Sur tool-at-an-angle crossing the squircle (TextEdit/Preview lineage)", "sparkle trail scaling large->small off the brush (the sparkle-clean motif)", "monochrome white glyph on a single-hue saturated violet field, no competing accent"],
+  "adjectives": ["brisk", "friendly", "monochrome-violet"],
+  "rhymes_hint": "cleaner/maintenance-utility marks (CleanMyMac lineage: broom + sparkles on a saturated field), Big Sur diagonal-tool squircles (TextEdit/Preview), and single-hue-ramp + white-glyph utility icons",
+  "notes": "Genuine 1024x1024 PNG, crisp, not a web-resize; hex/geometry reliable. Load-bearing caveat: the icon BAKES the squircle mask + drop-shadow (corner alpha 0, outer shadow alpha ~23) - the Big Sur convention macOS 26 HIG discourages, and the root of both failures + the clearest 'authored pre-Liquid-Glass' tell in the corpus so far. Brand coherence strong: same violet ~#6B4FE0 is the app accent across the cover (headline highlight, feature glyphs, trash-can rim glow). Metaphor split worth noting: the ICON says broom+sparkle (cleaning) while the COVER hero says trash-can-full-of-apps (removal) - two metaphors for one product; the icon took the friendlier one. Broom-for-cleaner is category-expected/template-adjacent; the sparkle trail + era-native diagonal posture are what lift it above generic glyph-on-gradient."
+}

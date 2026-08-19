@@ -1,0 +1,16 @@
+{
+  "slug": "notion-calendar",
+  "name": "Notion Calendar",
+  "tagline": "Beautifully designed and fully integrated with Notion and Google Calendar.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.notion.com/product/calendar",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/087a43b1-c7b0-4185-859d-7d1ef63cb25d/icon-1783882455368.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/087a43b1-c7b0-4185-859d-7d1ef63cb25d/cover-1783882791349.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion-calendar/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion-calendar/cover.png",
+    "shots": []
+  }
+}

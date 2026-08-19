@@ -1,0 +1,60 @@
+{
+  "slug": "tellie", "name": "Tellie", "category": "Design",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "teleprompter HUD control bar (from marketing composite, not a window capture)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 3,
+      "failures": [
+        "#8 two saturated filled circles adjacent (orange play/pause + green listening) — soft Focal Collision",
+        "#10 dark circular buttons #1C1C1E ~1.3:1 on #080808 panel, shapes fall below 3:1 non-text floor",
+        "#9 'speed 47' tertiary grey borderline against near-black (~4:1)",
+        "native #6 accent role bound to brand orange #FF8A00, not the user's system accent"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/orange-accent", "value": "#FF8A00", "quality": "measured", "notes": "primary button + progress fill + eyebrow + icon body; substitutes for system accent"},
+    {"token": "status/green", "value": "#34C759", "quality": "measured", "notes": "listening/ear indicator; exactly macOS system green (light)"},
+    {"token": "bg/panel", "value": "#080808", "quality": "measured", "notes": "near-black opaque HUD strip (notch aesthetic)"},
+    {"token": "fill/dark-button", "value": "#1C1C1E", "quality": "measured", "notes": "restart/A-/A+/close circles; ~1.3:1 vs panel"},
+    {"token": "track/slider-unfilled", "value": "#252527", "quality": "measured", "notes": "progress groove right of knob"},
+    {"token": "fill/word-highlight", "value": "#905604", "quality": "measured", "notes": "dark-amber box behind the live word; the core feature made visible"},
+    {"token": "label/secondary", "value": "#838388", "quality": "measured", "notes": "'13/24 words · 0:04 left' metadata, ~5.4:1 passes"},
+    {"token": "control/circular-button-size", "value": "~36pt", "quality": "estimated", "notes": "reads as kit XL/toolbar tier; capsule/circle bezel matches macOS 27 capsule era"},
+    {"token": "icon/body-gradient", "value": "#EC924B -> #DD7838 (vertical)", "quality": "measured", "notes": "warm-orange app icon body"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "opaque near-black rounded HUD strip; left transport cluster (play/pause + restart + listening) | progress metadata + orange-filled slider with light-grey knob | reading cluster (speed label + A-/A+ + close); all controls circular; two saturated fills only"},
+    {"pattern": "other", "key_values": "media-transport grammar (play/pause, restart, progress slider, time-remaining) borrowed wholesale for a teleprompter — Jakob's Law reuse"}
+  ],
+  "signature_moves": [
+    "Brand orange #FF8A00 bound to the accent role everywhere (button, progress, word-highlight, icon) — deliberate substitution for the user's system accent",
+    "Single amber-boxed live word = the entire value proposition as one Von Restorff mark, doubling as the product demo",
+    "Notch-as-form-factor: teleprompter is a black rounded HUD evoking the MacBook notch; icon encodes a black notch cutout on an orange clipboard",
+    "Live 'ear' listening indicator (system-green circle + ear glyph) separate from transport — status colour correctly paired with a glyph"
+  ],
+  "defects": [
+    "Focal Collision (soft) — two saturated filled circles (orange action + green status) at equal circular weight blur the one-action read",
+    "UI-contrast (non-text <3:1) — dark button fill #1C1C1E ~1.3:1 on #080808 panel; shapes near-invisible, only white glyphs carry affordance",
+    "Non-native accent binding — accent is app-brand orange, never the user's system tint (recorded as a signature deviation, not sloppiness)"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "confident", "utilitarian-friendly"],
+    "direction": "Warm-utilitarian dark HUD with an editorial-serif brand voice — a Neo-grotesque-product app surface (near-black strip, one electric-warm accent, rounded controls) fronted by an Editorial/literary marketing display serif",
+    "peers": ["CleanShot X (floating capture HUD)", "notch/HUD menu-bar utilities", "teleprompter/creator tools like Detail"],
+    "cluster_hint": "warm-accent dark HUD utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal detection — the one amber-highlighted word is the single different thing; it captures attention pre-attentively and is the app's whole job",
+    "Zeigarnik & Goal-gradient — '13/24 words · 0:04 left' plus the progress slider nag at an incomplete script and accelerate effort toward the end",
+    "Jakob's Law — transport controls (play/pause, restart, progress, time-remaining) reuse the universal media-player schema, making a novel voice-following tool instantly legible",
+    "Fitts's Law — large ~36pt circular targets in a fixed HUD strip are fast to acquire"
+  ],
+  "notes": "CRITICAL for synthesis: the ONLY UI-bearing input is a 1200x630 OG-image marketing composite, not a screenshot. The large black panel is a stylised teleprompter surface and the serif headline is a marketing display face, NOT the app's reading font. Genuine app-chrome evidence is limited to the bottom control bar and the amber current-word highlight, and even the control bar may be a faithful mock. Lineage is unconfirmable (custom floating HUD, no window frame / traffic lights / sidebar / toolbar) so it reads 'unknown/low' and feeds NOTHING to macOS canon. Colours are crisp (hex marked measured) but their role assignment is inferred from a single surface. No settings, empty-state, onboarding, light-mode, or real-window evidence. First app profile in the corpus; corpus stays Novice on the app axis. Category is store-labelled 'Design' but the app is really a creator/presenter utility. Icon (orange clipboard-with-notch, big-sur-style raised bezel, highlighted script lines) digested only as brand evidence per Workflow-A-only scope; no icons/tellie.md written."
+}

@@ -1,0 +1,78 @@
+{
+  "slug": "wallspace",
+  "name": "Wallspace",
+  "category": "Utility",
+  "lineage": "web-electron",
+  "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "main/browse window (dark) — from a marketing cover composite, window shown tilted in 3-D perspective; not a raw screenshot",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 2,
+      "failures": [
+        "14pt #1 grid adherence unverifiable — perspective warp defeats bounding-box measurement",
+        "14pt #9 secondary-white eyebrow/metadata risk <4.5:1 over mid-tone photo regions, no guaranteed scrim",
+        "14pt #10 frosted CTA edge + heart outline + carousel ring risk <3:1 over busy imagery",
+        "native #1 lineage reads web/iOS-styled, not AppKit-native",
+        "native #2 glass-in-content — frosted CTA and translucent bar sit on photographic content (Liquid Glass golden-rule violation)",
+        "native #3 selection is a white-filled segment / white ring, not inset-rounded accent-tinted fill",
+        "native #5 consumer/web density — oversized capsule nav (~36-42px) and CTA, not 20-28pt desktop controls",
+        "native #6 no system-accent binding — selection & primary action are white/neutral",
+        "native #9 header is a branded segmented-nav bar, not native toolbar anatomy (no title/search/trailing-primary)",
+        "native #10 faked chrome — third traffic light gray not green on a focused window"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/chrome", "value": "dark translucent graphite ~#33383E over content", "quality": "estimated", "notes": "top bar reads as dark material over hero photo; perspective-warped render"},
+    {"token": "bg/content", "value": "full-bleed photographic, no opaque canvas", "quality": "estimated", "notes": "content IS the imagery; chrome floats atop"},
+    {"token": "type/wordmark", "value": "~18-22px bold rounded geometric sans (not SF Pro)", "quality": "estimated", "notes": "brand font, in-app header"},
+    {"token": "type/hero-title", "value": "~34-40px Bold white", "quality": "estimated", "notes": "'Sea Cliffs'; tightly tracked"},
+    {"token": "type/eyebrow", "value": "~10-12px UPPERCASE tracked ~+0.08em, secondary white", "quality": "estimated", "notes": "'FEATURED'; tracked-uppercase = web convention"},
+    {"token": "type/metadata", "value": "~13-15px secondary white, space-separated", "quality": "estimated", "notes": "'Mountains  3840x2160  85MB' asset spec line"},
+    {"token": "type/section-header", "value": "~18-20px Bold white", "quality": "estimated", "notes": "'Wallspace's Pick'"},
+    {"token": "type/subtitle", "value": "~12-13px tertiary gray", "quality": "estimated", "notes": "good de-emphasis vs header"},
+    {"token": "nav/segmented", "value": "capsule track ~36-42px tall, white-filled selected segment + dark text, thin separators", "quality": "estimated", "notes": "iOS/web segmented idiom used as PRIMARY nav"},
+    {"token": "button/primary", "value": "frosted-translucent capsule pill ~38-44px, light fill + dark text + up-right arrow", "quality": "estimated", "notes": "glass fill on photographic content"},
+    {"token": "button/secondary", "value": "circular hairline-outline icon (heart) ~36-40px", "quality": "estimated", "notes": "low-contrast outline over photo"},
+    {"token": "radius/card", "value": "~14-18px carousel thumbnails", "quality": "estimated", "notes": "generous, uniform"},
+    {"token": "radius/nav+cta", "value": "capsule (infinite)", "quality": "estimated", "notes": "coincides with macOS 27 capsule direction"},
+    {"token": "accent/system", "value": "none evident — white/neutral selection & CTA", "quality": "estimated", "notes": "no controlAccentColor binding visible"},
+    {"token": "traffic-lights", "value": "red + amber + gray third (not green)", "quality": "estimated", "notes": "faked/custom chrome tell"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "non-native: branded header bar with icon+wordmark leading and a 3-segment capsule nav trailing-right; no title/search/trailing-primary-action; translucent-dark over content"},
+    {"pattern": "card-grid", "key_values": "horizontal 'peek' carousel (~6 thumbs ~150-170px, radius ~14-18px, one ring-selected, bleeds off right edge) + sectioned vertical grid under 'Wallspace's Pick' header"},
+    {"pattern": "empty-state", "key_values": "n/a — not the pattern; hero here is a featured-content banner: eyebrow + title + spec metadata + one frosted capsule CTA + heart, over full-bleed photo"},
+    {"pattern": "other", "key_values": "featured-hero banner: full-bleed cinematic photo with bottom-left text stack and glass CTA (App Store Discover / Apple TV grammar)"}
+  ],
+  "signature_moves": [
+    "Storefront-hero transplant — App Store Discover / Apple TV grammar (full-bleed cinematic hero + glass CTA + peeking carousels) applied to a Mac wallpaper utility; systematic and purposeful but a borrowed template identity, competent-generic not bespoke",
+    "Spec sheet under a cinematic title — resolution + file size ('3840x2160  85MB') sits directly beneath the glossy headline; utility honesty poking through the glossy shell, the one app-specific choice"
+  ],
+  "defects": [
+    "Glass-in-content — frosted 'View Wallpaper' capsule and translucent top bar are glass sitting on photographic content; native glass is floating-chrome-only with content opaque",
+    "Segmented control as main navigation — Home|Explore|Library filled-pill does view switching; HIG names this a non-native mistake (use a tab view/sidebar; a toolbar is not a tab bar)",
+    "Faked chrome — third traffic light gray not green on a focused window; hand-drawn branded header instead of NSToolbar anatomy",
+    "Tracked-uppercase eyebrow — 'FEATURED' is a web/marketing convention, not native sentence-case system-font labeling",
+    "Contrast Dilution over imagery — secondary-white text and hairline frosted controls risk <4.5:1 / <3:1 over mid-tone photo regions without a guaranteed legibility scrim"
+  ],
+  "aesthetic": {
+    "adjectives": ["cinematic", "glossy", "content-forward"],
+    "direction": "Neo-grotesque product crossed with photographic drench — a dark-neutral consumer media storefront (glass overlays on full-bleed imagery)",
+    "peers": ["Apple TV app", "App Store Discover tab", "Unsplash", "Setapp", "wallpaper browsers (Irvue / Wallpaper Wizard)"],
+    "cluster_hint": "photographic-dark-storefront",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-usability effect — heavy investment in the 50ms cinematic hero buys perceived quality; apt for an app whose value is visual, but the halo does not excuse the native-chrome failures",
+    "Von Restorff / Von Restorff one-primary-CTA — a single frosted 'View Wallpaper' pill stands alone against quiet surroundings (correct)",
+    "Jakob's Law — borrows the App Store/streaming storefront schema so browsing is instantly legible (good), yet violates Jakob's Law at the OS layer by faking non-native Mac chrome and nav",
+    "Hick's Law — navigation reduced to three clear scopes (Home/Explore/Library), low decision cost at the top-level choice point",
+    "Serial-position effect — Featured hero leads; carousel 'peek' bleed exploits curiosity to pull horizontal exploration"
+  ],
+  "notes": "ONLY input is a marketing cover composite (cover.jpg, 1440x900); the app window is tilted in 3-D perspective inside a branded backdrop, so every measurement is (estimated) with wide ranges and the retina scale is unknown. No raw screenshots and no shot-* files were supplied. Lineage (web-electron, low confidence) rests on styling idioms — filled-segment pill as top nav, tracked-uppercase eyebrow, glass-pill-over-photo, gray third traffic light — not on a clean screenshot; it could be a stylized SwiftUI mock or an idealized render. EXCLUDE from macOS canon; treat as consumer-storefront contrast evidence only. icon.png (512², dark rounded-square + white 4-point sparkle) was supplied but not digested (Workflow A only) — flag for a Workflow B icon pass. Left half of cover is brand evidence (wordmark, laurel '2026 Wallpapers' badge, 'The Ultimate Wallpaper App' bold-grotesk headline, hex watermark), kept separate from app-window evidence. Corpus is Novice (this is the first app profile; kit already ingested)."
+}

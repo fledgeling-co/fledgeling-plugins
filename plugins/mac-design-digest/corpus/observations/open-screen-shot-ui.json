@@ -1,0 +1,84 @@
+{
+  "slug": "open-screen-shot",
+  "name": "Open Screen Shot",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-share-card (1200x630 OpenGraph) — brand gradient + two-tone headline (left) with a STYLISED depiction of a dark menu-bar popover (right); the window is marketing art, not a screen capture",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 5,
+      "failures": [
+        "#10 UI contrast — row-card border hairlines ~1.5:1 on the near-black panel, nearly invisible (Contrast Dilution)",
+        "#6/#12/#13/#14 n/a — no paragraphs, text inputs, form labels, or focus state present in a static mock",
+        "native#1 lineage unconfirmable — the window is an illustration inside a composite, not a captured AppKit/Catalyst/web surface",
+        "native#5 density reads consumer/iOS-large (~72px rows, ~15px titles), not 13pt-body/24-28pt-control AppKit density",
+        "native#4/#9 n/a — no sidebar section headers, no toolbar in the depicted popover"
+      ]
+    },
+    {
+      "file": "icon.png",
+      "surface_type": "app icon (512x512) — blue scan-frame + downward-arrow glyph on a blue->cream vertical ramp with a Dock/tab-strip motif; digested for brand context only, NOT a UI surface",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "n/a — app icon (Workflow B subject), not a UI surface; recorded here only to evidence the icon/UI accent discontinuity"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/panel", "value": "~#17191B near-black flat opaque", "quality": "estimated", "notes": "floating popover panel; no glass/vibrancy visible (pre-Liquid-Glass idiom); source: mock"},
+    {"token": "bg/row-card", "value": "~#232629", "quality": "estimated", "notes": "list-row fill, one step lighter than panel"},
+    {"token": "border/row-card", "value": "~#33363B (~1.5:1 on panel)", "quality": "estimated", "notes": "faint hairline — low UI contrast, #10 failure"},
+    {"token": "accent/primary", "value": "mint-teal ~#3ED9A2", "quality": "estimated", "notes": "between system Green #34C759 and Mint #00C8B3; does NOT match the icon's system-blue glyph"},
+    {"token": "text/primary", "value": "#FFFFFF", "quality": "estimated", "notes": "wordmark + row titles"},
+    {"token": "text/secondary", "value": "~#8B8E93", "quality": "estimated", "notes": "'Click to capture' subtitle; ~4:1 on card, borderline but de-emphasis intent is correct"},
+    {"token": "thumb/gradient", "value": "~#FBEBD2 -> ~#F4C889 (cream->amber)", "quality": "estimated", "notes": "placeholder capture thumbnails; warm content vs cool chrome — the signature contrast"},
+    {"token": "radius/panel", "value": "~28-32px (illustration units)", "quality": "estimated", "notes": "large friendly corner; 1x web composite, not retina"},
+    {"token": "radius/row-card", "value": "~12px", "quality": "estimated", "notes": "child radius steps below panel — roughly concentric"},
+    {"token": "radius/thumb", "value": "~8px", "quality": "estimated", "notes": ""},
+    {"token": "radius/swatch", "value": "~10px", "quality": "estimated", "notes": "bottom slot squares"},
+    {"token": "type/wordmark", "value": "~18px bold white 'OpenSS'", "quality": "estimated", "notes": "~Title2/Headline class"},
+    {"token": "type/row-title", "value": "~15px semibold white", "quality": "estimated", "notes": "~Title3 class"},
+    {"token": "type/row-subtitle", "value": "~12px regular gray", "quality": "estimated", "notes": "~Callout class"},
+    {"token": "row/height", "value": "~72px (illustration units)", "quality": "estimated", "notes": "reads consumer/touch-friendly, not AppKit-compact"},
+    {"token": "header/icon-tile", "value": "~40x40 dark-teal square, radius ~10px", "quality": "estimated", "notes": "mini-icon that does NOT match the real app icon — a mock tell"},
+    {"token": "brand/gradient", "value": "royal blue ~#2B44B8 -> periwinkle ~#6C80D4 -> warm sand ~#E7C588", "quality": "estimated", "notes": "BRAND backdrop, not app UI; cool->warm diagonal, sand strip echoes thumbnail warmth"},
+    {"token": "brand/headline", "value": "~64px bold humanist sans, two-tone (solid white + ~50% lavender)", "quality": "estimated", "notes": "BRAND; 'Long screenshots,' opaque / 'from the menu bar' translucent"},
+    {"token": "brand/eyebrow", "value": "~14px tracked uppercase + mint dot, 'FREE · OPEN SOURCE · macOS 14+'", "quality": "estimated", "notes": "BRAND eyebrow"},
+    {"token": "brand/accent-dot", "value": "mint ~#3ED9A2", "quality": "estimated", "notes": "the one place brand + UI accent agree"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "dark near-black rounded popover: header (mini-icon + wordmark) over a 3-row capture-target list (thumbnail + title + 'Click to capture' subtitle, one row selected w/ green border) over a 5-slot square strip (slot 1 mint-filled). DEPICTED IN MARKETING ART, not captured — pattern shape is suggestive only, metrics are illustration units"},
+    {"pattern": "floating-panel", "key_values": "~28-32px corner radius, flat opaque #17191B, no traffic lights (correct for a popover), warm-content/cool-chrome chroma split"},
+    {"pattern": "list", "key_values": "rounded row-cards ~72px tall, ~10px gap, leading thumbnail + trailing 2-line text, de-emphasised gray subtitle; selection = green border + faint tint (not native inset-accent-fill exactly)"}
+  ],
+  "signature_moves": [
+    "Warm-content / cool-chrome split — the only chroma inside the dark popover is the cream->amber thumbnail gradient (the captured content) against a near-black panel + one mint accent (the tool); figure/ground device that rhymes with the backdrop's blue->sand gradient. The single memorable idea, but it is a MARKETING move, not verified native UI",
+    "Two-tone continuation headline — 'Long screenshots,' opaque white + 'from the menu bar' at ~50% lavender; the important half carries full weight, the qualifier recedes (brand-craft de-emphasis)"
+  ],
+  "defects": [
+    "Contrast Dilution — row-card border hairlines ~1.5:1 on the near-black panel, nearly invisible; native would want >=3:1 non-text contrast on separators (soft, from a mock)",
+    "Brand accent discontinuity — icon glyph is system-blue while UI accent is mint/teal, AND the popover header mini-icon does not match the shipped icon; primary evidence the window is marketing art, not a capture",
+    "Density reads consumer/iOS-large, not AppKit — ~72px rows / ~15px titles are touch-friendly popover proportions, not 13pt-body macOS density; legitimate for the audience but disqualifies this as native evidence"
+  ],
+  "aesthetic": {
+    "adjectives": ["friendly", "dark-warm", "unfussy"],
+    "direction": "Neo-grotesque product utility: near-black neutral panel + a single electric mint/teal accent, softened by warm cream->amber content thumbnails; wrapped in an indie-utility OpenGraph card (cool blue->warm sand gradient, big two-tone grotesque headline). Sits in the Shottr/Xnapper/CleanShot promo register. NOTE: characterises the marketing composite + its depicted mock UI only — no shipped native surface was observed",
+    "peers": ["CleanShot X", "Shottr", "Xnapper", "Pika"],
+    "cluster_hint": "dark-neutral mint-accent menu-bar utility (HOLD — UI evidence is a mock, not a capture)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — one green-highlighted row and one mint-filled slot make the single different thing the focal thing; used well in both the list and the slot strip",
+    "Aesthetic-usability effect / 50ms first impression — the OG card is a thesis statement: headline + popover depiction answer 'what is this' (long screenshots, from the menu bar) instantly",
+    "Recognition over recall (Jakob's Law) — thumbnail + title + subtitle rows preview the capture target rather than naming it abstractly; a trained list schema",
+    "Hick's Law — three clear capture targets rather than an overwhelming source list keeps the decision point small (though this is a curated marketing subset, not necessarily the real app's density)"
+  ],
+  "notes": "CRITICAL FOR SYNTHESIS: this source has NO real screenshots — only a 1200x630 OpenGraph marketing card (cover.png) and a 512px app icon (icon.png). The 'app window' on the cover's right is a STYLISED marketing illustration, not a captured surface, evidenced by (a) the popover header mini-icon (plain dark-teal square) not matching the actual app icon (blue scan-frame + download-arrow), and (b) mint/teal UI accent vs system-blue icon glyph. Therefore: (1) lineage is UNKNOWN and unclassifiable — do NOT promote any macOS UI canon or seed a native style cluster from this; open-screen-shot's real framework (likely AppKit/SwiftUI for a menu-bar extra) is NOT evidenced here. (2) era 'big-sur' tags the flat-opaque idiom + the cover's own 'macOS 14+/Sonoma' claim, pre-Liquid-Glass, but is (insufficient-evidence) since it is an illustration. (3) rubric 11/14 and native 5/10 are SOFT scores against a mock and should carry near-zero weight in cross-app aggregation; read the failures[] and defects[]. (4) All measurements are 1x web-composite illustration units, (estimated). To actually digest this app, real captures are needed: the live menu-bar dropdown, the window-picker, the auto-scroll/crop HUD, and Settings. Peer for a proper future comparison: CleanShot X, Shottr, Xnapper (screenshot menu-bar utilities)."
+}

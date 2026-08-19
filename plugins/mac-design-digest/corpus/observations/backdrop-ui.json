@@ -1,0 +1,53 @@
+{
+  "slug": "backdrop", "name": "Backdrop", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite — space-grey MacBook Pro device frame rendering the app's live-wallpaper OUTPUT on a Finder desktop; no Backdrop app UI (no window/toolbar/sidebar/popover/settings) present",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "N/A — no app UI surface to score; 14-pt rubric inapplicable to a marketing composite",
+        "N/A — 10-pt native-tells audit inapplicable; visible menu bar + Dock are Apple's Finder chrome, not Backdrop's design",
+        "coverage-gap — active menu-bar app is Finder; Backdrop's own interface (likely a menu-bar-extra popover / prefs window) does not appear"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/ground", "value": "#020018 to #0B0111, center lift #080928", "quality": "measured", "notes": "MARKETING not app-UI: near-black deep-indigo vignette behind the device; drenched-dark hero ground"},
+    {"token": "brand/headline-fill", "value": "#F6F5F8 (cool off-white)", "quality": "measured", "notes": "MARKETING: subtly toned white, not pure #FFF"},
+    {"token": "brand/headline-type", "value": "SF Pro Display Bold, ~64px display + ~28px kicker", "quality": "estimated", "notes": "MARKETING: Apple product-page value-prop grammar; centre-aligned single column"},
+    {"token": "brand/accent-gradient", "value": "cyan #84D1FF -> periwinkle #9EB8FF/#A6AEFF -> violet #C18AFF/#AC6CDF", "quality": "measured", "notes": "MARKETING: horizontal gradient on the phrase 'Lock Screen Support', sampled from the product wallpaper palette — the page's single saturated moment"},
+    {"token": "product/wallpaper", "value": "blue->cyan->purple->magenta flowing gradient", "quality": "measured", "notes": "The app OUTPUT, not UI; generative gradient art shown as the value proposition"},
+    {"token": "icon/ground", "value": "vertical gradient #9AABF9 (top) -> #4159D0 (bottom)", "quality": "measured", "notes": "ICON context (Workflow B deferred): light-periwinkle-to-deep-indigo squircle, Big Sur-era single material"},
+    {"token": "icon/glyph", "value": "white #FEFDFF four-pointed sparkle pair (large + small)", "quality": "measured", "notes": "ICON context: flat shine/sparkle motif, no overlay device, no depth stack"},
+    {"token": "chrome/system", "value": "not recorded", "quality": "assumed", "notes": "Visible Finder menu bar + glass Dock are Apple's system UI — deliberately NOT attributed to Backdrop"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing-composite / device-framed product hero — no reusable app-UI pattern present; app is inferred (low confidence) to be a menu-bar-extra utility but its menu-bar-extra surface is not visibly confirmed"}
+  ],
+  "signature_moves": [
+    "Accent text sampled from the product: the one colored phrase carries a cyan->violet gradient lifted from the live wallpaper it sells (brand move, not a UI token)",
+    "Product-as-hero, interface-absent: sells the result (a beautiful desktop) and hides the tool entirely — a deliberate register for an ambient utility"
+  ],
+  "defects": [
+    "None attributable — no Backdrop UI is present to assess; absence of app-surface evidence is a coverage gap, not a design defect"
+  ],
+  "aesthetic": {
+    "adjectives": ["nocturnal", "luminous", "product-hero"],
+    "direction": "Apple product-marketing hero x neo-grotesque dark: drenched deep-indigo ground, disciplined SF Pro Display, one gradient accent moment sampled from the product",
+    "peers": ["Apple mac product pages", "Cindori house style (Sensei/Aquatic)", "CleanShot X / Raycast marketing"],
+    "cluster_hint": "keynote-dark-hero (marketing register — NOT a macOS UI style cluster)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect + 50ms first impression (Lindgaard) — leads with the product's beauty; the wallpaper IS the thesis statement, buying forgiveness before any feature is read",
+    "Demonstrate-don't-describe / description-experience gap (Hertwig & Erev) — shows the live wallpaper on a real device rather than describing it",
+    "Von Restorff effect — the single gradient accent phrase is the one differentiated element, steering the eye to the new 'Lock Screen Support' feature",
+    "Jakob's Law — the MacBook-Pro-hero device-frame convention (Apple's own grammar) makes it read instantly as trustworthy Mac software"
+  ],
+  "notes": "CRITICAL for synthesis: cover.png is a MARKETING COMPOSITE with NO Backdrop app UI — the active app is Finder; menu bar + Dock are Apple system chrome; the on-screen art is the app's wallpaper OUTPUT, not its interface. No 14-pt rubric or 10-pt native audit was scored (marked 0 = N/A, not a real score) because there is no app surface to measure, and no macOS UI canon may be drawn from this record. All 'brand/*' and 'icon/*' tokens are brand evidence only. Icon (icon.webp, sha 18cbf712) noted as context but NOT digested under Workflow B (out of scope this pass). To actually place Backdrop's design, a screenshot of its menu-bar-extra popover / preferences window is required. Lineage held at unknown/low despite a plausible native inference from category+developer."
+}

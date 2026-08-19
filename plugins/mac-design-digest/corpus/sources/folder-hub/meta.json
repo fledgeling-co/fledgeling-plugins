@@ -1,0 +1,16 @@
+{
+  "slug": "folder-hub",
+  "name": "Folder Hub",
+  "tagline": "Show File Browser Right at Your Fingertips.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://www.finderhub.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ed86f93b-8bbd-4caf-bd86-3341d692e4ea/icon-1783882479958.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/ed86f93b-8bbd-4caf-bd86-3341d692e4ea/cover-1783882480234.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/folder-hub/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/folder-hub/cover.webp",
+    "shots": []
+  }
+}

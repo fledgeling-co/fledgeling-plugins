@@ -1,0 +1,68 @@
+{
+  "slug": "glance", "name": "Glance", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main document window, rendered-markdown reading view (find bar active, table context menu open)",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 9,
+      "failures": [
+        "#6 measure — welcome paragraph spans ~75-85ch to near window edge, no visible max-width prose rail",
+        "#1 grid / #10 UI-contrast — plausible-pass but unverifiable on ~1x downscaled marketing composite",
+        "native#9 toolbar pull-down uses colour app-icon glyph, not a borderless monochrome SF Symbol",
+        "native#3 table selection is a spreadsheet-style accent-outline range, not the flat inset-rounded list-row fill (context-appropriate)",
+        "native#4 sidebar N/A — single-pane window, no source list"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "~#1C1C1E-#1E1E1E dark", "quality": "estimated", "notes": "matches kit dark window bg #1E1E1E"},
+    {"token": "type/body-reading", "value": "~15-16px SF Pro, lh ~1.5x", "quality": "estimated", "notes": "deliberately LARGER than kit 13pt Body — reading-optimized, the core signature"},
+    {"token": "type/h1", "value": "~28-30px Bold", "quality": "estimated", "notes": "above kit LargeTitle 26pt"},
+    {"token": "type/h2", "value": "~19-20px Bold", "quality": "estimated", "notes": "'Things to try'"},
+    {"token": "type/code-inline", "value": "monospace + subtle fill chip", "quality": "estimated", "notes": "inline `.md`"},
+    {"token": "accent/primary", "value": "system blue ~#0091FF", "quality": "estimated", "notes": "matches kit Dark Blue; sole accent (selection + find + focus)"},
+    {"token": "find/active-match", "value": "bright yellow bg ~#FFEA00, black text", "quality": "estimated", "notes": "current 1-of-9 match"},
+    {"token": "find/other-match", "value": "muted olive/tan bg", "quality": "estimated", "notes": "8 dimmed non-active matches — two-tier highlight"},
+    {"token": "chrome/toolbar", "value": "glass capsules, ~36pt XL controls, 3 groups", "quality": "estimated", "notes": "zoom -/+ morphed pair; icon pull-down; share"},
+    {"token": "chrome/titlebar", "value": "centred doc title 'glance.md' + 'Edited' secondary subtitle", "quality": "estimated", "notes": "AppKit document-window titlebar"},
+    {"token": "radius/toolbar-control", "value": "capsule (height/2)", "quality": "estimated", "notes": "Liquid Glass bezel"},
+    {"token": "radius/context-menu", "value": "~10-12px", "quality": "estimated", "notes": "rounded translucent popover"},
+    {"token": "selection/table", "value": "2px accent-blue outline + column ellipsis handle", "quality": "estimated", "notes": "spreadsheet range selection, not list-row fill"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "3 glass groups, ~36pt XL capsule controls, borderless mono symbols except colour pull-down glyph; zoom pair as one morphed container; trailing share"},
+    {"pattern": "table", "key_values": "2-col markdown table (Action|Shortcut), bold header w/ subtle elevated fill, column selection via 2px accent outline + ellipsis handle, edits via context menu"},
+    {"pattern": "floating-panel", "key_values": "native find bar — pill field, magnifier + query + '1 of 9' + up/down chevrons + clear, right-aligned to content width, two-tier match highlighting"},
+    {"pattern": "other", "key_values": "context menu — leading SF Symbols, sentence case, destructive 'Delete Column' divider-separated at bottom, ~10-12px radius"}
+  ],
+  "signature_moves": [
+    "'No editor chrome' single-pane reading surface — no sidebar/inspector; rendered markdown carries the whole UI",
+    "Reading-optimized body type ~15-16px, above the macOS 13pt system Body — chrome density traded for reading density",
+    "Two-tier find highlight — bright-yellow active match vs dimmed olive others (Von Restorff inside find)",
+    "Editor disguised as a viewer — editable cells + full table-column ops hidden behind native context menus/gestures",
+    "Friendly minimal mascot icon (light squircle, faint spreadsheet grid, two-bar eyes + smile) adds brand warmth without breaking quiet chrome"
+  ],
+  "defects": [
+    "Line Length Fatigue (soft) — welcome prose wraps ~75-85ch to near window edge, no max-width reading rail; canon caps ~65-75ch",
+    "Toolbar grammar minor deviation — pull-down uses colour app-icon glyph instead of monochrome SF Symbol (systematic/purposeful, logged as deviation not hard defect)"
+  ],
+  "aesthetic": {
+    "adjectives": ["restrained", "reading-first", "native-quiet"],
+    "direction": "System-native minimal — neo-grotesque-product restraint (dense-calm, single accent) applied to an editorial reading surface, committed to SF Pro + generous leading rather than a custom typographic identity",
+    "peers": ["iA Writer", "Bear", "Apple Quick Look markdown preview"],
+    "cluster_hint": "native-minimal-reader",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — leans entirely on macOS conventions (find bar, context menus, traffic lights, share) so it feels instantly familiar; innovation is the product (instant .md render), the interface stays conventional",
+    "Aesthetic-Usability Effect — generous typography + clean quiet chrome buys the premium/usable halo on first contact",
+    "Von Restorff effect — one accent (blue) + one bright-yellow active find match makes the current hit pop against dimmed siblings",
+    "Hick's Law / Progressive disclosure — minimal toolbar; editing decisions (table ops) pushed into context menus rather than surfaced as chrome, reducing decision points",
+    "Tesler's Law — irreducible editing complexity absorbed into contextual affordances (menus, gestures) instead of pushed onto visible UI"
+  ],
+  "notes": "Single marketing-cover composite only (1680x945, ~1x downscale) — NOT a raw screenshot; all pixels (estimated) with wide ranges, ratios more trustworthy than absolutes. Window right+bottom edges bleed off the composite frame: 'no sidebar / single pane' is inferred, not confirmed. Dark mode only; light mode and all other surfaces (settings, empty state, onboarding) unseen. Marketing tagline says 'viewer' but the window evidences a full editor (editable cells, table-column ops) — do not treat the copy as design intent. First app in corpus: nothing promotable; keep at (inferred). Would benefit from a raw @2x screenshot and a light-mode surface to confirm type scale and canvas tokens."
+}

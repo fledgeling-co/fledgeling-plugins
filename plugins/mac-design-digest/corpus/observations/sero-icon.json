@@ -1,0 +1,41 @@
+{
+  "slug": "sero", "name": "Sero", "category": "AI",
+  "era": "custom",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#1 mask discipline — fits the squircle cleanly but bakes the drop shadow, top-rim highlight, and mask into the raster (HIG: ship square unmasked layers)",
+    "#4 16px squint — glyph survives, but the ~10% ring stroke thins to ~1.6px and the near-black container edge is defined only by the baked shadow (bloom rescues legibility)",
+    "#5 single light model — predominantly emissive (ring lights the void) but a faint top-rim highlight implies a second top-down environment light",
+    "#9 era coherence — hybrid: Big-Sur front-facing squircle container + custom dark-emissive treatment + Liquid-Glass-adjacent iridescent tint, no single system era",
+    "#10 variant robustness — passes (carrying ring glyph survives mono/tinted), but the bloom+iridescence drama is contingent on the black ground and it ships as a baked raster, not layered Default/Dark/Clear/Tinted"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "flat near-black cool: #161616 (edges) -> #14283C (center navy vignette), squircle corners alpha 0",
+    "glyph": ["#189FFC", "#41A8FC", "#92BCFD", "#E1D1FF", "#ADC4FE"],
+    "accent": "#189FFC"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Emissive / self-luminous: the ring is the light source, blooming outward into a near-black ground; faint baked top-rim environment highlight on the squircle edge; radial vignette darkens the aperture center. No top-down scene light.",
+  "layer_stack": [
+    "baked squircle mask + baked drop shadow",
+    "near-black cool ground",
+    "emissive bloom halo",
+    "conic blue->lavender ring (focal)",
+    "radial center vignette (inside the ring's eye)",
+    "faint top-edge rim highlight"
+  ],
+  "devices": [
+    "emissive aperture — glyph as its own light source, blooming into the black",
+    "conic electric-blue -> lavender iridescent sweep on the ring (Liquid-Glass specular tint on flat art)",
+    "radial center vignette giving the flat ring lens/void depth",
+    "baked Big-Sur squircle + soft drop shadow + faint top rim (raster-baked container hygiene)"
+  ],
+  "adjectives": ["luminous", "minimalist", "nocturnal"],
+  "rhymes_hint": "Dark luminous-emblem icons — a single geometric glyph rendered as its own light source on near-black (AI/utility register: Raycast/Arc/terminal-dark neighbourhood). Palette family: electric-blue -> lavender iridescence. Direct corpus cousin: alcove (both dark-ground glowing focal, cool iridescent ramp, raster-baked) — but Sero is stronger: it has a carrying silhouette and a subject-linked glyph where alcove leans wholly on its gradient field.",
+  "notes": "Native 1024x1024 master, no gradient banding — but PRE-MASKED: corner alpha 0 plus a baked drop shadow and faint top-rim highlight, i.e. a fixed raster render, not square unmasked Icon Composer layers, so variant behaviour is inferred not observed. Ring is optically centred (~512,520, 8px low = correct nudge), outer diameter ~684px (~67% canvas, round-glyph fill), stroke ~100px (~10%). The ring reads simultaneously as the O of 'Sero', the zero of 'zero resistance', and a search lens/aperture — honest subject-mining. Glyph could be read as a letter/digit O but is a geometric ring, not set type, so #12 passes. Brand coherence is strong: the icon's #189FFC->#E1D1FF ring ramp is the same blue->lavender axis as the cover's gradient sky."
+}

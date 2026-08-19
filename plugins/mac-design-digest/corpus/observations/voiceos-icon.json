@@ -1,0 +1,15 @@
+{
+  "slug": "voiceos", "name": "VoiceOS", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#2 lockup optically centred vertically but ~6px right-of-centre horizontally at 204px render", "#3 shapes crisp and distinct but name a VO monogram, not the subject (voice) — subject-communication gap", "#11 primitive-monogram reduction is nameable but sits in the neo-grotesque/Vercel geometric-mark register, risks reading template-minimal"],
+  "failures": ["#10 near-black glyph fully dependent on the white field; no authored dark/clear/tinted variant evident; would invert or vanish under dark/tinted system render"],
+  "palette": {"background": "ramp #FFFFFF->#F1F1F1", "glyph": ["#151515", "#6F6F6F"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "monogram", "overlay_device": "none"},
+  "light_model": "single top-down; both glyphs share an identical vertical fade (near-black #151515 top -> mid-grey ~#6F6F6F base); no specular, no cast/drop shadow, no refraction; background carries the same top-light ramp",
+  "layer_stack": ["near-white squircle field (subtle vertical ramp)", "two monochrome glyphs (downward triangle + solid disc) on one shared gradient plane"],
+  "devices": ["letterforms-as-primitives monogram (V = downward solid triangle, O = solid disc)", "matched vertical fade tying both marks into one lockup", "strict monochrome on near-white, ~18:1 contrast, zero accent"],
+  "adjectives": ["reductive", "geometric", "monochrome"],
+  "rhymes_hint": "monochrome geometric-monogram family — brand initials reduced to primitives on a near-white squircle; neo-grotesque/Vercel register (Vercel triangle, Arc/Teenage-Engineering reductive marks)",
+  "notes": "204x204 web render, NOT 1024 master; squircle mask already baked in (corners alpha 0) so full-bleed master and any Liquid Glass foreground layers are unverifiable — all values (estimated). Ships in Liquid Glass era but adopts none of its material language (Big Sur-era language). Cover reuses the exact black VO lockup and near-white field (brand-consistent mark) but adds an electric-blue accent #126FF6 that the icon omits entirely — icon is a strict monochrome subset of the brand."
+}

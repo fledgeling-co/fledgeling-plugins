@@ -1,0 +1,78 @@
+{
+  "slug": "inkline-text-editor",
+  "name": "Inkline Text Editor",
+  "category": "Dev",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {"file": "shot-1.png", "surface_type": "main-editor-window (single buffer)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 structural borders (tab bar / pane outline) sub-3:1 on graphite", "native#3 sidebar active-file = bold weight only, no inset accent fill", "native#6 accent is fixed brand violet, not controlAccentColor"]},
+    {"file": "shot-2.png", "surface_type": "main-editor-window (expanded file tree)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 low-contrast borders", "native#3 selection grammar", "native#6 accent binding — but strong per-language file-type icon set"]},
+    {"file": "shot-3.png", "surface_type": "split-editor (two panes, independent tab strips)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 both per-pane tab strips low-contrast", "native#6 accent binding"]},
+    {"file": "shot-4.png", "surface_type": "editor + bottom Git panel (drawer)", "mode": "dark", "rubric_score": 12, "native_audit_score": 7, "failures": ["#10 panel header divider barely visible", "native#6 accent binding"]},
+    {"file": "shot-5.png", "surface_type": "editor + bottom Terminal panel (drawer)", "mode": "dark", "rubric_score": 11, "native_audit_score": 7, "failures": ["#10 borders sub-3:1", "#8/#11 dense ~6-7 icon action cluster in panel header", "native#6 accent binding"]},
+    {"file": "shot-6.png", "surface_type": "settings-window (sidebar nav + grouped section cards)", "mode": "dark", "rubric_score": 13, "native_audit_score": 9, "failures": ["#6 card-description measure ~100ch", "native#6 accent is fixed brand violet, not system accent"]}
+  ],
+  "tokens": [
+    {"token": "bg/editor-canvas", "value": "#282934", "quality": "measured", "notes": "darkest surface; editor content; cool graphite w/ blue-violet tint (B>R,G)"},
+    {"token": "bg/sidebar+panel", "value": "#37383F", "quality": "measured", "notes": "file-tree sidebar and bottom drawers; one step lighter than canvas"},
+    {"token": "bg/titlebar+toolbar", "value": "~#393B45", "quality": "measured", "notes": "lightest graphite — chrome brighter than content (inverted-from-native depth)"},
+    {"token": "bg/settings-window", "value": "#24252C", "quality": "measured", "notes": "Settings is a separate window; base surface"},
+    {"token": "bg/settings-card", "value": "#363841", "quality": "measured", "notes": "grouped outlined section boxes"},
+    {"token": "bg/terminal+theme-card", "value": "~#0B0A0E", "quality": "measured", "notes": "embedded terminal + theme-preview cards; near-black, innermost/darkest layer"},
+    {"token": "accent/primary-brand-violet", "value": "~#8B7CC8 to #9280D0", "quality": "estimated", "notes": "primary buttons, search focus ring, active tab + selected-theme-card border, md headings; FIXED brand hue, not controlAccentColor"},
+    {"token": "text/primary", "value": "~#E8E8EC", "quality": "estimated", "notes": "near-white body/UI; active file name shown bold"},
+    {"token": "text/secondary", "value": "~#6B6E86", "quality": "estimated", "notes": "muted lavender-grey: line-number gutter, status metadata, settings descriptions"},
+    {"token": "type/ui-body", "value": "13pt SF Pro (System)", "quality": "estimated", "notes": "Settings confirms 'UI font family: System' — native macOS 13pt body"},
+    {"token": "type/ui-section-title", "value": "~17pt SF Pro Semibold (Title2-class)", "quality": "estimated", "notes": "Settings section headers"},
+    {"token": "type/editor-mono", "value": "~13pt SF Mono-class, lh ~18-19pt (~1.45x)", "quality": "estimated", "notes": "code buffer"},
+    {"token": "type/status-bar", "value": "~11pt (Subheadline-class)", "quality": "estimated", "notes": "doc metrics + language/encoding/EOL/caret"},
+    {"token": "chrome/sidebar-width", "value": "~300pt", "quality": "estimated", "notes": "wider than kit 256pt example (@2x retina, 2880px raw / 1440pt window)"},
+    {"token": "row/file-tree", "value": "~24pt (kit Small tier)", "quality": "estimated", "notes": "icon-label gap ~6-7pt"},
+    {"token": "row/settings-nav", "value": "~32pt (kit Medium tier)", "quality": "estimated", "notes": "10 icon+label destinations"},
+    {"token": "chrome/titlebar+tab-band", "value": "~80pt (titlebar ~36 + tab row ~44)", "quality": "estimated", "notes": "reads like expanded-toolbar height (kit expanded 77pt)"},
+    {"token": "radius/tab-pill", "value": "~7-9pt", "quality": "estimated", "notes": "browser-style closable document tabs"},
+    {"token": "radius/settings-card", "value": "~10-12pt", "quality": "estimated", "notes": "outlined section boxes"},
+    {"token": "radius/primary-button", "value": "capsule/large (pill-ish)", "quality": "estimated", "notes": "Save Profile / Import Font"},
+    {"token": "chrome/traffic-lights", "value": "genuine 68x14 cluster, ~14pt inset", "quality": "measured", "notes": "real NSWindow controls — strong native tell"},
+    {"token": "syntax/palette", "value": "keyword magenta-pink / type green / identifier blue / string yellow / muted grey punctuation on #282934", "quality": "estimated", "notes": "Dracula-family; default theme named 'Dracula Solid'"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~300pt source-list; flat file tree; blue folder + per-language colour file-type icons; active file by BOLD weight only (no inset accent fill); leading disclosure chevrons; nav-only (correct)"},
+    {"pattern": "toolbar", "key_values": "~44pt band; leading rounded segmented view-switcher (Explorer|SourceControl) over sidebar; center + new-tab + closable document tabs; trailing borderless monochrome group (back/fwd, search, Aa, sliders); custom-drawn, not NSToolbar"},
+    {"pattern": "list", "key_values": "document tab strip = browser-style pills w/ circled close; active tab = lighter raised pill (~7-9pt radius); split view gives each pane its own strip"},
+    {"pattern": "floating-panel", "key_values": "bottom drawer over editor; header = collapse chevron + mode segmented (terminal/git/debug) + label; Git text-tabs (Changes|History|Branches|Stashes, active=inset pill fill); Terminal = near-black embedded shell"},
+    {"pattern": "settings", "key_values": "separate window, no toolbar; left nav sidebar (search + 10 SF-Symbol rows @~32pt); right = grouped outlined section-cards (Title2 + secondary desc + native pop-ups); one filled-violet primary per card, quiet/disabled siblings — exemplary dialog grammar"},
+    {"pattern": "card-grid", "key_values": "Themes: cards w/ name + source + 'Dark' capsule badge + 4-chip swatch row; selected card = violet border"},
+    {"pattern": "other", "key_values": "full-width status bar ~30pt: left doc metrics, right language/encoding/EOL/caret each in a subtle capsule"}
+  ],
+  "signature_moves": [
+    "Zed idiom on native bones: ports Zed/VS-Code dark-editor grammar (activity-view sidebar switcher, closable tabs, bottom terminal/git/debug drawer, Zed-compatible themes) into a genuine AppKit window — Themes pane literally credits Zed",
+    "Fixed brand-violet accent (~#8B7CC8) binds primary buttons/focus/active-tab/selected-card/md-headings — cohesive but overrides the user's system accent",
+    "Inverted-depth graphite: 3-step tonal stack where chrome (#393B45) > canvas (#282934) > terminal/theme-cards (#0B0A0E); depth by tone, not shadow or glass",
+    "Per-language full-colour file-type iconography (php/Go/Rust/Kotlin/Swift/JS/TS/CSS/npm/toml/md) where native browsers use monochrome Finder icons"
+  ],
+  "defects": [
+    "Contrast Dilution (structural) — tab-bar edges, pane outlines and Settings-card borders sit under 3:1 on graphite; grouping survives by fill-step not visible edge. Fix: dark separators from Fills tiers to ~3:1",
+    "Selection grammar deviation (native tell #3) — sidebar active file = bold weight only, no inset rounded accent fill / no accent glyph; Zed-style current-doc indicator, excluded from macOS canon",
+    "Accent not bound to controlAccentColor (native tell #6) — fixed brand violet; consistent but non-native",
+    "Line Length Fatigue (soft) — Settings card descriptions run ~100ch (editor prose is user content, less culpable)",
+    "Dense action cluster — Terminal panel header packs ~6-7 icon actions tightly (borderline crowding, monochrome keeps it below Focal Collision)"
+  ],
+  "aesthetic": {
+    "adjectives": ["graphite-dark", "developer-dense", "violet-accented"],
+    "direction": "Neo-grotesque product-dark / dev-IDE (Zed idiom): dark cool-graphite neutral ramp + one electric-violet accent, dense-calm layout, subtle (too-subtle) borders, Dracula-family syntax — the current default-model dev-tool look, chosen here with genuine reason (it IS a code editor)",
+    "peers": ["Zed (closest, explicit)", "VS Code", "Panic Nova (native-mac comparison)", "Sublime Text", "CotEditor"],
+    "cluster_hint": "developer-dark-ide",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Jakob's Law — heavily exploited: file tree + closable tabs + bottom terminal/git panel + status bar reproduce VS-Code/Zed conventions so developers arrive already trained; muscle memory is the whole value prop",
+    "Aesthetic-Usability Effect — cohesive violet-on-graphite dark theme + per-language icons raise perceived usability/quality on first contact",
+    "Von Restorff (isolation) — the single filled-violet primary among grey/disabled controls (Save Profile) is the one remembered, correct action-singularity",
+    "Hick's Law — Settings split into 10 focused nav sections + a search field keeps each decision point small; editor chrome stays minimal",
+    "Miller/Cowan chunking — bottom drawer chunks tooling into 3 modes (terminal/git/debug) behind one switcher",
+    "External-consistency cost (Jakob, mild violation) — the fixed brand accent ignores the user's chosen system accent, a small break from platform-trained expectation"
+  ],
+  "notes": "All 6 shots are the same app, dark mode only, @2x retina (2880x1800 raw = 1440pt window). No light-mode, empty-state, onboarding, or menu evidence. Cover.jpg is a marketing composite (violet/indigo gradient backdrop, heavy grotesque 'Inkline' display, glass app-icon render, 'BUILT FOR macOS / APPKIT NATIVE' badges) — brand evidence only; the icon and backdrop are NOT UI evidence (icon reserved for Workflow B). Lineage is native/med: chrome is unmistakably AppKit (genuine traffic lights, centred proxy-icon+POSIX-path title, native pop-up buttons, System UI font) and there are zero Electron tells, but the entire interior is custom-drawn in the cross-platform-editor idiom, so a native-shell-around-a-web-editor cannot be fully ruled out from stills — do not learn the interior tab/sidebar/panel grammar as mac canon. Accent-hex is estimated (button has a gradient + white label; sampling averaged them). Structural border colours are the weakest link (Contrast Dilution). Settings window is the strongest, most native surface — closest to canon-eligible."
+}

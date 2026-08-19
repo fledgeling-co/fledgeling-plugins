@@ -1,0 +1,15 @@
+{
+  "slug": "mac-4-breakfast", "name": "Mac 4 Breakfast", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#2 grid: visual weight split between battery and device row, no single optical-centre anchor", "#6 palette: 5-hue device row spends saturation away from focal battery, but contained in a pill", "#10 variant: white+green battery survives tint/dark, but colour-only device row would flatten to one tone under tinted/mono"],
+  "failures": ["#4 16px squint: only the green battery bar survives; lightning bolt smears into the fill and the 5-dot device row degrades to a colour smudge — a communicated feature lost at menu-bar size"],
+  "palette": {"background": "ramp #8B75EE->#517EF3 (violet TL -> blue BR)", "glyph": ["#87ECB1", "#62D993", "#2CC071", "#F0F1F1", "#FFFFFF"], "accent": "device-row dots: #F45D57 #F4B62F #28BF3F #3B7EEF #BF6AEB"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "other"},
+  "light_model": "soft top-down (Big Sur baked-shadow); short micro-shadow lifts the battery frame off the field; green fill lighter at top (#87ECB1) -> darker base (#2CC071); no hard specular, no glass refraction",
+  "layer_stack": ["purple->blue gradient field", "translucent device-row capsule + 5 colour dots", "off-white battery frame + soft drop shadow", "green gradient charge fill", "white lightning-bolt knockout (front)"],
+  "devices": ["menu-bar device row (frosted capsule of 5 colour-coded dots under the hero object)", "literal charging metaphor (green fill + white lightning-bolt knockout)", "complementary field-vs-object contrast (violet-blue field, green object)"],
+  "adjectives": ["literal", "rounded-friendly", "chromatic"],
+  "rhymes_hint": "menu-bar power-utility family (Bartender, iStat Menus, AlDente, CleanMyMac): single system-object on a saturated gradient field, front-facing, soft micro-shadow — Big Sur object-on-gradient cluster",
+  "notes": "256x256 web render, pre-masked with alpha (transparent corners) — green ramp and dot hues reliable; fine micro-shadow/specular not judgeable at this scale; content sits ~6% inside so mask edge not fully readable. Strong icon<->product palette coherence: violet-blue field + green status recur in wordmark, 'Native for macOS' green pill, and the app's green charging chip on the cover. Translucent device-row capsule is a mild glass quote but the icon is Big Sur object-language, not Icon-Composer Liquid Glass; the device row is the element that would break under Liquid Glass tinted/mono appearances."
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "obsidian", "name": "Obsidian", "category": "Writing",
+  "lineage": "web-electron", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-composite (no app UI window)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — no native UI surface present; 14-pt rubric and 10-pt native audit not runnable against a brand composite (icon + wordmark + tagline on a black vignette)"]}
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "#000000 pure black + radial vignette + film-grain noise", "quality": "estimated", "notes": "composite backdrop, NOT a window background"},
+    {"token": "brand/wordmark-color", "value": "#FFFFFF", "quality": "measured", "notes": "'Obsidian' wordmark, white"},
+    {"token": "brand/wordmark-type", "value": "heavy geometric/neo-grotesque sans (~Bold/Heavy), near-circular O, double-story a", "quality": "estimated", "notes": "brand face, not SF Pro; brand type not UI type"},
+    {"token": "brand/accent-purple", "value": "#7C5CFF–#8B5CF6", "quality": "estimated", "notes": "tagline colour / Obsidian brand violet"},
+    {"token": "icon/tile-shape", "value": "rounded-square superellipse (iOS-family squircle)", "quality": "estimated", "notes": "cross-platform identical tile, not a mac-specific scene icon"},
+    {"token": "icon/tile-bg", "value": "graphite gradient ~#2B2B2E to #1A1A1C", "quality": "estimated", "notes": "near-black charcoal, subtle top-lit gradient"},
+    {"token": "icon/glyph", "value": "faceted purple crystal; lavender highlight ~#C9B3F5, deep base #5B2FBF–#7C4DFF", "quality": "estimated", "notes": "flat-shaded facets + pebble bottom lobe; not glossy 3D"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Brand-only: purple faceted 'obsidian gemstone' glyph on graphite tile, flat-shaded facets rather than glossy 3D — a literal material metaphor as the entire mark",
+    "No UI signature claimable — no app window was supplied"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["graphite", "crystalline", "purple-forward"],
+    "direction": "dark-mode gemstone-metaphor brand identity (committed, not template-default) — expressed only at the brand layer here",
+    "peers": ["Linear (dark + violet)", "Raycast (graphite dark)", "Warp"],
+    "cluster_hint": "dark-crystalline-brand (BRAND cluster only; not a native-UI cluster — no UI evidence)",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff (isolation) — the saturated purple glyph is the only chroma against pure black, so it owns all attention",
+    "Aesthetic-Usability Effect — a polished brand composite primes perceived quality before any UI is seen; not evidence the UI delivers it",
+    "Law of Pragnanz — the crystal is reduced to 3-4 flat facets, read instantly at icon scale"
+  ],
+  "notes": "CRITICAL for synthesis: the ONLY supplied images are a marketing cover (1200x688, brand composite: icon + 'Obsidian' wordmark + tagline 'Sharpen your thinking.' on a black vignette) and the 204x204 app icon. There is NO app UI window in any input — no toolbar, sidebar, content region, or chrome. Therefore no framework-lineage classification from a UI body, no rubric score, no native audit. lineage 'web-electron' is LOW confidence, inferred from external product knowledge (Obsidian is a known Electron/CodeMirror app) plus a cross-platform-identical icon tile — NOT from observed UI. Exclude from macOS canon and clusters entirely. Tagline on cover ('Sharpen your thinking.') differs from meta.json tagline ('The free and flexible app for your private thoughts.') — marketing-copy variance. Per Workflow-A-only scope, no icons/obsidian.md was written. If real window screenshots arrive later, this becomes classifiable and scorable."
+}

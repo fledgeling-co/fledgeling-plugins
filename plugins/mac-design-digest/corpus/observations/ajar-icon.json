@@ -1,0 +1,38 @@
+{
+  "slug": "ajar", "name": "Ajar", "category": "Utility",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#9 era: liquid-glass classification is Big-Sur-adjacent; glass reading rests on wedge translucency (base tints toward field) + specular lower rim, both extrapolated at 256px",
+    "#10 variant robustness: monochromatic single-hue composition means dark/clear/tinted survival is inferred not verified; glyph is luminance-defined which should carry, but no layered source to confirm",
+    "#2 grid: base-heavy mass sits in lower third, optically centred via wide anchoring base, not geometrically centred",
+    "#4 16px squint: silhouette holds; specular rim + contact shadow lost by menu-bar size (acceptable, silhouette carries)"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #6864F6->#534CD3",
+    "glyph": ["#EAE9FD", "#D4D2F8", "#A39FE8"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down soft; field and wedge both ramp light-at-top; short subtle contact shadow under wedge base; specular refraction rim on wedge lower curve + apex sheen",
+  "layer_stack": [
+    "indigo squircle field (vertical ramp)",
+    "contact shadow beneath wedge base",
+    "translucent lavender glass wedge (own top-down ramp)",
+    "specular edge-highlight on wedge lower curve + apex"
+  ],
+  "devices": [
+    "wedge-as-lid-ajar (laptop side profile, lid at an angle — the literal subject)",
+    "double-read glyph (same wedge = upward arrow/mountain = light rises with the lid)",
+    "curved-belly base with specular keel (convex bottom + refraction rim, not a flat triangle base)",
+    "monochromatic single-hue tint system (glyph is a lighter value of the field, no second hue)"
+  ],
+  "adjectives": ["monochromatic", "ascendant", "glassy"],
+  "rhymes_hint": "single-glyph-on-single-hue-gradient utility icons; periwinkle/indigo glass-wedge family; Big-Sur-descended minimalist geometric-glyph icons quoting one abstract shape rather than a literal tool",
+  "notes": "Resolution: 256x256 downsized web render, not a 1024 master — ramps and specular rim readable, 16px degradation and per-layer glass effects extrapolated. Squircle mask baked into alpha (pre-masked, transparent corners) so full-bleed square source layers cannot be confirmed, only that composition respects the mask. Era is liquid-glass but honestly Big-Sur-adjacent (single glyph on gradient); the glass evidence is the translucent wedge tinting toward the field at its base plus the specular lower rim. Monochromatic hue = tinted/dark variant robustness inferred not verified. Strong brand coherence: on the cover the icon's indigo squircle is the ONLY colour against an otherwise white/black Swiss-minimal sheet — the icon carries the entire brand hue. Subject-mined device: the app reads laptop lid angle, and the wedge is a lid ajar / a laptop side profile, doubling as an upward light-rising arrow."
+}

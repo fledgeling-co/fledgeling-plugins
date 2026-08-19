@@ -1,0 +1,43 @@
+{
+  "slug": "codeshot", "name": "Codeshot", "category": "Dev",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#3 silhouette is internal tonal modelling, not cutout — camera not nameable from solid-black outer shape",
+    "#4 16px squint: charcoal-on-charcoal lens smears to a blob, traffic-light triad is sole small-size anchor; lens legible only >=32px",
+    "#7 figure-ground: lens barrel #37 vs body #2F-#36 is sub-3:1, tone-on-tone; only the triad clears 3:1"
+  ],
+  "failures": [
+    "#10 variant robustness: fixed dark raster with a BAKED drop shadow, not layered Icon Composer artwork; identity depends on dark body carrying the triad and collapses under tinted/clear modes"
+  ],
+  "palette": {
+    "background": "ramp #363636->#0E0E0E (charcoal, top-lit vertical body ramp)",
+    "glyph": ["#373737", "#0F0F0F", "#6B6B6B", "#E0E0E0"],
+    "accent": "#FF6460 / #FFC31F / #00E71A (traffic-light triad — brighter/candier than macOS system swatches)"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "single soft top-down: top-left speculars on the glossy spheres, grey reflection on upper lens glass, body ramp light-top->dark-bottom, short baked micro-shadows; environmental specular depicts a physical lens, not system glass",
+  "layer_stack": [
+    "baked squircle body (charcoal ramp) + baked drop shadow",
+    "recessed titlebar band with horizontal seam",
+    "three glossy traffic-light spheres in sockets (red/yellow/green)",
+    "lens outer barrel #373737",
+    "inner barrel / deep-black aperture #0F0F0F",
+    "glass element with grey specular oval #6B6B6B",
+    "central white sensor dot #E0E0E0"
+  ],
+  "devices": [
+    "camera-lens-as-window dual metaphor (a snapshot of a code window)",
+    "macOS traffic-light triad as the sole brand accent moment",
+    "titlebar seam bisecting the body into chrome + camera",
+    "glossy skeuomorphic candy-sphere window buttons",
+    "tone-on-tone charcoal modelling of the subject"
+  ],
+  "adjectives": ["nocturnal", "dimensional", "mac-literate"],
+  "rhymes_hint": "nocturnal skeuomorphic object icons — charcoal/dark-neutral Big-Sur squircle with a photoreal object (lens/device) and a single saturated micro-accent; capture/screenshot-tool family and macOS-chrome-quotation (framed-window) icons",
+  "notes": "1024 master, transparent bg (alpha 0), opaque bbox x100-922/y100-932 with soft baked-shadow falloff y915-940 — pre-masked squircle, NOT full-bleed square. Big-Sur era, not Liquid Glass: no translucency/refraction/layer variants; the lens specular is physical, not system glass. Traffic-light hues deviate from macOS system swatches (system red #FF383C, yellow #FFCC00, green #34C759). Subject-mining is honest: the app outputs dark code cards with window chrome, so the icon quotes its own artifact rather than the cover's vibrant marketing gradient. Key learning for synthesis: an all-neutral tone-on-tone subject offloads ALL small-size legibility onto a saturated micro-accent — works at Dock size, fails the 16px menu-bar test for the primary subject."
+}

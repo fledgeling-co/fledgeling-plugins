@@ -1,0 +1,15 @@
+{
+  "slug": "pixelcasso", "name": "Pixelcasso", "category": "Design",
+  "era": "custom",
+  "rubric_score": 9,
+  "soft_passes": ["#2 subject mass sits left-of-centre, not on the optical grid", "#4 face reads at 16px but the pixel-dissolve concept smears into generic low-res photo", "#8 coherent but one flat art plane, none of the era's stacked-plane depth"],
+  "failures": ["#3 no nameable solid silhouette — filled black it is just a square with a face-void", "#10 single dark raster wholly colour-dependent; mono/clear/tinted renders would destroy it, no layered/vector source", "#12 no text but a raster reproduction of an external oil painting — the photographic/non-vector element HIG warns against"],
+  "palette": {"background": "flat gallery-black #030608 warming to #1A150C at lower edge", "glyph": ["#DFCABD", "#C8B8AE", "#997F3F", "#5D4E2B"], "accent": "#C57A78 rosy cheek (blue eye focal detail)"},
+  "composition": {"background_type": "flat", "glyph_type": "scene", "overlay_device": "other"},
+  "light_model": "painterly frontal/upper-left portrait light on the face against near-black; matte, no specular, no baked macOS micro-shadow — internally consistent but not the top-down macOS model",
+  "layer_stack": ["near-black gallery ground", "oil-painted profile portrait (floral crown, rosy cheek, gold hair)", "pixel-mosaic dissolve over hair/right region"],
+  "devices": ["pixel-dissolve pun (classical portrait quantizing into mosaic blocks = Pixel + Picasso)", "full-bleed art reproduction as the icon, no glyph/chrome/tool overlay", "gallery-black ground making the pale portrait glow"],
+  "adjectives": ["painterly", "witty", "gallery-dark"],
+  "rhymes_hint": "full-bleed scene / photo-hero icons (photo-editor family, image-in-squircle strategy) and concept-pun icons whose payload is wordplay rather than a tool metaphor",
+  "notes": "Source is a 192x192 web render, not the 1024 master — mask edge, corner clipping and sub-pixel shadows unassessable; block sizes read at 192px scale. Brand-coherence gap: cover is navy #132238 + steel/cream gradient + serif 'P' monogram; icon shares none of that palette (near-black + gold + skin, no navy, no monogram) — App-Store face and wordmark diverge. Originality/licensing flag: portrait reads as an actual or closely-imitated Picasso painting; shipping a famous artist's work as an icon is a rights risk. Era does not quote any macOS era; classified custom (art-reproduction + digital dissolve)."
+}

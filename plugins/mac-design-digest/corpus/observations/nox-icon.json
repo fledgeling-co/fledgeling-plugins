@@ -1,0 +1,32 @@
+{
+  "slug": "nox", "name": "Nox", "category": "Utility",
+  "era": "flat-transition",
+  "rubric_score": 8,
+  "soft_passes": [
+    "#2 optically centred but object under-fills the canvas — wide white margin, reads small",
+    "#3 silhouette nameable as 'a monitor on a stand' but the meaning (moon + spectrum) lives inside the screen and vanishes in solid black",
+    "#7 moon holds >=3:1 vs green/slate bands but nearly merges with the tan-gold band #C8B060 (same warm-yellow lane)"
+  ],
+  "failures": [
+    "#1 mask discipline: free-form monitor floating on a white field with a baked drop shadow; not designed for the squircle — macOS 26 masks white into a squircle with wide margins",
+    "#4 16px squint: crescent moon + thin diagonal bands smear into a muddy multicolour smudge at menu-bar size; the identity-carrying moon is lost first",
+    "#6 palette economy: 4-5 competing hue families on the screen; yellow accent not reserved — tan-gold band competes with the moon",
+    "#10 variant robustness: not a Liquid Glass composition; white field + white bezel collapse in dark mode, no layer separation for tinted/clear renders"
+  ],
+  "palette": {
+    "background": "flat #FFFFFF",
+    "glyph": ["#F3F3F3", "#B89878", "#C8B060", "#32A84F", "#708888", "#606878", "#FADA58", "#F5CC46"],
+    "accent": "#FADA58"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "flat top-down; subtle top highlight on bezel, warm inner-rim #D9CEAD at screen edge, short soft contact shadow under the oval stand base; no specular, no glass",
+  "layer_stack": ["white #FFFFFF field", "baked soft contact shadow", "monitor body + oval stand #F3F3F3", "diagonal spectrum band scene (mauve->tan->gold->green->slate)", "crescent moon #FADA58->#F5CC46", "bezel inner-rim shade #D9CEAD"],
+  "devices": ["monitor-as-canvas (quotes Apple legacy Displays / System Preferences icon)", "diagonal spectrum bands as literal tint-preset wallpaper (subject-mining)", "crescent moon = the name 'Nox' (night) made visible, the sole saturated glyph"],
+  "adjectives": ["nostalgic", "literal", "spectral"],
+  "rhymes_hint": "flat-transition free-silhouette object icons (Yosemite-Catalina); Apple's legacy Displays / System Preferences pane icon; the 'device-showing-its-own-output' motif (a screen displaying a scene to explain a display utility)",
+  "notes": "180x180px web render only (likely resized by macapp.supply) — no 1024 master; band edges and moon rim soft, so 16px judgement is conservative. Shipping third-party icon but an un-migrated LEGACY icon: exactly the object-on-white pattern macOS 26 masking punishes (wide margins, baked shadow, no Default/Dark/Clear/Tinted variant path). Opaque corners confirmed — full-bleed square with a white field, not transparency or glass layers. Brand coherence: shares only the warm-gold hue with the site (dark, cream-serif, brass-CTA premium register); icon is light-ground flat-illustrative and does not carry the brand's committed direction."
+}

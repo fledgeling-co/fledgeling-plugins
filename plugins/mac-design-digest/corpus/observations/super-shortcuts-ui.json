@@ -1,0 +1,65 @@
+{
+  "slug": "super-shortcuts",
+  "name": "Super Shortcuts",
+  "category": "Productivity",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-og-card (1200x630, no app window)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "#9 partial — meta text #454942 on #0E1810 ~2:1 (intentional/decorative de-emphasis)",
+        "#10 — chip border #1C241E vs ground ~1.2:1, sub-3:1 (decorative keycap illustration)",
+        "#11-#14 N/A — static promo image, no interactive controls to size/focus",
+        "native-tells audit N/A — no native surface present; native_audit_score 0 = not-applicable, NOT ten failures"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/ground", "value": "#0C120E (corners) -> #111A14 (centre), near-black desaturated green", "quality": "measured", "notes": "subtle centre glow behind headline"},
+    {"token": "accent/emerald-fill", "value": "#25AF69", "quality": "measured", "notes": "icon square; brand green, darker/more saturated than macOS system green #34C759 — not the system accent"},
+    {"token": "accent/emerald-bright", "value": "#5FD08D", "quality": "measured", "notes": "headline line 2 AND URL — same hex twice, confirmed accent token"},
+    {"token": "text/primary", "value": "#F2F0EC warm off-white", "quality": "measured", "notes": "headline L1, wordmark, chip glyphs — deliberately not pure #FFF"},
+    {"token": "text/secondary", "value": "#B8B6B0 warm gray", "quality": "measured", "notes": "subhead"},
+    {"token": "text/mono", "value": "#AEB0AB", "quality": "measured", "notes": "'make text red' command demo"},
+    {"token": "text/tertiary-meta", "value": "#454942 dim gray-green", "quality": "measured", "notes": "meta line; ~2:1, intentional near-invisible de-emphasis"},
+    {"token": "surface/chip", "value": "fill #1C241E, ~1px lighter border", "quality": "measured", "notes": "keycap; border ~1.2:1 vs ground"},
+    {"token": "type/headline", "value": "bold grotesk, cap ~44px -> ~58-62px, leading ~1.05-1.1", "quality": "estimated", "notes": "reads SF Pro Display Bold-class; Inter Bold fallback"},
+    {"token": "type/mono", "value": "monospace ~20px", "quality": "estimated", "notes": "command demo + URL; SF Mono / Menlo-class"},
+    {"token": "icon/app", "value": "64x64px green squircle r~14px (~0.22x), white lightning bolt centred", "quality": "measured", "notes": "brand lockup only; full icon digest not run"},
+    {"token": "chip/keycap", "value": "~56x56px rounded square, r~12px, ~8px gaps, 4-up", "quality": "estimated", "notes": "^ opt cmd R — authentic macOS modifier glyphs"},
+    {"token": "layout/margin", "value": "~80px left rail", "quality": "measured", "notes": "shared by icon/wordmark/headline/subhead/chips; URL+meta right-aligned to ~1120px"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing OG social card (1200x630 dark); brand lockup TL + left-aligned headline block + subhead + footer row (keycap demo left / URL+meta right). NOT an app surface."}
+  ],
+  "signature_moves": [
+    "Live keyboard-shortcut demonstration: real macOS modifier keycaps ^ opt cmd R + 'R -> make text red' in mono, showing the product's core interaction inside the promo image (subject-mined, demonstrate-don't-describe)",
+    "Single-accent economy: one emerald hue carries icon + one headline line + URL against near-black ground (Von Restorff by construction)",
+    "Warm off-white #F2F0EC instead of pure #FFF — consistent small softening"
+  ],
+  "defects": [
+    "Contrast Dilution (intentional) — meta text #454942 ~2:1, below 4.5:1 body floor; decorative on a promo card, would fail as UI copy",
+    "UI-contrast (decorative) — chip borders ~1.2:1, below 3:1; illustration not a real control",
+    "Category-default register — dark-neutral + electric-green + bold grotesk + mono is the Linear/Vercel/Raycast dev-tool OG reflex; committed only in the keycap signature"
+  ],
+  "aesthetic": {
+    "adjectives": ["dark", "electric", "utilitarian-confident"],
+    "direction": "Neo-grotesque product (dark neutral ramp + one electric emerald accent) — the dev-tool OG-card idiom",
+    "peers": ["Raycast", "Linear", "Vercel (OG cards)"],
+    "cluster_hint": "dark-dev-tool-marketing (brand-only; NOT a macOS UI cluster)",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Jakob's Law / recognition — real macOS modifier symbols (^ opt cmd) let a Mac user instantly read 'keyboard shortcut' with no learning",
+    "Description-experience gap (demonstrate-don't-describe) — the keycap demo shows the interaction rather than only naming it",
+    "Von Restorff effect — a single emerald accent against near-black makes the one green headline line and URL the remembered elements",
+    "Visual hierarchy via scale + de-emphasis — ~60px headline down to a ~2:1 meta line gives a clean primary/secondary/tertiary read in the 50ms first-impression window"
+  ],
+  "notes": "CRITICAL: only a 1200x630 marketing OG composite was supplied — there is NO app UI window (no chrome, sidebar, toolbar, controls). This is brand evidence only. lineage/era = unknown and this app must NOT feed macOS canon or a native style cluster. native_audit_score 0 means 'not applicable (no native surface)', not ten failures. rubric_score 11/14 counts only the 9 checks that apply to a static marketing layout (#11-14 are N/A). The brand green #25AF69 is deliberately NOT the macOS system green. The app icon (green squircle + white bolt) is recorded as brand context; a proper Workflow-B icon digest is outstanding. To profile this as a mac app the corpus needs real window screenshots."
+}

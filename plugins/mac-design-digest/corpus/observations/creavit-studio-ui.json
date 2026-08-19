@@ -1,0 +1,63 @@
+{
+  "slug": "creavit-studio", "name": "Creavit Studio", "category": "Video",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing cover composite (1200x630 OG card, ~@1x); brand lockup + headline + capsule CTA on drenched black, with a bokeh-blurred / 3D-tilted / chromatic-aberration app-window glimpse (dark editor: a 'Clip' media item over a waveform) that is NOT analyzable",
+      "mode": "dark",
+      "rubric_score": 9,
+      "native_audit_score": 0,
+      "failures": [
+        "#9 text contrast — subtext '#656565' on ~'#050505' ~4.0:1, under the 4.5:1 floor for normal text",
+        "#6/#12/#13/#14 N/A — no paragraphs, inputs, labels, or focus state on a marketing composite",
+        "native-tells audit fully N/A — no app chrome (traffic lights/sidebar/toolbar) visible; app window is out-of-focus and 3D-tilted, so lineage/glass/selection/density all unscoreable",
+        "provenance — brand-layer colours measured; app-UI readings insufficient-evidence; type sizes estimated at @1x"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "#020202-#030306 near-pure black, faintly cool", "quality": "measured", "notes": "drenched-black stage"},
+    {"token": "brand/accent-amber", "value": "#F2BF00", "quality": "measured", "notes": "icon field; the one committed identity hue (warm golden/amber)"},
+    {"token": "brand/graphite", "value": "#2B2B2B", "quality": "measured", "notes": "icon dark panels; also the blurred editor's tone"},
+    {"token": "brand/blue", "value": "#1722BD saturated", "quality": "measured", "notes": "in the blurred product render; likely a secondary in-app accent"},
+    {"token": "brand/headline-white", "value": "#F8F8F8", "quality": "measured", "notes": "display headline"},
+    {"token": "brand/cta-fill", "value": "#F6F5F6 off-white capsule", "quality": "measured", "notes": "Apple glyph + 'Download for free'"},
+    {"token": "brand/cta-text", "value": "#111111", "quality": "measured", "notes": "on white pill"},
+    {"token": "brand/subtext", "value": "#656565 on near-black ~4.0:1", "quality": "measured", "notes": "'No sign-up required · Free to try' — under contrast floor, see defects"},
+    {"token": "type/display", "value": "rounded-geometric bold sans (Poppins/Gilroy/SF-Rounded-class), ~52-56px, leading ~60px (~1.08x)", "quality": "estimated", "notes": "2-line headline, tight display leading"},
+    {"token": "type/wordmark", "value": "same family semibold, ~28-32px", "quality": "estimated", "notes": "'Creavit Studio'"},
+    {"token": "layout/left-rail", "value": "~68px shared left axis (icon+wordmark, headline, CTA, subtext)", "quality": "measured", "notes": "one clean vertical rail, ~8pt grid"},
+    {"token": "icon/silhouette", "value": "rounded-square on transparent corners; two graphite panels split by full-height white divider + side handle-notches; flat two-tone, no depth", "quality": "measured", "notes": "brand-palette evidence (not a full icon-rubric digest); reads as before/after screen frame"},
+    {"token": "app/editor-glimpse", "value": "dark near-black editor; a 'Clip' media item over a waveform row", "quality": "assumed", "notes": "bokeh-blurred + chromatic aberration; insufficient-evidence, not measurable"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing cover composite: ~68px left rail, brand lockup -> ~54px rounded-geometric 2-line headline -> single white capsule CTA (Apple glyph) -> muted 15px reassurance line; right two-thirds = drenched-black + bokeh 3D product render with lens flare; NOT an app surface"},
+    {"pattern": "empty-state", "key_values": "n/a — no app surfaces supplied; app-UI patterns (timeline/inspector/toolbar of a video editor) unobserved and awaiting real screenshots"}
+  ],
+  "signature_moves": [
+    "Amber-graphite two-tone identity (#F2BF00 + #2B2B2B): a deliberate warm rotation off the electric-blue/violet/gradient default of the video-tool category (Screen Studio, Descript, Loom) — the app's entire recognizability in one hue pair",
+    "Icon device: two graphite panels split by a full-height white divider inside a rounded amber tray with side handle-notches — a legible before/after-screen metaphor matching the product's job (boring -> beautiful)",
+    "Otherwise competent-but-anonymous: the hero is the current template-default creator-tool composition (drenched black + one rounded headline + one white pill + bokeh 3D render); only the palette is a committed choice"
+  ],
+  "defects": [
+    "Marginal text contrast — 'No sign-up required · Free to try' subtext #656565 on ~#050505 ~4.0:1, under the 4.5:1 normal-text floor; fix by lifting to ~#8A8A8A+ or enlarging to large-text",
+    "Data-quality (not an app defect) — the app window is bokeh-blurred / 3D-tilted / chromatic-aberration-styled, yielding zero analyzable app UI; recorded so synthesis does not read absence as a pass"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm-dark", "rounded-geometric", "high-contrast"],
+    "direction": "dark neo-grotesque product hero rotated warm — an amber accent (#F2BF00) where the category defaults to electric blue/violet, paired with a rounded-geometric (Poppins/Gilroy-class) display face that pulls it toward friendly/creator rather than austere-pro; this is a BRAND direction only (no app-UI aesthetic observable)",
+    "peers": ["Screen Studio", "Cap", "Screenflow", "Descript", "CleanShot X (dark-utility marketing)"],
+    "cluster_hint": "warm-dark creator utility (brand-only; not an app-UI cluster)",
+    "audience": "creative"
+  },
+  "psychology": [
+    "First-impression / aesthetic-usability (Lindgaard 50ms; Kurosu & Kashimura) — the drenched-black stage with a single bright CTA is a clean thesis statement that buys forgiveness before any app is seen",
+    "Von Restorff effect — the lone white capsule CTA on pure black is the one different thing, so it is pre-attentively unmissable",
+    "Hick's Law — exactly one action and zero competing choices on the hero, minimizing decision latency at the download prompt",
+    "Jakob's Law — the Apple-glyph 'Download for free' pill matches the trained macOS-download convention, so the affordance needs no learning",
+    "Fogg B=MAP (reduction) — 'No sign-up required · Free to try' strips ability-cost friction exactly at the prompt, raising the odds motivation converts to action"
+  ],
+  "notes": "MARKETING-ONLY COVER. No in-app screenshots were supplied (meta.json gallery/shots empty); the cover's app-window glimpse is bokeh-blurred, 3D-tilted and lens-styled, so it yields no measurable UI. This app therefore contributes ZERO to macOS canon and cannot be lineage-classified or cluster-assigned on the UI axis — lineage 'unknown/low' is a genuine can't-tell, not a native/non-native lean (category peers split: Screen Studio native, Cap web/Tauri). The icon was read for brand palette only, not as a full Workflow-B icon digest. Real value learned = the amber-graphite brand palette + the observation that Creavit rotates warm against a cool-default category. Synthesis pass should flag this app as 'awaiting real in-app screenshots' and exclude its tokens from any native-canon promotion."
+}

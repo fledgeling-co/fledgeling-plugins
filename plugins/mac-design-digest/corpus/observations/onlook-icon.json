@@ -1,0 +1,35 @@
+{
+  "slug": "onlook", "name": "Onlook", "category": "Utility",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#1 mask-appropriate design, but this render has baked-in rounded corners on opaque white (#FFFFFF corners, no alpha) — a pre-masked web resize, not full-bleed 1024",
+    "#4 survives 16px as a clean high-contrast warm-glow-in-dark mark, but the 'door' reading smears to 'a glow' — distinctive presence, weak subject identity",
+    "#9 internally coherent register, but custom/cinematic — not a committed quotation of any named Apple era",
+    "#10 luminance-aperture structure would survive dark/mono, but the icon's whole identity is its warmth; a tinted render strips its soul"
+  ],
+  "failures": [
+    "#3 silhouette — filled solid black the icon is just a squircle; subject is defined only by luminance and colour, no nameable shape"
+  ],
+  "palette": {
+    "background": "scene: dark room, near-black warm-charcoal walls #292A21->#2D3021 falling off at edges, warming to #48452D near the bloom",
+    "glyph": ["#F2FCA2", "#F0FCA6", "#E0BF68", "#D3A85E"],
+    "accent": "#EBB75E"
+  },
+  "composition": {
+    "background_type": "scene",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "emissive — the doorway is the light source; warm bloom radiates into a dark room and spills onto a lit receding floor; no system top-down light, no glass specular edge",
+  "layer_stack": ["dark room walls (near-black warm-charcoal)", "warm bloom halo", "lit orange threshold floor", "blown-highlight doorway aperture (cream-yellow)"],
+  "devices": [
+    "emissive doorway — the subject is a hole of light, not a lit object (inverts glyph-on-field)",
+    "warm bloom into dark — glow bleeds into the charcoal walls so figure and ground dissolve",
+    "lit threshold floor — orange light-spill receding in one-point perspective, the only depth cue",
+    "drenched-dark atmosphere — near-black field, single warm luminous focal, no decoration"
+  ],
+  "adjectives": ["luminous", "atmospheric", "warm"],
+  "rhymes_hint": "atmospheric scene/emissive-focal family (ambient/meditation and portal-launcher glow-on-black icons, Endel-/Portal-class), NOT Big-Sur object-on-gradient or Liquid-Glass layered-glyph; first of its kind in this corpus",
+  "notes": "Resolution caveat: 102x102 web render (resized) — bloom softness and any specular detail unreliable at this scale; hex values approximate but ramps read true. Mask observation: fully opaque white corners (255,255,255,255), so this is a PRE-MASKED web resize on white, not a full-bleed square; shipping asset presumed full-bleed 1024, unverifiable here. Subject communication is loose: Ring doorbell -> a glowing front door/threshold ('watch your door'); at 16px it reduces to a warm glow, losing the door. Whole identity is colour-dependent (warm) so tinted/mono variants would strip it. Cover coherence: strong — cover.jpg is the same doorway motif enlarged, warm-glow-on-black with cream text ('Ring cameras in your Mac menu bar'), icon and brand palette fully coherent."
+}

@@ -1,0 +1,65 @@
+{
+  "slug": "maestri", "name": "Maestri", "category": "AI",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window / infinite spatial canvas (inside 14-inch MacBook Pro device frame)",
+      "mode": "light",
+      "rubric_score": 12,
+      "native_audit_score": 9,
+      "failures": [
+        "#14 focus appearance unobservable — static marketing composite",
+        "#12/#13 N/A — no form inputs or labels in view",
+        "#10 node border hairlines (~1px light gray) borderline vs 3:1 on white",
+        "native #4 N/A — sidebar collapsed, section headers not shown"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#FFFFFF-#FCFCFD", "quality": "estimated", "notes": "opaque infinite canvas, light mode — content layer stays opaque (correct glass discipline)"},
+    {"token": "canvas/grid", "value": "~1px hairline graph grid, ~#00000008-0E", "quality": "estimated", "notes": "fine graph-paper lattice; the spatial affordance"},
+    {"token": "chrome/toolbar", "value": "unified Liquid Glass, XL/36pt-class controls, ~52-72pt band", "quality": "estimated", "notes": "borderless mono SF Symbols in >=3 container-morphed glass groups"},
+    {"token": "toolbar/group", "value": "continuous glass capsule (container morphing), capsule bezel", "quality": "estimated", "notes": "adjacent tool symbols share one refractive edge — kit signature"},
+    {"token": "title/proxy-pill", "value": "glass capsule + app-icon glyph + 'Maestri macOS App' ~13pt Semibold", "quality": "estimated", "notes": "macOS document/proxy pill"},
+    {"token": "accent/active-tool", "value": "system blue ~#0088FF", "quality": "estimated", "notes": "pointer tool is the ONLY tinted symbol; accent bound to active state"},
+    {"token": "type/node-mono", "value": "fixed-width mono in terminal + code nodes", "quality": "measured", "notes": "subject-native; terminals/editors render their own mono"},
+    {"token": "node/card-radius", "value": "~6-8px", "quality": "estimated", "notes": "canvas node chrome — small radius, not capsule"},
+    {"token": "node/header", "value": "~22-24pt compact bar: status glyph + title + close-x", "quality": "estimated", "notes": "custom node chrome, not standard NSWindow"},
+    {"token": "connector", "value": "dashed gray bezier curves between nodes", "quality": "measured", "notes": "the pipeline 'flow' wiring"},
+    {"token": "stage-label", "value": "tracked UPPERCASE + dashed rule, category-hued", "quality": "measured", "notes": "BUILD=blue, CREATE=green, Refine=red, Review=purple — swimlane markers"},
+    {"token": "category/palette", "value": "blue/green/red/purple system identity hues", "quality": "estimated", "notes": "per-swimlane identity colour, kept separate from app accent (correct)"},
+    {"token": "brand/backdrop", "value": "lavender->white gradient + scattered monospace glyph texture (0, <, chevrons)", "quality": "measured", "notes": "COVER BRAND ONLY — not app UI, excluded from macOS canon"},
+    {"token": "brand/type-pairing", "value": "heavy geometric grotesque display + monospace body", "quality": "estimated", "notes": "COVER BRAND ONLY — display/mono contrast pairing"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "unified Liquid Glass; 3 regions (identity / centre tool-palette / trailing actions); container-morphed glass groups; borderless SF Symbols; ONE accent-tinted active tool; document proxy pill; build/run split-button trailing"},
+    {"pattern": "card-grid", "key_values": "free-floating heterogeneous nodes on infinite grid canvas (NOT a fixed grid) — terminal sessions, code diffs, notes, web captures, text; ~6-8px radius; compact 22-24pt header with status-glyph+title+close; ~1px hairline border"},
+    {"pattern": "other", "key_values": "node-graph / spatial canvas: dashed bezier connectors wire nodes into a left-to-right pipeline; colour-coded UPPERCASE dashed stage labels act as swimlanes (BUILD/CREATE/Refine/Review)"}
+  ],
+  "signature_moves": [
+    "Product thesis rendered as UI: one infinite canvas where live agent terminals, code diffs, notes, and web captures are co-equal movable nodes; chrome kept quiet-native so spatial content is the whole experience",
+    "Live PTY/agent sessions (Claude Code, opencode) embedded as first-class canvas nodes with real CLI banners, cursors and status footers — not screenshots",
+    "Colour-coded pipeline swimlanes: system identity hues + dashed connector rules give a freeform canvas a legible left-to-right process spine; category hues correctly separate from the single app accent",
+    "Textbook Jakob's Law: conventional interface (stock macOS Liquid Glass, real proxy pill, system accent) + innovative product (canvas model)"
+  ],
+  "defects": [
+    "None systematic. Soft flag only: node border hairlines (~1px light gray) sit near the #10 UI-contrast floor on white — unverifiable at composite zoom, not recorded as an anti-pattern"
+  ],
+  "aesthetic": {
+    "adjectives": ["spatial", "terminal-native", "quiet-chrome"],
+    "direction": "Native macOS Liquid Glass workspace over a Freeform-style infinite canvas; brand layer pulls Terminal/hacker family (mono + code-glyph texture) toward an approachable geometric-display register",
+    "peers": ["Apple Freeform", "Muse", "Warp", "tldraw", "Ghostty"],
+    "cluster_hint": "spatial-canvas / native workspace",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Jakob's Law — conventional macOS chrome so users feel at home; all novelty spent on the canvas (the product), not the interface",
+    "Von Restorff / signal-detection — the single accent-tinted pointer is the one coloured mark in a monochrome toolbar, so the active tool is pre-attentively obvious",
+    "Spatial memory / method of loci — infinite canvas encodes meaning in position; 'see the big picture' leverages peripheral + spatial cognition that a list view cannot",
+    "Miller/Cowan chunking — toolbar collapsed into ~3 glass clusters (identity / tools / actions) rather than a flat symbol row",
+    "Choice-overload calibration (correctly applied) — dense heterogeneous nodes are a browse/workspace surface, not a decision point, so density is a feature not overload"
+  ],
+  "notes": "Only ONE asset supplied: a marketing cover (2880x1800). The real app window is composited inside a MacBook Pro device frame at slightly-under-2x and the canvas is deliberately ZOOMED OUT to show scope, so node content is tiny and per-pixel token values are estimated with wide ranges. Structural/grammar evidence (lineage, glass discipline, toolbar grammar, node model) is high-confidence; numeric tokens are not. Cover carries strong SEPARATE brand evidence (lavender+code-glyph backdrop, geometric-display + monospace pairing, Liquid-Glass terminal app icon) recorded as brand-only, excluded from macOS canon. Not seen: settings, dark mode, empty state, onboarding, forms/inputs, sidebar contents. App icon (Workflow B) NOT digested — this was Workflow A (UI) only. Single app — no promotions; opens a candidate 'spatial-canvas' cluster with itself as sole member."
+}

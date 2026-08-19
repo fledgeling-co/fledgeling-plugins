@@ -1,0 +1,69 @@
+{
+  "slug": "open-timer", "name": "Open Timer", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "low",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "menu-bar-extra popover (dark) — rendered inside a marketing composite, not a raw screenshot",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 6,
+      "failures": [
+        "#9 text contrast: 'Tracking...' label #3B4559 on #0B1830 = 1.84:1, fails 4.5:1 (Contrast Dilution)",
+        "#10 UI contrast: muted histogram bars #0A4E98 on #0B1830 = 2.15:1, below 3:1 (decorative, meaning carried by the one accent bar)",
+        "#1 grid adherence unverifiable from a marketing render; title inset reads ~19-20px, not a clean 8-multiple",
+        "native#1 lineage: hardcoded brand-navy surface #0B1830, not system dark material/vibrancy",
+        "native#6 accent: fixed iOS-blue #0A84FF, not the user's controlAccentColor nor macOS 27 kit blue #0091FF",
+        "native#10 chrome: in-content top-right close glyph; native menu-bar popovers dismiss on click-away",
+        "layout defect: accent pause button overlaps the final digit of '01:24:36', occluding the primary readout"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/panel", "value": "#0B1830 deep navy", "quality": "measured", "notes": "hardcoded brand surface, NOT system dark #1E1E1E or vibrancy; #1 non-native tell"},
+    {"token": "accent/primary", "value": "#0A84FF", "quality": "measured", "notes": "iOS dark systemBlue; fixed brand blue, not user accent; 4.85:1 on panel"},
+    {"token": "text/primary", "value": "#FFFFFF", "quality": "measured", "notes": "title + time; 17.7:1"},
+    {"token": "text/secondary", "value": "#3B4559", "quality": "measured", "notes": "'Tracking...' label; 1.84:1 - fails contrast"},
+    {"token": "glyph/close", "value": "#697180", "quality": "measured", "notes": "close X; 3.60:1"},
+    {"token": "dataviz/bar-active", "value": "#0A84FF", "quality": "measured", "notes": "single highlighted session bar, shares action accent"},
+    {"token": "dataviz/bar-muted", "value": "#0A4E98", "quality": "measured", "notes": "2.15:1, decorative"},
+    {"token": "type/display", "value": "~48-52px geometric grotesque, tabular figures (SF Pro Display-class)", "quality": "estimated", "notes": "hero time readout"},
+    {"token": "type/title", "value": "~18-20px semibold", "quality": "estimated", "notes": "larger than 13pt macOS body - consumer scale"},
+    {"token": "radius/panel", "value": "~20px on ~297px-wide panel", "quality": "estimated", "notes": "generic large floating-card radius; coincides with macOS 27 popover radius but era is Big Sur"},
+    {"token": "control/pause", "value": "~55px circle, white pause glyph on accent", "quality": "estimated", "notes": "large comfortable Fitts target"},
+    {"token": "chrome/window", "value": "menu-bar-extra floating panel ~297x283 render, no traffic lights, no beak", "quality": "estimated", "notes": "no traffic lights correct for menu bar extra"},
+    {"token": "bg/backdrop-brand", "value": "gradient #1F61F3 to #071F66", "quality": "measured", "notes": "marketing composite backdrop, NOT app UI"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "SwiftUI-style floating window popover, opaque navy card, ~20px corners, no arrow/beak, no traffic lights, in-content top-right X close; header title + trailing close, muted status line, oversized tabular time hero, 7-bar session histogram footer"},
+    {"pattern": "card-grid", "key_values": "7-bar session histogram, rounded-top rects (~4-6px), one accent bar + muted-navy siblings - single-accent data economy"},
+    {"pattern": "empty-state", "key_values": "n/a - running state shown, not empty"}
+  ],
+  "signature_moves": [
+    "Time-as-hero: oversized tabular readout as the emotional center of a menu-bar glance surface",
+    "Session sparkline: a 7-bar histogram turns a one-shot timer into a glanceable daily dashboard",
+    "Single-accent economy: exactly one saturated action (pause) + one saturated datum (tall bar); all else white-or-muted on navy"
+  ],
+  "defects": [
+    "Contrast Dilution - 'Tracking...' #3B4559 on #0B1830 = 1.84:1, de-emphasis overshoots into illegibility",
+    "Control occludes data - accent pause button overlaps the final digit of '01:24:36', hiding part of the primary readout",
+    "Non-native theming (tell, not canon) - hardcoded brand-navy surface + fixed iOS-blue accent instead of system material + controlAccentColor",
+    "Low UI contrast - muted histogram bars 2.15:1, under the 3:1 non-text floor (mitigated: decorative)"
+  ],
+  "aesthetic": {
+    "adjectives": ["cool", "glanceable", "brand-forward"],
+    "direction": "Neo-grotesque product, dark variant - deep-navy surface + one electric blue accent, consumer coat over a utility core (design-craft: 'committed' cool-blue, restrained accent budget)",
+    "peers": ["Session", "Timing", "Pomodoro/menu-bar timer utilities", "iOS Clock stopwatch (numeral treatment)"],
+    "cluster_hint": "brand-dark menu-bar utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff - the lone accent pause button and lone highlighted bar are the remembered elements; single-accent discipline makes them work",
+    "Aesthetic-usability effect - the polished dark card buys first-contact trust for a free/open-source utility",
+    "Fitts's Law - ~55px pause target is easy to acquire; the small in-content X is comparatively starved",
+    "Hierarchy via de-emphasis - correctly applied (time bright, status muted) but overshot on 'Tracking...' into a contrast failure",
+    "Peak-End / glanceability (Jakob's Law of menu-bar convention) - the time-as-hero layout serves the 1-second glance the surface exists for"
+  ],
+  "notes": "SINGLE marketing composite only; no in-app screenshots supplied (gallery empty). The dark panel is a RENDER, not a captured screenshot, so all geometry is (estimated) and everything is (inferred) - one surface. Do not promote anything from this app alone. Scale reads ~@1x logical (~297pt-wide popover); if the render is @2x the panel would be implausibly small for the content, so @1x assumed. Custom navy surface + fixed iOS-blue accent + in-content X are non-native tells - exclude from macOS native canon; record as tells+corrections. App targets macOS 13+ so era is Big Sur (pre-Liquid-Glass); absence of glass is era-correct, not a defect. The blue-drenched backdrop and two-tone grotesque headline ('Track freelance work,' white + 'from your menu bar' muted #A8BDF1, green #34C759 status dot) are brand/marketing evidence, not app-UI evidence - do not conflate. Icon (blueprint-style stainless watch on a blue drafting-grid squircle, 'F' brandmark) was NOT digested here - Workflow A only; belongs to an icon (Workflow B) pass."
+}

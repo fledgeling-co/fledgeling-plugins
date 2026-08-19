@@ -1,0 +1,42 @@
+{
+  "slug": "mymind", "name": "mymind", "category": "Productivity",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "marketing-composite (no app UI: headline + gradient + logo mark)", "mode": "light", "rubric_score": 7, "native_audit_score": 0, "failures": ["#1 grid N/A — poster, no component grid", "#8 action-singularity N/A — no buttons", "#11 Fitts N/A — no interactive elements", "#12 input-height N/A — no inputs", "#13 label-proximity N/A — no form", "#14 focus N/A — no focusable UI", "native-audit ALL N/A — no window chrome/controls present to classify lineage or glass discipline; 0 denotes not-applicable, not failure"]},
+    {"file": "icon.webp", "surface_type": "app-icon render (Workflow B, out of task scope — noted as context only)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["not a UI surface — icon not scored under Workflow A; recorded as brand context (flocked-orange 3D mascot, object-photo icon, no squircle field / no Liquid-Glass layering visible)"]}
+  ],
+  "tokens": [
+    {"token": "brand/display-face", "value": "high-contrast transitional serif (bracketed serifs, angled stress, teardrop terminals, double-story g)", "quality": "estimated", "notes": "brand voice; Canela/Tiempos-Headline/Reckless-class; NOT SF Pro; single-source"},
+    {"token": "brand/ink", "value": "~#1A1A1A near-black on #FEFEFE white", "quality": "estimated", "notes": "headline; contrast >15:1"},
+    {"token": "brand/aura-gradient", "value": "warm-dominant iridescent mesh: coral #FF6E56, peach/amber #FDC781-#FFD782, soft pink #E7A9BE, wine-magenta edge ~#6F1926, cool lilac minor", "quality": "estimated", "notes": "sampled from compressed JPEG; wide ranges; bleeds around a hard white circle"},
+    {"token": "brand/canvas", "value": "hard-edged white circle #FEFEFE over soft gradient margin", "quality": "estimated", "notes": "composition structure: crisp center, soft edge"},
+    {"token": "brand/logo-mark", "value": "thin monoline hand-drawn pebble/oval with dot-eyes (brain-pebble face)", "quality": "estimated", "notes": "quiet, on headline center axis"},
+    {"token": "icon/material", "value": "flocked/felted vermilion-orange 3D render, body ~#D7481B / occlusion ~#CC3912 on ~#FDFDFD ground", "quality": "estimated", "notes": "tactile fuzzy surface, diffuse warm top-light; object-photo icon"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing-brand-composite: centered high-contrast serif headline + warm iridescent aura gradient + hard white spotlight circle + minimal monoline mascot mark. Brand evidence only — no app pattern (sidebar/toolbar/list/grid) observable."}
+  ],
+  "signature_moves": [
+    "Editorial high-contrast serif carries the entire brand voice (not a product sans) — the whole personality in one type decision",
+    "Warm iridescent aura (coral/peach/amber + one cool lilac note) bleeding around a crisp white content-circle — atmosphere outside, discipline inside",
+    "Tactile flocked-clay 'Thinker' mascot icon that rejects platform icon grammar (no squircle field, no SF-Symbol abstraction, no Liquid-Glass layers) — brand-over-platform"
+  ],
+  "defects": [
+    "No app UI supplied — native construction cannot be audited (evidence gap, not an app defect)",
+    "Object-photo icon with no squircle field may read non-native in the Dock beside stock icons (contested until an actual macOS icon rendering is seen)"
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "editorial", "tactile"],
+    "direction": "Editorial/literary (contrast serif) remixed with Organic/soft surface (iridescent aura mesh + soft-3D tactile mascot) — a warm-editorial productivity brand",
+    "peers": ["Craft", "Bear", "Reflect", "mem"],
+    "cluster_hint": "warm-editorial-organic (soft productivity brand)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / single-focal — one serif headline is the sole focal element; everything else recedes (the first-viewport thesis statement)",
+    "Aesthetic-usability & processing fluency — centered serif + soft warm gradient reads calm and fluent in the ~50ms first-impression window (read from the marketing composite, not the app)",
+    "Tesler's Law (framing, copy-level) — 'Organize nothing' promises the app absorbs the organizing complexity; noted as marketing framing, not design evidence"
+  ],
+  "notes": "CRITICAL for synthesis: no app UI was supplied — only a marketing cover (brand composite: no window chrome, controls, sidebar, or density signal) and an app-icon render. Framework lineage is therefore UNCLASSIFIABLE from evidence (recorded unknown/low); mymind is publicly a web-derived cross-platform product but that is context, not a visual reading. NOTHING here may feed macOS native canon or native style clusters — all evidence is brand/marketing, single-source, (estimated)(inferred). native_audit_score=0 and the icon rubric_score=0 both mean NOT-APPLICABLE, not failure. Color hexes sampled from a compressed 1024x538 JPEG (wide ranges). To actually digest mymind's UI, request app-window screenshots (board/masonry grid, card detail, search bar). Icon is Workflow-B material included only as brand context."
+}

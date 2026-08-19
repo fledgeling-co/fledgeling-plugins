@@ -1,0 +1,66 @@
+{
+  "slug": "foldervitrine", "name": "FolderVitrine", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.webp",
+      "surface_type": "floating folder preview panel (Quick Look-style, no traffic lights)",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 secondary text (timestamps/metadata) below 4.5:1 over translucent glass on a busy wallpaper",
+        "#10 row hairline dividers ~#F2F8FF on ~#DFF3FF glass, far below 3:1 non-text floor",
+        "#11 close/dismiss circles ~16-18pt, under 24px WCAG floor unless hit-area padded (unconfirmable)",
+        "native#2 glass-in-content: file list + text rendered on glass rather than an opaque content surface",
+        "native#3 N/A no selection state visible; native#4 N/A no sidebar"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "chrome/panel-size", "value": "~878 x 580 pt", "quality": "measured", "notes": "edges scanned x203-1081 y131-711; composite ~1x logical so px approx pt"},
+    {"token": "chrome/panel-radius", "value": "~20-24 pt", "quality": "estimated", "notes": "large popover-class corner"},
+    {"token": "chrome/panel-material", "value": "translucent Liquid Glass, wallpaper-tinting (#DFF3FF-#E9F4FF over blue desktop)", "quality": "measured", "notes": "genuinely see-through; true neutral material under-determined by this one blue-wallpaper render"},
+    {"token": "type/section-header", "value": "~17pt SF Pro Bold + leading monochrome symbol", "quality": "estimated", "notes": "Types / Files; reads Title2-Bold"},
+    {"token": "type/title", "value": "~17pt SF Pro Bold", "quality": "estimated", "notes": "folder name"},
+    {"token": "type/body", "value": "~13pt SF Pro Regular", "quality": "estimated", "notes": "filenames; matches kit Body 13pt"},
+    {"token": "type/group-subheader", "value": "~10-11pt SF Pro Semibold, tracked UPPERCASE, secondary", "quality": "estimated", "notes": "IMAGES file-group header, Finder-style"},
+    {"token": "accent/type-images", "value": "#F48E3C orange", "quality": "measured", "notes": "system-Orange-adjacent (kit #FF8D28), warmer/muted"},
+    {"token": "viz/type-bar", "value": "full-width capsule ~8pt, 3 segments orange 90.6% / blue 7.9% / green 1.4%", "quality": "measured", "notes": "widths equal true 252/22/4 item counts - honest data mapping"},
+    {"token": "list/row-pitch", "value": "~34 pt", "quality": "estimated", "notes": "between kit Medium 32 and Large 40"},
+    {"token": "list/divider", "value": "~1pt inset hairline ~#F2F8FF", "quality": "measured", "notes": "starts after icon; fails 3:1 on glass"},
+    {"token": "layout/body-columns", "value": "2-col: left preview-stack ~40%, right data ~55%, full-width header above", "quality": "measured", "notes": "shared left alignment axis on right column"}
+  ],
+  "patterns": [
+    {"pattern": "floating-panel", "key_values": "Quick Look-style folder preview, no traffic lights, custom close(x)+dismiss(no-entry) top-left, share top-right, ~878x580pt, ~20-24pt radius, translucent glass body"},
+    {"pattern": "list", "key_values": "~34pt rows, tinted type-icon + 13pt filename + trailing 12pt secondary timestamp, inset ~1pt hairline dividers, tracked-uppercase group subheader"},
+    {"pattern": "card-grid", "key_values": "preview-stack collage: 3-4 real file previews fanned with rotation + soft drop shadows, top item a video with play glyph + 00:05/00:10 scrubber"},
+    {"pattern": "other", "key_values": "type-breakdown data-viz: proportional capsule bar + horizontal legend, 3 system identity hues (orange/blue/green) reused across bar+legend+row icons"}
+  ],
+  "signature_moves": [
+    "The vitrine literalized: one all-translucent floating pane with content rendered directly on the glass (tints to wallpaper) - the app's entire character and its entire contrast risk in one decision",
+    "Staged preview-stack collage - a folder's real contents fanned as a physical pile with depth, rotation, drop shadows and a playing video (scrubber+timecodes); the one focal element, boldness budget spent here",
+    "Honest proportional data-viz - Types bar widths equal true item counts; three identity hues used consistently across bar, legend and list icons, distinct from any app accent"
+  ],
+  "defects": [
+    "Contrast Dilution / glass-in-content - file list, dividers and secondary text on translucent glass instead of an opaque content surface; legibility becomes wallpaper-dependent",
+    "UI contrast failure - row hairline dividers ~#F2F8FF on ~#DFF3FF glass, far below 3:1",
+    "Text contrast - secondary timestamps/metadata over lighter glass regions below 4.5:1",
+    "Target Starvation (borderline) - close/dismiss circles ~16-18pt under the 24px floor unless hit-area padded (unconfirmable from static render)"
+  ],
+  "aesthetic": {
+    "adjectives": ["translucent", "airy", "staged"],
+    "direction": "glass-utility / Liquid-Glass single-panel - restrained system-native info panel wearing a full translucent refractive skin, with one theatrical photo-stack focal moment",
+    "peers": ["Apple Quick Look info pane", "macOS Gallery-view preview", "system Get Info panel"],
+    "cluster_hint": "glass-utility (translucent single-panel)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect - glass + staged photo-stack manufacture a strong ~50ms first impression / quality halo that buys forgiveness for contrast costs on first contact but not for daily legibility",
+    "Von Restorff - the fanned preview-stack is the one different thing, so the eye lands there first (single focal object)",
+    "Jakob's Law - mirrors Quick Look conventions (close top-left, share top-right, space-bar-preview archetype); but translucency undercuts the processing-fluency users expect from a crisp system info panel",
+    "Hierarchy via de-emphasis - metadata, counts and timestamps pushed to secondary gray so filenames and folder title anchor"
+  ],
+  "notes": "Only ONE live app surface exists - the macapp.supply cover.webp is a marketing composite that embeds the real folder-preview panel over a blue macOS wallpaper; gallery is empty. Single surface -> all tokens (inferred), none promotable to canon. Glass tint (#DFF3FF) is wallpaper-driven, so the true neutral panel material is under-determined; request a dark-mode and a neutral-wallpaper capture. A Liquid Glass app icon (icon.jpg: frosted folder + photo) also exists but was NOT digested - this pass is Workflow A (UI) only; flag for Workflow B. Composite reads ~1x logical (panel ~878x580 matches kit example scale) so px approx pt was assumed - treat all sizes as estimated ranges. No dark mode, no selection state, no forms/settings surfaces seen."
+}

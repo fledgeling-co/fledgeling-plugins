@@ -1,0 +1,16 @@
+{
+  "slug": "grape",
+  "name": "Grape",
+  "tagline": "The AI note taking app that thinks with you",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://grape.cool/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/0d607476-232a-4881-a923-1f6863843bd2/icon-1783882466533.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/0d607476-232a-4881-a923-1f6863843bd2/cover-1783882776759.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/grape/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/grape/cover.jpg",
+    "shots": []
+  }
+}

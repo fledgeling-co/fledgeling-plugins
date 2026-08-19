@@ -1,0 +1,59 @@
+{
+  "slug": "ajar",
+  "name": "Ajar",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (web brand page, no app UI window)",
+      "mode": "light",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "native-audit: all 10 native-tells N/A — web marketing surface, no toolbar/sidebar/traffic-lights/native controls to audit",
+        "#9 text-contrast: passes only under large-text lens — headline line 3 #808080 on #FFF is ~3.9:1 (>3:1 large, <4.5:1 normal); deliberate tonal-fade device, not a defect",
+        "#12 input-height N/A · #13 label-proximity N/A · #14 focus-appearance N/A — no forms/inputs/interactive-focus on a static marketing page"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/bg", "value": "#FFFFFF", "quality": "measured", "notes": "marketing page ground, pure white"},
+    {"token": "brand/ink-primary", "value": "#040404-#090909 near-black", "quality": "measured", "notes": "wordmark + headline line 1"},
+    {"token": "brand/ink-2", "value": "#3B3B3B-#3F3F3F", "quality": "measured", "notes": "tagline + headline line 2 (mid step of the fade)"},
+    {"token": "brand/ink-3", "value": "#808080", "quality": "measured", "notes": "headline line 3, faintest step; ~3.9:1 on white (large-text only)"},
+    {"token": "brand/cta-fill", "value": "#1D1D1F", "quality": "measured", "notes": "Apple's signature off-black pill (apple.com button colour), not #000 — ecosystem tell"},
+    {"token": "brand/type", "value": "SF Pro Display; Bold display/wordmark, Regular/Medium tagline", "quality": "estimated", "notes": "grotesque; macOS context + Apple pill -> SF Pro over Inter"},
+    {"token": "icon/bg-gradient", "value": "#8986FF top -> #6B68FB -> #5D58E7 -> #514ACF bottom", "quality": "measured", "notes": "vertical-ish indigo/periwinkle plane, lit top / deep base; near system Indigo #6155F5"},
+    {"token": "icon/glyph", "value": "lavender cone, apex #E6E6FD -> mid #CBC9F5 -> base #A09CE7", "quality": "measured", "notes": "apex-lit gradient (brightest at tip), soft base contact shadow; reads as light rising to a peak / lid / mountain"},
+    {"token": "icon/shape", "value": "rounded squircle tile, single centered glyph, no overlay device", "quality": "measured", "notes": "Big Sur-era icon grammar; 256px render, small"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing hero composite (web): single left alignment axis; icon+wordmark lockup, 3-line display headline with stepped tonal fade #040404->#3F3F3F->#808080, one #1D1D1F pill CTA bottom-left, muted URL bottom-right; loose Swiss-poster density"}
+  ],
+  "signature_moves": [
+    "Semantic tonal descent: headline set in three measured lightness steps (#040404 -> #3F3F3F -> #808080) so the type literally dims line by line, enacting the app's 'light dims as the lid closes' behaviour inside a static image — content-encoding typography, the whole memorable budget spent in one place",
+    "Apple-marketing mimicry: pure-white ground + SF Pro + exact apple.com #1D1D1F pill + oversized restrained display type = deliberate 'looks like Apple shipped it' register, borrowing platform familiarity for a solo utility (Jakob's Law)",
+    "Big Sur-era icon: indigo gradient squircle with an apex-lit lavender cone lifted off a soft contact shadow"
+  ],
+  "defects": [
+    "No true design defect observable — but the only surface supplied is a marketing composite, not the app; the faintest headline line would be a Contrast Dilution defect in body copy yet is a defensible large-display device here",
+    "Corpus-input gap (not an app defect): submission ships a web marketing composite where a native app UI screenshot belongs — almost all brand evidence, essentially no product evidence"
+  ],
+  "aesthetic": {
+    "adjectives": ["spare", "declarative", "kinetic"],
+    "direction": "Swiss / International crossed with Apple-marketing minimalism (neo-grotesque product-marketing): near-white + near-black, one restrained accent, hard left grid, oversized grotesque display, decoration-free; kinetic only via the tonal fade",
+    "peers": ["apple.com product pages", "Linear marketing", "Raycast / Vercel marketing minimalism"],
+    "cluster_hint": "apple-homage-marketing (web brand surface, not a macOS-UI cluster)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — borrows apple.com's visual signature (white, SF Pro, #1D1D1F pill) so a solo utility inherits platform familiarity and its trust prior",
+    "Von Restorff / signal-detection — exactly one saturated element (the black CTA pill) and one colour moment (the indigo icon) on an otherwise achromatic page, so both are pre-attentively unmissable",
+    "Peak-End / demonstrate-don't-describe — the tonal-fade headline demonstrates the product's effect typographically rather than describing it, the page's single peak moment",
+    "Aesthetic-usability effect — high structural hygiene (one alignment axis, disciplined tonal ramp) buys the perceived-quality halo on first contact"
+  ],
+  "notes": "CRITICAL for synthesis: NO native macOS app UI was provided — inputs are a web marketing composite (cover.jpg, 2400x1260) + a 256px app icon only. The app is a menu-bar 'Lid Angle Sync & Keep Awake' utility, plausibly AppKit NSMenuBarExtra, but its UI lineage/era/native-fidelity are UNMEASURED — do not infer native taste from this app. All tokens above are brand/web/icon evidence and must NOT feed macOS UI canon or clusters. The rubric score (11/14) is for the marketing surface, not the product. Era 'unknown' at app level; icon alone reads Big Sur/liquid-glass gradient-squircle family (flat 256px render can't separate the two). A proper icon digest belongs in icons/ajar.md under Workflow B, not done here. If the app UI (menu-bar popover) is later supplied, re-digest to actually place this app."
+}

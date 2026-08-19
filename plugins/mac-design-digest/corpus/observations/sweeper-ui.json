@@ -1,0 +1,40 @@
+{
+  "slug": "sweeper", "name": "Sweeper", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing-cover-composite (no app UI window)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["ALL n/a — this is a marketing hero graphic (white ground, icon+wordmark+headline+body copy), NOT a macOS UI surface; the 14-point rubric and 10-point native audit are inapplicable. As a graphic it passes the applicable craft checks (centred grid, modular scale ~26/44/90px, gray de-emphasis #707070, text contrast >4.5:1). Recorded score 0 means 'no native surface to score', not 'failed'."]}
+  ],
+  "tokens": [
+    {"token": "brand/bg", "value": "#FFFFFF", "quality": "measured", "notes": "marketing composite ground, full-bleed white"},
+    {"token": "brand/text-primary", "value": "#1D1D1F", "quality": "measured", "notes": "headline + wordmark; exactly Apple.com marketing near-black — deliberate Apple-page vernacular"},
+    {"token": "brand/text-secondary", "value": "#707070", "quality": "measured", "notes": "body description, ~50% gray, de-emphasised"},
+    {"token": "brand/accent", "value": "#B44B23", "quality": "measured", "notes": "burnt sienna; sole accent, used only for the ~8px strikethrough rule"},
+    {"token": "brand/type-display", "value": "SF Pro ~90-95px Bold/Heavy", "quality": "estimated", "notes": "headline; marketing px, scale unknown"},
+    {"token": "brand/type-body", "value": "SF Pro ~26px Regular lh~1.6", "quality": "estimated", "notes": "3-line centred description, ~68 char measure"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing-hero composite (Apple-product-page grammar): centred single-axis stack, white full-bleed, one warm accent used as an editorial strike device. NOT an app pattern — brand evidence only."}
+  ],
+  "signature_moves": [
+    "Editorial strikethrough as show-don't-tell: a single burnt-sienna (#B44B23) rule through the words 'leave quietly' so the headline enacts its own claim — the whole visual-interest budget spent in one Von Restorff stroke (brand/marketing signature, not UI)"
+  ],
+  "defects": [
+    "Evidence gap (not an anti-pattern) — an uninstaller submitted with zero screenshots of the running app; the product UI is entirely unstudied",
+    "Icon reuses the macOS system-Trash silhouette wholesale — clever concept (uninstall = trash) but low brand distinctiveness; risks reading as the OS Trash can (soft brand flag, not a rubric defect)"
+  ],
+  "aesthetic": {
+    "adjectives": ["declarative", "disciplined", "Apple-vernacular"],
+    "direction": "Apple product-page marketing (Swiss-adjacent restraint): near-white ground + Apple's #1D1D1F near-black SF Pro heavy display + a single warm burnt-sienna accent deployed as an editorial strike; mirror-centred, no shadow, no radius on type",
+    "peers": ["AppCleaner (functional peer)", "CleanMyMac (category peer)", "Apple.com / Setapp promo pages (visual peer)"],
+    "cluster_hint": "apple-marketing-vernacular (promo/brand surfaces, not app UI)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — the lone burnt-sienna strike is the one different thing on an otherwise mono-accent white page, so it is what's remembered; accent budget spent exactly once",
+    "Processing fluency / picture-superiority — the strikethrough visually proves the claim ('apps don't ~~leave quietly~~'), so the message is grasped pre-read rather than parsed",
+    "First-impression thesis (Lindgaard 50ms) — icon + name + claim + one-line explanation answer 'what is this / who's it for / what does it do' within the first viewport",
+    "Hierarchy via de-emphasis — the explanatory copy recedes to #707070 gray so the black headline anchors attention (Refactoring-UI de-emphasis, not amplification)"
+  ],
+  "notes": "CRITICAL for synthesis: NO app UI window exists in any supplied image. Inputs were cover.png (a marketing composite hero, sha ccf9dd0d) and icon.png (app icon, sha b4a8965f). Task scope was Workflow A (UI) ONLY, so no icons/sweeper.md was written — icon is described as context in apps/sweeper.md. This app therefore contributes ZERO macOS-UI evidence and must not feed UI canon, clusters, or native-tells. Lineage/era of the actual product are unknown (never seen). All tokens are brand/marketing tokens from the promo graphic, not product-UI tokens — do not treat brand/text-primary etc. as app surface colours. If real screenshots arrive later, re-digest with a genuine UI pass and supersede this record. The gallery in meta.json is empty (\"shots\": [])."
+}

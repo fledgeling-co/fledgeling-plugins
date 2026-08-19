@@ -1,0 +1,16 @@
+{
+  "slug": "zipic",
+  "name": "Zipic",
+  "tagline": "Native, private image compression and conversion for macOS.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://zipic.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f37d4605-43aa-4fb9-887f-99e8c35206a8/icon-1783882471486.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/f37d4605-43aa-4fb9-887f-99e8c35206a8/cover-1783882783458.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zipic/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zipic/cover.png",
+    "shots": []
+  }
+}

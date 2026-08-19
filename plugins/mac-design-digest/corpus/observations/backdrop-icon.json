@@ -1,0 +1,15 @@
+{
+  "slug": "backdrop", "name": "Backdrop", "category": "Utility",
+  "era": "liquid-glass",
+  "rubric_score": 11,
+  "soft_passes": ["#10 identity is hue-encoded; silhouette+luminance survive tinted/mono but the colour meaning thins", "#4 16px silhouette holds, internal cyan->pink detail smears to a soft multicolour bloom", "#2 horizontally optically centred, tall teardrop mass sits centre-to-low, not geometric centre", "#8 layer order (vignette->bloom->drop->sheen) reads sensibly but glass/refraction not verifiable at 204px"],
+  "failures": ["#6 droplet sweeps ~4-5 hue families (cyan #B6F5F9 -> violet #9675EE -> magenta #EB9AF3 -> peach #F3BAAB), exceeding the <=2-family guideline; deliberate/contained so it is a signature that costs a point, not a defect"],
+  "palette": {"background": "radial vignette #272E45 (top lift) -> #1B1D2C (edges) -> #13141D (bottom corners), purple lift #221530 under drop", "glyph": ["#B6F5F9", "#91C9FA", "#9675EE", "#CE81E0", "#9958EC", "#EB9AF3", "#F2B6E1", "#F3BAAB"], "accent": "#B6F5F9"},
+  "composition": {"background_type": "ramp", "glyph_type": "object", "overlay_device": "none"},
+  "light_model": "self-illuminated / internal luminescence; the droplet glows and casts a soft outer bloom into a dark navy radial vignette; cyan tip reads as specular highlight; no top-down cast shadow",
+  "layer_stack": ["dark navy radial-vignette field", "soft outer bloom/halo around droplet", "iridescent translucent glass droplet (own cyan->pink vertical ramp)", "implied specular sheen at cyan tip"],
+  "devices": ["iridescent glass droplet (oil-slick/holographic refraction as whole identity)", "self-lit bloom on near-black (no top-down light)", "aurora vertical ramp (cool tip -> warm bulb)", "name-as-glyph pun: Backdrop -> a drop"],
+  "adjectives": ["iridescent", "luminous", "atmospheric"],
+  "rhymes_hint": "dark-field single-luminous-object icons; holographic/iridescent-gradient (oil-slick, aurora) icons; glass/liquid blob-or-orb material icons glowing on near-black",
+  "notes": "204x204 WebP web render (masters at 1024) - specular micro-structure, refraction, and true Icon-Composer layer separation NOT verifiable, only inferred; corners baked opaque white (alpha=255 everywhere), squircle flattened onto white for web so real mask discipline unconfirmable, only that art sits inside the mask; hexes measured from render but low-res approximations. Era is an atmospheric/moody Liquid-Glass reading and could equally be logged custom (dark, bloomy, self-lit rather than crisp multi-layer specular). Subject communication is indirect: droplet = colour+liquid, not literally wallpaper; carried by the iridescence (=vibrant wallpapers) and the name pun. Tight palette coherence with cover (same cyan->magenta iridescent-on-dark vocabulary)."
+}

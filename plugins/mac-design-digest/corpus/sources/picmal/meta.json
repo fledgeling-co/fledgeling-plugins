@@ -1,0 +1,16 @@
+{
+  "slug": "picmal",
+  "name": "Picmal",
+  "tagline": "Convert, compress, and edit your images, video, and audio right on your Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://picmal.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/894d86f7-67e6-4cf4-9169-0dfe81d81c12/icon-1783882465520.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/894d86f7-67e6-4cf4-9169-0dfe81d81c12/cover-1783882775672.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/picmal/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/picmal/cover.png",
+    "shots": []
+  }
+}

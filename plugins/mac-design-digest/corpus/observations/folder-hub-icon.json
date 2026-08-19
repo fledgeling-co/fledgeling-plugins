@@ -1,0 +1,32 @@
+{
+  "slug": "folder-hub", "name": "Folder Hub", "category": "Utility",
+  "era": "big-sur",
+  "rubric_score": 9,
+  "soft_passes": [
+    "#2 grid — deliberately top-anchored to the notch; lower ~55% is empty dark gradient, focal mass not optically centred",
+    "#10 variant robustness — Big Sur era so not strictly in scope, but subject depends entirely on tonal difference within one ramp; would collapse in mono/tinted/dark",
+    "#1 mask — composition fits the squircle but mask + drop shadow are baked into the web render, can't verify HIG discipline",
+    "#8 depth — layer order coherent but drawer separation so weak the depth barely registers"
+  ],
+  "failures": [
+    "#3 silhouette — filled solid black it is just a rounded square; notch and drawer are tonal, not shape-bearing",
+    "#4 16px squint — notch and low-contrast drawer smear/vanish at menu-bar size; reads as a warm gradient square, not Folder Hub",
+    "#7 figure-ground — drawer pill #D38C5E on upper-orange band #DA9460 is 1.09:1, effectively invisible; the actual subject is the least legible element"
+  ],
+  "palette": {
+    "background": "ramp #EB8834->#070202 (bright amber-orange top to near-black base, single hue)",
+    "glyph": ["#D38C5E", "#000000"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down sky-logic: bright amber at top darkening to near-black at base; drawer pill lit as a raised panel; no visible specular/glass refraction (128px)",
+  "layer_stack": ["warm amber->black vertical gradient field", "recessed black notch pill (top-centre)", "lighter warm drawer panel pill (upper third)", "[baked squircle mask + drop shadow from the web render]"],
+  "devices": ["notch-as-subject (the MacBook hardware notch is the icon's anchor)", "the squircle IS the screen (rounded top corners + notch quote a MacBook display's top edge)", "drawer panel pill sliding from the notch", "long single-hue amber->black vertical ramp, unusually dark for the era"],
+  "adjectives": ["hardware-literal", "warm-amber", "underlit"],
+  "rhymes_hint": "minimal gradient-square notch/menu-bar utility icons with one centred motif (NotchNook-style family) — strong subject-mined concept, contrast-starved execution",
+  "notes": "128px macapp.supply web render — low res, notch/drawer edges soft, all hex (measured,128px) not exact. Mask + drop shadow baked (not unmasked full-bleed layers). Brand incoherence: marketing cover is a cool electric violet band on black; the icon is warm amber-orange — no shared hue family between icon and brand surface. Watch for an anti-pattern candidate across icons: 'Isoluminant Subject' / 'Tonal Whisper' — a distinctive concept delivered in near-isoluminant tints of one hue (drawer at 1.09:1 here). Only the notch holds contrast (8.1:1) and it is the smallest mark on the canvas."
+}

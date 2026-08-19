@@ -1,0 +1,71 @@
+{
+  "slug": "subscription-day",
+  "name": "Subscription Day",
+  "category": "Lifestyle",
+  "lineage": "catalyst",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "statistics-dashboard (from marketing composite; also contains iPhone + Watch, contrast-only)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 5,
+      "failures": [
+        "#9 text contrast — dim secondary/tertiary greys near the 4.5:1 floor on charcoal",
+        "#10 UI contrast — radar gridlines & hairline dividers read <3:1",
+        "native#1 lineage reads iOS-design-language bridged, not AppKit-native",
+        "native#3 selection is iOS capsule segmented, no accent tint",
+        "native#5 iOS-scale density (~15-17pt body, large rounded controls), not 13pt/20-28pt",
+        "native#10 app-name window title 'Subscription Day' + inline titlebar PRO pill + grey traffic lights"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "near-black charcoal ~#1C1C1E-#222 (dark)", "quality": "estimated", "notes": "close to kit dark window bg #1E1E1E; single stylized render, scale unknown"},
+    {"token": "bg/card-tooltip", "value": "~#38383C, softly translucent, ~1 tonal step above canvas", "quality": "estimated", "notes": "floating April/$49 tooltip + badge/segmented fills"},
+    {"token": "accent/system", "value": "none — no system accent used anywhere in chrome", "quality": "estimated", "notes": "selection/toolbar/segmented all monochrome grey"},
+    {"token": "color/data-identity", "value": "category-palette hues only (green Fitness+ glyph, green/white chart vertices)", "quality": "estimated", "notes": "colour reserved exclusively for data/category identity"},
+    {"token": "type/hero-number", "value": "~34-40pt-equiv bold SF Pro Display/Rounded", "quality": "estimated", "notes": "$369/$31 footer KPIs, loudest elements"},
+    {"token": "type/title", "value": "~26-30pt-equiv bold", "quality": "estimated", "notes": "'Statistics' section title"},
+    {"token": "type/body-secondary", "value": "~15-17pt-equiv secondary grey", "quality": "estimated", "notes": "iOS-scale body, not 13pt AppKit body (lineage tell)"},
+    {"token": "type/label-caption", "value": "~11-12pt-equiv tertiary grey, 2-line", "quality": "estimated", "notes": "KPI captions under loud values"},
+    {"token": "badge/pill", "value": "grey capsule ~#3A3A3C, lighter text, height/2 radius", "quality": "estimated", "notes": "'PRO' and '2025'"},
+    {"token": "control/segmented", "value": "iOS capsule track, raised grey selected, no accent tint", "quality": "estimated", "notes": "Year|Category scope switch; not macOS bordered segmented control"},
+    {"token": "chrome/toolbar", "value": "trailing borderless monochrome SF Symbols (search, calendar, gear)", "quality": "estimated", "notes": "most native-correct element on the surface"},
+    {"token": "divider/hairline", "value": "~1px low-contrast separator (under toolbar, above footer)", "quality": "estimated", "notes": "chunks surface into title/chart/footer"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "unified top toolbar; leading traffic lights, centered title + PRO pill (app-name title = HIG violation), trailing 3 borderless monochrome SF Symbols; hairline close"},
+    {"pattern": "card-grid", "key_values": "footer = 2 KPI blocks, each circled monochrome glyph + very large value + small 2-line caption; value-over-label hierarchy correct"},
+    {"pattern": "other", "key_values": "radar/spider chart hero viz (12 spokes, low-contrast grey web) with a selected white vertex anchoring a floating tooltip card; iOS-capsule segmented control for in-view Year/Category scope switching (legitimate non-tab-bar use)"},
+    {"pattern": "floating-panel", "key_values": "tooltip card ~#38383C over chart: title/value/category-glyph stack, rounded corners"}
+  ],
+  "signature_moves": [
+    "Greyscale chrome, coloured data: entire UI shell is monochrome charcoal; hue appears ONLY in payload (chart vertices, category glyphs) so every coloured mark reads as pre-attentive figure. Consistent across Mac/iPhone/Watch",
+    "Radar/spider chart as the hero subscription-spend viz where peers use bars/pie/lists; echoed by the app icon's radar-dial motif so brand and UI share one form",
+    "Value-over-label KPI discipline: $369/$31 largest+brightest, captions small tertiary grey"
+  ],
+  "defects": [
+    "HIG toolbar violation — app name 'Subscription Day' as the window title (should be empty or view title 'Statistics'); inline titlebar PRO pill (AppKit titles are text-only)",
+    "iOS grammar on Mac chrome (lineage tells) — capsule segmented control, iOS-scale density, inline pill badges; excluded from mac canon",
+    "Contrast Dilution — radar gridlines <3:1 and dimmest secondary/tertiary greys near/below 4.5:1 text floor; the hero viz is rendered near-invisible",
+    "Content typo in shipped cover — 'Apple Fintess+' (Fitness+)"
+  ],
+  "aesthetic": {
+    "adjectives": ["monochrome-dark", "rounded", "data-forward"],
+    "direction": "dark-neutral consumer-fintech dashboard — Neo-grotesque-product surface (dark charcoal ramp, rounded SF Pro) with the electric accent deliberately withheld, colour delegated to data; Restrained commitment strategy taken to its limit (chrome ~0% saturation)",
+    "peers": ["Copilot Money", "Bobby (subscription tracker)", "Rocket Money", "Emma"],
+    "cluster_hint": "dark consumer-fintech dashboard",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — greyscale field makes each coloured data mark the remembered figure; the app's core legibility trick",
+    "Hick's Law — Year/Category segmented control reduces the view scope to a clean binary decision point",
+    "Aesthetic-usability effect — polished dark render buys first-contact trust for a money app (halo, not a pass — its low-contrast chart is the crack)",
+    "Label/value hierarchy (Weinschenk/stat-tile) — value outranks label on the KPIs, correctly applied",
+    "Processing fluency VIOLATED — sub-3:1 radar gridlines cost fluency exactly where comprehension is needed most (the hero viz)"
+  ],
+  "notes": "Only inputs were a marketing composite cover.jpg (1200x630) and an icon.webp; NO clean UI screenshots. All app-UI values are estimates at low confidence from a stylized render at unknown scale — no (measured) marks would be honest. The cover also shows an iPhone (iOS) and Apple Watch (watchOS) inside the composite: contrast evidence only, excluded from macOS canon, but they corroborate the multiplatform footprint driving the catalyst/SwiftUI-multiplatform lineage read and the monochrome-chrome/coloured-data grammar. Traffic lights render grey (marketing desaturation vs inactive-window state — ambiguous). Lineage is catalyst OR SwiftUI-multiplatform; can't be split from one render, but corpus consequence (iOS grammar excluded from mac canon) is identical. Icon (radar-dial + restore-arrow + sparkles, dark 3D squircle) noted as brand context per Workflow-A-only scope; NOT digested as a full icon entry — a later icon pass owns icons/subscription-day.md. Task scope was Workflow A only, so no ledger/TASTE/patterns writes were made."
+}

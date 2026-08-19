@@ -1,0 +1,16 @@
+{
+  "slug": "heatscope-ai-ux-attention-heatmaps",
+  "name": "HeatScope AI UX Attention Heatmaps",
+  "tagline": "Analyze user attention with AI-powered heatmaps and optimize UX decisions faster.",
+  "category": "Design",
+  "pricing": null,
+  "website": "http://heatscope.space/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d2084414-140d-4e9c-977a-8904a1b154aa/icon-1783882472193.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d2084414-140d-4e9c-977a-8904a1b154aa/cover-1783882785788.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/heatscope-ai-ux-attention-heatmaps/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/heatscope-ai-ux-attention-heatmaps/cover.png",
+    "shots": []
+  }
+}

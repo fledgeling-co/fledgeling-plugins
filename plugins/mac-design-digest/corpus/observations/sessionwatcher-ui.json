@@ -1,0 +1,61 @@
+{
+  "slug": "sessionwatcher",
+  "name": "SessionWatcher",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "web-marketing-hero (no app UI; contrast evidence only)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "#8 action singularity — two saturated #0071E3 CTA pills (nav + hero) in one viewport, soft Focal Collision",
+        "#12 input height N/A — no inputs on a marketing page",
+        "#13 label proximity N/A — no forms",
+        "#14 focus appearance N/A — not observable from a static composite",
+        "native-audit N/A — this is a website, not a native app surface; no toolbar/sidebar/selection/chrome to score"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/canvas", "value": "#0A0A0A near-black, cool lift to ~#14181F center + faint radial glows", "quality": "measured", "notes": "drenched-dark web ground, not a document surface"},
+    {"token": "text/primary", "value": "#FAF8F8", "quality": "measured", "notes": "headline, wordmark, CTA label"},
+    {"token": "text/secondary", "value": "#A6A6A6", "quality": "measured", "notes": "subhead + nav links; ~8:1 on black"},
+    {"token": "accent/primary", "value": "#0071E3", "quality": "measured", "notes": "apple.com store-blue, NOT macOS systemBlue (#0088FF); deliberate Apple-marketing borrow"},
+    {"token": "accent/on-accent", "value": "#FFFFFF", "quality": "measured", "notes": "white on #0071E3 ~5.0:1, just clears 4.5:1"},
+    {"token": "radius/cta", "value": "capsule (pill)", "quality": "measured", "notes": "both nav and hero CTAs fully rounded"},
+    {"token": "type/display", "value": "~140-160px asset-px, heavy grotesque, tracking ~-0.02em, leading ~1.05", "quality": "estimated", "notes": "system-grotesque (SF Pro Display Bold-class); family not definitively identifiable, not a distinctive display face"},
+    {"token": "type/subhead", "value": "~44-52px asset-px, regular, leading ~1.4", "quality": "estimated", "notes": "centered, <=65ch"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "web marketing hero: full-width nav (logo+wordmark+version badge / Features·Pricing·CTA), centered provider-logo trust row (5 glyphs ~72px + gray captions), oversized centered headline, subhead, capsule CTA. No app window."}
+  ],
+  "signature_moves": [
+    "Apple Store cosplay: CTA blue is #0071E3 (exact apple.com buy-button blue) + Apple logo on the button — borrows Apple retail trade dress for trust; explicitly not macOS systemBlue",
+    "Provider-logo trust row (Claude/Codex/Copilot/Cursor/Gemini) above the headline as immediate 'works with your tools' social proof"
+  ],
+  "defects": [
+    "Focal Collision (soft) — two saturated #0071E3 CTA pills in one viewport (nav 'Get from $2.99' + hero 'Get SessionWatcher'), same action, dilutes the single-accent focus",
+    "Template-default aesthetic — dark-near-black + one electric-blue + oversized bold grotesk is the current-model unprompted dev-tool-landing reflex; fails the swap test (a neighbouring utility's site would fit unchanged)",
+    "No product evidence — cover shows zero app UI; teaches nothing about the app's native craft or menu-bar-extra layout"
+  ],
+  "aesthetic": {
+    "adjectives": ["dark", "bold", "conventional"],
+    "direction": "Neo-grotesque product dark-hero (SaaS-landing default) with Apple-Store trust borrow",
+    "peers": ["Raycast", "Vercel", "Linear landing pages", "apple.com store CTA styling"],
+    "cluster_hint": "dark-hero-saas-web (brand/web only — must NOT feed macOS UI clusters)",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Social proof (Cialdini) — 5 recognised provider glyphs establish tool compatibility before any copy; genuine",
+    "Authority / Jakob's Law — apple.com store-blue + Apple logo transfer Apple-retail trust to an indie utility",
+    "Loss aversion & framing (Kahneman/Tversky) — 'Never Lose a Coding Session to Rate Limits' is loss-framed (~2x gain pull); the loss is real, so honest",
+    "Von Restorff (violated softly) — repeating the accent blue across two CTAs weakens the 'one different thing' that makes a single primary pop",
+    "Hick's Law (honoured) — minimal nav (Features, Pricing, one CTA); low decision load"
+  ],
+  "notes": "CRITICAL for synthesis: no app UI was supplied — only a web marketing cover + a 256px icon. The digested surface is a WEBSITE (lineage web, contrast evidence), so it yields NO native-macOS signal and must not feed TASTE canon, native clusters, or pattern files. The app's true lineage/era is unknown. Icon (out of scope for Workflow A) reads Big Sur-era: charcoal squircle tile with brushed-aluminium extruded bar-chart bars, glossy inner shadow — a candidate for Workflow B later. If the menu-bar dropdown/panel is supplied, re-digest under Workflow A and supersede. Type sizes are asset-px on a 2400x1260 export (design scale unknown), hence estimated ranges not pt. Corpus remains Novice for UI: 0 native app surfaces digested."
+}

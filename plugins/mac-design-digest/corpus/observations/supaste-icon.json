@@ -1,0 +1,34 @@
+{
+  "slug": "supaste", "name": "Supaste", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 grid: horizontally centred with clean margins but vertically top-weighted — large dead blue field fills the lower two-thirds; defensible only under the clipboard-clip reading",
+    "#3 silhouette: reads as one clean anchor (a horizontal bar) but the shape is generic — names 'a row', not 'clipboard history'",
+    "#10 variants: strong figure-ground survives a tint/mono recolour, but it's a single baked raster with a hardcoded gradient, not authored as layers for default/dark/clear/tinted"
+  ],
+  "failures": [
+    "#11 personality: template-default glyph-on-gradient — saturated vertical-blue squircle + one lone white pill; distinctive of nothing and communicates neither clipboard, paste, nor history"
+  ],
+  "palette": {
+    "background": "ramp #86E1FF->#0533FF",
+    "glyph": ["#FFFFFD", "#E7F6FE", "#C6E7FE"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "Single top-down source: field light-top/dark-bottom (sky logic), pill specular white-top -> blue-tint-bottom, subtle bright rim on the squircle's top edge, soft short micro-shadow under the pill. No mixed lighting. Gloss is hand-baked, not system-applied.",
+  "layer_stack": ["blue vertical gradient field", "top-edge rim highlight", "white glossy capsule (baked gloss + soft micro-shadow)"],
+  "devices": [
+    "single glossy capsule as the sole glyph (reductive to one element)",
+    "sky-logic electric-blue ramp with an empty lower-two-thirds field",
+    "baked specular gloss on the pill (old iOS/Big-Sur gesture, not Liquid Glass)",
+    "top-anchored bar readable as a clipboard-clip / top-of-list"
+  ],
+  "adjectives": ["reductive", "glossy", "electric-blue"],
+  "rhymes_hint": "iOS/Big-Sur 'single white glyph on a vertical-blue ramp' utility family (Messages-blue lineage; generic clipboard/notes utilities); style family: saturated-gradient minimalist utility",
+  "notes": "256x256 lossy WebP web render (not the 1024 master) - fine specular/translucency/noise not observable; at 256 clearly an opaque gloss with no refraction/true translucency, so read as a Big-Sur baked gradient icon, NOT Icon Composer Liquid Glass despite shipping in the macOS 26 era. Micro-shadow under the pill is subtle and partly compression. Gradient endpoints and pill gloss ramp are (measured) from this render. Icon<->brand palette coherence is strong: the cover's hero sky gradient (#73C9FF->#2460DB) is the same ramp and the cover shows a #0080FF brand-blue swatch. Icon<->subject communication is weak: nothing signals clipboard/paste/history. Only #11 is a hard fail; the three soft passes plus that fail paint the honest picture - mechanically immaculate (mask/light/palette/contrast/16px all solid), characterically anonymous."
+}

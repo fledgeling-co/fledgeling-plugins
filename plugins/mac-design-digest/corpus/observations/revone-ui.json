@@ -1,0 +1,66 @@
+{
+  "slug": "revone",
+  "name": "Revone",
+  "category": "Analytics",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.webp",
+      "surface_type": "main-window dashboard (marketing composite; app window is the evidence, indigo backdrop+wordmark is brand)",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 6,
+      "failures": [
+        "rubric #10 UI contrast — ghost-gray comparison chart series and dim inactive nav icons read <3:1",
+        "rubric #14 focus appearance — n/a on a static marketing render",
+        "native #3 selection not accent-tinted — home nav selection is neutral-gray inset fill",
+        "native #6 accent not bound to selection/focus — indigo used decoratively on chart only",
+        "native #9 toolbar-as-tab-bar — main navigation is a centered segmented icon capsule"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#171717", "quality": "measured", "notes": "near-black canvas; DARKER than kit dark window #1E1E1E — deviates from HIG dark-mode (avoid near-black)"},
+    {"token": "surface/card", "value": "#242424", "quality": "measured", "notes": "single elevated floating breakdown card"},
+    {"token": "accent/primary", "value": "electric indigo, core ~#6155F5, saturated edge #522BE5", "quality": "measured", "notes": "matches macOS 27 system Indigo #6155F5 family, pushed more violet; also the brand-backdrop hue"},
+    {"token": "text/secondary", "value": "~#8E8E93", "quality": "estimated", "notes": "labels/axis; matches kit Gray"},
+    {"token": "status/positive", "value": "green ~#34C759 text on ~15% green capsule fill", "quality": "estimated", "notes": "'↗ 38%' delta pill; colour paired with up-arrow glyph, not colour-alone"},
+    {"token": "radius/card", "value": "~20px", "quality": "estimated", "notes": "matches kit popover-body radius 20"},
+    {"token": "radius/badge-and-nav", "value": "capsule (infinite)", "quality": "measured", "notes": "delta pill + nav container fully rounded; matches kit capsule-bezel convention"},
+    {"token": "chart/system", "value": "2-series smooth spline; primary indigo w/ bloom+gradient fill, secondary ghost-gray; white end-dot + dashed guide; no y-axis/gridlines", "quality": "measured", "notes": "signature element; data-ink-minimal"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "centered floating icon capsule, 6 monochrome SF Symbols (home/calendar/globe/list/person/gear), selected=inset rounded fill in NEUTRAL gray (not accent-tinted); used as primary navigation (toolbar-as-tab-bar tell)"},
+    {"pattern": "card-grid", "key_values": "single floating elevated card, ~20px radius, #242424; date header (bold/secondary), 3 logo+name/value rows with right-aligned tabular values, 1px dividers, Total + Previous-period summary rows"},
+    {"pattern": "other", "key_values": "hero KPI block — secondary 'Revenue' label over giant display numeral $4,973 with inline green delta capsule; label whispers, value shouts (label/value hierarchy correct)"},
+    {"pattern": "list", "key_values": "breakdown rows: circular token logo + primary name left, bold value right on shared axis; de-emphasised Total/Previous-period"}
+  ],
+  "signature_moves": [
+    "Neon-bloom accent chart — indigo spline with genuine glow/bloom + gradient area-fill on #171717, ghost-gray comparison series behind; no axes/gridlines. The app's whole character in one element.",
+    "Centered floating icon-capsule navigation in the title zone instead of a sidebar (compact single-window dashboard identity; also the principal native-tell).",
+    "One-accent discipline — sole saturated colours are the indigo chart + one green delta pill; all else a monochrome gray ramp."
+  ],
+  "defects": [
+    "Selection grammar deviation — nav selection is neutral-gray inset fill, not system-accent-tinted; accent never binds to selection/focus (native #3/#6).",
+    "Toolbar is not a tab bar — top-level nav via segmented icon capsule; HIG routes primary nav to sidebar/tab view; 6 unlabeled icons weaken information scent.",
+    "Dark-mode near-black — #171717 canvas deviates from HIG dark base #1E1E1E; mild, reads as cluster trait.",
+    "Contrast Dilution (mild) — ghost comparison series & dim inactive icons <3:1 (rubric #10)."
+  ],
+  "aesthetic": {
+    "adjectives": ["electric", "nocturnal", "minimal"],
+    "direction": "Neo-grotesque product / dark dashboard (dark neutral ramp + one electric-indigo accent, glow accents, dense-calm layout)",
+    "peers": ["Linear", "Raycast", "Vercel dashboard"],
+    "cluster_hint": "nocturnal-electric-dashboard (dark neo-grotesque)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff effect — a single saturated accent (indigo chart + one green delta) against a monochrome ramp makes the data pop; disciplined accent budget.",
+    "Hierarchy via de-emphasis / label-value rule — giant $4,973 value dominates while 'Revenue' label whispers; card values bold, secondary rows gray. Correctly applied.",
+    "Aesthetic-usability effect — polished dark render buys a perceived-usability halo (marketing intent), forgiveness on first contact.",
+    "Information scent (Pirolli–Card) — VIOLATED: 6 unlabeled nav icons force recognition/recall; text or tooltips would strengthen scent.",
+    "Data-ink minimalism — chart strips y-axis and gridlines for glanceability, trading precise value-reading for drama."
+  ],
+  "notes": "ONLY input is a marketing composite (no gallery/shots). App window = design evidence; indigo backdrop + white 'All Your Revenue in One Place for macOS' headline + wordmark = brand evidence (brand indigo matches app accent — coherent). It is a scaled ~2x render, so absolute pt sizes are unrecoverable — all sizes are proportional (estimated) with wide ranges; only hex colours are cleanly (measured). Single surface, so every reading is (inferred) — no confirmations. Lineage native at med confidence (SF Symbols + real chrome + SF Pro vs. fully custom skin that a web wrapper could fake). App icon.png present but out of scope for this UI-only digest. Aesthetic is the model-default dark+electric dev-tool look — competent, coherent, but not off-distribution; distinctiveness rests on chart execution."
+}

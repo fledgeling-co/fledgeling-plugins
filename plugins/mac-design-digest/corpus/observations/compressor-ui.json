@@ -1,0 +1,69 @@
+{
+  "slug": "compressor",
+  "name": "Compressor",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window (marketing composite, 3D perspective)",
+      "mode": "dark",
+      "rubric_score": 10,
+      "native_audit_score": 3,
+      "failures": [
+        "#8 action singularity — selected preset card AND primary export button are both fully-saturated coral, competing in one narrow column",
+        "#10 UI contrast — muted unselected preset icons (mid-gray on ~#434343) likely dip below the 3:1 non-text floor",
+        "native#1 lineage — custom design language, Lucide-class line icons, non-native controls; not clearly AppKit",
+        "native#3 selection grammar — solid brand-colour fill, not native inset accent-tinted fill with accent glyph",
+        "native#5 density — oversized touch-adjacent targets, not 20-28pt native control tier",
+        "native#6 accent binding — hardcoded brand coral, not the user's system accent",
+        "n/a: #4/#5/#6 (icon-only UI, no body text), #12/#13 (no inputs/labels), #14 (static render, no focus state), native#4/#8/#9 (no sidebar/toolbar; concentricity unverifiable in perspective)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "accent/primary", "value": "~#EA5A48 coral/vermilion (range #E85A48-#EC6757)", "quality": "estimated", "notes": "Brand hue, not a system accent; not in macOS-27 12-hue palette (between Red #FF4245 and Orange #FF9230). Same coral used in marketing type."},
+    {"token": "bg/chrome-titlebar", "value": "~#2E2C2C warm near-black", "quality": "estimated", "notes": "Dark mode avoids pure black; darks marginally warm."},
+    {"token": "bg/panel", "value": "~#383737", "quality": "estimated", "notes": "Section panel fill."},
+    {"token": "bg/deepest-gap", "value": "~#2A2929", "quality": "estimated", "notes": "Inter-section troughs / window body base."},
+    {"token": "surface/card-unselected", "value": "~#434343", "quality": "estimated", "notes": "Raised preset-card fill, unselected."},
+    {"token": "surface/card-selected", "value": "solid coral #EA5A48 + white glyph + white dot", "quality": "estimated", "notes": "Selection = full saturated brand fill (non-native grammar)."},
+    {"token": "radius/card", "value": "~10-14px (perspective-uncertain)", "quality": "estimated", "notes": "Preset cards + primary button, generous soft radius."},
+    {"token": "control/density", "value": "oversized / touch-adjacent", "quality": "estimated", "notes": "Slider knob, cards, primary button far exceed native 20-28pt tier."},
+    {"token": "divider", "value": "1px near-invisible dark line", "quality": "estimated", "notes": "Separates the three column sections."},
+    {"token": "glyph/muted", "value": "mid-gray on dark card", "quality": "estimated", "notes": "Unselected preset icons; risks <3:1 non-text floor."}
+  ],
+  "patterns": [
+    {"pattern": "inspector", "key_values": "right control column ~35-40% width, three 1px-divided sections: quality slider (coral track + tick scale) / 3-up radio preset cards / one full-width primary button"},
+    {"pattern": "list", "key_values": "3-up equal-width radio preset cards (leaf/scale/diamond), exclusive selection via bottom dot indicator + solid-coral fill on active"},
+    {"pattern": "other", "key_values": "left zone = full-height edge-to-edge image preview with small corner image-badge glyph overlay"}
+  ],
+  "signature_moves": [
+    "Physical-metaphor preset trio: leaf (eco/max-compression) -> balance scale (balanced, selected) -> diamond (best quality) encodes an abstract quality-vs-filesize dial as three familiar objects instead of numbers/words (picture-superiority + trained schemas)",
+    "The unifying coral: one warm brand hue (#EA5A48) carries both the marketing wordmark's tagline and every active UI element (slider fill, selected card, primary button) so app and poster read as one object"
+  ],
+  "defects": [
+    "Focal Collision (soft) — selected preset card + primary export button both fully-saturated coral, two focal points competing in one column",
+    "Recognition-over-recall violation — icon-only presets and export button carry no text labels; users must infer meanings (Jakob's Law / Weinschenk)",
+    "Non-native selection & accent grammar — solid brand-fill selection + hardcoded brand accent instead of system-accent-bound inset tint (native-tells #3/#6)",
+    "Contrast Dilution (borderline) — muted unselected preset icons risk dropping below the 3:1 non-text floor"
+  ],
+  "aesthetic": {
+    "adjectives": ["confident", "warm-minimal", "iconographic"],
+    "direction": "Warmed neo-grotesque product / consumer-utility dark: dark warm-charcoal neutral ramp + one non-electric accent (coral instead of the usual electric blue), heavy grotesk wordmark",
+    "peers": ["CleanShot X", "indie Setapp-register Mac utilities", "ImageOptim's spirit but far more designed"],
+    "cluster_hint": "warm-charcoal consumer utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Hick's Law — reduces the quality/size decision to 3 named presets + one fine slider; choice cut at the decision point (well used)",
+    "Von Restorff / signal-detection — single saturated coral primary button is the one different thing drawing the eye to Export (slightly diluted by the equally-saturated selected card)",
+    "Jakob's Law / recognition-over-recall — VIOLATED: icon-only presets force inference of leaf/scale/diamond meanings",
+    "Picture superiority + schemas (Weinschenk) — object metaphors (scale=balance, diamond=premium) convey the abstract tradeoff faster than text",
+    "Aesthetic-usability effect — polished warm-dark composite raises perceived usability/trust on first contact",
+    "Fitts's Law — oversized targets make every control trivial to hit (arguably over-applied for a pointer-first desktop app)"
+  ],
+  "notes": "Evidence is a SINGLE marketing composite: app window in ~15-20deg perspective under studio lighting, no orthographic screenshot, no visible menu bar, almost no body text (icon-only UI). ALL metrics estimated + low-confidence; colours carry lighting bias. Lineage genuinely undecidable from one perspective render — native window frame (real traffic lights, centered title, native radius) wrapping a custom non-native-grammar body; could be heavily-styled SwiftUI or Electron. Per the lineage gate, this app's selection/accent/density evidence must NOT feed macOS canon regardless. Icon (icon.png, 598x598) present in source but out of scope for this Workflow-A UI digest. Task was Workflow A only; ledger/patterns/TASTE untouched by design."
+}

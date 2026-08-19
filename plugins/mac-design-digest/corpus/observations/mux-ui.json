@@ -1,0 +1,60 @@
+{
+  "slug": "mux", "name": "Mux", "category": "Utility",
+  "lineage": "native", "lineage_confidence": "high",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "menu-bar-extra dropdown (NSMenu) inside a marketing composite",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 9,
+      "failures": [
+        "R#14 focus appearance not evidenced from a static render",
+        "R#6/#8/#12/#13 n/a for a menu surface (no paragraphs, no buttons, no inputs, no form) — counted pass",
+        "Native#3 row-selection grammar not evidenced (no active/hovered row shown)",
+        "Native#9 toolbar n/a — menu-bar utility has no toolbar surface"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "menu/width", "value": "~240pt (~620px render)", "quality": "estimated", "notes": "menu-bar-extra dropdown, sizes to content; scale ~2.55px/pt"},
+    {"token": "menu/row-pitch", "value": "~24pt (~63px render)", "quality": "estimated", "notes": "matches kit Regular menu item 24pt (specified) — platform-fidelity corroboration"},
+    {"token": "menu/corner-radius", "value": "~10pt (~25px render)", "quality": "estimated", "notes": "concentric top+bottom corners"},
+    {"token": "menu/material", "value": "dark translucent vibrancy/glass, white primary text", "quality": "estimated", "notes": "wallpaper bleed visible; floating chrome so glass legitimate"},
+    {"token": "type/item", "value": "~13px SF Pro Regular", "quality": "estimated", "notes": "consistent with kit menu Body 13pt"},
+    {"token": "type/section-header", "value": "~11-12px secondary/gray, Title Case", "quality": "estimated", "notes": "disabled 'Current Network' header"},
+    {"token": "type/shortcut", "value": "~13px secondary gray (dimmed)", "quality": "estimated", "notes": "command glyphs de-emphasized vs label"},
+    {"token": "separator", "value": "~1px inset hairline, low-contrast", "quality": "estimated", "notes": "system-rendered, native ~29% separator"},
+    {"token": "statusitem/glyph", "value": "monochrome template 'fork/branch' (two diverging arrows)", "quality": "measured", "notes": "brand mark carried from icon into bar as template symbol"},
+    {"token": "statusitem/highlight", "value": "soft light capsule/rounded-rect (menu-open)", "quality": "estimated", "notes": "matches kit menu-bar item selection radius ~13 capsule"},
+    {"token": "accent", "value": "none app-defined; only system highlight", "quality": "estimated", "notes": "no rogue accent hue anywhere"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "NSStatusItem fork-glyph + capsule open-highlight; dropdown ~240pt wide, 24pt row pitch, ~10pt corners, dark translucent material; 3 separator groups (state / config / app-commands); submenu chevrons one level; ellipsis grammar correct; Quit App + shortcut glyphs at foot"},
+    {"pattern": "menu", "key_values": "state-first ordering: disabled section header + live value at top ('Current Network -> Thunderbolt Ethernet'), config submenus, then app commands"}
+  ],
+  "signature_moves": [
+    "Entire product surface is a single native NSMenu — zero custom window/toolbar/chrome; character is restraint (invisible-until-needed utility)",
+    "State-first menu IA: opens by answering 'what network am I on?' before offering any control (recognition over recall encoded in menu order)",
+    "One custom 'diverging fork / best-path' glyph carries all identity — glossy blue on the icon squircle, monochrome template in the menu bar; metaphor legible at both sizes"
+  ],
+  "defects": [
+    "none substantive — native menu grammar honoured throughout (ellipsis usage, 1-level submenus, <=3 groups, Title Case labels, dimmed-not-hidden shortcuts, system-rendered separators)"
+  ],
+  "aesthetic": {
+    "adjectives": ["restrained", "utilitarian", "system-deferential"],
+    "direction": "invisible utility / template-default in the best sense — inherits the macOS menu aesthetic wholesale rather than committing a custom visual direction",
+    "peers": ["TripMode", "One Switch", "Little Snitch (menu-bar menu)", "Bartender"],
+    "cluster_hint": "menu-bar-utility / system-deferential",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Jakob's Law — leans on it entirely: exact system menu grammar means zero learning curve; users already know how to operate it",
+    "Recognition over recall — surfaces current network state at the top of the menu so the user never has to remember it",
+    "Hick's/Miller's Law — short menu (~8 items in 3 groups) keeps choice cost and working-memory load low",
+    "Aesthetic-Usability Effect — perceived quality comes from structural hygiene (correct native metrics) not decoration",
+    "Fitts's Law — full-width menu rows are large targets, though the menu-bar entry point itself is an inherently small top-right target"
+  ],
+  "notes": "Single asset is a MARKETING COMPOSITE (cover.jpg): device frame + gradient wallpaper + right-side brand headline 'Your Mac, always on the best network.' Only the menu-bar-extra + dropdown are design evidence. No raw @2x screenshot, no window/settings/empty-state surfaces. All menu metrics estimated at derived scale ~2.55px/pt; the 24pt row-pitch match to kit/macos-27.md is the main corroboration that these are real platform metrics. app icon.png (glossy blue fork glyph on white squircle, Liquid Glass) NOT digested here — Workflow A only; it corroborates the signature glyph. Second menu-bar toggle-glyph is unattributed (possibly a 2nd Mux indicator or unrelated extra). Corpus effect: first app profile, corpus stays Novice (1 app, 1 surface); no canon promotions possible from one app."
+}

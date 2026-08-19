@@ -1,0 +1,16 @@
+{
+  "slug": "onlook",
+  "name": "Onlook",
+  "tagline": "Bring your Ring devices to your Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://onlook.cam/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/18a8331b-281a-40b6-8cff-78e2770d108a/icon-1783882458190.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/18a8331b-281a-40b6-8cff-78e2770d108a/cover-1783882759200.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/onlook/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/onlook/cover.jpg",
+    "shots": []
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "agentpeek",
+  "name": "AgentPeek",
+  "tagline": "Your coding agents, in the Mac notch",
+  "category": "Dev",
+  "pricing": null,
+  "website": "https://agentpeek.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/508dcebf-d1c5-4ccb-b004-9c9de6ea9152/icon-1783882453759.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/508dcebf-d1c5-4ccb-b004-9c9de6ea9152/cover-1783882756876.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/agentpeek/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/agentpeek/cover.jpg",
+    "shots": []
+  }
+}

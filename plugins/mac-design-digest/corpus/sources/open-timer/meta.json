@@ -1,0 +1,16 @@
+{
+  "slug": "open-timer",
+  "name": "Open Timer",
+  "tagline": "Native macOS menu bar time tracker for freelancers.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://opentimer.vercel.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/24f597b1-bd60-4f85-a5b3-6e0c5e69be7f/icon-1783882476974.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/24f597b1-bd60-4f85-a5b3-6e0c5e69be7f/cover-1783882788640.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-timer/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/open-timer/cover.png",
+    "shots": []
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "hilium", "name": "Hilium", "category": "Utility",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.jpg", "surface_type": "marketing-composite (device-in-space) containing an iOS iPhone remote/trackpad control surface — NO macOS UI present", "mode": "dark", "rubric_score": 9, "native_audit_score": 1, "failures": ["#10 UI contrast — dark-gray control fills sit ~1 tonal step above near-black canvas, non-text separation likely <3:1", "#1 native-tells — lineage is iOS not macOS; native audit is a category mismatch (score reflects wrong-platform, not quality)", "#1 rubric grid adherence — unverifiable: phone is 3D-tilted/foreshortened, pixels untrustworthy", "N/A: #5 line-height, #6 measure, #13 label proximity, #14 focus — no body text, no forms, touch UI"]}
+  ],
+  "tokens": [
+    {"token": "bg/stage-marketing", "value": "#020202 to #0A0A0A near-black with faint concentric radar-ring vignette", "quality": "measured", "notes": "cover backdrop; rings echo logo burst"},
+    {"token": "bg/canvas-app", "value": "near-pure black ~#000-#0A0A0A", "quality": "estimated", "notes": "iOS remote surface ground"},
+    {"token": "control/fill", "value": "dark translucent gray capsules/circles, ~1 step above black", "quality": "estimated", "notes": "volume track, device chip, back/keyboard buttons; low separation from canvas"},
+    {"token": "accent/active", "value": "volume fill blue->green horizontal gradient (~#3B82F6 -> #34C759)", "quality": "estimated", "notes": "the single chromatic event in the UI"},
+    {"token": "radius/controls", "value": "capsule (chips/tracks) + full-circle (round buttons)", "quality": "estimated", "notes": "pill-everything, consistent"},
+    {"token": "type/headline-marketing", "value": "~64-72px off-white #E5E5E5 grotesk semibold, 2 lines, tight leading (SF Pro Display-class)", "quality": "estimated", "notes": "brand, not app"},
+    {"token": "icon/bg", "value": "cyan->blue diagonal gradient #00D3FF -> #00E5FD -> #009DFB", "quality": "measured", "notes": "iOS-style rounded square ~22% radius, flat single layer, no macOS layered-glass depth"},
+    {"token": "icon/glyph", "value": "white radial tap-burst + cursor arrow to center", "quality": "estimated", "notes": "control-gesture metaphor; matches white logomark on cover"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "iOS remote/control surface: dark trackpad zone (dotted texture) + running-apps strip + gradient volume slider + capsule device-selector bar. Contrast evidence only, not a macOS pattern."},
+    {"pattern": "empty-state", "key_values": "n/a — closest analog is the marketing composite's device-in-space layout: left-aligned headline+subhead+logomark, phone floated right on black stage"}
+  ],
+  "signature_moves": [
+    "The black control-stage: near-pure-black canvas where the dotted trackpad texture and one blue->green volume gradient are the ONLY visual events; every control is a dark-translucent capsule that deliberately recedes so the controlled Mac (colorful app icons, its name) is the figure and the phone is ground",
+    "Radar-ring / tap-burst motif carried logo -> backdrop: concentric rings behind the phone and the radial-spoke logomark are the same tap-rippling-outward idea, tying brand to the gesture-control premise"
+  ],
+  "defects": [
+    "Contrast Dilution / low UI contrast — dark-gray control fills ~1 tonal step above near-black canvas, non-text separation likely <3:1 (flagged, not confirmed; perspective + JPEG artifacts)",
+    "Target Starvation (risk) — tiny close-X badge on the Finder icon, sub-24px tap target if literal (mockup detail)"
+  ],
+  "aesthetic": {
+    "adjectives": ["stealth-dark", "recessive", "single-accent"],
+    "direction": "Neo-grotesque product (dark neutral + one electric accent) crossed with a physical remote/control-surface register — the interface designed to vanish so the controlled device is the subject",
+    "peers": ["iOS Control Center dark sheet", "Apple TV Remote tile", "Rogue Amoeba control panels"],
+    "cluster_hint": "black-control-surface (iOS/remote — NOT a macOS cluster; do not seed macOS canon from this)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — the running-apps strip reads as the macOS Dock and the volume pill as iOS Control Center, so users transfer trained expectations to a novel remote with zero learning",
+    "Von Restorff effect — the lone blue->green volume gradient is the one saturated, different element, so the eye locks onto the active control on an otherwise monochrome black stage",
+    "Fitts's Law — large capsule and full-circle touch targets sized generously for thumb reach (a genuine strength of the touch surface)",
+    "Aesthetic-Usability effect — the polished dark stage buys a perceived-quality halo on first contact",
+    "Hierarchy via de-emphasis / signal-detection — recessive dark controls push actionable chrome back so the borrowed app-icon color and the '42%' value anchor attention"
+  ],
+  "notes": "CRITICAL for synthesis: the provided images are a MARKETING COVER (device-in-space on a black stage) plus an app ICON — there is NO macOS window/sidebar/toolbar/settings surface anywhere. The only interactive UI lives inside an iPhone frame and is therefore iOS (contrast evidence, excluded from macOS canon per lineage gate). This app teaches the corpus nothing about Hilium's Mac-side design; the macOS component (presumably a menu-bar/receiver helper) is undepicted. Top-level lineage='unknown' reflects the unseen Mac app; the shown surface is genuinely iOS. Every in-app measurement is (estimated) with wide ranges because the phone is 3D-tilted and foreshortened. Icon was examined as brand evidence only (task scoped to Workflow A / UI); the 12-point icon rubric was NOT run and icons/hilium.md was NOT written. Do not promote anything here toward macOS canon or clusters. If digesting Hilium properly later, request actual screenshots of the macOS helper app."
+}

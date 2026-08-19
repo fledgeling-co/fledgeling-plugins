@@ -1,0 +1,15 @@
+{
+  "slug": "satu", "name": "Satu", "category": "Productivity",
+  "era": "big-sur",
+  "rubric_score": 11,
+  "soft_passes": ["#3 silhouette: signature diagonal slice is negative space, closes up when filled solid black — mark survives as a bar+foot blob", "#4 16px squint: holds clean (no smear) but slice is lost and the two elements merge into one", "#2 grid: mark sits slightly high/upper-weighted vs optical centre, within tolerance"],
+  "failures": ["#10 variant robustness: composition is white-ground-dependent — the signature slice IS the white ground bleeding through the glyph, so it disappears under dark/clear/tinted appearances; no appearance layers"],
+  "palette": {"background": "flat #FFFFFF", "glyph": ["#3B3B3B", "#262626", "#2A2A2A"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "abstract", "overlay_device": "other"},
+  "light_model": "Soft upper-left, expressed only as a gentle charcoal gradient across the glyph (#3B3B3B upper-left -> #262626 lower-right); no internal cast shadows; the diagonal white slice is the sole specular-glint cue.",
+  "layer_stack": ["flat white squircle ground", "charcoal glyph (horizontal capsule bar + descending rounded tab)", "diagonal white negative-space slice (ground showing through)"],
+  "devices": ["diagonal negative-space slice cleaving the mark (reads as a glass glint)", "monochrome austerity — white + charcoal, zero accent (mnmls studio signature)", "capsule-terminal geometry — all stroke ends fully rounded, one radius language", "subtle left-lit charcoal gradient within the glyph"],
+  "adjectives": ["austere", "geometric", "confident"],
+  "rhymes_hint": "Swiss/International monochrome monogram marks — black-on-white abstract-letterform icons (Vercel/Linear-register studio marks); a 'reductive monochrome' style family",
+  "notes": "512x512 web render (half of 1024 master) — clean edges, transparent margins (alpha=0), no baked drop shadow, so HIG-correct pre-masked squircle; fine gradient nuance may be softened by downscale. Glyph is abstract (not a literal letter) though it flirts with a stylised 7/F/r; app name 'satu' = 'one' in Malay/Indonesian, numeral reference is plausible but unconfirmed. Icon<->product palette incoherence: icon is monochrome-austere but the app (per cover) is playful/colorful (blue-purple gradient chrome, green Done accent, lofi cat+duck illustration) — the icon signals the studio (mnmls minimalism), not the subject. Era-lag finding: Big Sur unified language shipped into the macOS 26 Liquid Glass era with no translucency/refraction/appearance variants, which is the root cause of the #10 failure. First 'reductive monochrome' candidate for icon clustering — needs >=2 more independent icons before any canon promotion."
+}

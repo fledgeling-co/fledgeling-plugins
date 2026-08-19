@@ -1,0 +1,16 @@
+{
+  "slug": "unfold",
+  "name": "Unfold",
+  "tagline": "Quick Look Almost Anything on Your Mac",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://flew.gg/unfold",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/da65b409-2812-4b45-88a3-7f1414a2a46e/icon-1783882470907.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/da65b409-2812-4b45-88a3-7f1414a2a46e/cover-1783882471225.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfold/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfold/cover.png",
+    "shots": []
+  }
+}

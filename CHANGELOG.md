@@ -673,6 +673,60 @@ Three plugins carried content changes across the `create-test-suite` to `test-ca
 
 Four detector defects added (11–14), the research disagreement over SSIM-as-verdict recorded rather than resolved in the skill's favour, and gemini.md's fourteen hard line-number pointers into `SKILL.md` converted to text anchors, since a line reference breaks silently on every edit — which is the failure class the skill catalogues.
 
+### mac-craft 1.2.0, mac-design-digest 1.2.0: the corpus stops being optional, and ships
+
+**The gap.** `mac-craft` listed the live corpus under *External, if installed* with the words
+"prefer it when present", and a real design run never looked. It built a macOS mock from the
+bundled snapshots while a 135-app corpus sat unread on the same machine. The cost was not
+abstract: on first read that corpus caught a canon violation the mock had shipped through three
+review rounds — two accent fills on one screen, against the *single-accent economy* rule its
+`TASTE.md` evidences across 15 apps and names in its tells table as selection-grammar drift.
+An optional dependency phrased as a preference is one nobody loads.
+
+**The fix is a lookup, not a reminder.** Corpus resolution is now the first block of
+`mac-craft`'s Knowledge sources, ahead of its own bundled references: `./design-corpus/` first,
+then `plugins/mac-design-digest/corpus/`, then absent — and absent is stated in the delivery
+rather than passed over. Four things get loaded and no more (`TASTE.md`, the one cluster whose
+audience matches the brief, the 1–2 profiles that cluster names under *Read for depth*, the
+`patterns/` entries for the surfaces being drawn), and the chosen cluster and its runner-up are
+named in the delivery beside the direction. `mac-design-digest` already specified that handoff
+from its side; the pull was what was missing.
+
+**The corpus ships with the marketplace.** 135 apps, 209 surfaces, the macOS 27 kit, nine style
+clusters and the pattern entries, at `plugins/mac-design-digest/corpus/`. Screenshots are
+resized to a 1600px long edge and re-encoded WebP q80, which takes 132MB to 16MB;
+`sources/_scale-manifest.tsv` records every original dimension and its scale factor, because the
+corpus's `(measured)` marks are pixel reads and a resize without a recorded scale silently
+invalidates them.
+
+**It ships with its own gate red, and that is stated rather than fixed.** `corpus_check.py`
+returns 330 failures on the migrated corpus and the identical 330 on the source, so the
+migration is faithful and the failures predate it. All 330 are `lineage-gate` on `ICONS.md` —
+icon canon rules citing apps whose profiles record `unknown` or `web-electron` lineage, which is
+exactly the contamination that check exists to catch. Repairing them is a corpus-editing job with
+its own evidence requirements, not a side effect of a move.
+
+### create-skill 1.3.1, create-mac-icon 1.4.1, stocktake 0.2.1: patch bumps the rename earned
+
+Three plugins carried content changes across the `create-test-suite` to `test-campaign` rename and the conformance pass without their versions moving. `stocktake` matters most of the three: its SKILL.md and `references/testing-adequacy.md` route to the skill by name, so the old name there was a dangling reference rather than stale prose. `create-skill`'s `references/brand-and-docs.md` and `scripts/banner_sheet.py` and `create-mac-icon`'s `references/material-recipes.md` cite it as a worked example. Nothing behavioural moved in any of the three.
+
+### create-test-suite → test-campaign, 0.4.0 → 0.5.0: the suite that never ran, and the rung that let it pass
+
+**Renamed.** `create-` implied a one-shot generator and "suite" named the smallest of the things the skill leaves behind. It sets the test strategy, decides what a given run needs to cover, keeps the suite alive across runs, and publishes the evidence — and `campaign` was already the word the code used throughout (`campaign.py`, `docs/test-campaign/`, `CASE-0001`). Put to gemini-3.7-flash-high and grok-4.6 with the candidates in swapped order; both landed on the campaign noun and split only on whether to keep a `test-` prefix. The old name stays in the entries above, because rewriting history is worse than a stale name in it.
+
+**A third failure mode, and it is the worst of the three.** A campaign reported 100% checked, 22 armed cases and 59 passing tests across a macOS app and a Windows app. No GUI process had ever attached to a window server: the Swift half initialised SwiftUI view structs in memory, which are value types and render nothing; the Windows half was C# that had never been compiled; the screenshots came from an HTML mock photographed in a browser. Every individual number was true, and nothing in the ledger could catch it, because the ledger only ever asked whether cases *resolved*. The generalisation is not a desktop problem — jsdom puts layout "outside the scope of jsdom" and returns "zeros for many layout-related properties", so a geometry assertion there compares zero against zero and agrees.
+
+**`visual` split into `structural-visual` and `raster-visual`.** One word was covering both "a label exists in the view hierarchy" and "pixels arrived from a compositor", and the first is a data-model check. A case asserting a card's title property equalled `"AGGREGATE CPU"` claimed the visual rung, counted as proof of an effect, and was watched to fail — honestly, and about a struct in memory. Only `raster-visual` buys effect credit now. Existing campaigns keep loading and are told to migrate rather than silently re-rated, and because this makes real scores fall, `strict-check.py` now refuses to lower its ratchet without a recorded reason.
+
+**A lane has to prove it ran.** A lane named `*-glass` claims the app was running and drawn, and `campaign.py lane` makes it name the built artifact as a path that exists, the command that produced it, and what witnessed a process reaching a display server. `--cannot-attach "<reason>"` is the honest alternative and drops the lane's cases to `blocked`. Pixel claims are checked from the bytes: a non-image, a zero-byte file, a placeholder, or two cases sharing one screenshot byte for byte all fail. What it deliberately does not do is score the picture — no density or entropy floor separates a failed capture from a legitimately sparse screen, since an empty state is mostly background by design.
+
+**`inconclusive` and `blocked` as first-class blocking statuses.** Where an engine returns nothing, `"" === ""` is true and vacuously certifies that two layouts are identical. "We do not know" is a weaker claim than "no difference found" and a different one from "does not apply here", so they get separate states and `check` prints its own population: `6/8 cases produced a measurement · 2 could not be measured`.
+
+**Sweeps K and L, and native desktop lanes for Windows and Linux.** Desktop shell invariants (scaling, window limits, popover anchoring, a theme toggled mid-run, occlusion) and live process/IPC chaos (peer dies, peer returns, privilege separation, startup order). Both are justified by structure rather than by yield, and say so — no formal measurement of scaling-induced layout defects exists, which was searched for and reported missing. The lane matrix gained Windows and Linux from a commissioned research pass, after a sweep of 452 existing reports found nothing usable on either. Highlights: `SendInput` fails under Windows UIPI and, per Microsoft's own reference, *"neither GetLastError nor the return value will indicate the failure was caused by UIPI blocking"*; Windows has no per-frame validity signal at all, so black frames from minimised, off-desktop, capture-excluded and hybrid-GPU cases are indistinguishable from the image; deep UIA enumeration in WinUI 3 can raise a native `0xc0000005`; Wayland's portal raises a consent dialog that halts an unattended run; and a hosted `windows-latest` runner defaults to 1024×768, which clips layouts and looks like a build defect.
+
+Four detector defects added (11–14), the research disagreement over SSIM-as-verdict recorded rather than resolved in the skill's favour, and gemini.md's fourteen hard line-number pointers into `SKILL.md` converted to text anchors, since a line reference breaks silently on every edit — which is the failure class the skill catalogues.
+
+
 ## 2026-08-18
 
 ### create-test-suite 0.2.0 → 0.3.0: unchecked is failed, and the screenshots were never attached

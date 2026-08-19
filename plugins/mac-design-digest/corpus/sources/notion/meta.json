@@ -1,0 +1,16 @@
+{
+  "slug": "notion",
+  "name": "Notion",
+  "tagline": "The AI workspace that works for you.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "http://notion.so/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6cd6eeab-3761-483b-9c08-4d307fc23168/icon-1783882455207.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/6cd6eeab-3761-483b-9c08-4d307fc23168/cover-1783882757599.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/notion/cover.jpg",
+    "shots": []
+  }
+}

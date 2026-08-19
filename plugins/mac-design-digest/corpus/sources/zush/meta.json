@@ -1,0 +1,16 @@
+{
+  "slug": "zush",
+  "name": "Zush",
+  "tagline": "AI File Renamer & Organizer",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://zushapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-20a5671e-f9ba-4d5a-98a7-7355e32d52ff.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-60575bf6-522f-4fad-9e14-f81c6a3f33d4.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zush/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/zush/cover.png",
+    "shots": []
+  }
+}

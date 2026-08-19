@@ -1,0 +1,37 @@
+{
+  "slug": "dia", "name": "Dia", "category": "Productivity",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {"file": "cover.png", "surface_type": "marketing composite — Open Graph social card, 1200x630 (no app UI)", "mode": "dark", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — brand composite (logo, serif wordmark, sans tagline, full-bleed portrait) on near-black; not a UI surface, so the 14-pt rubric and 10-pt native audit do not apply"]},
+    {"file": "icon.png", "surface_type": "app icon — squircle, translucent daybreak-gradient dome on light ground (Workflow B scope)", "mode": "light", "rubric_score": 0, "native_audit_score": 0, "failures": ["n/a — app icon belongs to the 12-pt icon rubric, not the UI rubric; reads current Liquid-Glass / Icon-Composer era"]}
+  ],
+  "tokens": [
+    {"token": "brand/bg-black", "value": "#040509", "quality": "measured", "notes": "cover ground, near-pure black faintly cool; brand surface, NOT a window background"},
+    {"token": "brand/logo-white", "value": "#FFFFFF", "quality": "measured", "notes": "logo mark + wordmark, pure white knockout on black"},
+    {"token": "brand/tagline-gray", "value": "~#8A8B8E–#9A9B9E", "quality": "estimated", "notes": "secondary light-gray sans tagline, de-emphasised vs white wordmark"},
+    {"token": "brand/wordmark-face", "value": "custom high-contrast serif (bracketed old-style, double-story a, wide round D)", "quality": "estimated", "notes": "committed editorial brand typeface, not a system font"},
+    {"token": "brand/tagline-face", "value": "humanist grotesque sans, Regular", "quality": "estimated", "notes": "serif-display + sans-text contrast pairing"},
+    {"token": "brand/logo-glyph", "value": "solid-white dome: rounded top, concave-scooped base", "quality": "estimated", "notes": "identical silhouette to the icon's coloured dome — one shared mark"},
+    {"token": "icon/bg", "value": "~#F0EFF2 pale warm off-white/lavender, soft top-light", "quality": "estimated", "notes": "domed glassy-card ground"},
+    {"token": "icon/grad-stops", "value": "#4D88DF blue -> #A7C7E4 sky -> #E1E3C7 cream -> #F4D765 yellow -> #F59440 orange -> ~#E86B6B coral", "quality": "estimated", "notes": "daybreak spectrum sampled down icon centre axis; base coral inferred from render; Dia = 'day', motif = sunrise"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "No in-window UI patterns present. Inputs are a marketing OG composite + an app icon only — no sidebar/toolbar/list/table/empty-state/etc. to record."}
+  ],
+  "signature_moves": [
+    "Daybreak-spectrum dome icon: 'Dia' = day; a sunrise (blue dawn -> warm horizon) as a translucent glass lozenge — name, concept and colour resolve into one mark",
+    "One mark, two renders: the cover's white logo glyph is the exact silhouette of the icon's coloured dome",
+    "Serif-display wordmark paired on a contrast axis with a plain grotesque tagline — editorial warmth, deliberately unlike a dev-tool",
+    "Dread-relief emotional framing: a screaming-portrait photograph sells the problem so the product is the relief (brand storytelling, not a product shot)"
+  ],
+  "defects": [],
+  "aesthetic": {"adjectives": ["cinematic", "editorial", "emotive"], "direction": "Luxury/editorial-cinematic (design-craft 'Luxury/fashion' x 'Editorial/literary'): high-contrast serif wordmark + grotesque tagline, near-black drenched ground, full-bleed emotional photography — BRAND direction, not a UI aesthetic", "peers": ["Arc (sibling product)", "Safari", "Vivaldi"], "cluster_hint": "editorial-dark-brand (marketing lockup; NOT a UI style cluster)", "audience": "consumer-utility"},
+  "psychology": [
+    "Von Restorff — a single white lockup on a black field is the one salient thing; total figure/ground isolation (brand lockup, not a UI CTA)",
+    "Aesthetic-usability / processing fluency — an extremely spare, polished brand card raises the trust prior before any product is seen (Lindgaard 50ms; Reber & Schwarz)",
+    "Loss / emotional framing — the tagline names the status quo as 'dread' and the photo dramatises it, so the product reads as relief (Kahneman-Tversky loss framing, used in copy+image, not UI)",
+    "Jakob's Law — cannot be assessed: browser-convention conformance needs the actual chrome, which is absent"
+  ],
+  "notes": "CRITICAL: no app UI was supplied. cover.png is a 1200x630 Open Graph social-share card (marketing composite) with zero window chrome; icon.png is the app icon (Workflow B scope). The 14-pt rubric and 10-pt native-tells audit are not applicable and rubric/native scores are recorded as 0 to mean 'not-a-UI-surface / not-applicable', NOT 'scored zero'. Framework lineage (native vs Electron/Chromium) is undeterminable — do NOT infer it from the icon or brand. Everything captured is brand + icon evidence and must be excluded from macOS UI canon and style clusters. The daybreak-dome icon reads current Liquid-Glass/Icon-Composer era — a brand-timing signal only. To digest Dia's UI, request real screenshots: browser window (tab strip/sidebar, toolbar+address bar), new-tab surface, and any AI panel. Icon evidence (icons/dia.md, ICONS.md) was intentionally NOT written — this was a Workflow-A-only task."
+}

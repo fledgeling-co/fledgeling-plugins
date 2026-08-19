@@ -1,0 +1,16 @@
+{
+  "slug": "radial",
+  "name": "Radial",
+  "tagline": "A powerful radial (pie) menu for macOS",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://radial.appverge.net/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-729d31ad-256b-40c7-928a-18db4dc3f92f.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-b36ec30e-25ce-4929-a912-7bd3e115fd2e.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/radial/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/radial/cover.jpg",
+    "shots": []
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "toplify", "name": "Toplify", "category": "Marketing",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": ["#2 optically centred but the arrow tail pulls mass slightly below true centre", "#3 nameable but a dual metaphor (spark + arrow) reads a beat slower than a single-anchor glyph"],
+  "failures": ["#4 16px squint: thin rays merge into a blob and the up-arrow is lost (verified by downscale) — survives 32px, fails 16px", "#10 variant robustness: fixed Big Sur flat asset with baked field/gradient/shadow, not Icon Composer layers; white glyph depends on the self-supplied black field and would wash out in clear/tinted renders"],
+  "palette": {"background": "ramp #1F1F1F->#0F0F0F", "glyph": ["#FFFFFF", "#DADADA", "#C4C4C4", "#8D8D8D"], "accent": "none"},
+  "composition": {"background_type": "ramp", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "single top-down; silver glyph gradient (white crown -> graphite foot) reads as light on brushed metal; short soft baked drop-shadow per stroke gives embossed relief; no specular glass or refraction",
+  "layer_stack": ["dark ramp field #1F1F1F->#0F0F0F", "baked soft drop-shadow", "silver-gradient glyph: radial burst rays + upward chevron-arrow"],
+  "devices": ["burst-with-rising-arrow fusion glyph (lower rays replaced by an up-chevron = 'climbing to the top')", "metallic vertical gradient on the glyph (top-down light on brushed silver)", "near-black background ramp instead of flat black"],
+  "adjectives": ["monochrome", "kinetic", "utilitarian"],
+  "rhymes_hint": "dark-field monochrome line-glyph utility icons (black squircle + single silver/white geometric mark, no accent hue) — developer/analytics/terminal tool family; first of its kind in the corpus",
+  "notes": "386x386 web render, not a 1024 master: gradient banding, soft edges, and pure-black corners are flatten artifacts — mask is likely baked into this export, so #1 mask discipline unverifiable (passed on visible evidence). Palette-coherence gap: brand accent is green (cover stat ~#04A547, Dock ~#00D957) but the icon is pure monochrome — icon and app disagree on palette; a brand-green arrowhead detail would tie them and give the 16px form a colour anchor. Both failures share one root: a flat, thin-stroke, self-contained composition never re-authored for macOS 26 Liquid Glass."
+}

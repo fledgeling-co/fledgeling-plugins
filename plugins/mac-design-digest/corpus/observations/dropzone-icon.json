@@ -1,0 +1,40 @@
+{
+  "slug": "dropzone", "name": "Dropzone", "category": "Utility",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#3 silhouette: forms distinct in grayscale (stacked rings + oval pad on tray) but not instantly nameable — reads as generic stacked-object-on-base; drop-target meaning is colour/glow-carried, lost when filled solid",
+    "#4 16px squint: survives as a recognizable coloured tile (violet ground, light glass band top, warm-red strip bottom) but the two glass rings merge into one band and the stack-over-target narrative smears",
+    "#6 palette economy: blue-tinted glass + violet ground read as one cool family with crimson->peach as the single reserved accent, but a strict count is 3 hue families (violet+blue+red); contained/purposeful so a flag not a defect",
+    "#10 variant robustness: depth/form survive tinted & mono (glass stack + recessed pad hold on luminance) but the warm-target-vs-cool-glass colour story collapses in mono; identity thins to 'layered glass object'"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "ramp #847DFF->#745FEF vertical (lilac-violet top -> deeper indigo-violet mid; sky logic)",
+    "glyph": ["#F1F4FF", "#E9ECFF", "#78A3E0", "#A8C5FF", "#AF7FE1", "#CB9DF1", "#55477E", "#394376", "#DB2D5C", "#D79A9A", "#E9C1AE", "#96A4BD", "#E8ECF8", "#243349"],
+    "accent": "#DB2D5C"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "object",
+    "overlay_device": "other"
+  },
+  "light_model": "Liquid-Glass environmental + emissive. Top-down specular on the glass band rims (#F1F4FF) and the metallic tray's bright top rim (#E8ECF8); the target pad is self-illuminated (internal warm crimson->peach glow) as an intentional focal emitter, not a competing cast direction. No baked drop shadow (system-supplied). Coheres as 'lit translucent glass hovering over a glowing recessed zone'.",
+  "layer_stack": [
+    "system squircle mask + system shadow",
+    "violet background ramp (#847DFF top -> #745FEF mid)",
+    "metallic silver tray / plinth (bright top rim #E8ECF8, silver body #96A4BD, bottom shadow lip #243349)",
+    "dark navy-violet pad bowl (#55477E) recessed into the tray",
+    "emissive glow target inside bowl (crimson rim #DB2D5C -> warm cream/peach core #E9C1AE, radial)",
+    "stacked translucent glass rings/bands, frontmost (blue-white specular rim #F1F4FF, cool-blue body #78A3E0, violet-tinted lower band #AF7FE1), refracting the violet field through them"
+  ],
+  "devices": [
+    "emissive drop-target core — a crimson->peach glowing bullseye recessed in a dark bowl; literal 'zone' you drop onto and a brand-continuity callback to classic Dropzone's red drop-target mark, re-skinned in Liquid Glass; the single warm accent in a cool tile",
+    "stacked translucent glass rings/slots — frosted open hoops with specular top rims hovering above the pad, refracting the violet field; reads as drop-slots / a shelf the files fall through",
+    "metallic silver plinth tray — a Liquid-Glass base with a bright top-edge rim grounding the assembly as a physical 'device on a desk', not a floating glyph",
+    "subject-literal drop stack — glass slots (top) over glowing zone (bottom) animates the app's verb in a static mark"
+  ],
+  "adjectives": ["glassy", "luminous", "engineered"],
+  "rhymes_hint": "Liquid-Glass utility marks stacking translucent glass over an emissive focal element on a metallic tray (drop-target / landing-pad / shelf utilities); rhymes with Backdrop (self-lit glass object on a field) and Alcove (recessed luminous glow in a frame) but crisper and multi-layer; a 'layered-glass-with-emissive-core' family candidate",
+  "notes": "Source is a 204x204 WebP web render, NOT the 1024 Icon Composer master: gross composition + interior hex values reliable, but specular micro-structure, refraction quality, and true per-layer glass separation are inferred not verifiable; the glass element could be 2 discrete stacked hoops or one banded cylinder (soft read). Mask discipline is real (corners clean alpha-0, field fills the squircle) — the strongest structural point, unlike floating-glyph utility marks. Brand coherence: the cover shows Dropzone's OLDER product UI (sky-blue menu-bar grid popover + classic mono down-arrow menu-bar glyph); the new violet Liquid-Glass icon does not echo the blue UI directly — the coherence thread is the red target glow carrying the legacy Dropzone bullseye identity forward. 12/12 with 4 soft passes: genuinely well-crafted native Liquid Glass, no hard rubric failure."
+}

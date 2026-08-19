@@ -1,0 +1,15 @@
+{
+  "slug": "agentpeek", "name": "AgentPeek", "category": "Dev",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": ["#2 reads centred but visual mass is bottom-heavy (bell body) while top flanges push wide toward the safe zone", "#4 black-on-white silhouette survives to menu-bar size but eye detail (pupils/sparkles/eyebrows) smears below ~32px"],
+  "failures": ["#3 silhouette test: identity lives in the white knockout eyes, which vanish when filled solid black, leaving an ambiguous notch/anvil blob", "#10 variant robustness: composition depends wholly on the white ground; black glyph with white-knockout eyes cannot produce Dark/Clear/Tinted renders without an invert/redesign"],
+  "palette": {"background": "flat #FFFFFF", "glyph": ["#000000", "#FFFFFF", "#111111"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "mascot", "overlay_device": "none"},
+  "light_model": "soft ambient/top-down; a single diffuse gray drop-shadow halo (~#8C8C93) lifts the flat black glyph off the white tile; eye sparkles imply upper light; glyph body itself unshaded",
+  "layer_stack": ["white squircle tile", "soft gray ambient drop-shadow", "black notch-body glyph", "white knockout eyes", "dark pupils + sparkle highlights + eyebrow arcs (front)"],
+  "devices": ["notch-as-mascot (the MacBook notch silhouette personified)", "negative-space googly eyes (pupils + pinpoint sparkles + eyebrow arcs)", "baked soft-shadow lift on an otherwise perfectly flat glyph"],
+  "adjectives": ["monochrome", "mascot-personable", "subject-literal"],
+  "rhymes_hint": "flat monochrome mascot icons where a UI element/object is personified with cartoon eyes (the 'cute creature peeking' family) rather than the diagonal-tool or concentric-badge families; also black-glyph-on-white menu-bar/notch utility marks",
+  "notes": "Resolution: icon.webp is 102x102 with a TRANSPARENT background (glyph-only cutout, not the tile); shipped white-tile composition legible only from cover.jpg (~165px, JPEG). No 1024 master; all hex estimated. Transparent webp hints at possible layered/foreground authoring, but no dark/tinted variant is shown and the white ground is essential, so #10 still fails on evidence. Mask radius unmeasurable. Achromatic by default, not by reserved-accent discipline. Brand-coherent with cover (same icon, grayscale liquid-metal ground, SF-style white wordmark) — the whole brand commits to monochrome. Era-lag: a flat Big-Sur icon shipping in the Liquid Glass era, like 1Password."
+}

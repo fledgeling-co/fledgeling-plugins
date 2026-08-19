@@ -1,0 +1,39 @@
+{
+  "slug": "finbar", "name": "Finbar", "category": "Productivity",
+  "era": "liquid-glass",
+  "rubric_score": 8,
+  "soft_passes": ["#2 fin anchors lower-right third, not optical grid centre — acceptable for a scene icon but not glyph-centred, and contributes to the 16px failure"],
+  "failures": [
+    "#3 silhouette — filled solid the art collapses to a plain squircle; fin/waves read only via internal colour, never outline; not nameable from shape alone",
+    "#4 16px squint — menu rows vanish, fin degrades to an unidentifiable green smudge, reads as a generic gray-blue glass blob (recovers by 32px)",
+    "#7 figure-ground — fin-vs-panel luminance contrast 1.02:1 (floor 3:1); whole icon is a low-contrast value mush, hierarchy by hue + thin rim-lights only; grayscale confirms fin nearly disappears",
+    "#10 variant robustness — baked raster (specular/glow painted in), not layered Icon Composer; identity depends on light-gray panel + specific blue/mint; would not survive dark/clear/tinted renders"
+  ],
+  "palette": {
+    "background": "ramp #ECECEC->#C6CDCD (frosted top-lit gray glass panel)",
+    "glyph": ["#95E7D9", "#74D4C6", "#5EBFB7", "#64C9C0", "#BEC3C3"],
+    "accent": "#4EACC5 (teal waterline band) + water #4088EB->#8CD4FF"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down / frontal glass, single consistent source; baked soft specular along panel top, pill tops, wave crests and fin leading edge; short soft shadows; cyan rim-light on the fin",
+  "layer_stack": [
+    "frosted gray glass panel (menu/search window field)",
+    "abstracted UI rows + top search-field pill (the 'bar')",
+    "teal waterline / selected-row band #4EACC5",
+    "blue wavy water band #8CD4FF->#4088EB",
+    "rim-lit mint->teal glass shark fin (front)"
+  ],
+  "devices": [
+    "Finbar double-pun: shark 'fin' + menu-rows/search-pill 'bar' — name rendered as image",
+    "waterline doubles as a selected-list-row band (one shape, two readings)",
+    "the app's own search panel used as the icon's background field",
+    "rim-lit translucent glass fin with refraction-style inner gradient"
+  ],
+  "adjectives": ["punny", "aquatic", "frosted-glass"],
+  "rhymes_hint": "frosted Liquid-Glass scene-diorama icons; 'app-UI-as-icon' window-motif family (icon depicts a stylized version of the app's own panel); pun-driven marine/mascot indie icons with a literal-subject anchor",
+  "notes": "Clean native 1024x1024 PNG, transparent corners, no upscaling artifacts — genuine source, not a resized web render. Mask handled correctly (art bleeds under squircle). Specular/glow/shadow are BAKED (HIG says let the system apply these) — this is a raster emulation of Liquid Glass, not authored Icon Composer layers, so system dark/clear/tinted variants won't exist. It is genuinely a scene/diorama; glyph_type='object' marks the fin as the intended anchor but the scene construction is why #3/#4/#7 fail. Cover coherence: icon abstracts the app's real gray menu list + system-blue selected row into frosted panel + blue water + teal band; icon-to-app palette coheres on blue, mint/teal fin is icon-only brand flavour. For synthesis: candidate clusters 'app-UI-as-icon window-motif' and 'frosted glass scene-diorama'; flag a 'low-contrast value-mush / hierarchy-by-hue-only' anti-pattern to watch if more glassy scene icons arrive. Strong subject-mining, weak Dock-size legibility — the two findings that matter."
+}

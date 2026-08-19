@@ -1,0 +1,74 @@
+{
+  "slug": "cachesweep",
+  "name": "Cachesweep",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.jpg (marketing composite; app is the menu-bar popover, top-right)",
+      "surface_type": "menu-bar-extra panel",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 7,
+      "failures": [
+        "#9 secondary/tertiary white metadata on blue glass likely <4.5:1 (estimated; environmental tint)",
+        "#10 hollow unselected rings + hairline separators <3:1 (estimated)",
+        "#14 focus state not evaluable from a static composite",
+        "native#3 selection is trailing circular checkmark, not macOS inset-rounded accent fill",
+        "native#4 tracked-UPPERCASE section headers (LIVE ACTIVITY / DEVELOPER CACHES) vs sentence-case native grammar",
+        "native#5 row height ~44-48px + comfortable density lean iOS over macOS 24-28pt"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "material/panel", "value": "Liquid Glass (Regular), adaptive wallpaper tint", "quality": "estimated", "notes": "reads deep blue only because wallpaper is blue; not an app-chosen surface colour"},
+    {"token": "bg/panel", "value": "insufficient-evidence", "quality": "estimated", "notes": "environmental lensing; cannot isolate app fill from tinted wallpaper in one still"},
+    {"token": "radius/panel", "value": "~16pt", "quality": "estimated", "notes": "menu-bar popover corner"},
+    {"token": "panel/width", "value": "~340pt", "quality": "estimated", "notes": "rich-panel, wider than a plain NSMenu dropdown"},
+    {"token": "type/hero-metric", "value": "~34-38pt SF Pro Regular/Light, white primary", "quality": "estimated", "notes": "'120.3 MB' dominant element"},
+    {"token": "type/section-header", "value": "~10-11pt SF Pro Semibold, tracked UPPERCASE, white ~50%", "quality": "estimated", "notes": "non-native header tell"},
+    {"token": "type/row-title", "value": "~13pt SF Pro Semibold, white primary", "quality": "estimated", "notes": "platform-correct 13pt body/headline"},
+    {"token": "type/row-path", "value": "~11pt SF Pro Regular, white ~55%", "quality": "estimated", "notes": "de-emphasised path metadata"},
+    {"token": "accent/primary", "value": "system blue (selection check + primary button)", "quality": "estimated", "notes": "bound to selection + single CTA; reads brighter over glass"},
+    {"token": "status/growth", "value": "system green, up-triangle glyph + delta", "quality": "estimated", "notes": "always glyph-paired; the signature telemetry mark"},
+    {"token": "badge/new", "value": "amber pill ~#BB861E, small 'new'", "quality": "measured", "notes": "on freshly-written cache rows"},
+    {"token": "control/primary-button", "value": "full-width capsule, h ~34-36pt (XL tier), capsule radius", "quality": "estimated", "notes": "one prominent action, 'Clean Selected'"},
+    {"token": "control/select", "value": "trailing circular checkbox ~18-20pt; selected filled-accent+check, unselected hollow ring", "quality": "estimated", "notes": "iOS/SwiftUI selection idiom"},
+    {"token": "icon/tile", "value": "rounded-square ~28pt, radius ~6-8, tinted fill, monochrome SF Symbol", "quality": "estimated", "notes": "iOS-Settings-style icon chip"},
+    {"token": "row/height", "value": "~44-48pt two-line", "quality": "estimated", "notes": "comfortable, leans iOS"},
+    {"token": "brand/mark", "value": "white 4-point sparkle glyph in header", "quality": "measured", "notes": "echoes the app icon into the panel"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "NSStatusItem highlighted in menu bar + anchored popover caret; ~340pt wide dark Liquid Glass panel; header (brand glyph + wordmark + trailing refresh symbol) / hero number / full-width capsule primary / sectioned scrolling list; no traffic lights (correct)"},
+    {"pattern": "list", "key_values": "multi-select rows ~44-48pt, two-line (title 13pt + path 11pt); leading tinted rounded-tile SF Symbol, trailing size + circular checkbox; tracked-uppercase section headers; hairline separators; live-activity rows carry green up-triangle deltas + timestamps + amber 'new' badges"},
+    {"pattern": "empty-state", "key_values": "n/a — panel shows populated scan results, no empty state captured"}
+  ],
+  "signature_moves": [
+    "Live disk-telemetry feed in a menu-bar panel: 'LIVE ACTIVITY / writing now' rows show caches growing in real time with green up-triangle deltas ('340.5 MB'), 'just now/5s' timestamps and amber 'new' badges — the product thesis rendered as a running feed, not a static scan",
+    "Scale-as-hierarchy hero: a ~36pt '120.3 MB' reclaimable figure answers the user's one question pre-attentively; everything else defers",
+    "Brand-sparkle continuity: the icon's 4-point sparkle reappears as the in-panel header glyph"
+  ],
+  "defects": [
+    "Non-native header casing — tracked-UPPERCASE section headers where native grammar wants sentence-case system-font semibold (SwiftUI-multiplatform tell)",
+    "Non-native selection grammar — trailing checkmark.circle.fill / hollow-ring toggles instead of macOS inset-rounded accent-fill row selection",
+    "iOS-idiom icon chips — coloured rounded-tile SF Symbol tiles rather than plain symbols/file icons",
+    "Contrast Dilution (estimated) — secondary/tertiary white metadata and hollow rings/separators likely below 4.5:1 / 3:1 on the mid-blue glass"
+  ],
+  "aesthetic": {
+    "adjectives": ["confident", "telemetric", "glassy-blue"],
+    "direction": "Neo-grotesque product on Liquid Glass — dark glass panel, one electric/system-blue accent, big confident numeral, dense-calm feed; the model-default dev-tool look, but here it is platform-native (system accent on real glass), which is the stated reason it is legitimate",
+    "peers": ["iStat Menus", "Ice", "One Thing", "CleanMyMac menu widget", "DevUtils"],
+    "cluster_hint": "menu-bar-glass-utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / signal-detection — the single saturated blue 'Clean Selected' CTA is the one different thing, found instantly against quiet glyphs",
+    "Processing fluency / first-impression — the giant hero number answers 'how much can I reclaim?' in one figure, a thesis-statement viewport",
+    "Zeigarnik & goal-gradient — '2 selected · 120.3 MB found' progress framing plus a live-growth feed create a low-grade nag that caches keep filling",
+    "Feedback / Doherty threshold — 'writing now', 'just now', '5s' give sub-second live telemetry; the panel feels alive",
+    "Colour-never-alone (respected) — green growth, amber 'new', blue selection are each glyph/label-paired, so three reserved colours stay disciplined rather than collapsing into noise"
+  ],
+  "notes": "No standalone UI screenshots were supplied — only meta.json, a 256px icon.webp, and a 1200x630 marketing COVER composite. The app evidence is the menu-bar popover inside the cover; brand evidence (giant 'Cachesweep' wordmark, Download DMG / Go to GitHub buttons, 'Free & open source · MIT · macOS 15+ · 13 languages') was kept separate and not tokenised. All UI values are logical-point estimates at ~1x render scale, provenance (estimated)(inferred); the panel is a single dark/glass surface so there is no light-mode, settings, empty-state, or focus-state evidence. Panel background is Liquid Glass tinted by the blue/purple wallpaper, so no fixed bg hex is claimable. Lineage is native (SwiftUI MenuBarExtra) with med confidence — several SwiftUI-multiplatform/iOS list idioms (uppercase headers, circular-check selection, tinted icon chips, ~44px rows) are recorded as tells and must NOT feed macOS canon. Icon is being digested separately (cachesweep-icon.json exists) per Workflow B; this file is Workflow A only. Contradiction to watch at synthesis: this app's comfortable menu-bar density vs the kit's dense 24-28pt control expectation — legitimate for a menu-bar panel, but do not learn its row height as general mac list density."
+}

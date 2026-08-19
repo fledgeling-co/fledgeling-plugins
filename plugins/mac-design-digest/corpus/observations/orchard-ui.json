@@ -1,0 +1,45 @@
+{
+  "slug": "orchard", "name": "Orchard", "category": "AI",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (brand illustration, no app window)",
+      "mode": "light",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["n/a — not a UI surface: contains no window, chrome, or control; 14-point rubric and 10-point native-tells audit are not applicable. Brand/marketing evidence only."]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/bg", "value": "warm peach gradient ~#FDEBDC->#FCE4D2 with faint squircle-tile watermark", "quality": "estimated", "notes": "cover ground; marketing, not UI"},
+    {"token": "brand/wordmark", "value": "'Orchard' bold rounded-sans, coffee-brown ~#9C6A48, ~30-33pt @2x", "quality": "estimated", "notes": "SF Pro Rounded / Nunito-class; brand mark, not native UI type"},
+    {"token": "brand/tagline", "value": "lighter brown ~#B0896A, regular, ~13-15pt @2x", "quality": "estimated", "notes": "'Bridge AI to Your Apple Ecosystem'"},
+    {"token": "brand/palette-temp", "value": "warm monochrome — terracotta/peach/coffee/tan-leather", "quality": "estimated", "notes": "single warm hue family across whole composite"},
+    {"token": "icon/material", "value": "tan-brown leather, edge stitching, soft top-down light, debossed Apple logo", "quality": "estimated", "notes": "skeuomorphic object render; icon evidence, not UI-chrome"},
+    {"token": "icon/composition", "value": "bifold wallet: left pocket = stack of ~6 Apple app tiles; right = leather panel + white barcode/membership card w/ 'M' monogram", "quality": "estimated", "notes": "Passbook/Wallet metaphor at 204px low-res"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Apple-heritage skeuomorphism as positioning: revives the retired Passbook/Wallet leather-and-stitching icon language to signal literal Apple-ecosystem nativeness in a category of cold abstract-gradient marks (icon-level signature; no UI observable)",
+    "Ecosystem-by-iconography: value prop communicated via borrowed system-app icons + a dashed connector graph rather than prose (recognition over explanation) — brand-level, not UI"
+  ],
+  "defects": [
+    "No digestible UI — corpus gap, not an app defect: app shipped no interface screenshot, so nativeness/craft are entirely unassessed",
+    "Watch (unverifiable): trade-dress borrowing — composite leans on Apple's own app icons + retired Wallet leather look; charming as brand, but would cross into imitation if the app UI reproduces system chrome wholesale. No UI evidence either way."
+  ],
+  "aesthetic": {
+    "adjectives": ["warm", "skeuomorphic-nostalgic", "approachable"],
+    "direction": "Organic/soft meets Apple-heritage skeuomorphism — warm monochromatic terracotta/leather palette, rounded-geometric wordmark, tactile material iconography",
+    "peers": ["Apple Passbook/Wallet (leather era)", "Delicious Library", "legacy iBooks shelf"],
+    "cluster_hint": "warm-skeuomorphic-utility (BRAND cluster only — no UI evidence; do not seed a macOS UI style cluster from this)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Jakob's Law — leans on familiar Apple system-app icons so users instantly predict 'works with what I already use'",
+    "Processing fluency / schema (skeuomorphism) — the real-world wallet-holds-cards metaphor is decoded pre-attentively; the object explains the product before any word is read",
+    "Picture-superiority / recognition-over-recall — the whole capability graph is shown as icons + connectors, minimizing reading load (Von Restorff: the warm leather mark stands out in a cold-gradient category)"
+  ],
+  "notes": "CRITICAL for synthesis: Orchard supplied NO app UI. Inputs were a marketing cover (cover.jpg, 2400x1260 OG composite, sha d68add5a) and a low-res app icon (icon.webp, 204x204, sha bdbad7c9). The cover is a brand illustration only — hero icon + MCP-client top row + Apple-app bottom row + wordmark/copy on peach; no window, chrome, or control anywhere. Therefore: lineage=unknown, era=unknown, surfaces=none-usable, rubric/native scores are n/a (recorded as 0 = not-applicable, NOT a real failing score). All tokens are BRAND provenance and must be excluded from macOS UI canon and from any native style cluster. The 'aesthetic'/'signature_moves' entries describe the icon+brand, not an interface. Re-digest if genuine UI (likely a menu-bar extra, permissions/consent sheet, or settings window for an MCP server bridge) is later provided. Icon was not run through the 12-point icon rubric per task scope (Workflow A only); an icon-specific digest (Workflow B) would be the right follow-up if desired."
+}

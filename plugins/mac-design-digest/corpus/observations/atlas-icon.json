@@ -1,0 +1,34 @@
+{
+  "slug": "atlas", "name": "Atlas", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 grid centring looks optical but unverifiable to pixel on a 400px web render",
+    "#4 16px squint survives as a fuzzy radial star/spark but six-arm count and negative-space wedges smear together",
+    "#5 light model passes only as a consistent null/flat model — no directional light, specular, or baked shadow",
+    "#8 depth coherent because dimensionless — two flat planes, no native soft-top-down or glass depth"
+  ],
+  "failures": [
+    "#10 variant robustness: black ground baked into a flat raster, no separable/layered glyph; white mark depends on the dark background and would vanish on a light/tinted/clear system render"
+  ],
+  "palette": {
+    "background": "ramp #000000->#201B21 (subtle purple-tinted radial vignette over near-black; reads near-flat)",
+    "glyph": ["#FFFFFF"],
+    "accent": "none"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "flat / null — no directional source, no specular, no baked shadow on the glyph; only tonal variation is a faint background vignette",
+  "layer_stack": ["near-black vignette field", "white six-point asterisk glyph"],
+  "devices": [
+    "six-point asterisk / spark mark (spark-of-inspiration + footnote-asterisk = reference-library metaphor)",
+    "logo-on-near-black treatment (wordless brand glyph used verbatim as app icon)",
+    "negative-space radial burst (arms separated by hard black wedges)"
+  ],
+  "adjectives": ["monochrome", "emblematic", "austere"],
+  "rhymes_hint": "flat monochrome logo-mark on near-black; modern-startup / AI-tool minimalist brand glyphs (Vercel-class monochrome logos, sparkle/asterisk marks)",
+  "notes": "Only a 400x400 JPEG web render available (macapp.supply resize), not the 1024 master. JPEG color fringing at the high-contrast glyph crossing (a single-pixel ~(160,80,193) artifact) is noise; the glyph samples clean white #FFFFFF (255,255,255) across its arms, corners pure #000000. Icon deliberately ignores current-era Liquid Glass conventions (no glass layers, no Icon Composer variants evident) — a flat brand-mark, hence era=custom not liquid-glass. Cover art confirms a light-neutral moodboard/reference-library UI; the black monochrome icon is a high-contrast counterpoint to the pale chrome — coherent by restraint, not by shared hue. Cannot confirm whether the shipping app ships a proper layered/tintable asset; the flat render can't show layer separation, so #10 scored on what was delivered. Candidate seed for an icon cluster 'flat monochrome logo-mark on near-black' (needs >=3 independent icons)."
+}

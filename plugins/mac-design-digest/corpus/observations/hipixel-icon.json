@@ -1,0 +1,34 @@
+{
+  "slug": "hipixel", "name": "HiPixel", "category": "Photography",
+  "era": "big-sur",
+  "rubric_score": 8,
+  "soft_passes": [
+    "#2 optically centred but the split is asymmetric — divider sits left of centre, 'after' half takes the larger right two-thirds",
+    "#5 bezel is consistently top-lit with a matching baked shadow, but the interior bitmap has its own unrelated photographic lighting",
+    "#7 both halves are blue — figure-ground separation leans on texture (blocks vs brushwork) and the loud yellow divider, not tonal contrast",
+    "#8 sensible 2-plane frame->image stack, but the baked drop shadow z-fights the system-applied shadow",
+    "#9 Big Sur front-facing-squircle intent executed with flat-transition-era baked-shadow and non-full-bleed floating-frame habits"
+  ],
+  "failures": [
+    "#1 mask: floating white rounded-rect with a baked drop shadow on transparent canvas (corners alpha 0, artwork only ~80% of canvas) — reads as a sticker under the squircle mask and doubles the system shadow",
+    "#3 silhouette: filled solid it is an anonymous rounded rectangle; all meaning lives in interior texture",
+    "#4 16px squint: pixel grid, thin divider and Starry Night brushwork all smear into a blue/yellow blur at Dock/Spotlight size",
+    "#10 variant robustness: photographic/painterly interior cannot survive dark/clear/tinted/mono renders; a mono tint collapses the before/after into one tone"
+  ],
+  "palette": {
+    "background": "no field — floating glossy white/silver bezel #E8EAED->#DDE0EF on transparent canvas with baked drop shadow",
+    "glyph": ["#244D86", "#2A6CB4", "#60C5FF", "#ACE8F7", "#0C2C75"],
+    "accent": "#FFFF66"
+  },
+  "composition": {
+    "background_type": "glass-layers",
+    "glyph_type": "scene",
+    "overlay_device": "other"
+  },
+  "light_model": "top-down: specular sheen on the bezel's top edge + baked soft drop shadow beneath (consistent); interior is a self-lit photographic/painterly bitmap with no modelled form light",
+  "layer_stack": ["baked drop shadow", "glossy white rounded-rect bezel", "before/after bitmap (blue pixel-grid left | Starry Night right)", "yellow diagonal comparison divider", "top-edge bezel gloss"],
+  "devices": ["literal before/after upscaling split", "diagonal comparison-slider divider in shouting yellow", "pixelation->painting fidelity gradient", "Van Gogh Starry Night as the demo subject", "glossy white photo-frame bezel"],
+  "adjectives": ["demonstrative", "literal", "glossy-retro"],
+  "rhymes_hint": "sample-image-in-a-glossy-white-frame image-utility icons; before/after split-screen comparison-tool icons (retouch/restore/diff-slider family)",
+  "notes": "512px web render, not the 1024 master — fine detail already softened, treat detail-loss reading with that caveat. Core structural finding: the icon is NOT a full-bleed squircle — it is a floating white rounded-rect frame (~80% of canvas, corners alpha 0) with a BAKED drop shadow, which fights the system mask and doubles the system shadow. Interior is a photographic/painterly bitmap, so it fails 16px, silhouette, and all tinted/dark/mono variants. Its one genuine strength is the literal before/after comparison device (subject-mined Starry Night). Strong palette coherence with the cover: the icon is a faithful miniature of the cover hero (same Starry Night before/after concept, same blue+yellow), so brand and icon read as one system. Photography category, image-upscaler subject — good candidate to seed a 'demonstrate-the-function-inside-a-frame' icon cluster if 2+ more image tools rhyme."
+}

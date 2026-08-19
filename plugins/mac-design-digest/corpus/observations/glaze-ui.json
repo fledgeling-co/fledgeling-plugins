@@ -1,0 +1,45 @@
+{
+  "slug": "glaze",
+  "name": "Glaze",
+  "category": "AI",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "marketing-composite (brand cover, no app UI)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["n/a — not an app surface: molten-glass brand backdrop + centred logomark/wordmark lockup; no window, chrome, or content to score against either rubric"]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/bg", "value": "#000000-#060606 near-black", "quality": "measured", "notes": "brand only; cover field + icon squircle both sample pure/near black; NOT an app-UI token, excluded from macOS canon"},
+    {"token": "brand/wordmark", "value": "#FFFFFF, single-weight geometric grotesk, rounded terminals", "quality": "measured", "notes": "brand only; 'glaze' lowercase, Vercel-adjacent but warmer/rounder; custom or customised face"},
+    {"token": "brand/logomark", "value": "white rounded-square, concave 4-lobed cutout + central diamond hole", "quality": "measured", "notes": "brand only; aperture/node motif; echoed by icon's 4-lobed molten blob"},
+    {"token": "brand/texture", "value": "rendered obsidian/liquid-chrome glass, faint chromatic-aberration edges", "quality": "estimated", "notes": "brand only; 3D fluid render, not a live material/CSS effect; prism dispersion is incidental, not a committed accent"},
+    {"token": "brand/icon-accent-warm", "value": "#EA7529 amber", "quality": "measured", "notes": "brand only; icon molten-glass core; the sole saturated hue in the identity"},
+    {"token": "brand/icon-accent-cool", "value": "~#3A46A0 cobalt/violet", "quality": "estimated", "notes": "brand only; icon glass edges; estimated from a compressed 512px PNG"},
+    {"token": "brand/accent-committed", "value": "none", "quality": "assumed", "notes": "brand carries no committed UI accent (black + white + one rendered material); any real app UI accent would bind to the system accent — unverifiable here"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "(brand, not UI) whole identity carried by one obsidian/molten-glass 3D render on pure black with a single white geometric wordmark — total restraint plus one high-production material; whether it reaches the app UI is unknown"
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["obsidian", "molten", "restrained"],
+    "direction": "Neo-grotesque product (dark-neutral, single geometric wordmark) fused with a rendered liquid-chrome / obsidian-glass texture — brand-level only, per frontend-aesthetic-direction range map",
+    "peers": ["Vercel (black + geometric wordmark)", "Linear (dark-brand discipline)", "rendered-glass hero brands (iOS 26 'Liquid Glass' marketing register)"],
+    "cluster_hint": "obsidian-glass dark-brand (a BRAND family, not a macOS-UI style cluster — do not treat as UI canon)",
+    "audience": "other"
+  },
+  "psychology": [
+    "First-impression / aesthetic-usability (Lindgaard 50ms; Kurosu & Kashimura) — the cover is a pure thesis-statement hero: a high-production render buys a trust prior before any product is seen",
+    "Von Restorff — one white lockup on a black field is a single unmistakable focal point; the identity spends its whole attention budget in one place",
+    "Not assessable at the UI level — no interface present to test Hick, Fitts, or hierarchy laws against"
+  ],
+  "notes": "MARKETING-ONLY DIGEST. macapp.supply supplied cover.jpg (a brand composite: molten-glass backdrop + logomark/wordmark, no app window) and icon.png (app icon); gallery is empty. There is NO Glaze app UI in the source set. Workflow A cannot run its core deliverable — no lineage, era, rubric, native-tells audit, UI tokens, or layout skeletons are derivable. All tokens above are BRAND tokens, explicitly walled off from macOS canon and UI clusters. Lineage recorded unknown/low: an AI app-builder startup of this kind commonly ships Electron, but that is a prior, not evidence. To digest properly, request 1-2 real screenshots of the app window (main + settings/empty-state). Icon (amber+cobalt molten glass on black squircle) is noted for brand context only — a full icon digest belongs to Workflow B, not run here."
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "minarah",
+  "name": "Minarah",
+  "tagline": "Stay focused and get notified for every prayer ",
+  "category": "Lifestyle",
+  "pricing": null,
+  "website": "https://minarah.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-de3e41c8-8fe3-4fcf-9149-4d6e7da6b9e7.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-a2fc7535-9e3f-4a14-8479-f71e57b32b21.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/minarah/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/minarah/cover.png",
+    "shots": []
+  }
+}

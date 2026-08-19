@@ -1,0 +1,16 @@
+{
+  "slug": "foldervitrine",
+  "name": "FolderVitrine",
+  "tagline": "Beautiful folder Quick Look for Mac",
+  "category": "Utility",
+  "pricing": "paid",
+  "website": "https://apps.apple.com/us/app/foldervitrine/id6781143301?mt=12",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-0328fb7b-1bcc-4d6f-bdb9-2ee46aeb491b.jpg",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-e8812067-1466-49e4-a8e3-7753ff59d9b6.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/foldervitrine/icon.jpg",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/foldervitrine/cover.webp",
+    "shots": []
+  }
+}

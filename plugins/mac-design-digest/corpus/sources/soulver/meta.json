@@ -1,0 +1,16 @@
+{
+  "slug": "soulver",
+  "name": "Soulver",
+  "tagline": "A natural-language notepad calculator for Mac, iPad & iPhone",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://soulver.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-8c1743bc-79f5-48fb-8e74-18d296eb5578.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/mirror-c17e4b9b-6f14-4a70-be21-368066c1db09.webp",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/soulver/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/soulver/cover.webp",
+    "shots": []
+  }
+}

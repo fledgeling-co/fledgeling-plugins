@@ -1,0 +1,33 @@
+{
+  "slug": "mux", "name": "Mux", "category": "Utility",
+  "era": "liquid-glass",
+  "rubric_score": 12,
+  "soft_passes": [
+    "#2 optical centring: bbox centres but visual mass is a diagonal lower-centre->upper-right sprawl with a thin left tail; deliberate wayfinding asymmetry, not grid-seated symmetry",
+    "#3 silhouette: 'forked/branching arrow' is nameable but abstract (a junction of termini, not a literal object)",
+    "#4 16px squint: strokes carry the gesture, but the up-right arrowhead (encodes 'switch') is the smallest AND lowest-contrast feature (#72B4FF ~luma 180 on white); thin left tail drops first",
+    "#10 variant robustness: glyph is self-coloured and survives tint/mono (menu-bar version proves it), but the blue ramp leans on a light/white base for legibility"
+  ],
+  "failures": [],
+  "palette": {
+    "background": "flat #FFFFFF (clear/light glass plate; reads pure white at 522px, full-res likely a faint cool ramp)",
+    "glyph": ["#72B4FF", "#5AA6FF", "#3E8EFF"],
+    "accent": "none (the blue glyph is itself the sole accent)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "abstract",
+    "overlay_device": "none"
+  },
+  "light_model": "top-down, single source; baked specular highlight along the top edge of every glass rod, short soft drop shadow below (clearest under the T-foot terminal); consistent",
+  "layer_stack": ["clear/white glass plate (back)", "blue extruded-glass fork glyph with baked specular + rounded rod terminals (front)"],
+  "devices": [
+    "diverging path / fork junction (curved left branch + vertical stem-to-T-foot + diagonal up-right arrow from one junction)",
+    "mismatched terminals as meaning: one outward arrowhead (switch/redirect) vs plain rounded T/foot caps (stay) — semantics carried by cap shape, not colour or badge",
+    "glass-rod extrusion with rounded line caps and top specular; left branch passes cleanly under the diagonal arrow",
+    "monochrome menu-bar template derivative (same glyph, single tint) confirmed in cover"
+  ],
+  "adjectives": ["wayfinding", "glassy", "single-hue"],
+  "rhymes_hint": "single-glyph glass utility — one SF-Symbol-family directional glyph (arrow.triangle.branch / arrow.triangle.turn) as an extruded glass rod on a clear plate; kin to Apple system-utility and network/VPN menu-bar icons and transit/wayfinding-arrow marks",
+  "notes": "Resolution caveat: source is 522x522, a web-resized render (not the 1024 master) — specular/ramp fine detail is softened and the background reads flat #FFFFFF; treat background as (estimated), full-res may carry a subtle cool-white ramp. Glyph appears to be a customised SF-Symbol-family branch/arrow. System Liquid-Glass specular is baked into this composite render (can't prove Icon Composer layering from the image), but the treatment is fully Liquid-Glass-consistent. Cover confirms brand palette is blue-forward and coherent with the icon, and shows the working mono menu-bar variant. First icon in the corpus — no peers to rhyme against yet; candidate seed for a 'single-glyph glass utility' icon cluster."
+}

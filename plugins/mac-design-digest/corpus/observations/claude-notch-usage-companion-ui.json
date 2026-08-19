@@ -1,0 +1,92 @@
+{
+  "slug": "claude-notch-usage-companion",
+  "name": "Claude Notch Usage Companion",
+  "category": "Dev",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "big-sur",
+  "surfaces": [
+    {
+      "file": "cover.gif (frame ~062, expanded HUD, active-sessions page)",
+      "surface_type": "floating-panel (notch HUD)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#10 UI contrast: stat-card fill #18 on panel #0E ~1.3:1, below 3:1 non-text floor; card edges nearly invisible",
+        "#9 text contrast: dimmed tertiary token counts on darkest card borderline <4.5:1 (decorative secondary data)",
+        "#14 focus appearance: not observable in recording, unseen not failed"
+      ]
+    },
+    {
+      "file": "cover.gif (frame ~093, expanded HUD, top-projects page)",
+      "surface_type": "floating-panel (notch HUD)",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#10 UI contrast: same faint card/pill separation",
+        "carousel is the only navigation affordance (2 page dots); no labels on the dots"
+      ]
+    },
+    {
+      "file": "cover.gif (frame ~000/154, collapsed notch pill)",
+      "surface_type": "menu-bar-extra (notch bar)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": [
+        "surface too small for full rubric; scored as glanceable status only (passes de-emphasis + accent discipline)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/notch-bar", "value": "#000000", "quality": "measured", "notes": "collapsed pill masks physical notch, true black to blend with bezel"},
+    {"token": "bg/hud-panel", "value": "#0E0E0E near-black", "quality": "estimated", "notes": "expanded HUD material; gutter around cards"},
+    {"token": "bg/stat-card", "value": "#161818-#181818", "quality": "estimated", "notes": "tonal elevation ~+8-10L above panel; depth by fill not shadow/border"},
+    {"token": "accent/status", "value": "#5FD08F mint-green", "quality": "estimated", "notes": "progress ring + toggle; means budget-remaining; NOT the user's system accent"},
+    {"token": "brand/glyph", "value": "#C8785A clay/terracotta", "quality": "measured", "notes": "rgb(200,120,90) from icon.png; pixel-invader = Claude brand color; kept separate from green status"},
+    {"token": "text/primary", "value": "#EDEDED-class white", "quality": "estimated", "notes": "dollar values, project names"},
+    {"token": "text/secondary", "value": "~50-55% gray", "quality": "estimated", "notes": "all-lowercase labels"},
+    {"token": "text/tertiary", "value": "~25-30% gray", "quality": "estimated", "notes": "token sub-metrics and the middot separator"},
+    {"token": "type/stat-value", "value": "SF Pro Bold, Title-class ~22-26pt equiv", "quality": "estimated", "notes": "$238.41 / $11060.05, primary tier"},
+    {"token": "type/stat-label", "value": "SF Pro ~11pt equiv, lowercase", "quality": "estimated", "notes": "today / all-time / active sessions"},
+    {"token": "type/list-row", "value": "SF Pro Regular ~13pt name, Semibold value", "quality": "estimated", "notes": "name truncates with ellipsis; right-aligned bold dollar"},
+    {"token": "radius/hud-panel", "value": "~22-26px", "quality": "estimated", "notes": "large outer radius, notch-HUD convention"},
+    {"token": "radius/stat-card", "value": "~12-14px", "quality": "estimated", "notes": "steps down concentrically inside panel"},
+    {"token": "radius/toggle-pill", "value": "capsule", "quality": "estimated", "notes": "list-header segmented toggle"},
+    {"token": "space/card-gutter", "value": "~10-14px", "quality": "estimated", "notes": "between the two stat cards"},
+    {"token": "space/label-to-value", "value": "~4px", "quality": "estimated", "notes": "tight; groups each card"}
+  ],
+  "patterns": [
+    {"pattern": "menu-bar-extra", "key_values": "notch-mounted status pill: brand glyph left, percentage + circular progress ring right; full-notch-width rounded-black bar, ~28-32pt tall; always-visible glanceable status"},
+    {"pattern": "floating-panel", "key_values": "dark HUD dropping from the notch; collapsed bar persists as header; body = 2-up stat cards + list card + 2-dot carousel; radius ~24pt outer / ~13pt cards; tonal elevation not borders"},
+    {"pattern": "card-grid", "key_values": "2 equal stat cards, 3-tier stack each (lowercase label / bold currency value / dimmed token submetric); shared top-bottom axes; ~12px gutter"},
+    {"pattern": "list", "key_values": "header with lowercase title + trailing capsule toggle (active<->all-time); rows = name (ellipsis-truncated) + right-aligned bold dollar + middot + dimmed token count; right-aligned value axis"}
+  ],
+  "signature_moves": [
+    "Usage-as-spend hierarchy: the whole product idea (tokens cost money) is carried by de-emphasis alone — bold dollar primary, raw token count demoted to dimmed tertiary submetric, in both cards and every list row",
+    "Two-color semantic split: clay/terracotta pixel-invader = brand identity, never functional; mint-green ring/toggle = budget-remaining status, always paired with the % glyph",
+    "All-lowercase micro-labels as a calm typographic house style (not tracked-uppercase web tell, not Title case) so bold numerals stay the only loud element",
+    "Notch is the entire surface: Dynamic-Island mental model ported to the Mac notch, a 2-page carousel replacing a settings screen; no window/traffic-lights/toolbar (correctly chromeless)"
+  ],
+  "defects": [
+    "Contrast Dilution (mild, non-text) — stat-card fill #18 on panel #0E ~1.3:1, below 3:1; internal card boundaries nearly invisible, lean on wallpaper edge to read as grouped",
+    "Contrast Dilution (borderline, text) — dimmed tertiary token counts / middot on darkest card likely <4.5:1; acceptable as decorative secondary data but noted"
+  ],
+  "aesthetic": {
+    "adjectives": ["glanceable", "dark-utilitarian", "playful-retro"],
+    "direction": "neo-grotesque product (near-black + one mint accent, tonal-elevation cards) spiked with a terminal/hacker pixel-art mascot",
+    "peers": ["NotchNook", "Alcove", "Boring Notch", "indie dev menu-bar utilities"],
+    "cluster_hint": "notch-companion / dark-HUD menu-bar utility",
+    "audience": "menu-bar-utility"
+  },
+  "psychology": [
+    "Von Restorff / hierarchy-by-de-emphasis — the bold dollar is the one remembered thing because the token count is deliberately pushed back to gray",
+    "Jakob's Law — adopts the iOS Dynamic Island schema (glyph + collapse/expand + status ring) so the Mac-notch behavior is already learned",
+    "Goal-gradient / Zeigarnik — the depleting green % ring reads as a budget/progress meter, nagging when low",
+    "Doherty / glanceability — zero-click always-visible 57% in the notch answers 'how much left?' with no interaction",
+    "Miller-Cowan chunking — content held to ~3-5 chunks per level (2 stat cards, 2-3 list rows, 2 pages)"
+  ],
+  "notes": "Inputs are a menu-bar/notch utility, not a windowed app: no traffic-light chrome, sidebar, toolbar, or settings surface was captured, so lineage=native rests on genre + SF Pro + material grammar rather than observed AppKit chrome (confidence med). The 'icon' file is 100x64 (not a square app icon) — it is the pixel-invader glyph render, terracotta rgb(200,120,90), the Claude brand color. Cover is a 155-frame screen-recording GIF downscaled to 700x375, so ALL pixel measurements are (estimated) with wide ranges and type is expressed in kit-role-relative terms, not false pt precision. Dark-mode-humility: cannot confirm Liquid Glass vs solid dark material from the still, recorded as opaque-dark. Green ring/toggle is an app-chosen functional color, not the system accent — legitimate for glanceable status. Contradiction to watch: brand color (clay) is not the accent color (green) — a deliberate split, not an inconsistency. This is the corpus's first notch-companion / menu-bar-utility surface; a synthesis pass should open (not populate) that cluster and must not promote its dark-HUD tokens to macOS canon on a single native-but-genre-inferred app."
+}

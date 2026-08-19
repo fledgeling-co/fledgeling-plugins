@@ -1,0 +1,70 @@
+{
+  "slug": "ayron-time-tracker",
+  "name": "Ayron Time Tracker",
+  "category": "Productivity",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-landing composite (web, dark) with 3 chrome-less product-concept cards",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 0,
+      "failures": [
+        "#9 secondary mono labels ~#8E8E8E on #1A1A1D card ≈ 4:1, under 4.5:1 text floor",
+        "#10 card + RUNNING-pill hairline borders #232324 on #1A1A1D are <3:1 non-text contrast",
+        "#14 focus appearance unassessable from a static marketing render",
+        "native-audit N/A: no macOS chrome (no traffic lights/toolbar/sidebar/menu bar/materials); 8 of 10 checks inapplicable, 2 read as non-native tells"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "accent/brand", "value": "#D6FF3A", "quality": "measured", "notes": "acid lime/chartreuse; identity + CTA + RUNNING state + primary data series + icon ground; FIXED brand accent, not system controlAccentColor"},
+    {"token": "data/secondary", "value": "#FF945C", "quality": "measured", "notes": "coral-orange; only other saturated hue; second data series"},
+    {"token": "bg/page", "value": "#050603", "quality": "measured", "notes": "drenched near-black ground, not pure #000"},
+    {"token": "bg/nav", "value": "#0C0C0D", "quality": "measured", "notes": "top nav bar"},
+    {"token": "bg/card", "value": "#1A1A1D", "quality": "measured", "notes": "elevated graphite product card; depth via lightness step, no shadow"},
+    {"token": "text/primary", "value": "~#F5F4EE", "quality": "measured", "notes": "warm off-white; headlines, big time numbers, primary values"},
+    {"token": "text/secondary", "value": "~#8E8E8E", "quality": "estimated", "notes": "mono labels; ~4:1 on card, borderline"},
+    {"token": "stroke/hairline", "value": "#232324", "quality": "measured", "notes": "card + pill borders; <3:1 vs fill, near-invisible/decorative"},
+    {"token": "type/display", "value": "grotesque sans, tabular figures (Helvetica Now / Söhne / Geist / Inter-class)", "quality": "estimated", "notes": "hero headline + big time readouts; tight leading"},
+    {"token": "type/mono", "value": "monospace (SF Mono / JetBrains Mono-class)", "quality": "estimated", "notes": "ALL metadata: uppercase-tracked section labels + tabular durations '14h 20m'"},
+    {"token": "type/body", "value": "grotesque sans regular + italic", "quality": "estimated", "notes": "subtitles + italic natural-language query quote"},
+    {"token": "radius/card", "value": "~16-24px", "quality": "estimated", "notes": "composite scale unknown (~2x render); wide range"},
+    {"token": "shape/pill", "value": "capsule", "quality": "measured", "notes": "RUNNING status pill; mic control is a circle"},
+    {"token": "dataviz/bar", "value": "full-width horizontal track, category dot + right-aligned mono value + fill bar", "quality": "measured", "notes": "lime = top series, orange = second"}
+  ],
+  "patterns": [
+    {"pattern": "card-grid", "key_values": "3 flat graphite cards (#1A1A1D) on near-black; radius ~16-24px; depth by lightness step not shadow; mono eyebrow + oversized grotesque value + supporting row layout"},
+    {"pattern": "other", "key_values": "marketing hero (web): left-aligned two-line grotesque display headline (white line / lime line), ~45ch subtitle, one filled primary CTA + ghost secondary, 6-item top nav with single lime Download button"}
+  ],
+  "signature_moves": [
+    "Monospace as the metadata voice: uppercase-tracked mono eyebrows + tabular mono time values against a grotesque display sans — tracked time reads as instrument/stopwatch output",
+    "One acid accent (#D6FF3A) + exactly one data second-hue (#FF945C coral); disciplined Von-Restorff colour economy",
+    "Depth by lightness step (#050603 -> #1A1A1D), shadowless, hairline borders that barely register"
+  ],
+  "defects": [
+    "Contrast Dilution (minor) — secondary mono labels ~#8E8E8E on #1A1A1D card ≈ 4:1, under 4.5:1 text floor",
+    "UI-contrast miss — hairline borders #232324 on #1A1A1D <3:1 (decorative only; fill step carries separation)",
+    "Genericness risk — 'dark neutral + one electric/acid accent' is the unprompted dev-tool default; earned back here by the mono/sans contrast pairing and single-second-hue discipline",
+    "Evidence/positioning gap (not a design defect) — sold as 'a native Mac timer' but no native macOS chrome appears in any supplied asset"
+  ],
+  "aesthetic": {
+    "adjectives": ["electric", "nocturnal", "instrument-like"],
+    "direction": "Neo-grotesque product (Linear/Vercel row) crossed with Terminal/hacker — drenched near-black ground, one acid-lime accent, monospace metadata, grotesque display sans; dials ~V5/M4/D3",
+    "peers": ["Linear", "Vercel / Geist", "Raycast", "Warp (terminal)", "Railway"],
+    "cluster_hint": "acid-terminal-dark",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff effect — single acid-lime is the one saturated element (CTA, RUNNING state, top series); it is remembered because almost nothing else is coloured",
+    "Aesthetic-Usability effect (Kurosu & Kashimura) — high-contrast, coherent dark composition buys a perceived-quality halo before any interaction",
+    "Signal detection / CTA prominence — the lime Download button breaks the monochrome nav pattern, making the one action trivially locatable",
+    "Serial-position / F-pattern — meaning front-loaded top-left ('Time in. Invoice out.') where the eye lands first",
+    "Hick's Law — 6-item nav (<=7) and one primary CTA per region keep decision points simple",
+    "Self-monitoring (Fogg) — RUNNING pill + live ticking timer surface state continuously (product-concept card, not marketing)"
+  ],
+  "notes": "MARKETING-ONLY EVIDENCE. cover.png is a web landing-page composite; the three 'app' surfaces are chrome-less product-concept cards embedded in the hero and cut off at the fold — no macOS window, traffic lights, toolbar, sidebar, menu bar, or system materials appear anywhere. Lineage of the actual app is therefore unverifiable (recorded unknown/low); the native-tells audit is inapplicable (score 0, not a failing native app but simply no native surface to judge). Nothing here may feed macOS canon or native clusters — file as brand/concept evidence only. icon.png was supplied (flat full-square lime #D6FF3A ground + bold black geometric 'A' monogram, no squircle mask / gloss / depth layers — a web brand mark, non-native as an app icon) and reinforces the identity, but a full Workflow-B icon digest was out of scope for this pass and is deferred. Scale of the composite is ~2x and unconfirmed, so all sizes/radii are (estimated) with wide ranges. To classify this app properly the synthesis pass should request a real native-window screenshot (main timer window, Settings, or menu-bar extra)."
+}

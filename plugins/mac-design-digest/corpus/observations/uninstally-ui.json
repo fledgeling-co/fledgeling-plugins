@@ -1,0 +1,49 @@
+{
+  "slug": "uninstally",
+  "name": "Uninstally",
+  "category": "Utility",
+  "lineage": "unknown",
+  "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "marketing-composite (no app-UI window present)",
+      "mode": "dark",
+      "rubric_score": 0,
+      "native_audit_score": 0,
+      "failures": ["n/a — no app-UI surface: cover is a brand composite (wordmark, tagline, feature-icon row, 3D trash-can render, stylized toast card, trust badges); rubric and native-tells audit not applicable"]
+    }
+  ],
+  "tokens": [
+    {"token": "brand/backdrop", "value": "near-black indigo ~#0A0713 center to ~#080610 edges, purple vignette + faint starfield", "quality": "estimated", "notes": "BRAND evidence, not app-UI; cover hero background"},
+    {"token": "brand/accent", "value": "violet ~#7C6CE8-#8B7CF0", "quality": "estimated", "notes": "BRAND; tagline highlights + 5 feature line-icons; matches icon gradient"},
+    {"token": "brand/icon-gradient", "value": "periwinkle #8E82EE top to indigo #6A4BD8 bottom, vertical", "quality": "estimated", "notes": "BRAND; app-icon squircle fill"},
+    {"token": "brand/wordmark", "value": "#FFFFFF, geometric/SF-Pro-Display-class sans, tight tracking, oversized", "quality": "estimated", "notes": "BRAND; 'Uninstally' wordmark"},
+    {"token": "brand/toast-card", "value": "charcoal ~#1C1C24, ~14-18px radius, white primary + gray secondary text, green check ~#34C759-class", "quality": "estimated", "notes": "BRAND; stylized 'Uninstall Complete' render, NOT a captured OS notification"}
+  ],
+  "patterns": [
+    {"pattern": "other", "key_values": "marketing hero composite: icon + wordmark + 2-line tagline + 5-item feature-icon row (<=5, within chunking) + 'Built for macOS' pill + 3D trash-can render + 'Uninstall Complete' toast card + 3 trust badges. No native app pattern captured."}
+  ],
+  "signature_moves": [
+    "None from app UI (no UI present). Brand layer only: single-hue violet-gradient identity carried icon->wordmark->feature icons, with one green check as the sole positive accent."
+  ],
+  "defects": [
+    "Evidence gap (not a UI defect) — 'Native macOS Experience' asserted in marketing with zero native-UI evidence supplied; a claim to verify",
+    "Unconfirmed feedback tell — rendered in-app 'Uninstall Complete' toast card would be a mildly non-native feedback pattern IF real (macOS favors notifications/inline over toasts, HIG feedback); cannot attribute to shipping app, it is a brand render"
+  ],
+  "aesthetic": {
+    "adjectives": ["violet-gradient", "3D-render-glossy", "consumer-approachable"],
+    "direction": "Consumer-utility marketing hero — neo-grotesque dark neutral + single electric-violet accent, dressed with a 3D bento/hero render; NOT an evidenced app-UI aesthetic",
+    "peers": ["CleanMyMac", "AppCleaner", "App Cleaner & Uninstaller (Nektony)", "Pareto"],
+    "cluster_hint": "consumer-cleaner-marketing (tentative — brand, not UI; do not seed a UI cluster from this)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Aesthetic-Usability Effect (Kurosu & Kashimura 1995) — polished 3D hero builds a quality/trust prior before any real UI is seen; buys first-contact forgiveness the actual product must still earn",
+    "Von Restorff effect — the lone saturated green 'Uninstall Complete' check pops against the dark/violet field, marking the payoff moment",
+    "Cialdini authority + Fogg prominence-interpretation — stacked trust badges ('Built for macOS', 'Optimized for Apple Silicon', 'Native macOS Experience', 'Safe & Secure') are prominent authority signals, but 'Native macOS Experience' is an unbacked claim here",
+    "Miller/Cowan chunking — feature row held to 5 items, within the 3-5 slot working-memory limit"
+  ],
+  "notes": "MARKETING-ONLY COVER: no app-window screenshot was supplied (gallery empty, zero shot-*.* files). Lineage/era unclassifiable — the density/control/chrome discriminators are absent. All tokens are brand evidence and must NOT feed macOS canon or UI clusters. Icon present but full icon digest is Workflow B (out of scope this pass). Cover dims 1536x1024, icon 1024x1024. To digest properly the corpus needs real app-window shots (app list, in-progress scan, leftover-files review sheet, settings). ok=true because the images were analysable; the finding is simply that they contain no native UI."
+}

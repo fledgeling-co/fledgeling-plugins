@@ -1,0 +1,16 @@
+{
+  "slug": "macwall",
+  "name": "MacWall",
+  "tagline": "MacWall is the native macOS app for cinematic live wallpaper",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://macwall.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a406b963-4971-49ce-bd44-d0680bf29af9/icon-1783882477867.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/a406b963-4971-49ce-bd44-d0680bf29af9/cover-6eef99d8-6ffc-4315-aea9-13d064eca287.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macwall/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/macwall/cover.jpg",
+    "shots": []
+  }
+}

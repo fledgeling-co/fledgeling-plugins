@@ -1,0 +1,16 @@
+{
+  "slug": "glance",
+  "name": "Glance",
+  "tagline": "Native markdown editor for macOS",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://glance.md/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-ef088e32-c5e4-4301-87ad-541d74956df1.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-95c96d05-d0a0-468b-9dcc-985c651d8ec0.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glance/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/glance/cover.png",
+    "shots": []
+  }
+}

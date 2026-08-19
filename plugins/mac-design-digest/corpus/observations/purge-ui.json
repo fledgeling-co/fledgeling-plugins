@@ -1,0 +1,101 @@
+{
+  "slug": "purge",
+  "name": "Purge",
+  "category": "Utility",
+  "lineage": "native",
+  "lineage_confidence": "med",
+  "era": "liquid-glass",
+  "surfaces": [
+    {
+      "file": "cover.png",
+      "surface_type": "main-window-sidebar-content-list",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 8,
+      "failures": [
+        "#10 content-row cards sample same tone as window bg (~#1F2024); separated only by ~8-12% white hairline, likely <3:1 non-text contrast",
+        "#9 secondary row-description text (~50-55% white) marginal on dark",
+        "native: circular checkboxes for multi-select where macOS uses square checkboxes (control-grammar tell)",
+        "native #10 n/a: window frame / traffic lights cropped out of composite, cannot confirm chrome"
+      ]
+    },
+    {
+      "file": "shot-1.png",
+      "surface_type": "result-completion-card-floating-panel",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 8,
+      "failures": [
+        "#9 tertiary footnote 'Empty your Trash…' ~25% white marginal for the line carrying core reassurance",
+        "native: primary 'Done' is white-filled (not accent-tinted) full-width capsule — consumer/iOS-leaning style choice, not a hard fail"
+      ]
+    },
+    {
+      "file": "shot-2.png",
+      "surface_type": "menu-bar-extra-panel",
+      "mode": "dark",
+      "rubric_score": 13,
+      "native_audit_score": 7,
+      "failures": [
+        "#10 panel hairline border subtle against dark surface",
+        "native #5: rows ~50px tall ≈2x native menu-item height — reads as custom MenuBarExtra window-style popover, not an NSMenu (deliberate)"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window-content", "value": "#1F2024 cool charcoal", "quality": "estimated", "notes": "sampled, dark mode; content area"},
+    {"token": "bg/sidebar", "value": "#1C1D22 (slightly darker/cooler)", "quality": "estimated", "notes": "source-list surface"},
+    {"token": "surface/row-card", "value": "~#1F2024, +2-4% white over bg", "quality": "estimated", "notes": "rows barely differ from bg; hairline-separated"},
+    {"token": "surface/panel", "value": "#1A1A1A near-black", "quality": "estimated", "notes": "menu panel + result card, warmer/darker than window"},
+    {"token": "border/hairline", "value": "white @ ~8-12%", "quality": "estimated", "notes": "low contrast vs surface"},
+    {"token": "text/primary", "value": "#FFFFFF", "quality": "estimated", "notes": "matches kit dark primary"},
+    {"token": "text/secondary", "value": "white @ ~50-55%", "quality": "estimated", "notes": "matches kit Secondary"},
+    {"token": "text/tertiary", "value": "white @ ~25%", "quality": "estimated", "notes": "result-card footnote, borderline"},
+    {"token": "accent/brand", "value": "azure gradient ~#4DA3FF->#1E86F0", "quality": "estimated", "notes": "icon/wordmark blue"},
+    {"token": "accent/semantic-safe", "value": "system green tinted ~#346F4A over dark (base ~#30D158)", "quality": "estimated", "notes": "'Safe to Clean'; always paired with label/glyph"},
+    {"token": "radius/panel", "value": "~18-20px", "quality": "estimated", "notes": "result card + menu panel; matches kit popover-body 20"},
+    {"token": "radius/row-card", "value": "~10-12px", "quality": "estimated", "notes": "content list rows"},
+    {"token": "radius/chip-button", "value": "capsule", "quality": "estimated", "notes": "filter pills, Done, Clean Safe Items"},
+    {"token": "button/primary", "value": "white-filled capsule (#F2F2F3), full-width in panel", "quality": "estimated", "notes": "primary is white, not accent-tinted"},
+    {"token": "sidebar/width", "value": "~200-230px in-composite", "quality": "estimated", "notes": "cropped; cannot confirm vs kit 256pt"},
+    {"token": "sidebar/row-height", "value": "~32-36px", "quality": "estimated", "notes": "Medium/Large tier"},
+    {"token": "sidebar/selection", "value": "inset rounded fill, radius ~6-8", "quality": "estimated", "notes": "native selection grammar on 'App Caches'"},
+    {"token": "row/content-height", "value": "~64-72px two-line", "quality": "estimated", "notes": "title + 2-line description"},
+    {"token": "type/title", "value": "~16-18px bold (Title2)", "quality": "estimated", "notes": "content header 'App Caches'"},
+    {"token": "type/body", "value": "~13px semibold", "quality": "estimated", "notes": "item names"},
+    {"token": "type/caption", "value": "~10-11px (Caption/Subheadline)", "quality": "estimated", "notes": "subtitles + descriptions"}
+  ],
+  "patterns": [
+    {"pattern": "sidebar", "key_values": "~200-230px source list, flat single nav group, monochrome SF Symbols, sentence-case labels, inset-rounded accent selection, brand lockup at top, action-bearing footer (capacity bar + primary Clean button)"},
+    {"pattern": "list", "key_values": "content rows ~64-72px, circular checkbox + category glyph + bold title + 2-line secondary desc; rows near-invisibly separated (surface ~= bg tone, hairline stroke)"},
+    {"pattern": "menu-bar-extra", "key_values": "custom window-style popover (~18-20px radius), metadata header row ('2.9 GB to clean · 33m ago') + divider + ~50px action rows (Clean Safe Files/Scan now/Open Purge/Quit); not an NSMenu"},
+    {"pattern": "empty-state", "key_values": "result/completion card: centered stack, circled checkmark, display value, secondary caption, equivalence chips, tertiary footnote, full-width primary; sheet with no traffic lights"},
+    {"pattern": "other", "key_values": "risk-filter pill row: three count-bearing capsules (All 42 / Safe to Clean 30 green-active / Check First 12) acting as scope segments; semantic green tint = safety tier"}
+  ],
+  "signature_moves": [
+    "Risk-tiered item taxonomy as the primary control: Safe to Clean / Check First / All filter pills with live counts + green semantic tint, re-framing an irreversible bulk-delete as a triaged, forgiving decision (recurs in sidebar status and 'Clean Safe Items' button)",
+    "Reversibility written into the copy: never 'deleted' — 'moved to Trash' + 'Empty your Trash to reclaim this space'; destruction is always one undo away",
+    "Tangible-equivalents chips: freed GB re-expressed as '710 photos or 355 songs' — abstract space made experiential"
+  ],
+  "defects": [
+    "Contrast Dilution (surface separation) — content-row cards sample same ~#1F2024 tone as window bg; only an ~8-12% white hairline separates them, likely below the 3:1 non-text floor",
+    "Non-native control grammar — circular checkboxes for multi-select (rows + Select All) where macOS uses square checkboxes; systematic style choice, recorded as a native-tell",
+    "Marginal tertiary legibility — result-card reassurance footnote at ~25% white sits at the edge of readable"
+  ],
+  "aesthetic": {
+    "adjectives": ["calm", "utilitarian", "reassuring"],
+    "direction": "Neo-grotesque product (dark cool-neutral ramp + one semantic green), executed with native-macOS restraint rather than heavy custom chrome",
+    "peers": ["CleanMyMac (category peer, but Purge is far more restrained)", "Pearcleaner", "DaisyDisk", "AppCleaner", "Ice (native menu-bar-utility register)"],
+    "cluster_hint": "dark-native-utility",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Forgiveness (Lidwell) — everything goes to Trash, reversible; 'Empty Trash to reclaim' makes destruction undoable by design",
+    "Loss aversion / risk framing (Kahneman-Tversky) — Safe-to-Clean vs Check-First taxonomy and green safe tier defuse the fear of deleting the wrong thing",
+    "Peak-End rule (Kahneman) — the result card invests in the flow's climax/end (2.98 GB moved, 'done in 0.3 seconds', tangible equivalents)",
+    "Description-experience gap (Hertwig & Erev) — GB re-expressed as photos/songs makes an abstract payoff felt",
+    "Von Restorff / action singularity — one prominent action per view ('Clean Safe Items', 'Done'); filters are toggles, not competing CTAs",
+    "Jakob's Law — reuses trained macOS patterns (source-list sidebar, MenuBarExtra) so a destructive tool still feels familiar"
+  ],
+  "notes": "All three surfaces are the app UI embedded inside 1280x720 marketing composites at an unknown down-scale — pixel-to-pt is NOT recoverable, so every token is (estimated) with wide ranges and no clean retina baseline. The marketing layer (matrix/data-dot black backdrop, heavy white SF-Pro-Rounded headlines, blue 'P' wordmark) is BRAND evidence, kept separate from the app UI. Lineage read as native SwiftUI (no Catalyst/Electron tells; strong Mac patterns) but with several consumer/iOS-leaning style choices (circular checkboxes, card-ified list rows, full-width white capsule primary) — med confidence. Era recorded liquid-glass for synthesis (Tahoe visual language: capsules, ~20px radii, translucent dark, rounded menu-bar highlight) but this is LOW confidence: surfaces are custom-drawn SwiftUI, no window chrome/traffic-lights are visible to date the frame, and dark-mode humility means true Liquid Glass cannot be distinguished from solid dark material in these stills. Single app, so nothing here is promotable to canon. No light-mode evidence; no settings/onboarding/text-input surfaces seen. An icon.png exists in the source but was out of scope (Workflow A / UI only)."
+}

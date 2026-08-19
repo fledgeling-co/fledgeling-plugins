@@ -1,0 +1,76 @@
+{
+  "slug": "prostir-zvuku", "name": "prostir zvuku", "category": "Lifestyle",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.jpg",
+      "surface_type": "main-window / spatial-mixer (dark, marketing composite)",
+      "mode": "dark",
+      "rubric_score": 11,
+      "native_audit_score": 6,
+      "failures": [
+        "#10 UI/border contrast: unselected row cards (#141414 on #111) and dark-glass node badges below WCAG 3:1",
+        "#9 borderline secondary-label text contrast (~#8A8A8A on #141414)",
+        "native#1 reads bespoke-custom, not standard AppKit; carded list rows are an iOS inset-grouped idiom",
+        "native#3 selection shape correct (inset rounded lift) but accent tint deliberately dropped (monochrome)",
+        "native#6 accent not bound to system accent anywhere (signature deviation, but fails the audit check)",
+        "native#9 toolbar is custom text/glyph pills, not borderless-symbol groups"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/window", "value": "#111111", "quality": "measured", "notes": "dark ground; DARKER than macOS-27 kit dark window #1E1E1E — deliberate void, deviation logged"},
+    {"token": "bg/row", "value": "#141414", "quality": "measured", "notes": "list row card, ~3-4 L over window — near-invisible"},
+    {"token": "bg/row-selected", "value": "~#272728", "quality": "measured", "notes": "selection = luminance lift ~2x + title bold white; NO accent"},
+    {"token": "text/primary", "value": "white ~#F5F5F5", "quality": "estimated", "notes": "list titles, button labels"},
+    {"token": "text/secondary", "value": "gray ~#8A8A8A", "quality": "estimated", "notes": "category sublabels; borderline 4.5:1"},
+    {"token": "accent/amber", "value": "~#FF9E33 monospace digits", "quality": "estimated", "notes": "00:58.55 timer — sole warm accent"},
+    {"token": "accent/green", "value": "~#7CCB4E->olive gradient", "quality": "estimated", "notes": "head-tracking glyph + Evening preset orb; jewelry, not system accent"},
+    {"token": "control/pill", "value": "dark #1E1E1E, radius ~8-10px buttons / capsule chips+volume", "quality": "estimated", "notes": "custom-drawn, abandons AppKit control chrome"},
+    {"token": "icon-badge", "value": "circular ~36-40px, dark glass, monochrome glyph", "quality": "estimated", "notes": "list category icons + canvas emitter nodes"},
+    {"token": "row-height", "value": "~64-68px", "quality": "estimated", "notes": "tall carded rows, title+sublabel"},
+    {"token": "type/list-title", "value": "~14-15px semibold", "quality": "estimated", "notes": ""},
+    {"token": "type/list-secondary", "value": "~11-12px regular gray", "quality": "estimated", "notes": ""},
+    {"token": "brand/gradient", "value": "#002EBF->#226FB7 royal->azure diagonal", "quality": "measured", "notes": "MARKETING backdrop only — not app palette"},
+    {"token": "brand/headline", "value": "SF-Pro-Display-like humanist sans, Regular, large, tight tracking", "quality": "estimated", "notes": "editorial restraint (regular not bold)"},
+    {"token": "icon/bg", "value": "#0D0D0D pure near-black", "quality": "measured", "notes": "full-bleed squircle on transparent canvas"},
+    {"token": "icon/glyph", "value": "grayscale luminous-fog wavelet, peak ~#A0A0A0, film grain", "quality": "measured", "notes": "self-illuminating audio-waveform envelope; degrades at 16px"},
+    {"token": "icon/corner", "value": "full-bleed squircle radius ~300/1024 (~0.29)", "quality": "estimated", "notes": "hair rounder than iOS superellipse; no macOS icon-grid padding"}
+  ],
+  "patterns": [
+    {"pattern": "list", "key_values": "carded rows (each a persistent rounded #141414 card), circular leading badge + title + category sublabel, ~64-68px tall; selection = fill lift to ~#272728 + bold white title, monochrome (iOS inset-grouped idiom, NOT native full-bleed source list)"},
+    {"pattern": "toolbar", "key_values": "borderless unified dark bar, no title; leading 'Save new preset' pill, trailing amber timer pill + 'Head Tracking' pill; custom pills, not borderless SF-Symbol groups"},
+    {"pattern": "floating-panel", "key_values": "bottom transport bar: preset selector (green orb + name/count + up-chevron) + 'Update Evening' pill + capsule volume slider + circular pause"},
+    {"pattern": "other", "key_values": "polar spatial stage — quadrant crosshair grid + concentric orbit rings, central wireframe 3D listener head, 7-8 emitter nodes on radial connector lines = drag-to-position 3D audio (natural mapping)"},
+    {"pattern": "other", "key_values": "filter-chip strip for scope (All/Birds/City/Crickets), selected = white pill; iOS/web idiom used instead of a native segmented control"}
+  ],
+  "signature_moves": [
+    "Polar spatial stage: wireframe listener head at centre, nature-sound emitters on orbit rings + radial lines = drag-to-position 3D audio made literal (natural mapping)",
+    "Colour abstinence as house style: grayscale-luminance-only UI; selection/hierarchy carried by light not the system accent; the amber timer + green status dot are the only colour, loud by subtraction",
+    "Luminous-fog app icon: soft grayscale audio-waveform that emits light on pure black, no bevel/scene/badge/colour, grain-textured — anti-iconographic premium-audio signal",
+    "Near-black #111 'void' ground, darker than the macOS-27 kit's #1E1E1E, for an immersive cinematic dark"
+  ],
+  "defects": [
+    "iOS-idiom list construction — persistent per-row cards instead of native full-bleed source-list rows with hairline separators and selection-only rounded fill",
+    "Contrast Dilution / over-de-emphasis — row cards (#141414 on #111) and dark node badges below WCAG 3:1 non-text; affordances nearly vanish; sublabels borderline on 4.5:1",
+    "Non-native scope control — horizontal filter-chip strip where a native segmented control belongs",
+    "Icon small-size legibility — soft low-contrast fog holds at 32px but becomes an unidentifiable smudge at 16px (Dock/Spotlight squint test)"
+  ],
+  "aesthetic": {
+    "adjectives": ["nocturnal", "immersive", "hushed"],
+    "direction": "bespoke dark ambient-media tool — near-black void ground, monochrome-glass emitters, luminous wireframe illustration, colour reserved as jewelry; drenched-dark colour strategy with a single warm + single cool micro-accent",
+    "peers": ["Endel", "Dark Noise", "Portal", "Halide (icon austerity)"],
+    "cluster_hint": "nocturnal-immersive / dark ambient-media",
+    "audience": "creative"
+  },
+  "psychology": [
+    "Von Restorff (by subtraction) — draining all colour makes the amber timer + green head-tracking dot pre-attentively salient; the one different thing is remembered",
+    "Natural mapping (Norman) — the polar stage maps UI position directly to 3D audio position; drag-where-you-hear",
+    "Aesthetic-Usability effect — the immersive dark canvas + wireframe head buys a strong first-impression halo for an ambient tool",
+    "Hick's Law — 41 sounds scoped by category chips reduces choice at the browse decision point",
+    "Jakob's Law (mild violation) — carded rows + chip filters import iPhone idioms onto the Mac; familiar to iOS users but slightly off macOS convention",
+    "Fitts's Law — large emitter-node targets on the canvas and whole-row targets in the list; generous"
+  ],
+  "notes": "Single marketing-composite still only; the window's right/bottom edges are cropped by the composite frame so sidebar width and full transport are inferred — all app-UI values are (inferred), nothing confirmable across surfaces. Lineage is native (Head Tracking = Apple spatial-audio platform capability, decisive) BUT the app is a fully bespoke dark skin with zero visible stock AppKit controls and imported iOS idioms — treat as dark-ambient-media CLUSTER aesthetic evidence, NOT macOS native-grammar canon. Brand backdrop (royal-blue gradient + wordmark + SF-Pro-like headline) kept strictly separate from the app's black-void palette; the bright-marketing/black-app contrast is a deliberate brand choice. Icon analysed as brand/icon evidence only (Workflow A run; no icons/*.md written per scope). Want next: in-app settings, the drag interaction mid-gesture, any light mode, empty/onboarding state."
+}

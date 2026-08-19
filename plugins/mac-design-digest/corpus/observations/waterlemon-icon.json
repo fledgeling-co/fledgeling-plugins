@@ -1,0 +1,35 @@
+{
+  "slug": "waterlemon", "name": "Waterlemon", "category": "Design",
+  "era": "big-sur",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 rounded corners baked into web-preview PNG; fruit inside safe zone, no full-bleed square to judge mask mismatch",
+    "#2 optically centered but lower-left weighted (rind base bottom-left, tip upper-right)",
+    "#3 silhouette reads 'fruit wedge/fan' generically; watermelon/lemon identity carried by color+seeds, not shape",
+    "#9 quotes Big Sur object-on-plate but ships macOS-26-era with no Liquid Glass layers and a flat white field instead of a sky-ramp"
+  ],
+  "failures": [
+    "#7 figure-ground contrast: yellow flesh #FFD301 on white #FFFFFF measures ~1.4:1, under the 3:1 floor; flesh dissolves into the plate in grayscale, silhouette survives only via darker rind + seeds",
+    "#10 variant robustness: composition depends on the white ground, not authored as layers; dark/clear/tinted/mono renders would collapse (yellow flesh has no internal contrast without the white plate)"
+  ],
+  "palette": {
+    "background": "flat #FFFFFF",
+    "glyph": ["#FFDC00", "#FFCE01", "#FFD207", "#CE9301", "#D29505", "#F6B607", "#3A231C"],
+    "accent": "#3A231C"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "object",
+    "overlay_device": "none"
+  },
+  "light_model": "soft near-frontal top-down; glossy candy/clay specular sheen on upper flesh; short soft contact shadow under the wedge on the white plate; baked highlights, no hard hotspot",
+  "layer_stack": ["white squircle plate", "soft contact shadow", "fruit body (flesh + rind + pith)", "embedded dark seeds", "glossy specular sheen"],
+  "devices": [
+    "pun-glyph: watermelon-slice silhouette rendered in lemon-yellow (name made visual)",
+    "dogfooded material: the glossy AI-3D candy render is exactly what the app produces (cover gallery = same style)",
+    "object floated on flat white plate with only a contact shadow, no Big Sur sky-ramp"
+  ],
+  "adjectives": ["pun-forward", "candy-glossy", "contrast-shy"],
+  "rhymes_hint": "glossy 3D-object-mascot-on-white family; the current AI-generated candy/clay-render app-icon wave (its own cover gallery is the reference set); Big Sur object-on-plate descendants with a soft-body candy material instead of crisp vector",
+  "notes": "Resolution caveat: source is a 102x102 web render upscaled 5x for inspection, so seed edges and specular softness are partly upscaling artifact, not necessarily the artwork. Corners baked into the PNG (web preview mask) so mask discipline cannot be fully judged. The #7 contrast failure is real and resolution-independent (yellow-on-white is a color choice). NOT authored in Icon Composer (no glass layers) -> anachronistic for macOS 26. Cover confirms palette coherence: identical yellow wedge appears top-left of the cover; brand uses glossy-3D-render style across its whole product gallery, so the icon's material is deliberately on-brand (it advertises what the app makes). Icon communicates 'cute fruit / brand mascot' more than 'icon generator' -- subject-communication is weak, personality is strong. First candy-3D-render icon in the corpus; do not promote to canon (single app)."
+}

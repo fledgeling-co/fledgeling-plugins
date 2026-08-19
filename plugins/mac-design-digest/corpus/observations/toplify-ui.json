@@ -1,0 +1,33 @@
+{
+  "slug": "toplify", "name": "Toplify", "category": "Marketing",
+  "lineage": "unknown", "lineage_confidence": "low",
+  "era": "unknown",
+  "surfaces": [],
+  "tokens": [
+    {"token": "brand/bg", "value": "#111111-#141414", "quality": "measured", "notes": "MARKETING COMPOSITE, not app UI — near-black neutral field"},
+    {"token": "brand/bg-matrix-cell", "value": "#0E1913", "quality": "measured", "notes": "unlit rounded-square cells of the decorative LED grid"},
+    {"token": "brand/bg-glow", "value": "#073920 -> #102F1F", "quality": "measured", "notes": "directional green glow toward top-right corner"},
+    {"token": "brand/accent-green", "value": "#00D859-#00EF60", "quality": "measured", "notes": "lit cell + '1,67M Apps.' stat; brighter/more saturated than macOS system green (#34C759) — brand accent, not system accent"},
+    {"token": "brand/text-primary", "value": "#FFFFFF", "quality": "measured", "notes": "wordmark, headline, subline"},
+    {"token": "brand/icon-glyph", "value": "#FFFFFF->silver gradient", "quality": "measured", "notes": "metallic bevel on spark/arrow glyph"},
+    {"token": "brand/headline-type", "value": "geometric neo-grotesque sans, ~600wt, tight 2-line leading", "quality": "estimated", "notes": "face not identifiable with confidence; SF-Pro-Display / Inter / General-Sans class"}
+  ],
+  "patterns": [],
+  "signature_moves": [
+    "Dark LED dot-matrix as an App Store leaderboard: a field of dark rounded-square cells with one lit vivid-green cell riding the top edge — a literal metaphor for an app climbing to #1 (Von Restorff isolation). BRAND LAYER ONLY; no evidence it appears in product UI."
+  ],
+  "defects": [],
+  "aesthetic": {
+    "adjectives": ["dark", "electric", "data-metaphoric"],
+    "direction": "Neo-grotesque product (dark) crossed with a terminal/data-matrix motif — near-black neutral ramp + one electric green accent reserved for the positive/'top' signal",
+    "peers": ["Linear", "Vercel"],
+    "cluster_hint": "dark-electric-datatool (marketing/brand, NOT a macOS-UI cluster)",
+    "audience": "pro-tool"
+  },
+  "psychology": [
+    "Von Restorff / isolation effect — the single lit green cell against the dark grid, and the green stat pop, are the eye's landing points",
+    "First-impression thesis (Lindgaard 50ms) — the headline states the value ('Track Your App Store Rankings') immediately; the hero answers 'what is this' pre-attentively",
+    "Signal detection / accent-as-signal — green is reserved for the positive 'reached the top' meaning; everything else is white-on-black neutral, so the one accent carries all the signal"
+  ],
+  "notes": "CRITICAL FOR SYNTHESIS: no app UI was supplied. macapp.supply entry gave only cover.jpg (a 1200x630 marketing composite — icon + wordmark + headline + stat over a decorative LED grid; NO window/chrome/toolbar/sidebar/list) and icon.webp (icon = Workflow B, out of this task's scope). Therefore surfaces=[] and the 14-point rubric + 10-point native audit were NOT runnable. Lineage/era are genuinely unknown — do not infer native macOS taste from this app; it feeds ZERO evidence to macOS canon or native clusters. All tokens are brand/marketing colours, not app UI tokens. Brand green (~#00D859) is notably brighter/more saturated than macOS system green (#34C759 light / #30D158 dark) — if it ever appears as the app's UI accent it would be a native-tell deviation. Locale tell: '1,67M' comma-decimal => likely European developer. To actually digest this app, request real app screenshots (main window / menu-bar panel / list view)."
+}

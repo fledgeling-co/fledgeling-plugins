@@ -1,0 +1,16 @@
+{
+  "slug": "subscription-day",
+  "name": "Subscription Day",
+  "tagline": "Tack of your paid subscriptions and analyze statistics.",
+  "category": "Lifestyle",
+  "pricing": null,
+  "website": "https://subsday.appps.od.ua/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/3980dea0-821c-4a36-b204-2af28ab459e3/icon-1783882458522.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/3980dea0-821c-4a36-b204-2af28ab459e3/cover-1783882759517.jpg",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/subscription-day/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/subscription-day/cover.jpg",
+    "shots": []
+  }
+}

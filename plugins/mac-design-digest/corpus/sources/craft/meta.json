@@ -1,0 +1,16 @@
+{
+  "slug": "craft",
+  "name": "Craft",
+  "tagline": "Your space for notes, tasks, and big ideas",
+  "category": "Writing",
+  "pricing": null,
+  "website": "https://www.craft.do/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9d7b945-6977-4895-b0b2-8c9f4e557ba1/icon-1783882454489.webp",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/d9d7b945-6977-4895-b0b2-8c9f4e557ba1/cover-1783882755410.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/craft/icon.webp",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/craft/cover.png",
+    "shots": []
+  }
+}

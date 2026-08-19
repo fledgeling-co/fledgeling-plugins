@@ -1,0 +1,15 @@
+{
+  "slug": "creos", "name": "CREOS", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 9,
+  "soft_passes": ["#3 silhouette nameable but tri-stable (checkmark / C-monogram / chevron)", "#8 depth coherent but mirror-floor reflection is a 3D-render device, not a Mac baked shadow", "#9 internally era-coherent but off-platform: a chrome-emblem render quoting no macOS era"],
+  "failures": ["#1 pre-masked black rounded-rect baked on transparency (inset ~10%, own corner radius) — not full-bleed square art; squircle-in-squircle risk", "#4 16px squint smears to a light blob; chrome bevels and hollow centre collapse (reads only at 32px+)", "#10 depends wholly on pure-black field; no Icon Composer layers, no tint-safe glyph — collapses in light/clear/tinted renders"],
+  "palette": {"background": "flat #000000 (faint #050505 render noise)", "glyph": ["#2A2A2A", "#939393", "#E8E8E8", "#FFFFFF"], "accent": "none"},
+  "composition": {"background_type": "flat", "glyph_type": "abstract", "overlay_device": "none"},
+  "light_model": "Environmental studio lighting, key from upper-left; photoreal reflective chrome with blown-out #FFFFFF specular edges and a faint mirror-floor reflection beneath the glyph. Not Big Sur top-down bake, not Liquid Glass system specular — a bespoke 3D render.",
+  "layer_stack": ["black squircle field (baked, ~80% inset)", "mirror-floor reflection of glyph", "chrome 3D body (hollow beveled loop + tapering blade + top lightning-spike terminal)", "baked edge/specular highlights"],
+  "devices": ["polished-chrome 3D emblem (photoreal reflective metal)", "mirror-floor reflection under the glyph", "pure-black void field maximising chrome pop", "tri-stable checkmark / C-monogram / chevron form with lightning-spike terminal"],
+  "adjectives": ["polished-chrome", "emblematic", "off-platform-luxe"],
+  "rhymes_hint": "chrome 3D emblem / metallic-on-black logo renders — crypto & web3 token marks, gaming-clan crests, automotive marque badges, 3D-rendered SaaS logos; no Mac-native icon-era rhyme. Candidate 'metallic-void' micro-cluster if >=3 dark-field metallic icons accumulate.",
+  "notes": "Resolution: 512x512 = half the 1024 master; chrome micro-detail present but this is a downscaled macapp.supply web render, specular edges show slight compression — read as (estimated) not (measured). Mask: delivered as a black rounded-rect baked on transparency, inset ~10% with its own corner radius (first opaque pixel x=50/512), NOT full-bleed square — #1 failure may be partly a macapp.supply pre-render artifact; note honestly, don't over-penalise the app. Palette: fully desaturated (all RGB channels equal at every sampled point), a true grayscale chrome ramp on pure black — zero brand hue. Brand coherence with cover is strong (same chrome glyph + white rounded-sans 'CREOS' wordmark on near-black). Subject communication is weak: icon reads as luxury marque / approval check, communicates nothing of the creator second-brain product. Committed aesthetic direction, absent subject-mining. For generation this would be a hard fail (failures on non-negotiable checks #1 and #4); recorded here as a shipping-icon digest."
+}

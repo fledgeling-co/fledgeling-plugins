@@ -1,0 +1,30 @@
+{
+  "slug": "mymind", "name": "mymind", "category": "Productivity",
+  "era": "custom",
+  "rubric_score": 11,
+  "soft_passes": [
+    "#2 grid: optically centred, sits a hair low; precise placement unverifiable at 102px",
+    "#3 silhouette: reads as a hunched figure/creature but deliberately abstract, not a crisp metaphor",
+    "#4 16px squint: smears to an orange blob, figure detail lost but high-contrast brand-colour mark survives",
+    "#12 no-text: no words/UI, but a photoreal CGI render (against HIG vector/illustration preference)"
+  ],
+  "failures": [
+    "#10 variant robustness: not authored as Icon Composer light/dark/tinted/mono layers; flocked form-shaded render leans on the white ground and has no flat silhouette to survive mono/tinted"
+  ],
+  "palette": {
+    "background": "flat #FFFFFF (faint #D6D6D6 contact shadow under figure)",
+    "glyph": ["#FC5D2E", "#F15E20", "#CF3611", "#BD240F", "#AA1306", "#F0C49D"],
+    "accent": "none (the orange figure is the identity)"
+  },
+  "composition": {
+    "background_type": "flat",
+    "glyph_type": "mascot",
+    "overlay_device": "none"
+  },
+  "light_model": "single soft top-front warm key; diffuse rim highlight on crown/shoulders, ambient-occlusion baked into crevices/underside; matte flocked surface (no hard specular); subtle contact shadow, system supplies the drop shadow",
+  "layer_stack": ["white ground field", "soft contact-shadow ellipse", "orange 3D figure (baked form-shading + flocked texture)"],
+  "devices": ["flocked/velvet matte 3D-rendered creature", "single-hue orange object floating on pure white", "hunched thinking-figure pose (mind-at-rest literalism)"],
+  "adjectives": ["tactile", "warm", "idiosyncratic"],
+  "rhymes_hint": "rendered-3D-object icons (clay/blob/soft-render trend, matte single-hue material on plain ground) and brand-mascot/character icons; style-family 'tactile mascot-object on white', palette-family warm orange/coral ramps",
+  "notes": "Source is only a 102x102 compressed WebP (smallest in corpus) — texture/edge/micro-shadow below resolution floor, palette hexes indicative (estimated) not measured. Square white field bleeds to edge, no baked mask (system squircle applies cleanly). No diagonal tool, no gradient background field — anti-Big-Sur, custom brand-render era. Cover confirms strong brand coherence: same egg-headed figure appears as a minimal line glyph in marketing, so the brand already owns a flat-silhouette variant that would fix the #10 mono weakness but isn't the shipped icon."
+}

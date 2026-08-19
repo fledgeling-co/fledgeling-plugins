@@ -1,0 +1,16 @@
+{
+  "slug": "unfumble",
+  "name": "Unfumble",
+  "tagline": "The automatic keyboard language switcher for Mac.",
+  "category": "Utility",
+  "pricing": null,
+  "website": "https://unfumble.app/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/680682d4-dc92-43de-84a6-e8e906a7d80f/icon-1783882473163.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/680682d4-dc92-43de-84a6-e8e906a7d80f/cover-1783882786685.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfumble/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/unfumble/cover.png",
+    "shots": []
+  }
+}

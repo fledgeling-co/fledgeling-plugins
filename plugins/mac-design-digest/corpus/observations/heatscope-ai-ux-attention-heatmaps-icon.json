@@ -1,0 +1,42 @@
+{
+  "slug": "heatscope-ai-ux-attention-heatmaps", "name": "HeatScope AI UX Attention Heatmaps", "category": "Design",
+  "era": "custom",
+  "rubric_score": 10,
+  "soft_passes": [
+    "#1 render bakes its own corner radius + outer drop shadow; composition itself is squircle-safe full-bleed",
+    "#2 full-bleed field (safe-zone exempt) but bolt optical mass sits low-left, not optically centred",
+    "#4 at 16/32px the dark-left/thermal-right colour story survives but the bolt notch smears; reads by palette not glyph",
+    "#6 4-hue thermal ramp exceeds the 2-hue guideline, passes only as one subject-justified semantic heatmap ramp",
+    "#9 coherent, but borrows Big-Sur squircle geometry with none of its lighting and none of Liquid Glass materials; reads web-first"
+  ],
+  "failures": [
+    "#3 filled solid black it is a featureless squircle; subject not nameable from outer silhouette, bolt exists only as an internal colour boundary",
+    "#10 identity is wholly the multi-hue thermal ramp with no separable foreground layer; collapses under macOS 26 tinted/mono rendering"
+  ],
+  "palette": {
+    "background": "ramp thermal mesh #99F998 (green, top-right) -> #E1D63E (yellow) -> #F2C313 (amber) -> #FD7E21 (orange, bottom); washes to #EFEFEF/#ECFDEA near-white in top-right corner",
+    "glyph": ["#151515", "#1F1F1F", "#313131"],
+    "accent": "#FD7E21"
+  },
+  "composition": {
+    "background_type": "ramp",
+    "glyph_type": "abstract",
+    "overlay_device": "other"
+  },
+  "light_model": "flat mesh gradient, no dimensional lighting, no specular, no baked micro-shadow; only the render wrapper's baked outer drop-shadow halo is present and is not part of the artwork's own light logic",
+  "layer_stack": [
+    "grainy thermal mesh-gradient field (green top-right -> orange/red bottom)",
+    "solid near-black lightning-bolt region (left third + centre wedge notch)",
+    "uniform film-grain/noise overlay across the whole face",
+    "render wrapper only: baked rounded-rect corner mask + outer drop shadow"
+  ],
+  "devices": [
+    "negative-space lightning bolt carved by the black/gradient boundary (speed x heat subject-mining)",
+    "thermal attention-heatmap ramp: cool green -> hot red as literal subject",
+    "grain-over-mesh-gradient face (web-first / AI-startup idiom)",
+    "full-bleed diagonal figure-ground split with no discrete framed glyph"
+  ],
+  "adjectives": ["energetic", "thermal", "grainy"],
+  "rhymes_hint": "contemporary flat mesh-gradient + grain indie/SaaS marks (AI-startup gradient-blob, Raycast-adjacent dark+gradient faces) with a bold negative-space glyph cut from a coloured field; a 'grainy-thermal-gradient, glyph-as-negative-space' family distinct from Big-Sur dimensional-tool and Liquid-Glass layered-glass families",
+  "notes": "520x520 macapp.supply render, not a 1024 master; RGB, flattened on black with baked corner + outer drop shadow (both HIG no-nos, but likely render wrapper not the submitted asset). Hex values measured-from-downscaled-render -> treat as estimated if promoted. Grain reads intentional (uniform, matches aesthetic), not pure compression. Strong icon<->cover palette coherence: cover reuses the same green->amber->red heatmap ramp with a black 'Heat Scope' wordmark. First/early member of a possible flat-gradient/grain cluster; do not promote on one icon. Failures #3 and #10 are the whole family's risk profile: gorgeous at hero size, weak at 16px and under tinting."
+}

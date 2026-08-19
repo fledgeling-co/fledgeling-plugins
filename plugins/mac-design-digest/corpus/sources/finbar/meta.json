@@ -1,0 +1,16 @@
+{
+  "slug": "finbar",
+  "name": "Finbar",
+  "tagline": "Menu bar search with superpowers.",
+  "category": "Productivity",
+  "pricing": null,
+  "website": "https://www.finbarapp.com/",
+  "icon": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/icon-7298df49-8268-4bc8-9202-09766757779c.png",
+  "cover": "https://wdxytpvizqbpjhmiaedj.supabase.co/storage/v1/object/public/app-images/submissions/cover-93ebe3a3-69c1-41ce-8668-2dc5ff63da7f.png",
+  "gallery": [],
+  "files": {
+    "icon": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/finbar/icon.png",
+    "cover": "/Users/lukerhodes/Dev/motif-terminal/design-corpus/sources/finbar/cover.png",
+    "shots": []
+  }
+}

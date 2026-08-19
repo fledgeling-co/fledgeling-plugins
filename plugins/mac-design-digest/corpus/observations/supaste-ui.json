@@ -1,0 +1,68 @@
+{
+  "slug": "supaste", "name": "Supaste", "category": "Productivity",
+  "lineage": "native", "lineage_confidence": "med",
+  "era": "custom",
+  "surfaces": [
+    {
+      "file": "cover.webp",
+      "surface_type": "main HUD panel (horizontal clipboard shelf) — from marketing composite; app window at indeterminate scale",
+      "mode": "dark",
+      "rubric_score": 12,
+      "native_audit_score": 7,
+      "failures": [
+        "rubric #10 UI contrast — dark-gray circular icon buttons on #000, container borders near-invisible",
+        "rubric #9 text contrast (borderline) — dim gray '24' count badges on dark chips may miss 4.5:1",
+        "native #3 selection grammar — active 'History' chip is solid white fill + black text, not native accent-tinted inset selection",
+        "native #6 accent binding — no system accent on selection/focus/primary; chrome is accent-agnostic monochrome",
+        "native #9 toolbar (soft) — circular-background icon buttons vs borderless monochrome symbols"
+      ]
+    }
+  ],
+  "tokens": [
+    {"token": "bg/panel-content", "value": "#000000 true black", "quality": "measured", "notes": "inner content shelf; deliberate OLED-gallery backdrop making cards pop, not a translucent window bg"},
+    {"token": "bg/frame-glass", "value": "frosted light, ~rgb(187,217,228) wallpaper-tinted", "quality": "measured", "notes": "outer rounded container; glass frame wrapping opaque content — honors Liquid Glass golden rule"},
+    {"token": "selection/pill-active", "value": "#FFFFFF fill + #000000 label", "quality": "measured", "notes": "solid white capsule; NOT native accent inset selection"},
+    {"token": "accent/system", "value": "none bound", "quality": "measured", "notes": "only saturation on screen is user content (the #0080FF colour card), never chrome"},
+    {"token": "type/label", "value": "SF Pro ~13-14pt logical", "quality": "estimated", "notes": "via assumed ~1.85x composite scale from menu-bar clock; system font, sentence case"},
+    {"token": "type/meta", "value": "~10-11pt logical secondary gray", "quality": "estimated", "notes": "relative time, counts, byte sizes — de-emphasised"},
+    {"token": "control/pill-h", "value": "~36pt logical (~66px composite), capsule", "quality": "estimated", "notes": "chunky XL-tier category chips"},
+    {"token": "control/circle-btn", "value": "~23pt logical (~43px composite) diameter", "quality": "estimated", "notes": "star/grid/export icon buttons, above 24px floor"},
+    {"token": "radius/card", "value": "~18-20pt logical (~34px composite)", "quality": "estimated", "notes": "clip preview cards"},
+    {"token": "radius/pill+btn", "value": "capsule (infinite)", "quality": "measured", "notes": "chips and icon buttons fully rounded — capsule-everything"},
+    {"token": "card/h", "value": "~130-160pt logical (~240-290px composite)", "quality": "estimated", "notes": "single horizontal card row; bottom cropped in composite"},
+    {"token": "chrome/window", "value": "borderless floating HUD, frosted rounded frame, no traffic lights", "quality": "measured", "notes": "legitimate window class (Spotlight/Paste-like); menu bar top-right is desktop not app"}
+  ],
+  "patterns": [
+    {"pattern": "toolbar", "key_values": "leading app identity + inline bezel-less search (leading magnifier) + trailing 3 circular SF-Symbol icon buttons (star/2x2-grid/export+badge); left-aligned to shared content inset"},
+    {"pattern": "card-grid", "key_values": "single horizontal row of equal-height content-type-aware clip cards (image thumb / text snippet / web screenshot / colour swatch / doc); each with footer meta = source favicon + relative time (left), size/bytes (right); even gaps > within-card padding; radius ~18-20pt; on #000 shelf"},
+    {"pattern": "floating-panel", "key_values": "wide short borderless HUD; frosted-glass outer frame over pure-black content shelf; no traffic lights; capsule/circle affordances throughout"},
+    {"pattern": "other", "key_values": "category chips = horizontal capsule 'tabs' with live counts (History/Prompts/Colors/Assets/Inspirations, each '24') + circular '+' add-collection; active = white fill, inactive = dark translucent"}
+  ],
+  "signature_moves": [
+    "Content-type-aware clip cards — copied colour renders as a full-bleed colour card (#0080FF), image as thumbnail, URL as web screenshot, text as legible snippet; recognition-over-recall made structural",
+    "True-black (#000) gallery backdrop turning each preview card into a lit object, paired with a glass outer frame so it doesn't read flat",
+    "Counted collections as capsule tabs — reframes a clipboard manager as a creative asset library (Prompts/Colors/Assets/Inspirations)",
+    "Restrained accent-agnostic monochrome chrome — the only on-screen saturation is user content"
+  ],
+  "defects": [
+    "Selection grammar deviation — active chip is solid white fill + black text, not native accent-tinted inset-rounded selection (reads iOS/web segmented toggle)",
+    "Accent unbound — selection/focus bind to white, not the user's system accent; forfeits the 'accent is the user's' native rule",
+    "Circular-background toolbar buttons — vs native borderless monochrome symbols (soft; defensible on a glass HUD)",
+    "Low-contrast chrome risk — dark-gray circle buttons on black and dim gray count badges hover near 3:1/4.5:1 floors (estimated from compressed composite)"
+  ],
+  "aesthetic": {
+    "adjectives": ["gallery-dark", "capsule-soft", "content-forward"],
+    "direction": "committed dark content-shelf HUD — a deliberate direction (true-black stage, capsule-everything, content-as-hero cards), not a template default",
+    "peers": ["Paste (direct clipboard-manager lineage)", "Raycast (rich-result command HUD)", "CleanShot X (polished utility)"],
+    "cluster_hint": "dark-HUD-shelf (floating-utility-gallery)",
+    "audience": "consumer-utility"
+  },
+  "psychology": [
+    "Von Restorff (isolation) — the single white active chip pops against dark siblings; instant 'you are here'",
+    "Recognition over recall — content-aware previews let users spot a clip by its visual (the colour, the thumbnail) rather than reading text",
+    "Jakob's Law — adopts the established Paste horizontal-clipboard-shelf mental model clipboard-manager users already know",
+    "Miller's Law / chunking — clipboard chunked into ~5 named collections rather than one long undifferentiated history",
+    "Aesthetic-Usability Effect — high-polish dark gallery inflates perceived usability and trust"
+  ],
+  "notes": "MARKETING-COMPOSITE ONLY — no in-app screenshots supplied; the sole UI evidence is the app window inside a branded cover (Apple-style headline 'Copy once. Reuse anytime.', blurred landscape backdrop). Backdrop/headline are brand evidence, analysed separately from the window. App shown at INDETERMINATE scale: all absolute-pt tokens are estimated via an assumed ~1.85x composite scale from the macOS menu-bar clock ('09:41' ~24-26px); ratios trustworthy, absolutes not. No traffic lights (borderless HUD) so no chrome calibration. Lineage 'native' is med-confidence: macOS density + system font read native but heavy custom drawing hides framework tells and there is no chrome to confirm; could be macOS-correct SwiftUI. Menu bar top-right (search/wifi/09:41) is the desktop system bar, NOT app UI — used only for scale. Icon (blue vertical-gradient squircle + single white capsule bar, Big-Sur-era) noted as brand context in apps/supaste.md, not digested as a full icon (Workflow A only). 'Colors' collection and #0080FF card imply a designer/creative audience. Locale detail: '3,5 MB' uses comma decimal (EU)."
+}
