@@ -1,5 +1,7 @@
 # mac-design-digest
 
+<p align="center"><img src="assets/banner.png" alt="mac-design-digest: a graphite certificate plate carrying three pale measurement bars and a vermilion wax seal, beside the wordmark and the provenance marks (measured)(canon), with the same plate repeated at reading size on the right" width="100%" /></p>
+
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="SWE skill: design corpus" src="https://img.shields.io/badge/SWE_skill-design_corpus-434A55">

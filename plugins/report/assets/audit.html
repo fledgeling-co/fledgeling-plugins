@@ -31,7 +31,7 @@
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; text-align: center; }
   .score small { display: block; font-weight: 400; font-size: 11px; }
   .ship { color: #ffd98f; }
-  .lead { color: #9fd6a6; }
+  .past { color: #a9bec5; }
   .fail { color: #e0826a; }
   .pass { color: #9fd6a6; }
   .warn { color: #e8c07a; }
@@ -57,7 +57,8 @@
 <h1>report icon — contact sheet &amp; audit</h1>
 <div class="sub">Direction &ldquo;The Fold&rdquo; &middot; four takes across two engines &middot; audited on real
 renders at 1024 / 128 / 64 / 48 / 32 / 16 css px from 2&times; retina sources, plus Dark and Tinted
-variants of both layered takes.</div>
+variants of both layered takes. <strong>The shipping take changed on 19 Aug 2026</strong> &mdash; see the
+decision block at the foot of the page.</div>
 
 <div class="band"><strong>What ran, and what refused.</strong> This commission was built on 9 Aug with one
 hand-authored take and no contact sheet. A retrospective sheet on 19 Aug scored that single take and said
@@ -66,11 +67,13 @@ icon. Both were commissioned on 19 Aug 2026 and only one came back.
 <strong>Engine B (Arrow 1.1, <code>svg: true</code>) refused</strong> &mdash; the gateway returned
 &ldquo;A positive credit balance is required for all requests, including BYOK&rdquo;, so there is no
 independent vector take and no Arrow shapes were salvaged into the master. Under the skill's own fallback
-clause, Engine A was widened instead: <strong>A2</strong> below is a second hand-authored take
-(<code>build_icon_a2.py</code> &rarr; <code>icon-A2-fold-inverted.svg</code>) that keeps the direction and
-the geometry and inverts the value architecture the master loses a point on. So the floor is met by four
-real artifacts from <strong>two</strong> engines, not three &mdash; A2 is not presented as an Engine B
-substitute, and every take's source file sits in this directory under the name cited beside it.
+clause, Engine A was widened instead: a second hand-authored take that keeps the direction and the geometry
+and inverts the value architecture the porcelain take loses a point on. <strong>That widened take is the one
+that now ships</strong>, as <code>icon.svg</code> rebuilt by <code>build_icon.py</code>; the porcelain
+original is preserved whole as <code>icon-A1-porcelain.svg</code>, rebuilt by
+<code>build_icon_a1_porcelain.py</code>, and is scored beside it below. So the floor is met by four
+real artifacts from <strong>two</strong> engines, not three &mdash; the widened take is not presented as an
+Engine B substitute, and every take's source file sits in this directory under the name cited beside it.
 <strong>Still not done:</strong> no fidelity loop has run and no blind panel has seen any of these takes,
 so nothing here is a judged comparison; the scores are this pass's own reading of the twelve-point rubric
 in <code>icon-directions.md</code> against the renders and the measurements below. The
@@ -82,18 +85,50 @@ not four.</div>
   <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A &middot; icon.svg<small>Engine A, hand-authored layered SVG &mdash; the take
-      currently shipping as <code>icon.png</code> / <code>icon-256.png</code> / <code>icon-128.png</code></small></td>
+    <td class="take ship">master &middot; icon.svg<small>Engine A widened, because Engine B refused &mdash;
+      rebuilt by <code>build_icon.py</code>. <strong>SHIPS</strong> as <code>icon.png</code> /
+      <code>icon-256.png</code> / <code>icon-128.png</code> from 19 Aug 2026</small></td>
     <td><div class="renders">
-      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="Take A, the shipping master, 1024px source"><figcaption>hero 1024</figcaption></figure>
-      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="Take A's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="The shipping master, the inverted fold, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The shipping master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="The shipping master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="The shipping master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="The shipping master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The shipping master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The shipping master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
-    <td class="score ship">11 / 12<small class="fail">fails 7</small></td>
+    <td class="score ship">11 / 12<small class="fail">fails 8</small></td>
+    <td class="verdict">The same fold with its values inverted: the sheet is warm graphite on the same
+      porcelain ground, the ruling is knocked out in porcelain rather than printed in warm grey, and the
+      crease is a recessed slit of light rather than a raised band, its glow clipped to the paper faces it
+      falls on. Geometry is lifted verbatim from the porcelain take, so the comparison is value and
+      material only. It answers #7 outright &mdash; 10.03:1 sheet-to-ground against A1's 1.04:1, a
+      grayscale separation of 180 levels against 4, ruling at 11.00:1 against its own face &mdash; and it
+      is the best 16px read in the set at a luminance spread of 0.3601 against A1's 0.1410. It also
+      lands inside the family rather than outside it: median tile luminance 0.818 against a family median
+      of 0.772, where A1 is the set's outlier at 0.884. <strong>Loses #8, and ships losing it.</strong> The
+      slit spans y=512&ndash;536 while the sheet's lower edge is y=505 and the first leaf's upper edge is
+      y=563, so the accent touches neither plane &mdash; a 7px gap above and a 27px gap below. The
+      direction's whole claim is that the crease is where the two states meet, and here it floats in the
+      void between them, bridged by the glow rather than by contact. Two liabilities that are not rubric
+      deductions but ship with it: the dark-panel-with-pale-ruling vocabulary is <code>tui-craft</code>'s,
+      and on Dark its sheet drops to 1.10:1 against the ground.</td>
+  </tr>
+
+  <tr>
+    <td class="take past">A1 &middot; icon-A1-porcelain.svg<small>Engine A, the original hand-authored take
+      &mdash; rebuilt by <code>build_icon_a1_porcelain.py</code>. Shipped 9&ndash;19 Aug 2026; superseded,
+      kept whole</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/A1-1024.png" width="160" height="160" alt="Take A1, the porcelain fold, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A1-256.png" width="128" height="128" alt="Take A1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A1-128.png" width="64" height="64" alt="Take A1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A1-96.png" width="48" height="48" alt="Take A1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A1-64.png" width="32" height="32" alt="Take A1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A1-32.png" width="16" height="16" alt="Take A1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A1-32.png" width="96" height="96" alt="Take A1's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score past">11 / 12<small class="fail">fails 7</small></td>
     <td class="verdict">One porcelain sheet 552px wide, creased once across its full width at y=505. Above
       the crease a single uninterrupted column of ruling; below it the same sheet separated into two
       leaves, each inset 46px and stepped 34px, each carrying a shorter run. The crease is the only place
@@ -104,39 +139,10 @@ not four.</div>
       die when the ground changed register &mdash; and the renders falsify it: on Dark the same artwork
       measures 11.72:1 where the default measures 1.08:1. #7 itself stands and is now the only failure:
       at 1.08:1 sheet-to-ground and a grayscale separation of 4 levels out of 255, the object is held
-      together by its drop shadows and a 2.5px hairline in the one register it actually ships in. It is
+      together by its drop shadows and a 2.5px hairline in the one register it actually shipped in. It is
       also the lightest of the 38 icons in this marketplace (median tile luminance 0.884 against a family
-      median of 0.772) and the only one whose darkest pixel never gets below 0.142.</td>
-  </tr>
-
-  <tr>
-    <td class="take lead">A2 &middot; icon-A2-fold-inverted.svg<small>Engine A widened, because Engine B
-      refused &mdash; <code>build_icon_a2.py</code>. Recommended, not shipped</small></td>
-    <td><div class="renders">
-      <figure><img src="audit-renders/A2-1024.png" width="160" height="160" alt="Take A2, the inverted fold, 1024px source"><figcaption>hero 1024</figcaption></figure>
-      <figure><img src="audit-renders/A2-256.png" width="128" height="128" alt="Take A2 at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/A2-128.png" width="64" height="64" alt="Take A2 at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/A2-96.png" width="48" height="48" alt="Take A2 at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/A2-64.png" width="32" height="32" alt="Take A2 at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/A2-32.png" width="16" height="16" alt="Take A2 at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/A2-32.png" width="96" height="96" alt="Take A2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
-    </div></td>
-    <td class="score lead">11 / 12<small class="fail">fails 8</small></td>
-    <td class="verdict">The same fold with its values inverted: the sheet is warm graphite on the same
-      porcelain ground, the ruling is knocked out in porcelain rather than printed in warm grey, and the
-      crease is a recessed slit of light rather than a raised band, its glow clipped to the paper faces it
-      falls on. Geometry is lifted verbatim from <code>build_icon.py</code>, so the comparison is value and
-      material only. It answers #7 outright &mdash; 9.90:1 sheet-to-ground against the master's 1.08:1, a
-      grayscale separation of 180 levels against 4, ruling at 11.00:1 against its own face &mdash; and it
-      is the best 16px read in the set at a luminance spread of 0.3601 against the master's 0.1410. It also
-      lands inside the family rather than outside it: median tile luminance 0.818 against a family median
-      of 0.772, where the master is the set's outlier at 0.884. <strong>Loses #8.</strong> The slit spans
-      y=512&ndash;536 while the sheet's lower edge is y=505 and the first leaf's upper edge is y=563, so
-      the accent touches neither plane &mdash; a 7px gap above and a 27px gap below. The direction's whole
-      claim is that the crease is where the two states meet, and here it floats in the void between them,
-      bridged by the glow rather than by contact. Two liabilities that are not rubric deductions but belong
-      on the record: the dark-panel-with-pale-ruling vocabulary is <code>tui-craft</code>'s, and on Dark its
-      sheet drops to 1.10:1 against the ground.</td>
+      median of 0.772) and the only one whose darkest pixel never gets below 0.142. That single failure,
+      in the default register, is what cost it the tile.</td>
   </tr>
 
   <tr>
@@ -194,27 +200,28 @@ not four.</div>
 
 <h2>What the renders measure</h2>
 <div class="sheet"><table class="nums">
-  <tr><th scope="col">Measured on the 1024 renders</th><th scope="col">A (ships)</th><th scope="col">A2</th><th scope="col">C2</th><th scope="col">C1</th><th scope="col">Bar</th></tr>
-  <tr><td>Sheet face vs tile ground</td><td class="fail">1.04:1</td><td class="pass">10.03:1</td><td class="fail">1.05:1</td><td class="fail">1.03:1</td><td>&ge;3:1 (#7)</td></tr>
-  <tr><td>Ruling vs sheet face</td><td class="fail">1.98:1</td><td class="pass">11.00:1</td><td class="fail">1.94:1</td><td class="fail">1.08:1</td><td>&ge;3:1 (#7)</td></tr>
-  <tr><td>Accent band median vs ground</td><td class="warn">2.65:1</td><td class="pass">3.80:1 vs face</td><td class="pass">3.11:1</td><td class="pass">3.57:1</td><td>&ge;3:1 (#7)</td></tr>
-  <tr><td>Accent darkest decile vs ground</td><td class="pass">4.02:1</td><td class="pass">9.80:1</td><td class="pass">5.27:1</td><td class="pass">4.51:1</td><td>&ge;3:1 (#7)</td></tr>
-  <tr><td>Grayscale face&minus;ground, of 255</td><td class="fail">4</td><td class="pass">180</td><td class="fail">7</td><td class="fail">3</td><td>survives grey (#7)</td></tr>
-  <tr><td>16px luminance spread</td><td class="warn">0.1410</td><td class="pass">0.3601</td><td class="fail">0.1445</td><td class="fail">0.1410</td><td>reads at 16px (#4)</td></tr>
-  <tr><td>Edge-energy centroid, 512 target</td><td class="pass">494, 479</td><td class="pass">496, 487</td><td class="pass">502, 537</td><td class="pass">496, 527</td><td>optically centred (#2)</td></tr>
+  <tr><th scope="col">Measured on the 1024 renders</th><th scope="col">master (ships)</th><th scope="col">A1</th><th scope="col">C2</th><th scope="col">C1</th><th scope="col">Bar</th></tr>
+  <tr><td>Sheet face vs tile ground</td><td class="pass">10.03:1</td><td class="fail">1.04:1</td><td class="fail">1.05:1</td><td class="fail">1.03:1</td><td>&ge;3:1 (#7)</td></tr>
+  <tr><td>Ruling vs sheet face</td><td class="pass">11.00:1</td><td class="fail">1.98:1</td><td class="fail">1.94:1</td><td class="fail">1.08:1</td><td>&ge;3:1 (#7)</td></tr>
+  <tr><td>Accent band median vs ground</td><td class="pass">3.80:1 vs face</td><td class="warn">2.65:1</td><td class="pass">3.11:1</td><td class="pass">3.57:1</td><td>&ge;3:1 (#7)</td></tr>
+  <tr><td>Accent darkest decile vs ground</td><td class="pass">9.80:1</td><td class="pass">4.02:1</td><td class="pass">5.27:1</td><td class="pass">4.51:1</td><td>&ge;3:1 (#7)</td></tr>
+  <tr><td>Grayscale face&minus;ground, of 255</td><td class="pass">180</td><td class="fail">4</td><td class="fail">7</td><td class="fail">3</td><td>survives grey (#7)</td></tr>
+  <tr><td>16px luminance spread</td><td class="pass">0.3601</td><td class="warn">0.1410</td><td class="fail">0.1445</td><td class="fail">0.1410</td><td>reads at 16px (#4)</td></tr>
+  <tr><td>Edge-energy centroid, 512 target</td><td class="pass">496, 487</td><td class="pass">494, 479</td><td class="pass">502, 537</td><td class="pass">496, 527</td><td>optically centred (#2)</td></tr>
   <tr><td>Ground edge falloff (cushion)</td><td class="pass">&minus;0.0335</td><td class="pass">&minus;0.0335</td><td class="pass">&minus;0.0399</td><td class="fail">&minus;0.0073</td><td>a cushion, not a print (#9)</td></tr>
-  <tr><td>Median tile luminance at 256</td><td class="warn">0.884</td><td class="pass">0.818</td><td>&mdash;</td><td>&mdash;</td><td>family median 0.772</td></tr>
+  <tr><td>Median tile luminance at 256</td><td class="pass">0.818</td><td class="warn">0.884</td><td>&mdash;</td><td>&mdash;</td><td>family median 0.772</td></tr>
 </table></div>
-<div class="foot" style="margin-top:14px">Contrast is WCAG relative luminance computed from the rendered
-pixels, not from the source hexes, which is why one earlier figure moves: the 19 Aug sheet reported the
-crease clearing at 3.27:1 from a hex pair, and across the band as actually painted the median accent pixel
-is <strong>2.65:1</strong> against the ground, because the pale roll highlight lightens most of it. Only
-its darkest decile reaches 4.02:1. The hex-derived pairs still hold and agree with the pixels where they
-overlap: paper <code>#F2ECE1</code> on ground <code>#EFE8DB</code> is 1.04:1, ruling <code>#B4AA96</code>
-is 1.96:1 on the paper's shaded end and 2.28:1 on its lit end. Face and ruling values are medians over
-segmented regions; the 16px spread is the standard deviation of relative luminance over the opaque pixels
-of the 32px source; the centroid is the gradient-magnitude centre of mass, which ignores smooth ground
-ramps.</div>
+<div class="foot" style="margin-top:14px">Every figure in this table was measured before the swap and none
+of them moved with it &mdash; the columns changed places, the pixels did not. Contrast is WCAG relative
+luminance computed from the rendered pixels, not from the source hexes, which is why one earlier figure
+moves: the 19 Aug sheet reported the crease clearing at 3.27:1 from a hex pair, and across the band as
+actually painted the median accent pixel is <strong>2.65:1</strong> against the ground on A1, because the
+pale roll highlight lightens most of it. Only its darkest decile reaches 4.02:1. A1's hex-derived pairs
+still hold and agree with the pixels where they overlap: paper <code>#F2ECE1</code> on ground
+<code>#EFE8DB</code> is 1.04:1, ruling <code>#B4AA96</code> is 1.96:1 on the paper's shaded end and 2.28:1
+on its lit end. Face and ruling values are medians over segmented regions; the 16px spread is the standard
+deviation of relative luminance over the opaque pixels of the 32px source; the centroid is the
+gradient-magnitude centre of mass, which ignores smooth ground ramps.</div>
 
 <h2>Rubric #10, finally rendered: the same artwork on three grounds</h2>
 <div class="sub" style="margin-bottom:6px">Produced by <code>variants.py</code>, which substitutes the
@@ -223,98 +230,110 @@ exactly as authored. That substitution is only possible on a take with a real la
 whole of #10: neither Engine C raster has a <code>bg</code> group, so neither has a row here. <em>Clear</em>
 is not simulable for a tile that carries its own ground, and is therefore unrendered rather than passed.</div>
 <div class="vargrid">
-  <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="Take A on its default porcelain ground"><figcaption>A &middot; Default<br>1.08:1</figcaption></figure>
-  <figure><img src="variant-renders/master-dark-256.png" width="128" height="128" alt="Take A on a dark ground"><figcaption>A &middot; Dark<br>11.72:1</figcaption></figure>
-  <figure><img src="variant-renders/master-tinted-256.png" width="128" height="128" alt="Take A on a tinted grey-blue ground"><figcaption>A &middot; Tinted<br>1.76:1</figcaption></figure>
-  <figure><img src="audit-renders/A2-256.png" width="128" height="128" alt="Take A2 on its default porcelain ground"><figcaption>A2 &middot; Default<br>9.90:1</figcaption></figure>
-  <figure><img src="variant-renders/A2-dark-256.png" width="128" height="128" alt="Take A2 on a dark ground"><figcaption>A2 &middot; Dark<br>1.10:1</figcaption></figure>
-  <figure><img src="variant-renders/A2-tinted-256.png" width="128" height="128" alt="Take A2 on a tinted grey-blue ground"><figcaption>A2 &middot; Tinted<br>6.08:1</figcaption></figure>
-  <figure><img src="variant-renders/master-dark-64.png" width="64" height="64" alt="Take A on a dark ground at 64px"><figcaption>A &middot; Dark, 64</figcaption></figure>
-  <figure><img src="variant-renders/master-tinted-64.png" width="64" height="64" alt="Take A on a tinted ground at 64px"><figcaption>A &middot; Tinted, 64</figcaption></figure>
-  <figure><img src="variant-renders/A2-dark-64.png" width="64" height="64" alt="Take A2 on a dark ground at 64px"><figcaption>A2 &middot; Dark, 64</figcaption></figure>
-  <figure><img src="variant-renders/A2-tinted-64.png" width="64" height="64" alt="Take A2 on a tinted ground at 64px"><figcaption>A2 &middot; Tinted, 64</figcaption></figure>
+  <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The shipping master on its default porcelain ground"><figcaption>master &middot; Default<br>9.90:1</figcaption></figure>
+  <figure><img src="variant-renders/master-dark-256.png" width="128" height="128" alt="The shipping master on a dark ground"><figcaption>master &middot; Dark<br>1.10:1</figcaption></figure>
+  <figure><img src="variant-renders/master-tinted-256.png" width="128" height="128" alt="The shipping master on a tinted grey-blue ground"><figcaption>master &middot; Tinted<br>6.08:1</figcaption></figure>
+  <figure><img src="audit-renders/A1-256.png" width="128" height="128" alt="Take A1 on its default porcelain ground"><figcaption>A1 &middot; Default<br>1.08:1</figcaption></figure>
+  <figure><img src="variant-renders/A1-dark-256.png" width="128" height="128" alt="Take A1 on a dark ground"><figcaption>A1 &middot; Dark<br>11.72:1</figcaption></figure>
+  <figure><img src="variant-renders/A1-tinted-256.png" width="128" height="128" alt="Take A1 on a tinted grey-blue ground"><figcaption>A1 &middot; Tinted<br>1.76:1</figcaption></figure>
+  <figure><img src="variant-renders/master-dark-64.png" width="64" height="64" alt="The shipping master on a dark ground at 64px"><figcaption>master &middot; Dark, 64</figcaption></figure>
+  <figure><img src="variant-renders/master-tinted-64.png" width="64" height="64" alt="The shipping master on a tinted ground at 64px"><figcaption>master &middot; Tinted, 64</figcaption></figure>
+  <figure><img src="variant-renders/A1-dark-64.png" width="64" height="64" alt="Take A1 on a dark ground at 64px"><figcaption>A1 &middot; Dark, 64</figcaption></figure>
+  <figure><img src="variant-renders/A1-tinted-64.png" width="64" height="64" alt="Take A1 on a tinted ground at 64px"><figcaption>A1 &middot; Tinted, 64</figcaption></figure>
 </div>
-<div class="foot" style="margin-top:14px">Each take is hostage to a ground, and to the opposite one: A's
-worst register is <strong>Default, at 1.08:1 &mdash; the one it ships in</strong>, and A2's is Dark at
-1.10:1. Neither disappears; both stay nameable at 64px in all three, which is what moves #10 to a pass for
-both. The asymmetry that decides the recommendation is the second channel. A2's ruling holds 6.90:1 against
-its own face in <em>every</em> register, so when its silhouette merges into a dark ground the internal
-structure still carries the object. A's ruling is 2.04:1 in every register, so when its silhouette merges
-&mdash; which is what Default and Tinted both do &mdash; nothing inside it takes over.</div>
+<div class="foot" style="margin-top:14px">Each take is hostage to a ground, and to the opposite one. The
+take that now ships is weakest on <strong>Dark, at 1.10:1</strong>; A1's weakness was
+<strong>Default, at 1.08:1 &mdash; the register it actually shipped in</strong>. That asymmetry is the whole
+of the swap, and it also means the swap moves a liability rather than removing one. Neither take
+disappears; both stay nameable at 64px in all three registers, which is what moves #10 to a pass for both.
+The second channel is why the shipping take survives its own worst register: its ruling holds 6.90:1
+against its own face in <em>every</em> register, so when its silhouette merges into a dark ground the
+internal structure still carries the object. A1's ruling is 2.04:1 in every register, so when its
+silhouette merges &mdash; which is what Default and Tinted both do &mdash; nothing inside it takes over.</div>
 
 <h2>The 12-point rubric, scored 19 Aug against the renders</h2>
 <div class="sheet"><table class="rubric">
-  <tr><th scope="col">Check</th><th scope="col">A &middot; icon.svg (ships)</th><th scope="col">A2 &middot; icon-A2-fold-inverted.svg</th></tr>
+  <tr><th scope="col">Check</th><th scope="col">master &middot; icon.svg (ships)</th><th scope="col">A1 &middot; icon-A1-porcelain.svg</th></tr>
   <tr><td>1. Mask discipline — designed for the squircle, no baked corners or shadow <em>(non-negotiable)</em></td>
-      <td class="pass">PASS — full-bleed 1024 with the family superellipse read from <code>create-mac-icon/assets/squircle-path.txt</code> and applied as a clip. No baked corner radius, no baked tile shadow.</td>
-      <td class="pass">PASS — the same path, the same clip, so the whole family still shares one tile. Both Engine C rasters also pass, but only because they were masked at render time with <code>:raster-mask</code>; as delivered they are square-cornered full-bleed frames.</td></tr>
+      <td class="pass">PASS — full-bleed 1024 with the family superellipse read from <code>create-mac-icon/assets/squircle-path.txt</code> and applied as a clip. No baked corner radius, no baked tile shadow. Both Engine C rasters also pass, but only because they were masked at render time with <code>:raster-mask</code>; as delivered they are square-cornered full-bleed frames.</td>
+      <td class="pass">PASS — the same path, the same clip, so the whole family still shares one tile.</td></tr>
   <tr><td>2. Grid adherence — optically centred, safe-zone margins <em>(non-negotiable)</em></td>
-      <td class="pass">PASS — the sheet is 552px wide at x=236, so side margins are identical, and the gradient-energy centroid measures (494, 479) against a 512 target. At 53.9% of tile width it sits just under the 55–65% composition constant; noted, not deducted, because the stepped leaves widen the read below the crease.</td>
-      <td class="pass">PASS — identical geometry by construction, centroid (496, 487). The same 53.9% note applies and is not deducted for the same reason.</td></tr>
+      <td class="pass">PASS — identical geometry to A1 by construction: the sheet is 552px wide at x=236, so side margins are identical, and the gradient-energy centroid measures (496, 487) against a 512 target. At 53.9% of tile width it sits just under the 55–65% composition constant; noted, not deducted, because the stepped leaves widen the read below the crease.</td>
+      <td class="pass">PASS — centroid (494, 479). The same 53.9% note applies and is not deducted for the same reason.</td></tr>
   <tr><td>3. Silhouette test — nameable filled solid black <em>(non-negotiable)</em></td>
-      <td class="pass">PASS — and the check the design was driven by. Filled to one tone: a tall block, a band, then narrower stepped blocks. <code>icon-notes.md</code> records why the first cut's three same-width leaves with 20px gaps failed — a 20px gap survives a 32× reduction as 0.6 of a pixel — and that the fix was to make the two halves differ in <em>silhouette</em> rather than in spacing.</td>
-      <td class="pass">PASS — the strongest in the set, because the graphite face means the filled-black read and the rendered read are nearly the same picture.</td></tr>
+      <td class="pass">PASS — the strongest in the set, because the graphite face means the filled-black read and the rendered read are nearly the same picture.</td>
+      <td class="pass">PASS — and the check the design was driven by. Filled to one tone: a tall block, a band, then narrower stepped blocks. <code>icon-notes.md</code> records why the first cut's three same-width leaves with 20px gaps failed — a 20px gap survives a 32× reduction as 0.6 of a pixel — and that the fix was to make the two halves differ in <em>silhouette</em> rather than in spacing.</td></tr>
   <tr><td>4. 16px squint — survives menu-bar and Spotlight <em>(non-negotiable)</em></td>
-      <td class="pass">PASS, and the weakest pass in this column. On <code>master-32.png</code> at true 16px and at ×6: pale block, grey striping, one warm band, two paler stepped blocks. Luminance spread 0.1410 — below the 0.176 median measured across this family, above the 0.102 of an icon that was reopened for failing here. The stepped silhouette survives, but it is delineated by the leaf shadows rather than by the fills, which is what #7 is about.</td>
-      <td class="pass">PASS — 0.3601, 2.55× the master and the best in the set. At 16px the read is unambiguous: dark block, warm line, two stepped dark blocks.</td></tr>
+      <td class="pass">PASS — 0.3601, 2.55× A1 and the best in the set. At 16px the read is unambiguous: dark block, warm line, two stepped dark blocks.</td>
+      <td class="pass">PASS, and the weakest pass in this table. On <code>A1-32.png</code> at true 16px and at ×6: pale block, grey striping, one warm band, two paler stepped blocks. Luminance spread 0.1410 — below the 0.176 median measured across this family, above the 0.102 of an icon that was reopened for failing here. The stepped silhouette survives, but it is delineated by the leaf shadows rather than by the fills, which is what #7 is about.</td></tr>
   <tr><td>5. Single light model</td>
-      <td class="pass">PASS — one key from the upper left. The sheet takes <code>#FFFEFC</code> at top-left falling to <code>#F2ECE1</code> bottom-right, each leaf casts onto the one below in the same direction, and the crease's vertical roll is lit along its top edge. One inconsistency was considered and not deducted: the crease's horizontal ramp runs <code>ACCENT_LO</code> at the left to <code>ACCENT_HI</code> at the right, so the accent is darkest at the lit end. It is one element against an otherwise coherent scene, not the two-conflicting-keys failure this rubric line is for.</td>
-      <td class="pass">PASS — key from the upper left, rim light on the top and left edges, contact shadows offset +7x/+9y. The slit is emissive rather than a second key, which the corpus supports ("gel extrusion with strong inner glow — the house reads backlit"). It inherits the same accent-ramp inconsistency from the master's convention, and it is not deducted here either.</td></tr>
+      <td class="pass">PASS — key from the upper left, rim light on the top and left edges, contact shadows offset +7x/+9y. The slit is emissive rather than a second key, which the corpus supports ("gel extrusion with strong inner glow — the house reads backlit"). It inherits the same accent-ramp inconsistency as A1, and it is not deducted here either.</td>
+      <td class="pass">PASS — one key from the upper left. The sheet takes <code>#FFFEFC</code> at top-left falling to <code>#F2ECE1</code> bottom-right, each leaf casts onto the one below in the same direction, and the crease's vertical roll is lit along its top edge. One inconsistency was considered and not deducted: the crease's horizontal ramp runs <code>ACCENT_LO</code> at the left to <code>ACCENT_HI</code> at the right, so the accent is darkest at the lit end. It is one element against an otherwise coherent scene, not the two-conflicting-keys failure this rubric line is for.</td></tr>
   <tr><td>6. Palette economy — ≤2 hue families, accent reserved for the focal</td>
-      <td class="pass">PASS — warm porcelain ground, warm-grey ruling, one vermilion. <code>ACCENT_HI/MID/LO</code> are three values of one hue and the accent is spent on the crease alone, covering 2.13% of the tile.</td>
-      <td class="pass">PASS — the same two families: warm neutrals (porcelain ground, graphite sheet, porcelain ruling, warm-grey rim) plus one vermilion, which now includes the slit's glow and highlight. Accent coverage 3.89% of the tile, all of it on or adjacent to the fold.</td></tr>
+      <td class="pass">PASS — two families: warm neutrals (porcelain ground, graphite sheet, porcelain ruling, warm-grey rim) plus one vermilion, which now includes the slit's glow and highlight. Accent coverage 3.89% of the tile, all of it on or adjacent to the fold.</td>
+      <td class="pass">PASS — warm porcelain ground, warm-grey ruling, one vermilion. <code>ACCENT_HI/MID/LO</code> are three values of one hue and the accent is spent on the crease alone, covering 2.13% of the tile.</td></tr>
   <tr><td>7. Figure-ground — glyph vs ground ≥3:1, survives grayscale</td>
-      <td class="fail">FAIL — the narrowest value band of any icon in this marketplace, and now measured on pixels rather than inferred from hexes. Sheet face against tile ground is <strong>1.04:1</strong> at 1024 and 1.08:1 on a clean paper patch at 256; the ruling, which is the icon's entire texture, is <strong>1.98:1</strong> against the face. In grayscale the face and ground are 4 levels apart out of 255, so the object is held together by its drop shadows and a 2.5px <code>#DCD2BF</code> hairline. Take those away and there is a warm line on an empty field. The subject still reads at every size, so this is a deduction rather than a hard failure — but it is the substantive one, and it is the icon's own default register.</td>
-      <td class="pass">PASS, decisively. Sheet face to ground <strong>10.03:1</strong> at 1024 and 9.90:1 at 256; porcelain ruling to graphite face <strong>11.00:1</strong>; grayscale separation <strong>180</strong> levels of 255 against the master's 4. This is the one check the take exists to answer, and darkening <code>RULE_INK</code> in the master would not have got here — the ground relationship had to change, not the ink.</td></tr>
+      <td class="pass">PASS, decisively — and the check this take exists to answer. Sheet face to ground <strong>10.03:1</strong> at 1024 and 9.90:1 at 256; porcelain ruling to graphite face <strong>11.00:1</strong>; grayscale separation <strong>180</strong> levels of 255 against A1's 4. Darkening <code>RULE_INK</code> in A1 would not have got here — the ground relationship had to change, not the ink.</td>
+      <td class="fail">FAIL — the narrowest value band of any icon in this marketplace, and measured on pixels rather than inferred from hexes. Sheet face against tile ground is <strong>1.04:1</strong> at 1024 and 1.08:1 on a clean paper patch at 256; the ruling, which is the icon's entire texture, is <strong>1.98:1</strong> against the face. In grayscale the face and ground are 4 levels apart out of 255, so the object is held together by its drop shadows and a 2.5px <code>#DCD2BF</code> hairline. Take those away and there is a warm line on an empty field. The subject still reads at every size, so this is a deduction rather than a hard failure — but it is the substantive one, and it was the icon's own default register.</td></tr>
   <tr><td>8. Depth coherence — planes ordered, shadows match light, no z-fight</td>
-      <td class="pass">PASS — ground, sheet, crease, then leaves in front of and below the sheet. The crease begins exactly at <code>CREASE_Y</code>=505, which is the sheet's lower edge, so it abuts one of the two planes it joins; the gap to the first leaf is 20px. One inherited defect is worth recording even though it does not drop the point: the leaf contact shadow is a single blurred rect spanning <code>LEAF_H*2 + LEAF_GAP</code>, so its middle shows through the gap between the two leaves as a grey panel resting on nothing. Visible in the 1024 hero above.</td>
-      <td class="fail">FAIL — and the only check it loses. The slit spans y=512–536, the sheet's lower edge is y=505 and the first leaf's upper edge is y=563, so the accent touches <em>neither</em> plane: a 7px gap above, a 27px gap below. The direction's entire claim is that the crease is the one place the two states meet, and here the two states do not meet at all — the join is implied by the glow rather than made by contact. Everything else in the layer is coherent: per-leaf contact shadows instead of the master's single slab, and the glow clipped to the faces it falls on so it no longer smears across the porcelain between the leaves.</td></tr>
+      <td class="fail">FAIL — the only check the shipping take loses, and it ships losing it. The slit spans y=512–536, the sheet's lower edge is y=505 and the first leaf's upper edge is y=563, so the accent touches <em>neither</em> plane: a 7px gap above, a 27px gap below. The direction's entire claim is that the crease is the one place the two states meet, and here the two states do not meet at all — the join is implied by the glow rather than made by contact. Invisible below 128px and bridged by the glow at 1024, which is why it was judged the cheaper failure to ship. Everything else in the layer is coherent: per-leaf contact shadows instead of A1's single slab, and the glow clipped to the faces it falls on so it no longer smears across the porcelain between the leaves.</td>
+      <td class="pass">PASS — ground, sheet, crease, then leaves in front of and below the sheet. The crease begins exactly at <code>CREASE_Y</code>=505, which is the sheet's lower edge, so it abuts one of the two planes it joins; the gap to the first leaf is 20px. One defect is worth recording even though it does not drop the point: the leaf contact shadow is a single blurred rect spanning <code>LEAF_H*2 + LEAF_GAP</code>, so its middle shows through the gap between the two leaves as a grey panel resting on nothing. Visible in the 1024 hero above.</td></tr>
   <tr><td>9. Era coherence</td>
-      <td class="pass">PASS — cushioned ground with a crown highlight and a soft vignette (edge falloff −0.0335), one soft key, no hard specular. Deliberately not the previous era's page curl: this crease is horizontal and spans the full width, where <code>dossier-report</code>'s is a diagonal corner flap. One measured shortfall against the era fingerprint, shared with A2 and recorded rather than deducted: the corpus describes the cushion as edge-darkening <em>plus</em> a subtle inner rim light around the perimeter, and neither A take has the rim — measured at −0.0335 along the left edge, i.e. darkening only.</td>
-      <td class="pass">PASS — same ground treatment and the same measured falloff, and a graphite gel object on a porcelain cushion is a register this family already ships (<code>proctor</code>). Same missing perimeter rim light.</td></tr>
+      <td class="pass">PASS — same ground treatment as A1 and the same measured falloff (−0.0335), and a graphite gel object on a porcelain cushion is a register this family already ships (<code>proctor</code>). Same missing perimeter rim light.</td>
+      <td class="pass">PASS — cushioned ground with a crown highlight and a soft vignette (edge falloff −0.0335), one soft key, no hard specular. Deliberately not the previous era's page curl: this crease is horizontal and spans the full width, where <code>dossier-report</code>'s is a diagonal corner flap. One measured shortfall against the era fingerprint, shared with the shipping take and recorded rather than deducted: the corpus describes the cushion as edge-darkening <em>plus</em> a subtle inner rim light around the perimeter, and neither A take has the rim — measured at −0.0335 along the left edge, i.e. darkening only.</td></tr>
   <tr><td>10. Variant robustness — survives Default/Dark/Clear/Tinted, identity not hostage to one background <em>(76% of the corpus fails here)</em></td>
-      <td class="pass">PASS, and this is a correction. The structural half was closed on 19 Aug — <code>fidelity.py structure</code> had reported <strong>0</strong> named <code>&lt;g id&gt;</code> layers where the docstring claimed a bg/mid/fg/highlight plan, and after the fix it reports <strong>5</strong> (<code>art / bg / mid / fg / highlight</code>) at rms 0.000000 against the previous render. The variant half was recorded as a failure on the argument that porcelain-on-porcelain would die under a changed ground. Rendered, it does the opposite: Dark measures 11.72:1 and Tinted 1.76:1, and the object stays nameable at 64px in all three. <em>Clear</em> was not rendered.</td>
-      <td class="pass">PASS on the same standard, with the opposite liability. Default 9.90:1, Tinted 6.08:1, Dark 1.10:1 — the graphite sheet nearly merges into a dark ground, and what keeps it legible there is its ruling, still 6.90:1 against its own face. Five named layers, so the substitution runs at all. <em>Clear</em> unrendered here too.</td></tr>
+      <td class="pass">PASS, with a liability. Default 9.90:1, Tinted 6.08:1, Dark 1.10:1 — the graphite sheet nearly merges into a dark ground, and what keeps it legible there is its ruling, still 6.90:1 against its own face. Five named layers, so the substitution runs at all. <em>Clear</em> unrendered.</td>
+      <td class="pass">PASS on the same standard, with the opposite liability, and this was a correction. The structural half was closed on 19 Aug — <code>fidelity.py structure</code> had reported <strong>0</strong> named <code>&lt;g id&gt;</code> layers where the docstring claimed a bg/mid/fg/highlight plan, and after the fix it reports <strong>5</strong> (<code>art / bg / mid / fg / highlight</code>) at rms 0.000000 against the previous render. The variant half was recorded as a failure on the argument that porcelain-on-porcelain would die under a changed ground. Rendered, it does the opposite: Dark measures 11.72:1 and Tinted 1.76:1, and the object stays nameable at 64px in all three. <em>Clear</em> was not rendered.</td></tr>
   <tr><td>11. Personality — ≥1 nameable device beyond glyph-on-gradient</td>
-      <td class="pass">PASS — a crease that turns a continuous scroll into a paginated stack, with the colour coming out only where the two states meet. Not a document glyph, not a chart, not a clipboard.</td>
-      <td class="pass">PASS — the same device read as light escaping the fold rather than pigment sitting on the ridge. Not deducted, but on the record: dark rounded panel + pale horizontal ruling + one vermilion mark on porcelain is <code>tui-craft</code>'s established vocabulary in this marketplace, and A2 would sit beside it in a lineup. The pixel measurement does <em>not</em> support that as a geometric collision — A2 correlates with <code>tui-craft</code> at +0.477 against a family-pair median of +0.396 and a 90th percentile of +0.610, and the master's own correlation with it is +0.463 — so this is a judgment about shared vocabulary, stated with the number that argues against it.</td></tr>
+      <td class="pass">PASS — a crease that turns a continuous scroll into a paginated stack, read as light escaping the fold rather than pigment sitting on the ridge. Not deducted, but on the record and now shipping: dark rounded panel + pale horizontal ruling + one vermilion mark on porcelain is <code>tui-craft</code>'s established vocabulary in this marketplace, and the two tiles sit in the same lineup. The pixel measurement does <em>not</em> support that as a geometric collision — this take correlates with <code>tui-craft</code> at +0.477 against a family-pair median of +0.396 and a 90th percentile of +0.610, and A1's own correlation with it is +0.463 — so this is a judgment about shared vocabulary, stated with the number that argues against it.</td>
+      <td class="pass">PASS — the same device, with the colour coming out only where the two states meet. Not a document glyph, not a chart, not a clipboard.</td></tr>
   <tr><td>12. No-text</td>
-      <td class="pass">PASS — the ruling is abstract bars sized to read as texture rather than as countable lines. No glyphs, no words, no screenshot.</td>
-      <td class="pass">PASS — same construction, knocked out instead of printed.</td></tr>
+      <td class="pass">PASS — the ruling is abstract bars sized to read as texture rather than as countable lines, knocked out instead of printed. No glyphs, no words, no screenshot.</td>
+      <td class="pass">PASS — same construction, printed instead of knocked out.</td></tr>
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship A2 (<code>icon-A2-fold-inverted.svg</code>, rebuilt by
-<code>build_icon_a2.py</code>), 11 / 12 — subject to the user's decision, and not swapped on this pass.</strong>
-<code>icon.svg</code>, <code>icon.png</code>, <code>icon-256.png</code> and <code>icon-128.png</code> are
-untouched and still carry take A, which also scores 11 / 12. The two tie on count and do not tie in
-substance. A's single failure is #7 in the one register it ships in: 1.08:1 sheet-to-ground and 4 grayscale
-levels of 255, at every size, with nothing internal to take over when the silhouette merges. A2's single
-failure is #8: a 7px and a 27px gap around the accent, invisible below 128px and bridged by the glow at
-1024. A2 also wins the 16px read by 2.55× and sits inside the family's luminance distribution where A is
-its lightest outlier of 38. Changing which take ships changes shipped artwork, a README row and a site
-tile, so it is a decision to take rather than an edit to make.
-<strong>Known liabilities, in the order a revision should take them.</strong>
-<strong>(1) A2's floating accent (#8).</strong> The one thing that stops it scoring 12: raise the slit to
-y=505 so it abuts the sheet's lower edge, or lift the first leaf to close the 27px gap. Both are single
-named constants in <code>build_icon_a2.py</code>.
-<strong>(2) A's figure-ground (#7), if A stays.</strong> Darkening <code>RULE_INK</code> is a one-constant
-edit and takes the texture past 3:1, but it cannot fix 1.04:1 paper-on-paper — that needs the ground
-relationship to change, which is what A2 is.
-<strong>(3) The leaf shadow slab, in A.</strong> One blurred rect spans both leaves, so a grey panel floats
-in the gap between them. A2 already casts one shadow per leaf; porting that back to
-<code>build_icon.py</code> is a small edit that changes shipped rasters.
-<strong>(4) No perimeter rim light, in both.</strong> The corpus's cushion is edge-darkening plus a subtle
-inner rim light; both A takes have only the darkening, measured at −0.0335. The cheapest remaining gain in
-era fidelity for whichever take ships.
+<div class="rec"><strong>Recommendation: ship the inverted fold &mdash; <code>icon.svg</code>, rebuilt by
+<code>build_icon.py</code>, 11 / 12. Swapped in on 19 Aug 2026, and this was the user's decision rather
+than a measurement.</strong>
+The recommendation that reached them at the point of decision was the conservative one: <em>keep the
+porcelain master.</em> The two takes tie at 11 / 12, the porcelain artwork was already shipping in three
+rasters, a README row and a site tile, and the inverted take arrives carrying a rubric deduction of its own
+plus a lineup risk against <code>tui-craft</code>. The user chose the inverted take anyway, and the reason
+is the one thing in the comparison that is not symmetric: <strong>Default is the register everyone
+sees.</strong> Both takes fail in exactly one register and they are opposite ones &mdash; A1 measures
+1.04:1 face-to-ground on Default and 11.72:1 on Dark, the inverted take 10.03:1 on Default and 1.10:1 on
+Dark. Legibility bought on Dark is bought where almost nobody is looking; legibility bought on Default is
+bought in the README row, the marketplace tile, the digest email and the Finder list. That trade is a
+priority call, not a number, which is why it was the user's to make. Nothing measured changed with the
+swap: the columns above moved, the pixels did not, and on count the two takes still tie.
+<strong>What now ships, and what it ships broken.</strong>
+<strong>(1) The floating accent (#8).</strong> The one deduction on the tile that ships: the slit spans
+y=512&ndash;536 with a 7px gap to the sheet above and a 27px gap to the first leaf below, so the crease
+touches neither of the two planes the direction says it joins. Invisible below 128px, bridged by the glow at
+1024. The fix is a single named constant in <code>build_icon.py</code> &mdash; raise the slit to y=505 so it
+abuts the sheet's lower edge, or lift the first leaf to close the 27px gap &mdash; and it is the cheapest
+remaining point in the set.
+<strong>(2) Dark at 1.10:1.</strong> Not a rubric deduction, because #10 passes on all three rendered
+registers, but it is the liability the swap accepted: on a dark ground the graphite sheet nearly merges and
+legibility rests entirely on the ruling's 6.90:1 against its own face. The porcelain take was 11.72:1 there.
+If the family ever ships a Dark-first surface, this is the icon that needs a second look first.
+<strong>(3) The <code>tui-craft</code> vocabulary.</strong> Now a shipped adjacency rather than a
+hypothetical one: two dark-panel tiles with pale ruling and a vermilion mark in the same marketplace. The
+correlation measurement argues against it (+0.477 against a family median of +0.396) and a careful look at a
+16px strip is what would settle it.
+<strong>(4) No perimeter rim light.</strong> The corpus's cushion is edge-darkening plus a subtle inner rim
+light; both A takes have only the darkening, measured at &minus;0.0335. The cheapest remaining gain in era
+fidelity.
 <strong>(5) Engine B never ran.</strong> Arrow refused on a credit balance, so there is no independent
 vector take and nothing was salvaged from one. Four takes across two engines, stated at the top rather than
 buried here.
 <strong>(6) No loop, no panel, one <em>Clear</em> variant short.</strong> No fidelity round has been run
 against C2 despite it being the material winner, no blind panel has ranked these four, and #10 rests on
 three of its four registers.
-<strong>(7) A2 borrows <code>tui-craft</code>'s vocabulary.</strong> Not a rubric deduction and not
-supported by the correlation measurement, but a real lineup risk if A2 ships: two dark-panel tiles with
-pale ruling and a vermilion mark, adjacent.</div>
+<strong>(7) A1's own failure, now off the shelf.</strong> The porcelain take's #7 is no longer a shipping
+liability, but the artwork is kept whole rather than deleted, so the alternative remains one command away:
+<code>python3 build_icon_a1_porcelain.py</code> rewrites <code>icon-A1-porcelain.svg</code> and rasterises
+nothing.</div>
 
 <div class="foot">Rubric: the 12-point icon audit in
 <code>create-mac-icon/references/icon-directions.md</code> (mask discipline, grid, silhouette, 16px
@@ -322,7 +341,7 @@ squint, single light model, palette economy, figure-ground, depth coherence, era
 robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12, and a failure on 1–4
 disqualifies whatever the total, which is what ends both Engine C takes. Renders produced by
 <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render . --take
-master=icon.svg:svg --take A2=icon-A2-fold-inverted.svg:svg --take
+master=icon.svg:svg --take A1=icon-A1-porcelain.svg:svg --take
 C1=icon-engineC-c04596.png:raster-mask --take C2=icon-engineC-b88abc-2.png:raster-mask</code> at 1024 /
 256 / 128 / 96 / 64 / 32 via <code>rsvg-convert</code> and Pillow; both raster takes are audited on their
 squircle-masked versions, which is what <code>:raster-mask</code> means and why their corners are not
