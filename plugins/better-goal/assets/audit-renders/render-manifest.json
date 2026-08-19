@@ -3,44 +3,51 @@
     "B": {
       "source": "icon-engineB-arrow-48d0c1.svg",
       "kind": "svg",
+      "source_sha256": "536d10fff5ab9c8f36b7cefd06badbfa8a44460b3464521eba666e6ec50428ed",
       "source_mtime": 1787065068.3579051,
-      "rendered_at": 1787066580.0500412
+      "rendered_at": 1787110381.44885
     },
     "B2": {
       "source": "icon-engineB2-arrow-7676a8.svg",
       "kind": "svg",
+      "source_sha256": "cbca3af618feab052290dec9f5998003719b9c34952a9c3500c2ae9231b2509c",
       "source_mtime": 1787064940.5461285,
-      "rendered_at": 1787066580.191152
+      "rendered_at": 1787110381.5862908
     },
     "C": {
       "source": "icon-engineC-80617e.png",
       "kind": "raster-mask",
+      "source_sha256": "01c2c4e89bb2a046891f21d67e176e3ae0a1d320ef2b20ece965dbf8a5ff5f30",
       "source_mtime": 1787064989.0111952,
-      "rendered_at": 1787066580.510035
+      "rendered_at": 1787110381.8978078
     },
     "a1": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "cee7cf7e33a59016f421615e74cc54fec1c2d8af5e649734ab7d017f6c92f928",
       "source_mtime": 1787066008.7158706,
-      "rendered_at": 1787066580.8191848
+      "rendered_at": 1787110382.199282
     },
     "a2": {
       "source": "icon-takeA2-latched-bezel.svg",
       "kind": "svg",
+      "source_sha256": "82941b954a3e172e085e0da9106a7cd956e52b2017e47561fa5ded858695c104",
       "source_mtime": 1787066008.761652,
-      "rendered_at": 1787066581.13094
+      "rendered_at": 1787110382.516502
     },
     "a3": {
       "source": "icon-takeA3-sunk-dial.svg",
       "kind": "svg",
+      "source_sha256": "dd451b7bbbac595894e2dc7fb523006a3363906d637416675b79c9937a74cc38",
       "source_mtime": 1787066008.8073082,
-      "rendered_at": 1787066581.4051762
+      "rendered_at": 1787110382.798055
     },
     "prev": {
       "source": "predecessor-dial.svg",
       "kind": "svg",
+      "source_sha256": "dba584176506501bb800c0cc675356763485839e88f5e9601f79a6d067e1a67a",
       "source_mtime": 1787063524.9593282,
-      "rendered_at": 1787066581.633297
+      "rendered_at": 1787110383.021744
     }
   },
   "sizes": [

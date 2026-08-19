@@ -3,32 +3,37 @@
     "engineA": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "623db0ef06bbb5bea0d71dab5caecf8ed9e2252ae7fb14bb86e9af6144926efc",
       "source_mtime": 1787049436.1174905,
-      "rendered_at": 1787049870.625294
+      "rendered_at": 1787110391.761893
     },
     "engineB1": {
       "source": "icon-engineB-arrow-920b9d.svg",
       "kind": "svg",
+      "source_sha256": "21a38a13255d8072b9ac03ee3286bfd50a383c7596d1ba37f6327351cdd7880e",
       "source_mtime": 1787048994.1618032,
-      "rendered_at": 1787049870.752705
+      "rendered_at": 1787110391.8940852
     },
     "engineB2": {
       "source": "icon-engineB-arrow-921e96.svg",
       "kind": "svg",
+      "source_sha256": "895827d2e7016d0d21b8359fce8bf88dd08cee3f30aae6f0563bff36424a3d24",
       "source_mtime": 1787049123.1044269,
-      "rendered_at": 1787049870.86429
+      "rendered_at": 1787110392.0121212
     },
     "engineC1": {
       "source": "icon-engineC-5db443.png",
       "kind": "raster-mask",
+      "source_sha256": "3f5118b1a9a2ee1f984e79a06cc00bbb939eb70eb8c555c9f3bcef8908346d3b",
       "source_mtime": 1787049033.9803405,
-      "rendered_at": 1787049871.163875
+      "rendered_at": 1787110392.314496
     },
     "engineC2": {
       "source": "icon-engineC-3a4e16-2.png",
       "kind": "raster-mask",
+      "source_sha256": "b596f49129898abfe6599a95681122b6357be1cf881492a74d6e6e534252efd0",
       "source_mtime": 1787049034.0218966,
-      "rendered_at": 1787049871.45872
+      "rendered_at": 1787110392.616226
     }
   },
   "sizes": [

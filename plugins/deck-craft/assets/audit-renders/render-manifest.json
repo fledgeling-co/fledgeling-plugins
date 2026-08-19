@@ -3,26 +3,30 @@
     "engineA": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "2fdf224f1433b8fdbf986a5d3e96534e30e401c7434274171ddb989c772c7b20",
       "source_mtime": 1787047219.7604373,
-      "rendered_at": 1787047220.394015
+      "rendered_at": 1787110390.601558
     },
     "engineB": {
       "source": "icon-engineB-arrow-e21b68.svg",
       "kind": "svg",
+      "source_sha256": "a23d9f88e6a46811fd329169abd39d1bfd61abd2d23560c0e0cc221ff4b8c830",
       "source_mtime": 1787046370.3475745,
-      "rendered_at": 1787047220.503668
+      "rendered_at": 1787110390.712576
     },
     "engineC1": {
       "source": "icon-engineC-9a8f54.png",
       "kind": "raster-mask",
+      "source_sha256": "ea298641c5d28710a9a78f67206e28c57dd5716a637375314112b5eb2c7c95f2",
       "source_mtime": 1787046333.8543541,
-      "rendered_at": 1787047220.8227499
+      "rendered_at": 1787110391.027373
     },
     "engineC2": {
       "source": "icon-engineC-aa7201-2.png",
       "kind": "raster-mask",
+      "source_sha256": "9741c17d384740ad3727c9f213970fd1fc0c3d1a3992957962323b4893ddc03c",
       "source_mtime": 1787046333.904886,
-      "rendered_at": 1787047221.130829
+      "rendered_at": 1787110391.3413188
     }
   },
   "sizes": [

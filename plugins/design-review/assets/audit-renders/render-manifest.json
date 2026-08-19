@@ -3,26 +3,30 @@
     "c1": {
       "source": "icon-c1.png",
       "kind": "raster-mask",
+      "source_sha256": "dc0da2379919ee57ddbf6934a07bb80ab65f93a59134b915861ba48cc03cba2c",
       "source_mtime": 1786100700.055353,
-      "rendered_at": 1787062384.167649
+      "rendered_at": 1787110392.982712
     },
     "c2": {
       "source": "icon-c2.png",
       "kind": "raster-mask",
+      "source_sha256": "38076354412ac48d485b7f00152e44b11ba873b0eba80a69cd6a79c04732287e",
       "source_mtime": 1786100773.5681224,
-      "rendered_at": 1787062385.139155
+      "rendered_at": 1787110393.280523
     },
     "engineB": {
       "source": "icon-engineB-arrow.svg",
       "kind": "svg",
+      "source_sha256": "c6b68fec86065944113445e70ce7e44e01ca0abc5c19e385af9b45f30811372d",
       "source_mtime": 1786100743.7064514,
-      "rendered_at": 1787062385.4636831
+      "rendered_at": 1787110393.392375
     },
     "master": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "e6d09069f59960bb4ec819097a88a572177cf66d0fad9b5676897b0c09674748",
       "source_mtime": 1786102119.0110679,
-      "rendered_at": 1787062386.205384
+      "rendered_at": 1787110393.611475
     }
   },
   "sizes": [

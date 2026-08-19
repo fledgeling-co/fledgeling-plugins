@@ -3,32 +3,37 @@
     "engineA": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "28379fabc215e6d7ad6482deaf5834036e1311a3322ed6415e5657cb6beb9ffb",
       "source_mtime": 1787050878.0177264,
-      "rendered_at": 1787050922.132737
+      "rendered_at": 1787110418.0606809
     },
     "engineA2": {
       "source": "icon-engineA2-thumb.svg",
       "kind": "svg",
+      "source_sha256": "116168b18bf078bbd2793563de2c58ba2386c3b8a1e461aeb729f8b8cb9330db",
       "source_mtime": 1787050721.1553698,
-      "rendered_at": 1787050922.438057
+      "rendered_at": 1787110418.350164
     },
     "engineB": {
       "source": "icon-engineB-arrow-e6712a.svg",
       "kind": "svg",
+      "source_sha256": "1ce0f63d352af984e52c1e420aee36ce26e4ba8ffc30ce343160bd67653a85f8",
       "source_mtime": 1787050302.0845509,
-      "rendered_at": 1787050922.569068
+      "rendered_at": 1787110418.468596
     },
     "engineC1": {
       "source": "icon-engineC-crossing-04a62e.png",
       "kind": "raster-mask",
+      "source_sha256": "f5b4898a5d8b53aad953fca39e8ecdb2db391cdd7a1d7e4a3c98dd0a61f3d2c4",
       "source_mtime": 1787050230.5407162,
-      "rendered_at": 1787050922.890563
+      "rendered_at": 1787110418.779583
     },
     "engineC2": {
       "source": "icon-engineC-thumb-6a977a.png",
       "kind": "raster-mask",
+      "source_sha256": "d293e86b148cf066b8a8ebd76ab227f6e354e22999fa4a7d9d89dd6e5c63dd18",
       "source_mtime": 1787050264.3750622,
-      "rendered_at": 1787050923.197697
+      "rendered_at": 1787110419.070535
     }
   },
   "sizes": [

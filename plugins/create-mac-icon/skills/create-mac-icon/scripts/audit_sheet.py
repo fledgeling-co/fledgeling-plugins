@@ -43,6 +43,7 @@ reported as a named skip rather than a crash when absent.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html.parser
 import json
 import pathlib
@@ -59,6 +60,7 @@ HERO = 1024                      # rendered for every take and displayed as the 
 RUBRIC_BAR = 10                  # of 12; checks 1-4 non-negotiable (icon-directions.md)
 TAKE_FLOOR = 3                   # A + B + C; the pipeline's stated minimum set
 STALE_GRACE_S = 2                # filesystem mtime slack, not a tolerance for staleness
+SMALL_BELOW = 96                 # below this, a take may ship from its own small-size file
 SQUIRCLE_CANDIDATES = ("squircle-path.txt", "../assets/squircle-path.txt")
 MANIFEST = "render-manifest.json"
 
@@ -105,16 +107,44 @@ def alpha_mask(size: int, path_d: str, out: pathlib.Path, Image):
     return mask
 
 
-def render(base: pathlib.Path, takes: dict[str, tuple[str, str]]):
+def sha256_of(p: pathlib.Path) -> str:
+    """Content hash of a take's source.
+
+    This is what tells a current render from a stale one. The manifest recorded
+    only `source_mtime` until 2026-08-19, and mtime does not survive git: a clone,
+    a checkout or a branch switch writes every file fresh, so every source becomes
+    newer than the renders made from it and `check` reports the whole sheet stale.
+    That is not hypothetical. Four plugins failed exactly this way the moment
+    another session merged this branch, on sources whose bytes had not changed at
+    all, and the same failure would greet anyone who cloned the repo.
+
+    A hash answers the real question, which was never "which file is newer" but
+    "were these renders made from these bytes".
+    """
+    h = hashlib.sha256()
+    with p.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def render(base: pathlib.Path, takes: dict[str, tuple[str, str]],
+           smalls: dict[str, str] | None = None):
     out = base / "audit-renders"
     out.mkdir(exist_ok=True)
     Image = load_pil()
     d = squircle_path(base)
     made, skipped = 0, []
     recorded: dict[str, dict] = {}
+    smalls = smalls or {}
 
     for take, (src, kind) in sorted(takes.items()):
         p = base / src
+        small_src = smalls.get(take)
+        small_p = (base / small_src) if small_src else None
+        if small_p is not None and not small_p.exists():
+            skipped.append(f"{take}: small source {small_src} not found")
+            small_p, small_src = None, None
         if not p.exists():
             skipped.append(f"{take}: {src} not found")
             continue
@@ -135,12 +165,22 @@ def render(base: pathlib.Path, takes: dict[str, tuple[str, str]]):
 
         for s in SIZES:
             dst = out / f"{take}-{s}.png"
+            # Below SMALL_BELOW a take may ship from a different file, and where it
+            # does, the sheet has to show that file. mac-doctor's build floors the
+            # specular at 64px and below and exports those sizes from
+            # `icon-small.svg`, so a sheet rendering 32 and 64 from the master shows
+            # something the user never sees. That distinction lived only in a
+            # bespoke per-plugin render script, so the manifest could not state it
+            # and a repo-wide re-render silently flattened it: 32 and 64 moved by
+            # rms 4.36 and 5.29 with nobody asking for a change. Now it is a
+            # recorded, hashed fact.
+            src_p = small_p if (small_p and s < SMALL_BELOW) else p
             if kind == "svg":
                 subprocess.run(["rsvg-convert", "-w", str(s), "-h", str(s),
-                                str(p), "-o", str(dst)], check=True)
+                                str(src_p), "-o", str(dst)], check=True)
             elif kind == "svg-letterbox":
                 tmp = out / f"_{take}.png"
-                subprocess.run(["rsvg-convert", "-w", str(s), str(p), "-o", str(tmp)], check=True)
+                subprocess.run(["rsvg-convert", "-w", str(s), str(src_p), "-o", str(tmp)], check=True)
                 im = Image.open(tmp).convert("RGBA")
                 canvas = Image.new("RGBA", (s, s), (0, 0, 0, 0))
                 canvas.alpha_composite(im, (0, max(0, (s - im.height) // 2)))
@@ -157,19 +197,25 @@ def render(base: pathlib.Path, takes: dict[str, tuple[str, str]]):
                 canvas.save(dst)
                 tmp.unlink(missing_ok=True)
             elif kind == "raster-mask":
-                im = Image.open(p).convert("RGBA").resize((s, s), Image.LANCZOS)
+                im = Image.open(src_p).convert("RGBA").resize((s, s), Image.LANCZOS)
                 if d:
                     im.putalpha(alpha_mask(s, d, out, Image))
                 else:
                     skipped.append(f"{take}: no squircle-path.txt, shipped unmasked")
                 im.save(dst)
             else:
-                Image.open(p).convert("RGBA").resize((s, s), Image.LANCZOS).save(dst)
+                Image.open(src_p).convert("RGBA").resize((s, s), Image.LANCZOS).save(dst)
             made += 1
         recorded[take] = {"source": src, "kind": kind,
+                          "source_sha256": sha256_of(p),
                           "source_mtime": p.stat().st_mtime,
                           "rendered_at": time.time()}
-        print(f"  rendered {take}: {', '.join(str(s) for s in SIZES)}")
+        if small_p is not None:
+            recorded[take]["small_source"] = small_src
+            recorded[take]["small_below"] = SMALL_BELOW
+            recorded[take]["small_source_sha256"] = sha256_of(small_p)
+        print(f"  rendered {take}: {', '.join(str(s) for s in SIZES)}"
+              + (f"  (<{SMALL_BELOW} from {small_src})" if small_p is not None else ""))
 
     # What was rendered, from what, as what. `check` needs all three: it cannot
     # otherwise tell a current render from a stale one, nor a raster masked to
@@ -327,6 +373,23 @@ def check(base: pathlib.Path) -> int:
             sources.append(p)
     newest_src = max((p.stat().st_mtime for p in set(sources) if p.exists()), default=None)
 
+    # Every mtime comparison below is skipped when the manifest's hashes prove the
+    # sources are the ones the renders were made from. A recorded take carries
+    # `source_sha256` as of 2026-08-19; where every recorded source still hashes to
+    # its recorded value, nothing about the icon has moved and an mtime that says
+    # otherwise is git having rewritten the file, not a stale sheet. Manifests
+    # written before the hash existed have no entry, so they keep the old mtime
+    # behaviour rather than silently passing.
+    hashed = [t for t in recorded.values() if t.get("source_sha256")]
+    sources_verified = bool(hashed) and len(hashed) == len(recorded) and all(
+        (base / t["source"]).exists()
+        and sha256_of(base / t["source"]) == t["source_sha256"]
+        and (not t.get("small_source")
+             or ((base / t["small_source"]).exists()
+                 and sha256_of(base / t["small_source"]) == t.get("small_source_sha256")))
+        for t in hashed
+    )
+
     # ---- the sheet itself
     sheet = base / "audit.html"
     if not sheet.exists():
@@ -435,7 +498,8 @@ def check(base: pathlib.Path) -> int:
                             f"nowhere in audit.html, while the sheet's own subtitle claims "
                             f"it. Show it or stop claiming it")
 
-        if newest_src is not None and sheet.stat().st_mtime < newest_src - STALE_GRACE_S:
+        if (not sources_verified and newest_src is not None
+                and sheet.stat().st_mtime < newest_src - STALE_GRACE_S):
             problems.append("audit.html is older than the master it describes: its verdicts "
                             "and scores are about a previous icon. The fidelity loop changes "
                             "the master after the sheet is first written, which is exactly "
@@ -494,14 +558,40 @@ def check(base: pathlib.Path) -> int:
                 problems.append(f"take '{take}' was rendered from {meta.get('source')!r}, "
                                 f"which is no longer on disk")
                 continue
-            src_m = src.stat().st_mtime
-            stale = [p.name for s in sorted(SIZES)
-                     if (p := renders / f"{take}-{s}.png").exists()
-                     and p.stat().st_mtime < src_m - STALE_GRACE_S]
-            if stale:
-                problems.append(f"take '{take}': {len(stale)} render(s) predate their source "
-                                f"{meta.get('source')} — the sheet is showing an older icon "
-                                f"than the one being delivered ({', '.join(stale[:4])})")
+            recorded_hash = meta.get("source_sha256")
+            if recorded_hash:
+                # The hash decides it. Matching means these renders came from these
+                # bytes, whatever the filesystem says about dates; differing means
+                # the source really did move and the renders are genuinely old.
+                if sha256_of(src) != recorded_hash:
+                    problems.append(
+                        f"take '{take}': {meta.get('source')} no longer matches the hash "
+                        f"recorded when it was rendered, so the sheet is showing an older "
+                        f"icon than the one being delivered — re-run `render`")
+                small_src = meta.get("small_source")
+                if small_src:
+                    sp = base / small_src
+                    if not sp.exists():
+                        problems.append(f"take '{take}' renders its sizes below "
+                                        f"{meta.get('small_below', SMALL_BELOW)}px from "
+                                        f"{small_src!r}, which is no longer on disk")
+                    elif sha256_of(sp) != meta.get("small_source_sha256"):
+                        problems.append(
+                            f"take '{take}': {small_src} no longer matches the hash recorded "
+                            f"when it was rendered, so the sheet's small sizes show an older "
+                            f"icon than the one shipping at those sizes — re-run `render`")
+            else:
+                src_m = src.stat().st_mtime
+                stale = [p.name for s in sorted(SIZES)
+                         if (p := renders / f"{take}-{s}.png").exists()
+                         and p.stat().st_mtime < src_m - STALE_GRACE_S]
+                if stale:
+                    problems.append(f"take '{take}': {len(stale)} render(s) predate their source "
+                                    f"{meta.get('source')} — the sheet is showing an older icon "
+                                    f"than the one being delivered ({', '.join(stale[:4])}). This "
+                                    f"manifest predates source hashing, and mtime does not survive "
+                                    f"a git checkout, so re-run `render` to record hashes and "
+                                    f"settle it either way")
 
             if meta.get("kind") == "png":
                 opaque = corners_opaque(renders / f"{take}-{max(SIZES)}.png", Image)
@@ -567,6 +657,9 @@ def main():
     r.add_argument("--take", action="append", default=[],
                    metavar="id=file[:kind]",
                    help="kind is svg | png | svg-letterbox | raster-mask")
+    r.add_argument("--small", action="append", default=[], metavar="id=file",
+                   help=f"a take's own file for sizes below {SMALL_BELOW}px, where the "
+                        f"build exports those separately")
 
     c = sub.add_parser("check", help="prove the sheet exists, is filled, and its images resolve")
     c.add_argument("dir", type=pathlib.Path)
@@ -589,12 +682,21 @@ def main():
         else:
             src, kind = rest, ("svg" if rest.endswith(".svg") else "png")
         takes[tid] = (src, kind)
+    smalls: dict[str, str] = {}
+    for spec in a.small:
+        if "=" not in spec:
+            die(f"--small needs id=file, got {spec!r}")
+        tid, sfile = spec.split("=", 1)
+        smalls[tid] = sfile
     if not takes:
         takes = discover(base)
         if not takes:
             die("no icon*.svg / icon*.png found and no --take given")
         print(f"discovered {len(takes)} take(s): {', '.join(sorted(takes))}\n")
-    raise SystemExit(render(base, takes))
+    unknown = sorted(set(smalls) - set(takes))
+    if unknown:
+        die(f"--small names take(s) with no --take: {', '.join(unknown)}")
+    raise SystemExit(render(base, takes, smalls))
 
 
 if __name__ == "__main__":

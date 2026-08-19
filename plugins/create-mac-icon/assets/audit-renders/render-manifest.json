@@ -3,32 +3,37 @@
     "a": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "cb07752c377217fd94e81b2ba6f0264621ceb31ebc6cf825c6e0baca2bc6f4a6",
       "source_mtime": 1786275388.642309,
-      "rendered_at": 1787062621.6123772
+      "rendered_at": 1787110387.337045
     },
     "a0": {
       "source": "fidelity-runs/candidate-r00.svg",
       "kind": "svg",
+      "source_sha256": "22c00ec6fdf3db6a3c52c704e59114df37c0558315d1d03131998875506f0687",
       "source_mtime": 1786109210.33512,
-      "rendered_at": 1787062625.957439
+      "rendered_at": 1787110387.635482
     },
     "b": {
       "source": "icon-engineB-arrow-626f04.svg",
       "kind": "svg-letterbox",
+      "source_sha256": "6060db740ffa3b90bf57092bb3a38cdab4c4e3feb1df1971c3a91c40eb6e3f3e",
       "source_mtime": 1786108749.924857,
-      "rendered_at": 1787062627.389556
+      "rendered_at": 1787110387.910165
     },
     "c1": {
       "source": "icon-engineC-27539d-masked.png",
       "kind": "png",
+      "source_sha256": "df3600323807e6b8872a886ccf79bc24c8322013179e1b313f4b646639e96d46",
       "source_mtime": 1786110310.8379064,
-      "rendered_at": 1787062628.479291
+      "rendered_at": 1787110388.0799959
     },
     "c2": {
       "source": "icon-engineC-fe8278-2-masked.png",
       "kind": "png",
+      "source_sha256": "5e4f09a8b15e772d6a1551e96c32cea89c2f3b7ec9943bfa5dac780d82983acf",
       "source_mtime": 1786110310.9733613,
-      "rendered_at": 1787062629.050453
+      "rendered_at": 1787110388.240604
     }
   },
   "sizes": [

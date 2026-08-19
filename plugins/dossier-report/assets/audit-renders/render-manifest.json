@@ -3,38 +3,44 @@
     "a": {
       "source": "icon.svg",
       "kind": "svg",
+      "source_sha256": "4d90b753842f1eb6366ef2d653fc588d8b7db351ec719399fc39c24967c2db3b",
       "source_mtime": 1786195583.3939917,
-      "rendered_at": 1787089663.539809
+      "rendered_at": 1787110394.847976
     },
     "a0": {
       "source": "fidelity-runs/candidate-r00.svg",
       "kind": "svg",
+      "source_sha256": "1104edf81a4889783fec5c2f12cf163a588ea4b5f096fdf1ffd31938eb2343b5",
       "source_mtime": 1786195583.102017,
-      "rendered_at": 1787089663.839963
+      "rendered_at": 1787110395.153127
     },
     "a07": {
       "source": "fidelity-runs/candidate-r07.svg",
       "kind": "svg",
+      "source_sha256": "a02fadd59c5c95b5803cb14ca15d456ec1875a002cef637ca37ff21b284e968b",
       "source_mtime": 1786195583.1040254,
-      "rendered_at": 1787089664.1671932
+      "rendered_at": 1787110395.48014
     },
     "b": {
       "source": "icon-engineB-arrow-ecc20a.svg",
       "kind": "svg",
+      "source_sha256": "0cba327e4804427742c555e620586c8d30c8b84f4105dda9ab2e2e409690cea6",
       "source_mtime": 1786195583.3348856,
-      "rendered_at": 1787089664.273653
+      "rendered_at": 1787110395.589432
     },
     "c1": {
       "source": "icon-engineC-c57a8c-masked.png",
       "kind": "png",
+      "source_sha256": "f83a3c5085e57da40e12850e4dd4e0bc274b0100a585153e22197b45a016907f",
       "source_mtime": 1786195583.3356512,
-      "rendered_at": 1787089664.443962
+      "rendered_at": 1787110395.7580101
     },
     "c2": {
       "source": "icon-engineC2-597699-masked.png",
       "kind": "png",
+      "source_sha256": "7605354a806416402b421bdeac74b8a19b83b68c4540f11c2a99a303f18d38fe",
       "source_mtime": 1786195583.3843844,
-      "rendered_at": 1787089664.6161869
+      "rendered_at": 1787110395.9306922
     }
   },
   "sizes": [
