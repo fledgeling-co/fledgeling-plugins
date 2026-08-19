@@ -45,6 +45,14 @@ separates the direct findings from the inferences.
 Run the planes in this sequence, because each one's output is the next one's input and a verdict
 built on an unmeasured suite means nothing.
 
+0. **`test-campaign`, when the classes have no oracles yet.** Not part of this plugin, and the
+   step most often missing. `oracle` and `assay` *measure* oracles; neither creates one, so a
+   repository whose surfaces were never given a checkable property cannot climb past tier 0 no
+   matter how often the planes below run. `test-campaign`'s `campaign.py export-warrant` writes
+   `suite-health.json` and `oracle-coverage.json` in the shape `rollup_classes.py` reads. Absent
+   evidence is an unmet condition here by design, which makes "never measured" and "measured
+   badly" identical to `charter_validate.py` — so a permanent tier 0 is usually the first of
+   those, and running the planes again will not tell you which.
 1. **`charter`** — nothing else runs without a valid warrant. `charter_validate.py` is the
    outermost gate and every other skill checks it.
 2. **`oracle`** — the deterministic plane, and it comes before the model plane rather than after
@@ -55,7 +63,9 @@ built on an unmeasured suite means nothing.
    integration and system suite (`C18`), and nobody has measured that for browser suites at all.
    A green suite is not evidence until its fault sensitivity is a number.
 4. **`panel`** — the only plane that calls a model.
-5. **`lot`** — for a queue rather than an item.
+5. **`lot`** — for a queue rather than an item. `lot_plan.py` refuses without
+   `suite-health.json`, because every number a plan produces is a number about items whose
+   evidence is the suite; `--unmeasured-suite` proceeds and records the omission in the plan.
 6. **`rollup_classes.py`** — maps per-surface and per-target measurements onto the
    defect classes authority is held against, using the warrant's own globs. Without it
    every class reads as having no evidence.

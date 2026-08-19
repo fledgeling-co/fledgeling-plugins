@@ -110,15 +110,30 @@ prompt invokes **`ship-feature`** on its item with: the item's paths and resume 
 matched mock, the context contract below, the lane-routing propagation block — and **two stop
 rules**:
 
-- **Stop before verify.** Runners run ship-feature through acceptance-e2e-green and report
+- **Stop before verify.** Runners run ship-feature through e2e-green and report
   *ready-to-verify*. **You** spawn the `verify` stage per item as a fresh agent (that stage's
   fresh-context rule is structural: a runner cannot verify its own build). Verify's verdict sets
   `Done` or `Needs More Work`; `Needs More Work` re-queues the item as a gap-fix run in the same
-  worktree.
+  worktree. An item carrying `Unverified — no oracle` re-queues to phase 6 for oracle
+  construction instead, because gap-fix closes a gap between the work and its spec and this is a
+  gap between the spec and anything checkable.
 - **Stop before merge.** You serialize finalization: one branch at a time — the fail-closed gate
   (which now requires the verdict comment), rebase, merge, push per repo convention, cleanup,
   ledger update. Two simultaneous merges into one integration branch is how fleets corrupt
   repos.
+
+**A fleet is where a Done column is built, so it is where an unauditable one starts.** Each
+item's verdict records the oracle rung its evidence stood on, and the fleet ledger carries the
+mix across the whole run rather than a pass count. A fleet that closed forty items all proved by
+`presence` has shipped forty items nobody can later audit in either direction — which surfaces
+as an unverifiable backlog months afterwards, when the branch context is gone and re-deriving
+each item's intent costs more than the original build.
+
+Where the repository carries a `.warrant/`, run `campaign.py export-warrant` once at the end of
+the fleet rather than per item: it is the step that lets the accumulated evidence earn a tier
+instead of the warrant refusing one permanently. For auditing a Done column that already exists
+rather than one this fleet is building, `warrant:lot` is the instrument — sampled under a
+declared risk limit, blind, and seeded, rather than item-by-item.
 
 After every runner event: update `ORCHESTRATOR.md` first, then act. Runner failure → read the
 report and artifacts; retry sharper, resume in-worktree, or park with a reason. A workflow that

@@ -16,6 +16,15 @@ clinical laboratories: accept the lot under a declared risk limit (`I2`).
 
 ## Procedure
 
+0. **Measure the suite first, or say you did not.** Every number below is a number about
+   items whose evidence is the test suite, so the plan inherits that suite's fault
+   sensitivity — and more than half of over 15,000 generated mutants survived a passing
+   unit, integration and system suite (`C18`). `lot_plan.py` exits 3 without
+   `.warrant/suite-health.json`, naming `assay` as the step that produces it.
+   `--unmeasured-suite` plans anyway and records the omission in the plan and on every
+   run, the same way `--rate` records an override, so a plan built over an unmeasured
+   suite cannot pass as one built over a measured one.
+
 1. **Size the sample.**
 
    ```bash
@@ -64,8 +73,15 @@ clinical laboratories: accept the lot under a declared risk limit (`I2`).
        --review <review.json> --key <operator-key.json>
    ```
 
-   Five required fields, and the script exits 2 if any is absent: the population with its size, the
-   tolerable error rate, the sample size, the seed recovery count, and the decision.
+   Six required fields, and the script exits 2 if any is absent: the population with its size, the
+   tolerable error rate, the sample size, the seed recovery count, the decision, and the **oracle
+   mix** of the sampled items.
+
+   The mix is there because a rate has to say what it is a rate *of* in more than one direction.
+   Roughly three quarters of what code review finds are evolvability findings rather than
+   functional ones (`C6`), so a lot audited only on the weak rungs has been audited on whether
+   the surface looked right rather than on whether it did anything. The renderer says so when no
+   sampled case stands on an effect rung, rather than leaving a reader to notice.
 
 ## What the numbers can and cannot say
 
@@ -79,9 +95,9 @@ reviewer would produce. Say which classes the audit covered.
 
 ## Output
 
-`lot_plan.py` prints the sample size, the stopping rule, the escalation path and the arithmetic
-behind them. `blind_queue.py` writes the reviewer queue plus a mode-600 operator key, and exits 2
-if a carried field would leak a verdict. `lot_report.py` prints the five required fields and exits 2
+`lot_plan.py` exits 3 without `.warrant/suite-health.json`, and otherwise prints the sample size,
+the stopping rule, the escalation path and the arithmetic behind them. `blind_queue.py` writes the reviewer queue plus a mode-600 operator key, and exits 2
+if a carried field would leak a verdict. `lot_report.py` prints the six required fields and exits 2
 if any is absent.
 
 ## Constraints

@@ -62,7 +62,8 @@ while reading as complete. This stage exists to be the stranger.
      message from a real run — the `spec-validation` skill's REAL/AUTHORED/MOCK bar; invoke it
      where installed rather than re-deriving its rubric.
    - **Static** → `file:line`.
-   - **Tests** → run the feature's acceptance suite via the `/acceptance-e2e` harness lane (the
+   - **Tests** → run the feature's acceptance suite via `/test-campaign` where it is installed,
+     falling back to the `/acceptance-e2e` harness lane (the
      suite the plan's test strategy promised — a committed spec with no recorded run is a
      finding); grep the test trees for specs asserting the surfaces this item changed and run
      them; a live spec asserting the *old* behaviour, or a `fixme` encoding the reversed
@@ -71,6 +72,24 @@ while reading as complete. This stage exists to be the stranger.
      reported `Unverified — blocker` with its dissolution condition — never silently as done.
    Save every artifact (measurements, transcripts, run logs) to a bundle directory — the verdict
    lane reads evidence, not your prose summary of it.
+
+   **Type each requirement's evidence by the rung it stands on**, using
+   `test-campaign`'s ladder: `touch`, `presence`, `structural`, `structural-visual`
+   assert that something was reached or shaped; `outcome`, `metamorphic`, `raster-visual`,
+   `interactive-glass` assert that a promised effect happened. The rung goes in the
+   per-requirement table beside the status, because "the element exists" and "publishing made
+   it live" are the same word in a verdict and different claims about the product.
+
+   A requirement whose only evidence is a weak rung is **`Unverified`**, not `Done`. That is
+   not a stylistic preference: it is the difference between an item that was checked and an
+   item that was looked at, and folding them together is how a board accumulates a Done column
+   nobody can later audit in either direction.
+
+   Where no rung is reachable because nothing was ever specified that a check could read, the
+   requirement is `Unverified — no oracle`, and its dissolution condition is an oracle built
+   per `test-campaign`'s `references/oracle-construction.md`. Distinguish it from
+   `Unverified — blocker`, which is an instrument or access problem: the two have opposite
+   remedies and only one of them is fixed by trying again with better tooling.
 
 3. **Route the verdict out of family.** In lane order — **agy** (gemini-flash-3.7, `high`) →
    **codex** (`gpt-5.6-sol`, `high`, read-only) → **grok** (grok-4.6, `xhigh`; harness fallback
@@ -98,6 +117,10 @@ while reading as complete. This stage exists to be the stranger.
    - COMPLETE, or MOSTLY COMPLETE with no unverified blockers → **`Done`**.
    - Anything less → **`Needs More Work`** — the one downgrade this pipeline owns, and the
      verdict table travels with it as gap-fix's work order.
+   - An item carrying `Unverified — no oracle` on any requirement does not reach `Done`
+     whatever the rest of the table says, because Done would assert something no evidence
+     supports. It goes back with the oracle as the work order, which is cheaper than
+     discovering the same gap in a later audit over a whole column.
    - A board missing the state → no move; the comment carries the truth; report it.
 
 ## Hard rules

@@ -6,6 +6,63 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-19
 
+### warrant 0.2.0, test-campaign 0.7.0, shipyard 0.2.0, ship-feature 2.1.0, ship-fleet 2.1.0: the oracle gap
+
+**The gap.** `warrant` and `test-campaign` did not reference each other — `grep` both ways
+returned nothing — so neither could produce or consume the other's state. A repository could hold
+a mature campaign and a tier-0 warrant at the same time, permanently, with each tool correct on
+its own terms.
+
+Found by running the pipeline for real rather than by reading it. A `warrant:lot` audit of a
+211-item Done column returned **143 items unverifiable in either direction**, and nothing in
+either plugin could say why or what to do next. Two failures were arriving as one status, and the
+corpus behind `warrant` had already named the distinction: a screenshot-judging pass over fifty
+surfaces returned inconclusive on all fifty, "stated each time as being for want of a judge
+rather than for want of an oracle". Want of a judge is an authority gap and `warrant` is the
+instrument; want of an oracle is a coverage gap and `test-campaign` is. Neither skill asked which
+it faced.
+
+**`test-campaign` gains the status and the remedy.** `unoracled` splits from `inconclusive`,
+because the two look identical and want opposite fixes — a better instrument, or a specification
+that names something checkable. Phase 6a builds the missing oracle down a four-rung ladder
+(specification-sourced outcome assertion → metamorphic relation → property-based invariant →
+recorded permanent limit), with `references/oracle-construction.md` behind it. Metamorphic
+relations are the standard answer to the oracle problem; the reference states that the evidence
+for them is directional rather than sized.
+
+**The bridge existed and was unwired.** `charter_validate.py` already documented the two files it
+reads and `rollup_classes.py` already existed to map surfaces onto defect classes. What was
+missing was anything writing them. `campaign.py export-warrant` now does, from numbers the
+campaign already held — the armed ratio, and the effect-rung count per surface. The first cut
+keyed coverage by surface id, which matched no glob and rolled up to zero on every class,
+indistinguishable from a campaign that measured nothing; caught by running the chain rather than
+by reading the schema, and it now emits the row shape `rollup_classes.py` consumes.
+
+**`warrant` stops permitting the order it calls forced.** `lot_plan.py` exits 3 without
+`.warrant/suite-health.json`, naming `assay`. The rule was in the skill's prose and enforced
+nowhere: the run that prompted all of this skipped `oracle` and `assay`, went straight to
+`panel` over 219 positions, passed every gate, and then measured its own reviewer at 2-of-8 seed
+recall — the number the skipped plane exists to predict. `lot_report.py` gains a sixth required
+field, the oracle mix of the sampled items, and says so when nothing in a sample stands on a rung
+that asserts an effect. `ratchet.py` emits the surfaces, the file and the commands that would
+clear a refusal, turning a permanent tier-0 into a finite task list.
+
+**The delivery ladder stops building unauditable columns.** `shipyard:verify` types each
+requirement's evidence by its oracle rung and puts it in the verdict table; a requirement proved
+only by a weak rung reads `Unverified` rather than `Done`, and a new terminal shape
+`Unverified — no oracle` cannot reach Done at all. `ship-feature` routes phase 6 to
+`test-campaign` where installed and sends a no-oracle requirement back to phase 6 rather than to
+gap-fix, which closes a different kind of gap. `ship-fleet` carries the oracle mix across the run
+and exports to the warrant once at the end.
+
+**What none of it fixes.** `C1` still bounds everything: no powered non-inferiority reader study
+exists for code review or UI acceptance, so there is no measured human baseline and no amount of
+test construction creates one. Tier 3 also stays out of reach in the near term — 200 items closed
+in a class with zero escapes over 90 days is a volume-and-time requirement, not an evidence one.
+These changes make tiers 1 and 2 earnable, which they previously were not.
+
+Analysis and the six proposals it came from: `docs/oracle-gap-warrant-test-campaign.md`.
+
 ### create-skill 1.3.1, create-mac-icon 1.4.1, stocktake 0.2.1: patch bumps the rename earned
 
 Three plugins carried content changes across the `create-test-suite` to `test-campaign` rename and the conformance pass without their versions moving. `stocktake` matters most of the three: its SKILL.md and `references/testing-adequacy.md` route to the skill by name, so the old name there was a dangling reference rather than stale prose. `create-skill`'s `references/brand-and-docs.md` and `scripts/banner_sheet.py` and `create-mac-icon`'s `references/material-recipes.md` cite it as a worked example. Nothing behavioural moved in any of the three.

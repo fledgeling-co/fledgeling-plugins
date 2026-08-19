@@ -2,6 +2,52 @@
 
 All notable changes to the `warrant` plugin.
 
+## 0.2.0 — 2026-08-19
+
+The planes could not tell a missing oracle from a missing judge, and `lot` would size a sample
+over a suite nobody had measured. Found by running the pipeline on a real 211-item Done column:
+143 items came back unverifiable in either direction and nothing could say why or what to do
+about it.
+
+### Changed
+
+- **`lot_plan.py` refuses without `.warrant/suite-health.json`** — exit 3, naming `assay` as the
+  step that produces it. Every number a plan produces is a number about items whose evidence is
+  the test suite, so the plan inherits that suite's fault sensitivity, and more than half of over
+  15,000 generated mutants survived a passing suite (`C18`). The forced order was written in the
+  skill's prose and enforced nowhere; a run that skipped `oracle` and `assay` and went straight
+  to `panel` passed every gate, then measured its own reviewer at 2-of-8 seed recall — the number
+  the skipped plane existed to predict. `--unmeasured-suite` plans anyway and records the
+  omission in the plan and on every run, the same way `--rate` records an override.
+- **`lot_report.py` requires a sixth field: `oracle_mix`.** Absent is exit 2, like the other five.
+  The skill already said in prose to "say which classes the audit covered", citing `C6` — roughly
+  three quarters of what code review finds is not functional — and prose does not gate. The
+  renderer now says so explicitly when no sampled case stands on an effect rung, rather than
+  leaving a reader to notice that a lot was audited on whether surfaces looked right.
+- **`ratchet.py` emits a work order instead of only a refusal.** `oracle_coverage` now carries the
+  class's surface globs, the file that would satisfy it, and the two commands that produce it. It
+  knew all of this and printed none of it, so a permanently-refused tier read as a verdict rather
+  than as a finite task list. It does not walk the filesystem to do this: a 60k-file repository
+  already timed out a scan during the run that prompted the change.
+- **`warrant`'s forced order gains a step 0: `test-campaign`.** `oracle` and `assay` *measure*
+  oracles and neither creates one, so a repository whose surfaces were never given a checkable
+  property cannot climb past tier 0 however often the planes run. Absent evidence is an unmet
+  condition here by design, which makes "never measured" and "measured badly" identical to
+  `charter_validate.py`.
+
+### Fixed
+
+- The `lot-result.valid.json` fixture carried five fields and is now six, so each selftest that
+  deletes one key still observes every field firing on its own.
+
+### Evidence
+
+`C18` (mutant survival), `C6` (the non-functional majority of review findings) and `C19` (rates
+travel with their denominators) already sat in `references/evidence.md`; none of them was gating
+anything. This release makes three of them checkable. `C1` is untouched and still bounds
+everything: no powered non-inferiority reader study exists for code review or UI acceptance, so
+there is no measured human baseline and none of this creates one.
+
 ## 0.1.0 — 2026-08-19
 
 First release. Eight skills, a router, twenty-six scripts and eight reference documents, built from
