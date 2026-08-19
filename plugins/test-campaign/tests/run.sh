@@ -220,6 +220,53 @@ p.write_text(json.dumps(cases, indent=2))
 PY
 expect "interactive-glass on glass lane clears and counts as effect" 0 "$IG" "Every case accounted for"
 
+# ── --cannot-attach is for a leftover structural block, not a missing build ──
+# Both directions: a reason that describes an unbuilt artifact is refused, a
+# reason that names a host that cannot draw is recorded. The skill's own
+# standing rule is that a check nobody has watched fail is not known to bite.
+lane_out() {
+  python3 "$S/campaign.py" lane "$@" 2>&1
+}
+
+B="$WORK/buildfirst"
+python3 "$S/campaign.py" init "$B" --project BuildFirst --lanes macos-glass >/dev/null
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "no signed app is on disk")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "--cannot-attach refused" <<<"$out" && grep -qF -- "missing build" <<<"$out"; then
+  say "ok    cannot-attach for a missing signed app is refused"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach 'no signed app is on disk' should be refused (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "glass stays closed")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "--cannot-attach refused" <<<"$out"; then
+  say "ok    cannot-attach 'glass stays closed' is refused"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach 'glass stays closed' should be refused (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --artifact "$B/missing.app" --built-by "xcodebuild -scheme App" --attached "pid 1")"; rc=$?
+if [ "$rc" != 0 ] && grep -qF -- "does not exist" <<<"$out" && grep -qF -- "Build it" <<<"$out"; then
+  say "ok    a missing --artifact path tells you to build it"; PASS=$((PASS+1))
+else
+  echo "FAIL  a missing --artifact should tell you to build it (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+out="$(lane_out "$B" --lane macos-glass --cannot-attach "no Windows host with an interactive desktop is reachable")"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "NOT attached" <<<"$out"; then
+  say "ok    cannot-attach for a missing interactive desktop is recorded"; PASS=$((PASS+1))
+else
+  echo "FAIL  cannot-attach for a missing interactive desktop should record (exit $rc)"
+  echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1
