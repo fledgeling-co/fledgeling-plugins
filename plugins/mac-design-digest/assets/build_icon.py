@@ -1,18 +1,58 @@
 #!/usr/bin/env python3
-"""Build the mac-design-digest icon master.
+"""Build the mac-design-digest icon master — "The Inlaid Plate".
 
-Geometry and material live here as named constants so a fidelity round is a
-parameter edit rather than path surgery.
+This is take A2, and it is the shipping master as of 19 Aug 2026. It was
+authored as a fourth take because Engine B (Arrow) refused the commission that
+day with "A positive credit balance is required for all requests, including
+BYOK". The three-engine floor is a floor of *takes*, and the skill's own rule
+for an unavailable engine is to widen Engine A rather than to present one take
+as three — so this was a real artifact rather than a recolour of the master with
+a new filename, and it then scored above the master it was compared against.
 
-Metaphor — "The Stamped Value": a porcelain value-plate carrying one recorded
-figure, with a vermilion seal seated proud in a countersunk impression at its
-corner. The seal is a SEPARATE physical object from the value it marks — it has
-its own body, its own rim light and its own contact shadow falling on the plate,
-and the socket it was pressed into is still visible around it. That is the
-skill's whole argument: a number and its provenance are two things, and the
-second is stamped onto the first rather than being part of it.
+The user chose it over take A1 on 19 Aug 2026, against this sheet's own
+recommendation, which was to keep A1's porcelain plate for its certificate read.
+A1 is preserved beside this file as `icon-A1-porcelain.svg`, built by
+`build_icon_a1_porcelain.py`. Its liability travels with the swap and is written
+up on `audit.html`: a dark landscape plate with pale bars and a disc at the
+right reads at a glance as a payment card, where the skill means a measured
+value carrying its provenance.
 
-    python3 build_icon.py            # writes icon-src.svg beside this file
+It attacks the two checks A1 measurably loses.
+
+  #7 figure-ground. A1 is porcelain-on-porcelain: plate #F7F4ED against
+     ground #E7E4DC is 1.16:1, so the object's mass separates by hairline and
+     shadow rather than by value. Here the plate is graphite-glazed and the
+     ground stays the family porcelain, so the mass separates by value.
+  #10 variant robustness. When the ground carries the identity, changing the
+     ground register takes the identity with it. A dark mass, one bright bar and
+     one warm disc is a value relationship rather than a colour one.
+
+Three constructions differ from A1, so the comparison is not a palette swap:
+
+  1. Two materials, not one. The plate is a graphite glaze over a porcelain
+     body, and every mark on it is that body showing through — the measurement
+     is *inlaid* rather than printed, each inlay carrying the glaze's own dark
+     cut edge along its lit side.
+  2. The socket is a countersink through the glaze into the body, so the seal is
+     seated on a porcelain collar. That collar is also what keeps the seal
+     legible: vermilion on graphite measures 2.86:1, vermilion on the collar
+     3.34:1, and the collar is the surface it actually sits against.
+  3. A porcelain fillet along the plate's far bottom-right edge — bounce off the
+     ground, the behaviour sampled from apple-12 and apple-27 in the corpus,
+     which A1 does not carry at all.
+
+Geometry is held identical to `build_icon_a1_porcelain.py` on purpose: plate box,
+seal centre, socket radius and lobe count are the same numbers, so the audit
+sheet's #7 delta is attributable to value and material rather than to a relayout.
+
+The named next edit, deliberately NOT made here: move SEAL_CX / SEAL_CY outward
+so the seal straddles the plate's lower-right edge. Filled solid black with the
+ground off, this take is a plain landscape rounded rectangle, because the seal at
+r=112 on (692, 594) inside a plate whose edges are x=852 and y=768 is inset by
+about 28px and never reaches the outline. Moving it addresses rubric #3's weak
+pass and the card read in one edit. That is the next commission.
+
+    python3 build_icon.py           # writes icon-src.svg beside this file
 """
 
 import math
@@ -22,42 +62,45 @@ HERE = Path(__file__).resolve().parent
 SQUIRCLE = (HERE / ".." / ".." / "create-mac-icon" / "assets" / "squircle-path.txt")
 S = 1024  # canvas
 
-# ---- ground (porcelain; the family constant, shared with tui-craft et al.)
+# ---- ground: the family porcelain, unchanged from A1
 GROUND_HI = "#FDFCFA"
 GROUND_LO = "#E7E4DC"
 GROUND_EDGE = "#D8D3C9"
 
-# ---- the value-plate: porcelain object standing ABOVE the ground
+# ---- the value-plate: graphite glaze over a porcelain body.
+#      Same box as A1, so the #7 delta is about value, not layout.
 PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R = 172, 232, 680, 536, 60
-PLATE_HI = "#FFFEFB"   # top-left, catching the key light
-PLATE_MID = "#F7F4ED"
-PLATE_LO = "#E4DFD3"   # bottom-right
-PLATE_RIM = "#FFFFFF"  # lit rim on the top-left edge
-PLATE_EDGE = "#C9C3B7"  # hairline so porcelain-on-porcelain still separates
+GLAZE_HI = "#535A66"    # top-left, catching the key
+GLAZE_MID = "#3A4048"   # the figure-ground number is quoted off this
+GLAZE_LO = "#262B32"    # bottom-right, falling away
+GLAZE_RIM = "#C2C9D5"   # narrow specular on the lit top-left arris
+GLAZE_EDGE = "#191D23"  # the glaze's own dark cut edge
+FILLET = "#EFEAE0"      # porcelain bounce off the ground, far bottom-right
 
-# ---- the recorded value: three neutral marks, no glyphs
-#      a thin label rule, one heavy figure bar, one thin footnote rule
-MARK_HI = "#5A626E"
-MARK_LO = "#39404A"
-MARK = "#4E5560"
+# ---- the porcelain body, seen wherever the glaze is cut
+BODY_HI = "#FFFEFB"
+BODY_MID = "#F3EFE6"
+BODY_LO = "#DCD6C9"
+
+# ---- the recorded value, inlaid: a thin label rule, one heavy figure bar,
+#      one thin footnote rule. Never glyphs.
 LABEL_X, LABEL_Y, LABEL_W, LABEL_H = 240, 328, 236, 20
 VALUE_X, VALUE_Y, VALUE_W, VALUE_H, VALUE_R = 240, 392, 336, 66, 22
 FOOT_X, FOOT_Y, FOOT_W, FOOT_H = 240, 500, 168, 18
 
-# ---- the seal (the one warm accent, spent here and nowhere else)
-#      ACCENT_DEEP is a shade of the same vermilion, not a second hue.
+# ---- the seal: the one warm accent, the family vermilion, spent here only
 ACCENT = "#E8542A"
 ACCENT_HI = "#F4794A"
 ACCENT_DEEP = "#B23F1C"
 SEAL_CX, SEAL_CY = 692, 594
 SEAL_R_OUT, SEAL_R_IN, SEAL_LOBES = 112, 95, 12
-SEAL_RING_R = 66      # debossed concentric ring inside the seal
-SEAL_BOSS_R = 40      # the raised die at its centre
-SOCKET_R = 132        # countersunk impression in the plate
+SEAL_RING_R = 66
+SEAL_BOSS_R = 40
+SOCKET_R = 132          # countersink through the glaze; the collar is 20px wide
 
-# ---- shadow / relief tuning
-SOCKET_DARK = "#9B9384"
-CONTACT = "#6B5F4C"
+# ---- relief tuning
+CONTACT = "#6B5F4C"     # warm, for the plate's shadow on the porcelain ground
+CUT_DARK = "#12151A"    # inside the glaze, where light does not reach
 
 
 def rounded(x, y, w, h, r):
@@ -95,6 +138,20 @@ def arc(cx, cy, r, a0, a1):
     return f'M{x0:.2f},{y0:.2f} A{r},{r} 0 {large} 1 {x1:.2f},{y1:.2f}'
 
 
+def inlay(x, y, w, h, r, fill, edge_op):
+    """One inlaid mark: the porcelain body showing through a cut in the glaze.
+
+    An inlay is not a printed bar. The glaze has thickness, so its cut edge sits
+    proud of the fill on the lit side and casts a hairline across it — that
+    hairline is the whole reason this reads as inlaid rather than drawn on.
+    """
+    out = [f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}" fill="{fill}"/>']
+    out.append(f'<path d="M{x + r},{y + 1.5} h{max(w - 2 * r, 1)}" fill="none" '
+               f'stroke="{CUT_DARK}" stroke-width="3" stroke-opacity="{edge_op}" '
+               f'stroke-linecap="round"/>')
+    return out
+
+
 def build() -> str:
     parts: list[str] = []
     add = parts.append
@@ -104,115 +161,110 @@ def build() -> str:
 
     # ---------------- defs
     add('<defs>')
-    add(f'''<radialGradient id="ground" cx="0.42" cy="0.34" r="0.82">
+    add(f'''<radialGradient id="gnd" cx="0.42" cy="0.34" r="0.82">
       <stop offset="0" stop-color="{GROUND_HI}"/>
       <stop offset="0.62" stop-color="{GROUND_LO}"/>
       <stop offset="1" stop-color="{GROUND_EDGE}"/>
     </radialGradient>''')
-    add(f'''<linearGradient id="plate" x1="0.1" y1="0" x2="0.88" y2="1">
-      <stop offset="0" stop-color="{PLATE_HI}"/>
-      <stop offset="0.5" stop-color="{PLATE_MID}"/>
-      <stop offset="1" stop-color="{PLATE_LO}"/>
+    add(f'''<linearGradient id="glaze" x1="0.1" y1="0" x2="0.88" y2="1">
+      <stop offset="0" stop-color="{GLAZE_HI}"/>
+      <stop offset="0.52" stop-color="{GLAZE_MID}"/>
+      <stop offset="1" stop-color="{GLAZE_LO}"/>
     </linearGradient>''')
-    add(f'''<linearGradient id="mark" x1="0" y1="0" x2="0.35" y2="1">
-      <stop offset="0" stop-color="{MARK_HI}"/>
-      <stop offset="1" stop-color="{MARK_LO}"/>
+    add(f'''<linearGradient id="body" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="{BODY_HI}"/>
+      <stop offset="0.55" stop-color="{BODY_MID}"/>
+      <stop offset="1" stop-color="{BODY_LO}"/>
     </linearGradient>''')
-    add(f'''<linearGradient id="seal" x1="0.14" y1="0.04" x2="0.86" y2="0.96">
+    add(f'''<linearGradient id="inlaid" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="{BODY_MID}"/>
+      <stop offset="1" stop-color="{BODY_HI}"/>
+    </linearGradient>''')
+    add(f'''<linearGradient id="wax" x1="0.14" y1="0.04" x2="0.86" y2="0.96">
       <stop offset="0" stop-color="{ACCENT_HI}"/>
       <stop offset="0.42" stop-color="{ACCENT}"/>
       <stop offset="0.82" stop-color="#D64A22"/>
       <stop offset="1" stop-color="{ACCENT_DEEP}"/>
     </linearGradient>''')
-    add(f'''<linearGradient id="boss" x1="0.2" y1="0.1" x2="0.8" y2="0.9">
+    add('''<linearGradient id="die" x1="0.2" y1="0.1" x2="0.8" y2="0.9">
       <stop offset="0" stop-color="#F27A4C"/>
       <stop offset="1" stop-color="#DB4A22"/>
     </linearGradient>''')
-    add(f'''<radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="{ACCENT}" stop-opacity="0.42"/>
-      <stop offset="1" stop-color="{ACCENT}" stop-opacity="0"/>
-    </radialGradient>''')
     add(f'''<filter id="plateshadow" x="-25%" y="-25%" width="150%" height="165%">
-      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="{CONTACT}"
-                    flood-opacity="0.32"/>
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="{CONTACT}"
+                    flood-opacity="0.38"/>
     </filter>''')
     add(f'''<filter id="sealshadow" x="-45%" y="-45%" width="190%" height="200%">
-      <feDropShadow dx="7" dy="13" stdDeviation="11" flood-color="{CONTACT}"
-                    flood-opacity="0.42"/>
-    </filter>''')
-    add('''<filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="28"/>
+      <feDropShadow dx="7" dy="13" stdDeviation="11" flood-color="{CUT_DARK}"
+                    flood-opacity="0.55"/>
     </filter>''')
     add(f'<clipPath id="plateclip"><path d="{rounded(PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R)}"/></clipPath>')
     add(f'<clipPath id="tile"><path d="{SQUIRCLE.read_text().strip()}"/></clipPath>')
     add('</defs>')
 
-    # Everything lives inside the family squircle — one silhouette across the set.
-    # The strata are named groups rather than section comments: `fidelity.py
-    # structure` counts `<g id=…>`, so a commented layer plan satisfied nothing.
-    # The ids avoid `ground`, `plate`, `seal`, `mark`, `boss` and `glow`, which are
-    # gradient ids already live in <defs>. Naming them changed no pixels.
+    # One silhouette across the family: the superellipse is a clip, never a
+    # baked corner. Named strata so `fidelity.py structure` can count the plan.
     add('<g id="art" clip-path="url(#tile)">')
 
-    # ---------------- bg: ground
+    # ---------------- bg: the porcelain ground, unchanged from A1
     add('<g id="bg">')
-    add(f'<rect width="{S}" height="{S}" fill="url(#ground)"/>')
+    add(f'<rect width="{S}" height="{S}" fill="url(#gnd)"/>')
     add('</g>')
 
-    # ---------------- mid: the value-plate and its rim light
+    # ---------------- mid: the glazed plate, its dark arris and its bounce
     add('<g id="mid">')
     add('<g filter="url(#plateshadow)">')
-    add(f'<path d="{rounded(PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R)}" fill="url(#plate)"/>')
+    add(f'<path d="{rounded(PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R)}" fill="url(#glaze)"/>')
     add('</g>')
     add(f'<path d="{rounded(PLATE_X, PLATE_Y, PLATE_W, PLATE_H, PLATE_R)}" fill="none" '
-        f'stroke="{PLATE_EDGE}" stroke-width="2.5" stroke-opacity="0.7"/>')
-    # rim light along the lit (top-left) edge
-    add(f'<path d="M{PLATE_X + PLATE_R},{PLATE_Y + 2.5} h{PLATE_W - 2 * PLATE_R}" fill="none" '
-        f'stroke="{PLATE_RIM}" stroke-width="4" stroke-opacity="0.95" stroke-linecap="round"/>')
-    add(f'<path d="M{PLATE_X + 2.5},{PLATE_Y + PLATE_R} v{PLATE_H - 2 * PLATE_R}" fill="none" '
-        f'stroke="{PLATE_RIM}" stroke-width="4" stroke-opacity="0.7" stroke-linecap="round"/>')
+        f'stroke="{GLAZE_EDGE}" stroke-width="3" stroke-opacity="0.75"/>')
+    # narrow specular on the lit top-left arris
+    add(f'<path d="M{PLATE_X + PLATE_R},{PLATE_Y + 3} h{PLATE_W - 2 * PLATE_R}" fill="none" '
+        f'stroke="{GLAZE_RIM}" stroke-width="4" stroke-opacity="0.55" stroke-linecap="round"/>')
+    add(f'<path d="M{PLATE_X + 3},{PLATE_Y + PLATE_R} v{PLATE_H - 2 * PLATE_R}" fill="none" '
+        f'stroke="{GLAZE_RIM}" stroke-width="4" stroke-opacity="0.38" stroke-linecap="round"/>')
+    # porcelain bounce off the ground along the far bottom-right edge
+    add(f'<path d="M{PLATE_X + PLATE_R},{PLATE_Y + PLATE_H - 3} h{PLATE_W - 2 * PLATE_R}" fill="none" '
+        f'stroke="{FILLET}" stroke-width="5" stroke-opacity="0.30" stroke-linecap="round"/>')
     add('</g>')
 
     add('<g clip-path="url(#plateclip)">')
 
-    # ---------------- fg: the recorded value (rules and one heavy bar, never
-    # glyphs) and the socket the seal was pressed into
+    # ---------------- fg: the measurement, inlaid, and the countersink
     add('<g id="fg">')
-    add(f'<rect x="{LABEL_X}" y="{LABEL_Y}" width="{LABEL_W}" height="{LABEL_H}" rx="{LABEL_H / 2}" '
-        f'fill="{MARK}" fill-opacity="0.30"/>')
-    add(f'<rect x="{VALUE_X}" y="{VALUE_Y}" width="{VALUE_W}" height="{VALUE_H}" '
-        f'rx="{VALUE_R}" fill="url(#mark)"/>')
-    add(f'<rect x="{VALUE_X}" y="{VALUE_Y}" width="{VALUE_W}" height="{VALUE_H}" '
-        f'rx="{VALUE_R}" fill="none" stroke="#FFFFFF" stroke-opacity="0.20" stroke-width="2"/>')
-    add(f'<rect x="{FOOT_X}" y="{FOOT_Y}" width="{FOOT_W}" height="{FOOT_H}" rx="{FOOT_H / 2}" '
-        f'fill="{MARK}" fill-opacity="0.24"/>')
+    for chunk in inlay(LABEL_X, LABEL_Y, LABEL_W, LABEL_H, LABEL_H / 2,
+                       BODY_MID, 0.30):
+        add(chunk)
+    for chunk in inlay(VALUE_X, VALUE_Y, VALUE_W, VALUE_H, VALUE_R,
+                       "url(#inlaid)", 0.42):
+        add(chunk)
+    for chunk in inlay(FOOT_X, FOOT_Y, FOOT_W, FOOT_H, FOOT_H / 2,
+                       BODY_LO, 0.26):
+        add(chunk)
 
-    # ---------------- the socket: the impression the seal was pressed into.
-    # A recess reads inverted to a raised object — shadow on the near (top-left)
-    # inner edge, a lit wall on the far (bottom-right) one.
+    # The countersink: the glaze cut away to the porcelain body, leaving a 20px
+    # collar around the seal. A recess reads inverted to a raised object, so the
+    # near top-left inner edge is in shadow and the far bottom-right wall is lit.
+    add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SOCKET_R}" fill="url(#body)"/>')
+    add(f'<path d="{arc(SEAL_CX, SEAL_CY, SOCKET_R - 5, 135, 315)}" fill="none" '
+        f'stroke="{CUT_DARK}" stroke-width="11" stroke-opacity="0.34" stroke-linecap="round"/>')
+    add(f'<path d="{arc(SEAL_CX, SEAL_CY, SOCKET_R - 5, 315, 135)}" fill="none" '
+        f'stroke="{BODY_HI}" stroke-width="9" stroke-opacity="0.95" stroke-linecap="round"/>')
     add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SOCKET_R}" fill="none" '
-        f'stroke="{SOCKET_DARK}" stroke-width="2.5" stroke-opacity="0.45"/>')
-    add(f'<path d="{arc(SEAL_CX, SEAL_CY, SOCKET_R - 4, 135, 315)}" fill="none" '
-        f'stroke="{SOCKET_DARK}" stroke-width="7" stroke-opacity="0.34" stroke-linecap="round"/>')
-    add(f'<path d="{arc(SEAL_CX, SEAL_CY, SOCKET_R - 4, 315, 135)}" fill="none" '
-        f'stroke="#FFFFFF" stroke-width="7" stroke-opacity="0.95" stroke-linecap="round"/>')
+        f'stroke="{GLAZE_EDGE}" stroke-width="3" stroke-opacity="0.55"/>')
     add('</g>')
 
-    # ---------------- highlight: the seal, a separate object, proud of the plate
+    # ---------------- highlight: the seal, proud of the collar
     add('<g id="highlight">')
-    add(f'<ellipse cx="{SEAL_CX}" cy="{SEAL_CY}" rx="{SEAL_R_OUT * 1.5}" '
-        f'ry="{SEAL_R_OUT * 1.5}" fill="url(#glow)" filter="url(#softglow)"/>')
     add('<g filter="url(#sealshadow)">')
     add(f'<path d="{scalloped(SEAL_CX, SEAL_CY, SEAL_R_OUT, SEAL_R_IN, SEAL_LOBES)}" '
-        f'fill="url(#seal)"/>')
+        f'fill="url(#wax)"/>')
     add('</g>')
-    # lit rim on the seal's top-left, the mirror of the socket's shading
     add(f'<path d="{arc(SEAL_CX, SEAL_CY, SEAL_R_IN - 3, 150, 300)}" fill="none" '
-        f'stroke="#FFC3A6" stroke-width="6" stroke-opacity="0.65" stroke-linecap="round"/>')
-    # the die: one debossed concentric ring and a raised centre boss
+        f'stroke="#FFC3A6" stroke-width="6" stroke-opacity="0.70" stroke-linecap="round"/>')
     add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SEAL_RING_R}" fill="none" '
         f'stroke="{ACCENT_DEEP}" stroke-width="9" stroke-opacity="0.55"/>')
-    add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SEAL_BOSS_R}" fill="url(#boss)"/>')
+    add(f'<circle cx="{SEAL_CX}" cy="{SEAL_CY}" r="{SEAL_BOSS_R}" fill="url(#die)"/>')
     add(f'<path d="{arc(SEAL_CX, SEAL_CY, SEAL_BOSS_R - 3, 155, 295)}" fill="none" '
         f'stroke="#FFD3BC" stroke-width="5" stroke-opacity="0.55" stroke-linecap="round"/>')
     add('</g>')

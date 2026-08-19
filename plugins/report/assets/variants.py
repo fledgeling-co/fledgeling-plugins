@@ -27,7 +27,7 @@ import sys
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / "variant-renders"
 
-TAKES = {"master": "icon.svg", "A2": "icon-A2-fold-inverted.svg"}
+TAKES = {"master": "icon.svg", "A1": "icon-A1-porcelain.svg"}
 
 # The default register each master is authored in, so the substitution is exact
 # rather than a guess at what the stops currently are.

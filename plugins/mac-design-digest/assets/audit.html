@@ -64,67 +64,77 @@
 renders at 1024 / 128 / 64 / 48 / 32 / 16 css px from 2&times; retina sources, with the variant and
 silhouette reads captured rather than reasoned.</div>
 
-<div class="band"><strong>What actually happened here, in order, because the first version of this
-sheet recorded a commission that was short of the pipeline's floor.</strong> The icon was built on
-18 Aug 2026 and shipped with no contact sheet at all; a retrospective sheet was written on 19 Aug
-carrying <em>one</em> take against a floor of three, and saying so at the top. On 19 Aug the
-remaining engines were commissioned. <strong>Engine C ran</strong> — two GPT Image 2 rasters against
-four porcelain-register exemplars from <code>create-mac-icon/references/corpus/apple-2026/</code>
-(apple-31 News, apple-26 Reminders, apple-28 Photos, apple-23 Safari), both on this page as C1 and
-C2 with their sources in this directory. <strong>Engine B refused.</strong> Arrow 1.1 returned
-<em>&ldquo;A positive credit balance is required for all requests, including BYOK&rdquo;</em> from the
-gateway, so there is no Arrow take and none is displayed. The skill's rule for an unavailable engine
-is to widen Engine A rather than to present one take as three, so <strong>A2 was authored by hand</strong>
-from its own build script — a real fourth artifact, aimed squarely at the two checks the shipping
-master measurably loses. There is still no fidelity loop and no blind judge panel: the material was
+<div class="band"><strong>What actually happened here, in order, because this sheet records both a
+commission that was short of the pipeline's floor and a swap made against its own reading.</strong>
+The icon was built on 18 Aug 2026 and shipped with no contact sheet at all; a retrospective sheet was
+written on 19 Aug carrying <em>one</em> take against a floor of three, and saying so at the top. On
+19 Aug the remaining engines were commissioned. <strong>Engine C ran</strong> — two GPT Image 2
+rasters against four porcelain-register exemplars from
+<code>create-mac-icon/references/corpus/apple-2026/</code> (apple-31 News, apple-26 Reminders,
+apple-28 Photos, apple-23 Safari), both on this page as C1 and C2 with their sources in this
+directory. <strong>Engine B refused.</strong> Arrow 1.1 returned <em>&ldquo;A positive credit
+balance is required for all requests, including BYOK&rdquo;</em> from the gateway, so there is no
+Arrow take and none is displayed. The skill's rule for an unavailable engine is to widen Engine A
+rather than to present one take as three, so <strong>a second hand-authored take was written</strong>
+from its own build script — a real fourth artifact, aimed squarely at the two checks the then-shipping
+master measurably lost. There is still no fidelity loop and no blind judge panel: the material was
 not scored numerically, because torch is absent on this machine and the gate refuses a tier that
 cannot see material. Every score below was read off the renders and the measurements beside them on
-19 Aug. <strong>Nothing shipped was changed:</strong> <code>icon.png</code>,
-<code>icon-256.png</code> and <code>icon-128.png</code> are byte-identical to 18 Aug, and
-<code>icon-src.svg</code> is byte-identical to the layer-plan edit made earlier on 19 Aug, which
-itself moved no pixel — this pass wrote no shipped file at all. The recommendation at the foot of
-this page is a recommendation, not an action taken.</div>
+19 Aug.
+<br><br>
+<strong>Then the swap, later on 19 Aug, and it was the user's call rather than this sheet's.</strong>
+The inlaid graphite take now ships. It is the take this sheet first audited as A2, and it is rendered
+throughout as <code>master</code> because that id is what the sheet's own manifest means by &ldquo;the
+take that ships&rdquo;. The porcelain take that shipped from 18 Aug is preserved under its own name as
+<code>icon-A1-porcelain.svg</code>, built by <code>build_icon_a1_porcelain.py</code>, and is audited
+here as <code>A1</code>. Nothing was redrawn to make that happen: <code>icon-src.svg</code> is now the
+inlaid artwork byte-for-byte, <code>icon.png</code>, <code>icon-256.png</code> and
+<code>icon-128.png</code> were re-exported from it and are <em>byte-identical</em> to the renders this
+sheet was already displaying for that take, and every number in the tables below reproduced unchanged
+under the new labels. The swap moved no pixel; it moved which artwork the shipped filenames point
+at.</div>
 
 <div class="sheet"><table>
   <caption class="visually-hidden">The four icon takes, with renders, rubric scores and verdicts</caption>
   <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
-    <td class="take ship">A2 &middot; icon-A2-inlaid.svg<small>Engine A widened, hand-authored layered SVG &mdash; the highest score, and recommended</small></td>
+    <td class="take ship">master &middot; icon-src.svg<small>&ldquo;The Inlaid Plate&rdquo;, first audited here as A2 &mdash; Engine A widened, hand-authored layered SVG, built by <code>build_icon.py</code>. <strong>SHIPS</strong> from 19 Aug 2026.</small></td>
     <td><div class="renders">
-      <figure><img src="audit-renders/A2-1024.png" width="160" height="160" alt="A2 hero, 1024px source"><figcaption>hero 1024</figcaption></figure>
-      <figure><img src="audit-renders/A2-256.png" width="128" height="128" alt="A2 at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/A2-128.png" width="64" height="64" alt="A2 at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/A2-96.png" width="48" height="48" alt="A2 at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/A2-64.png" width="32" height="32" alt="A2 at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/A2-32.png" width="16" height="16" alt="A2 at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/A2-32.png" width="96" height="96" alt="A2's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="The shipping inlaid master, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The shipping inlaid master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="The shipping inlaid master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="The shipping inlaid master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="The shipping inlaid master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The shipping inlaid master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The shipping inlaid master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
     <td class="score ship">11 / 12<small class="fail">loses 11</small></td>
-    <td class="verdict">The same value-plate, in two materials instead of one: a graphite glaze over
-      a porcelain body, where every mark is that body showing through. The measurement is
+    <td class="verdict">The same value-plate as A1, in two materials instead of one: a graphite glaze
+      over a porcelain body, where every mark is that body showing through. The measurement is
       <em>inlaid</em> rather than printed, each inlay carrying the glaze's dark cut edge along its lit
       side; the socket is a countersink through the glaze, so the seal is seated on a 20px porcelain
       collar; and a porcelain fillet runs the far bottom-right edge as bounce off the ground. Plate
-      geometry, seal centre, socket radius and lobe count are held identical to A on purpose, so the
+      geometry, seal centre, socket radius and lobe count are held identical to A1 on purpose, so the
       figure-ground delta is attributable to value and material rather than to a relayout. It takes
       #7 from 1.16:1 to 8.24:1 and #10 from 1.07:1 to 9.08:1 in grayscale, and its 16px luminance
-      spread is 0.320 against a marketplace median of 0.176. <strong>What it loses:</strong> #11. A
-      dark landscape card with pale bars and a disc at the right reads, at a glance, as a payment
-      card — and this skill is about a measured value carrying its provenance, so the certificate read
-      A has is the semantically correct one and this take trades it away.</td>
+      spread is 0.320 against a marketplace median of 0.176. <strong>What it loses, and it ships with
+      this liability stated:</strong> #11. A dark landscape card with pale bars and a disc at the
+      right reads, at a glance, as a payment card — and this skill is about a measured value carrying
+      its provenance, so the certificate read A1 has is the semantically correct one and the shipping
+      take trades it away.</td>
   </tr>
 
   <tr>
-    <td class="take">A &middot; icon-src.svg<small>Engine A, hand-authored layered SVG &mdash; the take that currently ships</small></td>
+    <td class="take">A1 &middot; icon-A1-porcelain.svg<small>&ldquo;The Porcelain Plate&rdquo; &mdash; Engine A, hand-authored layered SVG, built by <code>build_icon_a1_porcelain.py</code>. Shipped 18 Aug to 19 Aug 2026; superseded, preserved under its own name.</small></td>
     <td><div class="renders">
-      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="The master, 1024px source"><figcaption>hero 1024</figcaption></figure>
-      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="The master at 128px"><figcaption>128</figcaption></figure>
-      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="The master at 64px"><figcaption>64</figcaption></figure>
-      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="The master at 48px"><figcaption>48</figcaption></figure>
-      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="The master at 32px"><figcaption>32</figcaption></figure>
-      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="The master at 16px"><figcaption>16</figcaption></figure>
-      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="The master's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
+      <figure><img src="audit-renders/A1-1024.png" width="160" height="160" alt="A1, the porcelain take, 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A1-256.png" width="128" height="128" alt="A1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A1-128.png" width="64" height="64" alt="A1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A1-96.png" width="48" height="48" alt="A1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A1-64.png" width="32" height="32" alt="A1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A1-32.png" width="16" height="16" alt="A1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A1-32.png" width="96" height="96" alt="A1's 16px render magnified six times"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
     <td class="score">10 / 12<small class="fail">loses 7, 10</small></td>
     <td class="verdict">A porcelain value-plate 680&times;536 standing above a porcelain ground,
@@ -159,7 +169,7 @@ this page is a recommendation, not an action taken.</div>
       the seal straddling the slab's lower-right edge so it enters the silhouette. Out on #3
       regardless of the score: filled solid, its slab is a near-square rounded rectangle at 71% of
       tile width, which is the tile's own silhouette inset inside itself and names nothing. Then #7
-      at 1.08:1, the same porcelain-on-porcelain failure as A; #9, because a flat canvas-textured
+      at 1.08:1, the same porcelain-on-porcelain failure as A1; #9, because a flat canvas-textured
       warm field with no cushion, no rim and no vignette is a product render rather than Tahoe; and
       #10, because a single flat raster layer is the named 76% failure mode. Salvage worth taking into
       a master: the seal crossing the plate edge, and the arris radius on the socket wall.</td>
@@ -193,7 +203,7 @@ this page is a recommendation, not an action taken.</div>
 
 <h2>The 12-point rubric, scored 19 Aug against the renders on this page</h2>
 <div class="sheet"><table class="matrix">
-  <tr><th scope="col">Check</th><th scope="col">A2</th><th scope="col">A (ships)</th><th scope="col">C1</th><th scope="col">C2</th></tr>
+  <tr><th scope="col">Check</th><th scope="col">master (ships)</th><th scope="col">A1 (superseded)</th><th scope="col">C1</th><th scope="col">C2</th></tr>
   <tr><td>1. Mask discipline <em>(non-negotiable)</em></td><td class="pass">PASS clip</td><td class="pass">PASS clip</td><td class="pass">PASS masked</td><td class="pass">PASS masked</td></tr>
   <tr><td>2. Grid adherence <em>(non-negotiable)</em></td><td class="pass">PASS 66.4%</td><td class="pass">PASS 66.4%</td><td class="warn">PASS 71%</td><td class="pass">PASS 62%</td></tr>
   <tr><td>3. Silhouette test <em>(non-negotiable)</em></td><td class="warn">PASS weak</td><td class="warn">PASS weak</td><td class="fail">FAIL</td><td class="fail">FAIL</td></tr>
@@ -210,46 +220,49 @@ this page is a recommendation, not an action taken.</div>
 </table></div>
 
 <div class="note"><ul>
-  <li><strong>#2 is a note on all four, not a deduction.</strong> A and A2 put 66.4% of tile width
-    into the plate against the catalogue's 55&ndash;65% composition constant, C1 71%, C2 62%. Both
-    hand-authored takes are optically centred: the plate's own centre sits at y=500 against the
+  <li><strong>#2 is a note on all four, not a deduction.</strong> master and A1 put 66.4% of tile
+    width into the plate against the catalogue's 55&ndash;65% composition constant, C1 71%, C2 62%.
+    Both hand-authored takes are optically centred: the plate's own centre sits at y=500 against the
     tile's 512, a deliberate 12px lift, with identical 172px left and right margins.</li>
   <li><strong>#3 is a weak pass on both hand-authored takes, and the reason is the same for both.</strong>
     The silhouette strip below is the real test — every authored fill and stroke forced to black with
     the ground switched off. Both come back as a plain landscape rounded rectangle: nameable as a
     plate, but the seal contributes <em>nothing</em>, because at r=112 centred on (692, 594) inside a
     plate whose edges are x=852 and y=768 it is inset by roughly 28px and never breaks the outline.
-    The previous version of this sheet claimed &ldquo;a lobed disc breaking its lower-right
-    corner&rdquo;; the render says otherwise, and that claim is withdrawn. C1 is the only take here
-    that gets the seal into its silhouette, and it is the fix to steal.</li>
+    An earlier version of this sheet claimed &ldquo;a lobed disc breaking its lower-right
+    corner&rdquo;; the render says otherwise, and that claim is withdrawn. It stays withdrawn for the
+    shipping take, which inherits the same geometry. C1 is the only take here that gets the seal into
+    its silhouette, and it is the fix to steal.</li>
   <li><strong>#3 fails on both rasters for a structural reason, not a stylistic one.</strong> Their
     slab is a rounded square inset in a rounded square, so the tile's own silhouette is restated
-    inside itself and the filled shape names nothing. A and A2 clear the same check only because
+    inside itself and the filled shape names nothing. master and A1 clear the same check only because
     their plate's 1.27 aspect distinguishes it from the tile it sits in.</li>
-  <li><strong>#7's failures are all on the object, never on the marks.</strong> A's figure bar reads
+  <li><strong>#7's failures are all on the object, never on the marks.</strong> A1's figure bar reads
     6.85:1 against its plate and its seal body 3.33:1, both clear; it is the plate against the ground
-    that measures 1.16:1. A2 inverts exactly that relationship and inherits one number under the
-    floor in exchange: its wax body against the glaze is 2.86:1, so the seal is carried by the
-    porcelain collar it sits in (3.19:1) rather than by the glaze. That collar is the surface the
+    that measures 1.16:1. The shipping take inverts exactly that relationship and inherits one number
+    under the floor in exchange: its wax body against the glaze is 2.86:1, so the seal is carried by
+    the porcelain collar it sits in (3.19:1) rather than by the glaze. That collar is the surface the
     seal actually sits against, which is why the check passes — but it is a load-bearing detail
     rather than a comfortable margin.</li>
   <li><strong>#10 is now a capture rather than a reasoned read, and it does not go one way.</strong>
     Under grayscale and Tinted — which preserve luminance and discard hue, so whatever survives one
-    survives the other — A, C1 and C2 all collapse to about 1.08:1 and A2 holds at 9.08:1. Under
-    Clear, where the ground layer is removed and the system supplies the field, the result reverses:
-    A's porcelain plate reads 15.40:1 on a dark desktop and 1.03:1 on a light one, A2's graphite
-    plate 1.59:1 on dark and 9.43:1 on light. Neither is unconditionally robust. A2 takes the point
-    because Tinted is the named failure mode that 76% of the corpus loses and Clear-on-dark is not,
-    and because A fails Default as well as Tinted while A2 only fails Clear-on-dark. Both rasters
-    fail structurally: a flat single-layer raster has no ground layer to remove, so the Clear read
-    cannot even be attempted.</li>
-  <li><strong>#11's failure on A2 is a category read, not a missing device.</strong> The seal in a
-    visible countersink is present in all four takes and it is distinct from its nearest sibling —
-    <code>clarify</code>'s device is three option cards with one drawn out of the stack, a vermilion
-    selection dot and a margin note, checked in <code>plugins/clarify/assets/build_icon.py</code>, and
-    carries no seal at all. What A2 loses is what the object <em>is</em>: dark landscape card, pale
-    bars, disc at the right. A skill whose subject is a measured value carrying its provenance mark
-    wants the certificate reading, and A is the take that has it.</li>
+    survives the other — A1, C1 and C2 all collapse to about 1.08:1 and the shipping take holds at
+    9.08:1. Under Clear, where the ground layer is removed and the system supplies the field, the
+    result reverses: A1's porcelain plate reads 15.40:1 on a dark desktop and 1.03:1 on a light one,
+    the shipping take's graphite plate 1.59:1 on dark and 9.43:1 on light. Neither is unconditionally
+    robust. The shipping take takes the point because Tinted is the named failure mode that 76% of
+    the corpus loses and Clear-on-dark is not, and because A1 fails Default as well as Tinted while
+    the shipping take only fails Clear-on-dark. Both rasters fail structurally: a flat single-layer
+    raster has no ground layer to remove, so the Clear read cannot even be attempted.</li>
+  <li><strong>#11's failure on the shipping take is a category read, not a missing device.</strong>
+    The seal in a visible countersink is present in all four takes and it is distinct from its nearest
+    sibling — <code>clarify</code>'s device is three option cards with one drawn out of the stack, a
+    vermilion selection dot and a margin note, checked in
+    <code>plugins/clarify/assets/build_icon.py</code>, and carries no seal at all. What the shipping
+    take loses is what the object <em>is</em>: dark landscape card, pale bars, disc at the right. A
+    skill whose subject is a measured value carrying its provenance mark wants the certificate
+    reading, and A1 is the take that has it. This is the liability the icon ships with, stated rather
+    than closed.</li>
   <li><strong>Not measured, and therefore not claimed.</strong> The material was never scored: torch
     is absent on this machine, and the fidelity gate refuses a tier where the material metric cannot
     run rather than guessing. No fidelity loop ran and no blind judge panel saw any of these four, so
@@ -258,10 +271,10 @@ this page is a recommendation, not an action taken.</div>
 
 <h2>Rubric #10, captured: the shipped tile under grayscale, and under Tinted</h2>
 <div class="strip">
-  <figure><img src="variant-renders/variants-A2-grayscale.png" alt="A2 in grayscale"><figcaption>A2 grayscale — 9.08:1</figcaption></figure>
-  <figure><img src="variant-renders/variants-A2-tinted.png" alt="A2 tinted to one hue"><figcaption>A2 Tinted</figcaption></figure>
-  <figure><img src="variant-renders/variants-master-grayscale.png" alt="The master in grayscale"><figcaption>A grayscale — 1.07:1</figcaption></figure>
-  <figure><img src="variant-renders/variants-master-tinted.png" alt="The master tinted to one hue"><figcaption>A Tinted</figcaption></figure>
+  <figure><img src="variant-renders/variants-master-grayscale.png" alt="The shipping inlaid master in grayscale"><figcaption>master grayscale — 9.08:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-master-tinted.png" alt="The shipping inlaid master tinted to one hue"><figcaption>master Tinted</figcaption></figure>
+  <figure><img src="variant-renders/variants-A1-grayscale.png" alt="A1 in grayscale"><figcaption>A1 grayscale — 1.07:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-A1-tinted.png" alt="A1 tinted to one hue"><figcaption>A1 Tinted</figcaption></figure>
   <figure><img src="variant-renders/variants-C1-grayscale.png" alt="C1 in grayscale"><figcaption>C1 grayscale — 1.08:1</figcaption></figure>
   <figure><img src="variant-renders/variants-C1-tinted.png" alt="C1 tinted to one hue"><figcaption>C1 Tinted</figcaption></figure>
   <figure><img src="variant-renders/variants-C2-grayscale.png" alt="C2 in grayscale"><figcaption>C2 grayscale — 1.09:1</figcaption></figure>
@@ -270,10 +283,10 @@ this page is a recommendation, not an action taken.</div>
 
 <h2>Rubric #10, Clear: the ground layer removed, the object on a desktop</h2>
 <div class="strip">
-  <figure><img src="variant-renders/variants-A2-clear-dark.png" alt="A2 with its ground removed on a dark desktop"><figcaption>A2 on dark — 1.59:1</figcaption></figure>
-  <figure><img src="variant-renders/variants-A2-clear-light.png" alt="A2 with its ground removed on a light desktop"><figcaption>A2 on light — 9.43:1</figcaption></figure>
-  <figure><img src="variant-renders/variants-master-clear-dark.png" alt="The master with its ground removed on a dark desktop"><figcaption>A on dark — 15.40:1</figcaption></figure>
-  <figure><img src="variant-renders/variants-master-clear-light.png" alt="The master with its ground removed on a light desktop"><figcaption>A on light — 1.03:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-master-clear-dark.png" alt="The shipping inlaid master with its ground removed on a dark desktop"><figcaption>master on dark — 1.59:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-master-clear-light.png" alt="The shipping inlaid master with its ground removed on a light desktop"><figcaption>master on light — 9.43:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-A1-clear-dark.png" alt="A1 with its ground removed on a dark desktop"><figcaption>A1 on dark — 15.40:1</figcaption></figure>
+  <figure><img src="variant-renders/variants-A1-clear-light.png" alt="A1 with its ground removed on a light desktop"><figcaption>A1 on light — 1.03:1</figcaption></figure>
 </div>
 <div class="note">C1 and C2 are absent from this row on purpose. A flat raster has no <code>bg</code>
 layer to switch off, so the Clear read cannot be attempted on either of them, and that impossibility
@@ -281,8 +294,8 @@ is the whole content of their #10 failure rather than a gap in this sheet.</div>
 
 <h2>Rubric #3, the silhouette test</h2>
 <div class="strip">
-  <figure><img src="variant-renders/sil-A2.png" alt="A2's authored shapes filled solid black"><figcaption>A2 — landscape rounded rectangle; the seal is inset and never reaches the outline</figcaption></figure>
-  <figure><img src="variant-renders/sil-master.png" alt="The master's authored shapes filled solid black"><figcaption>A — identical outline, identical liability</figcaption></figure>
+  <figure><img src="variant-renders/sil-master.png" alt="The shipping inlaid master's authored shapes filled solid black"><figcaption>master — landscape rounded rectangle; the seal is inset and never reaches the outline</figcaption></figure>
+  <figure><img src="variant-renders/sil-A1.png" alt="A1's authored shapes filled solid black"><figcaption>A1 — identical outline, identical liability</figcaption></figure>
   <figure><img src="variant-renders/sil-C1.png" alt="C1 segmented from its ground by luminance"><figcaption>C1 — segmented at L=0.7517; a rounded square, and the seal does break its edge</figcaption></figure>
   <figure><img src="variant-renders/sil-C2.png" alt="C2 segmented from its ground by luminance"><figcaption>C2 — segmented at L=0.7530; the grout survives the threshold as cross-lines</figcaption></figure>
 </div>
@@ -294,61 +307,81 @@ the same 1.08:1 failure seen from the other side.</div>
 
 <h2>Measured, not asserted</h2>
 <div class="metrics">Contrast ratios are WCAG relative-luminance. The constants column is computed
-from the named colours in <code>build_icon.py</code> and <code>build_icon_a2.py</code>; the render
-column is the median luminance of one fixed sample box on the plate face against one on the tile
-ground, the same two boxes for every take so the numbers compare. The 16px figure is the family
+from the named colours in <code>build_icon.py</code> and <code>build_icon_a1_porcelain.py</code>; the
+render column is the median luminance of one fixed sample box on the plate face against one on the
+tile ground, the same two boxes for every take so the numbers compare. The 16px figure is the family
 metric: luminance standard deviation of the 32px render downsampled to 16 and composited over white,
 against a marketplace median of 0.176. All of it reproduces from
-<code>python3 measure_variants.py</code>.
+<code>python3 measure_variants.py</code>, and it reproduced unchanged across the 19 Aug swap: the
+labels moved, the numbers did not.
 <table>
   <tr><th scope="col">Take</th><th scope="col">#7 constants</th><th scope="col">#7 render</th><th scope="col">#10 grayscale</th><th scope="col">#10 Clear dark / light</th><th scope="col">16px std</th><th scope="col">vs median</th></tr>
-  <tr><td>A2</td><td>8.24:1</td><td>9.08:1</td><td>9.08:1</td><td>1.59:1 / 9.43:1</td><td>0.320</td><td>1.82&times;</td></tr>
-  <tr><td>A (ships)</td><td>1.16:1</td><td>1.07:1</td><td>1.07:1</td><td>15.40:1 / 1.03:1</td><td>0.157</td><td>0.89&times;</td></tr>
+  <tr><td>master (ships)</td><td>8.24:1</td><td>9.08:1</td><td>9.08:1</td><td>1.59:1 / 9.43:1</td><td>0.320</td><td>1.82&times;</td></tr>
+  <tr><td>A1 (superseded)</td><td>1.16:1</td><td>1.07:1</td><td>1.07:1</td><td>15.40:1 / 1.03:1</td><td>0.157</td><td>0.89&times;</td></tr>
   <tr><td>C1</td><td>&mdash; raster</td><td>1.08:1</td><td>1.08:1</td><td>no bg layer</td><td>0.225</td><td>1.28&times;</td></tr>
   <tr><td>C2</td><td>&mdash; raster</td><td>1.09:1</td><td>1.09:1</td><td>no bg layer</td><td>0.194</td><td>1.10&times;</td></tr>
 </table>
-Marks and seal, for completeness: A's figure bar 6.85:1 against its plate and its seal body 3.33:1;
-A2's inlays 9.12:1 and 7.23:1 against the glaze, its seal 2.86:1 against the glaze and 3.19:1
-against the porcelain collar it is seated on.</div>
+Marks and seal, for completeness: A1's figure bar 6.85:1 against its plate and its seal body 3.33:1;
+the shipping take's inlays 9.12:1 and 7.23:1 against the glaze, its seal 2.86:1 against the glaze and
+3.19:1 against the porcelain collar it is seated on.</div>
 
-<div class="rec"><strong>Recommendation: ship A2 (<code>icon-A2-inlaid.svg</code>), 11 / 12 — and
-nothing has been swapped, because that is not this sheet's call to make.</strong> A2 is the better
-icon on every number that decides how a marketplace tile behaves: it closes both of A's measured
-failures with margin (#7 from 1.16:1 to 8.24:1, #10 from 1.07:1 to 9.08:1 in grayscale) and it
-carries 0.320 of luminance spread at 16px where A carries 0.157 — below the family median, and the
-lowest of the four takes, at exactly the size a Finder row and a plugin tile are read. A's identity
-is a hue relationship at 1.07:1; A2's is a value relationship, and a value relationship is what
-survives Tinted. The shipped <code>icon-src.svg</code>, <code>icon.png</code>,
-<code>icon-256.png</code> and <code>icon-128.png</code> are untouched; the banner this plugin still
-owes derives from whichever master ships, so the swap decides work downstream and belongs to a
-person.
+<div class="rec"><strong>Recommendation: ship the inlaid take (<code>icon-src.svg</code>), 11 / 12 —
+and record plainly that this was the user's decision rather than a measurement.</strong> The user
+chose the inlaid take on 19 Aug 2026 <em>against a recommendation to keep the porcelain master</em>.
+The recommendation weighed #11 — A1's sealed-certificate read, which is the semantically correct one
+for a skill about a measured value carrying its provenance — above the two measured checks the inlaid
+take wins, and it lost. Both halves of that are true and neither settles the other, which is why the
+call belonged to a person: the rubric arithmetic favours the inlaid take by one point, and the
+arithmetic does not adjudicate taste. The swap is now done and this sheet describes the result rather
+than proposing it.
 <br><br>
-<strong>Known liabilities on A2, in the order a revision should take them.</strong>
-<strong>(1) The card read (#11), and it is the reason this is a recommendation rather than an
-obvious win.</strong> Dark landscape plate, pale bars, disc at the right: the tile says payment card
-where the skill means a measured value carrying its provenance. A is the take that reads as a sealed
-certificate, and a person may reasonably weigh that above two measured checks — the rubric arithmetic
-does not settle taste.
+On the numbers the shipping take is the better marketplace tile. It closes both of A1's measured
+failures with margin (#7 from 1.16:1 to 8.24:1, #10 from 1.07:1 to 9.08:1 in grayscale) and it
+carries 0.320 of luminance spread at 16px where A1 carries 0.157 — below the family median, and the
+lowest of the four takes, at exactly the size a Finder row and a plugin tile are read. A1's identity
+is a hue relationship at 1.07:1; the shipping take's is a value relationship, and a value
+relationship is what survives Tinted.
+<br><br>
+<strong>Known liabilities on the shipping take, in the order a revision should take them.</strong>
+<strong>(1) The card read (#11), and it is the cost of this decision rather than a defect discovered
+after it.</strong> Dark landscape plate, pale bars, disc at the right: the tile says payment card
+where the skill means a measured value carrying its provenance. A1 is the take that reads as a sealed
+certificate, and that reading was traded away deliberately and with the trade on the record.
 <strong>(2) The silhouette is a plain rounded rectangle on both hand-authored takes.</strong>
 Measured on the render, not assumed: the seal is inset ~28px and never reaches the plate's outline,
-so filled black neither take names its own signature move. C1 solved this by letting the seal
-straddle the plate's lower-right edge, and moving <code>SEAL_CX</code> / <code>SEAL_CY</code> outward
-would fix #3's weak pass and the card read at once — which is the single highest-value edit
-available here, and it applies to A and A2 equally.
-<strong>(3) A2 shares proctor's value scheme.</strong> Graphite object on porcelain ground is
-proctor's established sub-register (its front face reads L 0.141 against a 0.95 ground); A2's glaze
-is darker still at L 0.046. Different silhouette, same register, two tiles in a 38-plugin lineup.
-<strong>(4) A2's seal clears #7 on the collar, not on the plate.</strong> 2.86:1 against the glaze,
+so filled black neither take names its own signature move.
+<strong>(3) The shipping take collides with <code>tui-craft</code> on the shelf, measured after the
+swap.</strong> <code>shelf_check.py</code> puts the pair at <strong>0.913</strong> structure
+correlation, which is the highest of all 703 pairs in the 38-icon set and above the previous top of
+0.860. It is a real read rather than a metric artifact: tui-craft is a dark landscape rounded
+rectangle on porcelain, centred, carrying pale horizontal bars and one vermilion mark below and right
+of centre, and so is this. That number is not in the script's <code>DECIDED</code> list and has not
+been added to it; it is a set property the 12-point rubric cannot see, and it needs a person to
+decide whether the two are meant to rhyme. The prediction this sheet made before the swap was a
+collision with <code>proctor</code>, on the grounds of a shared graphite-on-porcelain register, and
+the measurement does not support it: proctor is not in this take's top twelve matches at all, because
+proctor's mass is a cube on a bench and this one's is a landscape plate, and correlation follows where
+the mass sits rather than what value it is. Before the swap the porcelain take appeared nowhere in the
+set's top twelve and the set carried two flagged pairs; it now carries three.
+<strong>(4) The seal clears #7 on the collar, not on the plate.</strong> 2.86:1 against the glaze,
 3.19:1 against the porcelain collar. Widen the collar or lift the wax ramp one step and the margin
 stops being load-bearing.
 <strong>(5) Engine B never ran</strong> — Arrow refused on the gateway credit balance — so this set
 has no independent vector take, and the widened Engine A is the skill's named substitute rather than
 an equivalent. <strong>(6) The material was never scored</strong>, torch being absent, and no blind
-panel judged any of it. <strong>(7) A third option neither take represents</strong>, and the one to
-reach for if the card read is disqualifying: keep A's porcelain plate and its certificate reading,
-and put the dark mass <em>inside</em> the plate — the value region recessed into a graphite well
-holding the bright figure bar. That buys grayscale survival without inverting the object, and without
-borrowing proctor's register.</div>
+panel judged any of it.
+<br><br>
+<strong>The named next step, and it is deliberately not done here: move <code>SEAL_CX</code> /
+<code>SEAL_CY</code> outward so the seal straddles the plate's lower-right edge.</strong> C1 is the
+only take in this set that does it, and it is the single highest-value edit available, because it
+addresses liability (2) and liability (1) in one change: a seal that breaks the outline puts the
+signature move into the silhouette, and it stops the object reading as a rectangle with a disc parked
+inside it. It moves pixels nobody has looked at yet, so it belongs to the next commission rather than
+to this one. Two further options for that commission, neither represented by any take here: keep A1's
+porcelain plate and its certificate reading while putting the dark mass <em>inside</em> the plate, as
+a graphite well holding the bright figure bar — which buys grayscale survival without inverting the
+object and without borrowing proctor's register; and steal C1's arris radius on the socket wall,
+which is the other salvage the raster earned.</div>
 
 <div class="foot">Rubric: the 12-point icon audit in
 <code>create-mac-icon/references/icon-directions.md</code> (mask discipline, grid, silhouette, 16px
@@ -356,15 +389,15 @@ squint, single light model, palette economy, figure-ground, depth coherence, era
 robustness, personality, no-text) — checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12.
 Renders produced by
 <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render . --take
-master=icon-src.svg:svg --take A2=icon-A2-inlaid.svg:svg --take C1=icon-engineC-1fecdf.png:raster-mask
---take C2=icon-engineC-64e349-2.png:raster-mask</code> at 1024 / 256 / 128 / 96 / 64 / 32 via
-<code>rsvg-convert</code>; every take is named explicitly because bare <code>render</code> infers
-kinds from extensions and registers a full-bleed raster unmasked, which its own <code>check</code>
-then rejects. The two raster takes are audited on their squircle-masked versions. Everything in
-<code>variant-renders/</code> and every number in the tables above comes from
-<code>python3 measure_variants.py</code> in this directory. Each take's source is in this directory
-under the name cited beside it, and recorded in
-<code>audit-renders/render-manifest.json</code>. Verified by
-<code>audit_sheet.py check .</code>.</div>
+master=icon-src.svg:svg --take A1=icon-A1-porcelain.svg:svg --take
+C1=icon-engineC-1fecdf.png:raster-mask --take C2=icon-engineC-64e349-2.png:raster-mask</code> at
+1024 / 256 / 128 / 96 / 64 / 32 via <code>rsvg-convert</code>; every take is named explicitly because
+bare <code>render</code> infers kinds from extensions and registers a full-bleed raster unmasked,
+which its own <code>check</code> then rejects, and because after the 19 Aug swap the id
+<code>master</code> has to be pinned to the file that ships rather than inferred. The two raster takes
+are audited on their squircle-masked versions. Everything in <code>variant-renders/</code> and every
+number in the tables above comes from <code>python3 measure_variants.py</code> in this directory. Each
+take's source is in this directory under the name cited beside it, and recorded in
+<code>audit-renders/render-manifest.json</code>. Verified by <code>audit_sheet.py check .</code>.</div>
 </body>
 </html>

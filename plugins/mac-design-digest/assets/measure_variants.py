@@ -48,8 +48,13 @@ HERE = pathlib.Path(__file__).resolve().parent
 RENDERS = HERE / "audit-renders"
 OUT = HERE / "variant-renders"
 
-TAKES = ("master", "A2", "C1", "C2")
-SVG_TAKES = {"master": "icon-src.svg", "A2": "icon-A2-inlaid.svg"}
+# `master` is the take that ships, so it moved with the swap on 19 Aug 2026: it is
+# now the inlaid graphite take, and the porcelain take that shipped until then is
+# `A1`. Every number below is unchanged by the rename — the artwork did not move,
+# only which id points at which file — which is itself the check that the swap was
+# a promotion and not an edit.
+TAKES = ("master", "A1", "C1", "C2")
+SVG_TAKES = {"master": "icon-src.svg", "A1": "icon-A1-porcelain.svg"}
 
 # Sample boxes in 256-space. The slab box sits in the plate's lower-left quadrant,
 # clear of every mark and of the socket in all four takes; the ground box sits in
@@ -111,17 +116,17 @@ def main() -> None:
 
     print("== rubric #7, from the build scripts' named colour constants ==")
     pairs = [
-        ("A  plate #F7F4ED vs ground #E7E4DC", "#F7F4ED", "#E7E4DC"),
-        ("A  figure bar #4E5560 vs plate #F7F4ED", "#4E5560", "#F7F4ED"),
-        ("A  seal #E8542A vs plate #F7F4ED", "#E8542A", "#F7F4ED"),
-        ("A2 glaze #3A4048 vs ground #E7E4DC", "#3A4048", "#E7E4DC"),
-        ("A2 inlay #F3EFE6 vs glaze #3A4048", "#F3EFE6", "#3A4048"),
-        ("A2 footnote inlay #DCD6C9 vs glaze #3A4048", "#DCD6C9", "#3A4048"),
-        ("A2 seal #E8542A vs glaze #3A4048", "#E8542A", "#3A4048"),
-        ("A2 seal #E8542A vs porcelain collar #F3EFE6", "#E8542A", "#F3EFE6"),
+        ("A1 plate #F7F4ED vs ground #E7E4DC", "#F7F4ED", "#E7E4DC"),
+        ("A1 figure bar #4E5560 vs plate #F7F4ED", "#4E5560", "#F7F4ED"),
+        ("A1 seal #E8542A vs plate #F7F4ED", "#E8542A", "#F7F4ED"),
+        ("master glaze #3A4048 vs ground #E7E4DC", "#3A4048", "#E7E4DC"),
+        ("master inlay #F3EFE6 vs glaze #3A4048", "#F3EFE6", "#3A4048"),
+        ("master footnote inlay #DCD6C9 vs glaze #3A4048", "#DCD6C9", "#3A4048"),
+        ("master seal #E8542A vs glaze #3A4048", "#E8542A", "#3A4048"),
+        ("master seal #E8542A vs porcelain collar #F3EFE6", "#E8542A", "#F3EFE6"),
     ]
     for label, a, b in pairs:
-        print(f"  {label:46s} {wcag(hex_lum(a), hex_lum(b)):5.2f}:1")
+        print(f"  {label:50s} {wcag(hex_lum(a), hex_lum(b)):5.2f}:1")
 
     print("\n== rubric #7, measured on the 1024 renders ==")
     sx0, sy0, sx1, sy1 = (v * 4 for v in SLAB_BOX)

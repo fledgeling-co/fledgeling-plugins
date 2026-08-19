@@ -160,6 +160,25 @@ DECIDED: dict[frozenset[str], str] = {
         "0.819 and a false positive for the same reason as the pair above. "
         "Decided 2026-08-19."
     ),
+    frozenset(("agent-voice", "report")): (
+        "0.809, up from 0.446 when report's shipping take was swapped from the "
+        "porcelain fold to the inverted graphite one on 2026-08-19. A false positive of "
+        "the same cluster as the two pairs above, checked the same way: rendered at 16px "
+        "agent-voice is two bright vertical strokes and report is horizontal banding, so "
+        "the axis that distinguishes them is the one the eye reads first. The metric is "
+        "responding to dark mass centred on porcelain, which the house style prescribes. "
+        "Decided 2026-08-19."
+    ),
+    frozenset(("generate-investor-portal", "report")): (
+        "0.808, up from 0.432 in the same swap, and the same false positive. At 16px "
+        "generate-investor-portal is a solid mass with a warm glow at one edge against "
+        "report's stack of horizontal bands. Note what this pair and the one above "
+        "demonstrate together: report now correlates above 0.80 with both halves of an "
+        "already-recorded false-positive pair, which is what a metric measuring the "
+        "family silhouette does as the set's dark-grounded population grows. It is an "
+        "argument for eventually replacing the measure, not for redrawing a third icon. "
+        "Decided 2026-08-19."
+    ),
 }
 
 SIG = 16          # signature grid
