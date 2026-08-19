@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 - 2026-08-19
+
+- `verify` types each requirement's evidence by the oracle rung it stands on, and the per-requirement table carries the rung beside the status. "The element exists" and "publishing made it live" were the same word in a verdict and are different claims about the product.
+- A requirement proved only by a weak rung (`touch`, `presence`, `structural`, `structural-visual`) reads `Unverified` rather than `Done`.
+- New terminal shape: `Unverified — no oracle`, distinct from `Unverified — blocker`. A blocker is an instrument or access problem and may dissolve with better tooling; no oracle means nothing was ever specified that a check could read, and no tooling settles it. An item carrying one does not reach `Done` whatever the rest of the table says.
+- The Tests lane prefers `/test-campaign` where installed, falling back to `/acceptance-e2e`.
+
 ## 0.1.1 - 2026-08-15
 
 - Phase D gains the `code-review` skill as an additional lens over the branch diff where installed.

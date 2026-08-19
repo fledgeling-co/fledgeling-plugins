@@ -45,11 +45,19 @@ FIXTURES = (pathlib.Path(__file__).resolve().parent.parent
             / "evals" / "fixtures" / "charter-panel-lot")
 
 REQUIRED = ("population", "tolerable_error_rate", "sample_size", "seed_recovery",
-            "decision")
+            "decision", "oracle_mix")
+
+# The rungs a case can stand on, weakest first. The first four establish that
+# something was touched, present or shaped; only the last four establish that a
+# promised effect happened. A lot audited entirely on the weak rungs has been
+# audited on whether the screen looked right, which is the minority of what a
+# reviewer produces (`C6`) and not the class that hurts (`I7`).
+EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual", "interactive-glass")
+WEAK_RUNGS = ("touch", "presence", "structural", "structural-visual")
 
 
 def check_required(result: dict[str, object]) -> list[str]:
-    """The five, each named with what would fix it."""
+    """The six, each named with what would fix it."""
     missing: list[str] = []
     for field in REQUIRED:
         if field not in result or result[field] is None:
@@ -80,6 +88,16 @@ def check_required(result: dict[str, object]) -> list[str]:
     decision = result.get("decision")
     if decision is not None and not str(decision).strip():
         missing.append("decision is blank")
+    mix = result.get("oracle_mix")
+    if mix is not None:
+        if not isinstance(mix, dict) or not mix:
+            missing.append("oracle_mix is not a {rung: count} map — a lot that cannot "
+                           "say what rung its evidence stands on cannot support the "
+                           "claim it makes")
+        else:
+            for rung, count in mix.items():
+                if not isinstance(count, int) or isinstance(count, bool) or count < 0:
+                    missing.append(f"oracle_mix[{rung!r}] is {count!r}, not a count")
     return missing
 
 
@@ -114,6 +132,7 @@ def assemble(plan: dict[str, object], key: dict[str, object],
     errors_found = 0
     recovered = 0
     unpositioned = 0
+    oracle_mix: dict[str, int] = {}
 
     for row in review:
         position = row.get("position")
@@ -124,6 +143,9 @@ def assemble(plan: dict[str, object], key: dict[str, object],
             notes.append(f"position {position} was reviewed more than once; the later "
                          "call is the one counted")
         seen.add(position)
+        rung = str(row.get("oracle", row.get("rung", ""))).strip().lower()
+        if position not in seeds:
+            oracle_mix[rung or "unstated"] = oracle_mix.get(rung or "unstated", 0) + 1
         call = str(row.get("call", "")).strip().lower()
         if call not in ("defect", "clean"):
             notes.append(f"position {position}: call {row.get('call')!r} is neither "
@@ -193,6 +215,7 @@ def assemble(plan: dict[str, object], key: dict[str, object],
         "seed_recovery": {"recovered": recovered, "seeded": seeded,
                           "planted": len(seeds), "unreached": unreached},
         "decision": decision,
+        "oracle_mix": oracle_mix or {"unstated": real_reviewed},
         "escalation": plan.get("escalation"),
         "reviewed_positions": len(seen),
     }
@@ -266,6 +289,19 @@ def main(args: argparse.Namespace) -> int:
                        " (no seeds planted, so recovery is unmeasured)")
                     if isinstance(recovered, int) and isinstance(seeded, int)
                     else "ABSENT"))
+    mix = result.get("oracle_mix")
+    if isinstance(mix, dict) and mix:
+        total = sum(v for v in mix.values() if isinstance(v, int))
+        parts = ", ".join(f"{rung} {count}" for rung, count in
+                          sorted(mix.items(), key=lambda kv: (-kv[1], kv[0])))
+        lines.append(f"  oracle mix            {parts}  (of {total} sampled)")
+        effect = sum(count for rung, count in mix.items() if rung in EFFECT_RUNGS)
+        if total > 0 and effect == 0:
+            lines.append("                        no case in this sample stands on an "
+                         "effect rung, so the lot was audited on whether the surface "
+                         "looked right rather than on whether it did anything")
+    else:
+        lines.append("  oracle mix            ABSENT")
     lines.append(f"  decision              {result.get('decision', 'ABSENT')}")
     if result.get("escalation") and isinstance(result["escalation"], dict):
         route = result["escalation"].get("route") or "NOBODY (the warrant names no owner)"
@@ -346,6 +382,10 @@ def _pipeline(tmp: pathlib.Path, name: str, lot: int, seed_rate: float
         "id": f"WEB-{6000 + i}", "surface": f"apps/web/app/s{i}/page.tsx",
         "state": "pass", "verdict": {"state": "pass"}}) for i in range(lot)) + "\n")
 
+    # lot_plan.py refuses to size a sample over a suite nobody has measured, so
+    # the fixture supplies the assay plane's result the way a real run would.
+    _state.write_json(d / "suite-health.json", {"green": True, "score": 0.71})
+
     for module, argv in ((lot_plan, ["--root", str(root), "--lot", str(lot),
                                      "--lot-id", f"lot-{lot}", "--now", NOW]),
                          (blind_queue, ["--root", str(root), "--items", str(items),
@@ -363,7 +403,8 @@ def _pipeline(tmp: pathlib.Path, name: str, lot: int, seed_rate: float
 
 
 def _review(path: pathlib.Path, key: dict[str, object], positions: int,
-            *, miss_seeds: int = 0, defects: list[int] | None = None) -> None:
+            *, miss_seeds: int = 0, defects: list[int] | None = None,
+            rung: str | None = None) -> None:
     seed_positions = {int(s["position"]) for s in key["seeds"]}
     missed = sorted(seed_positions)[:miss_seeds]
     defects = defects or []
@@ -373,7 +414,10 @@ def _review(path: pathlib.Path, key: dict[str, object], positions: int,
             call = "clean" if position in missed else "defect"
         else:
             call = "defect" if position in defects else "clean"
-        rows.append({"position": position, "call": call})
+        row = {"position": position, "call": call}
+        if rung is not None:
+            row["oracle"] = rung
+        rows.append(row)
     path.write_text("\n".join(json.dumps(r) for r in rows) + "\n")
 
 
@@ -448,6 +492,36 @@ def selftest() -> list[tuple[str, bool]]:
         valid = FIXTURES / "lot-result.valid.json"
         code, out_v, _ = _call("--root", str(root), "--result", str(valid), "--now", NOW)
         cases.append(("a complete result validates", code == _cli.OK))
+        cases.append(("the oracle mix is rendered with its population",
+                      "oracle mix" in out_v and "of 56 sampled" in out_v))
+
+        # The rung the sample stands on, assembled rather than supplied.
+        weak = tmp / "review-weak.jsonl"
+        _review(weak, key, 60, rung="presence")
+        code_w, out_w, _ = _call("--root", str(root),
+                                 "--plan", str(reports / "2026-08-19-lot-plan.json"),
+                                 "--key", str(reports / "2026-08-19-blind-queue.key.json"),
+                                 "--review", str(weak), "--now", NOW)
+        cases.append(("a sample of only weak rungs says what it did not audit",
+                      "no case in this sample stands on an effect rung" in out_w))
+        strong = tmp / "review-strong.jsonl"
+        _review(strong, key, 60, rung="outcome")
+        code_s, out_s, _ = _call("--root", str(root),
+                                 "--plan", str(reports / "2026-08-19-lot-plan.json"),
+                                 "--key", str(reports / "2026-08-19-blind-queue.key.json"),
+                                 "--review", str(strong), "--now", NOW)
+        cases.append(("a sample on an effect rung does not carry that warning",
+                      "no case in this sample stands on an effect rung" not in out_s))
+        norung = tmp / "review-norung.jsonl"
+        _review(norung, key, 60)
+        code_n, out_n, _ = _call("--root", str(root),
+                                 "--plan", str(reports / "2026-08-19-lot-plan.json"),
+                                 "--key", str(reports / "2026-08-19-blind-queue.key.json"),
+                                 "--review", str(norung), "--now", NOW)
+        cases.append(("a review row with no rung counts as unstated rather than "
+                      "vanishing from the denominator",
+                      "unstated" in out_n and code_n in (_cli.OK, _cli.FAILED)))
+
         for field in REQUIRED:
             broken = tmp / f"missing-{field}.json"
             payload = json.loads(valid.read_text())

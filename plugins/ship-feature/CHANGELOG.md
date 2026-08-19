@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0 - 2026-08-19
+
+- Phase 6 invokes `test-campaign` where installed, falling back to `acceptance-e2e`. A case the campaign cannot settle resolves to `unoracled` and phase 6a builds the missing oracle, rather than the case passing quietly.
+- A requirement returned as `Unverified — no oracle` routes back to phase 6 rather than to gap-fix: gap-fix closes a gap between the work and its spec, and this is a gap between the spec and anything checkable.
+- Phase 7 notes that verify's table now carries the oracle rung per requirement.
+
 ## 2.0.0 - 2026-08-15
 
 Moved from diolog-plugins and rebuilt as the conductor over the shipyard stages.

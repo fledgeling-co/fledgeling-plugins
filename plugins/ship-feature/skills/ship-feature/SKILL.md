@@ -118,15 +118,27 @@ id — e2e and verify must cover them.
 **5 — Gap-fix.** Invoke `gap-fix <ID>` — the belt-and-braces finisher before tests; run it even
 when work looked complete (a prior self-review commit certifies nothing).
 
-**6 — Acceptance e2e.** Invoke `acceptance-e2e` with **all** requirement sources (description,
-spec + children, plans, the mock index/state matrix — a menu the mock shows but the AC list
-omits is still a flow to cover). Run against the branch's app locally, specs authored on the
-branch, green **twice**, tractable bugs fixed. `references/e2e-and-finalize.md` §Phase 6.
+**6 — Acceptance e2e.** Invoke `test-campaign` where it is installed, otherwise `acceptance-e2e`,
+with **all** requirement sources (description, spec + children, plans, the mock index/state
+matrix — a menu the mock shows but the AC list omits is still a flow to cover). Run against the
+branch's app locally, specs authored on the branch, green **twice**, tractable bugs fixed.
+`references/e2e-and-finalize.md` §Phase 6.
+
+Under `test-campaign`, a case it cannot settle resolves to `unoracled` rather than passing
+quietly, and phase 6a builds the missing oracle. Carry those to verify rather than around it:
+a requirement with no oracle is the one shape verify cannot grade, and the cheapest place to
+find that out is here, while the branch is still open.
 
 **7 — Verify.** Spawn the `verify` stage as a **fresh agent** (no build context — that is the
 point). It gathers typed evidence against the running app, routes the verdict out of family, and
-sets `Done` or `Needs More Work`. On `Needs More Work`: loop → `gap-fix` (its verdict table is
-the work order) → re-verify; three failed rounds parks the item with the blocker named.
+sets `Done` or `Needs More Work`. Its per-requirement table now carries the oracle rung each
+piece of evidence stands on, and a requirement proved only by a weak rung reads `Unverified`
+rather than `Done`. On `Needs More Work`: loop → `gap-fix` (its verdict table is the work
+order) → re-verify; three failed rounds parks the item with the blocker named.
+
+A requirement marked `Unverified — no oracle` routes back to phase 6, not to gap-fix. Gap-fix
+closes a gap between the work and its spec; this is a gap between the spec and anything
+checkable, and no amount of fixing the code settles it.
 
 **8 — Finalize.** Only behind the **fail-closed pre-merge gate**
 (`references/e2e-and-finalize.md`): every box actually checked now — including the verifier's
