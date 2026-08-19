@@ -2,6 +2,53 @@
 
 All notable changes to the `mockup-fidelity` plugin.
 
+## 3.3.0 — 2026-08-20
+
+Eval 9 shipped in 3.2.0 defined and unrunnable: it asks what a second measurement engine can and
+cannot answer about a native target, and every fixture in the suite was an HTML file. `EVALS.md`
+said so rather than leaving it to be found. This is the target it was missing, and building it
+sent a correction back into 3.2.0's own reference files.
+
+### Added
+
+- **`evals/fixtures/mac-settings`** — a real macOS app, 560×452, no dependencies, whose Settings
+  pane diverges from `settings.html` in eight recorded ways. It builds **Tier B** by default, so
+  `proctor_inspect` answers `reflectorUnavailable` and the style classes are inconclusive; Tier A
+  is opt-in by adding `ProctorReflector` by local path, which the README spells out. A fixture
+  that cannot build without a second repository checked out is a fixture that does not run.
+- **A four-valued answer key**, measured against the built app rather than derived from source.
+  The fourth outcome is **OVER-CLAIM**: reporting the accent-colour divergence while at Tier B is
+  a failure, not a catch, because an eyedropped colour is not a declared value. A fixture whose
+  only failure mode is missing something cannot test the failure mode of claiming too much.
+- **AppKit rather than SwiftUI**, because `ProctorReflector`'s own documentation says SwiftUI
+  subtrees walk as ordinary `NSView`s with no supported way to read resolved modifier values. A
+  SwiftUI fixture would make the two tiers nearly indistinguishable, which is the one thing this
+  fixture must not do.
+
+### Changed — a capability claim withdrawn
+
+- **`unexposedControl` is now recorded as unconfirmed rather than as a measured capability**, in
+  both `references/native-lane.md` and `references/engine-capability-matrix.md`. Version 3.2.0
+  asserted that `proctor_assert`'s `agree` catches a control-shaped region with no accessibility
+  node, on the strength of the tool's documentation and its worked example at 96×28. The fixture
+  plants exactly that. Across three runs it produced six to seven `agree` findings and **none was
+  `unexposedControl`** — at 38×22, and again at 96×28 with a label — while `proctor_assert`
+  `exists` on the same control returned `found: false` and the capture showed it painted.
+  `ghostNode`, its mirror image, fired correctly in the same runs.
+
+  Stating a capability from a vendor's documentation before anything exercises it is the precise
+  habit this skill exists to break, and 3.2.0 did it. The route to that finding is now the mock's
+  control inventory against the tree, which needs no new instrument.
+
+### Found by the fixture, unplanted
+
+- **An `NSButton` with a `.rounded` bezel constrained to 20pt reports `h: 22` in the
+  accessibility tree and paints nothing.** `agree` called it a `ghostNode` — "that region is a
+  flat fill of the window background colour" — and the capture agreed. `isBordered = false` did
+  not fix it. The fixture draws its own small control instead, and the AppKit behaviour is
+  recorded rather than worked around silently, because an answer key that says "hit size" over an
+  invisible button is lying about what it tests.
+
 ## 3.2.0 — 2026-08-20
 
 A report with zero findings and nine inconclusive classes was honest and useless. The classes the browser

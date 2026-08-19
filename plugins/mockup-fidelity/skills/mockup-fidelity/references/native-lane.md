@@ -117,11 +117,28 @@ detector itself" — the research's own recommendation, where a working primitiv
 is replaced by a constant to prove the differ returns inconclusive. It returns
 typed `Disagreement` records — `unexposedControl`, `ghostNode`,
 `invisibleButFocusable`, `frameMismatch`, `staleFrame`, `hitTargetMismatch`,
-`contrastBelowThreshold`, `missingLabel`. **`unexposedControl` is a fidelity
-finding this skill could not previously produce at all**: a control-shaped region
-with no accessibility node is present in the mock's intent and absent from the
-build's tree, and neither a tree dump nor a screenshot review finds it, because
-each is one observer agreeing with itself.
+`contrastBelowThreshold`, `missingLabel`.
+
+**Measured, and it does not all work.** An earlier draft of this file asserted
+that `unexposedControl` catches a control-shaped region with no accessibility
+node, on the strength of the tool's documentation and its worked example of "a
+96×28 control-shaped region at (880,120) has no AX node". Building a fixture that
+plants exactly that — `evals/fixtures/mac-settings` — and running it three times
+on 20 Aug 2026 produced six to seven findings per run and **no `unexposedControl`
+in any of them**, at 38×22 and again at 96×28 with a label. The divergence is
+real and independently confirmed: `proctor_assert` `exists` on that control
+returns `found: false` while the capture plainly shows it painted.
+
+So `ghostNode` fired correctly in the same runs — a control the tree has and the
+pixels do not — and its mirror image did not. Treat `unexposedControl` as
+**unconfirmed on this build**, and reach the same finding the way this skill
+already reaches an absence: compare the mock's control inventory against the tree,
+where a control present in one and missing from the other is an `absent` row. That
+route needs no new instrument, and it is the one the ledger is built on anyway.
+
+Stating a capability from a vendor's documentation before anything exercises it is
+the precise habit this skill exists to break, and the first draft of this file did
+it. `ANSWER-KEY.md` in the fixture carries the three runs.
 
 ## UNSTABLE — the fourth state, and where tolerance comes from
 

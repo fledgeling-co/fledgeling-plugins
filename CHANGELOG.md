@@ -76,6 +76,32 @@ wrong.
 failed**, 12 of them new. Four evals were added — one per plugin — and **none has been run**;
 each plugin's EVALS.md says so rather than folding them into an existing total.
 
+### mockup-fidelity 3.3.0: the fixture that withdrew a claim
+
+3.2.0 shipped eval 9 defined and unrunnable — it asks what a second measurement engine can answer
+about a native target, and every fixture in the suite was an HTML file. `evals/fixtures/mac-settings`
+is now a real macOS app whose Settings pane diverges from its mock in eight recorded ways, built
+Tier B by default so `proctor_inspect` answers `reflectorUnavailable` and the style classes stay
+inconclusive.
+
+Its answer key is four-valued, and the fourth outcome is **OVER-CLAIM**: reporting the accent-colour
+divergence while at Tier B is a failure rather than a catch, because an eyedropped colour is not a
+declared value. A fixture whose only failure mode is missing something cannot test the failure mode
+of claiming too much.
+
+**Building it withdrew a claim 3.2.0 had made.** That version asserted `proctor_assert`'s `agree`
+catches a control-shaped region with no accessibility node, from the tool's documentation and its
+worked example at 96×28. The fixture plants exactly that, and across three runs `agree` produced six
+to seven findings and **none was `unexposedControl`** — at 38×22 and again at 96×28 with a label —
+while `exists` on the same control returned `found: false` and the capture showed it painted.
+`ghostNode`, its mirror image, fired correctly in the same runs. Both reference files now record the
+capability as unconfirmed. Stating a capability from documentation before anything exercises it is
+the habit this skill exists to break, and it did it.
+
+The fixture also found an unplanted defect in itself: an `NSButton` with a `.rounded` bezel
+constrained to 20pt reports `h: 22` in the accessibility tree and paints nothing, which `agree`
+correctly called a `ghostNode`.
+
 ### mockup-fidelity 3.2.0: the ceiling belonged to the engine
 
 A fidelity report reading zero findings beside nine inconclusive classes was honest and useless. The

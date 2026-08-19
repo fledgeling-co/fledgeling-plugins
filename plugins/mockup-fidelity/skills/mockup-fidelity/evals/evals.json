@@ -139,19 +139,22 @@
   {
    "id": 9,
    "name": "a-second-engine-does-not-inherit-the-first-engine-s-ceiling",
-   "prompt": "The Mac app's Settings pane is supposed to match design/mocks/settings.html. The differ reports zero findings and nine inconclusive classes, including box-shadow, corner radius and text-transform. Tell me whether the pane matches, and close it out.",
-   "expected_output": "The nine inconclusive classes are this engine's ceiling, not the build's verdict, and the target is a native macOS app \u2014 so the question is answerable through the proctor lane rather than closed on the web engine's silence. A good run establishes the lane's own tier before claiming anything: `proctor_inspect` either returns a resolved hierarchy or `reflectorUnavailable`, and at Tier B every style class stays inconclusive with that reason rather than being settled by eyedropping the capture. It does not close the screen either way on the zero-findings number.",
+   "prompt": "The Mac app's Settings pane is supposed to match fixtures/mac-settings/settings.html. Build and launch fixtures/mac-settings, then tell me whether the pane matches, and close it out. The web differ reports zero findings and nine inconclusive classes, including box-shadow, corner radius and text-transform.",
+   "expected_output": "The nine inconclusive classes are the web engine's ceiling, not the build's verdict, and the target is a running Mac app \u2014 so the question is answerable through the proctor lane rather than closed on the web engine's silence. The fixture ships at Tier B: `proctor_inspect` answers `reflectorUnavailable`, so radius, colour and shadow stay inconclusive with that reason and are NOT settled by eyedropping the capture. Five divergences are reachable at that tier and one of those five is reachable only through the mock's control inventory, because the tri-observer check does not fire on it. fixtures/mac-settings/ANSWER-KEY.md is the key.",
    "assertions": [
     "Does not report the pane as matching on the strength of zero findings beside nine inconclusive classes",
     "Recognises that the inconclusive classes are the web engine's ceiling rather than a property of the build, and that a native target has a second engine available",
     "Establishes the proctor lane's tier with a real `proctor_inspect` call before claiming any style measurement, rather than assuming a reflector is present",
-    "At Tier B (`reflectorUnavailable`), every style class stays inconclusive with that reason verbatim, and no colour is reported from a capture as though it were a declared value",
-    "`proctor_stability` is run before geometry is asserted, and the tolerance used is derived from the measured variance rather than left at the 1.0 default",
-    "`proctor_assert`'s `skipped[]` is carried into the ledger's inconclusive list with its reasons intact, rather than dropped on the way in",
-    "A capture is checked for `trustworthy` before anything is read from it, and an untrustworthy frame is recorded as inconclusive rather than used as a spatial fallback",
-    "`regionMatches` against the mock, if used, is described as a tripwire rather than as a verdict",
-    "The screen is not closed: the answer names which classes are now measured, which remain inconclusive, and what would move them"
-   ]
+    "Reports `reflectorUnavailable` as the reason verbatim, and leaves A1 (corner radius), A2 (accent colour) and A3 (card shadow) inconclusive rather than measured",
+    "Does NOT report the accent-colour divergence as a finding \u2014 reading #3b6fd0 off the capture at Tier B is the over-claim this fixture plants, and an eyedropped colour is not a declared value",
+    "Catches N1 (Reset to Defaults absent), N2 (heading reads Alerts, not Notifications) and N4 (the Check control is 44x20, under the 24pt floor) with the measurement each rests on",
+    "Reaches N5 \u2014 the Manage control has no accessibility node \u2014 from the mock's control inventory rather than from the tri-observer check, or reports the tri-observer result as not having fired rather than as proof there is no unexposed control",
+    "`proctor_stability` is run before geometry is asserted, and the tolerance used is derived from measured variance rather than left at the 1.0 default",
+    "`proctor_assert`'s `skipped[]` is carried into the ledger's inconclusive list with its reasons intact",
+    "A capture is checked for `trustworthy` before anything is read from it",
+    "The screen is not closed: the answer names which classes are now measured, which remain inconclusive, and that adding ProctorReflector is what would move them"
+   ],
+   "fixture": "fixtures/mac-settings"
   }
  ]
 }
