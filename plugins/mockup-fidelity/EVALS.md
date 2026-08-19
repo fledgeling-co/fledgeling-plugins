@@ -1,6 +1,6 @@
 # Evals
 
-**No two-arm eval has been run, so nothing here is a measured result about the skill.** The eval suite exists now, in [`skills/mockup-fidelity/evals/evals.json`](skills/mockup-fidelity/evals/evals.json), beside the fixtures and the answer key that were already there. Not one of its eight prompts has been executed with the skill loaded, none without it, no judge has looked at anything, and there is no pass rate. That is a legitimate state to ship in, and it is written here plainly so a defined suite is not mistaken for an evaluated one.
+**No two-arm eval has been run, so nothing here is a measured result about the skill.** The eval suite exists now, in [`skills/mockup-fidelity/evals/evals.json`](skills/mockup-fidelity/evals/evals.json), beside the fixtures and the answer key that were already there. Not one of its nine prompts has been executed with the skill loaded, none without it, no judge has looked at anything, and there is no pass rate. The ninth was added with the native lane on 2026-08-20 and is unrun like the other eight; it is also the only one the existing fixtures cannot serve, because its target is a running Mac app rather than an HTML file, so running it needs a fixture app that does not exist yet — which is a fact about the suite worth stating rather than discovering later. That is a legitimate state to ship in, and it is written here plainly so a defined suite is not mistaken for an evaluated one.
 
 The harness itself is a different matter. It was run, against the fixtures on disk, and what it measured is below.
 

@@ -109,6 +109,39 @@ wiring behind it probably doesn't exist yet. So it writes a second document list
 now implies: the endpoints, the queries, the navigation targets, the empty and error states. A
 pixel-perfect screen wired to nothing reads as finished and fails the first time somebody taps it.
 
+## When the engine is the limit, not the build
+
+A report with zero findings and nine inconclusive classes was always honest here, and it was also a dead
+end: the classes it couldn't measure — shadows, gradients, corner radius through the shorthand, text
+transforms, anything animating — stayed unmeasured, and the reader was left holding a screen nobody could
+close. That's the browser engine's ceiling rather than a fact about the build, and treating the two as the
+same thing is exactly the confusion this skill exists to prevent, arriving one level up.
+
+So there's a second engine now. Where the target is a native Mac app, an Electron app, or a web build
+whose divergence sits in a class the browser engine returns nothing for, the measurement goes through
+[proctor](../proctor/README.md), which reads the accessibility tree and the compositor's own layer values.
+A shadow the browser reports as an empty string is a shadow radius, offset and opacity on a layer, and
+those are readable.
+
+Three things that lane can answer and the browser lane can't. Whether a screenshot is even current: a
+stale frame is pixel-identical to a correct one, and only one of the two engines attaches a frame status
+saying which you're holding. Whether something is mid-animation: the browser reports zero running
+animations while one runs, where the layer's model and presentation values differ exactly while it's in
+flight. And whether there's a control on screen the app's own accessibility tree doesn't know about,
+which is a present-in-the-mock, absent-in-the-build finding that neither a tree dump nor a screenshot
+review can reach, because each of those is one observer agreeing with itself.
+
+It comes with its own ceiling, measured rather than assumed. Resolved colours and fonts need the app to
+embed a debug reflector; without one the honest answer is the tree plus pixels, every style class stays
+inconclusive, and an eyedropped colour is not a declared value. The run establishes which of those two
+it's in before it claims anything, and the ledger says which.
+
+The other thing the second engine brings is a fourth answer. Until now a measurement was available or it
+wasn't; a value that won't hold still is a third way to be unmeasurable, and a 2026 study of 262 visual
+flakiness cases found the split 60/40 between structure and style. So instability gets measured as a
+number before anyone argues about whether a difference is a defect — which is also where the geometry
+tolerance now comes from, instead of a default nobody calibrated.
+
 ## What it refuses to do
 
 It won't certify a match from a commit message, a code comment, or a screenshot you both agreed looked

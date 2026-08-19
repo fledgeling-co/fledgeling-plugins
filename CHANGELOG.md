@@ -76,6 +76,47 @@ wrong.
 failed**, 12 of them new. Four evals were added — one per plugin — and **none has been run**;
 each plugin's EVALS.md says so rather than folding them into an existing total.
 
+### mockup-fidelity 3.2.0: the ceiling belonged to the engine
+
+A fidelity report reading zero findings beside nine inconclusive classes was honest and useless. The
+classes obscura cannot measure — `boxShadow`, `backgroundImage`, `textTransform`, transitions,
+animations, `flex`, pseudo-elements, `getBBox()` — were unmeasured for every target the skill had, and
+the reader was left holding a screen nobody could close. **That ceiling belonged to the engine rather
+than to the build**, which is the same confusion the skill exists to prevent, arriving one level up.
+
+**A second measurement engine, driving `proctor`.** It covers a native macOS app built to a mock, an
+Electron app shipped as a Mac app, a React build inside a Mac web view — and a plain web build whose
+divergence sits in a class the browser engine returns `""` for. That last case is why this is a second
+engine rather than a native-only lane: a shadow CSSOM reports as an empty string is a `shadowRadius`, a
+`shadowOffset` and a `shadowOpacity` on a `CALayer`, and those are readable.
+
+**The lane has its own capability preflight, with two tiers, and the tier is measured rather than
+assumed.** `proctor_inspect` returns a resolved hierarchy for an app embedding `ProctorReflector` and
+`reflectorUnavailable` for one that does not. Tier B leaves every style class inconclusive with that
+reason, because an eyedropped colour is not a declared value. It is not a degraded Tier A that can be
+talked up, and the ledger records which set of questions it answered.
+
+**Three questions the browser lane cannot ask at all.** Whether a capture is current — a stale frame is
+pixel-identical to a correct one and obscura attaches no signal, where every proctor capture carries
+`SCFrameStatus`, `dirtyRectCount`, `framesWaited` and `trustworthy`. Whether an animation is in flight —
+`getAnimations()` returns 0 while one runs, and the layer's model and presentation values differ exactly
+while it does. And whether a control-shaped region has no accessibility node behind it, which is a
+present-in-mock, absent-in-build finding the skill could not previously produce, and which neither a tree
+dump nor a screenshot review reaches because each is one observer agreeing with itself.
+
+**`UNSTABLE` becomes the fourth state.** The research behind this skill names four — `MEASURED`,
+`UNAVAILABLE`, `UNSTABLE`, `ERROR` — and three were implemented. A 2026 study of 262 web
+visual-flakiness cases split them 59.9% structure-related and 40.1% style-related, so a value that will
+not hold still is a classification rather than noise to tolerate away. `proctor_stability` measures it,
+and its variance is where a defensible geometry tolerance comes from: every assertion kind defaults
+`tolerance` to 1.0, and the research is explicit that a numeric tolerance is defensible only after
+repeated-run measurement proves non-zero variance.
+
+The capability facts live in `engine-capability-matrix.md` rather than in the new file, because that is
+their single home and six copies of one paragraph is how nine classes stayed hidden for nine versions.
+Eval 9 was added and **cannot be run against the current fixtures** — its target is a running Mac app
+rather than an HTML file — which `EVALS.md` states rather than leaving to be found later.
+
 ## 2026-08-19
 
 ### warrant 0.2.0, test-campaign 0.7.0, shipyard 0.2.0, ship-feature 2.1.0, ship-fleet 2.1.0: the oracle gap
