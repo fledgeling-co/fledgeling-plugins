@@ -2,8 +2,10 @@
 
 **The eval suite for this skill is written down and has not been run.** Nothing in
 it is a measured result: no pass rates, no scores, no judge verdicts, no costs. No
-runner and no panel has been pointed at `evals/evals.json`, which holds eight
-prompts and 50 checkable assertions.
+runner and no panel has been pointed at `evals/evals.json`, which holds nine
+prompts and 56 checkable assertions. The ninth was added on 2026-08-20, covering the
+evidence-integrity rules: routing a ready-to-verify item with no bundle back to its
+runner, and running the campaign's capture gate once per repo rather than once per item.
 
 There is also no measured result anywhere else. Unlike its sibling
 [ship-feature](../../ship-feature/evals/EVALS.md), whose SKILL.md was in the tested
