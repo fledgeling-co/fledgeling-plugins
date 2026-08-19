@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-20
 
+### mockup-fidelity: eval 9 run, and two of its assertions do not bite
+
+The first prompt in the suite to be run rather than defined. With the skill, 9 of 11 assertions;
+without it, 2 of 11 — same model on both arms, both blind to the fixture's answer key, graded out
+of family with a quoted sentence per assertion. The baseline reached for pixel crops and a read of
+the Swift source to settle corner radius and shadow, which is the exact substitution the Tier B
+rule refuses.
+
+The two assertions the baseline also passed are recorded as findings about the eval set rather
+than as wins, and a third failed on both arms because a headless runner has no proctor tools and
+both arms therefore answered on paper. Full table, and the two limits on the run, in
+`plugins/mockup-fidelity/EVALS.md`.
+
 ### test-campaign 0.8.0, shipyard 0.3.0, ship-feature 2.2.0, ship-fleet 2.2.0: what a picture is of
 
 **The gap.** A campaign built with `test-campaign` 0.7.0 published 20 surface captures and

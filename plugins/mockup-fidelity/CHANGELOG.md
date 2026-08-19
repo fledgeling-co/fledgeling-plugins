@@ -2,6 +2,34 @@
 
 All notable changes to the `mockup-fidelity` plugin.
 
+## Unreleased — 2026-08-20
+
+Eval 9 was run for the first time. No skill file changed; this records what the run measured.
+
+### Measured
+
+- **9 of 11 assertions with the skill, 2 of 11 without it**, both arms `claude-fable-5` at
+  `--effort high` so the comparison is the skill and not the model, both blind to the fixture's
+  answer key and to the `Divergence` table in its source. Graded by `gemini-3.7-flash-high`
+  against the answer key with a quoted sentence per assertion. Recorded in `EVALS.md`.
+- **Two assertions do not discriminate.** Assertions 1 and 5 passed on the baseline too: a
+  capable model already refuses to call nine silenced detector classes a pass, and already
+  declines to volunteer a colour it has not measured. Assertion 5 passes on the baseline for the
+  wrong reason — it never gets close enough to make the over-claim the fixture plants. Both need
+  an adversarial rewrite before they measure anything.
+- **Assertion 6 failed on both arms and is a defect in the run rather than in either answer.** A
+  headless `claude -p` has no proctor MCP tools, so both arms answered on paper and neither could
+  read the three divergences the assertion asks for. It stays unresolved until the eval runs
+  against a live app.
+
+### Known limits of the run
+
+- **The panel is one family short.** `codex` was inside a usage window closed until 13:30 on the
+  day of the run; no substitute was seated in its place.
+- **Neither arm was a clean room.** `claude -p` loads the operator's global `CLAUDE.md`, which
+  carries a long set of measured Obscura notes, and the baseline arm quotes them. That makes 9
+  against 2 a floor rather than a headline.
+
 ## 3.3.0 — 2026-08-20
 
 Eval 9 shipped in 3.2.0 defined and unrunnable: it asks what a second measurement engine can and

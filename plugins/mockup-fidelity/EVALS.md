@@ -51,7 +51,7 @@ That also means the score is the most dangerous number in the output. The defect
 
 ## What the eval set would settle
 
-Eight prompts. Each runs twice, once with the skill and once with no skill at all, because there is no predecessor and the honest question is whether the skill earns the context window it costs. What the harness measurements above cannot tell you is the interesting part: whether a model handed all of this *behaves* differently, which is where every one of this skill's rules actually lives.
+Nine prompts. Each runs twice, once with the skill and once with no skill at all, because there is no predecessor and the honest question is whether the skill earns the context window it costs. What the harness measurements above cannot tell you is the interesting part: whether a model handed all of this *behaves* differently, which is where every one of this skill's rules actually lives.
 
 Three prompts are where the answer would come from:
 
@@ -63,10 +63,63 @@ Three prompts are where the answer would come from:
 
 Grade with a subagent that never sees the skill, marking each assertion passed or failed with quoted evidence, and no 1-to-10 scores. Every assertion in the set is a property of an artifact on disk, an exit code, or a row in the ledger.
 
+## Eval 9, run 2026-08-20: 9 of 11 against 2 of 11
+
+The first prompt in the set to be run. Both arms were `claude-fable-5` at `--effort high` — the
+same model on both sides, so the comparison is the skill rather than the model. One arm received
+SKILL.md plus `native-lane.md` and `engine-capability-matrix.md` (62,150 bytes); the other
+received the task alone (712 bytes). Both ran from `/tmp/mfeval` with no path into this
+repository, so neither could read `fixtures/mac-settings/ANSWER-KEY.md` or the `Divergence` table
+in `main.swift` that names all eight planted defects. Grading was `gemini-3.7-flash-high`, marking
+each assertion against the answer key and quoting the sentence that decided it.
+
+| Assertion | Skill | Baseline |
+| --- | :---: | :---: |
+| 1. Does not report a match on zero findings beside nine inconclusive classes | pass | pass |
+| 2. Reads the inconclusive classes as the web engine's ceiling, and reaches for the second engine | pass | fail |
+| 3. Establishes the tier with a real `proctor_inspect` call before claiming a style measurement | pass | fail |
+| 4. Reports `reflectorUnavailable` verbatim and leaves radius, colour and shadow inconclusive | pass | fail |
+| 5. Does not report the accent-colour divergence — an eyedropped colour is not a declared value | pass | pass |
+| 6. Catches N1, N2 and N4 with the measurement each rests on | fail | fail |
+| 7. Reaches N5 from the control inventory, or reports the tri-observer check as not having fired | pass | fail |
+| 8. Runs `proctor_stability` before asserting geometry, and derives the tolerance from variance | pass | fail |
+| 9. Carries `proctor_assert`'s `skipped[]` into the ledger with its reasons intact | pass | fail |
+| 10. Checks a capture for `trustworthy` before reading anything from it | pass | fail |
+| 11. Does not close the screen: names what is measured, what is not, and what would move it | pass | fail |
+| **Total** | **9** | **2** |
+
+The two shared passes are the ones worth reading first. Assertions 1 and 5 both landed on the
+baseline, which means neither discriminates on this task: a capable model refuses to call nine
+silenced detector classes a pass without being told to, and it does not volunteer a colour value
+it has not measured. Assertion 5 in particular was written to catch an over-claim the fixture
+plants, and the baseline avoided the over-claim by never getting close enough to make it —
+passing for the wrong reason is not the same as passing. Both need an adversarial rewrite that
+makes the wrong answer attractive before they measure anything.
+
+Assertion 6 failed on both arms, and that is a defect in how the eval was run rather than in
+either answer. It asks for the three divergences the fixture plants, which are only readable from
+a running app; the arms were given the written-answer form of the prompt because a headless
+`claude -p` has no proctor MCP tools, so neither could have named them. It is scored as a fail
+above because that is what was measured, and it stays unresolved until the eval runs against a
+live app.
+
+What separates the two arms is the whole of the middle of the table. The baseline reached for
+`screencapture`, `magick` crops and a read of the Swift source, and proposed settling corner
+radius and shadow by looking at enlarged pixels — the exact substitution the skill's Tier B rule
+exists to refuse. It had no `ProctorReflector`, no tier, and no notion that a native window has a
+second measuring engine at all. The skill arm established the tier first and let it decide what
+its own findings were allowed to claim.
+
+Two limits on the result. The panel is one family short: `codex` was inside a usage window that
+closed until 13:30 on the day of the run, and no substitute was seated in its place. And neither
+arm was a clean-room baseline, because `claude -p` loads the operator's global `CLAUDE.md`, which
+carries a long set of measured Obscura notes; the baseline arm quotes them. That makes the
+baseline stronger than a naive one, so 9 against 2 is a floor rather than a headline.
+
 ## Caveats, stated rather than buried
 
 - **Nothing above measures the skill.** The 49 findings, the 8 of 10 and the nine silenced classes are facts about `capture.mjs`, `analyze.js` and Obscura. None of them says anything about what a model does after reading the SKILL.md, which is what the eval set is for.
 - **Two fixtures, one screen, one viewport, one engine.** Both fixtures are small static HTML files rendered by Obscura 0.2.0 at the harness default. No React app, no React Native target, no Metro connection, no simulator, no real browser, and no second run to measure variance.
 - **The nine silenced classes are a property of this engine, not of the skill.** In packaged Chrome the numbers above would be different, and probably better. Nobody has measured them there, so the comparison is unavailable rather than favourable.
 - **The defect this file used to name is now fixed.** `grade.py` has an argument interface, a documented invocation and a refusal that says how to produce its inputs. What remains open is that no comparative run has been performed with it: the table above reads one column, because there is only one capture.
-- **The eight prompts are unrun, so the set's own quality is unknown.** One assertion is labelled a control on the expectation that a capable model passes it without the skill. Which of the others discriminate is unknown, and any a baseline also passes measure the model rather than the skill and should be relabelled or dropped.
+- **Eight of the nine prompts are unrun, so most of the set's own quality is unknown.** One assertion is labelled a control on the expectation that a capable model passes it without the skill. Which of the others discriminate is unknown, and any a baseline also passes measure the model rather than the skill and should be relabelled or dropped. Eval 9 has now been run and two of its eleven assertions turned out not to discriminate; see the section below.
