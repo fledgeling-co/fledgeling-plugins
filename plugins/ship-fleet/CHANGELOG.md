@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0 — 2026-08-20
+
+### Changed
+
+- **A *ready-to-verify* report is treated as a claim about a bundle.** An item whose evidence
+  bundle is empty goes back to its runner rather than into the verify queue, because verify's
+  first act would be to discover that at the cost of a whole fresh agent.
+- **A new standing rule: a fleet multiplies whatever the evidence layer gets wrong.** One
+  campaign's captures filed by filename is a bad page; twenty items' verdicts resting on the same
+  shape is a Done column nobody can audit. Where the repo carries a campaign,
+  `test-campaign`'s `capture-lineage.py <dir> --gate` runs once per repo rather than once per
+  item, and its exit code gates the column.
+
 ## 2.1.0 - 2026-08-19
 
 - The fleet ledger carries the oracle mix across the run rather than a pass count. A fleet is where a Done column is built, so it is where an unauditable one starts: forty items closed on `presence` ship forty items nobody can audit later, and that surfaces months afterwards when the branch context is gone.
