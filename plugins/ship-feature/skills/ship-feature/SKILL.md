@@ -118,15 +118,38 @@ id — e2e and verify must cover them.
 **5 — Gap-fix.** Invoke `gap-fix <ID>` — the belt-and-braces finisher before tests; run it even
 when work looked complete (a prior self-review commit certifies nothing).
 
-**6 — Acceptance e2e.** Invoke `acceptance-e2e` with **all** requirement sources (description,
-spec + children, plans, the mock index/state matrix — a menu the mock shows but the AC list
-omits is still a flow to cover). Run against the branch's app locally, specs authored on the
-branch, green **twice**, tractable bugs fixed. `references/e2e-and-finalize.md` §Phase 6.
+**6 — Acceptance e2e.** Invoke `test-campaign` where it is installed, otherwise `acceptance-e2e`,
+with **all** requirement sources (description, spec + children, plans, the mock index/state
+matrix — a menu the mock shows but the AC list omits is still a flow to cover). Run against the
+branch's app locally, specs authored on the branch, green **twice**, tractable bugs fixed.
+`references/e2e-and-finalize.md` §Phase 6.
+
+Under `test-campaign`, a case it cannot settle resolves to `unoracled` rather than passing
+quietly, and phase 6a builds the missing oracle. Carry those to verify rather than around it:
+a requirement with no oracle is the one shape verify cannot grade, and the cheapest place to
+find that out is here, while the branch is still open.
 
 **7 — Verify.** Spawn the `verify` stage as a **fresh agent** (no build context — that is the
 point). It gathers typed evidence against the running app, routes the verdict out of family, and
-sets `Done` or `Needs More Work`. On `Needs More Work`: loop → `gap-fix` (its verdict table is
-the work order) → re-verify; three failed rounds parks the item with the blocker named.
+sets `Done` or `Needs More Work`. Its per-requirement table now carries the oracle rung each
+piece of evidence stands on, and a requirement proved only by a weak rung reads `Unverified`
+rather than `Done`.
+
+Three gates inside that stage decide whether its evidence means anything, and each closes a way
+a verdict can be confident and hollow. **Every screenshot's subject is proved** rather than
+inferred from its filename — a campaign once published 20 captures of three unrelated documents
+and cleared every gate it had, so a picture whose target nothing corroborates is the same status
+as no picture. **Every suite it cites is scanned for assertions that cannot fail** before its
+green is spent — over half of more than 15,000 generated mutants survived a passing unit,
+integration and system suite. And **a bundle-only completeness critic** reads the artifacts and
+the requirement table with the app, the diff and the ticket closed, rejecting any row that
+reduces to "looks right" or a code read; prose instructions do not survive effort pressure, and
+a precondition does. On `Needs More Work`: loop → `gap-fix` (its verdict table is the work
+order) → re-verify; three failed rounds parks the item with the blocker named.
+
+A requirement marked `Unverified — no oracle` routes back to phase 6, not to gap-fix. Gap-fix
+closes a gap between the work and its spec; this is a gap between the spec and anything
+checkable, and no amount of fixing the code settles it.
 
 **8 — Finalize.** Only behind the **fail-closed pre-merge gate**
 (`references/e2e-and-finalize.md`): every box actually checked now — including the verifier's
@@ -142,7 +165,11 @@ decided before it is needed.
 - **The feature description is the north star; human answers > triage assumptions > inference.**
   Never let a later stage quietly reverse a recorded decision.
 - **Never skip a stage; never fake a gate.** Every gate actually executed; merge only on
-  verified green. The out-of-family gates and the cross-family verifier are gates, not garnish —
+  verified green. A gate whose pass and whose could-not-run look identical from the outside has
+  not been run — record which it was.
+- **Evidence is what the bundle holds, not what the note says about it.** Every clause and every
+  verdict row cites an artifact by path and by the value read from it; a row citing a summary of
+  an artifact is a TODO in a verdict's clothes. The out-of-family gates and the cross-family verifier are gates, not garnish —
   an unlogged fallback is indistinguishable from a skip and is treated as one.
 - **Respect the egress opt-out** (per invocation); an opted-out repo runs in-family and that
   satisfies the gates, with the degraded-verification buy-back from

@@ -1,5 +1,5 @@
 {
- "_note": "Fixture: an assembled lot result with all five required fields present. Each selftest that checks a missing field deletes exactly one key from this file, so every field is observed firing on its own.",
+ "_note": "Fixture: an assembled lot result with all six required fields present. Each selftest that checks a missing field deletes exactly one key from this file, so every field is observed firing on its own.",
  "lot_id": "lot-194",
  "warrant_version": "1",
  "population": {"id": "lot-194", "size": 194, "queue_positions": 198},
@@ -10,5 +10,6 @@
  "sample_size": 56,
  "errors_found": 0,
  "seed_recovery": {"recovered": 4, "seeded": 4},
+ "oracle_mix": {"outcome": 31, "metamorphic": 9, "structural": 12, "presence": 4},
  "decision": "accept the lot: 0 error(s) in 56 of 194 items sampled, and every seeded defect was recovered"
 }

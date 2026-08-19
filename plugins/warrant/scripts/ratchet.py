@@ -304,9 +304,22 @@ def assess(root: str | pathlib.Path, warrant: dict[str, Any],
                                             f"warrant allows {stale_days}"})
 
         if not isinstance(measured, (int, float)):
+            globs = [g for g in entry.get("surfaces", []) if isinstance(g, str)]
+            where = " ".join(globs) if globs else "the class's surfaces (the warrant names none)"
             fired.append({"trigger": "oracle_coverage",
                           "reason": f"no oracle coverage recorded for this class, so it cannot be "
-                                    f"shown at or above its {threshold:.0%} tier-1 threshold"})
+                                    f"shown at or above its {threshold:.0%} tier-1 threshold",
+                          "work_order": {
+                              "surfaces": globs,
+                              "produces": ".warrant/oracle-coverage.json",
+                              "how": [
+                                  f"warrant:oracle over {where}, then rollup_classes.py "
+                                  f"to key the result by class",
+                                  "or test-campaign, which measures the same surfaces per "
+                                  "case and exports the file with "
+                                  "`campaign.py export-warrant`",
+                              ],
+                          }})
         elif measured < threshold:
             fired.append({"trigger": "oracle_coverage",
                           "reason": f"oracle coverage is {measured:.1%} against a tier-1 "
@@ -441,6 +454,13 @@ def main(args: argparse.Namespace) -> int:
                   + (f" (capped at {block['max_tier']})" if block["max_tier"] < 4 else ""))
         for t in block["triggers"]:
             say(args, f"    {t['trigger']}: {t['reason']}")
+            order = t.get("work_order")
+            if isinstance(order, dict):
+                surfaces = " ".join(order.get("surfaces") or []) or "(none named)"
+                say(args, f"      surfaces: {surfaces}")
+                say(args, f"      produces: {order.get('produces')}")
+                for step in order.get("how") or []:
+                    say(args, f"      run: {step}")
         for b in block["blockers"]:
             say(args, f"    blocker: {b}")
     for r in revocations:

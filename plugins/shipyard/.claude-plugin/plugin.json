@@ -1,7 +1,7 @@
 {
   "name": "shipyard",
   "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"
