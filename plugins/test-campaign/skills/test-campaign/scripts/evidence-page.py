@@ -206,10 +206,57 @@ def bar(counts: dict) -> str:
         for k, c in order) + "</div>")
 
 
+# A picture on this page makes two claims: that pixels were captured, and that
+# they are of the thing named beneath them. The page used to render the second
+# one silently — `alt` came from the label, so a wrong image arrived under a
+# right-sounding caption, and a reader had no way to tell an unproved subject
+# from a proved one. Every rendered capture now carries its provenance.
+PROV_TONE = {"manifest": "ok", "witnessed": "ok", "filename": "bad", "manual": "warn"}
+PROV_TEXT = {
+    "manifest": "subject recorded at capture",
+    "witnessed": "subject judged against its reference",
+    "filename": "subject unproved — bound by filename only",
+    "manual": "subject not recordable by this channel",
+}
+
+
+def provenance(shot: str, subject: str, manifest: dict, verdicts: dict) -> str:
+    """The badge that travels with every published picture."""
+    if subject in verdicts:
+        v = str(verdicts[subject].get("verdict", "")).lower()
+        if v in ("pass", "match", "ok"):
+            return "witnessed"
+        return "filename" if v else "manifest"
+    e = manifest.get(shot) or {}
+    if str(e.get("channel", "")).lower() in ("manual", "hand-delivered", "photograph"):
+        return "manual"
+    return "manifest" if e.get("target") else "filename"
+
+
+def prov_chip(kind: str) -> str:
+    return (f"<span class='chip {PROV_TONE.get(kind, 'mute')}' "
+            f"title='{esc(PROV_TEXT.get(kind, kind))}'>{esc(kind)}</span>")
+
+
 def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     campaign = load(d, "campaign", {})
     inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
     cases = load(d, "cases", [])
+
+    manifest = {}
+    mp = d / "evidence/shots/captures.json"
+    if mp.exists():
+        try:
+            manifest = {str(e.get("path", "")): e for e in json.loads(mp.read_text())}
+        except ValueError:
+            manifest = {}
+    verdicts = {}
+    vp = d / "witness-verdicts.json"
+    if vp.exists():
+        try:
+            verdicts = {v.get("subject"): v for v in json.loads(vp.read_text()) if v.get("subject")}
+        except ValueError:
+            verdicts = {}
 
     reqs = inventory.get("requirement", [])
     surfaces = inventory.get("surface", [])
@@ -370,7 +417,10 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     # ── the wall
     A("<section id=wall-sec><h2>The wall</h2>"
       "<p class=lede>Every captured surface on one canvas. Drag to pan, ⌘/ctrl-scroll to zoom "
-      "toward the cursor.</p>")
+      "toward the cursor. Each cell carries how its subject was established: "
+      "<b>witnessed</b> (judged against its reference), <b>manifest</b> (the channel recorded "
+      "what it was pointed at), <b>filename</b> (nothing but the name binds this picture to "
+      "this surface).</p>")
     shots = [(s, s.get("shot", "")) for s in surfaces if s.get("shot")]
     if shots:
         COLS, CW, CH, GAP = 5, 420, 300, 46
@@ -383,7 +433,8 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
             A(f"<div class=cellw style='left:{col * (CW + GAP)}px;top:{row * (CH + GAP + 26)}px'>"
               f"<img src='{img_src(d, shot, embed)}' alt='{esc(s.get('label', ''))}' loading=lazy>"
               f"<div class=lab><span class=id>{esc(s['id'])}</span> {esc(s.get('label', ''))}"
-              f" <span class='chip {tone}'>{len(cs)} case{'s' if len(cs) != 1 else ''}</span></div></div>")
+              f" <span class='chip {tone}'>{len(cs)} case{'s' if len(cs) != 1 else ''}</span>"
+              f" {prov_chip(provenance(shot, s['id'], manifest, verdicts))}</div></div>")
         A("</div><div class=hud><button data-out>−</button><button data-in>+</button>"
           "<button data-fit>Fit</button><button data-100>100%</button></div></div>")
     else:
@@ -405,12 +456,17 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
                  else " <span class='chip ok'>critical</span>" if f.get("critical") else "")
               + f" <span class=id>{len(f.get('steps', []))} steps</span></div><div class=steps>")
             for j, step in enumerate(f.get("steps", []), 1):
-                sid = f"{f['id']}.{j:02d}"
+                # The step's OWN id, not one recomputed from the loop index: a
+                # reordered or deleted step used to renumber every anchor after
+                # it, silently repointing links a reader had already shared.
+                sid = step.get("id") or f"{f['id']}.{j:02d}"
                 shot = step.get("shot", "")
                 A(f"<div class=step id='{esc(sid)}'>")
                 if shot:
                     A(f"<img src='{img_src(d, shot, embed)}' alt='{esc(step.get('label', ''))}' loading=lazy>")
-                A(f"<div class=cap><span class=id>{esc(sid)}</span> {esc(step.get('label', ''))}</div>")
+                A(f"<div class=cap><span class=id>{esc(sid)}</span> {esc(step.get('label', ''))}"
+                  + (f" {prov_chip(provenance(shot, sid, manifest, verdicts))}" if shot else "")
+                  + "</div>")
                 atoms = step.get("atoms", [])
                 if atoms:
                     A("<ul class=atoms>" + "".join(
@@ -436,7 +492,10 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
             A(f"<img src='{img_src(d, s['shot'], embed)}' alt='{esc(s.get('label', ''))}' loading=lazy>")
         A(f"<div class=body><b>{esc(s.get('label', ''))}</b>"
           f"<p><span class=id>{esc(s['id'])}</span> {esc(s.get('route', s.get('lane', '')))}</p>"
-          f"<p><span class='chip {tone}'>{esc(note)}</span></p></div></div>")
+          f"<p><span class='chip {tone}'>{esc(note)}</span>"
+          + (f" {prov_chip(provenance(s['shot'], s['id'], manifest, verdicts))}"
+             if s.get("shot") else "")
+          + "</p></div></div>")
     A("</div></section>")
 
     # ── components

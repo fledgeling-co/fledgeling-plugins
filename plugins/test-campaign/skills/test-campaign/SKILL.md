@@ -1,7 +1,7 @@
 ---
 name: test-campaign
 description: >-
-  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.
+  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.
 ---
 
 # Test campaign
@@ -28,7 +28,18 @@ the Swift half initialised view structs in memory, the Windows half had never be
 compiled, and the screenshots came from an HTML mock in a browser. Every number in
 it was true. `references/on-glass.md`.
 
-All three are defended mechanically here, because prose does not defend against
+**Publishing a picture of one thing under the name of another.** A campaign
+published 20 surface captures and cleared every gate it had — every case
+accounted for, 46 of 49 checked, every `-glass` lane proved and witnessed. The
+captures were of three unrelated documents: a status report, the mock browser's
+own index, and a design accessibility doc. Twenty files held six distinct
+images. A flow step captioned "Open pairing QR code sheet" showed a
+questionnaire about Apple developer credentials. Nothing was broken: the only
+thing binding a picture to a surface was its filename, and the gated part of the
+campaign was sound while the ungated part was the part people look at.
+`references/capture-lineage.md`.
+
+All four are defended mechanically here, because prose does not defend against
 them.
 
 ---
@@ -355,6 +366,43 @@ Where the surface has meaningful UI, hand it to `design-review` for rendered
 quality, and to `mockup-fidelity` where the parity question is React or React
 Native specific. Their absence is a named coverage gap, not a silent skip.
 
+### 8a · Tie every published picture to its subject
+
+`references/capture-lineage.md`. This is `warrant:oracle`'s lineage plane with
+*picture* substituted for *figure*: there, a displayed number without a
+`data-source-ref` is the defect the plane exists to find; here, a published
+capture without a recorded target is.
+
+```bash
+python3 $S/capture-lineage.py <dir> --gate
+python3 $S/capture-lineage.py <dir> --seed-swap SURF-001,SURF-002
+python3 $S/capture-lineage.py <dir> --set-ratchet
+```
+
+The capture step writes `evidence/shots/captures.json` as it shoots — subject,
+the target the channel was actually pointed at, the channel itself, the bytes'
+sha256 and the conditions. `assets/capture-pairs.template.mjs` does this for the
+browser lane; a lane with its own capture path owes the same manifest.
+
+Four passes, all exact, none needing a model, each able to end the run:
+**unsourced** (no manifest entry, or no target — the filename is doing the work);
+**untied** (the target does not resolve to the subject's route, which is also how
+a lane whose surfaces carry source-file routes learns it needs the on-glass
+channel rather than a browser); **shared** (two subjects, one sha256, undeclared);
+**unjudged** (published with no `be-my-witness` verdict — this one ratchets rather
+than blocks, for the same reason `strict-check.py` ratchets).
+
+Then run the seeded check. Swapping two subjects' manifest entries must turn the
+tie pass red; a swap that passes means the pass is not reading what it claims to,
+and every verdict it has issued is worthless. That is the campaign's own
+*watched to fail* rule turned on its own gate, and it is the one result here that
+is never a curiosity.
+
+Deterministic image statistics cannot answer the subject question — run
+`be-my-witness`'s `prescan.py` against the worst capture in that measured
+campaign and it returns `isEvidence: true, settled: true`, exit 0. Provenance can,
+and only if it is recorded at capture time.
+
 ### 9 · Publish the evidence, and export what a warrant reads
 
 ```bash
@@ -366,11 +414,17 @@ python3 $S/campaign.py     export-warrant <dir> --root <repo>
 `check` refuses to clear while any case is open, inconclusive or unoracled, any lane's work
 is blocked, any `-glass` lane is unproved, any surface has no case, any pass names
 no artifact, any pixel claim has no usable capture or shares one with another
-case, any non-deferred requirement has no case, or any critical flow is proved
-only by presence. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
+case, **any published shot is unusable, repeats another subject's picture, or is
+bound to its subject by filename alone**, any non-deferred requirement has no case,
+or any critical flow is proved only by presence. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
 unrecognised status counts as open, deliberately.
 
-`evidence-page.py` builds the page: coverage with the oracle mix and the armed ratio,
+`evidence-page.py` builds the page. Every rendered capture carries how its subject
+was established — **witnessed** (judged against its reference), **manifest** (the
+channel recorded what it was pointed at), **filename** (nothing but the name binds
+this picture to this surface) — because a wrong image under a right-sounding
+caption is indistinguishable from evidence until the page says which it is. The
+page covers: coverage with the oracle mix and the armed ratio,
 requirements and what checked them, the wall of every capture, flow storyboards
 with per-step atoms, surfaces, the component atlas, defects, **not covered**, and
 methods. Every row is an anchor. `references/evidence-and-ids.md` has the id
@@ -429,6 +483,11 @@ Raise the ratchet in the same commit that earns it.
 
 **No artifact, no verdict.** A conclusion reached by looking is not a
 measurement.
+
+**A filename is not evidence of what a picture depicts.** A capture claims a
+subject; the claim is checkable only against what the channel was pointed at, and
+only if that was written down while the shutter was open. Everything else — the
+path, the caption, the surface it was attached to — is restatement of the claim.
 
 **Prove it ran before reading what it shows.** Classify the launch first — did a
 process start, from which built artifact, and did it reach a display server. When
@@ -530,6 +589,10 @@ run reported in the shape of a full one.
   with its fix.
 - `references/harness-lanes.md` — what each lane can observe, web through native
   Windows and Linux; plane versus lane; reaching a surface a URL cannot address.
+- `references/capture-lineage.md` — proving a picture depicts what it is filed
+  under: the measured 20-capture failure, the four attributes borrowed from
+  `warrant:oracle`, the four-pass gate ladder, why the witness step must actually
+  run, and the seeded swap that keeps the gate honest.
 - `references/evidence-and-ids.md` — the id scheme, the artifact bundle, the page
   contract, the judge's ceiling.
 - `references/evidence.md` — every rule above traced to its source, the three
@@ -541,8 +604,12 @@ run reported in the shape of a full one.
 - `campaign.py` — the registry: init, lane, scope, add, set, carry, check, report.
 - `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet
   and the one reason the ratchet may be lowered.
-- `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps.
-- `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be judged.
+- `capture-lineage.py` — the deterministic plane for pictures: unsourced, untied,
+  shared and unjudged captures, the ratchet, and `--seed-swap` to watch the gate fail.
+- `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps,
+  and refuses to write an attachment the capture manifest does not corroborate.
+- `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be
+  judged; demotes a reference that was never rendered to an image.
 - `evidence-page.py` — the living page.
 
 ## Assets

@@ -27,7 +27,22 @@ Neither list is a warning to be skimmed. An unmatched image usually means the
 capture step and the surface map disagree about what the surface is called, and
 that disagreement is the thing that produced the empty page in the first place.
 
+WHAT THIS TOOL CANNOT DO, AND WHY THAT MATTERS
+----------------------------------------------
+Matching is by NAME. `SURF-005.png` becomes SURF-005's picture because of its
+filename, whatever bytes are behind it — and a later campaign proved how far that
+goes wrong: 20 surfaces attached cleanly, every downstream gate passed, and the
+images were of three unrelated documents. Twenty files, six distinct pictures.
+
+So a filename match is a hypothesis, not evidence, and this tool now says so. It
+refuses to --apply unless every attachment it makes is corroborated by an entry in
+`evidence/shots/captures.json` naming what the capture channel was pointed at.
+`--filename-only` proceeds without that corroboration and stamps each attachment
+`"shotProvenance": "filename"` in the inventory, so the weakness travels with the
+data instead of being forgotten at the next read. `references/capture-lineage.md`.
+
     python3 attach-shots.py <campaign-dir> [--shots evidence/shots] [--apply]
+    python3 attach-shots.py <campaign-dir> --apply --filename-only   # records the weakness
 
 Without --apply it prints what it would do and changes nothing.
 """
@@ -94,6 +109,15 @@ def main() -> int:
         print("different statement from 'the page has no screenshots' — say which one it is.")
         return 1
 
+    man_path = d / "evidence/shots/captures.json"
+    manifest_by_path: dict[str, dict] = {}
+    if man_path.exists():
+        try:
+            manifest_by_path = {str(e.get("path", "")): e for e in json.loads(man_path.read_text())}
+        except ValueError:
+            print(f"! {man_path} is not readable JSON — treating every attachment as uncorroborated")
+    uncorroborated: set[str] = set()
+
     by_candidate: dict[str, dict] = {}
     for s in surfaces:
         for c in candidates(s):
@@ -136,6 +160,16 @@ def main() -> int:
         if hit.get("shot") != rel:
             hit["shot"] = rel
             attached += 1
+        # Provenance travels with the attachment. A capture the channel recorded
+        # is evidence; a capture matched on its name is a hypothesis, and the
+        # inventory should not present the two identically.
+        entry = manifest_by_path.get(rel)
+        if entry and entry.get("target"):
+            hit["shotProvenance"] = "manifest"
+            uncorroborated.discard(hit.get("id", ""))
+        else:
+            hit["shotProvenance"] = "filename"
+            uncorroborated.add(hit.get("id", "?"))
 
     without = [s for s in surfaces if not s.get("shot")]
     print(f"\nattached={attached}  surfaces still without an image={len(without)}  unmatched images={len(unmatched)}")
@@ -158,6 +192,24 @@ def main() -> int:
             print(f"   {s.get('id', '?'):<12} {s.get('name') or s.get('route') or ''}")
         if len(without) > 20:
             print(f"   … and {len(without) - 20} more")
+
+    if uncorroborated:
+        print(f"\nUNCORROBORATED — {len(uncorroborated)} attachment(s) rest on the filename "
+              f"alone, because {man_path.name} has no entry naming what the channel was "
+              f"pointed at:")
+        for sid in sorted(uncorroborated)[:20]:
+            print(f"   {sid}")
+        if len(uncorroborated) > 20:
+            print(f"   … and {len(uncorroborated) - 20} more")
+        print("   → Have the capture step write captures.json. A filename is not evidence "
+              "of a subject, and this is the exact shape in which a wall of 20 captures "
+              "came to show three unrelated documents.")
+
+    if apply_changes and uncorroborated and "--filename-only" not in args:
+        print("\nREFUSED to write. Pass --filename-only to proceed on filename matching "
+              "alone; each attachment is then stamped shotProvenance=filename so the "
+              "weakness is visible to everything downstream.")
+        return 1
 
     if apply_changes:
         inv_path.write_text(json.dumps(inventory, indent=1) + "\n")

@@ -642,6 +642,36 @@ def audit(d: Path) -> dict:
 
     duplicate_artifacts = {h: ids for h, ids in seen_artifacts.items() if len(ids) > 1}
 
+    # THE PUBLISHED SHOTS, WHICH ARE THE PART PEOPLE LOOK AT.
+    #
+    # Everything above audits case evidence on the raster rungs. The evidence
+    # page renders a different set: the `shot` field on each surface and each
+    # flow step. Measured 20 Aug 2026: a campaign passed every check here while
+    # 20 published shots showed three unrelated documents and 20 files held six
+    # distinct images — because no rule in this function had ever read a `shot`.
+    # Provenance is `capture-lineage.py`'s job; what is decidable from the bytes
+    # is decided here, where the rest of the artifact rules already live.
+    published_shots: dict[str, str] = {}
+    for srec in inventory.get("surface", []):
+        if srec.get("shot"):
+            published_shots[srec["id"]] = srec["shot"]
+    for frec in inventory.get("flow", []):
+        for step in frec.get("steps", []):
+            if step.get("shot") and step.get("id"):
+                published_shots[step["id"]] = step["shot"]
+
+    bad_shots, shot_hashes, filename_only = [], {}, []
+    for sid, shot in sorted(published_shots.items()):
+        info = inspect_raster((d / shot) if not Path(shot).is_absolute() else Path(shot))
+        if info["reason"]:
+            bad_shots.append(f"{sid} → {shot}: {info['reason']}")
+        elif info["sha256"]:
+            shot_hashes.setdefault(info["sha256"], []).append(sid)
+    for srec in inventory.get("surface", []):
+        if srec.get("shot") and srec.get("shotProvenance") == "filename":
+            filename_only.append(srec["id"])
+    duplicate_shots = {h: ids for h, ids in shot_hashes.items() if len(ids) > 1}
+
     uncovered = [sid for sid, cs in by_surface.items() if not cs]
 
     # A requirement with no case is the campaign's real gap: it is something the
@@ -775,6 +805,21 @@ def audit(d: Path) -> dict:
     if unwitnessed_raster:
         blockers.append(f"{len(unwitnessed_raster)} pixel claim(s) with nothing saying "
                         f"where the pixels came from")
+    if bad_shots:
+        blockers.append(f"{len(bad_shots)} published shot(s) that are not usable captures "
+                        f"— the evidence page renders these as the product")
+    if duplicate_shots:
+        n = sum(len(v) for v in duplicate_shots.values())
+        blockers.append(f"{n} published shot(s) across {len(duplicate_shots)} image(s) "
+                        f"show the same picture under different subjects "
+                        f"({'; '.join(', '.join(v[:4]) for v in list(duplicate_shots.values())[:3])}) "
+                        f"— a wall whose cells repeat is a gallery, not a survey. Declare a "
+                        f"genuine share in captures.json, or capture each subject")
+    if filename_only:
+        blockers.append(f"{len(filename_only)} shot(s) bound to their subject by filename "
+                        f"alone ({', '.join(filename_only[:5])}) — run "
+                        f"`capture-lineage.py <dir> --gate`; a filename is not evidence "
+                        f"of what a picture depicts")
     if invalid_interactive_glass:
         blockers.append(f"{len(invalid_interactive_glass)} case(s) claiming interactive-glass "
                         f"on non-glass lane(s)")
@@ -837,6 +882,11 @@ def audit(d: Path) -> dict:
         "legacyRungCases": legacy_rung,
         "badRasterClaims": bad_raster,
         "duplicateArtifacts": duplicate_artifacts,
+        "badShots": bad_shots,
+        "duplicateShots": duplicate_shots,
+        "filenameOnlyShots": filename_only,
+        "publishedShots": len(published_shots),
+        "distinctPublishedImages": len(shot_hashes),
         "unwitnessedPixelClaims": unwitnessed_raster,
         "runScope": scope,
         "selectionBasis": basis,
@@ -951,6 +1001,13 @@ def cmd_check(args) -> int:
         print("\n  Pixel claims with no usable pixels:")
         for line in a["badRasterClaims"][:10]:
             print(f"    · {line}")
+    if a.get("publishedShots"):
+        print(f"Wall:       {a['publishedShots']} published shot(s) · "
+              f"{a['distinctPublishedImages']} distinct image(s)")
+    if a.get("duplicateShots"):
+        print("   published shots showing the same picture under different subjects:")
+        for ids in list(a["duplicateShots"].values())[:6]:
+            print(f"      {', '.join(ids)}")
     if a["duplicateArtifacts"]:
         print("\n  The same capture standing in for several cases:")
         for ids in list(a["duplicateArtifacts"].values())[:6]:
