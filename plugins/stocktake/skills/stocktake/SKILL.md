@@ -124,7 +124,27 @@ test it, drawn from `test-campaign`:
 The cheapest real check is to break the thing the test guards and watch it go red. A
 test nobody has seen fail is a test nobody has seen work.
 
-### 5 · Grade it out of family — one judge, not a panel
+### 5 · Snapshot the evidence, then grade it out of family
+
+Take the digest **before** the lane sees anything. `warrant`'s `snapshot_evidence.py`
+content-addresses the diff, the tests and the captures the verdict will rest on, and
+`warrant:panel` voids any verdict whose digest no longer matches. Taken afterwards it
+proves nothing, because the window it is meant to close has already passed — the worker
+authored the evidence and the grader is judging whatever is there now.
+
+```bash
+python3 <warrant>/scripts/snapshot_evidence.py --root <repo> --json \
+  --diff <the diff under judgement> --tests <test file or dir> --captures <capture dir>
+```
+
+It copies each artifact to `.warrant/snapshots/<digest>/files/`, sets it read-only, and
+returns the digest. Every path must resolve under `--root`, because an absolute path from
+outside the tree would put a machine-specific string into the hash.
+
+Carry the digest to step 7. A card graded without one reaches Done and stops there: the
+row it produces is uncountable, so the class it belongs to earns nothing from it.
+
+#### One judge, not a panel
 
 **Do not build a jury.** Nine frontier judges from seven families give roughly two
 effective independent votes, panel accuracy falls 8–22 points short of independent
@@ -150,6 +170,13 @@ Where only a same-family lane is available, the verdict is recorded as
 Done is where an out-of-family verdict alone can take a card. What happens next is
 step 7.
 
+Record the class alongside the verdict, not later:
+
+```bash
+python3 $S/board_ledger.py record <dir> --key WEB-1234 --verdict done \
+  --defect-class spec-conformance --evidence-digest <from step 5> --lane … --sha …
+```
+
 ### 7 · At Done, ask the warrant whether the card may go further
 
 Whether a card can leave Done is a question about *authority* rather than about the
@@ -170,6 +197,23 @@ Its exit code is the column:
 | 2 | **Needs More Work** | a warrant gate failed on this card's own evidence, named in the output |
 | 3 | **Done**, and no further | the authority is not there. Every reason is named: no signed warrant, no owner, an unnamed class, a census class, a tier not earned, or a revocation |
 | 4 | no move | the verdict was inconclusive, which blocks |
+
+**`warrant_column.py` returns a column and writes nothing.** Appending the row is a
+separate act, and it is the one that moves the ladder: tier 3's entry condition counts
+items closed per class over a window, from rows in `.warrant/ledger.jsonl`. A sweep that
+consults the warrant without appending contributes zero however many cards it grades —
+one such run produced 241 verdicts and left the counter at 0.
+
+```bash
+python3 <warrant>/scripts/ledger.py append --root <repo> --item WEB-1234 \
+  --class spec-conformance --verdict pass --tier <the class's current tier> \
+  --model-id <the lane's pinned id> --evidence-digest <from step 5>
+python3 $S/board_ledger.py record <dir> --key WEB-1234 --warrant-row <index it returned>
+```
+
+The tier argument is the authority the verdict was made under, not the one you want. A
+class at tier 0 still banks its rows — that is the burn-in the ladder is counting, and it
+is how a class reaches tier 3 without anyone signing items by hand.
 
 Pass `--card-gate-failed '<gate>: <detail>'` for each warrant gate that failed on
 this card, and the answer is Needs More Work with the gap quoted onto the card. A

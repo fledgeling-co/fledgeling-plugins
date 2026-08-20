@@ -81,6 +81,7 @@ def cmd_add(a):
         "requirements": None, "work_at": None, "brief": None,
         "question": None, "note": None, "finished": None,
         "dispatch": None, "deferred": None,
+        "defect_class": None, "evidence_digest": None, "warrant_row": None,
     })
     save(a.dir, data)
     print(f"added {a.key}")
@@ -116,12 +117,19 @@ def cmd_record(a):
         sys.exit("an `inconclusive` row needs --note saying what could not be gathered")
     if a.verdict == "needs-work" and not a.brief:
         sys.exit("a `needs-work` row needs --brief pointing at the features-to-triage file")
+    graded = a.verdict in ("done", "needs-work", "no-change")
+    if graded and not (a.defect_class or row.get("defect_class")):
+        sys.exit("a graded row needs --defect-class: it is the class whose warrant "
+                 "authorised the grading, and the tier-3 entry condition counts closed "
+                 "items per class. A verdict with no class is uncountable and an auditor "
+                 "cannot tell which policy covered it")
     if a.verdict == "ungraded" and not a.note:
         sys.exit("an `ungraded` row needs --note saying which of steps 1-6 were not run "
                  "and why, so it is never mistaken for a graded defect")
 
     for k in ("verdict", "lane", "sha", "landed", "requirements", "work_at",
-              "brief", "question", "note", "dispatch", "deferred"):
+              "brief", "question", "note", "dispatch", "deferred",
+              "defect_class", "evidence_digest", "warrant_row"):
         v = getattr(a, k if k != "work_at" else "work_at")
         if v is not None:
             row[k] = v
@@ -174,6 +182,15 @@ def main():
                                       "branch or PR. Satisfies the `dispatched` gate.")
     r.add_argument("--deferred", help="why this card's work is NOT being dispatched now. "
                                       "Also satisfies `dispatched` — silence does not.")
+    r.add_argument("--defect-class", dest="defect_class",
+                   help="the warrant defect class this card was graded under. Required on a "
+                        "graded verdict: tier 3 counts closed items per class, so a verdict "
+                        "with no class is uncountable.")
+    r.add_argument("--evidence-digest", dest="evidence_digest",
+                   help="digest from warrant's snapshot_evidence.py, taken BEFORE the lane "
+                        "judged. A verdict whose digest does not match is void.")
+    r.add_argument("--warrant-row", dest="warrant_row",
+                   help="index of the row this verdict appended to .warrant/ledger.jsonl")
     r.set_defaults(fn=cmd_record)
 
     s = sub.add_parser("status"); s.add_argument("dir"); s.add_argument("--json", action="store_true")
