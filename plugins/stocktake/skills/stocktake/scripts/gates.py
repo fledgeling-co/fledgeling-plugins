@@ -228,7 +228,7 @@ def g_banked(d, _):
         fail(f"{len(problems)} verdict(s) the warrant cannot count:\n  "
              + "\n  ".join(problems)
              + "\n\n`warrant_column.py` decides the column and writes nothing. Append the "
-               "row yourself with warrant's `ledger.py append --class … --item … --verdict … "
+               "row yourself with warrant's `ledger.py --class … --item … --verdict … "
                "--tier … --evidence-digest …`, and record the index it returns with "
                "`board_ledger.py record --warrant-row`.")
     print(f"{len(terminal)} terminal verdict(s), each banked with a digest")

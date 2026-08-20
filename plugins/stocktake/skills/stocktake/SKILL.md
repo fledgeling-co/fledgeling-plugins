@@ -205,7 +205,7 @@ consults the warrant without appending contributes zero however many cards it gr
 one such run produced 241 verdicts and left the counter at 0.
 
 ```bash
-python3 <warrant>/scripts/ledger.py append --root <repo> --item WEB-1234 \
+python3 <warrant>/scripts/ledger.py --root <repo> --item WEB-1234 \
   --class spec-conformance --verdict pass --tier <the class's current tier> \
   --model-id <the lane's pinned id> --evidence-digest <from step 5>
 python3 $S/board_ledger.py record <dir> --key WEB-1234 --warrant-row <index it returned>
