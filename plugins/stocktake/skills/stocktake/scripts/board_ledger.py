@@ -82,6 +82,7 @@ def cmd_add(a):
         "question": None, "note": None, "finished": None,
         "dispatch": None, "deferred": None,
         "defect_class": None, "evidence_digest": None, "warrant_row": None,
+        "deferred_by": None,
     })
     save(a.dir, data)
     print(f"added {a.key}")
@@ -108,14 +109,17 @@ def cmd_record(a):
         sys.exit(f"--work-at {a.work_at!r} not one of: {', '.join(sorted(WORK_AT))}")
 
     # The rules that stop a row claiming more than it carries.
-    if a.verdict == "done" and not (a.lane and a.sha):
+    # Read the merged row, not the arguments. Checking `a.lane` alone made a complete row
+    # unamendable: adding --landed later failed with "a `done` row needs both --lane and
+    # --sha" while the row already carried both.
+    if a.verdict == "done" and not ((a.lane or row.get("lane")) and (a.sha or row.get("sha"))):
         sys.exit("a `done` row needs both --lane (who graded it) and --sha (what was graded)")
-    if a.verdict == "needs-info" and not a.question:
+    if a.verdict == "needs-info" and not (a.question or row.get("question")):
         sys.exit("a `needs-info` row needs --question: a card moved there with no "
                  "question is a card nobody can answer")
-    if a.verdict == "inconclusive" and not a.note:
+    if a.verdict == "inconclusive" and not (a.note or row.get("note")):
         sys.exit("an `inconclusive` row needs --note saying what could not be gathered")
-    if a.verdict == "needs-work" and not a.brief:
+    if a.verdict == "needs-work" and not (a.brief or row.get("brief")):
         sys.exit("a `needs-work` row needs --brief pointing at the features-to-triage file")
     graded = a.verdict in ("done", "needs-work", "no-change")
     if graded and not (a.defect_class or row.get("defect_class")):
@@ -123,13 +127,17 @@ def cmd_record(a):
                  "authorised the grading, and the tier-3 entry condition counts closed "
                  "items per class. A verdict with no class is uncountable and an auditor "
                  "cannot tell which policy covered it")
-    if a.verdict == "ungraded" and not a.note:
+    if a.deferred and not (a.deferred_by or row.get("deferred_by")):
+        sys.exit("--deferred needs --deferred-by naming who decided the card waits. The "
+                 "party writing the reason is the party being measured, so an anonymous "
+                 "deferral cannot be told apart from a self-granted exemption")
+    if a.verdict == "ungraded" and not (a.note or row.get("note")):
         sys.exit("an `ungraded` row needs --note saying which of steps 1-6 were not run "
                  "and why, so it is never mistaken for a graded defect")
 
     for k in ("verdict", "lane", "sha", "landed", "requirements", "work_at",
               "brief", "question", "note", "dispatch", "deferred",
-              "defect_class", "evidence_digest", "warrant_row"):
+              "defect_class", "evidence_digest", "warrant_row", "deferred_by"):
         v = getattr(a, k if k != "work_at" else "work_at")
         if v is not None:
             row[k] = v
@@ -182,6 +190,10 @@ def main():
                                       "branch or PR. Satisfies the `dispatched` gate.")
     r.add_argument("--deferred", help="why this card's work is NOT being dispatched now. "
                                       "Also satisfies `dispatched` — silence does not.")
+    r.add_argument("--deferred-by", dest="deferred_by",
+                   help="who decided this card waits. Required alongside --deferred: an "
+                        "unattributed deferral is indistinguishable from the running agent "
+                        "excusing itself.")
     r.add_argument("--defect-class", dest="defect_class",
                    help="the warrant defect class this card was graded under. Required on a "
                         "graded verdict: tier 3 counts closed items per class, so a verdict "

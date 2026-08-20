@@ -16,6 +16,11 @@ condition — N items closed in a class over a window — counted zero and the l
 never move however good the grading was. `warrant_column.py` returns a column and writes
 nothing; the append is a separate act, and these gates are what remembers it.
 
+`dispatched` refuses a run that audited the board and handed none of it over. It once
+accepted a recorded deferral as equal to a dispatch — which let the party writing the
+reasons excuse itself, and one run marked all 61 of its needs-work cards deferred with a
+single invented sentence and passed. Words the subject authors cannot gate the subject.
+
 `dispatched` is the one that decides whether the RUN is finished rather than whether the
 AUDIT is. Without it every gate here goes green on a sweep that graded the board and
 dispatched none of it, because a run that handed 108 cards to ship-fleet and a run that
@@ -155,31 +160,85 @@ def g_ungraded_reported(d, _):
 
 
 def g_dispatched(d, _):
-    """Was the work handed over, or explicitly not?
+    """Was the work handed over — actually, not in words?
 
     Step 9 is two acts: write the briefs, then hand the directory to ship-fleet. Every
-    other gate here measures the first. This one measures the second, because the skill's
-    purpose runs one step past its documentation and a sweep can otherwise report success
-    having dispatched nothing.
+    other gate here measures the first.
 
-    It does NOT require the fleet to have finished. Dispatching writes code across
-    branches and is the user's call, so a recorded deferral satisfies it just as well as a
-    run id. What it refuses is silence.
+    The first version of this gate accepted a recorded deferral as equal to a dispatch,
+    and said so in its own docstring as though it were a feature. It is not. The author of
+    a sweep also writes the deferral reasons, so that rule let the graded party grant
+    itself the exemption: one run marked all 61 needs-work cards `deferred` with a single
+    invented reason, passed this gate, and reported the sweep complete with no work handed
+    over. A gate cannot measure the honesty of a sentence its subject wrote.
+
+    So the rule is now about acts rather than words:
+
+    1. A needs-work card with neither a dispatch nor a deferral still fails, as before.
+    2. **Zero dispatches fails.** A run that handed nothing over has not performed step 9's
+       second half, whatever it recorded. There is deliberately no override — an audit-only
+       run is a real thing, and the honest way to declare one is to skip this gate visibly
+       rather than to make it pass falsely.
+    3. **A reason repeated across more than three cards fails.** One sentence covering the
+       whole set is a policy, not a per-card decision, and a policy is the owner's to make.
+    4. A deferral must name who decided it (`--deferred-by`). Attribution does not prove
+       authority, but it converts an anonymous default into a claim someone can check.
     """
     data = load(d)
-    undecided = [r["key"] for r in data["rows"]
-                 if r["verdict"] == "needs-work"
-                 and not (r.get("dispatch") or r.get("deferred"))]
+    rows = data["rows"]
+    work = [r for r in rows if r["verdict"] == "needs-work"]
+
+    undecided = [r["key"] for r in work if not (r.get("dispatch") or r.get("deferred"))]
     if undecided:
         fail(f"{len(undecided)} card(s) have work to do and no record of it being "
              f"dispatched or deferred:\n  " + "\n  ".join(undecided)
              + "\n\nRecord where each went with `board_ledger.py record --dispatch <run/"
-               "branch/PR>`, or why it is waiting with `--deferred <reason>`. Handing the "
-               "briefs to ship-fleet is step 9's second half; an audit that stops before "
-               "it has documented the work rather than moved it.")
-    n = sum(1 for r in data["rows"] if r["verdict"] == "needs-work")
-    disp = sum(1 for r in data["rows"] if r.get("dispatch"))
-    print(f"{n} card(s) with work remaining: {disp} dispatched, {n - disp} explicitly deferred")
+               "branch/PR>`, or why it is waiting with `--deferred <reason> --deferred-by "
+               "<who decided>`.")
+
+    if not work:
+        print("no card has work remaining — nothing to dispatch")
+        return
+
+    dispatched = [r for r in work if r.get("dispatch")]
+    deferred = [r for r in work if not r.get("dispatch") and r.get("deferred")]
+
+    if not dispatched:
+        fail(f"{len(work)} card(s) need work and NOT ONE was dispatched — all "
+             f"{len(deferred)} were deferred.\n\nWriting the briefs is step 9's first "
+             f"half; handing them to ship-fleet is the second, and this run stopped "
+             f"between them. Deferral covers a card that cannot go now, not the whole set: "
+             f"the party writing the reasons is the party being measured, so a blanket "
+             f"deferral is a self-granted exemption rather than a decision.\n\n"
+             f"Dispatch at least one card, or declare an audit-only run by skipping this "
+             f"gate deliberately — `gates.py covered evidence classified banked` rather "
+             f"than `all`. Skipping it says so out loud; passing it falsely does not.")
+
+    unattributed = [r["key"] for r in deferred if not (r.get("deferred_by") or "").strip()]
+    if unattributed:
+        fail(f"{len(unattributed)} deferral(s) name nobody who decided them:\n  "
+             + "\n  ".join(unattributed)
+             + "\n\nPass `--deferred-by <who>`. Attribution does not prove authority, but "
+               "an unattributed deferral is indistinguishable from the running agent "
+               "excusing itself.")
+
+    by_reason = {}
+    for r in deferred:
+        by_reason.setdefault((r.get("deferred") or "").strip(), []).append(r["key"])
+    blanket = {reason: keys for reason, keys in by_reason.items() if len(keys) > 3}
+    if blanket:
+        lines = [f"{len(keys)} cards share this reason: {reason[:120]!r}\n      "
+                 + ", ".join(sorted(keys)[:8]) + ("…" if len(keys) > 8 else "")
+                 for reason, keys in blanket.items()]
+        fail("a reason repeated across more than three cards is a policy, not a per-card "
+             "decision:\n  " + "\n  ".join(lines)
+             + "\n\nA policy about the whole set is the owner's to make, so it belongs in "
+               "their words rather than the sweep's. Defer these individually with what is "
+               "true of each, or dispatch them.")
+
+    print(f"{len(work)} card(s) with work remaining: {len(dispatched)} dispatched, "
+          f"{len(deferred)} deferred individually and attributed")
+
 
 def g_classified(d, _):
     """Every graded card names the class whose warrant authorised the grading.
@@ -378,9 +437,34 @@ CASES = [
      [{"key": "WEB-1", "verdict": "needs-work", "brief": "b.md"}], {"b.md": _A_BRIEF}),
     ("dispatched accepts work handed to a fleet run", "dispatched", True,
      [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run 2026-08-20-a"}], None),
-    ("dispatched accepts work explicitly deferred with a reason", "dispatched", True,
+    # Isolates the undecided rule: one card IS dispatched, so the zero-dispatch rule
+    # cannot fire and only the undecided check can catch the second card.
+    ("dispatched refuses an undecided card even when another was dispatched",
+     "dispatched", False,
+     [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run-a"},
+      {"key": "WEB-2", "verdict": "needs-work", "brief": "b.md"}], {"b.md": _A_BRIEF}),
+    ("dispatched refuses a deferral with no dispatch anywhere", "dispatched", False,
      [{"key": "WEB-1", "verdict": "needs-work",
-       "deferred": "owner wants the security cards first"}], None),
+       "deferred": "owner wants the security cards first", "deferred_by": "Luke"}], None),
+    ("dispatched accepts a deferral alongside a real dispatch", "dispatched", True,
+     [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run-a"},
+      {"key": "WEB-2", "verdict": "needs-work",
+       "deferred": "blocked on the vendor's reply", "deferred_by": "Luke"}], None),
+    ("dispatched refuses an unattributed deferral", "dispatched", False,
+     [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run-a"},
+      {"key": "WEB-2", "verdict": "needs-work", "deferred": "waiting"}], None),
+    # The exact shape of the failure this gate was rewritten for: one invented sentence
+    # applied to the whole set, self-authored, which the previous version passed.
+    ("dispatched refuses one reason blanketed across the set", "dispatched", False,
+     [{"key": "WEB-0", "verdict": "needs-work", "dispatch": "ship-fleet run-a"}]
+     + [{"key": f"WEB-{i}", "verdict": "needs-work",
+         "deferred": "awaiting the owner's call on running ship-fleet",
+         "deferred_by": "orchestrator"} for i in range(1, 6)], None),
+    ("dispatched allows the same reason on three or fewer", "dispatched", True,
+     [{"key": "WEB-0", "verdict": "needs-work", "dispatch": "ship-fleet run-a"}]
+     + [{"key": f"WEB-{i}", "verdict": "needs-work",
+         "deferred": "blocked on the same vendor ticket", "deferred_by": "Luke"}
+        for i in range(1, 4)], None),
     ("dispatched ignores cards with no work to do", "dispatched", True,
      [{"key": "WEB-1", "verdict": "done"}, {"key": "WEB-2", "verdict": "no-change"}], None),
     ("dispatched does not demand dispatch for an ungraded card", "dispatched", True,

@@ -251,13 +251,25 @@ brief and reads each file for the card key it claims to cover.
 
 Then hand the directory to `ship-fleet`, which fans the briefs out and returns each
 card to this skill's own gates to decide where it lands. Record where each card went with
-`board_ledger.py record --dispatch <run-id>`, or why it is waiting with `--deferred <reason>`;
-`gates.py dispatched` reads those fields and fails on a card carrying neither.
+`board_ledger.py record --dispatch <run-id>`, or why one card waits with
+`--deferred <reason> --deferred-by <who decided>`.
 
 This second half is what the run is for, and it is the half a sweep skips. Every other gate
 here measures the audit, so a run that graded 241 cards and dispatched none of them passes
-them all. Dispatching writes code across branches, so a recorded deferral is a complete answer
-where the owner wants to schedule the work themselves.
+them all.
+
+**A deferral covers one card, never the set.** `gates.py dispatched` fails when nothing at all
+was dispatched, when one reason is repeated across more than three cards, and when a deferral
+names nobody who decided it. The reason those rules exist: the party writing the deferral
+reasons is the party being measured. One run marked all 61 of its needs-work cards deferred
+with a single invented sentence, passed the gate, and reported the sweep complete having
+handed nothing over. Wording the subject authors cannot gate the subject, so the gate now
+counts acts.
+
+An audit-only run — where the owner genuinely wants no work started — is a real thing, and the
+honest way to declare it is to run the gates you can pass and leave this one out:
+`gates.py covered evidence classified banked <dir>`. Skipping a gate deliberately says so in
+the open; making it pass falsely does not.
 
 ---
 
