@@ -254,6 +254,10 @@ def assess(root: str | pathlib.Path, warrant: dict[str, Any],
             continue
         tier = int(entry.get("tier", 0))
         cap = tier_cap(entry)
+        # A panel-plane class is perceptual by declaration. references/tiers.md puts it on
+        # the ladder at tier 2 ("tier 1 PLUS perceptual classes"), not at tier 1, so the
+        # oracle plane is neither its entry nor grounds for revoking it.
+        perceptual = str(entry.get("plane", "") or "").strip().lower() == "panel"
         calibrated_at = _stamp(entry.get("calibration", {}).get("at"))
 
         drift = drift_of(entry, live)
@@ -303,7 +307,10 @@ def assess(root: str | pathlib.Path, warrant: dict[str, Any],
                                   "reason": f"the calibration is {age} day(s) old and the "
                                             f"warrant allows {stale_days}"})
 
-        if not isinstance(measured, (int, float)):
+        if perceptual:
+            # No oracle coverage is expected for this class, so its absence is not drift.
+            pass
+        elif not isinstance(measured, (int, float)):
             globs = [g for g in entry.get("surfaces", []) if isinstance(g, str)]
             where = " ".join(globs) if globs else "the class's surfaces (the warrant names none)"
             fired.append({"trigger": "oracle_coverage",
@@ -330,13 +337,16 @@ def assess(root: str | pathlib.Path, warrant: dict[str, Any],
         cases = int(cls_regression.get("cases", 0) or 0)
         regression_green = cases > 0 and not not_caught and not unattributable
 
+        # The lineage oracle measures figure provenance, which a spec file or a story does
+        # not carry, so requiring it of every class kept perceptual classes off the ladder
+        # entirely — the opposite of what tier 2 exists for.
         blockers: list[str] = []
         earned = 0
         if oracle_green:
             earned = 1
-        else:
+        elif not perceptual:
             blockers.append("oracle plane not green for this class")
-        if earned >= 1:
+        if earned >= 1 or perceptual:
             for ok_, why in ((assay_ok, "the assay is not green"),
                              (regression_green, "no clean regression run covering this class"),
                              (not new_escapes, "an escape has been reported since calibration"),
@@ -349,11 +359,24 @@ def assess(root: str | pathlib.Path, warrant: dict[str, Any],
             if not blockers:
                 earned = 2
         if earned >= 2:
-            need = int(warrant.get("tiers", {}).get("tier3_items", 0) or 0)
-            window = int(warrant.get("tiers", {}).get("tier3_window_days", 0) or 0)
+            # charter_init.py writes `tier3_items_closed_min`; references/tiers.md and
+            # earlier drafts of this script say `tier3_items`. Both are read, newest
+            # name first, because warrant.toml is signed by a person: renaming the key
+            # in the warrant would invalidate every signature in the wild to fix a
+            # reader bug. A warrant already in use keeps working.
+            tiers_tbl = warrant.get("tiers")
+            tiers_tbl = tiers_tbl if isinstance(tiers_tbl, dict) else {}
+            need = 0
+            for candidate in (tiers_tbl.get("tier3_items_closed_min"),
+                              tiers_tbl.get("tier3_items")):
+                if isinstance(candidate, int) and not isinstance(candidate, bool) \
+                        and candidate > 0:
+                    need = candidate
+                    break
+            window = int(tiers_tbl.get("tier3_window_days", 0) or 0)
             if need <= 0 or window <= 0:
-                blockers.append("tier 3 has no entry condition: set [tiers] tier3_items and "
-                                "tier3_window_days in the warrant")
+                blockers.append("tier 3 has no entry condition: set [tiers] "
+                                "tier3_items_closed_min and tier3_window_days in the warrant")
             else:
                 closed, unattributed = _closed_in_window(root, name, window, when)
                 if unattributed:
@@ -572,6 +595,53 @@ def selftest() -> list[tuple[str, bool]]:
         code, out, _ = _run(["--root", tmp, "--json", "--dry-run"] + NOW)
         earned = json.loads(out)["classes"]["figure-lineage"]["earned_tier"]
         cases.append(("tier 3 is earned on three attributed rows with no escape", earned == 3))
+
+    # Tier 3 read through the spelling charter_init actually writes. Before this, the
+    # charter wrote `tier3_items_closed_min` and this script read `tier3_items`, so
+    # `need` was always 0 and every class that reached tier 2 stopped there with
+    # "tier 3 has no entry condition" — Verified was unreachable by construction.
+    # The tier-3 cases above hid it by hand-writing the reader's spelling.
+    with tempfile.TemporaryDirectory() as tmp:
+        _seed(tmp)
+        import ledger as _ledger
+        w = pathlib.Path(tmp) / ".warrant" / "warrant.toml"
+        w.write_text(w.read_text()
+                     + '\n[tiers]\ntier3_items_closed_min = 3\ntier3_window_days = 30\n')
+        (pathlib.Path(tmp) / ".warrant" / "escapes.jsonl").write_text("")
+        for i in range(3):
+            _ledger.append_row(tmp, item=f"I-{i}", verdict="pass", tier=2,
+                               defect_class="figure-lineage",
+                               when=_dt.datetime(2026, 8, 17, tzinfo=_dt.timezone.utc))
+        code, out, _ = _run(["--root", tmp, "--json", "--dry-run"] + NOW)
+        fl3 = json.loads(out)["classes"]["figure-lineage"]
+        cases.append(("tier 3 is earned through charter_init's tier3_items_closed_min spelling",
+                      fl3["earned_tier"] == 3))
+        cases.append(("and no longer reports tier 3 as having no entry condition",
+                      not any("no entry condition" in b for b in fl3["blockers"])))
+
+    # A perceptual class enters at tier 2 without the oracle plane. references/tiers.md
+    # defines tier 2 as "tier 1 PLUS perceptual classes"; the ladder used to require
+    # oracle greenness of every class, so a panel-plane class could never leave tier 0
+    # however green its assay and regression corpus were.
+    #
+    # Oracle coverage is DROPPED here on purpose. With the in-control fixture the class is
+    # oracle-green anyway, so it reaches tier 2 by the tier-1 route and the case passes
+    # with or without the fix — it has to be denied that route to test anything.
+    with tempfile.TemporaryDirectory() as tmp:
+        _seed(tmp, oracle_coverage_json=None)
+        w = pathlib.Path(tmp) / ".warrant" / "warrant.toml"
+        w.write_text(w.read_text().replace('name = "layout-drift"',
+                                           'name = "layout-drift"\nplane = "panel"', 1))
+        code, out, _ = _run(["--root", tmp, "--json", "--dry-run"] + NOW)
+        ld = json.loads(out)["classes"]["layout-drift"]
+        cases.append(("a panel-plane class reaches tier 2 with no oracle coverage at all",
+                      ld["earned_tier"] >= 2))
+        cases.append(("and the oracle gate is not held against it",
+                      not any("oracle plane not green" in b for b in ld["blockers"])))
+        cases.append(("missing oracle coverage does not revoke a perceptual class",
+                      not any(f["trigger"] == "oracle_coverage" for f in ld["triggers"])))
+        cases.append(("while a non-perceptual class in the same run is still gated on it",
+                      json.loads(out)["classes"]["figure-lineage"]["earned_tier"] == 0))
 
     # An unattributable row blocks rather than being skipped.
     with tempfile.TemporaryDirectory() as tmp:
