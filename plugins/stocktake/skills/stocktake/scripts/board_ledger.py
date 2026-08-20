@@ -103,6 +103,13 @@ def cmd_record(a):
     row = next((r for r in data["rows"] if r["key"] == a.key), None)
     if row is None:
         sys.exit(f"{a.key} is not in the ledger — `add` it first")
+    # A later amendment — recording a dispatch, a landed column, a warrant row — carries no
+    # verdict, because the verdict was set when the card was graded. Requiring it again made
+    # the dispatch loop the `dispatched` gate demands impossible to drive.
+    if a.verdict is None:
+        a.verdict = row.get("verdict")
+        if a.verdict is None:
+            sys.exit(f"{a.key} has no verdict yet, so this call must carry --verdict")
     if a.verdict not in VERDICTS:
         sys.exit(f"verdict {a.verdict!r} not one of: {', '.join(sorted(VERDICTS))}")
     if a.work_at and a.work_at not in WORK_AT:
@@ -182,7 +189,7 @@ def main():
     n = sub.add_parser("next"); n.add_argument("dir"); n.set_defaults(fn=cmd_next)
 
     r = sub.add_parser("record"); r.add_argument("dir"); r.add_argument("--key", required=True)
-    r.add_argument("--verdict", required=True); r.add_argument("--lane"); r.add_argument("--sha")
+    r.add_argument("--verdict"); r.add_argument("--lane"); r.add_argument("--sha")
     r.add_argument("--landed"); r.add_argument("--requirements", type=int)
     r.add_argument("--work-at", dest="work_at"); r.add_argument("--brief")
     r.add_argument("--question"); r.add_argument("--note")
