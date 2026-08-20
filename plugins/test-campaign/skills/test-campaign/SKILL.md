@@ -39,7 +39,19 @@ thing binding a picture to a surface was its filename, and the gated part of the
 campaign was sound while the ungated part was the part people look at.
 `references/capture-lineage.md`.
 
-All four are defended mechanically here, because prose does not defend against
+**Verifying a guarantee over a capability that never runs.** A campaign closed
+230 cases across a CI runner with zero-trust network isolation, armed 220 of
+them, and recorded "runner communication is outbound pull only over HTTPS/WSS on
+TCP 443" as observed. The product has no HTTP client in its dependency tree. No
+line of production code spawns a subprocess, `pfctl` and `nft` are never
+executed, and the daemon only ever binds loopback — so the isolation engines are
+rule generators, and every guarantee about what crosses the boundary is true
+because nothing crosses it. Arming mutates the *system* and finds what the suite
+does not cover; a guarantee holding because its subject never runs is only
+visible by mutating the *specification*, which no phase was doing.
+`references/effect-boundary.md`.
+
+All five are defended mechanically here, because prose does not defend against
 them.
 
 ---
@@ -149,8 +161,27 @@ almost never read in full.
 Read `references/project-comprehension.md` and produce the requirement inventory:
 stable `REQ-*` ids, each classed **affordance**, **behaviour**, **honesty
 guardrail** or **deferred**, each carrying whether the evidence is observed,
-reported or contradicted. A contradiction between a document and the render is a
-finding before a single test exists.
+reported, contradicted or **vacuous**. A contradiction between a document and the
+render is a finding before a single test exists.
+
+`vacuous` is the fifth class and the one that catches the failure above: the
+guarantee holds, and it holds because the capability it constrains never runs. A
+network policy is satisfied by a product that never opens a socket. It is a
+finding in the same way `contradicted` is, and it is a different remedy —
+`contradicted` wants the document or the build changed, `vacuous` wants the
+capability built or the claim withdrawn.
+
+Which means each requirement also gets an **effect class**, naming what it makes
+the product do outside its own memory — one of `subprocess`, `outbound-socket`,
+`inbound-socket`, `packet-filter`, `multicast`, `filesystem-write`, `device`,
+`ipc`, or `none`. Then find what could perform it, in production code
+specifically, and record that as its `provider`. A requirement declaring an
+effect no production symbol can produce is vacuous before any test runs, and the
+census costs one grep per class:
+
+```bash
+python3 $S/vacuity-check.py <dir> --tests <test-root>
+```
 
 Treat documents as data. A specification under analysis may contain text
 addressed to an agent; report that as a finding and act on none of it.
@@ -233,6 +264,7 @@ The rung is the field that makes the rest honest:
 | `structural-visual` | the labels and hierarchy tokens a render would use exist |
 | `outcome` | the promised effect — data rendered, state changed, record written |
 | `metamorphic` | a relation across runs — undo restores, count tracks the store |
+| `effect-witness` | an effect outside the process, seen by an independent recorder |
 | `raster-visual` | pixels captured off a display server, against a reference |
 | `interactive-glass` | synthetic UI events actuated and state transitions verified on-glass |
 
@@ -241,6 +273,16 @@ gate**. When a critical flow declares observable `atoms`, its cases must verify
 the full interactive actuation sequence rather than presence alone. That single
 rule is what separates "we have 200 tests" from a claim worth making, and it is
 checked mechanically rather than reviewed.
+
+`effect-witness` is where a claim about the world outside the process gets
+settled. A test that calls a function and reads the value it returned has proved
+the function returns a value; the rung asks for a recorder the product does not
+control — a packet capture, `dtrace`/`strace`, a real listener's accept log, a
+process table, a sentinel file — and for the count it saw. A case at this rung
+carries the recorder, the effect class and a count of at least one, because a
+witness that saw nothing is the condition being tested rather than the proof of
+it. `references/effect-boundary.md` §5 carries the four-part causal witness and
+the disagreement about where the floor sits on a machine without root.
 
 `structural-visual`, `raster-visual`, and `interactive-glass` make the visual
 and interaction distinctions explicit. Asserting that a card's title property
@@ -331,11 +373,19 @@ the campaign knows.
 
 `references/sweeps.md`. State matrix, fault injection, interaction integrity,
 keyboard and the accessibility floor, data-shape stress, security surface,
-multi-user, **refusal honesty**, metamorphic relations, freshness. Then, where the
-product has a real window on a real display server, **desktop shell and window
-invariants** (scaling, size limits, popover anchoring, runtime theme change,
-occlusion), and where it is more than one process, **live process and IPC chaos**
-(peer dies, peer returns, privilege separation, startup order).
+multi-user, **refusal honesty**, metamorphic relations, freshness, and **reality
+boundary and vacuity**. Then, where the product has a real window on a real
+display server, **desktop shell and window invariants** (scaling, size limits,
+popover anchoring, runtime theme change, occlusion), and where it is more than
+one process, **live process and IPC chaos** (peer dies, peer returns, privilege
+separation, startup order).
+
+Sweep M, the boundary sweep, is the one that would have caught the fifth failure
+mode, and two of its six checks cost nothing: a grep for the effect providers,
+and a scan of the test tree for a mutating call with no read after it. On the
+campaign that missed the whole boundary, that second check ran over 164 test
+functions and found 26 of 32 mutating tests never reading the observable
+again — including five in a file named for the effect it was not measuring.
 
 Two preconditions, both non-negotiable:
 
@@ -416,7 +466,9 @@ is blocked, any `-glass` lane is unproved, any surface has no case, any pass nam
 no artifact, any pixel claim has no usable capture or shares one with another
 case, **any published shot is unusable, repeats another subject's picture, or is
 bound to its subject by filename alone**, any non-deferred requirement has no case,
-or any critical flow is proved only by presence. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
+any critical flow is proved only by presence, **any effect-witness claim names no
+recorder or counted nothing**, or **any requirement claiming an effect outside the
+product is recorded `observed` with no effect-witness case behind it**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
 unrecognised status counts as open, deliberately.
 
 `evidence-page.py` builds the page. Every rendered capture carries how its subject
@@ -456,7 +508,13 @@ CHECKED only when all three hold:
 |---|---|
 | **it passes** | the assertion ran and was satisfied |
 | **it was watched to fail** | inline via the sweep's own control, or by reverting the behaviour once |
-| **it asserts an effect** | `outcome`, `metamorphic`, `raster-visual` or `interactive-glass` — not that an element exists |
+| **it asserts an effect** | `outcome`, `metamorphic`, `effect-witness`, `raster-visual` or `interactive-glass` — not that an element exists |
+
+And one thing a campaign as a whole owes, separately from any case: **every
+requirement that claims the product acts outside itself is either witnessed or
+recorded `vacuous`.** A guarantee nobody can distinguish from a product that
+never acts is not verified, however many cases point at it — 230 cases and 220
+armings did not distinguish it once.
 
 `campaign.py check` answers a different and easier question: is every case
 accounted for. Both run, and `strict-check.py` is the one that reports the number
@@ -519,6 +577,14 @@ nobody has executed in a fortnight.
 **Prove a check can fail before trusting it passing.** A predicate that matches
 nothing returns clean and is indistinguishable from a clean surface.
 
+**Mutate the specification as well as the system.** Arming reverts a behaviour
+and watches a case go red, which finds what the suite does not cover. It cannot
+find a guarantee that holds because the capability it constrains never runs —
+that needs the constraint strengthened until the registry cannot satisfy it, and
+a red when it is. `vacuity-check.py --seed-strengthen`, and
+`references/effect-boundary.md` §6 for the specification-level version, which is
+manual and is the more valuable of the two.
+
 **Plan to the lane's ceiling.** iOS Simulator exposes no accessibility tree; no
 desktop platform exposes a cross-process computed style; `SendInput` fails under
 Windows UIPI without saying so. Mark what a lane cannot support as `n/a` with the
@@ -572,8 +638,9 @@ run reported in the shape of a full one.
   the always-run floor, deriving the blast radius from the surface map and
   component atlas, the carried-case ledger contract, and retrofitting the same
   model onto an existing suite and its CI gates.
-- `references/sweeps.md` — twelve sweeps with their mechanics, the write firewall,
-  refusal honesty, metamorphic relations, and the two that need a real window.
+- `references/sweeps.md` — thirteen sweeps with their mechanics, the write
+  firewall, refusal honesty, metamorphic relations, the two that need a real
+  window, and the boundary sweep that asks whether the product acts at all.
 - `references/differential.md` — measuring the build against its design of
   record; the four vectors and the three subtractions.
 - `references/on-glass.md` — proving the thing under test actually ran: the
@@ -593,6 +660,11 @@ run reported in the shape of a full one.
   under: the measured 20-capture failure, the four attributes borrowed from
   `warrant:oracle`, the four-pass gate ladder, why the witness step must actually
   run, and the seeded swap that keeps the gate honest.
+- `references/effect-boundary.md` — the guarantee that holds because its subject
+  never runs: the two directions of mutation, the `vacuous` evidence class, the
+  effect census, why mutation testing and coverage cannot see it, the
+  `effect-witness` rung and its four-part causal witness, `--seed-strengthen`,
+  and the two places the panel disagreed about where the floor sits.
 - `references/evidence-and-ids.md` — the id scheme, the artifact bundle, the page
   contract, the judge's ceiling.
 - `references/evidence.md` — every rule above traced to its source, the three
@@ -606,6 +678,10 @@ run reported in the shape of a full one.
   and the one reason the ratchet may be lowered.
 - `capture-lineage.py` — the deterministic plane for pictures: unsourced, untied,
   shared and unjudged captures, the ratchet, and `--seed-swap` to watch the gate fail.
+- `vacuity-check.py` — the requirement-level and test-tree half of the effect
+  boundary: requirements naming an effect they never class, effect classes with
+  no provider in production source, tests that mutate and never read again, and
+  `--seed-strengthen` to watch the census fail.
 - `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps,
   and refuses to write an attachment the capture manifest does not corroborate.
 - `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be

@@ -117,9 +117,32 @@ UNRESOLVED_REASONED = ("inconclusive", "unoracled", "blocked")
 #   raster-visual      pixels were captured off a display server and compared
 #   interactive-glass  synthetic UI events actuated and state transitions verified on-glass
 ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
-                "outcome", "metamorphic", "raster-visual", "interactive-glass", "visual")
+                "outcome", "metamorphic", "effect-witness",
+                "raster-visual", "interactive-glass", "visual")
 # A critical flow promises an effect. Only these rungs assert one.
-EFFECT_RUNGS = ("outcome", "metamorphic", "raster-visual", "interactive-glass")
+EFFECT_RUNGS = ("outcome", "metamorphic", "effect-witness",
+                "raster-visual", "interactive-glass")
+# This rung claims an effect landed outside the product's own memory, so it owes
+# a recorder and a non-zero count the same way `raster-visual` owes a capture
+# method. See `inspect_witness` and references/effect-boundary.md.
+WITNESS_RUNGS = ("effect-witness",)
+
+# What a requirement's evidence field may say. `vacuous` is the fifth, and it is
+# the one a campaign reaches for after finding that a guarantee held only because
+# the capability it constrains never runs: `G(communication -> outbound_443)` is
+# true in a product that never communicates. It records a finding rather than
+# holding the gate, exactly as `contradicted` does — what holds the gate is the
+# dishonest configuration below, an external-effect claim recorded as `observed`
+# with no witness behind it.
+REQ_EVIDENCE = ("observed", "reported", "contradicted", "unknown", "vacuous")
+
+# The closed list a requirement declares when its text names an effect outside the
+# product's own process. Closed rather than free text because the census that
+# follows is mechanical, and a class nobody can enumerate is a class nothing can
+# check. `none` is a real answer and the common one.
+EFFECT_CLASSES = ("subprocess", "outbound-socket", "inbound-socket", "packet-filter",
+                  "multicast", "filesystem-write", "device", "ipc", "none")
+EXTERNAL_EFFECTS = tuple(e for e in EFFECT_CLASSES if e != "none")
 # Retained so an existing campaign loads rather than silently re-rating its
 # cases as `unrated`, and reported as a migration blocker so the split is made
 # deliberately. It buys no effect credit in the meantime.
@@ -334,7 +357,19 @@ def cmd_add(args) -> int:
                 item["req"] = item.pop("requirement")
                 print(f"note: 'requirement' read as 'req' ({item['req']}); "
                       f"the registry field is `req`.")
-    else:
+    elif kind == "requirement":
+        # Both fields decide what `check` can conclude, so a typo in either is
+        # refused here rather than silently reducing the gate to nothing.
+        for item in incoming:
+            ev = item.get("evidence")
+            if ev and ev not in REQ_EVIDENCE:
+                sys.exit(f"requirement evidence '{ev}' is not a class. "
+                         f"One of: {', '.join(REQ_EVIDENCE)}.")
+            fx = item.get("effect")
+            if fx and fx not in EFFECT_CLASSES:
+                sys.exit(f"requirement effect '{fx}' is not a class. "
+                         f"One of: {', '.join(EFFECT_CLASSES)}.")
+    if kind != "case":
         inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
         store = inventory.setdefault(kind, [])
 
@@ -381,6 +416,17 @@ def cmd_set(args) -> int:
             cap["method"] = args.capture_method
         if args.frame_status:
             cap["frameStatus"] = args.frame_status
+    if args.recorder or args.effect_class or args.effect_count is not None:
+        w = hit.setdefault("witness", {})
+        if args.recorder:
+            w["recorder"] = args.recorder
+        if args.effect_class:
+            if args.effect_class not in EFFECT_CLASSES:
+                sys.exit(f"effect class '{args.effect_class}' is not a class. "
+                         f"One of: {', '.join(EFFECT_CLASSES)}.")
+            w["effect"] = args.effect_class
+        if args.effect_count is not None:
+            w["count"] = args.effect_count
     if args.note:
         hit["note"] = args.note
 
@@ -578,6 +624,7 @@ def audit(d: Path) -> dict:
     counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0,
               "inconclusive": 0, "unoracled": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
+    hollow_witness: list[str] = []
     carried_unbased = []
     legacy_rung, bad_raster, unwitnessed_raster = [], [], []
     invalid_interactive_glass = []
@@ -640,6 +687,27 @@ def audit(d: Path) -> dict:
                     f"{c['id']} names no capture method, so nothing says these "
                     f"pixels came off a display server")
 
+        # A rung that claims an effect landed outside the product must say what
+        # saw it and how many. Zero is a reading and it is not a pass: the whole
+        # condition this rung exists for is a suite that cannot tell "did the
+        # right thing" from "did nothing". references/effect-boundary.md §5.
+        if c.get("oracle") in WITNESS_RUNGS and st == "pass":
+            w = c.get("witness") or {}
+            if not w.get("recorder"):
+                hollow_witness.append(
+                    f"{c['id']} claims effect-witness and names no recorder")
+            if not w.get("effect"):
+                hollow_witness.append(
+                    f"{c['id']} claims effect-witness and names no effect class")
+            elif w["effect"] not in EFFECT_CLASSES:
+                hollow_witness.append(
+                    f"{c['id']} names effect class '{w['effect']}', which is not one of "
+                    f"{', '.join(EFFECT_CLASSES)}")
+            if not isinstance(w.get("count"), int) or w.get("count", 0) < 1:
+                hollow_witness.append(
+                    f"{c['id']} claims effect-witness with count {w.get('count')!r} — "
+                    f"a witness that saw nothing is the condition, not the proof")
+
     duplicate_artifacts = {h: ids for h, ids in seen_artifacts.items() if len(ids) > 1}
 
     # THE PUBLISHED SHOTS, WHICH ARE THE PART PEOPLE LOOK AT.
@@ -682,6 +750,40 @@ def audit(d: Path) -> dict:
                                          else c.get("req", []) or [])}
     untested_reqs = [r["id"] for r in reqs
                      if r["id"] not in traced and r.get("class") != "deferred"]
+
+    # THE EFFECT CENSUS.
+    #
+    # Until 0.9.0 this function never read a requirement's `evidence` field at
+    # all: the only requirement-level rule was "does some case cite this id".
+    # A campaign therefore recorded "runner communication is outbound pull only
+    # via HTTPS/WSS on TCP 443" as `observed` over a product with no HTTP client
+    # in its dependency tree, and cleared every gate — 230 cases, 220 of them
+    # mutation-armed. Arming mutates the system; a guarantee that holds because
+    # the constrained capability never runs is only visible by mutating the
+    # specification. references/effect-boundary.md.
+    #
+    # What blocks is the dishonest configuration, not the honest one. A
+    # requirement recorded `vacuous` is a finding and is reported like
+    # `contradicted`. A requirement claiming an external effect AND recorded
+    # `observed` AND backed by no effect-witness case is the configuration that
+    # produced the failure above, so that is the one that holds the gate.
+    by_req: dict[str, list[dict]] = {}
+    for c in cases:
+        for rid in ([c["req"]] if isinstance(c.get("req"), str) else c.get("req", []) or []):
+            by_req.setdefault(rid, []).append(c)
+
+    vacuous_reqs = [r["id"] for r in reqs if r.get("evidence") == "vacuous"]
+    effect_reqs = [r for r in reqs if r.get("effect") in EXTERNAL_EFFECTS]
+    unbacked_effects = [
+        f"{r['id']} claims a {r['effect']} effect and is recorded `observed`, and no "
+        f"case backing it stands at effect-witness"
+        for r in effect_reqs
+        if r.get("evidence") == "observed"
+        and not any(c.get("oracle") in WITNESS_RUNGS and state_of(c.get("status", "open")) == "pass"
+                    for c in by_req.get(r["id"], []))
+    ]
+    witnessed_effects = len(effect_reqs) - len(unbacked_effects) - sum(
+        1 for r in effect_reqs if r.get("evidence") == "vacuous")
 
     # What the cases actually check. A case with no declared rung counts as
     # unrated, never as adequate — the whole point is that a plan cannot look
@@ -829,6 +931,15 @@ def audit(d: Path) -> dict:
         blockers.append(f"{len(unevidenced)} pass(es) naming no evidence artifact")
     if untested_reqs:
         blockers.append(f"{len(untested_reqs)} requirement(s) no case traces to")
+    if hollow_witness:
+        blockers.append(f"{len(hollow_witness)} effect-witness claim(s) with no recorder, "
+                        f"no effect class, or a count of zero — a witness that saw nothing "
+                        f"is the condition this rung exists to detect")
+    if unbacked_effects:
+        blockers.append(f"{len(unbacked_effects)} requirement(s) claiming an effect outside "
+                        f"the product and recorded `observed` with no effect-witness case "
+                        f"behind them — the shape that passed 230 cases over a product that "
+                        f"performed no external I/O")
     if presence_only:
         blockers.append(f"{len(presence_only)} critical flow(s) proved only by "
                         f"presence-level cases")
@@ -899,6 +1010,11 @@ def audit(d: Path) -> dict:
         "carriedWithoutBasis": carried_unbased,
         "requirements": len(reqs),
         "requirementsUntested": untested_reqs,
+        "requirementsVacuous": vacuous_reqs,
+        "effectRequirements": len(effect_reqs),
+        "effectRequirementsWitnessed": witnessed_effects,
+        "effectRequirementsUnbacked": unbacked_effects,
+        "hollowWitnesses": hollow_witness,
         "surfaces": len(surfaces),
         "surfacesUncovered": uncovered,
         "flows": len(flows),
@@ -969,6 +1085,11 @@ def cmd_check(args) -> int:
         print(f"\nEvery case accounted for. The verdict line still carries the fraction "
               f"({a['surfaces']} surfaces, {a['cases']} cases) and the armed ratio "
               f"({a['armedOfPassing']}) — a suite is only known to bite where it was armed.")
+        if a["effectRequirements"]:
+            print(f"External effects: examined={a['effectRequirements']} "
+                  f"witnessed={a['effectRequirementsWitnessed']} "
+                  f"vacuous={len([r for r in a['requirementsVacuous']])} — armed proves the "
+                  f"suite bites, and only a witness proves the product acted.")
         return 0
 
     print("\nNot ready to report:")
@@ -978,6 +1099,24 @@ def cmd_check(args) -> int:
         print(f"\n  Requirements nothing checks: {', '.join(a['requirementsUntested'][:12])}")
         print("  Each is something the project says it does. Write the case, or mark the "
               "requirement `deferred` with its citation.")
+    if a["effectRequirementsUnbacked"]:
+        print(f"\n  External-effect claims with no witness "
+              f"({a['effectRequirementsWitnessed']} of {a['effectRequirements']} witnessed):")
+        for line in a["effectRequirementsUnbacked"][:12]:
+            print(f"    · {line}")
+        print("  Drive the effect from a production entry point with a recorder attached and")
+        print("  record it:")
+        print("    campaign.py set <dir> --case CASE-0001 --status pass --oracle effect-witness \\")
+        print("      --recorder 'strace -f -e trace=network' --effect-class outbound-socket \\")
+        print("      --effect-count 3")
+        print("  Where the product does not perform the effect at all, the requirement is")
+        print("  `vacuous`, not `observed` — a guarantee that holds because nothing does the")
+        print("  thing is a finding, and recording it clears this blocker honestly.")
+    if a["hollowWitnesses"]:
+        print(f"\n  Effect witnesses that witnessed nothing: "
+              f"{', '.join(w.split()[0] for w in a['hollowWitnesses'][:12])}")
+        for line in a["hollowWitnesses"][:6]:
+            print(f"    · {line}")
     if a["surfacesUncovered"]:
         print(f"  Surfaces with no case: {', '.join(a['surfacesUncovered'])}")
     if a["flowsPresenceOnly"]:
@@ -1242,6 +1381,15 @@ def main() -> int:
                    help="What the capture channel said about the frame, e.g. "
                         "SCFrameStatus=complete. An idle or blank frame is not "
                         "evidence of anything.")
+    s.add_argument("--recorder",
+                   help="What observed the effect, e.g. \"strace -f -e trace=network\" "
+                        "or 'loopback listener logging accepts'. Required for an "
+                        "effect-witness pass.")
+    s.add_argument("--effect-class",
+                   help=f"Which effect was recorded. One of: {', '.join(EFFECT_CLASSES)}.")
+    s.add_argument("--effect-count", type=int,
+                   help="How many events of that class the recorder saw. Zero is a "
+                        "reading, and it is not a pass.")
     s.add_argument("--note")
     s.set_defaults(fn=cmd_set)
 

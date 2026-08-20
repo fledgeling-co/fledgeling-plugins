@@ -2,6 +2,96 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.0 — 2026-08-20
+
+A campaign closed 230 cases over a CI runner built around zero-trust network isolation, armed 220
+of them, cleared every gate this plugin owned, and recorded REQ-001 — "runner communication is
+outbound pull only over HTTPS/WSS on TCP 443" — as **observed**. A reviewer on a neighbouring
+project then read the source: no HTTP client anywhere in the dependency tree, no line of
+production code that spawns a subprocess, `tart`, `wsl.exe`, `pfctl` and `nft` never executed, no
+mDNS, and a daemon that only ever binds loopback. The isolation engines are rule generators and
+state machines. Every network guarantee in the inventory was true because nothing crosses the
+boundary they describe.
+
+Nothing was broken here either. **Arming mutates the system** — revert the behaviour an assertion
+guards, watch the case go red — and that finds what a suite does not cover. Ball & Kupferman named
+it as one of a pair in *Vacuity in Testing* (TAP 2008): mutating the system finds coverage gaps,
+and mutating the **specification** finds guarantees that were never exercised at all. This plugin
+had shipped one half of a known pair 220 times and the other half never. Beer, Ben-David, Eisner
+& Rodeh put the base rate at "typically 20% of formulas are found to be trivially valid, and
+trivial validity **always** points to a real problem" (FMSD 18(2), 2001).
+
+The standard toolkit cannot see it either, which is why the gap survived a mature campaign.
+`cargo mutants` mutates the code that exists, so a boundary nothing reaches has no mutants;
+coverage counts lines executed by the suite, and a rule generator's lines all execute; and the
+whole isolation stack — `pytest --disable-socket`, `WebMock.disable_net_connect!`,
+`nock.disableNetConnect()` — asserts the *absence* of I/O, so a suite built on it cannot
+distinguish "correctly outbound-only" from "never communicates".
+
+Applying the same lens **in-process**, needing no new lane and no privilege, immediately surfaced
+a live defect the 230-case campaign passed: `stop_runner` returns `true` twice for the same
+runner and never removes it, `stop_all_runners` reports "Stopped 2 runners" with the count
+unchanged at 2, and `restart_runtime` returns "…restarted successfully" having restarted nothing.
+The case covering it sat at the `outcome` rung, and the outcome it asserted was the arrival of a
+sentence.
+
+### Added
+
+- **`references/effect-boundary.md`** — the two directions of mutation, the effect census, why
+  mutation testing and coverage are both blind to this, the `effect-witness` rung with its
+  four-part causal witness, `--seed-strengthen`, and the two places the research panel disagreed
+  about where the floor sits on a machine without root.
+- **`vacuity-check.py`**, three exact passes and a control. **unclassed**: a requirement whose own
+  words name an effect outside the process and carries no `effect` field — it over-flags on
+  purpose, because a false positive costs one `"effect": "none"` and a false negative costs the
+  campaign its central claim. **uncensused**: an effect class with no `provider` named in
+  production source. **blind**: a test that calls a mutating verb and never reads the observable
+  again, so it can only be asserting the call's own return value. On the campaign above that pass
+  read 164 test functions and found **26 of 32 mutating tests blind**, five of them in a file
+  named for the effect it was not measuring.
+- **`--seed-strengthen`**, this plugin's own arming rule turned on its new gate: strengthen a
+  requirement's declared constraint until the registry cannot satisfy it, require red, restore the
+  registry byte-for-byte. A strengthened constraint that still clears proves the census reads
+  nothing.
+- **The `effect-witness` oracle rung.** A recorder the product does not control — a packet
+  capture, `dtrace`/`strace`, a real listener's accept log, a process table, a sentinel file —
+  plus the effect class and the count it saw. `campaign.py set` gained `--recorder`,
+  `--effect-class` and `--effect-count`; a claim at this rung with no recorder, no class, or a
+  count of zero blocks, because a witness that saw nothing is the condition being tested rather
+  than the proof of it.
+- **The `vacuous` requirement evidence class**, the fifth beside observed / reported /
+  contradicted / unknown. A guarantee that holds because the capability it constrains never runs.
+  It is a finding in the same way `contradicted` is, and it clears the gate: a correctly recorded
+  `vacuous` is finished honest work, and blocking on it would mean no campaign over a partly-built
+  product could ever go green. What blocks is the dishonest configuration — an external effect
+  class, recorded `observed`, with no passing `effect-witness` case behind it.
+- **Sweep M, reality boundary and vacuity**, in `references/sweeps.md`: census, reachability,
+  witness, sabotage, strengthening and blind mutation, with a denominator on each. Two of the six
+  cost nothing and need no privilege.
+- **Fifteen gate tests**, each proving a new blocker fires on a fixture built to trip it and then
+  clears when the fixture is fixed. 33 → 48 passing.
+
+### Changed
+
+- `SKILL.md` carries a fifth failure mode; phase 1 produces the effect census alongside the
+  requirement inventory; phase 5's rung table gains `effect-witness`; phase 7 gains sweep M; the
+  CHECKED test gains a campaign-level obligation that every requirement claiming an external
+  effect is either witnessed or recorded `vacuous`.
+- `references/coverage-model.md` gains an **effect boundary** axis (in-process · own process tree
+  · kernel · host · network) and connects instrument vacuity to product vacuity — the same shape
+  one level up.
+- `references/project-comprehension.md` carries the fifth evidence class and the closed effect-class
+  list.
+
+### Not settled
+
+The panel split on where the witness floor sits, and the disagreement is recorded rather than
+resolved. One reading holds that nothing below a kernel-observed causal effect may be recorded
+`observed`; another holds that a machine without root still has a real floor — a genuine loopback
+listener logging its accepts, or a real spawned process writing a sentinel — and that setting the
+bar at `dtrace` on every host means the rung goes unused. `references/effect-boundary.md` §5
+carries both.
+
 ## 0.8.0 — 2026-08-20
 
 A campaign published 20 surface captures and cleared every gate this plugin owned — every case

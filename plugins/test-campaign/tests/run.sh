@@ -438,6 +438,192 @@ else
   FAIL=$((FAIL+1))
 fi
 
+# ── the effect boundary: a guarantee over a capability that never runs ──────
+# The incident this whole block exists for: a campaign recorded "runner
+# communication is outbound pull only via HTTPS/WSS on TCP 443" as `observed`
+# over a product with no HTTP client in its dependency tree, and cleared every
+# gate it had. Arming mutates the system; nothing was mutating the
+# specification, so a constraint held vacuously and read as verified.
+#
+# What blocks is the dishonest configuration, never the honest one. A
+# requirement recorded `vacuous` is finished work and clears; a requirement
+# claiming an effect outside the product, recorded `observed`, with no
+# effect-witness case behind it, is the shape that shipped and it holds the
+# gate. Both directions are asserted, and so is the class validation on the way
+# in.
+V="$WORK/effect"
+python3 "$S/campaign.py" init "$V" --project Effect --lanes web >/dev/null
+python3 "$S/campaign.py" add "$V" --kind surface --file "$WORK/s.json" >/dev/null
+
+echo '[{"id":"REQ-001","class":"behaviour","text":"the runner boots a guest VM per job","effect":"subprocess","evidence":"observed"}]' >"$WORK/re.json"
+python3 "$S/campaign.py" add "$V" --kind requirement --file "$WORK/re.json" >/dev/null
+echo '[{"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"}]' >"$WORK/ce.json"
+python3 "$S/campaign.py" add "$V" --kind case --file "$WORK/ce.json" >/dev/null
+png "$V/shots/a.png" 40 30 1 2 3
+python3 "$S/campaign.py" set "$V" --case CASE-0001 --status pass --evidence shots/a.png --armed >/dev/null
+expect "an observed external effect with no witness blocks" 1 "$V" \
+       "claiming an effect outside the product"
+
+# The honest finding clears: nothing was witnessed, and the registry says so.
+python3 - "$V" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"][0]["evidence"] = "vacuous"
+p.write_text(json.dumps(inv, indent=2))
+PY
+expect "the same requirement recorded vacuous clears" 0 "$V" "External effects:"
+
+# And so does a real witness. Back to `observed`, with a case that stands at
+# effect-witness and names what recorded the effect and how many it saw.
+python3 - "$V" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"][0]["evidence"] = "observed"
+p.write_text(json.dumps(inv, indent=2))
+c = pathlib.Path(sys.argv[1]) / "cases.json"
+cases = json.loads(c.read_text())
+cases[0]["oracle"] = "effect-witness"
+c.write_text(json.dumps(cases, indent=2))
+PY
+expect "an effect-witness claim with no recorder blocks" 1 "$V" "names no recorder"
+python3 "$S/campaign.py" set "$V" --case CASE-0001 \
+  --recorder "dtrace proc:::exec-success, 4 lines" --effect-class subprocess \
+  --effect-count 0 >/dev/null
+expect "a witness that counted nothing blocks" 1 "$V" \
+       "a witness that saw nothing is the condition, not the proof"
+python3 "$S/campaign.py" set "$V" --case CASE-0001 --effect-count 4 >/dev/null
+expect "a counted, recorded witness clears" 0 "$V" "witnessed=1"
+
+# Class validation on the way in, both fields.
+if python3 "$S/campaign.py" add "$V" --kind requirement --file /dev/stdin >/dev/null 2>&1 <<<'[{"text":"x","evidence":"probably"}]'; then
+  echo "FAIL  a bogus evidence class should be refused at add time"; FAIL=$((FAIL+1))
+else
+  say "ok    a bogus requirement evidence class is refused"; PASS=$((PASS+1))
+fi
+if python3 "$S/campaign.py" add "$V" --kind requirement --file /dev/stdin >/dev/null 2>&1 <<<'[{"text":"x","effect":"telepathy"}]'; then
+  echo "FAIL  a bogus effect class should be refused at add time"; FAIL=$((FAIL+1))
+else
+  say "ok    a bogus requirement effect class is refused"; PASS=$((PASS+1))
+fi
+
+# ── vacuity-check: the requirement-level and test-tree half ─────────────────
+# campaign.py owns the case-level rules; this owns the census and the blind
+# mutation scan. Each pass is proved to fire and then proved to clear, and the
+# --seed-strengthen control is the skill's own arming rule turned on the gate
+# itself: strengthen a constraint the registry cannot satisfy, and require red.
+VC="$WORK/vacuity"
+mkdir -p "$VC"
+cat >"$VC/inventory.json" <<'JSON'
+{"requirement": [
+  {"id":"REQ-001","title":"The daemon keeps a counter in memory","effect":"none","evidence":"observed"},
+  {"id":"REQ-002","title":"The engine boots a Tart guest per job","effect":"subprocess","evidence":"observed"}
+]}
+JSON
+out="$(python3 "$S/vacuity-check.py" "$VC" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "records no \`provider\`" <<<"$out"; then
+  say "ok    a declared effect with no provider is uncensused"; PASS=$((PASS+1))
+else
+  echo "FAIL  uncensused should fire and exit 1 (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+python3 - "$VC" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"][1]["provider"] = "isolation/macos.rs:88 spawn_guest"
+p.write_text(json.dumps(inv, indent=2))
+PY
+out="$(python3 "$S/vacuity-check.py" "$VC" --gate 2>&1)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "external=1 findings=0" <<<"$out"; then
+  say "ok    naming the provider clears the census"; PASS=$((PASS+1))
+else
+  echo "FAIL  a named provider should clear (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# The requirement's own words name an effect and no class is declared: this
+# over-flags on purpose, because a false positive costs one `"effect": "none"`
+# and a false negative costs the campaign its central claim.
+python3 - "$VC" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"].append({"id": "REQ-003",
+                           "title": "Peers are found over mDNS with no configuration"})
+p.write_text(json.dumps(inv, indent=2))
+PY
+out="$(python3 "$S/vacuity-check.py" "$VC" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "REQ-003 names multicast" <<<"$out"; then
+  say "ok    an undeclared effect named in the text is unclassed"; PASS=$((PASS+1))
+else
+  echo "FAIL  unclassed should name REQ-003's multicast (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# The control. It mutates the registry, so the restore is checked by hash
+# rather than by trusting the finally block.
+before="$(shasum -a 256 <"$VC/inventory.json")"
+out="$(python3 "$S/vacuity-check.py" "$VC" --seed-strengthen REQ-002 2>&1)"; rc=$?
+after="$(shasum -a 256 <"$VC/inventory.json")"
+if [ "$rc" = 0 ] && grep -qF -- "The gate bites" <<<"$out"; then
+  say "ok    --seed-strengthen turns a strengthened constraint red"; PASS=$((PASS+1))
+else
+  echo "FAIL  --seed-strengthen should report the gate biting (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+if [ "$before" = "$after" ]; then
+  say "ok    --seed-strengthen restores the registry byte-identically"; PASS=$((PASS+1))
+else
+  echo "FAIL  --seed-strengthen left the registry changed"; FAIL=$((FAIL+1))
+fi
+
+# The blind pass, both directions on one file: a test that mutates and never
+# reads again can only be asserting the call's own return value, which is the
+# shape that let a daemon verb report success while changing nothing.
+mkdir -p "$VC/src/tests"
+cat >"$VC/src/tests/spec_a.rs" <<'RS'
+#[test]
+fn stopping_a_runner_reports_success() {
+    let (ok, _msg) = s.stop_runner("runner-01");
+    assert!(ok);
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" 2>&1)"
+if grep -qF -- "mutating=1 re-read-after=0 blind=1" <<<"$out"; then
+  say "ok    a mutate-and-never-read test is blind"; PASS=$((PASS+1))
+else
+  echo "FAIL  the blind pass should find 1 of 1"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+cat >"$VC/src/tests/spec_a.rs" <<'RS'
+#[test]
+fn stopping_a_runner_removes_it() {
+    let (ok, _msg) = s.stop_runner("runner-01");
+    assert!(ok);
+    let still = s.list_runners();
+    assert!(!still.iter().any(|r| r.id == "runner-01"));
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" 2>&1)"
+if grep -qF -- "mutating=1 re-read-after=1 blind=0" <<<"$out"; then
+  say "ok    reading the observable afterwards clears the blind pass"; PASS=$((PASS+1))
+else
+  echo "FAIL  a re-read should clear the blind pass"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# A pass that could not run is not a pass that found nothing.
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/nowhere" 2>&1)"
+if grep -qF -- "SKIPPED" <<<"$out" && grep -qF -- "is not a pass that found nothing" <<<"$out"; then
+  say "ok    a missing test root is skipped out loud"; PASS=$((PASS+1))
+else
+  echo "FAIL  a missing test root should say it was skipped"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

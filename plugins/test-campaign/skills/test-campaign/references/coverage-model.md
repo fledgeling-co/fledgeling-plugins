@@ -29,6 +29,7 @@ carries all ten, and an axis with one value is still declared, as held fixed.
 | **Input modality** | pointer · keyboard · touch · screen reader · accessibility action | Keyboard-only reachability is a requirement, not a sweep. |
 | **Network** | normal · slow · offline · 4xx · 5xx · abort · duplicate submit | Forced by interception; not an environment you wait for. |
 | **Execution plane** | headless · on glass (running, composited, photographed) | The axis a campaign is most likely to hold fixed at `headless` without noticing. A suite of 59 passing tests over two desktop apps never varied it, and neither app had ever drawn a window. `references/on-glass.md`. |
+| **Effect boundary** | in-process · own process tree · kernel · host · network | Where the product's effect actually lands. A campaign that never varies this certifies a model of the product. One held it at `in-process` across 230 cases while the documents promised subprocesses, packet filters and outbound HTTPS. `references/effect-boundary.md`. |
 | **Oracle facet** | which *property* the case checks — see §3 | The axis everyone omits, and the reason a plan can look complete while proving nothing. |
 
 **The product is constrained, and the constraints are part of the model.** A
@@ -106,6 +107,7 @@ field in the registry:
 | **structural-visual** | the labels, hierarchy tokens and structural metadata a rendering *would* use exist | whether anything was ever drawn |
 | **outcome** | the promised effect — data rendered, state changed, record written, navigation completed | a change that is right once and wrong on the second run |
 | **metamorphic** | a relation across two runs — undo restores, row count tracks the store, sort is a permutation, locale change preserves affordances | absolute correctness of the first value |
+| **effect-witness** | an effect recorded outside the product's own memory — a process spawned, a socket connected, a filter installed, a file another process read — driven from a production entry point, with a non-zero count and a named recorder | that the effect was right, only that it happened |
 | **raster-visual** | pixels captured off a display server, compared against a design of record | anything not visible |
 | **interactive-glass** | synthetic UI events actuated (clicks, keyboard, drag, runloop dispatch) and state transitions verified on a live display server | backend isolation breaks occurring outside UI process |
 
@@ -163,6 +165,21 @@ reason.
 The move to resist is widening a tolerance to make an unmeasurable read pass.
 That converts "we do not know" into "we will ignore some differences", which is a
 different and weaker claim wearing the same green tick.
+
+### The same shape, one level up
+
+Everything above is about a check that could not read a property. The same
+vacuity appears one level higher, where the **product** never performs the thing
+the requirement constrains. `G(communication → outbound_443)` is true in a system
+that never communicates, and the set of executions that could falsify it is
+strictly empty — the identical shape, with the product in the instrument's place.
+
+It needs its own status because the remedy is different again: `inconclusive`
+wants a better instrument, `unoracled` wants an oracle built, and `vacuous` wants
+the capability built or the claim withdrawn. And it needs its own control, because
+arming cannot find it. Arming mutates the system; vacuity is only visible by
+mutating the **specification** to something strictly harder and watching the case
+stay green. `references/effect-boundary.md` §6.
 
 ---
 
