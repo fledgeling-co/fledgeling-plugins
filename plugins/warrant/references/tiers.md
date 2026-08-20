@@ -12,7 +12,7 @@ Authority is held per defect class, never globally.
 | 0 | nothing; it advises and records | a valid signed warrant, and a ledger that is writing | — |
 | 1 | classes where the oracle plane is green and no perceptual judgement is required | oracle coverage at or above the warrant's `[oracle] coverage_min` for the surface | any lineage gap |
 | 2 | tier 1 plus perceptual classes carrying a declared miss ceiling | assay green, and the grader re-catches every historical escape in this class | a pinned model version change, or any new escape in the class |
-| 3 | tier 2 across all non-disclosure surfaces | `tiers.tier3_items` closed in the class with zero escapes over `tiers.tier3_window_days` | one escape in a tier-3 class |
+| 3 | tier 2 across all non-disclosure surfaces | `tiers.tier3_items_closed_min` closed in the class with zero escapes over `tiers.tier3_window_days` (the older spelling `tier3_items` is still read) | one escape in a tier-3 class |
 | 4 | tier 3 plus disclosure content | unreachable on current evidence | — |
 
 `warrant:ratchet` computes the tier each class has earned and applies exits immediately.
