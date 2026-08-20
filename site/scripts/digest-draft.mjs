@@ -149,6 +149,39 @@ try {
   const known = new Set((await collection.distinct("skill")) ?? []);
   const fresh = catalogue.skills.filter((skill) => !known.has(skill.name));
 
+  /**
+   * Retire drafts for skills the catalogue no longer has.
+   *
+   * A rename leaves the old name queued forever. The send is already safe from
+   * it, because the cron route only mails items its own deployment can show and
+   * counts the rest as `held`, so the link never 404s in anyone's inbox. But a
+   * held item is held again tomorrow and every day after, and it still renders
+   * in the approval preview, so the copy being read is not the copy that goes.
+   * `create-test-suite` sat there from its rename on 2026-08-18 until it was
+   * found in the preview on 2026-08-21, inflating a 24-skill issue to 25.
+   *
+   * Retired to `seeded` rather than deleted: that is already the status meaning
+   * "this collection knows about it and will never announce it", the copy stays
+   * readable, and the unique index keeps its row from being drafted again.
+   *
+   * This runs before the no-new-skills exit below, because a push that only
+   * renames a plugin has nothing fresh to draft and is exactly the push that
+   * creates an orphan.
+   */
+  const live = new Set(catalogue.skills.map((skill) => skill.name));
+  const orphans = (await collection.find({ status: "draft" }).toArray()).filter(
+    (item) => !live.has(item.skill),
+  );
+  if (orphans.length > 0) {
+    await collection.updateMany(
+      { _id: { $in: orphans.map((o) => o._id) } },
+      { $set: { status: "seeded", updatedAt: new Date() } },
+    );
+    console.log(
+      `\n  Retired ${orphans.length} draft${orphans.length === 1 ? "" : "s"} for skills no longer in the catalogue: ${orphans.map((o) => o.skill).join(", ")}`,
+    );
+  }
+
   if (fresh.length === 0) {
     console.log("\n  No new skills. Nothing to draft.\n");
     process.exit(0);
