@@ -51,7 +51,13 @@ from pathlib import Path
 # Only these assert an effect. `visual` is deliberately absent: it covered both
 # "a label exists in the view hierarchy" and "pixels were captured off a display
 # server", and the first of those is a data-model check. See campaign.py.
-EFFECT_RUNGS = {"outcome", "metamorphic", "raster-visual", "interactive-glass"}
+# `effect-witness` was added to campaign.py in 0.9.0 and never added here, so the
+# rung that most strongly proves an effect — a recorder outside the product saw it
+# — scored as "only proves something rendered", the weakest bucket on the page.
+# A campaign that built a real witness watched its strict score stay flat, which
+# is precisely the wrong incentive to attach to the most expensive rung.
+EFFECT_RUNGS = {"outcome", "metamorphic", "effect-witness",
+                "raster-visual", "interactive-glass"}
 LEGACY_RUNGS = {"visual"}
 RATCHET_FILE = "strict-ratchet.json"
 
