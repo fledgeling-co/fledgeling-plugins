@@ -2,6 +2,37 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.1 — 2026-08-20
+
+Three defects in 0.9.0's own effect census, all found by running it against the campaign it was
+written for. Each read as a clean result, which is the failure mode the census exists to catch.
+
+**`witnessed` was a subtraction, not a count.** It computed
+`len(effect_reqs) - len(unbacked) - len(vacuous)`, so a requirement declaring an external effect
+and recorded `reported` — claimed, never witnessed, and correctly not blocked — was subtracted
+into the witnessed total and reported as an effect somebody had seen. On the egress registry that
+printed `witnessed=1` where the true figure is 0. It now counts the requirements that actually
+have a passing case at `effect-witness`, and names the rest as `unwitnessed` with their evidence
+class beside them.
+
+**The census printed only after the full-run verdict.** It sat past the selective-run `return 0`,
+so on this skill's own default scope it never printed at all — a registry with eight vacuous
+requirements said nothing about any of them, and the only place the numbers existed was `--json`.
+It now prints in the header, beside the requirement and surface counts, on every path including a
+blocked one.
+
+**An unrecognised effect class vanished instead of blocking.** `add` refuses one, but a registry
+edited by hand never passes through `add`, and an unrecognised class then simply failed the
+membership test and dropped out of the census — indistinguishable from a requirement claiming no
+external effect. `check` now blocks on it and names the classes it accepts.
+
+`references/effect-boundary.md` §3 said a requirement whose declared effect has no provider is
+`contradicted` at phase 1, where §2 of the same file defines `vacuous` for exactly that case.
+Corrected, with the distinction spelled out rather than assumed.
+
+Gate tests 48 → 53. The five new ones prove each of the above fires on a fixture built to trip it
+and clears when the fixture is corrected.
+
 ## 0.9.0 — 2026-08-20
 
 A campaign closed 230 cases over a CI runner built around zero-trust network isolation, armed 220

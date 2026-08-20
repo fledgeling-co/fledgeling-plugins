@@ -97,9 +97,11 @@ cargo install cargo-workspace-unused-pub && cargo workspace-unused-pub
 ```
 
 A requirement whose declared effect class has no provider in production source is
-`contradicted` at phase 1, before any test is written. The campaign above would
-have found five of its six central claims here, in the first hour, for the price
-of three greps.
+`vacuous` at phase 1, before any test is written — not `contradicted`, which is
+what §2 above distinguishes: contradicted means the product does the thing and
+does it differently from the document, and there is nothing here for the document
+to disagree with. The campaign above would have found five of its six central
+claims here, in the first hour, for the price of three greps.
 
 **Rust's own dead-code lint cannot do this for you.** `dead_code` detects unused,
 *unexported* items; it does not fire on a `pub` item in a library crate, because
