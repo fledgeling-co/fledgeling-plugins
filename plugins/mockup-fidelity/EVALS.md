@@ -2,7 +2,7 @@
 
 **No two-arm eval has been run, so nothing here is a measured result about the skill.** The eval suite exists now, in [`skills/mockup-fidelity/evals/evals.json`](skills/mockup-fidelity/evals/evals.json), beside the fixtures and the answer key that were already there. Not one of its nine prompts has been executed with the skill loaded, none without it, no judge has looked at anything, and there is no pass rate. The ninth was added with the native lane on 2026-08-20, and it now has a target: `evals/fixtures/mac-settings` is a real macOS app, built and exercised, whose Settings pane diverges from its mock in eight recorded ways. It shipped for a few hours as a defined eval with no fixture that could serve it, which is stated here rather than quietly fixed, because the gap between a suite that is defined and one that can run is exactly the distinction this file exists to keep. That is a legitimate state to ship in, and it is written here plainly so a defined suite is not mistaken for an evaluated one.
 
-The harness itself is a different matter. It was run, against the fixtures on disk, and what it measured is below. So was the Mac fixture, which found two things nobody had asked it to — an AppKit control that reports a size in the accessibility tree and paints nothing, and a documented proctor capability that did not fire on a textbook case. Both are in `evals/fixtures/mac-settings/ANSWER-KEY.md`, and the second one sent a correction back into two reference files that had stated it from documentation.
+The harness itself is a different matter. It was run, against the fixtures on disk, and what it measured is below. So was the Mac fixture, which found two things nobody had asked it to: an AppKit control that reports a size in the accessibility tree and paints nothing, and a documented proctor capability that did not fire on a textbook case. Both are in `evals/fixtures/mac-settings/ANSWER-KEY.md`, and the second one sent a correction back into two reference files that had stated it from documentation.
 
 ## What was checked, and what it found
 
@@ -65,7 +65,7 @@ Grade with a subagent that never sees the skill, marking each assertion passed o
 
 ## Eval 9, run 2026-08-20: 9 of 11 against 2 of 11
 
-The first prompt in the set to be run. Both arms were `claude-fable-5` at `--effort high` — the
+The first prompt in the set to be run. Both arms were `claude-fable-5` at `--effort high`, the
 same model on both sides, so the comparison is the skill rather than the model. One arm received
 SKILL.md plus `native-lane.md` and `engine-capability-matrix.md` (62,150 bytes); the other
 received the task alone (712 bytes). Both ran from `/tmp/mfeval` with no path into this
@@ -79,7 +79,7 @@ each assertion against the answer key and quoting the sentence that decided it.
 | 2. Reads the inconclusive classes as the web engine's ceiling, and reaches for the second engine | pass | fail |
 | 3. Establishes the tier with a real `proctor_inspect` call before claiming a style measurement | pass | fail |
 | 4. Reports `reflectorUnavailable` verbatim and leaves radius, colour and shadow inconclusive | pass | fail |
-| 5. Does not report the accent-colour divergence — an eyedropped colour is not a declared value | pass | pass |
+| 5. Does not report the accent-colour divergence, because an eyedropped colour is not a declared value | pass | pass |
 | 6. Catches N1, N2 and N4 with the measurement each rests on | fail | fail |
 | 7. Reaches N5 from the control inventory, or reports the tri-observer check as not having fired | pass | fail |
 | 8. Runs `proctor_stability` before asserting geometry, and derives the tolerance from variance | pass | fail |
@@ -92,7 +92,7 @@ The two shared passes are the ones worth reading first. Assertions 1 and 5 both 
 baseline, which means neither discriminates on this task: a capable model refuses to call nine
 silenced detector classes a pass without being told to, and it does not volunteer a colour value
 it has not measured. Assertion 5 in particular was written to catch an over-claim the fixture
-plants, and the baseline avoided the over-claim by never getting close enough to make it —
+plants, and the baseline avoided the over-claim by never getting close enough to make it;
 passing for the wrong reason is not the same as passing. Both need an adversarial rewrite that
 makes the wrong answer attractive before they measure anything.
 
@@ -105,7 +105,7 @@ live app.
 
 What separates the two arms is the whole of the middle of the table. The baseline reached for
 `screencapture`, `magick` crops and a read of the Swift source, and proposed settling corner
-radius and shadow by looking at enlarged pixels — the exact substitution the skill's Tier B rule
+radius and shadow by looking at enlarged pixels, the exact substitution the skill's Tier B rule
 exists to refuse. It had no `ProctorReflector`, no tier, and no notion that a native window has a
 second measuring engine at all. The skill arm established the tier first and let it decide what
 its own findings were allowed to claim.

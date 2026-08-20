@@ -112,8 +112,8 @@ pixel-perfect screen wired to nothing reads as finished and fails the first time
 ## When the engine is the limit, not the build
 
 A report with zero findings and nine inconclusive classes was always honest here, and it was also a dead
-end: the classes it couldn't measure — shadows, gradients, corner radius through the shorthand, text
-transforms, anything animating — stayed unmeasured, and the reader was left holding a screen nobody could
+end: the classes it couldn't measure (shadows, gradients, corner radius through the shorthand, text
+transforms, anything animating) stayed unmeasured, and the reader was left holding a screen nobody could
 close. That's the browser engine's ceiling rather than a fact about the build, and treating the two as the
 same thing is exactly the confusion this skill exists to prevent, arriving one level up.
 
@@ -139,7 +139,7 @@ it's in before it claims anything, and the ledger says which.
 The other thing the second engine brings is a fourth answer. Until now a measurement was available or it
 wasn't; a value that won't hold still is a third way to be unmeasurable, and a 2026 study of 262 visual
 flakiness cases found the split 60/40 between structure and style. So instability gets measured as a
-number before anyone argues about whether a difference is a defect — which is also where the geometry
+number before anyone argues about whether a difference is a defect, which is also where the geometry
 tolerance now comes from, instead of a default nobody calibrated.
 
 ## What it refuses to do

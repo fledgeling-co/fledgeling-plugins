@@ -40,14 +40,14 @@ It exists because 0.3.0 added three rules to `verify` that the nine scored evals
 have exercised: that a screenshot asserts a subject as well as a capture, that a green suite
 can be green because an assertion cannot fail, and that a verdict row citing the verifier's
 summary of an artifact is not citing the artifact. The eval hands the verifier a completion
-record where every requirement looks closed — a screenshot for the visual row, a passing spec
-for the behavioural one — and where the screenshot shares a sha256 with another requirement's,
+record where every requirement looks closed (a screenshot for the visual row, a passing spec
+for the behavioural one) and where the screenshot shares a sha256 with another requirement's,
 the capture log records the browser finishing at `/login` rather than `/billing`, and the
 spec's body is `await page.click(...)` followed by a bare `expect(page)`.
 
 The old arm will fail most of its nine assertions, and that is not the interesting part. The
 interesting part is whether the new arm reaches the right verdict *from the bundle* rather
-than from noticing that the fixture looks like a trap — which is the same weakness the grader
+than from noticing that the fixture looks like a trap, which is the same weakness the grader
 already found in `adv-plan-already-true-ac`, where the task prompt hints at what it is
 testing. Until it runs, treat this eval as a written intention.
 
