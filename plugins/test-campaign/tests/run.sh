@@ -676,6 +676,105 @@ else
   FAIL=$((FAIL+1))
 fi
 
+
+# Four ways the blind pass reported a number that was about the instrument, and
+# one way the strict score punished the strongest rung.
+#
+# 1. An unanchored mutator matched inside a longer identifier: `record` fired on
+#    `job_record(`, so a test with no mutating call in it was reported blind.
+cat >"$VC/src/tests/spec_b.rs" <<'RS'
+#[test]
+fn an_unknown_job_reads_as_unknown() {
+    assert!(s.job_record(4242).is_none());
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" --mutator record 2>&1)"
+if grep -qF -- "an_unknown_job_reads_as_unknown" <<<"$out"; then
+  echo "FAIL  a mutator matching inside a longer identifier still fires"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+else
+  say "ok    a mutator does not fire inside a longer identifier"; PASS=$((PASS+1))
+fi
+# ...while a genuine method call on the same verb still does. Without this the
+# fix above is indistinguishable from deleting the verb.
+cat >"$VC/src/tests/spec_b.rs" <<'RS'
+#[test]
+fn seeding_the_log_and_asserting_nothing() {
+    log.record(Kind::JobCancelled, "a", 1);
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" --mutator record 2>&1)"
+if grep -qF -- "seeding_the_log_and_asserting_nothing" <<<"$out"; then
+  say "ok    the same mutator still fires on a real method call"; PASS=$((PASS+1))
+else
+  echo "FAIL  anchoring the mutator killed it entirely"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+rm -f "$VC/src/tests/spec_b.rs"
+
+# 2. A fixture helper counted as a test. It mutates and returns; its callers do
+#    the reading, so it is reported blind while every caller asserts correctly.
+cat >"$VC/src/tests/spec_c.rs" <<'RS'
+fn log_with_two_jobs() -> ActivityLog {
+    let log = ActivityLog::new(64);
+    log.record(Kind::JobCancelled, "a", 1);
+    log
+}
+#[test]
+fn the_job_filter_returns_only_that_jobs_events() {
+    let log = log_with_two_jobs();
+    assert_eq!(log.for_job(1).len(), 1);
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" --mutator record --reader for_job 2>&1)"
+if grep -qF -- "log_with_two_jobs" <<<"$out"; then
+  echo "FAIL  a fixture helper is still counted as a blind test"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+else
+  say "ok    a helper its callers use is not counted as a test"; PASS=$((PASS+1))
+fi
+rm -f "$VC/src/tests/spec_c.rs"
+
+# 3. The vocabulary came from the defaults only. The docstring said it came from
+#    the campaign config; nothing read one. A project whose readers the defaults
+#    miss gets MORE findings, so a wrong vocabulary reads as a thorough pass.
+cat >"$VC/src/tests/spec_d.rs" <<'RS'
+#[test]
+fn clearing_the_queue_empties_the_feed() {
+    s.clear_queue();
+    assert_eq!(s.activity_feed(10).total_held, 1);
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" 2>&1)"
+if grep -qF -- "clearing_the_queue_empties_the_feed" <<<"$out"; then
+  say "ok    a reader the defaults do not know reads as blind"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected the default vocabulary to miss activity_feed"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+cat >"$VC/campaign.json" <<'JSON'
+{"project": "Vacuity",
+ "blindVocabulary": {"mutators": ["clear_"], "readers": ["activity_feed"]}}
+JSON
+out="$(python3 "$S/vacuity-check.py" "$VC" --tests "$VC/src" 2>&1)"
+if grep -qF -- "campaign.blindVocabulary" <<<"$out" && ! grep -qF -- "clearing_the_queue_empties_the_feed" <<<"$out"; then
+  say "ok    the campaign's declared vocabulary is read and reported"; PASS=$((PASS+1))
+else
+  echo "FAIL  campaign.blindVocabulary was not applied or not reported"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+rm -f "$VC/src/tests/spec_d.rs"
+
+# 4. strict-check never learned the effect-witness rung campaign.py added in
+#    0.9.0, so the rung that most strongly proves an effect scored in the
+#    weakest bucket and building a real witness moved the score by nothing.
+out="$(python3 "$S/strict-check.py" "$V" 2>&1)"
+if grep -qE "^CHECKED   2 of 2 cases \(100%\)" <<<"$out"; then
+  say "ok    strict-check counts effect-witness as an effect rung"; PASS=$((PASS+1))
+else
+  echo "FAIL  effect-witness is not counted as checked"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

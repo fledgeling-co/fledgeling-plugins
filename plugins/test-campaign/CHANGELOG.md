@@ -2,6 +2,41 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.2 — 2026-08-20
+
+The blind-mutation check from 0.9.0 was measuring itself. Run against a real suite it reported
+26 blind tests of 32 mutating; four defects in the detector accounted for 19 of them, and each
+one made the pass report a larger number, which reads as thoroughness rather than as a broken
+instrument.
+
+**`--reader` replaced the seven defaults instead of extending them.** `tuple(args.reader) or
+DEFAULT_READERS` means a project naming one reader of its own silently loses `assert_eq`,
+`get_telemetry` and the other five, so every test reading through them is reclassified blind.
+The flag that exists to teach the detector about a project made it blinder, and the resulting
+rise in the count is indistinguishable from a thorough pass. Both flags now extend; `--only`
+replaces, for the case where the defaults genuinely do not apply.
+
+**The mutator pattern had no left word boundary.** `re.escape("record") + r"\w*\s*\("` matches
+`record` inside `job_record(`, so a test whose only "mutation" was constructing a fixture was
+reported as mutating-and-blind. Anchored with `(?<![A-Za-z0-9_])`, which still fires on
+`.record(` and no longer fires inside an identifier.
+
+**Fixture helpers were counted as tests.** A helper like `log_with_two_jobs()` mutates and
+returns, leaving its callers to do the reading — so it is blind by construction and its callers
+are not. Counting it inflated the denominator (168 where 141 is true) and added a finding about
+a function nobody wrote as a test. A function called more than once in its own file is now
+treated as a helper and excluded.
+
+**The vocabulary could only come from the command line.** A project has to re-pass its flags on
+every invocation or silently get the defaults, and a CI job that forgets them reports a clean
+sweep. `campaign.json` now carries a `blindVocabulary` block with `mutators`, `readers` and an
+optional `only`, and the run prints which source it used and how many terms it holds.
+
+**`strict-check.py` never learned `effect-witness`.** The rung was added to `campaign.py` in
+0.9.0 and its `EFFECT_RUNGS` set was not — so the rung that most strongly proves the product
+acted scored in the same bucket as "something rendered", and building a real witness moved the
+strict score by nothing.
+
 ## 0.9.1 — 2026-08-20
 
 Three defects in 0.9.0's own effect census, all found by running it against the campaign it was
