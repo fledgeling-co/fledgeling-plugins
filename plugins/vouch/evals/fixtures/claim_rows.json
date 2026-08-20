@@ -1,0 +1,80 @@
+[
+ {
+  "date": "2025-08-04",
+  "vendor": "Northwind Hosting",
+  "cat": "Development & Infrastructure",
+  "desc": "Application hosting, August",
+  "why": "Hosting for the product.",
+  "inv": "NW-2025-0801",
+  "ex": 40.0,
+  "gst": 4.0,
+  "inc": 44.0,
+  "file": "NW-2025-0801.pdf",
+  "file_rel": "2025-08/NW-2025-0801.pdf"
+ },
+ {
+  "date": "2025-08-11",
+  "vendor": "Cobalt Analytics",
+  "cat": "Development & Infrastructure",
+  "desc": "Log ingestion, August",
+  "why": "Log ingestion and observability.",
+  "inv": "CA-88213",
+  "ex": 25.0,
+  "gst": 0.0,
+  "inc": 25.0,
+  "file": "CA-88213.pdf",
+  "file_rel": "2025-08/CA-88213.pdf"
+ },
+ {
+  "date": "2025-08-27",
+  "vendor": "Pelham Office Suite",
+  "cat": "Productivity & Business Tools",
+  "desc": "Office suite, six seats",
+  "why": "Company email and calendar.",
+  "inv": "PEL-0000442",
+  "ex": 90.0,
+  "gst": 9.0,
+  "inc": 99.0,
+  "file": "PEL-0000442.pdf",
+  "file_rel": "2025-08/PEL-0000442.pdf"
+ },
+ {
+  "date": "2025-09-04",
+  "vendor": "Northwind Hosting",
+  "cat": "Development & Infrastructure",
+  "desc": "Application hosting, September",
+  "why": "Hosting for the product.",
+  "inv": "NW-2025-0901",
+  "ex": 40.0,
+  "gst": 4.0,
+  "inc": 44.0,
+  "file": "NW-2025-0901.pdf",
+  "file_rel": "2025-09/NW-2025-0901.pdf"
+ },
+ {
+  "date": "2025-09-19",
+  "vendor": "Cobalt Analytics",
+  "cat": "Development & Infrastructure",
+  "desc": "Log ingestion, September",
+  "why": "Log ingestion and observability.",
+  "inv": "CA-89007",
+  "ex": 25.0,
+  "gst": 0.0,
+  "inc": 25.0,
+  "file": "CA-89007.pdf",
+  "file_rel": "2025-09/CA-89007.pdf"
+ },
+ {
+  "date": "2025-09-27",
+  "vendor": "Pelham Office Suite",
+  "cat": "Productivity & Business Tools",
+  "desc": "Office suite, six seats",
+  "why": "Company email and calendar.",
+  "inv": "PEL-0000517",
+  "ex": 90.0,
+  "gst": 9.0,
+  "inc": 99.0,
+  "file": "PEL-0000517.pdf",
+  "file_rel": "2025-09/PEL-0000517.pdf"
+ }
+]

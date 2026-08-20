@@ -1,0 +1,10 @@
+{
+  "bundle": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "bundle-swapped": {
+    "A": "baseline",
+    "B": "candidate"
+  }
+}

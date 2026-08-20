@@ -1,0 +1,125 @@
+{
+ "$comment": "Process evals for the vouch plugin. These assert the run's own invariants, not that a model behaved well. Each is checked by run_evals.sh against a fixture claim. No blind judge panel has been run; EVALS.md says so and names what would settle it.",
+ "evals": [
+  {
+   "id": "V-01",
+   "asserts": "validate.py exits non-zero on every one of the eight red fixtures, and zero on the correct claim",
+   "why": "a gate only ever observed passing has not been written"
+  },
+  {
+   "id": "V-02",
+   "asserts": "the magnitude check fires on a fixture whose whole tax column is transposed AND whose totals were recomputed from it",
+   "why": "transposition preserves the sum, so the arithmetic check is blind to it; this is the fixture that proved the blind spot"
+  },
+  {
+   "id": "V-03",
+   "asserts": "audit_invoices.py reports two mismatches when two filed documents' filenames are swapped",
+   "why": "it reported 88 of 88 on exactly that fixture until the extractor's path banner was stripped, and would have passed 88 randomly named files"
+  },
+  {
+   "id": "V-04",
+   "asserts": "every check in validate.py names a defect in references/gates.md",
+   "why": "a check with no defect behind it is a check nobody has proven can fail"
+  },
+  {
+   "id": "V-05",
+   "asserts": "build_csv.py reproduces a recorded claim form byte for byte from its form spec and row source",
+   "why": "the employer's layout is data; a builder that cannot reproduce a known form has diverged from it"
+  },
+  {
+   "id": "V-06",
+   "asserts": "build_csv.py and build_reports.py both refuse a relative output path",
+   "why": "two rebuilds landed in /tmp on a real run while the delivered folder kept stale copies, silently"
+  },
+  {
+   "id": "V-07",
+   "asserts": "no integer or money figure in either report's prose is a literal; every one is interpolated from the row source",
+   "why": "five hardcoded counts survived a move from 66 rows to 68, and one then survived the move to 88"
+  },
+  {
+   "id": "V-08",
+   "asserts": "the rendered reports have scrollWidth == clientWidth at 1440, 768 and 375 pixels",
+   "why": "a card-level overflow fix did not resolve a measured 467px overflow; the grid track needed min-width:0 as well"
+  },
+  {
+   "id": "V-09",
+   "asserts": "no cell in a rendered report contains a word broken across lines",
+   "why": "two separate CSS rules, each correct when written, chopped prose mid-word once a text column was appended"
+  },
+  {
+   "id": "V-10",
+   "asserts": "match.py assigns each charge to at most one invoice and each invoice to at most one charge, on a fixture holding two identical charges four days apart",
+   "why": "independent lookup matched 7 of 10 with 2 ambiguous where assignment matched 9 of 10"
+  },
+  {
+   "id": "V-11",
+   "asserts": "find_blind_days.py reports a run of feed-blind days on a fixture with a deliberate 38-day hole",
+   "why": "two real gaps of 38 and 44 days were invisible until computed and held claimable charges"
+  },
+  {
+   "id": "V-12",
+   "asserts": "wanted_invoices.py emits a complete HTML document with a doctype, and one row per outstanding charge",
+   "why": "an early version emitted fragments and rendered blank, reporting success"
+  },
+  {
+   "id": "V-13",
+   "asserts": "no report or CSV asserts a tax or legal characterisation; a classification column states a default position and says so",
+   "why": "the app states arithmetic and cites documents; the characterisation belongs to the accountant"
+  },
+  {
+   "id": "V-14",
+   "asserts": "a second run over an unchanged input produces a byte-identical claim form and identical reports",
+   "why": "a differing second run means something read a clock or a directory listing order"
+  },
+  {
+   "id": "V-15",
+   "asserts": "classify_accounts.py separates a company email, a bare company domain and a company name beside a personal contact",
+   "why": "the fourth rung is invisible until the contact-email pattern fires, and it was worth eleven rows and A$1,579.45 on a real claim"
+  },
+  {
+   "id": "V-16",
+   "asserts": "no count or money figure is a literal in the census output",
+   "why": "prose rots on removal as well as addition; five literals survived five rounds of exclusions on a real run"
+  },
+  {
+   "id": "V-17",
+   "asserts": "every extraction pattern has a fixture it must match and a fixture it must not",
+   "why": "three patterns on one run matched nothing or the wrong capture group and reported clean: a trailing-dot domain, a case-sensitive bill-to, and a tax pattern returning the base it was computed on"
+  },
+  {
+   "id": "V-18",
+   "asserts": "the statement cycle is inferred from the statements on disk, and statements whose closing days disagree drop the column rather than picking one",
+   "why": "a charge on the 1st and one on the 20th sit in different statements wherever the cycle closes mid-month, and a cadence supplied as a flag invites a typo that misroutes every row silently"
+  },
+  {
+   "id": "V-19",
+   "asserts": "validate.py fails when a document carrying card-statement markers is filed in the claim folder",
+   "why": "a statement carries every other transaction on that card for the month, and the folder goes to an approver and an accountant; it is evidence to be read where it lies, not a claimed document"
+  },
+  {
+   "id": "V-20",
+   "asserts": "cross_check.py pairs a charge on the outstanding list with a document on the no-charge list when one is the other converted, and exits non-zero",
+   "why": "a supplier printing US dollars as a bare $ beside an Australian GST line was read as AUD, so one transaction appeared as a missing invoice AND a missing charge; each list was internally consistent, so neither could catch it and the row was absent from the claim"
+  },
+  {
+   "id": "V-21",
+   "asserts": "validate.py reports any row whose stored exclusion reason names a card or account the operator has since corrected, and refuses to list a row as document-less when the reconciliation record names a document for it",
+   "why": "four rows were excluded against a card read as somebody else's, the card was corrected the same day, and nothing re-asked them; a later sweep then reported them as charges with no invoice while their receipts sat on disk, named in the record beside them"
+  },
+  {
+   "id": "V-22",
+   "asserts": "card_on_document.py exits non-zero when a filed document names a card the claimant does not pay, and its census counts every mask form it can read",
+   "why": "one supplier stated the claimant's Amex for ten months and the company's own Visa from the eleventh; nothing else in the run could see it, because the supplier, amount, subscription ids and cadence were identical and the charge simply stopped appearing on any personal card, which reads as a feed gap"
+  },
+  {
+   "id": "V-23",
+   "asserts": "wanted_invoices.py rendered with an empty outstanding set states that nothing is outstanding, promises no rows, and prints a census with no empty segment",
+   "why": "the outstanding set reaches zero on the last run of a claim, which is the run that gets sent; rendered empty the page opened on a full stop and promised 'each row below' over an empty table, and its census printed 'charges=0 \u00b7  \u00b7 total=0.00'"
+  },
+  {
+   "id": "V-24",
+   "asserts": "classify_accounts.py names every supplier whose own rows land on more than one evidence rung or name more than one billing address, and names none whose rows agree",
+   "why": "the census groups by rung, so a split supplier appears in two blocks and nothing says they are the same supplier; on a real claim one supplier's rows split between invoices naming the company and a receipt naming a personal address, and it took several rounds of human challenge to find"
+  }
+ ]
+}

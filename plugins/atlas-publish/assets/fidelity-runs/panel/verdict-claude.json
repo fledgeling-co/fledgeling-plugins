@@ -1,0 +1,71 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "A",
+        "material": "A",
+        "silhouette": "A",
+        "smallsize": "A",
+        "rationale": {
+          "overall": "A carries the REFERENCE's warm cream ground, heavy rounded stroke and dimensional read, while B is a flat, thin, cool-taupe vector that loses the reference's weight and material entirely.",
+          "material": "A shows modelled edges, highlight rolloff and a grounded shadow that approximate the REFERENCE's soft volumetric clay, whereas B relies on flat linear gradients with no true light source or surface depth.",
+          "silhouette": "A's thick tubular 'a' plus orange bar matches the REFERENCE's mass and proportion despite crowding the canvas edges, while B's spindly script 'A' reads as a different letterform at a fraction of the reference's stroke weight.",
+          "smallsize": "A stays a clear dark mark against the orange bar down to 16px, while B's hairline strokes break up into grey noise and the glyph stops resolving."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "candidate",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "B",
+        "smallsize": "B",
+        "rationale": {
+          "overall": "B reproduces the REFERENCE's warm cream ground, heavy lowercase 'a' and orange bar with genuine surface shading, while A substitutes a thin calligraphic capital on a flat taupe field that reads as a different mark entirely.",
+          "material": "B carries directional highlights along the upper edge of the stroke and darker undersides that suggest a lit solid, closer to the REFERENCE's soft volumetric tube, whereas A is flat gradient fill plus a pasted elliptical shadow with no self-shading.",
+          "silhouette": "B matches the REFERENCE's single-weight lowercase 'a' with its tail running into the orange bar, while A's high-contrast cursive capital with hairline crossings departs from the letterform, though B does crowd the tile edges where the REFERENCE keeps generous margin.",
+          "smallsize": "At 32px and 16px B's thick strokes hold the 'a|' read with the orange bar still separating cleanly, while A's hairlines break up into grey speckle and the letter becomes unidentifiable."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "candidate",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "candidate",
+    "material": "candidate",
+    "silhouette": "candidate",
+    "smallsize": "candidate"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [],
+  "swap_consistent": true,
+  "status": "ok"
+}

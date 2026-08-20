@@ -1,0 +1,95 @@
+{
+  "label": "r03 cushion vs r02",
+  "mapping": {
+    "A": "baseline",
+    "B": "candidate"
+  },
+  "tally": {
+    "overall": {
+      "votes_all": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 1
+      },
+      "votes_decisive": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 1,
+      "decisive_judges_ran": 0,
+      "winner": "no-decisive-judges"
+    },
+    "material": {
+      "votes_all": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 1
+      },
+      "votes_decisive": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 1,
+      "decisive_judges_ran": 0,
+      "winner": "no-decisive-judges"
+    },
+    "silhouette": {
+      "votes_all": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 1
+      },
+      "votes_decisive": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 1,
+      "decisive_judges_ran": 0,
+      "winner": "no-decisive-judges"
+    },
+    "smallsize": {
+      "votes_all": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 1
+      },
+      "votes_decisive": {
+        "candidate": 0,
+        "baseline": 0,
+        "tie": 0
+      },
+      "judges_ran": 1,
+      "decisive_judges_ran": 0,
+      "winner": "no-decisive-judges"
+    }
+  },
+  "swap_protocol": "on: each judge asked in both orders",
+  "generator_family": "claude",
+  "generator_family_excluded_from_majority": [
+    "claude"
+  ],
+  "exclusion_disabled": false,
+  "judges": {
+    "claude": {
+      "status": "ok",
+      "decisive": false,
+      "swap_consistent": false,
+      "swap_flipped": [
+        "overall",
+        "material",
+        "smallsize"
+      ],
+      "passes_ran": "2/2"
+    },
+    "cursor": {
+      "status": "failed",
+      "decisive": true,
+      "swap_consistent": false,
+      "swap_flipped": [],
+      "passes_ran": "0/2"
+    }
+  }
+}

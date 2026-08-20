@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+  icon-audit-template.html — the contact-sheet/audit artifact every icon commission ships.
+  Fill every {{PLACEHOLDER}}; one <tr> per take (copy the row block); losers stay in with their scores.
+  Hard requirements baked in from a design-review pass on a real instance of this page:
+  · retina discipline: render at 2x and display at half (256→128, 128→64, 96→48, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
+  · the 48px row is not optional: a Finder list and a plugin marketplace tile render at it, and an icon that survives 128 and 16 can still collapse between them
+  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered. What it gates, each one a mode that shipped silently before it did:
+      - every <img src> resolves, and at least one of them is a local render — a sheet of only remote/data: images resolved "cleanly" while auditing nothing
+      - no unfilled {{...}} placeholder of ANY form, prose ones included — the old regex read only {{ALL_CAPS}} and let the recommendation block and the liabilities field ship literal
+      - every render is NEWER than the master it came from — the fidelity loop changes the master after this sheet is first written, so a stale sheet is the normal failure, not an exotic one
+      - a rubric score of the form "N / 12" is present and the best take clears 10/12, and a "Recommendation: ship" block exists
+      - the 1024 hero is displayed, not merely rendered
+      - a raster take is masked: kind `png` with opaque corners is a square tile beside squircle siblings
+      - the SVG master passes `fidelity.py structure` (no <image> embeds, layer plan present, inside the complexity envelope)
+    FAIL and NOTE both go to stderr; a clean exit does not mean there was nothing to read.
+  · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
+  · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
+  · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
+  · <caption> + scope="col" on every th — it's a data table, treat it as one
+  · every row carries its rubric score and a verdict that names WHY, including the losing takes — a sheet that hides its losers isn't an audit
+  · the recommendation block names the shipping take AND its known liabilities
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>code-review icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>code-review icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe Gel-Glass &mdash; The Open Column" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  
+  <tr>
+    <td class="take ship">engineA-cut · icon.svg<small>hand-authored layered SVG &mdash; SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA-cut-1024.png" width="160" height="160" alt="engineA-cut hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-cut-256.png" width="128" height="128" alt="engineA-cut at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-cut-128.png" width="64" height="64" alt="engineA-cut at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-cut-96.png" width="48" height="48" alt="engineA-cut at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-cut-64.png" width="32" height="32" alt="engineA-cut at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-cut-32.png" width="16" height="16" alt="engineA-cut at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-cut-32.png" width="96" height="96" alt="engineA-cut 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Every non-negotiable clean on real renders. Mask: built on the family superellipse from <code>squircle-path.txt</code>, so the outline is bit-identical to its forty neighbours. Grid: body 720&times;716 centred at (512, 516) with 152px side margins. Silhouette: a slab with a tall void through it, nameable as a solid. 16px: the aperture is 168px wide, which is 2.6px at the 16px display size, and every graphite margin around the chamfer clears 100px, so the cut reads as an interior hole rather than a bite out of an edge. Measured contrast: body to ground 8.00:1, aperture floor to body 5.76:1, greyscale delta 137. Accent 5.8% of the tile, spent only on the cut wall and the light it throws. Failed check 10, named below.</td>
+  </tr>
+  
+  <tr>
+    <td class="take ">engineC-cut-1 · engineC-cut-94137c.png<small>GPT-Image raster, corpus-referenced &mdash; the material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-cut-1-1024.png" width="160" height="160" alt="engineC-cut-1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-1-256.png" width="128" height="128" alt="engineC-cut-1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-1-128.png" width="64" height="64" alt="engineC-cut-1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-1-96.png" width="48" height="48" alt="engineC-cut-1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-1-64.png" width="32" height="32" alt="engineC-cut-1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-1-32.png" width="16" height="16" alt="engineC-cut-1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-cut-1-32.png" width="96" height="96" alt="engineC-cut-1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">11 / 12</td>
+    <td class="verdict">The material engine, and it won the material read outright: a rounder body, a deeper contact shadow, and the warm bleed escaping under the slab's foot that says the opening is a hole rather than a panel. All three were rebuilt into the master and measured. It does not ship because it is pixels: no layer plan, no editable constant, its own rounded corner replaced by the family path at audit time, and its edges wobble under magnification. Scored on its squircle-masked version. Failed check 10 for the same reason the master does.</td>
+  </tr>
+  
+  <tr>
+    <td class="take ">engineC-cut-2 · engineC-cut-56ead1-2.png<small>GPT-Image raster, second take</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-cut-2-1024.png" width="160" height="160" alt="engineC-cut-2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-2-256.png" width="128" height="128" alt="engineC-cut-2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-2-128.png" width="64" height="64" alt="engineC-cut-2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-2-96.png" width="48" height="48" alt="engineC-cut-2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-2-64.png" width="32" height="32" alt="engineC-cut-2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-cut-2-32.png" width="16" height="16" alt="engineC-cut-2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-cut-2-32.png" width="96" height="96" alt="engineC-cut-2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">10 / 12</td>
+    <td class="verdict">The same concept under a three-quarter tilt. Richer as a picture and worse as an icon: the perspective throws the optical centre down and right, so check 2 fails on a body that no longer sits on the grid, and the tilt costs silhouette clarity at 48px without buying anything at 1024 the flat take does not already have. Its one contribution to the master was the brightness of its cut wall, which the flat take under-lights.</td>
+  </tr>
+  
+  <tr>
+    <td class="take fail">engineC-seam-1 · engineC-seam-d270c6.png<small>GPT-Image raster &mdash; the losing concept</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-seam-1-1024.png" width="160" height="160" alt="engineC-seam-1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-seam-1-256.png" width="128" height="128" alt="engineC-seam-1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-seam-1-128.png" width="64" height="64" alt="engineC-seam-1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-seam-1-96.png" width="48" height="48" alt="engineC-seam-1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-seam-1-64.png" width="32" height="32" alt="engineC-seam-1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-seam-1-32.png" width="16" height="16" alt="engineC-seam-1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-seam-1-32.png" width="96" height="96" alt="engineC-seam-1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The alternative direction: three independent finders converging on one flagged line, none cancelling another. Handsome at 1024 and dead below 64. Check 3 fails because the filled silhouette is three tapered fins, which read as exclamation marks rather than as probes; check 4 fails on the render, where the wedges collapse into smudges and the seam thins to a single warm pixel row. This is the take that decided the concept, and it decided it against itself.</td>
+  </tr>
+  
+  <tr>
+    <td class="take fail">engineA-seam · icon-engineA-seam.svg<small>hand-authored layered SVG, losing concept</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA-seam-1024.png" width="160" height="160" alt="engineA-seam hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-seam-256.png" width="128" height="128" alt="engineA-seam at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-seam-128.png" width="64" height="64" alt="engineA-seam at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-seam-96.png" width="48" height="48" alt="engineA-seam at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-seam-64.png" width="32" height="32" alt="engineA-seam at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-seam-32.png" width="16" height="16" alt="engineA-seam at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-seam-32.png" width="96" height="96" alt="engineA-seam 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The same losing concept authored as vector, kept so the sheet shows the concept judged in both engines rather than dismissed on one bad raster. It fails 3 and 4 exactly as the raster does, and additionally fails 5 and 8: the wedges carry no contact shadows and no thickness, so they float. Retained as evidence, not as a candidate.</td>
+  </tr>
+  
+  <tr>
+    <td class="take fail">engineB-arrow · engineB-arrow-0e3f6d.svg<small>Arrow 1.1 vector take</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB-arrow-1024.png" width="160" height="160" alt="engineB-arrow hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-256.png" width="128" height="128" alt="engineB-arrow at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-128.png" width="64" height="64" alt="engineB-arrow at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-96.png" width="48" height="48" alt="engineB-arrow at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-64.png" width="32" height="32" alt="engineB-arrow at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-32.png" width="16" height="16" alt="engineB-arrow at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-arrow-32.png" width="96" height="96" alt="engineB-arrow 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The independent vector engine, given the same spec. It got the composition right and the family wrong. Check 1 fails outright: it drew its own rounded rectangle rather than the set's superellipse, so it breaks the shelf silhouette that every other icon here shares. Its ground runs #FBEDDA to #DBBD9E, noticeably sandier than the family's #FBF7F0 to #DED4C2. Flat fills throughout, so 5, 8 and 9 fail on material. Nothing was salvaged; the master already had the geometry.</td>
+  </tr>
+  
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship engineA-cut (icon.svg).</strong> It is the only take that is simultaneously on the family superellipse, on the family palette, volumetric rather than flat, and legible at 16px on a measured render rather than an asserted one. Checks 1 to 4 are clean on the renders above. Its material is not invented: the body values, the accent range and the through-light bleed were sampled off the raster take beside it and off the marketplace's own icons, then rebuilt as named constants in <code>build_icon.py</code>. Four scored rounds ran against the raster with the full metric tier engaged; r02 was accepted at every size and the three rounds after it were rejected at every size, so what ships is the best take the measurements ever promoted rather than the last one authored. Known liabilities to revisit: <strong>Check 10, variant robustness, genuinely fails and is the one to watch.</strong> The identity is a void that reads brighter than the body it sits in, so it is hostage to a light ground: invert the register and the hole reads as a filled panel, which is the opposite of what it means. That is survivable here because every icon in this marketplace is a decorative PNG with no compositor downstream and only the Default variant ever renders, but it would have to be redrawn before this became an Icon Composer package. Second, the chamfer's own contrast against the body runs 1.48:1 on its shaded lower face; it survives on the seat edge re-stroked over it and on the aperture floor's 5.76:1, not on the accent's own boundary. Third, <code>shelf_check</code> puts this tile at 0.667 structure correlation against <code>mockup-fidelity</code>, its nearest neighbour; that is below the 0.80 look-at threshold and the 16px strip confirms they do not read as each other, but it is the pair to re-check if either icon is ever revised.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

@@ -136,13 +136,13 @@ Check what branch you are on first. This repo's plugin work happens on
 short-lived per-plugin branches, and landing a new plugin on top of an unrelated
 one entangles two things that should merge separately.
 
-## Seven plugins live in two marketplaces, and this one is canonical
+## Eight plugins live in two marketplaces, and this one is canonical
 
 `ship-feature`, `ship-fleet`, `design-craft`, `ux-craft`, `deck-craft`,
-`mac-design-digest` and `generate-investor-portal` are registered here **and** in
-`diolog-plugins`. Anyone with both marketplaces added sees duplicate names, and a
-bare `/plugin install <name>` is then ambiguous, which is why every install block
-here carries the `@fledgeling-plugins` suffix.
+`mac-design-digest`, `generate-investor-portal` and `code-review` are registered
+here **and** in `diolog-plugins`. Anyone with both marketplaces added sees
+duplicate names, and a bare `/plugin install <name>` is then ambiguous, which is
+why every install block here carries the `@fledgeling-plugins` suffix.
 
 **The copy in this repo is the successor.** Each of these was rebuilt here against
 the teardown of Claude Code's built-in `/design` skill, and each README credits its
@@ -150,7 +150,20 @@ predecessor by name. `mockup-fidelity` is the clearest case: the copy here is 47
 lines where diolog's is 233, and four sibling skills routed to it by name and were
 resolving to the older one until it was registered on 2026-08-18.
 
-Retiring the seven entries in `diolog-plugins` is the real fix and it is
+`code-review` joined that list on 2026-08-20. The copy here is the general
+successor to diolog's 1.3.0 and to a project-specific fork of it: it keeps that
+skill's sharding architecture, verifier fan-out, suppressions file, controls map,
+severity taxonomy and six framework checklists, restores the `nestjs-checklist.md`
+and the multi-tenancy section the fork had dropped, and replaces the hard-coded
+project map with runtime repo discovery. Where the two disagreed the fork won, and
+`references/evidence.md` says so with the reason.
+
+**Its settings entry is deliberately not flipped.** `~/Dev/CLAUDE.md` still names
+diolog's `code-review` as the CP-rules gate before push and `shipyard` routes to it
+by bare name, so disabling that copy without changing the portfolio file would leave
+a portfolio-level instruction lying. Same decision as the seven above, same reason.
+
+Retiring the eight entries in `diolog-plugins` is the real fix and it is
 deliberately not done here, because that is a different repository and because
 `~/Dev/CLAUDE.md` still says those skills "stay installed" from diolog for
 `shipyard`'s benefit. Doing one without the other leaves a portfolio-level

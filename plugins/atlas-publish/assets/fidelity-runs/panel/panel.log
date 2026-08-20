@@ -1,0 +1,69 @@
+
+claude recorded but excluded from the majority (same family as the generator).
+
+No decisive judge produced a verdict. This is not a tie and not a win: the panel did not run. Substitute a family or say so.
+claude: ok (2/2 passes, swap-consistent)
+cursor: failed
+openai: failed
+{
+  "overall": {
+    "votes_all": {
+      "candidate": 1,
+      "baseline": 0,
+      "tie": 0
+    },
+    "votes_decisive": {
+      "candidate": 0,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 1,
+    "decisive_judges_ran": 0,
+    "winner": "no-decisive-judges"
+  },
+  "material": {
+    "votes_all": {
+      "candidate": 1,
+      "baseline": 0,
+      "tie": 0
+    },
+    "votes_decisive": {
+      "candidate": 0,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 1,
+    "decisive_judges_ran": 0,
+    "winner": "no-decisive-judges"
+  },
+  "silhouette": {
+    "votes_all": {
+      "candidate": 1,
+      "baseline": 0,
+      "tie": 0
+    },
+    "votes_decisive": {
+      "candidate": 0,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 1,
+    "decisive_judges_ran": 0,
+    "winner": "no-decisive-judges"
+  },
+  "smallsize": {
+    "votes_all": {
+      "candidate": 1,
+      "baseline": 0,
+      "tie": 0
+    },
+    "votes_decisive": {
+      "candidate": 0,
+      "baseline": 0,
+      "tie": 0
+    },
+    "judges_ran": 1,
+    "decisive_judges_ran": 0,
+    "winner": "no-decisive-judges"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$comment": "The employer's claim form, as data. Copy their column headings VERBATIM, whitespace and all: a heading retyped tidily is a heading that no longer matches the form somebody will compare this against. Where their prior form transposes two columns, write in header order and say so in the report rather than reproducing the error.",
+  "claimant": "A. Person",
+  "period": "8/2025 - 6/2026",
+  "preamble": [
+    ["Expense Claim Form"],
+    ["Applicant Name: ", "{claimant}"],
+    [],
+    ["Expense Period :", "{period}"],
+    []
+  ],
+  "columns": [
+    "Date",
+    "Description",
+    "Invoice No.",
+    "Amount    (excl. GST)",
+    "GST",
+    "Amount      (incl. GST)"
+  ],
+  "classify_columns": ["R&D", "R&D reason"],
+  "date_format": "%d/%m/%Y",
+  "negative": true,
+  "zero_literal": "0",
+  "total_label_col": 2,
+  "footer_blocks": [
+    [],
+    ["", "", "", "", "Bank Account"],
+    ["", "", "", "", "Account Name:", "{claimant}"],
+    ["", "", "", "", "BSB: ", "000 000"],
+    ["", "", "", "", "Account No: ", "000 000"],
+    [],
+    ["", "", "", "", "Applicant Signature"],
+    ["", "", "", "", "Date:"]
+  ]
+}

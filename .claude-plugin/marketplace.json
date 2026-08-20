@@ -94,7 +94,7 @@
     {
       "name": "create-mac-icon",
       "description": "macOS app icon creation with a measured fidelity loop: direction catalogue from a 532-icon corpus, three generation engines (hand-authored layered SVG, Arrow vector, corpus-referenced raster), a written audit.html contact sheet, and a multi-scale scoring harness that iterates the SVG master against the winning raster reference until the material matches.",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -116,7 +116,7 @@
     {
       "name": "create-skill",
       "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve. v1.3.0 hardens the brand phase, which is where this pipeline was quietly skippable: a bundled `render_banner.py` renders banner-src.html and asserts the five things that fail silently (viewport override took effect, web font actually loaded, every image decoded, nothing overflows the frame, PNG is exactly 3200x1040), the marketplace catalogue gate now fails on a missing banner, and the pipeline has answers for three cases it previously had none for: the user forbidding questions, an existing in-repo research corpus that makes a second panel redundant, and a skill that joins an existing plugin rather than getting one of its own.",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -402,6 +402,39 @@
         "email": "lukerhodes27@gmail.com"
       },
       "source": "./plugins/stocktake",
+      "category": "development"
+    },
+    {
+      "name": "vouch",
+      "description": "Reconcile and substantiate a personal-expense reimbursement claim end to end, repeatably. Vouching is the audit term for tracing a record back to its source document, and that is the whole skill: every claimed charge is keyed to the supplier's own invoice, and every invoice is read for the account it was issued to. Sweeps a personal-accounting MCP (PocketSmith or any equivalent), the Apple Mail index via the Sift MCP, card statement PDFs and a downloads folder; detects the days where the bank feed is silent and backfills them from statements, which is where the charges nobody noticed are hiding. Decides each row on three gates the operator supplies: the invoice must name a company account, the payment must land on a card the claimant owns personally, and the charge must be absent from the prior claim. Drives supplier portals through proctor when a login is needed, and hands back a wanted-invoices page listing date, supplier, estimated amount, portal link and account address whenever a portal refuses automation. Emits a claim CSV matching the employer's own form, invoices filed by month and named for the invoice number printed inside them, and two unbranded reports, one for the manager approving payment and one for the accountant checking GST. Ships a gate suite that fails on arithmetic, sign convention, date range, duplicate invoice numbers, orphan files and any filename that disagrees with its document. Use whenever someone asks to prepare, reconcile, substantiate or check an expense claim or reimbursement, asks which invoices are still missing, or runs the monthly claim.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/vouch",
+      "category": "development"
+    },
+    {
+      "name": "atlas-publish",
+      "description": "Takes the open PRs of the Atlas/Bella monorepo to a registered draft release on either the over-the-air or the App Store lane, classifying between them from the expo-updates native fingerprint rather than from intent \u2014 ios.buildNumber sits inside that fingerprint, so a buildNumber bump alone forces a store release. Every irreversible step names the observable to read back, because a build tool, an upload and an MCP call all return success without having done anything. Gates report not-run as a third state beside passed and failed, which is how a cert-parity test that skips its only real assertion stops reading as a green gate. Eleven steps, each marked with the lanes it applies to and each with an abort path next to it. Draft is where automation stops: publishing to users is a founder action the skill will not take. The diff review that used to ship beside it is now the standalone code-review plugin.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/atlas-publish",
+      "category": "development"
+    },
+    {
+      "name": "code-review",
+      "description": "A diff review that reports what it could not check. Finds with fourteen named angles that are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged; verifies with three verdicts, where realistic-but-unproven stays in as PLAUSIBLE rather than being dropped with the noise, and only REFUTED leaves; then closes with a coverage ledger naming every angle, checklist and gate that never ran, and why. Learns the target repository at runtime rather than carrying a hard-coded project map \u2014 gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep \u2014 so a candidate naming a framework the repo does not install is refuted from evidence rather than from a constant somebody wrote into a skill. Three depths, each printing its own budget line at the top of the report so what ran is visible rather than inferred; areas and ten focus lenses that compose; checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, routed by path and lens; sharding above a size threshold with the fan-out reconciled against the bucket list, because a harness that loses an agent reports the wave complete. One verifier vote rather than a judge panel, on the measurement that panels saturate at about two effective votes. Read-only on source: it reports findings and does not apply fixes. Carries a token-light prepush gate on the outgoing diff.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/code-review",
       "category": "development"
     }
   ]

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
+     viewBox="0 0 1024 1024">
+  <title>code-review</title>
+  <defs>
+    <clipPath id="tile"><path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z"/></clipPath>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FBF7F0"/><stop offset="1" stop-color="#DED4C2"/></linearGradient>
+    <radialGradient id="cushion" cx="300" cy="236" r="720" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.62"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vignette" cx="512" cy="512" r="716" gradientUnits="userSpaceOnUse"><stop offset="0.58" stop-color="#7A6544" stop-opacity="0"/><stop offset="1" stop-color="#7A6544" stop-opacity="0.11"/></radialGradient>
+    <filter id="blurFar" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="28"/></filter>
+    <filter id="blurNear" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="11"/></filter>
+    <filter id="blurSoft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="blurTight" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+    <linearGradient id="slab" x1="0" y1="158" x2="0" y2="874" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#45464B"/><stop offset="0.58" stop-color="#313339"/><stop offset="1" stop-color="#23242A"/></linearGradient>
+    <radialGradient id="cushionSlab" cx="368.0" cy="329.84000000000003" r="518.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+    <radialGradient id="form" cx="771.2" cy="816.72" r="561.6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0A0906" stop-opacity="0.22"/><stop offset="1" stop-color="#0A0906" stop-opacity="0"/></radialGradient>
+    <linearGradient id="topband" x1="0" y1="158" x2="0" y2="254" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+    <linearGradient id="footband" x1="0" y1="744" x2="0" y2="874" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0C0D0F" stop-opacity="0"/><stop offset="1" stop-color="#0C0D0F" stop-opacity="0.36"/></linearGradient>
+    <linearGradient id="sheen" x1="152" y1="158" x2="656.0" y2="730.8000000000001" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.07"/><stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+    <linearGradient id="wall" x1="542" y1="276" x2="740" y2="766" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F09A63"/><stop offset="0.34" stop-color="#D4703A"/><stop offset="0.70" stop-color="#B85326"/><stop offset="1" stop-color="#93380E"/></linearGradient>
+    <linearGradient id="floor" x1="552" y1="306" x2="720" y2="726" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#CCBEA3"/><stop offset="0.55" stop-color="#E9DDC8"/><stop offset="1" stop-color="#F6ECD8"/></linearGradient>
+    <radialGradient id="bleed" cx="636.0" cy="888" r="252.0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#C4622D" stop-opacity="0.42"/><stop offset="1" stop-color="#C4622D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="bounce" cx="672.96" cy="642.0" r="193.2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#C4622D" stop-opacity="0.3"/><stop offset="1" stop-color="#C4622D" stop-opacity="0"/></radialGradient>
+    <clipPath id="slabClip"><path d="M256.0,158.0 H768.0 A104.0,104.0 0 0 1 872.0,262.0 V770.0 A104.0,104.0 0 0 1 768.0,874.0 H256.0 A104.0,104.0 0 0 1 152.0,770.0 V262.0 A104.0,104.0 0 0 1 256.0,158.0 Z"/></clipPath>
+    <clipPath id="apertureClip"><path d="M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+  <g id="bg">
+    <rect width="1024" height="1024" fill="url(#ground)"/>
+    <rect width="1024" height="1024" fill="url(#cushion)"/>
+    <rect width="1024" height="1024" fill="url(#vignette)"/>
+  </g>
+
+  <g id="shadow">
+    <!-- Light through the opening, reaching the porcelain past the slab's foot.
+         Drawn before the body so the body occludes it, which is what makes the
+         glow read as coming from underneath rather than as painted on top. -->
+    <rect x="384" y="724" width="504" height="330" fill="url(#bleed)"/>
+    <path d="M262.0,192.0 H762.0 A104.0,104.0 0 0 1 866.0,296.0 V804.0 A104.0,104.0 0 0 1 762.0,908.0 H262.0 A104.0,104.0 0 0 1 158.0,804.0 V296.0 A104.0,104.0 0 0 1 262.0,192.0 Z" fill="#3A2A18"
+          fill-opacity="0.28" filter="url(#blurFar)"/>
+    <path d="M270.0,170.0 H754.0 A104.0,104.0 0 0 1 858.0,274.0 V782.0 A104.0,104.0 0 0 1 754.0,886.0 H270.0 A104.0,104.0 0 0 1 166.0,782.0 V274.0 A104.0,104.0 0 0 1 270.0,170.0 Z" fill="#3A2A18"
+          fill-opacity="0.22" filter="url(#blurNear)"/>
+  </g>
+
+  <g id="slab">
+    <!-- The body's own thickness, showing at the foot and the shaded flank. -->
+    <path d="M266.0,174.0 H778.0 A104.0,104.0 0 0 1 882.0,278.0 V786.0 A104.0,104.0 0 0 1 778.0,890.0 H266.0 A104.0,104.0 0 0 1 162.0,786.0 V278.0 A104.0,104.0 0 0 1 266.0,174.0 Z"
+          fill="#16171A"/>
+    <!-- Body and cut as one compound path: the opening really is a hole, so the
+         ground beneath is what shows through it rather than a pasted-on panel. -->
+    <path d="M256.0,158.0 H768.0 A104.0,104.0 0 0 1 872.0,262.0 V770.0 A104.0,104.0 0 0 1 768.0,874.0 H256.0 A104.0,104.0 0 0 1 152.0,770.0 V262.0 A104.0,104.0 0 0 1 256.0,158.0 Z M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z" fill-rule="evenodd" fill="url(#slab)"/>
+    <g clip-path="url(#slabClip)">
+      <rect x="152" y="158" width="720" height="96" fill="url(#topband)"/>
+      <rect x="152" y="744" width="720" height="130" fill="url(#footband)"/>
+      <rect x="152" y="158" width="720" height="716" fill="url(#cushionSlab)"/>
+      <rect x="152" y="158" width="720" height="716" fill="url(#sheen)"/>
+      <rect x="152" y="158" width="720" height="716" fill="url(#form)"/>
+      <path d="M256.0,158.0 H768.0 A104.0,104.0 0 0 1 872.0,262.0 V770.0 A104.0,104.0 0 0 1 768.0,874.0 H256.0 A104.0,104.0 0 0 1 152.0,770.0 V262.0 A104.0,104.0 0 0 1 256.0,158.0 Z" fill="none" stroke="#0B0A08" stroke-opacity="0.3"
+            stroke-width="18" filter="url(#blurSoft)"/>
+    </g>
+    <path d="M256.0,158.0 H768.0 A104.0,104.0 0 0 1 872.0,262.0 V770.0 A104.0,104.0 0 0 1 768.0,874.0 H256.0 A104.0,104.0 0 0 1 152.0,770.0 V262.0 A104.0,104.0 0 0 1 256.0,158.0 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.13" stroke-width="3"/>
+  </g>
+
+  <g id="rows">
+    <path d="M217.0,372.0 H479.0 A9.0,9.0 0 0 1 488.0,381.0 V381.0 A9.0,9.0 0 0 1 479.0,390.0 H217.0 A9.0,9.0 0 0 1 208.0,381.0 V381.0 A9.0,9.0 0 0 1 217.0,372.0 Z" fill="#161719" fill-opacity="0.66"/>
+    <path d="M210.5,385.0 H485.5 A2.5,2.5 0 0 1 488.0,387.5 V387.5 A2.5,2.5 0 0 1 485.5,390.0 H210.5 A2.5,2.5 0 0 1 208.0,387.5 V387.5 A2.5,2.5 0 0 1 210.5,385.0 Z" fill="#5C5F66" fill-opacity="0.3"/>
+    <path d="M217.0,468.0 H479.0 A9.0,9.0 0 0 1 488.0,477.0 V477.0 A9.0,9.0 0 0 1 479.0,486.0 H217.0 A9.0,9.0 0 0 1 208.0,477.0 V477.0 A9.0,9.0 0 0 1 217.0,468.0 Z" fill="#161719" fill-opacity="0.66"/>
+    <path d="M210.5,481.0 H485.5 A2.5,2.5 0 0 1 488.0,483.5 V483.5 A2.5,2.5 0 0 1 485.5,486.0 H210.5 A2.5,2.5 0 0 1 208.0,483.5 V483.5 A2.5,2.5 0 0 1 210.5,481.0 Z" fill="#5C5F66" fill-opacity="0.3"/>
+    <path d="M217.0,564.0 H479.0 A9.0,9.0 0 0 1 488.0,573.0 V573.0 A9.0,9.0 0 0 1 479.0,582.0 H217.0 A9.0,9.0 0 0 1 208.0,573.0 V573.0 A9.0,9.0 0 0 1 217.0,564.0 Z" fill="#161719" fill-opacity="0.66"/>
+    <path d="M210.5,577.0 H485.5 A2.5,2.5 0 0 1 488.0,579.5 V579.5 A2.5,2.5 0 0 1 485.5,582.0 H210.5 A2.5,2.5 0 0 1 208.0,579.5 V579.5 A2.5,2.5 0 0 1 210.5,577.0 Z" fill="#5C5F66" fill-opacity="0.3"/>
+    <path d="M217.0,660.0 H479.0 A9.0,9.0 0 0 1 488.0,669.0 V669.0 A9.0,9.0 0 0 1 479.0,678.0 H217.0 A9.0,9.0 0 0 1 208.0,669.0 V669.0 A9.0,9.0 0 0 1 217.0,660.0 Z" fill="#161719" fill-opacity="0.66"/>
+    <path d="M210.5,673.0 H485.5 A2.5,2.5 0 0 1 488.0,675.5 V675.5 A2.5,2.5 0 0 1 485.5,678.0 H210.5 A2.5,2.5 0 0 1 208.0,675.5 V675.5 A2.5,2.5 0 0 1 210.5,673.0 Z" fill="#5C5F66" fill-opacity="0.3"/>
+  </g>
+
+  <g id="cut">
+    <!-- The floor of the opening: porcelain in the slab's shadow, with the warm
+         bounce off the lit wall landing where the light actually reaches. -->
+    <g clip-path="url(#apertureClip)">
+      <path d="M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z" fill="url(#floor)"/>
+      <path d="M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z" fill="url(#bounce)"/>
+      <path d="M554.0,276.0 H718.0 A28.0,28.0 0 0 1 746.0,304.0 V304.0 A28.0,28.0 0 0 1 718.0,332.0 H554.0 A28.0,28.0 0 0 1 526.0,304.0 V304.0 A28.0,28.0 0 0 1 554.0,276.0 Z" fill="#4A3418" fill-opacity="0.30"
+            filter="url(#blurSoft)"/>
+      <path d="M550.0,286.0 H550.0 A28.0,28.0 0 0 1 578.0,314.0 V718.0 A28.0,28.0 0 0 1 550.0,746.0 H550.0 A28.0,28.0 0 0 1 522.0,718.0 V314.0 A28.0,28.0 0 0 1 550.0,286.0 Z" fill="#4A3418" fill-opacity="0.22"
+            filter="url(#blurSoft)"/>
+    </g>
+
+    <!-- The chamfered wall: the slab's own thickness, exposed by the cut. -->
+    <path d="M598.0,266.0 H674.0 A86.0,86.0 0 0 1 760.0,352.0 V680.0 A86.0,86.0 0 0 1 674.0,766.0 H598.0 A86.0,86.0 0 0 1 512.0,680.0 V352.0 A86.0,86.0 0 0 1 598.0,266.0 Z M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z" fill-rule="evenodd" fill="url(#wall)"/>
+
+    <!-- Specular along the top face of the wall, which is the face turned into
+         the key light. -->
+    <path d="M569.0,274.0 H703.0 A7.0,7.0 0 0 1 710.0,281.0 V281.0 A7.0,7.0 0 0 1 703.0,288.0 H569.0 A7.0,7.0 0 0 1 562.0,281.0 V281.0 A7.0,7.0 0 0 1 569.0,274.0 Z" fill="#FFE6D2"
+          fill-opacity="0.42" filter="url(#blurTight)"/>
+    <path d="M525.0,326.0 H526.0 A6.0,6.0 0 0 1 532.0,332.0 V630.0 A6.0,6.0 0 0 1 526.0,636.0 H525.0 A6.0,6.0 0 0 1 519.0,630.0 V332.0 A6.0,6.0 0 0 1 525.0,326.0 Z" fill="#FFE6D2"
+          fill-opacity="0.231" filter="url(#blurTight)"/>
+
+    <!-- The seat edge, drawn a second time over the accent so the boundary the
+         eye uses is the graphite body's rather than the accent's own. -->
+    <path d="M598.0,266.0 H674.0 A86.0,86.0 0 0 1 760.0,352.0 V680.0 A86.0,86.0 0 0 1 674.0,766.0 H598.0 A86.0,86.0 0 0 1 512.0,680.0 V352.0 A86.0,86.0 0 0 1 598.0,266.0 Z" fill="none" stroke="#121316"
+          stroke-opacity="0.58" stroke-width="4"/>
+    <path d="M598.0,306.0 H674.0 A46.0,46.0 0 0 1 720.0,352.0 V680.0 A46.0,46.0 0 0 1 674.0,726.0 H598.0 A46.0,46.0 0 0 1 552.0,680.0 V352.0 A46.0,46.0 0 0 1 598.0,306.0 Z" fill="none" stroke="#6B4520" stroke-opacity="0.40" stroke-width="5"/>
+  </g>
+  </g>
+</svg>

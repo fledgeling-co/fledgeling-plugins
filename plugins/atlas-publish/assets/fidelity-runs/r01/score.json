@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-gate-ad804f.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1887,
+      "ssim": 0.7314,
+      "edge_f1": 0.0843,
+      "mask_iou": 0.9513,
+      "self_contrast": 0.6753,
+      "ref_self_contrast": 0.4701,
+      "composite": 0.3995
+    },
+    "256": {
+      "lum_delta": 0.1882,
+      "ssim": 0.5361,
+      "edge_f1": 0.2194,
+      "mask_iou": 0.9541,
+      "self_contrast": 0.6758,
+      "ref_self_contrast": 0.4667,
+      "composite": 0.3558
+    },
+    "128": {
+      "lum_delta": 0.1872,
+      "ssim": 0.3924,
+      "edge_f1": 0.397,
+      "mask_iou": 0.9576,
+      "self_contrast": 0.6742,
+      "ref_self_contrast": 0.4543,
+      "composite": 0.3441
+    },
+    "32": {
+      "lum_delta": 0.1924,
+      "ssim": 0.1583,
+      "edge_f1": 0.8245,
+      "mask_iou": 0.9688,
+      "self_contrast": 0.6908,
+      "ref_self_contrast": 0.3993,
+      "composite": 0.6049
+    },
+    "16": {
+      "lum_delta": 0.1959,
+      "ssim": 0.1476,
+      "edge_f1": 0.9647,
+      "mask_iou": 0.9844,
+      "self_contrast": 0.6809,
+      "ref_self_contrast": 0.4682,
+      "composite": 0.6531
+    }
+  },
+  "render_hash": "134896278dfb3750"
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>atlas-publish icon &mdash; contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 190px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .measured { margin-top: 22px; padding: 18px 20px; border: 1px solid #1c2d33; border-radius: 12px; background: #0d181d; max-width: 900px; color: #a9bec5; }
+  .measured table { min-width: 0; width: auto; }
+  .measured th, .measured td { padding: 5px 22px 5px 0; border: 0; font-size: 13px; }
+  .measured td.n { font-variant-numeric: tabular-nums; color: #d7e3e7; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>atlas-publish icon &mdash; contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe Gel-Glass, porcelain sub-register", hybridised with Monochrome Logomark through device #19 (re-materialised brand mark). Runner-up direction: Object Tile. One shared spec, three engines, every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A-master &middot; icon.svg<small>Engine A, hand-authored layered SVG from build_icon.py &mdash; SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/A-master-1024.png" width="160" height="160" alt="A-master hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-master-256.png" width="128" height="128" alt="A-master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-master-128.png" width="64" height="64" alt="A-master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-master-96.png" width="48" height="48" alt="A-master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-master-64.png" width="32" height="32" alt="A-master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-master-32.png" width="16" height="16" alt="A-master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-master-32.png" width="96" height="96" alt="A-master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Checks 1&ndash;4 clear on the renders: the tile is the family superellipse as a clip with no baked corner or shadow; the object is 65.5% of the tile with a stated 25px leftward offset; the silhouette is nameable filled black; and the 16px cell measures 0.2415 luminance spread against a family median of 0.2146 across 40 siblings, 27th of 41. Ink reads 8.64:1 against the ground, the gate 3.76:1, and grayscale holds three tiers at 59 / 113 / 234. Four real layers over a swappable ground. The deduction is #12: a letterform is text-adjacent and passes only as a diegetic monogram, so a reader who does not know Atlas sees a decorative script <em>a</em> rather than a brand.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C-gate &middot; icon-engineC-gate-ad804f.png<small>Engine C, GPT Image 2 raster, corpus-referenced (apple-10 + apple-26 + a sibling icon)</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C-gate-1024.png" width="160" height="160" alt="C-gate hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-gate-256.png" width="128" height="128" alt="C-gate at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-gate-128.png" width="64" height="64" alt="C-gate at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-gate-96.png" width="48" height="48" alt="C-gate at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-gate-64.png" width="32" height="32" alt="C-gate at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-gate-32.png" width="16" height="16" alt="C-gate at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-gate-32.png" width="96" height="96" alt="C-gate 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">8 / 12</td>
+    <td class="verdict">Won the material read outright and is the reference the master was built against: the smoothest gel tube in the set, correct warm porcelain, one soft top light, a real contact shadow. Lost on two things it cannot fix. It is a flat pre-masked raster, so #10 fails by construction &mdash; identity is a colour relationship with no layers under it. And it drew its own loopy letterform rather than Atlas's, so the one thing making this icon <em>this plugin's</em> is absent. Its material language was rebuilt into the master; the file itself is a target, never a deliverable. Measured: it carries 0.45&ndash;0.47 internal contrast where the master carries 0.68 at every size, which is the raster engine's known low-figure-ground habit.</td>
+  </tr>
+
+  <tr>
+    <td class="take">B-arrow &middot; icon-engineB-arrow-7dcd4c.svg<small>Engine B, Arrow 1.1 vector take from the spec as brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/B-arrow-1024.png" width="160" height="160" alt="B-arrow hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-arrow-256.png" width="128" height="128" alt="B-arrow at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-arrow-128.png" width="64" height="64" alt="B-arrow at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-arrow-96.png" width="48" height="48" alt="B-arrow at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-arrow-64.png" width="32" height="32" alt="B-arrow at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-arrow-32.png" width="16" height="16" alt="B-arrow at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-arrow-32.png" width="96" height="96" alt="B-arrow 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard fail on #1: it baked its own rounded-corner mask, at a radius that is not the family superellipse, so it would read as an error in a marketplace lineup at every size. Flat throughout &mdash; no rim, no extrusion, no contact shadow &mdash; which fails #8 and dates it to the previous era on #9. It earned its place anyway, and this is what Engine B is for: it was the only take to draw the tall arching entry stroke that separates a script capital A from a lowercase a, and that observation is why the cut in the master lands where it does. Nothing else was salvaged.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C-gate1 &middot; icon-engineC-gate-0eb2a6.png<small>Engine C, first raster pass, no brand mark in the references</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C-gate1-1024.png" width="160" height="160" alt="C-gate1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-gate1-256.png" width="128" height="128" alt="C-gate1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-gate1-128.png" width="64" height="64" alt="C-gate1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-gate1-96.png" width="48" height="48" alt="C-gate1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-gate1-64.png" width="32" height="32" alt="C-gate1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-gate1-32.png" width="16" height="16" alt="C-gate1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-gate1-32.png" width="96" height="96" alt="C-gate1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score">7 / 12</td>
+    <td class="verdict">The take that settled the concept, and then lost to its own successor. Its gel is excellent and its gate is a pill, which is exactly the trap the master later had to design out: a rounded bar sitting after a letter reads as a text caret, not as a barrier. The letterform is furthest of any take from the brand mark. Kept in the sheet because the pill/slab comparison is the single most useful thing in this commission and it only exists here.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C-lip &middot; icon-engineC-lip-b9426d.png<small>Engine C, the losing concept: a sealed bundle held at the lip of a stage</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C-lip-1024.png" width="160" height="160" alt="C-lip hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-lip-256.png" width="128" height="128" alt="C-lip at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-lip-128.png" width="64" height="64" alt="C-lip at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-lip-96.png" width="48" height="48" alt="C-lip at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-lip-64.png" width="32" height="32" alt="C-lip at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-lip-32.png" width="16" height="16" alt="C-lip at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-lip-32.png" width="96" height="96" alt="C-lip 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">The brief's second candidate concept, built so the choice would rest on renders rather than description. Hard fail on #4: at 16px it is a grey blob with a sub-pixel dot, because half the tile is spent on an empty pale stage and the release control is small by the logic of the idea. It also breaks the family's front-facing grammar with a perspective 3D scene (#9), and the metaphor is the most crowded in the marketplace &mdash; ship-feature, ship-fleet, shipyard and create-swe-project already own ramps, slipways and hulls, and better-loop owns a block held on a track. Rejected on evidence, not on taste.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A-master (icon.svg).</strong> It is the only take that is Icon-Composer ready &mdash; four named layers (bg / mid / fg / highlight) over a swappable ground, the superellipse as a clip rather than a baked corner, no baked drop shadow, and identity carried in shape and value rather than in a colour relationship. Checks 1&ndash;4 were read off the renders above, not imagined. Its material provenance is C-gate, rebuilt as geometry: the tube shading is a blurred offset knock-out rather than a filter on the paint, so nothing in it can be silently dropped by a renderer. Known liabilities to revisit: (1) the gate reads 2.30:1 against the graphite, below the 3:1 floor, at exactly the boundary the icon's meaning lives on &mdash; the two masses separate by hue and by hard edge, not by luminance, and a viewer with a red-green deficiency loses some of that; (2) the monoline is 83 tile px wide, under the ~190px a feature needs to resolve individually at 16px, so what survives the squint is the letterform's mass and not its stroke, the same bargain apple-10 makes; (3) rendering was verified in librsvg only &mdash; the rim and cast-shadow filters want a spot-check in Safari and against a real Dock tint before release; (4) the material was never measured, because the perceptual metric this pipeline uses does not run on this machine, so the numbers below cover structure and small-size legibility and nothing else.</div>
+
+<div class="measured">
+<strong>What was measured, and on what</strong>
+<table>
+<tr><td>ink vs ground, WCAG contrast on the 1024 render</td><td class="n">8.64 : 1</td></tr>
+<tr><td>gate vs ground</td><td class="n">3.76 : 1</td></tr>
+<tr><td>gate vs ink &mdash; the one boundary below the floor</td><td class="n">2.30 : 1</td></tr>
+<tr><td>grayscale tiers, ink / gate / ground</td><td class="n">59 / 113 / 234</td></tr>
+<tr><td>16px luminance spread (gamma-encoded, composited over white)</td><td class="n">0.2415 (27th of 41)</td></tr>
+<tr><td>&mdash; same measure across 40 marketplace siblings</td><td class="n">median 0.2146, p75 0.2597</td></tr>
+<tr><td>gate's smallest dimension at 16px (needs &gt; 1.5px to be present at all)</td><td class="n">2.07 px</td></tr>
+<tr><td>master structure gate</td><td class="n">PASS &mdash; 4 paths, 9 gradients, 6 filters, 4 named groups</td></tr>
+<tr><td>internal contrast, master vs the raster reference at 1024 / 128 / 32</td><td class="n">0.68 vs 0.45&ndash;0.47</td></tr>
+<tr><td>perceptual material metric</td><td class="n">not run &mdash; unavailable on this machine</td></tr>
+<tr><td>blind three-family panel, master vs Arrow take</td><td class="n">no majority &mdash; 2 of 3 lanes down; see icon-notes.md</td></tr>
+</table>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era fit, variant robustness, personality, no-text) &mdash; checks 1&ndash;4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 scripts/audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand. Contrast figures are WCAG relative luminance over median region samples on the shipped 1024 render, not eyedropper points.</div>
+</body>
+</html>

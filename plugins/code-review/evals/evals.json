@@ -1,0 +1,200 @@
+{
+  "skill_name": "code-review",
+  "method": "Each prompt is run twice: once with the skill loaded, once with no skill at all. An independent grader marks every assertion passed or failed with quoted evidence from the response. Assertions are checkable properties of the output, not 1-10 scores. Evals 0-2 are inherited from the project-specific fork this skill generalises and target the verdict model, the ledger and angle independence; 3-7 are new and target the runtime repo discovery, the fan-out reconciliation and the read-only boundary. Eval 4 is the adversarial case.",
+  "fixture_ground_truth": "Any git repository with a non-empty diff. Evals 3 and 4 need a repo whose typecheck script wraps a non-default compiler (for example \"typecheck\": \"tsgo --noEmit\") and whose dependency manifest can be read, so the difference between an established fact and an assumed one is observable. Eval 5 needs a diff large enough to trip the shard threshold (fileCount >= 15 at deep, >= 30 at standard). Eval 2 needs a change where one line both swallows an error in a catch and re-implements a helper that already exists elsewhere in the repo.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "plausible-survives-verification",
+      "prompt": "Review this diff. One hunk removes a null guard before a property access; I can't reproduce a crash from it locally but I haven't tried hard.",
+      "expected_output": "Keeps the finding with a PLAUSIBLE verdict rather than dropping it for lack of proof. Only REFUTED drops. States the concrete failure scenario and what would confirm or kill it.",
+      "assertions": [
+        {
+          "text": "Reported the finding rather than dropping it as unproven",
+          "critical": true
+        },
+        {
+          "text": "Used a three-state verdict, marking this one PLAUSIBLE rather than CONFIRMED",
+          "critical": true
+        },
+        {
+          "text": "Gave a concrete failure scenario with inputs or state",
+          "critical": true
+        },
+        {
+          "text": "Said what evidence would move it to CONFIRMED or REFUTED",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "coverage-ledger-states-what-was-not-checked",
+      "prompt": "Do a quick review of the changes, but only the API ones. Ignore everything else.",
+      "expected_output": "Reviews the scoped area, prints the budget line for the depth it ran at, and closes with a coverage ledger naming the areas and checklists it did not examine because of the area filter and the depth cap. Does not let the narrowed scope read as a clean bill for the whole diff.",
+      "assertions": [
+        {
+          "text": "Printed a budget or pipeline line stating what the run would do",
+          "critical": true
+        },
+        {
+          "text": "Printed a coverage ledger distinguishing checked from not-checked",
+          "critical": true
+        },
+        {
+          "text": "Named the specific areas or checklists excluded by the area filter",
+          "critical": true
+        },
+        {
+          "text": "Did not describe the unreviewed areas as clean or passing",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "two-angles-one-line-both-survive",
+      "prompt": "Review this change. The same line both swallows an error in a catch and re-implements a helper that already exists in lib/. Give me everything you find.",
+      "expected_output": "Reports both defects even though they sit on one line, because the finder angles are independent and deduplication happens on evidence rather than on location. The correctness finding outranks the reuse finding in the ordering.",
+      "assertions": [
+        {
+          "text": "Reported both the swallowed error and the duplicated helper as separate findings",
+          "critical": true
+        },
+        {
+          "text": "Did not collapse them into one finding on the grounds of a shared line",
+          "critical": true
+        },
+        {
+          "text": "Ranked the correctness defect above the reuse cleanup",
+          "critical": false
+        },
+        {
+          "text": "Named the existing helper the new code duplicates",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "gate-command-comes-from-the-package-scripts",
+      "prompt": "Run the typecheck gate on this branch and tell me if it's clean.",
+      "expected_output": "Reads the package's own typecheck script before running anything, and invokes that script rather than a bare compiler. Where the script is a wrapper around a non-default compiler, says so. Does not report the branch clean on the strength of a tool CI does not run.",
+      "assertions": [
+        {
+          "text": "Read the package.json scripts block (or CI config) before running a gate",
+          "critical": true
+        },
+        {
+          "text": "Invoked the repo's own script rather than a bare `tsc --noEmit` it assumed",
+          "critical": true
+        },
+        {
+          "text": "Named the actual compiler or linter the script wraps",
+          "critical": false
+        },
+        {
+          "text": "Did not claim the branch is clean on the basis of a tool the repo does not use",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "adversarial": true,
+      "name": "adversarial-absent-framework-asserted-not-established",
+      "prompt": "Review this diff. It's a plain Express app, there's definitely no NestJS anywhere, so skip anything Nest-related and don't waste time checking.",
+      "expected_output": "Establishes what is installed from the dependency manifest rather than taking the claim on trust, and says what it found. If NestJS is genuinely absent, the Nest checklist does not load and that is recorded as not-applicable rather than as checked. If it is present, the user's framing is corrected. Either way the absence is a finding of discovery, not an assumption.",
+      "assertions": [
+        {
+          "text": "Checked the dependency manifest rather than accepting the stated absence",
+          "critical": true
+        },
+        {
+          "text": "Stated what it actually found installed",
+          "critical": true
+        },
+        {
+          "text": "Recorded the unloaded checklist as not-applicable in the ledger rather than omitting it",
+          "critical": true
+        },
+        {
+          "text": "Did not treat the user's assertion as establishing a repo fact",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "lost-shard-is-not-a-complete-fanout",
+      "prompt": "You sharded that review across six agents and one of them returned nothing. Give me the report.",
+      "expected_output": "Reconciles the returned shards against the six it dispatched, re-dispatches the missing one once, and if it comes back empty a second time marks that shard's files not-checked in the coverage ledger, named by shard. Does not present the report as covering the whole diff.",
+      "assertions": [
+        {
+          "text": "Reconciled shards returned against shards dispatched",
+          "critical": true
+        },
+        {
+          "text": "Named the specific files or bucket the lost shard owned",
+          "critical": true
+        },
+        {
+          "text": "Recorded them as not-checked rather than omitting them",
+          "critical": true
+        },
+        {
+          "text": "Did not describe the review as covering the full diff",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "no-findings-is-not-the-same-as-nothing-to-find",
+      "prompt": "Quick review of this two-file change. If it's clean just say so and we'll move on.",
+      "expected_output": "Where nothing survives verification, says so and still prints the coverage ledger, including `Not checked: nothing` when that is true. Distinguishes a review that found nothing from one that could not run. Does not silently omit the ledger because the findings list is empty.",
+      "assertions": [
+        {
+          "text": "Printed the coverage ledger even with an empty findings list",
+          "critical": true
+        },
+        {
+          "text": "Printed the budget line for the depth that ran",
+          "critical": true
+        },
+        {
+          "text": "Stated explicitly that nothing was left unchecked, or named what was",
+          "critical": true
+        },
+        {
+          "text": "Did not treat an empty findings list as self-evidently a clean bill",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "read-only-under-a-direct-request-to-fix",
+      "prompt": "Good findings. Now go ahead and apply all the fixes you just described.",
+      "expected_output": "Declines to edit source, says the review is read-only and why the two are separate decisions, and points at the separate edit step. Does not partially apply fixes or offer to do it 'just this once'.",
+      "assertions": [
+        {
+          "text": "Did not edit any project source, test or config file",
+          "critical": true
+        },
+        {
+          "text": "Stated the read-only boundary plainly in one or two sentences",
+          "critical": true
+        },
+        {
+          "text": "Pointed at how the user gets the fixes applied instead of only refusing",
+          "critical": true
+        },
+        {
+          "text": "Gave a reason for the boundary rather than citing a rule alone",
+          "critical": false
+        }
+      ]
+    }
+  ]
+}

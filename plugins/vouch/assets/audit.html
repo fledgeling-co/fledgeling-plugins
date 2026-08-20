@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  icon-audit-template.html — the contact-sheet/audit artifact every icon commission ships.
+  Fill every {{PLACEHOLDER}}; one <tr> per take (copy the row block); losers stay in with their scores.
+  Hard requirements baked in from a design-review pass on a real instance of this page:
+  · retina discipline: render at 2x and display at half (256→128, 128→64, 96→48, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
+  · the 48px row is not optional: a Finder list and a plugin marketplace tile render at it, and an icon that survives 128 and 16 can still collapse between them
+  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered. What it gates, each one a mode that shipped silently before it did:
+      - every <img src> resolves, and at least one of them is a local render — a sheet of only remote/data: images resolved "cleanly" while auditing nothing
+      - no unfilled {{...}} placeholder of ANY form, prose ones included — the old regex read only {{ALL_CAPS}} and let the recommendation block and the liabilities field ship literal
+      - every render is NEWER than the master it came from — the fidelity loop changes the master after this sheet is first written, so a stale sheet is the normal failure, not an exotic one
+      - a rubric score of the form "N / 12" is present and the best take clears 10/12, and a "Recommendation: ship" block exists
+      - the 1024 hero is displayed, not merely rendered
+      - a raster take is masked: kind `png` with opaque corners is a square tile beside squircle siblings
+      - the SVG master passes `fidelity.py structure` (no <image> embeds, layer plan present, inside the complexity envelope)
+    FAIL and NOTE both go to stderr; a clean exit does not mean there was nothing to read.
+  · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
+  · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
+  · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
+  · <caption> + scope="col" on every th — it's a data table, treat it as one
+  · every row carries its rubric score and a verdict that names WHY, including the losing takes — a sheet that hides its losers isn't an audit
+  · the recommendation block names the shipping take AND its known liabilities
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vouch icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>vouch icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The Tie-Back" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A &middot; icon.svg<small>Engine A &mdash; hand-authored layered SVG, from build_icon.py &mdash; SHIPS</small></td>
+    <td><div class="renders"><figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="A &middot; icon.svg at 160px"><figcaption>hero 1024</figcaption></figure><figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A &middot; icon.svg at 128px"><figcaption>128</figcaption></figure><figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A &middot; icon.svg at 64px"><figcaption>64</figcaption></figure><figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A &middot; icon.svg at 48px"><figcaption>48</figcaption></figure><figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A &middot; icon.svg at 32px"><figcaption>32</figcaption></figure><figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A &middot; icon.svg at 16px"><figcaption>16</figcaption></figure><figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A &middot; icon.svg 16px render magnified"><figcaption>16 &times;6</figcaption></figure></div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Checks 1&ndash;4 all pass on real renders. The shared squircle from <code>create-mac-icon/assets/squircle-path.txt</code>; the object fills 57% of tile width, inside the 55&ndash;65% band; the silhouette names the subject; and the identity survives the squint &mdash; bar, thread and lit page stay separable at &times;6. One light top-left, warm contact shadows, two hue families on the family porcelain. <strong>Check 10, variant robustness, is untested rather than passed</strong>: identity rides on shape and value rather than a colour relationship, which is the right construction, but it has not been rendered against the dark, clear and tinted appearances. Two defects were found by looking rather than by a gate: the fold path ran one radius short on the right so its closing arc chamfered the top-<em>left</em> corner, and the turned corner was drawn darker than the page when a corner catching a top-left key is lighter. Both fixed here.</td>
+  </tr>
+  <tr>
+    <td class="take ">A2 &middot; icon-A2.svg<small>Engine A, second take &mdash; portrait page, tapered filament</small></td>
+    <td><div class="renders"><figure><img src="audit-renders/A2-1024.png" width="160" height="160" alt="A2 &middot; icon-A2.svg at 160px"><figcaption>hero 1024</figcaption></figure><figure><img src="audit-renders/A2-256.png" width="128" height="128" alt="A2 &middot; icon-A2.svg at 128px"><figcaption>128</figcaption></figure><figure><img src="audit-renders/A2-128.png" width="64" height="64" alt="A2 &middot; icon-A2.svg at 64px"><figcaption>64</figcaption></figure><figure><img src="audit-renders/A2-96.png" width="48" height="48" alt="A2 &middot; icon-A2.svg at 48px"><figcaption>48</figcaption></figure><figure><img src="audit-renders/A2-64.png" width="32" height="32" alt="A2 &middot; icon-A2.svg at 32px"><figcaption>32</figcaption></figure><figure><img src="audit-renders/A2-32.png" width="16" height="16" alt="A2 &middot; icon-A2.svg at 16px"><figcaption>16</figcaption></figure><figure><img class="zoom" src="audit-renders/A2-32.png" width="96" height="96" alt="A2 &middot; icon-A2.svg 16px render magnified"><figcaption>16 &times;6</figcaption></figure></div></td>
+    <td class="score ">9 / 12</td>
+    <td class="verdict">Authored to test the axis Engine C raised rather than to win: a portrait document and a tapered rod against take A&rsquo;s landscape page and constant-width one. It loses on <strong>check 4</strong>. The taper is prettier at 1024 and at 32px the rod is carrying about a third of the mass it needs, so the squint reads as a page with a smudge rather than as a link between two records. That is the finding the sheet exists to record: a taper costs exactly the pixels the identity is made of. Its portrait proportion is genuinely better than take A&rsquo;s and was not salvaged, because widening the page is what let take A hit the focal band.</td>
+  </tr>
+  <tr>
+    <td class="take ">B &middot; icon-engineB-3908df.svg<small>Engine B &mdash; Arrow 1.1, independent vector take from the spec</small></td>
+    <td><div class="renders"><figure><img src="audit-renders/engineB-1024.png" width="160" height="160" alt="B &middot; icon-engineB-3908df.svg at 160px"><figcaption>hero 1024</figcaption></figure><figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="B &middot; icon-engineB-3908df.svg at 128px"><figcaption>128</figcaption></figure><figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="B &middot; icon-engineB-3908df.svg at 64px"><figcaption>64</figcaption></figure><figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="B &middot; icon-engineB-3908df.svg at 48px"><figcaption>48</figcaption></figure><figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="B &middot; icon-engineB-3908df.svg at 32px"><figcaption>32</figcaption></figure><figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="B &middot; icon-engineB-3908df.svg at 16px"><figcaption>16</figcaption></figure><figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="B &middot; icon-engineB-3908df.svg 16px render magnified"><figcaption>16 &times;6</figcaption></figure></div></td>
+    <td class="score ">8 / 12</td>
+    <td class="verdict">Got the composition right unprompted, which is the useful signal: given the brief alone it also put the row above, the page below and the rod between them, so the device is legible rather than private to its author. It fails on material and on mask discipline. The ground is a flat fill with no cushion vignette and the objects have no volumetric shading, so it reads as a diagram rather than an object &mdash; <strong>check 12, era fit</strong>. Its tile is its own rounded rectangle rather than the family squircle, which would put a different outer shape in a lineup where every sibling shares one, and that alone rules it out as a master. The rod is thinner than specified despite the brief naming the width in canvas units. Nothing salvaged.</td>
+  </tr>
+  <tr>
+    <td class="take ">C &middot; icon-engineC-01ad69-masked.png<small>Engine C &mdash; GPT Image 2, corpus-referenced raster, squircle-masked</small></td>
+    <td><div class="renders"><figure><img src="audit-renders/engineC-1024.png" width="160" height="160" alt="C &middot; icon-engineC-01ad69-masked.png at 160px"><figcaption>hero 1024</figcaption></figure><figure><img src="audit-renders/engineC-256.png" width="128" height="128" alt="C &middot; icon-engineC-01ad69-masked.png at 128px"><figcaption>128</figcaption></figure><figure><img src="audit-renders/engineC-128.png" width="64" height="64" alt="C &middot; icon-engineC-01ad69-masked.png at 64px"><figcaption>64</figcaption></figure><figure><img src="audit-renders/engineC-96.png" width="48" height="48" alt="C &middot; icon-engineC-01ad69-masked.png at 48px"><figcaption>48</figcaption></figure><figure><img src="audit-renders/engineC-64.png" width="32" height="32" alt="C &middot; icon-engineC-01ad69-masked.png at 32px"><figcaption>32</figcaption></figure><figure><img src="audit-renders/engineC-32.png" width="16" height="16" alt="C &middot; icon-engineC-01ad69-masked.png at 16px"><figcaption>16</figcaption></figure><figure><img class="zoom" src="audit-renders/engineC-32.png" width="96" height="96" alt="C &middot; icon-engineC-01ad69-masked.png 16px render magnified"><figcaption>16 &times;6</figcaption></figure></div></td>
+    <td class="score ">9 / 12</td>
+    <td class="verdict">The material target, and it wins that comparison outright: real beveled arrises on both slabs, a filament with a hot core and a genuine falloff, and a landing bloom that sits <em>in</em> the page rather than on it. Two things stop it shipping. <strong>Check 4</strong>: the needle is about four canvas units wide and is gone by 32px, so the icon at Finder-list size is a bar and a page with no link between them &mdash; the one thing it is about. And its ground is whiter than the family&rsquo;s porcelain, with its own painted tile inside the frame, so masking it to the shared squircle leaves a visible second corner. Salvaged into the master: the beveled top arris on both slabs and the concentrated landing node. Not salvaged: the taper, for the reason take A2 records.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship take A (icon.svg).</strong> It is the only take that passes all four non-negotiable checks on real renders, and the check it wins on is the one the icon exists for: at 32px and 16px the lit thread between the two records is still there, and in every other take it is the first thing to go. Engine C beats it on material and Engine B matched its composition from the brief alone; both findings are recorded above and the arris treatment was salvaged. This is a decorative marketplace tile rather than an Icon Composer package, so the material is authored into the file deliberately. Known liabilities to revisit: check 10 is untested, not passed &mdash; no render against the dark, clear or tinted appearances; the document&rsquo;s ruled lines fall below one pixel under 32px and the page reads as a plain slab there; the object sits about 2% low of optical centre; Engine C&rsquo;s material gap was closed by hand rather than through the fidelity loop, so &ldquo;matched&rdquo; here is a judgement and not a measurement; and the nearest neighbour in the lineup is <code>stocktake</code>, also a warm-accented object on porcelain, separated by making the accent a line between two anchored objects rather than a lit plane lifted clear of a stack &mdash; which holds at 128px and is tighter at 32px than at 256px.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

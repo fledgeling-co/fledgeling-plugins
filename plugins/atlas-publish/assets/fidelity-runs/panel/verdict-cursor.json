@@ -1,0 +1,39 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": null,
+      "resolved": null,
+      "meta": {
+        "exit": 1,
+        "harness": "cursor-agent (grok-4.5)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": null,
+      "resolved": null,
+      "meta": {
+        "exit": 1,
+        "harness": "cursor-agent (grok-4.5)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    }
+  },
+  "resolved": {
+    "overall": null,
+    "material": null,
+    "silhouette": null,
+    "smallsize": null
+  },
+  "passes_ran": 0,
+  "passes_asked": 2,
+  "swap_flipped": [],
+  "swap_consistent": false,
+  "status": "failed"
+}

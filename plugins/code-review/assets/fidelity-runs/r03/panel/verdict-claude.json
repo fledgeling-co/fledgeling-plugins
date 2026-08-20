@@ -1,0 +1,75 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "tie",
+        "smallsize": "A",
+        "rationale": {
+          "overall": "B reads as a thick pillowed object the way the REFERENCE slab does, and that volumetric read outweighs its slightly washed body and marginally softer small-size edge.",
+          "material": "B's shading wraps around the top-left corner as a curved falloff, matching the REFERENCE's rounded matte body, whereas A applies a straight vertical ramp over a flat card with a hairline rim; A's charcoal values sit closer to the REFERENCE (85\u219233 vs REF 71\u219229, B 101\u219236) but the tone is the smaller error against a missing curvature.",
+          "silhouette": "A and B share the same squircle, the same inset dark slab and the same orange window geometry \u2014 the pixel diff between them is entirely shading, so there is nothing to separate on outline.",
+          "smallsize": "At 32px and 16px A's slab holds a cleaner dark block, while B's soft top rolloff collapses into a mid-grey band that blurs the slab's upper edge."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "candidate",
+        "silhouette": "tie",
+        "smallsize": "baseline"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "tie",
+        "smallsize": "tie",
+        "rationale": {
+          "overall": "The two takes are near-identical apart from the shading of the dark slab, and B's body tone tracks the reference's tonal falloff closely (\u224884/53/30 top/mid/bottom against the reference's 76/49/31) where A sits ~18 levels lighter throughout.",
+          "material": "B reads as a genuinely dark charcoal slab with a tight top-edge highlight rolling into shadow, matching the reference's volumetric falloff, while A's broader, milkier gradient flattens the form and lifts the mid-body away from the reference's value range.",
+          "silhouette": "Both takes share the same outer squircle, inset slab, rule lines and orange aperture \u2014 the pixel difference between them is confined entirely to the slab interior, so there is nothing to separate them on shape.",
+          "smallsize": "At 128, 32 and 16px the two strips are effectively indistinguishable; B's slightly deeper body gives a hair more separation from the pale bezel, but not enough to call at these sizes."
+        }
+      },
+      "resolved": {
+        "overall": "baseline",
+        "material": "baseline",
+        "silhouette": "tie",
+        "smallsize": "tie"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [
+    "overall",
+    "material",
+    "smallsize"
+  ],
+  "swap_consistent": false,
+  "status": "ok"
+}
