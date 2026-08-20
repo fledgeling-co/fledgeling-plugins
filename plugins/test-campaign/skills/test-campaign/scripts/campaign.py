@@ -774,6 +774,14 @@ def audit(d: Path) -> dict:
 
     vacuous_reqs = [r["id"] for r in reqs if r.get("evidence") == "vacuous"]
     effect_reqs = [r for r in reqs if r.get("effect") in EXTERNAL_EFFECTS]
+    # `add` refuses an unrecognised effect class, but a registry edited by hand
+    # never passes through it — and an unrecognised class simply fails the
+    # membership test above and drops out of the census, which is
+    # indistinguishable from a requirement that claims no external effect at all.
+    bad_effect_class = [
+        f"{r['id']} declares effect '{r['effect']}', which is not one of "
+        f"{', '.join(EFFECT_CLASSES)}"
+        for r in reqs if r.get("effect") and r["effect"] not in EFFECT_CLASSES]
     unbacked_effects = [
         f"{r['id']} claims a {r['effect']} effect and is recorded `observed`, and no "
         f"case backing it stands at effect-witness"
@@ -782,8 +790,21 @@ def audit(d: Path) -> dict:
         and not any(c.get("oracle") in WITNESS_RUNGS and state_of(c.get("status", "open")) == "pass"
                     for c in by_req.get(r["id"], []))
     ]
-    witnessed_effects = len(effect_reqs) - len(unbacked_effects) - sum(
-        1 for r in effect_reqs if r.get("evidence") == "vacuous")
+    # Counted, never derived. This was `len(effect_reqs) - len(unbacked) - len(vacuous)`,
+    # which credited every requirement that was neither as witnessed — so one recorded
+    # `reported`, with an external effect and no witness anywhere, was reported as an
+    # effect somebody had seen. A number that reads as a measurement and is a subtraction
+    # is the failure this whole file is built against.
+    witnessed_effects = sum(
+        1 for r in effect_reqs
+        if any(c.get("oracle") in WITNESS_RUNGS and state_of(c.get("status", "open")) == "pass"
+               for c in by_req.get(r["id"], [])))
+    unwitnessed_effects = [
+        f"{r['id']} ({r.get('evidence')})" for r in effect_reqs
+        if not any(c.get("oracle") in WITNESS_RUNGS and state_of(c.get("status", "open")) == "pass"
+                   for c in by_req.get(r["id"], []))
+        and r.get("evidence") != "vacuous"
+        and r["id"] not in {u.split()[0] for u in unbacked_effects}]
 
     # What the cases actually check. A case with no declared rung counts as
     # unrated, never as adequate — the whole point is that a plan cannot look
@@ -935,6 +956,10 @@ def audit(d: Path) -> dict:
         blockers.append(f"{len(hollow_witness)} effect-witness claim(s) with no recorder, "
                         f"no effect class, or a count of zero — a witness that saw nothing "
                         f"is the condition this rung exists to detect")
+    if bad_effect_class:
+        blockers.append(f"{len(bad_effect_class)} requirement(s) declaring an effect class "
+                        f"the census does not recognise — an unrecognised class drops out "
+                        f"of the count rather than failing, so it reads as no effect at all")
     if unbacked_effects:
         blockers.append(f"{len(unbacked_effects)} requirement(s) claiming an effect outside "
                         f"the product and recorded `observed` with no effect-witness case "
@@ -1014,6 +1039,8 @@ def audit(d: Path) -> dict:
         "effectRequirements": len(effect_reqs),
         "effectRequirementsWitnessed": witnessed_effects,
         "effectRequirementsUnbacked": unbacked_effects,
+        "effectRequirementsUnwitnessed": unwitnessed_effects,
+        "effectClassUnrecognised": bad_effect_class,
         "hollowWitnesses": hollow_witness,
         "surfaces": len(surfaces),
         "surfacesUncovered": uncovered,
@@ -1045,6 +1072,18 @@ def cmd_check(args) -> int:
     print(f"{a['project']} · lanes: {', '.join(a['lanes']) or 'none declared'}")
     print(f"Requirements: {a['requirements']} inventoried, {len(a['requirementsUntested'])} with no case")
     print(f"Surfaces:   {a['surfaces']} enumerated, {len(a['surfacesUncovered'])} with no case")
+    if a["effectRequirements"] or a["requirementsVacuous"]:
+        print(f"External effects: examined={a['effectRequirements']} "
+              f"witnessed={a['effectRequirementsWitnessed']} "
+              f"vacuous={len(a['requirementsVacuous'])} "
+              f"unwitnessed={len(a['effectRequirementsUnwitnessed'])} — armed proves the "
+              f"suite bites, and only a witness proves the product acted.")
+        if a["requirementsVacuous"]:
+            print(f"  Vacuous (the capability the claim constrains never runs): "
+                  f"{', '.join(a['requirementsVacuous'])}")
+        if a["effectRequirementsUnwitnessed"]:
+            print(f"  Effect claimed, no witness: "
+                  f"{', '.join(a['effectRequirementsUnwitnessed'])}")
     print(f"Cases:      {c['pass']} pass · {c['fail']} fail · {c['skip']} skip · "
           f"{c['n/a']} n/a · {c['unselected']} carried · {c['inconclusive']} inconclusive · "
           f"{c['unoracled']} unoracled · {c['blocked']} blocked · {c['open']} open  "
@@ -1085,11 +1124,6 @@ def cmd_check(args) -> int:
         print(f"\nEvery case accounted for. The verdict line still carries the fraction "
               f"({a['surfaces']} surfaces, {a['cases']} cases) and the armed ratio "
               f"({a['armedOfPassing']}) — a suite is only known to bite where it was armed.")
-        if a["effectRequirements"]:
-            print(f"External effects: examined={a['effectRequirements']} "
-                  f"witnessed={a['effectRequirementsWitnessed']} "
-                  f"vacuous={len([r for r in a['requirementsVacuous']])} — armed proves the "
-                  f"suite bites, and only a witness proves the product acted.")
         return 0
 
     print("\nNot ready to report:")

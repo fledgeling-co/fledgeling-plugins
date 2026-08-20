@@ -496,6 +496,58 @@ expect "a witness that counted nothing blocks" 1 "$V" \
 python3 "$S/campaign.py" set "$V" --case CASE-0001 --effect-count 4 >/dev/null
 expect "a counted, recorded witness clears" 0 "$V" "witnessed=1"
 
+# Two regressions the 0.9.0 census shipped with, both of which read as a clean
+# result. First: `witnessed` was computed as
+# `len(effect_reqs) - len(unbacked) - len(vacuous)`, so a requirement recorded
+# `reported` — an external effect claimed, never witnessed, never blocked —
+# was subtracted into the witnessed count and reported as an effect somebody
+# had seen. It is now counted from the cases that actually stand at the rung.
+python3 - "$V" <<'PY2'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"].append({"id": "REQ-002", "class": "behaviour",
+                           "text": "the runner writes a job log to disk",
+                           "effect": "filesystem-write", "evidence": "reported"})
+p.write_text(json.dumps(inv, indent=2))
+c = pathlib.Path(sys.argv[1]) / "cases.json"
+cases = json.loads(c.read_text())
+cases.append(dict(cases[0], id="CASE-0002", req="REQ-002", oracle="outcome",
+                  witness=None))
+c.write_text(json.dumps(cases, indent=2))
+PY2
+expect "a reported external effect is not counted as witnessed" 0 "$V" "witnessed=1 "
+expect "and it is named as claimed-but-unwitnessed" 0 "$V" "REQ-002 (reported)"
+
+# Second: the census printed only after the full-run verdict, past the
+# selective-run `return 0` — so on the skill's own default scope it never
+# printed at all, and a registry with eight vacuous requirements reported
+# nothing about any of them.
+python3 "$S/campaign.py" scope "$V" --full --decided-by "tests/run.sh" >/dev/null
+python3 "$S/campaign.py" scope "$V" --selective --basis "arming the census print" --decided-by "tests/run.sh" >/dev/null
+expect "a selective run prints the effect census too" 0 "$V" "External effects: examined="
+
+# An unrecognised effect class written straight into inventory.json (rather than
+# through `add`, which refuses one) used to fail the census membership test and
+# vanish, reading as a requirement that claims no external effect.
+python3 - "$V" <<'PY2'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"][1]["effect"] = "filesystem"
+p.write_text(json.dumps(inv, indent=2))
+PY2
+expect "an unrecognised effect class blocks rather than vanishing" 1 "$V" "does not recognise"
+python3 - "$V" <<'PY2'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"][1]["effect"] = "filesystem-write"
+p.write_text(json.dumps(inv, indent=2))
+PY2
+expect "correcting it to a real class clears" 0 "$V" "External effects: examined=2"
+
+
 # Class validation on the way in, both fields.
 if python3 "$S/campaign.py" add "$V" --kind requirement --file /dev/stdin >/dev/null 2>&1 <<<'[{"text":"x","evidence":"probably"}]'; then
   echo "FAIL  a bogus evidence class should be refused at add time"; FAIL=$((FAIL+1))
