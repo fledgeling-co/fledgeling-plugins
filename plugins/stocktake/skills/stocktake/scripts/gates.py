@@ -439,6 +439,8 @@ CASES = [
      [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run 2026-08-20-a"}], None),
     # Isolates the undecided rule: one card IS dispatched, so the zero-dispatch rule
     # cannot fire and only the undecided check can catch the second card.
+    ("evidence still refuses a row amended to a verdict it cannot support", "evidence", False,
+     [{"key": "WEB-1", "verdict": "done", "work_at": "merged"}], None),
     ("dispatched refuses an undecided card even when another was dispatched",
      "dispatched", False,
      [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run-a"},
