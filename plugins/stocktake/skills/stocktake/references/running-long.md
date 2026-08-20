@@ -26,16 +26,24 @@ The gate set, each judged on exit code — `scripts/gates.py <gate> <ledger-dir>
 | `ungraded-reported` | Does every card the method never ran on say which of steps 1-6 were skipped? |
 | `briefs-written` | Does every card with work remaining have a brief that names it and serves at most 3 cards? |
 | `dispatched` | Was each card with work remaining handed to `ship-fleet`, or deferred with a reason? |
+| `classified` | Does every graded card name the warrant defect class it was graded under? |
+| `banked` | Did every terminal verdict reach `.warrant/ledger.jsonl` with an evidence digest? |
 | `verified-gate` | If any card was promoted past Done, do all eight preconditions hold? |
 | `suite` | Does the project's own test gate still pass? (yours, not shipped here) |
 
-`gates.py selftest` runs 23 cases over fixture ledgers and exits 0 when all pass. Each case
+`gates.py selftest` runs 33 cases over fixture ledgers and exits 0 when all pass. Each case
 was checked against a reverted gate, so a case that passes both ways is not in the set.
 
 `dispatched` is the gate that separates a finished run from a finished audit, and it is the
 one to reach for when a sweep reports success and the board has not moved. A run that handed
 108 briefs to `ship-fleet` and a run that handed over nothing produce the same ledger without
 it. Recording a deferral satisfies it: what it refuses is silence, not restraint.
+
+`classified` and `banked` are the same failure aimed at the warrant rather than the fleet.
+`warrant_column.py` reads the warrant and returns a column; nothing appends the row that
+the tier-3 entry condition counts. So a sweep can grade a whole board, consult the warrant
+correctly on every card, and leave the ladder exactly where it found it. `banked` is inert
+in a checkout with no `.warrant/`, which is the honest answer where warrant is not installed.
 
 ## Two traps that make a long run report success while doing nothing
 

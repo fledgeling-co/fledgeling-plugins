@@ -8,7 +8,13 @@ cannot fix, so nothing here reads the whole tree.
   gates.py <gate> <ledger-dir> [--verified-config PATH]
 
 Gates: covered · evidence · inconclusive-reported · ungraded-reported ·
-       briefs-written · dispatched · verified-gate · all
+       briefs-written · dispatched · classified · banked · verified-gate · all
+
+`classified` and `banked` decide whether the run FED the warrant or only consulted it.
+A sweep produced 241 machine verdicts and appended none of them, so the tier-3 entry
+condition — N items closed in a class over a window — counted zero and the ladder could
+never move however good the grading was. `warrant_column.py` returns a column and writes
+nothing; the append is a separate act, and these gates are what remembers it.
 
 `dispatched` is the one that decides whether the RUN is finished rather than whether the
 AUDIT is. Without it every gate here goes green on a sweep that graded the board and
@@ -175,6 +181,59 @@ def g_dispatched(d, _):
     disp = sum(1 for r in data["rows"] if r.get("dispatch"))
     print(f"{n} card(s) with work remaining: {disp} dispatched, {n - disp} explicitly deferred")
 
+def g_classified(d, _):
+    """Every graded card names the class whose warrant authorised the grading.
+
+    Without it the verdict is uncountable: tier 3 counts closed items per defect class,
+    and a row with no class is reported by the ratchet as unattributed rather than
+    credited. An auditor also cannot tell which policy covered the decision.
+    """
+    data = load(d)
+    graded = [r for r in data["rows"] if r["verdict"] in ("done", "needs-work", "no-change")]
+    missing = [r["key"] for r in graded if not r.get("defect_class")]
+    if missing:
+        fail(f"{len(missing)} graded card(s) name no defect class:\n  "
+             + "\n  ".join(missing)
+             + "\n\nRecord it with `board_ledger.py record --defect-class <name>`, using a "
+               "class the warrant names. An unnamed class holds tier 0 by default, so a "
+               "sweep that skips this can grade the whole board and move the ladder nothing.")
+    classes = sorted({r.get("defect_class") or "?" for r in graded})
+    print(f"{len(graded)} graded card(s) across {len(classes)} class(es): {', '.join(classes)}")
+
+
+def g_banked(d, _):
+    """Did each terminal verdict reach the warrant's ledger, with a real digest?
+
+    Inert where the repo has no `.warrant/` — stocktake runs without warrant installed and
+    falls back to refusing promotion, which is a complete answer. Where a warrant IS present,
+    a verdict that never became a ledger row is work the ladder cannot see.
+    """
+    data = load(d)
+    root = _repo_root(d)
+    if not root or not os.path.isdir(os.path.join(root, ".warrant")):
+        print("no .warrant/ in this checkout — nothing to bank against")
+        return
+    terminal = [r for r in data["rows"] if r["verdict"] in ("done", "no-change")]
+    unbanked = [r["key"] for r in terminal if not r.get("warrant_row")]
+    undigested = [r["key"] for r in terminal
+                  if r.get("warrant_row") and not r.get("evidence_digest")]
+    problems = []
+    if unbanked:
+        problems += [f"{k}: no warrant ledger row" for k in unbanked]
+    if undigested:
+        problems += [f"{k}: banked with no evidence digest — the snapshot was not taken "
+                     f"before the lane judged, so the verdict is void under warrant:panel"
+                     for k in undigested]
+    if problems:
+        fail(f"{len(problems)} verdict(s) the warrant cannot count:\n  "
+             + "\n  ".join(problems)
+             + "\n\n`warrant_column.py` decides the column and writes nothing. Append the "
+               "row yourself with warrant's `ledger.py append --class … --item … --verdict … "
+               "--tier … --evidence-digest …`, and record the index it returns with "
+               "`board_ledger.py record --warrant-row`.")
+    print(f"{len(terminal)} terminal verdict(s), each banked with a digest")
+
+
 def g_verified_gate(d, opts):
     cfg = getattr(opts, "verified_config", None)
     data = load(d)
@@ -200,6 +259,8 @@ GATES = {
     "ungraded-reported": g_ungraded_reported,
     "briefs-written": g_briefs_written,
     "dispatched": g_dispatched,
+    "classified": g_classified,
+    "banked": g_banked,
     "verified-gate": g_verified_gate,
 }
 
@@ -213,10 +274,17 @@ GATES = {
 # at a single 48KB file satisfied it. Add a case only alongside the revert that proves it.
 # --------------------------------------------------------------------------------------
 
-def _fixture(tmp, rows, briefs=None):
-    """Write a ledger dir. `briefs` maps filename -> contents, written alongside it."""
+def _fixture(tmp, rows, briefs=None, marks=()):
+    """Write a ledger dir. `briefs` maps filename -> contents, written alongside it.
+
+    `marks` creates directories that make the fixture look like a checkout — pass
+    `(".git",)` for a repo the gates can find, `(".git", ".warrant")` for one under a
+    warrant. `banked` is inert without the second, so a case testing it needs both.
+    """
     import json as _json
     os.makedirs(tmp, exist_ok=True)
+    for m in marks:
+        os.makedirs(os.path.join(tmp, m), exist_ok=True)
     for name, body in (briefs or {}).items():
         with open(os.path.join(tmp, name), "w") as f:
             f.write(body)
@@ -242,8 +310,14 @@ class _Opts:
 
 
 def _run(gate, d):
-    """Run one gate, returning (passed, output). Gates talk through stdout/stderr+exit."""
-    import io, contextlib
+    """Run one gate, returning (passed, output). Gates talk through stdout/stderr+exit.
+
+    An unexpected exception is reported as a crash rather than folded into "failed". A
+    mutation harness that reads a traceback as a caught mutation certifies the case that
+    was supposed to catch it, and one case here was passing on exactly that — a `KeyError`
+    on a ledger written before `defect_class` existed, which is also a bug the gate had.
+    """
+    import io, contextlib, traceback
     out, err = io.StringIO(), io.StringIO()
     try:
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
@@ -251,6 +325,8 @@ def _run(gate, d):
         return True, out.getvalue()
     except SystemExit as e:
         return (e.code in (None, 0)), out.getvalue() + err.getvalue()
+    except Exception:
+        return "crash", out.getvalue() + err.getvalue() + traceback.format_exc()
 
 
 # Each case: (name, gate, expected_pass, rows, briefs)
@@ -317,6 +393,32 @@ CASES = [
      [{"key": "WEB-1", "verdict": "inconclusive",
        "note": "the producer sits behind a vendor API nobody here has credentials for"}], None),
 
+    # classified — the class that makes a verdict countable
+    ("classified rejects a graded card with no class", "classified", False,
+     [{"key": "WEB-1", "verdict": "done"}], None),
+    ("classified rejects a needs-work card with no class", "classified", False,
+     [{"key": "WEB-1", "verdict": "needs-work"}], None),
+    ("classified accepts a graded card naming its class", "classified", True,
+     [{"key": "WEB-1", "verdict": "done", "defect_class": "spec-conformance"}], None),
+    ("classified does not demand a class of an ungraded card", "classified", True,
+     [{"key": "WEB-1", "verdict": "ungraded", "note": "the lane never ran"}], None),
+    ("classified does not demand a class of a needs-info card", "classified", True,
+     [{"key": "WEB-1", "verdict": "needs-info", "question": "which tenant?"}], None),
+
+    # banked — the append that feeds the tier-3 counter
+    ("banked is inert with no warrant in the checkout", "banked", True,
+     [{"key": "WEB-1", "verdict": "done"}], None, (".git",)),
+    ("banked rejects a done verdict that never reached the warrant ledger", "banked", False,
+     [{"key": "WEB-1", "verdict": "done", "defect_class": "spec-conformance"}], None,
+     (".git", ".warrant")),
+    ("banked rejects a row banked without an evidence digest", "banked", False,
+     [{"key": "WEB-1", "verdict": "done", "warrant_row": "7"}], None, (".git", ".warrant")),
+    ("banked accepts a verdict banked with a digest", "banked", True,
+     [{"key": "WEB-1", "verdict": "done", "warrant_row": "7",
+       "evidence_digest": "a" * 64}], None, (".git", ".warrant")),
+    ("banked ignores a card whose verdict is not terminal", "banked", True,
+     [{"key": "WEB-1", "verdict": "needs-work"}], None, (".git", ".warrant")),
+
     # verified-gate
     ("verified-gate is inert when nothing was promoted", "verified-gate", True,
      [{"key": "WEB-1", "verdict": "done"}], None),
@@ -328,10 +430,15 @@ def selftest():
     root = tempfile.mkdtemp(prefix="stocktake-gates-selftest-")
     failures = []
     try:
-        for i, (name, gate, want_pass, rows, briefs) in enumerate(CASES):
-            d = _fixture(os.path.join(root, f"c{i}"), rows, briefs)
+        for i, case in enumerate(CASES):
+            name, gate, want_pass, rows, briefs = case[:5]
+            marks = case[5] if len(case) > 5 else ()
+            d = _fixture(os.path.join(root, f"c{i}"), rows, briefs, marks)
             got_pass, output = _run(gate, d)
-            if got_pass != want_pass:
+            if got_pass == "crash":
+                failures.append(f"{name}\n    the gate raised instead of deciding\n    "
+                                + output.strip().replace("\n", "\n    "))
+            elif got_pass != want_pass:
                 failures.append(f"{name}\n    expected {'pass' if want_pass else 'FAIL'}, "
                                 f"got {'pass' if got_pass else 'FAIL'}\n    "
                                 + output.strip().replace("\n", "\n    "))
