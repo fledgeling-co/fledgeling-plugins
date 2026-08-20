@@ -1,0 +1,64 @@
+{
+ "claimant": "A. Person",
+ "period": "8/2025 - 9/2025",
+ "preamble": [
+  [
+   "Expense Claim Form"
+  ],
+  [
+   "Applicant Name: ",
+   "{claimant}"
+  ],
+  [],
+  [
+   "Expense Period :",
+   "{period}"
+  ],
+  []
+ ],
+ "columns": [
+  "Date",
+  "Description",
+  "Invoice No.",
+  "Amount    (excl. GST)",
+  "GST",
+  "Amount      (incl. GST)"
+ ],
+ "date_format": "%d/%m/%Y",
+ "negative": true,
+ "zero_literal": "0",
+ "total_label_col": 2,
+ "footer_blocks": [
+  [],
+  [
+   "",
+   "",
+   "",
+   "",
+   "Bank Account"
+  ],
+  [
+   "",
+   "",
+   "",
+   "",
+   "Account Name:",
+   "{claimant}"
+  ],
+  [],
+  [
+   "",
+   "",
+   "",
+   "",
+   "Applicant Signature"
+  ],
+  [
+   "",
+   "",
+   "",
+   "",
+   "Date:"
+  ]
+ ]
+}

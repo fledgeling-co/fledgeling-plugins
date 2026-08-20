@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 115">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {fill:url(#SVGID_2_);}
+.cls-2 {fill:#E65434;}
+.cls-3 {fill:#C83F27;}
+.cls-4 {fill:url(#SVGID_3_);}
+.cls-5 {fill:#292D35;}
+.cls-6 {fill:#22262B;}</style>
+  <linearGradient id="SVGID_1_" x1="57.5" x2="57.5" y1="-.25" y2="115" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FBEDDA" offset="0"/>
+    <stop stop-color="#DBBD9E" offset="1"/>
+  </linearGradient>
+  <path class="cls-0" d="m91.8 0h-68.6c-11.9 0-21.9 9.2-23.2 21v73c1.3 11.8 11.3 21.3 23.2 21.3h68.6c11.7-0.3 21.9-9.3 23.2-21.3v-73c-1.3-11.7-11.5-21-23.2-21z"/>
+  <linearGradient id="SVGID_2_" x1="57.72" x2="57.72" y1="18.58" y2="96.28" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#292D35" offset="0"/>
+    <stop stop-color="#12161A" offset="1"/>
+  </linearGradient>
+  <path class="cls-1" d="m83.4 18.6h-51.5c-7.6 0-15.1 6.4-15.1 14.4l-0.1 48.7c0 6.9 5.6 14.6 14.9 14.6h51.8c7.4 0 14.5-5.2 14.6-14.1v-49.2c0-6.7-6.4-14.4-14.6-14.4z"/>
+  <path class="cls-2" d="m79.1 29.7h-6.6c-5.2 0-10.2 4.2-10.2 9.9v35.2c0 4.7 3.9 10.7 10.2 10.7h6.6c5.4 0 10-3.7 10-10.3v-35.5c0-5.1-4.2-10-10-10z"/>
+  <path class="cls-3" d="m78.5 32.2h-5.5c-3.4 0-7.9 3.7-7.9 7.7v34c0 3.7 4.5 8.4 7.9 8.8h5.5c3.6 0 8.1-4.1 8.1-8.4v-33.5c0-3.7-4.1-8.6-8.1-8.6z"/>
+  <linearGradient id="SVGID_3_" x1="75.88" x2="75.88" y1="34.2" y2="80.36" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FEF3DF" offset="0"/>
+    <stop stop-color="#DDC2A5" offset="1"/>
+  </linearGradient>
+  <path class="cls-4" d="m78.6 34.2h-5.5c-3.1 0-5.8 2.6-5.8 5.6v34.6c0 3 2.6 5.4 5.4 5.5 2 0.1 4.4 0 6.1 0 2.8 0 5.3-2 5.3-5.1v-34.8c0-2.8-2.5-5.8-5.5-5.8z"/>
+  <path class="cls-5" d="m52 37.8h-23.9c-0.9 0-1.9 0.7-1.9 1.8v1.9c0.1 1.1 1.1 1.8 1.9 1.8h23.9c1 0.1 1.7-0.6 1.7-1.6v-2.2c0-0.7-0.7-1.7-1.7-1.7z"/>
+  <path class="cls-5" d="m52 49.3h-23.9c-0.9-0.1-1.9 0.9-1.9 1.8v1.8c0 1 0.9 1.8 1.9 1.6h23.9c1.1 0.1 1.7-0.6 1.7-1.7v-1.8c0-0.8-0.8-1.7-1.7-1.7z"/>
+  <path class="cls-5" d="m52 60.3h-24c-0.9 0-1.8 0.6-1.8 1.7v1.8c0 1.1 0.8 1.7 1.8 1.7h24c1.1 0.1 1.7-0.6 1.7-1.6v-1.9c0-0.8-0.7-1.7-1.7-1.7z"/>
+  <path class="cls-6" d="m46.2 71h-18.1c-0.9-0.1-2 0.7-2 1.8v1.6c0 0.9 0.7 1.7 1.9 1.7h18.2v-5.1z"/>
+  <path class="cls-6" d="m52 71h-5.8v5.1h5.8c1.1 0 1.7-0.7 1.7-1.6v-1.8c0-0.9-0.6-1.7-1.7-1.7z"/>
+</svg>

@@ -6,6 +6,63 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-20
 
+### code-review 1.0.0, atlas-publish 2.0.0: the release skill splits, and its review half becomes general
+
+`atlas-publish` shipped inside the Atlas repo, served over its admin MCP connector, in 99 lines. In
+those 99 lines it merged branches, decided whether a change could go out over the air or needed a
+full App Store build, archived a binary, uploaded it, exported a JavaScript bundle and registered the
+result. Every one of those steps can fail quietly, and a procedure that short has no room to say how
+you would know.
+
+The case that set the rebuild's shape is `apps/atlas-api/tests/unit/lib/ota-cert-parity.test.ts`. It
+checks the public certificate baked into the app against the private signing key held in Vercel, and
+it guards its only real comparison behind `it.runIf(!!parityKey)` with a companion asserting
+`expect(true).toBe(true)`. With `OTA_CERT_PARITY_KEY` unset the file exits 0 having compared nothing.
+That is deliberate in the test, and it keeps a key-less CI run honest. It was not deliberate in the
+release skill, which read the green and moved on. Gates now report passed, failed and not-run as
+three states, and not-run does not roll up into a pass. The skill is 231 lines with 178 non-empty,
+and draft is the last state it writes: publishing to users stays a founder action.
+
+The review half was never about Atlas. It ships as `code-review`, its own plugin, at 381 lines, 298 of them non-empty, over 4,229 lines of depth across 16 reference files opened per phase rather than carried
+on every call. Fourteen named angles, a three-verdict verify that keeps a PLAUSIBLE finding with its
+confirming step named rather than dropping it, and a coverage ledger that records what was not looked
+at. `atlas-code-review` survives as a trigger alias, so the old name still reaches it.
+
+Both are sourced. The research reports behind them are exported to `docs/deep-research/`, so every
+citation is readable without leaving the repo, and `references/evidence.md` in each maps each rule to
+the report it came from. Neither eval suite has been run, and both `EVALS.md` files open by saying so.
+
+### create-mac-icon 1.5.0, create-skill 1.3.2: the halo every icon was carrying
+
+An icon exported with transparent corners stores RGB (0,0,0) in every fully transparent pixel.
+Nothing shows it at 1:1, because alpha is 0. But a browser, a README and the site all downscale it,
+and downscaling filters RGB and alpha independently in straight alpha, so that black gets averaged
+into the silhouette's edge pixels. The fringe appears only at display size, which is why it survived
+every gate this repo has.
+
+`alpha_bleed.py` floods edge colour outward into the transparent region for 24 passes, leaves alpha
+untouched, and asserts both invariants before writing. Its offender test is neighbour-relative rather
+than an absolute darkness threshold, because `trawl`'s artwork runs near-black right up to the
+silhouette and an absolute test called correctly-bled pixels offenders three times running. 105 icon
+files across 35 plugins were dirty; all 123 shipped icons now pass `--check` at exit 0. PIL does not
+reproduce the artifact, so the proof is in the render path: one banner went from 25 pixels below
+luminance 200 to none, and its darkest edge pixel from 191.2 to 231.6.
+
+27 banners were re-rendered. Eighteen moved by 0.027 to 0.107 mean pixel difference, which is the
+fringe and nothing else. Three moved a great deal, because their sources reference artwork this
+engine will not fetch from a `file://` page, so the render had been failing quietly and every icon
+rebuild since had stopped short of the banner. `create-swe-project` had gone past stale and was
+carrying the improve-skill design outright. Six had shadows the August engine painted and this one
+does not, so each is now a seated element with a plain box-shadow whose alpha is fitted against the
+shipped banner rather than copied, landing within 0.62 luminance of it on the shadow band.
+
+Fitting them corrected two things in `render_banner.py`, whose guard had been naming the wrong fix.
+An inline SVG `feDropShadow` does not rescue a drop-shadow: the artwork renders and the shadow band
+comes out identical to no shadow at all. And box-shadow colour alpha is quantised coarsely, every
+value from 0.03 to 0.13 rendering byte-identical while 0.20 differs, so a faint shadow has to be
+tuned by blur and negative spread instead. Both are recorded in the guard's own comment with the
+date they were measured.
+
 ### mockup-fidelity: eval 9 run, and two of its assertions do not bite
 
 The first prompt in the suite to be run rather than defined. With the skill, 9 of 11 assertions;

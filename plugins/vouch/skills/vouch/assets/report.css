@@ -1,0 +1,122 @@
+/* vouch — shared report stylesheet, unbranded.
+ *
+ * Every rule carrying a comment is there because the plain version of it shipped a
+ * defect on a real run and a rendered-output review caught it. Do not simplify one
+ * away without re-running the probe that found it.
+ */
+
+:root{
+  --ink:#12151c; --ink2:#3d4353; --muted:#5b6273;
+  --line:rgba(18,21,28,.12); --line2:rgba(18,21,28,.07);
+  --bg:#fff; --soft:#f6f7fa; --raise:#fff;
+  --accent:#1c3a99;          /* 8.1:1 on --bg */
+  --accent-bright:#8fa6f0;   /* 5.8:1 on --deep — the signoff band inverts, and the */
+  --deep:#161b2c;            /* accent that passes on white fails at 1.96:1 on this */
+  --pos:#1c6b3f; --neg:#8a2020;
+  --warn:#7a4f0d;            /* 4.9:1 on --warn-soft; the 'obvious' amber measured 4.01 */
+  --warn-soft:#fdf3e2;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    --ink:#e8ebf2; --ink2:#b6bccb; --muted:#8d95a8;
+    --line:rgba(255,255,255,.14); --line2:rgba(255,255,255,.08);
+    --bg:#0f1219; --soft:#171b25; --raise:#141821;
+    --accent:#9db2f5; --deep:#0b0e16;
+    --pos:#6cc493; --neg:#e58f8f; --warn:#e5bd7a; --warn-soft:#2a2214;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:400 16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-variant-numeric:tabular-nums;   /* money columns must align down the page */
+}
+.wrap{max-width:1180px;margin:0 auto;padding:var(--s8) var(--s5) 96px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.1;letter-spacing:-.022em;margin:0 0 var(--s3)}
+h2{font-size:clamp(19px,2.2vw,23px);line-height:1.25;letter-spacing:-.012em;margin:0 0 var(--s3)}
+h3{font-size:16px;margin:0 0 var(--s2)}
+p{margin:0 0 var(--s4);max-width:72ch;color:var(--ink2)}
+.lede{font-size:clamp(17px,1.9vw,19px);color:var(--ink2);max-width:66ch}
+.meta{color:var(--muted);font-size:14px;margin:0}
+small,.small{font-size:13.5px;color:var(--muted)}
+a{color:var(--accent)}
+hr{border:0;border-top:1px solid var(--line);margin:var(--s7) 0}
+
+section{margin:var(--s8) 0 0}
+.eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin:0 0 var(--s2)}
+
+/* Cards ------------------------------------------------------------------ */
+.card{background:var(--raise);border:1px solid var(--line);border-radius:var(--r);
+  padding:var(--s5)}
+.card>:last-child{margin-bottom:0}
+/* A card holding a table must be able to scroll on its own, AND the grid track it
+ * sits in must be allowed to shrink. The first rule alone did not fix a measured
+ * 467px overflow at a 375px viewport; the track was still sizing to its content. */
+.card:has(table){overflow-x:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--s4)}
+.grid2>*{min-width:0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s4)}
+.grid3>*{min-width:0}
+
+/* Figures ---------------------------------------------------------------- */
+.fig{font-size:clamp(26px,3.4vw,34px);line-height:1.05;letter-spacing:-.02em;font-weight:600;
+  margin:0 0 var(--s1)}
+.fig-label{font-size:13px;color:var(--muted);margin:0}
+.fig-sub{font-size:13.5px;color:var(--ink2);margin:var(--s2) 0 0}
+
+/* Tables ----------------------------------------------------------------- */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+caption{text-align:left;color:var(--muted);font-size:13px;padding:0 0 var(--s3)}
+th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;padding:0 0 var(--s3);border-bottom:1px solid var(--line);
+  vertical-align:bottom}
+td{padding:var(--s3) 0;border-bottom:1px solid var(--line2);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+/* Adjacent cells need a gutter from the CELL, not from a per-column padding rule.
+ * `td.n{padding-right:0}` on two neighbouring numeric columns rendered `40A$4,125.11`. */
+th+th,td+td{padding-left:var(--s6)}
+td.n,th.n{text-align:right;white-space:nowrap}
+/* Only a NUMBER may break anywhere. The same rule on the last column chopped prose
+ * mid-word ("the l / ength") the moment a text column was appended after it. */
+td.n:last-child{word-break:break-all}
+tr.total td{border-top:2px solid var(--line);border-bottom:0;font-weight:600;
+  padding-top:var(--s4);color:var(--ink)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+/* `anywhere` breaks inside real words the moment a column is squeezed — measured at
+ * 375px, a category cell rendered "Developm / ent & / Infrastruct / ure". `break-word`
+ * breaks only a word that cannot fit on a line of its own, so the column widens, the
+ * table outgrows its card, and the card scrolls. That is the behaviour wanted: a word
+ * cut in half is worse than a table the reader has to push sideways. */
+.wrapcell{white-space:normal;word-break:normal;overflow-wrap:break-word;min-width:12ch}
+
+/* Notes and states ------------------------------------------------------- */
+.note{background:var(--soft);border-radius:var(--r);padding:var(--s5);margin:var(--s5) 0 0}
+.note>:last-child{margin-bottom:0}
+.flag{background:var(--warn-soft);color:var(--warn);border-radius:6px;padding:2px 8px;
+  font-size:12px;font-weight:600;display:inline-block;white-space:nowrap}
+.yes{color:var(--pos);font-weight:600}
+.no{color:var(--muted)}
+
+/* Sign-off band ---------------------------------------------------------- */
+.signoff{background:var(--deep);color:#f2f4fa;border-radius:var(--r);padding:var(--s7) var(--s6);
+  margin:var(--s8) 0 0}
+.signoff h2{color:#fff;margin-bottom:var(--s3)}
+.signoff p{color:#c9d0e2}
+.signoff em{font-style:normal;color:var(--accent-bright)}   /* not --accent: 1.96:1 here */
+.signoff .fig{color:#fff}
+
+@media print{
+  body{background:#fff;color:#000}
+  .wrap{max-width:none;padding:0}
+  .card,.note{border:1px solid #ccc;break-inside:avoid}
+  .signoff{background:#f2f2f2;color:#000}
+  .signoff h2,.signoff .fig{color:#000}
+  .signoff em{color:#000;font-weight:600}
+  section{break-inside:auto}
+  tr{break-inside:avoid}
+}

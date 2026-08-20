@@ -1,0 +1,9 @@
+{
+ "claimant": "A. Person",
+ "period_label": "4 August 2025 and 30 September 2025",
+ "currency": "A$",
+ "tax_name": "GST",
+ "tax_rate": 0.1,
+ "approver_role": "the approver",
+ "prepared": "1 October 2025"
+}

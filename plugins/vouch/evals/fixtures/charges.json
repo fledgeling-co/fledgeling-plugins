@@ -1,0 +1,14 @@
+[
+ {
+  "date": "2025-08-04",
+  "desc": "Northwind top-up",
+  "local": 44.0,
+  "foreign": 20.0
+ },
+ {
+  "date": "2025-08-08",
+  "desc": "Northwind top-up",
+  "local": 44.0,
+  "foreign": 20.0
+ }
+]

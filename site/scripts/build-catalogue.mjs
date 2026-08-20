@@ -87,6 +87,9 @@ const GROUP_OF = {
   "armada-sync": "orchestration",
   "anvil-errand": "orchestration",
   "mac-doctor": "machine",
+  vouch: "research",
+  "atlas-publish": "orchestration",
+  "code-review": "making",
 };
 
 const UNCATEGORISED = {

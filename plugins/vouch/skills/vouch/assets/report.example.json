@@ -1,0 +1,17 @@
+{
+  "$comment": "Report configuration. Unbranded by default: nothing here names an employer, and the reports carry no logo. `tax_name` and `currency` are the two fields that make this work outside one jurisdiction. `classification` is optional; omit it and both reports drop the column and the basis table with no other change.",
+  "claimant": "A. Person",
+  "period_label": "7 August 2025 and 30 June 2026",
+  "currency": "A$",
+  "tax_name": "GST",
+  "tax_rate": 0.10,
+  "approver_role": "the CEO",
+  "classification": {
+    "name": "R&D",
+    "basis_table": true,
+    "caveat": "There is no vendor whitelist: every TRUE is a default position on the face of the expense, and each still has to be apportioned against the company's own share before it becomes a deduction."
+  },
+  "closing_notes": [
+    "Notional deductions are stated excluding tax, so the ex-tax column is the one to work from."
+  ]
+}
