@@ -1,7 +1,7 @@
 {
   "name": "create-mac-icon",
   "description": "macOS app icon creation with a measured fidelity loop: direction catalogue from a 532-icon corpus, three generation engines (hand-authored layered SVG, Arrow vector, corpus-referenced raster), a written audit.html contact sheet, and a multi-scale scoring harness that iterates the SVG master against the winning raster reference until the material matches.",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

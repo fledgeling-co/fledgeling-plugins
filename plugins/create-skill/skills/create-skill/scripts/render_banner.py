@@ -340,11 +340,23 @@ async def render(src: Path, out: Path, width: int, height: int, scale: int,
 # the slow way. Refusing here is deliberate, and it refuses at re-render time
 # rather than in any gate: a banner already shipped stays shipped, and the defect
 # gets fixed by whoever next opens that source.
+#
+# Two more measurements, 2026-08-20, from rebuilding six of those banners:
+#
+#   feDropShadow does NOT rescue a drop-shadow. An <image> under an inline SVG
+#   filter renders the artwork correctly and the shadow band comes out identical
+#   to no shadow at all. The advice above used to name it; it was wrong.
+#
+#   box-shadow colour alpha is quantised coarsely. Every value from 0.03 to 0.13
+#   rendered byte-identical on a fixture; 0.20 differed. So a faint shadow cannot
+#   be dialled by alpha below about 0.15 -- tune it with blur and a negative
+#   spread instead, and measure rather than assuming the number took.
 INERT_CSS = (
     (re.compile(r"filter\s*:[^;{}]*\bdrop-shadow\s*\(", re.I),
      "filter: drop-shadow()",
-     "put a box-shadow on a backing box behind the element, or draw the shadow "
-     "in inline SVG with feDropShadow, which does render"),
+     "seat the element on a backing box and put a plain box-shadow on that. Fit "
+     "the alpha rather than copying it: box-shadow spreads about twice the ink of "
+     "drop-shadow at the same blur, so roughly half the original alpha matches"),
     (re.compile(r"box-shadow\s*:[^;{}]*\binset\b", re.I),
      "inset box-shadow",
      "draw the rim or seat as its own absolutely positioned element, or as an "
