@@ -1,0 +1,16 @@
+{
+  "banner": "banner.png",
+  "banner_mtime": 1787232010.2835689,
+  "icon_sha": "1d6e2805f045e8dad2c9775cd9de724f86073ac8333efcc4c19f456c79b41202",
+  "source_size": [
+    3200,
+    840
+  ],
+  "displays": {
+    "display-1600": "display-1600.png",
+    "display-900": "display-900.png",
+    "display-400": "display-400.png",
+    "display-200": "display-200.png",
+    "crop-lockup": "crop-lockup.png"
+  }
+}
