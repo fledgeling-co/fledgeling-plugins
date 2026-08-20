@@ -19,7 +19,13 @@ indistinguishable from a finished one three hours later.
 import argparse, json, os, sys
 from datetime import datetime, timezone
 
-VERDICTS = {"done", "needs-work", "needs-info", "inconclusive", "blocked", "no-change"}
+# `ungraded` is not a weaker `needs-work`. It means steps 1-6 were never run on the card
+# — no requirement list, no producer trace, no out-of-family grade — so the card is not
+# evidence of a defect and must not be dispatched to a fixer. It goes back to grading.
+# Kept separate because rolling it into needs-work is how 30 unexamined cards read as 30
+# defects in a sweep report.
+VERDICTS = {"done", "needs-work", "needs-info", "inconclusive", "blocked", "no-change",
+            "ungraded"}
 WORK_AT = {"merged", "unmerged-branch", "unpushed", "worktree", "absent", "unknown"}
 LEDGER = "board-triage-ledger.json"
 
@@ -74,6 +80,7 @@ def cmd_add(a):
         "verdict": None, "lane": None, "sha": None, "landed": None,
         "requirements": None, "work_at": None, "brief": None,
         "question": None, "note": None, "finished": None,
+        "dispatch": None, "deferred": None,
     })
     save(a.dir, data)
     print(f"added {a.key}")
@@ -109,9 +116,12 @@ def cmd_record(a):
         sys.exit("an `inconclusive` row needs --note saying what could not be gathered")
     if a.verdict == "needs-work" and not a.brief:
         sys.exit("a `needs-work` row needs --brief pointing at the features-to-triage file")
+    if a.verdict == "ungraded" and not a.note:
+        sys.exit("an `ungraded` row needs --note saying which of steps 1-6 were not run "
+                 "and why, so it is never mistaken for a graded defect")
 
     for k in ("verdict", "lane", "sha", "landed", "requirements", "work_at",
-              "brief", "question", "note"):
+              "brief", "question", "note", "dispatch", "deferred"):
         v = getattr(a, k if k != "work_at" else "work_at")
         if v is not None:
             row[k] = v
@@ -159,7 +169,12 @@ def main():
     r.add_argument("--verdict", required=True); r.add_argument("--lane"); r.add_argument("--sha")
     r.add_argument("--landed"); r.add_argument("--requirements", type=int)
     r.add_argument("--work-at", dest="work_at"); r.add_argument("--brief")
-    r.add_argument("--question"); r.add_argument("--note"); r.set_defaults(fn=cmd_record)
+    r.add_argument("--question"); r.add_argument("--note")
+    r.add_argument("--dispatch", help="where this card's work went: a ship-fleet run id, "
+                                      "branch or PR. Satisfies the `dispatched` gate.")
+    r.add_argument("--deferred", help="why this card's work is NOT being dispatched now. "
+                                      "Also satisfies `dispatched` — silence does not.")
+    r.set_defaults(fn=cmd_record)
 
     s = sub.add_parser("status"); s.add_argument("dir"); s.add_argument("--json", action="store_true")
     s.set_defaults(fn=cmd_status)

@@ -7,7 +7,13 @@ cannot fix, so nothing here reads the whole tree.
 
   gates.py <gate> <ledger-dir> [--verified-config PATH]
 
-Gates: covered · evidence · inconclusive-reported · briefs-written · verified-gate · all
+Gates: covered · evidence · inconclusive-reported · ungraded-reported ·
+       briefs-written · dispatched · verified-gate · all
+
+`dispatched` is the one that decides whether the RUN is finished rather than whether the
+AUDIT is. Without it every gate here goes green on a sweep that graded the board and
+dispatched none of it, because a run that handed 108 cards to ship-fleet and a run that
+handed over nothing produce identical output. That happened, which is why it exists.
 """
 import argparse, json, os, subprocess, sys
 
@@ -17,6 +23,27 @@ def load(d):
         fail(f"no ledger at {p} — the sweep has not started")
     with open(p) as f:
         return json.load(f)
+
+def _repo_root(d):
+    """Walk up from the ledger dir to the checkout it sits in."""
+    cur = os.path.abspath(d)
+    while cur != os.path.dirname(cur):
+        if os.path.exists(os.path.join(cur, ".git")):
+            return cur
+        cur = os.path.dirname(cur)
+    return None
+
+def resolve_brief(d, b):
+    """Briefs are recorded repo-relative, so a bare exists() answers a question about
+    the CWD rather than about the brief. Try the path as given, then against the ledger
+    dir, then against the checkout — and report not-found only when all three miss."""
+    if os.path.isabs(b):
+        return b if os.path.exists(b) else None
+    root = _repo_root(d)
+    for cand in (b, os.path.join(d, b), os.path.join(root, b) if root else None):
+        if cand and os.path.exists(cand):
+            return cand
+    return None
 
 def fail(msg):
     print(msg, file=sys.stderr)
@@ -43,6 +70,9 @@ def g_evidence(d, _):
             bad.append(f"{r['key']}: inconclusive without a reason")
         if v == "needs-work" and not r.get("brief"):
             bad.append(f"{r['key']}: needs-work without a brief")
+        if v == "ungraded" and not r.get("note"):
+            bad.append(f"{r['key']}: ungraded without a note saying which steps were "
+                       f"not run — it would read as a graded defect")
         if v and r.get("work_at") is None:
             bad.append(f"{r['key']}: no work-at — where the work lives was never established")
     if bad:
@@ -60,21 +90,93 @@ def g_inconclusive_reported(d, _):
     print(f"{len(inc)} inconclusive row(s), each with a reason"
           + (" — these BLOCK promotion" if inc else ""))
 
-def g_briefs_written(d, _):
-    data = load(d)
-    missing = []
-    for r in data["rows"]:
-        if r["verdict"] == "needs-work":
-            b = r.get("brief") or ""
-            if not b or not os.path.exists(b):
-                missing.append(f"{r['key']}: brief {b!r} does not exist on disk")
-    if missing:
-        fail(f"{len(missing)} card(s) need work and have no brief to hand to ship-fleet:\n  "
-             + "\n  ".join(missing))
-    n = sum(1 for r in data["rows"] if r["verdict"] == "needs-work")
-    print(f"{n} card(s) with work remaining, each with a brief on disk")
+def g_briefs_written(d, opts):
+    """A brief has to be dispatchable, not merely present.
 
-def g_verified_gate(d, cfg):
+    The previous version asserted two things: the row carries a brief string, and that
+    path exists. Both held for a sweep whose 57 cards all pointed at one 48KB file — and
+    ship-fleet fans out per brief, so that is one work item covering 57 cards rather than
+    57 items. The gate read as coverage and guaranteed nothing.
+    """
+    data = load(d)
+    cap = getattr(opts, "max_cards_per_brief", None) or 3
+    missing, unnamed = [], []
+    per_brief = {}
+    for r in data["rows"]:
+        if r["verdict"] != "needs-work":
+            continue
+        b = r.get("brief") or ""
+        real = resolve_brief(d, b) if b else None
+        if not real:
+            missing.append(f"{r['key']}: brief {b!r} is not on disk, under the ledger "
+                           f"dir, or under the checkout")
+            continue
+        per_brief.setdefault(b, []).append(r["key"])
+        try:
+            if r["key"] not in open(real, encoding="utf-8", errors="replace").read():
+                unnamed.append(f"{r['key']}: {b} never names this card")
+        except OSError as e:
+            missing.append(f"{r['key']}: {b} could not be read ({e})")
+    crowded = {b: ks for b, ks in per_brief.items() if len(ks) > cap}
+    problems = missing + unnamed
+    if crowded:
+        problems += [f"{b}: serves {len(ks)} cards, over the {cap}-card cap — ship-fleet "
+                     f"fans out per brief, so this is one work item, not {len(ks)}"
+                     for b, ks in sorted(crowded.items())]
+    if problems:
+        fail(f"{len(problems)} brief problem(s) — these are not dispatchable:\n  "
+             + "\n  ".join(problems))
+    n = sum(1 for r in data["rows"] if r["verdict"] == "needs-work")
+    print(f"{n} card(s) with work remaining, each with a brief that names it "
+          f"and serves at most {cap} card(s)")
+
+
+def g_ungraded_reported(d, _):
+    """Cards the method was never run on, counted out loud.
+
+    Reported rather than failed: a card whose corroboration does not execute is a real
+    finding. What it must never do is sit inside the needs-work count, where it reads as
+    a defect somebody could go and fix.
+    """
+    data = load(d)
+    ung = [r for r in data["rows"] if r["verdict"] == "ungraded"]
+    thin = [r["key"] for r in ung if len((r.get("note") or "")) < 30]
+    if thin:
+        fail("an ungraded row must say which of steps 1-6 were not run and why:\n  "
+             + "\n  ".join(thin))
+    print(f"{len(ung)} card(s) were never graded"
+          + (" — these are NOT defects and must not be dispatched as work" if ung else ""))
+
+
+def g_dispatched(d, _):
+    """Was the work handed over, or explicitly not?
+
+    Step 9 is two acts: write the briefs, then hand the directory to ship-fleet. Every
+    other gate here measures the first. This one measures the second, because the skill's
+    purpose runs one step past its documentation and a sweep can otherwise report success
+    having dispatched nothing.
+
+    It does NOT require the fleet to have finished. Dispatching writes code across
+    branches and is the user's call, so a recorded deferral satisfies it just as well as a
+    run id. What it refuses is silence.
+    """
+    data = load(d)
+    undecided = [r["key"] for r in data["rows"]
+                 if r["verdict"] == "needs-work"
+                 and not (r.get("dispatch") or r.get("deferred"))]
+    if undecided:
+        fail(f"{len(undecided)} card(s) have work to do and no record of it being "
+             f"dispatched or deferred:\n  " + "\n  ".join(undecided)
+             + "\n\nRecord where each went with `board_ledger.py record --dispatch <run/"
+               "branch/PR>`, or why it is waiting with `--deferred <reason>`. Handing the "
+               "briefs to ship-fleet is step 9's second half; an audit that stops before "
+               "it has documented the work rather than moved it.")
+    n = sum(1 for r in data["rows"] if r["verdict"] == "needs-work")
+    disp = sum(1 for r in data["rows"] if r.get("dispatch"))
+    print(f"{n} card(s) with work remaining: {disp} dispatched, {n - disp} explicitly deferred")
+
+def g_verified_gate(d, opts):
+    cfg = getattr(opts, "verified_config", None)
     data = load(d)
     promoted = [r["key"] for r in data["rows"]
                 if (r.get("landed") or "").strip().lower() == "verified"]
@@ -95,21 +197,170 @@ GATES = {
     "covered": g_covered,
     "evidence": g_evidence,
     "inconclusive-reported": g_inconclusive_reported,
+    "ungraded-reported": g_ungraded_reported,
     "briefs-written": g_briefs_written,
+    "dispatched": g_dispatched,
     "verified-gate": g_verified_gate,
 }
+
+
+# --------------------------------------------------------------------------------------
+# Selftest
+#
+# Every case here has been checked to FAIL when the gate it exercises is reverted. A gate
+# case that passes both with and against its own logic measures nothing, and this file
+# shipped one for months: `briefs-written` asserted a path existed, so 57 cards pointing
+# at a single 48KB file satisfied it. Add a case only alongside the revert that proves it.
+# --------------------------------------------------------------------------------------
+
+def _fixture(tmp, rows, briefs=None):
+    """Write a ledger dir. `briefs` maps filename -> contents, written alongside it."""
+    import json as _json
+    os.makedirs(tmp, exist_ok=True)
+    for name, body in (briefs or {}).items():
+        with open(os.path.join(tmp, name), "w") as f:
+            f.write(body)
+    full = []
+    for r in rows:
+        row = {"key": r.get("key", "WEB-1"), "title": "", "column_at_intake": "Todo",
+               "verdict": None, "lane": None, "sha": None, "landed": None,
+               "requirements": None, "work_at": None, "brief": None,
+               "question": None, "note": None, "finished": None,
+               "dispatch": None, "deferred": None}
+        row.update(r)
+        if row.get("brief"):
+            row["brief"] = os.path.join(tmp, row["brief"])
+        full.append(row)
+    with open(os.path.join(tmp, "board-triage-ledger.json"), "w") as f:
+        _json.dump({"started": "", "columns_in_scope": [], "role_map": {}, "rows": full}, f)
+    return tmp
+
+
+class _Opts:
+    verified_config = None
+    max_cards_per_brief = 3
+
+
+def _run(gate, d):
+    """Run one gate, returning (passed, output). Gates talk through stdout/stderr+exit."""
+    import io, contextlib
+    out, err = io.StringIO(), io.StringIO()
+    try:
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            GATES[gate](d, _Opts())
+        return True, out.getvalue()
+    except SystemExit as e:
+        return (e.code in (None, 0)), out.getvalue() + err.getvalue()
+
+
+# Each case: (name, gate, expected_pass, rows, briefs)
+_A_BRIEF = "WEB-1 — the card this brief is for.\nWhat is missing: the producer."
+CASES = [
+    # covered
+    ("covered rejects a pending row", "covered", False,
+     [{"key": "WEB-1", "verdict": "done"}, {"key": "WEB-2", "verdict": None}], None),
+    ("covered accepts a fully graded board", "covered", True,
+     [{"key": "WEB-1", "verdict": "done"}], None),
+
+    # evidence
+    ("evidence rejects done without a lane", "evidence", False,
+     [{"key": "WEB-1", "verdict": "done", "sha": "abc", "work_at": "merged"}], None),
+    ("evidence rejects done without a sha", "evidence", False,
+     [{"key": "WEB-1", "verdict": "done", "lane": "grok", "work_at": "merged"}], None),
+    ("evidence rejects needs-info without a question", "evidence", False,
+     [{"key": "WEB-1", "verdict": "needs-info", "work_at": "not built"}], None),
+    ("evidence rejects needs-work without a brief", "evidence", False,
+     [{"key": "WEB-1", "verdict": "needs-work", "work_at": "merged"}], None),
+    ("evidence rejects a verdict with no work-at", "evidence", False,
+     [{"key": "WEB-1", "verdict": "done", "lane": "grok", "sha": "abc"}], None),
+    ("evidence rejects ungraded without a note", "evidence", False,
+     [{"key": "WEB-1", "verdict": "ungraded", "work_at": "merged"}], None),
+    ("evidence accepts a complete row", "evidence", True,
+     [{"key": "WEB-1", "verdict": "done", "lane": "grok", "sha": "abc",
+       "work_at": "merged"}], None),
+
+    # ungraded-reported — the verdict that must never read as a defect
+    ("ungraded-reported rejects a thin note", "ungraded-reported", False,
+     [{"key": "WEB-1", "verdict": "ungraded", "note": "skipped"}], None),
+    ("ungraded-reported accepts a note that says what was not run", "ungraded-reported", True,
+     [{"key": "WEB-1", "verdict": "ungraded",
+       "note": "steps 3-5 not run: the lane was out of credits for the whole window"}], None),
+
+    # briefs-written — three distinct ways a brief is not dispatchable
+    ("briefs-written rejects a brief that is not on disk", "briefs-written", False,
+     [{"key": "WEB-1", "verdict": "needs-work", "brief": "gone.md"}], {}),
+    ("briefs-written rejects a brief that never names the card", "briefs-written", False,
+     [{"key": "WEB-9", "verdict": "needs-work", "brief": "b.md"}], {"b.md": _A_BRIEF}),
+    ("briefs-written rejects one brief serving more cards than the cap", "briefs-written", False,
+     [{"key": f"WEB-{i}", "verdict": "needs-work", "brief": "all.md"} for i in range(1, 6)],
+     {"all.md": "".join(f"WEB-{i} " for i in range(1, 6))}),
+    ("briefs-written accepts one brief per card", "briefs-written", True,
+     [{"key": "WEB-1", "verdict": "needs-work", "brief": "b.md"}], {"b.md": _A_BRIEF}),
+
+    # dispatched — the gate the whole hardening exists for
+    ("dispatched rejects work that was never handed anywhere", "dispatched", False,
+     [{"key": "WEB-1", "verdict": "needs-work", "brief": "b.md"}], {"b.md": _A_BRIEF}),
+    ("dispatched accepts work handed to a fleet run", "dispatched", True,
+     [{"key": "WEB-1", "verdict": "needs-work", "dispatch": "ship-fleet run 2026-08-20-a"}], None),
+    ("dispatched accepts work explicitly deferred with a reason", "dispatched", True,
+     [{"key": "WEB-1", "verdict": "needs-work",
+       "deferred": "owner wants the security cards first"}], None),
+    ("dispatched ignores cards with no work to do", "dispatched", True,
+     [{"key": "WEB-1", "verdict": "done"}, {"key": "WEB-2", "verdict": "no-change"}], None),
+    ("dispatched does not demand dispatch for an ungraded card", "dispatched", True,
+     [{"key": "WEB-1", "verdict": "ungraded", "note": "the lane never ran on this one"}], None),
+
+    # inconclusive-reported
+    ("inconclusive-reported rejects a thin reason", "inconclusive-reported", False,
+     [{"key": "WEB-1", "verdict": "inconclusive", "note": "unclear"}], None),
+    ("inconclusive-reported accepts a reason with substance", "inconclusive-reported", True,
+     [{"key": "WEB-1", "verdict": "inconclusive",
+       "note": "the producer sits behind a vendor API nobody here has credentials for"}], None),
+
+    # verified-gate
+    ("verified-gate is inert when nothing was promoted", "verified-gate", True,
+     [{"key": "WEB-1", "verdict": "done"}], None),
+]
+
+
+def selftest():
+    import shutil, tempfile
+    root = tempfile.mkdtemp(prefix="stocktake-gates-selftest-")
+    failures = []
+    try:
+        for i, (name, gate, want_pass, rows, briefs) in enumerate(CASES):
+            d = _fixture(os.path.join(root, f"c{i}"), rows, briefs)
+            got_pass, output = _run(gate, d)
+            if got_pass != want_pass:
+                failures.append(f"{name}\n    expected {'pass' if want_pass else 'FAIL'}, "
+                                f"got {'pass' if got_pass else 'FAIL'}\n    "
+                                + output.strip().replace("\n", "\n    "))
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+    for f in failures:
+        print("  x " + f)
+    print(f"{len(CASES)} cases, {len(failures)} failure(s)")
+    return 1 if failures else 0
+
 
 def main():
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("gate", choices=list(GATES) + ["all"])
-    p.add_argument("dir")
+    p.add_argument("gate", choices=list(GATES) + ["all", "selftest"], nargs="?")
+    p.add_argument("dir", nargs="?")
     p.add_argument("--verified-config")
+    p.add_argument("--max-cards-per-brief", type=int, default=3,
+                   help="how many cards one brief may serve before it stops being a "
+                        "dispatchable unit (default 3)")
     a = p.parse_args()
+    if a.gate == "selftest":
+        sys.exit(selftest())
+    if not a.gate or not a.dir:
+        p.error("both a gate and a ledger directory are needed (or `selftest`)")
     names = list(GATES) if a.gate == "all" else [a.gate]
     for n in names:
         print(f"--- {n}")
-        GATES[n](a.dir, a.verified_config)
+        GATES[n](a.dir, a)
 
 if __name__ == "__main__":
     main()
