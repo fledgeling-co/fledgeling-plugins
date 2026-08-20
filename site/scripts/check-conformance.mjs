@@ -116,6 +116,10 @@ const DEBT = [
     }),
   ),
   {
+    plugin: "test-campaign", dimension: "skill", since: "2026-08-20",
+    why: "704 lines against the 500-line ceiling, held on the same referral as the 2026-08-19 entries above rather than on a preference. Inspected against that rule: lines 61-500 are one ordered campaign procedure, and everything after it is gates (What counts as done), refusals (Standing rules) and the manifests of its 13 references, 8 scripts and assets. That is the category the referral says stays inline, and the depth that could move has already moved, since references/ carries 13 files. Splitting it would convert the campaign's ordered steps into a reference the runner may or may not open. Revisit by capping non-procedural inline material rather than total lines.",
+  },
+  {
     plugin: "geminify", dimension: "banner", since: "2026-08-18",
     why: "Sets its wordmark in Rockwell, a local face, on purpose. Its assets/build_banner.py records the reason: it renders through rsvg, which resolves system fonts and ignores webfonts, the reverse of the browser here. Unlike the other two the web-font check catches, it ships assert_font_resolves() and a dotless-i comparison, so a missing Rockwell fails loudly instead of silently substituting. Machine-dependent with a guard is a different thing from machine-dependent by accident.",
   },
@@ -422,7 +426,10 @@ for (const name of dirs) {
   if (!skillPath) {
     fail(name, "skill", `no skills/${name}/SKILL.md.`);
   } else {
-    const lines = readFileSync(skillPath, "utf8").split("\n").length;
+    // A newline-terminated file ends with an empty final element, which is a line
+    // terminator rather than a line. Counting it reported a 500-line SKILL.md as 501
+    // and failed a file that sat exactly on the ceiling.
+    const lines = readFileSync(skillPath, "utf8").replace(/\n$/, "").split("\n").length;
     if (lines > SKILL_MAX_LINES) {
       fail(name, "skill", `${skillPath.replace(`${REPO_DIR}/`, "")} is ${lines} lines against a ${SKILL_MAX_LINES}-line ceiling. Push depth into references/ rather than trimming substance.`);
     }
