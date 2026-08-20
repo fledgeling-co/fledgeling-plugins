@@ -68,7 +68,13 @@ S=<this-skill-dir>/scripts
 python3 $S/board_ledger.py init <dir> --columns "Needs More Work,Todo,Developer Review"
 python3 $S/board_ledger.py next <dir>          # the next unfinished card
 python3 $S/board_ledger.py record <dir> --key WEB-1234 --verdict … --note …
+python3 $S/board_ledger.py record <dir> --key WEB-1234 --dispatch "ship-fleet <run-id>"
 ```
+
+`--verdict ungraded` is the row for a card the method never ran on — a lane that stayed down,
+a packet that never returned. It takes a `--note` naming which of steps 1-6 were skipped, and
+it sits outside the needs-work count, where it would otherwise read as a defect someone could
+go and fix. A card nobody graded and a card graded as broken are different findings.
 
 ### 1 · Read the card, whole
 
@@ -195,8 +201,19 @@ Cards with work remaining get one brief each in `docs/features-to-triage/`, writ
 is built, what is missing with `file:line`, where the work sits, what the tests do and
 do not cover, and the blocked items separated out with their owners named.
 
+Write one brief per card. `ship-fleet` fans out per brief, so a file serving twelve cards is
+one work item rather than twelve — `gates.py briefs-written` holds the ratio at 3 cards per
+brief and reads each file for the card key it claims to cover.
+
 Then hand the directory to `ship-fleet`, which fans the briefs out and returns each
-card to this skill's own gates to decide where it lands.
+card to this skill's own gates to decide where it lands. Record where each card went with
+`board_ledger.py record --dispatch <run-id>`, or why it is waiting with `--deferred <reason>`;
+`gates.py dispatched` reads those fields and fails on a card carrying neither.
+
+This second half is what the run is for, and it is the half a sweep skips. Every other gate
+here measures the audit, so a run that graded 241 cards and dispatched none of them passes
+them all. Dispatching writes code across branches, so a recorded deferral is a complete answer
+where the owner wants to schedule the work themselves.
 
 ---
 

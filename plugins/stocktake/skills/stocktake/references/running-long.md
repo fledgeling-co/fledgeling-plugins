@@ -22,10 +22,20 @@ The gate set, each judged on exit code — `scripts/gates.py <gate> <ledger-dir>
 |---|---|
 | `covered` | Does every card in scope have a ledger row? |
 | `evidence` | Does every row carry what backs it — a sha, a lane, a verdict word, or a question? |
-| `no-inconclusive-unreported` | Is every inconclusive row's reason recorded? |
+| `inconclusive-reported` | Is every inconclusive row's reason recorded, in 30 characters or more? |
+| `ungraded-reported` | Does every card the method never ran on say which of steps 1-6 were skipped? |
+| `briefs-written` | Does every card with work remaining have a brief that names it and serves at most 3 cards? |
+| `dispatched` | Was each card with work remaining handed to `ship-fleet`, or deferred with a reason? |
 | `verified-gate` | If any card was promoted past Done, do all eight preconditions hold? |
-| `briefs-written` | Does every card with work remaining have a brief in features-to-triage? |
 | `suite` | Does the project's own test gate still pass? (yours, not shipped here) |
+
+`gates.py selftest` runs 23 cases over fixture ledgers and exits 0 when all pass. Each case
+was checked against a reverted gate, so a case that passes both ways is not in the set.
+
+`dispatched` is the gate that separates a finished run from a finished audit, and it is the
+one to reach for when a sweep reports success and the board has not moved. A run that handed
+108 briefs to `ship-fleet` and a run that handed over nothing produce the same ledger without
+it. Recording a deferral satisfies it: what it refuses is silence, not restraint.
 
 ## Two traps that make a long run report success while doing nothing
 
