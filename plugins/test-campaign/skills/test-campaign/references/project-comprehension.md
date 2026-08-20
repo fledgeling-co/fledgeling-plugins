@@ -70,10 +70,23 @@ Record every requirement with its evidence class:
   another. This is a finding before any test is written.
 - **Unknown** — you cannot tell from here. Named in the campaign's `laneLimits`,
   never guessed into a status.
+- **Vacuous** — the guarantee holds only because the capability it constrains
+  never runs. `G(communication → outbound_443)` is true in a product that never
+  communicates. Carries the constrained capability and the reason it does not
+  execute. This one holds the gate; `references/effect-boundary.md` is why.
 
 A roadmap that says a feature shipped, a flag that has it switched off, and a
 screen that renders its empty state are three facts, and only the last is what a
 user meets.
+
+`vacuous` and `contradicted` are different findings with opposite remedies.
+Contradicted means the document and the product disagree about something the
+product does. Vacuous means the product does not do it at all, so the constraint
+has nothing to be true or false about. One campaign recorded *"runner
+communication is outbound pull only via HTTPS/WSS on TCP 443"* as `observed` over
+a product with no HTTP client in its dependency tree, and 220 mutation-armed cases
+could not see it: arming mutates the system, and vacuity is only visible by
+mutating the specification.
 
 ---
 
@@ -110,6 +123,26 @@ Four classes earn their own handling, because each is tested differently:
 Every case in the registry carries the `req` it serves. A requirement with no case
 is a gap the ledger shows; a case with no requirement is either an emergent sweep
 finding (fine, and marked as such) or trivia the plan should not have contained.
+
+### The effect census, while you are here
+
+Every requirement classed **affordance** or **behaviour** whose text names an
+effect outside the product's own process also carries an `effect` field, from this
+closed list:
+
+```
+subprocess · outbound-socket · inbound-socket · packet-filter · multicast
+filesystem-write · device · ipc · none
+```
+
+That mapping is one judgement call per requirement and it is the only judgement in
+the whole check. What follows is mechanical: for each declared class, a provider
+must exist in the production dependency graph and be reachable from a shipped
+entry point. A requirement whose declared class has no provider is `contradicted`
+here, before any test exists — which is cheaper than every other way of finding
+it, and is what `campaign.py check` reads to decide whether an external-effect
+claim is backed. Sweep M runs it; `references/effect-boundary.md` §3 has the
+commands.
 
 ---
 

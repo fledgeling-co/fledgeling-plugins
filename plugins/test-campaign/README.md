@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that reads what your project claims to do, tests it across the states and viewports and roles nobody gets to, and leaves one browsable page where the gaps are as visible as the passes.</p>
 
 <p align="center">
-  <img alt="Version 0.6.0" src="https://img.shields.io/badge/version-0.6.0-D33C21">
+  <img alt="Version 0.9.0" src="https://img.shields.io/badge/version-0.9.0-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="Lanes: web, RN, iOS, macOS, Windows, Linux" src="https://img.shields.io/badge/lanes-web_·_RN_·_iOS_·_macOS_·_Windows_·_Linux-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -36,7 +36,7 @@ So this skill is built around making the sample say itself out loud, around prov
 
 **It states the correctness space, then declares its sample.** Surface, state, viewport, theme, role, locale, data shape, input modality, network, and which oracle. Pairwise across the lot as a floor, higher strength on the clusters that actually interact. Sampling is unavoidable; sampling in silence is the bit that hurts.
 
-**It sweeps for what no requirement named.** State matrix, fault injection, interaction integrity, keyboard and the accessibility floor, data-shape stress, security surface, multi-user, refusal honesty, metamorphic relations, freshness. Then, for anything with a real window, desktop shell invariants (display scaling, window size limits, popover anchoring, a theme toggled while the app runs, occlusion), and for anything that's more than one process, live IPC chaos: kill the peer, restart it, check the client degrades honestly instead of showing stale telemetry as current. Every sweep prints `examined=41 failures=0`, because `failures=0` on its own is a claim rather than a result.
+**It sweeps for what no requirement named.** State matrix, fault injection, interaction integrity, keyboard and the accessibility floor, data-shape stress, security surface, multi-user, refusal honesty, metamorphic relations, freshness, and whether the product acts outside itself at all. Then, for anything with a real window, desktop shell invariants (display scaling, window size limits, popover anchoring, a theme toggled while the app runs, occlusion), and for anything that's more than one process, live IPC chaos: kill the peer, restart it, check the client degrades honestly instead of showing stale telemetry as current. Every sweep prints `examined=41 failures=0`, because `failures=0` on its own is a claim rather than a result.
 
 **It measures the build against its design of record.** Structure, resolved style (longhands only), the vocabulary each screen uses, and quantised box geometry. Not pixels; rendering noise buries the signal, so a pixel diff gets treated as a tripwire and never as a verdict. This is the only phase that can see a control the design specifies and the build simply doesn't have.
 
@@ -53,6 +53,7 @@ Every case declares which rung of oracle it stands on:
 | `structural-visual` | the labels and hierarchy tokens a render would use exist |
 | `outcome` | the promised effect, so data rendered or a record written |
 | `metamorphic` | a relation across runs, so undo restores or the count tracks the store |
+| `effect-witness` | an effect outside the process, seen by a recorder the product doesn't control |
 | `raster-visual` | pixels captured off a display server, against a reference |
 | `interactive-glass` | a click, key, or gesture on a live window, then the on-glass state it caused |
 
@@ -87,6 +88,20 @@ The fix is borrowed wholesale from `warrant`'s oracle plane, which had already s
 That last one ratchets rather than blocks. The other three fail the gate, and the whole ladder is itself watched to fail: `--seed-swap` swaps two subjects and asserts the gate goes red, because a tie check that can't be seen failing is indistinguishable from one that reads nothing.
 
 Worth saying why none of the four asks a model. Run `be-my-witness`'s prescan against the worst capture in that campaign and it returns *is evidence: true, settled: true*, exit 0 — a real, contentful, settled image of entirely the wrong document. Image statistics can't answer the subject question and frontier vision tops out near 40% recall on fine-grained UI diffs. Provenance answers it. Nothing else does.
+
+## And it asks whether the product does the thing at all
+
+Every gate so far assumes the product acts and asks whether the suite watched it. There's a prior question, and until 0.9.0 nothing here asked it.
+
+A campaign closed 230 cases over a CI runner built around zero-trust network isolation, armed 220 of them, cleared every gate this skill had, and recorded "runner communication is outbound pull only over HTTPS/WSS on TCP 443" as **observed**. Somebody on a neighbouring project then read the source. No HTTP client anywhere in the dependency tree. No line of production code that spawns a subprocess. `tart`, `wsl.exe`, `pfctl` and `nft` never executed. No mDNS, so the zero-config discovery in the PRD never happens, and a daemon that only binds loopback, so the multi-device mesh never crosses a machine. The isolation engines are rule generators and state machines. Every network guarantee in that inventory was true because nothing crosses the boundary it describes.
+
+Arming is what should have caught it and structurally cannot. Arming reverts the behaviour an assertion guards and watches the case go red, which mutates the **system** and finds what the suite doesn't cover. Ball & Kupferman named it as one of a pair in 2008: mutating the system finds coverage gaps, and mutating the **specification** finds guarantees that were never exercised at all. This skill had shipped one half of a known pair 220 times and the other half never. The published base rate for vacuity in formal verification is around 20% of formulas, and "trivial validity always points to a real problem".
+
+The rest of the toolkit is blind to it for the same reason. `cargo mutants` mutates code that exists, so a boundary nothing reaches has no mutants to catch. Coverage counts lines the suite executed, and a rule generator's lines all execute. And the whole isolation stack — `pytest --disable-socket`, `WebMock.disable_net_connect!`, `nock.disableNetConnect()` — asserts the *absence* of I/O, which means a suite built on it cannot tell "correctly outbound-only" from "never communicates".
+
+So requirements now carry an **effect class** naming what they make the product do outside its own memory, and a **provider**: the thing in production source that could actually perform it. A requirement claiming an effect with no provider is vacuous before a test runs. A requirement claiming one and recorded `observed` owes a case at `effect-witness` — a recorder the product doesn't control, plus the count it saw. And `vacuous` joins observed / reported / contradicted as a fifth evidence class, because a guarantee over a capability nobody built is a real finding and needs somewhere honest to sit. It clears the gate; the configuration that blocks is `observed` with nothing witnessed.
+
+Two of the six checks cost nothing. One greps for providers. The other scans the test tree for a call that changes state with no read after it, which is the shape that lets a verb report success while doing nothing. On the campaign above it read 164 test functions and found 26 of 32 mutating tests blind — five of them in a file named for the effect it wasn't measuring. That pass immediately surfaced a live defect the 230 cases had passed: `stop_runner` returns `true` twice for the same runner and never removes it, and `restart_runtime` reports success having restarted nothing. The case covering it stood at `outcome`, and the outcome it asserted was the arrival of a sentence.
 
 ## The defect class it's named after finding
 

@@ -14,7 +14,9 @@ Scale: a copy change gets none. A new data surface gets A–E. Anything
 collaborative, permissioned, or that writes on behalf of a user gets A–J. **K**
 applies to anything with a real window on a real display server, and **L** to
 anything that is more than one process — neither is optional on a desktop app,
-and neither can run at all on a lane that never attached.
+and neither can run at all on a lane that never attached. **M** applies to any
+product whose documents claim an effect outside its own process, and it runs
+twice: once at requirement time, and again before the campaign closes.
 
 ---
 
@@ -290,6 +292,54 @@ that only checks the app did not crash.
 Write posture applies as it does in sweep C: killing a real daemon on a shared
 machine affects whoever else is using it. Run against a disposable target, or
 against your own instance, and say which.
+
+---
+
+## M · Reality boundary and vacuity
+
+For any product whose documents claim an effect outside its own process — a
+subprocess, a socket, a packet filter, a multicast announcement, a file written
+where something else will read it. This sweep exists because a requirement
+constraining an effect is an implication, and an implication whose antecedent
+never fires is true. `references/effect-boundary.md` carries the doctrine; this is
+the sweep.
+
+Run it twice. Once in phase 1, when the requirement inventory exists and no test
+does, because it is three greps and it can end the campaign's most expensive
+misunderstanding in the first hour. Once again before closure, because by then the
+product has changed and a passing requirement may have stopped being backed.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Census** | declare an `effect` class on every requirement whose text names one | every declared class has a provider in the production dependency graph and the reachable call graph |
+| **Reachability** | walk from each shipped entry point, not from the tests | a `pub fn` nothing calls is not an implementation; name-based tools over-credit, so the error runs toward reporting more reachable |
+| **Witness** | drive the effect from a production entry point with a recorder attached | a non-zero count of the declared class, with the recorder named |
+| **Sabotage** | deny the effect and re-run | the scenario fails; if it still passes, the witness was circumstantial |
+| **Strengthening** | replace a passing constraint with a strictly harder one | the case goes red; a strengthened constraint that still passes proves the check reads nothing |
+| **Blind mutation** | for each test that calls a mutating verb, look after the last such call | a reader appears; a test that mutates and never reads again can only be asserting the call's own return value |
+
+Denominators, in the shape the rest of this file already demands:
+
+```
+effect requirements: examined=14 provided=9 unprovided=5
+witnesses:           examined=9  counted=7  zero=2
+mutating verbs:      examined=7  changed=4  unchanged=2 unoracled=1
+test fns:            examined=164 mutating=21 re-read-after=4 blind=17
+```
+
+Two of these cost nothing and want running first. **Blind mutation** is a `grep`
+over the test tree and needs no privilege, no lane and no instrument; on one suite
+it returned 17 of 21 and found a daemon verb that reported success while changing
+nothing. **Census** is a dependency-graph read. Reach for a tracer after those
+two, not before — the instrument is the reflex and it is usually the third-cheapest
+detector on the list.
+
+The write posture in sweep C applies with more force here. This sweep's whole
+point is that real effects happen: a witness run spawns real processes, opens real
+sockets and may install a real packet filter. Run it against a disposable host, or
+run only the classes whose blast radius you have bounded, and say which. A sweep
+that installs a firewall rule on a daily-driver is a worse outcome than an unrun
+sweep.
 
 ---
 

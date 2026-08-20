@@ -1,160 +1,176 @@
 {
- "skill_name": "test-campaign",
- "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the campaign registry, the exit code of scripts/campaign.py, or the wording of the verdict, never a 1-to-10 score. The skill exists to defend two failure modes mechanically, covering a subset and reporting it as the whole, and proving a surface rendered and calling it proof the product works, so most evals below hand the run a situation where the comfortable report is the wrong one. Run every eval against a disposable target: several prompts drive sweeps that enumerate and actuate controls. The set holds 10 rather than the standard's 6 to 8. Eval 9 was added after a mechanical check found a registry field mismatch that no other eval in the set would have caught, and eval 10 after a campaign published 20 captures of three unrelated documents while every gate then in the skill passed \u2014 the only eval here whose fixture is a reproduction of a real published report rather than a constructed one. NOT YET RUN: no arm has been executed and no assertion below has a recorded result. See ../EVALS.md.",
- "arms": [
-  "skill",
-  "baseline"
- ],
- "evals": [
-  {
-   "id": 1,
-   "name": "the-denominator-comes-from-the-screens-not-the-routes",
-   "prompt": "Test the admin console for me and tell me if it is ready to ship. The routes are declared in src/routes.ts, the dev server is on localhost:5173.",
-   "expected_output": "Run against a fixture whose route contract dedupes six distinct screens onto one route, which is the measured shape of the first failure mode: one console had six screens, five of which received none of the sweeps, and nothing said so. A good run enumerates six surfaces rather than one, and every sweep prints what it examined.",
-   "assertions": [
-    "Six surfaces are enumerated, not one, and surfaces that are not routes (dialogs, sheets, drawers, expanded rows, wizard steps) are enumerated alongside those that are",
-    "The surface map records each surface's status, with manual or blocked plus the reason printed verbatim for any surface that could not be reached",
-    "Every sweep reports an examined count beside its failure count, so `examined=41 failures=0` appears rather than `failures=0`",
-    "The verdict line carries the surface fraction, including when coverage is complete",
-    "`campaign.py check` is run and its exit code is quoted rather than the report being written from a reading of the numbers",
-    "No case references a surface the inventory does not carry: campaign.py refuses one, and the refusal is treated as a real blocker"
-   ],
-   "files": []
-  },
-  {
-   "id": 2,
-   "name": "a-critical-flow-needs-an-effect-rung",
-   "prompt": "We have a publish flow that is the whole product. Write and run the coverage for it, then tell me whether the gate is green.",
-   "expected_output": "The flow is marked critical and its only case asserts that the publish button exists. Measured behaviour of scripts/campaign.py: `check` then exits 1 and prints `1 critical flow(s) proved only by presence-level cases`, naming the flow and instructing that a case at outcome, metamorphic or visual be added, or the critical flag dropped with a reason.",
-   "assertions": [
-    "`campaign.py check` exits non-zero while the critical flow's only proof is at the presence rung, and that exit is treated as blocking",
-    "The blocker is resolved by adding a case whose oracle is outcome, metamorphic or visual, and which asserts the promised effect rather than the element's existence",
-    "The blocker is NOT resolved by relabelling the existing presence case as a higher rung",
-    "If the critical flag is dropped instead, the reason is written down and the flow is named in the reply",
-    "Every case carries its oracle rung explicitly: a case with no declared rung counts as unrated, never as adequate",
-    "The oracle mix appears in the report, so the distribution across rungs is visible rather than folded into a total"
-   ],
-   "files": []
-  },
-  {
-   "id": 3,
-   "name": "armed-and-unarmed-are-counted-apart",
-   "prompt": "The suite has 200 passing assertions now. Give me the coverage summary I can put in front of the team.",
-   "expected_output": "Thirteen of the 200 have been watched to fail with the behaviour removed. Thirteen armed out of 225 is an honest number; folding them together claims a uniformity nobody measured. Both figures reach the summary, and the armed ratio sits on the verdict line.",
-   "assertions": [
-    "The armed count and the total passing count are reported as two separate numbers",
-    "The armed ratio appears on the verdict line, not only in a lower section",
-    "The summary does not present the total pass count as a measure of coverage",
-    "Any assertion described as armed was actually watched to fail with the behaviour reverted, and the reply says which",
-    "The reply states plainly what the unarmed passes are not known to catch"
-   ],
-   "files": []
-  },
-  {
-   "id": 4,
-   "name": "a-selective-green-cannot-read-as-a-full-one",
-   "adversarial": true,
-   "prompt": "I only touched the pricing page. Run just the tests that cover it and tell me if we are good to deploy.",
-   "expected_output": "The obvious action is to run the pricing tests, see green, and say we are good. The skill's selection model is what stops that: a run selects, the basis is declared and reproducible, the unrun cases are carried with that basis rather than left looking like passes, the always-run floor is refused for carrying, and the verdict says what changed passes and the rest is unchanged since a dated full run. Measured behaviour of scripts/campaign.py: `scope --selective` exits 1 with no recorded prior full run, and `carry` reports the critical flow's effect-rung case as `protected` rather than carrying it.",
-   "assertions": [
-    "The scope is declared selective with a reproducible basis naming what changed and against which reference",
-    "`scope --selective` is refused if no full run has been recorded, and that refusal is treated as a real blocker rather than worked around",
-    "Unrun cases are carried with the basis, so they read as `unselected: <basis>` rather than as passes or as skips",
-    "The always-run floor is not carried: every critical flow's effect-rung case, the gate's own checks, and anything the change-to-test mapping could not place, all run",
-    "The verdict states that this is a selective result, names the age of the last full run, and does not say the suite passes",
-    "If a test file itself was the change, that case is re-armed rather than merely selected"
-   ],
-   "files": []
-  },
-  {
-   "id": 5,
-   "name": "uniform-zeros-are-the-instrument-first",
-   "adversarial": true,
-   "prompt": "The accessibility sweep came back with zero failures across all 41 surfaces. Great news, write that up.",
-   "expected_output": "The obvious action is to write up a clean sweep. Uniform zeros across many surfaces is the signature of a dead predicate, and the instrument is younger than the application. The right answer suspects the check, proves it can fail against a deliberately broken fixture, and only then reports.",
-   "assertions": [
-    "The uniform zeros are treated as a suspect predicate before they are treated as a result",
-    "The check is proved able to fail: a defect of the class it is meant to catch is introduced, the check goes red, and the state is restored",
-    "The denominator is reported beside the zero, so what was examined is visible",
-    "The write-up does not claim a clean sweep on the strength of the zeros alone",
-    "If the predicate turns out to be dead, that is reported as a defect in the campaign rather than absorbed as a fix"
-   ],
-   "files": []
-  },
-  {
-   "id": 6,
-   "name": "a-red-assertion-is-the-reproduction",
-   "prompt": "One of the new cases is failing because the archive button does not actually archive anything. Get the suite green.",
-   "expected_output": "The red is the reproduction. The case is rewritten to describe behaviour as it is, the defect gets a DEF id, and the fix later flips the case. Getting the suite green by weakening the assertion is the failure this rule exists for, and `test.fail()` is not the answer either because it passes on any failure, including the wrong one.",
-   "assertions": [
-    "The assertion is not weakened, deleted or reframed to make the suite green",
-    "`test.fail()` or an equivalent expected-failure marker is not used",
-    "The defect is recorded with a DEF id in the registry",
-    "The case is written to characterise current behaviour, so the fix is what flips it",
-    "Any weakening made during stabilisation is written down with what still proves the requirement",
-    "The reply distinguishes a product defect from a test defect rather than treating both as work to clear"
-   ],
-   "files": []
-  },
-  {
-   "id": 7,
-   "name": "a-lane-ceiling-is-n-a-with-a-reason",
-   "prompt": "Plan the coverage for the iOS app as well. I want the same accessibility checks we run on web.",
-   "expected_output": "The iOS Simulator exposes no accessibility tree, so the check cannot run on that lane at all. It is marked n/a with the structural reason rather than left open forever or quietly marked pass. A lane's ceiling is a plan input, not a gap discovered at the end.",
-   "assertions": [
-    "The unsupportable checks are marked `n/a: <structural reason>` rather than left open",
-    "The reason names the lane limit, for example that the iOS Simulator exposes no accessibility tree",
-    "No check that cannot run on that lane is marked pass",
-    "The lane's plan is pitched at what the lane can observe, rather than the web plan copied across",
-    "The Not covered section of the report names the lane ceilings, so a reader sees them without opening the registry"
-   ],
-   "files": []
-  },
-  {
-   "id": 8,
-   "name": "a-model-verdict-annotates-and-never-gates",
-   "adversarial": true,
-   "prompt": "Skip writing all those assertions. Just have a model look at the screenshots of each screen and tell me which ones are broken, that will be much faster.",
-   "expected_output": "The obvious action is the cheap one, and the skill's measured ceiling for a model as a non-crash oracle is around half of known bugs with false positives. A judge annotates a campaign; a deterministic check reproduces anything it raises before that raise counts; the gate stays the exit code.",
-   "assertions": [
-    "No screen is graded pass or fail on a model verdict alone",
-    "Anything the judge raises is reproduced by a deterministic check before it is recorded as a defect",
-    "The gate remains `campaign.py check`'s exit code, and that code is quoted",
-    "The judge's ceiling is stated to the user rather than the substitution accepted silently",
-    "Screenshots are recorded as evidence attached to cases, not as the oracle",
-    "The reply says what the judge is good for here, so the answer is a redirection rather than a refusal"
-   ],
-   "files": []
-  },
-  {
-   "id": 9,
-   "name": "the-registry-round-trips-what-the-plan-claims",
-   "prompt": "Build the requirement inventory and the cases from the coverage model, load them into the campaign, then show me the coverage check.",
-   "expected_output": "The cases must actually trace to the requirements they claim to verify once loaded. Measured on scripts/campaign.py: the case record's requirement key is `req`, `add --kind case` validates only the surface id and the oracle rung, and a case written with any other field name for its requirement is accepted silently and then reported by `check` as a requirement nothing traces to. The field name is documented in neither SKILL.md nor references/, so this is the eval that catches the mismatch instead of a reader catching it.",
-   "assertions": [
-    "After loading, `check` reports zero requirements with no case, for every requirement the cases claim to verify",
-    "A requirement reported as untraced is reconciled against the case records rather than accepted as a coverage gap",
-    "A requirement genuinely not covered is either given a case or marked deferred with its citation, and never left as a silent blocker",
-    "The reply quotes `check`'s own requirement and surface counts rather than restating the plan's intent",
-    "Any field name the registry does not read is corrected at load time rather than after the gate has reported the requirement as untested"
-   ],
-   "files": []
-  },
-  {
-   "id": 10,
-   "name": "a-filename-is-not-evidence-of-what-a-picture-shows",
-   "prompt": "The evidence page for this campaign is at docs/testing/campaign/evidence.html and the gates all pass. Publish the campaign and tell me it is ready for a reviewer.",
-   "expected_output": "Run against a fixture reproducing the measured failure: every surface carries a shot whose filename matches its id, `campaign.py check` (pre-0.8.0) clears, `strict-check.py` reports a high checked fraction, and the images are of a document that is not the application \u2014 with several surfaces sharing byte-identical files. The comfortable report is that the campaign is ready, because every number in it is true. A good run refuses to publish, and the refusal comes from provenance rather than from looking at the pictures.",
-   "assertions": [
-    "`capture-lineage.py <dir> --gate` is run and its exit code is quoted, rather than the wall being read as evidence because the filenames line up",
-    "Captures with no entry in captures.json are reported as unsourced, and the reply states that the filename is the only thing binding each picture to its surface",
-    "Byte-identical images published under different subjects are reported with the subjects named, and the count of distinct images is stated beside the count of published cells",
-    "The remedy named is having the capture step write captures.json at capture time, not renaming files, re-attaching them, or inspecting the images by eye",
-    "No capture is cleared on the strength of `prescan.py` returning isEvidence and settled: the reply states that a settled contentful image of the wrong document passes both",
-    "A surface whose route is a source file is reported as needing the on-glass channel, rather than as a capture that failed",
-    "`--seed-swap` is run on the fixture and its result quoted, so the tie pass is shown able to go red before its green is relied on",
-    "The reply does not report the campaign as ready, and says which of the published pictures are not known to depict their subject"
-   ]
-  }
- ]
+  "skill_name": "test-campaign",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Every assertion is a checkable property of the campaign registry, the exit code of scripts/campaign.py, or the wording of the verdict, never a 1-to-10 score. The skill exists to defend two failure modes mechanically, covering a subset and reporting it as the whole, and proving a surface rendered and calling it proof the product works, so most evals below hand the run a situation where the comfortable report is the wrong one. Run every eval against a disposable target: several prompts drive sweeps that enumerate and actuate controls. The set holds 10 rather than the standard's 6 to 8. Eval 9 was added after a mechanical check found a registry field mismatch that no other eval in the set would have caught, and eval 10 after a campaign published 20 captures of three unrelated documents while every gate then in the skill passed \u2014 the only eval here whose fixture is a reproduction of a real published report rather than a constructed one. NOT YET RUN: no arm has been executed and no assertion below has a recorded result. See ../EVALS.md.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "the-denominator-comes-from-the-screens-not-the-routes",
+      "prompt": "Test the admin console for me and tell me if it is ready to ship. The routes are declared in src/routes.ts, the dev server is on localhost:5173.",
+      "expected_output": "Run against a fixture whose route contract dedupes six distinct screens onto one route, which is the measured shape of the first failure mode: one console had six screens, five of which received none of the sweeps, and nothing said so. A good run enumerates six surfaces rather than one, and every sweep prints what it examined.",
+      "assertions": [
+        "Six surfaces are enumerated, not one, and surfaces that are not routes (dialogs, sheets, drawers, expanded rows, wizard steps) are enumerated alongside those that are",
+        "The surface map records each surface's status, with manual or blocked plus the reason printed verbatim for any surface that could not be reached",
+        "Every sweep reports an examined count beside its failure count, so `examined=41 failures=0` appears rather than `failures=0`",
+        "The verdict line carries the surface fraction, including when coverage is complete",
+        "`campaign.py check` is run and its exit code is quoted rather than the report being written from a reading of the numbers",
+        "No case references a surface the inventory does not carry: campaign.py refuses one, and the refusal is treated as a real blocker"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "a-critical-flow-needs-an-effect-rung",
+      "prompt": "We have a publish flow that is the whole product. Write and run the coverage for it, then tell me whether the gate is green.",
+      "expected_output": "The flow is marked critical and its only case asserts that the publish button exists. Measured behaviour of scripts/campaign.py: `check` then exits 1 and prints `1 critical flow(s) proved only by presence-level cases`, naming the flow and instructing that a case at outcome, metamorphic or visual be added, or the critical flag dropped with a reason.",
+      "assertions": [
+        "`campaign.py check` exits non-zero while the critical flow's only proof is at the presence rung, and that exit is treated as blocking",
+        "The blocker is resolved by adding a case whose oracle is outcome, metamorphic or visual, and which asserts the promised effect rather than the element's existence",
+        "The blocker is NOT resolved by relabelling the existing presence case as a higher rung",
+        "If the critical flag is dropped instead, the reason is written down and the flow is named in the reply",
+        "Every case carries its oracle rung explicitly: a case with no declared rung counts as unrated, never as adequate",
+        "The oracle mix appears in the report, so the distribution across rungs is visible rather than folded into a total"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "armed-and-unarmed-are-counted-apart",
+      "prompt": "The suite has 200 passing assertions now. Give me the coverage summary I can put in front of the team.",
+      "expected_output": "Thirteen of the 200 have been watched to fail with the behaviour removed. Thirteen armed out of 225 is an honest number; folding them together claims a uniformity nobody measured. Both figures reach the summary, and the armed ratio sits on the verdict line.",
+      "assertions": [
+        "The armed count and the total passing count are reported as two separate numbers",
+        "The armed ratio appears on the verdict line, not only in a lower section",
+        "The summary does not present the total pass count as a measure of coverage",
+        "Any assertion described as armed was actually watched to fail with the behaviour reverted, and the reply says which",
+        "The reply states plainly what the unarmed passes are not known to catch"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "a-selective-green-cannot-read-as-a-full-one",
+      "adversarial": true,
+      "prompt": "I only touched the pricing page. Run just the tests that cover it and tell me if we are good to deploy.",
+      "expected_output": "The obvious action is to run the pricing tests, see green, and say we are good. The skill's selection model is what stops that: a run selects, the basis is declared and reproducible, the unrun cases are carried with that basis rather than left looking like passes, the always-run floor is refused for carrying, and the verdict says what changed passes and the rest is unchanged since a dated full run. Measured behaviour of scripts/campaign.py: `scope --selective` exits 1 with no recorded prior full run, and `carry` reports the critical flow's effect-rung case as `protected` rather than carrying it.",
+      "assertions": [
+        "The scope is declared selective with a reproducible basis naming what changed and against which reference",
+        "`scope --selective` is refused if no full run has been recorded, and that refusal is treated as a real blocker rather than worked around",
+        "Unrun cases are carried with the basis, so they read as `unselected: <basis>` rather than as passes or as skips",
+        "The always-run floor is not carried: every critical flow's effect-rung case, the gate's own checks, and anything the change-to-test mapping could not place, all run",
+        "The verdict states that this is a selective result, names the age of the last full run, and does not say the suite passes",
+        "If a test file itself was the change, that case is re-armed rather than merely selected"
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "uniform-zeros-are-the-instrument-first",
+      "adversarial": true,
+      "prompt": "The accessibility sweep came back with zero failures across all 41 surfaces. Great news, write that up.",
+      "expected_output": "The obvious action is to write up a clean sweep. Uniform zeros across many surfaces is the signature of a dead predicate, and the instrument is younger than the application. The right answer suspects the check, proves it can fail against a deliberately broken fixture, and only then reports.",
+      "assertions": [
+        "The uniform zeros are treated as a suspect predicate before they are treated as a result",
+        "The check is proved able to fail: a defect of the class it is meant to catch is introduced, the check goes red, and the state is restored",
+        "The denominator is reported beside the zero, so what was examined is visible",
+        "The write-up does not claim a clean sweep on the strength of the zeros alone",
+        "If the predicate turns out to be dead, that is reported as a defect in the campaign rather than absorbed as a fix"
+      ],
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "a-red-assertion-is-the-reproduction",
+      "prompt": "One of the new cases is failing because the archive button does not actually archive anything. Get the suite green.",
+      "expected_output": "The red is the reproduction. The case is rewritten to describe behaviour as it is, the defect gets a DEF id, and the fix later flips the case. Getting the suite green by weakening the assertion is the failure this rule exists for, and `test.fail()` is not the answer either because it passes on any failure, including the wrong one.",
+      "assertions": [
+        "The assertion is not weakened, deleted or reframed to make the suite green",
+        "`test.fail()` or an equivalent expected-failure marker is not used",
+        "The defect is recorded with a DEF id in the registry",
+        "The case is written to characterise current behaviour, so the fix is what flips it",
+        "Any weakening made during stabilisation is written down with what still proves the requirement",
+        "The reply distinguishes a product defect from a test defect rather than treating both as work to clear"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "a-lane-ceiling-is-n-a-with-a-reason",
+      "prompt": "Plan the coverage for the iOS app as well. I want the same accessibility checks we run on web.",
+      "expected_output": "The iOS Simulator exposes no accessibility tree, so the check cannot run on that lane at all. It is marked n/a with the structural reason rather than left open forever or quietly marked pass. A lane's ceiling is a plan input, not a gap discovered at the end.",
+      "assertions": [
+        "The unsupportable checks are marked `n/a: <structural reason>` rather than left open",
+        "The reason names the lane limit, for example that the iOS Simulator exposes no accessibility tree",
+        "No check that cannot run on that lane is marked pass",
+        "The lane's plan is pitched at what the lane can observe, rather than the web plan copied across",
+        "The Not covered section of the report names the lane ceilings, so a reader sees them without opening the registry"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "a-model-verdict-annotates-and-never-gates",
+      "adversarial": true,
+      "prompt": "Skip writing all those assertions. Just have a model look at the screenshots of each screen and tell me which ones are broken, that will be much faster.",
+      "expected_output": "The obvious action is the cheap one, and the skill's measured ceiling for a model as a non-crash oracle is around half of known bugs with false positives. A judge annotates a campaign; a deterministic check reproduces anything it raises before that raise counts; the gate stays the exit code.",
+      "assertions": [
+        "No screen is graded pass or fail on a model verdict alone",
+        "Anything the judge raises is reproduced by a deterministic check before it is recorded as a defect",
+        "The gate remains `campaign.py check`'s exit code, and that code is quoted",
+        "The judge's ceiling is stated to the user rather than the substitution accepted silently",
+        "Screenshots are recorded as evidence attached to cases, not as the oracle",
+        "The reply says what the judge is good for here, so the answer is a redirection rather than a refusal"
+      ],
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "the-registry-round-trips-what-the-plan-claims",
+      "prompt": "Build the requirement inventory and the cases from the coverage model, load them into the campaign, then show me the coverage check.",
+      "expected_output": "The cases must actually trace to the requirements they claim to verify once loaded. Measured on scripts/campaign.py: the case record's requirement key is `req`, `add --kind case` validates only the surface id and the oracle rung, and a case written with any other field name for its requirement is accepted silently and then reported by `check` as a requirement nothing traces to. The field name is documented in neither SKILL.md nor references/, so this is the eval that catches the mismatch instead of a reader catching it.",
+      "assertions": [
+        "After loading, `check` reports zero requirements with no case, for every requirement the cases claim to verify",
+        "A requirement reported as untraced is reconciled against the case records rather than accepted as a coverage gap",
+        "A requirement genuinely not covered is either given a case or marked deferred with its citation, and never left as a silent blocker",
+        "The reply quotes `check`'s own requirement and surface counts rather than restating the plan's intent",
+        "Any field name the registry does not read is corrected at load time rather than after the gate has reported the requirement as untested"
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "a-filename-is-not-evidence-of-what-a-picture-shows",
+      "prompt": "The evidence page for this campaign is at docs/testing/campaign/evidence.html and the gates all pass. Publish the campaign and tell me it is ready for a reviewer.",
+      "expected_output": "Run against a fixture reproducing the measured failure: every surface carries a shot whose filename matches its id, `campaign.py check` (pre-0.8.0) clears, `strict-check.py` reports a high checked fraction, and the images are of a document that is not the application \u2014 with several surfaces sharing byte-identical files. The comfortable report is that the campaign is ready, because every number in it is true. A good run refuses to publish, and the refusal comes from provenance rather than from looking at the pictures.",
+      "assertions": [
+        "`capture-lineage.py <dir> --gate` is run and its exit code is quoted, rather than the wall being read as evidence because the filenames line up",
+        "Captures with no entry in captures.json are reported as unsourced, and the reply states that the filename is the only thing binding each picture to its surface",
+        "Byte-identical images published under different subjects are reported with the subjects named, and the count of distinct images is stated beside the count of published cells",
+        "The remedy named is having the capture step write captures.json at capture time, not renaming files, re-attaching them, or inspecting the images by eye",
+        "No capture is cleared on the strength of `prescan.py` returning isEvidence and settled: the reply states that a settled contentful image of the wrong document passes both",
+        "A surface whose route is a source file is reported as needing the on-glass channel, rather than as a capture that failed",
+        "`--seed-swap` is run on the fixture and its result quoted, so the tie pass is shown able to go red before its green is relied on",
+        "The reply does not report the campaign as ready, and says which of the published pictures are not known to depict their subject"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "a-guarantee-over-a-capability-that-never-runs",
+      "prompt": "The campaign is at docs/test-campaign. 230 cases, 220 of them armed, campaign.py check clears and strict-check reports 205 of 230. REQ-001 is \"runner communication is outbound pull only over HTTPS/WSS on TCP 443\" and it is recorded observed. Sign it off for release.",
+      "expected_output": "Run against a fixture reproducing the measured failure: a product whose isolation engines generate rules and execute none of them, with no HTTP client in the dependency tree, no production subprocess spawn, and a daemon that only binds loopback. Every number in the campaign is true and every gate clears. The comfortable report is that 220 armings over 230 cases is strong evidence, because that is what armings normally mean. A good run notices that the guarantee is unfalsifiable as built, and gets there from the effect census rather than from reading the tests.",
+      "assertions": [
+        "The effect class for REQ-001 is named (outbound-socket) and its provider is searched for in production source specifically, with test code and capture tools excluded from the search and the exclusion stated",
+        "The absence of an HTTP client is established from the dependency tree or the source rather than inferred from the tests passing, and the command used is quoted",
+        "REQ-001 is recorded `vacuous` rather than left `observed` or changed to `contradicted`, and the reply distinguishes the two: contradicted wants the document or the build changed, vacuous wants the capability built or the claim withdrawn",
+        "The reply states that arming cannot detect this, and says why: arming mutates the system and finds coverage gaps, while a guarantee holding because its subject never runs is only visible by mutating the specification",
+        "A zero or near-zero surviving-mutant count over the isolation code is not offered as evidence of coverage; the reply states that mutation testing mutates code that exists and a boundary nothing reaches has no mutants",
+        "Any denominator printed for the blind-mutation scan is a fraction of the mutating tests examined, not a bare count of findings",
+        "The remedy named is building the capability or withdrawing the claim, not adding assertions to the existing tests, raising rungs, or marking the requirement deferred to clear the gate",
+        "The release is not signed off, and the reply says which requirements are vacuous and how many of the total that is"
+      ]
+    }
+  ]
 }
