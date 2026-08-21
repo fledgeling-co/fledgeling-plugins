@@ -12,10 +12,10 @@
 | `lang` | no | Defaults to `en`. Emitted on `<html>`, without which a screen reader uses its own default language. |
 | `brand` | yes | `wordmark`, `siteUrl`, `logoUrl` (PNG — Gmail strips SVG), optional `palette`. |
 | `issue` | yes | `webUrl`, `preferencesUrl`, `unsubscribeUrl`. All absolute. |
-| `summary` | no | `counts` string and up to three `highlights`, each `{text, url}`. Links point outward, never at an anchor. |
+| `summary` | no | `counts` string and up to three `highlights`. A highlight is either `{text, url}` or `{parts: [{text}, {text, url}, ...]}`, the second form so one line can name the work in plain text and link each destination separately. Links point outward, never at an anchor. |
 | `items` | yes | See below. No cap. |
-| `featured` | no | How many auto-assign to the featured tier. Default 3, gate allows 2-4. |
-| `compact` | no | How many auto-assign to compact. Default 8, gate warns outside 5-9. |
+| `featured` | no | How many auto-assign to the featured tier. Default 2, gate allows 2-4. |
+| `spotlight` | no | How many auto-assign to the spotlight row. Default 3, gate warns outside 2-5. Three is the count the row is built around; more than three columns at 600px leaves each one too narrow to carry a banner. |
 
 ## Palette
 
@@ -35,14 +35,13 @@ accent tuned for large display type routinely fails as button text.
 |---|---|---|
 | `title` | all | The name. Also the link text in the one-line tier. |
 | `url` | all | Absolute. |
-| `headline` | featured, compact | The claim. In the featured tier this becomes the `h2`. |
+| `headline` | featured, spotlight | The claim. In the featured tier this becomes the `h2`; in the spotlight row it is the one line under the title, clipped at 110 characters. |
 | `body` | featured | 25-55 words. What changed, why it matters. |
-| `install` | featured | Optional command line, set in monospace. |
-| `bannerUrl` | featured | Optional. Email-sized (about 1072px wide for a 536px column at 2x), not the source asset. |
-| `iconUrl` | compact | Decorative, rendered with `alt=""`. |
+| `install` | featured | Either a string, set as a monospace command line, or `{label, url}`, set as a named link. Prefer the link where a route exists: a shell line asks the reader to copy it into the right window, and a phone cannot act on it at all. |
+| `bannerUrl` | featured, spotlight | Optional. Email-sized, not the source asset: about 1072px for a featured banner in a 536px column, 720px for a spotlight column, both at 2x. Conform every banner sharing the spotlight row to one ratio, or the row finishes ragged. |
 | `oneline` | one-line | A short tag after the title. |
 | `group` | one-line | Category heading to group under. Defaults to "More". |
-| `tier` | all | Explicit override: `featured`, `compact` or `oneline`. |
+| `tier` | all | Explicit override: `featured`, `spotlight` or `oneline`. |
 
 ## On choosing the featured items
 

@@ -16,7 +16,7 @@ It also enforces the two format rules that are not negotiable:
     so banners are flattened onto a named ground.
 
 Usage:
-    python3 email_assets.py --banner src.png --out-dir dist/ [--column 536]
+    python3 email_assets.py --banner src.png --out-dir dist/ [--column 536] [--aspect 1000:325]
     python3 email_assets.py --icon src.png  --out-dir dist/ [--size 44]
     python3 email_assets.py --svg mark.svg  --out-dir dist/ --size 28
 
@@ -62,12 +62,49 @@ def flatten(im: Image.Image, ground: tuple[int, int, int]) -> Image.Image:
     return im.convert("RGB")
 
 
-def do_banner(src: pathlib.Path, out: pathlib.Path, column: int) -> None:
+def edge_mean(im: Image.Image, row: int) -> tuple[int, int, int]:
+    """The average colour of one pixel row, for padding that does not show."""
+    px = [im.getpixel((x, row)) for x in range(im.width)]
+    n = len(px)
+    return tuple(sum(c[i] for c in px) // n for i in range(3))
+
+def conform(im: Image.Image, ratio: float) -> Image.Image:
+    """Bring a banner to a target height:width ratio without cropping artwork.
+
+    A row of banners side by side is the case that needs this. Sources drift
+    off the house ratio (one in this marketplace is 3200x840 against a 3200x1040
+    standard), and at full width nobody notices, but three of them in one row
+    align at the top and finish at three different heights, which reads as a
+    broken layout rather than as a mismatched asset.
+
+    Short of the target, it pads with the colour of the edge row it is extending,
+    so the seam is invisible against the banner's own ground. Over the target it
+    centre-crops, because letterboxing a tall image would shrink the artwork
+    instead."""
+    want_h = max(1, round(im.width * ratio))
+    if want_h == im.height:
+        return im
+    if want_h > im.height:
+        top, bottom = edge_mean(im, 0), edge_mean(im, im.height - 1)
+        pad = want_h - im.height
+        above = pad // 2
+        canvas = Image.new("RGB", (im.width, want_h), top)
+        canvas.paste(Image.new("RGB", (im.width, want_h - above - im.height), bottom),
+                     (0, above + im.height))
+        canvas.paste(im, (0, above))
+        return canvas
+    off = (im.height - want_h) // 2
+    return im.crop((0, off, im.width, off + want_h))
+
+def do_banner(src: pathlib.Path, out: pathlib.Path, column: int,
+              aspect: float | None = None) -> None:
     with Image.open(src) as im:
         target_w = column * 2
         ratio = target_w / im.width
         target_h = max(1, round(im.height * ratio))
         r = flatten(im, GROUND).resize((target_w, target_h), Image.LANCZOS)
+        if aspect:
+            r = conform(r, aspect)
         dst = out / f"{src.stem}-{target_w}.png"
         r.save(dst, optimize=True)
     report(dst)
@@ -114,14 +151,26 @@ def main() -> int:
                     help=f"content column width in CSS px (default {DEFAULT_COLUMN})")
     ap.add_argument("--size", type=int, default=44,
                     help="icon display size in CSS px (default 44)")
+    ap.add_argument("--aspect", default=None, metavar="W:H",
+                    help="pad or crop every banner to this ratio, e.g. 1000:325. "
+                         "Use it when several banners share a row: mismatched "
+                         "source ratios align at the top and finish ragged.")
     a = ap.parse_args()
 
     if not (a.banner or a.icon or a.svg):
         ap.error("nothing to do: pass --banner, --icon or --svg")
     a.out_dir.mkdir(parents=True, exist_ok=True)
 
+    aspect = None
+    if a.aspect:
+        try:
+            w, h = (float(v) for v in a.aspect.split(":"))
+            aspect = h / w
+        except (ValueError, ZeroDivisionError):
+            ap.error(f"--aspect wants W:H, got {a.aspect!r}")
+
     for s in a.banner:
-        do_banner(s, a.out_dir, a.column)
+        do_banner(s, a.out_dir, a.column, aspect)
     for s in a.icon:
         do_icon(s, a.out_dir, a.size)
     for s in a.svg:
