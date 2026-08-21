@@ -738,7 +738,30 @@ def audit(d: Path) -> dict:
     for srec in inventory.get("surface", []):
         if srec.get("shot") and srec.get("shotProvenance") == "filename":
             filename_only.append(srec["id"])
-    duplicate_shots = {h: ids for h, ids in shot_hashes.items() if len(ids) > 1}
+    # A share can be legitimate, and the blocker below used to be unfollowable when it
+    # was: it said "declare a genuine share in captures.json" while nothing here read
+    # the declaration, and re-capturing a genuinely shared surface reproduces the same
+    # bytes, so neither branch of the instruction could clear it. Read the same
+    # `sharesWith` declaration capture-lineage.py's shared pass reads — every member of
+    # the group must name the others, so declaring one side is not enough.
+    manifest_path = d / "evidence/shots/captures.json"
+    shares: dict[str, set[str]] = {}
+    if manifest_path.exists():
+        try:
+            for e in json.loads(manifest_path.read_text()):
+                sid_for_path = {v: k for k, v in published_shots.items()}.get(str(e.get("path", "")))
+                if sid_for_path and e.get("sharesWith") and e.get("sharesReason"):
+                    shares[sid_for_path] = set(e["sharesWith"])
+        except (json.JSONDecodeError, OSError):
+            shares = {}
+
+    def share_declared(ids: list[str]) -> bool:
+        return all(set(ids) - {s} <= shares.get(s, set()) for s in ids)
+
+    duplicate_shots = {h: ids for h, ids in shot_hashes.items()
+                       if len(ids) > 1 and not share_declared(ids)}
+    declared_shares = {h: ids for h, ids in shot_hashes.items()
+                       if len(ids) > 1 and share_declared(ids)}
 
     uncovered = [sid for sid, cs in by_surface.items() if not cs]
 
@@ -1020,6 +1043,7 @@ def audit(d: Path) -> dict:
         "duplicateArtifacts": duplicate_artifacts,
         "badShots": bad_shots,
         "duplicateShots": duplicate_shots,
+        "declaredShares": declared_shares,
         "filenameOnlyShots": filename_only,
         "publishedShots": len(published_shots),
         "distinctPublishedImages": len(shot_hashes),
@@ -1180,6 +1204,14 @@ def cmd_check(args) -> int:
     if a.get("duplicateShots"):
         print("   published shots showing the same picture under different subjects:")
         for ids in list(a["duplicateShots"].values())[:6]:
+            print(f"      {', '.join(ids)}")
+    if a.get("declaredShares"):
+        # Counted apart rather than folded into the wall's distinct-image number: a
+        # declared share is admissible, and a reader still needs to see that these
+        # cells repeat on purpose.
+        print(f"   declared shares ({len(a['declaredShares'])} image(s) carrying a reason "
+              f"in captures.json):")
+        for ids in list(a["declaredShares"].values())[:8]:
             print(f"      {', '.join(ids)}")
     if a["duplicateArtifacts"]:
         print("\n  The same capture standing in for several cases:")
