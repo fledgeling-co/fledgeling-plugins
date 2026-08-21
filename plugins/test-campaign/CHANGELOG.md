@@ -2,6 +2,39 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.4 — 2026-08-21
+
+Two ways this gate could report a clean result over a population it never examined.
+
+**A capped list read as a population.** `check` printed at most twelve unwitnessed requirements
+and said nothing about the cut. A team scoped a wave of work off that printed list against a real
+set of eighteen, and ten requirements were named by no item. Raising the cap does not fix it —
+the next set outgrows the next cap — so every capped list now carries its own denominator:
+`… (showing 12 of 18)` when it truncates, and `(showing 3 of 3)` when it does not, because a
+reader who has to work out whether anything was cut is back in the position that caused the loss.
+That covers the unwitnessed-requirement list, the hollow witnesses, the unevidenced passes, the
+legacy-rung cases, the open cases, the duplicate and declared-share groups, the pixel claims, and
+the lists carried inside blocker sentences.
+
+**An oracle rung that was not on the ladder.** Four cases arrived recording `static-analysis` and
+counted `unrated` — the bucket meaning the tool does not know what a case checked — while being
+real, armed instruments: a source classifier that exits 1 on a one-line mutation and 0 on the file
+as written. `source-analysis` is now a rung, and it sits off `ORACLE_RUNGS` rather than at a
+position on it. The ladder is one axis, what a case checked against the running product, weakest
+first; a reader of source text is neither weaker than `structural-visual` nor stronger than
+`presence`, and giving it a rank would invent a comparison the coverage model does not have.
+`SOURCE_RUNGS` is a parallel set alongside `EFFECT_RUNGS` and `RASTER_RUNGS`, printed on its own
+`Off-ladder:` line, absent from `EFFECT_RUNGS` and staying absent.
+
+Two guards keep it from becoming the cheap rung a campaign fills up on. A passing source-analysis
+case owes the analyzer that ran and the number of units it examined, the same obligation shape
+`effect-witness` carries for its recorder and count, because a search with no denominator cannot
+tell an empty result from an empty search. And a requirement claiming an effect outside the
+process may not rest on source analysis alone.
+
+Five new gate tests in `tests/run.sh`, each watched red on a fixture built to trip it and green
+once the fixture is repaired.
+
 ## 0.9.3 — 2026-08-21
 
 `campaign.py check` and `capture-lineage.py --gate` disagreed about declared shares, and the
