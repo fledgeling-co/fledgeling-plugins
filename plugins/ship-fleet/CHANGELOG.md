@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.1 - 2026-08-21
+
+- Correction from the research panel's fourth member: a tool withheld from an agent's context produces no refusal event at all, because a denied tool's definition is removed from the request. Surfacing refusals is therefore a fix for a different failure, and the capability manifest is the only surface an absence can appear on.
+- Added the one item in the sweep with a controlled effect size: putting the terminal reason on the logger cut diagnosis time 60.7%, 10.37 minutes against 25.72, across 20 programmers, at 1.4% overhead.
+
 ## 2.3.0 - 2026-08-21
 
 - Runner failure now specifies a channel sweep rather than "read the report". The report is the channel closest to hand and routinely the one the cause is absent from: measured, the reason appeared 36 times in the event stream, in none of 56 run records, and in none of 285,950 log lines that were being read and quoted.

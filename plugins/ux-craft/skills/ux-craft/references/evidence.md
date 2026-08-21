@@ -2,6 +2,31 @@
 
 This skill's own rule, from `psychology-laws.md`: *if you can't trace a claim to research, label it practitioner judgment; never fabricate a citation.* This file is that rule turned on the skill itself. It exists because the predecessor version held its citations to a higher standard than its own measurements — seven specific, checkable numbers appeared with no date, no run and no instrument named.
 
+## The correction that arrived with the fourth panel member — added 2026-08-21
+
+The account these rules were first written from was mechanically wrong in one place, and the fourth
+research member caught it.
+
+| Claim | Source | Tier | Limit |
+|---|---|---|---|
+| A denied tool's definition is removed from the request, so the model never sees it and cannot attempt it | [Agent SDK permissions](https://code.claude.com/docs/en/agent-sdk/permissions) | Vendor documentation | Documents a bare-name deny; an allowlist-plus-discovery path is not covered explicitly |
+| Diagnosis time fell **60.7%**, 10.37 +/- 2.18 minutes against 25.72 +/- 3.75, with proactively-added error logs, at 1.4% runtime overhead | [ErrLog, OSDI'12](https://www.eecg.utoronto.ca/~yuan/papers/osdi12-errlog.pdf) | Measured, controlled, 20 programmers | Conventional software, not agent runs |
+| Automation bias occurs in naive and expert participants alike and cannot be prevented by training or instructions; failure-exposure training helped omission errors but not commission errors | [Human Factors](https://journals.sagepub.com/doi/10.1177/0018720810376055) | Measured, review | Not agent supervision |
+| A truncated generation ends with a 200 OK and a stop reason in the body, so nothing in the stack raises | Vendor stop-reason documentation | Vendor documentation | Describes one provider's API |
+
+**What it changes.** Surfacing refused calls was written as the first fix and is now a partial one: where
+a capability is withheld from the agent's context there is no refusal event, so the manifest is the only
+surface an absence appears on and a preflight is the only check that fires when nothing was attempted.
+**What it does not change:** the channel-placement conclusion, which the 60.7% figure strengthens
+considerably.
+
+**Verified against the code rather than the docs.** The pipeline in question used an allowlist plus a
+matching discovery list rather than a bare-name deny, and its own comment records that excluding a tool
+from the allowlist *alone* was measured insufficient once, with a call executing before a later denial.
+So refusals were possible in an earlier configuration and not in the one that failed. Settling it
+completely needs a run trace showing whether any attempt was ever recorded; that was not available, and
+the limit is stated where the rules live.
+
 ## The evidence tiers
 
 Three tiers, and the weaker ones are named as weaker. Declaring which tier is stronger is the point; a flat list of "sources" hides the difference.

@@ -157,13 +157,24 @@ was actually being read and quoted. Enumerate before you conclude:
    as literal output instead of writing a file — measured, **33.8:1 on failed runs against 1.1:1 on
    completed ones**, visible from the first failure. A ratio above roughly 5 is worth a look on its own.
 4. **The granted capability set.** If the runner does not print what the agent was permitted to do,
-   that is the first thing to add, not the last.
+   that is the first thing to add, not the last — and on the run this comes from it is the *only* thing
+   that would have worked. A tool withheld from an agent's context produces **no refusal event at all**:
+   the vendor documentation for the harness in question states that a denied tool's definition is removed
+   from the request, so the model never sees it and cannot attempt it. There is nothing for a progress
+   view to suppress and nothing for a log to carry. The agent was not blocked from writing a file; it was
+   never told writing was possible. So "surface the refusals" is a fix for a different failure, and the
+   manifest is the one that names an absence.
 
 **Do not harden the output while the cause is unidentified.** The failure presents as a symptom class —
 output too long, no artifact, timed out — and the symptom does not name the cause. On the run this rule
 comes from, the visible symptom read as verbosity, so **41 commits** went into stricter output gates and
 **15** into rewriting prompts before **one** touched the tool list, across twenty days in which 74 of
 135 runs produced nothing. Gate work on an unexplained failure is how three weeks disappear.
+
+**Put the terminal reason on the logger, and know that this is the one item here with a controlled
+effect size.** A study of 20 programmers measured diagnosis time falling **60.7%** — 10.37 minutes
+against 25.72 — when proactively-added error logs were present, at 1.4% runtime overhead. Nothing else
+in this list has a number like that behind it.
 
 **And preflight the next run rather than diagnosing it again.** If a job must persist a file and no
 permitted tool can write one, fail before the model is invoked. That check costs nothing and is the only
