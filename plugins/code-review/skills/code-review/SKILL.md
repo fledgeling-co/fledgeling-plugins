@@ -210,7 +210,7 @@ each may surface.
 **Angles do not suppress each other.** Two angles flagging the same line for different reasons
 record two candidates. Dedup happens in Phase 4, on evidence, not in Find, on a hunch.
 
-**Two angles are trigger-fired and run at every depth, including `quick`:**
+**Three angles are trigger-fired and run at every depth, including `quick`:**
 
 - **X — contract drift**, when the diff touches any cross-package boundary in the repo profile: a
   contract document, a hand-mirrored type, a wire DTO, a generated client, a published schema, or a
@@ -220,6 +220,15 @@ record two candidates. Dedup happens in Phase 4, on evidence, not in Find, on a 
   mirrors, wraps, adapts, proxies, caches or decorates another. Walk every member, check it routes
   to the wrapped instance rather than back through a global, and report the member count you walked
   so a partial walk reads as partial.
+- **K — capability withdrawn, and the test that keeps it withdrawn**, when the diff removes a
+  capability from something that *runs* — a tool from an agent's permitted set, a permission from a
+  role, a command from an allowlist, a syscall from a sandbox profile — or adds an assertion that a
+  capability is absent. Angle B asks what a deletion enforced and finds nothing here, because the
+  thing removed was enforcing nothing; what broke is downstream and behavioural, so there is no line
+  to look at. Ask what the thing can no longer do and whether anything still needs it done, whether
+  the comment's justification matches the commit's, and whether a test now asserts the absence. That
+  last half is what converts a temporary change into a specification, since restoring the capability
+  then breaks the suite.
 
 Below the shard threshold, run the angles yourself, sequentially, recording candidates to
 `candidates.jsonl` (`standard`/`deep`) or in context (`quick`).

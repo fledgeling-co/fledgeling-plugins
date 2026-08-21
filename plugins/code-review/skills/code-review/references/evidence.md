@@ -191,6 +191,39 @@ This skill is written to be executed by Claude Opus 5, which changes what belong
 
 ---
 
+## Angle K, and the measurements behind it — added 2026-08-21
+
+Angle K fires on a diff that withdraws a capability or asserts one is absent. Five external findings
+back it, and one recorded failure produced it.
+
+| Claim | Source | Tier | Limit |
+|---|---|---|---|
+| Of 902 automated patches that all passed their tests, **654 were overfitted** and 248 correct: 72.5% wrong beyond the supplied tests | [Program-repair overfitting dataset](https://pmc.ncbi.nlm.nih.gov/articles/PMC11269383/) | Measured, peer-reviewed | Generated patches, not human commits; correctness judged against a reference |
+| Characterization and approval tests are *defined* as documenting actual behaviour rather than intended behaviour | [UnderstandLegacyCode, quoting Feathers](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/) | Definitional, expert practice | Not a measurement; no study quantifies how often one locks in a defect |
+| Across 23,561 repositories and 120,611 TODO comments: mean lifespan **528 days**, median 246, **62.3%** of survivors older than a year | [Morlion](https://petermorlion.com/the-lifetime-of-todo-comments-the-results/) | Measured | One ecosystem; measures survivors, so biased against quickly-removed debt |
+| In LLM codebases the **first** self-admitted debt in a file is removed **4.2%** of the time against 49.1% overall | [Self-Admitted Technical Debt in LLM Software](https://arxiv.org/html/2601.06266v1) | Measured, survival analysis | Public repositories; the mechanism behind the gap is not established |
+| Better annotation speeds resolution without changing whether it happens: **98.56 days against 234.79**, resolved proportions **15.67% against 13.24%**, not significantly different | [What makes a good TODO comment](https://zpgao.github.io/papers/what_makes_a_good_todo_comment.pdf) | Measured | Correlational; annotation quality is not randomly assigned |
+
+**One contradiction, left unresolved.** A second research member reports median SATD removal of
+18.2–172.8 days with means of 82–613.2, and manual validation of 333 apparent removals found **58%**
+deleted the admission without demonstrably addressing the debt. So headline removal rates overstate
+remediation, and survival is strongly project-dependent rather than universal. The two members
+disagree about what a recorded removal *means*; angle K does not depend on the resolution, because
+either reading supports flagging the pattern.
+
+**The recorded failure.** A shell removed from an agent's permitted tool set as a measurement
+instrument, in a commit naming its own undo; a narrower fix six minutes later, reverted a minute after
+that with no reason recorded; the word "temporary" replaced with a design justification by that
+evening, plus a test asserting the absence. The agent then had no path that writes a file, emitted its
+artifact as literal output and died on the output cap having written nothing. Twenty days, 180 commits,
+74 of 135 runs producing nothing before the tool list was suspected. **Tier: measured, n=1, one
+repository, 2026-08-21.** No existing angle fired on it: angle B asks what a deletion enforced and the
+withdrawn capability enforced nothing.
+
+**What is not measured.** Nobody has measured whether reviewing for this shape shortens anything. The
+angle is built on the persistence and overfitting evidence above plus one recorded failure; treat the
+detection value as reasoned rather than demonstrated.
+
 ## Deliberately not adopted
 
 - **`ReportFindings` as the output contract.** The built-in emits through a typed tool when a

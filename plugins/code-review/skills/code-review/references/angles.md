@@ -208,6 +208,59 @@ Four shapes worth grepping for specifically:
 Where a boundary has **no** guard on either side, that is a `no-oracle` row in the ledger, not a
 clean one: nothing in the repo can decide whether the two sides still agree.
 
+### K — Capability withdrawn, and the test that keeps it withdrawn
+
+**Trigger:** the diff removes a capability from something that runs rather than from something that
+is called — a tool from an agent's permitted set, a permission from a role, a command from an
+allowlist, a syscall from a sandbox profile, a mode from a runtime — **or** it adds an assertion that
+a capability is absent. Either half fires this angle; together they are the shape below.
+
+**Angle B already asks what a deletion enforced.** This one exists because a withdrawn *capability*
+inverts B's question: nothing was enforcing anything, so B finds no invariant to re-establish and
+passes. The thing that broke is downstream and behavioural, and the review has no line to look at.
+
+Three questions, in order:
+
+1. **What can the thing no longer do, and does anything still need it done?** Name the operations the
+   removed capability was the only route to. A capability is the only route more often than it looks:
+   removing a shell from an agent removes *every* path that writes a file, not merely the convenient
+   one. If the answer is "it can still do X another way", say which way and check that way exists.
+2. **Is the justification in the comment the justification in the commit?** A capability withdrawn as
+   a temporary measurement, an experiment, or a bisect step, whose comment then explains why the
+   restriction is correct, is the pattern to flag. The two are different claims and the second is
+   usually written later, by someone with a deadline.
+3. **Does a test now assert the absence?** That is the half that converts a temporary change into a
+   specification, because restoring the capability breaks the suite. Flag it, and ask what the test
+   would look like if it asserted the *behaviour* instead — that the artifact gets produced by some
+   permitted means — which is a test that survives the capability coming back.
+
+**Why this angle exists, with the numbers.** A test asserting current structure rather than intended
+behaviour is a change-detector test, and characterization tests are *defined* as documenting a
+system's actual behaviour rather than the behaviour it should have; that is the mechanism by which one
+encodes a defect as the specification. A green suite is evidence about the tests: of 902 automated
+patches that all passed their tests, **654 were overfitted and 248 correct** — 72.5% wrong beyond the
+supplied tests. And the "temporary" half is not temporary: across 23,561 repositories and 120,611 TODO
+comments the mean lifespan was **528 days** with 62.3% of survivors older than a year, and in LLM
+codebases the **first** self-admitted debt introduced into a file is removed **4.2%** of the time
+against 49.1% for such comments overall. Writing the annotation better does not rescue it — better
+TODOs resolve faster (98.56 days against 234.79) but are **no more likely to be resolved at all**
+(15.67% against 13.24%, not significantly different).
+
+**Recorded failure this angle is built from.** A shell was removed from one agent's permitted tool set
+at 11:41 on a Saturday as a measurement instrument, in a commit that named its own undo. Six minutes
+later a narrower fix kept the shell and denied only the batching; one minute after that it was
+reverted with no reason recorded. By that evening the word "temporary" had been replaced with a design
+justification and a test added asserting the tool's absence. The agent then had no path that writes a
+file, so it emitted its whole artifact as literal output and died on the output cap having written
+nothing — and it cost twenty days, 180 commits and 74 of 135 runs producing nothing before anyone
+suspected the tool list. Every commit in that chain was individually defensible. The angle is what
+notices the shape.
+
+**Severity.** A withdrawn capability with a live consumer is a **blocker**. A withdrawn capability
+whose comment argues it is permanent, when the commit says it is temporary, is **major** on its own
+and **blocker** once a test asserts the absence: at that point the cheapest route back is deleting a
+passing test, which nobody does casually.
+
 ### M — Mirror, wrapper and adapter correctness
 
 **Trigger:** the diff touches a type or class that mirrors, wraps, adapts, proxies, caches or
