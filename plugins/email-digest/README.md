@@ -10,7 +10,7 @@ A digest builder that refuses to cap your item count, because the measured evide
 <p align="center">
   <img alt="Version 1.2.0" src="https://img.shields.io/badge/version-1.2.0-D4703A">
   <img alt="SWE skill: email" src="https://img.shields.io/badge/SWE_skill-email-434A55">
-  <img alt="16 gate checks" src="https://img.shields.io/badge/gate-16_checks-756E60">
+  <img alt="19 gate checks" src="https://img.shields.io/badge/gate-19_checks-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -35,7 +35,9 @@ So this skill tiers the list instead of trimming it. A few items get real space,
 
 ## What you get
 
-Three tiers, a render that survives Outlook, and a gate with sixteen checks that each trace back to a source.
+Three tiers, a render that survives Outlook, and a gate with nineteen checks that each trace back to a source.
+
+There is a fourth block for the long-form work behind the items, where you have any: two tiles side by side, on their own ground, so a reader can see at a glance they have left the list. Its ground colour sits on the cell rather than in the artwork, because a dark tile whose background arrives as an image turns into pale text on white the moment someone's client blocks images, and the gate fails that.
 
 The gate is the useful part. It catches the things that break an email silently:
 
