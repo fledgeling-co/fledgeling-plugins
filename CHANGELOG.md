@@ -6,6 +6,32 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.2.1: the tail separator is a middot, not an em dash
+
+One character, changed because it goes out under a name that does not use em
+dashes. The one-line tier separated its title from its summary with `&mdash;`;
+it now uses `&middot;`, matching the separator the category-counts line already
+carried.
+
+### email-digest 1.2.0: the middle tier carries a banner, not a thumbnail
+
+The compact tier put a square icon beside text, and that is the shape NN/g
+tested badly: thumbnails rated less valuable than full-width photography, and a
+thumbnail newsletter re-classified as cluttered on re-test. It is replaced by a
+`spotlight` tier carrying the same wide banner crop at 360px, which is a
+reduction in prominence rather than a change of object.
+
+`scripts/email_assets.py` generates the derivatives, because a 3200px source
+banner is not a 600px email banner: the sources in this marketplace average
+663KB and the derivatives run 38 to 142KB. `site/scripts/build-catalogue.mjs`
+copies any `assets/banner-email-<width>.png` into `public/banners/`, so a
+committed derivative is served without a build-time image library.
+
+Defaults are now two featured and three spotlight. The hard error on more than
+three banners is downgraded to a warning at six: the rule was wrong about its
+own reason, since the clip threshold counts HTML only and banners never pushed
+against it.
+
 ### email-digest 1.1.0: routing to the skills that already own this surface
 
 1.0.0 shipped without routing to `ux-craft` or `design-craft`, which was a miss
