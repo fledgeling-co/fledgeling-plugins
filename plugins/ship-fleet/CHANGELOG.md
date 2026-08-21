@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.0 - 2026-08-21
+
+- Runner failure now specifies a channel sweep rather than "read the report". The report is the channel closest to hand and routinely the one the cause is absent from: measured, the reason appeared 36 times in the event stream, in none of 56 run records, and in none of 285,950 log lines that were being read and quoted.
+- Four channels enumerated in order, including the token counts: an output-to-input ratio far above 1 means the agent is reciting its artifact rather than saving it, 33.8:1 on failed runs against 1.1:1 on completed ones.
+- A standing rule not to harden the output while the cause is unidentified. On the run this comes from, 41 commits went into output gates and 15 into prompts before one touched the tool list.
+- And preflight: if a job must persist a file and no permitted tool can write one, fail before the model is invoked.
+
 ## 2.2.0 — 2026-08-20
 
 ### Changed

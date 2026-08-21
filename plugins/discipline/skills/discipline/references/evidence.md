@@ -19,6 +19,22 @@ in full is `self-report+results-read` permanently.
 
 ---
 
+## The output-to-input ratio, and what it cost unwatched — added 2026-08-21
+
+| Figure | Value | How measured | Limit |
+|---|---|---|---|
+| Ratio on completed runs | 1.1x, 2,510,067 in against 2,833,838 out over 61 runs | Summed token fields on the pipeline's own run records | Two summed fields, not per-turn |
+| Ratio on failed runs | 33.8x, 20,269 in against 684,666 out over 52 runs | As above | As above |
+| Output spent on runs that produced nothing | 813,649 tokens, 22% of window output | As above | Cancelled covers operator stops and stale sweeps alike |
+| Cache reads across the set | 413,895,107 over 135 runs | As above | Pipeline accounting, not a provider invoice |
+| Runs producing no artifact | 74 of 135, 55% | Run status counts | A floor on waste rather than a claim about intent |
+
+**Tier: measured, n=1 pipeline, one twenty-day window, 2026-08-21.** The 5x alert threshold in SKILL.md
+is a judgement from this single distribution rather than a tuned value, and nobody has measured whether
+watching the ratio shortens a diagnosis. What is measured is that the signal separated failed from
+completed runs from the first failure onward and was never computed, across twenty days in which 41
+commits went into output gates and 15 into prompts before one touched the cause.
+
 ## 1. First-party: diolog-swe-bench, Opus 5
 
 The measurement that caused this rebuild. Source: `~/Dev/diolog-swe-bench`, the Benchwarmer SQLite
