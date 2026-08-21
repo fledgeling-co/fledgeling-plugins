@@ -101,6 +101,31 @@ broken layout rather than as a mismatched asset. `email_assets.py --aspect
 1000:325` pads the short ones with their own edge colour rather than cropping
 the artwork.
 
+### A fourth block, where the digest has long-form behind it
+
+Some of the items exist because a piece of research said they should, and that
+research is a different class of thing from the items: longer, older than the
+week, and read for a different reason. It gets its own block rather than a tier,
+two tiles across at 260px, set on their own ground so the reader can see at a
+glance that they have left the list.
+
+Two tiles, not three. Each carries a headline and a sentence of what was found,
+and at the three-across width of 168px that sentence sets to four or five words
+a line. One tile reads as an orphan rather than a section.
+
+**The ground colour goes on the cell, never on the image.** A tile whose dark
+field arrives as artwork becomes light text on the email's paper the moment
+images are blocked, which is a client default rather than an error state.
+Everything textual stays live text for the same reason, and `research:ground`
+fails the render that gets this wrong.
+
+Give it `research.palette` matching wherever the research is actually published.
+A tile that does not resemble the page it leads to is a worse tile than a plain
+one. The block sits between the middle tier and the tail: the reader has been
+through the items chosen for them, the long list is still ahead, and Kong et al.
+found ordering that tail changes nothing, so this is the last position in the
+email where placement is worth anything.
+
 Two rules that are easy to get wrong:
 
 - **Featured items are chosen for relevance, not recency.** The Kong effect is
@@ -225,12 +250,15 @@ Exit 0 clean, 1 on any error. **Read the exit code, not the output** — piping
 through `grep` or `tail` reports the pipe's status and has already turned a
 failure into a pass once during this skill's own development.
 
-Sixteen checks. The ones that catch real defects most often:
+Eighteen checks. The ones that catch real defects most often:
 
 - **`tiers`** — no tier markers means every tier rule below is measuring
   nothing while still printing a verdict. This failed silently on the first
   render here.
 - **`prose-intro`** — a paragraph over 180 characters before the first item.
+- **`research:ground`** — a research tile with no background on the cell. The
+  tile is dark against a light email, so with images blocked it inverts into
+  unreadable light-on-paper rather than degrading.
 - **`summary:anchors`** — any `href="#"`. Anchors do not act in Apple Mail,
   Gmail, Outlook or Yahoo on iPhone and iPad, Apple is 62.26% of opens, and
   anchor clicks bypass ESP redirect tracking so the block cannot even be

@@ -6,6 +6,32 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.7.0: a block for the research behind the items
+
+Some items exist because a piece of research said they should, and that research
+is a different class of thing from the items around it: longer, older than the
+week, read for a different reason. It now gets its own block, two tiles across at
+260px, set on their own ground so a reader can see at a glance they have left the
+list. `research.palette` sets that ground, and it should match wherever the
+research is actually published, because a tile that does not resemble the page it
+leads to is a worse tile than a plain one.
+
+Two tiles rather than three. Each carries a headline and a sentence of what was
+found, and at the three-across width of 168px that sentence sets to four or five
+words a line. One reads as an orphan rather than a section, so the gate warns
+outside two.
+
+`research:ground` is the new error, and it exists because this block inverts the
+usual failure. The tile is dark against a light email, so a dark field delivered
+as artwork becomes light text on the email's paper the moment images are blocked,
+which is a client default rather than an error state. The ground goes on the cell
+where a blocked image cannot take it, everything textual stays live text, and the
+check fails a render that leaves either to the image.
+
+The block sits between the middle tier and the tail. Kong et al. found ordering
+the tail changes nothing, so that is the last position in the email where
+placement is still worth something.
+
 ### email-digest 1.6.0: the voice skill writes every word, not the headline only
 
 Step 3 said to route prose to the project's voice skill, and in practice that

@@ -15,6 +15,7 @@
 | `summary` | no | `counts` string and up to three `highlights`. A highlight is either `{text, url}` or `{parts: [{text}, {text, url}, ...]}`, the second form so one line can name the work in plain text and link each destination separately. Links point outward, never at an anchor. |
 | `items` | yes | See below. No cap. |
 | `featured` | no | How many auto-assign to the featured tier. Default 2, gate allows 2-4. |
+| `research` | no | An optional long-form block: `heading`, `palette`, and `items`. See below. |
 | `spotlight` | no | How many auto-assign to the spotlight row. Default 3, gate warns outside 2-5. Three is the count the row is built around; more than three columns at 600px leaves each one too narrow to carry a banner. |
 
 ## Palette
@@ -28,6 +29,32 @@ Two colour constraints worth checking before you pass a palette in. Avoid pure
 `#FFFFFF` and `#000000`, which Outlook.com's inversion targets specifically. And
 verify the accent against its background at 4.5:1 rather than assuming: a brand
 accent tuned for large display type routinely fails as button text.
+
+## Research block
+
+Optional, and a block rather than a tier: the entries are longer-lived than the
+issue and are read for a different reason, so they sit on their own ground
+between the middle tier and the tail.
+
+| Key | Notes |
+|---|---|
+| `heading` | The section heading. Defaults to "The research behind them". |
+| `palette` | `ground`, `ink`, `muted`, `meta`, `accent`. Defaults to a dark inset. Match wherever the research is published; a tile that does not resemble the page it leads to is a worse tile than a plain one. |
+| `items` | Two of them. Each is `{slug, title, url, summary, meta, imageUrl}`. |
+
+Per entry: `slug` sets the small mono line above the headline, `summary` is one
+sentence of what was found (four lines at 260px, so around 25 words), `meta` is
+the mono provenance line underneath (sources, backends, cost, date), and
+`imageUrl` is a decorative tile image at 520x220 for the 260x110 slot, rendered
+with `alt=""`.
+
+Two tiles is what the row is built around and the gate warns outside it: each
+one carries a headline and a sentence, and at the three-across width of 168px
+that sentence sets to four or five words a line. One tile reads as an orphan.
+
+**The ground goes on the cell, not in the image.** `research:ground` fails a
+render that leaves it to artwork, because a blocked image takes the dark field
+with it and leaves light text on the email's paper.
 
 ## Per item
 

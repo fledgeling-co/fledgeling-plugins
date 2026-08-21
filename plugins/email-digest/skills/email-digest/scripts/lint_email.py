@@ -117,6 +117,7 @@ class Doc(HTMLParser):
         self._p: list[str] | None = None
         self.seen_first_item = False
         self.tiers: dict[str, int] = {"featured": 0, "spotlight": 0, "oneline": 0}
+        self.research: list[dict] = []
         self.summary_items = 0
         self._h: list[tuple[int, list]] = []
         self._a: list[dict] | None = None
@@ -137,6 +138,8 @@ class Doc(HTMLParser):
             self._a = {**a, "text": [], "line": self.getpos()[0]}
         if re.fullmatch(r"h[1-6]", tag):
             self._h.append((int(tag[1]), []))
+        if a.get("data-block") == "research":
+            self.research.append({**a, "line": self.getpos()[0]})
         for t in ("featured", "spotlight", "oneline"):
             if re.search(rf"\b(?:tier-)?{t}\b", cls):
                 self.tiers[t] += 1
@@ -199,6 +202,42 @@ def check_no_item_cap(doc: Doc, f: Findings) -> None:
     f.ok("no-item-cap",
          f"{total} items, no cap enforced (by design)",
          "measured: MailerLite 21+ links highest CTOR 6.72%; choice-overload null")
+
+
+def check_research(doc: Doc, f: Findings) -> None:
+    """The long-form tier, where it is present at all.
+
+    Two rules, and the second is the one that catches a real defect. A research
+    tile is typically dark against a light email, and a dark field delivered as
+    artwork is not there when images are blocked: the tile becomes light text on
+    the email's own paper and reads as an empty box. So the ground has to be
+    declared on the cell, where a blocked image cannot take it away."""
+    n = len(doc.research)
+    if not n:
+        return
+    if n != 2:
+        f.add(WARN, "research:pair",
+              f"{n} research tile(s); two across is what the row is built "
+              "around. One reads as an orphan rather than a section, and three "
+              "at 168px leaves the summary sentence setting four words a line",
+              "convention, bounded by the column width a sentence needs")
+    else:
+        f.ok("research:pair", "2 research tiles",
+             "convention, bounded by the column width a sentence needs")
+
+    naked = [t for t in doc.research
+             if not t.get("bgcolor")
+             and not re.search(r"background(-color)?\s*:", t.get("style") or "")]
+    if naked:
+        f.add(ERROR, "research:ground",
+              f"{len(naked)} research tile(s) declare no background on the cell. "
+              "A dark tile whose ground arrives as artwork turns into light text "
+              "on the email's paper the moment images are blocked",
+              "spec: image blocking is a client default, not an error state")
+    else:
+        f.ok("research:ground",
+             f"{n} research tile(s) carry their own ground",
+             "spec: survives image blocking")
 
 
 def check_tier_shape(doc: Doc, f: Findings) -> None:
@@ -641,6 +680,7 @@ def main() -> int:
     f = Findings()
     check_no_item_cap(doc, f)
     check_tier_shape(doc, f)
+    check_research(doc, f)
     check_summary(doc, html, f)
     check_prose_intro(doc, f)
     check_headings(doc, f)
