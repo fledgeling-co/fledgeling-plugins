@@ -8,7 +8,7 @@
 A digest builder that refuses to cap your item count, because the measured evidence says the count was never the problem.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D4703A">
+  <img alt="Version 1.1.0" src="https://img.shields.io/badge/version-1.1.0-D4703A">
   <img alt="SWE skill: email" src="https://img.shields.io/badge/SWE_skill-email-434A55">
   <img alt="16 gate checks" src="https://img.shields.io/badge/gate-16_checks-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

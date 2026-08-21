@@ -11,6 +11,15 @@ fail the same way:
     WARN    the rule is convention, or the evidence is contested, or the fix is
             a judgement call
 
+This is the email-medium half of the gate. The reading-surface half is
+ux-craft's ux-lint.py, and the two are meant to run together: contrast and
+touch-target size are deliberately absent here because ux-lint.py already
+resolves them properly, and a second implementation would only mean two gates
+disagreeing about one standard. Two of its checks do not transfer to email
+(no-focus-visible, because Gmail's allowlist has no pseudo-class support, and
+state-coverage, because an email has no states); report those as not-applicable
+rather than suppressing them.
+
 The single most important thing this script does NOT do is cap the item count.
 That is asserted as an anti-rule (see check_no_item_cap) because the intuitive
 fix for an unreadable digest is fewer items, the largest dataset available says

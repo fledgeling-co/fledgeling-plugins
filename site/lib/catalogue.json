@@ -1436,7 +1436,7 @@
     },
     {
       "name": "email-digest",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "group": "making",
       "description": "Build a recurring multi-item digest or roundup email that survives contact with real inboxes: a tiered layout that absorbs volume instead of capping it, a table-based render that works in Outlook's Word engine and with images blocked, and a deterministic gate carrying every rule back to the evidence behind it. Refuses the two fixes people reach for first, because the measured evidence goes the other way.",
       "trigger": "Build a recurring multi-item digest or roundup email that survives contact with real inboxes - a tiered layout that absorbs volume instead of capping it, a table-based render that works in Outlook's Word engine and with images blocked, and a deterministic gate carrying every rule back to the evidence behind it. Use when someone wants to send a newsletter, changelog digest, product-announcement roundup, release notes email or \"what shipped this week\" to subscribers, when a digest has been called too long or unreadable, when an email needs checking before it goes out, or when a template needs auditing for accessibility, dark mode, Gmail clipping or Outlook rendering. Refuses the two fixes people reach for first, because the measured evidence goes the other way - it will not cap the item count and it will not gate on a text-to-image ratio. Not for transactional mail (receipts, password resets, alerts), cold outreach, or a single-announcement campaign, and not a sending pipeline: it produces and gates the message, and hands off to whatever already sends.",

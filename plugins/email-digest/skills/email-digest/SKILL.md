@@ -51,6 +51,14 @@ email-sized derivatives with `scripts/email_assets.py`. A 3200px banner is not a
 
 ## Step 2 — Assign the tiers
 
+**Route the tier decisions through `ux-craft` where it is installed.** An email
+is a reading surface and `ux-craft` is the skill that owns those, emails
+included by its own description. What it decides here that this skill does not:
+the reading order, whether the summary block earns its position, and whether a
+given item genuinely belongs in the featured tier or is only recent. Bring it
+the item list and the constraints below rather than a finished template, because
+by render time the decisions are already made.
+
 Three tiers. The shape is not arbitrary: Kong et al.'s eight-week field
 experiment is the only causal evidence in the corpus, and it found that
 featuring relevant items raised their detail-reading from 13% to 22% while
@@ -103,6 +111,14 @@ never fails on it.
 
 ## Step 4 — Render
 
+**Route the visual treatment through `design-craft` where it is installed**, with
+`ux-craft`'s lens still on it: they are a pair rather than alternatives.
+`design-craft` decides the palette (taken from the project's own tokens and
+flattened to literals, since Gmail supports `var()` but not the declaration),
+the type scale, and how much visual weight actually separates the three tiers.
+The renderer below ships a default palette so it runs standalone; that default is
+a starting point, not a design.
+
 ```bash
 python3 scripts/render_digest.py payload.json --out-html mail.html --out-text mail.txt
 python3 scripts/render_digest.py --example        # the payload shape
@@ -154,7 +170,28 @@ Sixteen checks. The ones that catch real defects most often:
   mid-markup and can take the unsubscribe link with it.
 - **`images-off`** — strips every image and asserts the content survives.
 
-Two things the gate deliberately does not do:
+### What this gate does not cover, and who does
+
+`lint_email.py` is the email-specific half. The general reading-surface half is
+`ux-craft`'s `ux-lint.py`, and running both is the intended shape:
+
+```bash
+python3 <ux-craft>/scripts/ux-lint.py --static mail.html
+```
+
+| Concern | Gated by | Why there |
+|---|---|---|
+| Clipping, Word-engine CSS, SVG stripping, dark-mode inversion, image blocking, anchor failure, tier shape, prose intro, layout-table roles | `lint_email.py` | Email-medium rules with no web equivalent. Layout-table roles land here because only email forces tables in the first place. |
+| Colour contrast, touch-target size, vague link labels, alt coverage | `ux-lint.py` | General reading-surface rules it already gates properly. `lint_email.py` checks alt and link text too; treat the overlap as belt and braces rather than duplicating it further, and do not add contrast here. |
+
+Two of `ux-lint.py`'s checks do not transfer to email, and the run should say so
+rather than either fixing or ignoring them. **`no-focus-visible`**: Gmail's
+published CSS allowlist has no pseudo-class support, so a `:focus-visible`
+treatment cannot render in the medium at all. **`state-coverage`**: an email has
+no states to cover. Everything else it reports is real, and it caught dead CSS
+here that this gate did not.
+
+Two things `lint_email.py` deliberately does not do:
 
 - **It does not cap items.** See the top of this file.
 - **It does not gate a text-to-image ratio.** Email on Acid tested against 23
@@ -185,6 +222,17 @@ Then hand off to whatever sends.
   inference from four measured results, and the honest way to settle it is a
   randomised split in your own programme measuring read time and per-tier click
   penetration.
+
+## Routes to
+
+| Skill | For |
+|---|---|
+| `ux-craft` | Tier decisions, reading order, and the general reading-surface gate |
+| `design-craft` | Palette from the project's tokens, type scale, tier weighting |
+| `create-luke-content` / `agent-voice` / a named persona | Every word of prose |
+
+Where one is not installed, say which substitution you made rather than
+implying the pass happened.
 
 ## References
 
