@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.4.2: the display weight moves from the issue line to the sections
+
+The issue heading held the 28px display type and the section headings sat under
+it as 11px mono eyebrows, which spent the largest thing on the page on the line
+a reader already knows the answer to. The two swap: sections take the display
+face at 28px, the issue heading becomes a small bold line at 14px.
+
+Level and size are separate claims, so the `h1` stays an `h1` and the outline
+stays intact for a screen reader while the eye is sent to the sections instead.
+The tail's category headings are unchanged at 11px mono caps, and now read as a
+clear third level rather than as a repeat of the second.
+
 ### email-digest 1.4.1: a double quote inside a style attribute, and the gate for it
 
 1.4.0's font stacks were written `font-family:"Instrument Sans", ...` and landed
