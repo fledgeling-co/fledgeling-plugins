@@ -205,7 +205,7 @@ def check_tier_shape(doc: Doc, f: Findings) -> None:
     fe, co, ol = doc.tiers["featured"], doc.tiers["spotlight"], doc.tiers["oneline"]
     if not (2 <= fe <= 4):
         f.add(ERROR, "tier:featured",
-              f"{fe} featured item(s); 2 to 4, default 3. Prominence is the only "
+              f"{fe} featured item(s); 2 to 4, default 2. Prominence is the only "
               "part of this layout with causal evidence behind it, and it stops "
               "being prominence when everything has it",
               "measured: Kong et al. detail-reading 13%->22%")
@@ -214,16 +214,17 @@ def check_tier_shape(doc: Doc, f: Findings) -> None:
 
     if co and not (2 <= co <= 5):
         f.add(WARN, "tier:spotlight",
-              f"{co} spotlight item(s); 2 to 5. The middle tier carries imagery "
-              "at reduced width, so it costs both attention and bytes in a way "
-              "the one-line tail does not",
+              f"{co} spotlight item(s); 2 to 5, and three is what the row is "
+              "built around. The middle tier carries imagery at reduced width, "
+              "so it costs both attention and bytes in a way the one-line tail "
+              "does not, and past three the columns are too narrow for a banner",
               "convention, bounded by the scan budget and image weight")
     else:
         f.ok("tier:spotlight", f"{co} spotlight")
 
     if fe + co + ol >= 12 and ol == 0:
         f.add(ERROR, "tier:tail",
-              "a long issue with no one-line tier. Everything past the compact "
+              "a long issue with no one-line tier. Everything past the spotlight "
               "band compresses to title-only, which is what lets the item count "
               "stay uncapped",
               "measured: scan budget; no item ceiling")

@@ -18,7 +18,9 @@ argue with:
     is not, which is exactly a small featured set over a compressed remainder.
   * The summary is three highlights and category counts, linking outward. Not a
     contents list, which recreates the flat list, and never anchored, because
-    anchors do not act on iOS and Apple is 62.26% of opens.
+    anchors do not act on iOS and Apple is 62.26% of opens. A highlight may be
+    several parts, so one line can name the work in plain text and still send
+    the reader to each destination it mentions.
   * Every headline is a text node beside its image, never inside it.
 
 Usage:
@@ -115,11 +117,20 @@ def render_featured(it: dict, p: dict) -> str:
             f'border-radius:8px;" />'
             f'<div style="height:16px;line-height:16px;">&nbsp;</div>')
     install = ""
-    if it.get("install"):
+    inst = it.get("install")
+    if isinstance(inst, dict) and inst.get("label"):
+        # A named route rather than a command. A shell line in an email asks the
+        # reader to copy it into the right window; a labelled link asks them to
+        # click, and it is the only one of the two that a phone can act on.
+        install = (
+            f'<p style="margin:0 0 14px;font-size:15px;line-height:1.6;">'
+            f'<a href="{esc(inst.get("url",""))}" style="color:{p["accent"]};'
+            f'font-weight:600;">{esc(inst["label"])}</a></p>')
+    elif inst:
         install = (
             f'<div style="margin:0 0 14px;padding:11px 13px;background:{p["codebg"]};'
             f'border-radius:7px;font-family:{MONO};font-size:13px;line-height:1.5;'
-            f'color:{p["ink"]};word-break:break-word;">{esc(it["install"])}</div>')
+            f'color:{p["ink"]};word-break:break-word;">{esc(inst)}</div>')
     return cell(
         f'{banner}'
         f'<h2 style="margin:0 0 9px;font-family:{SERIF};font-size:23px;line-height:1.28;'
@@ -135,34 +146,55 @@ def render_featured(it: dict, p: dict) -> str:
         pad="0 32px 30px", tier="featured")
 
 
-def render_spotlight(it: dict, p: dict) -> str:
-    """A banner at reduced width, then the headline as text beside nothing.
+SPOT_COL = 168      # 3 x 168 + 2 x 16 gutter = 536, the card's inner width
+SPOT_GUTTER = 16
 
-    This tier is the middle of three and its imagery is deliberately narrower
-    rather than square. NN/g's finding is about *thumbnails* being rated less
-    valuable than full-width photography, and a 360px banner is neither: it is
-    the same wide crop at less prominence, which is what a second tier is for.
-    The headline is still a text node outside the image, for the same reason it
-    is in the featured tier."""
-    banner = ""
-    if it.get("bannerUrl"):
-        w = 360
-        banner = (
-            f'<img src="{esc(it["bannerUrl"])}" width="{w}" '
-            f'height="{int(w * 0.325)}" alt="" class="banner" '
-            f'style="display:block;width:{w}px;max-width:100%;border:0;'
-            f'border-radius:7px;" />'
-            f'<div style="height:12px;line-height:12px;">&nbsp;</div>')
+def render_spotlight_row(items: list[dict], p: dict) -> str:
+    """The middle tier, three across in one row.
+
+    Each column carries its own `data-tier`, because the gate counts tier
+    markers rather than rows; putting one marker on the row would report a
+    three-item tier as one and every count below it would be wrong.
+
+    A real table with pixel widths rather than anything modern: Outlook renders
+    through the Word engine, which has no flex and no grid but lays out a table
+    correctly. The media query collapses the columns to full width on a narrow
+    screen, and the clients that ignore it are the desktop ones that have the
+    room anyway.
+
+    The banner is deliberately narrow rather than square. NN/g's finding is
+    about *thumbnails* rating below full-width photography, and this is neither:
+    it is the same wide crop at a third of the featured tier's prominence. At
+    this width the artwork reads as colour and shape rather than as a wordmark,
+    so the title below it is doing the naming."""
+    cols = []
+    for n, it in enumerate(items):
+        banner = ""
+        if it.get("bannerUrl"):
+            banner = (
+                f'<img src="{esc(it["bannerUrl"])}" width="{SPOT_COL}" '
+                f'height="{int(SPOT_COL * 0.325)}" alt="" class="banner" '
+                f'style="display:block;width:100%;max-width:{SPOT_COL}px;border:0;'
+                f'border-radius:6px;" />'
+                f'<div style="height:10px;line-height:10px;">&nbsp;</div>')
+        cols.append(
+            f'<td class="col" data-tier="spotlight" width="{SPOT_COL}" valign="top" '
+            f'style="width:{SPOT_COL}px;font-family:{SANS};text-align:left;">'
+            f'{banner}'
+            f'<h3 style="margin:0 0 4px;font-family:{SERIF};font-size:17px;line-height:1.28;'
+            f'font-weight:700;color:{p["ink"]};mso-line-height-rule:exactly;">'
+            f'<a href="{esc(it["url"])}" style="color:{p["ink"]};text-decoration:none;">'
+            f'{esc(it["title"])}</a></h3>'
+            f'<p style="margin:0;font-size:13px;line-height:1.5;color:{p["muted"]};">'
+            f'{esc(it.get("headline") or it.get("body",""))[:110]}</p>'
+            f'</td>')
+        if n < len(items) - 1:
+            cols.append(f'<td class="gut" width="{SPOT_GUTTER}" '
+                        f'style="width:{SPOT_GUTTER}px;font-size:0;line-height:0;">&nbsp;</td>')
     return cell(
-        f'{banner}'
-        f'<h3 style="margin:0 0 5px;font-family:{SERIF};font-size:19px;line-height:1.3;'
-        f'font-weight:700;color:{p["ink"]};mso-line-height-rule:exactly;">'
-        f'<a href="{esc(it["url"])}" style="color:{p["ink"]};text-decoration:none;">'
-        f'{esc(it["title"])}</a></h3>'
-        f'<p style="margin:0;font-size:15px;line-height:1.55;color:{p["muted"]};">'
-        f'{esc(it.get("headline") or it.get("body",""))[:160]}</p>',
-        pad="0 32px 26px", tier="spotlight")
-
+        f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" '
+        f'width="100%"><tr>{"".join(cols)}</tr></table>',
+        pad="0 32px 26px")
 
 def render_oneline(items: list[dict], p: dict) -> str:
     """Title plus a short tag, grouped under category headings where they exist.
@@ -208,11 +240,25 @@ def render(payload: dict) -> tuple[str, str]:
 
     summary = payload.get("summary", {})
     highlights = (summary.get("highlights") or [])[:3]
+    def hl_body(h: dict) -> str:
+        """A highlight is one link, or several parts of which some are links.
+
+        The multi-part form exists so a line can name the thing that was worked
+        on in plain text and still send the reader somewhere real. Every link
+        points outward at its own destination; none of them is an anchor, which
+        would not act at all on the platform holding 62.26% of opens."""
+        parts = h.get("parts") or [h]
+        out = []
+        for part in parts:
+            t = esc(part.get("text", ""))
+            out.append(f'<a href="{esc(part["url"])}" style="color:{p["ink"]};">{t}</a>'
+                       if part.get("url") else t)
+        return "".join(out)
+
     hl = "".join(
         f'<tr><td class="summary" style="padding:0 0 7px;font-family:{SANS};'
         f'font-size:15px;line-height:1.5;color:{p["ink"]};">&bull;&nbsp; '
-        f'<a href="{esc(h["url"])}" style="color:{p["ink"]};">{esc(h["text"])}</a>'
-        f'</td></tr>' for h in highlights)
+        f'{hl_body(h)}</td></tr>' for h in highlights)
     counts = (f'<p style="margin:8px 0 0;font-family:{MONO};font-size:12px;'
               f'color:{p["muted"]};">{esc(summary.get("counts",""))}</p>'
               if summary.get("counts") else "")
@@ -237,7 +283,7 @@ def render(payload: dict) -> tuple[str, str]:
             f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
             f'color:{p["muted"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
             pad="0 32px 4px"))
-        sections.extend(render_spotlight(i, p) for i in co)
+        sections.append(render_spotlight_row(co, p))
     if ol:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
@@ -263,6 +309,8 @@ def render(payload: dict) -> tuple[str, str]:
 @media only screen and (max-width:620px){{
   .card{{width:100% !important}}
   .pad{{padding-left:20px !important;padding-right:20px !important}}
+  .col{{display:block !important;width:100% !important;padding-bottom:22px !important}}
+  .gut{{display:none !important}}
 }}
 </style>
 </head>
@@ -312,15 +360,20 @@ def render(payload: dict) -> tuple[str, str]:
     # ── plain-text part ──────────────────────────────────────────────────────
     lines = [payload.get("heading", ""), ""]
     if highlights:
-        lines += [h["text"] for h in highlights] + [""]
+        lines += ["".join(part.get("text", "")
+                          for part in (h.get("parts") or [h]))
+                  for h in highlights] + [""]
     if summary.get("counts"):
         lines += [summary["counts"], ""]
     lines.append("-" * 58)
     for i in fe:
         lines += ["", i["title"].upper(), i.get("headline", ""), "",
                   i.get("body", ""), ""]
-        if i.get("install"):
-            lines += ["  " + i["install"], ""]
+        inst = i.get("install")
+        if isinstance(inst, dict) and inst.get("label"):
+            lines += [f"  {inst['label']}: {inst.get('url','')}", ""]
+        elif inst:
+            lines += ["  " + inst, ""]
         lines += [i["url"], "", "-" * 58]
     if co:
         lines += ["", "ALSO WORTH A LOOK", ""]
@@ -361,7 +414,11 @@ EXAMPLE = {
     "items": [
         {"title": "code-review", "headline": "A diff review that reports its own blind spots",
          "body": "Fourteen angles that are forbidden from suppressing each other, three verdicts so a realistic-but-unproven bug survives as PLAUSIBLE, and a coverage ledger naming every angle and gate that never ran.",
-         "install": "/plugin install code-review@fledgeling-plugins",
+         # Either a command line, or {"label": ..., "url": ...} for a named
+         # route. The second is the better default where one exists: a phone
+         # cannot act on a shell line at all.
+         "install": {"label": "Install with MCP Router",
+                     "url": "https://mcp-router.fledgeling.app"},
          "url": "https://skills.fledgeling.app/skills/code-review",
          "bannerUrl": "https://skills.fledgeling.app/banners/code-review-1072.png",
          "group": "Making"},

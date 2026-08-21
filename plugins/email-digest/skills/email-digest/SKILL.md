@@ -71,14 +71,25 @@ Prominence earns the investment; ranking the tail does not.
 | Tier | Count | Treatment |
 |---|---|---|
 | Featured | 2-4, default 2 | Full-column banner, headline, 25-55 words, install line, one text CTA |
-| Spotlight | 2-5, default 3 | Banner at reduced width, title, one line |
+| Spotlight | 2-5, default 3 | One row, banners side by side, title, one line |
 | Also shipped | everything else | Title plus a short tag, grouped under category headings |
 
 The middle tier carries a **narrower banner rather than a thumbnail**, and the
 distinction is load-bearing. NN/g's finding is that thumbnails were rated less
-valuable than full-width photography; a banner at 360px is the same wide crop at
+valuable than full-width photography; a narrow banner is the same wide crop at
 less prominence, which is what a second tier is for. A square icon beside text
 is the shape that tested badly.
+
+The row is a real table with pixel column widths, collapsing to full width under
+620px. Outlook has no flex and no grid but lays a table out correctly, and the
+clients that ignore the media query are the desktop ones with the room anyway.
+
+**Conform the banners to one ratio before they share a row.** Sources drift off
+whatever house ratio a project has, and at full width nobody notices; three of
+them in a row align at the top and finish at three different heights, which
+reads as a broken layout rather than as a mismatched asset. `email_assets.py
+--aspect 1000:325` pads the short ones with their own edge colour rather than
+cropping the artwork.
 
 Two rules that are easy to get wrong:
 
@@ -113,6 +124,13 @@ Four things the structure needs from the copy:
 - **A summary of exactly three highlights plus category counts**, every link
   pointing outward to its destination. Not a contents list, which recreates the
   flat list above the flat list.
+- **Say what the items were used on, where you can source it.** A highlight that
+  names the work ("three projects closed out behind this one") answers the
+  question a list of titles does not, and it is the relevance signal the Kong
+  result turns on. A highlight may be composed of `parts`, so one line can name
+  the project in plain text and still link each skill to its own page. Measure
+  it rather than asserting it: repository history, ticket references and build
+  logs all carry the join, and an invented one is worse than none.
 
 Length guidance for subjects is a truncation constraint, not a performance
 lever: three large datasets give three different optima and an academic study

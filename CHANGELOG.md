@@ -6,6 +6,34 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.3.0: the middle tier is a row, and install is a route
+
+The three spotlight items sat stacked, which spent three full-width bands on the
+tier that exists to cost less than the one above it. They are now one row of
+three columns: a real table with pixel widths, since Outlook has no flex and no
+grid but lays a table out correctly, collapsing to full width under 620px for
+the clients that read the media query.
+
+That change made a latent asset problem visible. Banner sources drift off
+whatever house ratio a project keeps, and at full width nobody notices; three in
+a row align at the top and finish at three different heights, which reads as a
+broken layout rather than a mismatched file. `email_assets.py --aspect 1000:325`
+conforms them, padding a short banner with the colour of the edge row it is
+extending rather than cropping the artwork.
+
+`install` now accepts `{label, url}` alongside the existing command string, and
+the link is the better default wherever a route exists: a shell line asks the
+reader to copy it into the right window, and a phone cannot act on it at all.
+
+A summary highlight may now be composed of `parts`, so one line can name the
+work in plain text and still link each destination it mentions separately. That
+is what lets the summary say what the items were *used on* rather than only what
+they are, which is the relevance signal the Kong result turns on.
+
+Also corrects three stale references the tier rename left behind in 1.2.0: the
+payload reference still documented a `compact` tier and an `iconUrl` that no
+longer render, and two gate messages quoted defaults the code had moved off.
+
 ### email-digest 1.2.1: the tail separator is a middot, not an em dash
 
 One character, changed because it goes out under a name that does not use em
