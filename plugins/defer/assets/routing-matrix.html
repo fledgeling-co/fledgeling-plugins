@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>defer — model routing matrix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Tokens lifted verbatim from site/styles/tokens.css — the fledgeling umbrella
+   theme that skills.fledgeling.app is built on. Values are the resolved ones,
+   not rounded to a grid. */
+:root {
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-window: 14px; --radius-card: 12px; --radius-pill: 999px;
+  --space-2xs: 8px; --space-xs: 12px; --space-sm: 16px;
+  --space-md: 24px; --space-lg: 32px; --space-xl: 48px; --space-2xl: 64px;
+  --space-3xl: 96px;
+
+  --color-paper: #f5f3ef;
+  --color-ink: #24221e;
+  --color-muted: #6b665d;
+  --color-hairline: rgba(36, 34, 30, 0.12);
+  --color-accent: #c4622d;
+  --color-accent-soft: #f1e4d7;
+  --color-accent-deep: #a44e20;   /* the small-text variant: #c4622d is a fill */
+  --color-code-bg: #edeae3;
+  --color-brand: #26231e;
+
+  --site-container: 1120px;
+  --site-surface: color-mix(in oklab, var(--color-paper) 55%, #fff);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--space-lg); }
+body {
+  background: var(--color-paper); color: var(--color-ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.62;
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+  padding: var(--space-xl) var(--space-md) var(--space-3xl);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important; transition-duration: .001ms !important;
+  }
+}
+::selection { background: var(--color-accent-soft); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-deep); outline-offset: 3px; border-radius: 3px; }
+/* The browser chrome carries the design too. */
+::-webkit-scrollbar { height: 11px; width: 11px; }
+::-webkit-scrollbar-track { background: var(--color-code-bg); }
+::-webkit-scrollbar-thumb { background: rgba(36,34,30,.26); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: rgba(36,34,30,.4); }
+
+.wrap { max-width: var(--site-container); margin-inline: auto; }
+
+/* ── masthead ─────────────────────────────────────────────────────────── */
+header { margin-bottom: var(--space-2xl); }
+.kicker {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--color-accent-deep);
+  margin-bottom: var(--space-xs);
+}
+h1 {
+  font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 7vw, 68px);
+  line-height: 1.02; letter-spacing: -.022em; margin-bottom: var(--space-sm);
+}
+h1 em { font-style: italic; color: var(--color-accent-deep); }
+.standfirst { font-size: 19px; color: var(--color-muted); max-width: 60ch; text-wrap: pretty; }
+
+h2 {
+  font-family: var(--font-display); font-weight: 400; font-size: 30px;
+  letter-spacing: -.014em; line-height: 1.2; margin-bottom: var(--space-2xs);
+}
+h3 { font-size: 15px; font-weight: 600; letter-spacing: -.006em; }
+section { margin-top: var(--space-3xl); }
+.lede { color: var(--color-muted); max-width: 62ch; margin-bottom: var(--space-md); text-wrap: pretty; }
+
+code, kbd, pre { font-family: var(--font-mono); }
+.cmd {
+  display: inline-block; background: var(--color-code-bg); color: var(--color-ink);
+  border: 1px solid var(--color-hairline); border-radius: var(--radius-card);
+  padding: var(--space-xs) var(--space-sm); font-size: 14px; margin-top: var(--space-md);
+  overflow-x: auto; max-width: 100%;
+}
+.cmd b { font-weight: 500; color: var(--color-accent-deep); }
+
+/* ── the matrix ───────────────────────────────────────────────────────── */
+.scroller { overflow-x: auto; border-radius: var(--radius-window); border: 1px solid var(--color-hairline); background: var(--site-surface); }
+table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 15px; }
+caption { text-align: left; padding: var(--space-sm) var(--space-md); color: var(--color-muted); font-size: 14px; border-bottom: 1px solid var(--color-hairline); }
+th, td { padding: var(--space-xs) var(--space-sm); text-align: left; vertical-align: top; border-bottom: 1px solid var(--color-hairline); }
+thead th {
+  font-size: 12px; font-weight: 600; letter-spacing: .045em; text-transform: uppercase;
+  color: var(--color-muted); white-space: nowrap; vertical-align: bottom;
+}
+thead th .fam { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; color: var(--color-muted); font-weight: 400; text-transform: none; }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+tbody th[scope="row"] { font-weight: 400; font-size: 15px; }
+/* Title and gloss are each their own block. A nowrap cell holding a block child
+   measures as one line on at least one engine, and the row border then crosses
+   the gloss. */
+tbody th[scope="row"] b { display: block; font-weight: 600; white-space: nowrap; }
+tbody th[scope="row"] span { display: block; font-weight: 400; font-size: 13px; line-height: 1.35; color: var(--color-muted); max-width: 26ch; margin-top: 3px; }
+td { text-align: center; font-family: var(--font-mono); font-size: 13px; color: var(--color-muted); }
+/* An effort is a value; a dash is the absence of one. Two different marks,
+   never the same grey. */
+td.eff { color: var(--color-ink); }
+td.no { color: var(--color-muted); font-size: 15px; }
+tbody tr:nth-child(odd) { background: rgba(36,34,30,.022); }
+
+/* ── rules ────────────────────────────────────────────────────────────── */
+.rules { display: grid; gap: var(--space-sm); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.rule {
+  background: var(--site-surface); border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card); padding: var(--space-md);
+}
+.rule .n {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--color-accent-deep); display: block; margin-bottom: var(--space-2xs);
+}
+.rule h3 { margin-bottom: var(--space-2xs); }
+.rule p { font-size: 15px; color: var(--color-muted); text-wrap: pretty; }
+.rule code { font-size: 13px; background: var(--color-code-bg); padding: 1px 5px; border-radius: 4px; color: var(--color-ink); }
+
+/* ── meters ───────────────────────────────────────────────────────────── */
+.meters { display: grid; gap: var(--space-2xs); }
+.meter {
+  display: grid; grid-template-columns: minmax(0,1fr) 200px 104px 148px;
+  gap: var(--space-sm); align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-hairline); border-radius: var(--radius-card);
+  background: var(--site-surface);
+}
+.meter .who { min-width: 0; }
+.meter .who b { display: block; font-size: 15px; font-weight: 600; }
+.meter .who .id { white-space: nowrap; }
+.meter .who small { display: block; font-family: var(--font-mono); font-size: 12px; color: var(--color-muted); }
+.bar { height: 9px; border-radius: var(--radius-pill); background: var(--color-code-bg); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--color-accent); border-radius: var(--radius-pill); }
+/* Spent is a state, so it gets a second signal: the row is struck as well as
+   filled. Colour alone would carry it for nobody who cannot see the colour. */
+.meter.spent .bar i { background: var(--color-brand); }
+.meter.spent .who b { text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.num { font-family: var(--font-mono); font-size: 13px; color: var(--color-muted); text-align: right; }
+.num b { color: var(--color-ink); font-weight: 500; }
+.tier {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em;
+  padding: 3px 9px; border-radius: var(--radius-pill); white-space: nowrap;
+  border: 1px solid var(--color-hairline); color: var(--color-muted); justify-self: end;
+}
+.tier.t1 { background: var(--color-accent-soft); border-color: transparent; color: var(--color-accent-deep); }
+@media (max-width: 700px) {
+  .meter { grid-template-columns: minmax(0,1fr) 148px; row-gap: var(--space-2xs); }
+  .meter .bar { grid-column: 1 / -1; }
+}
+
+/* ── invocations ──────────────────────────────────────────────────────── */
+.lanes { display: grid; gap: var(--space-sm); }
+.lane {
+  border: 1px solid var(--color-hairline); border-radius: var(--radius-card);
+  background: var(--site-surface); overflow: hidden;
+}
+.lane > .head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-xs);
+  padding: var(--space-xs) var(--space-sm); border-bottom: 1px solid var(--color-hairline);
+}
+.lane .head b { font-size: 15px; }
+.lane .head .model { font-family: var(--font-mono); font-size: 13px; color: var(--color-muted); }
+.lane .head .price { margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--color-muted); }
+.lane pre {
+  margin: 0; padding: var(--space-sm); font-size: 13px; line-height: 1.6;
+  background: var(--color-code-bg); overflow-x: auto; white-space: pre;
+}
+.lane pre b { font-weight: 500; color: var(--color-accent-deep); }
+.lane .verify {
+  padding: var(--space-2xs) var(--space-sm) var(--space-xs);
+  font-size: 14px; color: var(--color-muted);
+}
+.lane .verify strong { color: var(--color-ink); font-weight: 600; }
+
+.note {
+  margin-top: var(--space-md); padding-left: var(--space-sm);
+  border-left: 2px solid var(--color-accent); color: var(--color-muted);
+  font-size: 15px; max-width: 66ch; text-wrap: pretty;
+}
+footer {
+  margin-top: var(--space-3xl); padding-top: var(--space-md);
+  border-top: 1px solid var(--color-hairline); color: var(--color-muted); font-size: 14px;
+}
+footer a { color: var(--color-accent-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+footer a:hover { color: var(--color-ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">fledgeling · defer</p>
+  <h1>Which model does <em>this</em> work go to?</h1>
+  <p class="standfirst">One routing policy for every skill that hands work outside the session.
+    The task class picks the family; measured plan headroom picks the lane inside it.</p>
+  <p class="cmd"><b>lane_pick.py</b> --task completeness &nbsp;→&nbsp; lane, effort, argv, and the check that proves it ran</p>
+</header>
+
+<section aria-labelledby="matrix-h">
+  <h2 id="matrix-h">The matrix</h2>
+  <p class="lede">Six task classes, seven lanes, five model families. A cell holds the effort that
+    lane runs at for that class — pinned, because a lane that inherits its config default is not the
+    lane anyone chose.</p>
+
+  <div class="scroller">
+  <table>
+    <caption>Bold effort = the value most likely to be got wrong by habit. Grey dash = not permitted for that class.</caption>
+    <thead>
+      <tr>
+        <th scope="col">Task class</th>
+        <th scope="col">gemini<span class="fam">google</span></th>
+        <th scope="col">grok<span class="fam">xai</span></th>
+        <th scope="col">glm<span class="fam">zai</span></th>
+        <th scope="col">terra<span class="fam">openai</span></th>
+        <th scope="col">sol<span class="fam">openai</span></th>
+        <th scope="col">opus<span class="fam">anthropic</span></th>
+        <th scope="col">fable<span class="fam">anthropic</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"><b>Implementation</b><span>writing code</span></th>
+        <td class="eff">high</td><td class="eff">xhigh</td><td class="eff">high</td>
+        <td class="no">—</td><td class="no">—</td><td class="eff">xhigh</td><td class="no">—</td>
+      </tr>
+      <tr>
+        <th scope="row"><b>Completeness</b><span>what was promised and not delivered</span></th>
+        <td class="eff">high</td><td class="eff">xhigh</td><td class="eff">high</td>
+        <td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td>
+      </tr>
+      <tr>
+        <th scope="row"><b>General</b><span>neither referred nor a verdict</span></th>
+        <td class="no">—</td><td class="no">—</td><td class="no">—</td>
+        <td class="eff">high</td><td class="no">—</td><td class="no">—</td><td class="no">—</td>
+      </tr>
+      <tr>
+        <th scope="row"><b>Referral</b><span>a fork put to another model</span></th>
+        <td class="no">—</td><td class="no">—</td><td class="no">—</td>
+        <td class="no">—</td><td class="eff">medium</td><td class="no">—</td><td class="eff">high</td>
+      </tr>
+      <tr>
+        <th scope="row"><b>Verification</b><span>grading delivered work; same-family validation</span></th>
+        <td class="no">—</td><td class="no">—</td><td class="no">—</td>
+        <td class="no">—</td><td class="no">—</td><td class="eff">xhigh</td><td class="no">—</td>
+      </tr>
+      <tr>
+        <th scope="row"><b>Design review</b><span>judging rendered UI</span></th>
+        <td class="no">—</td><td class="no">—</td><td class="no">—</td>
+        <td class="no">—</td><td class="no">—</td><td class="eff">xhigh</td><td class="eff">high</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note">Where a class names several lanes, order does not choose between them — measured
+    headroom does. Where it names one, that is policy, though a spent lane is still skipped for the
+    next one the class allows.</p>
+</section>
+
+<section aria-labelledby="rules-h">
+  <h2 id="rules-h">Three rules above the table</h2>
+  <p class="lede">These are the ones habit gets wrong, so they are stated rather than left to be read
+    off the grid.</p>
+  <div class="rules">
+    <article class="rule">
+      <span class="n">01</span>
+      <h3>Sol never runs at max</h3>
+      <p><code>gpt-5.6-sol</code> is the referral lane at <code>medium</code>. Work that is not a
+        referred decision goes to <code>gpt-5.6-terra</code> at <code>high</code> — the same context
+        window at a fraction of the price.</p>
+    </article>
+    <article class="rule">
+      <span class="n">02</span>
+      <h3>Fable judges; it does not verify</h3>
+      <p>Forks, design calls and referred decisions, yes. Grading code or a ticket against its
+        acceptance criteria, no — that is <code>claude-opus-5</code> at <code>xhigh</code>.</p>
+    </article>
+    <article class="rule">
+      <span class="n">03</span>
+      <h3>Design review stays on Claude</h3>
+      <p>Opus and Fable only. No other family reviews rendered UI here, so the design-review row is
+        the one place the out-of-family default is deliberately not applied.</p>
+    </article>
+  </div>
+</section>
+
+<section aria-labelledby="meters-h">
+  <h2 id="meters-h">Headroom, as at 21 Aug 2026, 23:20 AEST</h2>
+  <p class="lede">Raw usage is the wrong comparison — 60% held with six days to run is tighter than
+    80% that resets tonight. What gets ranked is headroom per remaining day. A snapshot; re-read it
+    with <code>lane_pick.py --report</code>.</p>
+
+  <div class="meters">
+    <div class="meter">
+      <span class="who"><b>glm</b><small><span class="id">glm-5.3</span> · zai</small></span>
+      <span class="bar" role="img" aria-label="12.5 percent of budget used"><i style="width:12.5%"></i></span>
+      <span class="num"><b>12.5%</b> used</span>
+      <span class="tier">tier 2 · counted</span>
+    </div>
+    <div class="meter">
+      <span class="who"><b>opus</b><small><span class="id">claude-opus-5</span> · anthropic</small></span>
+      <span class="bar" role="img" aria-label="40 percent of the weekly pool used"><i style="width:40%"></i></span>
+      <span class="num"><b>40.0%</b> used</span>
+      <span class="tier t1">tier 1 · reported</span>
+    </div>
+    <div class="meter">
+      <span class="who"><b>fable</b><small><span class="id">claude-fable-5</span> · anthropic</small></span>
+      <span class="bar" role="img" aria-label="20 percent of the weekly pool used"><i style="width:20%"></i></span>
+      <span class="num"><b>20.0%</b> used</span>
+      <span class="tier t1">tier 1 · reported</span>
+    </div>
+    <div class="meter">
+      <span class="who"><b>gemini</b><small><span class="id">gemini-3.7-flash-high</span> · google</small></span>
+      <span class="bar" role="img" aria-label="79.8 percent of budget used"><i style="width:79.8%"></i></span>
+      <span class="num"><b>79.8%</b> used</span>
+      <span class="tier">tier 2 · counted</span>
+    </div>
+    <div class="meter spent">
+      <span class="who"><b>grok</b><small><span class="id">grok-4.6</span> · xai</small></span>
+      <span class="bar" role="img" aria-label="98.8 percent of budget used — effectively spent"><i style="width:98.8%"></i></span>
+      <span class="num"><b>98.8%</b> spent</span>
+      <span class="tier">tier 2 · counted</span>
+    </div>
+    <div class="meter spent">
+      <span class="who"><b>codex</b><small><span class="id">gpt-5.6-sol / terra</span> · openai · resets 27 Aug</small></span>
+      <span class="bar" role="img" aria-label="100 percent of the weekly limit used — resets 27 August"><i style="width:100%"></i></span>
+      <span class="num"><b>100%</b> spent</span>
+      <span class="tier t1">tier 1 · reported</span>
+    </div>
+  </div>
+
+  <p class="note"><strong>Tier 1</strong> is a utilization percentage the vendor computed, already
+    sitting on disk — Relay's <code>usage.json</code> for Claude, and codex's own
+    <code>rate_limits</code> payload. <strong>Tier 2</strong> is counted locally and divided by a
+    budget you set, which makes it an estimate wearing a number. Grok, GLM and Gemini expose no quota
+    to any CLI, so they cannot be anything else; calibrate their budgets from a percentage you can
+    read yourself with <code>lane_pick.py --calibrate gemini=62</code>.</p>
+</section>
+
+<section aria-labelledby="cli-h">
+  <h2 id="cli-h">Invocation, per lane</h2>
+  <p class="lede">What <code>lane_pick.py</code> prints, and what <code>lane_run.sh</code> runs. Each
+    lane carries the check that proves it ran as routed, because the expensive failure in a
+    multi-model system is a plausible answer from the wrong model.</p>
+
+  <div class="lanes">
+    <article class="lane">
+      <div class="head"><b>gemini</b> <span class="model">gemini-3.7-flash-high · google</span>
+        <span class="price">$4.50 / Mtok blended</span></div>
+      <pre>agy --model gemini-3.7-flash-high <b>--output-format json</b> -p "&lt;prompt&gt;"</pre>
+      <p class="verify"><strong>Verify:</strong> non-empty output. There is nothing else — agy records
+        no model id, no tokens and no cost. <code>--output-format json</code> is the only place a
+        token count for this lane exists anywhere.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>grok</b> <span class="model">grok-4.6 · xai</span>
+        <span class="price">$8.00 / Mtok blended</span></div>
+      <pre>grok -m grok-4.6 <b>--effort xhigh</b> -p "&lt;prompt&gt;"
+<span style="color:#6b665d"># harness fallback</span>
+cursor-agent -p --force --model grok-4.6 "&lt;prompt&gt;"</pre>
+      <p class="verify"><strong>Verify:</strong> a <code>turn_completed</code> record under
+        <code>~/.grok/sessions/</code>. Exhaustion arrives as a 402 in the transport, not on stdout.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>glm</b> <span class="model">glm-5.3 · zai</span>
+        <span class="price">$5.80 / Mtok blended</span></div>
+      <pre>ANTHROPIC_BASE_URL=http://127.0.0.1:8858 \
+ANTHROPIC_API_KEY=local-proxy-supplies-the-real-credential \
+<b>ANTHROPIC_CUSTOM_HEADERS="X-Perch-Binding: glm"</b> \
+  claude --effort high -p "&lt;prompt&gt;"</pre>
+      <p class="verify"><strong>Verify:</strong> Relay's ledger must say <code>model: glm-5.3</code>.
+        The header is the entire mechanism — without it this same command runs Claude, succeeds, and
+        returns something plausible.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>terra</b> <span class="model">gpt-5.6-terra · openai</span>
+        <span class="price">$14.00 / Mtok blended</span></div>
+      <pre>codex exec -m gpt-5.6-terra -c model_reasoning_effort=<b>"high"</b> \
+  -s read-only -o /tmp/lane.md "&lt;prompt&gt;" &lt; /dev/null</pre>
+      <p class="verify"><strong>Verify:</strong> the header lines, <em>and</em> a non-empty
+        <code>-o</code> file. On a run that produced nothing at all the header still prints the
+        requested model and effort.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>sol</b> <span class="model">gpt-5.6-sol · openai</span>
+        <span class="price">$35.00 / Mtok blended</span></div>
+      <pre>codex exec -m gpt-5.6-sol -c model_reasoning_effort=<b>"medium"</b> \
+  -s read-only -o /tmp/lane.md "&lt;prompt&gt;" &lt; /dev/null</pre>
+      <p class="verify"><strong>Verify:</strong> as terra. Never <code>max</code> — that is rule 01,
+        and this is the only lane it applies to.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>opus</b> <span class="model">claude-opus-5 · anthropic</span>
+        <span class="price">$30.00 / Mtok blended</span></div>
+      <pre>claude --model claude-opus-5 <b>--effort xhigh</b> -p "&lt;prompt&gt;"</pre>
+      <p class="verify"><strong>Verify:</strong> Relay's ledger. Strip a leading marker glyph before
+        matching a verdict — a headless call inherits the session's start hooks.</p>
+    </article>
+
+    <article class="lane">
+      <div class="head"><b>fable</b> <span class="model">claude-fable-5 · anthropic</span>
+        <span class="price">$60.00 / Mtok blended</span></div>
+      <pre>claude --model claude-fable-5 <b>--effort high</b> -p "&lt;prompt&gt;"</pre>
+      <p class="verify"><strong>Verify:</strong> Relay's ledger. Referral and design review only —
+        rule 02.</p>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <p>Prices are published list rates as at 21 Aug 2026 and do not bill anything on a subscription —
+    they exist so two lanes within 20% of each other on headroom break the tie on price rather than
+    on sort order. Gemini 3.7 Flash's rate is introductory and doubles on 1 Jan 2027; Grok 4.6
+    doubles every token in a request once the prompt reaches 200K. Sources and per-lane trust levels:
+    <code>references/usage-sources.md</code>.</p>
+</footer>
+
+</div>
+</body>
+</html>
