@@ -1,5 +1,15 @@
 # Second opinions and panels — settle it with a model before the human
 
+> **Lane assignments are `defer`'s now.** Run
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
+> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
+> wire-verify it in one step. The classes are `implementation`, `completeness`,
+> `general`, `referral`, `verification` and `design-review`. Three rules bind
+> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
+> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
+> never grades code or a ticket, and design review stays on Opus and Fable. What
+> follows is this pipeline's reading of that policy, not a second copy of it.
+
 **Canonical for the whole pipeline.** Triage, plan, design, and both conductors route open
 decisions through this file. It carries the `clarify` skill's referral gate into the pipeline as
 an ordered lane set plus a panel protocol, so the pipeline defers decisions to models instead of

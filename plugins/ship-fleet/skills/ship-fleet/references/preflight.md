@@ -1,5 +1,15 @@
 # Preflight — check and repair the project's pipeline conventions
 
+> **Lane assignments are `defer`'s now.** Run
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
+> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
+> wire-verify it in one step. The classes are `implementation`, `completeness`,
+> `general`, `referral`, `verification` and `design-review`. Three rules bind
+> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
+> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
+> never grades code or a ticket, and design review stays on Opus and Fable. What
+> follows is this pipeline's reading of that policy, not a second copy of it.
+
 Run this before the survey, interactively. The point is that ship-fleet (and the skills it conducts) rely on a conventional layout; a repo that half-has it produces a half-blind survey. Check everything, report plainly, **offer** repairs — never restructure silently.
 
 ## 1. Structure check
@@ -49,7 +59,7 @@ Report deviations (missing `lib/` server-only boundary, route handlers outside `
 
 ## 5. Codex lane availability (check once, here)
 
-Three review gates in this pipeline route **out of Claude's model family** on purpose — the triage spec review, the plan review gate, and work Phase D's completeness critic, each on `gpt-5.6-sol` at `max` effort — plus a `medium`-effort implementation executor. Check the lane once at fleet start so every runner inherits the same picture instead of each discovering it mid-run.
+Three review gates in this pipeline route **out of Claude's model family** on purpose — the triage spec review, the plan review gate, and work Phase D's completeness critic, each on `gpt-5.6-sol` at `medium` effort — plus a `medium`-effort implementation executor. Check the lane once at fleet start so every runner inherits the same picture instead of each discovering it mid-run.
 
 **Check the repo opt-out FIRST — it outranks availability.** Every Codex call is data egress: `-s read-only` restricts writes, not the network, so the reviewer transmits the artifact and every source file it opens to OpenAI. The lane is **on by default and opted out per repo**:
 
@@ -64,7 +74,7 @@ If there is no opt-out, probe availability:
 
 ```bash
 command -v codex && codex --version                       # expect codex-cli 0.145.0+
-codex exec -m gpt-5.6-sol -c model_reasoning_effort="max" \
+codex exec -m gpt-5.6-sol -c model_reasoning_effort="medium" \
   -s read-only --skip-git-repo-check "Reply with exactly: OK" < /dev/null
 ```
 
@@ -75,4 +85,4 @@ Record the outcome in ORCHESTRATOR.md's header contract as `codex: available` or
 
 Usage limits are a *transient* unavailability — a lane that fails at fleet start may work an hour later. Note the time, and let a runner re-probe rather than treating the fleet-start result as permanent. The **opt-out is not transient in the same way**: it is a standing owner decision, so a runner re-reads it to see if it has appeared, never to see whether it has expired.
 
-Two operational rules the runner prompt must carry, both learned from a real fleet: **bound every Codex call** (`perl -e 'alarm shift @ARGV; exec @ARGV' 600 codex exec …` — there is no timeout flag and macOS has no `timeout(1)`) so a slot is never held by an unbounded polling loop, and **verify the effort on the wire** (`grep -qx "reasoning effort: max"` on the captured log) because a dropped flag silently inherits the user's own config default. Full mechanics live in shipyard's `references/codex-cli.md`.
+Two operational rules the runner prompt must carry, both learned from a real fleet: **bound every Codex call** (`perl -e 'alarm shift @ARGV; exec @ARGV' 600 codex exec …` — there is no timeout flag and macOS has no `timeout(1)`) so a slot is never held by an unbounded polling loop, and **verify the effort on the wire** (`grep -qx "reasoning effort: medium"` on the captured log) because a dropped flag silently inherits the user's own config default. Full mechanics live in shipyard's `references/codex-cli.md`.

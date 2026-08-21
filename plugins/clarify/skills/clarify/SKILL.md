@@ -141,7 +141,7 @@ routed — re-confirm them against `--help` before first use in a session, becau
 is not stable across versions:
 
 - `grok --effort` accepts exactly `xhigh, high, medium, low` and rejects anything else by name;
-  `grok models` lists `grok-4.6` (default) and `grok-4.5`.
+  `grok models` lists `grok-4.6` (default) and `grok-4.6`.
 - `agy models` lists `gemini-3.7-flash-high` alongside its medium and low siblings, so the
   effort travels in the model id. There is also a separate `--effort low|medium|high`.
 - `codex` accepts any `-m` and any `model_reasoning_effort` string **without validating it** —

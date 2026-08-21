@@ -39,7 +39,7 @@ Adding the marker to `CLAUDE.md` (or `ORCHESTRATOR.md` for a fleet) is the suppo
 
 ```bash
 command -v codex && codex --version                       # expect codex-cli 0.145.0+
-codex exec -m gpt-5.6-sol -c model_reasoning_effort="max" \
+codex exec -m gpt-5.6-sol -c model_reasoning_effort="medium" \
   -s read-only --skip-git-repo-check "Reply with exactly: OK" < /dev/null
 ```
 
@@ -52,7 +52,7 @@ Codex prints its resolved settings in a header, so the check is cheap. Capture t
 ```bash
 codex exec … "<prompt>" < /dev/null > "$LOG" 2>&1
 grep -qx "model: gpt-5.6-sol"   "$LOG" || echo "WRONG-MODEL — treat as lane failure"
-grep -qx "reasoning effort: max" "$LOG" || echo "WRONG-EFFORT — treat as lane failure"
+grep -qx "reasoning effort: medium" "$LOG" || echo "WRONG-EFFORT — treat as lane failure"
 ```
 
 This is the same wire-level verification the pipeline already applies to every routed model lane — launch parameters have been observed not to stick, so the header is the evidence, not the command you typed.
@@ -74,7 +74,7 @@ Run **after** the artifact is written and **before** the status flips. Codex rea
 
 ```bash
 perl -e 'alarm shift @ARGV; exec @ARGV' 600 \
-  codex exec -C "<repo root>" -m gpt-5.6-sol -c model_reasoning_effort="max" \
+  codex exec -C "<repo root>" -m gpt-5.6-sol -c model_reasoning_effort="medium" \
   -s read-only -o /tmp/codex-review-<ID>.md "<prompt>" < /dev/null \
   > /tmp/codex-review-<ID>.log 2>&1
 ```
@@ -125,7 +125,7 @@ Never flip the status on `MATERIAL DEFECTS` without resolving them. Record the v
 This **replaces** the Claude completeness critic in the work skill's Phase D. Same job, different family: attack the *audit*, not the code. It runs last, after the dimension reviewers and the adversarial verification, and its output seeds the next Phase D → E round.
 
 ```bash
-codex exec -C "$WT" -m gpt-5.6-sol -c model_reasoning_effort="max" \
+codex exec -C "$WT" -m gpt-5.6-sol -c model_reasoning_effort="medium" \
   -s read-only -o /tmp/codex-critic-<ID>.md "<prompt>" < /dev/null
 ```
 

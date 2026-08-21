@@ -139,7 +139,7 @@ exercise.
 **Completeness critic — out of family, last.** Its only job is attacking the audit itself: which
 checklist rows never got a satisfying `file:line`, which hop was never traced, which seam was
 read but never exercised, which dimension went quiet on a large surface. Route per the ordered
-review lanes (`second-opinion-lanes.md`): codex `gpt-5.6-sol` at `max` (the R2 contract in
+review lanes (`second-opinion-lanes.md`): codex `gpt-5.6-sol` at `medium` (the R2 contract in
 `codex-cli.md`) → agy → grok; all down or opted out → a Claude strong-model critic, recorded as
 in-family. Give it the audit's own artifacts at absolute paths. Its output seeds the next round —
 never straight into "resolved".

@@ -184,7 +184,7 @@ The metrics are necessary, not sufficient; two judged instruments ride on top:
   any feedback file into the next round's brief — never block waiting on it.
 - **`scripts/judge_panel.py`** — the blind multi-family panel. Builds an
   anonymised A/B bundle and asks up to three judge families (claude CLI at
-  high effort, grok-4.5 via cursor-agent at high effort, gpt-5.6-sol via the
+  high effort, grok-4.6 via cursor-agent at xhigh effort, gpt-5.6-sol via the
   OpenAI API at medium reasoning — key from an env file, never hardcoded) to
   pick the take closer to the reference per dimension. Per-judge verdicts and
   the unblinded majority tally land in `panel.json`; a failed judge is

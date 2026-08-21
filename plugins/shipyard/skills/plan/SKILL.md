@@ -75,7 +75,7 @@ run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude 
      `git ls-files`), exempting only paths marked *to be created*. A missing path means the plan
      was grounded in assumption — re-investigate.
    - **Out-of-family review**: the ordered lanes in
-     `${CLAUDE_PLUGIN_ROOT}/references/second-opinion-lanes.md` (codex `gpt-5.6-sol` `max` first,
+     `${CLAUDE_PLUGIN_ROOT}/references/second-opinion-lanes.md` (codex `gpt-5.6-sol` `medium` first,
      then agy, then grok), read-only, per the R1 contract in
      `${CLAUDE_PLUGIN_ROOT}/references/codex-cli.md`: are the ACs testable and complete against
      every clause and assumption? Was anything dropped or silently shrunk? Is every referenced

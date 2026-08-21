@@ -1,5 +1,15 @@
 # Model lanes — who does what, on which CLI, and what happens when a lane is down
 
+> **Lane assignments are `defer`'s now.** Run
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
+> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
+> wire-verify it in one step. The classes are `implementation`, `completeness`,
+> `general`, `referral`, `verification` and `design-review`. Three rules bind
+> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
+> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
+> never grades code or a ticket, and design review stays on Opus and Fable. What
+> follows is this pipeline's reading of that policy, not a second copy of it.
+
 **Canonical for the whole pipeline.** Every stage skill and both conductors point here for lane
 assignments. Effort discipline (the second dial) is canonical in `model-and-effort.md`; per-lane
 CLI mechanics are in `executor-lanes.md` and `codex-cli.md`. Change lane assignments here, once.
@@ -12,15 +22,16 @@ CLI mechanics are in `executor-lanes.md` and `codex-cli.md`. Change lane assignm
 | Triage verdict, plan synthesis, design direction | Opus 5 (`claude-opus-5`) or the session model when it is Opus/Fable-class | in-session or `claude` | high | Always a frontier Claude — these artifacts are amplified by everything downstream |
 | Leaf readers, gate-runners, index scanners | cheapest session tier (haiku-class) | Workflow subagents | low | Read, report, stop |
 | Evidence lenses, finding-verifiers | mid tier (sonnet-class) | Workflow subagents | low–medium | Structured work against an explicit oracle |
-| **Implementation — preferred** | gemini-flash-3.7 | `agy` | high | Preferred for throughput (high tokens/sec); see `executor-lanes.md` §agy |
-| **Implementation — fallback 1** | grok-4.6 | `grok` (harness fallback: `cursor-agent`) | high | Same model through a different harness is an honest substitute — say which harness ran |
-| **Implementation — fallback 2** | gpt-5.6-terra | `codex` | medium | Mechanics in `codex-cli.md` §R3 |
-| **Implementation — fail-back** | session model (Claude) | in-session | high | Any executor lane failing routes work back to Claude — never to a sibling cheap lane, never dropped |
-| Same-family validation (vs plan + tests) | same family as the implementer, equal-or-stronger tier | same CLI, fresh context | high | The writer's family checks the work against the plan before a stranger does; see `work` Phase D′ |
-| **Cross-family verification** | gemini / gpt / grok — MUST differ from the implementer's family | `agy` / `codex` / `grok` | high–max | The acceptance authority; see the `verify` skill |
+| **Implementation** | picked by measured headroom: gemini-3.7-flash-high · grok-4.6 · glm-5.3 | `agy` · `grok` · `claude`+Perch | high · **xhigh** · high | `defer --task implementation` picks; ties break to the cheaper lane |
+| Implementation — Claude fail-back | claude-opus-5 | in-session | xhigh | Any executor lane failing routes work here — never to a sibling cheap lane, never dropped |
+| **General** — neither referred nor a verdict | gpt-5.6-terra | `codex` | **high** | Mechanics in `codex-cli.md` §R3. Not `sol`: that is the referral lane |
+| Same-family validation (vs plan + tests) | claude-opus-5 | same CLI, fresh context | high | The writer's family checks the work against the plan before a stranger does; see `work` Phase D′ |
+| **Task and same-family verification** | claude-opus-5 | `claude` | **xhigh** | The acceptance authority; see the `verify` skill. Fable does not do this |
 | Verification fail-back | Opus 5 agents | `claude` | high | Recorded as a degraded (in-family) verification — see "What a degraded lane buys back" |
-| Spec/plan review gates, completeness critic | out-of-family, ordered: `codex gpt-5.6-sol` → `agy` → `grok` | per `second-opinion-lanes.md` | max (gates) / high | REVIEWER ≥ WRITER holds at every hop |
-| A single frontier judgement call | strongest available | in-session | max | Reserve it |
+| **Referral** — spec/plan review gates, a fork put to another model | `gpt-5.6-sol` → `claude-fable-5` | `codex` · `claude` | **medium** · **high** | REVIEWER ≥ WRITER holds at every hop; sol never runs at `max` |
+| **Completeness critic** | grok-4.6 · glm-5.3 · gemini-3.7-flash-high | `grok` · `claude`+Perch · `agy` | **xhigh** · high · high | out of Claude's family by construction |
+| **Design review** | claude-opus-5 · claude-fable-5 | `claude` | xhigh · high | never leaves Anthropic's family |
+| A single frontier judgement call | claude-opus-5 | in-session | max | Reserve it |
 
 Two invariants govern every substitution:
 

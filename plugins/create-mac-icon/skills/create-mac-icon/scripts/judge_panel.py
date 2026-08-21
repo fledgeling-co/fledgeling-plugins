@@ -7,7 +7,7 @@ reference on four dimensions. Families (per the marketplace convention:
 heterogeneous, honestly sourced, substitutions reported):
 
   claude   `claude -p` (model opus, high effort) reading the bundle PNGs
-  cursor   `cursor-agent` running grok-4.5 (high effort) reading the PNGs
+  cursor   `cursor-agent` running grok-4.6 (xhigh effort) reading the PNGs
   openai   the OpenAI API with gpt-5.6-sol (medium reasoning), images inline
 
 Verdict JSON per judge lands in <outdir>/verdict-<family>.json, the
@@ -163,12 +163,12 @@ def run_cursor(bundle: pathlib.Path):
     # --trust is required: each round creates a fresh bundle directory, and without
     # it cursor-agent blocks on an interactive workspace-trust prompt and exits 1.
     r = subprocess.run(
-        ["cursor-agent", "--model", "grok-4.5", "--trust", "-p", prompt, "--output-format", "text"],
+        ["cursor-agent", "--model", "grok-4.6", "--trust", "-p", prompt, "--output-format", "text"],
         capture_output=True, text=True, timeout=900, cwd=bundle)
     if r.returncode != 0 and "Workspace Trust" in ((r.stdout or "") + (r.stderr or "")):
-        return None, {"exit": r.returncode, "harness": "cursor-agent (grok-4.5)",
+        return None, {"exit": r.returncode, "harness": "cursor-agent (grok-4.6)",
                       "error": "workspace trust refused even with --trust"}
-    return extract_json(r.stdout), {"exit": r.returncode, "harness": "cursor-agent (grok-4.5)"}
+    return extract_json(r.stdout), {"exit": r.returncode, "harness": "cursor-agent (grok-4.6)"}
 
 
 def run_openai(bundle: pathlib.Path, key: str, budget: int = 8192):
