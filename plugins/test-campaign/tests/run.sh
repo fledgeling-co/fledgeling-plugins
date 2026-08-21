@@ -775,6 +775,142 @@ else
   echo "FAIL  effect-witness is not counted as checked"
   echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
+# 5. A capped list read as a population. `check` printed at most twelve
+#    unwitnessed requirements out of eighteen with nothing saying it had cut the
+#    list, and a team scoped a wave of work off the twelve — ten requirements
+#    were named by no item. Recorded as DEF-041. The remedy is not a bigger cap,
+#    which the next set always outgrows: it is the denominator beside the list.
+DEN="$WORK/denominator"
+python3 "$S/campaign.py" init "$DEN" --project Denominator --lanes web >/dev/null
+python3 - "$DEN" <<'PYFIXTURE'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+inv = json.loads((d / "inventory.json").read_text())
+inv["requirement"] = [
+    {"id": f"REQ-{i:03d}", "text": f"The product opens a socket, number {i}",
+     "source": "fixture", "class": "behaviour", "evidence": "observed",
+     "surfaces": ["SURF-001"], "effect": "outbound-socket", "provider": "fixture"}
+    for i in range(1, 19)]
+inv["surface"] = [{"id": "SURF-001", "name": "fixture surface", "kind": "screen"}]
+(d / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+(d / "cases.json").write_text(json.dumps([
+    {"id": "CASE-0001", "req": "REQ-001", "surface": "SURF-001", "oracle": "outcome",
+     "status": "pass", "armed": True, "armedBy": "fixture",
+     "evidence": ["fixture.txt"]}], indent=2) + "\n")
+PYFIXTURE
+out="$(python3 "$S/campaign.py" check "$DEN" 2>&1)"
+# The truncated list says so, and says how many it cut to and from.
+if grep -qF -- "… (showing 12 of 18)" <<<"$out"; then
+  say "ok    a truncated list carries its denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  the capped list of 18 requirements printed 12 with no denominator"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# The cap still caps: the denominator is the registry's count, not a raised cap.
+if [ "$(grep -c -- "claims a outbound-socket effect" <<<"$out")" = 12 ]; then
+  say "ok    the cap still caps"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected 12 printed rows under the cap"; FAIL=$((FAIL+1))
+fi
+# An untruncated list prints its denominator too, so a reader never has to work
+# out whether anything was cut — which is the position that caused the loss.
+python3 - "$DEN" <<'PYTRIM'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+inv = json.loads((d / "inventory.json").read_text())
+inv["requirement"] = inv["requirement"][:3]
+(d / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+PYTRIM
+out="$(python3 "$S/campaign.py" check "$DEN" 2>&1)"
+if grep -qF -- "(showing 3 of 3)" <<<"$out" && ! grep -qF -- "… (showing" <<<"$out"; then
+  say "ok    a complete list says it is complete"; PASS=$((PASS+1))
+else
+  echo "FAIL  a complete list printed no denominator, or claimed a truncation"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# 6. An oracle rung that was not on the ladder. Four cases arrived recording
+#    `static-analysis` — a real, armed, red-provable source classifier — and
+#    counted `unrated`, the bucket meaning the tool does not know what they
+#    checked. Recorded as DEF-057. `source-analysis` is now a rung, off the
+#    product ladder rather than a step on it, and these prove it is accepted,
+#    counted apart, and guarded so it cannot stand behind an external effect.
+SRC="$WORK/source-rung"
+python3 "$S/campaign.py" init "$SRC" --project SourceRung --lanes web >/dev/null
+python3 - "$SRC" <<'PYSRC'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+inv = json.loads((d / "inventory.json").read_text())
+inv["requirement"] = [
+    {"id": "REQ-001", "text": "No user-facing copy is hardcoded in the main view",
+     "source": "fixture", "class": "behaviour", "evidence": "observed",
+     "surfaces": ["SURF-001"], "effect": "none"}]
+inv["surface"] = [{"id": "SURF-001", "name": "fixture surface", "kind": "screen"}]
+(d / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+(d / "cases.json").write_text(json.dumps([
+    {"id": "CASE-0001", "req": "REQ-001", "surface": "SURF-001",
+     "oracle": "source-analysis", "status": "pass", "armed": True,
+     "armedBy": "a one-line mutation makes the classifier exit 1",
+     "evidence": ["fixture.txt"],
+     "source": {"analyzer": "literals.py", "examined": 45}}], indent=2) + "\n")
+(d / "fixture.txt").write_text("classifier output\n")
+PYSRC
+out="$(python3 "$S/campaign.py" check "$SRC" 2>&1)"
+if grep -qF -- "Off-ladder: source-analysis 1" <<<"$out" && ! grep -qF -- "unrated 1" <<<"$out"; then
+  say "ok    source-analysis is a rung, counted apart from the product ladder"; PASS=$((PASS+1))
+else
+  echo "FAIL  source-analysis was not recognised or was folded into the ladder"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# The guard: the same case behind a requirement that claims an external effect.
+python3 - "$SRC" <<'PYEFFECT'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+inv = json.loads((d / "inventory.json").read_text())
+inv["requirement"][0]["effect"] = "subprocess"
+inv["requirement"][0]["provider"] = "fixture"
+(d / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+PYEFFECT
+expect "an external effect cannot rest on source analysis alone" 1 "$SRC" \
+  "covered by source-analysis alone"
+# And a source-analysis pass that names no analyzer or no denominator blocks,
+# because "the grep found nothing" is also what a grep pointed at the wrong file
+# says.
+python3 - "$SRC" <<'PYHOLLOW'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+inv = json.loads((d / "inventory.json").read_text())
+inv["requirement"][0]["effect"] = "none"
+inv["requirement"][0].pop("provider", None)
+(d / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+cases = json.loads((d / "cases.json").read_text())
+cases[0]["source"] = {"analyzer": "literals.py", "examined": 0}
+(d / "cases.json").write_text(json.dumps(cases, indent=2) + "\n")
+PYHOLLOW
+expect "a source-analysis pass owes a denominator" 1 "$SRC" \
+  "cannot tell an empty result from an empty search"
+# Restored, it clears — a gate that always fails is no more useful than one that
+# always passes.
+python3 - "$SRC" <<'PYRESTORE'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+cases = json.loads((d / "cases.json").read_text())
+cases[0]["source"] = {"analyzer": "literals.py", "examined": 45}
+(d / "cases.json").write_text(json.dumps(cases, indent=2) + "\n")
+PYRESTORE
+expect "the same campaign clears once the denominator is back" 0 "$SRC"
+# It buys no effect credit: the rung is absent from EFFECT_RUNGS.
+if python3 -c "
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location('c', '$S/campaign.py')
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+sys.exit(0 if set(m.SOURCE_RUNGS).isdisjoint(m.EFFECT_RUNGS)
+         and set(m.SOURCE_RUNGS).isdisjoint(m.ORACLE_RUNGS) else 1)"; then
+  say "ok    source-analysis buys no effect credit and is off the ladder"; PASS=$((PASS+1))
+else
+  echo "FAIL  source-analysis leaked into EFFECT_RUNGS or ORACLE_RUNGS"; FAIL=$((FAIL+1))
+fi
+
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

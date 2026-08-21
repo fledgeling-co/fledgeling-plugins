@@ -119,6 +119,26 @@ UNRESOLVED_REASONED = ("inconclusive", "unoracled", "blocked")
 ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
                 "outcome", "metamorphic", "effect-witness",
                 "raster-visual", "interactive-glass", "visual")
+# NOT ON THE LADDER ABOVE, AND DELIBERATELY. `ORACLE_RUNGS` is one axis — what
+# the case checked against the running product, weakest first. A check over
+# source text runs none of that, so it is neither weaker than
+# `structural-visual` nor stronger than `presence`; it is off the axis, and
+# giving it a position would invent a comparison coverage-model.md §3 does not
+# have.
+#
+# It exists because the alternative was worse. Four cases arrived recording an
+# oracle the ladder did not know, so they counted `unrated` — the bucket meaning
+# "the tool does not know what this checked" — while being real, armed,
+# red-provable instruments: a Swift-source classifier that reports a violation
+# and exits 1 on a one-line mutation and exits 0 on the file as written. Their
+# clause has no product-side observable at all: a hardcoded `Text("Open log")`
+# and a `Text(Copy.openLog)` render identically, so re-expressing them against
+# the built product is not available. Recorded as DEF-057.
+#
+# It buys no effect credit — it is absent from EFFECT_RUNGS and stays absent.
+# `covered_source_only` below is the guard that stops it becoming the cheap rung
+# a campaign fills up on.
+SOURCE_RUNGS = ("source-analysis",)
 # A critical flow promises an effect. Only these rungs assert one.
 EFFECT_RUNGS = ("outcome", "metamorphic", "effect-witness",
                 "raster-visual", "interactive-glass")
@@ -149,6 +169,8 @@ EXTERNAL_EFFECTS = tuple(e for e in EFFECT_CLASSES if e != "none")
 LEGACY_RUNGS = ("visual",)
 # These rungs claim pixels, so they must produce pixels. See `inspect_raster`.
 RASTER_RUNGS = ("raster-visual",)
+# Every rung a case may declare: the product ladder plus the off-axis sets.
+ALL_RUNGS = ORACLE_RUNGS + SOURCE_RUNGS
 
 # A lane whose name ends in `-glass` claims the application was verified while
 # actually running and drawn by a display server — a real window, composited,
@@ -346,8 +368,8 @@ def cmd_add(args) -> int:
                 sys.exit(f"case references unknown surface '{surf}'. Add the surface first — "
                          f"a case against a surface nobody enumerated has no denominator.")
             rung = item.get("oracle")
-            if rung and rung not in ORACLE_RUNGS:
-                sys.exit(f"case oracle '{rung}' is not a rung. One of: {', '.join(ORACLE_RUNGS)}.")
+            if rung and rung not in ALL_RUNGS:
+                sys.exit(f"case oracle '{rung}' is not a rung. One of: {', '.join(ALL_RUNGS)}.")
             # The field is `req`, and the prose everywhere calls it a requirement.
             # A case written with `requirement:` used to be stored intact and then
             # reported as a requirement nothing checks — a blocker pointing at the
@@ -600,8 +622,42 @@ def cmd_carry(args) -> int:
     print(f"ran {len(ran)} · carried {len(carried)} · protected {len(protected)}")
     if protected:
         print("  always-run floor, left for this run to prove: "
-              + ", ".join(protected[:10]) + (" …" if len(protected) > 10 else ""))
+              + capped(protected, 10))
     return 0
+
+
+# ── printing a list without lying about its size ────────────────────────────
+
+def capped(items, limit: int) -> str:
+    """A joined list that carries its own denominator, truncated or not.
+
+    A capped list read as a population under-scoped a whole wave of work by ten
+    items: this gate printed twelve unwitnessed requirements out of eighteen,
+    nothing in the output said so, and the twelve were taken for the set.
+    Recorded as DEF-041. The denominator was one `len()` away the whole time.
+
+    The count prints even when nothing was cut — `(showing 3 of 3)` — because a
+    reader who has to work out whether truncation happened is back in the
+    position that caused the loss. Raising the cap would not have helped: the
+    next set is always bigger than the next cap.
+    """
+    items = list(items)
+    text = ", ".join(str(i) for i in items[:limit])
+    if len(items) > limit:
+        return f"{text} … (showing {limit} of {len(items)})"
+    return f"{text} (showing {len(items)} of {len(items)})"
+
+
+def capped_tail(items, limit: int, indent: str = "    ") -> str:
+    """The same denominator for a list printed one row per line.
+
+    Returns the trailing line to print after the rows, always — an empty string
+    would be a truncation the reader cannot see.
+    """
+    items = list(items)
+    if len(items) > limit:
+        return f"{indent}… (showing {limit} of {len(items)})"
+    return f"{indent}(showing {len(items)} of {len(items)})"
 
 
 # ── the gate ────────────────────────────────────────────────────────────────
@@ -625,6 +681,7 @@ def audit(d: Path) -> dict:
               "inconclusive": 0, "unoracled": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
     hollow_witness: list[str] = []
+    hollow_source: list[str] = []
     carried_unbased = []
     legacy_rung, bad_raster, unwitnessed_raster = [], [], []
     invalid_interactive_glass = []
@@ -707,6 +764,21 @@ def audit(d: Path) -> dict:
                 hollow_witness.append(
                     f"{c['id']} claims effect-witness with count {w.get('count')!r} — "
                     f"a witness that saw nothing is the condition, not the proof")
+
+        # The same obligation shape one axis over. A source-analysis pass owes
+        # the analyzer that ran and the denominator it ran over, because "the
+        # grep found nothing" is the reading a grep gives when it is pointed at
+        # the wrong file, and the two are indistinguishable without the count.
+        if c.get("oracle") in SOURCE_RUNGS and st == "pass":
+            src = c.get("source") or {}
+            if not src.get("analyzer"):
+                hollow_source.append(
+                    f"{c['id']} claims source-analysis and names no analyzer")
+            if not isinstance(src.get("examined"), int) or src.get("examined", 0) < 1:
+                hollow_source.append(
+                    f"{c['id']} claims source-analysis over {src.get('examined')!r} "
+                    f"unit(s) — a search with no denominator cannot tell an empty "
+                    f"result from an empty search")
 
     duplicate_artifacts = {h: ids for h, ids in seen_artifacts.items() if len(ids) > 1}
 
@@ -829,13 +901,31 @@ def audit(d: Path) -> dict:
         and r.get("evidence") != "vacuous"
         and r["id"] not in {u.split()[0] for u in unbacked_effects}]
 
+    # THE GUARD ON THE OFF-AXIS RUNG. A requirement may rest on source analysis
+    # alone only where it claims no effect outside the process — a property OF
+    # the source, like "no user-facing copy is hardcoded in this view", is what
+    # this rung is for. A requirement that names an external effect and is
+    # covered only by a reader of source text has had its effect checked by
+    # nothing, and that is the campaign's founding failure wearing a new label.
+    covered_source_only = []
+    for r in reqs:
+        passing = [c for c in by_req.get(r["id"], [])
+                   if state_of(c.get("status", "open")) == "pass"]
+        if not passing or not all(c.get("oracle") in SOURCE_RUNGS for c in passing):
+            continue
+        if r.get("effect") in EXTERNAL_EFFECTS:
+            covered_source_only.append(
+                f"{r['id']} claims a {r['effect']} effect and every passing case "
+                f"backing it stands on source-analysis, which reads text and runs "
+                f"nothing")
+
     # What the cases actually check. A case with no declared rung counts as
     # unrated, never as adequate — the whole point is that a plan cannot look
     # complete by omission.
-    mix = {r: 0 for r in ORACLE_RUNGS}
+    mix = {r: 0 for r in ALL_RUNGS}
     mix["unrated"] = 0
     for c in cases:
-        mix[c.get("oracle") if c.get("oracle") in ORACLE_RUNGS else "unrated"] += 1
+        mix[c.get("oracle") if c.get("oracle") in ALL_RUNGS else "unrated"] += 1
 
     # A critical flow promises an effect, so at least one of its cases must
     # assert one. Presence-only proof of a critical flow is the failure this
@@ -935,7 +1025,7 @@ def audit(d: Path) -> dict:
                         f"and what witnessed it attaching")
     if legacy_rung:
         blockers.append(f"{len(legacy_rung)} case(s) still on the legacy `visual` "
-                        f"rung ({', '.join(legacy_rung[:5])}) — split each into "
+                        f"rung ({capped(legacy_rung, 5)}) — split each into "
                         f"`structural-visual` (labels and hierarchy exist) or "
                         f"`raster-visual` (pixels captured off a display server). "
                         f"`visual` buys no effect credit until you do")
@@ -958,12 +1048,13 @@ def audit(d: Path) -> dict:
         n = sum(len(v) for v in duplicate_shots.values())
         blockers.append(f"{n} published shot(s) across {len(duplicate_shots)} image(s) "
                         f"show the same picture under different subjects "
-                        f"({'; '.join(', '.join(v[:4]) for v in list(duplicate_shots.values())[:3])}) "
+                        f"({'; '.join(capped(v, 4) for v in list(duplicate_shots.values())[:3])}"
+                        f"{'; …' if len(duplicate_shots) > 3 else ''}) "
                         f"— a wall whose cells repeat is a gallery, not a survey. Declare a "
                         f"genuine share in captures.json, or capture each subject")
     if filename_only:
         blockers.append(f"{len(filename_only)} shot(s) bound to their subject by filename "
-                        f"alone ({', '.join(filename_only[:5])}) — run "
+                        f"alone ({capped(filename_only, 5)}) — run "
                         f"`capture-lineage.py <dir> --gate`; a filename is not evidence "
                         f"of what a picture depicts")
     if invalid_interactive_glass:
@@ -975,6 +1066,15 @@ def audit(d: Path) -> dict:
         blockers.append(f"{len(unevidenced)} pass(es) naming no evidence artifact")
     if untested_reqs:
         blockers.append(f"{len(untested_reqs)} requirement(s) no case traces to")
+    if hollow_source:
+        blockers.append(f"{len(hollow_source)} source-analysis claim(s) with no analyzer "
+                        f"or no examined count — a search with no denominator cannot "
+                        f"tell an empty result from an empty search")
+    if covered_source_only:
+        blockers.append(f"{len(covered_source_only)} requirement(s) claiming an external "
+                        f"effect and covered by source-analysis alone — source analysis "
+                        f"is off the product ladder and runs nothing, so it cannot be the "
+                        f"only thing standing behind an effect")
     if hollow_witness:
         blockers.append(f"{len(hollow_witness)} effect-witness claim(s) with no recorder, "
                         f"no effect class, or a count of zero — a witness that saw nothing "
@@ -997,11 +1097,11 @@ def audit(d: Path) -> dict:
     if critical_carried:
         blockers.append(f"{len(critical_carried)} critical flow(s) whose every effect "
                         f"case was carried forward rather than re-run "
-                        f"({', '.join(critical_carried[:5])}) — a critical flow is the "
+                        f"({capped(critical_carried, 5)}) — a critical flow is the "
                         f"always-run floor")
     if carried_unbased:
         blockers.append(f"{len(carried_unbased)} carried case(s) naming no selection "
-                        f"basis ({', '.join(carried_unbased[:5])}) — "
+                        f"basis ({capped(carried_unbased, 5)}) — "
                         f"'unselected: unchanged since <ref>', never bare")
     if scope == "selective" and not basis:
         blockers.append("the run declares scope 'selective' and names no basis — "
@@ -1066,6 +1166,8 @@ def audit(d: Path) -> dict:
         "effectRequirementsUnwitnessed": unwitnessed_effects,
         "effectClassUnrecognised": bad_effect_class,
         "hollowWitnesses": hollow_witness,
+        "hollowSourceClaims": hollow_source,
+        "requirementsSourceOnly": covered_source_only,
         "surfaces": len(surfaces),
         "surfacesUncovered": uncovered,
         "flows": len(flows),
@@ -1121,7 +1223,14 @@ def cmd_check(args) -> int:
         else:
             print(f"On glass:   {lane} → NOT attached: {proof.get('reason', '?')}")
     mix = a["oracleMix"]
-    print("Oracles:    " + " · ".join(f"{k} {v}" for k, v in mix.items() if v))
+    product = {k: v for k, v in mix.items() if v and k not in SOURCE_RUNGS}
+    offaxis = {k: v for k, v in mix.items() if v and k in SOURCE_RUNGS}
+    print("Oracles:    " + " · ".join(f"{k} {v}" for k, v in product.items()))
+    if offaxis:
+        # Apart rather than folded in: these read source text and run nothing,
+        # so a campaign must not be able to look product-adequate on them.
+        print("Off-ladder: " + " · ".join(f"{k} {v}" for k, v in offaxis.items())
+              + " — reads source, runs nothing, buys no effect credit")
     print(f"Armed:      {a['armedOfPassing']} passing cases have been watched to fail")
     if a["runScope"] == "selective":
         age = a["lastFullRunAgeDays"]
@@ -1154,7 +1263,8 @@ def cmd_check(args) -> int:
     for b in a["blockers"]:
         print(f"  · {b}")
     if a["requirementsUntested"]:
-        print(f"\n  Requirements nothing checks: {', '.join(a['requirementsUntested'][:12])}")
+        print(f"\n  Requirements nothing checks: "
+              f"{capped(a['requirementsUntested'], 12)}")
         print("  Each is something the project says it does. Write the case, or mark the "
               "requirement `deferred` with its citation.")
     if a["effectRequirementsUnbacked"]:
@@ -1162,6 +1272,7 @@ def cmd_check(args) -> int:
               f"({a['effectRequirementsWitnessed']} of {a['effectRequirements']} witnessed):")
         for line in a["effectRequirementsUnbacked"][:12]:
             print(f"    · {line}")
+        print(capped_tail(a["effectRequirementsUnbacked"], 12))
         print("  Drive the effect from a production entry point with a recorder attached and")
         print("  record it:")
         print("    campaign.py set <dir> --case CASE-0001 --status pass --oracle effect-witness \\")
@@ -1172,23 +1283,33 @@ def cmd_check(args) -> int:
         print("  thing is a finding, and recording it clears this blocker honestly.")
     if a["hollowWitnesses"]:
         print(f"\n  Effect witnesses that witnessed nothing: "
-              f"{', '.join(w.split()[0] for w in a['hollowWitnesses'][:12])}")
+              f"{capped([w.split()[0] for w in a['hollowWitnesses']], 12)}")
         for line in a["hollowWitnesses"][:6]:
             print(f"    · {line}")
+        print(capped_tail(a["hollowWitnesses"], 6))
+    if a.get("hollowSourceClaims"):
+        print(f"\n  Source-analysis claims with no analyzer or no denominator: "
+              f"{capped(a['hollowSourceClaims'], 12)}")
+    if a.get("requirementsSourceOnly"):
+        print(f"\n  Requirements resting on source analysis alone: "
+              f"{capped(a['requirementsSourceOnly'], 12)}")
+        print("  Source analysis reads text and runs nothing. Add a case on the "
+              "product ladder, or record the requirement's effect honestly.")
     if a["surfacesUncovered"]:
-        print(f"  Surfaces with no case: {', '.join(a['surfacesUncovered'])}")
+        print(f"  Surfaces with no case: {capped(a['surfacesUncovered'], 12)}")
     if a["flowsPresenceOnly"]:
-        print(f"\n  Critical flows proved only by presence: {', '.join(a['flowsPresenceOnly'])}")
+        print(f"\n  Critical flows proved only by presence: "
+              f"{capped(a['flowsPresenceOnly'], 12)}")
         print("  Each promises an effect. Add a case whose oracle is outcome, metamorphic "
               "or visual, or drop the flow's `critical` flag and say why.")
     if a["unevidencedPasses"]:
-        print(f"  Passes with no artifact: {', '.join(a['unevidencedPasses'][:12])}")
+        print(f"  Passes with no artifact: {capped(a['unevidencedPasses'], 12)}")
         print("  A pass you reached by looking is not a measurement. Attach the artifact "
               "or reopen the case.")
     if a["glassLanesUnproved"]:
         for lane, ids in sorted(a["glassLanesUnproved"].items()):
             print(f"\n  Lane '{lane}' claims on-glass verification and has no proof "
-                  f"({len(ids)} case(s), e.g. {', '.join(ids[:4])}).")
+                  f"({len(ids)} case(s): {capped(ids, 4)}).")
         print("  Build the artifact if it is not on disk, launch it, then record:")
         print("    campaign.py lane <dir> --lane <lane> --artifact <path> \\")
         print("      --built-by '<build command>' --attached '<what witnessed it>'")
@@ -1198,6 +1319,7 @@ def cmd_check(args) -> int:
         print("\n  Pixel claims with no usable pixels:")
         for line in a["badRasterClaims"][:10]:
             print(f"    · {line}")
+        print(capped_tail(a["badRasterClaims"], 10))
     if a.get("publishedShots"):
         print(f"Wall:       {a['publishedShots']} published shot(s) · "
               f"{a['distinctPublishedImages']} distinct image(s)")
@@ -1205,6 +1327,7 @@ def cmd_check(args) -> int:
         print("   published shots showing the same picture under different subjects:")
         for ids in list(a["duplicateShots"].values())[:6]:
             print(f"      {', '.join(ids)}")
+        print(capped_tail(a["duplicateShots"], 6, indent="      "))
     if a.get("declaredShares"):
         # Counted apart rather than folded into the wall's distinct-image number: a
         # declared share is admissible, and a reader still needs to see that these
@@ -1213,22 +1336,24 @@ def cmd_check(args) -> int:
               f"in captures.json):")
         for ids in list(a["declaredShares"].values())[:8]:
             print(f"      {', '.join(ids)}")
+        print(capped_tail(a["declaredShares"], 8, indent="      "))
     if a["duplicateArtifacts"]:
         print("\n  The same capture standing in for several cases:")
         for ids in list(a["duplicateArtifacts"].values())[:6]:
             print(f"    · {', '.join(ids)}")
+        print(capped_tail(a["duplicateArtifacts"], 6))
     if a["unwitnessedPixelClaims"]:
         print("\n  Pixels with no stated origin:")
         for line in a["unwitnessedPixelClaims"][:10]:
             print(f"    · {line}")
+        print(capped_tail(a["unwitnessedPixelClaims"], 10))
     if a["legacyRungCases"]:
-        print(f"\n  On the legacy `visual` rung: {', '.join(a['legacyRungCases'][:12])}")
+        print(f"\n  On the legacy `visual` rung: {capped(a['legacyRungCases'], 12)}")
         print("  Asserting that a card's title property equals a string is a data-model "
               "check, not a visual one. Split each into structural-visual or "
               "raster-visual; the second needs a capture off a display server.")
     if a["openCases"]:
-        print(f"  Open: {', '.join(a['openCases'][:20])}"
-              + (" …" if len(a["openCases"]) > 20 else ""))
+        print(f"  Open: {capped(a['openCases'], 20)}")
     print("\nFinish them, resolve each to skip:/n-a: with a reason, or declare the stop with "
           "its resume point — in the reply, the verdict line and the report. Never silently.")
     return 1
