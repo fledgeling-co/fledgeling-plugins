@@ -39,6 +39,27 @@ In React, use the `useGSAP()` hook from `@gsap/react`; in any framework, create 
 
 **One verification note before you build.** The sanctioned capture engine runs **no** CSS animation and no GSAP timeline, so nothing in this file is verifiable by screenshot on this machine (`visual-verification.md` Phase 0). A paused master timeline you can `seek()` is therefore the only motion here that can be *seen* at all — which is one more reason Phase 6's timeline-as-engine pattern is the shape to reach for when the motion has to be reviewed rather than trusted.
 
+## Entrance motion uses `gsap.from`, never `gsap.to`
+
+A `from` tween treats the authored markup as the **end** state and animates toward it; a `to` tween
+treats it as the start and animates away. Only the first survives the three cases a page actually
+meets: the script failing to parse, reduced motion, and a reader who lands and scrolls before the
+timeline finishes.
+
+Measured 21 Aug 2026 on a published long-form page: an `opacity: 0` entrance on the page's summary
+panel left the finding — the single most important block on the page — as a **void** in every capture
+taken before the tween resolved, and for any real reader arriving on a slow first paint. The fix was
+not a shorter duration; it was removing the tween. A fade on a conclusion buys nothing perceptual and
+costs exactly the thing the page exists to say.
+
+Two rules follow:
+
+- **Never animate the block carrying the page's conclusion.** It is readable on arrival or the
+  animation is a defect.
+- **A claim may never exist only in an animated intermediate frame** — which is the same rule the
+  static-frame requirement states from the other side. With `gsap.from`, the authored DOM *is* the
+  static frame, so the two collapse into one discipline rather than two.
+
 ## Phase 2: Core discipline (tokens still rule)
 
 - **Transform aliases, not raw transform strings:** `x`, `y`, `scale`, `rotation`, `xPercent`, `rotationX/Y`, `transformOrigin`. **`autoAlpha` over `opacity`** for fades — at 0 it also sets `visibility: hidden`, so invisible elements stop eating clicks.
