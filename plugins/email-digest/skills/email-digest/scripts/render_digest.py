@@ -185,7 +185,7 @@ def render_oneline(items: list[dict], p: dict) -> str:
             f'line-height:1.5;color:{p["ink"]};">'
             f'<a href="{esc(r["url"])}" style="color:{p["ink"]};text-decoration:underline;">'
             f'{esc(r["title"])}</a>'
-            + (f'<span style="color:{p["muted"]};"> &mdash; {esc(r.get("oneline") or "")}</span>'
+            + (f'<span style="color:{p["muted"]};"> &middot; {esc(r.get("oneline") or "")}</span>'
                if r.get("oneline") else "")
             + '</td></tr>'
             for r in rows)
