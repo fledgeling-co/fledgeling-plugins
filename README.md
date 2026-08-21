@@ -372,6 +372,14 @@ A digest goes out with twenty-four items, somebody calls it unreadable, and the 
 
 <br clear="left" />
 
+<a href="plugins/recover-claude-code/README.md"><img src="plugins/recover-claude-code/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [recover-claude-code](plugins/recover-claude-code/README.md)
+
+A terminal crash leaves every transcript, workflow journal and subagent context on disk but unattached. Reopening the sessions is the easy half; the half that goes wrong is the work that was in flight, because an agent still running when the process died restarts from its original prompt with an empty head and re-derives what its predecessor had already closed. This reattaches instead: a dead subagent's transcript is a sidechain, so rewriting three fields makes it resume with the files it read and the findings it closed intact. It refuses to touch a session that is still live, and refuses to fabricate a journal result to make a resume look clean.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through ship-fleet and ship-feature, which conduct the shipyard stage skills, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 
