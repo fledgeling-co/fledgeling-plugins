@@ -134,6 +134,12 @@ Four things the structure needs from the copy:
 - **A summary of exactly three highlights plus category counts**, every link
   pointing outward to its destination. Not a contents list, which recreates the
   flat list above the flat list.
+- **Set it as a summary, not as a to-do list.** Three bulleted lines read as
+  three items to work through; the same three set as statements on a tinted
+  ground, with the linked name carrying the weight, read as one block the reader
+  takes in and moves past. What it must not become is a prose paragraph: the
+  NN/g result below indicts prose specifically, and separate short lines are the
+  object the same heatmaps show people reading.
 - **Say what the items were used on, where you can source it.** A highlight that
   names the work ("three projects closed out behind this one") answers the
   question a list of titles does not, and it is the relevance signal the Kong
