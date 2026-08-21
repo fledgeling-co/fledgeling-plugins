@@ -4,6 +4,38 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-21
+
+### code-review 1.1.0: the sources it was built from, made checkable
+
+An audit of what this skill actually drew on against what it was asked to draw on found two things
+missing and one that turned out not to be missing at all.
+
+Six measurements in `references/evidence.md` were marked `M (inherited)`, meaning quoted from a
+predecessor with no citation a reader could open. The reports backing them were sitting in this
+repository the whole time, under `docs/deep-research/`. They now carry an `R` class naming the
+report: the judge-panel result and the automation-bias and evolvability findings to
+`code-review-deputy.md`, the agent-authored-commit census and the coverage-ledger census to
+`code-review-vacuous.md`, and the lost-agent fan-out measurement to `code-review-workflows.md`.
+Exactly one is still inherited, the process-count ceiling behind the 8-shard cap, and the file now
+says so rather than leaving a reader to count. The distinction is the whole point of the marker:
+`R` can be checked by opening a file, `M (inherited)` cannot be checked at all.
+
+The `debt` lens gained the code-smell baseline from Fowler's *Refactoring* ch.3, adapted from the
+two-axis `code-review` skill in `~/Dev/skills`. The lens was structural before this: layering
+violations, god objects, duplication, abstraction mismatches. It carried nothing for naming or
+coupling, which is half of what makes a diff hard to live with. Twelve named smells now sit under
+it, each written as what it is and how to fix it, bound by two rules that stop it becoming a style
+cudgel: a documented repo standard always overrides the baseline, and every smell is a labelled
+judgement call rather than a violation. That skill's Spec axis was deliberately left behind, since
+spec-conformance belongs to `spec-validation` and `shipyard:gap-fix` and a second opinion on it
+here would only put two skills in disagreement.
+
+`~/Dev/knowledge-work-plugins/engineering/skills/code-review` was assessed and contributed nothing.
+Its dimensions are a strict subset of the security and logic checklists already here, and its
+distinctive move is a connector story rather than a deeper review. `evidence.md` records that
+assessment so it is not repeated.
+
 ## 2026-08-20
 
 ### code-review 1.0.0, atlas-publish 2.0.0: the release skill splits, and its review half becomes general

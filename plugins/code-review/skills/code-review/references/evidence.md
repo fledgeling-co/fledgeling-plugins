@@ -12,10 +12,17 @@ Four provenance classes are used below:
 | **P** | The predecessor skill this one descends from (`code-review` 1.3.0, and its project-specific fork) |
 | **M** | A measurement — a study, a census, or an incident with numbers attached |
 | **D** | A design decision made here, with its reasoning stated and no external citation |
+| **R** | A research report held in this repository under `docs/deep-research/`, with its own sources |
 
 Where a measurement is **inherited from a predecessor without a first-party citation available at
 the time of writing**, it is marked `M (inherited)`. Those are worth re-sourcing before they are
 quoted outside this skill.
+
+Six measurements that were `M (inherited)` when this file was first written were re-sourced on
+2026-08-21 against the reports in `docs/deep-research/`, and now carry `R` with the report named.
+That leaves exactly one still inherited, the process-count ceiling below, which no report in this
+repository covers. The distinction is the point of the marker: `R` can be checked by opening a
+file, `M (inherited)` cannot be checked at all yet.
 
 ---
 
@@ -45,6 +52,7 @@ quoted outside this skill.
 | Coverage ledger with four states (`checked`, `not-applicable`, `not-checked`, `no-oracle`) | D + M | Not in either predecessor's output contract. Added because a pass and a cannot-run serialize identically; the census below is why. |
 | Repo discovery replaces a hard-coded project map | D | This skill's central generalisation. A map written into a skill goes stale silently and only fits one repo; a map derived from the target repo at runtime is right by construction and right everywhere. |
 | The absent-framework refutation | P (mechanism) + D (generalisation) | The project-specific fork hard-coded *"there is no NestJS and no Prisma here, so a finding that names a NestJS guard or a Prisma call is refuted at Gate 1"*. The mechanism was right and the constant was wrong; here the absences are established during discovery and passed into every verifier prompt. |
+| The Fowler smell baseline under the `debt` lens, with the repo-overrides and always-a-judgement-call rules | D | Adapted from the two-axis `code-review` skill in `~/Dev/skills` (Matt Pocock), which carries the ch.3 catalogue as a fixed baseline for its Standards axis. Taken because the `debt` lens was structural (layering, god objects, duplication) and carried nothing for naming and coupling. Its Spec axis was deliberately **not** taken: spec-conformance belongs to `spec-validation` and `shipyard:gap-fix`, and duplicating it here would put two skills in disagreement over the same question. Its "skip what tooling enforces" rule was already present in `quality-lenses.md`, arrived at independently. |
 
 ---
 
@@ -52,7 +60,7 @@ quoted outside this skill.
 
 ### Why one verifier, not a panel
 
-`M (inherited)`. Nine frontier judges spanning seven model families behaved as roughly **two**
+`R` — `docs/deep-research/code-review-deputy.md`. Nine frontier judges spanning seven model families behaved as roughly **two**
 effective independent votes on a reward-modelling and NLI benchmark; panel accuracy ran 8 to 22
 percentage points below what genuinely independent voting would have produced, and the best single
 judge matched or beat the whole panel in every tested condition. Established aggregation methods
@@ -68,7 +76,7 @@ sharing a brief and a source pool is not corroboration.
 
 ### Why a report must not read as a verdict
 
-`M (inherited)`. Pre-populating a reviewer's queue with a machine verdict and asking for
+`R` — `docs/deep-research/code-review-deputy.md`. Pre-populating a reviewer's queue with a machine verdict and asking for
 confirmation is the one intervention the medical-imaging literature measures as making reviewers
 *worse*: specificity fell from 90.2% to 87.2% across 429,345 scans in one study, and reader
 sensitivity was significantly lower with the aid in another.
@@ -78,7 +86,7 @@ asserting the failure, and `BLOCK` means a CRITICAL finding exists, not that any
 
 ### Why AI-authored diffs get extra weight on security and on angle B
 
-`M (inherited)`. Across 1.2 million 2025 commits from 2,168 repositories, of which 48,563 were
+`R` — `docs/deep-research/code-review-vacuous.md`. Across 1.2 million 2025 commits from 2,168 repositories, of which 48,563 were
 agent-authored, agent commits added mocks to tests at 36% against 26% and modified test files at 23%
 against 13%. Association, not causation — but it raises the prior on exactly two shapes this review
 hunts: a guard replaced by a mock, and a test edited in the same commit as the code it guards.
@@ -101,14 +109,14 @@ shards and about 85 candidates were lost this way in a live review of the predec
 
 ### Why a fan-out is reconciled against a bucket list
 
-`M (inherited)`. A harness that loses an agent to a rate limit, a usage limit, a dropped connection
+`R` — `docs/deep-research/code-review-workflows.md`. A harness that loses an agent to a rate limit, a usage limit, a dropped connection
 or a 5xx returns `null` for that agent with zero retries, filters the `null` out, and reports the
 wave `completed`. Measured on one machine across three runs: 96 agents started and 35 never
 returned; 128 and 50; 107 and 52.
 
 ### Why the coverage ledger exists
 
-`M (inherited)`. From the census this rule comes from: 230 cases closed, 220 of 220 armed, 10
+`R` — `docs/deep-research/code-review-vacuous.md`. From the census this rule comes from: 230 cases closed, 220 of 220 armed, 10
 marked not-applicable with structural reasons, zero failures — and zero cases at a rung that asked
 for an effect outside the process, because no such rung existed. Every gate was green and the
 central claim had never been tested. The same census found 26 of 32 state-changing test functions
@@ -123,7 +131,7 @@ findings, because most files were never read. Single-context coverage degrades s
 
 ### Why the cleanup angles are not decoration
 
-`M (inherited)`. In the code-review literature the large majority of defects human reviewers raise
+`R` — `docs/deep-research/code-review-deputy.md`. In the code-review literature the large majority of defects human reviewers raise
 are evolvability findings rather than functional ones, so a reviewer emitting only bugs is emitting
 a minority of what a review is for.
 
@@ -194,3 +202,20 @@ This skill is written to be executed by Claude Opus 5, which changes what belong
   except where a quality lens's scope rule extends it explicitly (`quality-lenses.md`).
 - **A `--fix` mode.** The built-in has one. This skill is read-only on source by design, so that a
   review and an edit are two decisions rather than one.
+
+---
+
+## Sources assessed and not used
+
+`~/Dev/knowledge-work-plugins/engineering/skills/code-review` was read against this skill on
+2026-08-21 and contributed nothing. Its review dimensions (OWASP injection classes, auth flaws,
+secrets, SSRF, path traversal; N+1, complexity, resource leaks; edge cases and race conditions) are
+a strict subset of `security-checklist.md` and `logic-bugs-checklist.md`, which carry the same
+ground at roughly six times the depth with repo-specific triggers. Its distinctive move is a
+connector story: pull the PR diff from source control, link findings to tickets, check against a
+knowledge-base of team standards. That is a different product shape rather than a deeper review,
+and the equivalent here is repo discovery, which reads the standards out of the repository instead
+of a knowledge base.
+
+Recorded so the assessment is not repeated. If that skill grows a dimension this one lacks, the
+place to add it is `angles.md`, not here.
