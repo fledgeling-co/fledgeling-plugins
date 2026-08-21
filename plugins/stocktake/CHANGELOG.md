@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 - 2026-08-21
+
+Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.
+
+- **Verification lanes point at `defer` instead of naming a model.** Same-family validation and task verification are `claude-opus-5` at `xhigh` by policy, which is where this skill already sat.
+
 ## 0.1.0 — 2026-08-18
 
 First release.

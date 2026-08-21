@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.0 - 2026-08-21
+
+Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.
+
+- **The three out-of-family gates run `gpt-5.6-sol` at `medium`, not `max`.** Same lane, same read-only sandbox; the effort was the only thing above what the work needs, and `max` is now ruled out everywhere.
+
 ## 2.2.0 — 2026-08-20
 
 ### Changed
