@@ -474,6 +474,26 @@
         "workflows",
         "subagents"
       ]
+    },
+    {
+      "name": "defer",
+      "source": "./plugins/defer",
+      "description": "Decide which model a piece of work goes to, and produce the exact command that sends it there. One routing policy for every skill that hands work outside the session: six task classes mapped to seven lanes across five model families, each pinned to a model and an effort, with the CLI arguments, the environment GLM needs, and the check that proves the lane ran as routed. Where several lanes are eligible it picks the one with the most plan headroom per remaining day, measured \u2014 Claude and Codex report a real utilization percentage that is already on disk, and Grok, GLM and Gemini are counted locally against a budget calibrated from a percentage you can see. Ships a lane prober, a policy selftest that runs no model, and a wire-verify method per lane, because the most expensive failure in a multi-model system is a plausible answer from the wrong one.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "homepage": "https://skills.fledgeling.app/skills/defer",
+      "license": "MIT",
+      "category": "orchestration",
+      "keywords": [
+        "model-routing",
+        "multi-model",
+        "usage",
+        "quota",
+        "verification"
+      ]
     }
   ]
 }

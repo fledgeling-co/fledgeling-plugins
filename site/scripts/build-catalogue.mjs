@@ -57,6 +57,7 @@ const GROUP_OF = {
   "should-compact": "long-runs",
   "resume-session": "long-runs",
   clarify: "long-runs",
+  defer: "long-runs",
   "create-swe-project": "making",
   "create-mac-icon": "making",
   "create-skill": "making",

@@ -244,6 +244,14 @@ Decides whether to interrupt you at all, and mostly the answer is no. It sweeps 
 
 <br clear="left" />
 
+<a href="plugins/defer/README.md"><img src="plugins/defer/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [defer](plugins/defer/README.md)
+
+The one place that decides which model a piece of work goes to, so fourteen skills stop each deciding it separately and slightly differently. Six task classes across seven lanes and five families, each pinned to a model *and* an effort: sol never runs at max because it's the referral lane at medium, Fable judges forks but never grades a ticket, design review stays on Opus and Fable, and grok runs at xhigh. Where several lanes are eligible it doesn't pick the best one, it picks the one with the most plan headroom per remaining day — because 60% used with six days left is tighter than 80% that resets tonight — and when two are within 20% the tie breaks on published price rather than on sort order. It's careful about which numbers are real: Claude and Codex both report a utilization percentage the vendor computed, already sitting on disk, while Grok, GLM and Gemini expose no quota to any CLI at all, so those are counted locally, labelled Tier 2, and calibrated from a percentage you read yourself rather than from someone's estimate of your plan. The `api` hook for a real quota endpoint ships deliberately unwired, because a guessed URL turns "we can't measure this" into a confident wrong number. Then it proves the lane ran, which matters most for GLM: that lane is Claude Code with `X-Perch-Binding: glm` on it, and without the header the identical command runs Claude, succeeds, and hands back something plausible.
+
+<br clear="left" />
+
 <a href="plugins/whats-left/README.md"><img src="plugins/whats-left/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [whats-left](plugins/whats-left/README.md)

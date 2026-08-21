@@ -1,0 +1,24 @@
+{
+  "_readme": [
+    "Tier-2 budgets and reset windows for lane_pick.py. Tier-1 lanes (opus, fable,",
+    "codex-sol, codex-terra) read a real utilization percentage from local state and",
+    "ignore anything set here.",
+    "",
+    "budget      what you are willing to spend in one window, in the lane's own unit",
+    "            (grok: API-equivalent USD \u00b7 glm: plan prompts \u00b7 gemini: model calls)",
+    "window_days length of the window; 7 unless a vendor says otherwise",
+    "reset_epoch optional. A fixed reset instant, if the vendor has one. Omit for a",
+    "            rolling window and the full window is treated as the time remaining.",
+    "api         optional. Wire a real quota endpoint when one exists to point at:",
+    "              {\"url\": \"...\", \"headers\": [\"Authorization: Bearer {KEY}\"],",
+    "               \"key_cmd\": [\"security\",\"find-generic-password\",\"-s\",",
+    "                            \"dev.perch.account.zai:e714ccf64231\",\"-w\"],",
+    "               \"used_pct_path\": \"data.usage_percent\"}",
+    "            Nothing is wired by default and that is deliberate \u2014 see",
+    "            references/usage-sources.md for why guessing a URL is worse than",
+    "            counting locally.",
+    "",
+    "Delete the lanes block entirely to fall back to the calibrated defaults."
+  ],
+  "lanes": {}
+}
