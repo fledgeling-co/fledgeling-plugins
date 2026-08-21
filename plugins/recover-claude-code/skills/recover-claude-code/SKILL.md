@@ -36,12 +36,57 @@ It separates three states, and only one of them is yours to touch:
 
 | State | What it means | What to do |
 |---|---|---|
-| `LIVE` | in `~/.claude/sessions/` under a running Claude Code pid | nothing — see §2 |
+| `LIVE`, attached to a tty | in `~/.claude/sessions/` under a running pid, in a terminal tab | nothing — see §3 |
+| `LIVE`, no tty | outlived the terminal that owned it | stop it first — see §2 |
 | `WRITING` | no registry entry but the transcript moved in the last two minutes | wait, then rescan |
-| `STOPPED` + owed work | dead, and a journal is owed a result or a turn was cut | recover it |
-| `STOPPED` + owed nothing | someone finished with it | leave it |
+| `STOPPED` + interrupted work | dead, with a run or an agent that was still going | recover it |
+| `STOPPED` + nothing interrupted | idle when it died, or owed only long-abandoned runs | leave it, or `--include-idle` |
 
-## 2. Never touch a live session
+The last row is a real distinction rather than a tidy one. A session that has been running for
+days accumulates journals from runs abandoned long ago, and every one of them still reads as
+"owed a result" — one carried 21, of which 3 belonged to the crash. The scan reports all of
+them; `open_tabs.py` counts a run as interrupted only when one of its agents was still writing
+within `--fresh-within` seconds of the process dying, so the recovered session is pointed at
+the work that was actually cut rather than at a graveyard.
+
+## 2. Stop the sessions that outlived the terminal
+
+A terminal dying does not kill the sessions inside it. Measured on 2026-08-22: a Ghostty crash
+took 22 sessions off the screen, and four were still running twenty minutes later — one of them
+mid-run, re-arming a `caffeinate` child to keep the machine awake. Recovering on top of a
+survivor gives two processes appending to one transcript and two agents on one worktree.
+
+```bash
+python3 scripts/kill_orphans.py                 # read-only
+python3 scripts/kill_orphans.py --kill          # SIGTERM, so transcripts flush
+```
+
+The test is the controlling terminal, not parentage: a session in a healthy tab is parented to
+`login`, and so is every other tab, so "not in my own process tree" would condemn all of them.
+A session attached to a tab has a tty; one whose terminal died reports `??`. The calling
+session is excluded by ancestry too.
+
+Three things it will not do without being told, each for a reason:
+
+- **A detached session that is `busy` is left alone.** Claude Code runs genuine background
+  sessions with no terminal, and they are indistinguishable from a survivor by tty alone.
+  `--all-detached` includes them once you have decided they are debris.
+- **A session with no transcript is left alone.** A supervisor that keeps a warm pool registers
+  sessions that were never used; they look exactly like crashed ones and come straight back.
+  An idle slot writes nothing, so leaving it costs nothing.
+- **SIGTERM, not SIGKILL.** The flush is what makes the next scan's brief accurate. `--force`
+  escalates only what is still alive after `--wait`.
+
+If a killed session reappears under a new pid, something is supervising it and killing again
+just restarts the loop. Find the supervisor first — on this machine it was Relay
+(`~/Dev/perch/macos/dist/Relay.app`), which respawned its warm-pool slots within seconds of the
+Claude Code daemon being stopped.
+
+**Then scan again.** Stopping a survivor is what turns it into a recoverable session: a run
+that was still live held no interrupted work until its process died, and the busy egress
+session on 2026-08-22 only became a recovery target after it was stopped.
+
+## 3. Never touch a live session
 
 A session in the registry under a running pid is being used, however long it has been quiet
 — a runner can work for forty minutes without writing to the parent transcript. Resuming it
@@ -54,7 +99,7 @@ ones. Two probes that look plausible do not work: `ps` output does not contain t
 id, and the scratchpad directory is named by a per-process id that stops matching the
 session id as soon as a session has been resumed once.
 
-## 3. Reopen each dead session
+## 4. Reopen each dead session
 
 ```bash
 python3 scripts/scan_crashed.py --minutes 60 --json > /tmp/scan.json
@@ -86,14 +131,26 @@ Three things about that line are load-bearing:
   waste the recovery is to rebuild something that is already on a branch.
 
 `--dry-run` writes everything and opens nothing. Use it when the session list is long enough
-that you want to read it first.
+that you want to read it first. `--include-idle` also reopens the sessions that were owed
+nothing: those are resumed with no prompt, and with `CLAUDE_CODE_RESUME_PROMPT` set to a
+stand-down line, because Claude Code auto-submits a continue prompt whenever it classifies the
+restored transcript as an interrupted turn — on a session that was merely idle, that starts
+work nobody asked for.
+
+The brief names every agent that was in flight, not only the ones that died loudly. An agent
+that reached the end of its turn without returning a result leaves no error anywhere and is
+exactly the one whose context is worth promoting, so listing only the failures hides the best
+recovery available.
 
 If a tab fails to open, the ledger records it and the remaining tabs still open; source that
-tab's bootstrap script by hand. The driver confirms the tab count moved before typing,
-because a synthesised `cmd+T` is accepted on macOS and does nothing, and typing a bootstrap
-line into a tab that never opened sends it into whichever session was focused.
+tab's bootstrap script by hand. The driver confirms the tab count moved before typing, because
+a synthesised `cmd+T` is accepted on macOS and does nothing, and typing a bootstrap line into a
+tab that never opened sends it into whichever session was focused. That confirmation reads the
+count as "no tab group means one tab": Ghostty builds the tab group only once a window holds
+two, so on a single-tab window the direct query errors — which on 2026-08-22 failed all ten
+tabs of a recovery before anything was typed.
 
-## 4. Restore the interrupted work, rather than restarting it
+## 5. Restore the interrupted work, rather than restarting it
 
 This is the part that decides whether the recovery was worth doing. Pick by what the journal
 shows, not by habit.
@@ -110,6 +167,12 @@ looks, and the agent's whole context resumes — the files it read, what it had 
 finding it had just closed. Measured: a promoted 95-line transcript named its item, its
 branch and a closed finding from memory with no tools. Its replacement, started from the
 same prompt, would know none of that.
+
+**A background agent outside a workflow → promote it the same way.** A session driving
+subagents directly owes nothing to a journal, so nothing reports them as lost, and the scan
+lists them as `loose_subagents`. They promote exactly like a workflow agent: on 2026-08-22 an
+mcp-router session died holding six, including two planners and a runner mid-item, and none of
+them appeared in any run's ledger.
 
 **Calls that never started → a fresh run of only those.** Write a new script containing the
 outstanding items and launch it from the recovered session. Each prompt carries the branch as
@@ -170,7 +233,7 @@ that run rather than constructing it. And the run id is reused rather than repla
 so the resumed run writes into this same directory: keeping the original under a different
 name is what makes a second attempt possible.
 
-## 5. Then say what state things are in
+## 6. Then say what state things are in
 
 Report per session: what was recovered, what was left, and what is genuinely outstanding —
 short, and shaped by what a reader would do next. A recovery report that lists everything
@@ -181,8 +244,10 @@ a hedge.
 
 ## Scope, and what not to do
 
-- **Do not resume a session that is live**, and do not relaunch a run whose agents are still
-  writing. That is the one irreversible mistake available here.
+- **Do not resume a session that is live in a terminal**, and do not relaunch a run whose
+  agents are still writing. That is the one irreversible mistake available here. A session
+  that is alive but detached is the opposite case: stop it before recovering, or the recovery
+  runs alongside it.
 - **Do not use `--fork-session`** on anything this skill touches.
 - **Do not fabricate a journal result**, however confident the partial transcript looks.
 - **Delegation:** this work is sequential and cheap. Do it directly. One subagent is
@@ -201,7 +266,12 @@ a hedge.
 - `references/evidence.md` — where each claim came from, and which are read from a binary
   rather than measured.
 - `scripts/selftest.py` — builds a fixture in the shapes a real crash leaves and asserts the
-  scan reads it correctly. Run it after changing the scanner.
+  scan reads it correctly, including the freshness split, a loose-agent-only session, and the
+  cwd fallback. Run it after changing the scanner.
+
+Scripts, in the order they are used: `scan_crashed.py` (see what is there), `kill_orphans.py`
+(stop the survivors), `open_tabs.py` (reopen), then `promote_agent.py` or `splice_result.py`
+per interrupted item.
 
 For a workflow run that *completed* while losing agents to API errors — a different failure,
 with opposite handling — use the `workflow-resume` skill. This one is for the case where the

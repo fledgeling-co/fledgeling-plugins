@@ -26,22 +26,29 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import os
 import shlex
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+OSA_COUNT = '''
+tell application "System Events" to tell process "ghostty"
+  try
+    return (count of radio buttons of tab group 1 of window 1) as string
+  on error
+    return "1"
+  end try
+end tell
+'''
+
 OSA_NEW_TAB = '''
 tell application "Ghostty" to activate
-delay 0.5
+delay 0.4
 tell application "System Events" to tell process "ghostty"
-  set c0 to count of radio buttons of tab group 1 of window 1
   click menu item "New Tab" of menu 1 of menu bar item "File" of menu bar 1
-  delay 1.2
-  set c1 to count of radio buttons of tab group 1 of window 1
 end tell
-return (c0 as string) & " " & (c1 as string)
 '''
 
 OSA_TYPE = '''
@@ -63,40 +70,110 @@ def osa(script: str) -> str:
     return r.stdout.strip()
 
 
-def new_tab() -> None:
+def tab_count() -> int:
+    """How many tabs the front window has.
+
+    Ghostty creates the tab group only once a window holds two or more tabs, so on a
+    single-tab window `tab group 1 of window 1` does not exist and the query errors. That
+    read as "cannot open a tab" and failed every tab of a recovery on 2026-08-22. A window
+    with no tab group has exactly one tab, so the probe reports 1 rather than raising.
+    """
+    return int(osa(OSA_COUNT))
+
+
+def new_tab(timeout: float = 6.0) -> None:
     """Open a tab and confirm the count actually moved.
 
     Confirming matters because the keystroke route fails silently: a recovery that assumed
     the tab existed would type its bootstrap line into whatever session happened to be
-    focused, which is someone else's live conversation.
+    focused, which is someone else's live conversation. The confirmation polls rather than
+    sleeping a fixed interval, because a cold Ghostty takes longer to draw the first tab
+    than a warm one takes to draw the tenth.
     """
-    out = osa(OSA_NEW_TAB)
-    try:
-        before, after = (int(x) for x in out.split())
-    except ValueError:
-        raise RuntimeError(f"could not read the tab count back (got {out!r})")
-    if after != before + 1:
-        raise RuntimeError(f"no new tab appeared (count {before} -> {after})")
+    before = tab_count()
+    osa(OSA_NEW_TAB)
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        time.sleep(0.3)
+        if tab_count() == before + 1:
+            return
+    raise RuntimeError(f"no new tab appeared (count stayed {before})")
 
 
-def write_bootstrap(dirpath: Path, index: int, session: dict, brief_path: Path,
+STAND_DOWN = (
+    "The terminal process crashed and this session has just been reopened. Nothing was in "
+    "flight when it died, so there is no interrupted work to resume and nothing to chase. "
+    "Do not start any work, do not relaunch any workflow, and do not act on a run that was "
+    "already abandoned before the crash. Say in one line where you left off, then wait."
+)
+
+
+def in_flight(session: dict, window: float) -> tuple[list[dict], list[dict]]:
+    """The runs and loose subagents this crash actually interrupted.
+
+    A long-lived session accumulates journals from runs that were abandoned days earlier, and
+    every one of them is still "owed a result" — one session here carried 21. Feeding all of
+    them to a recovered session invites it to go and chase work that was deliberately dropped,
+    so a run counts only when one of its agents was still writing within `window` seconds of
+    the crash.
+    """
+    runs = []
+    for r in session.get("unfinished_runs") or []:
+        agents = [a for a in (r.get("agents") or []) if 0 <= a.get("quiet_for", -1) < window]
+        if agents:
+            r = dict(r)
+            r["agents"] = agents
+            runs.append(r)
+    loose = [a for a in (session.get("loose_subagents") or [])
+             if 0 <= a.get("quiet_for", -1) < window]
+    return runs, loose
+
+
+def resolve_cwd(session: dict) -> str | None:
+    """Where to reopen the session.
+
+    The scan reads cwd from the tail of the transcript, and a session whose last entries are
+    all queue operations records none — one did on 2026-08-22, and `cd None` would have been
+    typed into a terminal. The project directory name is the fallback: it is the launch cwd
+    with the separators replaced, which is lossy for a path that itself contains a dash, so it
+    is only used when the transcript offers nothing and the result is checked before use.
+    """
+    if session.get("cwd"):
+        return session["cwd"]
+    guess = "/" + session.get("project", "").lstrip("-").replace("-", "/")
+    return guess if os.path.isdir(guess) else None
+
+
+def write_bootstrap(dirpath: Path, index: int, session: dict, brief_path: Path | None,
                     model: str | None, extra_args: str) -> Path:
     """One shell script per tab.
 
     Everything hard — the cd, the quoting, the brief — lives in this file so the only thing
     typed into the terminal is a short `source` line with no metacharacters in it.
+
+    With no brief (an idle reopen) the session is resumed with no prompt at all, and
+    CLAUDE_CODE_RESUME_PROMPT carries a stand-down line: Claude Code auto-submits a continue
+    prompt when it classifies the restored transcript as an interrupted turn, and on a session
+    that was merely sitting idle that would start work nobody asked for.
     """
     cwd = session["cwd"]
     sid = session["session_id"]
     name = session.get("name") or sid[:8]
     model_arg = f" --model {shlex.quote(model)}" if model else ""
+    extra = (" " + extra_args) if extra_args else ""
+    if brief_path is None:
+        launch = (f"export CLAUDE_CODE_RESUME_PROMPT={shlex.quote(STAND_DOWN)}\n"
+                  f"exec claude --dangerously-skip-permissions{model_arg}{extra} "
+                  f"--resume {shlex.quote(sid)}")
+    else:
+        launch = (f"exec claude --dangerously-skip-permissions{model_arg}{extra} \\\n"
+                  f"  --resume {shlex.quote(sid)} \"$(cat {shlex.quote(str(brief_path))})\"")
     script = f"""#!/bin/zsh
 # recover-claude-code: tab {index} — {name}
 # session {sid}
 print -P "%F{{cyan}}recovering {name}%f  ({sid})"
 cd {shlex.quote(cwd)} || {{ print "cannot cd to {cwd}"; return 1 }}
-exec claude --dangerously-skip-permissions{model_arg}{(' ' + extra_args) if extra_args else ''} \\
-  --resume {shlex.quote(sid)} "$(cat {shlex.quote(str(brief_path))})"
+{launch}
 """
     p = dirpath / f"tab-{index:02d}-{sid[:8]}.sh"
     p.write_text(script)
@@ -104,15 +181,18 @@ exec claude --dangerously-skip-permissions{model_arg}{(' ' + extra_args) if extr
     return p
 
 
-def write_brief(dirpath: Path, index: int, session: dict) -> Path:
+def write_brief(dirpath: Path, index: int, session: dict, runs: list[dict],
+                loose: list[dict]) -> Path:
     """The first turn the resumed session sees.
 
-    It leads with what happened, because the session's own last memory is of work in
-    progress and it will otherwise carry on as if nothing broke. It points at the branch
-    before the transcript, because what landed in git is the authority on what was done and
-    an agent's own account is only evidence of what it was attempting.
+    It leads with what happened, because the session's own last memory is of work in progress
+    and it will otherwise carry on as if nothing broke. It points at the branch before the
+    transcript, because what landed in git is the authority on what was done and an agent's
+    own account is only evidence of what it was attempting. And it names every agent that was
+    in flight, not only the ones that died loudly: an agent that reached the end of its turn
+    without returning a result looks healthy in the journal and is exactly the one whose
+    context is worth promoting.
     """
-    runs = session.get("unfinished_runs", [])
     lines = [
         "This session was interrupted: the terminal process died while it was working, "
         "not because the work finished. Before continuing, establish what actually landed.",
@@ -134,13 +214,26 @@ def write_brief(dirpath: Path, index: int, session: dict) -> Path:
                 f"returned, {len(j['pending_keys'])} still owed."
             )
             lines.append(f"    script: {r['script_path'] or 'not persisted to disk'}")
-            for a in r["agents"]:
-                if a["mid_turn"] or a["terminal_error"]:
-                    lines.append(
-                        f"    {a['item'] or a['agent_id']}: {a['lines']} lines of work, "
-                        f"{'stopped mid-tool' if a['mid_turn'] else a['terminal_error']}"
-                    )
-                    lines.append(f"      transcript: {a['transcript']}")
+    agents = [a for r in runs for a in r["agents"]] + list(loose)
+    if agents:
+        lines += [
+            "",
+            "Agents that were in flight when the process died. Each has its own transcript "
+            "holding the context it had built up — the files it read, what it had concluded. "
+            "promote_agent.py brings that back as a resumable session; relaunching them from "
+            "their original prompt throws it away and re-derives it at full cost.",
+            "",
+        ]
+        for a in sorted(agents, key=lambda a: -(a.get("lines") or 0)):
+            state = ("stopped mid-tool" if a.get("mid_turn")
+                     else a.get("terminal_error")
+                     or "reached the end of its turn but never returned a result")
+            label = a.get("item") or a.get("agent_id", "?")[:9]
+            lines.append(f"  {label}: {a.get('lines')} lines — {state}")
+            head = (a.get("prompt_head") or "").strip()
+            if head and not a.get("item"):
+                lines.append(f"    {head[:150]}")
+            lines.append(f"    transcript: {a['transcript']}")
     lines += [
         "",
         "Start by reconciling against version control rather than against your own last "
@@ -170,20 +263,42 @@ def main() -> int:
     ap.add_argument("--claude-args", default="", help="extra args for every claude invocation")
     ap.add_argument("--settle", type=float, default=2.0,
                     help="seconds between opening a tab and typing into it")
+    ap.add_argument("--fresh-within", type=float, default=3600.0,
+                    help="an agent quiet for less than this many seconds when the process "
+                         "died counts as interrupted by this crash (default 3600). Runs whose "
+                         "agents all went quiet earlier were abandoned before it.")
+    ap.add_argument("--include-idle", action="store_true",
+                    help="also reopen stopped sessions that were owed nothing — resumed with "
+                         "no prompt, so they come back where they were and wait.")
     args = ap.parse_args()
 
     raw = sys.stdin.read() if args.scan == "-" else Path(args.scan).expanduser().read_text()
     data = json.loads(raw)
 
-    targets = [
-        s for s in data["sessions"]
-        if s["state"] == "STOPPED" and (s["unfinished_runs"] or s["mid_turn"])
-    ]
+    stopped = [s for s in data["sessions"] if s["state"] == "STOPPED"]
+    skipped: list[tuple[str, str]] = []
+    targets: list[tuple[dict, list[dict], list[dict]]] = []
+    for s in stopped:
+        cwd = resolve_cwd(s)
+        if not cwd:
+            skipped.append((s["session_id"][:8], "no working directory could be resolved"))
+            continue
+        s = dict(s, cwd=cwd)
+        runs, loose = in_flight(s, args.fresh_within)
+        if runs or loose or s["mid_turn"]:
+            targets.append((s, runs, loose))
+        elif args.include_idle:
+            targets.append((s, [], []))
+        elif s["unfinished_runs"]:
+            skipped.append((s["session_id"][:8],
+                            f"{len(s['unfinished_runs'])} run(s), all abandoned before the crash"))
     if args.limit:
         targets = targets[: args.limit]
 
     if not targets:
-        print("nothing to recover: no stopped session is owed a result or was cut mid-turn")
+        print("nothing to recover: no stopped session was interrupted mid-flight")
+        for sid, why in skipped:
+            print(f"  skipped {sid}: {why}")
         return 0
 
     workdir = Path(args.workdir).expanduser() if args.workdir else Path(
@@ -191,17 +306,27 @@ def main() -> int:
     workdir.mkdir(parents=True, exist_ok=True)
 
     ledger = []
-    for i, s in enumerate(targets, 1):
-        brief = write_brief(workdir, i, s)
+    for i, (s, runs, loose) in enumerate(targets, 1):
+        idle = not (runs or loose or s["mid_turn"])
+        brief = None if idle else write_brief(workdir, i, s, runs, loose)
         boot = write_bootstrap(workdir, i, s, brief, args.model, args.claude_args)
         ledger.append({"index": i, "session_id": s["session_id"], "name": s.get("name"),
-                       "cwd": s["cwd"], "bootstrap": str(boot), "brief": str(brief),
-                       "runs": [r["run_id"] for r in s["unfinished_runs"]], "opened": False})
+                       "cwd": s["cwd"], "bootstrap": str(boot),
+                       "brief": str(brief) if brief else None, "idle": idle,
+                       "runs": [r["run_id"] for r in runs],
+                       "agents": sum(len(r["agents"]) for r in runs) + len(loose),
+                       "opened": False})
 
     print(f"{len(targets)} session(s) to recover · scripts in {workdir}\n")
     for e in ledger:
         print(f"  {e['index']:>2}. {(e['name'] or e['session_id'][:8]):<24} {e['cwd']}")
-        print(f"      {len(e['runs'])} interrupted run(s): {', '.join(e['runs']) or '-'}")
+        if e["idle"]:
+            print("      owed nothing — reopened with no prompt")
+        else:
+            print(f"      {len(e['runs'])} interrupted run(s), {e['agents']} agent(s) in flight"
+                  f"{': ' + ', '.join(e['runs']) if e['runs'] else ''}")
+    for sid, why in skipped:
+        print(f"  --  {sid} skipped: {why}")
 
     if args.dry_run:
         print(f"\ndry run: nothing opened. Each tab would be sent:  source <bootstrap>")

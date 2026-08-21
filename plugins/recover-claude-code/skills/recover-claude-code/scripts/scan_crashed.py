@@ -289,6 +289,35 @@ def _agent_state(path: Path, now: float) -> dict:
     }
 
 
+def _cwd_from_file(transcript: Path) -> str | None:
+    """Last working directory recorded anywhere in the transcript.
+
+    The tail-entries pass misses a session whose final entries carry no cwd at all — one
+    ending in a run of queue operations recorded none on 2026-08-22, and the recovery would
+    have run `cd None`. Deriving the path from the project directory name is not a
+    substitute: that name is the cwd with separators replaced, so it is ambiguous for any
+    path containing a dash, which `/Users/…/Dev/mcp-router` does. This reads the value the
+    session actually wrote, scanning the last megabyte so the cost does not grow with the
+    length of a long session.
+    """
+    try:
+        size = transcript.stat().st_size
+        with transcript.open("rb") as fh:
+            fh.seek(max(0, size - 1_000_000))
+            blob = fh.read().decode("utf-8", "replace")
+    except OSError:
+        return None
+    hits = re.findall(r'"cwd"\s*:\s*"((?:[^"\\]|\\.)*)"', blob)
+    for raw in reversed(hits):
+        try:
+            path = json.loads(f'"{raw}"')
+        except ValueError:
+            continue
+        if os.path.isdir(path):
+            return path
+    return None
+
+
 def workflow_runs(project: Path, session: str, now: float) -> list[dict]:
     base = project / session / "subagents" / "workflows"
     runs = []
@@ -355,6 +384,8 @@ def scan(minutes: int, project_filter: str | None) -> dict:
             if e.get("cwd"):
                 cwd = e["cwd"]
                 break
+        if cwd is None:
+            cwd = _cwd_from_file(transcript)
         runs = workflow_runs(project, sid, now)
         loose = loose_subagents(project, sid, now)
         state = "LIVE" if reg else ("WRITING" if fresh else "STOPPED")

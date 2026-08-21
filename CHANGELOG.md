@@ -4,6 +4,51 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-22
+
+### recover-claude-code 1.0.0 → 1.1.0: the sessions that outlive the terminal
+
+A Ghostty crash took 22 sessions down, and four of them were still running twenty
+minutes later — two `busy`, one re-arming a `caffeinate` child to keep the machine
+awake. The skill had no step for that, so a recovery would have opened a second
+process against the same transcript and the same worktrees. New `kill_orphans.py`
+and a new §2 stop them first. The test is the controlling terminal rather than
+parentage: every healthy tab is parented to `login`, so "not in my own process
+tree" would condemn all of them, while a survivor reports no tty at all. It leaves
+a detached session that is working alone unless told otherwise, because Claude
+Code runs genuine background sessions the same way.
+
+Stopping a survivor is also what *creates* the recovery: a run inside a live
+session holds no interrupted work, and the busy egress session here only entered
+the recovery set once its process died. So the order is scan, stop, scan again.
+
+Three silent failures found in the same run, each now covered by the selftest:
+
+- **`tab group 1 of window 1` does not exist on a single-tab window.** Ghostty
+  builds the tab group only at two tabs, so the count probe raised `-1719` and
+  failed all ten tabs before clicking anything. A missing tab group now reads as
+  one tab, and the confirmation polls rather than sleeping a fixed 1.2s.
+- **"Owed a result" is not "interrupted".** A long-lived session accumulates
+  journals from runs abandoned days earlier; one carried 21, of which 3 belonged
+  to the crash, and another 11 of which none did. `--fresh-within` counts a run as
+  interrupted only when one of its agents was still writing near the crash, so a
+  recovered session is pointed at real work rather than a graveyard.
+- **A session driving subagents directly was dropped from the target list.** No
+  workflow run means nothing owed, and the filter keyed on runs. One such session
+  held six in-flight agents, two planners and a runner among them.
+
+Also: `--include-idle` reopens sessions that were owed nothing, with no prompt and
+`CLAUDE_CODE_RESUME_PROMPT` set to a stand-down line, because Claude Code
+auto-submits a continue prompt whenever it classifies the restored transcript as an
+interrupted turn. That guard is measured rather than assumed: of four idle sessions
+reopened this way, two stayed idle and one had the auto-continue fire and record the
+stand-down text as its injected turn, which is what the variable is for. The brief now lists every agent that was in flight rather than
+only the ones that died loudly — an agent that ended without returning a result
+leaves no error anywhere and is the one whose context is most worth promoting. And
+a session whose transcript tail carries no `cwd` no longer resolves to `None`: the
+value is read from the transcript body, because the project directory name
+replaces separators with dashes and `Dev/mcp-router` already contains one.
+
 ## 2026-08-21
 
 ### email-digest 1.7.0: a block for the research behind the items
