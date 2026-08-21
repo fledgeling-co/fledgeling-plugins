@@ -81,6 +81,48 @@ The goal is not a percentage — it's *which untested changed code is dangerous*
 - **Inconsistent patterns**: the diff introduces a third way of doing data fetching / error handling / styling when the repo has a converged pattern — cite the exemplar file the diff should have followed.
 - **Abstraction mismatches**: a premature abstraction with a single implementation, or a change that had to touch N files in lockstep because an abstraction is missing.
 
+### The smell baseline
+
+The five bullets above are what this repo's own shape suggests. Underneath them sits a fixed
+catalogue that applies even when a repo documents nothing: the code smells from Fowler's
+*Refactoring*, ch. 3. It is here because the bullets above are mostly structural, and half of what
+makes a diff hard to live with is naming and coupling that no layering rule catches.
+
+Two rules bind it, and they are what keep it from becoming a style cudgel:
+
+- **The repo overrides.** A documented repo standard always wins. Where the repo endorses something
+  the baseline would flag, suppress the smell rather than reporting a conflict.
+- **Always a judgement call.** Each of these is a labelled heuristic ("possible Feature Envy"),
+  never a hard violation, and it carries the lower confidence that implies. A finding that cannot
+  quote the hunk it is about is not a finding.
+
+Read each as *what it is* → *how to fix*, and match against the diff:
+
+- **Mysterious Name** — a function, variable or type whose name does not reveal what it does or
+  holds. → rename it; if no honest name comes, the design is murky and that is the real finding.
+- **Duplicated Code** — the same logic shape in more than one hunk or file. → extract the shape,
+  call it from both. (Overlaps the Duplication bullet above; report once.)
+- **Feature Envy** — a method reaching into another object's data more than its own. → move the
+  method onto the data it envies.
+- **Data Clumps** — the same few fields or params travelling together, a type wanting to be born.
+  → bundle them into one type and pass that.
+- **Primitive Obsession** — a primitive or string standing in for a domain concept that deserves
+  its own type. → give the concept a small type of its own.
+- **Repeated Switches** — the same `switch` or `if`-cascade on the same type recurring across the
+  change. → replace with polymorphism, or one map both sites share.
+- **Shotgun Surgery** — one logical change forcing scattered edits across many files in the diff.
+  → gather what changes together into one module.
+- **Divergent Change** — one file edited for several unrelated reasons. → split it so each module
+  changes for one reason.
+- **Speculative Generality** — abstraction, parameters or hooks added for needs the spec does not
+  have. → delete it and inline back until a real need shows.
+- **Message Chains** — long `a.b().c().d()` navigation the caller should not depend on. → hide the
+  walk behind one method on the first object.
+- **Middle Man** — a class or function that mostly delegates onward. → cut it and call the real
+  target directly.
+- **Refused Bequest** — a subclass or implementer ignoring or overriding most of what it inherits.
+  → drop the inheritance and use composition.
+
 ## Lens: deps — Dependencies & Migrations
 
 - New dependencies duplicating one already in the manifest (two date libs, two HTTP clients).
