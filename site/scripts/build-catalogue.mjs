@@ -28,6 +28,7 @@ const MARKETPLACE = join(REPO_DIR, ".claude-plugin", "marketplace.json");
 const ROOT_README = join(REPO_DIR, "README.md");
 const OUT_CATALOGUE = join(SITE_DIR, "lib", "catalogue.json");
 const OUT_ICONS = join(SITE_DIR, "public", "icons");
+const OUT_BANNERS = join(SITE_DIR, "public", "banners");
 
 const MARKETPLACE_NAME = "fledgeling-plugins";
 
@@ -358,6 +359,7 @@ function build() {
   const blurbs = blurbsFromRootReadme(rootReadme);
 
   mkdirSync(OUT_ICONS, { recursive: true });
+  mkdirSync(OUT_BANNERS, { recursive: true });
   mkdirSync(dirname(OUT_CATALOGUE), { recursive: true });
 
   const warnings = [];
@@ -403,6 +405,18 @@ function build() {
     const iconPath = join(dir, "assets", "icon-256.png");
     if (!existsSync(iconPath)) fail(`${name}: no assets/icon-256.png — the card would render a broken image`);
     copyFileSync(iconPath, join(OUT_ICONS, `${name}.png`));
+
+    // --- email banner derivatives -------------------------------------------
+    // Optional, and served rather than generated here: this script has no image
+    // library, and the source banner is 3200x1040 at ~660KB, which is a fine web
+    // asset and a bad email one. A plugin that wants to appear with imagery in a
+    // digest ships assets/banner-email-<width>.png alongside its banner, made
+    // with email-digest's scripts/email_assets.py. Absent one, the digest simply
+    // renders that item without a banner, which every tier already supports.
+    for (const width of [1072, 720]) {
+      const src = join(dir, "assets", `banner-email-${width}.png`);
+      if (existsSync(src)) copyFileSync(src, join(OUT_BANNERS, `${name}-${width}.png`));
+    }
 
     // --- banner -------------------------------------------------------------
     // Every plugin README in this marketplace opens with assets/banner.png, and

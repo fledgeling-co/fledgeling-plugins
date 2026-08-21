@@ -47,7 +47,10 @@ fits one project.
 
 Where large imagery is wanted and only oversized source files exist, generate
 email-sized derivatives with `scripts/email_assets.py`. A 3200px banner is not a
-600px banner.
+600px banner: the source assets in this marketplace average 663KB, and the
+derivatives run 38 to 142KB. Serve them from somewhere the recipient can reach
+before referencing them, and check the URL rather than assuming; a banner that
+404s renders as a reserved gap with no error anywhere.
 
 ## Step 2 — Assign the tiers
 
@@ -67,9 +70,15 @@ Prominence earns the investment; ranking the tail does not.
 
 | Tier | Count | Treatment |
 |---|---|---|
-| Featured | 2-4, default 3 | Optional banner, headline, 25-55 words, install line, one text CTA |
-| Compact | 5-9 | Decorative icon, title, one line. Text-forward |
-| One-line | everything else | Title plus a short tag, grouped under category headings |
+| Featured | 2-4, default 2 | Full-column banner, headline, 25-55 words, install line, one text CTA |
+| Spotlight | 2-5, default 3 | Banner at reduced width, title, one line |
+| Also shipped | everything else | Title plus a short tag, grouped under category headings |
+
+The middle tier carries a **narrower banner rather than a thumbnail**, and the
+distinction is load-bearing. NN/g's finding is that thumbnails were rated less
+valuable than full-width photography; a banner at 360px is the same wide crop at
+less prominence, which is what a second tier is for. A square icon beside text
+is the shape that tested badly.
 
 Two rules that are easy to get wrong:
 
@@ -77,10 +86,11 @@ Two rules that are easy to get wrong:
   conditional on the featured item mattering to that reader. Position is a weak
   proxy. If the source knows better (engagement, category, an editor's pick),
   pass an explicit `tier` per item and say what the ranking was.
-- **The compact tier's icons are decorative and carry `alt=""`.** NN/g measured
-  thumbnails as rated *less* valuable than full-width imagery and re-classified
-  a thumbnail newsletter as cluttered on re-test. The row has to read completely
-  with every image stripped.
+- **Every banner is decorative and carries `alt=""`.** The headline lives beside
+  it as a text node in both banner tiers, because the banner's failure modes
+  (blocked, broken, alt clipped to the image width, alt unstylable in Outlook)
+  all land on the same element and take the AI-generated inbox summary with
+  them. Every tier has to read completely with images stripped.
 
 ## Step 3 — Write the copy
 

@@ -1,7 +1,7 @@
 {
   "name": "email-digest",
   "description": "Build a recurring multi-item digest or roundup email that survives contact with real inboxes: a tiered layout that absorbs volume instead of capping it, a table-based render that works in Outlook's Word engine and with images blocked, and a deterministic gate carrying every rule back to the evidence behind it. Refuses the two fixes people reach for first, because the measured evidence goes the other way.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

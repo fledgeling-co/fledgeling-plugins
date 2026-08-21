@@ -62,7 +62,7 @@ def esc(s: str) -> str:
     return html.escape(s or "", quote=True)
 
 
-def assign_tiers(items: list[dict], featured: int = 3, compact: int = 8) -> list[dict]:
+def assign_tiers(items: list[dict], featured: int = 2, spotlight: int = 3) -> list[dict]:
     """Explicit tier wins; otherwise fall to position.
 
     Featuring is the only lever with causal evidence, and that evidence is
@@ -77,8 +77,8 @@ def assign_tiers(items: list[dict], featured: int = 3, compact: int = 8) -> list
         if not t:
             if n_f < featured:
                 t, n_f = "featured", n_f + 1
-            elif sum(1 for o in out if o["tier"] == "compact") < compact:
-                t = "compact"
+            elif sum(1 for o in out if o["tier"] == "spotlight") < spotlight:
+                t = "spotlight"
             else:
                 t = "oneline"
         out.append({**item, "tier": t})
@@ -135,29 +135,33 @@ def render_featured(it: dict, p: dict) -> str:
         pad="0 32px 30px", tier="featured")
 
 
-def render_compact(it: dict, p: dict) -> str:
-    """Text-forward with a decorative icon.
+def render_spotlight(it: dict, p: dict) -> str:
+    """A banner at reduced width, then the headline as text beside nothing.
 
-    The icon carries alt="" deliberately. NN/g measured thumbnails as rated less
-    valuable than full-width imagery and re-classified a thumbnail newsletter as
-    cluttered on re-test, so the row has to read completely with images stripped
-    and the icon is there to help the eye find the row, not to carry meaning."""
-    icon = ""
-    if it.get("iconUrl"):
-        icon = (f'<td width="52" valign="top" style="padding:0 14px 0 0;">'
-                f'<img src="{esc(it["iconUrl"])}" width="44" height="44" alt="" '
-                f'style="display:block;border:0;border-radius:10px;" /></td>')
+    This tier is the middle of three and its imagery is deliberately narrower
+    rather than square. NN/g's finding is about *thumbnails* being rated less
+    valuable than full-width photography, and a 360px banner is neither: it is
+    the same wide crop at less prominence, which is what a second tier is for.
+    The headline is still a text node outside the image, for the same reason it
+    is in the featured tier."""
+    banner = ""
+    if it.get("bannerUrl"):
+        w = 360
+        banner = (
+            f'<img src="{esc(it["bannerUrl"])}" width="{w}" '
+            f'height="{int(w * 0.325)}" alt="" class="banner" '
+            f'style="display:block;width:{w}px;max-width:100%;border:0;'
+            f'border-radius:7px;" />'
+            f'<div style="height:12px;line-height:12px;">&nbsp;</div>')
     return cell(
-        f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">'
-        f'<tr>{icon}<td valign="top">'
-        f'<h3 style="margin:0 0 4px;font-family:{SERIF};font-size:17px;line-height:1.35;'
+        f'{banner}'
+        f'<h3 style="margin:0 0 5px;font-family:{SERIF};font-size:19px;line-height:1.3;'
         f'font-weight:700;color:{p["ink"]};mso-line-height-rule:exactly;">'
         f'<a href="{esc(it["url"])}" style="color:{p["ink"]};text-decoration:none;">'
         f'{esc(it["title"])}</a></h3>'
         f'<p style="margin:0;font-size:15px;line-height:1.55;color:{p["muted"]};">'
-        f'{esc(it.get("headline") or it.get("body",""))[:150]}</p>'
-        f'</td></tr></table>',
-        pad="0 32px 20px", tier="compact")
+        f'{esc(it.get("headline") or it.get("body",""))[:160]}</p>',
+        pad="0 32px 26px", tier="spotlight")
 
 
 def render_oneline(items: list[dict], p: dict) -> str:
@@ -196,10 +200,10 @@ def render(payload: dict) -> tuple[str, str]:
     brand = payload.get("brand", {})
     issue = payload.get("issue", {})
     items = assign_tiers(payload["items"],
-                         featured=payload.get("featured", 3),
-                         compact=payload.get("compact", 8))
+                         featured=payload.get("featured", 2),
+                         spotlight=payload.get("spotlight", 3))
     fe = [i for i in items if i["tier"] == "featured"]
-    co = [i for i in items if i["tier"] == "compact"]
+    co = [i for i in items if i["tier"] == "spotlight"]
     ol = [i for i in items if i["tier"] == "oneline"]
 
     summary = payload.get("summary", {})
@@ -231,16 +235,15 @@ def render(payload: dict) -> tuple[str, str]:
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
             f'<h2 style="margin:0 0 16px;font-family:{MONO};font-size:11px;'
             f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
-            f'color:{p["muted"]};mso-line-height-rule:exactly;">Also shipped</h2>',
+            f'color:{p["muted"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
             pad="0 32px 4px"))
-        sections.extend(render_compact(i, p) for i in co)
+        sections.extend(render_spotlight(i, p) for i in co)
     if ol:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
             f'<h2 style="margin:0 0 16px;font-family:{MONO};font-size:11px;'
             f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
-            f'color:{p["muted"]};mso-line-height-rule:exactly;">'
-            f'The rest, in one line each</h2>', pad="0 32px 4px"))
+            f'color:{p["muted"]};mso-line-height-rule:exactly;">Also shipped</h2>', pad="0 32px 4px"))
         sections.append(render_oneline(ol, p))
 
     doc = f"""<!DOCTYPE html>
@@ -320,11 +323,11 @@ def render(payload: dict) -> tuple[str, str]:
             lines += ["  " + i["install"], ""]
         lines += [i["url"], "", "-" * 58]
     if co:
-        lines += ["", "ALSO SHIPPED", ""]
+        lines += ["", "ALSO WORTH A LOOK", ""]
         for i in co:
             lines += [f"{i['title']} - {i.get('headline','')}", f"  {i['url']}", ""]
     if ol:
-        lines += ["-" * 58, "", "THE REST", ""]
+        lines += ["-" * 58, "", "ALSO SHIPPED", ""]
         for i in ol:
             tail = f" - {i['oneline']}" if i.get("oneline") else ""
             lines += [f"{i['title']}{tail}", f"  {i['url']}", ""]
