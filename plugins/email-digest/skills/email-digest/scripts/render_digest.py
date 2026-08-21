@@ -58,12 +58,19 @@ DEFAULT_PALETTE = {
 # opens; Gmail ignores the link and takes the fallback, which is why the
 # fallback has to be a face somebody chose rather than whatever came next.
 # Override the whole set through brand.fonts when the project's are different.
+#
+# Single quotes inside every stack, and that is load-bearing rather than a
+# style preference: these end up in a `style="..."` attribute, so one double
+# quote inside a family name closes the attribute and silently discards every
+# declaration after it. It cost this renderer a version - the whole email fell
+# back to Times, and `fonts:fallback` still passed because it read the raw
+# text rather than the parsed attribute. `css:quoted-family` gates it now.
 DEFAULT_FONTS = {
-    "sans":  ('"Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", '
+    "sans":  ("'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', "
               "Roboto, Helvetica, Arial, sans-serif"),
-    "serif": 'Newsreader, Georgia, "Times New Roman", Times, serif',
-    "mono":  ('"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, '
-              '"Courier New", monospace'),
+    "serif": "Newsreader, Georgia, 'Times New Roman', Times, serif",
+    "mono":  ("'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, "
+              "'Courier New', monospace"),
     # Hidden from Outlook by a downlevel-revealed comment: the Word engine
     # cannot use a linked web font and has been observed to mis-handle the tag.
     "link": ("https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600"
@@ -269,7 +276,10 @@ def render_oneline(items: list[dict], p: dict) -> str:
                     f'height="{TAIL_ICON}" alt="" '
                     f'style="display:block;width:{TAIL_ICON}px;height:{TAIL_ICON}px;'
                     f'border:0;" />') if r.get("iconUrl") else "&nbsp;"
-            tag = (f'<span style="color:{p["muted"]};"> &middot; '
+            # Non-breaking spaces around the separator: a plain space after an
+            # inline link collapses against the link box in several clients and
+            # the dot ends up welded to the title.
+            tag = (f'<span style="color:{p["muted"]};">&nbsp;&middot;&nbsp;'
                    f'{esc(r.get("oneline") or "")}</span>') if r.get("oneline") else ""
             lis += (
                 f'<tr>'
@@ -346,7 +356,7 @@ def render(payload: dict) -> tuple[str, str]:
     if section.strip():
         wordmark += (
             f'<span style="font-family:{SERIF};font-size:17px;color:{p["hairline"]};'
-            f'padding:0 8px;">/</span>'
+            f'padding-left:8px;padding-right:8px;">/</span>'
             f'<span style="font-family:{MONO};font-size:12px;font-weight:500;'
             f'letter-spacing:0.1em;text-transform:uppercase;color:{p["muted"]};">'
             f'{esc(section.strip())}</span>')

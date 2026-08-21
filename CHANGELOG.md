@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.4.1: a double quote inside a style attribute, and the gate for it
+
+1.4.0's font stacks were written `font-family:"Instrument Sans", ...` and landed
+inside `style="..."`. The attribute closes at the first inner quote, the browser
+keeps the truncated declaration and discards every one after it, and the whole
+email rendered in Times at a size nobody set. Single quotes are valid CSS and
+are the fix.
+
+Sixteen checks passed it, `fonts:fallback` among them, because that check reads
+the raw text with a regular expression rather than the parsed attribute, so it
+saw a well-formed stack where the parser saw a truncated one. Opening the render
+is what caught it. `css:quoted-attr` gates it now and is demonstrated firing on
+a fixture.
+
+Also spaces the tail's separator with non-breaking spaces, since a plain space
+after an inline link collapses against the link box and welds the dot to the
+title, and moves the wordmark separator's padding to longhands.
+
 ### email-digest 1.4.0: icons where a banner has no room, and one primary action
 
 Routed through `ux-craft` and `design-craft`, which is what the SKILL.md has

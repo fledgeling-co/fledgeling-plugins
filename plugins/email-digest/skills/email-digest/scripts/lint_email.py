@@ -386,6 +386,27 @@ def check_dark_mode(html: str, f: Findings) -> None:
              "measured: Litmus")
 
 
+def check_quoted_attrs(html: str, f: Findings) -> None:
+    """A double quote inside a double-quoted style attribute ends it early.
+
+    Total, silent, and invisible to every other check here. A font stack written
+    `font-family:"Instrument Sans", ...` inside `style="..."` closes the
+    attribute at the first inner quote; the browser keeps the truncated
+    declaration, discards everything after it, and renders a fallback face at a
+    size nobody set. This shipped once in this renderer's own history, and
+    `fonts:fallback` passed it because that check reads the raw text rather than
+    the parsed attribute. Single quotes are valid CSS and are the fix."""
+    bad = re.findall(r'style="[^"]*"[^\s>=/]', html)
+    if bad:
+        f.add(ERROR, "css:quoted-attr",
+              f"{len(bad)} style attribute(s) closed early by a double quote "
+              f"inside the value ({bad[0][:60]!r}). Every declaration after it "
+              "is discarded, and nothing else here can see it. Use single "
+              "quotes inside font stacks and content values",
+              "spec: HTML attribute delimiting")
+    else:
+        f.ok("css:quoted-attr", "no style attribute closed early by its own value")
+
 def check_fonts(html: str, f: Findings) -> None:
     # Quotes are legal inside a stack ("Segoe UI"), so the capture must run to
     # the declaration terminator. Stopping at the first quote truncated every
@@ -626,6 +647,7 @@ def main() -> int:
     check_tables(doc, f)
     check_css(html, f)
     check_dark_mode(html, f)
+    check_quoted_attrs(html, f)
     check_fonts(html, f)
     check_size(html, f)
     check_images(doc, f)
