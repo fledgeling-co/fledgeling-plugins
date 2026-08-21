@@ -74,9 +74,17 @@ It answers four questions, and any of them can end the run:
 1. **Is this an image of anything?** A blank, uniform, or near-empty capture is not
    evidence. Report `not-evidence` and stop.
 2. **Did the surface settle?** A capture taken mid-load is a picture of a skeleton,
-   not of the product. The scan flags the repeated-block signature of shimmer
-   placeholders and low ink coverage. *This is not hypothetical: a real run scored a
-   design mock against a loading skeleton for an entire suite before anyone noticed.*
+   not of the product. The scan fails a **whole-page** skeleton — many faint
+   placeholder blocks and almost no real content. *This is not hypothetical: a real
+   run scored a design mock against a loading skeleton for an entire suite before
+   anyone noticed.* A **partial** skeleton passes that rule and is only reported:
+   an app shell paints instantly while one region streams, so the frame is mostly
+   real content and the placeholder is local. `largestFaintRegion` measures the
+   biggest contiguous faint region and notes it above 0.15, without gating —
+   because a modal scrim has the same shape (on one 12-capture sample a true
+   partial skeleton sat at 0.24 and a correctly-rendered modal at 0.26). Treat the
+   note as an instruction to crop that region and look, and resolve a confirmed
+   partial skeleton `inconclusive` on the instrument rather than judging it.
 3. **Is the framing comparable?** Aspect ratio and dimension ratio against the
    reference. A 440×275 card compared against a 1440×900 viewport is a **framing**
    difference, and reporting it as visual drift is a false alarm that trains people

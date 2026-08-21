@@ -45,6 +45,21 @@ python3 scripts/prescan.py tests/fixtures/retina-2x.png --reference tests/fixtur
   && echo "ok   a 2x render of the reference is not framing" \
   || { echo "FAIL a legitimate 2x capture was flagged as framing"; fail=1; }
 
+# A PARTIAL skeleton -- an app shell that painted while one region streamed -- passes
+# the settled rule, because that rule needs contentfulCells < 0.06 and the shell is
+# real content. Both halves are pinned: the exit code stays 0 (so nobody "fixes" this
+# into a gate and false-alarms every modal scrim), and largestFaintRegion must report
+# it, because the note is the only thing that catches this case.
+ps=$(python3 scripts/prescan.py tests/fixtures/partial-skeleton.png --json 2>/dev/null)
+rc=$?
+if [ "$rc" != 0 ]; then
+  echo "FAIL partial skeleton should still proceed (advisory, not a gate), got exit $rc"; fail=1
+elif printf '%s' "$ps" | python3 -c "import json,sys; d=json.load(sys.stdin); c=d['checks']; sys.exit(0 if c['settled'] and c['largestFaintRegion']>=0.15 and any('contiguous faint region' in n for n in d['notes']) else 1)"; then
+  echo "ok   a partial skeleton passes the gate and is reported anyway"
+else
+  echo "FAIL partial skeleton was not reported by largestFaintRegion"; fail=1
+fi
+
 # A localised change sits under the whole-frame ratio, so the exit code cannot see
 # it. Density is what tells one solid edit from scattered anti-aliasing.
 dm=$(python3 scripts/diffmask.py tests/fixtures/pair-a.png tests/fixtures/pair-b.png --json 2>/dev/null)
