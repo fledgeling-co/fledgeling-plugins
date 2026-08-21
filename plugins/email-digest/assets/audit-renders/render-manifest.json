@@ -1,0 +1,26 @@
+{
+  "takes": {
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "d150cafcf6bd9018a641998cdb566a483ec978eb4f75ab3cd136d86ff41237da",
+      "source_mtime": 1787295306.1395845,
+      "rendered_at": 1787295313.512373
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

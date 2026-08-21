@@ -1,0 +1,236 @@
+{
+ "subject": "Review that reports its blind spots, plus 23 more",
+ "preheader": "Top additions: a diff review with a coverage ledger, an OTA release skill, and a spend tracer.",
+ "heading": "Twenty-four skills shipped this fortnight",
+ "lang": "en",
+ "brand": {
+  "wordmark": "Fledgeling \u00b7 Skills",
+  "siteUrl": "https://skills.fledgeling.app",
+  "logoUrl": "https://skills.fledgeling.app/brand/mark-56.png"
+ },
+ "issue": {
+  "webUrl": "https://skills.fledgeling.app/digest/18",
+  "preferencesUrl": "https://skills.fledgeling.app/preferences/TOK",
+  "unsubscribeUrl": "https://skills.fledgeling.app/api/unsubscribe?token=TOK"
+ },
+ "summary": {
+  "counts": "13 making \u00b7 4 orchestration \u00b7 4 machine \u00b7 3 long runs",
+  "highlights": [
+   {
+    "text": "code-review closes every run with a ledger of what it could not check",
+    "url": "https://skills.fledgeling.app/skills/code-review"
+   },
+   {
+    "text": "atlas-publish decides over-the-air against a store release from the fingerprint",
+    "url": "https://skills.fledgeling.app/skills/atlas-publish"
+   },
+   {
+    "text": "vouch traces a claimed charge back to the invoice line behind it",
+    "url": "https://skills.fledgeling.app/skills/vouch"
+   }
+  ]
+ },
+ "items": [
+  {
+   "title": "code-review",
+   "headline": "A diff review that reports its own blind spots",
+   "url": "https://skills.fledgeling.app/skills/code-review",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/code-review.png",
+   "oneline": "A diff review that reports its own blind spots",
+   "body": "A diff review that reports its own blind spots. It learns the target repository at runtime rather than carrying a hard-coded map, so a finding that names a framework the repo does not install is refuted from evidence rather than from a constant.",
+   "install": "/plugin install code-review@fledgeling-plugins",
+   "bannerUrl": "https://skills.fledgeling.app/banners/code-review-1072.png"
+  },
+  {
+   "title": "atlas-publish",
+   "headline": "Decides over-the-air against a store release from the fingerprint",
+   "url": "https://skills.fledgeling.app/skills/atlas-publish",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/atlas-publish.png",
+   "oneline": "Decides over-the-air against a store release from the fingerprin",
+   "body": "Decides over-the-air against a store release from the fingerprint. It learns the target repository at runtime rather than carrying a hard-coded map, so a finding that names a framework the repo does not install is refuted from evidence rather than from a constant.",
+   "install": "/plugin install atlas-publish@fledgeling-plugins",
+   "bannerUrl": "https://skills.fledgeling.app/banners/atlas-publish-1072.png"
+  },
+  {
+   "title": "vouch",
+   "headline": "Traces every claimed charge back to the invoice line behind it",
+   "url": "https://skills.fledgeling.app/skills/vouch",
+   "group": "Research",
+   "iconUrl": "https://skills.fledgeling.app/icons/vouch.png",
+   "oneline": "Traces every claimed charge back to the invoice line behind it",
+   "body": "Traces every claimed charge back to the invoice line behind it. It learns the target repository at runtime rather than carrying a hard-coded map, so a finding that names a framework the repo does not install is refuted from evidence rather than from a constant.",
+   "install": "/plugin install vouch@fledgeling-plugins",
+   "bannerUrl": "https://skills.fledgeling.app/banners/vouch-1072.png"
+  },
+  {
+   "title": "warrant",
+   "headline": "One signature on a policy, not 194 on items",
+   "url": "https://skills.fledgeling.app/skills/warrant",
+   "group": "Machine",
+   "iconUrl": "https://skills.fledgeling.app/icons/warrant.png",
+   "oneline": "One signature on a policy, not 194 on items"
+  },
+  {
+   "title": "test-campaign",
+   "headline": "Every case has to name what it actually proved",
+   "url": "https://skills.fledgeling.app/skills/test-campaign",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/test-campaign.png",
+   "oneline": "Every case has to name what it actually proved"
+  },
+  {
+   "title": "stocktake",
+   "headline": "Every card moved to the column its evidence supports",
+   "url": "https://skills.fledgeling.app/skills/stocktake",
+   "group": "Orchestration",
+   "iconUrl": "https://skills.fledgeling.app/icons/stocktake.png",
+   "oneline": "Every card moved to the column its evidence supports"
+  },
+  {
+   "title": "mockup-fidelity",
+   "headline": "A pass it never measured is no longer a pass",
+   "url": "https://skills.fledgeling.app/skills/mockup-fidelity",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/mockup-fidelity.png",
+   "oneline": "A pass it never measured is no longer a pass"
+  },
+  {
+   "title": "generate-investor-portal",
+   "headline": "The gate ships with it, and it refuses the write",
+   "url": "https://skills.fledgeling.app/skills/generate-investor-portal",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/generate-investor-portal.png",
+   "oneline": "The gate ships with it, and it refuses the write"
+  },
+  {
+   "title": "mac-design-digest",
+   "headline": "Study one mac app closely, keep what you learned",
+   "url": "https://skills.fledgeling.app/skills/mac-design-digest",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/mac-design-digest.png",
+   "oneline": "Study one mac app closely, keep what you learned"
+  },
+  {
+   "title": "mac-craft",
+   "headline": "Native macOS mock windows with the contrast computed",
+   "url": "https://skills.fledgeling.app/skills/mac-craft",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/mac-craft.png",
+   "oneline": "Native macOS mock windows with the contrast computed"
+  },
+  {
+   "title": "deck-craft",
+   "headline": "Slides built for a projector, not a browser tab",
+   "url": "https://skills.fledgeling.app/skills/deck-craft",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/deck-craft.png",
+   "oneline": "Slides built for a projector, not a browser tab"
+  },
+  {
+   "title": "ux-craft",
+   "headline": "A UX review that admits what it could not check",
+   "url": "https://skills.fledgeling.app/skills/ux-craft",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/ux-craft.png",
+   "oneline": "A UX review that admits what it could not check"
+  },
+  {
+   "title": "design-craft",
+   "headline": "Design work you can check against what it promised",
+   "url": "https://skills.fledgeling.app/skills/design-craft",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/design-craft.png",
+   "oneline": "Design work you can check against what it promised"
+  },
+  {
+   "title": "agent-voice",
+   "headline": "Seven registers for the prose your agent writes all day",
+   "url": "https://skills.fledgeling.app/skills/agent-voice",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/agent-voice.png",
+   "oneline": "Seven registers for the prose your agent writes all day"
+  },
+  {
+   "title": "tui-craft",
+   "headline": "Terminal UIs checked against the grid, not the code",
+   "url": "https://skills.fledgeling.app/skills/tui-craft",
+   "group": "Making",
+   "iconUrl": "https://skills.fledgeling.app/icons/tui-craft.png",
+   "oneline": "Terminal UIs checked against the grid, not the code"
+  },
+  {
+   "title": "geminify",
+   "headline": "Your skills, recalibrated for Google's models",
+   "url": "https://skills.fledgeling.app/skills/geminify",
+   "group": "Machine",
+   "iconUrl": "https://skills.fledgeling.app/icons/geminify.png",
+   "oneline": "Your skills, recalibrated for Google's models"
+  },
+  {
+   "title": "shipyard",
+   "headline": "The audit found the builder grading its own work",
+   "url": "https://skills.fledgeling.app/skills/shipyard",
+   "group": "Orchestration",
+   "iconUrl": "https://skills.fledgeling.app/icons/shipyard.png",
+   "oneline": "The audit found the builder grading its own work"
+  },
+  {
+   "title": "ship-feature",
+   "headline": "Half a dozen skills, one thread, one merge gate",
+   "url": "https://skills.fledgeling.app/skills/ship-feature",
+   "group": "Orchestration",
+   "iconUrl": "https://skills.fledgeling.app/icons/ship-feature.png",
+   "oneline": "Half a dozen skills, one thread, one merge gate"
+  },
+  {
+   "title": "resume-session",
+   "headline": "The next agent does not have to start blind",
+   "url": "https://skills.fledgeling.app/skills/resume-session",
+   "group": "Long runs",
+   "iconUrl": "https://skills.fledgeling.app/icons/resume-session.png",
+   "oneline": "The next agent does not have to start blind"
+  },
+  {
+   "title": "ship-fleet",
+   "headline": "The backlog orchestrator that checks the ledger",
+   "url": "https://skills.fledgeling.app/skills/ship-fleet",
+   "group": "Orchestration",
+   "iconUrl": "https://skills.fledgeling.app/icons/ship-fleet.png",
+   "oneline": "The backlog orchestrator that checks the ledger"
+  },
+  {
+   "title": "anvil-errand",
+   "headline": "Run an agent on another machine, and know what it did",
+   "url": "https://skills.fledgeling.app/skills/anvil-errand",
+   "group": "Machine",
+   "iconUrl": "https://skills.fledgeling.app/icons/anvil-errand.png",
+   "oneline": "Run an agent on another machine, and know what it did"
+  },
+  {
+   "title": "proctor",
+   "headline": "A screenshot is an impression. A frame status is a reading",
+   "url": "https://skills.fledgeling.app/skills/proctor",
+   "group": "Machine",
+   "iconUrl": "https://skills.fledgeling.app/icons/proctor.png",
+   "oneline": "A screenshot is an impression. A frame status is a reading"
+  },
+  {
+   "title": "better-loop",
+   "headline": "Stopped a cron from re-billing the same failure",
+   "url": "https://skills.fledgeling.app/skills/better-loop",
+   "group": "Long runs",
+   "iconUrl": "https://skills.fledgeling.app/icons/better-loop.png",
+   "oneline": "Stopped a cron from re-billing the same failure"
+  },
+  {
+   "title": "better-goal",
+   "headline": "Stops runs by checking exit codes, not asking a model",
+   "url": "https://skills.fledgeling.app/skills/better-goal",
+   "group": "Long runs",
+   "iconUrl": "https://skills.fledgeling.app/icons/better-goal.png",
+   "oneline": "Stops runs by checking exit codes, not asking a model"
+  }
+ ]
+}

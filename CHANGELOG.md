@@ -6,6 +6,50 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.0.0: a digest that tiers the list instead of trimming it
+
+A digest went out with twenty-four items and came back described as unreadable.
+The obvious fix is fewer items, and it is wrong. MailerLite's 317,000 campaigns
+and 2.9 billion emails put the twenty-one-or-more-links bucket at the highest
+click-to-open rate in the dataset, Campaign Monitor found click rate rising with
+link count while expecting the opposite, and the choice-overload meta-analysis
+pools across 63 conditions to a mean effect size of virtually zero. The defect is
+that every item costs the reader the same effort to evaluate inside about fifty
+seconds, with nothing on the page saying where to stop.
+
+So the skill tiers the list and the item count stays whatever it is. The absence
+of a cap is asserted as a rule in the linter, because a cap is the first thing
+anybody reintroduces from instinct rather than evidence.
+
+The split is not arbitrary either. Kong et al. is the only causal study in a
+182-source corpus: featuring relevant items raised their detail-reading from 13%
+to 22%, while reordering everything below the featured block did nothing
+significant. Prominence earns the investment and ranking the tail does not, which
+is exactly a small featured set over a compressed remainder.
+
+Sixteen gate checks, each carrying the class of evidence behind it so a
+controlled test and a convention do not fail the same way. It also refuses to
+gate a text-to-image ratio: Email on Acid tested against twenty-three spam
+filters and found that above 500 characters the ratio does not affect
+deliverability, and Badsender files the rule under deliverability myths. One
+research backend proposed enforcing it and three rejected it. The gate checks the
+email survives with every image stripped instead, which is the constraint that
+actually bites.
+
+Four defects were caught during its own construction and are recorded in
+EVALS.md, including one the gate missed: the whole email rendered centre-aligned
+without anyone writing `text-align:center` once, because the markup that centres
+the card cascades into everything inside it. Looking at the render caught it, and
+`a11y:alignment` was added afterwards so the next one is caught by machine.
+
+No comparative benchmark was run. EVALS.md opens with that fact rather than
+omitting the subject, and names the three tasks that would close it.
+
+The argument behind every rule is published at
+https://dossier.fledgeling.app/uniform, and the four research reports are in
+`docs/deep-research/`.
+
+
 ### should-compact 0.3.0: the residue floor, corrected, and a check for a gate that never speaks
 
 Recounted against 3,778 transcripts and 1,522 automatic compactions over seven days, on the same

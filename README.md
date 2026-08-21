@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="41 skills" src="https://img.shields.io/badge/skills-41-C4622D">
+  <img alt="42 skills" src="https://img.shields.io/badge/skills-42-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -361,6 +361,14 @@ The only project-specific plugin here, and a release conductor rather than a scr
 ### [code-review](plugins/code-review/README.md)
 
 A review that lists three findings and stops has told you almost nothing, because you cannot tell whether it read the auth code and found it clean or never opened the file, and both come out as silence. So every run here ends with a coverage ledger: what it checked, what it could not, and why, naming the shard that came back empty, the checklist that never loaded, the gate that could not run and the contract boundary with no guard test on either side, and saying so explicitly when that column is empty, because an empty section and a missing section look identical on a screen. It picks up your repository before it reviews it rather than carrying a map somebody wrote into a skill: gate commands out of the package scripts and the CI config, since a review that runs a bare compiler has gated on something CI does not, frameworks out of the installed dependency versions, global controls and cross-package boundaries out of grep. Fourteen named angles surface candidates and are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged and deduplication happens afterwards on evidence rather than in whichever finder looked first. Verification returns three verdicts and only the refuted one drops, so a concurrency race or a falsy zero read as missing stays in as plausible with the step that would settle it named, instead of leaving with the noise and taking a real bug with it. Each depth prints its own budget at the top of the report, large diffs shard across parallel agents with the fan-out reconciled against the bucket list it dispatched, and there is deliberately no panel of judges, because nine frontier judges across seven model families measured as roughly two effective votes and the best single one matched the whole panel.
+
+<br clear="left" />
+
+<a href="plugins/email-digest/README.md"><img src="plugins/email-digest/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [email-digest](plugins/email-digest/README.md)
+
+A digest goes out with twenty-four items, somebody calls it unreadable, and the obvious fix is fewer items. That fix is wrong and there is a lot of evidence saying so: MailerLite's 317,000 campaigns and 2.9 billion emails put the twenty-one-or-more-links bucket at the highest click-to-open rate in the whole dataset, and the choice-overload meta-analysis pools across 63 conditions to a mean effect size of virtually zero. The defect is that every item costs the reader the same effort to evaluate inside about fifty-one seconds, with nothing on the page saying where to stop, so this tiers the list rather than trimming it and the item count stays whatever it is. The absence of a cap is itself asserted as a rule, because a cap is the first thing anybody reintroduces from instinct. Sixteen gate checks, each tracing to a source: anchor links that do not act on iPhones where Apple is 62% of opens and cannot be tracked where they do; layout tables missing the role that stops a screen reader reading your scaffolding aloud, which 86% of a 443,585-email audit fails; SVG, which Gmail deletes outright rather than degrading; dark-mode meta tags without dark styles, which is worse than no tags because Apple Mail leaves you alone without them and partially inverts you with them; and centred body text, which nobody writes deliberately because the markup that centres the card cascades into everything inside it. It refuses to gate a text-to-image ratio: Email on Acid tested against twenty-three spam filters and above 500 characters the ratio makes no difference, so it checks the email still works with every image stripped instead, which is the thing that actually breaks. Nobody has published a test of tiered against flat, all four research backends went looking, and the skill says so rather than dressing an inference as a measurement.
 
 <br clear="left" />
 
