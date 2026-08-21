@@ -6,6 +6,46 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### should-compact 0.3.0: the residue floor, corrected, and a check for a gate that never speaks
+
+Recounted against 3,778 transcripts and 1,522 automatic compactions over seven days, on the same
+machine the earlier 90-day fit came from.
+
+**The residue is nearly a constant, not affine.** `26,783 + 0.015 x pre` at R² 0.045, with a median
+of 31,189 tokens whether the session came in at 180k or 900k. The R² is the finding rather than a
+weakness of it: knowing the pre-context tells you almost nothing about the post-context beyond
+"roughly 30,000". The earlier fit (`50,958 + 0.117 x pre`) over-predicts this corpus by a median of
+52,510 tokens, high across the whole distribution rather than on a tail. Both fits are kept in
+`references/evidence.md`, with the reason to prefer the second.
+
+**So the hard-hold floor moves from ~58,000 to ~20,000**, and here it is observed rather than
+extrapolated. The automatic corpus contains no small compactions — 0 of 1,522 started below 58,000
+— but the 58 manual events reach down to 673. Fourteen of them returned a larger context than they
+were given and every one started below 17,757 tokens, while one at 16,534 already shrank. The old
+floor was refusing compactions in the 20k-58k band that measurably work: a conservative error, and
+the reason it survived four months unnoticed.
+
+**Base rates, which the skill had never stated.** At the moment those 1,522 compactions fired, an
+open tool chain was present 4.7% of the time and a skill had loaded within three turns 7.0% of the
+time. The 98.07% figure is the share of *holds* attributable to one signal, not a prior that a veto
+is warranted, and a scorer reading it as one will manufacture the signal. The seam signals are also
+flat — compactions near a skill load had a median pre-context of 266,383 against 267,313 for the
+whole corpus — so an early compaction after a skill load is what an evenly-distributed trigger
+looks like rather than evidence of a bad seam-picker.
+
+**Read the "median 99.8% of the window" claim as a fraction, never an absolute.** The wall moves: a
+proxy that arms `autoCompactWindow` sets it, and the identical trigger against a lower wall put the
+median at 267,313 rather than 987,636. A gate that substitutes the hardware window for the
+caller-supplied one will read a session at its limit as one with 700k to spare.
+
+**New section: a silent gate is not a gate that agreed.** A `PreCompact` hook that never blocks is
+indistinguishable from one that examined every compaction and approved it — both exit 0 and print
+nothing. One did exactly that for 1,522 consecutive compactions, because the session fact it
+branched on was looked up by an id its caller does not have; its own veto text appears zero times
+in 3,778 transcripts. Two outside checks are given, since nothing inside such a gate can detect it,
+and the rule generalises: any rule here that depends on a caller supplying a fact can fail the same
+way.
+
 ### code-review 1.1.0: the sources it was built from, made checkable
 
 An audit of what this skill actually drew on against what it was asked to draw on found two things
