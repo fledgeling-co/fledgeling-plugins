@@ -112,7 +112,7 @@ def render_featured(it: dict, p: dict) -> str:
             f'<img src="{esc(it["bannerUrl"])}" width="{WIDTH - 64}" '
             f'height="{int((WIDTH - 64) * 0.325)}" alt="" class="banner" '
             f'style="display:block;width:100%;max-width:{WIDTH - 64}px;border:0;'
-            f'outline:none;border-radius:8px;" />'
+            f'border-radius:8px;" />'
             f'<div style="height:16px;line-height:16px;">&nbsp;</div>')
     install = ""
     if it.get("install"):

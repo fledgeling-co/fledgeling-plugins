@@ -88,6 +88,42 @@ Three tasks, in order of what they would tell you:
    skill earns its context window, and it is the one this file cannot currently
    answer.
 
+## A gap that should not have needed asking about
+
+**Version 1.0.0 shipped without routing to `ux-craft` or `design-craft`, and it
+should have.** The user asked whether it did, which is how it was found.
+
+Three things made it a miss rather than a judgement call. `ux-craft`'s own
+description names emails among the surfaces it covers. `create-skill`'s
+operating rules say plainly: route, do not reimplement. And the same pairing was
+applied correctly to the research page published in the same session, so the
+rule was in front of the author and went unapplied here.
+
+The concrete cost was measurable rather than theoretical. Run against this
+skill's own 24-item fixture, `ux-lint.py` reported:
+
+```
+2 failures, 1 warnings
+  focus-suppressed     d24.html:43
+  no-focus-visible     d24.html:39
+  state-coverage       (warn)
+```
+
+The first was **a real defect this skill's own gate missed**: an `outline:none`
+left on the featured banner after that element stopped being a link. Dead CSS,
+found by the skill that should have been in the loop from the start. Fixed in
+1.1.0.
+
+The other two do not transfer to email, and 1.1.0 records why rather than
+suppressing them: Gmail's published CSS allowlist has no pseudo-class support,
+so a `:focus-visible` treatment cannot render in the medium at all, and an email
+has no states to cover.
+
+1.1.0 also removes contrast and touch-target checks from this skill's remit
+entirely. Both have primary sources in `evidence.md` and both are already gated
+properly by `ux-lint.py`; implementing them twice would only produce two gates
+disagreeing about one standard.
+
 ## Decisions taken without the user
 
 Two forks were put to the user directly and answered: the skill is a general

@@ -6,6 +6,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.1.0: routing to the skills that already own this surface
+
+1.0.0 shipped without routing to `ux-craft` or `design-craft`, which was a miss
+rather than a decision. `ux-craft` names emails among the surfaces it covers,
+`create-skill`'s own rules say route rather than reimplement, and the same
+pairing had been applied correctly to a research page in the same session.
+
+The cost was concrete. Run against this skill's own 24-item fixture,
+`ux-lint.py` found dead CSS the email gate missed: an `outline:none` left on the
+featured banner after that element stopped being a link. Fixed here.
+
+Tier decisions now route through `ux-craft`, visual treatment through
+`design-craft` with `ux-craft`'s lens on it, and the SKILL.md carries the
+division of labour as a table: this skill gates the email medium (clipping,
+Word-engine CSS, SVG stripping, dark-mode inversion, image blocking, anchor
+failure, tier shape), and `ux-lint.py` gates the reading surface (contrast,
+touch targets, link labels, alt). Contrast and touch-target size are removed
+from this skill's remit entirely, because implementing them twice would produce
+two gates disagreeing about one standard.
+
+Two of `ux-lint.py`'s checks do not transfer to email and are recorded as
+not-applicable with the reason rather than suppressed: `no-focus-visible`,
+because Gmail's published allowlist has no pseudo-class support so the treatment
+cannot render at all, and `state-coverage`, because an email has no states.
+
 ### email-digest 1.0.0: a digest that tiers the list instead of trimming it
 
 A digest went out with twenty-four items and came back described as unreadable.

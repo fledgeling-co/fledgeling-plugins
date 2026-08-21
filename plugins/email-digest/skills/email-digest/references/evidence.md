@@ -116,6 +116,38 @@ finding applies and the count is small.
 
 ---
 
+## What this skill does not gate, because another one already does
+
+`lint_email.py` covers the email medium. `ux-craft`'s `ux-lint.py` covers the
+reading surface, and the two are meant to run together rather than one standing
+in for the other.
+
+Contrast and touch-target size are the clearest case. Both are in the table
+above with primary sources (WCAG 2.2 SC 1.4.3 and SC 2.5.8), and neither is
+implemented here, because `ux-lint.py` already resolves colour pairs statically
+and probes a rendered page. Adding a second contrast implementation would mean
+two gates disagreeing about the same standard, which is worse than one gate.
+
+Run on this skill's own 24-item fixture, `ux-lint.py` found dead CSS that
+`lint_email.py` missed: an `outline:none` left on the featured banner after the
+element stopped being a link. That is the argument for running both, made
+concretely rather than asserted.
+
+Two of its checks do not transfer to email, and the reason is medium rather than
+disagreement:
+
+- **`no-focus-visible`** — Gmail's published CSS allowlist has no pseudo-class
+  support, so a `:focus-visible` treatment cannot render in email at all. The
+  finding is correct about the file and inapplicable to the artifact.
+- **`state-coverage`** — an email has no states. There is no loading, error or
+  partial state to cover.
+
+Report both as not-applicable with the reason rather than suppressing them.
+A check whose pass and whose cannot-run look identical is the failure mode this
+whole corpus keeps running into.
+
+---
+
 ## Figures that could not be traced, and must not be quoted
 
 Two backends independently ran traceability checks. These eight circulate widely
