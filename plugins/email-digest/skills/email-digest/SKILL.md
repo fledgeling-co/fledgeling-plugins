@@ -250,7 +250,7 @@ Exit 0 clean, 1 on any error. **Read the exit code, not the output** — piping
 through `grep` or `tail` reports the pipe's status and has already turned a
 failure into a pass once during this skill's own development.
 
-Eighteen checks. The ones that catch real defects most often:
+Nineteen checks. The ones that catch real defects most often:
 
 - **`tiers`** — no tier markers means every tier rule below is measuring
   nothing while still printing a verdict. This failed silently on the first
