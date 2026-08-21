@@ -6,6 +6,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.6.0: the voice skill writes every word, not the headline only
+
+Step 3 said to route prose to the project's voice skill, and in practice that
+meant the subject line and the two featured paragraphs. Everything below them
+kept the register of the source it was generated from, so a digest could open in
+someone's voice and finish in a changelog's.
+
+The step is now binding across every tier, including the one-line tail, and the
+routing table splits by byline: a named person or brand takes their own skill
+because the byline is the specification, and `agent-voice` covers the case where
+nobody's name is on it.
+
+Two failure modes are recorded with it, because both showed up here. Item copy
+drifts technical the further down the list it is written, which is why the tail
+is named explicitly rather than left implied. And the lines start rhyming with
+each other once one template lands, which a per-item lint cannot see; running
+the voice lint over the whole set at once catches it, and it caught two real
+repeats in this issue.
+
 ### email-digest 1.5.0: the summary reads as a summary
 
 Three bulleted lines read as three items to work through. The same three read as

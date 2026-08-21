@@ -115,9 +115,29 @@ Two rules that are easy to get wrong:
 
 ## Step 3 — Write the copy
 
-Route prose to the project's own voice skill where one exists
-(`create-luke-content`, `agent-voice`, or a named persona). This skill owns
-structure, not voice.
+**Every word of it goes through the project's voice skill.** Not the subject
+only, and not the featured paragraphs only: the subject, the preheader, the
+heading, the three summary lines, both featured headlines and bodies, and every
+one-line tag in both lower tiers. A digest whose featured copy was written
+properly and whose eighteen tail lines were not reads as two different people,
+and the tail is where most of the words are.
+
+Pick the skill by who the mail is from. A named person or brand signs it, so
+`create-luke-content` for Luke, `create-diolog-content` for Diolog, or whatever
+persona owns that byline; `agent-voice` only where nobody's name is on it. This
+skill owns structure, not voice.
+
+Two things that go wrong when the routing is skipped:
+
+- **Item copy drifts technical**, because the source it is drawn from is a
+  README or a spec written for somebody already inside the problem. "Picks the
+  release lane from the fingerprint, not from intent" and "Works out whether a
+  release needs the App Store or not" describe the same skill, and only one of
+  them survives contact with a reader who has not used it.
+- **The lines start rhyming.** Twenty-three tags written in one pass converge on
+  one sentence shape. `create-luke-content`'s `voice_lint.py` flags a repeated
+  rhetorical phrase for exactly this reason; run it over the whole set at once
+  rather than per item, which is the only way it can see the repetition.
 
 Four things the structure needs from the copy:
 
@@ -291,7 +311,8 @@ Then hand off to whatever sends.
 |---|---|
 | `ux-craft` | Tier decisions, reading order, and the general reading-surface gate |
 | `design-craft` | Palette from the project's tokens, type scale, tier weighting |
-| `create-luke-content` / `agent-voice` / a named persona | Every word of prose |
+| `create-luke-content` / `create-diolog-content` / a named persona | Every word of prose, where a person or brand signs the mail |
+| `agent-voice` | Every word of prose, where nobody's name is on it |
 
 Where one is not installed, say which substitution you made rather than
 implying the pass happened.
