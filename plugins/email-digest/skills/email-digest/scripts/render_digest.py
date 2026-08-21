@@ -254,6 +254,89 @@ def render_spotlight_row(items: list[dict], p: dict) -> str:
         f'width="100%"><tr>{"".join(cols)}</tr></table>',
         pad="0 32px 26px")
 
+RESEARCH_COL = 260      # 2 x 260 + 16 gutter = 536, the card's inner width
+RESEARCH_GUTTER = 16
+RESEARCH_IMG_H = 110
+
+# A dark inset by default, because this tier is a different class of thing from
+# the items around it and the quickest way to say so is to stop matching them.
+# Override it with `research.palette` to whatever the research actually looks
+# like where it is published; a tile that does not resemble the page it leads to
+# is a worse tile than a plain one.
+DEFAULT_RESEARCH_PALETTE = {
+    "ground": "#0E1013",
+    "ink":    "#E9E7E2",
+    "muted":  "#A8ADB4",
+    "meta":   "#767D86",
+    "accent": "#3EBBAE",
+}
+
+def render_research_row(block: dict, p: dict) -> str:
+    """Long-form background reading, two tiles across, on their own ground.
+
+    Two rather than three. The tile has to carry a headline and a sentence of
+    what was found, and at the three-across width of 168px that sentence sets
+    to four or five words a line. Two columns of 260px is the widest this card
+    goes without dropping to one, and one tile reads as an orphan rather than a
+    section.
+
+    The ground colour sits on the cell, never on the image. A tile whose dark
+    field arrives as artwork turns into light-on-paper the moment images are
+    blocked, which is a meaningful share of Outlook and every reader who has not
+    tapped "load images" yet. Everything textual here is live text for the same
+    reason: with the image gone the tile still says what the research found.
+
+    The image is decorative and carries `alt=""`. The title beneath it is the
+    accessible name, and it is a link rather than a caption because the whole
+    point of the tier is to send the reader somewhere longer."""
+    rp = {**DEFAULT_RESEARCH_PALETTE, **(block.get("palette") or {})}
+    cols = []
+    items = block.get("items", [])
+    for n, it in enumerate(items):
+        img = ""
+        if it.get("imageUrl"):
+            img = (
+                f'<tr><td style="font-size:0;line-height:0;">'
+                f'<img src="{esc(it["imageUrl"])}" width="{RESEARCH_COL}" '
+                f'height="{RESEARCH_IMG_H}" alt="" '
+                f'style="display:block;width:{RESEARCH_COL}px;'
+                f'height:{RESEARCH_IMG_H}px;max-width:100%;border:0;" />'
+                f'</td></tr>')
+        slug = (f'<p style="margin:0 0 7px;font-family:{MONO};font-size:11px;'
+                f'line-height:1.4;letter-spacing:0.04em;color:{rp["accent"]};">'
+                f'{esc(it["slug"])}</p>') if it.get("slug") else ""
+        meta = (f'<p style="margin:0;font-family:{MONO};font-size:11px;'
+                f'line-height:1.5;color:{rp["meta"]};">{esc(it["meta"])}</p>'
+                ) if it.get("meta") else ""
+        cols.append(
+            f'<td class="col" width="{RESEARCH_COL}" valign="top" '
+            f'style="width:{RESEARCH_COL}px;font-family:{SANS};text-align:left;">'
+            f'<table role="presentation" data-block="research" cellpadding="0" '
+            f'cellspacing="0" border="0" width="100%" bgcolor="{rp["ground"]}" '
+            f'style="width:100%;background-color:{rp["ground"]};'
+            f'border-top:3px solid {rp["accent"]};border-radius:0 0 10px 10px;">'
+            f'{img}'
+            f'<tr><td valign="top" style="padding:15px 17px 17px;'
+            f'font-family:{SANS};text-align:left;">'
+            f'{slug}'
+            f'<h3 style="margin:0 0 8px;font-family:{SERIF};font-size:17px;'
+            f'line-height:1.3;font-weight:600;color:{rp["ink"]};'
+            f'mso-line-height-rule:exactly;">'
+            f'<a href="{esc(it["url"])}" style="color:{rp["ink"]};'
+            f'text-decoration:none;">{esc(it["title"])}</a></h3>'
+            f'<p style="margin:0 0 12px;font-size:13px;line-height:1.55;'
+            f'color:{rp["muted"]};">{esc(it.get("summary",""))}</p>'
+            f'{meta}'
+            f'</td></tr></table></td>')
+        if n < len(items) - 1:
+            cols.append(f'<td class="gut" width="{RESEARCH_GUTTER}" '
+                        f'style="width:{RESEARCH_GUTTER}px;font-size:0;'
+                        f'line-height:0;">&nbsp;</td>')
+    return cell(
+        f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" '
+        f'width="100%"><tr>{"".join(cols)}</tr></table>',
+        pad="0 32px 26px")
+
 TAIL_ICON = 24
 
 def render_oneline(items: list[dict], p: dict) -> str:
@@ -318,6 +401,9 @@ def render(payload: dict) -> tuple[str, str]:
     fe = [i for i in items if i["tier"] == "featured"]
     co = [i for i in items if i["tier"] == "spotlight"]
     ol = [i for i in items if i["tier"] == "oneline"]
+
+    research = payload.get("research") or {}
+    rs = research.get("items") or []
 
     summary = payload.get("summary", {})
     highlights = (summary.get("highlights") or [])[:3]
@@ -397,6 +483,20 @@ def render(payload: dict) -> tuple[str, str]:
             f'color:{p["ink"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
             pad="0 32px 4px"))
         sections.append(render_spotlight_row(co, p))
+    # Between the middle tier and the tail, which is where a second class of
+    # thing belongs: the reader has been through the items that were chosen for
+    # them, and the long list is still ahead. Kong et al. found that ordering
+    # the tail changes nothing, so this is the last position in the email where
+    # placement is still worth anything.
+    if rs:
+        sections.append(cell(
+            f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
+            f'<h2 style="margin:0 0 22px;font-family:{SERIF};font-size:28px;'
+            f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
+            f'color:{p["ink"]};mso-line-height-rule:exactly;">'
+            f'{esc(research.get("heading", "The research behind them"))}</h2>',
+            pad="0 32px 4px"))
+        sections.append(render_research_row(research, p))
     if ol:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
@@ -496,6 +596,14 @@ def render(payload: dict) -> tuple[str, str]:
         lines += ["", "ALSO WORTH A LOOK", ""]
         for i in co:
             lines += [f"{i['title']} - {i.get('headline','')}", f"  {i['url']}", ""]
+    if rs:
+        lines += ["-" * 58, "",
+                  research.get("heading", "The research behind them").upper(), ""]
+        for r in rs:
+            lines += [r["title"], f"  {r.get('summary','')}"]
+            if r.get("meta"):
+                lines += [f"  {r['meta']}"]
+            lines += [f"  {r['url']}", ""]
     if ol:
         lines += ["-" * 58, "", "ALSO SHIPPED", ""]
         for i in ol:
@@ -527,6 +635,25 @@ EXAMPLE = {
              "url": "https://skills.fledgeling.app/skills/atlas-publish"},
             {"text": "vouch traces a claimed charge back to the invoice line behind it",
              "url": "https://skills.fledgeling.app/skills/vouch"},
+        ]},
+    # Optional, and a block rather than a tier: longer-lived than the issue and
+    # read for a different reason. The ground goes on the cell, so pass a
+    # palette matching wherever the research is actually published.
+    "research": {
+        "heading": "The research behind them",
+        "palette": {"ground": "#0E1013", "ink": "#E9E7E2", "muted": "#A8ADB4",
+                    "meta": "#767D86", "accent": "#3EBBAE"},
+        "items": [
+            {"slug": "uniform", "title": "The item count was never the defect",
+             "url": "https://dossier.example/uniform",
+             "summary": "Twenty four items read as unreadable, and three of four backends said cut the list. The two best sourced found no ceiling exists.",
+             "meta": "182 sources · 4 backends · 21 Aug",
+             "imageUrl": "https://skills.fledgeling.app/research/uniform.png"},
+            {"slug": "deputy", "title": "You can delegate the decision, not the signature",
+             "url": "https://dossier.example/deputy",
+             "summary": "A hundred and ninety four finished items wait on a person to sign off. Nobody has handed that signature to a model, and accuracy is not why.",
+             "meta": "22 sources · 4 backends · ~$20",
+             "imageUrl": "https://skills.fledgeling.app/research/deputy.png"},
         ]},
     "items": [
         {"title": "code-review", "headline": "A diff review that reports its own blind spots",
