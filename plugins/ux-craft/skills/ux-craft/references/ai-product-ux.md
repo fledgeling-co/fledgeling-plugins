@@ -101,14 +101,28 @@ evidence to hand is not the same as consulting it — that is the whole finding,
 "the operator can check the logs" is not a mitigation. So on any surface where an agent acts:
 
 - **The reason a run failed belongs in the channel the operator already reads**, not in a store they
-  could query. A cause recorded somewhere nobody opens has the same effect as no cause recorded.
-- **A refusal is not noise.** Where a progress view suppresses mechanical chatter, a *denied* action
-  is exempt: it is the one event that explains an otherwise inexplicable outcome. Suppress volume,
-  never refusals.
+  could query. A cause recorded somewhere nobody opens has the same effect as no cause recorded, and
+  this is the one item here with a controlled effect size: diagnosis time fell **60.7%**, 10.37 minutes
+  against 25.72, across 20 programmers, when proactively-added error logs were present, at 1.4% runtime
+  overhead. Note also that a harness may end a truncated run with a **200 OK** and a stop reason in the
+  body rather than an error, so nothing in the stack raises — check the stop reason explicitly.
+- **A refusal is not noise, where a refusal exists at all.** Where a progress view suppresses
+  mechanical chatter, a *denied* action is exempt: it is the one event that explains an otherwise
+  inexplicable outcome. Suppress volume, never refusals. **But check which failure you have before
+  building for this one:** a capability withheld from the agent's *context* produces no refusal event —
+  at least one major harness documents that a denied tool's definition is removed from the request, so
+  the model never sees it and cannot attempt it. Then there is nothing to un-suppress, the manifest
+  below is the only surface an absence can appear on, and a preflight is the only check that fires when
+  nothing was attempted.
 - **Print what the agent was permitted to do**, once per run. A capability manifest turns "why did
   it not write the file" from an investigation into a glance.
 - **Judge success from the artifact, not the narration.** File exists, size, hash, checks passed —
   never the model saying it is done. Fluent narration is exactly what the 59% figure is about.
+
+**And do not reach for training.** The field concludes automation bias occurs in both naive and expert
+participants and cannot be prevented by training or instructions; failure-exposure training helped
+omission errors but did not affect complacency toward the aid's diagnostic function nor commission
+errors. Build the manifest, not the training deck.
 
 **Limits, because this evidence is borrowed.** The flight task is *fault monitoring* whereas agent
 supervision is *progress watching*, which is not the same job; and the clinical aid issues an
