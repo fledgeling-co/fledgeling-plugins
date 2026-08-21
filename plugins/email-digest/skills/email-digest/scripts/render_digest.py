@@ -364,25 +364,25 @@ def render(payload: dict) -> tuple[str, str]:
     sections = []
     if fe:
         sections.append(cell(
-            f'<h2 style="margin:0 0 18px;font-family:{MONO};font-size:11px;'
-            f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
-            f'color:{p["muted"]};mso-line-height-rule:exactly;">Worth your time</h2>',
+            f'<h2 style="margin:0 0 18px;font-family:{SERIF};font-size:28px;'
+            f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
+            f'color:{p["ink"]};mso-line-height-rule:exactly;">Worth your time</h2>',
             pad="0 32px 4px"))
         sections.extend(render_featured(i, p) for i in fe)
     if co:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
-            f'<h2 style="margin:0 0 16px;font-family:{MONO};font-size:11px;'
-            f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
-            f'color:{p["muted"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
+            f'<h2 style="margin:0 0 16px;font-family:{SERIF};font-size:28px;'
+            f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
+            f'color:{p["ink"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
             pad="0 32px 4px"))
         sections.append(render_spotlight_row(co, p))
     if ol:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
-            f'<h2 style="margin:0 0 16px;font-family:{MONO};font-size:11px;'
-            f'letter-spacing:0.14em;text-transform:uppercase;font-weight:400;'
-            f'color:{p["muted"]};mso-line-height-rule:exactly;">Also shipped</h2>', pad="0 32px 4px"))
+            f'<h2 style="margin:0 0 16px;font-family:{SERIF};font-size:28px;'
+            f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
+            f'color:{p["ink"]};mso-line-height-rule:exactly;">Also shipped</h2>', pad="0 32px 4px"))
         sections.append(render_oneline(ol, p))
 
     doc = f"""<!DOCTYPE html>
@@ -424,7 +424,7 @@ def render(payload: dict) -> tuple[str, str]:
 </td></tr>
 
 <tr><td align="left" style="padding:0 32px 6px;font-family:{SANS};text-align:left;">
-  <h1 class="t" style="margin:0 0 10px;font-family:{SERIF};font-size:28px;line-height:1.22;font-weight:700;color:{p['ink']};mso-line-height-rule:exactly;">{esc(payload.get('heading',''))}</h1>
+  <h1 class="t" style="margin:0 0 12px;font-family:{SANS};font-size:14px;line-height:1.4;font-weight:600;letter-spacing:0.005em;color:{p['ink']};mso-line-height-rule:exactly;">{esc(payload.get('heading',''))}</h1>
 </td></tr>
 
 <tr><td align="left" style="padding:0 32px 26px;font-family:{SANS};text-align:left;">
