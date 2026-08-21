@@ -283,6 +283,42 @@ compared against another version at all. A v5 claiming improvement needs a v4-ve
 gate in `evals/evals.json`: output tokens down, and the score sign test against no-block still not
 significant. A bigger output cut that breaks score parity is a regression wearing a better number.
 
+## The cheapest spend signal nobody watches: the output-to-input ratio
+
+Everything above is about the cost of a session doing its job. This is about the cost of a session
+*not* doing its job, which is invisible to every measure here because the tokens look identical.
+
+An agent that cannot write a file has one route left: emit the artifact as literal output. That is
+indistinguishable from ordinary work in a token total and unmistakable in a ratio. Measured across 135
+agent runs on one pipeline, 2026-08-21:
+
+| Outcome | Runs | Sent to the model | Written back | Ratio |
+|---|---|---|---|---|
+| completed | 61 | 2,510,067 | 2,833,838 | **1.1×** |
+| failed | 52 | 20,269 | 684,666 | **33.8×** |
+| cancelled | 22 | 199,497 | 128,983 | 0.6× |
+
+**A working run writes back about what it was sent. A run writing back thirty-four times what it was
+sent is reciting an artifact it should be saving.** The signal was present from the first failure and
+nobody computed it; the cost while it went unwatched was **813,649 output tokens on runs that produced
+nothing** — 22% of all output in the window — plus 414 million cache-read tokens across the set, and
+**74 of 135 runs producing no artifact at all**.
+
+Three things follow, in order of how cheap they are:
+
+- **Watch the ratio, not the total.** A threshold around 5× flags this class and is quiet otherwise.
+  It needs no new instrumentation where input and output counts are already recorded per run.
+- **Count the runs that produced nothing.** A 55% no-artifact rate is a spend problem before it is a
+  quality problem, and it is the number least likely to be on anyone's dashboard.
+- **Judge success from the artifact.** File exists, size, hash, checks passed — never the model saying
+  it is done. A run that narrated success and wrote nothing bills exactly like one that worked.
+
+**Tier: measured, n=1 pipeline, 135 runs, 2026-08-21.** The ratio is derived from two summed fields
+rather than measured per turn, the counts are the pipeline's own accounting rather than a provider
+invoice, and the 5× threshold is a judgement from this one distribution rather than a tuned value.
+Nobody has measured whether watching it shortens anything; what is measured is that the signal was
+there and unread.
+
 ## What was considered and rejected
 
 Each is a trap, and the reason matters more than the verdict — someone will propose all of them again.

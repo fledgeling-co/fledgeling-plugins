@@ -139,7 +139,35 @@ rather than one this fleet is building, `warrant:lot` is the instrument — samp
 declared risk limit, blind, and seeded, rather than item-by-item.
 
 After every runner event: update `ORCHESTRATOR.md` first, then act. Runner failure → read the
-report and artifacts; retry sharper, resume in-worktree, or park with a reason. A workflow that
+report and artifacts; retry sharper, resume in-worktree, or park with a reason.
+
+**A runner that produced nothing needs a channel sweep before a sharper retry, and "read the report"
+is not it.** The report is the channel closest to hand, which is why it gets read, and it is routinely
+the one channel the cause is absent from. Measured on one pipeline, 2026-08-21: the reason a run died
+appeared **36 times** in the run event stream, in **none** of the 56 run records carrying an error
+(they held container and blob noise instead), and in **none of 285,950 lines** of the daemon log that
+was actually being read and quoted. Enumerate before you conclude:
+
+1. **The run's own record** — its status and its error field. Treat that field as *the last thing that
+   failed*, never as the cause: a real failure followed by an infrastructure failure leaves only the
+   second.
+2. **The event stream**, if the runner emits one. This is where a harness usually writes the terminal
+   reason, and it is the channel a human never opens.
+3. **The token counts.** An output-to-input ratio far above 1 means the agent is emitting its artifact
+   as literal output instead of writing a file — measured, **33.8:1 on failed runs against 1.1:1 on
+   completed ones**, visible from the first failure. A ratio above roughly 5 is worth a look on its own.
+4. **The granted capability set.** If the runner does not print what the agent was permitted to do,
+   that is the first thing to add, not the last.
+
+**Do not harden the output while the cause is unidentified.** The failure presents as a symptom class —
+output too long, no artifact, timed out — and the symptom does not name the cause. On the run this rule
+comes from, the visible symptom read as verbosity, so **41 commits** went into stricter output gates and
+**15** into rewriting prompts before **one** touched the tool list, across twenty days in which 74 of
+135 runs produced nothing. Gate work on an unexplained failure is how three weeks disappear.
+
+**And preflight the next run rather than diagnosing it again.** If a job must persist a file and no
+permitted tool can write one, fail before the model is invoked. That check costs nothing and is the only
+intervention here that stops a run rather than explaining it afterwards. A workflow that
 reports `completed` with dead agents, or a fan-out lost to rate limits mid-run, is the
 `workflow-resume` skill's job — use it before relaunching anything, because a manual relaunch
 cold-starts and re-pays for work the journal already holds. Discovered children join the DAG.
