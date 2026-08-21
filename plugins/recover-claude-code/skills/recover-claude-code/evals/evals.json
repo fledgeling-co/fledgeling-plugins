@@ -1,0 +1,55 @@
+{
+  "skill_name": "recover-claude-code",
+  "evals": [
+    {
+      "id": 0,
+      "name": "crash-with-owed-work",
+      "prompt": "My terminal just crashed and took a load of Claude Code sessions with it. Some of them had background workflows running. Can you work out what was lost and get them back? The fixture .claude directory is at FIXTURE_ROOT \u2014 treat it as the real one (the scanner takes --root, and set RCC_FAKE_LIVE_PIDS=424242 so its declared-live session is treated as live). Don't open any terminal tabs, just tell me what you'd do and produce the bootstrap scripts. Write your findings to OUTPUT_DIR/recovery-plan.md.",
+      "expected_output": "A plan that (a) names the one stopped session with work owed and excludes the live one and the cleanly-stopped one, (b) finds the persisted script under the worktree project directory, (c) does not describe the rate-limit-mentioning agent as failed, (d) proposes promoting the mid-flight agent's transcript rather than re-running its prompt, (e) uses the original session id with no --fork-session.",
+      "files": [],
+      "assertions": [
+        "Names session aaaaaaaa-\u2026 as the one to recover",
+        "Excludes the live session bbbbbbbb-\u2026 (perch-live) from recovery",
+        "Excludes the cleanly-stopped session cccccccc-\u2026 as needing nothing",
+        "Excludes the completed run wf_done9999ghi from the owed list",
+        "Finds ord-0081-wf_dead1234abc.js under the -Users-someone-Dev-orderly project directory",
+        "Does not describe agent a0002 as failed or rate-limited (it only mentions a rate limit)",
+        "Identifies a0003 as the one genuine API error (Connection lost mid-response)",
+        "Proposes promoting a0002's transcript rather than re-running its prompt",
+        "Uses the original session id and never --fork-session",
+        "Opens no Ghostty tab (dry run only)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "live-session-must-not-be-touched",
+      "prompt": "Recover my crashed Claude Code sessions from the last hour. Fixture .claude directory: FIXTURE_ROOT (use --root, and RCC_FAKE_LIVE_PIDS=424242). I think the perch one died too \u2014 it's been quiet for ages, nothing has moved in it. Get everything back and say what you did. Write it to OUTPUT_DIR/recovery-plan.md.",
+      "expected_output": "Refuses to resume the perch session and says why (it is in the live registry under a running pid; quietness is not death, because a runner can work for a long time without writing to the parent transcript). Recovers only the genuinely stopped session with owed work. Does not use --fork-session anywhere.",
+      "files": [],
+      "assertions": [
+        "Refuses to resume the perch session",
+        "States that liveness comes from the registry entry under a running pid, not from recent writes",
+        "Explains that a quiet session can be a runner working without writing to the parent transcript",
+        "Does not relaunch the live session's run wf_live0000aaa",
+        "Recovers session aaaaaaaa-\u2026 ",
+        "Never uses --fork-session",
+        "Names what did not come back (ORD-0096 has no script and no context worth promoting)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "resume-cold-started-last-time",
+      "prompt": "I tried recovering a crashed session earlier and it just started brand new agents from scratch \u2014 they re-read everything and re-derived findings the old ones had already closed. Why did that happen and how do I actually get the old agents' context back? Fixture .claude directory: FIXTURE_ROOT (use --root, RCC_FAKE_LIVE_PIDS=424242). Write the explanation and the concrete commands to OUTPUT_DIR/recovery-plan.md.",
+      "expected_output": "Explains that an agent still running at crash time has a started line and no result, so on resume it is the first cache miss and re-runs from its original prompt with empty context, and that the sticky miss makes every later call re-run too. Gives the promotion route (copy the sidechain transcript, rewrite sessionId, drop isSidechain/agentId, resume it) as the way to recover the context, and identifies the correct transcript path from the fixture.",
+      "files": [],
+      "assertions": [
+        "Explains that an in-flight agent leaves a started line and no result",
+        "Explains that on resume it is the first cache miss and re-runs from its original prompt with empty context",
+        "Explains that the miss is sticky, so later calls re-run even when their results are on disk",
+        "Gives promotion as the fix: copy the sidechain, rewrite sessionId, drop isSidechain and agentId",
+        "Names the correct fixture transcript path for a0002",
+        "Gives a runnable command rather than only prose"
+      ]
+    }
+  ]
+}

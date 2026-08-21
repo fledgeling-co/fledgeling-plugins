@@ -91,6 +91,7 @@ const GROUP_OF = {
   "atlas-publish": "orchestration",
   "code-review": "making",
   "email-digest": "making",
+  "recover-claude-code": "orchestration",
 };
 
 const UNCATEGORISED = {
