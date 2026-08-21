@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.4.3: the featured headline leads its banner
+
+The headline sat under the banner, a full image-height away from the section
+heading that introduced it, so the reader met the artwork before they met the
+thing it was for. With images blocked it moved again. It now leads, which makes
+it the first text in the card in both states.
+
+It is still a text node beside the image rather than the image's alt, for the
+reason it always was: the banner's failure modes all land on one element and
+take the AI-generated inbox summary with them.
+
+That put two adjacent serif bolds five points apart, reading as one two-line
+heading, so the space under each section heading opens from 16-18px to 22-26px.
+Space rather than size, because the sizes are the ones the design asked for.
+
 ### email-digest 1.4.2: the display weight moves from the issue line to the sections
 
 The issue heading held the 28px display type and the section headings sat under

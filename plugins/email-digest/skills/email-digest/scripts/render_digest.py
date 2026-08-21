@@ -124,22 +124,30 @@ def cell(content: str, pad: str = "0 32px", tier: str = "") -> str:
 
 
 def render_featured(it: dict, p: dict) -> str:
-    """Large treatment. The banner may carry mood; the headline is a text node
-    beside it, because the banner's failure modes (blocked, broken, alt clipped
-    to the image width, alt unstylable in Outlook) all land on the same element
-    and take the AI-generated inbox summary with them."""
+    """Large treatment: headline, then banner, then the claim.
+
+    The headline leads rather than following the banner. Under the banner it sat
+    a full image-height away from the section heading that introduced it, and
+    with images blocked it moved again, so the reader met the artwork before
+    they met the thing it was for. Above it, the headline is the first text in
+    the card in both states.
+
+    It is a text node either way, never the image's alt: the banner's failure
+    modes (blocked, broken, alt clipped to the image width, alt unstylable in
+    Outlook) all land on the same element and take the AI-generated inbox
+    summary with them."""
     banner = ""
     if it.get("bannerUrl"):
         # Deliberately not wrapped in a link. Its only content would be an
         # alt="" image, which gives the link no accessible name, and the
-        # headline and the button below already point at the same URL. A
+        # headline above and the button below already point at the same URL. A
         # redundant link with no name is worse than no link.
         banner = (
             f'<img src="{esc(it["bannerUrl"])}" width="{WIDTH - 64}" '
             f'height="{int((WIDTH - 64) * 0.325)}" alt="" class="banner" '
             f'style="display:block;width:100%;max-width:{WIDTH - 64}px;border:0;'
             f'border-radius:8px;" />'
-            f'<div style="height:16px;line-height:16px;">&nbsp;</div>')
+            f'<div style="height:18px;line-height:18px;">&nbsp;</div>')
     inst = it.get("install")
     # A command string still renders as a code block above the actions, because
     # it is a thing to copy rather than a thing to press.
@@ -150,11 +158,11 @@ def render_featured(it: dict, p: dict) -> str:
             f'border-radius:7px;font-family:{MONO};font-size:13px;line-height:1.5;'
             f'color:{p["ink"]};word-break:break-word;">{esc(inst)}</div>')
     return cell(
-        f'{banner}'
-        f'<h2 style="margin:0 0 9px;font-family:{SERIF};font-size:23px;line-height:1.28;'
+        f'<h2 style="margin:0 0 13px;font-family:{SERIF};font-size:23px;line-height:1.28;'
         f'font-weight:700;color:{p["ink"]};mso-line-height-rule:exactly;">'
         f'<a href="{esc(it["url"])}" style="color:{p["ink"]};text-decoration:none;">'
         f'{esc(it.get("headline") or it["title"])}</a></h2>'
+        f'{banner}'
         f'<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:{p["ink"]};">'
         f'{esc(it.get("body",""))}</p>'
         f'{command}'
@@ -364,7 +372,7 @@ def render(payload: dict) -> tuple[str, str]:
     sections = []
     if fe:
         sections.append(cell(
-            f'<h2 style="margin:0 0 18px;font-family:{SERIF};font-size:28px;'
+            f'<h2 style="margin:0 0 26px;font-family:{SERIF};font-size:28px;'
             f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
             f'color:{p["ink"]};mso-line-height-rule:exactly;">Worth your time</h2>',
             pad="0 32px 4px"))
@@ -372,7 +380,7 @@ def render(payload: dict) -> tuple[str, str]:
     if co:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
-            f'<h2 style="margin:0 0 16px;font-family:{SERIF};font-size:28px;'
+            f'<h2 style="margin:0 0 22px;font-family:{SERIF};font-size:28px;'
             f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
             f'color:{p["ink"]};mso-line-height-rule:exactly;">Also worth a look</h2>',
             pad="0 32px 4px"))
@@ -380,7 +388,7 @@ def render(payload: dict) -> tuple[str, str]:
     if ol:
         sections.append(cell(
             f'<hr style="border:0;border-top:1px solid {p["hairline"]};margin:0 0 24px;" />'
-            f'<h2 style="margin:0 0 16px;font-family:{SERIF};font-size:28px;'
+            f'<h2 style="margin:0 0 22px;font-family:{SERIF};font-size:28px;'
             f'line-height:1.22;font-weight:700;letter-spacing:-0.01em;'
             f'color:{p["ink"]};mso-line-height-rule:exactly;">Also shipped</h2>', pad="0 32px 4px"))
         sections.append(render_oneline(ol, p))
