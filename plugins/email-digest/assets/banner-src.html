@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Colours are the icon master's own constants rather than an eyeball off a
+     sibling: the ground ramp (58,53,45 -> 42,38,32), the accent (214,110,58) and
+     the two receding tones (238,234,226 / 150,143,131) are lifted from the
+     build script, and the light keys to the same top-left source. The face is
+     Instrument Sans, linked rather than named locally, so a re-render on another
+     machine cannot quietly substitute a different one.
+
+     The device is the icon's argument at full size: one item given real space,
+     a couple given a row each, and the remainder compressed to a line. The
+     right-hand run is the point. A layout that simply stopped after three items
+     would be a digest that cut its list; a layout whose tail carries on at one
+     line each is a digest that kept everything and priced it differently. */
+
+  * { margin: 0; box-sizing: border-box; }
+
+  body {
+    width: 1600px; height: 520px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(84% 148% at 32% 24%, rgba(255,255,255,.94) 0%, rgba(255,255,255,0) 56%),
+      radial-gradient(110% 165% at 50% 46%, rgba(122,101,68,0) 52%, rgba(122,101,68,.13) 100%),
+      linear-gradient(176deg, #FBF7F0 0%, #F1EADD 54%, #DED4C2 100%);
+    font-family: "Instrument Sans", sans-serif;
+  }
+
+  /* the stack */
+  .stack { position: absolute; left: 92px; top: 96px; width: 620px; }
+
+  .card {
+    position: relative; border-radius: 18px;
+    background: linear-gradient(178deg, #45464B 0%, #313339 58%, #23242A 100%);
+    box-shadow: 0 10px 20px rgba(110,96,73,.20), 0 3px 6px rgba(65,55,42,.24);
+  }
+  .card i {
+    position: absolute; left: 16px; right: 16px; top: 3px; height: 5px;
+    border-radius: 3px; background: rgba(255,243,226,.18);
+  }
+
+  /* tier one: the only block given room, and the only one carrying the accent */
+  .t1 { height: 116px; }
+  .t1 .bar {
+    position: absolute; left: 26px; top: 30px; width: 300px; height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(178deg, #E8834A 0%, #D66E3A 56%, #B85A2C 100%);
+  }
+  .t1 .sub {
+    position: absolute; left: 26px; top: 64px; width: 430px; height: 11px;
+    border-radius: 6px; background: rgba(238,234,226,.34);
+  }
+  .t1 .sub2 {
+    position: absolute; left: 26px; top: 83px; width: 350px; height: 11px;
+    border-radius: 6px; background: rgba(238,234,226,.20);
+  }
+
+  /* tier two: a row each */
+  .t2 { height: 60px; margin-top: 16px; }
+  .t2 .dot {
+    position: absolute; left: 22px; top: 15px; width: 30px; height: 30px;
+    border-radius: 9px; background: rgba(238,234,226,.26);
+  }
+  .t2 .bar {
+    position: absolute; left: 66px; top: 21px; height: 13px;
+    border-radius: 7px; background: rgba(238,234,226,.66);
+  }
+
+  /* tier three: the tail, one line each, carrying on past the fold */
+  .tail { margin-top: 22px; }
+  .tail span {
+    display: block; height: 9px; border-radius: 5px; margin-bottom: 13px;
+    background: rgba(112,104,92,.42);
+  }
+
+  /* the wordmark side */
+  .say { position: absolute; left: 792px; top: 150px; width: 700px; }
+  .mark {
+    font-size: 78px; font-weight: 700; letter-spacing: -.028em;
+    color: #2A2620; line-height: 1;
+  }
+  .mark b { font-weight: 700; color: #C4622D; }
+  .rule {
+    width: 92px; height: 5px; border-radius: 3px; margin: 26px 0 24px;
+    background: linear-gradient(90deg, #D66E3A 0%, rgba(214,110,58,.18) 100%);
+  }
+  .line {
+    font-size: 27px; line-height: 1.45; color: #5A5348; max-width: 620px;
+    font-weight: 400;
+  }
+  .ledger {
+    margin-top: 30px; font-size: 17px; letter-spacing: .10em;
+    text-transform: uppercase; color: #8A8073; font-weight: 500;
+  }
+  .ledger u { text-decoration: none; color: #C4622D; }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="card t1"><i></i><div class="bar"></div><div class="sub"></div><div class="sub2"></div></div>
+  <div class="card t2"><i></i><div class="dot"></div><div class="bar" style="width:392px"></div></div>
+  <div class="card t2"><i></i><div class="dot"></div><div class="bar" style="width:318px"></div></div>
+  <div class="tail">
+    <span style="width:566px"></span>
+    <span style="width:604px"></span>
+    <span style="width:520px"></span>
+    <span style="width:588px"></span>
+    <span style="width:472px"></span>
+    <span style="width:544px"></span>
+  </div>
+</div>
+
+<div class="say">
+  <div class="mark">email<b>-</b>digest</div>
+  <div class="rule"></div>
+  <div class="line">Twenty-four items was never the defect. Treating all
+    twenty-four identically was.</div>
+  <div class="ledger">Tiered &middot; gated &middot; <u>no item cap</u></div>
+</div>
+
+</body>
+</html>

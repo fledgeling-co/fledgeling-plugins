@@ -1,0 +1,95 @@
+{
+  "skill": "email-digest",
+  "note": "Process and structural evals. No comparative A/B panel has been run; EVALS.md records that absence and names the three tasks that would close it.",
+  "cases": [
+    {
+      "id": "no-cap",
+      "kind": "structural",
+      "prompt": "Build a digest email from these 30 items.",
+      "assert": [
+        "All 30 items appear in the output.",
+        "No item is dropped, truncated away, or moved to a 'see the rest on the web' stub in place of being rendered.",
+        "The run does not suggest reducing the item count as a fix."
+      ],
+      "why": "The intuitive fix is fewer items and the evidence goes the other way. This is the single most likely regression."
+    },
+    {
+      "id": "tier-shape",
+      "kind": "structural",
+      "prompt": "Build a digest email from these 24 items.",
+      "assert": [
+        "Between 2 and 4 items carry the featured treatment.",
+        "Between 5 and 9 carry the compact treatment.",
+        "Every remaining item is title-only.",
+        "Each item block carries a machine-readable tier marker."
+      ],
+      "why": "Kong et al. localises the measured benefit to selective prominence. Without the marker every tier rule passes vacuously."
+    },
+    {
+      "id": "no-anchors",
+      "kind": "structural",
+      "prompt": "Add a table of contents to the top of this digest so readers can jump to a section.",
+      "assert": [
+        "The output contains no href starting with '#'.",
+        "The run states why, naming iOS client failure or the tracking gap.",
+        "A summary block is still produced, with links pointing outward to destinations."
+      ],
+      "why": "A direct request for the thing the evidence forbids. The skill should serve the intent and refuse the mechanism."
+    },
+    {
+      "id": "no-ratio-gate",
+      "kind": "structural",
+      "prompt": "This email is mostly images. Check it will not land in spam.",
+      "assert": [
+        "The run does not assert a 60/40 or 80/20 text-to-image ratio requirement.",
+        "It checks instead that content survives with images stripped.",
+        "If the ratio is mentioned, it is named as untraceable rather than applied."
+      ],
+      "why": "Three of four research backends rejected the ratio rule; one proposed gating on it. The rejected version must not resurface."
+    },
+    {
+      "id": "svg-refusal",
+      "kind": "structural",
+      "prompt": "Use our logo, it is at assets/brand/mark.svg.",
+      "assert": [
+        "The output contains no <svg> element.",
+        "The logo is rasterised to PNG before use, or the run says it must be.",
+        "The reason names Gmail stripping the tag."
+      ],
+      "why": "Silent failure: the mark disappears in Gmail and nothing reports an error."
+    },
+    {
+      "id": "gate-fires",
+      "kind": "mechanical",
+      "prompt": "Run lint_email.py against tests/bad-digest.html.",
+      "assert": [
+        "Exit code is 1.",
+        "At least 10 distinct rules report an error.",
+        "Each error names the class of evidence behind it."
+      ],
+      "why": "A gate that cannot fail is not a gate. Verified at 13 errors."
+    },
+    {
+      "id": "gate-passes",
+      "kind": "mechanical",
+      "prompt": "Render the 24-item fixture and gate it.",
+      "assert": [
+        "Exit code is 0.",
+        "HTML is under 90KB.",
+        "The report states that passing gates is not the same as the email being worth reading."
+      ],
+      "why": "The honest-baseline case. Verified at 0 errors, 24.7KB."
+    },
+    {
+      "id": "states-the-gap",
+      "kind": "structural",
+      "prompt": "Is this layout better than a flat list?",
+      "assert": [
+        "The answer states that no published study compares the two.",
+        "It does not claim the tiered layout is measured to be better.",
+        "It names a test that would settle it, measured on clicks rather than opens."
+      ],
+      "why": "The central claim is an inference. A skill that dresses it as measurement is overclaiming from its own corpus."
+    }
+  ]
+}

@@ -90,6 +90,7 @@ const GROUP_OF = {
   vouch: "research",
   "atlas-publish": "orchestration",
   "code-review": "making",
+  "email-digest": "making",
 };
 
 const UNCATEGORISED = {

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="email-digest">
+  <title>email-digest</title>
+  <desc>Three stacked bars of decreasing length and weight on a warm graphite ground. The top bar is vermilion and full width; the second is bone and two thirds; the third is grey and two fifths. The device is the skill's finding: a list whose items are priced differently rather than trimmed.</desc>
+  <defs>
+    <!-- the house cushion: lifted at the top, settling into the corners -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0.08" y2="1">
+      <stop offset="0"    stop-color="#3A352D"/>
+      <stop offset="0.55" stop-color="#332F28"/>
+      <stop offset="1"    stop-color="#2A2620"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#E8834A"/>
+      <stop offset="0.56" stop-color="#D66E3A"/>
+      <stop offset="1"    stop-color="#B85A2C"/>
+    </linearGradient>
+    <filter id="seat" x="-20%" y="-40%" width="140%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#141110" flood-opacity="0.43"/>
+    </filter>
+    <clipPath id="squircle">
+      <path d="M512,0 C860,0 1024,164 1024,512 C1024,860 860,1024 512,1024 C164,1024 0,860 0,512 C0,164 164,0 512,0 Z"/>
+    </clipPath>
+  </defs>
+
+  <g id="bg" clip-path="url(#squircle)">
+    <rect width="1024" height="1024" fill="url(#ground)"/>
+    <!-- light keyed top-left, same source as the family -->
+  </g>
+
+  <g id="highlight" clip-path="url(#squircle)">
+    <ellipse cx="348" cy="266" rx="620" ry="560" fill="#FFFFFF" opacity="0.055"/>
+  </g>
+
+  <!-- tier one: the only bar given the accent, because it is the only tier the
+       evidence says earns the space -->
+  <g id="fg" filter="url(#seat)">
+    <rect x="189" y="245" width="646" height="143" rx="53" fill="url(#accent)"/>
+  </g>
+  <!-- tier two -->
+  <g id="mid" filter="url(#seat)">
+    <rect x="189" y="457" width="427" height="100" rx="37" fill="#EEEAE2"/>
+  </g>
+  <!-- tier three: the tail -->
+  <g id="mid-tail" filter="url(#seat)">
+    <rect x="189" y="626" width="259" height="68" rx="25" fill="#968F83"/>
+  </g>
+</svg>
