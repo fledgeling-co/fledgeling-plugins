@@ -1,7 +1,7 @@
 {
   "name": "should-compact",
   "description": "Score 0-10 whether NOW is a good moment to compact a coding-agent session, and say why in one line. Scores the BOUNDARY rather than the token count: an open tool chain or a half-finished edit is a hard zero however full the window is, which is the signal that decided 98.07% of holds across 1,089 measured turns. Reads only a hot buffer of recent turns plus an append-only two-tier session log it maintains itself, so it stays cheap enough for Haiku-class models and fast enough to sit in a PreCompact hook \u2014 where it can veto an ill-timed automatic compaction, and never vetoes at the wall. Pairs with braindump, handing it the log's verbatim fact tier as grounding.",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

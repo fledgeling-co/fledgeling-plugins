@@ -23,23 +23,56 @@ found **258 main-chain compaction events, median pre-compaction context 987,636*
 on 4.4× the original sample. The distribution is bimodal: 59.3% of events fire above 900k (the
 window filled) and 29.1% below 200k (someone typed `/compact`); the middle barely exists.
 
-## The residue is affine, and the flat "~51k" reading is wrong above small contexts
+## The residue is nearly a constant, and the affine fit over-predicts it
 
-Fitted on **1,037 compaction events** across the same 90 days:
+Two fits, on two corpora from the same machine, disagreeing by a factor of two at the floor. The
+later one is preferred, and this section says why rather than deleting the earlier one.
+
+**The 90-day fit, n=1,037:**
 
 ```
-post_context ≈ 50,958 + 0.117 × pre_context
+post_context ≈ 50,958 + 0.117 × pre_context      crossover ~57,700
 ```
 
-Two consequences, and they pull in different directions:
+**The 7-day recount, n=1,522 automatic events (2026-08-14 … 2026-08-21, 3,778 transcripts):**
 
-- **The floor stands.** Compaction shrinks the context only when `pre > ~57,700` — the fitted
-  crossover, independently confirming the ~56–58k hard-hold row on a sample 4.4× larger than the
-  one that set it.
-- **"It leaves ~51,000 behind" is only true at the floor.** At a 250k context the residue is ~80k;
-  at the 1M wall it is ~168k — 3.3× the intercept. Any reasoning about how much runway a compaction
-  buys must use the relation. The fit is noisy above the floor (R² ≈ 0.25 on the earlier n=190
-  sample), so treat the slope as central tendency, the floor as solid.
+```
+post_context ≈ 26,783 + 0.015 × pre_context      R² 0.045      crossover ~27,200
+```
+
+R² 0.045 is the finding rather than a weakness of it: **the residue barely tracks the input at
+all.** Median post-compaction context was 31,189 tokens, and by pre-context band it moved from
+23,317 (under 200k in) to 34,846 (over 800k in) while the input grew fivefold. Read as a share, a
+compaction sheds 86% of a 200k context and 96.5% of an 800k one.
+
+Against this corpus the 90-day model over-predicts by a median of **52,510 tokens** (p10 −92,354,
+p90 −31,567 — it is high across the whole distribution, not on a tail).
+
+**The floor moves, and here it is observed rather than fitted.** Both crossovers above are
+extrapolations from an automatic corpus that contains no small compactions: 0 of 1,522 automatic
+events started below 58,000 tokens, and 0 of them grew. The 58 **manual** events do reach down —
+their minimum pre-context is 673 — and they settle it directly:
+
+| pre | post | grew? |
+|---|---|---|
+| 673 | 14,114 | yes |
+| 13,716 | 24,075 | yes |
+| 15,602 | 17,015 | yes |
+| **16,534** | **14,090** | **no** |
+| 17,757 | 25,172 | yes |
+| 74,139 | 24,091 | no |
+
+14 of 58 manual compactions returned a larger context than they were given, and every one of them
+started below 17,757 tokens. So the crossover is around **17,000–20,000**, not 57,700, and the
+~58,000 hard-hold row was refusing compactions in the 20k–58k band that measurably work. That is a
+conservative error rather than a dangerous one, which is exactly why it survived: nothing breaks
+when a gate declines to compact a small session.
+
+**One confound, stated because it runs against the finding rather than for it.** These summaries
+were produced with Relay's compaction-quality addendum spliced into the summarisation prompt, which
+asks for *more* to be carried across — verbatim constraints, corrections and rejected approaches.
+That should inflate the residue, and the measured residue is smaller than the older fit predicts.
+A stock corpus would be expected to sit lower still.
 
 ## What a compaction costs in wall-clock
 
@@ -50,7 +83,7 @@ full" is literally minutes, and it is the cost axis the token-only view of compa
 The full time-priced analysis (which moved Relay's context budget off the token-only optimum) is in
 `perch/docs/features-for-triage/context-budget-recommendation.md`.
 
-## One signal dominates
+## One signal dominates the holds, and holds are rare
 
 Perch's `CompactionAdvisor` scored 1,089 real turns for whether a compaction would be safe.
 **1,068 of them — 98.07% — were held on `midToolChain` alone.** Its other three checks were
@@ -59,6 +92,23 @@ evaluated on the remaining 1.9% of traffic.
 That is why the rubric checks the mechanical signals first and treats an open tool chain as a hard
 zero regardless of anything semantic. It is also why the skill can be cheap: most of the time the
 answer is decided by one boolean.
+
+**The base rate is the other half of that number, and it is small.** Classifying the three turns
+before each of 1,522 real automatic compactions:
+
+| signal at the moment of compaction | share |
+|---|---|
+| an open tool chain | 4.7% |
+| a skill loaded within the last 3 turns | 7.0% |
+| a skill loaded within the last 8 turns | 14.8% |
+| a markdown file read recently | 45.5% |
+
+Two things follow. A scorer should expect to find nothing most of the time, and 98.07% is not a
+prior for "a veto is probably warranted". And the seam signals are **flat** across the
+distribution: compactions that fired within three turns of a skill load had a median pre-context of
+266,383 against 267,313 for the whole corpus, so an early compaction after a skill load is not
+evidence of a bad seam-picker — it is what an evenly-distributed trigger looks like when it fires
+often enough.
 
 ## The boundary table is shared, not invented
 
@@ -166,5 +216,13 @@ blog sources disagree on details that decide whether a hook works at all:
 - **The headroom estimate is an estimate.** `precompact_gate.sh` reads transcript bytes and divides
   (~3.5 chars/token, rounded toward over-counting because the safe failure is firing the wall rule
   early); it is a floor for deciding whether to veto, never a figure to render.
-- **The residue slope is central tendency, not a prediction.** R² ≈ 0.25 above the floor; a given
-  compaction's residue varies widely around the affine fit. The floor is the reproducible part.
+- **The residue is not predictable per compaction.** R² 0.045 on the 7-day recount: knowing the
+  pre-context tells you almost nothing about the post-context beyond "roughly 30,000". The band —
+  14,000 to 38,000 — is the reproducible part; the fitted line is not.
+- **Both residue corpora are one machine, one operator.** The 7-day recount is 3,778 transcripts
+  across many projects, which is breadth of work rather than breadth of installation, and its
+  summaries carry a non-stock summarisation prompt (see the confound above).
+- **A gate's silence was not checked for four months.** The inertness check in `SKILL.md` exists
+  because a `PreCompact` gate ran on 1,522 consecutive compactions without vetoing one, and nothing
+  in the design would have surfaced that. Any rule here that depends on a caller supplying a fact —
+  the window, the model, the session — can fail the same way, and only an outside check finds it.

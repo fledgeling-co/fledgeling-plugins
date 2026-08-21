@@ -24,6 +24,14 @@ A later 90-day recount (n=258 main-chain events) put the median at 987,636 — s
 sample. Token pressure knows nothing about whether the agent is between tasks or three files into
 a refactor.
 
+**Read that as a fraction of the wall, never as an absolute.** The wall moves: a proxy that arms
+`autoCompactWindow` or `CLAUDE_CODE_AUTO_COMPACT_WINDOW` sets it, and once one does the same
+"compacts when full" behaviour arrives at a much smaller number. Recounted over seven days and
+3,778 transcripts on the same machine, **1,522 automatic compactions had a median pre-context of
+267,313 tokens** — a quarter of the earlier figure, from an identical trigger against a lower wall.
+Every headroom judgement here is therefore made against the caller-supplied wall, and a gate that
+substitutes the hardware window for it will read a session at its limit as one with 700k to spare.
+
 This skill scores the thing token pressure cannot see: **is the work at a seam right now?**
 
 ## What you produce
@@ -85,6 +93,12 @@ Check the mechanical signals first. They are cheap, they are decisive, and they 
 1,089 real turns of a comparable advisor, **98.07% of every hold came from one signal alone** — an
 open tool chain. Get that one right and most of the job is done.
 
+**Expect most moments to be clean, and do not go looking for a veto.** That 98.07% is the share of
+*holds*, not how often a hold is right. At the moment 1,522 real automatic compactions actually
+fired, an open tool chain was present **4.7% of the time**; a skill had been loaded within three
+turns **7.0%** of the time. A scorer that assumes the interesting signal is usually there will
+manufacture it, and the four vetoes below are the whole list.
+
 **Hard hold — score 0-3 whatever else is true:**
 
 | signal | why it is a veto |
@@ -92,12 +106,20 @@ open tool chain. Get that one right and most of the job is done.
 | a tool call is open, or a `tool_result` is pending | compacting splits the pair; the model resumes without the result it asked for |
 | an edit is in flight — file read, change described, not yet written | the exact line numbers and variable names are what a summary throws away first |
 | an error is actively being debugged | the traceback is the working state |
-| context is below ~58,000 tokens | compaction leaves `~51,000 + 12% of what it had` behind (fitted on 1,037 real events), so below this it makes the context **larger** |
+| context is below ~20,000 tokens | a compaction lands somewhere near 14,000-38,000 whatever it started from, so below this it makes the context **larger** — observed directly, not fitted |
 
-A compaction never returns an empty window. The residue is affine, not flat: at a 250k context it
-leaves ~80k, at the 1M wall it leaves ~168k. When you reason about what a compaction buys, use the
-relation, not the intercept — "it leaves ~51k" is only true for the smallest sessions that should
-be compacting at all.
+A compaction never returns an empty window, and what it returns is **nearly a constant**. Across
+1,522 automatic compactions the residue tracked the input barely at all — `26,783 + 0.015 x pre`,
+R² 0.045 — with a median of 31,189 tokens whether the session came in at 180k or 900k. The earlier
+affine reading (`50,958 + 0.117 x pre`) over-predicts this corpus by a median of 52,510 tokens, and
+it moved the floor with it: fitted, the crossover sat at ~57,700; observed, every compaction that
+grew its context started below 17,757 tokens and one at 16,534 already shrank. `references/evidence.md`
+carries both fits and the reason to prefer the second.
+
+So a compaction is close to "you get about 30,000 tokens back, whenever you take it". Between
+~20,000 and ~58,000 tokens the older floor held back compactions that measurably work — a
+conservative error, but an error. Above that the practical question is not how much survives; it is
+what survives, which is what the boundary table is for.
 
 Set `at_the_wall` when the session is within roughly 40,000 tokens of its limit. It does not change
 the score — the moment is as bad as it is — but it forces `block: false`, for the reason above.
@@ -186,6 +208,32 @@ agent is doing, and a hook can stop it.
 
 Install it with `hooks.PreCompact` on both matchers, `manual` and `auto` — the matcher is matched
 against the trigger, so a hook on one covers half the events.
+
+### A silent gate is not a gate that agreed
+
+A `PreCompact` hook that never blocks looks exactly like a hook that examined every compaction and
+approved it. Both produce no output and a clean exit 0, so the failure is invisible for as long as
+nobody looks — and it has happened: a gate installed on both matchers, invoked on every one of
+1,522 automatic compactions across seven days, vetoed **none** of them, because the session fact it
+branched on was looked up by an id its caller does not have. Its own veto text appeared **zero**
+times in 3,778 transcripts.
+
+So prove the gate speaks, and prove it from outside itself. Two checks, both cheap:
+
+```bash
+# 1. Has it ever vetoed? Its own refusal text, in the transcripts, over a period you know
+#    had compactions in it. Zero hits over hundreds of compactions is a broken gate.
+grep -rl "<the exact string your gate writes to stderr>" ~/.claude/projects --include='*.jsonl'
+
+# 2. Does it veto NOW? Feed the real hook body a real payload and read the exit code.
+printf '{"session_id":"<a real one>","transcript_path":"<its transcript>",
+        "hook_event_name":"PreCompact","trigger":"auto","custom_instructions":""}' \
+  | <the exact command in settings.json>; echo "EXIT=$?"
+```
+
+Exit 2 with a reason on stderr is a live gate. Exit 0 at a context you expected it to hold is the
+finding. Run the second check whenever the gate gains a new input — a session id, a model, a budget
+— because that is when it acquires a new way to silently resolve nothing.
 
 **Point `SHOULD_COMPACT_WINDOW_TOKENS` at the wall that actually binds.** The default is the model
 window, which is right on a stock install. When a proxy enforces a lower context budget (Relay ships
