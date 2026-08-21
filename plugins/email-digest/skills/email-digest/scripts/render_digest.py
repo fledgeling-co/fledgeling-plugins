@@ -50,12 +50,29 @@ DEFAULT_PALETTE = {
     "codebg":  "#EDEAE3",
 }
 
-# Ends web-safe, because Outlook falls back to Times New Roman rather than to
-# the next font in the stack.
-SANS = ('-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, '
-        "Arial, sans-serif")
-SERIF = 'Georgia, "Times New Roman", Times, serif'
-MONO = 'ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace'
+# Every stack ends web-safe, because Outlook falls back to Times New Roman
+# rather than to the next font in the stack.
+#
+# The named face at the head of each is the project's own, linked from Google
+# Fonts in the head. It loads in Apple Mail and iOS Mail, which is 62.26% of
+# opens; Gmail ignores the link and takes the fallback, which is why the
+# fallback has to be a face somebody chose rather than whatever came next.
+# Override the whole set through brand.fonts when the project's are different.
+DEFAULT_FONTS = {
+    "sans":  ('"Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", '
+              "Roboto, Helvetica, Arial, sans-serif"),
+    "serif": 'Newsreader, Georgia, "Times New Roman", Times, serif',
+    "mono":  ('"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, '
+              '"Courier New", monospace'),
+    # Hidden from Outlook by a downlevel-revealed comment: the Word engine
+    # cannot use a linked web font and has been observed to mis-handle the tag.
+    "link": ("https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600"
+             "&family=Instrument+Sans:wght@400;500;600"
+             "&family=IBM+Plex+Mono:wght@400;500&display=swap"),
+}
+SANS = DEFAULT_FONTS["sans"]
+SERIF = DEFAULT_FONTS["serif"]
+MONO = DEFAULT_FONTS["mono"]
 
 WIDTH = 600
 
@@ -116,18 +133,12 @@ def render_featured(it: dict, p: dict) -> str:
             f'style="display:block;width:100%;max-width:{WIDTH - 64}px;border:0;'
             f'border-radius:8px;" />'
             f'<div style="height:16px;line-height:16px;">&nbsp;</div>')
-    install = ""
     inst = it.get("install")
-    if isinstance(inst, dict) and inst.get("label"):
-        # A named route rather than a command. A shell line in an email asks the
-        # reader to copy it into the right window; a labelled link asks them to
-        # click, and it is the only one of the two that a phone can act on.
-        install = (
-            f'<p style="margin:0 0 14px;font-size:15px;line-height:1.6;">'
-            f'<a href="{esc(inst.get("url",""))}" style="color:{p["accent"]};'
-            f'font-weight:600;">{esc(inst["label"])}</a></p>')
-    elif inst:
-        install = (
+    # A command string still renders as a code block above the actions, because
+    # it is a thing to copy rather than a thing to press.
+    command = ""
+    if inst and not isinstance(inst, dict):
+        command = (
             f'<div style="margin:0 0 14px;padding:11px 13px;background:{p["codebg"]};'
             f'border-radius:7px;font-family:{MONO};font-size:13px;line-height:1.5;'
             f'color:{p["ink"]};word-break:break-word;">{esc(inst)}</div>')
@@ -139,50 +150,82 @@ def render_featured(it: dict, p: dict) -> str:
         f'{esc(it.get("headline") or it["title"])}</a></h2>'
         f'<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:{p["ink"]};">'
         f'{esc(it.get("body",""))}</p>'
-        f'{install}'
+        f'{command}'
+        f'{actions(it, p)}',
+        pad="0 32px 30px", tier="featured")
+
+def actions(it: dict, p: dict) -> str:
+    """One primary action, one subordinate, on a single row.
+
+    Two calls to action stacked as separate rows read as a list of two similar
+    choices, which is the shape one-primary-action exists to prevent. The reader
+    of a digest is deciding whether this is worth their attention, not deciding
+    to install: the skill's own page is the primary and the install route is the
+    secondary, and the difference is carried by fill rather than by order.
+
+    The accent appears once per card as a result. A second accent-coloured link
+    beside a filled accent button is two claims on the same emphasis, so the
+    secondary demotes to the muted foreground with an underline, which is what a
+    link looks like when a button already has the accent.
+
+    Side by side means a two-cell table here: Outlook has no flex, and
+    `display:inline-block` on the second element is not reliable enough in the
+    Word engine to hang a layout on. Under 620px the second cell becomes a block
+    so the pair stacks rather than colliding at 375px."""
+    primary = (
         f'<a href="{esc(it["url"])}" style="display:inline-block;background:{p["accent"]};'
         f'color:#FDFBF8;font-size:15px;font-weight:600;line-height:16px;padding:14px 20px;'
-        f'border-radius:7px;text-decoration:none;">Read what {esc(it["title"])} does &rarr;</a>',
-        pad="0 32px 30px", tier="featured")
+        f'border-radius:7px;text-decoration:none;">Read what {esc(it["title"])} does &rarr;</a>')
+    inst = it.get("install")
+    if not (isinstance(inst, dict) and inst.get("label")):
+        return primary
+    return (
+        f'<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>'
+        f'<td class="act" valign="middle" style="font-family:{SANS};">{primary}</td>'
+        f'<td class="act" valign="middle" style="padding-left:18px;font-family:{SANS};'
+        f'font-size:14px;line-height:1.5;">'
+        f'<a href="{esc(inst.get("url",""))}" style="color:{p["muted"]};'
+        f'text-decoration:underline;">{esc(inst["label"])}</a></td>'
+        f'</tr></table>')
 
 
 SPOT_COL = 168      # 3 x 168 + 2 x 16 gutter = 536, the card's inner width
 SPOT_GUTTER = 16
+SPOT_ICON = 112
 
 def render_spotlight_row(items: list[dict], p: dict) -> str:
-    """The middle tier, three across in one row.
+    """The middle tier, three across in one row, each led by a large icon.
+
+    An icon rather than a banner here, and the reason is the column: a banner is
+    a wide crop, and a wide crop at 168px is a strip of colour with an
+    illegible wordmark inside it. An icon is drawn to survive being small, so at
+    112px it still reads as the thing it depicts. The banner keeps the featured
+    tier, where the column is wide enough for it to mean something.
 
     Each column carries its own `data-tier`, because the gate counts tier
-    markers rather than rows; putting one marker on the row would report a
-    three-item tier as one and every count below it would be wrong.
+    markers rather than rows; one marker on the row would report a three-item
+    tier as one and every count below it would be wrong.
 
     A real table with pixel widths rather than anything modern: Outlook renders
-    through the Word engine, which has no flex and no grid but lays out a table
+    through the Word engine, which has no flex and no grid but lays a table out
     correctly. The media query collapses the columns to full width on a narrow
-    screen, and the clients that ignore it are the desktop ones that have the
-    room anyway.
-
-    The banner is deliberately narrow rather than square. NN/g's finding is
-    about *thumbnails* rating below full-width photography, and this is neither:
-    it is the same wide crop at a third of the featured tier's prominence. At
-    this width the artwork reads as colour and shape rather than as a wordmark,
-    so the title below it is doing the naming."""
+    screen, and the clients that ignore it are the desktop ones with the room."""
     cols = []
     for n, it in enumerate(items):
-        banner = ""
-        if it.get("bannerUrl"):
-            banner = (
-                f'<img src="{esc(it["bannerUrl"])}" width="{SPOT_COL}" '
-                f'height="{int(SPOT_COL * 0.325)}" alt="" class="banner" '
-                f'style="display:block;width:100%;max-width:{SPOT_COL}px;border:0;'
-                f'border-radius:6px;" />'
-                f'<div style="height:10px;line-height:10px;">&nbsp;</div>')
+        icon = ""
+        if it.get("iconUrl"):
+            icon = (
+                f'<img src="{esc(it["iconUrl"])}" width="{SPOT_ICON}" '
+                f'height="{SPOT_ICON}" alt="" class="spot-icon" '
+                f'style="display:block;width:{SPOT_ICON}px;height:{SPOT_ICON}px;'
+                f'max-width:100%;border:0;" />'
+                f'<div style="height:12px;line-height:12px;">&nbsp;</div>')
         cols.append(
             f'<td class="col" data-tier="spotlight" width="{SPOT_COL}" valign="top" '
             f'style="width:{SPOT_COL}px;font-family:{SANS};text-align:left;">'
-            f'{banner}'
+            f'{icon}'
             f'<h3 style="margin:0 0 4px;font-family:{SERIF};font-size:17px;line-height:1.28;'
-            f'font-weight:700;color:{p["ink"]};mso-line-height-rule:exactly;">'
+            f'font-weight:600;color:{p["ink"]};mso-line-height-rule:exactly;">'
             f'<a href="{esc(it["url"])}" style="color:{p["ink"]};text-decoration:none;">'
             f'{esc(it["title"])}</a></h3>'
             f'<p style="margin:0;font-size:13px;line-height:1.5;color:{p["muted"]};">'
@@ -196,13 +239,21 @@ def render_spotlight_row(items: list[dict], p: dict) -> str:
         f'width="100%"><tr>{"".join(cols)}</tr></table>',
         pad="0 32px 26px")
 
+TAIL_ICON = 24
+
 def render_oneline(items: list[dict], p: dict) -> str:
-    """Title plus a short tag, grouped under category headings where they exist.
+    """Title plus a short tag, an icon per row, grouped under category headings.
 
     Primary links sit left: Kumar and Salo's peer-reviewed analysis found
     newsletter click-through follows a U-pattern with left-region links
     outperforming right, which is the one position finding measured in email
-    rather than borrowed from the web."""
+    rather than borrowed from the web.
+
+    The icon is decorative and carries `alt=""`. It is a two-cell row rather
+    than a floated image because the Word engine does not float reliably, and
+    the text cell has to hold its own left edge when the title wraps. Point it
+    at a small derivative: a tail of eighteen rows aimed at 256px card icons
+    costs the recipient most of a megabyte to render a 24px square."""
     groups: dict[str, list[dict]] = {}
     for it in items:
         groups.setdefault(it.get("group") or "More", []).append(it)
@@ -212,15 +263,24 @@ def render_oneline(items: list[dict], p: dict) -> str:
             f'<h3 style="margin:0 0 10px;font-family:{MONO};font-size:11px;'
             f'letter-spacing:0.12em;text-transform:uppercase;font-weight:400;'
             f'color:{p["muted"]};mso-line-height-rule:exactly;">{esc(name)}</h3>')
-        lis = "".join(
-            f'<tr><td style="padding:0 0 9px;font-family:{SANS};font-size:15px;'
-            f'line-height:1.5;color:{p["ink"]};">'
-            f'<a href="{esc(r["url"])}" style="color:{p["ink"]};text-decoration:underline;">'
-            f'{esc(r["title"])}</a>'
-            + (f'<span style="color:{p["muted"]};"> &middot; {esc(r.get("oneline") or "")}</span>'
-               if r.get("oneline") else "")
-            + '</td></tr>'
-            for r in rows)
+        lis = ""
+        for r in rows:
+            icon = (f'<img src="{esc(r["iconUrl"])}" width="{TAIL_ICON}" '
+                    f'height="{TAIL_ICON}" alt="" '
+                    f'style="display:block;width:{TAIL_ICON}px;height:{TAIL_ICON}px;'
+                    f'border:0;" />') if r.get("iconUrl") else "&nbsp;"
+            tag = (f'<span style="color:{p["muted"]};"> &middot; '
+                   f'{esc(r.get("oneline") or "")}</span>') if r.get("oneline") else ""
+            lis += (
+                f'<tr>'
+                f'<td width="{TAIL_ICON}" valign="top" '
+                f'style="width:{TAIL_ICON}px;padding:0 12px 11px 0;font-size:0;'
+                f'line-height:0;">{icon}</td>'
+                f'<td valign="top" style="padding:0 0 11px;font-family:{SANS};'
+                f'font-size:15px;line-height:1.5;color:{p["ink"]};">'
+                f'<a href="{esc(r["url"])}" style="color:{p["ink"]};'
+                f'text-decoration:underline;">{esc(r["title"])}</a>{tag}</td>'
+                f'</tr>')
         out.append(f'<table role="presentation" cellpadding="0" cellspacing="0" '
                    f'border="0" width="100%">{lis}</table>'
                    f'<div style="height:14px;line-height:14px;">&nbsp;</div>')
@@ -230,6 +290,9 @@ def render_oneline(items: list[dict], p: dict) -> str:
 def render(payload: dict) -> tuple[str, str]:
     p = {**DEFAULT_PALETTE, **(payload.get("brand", {}).get("palette") or {})}
     brand = payload.get("brand", {})
+    fonts = {**DEFAULT_FONTS, **(brand.get("fonts") or {})}
+    global SANS, SERIF, MONO
+    SANS, SERIF, MONO = fonts["sans"], fonts["serif"], fonts["mono"]
     issue = payload.get("issue", {})
     items = assign_tiers(payload["items"],
                          featured=payload.get("featured", 2),
@@ -263,10 +326,30 @@ def render(payload: dict) -> tuple[str, str]:
               f'color:{p["muted"]};">{esc(summary.get("counts",""))}</p>'
               if summary.get("counts") else "")
 
+    # The mark reads as a favicon at 28px and as a masthead at 44. Nothing about
+    # a digest is cramped for vertical room at the top, and the first thing the
+    # reader identifies should be who it is from.
     logo = ""
     if brand.get("logoUrl"):
-        logo = (f'<img src="{esc(brand["logoUrl"])}" width="28" height="28" '
-                f'alt="" style="display:block;border:0;border-radius:7px;" />')
+        logo = (f'<img src="{esc(brand["logoUrl"])}" width="44" height="44" '
+                f'alt="" style="display:block;width:44px;height:44px;border:0;'
+                f'border-radius:10px;" />')
+
+    # Built the way the site builds it rather than as one monospace string:
+    # the name in the display face, a hairline separator, the section in mono
+    # caps. A wordmark that does not match the site is the first thing a reader
+    # already familiar with it notices.
+    name, _, section = str(brand.get("wordmark", "")).partition("\u00b7")
+    wordmark = (
+        f'<span style="font-family:{SERIF};font-size:19px;font-weight:600;'
+        f'letter-spacing:-0.01em;color:{p["ink"]};">{esc(name.strip())}</span>')
+    if section.strip():
+        wordmark += (
+            f'<span style="font-family:{SERIF};font-size:17px;color:{p["hairline"]};'
+            f'padding:0 8px;">/</span>'
+            f'<span style="font-family:{MONO};font-size:12px;font-weight:500;'
+            f'letter-spacing:0.1em;text-transform:uppercase;color:{p["muted"]};">'
+            f'{esc(section.strip())}</span>')
 
     sections = []
     if fe:
@@ -299,6 +382,7 @@ def render(payload: dict) -> tuple[str, str]:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(payload.get('subject',''))}</title>
 <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+<!--[if !mso]><!--><link href="{esc(fonts['link'])}" rel="stylesheet"><!--<![endif]-->
 <style>
 @media (prefers-color-scheme: dark){{
   .bg{{background:#1A1C20 !important}}
@@ -311,6 +395,8 @@ def render(payload: dict) -> tuple[str, str]:
   .pad{{padding-left:20px !important;padding-right:20px !important}}
   .col{{display:block !important;width:100% !important;padding-bottom:22px !important}}
   .gut{{display:none !important}}
+  .act{{display:block !important;width:100% !important;padding-left:0 !important}}
+  .act + .act{{padding-top:14px !important}}
 }}
 </style>
 </head>
@@ -322,8 +408,8 @@ def render(payload: dict) -> tuple[str, str]:
 
 <tr><td align="left" style="padding:28px 32px 18px;font-family:{SANS};text-align:left;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-    <td style="padding-right:10px;">{logo}</td>
-    <td style="font-family:{MONO};font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:{p['muted']};" class="tm">{esc(brand.get('wordmark',''))}</td>
+    <td style="padding-right:13px;">{logo}</td>
+    <td valign="middle" class="tm">{wordmark}</td>
   </tr></table>
 </td></tr>
 

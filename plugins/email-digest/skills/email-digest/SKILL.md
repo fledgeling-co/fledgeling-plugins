@@ -70,26 +70,36 @@ Prominence earns the investment; ranking the tail does not.
 
 | Tier | Count | Treatment |
 |---|---|---|
-| Featured | 2-4, default 2 | Full-column banner, headline, 25-55 words, install line, one text CTA |
-| Spotlight | 2-5, default 3 | One row, banners side by side, title, one line |
-| Also shipped | everything else | Title plus a short tag, grouped under category headings |
+| Featured | 2-4, default 2 | Full-column banner, headline, 25-55 words, one primary action and one subordinate |
+| Spotlight | 2-5, default 3 | One row, three large icons side by side, title, one line |
+| Also shipped | everything else | An icon, the title and a short tag, grouped under category headings |
 
-The middle tier carries a **narrower banner rather than a thumbnail**, and the
-distinction is load-bearing. NN/g's finding is that thumbnails were rated less
-valuable than full-width photography; a narrow banner is the same wide crop at
-less prominence, which is what a second tier is for. A square icon beside text
-is the shape that tested badly.
+**A banner is a wide crop, so it needs a wide column.** The featured tier has
+one; a three-across row does not, and a banner at 168px is a strip of colour
+with an illegible wordmark inside it. So the spotlight row leads with a **large
+icon** instead, at around 112px, because an icon is drawn to survive being
+small. The tail rows carry the same icon at 24px.
+
+This is not the shape NN/g measured badly. That finding is about a **thumbnail
+beside a paragraph** competing with the text it sits next to; an icon leading a
+column, at four times a thumbnail's size, with a title under it rather than
+beside it, is a different object. If you put a small square next to a line of
+body copy, you have built the thing that tested badly.
+
+**Point the tail at a small derivative.** Eighteen rows aimed at 256px card
+icons cost the recipient most of a megabyte to render a 24px square.
+`email_assets.py --icon <src> --size 24` writes the 48px file; roughly 3KB each.
 
 The row is a real table with pixel column widths, collapsing to full width under
 620px. Outlook has no flex and no grid but lays a table out correctly, and the
 clients that ignore the media query are the desktop ones with the room anyway.
 
-**Conform the banners to one ratio before they share a row.** Sources drift off
-whatever house ratio a project has, and at full width nobody notices; three of
-them in a row align at the top and finish at three different heights, which
-reads as a broken layout rather than as a mismatched asset. `email_assets.py
---aspect 1000:325` pads the short ones with their own edge colour rather than
-cropping the artwork.
+**Where banners do share a row, conform them to one ratio first.** Sources drift
+off whatever house ratio a project has, and at full width nobody notices; in a
+row they align at the top and finish at different heights, which reads as a
+broken layout rather than as a mismatched asset. `email_assets.py --aspect
+1000:325` pads the short ones with their own edge colour rather than cropping
+the artwork.
 
 Two rules that are easy to get wrong:
 
@@ -146,6 +156,24 @@ flattened to literals, since Gmail supports `var()` but not the declaration),
 the type scale, and how much visual weight actually separates the three tiers.
 The renderer below ships a default palette so it runs standalone; that default is
 a starting point, not a design.
+
+Two things `design-craft` will decide differently from the default, and both
+are worth stating because they are easy to get backwards:
+
+- **Take the fonts from the project, and let each stack end web-safe.** A linked
+  web font loads in Apple Mail and iOS Mail, which is 62.26% of opens; Gmail
+  ignores the link entirely. So the fallback is not a formality, it is what most
+  Gmail readers actually see, and it should be a face somebody chose. Hide the
+  `<link>` from Outlook with a downlevel-revealed comment. Pass the stacks
+  through `brand.fonts`.
+- **One primary action per card, and the accent appears once.** Two calls to
+  action stacked as separate rows read as a list of two similar choices. Put
+  them on one row as a two-cell table, give the primary the filled accent, and
+  demote the secondary to the muted foreground with an underline: an
+  accent-coloured link beside an accent-filled button is two claims on the same
+  emphasis. In a digest the primary is the item's own page, because the reader
+  is deciding whether this is worth their attention rather than deciding to
+  install.
 
 ```bash
 python3 scripts/render_digest.py payload.json --out-html mail.html --out-text mail.txt
