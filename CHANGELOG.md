@@ -6,6 +6,44 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.4.0: icons where a banner has no room, and one primary action
+
+Routed through `ux-craft` and `design-craft`, which is what the SKILL.md has
+asked for since 1.1.0.
+
+**The spotlight row leads with a large icon rather than a banner.** A banner is
+a wide crop and a wide crop at 168px is a strip of colour with an illegible
+wordmark inside it; an icon is drawn to survive being small. The tail rows carry
+the same icon at 24px. This is not the shape NN/g measured badly: that finding
+is about a thumbnail beside a paragraph, competing with the text it sits next
+to, and an icon four times that size leading a column with its title underneath
+is a different object.
+
+The tail points at a 48px derivative rather than the 256px card icon, because
+eighteen rows of the latter cost the recipient most of a megabyte to render a
+24px square. `email_assets.py --icon <src> --size 24` writes them at about 3KB
+each, and `build-catalogue.mjs` now copies any `assets/icon-email-48.png` into
+`public/icons/<name>-48.png` alongside the banner derivatives it already copied.
+
+**Two calls to action became one primary and one subordinate on a single row.**
+Stacked as separate rows they read as a list of two similar choices, which is
+the shape one-primary-action exists to prevent. The item's own page takes the
+filled accent, because a digest reader is deciding whether this is worth their
+attention rather than deciding to install, and the install route demotes to the
+muted foreground with an underline. An accent-coloured link beside an
+accent-filled button is two claims on the same emphasis.
+
+**The type is the project's own.** Newsreader, Instrument Sans and IBM Plex Mono
+in place of Georgia and the system stack, linked from Google Fonts behind a
+downlevel-revealed comment so the Word engine never sees the tag. Gmail ignores
+the link entirely, so every stack still ends web-safe: that fallback is what
+most Gmail readers actually see, not a formality. Pass stacks through
+`brand.fonts`. The masthead now builds its wordmark the way a site header does,
+splitting on the middle dot, and the mark goes from 28px to 44px.
+
+Also untracks `site/public/banners/`, which `build-catalogue.mjs` generates from
+each plugin's committed derivative and which was being committed twice.
+
 ### email-digest 1.3.0: the middle tier is a row, and install is a route
 
 The three spotlight items sat stacked, which spent three full-width bands on the

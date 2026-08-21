@@ -418,6 +418,12 @@ function build() {
       if (existsSync(src)) copyFileSync(src, join(OUT_BANNERS, `${name}-${width}.png`));
     }
 
+    // The same argument one size down. A digest's tail carries an icon per row,
+    // and pointing eighteen of those at the 256px card icon costs the recipient
+    // most of a megabyte to render a 24px square. The 48px derivative is ~3KB.
+    const iconEmail = join(dir, "assets", "icon-email-48.png");
+    if (existsSync(iconEmail)) copyFileSync(iconEmail, join(OUT_ICONS, `${name}-48.png`));
+
     // --- banner -------------------------------------------------------------
     // Every plugin README in this marketplace opens with assets/banner.png, and
     // until this check existed nothing anywhere verified it. tui-craft shipped

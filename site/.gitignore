@@ -9,3 +9,4 @@ next-env.d.ts
 # Generated at build from ../plugins/*/assets — never edited by hand.
 public/icons/
 lib/embeddings.json
+public/banners/
