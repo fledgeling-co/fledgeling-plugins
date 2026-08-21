@@ -2,6 +2,28 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.3 — 2026-08-21
+
+`campaign.py check` and `capture-lineage.py --gate` disagreed about declared shares, and the
+disagreement made one of them unfollowable.
+
+**The blocker told you to do something it could not read.** Two published surfaces resolving to
+one address produce one image under two subject ids, which the shared pass is built to accept
+once it is declared: `capture-lineage.py` reads `sharesWith` + `sharesReason` from
+`captures.json` and counts the group apart. `check` read neither, blocked unconditionally, and
+printed *"Declare a genuine share in captures.json, or capture each subject"* — where the first
+branch was ignored and the second reproduces the same bytes, because a genuinely shared surface
+photographs identically however many times you point the shutter at it. Neither branch of the
+instruction could clear the gate it was attached to. Measured on a real campaign where
+`/settings` and `/settings/account` both resolve to `/dashboard?settings=account`: seven share
+groups, all declared, gate green, `check` red with nothing to do about it.
+
+`check` now reads the same declaration, requires every member of a group to name the others —
+declaring one side of a pair is not a declaration — and reports declared shares as their own
+counted line rather than folding them into the duplicate-shot blocker. An undeclared duplicate
+still blocks, and still blocks with the same message, so the only thing that changed is that
+the message now has a satisfiable branch.
+
 ## 0.9.2 — 2026-08-20
 
 The blind-mutation check from 0.9.0 was measuring itself. Run against a real suite it reported
