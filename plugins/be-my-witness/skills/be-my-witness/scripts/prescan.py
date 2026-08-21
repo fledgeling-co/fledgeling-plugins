@@ -132,6 +132,46 @@ def cell_stats(w, h, px, cols, rows):
     return cells
 
 
+def largest_faint_region(cells, cols, rows):
+    """The biggest CONTIGUOUS run of faint cells, as a fraction of the grid.
+
+    The global faint/contentful test below cannot see a PARTIAL skeleton, and a
+    partial skeleton is the common one: an app shell paints instantly while one
+    data region streams, so the frame is mostly real content and the placeholder
+    is local. Measured on a real capture of that shape, the global rule read
+    `settled: true` while a fifth of the frame was placeholder bars.
+
+    Contiguity is the signal a global fraction throws away. This is reported and
+    never gated, because a large faint region is also what a modal scrim looks
+    like -- on the same 12-capture sample the true skeleton sat at 0.24 and a
+    correctly-rendered modal at 0.26. It says "go and look here", not "fail".
+    """
+    faint = [0.04 < c["range"] <= 0.28 for c in cells]
+    seen = [False] * len(cells)
+    best, best_box = 0, None
+    for i in range(len(cells)):
+        if not faint[i] or seen[i]:
+            continue
+        stack, comp = [i], []
+        seen[i] = True
+        while stack:
+            j = stack.pop()
+            comp.append(j)
+            r, c = divmod(j, cols)
+            for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < rows and 0 <= nc < cols:
+                    k = nr * cols + nc
+                    if faint[k] and not seen[k]:
+                        seen[k] = True
+                        stack.append(k)
+        if len(comp) > best:
+            best = len(comp)
+            rs = [divmod(j, cols)[0] for j in comp]
+            cs = [divmod(j, cols)[1] for j in comp]
+            best_box = [min(cs), min(rs), max(cs), max(rs)]
+    return best / len(cells) if cells else 0.0, best_box
+
 def analyse(path: Path, cols=16, rows=10):
     w, h, px = load(path)
     cells = cell_stats(w, h, px, cols, rows)
@@ -145,8 +185,12 @@ def analyse(path: Path, cols=16, rows=10):
     faint = sum(1 for r in ranges if 0.04 < r <= 0.28) / len(ranges)
     blank = sum(1 for r in ranges if r <= 0.04) / len(ranges)
 
+    region, region_box = largest_faint_region(cells, cols, rows)
+
     return {
         "path": str(path), "width": w, "height": h,
+        "largestFaintRegion": round(region, 4),
+        "largestFaintRegionCells": region_box,
         "aspect": round(w / h, 4) if h else None,
         "meanLuminance": round(mean, 4),
         "contentfulCells": round(contentful, 4),
@@ -197,6 +241,17 @@ def verdicts(a, ref=None):
             f"{a['faintCells']:.0%} of cells are faint placeholder blocks and only "
             f"{a['contentfulCells']:.0%} carry real content — the signature of a loading "
             "skeleton. Capture again once the surface settles."
+        )
+    # Reported, never gated -- see largest_faint_region(). A partial skeleton
+    # passes the rule above because the shell around it is real content.
+    out["largestFaintRegion"] = a["largestFaintRegion"]
+    if out["settled"] and a["largestFaintRegion"] >= 0.15:
+        notes.append(
+            f"{a['largestFaintRegion']:.0%} of the frame is ONE contiguous faint region "
+            f"at grid cells {a['largestFaintRegionCells']} while the frame overall reads as "
+            f"settled ({a['contentfulCells']:.0%} contentful). That is the shape of a partial "
+            "skeleton -- a shell that painted while one region was still loading -- and also "
+            "the shape of a modal scrim. Look at that region before judging it."
         )
 
     if ref:
@@ -274,7 +329,8 @@ def main():
     v, notes = verdicts(a, ref)
     result = {
         "image": {k: a[k] for k in ("path", "width", "height", "aspect", "meanLuminance",
-                                    "contentfulCells", "faintCells", "blankCells")},
+                                    "contentfulCells", "faintCells", "blankCells",
+                                    "largestFaintRegion", "largestFaintRegionCells")},
         "reference": {k: ref[k] for k in ("path", "width", "height", "aspect")} if ref else None,
         "checks": v,
         "notes": notes,
