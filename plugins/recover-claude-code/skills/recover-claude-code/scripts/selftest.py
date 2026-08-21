@@ -232,6 +232,45 @@ def main() -> int:
 
         check("6. the item id is read off the agent's own prompt",
               bool(a2) and a2["item"] == "ORD-0081", f"item={a2 and a2['item']}")
+
+        # --- what open_tabs.py does with the scan -------------------------------
+        sys.path.insert(0, str(Path(__file__).parent))
+        import open_tabs
+
+        fresh_run = {"run_id": "wf_fresh", "script_path": None, "unfinished": True, "owed": 1,
+                     "journal": {"results": 0, "distinct_calls": 1, "pending_keys": ["k"],
+                                 "started_attempts": 1, "pending_agents": []},
+                     "agents": [{"agent_id": "afresh", "transcript": "/tmp/f.jsonl", "lines": 90,
+                                 "quiet_for": 900, "item": "NEW-1", "prompt_head": "",
+                                 "mid_turn": False, "unanswered_tools": [],
+                                 "terminal_error": None}]}
+        stale_run = dict(fresh_run, run_id="wf_stale",
+                         agents=[dict(fresh_run["agents"][0], agent_id="astale",
+                                      quiet_for=200_000, item="OLD-1")])
+        both = {"session_id": "s", "project": "-tmp", "cwd": "/tmp", "quiet_for": 900,
+                "mid_turn": False, "unanswered_tools": [], "state": "STOPPED",
+                "unfinished_runs": [fresh_run, stale_run], "loose_subagents": []}
+        runs, loose = open_tabs.in_flight(both, 3600)
+        check("7. a run abandoned before the crash is not treated as interrupted",
+              [r["run_id"] for r in runs] == ["wf_fresh"],
+              f"kept={[r['run_id'] for r in runs]}")
+
+        loose_only = dict(both, unfinished_runs=[], loose_subagents=[
+            {"agent_id": "aloose", "transcript": "/tmp/l.jsonl", "lines": 313, "quiet_for": 880,
+             "item": None, "prompt_head": "You are the runner for R17", "mid_turn": False,
+             "unanswered_tools": [], "terminal_error": None}])
+        _, loose = open_tabs.in_flight(loose_only, 3600)
+        check("8. a session whose only in-flight work is a background agent is recoverable",
+              len(loose) == 1, f"loose={len(loose)}")
+
+        check("9. a cwd containing a dash is not guessed from the project directory name",
+              open_tabs.resolve_cwd({"project": "-Users-x-Dev-mcp-router", "cwd": None}) is None,
+              "a lossy guess must be rejected, not passed to cd")
+
+        brief = open_tabs.write_brief(root, 99, both, runs, [])
+        check("10. the brief names an agent that ended without returning a result",
+              "NEW-1" in brief.read_text() and "OLD-1" not in brief.read_text(),
+              "fresh agent listed, abandoned one omitted")
     finally:
         shutil.rmtree(root, ignore_errors=True)
 

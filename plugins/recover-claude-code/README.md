@@ -59,8 +59,9 @@ rebooted and I lost everything", "the last recovery started new agents from scra
 | Script | What it does |
 |---|---|
 | `scan_crashed.py` | Read-only survey: liveness, owed work, agent states, script paths |
+| `kill_orphans.py` | Stops sessions that outlived their terminal; read-only until `--kill` |
 | `promote_agent.py` | Turns a dead subagent's sidechain transcript into a resumable session |
-| `open_tabs.py` | Opens a tab per session and resumes it; `--dry-run` writes everything and opens nothing |
+| `open_tabs.py` | Opens a tab per session and resumes it; `--dry-run` writes everything and opens nothing, `--include-idle` also reopens sessions owed nothing |
 | `splice_result.py` | Records a finished agent's **real** result in a **copy** of a journal; refuses to invent one |
 | `selftest.py` | Builds a fixture in the shapes a real crash leaves and asserts the scan reads it right |
 

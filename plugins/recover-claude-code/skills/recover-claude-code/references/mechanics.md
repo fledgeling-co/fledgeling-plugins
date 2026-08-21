@@ -76,10 +76,20 @@ crash produced `{"type":"user","isMeta":true,"message":{…"Continue from where 
 off."}}` in every resumed session, and the user pressed escape to stop it. Handing over a
 brief instead replaces that turn with one that says what actually happened.
 
-Two related environment variables are **read, not measured**:
+`CLAUDE_CODE_RESUME_PROMPT` is now **measured**. Four sessions that were idle when the process
+died were resumed with no positional prompt and that variable set to a stand-down line. Two came
+back idle, so no continue prompt fired for them; on the third the auto-continue fired and the
+transcript records the *stand-down text* as the injected `isMeta` user turn, not "Continue from
+where you left off." So the variable is a working guard for an idle reopen: it does not stop the
+auto-continue, it decides what the auto-continue says. Whether it fires at all still depends on
+Claude Code's own `interrupted_turn` classification, which is why the guard matters — you cannot
+predict which sessions will get one.
+
+The related variable is still **read, not measured**:
 `CLAUDE_CODE_RESUME_PROMPT` replaces the auto-continue text
-(`EWi(){return V.CLAUDE_CODE_RESUME_PROMPT||"Continue from where you left off."}`), and
-`CLAUDE_CODE_RESUME_INTERRUPTED_TURN_MAX_AGE_MS` gates a suppression path. An attempt to
+(`EWi(){return V.CLAUDE_CODE_RESUME_PROMPT||"Continue from where you left off."}`, now
+confirmed in practice), while `CLAUDE_CODE_RESUME_INTERRUPTED_TURN_MAX_AGE_MS` gates a
+suppression path and remains unexercised. An attempt to
 exercise both against a hand-crafted interrupted transcript did not reproduce the
 `interrupted_turn` classification, so neither is relied on here. The positional prompt is
 the measured route.
@@ -188,3 +198,42 @@ environment from the GUI and is unaffected.
   a 176-line commit that closed its blocking finding. Reconcile against branch ancestry
   before deciding anything is outstanding.
 - **A locked worktree naming a live pid is legitimate.** Check the pid before unlocking.
+
+
+## Measured on 2026-08-22 (Ghostty 1.3.1, Claude Code 2.1.239, macOS 26.6)
+
+A Ghostty crash took 22 sessions down at once. Recovering them turned up four behaviours that
+the tooling had wrong, all of them silent.
+
+**Sessions outlive the terminal.** Four were still running twenty minutes after the window
+went, two of them `busy`, one re-arming a `caffeinate -i -t 300` child. Nothing in the session
+registry marks a session as detached; the discriminator that works is the controlling terminal
+(`ps -o tty=`), which reads `??` for a survivor and `ttysNNN` for a tab. Parentage does not
+work: every healthy tab is parented to `login`, so a test of "not in my own process tree"
+condemns every session except the caller's.
+
+**A supervisor can restart what you kill.** Stopping the transient `claude daemon run` process
+brought two sessions back within seconds, under new pids and with their original session ids.
+The supervisor was Relay (`~/Dev/perch/macos/dist/Relay.app`, an app of the operator's own).
+Both respawned sessions had **no transcript file at all**, which is what separates a warm-pool
+slot from recovered work — the pool slot has a registered session id and zero conversation.
+
+**`tab group 1 of window 1` does not exist on a single-tab window.** Ghostty builds the tab
+group only when a window holds two or more tabs, so the count probe raised
+`Can't get tab group 1 of window 1. Invalid index. (-1719)` and failed all ten tabs before
+clicking anything. Nothing was mistyped, because the probe ran before the click. Treating a
+missing tab group as a count of 1 fixes it; polling for the count to move rather than sleeping
+a fixed 1.2s also removed a second-order flake on a cold Ghostty.
+
+**"Owed a result" is not the same as "interrupted".** A session running for days accumulates
+journals from runs abandoned long before the crash. One held 21 unfinished runs of which 3 were
+the crash's; another 11, of which none were. Handing all of them to a recovered session invites
+it to chase work that was deliberately dropped. The usable test is each agent's own quiet time
+against the session's: an agent still writing within an hour of the process dying was cut by it.
+
+Two smaller ones. A session whose transcript ends in a run of `queue-operation` entries records
+no `cwd` in its tail, and the project directory name is not a safe substitute because the
+encoding replaces separators with dashes and `Dev/mcp-router` already contains one — reading
+the last `"cwd"` from the transcript body is exact. And a session driving subagents directly
+owes nothing to any journal, so a target filter keyed on workflow runs drops it silently; one
+such session held six in-flight agents, two planners and a runner among them.
