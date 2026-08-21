@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 - 2026-08-21
+
+Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.
+
+- **The referral lanes are `defer`'s classes now.** Gate 4 routes a technical fork to `--task referral`; a panel is still three families, chosen by the same measured headroom rather than by a list written here.
+- **`gpt-5.6-sol` drops from `max` to `medium` and grok moves to `4.6` at `xhigh`.** The measured `grok models` listing in the CLI-facts block is left at what it actually printed on 16 Aug.
+
 ## 1.3.0 - 2026-08-16
 
 The gate stops being a filter that ends in a question and becomes one that ends in a decision. Referral to another model family is now a step rather than an option, and a fork you can settle is one you settle.

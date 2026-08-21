@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 - 2026-08-21
+
+Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.
+
+- **`references/model-lanes.md` is rewritten rather than patched.** It now reads as this pipeline's view of `defer`'s table: which class each stage belongs to, and what that class allows.
+- **Every `model_reasoning_effort="max"` becomes `"medium"`, and the grep that verifies it moves with it.** The recorded research panel behind the rebuild plan keeps the models that actually ran it.
+
 ## 0.3.0 — 2026-08-20
 
 `verify` gathered typed evidence and graded it out of family, and every rule about what closes a

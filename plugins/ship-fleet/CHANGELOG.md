@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0 - 2026-08-21
+
+Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.
+
+- **The fleet-start lane check and the three review gates move to `gpt-5.6-sol` at `medium`.** The wire check that reads `reasoning effort:` out of the codex header moves with them, so a run at the wrong effort is still a lane failure rather than a silent pass.
+
 ## 2.3.1 - 2026-08-21
 
 - Correction from the research panel's fourth member: a tool withheld from an agent's context produces no refusal event at all, because a denied tool's definition is removed from the request. Surfacing refusals is therefore a fix for a different failure, and the capability manifest is the only surface an absence can appear on.

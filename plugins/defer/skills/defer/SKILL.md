@@ -100,6 +100,17 @@ Largest wins. Where two lanes sit within 20% of each other the meters cannot
 honestly separate them, so the tie breaks on published price: Gemini $4.50, GLM
 $5.80, Grok $8.00 per blended Mtok.
 
+Balancing exists because the depth is uneven. Opus is the primary model here, so
+Claude was bought deep — nine accounts carried a live seven-day meter on
+2026-08-21, the emptiest at 41% — while xAI, Z.AI, Google and OpenAI are one
+account each, and grok and codex were already spent that day. So the Claude
+classes name a model outright and do not rank, and the two fanning-out classes
+rank across grok, GLM and Gemini precisely because running the nominal best every
+time empties a single-account lane inside a week. The scarce lanes are still
+worth spending on `completeness`, which excludes Claude entirely: Claude checking
+Claude is not an independent check, and that is the one thing the deeper pool
+cannot buy.
+
 Meters come in two tiers and the report always says which. **Claude and Codex
 report a real utilization percentage** the vendor computed, already on disk —
 Relay's `usage.json` and codex's own `rate_limits` payload. **Grok, GLM and
