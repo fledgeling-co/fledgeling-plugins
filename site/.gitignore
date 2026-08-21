@@ -10,3 +10,7 @@ next-env.d.ts
 public/icons/
 lib/embeddings.json
 public/banners/
+
+# Operational snapshots written when a queued send is held. Database state,
+# not repo content.
+.digest-held-*.json
