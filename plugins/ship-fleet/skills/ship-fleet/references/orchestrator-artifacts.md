@@ -31,11 +31,11 @@ branches), correct drifted rows, then continue filling slots. Rules:
   post-compaction re-context hooks per codex-cli.md), else Cursor the executor lanes,
   for mechanical plan-scoped edits only when it saves Opus tokens; Opus verifies and
   fixes; fall back to Opus freely.
-- Review gates OUT OF FAMILY on codex gpt-5.6-sol at max effort, read-only: the triage
+- Review gates OUT OF FAMILY on codex gpt-5.6-sol at medium effort, read-only: the triage
   spec review, the plan review gate, and work Phase D's completeness critic. Mandatory
   where available and not opted out; exempt from the revert-rate kill-switch; an
   in-family fallback is a LOGGED downgrade in the artifact and the ledger, never a
-  silent pass. Bound every call (perl alarm 600), verify 'reasoning effort: max' in the
+  silent pass. Bound every call (perl alarm 600), verify 'reasoning effort: medium' in the
   captured log, and treat an empty -o file as a lane failure rather than a pass.
 - EXTERNAL-CLI EGRESS + OPT-OUT: every codex call ships the artifact and every file it
   opens to OpenAI ('-s read-only' restricts writes, NOT egress). This repo's setting:

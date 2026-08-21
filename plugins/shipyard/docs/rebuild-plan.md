@@ -1,7 +1,7 @@
 # Ship pipeline rebuild — merged design plan
 
 **Date:** 2026-08-15 · **Branch:** `ship-pipeline-rebuild`
-**Sources merged:** four intake reads (diolog ship-feature/ship-fleet/feature-spec-pipeline; diolog-tasks-pipeline; fledgeling ship-armada + clarify; mattpocock/skills incl. wayfinder; eve-software-factory-template), the trawl feedback corpus (incl. `~/Dev/dAIolog/docs/reviews/pipeline-skills-improvement-analysis.md` — the WEB-4905 110-ticket audit, 46% delivered-as-specified), a four-backend Dossier research panel (OpenAI gpt-5.6-terra, Gemini, Perplexity sonar-deep-research, xAI grok-4.3; ~$9.70; fabrication check PASS on the two load-bearing reports), and the three Anthropic prompting documents read in full.
+**Sources merged:** four intake reads (diolog ship-feature/ship-fleet/feature-spec-pipeline; diolog-tasks-pipeline; fledgeling ship-armada + clarify; mattpocock/skills incl. wayfinder; eve-software-factory-template), the trawl feedback corpus (incl. `~/Dev/dAIolog/docs/reviews/pipeline-skills-improvement-analysis.md` — the WEB-4905 110-ticket audit, 46% delivered-as-specified), a four-backend Dossier research panel (OpenAI gpt-5.6-terra, Gemini, Perplexity sonar-deep-research, xAI grok-4.6; ~$9.70; fabrication check PASS on the two load-bearing reports), and the three Anthropic prompting documents read in full.
 
 ## The shape
 

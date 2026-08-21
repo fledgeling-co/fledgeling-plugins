@@ -68,7 +68,7 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
 
 6. **Out-of-family spec review (mandatory where available).** Before the status flips to
    `To Do`, the written verdict + assumptions go to a reviewer outside Claude's family — the
-   ordered lanes in `second-opinion-lanes.md` (codex `gpt-5.6-sol` at `max` first; `agy`, then
+   ordered lanes in `second-opinion-lanes.md` (codex `gpt-5.6-sol` at `medium` first; `agy`, then
    `grok` when codex is down), read-only, grounded in the codebase, per the R1 contract in
    `${CLAUDE_PLUGIN_ROOT}/references/codex-cli.md`. Egress and the repo opt-out are checked per
    invocation; a fully in-family fallback is recorded as a downgrade in the triage section. Then

@@ -40,7 +40,7 @@ items share a mechanism", "a receipt line is present").
 - **Heterogeneous families, honestly sourced:**
   - CLIs you're signed into (claude, codex, grok, cursor-agent). If one
     is usage-limited, report it and substitute the same model through a
-    different harness where possible (e.g. grok-4.5 via cursor-agent when
+    different harness where possible (e.g. grok-4.6 via cursor-agent when
     the grok CLI can't run headless) — and say which harness ran.
   - APIs directly where the user wants a specific model. **Keys come
     from the 1Password CLI** (`op read "op://<vault>/<item>/<field>"` or

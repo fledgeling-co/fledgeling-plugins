@@ -147,7 +147,7 @@ faster than Opus-at-high, and nothing in the launch result tells you it happened
    Sentinel verdict + Assumptions, Trivial/Small plan synthesis → `sonnet`; mechanical Phase B/E slices
    meeting the delegation criteria → the external executor lanes (the executor lane order (agy gemini-flash-3.7 `high` → grok grok-4.6 `high` → codex `gpt-5.6-terra` `medium` → Claude) by
    default, else shipyard's `executor-lanes.md`); the three out-of-family review gates (triage spec review, plan
-   review gate, work Phase D completeness critic) → codex `gpt-5.6-sol` at `max`, read-only; everything on
+   review gate, work Phase D completeness critic) → codex `gpt-5.6-sol` at `medium`, read-only; everything on
    the never-downgrade list (Large plan synthesis, work Phase A synthesis, Phase C conflicts,
    security/guardrails/client-asserted-identity lenses, gap-fix audit over
    cheap-lane code, e2e Phase 5 judgment + Phase 6 fixes, aesthetic direction + new composites,
@@ -210,7 +210,7 @@ propagate this whole block into every prompt that itself spawns agents:
   egress), and this grep is the only kill-switch that reaches you once you are running.
   Bound every call: perl -e 'alarm shift @ARGV; exec @ARGV' 600 codex exec … — never
   poll unbounded, it holds a fleet slot for nothing. Verify the wire: the captured log
-  must contain 'model: gpt-5.6-sol' and 'reasoning effort: max', or it is a lane
+  must contain 'model: gpt-5.6-sol' and 'reasoning effort: medium', or it is a lane
   failure — a dropped flag silently inherits the user's config default. An empty -o
   file is a lane failure, never a pass; findings without a verdict line are PARTIAL.
   If codex is unavailable, run the in-family reviewer and LOG the downgrade.
@@ -255,7 +255,7 @@ Rules that override ship-feature's defaults:
 - Keep design-system changes feature-scoped; do not edit shared tokens/base elements —
   if a shared change seems required, report it instead of making it.
 - After ANY context compaction, re-read brief/spec/plan and the DESIGN md before continuing.
-- Run the three out-of-family gates on codex gpt-5.6-sol at max effort (triage spec review,
+- Run the three out-of-family gates on codex gpt-5.6-sol at medium effort (triage spec review,
   plan review gate, work Phase D completeness critic) and report each verdict + the
   accept/reject tally in your handback; a genuine unavailability is a LOGGED in-family
   downgrade, never a silent skip.

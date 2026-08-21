@@ -1,5 +1,15 @@
 # The executor coding lanes — agy, grok, codex, and the Claude fail-back
 
+> **Lane assignments are `defer`'s now.** Run
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
+> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
+> wire-verify it in one step. The classes are `implementation`, `completeness`,
+> `general`, `referral`, `verification` and `design-review`. Three rules bind
+> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
+> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
+> never grades code or a ticket, and design review stays on Opus and Fable. What
+> follows is this pipeline's reading of that policy, not a second copy of it.
+
 Delegate mechanical, plan-scoped code writing to an external executor CLI, and spend the
 session model on orchestration, verification, and fixes. This file owns the **shared** delegation
 criteria, prompt contract, verify-fix loop, fallback, and accounting for every lane; per-lane
@@ -21,7 +31,7 @@ mechanics follow, and the Codex-specific harness lives in `codex-cli.md`.
 
 The **review gates are a different job and do not follow this order**: the out-of-family spec/plan
 reviews and the completeness critic run per `second-opinion-lanes.md` and `codex-cli.md` §R1/R2
-(codex `gpt-5.6-sol` at `max` first, then agy, then grok). Don't apply this file's cost reasoning
+(codex `gpt-5.6-sol` at `medium` first, then agy, then grok). Don't apply this file's cost reasoning
 to them — an unavailable executor costs tokens; an unavailable reviewer costs evidence.
 
 ## Availability check (once per run, per lane you intend to use)
