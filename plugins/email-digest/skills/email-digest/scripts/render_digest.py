@@ -332,16 +332,28 @@ def render(payload: dict) -> tuple[str, str]:
         out = []
         for part in parts:
             t = esc(part.get("text", ""))
-            out.append(f'<a href="{esc(part["url"])}" style="color:{p["ink"]};">{t}</a>'
-                       if part.get("url") else t)
+            # The linked name carries the weight, so a reader scanning the block
+            # lands on the destination rather than on the sentence around it.
+            out.append(f'<a href="{esc(part["url"])}" style="color:{p["ink"]};'
+                       f'font-weight:600;">{t}</a>' if part.get("url") else t)
         return "".join(out)
 
+    # No bullet glyphs. A bulleted trio reads as three items to work through;
+    # the same three lines set as statements on a tinted ground read as one
+    # summary the reader can take in and move past, which is the job.
+    #
+    # What it must not become is a prose paragraph. NN/g measured 67% of readers
+    # with zero fixations on a three-line intro, and that finding indicts prose
+    # specifically: separate short lines are the object the same heatmaps show
+    # people reading. So this changes the register and keeps the shape.
     hl = "".join(
-        f'<tr><td class="summary" style="padding:0 0 7px;font-family:{SANS};'
-        f'font-size:15px;line-height:1.5;color:{p["ink"]};">&bull;&nbsp; '
+        f'<tr><td class="summary" style="padding:0 0 9px;font-family:{SANS};'
+        f'font-size:15px;line-height:1.5;color:{p["ink"]};text-align:left;">'
         f'{hl_body(h)}</td></tr>' for h in highlights)
-    counts = (f'<p style="margin:8px 0 0;font-family:{MONO};font-size:12px;'
-              f'color:{p["muted"]};">{esc(summary.get("counts",""))}</p>'
+    counts = (f'<p style="margin:14px 0 0;padding-top:13px;'
+              f'border-top:1px solid {p["hairline"]};font-family:{MONO};'
+              f'font-size:12px;line-height:1.5;color:{p["muted"]};">'
+              f'{esc(summary.get("counts",""))}</p>'
               if summary.get("counts") else "")
 
     # The mark reads as a favicon at 28px and as a masthead at 44. Nothing about
@@ -431,13 +443,14 @@ def render(payload: dict) -> tuple[str, str]:
   </tr></table>
 </td></tr>
 
-<tr><td align="left" style="padding:0 32px 6px;font-family:{SANS};text-align:left;">
-  <h1 class="t" style="margin:0 0 12px;font-family:{SANS};font-size:14px;line-height:1.4;font-weight:600;letter-spacing:0.005em;color:{p['ink']};mso-line-height-rule:exactly;">{esc(payload.get('heading',''))}</h1>
-</td></tr>
-
-<tr><td align="left" style="padding:0 32px 26px;font-family:{SANS};text-align:left;">
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">{hl}</table>
-  {counts}
+<tr><td align="left" style="padding:0 32px 30px;font-family:{SANS};text-align:left;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:{p['paper']};border-radius:11px;">
+  <tr><td align="left" style="padding:20px 22px;font-family:{SANS};text-align:left;">
+    <h1 class="t" style="margin:0 0 12px;font-family:{SANS};font-size:14px;line-height:1.4;font-weight:600;letter-spacing:0.005em;color:{p['ink']};mso-line-height-rule:exactly;">{esc(payload.get('heading',''))}</h1>
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">{hl}</table>
+    {counts}
+  </td></tr>
+  </table>
 </td></tr>
 
 {''.join(sections)}

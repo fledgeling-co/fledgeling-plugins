@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-21
 
+### email-digest 1.5.0: the summary reads as a summary
+
+Three bulleted lines read as three items to work through. The same three read as
+one block the reader takes in and moves past when the bullets come off, the
+linked name carries the weight, and the whole thing sits on a tinted panel with
+the issue heading inside it and a rule above the counts.
+
+It deliberately stops short of prose. NN/g measured 67% of readers with zero
+fixations on a three-line intro, and that finding indicts prose specifically:
+separate short lines are the object the same heatmaps show people reading. So
+this changes the register and keeps the shape, and `prose-intro` still gates the
+paragraph it would otherwise become.
+
 ### email-digest 1.4.3: the featured headline leads its banner
 
 The headline sat under the banner, a full image-height away from the section
