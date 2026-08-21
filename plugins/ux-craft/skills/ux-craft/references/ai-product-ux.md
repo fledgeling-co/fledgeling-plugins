@@ -81,6 +81,40 @@ Trust with an AI feature is a *relationship variable*, not a launch setting. Des
 - Iconography: sparkles = generate is the emerging convention; pair icons with text labels until conventions settle; don't put sparkles on everything or they stop meaning anything.
 - **Personality is unavoidable and not neutral.** Guard against sycophancy (over-agreement boosts short-term satisfaction, erodes user agency and trust in corrections); separate warmth from authority — an empathetic tone must not imply higher accuracy; signal model/mode switches that change behavior; for a professional IR tool, calm and precise beats charming.
 
+## Supervision — why "a human is watching" is not a control
+
+The most common safety story told about an AI feature is that a person is supervising it. The
+measured version of that story is worse than the told one, and it changes what you build rather
+than what you write in the design doc.
+
+In a simulated flight experiment, condition-monitoring accuracy was **59% with an automated aid
+against 97% without it**, and participants committed **3.92 commission errors in six
+opportunities** — *while correct, contradictory instruments were available on the panel in front
+of them*. A clinical meta-analysis puts the risk ratio for following erroneous automated advice at
+**1.26, 95% CI 1.11–1.44**: a 26% increase in incorrect decisions when the automation misleads,
+against base systems already 80–90% accurate. And the **out-of-the-loop performance problem** names
+the mechanism: an operator disengaged from a process is measurably slower to detect, understand and
+respond to its failures, worst of all when the failure signal is subtle or suppressed.
+
+**The transferable conclusion is about channel placement, not vigilance.** Having the disconfirming
+evidence to hand is not the same as consulting it — that is the whole finding, and it is why
+"the operator can check the logs" is not a mitigation. So on any surface where an agent acts:
+
+- **The reason a run failed belongs in the channel the operator already reads**, not in a store they
+  could query. A cause recorded somewhere nobody opens has the same effect as no cause recorded.
+- **A refusal is not noise.** Where a progress view suppresses mechanical chatter, a *denied* action
+  is exempt: it is the one event that explains an otherwise inexplicable outcome. Suppress volume,
+  never refusals.
+- **Print what the agent was permitted to do**, once per run. A capability manifest turns "why did
+  it not write the file" from an investigation into a glance.
+- **Judge success from the artifact, not the narration.** File exists, size, hash, checks passed —
+  never the model saying it is done. Fluent narration is exactly what the 59% figure is about.
+
+**Limits, because this evidence is borrowed.** The flight task is *fault monitoring* whereas agent
+supervision is *progress watching*, which is not the same job; and the clinical aid issues an
+explicit recommendation, which an agent harness does not. Neither has been reproduced on an agent
+pipeline. Treat the direction as established and the magnitude as indicative.
+
 ## Review lens for AI features
 
 When reviewing any AI surface, ask in order: What can it act on, and is that scope visible? What's the worst case, and does the friction match it? Can the user steer, stop, undo, and verify? Is AI involvement disclosed at every point of contact? Is retrieved content treated as untrusted? Are cost and active state visible? Does the empty state scaffold the first prompt? Is generated content marked until accepted, with a preview-before-overwrite? Did somebody choose what the assistant says and how often, or did it default? Findings here follow the same severity ladder as everything else — a silent overwrite of user work or an undisclosed autonomous action is a Blocker, not a nice-to-have.

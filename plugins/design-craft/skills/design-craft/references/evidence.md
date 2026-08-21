@@ -318,6 +318,30 @@ of use in the file that carries it. It is the weakest evidence class here and th
   match to 2dp says the compositing is right, so the discrepancy is in the record rather than in
   the arithmetic. Left as-is and flagged here rather than quietly corrected.
 
+## 8. Engine limits and render traps measured 21 Aug 2026
+
+Three findings from one long-form build, all of which broke a layout while every source-level and
+`matchMedia`-level check reported healthy. They are recorded here because each is the same class as
+the ones already in this file: **a capability whose absence answers confidently.**
+
+| Finding | How it presented | Where the rule lives |
+|---|---|---|
+| `ch` units inside `minmax()` do not resolve | `minmax(0,68ch) minmax(0,25ch)` collapsed both tracks to ~100px; the page set one word per line while the media query matched and the rule was present in source | SKILL.md § Known limits |
+| `clip-path` is not applied | The `box-shadow: 0 0 0 100vmax` full-bleed idiom spread in every direction and painted over the last line of the section above | SKILL.md § Known limits |
+| An unterminated `@media` block is silently dead | One dropped `}`; `matchMedia(...).matches` returned `true`, the rule was greppable, the node computed `display: block` | SKILL.md § 15, mechanic 7 |
+
+**Tier: measured on this machine, n=1 build, Obscura 0.2.0.** Two of the three are engine-specific
+and would behave correctly in a compliant engine; the third is a CSS authoring trap and is
+engine-independent. The transferable rule in all three cases is the one § 15 already states — read
+the computed value on the node, never the presence of the rule — which is why they were added as
+evidence for an existing discipline rather than as new advice.
+
+One motion finding from the same build, recorded against `gsap-motion.md`: an `opacity: 0` entrance
+on the block carrying the page's conclusion left it as a void in every capture taken before the tween
+resolved. **Tier: measured, n=1.** The rule derived from it (`gsap.from` so the authored markup is the
+end state, and never animate the conclusion) is a restatement of the existing static-frame
+requirement rather than a new constraint.
+
 ## What this file is not
 
 None of the above makes a passing gate a verification. Every check in `design-lint.py` was

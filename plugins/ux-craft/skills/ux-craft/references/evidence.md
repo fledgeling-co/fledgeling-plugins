@@ -100,6 +100,26 @@ Where two sources conflict, the conflict stays visible here rather than being re
 
 **Engine limits, measured on this machine, 2026-08-13 and 2026-08-18.** The Obscura table in `review-playbook.md`. Each entry is a measurement of the tool rather than of a design, and each has already produced a false finding — which is why they are rules and not notes.
 
+## Diagnostic quality and automation bias — added 2026-08-21
+
+Four external findings, added after a three-week root-cause hunt in an AI-agent pipeline ended at a
+failure reason that existed in a datastore and reached no channel a person read. They back
+non-negotiable 4 and the supervision section of `ai-product-ux.md`, which previously carried no
+effect size and no automation-bias material at all.
+
+| Claim | Source | Tier | Limit to state |
+|---|---|---|---|
+| Explicit, pinpointing diagnostics diagnosed **3–13×** faster than ambiguous messages and **1.2–14.5×** faster than none | [Controlled diagnosis study of configuration problems](https://citeseerx.ist.psu.edu/document?doi=7fb221c90643acdf146e56fe04632c13829bff82&repid=rep1&type=pdf) | Measured, controlled | Conventional software, not agent runs; the ranges are wide |
+| Redesigning a diagnostic alone cut mean correction time 225.90 → 194.18 s and raised success 77.1% → 84.9% | [Empirical Software Engineering, 2025](https://link.springer.com/article/10.1007/s10664-025-10695-1) | Measured, controlled | One task domain (SQL); a modest absolute effect |
+| Monitoring accuracy **59% with an automated aid against 97% without**; **3.92 commission errors in six opportunities** with correct contradictory instruments available | [Does automation bias decision-making?](https://www.researchgate.net/publication/222507469_Does_automation_bias_decision-making) | Measured, simulator | Flight-deck fault monitoring, not progress watching; 1998; small task set |
+| Risk ratio **1.26, 95% CI 1.11–1.44** for following erroneous automated advice | [Automation bias: systematic review and meta-analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/) | Measured, meta-analysis | Mostly clinical decision support, where the aid issues an explicit recommendation |
+| The out-of-the-loop performance problem: disengaged operators are slower to detect, understand and respond to failures | [Endsley and Kiris, *Human Factors*](https://journals.sagepub.com/doi/10.1518/001872095779064555) | Established, foundational | 1995, aviation and process control, before agent harnesses existed |
+
+**What the set supports, and what it does not.** Together they support one conclusion: the
+intervention is *where the signal is placed*, not how hard the operator looks. None of them has
+been reproduced on an agent pipeline, so any claim about MTTD or MTTR for capability manifests or
+refusal surfacing specifically is **not measured** — the skill says so where it recommends them.
+
 ## The canon map
 
 Where each author's load-bearing ideas are operationalised. This is a routing table, not a bibliography: it tells you whose lens to apply, and where the file that applies it lives.
