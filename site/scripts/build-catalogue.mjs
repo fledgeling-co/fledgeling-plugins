@@ -82,6 +82,7 @@ const GROUP_OF = {
   report: "research",
   "whats-left": "research",
   stocktake: "orchestration",
+  reckon: "orchestration",
   "ship-armada": "orchestration",
   "ship-fleet": "orchestration",
   "ship-feature": "orchestration",

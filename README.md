@@ -388,6 +388,14 @@ A terminal crash leaves every transcript, workflow journal and subagent context 
 
 <br clear="left" />
 
+<a href="plugins/reckon/README.md"><img src="plugins/reckon/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [reckon](plugins/reckon/README.md)
+
+Every remaining-work list is built by filtering — take everything, drop what's done, report the rest — and the filter is where it breaks, because "not done" and "not known" are different things that both look like absence. An ordinary campaign on a file-sync client: 58 designed cases, 25 reached a verdict, 32 blocked or inconclusive on a dead credential and on states no hook can force; 15 stated requirements, 2 independently observed. Filter that to failures and you get a tidy list of fourteen fixes that looks like a plan and is a list about 43% of the product. So this refuses to filter. Every brief, requirement, case, defect and surface resolves into exactly one class of a total partition, because an item can't fall out of a list with nowhere to fall to, and a blocked case classed as anything but unmeasured fails the gate by name. The class that earns its place is unmeasured, whose work isn't the feature's work at all: reaching a state, reading an answer, deciding what a pass would even look like are harness jobs, and one "test this properly" ticket sends five different jobs to the same wrong place, so each row carries its own remedy. Blocked cases are scheduled as the causes behind them rather than one by one — scrim's own stop declaration had a single dead credential behind ten of twenty — each with the coverage points resolving it returns, which is the number a solo developer actually prioritises on. Waivers stay visible as exceptions instead of folding into done, because the reason for a waiver expires. Briefs the campaign proves finished get retired rather than rebuilt, but never on a presence-rung oracle or a guessed join, since retiring deletes somebody's stated intent. Five denominators that disagree with each other on purpose, every one marked a floor, and never one blended percent. And a ratchet across runs, because a snapshot gate catches a bad report while the slow failure is an item quietly reclassified until nothing remembers it was never checked. Twenty-one self-tests prove each gate fires on a broken ledger and stays silent on a sound one.
+
+<br clear="left" />
+
 > [!NOTE]
 > Some skills depend on each other by design: ship-armada dispatches through ship-fleet and ship-feature, which conduct the shipyard stage skills, and armada-sync is the maintenance half of ship-armada. Each README states what it expects.
 

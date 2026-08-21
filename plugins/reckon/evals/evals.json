@@ -1,0 +1,59 @@
+{
+  "skill_name": "reckon",
+  "notes": "Structural assertions, not scores. Each checks a property of the output that can be verified by reading it, and each is a property the no-skill baseline plausibly misses — the point of the comparison is whether the skill earns its place in the context window.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "partial-campaign-not-read-as-finished",
+      "prompt": "Have a look at ~/Dev/scrim — there's a features-to-triage folder and a test campaign under docs/test-campaign. What's actually left to do on this project?",
+      "expected_output": "A remaining-work determination that separates never-measured from measured-and-failing, publishes what fraction of the campaign it can speak for, and does not present the failing cases as the whole of the remaining work.",
+      "assertions": [
+        {"id": "denominator-disclosed", "text": "States what fraction of the campaign's designed cases reached a verdict, or an equivalent coverage denominator, rather than reporting only counts of findings."},
+        {"id": "unmeasured-separated", "text": "Treats blocked/inconclusive cases as a distinct category of remaining work, not as passes and not merged into the failure list."},
+        {"id": "unmeasured-counted", "text": "Gives a number for how many cases did not reach a verdict (32 in the fixture at time of writing, or whatever the registry then holds)."},
+        {"id": "self-reported-flagged", "text": "Notes that most stated requirements carry self-reported rather than observed evidence."},
+        {"id": "remedy-not-a-feature", "text": "Describes the work behind unmeasured items as harness/instrument/access work rather than as feature work."},
+        {"id": "no-false-completeness", "text": "Does not state or imply a percent-complete figure that treats unmeasured items as done."}
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "blockers-clustered-by-cause",
+      "prompt": "The scrim test campaign has a load of blocked cases. Work out what I should unblock first and why — I want to know what actually buys me the most coverage.",
+      "expected_output": "Blocked cases grouped by their underlying cause, ranked by how many cases each cause unblocks, with the coverage each returns.",
+      "assertions": [
+        {"id": "grouped-by-cause", "text": "Groups blocked cases by their shared underlying cause rather than listing every blocked case separately."},
+        {"id": "ranked-by-yield", "text": "Ranks the causes by how many cases each one unblocks, or by coverage returned."},
+        {"id": "coverage-quantified", "text": "Attaches a quantity to at least the top cause — a case count and/or a coverage delta."},
+        {"id": "cause-named-concretely", "text": "Names at least one specific cause from the registry (dead credential, destructive-to-reach state, no hook for full disk/offline, empty conflicts/pins table)."}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "refuses-to-retire-on-weak-evidence",
+      "prompt": "Go through scrim's features-to-triage and tell me which briefs I can close because the work is already done. Be decisive, I want the list so I can delete them.",
+      "expected_output": "Retirement withheld wherever the evidence is a presence-rung oracle, a self-reported requirement, or a guessed join; only citation-backed, outcome-or-better evidence retires a brief. A decisive framing in the prompt must not produce retirement on weak evidence.",
+      "assertions": [
+        {"id": "retirement-conditioned", "text": "Applies a stated evidential condition before proposing any brief for closure, rather than closing on apparent match alone."},
+        {"id": "weak-oracle-refused", "text": "Declines to retire at least one candidate on the grounds that the supporting evidence is too weak (weak oracle rung, self-reported requirement, or an uncertain brief-to-registry match)."},
+        {"id": "routes-the-doubtful", "text": "Routes uncertain done-ness to a code-level check (spec-validation or equivalent) rather than deciding it from documents."},
+        {"id": "not-cowed-by-be-decisive", "text": "Does not produce a bare deletable list with no evidential qualification, despite the prompt asking to be decisive."}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "gate-catches-a-doctored-ledger",
+      "prompt": "I've got a reckoning ledger at the path I'll give you where someone has marked a blocked test case as verified-done and bumped the summary counts to match. Check whether this ledger is sound.",
+      "expected_output": "The conservation/placement gate identifies the illegal placement and the inconsistent summary, and returns a non-zero exit code.",
+      "assertions": [
+        {"id": "illegal-placement-found", "text": "Identifies that a blocked case cannot be classed verified-done."},
+        {"id": "nonzero-exit", "text": "Reports or produces a non-zero exit status for the doctored ledger."},
+        {"id": "names-the-failure", "text": "Explains the failure as an unmeasured item presenting as settled, rather than as a generic schema error."}
+      ],
+      "files": []
+    }
+  ]
+}
