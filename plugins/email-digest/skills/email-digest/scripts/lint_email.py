@@ -116,7 +116,7 @@ class Doc(HTMLParser):
         self.paras_before_items: list[str] = []
         self._p: list[str] | None = None
         self.seen_first_item = False
-        self.tiers: dict[str, int] = {"featured": 0, "compact": 0, "oneline": 0}
+        self.tiers: dict[str, int] = {"featured": 0, "spotlight": 0, "oneline": 0}
         self.summary_items = 0
         self._h: list[tuple[int, list]] = []
         self._a: list[dict] | None = None
@@ -137,7 +137,7 @@ class Doc(HTMLParser):
             self._a = {**a, "text": [], "line": self.getpos()[0]}
         if re.fullmatch(r"h[1-6]", tag):
             self._h.append((int(tag[1]), []))
-        for t in ("featured", "compact", "oneline"):
+        for t in ("featured", "spotlight", "oneline"):
             if re.search(rf"\b(?:tier-)?{t}\b", cls):
                 self.tiers[t] += 1
                 self.seen_first_item = True
@@ -192,7 +192,7 @@ def check_no_item_cap(doc: Doc, f: Findings) -> None:
     if total == 0:
         f.add(ERROR, "tiers",
               "no tiered items found. Mark each item block with a tier class or "
-              "data-tier of featured / compact / oneline, or this gate and every "
+              "data-tier of featured / spotlight / oneline, or this gate and every "
               "tier rule below is measuring nothing",
               "measured: undifferentiated scan cost is the defect")
         return
@@ -202,7 +202,7 @@ def check_no_item_cap(doc: Doc, f: Findings) -> None:
 
 
 def check_tier_shape(doc: Doc, f: Findings) -> None:
-    fe, co, ol = doc.tiers["featured"], doc.tiers["compact"], doc.tiers["oneline"]
+    fe, co, ol = doc.tiers["featured"], doc.tiers["spotlight"], doc.tiers["oneline"]
     if not (2 <= fe <= 4):
         f.add(ERROR, "tier:featured",
               f"{fe} featured item(s); 2 to 4, default 3. Prominence is the only "
@@ -212,12 +212,14 @@ def check_tier_shape(doc: Doc, f: Findings) -> None:
     else:
         f.ok("tier:featured", f"{fe} featured", "measured: Kong et al.")
 
-    if co and not (5 <= co <= 9):
-        f.add(WARN, "tier:compact",
-              f"{co} compact row(s); 5 to 9 keeps the middle band scannable",
-              "convention, bounded by the 51s scan budget")
+    if co and not (2 <= co <= 5):
+        f.add(WARN, "tier:spotlight",
+              f"{co} spotlight item(s); 2 to 5. The middle tier carries imagery "
+              "at reduced width, so it costs both attention and bytes in a way "
+              "the one-line tail does not",
+              "convention, bounded by the scan budget and image weight")
     else:
-        f.ok("tier:compact", f"{co} compact")
+        f.ok("tier:spotlight", f"{co} spotlight")
 
     if fe + co + ol >= 12 and ol == 0:
         f.add(ERROR, "tier:tail",
@@ -455,11 +457,16 @@ def check_images(doc: Doc, f: Findings) -> None:
 
     banners = [i for i in doc.images
                if re.search(r"\bbanner\b", (i.get("class") or "") + (i.get("data-role") or ""))]
-    if len(banners) > 3:
-        f.add(ERROR, "img:banners", f"{len(banners)} banner images; 0 to 3",
-              "convention, bounded by the size budget")
+    if len(banners) > 6:
+        f.add(WARN, "img:banners",
+              f"{len(banners)} banner images. The clip threshold counts HTML "
+              "only, so banners do not push you toward it; what they cost is "
+              "load time on a metered connection and attention against the tier "
+              "below. There is no measured ceiling, which is why this warns",
+              "convention: no measurement located")
     else:
-        f.ok("img:banners", f"{len(banners)} banner(s)")
+        f.ok("img:banners", f"{len(banners)} banner(s)",
+             "count is unconstrained by the clip budget, which is HTML-only")
 
 
 def check_links(doc: Doc, f: Findings) -> None:
