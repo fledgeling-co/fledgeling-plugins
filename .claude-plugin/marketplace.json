@@ -160,7 +160,7 @@
     {
       "name": "discipline",
       "description": "Session-start operating defaults that cut token spend without cutting task success, tuned for Claude Opus 5 agentic coding. Ships a byte-stable 220-token block for the cached system prefix plus the measured evidence behind every clause, including a paired 106-task benchmark showing that caveman-style response compression cost 7.6 points of task score on Opus 5, with 78% of its apparent saving coming from the agent taking fewer steps rather than writing more tersely.",
-      "version": "4.1.0",
+      "version": "4.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -292,7 +292,7 @@
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "category": "development"
     },
     {
@@ -331,7 +331,7 @@
     {
       "name": "design-craft",
       "description": "Design or review a user-facing visual artifact \u2014 a landing page, app screen, dashboard, clickable prototype, native mobile mockup, wireframe, variation set, tweakable panel, motion piece, 3D hero, print document, generated imagery or design system \u2014 as an opinionated designer rather than a code generator. Roots every hi-fi build in existing context by default and lifts a matched system's resolved values exactly, never rounding them to a 4/8px grid and reporting the rounding as a fix. Names the category's rut and its predictable opposite before generating, derives seven candidates across at least three material families as a probability distribution rather than a best answer, and writes the chosen direction into the artifact as a five-block contract the critique gate then audits promise by promise \u2014 because more than a quarter of a generative UI tool's stated design rationales are measured not to appear in what it built. Ships a deterministic gate that computes WCAG contrast from source across hex, rgba, hsl and oklch, follows tokens to their :root definitions, composites opacity, and treats contrast as tri-state: a gradient, image or undeclared ground is reported UNMEASURABLE rather than skipped, since an unmeasured pair and a passing pair otherwise serialise identically. The gate names the silent downstream consequence of every finding, gates on mechanism and warns on fashion, runs markup checks through a real HTML parser, refuses to lint its own documentation, requires a reason on every suppression, proves each of its forty rules can still fire, and prints what it did not check so a clean run cannot be read as verified. Carries a Known limits section measured against the one sanctioned browser, so motion, print, reduced-motion and type fidelity are declared unchecked rather than reported clean \u2014 and names the delivery surface's own refusals, because a CDN script inside a published artifact is blocked with no error and the page ships motionless. Thirty phased procedures, per-unit critique gates with a computed disposition, an autonomous mode, and a standing pairing with ux-craft for flows, forms and UX review.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -342,7 +342,7 @@
     {
       "name": "ux-craft",
       "description": "Book-grounded UX engine for building, mocking and reviewing web and mobile UIs, forms, flows and emails \u2014 the UX brain that pairs with design-craft's visual hands. Three modes (Build / Review / Advise) over eleven references, and a deterministic gate that refuses what prose only asks: stdlib-only ux-lint.py runs static over HTML/JSX/CSS and probes a rendered page through Obscura, with every finding naming what you did, what the user silently gets, and the fix. Only exit 0 is a pass \u2014 a run that examined zero files refuses rather than reporting a clean sheet, and every run prints a never-empty not-checked list, because a check that cannot measure must say so instead of reporting zero. v2 resolves the accessibility floor against the standards themselves: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 CSS px is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. Twelve non-negotiables each carry the silent symptom that appears when they break, the state grid is a counted artifact rather than a rule that was read, and the destructive-action gate table, the probe-honesty rule and the model-family evidence taxonomy are available to every model rather than quarantined behind a model check. Carries a Known limits section, an evidence file rating the replication status of every behavioural law it cites (including the ones it argues against), the measured blind spots of the only sanctioned browser, and an autonomous-mode carve-out so a pipeline run is not told both to ask and not to ask.",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -429,7 +429,7 @@
     {
       "name": "code-review",
       "description": "A diff review that reports what it could not check. Finds with fourteen named angles that are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged; verifies with three verdicts, where realistic-but-unproven stays in as PLAUSIBLE rather than being dropped with the noise, and only REFUTED leaves; then closes with a coverage ledger naming every angle, checklist and gate that never ran, and why. Learns the target repository at runtime rather than carrying a hard-coded project map \u2014 gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep \u2014 so a candidate naming a framework the repo does not install is refuted from evidence rather than from a constant somebody wrote into a skill. Three depths, each printing its own budget line at the top of the report so what ran is visible rather than inferred; areas and ten focus lenses that compose; checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, routed by path and lens; sharding above a size threshold with the fan-out reconciled against the bucket list, because a harness that loses an agent reports the wave complete. One verifier vote rather than a judge panel, on the measurement that panels saturate at about two effective votes. Read-only on source: it reports findings and does not apply fixes. Carries a token-light prepush gate on the outgoing diff.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
