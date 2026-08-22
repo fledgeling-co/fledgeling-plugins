@@ -784,3 +784,45 @@ from one read so the two figures cannot be separate runs quoted together.
 And three properties kept the better rate from becoming a promotion: bridged edges are marked
 `bridged` and never `cited`; the weak-join flag reads the **cited** rate alone, so coverage
 cannot unlock retirement as a side effect; and a promotion guard diffs the two ledgers.
+
+## `/` passes every plausibility check a script can apply to itself (23 Aug 2026)
+
+The runaway `cp -R //.` was **not** an empty variable, which is what it looked like and what
+this conductor reported. The script computed
+`CAMP="$(cd "$(dirname "$0")/.." && pwd)"` — and it had been copied to `/tmp`, so `dirname`
+was `/tmp`, `..` was **`/`**, and `"/"/.` is `//.`.
+
+That distinction is the whole repair:
+
+- **An empty variable is a missing input.** `set -u`, a non-empty test, almost any defensive
+  habit catches it.
+- **`/` is a real, existing, readable, absolute directory.** It passes every plausibility
+  check a script could apply to itself. The only check that catches it is one asking whether
+  the resolved path is *the right tree*.
+
+So the sharper form of the shell-layer rule: **a wrong path and a right path are
+indistinguishable to everything except a check that knows what it is looking for.**
+`available` reads as a count; `/` reads as a directory. Both are true, and neither is the
+thing meant.
+
+### A guard is not a fix for a class until something makes new code use it
+
+The same session had built exactly that check — an arming-tree guard — **an hour earlier**,
+for a sibling defect. It then wrote a new arming script without it, and copied another to
+`/tmp` where the fault fired. **Four scripts had the guard, four did not, and nothing said
+so.**
+
+The two defects are opposite ends of one fault, and the asymmetry is the argument for a
+census rather than a guard:
+
+| | Path behaviour | Failure mode | Visibility |
+|---|---|---|---|
+| Pinned a path that stopped existing | fails **closed** | armed nothing | loud — an exit code |
+| Derived a path that always exists | fails **open** | copied a volume | silent — printed nothing |
+
+**The one that armed nothing was loud. The one that ate a disk was silent.** A guard protects
+the code that calls it; only a census over every call site tells you which code does. That
+session's census reads `examined=19 unguarded=0` — after it first committed a message
+claiming "18 scripts, 0 unguarded" **before running it**, when the true figure was 2 of 19.
+It re-ran the census before the sentence the second time and put the correction in the commit
+message rather than the corrected number alone.
