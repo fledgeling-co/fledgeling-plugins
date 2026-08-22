@@ -122,6 +122,15 @@ class SourceIndex:
         for dirpath, dirnames, filenames in os.walk(root):
             dirnames[:] = [x for x in dirnames
                            if x not in SKIP_DIRS and not x.startswith(".")]
+            # Directories too: a provider may name a module (`crates/core/src/tui`)
+            # rather than a single file, and refusing that would push authors to
+            # name an arbitrary file inside it.
+            try:
+                d = Path(dirpath).relative_to(root).as_posix().lower()
+                if d and d != ".":
+                    self.paths.add(d)
+            except ValueError:
+                pass
             for fn in filenames:
                 f = Path(dirpath) / fn
                 try:
@@ -160,10 +169,22 @@ def provider_targets(provider: str) -> tuple[list[str], list[str]]:
 
     `isolation/macos.rs:88 spawn_guest` claims one of each. A line number is not
     part of either, and a token that is neither a path nor a symbol is neither.
+
+    **Only the claim counts, never the description after it.** Providers are
+    written `<claim> — <what it does>`, and the prose half is English. Before
+    this split, every word of it was offered to `has_symbol`, so a provider
+    resolved on whichever of its own adjectives happened to appear somewhere in
+    production source. Measured on a real campaign: `totally/made/up/path.swift
+    — the window server is another process` resolved, via the symbol `the`; so
+    did a file that does not exist, via `file`. Nine of nine providers reported
+    resolved and the pass was reading stopwords. A census that resolves anything
+    with a description is the dead predicate this file exists to find, one level
+    in.
     """
+    claim = re.split(r"\s+[—–]\s+|\s+-\s+", str(provider).strip(), maxsplit=1)[0]
     paths: list[str] = []
     syms: list[str] = []
-    for raw in re.split(r"[\s,;]+", str(provider).strip()):
+    for raw in re.split(r"[\s,;]+", claim):
         tok = raw.strip("()[]{}<>'\"`,")
         if not tok:
             continue
