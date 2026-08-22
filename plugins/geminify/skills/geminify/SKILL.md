@@ -40,6 +40,39 @@ either the system instructions or your prompts directly."*
 So the work is mechanical, not literary: find the skill's unbounded scopes, give
 each one a number, and put the verification back with its command attached.
 
+## The second finding, and the one with a rate behind it
+
+**[measured-family]** The first finding is one run. This one is 106 benchmark tasks
+(`diolog-swe-bench`, bench `diolog-2.0`, read 22 August 2026) scoring
+`gemini-3.7-flash` at both `medium` and `high` against `claude-opus-5`, and it says
+the gap is **not uniform**. Four of eight work buckets are level or ahead —
+optimality 74.7 against 75.0, react-app UI 63 against 69. Two collapse:
+
+- **self-contained pages authored from prose** — 22 against opus's 67, with a hard
+  zero on 71% of decided rows
+- **brownfield edits to an existing multi-file repo** — 16 against 46, zero on 79%
+
+The mechanism in the first of those is legible, because those verifiers print their
+assertions. Classifying every failing UI assertion by whether it states a **bound**
+(`exactly N`, `no`, `not`, `only`) or asks for a **thing**: Gemini's failures are 58%
+bound-shaped at `medium` and **86%** at `high`, against **8%** for opus and **6%**
+for the OpenAI lane. One rule — `has exactly one soft elevation shadow` — failed on
+*every card and every toast in its set*, on a run that passed 37 of its 39 other
+assertions, while the brief said *exactly **one** soft shadow (no per-row or nested
+shadows)*.
+
+So there are two failure directions, not one. A categorical scope collapses to a
+single instance; a stated maximum is exceeded on every instance. Both are a number in
+the brief that nothing reads back. C1 catches the first, `bounded-constraint` catches
+the second, and **C9 says which work should not be attempted at all** — which is the
+health checklist's own rule: **[docs]** *"Avoid using prompts that ask the model to
+perform a task for which it has a known, fundamental limitation."*
+
+Read `references/evidence.md` §2.3 before quoting any of those numbers. The harness
+differed between the two models and pinned `temperature: 0` against Google's stated
+advice for this family, so the raw gap is an upper bound; the same-scaffold control
+is the part that carries weight.
+
 Full evidence, including what is n=1 and what is not: `references/evidence.md`.
 
 ## Procedure
@@ -60,6 +93,11 @@ Two outputs, both derived from the target rather than from a template:
 
 - **The quota ledger** — every categorical quantifier attached to a countable
   deliverable, with its line number. These are what collapse to one instance.
+- **The bound ledger** — every stated limit (`exactly one`, `at most N`, `only`,
+  `a single <thing>`). These are what get exceeded on every instance. Prohibitions in
+  prose (`avoid`, `never`, `without`) are counted rather than listed, the same trade
+  the quota regex makes; the ones attached to a countable property belong in the
+  ledger, and you move them there by hand.
 - **The module triggers** — which optional sections this file needs, decided by
   what the skill demonstrably contains. A skill that renders nothing gets no
   capture guidance. Measured across four skills: `design-craft` triggers `visual`
@@ -79,7 +117,7 @@ failure that makes the whole file untrustworthy.
 | Tag | Means | Where it comes from |
 |---|---|---|
 | `[docs]` | Google published this | `references/gemini-corpus.md`, quoted verbatim |
-| `[measured-family]` | observed on a Gemini run of *another* skill | `references/evidence.md` |
+| `[measured-family]` | observed on a Gemini run that is not this skill — another skill, or the benchmark corpus | `references/evidence.md` |
 | `[measured-here]` | observed on a Gemini run of *this* skill | a transcript you have read |
 | `[derived]` | your reasoning from the two above | you, and say so |
 
@@ -101,10 +139,25 @@ catalogues, with the content and the citation for each:
 **Core** — the quota ledger as an artifact · verification asked for, with claims
 carrying their command · the retry ceiling (two attempts; a permanent error gets
 one) · passes rather than one overloaded sweep · one worked example before the
-set · `thinking_level` · recall is not a source · the epistemic-status block.
+set · `thinking_level` · recall is not a source · the epistemic-status block · the
+route-out block.
 
 **Modules** — `visual` · `gate` · `states` · `platform-values` · `authorship` ·
-`delegation` · `injection` · `count-contract` · `emphasis`.
+`delegation` · `injection` · `bounded-constraint` · `count-contract` · `emphasis`.
+
+**The route-out block (C9) goes near the top, before the overrides**, and only when
+the target's own work lands in a shape the corpus measured behind. It names those
+shapes and hands over one command rather than a pinned model, because the numbers
+move and a lane restated in fourteen files is a policy nobody can change:
+
+```bash
+python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
+```
+
+Two conditions, both in `references/modules.md`. The corpus measures a model
+*building* something, so a skill whose work is judging, referring, critiquing or
+reviewing gets no route-out block. And a shape the target never produces gets no row.
+Say in a clause which you omitted and why.
 
 Three rules that keep the file specific rather than generic:
 
@@ -188,6 +241,18 @@ that nothing checks.
   in the `emphasis` module and read it as a plain rule; do not shout back.
 - **Do not claim a module you skipped was inapplicable** without saying which and
   why. The scan's output is the record of what you chose not to write.
+- **Do not write a route-out block for a skill that judges rather than builds.** The
+  corpus is evidence about a model producing an artifact, and `lane_pick.py` returns
+  the policy answer unchanged for `verification`, `referral`, `completeness` and
+  `design-review`. Abstaining is the honest result when the evidence is about a
+  different question.
+- **Do not raise `thinking_level` as a remedy.** Paired across the 106 tasks, `high`
+  beat `medium` on 24, lost on 24 and tied on 58. Write the level as what Google says
+  it is *for*, not as a fix for anything in C1, C2 or `bounded-constraint`.
+- **Read the target yourself rather than delegating it.** One skill and its
+  references is a handful of reads, and a subagent's summary loses exactly the
+  sentences step 4 asks you to quote back. Reserve a subagent for a target whose
+  references run to thousands of lines, and use one rather than several.
 
 ## References
 
@@ -196,5 +261,11 @@ that nothing checks.
   The full fifteen-source material lives in the `gemini-prompt-engineering` skill.
 - `references/modules.md` — the core sections and the module catalogue: what each
   one says, its trigger, and the citation behind it.
-- `references/evidence.md` — the measured run in full, what it does and does not
-  establish, and the two out-of-family consults behind this skill's own design.
+- `references/evidence.md` — both measured sources: the single run in full (§1) and
+  the 106-task benchmark comparison with its controls and confounds (§2), what each
+  does and does not establish, and the two out-of-family consults behind this
+  skill's own design.
+- **The routing numbers are not copied here.** `defer` reads the same corpus into a
+  shape-by-lane capability matrix and regenerates it on demand, so C9 points at
+  `python3 <defer>/skills/defer/scripts/lane_pick.py --matrix` rather than pinning
+  figures that go stale.

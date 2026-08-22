@@ -228,6 +228,54 @@ And on arithmetic, which a gate often needs:
 
 ---
 
+## Module `bounded-constraint`: constraints are a named component, and get recapped
+
+From the prompt components table, the **Constraints** component:
+
+> Restrictions on what the model must adhere to when generating a response, including what the model can and can't do. Also called "guardrails," "boundaries," or "controls."
+
+The **Recap** component, which is the placement rule for them:
+
+> Concise repeat of the key points of the prompt, especially the constraints and response format, at the end of the prompt.
+
+From "Clear and specific instructions", under **Constraints**:
+
+> Specify any constraints on reading the prompt or generating a response. You can tell the model what to do and not to do.
+
+From the evaluated agentic system-instruction template, item 7, **Completeness**:
+
+> Ensure that all requirements, constraints, options, and preferences are exhaustively incorporated into your plan.
+
+And item 7.2:
+
+> Avoid premature conclusions: There may be multiple relevant options for a given situation.
+
+---
+
+## Module `visual` (second lever): a reference input is the documented mode
+
+From the Gemini 3.7 Flash launch post, on web development:
+
+> For UI generation, the model shows high design adherence and parity based on a reference input, whether it's a screenshot, an image, or a full design system.
+
+---
+
+## C9 `route-out`: some tasks are outside the model, and the checklist says so
+
+From the prompt health checklist, under **Task outside of model capabilities**:
+
+> Avoid using prompts that ask the model to perform a task for which it has a known, fundamental limitation.
+
+---
+
+## The sampling-parameter caution, which the benchmark rows did not observe
+
+From the generation-parameters note for the Gemini 3.x family:
+
+> Although you can modify these parameters, we strongly recommend keeping them at their default values for Gemini 3.x models. Changing these parameters (for example, setting the temperature below 1.0) can cause unexpected behavior, such as looping or degraded performance, particularly in complex mathematical or reasoning tasks.
+
+---
+
 ## One caution about this file
 
 Google's own pages disagree with each other in places, and the disagreements are

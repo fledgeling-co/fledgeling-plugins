@@ -75,6 +75,33 @@ RELATIVE = re.compile(
     re.I,
 )
 
+# Bounds: a stated limit on a property, as opposed to a requirement for a thing.
+# These fail differently from quotas and are the reason `bounded-constraint` is a
+# separate module — a quota under-delivers, a bound gets exceeded. Measured on the
+# benchmark corpus, 58-86% of a Gemini run's failing UI assertions were bound-shaped
+# against 8% for opus, and the most-repeated one failed on every instance in its set.
+#
+# Kept high-precision on purpose, the same trade the quota regex makes: a numeric or
+# singular limit is listed, and the far looser prohibition class is counted but not
+# listed. "Avoid clutter" is real guidance and an unreadable ledger row.
+BOUND = re.compile(
+    r"\bexactly\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b"
+    r"|\b(?:at\s+most|no\s+more\s+than|no\s+fewer\s+than|maximum\s+of|up\s+to)\s+"
+    r"(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b"
+    r"|\bonly\s+(?:one|a\s+single|\d+)\b"
+    rf"|\ba\s+single\s+(?:{DELIVERABLE})\b"
+    rf"|\bone\s+(?:{DELIVERABLE})\s+per\b",
+    re.I,
+)
+# Prohibitions: the same requirement worn as style advice. Counted, never listed.
+# "Avoid heavy or doubled shadows" and "exactly one soft shadow" are one rule, and
+# the measured run treated both as taste.
+PROHIBITION = re.compile(
+    r"\b(?:avoid|never|must\s+not|should\s+not|do\s+not|don't|rather\s+than|"
+    r"instead\s+of|without)\b",
+    re.I,
+)
+
 # Emphasis in the register Google says stopped helping: "foundation model
 # performance will no longer improve and in many cases will get worse".
 EMPHASIS = re.compile(
@@ -144,6 +171,13 @@ MODULES: list[tuple[str, str, tuple[str, ...]]] = [
          "not instruction", "third-party", "webfetch", "scrape"),
     ),
     (
+        "bounded-constraint",
+        "the skill states limits and maxima, not only requirements",
+        ("exactly one", "at most", "no more than", "only one", "a single",
+         "one per", "maximum of", "must not", "never use", "no doubled",
+         "not stacked", "upper bound", "hard cap", "no larger than"),
+    ),
+    (
         "count-contract",
         "the skill already promises a count, so the contract just needs extending",
         ("slide count", "whole count", "n of n", "worklist", "ledger",
@@ -154,8 +188,8 @@ MODULES: list[tuple[str, str, tuple[str, ...]]] = [
 
 def scan(text: str, label: str) -> dict:
     lines = text.splitlines()
-    quotas, relatives, emphasis = [], [], []
-    distributives = 0
+    quotas, relatives, emphasis, bounds = [], [], [], []
+    distributives = prohibitions = 0
     for i, raw in enumerate(lines, 1):
         line = raw.rstrip()
         if not line.strip() or line.lstrip().startswith("<!--"):
@@ -164,6 +198,10 @@ def scan(text: str, label: str) -> dict:
             quotas.append({"file": label, "line": i, "phrase": m.group(0).strip(),
                             "context": line.strip()[:150]})
         distributives += len(DISTRIBUTIVE.findall(line))
+        prohibitions += len(PROHIBITION.findall(line))
+        for m in BOUND.finditer(line):
+            bounds.append({"file": label, "line": i, "phrase": m.group(0).strip(),
+                           "context": line.strip()[:150]})
         for m in RELATIVE.finditer(line):
             relatives.append({"file": label, "line": i, "phrase": m.group(0).strip(),
                               "context": line.strip()[:150]})
@@ -171,7 +209,8 @@ def scan(text: str, label: str) -> dict:
             emphasis.append({"file": label, "line": i, "word": m.group(0),
                              "context": line.strip()[:150]})
     return {"quotas": quotas, "relatives": relatives, "emphasis": emphasis,
-            "distributives": distributives}
+            "bounds": bounds, "distributives": distributives,
+            "prohibitions": prohibitions}
 
 
 def modules_for(text: str, min_triggers: int = MIN_TRIGGERS) -> list[dict]:
@@ -206,13 +245,14 @@ def main() -> int:
             texts.append((f"references/{r.name}",
                           r.read_text(encoding="utf-8", errors="replace")))
 
-    agg = {"quotas": [], "relatives": [], "emphasis": []}
-    distributives = 0
+    agg = {"quotas": [], "relatives": [], "emphasis": [], "bounds": []}
+    distributives = prohibitions = 0
     for label, t in texts:
         s = scan(t, label)
         for k in agg:
             agg[k].extend(s[k])
         distributives += s["distributives"]
+        prohibitions += s["prohibitions"]
     joined = "\n".join(t for _, t in texts)
     mods = modules_for(joined, a.min)
 
@@ -221,11 +261,14 @@ def main() -> int:
         "filesScanned": [label for label, _ in texts],
         "lines": sum(len(t.splitlines()) for _, t in texts),
         "quotaLedger": agg["quotas"],
+        "boundLedger": agg["bounds"],
         "relativeQualifiers": agg["relatives"],
         "emphasis": agg["emphasis"],
         "modules": mods,
         "summary": {
             "categorical": len(agg["quotas"]),
+            "bounds": len(agg["bounds"]),
+            "prohibitionProse": prohibitions,
             "distributiveProse": distributives,
             "relative": len(agg["relatives"]),
             "emphasisTokens": len(agg["emphasis"]),
@@ -241,16 +284,17 @@ def main() -> int:
     s = result["summary"]
     print(f"target      {p}")
     print(f"scanned     {', '.join(result['filesScanned'])}  ({result['lines']} lines)")
-    print(f"quota rows  {s['categorical']}   relative {s['relative']}   "
-          f"emphasis {s['emphasisTokens']}   (distributive prose, not quotas: "
-          f"{s['distributiveProse']})")
+    print(f"quota rows  {s['categorical']}   bound rows {s['bounds']}   "
+          f"relative {s['relative']}   emphasis {s['emphasisTokens']}")
+    print(f"            (loose prose, not ledger rows: {s['distributiveProse']} "
+          f"distributive, {s['prohibitionProse']} prohibition)")
     print(f"modules     {', '.join(s['modulesTriggered']) or '(none — core only)'}"
           f"   [>= {s['minTriggers']} triggers]")
     for m in mods:
         print(f"              {m['module']:<16} {m['matchCount']:>2} hits — {m['why']}")
-    if s["categorical"] == 0 and s["relative"] == 0:
-        print("\nNothing to quota. Say so in the file rather than inventing rows —\n"
-              "a skill with no unbounded scope needs no ledger.")
+    if s["categorical"] == 0 and s["relative"] == 0 and s["bounds"] == 0:
+        print("\nNothing to quota and nothing to bound. Say so in the file rather\n"
+              "than inventing rows — a skill with no unbounded scope needs no ledger.")
         return 0
 
     print("\n── quota ledger: give each of these a number ──")
@@ -261,6 +305,18 @@ def main() -> int:
             continue
         seen.add(key)
         print(f'  {q["file"]}:{q["line"]:<5} "{q["phrase"]}"')
+    if result["boundLedger"]:
+        print("\n── bound ledger: read each of these back off the artifact ──")
+        seen = set()
+        for b in result["boundLedger"]:
+            key = b["phrase"].lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            print(f'  {b["file"]}:{b["line"]:<5} "{b["phrase"]}"')
+        print(f"  ({s['prohibitionProse']} prohibitions in prose, not listed — the ones")
+        print("   attached to a countable property belong in the ledger too.)")
+
     print("\n── relative qualifiers: replace with a measurable bound ──")
     seen = set()
     for r in result["relativeQualifiers"][:40]:
