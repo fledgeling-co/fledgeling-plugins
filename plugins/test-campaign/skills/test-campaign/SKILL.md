@@ -736,7 +736,22 @@ interleave, and the second one's click lands in whatever window the first raised
 than starting parallel native runners.
 
 ```bash
-HM="${CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts"
+# harbourmaster's scripts, RESOLVED rather than hard-coded. CLAUDE_PLUGIN_ROOT is
+# a version directory (.../ship-fleet/2.4.1), so a sibling plugin lives two
+# levels up and carries a version folder of its own. An earlier
+# `${CLAUDE_PLUGIN_ROOT}/../harbourmaster` looked for it among THIS plugin's other
+# versions, found nothing, and failed silently.
+HM=$(find "${CLAUDE_PLUGIN_ROOT}/../../harbourmaster" -maxdepth 4 -type d -name scripts \
+     2>/dev/null | sort -V | tail -1)
+```
+
+**If `$HM` is empty, harbourmaster is not installed.** Proceed unwrapped, say so
+once, and carry on — the governor is an improvement to how work is scheduled, not
+a precondition for doing it.
+
+Then:
+
+```bash
 "$HM/governor-run" --weight 4 --project "$REPO" --label "suite" -- pnpm test:e2e
 ```
 

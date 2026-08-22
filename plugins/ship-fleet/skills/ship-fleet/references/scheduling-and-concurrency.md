@@ -25,7 +25,12 @@ Slot-refill beats wave-barriers: when a runner lands, anything newly unblocked s
 
 ```js
 // ready-queue + slot refill; items/deps come in via args
-const HM = `${process.env.CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts`
+// harbourmaster's scripts, RESOLVED. CLAUDE_PLUGIN_ROOT is a VERSION directory
+// (.../ship-fleet/2.4.1), so a sibling plugin is two levels up and carries a
+// version folder of its own. `${CLAUDE_PLUGIN_ROOT}/../harbourmaster` looked for
+// it among ship-fleet's own other versions and silently found nothing.
+const HM = sh(`find "$CLAUDE_PLUGIN_ROOT/../../harbourmaster" -maxdepth 4 -type d `
+            + `-name scripts 2>/dev/null | sort -V | tail -1`).trim()
 const done = new Set(args.alreadyMerged), running = new Map()
 const parked = new Map(), attempts = new Map()          // id -> reason / restart count
 const ready = () => args.items.filter(i => !done.has(i.id) && !running.has(i.id)
@@ -36,8 +41,14 @@ while (done.size + parked.size < args.items.length) {
   // this one has been observed at load average 830 across 16 cores while a
   // fleet started its eighth runner. Re-read every refill: pressure moves under
   // a long fleet, so a number taken at the top describes a machine that is gone.
-  const free = JSON.parse(sh(`${HM}/berths.py`)).available
-  const slots = Math.max(1, free)            // never zero, or the fleet cannot drain
+  // Fails SOFT. An absent or unreadable governor drops the fleet back to the
+  // fixed 8 it used before, with a note — a scheduling improvement must never
+  // become a precondition for shipping anything.
+  let slots = 8
+  if (HM) {
+    try { slots = Math.max(1, JSON.parse(sh(`${HM}/berths.py`)).available) }
+    catch { log('harbourmaster unreadable — falling back to 8 slots') }
+  }
   for (const item of ready().slice(0, slots - running.size))
     running.set(item.id, agent(runnerPrompt(item), {label: item.id, model: 'opus', effort: 'high', agentType: 'claude'})
       .then(report => ({item, report})))
