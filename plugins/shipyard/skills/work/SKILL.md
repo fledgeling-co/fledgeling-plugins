@@ -5,7 +5,7 @@ description: >-
   workflows — the pipeline's build stage. Reads the committed plan (docs/plans/<id>.md), the
   spec/ticket thread, and the design mock index, marks the item In Progress, then runs understand
   & specify (acceptance checklist built before code), implement (file-disjoint fan-out through
-  the executor lanes: agy preferred, grok, codex, Claude fail-back, with typecheck gates and the
+  the executor lanes, picked per slice shape by defer, with Claude as fail-back, typecheck gates and the
   wire-through + affected-test sweeps), rebase onto the detected integration branch, acceptance
   review with evidence tables and an out-of-family completeness critic, resolve findings, then a
   same-family validation in fresh context before setting Developer Review. Commits locally; no
@@ -85,12 +85,27 @@ run the repo's codegen after contract changes). Parallelize only file-disjoint s
 agents in one file. After each wave a gate subagent runs the scoped repo gates; the next wave
 waits for green. Production code only.
 
-**Executors — `executor-lanes.md` in full.** The default lane order for a plan-scoped slice:
-**agy** (gemini-flash-3.7, `high`) → **grok** (grok-4.6, `high`; harness fallback cursor-agent)
-→ **codex** (gpt-5.6-terra, `medium`, with the re-context harness — prefer it for slices long
-enough to compact) → **Claude**. The never-delegate list, the prompt contract (absolute paths, a
-distinctive-fact readback), the egress/opt-out grep per invocation, the verify-fix loop, and the
-1-in-3 revert kill-switch all bind. Any lane failure routes back to Claude, logged.
+**Executors — `executor-lanes.md` in full.** There is no default lane order: name what the
+slice **is** and let `defer` pick, because the right executor varies by 16 points across
+shapes and the old fixed order was expensive on five of eleven.
+
+```bash
+python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
+```
+
+The plan already tells you the shape. A slice that edits existing code, spans more than two
+files, or carries several acceptance criteria at once is `brownfield-integration`; a new
+self-contained module behind one acceptance surface is `greenfield-module`; one that must keep
+an existing suite or public API passing is `regression-sensitive`; a component and its
+interaction states is `react-ui`. Where a slice spans two, name the stricter one. If you cannot
+classify it, omit `--shape` and the router falls back to headroom alone.
+
+Two overrides stand above the shape: a slice long enough to **compact** goes to the codex lane
+regardless, for its re-context harness, and Claude is always the fail-back. The never-delegate
+list, the prompt contract (absolute paths, a distinctive-fact readback), the egress/opt-out grep
+per invocation, the verify-fix loop, and the 1-in-3 revert kill-switch all bind. Any lane failure
+routes back to Claude, logged — **record the shape you named alongside the lane**, so a slice
+that went badly can be checked against the routing rather than only against the code.
 
 **Each slice self-certifies** — "I edited these files" is not done: its checklist rows at
 `file:line`, the real non-test caller reaching its new code, and for any critical seam the

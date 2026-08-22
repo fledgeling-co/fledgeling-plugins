@@ -6,7 +6,18 @@ a policy that lives in two places drifts, and the drift is silent.
 
 Effort is pinned per lane because a lane that inherits its config default is not
 the lane anyone chose.
+
+Two things decide a route. The **task class** decides which lanes may do the
+work at all, and it is policy. The **work shape** decides which of those lanes
+is good enough to do it, and it is measured — `capability_matrix.json` holds a
+per-shape grade for every lane against opus, computed from 106 real tasks in
+`~/Dev/diolog-swe-bench`. Between the lanes that survive both, headroom picks.
 """
+
+import json
+import os
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
 
 # --- list prices -----------------------------------------------------------
 # USD per million tokens, published rates as at 2026-08-21. Sourced, not
@@ -32,6 +43,13 @@ PRICES = {
 # env         : extra environment, applied on top of the caller's.
 # verify      : how to prove the lane ran as routed (see wire-verify.md).
 # meter       : which usage source `lane_pick.py` reads for this lane.
+# bench_key   : this lane's row in capability_matrix.json, or None.
+# evidence    : how far that row transfers to this lane.
+#   "exact"   — the bench ran this model, at this effort, through this CLI.
+#   "proxy"   — a different version or a different harness. Advisory: the
+#               capability gate reads it, but never lets it clear a lane to
+#               drop-in, because the number was not produced by this lane.
+#   "none"    — unmeasured. The gate abstains and headroom decides alone.
 
 LANES = {
     "grok": {
@@ -44,6 +62,9 @@ LANES = {
         "env": {},
         "verify": "grok-store",
         "meter": "grok",
+        # The bench measured grok-4.5 under mini, not 4.6 under the grok CLI.
+        "bench_key": "grok-4.5@xhigh",
+        "evidence": "proxy",
     },
     "gemini": {
         "model": "gemini-3.7-flash-high",
@@ -58,6 +79,11 @@ LANES = {
         "env": {},
         "verify": "output-nonempty",
         "meter": "gemini",
+        # Same model, different harness: the bench ran gemini-3.7-flash under
+        # mini-swe-agent in a container, and this lane runs it under agy. The
+        # bench numbers are a floor for this lane, not a reading of it.
+        "bench_key": "gemini-3.7-flash@medium",
+        "evidence": "proxy",
     },
     "glm": {
         "model": "glm-5.3",
@@ -75,6 +101,9 @@ LANES = {
         },
         "verify": "relay-ledger",
         "meter": "glm",
+        # The bench measured glm-5.2-fast under mini, on 79% of the corpus.
+        "bench_key": "glm-5.2-fast@max",
+        "evidence": "proxy",
     },
     "codex-terra": {
         "model": "gpt-5.6-terra",
@@ -88,6 +117,8 @@ LANES = {
         "env": {},
         "verify": "codex-header",
         "meter": "codex",
+        "bench_key": "codex/gpt-5.6-terra@high",
+        "evidence": "exact",
     },
     "codex-sol": {
         "model": "gpt-5.6-sol",
@@ -101,6 +132,63 @@ LANES = {
         "env": {},
         "verify": "codex-header",
         "meter": "codex",
+        "bench_key": "codex/gpt-5.6-sol@medium",
+        "evidence": "exact",
+    },
+    # sol at high is the cheapest lane the bench found that holds opus's quality
+    # on most shapes: 63.8 headline against opus's 67.1, at $0.25 a task against
+    # $2.16. It exists as a separate lane from `codex-sol` because the referral
+    # class wants medium and the implementation classes want this. Still not max
+    # — that rule is unchanged, and `sol@high` captures most of what max buys.
+    "codex-sol-high": {
+        "model": "gpt-5.6-sol",
+        "blended_usd_per_mtok": PRICES["gpt-5.6-sol"]["blended"],
+        "family": "openai",
+        "effort": "high",
+        "cmd": ["codex", "exec", "-m", "gpt-5.6-sol",
+                "-c", 'model_reasoning_effort="high"', "-s", "read-only",
+                "-o", "{OUTFILE}", "{PROMPT}"],
+        "fallback_cmd": None,
+        "env": {},
+        "verify": "codex-header",
+        "meter": "codex",
+        "bench_key": "codex/gpt-5.6-sol@high",
+        "evidence": "exact",
+    },
+    # terra at max is the strongest OpenAI lane on brownfield work and the only
+    # non-Claude lane that held opus on compound multi-group backend tasks.
+    "codex-terra-max": {
+        "model": "gpt-5.6-terra",
+        "blended_usd_per_mtok": PRICES["gpt-5.6-terra"]["blended"],
+        "family": "openai",
+        "effort": "max",
+        "cmd": ["codex", "exec", "-m", "gpt-5.6-terra",
+                "-c", 'model_reasoning_effort="max"', "-s", "read-only",
+                "-o", "{OUTFILE}", "{PROMPT}"],
+        "fallback_cmd": None,
+        "env": {},
+        "verify": "codex-header",
+        "meter": "codex",
+        "bench_key": "codex/gpt-5.6-terra@max",
+        "evidence": "exact",
+    },
+    # The bulk lane: $0.14 a task and 2.2 minutes, a sixth of what terra@high
+    # costs in wall clock. It ranks 13th overall, so it earns work only on the
+    # shapes where the matrix says the gap to opus closes.
+    "codex-terra-medium": {
+        "model": "gpt-5.6-terra",
+        "blended_usd_per_mtok": PRICES["gpt-5.6-terra"]["blended"],
+        "family": "openai",
+        "effort": "medium",
+        "cmd": ["codex", "exec", "-m", "gpt-5.6-terra",
+                "-c", 'model_reasoning_effort="medium"', "-s", "read-only",
+                "-o", "{OUTFILE}", "{PROMPT}"],
+        "fallback_cmd": None,
+        "env": {},
+        "verify": "codex-header",
+        "meter": "codex",
+        "bench_key": "codex/gpt-5.6-terra@medium",
+        "evidence": "exact",
     },
     "fable": {
         "model": "claude-fable-5",
@@ -112,6 +200,8 @@ LANES = {
         "env": {},
         "verify": "relay-ledger",
         "meter": "anthropic",
+        "bench_key": "claude/fable@high",
+        "evidence": "exact",
     },
     "opus": {
         "model": "claude-opus-5",
@@ -123,39 +213,53 @@ LANES = {
         "env": {},
         "verify": "relay-ledger",
         "meter": "anthropic",
+        "bench_key": "claude/claude-opus-5@xhigh",
+        "evidence": "exact",
     },
 }
 
 # --- task classes ----------------------------------------------------------
 # `allow` is ordered only where the order carries meaning; where a class names
-# grok/gemini/glm together the balancer picks, not the order.
+# several lanes together the balancer picks, not the order.
 # `balance` marks the classes whose lane is chosen by measured usage.
+# `shape_gated` marks the classes the capability matrix can speak to. The bench
+#   measures a model BUILDING something, so it grades writers. It says nothing
+#   about how well a model grades someone else's work, and the judged-dimension
+#   scores carry no passing calibration artifact, so the judgement classes route
+#   on policy alone and the gate abstains rather than inventing a verdict.
 
 TASKS = {
     "implementation": {
         "label": "Writing code",
-        "allow": ["gemini", "grok", "glm", "opus"],
+        "allow": ["codex-sol-high", "codex-terra-max", "codex-terra-medium",
+                  "gemini", "grok", "glm", "opus"],
         "balance": True,
-        "why": "Four families can write code. Spread the load; keep Claude as the fail-back "
-               "so a down lane never drops work.",
+        "shape_gated": True,
+        "why": "Seven lanes across four families can write code. Shape decides which are good "
+               "enough for this piece; headroom picks between the survivors; Claude is the "
+               "fail-back so a down lane never drops work.",
     },
     "completeness": {
         "label": "Completeness critic",
         "allow": ["grok", "glm", "gemini"],
         "balance": True,
+        "shape_gated": False,
         "why": "Out of Claude's family by construction, and cheap enough to run on every item.",
     },
     "general": {
         "label": "Non-referral, non-judgment work",
-        "allow": ["codex-terra", "gemini", "grok", "glm"],
+        "allow": ["codex-terra", "codex-terra-medium", "gemini", "grok", "glm"],
         "balance": False,
+        "shape_gated": True,
         "why": "gpt-5.6-terra at high is the default worker for anything that is neither a "
-               "referred decision nor a verdict.",
+               "referred decision nor a verdict; terra at medium takes the bulk work whose "
+               "shape says the gap closes.",
     },
     "referral": {
         "label": "Referred decision / judgment / second opinion",
         "allow": ["codex-sol", "fable"],
         "balance": False,
+        "shape_gated": False,
         "why": "A decision referred out needs a different reader, not a bigger one. sol at "
                "medium and fable at high are the two; sol never runs at max.",
     },
@@ -163,6 +267,7 @@ TASKS = {
         "label": "Task verification and same-family verification",
         "allow": ["opus"],
         "balance": False,
+        "shape_gated": False,
         "why": "Acceptance verdicts run on claude-opus-5 at xhigh. Fable is a judge, not a "
                "verifier: it does not grade code or tickets.",
     },
@@ -170,13 +275,239 @@ TASKS = {
         "label": "Design review",
         "allow": ["opus", "fable"],
         "balance": False,
+        "shape_gated": False,
         "why": "Rendered-UI judgement stays on Claude. No other family reviews design here.",
     },
 }
+
+# --- work shapes -----------------------------------------------------------
+# What a piece of work IS, in the terms the bench can actually distinguish. The
+# `guard` is what to do when the only lane available for a shape is a guarded
+# one: it is the condition under which the cheaper lane's known weakness stops
+# mattering, and it is the caller's job to satisfy it.
+
+SHAPES = {
+    "brownfield-integration": {
+        "label": "Change existing multi-file code under compound acceptance",
+        "tell": "the work edits code that already exists, spans more than two files, or has to "
+                "satisfy several independent acceptance criteria at once",
+        "guard": "hand the lane the relevant files inline and name every acceptance criterion "
+                 "separately; the measured failure here is satisfying one criterion and "
+                 "silently dropping another, not writing bad code",
+    },
+    "greenfield-module": {
+        "label": "New self-contained module behind one acceptance surface",
+        "tell": "nothing exists yet, the surface is one file or one exported unit, and there is "
+                "a single thing it has to do",
+        "guard": "state the exported signature and the acceptance condition in the prompt",
+    },
+    "api-surface": {
+        "label": "Route handler, server action or adapter wiring",
+        "tell": "the work connects an existing contract to an existing consumer",
+        "guard": "measured on five tasks only; treat any lane choice here as provisional and "
+                 "check the result rather than the ranking",
+    },
+    "react-ui": {
+        "label": "React component with interaction behaviour",
+        "tell": "a component, its states, and what it does when someone uses it",
+        "guard": "name every interactive state; the cheap lanes lose ground on states nobody "
+                 "asked for explicitly",
+    },
+    "static-page": {
+        "label": "From-scratch HTML and CSS page, no framework",
+        "tell": "one self-contained page, authored rather than assembled",
+        "guard": "the OpenAI lanes beat opus here and Gemini collapses; do not route this shape "
+                 "on headroom alone",
+    },
+    "deck": {
+        "label": "Slide and presentation authoring",
+        "tell": "slides, a deck, a pitch, anything scored on the deck rubric",
+        "guard": "every lane measured below opus on this shape; route it out only when the deck "
+                 "is a draft somebody will edit",
+    },
+    "visual-design": {
+        "label": "Work graded on aesthetic and design judgement",
+        "tell": "the output will be judged on how it looks rather than on what it does",
+        "guard": "supply the design language, the palette and a reference; the cheap lanes are "
+                 "much closer to opus with a reference than without one",
+    },
+    "accessibility": {
+        "label": "Semantics, keyboard paths and ARIA",
+        "tell": "roles, labels, focus order, keyboard operation",
+        "guard": "name the interaction that must work by keyboard",
+    },
+    "algorithmic": {
+        "label": "Complexity-constrained or optimality-constrained implementation",
+        "tell": "there is a stated bound, or an obviously wrong quadratic answer",
+        "guard": "state the bound in the prompt; every lane measured at parity here, so this "
+                 "shape is where the cheapest lane wins outright",
+    },
+    "tool-orchestration": {
+        "label": "Multi-step tool calling against an audited log",
+        "tell": "the lane has to drive tools in sequence and the trace matters",
+        "guard": "measured on four tasks only; the reading is that this shape does not "
+                 "discriminate, not that every lane is equal",
+    },
+    "regression-sensitive": {
+        "label": "Must not break an existing passing contract",
+        "tell": "there is a test suite, a public API or a live consumer that has to keep working",
+        "guard": "name the contract that must not move and give the lane the command that "
+                 "proves it; this is the shape with the widest spread between lanes",
+    },
+}
+
+# --- the measured capability matrix ----------------------------------------
+
+
+def _load_capability():
+    """The per-shape grades, or None when the file is absent.
+
+    Absent is a real state rather than an error: the matrix is evidence from a
+    private benchmark, and a checkout without it should still route on policy
+    and headroom. `capability()` returns None and every caller falls through.
+    """
+    try:
+        with open(os.path.join(_HERE, "capability_matrix.json")) as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return None
+
+
+CAPABILITY = _load_capability()
+
+#: Grades in descending order of what they permit.
+GATE_ORDER = ["GOLD", "GREEN", "AMBER", "RED", "THIN", "REF"]
+#: Grades that mean "send this work here without further thought".
+DROP_IN = {"GOLD", "GREEN"}
+#: Grades that mean "send it here once the shape's guard is satisfied".
+GUARDED = {"AMBER", "THIN"}
+#: The lane every other lane is measured against. It is the fail-back, never a
+#: competitor: it grades REF on every shape by construction, and letting that
+#: count as a drop-in result would hand it every route on the strength of being
+#: the yardstick. Spreading work off this lane is the whole point of the gate.
+REFERENCE_LANE = "opus"
+#: How close two lanes have to score before their output counts as equivalent
+#: and load-spreading takes over. Five points is not a new number: it is the
+#: threshold GREEN already uses to call a lane a drop-in for opus, so "near
+#: enough to opus to substitute" and "near enough to each other to swap" are the
+#: same claim at the same size. Routing is score-led down to this margin and
+#: usage-led inside it.
+EQUIVALENCE_POINTS = 0.05
+
+
+def equivalent_set(lanes, grades, margin=EQUIVALENCE_POINTS):
+    """The lanes whose measured output is equivalent to the best on offer.
+
+    Returns them in descending measured order, best first. A lane with no
+    measured score for the shape cannot be shown equivalent to anything, so it
+    joins only when nothing in `lanes` was measured at all — unmeasured is not
+    endorsed, but it is also not a reason to route nowhere.
+    """
+    scored = {l: grades[l]["mean"] for l in lanes
+              if grades.get(l) and grades[l].get("mean") is not None}
+    if not scored:
+        return list(lanes)
+    best = max(scored.values())
+    keep = [l for l, m in scored.items() if m >= best - margin]
+    return sorted(keep, key=lambda l: -scored[l])
+
+
+def shape_grade(lane, shape):
+    """How a lane measured on a shape, after the evidence clamp.
+
+    Returns None when there is nothing to say — no matrix, no bench row for the
+    lane, or a shape the matrix does not carry. Otherwise a dict carrying the
+    clamped `gate`, the `raw_gate` the numbers actually produced, and the
+    supporting figures so a caller can print why.
+
+    The clamp: a lane whose evidence is `proxy` is pulled into the guarded band
+    from both directions. It cannot clear to drop-in, because the number came
+    from a different version or a different harness and does not belong to this
+    lane. It also cannot be hard-blocked for the same reason — Gemini's worst
+    shapes were measured through a bash-only container scaffold, and reading
+    that as a verdict on the `agy` lane would retire a lane on a confound.
+    """
+    if CAPABILITY is None or shape not in CAPABILITY.get("shapes", {}):
+        return None
+    spec = LANES.get(lane) or {}
+    key, evidence = spec.get("bench_key"), spec.get("evidence", "none")
+    if not key or evidence == "none":
+        return None
+    cell = CAPABILITY["shapes"][shape]["lanes"].get(key)
+    if not cell:
+        return None
+    raw = cell.get("gate", "THIN")
+    gate = raw
+    if evidence == "proxy" and raw != "REF":
+        gate = "AMBER"
+    return {
+        "lane": lane, "shape": shape, "gate": gate, "raw_gate": raw,
+        "evidence": evidence, "bench_key": key,
+        "mean": cell.get("mean"), "delta": cell.get("delta"), "p": cell.get("p"),
+        "n": cell.get("n"), "wins": cell.get("wins"), "losses": cell.get("losses"),
+        "tier": CAPABILITY["lanes"].get(key, {}).get("tier"),
+        "usd_per_task": CAPABILITY["lanes"].get(key, {}).get("usd_per_task"),
+        "clamped": gate != raw,
+    }
+
+
+def gate_lanes(task, shape):
+    """Split a class's allowed lanes into drop-in, guarded, refused and fail-back.
+
+    A class that is not shape-gated, an unknown shape, or a missing matrix all
+    produce the same answer: every allowed lane lands in `dropin` and nothing is
+    refused, because abstaining is the honest result when there is no evidence.
+
+    The reference lane is held out into `failback` whenever the class allows it.
+    It is the yardstick, so it scores REF on every shape, and a band that
+    counted REF as a pass would route everything back to the lane this gate
+    exists to relieve.
+    """
+    allow = list(TASKS[task]["allow"])
+    if not TASKS[task].get("shape_gated") or shape not in SHAPES:
+        return {"dropin": allow, "guarded": [], "refused": [], "failback": [], "grades": {}}
+    dropin, guarded, refused, failback, grades = [], [], [], [], {}
+    for lane in allow:
+        g = shape_grade(lane, shape)
+        grades[lane] = g
+        if lane == REFERENCE_LANE:
+            failback.append(lane)
+        elif g is None:
+            guarded.append(lane)          # unmeasured is not endorsed
+        elif g["gate"] in DROP_IN:
+            dropin.append(lane)
+        elif g["gate"] in GUARDED:
+            guarded.append(lane)
+        else:
+            refused.append(lane)
+    if not failback:
+        failback = [allow[-1]]
+    return {"dropin": dropin, "guarded": guarded, "refused": refused,
+            "failback": failback, "grades": grades}
+
 
 # Lanes that must never be selected, with the reason, so a caller that tries
 # gets a sentence rather than a silent substitution.
 FORBIDDEN = {
     ("codex-sol", "max"): "gpt-5.6-sol never runs at max effort.",
+    ("codex-sol-high", "max"): "gpt-5.6-sol never runs at max effort.",
     ("fable", "verification"): "fable does not verify code or tickets; route to opus.",
 }
+
+# Models that were measured and deliberately have no lane, so that adding one
+# back is a decision somebody makes again rather than an oversight.
+DECLINED = {
+    "gpt-5.6-luna": "Dominated. luna@max lost 9 of 11 shapes to terra@max and 10 of 11 to "
+                    "sol@max while costing more than either ($0.72 a task against $0.67 and "
+                    "$0.47); luna@high lost 10 of 11 to sol@high at $0.33 against $0.25. It "
+                    "was not the right answer on any shape, so it is not a lane.",
+    "claude-sonnet-5": "Measured (52.9 headline, $1.61 a task) and genuinely strong on "
+                       "greenfield modules and static pages, but it is an Anthropic lane, so "
+                       "it relieves cost without relieving the dependency this routing exists "
+                       "to spread. Add it deliberately if cost is the binding constraint.",
+    "gpt-5.6-sol@max": "Ranked second overall at 66.6, statistically tied with opus, and the "
+                       "best measured lane on regression-sensitive work. It stays out because "
+                       "sol never runs at max, and sol@high holds 63.8 of that 66.6 at half "
+                       "the price.",
+}
+

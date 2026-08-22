@@ -1,14 +1,19 @@
 # Model lanes — who does what, on which CLI, and what happens when a lane is down
 
 > **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
-> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
-> wire-verify it in one step. The classes are `implementation`, `completeness`,
-> `general`, `referral`, `verification` and `design-review`. Three rules bind
-> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
-> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
-> never grades code or a ticket, and design review stays on Opus and Fable. What
-> follows is this pipeline's reading of that policy, not a second copy of it.
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
+> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
+> to run and wire-verify it in one step. The classes are `implementation`,
+> `completeness`, `general`, `referral`, `verification` and `design-review`.
+> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
+> the shapes. It narrows the class to the lanes measured good enough for that kind
+> of work before headroom picks, which is where the cost saving lives; the two
+> gated classes are `implementation` and `general`, and the judgement classes
+> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
+> `max` (it is the referral lane at `medium` and the implementation lane at
+> `high`), Fable judges but never grades code or a ticket, and design review stays
+> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
+> second copy of it.
 
 **Canonical for the whole pipeline.** Every stage skill and both conductors point here for lane
 assignments. Effort discipline (the second dial) is canonical in `model-and-effort.md`; per-lane
@@ -22,9 +27,9 @@ CLI mechanics are in `executor-lanes.md` and `codex-cli.md`. Change lane assignm
 | Triage verdict, plan synthesis, design direction | Opus 5 (`claude-opus-5`) or the session model when it is Opus/Fable-class | in-session or `claude` | high | Always a frontier Claude — these artifacts are amplified by everything downstream |
 | Leaf readers, gate-runners, index scanners | cheapest session tier (haiku-class) | Workflow subagents | low | Read, report, stop |
 | Evidence lenses, finding-verifiers | mid tier (sonnet-class) | Workflow subagents | low–medium | Structured work against an explicit oracle |
-| **Implementation** | picked by measured headroom: gemini-3.7-flash-high · grok-4.6 · glm-5.3 | `agy` · `grok` · `claude`+Perch | high · **xhigh** · high | `defer --task implementation` picks; ties break to the cheaper lane |
+| **Implementation** | picked by measured capability for the slice's shape, then headroom | `codex` · `agy` · `grok` · `claude`+Perch | pinned per lane | `defer --task implementation --shape <shape>` picks. Name the shape (`executor-lanes.md`) — the lane that wins varies by 16 points across shapes, so a class-only call leaves that on the table |
 | Implementation — Claude fail-back | claude-opus-5 | in-session | xhigh | Any executor lane failing routes work here — never to a sibling cheap lane, never dropped |
-| **General** — neither referred nor a verdict | gpt-5.6-terra | `codex` | **high** | Mechanics in `codex-cli.md` §R3. Not `sol`: that is the referral lane |
+| **General** — neither referred nor a verdict | gpt-5.6-terra | `codex` | **high** | Mechanics in `codex-cli.md` §R3. Not `sol` at `medium`: that is the referral lane |
 | Same-family validation (vs plan + tests) | claude-opus-5 | same CLI, fresh context | high | The writer's family checks the work against the plan before a stranger does; see `work` Phase D′ |
 | **Task and same-family verification** | claude-opus-5 | `claude` | **xhigh** | The acceptance authority; see the `verify` skill. Fable does not do this |
 | Verification fail-back | Opus 5 agents | `claude` | high | Recorded as a degraded (in-family) verification — see "What a degraded lane buys back" |

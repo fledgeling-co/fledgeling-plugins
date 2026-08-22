@@ -2,8 +2,16 @@
 """Pick the least-loaded lane for a task class, from measured plan headroom.
 
     lane_pick.py --task completeness            # → lane + ready-to-run argv
+    lane_pick.py --task implementation --shape brownfield-integration
     lane_pick.py --task implementation --json
     lane_pick.py --report                       # every lane, every meter
+    lane_pick.py --matrix                       # measured capability, every shape
+
+Routing is two filters and a ranking. The task CLASS says which lanes may do the
+work; the work SHAPE says which of those are good enough for this particular
+piece, read out of `capability_matrix.json`; and headroom picks between whatever
+survives. Pass no shape and the middle filter abstains, which is the old
+behaviour exactly.
 
 Everything here runs on subscriptions, so the scarce thing is plan headroom in
 the current window, not dollars. The rule is "least usage, recalculated for the
@@ -14,8 +22,10 @@ gets ranked is headroom per remaining day,
     allowance = (1 - used_pct) / days_left
 
 and the largest wins. Where two lanes are within 20% of each other the meters
-cannot tell them apart honestly, so the tie breaks on published price — Gemini
-$4.50, GLM $5.80, Grok $8.00 per blended Mtok.
+cannot tell them apart honestly, so the tie breaks on MEASURED cost per task,
+taken from the capability matrix. List price per Mtok cannot break that tie: the
+codex lanes all bill at one rate and differ by nearly 5x on what a task costs,
+because effort buys tokens. A lane with no measured row falls back to list price.
 
 Meters come in two tiers and the report always says which:
 
@@ -40,7 +50,10 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from lane_registry import LANES, TASKS  # noqa: E402
+from lane_registry import (  # noqa: E402
+    CAPABILITY, DROP_IN, EQUIVALENCE_POINTS, FORBIDDEN, LANES, SHAPES, TASKS,
+    equivalent_set, gate_lanes, shape_grade,
+)
 
 RELAY = os.path.expanduser("~/Library/Application Support/Relay")
 GROK_SESSIONS = os.path.expanduser("~/.grok/sessions")
@@ -60,7 +73,13 @@ DEFAULT_BUDGETS = {
     "glm":    {"window_days": 7, "budget": 8000.0, "unit": "prompts"},
     "gemini": {"window_days": 7, "budget": 30000.0, "unit": "calls"},
 }
-TIER1 = {"opus", "fable", "codex-sol", "codex-terra"}
+TIER1 = {"opus", "fable", "codex-sol", "codex-sol-high",
+         "codex-terra", "codex-terra-max", "codex-terra-medium"}
+#: Every lane metered off the one Codex account. They share a rate limit, so they
+#: share a reading — adding an effort variant must never look like new headroom.
+CODEX_LANES = {"codex-sol", "codex-sol-high", "codex-terra", "codex-terra-max",
+               "codex-terra-medium"}
+CLAUDE_LANES = {"opus", "fable"}
 
 
 def load_budgets():
@@ -326,7 +345,7 @@ def measure(now=None):
                "price": spec["blended_usd_per_mtok"], "tier": 1 if lane in TIER1 else 2,
                "budget_source": "lane_budgets.json" if lane in configured else "built-in default"}
 
-        if lane in ("opus", "fable"):
+        if lane in CLAUDE_LANES:
             if claude is None:
                 row.update(used_pct=None, days_left=7, allowance=0.0, measured=False,
                            note=claude_note, used="—", unit="%", source="—")
@@ -337,7 +356,7 @@ def measure(now=None):
                 row.update(used_pct=round(pct, 1), days_left=round(claude["days_left"], 2),
                            measured=True, note=claude.get("gate"), used=f"{pct:.1f}", unit="%",
                            source=f"Relay usage.json ({claude['window']})")
-        elif lane in ("codex-sol", "codex-terra"):
+        elif lane in CODEX_LANES:
             if codex is None:
                 row.update(used_pct=None, days_left=7, allowance=0.0, measured=False,
                            note=codex_note, used="—", unit="%", source="—")
@@ -370,37 +389,115 @@ def measure(now=None):
     return rows
 
 
-def choose(task, now=None, tolerance=0.20):
+def task_cost(lane):
+    """What one piece of work on this lane actually cost, in dollars.
+
+    The blended per-Mtok price cannot separate effort levels: terra at max and
+    terra at medium bill at the same rate and differ by 4.8x on the bill,
+    because the expensive one spends far more tokens thinking. The bench
+    measured the thing that matters — mean cost of one whole task — so the
+    tie-break uses that and falls back to list price only for a lane with no
+    measured row.
+    """
+    key = (LANES[lane] or {}).get("bench_key")
+    if key and CAPABILITY:
+        usd = CAPABILITY["lanes"].get(key, {}).get("usd_per_task")
+        if usd:
+            return usd
+    return LANES[lane]["blended_usd_per_mtok"]
+
+
+def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
+    """Pick a lane for `task`, narrowed by `shape` where there is evidence.
+
+    Returns `(lane, rows, why, verdict)`. `verdict` carries the capability
+    decision: which band the chosen lane sits in, what the shape's guard is when
+    that band is `guarded`, and which lanes the matrix refused. It is None when
+    no shape was given or the class is not shape-gated, so a caller that ignores
+    it keeps the old behaviour.
+
+    The bands run drop-in, then guarded, then the class's own fail-back. Work is
+    never dropped and never routed down to a refused lane to get around a limit:
+    when nothing clears, the last resort is the class's first allowed lane, and
+    the verdict says so rather than the caller discovering it from the output.
+    """
     spec = TASKS[task]
     rows = measure(now)
-    eligible = [l for l in spec["allow"] if l in rows]
+    gated = gate_lanes(task, shape) if shape else None
+    verdict = None
+    allow = list(spec["allow"])
+
+    if gated is not None and shape in SHAPES:
+        # Bands in the order they may be spent. Descend on two conditions, and
+        # only these two: the band is empty, or every lane in it is at its cap.
+        # A spent band is not a reason to send work to a lane the matrix refused
+        # — the descent ends at the reference lane, never below it.
+        ladder = [("drop-in", gated["dropin"])]
+        if not require_dropin:
+            ladder.append(("guarded", gated["guarded"]))
+        ladder.append(("fail-back", gated["failback"]))
+        chosen_band, band = ladder[-1][0], list(ladder[-1][1])
+        for name, lanes in ladder:
+            live = [l for l in lanes if l in rows and rows[l]["allowance"] > 0]
+            if live:
+                chosen_band, band = name, live
+                break
+        # Score leads, usage follows. Narrow the live band to the lanes whose
+        # measured output is equivalent to the best available, and only then let
+        # headroom choose. Ranking on headroom across the whole band would trade
+        # real output quality for load-spreading: on greenfield work it once
+        # picked a lane 13 points behind because the better one was near its
+        # budget. Inside the equivalence margin that trade is free, which is
+        # exactly where spreading load belongs.
+        equivalent = equivalent_set(band, gated["grades"])
+        outranked = [l for l in band if l not in equivalent]
+        verdict = {
+            "shape": shape, "band": chosen_band, "considered": equivalent,
+            "outranked": outranked,
+            "refused": gated["refused"], "failback": gated["failback"],
+            "skipped_spent": [l for n, ls in ladder if n != chosen_band for l in ls
+                              if l in rows and rows[l]["allowance"] <= 0],
+            "guard": SHAPES[shape]["guard"] if chosen_band != "drop-in" else None,
+            "grades": {l: gated["grades"].get(l) for l in spec["allow"]},
+        }
+        allow = equivalent
+
+    eligible = [l for l in allow if l in rows]
     if not spec["balance"]:
         # Fixed order still skips a spent lane. The policy says which lanes may
         # do this work; it does not say to send it somewhere that will refuse.
-        for lane in spec["allow"]:
+        for lane in allow:
             if rows[lane]["allowance"] > 0:
-                first = spec["allow"][0]
+                first = allow[0]
                 why = ("fixed by policy" if lane == first else
                        f"fixed by policy, but {first} is at {rows[first]['used_pct']:.0f}% "
                        f"— next allowed lane with headroom")
-                return lane, rows, why
-        return spec["allow"][0], rows, (
-            f"every lane allowed for {task} is at its cap — expect a limit")
+                return lane, rows, why, verdict
+        return allow[0], rows, (
+            f"every lane allowed for {task} is at its cap — expect a limit"), verdict
     usable = [l for l in eligible if rows[l]["measured"]] or eligible
     best = max(rows[l]["allowance"] for l in usable)
     if best <= 0:
-        return usable[0], rows, "every eligible lane is at its cap — first allowed lane, expect a limit"
+        return usable[0], rows, (
+            "every eligible lane is at its cap — first allowed lane, expect a limit"), verdict
     band = [l for l in usable if rows[l]["allowance"] >= best * (1 - tolerance)]
-    top = min(band, key=lambda l: rows[l]["price"])
+    top = min(band, key=task_cost)
     others = ", ".join(f"{l} {rows[l]['allowance']:.4f}"
                        for l in sorted(usable, key=lambda l: -rows[l]["allowance"]) if l != top)
     if len(band) > 1:
         why = (f"within {int(tolerance * 100)}% on headroom ({'/'.join(sorted(band))}), so the "
-               f"cheapest wins at ${rows[top]['price']:.2f}/Mtok — {rows[top]['allowance']:.4f}/day"
+               f"cheapest wins at ${task_cost(top):.2f} a task — {rows[top]['allowance']:.4f}/day"
                + (f" vs {others}" if others else ""))
     else:
         why = f"most headroom per remaining day ({rows[top]['allowance']:.4f}/day vs {others})"
-    return top, rows, why
+    if verdict and len(usable) == 1 and verdict["outranked"]:
+        # One lane survived the equivalence filter, so score decided and headroom
+        # never got a vote. Saying "most headroom" here would credit the wrong
+        # stage for the choice.
+        why = (f"top measured lane on this shape; "
+               f"{', '.join(verdict['outranked'])} more than "
+               f"{EQUIVALENCE_POINTS * 100:.0f} points behind it")
+    return top, rows, why, verdict
 
 
 def calibrate(pairs):
@@ -470,11 +567,70 @@ def argv_for(lane, prompt="{PROMPT}", outfile="/tmp/lane-out.md"):
             for a in LANES[lane]["cmd"]]
 
 
+SYMBOL = {"GOLD": "++", "GREEN": "+", "AMBER": "~", "RED": "x", "THIN": "?", "REF": "."}
+#: Column headings for --matrix. Truncating lane names collides three codex
+#: lanes into one heading, and a table whose columns cannot be told apart is
+#: worse than no table.
+ABBREV = {"codex-sol": "sol@med", "codex-sol-high": "sol@high", "codex-terra": "terra@high",
+          "codex-terra-max": "terra@max", "codex-terra-medium": "terra@med",
+          "gemini": "gemini", "grok": "grok", "glm": "glm", "fable": "fable", "opus": "OPUS"}
+
+
+def print_matrix(shape=None):
+    """The measured capability table, one row per shape, one column per lane.
+
+    Prints what was measured, not what the router would do with it, so that a
+    surprising route can be checked against the evidence behind it.
+    """
+    if CAPABILITY is None:
+        print("no capability_matrix.json — routing falls back to policy and headroom alone")
+        return 1
+    src = CAPABILITY["source"]
+    shapes = [shape] if shape else list(CAPABILITY["shapes"])
+    keys = [(l, LANES[l]["bench_key"]) for l in LANES if LANES[l].get("bench_key")]
+    print(f"bench {src['bench']} — {src['visible_tasks']} tasks, measured {src['measured']}, "
+          f"reference {src['reference_lane']}")
+    print("cell = mean score on that shape, then the grade "
+          "(++ beats opus, + drop-in, ~ guarded, x refused, ? too thin, . reference)\n")
+    print(f"{'shape':<24}{'n':>3} " + "".join(f"{ABBREV.get(l, l)[:11]:>12}" for l, _ in keys))
+    for s in shapes:
+        ent = CAPABILITY["shapes"].get(s)
+        if not ent:
+            print(f"{s}: not in the matrix")
+            continue
+        line = f"{s:<24}{ent['n']:>3} "
+        for lane, _ in keys:
+            g = shape_grade(lane, s)
+            if g is None or g.get("mean") is None:
+                line += f"{'—':>12}"
+            else:
+                mark = SYMBOL[g["gate"]] + ("*" if g["clamped"] else "")
+                line += f"{g['mean'] * 100:>8.0f}{mark:>4}"
+        print(line)
+    print("\n* the grade was clamped into the guarded band because the lane's evidence is a "
+          "proxy:\n  a different model version or a different harness than the lane runs.")
+    print("\nlane                 tier   $/task   min   evidence   harness")
+    for lane, key in keys:
+        L = CAPABILITY["lanes"].get(key, {})
+        usd = f"${L['usd_per_task']:.2f}" if L.get("usd_per_task") else "—"
+        print(f"{lane:<20} {L.get('tier', '?'):>4}{usd:>9}{L.get('mean_minutes', 0):>6}"
+              f"   {LANES[lane]['evidence']:<10} {L.get('harness', '')}")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--task", choices=sorted(TASKS))
+    ap.add_argument("--shape", choices=sorted(SHAPES),
+                    help="what the work IS. Narrows the class to the lanes measured good "
+                         "enough for that shape before headroom picks between them.")
+    ap.add_argument("--require-dropin", action="store_true",
+                    help="refuse to route to a guarded lane; fall back to the class's "
+                         "fail-back instead")
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--matrix", nargs="?", const="", metavar="SHAPE",
+                    help="print the measured capability matrix, all shapes or one")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--prompt", default="{PROMPT}")
     ap.add_argument("--outfile", default="/tmp/lane-out.md")
@@ -486,35 +642,66 @@ def main():
     if args.calibrate:
         return calibrate(args.calibrate)
 
+    if args.matrix is not None:
+        if args.json:
+            print(json.dumps(CAPABILITY, indent=2))
+            return 0
+        return print_matrix(args.matrix or None)
+
     if args.report or not args.task:
         rows = measure()
         if args.json:
             print(json.dumps(rows, indent=2))
             return 0
-        print(f"{'lane':<12}{'model':<24}{'tier':>5}{'used':>16}{'used%':>7}"
+        print(f"{'lane':<20}{'model':<24}{'tier':>5}{'used':>16}{'used%':>7}"
               f"{'days left':>11}{'allowance':>11}  source")
         for r in sorted(rows.values(), key=lambda r: (-r["tier"], -r["allowance"])):
             pct = "—" if r["used_pct"] is None else f"{r['used_pct']:.1f}%"
-            print(f"{r['lane']:<12}{r['model']:<24}{r['tier']:>5}{r['used']:>16}{pct:>7}"
+            print(f"{r['lane']:<20}{r['model']:<24}{r['tier']:>5}{r['used']:>16}{pct:>7}"
                   f"{r['days_left']:>11.2f}{r['allowance']:>11.4f}  {r['source']}")
             if r["note"]:
-                print(f"{'':<12}└─ {r['note']}")
+                print(f"{'':<20}└─ {r['note']}")
         print("\nTier 1 is a vendor-computed utilization read out of local state. Tier 2 is counted "
               "here and divided by a budget you set — an estimate, not a quota reading.")
+        print("Every codex lane reads one account's rate limit, so their allowances move together.")
         return 0
 
-    lane, rows, why = choose(args.task)
+    lane, rows, why, verdict = choose(args.task, shape=args.shape,
+                                      require_dropin=args.require_dropin)
     spec = LANES[lane]
-    payload = {"task": args.task, "lane": lane, "model": spec["model"],
+    payload = {"task": args.task, "shape": args.shape, "lane": lane, "model": spec["model"],
                "family": spec["family"], "effort": spec["effort"], "reason": why,
+               "capability": verdict,
                "argv": argv_for(lane, args.prompt, args.outfile), "env": spec["env"],
                "verify": spec["verify"], "meters": rows}
     if args.json:
         print(json.dumps(payload, indent=2))
         return 0
     print(f"task     {args.task} — {TASKS[args.task]['label']}")
+    if args.shape:
+        print(f"shape    {args.shape} — {SHAPES[args.shape]['label']}")
     print(f"lane     {lane} ({spec['model']}, {spec['family']} family, effort {spec['effort']})")
     print(f"why      {why}")
+    if verdict:
+        g = verdict["grades"].get(lane)
+        if g and g.get("mean") is not None and g["gate"] != "REF":
+            print(f"measured {g['mean'] * 100:.0f} on this shape against opus's "
+                  f"{CAPABILITY['shapes'][args.shape]['opus_mean'] * 100:.0f} "
+                  f"({g['delta'] * 100:+.0f} pts, p={g['p']:.2f}, n={g['n']}, "
+                  f"tier {g['tier']}, {g['evidence']} evidence)")
+        print(f"band     {verdict['band']}"
+              + ("  — no cheaper lane measured up on this shape"
+                 if verdict["band"] == "fail-back" else ""))
+        if len(verdict["considered"]) > 1:
+            print(f"equal    {', '.join(verdict['considered'])} — within "
+                  f"{EQUIVALENCE_POINTS * 100:.0f} points of each other, so headroom chose")
+        if verdict["outranked"]:
+            print(f"outrank  {', '.join(verdict['outranked'])} — eligible but measured further "
+                  f"behind, so not considered on headroom")
+        if verdict["refused"]:
+            print(f"refused  {', '.join(verdict['refused'])} — measured too far behind on this shape")
+        if verdict["guard"]:
+            print(f"guard    {verdict['guard']}")
     if spec["env"]:
         print("env      " + "  ".join(f"{k}={v!r}" for k, v in spec["env"].items()))
     print("run      " + " ".join(a if " " not in a else repr(a)

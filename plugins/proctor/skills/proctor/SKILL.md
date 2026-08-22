@@ -1,7 +1,7 @@
 ---
 name: proctor
 description: >-
-  Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives the Proctor MCP server, which reads the accessibility tree and screen contents itself — every capture carrying its own frame trustworthiness — and actuates through the process-directed plane, so background, occluded and other-Space windows are all reachable without stealing focus. Use this when someone asks to test, QA, exercise, audit, smoke-test or find bugs in a Mac app, a SwiftUI or AppKit or Catalyst or Electron app, a menu bar app or a preference pane — when they ask whether a Mac app is ready to ship, whether a flow still works, why a test is flaky, or what breaks in dark mode or at a larger text size. Use it too for the UI/UX design side of a Mac app: checking a rendered UI against acceptance criteria or a mockup, and checking whether it is native and correct — right control sizes, right type ramp, no non-native tells — a design test the platform itself is the answer key for. Also use it when a specific test case or suite needs running against a Mac app, and when someone wants a Mac app driven end to end by an agent rather than by hand. It carries a second, much narrower lane for iOS Simulator apps — deep links through `simctl` and Maestro flow files — so use it for putting an iOS app into a named state and scoring a flow, while knowing that lane has no accessibility tree, no elements and no geometry.
+  Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives the Proctor MCP server, which reads the accessibility tree and screen contents itself — every capture carrying its own frame trustworthiness — and actuates through the process-directed plane, so background, occluded and other-Space windows are all reachable without stealing focus. Use this when someone asks to test, QA, exercise, audit, smoke-test or find bugs in a Mac app, a SwiftUI or AppKit or Catalyst or Electron app, a menu bar app or a preference pane — when they ask whether a Mac app is ready to ship, whether a flow still works, why a test is flaky, or what breaks in dark mode or at a larger text size. Use it too for the UI/UX design side of a Mac app: checking a rendered UI against acceptance criteria or a mockup, and checking whether it is native and correct — right control sizes, right type ramp, no non-native tells — a design test the platform itself is the answer key for. Also use it when a specific test case or suite needs running against a Mac app, and when someone wants a Mac app driven end to end by an agent rather than by hand. It carries a second, much narrower lane for iOS Simulator apps — deep links through `simctl` and Maestro flow files — so use it for putting an iOS app into a named state and scoring a flow, while knowing that lane has no accessibility tree, no elements and no geometry. It also drives virtual-machine guests through lume, prlctl or tart, so use it when a test needs a machine in a known state, a pinned macOS version, or a run that does not touch the desktop the person is working on: a macOS guest runs its own Proctor holding that machine's own grants, so it gets the full native treatment including the accessibility tree, while Linux and Windows guests are delegated to coordinates and screenshots with no tree to read. It reaches guests that already exist and provisions none.
 ---
 
 # Proctor
@@ -100,7 +100,7 @@ MCP server is not configured in this host. Point the user at `~/Dev/proctor-mcp`
 — `scripts/install.sh` builds and loads it and prints the `claude mcp add` line
 — and stop, since there is nothing to drive until it is there. The line it
 prints ends in `--profile core`, which advertises the ten tools that drive a Mac
-at roughly 6.8k tokens rather than all twenty. The catalogue is re-sent every
+at roughly 6.8k tokens rather than all twenty-one. The catalogue is re-sent every
 turn and survives compaction, so that difference is a standing cost paid before
 any work happens. Widen to `--profile scripting` for flows and determinism runs,
 or `--profile full` for the iOS lane, policy, `kill`, `inspect` and the CUA
@@ -679,6 +679,76 @@ was developed on. The Maestro lane below *was* verified against a real
 simulator. If you run with `PROCTOR_ACTUATION=cua`, treat the first delegated
 step as a probe rather than as a proven path.
 
+## The guest lane
+
+`proctor_guest` reaches the virtual machines this Mac can already see through
+`lume`, `prlctl` or `tart` — any one of the three is enough, and `doctor` carries
+a guest lane row saying which of them this machine has. It is advertised only by
+`--profile full`.
+
+### Host or guest
+
+Use **the host** when the application under test is on this Mac and the person's
+desktop can be borrowed for the run. That is the default, and it is the lane the
+rest of this file is written about.
+
+Use **a guest** when the campaign needs something the host cannot give it:
+
+- a machine in a known state, or one restored to the same state before each run,
+- a pinned macOS version, when the question is what the app does on that version,
+- a run that must not touch the session somebody is working in,
+- a run that would otherwise leave state behind on the person's machine.
+
+Those reasons are about isolation. The two-guest cap under `## Scale` answers a
+different question — how many at once — and does not bear on whether to use one.
+
+### Two tiers, and a campaign planned for the wrong one will not run
+
+A **macOS guest is a native witness**: a full Proctor runs inside it, holding
+that machine's own Accessibility and Screen Recording grants, so it has the
+accessibility tree, frame status and the tri-observer check this file assumes
+throughout. `attach` points the session at one, and the session's later tool
+calls run inside that guest rather than on this Mac. `detach` points it back.
+`proctor_guest`, `proctor_doctor` and `proctor_policy` keep answering about this
+Mac while attached, and a session whose link is down is refused with the guest
+named rather than quietly run here — a verdict about the wrong machine is the
+outcome that lane exists to prevent.
+
+A **Linux or Windows guest is delegated**: actuation and screenshots, no Proctor
+socket, no accessibility tree. Assertions that read the tree are skipped with a
+reason rather than passed. Plan those campaigns around coordinates and pixels,
+the way `## The iOS lane` plans around its three channels.
+
+### Nothing here provisions a guest
+
+`list`, `status`, `start`, `stop` and `clone` operate on a virtual machine that
+already exists. Creating one, granting Accessibility and Screen Recording inside
+its Aqua session, and cloning that granted image are things a person does with
+the provider's own CLI, because an install must not happen as a side effect of a
+tool call and because agent and daemon calls cannot raise macOS permission UI —
+SSH is not the foreground Aqua session that owns the visible desktop. That is
+the whole of the grants story: grant once by hand, then clone.
+
+So when a campaign needs a guest that does not exist yet, ask for a provisioned
+one before planning around it. Provisioning the first guest on this project took
+most of a session and four closed routes (`docs/specs/spec-PRO-0076.md` in the
+proctor-mcp repository); it is not a step to slip into the middle of a run.
+
+### Two results worth reading correctly
+
+`status` reports `osVersion` where it can be established and `unknown` with a
+reason where it cannot. The version comes from the Proctor inside the guest
+answering over an attach link, since no provider records one in its listing, and
+it is never inferred from the image name. A guest called `macos-sequoia-cua` is
+evidence of what somebody typed.
+
+The Tahoe warning is an open report rather than a settled property. Tahoe guests
+were reported to render no application windows — trycua/cua #870 and Apple
+FB21748086, both still open — but on 2026-08-21 Proctor drove a macOS 26.6.2
+guest in which Calculator, System Settings and Setup Assistant all rendered
+normally. Weigh it as one measurement against two open reports rather than
+treating either as settled.
+
 ## The iOS lane
 
 `proctor_ios` drives an app on a booted iOS Simulator. It is advertised only by
@@ -799,9 +869,14 @@ attests to the bytes that ran.
 One session drives many windows concurrently, because process-directed
 actuation does not contend for focus. That is where parallelism lives.
 
-Apple silicon caps concurrent macOS guests at two, so a VM fleet is not the
-answer, and more real parallelism past that is a hardware purchase rather than
-a configuration change. Do not design a campaign that assumes otherwise.
+**How many guests at once? Two.** Apple silicon caps concurrent macOS guests at
+two, so a VM fleet is not where extra throughput comes from, and more real
+parallelism past that is a hardware purchase rather than a configuration change.
+Attaching takes a slot in a counted pool; a third session waits in the queue with
+its position and depth, and is never granted by stopping somebody else's guest.
+Plan a campaign around those two slots. This is a throughput answer and does not
+bear on whether to use a guest at all — `## The guest lane` above answers that,
+and its reasons are isolation rather than scale.
 
 **Several sessions on one Mac is a different question, and the server does not
 yet arbitrate it.** The agent is one process behind one socket and any number of
@@ -876,9 +951,9 @@ way a Dock click would, then attaches.
 
 ## Depth
 
-- `references/tools.md` — all twenty tools, their arguments, the `--profile`
-  cost, the decision each one exists to serve, and seven results whose obvious
-  reading is wrong.
+- `references/tools.md` — the 21 tools the server ships, their arguments, the
+  `--profile` cost, the decision each one exists to serve, seven results whose
+  obvious reading is wrong, and why four internal verbs are not on the list.
 - `references/methodology.md` — the state matrix in full, the accessibility
   rubric, the fidelity ledger, and the disclosure requirements. Written for the
   macOS lane, and its tree-based passes have no iOS equivalent.
