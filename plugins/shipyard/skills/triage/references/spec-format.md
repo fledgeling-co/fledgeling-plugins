@@ -36,7 +36,8 @@ Do this deterministically. When in doubt, re-read the ledger before writing.
    - **If it exists:** read `Project code` and `Last allocated` from it. (Ignore any `--code` argument when a ledger already exists — the recorded code wins; if they conflict, stop and tell the user.)
 2. **Compute the next id.** `next = Last allocated + 1`; zero-pad `next` to **4 digits**; `ID = "<CODE>-" + padded` (e.g. code `DIO`, next `1` → `DIO-0001`; next `42` → `DIO-0042`).
 3. **Update the ledger:** set `Last allocated: next`, and append a table row `| <ID> | <short title> | <YYYY-MM-DD> | Triage |`.
-4. **Create the spec** at `docs/specs/spec-<ID>.md` from the spec scaffold below.
+4. **Create the spec** at `docs/specs/spec-<ID>.md` from the spec scaffold below, and write
+   its `**Brief:**` line in one of the three forms in *The brief citation* below.
 
 Derive `<short title>` (≤6 words) from the feature description. Use today's date (`YYYY-MM-DD`).
 
@@ -63,6 +64,7 @@ Derive `<short title>` (≤6 words) from the feature description. Use today's da
 **Status:** Triage
 **Created:** <YYYY-MM-DD>
 **Last updated:** <YYYY-MM-DD>
+**Brief:** `docs/features-to-triage/<slug>.md`
 
 ## Feature description
 
@@ -72,6 +74,35 @@ Derive `<short title>` (≤6 words) from the feature description. Use today's da
 
 <!-- Triage, plan link, and progress sections are appended below. -->
 ```
+
+### The brief citation
+
+The `**Brief:**` line records where the spec came from, and it is written at id allocation rather
+than remembered later. A reckoning reconciles the brief queue against what shipped by reading that
+line, and the join is the one inferential step in an otherwise deterministic pipeline. Measured on
+one repository: 66 specs carried the line and all 66 joined, while 13 briefs whose specs did not
+carry it could not be spoken for at all.
+
+Write one of these three forms:
+
+| Situation | The line |
+| --- | --- |
+| The brief file stays in `docs/features-to-triage/` | ``**Brief:** `docs/features-to-triage/<slug>.md` `` |
+| You consume the brief, deleting it from the queue | ``**Brief:** `docs/features-to-triage/<slug>.md` @ `<sha>` `` |
+| The feature was never a brief | `**Brief:** none. <what it came from>` |
+
+For the second form take `<sha>` from `git rev-parse --short HEAD` *before* the commit that deletes
+the brief, so the citation records the commit that still holds it rather than a path that no longer
+resolves. A citation nobody can open is worth what no citation is worth: one repository shipped four
+specs citing briefs the same commit had deleted, and every check it had passed all four, because
+presence and resolution are two claims and it only made the first.
+
+For the third form, name the artifact — the research document, the wave report, the campaign report,
+or the request and where it was recorded. `none` on its own says what a missing line says.
+
+Take the path from the file you read. Brief numbering and id numbering drift apart as briefs are
+retired, so the number is a different feature often enough to be no source at all: on one repository
+brief 15 belongs to id 0014, and brief 35 to id 0034.
 
 After triage, append a triage section (shapes below) and update `Status` + `Last updated` in the header (and the ledger row's Status). `/plan` later appends a `## Plan` pointer; `/work` appends a `## Progress` section.
 
