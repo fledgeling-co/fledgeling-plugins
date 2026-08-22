@@ -113,8 +113,16 @@ most safety-critical unscripted check. **Held firmly.**
 - The ≤4 concurrent wave cap and ~16 global budget: rate-limiter observations, not tuned optima.
 - The 1-in-3 executor revert kill-switch: a judgement threshold.
 - The 3-round gap-fix park: convergence heuristic.
-- Executor lane order (agy > grok > codex-terra): throughput-preference policy from field use,
-  re-sweep when models change.
+- Executor lane order (agy > grok > codex-terra): **superseded 2026-08-22.** It was a
+  throughput-preference policy from field use, and the re-sweep it asked for arrived — `defer`'s
+  capability matrix, 106 tasks with opus as the reference. Against the best lane available per
+  work shape the fixed order cost 16 points on average, 54 on a from-scratch page and 38 on
+  regression-sensitive work, and its first choice grades RED on five of eleven shapes. The
+  throughput premise did not hold either: per whole task gemini runs 4.0 minutes against
+  `gpt-5.6-terra@medium`'s 2.2, at half the cost. The order was right on the three shapes it was
+  tuned against and expensive elsewhere. Lane choice is now per-shape (`executor-lanes.md`); the
+  compaction override and the Claude fail-back are unchanged, because the bench scores one
+  bounded task per run and can see neither.
 - The 17.6pp same-family inflation and the Theoria/Cooperative-Sabotage figures (Gemini panel):
   single weakly-sourced cases; the direction informs, the numbers do not gate anything.
 

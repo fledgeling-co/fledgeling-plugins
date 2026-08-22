@@ -1,14 +1,19 @@
 # Verification lanes
 
 > **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
-> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
-> wire-verify it in one step. The classes are `implementation`, `completeness`,
-> `general`, `referral`, `verification` and `design-review`. Three rules bind
-> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
-> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
-> never grades code or a ticket, and design review stays on Opus and Fable. What
-> follows is this pipeline's reading of that policy, not a second copy of it.
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
+> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
+> to run and wire-verify it in one step. The classes are `implementation`,
+> `completeness`, `general`, `referral`, `verification` and `design-review`.
+> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
+> the shapes. It narrows the class to the lanes measured good enough for that kind
+> of work before headroom picks, which is where the cost saving lives; the two
+> gated classes are `implementation` and `general`, and the judgement classes
+> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
+> `max` (it is the referral lane at `medium` and the implementation lane at
+> `high`), Fable judges but never grades code or a ticket, and design review stays
+> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
+> second copy of it.
 
 ## One judge, not a panel
 

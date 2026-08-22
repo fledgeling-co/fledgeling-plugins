@@ -1,14 +1,19 @@
 # Orchestration model — context, worktrees, and when to use agents
 
 > **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
-> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
-> wire-verify it in one step. The classes are `implementation`, `completeness`,
-> `general`, `referral`, `verification` and `design-review`. Three rules bind
-> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
-> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
-> never grades code or a ticket, and design review stays on Opus and Fable. What
-> follows is this pipeline's reading of that policy, not a second copy of it.
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
+> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
+> to run and wire-verify it in one step. The classes are `implementation`,
+> `completeness`, `general`, `referral`, `verification` and `design-review`.
+> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
+> the shapes. It narrows the class to the lanes measured good enough for that kind
+> of work before headroom picks, which is where the cost saving lives; the two
+> gated classes are `implementation` and `general`, and the judgement classes
+> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
+> `max` (it is the referral lane at `medium` and the implementation lane at
+> `high`), Fable judges but never grades code or a ticket, and design review stays
+> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
+> second copy of it.
 
 This is the reasoning behind how `ship-feature` runs. Read it before you start; it prevents the two failure modes that ruin a long conductor flow — **losing the thread** (context evaporates mid-pipeline) and **fragmenting the feature** (work scattered across branches that can't be merged as one).
 
@@ -43,7 +48,7 @@ Cost note — route the lanes, not everything strong. Heavy fan-out on the stron
 |---|---|
 | Leaf readers (triage grounding, plan investigation, work Phase A) + gate-runner subagents | haiku |
 | Evidence lenses (UI fidelity, clause table, reachability) · adversarial finding-verifiers · e2e Phases 0–4 · design leaf verifiers + page assembly from existing composites · Sentinel verdict + Assumptions (with the triage gate) · plan synthesis Trivial/Small | sonnet |
-| Mechanical work Phase B/E slices meeting the delegation criteria | the executor lane order — **agy gemini-flash-3.7 `high` → grok grok-4.6 `high` → codex `gpt-5.6-terra` `medium` → Claude** (shipyard `references/executor-lanes.md` + `codex-cli.md` §R3) |
+| Mechanical work Phase B/E slices meeting the delegation criteria | **no fixed order** — `defer --task implementation --shape <shape>` picks per slice, Claude fail-back (shipyard `references/executor-lanes.md` + `codex-cli.md` §R3). A fixed order cost 16 points on average against the best lane per shape |
 | **The three out-of-family gates: the triage spec review · the plan review gate · work Phase D's completeness critic** | **codex `gpt-5.6-sol` at `medium`, read-only** — sideways, not down |
 | Plan synthesis, Standard tier | opus (or glm-5.2-high + the plan skill's mandatory review gate) |
 | Plan synthesis Large · work Phase A synthesis · Phase C rebase conflicts · security/guardrails/client-asserted-identity lenses · gap-fix audit over cheap-lane code · e2e Phase 5 judgment + Phase 6 fixes · design aesthetic direction + new composites · merge/finalize/conflict resolution · the Phase 4b deferred-loop classification (small-remainder vs child-spec) | opus — never downgrade |

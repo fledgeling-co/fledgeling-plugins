@@ -241,8 +241,36 @@ def read_briefs(briefs_dir, ignore=()):
 ID_RE = re.compile(r"\b(?:REQ|CASE|DEF|SURF|FLOW|COMP)-\d+\b")
 
 
+def flatten_text(value):
+    """Every registry field reaching `tokens` is free-form JSON, so it is not
+    reliably a string.
+
+    Measured on one real campaign's `inventory.json`: of 52 defect rows the
+    `evidence` field was `None` on 31, a string on 16 and a **list on 5** — and
+    `(text or "").lower()` raised `AttributeError: 'list' object has no
+    attribute 'lower'` on the first list, so `build` crashed outright rather
+    than producing a weaker join. The same field is free-form on requirements
+    (`note`) and surfaces (`slug`), so fixing the one call site would only move
+    the crash.
+
+    A list is flattened rather than dropped. Dropping is the fail-closed
+    direction and it is the wrong one here: `tokens` feeds the JOIN, which is
+    already labelled a guess and already refuses to retire a brief on one, so
+    silently shrinking it loses real signal while making the join look weaker
+    than the evidence is. Nothing downstream trusts a token edge on its own."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        return " ".join(flatten_text(v) for v in value.values())
+    if isinstance(value, (list, tuple, set)):
+        return " ".join(flatten_text(v) for v in value)
+    return str(value)
+
+
 def tokens(text):
-    return {w for w in re.findall(r"[a-z0-9]+", (text or "").lower())
+    return {w for w in re.findall(r"[a-z0-9]+", flatten_text(text).lower())
             if len(w) > 2 and w not in STOPWORDS}
 
 

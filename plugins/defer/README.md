@@ -30,22 +30,23 @@ verify   relay-ledger (see references/wire-verify.md)
 ```
 
 `--json` returns the same answer with argv and env ready to spawn. `--report`
-prints every lane's meter without choosing. `lane_run.sh <task> "<prompt>"` does
+prints every lane's meter without choosing, and `--matrix` prints the measured
+capability table without choosing either. `lane_run.sh <task> "<prompt>"` does
 the whole thing: picks, runs, checks the receipt, falls through to the next lane
 in the class if the first produces nothing, and appends what it cost to
 `~/.claude/defer-usage.jsonl`.
 
 ## The matrix
 
-Six task classes, seven lanes, five model families. A cell holds the effort that
+Six task classes, ten lanes, five model families. A cell holds the effort that
 lane runs at for that class — pinned, because a lane that inherits its config
 default is not the lane anyone chose.
 
 | Task class | gemini | grok | glm | terra | sol | opus | fable |
 |---|---|---|---|---|---|---|---|
-| **implementation** — writing code | high | xhigh | high | — | — | xhigh | — |
+| **implementation** — writing code | high | xhigh | high | max · medium | high | xhigh | — |
 | **completeness** — what was promised and not delivered | high | xhigh | high | — | — | — | — |
-| **general** — neither referred nor a verdict | — | — | — | high | — | — | — |
+| **general** — neither referred nor a verdict | — | — | — | high · medium | — | — | — |
 | **referral** — a fork put to another model | — | — | — | — | medium | — | high |
 | **verification** — grading delivered work; same-family validation | — | — | — | — | — | xhigh | — |
 | **design-review** — judging rendered UI | — | — | — | — | — | xhigh | high |
@@ -53,9 +54,9 @@ default is not the lane anyone chose.
 Three rules sit above the table. They are the ones habit gets wrong, so they are
 stated rather than left to be read off the grid.
 
-1. **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium`.
-   Work that is not a referred decision goes to `gpt-5.6-terra` at `high` — the
-   same context window at a fraction of the price.
+1. **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
+   the implementation lane at `high`. Work that is not a referred decision goes
+   to a terra lane or to `sol@high`.
 2. **Fable judges; it does not verify.** Forks, design calls and referred
    decisions, yes. Grading code or a ticket against its acceptance criteria, no —
    that is `claude-opus-5` at `xhigh`.
@@ -92,6 +93,59 @@ Claude capacity cannot buy: **Claude checking Claude is not an independent
 check.** A completeness critic and an out-of-family second opinion are worth a
 scarce subscription in a way that another Opus call is not, which is why
 `completeness` excludes Claude entirely even though Claude has the most room.
+
+## What the work is, not just what class it is
+
+Headroom decides which of several adequate lanes runs a job. It says nothing
+about whether they are adequate. That second question is answered by a capability
+matrix measured over 106 tasks in a private benchmark, with `claude-opus-5` at
+`xhigh` as the reference, and it is what `--shape` reads:
+
+```bash
+lane_pick.py --task implementation --shape regression-sensitive
+```
+
+Eleven work shapes are graded. The headline of what the measurement found:
+
+- **Opus earns its price on one shape above all.** Editing existing multi-file
+  code under several acceptance criteria at once — the largest shape in the
+  corpus — is where every cheap lane collapses. Gemini loses 30 points there.
+- **Four shapes have a substitute at a tenth of the cost.** With a stated
+  complexity bound, every lane ties opus. On a contract that must not break,
+  `sol@high` beats it by 16 points. On a from-scratch page, the OpenAI lanes beat
+  it. On a new self-contained module, Gemini is level.
+- **The bench measures building, not judging.** So only `implementation` and
+  `general` are shape-gated; `verification`, `referral`, `completeness` and
+  `design-review` route on policy alone, because a score for writing code is not
+  evidence about grading someone else's.
+
+When a shape routes to a cheaper lane the router prints that shape's **guard** —
+the condition under which the lane's known weakness stops mattering, such as
+naming every acceptance criterion separately rather than describing the outcome.
+`--require-dropin` refuses the guarded band and falls back to opus.
+
+Inside whichever band it lands in, **score leads and usage follows.** The best
+measured lane on that shape wins unless another is within 5 points of it, and
+only inside that margin does plan headroom choose. The margin is 5 points because
+that is already what a drop-in grade means, so "close enough to opus to
+substitute" and "close enough to each other to swap" are one claim at one size.
+Running headroom first would trade real output quality for load-spreading — it
+once sent greenfield work to a lane 13 points behind because the better one was
+near its budget. A lane at its cap drops out before the comparison, so a spent
+top scorer never stalls a route.
+
+Two properties keep the gate honest. The reference lane is the **fail-back, never
+a competitor**: opus grades `REF` on every shape by construction, and counting
+that as a pass would hand it every route on the strength of being the yardstick.
+And a lane measured through a **different harness or a different model version**
+is clamped into the guarded band in both directions — it can never clear to
+drop-in on a number that is not its own, and it can never be refused on one
+either. The Gemini rows were measured under a bash-only container scaffold rather
+than under `agy`, so they are a floor rather than a reading.
+
+`skills/defer/references/capability.md` carries the full table, the gate
+thresholds, the two models that were measured and deliberately have no lane, and
+the command that regenerates the whole thing.
 
 ## The lanes
 
