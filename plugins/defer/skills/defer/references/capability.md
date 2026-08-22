@@ -92,31 +92,89 @@ the lane invokes. Every codex lane, opus and fable are exact: `codex exec` and
 
 **`proxy`** means something differed, and there are three separate reasons:
 
-- **Gemini — the harness differed.** The bench ran `gemini-3.7-flash` under
-  mini-swe-agent inside an Apple container: a bash-only scaffold with no native
-  tool calling. The `gemini` lane runs the same model under `agy`. That gap is
-  largest exactly where Gemini looks worst — `brownfield-integration` at 24
-  against opus's 50 is a score for navigating a large existing repo through a
-  bash-only loop, which is the thing the scaffold makes hardest.
+- **Gemini — the harness differed, and one of its two confounds has now been
+  measured away.** The bench ran `gemini-3.7-flash` under mini-swe-agent inside an
+  Apple container: a bash-only scaffold with no native tool calling, and pinned at
+  `temperature: 0`. The `gemini` lane runs the same model under `agy`. Until
+  2026-08-22 this row carried a single explanation — the bash-only loop — and it was
+  reasoning rather than evidence. It has now been tested, and it is wrong for the
+  shape it was doing the most work on. See **The same-scaffold control** below.
 - **Grok — the version differed.** The bench measured `grok-4.5`; the lane runs
   `grok-4.6`, and only 79% of the corpus was covered.
 - **GLM — both differed.** The bench measured `glm-5.2-fast` under mini, on 79%
   of the corpus with a 3% sample window. Tier D.
 
 So a proxy row is clamped into the guarded band in **both** directions. It can
-never clear a lane to drop-in, because the number did not come from that lane.
-It can never refuse one either, because retiring the `agy` Gemini lane on a
-container-scaffold result would be retiring it on a confound. `lane_pick.py
---matrix` marks every clamped cell with `*` and prints the raw grade underneath.
+never clear a lane to drop-in, because the number did not come from that lane. It
+can never refuse one either — and the reason for that half has changed, so it is
+worth stating precisely rather than by habit. `lane_pick.py --matrix` marks every
+clamped cell with `*` and prints the raw grade underneath.
 
 The honest one-line summary: **the codex numbers transfer to the codex lanes; the
 Gemini, Grok and GLM numbers are a floor, not a reading.**
+
+### The same-scaffold control
+
+Measured 2026-08-22, and it is the reason the paragraph above no longer rests on
+the bash-only loop. Hold the harness constant — the same tasks, the same current
+task contract, the same mini-in-a-container scaffold — and compare Gemini against
+the other models that ran inside it. If the scaffold were the explanation, they
+would all be low.
+
+**`static-page` (the same seven tasks), pass rate under mini/container:**
+
+| model | pass rate |
+|---|--:|
+| `qwen3.8-max@max` | 82.9% (29/35) |
+| `grok-4.5@xhigh` | 80.0% (4/5) |
+| `muse-spark-1.1@high` | 80.0% (4/5) |
+| `glm-5.2-fast@max` | 80.0% (4/5) |
+| `deepseek-v4-flash@max` | 80.0% (8/10) |
+| `kimi-k3@max` | 77.8% (7/9) |
+| `deepseek-v4-flash-0731@max` | 61.8% (21/34) |
+| **`gemini-3.7-flash@high`** | **42.9% (6/14)** |
+| **`gemini-3.7-flash@medium`** | **35.3% (6/17)** |
+
+Seven models clear 62–83% through the loop that was supposed to be what made this
+shape hard. **The scaffold is not the explanation for `static-page`**, and the
+argument that it was should not be reinstated.
+
+**`brownfield-integration`, same control:** `qwen3.8-max` 65.1% (28/43),
+`muse-spark@high` 42.9% (12/28), `deepseek-0731` 28.9%, `kimi-k3` 28.6%,
+`glm-5.2-fast` 25.0%, `gemini-3.7-flash@medium` 21.7%, `@high` 19.6%. Here the
+container cohort spans 20 to 65, so the scaffold is doing real work *and* Gemini
+sits at the bottom of it. The 30-point gap to opus is part harness, part model, and
+this control cannot say in what proportion.
+
+### Why the clamp survives the control anyway
+
+The control removes the confound the clamp was justified by. It does not remove the
+second one, which is **specific to this model** and applies exactly to the lane
+comparison: mini pins `temperature: 0` for every route it drives, and Google says of
+this family that they "strongly recommend keeping them at their default values for
+Gemini 3.x models. Changing these parameters (for example, setting the temperature
+below 1.0) can cause unexpected behavior, such as looping or degraded performance,
+particularly in complex mathematical or reasoning tasks." The control models are not
+Gemini 3.x, so they do not inherit that warning and the within-scaffold comparison
+stays fair — but the `agy` lane does not set temperature at all, and the opus rows
+never did either. A vendor-flagged degradation setting on one side of a comparison is
+not a basis for retiring a lane.
+
+So the clamp stays, on a stated reason rather than a disproven one. What changes is
+the guard: `static-page` is the one shape where the failure mode is known, and the
+guard names it. Reinstating the clamp's old justification, or lifting the clamp on
+the strength of this control alone, would both be wrong. **Lifting it needs one
+measurement that does not exist yet: the same seven tasks run through `agy` at
+default sampling.** That is the cheapest experiment in this file and nobody has run
+it.
 
 ## Reading the shapes
 
 **`brownfield-integration` (n=34) is the shape that keeps opus employed.** Opus
 scores 50, the best alternative is 44, and everything cheap collapses: Gemini
-loses 30 points (p=0.002), `terra@medium` loses 24. This is also the largest
+loses 30 points (p=0.002), `terra@medium` loses 24. Unlike `static-page`, the
+scaffold explanation partly survives here — but only partly, and the control below
+says by how much. This is also the largest
 shape in the corpus, so it dominates the headline ranking — which is why opus's
 overall lead is narrower than its lead on the work that actually distinguishes
 models. Route brownfield work to opus unless you can satisfy its guard.
@@ -133,9 +191,18 @@ breaking an existing contract while adding to it is a distinct skill from writin
 good code, and the OpenAI lanes have it.
 
 **`static-page` (n=7) splits the field hardest.** `sol@high` scores 77 against
-opus's 67; Gemini scores 22. Authoring a self-contained page from nothing is not
-the shape a bash-only scaffold penalises much, so the Gemini result here is
-harder to write off than its brownfield one.
+opus's 67; Gemini scores 22. This row used to be hedged with an argument — that
+authoring a page from nothing is not the shape a bash-only scaffold penalises much.
+The argument is now a measurement, and it holds: see the control below. It is also
+the one shape where the *mechanism* of the Gemini failure is known, which changes
+what its guard should say. On these tasks the verifier prints named assertions, and
+**58% of Gemini's failing assertions at `medium` and 86% at `high` state a bound**
+(`exactly N`, `no`, `not`, `only`) against 8% for opus and 6% for `sol@max`. It
+delivers what the brief asks for and exceeds what the brief caps: one rule,
+`exactly one soft elevation shadow`, failed on every card and every toast in its set
+on a run that passed 37 of its 39 other assertions. So the guard for this shape is
+not "try harder", it is: supply a reference input, and make the lane read its
+produced values back against each stated bound.
 
 **`greenfield-module` (n=8) is the shape Gemini is genuinely good at** — 75,
 level with opus, while every codex lane sits at 31–50. It is the clearest single
@@ -235,3 +302,12 @@ a lane's model version moves, or when a shape's `n` grows enough to promote it o
 of THIN. A stale matrix quietly routes work on last quarter's evidence, so the
 `measured` date in the JSON is the thing to check first when a route surprises
 you.
+
+**The same-scaffold control is not regenerated.** `gen_capability.py` computes
+lane-vs-opus scores; it does not hold the harness constant and compare models
+inside it, because that comparison is between rows the matrix does not carry. Those
+figures were derived by hand from the store and are dated in their own section. A
+regeneration will not refresh them and will not warn you that it did not, so
+re-derive them alongside any change to the Gemini row — and if a future Gemini lane
+is measured through `agy` at default sampling, that measurement replaces the
+control rather than joining it.

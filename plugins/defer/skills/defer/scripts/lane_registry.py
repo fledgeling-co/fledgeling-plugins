@@ -80,8 +80,13 @@ LANES = {
         "verify": "output-nonempty",
         "meter": "gemini",
         # Same model, different harness: the bench ran gemini-3.7-flash under
-        # mini-swe-agent in a container, and this lane runs it under agy. The
-        # bench numbers are a floor for this lane, not a reading of it.
+        # mini-swe-agent in a container at temperature 0, and this lane runs it
+        # under agy at default sampling. The bench numbers are a floor for this
+        # lane, not a reading of it. Note WHICH confound still does that work:
+        # a same-scaffold control (capability.md) showed the bash-only loop does
+        # NOT explain the static-page collapse - seven other models cleared
+        # 62-83% through it. What survives is temperature 0, which Google flags
+        # as degrading for the 3.x family specifically.
         "bench_key": "gemini-3.7-flash@medium",
         "evidence": "proxy",
     },
@@ -316,8 +321,13 @@ SHAPES = {
     "static-page": {
         "label": "From-scratch HTML and CSS page, no framework",
         "tell": "one self-contained page, authored rather than assembled",
-        "guard": "the OpenAI lanes beat opus here and Gemini collapses; do not route this shape "
-                 "on headroom alone",
+        # The Gemini collapse here is measured, not a scaffold artifact, and its
+        # mechanism is known: bounds are exceeded, requirements are not missed.
+        "guard": "the OpenAI lanes beat opus here and Gemini collapses, so do not route this "
+                 "shape on headroom alone; if you route it cheap, supply a reference input "
+                 "and make the lane read each produced value back against every stated bound "
+                 "(the measured failure is exceeding a cap on every instance while delivering "
+                 "everything the brief asked for)",
     },
     "deck": {
         "label": "Slide and presentation authoring",
@@ -329,7 +339,8 @@ SHAPES = {
         "label": "Work graded on aesthetic and design judgement",
         "tell": "the output will be judged on how it looks rather than on what it does",
         "guard": "supply the design language, the palette and a reference; the cheap lanes are "
-                 "much closer to opus with a reference than without one",
+                 "much closer to opus with a reference than without one, and state every cap "
+                 "as a value to read back rather than as style advice",
     },
     "accessibility": {
         "label": "Semantics, keyboard paths and ARIA",
@@ -423,9 +434,15 @@ def shape_grade(lane, shape):
     The clamp: a lane whose evidence is `proxy` is pulled into the guarded band
     from both directions. It cannot clear to drop-in, because the number came
     from a different version or a different harness and does not belong to this
-    lane. It also cannot be hard-blocked for the same reason — Gemini's worst
-    shapes were measured through a bash-only container scaffold, and reading
-    that as a verdict on the `agy` lane would retire a lane on a confound.
+    lane. It also cannot be hard-blocked, but read the reason carefully before
+    relying on it: the scaffold argument that used to justify this half was
+    tested on 2026-08-22 and failed. A same-scaffold control put seven other
+    models at 62-83% on the tasks where Gemini scores 22, so the bash-only loop
+    is not what makes `static-page` hard. What still blocks a hard block is the
+    other confound — mini pins `temperature: 0`, which Google flags as degrading
+    for the Gemini 3.x family specifically, while the `agy` lane and the opus
+    reference set no temperature at all. Lifting the clamp needs the seven tasks
+    re-run through `agy` at default sampling. See `references/capability.md`.
     """
     if CAPABILITY is None or shape not in CAPABILITY.get("shapes", {}):
         return None
