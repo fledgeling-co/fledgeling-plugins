@@ -328,3 +328,21 @@ on rendering is the same defect one layer up. This is the shape to look for wher
 outcomes that want opposite next steps share a return value: a wholesale breakage and a
 reproduced defect are not the same finding, and a code that cannot separate them guarantees
 the caller will eventually pick one meaning and print it for both.
+
+## Telling a killed process from a refused one (22 Aug 2026)
+
+A `pgrep -f` pattern-kill took an out-of-family reviewer process on this machine, and the
+victim was attributed to the wrong session — assumed from timing rather than established, so
+the finding propagated with the wrong name on it for an hour. The real victim is still
+unidentified and does not know why it got an empty return.
+
+The discriminator is cheap and does not need pids: **an empty output file with an empty log
+is a kill; an empty output file with a populated log is a denial.** A refused tool call
+writes its own reason to stderr — `user denied permission to run command`, or `a tool
+required the "command" permission that headless mode cannot prompt for` — and **a killed
+process does not stop to explain itself.**
+
+Test on the pair, never on the log alone: a clean run also has an empty log.
+
+The attribution error itself is the second top-level rule catching its own author. A set
+returned a member, the member looked right, and "I know why it belongs" was doing the work.
