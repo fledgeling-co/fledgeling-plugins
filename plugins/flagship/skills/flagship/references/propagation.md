@@ -402,3 +402,43 @@ that decides whether the common-dir move closes the bug or imports someone else'
   covering half the id spaces looks identical to one covering all of them, until somebody
   allocates in the other half** — so check which spaces the lock actually covers rather than
   which defect it was filed against.
+
+## A count that surprises you, in either direction (23 Aug 2026)
+
+Every predicate failure in this corpus until now returned **nothing** and meant *did not
+measure*. This one returned **seventy** and meant *matched a different word*.
+
+A session probing its own allocator for lock primitives ran
+`grep -cE 'flock|mkdir|lock|fcntl|O_EXCL'` and got 70. It was one keystroke from reporting
+seventy lock primitives in an allocator that has none. The seventy were 33 `blockers`, 17
+`block`, 16 `blocked`, 6 `blocker` and 1 `blocks` — the substring `lock` inside `block`.
+Word-bounded, the real count is **2**, both `mkdir(parents=True, exist_ok=True)`, which is the
+*opposite* of a lock: it never fails, so it cannot serialise anything.
+
+**A populated result reads as evidence, and a populated result from a substring match reads
+as strong evidence.** Seventy is a number nobody interrogates. This is the members-have-two-
+readings rule in the direction nobody watches, and it is worse than the empty-result case
+because an empty result at least prompts the question.
+
+The discriminator costs thirty seconds:
+
+```bash
+grep -oE '<pattern>' <paths> | sort | uniq -c | sort -rn
+```
+
+**Print the matched tokens before believing the count**, whenever a count surprises you in
+either direction. It would have caught this, the `git init` argv-array probe that found
+nothing because the call was `Command::new("git").arg("init")`, and a set of seven that was
+really four.
+
+## Detect the absence, not the collision (23 Aug 2026)
+
+The acceptance test for an id-allocation lock has to detect a **lost row**, not a duplicate
+id. A racing allocator that overwrites leaves **no duplicate and no gap to notice it by**,
+which is why the original defect survived as long as it did — every check anyone would
+naturally write looks for a collision, and a collision is the failure mode that announces
+itself.
+
+And where a repo already locks one id space, extend that lock rather than adding a second
+mechanism for the other. A lock per id space is two things to keep in step, and the defect
+exists precisely because two things were out of step.
