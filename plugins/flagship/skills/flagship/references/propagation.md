@@ -276,3 +276,19 @@ while looking like a fix.
 This is a **review** hazard rather than an arming one, and it defeats the discipline the rest
 of this corpus is built on: arming proves a check *can* fail, and none of that establishes it
 fails for the reason its name claims.
+
+## "It has never fired" is evidence about the guard, not the mechanism (22 Aug 2026)
+
+The worktree-lock defect above was present in a second repo's dispatch scripts — same
+mechanism, lock file on a tracked path, so every worktree carries its own copy. Its ledger
+is nonetheless perfect: 49 rows, 49 distinct, contiguous, zero duplicates.
+
+It never fired because a shared-file guard refused any runner branch touching `LEDGER.md`,
+so ids were allocated serially from the main checkout instead. The session's own reading is
+the durable part: **it did not solve the lock, it made the lock unreachable — and those look
+identical from outside until somebody widens the permission.** Relax the guard to let runners
+mint ids and the lock is exactly as broken as the first repo's.
+
+So a clean history is evidence about whatever is standing in front of the mechanism, and
+says nothing about the mechanism. Ask what would have to change for the defect to become
+reachable, and whether anything records that the guard is load-bearing.
