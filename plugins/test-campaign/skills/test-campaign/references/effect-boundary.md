@@ -96,6 +96,13 @@ grep -rn "Command::new" --include="*.rs" crates/*/src/
 cargo install cargo-workspace-unused-pub && cargo workspace-unused-pub
 ```
 
+`vacuity-check.py` runs that mechanically against `campaign.json`'s `sourceRoot`:
+a `provider` has to name a path that exists under the root or a symbol some
+production file contains, and one that resolves to neither is reported with the
+same denominator as one that was never written. A provider nobody resolved is a
+string, which is the vacuity this section describes wearing the census's own
+clothes.
+
 A requirement whose declared effect class has no provider in production source is
 `vacuous` at phase 1, before any test is written — not `contradicted`, which is
 what §2 above distinguishes: contradicted means the product does the thing and
