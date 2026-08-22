@@ -35,18 +35,45 @@ four failing cases that cite it as five jobs — and stops being believed.
 
 ### `unbuilt` — product work
 
-A brief names it and nothing in the registry answers to it.
+A brief cites registry ids on purpose — `REQ-0004`, `DEF-0015` — and the
+registry holds none of them.
 
-The honest reading is narrower than the name: this means **registry-silent**,
-not proven-absent. A campaign that never designed a case for something leaves
-it looking identical to something that does not exist. Where the difference
-matters, `spec-validation` settles it; this skill is not entitled to that
-verdict from documents alone.
+That citation is what makes this class safe to assert. Somebody wrote down what
+should exist, and it is not there: evidence of absence, rather than an absence
+of evidence. Everything weaker than a dangling citation is `unjoined` below.
+
+Where the difference still matters, `spec-validation` settles it; this skill is
+not entitled to that verdict from documents alone.
+
+### `unjoined` — decision work
+
+A brief that the join could not tie to anything in the registry at all.
+
+This is the class that keeps `unbuilt` honest, and it exists because the two
+carry opposite conclusions. The join is the one inferential step in this
+pipeline and it is labelled a guess everywhere else; a guess returning nothing
+is not a finding about the product. On one real registry, folding these into
+`unbuilt` put 75 of 91 briefs into product work on a 17.6% join — every one of
+them naming an item that had shipped — and produced a headline claiming 183
+pieces of product work against a true figure in the low tens.
+
+The row carries the three nearest candidates the join scored and rejected, with
+their scores, so ruling on it is a read rather than a grep. The remedy is a
+person, which is why it is decision work and not product work.
 
 ### `broken` — product work
 
-A campaign `fail`, or a recorded defect, or a brief whose subject one of those
-lands on. Measured, and the answer was no.
+A campaign `fail`, or a defect the registry still records as open, or a brief
+whose subject one of those lands on. Measured, and the answer was no.
+
+**A defect carries its own repair, and it is read.** A row at `fixed`,
+`resolved`, `closed`, `done` or `verified` is `verified-done` — the same
+registry, speaking about the same run, as the `pass` that retires a case. A row
+at `wontfix`, `deferred`, `declined` or `duplicate` is `waived`. A row whose
+status this tool does not recognise, or that carries none, stays `broken`:
+guessing done is the one error in this direction that cannot be recovered from.
+Classing every defect row `broken` without reading `status` is how a campaign
+that had repaired 100 of its 110 defects reported all 110 as remaining work.
 
 This is the only class an ordinary backlog sweep finds reliably, which is why
 a list containing only these looks complete and is not.
@@ -153,12 +180,19 @@ excluded from the work count.
 The gate's core. A case status on the left may only ever produce a class on
 the right:
 
-| Status | May only be |
+| Case status | May only be |
 |---|---|
 | `blocked`, `inconclusive`, `unoracled`, `unselected`, `open` | `unmeasured` |
 | `fail` | `broken` |
 | `pass` | `verified-done` or `retirable` |
 | `n/a`, `skip` | `waived` |
+
+| Defect status | May only be |
+|---|---|
+| `open`, `new`, `confirmed`, `reopened`, `regressed`, `in progress` | `broken` |
+| `fixed`, `resolved`, `closed`, `done`, `verified` | `verified-done` |
+| `wontfix`, `deferred`, `declined`, `duplicate`, `n/a` | `waived` |
+| anything else, or absent | unconstrained — the classifier leaves it `broken` |
 
 Plus: a requirement resting on `reported` or `unknown` evidence may not be
 `verified-done` or `retirable` — self-reported evidence cannot retire itself.
@@ -179,6 +213,8 @@ either way. Resolution order:
 4. `unmeasured`
 5. `retirable`
 6. `unbuilt`, `unnamed` — the documentary classes, last
+7. `unjoined` — not a conclusion at all: what is left when the join reached
+   nothing, and the only class whose remedy is a person reading the brief
 
 ## Worked examples
 
@@ -186,6 +222,17 @@ either way. Resolution order:
 backfill) cites `DEF-0001`. Both get rows; the brief is `broken`, the defect
 is `broken` and is the work item, and the brief rolls into it. One job, two
 rows, and the gate can still account for both.
+
+**The same brief, after somebody fixes it.** `DEF-0001` now reads `fixed`. The
+defect becomes `verified-done` and stops being a work item, and the brief stops
+being `broken` with it — otherwise the repaired work simply reappears one hop
+out, under the brief's id instead of the defect's.
+
+**A brief nothing joined.** `SCR-0088` names a surface the campaign never
+designed a case for, and no note anywhere cites it. `unjoined`, decision work,
+carrying `REQ-0031 (0.14)` as the nearest thing the join looked at and would not
+accept. Not `unbuilt`: the registry was not silent about it, the join never
+reached the registry.
 
 **Ten cases, one dead credential.** Each case is `unmeasured`,
 `is_work_item: false`, and clusters into one blocker carrying all ten ids and

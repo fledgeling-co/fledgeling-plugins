@@ -46,7 +46,8 @@ item cannot fall out of the list, because there is nowhere to fall to.
 
 | Class | What it means | Whose job |
 |---|---|---|
-| `unbuilt` | A brief names it; nothing answers to it | product |
+| `unbuilt` | A brief cites registry ids and the registry holds none | product |
+| `unjoined` | A brief names it; the join reached nothing either way | decision |
 | `broken` | Measured, and the answer was no | product |
 | `unmeasured` | **Nobody found out** | the harness |
 | `unnamed` | Found in the product; no document claims it | a person |

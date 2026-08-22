@@ -58,6 +58,18 @@ WAIVED_DECLARED = ("waived", "deferred", "wontfix", "won't fix", "declined", "ou
 # answer nobody has.
 UNMEASURED_STATUS = ("blocked", "inconclusive", "unoracled", "unselected", "open")
 
+# Defect statuses. A defect row records its own repair, and reading that record
+# is the difference between "110 things are broken here" and "10 are". A case
+# whose status is `pass` already retires with no further corroboration; a
+# defect whose status is `fixed` is the same registry speaking about the same
+# run, so it is read the same way. What is NOT here matters as much: an
+# unrecognised word falls through to `broken`, because guessing done is the
+# only error in this direction that cannot be recovered from.
+DEFECT_FIXED = ("fixed", "resolved", "closed", "done", "verified")
+DEFECT_OPEN = ("open", "new", "confirmed", "reopened", "regressed", "in progress")
+DEFECT_WAIVED = ("wontfix", "won't fix", "will not fix", "deferred", "declined",
+                 "duplicate", "n/a", "not a bug")
+
 # The oracle ladder, weakest first. A rung is not a quality score; it is what
 # the check was able to observe. `presence` proves a thing exists on screen,
 # which is compatible with it doing nothing at all.
@@ -76,6 +88,7 @@ EVIDENCE_DISPUTED = ("contradicted", "vacuous")
 # The classes. Every entity lands in exactly one.
 CLASSES = (
     "unbuilt",       # named, and nothing in the registry answers to it
+    "unjoined",      # named, and the join could not reach the registry at all
     "broken",        # measured, and the answer was no
     "unmeasured",    # nobody found out
     "unnamed",       # the registry found it; no brief or requirement claims it
@@ -90,6 +103,7 @@ CLASSES = (
 # question about whether another feature works.
 KIND_OF = {
     "unbuilt": "product-work",
+    "unjoined": "decision-work",
     "broken": "product-work",
     "unmeasured": "evidence-work",
     "unnamed": "decision-work",
@@ -113,6 +127,16 @@ LEGAL_CLASS = {
     "skip": {"waived"},
 }
 
+# The same gate for defects. A defect is the one entity that carries its own
+# repair, so its status may only ever produce the class that status supports.
+DEFECT_LEGAL_CLASS = {}
+for _st in DEFECT_FIXED:
+    DEFECT_LEGAL_CLASS[_st] = {"verified-done"}
+for _st in DEFECT_OPEN:
+    DEFECT_LEGAL_CLASS[_st] = {"broken"}
+for _st in DEFECT_WAIVED:
+    DEFECT_LEGAL_CLASS[_st] = {"waived"}
+
 # What each kind of not-knowing actually costs to fix. The remedies are
 # different jobs for different people, and a single "test this properly" item
 # sends all five to the wrong place.
@@ -126,6 +150,11 @@ REMEDY = {
     "reported": "obtain independent evidence — this is the project's own account of itself",
     "unknown": "obtain any evidence at all",
 }
+
+# `unjoined` is a class rather than a status, so its remedy sits apart from the
+# table above rather than mixing two vocabularies in one dict.
+UNJOINED_REMEDY = ("read the brief against the registry and rule — the join is a guess and it "
+                   "returned nothing, so nothing here is a finding about the product yet")
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with", "is",
@@ -280,6 +309,42 @@ def jaccard(a, b):
     return len(a & b) / len(a | b)
 
 
+PROJECT_ID_RE = re.compile(r"\A([A-Za-z]{2,}-\d{2,})\b")
+
+
+def project_id_in(filename):
+    """The project id a brief filename opens with, or None.
+
+    The reverse-citation scan exists for `SCR-0075-dead-credential.md`, where a
+    registry note reading "DEF-0015 / SCR-0075" is a link somebody wrote on
+    purpose. Taking the first two hyphen-separated fields instead turns
+    `03-menu-bar-key-equivalents.md` into the token `03-menu` — a position in a
+    directory listing, matched against free prose, and then labelled a citation
+    at confidence 1.0. A guess that can carry a retirement is worse than no
+    edge at all, so the token has to look like an id: letters, then digits.
+
+    Measured on the campaign this was written against, the scan contributed 0
+    of 92 cited edges, so requiring the shape costs nothing there."""
+    m = PROJECT_ID_RE.match(os.path.splitext(os.path.basename(filename or ""))[0])
+    return m.group(1) if m else None
+
+
+def registry_tokens(campaign):
+    """(id, kind, tokens) for every registry entity a brief could match.
+
+    Shared by the join and by the near-miss report, so the candidate a reader
+    is shown for an unjoined brief is the same candidate the join considered
+    and rejected, rather than a second opinion computed a different way."""
+    registry = []
+    for r in campaign["requirements"]:
+        registry.append((r.get("id"), "requirement", tokens(r.get("text", "")) | tokens(r.get("note", ""))))
+    for d in campaign["defects"]:
+        registry.append((d.get("id"), "defect", tokens(d.get("title", "")) | tokens(d.get("evidence", ""))))
+    for s in campaign["surfaces"]:
+        registry.append((s.get("id"), "surface", tokens(s.get("title", "")) | tokens(s.get("slug", ""))))
+    return registry
+
+
 def build_join(briefs, campaign, threshold=0.18):
     """Return edges brief→registry-id, each with a method and a confidence.
 
@@ -288,13 +353,7 @@ def build_join(briefs, campaign, threshold=0.18):
     overlap is a guess. They are labelled differently so a reader can discount
     the second, and so the gate can refuse to retire a brief on a guess."""
     edges = []
-    registry = []
-    for r in campaign["requirements"]:
-        registry.append((r.get("id"), "requirement", tokens(r.get("text", "")) | tokens(r.get("note", ""))))
-    for d in campaign["defects"]:
-        registry.append((d.get("id"), "defect", tokens(d.get("title", "")) | tokens(d.get("evidence", ""))))
-    for s in campaign["surfaces"]:
-        registry.append((s.get("id"), "surface", tokens(s.get("title", "")) | tokens(s.get("slug", ""))))
+    registry = registry_tokens(campaign)
 
     # Registry notes frequently cite a brief by its own project id (SCR-0075).
     # Harvest those first: they are the strongest edges available.
@@ -303,11 +362,9 @@ def build_join(briefs, campaign, threshold=0.18):
         for item in campaign[coll]:
             blob = " ".join(str(item.get(k, "")) for k in ("note", "title", "text", "evidence", "status"))
             for brief in briefs:
-                stem = os.path.splitext(brief["file"])[0]
-                key = stem.split("-")[0:2]
-                token = "-".join(key)
-                if len(token) > 4 and re.search(r"\b" + re.escape(token) + r"\b", blob, re.I):
-                    reverse_cites[brief["id"]].add(item.get("id"))
+                token = project_id_in(brief["file"])
+                if token and item.get("id") and re.search(r"\b" + re.escape(token) + r"\b", blob, re.I):
+                    reverse_cites[brief["id"]].add(item["id"])
 
     for brief in briefs:
         btok = tokens(brief["title"]) | tokens(brief["text"][:4000])
@@ -488,14 +545,43 @@ def classify(briefs, campaign, edges, join_is_weak):
         })
 
     # --- defects -----------------------------------------------------------
+    #
+    # A defect is the one entity that carries its own repair. Classing every
+    # row `broken` without reading `status` is how a campaign that had fixed
+    # 100 of its 110 defects reported all 110 as remaining product work — an
+    # entity absent from the failing set treated as an entity that failed,
+    # which is this tool's own target failure arriving from the other side.
+    defect_class = {}
     for d in campaign["defects"]:
+        st = state_of(d.get("status")) if d.get("status") else ""
+        st = st.lower()
+        if st in DEFECT_FIXED:
+            cls = "verified-done"
+            why = ("the registry records this defect as %r. That is the same registry, speaking "
+                   "about the same run, as the `pass` that retires a case." % st)
+        elif st in DEFECT_WAIVED:
+            cls = "waived"
+            why = ("the registry records this defect as %r — a decision, not a measurement. It "
+                   "stays on the ledger because the reason for it may stop being true." % st)
+        elif st in DEFECT_OPEN:
+            cls = "broken"
+            why = ("a defect is a measured negative result — the unit of product work behind every "
+                   "failing case that cites it")
+        else:
+            cls = "broken"
+            why = (("this defect's status is %r, which is not a word this tool recognises, so it "
+                    "stays broken. Guessing done is the one error here that cannot be recovered "
+                    "from." % st) if st else
+                   "this defect row carries no status, so it stays broken — a repair nobody "
+                   "recorded is not a repair this tool can read")
+        defect_class[d.get("id")] = cls
         rows.append({
-            "id": d.get("id"), "entity": "defect", "class": "broken", "kind": "product-work",
+            "id": d.get("id"), "entity": "defect", "class": cls, "kind": KIND_OF[cls],
             "title": (d.get("title") or "")[:200], "severity": d.get("severity"),
-            "surface": d.get("surface"), "note": (d.get("evidence") or "")[:400],
-            "is_work_item": True,
-            "why": "a defect is a measured negative result — the unit of product work behind every "
-                   "failing case that cites it",
+            "status": st or None,
+            "surface": d.get("surface"), "note": (d.get("evidence") or d.get("note") or d.get("fix") or "")[:400],
+            "is_work_item": cls == "broken",
+            "why": why,
         })
 
     # --- surfaces ----------------------------------------------------------
@@ -527,12 +613,40 @@ def classify(briefs, campaign, edges, join_is_weak):
         })
 
     # --- briefs ------------------------------------------------------------
+    #
+    # Three outcomes where there used to be one, because "the registry answered
+    # and said no" and "the join reached nothing" are opposite conclusions
+    # about the same brief. 75 of 91 briefs landed in `unbuilt` on a 17.6%
+    # join, and every one of them named an item that had shipped.
+    #
+    #   resolvable support   -> classed on the evidence, as before
+    #   cited ids the registry does not hold -> `unbuilt`. Somebody wrote down
+    #                                           what should exist and it is not
+    #                                           there: evidence of absence, and
+    #                                           the only thing that keeps
+    #                                           `unbuilt` a live predicate.
+    #   nothing at all       -> `unjoined`. Decision work: a person reads it.
+    known_ids = {x.get("id") for coll in ("requirements", "defects", "surfaces", "cases",
+                                          "flows", "components")
+                 for x in campaign.get(coll, []) if x.get("id")}
+    near_registry = None
+
     for b in briefs:
         my_edges = edges_by_brief.get(b["id"], [])
         cited = [e for e in my_edges if e["method"] == "cited"]
-        support = cited or my_edges
+        # Prefer the citations, but do not let a dangling one discard a usable
+        # overlap edge: what matters is support that actually reaches a row.
+        support = ([e for e in cited if e["target"] in known_ids]
+                   or [e for e in my_edges if e["target"] in known_ids])
+        near_misses = None
 
-        best_cls, best_why = "unbuilt", "no requirement, defect or case in the registry answers to this brief"
+        best_cls, best_why = "unjoined", (
+            "the join could not tie this brief to anything in the registry. That is not evidence "
+            "that it was never built — it is the inferential step of this pipeline returning "
+            "nothing, and a person has to read the brief and rule"
+            if campaign.get("present") else
+            "there is no registry in this run, so nothing could have answered to this brief. "
+            "`unbuilt` would be a claim that the registry was asked; it was not")
         if b["status"] in WAIVED_DECLARED:
             best_cls = "waived"
             best_why = ("the brief declares status %r — a decision, not a measurement. It stays on the "
@@ -541,7 +655,11 @@ def classify(briefs, campaign, edges, join_is_weak):
             targets = {e["target"] for e in support}
             req_ev = [(r.get("evidence") or "unknown").lower()
                       for r in campaign["requirements"] if r.get("id") in targets]
-            hit_defect = any(t.startswith("DEF-") for t in targets)
+            # Only a defect that is still broken makes the brief broken. Once a
+            # repaired defect stops being a measured negative, a brief joined
+            # to it must stop being one too, or the fault moves one hop out and
+            # reports the same repaired work as remaining.
+            hit_defect = any(defect_class.get(t) == "broken" for t in targets if t.startswith("DEF-"))
             surf_cases = []
             for t in targets:
                 surf_cases.extend(case_by_surface.get(t, []))
@@ -576,6 +694,23 @@ def classify(briefs, campaign, edges, join_is_weak):
             else:
                 best_cls = "unmeasured"
                 best_why = "this brief maps to the registry only through self-reported evidence; nothing observed it"
+        elif cited and campaign.get("present"):
+            best_cls = "unbuilt"
+            best_why = ("this brief cites %s, and the registry holds none of them. A citation is a "
+                        "link somebody wrote on purpose, so its target being absent is evidence of "
+                        "absence rather than a join that missed"
+                        % ", ".join(sorted({e["target"] for e in cited})[:6]))
+        else:
+            # An unjoined row that says only "I could not tell" sends its
+            # reader to grep. The join already scored every candidate and threw
+            # the best one away below threshold; hand it over instead.
+            if near_registry is None:
+                near_registry = registry_tokens(campaign)
+            btok = tokens(b["title"]) | tokens(b["text"][:4000])
+            scored = sorted(((jaccard(btok, rtok), rid, kind) for rid, kind, rtok in near_registry
+                             if rid), reverse=True)
+            near_misses = [{"target": rid, "kind": kind, "score": round(sc, 3)}
+                           for sc, rid, kind in scored[:3] if sc > 0]
 
         rows.append({
             "id": b["id"], "entity": "brief", "class": best_cls, "kind": KIND_OF[best_cls],
@@ -584,6 +719,8 @@ def classify(briefs, campaign, edges, join_is_weak):
             "is_work_item": best_cls not in ("verified-done", "waived"),
             "edges": [{"target": e["target"], "method": e["method"], "confidence": e["confidence"]}
                       for e in my_edges],
+            "near_misses": near_misses,
+            "remedy": UNJOINED_REMEDY if best_cls == "unjoined" else None,
             "why": best_why,
         })
 
@@ -665,6 +802,19 @@ def gate(ledger, weak_join_ratio=0.5):
                                    "%s has status %r but class %r — %r may only be %s. This is the "
                                    "silent-done failure: an unmeasured case presenting as settled."
                                    % (r["id"], r["status"], r["class"], r["status"], "/".join(sorted(legal)))))
+        if r["entity"] == "defect":
+            # A status this tool does not recognise, or none at all, supports
+            # exactly one class: the fail-closed one the classifier assigns it.
+            # Leaving it unconstrained would make the gate unable to fire on
+            # the very rows whose evidence is weakest.
+            legal = DEFECT_LEGAL_CLASS.get((r.get("status") or "").lower(), {"broken"})
+            if r["class"] not in legal:
+                violations.append(("placement",
+                                   "%s has status %r but class %r — %r may only be %s. A defect "
+                                   "carries its own repair; classing it against that record is how "
+                                   "a repaired defect reads as remaining work, or a live one as done."
+                                   % (r["id"], r.get("status"), r["class"], r.get("status"),
+                                      "/".join(sorted(legal)))))
         if r["entity"] == "requirement":
             if r.get("evidence") in EVIDENCE_SELF_REPORTED and r["class"] in ("verified-done", "retirable"):
                 violations.append(("placement",
@@ -795,6 +945,7 @@ def render(ledger):
     A("|---|---:|---:|---|---|")
     blurb = {
         "unbuilt": "named in a brief; nothing in the registry answers to it",
+        "unjoined": "named in a brief; the join reached nothing, so its state is unknown either way",
         "broken": "measured, and the answer was no",
         "unmeasured": "nobody found out — the work here is becoming able to tell",
         "unnamed": "the campaign found it; no document claims it",
@@ -825,7 +976,7 @@ def render(ledger):
                                                   b["summary"][:150].replace("|", "／")))
         A("")
 
-    for cls in ("broken", "unbuilt", "undecided", "unnamed", "retirable"):
+    for cls in ("broken", "unbuilt", "unjoined", "undecided", "unnamed", "retirable"):
         items = [r for r in ledger["rows"] if r["class"] == cls and r.get("is_work_item")]
         if not items:
             continue
@@ -834,6 +985,9 @@ def render(ledger):
         for r in sorted(items, key=lambda r: str(r.get("severity") or "") + str(r["id"]))[:40]:
             A("- **%s** — %s" % (r["id"], (r.get("title") or "")[:140]))
             A("  - %s" % r["why"])
+            if r.get("near_misses"):
+                A("  - nearest the join considered: %s"
+                  % ", ".join("%s (%.2f)" % (n["target"], n["score"]) for n in r["near_misses"]))
         if len(items) > 40:
             A("- _…and %d more in ledger.json_" % (len(items) - 40))
         A("")
@@ -911,6 +1065,12 @@ def cmd_build(args):
            "—" if adj["pct"] is None else "%.0f%%" % adj["pct"],
            "—" if dens["requirements_observed"]["pct"] is None
            else "%.0f%%" % dens["requirements_observed"]["pct"]))
+
+    unjoined = counts.get("unjoined", 0)
+    if unjoined:
+        headline += (" %d brief(s) could not be tied to the registry at all; they are listed as "
+                     "`unjoined` and counted as decision work, rather than assumed unbuilt."
+                     % unjoined)
 
     ledger = {
         "tool": "reckon", "version": 1,

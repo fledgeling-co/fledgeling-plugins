@@ -19,9 +19,11 @@ way is misleading.
 
 Almost everything that made the reckoning worth running:
 
-- **Every brief lands in `unbuilt` or `waived`.** There is no evidence to
+- **Every brief lands in `unjoined` or `waived`.** There is no evidence to
   disagree with the documents, so nothing can be `broken`, `retirable` or
-  `undecided`.
+  `undecided` — and nothing can be `unbuilt` either, because `unbuilt` is a
+  claim that the registry was asked and had no answer. Here there is no
+  registry to ask.
 - **`unnamed` is empty by construction.** Finding a surface nobody specified
   requires something that went and looked.
 - **`unmeasured` is empty, and that is the dangerous one.** With no campaign,

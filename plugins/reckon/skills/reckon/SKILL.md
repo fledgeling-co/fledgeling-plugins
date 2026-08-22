@@ -6,7 +6,7 @@ description: >-
   test-campaign registry of cases, requirements, surfaces and defects on the other — and
   resolve every item on both sides into exactly one class of a total partition, so nothing
   can quietly fall out of the list. The classes carry different fix-shapes and different
-  owners: named-but-unbuilt, measured-and-broken, never-measured, never-named, disputed,
+  owners: named-but-unbuilt, named-but-unjoinable, measured-and-broken, never-measured, never-named, disputed,
   already-done-so-retire-it, and deliberately-waived. The one that matters most is
   never-measured, because a blocked or inconclusive check is not a pass and not a failure,
   and a remaining-work list that silently drops it reports a partial campaign as a finished
@@ -55,13 +55,14 @@ to be careful. Sources in `references/evidence.md`.
 
 ## The partition
 
-Seven classes, and every entity on both sides lands in exactly one. Full
+Eight classes, and every entity on both sides lands in exactly one. Full
 definitions, the legality table and worked examples are in
 `references/partition.md`; this is the shape.
 
 | Class | What it means | Kind of work |
 |---|---|---|
-| `unbuilt` | A brief names it; nothing in the registry answers to it | product |
+| `unbuilt` | A brief cites registry ids and the registry holds none of them | product |
+| `unjoined` | A brief names it; the join reached nothing, so its state is unknown | decision |
 | `broken` | Measured, and the answer was no | product |
 | `unmeasured` | Nobody found out | **evidence** |
 | `unnamed` | The campaign found it; no document claims it | decision |
@@ -125,9 +126,10 @@ together is the one inferential step in an otherwise deterministic pipeline. A
 brief citing `DEF-0015`, or a registry note naming `SCR-0075`, is a citation
 somebody wrote on purpose; token overlap is a guess, and the ledger labels
 them differently. Read the `overlap` edges, confirm or cut them, and read the
-unjoined briefs — a brief joined to nothing is either genuinely unbuilt or a
-join the script missed, and those are opposite conclusions. Detail in
-`references/joining.md`.
+the `unjoined` rows — a brief joined to nothing is either genuinely unbuilt or
+a join the script missed, and those are opposite conclusions, so the script
+refuses to pick one and hands you the three nearest candidates it scored and
+rejected. Detail in `references/joining.md`.
 
 **The blocker clusters.** The script groups blocked cases by token overlap
 because the useful unit is the cause, not the case. It groups conservatively
