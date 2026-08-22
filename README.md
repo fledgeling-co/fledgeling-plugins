@@ -116,6 +116,14 @@ The backlog orchestrator: surveys everything left in a repo, writes one durable 
 
 <br clear="left" />
 
+<a href="plugins/flagship/README.md"><img src="plugins/flagship/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [flagship](plugins/flagship/README.md)
+
+Conduct a dozen concurrent Claude Code sessions as one portfolio — the layer above `ship-armada`, for when the work is already spread across live sessions rather than waiting in a repo's backlog. It builds a roster of every peer session, hands out a heavy-work token taken from `harbourmaster`'s measured berths rather than invented, batches their accumulated decisions so only the ones on your own axes reach you, and propagates each session's findings to the others — which is the return, because on the evening it was built nine sessions independently found the same tool's bug and none knew about the others. It starts new work as a workflow, a subagent, or a fresh Ghostty tab. It holds the map and no authority: it cannot command a peer, close a peer's channel to its user, or relay an authorisation, and all three were refused by the sessions on the receiving end.
+
+<br clear="left" />
+
 <a href="plugins/ship-armada/README.md"><img src="plugins/ship-armada/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [ship-armada](plugins/ship-armada/README.md)
