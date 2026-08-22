@@ -1085,3 +1085,40 @@ still looks plausible.
 
 Assert the anchor; let the edit fail loudly. This is the same rule as *a mutation that did not
 apply is not a measurement*, applied to authoring rather than to testing.
+
+## A directory-scoped binding does not inherit into a child launched elsewhere (23 Aug 2026)
+
+A session bound to a non-default model by a **project-scoped** settings file — base URL plus a
+routing header in `<project>/.claude/settings.local.json` — spawned a fleet runner, and the
+runner ran **unbound on the default model**: ~93k tokens on the wrong model before it was
+killed, no commits.
+
+The cause, measured in both directions against a local header sink: **a child `claude` reads
+its own working directory's settings and ignores the parent's process-environment headers.**
+So the parent is bound, every check the parent runs says so, and the child silently is not.
+
+Two rules:
+
+- **Launch runners from the bound directory and reach the work with `--add-dir`**, rather than
+  launching in the work tree and expecting the binding to travel.
+- **Prove the lane per runner, not once per session.** "The session is bound" is a claim about
+  the parent. A binding that cannot be verified in the child is the same class as an
+  unverified binding in the parent — and the failure is identical from outside, because the
+  wrong model succeeds and returns something entirely plausible.
+
+The session that hit it had already proved its own binding three ways (env plus config, a
+probe-with-header against a control that routed elsewhere, and the broker's own ledger). That
+is why it noticed: it had a standard to fail against. **A verification done once at the top is
+a verification of the top.**
+
+## Threshold flapping is a wake carrying nothing new (23 Aug 2026)
+
+A daemon alert keyed on a single threshold produced 91% → cleared → 80% → fired → cleared
+across four minutes, because the value was hovering at the bar. Each event was true and none
+carried information.
+
+Two thresholds, not one: fire at the high bar, clear only below a lower one, so the subject
+has to genuinely settle before the watch speaks again. Same discipline as keying the state on
+*which* daemons are over rather than on their percentages — both are the rule that **a wake
+must carry new information**, applied to the two ways a monitor manufactures noise from a
+single real condition.

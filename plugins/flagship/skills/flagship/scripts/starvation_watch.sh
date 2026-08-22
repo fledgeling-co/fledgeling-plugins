@@ -36,6 +36,11 @@ prev=""; streak_idle=0; streak_hot=0; prev_leak=""; prev_daemon=""; streak_daemo
 # of every application process. It does not clear on its own and it needs sudo, so
 # the useful thing a watcher can do is name it rather than fix it.
 DAEMON_PCT=${FLAGSHIP_DAEMON_PCT:-80}
+# Hysteresis. A value hovering at one threshold produces alternating fire/clear
+# events forever — measured: 91%, cleared, 80%, fired, across four minutes, each
+# one a wake carrying nothing new. Fire at DAEMON_PCT, clear only below
+# DAEMON_CLEAR_PCT, so a daemon has to genuinely settle before it says so.
+DAEMON_CLEAR_PCT=${FLAGSHIP_DAEMON_CLEAR_PCT:-55}
 DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspolicyd|XprotectService'}
 
 # `ps %CPU` is a LIFETIME AVERAGE, so a process busy four hours ago and idle since
@@ -200,7 +205,13 @@ while true; do
   # An OS daemon burning cores nobody owns, reported on its own axis: a session
   # reading load alone attributes it to the fleet and holds work that was never
   # the cause. Two samples before speaking, so a transient spike stays quiet.
-  daemon=$(runaway_daemon)
+  # While a daemon is already reported, judge it against the LOWER bar, so it stays
+  # reported until it settles rather than toggling around the firing threshold.
+  if [ -n "$prev_daemon" ]; then
+    daemon=$(DAEMON_PCT="$DAEMON_CLEAR_PCT" runaway_daemon)
+  else
+    daemon=$(runaway_daemon)
+  fi
   # Key the state on WHICH daemons are over threshold, never on their percentages.
   # Keying on the full string meant every sample was a "change" — the same condition
   # reported seven times as 175%, 178%, 174%, 179%, 182%, 186%, 173%. A wake that
@@ -212,7 +223,7 @@ while true; do
     echo "OS DAEMON — $daemon (not fleet work; needs sudo to clear)"
     prev_daemon="$daemon_key"
   elif [ $streak_daemon -eq 0 ] && [ -n "$prev_daemon" ]; then
-    echo "OS DAEMON cleared — ${prev_daemon%,} is back under ${DAEMON_PCT}%"
+    echo "OS DAEMON cleared — ${prev_daemon%,} is back under ${DAEMON_CLEAR_PCT}%"
     prev_daemon=""
   fi
 
