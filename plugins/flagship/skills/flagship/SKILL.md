@@ -50,6 +50,17 @@ when a peer refuses you — which is usually to agree with it.
 
 ## Startup
 
+0. **Arm the starvation watch before the first dispatch**, not after the operator notices:
+
+   ```
+   Monitor(command: "scripts/starvation_watch.sh", persistent: true,
+           description: "fleet starvation")
+   ```
+
+   It emits only on a state change — STARVED, OVERLOADED, THIN, WORKING — so it costs
+   nothing while the fleet is busy and wakes you when it stops being. Why it is step zero
+   rather than a nicety is in *Keep the fleet fed* below.
+
 1. `ListAgents` for the live roster. Names are the address. Sessions appear under names their
    own conductor may not recognise from inside — reconcile by process and cwd, not by name.
 2. `scripts/roster.py` to join that against `~/.claude/sessions/<PID>.json` (the liveness
@@ -90,23 +101,98 @@ evening.
 
 **Start what has no session.** Workflow, subagent, or Ghostty tab — `references/spawning.md`.
 
+**Keep the fleet fed.** The one below, which is the job the others silently assume.
+
+## Keep the fleet fed
+
+A conductor's characteristic failure is not a bad dispatch. It is no dispatch — a fleet of
+live sessions that have each finished their last instruction and are waiting for the next
+one, while the conductor works heads-down on something of its own.
+
+**From inside your session that is invisible, because it looks exactly like a fleet hard at
+work.** Both are silence. Measured: thirteen Opus sessions idle for three hours on a
+16-core machine at 0.23 load per core, eleven of them with real queues, and the operator
+noticed before the conductor did. Nothing was broken and no session was stuck; they had
+simply not been told anything since their last dispatch.
+
+So the watch is armed before the first dispatch and stays armed, and the standing question
+between waves is *who has nothing to do right now* rather than *what shall I work on*.
+
+**Idle has three shapes and they are indistinguishable from outside.** Ask; do not infer:
+
+| Shape | What it needs |
+|---|---|
+| Drained — the backlog is genuinely finished | `reckon`, then retirement made legible |
+| Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
+| Blocked — a real queue it cannot reach | Its blocker escalated, or the berth freed |
+
+All three report as an idle row in `ListAgents`. In one evening the fleet contained all
+three at once, plus a fourth the taxonomy missed: a session whose queue was reachable but
+whose *throughput* was capped by a standing constraint from the operator — no runner
+agents, so it worked serially in-session and would have done so however hard it was pushed.
+
+**A session's fan-out ceiling is the operator's to set and not yours to raise.** Where they
+have given a session a slot count, that count wins over anything you say about headroom; a
+peer cannot lift a constraint the user set, and "run at real fan-out" reads as an attempt
+to. Say *at whatever fan-out you have been given; where none was set, the machine has
+room* — and ask for the ceiling rather than assuming there is none.
+
 ## Reading the machine honestly
 
 `scripts/machine_read.py` does all of this. The reasons it has to are each measured:
 
-- **`berths.py` counts registered `governor-run` claims, not load.** Three sessions
-  independently measured `in_use 0` while five, two and an unknown number of Opus runners were
-  live, because workflow-inner agents never register as claimants. It is sound for what it
-  measures. It is not a concurrency guard. Read load per core beside it.
+- **`berths.py` is a cooperative registry of claims, not a census of processes.** Three
+  sessions independently measured `in_use 0` while five, two and an unknown number of Opus
+  runners were live, because workflow-inner agents never register as claimants. The instrument
+  is not broken and calling it "not a concurrency guard" writes off a working one: every
+  reading is correct for its population, and the error is reading it as a wider population.
+  **Read a low `in_use` as "nothing claimed", never as "nothing running", and confirm with
+  load before dispatching.** As an admission gate it is sound; as a census it is not.
+- **That asymmetry is the whole rule, and it cuts the other way too.** Because berths can
+  only under-report, a **high** `in_use` is authoritative in the restrictive direction — it
+  is a floor on what is actually held, and it is the admission gate, so `available 0` blocks
+  a dispatch no matter how quiet the load is. Measured within an hour: `in_use 4 available 8`
+  with zero compilers running, then `in_use 10 available 0` while load per core still read
+  quiet. **An idle session is not a free berth** — the berth is held by whatever that session
+  spawned, and load average does not show it. So: low `in_use` proves nothing and needs load
+  beside it; high `in_use` needs nothing beside it and stops you. Starvation is diagnosed
+  from load and transcript activity; **admission is decided from berths.** Two questions, two
+  instruments, and answering the second with the first is how a fleet gets told to fan out
+  into zero berths.
+- **One load-average reading is not clearance, for the same reason one thermal reading is
+  not.** The 1-minute figure is itself a decaying average, so it reads low in the trough
+  between bursts and a dispatch decided on it lands in the next burst. Sample across a
+  window; **take the max of the 1-minute and 5-minute figures**, never one alone. On a
+  *rising* curve the 5-minute understates — a session reading 5m 80.93 sees 5.1 per core and
+  thinks it has room while the 1m is at 160. On a *falling* one the 1m understates. The max
+  is right in both directions, and **a 1m/15m ratio above about 3 means the machine is
+  mid-transition and no single sample describes it at all.**
+- **Resume on a 5-minute figure that is flat or falling, not merely below threshold.** A
+  rising 5m crosses any threshold on the way up as well as on the way down, and only one of
+  those is safe. The falling signature is the 1-minute dropping *below* the 5-minute; that is
+  a peak that has passed.
+- **The conductor-level fact that no per-session reading can see: a quiet machine plus ten
+  peers being told it is quiet is not a quiet machine.** The trough is a trough only because
+  nobody has started yet. This is not fixed by a better sampling window — a shared-capacity
+  clearance has to account for the sessions receiving it. Measured, and it is this skill's
+  own author's error: eleven idle sessions cleared to fan out on a single 3.67 reading, and
+  within the hour load 151 across 16 cores, cpu pressure critical, the berth ceiling
+  collapsed from 10 to 3. Two sessions had independently measured the same 3.67 and it was
+  real every time. **The reading was right and the inference was wrong.** Clear in waves
+  against the count you are clearing, or clear one session and re-measure.
 - **Sample thermal at least three times across a minute.** `held_for_sec` describes only the
   current state and `dwell_required_sec` is 60, so one quiet minute flips the verdict on an
   unchanged machine. Measured flipping in both directions; the cleaner reading caught
   `not_limited` → `not_limited` → `limited` while load stayed flat at 0.38–0.47 per core, which
   is what establishes that thermal is not a proxy for load. Treat a clamp inside the last hour
   as a reason to issue fewer berths than the count allows.
-- **Never read disk with `df -h /`.** On an APFS machine that is the read-only system volume
-  and reports ~5% used against a data volume at 87%. Wrong by an order of magnitude *in the
-  reassuring direction*. Use `pressure.py`, or `df -h /System/Volumes/Data`.
+- **Never read disk *percentage* with `df -h /`.** On an APFS machine that is the read-only
+  system volume and reports ~5% used against a data volume at 87%. Wrong by an order of
+  magnitude *in the reassuring direction*. Use `pressure.py`, or `df -h /System/Volumes/Data`.
+  The refinement worth knowing: both volumes report the **same free bytes** (254Gi when this
+  was measured), so a gate written on free bytes is unaffected while one written on
+  percent-used passes forever. `pressure.py` already reads the data volume, so anything
+  going through `governor-run` was never exposed to it.
 - **Disk is harbourmaster's to report and `mac-doctor`'s to reclaim.** When it becomes the
   closing gate, say so and hand over.
 
@@ -187,8 +273,31 @@ Two rules cover all of it, and both came from sessions being wrong first:
 > **A set that returns members has two readings too, and "I know why these belong" is not one
 > of them.**
 
-Ask both of every number a session hands you, including the ones you are about to publish.
-`references/propagation.md` carries the full corpus with attributions.
+A third joined them the following night, and it is a different failure from the first two
+because **no gate catches it**: the instrument did not fail, and it was read as answering a
+question it was not asked.
+
+> **An instrument can answer a narrower question than the one asked and report it as the
+> answer to the broad one.**
+
+Four instances in one evening, three of them load-bearing on figures this skill had already
+published — the worst inflated a product axis from 49 to 155 and from 2 to 64, in the
+direction that manufactures work, while sounding confident. `references/propagation.md` has
+them with attributions.
+
+The tell is available before the correction, and it is always an anomaly you already hold.
+Two sessions had written "18 of 23 unbuilt are already merged" and "62 of 78 unbuilt are
+merged or done", and both filed it as staleness. *Why would a merged brief be classed
+unbuilt* would have found it twelve hours earlier. **When a number contradicts something you
+already know, suspect the instrument before the world.**
+
+The fixed tool is the model for what to do about it: publish the **join rate** beside the
+classes and withhold claims below half. Lead with that rather than the delta — the delta
+invites "so the real number is 49", where the rate says the honest thing, that the reckoning
+cannot speak to what is done at all. **A stated inability beats a better number.**
+
+Ask all three of every number a session hands you, including the ones you are about to
+publish. `references/propagation.md` carries the full corpus with attributions.
 
 ## Guardrails
 
