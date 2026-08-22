@@ -9,6 +9,7 @@ import { ExampleBlock } from "@/components/example-block";
 import { EXAMPLES } from "@/content/examples";
 import { MARKETPLACE, getSkill, getSkills } from "@/lib/skills";
 import styles from "./page.module.css";
+import { DeferPill } from "@/components/skill-card";
 
 export function generateStaticParams() {
   return getSkills().map((skill) => ({ slug: skill.name }));
@@ -118,6 +119,13 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                   )}
                 </ul>
               ) : null}
+            </section>
+          ) : null}
+
+          {skill.signals.defer ? (
+            <section className={styles.fact}>
+              <h2 className={styles.factLabel}>Other AI models</h2>
+              <DeferPill />
             </section>
           ) : null}
 

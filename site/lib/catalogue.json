@@ -4,33 +4,57 @@
   "generatedFrom": ".claude-plugin/marketplace.json",
   "groups": [
     {
-      "id": "long-runs",
-      "label": "Long runs",
-      "blurb": "Work that has to survive the night, a usage limit, or a compaction.",
+      "id": "making",
+      "label": "Making something",
+      "blurb": "Design it, write it, or build it from nothing.",
+      "count": 9
+    },
+    {
+      "id": "checking",
+      "label": "Checking it before anyone sees it",
+      "blurb": "Catch the problems while they are still cheap to fix.",
       "count": 8
     },
     {
-      "id": "making",
-      "label": "Making and reviewing",
-      "blurb": "Producing an artifact, and checking it before a human sees it.",
-      "count": 20
+      "id": "backlog",
+      "label": "Handing over a pile of work",
+      "blurb": "Give Claude a list and let it work through it on its own.",
+      "count": 8
     },
     {
-      "id": "research",
-      "label": "Research and reporting",
-      "blurb": "Working something out, then writing it up so it can be checked.",
+      "id": "standing",
+      "label": "Knowing where things stand",
+      "blurb": "What is finished, what is not, and what nobody has actually checked.",
       "count": 6
     },
     {
-      "id": "orchestration",
-      "label": "Orchestration",
-      "blurb": "More than one repo, more than one runner.",
-      "count": 11
+      "id": "long-runs",
+      "label": "Keeping a long job alive",
+      "blurb": "For work that outlasts one sitting, one usage limit, or one crash.",
+      "count": 6
+    },
+    {
+      "id": "asking",
+      "label": "Fewer interruptions",
+      "blurb": "When Claude should ask you, which AI answers, and what it all costs.",
+      "count": 3
+    },
+    {
+      "id": "authoring",
+      "label": "Making your own skills",
+      "blurb": "Turn something you do often into a skill you can reuse.",
+      "count": 3
+    },
+    {
+      "id": "sending",
+      "label": "Sending things to people",
+      "blurb": "Work that leaves your machine and reaches somebody.",
+      "count": 2
     },
     {
       "id": "machine",
-      "label": "Your machine",
-      "blurb": "The Mac underneath all of it.",
+      "label": "Looking after your Mac",
+      "blurb": "Stop it grinding to a halt while all this is running.",
       "count": 2
     }
   ],
@@ -38,7 +62,7 @@
     {
       "name": "flagship",
       "version": "1.0.0",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio — the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1–R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others — which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation — all three were refused by ten sessions in one night and all three refusals were right.",
       "trigger": "Conduct many concurrent Claude Code sessions as one portfolio — the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Use when someone says run the armada across my open sessions, coordinate all these sessions, keep each one ticking over, stop the sessions asking me things, or asks what is happening across everything running right now; and when a session must be started for work that has none. Builds a roster of every peer session from ListAgents and the session registry, learns what each owns, then coordinates over SendMessage: a capped heavy-work token taken from harbourmaster's measured berths rather than invented, decisions batched through the perch R1–R5 router so only the operator's own axes reach them, judgement routed through defer after probing which lanes are reachable rather than trusting a utilisation meter, and every session's findings propagated to the others. That last one is the return: on one evening nine sessions independently found the same tool's bug and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab through recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority. NOT for one repo's backlog (ship-fleet), one feature (ship-feature), one directive into a project (ship-armada route mode), or recovering sessions a crash killed (recover-claude-code).",
       "blurb": "Conduct a dozen concurrent Claude Code sessions as one portfolio — the layer above `ship-armada`, for when the work is already spread across live sessions rather than waiting in a repo's backlog. It builds a roster of every peer session, hands out a heavy-work token taken from `harbourmaster`'s measured berths rather than invented, batches their accumulated decisions so only the ones on your own axes reach you, and propagates each session's findings to the others — which is the return, because on the evening it was built nine sessions independently found the same tool's bug and none knew about the others. It starts new work as a workflow, a subagent, or a fresh Ghostty tab. It holds the map and no authority: it cannot command a peer, close a peer's channel to its user, or relay an authorisation, and all three were refused by the sessions on the receiving end.",
@@ -58,14 +82,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/flagship/EVALS.md",
         "scripts": true,
-        "references": 7
+        "references": 7,
+        "defer": true
       },
       "neighbours": []
     },
     {
       "name": "ship-armada",
       "version": "2.0.1",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Portfolio-wide orchestrator across every project in ~/Dev — the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, routes, and dispatches. Route mode lands a single directive ('research feature X and incorporate it into <project>') in the right project's pipeline — deep research into docs/deep-research, a brief into features-to-triage, an inbox row in the project's ORCHESTRATOR.md that any active fleet picks up (or a new ship-fleet run when approved), and the master manifest updated. Dispatch runs per-repo backlogs through ship-fleet and cross-project rollouts as dependency-ordered campaigns with capped concurrency. Daemon mode proposes on a schedule and executes only what the user has approved.",
       "trigger": "Portfolio-wide orchestrator across EVERY project in ~/Dev — the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies entry freshness against git, then surveys, plans, routes, and dispatches work across projects — per-repo backlogs through ship-fleet, single features through ship-feature, and cross-project rollouts (model migrations, new AI features, shared-stack upgrades) as dependency-ordered campaigns with capped concurrency. Use when someone wants portfolio-level management — \"run the armada\", \"what's happening across all my projects\", \"which projects need updating\", \"plan AI upgrades across the portfolio\", \"roll out <tech/model/skill> to every project that needs it\" — OR hands over a single directive to land in the right project's pipeline — \"research feature X and incorporate it into <project>\", \"add <feature> to <project>\", \"get <project> to adopt <tech>\", \"queue this for <project>\". Routing a directive updates the project's features-to-triage briefs, its ORCHESTRATOR.md (which any active fleet re-reads), and the master manifest — starting a new ship-fleet run only when asked or pre-approved. Also the entry point for daemon mode — a recurring loop that re-surveys, refreshes the manifest, and proposes or executes queued campaigns. NOT for work inside a single repo you are already in (use ship-fleet for a repo's backlog, ship-feature for one feature) and NOT for a single manifest entry update after local work (use armada-sync).",
       "blurb": "The portfolio-level orchestrator. Reads the manifest of record, verifies it against git, then surveys, plans, routes single directives into the right project's pipeline, and dispatches per-repo backlogs as dependency-ordered campaigns with capped concurrency.",
@@ -101,7 +126,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ship-armada/evals/EVALS.md",
         "scripts": true,
-        "references": 1
+        "references": 1,
+        "defer": false
       },
       "neighbours": [
         "ship-fleet",
@@ -111,7 +137,7 @@
     {
       "name": "armada-sync",
       "version": "1.0.0",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Keep the portfolio manifest ~/Dev/ARMADA.md truthful after working in any ~/Dev project. Surgical, single-entry updates: status, features, key-file references, updated stamp, index row, one changelog line. The counterpart maintenance skill to ship-armada — every project's CLAUDE.md points here so the manifest stays fresh even when work happens outside the orchestrator.",
       "trigger": "Keep the portfolio manifest ~/Dev/ARMADA.md truthful after working in any ~/Dev project. Use this after completing meaningful work in a project under ~/Dev (a feature shipped, a spec/plan/mock added, a status change, a rename, new sub-app, new deploy) — or whenever someone says \"update the armada manifest\", \"sync the master file\", \"refresh ARMADA.md\", or \"make sure the portfolio file knows about this\". Also invoked by ship-armada when it finds a stale entry. Updates ONLY the current project's entry (status, features, key-file references, updated stamp) plus its index row and one changelog line — it never rewrites the whole manifest and never touches other projects' entries. If the project has no entry yet, it appends one from the template. NOT for creating the manifest from scratch or portfolio-wide planning (use ship-armada).",
       "blurb": "The surgical counterpart to ship-armada: after work happens anywhere in the portfolio, it updates that one project's manifest entry, stamps it fresh, and stops. The smallest skill here, on purpose.",
@@ -141,7 +167,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/armada-sync/EVALS.md",
         "scripts": false,
-        "references": 0
+        "references": 0,
+        "defer": false
       },
       "neighbours": [
         "ship-armada"
@@ -182,7 +209,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/create-swe-project/EVALS.md",
         "scripts": true,
-        "references": 3
+        "references": 3,
+        "defer": false
       },
       "neighbours": [
         "ship-feature"
@@ -191,7 +219,7 @@
     {
       "name": "design-review",
       "version": "2.0.0",
-      "group": "making",
+      "group": "checking",
       "description": "Expert design and UX review of rendered web apps, websites, app UI flows, infographics and design artifacts — the last pass before a human looks at AI-built UI. Deterministic accessibility, contrast, target-size, performance, motion and layout-integrity gates first (column alignment, shared rails, section gaps, text overlap, dead space, column/band voids, affordance, token overloading); then structural, state, craft, flow and design-system passes against real renders at multiple viewports; then severity-ranked findings with pasteable fixes, evidence, and an explicit statement of what was never checked. Use this whenever someone asks to review, audit, critique, QA, sanity-check or \"give feedback on\" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI \"looks AI-generated\", \"looks off\", \"feels cheap\", \"needs polish\", \"isn't accessible\", or asks whether something is ready to ship. v1.4.0 closes the four blind spots a real 18-surface review found under a fully green oracle set. The runners now scroll the whole document and drain document.getAnimations() before probing and RECORD what was still running: a gate sampled mid-entrance read a #E85A2A accent as #6a2d18 and reported a surface getting worse after a fix that provably removed its failures, and lazy images probed without scrolling report five of eight as broken. probeColumnVoids() adds the column form of dead space that probeDeadSpace() is structurally blind to — a section that renders nothing still occupies its own margins — plus an unfiltered band-seam table, because a page at 92/205/229px ink-to-ink trips no single threshold and is still three-quarters dead space. probeUnconsumedTokens() catches the token declared, emitted and read by no rule: --primary-on-dark was in the contract, set by every record, present in the DOM and consumed by nothing, so a company's own 72px name sat at 2.14:1. Contrast now reports its denominator, <title> is a Level A gate (two route groups shipped without one), and the parity oracle's landmark set is per-page rather than per-site — a checks=904 diffs=0 green sat over a broken grid row on every index page of every tenant because the oracle only ever loaded /. Also: verify the computed value after a CSS fix rather than the presence of the rule, check WHAT rendered rather than THAT something rendered, and treat any first reading of a time- or scroll-dependent property as provisional.",
       "trigger": "Expert design and UX review of rendered web apps, websites, app UI flows, infographics, and design artifacts — the last pass before a human looks at AI-built UI. Runs deterministic accessibility, performance, contrast, motion and layout-integrity gates, then structural, state, component-inventory, craft, flow, design-system and intent-conformance passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes and evidence. Every gate reports failed, passed, could-not-run and the population examined, because a check whose pass and cannot-run look identical is indistinguishable from a real measurement — engine capability is measured before anything is read, each value carries whether it came from the cascade or a stylesheet declaration, geometry findings are clustered by root cause before ranking, and a gate checks every number in the finished report against what the run recorded. Use this whenever someone asks to review, audit, critique, QA, sanity-check or \"give feedback on\" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design — or says their UI \"looks AI-generated\", \"looks off\", \"feels cheap\", \"needs polish\", \"isn't accessible\", or asks whether something is ready to ship or ready for a human to look at. Also covers a design review, design audit, UI review, UX audit, accessibility review, visual QA or pre-ship design pass by any of those names. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word \"review\".",
       "blurb": "The last pass before a human looks at AI-built UI. Deterministic gates first (accessibility, contrast, target size, motion, layout integrity), then judged passes over hierarchy, states, flows and system coherence, on real renders at a viewport matrix. Findings come severity-ranked with pasteable fixes and an explicit list of what was never checked.",
@@ -215,7 +243,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/design-review/EVALS.md",
         "scripts": true,
-        "references": 14
+        "references": 14,
+        "defer": false
       },
       "neighbours": [
         "be-my-witness"
@@ -224,7 +253,7 @@
     {
       "name": "be-my-witness",
       "version": "0.2.1",
-      "group": "making",
+      "group": "checking",
       "description": "Validate a UI screenshot against what a test expected and against a design mock, returning a pass/fail gate plus severity-ranked findings. Runs a deterministic pre-scan first (is this evidence, did the surface settle, are the two framings even comparable), crops and zooms rather than judging a full-page thumbnail, looks at every pair in both orders to catch position bias, and classifies each difference as framing, data, structure, styling or state so a changed row count or a different crop cannot fail a build. The test expectation is the oracle; the mock is advisory.",
       "trigger": "Validate a UI screenshot against what a test expected and against a design mock, and return both a pass/fail gate and severity-ranked findings. Use whenever a test, capture suite, or review step has produced a screenshot that something now has to judge — \"does this screenshot match the expected output\", \"does the build still look like the mock\", \"score this capture against the design\", \"why did the visual check fail\", \"compare these two renders\" — and whenever an automated suite needs a visual assertion that will not fail on legitimate differences like changed data or a different crop. Not for reviewing a live page in a browser (use design-review) or pixel-matching an implementation against a mock by measuring the DOM (use mockup-fidelity).",
       "blurb": "Look at a screenshot and say what it actually shows. Validates a UI capture against what a test expected and against a design mock, and hands back both a gate a build can act on and findings a person can read. Measures first (is this even evidence, did the screen finish loading, are the two framings comparable), then crops in at 2-3x rather than squinting at a thumbnail, looks at every pair in both orders because vision models flip on ordering, and classifies each difference as framing, data, structure, styling or state so a different crop or one extra row cannot turn a build red. The test wins over the mock.",
@@ -259,7 +288,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/be-my-witness/EVALS.md",
         "scripts": true,
-        "references": 6
+        "references": 6,
+        "defer": false
       },
       "neighbours": [
         "design-review",
@@ -269,7 +299,7 @@
     {
       "name": "mockup-fidelity",
       "version": "3.3.0",
-      "group": "making",
+      "group": "checking",
       "description": "Validate that an implemented React or React Native UI faithfully reproduces a reference mockup, then update the code to close every gap, by measuring the rendered tree rather than eyeballing it or reading source. Treats the mock as the source of truth, inventories every frame including the modals and states the named screens open, and inverts the burden of proof so a difference is a defect until an external citation proves it intentional. Its distinguishing feature is that it refuses to certify a property its browser engine cannot actually measure: a runtime preflight sets each declaration through a real stylesheet rule and reads it back with two different sentinels, and any detector class that fails is reported as inconclusive with the engine's own reason string instead of quietly agreeing. On the sanctioned engine nine classes fail that probe, including box-shadow and placeholder colour, the two properties most often silently wrong. Diffs structure before styling, pairs text-less icons and dividers by bounding box, crops and pixel-diffs every paired element, and emits a present/divergent/absent ledger, a functional-gaps document, and a three-valued exit code where inconclusive is neither a pass nor a failure. Carries a second measurement engine for native macOS, Electron and web-view targets, and for the classes a browser engine reports nothing for: it drives the proctor skill to read the accessibility tree, the compositor's resolved layer values and frame trustworthiness, establishing that engine's own capability tier before a style finding may claim anything. Use it when someone asks whether a build matches its design, to pixel-match a screen, to audit UI fidelity after a port or migration, or to find what a mock contains that was never built.",
       "trigger": "Validate that an implemented React or React Native UI faithfully reproduces a reference mockup, then update the code to close every gap — by measuring the rendered tree, never eyeballing or reading source. Treats the mock as the source of truth, inventories every frame, inverts the burden of proof (a difference is a defect until a citation proves it intentional), diffs structure then computed styles, and refuses to certify a property the engine cannot actually measure — a preflight proves each detector class can run, and any class that cannot is reported as inconclusive with its reason rather than as agreement. Emits a present/divergent/absent ledger, a functional-gaps doc, and a nonzero exit code. Carries a second measurement engine for native macOS, Electron and web-view targets, and for the classes a browser engine reports nothing for — driving the proctor skill to read the accessibility tree, the compositor's resolved layer values and frame trustworthiness, and establishing that engine's own capability tier before a style finding may claim anything. Use whenever someone wants to compare, align, pixel-match, audit, or verify a built page/screen/component against a design: 'does this match the mock?', 'align the app to the figma/html mockup', 'pixel-match this screen', 'why doesn't it look like the design?', 'verify the migration didn't drift', 'audit the UI fidelity', 'what's missing vs the mock?', 'make the react-native app match the prototype', 'does our web app match the design-system mock/preview?'. Trigger even when told 'it should already match' or 'it uses the same design system'.",
       "blurb": "Does the built screen actually match the mock? Measures the rendered tree rather than eyeballing a screenshot or reading the source, treats the mock as the authority, and inverts the burden of proof so a difference is a defect until a citation proves it deliberate. Every element of the mock ends up in one of three states, present, divergent or absent, so a ledger of agreements cannot hide the thing nobody looked at. It also refuses to certify a property the engine cannot measure: a preflight proves each detector class can run, and a class that cannot is reported inconclusive with its reason rather than counted as a match. On this machine the browser engine silences nine of them, which its own EVALS.md says out loud, and that ceiling belongs to the engine rather than to the build, so there is now a second one. Where the target is a native Mac app, an Electron app, or a web build whose divergence sits in a class the browser reports nothing for, the measurement goes through proctor and reads the accessibility tree and the compositor's own resolved layer values: a shadow CSSOM returns an empty string for is a radius, an offset and an opacity on a layer. That engine brings three questions the first cannot ask at all: whether the screenshot you are holding is current, whether something is mid-animation, and whether a control on screen has no accessibility node behind it. It also brings its own measured ceiling, because resolved colours need the app to embed a debug reflector and without one an eyedropped colour is still not a declared value. Its eval now has a real target to run against: a small Mac app, built and exercised, whose Settings pane is wrong in eight recorded ways, and building it withdrew one of the claims the previous version had made, because a capability read off the vendor's documentation turned out not to fire on a textbook case of it. It also adds the fourth answer the first engine had no instrument for: a value that will not hold still is a third way to be unmeasurable, so instability is scored as a number before anyone argues about whether a difference is a defect, and that score is where the geometry tolerance now comes from instead of a default nobody calibrated.",
@@ -286,7 +316,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mockup-fidelity/EVALS.md",
         "scripts": false,
-        "references": 15
+        "references": 15,
+        "defer": false
       },
       "neighbours": [
         "be-my-witness",
@@ -315,14 +346,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/braindump/evals/EVALS.md",
         "scripts": true,
-        "references": 3
+        "references": 3,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "trawl",
       "version": "2.2.0",
-      "group": "research",
+      "group": "standing",
       "description": "Trawl: evidence-grounded parallel divergent ideation for coding agents — cast a wide net over the idea space, then converge on something you can ship. Successor to the original adhd skill. Isolated framed branches, a frozen textbook baseline as both ban-list and boss gate, a balanced frame portfolio with fit floor and apoptosis, mechanism-level convergence with quality floors instead of 1-10 scores, tiered runs (any%/standard/100%) with an auditable receipt line. Every structural change traces to a measured result in the 2024-2026 LLM-ideation literature (see references/evidence.md).",
       "trigger": "Evidence-grounded parallel divergent ideation for coding agents. Spawns isolated branches under a balanced frame portfolio (ordinary stakeholder, operational constraint, adversary, cross-domain mechanism, one wild seat), anchors against an explicit textbook baseline, converges with mechanism-level clustering and quality floors instead of raw scores, and boss-gates the winning pick against the baseline so the recommendation is shippable, not just novel. Use on /trawl (legacy: /adhd, \"ADHD mode\"), \"brainstorm\", \"ideate\", \"what are my options\", \"widen the search\", or any open-ended design, architecture, naming, API/SDK-surface, product-positioning, or fuzzy-debugging decision where multiple viable answers exist — even when the user doesn't say \"brainstorm\". Skip for syntax questions, lookups, bugs with a known root cause, or closed phrasing (\"quick\", \"standard\", \"canonical\", \"textbook\", \"just\"). Tier flags: --any (cheap), --standard, --100 (exhaustive).",
       "blurb": "Divergent ideation that converges on something you can ship. Isolated thinkers under genuinely different frames, the obvious answer written down first, and a creative pick recommended only when it beats that answer blind. Receipts committed: structural evals (96.4% vs its predecessor's 49.0%), a four-judge blind panel, and the research corpus it was built from.",
@@ -343,7 +375,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/trawl/evals/EVALS.md",
         "scripts": false,
-        "references": 3
+        "references": 3,
+        "defer": false
       },
       "neighbours": []
     },
@@ -370,14 +403,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/create-mac-icon/evals/EVALS.md",
         "scripts": true,
-        "references": 38
+        "references": 38,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "improve-skill",
       "version": "1.2.0",
-      "group": "making",
+      "group": "authoring",
       "description": "End-to-end skill-improvement pipeline: source skill + user feedback + paid/free Dossier deep-research panel (read in full, citations verified) merged into a plan; the improved skill built as a new plugin; proven with comparative structural evals and a blind multi-family AI judge panel (CLIs + APIs, keys via 1Password); iterated on findings with blind re-judging; then the full brand treatment (user-chosen name and icon concept, mac-design-studio 3-engine icon with audit.html, composed retina banners, Luke-voice README/EVALS with succinct-then-deep comparison, root-README entry) and shipped.",
       "trigger": "End-to-end skill-improvement pipeline — take an existing skill (a repo, a SKILL.md, references) plus the user's feedback about it, run paid+free deep research on how to improve it (Dossier MCP panel), combine everything into a plan, build the improved skill as a new plugin in this marketplace, prove it with comparative evals and a blind multi-family AI judge panel (CLIs and APIs, keys via 1Password), iterate on the findings, then ship the full brand treatment — Luke-voice README and EVALS with a succinct-then-deep comparison to the original, a name the user chose from options, a mac-design-studio icon with its audit sheet, composed banners, a root-README entry — and commit and push. Use whenever the user wants to improve, upgrade, rebuild, modernise or \"make a better version of\" an existing skill, asks to research how a skill could be better, or hands over a skill plus complaints about it. Not for building a brand-new skill from scratch with no predecessor (use skill-creator directly).",
       "blurb": "The pipeline that built half this marketplace, as a skill. Point it at an existing skill plus your complaints; it runs paid and free deep research, rebuilds the skill with every change traced to evidence, proves the rebuild with comparative evals and a blind multi-family judge panel, then ships the full brand treatment. You choose the name and the icon concept before anything gets generated.",
@@ -404,7 +438,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/improve-skill/evals/EVALS.md",
         "scripts": false,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": [
         "create-skill",
@@ -414,7 +449,7 @@
     {
       "name": "create-skill",
       "version": "1.3.2",
-      "group": "making",
+      "group": "authoring",
       "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill, for when there is no predecessor to improve. v1.3.0 hardens the brand phase, which is where this pipeline was quietly skippable: a bundled `render_banner.py` renders banner-src.html and asserts the five things that fail silently (viewport override took effect, web font actually loaded, every image decoded, nothing overflows the frame, PNG is exactly 3200x1040), the marketplace catalogue gate now fails on a missing banner, and the pipeline has answers for three cases it previously had none for: the user forbidding questions, an existing in-repo research corpus that makes a second panel redundant, and a skill that joins an existing plugin rather than getting one of its own.",
       "trigger": "End-to-end pipeline for building a brand-new skill from scratch, when there is no predecessor to improve. Starts with a broad clarifying interview so the desired outcome is actually pinned down (recommendations offered, notes allowed per answer, multi-choice where it fits, and nothing asked that is already answered elsewhere), runs paid+free deep research on the domain (Dossier panel, read in full, citations verified), builds the skill through skill-creator with every structural choice traced to evidence, proves it with structural evals against a no-skill baseline and a blind multi-family judge panel, iterates on the findings, then ships the full brand treatment — user-chosen name and icon concept, mac-design-studio icon with its audit sheet, composed banner, Luke-voice README and EVALS, a root-README entry — and commits and pushes. Use whenever the user wants a new skill built, says \"create a skill for X\", \"turn this workflow into a skill\", \"I want a skill that does Y\", or hands over a process they keep repeating by hand. Not for improving a skill that already exists (use improve-skill).",
       "blurb": "The sibling of improve-skill, for when there is nothing to improve yet. It interviews you properly first, because an unstated intention is the usual reason a new skill misses, then researches the domain, builds through skill-creator with every rule traced to evidence, and proves it against the honest baseline: the same prompts with no skill at all.",
@@ -443,7 +478,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/create-skill/evals/EVALS.md",
         "scripts": true,
-        "references": 5
+        "references": 5,
+        "defer": false
       },
       "neighbours": [
         "improve-skill",
@@ -453,7 +489,7 @@
     {
       "name": "geminify",
       "version": "0.2.0",
-      "group": "making",
+      "group": "authoring",
       "description": "Add a Gemini-calibrated `gemini.md` beside an existing skill's SKILL.md, plus the conditional pointer that other models skip, so one skill works on Google's models as well as Claude's. Most skills in an ecosystem are tuned — silently — to whichever model their author ran, and several of their most deliberate decisions are removals: verification scaffolding stripped out because Claude over-verifies when told to double-check. On Gemini those removals leave a vacuum. One measured run showed what fills it: every enumerated requirement delivered (twelve named features, all present) and every categorical one collapsed to a single instance — \"all states\" → 1, \"all menus\" → 0, \"all flows\" → 0 — while the same run wrote itself a review claiming a browser engine that failed on all four invocation attempts and a \"100% pass rate on contrast\" from a probe that never ran, on an artifact measuring 3.65:1 on every primary button and 1.00:1 on one invisible glyph. So the work is mechanical rather than literary. scan_skill.py reads the target and emits two things: a quota ledger of every categorical quantifier attached to a countable deliverable, and the module triggers — which of ten optional sections the file needs, decided by what the skill demonstrably contains rather than by classifying it as design or not-design, with a three-trigger threshold because single-keyword matching fired seven of eight modules on a skill that renders nothing. Every claim carries its evidence tier ([docs] / [measured-family] / [measured-here] / [derived]) and an explicit unmeasured-on-this-skill list; a docs-only file is legitimate and a measured Gemini run is never required to write one. verify_quotes.py then checks that every quoted [docs] sentence appears verbatim in Google's bundled prompting corpus — it exists because a plausible paraphrase was put in quotation marks and attributed to Google in three separate hand-authored files, and no amount of re-reading caught it. Beyond that single run, the skill now also rests on 106 benchmark tasks scoring gemini-3.7-flash at both effort levels against claude-opus-5, which show the gap is not uniform: four of eight work buckets are level or ahead while two collapse to a hard zero on most rows, and 58-86% of the model's failing UI assertions are bound-shaped (exactly N, no, not, only) against 8% for opus — a stated maximum exceeded on every instance, which is the opposite direction to the categorical collapse and gets its own module, bounded-constraint. Where a shape is measured too far behind to prompt around, a new core section routes the work to the defer skill's lane picker instead of trying harder. Use whenever someone wants a skill to work on Gemini — \"geminify design-craft\", \"add Gemini support to this skill\", \"make this skill work in Antigravity\", \"write a gemini.md for X\" — or whenever a skill produced weak output under a Gemini model and the skill itself is not at fault. Not for fixing a skill that is broken for every model (improve-skill), and not for authoring a new one (create-skill).",
       "trigger": "Add a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's. Reads the target skill, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Use whenever someone wants a skill to work on Gemini — \"geminify design-craft\", \"add Gemini support to this skill\", \"make this skill work in Antigravity\", \"write a gemini.md for X\", \"/geminify\" — and whenever a skill produced weak output under a Gemini model and the skill itself is not at fault. NOT for fixing a skill that is broken for every model (use improve-skill), and NOT for authoring a new skill (use create-skill).",
       "blurb": "A skill is a prompt, and most skills here were tuned against a Claude model's habits. Point this one at any of them and it writes the sibling `gemini.md` that recalibrates it for Gemini: every categorical scope in the target turned into a counted row, the verification put back with its command attached, and every claim about Gemini tagged with whether Google published it, someone measured it, or you reasoned your way to it. A script checks each quoted claim appears verbatim in Google's own corpus, because a paraphrase in quotation marks got attributed to them three times before it existed.",
@@ -488,7 +524,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/geminify/EVALS.md",
         "scripts": true,
-        "references": 3
+        "references": 3,
+        "defer": true
       },
       "neighbours": [
         "improve-skill",
@@ -498,7 +535,7 @@
     {
       "name": "dossier-report",
       "version": "2.3.0",
-      "group": "research",
+      "group": "standing",
       "description": "dossier-report: turn a research question into one published, uniquely-themed HTML page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and published to <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph (Primer / Brief / Technical), toggled by the reader, each independently and fully cited from one shared registry and working with JavaScript off, opening with a required TLDR band. Product and buying research also ships a verdict layer: three ranked picks per buyer category plus one overall winner with its cost and its weaknesses, where a paywalled Which?/RTINGS/Choice verdict counts as high-value evidence and every ranking renders as a marked inference. Every page gets its own visual language, light and dark both measured, GSAP as a hard requirement covering micro-interactions and choreography, conditional three.js behind a six-test gate, figures through dataviz in native CSS/DOM, hand-authored SVG or TanStack Charts compiled to static SVG at build time, imagery taken from the research sources with full provenance plus captioned media-gen-pro stills and clips, claim-local citations with source popups, a verified source registry, a measured divider-gutter rule, and the Dossier/Margin marketing chrome. Layout direction comes from a Mobbin trawl with a took/left ledger and /trawl divergence, routed through design-craft and ux-craft.",
       "trigger": "Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry, and every page opens with a TLDR band carrying the finding, its supporting claims and the one thing that would change it. Product and buying research additionally ships a verdict layer: three ranked picks in each of the categories buyers actually differ on, plus one overall winner with its cost, its weaknesses and the reasons written out — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Every page gets its own visual language, light and dark, GSAP motion and micro-interactions throughout, conditional three.js, animated and interactive visualisations pitched at each reading — built through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time — imagery taken from the research sources themselves with full provenance, generated stills and clips where a picture carries what prose cannot, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Design direction comes from a trawl of real shipped UI via the Mobbin MCP plus divergent ideation, and every visual and flow decision routes through design-craft and ux-craft. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page, a buying guide or a write-up — \"research X and make a page for it\", \"build me a page about Y\", \"turn this research into a report page\", \"publish a dossier page on Z\", \"make an infographic about W\", \"which X should I buy\", \"compare the best X\", \"what's the best X for Y\" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.",
       "blurb": "A research question in, one published page out. It runs a paid and free research panel, reads every report end to end rather than the merged summary, turns the corpus into a list of claims with sources attached, then designs the page from scratch around its own subject so consecutive pages do not converge on one look. Every claim carries a citation you can open, and the build fails on one that does not resolve. The page now renders in three registers, Primer, Brief and Technical, and the reader chooses which one they're in; each is independently cited from that same registry, and where the backends disagreed, the disagreement survives into all three rather than being tidied away for the simpler one. A vertical rule has to sit in a real gap too, measured from the text's ink rather than from the box the padding was declared on; that check found twenty violations on a page this skill had already published. Every page now opens with a TLDR, and a buying question gets an actual answer: the categories buyers split on, three ranked picks in each, one overall winner with what it loses on. A ranking is reasoning rather than a measurement, so it renders as reasoning and names the claims it rests on, and a paywalled Which? or RTINGS verdict counts as evidence with the paywall stated instead of being dropped for an affiliate listicle. Pictures come from the sources with their provenance attached, charts go through dataviz in plain CSS, hand-drawn SVG or TanStack Charts compiled to static SVG at build time, and the motion layer is no longer optional.",
@@ -522,7 +559,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/dossier-report/EVALS.md",
         "scripts": true,
-        "references": 9
+        "references": 9,
+        "defer": false
       },
       "neighbours": [
         "report"
@@ -534,7 +572,7 @@
       "group": "machine",
       "description": "Tiered macOS maintenance for a dev machine that agent CLIs, node/dev servers, Docker and Xcode have quietly filled up. Five launchd cadences (15m/1h/12h/1d/7d) whose autonomy widens as the cadence lengthens: short tiers act silently on provably-regenerable debris, long tiers propose and wait. Verification gates before every deletion, a findings ledger that makes recurring leaks visible, and measurement discipline that refuses to total a partial result.",
       "trigger": "Diagnose and reclaim a macOS dev machine that agent CLIs, node/dev servers, Docker and Xcode have silently filled up or bogged down. Runs at five cadences (15m/1h/12h/1d/7d) with autonomy that widens as the cadence lengthens. Use whenever the user mentions low or full disk, \"no space left on device\", ENOSPC, EMFILE, memory pressure, swapping, a machine that is slow or hot, runaway CPU, a fan that will not stop, leftover dev servers or browsers, orphaned processes, stale git worktrees, Docker eating the disk, DerivedData, node_modules sprawl, or wants to \"clean up\", \"free space\", \"see what's eating disk\", or \"check the machine\". Also use before a large build, install, or model download when free space is uncertain, when a build fails for reasons that smell like resources rather than code, and to install or inspect the scheduled maintenance agents.",
-      "blurb": "Your Mac did not fill up because of one thing, it filled up because a hundred sensible defaults each left something behind and nothing was counting. Five scheduled jobs, from every fifteen minutes to weekly, with what each may do on its own widening as the gap between runs grows. Running low makes it check sooner, never delete more. The two short tiers are plain shell, so ninety-six runs a day cost no tokens at all. It ties a no-skill baseline on reasoning and says so in its evals; what it adds is that the reasoning runs while you are asleep.",
+      "blurb": "Your Mac did not fill up because of one thing, it filled up because a hundred sensible defaults each left something behind and nothing was counting. Five scheduled jobs, from every fifteen minutes to weekly, with what each may do on its own widening as the gap between runs grows. Running low makes it check sooner, never delete more. The two short tiers are plain shell, so ninety-six runs a day cost no tokens at all. It ties a no-skill baseline on reasoning and says so in its evals; what it adds is that the reasoning runs while you are asleep. ## Licence MIT. Do what you like; attribution appreciated. ## Elsewhere Fledgeling is [Luke Rhodes](https://www.linkedin.com/in/lukerhodes/), also co-founder of [Diolog](https://diolog.app). [fledgeling.app](https://www.fledgeling.app) · [GitHub](https://github.com/lprhodes) · [X](https://x.com/lp_rhodes) · [LinkedIn](https://www.linkedin.com/in/lukerhodes/) · [hello@fledgeling.app](mailto:hello@fledgeling.app)",
       "readme": "Your Mac didn't fill up because of one thing. It filled up because a hundred sensible defaults each left something behind, and nothing was counting.\n\nClaude keeps every transcript. Dev servers leave build output. Docker holds volumes for containers you stopped weeks ago. Xcode keeps DerivedData for a project you haven't opened since March. Every one of those is the right default on its own. Together they took a terabyte off my machine, and I found out when a build died at 2am with `No space left on device`.\n\nmac-doctor runs in the background, clears what it can prove is safe, and tells you about the rest instead of guessing.\n\n## What it actually adds\n\nClaude is already good at this. Ask it to clean up your disk and it'll do a careful job. I tested that properly and the numbers are in [EVALS.md](https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mac-doctor/EVALS.md); the short of it is that the skill doesn't make Claude smarter about your disk, because it didn't need to be.\n\nWhat it adds is that this happens **without you**, and **without tokens**.\n\nThe 15-minute and 1-hour checks are plain shell. No model, no API call, no session. About eight seconds, ninety-six times a day, for nothing. Asking Claude the same question costs a conversation and roughly 120k tokens each time, and only happens when you remember to ask.\n\n## Five cadences, widening autonomy\n\nWhat each run may do on its own widens as the gap between runs grows. A 15-minute job that deletes something irreplaceable is a disaster; a weekly suggestion you read first isn't.\n\n| Every | What it handles | On its own? |\n|---|---|---|\n| 15 min | Runaway and orphaned processes, exited containers, finished-run temp files | Yes, quietly |\n| 1 hour | Build output in repos nobody's working in | Yes, quietly |\n| 12 hours | Package caches, dangling Docker images | Dry run, then yes |\n| 1 day | Unused Docker volumes, dead simulators, CLI state | Dry run, then yes |\n| 7 days | Worktrees, node_modules, transcripts, simulator runtimes | Asks you first |\n\n**Running low doesn't unlock anything.** When the disk gets tight it runs the bigger jobs sooner and puts the pending suggestions in front of you. It doesn't start deleting things it would normally ask about; a nearly-full disk is exactly when a mistake is hardest to undo.\n\n**A process is never killed on first sight.** One `ps` reading can't tell a spin loop from a build; both show 100%. So a runaway has to turn up on three separate runs, at least half an hour apart, before anything is signalled; what's being watched sits in `~/.claude/mac-doctor/watchlist.tsv` and a process that settles down drops off it. Only two things get reaped unattended: something orphaned that's been pegging a core, and a leaked automation browser tree. A hundred idle orphans get reported and left alone, because from outside they look exactly like another job's workers.\n\nIf you're deliberately generating load, say so: drop a line of `pid`, expiry, label into `~/.claude/mac-doctor/instruments/` and it'll be left alone until the stamp passes. Past it, the same declaration is what marks it as stranded.\n\n## It refuses more than it deletes\n\nA git worktree holding unpushed commits looks exactly like an abandoned one. A dev server nobody's using looks exactly like the one you'll come back to in ten minutes. You can't tell which is which without checking.\n\nSo the interesting part isn't the deleting. It's the part that won't.\n\n- **Build output** needs a generator that can still rebuild it. A folder called `dist` isn't regenerable because of its name.\n- **Docker volumes** must be mounted by no container, and named volumes get reported rather than pruned. Somebody named that volume because they cared what was in it.\n- **Worktrees** need four proofs: git still knows about them, nothing's uncommitted, no commit is missing from the main branch, and nothing's working in them. If git has forgotten one, it's judged on whether every file's content is reachable from a ref that survives the deletion.\n- **Other people's repos** are never touched. An ownership list keeps a stray `rm -rf` out of your clone of somebody else's project.\n\n## Install\n\n```text\n/plugin marketplace add fledgeling-co/fledgeling-plugins\n/plugin install mac-doctor@fledgeling-plugins\n```\n\nThen:\n\n```text\n/mac-doctor --setup     # install the five scheduled jobs\n/mac-doctor             # run whichever one is due\n/mac-doctor report      # measure everything, change nothing\n/mac-doctor status      # what's scheduled, when it last ran\n/mac-doctor worktrees   # audit worktrees only\n```\n\n`report` is the safe first move. It measures and explains without touching anything.\n\n## What it found on my machine\n\nA 2 TB Mac at 94% full:\n\n| | |\n|---|---|\n| Git worktrees | 620 GB across 218 directories, the biggest single item |\n| Xcode DerivedData | 43 GB |\n| `~/Library/Caches` | 40 GB, with CocoaPods alone at 13 GB |\n| Simulators | 19 GB |\n| Agent CLI state | 25 GB across Claude, Codex, Cursor, Grok and Gemini |\n| Package caches | 19 GB of npm and pnpm |\n\nA real run freed **73 GB** and took the machine from 93% used to 89%: 52.2 GB from twelve verified worktrees, 11.3 GB of CocoaPods cache, 4.2 GB of build output across nineteen directories, 2.8 GB from pnpm and bun, and about 1.5 GB from Docker and brew.\n\nIt also declined a few things, which matters more. It left the Playwright cache alone because a test was running against it. It left 25 named Docker volumes alone. It skipped npm's cache because something was actively writing to it.\n\n## Three ways it learned to distrust its own numbers\n\nEach of these happened while I was building it. Each is now a rule in the code rather than a note in a document.\n\n**`timeout` doesn't exist on macOS.** It's GNU coreutils. So `timeout 5 git worktree list | wc -l` on a clean Mac is \"command not found\"; empty output, exit 0 through the pipe, and `wc -l` says `0`. That reported 100 live worktrees as abandoned. If the gate had believed it, they'd be gone.\n\n**A mean over a lopsided set is invented.** I sampled 24 worktrees ranging from 0.00 GB to 33.92 GB. The average multiplied out to more than the disk held.\n\n**A measurement that timed out isn't a zero.** Two directories ran past their time limit, correctly returned \"unknown\", and a total that treated unknown as zero reported **77 GB for a 620 GB set**. It was convincing precisely because it was small, and because it contradicted an earlier guess.\n\nThe survey now reports `sizes_totalable`, false whenever anything was skipped or timed out. It would rather give you a count and admit it can't give you a total.\n\n## Where things live\n\n```\n~/.claude/mac-doctor/\n├── ledger.jsonl        one line per run: reclaimed, kept, suggested, deferred\n├── findings/           a readable report per run\n├── logs/               per-tier scheduler output\n├── protected           paths to never touch, one per line\n└── owners              git owners whose repos may be cleaned\n```\n\nThe ledger records what it **kept** as carefully as what it removed. Something skipped thirty runs in a row while always idle is worth knowing about, and only the kept entries make that visible.\n\n## Uninstalling\n\n```text\n/mac-doctor uninstall\n```\n\nThat removes the scheduled jobs and leaves `~/.claude/mac-doctor/` where it is. The ledger is worth more than the automation.\n\nNote: the scheduled jobs run under launchd, which doesn't read your shell profile. The installer copies your `PATH` into each job for that reason; if a run exits non-zero with an empty log, that's almost always what happened.\n\nFound something it got wrong? Open an issue on the [marketplace repo](https://github.com/fledgeling-co/fledgeling-plugins). Every measurement bug above turned up by running it against a machine that genuinely had the problem, so real reports are the useful kind.",
       "license": "MIT",
       "keywords": [],
@@ -554,14 +592,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mac-doctor/EVALS.md",
         "scripts": true,
-        "references": 5
+        "references": 5,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "discipline",
       "version": "4.2.0",
-      "group": "long-runs",
+      "group": "asking",
       "description": "Session-start operating defaults that cut token spend without cutting task success, tuned for Claude Opus 5 agentic coding. Ships a byte-stable 220-token block for the cached system prefix plus the measured evidence behind every clause, including a paired 106-task benchmark showing that caveman-style response compression cost 7.6 points of task score on Opus 5, with 78% of its apparent saving coming from the agent taking fewer steps rather than writing more tersely.",
       "trigger": "Session-start operating defaults that cut token spend without cutting task success, tuned for Claude Opus 5 agentic coding. Ships a byte-stable block for the cached system prefix (Perch proxy, CLAUDE.md, or an output style) plus the evidence behind every clause. Use when someone asks to reduce token usage, stop hitting usage limits, make sessions cheaper, \"why is this burning so many tokens\", asks about context or prompt-cache economics, asks whether a terse/caveman/compressed output style is worth running — and when authoring or editing the injected block itself. Not a prose-compression style: compressed register is the lever this skill exists to argue against.",
       "blurb": "Drop a short block at the top of a session and Claude spends less without doing less. It targets the three habits that quietly run up the bill: re-printing plans and diffs already on your screen, opening a whole file to find one line, and handing small jobs to sub-agents that each pay for a fresh context. The nearest alternative is caveman, and the choice between them is measured rather than argued. On the same 106 tasks caveman cut output tokens 41% against this skill's 16%, so caveman is better at the thing both are for. It also gave up 7.6 points of task score where this one gives up nothing detectable, because 78% of caveman's saving came from the agent taking fewer steps rather than writing more tersely. Pick caveman if the token count is all you are optimising; pick this one if the agent is doing long work you intend to trust.",
@@ -589,7 +628,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/discipline/EVALS.md",
         "scripts": true,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": []
     },
@@ -628,7 +668,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/better-goal/EVALS.md",
         "scripts": true,
-        "references": 5
+        "references": 5,
+        "defer": false
       },
       "neighbours": [
         "better-loop"
@@ -664,7 +705,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/better-loop/EVALS.md",
         "scripts": true,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": [
         "better-goal"
@@ -673,7 +715,7 @@
     {
       "name": "report",
       "version": "2.2.0",
-      "group": "research",
+      "group": "standing",
       "description": "report: turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document and paginates to a clean A4 PDF, plus a one-page TLDR. Ships three readings of the same argument over one claim ledger (Primer / Brief / Technical) that the reader toggles between, each independently and fully cited from one shared registry, working with JavaScript off and selectable per PDF export, opening with a required TLDR section carrying the finding and the ask. Compiles the session's evidence trail into a claim ledger first, so every number carries a locator and anything reasoned is labelled inference — including a comparison's ranked picks, which are inferences by construction, and paywalled lab verdicts, which count as evidence with the paywall stated. Light and dark both ship and both are measured; the PDF is always light. GSAP is a hard requirement on screen, covering micro-interactions and choreography, with an authored static frame keeping all of it out of the ink. Figures go through dataviz in native CSS/DOM, hand-authored SVG or TanStack Charts compiled to static SVG at build time; imagery comes from the evidence trail with full provenance. Layout direction comes from a Mobbin trawl with a took/left ledger, routed through design-craft and ux-craft.",
       "trigger": "Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry, and every report opens with a named TLDR section carrying the finding, its supporting claims, the one thing that would change it and the ask. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched, renders captured) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Comparison and evaluation work additionally ships a verdict layer: three ranked picks in each of the categories readers actually differ on, plus one overall winner with its cost, its weaknesses and a named decision — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, animates throughout with GSAP including the micro-interaction feedback on every control, builds figures through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time, uses imagery from the evidence trail with full provenance, and routes every visual and flow decision through design-craft and ux-craft with a Mobbin trawl behind the layout. Use this whenever someone wants what just happened written up — \"write this up as a report\", \"give me a summary with a TLDR at the top\", \"/report\", \"/report tldr\", \"turn this session into something I can send\", \"make me a page about what we found\", \"I need a one-pager on this for the team\", \"document this investigation properly\", \"which of these should we use\" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).",
       "blurb": "A session works something out over two hours, you ask for the write-up, and what comes back reads well and can't be checked. Three different things leave a session looking identical on the page: a number that was measured, one read off a single sample, and one worked out from two other facts. This compiles the session's own evidence trail into a claim ledger before it designs anything, so the page is generated from the ledger rather than cited afterwards, and reasoning renders visibly as reasoning. It now writes the same argument three ways over that one ledger, Primer, Brief and Technical; each is independently and fully cited from the same registry, and switching between them works with JavaScript off. A reading can change the words; it can't change what's claimed, so the confidence and the limits travel into all three. One self-contained HTML file that paginates to a real A4 PDF with the motion stripped out, plus a one-page TLDR derived from the same ledger so the two can't disagree. Its own blind panel went 4-2 for it and told it what it was missing: an ask. So the TLDR is now a named section carrying one, and on a comparison the ask is the verdict itself: the categories readers split on, three ranked picks in each, one winner sized and owned. Rankings render as reasoning and name their ledger rows; paywalled lab testing counts as evidence with the paywall stated; pictures come from the evidence trail with provenance; and charts build in plain CSS, hand-drawn SVG or TanStack Charts compiled to static SVG, so nothing loads at runtime and it all still prints.",
@@ -713,7 +755,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/report/EVALS.md",
         "scripts": true,
-        "references": 8
+        "references": 8,
+        "defer": false
       },
       "neighbours": [
         "dossier-report",
@@ -723,7 +766,7 @@
     {
       "name": "clarify",
       "version": "1.4.0",
-      "group": "long-runs",
+      "group": "asking",
       "description": "Decide whether to interrupt the user with a question, then ask it so it takes one click to answer. Sweeps the conversation, the repo and earlier agent output for the answer, kills questions whose answer would not change the work, then refers every surviving technical fork to another model family before the user sees it — fable-5, gpt-5.6-sol, gemini-3.7-flash-high and grok-4.6 at xhigh, a three-family panel for genuinely open forks, and Dossier deep research for questions about the world. A fork whose axis is yours is one you settle and report, not one you ask; what reaches the user is taste, cost, scope, risk and anything irreversible, as one batched AskUserQuestion with two options and no recommendation to nudge them. Treats a note attached to an answer as binding. Ships a deterministic linter that enforces the invariant.",
       "trigger": "Decide whether to interrupt the user with a question, then ask it so it takes one click to answer. Use this whenever you are about to ask the user something mid-task, when you hit a fork with several defensible answers, when a request is ambiguous enough that two readings would produce different work, before anything destructive or irreversible, and whenever someone types /clarify or says \"ask me what you need\", \"what do you need from me\", \"check with me first\", or \"stop guessing\". Sweeps for the answer in the conversation, the repo and earlier agent output, kills questions whose answer would not change the work, then refers every technical fork to another model before the user ever sees it — fable-5 at high for speed, then gpt-5.6-sol, gemini-3.7-flash-high and grok-4.6 at xhigh for a different family, a three-family panel for genuinely open forks, and Dossier deep research for questions about the world. A fork you can make a reasoned recommendation on is one you decide and report in a clause, not one you ask. What reaches the user is taste, cost, scope, risk tolerance, their own systems, and anything irreversible — as one batched AskUserQuestion with two options, plain wording, described by what changes if chosen. Treats any note the user attaches to an answer as binding. Not for routine judgment calls you should make yourself, and not a substitute for investigating first.",
       "blurb": "Decides whether to interrupt you at all, and mostly the answer is no. It sweeps the conversation and the repo for the answer first, drops anything whose answer wouldn't change the work, then sends what's left to a different model family before it ever reaches you: fable-5 for speed, gpt-5.6-sol, gemini-3.7 and grok-4.6 at xhigh for independence, a three-family panel when the call is open enough to deserve one. Each lane pins its model and its effort, because a lane that inherits its config default isn't the lane you picked. Then the last gate, which isn't \"are you sure\" but \"whose decision is this\": if the axis is craft or convention it gets settled and reported in a clause, and only taste, cost, scope, risk and the genuinely irreversible reach you. Two options, and no recommendation to nudge you, since the fork it could have recommended on was one it should have taken. A mark now appears on one shape of question only, the one you're asked despite the agent knowing the answer because the action can't be undone. Two out-of-family reviewers argued against the two-option default and their reports ship with it; one of them changed the gate, and the other is a cost written into the evidence file rather than talked around.",
@@ -748,7 +791,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/clarify/EVALS.md",
         "scripts": true,
-        "references": 2
+        "references": 2,
+        "defer": true
       },
       "neighbours": []
     },
@@ -781,14 +825,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/should-compact/EVALS.md",
         "scripts": true,
-        "references": 1
+        "references": 1,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "whats-left",
       "version": "0.1.1",
-      "group": "research",
+      "group": "standing",
       "description": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page: a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph, so each blocked item deep-links to the decision that releases it and each decision names how much it actually releases. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone.",
       "trigger": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page — a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph: each blocked item deep-links to the decision that releases it, each decision names what it actually releases and how much. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone. Use for \"what's left before this is done\", \"what are you waiting on me for\", \"remaining work report\", \"send me the decisions\", \"/whats-left\", or when a session has piled up questions that stopped the work. Not for research not yet done (dossier-report), not for writing up a session that finished (report), and not for a single question you could ask right now (clarify).",
       "blurb": "Asks what's left on a project and gets back two documents that immediately start lying to each other: the status report says a feature shipped, the open questions ask whether to switch it on, and nothing shows you the second is why the first is wrong. This is one page where they're the same graph: every blocked item links down to the decision that releases it, every decision links back up and says how much it actually releases. Stage is a word rather than a percentage, so built, deployed and accepted stay three different things instead of averaging into ninety per cent. Agreeing with a recommendation means clicking the option already selected, which fires no change event and is exactly how a page exports your agreement as \"never looked at\", so confirmation is bound to the click too, and anything you never touch exports as unconfirmed rather than as your decision. Send the JSON back and it does the work your answers unblocked. Six structural properties to nil against the same request with no skill at all.",
@@ -814,14 +859,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/whats-left/EVALS.md",
         "scripts": true,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "proctor",
       "version": "0.6.0",
-      "group": "making",
+      "group": "checking",
       "description": "Run a real test campaign against a native macOS app or an iOS Simulator: exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Ships with the Proctor MCP server: an unsandboxed launchd agent that reads the accessibility tree and screen contents, and captures through ScreenCaptureKit so every frame carries its own trustworthiness rather than being believed on sight. Actuation runs on Proctor's own process-directed plane by default, so background, occluded and other-Space windows are reachable without stealing focus, and can be delegated to Cua Driver when an operator selects that lane. iOS is a second lane: deep links through simctl and Maestro flow files, scored for determinism. Also ships an embeddable DEBUG reflector that gives apps you own a real computed-style source. Use it when someone asks to test, QA, exercise or find bugs in a Mac or iOS app, whether a flow still works, why a test is flaky, or what breaks in dark mode.",
       "trigger": "Run a real test campaign against a native macOS app — exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Drives the Proctor MCP server, which reads the accessibility tree and screen contents itself — every capture carrying its own frame trustworthiness — and actuates through the process-directed plane, so background, occluded and other-Space windows are all reachable without stealing focus. Use this when someone asks to test, QA, exercise, audit, smoke-test or find bugs in a Mac app, a SwiftUI or AppKit or Catalyst or Electron app, a menu bar app or a preference pane — when they ask whether a Mac app is ready to ship, whether a flow still works, why a test is flaky, or what breaks in dark mode or at a larger text size. Use it too for the UI/UX design side of a Mac app: checking a rendered UI against acceptance criteria or a mockup, and checking whether it is native and correct — right control sizes, right type ramp, no non-native tells — a design test the platform itself is the answer key for. Also use it when a specific test case or suite needs running against a Mac app, and when someone wants a Mac app driven end to end by an agent rather than by hand. It carries a second, much narrower lane for iOS Simulator apps — deep links through `simctl` and Maestro flow files — so use it for putting an iOS app into a named state and scoring a flow, while knowing that lane has no accessibility tree, no elements and no geometry. It also drives virtual-machine guests through lume, prlctl or tart, so use it when a test needs a machine in a known state, a pinned macOS version, or a run that does not touch the desktop the person is working on: a macOS guest runs its own Proctor holding that machine's own grants, so it gets the full native treatment including the accessibility tree, while Linux and Windows guests are delegated to coordinates and screenshots with no tree to read. It reaches guests that already exist and provisions none.",
       "blurb": "Tests a native Mac app the way an instrument does rather than the way a screenshot does. A screenshot you looked at is an impression; a screenshot carrying a frame status and a dirty-rect summary is a reading, and only one of those can be wrong in a way you would notice. It ships with its own MCP server, which actuates through the accessibility plane rather than by injecting events, so it drives windows that are behind other windows, on another Space, or simply not in front, without stealing focus, and while you keep using the machine. Where the accessibility tree, the layer geometry and the captured pixels disagree about the same instant, that disagreement is the defect: an unexposed control, a ghost node, a control you can focus but cannot see. Waiting is a conjunction of quiet frames, quiet notifications and the app's own idle signal, never a sleep, and each wait reports which of those it actually got; an app with a blinking caret can never go pixel-quiet, so it says so instead of claiming agreement it did not have. Flows replay N times to separate a race from a bug before either gets filed. An iOS Simulator is a second lane rather than a port: deep links through `simctl` and Maestro flow files, scored for determinism the same way, with the ceiling stated up front, since the Mac's accessibility API does not reach into a simulated device and so there is no tree to assert against. For apps you own, an embeddable debug-only reflector returns resolved colours, fonts and radii, because macOS has no cross-process computed style and guessing one is worse than saying so.",
@@ -838,14 +884,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/proctor/EVALS.md",
         "scripts": false,
-        "references": 3
+        "references": 3,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "test-campaign",
       "version": "0.9.9",
-      "group": "making",
+      "group": "checking",
       "description": "Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a requirement claiming the product acts outside itself — spawning a process, opening a socket, writing a filter rule — must name an independent witness to that effect or be recorded vacuous, because a campaign once armed 220 cases and verified a network policy over a product with no network client in its dependency tree; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.",
       "trigger": "Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.",
       "blurb": "Runs a UI test campaign and leaves a page behind that says what it actually proved. It reads the project before it reads the DOM: the overview, the PRD, the feature specs, the design notes and the latest mocks, so the denominator for \"is this tested\" is what the product claims it does rather than what the build happens to render, which is the only way a campaign can notice a control the design specifies and the build never had. Then it states the correctness space out loud, samples it deliberately, and says which cells it took. Every case declares which rung of oracle it stands on, from touch and presence up through outcome and metamorphic relations, and a flow you have marked critical that carries no case above presence fails the gate; not a model reviewing the suite afterwards and offering a view, a script exiting non-zero with the flow ids in it. A pass has to name an artifact on disk, armed and unarmed assertions are counted apart and never summed, and the ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. The sweeps go after what no requirement named, including the one this was built for: force the server to refuse and check the interface says so, which is where four production defects were sitting behind a client that resolves refusals instead of throwing them. It knows the ways its own checks lie, fourteen of them, each measured. It compares the build against its design of record on structure, resolved style, vocabulary and quantised geometry rather than on pixels. And it makes you prove the thing under test actually ran: a lane that claims the app was running and drawn has to name the built artifact, the command that built it, and what witnessed a process from it reaching a display server, because a campaign once reported 100% checked over two desktop apps where no GUI process had ever existed and every number in that report was true. It plans to each lane's ceiling across web, React Native, iOS and native macOS, Windows and Linux, so an iOS Simulator with no accessibility tree is marked not-applicable with the structural reason rather than left open looking like neglect; and a check the instrument could not perform reads as inconclusive rather than clean, because those two are the same shade of green and only one is a measurement. The newest rule came from the skill catching itself: a campaign it produced published 20 surface captures and passed every gate here, and the pictures were of a status report, a mock browser's index page and a design doc, twenty files holding six distinct images. Nothing had broken; the only thing binding a picture to a surface was its filename. So a published capture now records where the capture channel was actually pointed, at the moment it fires, and four exact passes read it: no recorded target, a target that is not the surface's route, two surfaces sharing one image, and a capture published without a judgement against its reference. None of the four asks a model, because the deterministic pre-scan that exists for exactly this returns a clean settled-and-contentful verdict on an image of entirely the wrong document, and vision tops out near 40% recall on fine-grained interface differences. Provenance answers it and nothing else does, which is why the gate can also be watched to fail: swap two surfaces' records and it has to go red.",
@@ -864,14 +911,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/test-campaign/EVALS.md",
         "scripts": true,
-        "references": 13
+        "references": 13,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "anvil-errand",
       "version": "0.1.0",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Send a Claude Code agent to work in a container on another machine through Anvil, using the single `anvil errand` verb, and read its refusals correctly when a piece of the path is missing. Covers the whole loop — check the preconditions, start the errand, watch it, stop it — and translates each stable refusal kind (errand_no_node, node_unreachable, image_absent, image_unverified, errand_ticket_unavailable, errand_proxy_unreachable) into the one next step that clears it. Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.md in the anvil repo, which stays the source of record.",
       "trigger": "Send a Claude Code agent to work in a container on another machine through Anvil, using the single `anvil errand` verb, and read its refusals correctly when a piece of the path is missing. Covers the whole loop — check the preconditions, start the errand, watch it, stop it — and translates each stable refusal kind (errand_no_node, node_unreachable, image_absent, image_unverified, errand_ticket_unavailable, errand_proxy_unreachable) into the one next step that clears it. Use when someone wants to run an agent on their node, spare PC, or second machine rather than on this Mac — \"run an errand\", \"send this to the node\", \"run Claude Code on the other machine\", \"offload this to the PC\", \"why was my errand refused\", \"anvil errand says image_absent\". Not for setting the path up from nothing: provisioning the node, the engine, the image, the pairing and the proxy is docs/ERRAND_RUNBOOK.md in the anvil repo, which stays the source of record.",
       "blurb": "One verb for work that belongs on another machine. `anvil errand` sends a Claude Code agent into a container on your node or spare PC and, before anything starts, asks whether every piece of the path is actually there: a node, a link to it, the image, the credential, the proxy. It reports the first blocker in that order and only the first, because a list assembled past the first failure carries entries nobody measured; the image lives on the node, so asking about it before the link is up returns an answer about the link wearing the image's words. Each of the six refusal kinds is a stable identifier carrying the one next step that clears it, and `--check` runs the whole preflight while changing nothing. The failure it removes isn't the errand not working; it's finding the missing piece halfway through a container start, from a symptom that points somewhere else. After that it's the ordinary job verbs, and `anvil attach` is read-only on purpose: the container starts detached, so PID 1's stdin is at EOF from the first instant. It provisions nothing, deliberately; standing up the node, engine, image, pairing and proxy from scratch is the runbook in the anvil repo, which stays the source of record. Worth knowing before you lean on it: `--check` passing is not the errand working, and the verb has not yet been driven against a live node from the gate.",
@@ -898,14 +946,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/anvil-errand/EVALS.md",
         "scripts": false,
-        "references": 0
+        "references": 0,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "shipyard",
       "version": "0.4.3",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
       "trigger": "The shipyard pipeline's router and map — explains the seven stage skills (intake, triage, plan, design, work, verify, gap-fix), the status machine they move features through, and which stage a given situation calls for. Use when someone asks \"how does the shipyard pipeline work\", \"which stage do I run\", \"what's the status flow\", or invokes /shipyard without naming a stage. It routes and explains; the stage skills do the work, and the conductors (ship-feature, ship-fleet, ship-armada) drive them end to end.",
       "blurb": "The feature-delivery stage skills: intake, triage, plan, design, work, verify and gap-fix, on one tracker adapter and one complete status machine. Built on a 110-ticket audit of its predecessors, with typed evidence rules and a cross-family verifier as the only path to done. Typing the evidence settles what kind of thing closes a claim; 0.3.0 adds whether the thing is sound, so a screenshot proves what it depicts rather than being trusted on its filename, a suite is scanned for assertions that cannot fail before its green is spent, and a critic reading only the evidence bundle rejects any row that cites nothing measurable. The report card and blind-panel results ship in the repo.",
@@ -926,14 +975,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/shipyard/evals/EVALS.md",
         "scripts": false,
-        "references": 0
+        "references": 0,
+        "defer": true
       },
       "neighbours": []
     },
     {
       "name": "warrant",
       "version": "0.2.1",
-      "group": "making",
+      "group": "checking",
       "description": "Remove the human from per-item software verification by granting a machine a written, tiered authority and revoking it automatically on evidence. Eight skills: charter (the signed warrant, the only human-signed artifact), oracle (source-to-render lineage, tick-and-tie, taxonomy validation — the deterministic plane, built first because the highest-consequence defect is a correctly rendered screen stating a figure no source supports), assay (mutation survival and cannot-fail patterns, because every downstream verdict inherits the suite's fault sensitivity), panel (one out-of-family grader plus orthogonal lens lanes plus an adjudicator that routes disagreement to arithmetic — deliberately not a jury, since nine judges from seven families supply about two effective votes), feedback (escapes become permanent regression cases; calibration from what got missed rather than from a reader study), lot (risk-limited acceptance of a queue, blind to the machine verdict), ratchet (computes earned tiers, applies revocations without asking, and is a plain script because the component deciding a model's authority should not be the model), and ledger (the hash-chained decision record an auditor reads instead of per-item signatures). Grounded in a 22-source panel across four research backends; every rule traces to a claim id in docs/deep-research/claims.json.",
       "trigger": "The warrant pipeline's router and map — explains the eight skills (charter, oracle, assay, panel, feedback, lot, ratchet, ledger), the authority ladder they move defect classes up and down, and which skill a given situation calls for. Use when someone asks how to stop reviewing every item by hand, how much authority a model currently holds, why a class was revoked, or invokes /warrant without naming a skill. It routes and explains; the eight skills do the work.",
       "blurb": "Takes the human out of per-item verification by writing down exactly what a machine may decide, and revoking that permission automatically when a model version moves, an escape lands or the control chart drifts. Deterministic checks first, one out-of-family grader rather than a jury, and a hash-chained ledger an auditor reads instead of the signatures. Built on a 22-source panel across four research backends, with every rule traceable to a claim id.",
@@ -950,14 +1000,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/warrant/evals/EVALS.md",
         "scripts": false,
-        "references": 0
+        "references": 0,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "ship-feature",
       "version": "2.3.3",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "End-to-end feature delivery conductor: one feature from rough idea to merged, cross-family-verified production code by conducting the shipyard stages - intake, triage, plan in parallel with design, work, the deferred loop, gap-fix, acceptance-e2e, verify (the only path to Done), and a fail-closed merge with a decided-in-advance rollback. Holds the thread in-session, defers decisions through the second-opinion lanes instead of stalling on questions, and treats every stage artifact as the resumable memory.",
       "trigger": "End-to-end feature delivery conductor — takes ONE feature (a rough idea, inline text, a brief file, or a tracked ticket) from bare idea to a merged, verified, production-ready feature by conducting the shipyard stage skills in a single in-session flow: intake (briefs + ideation, when handed a rough idea) → triage → plan ∥ design (all-platform mocks gated by design-review and be-my-witness) → work (worktree build through the executor lanes) → deferred-work loop → gap-fix → acceptance-e2e → cross-family verify (the only path to Done) → fail-closed merge, push, cleanup. Use whenever someone wants a feature taken ALL THE WAY — \"ship this feature end to end\", \"run the full pipeline on <feature>\", \"take this from description to merged\", \"do the whole feature for me\" — even if they never name the stages. NOT for a single stage (use that stage's skill) or a whole backlog (use ship-fleet).",
       "blurb": "The end-to-end conductor: one feature from rough idea to merged, verified code, running the shipyard stages in order with plan and design in parallel, a fresh-context cross-family verifier before merge, and a fail-closed gate where every box is checked now rather than recalled. A COMPLETE verdict is itself checked: over a bundle with a screenshot nothing corroborates, a suite whose green comes from an assertion that cannot fail, or a row citing no measurable value, the item does not advance.",
@@ -991,7 +1042,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ship-feature/evals/EVALS.md",
         "scripts": false,
-        "references": 3
+        "references": 3,
+        "defer": true
       },
       "neighbours": [
         "create-swe-project",
@@ -1001,7 +1053,7 @@
     {
       "name": "ship-fleet",
       "version": "2.5.0",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
       "trigger": "Backlog-wide feature-delivery orchestrator — surveys ALL remaining feature work in a repo and ships it. Reads the pipeline artifacts (ledger or tasks board, specs, plans, untriaged briefs, mocks, deep research, DESIGN md) and in-progress worktrees, writes ORCHESTRATOR.md (plan + ledger) and orchestrator-hierarchy.html BEFORE any work starts, then runs ship-feature per feature: dependency-ordered concurrent runners under a global agent budget, cross-family verify per item, merges serialized. Use when someone wants EVERYTHING remaining shipped — \"orchestrate the remaining work\", \"ship everything left in the backlog\", \"survey what's left\", \"work through the backlog N at a time\", \"resume the orchestrator\", \"run the fleet\" — even if they never say \"orchestrator\". Also the answer to \"what work remains / is deferred / is blocked\" across the pipeline. NOT for a single feature (ship-feature) or a single stage.",
       "blurb": "The backlog orchestrator: surveys everything left in a repo, writes one durable ledger before any execution, then conducts concurrent ship-feature runners under a global agent budget, with per-item verification and merges serialized. Done means the ledger says so, never that a dispatch returned. A ready-to-verify report is treated as a claim about an evidence bundle, and where the repo carries a test campaign its capture gate runs once for the repo rather than once per item, because a fleet multiplies whatever the evidence layer gets wrong.",
@@ -1028,7 +1080,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ship-fleet/evals/EVALS.md",
         "scripts": false,
-        "references": 3
+        "references": 3,
+        "defer": true
       },
       "neighbours": [
         "ship-armada",
@@ -1055,7 +1108,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/resume-session/EVALS.md",
         "scripts": true,
-        "references": 0
+        "references": 0,
+        "defer": false
       },
       "neighbours": []
     },
@@ -1084,7 +1138,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/tui-craft/EVALS.md",
         "scripts": true,
-        "references": 5
+        "references": 5,
+        "defer": false
       },
       "neighbours": []
     },
@@ -1127,7 +1182,8 @@
         "evals": false,
         "evalsUrl": null,
         "scripts": true,
-        "references": 11
+        "references": 11,
+        "defer": false
       },
       "neighbours": []
     },
@@ -1158,7 +1214,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/design-craft/EVALS.md",
         "scripts": true,
-        "references": 32
+        "references": 32,
+        "defer": false
       },
       "neighbours": [
         "ux-craft"
@@ -1211,7 +1268,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ux-craft/evals/EVALS.md",
         "scripts": true,
-        "references": 11
+        "references": 11,
+        "defer": false
       },
       "neighbours": [
         "design-craft",
@@ -1248,7 +1306,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/deck-craft/EVALS.md",
         "scripts": true,
-        "references": 14
+        "references": 14,
+        "defer": false
       },
       "neighbours": [
         "report"
@@ -1281,14 +1340,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mac-craft/EVALS.md",
         "scripts": true,
-        "references": 17
+        "references": 17,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "mac-design-digest",
       "version": "1.2.0",
-      "group": "research",
+      "group": "sending",
       "description": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits into a persistent design corpus — per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md — where every value carries a provenance mark from a closed set and every written file is checked by an executable gate before the run is reported done. Ships corpus_check.py (twelve checks over seventeen named invariants over the written corpus — ledger integrity and append-only rows, every ledger target existing, cross-app patterns recorded, the 3-independent-apps canon bar, the native-lineage gate, canon traceability, cluster contradiction budget, placeholders, dated and levelled headers, non-empty knowledge gaps below Proficient, one mark per axis with a composed pair where the row's role needs both, the app count a (recurring)/(canon) mark claims, and a pinned precision baseline so a value cannot silently gain precision it never earned) and sketch_extract.py (reads .sketch archive JSON in memory, derives the control ladder from symbol frames, classifies capsule radii by geometry rather than by an undocumented sentinel, and flags instruction-shaped strings it reads out of the archive). Use whenever the user provides mac app screenshots or icons and wants to digest, study, learn from, analyze, or add to the corpus — and when ingesting a Figma or Sketch UI kit export. Routes generation out: mocks to mac-craft, icons to create-mac-icon.",
       "trigger": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits (user-supplied, e.g. from macapp.supply) into a persistent, growing design corpus — per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md — with every value carrying a provenance mark and an executable check over the written files. Use whenever the user provides mac app screenshots or icons and wants to \"digest\", \"study\", \"learn from\", \"analyze\", or \"add to the corpus/knowledge base\", and whenever they ask what makes a given mac app's design good, or ask to ingest a Figma/Sketch UI kit export. Trigger even for a single screenshot with \"what can we learn from this?\". For building a mac mock or icon from the corpus, this skill routes to mac-craft and create-mac-icon rather than generating it here. For extracting one product's design system into a standalone DESIGN.md, prefer design-md-from-screenshots; this skill is for building cumulative, cross-app design taste.",
       "blurb": "Maintains a machine-written corpus of macOS design evidence across sessions, reading screenshots, kits and design files, and writing findings that the interface skills then build against. Provenance is a type system rather than a habit: two orthogonal mark families compose, one for how precisely a value is known and one for how strongly, with promotion running along the strength axis only, so a guess never becomes a specification by being seen more often. Its gate enforces seventeen parser invariants, because a wrong number in a corpus outlives the conversation that created it. The result worth reading is a loss: its rebuild improved its structural assertions from 35 to 43 and then lost its blind panel 4-1, because having built a check for a class of problem it stopped looking past the check. Two of the three defects the panel found became checks the same day, which took a defective fixture from 10 failures to 17 and immediately revealed that its own clean control was incomplete. The third became a rule, that the gate is a floor and not a ceiling, carrying that panel loss as its evidence.",
@@ -1309,7 +1369,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/mac-design-digest/evals/EVALS.md",
         "scripts": true,
-        "references": 6
+        "references": 6,
+        "defer": false
       },
       "neighbours": []
     },
@@ -1339,14 +1400,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/generate-investor-portal/evals/EVALS.md",
         "scripts": false,
-        "references": 8
+        "references": 8,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "stocktake",
       "version": "0.6.0",
-      "group": "orchestration",
+      "group": "standing",
       "description": "Count what a tracker board claims against what the codebase actually holds, card by card, and move each one to the column its evidence supports. Reads every comment and attached image and rebuilds the numbered requirement list from the ticket BEFORE opening any completion record or diff, because a diff read first supplies the frame and the requirements it silently dropped never enter the list. Locates the work — merged, on a branch nobody merged, unpushed, in a worktree, or never built — then traces each requirement to the code that PRODUCES its value rather than to a surface that renders it, and judges whether the tests standing behind it could actually fail: which rung of oracle each critical requirement stands on, armed and unarmed assertions counted apart, a denominator for what the gate really runs. Grades every verdict out of family with a single strongest judge rather than a panel, because nine frontier judges across seven families supply about two independent votes. An inconclusive result blocks and never rounds up to a pass. Cards with work left get a brief written for ship-fleet to orchestrate; cards with open decisions get referred to another model family or decided with a named recommendation rather than parked on the reader; cards whose evidence holds are promoted to Done — and never past it into a human's column until eight named preconditions hold for one pre-registered low-risk class, which a bundled gate refuses by default. Use whenever someone asks to triage, sweep, review, reconcile or clean up a board or backlog, asks what is left across a set of tickets, asks whether items in a review column are genuinely done, asks which tickets sit in the wrong status, or says a column has piled up. At Done, the column a card may reach is decided by the `warrant` plugin rather than by a checklist: warrant_column.py reads the signed warrant and the ratchet's last word and returns Verified where the card's defect class has earned warrant tier 3 with no revocation, Needs More Work where a warrant gate failed on the card's own evidence, and Done with every reason named otherwise. A grant states the substitution it rests on every time, because a warrant tier is earned by absence of escapes rather than by a measured non-inferiority study, and the signed warrant is a person accepting that in advance.",
       "trigger": "Sweep a tracker board card by card and decide, with evidence, what each one actually needs next — reading every comment and attached image, rebuilding the requirement list from the ticket BEFORE opening any diff, finding whether the work sits on the main branch, an unmerged branch, a worktree or nowhere at all, tracing each requirement to the code that PRODUCES it rather than to a surface that renders, judging whether the tests standing behind it can actually fail, and then moving the card to the column its evidence supports. Every verdict is graded out of family by a single strongest judge rather than a panel, because a panel of nine frontier judges buys about two independent votes. An inconclusive result is a first-class blocking outcome, never a pass. Cards with work left get a brief written to docs/features-to-triage and are handed to ship-fleet to run; cards with open decisions get referred to another model family or decided with a named recommendation rather than parked on the reader; cards whose evidence holds are promoted. Use this whenever someone asks to triage, sweep, review or clean up a board or backlog, asks what is left on a set of tickets, asks whether tickets in a review column are genuinely done, asks which tickets are in the wrong status, wants a board reconciled against the codebase, or says a column has piled up and needs going through.",
       "blurb": "A board is a set of claims about a codebase, and nobody checks them. Cards drift into review and stay there, work gets finished on a branch nobody merged, and a ticket reads as done because somebody wrote a comment saying so. The uncomfortable part is that checking looks like it already happened: the surface renders, the schema validates, the suite is green, and none of that is the same as the number on the screen having been produced by code somebody wrote. So this goes card by card and, before it opens any diff, rebuilds the numbered requirement list from the description, every comment and every attached image, because a diff read first supplies the frame, and whatever the change quietly dropped never enters the list. Then it finds where the work actually is (merged, on a branch nobody merged, finished but never pushed, in a worktree, or never started, which are four different problems), traces each requirement to the code that produces its value rather than the screen that shows it, and asks whether the tests behind it could ever have failed: which rung of oracle each one stands on, armed and unarmed assertions counted apart, and a denominator for what the gate really runs. It grades out of family with one judge rather than a panel, because nine frontier judges across seven families supply about two independent votes and the best single judge beats the group. “I could not tell” is a real answer that blocks rather than rounding up. Cards with work left get a brief for ship-fleet; cards with an open question get it referred or decided with a reason instead of parked on you; and at Done it stops deciding and asks the warrant plugin, which holds the authority: Verified where that class of work has earned warrant’s top tier with nothing revoked, Needs More Work where one of warrant’s own checks failed on the card’s evidence and is quoted onto it, and Done with every reason named otherwise, which is the default. A grant states what it rests on every time, because a warrant tier is earned by nothing having escaped rather than by anyone measuring the machine, and the signature on the warrant is the one part nobody automated away.",
@@ -1363,14 +1425,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/stocktake/EVALS.md",
         "scripts": true,
-        "references": 6
+        "references": 6,
+        "defer": true
       },
       "neighbours": []
     },
     {
       "name": "vouch",
       "version": "0.3.0",
-      "group": "research",
+      "group": "checking",
       "description": "Reconcile and substantiate a personal-expense reimbursement claim end to end, repeatably. Vouching is the audit term for tracing a record back to its source document, and that is the whole skill: every claimed charge is keyed to the supplier's own invoice, and every invoice is read for the account it was issued to. Sweeps a personal-accounting MCP (PocketSmith or any equivalent), the Apple Mail index via the Sift MCP, card statement PDFs and a downloads folder; detects the days where the bank feed is silent and backfills them from statements, which is where the charges nobody noticed are hiding. Decides each row on three gates the operator supplies: the invoice must name a company account, the payment must land on a card the claimant owns personally, and the charge must be absent from the prior claim. Drives supplier portals through proctor when a login is needed, and hands back a wanted-invoices page listing date, supplier, estimated amount, portal link and account address whenever a portal refuses automation. Emits a claim CSV matching the employer's own form, invoices filed by month and named for the invoice number printed inside them, and two unbranded reports, one for the manager approving payment and one for the accountant checking GST. Ships a gate suite that fails on arithmetic, sign convention, date range, duplicate invoice numbers, orphan files and any filename that disagrees with its document. Use whenever someone asks to prepare, reconcile, substantiate or check an expense claim or reimbursement, asks which invoices are still missing, or runs the monthly claim.",
       "trigger": "Reconcile and substantiate a personal-expense reimbursement claim end to end, repeatably — the monthly or annual run that turns a year of card charges into a claim form, a folder of invoices, and two reports somebody can sign. Vouching is the audit term for tracing a record back to its source document, and that is the mechanism here: every claimed charge is keyed to the supplier's own invoice, and every invoice is read for the account it was issued to, because the card that paid a charge does not decide whose expense it is. Sweeps a personal-accounting MCP (PocketSmith or any equivalent), the Apple Mail index through the Sift MCP, card statement PDFs and a downloads folder; finds the days on which the bank feed holds nothing at all and backfills them from statements, which is where the charges nobody noticed are hiding. Drives supplier portals through proctor when a login is needed, and emits a wanted-invoices page — date, supplier, estimated amount, portal link, account address — whenever a portal refuses automation. Produces a claim CSV in the employer's own layout, invoices filed by month and named for the invoice number printed inside them, and two unbranded reports for the approver and the accountant. Use when someone asks to prepare, reconcile, substantiate, check or re-run an expense claim or reimbursement, asks which invoices are still missing, asks whether a claim is complete, or says the monthly claim is due.",
       "blurb": "Vouching is the audit word for tracing a record back to the document it came from, and it is the part of an expense claim that gets skipped, because the arithmetic balances either way. A claim assembled from a bank feed cannot tell you whether the charge on line forty is the company's expense or your own, whether the invoice behind it exists, or whether you already claimed it last year, and those are facts about documents. So this pulls the period from an accounting MCP and then computes the days on which the account holds no transaction at all, which is how it found two gaps of 38 and 44 days on the card that mattered, invisible until somebody looked and full of charges nobody had noticed. It reads the mail index rather than searching it blind, after a keyword search that was silently dropping its own date filter returned a confident wrong answer. It reads the bill-to block of the invoice and never the delivery address of the email that carried it, because those disagree often enough to matter, and it puts every claimed row on a six-rung ladder of how strongly its document actually names the company, since the rung nobody predicts is the one where the invoice names the company and carries a personal contact address, and on a real claim that rung was worth eleven rows and A$1,579.45 that four review passes had walked straight past. Two identical top-ups four days apart will both match whichever invoice a per-charge lookup returns first, so charges are assigned one to one with a used set on both sides. Twenty-four blocking checks gate the output, and the one that earns its keep opens every filed document and requires its filename to appear inside it, after an earlier pass put fourteen rows on the wrong month by keying them to a billing email. That check was itself vacuous for a while, passing 88 of 88 on a folder where two filenames had been deliberately swapped, because the extractor prints the filename in a banner above the text and the fallback match was finding it there. Where a portal refuses an automated browser it stops and hands back a page listing what it still needs, with the amount and the account each invoice should name, and that page carries only the suppliers whose accounts have already been established as the company's, because recovering an invoice for an account nobody has verified just moves the argument. Nothing enters a claim on an estimate, exclusions are reported rather than deleted, and it never asserts a tax characterisation: it states the arithmetic, cites the document, and leaves the characterisation to the accountant.",
@@ -1387,14 +1450,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/vouch/EVALS.md",
         "scripts": true,
-        "references": 9
+        "references": 9,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "atlas-publish",
       "version": "2.0.0",
-      "group": "orchestration",
+      "group": "backlog",
       "description": "Takes the open PRs of the Atlas/Bella monorepo to a registered draft release on either the over-the-air or the App Store lane, classifying between them from the expo-updates native fingerprint rather than from intent — ios.buildNumber sits inside that fingerprint, so a buildNumber bump alone forces a store release. Every irreversible step names the observable to read back, because a build tool, an upload and an MCP call all return success without having done anything. Gates report not-run as a third state beside passed and failed, which is how a cert-parity test that skips its only real assertion stops reading as a green gate. Eleven steps, each marked with the lanes it applies to and each with an abort path next to it. Draft is where automation stops: publishing to users is a founder action the skill will not take. The diff review that used to ship beside it is now the standalone code-review plugin.",
       "trigger": "Atlas/Bella release conductor — take the open PRs to a registered draft release, on the OTA lane or the App Store lane. Use when someone wants Atlas work in front of users: \"ship an Atlas release\", \"publish an OTA update\", \"release the app\", \"cut a new Atlas build\", \"push a JS-only update to users\", \"do a full App Store release\", \"get the merged work out\". Classifies OTA-only vs App Store from the expo-updates native fingerprint (ios.buildNumber is inside it, so a buildNumber bump alone forces a store release), runs the API back-compat and OTA cert-parity gates with not-run reported apart from passed, reviews and merges the open PRs by number with a started-vs-merged reconciliation, reconciles tests, bumps app.json version and ota/bundle.json, asks the founder for the TestFlight What-to-Test notes before any store build, archives via Fastlane, exports via expo export, uploads bundle bytes straight to Vercel Blob, and registers the result as a DRAFT through the atlas-admin MCP. Draft is where automation stops — publish_bundle, publish_app_version, retract and set_min_app_version are founder actions and this skill does not call them. NOT for reviewing a diff on its own (use the code-review skill) and NOT for publishing an already-registered bundle.",
       "blurb": "The only project-specific plugin here, and a release conductor rather than a script. It takes the open PRs to a registered draft and stops there; publishing to users is a founder action it will not take, and that is the boundary the whole thing is built around rather than a setting you can loosen. It picks the over-the-air lane or the App Store lane out of the native fingerprint instead of out of intent, which matters because the iOS build number sits inside that fingerprint, so bumping it alone forces a store release and an afternoon spent exporting a bundle no device will accept. Six of its steps cannot be undone and each names the observable to go and read afterwards, because a build tool, an upload and an MCP call will all hand back success without having done anything; two witnesses that share a failure mode are not a cross-check. Gates report passed, failed and not-run as three separate states, which is what the rebuild was actually for: the API carries a certificate-parity test that guards its only real assertion behind an environment variable and pairs it with an assertion that true is true, so without that variable it goes green having never compared the shipped certificate to the signing key, and the old skill read the green and moved on. If those two ever drift, every signed update is rejected on real devices and nothing else notices. Eleven steps, each marked with the lanes it applies to and each with an abort path written next to it, and it will stop and ask you for the TestFlight notes before it builds anything, because the old flow silently reused whatever stale text was sitting in the file. The diff review that used to ship alongside it is now its own plugin, code-review, generalised past this one codebase.",
@@ -1426,14 +1490,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/atlas-publish/evals/EVALS.md",
         "scripts": false,
-        "references": 6
+        "references": 6,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "code-review",
       "version": "1.2.3",
-      "group": "making",
+      "group": "checking",
       "description": "A diff review that reports what it could not check. Finds with fourteen named angles that are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged; verifies with three verdicts, where realistic-but-unproven stays in as PLAUSIBLE rather than being dropped with the noise, and only REFUTED leaves; then closes with a coverage ledger naming every angle, checklist and gate that never ran, and why. Learns the target repository at runtime rather than carrying a hard-coded project map — gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep — so a candidate naming a framework the repo does not install is refuted from evidence rather than from a constant somebody wrote into a skill. Three depths, each printing its own budget line at the top of the report so what ran is visible rather than inferred; areas and ten focus lenses that compose; checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, routed by path and lens; sharding above a size threshold with the fan-out reconciled against the bucket list, because a harness that loses an agent reports the wave complete. One verifier vote rather than a judge panel, on the measurement that panels saturate at about two effective votes. Read-only on source: it reports findings and does not apply fixes. Carries a token-light prepush gate on the outgoing diff.",
       "trigger": "Review a diff, a PR, or a branch range and report findings — correctness bugs first, then reuse, simplification, efficiency, altitude and convention breaches. Use when the user asks for a code review, asks to \"review my changes / PR / diff / branch\", asks for a security, performance, dead-code, test-coverage, component-quality or tech-debt pass, or asks a pre-push question (\"can I push this?\", \"check the diff before I push\"). Learns the target repository at runtime rather than carrying a hard-coded project map: gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep. Ships checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, and routes only the ones the diff's paths and the chosen lenses match. Runs at three depths (quick / standard / deep), targets areas (frontend, backend, next, nest, mobile, or explicit paths), applies focus lenses (bugs, security, perf, tests, components, a11y, dead-code, debt, deps, dx), and carries a token-light prepush gate on the outgoing diff. Finds with every angle, verifies with three verdicts where realistic-but-unproven survives as PLAUSIBLE, and closes with a coverage ledger naming what it could not check. Also fires on the names this skill was renamed from (atlas-code-review, code-reviewer, pr-review, diff-review) and on \"review this code\", \"look over my diff\", \"audit this PR\", \"is this safe to merge\". Read-only on source; it reports findings and does not apply fixes.",
       "blurb": "A review that lists three findings and stops has told you almost nothing, because you cannot tell whether it read the auth code and found it clean or never opened the file, and both come out as silence. So every run here ends with a coverage ledger: what it checked, what it could not, and why, naming the shard that came back empty, the checklist that never loaded, the gate that could not run and the contract boundary with no guard test on either side, and saying so explicitly when that column is empty, because an empty section and a missing section look identical on a screen. It picks up your repository before it reviews it rather than carrying a map somebody wrote into a skill: gate commands out of the package scripts and the CI config, since a review that runs a bare compiler has gated on something CI does not, frameworks out of the installed dependency versions, global controls and cross-package boundaries out of grep. Fourteen named angles surface candidates and are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged and deduplication happens afterwards on evidence rather than in whichever finder looked first. Verification returns three verdicts and only the refuted one drops, so a concurrency race or a falsy zero read as missing stays in as plausible with the step that would settle it named, instead of leaving with the noise and taking a real bug with it. Each depth prints its own budget at the top of the report, large diffs shard across parallel agents with the fan-out reconciled against the bucket list it dispatched, and there is deliberately no panel of judges, because nine frontier judges across seven model families measured as roughly two effective votes and the best single one matched the whole panel.",
@@ -1457,14 +1522,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/code-review/evals/EVALS.md",
         "scripts": true,
-        "references": 16
+        "references": 16,
+        "defer": true
       },
       "neighbours": []
     },
     {
       "name": "email-digest",
       "version": "1.7.0",
-      "group": "making",
+      "group": "sending",
       "description": "Build a recurring multi-item digest or roundup email that survives contact with real inboxes: a tiered layout that absorbs volume instead of capping it, a table-based render that works in Outlook's Word engine and with images blocked, and a deterministic gate carrying every rule back to the evidence behind it. Refuses the two fixes people reach for first, because the measured evidence goes the other way.",
       "trigger": "Build a recurring multi-item digest or roundup email that survives contact with real inboxes - a tiered layout that absorbs volume instead of capping it, a table-based render that works in Outlook's Word engine and with images blocked, and a deterministic gate carrying every rule back to the evidence behind it. Use when someone wants to send a newsletter, changelog digest, product-announcement roundup, release notes email or \"what shipped this week\" to subscribers, when a digest has been called too long or unreadable, when an email needs checking before it goes out, or when a template needs auditing for accessibility, dark mode, Gmail clipping or Outlook rendering. Refuses the two fixes people reach for first, because the measured evidence goes the other way - it will not cap the item count and it will not gate on a text-to-image ratio. Not for transactional mail (receipts, password resets, alerts), cold outreach, or a single-announcement campaign, and not a sending pipeline; it produces and gates the message, and hands off to whatever already sends.",
       "blurb": "A digest goes out with twenty-four items, somebody calls it unreadable, and the obvious fix is fewer items. That fix is wrong and there is a lot of evidence saying so: MailerLite's 317,000 campaigns and 2.9 billion emails put the twenty-one-or-more-links bucket at the highest click-to-open rate in the whole dataset, and the choice-overload meta-analysis pools across 63 conditions to a mean effect size of virtually zero. The defect is that every item costs the reader the same effort to evaluate inside about fifty-one seconds, with nothing on the page saying where to stop, so this tiers the list rather than trimming it and the item count stays whatever it is. The absence of a cap is itself asserted as a rule, because a cap is the first thing anybody reintroduces from instinct. Sixteen gate checks, each tracing to a source: anchor links that do not act on iPhones where Apple is 62% of opens and cannot be tracked where they do; layout tables missing the role that stops a screen reader reading your scaffolding aloud, which 86% of a 443,585-email audit fails; SVG, which Gmail deletes outright rather than degrading; dark-mode meta tags without dark styles, which is worse than no tags because Apple Mail leaves you alone without them and partially inverts you with them; and centred body text, which nobody writes deliberately because the markup that centres the card cascades into everything inside it. It refuses to gate a text-to-image ratio: Email on Acid tested against twenty-three spam filters and above 500 characters the ratio makes no difference, so it checks the email still works with every image stripped instead, which is the thing that actually breaks. Nobody has published a test of tiered against flat, all four research backends went looking, and the skill says so rather than dressing an inference as a measurement.",
@@ -1492,14 +1558,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/email-digest/EVALS.md",
         "scripts": true,
-        "references": 2
+        "references": 2,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "recover-claude-code",
       "version": "1.1.0",
-      "group": "orchestration",
+      "group": "long-runs",
       "description": "Bring back Claude Code sessions, workflows and subagents that a crash interrupted, with the context they already had instead of restarting them from scratch. Use after a terminal, Ghostty or machine crash, a force-quit, or a jetsam/out-of-memory kill took sessions down, and whenever a previous recovery cold-started fresh agents and lost what they had already worked out. Separates the genuinely dead sessions from the still-running ones using the live-session registry at ~/.claude/sessions (a pid-keyed record carrying sessionId, cwd, peer name and status), because the two probes that look correct both fail: ps output never contains the session id, and the scratchpad directory is named by a per-process id that stops matching once a session has been resumed. Reopens each dead session in its own Ghostty tab at its original working directory under its original session id (never --fork-session, which orphans every workflow journal it is trying to reach), handing over a brief as a positional prompt so the session wakes up knowing it crashed rather than auto-submitting \"Continue from where you left off\". Restores interrupted work by promoting a dead subagent's sidechain transcript into a resumable session so it keeps the files it read and the findings it closed, rather than replaying its prompt into a blank context; measured, a promoted transcript named its item, branch and a closed finding from memory. Finds a run's persisted script by run id across every project directory, because Claude Code files the script under the project directory of the live working directory and the journal under the original one, so any session working in a worktree splits its own state in two and a snapshot-only lookup reports no script for precisely the runs that need recovering. Offers a journal splice for a long completed prefix that resumeFromRunId would otherwise re-run (the cache miss is sticky, so the interrupted agent is the first miss and every later call re-runs, including ones already committed), and refuses to fabricate a result line. Ships a read-only scanner, a transcript promoter, a Ghostty tab driver with a dry run, a splice tool that only ever writes a copy, and a fixture-based self-test. Sibling of workflow-resume, which handles the opposite failure: a run that reported completed while losing agents to API errors.",
       "trigger": "Bring back Claude Code sessions, workflows and subagents that a crash interrupted, with the context they already had instead of restarting them from scratch. Use whenever a terminal, Ghostty, iTerm or the machine crashed or was force-quit and sessions were lost; when someone asks to recover, restore, reopen or resume their sessions, tabs, windows or agents; when a session was killed mid-task and its background workflows never reported; when work was in flight across several repos at once and the terminal died; after a jetsam or out-of-memory kill; or when a previous recovery attempt cold-started fresh agents and lost what they had already worked out. Also use before resuming any session by hand after a crash, because resuming the wrong way orphans a workflow's journal silently and a session that is still running must not be resumed twice. Finds every session touched in a chosen window across all project directories, separates the genuinely dead from the still-running, reopens each dead one in its own terminal tab at its original working directory under its original session id, and restores its interrupted workflow runs and subagents by promoting their transcripts rather than replaying their prompts.",
       "blurb": "A terminal crash leaves every transcript, workflow journal and subagent context on disk but unattached. Reopening the sessions is the easy half; the half that goes wrong is the work that was in flight, because an agent still running when the process died restarts from its original prompt with an empty head and re-derives what its predecessor had already closed. This reattaches instead: a dead subagent's transcript is a sidechain, so rewriting three fields makes it resume with the files it read and the findings it closed intact. It refuses to touch a session that is still live, and refuses to fabricate a journal result to make a resume look clean.",
@@ -1516,14 +1583,15 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/recover-claude-code/EVALS.md",
         "scripts": true,
-        "references": 2
+        "references": 2,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "defer",
       "version": "1.2.0",
-      "group": "long-runs",
+      "group": "asking",
       "description": "Decide which model a piece of work goes to, and produce the exact command that sends it there. One routing policy for every skill that hands work outside the session: six task classes mapped to seven lanes across five model families, each pinned to a model and an effort, with the CLI arguments, the environment GLM needs, and the check that proves the lane ran as routed. Where several lanes are eligible it picks the one with the most plan headroom per remaining day, measured — Claude and Codex report a real utilization percentage that is already on disk, and Grok, GLM and Gemini are counted locally against a budget calibrated from a percentage you can see. Ships a lane prober, a policy selftest that runs no model, and a wire-verify method per lane, because the most expensive failure in a multi-model system is a plausible answer from the wrong one.",
       "trigger": "Decide which model a piece of work goes to, and produce the exact command that sends it there. One routing policy for every skill that hands work outside the session: six task classes mapped to ten lanes across five model families, each pinned to a model and an effort, with the CLI arguments, the environment GLM needs, and the check that proves the lane ran as routed. Narrows those lanes by what the work actually is, against a capability matrix measured over 106 benchmark tasks, so a piece of work goes to the cheapest lane that scored level with Opus on that shape rather than to Opus by default. Where several lanes remain it picks the one with the most plan headroom per remaining day, measured — Claude and Codex report a real utilization percentage that is already on disk, and Grok, GLM and Gemini are counted locally against a budget you calibrate from a percentage you can see. Use when a skill needs a second opinion, an out-of-family verdict, a completeness critic, an implementation lane, or a design review, and whenever someone asks which model should do something, why a lane was chosen, what a lane costs, whether a cheaper model could do it instead, or whether one is out of allowance.",
       "blurb": "The one place that decides which model a piece of work goes to, so fourteen skills stop each deciding it separately and slightly differently. Six task classes across seven lanes and five families, each pinned to a model *and* an effort: sol never runs at max because it's the referral lane at medium, Fable judges forks but never grades a ticket, design review stays on Opus and Fable, and grok runs at xhigh. Where several lanes are eligible it doesn't pick the best one, it picks the one with the most plan headroom per remaining day — because 60% used with six days left is tighter than 80% that resets tonight — and when two are within 20% the tie breaks on published price rather than on sort order. It's careful about which numbers are real: Claude and Codex both report a utilization percentage the vendor computed, already sitting on disk, while Grok, GLM and Gemini expose no quota to any CLI at all, so those are counted locally, labelled Tier 2, and calibrated from a percentage you read yourself rather than from someone's estimate of your plan. The `api` hook for a real quota endpoint ships deliberately unwired, because a guessed URL turns \"we can't measure this\" into a confident wrong number. Then it proves the lane ran, which matters most for GLM: that lane is Claude Code with `X-Perch-Binding: glm` on it, and without the header the identical command runs Claude, succeeds, and hands back something plausible.",
@@ -1540,14 +1608,15 @@
         "evals": false,
         "evalsUrl": null,
         "scripts": true,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": []
     },
     {
       "name": "reckon",
       "version": "1.1.0",
-      "group": "orchestration",
+      "group": "standing",
       "description": "Work out what actually remains in a project by reconciling what it promised against what anybody proved — feature briefs and PRD on one side, a test-campaign registry of cases, requirements, surfaces and defects on the other — resolving every item on both sides into exactly one class of a total partition, so nothing can quietly fall out of the list. The class that matters is never-measured: a blocked or inconclusive check is not a pass and not a failure, and a remaining-work list that drops it reports a partial campaign as a finished product. It is scheduled as the blockers behind it rather than case by case, each with the coverage it returns. Publishes a denominator per axis and never one blended percent, marks every figure a floor, refuses to retire stated intent on weak-oracle or guessed evidence, keeps waivers visible as exceptions rather than folding them into done, and gates the ledger with an exit code so a report that lost an item cannot pass.",
       "trigger": "Work out what actually remains in a project by reconciling what it promised against what anybody proved — the feature briefs and PRD in docs/features-to-triage on one side, a test-campaign registry of cases, requirements, surfaces and defects on the other — and resolve every item on both sides into exactly one class of a total partition, so nothing can quietly fall out of the list. The classes carry different fix-shapes and different owners: named-but-unbuilt, named-but-unjoinable, measured-and-broken, never-measured, never-named, disputed, already-done-so-retire-it, and deliberately-waived. The one that matters most is never-measured, because a blocked or inconclusive check is not a pass and not a failure, and a remaining-work list that silently drops it reports a partial campaign as a finished product. That class is scheduled as the blockers behind it rather than case by case, each with the coverage it returns, because twenty blocked cases are usually three causes. Publishes a denominator per axis and never one blended percent, marks every figure as a floor, refuses to retire stated intent on weak-oracle or guessed evidence, keeps waivers visible as exceptions rather than folding them into done, and gates the whole ledger with an exit code so a report that lost an item cannot pass. Use whenever someone asks what is left, what still needs doing, where the project stands, what the test campaign leaves open, whether a feature is actually finished, which briefs are stale, what to work on next, or asks to reconcile specs against test results — and after any test-campaign run, to turn its findings into work. Not for producing the evidence (test-campaign), tracing a spec to the code that produces its data (spec-validation), a whole-product survey against a stated goal (product-gap-analysis), a tracker-board sweep (stocktake), or a decision questionnaire for a non-technical owner (whats-left).",
       "blurb": "Every remaining-work list is built by filtering — take everything, drop what's done, report the rest — and the filter is where it breaks, because \"not done\" and \"not known\" are different things that both look like absence. An ordinary campaign on a file-sync client: 58 designed cases, 25 reached a verdict, 32 blocked or inconclusive on a dead credential and on states no hook can force; 15 stated requirements, 2 independently observed. Filter that to failures and you get a tidy list of fourteen fixes that looks like a plan and is a list about 43% of the product. So this refuses to filter. Every brief, requirement, case, defect and surface resolves into exactly one class of a total partition, because an item can't fall out of a list with nowhere to fall to, and a blocked case classed as anything but unmeasured fails the gate by name. The class that earns its place is unmeasured, whose work isn't the feature's work at all: reaching a state, reading an answer, deciding what a pass would even look like are harness jobs, and one \"test this properly\" ticket sends five different jobs to the same wrong place, so each row carries its own remedy. Blocked cases are scheduled as the causes behind them rather than one by one — scrim's own stop declaration had a single dead credential behind ten of twenty — each with the coverage points resolving it returns, which is the number a solo developer actually prioritises on. Waivers stay visible as exceptions instead of folding into done, because the reason for a waiver expires. Briefs the campaign proves finished get retired rather than rebuilt, but never on a presence-rung oracle or a guessed join, since retiring deletes somebody's stated intent. Five denominators that disagree with each other on purpose, every one marked a floor, and never one blended percent. And a ratchet across runs, because a snapshot gate catches a bad report while the slow failure is an item quietly reclassified until nothing remembers it was never checked. Twenty-one self-tests prove each gate fires on a broken ledger and stays silent on a sound one.",
@@ -1567,7 +1636,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/reckon/EVALS.md",
         "scripts": true,
-        "references": 4
+        "references": 4,
+        "defer": false
       },
       "neighbours": []
     },
@@ -1591,7 +1661,8 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/harbourmaster/EVALS.md",
         "scripts": true,
-        "references": 5
+        "references": 5,
+        "defer": true
       },
       "neighbours": []
     }
