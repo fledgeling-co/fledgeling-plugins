@@ -70,7 +70,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
               <span className={styles.dot} aria-hidden="true" />
               <span>{skill.license}</span>
               <span className={styles.dot} aria-hidden="true" />
-              <span>{skill.group.replace(/-/g, " ")}</span>
+              <span>{skill.groupLabel}</span>
             </p>
           </div>
         </header>
@@ -124,7 +124,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
           {skill.signals.defer ? (
             <section className={styles.fact}>
-              <h2 className={styles.factLabel}>Other AI models</h2>
+              <h2 className={styles.factLabel}>Uses multiple models</h2>
               <DeferPill />
             </section>
           ) : null}

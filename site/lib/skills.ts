@@ -35,6 +35,7 @@ export type Skill = {
   name: string;
   version: string;
   group: string;
+  groupLabel: string;
   /** Capability prose from marketplace.json — what the skill does. */
   description: string;
   /** Trigger prose from SKILL.md — when to reach for it, and when not to. */

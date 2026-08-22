@@ -61,7 +61,27 @@ export function SearchField({
           spellCheck={false}
           placeholder="What are you trying to do?"
           onChange={(event) => onQueryChange(event.target.value)}
+          onKeyDown={(event) => {
+            // Escape is the way back from every lane, including while the AI
+            // lane is still working. Without it the only exit was a text link
+            // in the status line, and that line does not exist while asking.
+            if (event.key === "Escape" && (query.length > 0 || lane !== "browse")) {
+              event.preventDefault();
+              onReset();
+            }
+          }}
         />
+        {query.length > 0 && (
+          <button
+            type="button"
+            className={styles.clear}
+            onClick={onReset}
+            aria-label="Clear the search and show every skill"
+            title="Clear (Esc)"
+          >
+            <ClearGlyph />
+          </button>
+        )}
         {asking ? (
           <button type="button" className={styles.stop} onClick={onStop}>
             Stop
@@ -71,6 +91,11 @@ export function SearchField({
             Ask
             <span className={styles.kbd}>⏎</span>
           </button>
+        )}
+        {asking && (
+          <span className={styles.track} aria-hidden="true">
+            <span className={styles.trackFill} />
+          </span>
         )}
       </form>
 
@@ -114,8 +139,11 @@ function Status({
     return (
       <>
         <span className={styles.pulse} aria-hidden="true" />
-        <span className={styles.statusAi}>Reading the catalogue</span>
+        <span className={styles.statusWorking}>Reading the catalogue</span>
         <span className={styles.note}>· all {total} stay on the page</span>
+        <button type="button" className={styles.reset} onClick={onReset}>
+          Clear
+        </button>
       </>
     );
   }
@@ -154,6 +182,19 @@ function Status({
       </span>
       <span className={styles.note}>· press ⏎ to ask instead</span>
     </>
+  );
+}
+
+function ClearGlyph() {
+  return (
+    <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+      <path
+        d="M4 4l8 8M12 4l-8 8"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }
 

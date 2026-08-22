@@ -3,6 +3,7 @@ import { fontVariables } from "@/lib/fonts";
 import { SiteNav, SiteFooter } from "@/components/chrome";
 import { getSkillCount } from "@/lib/skills";
 import "./globals.css";
+import { SiteMotion } from "@/components/site-motion";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://skills.fledgeling.app";
 
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteNav />
         <main id="main">{children}</main>
         <SiteFooter />
+        <SiteMotion />
       </body>
     </html>
   );
