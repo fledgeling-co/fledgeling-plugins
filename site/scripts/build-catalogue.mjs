@@ -296,7 +296,12 @@ function blurbsFromRootReadme(source) {
   while ((match = heading.exec(source)) !== null) {
     const rest = source.slice(match.index + match[0].length);
     // Everything up to the next entry's separator, image anchor or heading.
-    const stop = rest.search(/\n(?:<br clear="left" \/>|<a href=|### )/);
+    // `##` matters as much as `###`: the last entry in a group is followed by
+    // the next GROUP heading, and without it that entry's blurb swallowed the
+    // heading, its blurb, and (for the final entry) the whole page footer. It
+    // stayed invisible while descriptions were long enough for the extra to
+    // look like more of the same paragraph.
+    const stop = rest.search(/\n(?:<br clear="left" \/>|<a href=|#{2,3} )/);
     const paragraph = (stop === -1 ? rest : rest.slice(0, stop)).trim();
     if (paragraph) blurbs[match[1]] = paragraph.replace(/\s+/g, " ");
   }
