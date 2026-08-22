@@ -548,7 +548,7 @@ if os.path.exists(plugin_json) and os.path.exists(market_json):
         FAILURES.append("version drift: plugin.json %s, marketplace %s" % (mine, listed))
 
     parts = tuple(int(x) for x in mine.split(".")[:3])
-    ok = parts >= (1, 1, 0)
+    ok = parts >= (1, 2, 0)
     print("%-46s %s" % ("the published version carries these repairs", "ok" if ok else "FAILED"))
     if not ok:
         FAILURES.append("published version %s predates the behaviour this file asserts" % mine)
@@ -650,6 +650,221 @@ try:
                         % (by_id["DEF-2"]["class"], sorted(remaining)))
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
+
+
+# --- 17. an input this tool cannot classify is a finding, not a default ----
+#
+# Three defects, one shape: an instrument meeting an input it has no rule for
+# and guessing rather than saying so. The repair is deliberately NOT a longer
+# list of words and NOT a longer floor — both extend the set of inputs the tool
+# guesses correctly about and leave it guessing one word past the end. Every
+# input is either in a vocabulary whose class is written down, or it is a
+# finding that names the input and counts the rows carrying it.
+#
+# The direction is why it earns a section rather than a line. reckon
+# over-reports on an unknown word, which is annoying, self-announcing, and gets
+# looked at. A gate selecting its population by a single status string does the
+# opposite: it drops rows meaning still-broken out of the obligation and prints
+# a clean count over a quietly smaller population. A clean green is the worse
+# failure, because nothing about it asks to be checked.
+
+# 17a — the words that mean the row owes nothing. Each is asserted on its own:
+# a loop that stopped at the first word would leave the rest unmeasured, and the
+# pre-fix classing is restated so a green here cannot come from a registry whose
+# defects all happen to read `open` or `fixed`.
+PRE_FIX_WORD = lambda st: "verified-done" if st in ("fixed",) else "broken"   # noqa: E731
+
+for word in ("by design", "invalid", "obsolete", "superseded", "cannot reproduce",
+             "not-a-defect", "vacuous"):
+    row = defect_class(word)
+    pre = PRE_FIX_WORD(word)
+    ok = (pre == "broken" and row["class"] == "waived" and row["is_work_item"] is False
+          and word in (row.get("why") or ""))
+    print("%-46s %s" % ("%r owes nothing and is not work" % word, "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("not-owing word %r: pre-fix=%r now=%r work=%r why=%r"
+                        % (word, pre, row["class"], row["is_work_item"], (row.get("why") or "")[:120]))
+
+# `resolved` was already read as a repair, and stays one — it is the one word in
+# the not-owing sentence that means somebody fixed it.
+row = defect_class("resolved")
+ok = row["class"] == "verified-done" and row["is_work_item"] is False
+print("%-46s %s" % ("'resolved' is still read as a repair", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("resolved: %r" % row["class"])
+
+# 17b — the exception, and the only place the fail-closed direction is chosen
+# against a word that sounds like a closure. Retiring `partially-fixed` would
+# make this tool under-report for the first time: a half still broken owes a
+# reproduction for that half.
+for word in ("partially-fixed", "partially fixed"):
+    row = defect_class(word)
+    ok = (row["class"] == "broken" and row["is_work_item"] is True
+          and word in (row.get("why") or "") and "owes" in (row.get("why") or ""))
+    print("%-46s %s" % ("%r still owes work" % word, "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("partial word %r: %r work=%r why=%r"
+                        % (word, row["class"], row.get("is_work_item"), (row.get("why") or "")[:140]))
+
+expect("a partially-fixed defect classed done",
+       clean + [{"id": "DEF-P", "entity": "defect", "class": "verified-done", "kind": "none",
+                 "status": "partially-fixed", "title": "d", "why": "", "is_work_item": False}],
+       1, "may only be broken", "placement")
+
+expect("a not-owing defect classed broken",
+       clean + [{"id": "DEF-N", "entity": "defect", "class": "broken", "kind": "product-work",
+                 "status": "invalid", "title": "d", "why": "", "is_work_item": True}],
+       1, "may only be waived", "placement")
+
+# 17c — the finding, on each of the three registry vocabularies. The row is
+# still placed, because the partition has to be total; what the gate refuses is
+# a placement this tool chose rather than read, presented as a reading.
+expect("an unclassifiable defect status is a finding",
+       clean + [{"id": "DEF-U", "entity": "defect", "class": "broken", "kind": "product-work",
+                 "status": "characterised", "title": "d", "why": "", "is_work_item": True}],
+       4, "'characterised' is not a word this tool classifies", "vocabulary")
+
+expect("an unclassifiable case status is a finding",
+       clean + [case("CASE-U", "marinated", "unmeasured")],
+       4, "'marinated' is not a word this tool classifies", "vocabulary")
+
+# REQ-072 in the repository this was written against carries `inconclusive`: a
+# stated ceiling, recorded deliberately, and outside test-campaign's own
+# REQ_EVIDENCE. The pre-fix branch classed it `unmeasured` and told every reader
+# it was "the project's own account of itself".
+led = expect("an unclassifiable evidence word is a finding",
+             clean[:3] + [req("REQ-072", "inconclusive", "unmeasured")] + clean[4:],
+             4, "'inconclusive' is not a word this tool classifies", "vocabulary")
+
+camp_ceiling = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+                "requirements": [{"id": "REQ-072", "text": "a stated ceiling",
+                                  "evidence": "inconclusive"}],
+                "surfaces": [], "defects": []}
+row = [r for r in R.classify([], camp_ceiling, [], False) if r["entity"] == "requirement"][0]
+ok = (row["class"] == "unmeasured"
+      and "not a word this tool classifies" in row["why"]
+      and "own account of itself" not in row["why"])
+print("%-46s %s" % ("an unknown evidence word is not called a self-report",
+                    "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("unknown evidence why: %r" % (row.get("why") or "")[:200])
+
+# The count is half the finding: one word on three rows is one line naming three
+# ids, not three lines or one line naming one.
+three = clean + [
+    {"id": "DEF-X1", "entity": "defect", "class": "broken", "kind": "product-work",
+     "status": "characterised", "title": "d", "why": "", "is_work_item": True},
+    {"id": "DEF-X2", "entity": "defect", "class": "broken", "kind": "product-work",
+     "status": "characterised", "title": "d", "why": "", "is_work_item": True},
+    {"id": "DEF-X3", "entity": "defect", "class": "broken", "kind": "product-work",
+     "status": "characterised", "title": "d", "why": "", "is_work_item": True}]
+found = R.unclassified_inputs(three)
+ok = (len(found) == 1 and found[0]["count"] == 3
+      and found[0]["ids"] == ["DEF-X1", "DEF-X2", "DEF-X3"]
+      and found[0]["placed_in"] == "broken")
+print("%-46s %s" % ("one unknown word on three rows is one finding", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("count/naming: %r" % found)
+
+# A vocabulary finding is not a structural fault, and a structural fault is not
+# a vocabulary finding. Both present must report the structural one, or exit 4
+# would mask a duplicated id.
+v, _ = R.gate(ledger(clean + [
+    {"id": "CASE-1", "entity": "case", "class": "broken", "kind": "product-work",
+     "status": "marinated", "title": "c", "why": "", "note": "n", "is_work_item": False}]))
+ok = R.verdict(v) == 1 and {"conservation", "vocabulary"} <= {k for k, _ in v}
+print("%-46s %s" % ("a structural fault outranks a vocabulary one", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("verdict ordering: %r -> %r" % (sorted({k for k, _ in v}), R.verdict(v)))
+
+# And the report has to carry it, because the exit code says only that something
+# is wrong. `render` is executed rather than inspected.
+text = R.render(ledger(clean + [
+    {"id": "DEF-R", "entity": "defect", "class": "broken", "kind": "product-work",
+     "status": "characterised", "title": "d", "why": "", "is_work_item": True}]))
+ok = ("could not classify" in text and "characterised" in text and "DEF-R" in text)
+print("%-46s %s" % ("the report names the input it could not place", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("render omits the unclassified input")
+
+# 17d — the scanner. A fenced block, an HTML comment and a struck-through span
+# are three separate exclusions and each gets its own fixture: a document
+# carrying all three at once proves whichever one happens to run first and
+# nothing about the other two.
+PRE_FIX_SCAN = lambda text: sorted(set(R.ID_RE.findall(text)))     # noqa: E731 — the scan as it was
+
+SHOWN = {
+    "fenced": "# A brief\n\nNo ids in prose here.\n\n```sh\nreckon build --only DEF-0404\n```\n",
+    "comment": "# A brief\n\nNo ids in prose here.\n\n<!-- DEF-0404 was the example -->\n",
+    "struck": "# A brief\n\nNo ids in prose here.\n\n~~DEF-0404~~ was the example.\n",
+}
+for kind, body in SHOWN.items():
+    scan = R.scan_ids(body)
+    pre = PRE_FIX_SCAN(body)
+    ok = (pre == ["DEF-0404"] and scan["cited"] == [] and scan["shown"].get(kind) == ["DEF-0404"]
+          and scan["shown_only"] == ["DEF-0404"])
+    print("%-46s %s" % ("an id shown in a %s region is not cited" % kind, "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("%s exclusion: pre-fix=%r scan=%r" % (kind, pre, scan))
+
+    # The two-way control. Without it the exclusion is indistinguishable from a
+    # scanner that stopped finding ids at all.
+    used = body.replace("```sh\nreckon build --only DEF-0404\n```",
+                        "the registry row is DEF-0404") \
+               .replace("<!-- DEF-0404 was the example -->", "the registry row is DEF-0404") \
+               .replace("~~DEF-0404~~", "DEF-0404")
+    scan = R.scan_ids(used)
+    ok = scan["cited"] == ["DEF-0404"] and not scan["shown"]
+    print("%-46s %s" % ("  and the same id in prose still is", "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("%s control: %r" % (kind, scan))
+
+# The reproduction DEF-201 was filed on: a brief whose only id-shaped token sits
+# in an example command. Before, it produced a confidence-1.0 citation, the
+# registry did not hold it, and the brief was classed `unbuilt` — product work,
+# on a token nobody cited.
+fenced_brief = {"id": "BRIEF-f", "file": "f.md", "path": "f.md", "title": "an example command",
+                "text": "# A brief\n\nRun it like this:\n\n```sh\nreckon --case CASE-9999\n```\n",
+                "status": "", "generated_by": None, "source_ids": []}
+edges = R.build_join([dict(fenced_brief)], CAMP_MIN)
+row = [r for r in R.classify([dict(fenced_brief)], CAMP_MIN, edges, False)
+       if r["entity"] == "brief"][0]
+ok = (not any(e["method"] == "cited" for e in edges) and row["class"] != "unbuilt"
+      and row["class"] == "unjoined" and "CASE-9999" in (row.get("why") or ""))
+print("%-46s %s" % ("a fenced example id cannot make a brief unbuilt", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("fenced-example brief: class=%r edges=%r why=%r"
+                    % (row["class"], edges, (row.get("why") or "")[:200]))
+
+# 17e — the placeholder, which is the third outcome rather than a second
+# exclusion. `CASE-9999` in plain prose is a token this tool cannot place: it
+# builds no edge, it cannot carry `unbuilt`, and it is reported with its count.
+ph_brief = {"id": "BRIEF-p", "file": "p.md", "path": "p.md", "title": "a worked example",
+            "text": "# A brief\n\nA brief citing `CASE-9999` classed unbuilt, which is the defect.\n",
+            "status": "", "generated_by": None, "source_ids": []}
+edges = R.build_join([dict(ph_brief)], CAMP_MIN)
+rows_p = R.classify([dict(ph_brief)], CAMP_MIN, edges, False)
+row = [r for r in rows_p if r["entity"] == "brief"][0]
+found = R.unclassified_inputs(rows_p)
+ok = (PRE_FIX_SCAN(ph_brief["text"]) == ["CASE-9999"]
+      and not any(e["method"] == "cited" for e in edges)
+      and row["class"] == "unjoined" and row["unclassifiable_ids"] == ["CASE-9999"]
+      and [(f["field"], f["value"], f["count"]) for f in found]
+      == [("id-shaped token", "CASE-9999", 1)])
+print("%-46s %s" % ("a placeholder id in prose is a named finding", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("placeholder: class=%r ids=%r found=%r"
+                    % (row["class"], row.get("unclassifiable_ids"), found))
+
+# A real id in prose is untouched by the placeholder rule — the same two-way
+# control, one level up: a rule that refused every id would pass 17e alone.
+real_brief = dict(ph_brief, text="# A brief\n\nThis is about REQ-1 and nothing else.\n")
+edges = R.build_join([real_brief], CAMP_MIN)
+ok = any(e["method"] == "cited" and e["target"] == "REQ-1" for e in edges)
+print("%-46s %s" % ("  and a real id in prose still cites", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("real id in prose stopped citing: %r" % edges)
+
 
 print()
 if FAILURES:

@@ -17,6 +17,12 @@ Exit codes (check, ratchet)
     1  conservation or placement violation — the ledger is structurally unsound
     2  disclosure violation — a headline number the ledger does not support
     3  ratchet violation — an item left `unmeasured` with no evidence for it
+    4  vocabulary violation — an input this tool cannot classify, reported as a
+       finding that names the input and how many rows carried it. It is not
+       resolved by a default in either direction: over-reporting announces
+       itself and gets looked at, while under-reporting prints a clean count
+       over a quietly smaller population and nothing about it asks to be
+       checked.
 """
 
 from __future__ import annotations
@@ -62,13 +68,40 @@ UNMEASURED_STATUS = ("blocked", "inconclusive", "unoracled", "unselected", "open
 # is the difference between "110 things are broken here" and "10 are". A case
 # whose status is `pass` already retires with no further corroboration; a
 # defect whose status is `fixed` is the same registry speaking about the same
-# run, so it is read the same way. What is NOT here matters as much: an
-# unrecognised word falls through to `broken`, because guessing done is the
-# only error in this direction that cannot be recovered from.
+# run, so it is read the same way.
+#
+# These four tuples are a partition over the words this tool has a rule for, and
+# a word outside all four is NOT resolved by a default. It lands `broken`,
+# because guessing done is the error here that cannot be recovered from, AND it
+# is reported as a finding naming the word and its row count, because the
+# fail-closed placement is a decision this tool took rather than a reading of
+# the registry. Measured in a sibling project: a register holding `fixed 55,
+# open 11, partially-fixed 3, characterised 2, resolved 1, not-a-defect 1,
+# inconclusive 1, vacuous 1` put six rows in `broken` against an adjudicated
+# true queue of nine, and fifteen where nine is the truth reads as a backlog
+# rather than as a bug.
 DEFECT_FIXED = ("fixed", "resolved", "closed", "done", "verified")
 DEFECT_OPEN = ("open", "new", "confirmed", "reopened", "regressed", "in progress")
 DEFECT_WAIVED = ("wontfix", "won't fix", "will not fix", "deferred", "declined",
                  "duplicate", "n/a", "not a bug")
+
+# Words that mean the row owes nothing without meaning anybody repaired it: a
+# ruling about whether the defect was ever a defect, or is still one. They class
+# `waived` rather than `verified-done` — not remaining work, and not done
+# either, kept visible because the reason for the ruling can stop being true. A
+# `cannot reproduce` is the clearest case: it is one reproduction away from
+# being work again.
+DEFECT_NOT_OWING = ("by design", "by-design", "invalid", "obsolete", "superseded",
+                    "cannot reproduce", "cannot-reproduce", "not-a-defect",
+                    "not a defect", "vacuous")
+
+# `partially-fixed` is deliberately NOT in the set above, and this is the one
+# place in this file where the fail-closed direction is chosen against a word
+# that sounds like a closure. A half still broken owes a reproduction for that
+# half; in the sibling register measured above, none of the three
+# partially-fixed rows had one. Retiring it would make this tool under-report
+# for the first time.
+DEFECT_PARTIAL = ("partially-fixed", "partially fixed", "part-fixed")
 
 # The oracle ladder, weakest first. A rung is not a quality score; it is what
 # the check was able to observe. `presence` proves a thing exists on screen,
@@ -84,6 +117,24 @@ RETIREMENT_RUNG = "outcome"
 EVIDENCE_OBSERVED = ("observed",)
 EVIDENCE_SELF_REPORTED = ("reported", "unknown")
 EVIDENCE_DISPUTED = ("contradicted", "vacuous")
+
+# The three registry vocabularies this tool reads, each closed. Every word a
+# registry can put in these fields is either in one of these sets — in which
+# case the class it supports is written down — or it is a finding. There is no
+# third outcome and no default: `unclassified_inputs` names the word and counts
+# the rows, and the gate refuses on it.
+#
+# `EVIDENCE_VOCABULARY` is test-campaign's own `REQ_EVIDENCE` — observed,
+# reported, contradicted, unknown, vacuous — reached through the three tuples
+# above rather than re-spelled, so the two cannot drift apart silently. A
+# registry writing a sixth word is writing one its own schema rejects, and this
+# repository has one: REQ-072 carries `inconclusive`, which took the
+# self-reported branch and was explained to the reader as "the project's own
+# account of itself" when it is a stated ceiling.
+CASE_VOCABULARY = ADJUDICATED + WAIVED_STATUS + UNMEASURED_STATUS
+DEFECT_VOCABULARY = (DEFECT_FIXED + DEFECT_OPEN + DEFECT_WAIVED + DEFECT_NOT_OWING
+                     + DEFECT_PARTIAL)
+EVIDENCE_VOCABULARY = EVIDENCE_OBSERVED + EVIDENCE_SELF_REPORTED + EVIDENCE_DISPUTED
 
 # The classes. Every entity lands in exactly one.
 CLASSES = (
@@ -136,6 +187,10 @@ for _st in DEFECT_OPEN:
     DEFECT_LEGAL_CLASS[_st] = {"broken"}
 for _st in DEFECT_WAIVED:
     DEFECT_LEGAL_CLASS[_st] = {"waived"}
+for _st in DEFECT_NOT_OWING:
+    DEFECT_LEGAL_CLASS[_st] = {"waived"}
+for _st in DEFECT_PARTIAL:
+    DEFECT_LEGAL_CLASS[_st] = {"broken"}
 
 # What each kind of not-knowing actually costs to fix. The remedies are
 # different jobs for different people, and a single "test this properly" item
@@ -269,6 +324,93 @@ def read_briefs(briefs_dir, ignore=()):
 
 ID_RE = re.compile(r"\b(?:REQ|CASE|DEF|SURF|FLOW|COMP)-\d+\b")
 
+# A fenced block, an HTML comment and a struck-through span are the three places
+# a markdown document SHOWS a token rather than uses one. A scanner that reads a
+# whole document for an id cannot tell a citation from a mention of one, and the
+# mention wins at confidence 1.0 — a brief whose only id-shaped token was
+# `CASE-9999` inside an example command was classed `unbuilt` and product-work,
+# on the reasoning that the registry holds none of the ids it cites.
+#
+# Excluding them is not the whole repair. An id-shaped token this scanner cannot
+# place is a third outcome rather than a quiet drop: `scan_ids` returns it under
+# `unclassifiable`, `classify` refuses to let it carry `unbuilt`, and the gate
+# names it with its count.
+#
+# Zero briefs in the repository this was written against use a fenced id, and
+# that is a fact about one repository's idiom rather than about the risk. A
+# repository whose convention is *the brief names the defects it closes* has the
+# opposite prior, and one does: there a brief discussing a neighbouring defect is
+# textually identical to one that owns it.
+FENCE_RE = re.compile(r"^([ \t]*)(`{3,}|~{3,})[^\n]*\n.*?(?:^\1?\2[^\n]*\n|\Z)", re.M | re.S)
+HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
+STRIKETHROUGH_RE = re.compile(r"~~[^\n]+?~~")
+
+# An id whose digits are all 9 or all 0 is the shape every worked example uses.
+# It is not treated as "not a citation" — that would be the same guess in the
+# other direction — but as an id this tool cannot place, which is a finding.
+PLACEHOLDER_ID_RE = re.compile(r"\A(?:REQ|CASE|DEF|SURF|FLOW|COMP)-(?:9+|0+)\Z")
+
+EXCLUSION_KINDS = (("fenced", FENCE_RE), ("comment", HTML_COMMENT_RE),
+                   ("struck", STRIKETHROUGH_RE))
+
+
+def _blank(text):
+    """Replace every character except newlines, so offsets and line counts hold."""
+    return re.sub(r"[^\n]", " ", text)
+
+
+def citable_text(text):
+    """(text with the three shown-not-used regions blanked, {kind: [ids in it]}).
+
+    Blanked rather than deleted: a fence removed outright joins the line above it
+    to the line below, and a `**Brief:**`-style line anchored to a line start
+    would then match text that was never at one.
+    """
+    shown, out = {}, text or ""
+    for kind, rx in EXCLUSION_KINDS:
+        found = []
+
+        def take(m, _found=found):
+            _found.extend(ID_RE.findall(m.group(0)))
+            return _blank(m.group(0))
+
+        out = rx.sub(take, out)
+        if found:
+            shown[kind] = sorted(set(found))
+    return out, shown
+
+
+def scan_ids(text):
+    """Every id-shaped token in a document, each placed in exactly one class.
+
+    `cited`          — used in prose: a citation somebody wrote on purpose
+    `shown`          — inside a fence, an HTML comment or a struck-through span,
+                       per kind, so a fixture can prove one exclusion at a time
+    `shown_only`     — shown somewhere and used nowhere: explicitly not a citation
+    `unclassifiable` — placeholder-shaped and in prose: this tool cannot tell
+                       whether it is a citation, and says so rather than guessing
+    """
+    body, shown = citable_text(text)
+    found = set(ID_RE.findall(body))
+    unclassifiable = sorted(i for i in found if PLACEHOLDER_ID_RE.match(i))
+    shown_all = {i for ids in shown.values() for i in ids}
+    return {"cited": sorted(found - set(unclassifiable)),
+            "shown": shown, "shown_only": sorted(shown_all - found),
+            "unclassifiable": unclassifiable}
+
+
+def brief_scan(brief):
+    """`scan_ids` for one brief, computed once and cached on the brief itself.
+
+    Read through a helper rather than required as a key, so a caller that builds
+    a brief dict by hand — every fixture in `selftest.py` does — keeps working.
+    """
+    scan = brief.get("id_scan")
+    if scan is None:
+        scan = scan_ids(brief.get("text") or "")
+        brief["id_scan"] = scan
+    return scan
+
 
 def flatten_text(value):
     """Every registry field reaching `tokens` is free-form JSON, so it is not
@@ -368,7 +510,8 @@ def build_join(briefs, campaign, threshold=0.18):
 
     for brief in briefs:
         btok = tokens(brief["title"]) | tokens(brief["text"][:4000])
-        cited = set(ID_RE.findall(brief["text"])) | set(brief["source_ids"]) | reverse_cites.get(brief["id"], set())
+        scan = brief_scan(brief)
+        cited = set(scan["cited"]) | set(brief["source_ids"]) | reverse_cites.get(brief["id"], set())
         for rid in sorted(x for x in cited if x):
             edges.append({"brief": brief["id"], "target": rid, "method": "cited", "confidence": 1.0})
         if cited:
@@ -507,6 +650,7 @@ def classify(briefs, campaign, edges, join_is_weak):
             cls = "unmeasured"
         blob = "%s %s" % (c.get("note") or "", c.get("status") or "")
         cited_defects = sorted(set(re.findall(r"\bDEF-\d+\b", blob)))
+        known = st in CASE_VOCABULARY
         rows.append({
             "id": c.get("id"), "entity": "case", "class": cls, "kind": KIND_OF[cls],
             "title": "%s · %s" % (c.get("surface", "?"), c.get("state", "?")),
@@ -516,10 +660,14 @@ def classify(briefs, campaign, edges, join_is_weak):
             "is_work_item": False,
             "remedy": REMEDY.get(st) if cls == "unmeasured" else None,
             "rolls_up_to": cited_defects or None,
-            "why": "a measurement, not a task: status %r may only be %s. It rolls up to %s."
-                   % (st, "/".join(sorted(LEGAL_CLASS.get(st, {cls}))),
-                      ", ".join(cited_defects) if cited_defects
-                      else ("a blocker cluster" if cls == "unmeasured" else "its surface")),
+            "why": ("a measurement, not a task: status %r may only be %s. It rolls up to %s."
+                    % (st, "/".join(sorted(LEGAL_CLASS.get(st, {cls}))),
+                       ", ".join(cited_defects) if cited_defects
+                       else ("a blocker cluster" if cls == "unmeasured" else "its surface"))
+                   if known else
+                   ("status %r is not a word this tool classifies, so this case is held "
+                    "`unmeasured` — the class an unread answer takes — and the word is reported "
+                    "as a finding with its row count rather than resolved by that default." % st)),
         })
         if c.get("surface"):
             case_by_surface[c["surface"]].append((st, c.get("oracle")))
@@ -533,9 +681,20 @@ def classify(briefs, campaign, edges, join_is_weak):
         elif ev in EVIDENCE_OBSERVED:
             cls = "verified-done"
             why = "requirement observed"
-        else:
+        elif ev in EVIDENCE_SELF_REPORTED:
             cls = "unmeasured"
             why = "requirement evidence %r is the project's own account of itself, not an observation" % ev
+        else:
+            # Reaching this branch used to tell the reader the row was a
+            # self-report, which is a claim about a word this tool had never
+            # heard of. REQ-072 here carries `inconclusive` — a stated ceiling,
+            # recorded deliberately — and was explained to every reader as the
+            # project talking about itself.
+            cls = "unmeasured"
+            why = ("requirement evidence %r is not a word this tool classifies, and not one "
+                   "test-campaign's own schema permits either. It stays unmeasured because an "
+                   "unreadable claim is not an observation, and the word is reported as a finding "
+                   "with its row count rather than resolved by that default." % ev)
         rows.append({
             "id": r.get("id"), "entity": "requirement", "class": cls, "kind": KIND_OF[cls],
             "title": (r.get("text") or "")[:200], "evidence": ev,
@@ -559,6 +718,16 @@ def classify(briefs, campaign, edges, join_is_weak):
             cls = "verified-done"
             why = ("the registry records this defect as %r. That is the same registry, speaking "
                    "about the same run, as the `pass` that retires a case." % st)
+        elif st in DEFECT_PARTIAL:
+            cls = "broken"
+            why = ("the registry records this defect as %r, which stays in the owing set. A half "
+                   "still broken owes a reproduction for that half, and retiring it here would "
+                   "make this tool under-report for the first time." % st)
+        elif st in DEFECT_NOT_OWING:
+            cls = "waived"
+            why = ("the registry records this defect as %r — a ruling that the row owes nothing, "
+                   "rather than a record of anybody repairing it. It stays on the ledger because "
+                   "the ruling can stop being true." % st)
         elif st in DEFECT_WAIVED:
             cls = "waived"
             why = ("the registry records this defect as %r — a decision, not a measurement. It "
@@ -569,9 +738,11 @@ def classify(briefs, campaign, edges, join_is_weak):
                    "failing case that cites it")
         else:
             cls = "broken"
-            why = (("this defect's status is %r, which is not a word this tool recognises, so it "
-                    "stays broken. Guessing done is the one error here that cannot be recovered "
-                    "from." % st) if st else
+            why = (("this defect's status is %r, which is not a word this tool classifies. It "
+                    "stays broken because guessing done is the one error here that cannot be "
+                    "recovered from, and the word is reported as a finding with its row count "
+                    "because that placement is this tool's decision rather than the registry's."
+                    % st) if st else
                    "this defect row carries no status, so it stays broken — a repair nobody "
                    "recorded is not a repair this tool can read")
         defect_class[d.get("id")] = cls
@@ -633,6 +804,7 @@ def classify(briefs, campaign, edges, join_is_weak):
 
     for b in briefs:
         my_edges = edges_by_brief.get(b["id"], [])
+        scan = brief_scan(b)
         cited = [e for e in my_edges if e["method"] == "cited"]
         # Prefer the citations, but do not let a dangling one discard a usable
         # overlap edge: what matters is support that actually reaches a row.
@@ -711,6 +883,22 @@ def classify(briefs, campaign, edges, join_is_weak):
                              if rid), reverse=True)
             near_misses = [{"target": rid, "kind": kind, "score": round(sc, 3)}
                            for sc, rid, kind in scored[:3] if sc > 0]
+            # An id-shaped token this scan refused to read as a citation is the
+            # difference between "the join found nothing" and "the join was
+            # handed something it could not place". Both land `unjoined`; only
+            # one of them tells the reader where to look.
+            placed = []
+            if scan["unclassifiable"]:
+                placed.append("%d placeholder-shaped id(s) in prose (%s) — this tool cannot tell a "
+                              "citation from a worked example, so neither reading was taken"
+                              % (len(scan["unclassifiable"]), ", ".join(scan["unclassifiable"])))
+            for kind, ids in sorted(scan["shown"].items()):
+                only = [i for i in ids if i in scan["shown_only"]]
+                if only:
+                    placed.append("%d id(s) shown in a %s region and used nowhere (%s)"
+                                  % (len(only), kind, ", ".join(only)))
+            if placed:
+                best_why += ". It was handed " + "; and ".join(placed)
 
         rows.append({
             "id": b["id"], "entity": "brief", "class": best_cls, "kind": KIND_OF[best_cls],
@@ -720,6 +908,9 @@ def classify(briefs, campaign, edges, join_is_weak):
             "edges": [{"target": e["target"], "method": e["method"], "confidence": e["confidence"]}
                       for e in my_edges],
             "near_misses": near_misses,
+            "id_scan": {"cited": scan["cited"], "shown": scan["shown"],
+                        "shown_only": scan["shown_only"]},
+            "unclassifiable_ids": scan["unclassifiable"] or None,
             "remedy": UNJOINED_REMEDY if best_cls == "unjoined" else None,
             "why": best_why,
         })
@@ -770,6 +961,52 @@ def denominators(rows, campaign):
         "scope": (campaign.get("header") or {}).get("run", {}).get("scope"),
         "sample": (campaign.get("header") or {}).get("sample"),
     }
+
+
+# ---------------------------------------------------------------------------
+# Inputs this tool cannot classify
+#
+# The repair for an unrecognised input is not a longer list. A longer list
+# extends the set of inputs the instrument guesses correctly about and leaves it
+# guessing, so the next word past the end of the list fails exactly as the last
+# one did. What closes it is a third outcome: every input is in a vocabulary
+# whose class is written down, or it is a finding that names the input and the
+# rows carrying it.
+#
+# Computed from the ledger's rows rather than recorded at build time, so a
+# ledger built by an older copy of this tool is still gated on it, and so the
+# check can be armed against a hand-written ledger.
+# ---------------------------------------------------------------------------
+
+FIELD_VOCABULARY = (("case", "status", "case status", CASE_VOCABULARY),
+                    ("defect", "status", "defect status", DEFECT_VOCABULARY),
+                    ("requirement", "evidence", "requirement evidence", EVIDENCE_VOCABULARY))
+
+
+def unclassified_inputs(rows):
+    """[{field, value, count, ids, placed_in}] — one entry per unclassifiable input.
+
+    An absent field is not one of these. A defect row carrying no status at all
+    is classified: nothing recorded is not a repair, and the row says so. What is
+    reported here is a value that was written down and that no rule covers.
+    """
+    found = defaultdict(list)
+    placed = {}
+    for r in rows:
+        for entity, key, label, vocabulary in FIELD_VOCABULARY:
+            if r.get("entity") != entity:
+                continue
+            value = (r.get(key) or "")
+            value = value.lower() if isinstance(value, str) else value
+            if value and value not in vocabulary:
+                found[(label, value)].append(r.get("id"))
+                placed[(label, value)] = r.get("class")
+        for pid in r.get("unclassifiable_ids") or []:
+            found[("id-shaped token", pid)].append(r.get("id"))
+            placed[("id-shaped token", pid)] = r.get("class")
+    return [{"field": field, "value": value, "count": len(ids),
+             "ids": sorted(str(i) for i in ids), "placed_in": placed[(field, value)]}
+            for (field, value), ids in sorted(found.items())]
 
 
 # ---------------------------------------------------------------------------
@@ -847,6 +1084,14 @@ def gate(ledger, weak_join_ratio=0.5):
             violations.append(("disclosure", "denominator %r is absent; a remaining-work list without a "
                                              "denominator reads as though it covered everything" % key))
 
+    for u in unclassified_inputs(rows):
+        violations.append((
+            "vocabulary",
+            "%s %r is not a word this tool classifies — %d row(s) carry it (%s), and each was "
+            "placed in %r by this tool's fail-closed default rather than by the registry. Give the "
+            "word a rule or correct the rows; a longer list would only move the edge."
+            % (u["field"], u["value"], u["count"], ", ".join(u["ids"][:8]), u["placed_in"])))
+
     counts = Counter(r["class"] for r in rows)
     stated = ledger.get("summary", {}).get("counts")
     if stated and stated != dict(counts):
@@ -857,9 +1102,18 @@ def gate(ledger, weak_join_ratio=0.5):
 
 
 def verdict(violations):
+    """The most structural failure present decides the code.
+
+    `vocabulary` sits between the two: a ledger whose placements rest on a
+    default this tool chose is not unsound in the way a duplicated id is, and it
+    is a stronger objection than an absent denominator, because every count in
+    the ledger is computed over rows it placed by guessing.
+    """
     kinds = {k for k, _ in violations}
     if kinds & {"conservation", "placement"}:
         return 1
+    if "vocabulary" in kinds:
+        return 4
     if "disclosure" in kinds:
         return 2
     return 0
@@ -1006,6 +1260,23 @@ def render(ledger):
             A("  - %s" % ((r.get("note") or r.get("why") or "")[:220]))
         A("")
 
+    unclassified = ledger.get("unclassified") or unclassified_inputs(ledger["rows"])
+    if unclassified:
+        A("## Inputs this reckoning could not classify (%d)" % len(unclassified))
+        A("")
+        A("Each of these was written into the registry or a brief and no rule here covers it. The "
+          "rows were still placed, because the partition has to be total — but they were placed by "
+          "this tool's fail-closed default rather than by anything the registry said, so the class "
+          "is this tool's opinion and is reported as one. An unrecognised input fails in both "
+          "directions and only over-reporting announces itself.")
+        A("")
+        A("| Input | Value | Rows | Placed in | Which rows |")
+        A("|---|---|---:|---|---|")
+        for u in unclassified:
+            A("| %s | `%s` | %d | `%s` | %s |"
+              % (u["field"], u["value"], u["count"], u["placed_in"], ", ".join(u["ids"][:8])))
+        A("")
+
     reqs = [r for r in ledger["rows"] if r["entity"] == "requirement" and r["class"] == "unmeasured"]
     if reqs:
         A("## Requirements standing on the project's own word (%d)" % len(reqs))
@@ -1066,6 +1337,14 @@ def cmd_build(args):
            "—" if dens["requirements_observed"]["pct"] is None
            else "%.0f%%" % dens["requirements_observed"]["pct"]))
 
+    unclassified = unclassified_inputs(rows)
+    if unclassified:
+        headline += (" %d input(s) could not be classified — %s — and each is named with its row "
+                     "count rather than counted as work or as done."
+                     % (len(unclassified),
+                        "; ".join("%s %r on %d row(s)" % (u["field"], u["value"], u["count"])
+                                  for u in unclassified[:4])))
+
     unjoined = counts.get("unjoined", 0)
     if unjoined:
         headline += (" %d brief(s) could not be tied to the registry at all; they are listed as "
@@ -1087,6 +1366,7 @@ def cmd_build(args):
                  "pct": round(join_pct, 1), "weak": join_is_weak,
                  "note": "cited edges are citations somebody wrote; overlap edges are guesses and cannot retire a brief"},
         "blockers": blockers,
+        "unclassified": unclassified,
         "rows": rows,
     }
 

@@ -150,7 +150,14 @@ python3 $S/reckon.py check docs/reckoning/<date>/ledger.json   # exit 0 required
 
 Exit 1 means the ledger lost an item or placed one illegally, and the numbers
 in it cannot be trusted. Exit 2 means a headline figure the rows do not
-support. Both are defects in the reckoning, not in the project.
+support. Exit 4 means an input this tool cannot classify — a status word, an
+evidence word or an id-shaped token no rule here covers — reported with the rows
+carrying it. All three are defects in the reckoning, not in the project.
+
+Exit 4 is the one worth reading rather than retrying. The row was still placed,
+because the partition has to be total, but it was placed by this tool's
+fail-closed default and not by anything the registry said. Give the word a rule
+or correct the rows; a longer list of words only moves the edge one word along.
 
 Where a previous reckoning exists, run the ratchet:
 

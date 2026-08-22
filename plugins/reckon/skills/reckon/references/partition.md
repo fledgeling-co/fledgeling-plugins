@@ -69,9 +69,22 @@ whose subject one of those lands on. Measured, and the answer was no.
 **A defect carries its own repair, and it is read.** A row at `fixed`,
 `resolved`, `closed`, `done` or `verified` is `verified-done` — the same
 registry, speaking about the same run, as the `pass` that retires a case. A row
-at `wontfix`, `deferred`, `declined` or `duplicate` is `waived`. A row whose
-status this tool does not recognise, or that carries none, stays `broken`:
-guessing done is the one error in this direction that cannot be recovered from.
+at `wontfix`, `deferred`, `declined` or `duplicate` is `waived`, and so is a row
+at `by design`, `invalid`, `obsolete`, `superseded`, `cannot reproduce`,
+`not-a-defect` or `vacuous` — words that mean the row owes nothing without
+meaning anybody repaired it.
+
+**`partially-fixed` stays in the owing set**, which is the one place here where
+the fail-closed direction is chosen against a word that sounds like a closure. A
+half still broken owes a reproduction for that half, and retiring it would make
+this tool under-report for the first time.
+
+A row whose status this tool does not classify, or that carries none, stays
+`broken`: guessing done is the one error in this direction that cannot be
+recovered from. A status that was written down and that no rule covers is also
+**reported as a finding naming the word and its row count**, and the gate exits
+4 on it, because that placement is this tool's decision rather than a reading of
+the registry.
 Classing every defect row `broken` without reading `status` is how a campaign
 that had repaired 100 of its 110 defects reported all 110 as remaining work.
 
@@ -192,7 +205,10 @@ the right:
 | `open`, `new`, `confirmed`, `reopened`, `regressed`, `in progress` | `broken` |
 | `fixed`, `resolved`, `closed`, `done`, `verified` | `verified-done` |
 | `wontfix`, `deferred`, `declined`, `duplicate`, `n/a` | `waived` |
-| anything else, or absent | unconstrained — the classifier leaves it `broken` |
+| `by design`, `invalid`, `obsolete`, `superseded`, `cannot reproduce`, `not-a-defect`, `vacuous` | `waived` |
+| `partially-fixed` | `broken` — a half still broken owes a reproduction for that half |
+| anything else | `broken`, and reported as a finding with its row count; the gate exits 4 |
+| absent | `broken` — a repair nobody recorded is not a repair this tool can read |
 
 Plus: a requirement resting on `reported` or `unknown` evidence may not be
 `verified-done` or `retirable` — self-reported evidence cannot retire itself.
