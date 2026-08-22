@@ -1,0 +1,2335 @@
+{
+ "schema": 1,
+ "source": {
+  "bench": "diolog-2.0",
+  "repo": "~/Dev/diolog-swe-bench",
+  "store": "benchwarmer.sqlite",
+  "visible_tasks": 106,
+  "measured": "2026-08-22",
+  "reference_lane": "claude/claude-opus-5@xhigh",
+  "scoring_spec": "docs/SCORING.md - rolling newest-two clean decisions per model and task; stale, error, unscored and integrity-noise rows excluded",
+  "significance": "paired sign-flip bootstrap over the per-task delta, 8000 resamples, seed 23",
+  "usd_per_task": "mean costUSD over that key decided runs at list token rates - a proxy for plan burn, not a subscription invoice",
+  "regenerate": "python3 gen_capability.py (see references/capability.md)"
+ },
+ "gates": {
+  "GOLD": "beats opus by more than 5 points",
+  "GREEN": "within 5 points of opus with no significant deficit",
+  "AMBER": "within 15 points, or a GREEN held back by provisional evidence",
+  "RED": "more than 15 points behind, or a significant deficit worse than 10 points",
+  "THIN": "fewer than 6 comparable tasks, or the lane covered under 70 percent of the shape",
+  "REF": "the reference lane itself"
+ },
+ "evidence_tiers": {
+  "A": "ranked: 100 percent task coverage and a full two-sample window on every task",
+  "B": "100 percent task coverage, 60 to 99 percent of tasks at a full window",
+  "C": "90 to 99 percent task coverage",
+  "D": "under 90 percent task coverage - a hint, never a gate"
+ },
+ "lanes": {
+  "claude/claude-opus-5@xhigh": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 1,
+   "headline": 0.6714,
+   "plain": 0.6335,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 2.1577,
+   "mean_tokens": 1189542,
+   "mean_minutes": 8.3,
+   "harness": "the vendor CLI on the host"
+  },
+  "claude/fable@high": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 4,
+   "headline": 0.6364,
+   "plain": 0.5894,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 3.1306,
+   "mean_tokens": 872106,
+   "mean_minutes": 5.9,
+   "harness": "the vendor CLI on the host"
+  },
+  "claude/claude-sonnet-5@xhigh": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 8,
+   "headline": 0.5292,
+   "plain": 0.5048,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 1.6053,
+   "mean_tokens": 2070270,
+   "mean_minutes": 7.3,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-sol@max": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 2,
+   "headline": 0.666,
+   "plain": 0.5893,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.4672,
+   "mean_tokens": 794855,
+   "mean_minutes": 8.8,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-sol@xhigh": {
+   "tier": "C",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.6305,
+   "plain": 0.5755,
+   "task_coverage": 0.981,
+   "sample_coverage": 0.547,
+   "usd_per_task": 0.3091,
+   "mean_tokens": 523309,
+   "mean_minutes": 5.6,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-sol@high": {
+   "tier": "B",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.6383,
+   "plain": 0.5746,
+   "task_coverage": 1,
+   "sample_coverage": 0.679,
+   "usd_per_task": 0.2513,
+   "mean_tokens": 429643,
+   "mean_minutes": 5.0,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-sol@medium": {
+   "tier": "B",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.5692,
+   "plain": 0.5308,
+   "task_coverage": 1,
+   "sample_coverage": 0.717,
+   "usd_per_task": 0.1982,
+   "mean_tokens": 362997,
+   "mean_minutes": 3.7,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-terra@max": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 3,
+   "headline": 0.6374,
+   "plain": 0.5778,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.6686,
+   "mean_tokens": 1245033,
+   "mean_minutes": 9.1,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-terra@xhigh": {
+   "tier": "C",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.5861,
+   "plain": 0.5391,
+   "task_coverage": 0.981,
+   "sample_coverage": 0.566,
+   "usd_per_task": 0.3239,
+   "mean_tokens": 614696,
+   "mean_minutes": 5.2,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-terra@high": {
+   "tier": "C",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.5641,
+   "plain": 0.517,
+   "task_coverage": 0.981,
+   "sample_coverage": 0.538,
+   "usd_per_task": 0.2028,
+   "mean_tokens": 398729,
+   "mean_minutes": 3.9,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-terra@medium": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 13,
+   "headline": 0.4866,
+   "plain": 0.4707,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.1392,
+   "mean_tokens": 252768,
+   "mean_minutes": 2.2,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-luna@max": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 12,
+   "headline": 0.5064,
+   "plain": 0.4854,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.7177,
+   "mean_tokens": 1351706,
+   "mean_minutes": 9.4,
+   "harness": "the vendor CLI on the host"
+  },
+  "codex/gpt-5.6-luna@high": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 14,
+   "headline": 0.4739,
+   "plain": 0.4367,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.3302,
+   "mean_tokens": 631538,
+   "mean_minutes": 5.5,
+   "harness": "the vendor CLI on the host"
+  },
+  "gemini-3.7-flash@medium": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 8,
+   "headline": 0.5324,
+   "plain": 0.4987,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.2921,
+   "mean_tokens": 764675,
+   "mean_minutes": 4.0,
+   "harness": "mini-swe-agent in an Apple container"
+  },
+  "gemini-3.7-flash@high": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 8,
+   "headline": 0.517,
+   "plain": 0.4816,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.3118,
+   "mean_tokens": 772598,
+   "mean_minutes": 4.0,
+   "harness": "mini-swe-agent in an Apple container"
+  },
+  "grok-4.5@xhigh": {
+   "tier": "D",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.49,
+   "plain": 0.4342,
+   "task_coverage": 0.792,
+   "sample_coverage": 0.434,
+   "usd_per_task": 0.6309,
+   "mean_tokens": 364081,
+   "mean_minutes": 1.7,
+   "harness": "mini-swe-agent in an Apple container"
+  },
+  "glm-5.2-fast@max": {
+   "tier": "D",
+   "ranked": false,
+   "rank": null,
+   "headline": 0.4928,
+   "plain": 0.4668,
+   "task_coverage": 0.792,
+   "sample_coverage": 0.028,
+   "usd_per_task": 0.7841,
+   "mean_tokens": 1543566,
+   "mean_minutes": 6.0,
+   "harness": "mini-swe-agent in an Apple container"
+  },
+  "claude/haiku@high": {
+   "tier": "A",
+   "ranked": true,
+   "rank": 18,
+   "headline": 0.2603,
+   "plain": 0.2626,
+   "task_coverage": 1,
+   "sample_coverage": 1,
+   "usd_per_task": 0.2973,
+   "mean_tokens": 1344909,
+   "mean_minutes": 4.1,
+   "harness": "the vendor CLI on the host"
+  }
+ },
+ "shapes": {
+  "brownfield-integration": {
+   "description": "Change existing multi-file service code under compound acceptance",
+   "measured_on": "backend tasks vendored from the real dAIolog repo, or carrying two or more independent verifier groups",
+   "n": 34,
+   "opus_mean": 0.5,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.5,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.4412,
+     "delta": -0.0588,
+     "p": 0.4382,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 7,
+     "gate": "AMBER"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.2353,
+     "delta": -0.2647,
+     "p": 0.0026,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 13,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.4412,
+     "delta": -0.0588,
+     "p": 0.4668,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.5,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 6,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.4265,
+     "delta": -0.0735,
+     "p": 0.4596,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 6,
+     "losses": 8,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.3971,
+     "delta": -0.1029,
+     "p": 0.1999,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 10,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.4412,
+     "delta": -0.0588,
+     "p": 0.5473,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 8,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.3824,
+     "delta": -0.1176,
+     "p": 0.1474,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 11,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.3382,
+     "delta": -0.1618,
+     "p": 0.0907,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 13,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.2647,
+     "delta": -0.2353,
+     "p": 0.0109,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.3529,
+     "delta": -0.1471,
+     "p": 0.06,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 10,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.2794,
+     "delta": -0.2206,
+     "p": 0.0034,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.2353,
+     "delta": -0.2647,
+     "p": 0.0036,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.2206,
+     "delta": -0.2794,
+     "p": 0.0011,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 15,
+     "gate": "RED"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.2353,
+     "delta": -0.2647,
+     "p": 0.0085,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.25,
+     "delta": -0.25,
+     "p": 0.0167,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "claude/haiku@high": {
+     "mean": 0.0735,
+     "delta": -0.4265,
+     "p": 0.0002,
+     "n": 34,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 20,
+     "gate": "RED"
+    }
+   }
+  },
+  "greenfield-module": {
+   "description": "New self-contained module behind one acceptance surface",
+   "measured_on": "backend tasks with no vendored repo slice and a single verifier group",
+   "n": 8,
+   "opus_mean": 0.75,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.75,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.75,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 1,
+     "gate": "GREEN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.875,
+     "delta": 0.125,
+     "p": 0.7485,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 1,
+     "gate": "GOLD"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.5,
+     "delta": -0.25,
+     "p": 0.4952,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.4375,
+     "delta": -0.3125,
+     "p": 0.3083,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.5,
+     "delta": -0.25,
+     "p": 0.5056,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.5,
+     "delta": -0.25,
+     "p": 0.4914,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.375,
+     "delta": -0.375,
+     "p": 0.1896,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.375,
+     "delta": -0.375,
+     "p": 0.124,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.375,
+     "delta": -0.375,
+     "p": 0.1851,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.3125,
+     "delta": -0.4375,
+     "p": 0.1226,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.375,
+     "delta": -0.375,
+     "p": 0.1856,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.3125,
+     "delta": -0.4375,
+     "p": 0.1295,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 4,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.75,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 1,
+     "gate": "GREEN"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.625,
+     "delta": -0.125,
+     "p": 0.7585,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 2,
+     "gate": "AMBER"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.625,
+     "delta": -0.125,
+     "p": 0.7434,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 2,
+     "gate": "AMBER"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.625,
+     "delta": -0.125,
+     "p": 0.7507,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 3,
+     "gate": "AMBER"
+    },
+    "claude/haiku@high": {
+     "mean": 0.5,
+     "delta": -0.25,
+     "p": 0.2548,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 3,
+     "gate": "RED"
+    }
+   }
+  },
+  "api-surface": {
+   "description": "BFF route handler, server action or adapter wiring",
+   "measured_on": "the frontend dimension",
+   "n": 5,
+   "opus_mean": 0.5,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.5,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.4,
+     "delta": -0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.3,
+     "delta": -0.2,
+     "p": 0.7545,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 2,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.6255,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.7,
+     "delta": 0.2,
+     "p": 0.7573,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.6199,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.6,
+     "delta": 0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.6174,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.7,
+     "delta": 0.2,
+     "p": 0.757,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.5049,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.4929,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.7,
+     "delta": 0.2,
+     "p": 0.7545,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.6,
+     "delta": 0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.8,
+     "delta": 0.3,
+     "p": 0.4902,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.6,
+     "delta": 0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.4,
+     "delta": -0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 2,
+     "gate": "THIN"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.6,
+     "delta": 0.1,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "claude/haiku@high": {
+     "mean": 0.2,
+     "delta": -0.3,
+     "p": 0.5023,
+     "n": 5,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 2,
+     "gate": "THIN"
+    }
+   }
+  },
+  "react-ui": {
+   "description": "React plus Vite component with interaction behaviour",
+   "measured_on": "ui tasks whose render type is command",
+   "n": 30,
+   "opus_mean": 0.6867,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6867,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.6692,
+     "delta": -0.0175,
+     "p": 0.7384,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 20,
+     "gate": "GREEN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.585,
+     "delta": -0.1017,
+     "p": 0.0357,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 27,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.64,
+     "delta": -0.0467,
+     "p": 0.3423,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 11,
+     "losses": 14,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.5571,
+     "delta": -0.1296,
+     "p": 0.0259,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 13,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.5729,
+     "delta": -0.1138,
+     "p": 0.0525,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 6,
+     "losses": 12,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.5096,
+     "delta": -0.1771,
+     "p": 0.0069,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 14,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.6308,
+     "delta": -0.0558,
+     "p": 0.062,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 21,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.5779,
+     "delta": -0.1087,
+     "p": 0.0487,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 18,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.6204,
+     "delta": -0.0663,
+     "p": 0.24,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 18,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.6021,
+     "delta": -0.0846,
+     "p": 0.0809,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 18,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.51,
+     "delta": -0.1767,
+     "p": 0.0036,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 21,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.4537,
+     "delta": -0.2329,
+     "p": 0.0005,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 22,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.6317,
+     "delta": -0.055,
+     "p": 0.2742,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 24,
+     "gate": "AMBER"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.6108,
+     "delta": -0.0758,
+     "p": 0.1541,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 24,
+     "gate": "AMBER"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.44,
+     "delta": -0.2462,
+     "p": 0.0087,
+     "n": 10,
+     "coverage": 0.333,
+     "wins": 0,
+     "losses": 8,
+     "gate": "THIN"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.5075,
+     "delta": -0.1788,
+     "p": 0.0041,
+     "n": 10,
+     "coverage": 0.333,
+     "wins": 0,
+     "losses": 9,
+     "gate": "THIN"
+    },
+    "claude/haiku@high": {
+     "mean": 0.2846,
+     "delta": -0.4021,
+     "p": 0.0001,
+     "n": 30,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 28,
+     "gate": "RED"
+    }
+   }
+  },
+  "static-page": {
+   "description": "From-scratch HTML and CSS page with no framework",
+   "measured_on": "ui tasks whose render type is static-html",
+   "n": 7,
+   "opus_mean": 0.6689,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6689,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.4999,
+     "delta": -0.169,
+     "p": 0.4652,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 3,
+     "gate": "RED"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.7035,
+     "delta": 0.0346,
+     "p": 1.0,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 6,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.6004,
+     "delta": -0.0685,
+     "p": 0.4061,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.7731,
+     "delta": -0.0002,
+     "p": 1.0,
+     "n": 5,
+     "coverage": 0.714,
+     "wins": 2,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.7668,
+     "delta": 0.0979,
+     "p": 0.653,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 2,
+     "gate": "GOLD"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.716,
+     "delta": 0.0471,
+     "p": 1.0,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 6,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.714,
+     "delta": 0.0451,
+     "p": 0.9033,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 5,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.7576,
+     "delta": -0.0156,
+     "p": 0.3766,
+     "n": 5,
+     "coverage": 0.714,
+     "wins": 1,
+     "losses": 3,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.7654,
+     "delta": -0.0078,
+     "p": 0.5023,
+     "n": 5,
+     "coverage": 0.714,
+     "wins": 2,
+     "losses": 2,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.5281,
+     "delta": -0.1408,
+     "p": 0.0327,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 6,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.5397,
+     "delta": -0.1292,
+     "p": 0.3122,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.5964,
+     "delta": -0.0725,
+     "p": 0.5211,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.2222,
+     "delta": -0.4467,
+     "p": 0.0659,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 5,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.3324,
+     "delta": -0.3365,
+     "p": 0.2203,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 5,
+     "gate": "RED"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.5928,
+     "delta": -0.1804,
+     "p": 0.0604,
+     "n": 5,
+     "coverage": 0.714,
+     "wins": 0,
+     "losses": 5,
+     "gate": "THIN"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.6155,
+     "delta": -0.1578,
+     "p": 0.3066,
+     "n": 5,
+     "coverage": 0.714,
+     "wins": 2,
+     "losses": 3,
+     "gate": "THIN"
+    },
+    "claude/haiku@high": {
+     "mean": 0.278,
+     "delta": -0.3908,
+     "p": 0.0605,
+     "n": 7,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 5,
+     "gate": "RED"
+    }
+   }
+  },
+  "deck": {
+   "description": "Slide and presentation authoring",
+   "measured_on": "ui tasks whose render type is slides, scored on the deck rubric",
+   "n": 8,
+   "opus_mean": 0.6082,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6082,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.5598,
+     "delta": -0.0485,
+     "p": 0.4898,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 4,
+     "gate": "GREEN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.4085,
+     "delta": -0.1997,
+     "p": 0.141,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.5315,
+     "delta": -0.0767,
+     "p": 0.5464,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.4919,
+     "delta": -0.1163,
+     "p": 0.0292,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 6,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.5416,
+     "delta": -0.0666,
+     "p": 0.5392,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.4839,
+     "delta": -0.1243,
+     "p": 0.286,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.4549,
+     "delta": -0.1533,
+     "p": 0.2303,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.4813,
+     "delta": -0.1269,
+     "p": 0.2927,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.2441,
+     "delta": -0.3641,
+     "p": 0.0154,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.3044,
+     "delta": -0.3038,
+     "p": 0.0386,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.3806,
+     "delta": -0.2276,
+     "p": 0.1434,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.3455,
+     "delta": -0.2627,
+     "p": 0.0434,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.4855,
+     "delta": -0.1227,
+     "p": 0.0176,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.4989,
+     "delta": -0.1093,
+     "p": 0.0172,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.4511,
+     "delta": -0.1571,
+     "p": 0.25,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.5507,
+     "delta": -0.0575,
+     "p": 0.0456,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "claude/haiku@high": {
+     "mean": 0.1476,
+     "delta": -0.4606,
+     "p": 0.0296,
+     "n": 8,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    }
+   }
+  },
+  "visual-design": {
+   "description": "Work graded on aesthetic and design judgement",
+   "measured_on": "ui tasks tagged design",
+   "n": 14,
+   "opus_mean": 0.6293,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6293,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.5439,
+     "delta": -0.0854,
+     "p": 0.3897,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.5638,
+     "delta": -0.0655,
+     "p": 0.5236,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 12,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.5468,
+     "delta": -0.0826,
+     "p": 0.371,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 11,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.5875,
+     "delta": -0.0787,
+     "p": 0.0471,
+     "n": 12,
+     "coverage": 0.857,
+     "wins": 2,
+     "losses": 7,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.6643,
+     "delta": 0.035,
+     "p": 0.8729,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 7,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.5774,
+     "delta": -0.0519,
+     "p": 0.6255,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 12,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.5696,
+     "delta": -0.0597,
+     "p": 0.4021,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 10,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.5865,
+     "delta": -0.0797,
+     "p": 0.2808,
+     "n": 12,
+     "coverage": 0.857,
+     "wins": 2,
+     "losses": 9,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.4817,
+     "delta": -0.1845,
+     "p": 0.0105,
+     "n": 12,
+     "coverage": 0.857,
+     "wins": 2,
+     "losses": 8,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.4121,
+     "delta": -0.2172,
+     "p": 0.0247,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 12,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.4873,
+     "delta": -0.142,
+     "p": 0.2138,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 11,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.4733,
+     "delta": -0.156,
+     "p": 0.1182,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 12,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.3475,
+     "delta": -0.2818,
+     "p": 0.0011,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 11,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.4075,
+     "delta": -0.2218,
+     "p": 0.0675,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 11,
+     "gate": "RED"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.4915,
+     "delta": -0.1747,
+     "p": 0.1217,
+     "n": 12,
+     "coverage": 0.857,
+     "wins": 1,
+     "losses": 11,
+     "gate": "RED"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.5632,
+     "delta": -0.1031,
+     "p": 0.0259,
+     "n": 12,
+     "coverage": 0.857,
+     "wins": 3,
+     "losses": 8,
+     "gate": "RED"
+    },
+    "claude/haiku@high": {
+     "mean": 0.21,
+     "delta": -0.4193,
+     "p": 0.005,
+     "n": 14,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 11,
+     "gate": "RED"
+    }
+   }
+  },
+  "accessibility": {
+   "description": "Semantics, keyboard paths and ARIA",
+   "measured_on": "tasks tagged accessibility",
+   "n": 10,
+   "opus_mean": 0.6913,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6913,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.6413,
+     "delta": -0.05,
+     "p": 0.0407,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.5345,
+     "delta": -0.1568,
+     "p": 0.0035,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 9,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.6585,
+     "delta": -0.0328,
+     "p": 0.9415,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 2,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.6519,
+     "delta": -0.0394,
+     "p": 0.4387,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 3,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.6633,
+     "delta": -0.028,
+     "p": 0.9339,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 2,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.6593,
+     "delta": -0.032,
+     "p": 0.7529,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 4,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.6286,
+     "delta": -0.0627,
+     "p": 0.0786,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.6607,
+     "delta": -0.0306,
+     "p": 0.065,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.5883,
+     "delta": -0.103,
+     "p": 0.0176,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.5994,
+     "delta": -0.0919,
+     "p": 0.007,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 8,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.5944,
+     "delta": -0.0969,
+     "p": 0.292,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.4844,
+     "delta": -0.2069,
+     "p": 0.0105,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 8,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.64,
+     "delta": -0.0513,
+     "p": 0.5082,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 8,
+     "gate": "AMBER"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.5962,
+     "delta": -0.095,
+     "p": 0.4468,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 9,
+     "gate": "AMBER"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.6537,
+     "delta": -0.0297,
+     "p": 0.0166,
+     "n": 9,
+     "coverage": 0.9,
+     "wins": 0,
+     "losses": 7,
+     "gate": "AMBER"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.6619,
+     "delta": -0.0215,
+     "p": 0.1039,
+     "n": 9,
+     "coverage": 0.9,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "claude/haiku@high": {
+     "mean": 0.2766,
+     "delta": -0.4147,
+     "p": 0.0096,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 8,
+     "gate": "RED"
+    }
+   }
+  },
+  "algorithmic": {
+   "description": "Complexity-constrained or optimality-constrained implementation",
+   "measured_on": "the optimality dimension: functional gate then reference-anchored judge",
+   "n": 10,
+   "opus_mean": 0.75,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.75,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.7422,
+     "delta": -0.0078,
+     "p": 0.4563,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 6,
+     "gate": "GREEN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.7266,
+     "delta": -0.0234,
+     "p": 0.3241,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 5,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.7813,
+     "delta": 0.0312,
+     "p": 0.1292,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 3,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.7344,
+     "delta": -0.0156,
+     "p": 0.5303,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.7516,
+     "delta": 0.0016,
+     "p": 0.9615,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 4,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.7594,
+     "delta": 0.0094,
+     "p": 0.6738,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 6,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.7688,
+     "delta": 0.0187,
+     "p": 0.4979,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 5,
+     "gate": "GREEN"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.7594,
+     "delta": 0.0094,
+     "p": 0.8908,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 4,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.7375,
+     "delta": -0.0125,
+     "p": 0.5753,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.6703,
+     "delta": -0.0797,
+     "p": 0.2678,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.6828,
+     "delta": -0.0672,
+     "p": 0.2047,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.6735,
+     "delta": -0.0766,
+     "p": 0.072,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 8,
+     "gate": "AMBER"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.7469,
+     "delta": -0.0031,
+     "p": 0.8663,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 6,
+     "gate": "GREEN"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.7406,
+     "delta": -0.0094,
+     "p": 0.6092,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 7,
+     "gate": "GREEN"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.65,
+     "delta": -0.1,
+     "p": 0.09,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.6156,
+     "delta": -0.1344,
+     "p": 0.0864,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 6,
+     "gate": "AMBER"
+    },
+    "claude/haiku@high": {
+     "mean": 0.4672,
+     "delta": -0.2828,
+     "p": 0.0114,
+     "n": 10,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 8,
+     "gate": "RED"
+    }
+   }
+  },
+  "tool-orchestration": {
+   "description": "Multi-step tool calling against an audited log",
+   "measured_on": "the tool-use dimension",
+   "n": 4,
+   "opus_mean": 1,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.875,
+     "delta": -0.125,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.875,
+     "delta": -0.125,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.75,
+     "delta": -0.25,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.875,
+     "delta": -0.125,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 1,
+     "gate": "THIN"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    },
+    "claude/haiku@high": {
+     "mean": 1,
+     "delta": 0,
+     "p": 1.0,
+     "n": 4,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "THIN"
+    }
+   }
+  },
+  "regression-sensitive": {
+   "description": "Must not break an existing passing contract",
+   "measured_on": "tasks declaring scoring.regression_command, a pass-to-pass guard",
+   "n": 13,
+   "opus_mean": 0.6538,
+   "lanes": {
+    "claude/claude-opus-5@xhigh": {
+     "mean": 0.6538,
+     "delta": 0.0,
+     "p": 1.0,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 0,
+     "gate": "REF"
+    },
+    "claude/fable@high": {
+     "mean": 0.6923,
+     "delta": 0.0385,
+     "p": 1.0,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 2,
+     "gate": "GREEN"
+    },
+    "claude/claude-sonnet-5@xhigh": {
+     "mean": 0.3077,
+     "delta": -0.3462,
+     "p": 0.0722,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 2,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-sol@max": {
+     "mean": 0.8462,
+     "delta": 0.1923,
+     "p": 0.2795,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 6,
+     "losses": 1,
+     "gate": "GOLD"
+    },
+    "codex/gpt-5.6-sol@xhigh": {
+     "mean": 0.8462,
+     "delta": 0.1923,
+     "p": 0.2845,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 6,
+     "losses": 1,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-sol@high": {
+     "mean": 0.8077,
+     "delta": 0.1538,
+     "p": 0.5319,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 7,
+     "losses": 3,
+     "gate": "GOLD"
+    },
+    "codex/gpt-5.6-sol@medium": {
+     "mean": 0.5769,
+     "delta": -0.0769,
+     "p": 0.8029,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@max": {
+     "mean": 0.7692,
+     "delta": 0.1154,
+     "p": 0.6449,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 5,
+     "losses": 3,
+     "gate": "GOLD"
+    },
+    "codex/gpt-5.6-terra@xhigh": {
+     "mean": 0.5769,
+     "delta": -0.0769,
+     "p": 0.7353,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@high": {
+     "mean": 0.6154,
+     "delta": -0.0385,
+     "p": 1.0,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-terra@medium": {
+     "mean": 0.5769,
+     "delta": -0.0769,
+     "p": 0.8243,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 5,
+     "gate": "AMBER"
+    },
+    "codex/gpt-5.6-luna@max": {
+     "mean": 0.5,
+     "delta": -0.1538,
+     "p": 0.5308,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 4,
+     "losses": 6,
+     "gate": "RED"
+    },
+    "codex/gpt-5.6-luna@high": {
+     "mean": 0.4615,
+     "delta": -0.1923,
+     "p": 0.3502,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@medium": {
+     "mean": 0.4231,
+     "delta": -0.2308,
+     "p": 0.2453,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 6,
+     "gate": "RED"
+    },
+    "gemini-3.7-flash@high": {
+     "mean": 0.2308,
+     "delta": -0.4231,
+     "p": 0.0069,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 0,
+     "losses": 8,
+     "gate": "RED"
+    },
+    "grok-4.5@xhigh": {
+     "mean": 0.3846,
+     "delta": -0.2692,
+     "p": 0.2327,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 7,
+     "gate": "RED"
+    },
+    "glm-5.2-fast@max": {
+     "mean": 0.4615,
+     "delta": -0.1923,
+     "p": 0.3402,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 3,
+     "losses": 5,
+     "gate": "RED"
+    },
+    "claude/haiku@high": {
+     "mean": 0.1154,
+     "delta": -0.5385,
+     "p": 0.005,
+     "n": 13,
+     "coverage": 1.0,
+     "wins": 1,
+     "losses": 10,
+     "gate": "RED"
+    }
+   }
+  }
+ }
+}
