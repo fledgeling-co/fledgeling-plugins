@@ -442,3 +442,35 @@ itself.
 And where a repo already locks one id space, extend that lock rather than adding a second
 mechanism for the other. A lock per id space is two things to keep in step, and the defect
 exists precisely because two things were out of step.
+
+## Safe for a reason other than the one you would cite (23 Aug 2026)
+
+Three repos audited their id allocation after one filed a defect against it. **All three were
+safe. None was safe for the reason its own session would have given.**
+
+| Repo | Would have cited | Actually why |
+|---|---|---|
+| A | "the lock holds" | The lock is in the git common dir — true, and it covers 6 of 7 id spaces; the markdown ledger every triage touches has no lock at all |
+| B | "the guard refuses runner branches" | True for 2 of 7 spaces. The other 5 are written only by one script, run serially from the main checkout |
+| C | "LEDGER.md already solved this shape" | It solved the same-checkout case. Two worktrees each `mkdir` their own lock path and neither blocks |
+
+So the family has **three** members, not two, and they weaken in order:
+
+- **A lock** proves mutual exclusion over the critical section, never over the state that
+  section reads.
+- **A guard** proves neither — only that nobody was *allowed* to try.
+- **A serial-by-script habit** proves less still. Repo B's five uncovered spaces are written
+  only by one finalize script under one merge lock, measured across all history: 63 touches,
+  every one on a completion commit, none reachable from a runner branch. That is a habit
+  encoded in a script rather than in a person, **which makes it more durable and no more
+  enforced.** A future fleet that lets runners mint ids gets no guard and no lock in the same
+  move.
+
+The miniature that carries the whole family: inside repo B's campaign directory the *ratchet*
+file is refused by the guard, as derived, while the registry it ratchets is not. **The guarded
+thing is the summary; the unguarded thing is the source.**
+
+The question to ask is not *is it safe* but *what would have to change for it to stop being
+safe, and does anything record that the answer is load-bearing.* Repo B wrote its coverage
+table into the guard file itself rather than into a report, because that file is what somebody
+edits when they widen the permission.
