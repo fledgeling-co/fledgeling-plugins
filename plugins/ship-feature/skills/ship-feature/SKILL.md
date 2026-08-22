@@ -192,3 +192,30 @@ exact blocker reported — plainly, as a first-class outcome.
 Re-enter at the first missing/not-green artifact: no spec → 1; no plan/mocks → 2∥3; no worktree
 or completion record → 4; deferred open → 4b; no gap-fix note → 5; no green suite → 6; no
 verdict → 7; verified but unmerged → 8. Re-read the artifacts; never restart from 0.
+
+## Machine admission — run heavy steps through harbourmaster
+
+Builds and test suites are the expensive part of this stage, and on this machine
+they have been observed running unbounded: load average 830 across 16 cores while
+several fleets built at once. Wrap them, at a weight that reflects what they will
+actually want:
+
+```bash
+HM="${CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts"
+"$HM/governor-run" --weight 6 --project "$REPO" --label "build $ID" -- pnpm build
+"$HM/governor-run" --weight 4 --project "$REPO" --label "test $ID" -- pnpm test
+```
+
+Weights: 1 a single test or typecheck, 2 a dev server or one runner, 4 a parallel
+suite, 6-8 a release build.
+
+**Exit 75 is scheduling information, not a failing gate.** It carries
+`retry_after_sec`; do other work and come back. Do not loop on the call, and do
+not report the item blocked. Exit 64 means the invocation was wrong, usually a
+weight larger than the machine's whole capacity. Any other code is the command's.
+
+Planning, reading and review stay unwrapped — they cost context and rate limit
+rather than cores. Before wrapping, ask whether the work belongs on this Mac at
+all: a long self-contained build can go to an `anvil errand` container, and a
+verdict belongs in `defer`. `harbourmaster`'s `references/routing.md` has the
+decision procedure.

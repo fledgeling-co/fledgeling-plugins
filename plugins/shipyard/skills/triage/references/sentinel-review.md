@@ -35,6 +35,7 @@ For each lens, only raise findings that require a *human product decision*. Attr
 - For repeatable long-running or generative actions: what is the *re-run* story — running the same action twice (concurrently, or again later) deduplicates, queues, versions, or replaces? A "create"-shaped feature with no stated re-run/concurrency semantics silently defaults to duplicates and last-writer-wins races — flag it.
 - For schema/behaviour-altering changes: is there a rollout plan (flag? progressive rollout? kill switch?)?
 - For irreversible operations: is a rollback story named?
+- For any path that mutates tenant data, sends something to a human (email, notification, published portal content), produces AI output someone may act on, or reads a sensitive record: **which of those actions must an auditor be able to see afterwards, and what does each one record?** The verdict carries the answer as a plain inventory — "publishing an update records who published it and which audience saw it" — never a code reference; the plan stage turns the inventory into call sites, so triage's job is only to establish that the list exists and is complete. Ask this at **every tier**, not only S2+: whether an action is visible after the fact is a compliance-evidence question, independent of whether its content is price-sensitive. An audit gap is the one omission review cannot see, because the feature works perfectly without it. Diolog instance: the rule is `CODING_PRACTICES.md` → "Audit logging (A09)", and WEB-4787 is the reference implementation of what complete coverage looks like.
 
 **Operational**
 - How do errors surface to the user and to support/ops?
@@ -44,7 +45,7 @@ For each lens, only raise findings that require a *human product decision*. Attr
 - For metered work (AI/model calls, sandbox/compute minutes, per-call billing): is any spend or concurrency ceiling named, and is per-run cost *measured* (an instrumented number, not an assumption)? A feature whose own rationale cites cost as a risk must not ship with cost unmeasured.
 
 **Governance** (S2+ only — skip for S0/S1)
-- Immutable audit trails where MNPI-adjacent?
+- Immutable audit trails where MNPI-adjacent? (Whether an action is logged **at all** is the Engineering Readiness bullet above, asked at every tier — this lens only asks whether the trail additionally has to be tamper-evident.)
 - Maker/Checker (four-eyes) where a single user could otherwise disclose on the company's behalf?
 - Simultaneous-release gates for investor-facing content (Reg FD for US-listed; ASX GN8 for ASX-listed; MAR Art 17 for EU/UK)?
 - For MNPI recipients: acknowledgement prompt + insider-list trail?
