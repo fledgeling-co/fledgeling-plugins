@@ -228,6 +228,19 @@ room* — and ask for the ceiling rather than assuming there is none.
   collapsed from 10 to 3. Two sessions had independently measured the same 3.67 and it was
   real every time. **The reading was right and the inference was wrong.** Clear in waves
   against the count you are clearing, or clear one session and re-measure.
+- **Berths and thermal do not corroborate each other, and reading them as agreeing is the
+  earlier mistake in a new coat.** Measured, with three clean samples: `thermal limited`
+  held 1,164s → 1,190s → 1,216s, a clamp twenty minutes old and rising, **while load fell in
+  every window** and berths read `in_use 0, available 10`. This conductor called the berth
+  zero trustworthy *because the load agreed with it* — and a falling load is exactly what a
+  clamped chassis produces. **Berths answer "is there room". Thermal answers "is a berth
+  worth anything". Neither is evidence for the other.** A mutation or benchmark run under a
+  clamp manufactures timeout-scored kills and flatters the suite in the direction that
+  matters, so a clamp is a reason to defer that class of work even when admission is open.
+- **Under critical CPU pressure the ceiling drops to 3, so a `--weight 6` claim cannot be
+  granted at all.** One runner was refused nine times before admission. That presents as a
+  queue and is actually a ceiling, and the two want different responses: a queue is waited
+  out, a ceiling is shed into.
 - **Sample thermal at least three times across a minute.** `held_for_sec` describes only the
   current state and `dwell_required_sec` is 60, so one quiet minute flips the verdict on an
   unchanged machine. Measured flipping in both directions; the cleaner reading caught
