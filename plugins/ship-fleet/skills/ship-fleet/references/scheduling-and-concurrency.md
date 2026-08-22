@@ -145,7 +145,7 @@ faster than Opus-at-high, and nothing in the launch result tells you it happened
    spawns agents — the lane table (SKILL.md §"Model routing"): leaf readers + gate-runners → `haiku`;
    evidence lenses, adversarial finding-verifiers, e2e Phases 0–4, design leaf verifiers + page assembly,
    Sentinel verdict + Assumptions, Trivial/Small plan synthesis → `sonnet`; mechanical Phase B/E slices
-   meeting the delegation criteria → the external executor lanes (the executor lane order (agy gemini-flash-3.7 `high` → grok grok-4.6 `high` → codex `gpt-5.6-terra` `medium` → Claude) by
+   meeting the delegation criteria → the external executor lanes (no fixed order: `defer --task implementation --shape <shape>` picks per slice, Claude fail-back) by
    default, else shipyard's `executor-lanes.md`); the three out-of-family review gates (triage spec review, plan
    review gate, work Phase D completeness critic) → codex `gpt-5.6-sol` at `medium`, read-only; everything on
    the never-downgrade list (Large plan synthesis, work Phase A synthesis, Phase C conflicts,
