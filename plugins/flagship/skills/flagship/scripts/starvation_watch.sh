@@ -47,14 +47,19 @@ DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspoli
 DAEMON_SAMPLE_SEC=${FLAGSHIP_DAEMON_SAMPLE_SEC:-4}
 
 _tree_cpu_secs() {  # pid -> cumulative CPU seconds across pid and all descendants
-  local total=0 p
+  # Summed in awk rather than shell arithmetic: these are floats, and a child that
+  # exits between the pgrep and the ps returns an empty string, which made
+  # `$(( total + ))` a syntax error and the whole function return NOTHING. An empty
+  # result then read as zero CPU and the claimant was reported leaked — a failed
+  # measurement presented as a measurement, in the detector for exactly that.
+  local p out=""
   local -a stack=("$1")
-  while [ ${#stack[@]} -gt 0 ]; do
+  while (( ${#stack[@]} > 0 )); do
     p="${stack[1]}"; shift stack
-    total=$(( total + $(_cpu_secs "$p") ))
+    out+="$(_cpu_secs "$p")"$'\n'
     for k in $(pgrep -P "$p" 2>/dev/null); do stack+=("$k"); done
   done
-  print -r -- "$total"
+  print -r -- "$out" | awk '{ s += ($1 == "" ? 0 : $1) } END { printf "%.2f", s+0 }'
 }
 
 _cpu_secs() {  # pid -> cumulative CPU seconds
@@ -113,6 +118,9 @@ leaked_berths() {
     csec="$cpu"
     [ -z "$esec" ] || [ "$esec" -lt "$MIN_HELD_SEC" ] 2>/dev/null && continue
     # under 0.1% of wall clock spent on CPU, across the whole tree's own accounting
+    # An unmeasurable CPU figure is not a zero one. Skip rather than report — a leak
+    # claim from a failed read is the thing this whole corpus is about.
+    [ -z "$csec" ] && continue
     if awk -v c="$csec" -v e="$esec" 'BEGIN{exit !(e>0 && c/e < 0.001)}'; then
       desc=$(pgrep -P "$pid" 2>/dev/null | head -1)
       desc=$(ps -o command= -p "${desc:-$pid}" 2>/dev/null | cut -c1-60)

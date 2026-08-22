@@ -935,3 +935,20 @@ does not.
 
 Third instrument this conductor armed in one night that was wrong on its first version, all
 three the same family, all three found by a peer or a false alarm rather than by review.
+
+### And its second leak: an empty read reported as a zero one
+
+The tree-summed fix had a defect of its own within the hour. The sum ran in shell arithmetic,
+and **a child that exits between the `pgrep` and the `ps` returns an empty string** — so
+`$(( total + ))` was a syntax error, the function returned nothing at all, and the empty
+result was compared as though it were **zero CPU**. The claimant was reported leaked with a
+blank figure where its CPU number should have been.
+
+A failed measurement presented as a measurement, in the detector built for exactly that. Two
+repairs, and the second is the general one: sum in `awk` so a missing value contributes 0
+rather than breaking the expression, and **refuse to classify a claimant whose CPU could not
+be read** — an unmeasurable figure is not a zero one, and skipping is the only honest verdict.
+
+The tell was in the emitted line the whole time: `pid 99992 14:04 elapsed,  CPU,` with
+nothing between the commas. **A blank where a number belongs is a failed read**, and it took
+a second false alarm to look at it.
