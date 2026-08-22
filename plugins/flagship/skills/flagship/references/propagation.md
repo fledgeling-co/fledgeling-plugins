@@ -1062,3 +1062,26 @@ the **exit codes disagreeing with the output**.
 Same failure as building a comparison tree with `git archive` and getting manufactured
 provenance errors — reached from the opposite direction, by a session that had just been
 warned about it.
+
+## A document that quietly heals reads as though it was never wrong (23 Aug 2026)
+
+An edit inserted a note **between** two sentences that belonged together — "a real interrupted
+connection end to end" and "Producing one needs a daemon killed mid-request" — so the second
+read as though it were about something else entirely. The repair rejoined them **and said so
+in the text**, rather than closing the gap silently.
+
+That is the right instinct and it generalises past documents: a correction that leaves no
+trace is indistinguishable from a document that was always right, and the next reader inherits
+neither the fix nor the reason for it. The same discipline as keeping a withdrawn changelog
+line with a dated withdrawal beneath it, and as putting a census correction in the commit
+message rather than only the corrected number.
+
+## A failed edit that changes nothing beats a fuzzy match that changes the wrong line
+
+A scripted edit asserted on an anchor that no longer matched, and **wrote nothing**. That is
+the behaviour to want. An edit tool that falls back to a near match will eventually change a
+line nobody looked at, and the failure is silent because the file still parses and the diff
+still looks plausible.
+
+Assert the anchor; let the edit fail loudly. This is the same rule as *a mutation that did not
+apply is not a measurement*, applied to authoring rather than to testing.
