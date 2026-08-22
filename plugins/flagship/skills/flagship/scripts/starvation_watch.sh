@@ -177,6 +177,8 @@ while true; do
   # Never `df -h /` — that is the read-only system volume and reads ~5% against
   # a data volume at 87%, wrong by an order of magnitude in the reassuring direction.
   diskpct=$(df -P /System/Volumes/Data | awk 'NR==2{gsub("%","",$5);print $5}')
+  cpu_pressure=$(python3 "$BERTHS" 2>/dev/null \
+    | python3 -c 'import sys,json;print(json.load(sys.stdin).get("pressure",{}).get("cpu",""))' 2>/dev/null)
 
   # WHICH FIGURE DESCRIBES THE MACHINE RIGHT NOW.
   # max(1m,5m) is the right conservative input for a GO decision, and the wrong one
@@ -190,7 +192,17 @@ while true; do
   recovering=$(echo "$per1 $per" | awk '{print ($2>0 && $1 < $2*0.6)?1:0}')
   [ "$recovering" = 1 ] && state_per="$per1" || state_per="$per"
 
-  hot=$(echo "$state_per $HOT_PER_CORE"  | awk '{print ($1>$2)?1:0}')
+  # OVERLOADED comes from harbourmaster's own cpu pressure, not from a load number
+  # invented here. `critical` is what actually collapses the berth ceiling and refuses
+  # admission; a load threshold picked by hand fires on a machine that is merely busy
+  # and teaches its reader to ignore it. Measured: 3.45 per core with memory healthy,
+  # zero swap and three berths free was reported OVERLOADED and warranted nothing.
+  # Falls back to the load threshold only when pressure cannot be read.
+  if [ -n "$cpu_pressure" ]; then
+    hot=$([ "$cpu_pressure" = "critical" ] && echo 1 || echo 0)
+  else
+    hot=$(echo "$state_per $HOT_PER_CORE" | awk '{print ($1>$2)?1:0}')
+  fi
   idle=$(echo "$state_per $IDLE_PER_CORE $active $MIN_ACTIVE" | awk '{print ($1<$2 && $3<$4)?1:0}')
 
   [ "$hot"  = 1 ] && streak_hot=$((streak_hot+1))   || streak_hot=0
@@ -236,7 +248,7 @@ while true; do
 
   if [ -n "$state" ] && [ "$state" != "$prev" ]; then
     _basis=$([ "$recovering" = 1 ] && echo "1m, recovering" || echo "max(1m,5m)")
-    echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), judged on ${_basis}, disk ${diskpct}%"
+    echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), judged on ${_basis}, cpu ${cpu_pressure:-unknown}, disk ${diskpct}%"
     prev="$state"
   fi
   # N iterations and out, so the detectors can be exercised without a watch.
