@@ -248,7 +248,7 @@
     {
       "name": "test-campaign",
       "description": "Run a complete UI test campaign against an application and leave behind a living evidence page \u2014 coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first \u2014 Overview, PRD, feature specs, design md and the latest mock UIs \u2014 so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface \u00d7 state \u00d7 viewport \u00d7 theme \u00d7 role \u00d7 locale \u00d7 data shape \u00d7 modality \u00d7 execution plane \u00d7 oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a requirement claiming the product acts outside itself \u2014 spawning a process, opening a socket, writing a filter rule \u2014 must name an independent witness to that effect or be recorded vacuous, because a campaign once armed 220 cases and verified a network policy over a product with no network client in its dependency tree; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.",
-      "version": "0.9.8",
+      "version": "0.9.9",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -271,7 +271,7 @@
       "name": "shipyard",
       "source": "./plugins/shipyard",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "category": "development"
     },
     {
@@ -285,14 +285,14 @@
       "name": "ship-feature",
       "source": "./plugins/ship-feature",
       "description": "End-to-end feature delivery conductor: one feature from rough idea to merged, cross-family-verified production code by conducting the shipyard stages - intake, triage, plan in parallel with design, work, the deferred loop, gap-fix, acceptance-e2e, verify (the only path to Done), and a fail-closed merge with a decided-in-advance rollback. Holds the thread in-session, defers decisions through the second-opinion lanes instead of stalling on questions, and treats every stage artifact as the resumable memory.",
-      "version": "2.3.2",
+      "version": "2.3.3",
       "category": "development"
     },
     {
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.4.2",
+      "version": "2.5.0",
       "category": "development"
     },
     {
@@ -429,7 +429,7 @@
     {
       "name": "code-review",
       "description": "A diff review that reports what it could not check. Finds with fourteen named angles that are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged; verifies with three verdicts, where realistic-but-unproven stays in as PLAUSIBLE rather than being dropped with the noise, and only REFUTED leaves; then closes with a coverage ledger naming every angle, checklist and gate that never ran, and why. Learns the target repository at runtime rather than carrying a hard-coded project map \u2014 gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep \u2014 so a candidate naming a framework the repo does not install is refuted from evidence rather than from a constant somebody wrote into a skill. Three depths, each printing its own budget line at the top of the report so what ran is visible rather than inferred; areas and ten focus lenses that compose; checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, routed by path and lens; sharding above a size threshold with the fan-out reconciled against the bucket list, because a harness that loses an agent reports the wave complete. One verifier vote rather than a judge panel, on the measurement that panels saturate at about two effective votes. Read-only on source: it reports findings and does not apply fixes. Carries a token-light prepush gate on the outgoing diff.",
-      "version": "1.2.2",
+      "version": "1.2.3",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

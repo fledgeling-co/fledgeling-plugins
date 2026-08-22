@@ -49,8 +49,20 @@ while (done.size + parked.size < args.items.length) {
     try { slots = Math.max(1, JSON.parse(sh(`${HM}/berths.py`)).available) }
     catch { log('harbourmaster unreadable — falling back to 8 slots') }
   }
+  // Hand the resolved path DOWN. A runner cannot re-derive it: a spawned agent
+  // does not reliably inherit CLAUDE_PLUGIN_ROOT, so the `find` in ship-feature's
+  // and shipyard:work's machine-admission block returns nothing and the runner
+  // reports harbourmaster as not installed on a machine that has it. That is why
+  // fleets have shipped with every build unwrapped while the governor sat idle.
+  const berth = HM
+    ? `Machine admission: harbourmaster's scripts are at ${HM}. Export `
+      + `HARBOURMASTER_SCRIPTS=${HM} and wrap every build and test step with `
+      + `"$HARBOURMASTER_SCRIPTS/governor-run" at the weights your stage skill gives. `
+      + `Do not re-resolve this path; the find in your skill will come back empty.`
+    : `Machine admission: harbourmaster is not installed here. Run builds and tests `
+      + `unwrapped and say so once.`
   for (const item of ready().slice(0, slots - running.size))
-    running.set(item.id, agent(runnerPrompt(item), {label: item.id, model: 'opus', effort: 'high', agentType: 'claude'})
+    running.set(item.id, agent(`${runnerPrompt(item)}\n\n${berth}`, {label: item.id, model: 'opus', effort: 'high', agentType: 'claude'})
       .then(report => ({item, report})))
 
   // Nothing ready and nothing running means the remainder is blocked behind items

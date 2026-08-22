@@ -54,6 +54,14 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
   waves multiply into the same rate limiter — budget the product (default: slots × wave ≤ ~16;
   8 slots means telling runners to run leaner waves, or run 4–6 slots at full width). Confirm
   fleet size with the user at the go-ahead.
+- **Take the slot count from `harbourmaster`.** Its `berths.py` reports what this Mac can carry
+  right now, and the loop re-reads it on every refill because pressure moves under a long fleet.
+  The 8 above is what an uninstalled or unreadable governor falls back to, not the starting
+  number. Resolve its path once in the conductor and pass that path into every runner's brief —
+  a spawned agent does not reliably inherit `CLAUDE_PLUGIN_ROOT`, so a runner that re-derives
+  the path finds nothing and reports harbourmaster missing on a machine that has it.
+  `references/scheduling-and-concurrency.md` carries the resolution, the hand-down, and the
+  soft-fail. Say in the go-ahead which slot count you used and whether it was measured.
 - **Never destroy unmerged work.** Cleanup removes only the provably merged or empty; unique
   commits queue for resume or go to the user.
 - **Report thinly; artifacts terse.** ORCHESTRATOR.md is rows and statuses, never prose.
