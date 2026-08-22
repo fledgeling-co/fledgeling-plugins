@@ -6,32 +6,42 @@ and through `scripts/lane_pick.py`, which reads the same policy from
 selftest fails — which is the point, because a policy in two places drifts and
 the drift is silent.
 
+This file is the *policy* half: which lanes may do which class of work. The
+*capability* half — which of those lanes is good enough for a particular piece,
+measured rather than asserted — is `capability.md`.
+
 ## The matrix
 
 | Task class | Lane | Model | Effort | Chosen by |
 |---|---|---|---|---|
-| **Implementation** — writing code | gemini · grok · glm · opus | `gemini-3.7-flash-high` · `grok-4.6` · `glm-5.3` · `claude-opus-5` | high · **xhigh** · high · xhigh | measured headroom |
-| **Completeness critic** | grok · glm · gemini | as above | **xhigh** · high · high | measured headroom |
-| **General** — anything neither referred nor a verdict | codex-terra | `gpt-5.6-terra` | **high** | fixed |
+| **Implementation** — writing code | codex-sol-high · codex-terra-max · codex-terra-medium · gemini · grok · glm · opus | `gpt-5.6-sol` · `gpt-5.6-terra` · `gpt-5.6-terra` · `gemini-3.7-flash-high` · `grok-4.6` · `glm-5.3` · `claude-opus-5` | high · **max** · medium · high · **xhigh** · high · xhigh | shape, then measured headroom |
+| **Completeness critic** | grok · glm · gemini | `grok-4.6` · `glm-5.3` · `gemini-3.7-flash-high` | **xhigh** · high · high | measured headroom |
+| **General** — anything neither referred nor a verdict | codex-terra · codex-terra-medium | `gpt-5.6-terra` | **high** · medium | shape, then fixed |
 | **Referral** — a decision put to another model | codex-sol · fable | `gpt-5.6-sol` · `claude-fable-5` | **medium** · **high** | fixed |
 | **Verification** — task and same-family | opus | `claude-opus-5` | **xhigh** | fixed |
 | **Design review** | opus · fable | `claude-opus-5` · `claude-fable-5` | xhigh · high | fixed |
 
 Three rules sit above the table and hold everywhere:
 
-- **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium`.
-  Anything that is not a referred decision goes to `gpt-5.6-terra` at `high`
-  instead, which is the same context window at a fraction of the price.
+- **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
+  the implementation lane at `high`. Anything that is not a referred decision
+  goes to a terra lane or to `codex-sol-high`. The benchmark ranks `sol@max`
+  second overall and tied with opus; the rule stands anyway, because `sol@high`
+  holds 63.8 of that 66.6 at half the price. `capability.md` carries the figures
+  if the rule is ever revisited.
 - **Fable judges; it does not verify.** A referred decision, a fork, a design
   call — yes. Grading code against a ticket, or a delivered feature against its
   acceptance criteria — no: that is `claude-opus-5` at `xhigh`.
 - **Design review stays inside Anthropic's family.** Opus and Fable only. No
   other family reviews rendered UI here.
 
+The five codex lanes share one account, so they share one meter. Adding an effort
+variant buys a cheaper lane, never more headroom.
+
 ## Running a lane
 
-`lane_pick.py --task <class>` prints the argv and the environment for the lane it
-chose. The templates it prints are these:
+`lane_pick.py --task <class> [--shape <shape>]` prints the argv and the
+environment for the lane it chose. The templates it prints are these:
 
 ```bash
 # gemini — effort is baked into the model id; there is no --effort flag
@@ -50,7 +60,13 @@ ANTHROPIC_CUSTOM_HEADERS="X-Perch-Binding: glm" \
 # codex — -o is not optional; an absent or empty file is the failure signal
 codex exec -m gpt-5.6-terra -c model_reasoning_effort="high" \
   -s read-only -o /tmp/lane.md "<prompt>" < /dev/null
+codex exec -m gpt-5.6-terra -c model_reasoning_effort="max" \
+  -s read-only -o /tmp/lane.md "<prompt>" < /dev/null
+codex exec -m gpt-5.6-terra -c model_reasoning_effort="medium" \
+  -s read-only -o /tmp/lane.md "<prompt>" < /dev/null
 codex exec -m gpt-5.6-sol -c model_reasoning_effort="medium" \
+  -s read-only -o /tmp/lane.md "<prompt>" < /dev/null
+codex exec -m gpt-5.6-sol -c model_reasoning_effort="high" \
   -s read-only -o /tmp/lane.md "<prompt>" < /dev/null
 
 # claude
@@ -93,7 +109,10 @@ Gemini, Opus and Fable are live.
 ## Substitution
 
 When a lane is down, `lane_pick.py` picks the next one that still has headroom
-inside the same task class. Two invariants survive every substitution:
+inside the same task class. Where a shape was given, it descends the capability
+bands in order — drop-in, then guarded, then the reference lane — and it
+descends on two conditions only: the band is empty, or every lane in it is at its
+cap. Three invariants survive every substitution:
 
 - **REVIEWER ≥ WRITER.** Lowering a reviewer's effort keeps the invariant;
   lowering its model breaks it.
@@ -101,6 +120,9 @@ inside the same task class. Two invariants survive every substitution:
   makes this checkable: `xai`, `google`, `zai`, `openai`, `anthropic`. When every
   out-of-family lane is down, verification still runs in-family and is **recorded
   as degraded**, never quietly promoted.
+- **A refused lane stays refused.** A spent band never promotes a lane the
+  capability matrix graded RED for that shape. The descent ends at opus, never
+  below it.
 
 Work never routes down to a cheaper sibling to get around a limit, and it is
 never dropped. Claude is the fail-back.
