@@ -247,10 +247,17 @@ room* — and ask for the ceiling rather than assuming there is none.
   rising 5m crosses any threshold on the way up as well as on the way down, and only one of
   those is safe. The falling signature is the 1-minute dropping *below* the 5-minute; that is
   a peak that has passed.
-- **The conductor-level fact that no per-session reading can see: a quiet machine plus ten
-  peers being told it is quiet is not a quiet machine.** The trough is a trough only because
-  nobody has started yet. This is not fixed by a better sampling window — a shared-capacity
-  clearance has to account for the sessions receiving it. Measured, and it is this skill's
+- **A release is not a measurement problem. It is a coordination problem, and no sampling
+  window fixes it.** *The number you measure is invalidated by the act of acting on it,
+  because the load you are clearing against does not include the sessions you are about to
+  start.* Five idle sessions at 0.87 per core are not five sessions' worth of headroom; they
+  are five sessions that will each fan out. **Stagger the release, or release one and
+  re-measure after it has spun up.** Measured twice in one night by this skill's own author,
+  in both directions: eleven cleared on a 3.67 reading gave load 151 within the hour, and
+  seven cleared on 13.91 gave **1m 401 → 442 → 475, ratio 5.6, ceiling collapsed to 3** in
+  under six minutes. Both readings were real. The second happened *after* the first was
+  written into this file as a rule, because the rule was filed under "sample better" and the
+  problem was never sampling. Measured, and it is this skill's
   own author's error: eleven idle sessions cleared to fan out on a single 3.67 reading, and
   within the hour load 151 across 16 cores, cpu pressure critical, the berth ceiling
   collapsed from 10 to 3. Two sessions had independently measured the same 3.67 and it was
