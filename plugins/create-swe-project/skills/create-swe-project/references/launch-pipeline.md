@@ -21,9 +21,9 @@ When the panel settles:
 
 ## Phase B — seed the feature backlog (immediately, from the owner's context)
 
-From the idea and interview answers, write the first briefs into `docs/features-to-triage/` using `BRIEF-TEMPLATE.md` (name: `<ID_PREFIX>-<slug>.md`), and add index rows to its README. Seed only what the owner actually described plus the structural certainties (e.g. "port the marketing mock into apps/web" is always the first web brief once Phase M runs). 5–12 briefs is the usual seed; don't pad.
+From the idea and interview answers, write the first briefs into `docs/features-to-triage/` using `BRIEF-TEMPLATE.md` (name: `<slug>.md`), and add index rows to its README. The template is the format the `intake` skill writes, so a brief seeded here and a brief intake adds later read the same. Seed only what the owner actually described plus the structural certainties (e.g. "port the marketing mock into apps/web" is always the first web brief once Phase M runs). 5–12 briefs is the usual seed; don't pad.
 
-**After Phase R lands**, revisit: revise briefs the research contradicts, add the briefs the research surfaces (competitor table-stakes, gaps worth owning), and cite the report + section in each brief's **Source** line. Ledger IDs stay unallocated — triage owns that write.
+**After Phase R lands**, revisit: revise briefs the research contradicts, add the briefs the research surfaces (competitor table-stakes, gaps worth owning), and cite the exported report on each brief's `research:` line. A brief the research surfaced rather than the owner asking for it carries `proposed-by-ai: true`, so the owner vetoes an idea by deleting the file instead of answering a question. Ledger IDs stay unallocated — triage owns that write.
 
 The generated CLAUDE.md carries the standing rule: **every future feature request lands as a brief here first**, then `ship-feature` (one) or `ship-fleet` (backlog) runs on it.
 

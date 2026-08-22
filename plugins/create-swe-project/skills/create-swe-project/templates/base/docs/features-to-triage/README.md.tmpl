@@ -1,19 +1,20 @@
 # {{DISPLAY}} — Features to triage
 
-Rough, triage-ready feature briefs. Each file is a **starting point for the triage → plan → work pipeline** (ship-feature / ship-fleet), not a finished spec — triage expands assumptions and open questions.
+Rough, triage-ready feature briefs. Each file is a **starting point for the triage → plan → work pipeline** (ship-feature / ship-fleet), not a finished spec — triage grounds every surface in the codebase and sharpens the acceptance sketch into criteria.
 
 **The rule (also in CLAUDE.md): every new feature request lands here FIRST** as a brief (copy `BRIEF-TEMPLATE.md`), then the pipeline runs on the brief. Never build a feature straight from chat — the brief is what makes the work resumable, reviewable, and visible to the orchestrators.
 
-IDs: briefs are named `{{ID_PREFIX}}-<slug>.md`; formal ledger IDs are allocated at triage (a serialized write — don't self-allocate). Grounding: cite `docs/deep-research/` reports and `OVERVIEW.md` where a brief's claims come from research rather than the owner's ask.
+The template is the format the `intake` skill writes, so a brief you write by hand and a brief intake generates are the same shape. Files are named `<slug>.md`; formal ledger IDs are allocated at triage (a serialized write — don't self-allocate). A brief marked `proposed-by-ai: true` is an idea nobody asked for: delete the file to veto it. Where a claim comes from research rather than the owner's ask, cite the exported report on the `research:` line.
 
-## How to read the `Pipeline` field
+## Native features and what the pipeline can prove
 
-- **`web-pipeline`** — buildable/testable by the web pipeline (design-craft → triage → plan → work → Playwright acceptance).
-- **`native / logic-only`** — pure Swift/Rust logic, fully verifiable off-device (`swift test` / `cargo test`).
-- **`native / device-gated`** — needs a real device/simulator or signing to fully validate; the pipeline still delivers mocks + tested logic, on-device validation is a tracked follow-up.
+A brief whose `platforms:` line names `mac`, `iphone` or `ipad` sits in one of two lanes, and which one belongs in the brief's assumptions:
+
+- **Logic-only** — pure Swift/Rust logic, fully verifiable off-device (`swift test` / `cargo test`).
+- **Device-gated** — needs a real device, a simulator, or signing to fully validate. The pipeline still delivers mocks and tested logic; on-device validation is a tracked follow-up rather than part of the same run.
 
 ## Index
 
-| Brief | Surface | Pipeline | Priority |
+| Brief | Platforms | Origin | Proposed by AI |
 |---|---|---|---|
 | *(add a row per brief)* | | | |
