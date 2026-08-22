@@ -696,3 +696,41 @@ The right response is not to wait but to **sample the ceiling and run only once 
 can actually be granted** — one session armed a retry outside itself that checks every three
 minutes. And a gate that could not be admitted **is not a gate that passed**: an item whose
 suite owes a re-run stays unmerged rather than inheriting its previous green.
+
+## `du` answers two questions and only one of them is yours (23 Aug 2026)
+
+A session sizing its own lanes measured **1.4GB each** as a `df` delta across five fresh
+installs — the honest *marginal* cost. `du -sh` on any individual worktree reports
+**4.2–5.8GB**, and the parent tree 48GB. Both measured, neither wrong.
+
+The gap is pnpm hardlinking into a shared store: **per-directory `du` counts hardlinked
+content in full for every tree it walks**, while the bytes an additional lane actually
+consumes are the marginal figure.
+
+So the same command produces opposite errors depending on the question:
+
+| Question | `du` says | Reality |
+|---|---|---|
+| "Can I afford eight more lanes?" | ~40GB — refuse work it could do | ~11GB |
+| "How much do I get back by deleting them?" | ~40GB — expect space that will not arrive | ~11GB |
+
+**Ask which question you have before choosing the command.** Marginal cost is a `df` delta
+across a real install; reclaimable space is a `df` delta across a real delete. A per-directory
+size is neither.
+
+Same family as the rest: a number that looks like it names the thing it means. The session
+also flagged that it could not complete the sum-of-parts proof because **`du` itself timed out
+at 24 per core** — so the two figures are measured and the mechanism connecting them is
+inference, which is the right way to report it.
+
+## A wrapped cleanup can outlive the process that needed it (23 Aug 2026)
+
+The runaway `cp -R //.` left a 43GB partial copy of the root volume in `/var/folders`. Nobody
+deleted it: the harness's own `rm -rf "$W"` fired when the leg died, and the directory drained
+43GB → 18GB on its own while the disk recovered 183GiB → 209GiB free.
+
+Two things worth carrying. **Check before you reclaim** — a conductor about to `rm -rf` 43GB
+by hand would have raced a cleanup already running, on a path built from the same empty
+variable that caused the incident. And **a disk trend is not fleet load**: this one read as
+evidence of seven sessions working and was one buggy `cp`, and it was quoted upward as
+capacity pressure before anyone looked at what was writing.
