@@ -503,3 +503,44 @@ all, and a mutation restoring the old behaviour passed every test that existed.
 
 Count the properties the change has, arm each one, and report the count. Four mutations were
 needed where one was run.
+
+## Fix the join, do not fabricate the citations (23 Aug 2026)
+
+An item filed to fix a 12.8% join rate was about to do the wrong thing, and the correction is
+the general one. Measured on that repo's 117 briefs: **13 cite a campaign-registry id, 91
+(77.8%) cite a PRD requirement id**, and 115 cite a sibling item. The reckoning joins on the
+**registry's** id space while the brief template mandates the **PRD's**. The briefs are doing
+exactly what the convention asks and the instrument cannot read it.
+
+So the fix is to join on the id space three quarters already carry, **not** to add citations
+to 117 briefs — that fights the repo's own convention to satisfy a tool, and it is 117 edits
+that go stale. Where a join rate is low, ask **which id space the population actually uses**
+before concluding the population is under-cited.
+
+Two constraints came with it, both worth carrying:
+
+- **The existing bridge resolved by line number** — 18 of 32 rows pointed at a PRD line and
+  only 11 resolved — which another item had already recorded as drifted. Never build a join
+  on a positional reference.
+- **A better join rate must not silently promote anything to done.** Source evidence may
+  demote a claim, never promote one. A join that retires items quietly is worse than the low
+  rate it replaced.
+
+## Attack a claim, do not check a list (23 Aug 2026)
+
+A round-1 verifier found a live-deletion hole by **trying four attacks, three of which held**.
+A location environment variable outranked the signed bundled binary, so a four-line shim armed
+live deletion with both arming variables absent — and a comment three lines above asserted
+that could not happen. No checklist finds that; the comment would have satisfied it.
+
+Two siblings from the same wave:
+
+- **A verifier that builds a stronger plant than the round did.** One disabled a guard
+  outright rather than widening its regex, and found ten cases stayed green under *both* — so
+  they cannot detect the **total absence** of the layer they are named for. Sharper than "they
+  did not bind it", and the same hole the one-mutation-one-property rule protects against,
+  reached from the other end.
+- **A restatement that swapped the denominator without saying so**, keeping the numerator's
+  name and dropping a rate from 20.5% to 16.7%. Both figures were correct for their own
+  population. A census read as another census — inside the item whose subject was exactly
+  that.
