@@ -91,11 +91,19 @@ Write one of these three forms:
 | You consume the brief, deleting it from the queue | ``**Brief:** `docs/features-to-triage/<slug>.md` @ `<sha>` `` |
 | The feature was never a brief | `**Brief:** none. <what it came from>` |
 
-For the second form take `<sha>` from `git rev-parse --short HEAD` *before* the commit that deletes
+For the second form take `<sha>` from `git log -1 --format=%h -- <path>`: the commit that last wrote
 the brief, so the citation records the commit that still holds it rather than a path that no longer
-resolves. A citation nobody can open is worth what no citation is worth: one repository shipped four
-specs citing briefs the same commit had deleted, and every check it had passed all four, because
-presence and resolution are two claims and it only made the first.
+resolves. Read it before the commit that deletes the file. `git rev-parse --short HEAD` looks like
+the same thing and is not — on a branch that is later squash-merged or rebased, the HEAD you cited
+is orphaned and the reference dies on every clone, while the commit that filed the brief is usually
+already on the integration branch. Where the brief was filed on this same unmerged branch the two
+are the same commit and the citation is only as durable as that branch, so say so in the spec.
+
+A citation nobody can open is worth what no citation is worth: one repository shipped four specs
+citing briefs the same commit had deleted, and every check it had passed all four, because presence
+and resolution are two claims and it only made the first. The brief's text is copied verbatim into
+the spec's `## Feature description` at the same moment, so the content survives the citation; the
+`@ <sha>` is what lets a reader find the original in history rather than the only copy of it.
 
 For the third form, name the artifact — the research document, the wave report, the campaign report,
 or the request and where it was recorded. `none` on its own says what a missing line says.
