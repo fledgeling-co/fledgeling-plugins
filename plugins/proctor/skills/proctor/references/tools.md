@@ -8,7 +8,9 @@ captured runs.
 
 ## What gets advertised, and what it costs
 
-The server ships **20 tools** and advertises a subset chosen by the shim's
+The server ships **21 tools** — the count is `ToolCatalogue.all` in
+`Sources/ProctorCore/ToolCatalogue.swift`, which is where to re-read it when this
+page and the server disagree — and advertises a subset chosen by the shim's
 `--profile` flag. The catalogue is re-sent on every turn and survives context
 compaction, so it is a standing cost paid before any work happens:
 
@@ -17,26 +19,39 @@ compaction, so it is a standing cost paid before any work happens:
 | `ax` | `apps` `snapshot` `find` `menu` `act` `wait` `assert` `doctor` | 8 | — |
 | `core` | + `capture` `zoom` | 10 | 6.8k tokens |
 | `scripting` | + `flow` `stability` `dictionary` | 13 | — |
-| `full` | + `inspect` `policy` `kill` `unlock` `ios` `computer` `openai_computer` | 20 | — |
+| `full` | + `inspect` `policy` `kill` `unlock` `ios` `guest` `computer` `openai_computer` | 21 | — |
 
 The profiles nest: `ax ⊂ core ⊂ scripting ⊂ full`. `core` is the ten that
 actually drive a Mac and is the right default. `ax` drops capture and zoom, so
 take it only when the campaign will never look at a pixel. Widen to `scripting`
-for flows and determinism runs, and to `full` for the iOS lane, `inspect`, the
-policy gate, `kill`, and the CUA schema façades.
+for flows and determinism runs, and to `full` for the iOS lane, the guest lane,
+`inspect`, the policy gate, `kill`, and the CUA schema façades.
 
-`proctor_ios` is in `full` only, which is worth knowing before planning an iOS
-campaign against a host launched with `--profile core`.
+`proctor_ios` and `proctor_guest` are in `full` only, which is worth knowing
+before planning an iOS or guest campaign against a host launched with
+`--profile core`.
 
-This page documents the tools a campaign uses directly. Five more exist and are
-named here rather than specified, because their schemas belong to the profiles
-that advertise them: `proctor_policy` and `proctor_kill` (the policy gate and
-process control), `proctor_dictionary` and `proctor_unlock`
-(scripting-dictionary introspection and the unlock path), and
-`proctor_computer` / `proctor_openai_computer` (the CUA schema façades, which
-exist so a model trained on Anthropic's or OpenAI's computer-use schema can
-drive Proctor without translation). Read the live catalogue for their arguments
-rather than guessing.
+This page specifies the 15 tools a campaign uses directly. Six more are named
+here rather than specified, because their schemas belong to the profiles that
+advertise them: `proctor_policy` and `proctor_kill` (the policy gate and process
+control), `proctor_dictionary` and `proctor_unlock` (scripting-dictionary
+introspection and the unlock path), and `proctor_computer` /
+`proctor_openai_computer` (the CUA schema façades, which exist so a model trained
+on Anthropic's or OpenAI's computer-use schema can drive Proctor without
+translation). Read the live catalogue for their arguments rather than guessing.
+Fifteen plus six is the 21 above.
+
+### Four names that look like tools and are not
+
+`proctor_hud`, `proctor_queue`, `proctor_recent_activity` and `proctor_resource`
+appear in Proctor's source and in its logs. They are internal verbs — Proctor's
+own window talking to Proctor's own agent — and none is in `ToolCatalogue`. The
+shim gates `tools/call` on the catalogue, so calling one returns
+`no such tool: proctor_hud` rather than reaching the agent. That gate is what
+stops an MCP client putting a person's Pause, Resume and Stop away or reading
+their activity feed, so treat a `proctor_*` name that is absent from this page as
+internal rather than as an omission, and read `ToolCatalogue.all` when you need
+to settle which it is.
 
 ## `proctor_doctor`
 
@@ -815,6 +830,105 @@ reaches a simulated device, and nothing in this catalogue gives an iOS target th
 tree, elements or geometry the Mac tools give a window. Plan the iOS half of a
 campaign around the verdicts above rather than around what the Mac lane can do.
 
+## `proctor_guest`
+
+Reaching a virtual machine this Mac can already see, and attaching a session to
+one so the campaign runs inside it. `--profile full` only. It needs `lume`,
+`prlctl` or `tart` — any one of the three is enough, and `doctor` carries a guest
+lane row naming which of them this machine has.
+
+| Argument | Type | Default | Notes |
+|---|---|---|---|
+| `action` | `list` \| `status` \| `start` \| `stop` \| `clone` \| `reach` \| `attach` \| `detach` | `list` | |
+| `guest` | string | — | A `gst-` handle from `list`, or the name you type at lume, prlctl or tart. Required for `status`, `start`, `stop` and `clone`. Ambiguity across providers is an error naming the candidates rather than a guess. |
+| `provider` | `lume` \| `prlctl` \| `tart` | — | Which adapter to use when a name is held by more than one. Omit when the handle already names one, or when only one provider has that name. |
+| `newName` | string | — | The name of the copy, for `clone`. Required there. The source is untouched. |
+| `host` | string | — | Where SSH should land, for `reach`. A hostname, a Tailscale MagicDNS name, or the guest's IP. Required for `reach`. |
+| `user` | string | the local account's | SSH user, for `reach`. |
+| `remoteSocket` | string | the standard install path under Application Support | The guest agent's unix socket, as it appears on that machine. |
+| `localSocket` | string | a per-guest path under Application Support | Where the host-side shim should connect for `reach`; for `attach`, the already-forwarded socket to attach through. |
+
+All three providers are in the `provider` enum. `tart` was added in PRO-0094;
+before that a caller naming it was refused by schema validation before reaching
+the adapter, which is why the lane was reported for a while as lume and prlctl
+only.
+
+**A guest handle is not a window handle, and the difference is not cosmetic.** A
+handle looks like `gst-` plus a short hash. `proctor_snapshot`, `proctor_find`,
+`proctor_assert`, `proctor_act` and `proctor_capture` refuse one by name, because
+a guest is a different machine. Observation and actuation against it go through
+the Proctor running inside it, not through a window handle on this Mac.
+
+**Nothing here provisions a guest.** `list`, `status`, `start`, `stop` and
+`clone` operate on a virtual machine that already exists. Creating one, granting
+Accessibility and Screen Recording inside its Aqua session, and cloning that
+granted image are things a person does with the provider's own CLI, because an
+install must not happen as a side effect of a tool call and because agent and
+daemon calls cannot raise macOS permission UI — SSH is not the foreground Aqua
+session that owns the visible desktop. Grant once by hand, then clone; that is
+the whole of the grants story, and `clone` is its reproduction step rather than
+a way to mint a fresh ungranted machine.
+
+**The eight actions.** `list` enumerates the guests the providers can see
+and touches nothing. `status` reads one. `start` and `stop` change power state
+and then re-read it. `clone` copies a named guest to `newName`. The three
+mutating actions are audited under `proctor_guest.start`, `.stop` and `.clone`.
+
+`reach` returns a recipe for talking to a Proctor already running on another
+Mac: an SSH StreamLocal forward onto that agent's unix socket, with
+`PROCTOR_SOCKET` pointed at the local end. The result is `localSocket`,
+`remoteSocket` and `host` — never a shell command, because a tool result
+carrying `ssh -L` would be an instruction a model with a shell would run.
+Proctor does not open the tunnel, and a socket nothing is listening on is a
+refusal rather than an attempt to create one. The same recipe reaches a remote
+Mac over Tailscale, with no guest in between. Delegated guests have no Proctor
+socket and are refused here.
+
+`attach` points this session at a macOS guest, and the session's later tool calls
+then run inside that guest, forwarded over that socket. The Proctor there holds
+that machine's Accessibility and Screen Recording grants and talks to its window
+server; this Mac actuates nothing on the guest session's behalf. A session whose
+link is down is refused with the guest named rather than quietly run here, since
+a verdict about the wrong machine is the outcome this must not produce.
+`proctor_guest`, `proctor_doctor`, `proctor_policy` and the history and queue
+verbs keep answering about this Mac. `detach` points the session back, and stops
+the guest only if Proctor started it.
+
+**Two macOS guests may run at once, and that is Apple's number rather than a
+setting.** Attaching takes a slot in a counted pool; a third waits in the queue
+with its position and depth, exactly as a busy Mac lane does, and is never
+granted by stopping somebody else's guest. One session drives one named guest, so
+a second session naming the same guest waits for it even when a slot is free.
+`proctor_doctor`'s guest lane reports the pool.
+
+**Two tiers.** A macOS guest is a native witness: the Proctor inside it has frame
+status, the accessibility tree and the tri-observer check. A Linux or Windows
+guest is delegated — actuation and screenshots only — and every tree-reading
+assertion against one is skipped with a reason rather than passed.
+
+**`status` and the macOS version.** It reports `osVersion` where that can be
+established and `unknown` with the reason where it cannot, and `unknown` is the
+common answer. No provider records a guest's OS version in its listing, so the
+only source is the machine itself: the version is what the Proctor inside the
+guest said over an attach link this session already holds. It is never inferred
+from the image name, the provider or the platform — a guest called
+`macos-sequoia-cua` is evidence of what somebody typed.
+
+**The Tahoe warning is an open report, not a settled property.** Tahoe guests
+were reported to render no application windows — trycua/cua #870 and Apple
+FB21748086, both still open — but on 2026-08-21 Proctor drove a macOS 26.6.2
+guest in which Calculator, System Settings and Setup Assistant all rendered
+normally (`docs/specs/spec-PRO-0076.md`). One guest on one host at one version
+refutes nothing; weigh it as a measurement against two open reports rather than
+treating either side as settled.
+
+**Over its neighbour:** `proctor_apps` attaches to a process on this Mac and
+`proctor_guest` attaches to a machine. Reach for a guest when the campaign needs
+a machine in a known state, a pinned macOS version, or a run that does not touch
+the session somebody is working in. When the app under test is here and the
+desktop can be borrowed, the host lane is simpler and has no pool to wait for.
+
+---
 ---
 
 ## Reading results honestly
