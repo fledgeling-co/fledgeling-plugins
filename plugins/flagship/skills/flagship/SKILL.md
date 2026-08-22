@@ -400,6 +400,14 @@ interesting. `references/decisions.md` carries R1–R5 in full plus what is actu
   deleting, spending, mutating production, anything that reaches a person.
 - **Refer before escalating.** A technical fork goes out-of-family first. Escalation is what
   remains after that.
+- **Bundle what chains, and never bundle what does not.** Two decisions that genuinely depend
+  on each other are one decision and should arrive together — presenting a credential
+  alongside the route that would use it turns *"should I put an admin key on disk for a thing
+  that may not work"* into one clean call. **An independent cheap decision folded into that
+  sequence is buried**: the operator may well want to say yes to the one-word question and
+  think about the expensive one, and bundling denies them that. Measured tonight: three items
+  were carried up as one sequence when only two chained, and the third was reversible disk
+  hygiene on already-merged branches, answerable in a word.
 
 And one measured fact that changes how you apply all of them: **a third of what the operator's
 exact-match store recovers was first typed in a different project.** Precedent is global.
