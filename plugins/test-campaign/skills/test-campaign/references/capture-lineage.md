@@ -96,7 +96,7 @@ capture with a `subject` and no `target` is exactly the unsourced figure
 
 ## The gate ladder
 
-`capture-lineage.py` runs four passes, each of which can end the run. They are
+`capture-lineage.py` runs five passes, each of which can end the run. They are
 ordered cheapest-first and every one is exact — no pass on this ladder needs a
 model, and that is deliberate: a judgement inserted here would be the thing the
 ladder exists to make unnecessary.
@@ -127,15 +127,39 @@ image is not a near-miss; it is a capture step that ran once and was filed four
 times.
 
 A legitimate share exists — one window genuinely serving two surfaces — and it is
-declared in the entry as `"sharesWith": ["SURF-004"]` with a reason. Undeclared
-sharing fails; declared sharing passes and prints, so the reader sees that the
-wall has fewer distinct pictures than it has cells.
+declared in the entry as `"sharesWith": ["SURF-004"]` with a `sharesReason`.
+Undeclared sharing fails; declared sharing passes and prints, so the reader sees
+that the wall has fewer distinct pictures than it has cells.
 
-**4 · Unjudged.** A capture rendered on the evidence page with no `be-my-witness`
+The declaration is written into the registry this pass reads, so on its own it
+lets a capture authorise its own duplicate. Three things are therefore required
+and the third comes from outside the declaration: every member names every other
+member, every member records a non-empty `sharesReason`, and the target the
+channel recorded at capture time is the same address for all of them (falling
+back to the subjects' declared routes where no target was recorded). Two
+shutters pointed at two addresses that happen to produce identical bytes is the
+case this catches, and it is the case a declaration alone cannot distinguish
+itself from.
+
+**4 · Unaccounted.** An image under the shots directory that no subject
+publishes. Every other pass on this ladder is derived from *published* captures,
+so until 0.9.5 a file nobody published contributed to no finding: one campaign
+read `published captures: 0 · files in shots dir: 11`, exited 0, and printed
+"Every published capture names a target that ties to its subject" — true, and
+covering nothing. Publish it, delete it, or record `unpublishedReason` on its
+`captures.json` entry, so the escape is in the file rather than in somebody's
+memory.
+
+**5 · Unjudged.** A capture rendered on the evidence page with no `be-my-witness`
 verdict against its reference. This one does not block on first run — it
 ratchets, for the reason `strict-check.py` ratchets: a gate that opens 97% red is
 switched off within a week. It prints the judged fraction with its denominator
 and fails when that fraction **falls**.
+
+A ratchet of **0** is refused, the way `strict-check.py` refuses an empty
+campaign: a floor nothing has ever passed under cannot fall, so pinning it
+records an armed gate where there is none. Judge one capture first, then pin
+what it earned.
 
 ## Why the witness step must actually run
 

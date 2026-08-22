@@ -2,6 +2,61 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.5 — 2026-08-22
+
+Four checks that read a field without reading what the field pointed at, all four found by
+running this plugin's own gates over a real campaign and reading the numbers rather than the
+verdicts.
+
+**A provider that named nothing counted as a provider.** `vacuity-check.py`'s census reported a
+requirement whose `provider` was *empty* and never asked whether a non-empty one resolved to
+anything, so `isolation/macos.rs:88 spawn_guest` cleared whether or not that file or that symbol
+existed anywhere. A census could then report every external-effect requirement as provided while
+several of them named a file nobody had written — the same vacuity the script exists to find, one
+level up. A provider now has to resolve: a path that exists under the campaign's `sourceRoot`, or
+a symbol some production file under it contains, with the test tree excluded because a test double
+naming itself as the thing it stands in for is not a provider. The run prints
+`providers: 2 of 2 named, 1 resolved`, and prints `NOT CHECKED` rather than a clean line when no
+root says where production source is.
+
+**A capture authorised its own duplicate.** `capture-lineage.py`'s shared pass exempted two
+subjects publishing one image when each named the other in `sharesWith` — a declaration written
+into the very registry the pass reads. `sharesReason` was demanded by the blocker's own remedy
+text and read by no code at all, so the reason was required by documentation and enforced nowhere,
+while `campaign.py` has required it since 0.9.3 and the two gates disagreed about the same
+declaration. A share is now admissible only where every member names every other member, every
+member records a reason, and something outside the declaration agrees they are one address: the
+target the channel recorded at capture time, falling back to the subjects' declared routes. Two
+shutters pointed at two addresses whose bytes happen to match no longer clear on a note the
+photographer wrote about their own photograph.
+
+**A gate whose whole population was the published captures.** `unsourced`, `untied` and `shared`
+are all derived from captures a subject publishes, so an image sitting in the shots directory that
+no manifest entry names contributed to no finding. Measured: `published captures: 0 · files in
+shots dir: 11`, exit 0, and the sentence "Every published capture names a target that ties to its
+subject" — true, and covering nothing. An image nothing publishes is now a finding; a campaign
+that means to keep one records `unpublishedReason` on its `captures.json` entry, so the escape is
+in the file rather than in somebody's memory. And a ratchet of 0 is refused the way
+`strict-check.py` refuses an empty campaign, because a floor nothing has ever passed under cannot
+fall and pinning it records an armed gate where there is none.
+
+**A corpus that could disagree with the vocabulary silently.** The blind pass's test root was a
+command-line argument and lived nowhere else, while the vocabulary that has to match it lived in
+`campaign.json`. Pointing a campaign whose vocabulary is one language at another language's test
+tree produced 32 findings, identical in shape and confidence to genuine ones; the same command
+against its own corpus returned 0, and nothing warned, because the generic half of the vocabulary
+matched and the project's own half never did. `campaign.json` now carries `testRoot` beside
+`blindVocabulary`, `--tests` overrides it and says so, and when fewer than a quarter of the
+declared mutators appear anywhere under the root the run reports the mismatch instead of a number.
+
+Seventeen new gate tests in `tests/run.sh`, each watched red on a fixture built to trip it and
+green on one that should pass. One existing fixture changed with them: the declared-share case
+wrote `shareReason`, a key no script has ever read, over two subjects at two different addresses —
+its assertion is unchanged and the fixture now describes a share that is one.
+
+`plugin.json` said 0.9.3 while `.claude-plugin/plugin.json` and this file said 0.9.4, and 0.9.4's
+code is what shipped. Both files carry 0.9.5.
+
 ## 0.9.4 — 2026-08-21
 
 Two ways this gate could report a clean result over a population it never examined.
