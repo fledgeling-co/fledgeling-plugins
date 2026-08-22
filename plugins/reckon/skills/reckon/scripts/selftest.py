@@ -206,6 +206,54 @@ print("%-46s %s" % ("every class is reachable", "ok" if ok else "FAILED %s" % un
 if not ok:
     FAILURES.append("unreachable classes: %s" % unreachable)
 
+# --- 8. a registry field is free-form JSON, not reliably a string ----------
+#
+# Measured on one real campaign: of 52 defect rows `evidence` was None on 31, a
+# string on 16 and a LIST on 5, and the undefended read crashed `build` outright
+# with AttributeError. The pre-fix expression is restated verbatim below and
+# asserted to FAIL on that input first — without it this row is green in any
+# registry whose fields happen to all be strings, which is exactly where the
+# defect is invisible.
+PRE_FIX = lambda text: (text or "").lower()          # noqa: E731 — the read as it was
+
+listed = ["evidence/shots/board.png", "evidence/runs/gate.log"]
+try:
+    PRE_FIX(listed)
+    pre_fix_crashes = False
+except AttributeError:
+    pre_fix_crashes = True
+
+# The call is guarded because the defect's own failure mode is an exception:
+# an unguarded call turns this row into a traceback that takes the suite down
+# and abandons every row below it, which is a worse instrument than a red line.
+try:
+    got, raised = R.tokens(listed), None
+except Exception as exc:                                    # noqa: BLE001 — the defect IS the raise
+    got, raised = set(), "%s: %s" % (type(exc).__name__, exc)
+
+ok = pre_fix_crashes and raised is None and {"evidence", "shots", "board", "png"} <= got
+print("%-46s %s" % ("a list-valued registry field yields tokens",
+                    "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append(
+        "list-valued field: pre-fix crashes=%s, raised=%s, tokens=%s"
+        % (pre_fix_crashes, raised, sorted(got)))
+
+# The other shapes the same fields carry, and the one that must stay empty.
+try:
+    shapes_ok = (
+        R.tokens(None) == set()
+        and R.tokens("plain string here") >= {"plain", "string", "here"}
+        and "nested" in R.tokens({"a": ["nested value"], "b": 12345})
+        and "12345" in R.tokens({"a": ["nested value"], "b": 12345})
+    )
+except Exception:                                           # noqa: BLE001
+    shapes_ok = False
+print("%-46s %s" % ("None, str, dict and scalar all flatten",
+                    "ok" if shapes_ok else "FAILED"))
+if not shapes_ok:
+    FAILURES.append("flatten_text does not cover every registry shape")
+
 print()
 if FAILURES:
     print("%d self-test failure(s):" % len(FAILURES))
