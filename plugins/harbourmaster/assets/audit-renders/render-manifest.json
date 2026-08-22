@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "engineA-lamp-r01": {
+      "source": "icon-engineA-lamp-r01.png",
+      "kind": "png",
+      "source_sha256": "44a9d095badecba9fc919c1d8b130c8d2e87965ae865412832f1b23aaa608891",
+      "source_mtime": 1787380682.1585145,
+      "rendered_at": 1787381026.0314639
+    },
+    "engineA-register-r01": {
+      "source": "icon-engineA-register-r01.png",
+      "kind": "png",
+      "source_sha256": "59705e9994df3fdee64021d6829b2e403dac6c1bfdaf7c29f5445e752d97a5b9",
+      "source_mtime": 1787381025.7825692,
+      "rendered_at": 1787381026.1086662
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "86d25dcec10822663c0759b93a792016bdeef20031b8a18dd2665a5bfa218ae5",
+      "source_mtime": 1787380893.9496007,
+      "rendered_at": 1787381026.184887
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

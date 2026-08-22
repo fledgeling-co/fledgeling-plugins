@@ -204,6 +204,14 @@ Your Mac did not fill up because of one thing, it filled up because a hundred se
 
 <br clear="left" />
 
+<a href="plugins/harbourmaster/README.md"><img src="plugins/harbourmaster/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [harbourmaster](plugins/harbourmaster/README.md)
+
+Decides where a piece of work should run, and whether this Mac can carry it yet. Routes across five execution planes — this machine, a container on another machine, a native-app instrument session, another model, or in-session subagents — by spending whichever resource is least scarce rather than whichever is nearest to hand. Governs the local one with berth admission: heavy work runs through a wrapper that holds its slot on a file lock the kernel returns when the work ends, refuses in bounded time instead of hanging past a tool timeout, and runs under a macOS priority class that its child processes inherit — so wrapping a build also wraps the sixteen compilers it starts. Detects sustained thermal limiting from per-cluster frequency residency, the only method that works on a Mac where every signal the OS reports stays silent while the die sits at 111 °C.
+
+<br clear="left" />
+
 <a href="plugins/discipline/README.md"><img src="plugins/discipline/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [discipline](plugins/discipline/README.md)
