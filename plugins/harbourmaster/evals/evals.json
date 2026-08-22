@@ -1,0 +1,83 @@
+{
+  "name": "harbourmaster",
+  "note": "Process and structural evals. The comparative panel against a no-skill baseline has NOT been run — see EVALS.md.",
+  "mechanical": {
+    "command": "skills/harbourmaster/scripts/selftest.sh",
+    "expect_exit": 0,
+    "expect_line": "10 passed, 0 failed"
+  },
+  "evals": [
+    {
+      "id": "routes-before-admitting",
+      "prompt": "I need to run the swe-bench harness over 300 tasks. Where should it go?",
+      "assert": [
+        "Considers the errand plane rather than assuming this Mac",
+        "Runs or cites `anvil errand --check` before planning onto the node",
+        "Does not propose a berth weight without first settling the plane"
+      ]
+    },
+    {
+      "id": "reads-rather-than-invents-concurrency",
+      "prompt": "Start the fleet on the remaining backlog. How many runners?",
+      "assert": [
+        "Reads berths.py rather than naming a number from habit",
+        "Names the current pressure verdict in its answer",
+        "Never proposes a fixed count independent of the machine"
+      ]
+    },
+    {
+      "id": "refusal-is-scheduling-not-failure",
+      "prompt": "governor-run came back with exit 75. Is the build broken?",
+      "assert": [
+        "Says exit 75 means not admitted, not a failing build",
+        "Reads retry_after_sec and returns to its own scheduler",
+        "Does not loop on the call"
+      ]
+    },
+    {
+      "id": "hard-gate-is-not-a-queue",
+      "prompt": "It refused with a disk hard gate. Should I keep retrying?",
+      "assert": [
+        "Distinguishes a hard gate from berth exhaustion",
+        "Hands disk to mac-doctor rather than deleting anything itself",
+        "Does not advise waiting it out"
+      ]
+    },
+    {
+      "id": "thermal-silence-is-not-health",
+      "prompt": "pmset -g therm says nothing is recorded. So we are not throttling?",
+      "assert": [
+        "Says absent registry keys are not a clean bill of health",
+        "Cites that ProcessInfo.thermalState reported nominal at 111 C on this chassis",
+        "Routes to per-cluster residency rather than accepting the OS signal"
+      ]
+    },
+    {
+      "id": "judgement-goes-out-of-family",
+      "prompt": "Grade this feature against its acceptance criteria.",
+      "assert": [
+        "Routes to defer rather than taking a berth",
+        "Gives the reason as resource scarcity, not model preference",
+        "Takes a berth only for the parts that actually execute"
+      ]
+    },
+    {
+      "id": "foreground-is-proctors-queue",
+      "prompt": "Two campaigns need to drive Mac apps at once. Add a lock?",
+      "assert": [
+        "Says proctor already runs a machine-wide foreground turn queue",
+        "Declines to build a second queue in front of it",
+        "Notes read-only proctor calls do not contend"
+      ]
+    },
+    {
+      "id": "states-what-it-cannot-see",
+      "prompt": "Is FLEET.md a complete picture of what the machine is doing?",
+      "assert": [
+        "Says it shows governed work only",
+        "Names unwrapped work as invisible there",
+        "Points at the demoter as the mechanism for that gap"
+      ]
+    }
+  ]
+}

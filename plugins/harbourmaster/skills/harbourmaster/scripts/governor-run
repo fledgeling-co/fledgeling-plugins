@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+"""Run a command only when the Mac can carry it, and run it deprioritised.
+
+    governor-run --weight 4 --project anvil -- cargo build --release
+
+Acquire-and-exec is deliberate. An `admit` call paired with a later `release`
+is a contract callers forget under every abnormal exit, and an LLM caller
+forgets it under normal ones too. Here the berth is held by an open file
+descriptor that the workload itself inherits across `exec`, so the kernel
+releases it when the workload ends — however it ends.
+
+Exit codes:
+  (the command's own)  admitted; this is the workload's status
+  75  EX_TEMPFAIL — not admitted. Structured JSON on stderr says why and for
+      how long to wait. Retry at YOUR layer; nothing here blocks past --wait,
+      because a Bash tool call that hangs past its timeout becomes a retry
+      storm rather than a queue.
+  64  EX_USAGE — the invocation was wrong.
+"""
+from __future__ import annotations
+
+import argparse
+import fcntl
+import json
+import os
+import random
+import shutil
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+import berths  # noqa: E402
+
+# QoS tiers, in the vocabulary `taskpolicy` accepts.
+#
+# Measured on Mac16,5 (M4 Max, 12P+4E) on 2026-08-22 under a load average of
+# 830: four shell spinners unwrapped took 11.4-19.7 %CPU each; the same four
+# under `-b` took 0-5.2 %CPU each. Child processes inherit it — parents run
+# unwrapped spawned children averaging 52.7 %CPU each, the same children under
+# a `-b` parent averaged 0.2 %CPU. That inheritance is what makes wrapping a
+# runner sufficient: `cargo test -j16` started inside a wrapped tree is
+# wrapped too, without the caller doing anything.
+QOS = {
+    "background": ["-b"],          # E-cores in practice; heavily throttled I/O
+    "utility": ["-c", "utility"],  # P-cores allowed, scheduled below interactive
+    "none": None,
+}
+
+
+def fail(reason: str, detail: dict, code: int = 75) -> int:
+    payload = {"status": "REFUSED", "reason": reason, **detail}
+    print(json.dumps(payload), file=sys.stderr)
+    return code
+
+
+def try_acquire(weight: int, meta: dict, ceiling: int) -> list[int] | None:
+    """Take `weight` berths from within the ceiling, or none at all.
+
+    All-or-nothing with a full release on partial success is what stops two
+    callers each holding half of what they need and neither able to proceed.
+
+    The scan stops at `ceiling`, not at the number of slot files on disk. This
+    is what makes pressure actually bind: with a ceiling of 3 and slots 0-2
+    held, scanning further would hand out slot 3 and the pressure scaling would
+    be decorative. That was a real bug, caught by the selftest.
+    """
+    berths.BERTHS.mkdir(parents=True, exist_ok=True)
+    acquired: list[int] = []
+    fds: list[int] = []
+    for index in range(ceiling):
+        if len(acquired) == weight:
+            break
+        slot = berths.BERTHS / f"slot_{index:02d}.lock"
+        fd = os.open(slot, os.O_RDWR | os.O_CREAT)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            os.close(fd)
+            continue
+        # Python marks descriptors close-on-exec by default (PEP 446). Without
+        # this line the lock dies at exec and every berth reads as free while
+        # the workload runs — the failure that would make this whole file a
+        # no-op while appearing to work.
+        os.set_inheritable(fd, True)
+        acquired.append(index)
+        fds.append(fd)
+        record = {k: v for k, v in meta.items() if not k.startswith("_")}
+        record["slot"] = index
+        try:
+            slot.with_suffix(".meta").write_text(json.dumps(record))
+        except OSError:
+            pass
+
+    if len(acquired) < weight:
+        for fd in fds:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            os.close(fd)
+        return None
+    return fds
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument("--weight", type=int, default=2,
+                        help="berths needed; roughly the cores this will want")
+    parser.add_argument("--project", default=os.path.basename(os.getcwd()))
+    parser.add_argument("--label", default="", help="what this job is, for the ledger")
+    parser.add_argument("--wait", type=float, default=15.0,
+                        help="seconds to poll before refusing; keep well under "
+                             "the caller's tool timeout")
+    parser.add_argument("--qos", choices=sorted(QOS), default="utility")
+    parser.add_argument("--dry-run", action="store_true")
+    args, rest = parser.parse_known_args()
+
+    if rest and rest[0] == "--":
+        rest = rest[1:]
+    if not rest and not args.dry_run:
+        return fail("no command given", {"usage": "governor-run [opts] -- <cmd>"}, 64)
+    if args.weight < 1:
+        return fail("weight must be at least 1", {"weight": args.weight}, 64)
+
+    # The deadline covers EVERYTHING, including reading pressure. A `--wait 3`
+    # that spent 59.4s inside the pressure read before starting to poll is the
+    # measured bug this line exists to prevent.
+    deadline = time.time() + args.wait
+
+    snap = berths.snapshot(timeout=max(2.0, args.wait))
+    gate = berths.hard_gate(snap)
+    if gate:
+        return fail(gate[1], {
+            "axis": gate[0], "pressure": snap["verdict"],
+            "retry_after_sec": 300,
+            "advice": "This is not a queue you can wait out. Clear the axis "
+                      "(mac-doctor for disk) before retrying.",
+        })
+
+    if args.weight > berths.capacity(snap):
+        return fail("weight exceeds this machine's total capacity", {
+            "weight": args.weight, "capacity": berths.capacity(snap),
+        }, 64)
+
+    # Under critical pressure, admitted work runs on the efficiency cores. It
+    # still runs; it stops competing with whatever is already hurting.
+    qos = args.qos
+    if snap["verdict"]["overall"] == "critical" and qos == "utility":
+        qos = "background"
+
+    meta = {
+        "project": args.project,
+        "label": args.label or (rest[0] if rest else ""),
+        "command": " ".join(rest)[:400],
+        "weight": args.weight,
+        "qos": qos,
+        "pid": os.getpid(),
+        "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "_snapshot": snap,
+    }
+
+    attempt = 0
+    while True:
+        # Re-read the ceiling each pass, from the cache so it costs nothing:
+        # pressure moves under a waiting caller, and a ceiling taken once is a
+        # fact about a machine that no longer exists.
+        ceiling = berths.ceiling(berths.snapshot(max_age=5.0, timeout=3.0))
+        fds = try_acquire(args.weight, meta, ceiling) if args.weight <= ceiling else None
+        if fds is not None:
+            break
+        if time.time() >= deadline:
+            report = berths.report()
+            return fail("no berth available", {
+                "weight_wanted": args.weight,
+                "available": report["available"],
+                "ceiling": report["ceiling"],
+                "in_use": report["in_use"],
+                "pressure": report["pressure"],
+                # Jittered so that N refused callers do not return together.
+                "retry_after_sec": round(random.uniform(20, 45), 1),
+                "advice": "Reduce concurrency or lower --weight. Do not loop "
+                          "on this call; return to your own scheduler.",
+            })
+        attempt += 1
+        time.sleep(min(1.5, 0.25 * attempt) + random.uniform(0, 0.4))
+
+    if args.dry_run:
+        print(json.dumps({"status": "ADMITTED", "slots": len(fds), "qos": qos}))
+        return 0
+
+    argv = list(rest)
+    if QOS[qos] is not None and shutil.which("taskpolicy"):
+        argv = ["taskpolicy", *QOS[qos], "--", *argv]
+
+    try:
+        os.execvp(argv[0], argv)
+    except OSError as exc:  # exec failed; the berths die with this process
+        return fail(f"could not execute {argv[0]}: {exc}", {}, 64)
+    return 0  # unreachable
+
+
+if __name__ == "__main__":
+    sys.exit(main())
