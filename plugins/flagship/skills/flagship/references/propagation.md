@@ -854,3 +854,84 @@ nothing and an aborted mutator proves nothing.
 **When a control comes back silent, check that it could have spoken** — the same rule as *when
 a probe says absent, check that it could have said present*, arriving one layer up in the
 harness rather than in the subject.
+
+## A control needs its own control (23 Aug 2026)
+
+**A control that fails looks exactly like the defect it was built to find.**
+
+A session testing whether another repo's gate-location defect applied to its own built the
+clean tree with `git archive main | tar -x` — which gives the branch's content and **no
+`.git`**. So `git show HEAD:<path>` resolved nothing, the provenance check reported a source
+file "recorded at capture, HEAD has no such file" for a file plainly sitting there, and the
+gate exited 1. It read precisely like the defect landing, and it was one step from being
+reported as such.
+
+The construction had **no power to return the answer it was hoping to trust**: an extract
+without `.git` could never distinguish a real provenance failure from its own missing one.
+`git worktree add --detach` carries branch content *and* a resolvable HEAD, and has the power.
+
+The cheap discipline: **ask what your control would do against a subject known to be good.**
+That session counted four mis-built controls in one day — a probe placed outside the tree, a
+realpath mismatch firing the wrong assertion before the one under test could be reached, an
+arming leg whose mutation was a no-op, and this one. Each passed or failed for a reason other
+than the one claimed.
+
+Two sharper statements of the same thing, from two other sessions the same night:
+
+> **A control that cannot fail has not been run, it has been performed.**
+>
+> **A predicate proven to fire can still be pointed at the wrong field, and it prints
+> identically to one pointed at the right one.**
+
+The second came from a session whose two probes were both live and both wrong in the same
+direction — one over-matched prose containing a word, the other under-read the object where
+the literal string actually lived, and the two summaries agreed with each other. What caught
+it was going to look at where the string was, not writing a better regex.
+
+## A gate must run where the merge lands, not where the work was done (23 Aug 2026)
+
+A pre-merge gate was accepted having run **inside the item's own worktree** — exit 0, a true
+result about the wrong tree. The evidence its cases cited existed in exactly one place on the
+machine, that worktree, and `evidence/` was gitignored wholesale. After the merge the
+integration branch failed with **51 findings**, and no branch could pass a pre-merge gate
+until it was fixed.
+
+Worse than the 51: **507 citations that *did* resolve resolved by accident**, from untracked
+logs left in that checkout by earlier runs. On a fresh clone all 558 would have been absent.
+
+**Any check reading a file git does not carry produces an exit code that is true about the
+checkout and silent about the branch**, and the two are indistinguishable from outside.
+
+Three sessions checked themselves against it, and the negative results were worth more than
+the rule:
+
+- One found `evidence/` **not** gitignored, 382 of 384 files tracked, 0 untracked in a fresh
+  worktree, and had already been running the full sweep on merged `main` after every merge.
+- One found its gate *does* read an untracked per-machine file — but into a **NOT COVERED
+  report, never a PASS/FAIL step**, so it printed "has never run here" rather than inheriting
+  a green. **A gate step reading an untracked file is silent about the branch; a coverage
+  report degrades to honest absence.** That distinction is what separates the two shapes.
+- One found the fault in the worst possible object: a `laneProof` structure whose entire job
+  is witnessing that a lane attached to a real artifact, citing an **absolute path** to a
+  **generated, gitignored** bundle with `artifactBytes: null`. Three ways unverifiable at
+  once. It fixed the paths, and recorded the missing size as a limitation rather than
+  back-filling a number that would have described tonight's regeneration instead of the
+  original attachment.
+
+**A rule that fires in one repo and provably does not in another is worth more than the rule
+alone**, because the difference names the property that matters.
+
+## The leak detector's own leak (23 Aug 2026)
+
+The berth-leak check in `scripts/starvation_watch.sh` read the **claimant's** CPU time against
+its elapsed time — and a wrapper that delegates spends almost none. Measured: a claimant at
+**0.05 seconds over 11 minutes** reported as a leak, whose tree (`governor-run` → `gate.sh` →
+`cargo test` → a test binary) had burned **29.2 CPU seconds** and was working correctly.
+
+The detector built to find *a live process that is not doing work* could not tell it from *a
+live process whose children are doing the work*. It now sums CPU across the whole process
+tree, and both legs are demonstrated: a sleeping claimant fires, the real busy-tree wrapper
+does not.
+
+Third instrument this conductor armed in one night that was wrong on its first version, all
+three the same family, all three found by a peer or a false alarm rather than by review.
