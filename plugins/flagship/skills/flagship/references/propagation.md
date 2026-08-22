@@ -1020,3 +1020,45 @@ the id gaps** — so both "pre-existing failures" were the runner's own work, mi
 the world.
 
 Verify a claimed baseline against the base, not against the branch reporting it.
+
+## A pass-shaped summary over an empty denominator (23 Aug 2026)
+
+The sharpest instance of the whole corpus, found by auditing **all 24** standalone gate steps
+on `main` against a clean `git worktree add --detach` tree. Twenty-two behaved identically.
+Two did not, and they fail in **opposite** directions:
+
+| Step | on main | on a clean tree | |
+|---|---|---|---|
+| citation check | exit 1 | exit 1 | red everywhere — it announces itself |
+| surface-grounds check | **exit 0** | **exit 1** | **green here, red on a clean tree** |
+
+The second had been passing silently since it was written. On the author's machine it prints
+`5 of 5 capture(s) measured … failures=0`. On a clean tree it prints
+`0 of 5 capture(s) measured … failures=0`.
+
+**The same `failures=0` while having measured nothing.** The two lines differ only in a number
+nobody reads, and the exit code that *does* change is swallowed the moment the step runs inside
+a `&&` chain.
+
+> **A check that cannot see its subject must say so where a reader looks, and must never print
+> a pass-shaped summary over an empty denominator.**
+
+That is the requirement both instances need, and it reframes scope elsewhere: a repo that
+found a *visible* instance should ask whether it has a **silent** one, because this was found
+only by diffing exit codes across two trees — never by reading output.
+
+Reported alongside the good news, which belongs in the same message: **22 of 24 steps are
+clean in both trees.** A class of two, not systemic rot.
+
+### And the clean room that was not clean
+
+Its first comparison produced **identical output in both trees**, and it nearly recorded that
+as the finding. A `cd` had persisted, so both halves ran in the same tree. What caught it was
+the **exit codes disagreeing with the output**.
+
+> **A clean room that is not clean produces agreement, and agreement is the least suspicious
+> result there is.**
+
+Same failure as building a comparison tree with `git archive` and getting manufactured
+provenance errors — reached from the opposite direction, by a session that had just been
+warned about it.
