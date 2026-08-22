@@ -544,3 +544,76 @@ Two siblings from the same wave:
   name and dropping a rate from 20.5% to 16.7%. Both figures were correct for their own
   population. A census read as another census — inside the item whose subject was exactly
   that.
+
+## The safety is real, and it is not the mechanism anyone would name (23 Aug 2026)
+
+Five members now, from five repos, and they are one family:
+
+- An id-allocation lock safe only because one person allocated serially, by habit.
+- Five id spaces safe only because one script writes them from the main checkout.
+- A locked registry beside an unlocked ledger that every triage touches.
+- An arming script safe only because the path it would have destroyed was already deleted.
+- A ledger lock made unreachable by a permission guard that refuses runner branches.
+
+Every one was found by asking **"why has this not fired?"** rather than "is this correct?" —
+a cheaper question than it looks, and one that appears in no checklist. The answer names the
+real mechanism, and in five of five cases it was not the mechanism the owning session would
+have cited.
+
+The follow-up that makes it actionable: **what would have to change for this to start
+firing, and does anything record that the answer is load-bearing?** One repo wrote its
+coverage table into the guard file itself, because that file is what somebody edits when they
+widen the permission.
+
+## `ping` is not a liveness oracle (23 Aug 2026)
+
+An entire execution plane was reported unavailable for an evening because `ping 192.168.3.91`
+returned 100% packet loss. **Windows blocks ICMP by default.** The same host answered
+`ssh -o BatchMode=yes -i <key> luke@192.168.3.91 'echo SSH_OK'` immediately.
+
+A host that is down and a host that is up with ICMP filtered are **indistinguishable to
+ping**, and the reachable case is the one that reads as failure. The oracle is whatever the
+code actually uses to reach it: that plane's `remote_argv` uses ssh, so ssh is the test.
+
+## The first blocker is not the last one (23 Aug 2026)
+
+A preflight designed to report the **first** blocker in dependency order, and only the first,
+reported a missing credential file. This conductor read it as *the* blocker and was one step
+from recommending a long-lived admin key be written to disk.
+
+Clearing it would have **advanced the refusal, not cleared it**: the node config pointed at a
+route refused by a measured mechanism rather than a config gap — a Docker Desktop container's
+outbound socket belongs to the host's own LAN address and never crosses the vNIC the firewall
+filters, so the egress guarantee is unenforceable and the route is refused before anything
+starts. Fail-closed and correct.
+
+So a preflight that names one blocker is answering *"what stops you first"*, and reading it as
+*"what stops you"* is the narrower-question rule again. **Ask for the whole chain before
+paying for the first link** — especially when the price of the first link is a secret at rest.
+
+Two things came with it, both worth carrying:
+
+- **A restart lands on whatever the daemon is holding.** That one held 23 jobs, 8 running, and
+  nobody had mentioned it. A config read once at start-up cannot be tested without a bounce,
+  so establish whose work is in flight before bouncing it.
+- **Reachable and useful are different questions.** The plane is a model-agent lane — a
+  containerised CLI reaching a model through a key-holding proxy on the host — so it cannot
+  take CPU work off that host however well it works, because subscription-CLI routes
+  authenticate against the host's own sessions. "Yes it can be stood up, and it should not be
+  stood up for that" is a legitimate answer and only the plane's owner can give it.
+
+## The artefact that describes the work is what stops anyone looking beside it (23 Aug 2026)
+
+A card asserted that sensitive-source disclosure was citation-scoped. It was not: every
+retrieval already resolved and disclosed. The real defect was the opposite shape — the footer
+passed an **empty** source list whenever a turn carried an inline `Sources:` line, and that
+emptied list was also the disclosure's only input. **So the sensitive-source notice vanished
+on precisely the turns that cited the most**, and a draft written from a sensitive document
+published with no notice it had been used. A compliance surface, surviving three prior passes
+because the card's own framing pointed away from it.
+
+In the wave before, a test loop had been iterating **zero times** while its two assertions
+were counted as coverage.
+
+Both are the same failure at different scales: a card's premise, a spec's shape, a test's
+name. **When the assessment feels tidy, check what sits beside the thing it names.**

@@ -141,6 +141,13 @@ Before a constraint reaches the fleet, name **which class of work it actually in
 A constraint with no named class is a hold on everything, and a hold on everything is
 indistinguishable from having forgotten to dispatch.
 
+**And every hold carries an expiry, never a condition.** A hold is cheap to issue and
+expensive to lift: issuing it costs one message, lifting it needs somebody to notice a
+condition has passed, and the only party who can notice is the one who stopped watching
+because everything was held. "Until berths free" is a condition and it is how five sessions
+sat idle through a machine that had cleared. Say *"held until 01:20 unless I say otherwise"*
+and re-measure at the deadline.
+
 **Idle has three shapes and they are indistinguishable from outside.** Ask; do not infer:
 
 | Shape | What it needs |
@@ -207,7 +214,14 @@ room* — and ask for the ceiling rather than assuming there is none.
   clearance signal and the machine's readiness are **different events**, and wanting the
   second one means asking a different question — not overriding the first.
 - **Say whether your own work is in the number you are quoting.** One session quoted berth
-  figures all evening while its own runners had never claimed one.
+  figures all evening while its own runners had never claimed one. It fixed that mid-run by
+  wrapping every build, test and gate call in `governor-run --project <name>`, which is what
+  makes a fleet's load visible to everyone else reading the governor.
+- **Hand out the timestamp with any absolute figure, because the ceiling moves under
+  sampling.** Two sessions read the same machine a minute apart and got `ceiling 12, available
+  12, healthy, 0.87/core` and `ceiling 10, available 10, busy, 1.13/core`. Neither is wrong. A
+  session quoting "12 berths" a minute after you measured it is quoting a number that no
+  longer exists.
 - **`available` inherits `in_use`'s defect, so it is an upper bound and not a count.** This
   skill's own author allocated four berths off `available 4` after spending a night telling
   nine sessions that a low `in_use` proves nothing. The occupant list named **one** claimant
