@@ -1230,5 +1230,70 @@ else
   echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
 echo
+# 11. DEF-119. Providers are written `<claim> — <what it does>`, and every word
+#     of the description was offered to the symbol matcher. Any English word of
+#     three characters or more that appears anywhere in production source
+#     resolved the provider, so a path that does not exist cleared the census on
+#     the strength of its own prose. Measured on a real campaign: nine of nine
+#     providers reported resolved, one of them via the symbol `the`. The census
+#     built to catch a dead predicate had become one.
+PRZ="$WORK/provider-prose"
+mkdir -p "$PRZ/camp" "$PRZ/repo/src/tui"
+cat >"$PRZ/camp/inventory.json" <<'JSON'
+{"requirement": [
+  {"id":"REQ-001","title":"The client writes the alternate screen","effect":"device",
+   "evidence":"observed","provider":"src/tui — the alternate-screen exit sequence written to the tty"},
+  {"id":"REQ-002","title":"The daemon seals the vault","effect":"filesystem-write",
+   "evidence":"observed","provider":"src/nowhere/absent.rs — a file that is not there at all"}]}
+JSON
+cat >"$PRZ/repo/src/tui/mod.rs" <<'RS'
+// Leave the alternate screen. This comment is ordinary English on purpose: every
+// real source file carries prose, and it is what the description of a provider
+// gets matched against when the matcher is not there yet. Without a file that
+// contains words like "the", "file" and "that", the seed below cannot fire and
+// the test passes whether or not the fix is present.
+pub fn leave_alternate_screen(out: &mut impl Write) { write!(out, "\x1b[?1049l").unwrap(); }
+RS
+echo '{"project":"Prose","sourceRoot":"'"$PRZ/repo"'"}' >"$PRZ/camp/campaign.json"
+
+out="$(python3 "$S/vacuity-check.py" "$PRZ/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "REQ-002 declares" <<<"$out"; then
+  say "ok    a provider whose path is absent is not resolved by its own description"; PASS=$((PASS+1))
+else
+  echo "FAIL  prose after the dash still resolves a dangling provider (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# The module-directory half: a provider may name a module rather than a file,
+# and REQ-001 names `src/tui`, a directory. Refusing it would push authors to
+# name an arbitrary file inside it.
+if ! grep -qF -- "REQ-001 declares" <<<"$out"; then
+  say "ok    a provider naming a module directory resolves"; PASS=$((PASS+1))
+else
+  echo "FAIL  a directory provider should resolve"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+if grep -qF -- "2 of 2 named, 1 resolved" <<<"$out"; then
+  say "ok    the prose census prints its own denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected 2 named / 1 resolved"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# The control. With the description removed the dangling provider must still be
+# a finding — otherwise the fix is reading the dash rather than the claim.
+python3 - "$PRZ/camp/inventory.json" <<'PY'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p))
+d["requirement"][1]["provider"]="src/nowhere/absent.rs"
+json.dump(d,open(p,"w"),indent=2)
+PY
+out="$(python3 "$S/vacuity-check.py" "$PRZ/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "REQ-002 declares" <<<"$out"; then
+  say "ok    a bare dangling provider is still a finding without a description"; PASS=$((PASS+1))
+else
+  echo "FAIL  the claim itself must decide, not the presence of a dash (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

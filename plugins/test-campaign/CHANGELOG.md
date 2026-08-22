@@ -2,6 +2,35 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.9.6 — 2026-08-22
+
+**The provider census resolved on its own prose.** Providers are written
+`<claim> — <what it does>`, and `provider_targets` offered *every word of the
+description* to the symbol matcher. `has_symbol` accepts any token of three
+characters or more that appears anywhere in production source, and English
+source is full of English — so `the`, `file`, `that` and `there` all matched,
+and a provider resolved on its adjectives rather than on its claim. Measured on
+a real campaign the moment 0.9.5's census was first pointed at a source root:
+**nine of nine providers reported resolved**, one of them via the symbol `the`,
+and `totally/made/up/path.swift — the window server is another process` resolved
+just as happily as a real file. The census 0.9.5 added to catch a dead predicate
+had become one on its first run.
+
+Only the claim before the em dash, en dash or ` - ` now supplies paths and
+symbols. The description is prose and is read by people, not by the matcher.
+
+**A provider naming a module directory could not resolve.** `SourceIndex`
+indexed files only, so `crates/core/src/tui` — a legitimate way to name a module
+— failed against a tree that plainly contains it, which would have pushed
+authors to name an arbitrary file inside it instead. Directories are indexed
+too.
+
+Four tests, and the fixture is the point: the first version of them passed with
+the fix reverted, because a one-line fixture file contains none of the English
+the description uses, so the defect could not fire and the test measured
+nothing. The fixture source now carries an ordinary comment, and the tests are
+red without the fix and green with it. 84 → 88.
+
 ## 0.9.5 — 2026-08-22
 
 Four checks that read a field without reading what the field pointed at, all four found by
