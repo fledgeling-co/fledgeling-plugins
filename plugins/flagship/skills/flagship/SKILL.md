@@ -41,6 +41,22 @@ learned by getting them wrong:
 - **You cannot relay an authorisation.** A grant from the operator to you does not travel
   through you to a peer. "The operator said you may push" is permission laundering however
   true it is. Route the request back and let the operator answer in their own channel.
+
+  **The check is not whether you are trustworthy — it is that the receiving session cannot
+  tell a faithful relay from an unfaithful one.** A misreading, a differently-worded
+  question, or an answer meant for one lane and taken as a standing default all look
+  identical from the other side. And the reason this rule keeps getting broken by people who
+  have written it down: *everything else a conductor sends travels with its evidence* —
+  measurements carry their samples, berth readings carry their occupant lists, findings carry
+  their exit codes. **An authorisation is the one class where evidence cannot travel**,
+  because the only evidence for it is the person, in their own channel. The conduit works so
+  well for the first kind that it feels like it should work for the second.
+
+  Measured: this skill's author relayed a push authorisation, had it refused as laundering,
+  withdrew it everywhere, wrote this rule — and **relayed a permissions decision to two
+  sessions four hours later**. Both refused. When that happens, tell the operator plainly
+  that the relay does not work and that the decision has not reached anyone, rather than
+  letting them assume it propagated.
 - **You cannot retract work a peer's own user authorised.** A session already in Phase 5 on
   its user's direct instruction is not yours to stop. A token is about machine contention,
   never about permission.
