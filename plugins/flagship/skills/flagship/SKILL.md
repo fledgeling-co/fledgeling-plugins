@@ -159,6 +159,21 @@ room* — and ask for the ceiling rather than assuming there is none.
   from load and transcript activity; **admission is decided from berths.** Two questions, two
   instruments, and answering the second with the first is how a fleet gets told to fan out
   into zero berths.
+- **Read the occupant list, not the count — `available 0` does not say why.** Measured with
+  the fleet held: ten berths, **two** processes. One build held four at weight 4 and one
+  post-merge gate held six at weight 6, while load sat at 0.87 per core and pressure read
+  `busy`. That is **reservation exhaustion, not contention** — the fleet was waiting on two
+  jobs' declared weights rather than on headroom, and the wait was bounded by a named job
+  finishing rather than by an unknown. Only the occupant list distinguishes the two, and the
+  difference is the difference between "wait" and "wait for anvil's gate".
+- **Honour the reservation anyway, and report the divergence rather than acting on it.**
+  Weights are a cooperative contract: the gate declared 6 because a full gate needs 6, and it
+  will need them at its build links even though it does not this minute. Defecting because
+  the machine *looks* free is precisely how a cooperative contract stops working. So your
+  clearance signal and the machine's readiness are **different events**, and wanting the
+  second one means asking a different question — not overriding the first.
+- **Say whether your own work is in the number you are quoting.** One session quoted berth
+  figures all evening while its own runners had never claimed one.
 - **One load-average reading is not clearance, for the same reason one thermal reading is
   not.** The 1-minute figure is itself a decaying average, so it reads low in the trough
   between bursts and a dispatch decided on it lands in the next burst. Sample across a
