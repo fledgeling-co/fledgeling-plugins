@@ -66,8 +66,10 @@ Every confirmed gap at every severity, reproduce-first for bugs (the failing che
 real un-stubbed path, then green), wired end-to-end for missing requirements — never just the
 symbol. Surgical: the fix touches what the gap names; no adjacent cleanup. File-disjoint fixes in
 parallel; repo gates between waves; mechanical fixes may take the executor lanes
-(`executor-lanes.md` order and terms); judgment fixes, security, and the never-delegate list stay
-with Claude. Commit as you go (never `git add .`).
+(`executor-lanes.md` terms — name the fix's shape on the `--shape` call, and note that a gap fix
+against code that already ships is usually `brownfield-integration` or `regression-sensitive`,
+the two shapes where the cheap lanes lose most); judgment fixes, security, and the never-delegate
+list stay with Claude. Commit as you go (never `git add .`).
 
 **Loop A → B until two consecutive fresh audits — different reviewer lenses, plus the critic —
 surface no new confirmed Critical/High/Medium.** One quiet pass is a shallow fixpoint, not a dry
