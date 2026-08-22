@@ -617,3 +617,53 @@ were counted as coverage.
 
 Both are the same failure at different scales: a card's premise, a spec's shape, a test's
 name. **When the assessment feels tidy, check what sits beside the thing it names.**
+
+## When a probe says "absent", check that it could have said "present" (23 Aug 2026)
+
+Three probes in one investigation gave confident wrong answers, all the same shape:
+
+- **`ping`** said a PC was down. It was up with ICMP filtered.
+- **`ls /usr/local/bin/anvil-node`** said a distro was unprovisioned. The binary was at
+  `/root/src/target/release/`.
+- **A hex grep against a raw-binary sqlite column** said a pairing did not match, before
+  either side had been encoded.
+
+Each answered a narrower question than the one asked, and each was read as the broad answer.
+The rules that fall out:
+
+> **The oracle is whatever the code actually uses.** That plane's `remote_argv` uses ssh, so
+> ssh is the liveness test — not ping.
+>
+> **When a probe says "absent", check that it could have said "present".** Run it against a
+> case you know is there. A probe that cannot produce a positive is not measuring absence.
+
+## An exempted control proves nothing (23 Aug 2026)
+
+Adopting *"a mutation that did not apply is not a measurement"* breaks the harness's own
+control, and the two interact badly by default: **the stricter you make "every mutation must
+apply", the more certainly your control fails**, because the control is the one leg that must
+*not* mutate.
+
+The natural repair is to exempt it — and that silently removes the only leg proving the
+harness can report green for the right reason. **An exempted control is excused from the rule
+rather than satisfying it.**
+
+The fix is to assert the opposite property instead. That harness's control now requires the
+digest to be **unchanged** *and* the tool to still exit 1. It is a control because it is
+asserted to be one, not because it is skipped.
+
+Three faults hit while building it, every one reported honestly rather than passing, which is
+the rule working: a `printf` ate a `\n` and broke a Python literal, reported as *mutator
+errored* rather than as a pass; `git checkout --` restored an uncommitted fix to HEAD and
+destroyed it, so the control leg failed and read as a broken test — now a **precondition**,
+the script refuses to run at all with uncommitted changes; and a no-op control written to
+prove the digest check fires had a quoting fault and never ran, which the baseline leg
+failing had already proved better.
+
+## Where the same rule was applied per-row (23 Aug 2026)
+
+The one-mutation-one-property rule, applied to an arming already called done: two mutations,
+suite red, and it would have recorded **nine assertions as proven when one refusal row was
+exercised**. Rebuilt per row — each of five special ranges gets its own mutation and the leg
+fails unless *that* row goes red, each of three public controls proved by blocking it. Eight
+legs, eight pass.
