@@ -345,10 +345,17 @@ FENCE_RE = re.compile(r"^([ \t]*)(`{3,}|~{3,})[^\n]*\n.*?(?:^\1?\2[^\n]*\n|\Z)",
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 STRIKETHROUGH_RE = re.compile(r"~~[^\n]+?~~")
 
-# An id whose digits are all 9 or all 0 is the shape every worked example uses.
-# It is not treated as "not a citation" — that would be the same guess in the
-# other direction — but as an id this tool cannot place, which is a finding.
-PLACEHOLDER_ID_RE = re.compile(r"\A(?:REQ|CASE|DEF|SURF|FLOW|COMP)-(?:9+|0+)\Z")
+# An id of three or more digits, all 9 or all 0, is the shape every worked example
+# uses. It is not treated as "not a citation" — that would be the same guess in
+# the other direction — but as an id this tool cannot place, which is a finding.
+#
+# Three digits rather than one, because `9+` also matches `REQ-9`: an
+# out-of-family review of this change pointed out that a repository numbering its
+# queue without padding has a real ninth item, and it would have been read as a
+# worked example. A repository large enough to hold a real `CASE-999` still gets
+# a finding rather than a lost citation, which is the direction this whole
+# mechanism is built to fail in.
+PLACEHOLDER_ID_RE = re.compile(r"\A(?:REQ|CASE|DEF|SURF|FLOW|COMP)-(?:9{3,}|0{3,})\Z")
 
 EXCLUSION_KINDS = (("fenced", FENCE_RE), ("comment", HTML_COMMENT_RE),
                    ("struck", STRIKETHROUGH_RE))

@@ -856,6 +856,26 @@ if not ok:
     FAILURES.append("placeholder: class=%r ids=%r found=%r"
                     % (row["class"], row.get("unclassifiable_ids"), found))
 
+# The placeholder rule may not eat a real id that happens to be numbered 9 or 0.
+# An out-of-family review of this change found `9+` matching `REQ-9`: a
+# repository numbering its queue without padding has a real ninth item, and a
+# citation to it would have been reported as a worked example.
+for token, placeholder in (("REQ-9", False), ("DEF-0", False), ("CASE-99", False),
+                           ("CASE-999", True), ("CASE-9999", True), ("REQ-000", True),
+                           ("SURF-0000", True)):
+    got = bool(R.PLACEHOLDER_ID_RE.match(token))
+    ok = got == placeholder
+    print("%-46s %s" % ("%r is %sa placeholder shape" % (token, "" if placeholder else "not "),
+                        "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("placeholder shape %r: got %r wanted %r" % (token, got, placeholder))
+
+scan = R.scan_ids("This brief is about REQ-9 and DEF-0, and CASE-9999 is the example.")
+ok = scan["cited"] == ["DEF-0", "REQ-9"] and scan["unclassifiable"] == ["CASE-9999"]
+print("%-46s %s" % ("an unpadded real id still cites", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("unpadded id: %r" % scan)
+
 # A real id in prose is untouched by the placeholder rule — the same two-way
 # control, one level up: a rule that refused every id would pass 17e alone.
 real_brief = dict(ph_brief, text="# A brief\n\nThis is about REQ-1 and nothing else.\n")
