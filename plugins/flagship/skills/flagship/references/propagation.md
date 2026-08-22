@@ -1148,3 +1148,34 @@ has to genuinely settle before the watch speaks again. Same discipline as keying
 *which* daemons are over rather than on their percentages — both are the rule that **a wake
 must carry new information**, applied to the two ways a monitor manufactures noise from a
 single real condition.
+
+## Do not invent the threshold an instrument already owns (23 Aug 2026)
+
+The watch called `OVERLOADED` off a hand-picked load figure — 3.0 per core — and fired on a
+machine that was **working, not overloaded**: 3.45 per core, memory healthy, **zero swap**,
+three berths free, load falling in every window. Nothing was warranted, and an alert that
+warrants nothing teaches its reader to skip the next one.
+
+The number that actually matters was already being computed by somebody else.
+`harbourmaster`'s `pressure.cpu` is what collapses the berth ceiling and refuses admission, so
+`critical` **is** the overloaded state by definition rather than by estimate. The watch now
+reads that and keeps the invented threshold only as a fallback for when pressure cannot be
+read.
+
+Proved by stub rather than by waiting for a bad night: forcing `pressure.cpu = critical`
+produces OVERLOADED at **2.72 per core**, and the real machine at the same moment stays
+WORKING. The state tracks the gate, not a guess.
+
+This is the skill's own *never invent a concurrency number — ask harbourmaster* rule, which it
+had been applying to dispatch and not to its own instruments.
+
+### The control could not fire, for the third time
+
+Control B produced nothing on its first run and read as "the stub did not work". The state
+machine requires **two consecutive samples** before it speaks, and the harness had been given
+one. Re-run at three iterations it fired immediately.
+
+Third occurrence of the same harness limitation in one night, each time read as a result
+before being read as a defect. **A silent control is a claim about the harness until proven
+otherwise** — and the cheapest guard is to make the control's iteration count exceed every
+streak requirement in the thing under test, rather than remembering which check needs what.
