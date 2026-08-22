@@ -734,3 +734,53 @@ by hand would have raced a cleanup already running, on a path built from the sam
 variable that caused the incident. And **a disk trend is not fleet load**: this one read as
 evidence of seven sessions working and was one buggy `cp`, and it was quoted upward as
 capacity pressure before anyone looked at what was writing.
+
+## A suite summary is an interface (23 Aug 2026)
+
+A conformance firing-test had **measured nothing since the item before it merged**. Its parser
+used a `$`-anchored regex against a suite's summary line, and a merged, independently-verified
+item added a third number to that line. The regex stopped matching.
+
+**A parser that stops matching reports nothing found rather than erroring, which is
+indistinguishable from a clean sweep.** So a verified merge silently blinded the instrument
+that proves the conformance guards can fire, and nothing anywhere disagreed.
+
+Two rules: a suite's summary line is an **interface** and changing it is a breaking change; and
+any parser reading one needs a positive control — a case it must match — so that "found
+nothing" and "matched nothing" stop being the same output.
+
+## Two survivors that were the entire safety argument (23 Aug 2026)
+
+The one-mutation-one-property rule caught a real one on its first application elsewhere. Nine
+mutations over a new id-space bridge; the first pass detected seven. **The two survivors were
+the whole safety case**: relabelling every bridged edge as `cited`, and forcing the weak-join
+flag to false.
+
+Both left all 26 cases green — because **every case ran on fixtures, and neither property is
+observable until a ledger is actually built.** Seven end-to-end cases later, the round killed
+9 of 9, each reddening exactly one named case. A guard that guarded nothing, found only by
+arming its properties separately.
+
+## Line-number anchoring was not fragile, it was already wrong (23 Aug 2026)
+
+A bridge between two id spaces resolved by **line number** into a requirements document. It had
+been reported as "real and too weak to carry the traffic" — 18 of 32 rows pointing at a line,
+11 resolving — and the 11 treated as usable.
+
+Re-tested: **11 of 11 mismatched.** A requirement about a six-phase guarded reclaim resolved to
+one about buffer reallocation on resize; one about WCAG AA palettes resolved to Enter being a
+dry run. A second, semantic reading agreed at 10 of 11, the eleventh right by topic and by
+luck.
+
+So the finding is not that positional anchoring will drift — it is that **it had already
+drifted and was returning confident wrong answers that nothing distinguished from right ones.**
+Where any repo bridges id spaces by line citation, sweep it rather than scheduling it.
+
+The replacement is the shape worth copying: **one reviewed crosswalk file**, 36 ids mapped and
+13 declared as having no counterpart, each carrying its basis — and **no brief edited**. Join
+12.4% → 71.1%, with work total and product count identical on both sides, built in one process
+from one read so the two figures cannot be separate runs quoted together.
+
+And three properties kept the better rate from becoming a promotion: bridged edges are marked
+`bridged` and never `cited`; the weak-join flag reads the **cited** rate alone, so coverage
+cannot unlock retirement as a side effect; and a promotion guard diffs the two ledgers.
