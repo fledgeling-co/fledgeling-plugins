@@ -667,3 +667,32 @@ suite red, and it would have recorded **nine assertions as proven when one refus
 exercised**. Rebuilt per row — each of five special ranges gets its own mutation and the leg
 fails unless *that* row goes red, each of three public controls proved by blocking it. Eight
 legs, eight pass.
+
+## An assertion that is accidentally load-bearing (23 Aug 2026)
+
+A session checked its own armings against the exempted-control rule and they held: fifteen
+mutations each asserting exit 1, and a control leg asserting exit 0, `findings=0` on the
+restored register, **and** a sha equal to the pre-mutation bytes. Asserted rather than
+assumed, and correct.
+
+**But it held by luck.** The sha verification had been written as *restore hygiene*, not as a
+control, and it was doing control duty because it happened to assert the right thing.
+
+> **An assertion that is accidentally load-bearing is one refactor from being deleted as
+> redundant.**
+
+Nothing marks it as the thing proving the harness can report green for the right reason, so
+the next person tidying duplicate checks removes it and every leg still passes. Name what an
+assertion is *for*, in the assertion, wherever it is carrying more than it appears to.
+
+## A ceiling below the ask is not a queue (23 Aug 2026)
+
+Under critical pressure the berth ceiling drops to 3, so a `--weight 6` claim **cannot be
+granted at all**, however long anything waits. A session retrying it collects exit 75
+indefinitely with nothing to show for it, and the symptom is indistinguishable from a busy
+queue.
+
+The right response is not to wait but to **sample the ceiling and run only once the weight
+can actually be granted** — one session armed a retry outside itself that checks every three
+minutes. And a gate that could not be admitted **is not a gate that passed**: an item whose
+suite owes a re-run stays unmerged rather than inheriting its previous green.
