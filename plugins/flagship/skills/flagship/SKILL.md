@@ -127,6 +127,20 @@ simply not been told anything since their last dispatch.
 So the watch is armed before the first dispatch and stays armed, and the standing question
 between waves is *who has nothing to do right now* rather than *what shall I work on*.
 
+**The second characteristic failure is a correct constraint applied too widely**, and it
+produces the same silence. One session correctly declined to re-run a mutation sample under a
+thermal clamp, because a clamp manufactures timeout-scored kills and flatters the suite. This
+conductor generalised that into a fleet-wide hold, and **five sessions sat idle on it at 0.87
+load per core with twelve berths free** until the operator said so. A flap defers
+**timing-sensitive** work — mutation sampling, benchmarks scored on wall clock, any acceptance
+that is itself a timing. Triage, verification, builds and merges are not timing-sensitive and
+should never have stopped.
+
+Before a constraint reaches the fleet, name **which class of work it actually invalidates**.
+"The machine is unreliable" is not a class; "anything whose result is a wall-clock number" is.
+A constraint with no named class is a hold on everything, and a hold on everything is
+indistinguishable from having forgotten to dispatch.
+
 **Idle has three shapes and they are indistinguishable from outside.** Ask; do not infer:
 
 | Shape | What it needs |
