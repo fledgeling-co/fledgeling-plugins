@@ -826,3 +826,31 @@ session's census reads `examined=19 unguarded=0` — after it first committed a 
 claiming "18 scripts, 0 unguarded" **before running it**, when the true figure was 2 of 19.
 It re-ran the census before the sentence the second time and put the correction in the commit
 message rather than the corrected number alone.
+
+## `ps %CPU` cannot see the present, and `held_for_sec` cannot see the past (23 Aug 2026)
+
+`ps -Ao %cpu` reports CPU **averaged over a process's whole lifetime**. A daemon reported at
+**170.6%** across five and a half hours was sampling at **0.0%** — busy at some point, idle
+since, and the figure cannot tell those apart. A second daemon read **166%** by lifetime
+average and **33%** when sampled live over three seconds.
+
+That is the exact mirror of the thermal rule already in this corpus, where `held_for_sec`
+describes only the *current* state and one quiet minute flips a verdict. **A scheduling
+decision needs both the present and the past, and each of those instruments has exactly one
+of them.**
+
+The live rate needs no `top`: read cumulative CPU seconds twice, N seconds apart, and divide
+the delta by the wall clock between them. It is the same construction as reading a berth's CPU
+time against its elapsed time to find a leak.
+
+### And the control that could not fire
+
+The first version of that detector was armed with a one-shot harness — and the check requires
+**two consecutive samples** before it speaks, so at one iteration the control could never fire.
+It produced no output, which read as "nothing above threshold" and was really "the test cannot
+pass". A control that cannot fire proves nothing, in exactly the way an exempted control proves
+nothing and an aborted mutator proves nothing.
+
+**When a control comes back silent, check that it could have spoken** — the same rule as *when
+a probe says absent, check that it could have said present*, arriving one layer up in the
+harness rather than in the subject.

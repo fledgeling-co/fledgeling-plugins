@@ -38,10 +38,44 @@ prev=""; streak_idle=0; streak_hot=0; prev_leak=""; prev_daemon=""; streak_daemo
 DAEMON_PCT=${FLAGSHIP_DAEMON_PCT:-80}
 DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspolicyd|XprotectService'}
 
+# `ps %CPU` is a LIFETIME AVERAGE, so a process busy four hours ago and idle since
+# still reports a high number, and one that started burning a minute ago reports a low
+# one. Measured: a daemon reported at 170.6% was sampling at 0.0%. So this reads
+# cumulative CPU seconds twice and divides by the wall clock between them, which is a
+# real rate. Mirror of the thermal rule: %CPU cannot see the present and held_for_sec
+# cannot see the past, and a scheduling decision needs both.
+DAEMON_SAMPLE_SEC=${FLAGSHIP_DAEMON_SAMPLE_SEC:-4}
+
+_cpu_secs() {  # pid -> cumulative CPU seconds
+  ps -o time= -p "$1" 2>/dev/null | tr -d ' ' \
+    | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; if(n>3)s+=$(n-3)*86400; print s+0}'
+}
+
 runaway_daemon() {
-  ps -Ao pcpu=,comm= -r 2>/dev/null | awk -v pct="$DAEMON_PCT" -v pat="$DAEMONS" '
-    { name=$2; sub(/.*\//,"",name)
-      if ($1+0 >= pct+0 && name ~ pat) { printf "%s at %.0f%%; ", name, $1 } }' | sed 's/; $//'
+  local out="" pid name a b rate
+  local -a pids names
+  while read -r pid name; do
+    name="${name##*/}"
+    [[ "$name" =~ ^($DAEMONS)$ ]] || continue
+    pids+=("$pid"); names+=("$name")
+  done < <(ps -Ao pid=,comm= 2>/dev/null)
+  [ ${#pids[@]} -eq 0 ] && { print -r -- ""; return; }
+
+  local -a before
+  for pid in "${pids[@]}"; do before+=("$(_cpu_secs "$pid")"); done
+  sleep "$DAEMON_SAMPLE_SEC"
+  local i=1
+  for pid in "${pids[@]}"; do
+    a="${before[$i]}"; b="$(_cpu_secs "$pid")"
+    if [ -n "$a" ] && [ -n "$b" ]; then
+      rate=$(awk -v a="$a" -v b="$b" -v t="$DAEMON_SAMPLE_SEC" 'BEGIN{printf "%.0f",(b-a)/t*100}')
+      if [ "$rate" -ge "${DAEMON_PCT%%.*}" ] 2>/dev/null; then
+        out="${out}${out:+; }${names[$i]} at ${rate}% (sampled over ${DAEMON_SAMPLE_SEC}s)"
+      fi
+    fi
+    i=$((i+1))
+  done
+  print -r -- "$out"
 }
 
 # A berth is held until the process TREE exits, so a command ending in a tail, a
@@ -123,6 +157,16 @@ while true; do
   if [ -n "$state" ] && [ "$state" != "$prev" ]; then
     echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), disk ${diskpct}%"
     prev="$state"
+  fi
+  # N iterations and out, so the detectors can be exercised without a watch.
+  # It defaults to 2 rather than 1 because the daemon check needs two consecutive
+  # samples before it speaks — at 1 the control could never fire, which is a control
+  # that proves nothing rather than a detector that works.
+  if [ -n "${FLAGSHIP_ONESHOT:-}" ]; then
+    _shots=$(( ${_shots:-0} + 1 ))
+    [ "$_shots" -ge "${FLAGSHIP_ONESHOT_N:-2}" ] && exit 0
+    sleep 1
+    continue
   fi
   sleep "$INTERVAL"
 done
