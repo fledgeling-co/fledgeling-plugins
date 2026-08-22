@@ -385,13 +385,24 @@ else
   FAIL=$((FAIL+1))
 fi
 
-# ...unless the share is declared with a reason
+# ...unless the share is declared with a reason, on every member, over subjects
+# that something outside the declaration agrees are one address. This fixture
+# used to write `shareReason` — a field campaign.py has never read and
+# capture-lineage.py did not read either, so the "reason" was satisfied by a
+# key nobody consumed — and to leave SURF-002 at /b, so the declaration alone
+# authorised one picture of two different addresses. The assertion is unchanged;
+# the fixture now describes a share that is one.
 python3 - "$D" <<'PY'
 import json, pathlib, sys
 d = pathlib.Path(sys.argv[1]); p = d / "evidence/shots/captures.json"
+inv_path = d / "inventory.json"
+inv = json.loads(inv_path.read_text())
+inv["surface"][1]["route"] = "/a"          # B is the same address as A
+inv_path.write_text(json.dumps(inv, indent=1) + "\n")
 rows = json.loads(p.read_text())
-rows[0]["sharesWith"] = ["SURF-002"]; rows[0]["shareReason"] = "one window serves both"
-rows[1]["sharesWith"] = ["SURF-001"]; rows[1]["shareReason"] = "one window serves both"
+rows[1]["target"] = "http://h/a"           # and the channel recorded it as one
+rows[0]["sharesWith"] = ["SURF-002"]; rows[0]["sharesReason"] = "one window serves both"
+rows[1]["sharesWith"] = ["SURF-001"]; rows[1]["sharesReason"] = "one window serves both"
 p.write_text(json.dumps(rows, indent=1) + "\n")
 PY
 out="$(cl "$D" --gate)"; rc=$?
@@ -911,6 +922,313 @@ else
   echo "FAIL  source-analysis leaked into EFFECT_RUNGS or ORACLE_RUNGS"; FAIL=$((FAIL+1))
 fi
 
+# 7. DEF-115. The census reported a requirement whose `provider` was EMPTY and
+#    never checked that a non-empty one resolved to anything, so a provider
+#    naming a path that does not exist, or a symbol no production file contains,
+#    cleared — and the census then reported every external effect as provided
+#    while some of them named nothing. Both directions, plus the third state:
+#    with no source root declared, the resolution is NOT CHECKED out loud rather
+#    than quietly clean.
+PRV="$WORK/provider"
+mkdir -p "$PRV/camp" "$PRV/repo/src/isolation"
+cat >"$PRV/camp/inventory.json" <<'JSON'
+{"requirement": [
+  {"id":"REQ-001","title":"The engine boots a Tart guest per job","effect":"subprocess",
+   "evidence":"observed","provider":"isolation/macos.rs:88 spawn_guest"},
+  {"id":"REQ-002","title":"The daemon uploads each job log over HTTPS",
+   "effect":"outbound-socket","evidence":"observed","provider":"net/upload.rs:12 push_log"}]}
+JSON
+cat >"$PRV/repo/src/isolation/macos.rs" <<'RS'
+pub fn spawn_guest(job: &Job) -> Result<Child> { Command::new("tart").spawn() }
+RS
+
+# No root declared: both providers are strings nobody read, and the run says so.
+out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "2 of 2 named, 0 resolved — NOT CHECKED" <<<"$out"; then
+  say "ok    with no source root the provider resolution is not-checked out loud"; PASS=$((PASS+1))
+else
+  echo "FAIL  an unresolvable census should say NOT CHECKED (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+echo '{"project":"Provider","sourceRoot":"'"$PRV/repo"'"}' >"$PRV/camp/campaign.json"
+out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "which resolves to nothing" <<<"$out" \
+   && grep -qF -- "2 of 2 named, 1 resolved" <<<"$out"; then
+  say "ok    a provider naming a file and a symbol that do not exist is a finding"; PASS=$((PASS+1))
+else
+  echo "FAIL  a dangling provider should be a finding with a denominator (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# The one that does resolve is not reported: a gate that always fails checks
+# nothing. REQ-001's provider names a real file and a real symbol.
+if ! grep -qF -- "REQ-001 declares" <<<"$out"; then
+  say "ok    the provider that resolves is not reported"; PASS=$((PASS+1))
+else
+  echo "FAIL  a resolving provider was reported as unresolved"; FAIL=$((FAIL+1))
+fi
+mkdir -p "$PRV/repo/src/net"
+cat >"$PRV/repo/src/net/upload.rs" <<'RS'
+pub async fn push_log(body: Vec<u8>) -> Result<()> { client.post(URL).body(body).send().await }
+RS
+out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "2 of 2 named, 2 resolved" <<<"$out"; then
+  say "ok    writing the provider it named clears the census"; PASS=$((PASS+1))
+else
+  echo "FAIL  a resolving provider should clear (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# A symbol that lives only in the test tree is the product's own stand-in
+# naming itself as the thing it stands in for.
+mkdir -p "$PRV/repo/tests"
+cat >"$PRV/repo/tests/fake_filter.rs" <<'RS'
+pub fn install_filter_rule(_: &str) -> bool { true }
+RS
+python3 - "$PRV/camp" <<'PYPROV'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["requirement"].append({"id": "REQ-003", "title": "The daemon writes a packet filter rule",
+                           "effect": "packet-filter", "evidence": "observed",
+                           "provider": "install_filter_rule"})
+p.write_text(json.dumps(inv, indent=2))
+PYPROV
+out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "no production source contains 'install_filter_rule'" <<<"$out"; then
+  say "ok    a provider that exists only in the test tree does not resolve"; PASS=$((PASS+1))
+else
+  echo "FAIL  a test-only symbol should not resolve as a provider (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# 8. DEF-116. The shared pass exempted a duplicate on a declaration written into
+#    the registry being checked, so a capture authorised its own duplicate — and
+#    `sharesReason`, demanded by the blocker's own remedy text, was read by no
+#    code at all. campaign.py has required it since 0.9.3; the two gates
+#    disagreed about the same declaration. Four fixtures, one per rung of the bar.
+SH="$WORK/share"
+mkdir -p "$SH/evidence/shots"
+png "$SH/evidence/shots/SURF-001.png" 40 30 3 9 27
+cp "$SH/evidence/shots/SURF-001.png" "$SH/evidence/shots/SURF-002.png"
+cat >"$SH/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"Settings","route":"/settings","shot":"evidence/shots/SURF-001.png"},
+ {"id":"SURF-002","name":"Account","route":"/settings/account","shot":"evidence/shots/SURF-002.png"}]}
+JSON
+share_manifest() { # share_manifest <json-for-002-extras>
+  python3 - "$SH" "$1" "$2" <<'PYSHARE'
+import hashlib, json, pathlib, sys
+d, one, two = pathlib.Path(sys.argv[1]), json.loads(sys.argv[2]), json.loads(sys.argv[3])
+rows = []
+for sid, extra in (("SURF-001", one), ("SURF-002", two)):
+    rel = f"evidence/shots/{sid}.png"
+    row = {"path": rel, "subject": sid, "channel": "playwright/chromium",
+           "sha256": hashlib.sha256((d / rel).read_bytes()).hexdigest()}
+    row.update(extra)
+    rows.append(row)
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PYSHARE
+}
+
+# one side declares, the other does not
+share_manifest '{"target":"http://h/settings","sharesWith":["SURF-002"],"sharesReason":"one sheet"}' \
+               '{"target":"http://h/settings"}'
+out="$(cl "$SH" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "declaring one side of a share is not a declaration" <<<"$out"; then
+  say "ok    a one-sided share declaration does not authorise the duplicate"; PASS=$((PASS+1))
+else
+  echo "FAIL  a one-sided declaration should still fail (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# both sides, no reason — the field the message demanded and nothing read
+share_manifest '{"target":"http://h/settings","sharesWith":["SURF-002"]}' \
+               '{"target":"http://h/settings","sharesWith":["SURF-001"]}'
+out="$(cl "$SH" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "records no \`sharesReason\`" <<<"$out"; then
+  say "ok    a share with no recorded reason is a duplicate with a label on it"; PASS=$((PASS+1))
+else
+  echo "FAIL  a reasonless share should fail (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# reason present, both sides declaring, and the two captures were pointed at two
+# different addresses: two shutters, two subjects, one image that came out
+# byte-identical. The declaration is then the only thing saying they are one
+# picture, and the declaration is the thing under test.
+share_manifest '{"target":"http://h/settings","sharesWith":["SURF-002"],"sharesReason":"one sheet"}' \
+               '{"target":"http://h/settings/account","sharesWith":["SURF-001"],"sharesReason":"one sheet"}'
+out="$(cl "$SH" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "different targets" <<<"$out"; then
+  say "ok    a declaration nothing outside it corroborates does not clear"; PASS=$((PASS+1))
+else
+  echo "FAIL  an uncorroborated declaration should fail (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# The legitimate case: two subjects that are one address — the channel recorded
+# that one address for both, each capture ties to its own subject's route, and
+# every member names the other with a reason.
+python3 - "$SH" <<'PYALIAS'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "inventory.json"
+inv = json.loads(p.read_text())
+inv["surface"][1]["route"] = "/settings"     # Account is a state of the same sheet
+p.write_text(json.dumps(inv, indent=1) + "\n")
+PYALIAS
+share_manifest '{"target":"http://h/settings","sharesWith":["SURF-002"],"sharesReason":"one sheet serves both"}' \
+               '{"target":"http://h/settings","sharesWith":["SURF-001"],"sharesReason":"one sheet serves both"}'
+out="$(cl "$SH" --gate)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "declared share" <<<"$out"; then
+  say "ok    a corroborated, reasoned, mutual share clears and prints"; PASS=$((PASS+1))
+else
+  echo "FAIL  a genuine declared share should clear (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# 9. DEF-117. Every finding the gate made was derived from PUBLISHED captures,
+#    so an image nobody publishes contributed to nothing: measured as
+#    `published captures: 0 · files in shots dir: 11`, exit 0, and the sentence
+#    "Every published capture names a target that ties to its subject" — true,
+#    and covering nothing. And a ratchet of 0 pinned a bar that cannot fall.
+UN="$WORK/unpublished"
+mkdir -p "$UN/evidence/shots"
+png "$UN/evidence/shots/SURF-001.png" 40 30 11 22 33
+png "$UN/evidence/shots/stray.png" 40 30 44 55 66
+cat >"$UN/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"Dashboard","route":"/dashboard","shot":"evidence/shots/SURF-001.png"}]}
+JSON
+python3 - "$UN" <<'PYUN'
+import hashlib, json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); rel = "evidence/shots/SURF-001.png"
+rows = [{"path": rel, "subject": "SURF-001", "target": "http://h/dashboard",
+         "channel": "playwright/chromium",
+         "sha256": hashlib.sha256((d / rel).read_bytes()).hexdigest()}]
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PYUN
+out="$(cl "$UN" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "no subject publishes it and no manifest entry names it" <<<"$out"; then
+  say "ok    an image on disk nothing publishes is a finding"; PASS=$((PASS+1))
+else
+  echo "FAIL  an unaccounted image should be a finding (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# The escape exists, and it is recorded rather than silent.
+python3 - "$UN" <<'PYUN2'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); p = d / "evidence/shots/captures.json"
+rows = json.loads(p.read_text())
+rows.append({"path": "evidence/shots/stray.png", "channel": "playwright/chromium",
+             "unpublishedReason": "the empty-state variant, kept for the next campaign"})
+p.write_text(json.dumps(rows, indent=1) + "\n")
+PYUN2
+out="$(cl "$UN" --gate)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "declared unpublished: evidence/shots/stray.png" <<<"$out"; then
+  say "ok    an image declared unpublished with a reason clears and prints"; PASS=$((PASS+1))
+else
+  echo "FAIL  a declared-unpublished image should clear (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# A manifest entry alone is not the escape: the reason is the escape.
+python3 - "$UN" <<'PYUN3'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); p = d / "evidence/shots/captures.json"
+rows = json.loads(p.read_text())
+rows[-1].pop("unpublishedReason")
+p.write_text(json.dumps(rows, indent=1) + "\n")
+PYUN3
+out="$(cl "$UN" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "records no \`unpublishedReason\`" <<<"$out"; then
+  say "ok    a manifest entry without a reason is not the escape"; PASS=$((PASS+1))
+else
+  echo "FAIL  an entry with no reason should still be a finding (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 - "$UN" <<'PYUN4'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); p = d / "evidence/shots/captures.json"
+rows = json.loads(p.read_text())
+rows[-1]["unpublishedReason"] = "the empty-state variant, kept for the next campaign"
+p.write_text(json.dumps(rows, indent=1) + "\n")
+PYUN4
+# Nothing has been judged, so there is no bar to pin.
+out="$(cl "$UN" --set-ratchet)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "a ratchet of 0 pins nothing" <<<"$out"; then
+  say "ok    a ratchet of 0 is refused outright"; PASS=$((PASS+1))
+else
+  echo "FAIL  a ratchet of 0 should be refused (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+echo '[{"subject":"SURF-001","verdict":"pass","reason":"matches its reference"}]' >"$UN/witness-verdicts.json"
+out="$(cl "$UN" --set-ratchet)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "ratchet set to 1" <<<"$out"; then
+  say "ok    a judged capture earns a ratchet the gate can hold"; PASS=$((PASS+1))
+else
+  echo "FAIL  a judged capture should pin a ratchet (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# 10. DEF-118. The corpus root lived only on the command line while the
+#     vocabulary that has to agree with it lived in campaign.json. Pointing a
+#     campaign whose vocabulary is one language at another language's test tree
+#     produced 32 findings, identical in shape and confidence to genuine ones;
+#     against its own corpus the same command returned 0, and nothing warned.
+TR="$WORK/testroot"
+mkdir -p "$TR/camp" "$TR/repo/tests" "$TR/foreign/tests"
+cat >"$TR/camp/inventory.json" <<'JSON'
+{"requirement":[{"id":"REQ-001","title":"The daemon keeps a counter in memory","effect":"none"}]}
+JSON
+cat >"$TR/camp/campaign.json" <<JSON
+{"project":"TestRoot","testRoot":"$TR/repo/tests",
+ "blindVocabulary":{"mutators":["stop_runner"],"readers":["list_runners"]}}
+JSON
+cat >"$TR/repo/tests/spec_runner.rs" <<'RS'
+#[test]
+fn stopping_a_runner_reports_success() {
+    let ok = s.stop_runner("runner-01");
+    assert!(ok);
+}
+RS
+out="$(python3 "$S/vacuity-check.py" "$TR/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "campaign.json testRoot" <<<"$out" \
+   && grep -qF -- "mutating=1 re-read-after=0 blind=1" <<<"$out"; then
+  say "ok    campaign.json declares the corpus and the blind pass runs on it"; PASS=$((PASS+1))
+else
+  echo "FAIL  a declared testRoot should run the blind pass (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# The same vocabulary, pointed at another language's tree. What comes back is
+# the mismatch, not a number.
+cat >"$TR/foreign/tests/test_api.py" <<'PYF'
+def test_creating_a_user_returns_an_id():
+    u = create_user("ada")
+    assert u.id
+PYF
+out="$(python3 "$S/vacuity-check.py" "$TR/camp" --tests "$TR/foreign/tests" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "VOCABULARY DOES NOT FIT" <<<"$out" \
+   && grep -qF -- "overrides campaign.json testRoot" <<<"$out" \
+   && ! grep -qF -- "test_creating_a_user_returns_an_id" <<<"$out"; then
+  say "ok    a vocabulary that does not fit the corpus says so instead of counting"; PASS=$((PASS+1))
+else
+  echo "FAIL  a foreign corpus should report the misfit and no findings (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# And the corroboration is not a blanket refusal: a corpus the vocabulary does
+# fit still gets its number, over the same foreign tree once the vocabulary is
+# the one that tree is written in.
+cat >"$TR/camp/campaign.json" <<JSON
+{"project":"TestRoot","testRoot":"$TR/foreign/tests",
+ "blindVocabulary":{"mutators":["create_user"],"readers":["list_users"]}}
+JSON
+out="$(python3 "$S/vacuity-check.py" "$TR/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "test_creating_a_user_returns_an_id" <<<"$out" \
+   && ! grep -qF -- "VOCABULARY DOES NOT FIT" <<<"$out"; then
+  say "ok    a vocabulary that fits its corpus still produces the finding"; PASS=$((PASS+1))
+else
+  echo "FAIL  a fitting vocabulary should produce findings (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
 echo
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1
