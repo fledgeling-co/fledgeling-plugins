@@ -1,38 +1,85 @@
 # The executor coding lanes — agy, grok, codex, and the Claude fail-back
 
 > **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class>` for the model,
-> the effort and the exact argv, or `lane_run.sh <class> "<prompt>"` to run and
-> wire-verify it in one step. The classes are `implementation`, `completeness`,
-> `general`, `referral`, `verification` and `design-review`. Three rules bind
-> everywhere: `gpt-5.6-sol` never runs at `max` (it is the referral lane at
-> `medium`, and other work goes to `gpt-5.6-terra` at `high`), Fable judges but
-> never grades code or a ticket, and design review stays on Opus and Fable. What
-> follows is this pipeline's reading of that policy, not a second copy of it.
+> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
+> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
+> to run and wire-verify it in one step. The classes are `implementation`,
+> `completeness`, `general`, `referral`, `verification` and `design-review`.
+> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
+> the shapes. It narrows the class to the lanes measured good enough for that kind
+> of work before headroom picks, which is where the cost saving lives; the two
+> gated classes are `implementation` and `general`, and the judgement classes
+> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
+> `max` (it is the referral lane at `medium` and the implementation lane at
+> `high`), Fable judges but never grades code or a ticket, and design review stays
+> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
+> second copy of it.
 
 Delegate mechanical, plan-scoped code writing to an external executor CLI, and spend the
 session model on orchestration, verification, and fixes. This file owns the **shared** delegation
 criteria, prompt contract, verify-fix loop, fallback, and accounting for every lane; per-lane
 mechanics follow, and the Codex-specific harness lives in `codex-cli.md`.
 
-**Lane order** (from `model-lanes.md` — availability decides, in this order):
+## Picking the lane: name the slice's shape, then ask
 
-1. **agy** — gemini-flash-3.7 at `high`. Preferred: the highest tokens/sec of the set, which is
-   what an executor spends most of its time on.
-2. **grok** — grok-4.6 at `high`. Harness fallback: the same model via `cursor-agent` when the
-   grok CLI can't run headless — an honest substitute, and the accounting says which harness ran.
-3. **codex** — gpt-5.6-terra at `medium`. The lane with the strongest drift protection: its
-   post-compaction re-context harness (`codex-cli.md` §R3) re-injects the spec and plan verbatim
-   after every compaction. Prefer it over lanes 1–2 for a slice long enough to compact.
-4. **Claude (fail-back)** — the session model writes the code. Any lane failing for any reason
-   routes here: never to a sibling cheap lane (a lane that failed on quality doesn't get a
-   stand-in carrying the same review debt), and never dropped or deferred because the cheap path
-   was down.
+There is no fixed lane order any more. Which executor is right depends on what the
+slice **is**, and `defer` measured that over 106 tasks rather than assuming it:
 
-The **review gates are a different job and do not follow this order**: the out-of-family spec/plan
+```bash
+python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
+```
+
+Read the shape off the plan you are already holding. The four that decide most slices:
+
+| The slice… | `--shape` |
+|---|---|
+| edits code that already exists, spans more than two files, or has several acceptance criteria at once | `brownfield-integration` |
+| adds a new self-contained module behind one acceptance surface | `greenfield-module` |
+| must not break a suite, a public API or a live consumer that currently passes | `regression-sensitive` |
+| builds a React component and its interaction states | `react-ui` |
+
+`lane_pick.py --matrix` lists all eleven with their measured numbers. When a slice
+genuinely spans two, name the stricter one — `brownfield-integration` and
+`regression-sensitive` are the two where a wrong lane costs the most.
+
+**Why the old fixed order went.** This file used to pin agy → grok → codex → Claude,
+preferring agy for having "the highest tokens/sec of the set". Measured, that order
+cost an average of **16 points** against the best lane available per shape, reaching
+54 on a from-scratch page and 38 on regression-sensitive work, and its first choice
+grades RED on five of eleven shapes. The throughput premise did not survive either:
+per whole task, gemini runs 4.0 minutes against `gpt-5.6-terra@medium`'s 2.2 at half
+the cost. The order was right on the three shapes it was tuned against — greenfield
+modules, api surfaces, React components, where gemini is still the top lane — and
+expensive everywhere else. Asking per shape keeps the wins and drops the losses.
+
+Two things the router does that this file used to do by hand: it skips a lane that is
+out of allowance, and it refuses a lane measured too far behind for that shape rather
+than falling through to it. If you cannot classify the slice, omit `--shape` — the
+router falls back to headroom alone, which is the behaviour this file had before.
+
+**Two overrides the score matrix cannot see.** The bench scores one bounded task per
+run, so it measures neither of these; both still hold:
+
+- **A slice long enough to compact goes to the codex lane** whatever the shape says.
+  Its post-compaction re-context harness (`codex-cli.md` §R3) re-injects the spec and
+  plan verbatim after every compaction, and no other lane has an equivalent. A lane
+  that drifts after compaction produces confident work against a forgotten spec, which
+  is worth more than the few points a better-scoring lane would add.
+- **The grok lane keeps its harness fallback** — the same model via `cursor-agent`
+  when the grok CLI cannot run headless. An honest substitute, and the accounting says
+  which harness ran.
+
+**Claude remains the fail-back, unchanged.** Any lane failing for any reason routes to
+the session model: never to a sibling cheap lane (a lane that failed on quality doesn't
+get a stand-in carrying the same review debt), and never dropped or deferred because
+the cheap path was down.
+
+The **review gates are a different job and do not use `--shape`**: the out-of-family spec/plan
 reviews and the completeness critic run per `second-opinion-lanes.md` and `codex-cli.md` §R1/R2
-(codex `gpt-5.6-sol` at `medium` first, then agy, then grok). Don't apply this file's cost reasoning
-to them — an unavailable executor costs tokens; an unavailable reviewer costs evidence.
+(codex `gpt-5.6-sol` at `medium` first, then agy, then grok). `defer`'s shape gate abstains for
+those classes by design — the benchmark measures a model *building* something, which is no
+evidence about how well it grades someone else's work. Don't apply this file's cost reasoning
+to them either: an unavailable executor costs tokens; an unavailable reviewer costs evidence.
 
 ## Availability check (once per run, per lane you intend to use)
 
