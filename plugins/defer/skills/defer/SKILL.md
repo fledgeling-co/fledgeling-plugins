@@ -3,17 +3,20 @@ name: defer
 description: >-
   Decide which model a piece of work goes to, and produce the exact command that
   sends it there. One routing policy for every skill that hands work outside the
-  session: six task classes mapped to seven lanes across five model families,
-  each pinned to a model and an effort, with the CLI arguments, the environment
-  GLM needs, and the check that proves the lane ran as routed. Where several
-  lanes are eligible it picks the one with the most plan headroom per remaining
-  day, measured — Claude and Codex report a real utilization percentage that is
-  already on disk, and Grok, GLM and Gemini are counted locally against a budget
-  you calibrate from a percentage you can see. Use when a skill needs a second
+  session: six task classes mapped to ten lanes across five model families, each
+  pinned to a model and an effort, with the CLI arguments, the environment GLM
+  needs, and the check that proves the lane ran as routed. Narrows those lanes by
+  what the work actually is, against a capability matrix measured over 106
+  benchmark tasks, so a piece of work goes to the cheapest lane that scored level
+  with Opus on that shape rather than to Opus by default. Where several lanes
+  remain it picks the one with the most plan headroom per remaining day, measured
+  — Claude and Codex report a real utilization percentage that is already on
+  disk, and Grok, GLM and Gemini are counted locally against a budget you
+  calibrate from a percentage you can see. Use when a skill needs a second
   opinion, an out-of-family verdict, a completeness critic, an implementation
   lane, or a design review, and whenever someone asks which model should do
-  something, why a lane was chosen, what a lane costs, or whether one is out of
-  allowance.
+  something, why a lane was chosen, what a lane costs, whether a cheaper model
+  could do it instead, or whether one is out of allowance.
 ---
 
 # defer
@@ -24,21 +27,22 @@ really ran. This skill holds all three in one place so that every skill routes
 the same way, and so that changing the policy is one edit rather than fourteen.
 
 The routing rule is not "use the best model". It is: **the work class decides the
-family, and measured headroom decides which lane inside it.**
+family, the work shape decides which lanes are good enough, and measured headroom
+decides which of those runs it.**
 
 ## Route
 
 Run this. It reads the policy and the meters and prints a command:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py --task <class>
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]
 ```
 
 The classes, and what each one is for:
 
 | `--task` | For | Lanes | Effort |
 |---|---|---|---|
-| `implementation` | writing code | gemini · grok · glm · opus | high · **xhigh** · high · xhigh |
+| `implementation` | writing code | shape decides, then headroom | pinned per lane |
 | `completeness` | the critic that finds what was promised and not delivered | grok · glm · gemini | **xhigh** · high · high |
 | `general` | anything that is neither a referred decision nor a verdict | `gpt-5.6-terra` | **high** |
 | `referral` | a decision or fork put to another model | `gpt-5.6-sol` · `claude-fable-5` | **medium** · **high** |
@@ -46,13 +50,15 @@ The classes, and what each one is for:
 | `design-review` | judging rendered UI | `claude-opus-5` · `claude-fable-5` | xhigh · high |
 
 `--json` gives the same answer as a structured object with the argv and env
-ready to spawn. `--report` prints every lane's meter without choosing.
+ready to spawn. `--report` prints every lane's meter without choosing, and
+`--matrix` prints the measured capability table without choosing either.
 
 Three rules hold above the table, and they are the ones most likely to be
 violated by habit:
 
-- **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium`.
-  Work that is not a referred decision goes to `gpt-5.6-terra` at `high`.
+- **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
+  the implementation lane at `high`. Work that is not a referred decision goes
+  to a terra lane or to `sol@high`.
 - **Fable judges; it does not verify.** Forks, design calls and referred
   decisions, yes. Grading code or a ticket against its acceptance criteria, no —
   that is `claude-opus-5` at `xhigh`.
@@ -60,6 +66,53 @@ violated by habit:
 
 Full matrix, every command template, and the substitution rules for a lane that
 is down: `references/lanes.md`.
+
+## Say what the work is, not just what class it is
+
+`--task implementation` says a lane will write code. `--shape` says what kind,
+and it is the difference between routing on a general ranking and routing on
+evidence about this piece of work:
+
+```bash
+lane_pick.py --task implementation --shape regression-sensitive
+```
+
+Eleven shapes are defined, each with the tell that identifies it and the guard
+that applies when the chosen lane is a cheaper one — `--matrix` lists them.
+The ones that most change the answer:
+
+| shape | what it is | who wins |
+|---|---|---|
+| `brownfield-integration` | editing existing multi-file code under several acceptance criteria at once | opus, clearly. Everything cheap collapses here |
+| `greenfield-module` | a new self-contained unit behind one acceptance surface | Gemini, level with opus, at a seventh of the cost |
+| `regression-sensitive` | it must not break a contract that currently passes | `sol@high`, ahead of opus by 16 points |
+| `algorithmic` | there is a stated complexity bound | anything. Every lane ties; take the cheapest |
+| `static-page` | a self-contained page authored from nothing | the OpenAI lanes, ahead of opus. Gemini collapses |
+| `deck` | slides | opus. Nothing measured level with it |
+
+The numbers behind every cell, the gate thresholds, and what the evidence does
+and does not support: `references/capability.md`.
+
+Two properties of the gate are worth holding before you trust a route. **The
+reference lane is the fail-back, never a competitor** — opus grades `REF` on
+every shape by construction, and counting that as a pass would hand it every
+route on the strength of being the yardstick. And **a shape only narrows a class
+that the bench can speak to.** The corpus measures a model building something,
+so `implementation` and `general` are gated and `verification`, `referral`,
+`completeness` and `design-review` are not; passing `--shape` to those returns
+the policy answer unchanged rather than a verdict the evidence cannot support.
+
+Inside whichever band it lands in, **score leads and usage follows**: the best
+measured lane wins unless another is within 5 points of it, and only then does
+headroom choose between them. The output tells you which stage decided — `equal`
+lists the lanes headroom picked among, `outrank` lists the ones set aside for
+being further behind.
+
+When the gate lands on a guarded lane it prints that shape's guard — the
+condition under which the cheaper lane's known weakness stops mattering. Satisfy
+it in the prompt. `--require-dropin` refuses the guarded band outright and falls
+back to opus instead.
+
 
 ## Then verify the lane actually ran
 
@@ -87,29 +140,53 @@ nothing at all.
 
 ## How the choice is made
 
-Everything runs on a subscription, so the scarce thing is plan headroom in the
-current window, not money. Raw usage is the wrong comparison — a lane holding 60%
-with six days to run is tighter than one holding 80% that resets tonight — so
-what gets ranked is headroom per remaining day:
+A route is decided in three stages, and each one answers a different question.
+
+**Is this lane good enough?** The shape gate, from the capability matrix. Lanes
+measured too far behind on this kind of work are set aside before anything else
+is considered.
+
+**Will the output be as good?** Score. Among the lanes that cleared the gate,
+take the best measured on this shape and keep everything within 5 points of it.
+That margin is what GREEN already means, so "close enough to opus to substitute"
+and "close enough to each other to swap" are one claim at one size.
+
+**Which of the equally good lanes can afford it?** Usage. Everything runs on a
+subscription, so the scarce thing is plan headroom in the current window, not
+money. Raw usage is the wrong comparison — a lane holding 60% with six days to
+run is tighter than one holding 80% that resets tonight — so what gets ranked is
+headroom per remaining day:
 
 ```
 allowance = (1 - used_pct) / days_left
 ```
 
 Largest wins. Where two lanes sit within 20% of each other the meters cannot
-honestly separate them, so the tie breaks on published price: Gemini $4.50, GLM
-$5.80, Grok $8.00 per blended Mtok.
+honestly separate them, so the tie breaks on **measured cost per task**:
+`terra@medium` $0.14, `sol@medium` $0.20, `sol@high` $0.25, gemini $0.29, grok
+$0.63, `terra@max` $0.67, glm $0.78, opus $2.16, fable $3.13. List price per Mtok
+cannot break that tie — the five codex lanes all bill at one rate and differ by
+nearly 5x on what a task costs, because effort buys tokens.
 
-Balancing exists because the depth is uneven. Opus is the primary model here, so
-Claude was bought deep — nine accounts carried a live seven-day meter on
+The order is deliberate. Ranking headroom before score trades real output quality
+for load-spreading: it once sent greenfield work to a lane 13 points behind
+because the better one was near its budget. Score-led down to the margin and
+usage-led inside it makes that trade only where it costs nothing. A spent top
+scorer never stalls a route — lanes at their cap drop out before the equivalence
+set is built, so the next-best live lane leads.
+
+Balancing exists at all because the depth is uneven. Opus is the primary model
+here, so Claude was bought deep — nine accounts carried a live seven-day meter on
 2026-08-21, the emptiest at 41% — while xAI, Z.AI, Google and OpenAI are one
-account each, and grok and codex were already spent that day. So the Claude
-classes name a model outright and do not rank, and the two fanning-out classes
-rank across grok, GLM and Gemini precisely because running the nominal best every
-time empties a single-account lane inside a week. The scarce lanes are still
-worth spending on `completeness`, which excludes Claude entirely: Claude checking
-Claude is not an independent check, and that is the one thing the deeper pool
-cannot buy.
+account each. So the Claude classes name a model outright and do not rank, and
+the fanning-out classes spread across the rest precisely because running the
+nominal best every time empties a single-account lane inside a week. The five
+codex lanes share one account and therefore one meter: adding an effort variant
+buys a cheaper lane, never more headroom.
+
+The scarce lanes are still worth spending on `completeness`, which excludes
+Claude entirely: Claude checking Claude is not an independent check, and that is
+the one thing the deeper pool cannot buy.
 
 Meters come in two tiers and the report always says which. **Claude and Codex
 report a real utilization percentage** the vendor computed, already on disk —
