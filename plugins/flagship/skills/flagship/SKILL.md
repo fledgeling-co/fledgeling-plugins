@@ -194,6 +194,16 @@ room* — and ask for the ceiling rather than assuming there is none.
   reading is correct for its population, and the error is reading it as a wider population.
   **Read a low `in_use` as "nothing claimed", never as "nothing running", and confirm with
   load before dispatching.** As an admission gate it is sound; as a census it is not.
+- **READ `berths.py` BEFORE RELEASING ANYONE. Load is not admission control and never agrees
+  with it under contention — load is low *precisely because* throttled work is not running.**
+  This conductor released a session twice on a load figure while `available` read **0**, and
+  both times it was released into a machine that could admit nothing. Say `available` to a
+  session, not load: it is the only number that knows about claimants, and it is the field
+  `governor-run` itself gates on. A release message quoting per-core load and not `available`
+  is a release into an unknown.
+- **And the figure expires in seconds.** A session read `ceiling 6, available 6, load falling`,
+  launched **twenty seconds later**, and was refused: `ceiling 6 → 3, in_use 0 → 6, critical`.
+  Hand out the timestamp, and expect the receiver to re-read rather than trust it.
 - **`available` is worthless as a load proxy and authoritative as an admission predicate.
   Those are two different questions and the error is answering the first with it.** It is the
   same field `governor-run` itself gates on, so it answers exactly *"will my claim be granted
