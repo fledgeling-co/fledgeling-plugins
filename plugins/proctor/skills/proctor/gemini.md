@@ -18,7 +18,7 @@ Every instrument is an MCP tool return, and Override 1 is written against that.
   bounds is to *"rephrase the instructions as a multiple choice question and ask
   the model to choose an option."*
 - **The counts are already objective** — seven stages, seventeen assertion kinds,
-  twenty tools, five stability runs by default, a fan-out capped at four — and
+  twenty-one tools, five stability runs by default, a fan-out capped at four — and
   the unhappy paths are enumerated, thirteen content and nine environment states
   in `references/methodology.md`, each with a breakage column. **[docs]** Under
   **Ambiguity**: *"Avoid using subjective or relative qualifiers that lack a
