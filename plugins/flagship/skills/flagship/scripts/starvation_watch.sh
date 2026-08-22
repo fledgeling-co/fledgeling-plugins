@@ -201,12 +201,18 @@ while true; do
   # reading load alone attributes it to the fleet and holds work that was never
   # the cause. Two samples before speaking, so a transient spike stays quiet.
   daemon=$(runaway_daemon)
+  # Key the state on WHICH daemons are over threshold, never on their percentages.
+  # Keying on the full string meant every sample was a "change" — the same condition
+  # reported seven times as 175%, 178%, 174%, 179%, 182%, 186%, 173%. A wake that
+  # carries no new information trains its reader to ignore wakes, which is the whole
+  # reason this watch emits on change rather than on a schedule.
+  daemon_key=$(print -r -- "$daemon" | grep -oE '^[a-zA-Z_][a-zA-Z0-9_.-]*|; [a-zA-Z_][a-zA-Z0-9_.-]*' | tr -d '; ' | sort -u | tr '\n' ',')
   [ -n "$daemon" ] && streak_daemon=$((streak_daemon+1)) || streak_daemon=0
-  if [ $streak_daemon -ge 2 ] && [ "$daemon" != "$prev_daemon" ]; then
+  if [ $streak_daemon -ge 2 ] && [ "$daemon_key" != "$prev_daemon" ]; then
     echo "OS DAEMON — $daemon (not fleet work; needs sudo to clear)"
-    prev_daemon="$daemon"
+    prev_daemon="$daemon_key"
   elif [ $streak_daemon -eq 0 ] && [ -n "$prev_daemon" ]; then
-    echo "OS DAEMON cleared — $prev_daemon is back under ${DAEMON_PCT}%"
+    echo "OS DAEMON cleared — ${prev_daemon%,} is back under ${DAEMON_PCT}%"
     prev_daemon=""
   fi
 

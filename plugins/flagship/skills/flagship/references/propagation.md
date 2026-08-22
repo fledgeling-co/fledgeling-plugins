@@ -975,3 +975,48 @@ for was found by a peer reading `ps` before the detector existed. It is correct 
 controls now, which is not the same as having caught anything. State that when handing an
 instrument over: *armed and demonstrated* and *proven in the field* are different claims, and
 only one of them is available on the night you write it.
+
+## A gate whose pass condition is "you are the author" (23 Aug 2026)
+
+The gate-location finding got much larger when it was measured rather than predicted.
+
+The original report was **51 citations failing** on the integration branch. Tested properly
+with `git worktree add --detach` — which keeps `.git` resolution, so `git show HEAD:` works —
+the real figure is **`examined=558 absent=558`**. *Every* citation fails on a fresh checkout.
+The 51 were merely the ones that also failed on the author's own machine; the other 507 were
+carried by **94 untracked logs sitting in that working copy from earlier runs**.
+
+So it is not a defect in 51 citations. **`check-case-citations` has never been able to run
+anywhere but a machine that generated the artifacts, and it has been reporting green on that
+basis since it was written.** A gate whose pass condition is *you are the author*.
+
+A second repo measured the same class on one commit in two checkouts: `campaign.py check`
+exits **0** in the working directory and **1** on a fresh checkout of that same commit — three
+cases citing PNGs git does not carry, resolving only because earlier runs left them on disk.
+Its scope was 2 cases and 3 files rather than 51, and it corrected its own earlier report in
+the same breath: **"when I told you main was green, that was true of this checkout and not of
+the repository."**
+
+Two things make it actionable:
+
+- **It prints a denominator that reads as coverage and is really a citation count.**
+  `examined=558` looks like a measurement of how much was checked; it is how many rows exist.
+  A gate step reading an untracked file must be made to **degrade to honest absence** rather
+  than pass by authorship — which is Errand's step-versus-report distinction turned into a
+  requirement.
+- **The caution that saved it did not prevent a wrong answer; it prevented a right answer with
+  unusable provenance.** The session was about to build its clean tree with
+  `git archive main | tar -x`, which carries no `.git` and manufactures provenance failures
+  identical to the real defect. It would have reached `558 absent` **for the wrong reason** and
+  filed a correct conclusion on evidence that would not survive review. That is harder to
+  notice afterwards than being wrong.
+
+## A runner reporting a pre-existing failure is a claim like any other (23 Aug 2026)
+
+A gap-fix runner reported two baselines: that a check exited 1 as a standing condition, and
+that a doc was already stale at 110/66/44. On `main` the check exits **0** with 42 cases and
+the doc is **correct** at 108/66/42. The branch had 44 because **its own two new cases filled
+the id gaps** — so both "pre-existing failures" were the runner's own work, misattributed to
+the world.
+
+Verify a claimed baseline against the base, not against the branch reporting it.
