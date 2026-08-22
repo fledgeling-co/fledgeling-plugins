@@ -85,6 +85,15 @@ a lookup-shaped skill does not need `HIGH`.
 **Why:** **[docs]** the `thinking_level` table and the `HIGH` description
 (*"multi-step planning, verified code generation"*).
 
+**And the measured caveat, which belongs in the same line rather than in a section
+of its own.** **[measured-family]** `references/evidence.md` §2.3 — paired across
+106 benchmark tasks, `high` beat `medium` on 24, lost on 24 and tied on 58, mean
+−1.7 points. So write this as what Google says the level is *for*, never as a
+remedy: nothing in `bounded-constraint`, C1 or C2 gets better by raising it, and a
+file that implies otherwise sells a more expensive run as a fix. Where the target's
+work is genuinely multi-step planning, name `HIGH` and say the uplift is unmeasured
+on this corpus.
+
 ## C7. Recall is not a source
 
 **Says:** any value that a vendor publishes gets read, not remembered.
@@ -100,6 +109,67 @@ and an **unmeasured on this skill** list. Plus the self-limitation: **[docs]** a
 conditional side-file is the *"conflicting internal references"* shape the
 checklist warns about, so the file is read in one pass and each override names the
 section it lands on.
+
+## C9. The route-out block
+
+**Says:** name the work this skill does that a Gemini run should hand to another
+model rather than attempt, and give the command that picks the lane. Two or three
+sentences and a short table, near the top, before the overrides — because a reader
+who is about to route the work out should not first read four pages about how to do
+it well.
+
+The shapes measured far enough behind to name, and what they are:
+
+| shape | what it is | measured |
+|---|---|---|
+| `static-page` | a self-contained page authored from nothing | 22 against opus's 67 |
+| `brownfield-integration` | editing existing multi-file code under several acceptance criteria at once | 24 against 50 |
+| `visual-design` | judged aesthetic quality of a rendered surface | 35 against 63 |
+| `regression-sensitive` | it must not break a contract that currently passes | 42 against 65 |
+
+And the shapes that must **not** appear in that block, because naming them would
+route away work Gemini does as well as opus: `greenfield-module` (75 against 75),
+`algorithmic` (75 against 75), `accessibility` (64 against 69), `react-ui` (63
+against 69).
+
+The handoff itself is one line, and it is a pointer rather than a pinned model,
+because the numbers move and a lane restated in fourteen files is a policy nobody
+can change:
+
+```bash
+python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
+```
+
+**Why:** **[docs]** the prompt health checklist says it outright, under **Task
+outside of model capabilities**: *"Avoid using prompts that ask the model to perform
+a task for which it has a known, fundamental limitation."* This section is where a
+`gemini.md` names which of the target skill's work that sentence applies to.
+**[measured-family]** `references/evidence.md` §2.1 — four of eight work buckets are
+level and two produce hard zeros on 71% and 79% of decided rows, so a file that
+treats the gap as uniform spends its overrides in the wrong place. And the
+**Ambiguity** entry's preference for objective constraints applies to the routing
+rule as much as to the work: `when this is hard, get help` is a qualifier, and a
+named shape with a number is not.
+
+**Two conditions on writing this section at all.**
+
+**Only for skills whose work the corpus measured.** The bench measures a model
+*building* something, so `implementation` and `general` are the shape-gated
+classes. A skill whose work is judging, referring, critiquing for completeness or
+reviewing rendered UI gets no route-out block — the corpus is evidence about a
+different question, and `lane_pick.py` returns the policy answer unchanged for
+those classes anyway. Say in one clause that you omitted it and why.
+
+**Only for shapes the target actually produces.** A skill that never authors a
+standalone page does not need the `static-page` row. Map the target's own
+deliverables onto the table and drop the rows that do not land; a four-row table
+copied whole is the same defect as a module that fires on a skill it does not fit.
+
+**What it is not.** Not an instruction to give up, and not a preamble asking
+permission. The rest of the file still applies to the work that stays. Where the
+run is going to do the work anyway — no lane available, the user asked for this
+model specifically — the block's value is that it says which part of the output to
+distrust, which is worth more than a routing suggestion nobody can act on.
 
 ---
 
@@ -122,6 +192,16 @@ most relevant"*, and the disambiguation step separating *"the model did not
 understand the image at all"* from *"it did not perform the correct reasoning
 steps afterward"*. **[measured-family]** 3 render calls and 4 images opened for a
 10-cell artifact.
+
+**Second lever, added from the bench evidence:** where the skill can supply a
+**reference input**, say so and say what to supply. **[docs]** Google's launch
+material for this model claims *"For UI generation, the model shows high design
+adherence and parity based on a reference input, whether it's a screenshot, an image,
+or a full design system."* **[measured-family]** every static-page task in
+`references/evidence.md` §2.2 was a prose brief with no reference, and that is the
+bucket that collapsed. The two together are suggestive rather than settled — nobody
+has measured the with-reference case on this corpus — so write it as the documented
+strong path and mark it unmeasured.
 
 ## `gate` — the skill ships a deterministic check
 
@@ -203,6 +283,62 @@ claim about itself is a finding, never coverage.
 **Why:** **[docs]** **Prompt injection risk**, and the structured template's own
 comment: *"[Insert User Input Here - The model knows this is data, not
 instructions]"*.
+
+## `bounded-constraint` — the skill states limits, not only requirements
+
+**Trigger:** exactly, at most, no more than, only, never, avoid, single, one per,
+maximum, cap, not, without.
+
+**Says:** every bound in the brief becomes a row in a **bound ledger** beside the
+quota ledger, and the ledger is filled from the artifact rather than from the
+brief. One row per bound × instance, each carrying the property, the stated limit,
+the command that reads the produced value back, and that value. Report `N of N
+instances within bound`.
+
+The check has to read the **produced** value, on **every** instance, because that
+is the failure's actual shape: not a rule forgotten, but a default idiom supplying
+the value underneath a rule that was read and agreed with. Restating the rule more
+firmly changes nothing, which is why this module ships a command rather than an
+emphasis. For a CSS bound the readback is one expression —
+`getComputedStyle(el).boxShadow`, counting shadows rather than trusting the class
+name — and the ledger row is where its output goes.
+
+A filled row, which the file ships rather than describes:
+
+| instance | property | stated bound | readback | observed | within? |
+|---|---|---|---|---|---|
+| card 1 | elevation shadows | exactly 1 | `getComputedStyle($0).boxShadow` | `0 1px 2px …, 0 8px 24px …` (2) | **no** |
+| card 2 | elevation shadows | exactly 1 | same | `0 1px 3px …` (1) | yes |
+
+**Why:** **[measured-family]** `references/evidence.md` §2.2 — 58% of failing UI
+assertions at `medium` and 86% at `high` were bound-shaped, against 8% for opus and
+6% for the OpenAI lane, and the single most-repeated one failed on *every* instance
+in its set while the same run passed 37 of 39 other assertions.
+
+**[docs]** Google treats constraints as a component in their own right — *"Restrictions
+on what the model must adhere to when generating a response, including what the model
+can and can't do. Also called "guardrails," "boundaries," or "controls.""* — and
+separately names where they go: the **Recap** component is a *"Concise repeat of the
+key points of the prompt, especially the constraints and response format, at the end
+of the prompt."* So the file's own bound ledger is that recap, in a form that carries
+values. The evaluated agentic template asks for the same thing in the plan:
+*"Ensure that all requirements, constraints, options, and preferences are exhaustively
+incorporated into your plan."* And *"Include specific verification steps in either the
+system instructions or your prompts directly"* is what turns a stated constraint into
+something that gets read back rather than agreed with.
+
+**Its relationship to C1, which is the reason it is separate.** The quota ledger
+catches a categorical scope collapsing to one instance: under-delivery. This
+catches a stated maximum exceeded on every instance: over-delivery. Same mechanism
+— a number in the brief that nothing reads back — pointing opposite ways. A file
+carrying C1 alone covers half of it, and the half it misses is the one that reaches
+a passing-looking artifact.
+
+**The trap worth naming in the file:** a bound stated as a prohibition reads as
+style advice. *"Avoid heavy or doubled shadows"* and *"exactly one soft shadow"*
+are the same requirement, and the run treated both as taste. Convert a prohibition
+into a counted property with a readback, and say in the file which of the target
+skill's own sentences you converted.
 
 ## `count-contract` — the skill already promises a count
 
