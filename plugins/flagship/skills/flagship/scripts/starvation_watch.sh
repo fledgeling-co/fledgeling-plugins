@@ -20,13 +20,41 @@
 #   WORKING     the all-clear, so a return to normal is also a wake
 
 NCPU=$(sysctl -n hw.ncpu)
+BERTHS=${FLAGSHIP_BERTHS:-$HOME/Dev/fledgeling-plugins/plugins/harbourmaster/skills/harbourmaster/scripts/berths.py}
+MIN_HELD_SEC=${FLAGSHIP_MIN_HELD_SEC:-600}   # ignore short holds; lower it to self-test
 IDLE_PER_CORE=${FLAGSHIP_IDLE_PER_CORE:-0.50}   # below this, nothing much is running
 HOT_PER_CORE=${FLAGSHIP_HOT_PER_CORE:-3.00}     # above this, shed rather than dispatch
 MIN_ACTIVE=${FLAGSHIP_MIN_ACTIVE:-4}            # sessions expected to be writing
 IDLE_SAMPLES=${FLAGSHIP_IDLE_SAMPLES:-3}        # ~3 min before calling it starved
 INTERVAL=${FLAGSHIP_INTERVAL:-60}
 
-prev=""; streak_idle=0; streak_hot=0
+prev=""; streak_idle=0; streak_hot=0; prev_leak=""
+
+# A berth is held until the process TREE exits, so a command ending in a tail, a
+# supervisor, a dev server or a --watch never returns it. You cannot see that in the
+# command you wrapped: the case this was written from was `node scripts/local-capture.mjs`,
+# whose `docker logs -f` sat three levels down, so no lint on the wrapped string would
+# have caught it. What IS visible is the work-to-wall ratio. Measured on that leak:
+# 0.08s of CPU against 7,490s elapsed, about 1e-5. Not proof, since a process genuinely
+# blocked on IO looks the same, which is why this is a warning naming the running
+# descendant rather than a verdict.
+leaked_berths() {
+  local out="" pid etime cpu esec csec desc
+  for pid in $(python3 "$BERTHS" 2>/dev/null       | python3 -c 'import sys,json;d=json.load(sys.stdin);print("\n".join(sorted({str(o.get("pid")) for o in (d.get("occupants") or []) if o.get("pid")})))' 2>/dev/null); do
+    read -r etime cpu <<< "$(ps -o etime=,time= -p "$pid" 2>/dev/null | tr -s ' ')"
+    [ -z "$etime" ] && continue
+    esec=$(echo "$etime" | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; if(n>3)s+=$(n-3)*86400; print s}')
+    csec=$(echo "$cpu"   | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; print s}')
+    [ -z "$esec" ] || [ "$esec" -lt "$MIN_HELD_SEC" ] 2>/dev/null && continue
+    # under 0.1% of wall clock spent on CPU, across the whole tree's own accounting
+    if awk -v c="$csec" -v e="$esec" 'BEGIN{exit !(e>0 && c/e < 0.001)}'; then
+      desc=$(pgrep -P "$pid" 2>/dev/null | head -1)
+      desc=$(ps -o command= -p "${desc:-$pid}" 2>/dev/null | cut -c1-60)
+      out="${out}${out:+; }pid ${pid} ${etime} elapsed, ${cpu} CPU, running: ${desc}"
+    fi
+  done
+  print -r -- "$out"
+}
 
 while true; do
   # A session that is working appends to its transcript. mtime is the cheapest
@@ -57,6 +85,13 @@ while true; do
   elif [ $streak_idle -ge $IDLE_SAMPLES ]; then state="STARVED"
   elif [ "$idle" = 0 ] && [ "$hot" = 0 ];  then state="WORKING"
   else state="$prev"; fi
+
+  # Independent of the load state: a leaked berth stalls a fleet on a quiet machine.
+  leak=$(leaked_berths)
+  if [ "$leak" != "$prev_leak" ]; then
+    [ -n "$leak" ] && echo "BERTH LEAK — $leak" || echo "BERTH LEAK cleared"
+    prev_leak="$leak"
+  fi
 
   if [ -n "$state" ] && [ "$state" != "$prev" ]; then
     echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), disk ${diskpct}%"
