@@ -247,18 +247,29 @@ several fleets built at once. Wrap them, at a weight that reflects what they wil
 actually want:
 
 ```bash
-# harbourmaster's scripts, RESOLVED rather than hard-coded. CLAUDE_PLUGIN_ROOT is
-# a version directory (.../ship-fleet/2.4.1), so a sibling plugin lives two
-# levels up and carries a version folder of its own. An earlier
-# `${CLAUDE_PLUGIN_ROOT}/../harbourmaster` looked for it among THIS plugin's other
-# versions, found nothing, and failed silently.
-HM=$(find "${CLAUDE_PLUGIN_ROOT}/../../harbourmaster" -maxdepth 4 -type d -name scripts \
-     2>/dev/null | sort -V | tail -1)
+# A conductor that already resolved harbourmaster names the path in your brief.
+# Export it and this block takes it: a spawned agent does not reliably inherit
+# CLAUDE_PLUGIN_ROOT, so the find below returns nothing inside a runner even on a
+# machine where harbourmaster is installed.
+HM="${HARBOURMASTER_SCRIPTS:-}"
+
+# Nothing handed down: resolve it here. CLAUDE_PLUGIN_ROOT is a version directory
+# (.../ship-fleet/2.4.1), so a sibling plugin lives two levels up and carries a
+# version folder of its own. An earlier `${CLAUDE_PLUGIN_ROOT}/../harbourmaster`
+# looked for it among THIS plugin's other versions, found nothing, and failed
+# silently.
+[ -n "$HM" ] || HM=$(find "${CLAUDE_PLUGIN_ROOT}/../../harbourmaster" -maxdepth 4 \
+     -type d -name scripts 2>/dev/null | sort -V | tail -1)
 ```
 
-**If `$HM` is empty, harbourmaster is not installed.** Proceed unwrapped, say so
-once, and carry on — the governor is an improvement to how work is scheduled, not
-a precondition for doing it.
+**A path named in your brief settles it.** Export it as `HARBOURMASTER_SCRIPTS`
+before the block above. A runner started by a fleet is the ordinary case: the
+conductor resolved the path once and passed it down, and an empty find inside the
+runner says nothing about whether the plugin is installed.
+
+**If `$HM` is still empty, harbourmaster is not installed.** Proceed unwrapped,
+say so once, and carry on — the governor is an improvement to how work is
+scheduled, not a precondition for doing it.
 
 Then:
 
