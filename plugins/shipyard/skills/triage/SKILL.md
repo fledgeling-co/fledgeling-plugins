@@ -33,8 +33,10 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
    answers are authoritative; never re-ask an answered question. New features on the markdown
    lane: allocate the id per `references/spec-format.md` (ledger read-modify-write is serialized
    — it is the one write that never runs in parallel), create the spec with the brief verbatim in
-   `## Feature description`, and consume the brief file (move it into the spec; delete from
-   `features-to-triage/`). Tasks lane: the brief already is the description.
+   `## Feature description`, write the citation into the spec's `**Brief:**` line, and consume
+   the brief file (move it into the spec; delete from `features-to-triage/`) — a consumed brief
+   is cited by the commit that still holds it, per `references/spec-format.md` §The brief
+   citation. Tasks lane: the brief already is the description.
 
 2. **Fan out (Workflow) for a heavy feature** — parallel readers for codebase grounding and the
    Sentinel lens scan; synthesize the verdict yourself. Small feature: inline. Wave caps and
