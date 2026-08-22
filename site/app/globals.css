@@ -1,6 +1,19 @@
 /* Design tokens (CSS custom properties) — vendored from fledgeling-app. */
 @import "../styles/tokens.css";
 
+/* --------------------------------------------------------------- motion -- */
+/* One vocabulary, so durations and easings read as intentional the way the
+   radii already do. UI stays under 300ms; exits run ~70% of their entrance.
+   GSAP reads these through getComputedStyle so JS and CSS cannot drift. */
+:root {
+  --t-press: 120ms;
+  --t-hover: 150ms;
+  --t-menu: 200ms;
+  --t-state: 260ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
 /* ---------------------------------------------------------------- reset -- */
 *,
 *::before,

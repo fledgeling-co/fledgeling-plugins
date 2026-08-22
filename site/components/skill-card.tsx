@@ -22,7 +22,7 @@ function pluralise(count: number, singular: string) {
 }
 
 /**
- * "Uses another AI" — shown when a skill may hand part of a job to a model
+ * "Uses multiple models" - shown when a skill may hand part of a job to a
  * outside Claude's family through `defer`.
  *
  * Hover/focus reveals the explanation rather than a jargon tooltip, because the
@@ -34,14 +34,14 @@ export function DeferPill() {
   return (
     <Link href="/skills/defer" className={styles.defer}>
       <span className={styles.deferDot} aria-hidden="true" />
-      Uses another AI
+      Uses multiple models
       <span className={styles.deferNote} role="note">
         <b>This skill may ask a different AI for a second opinion.</b> Usually to
         check its own work, because a reviewer from the same family tends to
-        agree with it. The <b>defer</b> skill picks which one — from OpenAI,
-        Google, xAI or another Claude — based on what the job is and which
-        account has room left. Nothing leaves your machine unless a skill you ran
-        asks for it.
+        agree with it. The <b>defer</b> skill picks which one, from OpenAI,
+        Google, xAI or another Claude, based on what the job is and which
+        account has room left. Nothing leaves your machine unless a skill you
+        ran asks for it.
         <span className={styles.deferMore}>Read about defer →</span>
       </span>
     </Link>
@@ -52,7 +52,7 @@ export function SkillCard({ skill, reason }: Props) {
   const { signals } = skill;
 
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-motion="card">
       <header className={styles.head}>
         <Image
           className={styles.icon}
@@ -69,7 +69,7 @@ export function SkillCard({ skill, reason }: Props) {
           <p className={styles.meta}>
             <span>v{skill.version}</span>
             <span className={styles.metaDot} aria-hidden="true" />
-            <span>{skill.group.replace(/-/g, " ")}</span>
+            <span>{skill.groupLabel}</span>
           </p>
         </div>
       </header>
@@ -140,7 +140,7 @@ export function SkillRow({ skill }: { skill: SkillSummary }) {
         </h3>
         <p className={styles.compactBlurb}>{firstSentence(skill.blurb)}</p>
       </div>
-      <span className={styles.compactGroup}>{skill.group.replace(/-/g, " ")}</span>
+      <span className={styles.compactGroup}>{skill.groupLabel}</span>
     </article>
   );
 }

@@ -184,7 +184,7 @@ function BrowseMode({ skills, groups }: { skills: SkillSummary[]; groups: Group[
         const members = skills.filter((skill) => skill.group === group.id);
         return (
           <section key={group.id} className={styles.group} aria-labelledby={`group-${group.id}`}>
-            <header className={styles.groupHead}>
+            <header className={styles.groupHead} data-motion="group-head">
               <h2 className={styles.groupLabel} id={`group-${group.id}`}>
                 {group.label}
               </h2>

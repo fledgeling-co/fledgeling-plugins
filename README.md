@@ -36,7 +36,7 @@ Third-party marketplaces have auto-update off by default, so refreshing is somet
 
 ## The skills
 
-Fifty-odd skills is a lot to meet at once, so they are grouped by what you are trying to do rather than by how they work. Every one carries its own README, and the ones marked **Uses another AI** may ask a model outside Claude's family for a second opinion — [`defer`](plugins/defer/README.md) decides which.
+Fifty-odd skills is a lot to meet at once, so they are grouped by what you are trying to do rather than by how they work. Every one carries its own README, and the ones marked **Uses multiple models** may ask an AI outside Claude's family for a second opinion, because a reviewer from the same family tends to agree with it. [`defer`](plugins/defer/README.md) decides which one.
 
 
 <br clear="left" />
@@ -136,7 +136,7 @@ Looks at a screenshot and tells you what is genuinely in it. Handy when a test s
 
 <a href="plugins/code-review/README.md"><img src="plugins/code-review/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [code-review](plugins/code-review/README.md) · **Uses another AI**
+### [code-review](plugins/code-review/README.md) · **Uses multiple models**
 
 Reviews a change and, unusually, tells you what it did not look at. Three findings then silence could mean the rest is clean or that it never opened those files. So every run ends with what it checked, what it could not, and why.
 
@@ -223,7 +223,7 @@ The one plugin here built for a single app. It walks a release right up to the m
 
 <a href="plugins/flagship/README.md"><img src="plugins/flagship/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [flagship](plugins/flagship/README.md) · **Uses another AI**
+### [flagship](plugins/flagship/README.md) · **Uses multiple models**
 
 For when you already have a dozen Claude sessions running at once. It tracks what each is doing, works out how much your Mac can carry, batches their questions so only the ones needing your judgement reach you, and tells each what the others found.
 
@@ -239,7 +239,7 @@ Works across every project you have rather than one. It reads your portfolio not
 
 <a href="plugins/ship-feature/README.md"><img src="plugins/ship-feature/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [ship-feature](plugins/ship-feature/README.md) · **Uses another AI**
+### [ship-feature](plugins/ship-feature/README.md) · **Uses multiple models**
 
 Takes one feature from a rough idea to finished, verified code. A different AI family checks the work before anything merges, and a claim of done has to survive being checked itself.
 
@@ -247,7 +247,7 @@ Takes one feature from a rough idea to finished, verified code. A different AI f
 
 <a href="plugins/ship-fleet/README.md"><img src="plugins/ship-fleet/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [ship-fleet](plugins/ship-fleet/README.md) · **Uses another AI**
+### [ship-fleet](plugins/ship-fleet/README.md) · **Uses multiple models**
 
 Hand it a repo's whole backlog and it works through it. It writes down everything left before starting anything, runs several items at once, and done means the written record says so rather than a job simply returning.
 
@@ -255,7 +255,7 @@ Hand it a repo's whole backlog and it works through it. It writes down everythin
 
 <a href="plugins/shipyard/README.md"><img src="plugins/shipyard/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [shipyard](plugins/shipyard/README.md) · **Uses another AI**
+### [shipyard](plugins/shipyard/README.md) · **Uses multiple models**
 
 The individual stages of getting a feature built: sorting it, planning it, designing it, doing it, then checking it. Reach for one when you only need that step. Nothing reaches done until an AI from another family has graded it.
 
@@ -294,7 +294,7 @@ You ask for the write-up after a long session and get something that reads well 
 
 <a href="plugins/stocktake/README.md"><img src="plugins/stocktake/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [stocktake](plugins/stocktake/README.md) · **Uses another AI**
+### [stocktake](plugins/stocktake/README.md) · **Uses multiple models**
 
 A project board is a set of claims about the code, and nobody checks them. This goes card by card and finds where the work really is: merged, sitting on a branch nobody merged, finished but never pushed, in progress, or never started.
 
@@ -380,7 +380,7 @@ _When Claude should ask you, which AI answers, and what it all costs._
 
 <a href="plugins/clarify/README.md"><img src="plugins/clarify/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [clarify](plugins/clarify/README.md) · **Uses another AI**
+### [clarify](plugins/clarify/README.md) · **Uses multiple models**
 
 Decides whether to interrupt you at all, and mostly the answer is no. It hunts for the answer in the conversation and the code first, then asks a different AI, so only the genuinely yours reach you: taste, cost, risk, and the irreversible.
 
@@ -419,7 +419,7 @@ For building a skill that does not exist yet. It interviews you properly first, 
 
 <a href="plugins/geminify/README.md"><img src="plugins/geminify/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [geminify](plugins/geminify/README.md) · **Uses another AI**
+### [geminify](plugins/geminify/README.md) · **Uses multiple models**
 
 The skills here were written against Claude's habits. Point this at one and it writes a companion version tuned for Gemini instead, then checks every claim it makes about Gemini against what Google actually published.
 
@@ -465,7 +465,7 @@ _Stop it grinding to a halt while all this is running._
 
 <a href="plugins/harbourmaster/README.md"><img src="plugins/harbourmaster/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
-### [harbourmaster](plugins/harbourmaster/README.md) · **Uses another AI**
+### [harbourmaster](plugins/harbourmaster/README.md) · **Uses multiple models**
 
 Works out where a job should run and whether your Mac can take it yet. It can send work to another machine, to another AI, or run it here under a limit, and it spots your Mac throttling itself while macOS reports nothing wrong.
 

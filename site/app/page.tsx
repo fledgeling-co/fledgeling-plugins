@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <>
       <section className={styles.hero}>
-        <div className="container">
+        <div className="container" data-motion="hero">
           <p className={`eyebrow ${styles.eyebrow}`}>
             Fledgeling · {getSkillCount()} skills for Claude Code
           </p>
@@ -31,8 +31,8 @@ export default function HomePage() {
           </h1>
           <p className={`lede ${styles.lede}`}>
             Each one exists because something kept going wrong, and each carries its own README,
-            evals or references where the work justified them. Describe what you are trying to do —
-            you do not need to know any of their names.
+            evals or references where the work justified them. Describe what you are trying to do; you do
+            not need to know any of their names.
           </p>
 
           <div className={styles.search}>
@@ -51,7 +51,7 @@ export default function HomePage() {
               do rather than something that happens.
             </p>
             <a className={styles.installLink} href="/install">
-              The full lifecycle — update, disable, uninstall →
+              The full lifecycle: update, disable, uninstall →
             </a>
           </div>
           <div className={styles.installCommands}>

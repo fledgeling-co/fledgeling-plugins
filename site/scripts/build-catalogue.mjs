@@ -290,7 +290,7 @@ function extractBoundary(trigger) {
 function blurbsFromRootReadme(source) {
   const blurbs = {};
   // Trailing content after the link is allowed so a row can carry a marker
-  // (e.g. "· **Uses another AI**") without becoming invisible to the gate.
+  // (e.g. "· **Uses multiple models**") without becoming invisible to the gate.
   const heading = /^### \[([^\]]+)\]\(plugins\/[^)]+\).*$/gm;
   let match;
   while ((match = heading.exec(source)) !== null) {
@@ -539,6 +539,7 @@ function build() {
       name,
       version: entry.version,
       group,
+      groupLabel: (GROUPS.find((g) => g.id === group) ?? UNCATEGORISED).label,
       // Capability prose, written for a catalogue reader.
       description: entry.description,
       // Trigger prose from SKILL.md — "Use this whenever…", "NOT for…". This is

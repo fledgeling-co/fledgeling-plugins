@@ -22,8 +22,10 @@
     "digest:hold": "node --env-file-if-exists=.env.local scripts/digest-hold.mjs"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@react-email/components": "^1.0.12",
     "ai": "^7",
+    "gsap": "^3.15.0",
     "mongoose": "^9.9.2",
     "next": "latest",
     "react": "latest",
