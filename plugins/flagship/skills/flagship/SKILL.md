@@ -50,6 +50,15 @@ when a peer refuses you — which is usually to agree with it.
 
 ## Startup
 
+**Re-read this file after every compaction, and re-read the other skills you are leaning on.**
+A conducting session runs long by design, so it gets compacted more than most, and what
+survives is a *summary* of these rules rather than the rules. That is this skill's own
+top-level failure applied to its own instructions: a narrower artifact standing in for the
+one you were asked about, with nothing marking the substitution. The costly parts are the
+exact numbers and the boundaries — the authority rules, the three causes of `available 0`,
+the max-of-1m-and-5m — and a summary keeps the shape of those while losing the values, which
+reads as knowing them. Reload before the next dispatch, not after a peer corrects you.
+
 0. **Arm the starvation watch before the first dispatch**, not after the operator notices:
 
    ```

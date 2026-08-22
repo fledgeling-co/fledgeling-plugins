@@ -368,3 +368,37 @@ folklore that nothing re-derives.
 
 The attribution error itself is the second top-level rule catching its own author. A set
 returned a member, the member looked right, and "I know why it belongs" was doing the work.
+
+## The convergence prevented rather than counted (23 Aug 2026)
+
+Four times in one evening, separate repos independently derived the same finding and none
+knew about the others. The fifth was caught in flight, and the difference is worth naming
+because it is the whole argument for a conducting session existing.
+
+One repo filed a defect: a `mkdir` lock guarding id allocation serialises execution but not
+state, because two worktrees each read their own copy. A second repo confirmed the same shape
+in four of its dispatch scripts. A third repo had **already merged the fix** — and its fix
+was not a better lock but a different diagnosis: the failure was never two processes
+contending for one file, it was **two worktrees each holding the registry at its own inode on
+its own branch**, so an flock over the file is invisible to the other and the obvious fix
+protects nothing. The lock belongs in the **git common directory**, which every linked
+worktree shares by construction. Verified in 12 seconds with no runner: same path, same dir
+inode, 12/12 cases.
+
+Routing that as a *fix* rather than as a *finding* is the move. A finding invites the
+recipient to derive an implementation; a fix names the mechanism, the measurement and the
+check to run before adopting it — here, **is your lock on the registry file itself?**, since
+that decides whether the common-dir move closes the bug or imports someone else's.
+
+**Two rules came out of it, and the second is the one that bites after the fix lands.**
+
+- **Do not apply another repo's defect to a repo you have not measured.** This conductor
+  wrote "the lock does not hold across worktrees anyway" about the repo where it
+  demonstrably does — a claim about one session's code made from another session's defect.
+- **"The lock is fixed" and "id allocation is safe" are different claims.** The fixing repo's
+  allocator protects six entity kinds and contains **zero references to its feature ledger**,
+  so the campaign registry is locked and the markdown ledger is not, and every triage touches
+  the unlocked half. A merged item made it believe the whole class was closed. **A fix
+  covering half the id spaces looks identical to one covering all of them, until somebody
+  allocates in the other half** — so check which spaces the lock actually covers rather than
+  which defect it was filed against.
