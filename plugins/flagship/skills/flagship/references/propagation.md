@@ -198,3 +198,81 @@ a merge closed six of them within the hour, falsifying it before the ink dried. 
 is registry-relative: *the classifier's `broken` set equals the registry's own non-fixed set*,
 which held at 115 rows giving 10 and at 111 giving 5. Print counts as the run's instance; quote
 the invariant as the acceptance criterion.
+
+## The instrument that answered a narrower question (22 Aug 2026)
+
+The third rule in SKILL.md came from this corpus. It is a different failure from
+absence-read-as-success: nothing malfunctioned, no gate could have caught it, and the
+instrument was read as answering a question it was never asked.
+
+| Instrument | Asked | Answered | Cost |
+|---|---|---|---|
+| `reckon` 1.0.0 | what was never built | what could not be *joined* to the registry | product axis 155→49, 64→2, 48→0 |
+| `inventory.json` `evidence` | was this observed | did somebody type `observed` | requirements-observed 3/32 → 29/32 |
+| `reckon.py check` | is the reckoning sound | is `summary` consistent | readers were quoting `headline` |
+| `berths.py` | what is running | what has *claimed* a berth | `in_use 0` with five runners live |
+| `df -h /` | how full is the disk | how full is the read-only system volume | 5% against a data volume at 87% |
+
+The reckon row is the expensive one. In three repos independently — 23, 48 and 64 rows —
+**every single brief classed `unbuilt` was merely unjoined**, and the class inflates the
+product axis in the direction that manufactures work. Both sessions holding the anomaly
+("18 of 23 unbuilt are already merged") filed it as staleness rather than asking why a
+merged brief would be classed unbuilt.
+
+Two preconditions the corpus produced, both of the check-before rather than check-after
+shape:
+
+- **Invoke a versioned tool by explicit path.** 1.0.0 and 1.1.0 sat in the plugin cache
+  together, both looking installed, and nobody established which a bare invocation picks.
+  Testing both paths tells you what exists; it does not tell you what would run. The cache
+  also gained 1.1.0 mid-evening, so **a cache measurement has a shelf life** — a session
+  quoting its own note from earlier in the night should re-take it.
+- **`git ls-remote --heads origin` before ordering a push, not after.** One repo's push
+  could never have completed: the remote did not exist. Its quality gate had also been red
+  on `main` for some time — the missing remote and the red gate were hiding each other.
+
+## Destructive calls that establish their target elsewhere (22 Aug 2026)
+
+Four members from four repos, one shape: the call resolves its target from somewhere other
+than immediately before the call, so the damage lands outside what the author was looking at.
+
+- `git init` under an inherited `GIT_DIR` — unset the whole `GIT_*` prefix rather than
+  naming variables; naming `GIT_DIR` and `GIT_WORK_TREE` leaves `GIT_INDEX_FILE`,
+  `GIT_PREFIX`, `GIT_OBJECT_DIRECTORY` and `GIT_CEILING_DIRECTORIES` behind.
+- `git config core.bare=true` into a shared config — the predicate is any git *write*, and
+  `git config <key> <value>` hides best.
+- An arming script `cd`-ing to a stale absolute path, then `git add && git commit -q`
+  followed by `git reset --hard "$BASE"` against whatever repo it landed in.
+- **`git checkout -- <file>` as an arming restore.** It resolves from HEAD, so on
+  **uncommitted** work it reverts the fix rather than the mutation — and the control leg
+  then fails in a way that impersonates a broken test. Commit the fix before arming, and
+  make every runner brief name its restore mechanism rather than saying "restore
+  byte-for-byte". A `cp` backup with a sha verified afterwards is safe rather than lucky.
+
+Prove one with a **control and a block**, both legs required: with the guard removed the
+write must LAND, with it applied the write must be refused and the value unchanged. A
+control that does not land proves nothing — that is the unarmed predicate in miniature.
+
+## A lock that serialises execution but not state (22 Aug 2026)
+
+A `mkdir` lock guarding id allocation holds only within one checkout. Two worktrees branched
+from one commit each read their own copy: A mints 101 under the lock, B takes the
+uncontended lock straight after, reads its own copy still at 100, and mints 101 as well.
+**Any project allocating ids from a worktree under a local lock has this**, and it does not
+fire while one person allocates serially from the main checkout — which is a habit, not a
+guarantee. The fix is a journal in `git rev-parse --git-common-dir`.
+
+The general form is worth more than the instance: a lock proves mutual exclusion over the
+*critical section*, never over the *state the section reads*.
+
+## A correct intent through an incorrect instance (22 Aug 2026)
+
+A test asserted `192.0.2.1` must be allowed "because it is not RFC1918". True, and
+irrelevant — it is TEST-NET-1, so it was never routable either. The intent (a half-matching
+prefix must not be blocked) was sound and its other cases were genuinely public; only the
+example was wrong. Flipping the assertion to match new code would have destroyed the intent
+while looking like a fix.
+
+This is a **review** hazard rather than an arming one, and it defeats the discipline the rest
+of this corpus is built on: arming proves a check *can* fail, and none of that establishes it
+fails for the reason its name claims.
