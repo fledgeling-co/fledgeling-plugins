@@ -12,6 +12,7 @@ Don't pad the plan. A bug fix or simple layout change doesn't need an Edge Cases
 - No copy-paste of the spec's feature description — summarize intent.
 - No multi-step verification when a single step with bullets covers the same signal.
 - No ceremonial fields ("Confirm no orphaned imports" / "Fulfils: non-regression" is ritual, not planning).
+- **Audit coverage is the one exception to "omit an empty section"** — state the absence in one line rather than dropping the section, because a missing audit row and a deliberate "nothing to log here" are indistinguishable to the next reader, and only one of them is safe.
 
 ## Classify the tier (state it once, consistently)
 
@@ -73,6 +74,8 @@ A good plan at any tier: names specific file paths, functions, types, components
 
 Do NOT add at this tier: Edge Cases, Testing, Requirements Traceability, Prerequisites, Acceptance Criteria, multiple verification steps.
 
+One thing does NOT get dropped with the sections: **audit coverage**. A one-file change can still add a path that mutates tenant data, sends something to a human, produces AI output, or reads a sensitive record — so at these tiers it rides in `## Changes` as a bullet naming the emit call site and its coverage-registry row, rather than as its own section. Where the change adds no such path, no bullet is needed; the Standard-tier section exists precisely because larger plans need the absence stated.
+
 ## Template — Standard (<350 lines)
 
 ```markdown
@@ -102,6 +105,10 @@ Do NOT add at this tier: Edge Cases, Testing, Requirements Traceability, Prerequ
 
 ## Edge cases
 - [ONLY genuine edge cases needing code. Omit if none.]
+
+## Audit coverage
+- [One row per path this change adds or alters that mutates tenant data, sends something to a human, produces AI output a human may act on, or reads a sensitive record: the emit call site (file + the function it sits in) and the coverage-registry row that declares it. Name every emit surface the repo has — Diolog has three, and the BFF one is the one plans forget. Rule: `CODING_PRACTICES.md` → "Audit logging (A09)"; reference implementation: WEB-4787.]
+- [If the change genuinely adds no such path, keep the section and say exactly that in one line. An absent section reads as forgotten, not as none — which is the whole failure mode.]
 
 ## Acceptance criteria
 - [ ] [Testable "done when" check, phrased so the worker can verify it by exercising the real path — "creating X persists and re-reads with field Y", "non-owner gets 403", not "X works". 3–8 bullets; this is the durable checklist /work lifts into its build checklist and re-audits against, so keep each one concrete and verifiable — not a restatement of the step titles.]

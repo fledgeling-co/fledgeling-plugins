@@ -388,3 +388,19 @@ schema, verdict lines, report location) · `prepush.md` (the outgoing-diff gate)
 from) · checklists: `security` · `logic-bugs` · `nextjs` · `nestjs` · `typescript` ·
 `frontend-web` · `react-native`. Scripts: `diff-range.sh` (resolve and measure the range) ·
 `repo-facts.sh` (draft the profile) · `prepush-scan.sh` (the mechanical half of the prepush gate).
+
+## Where this work runs
+
+Grading is judgement, and judgement costs another vendor's plan headroom rather
+than this machine's cores — which on this Mac is nearly always the cheaper
+resource, and is out-of-family besides. Route the verdict through `defer` before
+considering a local berth.
+
+Take a berth from `harbourmaster` only for the parts that actually execute:
+running the suite you are grading, reproducing a defect. Reading a diff needs
+none.
+
+```bash
+HM="${CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts"
+"$HM/governor-run" --weight 4 --project "$REPO" --label "repro" -- pnpm test
+```

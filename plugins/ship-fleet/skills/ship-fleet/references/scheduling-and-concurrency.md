@@ -1,4 +1,4 @@
-# Scheduling & concurrency — survey fan-out, the DAG, the 8-slot fleet, shared surfaces
+# Scheduling & concurrency — survey fan-out, the DAG, the measured fleet, shared surfaces
 
 ## Survey fan-out (Phase 1)
 
@@ -19,18 +19,26 @@ Reduce everything into the single item list yourself. You own dedup (a brief tha
 - Topological sort → waves (Wave N = everything whose deps are all in Waves <N). A cycle means the items are really one unit: either combine them into a single ship-feature run or ask the user how to split.
 - Within a wave, order by: unblocks-the-most-items first, then resumable items (their worktrees are perishable — rebases get harder daily), then user-stated priority.
 
-## The 8-slot fleet (Phase 5)
+## The fleet (Phase 5)
 
 Slot-refill beats wave-barriers: when a runner lands, anything newly unblocked starts immediately. Sketch (Workflow tool — the script owns the loop, agents do the work):
 
 ```js
 // ready-queue + slot refill; items/deps come in via args
+const HM = `${process.env.CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts`
 const done = new Set(args.alreadyMerged), running = new Map()
 const parked = new Map(), attempts = new Map()          // id -> reason / restart count
 const ready = () => args.items.filter(i => !done.has(i.id) && !running.has(i.id)
   && !parked.has(i.id) && i.deps.every(d => done.has(d)))
 while (done.size + parked.size < args.items.length) {
-  for (const item of ready().slice(0, 8 - running.size))
+  // Slot count is READ, not assumed. `harbourmaster` reports what this Mac can
+  // carry right now; a fixed 8 is a claim about a machine nobody measured, and
+  // this one has been observed at load average 830 across 16 cores while a
+  // fleet started its eighth runner. Re-read every refill: pressure moves under
+  // a long fleet, so a number taken at the top describes a machine that is gone.
+  const free = JSON.parse(sh(`${HM}/berths.py`)).available
+  const slots = Math.max(1, free)            // never zero, or the fleet cannot drain
+  for (const item of ready().slice(0, slots - running.size))
     running.set(item.id, agent(runnerPrompt(item), {label: item.id, model: 'opus', effort: 'high', agentType: 'claude'})
       .then(report => ({item, report})))
 
@@ -355,3 +363,18 @@ branch's ahead/dirty counts — runners often committed more than the checkpoint
 - Runner's worktree half-done → the item becomes `resumable`; next attempt resumes there.
 - A merge conflict during your serialized finalize → resolve it yourself in the worktree (you have the map of what else landed); if it's semantic (two features fighting over behaviour), park the later item and note the collision as a dependency you missed.
 - User interruption / session death → ORCHESTRATOR.md is current by construction; the resume path in SKILL.md takes over.
+
+## Berths, and how they relate to the agent budget
+
+They are different ceilings and both apply.
+
+- **The agent budget** bounds the API rate limit: runner slots x inner waves.
+- **Berths** bound this Mac: CPU, memory and disk, read from
+  `harbourmaster`'s `berths.py`.
+
+Take the smaller. A fleet inside its agent budget can still pin the machine,
+and a machine with headroom can still be rate-limited.
+
+`harbourmaster` also decides whether a piece of work belongs on this Mac at all
+— a long self-contained build may belong in an `anvil errand` container, and a
+verification verdict belongs in `defer`. Route before you budget.

@@ -50,7 +50,7 @@ run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude 
    A plan grounded in real code is worth writing; a plan of assumptions is not.
 
 3. **Write the plan** at `docs/plans/<id>.md` (lowercase id) using the tier template. Beyond the
-   template, two sections are load-bearing here:
+   template, three sections are load-bearing here:
    - **Test strategy** — per `${CLAUDE_PLUGIN_ROOT}/references/test-strategy.md`: the named
      seams (existing preferred, highest possible, agreed here so the worker never tests at an
      unconfirmed seam), the unit/contract coverage for changed logic, the e2e flows (every user
@@ -62,6 +62,21 @@ run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude 
      swap, v2, provider behind a flag): every load-bearing behaviour of the old path (guards,
      validation, metering, error semantics) marked keep / port / drop-with-rationale. A new path
      that silently loses a guard ships green because nothing asserts the absence.
+   - **Audit coverage** — when the feature adds or alters a path that mutates tenant data, sends
+     something to a human, produces AI output a human may act on, or reads a sensitive record:
+     the plan names each **emit call site** (file + the function it sits in) and the
+     **coverage-registry row** that declares it, so the worker writes both in one commit rather
+     than meeting the gate in CI. Triage's audit inventory is the input; this step turns it into
+     locations. Name every emit surface the repo has, not just the one you recognise — Diolog has three
+     (`emitAuditRecord(` and `deliverAuditRecord(` in the API, `recordAuditEvents(` in the
+     Next.js BFF, which cannot reach the in-process bus), and a plan naming only the API helper
+     leaves a BFF route unlogged while reading as complete. Diolog's declaration is a row in
+     `apps/api/src/modules/audit-log/audit-coverage.registry.ts`, enforced bidirectionally by
+     `audit-coverage.spec.ts` (an unregistered emitter and a registered non-emitter both fail
+     CI) with `audit-reachability.spec.ts` additionally requiring the emit to sit where a caller
+     can reach it. Rule: `CODING_PRACTICES.md` → "Audit logging (A09)"; reference
+     implementation: WEB-4787. A feature with genuinely no such path says so in one line —
+     silence reads as forgotten, which is how an evidence gap ships.
 
 4. **Scope-narrowing check (ALL tiers, mechanical).** Compare every "Out of scope" line and every
    requirement the plan does *not* carry against the description and the triage Assumptions. Any

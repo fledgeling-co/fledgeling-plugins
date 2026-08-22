@@ -716,3 +716,29 @@ Copy these into the project rather than authoring the shapes from scratch:
 - `assets/judge-contract.md` — the screenshot judge, implementable against any
   provider: the verdict schema, the bias controls, the ceilings, and the reason a
   model verdict annotates a campaign rather than gating it.
+
+## Execution planes and machine admission
+
+This skill's execution-plane axis and `harbourmaster`'s plane table are the same
+axis named twice. Keep them consistent, and take the concurrency number from
+measurement rather than habit:
+
+| Lane | Plane | Berth weight |
+|---|---|---|
+| Web, unit and integration suites | local, via `governor-run` | 4 |
+| Native macOS execution and assertions | `proctor` | none — it takes a machine-wide foreground turn |
+| iOS Simulator | local | 4; the simulator is heavy |
+| Visual capture, accessibility audit | `proctor`, read-only | none — read-only calls do not contend |
+
+Synthetic-event actuation contends globally: two campaigns driving at once
+interleave, and the second one's click lands in whatever window the first raised.
+`proctor` already runs a machine-wide turn queue for this — route into it rather
+than starting parallel native runners.
+
+```bash
+HM="${CLAUDE_PLUGIN_ROOT}/../harbourmaster/skills/harbourmaster/scripts"
+"$HM/governor-run" --weight 4 --project "$REPO" --label "suite" -- pnpm test:e2e
+```
+
+Exit 75 means not admitted; read `retry_after_sec` and come back rather than
+looping or reporting the lane blocked.
