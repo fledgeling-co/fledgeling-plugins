@@ -25,8 +25,11 @@ FOUR PASSES, ALL EXACT, NONE NEEDING A MODEL
 --------------------------------------------
   1 unsourced  an image with no manifest entry, or an entry with no target
   2 untied     the target does not resolve to the subject's declared route
-  3 shared     two subjects, one sha256, undeclared
-  4 unjudged   published with no be-my-witness verdict — ratchets, does not block
+  3 shared     two subjects, one sha256, undeclared — or declared with nothing
+              outside the declaration agreeing with it
+  4 unaccounted an image in the shots directory no subject publishes, and no
+              entry declares deliberately unpublished with a reason
+  5 unjudged   published with no be-my-witness verdict — ratchets, does not block
 
 A judgement inserted anywhere on this ladder would be the thing the ladder exists
 to make unnecessary. Vision tops out near 40% recall on fine-grained UI diffs; a
@@ -132,6 +135,58 @@ def subjects_of(inventory: dict) -> dict[str, dict]:
     return out
 
 
+def share_admissible(sids: list[str], entry_of: dict[str, dict],
+                     subjects: dict[str, dict]) -> tuple[bool, str]:
+    """May these subjects publish one image?
+
+    Until 0.9.5 the answer was "if each names the others in `sharesWith`" — a
+    declaration written into the very registry this script checks, so a capture
+    authorised its own duplicate. `sharesReason` was demanded by the blocker's
+    own remedy text and read by no code at all, so the reason was required by
+    documentation and enforced nowhere; `campaign.py` has required it since
+    0.9.3 and the two gates disagreed about the same declaration.
+
+    So: every member names the others, every member records a reason, and
+    something OUTSIDE the declaration agrees that these subjects are one
+    address. That corroboration comes from the subject records in
+    inventory.json and from the target the capture channel recorded at capture
+    time — both already read by the tie pass, neither a new source of truth.
+    """
+    for s in sids:
+        e = entry_of.get(s) or {}
+        missing = set(sids) - {s} - set(e.get("sharesWith") or [])
+        if missing:
+            return False, (f"{s} does not name {', '.join(sorted(missing))} in its `sharesWith`"
+                           f" — declaring one side of a share is not a declaration")
+        if not str(e.get("sharesReason") or "").strip():
+            return False, (f"{s} declares a share and records no `sharesReason` — a share "
+                           f"with no recorded reason is a duplicate with a label on it")
+
+    # The corroboration, in the order of how close the witness stood to the
+    # shutter. A target is what the channel was pointed at, written at capture
+    # time; a route is what the subject registry says the subject is. The tie
+    # pass already binds each target to its own subject's route, so agreeing
+    # targets are the claim "one address served all of them" made by something
+    # other than the declaration under test.
+    targets = {norm_target(str((entry_of.get(s) or {}).get("target", ""))) for s in sids} - {""}
+    routes = {norm_target(str((subjects.get(s) or {}).get("route", ""))) for s in sids} - {""}
+    if targets:
+        if len(targets) > 1:
+            return False, (f"the declaration says one picture depicts all of them, and the "
+                           f"capture channel recorded {len(targets)} different targets "
+                           f"({', '.join(sorted(targets))})")
+        return True, ""
+    if routes:
+        if len(routes) > 1:
+            return False, (f"no member's capture recorded a target, and their inventory records "
+                           f"name {len(routes)} different addresses "
+                           f"({', '.join(sorted(routes))})")
+        return True, ""
+    return False, ("nothing outside the declaration corroborates it — no member's capture "
+                   "recorded a target and no member declares a route, so the only evidence "
+                   "for the share is the share")
+
+
 def analyse(d: Path) -> dict:
     inv_path = d / "inventory.json"
     if not inv_path.exists():
@@ -188,16 +243,38 @@ def analyse(d: Path) -> dict:
                                  f"on disk. A manifest written after the fact records what "
                                  f"somebody believed, not what the channel did.")
 
-    declared = {sid: set(by_path.get(published[sid], {}).get("sharesWith", []) or [])
-                for sid in published}
+    entry_of = {sid: (by_path.get(published[sid]) or {}) for sid in published}
     shared = []
-    for h, sids in by_hash.items():
+    for h, sids in sorted(by_hash.items()):
         if len(sids) < 2:
             continue
-        if all(set(sids) - {s} <= declared.get(s, set()) for s in sids):
+        ok, why = share_admissible(sids, entry_of, subjects)
+        if ok:
             manual.append(f"declared share: {', '.join(sids)} → one capture, {h[:12]}")
             continue
-        shared.append(f"{len(sids)} subjects share one image ({h[:12]}): {', '.join(sids)}")
+        shared.append(f"{len(sids)} subjects share one image ({h[:12]}): "
+                      f"{', '.join(sids)} — {why}")
+
+    # DEF-117. Everything the gate had was derived from PUBLISHED captures, so an
+    # image nobody publishes contributed to no finding: measured on a real
+    # campaign as `published captures: 0 · files in shots dir: 11`, exit 0, and
+    # the sentence "Every published capture names a target that ties to its
+    # subject" — true, and covering nothing. A capture on disk is either shown,
+    # or declared unpublished with a reason, or a loose end.
+    published_paths = set(published.values())
+    unaccounted = []
+    for rel in images:
+        if rel in published_paths:
+            continue
+        entry = by_path.get(rel) or {}
+        reason = str(entry.get("unpublishedReason") or "").strip()
+        if reason:
+            manual.append(f"declared unpublished: {rel} — {reason}")
+        elif rel in by_path:
+            unaccounted.append(f"{rel}: the manifest names it and no subject publishes it, and "
+                               f"it records no `unpublishedReason`")
+        else:
+            unaccounted.append(f"{rel}: no subject publishes it and no manifest entry names it")
 
     ver_path = d / VERDICTS
     verdicts = json.loads(ver_path.read_text()) if ver_path.exists() else []
@@ -210,6 +287,7 @@ def analyse(d: Path) -> dict:
     return {
         "published": len(published), "images": len(images),
         "unsourced": unsourced, "untied": untied, "shared": shared,
+        "unaccounted": unaccounted,
         "reconstructed": reconstructed, "manual": manual,
         "judged": len(judged), "judgeable": len(judgeable),
         "refuted": [f"{v.get('subject')}: {v.get('verdict')} — {v.get('reason', 'no reason recorded')}"
@@ -279,7 +357,7 @@ def main() -> int:
         print(json.dumps(a, indent=1))
         return 0
 
-    hard = len(a["unsourced"]) + len(a["untied"]) + len(a["shared"])
+    hard = len(a["unsourced"]) + len(a["untied"]) + len(a["shared"]) + len(a["unaccounted"])
     print(f"published captures: {a['published']}  ·  distinct images: {a['distinctImages']}  "
           f"·  files in shots dir: {a['images']}")
     if a["published"] and a["distinctImages"] < a["published"]:
@@ -293,7 +371,16 @@ def main() -> int:
          "Either the capture was pointed at the wrong thing, or the lane needs a "
          "different channel."),
         ("SHARED — one capture published under several subjects", a["shared"],
-         "Declare it with sharesWith + a reason, or capture each subject."),
+         "Declare it in captures.json with `sharesWith` naming every other member and a "
+         "`sharesReason`, on every member — and only where the subjects are one address, "
+         "since that is the one thing outside the declaration that can agree with it. "
+         "Otherwise capture each subject."),
+        ("UNACCOUNTED — an image in the shots directory that nothing shows or explains",
+         a["unaccounted"],
+         "Publish it, delete it, or record `unpublishedReason` on its captures.json entry. "
+         "Every finding this gate makes is derived from published captures, so a file nobody "
+         "publishes is a capture the gate cannot see: one campaign read `published captures: 0 "
+         "· files in shots dir: 11` and exited 0."),
         ("RECONSTRUCTED — the manifest disagrees with the bytes", a["reconstructed"],
          "A manifest written after the fact is not provenance."),
         ("REFUTED BY THE WITNESS", a["refuted"],
@@ -326,6 +413,15 @@ def main() -> int:
         if "--reason" in args:
             i = args.index("--reason")
             reason = args[i + 1] if i + 1 < len(args) else ""
+        # A ratchet of 0 is `strict-check.py`'s empty campaign wearing a floor's
+        # clothes: it can never fall, so it can never fail, and pinning it records
+        # that the gate is armed when nothing has ever passed under it.
+        if jn == 0:
+            print(f"\nREFUSED — a ratchet of 0 pins nothing. {jd} judgeable capture(s) and none "
+                  f"judged means this gate has never had anything to check, and a bar that "
+                  f"cannot fall is not a bar. Judge a capture with be-my-witness first "
+                  f"(witness-worklist.py builds the pairs), then pin what it earned.")
+            return 1
         if prior and jn < prior["judged"] and not reason:
             print(f"\nREFUSED — that would lower the ratchet from {prior['judged']} to {jn} "
                   f"with no reason recorded. Pass --reason \"...\" so the next reader sees "
@@ -341,7 +437,11 @@ def main() -> int:
         print(f"\nratchet set to {jn}" + (f" (was {prior['judged']})" if prior else ""))
         return 0
 
-    if prior and jn < prior["judged"]:
+    if prior and not prior.get("judged"):
+        print(f"\nratchet: 0 — a floor of 0 cannot fall, so it has never proved anything. "
+              f"Re-pin it with --set-ratchet once a capture has been judged.")
+        hard += 1
+    elif prior and jn < prior["judged"]:
         print(f"\nratchet: {prior['judged']} — FAILED, judged fell to {jn}")
         hard += 1
     elif prior:
