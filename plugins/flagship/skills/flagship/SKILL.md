@@ -185,6 +185,19 @@ room* — and ask for the ceiling rather than assuming there is none.
   second one means asking a different question — not overriding the first.
 - **Say whether your own work is in the number you are quoting.** One session quoted berth
   figures all evening while its own runners had never claimed one.
+- **`available` inherits `in_use`'s defect, so it is an upper bound and not a count.** This
+  skill's own author allocated four berths off `available 4` after spending a night telling
+  nine sessions that a low `in_use` proves nothing. The occupant list named **one** claimant
+  holding all six slots, while a peer had six workflow-inner runners live and invisible —
+  true occupancy 12 against a ceiling of 10. A derived figure carries the defect of what it
+  derives from; read the occupants, never the arithmetic.
+- **Load cannot arbitrate berths, because the two instruments measure different resources.**
+  Six LLM agents blocked on API calls occupy six berths' worth of the cooperative contract
+  while consuming almost no CPU, so a quiet load reading beside an over-subscribed registry
+  is not a contradiction to resolve — both are honest about different things. This is a
+  different failure from an instrument answering a narrower question: nothing was misread,
+  two correct answers were treated as answers to one question. Use load for starvation, the
+  occupant list for admission, and never one to check the other.
 - **One load-average reading is not clearance, for the same reason one thermal reading is
   not.** The 1-minute figure is itself a decaying average, so it reads low in the trough
   between bursts and a dispatch decided on it lands in the next burst. Sample across a
