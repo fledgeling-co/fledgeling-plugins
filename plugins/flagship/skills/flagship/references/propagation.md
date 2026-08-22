@@ -292,3 +292,39 @@ mint ids and the lock is exactly as broken as the first repo's.
 So a clean history is evidence about whatever is standing in front of the mechanism, and
 says nothing about the mechanism. Ask what would have to change for the defect to become
 reachable, and whether anything records that the guard is load-bearing.
+
+## A live process is not running work (22 Aug 2026)
+
+A wrapped build held four berths for **two hours four minutes** on **0.08 seconds of total
+CPU**. Its last child was `docker logs -f`, following a container stream that never closes,
+so the wrapper never exited and the kernel never returned the slots.
+
+Every instrument was honest: the claim was real, the claimant alive, no stale lease, and a
+file lock cannot distinguish a process that is working from one that is waiting. With CPU
+pressure critical the ceiling had also collapsed from 12 to 3, so `in_use 4` exceeded it and
+`available` read 0 while load decayed for twenty minutes with nothing admitted.
+
+- **Wrap the work, not the tail.** A `-f` or `--follow` belongs outside the wrapper, or the
+  wrapper should release when the work it was admitted for finishes rather than when the
+  process does.
+- **When a berth is held long and cheap, read its CPU time and its children** before
+  concluding the machine is busy. Elapsed time alone cannot tell a two-hour build from a
+  two-hour tail.
+
+## An honest producer, a consumer that cannot tell two states apart (22 Aug 2026)
+
+A verdict classifier returned **one exit code for two conditions**: a failure that reproduced
+when re-run in isolation, and a suite that broke wholesale and was never re-run at all. The
+caller rendered that shared code with the first condition's sentence, so a run that isolated
+nothing reported that the failure *"reproduced on every isolated re-run"* — in the summary
+line a person reads.
+
+The producer's own text was already correct and its own self-test already proved it: the
+"attempted no isolated re-run" case passed before the fix. **The defect was entirely in the
+consumer**, and no test of the producer could have found it.
+
+The fix was a fourth exit code rather than a grep for the rendered marker, because matching
+on rendering is the same defect one layer up. This is the shape to look for wherever two
+outcomes that want opposite next steps share a return value: a wholesale breakage and a
+reproduced defect are not the same finding, and a code that cannot separate them guarantees
+the caller will eventually pick one meaning and print it for both.
