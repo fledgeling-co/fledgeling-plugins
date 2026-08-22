@@ -159,13 +159,24 @@ room* — and ask for the ceiling rather than assuming there is none.
   from load and transcript activity; **admission is decided from berths.** Two questions, two
   instruments, and answering the second with the first is how a fleet gets told to fan out
   into zero berths.
-- **Read the occupant list, not the count — `available 0` does not say why.** Measured with
-  the fleet held: ten berths, **two** processes. One build held four at weight 4 and one
-  post-merge gate held six at weight 6, while load sat at 0.87 per core and pressure read
-  `busy`. That is **reservation exhaustion, not contention** — the fleet was waiting on two
-  jobs' declared weights rather than on headroom, and the wait was bounded by a named job
-  finishing rather than by an unknown. Only the occupant list distinguishes the two, and the
-  difference is the difference between "wait" and "wait for anvil's gate".
+- **Read the occupant list, not the count — `available 0` has three causes and only one of
+  them is a full machine.** All three were measured in one evening:
+  1. **Contention** — the slots are genuinely taken by work that is running.
+  2. **Reservation exhaustion** — ten berths held by *two* processes on declared weights,
+     while load sat at 0.87 per core. The wait is bounded by a named job finishing.
+  3. **Ceiling collapse** — `capacity 12, ceiling 3, in_use 4, available 0`. Nothing is full;
+     load pushed the ceiling *below* current usage. This one is self-reinforcing, and it
+     reads as a contradiction until you look at the ceiling.
+  Only the occupant list tells them apart, and the difference is the difference between
+  "wait", "wait for anvil's gate" and "shed load or nothing will ever be admitted".
+- **A berth is held by a live process, not by running work, and no instrument will tell you
+  otherwise.** Measured: a wrapped build held four berths for **two hours four minutes** on
+  **0.08 seconds of total CPU**, because its last child was `docker logs -f` following a
+  stream that never closes. Every reading was honest — claim real, claimant alive, no stale
+  lease — and the file lock cannot distinguish a process that is working from one that is
+  waiting. When a berth is held long and cheap, read its CPU time and its children before
+  concluding the machine is busy. The rule for anyone wrapping work: **wrap the work, not the
+  tail.** A `-f` or `--follow` belongs outside the wrapper.
 - **Honour the reservation anyway, and report the divergence rather than acting on it.**
   Weights are a cooperative contract: the gate declared 6 because a full gate needs 6, and it
   will need them at its build links even though it does not this minute. Defecting because
