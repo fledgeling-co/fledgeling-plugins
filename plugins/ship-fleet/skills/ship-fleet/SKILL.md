@@ -195,7 +195,7 @@ The lane table, effort discipline, and both invariants (REVIEWER ≥ WRITER; VER
 family) are canonical in shipyard's `references/model-lanes.md` +
 `references/model-and-effort.md` — propagate them into every runner prompt rather than pinning
 everything to Opus. Fleet-level notes: runner top level stays Opus-at-high via the verified
-lane; executor lanes per `executor-lanes.md` (agy → grok → codex-terra → Claude, verify-fix
+lane; executor lanes per `executor-lanes.md` (picked per slice shape by `defer`, Claude fail-back, verify-fix
 loop, revert-rate kill-switch); the out-of-family review gates and the per-item verifier follow
 their ordered lane sets and are **mandatory where available** — their fallback is a logged
 downgrade in the artifact, never a silent pass; the egress opt-out is re-grepped before every
