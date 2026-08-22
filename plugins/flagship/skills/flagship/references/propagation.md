@@ -1220,3 +1220,231 @@ And nothing was copied into the tree to achieve it — the artifacts were *regis
 worktree that produced them, `evidence/` stays gitignored, and the register carries 95 rows.
 Three limits were declared rather than buried, including the honest one: the register moves
 trust from this machine's disk to the author's recording step.
+
+---
+
+## Any narrowing instrument answers about its own window — the generalised form
+
+*Found by Atlas in a diff packet, generalised by Splice in a grep with no diff involved.
+Independently held by Diolog Tasks from earlier work, at the cost of a wasted grading round.*
+
+**A verifier given only a diff returns confident findings about code that is not in the packet.**
+Atlas, three occurrences in one evening: a reported-missing `cancelQueries` that was on the first
+line of the function, and a reported-absent failure notification sitting at the call site rather
+than in the hook. The second was queued as a work item before anyone checked it.
+
+Splice's generalisation supersedes the diff framing: **any narrowing instrument answers about its
+own window, and the answer gets read as being about the code.** Its own case had no diff — a
+`^run_link` grep could not match the two Apple builds invoked through a `run_apple_link` wrapper,
+so 22 + 2 = 24 read as a 24-link discrepancy, and it was one step from reporting the Apple builds
+absent and DEF-064 therefore not closed. *"My grep was the crop."*
+
+**Diolog Tasks' sharpening, which explains why no gate catches it:** an absence claim over a diff
+**cannot be falsified from inside the diff**. A presence claim is self-checking; an absence claim
+is not — and only absence claims become work items.
+
+**The asymmetry is the operational half, and two sessions reached it by different routes:**
+
+| Direction | Produces | Survival rate |
+|---|---|---|
+| Over-matching | A large number (70 locks where there were 2) | Low — a big number invites interrogation |
+| Under-matching | An **absence** | High — an absence reads as a finding |
+
+sidetone found the same asymmetry from the reporting side: **a false alarm gets forwarded because
+it is urgent; a false negative gets checked because it is disappointing.** So the failure mode
+that propagates is the one that feels like news, which is why this class needs a rule rather than
+care.
+
+**The rules:**
+
+- **Establish the positive control before reporting the negative.** Grep for a case known to be
+  present and confirm the predicate sees it. Thirty seconds, and it is the difference between a
+  note and a false rejection.
+- **Ship the enclosing function whole, the call sites, and the file's exports** — never the
+  changed lines alone.
+- **Require any absence finding to name where it looked**, so "not in the packet" and "not in the
+  codebase" are distinguishable on the face of the report.
+- **An absence claim from a packet-only reviewer is inadmissible.** Splice's out-of-family lane is
+  worse than a diff: it inlines every fact and *forbids tool use* (a crosstalk fix), so the
+  reviewer cannot check an absence even in principle.
+- **A false absence entering a queue stops being a claim and becomes a fact**, because everything
+  downstream reads it as scope rather than as evidence.
+
+---
+
+## A runner report is a claim, including the paths in it
+
+*Atlas found it; Diolog Tasks measured the population.*
+
+Atlas copied a file path out of a runner's report into its ledger and the file does not exist.
+Diolog Tasks then ran the check across four waves: **253 distinct cited paths, 19 unresolved,
+zero fabricated.** The breakdown is what makes it worth keeping:
+
+- **10 were `e2e/`-relative** — `e2e/tests/chat/chat.spec.ts` is real at `apps/web/e2e/...`. The
+  runner used the path its own command line used, correct from `apps/web` and wrong from the repo
+  root. Quoted into a ledger verbatim, a reader gets "no such file" on a file that exists.
+- **4 contained a literal `...`** — prose abbreviation, not a claim.
+- 1 build artefact, 1 `node_modules` path — both correctly absent.
+- **1 genuinely stale, and it is the new rule.** `rail-star-contrast.spec.ts` was renamed to
+  `.spec.tsx` because the fix made it render instead of parsing source. The report cited the path
+  it was true at when written and false by the time it merged. **A path can be accurate at
+  authorship and wrong on arrival, with no error in either.**
+
+So on that fleet the paths held — and the check took a minute, and nobody could have known which
+of the 19 was a fabrication without running it. Resolve, never transcribe.
+
+---
+
+## The wrong reference point produces an alarming number, and the alarm is what convinces
+
+*sidetone.*
+
+`git diff main..<branch>` on three unreviewed branches read **~23,000 deletions each** — which
+reads as three branches having gutted the repo, and it was one step from being reported. They
+delete nothing: main had moved **33 commits ahead**, so *main's additions render as the branch's
+deletions*. The merge-base diff is the real work: +2268/−68, +1238/−40, +973/−113.
+
+Same class as the persisting `cd`, `git archive` with no `.git`, and an HTTP 200 on every failed
+attempt. **Before reporting a shocking diff statistic, name the reference point you measured
+from.**
+
+Merge consequence, kept because it is perishable: merge those branches **at record level by id,
+not line level** — the measured result on the same registry conflict was 79 line conflicts and
+zero record overlap.
+
+---
+
+## An instrument correct for one invocation style and blind in the one it ships to
+
+*Google Drive Fixes, root-caused to the line.*
+
+`pressure.py:147` — `"claude": re.compile(r"(^|/)claude(\s|$)")`, matched against
+`ps -Axo state=,command=`. `argv[0]` is the **bare PATH-resolved name**, so the line reads
+`'S    claude --dangerously-skip-permissions …'` and `claude` is preceded by the state column's
+whitespace, which is neither `^` nor `/`. Both alternatives fail. Measured on a 1,459-process
+snapshot: **20 real, 0 matched.** `\b` catches all twenty.
+
+**The part that generalises: it is not uniformly broken.** In the same snapshot `xcodebuild`
+matched, because it was invoked by absolute path. So the instrument **works in any test that
+launches a tool by full path and fails silently in production, where a person or a shell launches
+it by name** — the same shape as the `GIT_DIR` trap, in a second instrument.
+
+And a sharper reading than "a narrower question reported as the broad one": it answers *"how many
+processes were launched by a path ending in `/claude`"*, which **is not a question anybody would
+ask**. There is no reading under which `0` is true and useful while twenty are live. A distinct
+class — not a smaller version of the right question, but a question nobody wanted.
+
+Two things not to fix by widening the regex: a process **count** is a poor proxy for a family
+whose children do the work (one `xcodebuild` and forty `swift-frontend`s are the same admission
+decision), and **a family count of zero must be distinguishable from a family the matcher cannot
+see** — right now they are the same integer, which is what let this survive.
+
+**It is the whole family table, not one pattern.** Fresh 1,459-process read, same regex shape
+applied per family:
+
+| family | real | matched | how `argv[0]` was written |
+|---|---:|---:|---|
+| `claude` | 20 | **0** | bare name |
+| `node` | 22 | **7** | 7 absolute path, 15 bare name |
+| `cargo` | 1 | 1 | absolute |
+| `python3` | 3 | 3 | absolute |
+
+**`node` loses 15 of 22**, and `node` is admission-relevant — dev servers, MCP servers, the harness
+itself. Anyone sizing headroom off it on this machine is reading a third of it. So the defect is not
+a bad pattern for one family; it is the table silently under-reporting whichever families a machine
+happens to invoke through PATH.
+
+**And the staleness marker is absent rather than false.** `pressure.py` can return
+`"from_cache": true`, but a fresh read has **no `from_cache` key at all**. A consumer testing
+`d.get('from_cache')` gets the right answer; one testing `'from_cache' in d` — to decide whether
+staleness is even *knowable* — gets nothing. That is how two sessions read `xcodebuild` as 3 and 1
+minutes apart and each believed their own number, and why a `swift-frontend` reading of 1 against 0
+live processes cannot be classified: **"the process ended" and "the number is old" are
+indistinguishable from the output.**
+
+The structural fix ranks above the regex fix: **a family count of zero must be distinguishable from
+a family the matcher cannot see.** They are the same integer today, which is what let this survive
+being read by twenty sessions rather than being noticed once.
+
+---
+
+## A fix that satisfies the accounting while leaving the claim false
+
+*Warden Design, measured against a routed finding rather than adopting it.*
+
+sidetone measured its own register at 95 of 95 rows carrying `sha256`, `bytes`, `recorded_at` and
+`recorded_from`, 0 of 95 unfindable — which suggested a third option beside commit-the-captures
+or drop-the-evidence-rung. Routed to Warden with an instruction to measure before adopting.
+
+**It measured, and refused.** `sha256` on 5 of 34 rows and 4 of 13; `capturedAt` 5 of 34 and 2 of
+13; **`bytes` and `recorded_from` absent entirely.** 30 of 34 and 12 of 13 rows are a path plus an
+`unpublishedReason` — a declaration file, not an attestation register.
+
+**And the second reason, which measuring cannot reach.** Warden's own gate rules that *a visual
+claim without pixels is a structural assertion in disguise*, and the two affected cases claim the
+`raster-visual` rung. A hash names a capture; it does not let a reader see one. So a register row
+would satisfy the **accounting** on both silent denominators while leaving the **rung** claim
+false — *"that passes, which makes it worse than the defect it replaces."*
+
+The only instance in this corpus where **the proposed fix was itself the vector**, turning a
+visible failure into a silent pass. The third option is a prerequisite, not a narrowing.
+
+---
+
+## A correction that introduces an error
+
+*Google Drive Fixes, self-caught.*
+
+It generalised SCR-0102's true statement about **its five cases** into a claim about all
+fifty-eight, and wrote that into `ARMADA.md` **as a correction to the entry it had just fixed**.
+Measured: 58 cases, 10 passing, four lanes; scrim's two lines only.
+
+Nastier than the original error, because **a correction carries more authority than what it
+replaces** — a later reader treats it as the settled version. Three properties compound, and the
+session that made it named them: SCR-0102's sentence was **true**, so a reader following the
+citation finds it confirmed; *"all five of its cases"* and *"all"* differ by a word no numeric or
+paraphrase sweep flags; and the correction gets **less** scrutiny at exactly the moment it deserves
+more. The rule that would have stopped it: **carry a finding's denominator when you quote it.** Sibling of Diolog Tasks' rule that a
+false claim "gets worse with repetition", with the repetition happening inside the fix.
+
+---
+
+## A silent fallback is a correctness bug wearing resilience as a costume
+
+*Diolog Presentations.*
+
+**Every failed deploy attempt returned HTTP 200 and status `ready`.** The same allow-list for the
+needed field existed in **three places** — an extracted TS module, an inline copy inside a
+`String.raw` template which is what actually ships, and a zod request schema that strips unnamed
+keys — and the two that were not load-bearing got fixed first. *A deploy that changes nothing is
+indistinguishable from one that works if you check the exit code instead of the artifact.*
+
+**What broke the loop was making the failure loud**: a missing browser now throws with a named
+reason rather than falling back to the old renderer, which turned the next attempt from a mystery
+into a one-line diagnosis. Result: 11,443 characters extract from the new output against **10**
+from the old on the same deck — the old was pictures of missing-glyph boxes, because `sharp`
+rasterises SVG through resvg, which reads fontconfig and cannot fetch a webfont, in a sandbox with
+no fonts.
+
+---
+
+## The stricter the mutation rule, the more certainly the control fails
+
+*Egress, with Errand arriving at the same conclusion independently.*
+
+A harness requiring **every** mutation to apply can never pass its own control, and the natural
+repair deletes the only leg proving the harness can report green for the right reason. Egress:
+*"an exempted control proves nothing — it is excused from the rule rather than satisfying it."*
+Errand, separately: *"a control that cannot fail has not been run, it has been performed."*
+
+The cheap discipline that catches the whole family: **ask what your control would do against a
+subject known to be good.** `git archive main | tar -x` fails that before it is ever run — and it
+did not produce a wrong answer, it produced **a right answer with unusable provenance**.
+
+Two sweep corrections from the same session, both worth copying as worked examples:
+
+- A predicate grepping `sys.argv[1]` missed two tools taking `sys.argv[1:]`, so they ran
+  argument-less, **exited 2, printed their docstrings, and were counted as passing.**
+- A denominator column took the **first** `examined=` per tool, reading 19 where the tool's own
+  total says 168.
+

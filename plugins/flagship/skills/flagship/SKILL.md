@@ -183,6 +183,22 @@ and re-measure at the deadline.
 | Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
 | Blocked — a real queue it cannot reach | Its blocker escalated, or the berth freed |
 
+**Two more shapes the table misses, and both make an active session look dead.** A session
+inside a *single long tool call* writes nothing to its transcript for the duration, so
+`quiet_for` from file mtime reports it as idle — one session's 29 "idle" minutes were three
+serialised merges including a 2042-test suite. **Transcript mtime cannot distinguish an idle
+session from one blocked inside one long call**, and the longer the call the more idle it
+looks. Before acting on a quiet row, check whether the session holds a berth or has a live
+child; a running suite is the most common cause of the longest quiet time on the board.
+
+And **drained and capped demand opposite responses, so a session guessing kindly costs you
+the distinction.** A drained session should be left alone; a capped one should get the next
+berth. One session first answered "drained by completion" and corrected itself to capped
+twenty minutes later — its one authorised task was a campaign run and admission had been shut
+every time it looked. Its own words: *"'drained' would have taken me off your list."* Ask for
+the shape and say what each answer will cause, because the useful answer and the true one
+diverge exactly here.
+
 All three report as an idle row in `ListAgents`. In one evening the fleet contained all
 three at once, plus a fourth the taxonomy missed: a session whose queue was reachable but
 whose *throughput* was capped by a standing constraint from the operator — no runner
@@ -278,6 +294,23 @@ room* — and ask for the ceiling rather than assuming there is none.
   12, healthy, 0.87/core` and `ceiling 10, available 10, busy, 1.13/core`. Neither is wrong. A
   session quoting "12 berths" a minute after you measured it is quoting a number that no
   longer exists.
+- **A released figure expires two independent ways, and only one of them looks like it.** The
+  berths fill beneath you — or **the ceiling drops beneath the berths** with nobody having
+  taken a slot. Measured 34 seconds apart: a read of `available 3` became `available 0,
+  in_use 3` with `ceiling` collapsed from 6 to 3. Nothing was taken; capacity shrank. So
+  **quote `available`, `ceiling` and the timestamp together** — the count alone cannot express
+  the second case, and a peer holding it cannot tell which way it expired.
+- **A berth is only useful to work whose weight fits in it, so the last berth is often worth
+  nothing at all.** On a single slot an inner `governor-run --weight 4` is refused at exit 75
+  and the work runs **unwrapped** — a degraded run wearing a governed one's clothes, invisible
+  to everyone else reading the governor and producing evidence its own author has to distrust.
+  Two capped sessions declined the final berth on this reasoning in one evening, and both were
+  right. Say *"this is structurally nothing for you"* rather than offering it, and name the
+  bounded wait instead: which claimant releasing how many slots.
+- **Clear a bounded set with named caps, not everyone who is waiting.** The clearance itself
+  is the load, so state the arithmetic in each message — *you at 6, that session at 2, 8 of 9
+  committed, 1 spare, re-measure before anyone else*. A distributed clearance whose total is
+  never stated is how eleven sessions cleared on one honest reading of 3.67 became load 151.
 - **`available` inherits `in_use`'s defect, so it is an upper bound and not a count.** This
   skill's own author allocated four berths off `available 4` after spending a night telling
   nine sessions that a low `in_use` proves nothing. The occupant list named **one** claimant

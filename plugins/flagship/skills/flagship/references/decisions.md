@@ -78,3 +78,45 @@ though chosen, is a decision attributed to a person who never made it.
 
 Run `clarify` before composing. It carries the gate, the referral lanes, the composition rules
 and a linter.
+
+### The page is blind to the channel where answers happen, so it manufactures pending items
+
+Batching assumes questions accumulate **unanswered**. They do not. Every session has its own
+channel to the operator and he uses it — including `AskUserQuestion` inside that session, which
+you cannot observe by design. Measured in one ten-minute stretch, four sessions at once:
+
+- One had both its items decided **two hours earlier**, in a direct reply. The rotations were
+  declined outright ("No", not deferred); the redeploy was "no need".
+- One had two items answered through an `AskUserQuestion` in its own session — a push chosen as
+  "Keep local", two briefs answered "Build both" and already built.
+- One asked not to have its item carried at all: it already led that session's own status page,
+  open in the operator's browser, and a second channel arriving separately would read as two
+  asks. Its reason is the stronger one — *a decision to read a production secret has to be his
+  own act, and neither of us can stand in for that.*
+- One confirmed its items open but attached a caveat that changed them: the operator had
+  answered a **broader** question ("pursue, or park it?") with *"Pursue, I'll clear blockers"* —
+  **before** the facts were established. Reading that as consent to what it actually entailed
+  (a pairing ceremony, a wrapper on a machine holding other projects' live databases, a
+  long-lived admin key written to disk) would be converting a general yes into a specific one he
+  was never shown.
+
+So the failure is not staleness. **The page's denominator is "questions I asked", not "questions
+outstanding", and it cannot tell the two apart without asking the sessions.** Left alone it
+manufactures pending items, and re-asking a decided question costs more than never having asked
+— it tells the operator you were not listening the first time.
+
+Three rules follow:
+
+- **Re-verify every item with its own session immediately before the page goes out.** Not from
+  your notes. A note and a remote both have a shelf life; one session's "only 1.0.0 is in the
+  cache" was true when taken and false within hours.
+- **A pending item carries when it was last verified pending, not just that it is.**
+  Stronger than it looks: it converts an unfalsifiable claim into a dated one. *"Pending" cannot
+  be wrong; "pending as of 02:33" can.* Same move as a stale current-state count wanting a fresh
+  check while a stale historical count wants a date.
+- **Ask for the answer, not just the status** — and where a session is unsure, keep the item open
+  rather than striking it. A wrong strike loses a real decision; a duplicate costs a moment.
+- **A general yes is not a specific consent.** When direction was approved before scope was
+  known, carry the approval *and* the caveat, and let the operator decide whether it reaches.
+
+Sessions will not volunteer this. All four told me only because I asked.
