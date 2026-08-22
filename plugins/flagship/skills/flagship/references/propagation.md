@@ -1111,6 +1111,32 @@ probe-with-header against a control that routed elsewhere, and the broker's own 
 is why it noticed: it had a standard to fail against. **A verification done once at the top is
 a verification of the top.**
 
+### And the same root cause one level up: introspection is not the instrument
+
+There were **two** incidents, not one. The second was a runner's own self-check firing on a
+**correctly bound** runner — because it trusted the harness's model claim, and **that text is
+inherited from the default vendor even when the wire is bound elsewhere.**
+
+So the failure has two faces and one cause:
+
+| | What was asked | What answered |
+|---|---|---|
+| The unbound runner | *am I bound?* | its own cwd's settings — correctly, and it was not |
+| The bound runner's self-check | *what model am I?* | the harness's system text — the default vendor's name |
+
+**Asking a model what it is does not tell you what it is.** The answer comes from the prompt
+it was handed, not from where its tokens went. This conductor's own brief said *"ask yourself
+what model you are and say so"*, which is that instrument exactly; what actually caught both
+incidents was the header probe against a control and the broker's ledger.
+
+> **The wire is the authority. Introspection is a claim the harness wrote.**
+
+The corrected self-check is environment-only, with the wire as the authority — and the general
+form is the third top-level rule arriving in a new place: an instrument answered a narrower
+question (*what does my prompt say I am*) than the one asked (*where did my tokens go*), and
+printed it as the answer to the broad one.
+
+
 ## Threshold flapping is a wake carrying nothing new (23 Aug 2026)
 
 A daemon alert keyed on a single threshold produced 91% → cleared → 80% → fired → cleared
