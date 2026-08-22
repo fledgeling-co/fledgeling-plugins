@@ -423,7 +423,10 @@ if not ok:
 row = brief_row("the widget saves rows",
                 [{"brief": "BRIEF-x", "target": "REQ-404", "method": "cited", "confidence": 1.0},
                  {"brief": "BRIEF-x", "target": "REQ-1", "method": "overlap", "confidence": 0.4}])
-ok = row["class"] not in ("unbuilt", "unjoined")
+# The exact class, not merely "not one of the two documentary ones": reverting
+# to the unfiltered `support = cited or my_edges` also yields something outside
+# that pair, so a negative assertion would go green on a real regression.
+ok = row["class"] == "undecided"
 print("%-46s %s" % ("a dangling citation keeps a usable overlap edge", "ok" if ok else "FAILED"))
 if not ok:
     FAILURES.append("dangling citation discarded an overlap edge: %r" % row["class"])
