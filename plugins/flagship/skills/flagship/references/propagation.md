@@ -1179,3 +1179,44 @@ Third occurrence of the same harness limitation in one night, each time read as 
 before being read as a defect. **A silent control is a claim about the harness until proven
 otherwise** — and the cheapest guard is to make the control's iteration count exceed every
 streak requirement in the thing under test, rather than remembering which check needs what.
+
+## `git checkout --` as a restore step is a silent no-op on anything untracked
+
+The arming harness built to catch tonight's shape contained tonight's shape.
+
+Its restore step was `git checkout -- <path>` on a register that is **untracked**. Against an
+untracked file that command does nothing and says nothing. So three mutations **accumulated**
+across three legs while the harness printed **6 of 6**, every guard firing against the wreckage
+left by the previous one rather than against a clean subject. It was caught only by re-running
+the checks afterwards, and restoration is now a byte snapshot with an assertion.
+
+This is the third distinct way that one command has cost something in a single night — it
+reverts an *uncommitted* fix to HEAD, it resolves a path from HEAD rather than from the moment
+of the call, and it silently succeeds at doing nothing on an untracked target. **Name the
+restore mechanism, snapshot the bytes, and assert the restore happened.** A restore that cannot
+fail is not a restore.
+
+## One composer, so the bad shape cannot be reconstructed
+
+The repair for *a pass-shaped summary over an empty denominator* was not "fix the two scripts".
+It was to make the shape **structurally impossible**: a single `coverage()` composer — with a
+Python twin — is the only place a coverage line may be built, and its `measured === 0` branch
+is taken **first** and emits no pass token at all. A caller cannot assemble the old shape even
+by accident.
+
+The zero-measured output now contains **zero `failures=` tokens**, and that is the property
+that was checked rather than the exit code, because the exit code was never the problem. Both
+checks now say what they did rather than how it went:
+
+- `NOT MEASURED IN THIS TREE — 0 of 558 opened here, 558 attested by the committed register ·
+  this run verified the RECORD, not the artifacts`
+- surfaces marked `n/a` with `(recorded 151680 px, not re-measured here)`
+
+**Fixing the instances leaves the rule unenforced and it drifts back; fixing the composer
+enforces it.** Anyone repairing a visible instance of this class should ask whether their fix
+has a single composer or two edited call sites.
+
+And nothing was copied into the tree to achieve it — the artifacts were *registered from* the
+worktree that produced them, `evidence/` stays gitignored, and the register carries 95 rows.
+Three limits were declared rather than buried, including the honest one: the register moves
+trust from this machine's disk to the author's recording step.
