@@ -15,7 +15,8 @@ Three passes, all exact, none needing a model:
               carries no `effect` field. Deliberately over-flags: it prompts the
               census rather than deciding it.
   uncensused  a requirement declaring an external effect class and recording no
-              `provider` — nothing in production source that could perform it.
+              `provider`, or naming one that resolves to nothing — no such path
+              under the source root, no such symbol in production source.
   blind       a test that calls a mutating verb and never reads again, so it can
               only be asserting the call's own return value.
 
@@ -30,14 +31,21 @@ The witness obligation and the unbacked-effect blocker live in campaign.py,
 where the rest of the case-level rules are. This script is the requirement-level
 and test-tree half. references/effect-boundary.md.
 
+Both roots this script reads belong in `campaign.json`, beside the vocabulary
+that has to agree with them: `sourceRoot` for the census, `testRoot` for the
+blind pass. A flag overrides a declared root; it is not the only place a root
+can live, because a root that lives only on a command line drifts from the
+vocabulary silently and the drift reads as a thorough pass.
+
   python3 vacuity-check.py <dir> --gate
-  python3 vacuity-check.py <dir> --tests crates --gate
+  python3 vacuity-check.py <dir> --tests crates --source crates --gate
   python3 vacuity-check.py <dir> --seed-strengthen REQ-001
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -83,6 +91,123 @@ DEFAULT_MUTATORS = ("stop_all", "stop_runner", "restart", "clear_", "cancel_",
                     "set_", "delete_", "create_", "confirm_")
 DEFAULT_READERS = ("list_", "get_", "read_", "fetch_", "sample_", "count_", "load_")
 
+# ── what a provider has to resolve to ───────────────────────────────────────
+#
+# A `provider` is a claim that something in PRODUCTION code can perform the
+# effect. Until 0.9.5 the census read the field's presence and never its
+# referent: `isolation/macos.rs:88 spawn_guest` cleared whether or not that file
+# or that symbol existed anywhere, so a census could report every external-effect
+# requirement as provided while some of them named nothing. That is the same
+# vacuity the script exists to find, one level up.
+PRODUCTION_SUFFIXES = {".rs", ".py", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".go",
+                       ".swift", ".kt", ".java", ".cs", ".rb", ".c", ".cc", ".cpp",
+                       ".h", ".hpp", ".m", ".mm", ".php", ".scala", ".ex", ".exs"}
+PATHY_SUFFIXES = PRODUCTION_SUFFIXES | {".json", ".toml", ".lock", ".yaml", ".yml",
+                                        ".xml", ".plist", ".md", ".sh", ".sql", ".proto"}
+SKIP_DIRS = {"node_modules", "target", "dist", "build", "out", "vendor", "Pods",
+             "venv", "__pycache__", "DerivedData", "coverage"}
+# Production means what ships. A provider found only in the test tree is the
+# product's test double naming itself as the thing it stands in for.
+TEST_MARKERS = ("test", "spec", "fixture", "mock", "e2e", "bench")
+
+
+class SourceIndex:
+    """Every path under the declared root, and the production source among them."""
+
+    def __init__(self, root: Path, origin: str = ""):
+        self.root = root
+        self.origin = origin
+        self.paths: set[str] = set()
+        self.production: list[Path] = []
+        for dirpath, dirnames, filenames in os.walk(root):
+            dirnames[:] = [x for x in dirnames
+                           if x not in SKIP_DIRS and not x.startswith(".")]
+            for fn in filenames:
+                f = Path(dirpath) / fn
+                try:
+                    rel = f.relative_to(root).as_posix().lower()
+                except ValueError:
+                    continue
+                self.paths.add(rel)
+                if (f.suffix.lower() in PRODUCTION_SUFFIXES
+                        and not any(m in rel for m in TEST_MARKERS)):
+                    self.production.append(f)
+        self._texts: list[str] | None = None
+
+    def has_path(self, cand: str) -> bool:
+        c = cand.strip().strip("./").lower()
+        return bool(c) and any(p == c or p.endswith("/" + c) for p in self.paths)
+
+    def has_symbol(self, sym: str) -> bool:
+        # Two characters is a substring, not a symbol; matching one would resolve
+        # every provider ever written and the pass would be back where it started.
+        if len(sym) < 3:
+            return False
+        if self._texts is None:
+            self._texts = []
+            for f in self.production:
+                try:
+                    if f.stat().st_size <= 2_000_000:
+                        self._texts.append(f.read_text(errors="replace"))
+                except OSError:
+                    continue
+        pat = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(sym) + r"(?![A-Za-z0-9_])")
+        return any(pat.search(t) for t in self._texts)
+
+
+def provider_targets(provider: str) -> tuple[list[str], list[str]]:
+    """Split a provider string into the paths and the symbols it claims.
+
+    `isolation/macos.rs:88 spawn_guest` claims one of each. A line number is not
+    part of either, and a token that is neither a path nor a symbol is neither.
+    """
+    paths: list[str] = []
+    syms: list[str] = []
+    for raw in re.split(r"[\s,;]+", str(provider).strip()):
+        tok = raw.strip("()[]{}<>'\"`,")
+        if not tok:
+            continue
+        head = tok.split(":")[0]
+        if "/" in head or Path(head).suffix.lower() in PATHY_SUFFIXES:
+            paths.append(head)
+        else:
+            sym = tok.split(":")[0]
+            syms.append(sym)
+            if "." in sym:
+                syms.append(sym.split(".")[-1])
+    return paths, syms
+
+
+def resolve_provider(provider: str, index: SourceIndex) -> tuple[bool, str]:
+    paths, syms = provider_targets(provider)
+    for c in paths:
+        if index.has_path(c):
+            return True, f"path {c}"
+    for sym in syms:
+        if index.has_symbol(sym):
+            return True, f"symbol {sym}"
+    parts = []
+    if paths:
+        parts.append("no file at " + " or ".join(repr(c) for c in paths))
+    if syms:
+        parts.append("no production source contains " + " or ".join(repr(s) for s in syms))
+    if not parts:
+        parts.append("it names neither a path nor a symbol")
+    return False, f"{'; '.join(parts)} under {index.root}"
+
+
+def find_root(d: Path, raw: str) -> Path | None:
+    """Resolve a declared or passed root. Campaign dir first, then its ancestors,
+    then the working directory — a campaign living in `docs/test-campaign` names
+    its roots relative to the repo, not to itself."""
+    p = Path(raw).expanduser()
+    if p.is_absolute():
+        return p.resolve() if p.exists() else None
+    for base in [d, *list(d.parents)[:3], Path.cwd()]:
+        if (base / raw).exists():
+            return (base / raw).resolve()
+    return None
+
 
 def load(d: Path, name: str, default):
     p = d / f"{name}.json"
@@ -120,18 +245,38 @@ def pass_unclassed(reqs: list[dict]) -> tuple[int, list[str]]:
     return len(reqs), findings
 
 
-def pass_uncensused(reqs: list[dict]) -> tuple[int, list[str]]:
+def pass_uncensused(reqs: list[dict], index: "SourceIndex | None" = None
+                    ) -> tuple[int, list[str], int, int]:
+    """Declared effects, and whether each one's provider resolves to anything.
+
+    Returns (declared, findings, named, resolved) — the denominator matters as
+    much as the findings, because "every external effect has a provider" was
+    true of a registry where several providers named a file that did not exist.
+    """
     declared = [r for r in reqs if r.get("effect") in EXTERNAL]
-    findings = [
-        f"{r['id']} declares a {r['effect']} effect and records no `provider` — "
-        f"nothing in production source is named as able to perform it"
-        for r in declared if not r.get("provider")
-    ]
-    return len(declared), findings
+    findings: list[str] = []
+    named = resolved = 0
+    for r in declared:
+        prov = str(r.get("provider") or "").strip()
+        if not prov:
+            findings.append(f"{r['id']} declares a {r['effect']} effect and records no "
+                            f"`provider` — nothing in production source is named as able "
+                            f"to perform it")
+            continue
+        named += 1
+        if index is None:
+            continue
+        ok, why = resolve_provider(prov, index)
+        if ok:
+            resolved += 1
+        else:
+            findings.append(f"{r['id']} declares a {r['effect']} effect and names provider "
+                            f"{prov!r}, which resolves to nothing — {why}. A provider that "
+                            f"resolves to nothing is the census result of no provider at all.")
+    return len(declared), findings, named, resolved
 
 
-def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]
-               ) -> tuple[int, int, int, list[str]]:
+def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) -> dict:
     """After the last mutating call in a test body, does any reader appear?
 
     Name-based and deliberately generous: a reader called for an unrelated
@@ -146,11 +291,20 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]
              and ("test" in str(f).lower() or "spec" in str(f).lower())]
     examined = mutating = reread = 0
     findings: list[str] = []
+    # Which declared verbs appear anywhere in this corpus at all. A vocabulary
+    # for another language half-matches — the generic verbs hit, the project's
+    # own never do — and half-matching is what made 32 findings against a foreign
+    # tree indistinguishable from 32 real ones. Recorded per run, not per test.
+    seen_verbs: set[str] = set()
     for f in files:
         try:
             src = f.read_text(errors="replace")
         except OSError:
             continue
+        for v in mutators:
+            if v not in seen_verbs and re.search(
+                    r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", src):
+                seen_verbs.add(v)
         starts = [(m.start(), m.group(1)) for m in fn_re.finditer(src)]
         # A function another function in the same file calls is a fixture helper,
         # not a test. Counting one inflates `examined` and can report it blind:
@@ -189,12 +343,13 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]
             else:
                 findings.append(f"{name} — last mutator '{which}', no read after it "
                                 f"({f})")
-    return examined, mutating, reread, findings
+    return {"files": len(files), "examined": examined, "mutating": mutating,
+            "reread": reread, "findings": findings, "seenVerbs": seen_verbs}
 
 
 # ── the control ─────────────────────────────────────────────────────────────
 
-def seed_strengthen(d: Path, req_id: str) -> int:
+def seed_strengthen(d: Path, req_id: str, index: "SourceIndex | None" = None) -> int:
     """Strengthen one requirement's constraint and require the gate to go red.
 
     Registry-level, and exact: take a requirement that currently clears the
@@ -215,13 +370,13 @@ def seed_strengthen(d: Path, req_id: str) -> int:
     if hit is None:
         sys.exit(f"No requirement {req_id}.")
 
-    before = _census_clear(d)
+    before = _census_clear(d, index)
     try:
         hit["effect"] = "packet-filter" if hit.get("effect") != "packet-filter" else "subprocess"
         hit["evidence"] = "observed"
         hit.pop("provider", None)
         inv_path.write_text(json.dumps(inv, indent=2) + "\n")
-        after = _census_clear(d)
+        after = _census_clear(d, index)
     finally:
         inv_path.write_text(original)
 
@@ -236,10 +391,10 @@ def seed_strengthen(d: Path, req_id: str) -> int:
     return 0
 
 
-def _census_clear(d: Path) -> bool:
+def _census_clear(d: Path, index: "SourceIndex | None" = None) -> bool:
     reqs = requirements(d)
     _, unclassed = pass_unclassed(reqs)
-    _, uncensused = pass_uncensused(reqs)
+    _, uncensused, _, _ = pass_uncensused(reqs, index)
     return not (unclassed or uncensused)
 
 
@@ -249,7 +404,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("dir")
-    ap.add_argument("--tests", help="Root to scan for the blind-mutation pass, e.g. 'crates'.")
+    ap.add_argument("--tests", help="Root to scan for the blind-mutation pass, e.g. 'crates'. "
+                                    "OVERRIDES campaign.json `testRoot`; it does not replace it "
+                                    "as the place the root lives.")
+    ap.add_argument("--source", help="Root of production source, for resolving each declared "
+                                     "`provider`. OVERRIDES campaign.json `sourceRoot`.")
     ap.add_argument("--mutator", action="append", default=[],
                     help="A verb that changes state. Repeatable; ADDS to the campaign's "
                          "vocabulary and the defaults.")
@@ -265,9 +424,28 @@ def main() -> int:
                     help="Prove the census can fail, then restore the registry.")
     args = ap.parse_args()
     d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+
+    # The census root. A provider is only a claim until something resolves it,
+    # and resolving it needs to know where production source is. A flag overrides
+    # the declaration; neither is invented when both are absent, because guessing
+    # a root is how the blind pass came to report 32 findings about a tree that
+    # was not the campaign's.
+    index = None
+    src_origin = ""
+    raw_source = args.source or campaign.get("sourceRoot") or ""
+    if raw_source:
+        src_origin = "--source" if args.source else "campaign.json sourceRoot"
+        src_root = find_root(d, str(raw_source))
+        if src_root is None:
+            print(f"providers:  NOT RESOLVED — {raw_source!r} ({src_origin}) does not exist. "
+                  f"A root that is not there resolves nothing, and nothing resolved is not "
+                  f"nothing to resolve.")
+        else:
+            index = SourceIndex(src_root, src_origin)
 
     if args.seed_strengthen:
-        return seed_strengthen(d, args.seed_strengthen)
+        return seed_strengthen(d, args.seed_strengthen, index)
 
     reqs = requirements(d)
     if not reqs:
@@ -276,7 +454,7 @@ def main() -> int:
         return 1 if args.gate else 0
 
     total, unclassed = pass_unclassed(reqs)
-    declared, uncensused = pass_uncensused(reqs)
+    declared, uncensused, named, resolved = pass_uncensused(reqs, index)
 
     print(f"unclassed:  examined={total} findings={len(unclassed)}")
     for line in unclassed[:20]:
@@ -284,17 +462,40 @@ def main() -> int:
     print(f"uncensused: examined={declared} findings={len(uncensused)}")
     for line in uncensused[:20]:
         print(f"  · {line}")
+    if declared:
+        if index is None:
+            print(f"  providers: {named} of {declared} named, 0 resolved — NOT CHECKED. "
+                  f"Declare `sourceRoot` in campaign.json or pass --source <root>; until "
+                  f"one of them says where production source is, a provider is a string "
+                  f"nobody read.")
+        else:
+            print(f"  providers: {named} of {declared} named, {resolved} resolved under "
+                  f"{index.root} ({index.origin}, {len(index.production)} production file(s))")
 
     blind_findings: list[str] = []
-    if args.tests:
-        root = Path(args.tests)
-        if not root.is_absolute():
-            root = Path.cwd() / root
-        if not root.exists():
-            print(f"blind:      SKIPPED — {root} does not exist. A pass that could not "
-                  f"run is not a pass that found nothing.")
+    # The corpus root belongs beside the vocabulary that has to agree with it.
+    # Measured: a campaign whose vocabulary was one language, pointed by hand at
+    # another language's test tree, produced 32 findings identical in shape and
+    # confidence to genuine ones; the same command over its own corpus returned 0.
+    # Nothing warned, because the vocabulary half-matched.
+    declared_root = campaign.get("testRoot") or (campaign.get("blindVocabulary") or {}).get("testRoot")
+    raw_tests = args.tests or declared_root or ""
+    tests_origin = "--tests" if args.tests else "campaign.json testRoot"
+    if args.tests and declared_root and str(declared_root) != str(args.tests):
+        print(f"blind:      --tests {args.tests!r} overrides campaign.json testRoot "
+              f"({declared_root!r}). The declared root is what the vocabulary was written "
+              f"for; an override is a different corpus.")
+    if not raw_tests:
+        print("blind:      NOT RUN — no corpus. Declare `testRoot` in campaign.json beside "
+              "`blindVocabulary`, or pass --tests <root>. This is the cheapest of the three "
+              "and needs no privilege.")
+    else:
+        root = find_root(d, str(raw_tests))
+        if root is None:
+            print(f"blind:      SKIPPED — {raw_tests} ({tests_origin}) does not exist. A pass "
+                  f"that could not run is not a pass that found nothing.")
         else:
-            vocab = load(d, "campaign", {}).get("blindVocabulary") or {}
+            vocab = campaign.get("blindVocabulary") or {}
             declared_m = tuple(vocab.get("mutators") or ())
             declared_r = tuple(vocab.get("readers") or ())
             # A default that does not fit the project manufactures findings and
@@ -321,16 +522,38 @@ def main() -> int:
                       "and a pass that matches nothing returns clean.")
                 muts = rds = ()
             if muts and rds:
-                examined, mutating, reread, blind_findings = pass_blind(root, muts, rds)
-                print(f"blind:      examined={examined} mutating={mutating} "
-                      f"re-read-after={reread} blind={len(blind_findings)}")
-                print(f"  vocabulary: {source} — {len(muts)} mutator(s), {len(rds)} reader(s)")
-                print(f"  readers: {', '.join(rds)}")
-            for line in blind_findings[:20]:
-                print(f"  · {line}")
-    else:
-        print("blind:      NOT RUN — pass --tests <root> to scan the test tree. "
-              "This is the cheapest of the three and needs no privilege.")
+                res = pass_blind(root, muts, rds)
+                # The corroboration. Only the verbs the project (or the operator)
+                # CLAIMED are evidence about fit: the defaults are a grab-bag and
+                # some of them match every language. Fewer than a quarter of the
+                # claimed verbs appearing anywhere in the corpus means the corpus
+                # is not the one the vocabulary describes, and a number produced
+                # over the wrong tree is worse than no number.
+                claimed = tuple(dict.fromkeys(declared_m + tuple(args.mutator)))
+                seen = [v for v in claimed if v in res["seenVerbs"]]
+                misfit = bool(claimed) and res["files"] > 0 and len(seen) * 4 < len(claimed)
+                if misfit:
+                    print(f"blind:      VOCABULARY DOES NOT FIT — {len(seen)} of {len(claimed)} "
+                          f"declared mutator(s) appear anywhere under {root} "
+                          f"({tests_origin}, {res['files']} file(s) scanned).")
+                    print(f"  claimed: {', '.join(claimed)}")
+                    print("  A vocabulary written for one language, run over another language's "
+                          "tree, produces findings identical in shape and confidence to genuine "
+                          "ones — 32 of them, where the same command over its own corpus "
+                          "returned 0. Declare `testRoot` in campaign.json beside "
+                          "`blindVocabulary` so the corpus and the vocabulary cannot drift.")
+                    blind_findings = [f"the blind vocabulary does not fit {root}: "
+                                      f"{len(seen)} of {len(claimed)} declared mutator(s) "
+                                      f"appear anywhere under it"]
+                else:
+                    blind_findings = res["findings"]
+                    print(f"blind:      examined={res['examined']} mutating={res['mutating']} "
+                          f"re-read-after={res['reread']} blind={len(blind_findings)}")
+                    print(f"  corpus: {root} ({tests_origin}, {res['files']} file(s))")
+                    print(f"  vocabulary: {source} — {len(muts)} mutator(s), {len(rds)} reader(s)")
+                    print(f"  readers: {', '.join(rds)}")
+                    for line in blind_findings[:20]:
+                        print(f"  · {line}")
 
     findings = len(unclassed) + len(uncensused) + len(blind_findings)
     print(f"\nvacuity: requirements={total} external={declared} findings={findings}")
