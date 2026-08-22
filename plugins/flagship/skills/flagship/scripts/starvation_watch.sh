@@ -46,6 +46,19 @@ DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspoli
 # cannot see the past, and a scheduling decision needs both.
 DAEMON_SAMPLE_SEC=${FLAGSHIP_DAEMON_SAMPLE_SEC:-4}
 
+LEAK_SAMPLE_SEC=${FLAGSHIP_LEAK_SAMPLE_SEC:-5}
+
+_tree_pids() {  # pid -> sorted descendant pid set, so turnover is visible
+  local p out=""
+  local -a stack=("$1")
+  while (( ${#stack[@]} > 0 )); do
+    p="${stack[1]}"; shift stack
+    out+="$p "
+    for k in $(pgrep -P "$p" 2>/dev/null); do stack+=("$k"); done
+  done
+  print -r -- "$out" | tr ' ' '\n' | sort -n | tr '\n' ' '
+}
+
 _tree_cpu_secs() {  # pid -> cumulative CPU seconds across pid and all descendants
   # Summed in awk rather than shell arithmetic: these are floats, and a child that
   # exits between the pgrep and the ps returns an empty string, which made
@@ -107,13 +120,24 @@ leaked_berths() {
   for pid in $(python3 "$BERTHS" 2>/dev/null       | python3 -c 'import sys,json;d=json.load(sys.stdin);print("\n".join(sorted({str(o.get("pid")) for o in (d.get("occupants") or []) if o.get("pid")})))' 2>/dev/null); do
     read -r etime cpu <<< "$(ps -o etime=,time= -p "$pid" 2>/dev/null | tr -s ' ')"
     [ -z "$etime" ] && continue
-    # Sum CPU across the whole PROCESS TREE, not the claimant alone. A wrapper that
-    # delegates — `governor-run` around `gate.sh` around `cargo test` — spends almost
-    # no CPU itself, so reading the claimant made a working build indistinguishable
-    # from a tail. Measured: a claimant at 0.05s over 11 minutes whose tree had burned
-    # 29.2 CPU seconds, reported as a leak. Same defect this detector exists to catch,
-    # in the detector.
-    cpu=$(_tree_cpu_secs "$pid")
+    # A RATE across the tree, sampled — not a lifetime ratio.
+    #
+    # Three earlier versions were wrong and each was the same mistake one step along.
+    # Reading the claimant alone made a delegating wrapper look like a tail. Summing
+    # the tree's CUMULATIVE cpu then broke on child turnover: a gate that runs cargo,
+    # then python, then a toolchain shows 29.2s at one moment and 0.10s two minutes
+    # later, because the long child exited and took its total with it. Cumulative CPU
+    # is not conserved across a process tree whose members change.
+    #
+    # So: sample the tree twice and take the delta, which is immune to turnover, and
+    # require the DESCENDANT SET to be unchanged as well. A tail holds one child
+    # forever and accrues nothing; a working pipeline either burns cpu or changes its
+    # children, and either one clears it.
+    _before_set=$(_tree_pids "$pid"); _before_cpu=$(_tree_cpu_secs "$pid")
+    sleep "$LEAK_SAMPLE_SEC"
+    _after_set=$(_tree_pids "$pid");  _after_cpu=$(_tree_cpu_secs "$pid")
+    [ "$_before_set" != "$_after_set" ] && continue      # children turned over: working
+    cpu=$(awk -v a="$_before_cpu" -v b="$_after_cpu" 'BEGIN{d=b-a; printf "%.2f", (d<0?0:d)}')
     esec=$(echo "$etime" | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; if(n>3)s+=$(n-3)*86400; print s}')
     csec="$cpu"
     [ -z "$esec" ] || [ "$esec" -lt "$MIN_HELD_SEC" ] 2>/dev/null && continue
@@ -121,7 +145,8 @@ leaked_berths() {
     # An unmeasurable CPU figure is not a zero one. Skip rather than report — a leak
     # claim from a failed read is the thing this whole corpus is about.
     [ -z "$csec" ] && continue
-    if awk -v c="$csec" -v e="$esec" 'BEGIN{exit !(e>0 && c/e < 0.001)}'; then
+    # Idle means: nothing accrued across the sample window, on a stable child set.
+    if awk -v c="$csec" -v t="$LEAK_SAMPLE_SEC" 'BEGIN{exit !(t>0 && c/t < 0.01)}'; then
       desc=$(pgrep -P "$pid" 2>/dev/null | head -1)
       desc=$(ps -o command= -p "${desc:-$pid}" 2>/dev/null | cut -c1-60)
       out="${out}${out:+; }pid ${pid} ${etime} elapsed, ${cpu} CPU, running: ${desc}"

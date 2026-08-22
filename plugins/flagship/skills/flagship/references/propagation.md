@@ -952,3 +952,26 @@ be read** — an unmeasurable figure is not a zero one, and skipping is the only
 The tell was in the emitted line the whole time: `pid 99992 14:04 elapsed,  CPU,` with
 nothing between the commas. **A blank where a number belongs is a failed read**, and it took
 a second false alarm to look at it.
+
+### Version five, and the honest scorecard
+
+The leak check needed five versions in one night, and the last defect is the sharpest:
+**cumulative CPU is not conserved across a process tree whose members change.** A gate wrapper
+running cargo, then python, then a toolchain measured 29.2 seconds at one moment and 0.10 two
+minutes later — not because it stopped working, but because the long child exited and took its
+total with it. That is the *lifetime-versus-live* error again, and it had already been found
+and fixed in the daemon check **twenty lines away in the same file**. Fixing an error in one
+place and leaving it in its neighbour is its own failure mode.
+
+The construction that survives: sample the tree's CPU twice and take the **delta** (immune to
+turnover), and require the **descendant pid set to be unchanged** across the window. A tail
+holds one child forever and accrues nothing; a working pipeline either burns CPU or changes
+its children, and either clears it. Three controls: fires on an idle claimant, silent on a
+CPU-burner, silent on the real turnover wrapper.
+
+**And the scorecard, because a detector's history is evidence about it.** Across the night
+this check produced **three false positives and zero true positives** — the leak it was built
+for was found by a peer reading `ps` before the detector existed. It is correct against three
+controls now, which is not the same as having caught anything. State that when handing an
+instrument over: *armed and demonstrated* and *proven in the field* are different claims, and
+only one of them is available on the night you write it.
