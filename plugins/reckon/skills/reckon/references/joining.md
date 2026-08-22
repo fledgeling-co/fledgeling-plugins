@@ -36,11 +36,19 @@ brief on one — `selftest.py` demonstrates that refusal firing.
 Three things, in this order. All of them are quick, and the first two change
 conclusions rather than polish them.
 
-**Unjoined briefs.** These land in `unbuilt`, and that class is really
-"registry-silent". A brief joined to nothing is either genuinely unbuilt or a
-join the script missed, and those are opposite conclusions about the same
-item. Skim the titles: a brief about a surface the campaign clearly covered is
-a missed join, not unbuilt work.
+**Unjoined briefs.** These land in `unjoined`, which is its own class and its
+own outcome. A brief joined to nothing is either genuinely unbuilt or a join
+the script missed, and those are opposite conclusions about the same item, so
+the script rules on neither: `unjoined` is decision work, and the row carries
+the three nearest candidates the join scored and rejected. Skim the titles: a
+brief about a surface the campaign clearly covered is a missed join, and the
+near-miss list usually names it.
+
+They used to land in `unbuilt`, and that was the same mistake this skill exists
+to catch. On one real registry 75 of 91 briefs went that way on a 17.6% join,
+every one of them naming an item that had shipped, and the report opened by
+claiming 183 pieces of product work. An entity absent from the evidence is not
+an entity that failed.
 
 **Overlap edges above the threshold but below about 0.35.** This is where
 false positives live — two documents sharing vocabulary without sharing a
@@ -76,6 +84,11 @@ The scrim campaign does this and it is why 55% of its briefs join at all.
 **Keep the project id in the brief filename.** `SCR-0075-dead-credential-...`
 gives the reverse-citation scan a token to look for. A brief called
 `fix-the-thing.md` can only ever be matched by guesswork.
+
+The scan requires that shape — letters, then digits. A queue named `03-menu-bar-
+key-equivalents.md` used to produce the token `03-menu`, which is a position in
+a directory listing matched against free prose and then labelled a citation at
+confidence 1.0. A guess that can carry a retirement is worse than no edge.
 
 Where a repo does neither, expect a weak join and expect the report to say so.
 That is the report working, not failing — an unjoinable queue genuinely cannot
