@@ -364,7 +364,7 @@
     {
       "name": "mac-craft",
       "description": "Design and review authentically native macOS application interfaces \u2014 mock windows as self-contained HTML/CSS or a token-precise spec, with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast instead of asserting it. Grounded in Apple's macOS UI kit deconstructed to exact (specified) values, the published HIG, an August 2026 four-backend research panel across 110 sources, and taste learned from 135 curated macOS apps. Ships scripts/mock_check.py: WCAG contrast computed from the declared cascade across light, dark and increased-contrast contexts with alpha compositing; a metric block cross-checked against both the kit and the stylesheet; keyboard, token-discipline, casing, cursor, self-containment, content and artifact-naming checks. It exits 2 rather than 0 when a check cannot be performed, because examined=0 is a gate that never ran. Replaces mac-design-studio and answers to that name. App icons are not designed here \u2014 they route to create-mac-icon.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -375,7 +375,7 @@
     {
       "name": "mac-design-digest",
       "description": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits into a persistent design corpus \u2014 per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md \u2014 where every value carries a provenance mark from a closed set and every written file is checked by an executable gate before the run is reported done. Ships corpus_check.py (twelve checks over seventeen named invariants over the written corpus \u2014 ledger integrity and append-only rows, every ledger target existing, cross-app patterns recorded, the 3-independent-apps canon bar, the native-lineage gate, canon traceability, cluster contradiction budget, placeholders, dated and levelled headers, non-empty knowledge gaps below Proficient, one mark per axis with a composed pair where the row's role needs both, the app count a (recurring)/(canon) mark claims, and a pinned precision baseline so a value cannot silently gain precision it never earned) and sketch_extract.py (reads .sketch archive JSON in memory, derives the control ladder from symbol frames, classifies capsule radii by geometry rather than by an undocumented sentinel, and flags instruction-shaped strings it reads out of the archive). Use whenever the user provides mac app screenshots or icons and wants to digest, study, learn from, analyze, or add to the corpus \u2014 and when ingesting a Figma or Sketch UI kit export. Routes generation out: mocks to mac-craft, icons to create-mac-icon.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Luke Rhodes"
       },
