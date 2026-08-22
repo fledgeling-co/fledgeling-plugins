@@ -12,6 +12,10 @@ export type SkillSignals = {
   evalsUrl: string | null;
   scripts: boolean;
   references: number;
+  /** True when the skill may hand part of a job to a different AI model through
+   *  the `defer` skill — a second opinion from outside Claude's own family.
+   *  Detected from defer's routing idioms, never from the English word. */
+  defer: boolean;
 };
 
 /** A referral named inside a boundary clause. `here` is false when the named

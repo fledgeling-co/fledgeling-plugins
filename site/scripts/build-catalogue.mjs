@@ -42,61 +42,61 @@ const MARKETPLACE_NAME = "fledgeling-plugins";
  * facet being complete on day one.
  */
 const GROUPS = [
-  { id: "long-runs", label: "Long runs", blurb: "Work that has to survive the night, a usage limit, or a compaction." },
-  { id: "making", label: "Making and reviewing", blurb: "Producing an artifact, and checking it before a human sees it." },
-  { id: "research", label: "Research and reporting", blurb: "Working something out, then writing it up so it can be checked." },
-  { id: "orchestration", label: "Orchestration", blurb: "More than one repo, more than one runner." },
-  { id: "machine", label: "Your machine", blurb: "The Mac underneath all of it." },
+  { id: "making", label: "Making something",
+    blurb: "Design it, write it, or build it from nothing." },
+  { id: "checking", label: "Checking it before anyone sees it",
+    blurb: "Catch the problems while they are still cheap to fix." },
+  { id: "backlog", label: "Handing over a pile of work",
+    blurb: "Give Claude a list and let it work through it on its own." },
+  { id: "standing", label: "Knowing where things stand",
+    blurb: "What is finished, what is not, and what nobody has actually checked." },
+  { id: "long-runs", label: "Keeping a long job alive",
+    blurb: "For work that outlasts one sitting, one usage limit, or one crash." },
+  { id: "asking", label: "Fewer interruptions",
+    blurb: "When Claude should ask you, which AI answers, and what it all costs." },
+  { id: "authoring", label: "Making your own skills",
+    blurb: "Turn something you do often into a skill you can reuse." },
+  { id: "sending", label: "Sending things to people",
+    blurb: "Work that leaves your machine and reaches somebody." },
+  { id: "machine", label: "Looking after your Mac",
+    blurb: "Stop it grinding to a halt while all this is running." },
 ];
 
 const GROUP_OF = {
-  "better-goal": "long-runs",
-  "better-loop": "long-runs",
-  discipline: "long-runs",
-  "braindump": "long-runs",
-  "should-compact": "long-runs",
-  "resume-session": "long-runs",
-  clarify: "long-runs",
-  defer: "long-runs",
-  "create-swe-project": "making",
-  "create-mac-icon": "making",
-  "create-skill": "making",
-  "test-campaign": "making",
-  warrant: "making",
-  "improve-skill": "making",
-  geminify: "making",
-  "agent-voice": "making",
-  "design-review": "making",
-  proctor: "making",
-  "be-my-witness": "making",
-  "tui-craft": "making",
-  "mockup-fidelity": "making",
-  "deck-craft": "making",
-  "design-craft": "making",
-  "ux-craft": "making",
-  "mac-craft": "making",
-  "mac-design-digest": "research",
-  "generate-investor-portal": "making",
-  trawl: "research",
-  "dossier-report": "research",
-  report: "research",
-  "whats-left": "research",
-  stocktake: "orchestration",
-  reckon: "orchestration",
-  "flagship": "orchestration",
-  "ship-armada": "orchestration",
-  "ship-fleet": "orchestration",
-  "ship-feature": "orchestration",
-  shipyard: "orchestration",
-  "armada-sync": "orchestration",
-  "anvil-errand": "orchestration",
-  "mac-doctor": "machine",
-  "harbourmaster": "machine",
-  vouch: "research",
-  "atlas-publish": "orchestration",
-  "code-review": "making",
-  "email-digest": "making",
-  "recover-claude-code": "orchestration",
+  // Making something.
+  "design-craft": "making", "ux-craft": "making", "mac-craft": "making", "tui-craft": "making",
+  "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making",
+  "generate-investor-portal": "making", "create-swe-project": "making",
+
+  // Checking it before anyone sees it.
+  "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking",
+  "code-review": "checking", "test-campaign": "checking", warrant: "checking",
+  proctor: "checking", vouch: "checking",
+
+  // Handing over a pile of work.
+  shipyard: "backlog", "ship-feature": "backlog", "ship-fleet": "backlog",
+  "ship-armada": "backlog", flagship: "backlog", "armada-sync": "backlog",
+  "anvil-errand": "backlog", "atlas-publish": "backlog",
+
+  // Knowing where things stand.
+  reckon: "standing", "whats-left": "standing", stocktake: "standing", report: "standing",
+  "dossier-report": "standing", trawl: "standing",
+
+  // Keeping a long job alive.
+  "better-goal": "long-runs", "better-loop": "long-runs", "should-compact": "long-runs",
+  "resume-session": "long-runs", "recover-claude-code": "long-runs", braindump: "long-runs",
+
+  // Fewer interruptions.
+  clarify: "asking", defer: "asking", discipline: "asking",
+
+  // Making your own skills.
+  "create-skill": "authoring", "improve-skill": "authoring", geminify: "authoring",
+
+  // Sending things to people.
+  "email-digest": "sending", "mac-design-digest": "sending",
+
+  // Looking after your Mac.
+  harbourmaster: "machine", "mac-doctor": "machine",
 };
 
 const UNCATEGORISED = {
@@ -114,6 +114,36 @@ function fail(message) {
 
 function readIfExists(path) {
   return existsSync(path) ? readFileSync(path, "utf8") : null;
+}
+
+/**
+ * Does this skill hand work to another model through `defer`?
+ *
+ * Matched on the routing idioms rather than the English word, because "defer to
+ * a human", "defers to it" and Swift's `defer:` are all common in these files
+ * and none of them is a model lane. A wrong pill is a false claim on a public
+ * page, so this is deliberately narrow: it wants defer's own script, its slash
+ * form, its skills path, or the skill named in backticks.
+ */
+function usesDefer(dir, name) {
+  if (name === "defer") return false; // it IS the lane; a pill would be circular
+  const skillsDir = join(dir, "skills");
+  if (!existsSync(skillsDir)) return false;
+  const NEEDLES = [/lane_pick\.py/, /\/defer:defer/, /`defer`/, /skills\/defer/];
+  const walk = (dir) => {
+    for (const item of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, item.name);
+      if (item.isDirectory()) {
+        if (walk(full)) return true;
+        continue;
+      }
+      if (!/\.(md|py|sh|mjs|js|ts)$/.test(item.name)) continue;
+      const body = readFileSync(full, "utf8");
+      if (NEEDLES.some((n) => n.test(body))) return true;
+    }
+    return false;
+  };
+  return walk(skillsDir);
 }
 
 function countFiles(dir) {
@@ -259,7 +289,9 @@ function extractBoundary(trigger) {
  */
 function blurbsFromRootReadme(source) {
   const blurbs = {};
-  const heading = /^### \[([^\]]+)\]\(plugins\/[^)]+\)\s*$/gm;
+  // Trailing content after the link is allowed so a row can carry a marker
+  // (e.g. "· **Uses another AI**") without becoming invisible to the gate.
+  const heading = /^### \[([^\]]+)\]\(plugins\/[^)]+\).*$/gm;
   let match;
   while ((match = heading.exec(source)) !== null) {
     const rest = source.slice(match.index + match[0].length);
@@ -530,6 +562,7 @@ function build() {
           : null,
         scripts: hasScripts,
         references: referenceCount,
+        defer: usesDefer(dir, name),
       },
     };
   });

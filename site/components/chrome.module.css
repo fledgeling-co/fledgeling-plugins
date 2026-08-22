@@ -18,7 +18,9 @@
 
 .brand {
   display: inline-flex;
-  align-items: baseline;
+  /* center, not baseline: baseline seats text against text and drops an image
+     below the line it belongs on. */
+  align-items: center;
   gap: 7px;
 }
 
@@ -139,4 +141,15 @@
  * bottom of every page. Dismissing the bar removes the mark and this returns. */
 :global(html[data-subscribe-bar="on"]) .footerSubscribe {
   display: none;
+}
+
+/* The fledgeling mark, seated against the wordmark. Sized to the cap height of
+   "Fledgeling" rather than to the nav bar, so it reads as part of the lockup. */
+.brandMark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6.5px;
+  flex: none;
+  /* the lockup's own gap spaces this; a margin here would double it. */
+  margin-right: 2px;
 }

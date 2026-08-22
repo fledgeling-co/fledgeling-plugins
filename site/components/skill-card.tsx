@@ -21,6 +21,33 @@ function pluralise(count: number, singular: string) {
   return `${count} ${singular}${count === 1 ? "" : "s"}`;
 }
 
+/**
+ * "Uses another AI" — shown when a skill may hand part of a job to a model
+ * outside Claude's family through `defer`.
+ *
+ * Hover/focus reveals the explanation rather than a jargon tooltip, because the
+ * reader this is for has not met the word "defer" before and should not have to
+ * click to find out whether their work is leaving Claude. It is a link, so the
+ * explanation is reachable by keyboard and on touch, where hover does not exist.
+ */
+export function DeferPill() {
+  return (
+    <Link href="/skills/defer" className={styles.defer}>
+      <span className={styles.deferDot} aria-hidden="true" />
+      Uses another AI
+      <span className={styles.deferNote} role="note">
+        <b>This skill may ask a different AI for a second opinion.</b> Usually to
+        check its own work, because a reviewer from the same family tends to
+        agree with it. The <b>defer</b> skill picks which one — from OpenAI,
+        Google, xAI or another Claude — based on what the job is and which
+        account has room left. Nothing leaves your machine unless a skill you ran
+        asks for it.
+        <span className={styles.deferMore}>Read about defer →</span>
+      </span>
+    </Link>
+  );
+}
+
 export function SkillCard({ skill, reason }: Props) {
   const { signals } = skill;
 
@@ -61,6 +88,7 @@ export function SkillCard({ skill, reason }: Props) {
       </div>
 
       <footer>
+        {signals.defer ? <div className={styles.deferRow}><DeferPill /></div> : null}
         {skill.boundary ? (
           <p className={styles.boundary}>
             <span className={styles.boundaryLabel}>Not for</span>

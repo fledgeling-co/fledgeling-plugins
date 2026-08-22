@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { REPO_URL, getSkillCount } from "@/lib/skills";
 import { FooterSubscribe } from "./subscribe";
@@ -9,6 +10,17 @@ export function SiteNav() {
     <header className={styles.header}>
       <nav className={`container ${styles.nav}`} aria-label="Primary">
         <Link href="/" className={styles.brand}>
+          {/* The fledgeling mark from the plugins repo — the same silhouette the
+              skill icons are built on, so the header and the roster below it
+              read as one family. */}
+          <Image
+            className={styles.brandMark}
+            src="/brand/fledgeling-icon-256.png"
+            alt=""
+            width={28}
+            height={28}
+            priority
+          />
           <span className={styles.brandName}>Fledgeling</span>
           <span className={styles.brandSep} aria-hidden="true">
             /
