@@ -46,6 +46,17 @@ DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspoli
 # cannot see the past, and a scheduling decision needs both.
 DAEMON_SAMPLE_SEC=${FLAGSHIP_DAEMON_SAMPLE_SEC:-4}
 
+_tree_cpu_secs() {  # pid -> cumulative CPU seconds across pid and all descendants
+  local total=0 p
+  local -a stack=("$1")
+  while [ ${#stack[@]} -gt 0 ]; do
+    p="${stack[1]}"; shift stack
+    total=$(( total + $(_cpu_secs "$p") ))
+    for k in $(pgrep -P "$p" 2>/dev/null); do stack+=("$k"); done
+  done
+  print -r -- "$total"
+}
+
 _cpu_secs() {  # pid -> cumulative CPU seconds
   ps -o time= -p "$1" 2>/dev/null | tr -d ' ' \
     | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; if(n>3)s+=$(n-3)*86400; print s+0}'
@@ -91,8 +102,15 @@ leaked_berths() {
   for pid in $(python3 "$BERTHS" 2>/dev/null       | python3 -c 'import sys,json;d=json.load(sys.stdin);print("\n".join(sorted({str(o.get("pid")) for o in (d.get("occupants") or []) if o.get("pid")})))' 2>/dev/null); do
     read -r etime cpu <<< "$(ps -o etime=,time= -p "$pid" 2>/dev/null | tr -s ' ')"
     [ -z "$etime" ] && continue
+    # Sum CPU across the whole PROCESS TREE, not the claimant alone. A wrapper that
+    # delegates — `governor-run` around `gate.sh` around `cargo test` — spends almost
+    # no CPU itself, so reading the claimant made a working build indistinguishable
+    # from a tail. Measured: a claimant at 0.05s over 11 minutes whose tree had burned
+    # 29.2 CPU seconds, reported as a leak. Same defect this detector exists to catch,
+    # in the detector.
+    cpu=$(_tree_cpu_secs "$pid")
     esec=$(echo "$etime" | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; if(n>3)s+=$(n-3)*86400; print s}')
-    csec=$(echo "$cpu"   | awk -F'[-:]' '{n=NF; s=$n; if(n>1)s+=$(n-1)*60; if(n>2)s+=$(n-2)*3600; print s}')
+    csec="$cpu"
     [ -z "$esec" ] || [ "$esec" -lt "$MIN_HELD_SEC" ] 2>/dev/null && continue
     # under 0.1% of wall clock spent on CPU, across the whole tree's own accounting
     if awk -v c="$csec" -v e="$esec" 'BEGIN{exit !(e>0 && c/e < 0.001)}'; then
@@ -122,8 +140,20 @@ while true; do
   # a data volume at 87%, wrong by an order of magnitude in the reassuring direction.
   diskpct=$(df -P /System/Volumes/Data | awk 'NR==2{gsub("%","",$5);print $5}')
 
-  hot=$(echo "$per $HOT_PER_CORE"  | awk '{print ($1>$2)?1:0}')
-  idle=$(echo "$per $IDLE_PER_CORE $active $MIN_ACTIVE" | awk '{print ($1<$2 && $3<$4)?1:0}')
+  # WHICH FIGURE DESCRIBES THE MACHINE RIGHT NOW.
+  # max(1m,5m) is the right conservative input for a GO decision, and the wrong one
+  # for a STATE label: while a 5m decays from a spike it keeps the state at OVERLOADED
+  # even as the 1m falls to idle, so STARVED becomes structurally unreachable and a
+  # fleet can sit idle behind a watch that cannot say so. Measured: six sessions idle
+  # at 1.4 per core on the 1m while this reported OVERLOADED off a 5m still draining
+  # from 300, and the operator noticed before the watch did.
+  # So: when the 1m is well under the 5m the machine is recovering and the 1m is the
+  # honest description; otherwise stay conservative and use the max.
+  recovering=$(echo "$per1 $per" | awk '{print ($2>0 && $1 < $2*0.6)?1:0}')
+  [ "$recovering" = 1 ] && state_per="$per1" || state_per="$per"
+
+  hot=$(echo "$state_per $HOT_PER_CORE"  | awk '{print ($1>$2)?1:0}')
+  idle=$(echo "$state_per $IDLE_PER_CORE $active $MIN_ACTIVE" | awk '{print ($1<$2 && $3<$4)?1:0}')
 
   [ "$hot"  = 1 ] && streak_hot=$((streak_hot+1))   || streak_hot=0
   [ "$idle" = 1 ] && streak_idle=$((streak_idle+1)) || streak_idle=0
@@ -155,7 +185,8 @@ while true; do
   fi
 
   if [ -n "$state" ] && [ "$state" != "$prev" ]; then
-    echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), disk ${diskpct}%"
+    _basis=$([ "$recovering" = 1 ] && echo "1m, recovering" || echo "max(1m,5m)")
+    echo "$state — ${active} sessions wrote in the last 3min, ${live} claude procs, load/core ${per} (5m) / ${per1} (1m), judged on ${_basis}, disk ${diskpct}%"
     prev="$state"
   fi
   # N iterations and out, so the detectors can be exercised without a watch.

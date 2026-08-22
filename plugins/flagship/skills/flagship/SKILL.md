@@ -194,6 +194,14 @@ room* — and ask for the ceiling rather than assuming there is none.
   reading is correct for its population, and the error is reading it as a wider population.
   **Read a low `in_use` as "nothing claimed", never as "nothing running", and confirm with
   load before dispatching.** As an admission gate it is sound; as a census it is not.
+- **`available` is worthless as a load proxy and authoritative as an admission predicate.
+  Those are two different questions and the error is answering the first with it.** It is the
+  same field `governor-run` itself gates on, so it answers exactly *"will my claim be granted
+  right now"* — and nothing at all about whether the machine is coping. Measured minutes
+  apart on a recovered ceiling: `available 1, ceiling 10, in_use 9` at **1.40 per core**, and
+  a weight-3 claim refused identically to a weight-6 one, so nine berths were genuinely
+  claimed on a machine that was fine. Gating a *retry* on `ceiling` is necessary and not
+  sufficient — the ceiling recovers while the berths stay taken.
 - **`available` is not a safety signal, and was not one at any point across a whole night.**
   This is the correction that supersedes the asymmetry below rather than refining it.
   Measured, same instrument, same machine, one night, **both directions**: `available 0` at
@@ -274,6 +282,24 @@ room* — and ask for the ceiling rather than assuming there is none.
   rising 5m crosses any threshold on the way up as well as on the way down, and only one of
   those is safe. The falling signature is the 1-minute dropping *below* the 5-minute; that is
   a peak that has passed.
+- **A watch that cannot reach a state cannot warn you about it, and the state it cannot reach
+  is the one you most need.** This skill's own watcher judged its OVERLOADED/STARVED label on
+  `max(1m, 5m)` — the right conservative input for a *go* decision and the wrong one for a
+  *state*. While a 5m decayed from 300 it kept reporting OVERLOADED as the 1m fell to 1.4 per
+  core, so **STARVED was structurally unreachable** and six sessions sat idle behind a watch
+  that could not say so. The operator noticed before the instrument did, for the second time
+  in one night. Judge the state on the 1m when the 1m is well under the 5m (recovering) and
+  on the max otherwise, and **print which basis was used** so the label can be argued with.
+- **Contamination upstream of the instrument is not reachable by sampling discipline.** An OS
+  daemon burned 1.7 cores for five and a half hours with no client, and Spotlight indexed
+  43GB of a runaway copy — so a real part of every load figure quoted all night belonged to
+  neither the fleet nor any repo. No sampling window, no ratio, no window length finds that.
+  **What found it was somebody looking at what was actually running**, which is a different
+  act from measuring better and the one nobody did for five hours.
+- **Agreement between two instruments is only evidence when their inputs are independent.**
+  Two sessions confirming a load figure while both read `vm.loadavg` is concurrence, not
+  corroboration — and one session reading it twenty times is no better. Ask what the two
+  readings share before treating a match as confirmation.
 - **A release is not a measurement problem. It is a coordination problem, and no sampling
   window fixes it.** *The number you measure is invalidated by the act of acting on it,
   because the load you are clearing against does not include the sessions you are about to
