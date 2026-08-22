@@ -28,7 +28,21 @@ MIN_ACTIVE=${FLAGSHIP_MIN_ACTIVE:-4}            # sessions expected to be writin
 IDLE_SAMPLES=${FLAGSHIP_IDLE_SAMPLES:-3}        # ~3 min before calling it starved
 INTERVAL=${FLAGSHIP_INTERVAL:-60}
 
-prev=""; streak_idle=0; streak_hot=0; prev_leak=""
+prev=""; streak_idle=0; streak_hot=0; prev_leak=""; prev_daemon=""; streak_daemon=0
+
+# An OS daemon can be the largest consumer on the machine while no session owns it,
+# and every load figure then reads as fleet pressure. Measured 23 Aug 2026:
+# coreaudiod at 170.6% for five and a half hours with no audio client running, ahead
+# of every application process. It does not clear on its own and it needs sudo, so
+# the useful thing a watcher can do is name it rather than fix it.
+DAEMON_PCT=${FLAGSHIP_DAEMON_PCT:-80}
+DAEMONS=${FLAGSHIP_DAEMONS:-'coreaudiod|WindowServer|mds_stores|mdworker|syspolicyd|XprotectService'}
+
+runaway_daemon() {
+  ps -Ao pcpu=,comm= -r 2>/dev/null | awk -v pct="$DAEMON_PCT" -v pat="$DAEMONS" '
+    { name=$2; sub(/.*\//,"",name)
+      if ($1+0 >= pct+0 && name ~ pat) { printf "%s at %.0f%%; ", name, $1 } }' | sed 's/; $//'
+}
 
 # A berth is held until the process TREE exits, so a command ending in a tail, a
 # supervisor, a dev server or a --watch never returns it. You cannot see that in the
@@ -85,6 +99,19 @@ while true; do
   elif [ $streak_idle -ge $IDLE_SAMPLES ]; then state="STARVED"
   elif [ "$idle" = 0 ] && [ "$hot" = 0 ];  then state="WORKING"
   else state="$prev"; fi
+
+  # An OS daemon burning cores nobody owns, reported on its own axis: a session
+  # reading load alone attributes it to the fleet and holds work that was never
+  # the cause. Two samples before speaking, so a transient spike stays quiet.
+  daemon=$(runaway_daemon)
+  [ -n "$daemon" ] && streak_daemon=$((streak_daemon+1)) || streak_daemon=0
+  if [ $streak_daemon -ge 2 ] && [ "$daemon" != "$prev_daemon" ]; then
+    echo "OS DAEMON — $daemon (not fleet work; needs sudo to clear)"
+    prev_daemon="$daemon"
+  elif [ $streak_daemon -eq 0 ] && [ -n "$prev_daemon" ]; then
+    echo "OS DAEMON cleared — $prev_daemon is back under ${DAEMON_PCT}%"
+    prev_daemon=""
+  fi
 
   # Independent of the load state: a leaked berth stalls a fleet on a quiet machine.
   leak=$(leaked_berths)
