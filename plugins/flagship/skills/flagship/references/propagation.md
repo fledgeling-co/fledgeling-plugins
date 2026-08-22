@@ -337,12 +337,34 @@ the finding propagated with the wrong name on it for an hour. The real victim is
 unidentified and does not know why it got an empty return.
 
 The discriminator is cheap and does not need pids: **an empty output file with an empty log
-is a kill; an empty output file with a populated log is a denial.** A refused tool call
-writes its own reason to stderr — `user denied permission to run command`, or `a tool
-required the "command" permission that headless mode cannot prompt for` — and **a killed
-process does not stop to explain itself.**
+is a kill. An empty output file with a populated log is not a kill — read the log to find out
+which non-kill cause it was.** A killed process does not stop to explain itself; everything
+else does.
+
+The second half was narrower when first written ("…is a denial") and a third session found
+the counter-example within the hour: a 0-byte output whose log read `Error: empty prompt`,
+because the packet file lived in `/tmp` and `/tmp` had been cleared. **Caller error, not
+denial, and it is the cause most likely to be misread as a lane being down** — "the lane
+returned nothing" is true either way and only the log separates them. That session had
+already filed it as a lane failure before reading the log. Phrase the rule as *read the log
+to find out which*, or it sends people hunting a permission problem that is a malformed
+argument.
 
 Test on the pair, never on the log alone: a clean run also has an empty log.
+
+**And the expensive half is what an unexplained silence becomes if nobody checks.** One
+runner wrote *"agy returns 0 bytes headless intermittently — that is three of four families
+degraded"* **twenty minutes before the first empty return it could have been describing**. An
+assumed cause, stated as a property of the lane, which then fed the whole fleet's picture of
+which lanes were reachable — including this skill's own repeated claim that one family was
+the only working out-of-family lane. Three empties clustered inside 160 seconds, two of them
+eight seconds apart, with every other call that night succeeding, is not the shape of
+intermittency; it is the shape of something killing processes in a window.
+
+The generalisation is the one worth carrying: **a lane briefly killed by a neighbour looks
+exactly like a lane that is flaky, unless somebody has the timestamps.** An instrument's
+silence gets read as a property of the instrument, and the reading outlives the incident as
+folklore that nothing re-derives.
 
 The attribution error itself is the second top-level rule catching its own author. A set
 returned a member, the member looked right, and "I know why it belongs" was doing the work.
