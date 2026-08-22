@@ -474,3 +474,32 @@ The question to ask is not *is it safe* but *what would have to change for it to
 safe, and does anything record that the answer is load-bearing.* Repo B wrote its coverage
 table into the guard file itself rather than into a report, because that file is what somebody
 edits when they widen the permission.
+
+## A survivor has two readings, and so does a red suite (23 Aug 2026)
+
+Arming is this corpus's standard of proof: a check that has been shown to fail is worth more
+than one that has only been shown to pass. Two findings narrow what an arming actually buys.
+
+**A mutation reported INERT and was not.** Its anchor string appeared in the source *and* in
+the test asserting it, so the mutator aborted, nothing was mutated, and the harness ran
+against **pristine code** and reported a live guard as decorative. A failed setup step
+reported as a measurement — the same shape as every other entry here, arriving at the one
+instrument built to catch it. **An aborted mutator and a genuinely decorative guard produce
+identical output**, so the harness has to prove the mutation landed before it grades the
+outcome. A unique anchor reddens it immediately.
+
+The consequence for a gate: raising a mutation bound to convert a survivor into a kill is the
+gate-moving move in its purest form, and it is worse when the survivor is an artifact. **A
+survivor means the guard is decorative, or the mutation never happened**, and only one of
+those is a finding.
+
+**And one mutation proves one property.** A first arming folded a decision function back to
+its defect and reddened exactly one test, which nearly recorded three untouched guards as
+proven. Arming each property separately found a real hole — nothing tested the catch arm at
+all, and a mutation restoring the old behaviour passed every test that existed.
+
+> **"The suite went red" is evidence that one property is covered, never that the suite
+> covers the change.**
+
+Count the properties the change has, arm each one, and report the count. Four mutations were
+needed where one was run.
