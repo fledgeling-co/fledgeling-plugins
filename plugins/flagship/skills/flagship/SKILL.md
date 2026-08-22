@@ -178,7 +178,18 @@ room* — and ask for the ceiling rather than assuming there is none.
   reading is correct for its population, and the error is reading it as a wider population.
   **Read a low `in_use` as "nothing claimed", never as "nothing running", and confirm with
   load before dispatching.** As an admission gate it is sound; as a census it is not.
-- **That asymmetry is the whole rule, and it cuts the other way too.** Because berths can
+- **`available` is not a safety signal, and was not one at any point across a whole night.**
+  This is the correction that supersedes the asymmetry below rather than refining it.
+  Measured, same instrument, same machine, one night, **both directions**: `available 0` at
+  **1.67 per core** blocked the entire fleet for hours, and `available 3` with **zero
+  occupants** at **27.19 per core** would have admitted three more workloads onto a machine
+  27× oversubscribed — and any session consulting it got a yes. It measures *claims*, and
+  claims decoupled from load in both directions at once.
+  It is an honest answer to "has anyone reserved capacity", **which is a question nobody was
+  actually asking.** Treat `available > 0` as necessary and nowhere near sufficient: the
+  admission decision is `pressure` plus the 1m/5m pair, with `available` as a veto that can
+  only block, never clear. **The gauge you gate on has to move when the machine moves, and
+  this one does not.** Because berths can
   only under-report, a **high** `in_use` is authoritative in the restrictive direction — it
   is a floor on what is actually held, and it is the admission gate, so `available 0` blocks
   a dispatch no matter how quiet the load is. Measured within an hour: `in_use 4 available 8`
