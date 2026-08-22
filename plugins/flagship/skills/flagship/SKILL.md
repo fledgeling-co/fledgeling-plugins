@@ -330,6 +330,17 @@ merged or done", and both filed it as staleness. *Why would a merged brief be cl
 unbuilt* would have found it twelve hours earlier. **When a number contradicts something you
 already know, suspect the instrument before the world.**
 
+The reason that question is worth asking is cheaper than it looks: it compares two things the
+system **already produced** and finds them inconsistent. **A contradiction between two of your
+own outputs is free evidence** — it costs nothing to notice and needs no new measurement.
+Both sessions had it in writing and read past it.
+
+And watch the *direction* rather than the size. This defect reproduced identically across
+five independent brief queues — 23, 48, 64, 67 rows, and a product axis of 155 → 49 — which
+makes it the classifier's failure mode rather than any repo's naming. It always failed the
+same way: **it manufactured product work and hid decision work**, which is the most expensive
+direction available, because product work gets scheduled and decision work gets forgotten.
+
 The fixed tool is the model for what to do about it: publish the **join rate** beside the
 classes and withhold claims below half. Lead with that rather than the delta — the delta
 invites "so the real number is 49", where the rate says the honest thing, that the reckoning
