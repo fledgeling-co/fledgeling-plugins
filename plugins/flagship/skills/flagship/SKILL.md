@@ -210,7 +210,8 @@ and re-measure at the deadline.
 |---|---|
 | Drained — the backlog is genuinely finished | `reckon`, then retirement made legible |
 | Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
-| Blocked — a real queue it cannot reach | Its blocker escalated, or the berth freed |
+| Blocked **on the machine** — work ready, no capacity | Tell it the moment berths free. Never stop offering |
+| Blocked **on the operator** — needs a decision or a credential | Stop asking. Escalate once, then log it |
 
 **A fifth shape, and probably the commonest: the session simply stopped starting things.** Not
 drained, not blocked, not capped, not mid-call. In one session's own words: *"an orchestrator that
@@ -245,7 +246,14 @@ every time it looked. Its own words: *"'drained' would have taken me off your li
 the shape and say what each answer will cause, because the useful answer and the true one
 diverge exactly here.
 
-All three report as an idle row in `ListAgents`. In one evening the fleet contained all
+**Do not collapse those two, because they want opposite things from you.** A session corrected this
+skill on exactly that: *"blocked-on-operator means stop asking; blocked-on-machine means tell me when
+there are berths and I will take them"* — and being recorded as the first when it was the second
+*"stops you offering me work I can actually do."* The same session had two items fully implementable
+and one technical fork that needed **neither a berth nor the operator**, which is the obvious thing to
+hand a model lane while capacity is shut.
+
+All four report as an idle row in `ListAgents`. In one evening the fleet contained all
 three at once, plus a fourth the taxonomy missed: a session whose queue was reachable but
 whose *throughput* was capped by a standing constraint from the operator — no runner
 agents, so it worked serially in-session and would have done so however hard it was pushed.

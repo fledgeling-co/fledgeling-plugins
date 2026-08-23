@@ -2544,3 +2544,29 @@ The check before honouring a declared dependency: **read the provider's own stat
 capability, not its overall state.** A component can be healthy, merged and green while the one thing
 you need from it is recorded as unproven.
 
+---
+
+## "The control ran" and "the control took effect" are two claims, and only one is usually checked
+
+*Errand, sharpening a rule this skill's author had learned the expensive way the same night.*
+
+A negative control returned 2 where it had to return 0. The cause was not the logic: the invocation
+passed `MIN_HELD_SEC` where the script reads `FLAGSHIP_MIN_HELD_SEC`, so **the control configured
+nothing and ran against defaults.** It produced output, the output looked like a measurement, and it
+was a measurement of the unmutated system.
+
+Errand's generalisation, from hitting the same shape from the mutation side — its own harness reported
+`INERT` and it nearly filed a live guard as decorative:
+
+> **A control that silently configures nothing is exactly a mutation that did not apply.** The harness
+> runs, produces output, and the output is about the unmutated system.
+
+So the rule that covers both: **a control must prove it changed something before its result means
+anything.** Not "did the control run" — that is answered by an exit code and answers nothing — but
+*did the thing I was controlling for actually differ.* Print the value the control set, or assert the
+mutated state, before believing what the run reports.
+
+This is the third distinct route into the same hole: an exempted control, a control that cannot fail,
+and now a control whose configuration never arrived. All three produce a green that is honest about
+the wrong subject.
+
