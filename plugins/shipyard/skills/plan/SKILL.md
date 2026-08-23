@@ -23,6 +23,8 @@ Substrate and statuses: `${CLAUDE_PLUGIN_ROOT}/references/tracker-adapter.md`. L
 `${CLAUDE_PLUGIN_ROOT}/references/model-lanes.md` — readers at `low`, Trivial/Small synthesis may
 run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude at `high`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns 'every user flow, action, and menu' into a counted table because two of those three nouns came back zero on a measured run, reads the tier's line budget back off the written plan with wc -l, makes each gate paste its command and its output, and requires the repo's own audit emit surfaces to be grepped rather than recalled from this file's Diolog examples. Other models skip it.
+
 ## Inputs
 
 - A triaged id at `To Do`. Read the spec/ticket + full thread (human answers authoritative), the

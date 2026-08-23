@@ -34,6 +34,8 @@ Three failures make a claim worse than useless, and each has happened on a real 
 
 Everything below exists to make one of those three impossible.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the claim a denominator, adds a bound ledger read back off the artifact, and makes validate.py check that find_blind_days, classify_accounts, cross_check, card_on_document and design-review actually ran. Other models skip it.
+
 ## The one rule the rest follow
 
 **Every negative result states its instrument, and every count states its denominator.**

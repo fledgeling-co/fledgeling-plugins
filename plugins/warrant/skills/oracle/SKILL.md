@@ -20,6 +20,8 @@ precision and 84% recall anyway (`C17`) — a ceiling that says nothing about un
 which were never a visual defect. That class is closable by arithmetic (`I7`), and this skill is
 the arithmetic.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes step 1's template markup pass to another model, gives the four-attribute sweep a per-surface denominator, and turns every coverage claim into a pasted exit code. Other models skip it.
+
 ## Procedure
 
 1. **Mark up the surface once.** Four attributes, and they are a change to the product rather than

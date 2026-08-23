@@ -1,7 +1,7 @@
 {
   "name": "mac-design-digest",
   "description": "Incrementally digest macOS app UI screenshots, app icons, and official Apple UI kits into a persistent design corpus — per-app token profiles, cross-app pattern entries, aesthetic style clusters, icon anatomy digests, and a master TASTE.md — where every value carries a provenance mark from a closed set and every written file is checked by an executable gate before the run is reported done. Ships corpus_check.py (twelve checks over seventeen named invariants over the written corpus — ledger integrity and append-only rows, every ledger target existing, cross-app patterns recorded, the 3-independent-apps canon bar, the native-lineage gate, canon traceability, cluster contradiction budget, placeholders, dated and levelled headers, non-empty knowledge gaps below Proficient, one mark per axis with a composed pair where the row's role needs both, the app count a (recurring)/(canon) mark claims, and a pinned precision baseline so a value cannot silently gain precision it never earned) and sketch_extract.py (reads .sketch archive JSON in memory, derives the control ladder from symbol frames, classifies capsule radii by geometry rather than by an undocumented sentinel, and flags instruction-shaped strings it reads out of the archive). Use whenever the user provides mac app screenshots or icons and wants to digest, study, learn from, analyze, or add to the corpus — and when ingesting a Figma or Sketch UI kit export. Routes generation out: mocks to mac-craft, icons to create-mac-icon.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": {
     "name": "Luke Rhodes"
   }

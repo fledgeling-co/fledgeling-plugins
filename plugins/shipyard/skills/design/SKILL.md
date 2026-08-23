@@ -24,6 +24,8 @@ Runs after triage (`To Do`), in parallel with `plan` when triage already named t
 Skip only when the feature has no user-facing surface, and write "design: not applicable
 (<reason>)" into the spec/ticket so the skip is a decision, not an omission.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes the mock build and the aesthetic judgement to defer's lane picker before you start, turns the surface x state x platform matrix into a table filled before the first mock, and gives the Obscura capture, the HIG/Fluent metric table and the design-craft/ux-craft passes a denominator, a source tier and a file each phase reads. Other models skip it.
+
 ## Inputs
 
 - A triaged id. Read the brief/spec/ticket and the whole thread per

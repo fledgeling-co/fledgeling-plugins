@@ -21,6 +21,8 @@ qualification plan, and re-qualification whenever the tool changes (`C10`).
 It is also where the pipeline's single surviving human act lives. Read
 `references/admissibility.md` before writing or renewing one.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It stops the run filling the four judgement fields the draft leaves blank, turns "Pin every lane" into a counted table with id and version per lane, and forbids raising a tier or authoring the signing commit to make validation pass. Other models skip it.
+
 ## Procedure
 
 1. **Draft it from the repository, not from a conversation.**

@@ -19,6 +19,8 @@ hour.
 Deliver what was asked, at the scope intended: recover the sessions that are actually dead
 and the work they were actually owed. Resist widening into fixing the underlying work.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns this skill's prohibitions — never resume a live session, never --fork-session, never edit the original journal — into a bound ledger with a readback command per row, and gives §4's 'every agent that was in flight' a denominator. Other models skip it.
+
 ## 1. See what is there
 
 ```bash

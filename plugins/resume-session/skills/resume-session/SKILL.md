@@ -15,6 +15,8 @@ Without this skill, the new agent starts blind: it burns context re-reading alre
 
 ---
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Gives the 6 dimensions and 6 CLI platforms countable denominators, adds provenance to every briefing row the generator defaults or templates, and pivots off a transcript that blows the read ceiling on the first failure rather than the fourth. Other models skip it.
+
 ## The 6-Dimensional Takeover State
 
 Every resumed session is distilled into six concrete dimensions:

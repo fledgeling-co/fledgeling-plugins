@@ -28,6 +28,8 @@ confidently redo whatever you left out.
 Write it as **two tiers**, not one. That single structural decision carries most of the
 value here, and the evidence for it is in `references/evidence.md`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the four Tier-1 sweeps into a counted ledger, adds a bound ledger that reads every stated maximum back off the written summary, and treats a scorer reporting no spans as an unverified class rather than a pass. Other models skip it.
+
 ## The two tiers
 
 **Tier 1 — pinned. Reproduced verbatim, never compressed, placed first.**

@@ -24,6 +24,8 @@ portfolio and apoptosis).
 `references/evidence.md` holds the research grounding with citations —
 read it when you need to justify or tune a mechanism, not on every run.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It writes the frozen baseline, the frame ledger and each branch's ideas to files that later phases read back, computes every receipt number from those files, and reads each stated bound off the produced set. Other models skip it.
+
 ## Pre-flight router (run before anything else)
 
 This skill is expensive: roughly 8–14 Agent calls at the standard tier,

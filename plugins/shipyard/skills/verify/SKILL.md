@@ -48,6 +48,8 @@ while reading as complete. This stage exists to be the stranger.
    measurement-enforcement reference carries the measurement). `evidence-rules.md`
    §artifact-forcing.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the verdict a denominator, turns the Evidence-integrity block into pasted command output with an unrun check written as 'would run:', and moves the out-of-family lane past agy when a Gemini run is grading Gemini-built code. Other models skip it.
+
 ## Inputs
 
 - An id at `Developer Review` with a worker completion record. Optional `--dry-run`: verify and

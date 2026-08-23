@@ -16,7 +16,7 @@ The campaign produces a report a person can act on, in which every claim is
 traceable to a tool result, and everything that could not be established is
 named rather than quietly omitted.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns proctor's instrument-reading discipline into a mechanical contract on Gemini: every claim quotes the MCP tool return and field it rests on (there is no exit code to paste), the case matrix, state matrix, capture set and fidelity ledger become a filled table with denominators before the first proctor_act, and platform conformance numbers are read from the rubric files rather than recalled. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns proctor's instrument-reading discipline into a mechanical contract on Gemini: every claim quotes the MCP tool return and field it rests on (there is no exit code to paste), the case matrix, state matrix, capture set and fidelity ledger become filled tables with denominators before the first proctor_act, every stated bound is read back off the delivered campaign, a skipped hand-off leaves its rows open rather than passed, and platform conformance numbers are read from the rubric files rather than recalled. Other models skip it.
 
 ## What Proctor observes, and why that is the whole point
 

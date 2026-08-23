@@ -17,6 +17,8 @@ The asymmetry is deliberate. Revocations apply immediately and need no signature
 written as proposals, because a class gaining authority is a policy change and `warrant:charter`
 owns those.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It says the tier table is the script's output rather than yours, that exit 4 is a completed revocation and not a retry, and that restoring a tier is never one of the available actions. Other models skip it.
+
 ## Procedure
 
 1. **Run it after anything that produces evidence.**

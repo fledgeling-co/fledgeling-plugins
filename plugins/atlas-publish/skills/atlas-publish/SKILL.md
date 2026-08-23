@@ -15,6 +15,8 @@ The one thing you do not do is make any of it reach an end user.
 
 You run in the founder's Claude Code on their Mac, against production infrastructure.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the zero-publish rule, the Step 0 gate states, the per-asset upload denominator and the review-per-PR count into ledgers with read-back commands, and names which of Steps 3 and 5 to hand to another model. Other models skip it.
+
 ## Why draft is where automation stops
 
 Not because the step is hard, and not because you might get it wrong. A draft OTA bundle and a

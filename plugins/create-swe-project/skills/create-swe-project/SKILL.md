@@ -8,6 +8,8 @@ description: >-
 
 Take a project idea to a **completely set-up, working project** in `~/Dev/<codename>`: gate-green, git-initialised, native projects generated, conventions wired. The trick is that `scripts/scaffold.sh` + `templates/` already contain everything common between projects (distilled from zephyr, perch, fledgeling-app, dAIolog and the team-files operating specs) — so your job is the **decisions**, and the script's job is the **files**. Do not hand-write files the templates cover; that is what makes setup cheap.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts §5's launch-pipeline phases into a chain of files (DESIGN.md, UX.md, INDEX.md) with a filled mock-inventory ledger, a bound ledger read back off the built marketing page, and a route-out for the static-page and brownfield work the corpus measures this family collapsing on. Other models skip it.
+
 ## 0 — Doctor
 
 Run `<skill-dir>/scripts/doctor.sh` (read-only JSON) before the interview so recommendations match the machine: no macos/ios module without xcodegen, no 1Password seeding without `op`, no rust without cargo. Mention anything missing that the chosen modules would need.

@@ -1,7 +1,7 @@
 {
   "name": "proctor",
   "description": "Run a real test campaign against a native macOS app or an iOS Simulator: exploratory sweep, acceptance criteria turned into executable flows, state-matrix and edge coverage, accessibility audit, visual fidelity, determinism measurement, and a report that separates what was proven from what was assumed. Ships with the Proctor MCP server: an unsandboxed launchd agent that reads the accessibility tree and screen contents, and captures through ScreenCaptureKit so every frame carries its own trustworthiness rather than being believed on sight. Actuation runs on Proctor's own process-directed plane by default, so background, occluded and other-Space windows are reachable without stealing focus, and can be delegated to Cua Driver when an operator selects that lane. iOS is a second lane: deep links through simctl and Maestro flow files, scored for determinism. Also ships an embeddable DEBUG reflector that gives apps you own a real computed-style source. Use it when someone asks to test, QA, exercise or find bugs in a Mac or iOS app, whether a flow still works, why a test is flaky, or what breaks in dark mode.",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

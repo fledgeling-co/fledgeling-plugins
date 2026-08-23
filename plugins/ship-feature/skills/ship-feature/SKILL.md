@@ -40,6 +40,8 @@ Canonical shared rules ride with the stage skills in the shipyard plugin's `refe
 skill's own references: `references/orchestration-model.md` (read first),
 `references/deferred-work-loop.md`, `references/e2e-and-finalize.md`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the pipeline a denominator, turns the fourteen-box pre-merge gate into pasted command output with its prerequisite artifacts checked first, and makes each stage a real invocation whose file the next phase opens. Other models skip it.
+
 ## Inputs
 
 - **A feature**: a rough idea (route through `intake` first), inline text or a brief file

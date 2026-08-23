@@ -34,6 +34,8 @@ response-compression style on a 106-task agentic benchmark cut cost 33.5% and sc
 points, with **78% of the saving coming from the agent taking fewer steps**. This skill changes
 how much you write, never how much you do.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns this skill's own run into cells: the routing decision and the two file loads written down where a skipped load shows, a quota ledger over the scopes the regex cannot see (rules tested, cuts reported, pieces produced), and a bound ledger read back off the lint's info and warn lines, because every length target here warns rather than failing and the run still exits 0. Other models skip it.
+
 ## Step 1 — Route to the register
 
 Load `references/agent-voice.md` (always, the base layer) plus the one matching register file.

@@ -10,6 +10,8 @@ description: >-
 
 Deliver exactly that scope. Do not refresh other entries, reorganize the manifest, or expand this into a portfolio survey — those belong to `ship-armada`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It replaces step 4's six-edits-in-one-rewrite with four passes over a manifest too large to Read whole, and turns the entry's caps — 20 lines, 8 features, 3 opportunities, one changelog line, one entry — into a snapshot diff that reads each one back. Other models skip it.
+
 ## Protocol
 
 1. **Identify the project.** It is the `~/Dev/<project>` directory you are working in (walk up from cwd to the child of `~/Dev`). If you are in `~/Dev` itself, ask which project to sync rather than guessing.

@@ -36,6 +36,8 @@ So this is three jobs, and they fail differently:
 
 Most agents fail the gate, then fail the craft, then never notice they failed the handling.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives gate 1's sweep, the referral and the panel a count each, requires every lane verdict to be quoted from the lane's output file, and turns the Shape table's caps into a bound ledger read back off the payload. Other models skip it.
+
 ## The gate
 
 Five steps, run in order. The first one that resolves ends it, and by construction most forks

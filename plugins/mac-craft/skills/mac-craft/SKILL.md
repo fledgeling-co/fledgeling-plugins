@@ -20,7 +20,7 @@ including the "make an icon for my app" phrasing this skill's description used t
 § Icons at the end: it is a five-line handoff, not a fallback pipeline, because two drifting
 copies of an icon catalogue are worse than one honest gap.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns mac-craft's per-control and per-state scopes into a filled quota ledger with reported fractions, because mock_check.py's keyboard and states checks fire once per file rather than once per control. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Picks a lane for the mock before step 5, turns mac-craft's per-control and per-state scopes into a filled quota ledger with reported fractions, and adds a bound ledger for the maxima nothing reads back — one saturated moment per view, the 10pt floor, Liquid Glass on floating chrome only — because mock_check.py's keyboard and states checks fire once per file rather than once per control. Other models skip it.
 
 ## What a finished commission looks like on disk
 

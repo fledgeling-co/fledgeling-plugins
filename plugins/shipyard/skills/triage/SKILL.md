@@ -22,6 +22,8 @@ Substrate, statuses, and read/write rules: `${CLAUDE_PLUGIN_ROOT}/references/tra
 Lane assignments and effort: `${CLAUDE_PLUGIN_ROOT}/references/model-lanes.md` — the verdict and
 every gate here run on a frontier Claude at `high`; grounding readers run at `low`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns this skill's prohibitions — the non-technical ban list, the word budgets, the one-line-per-surface rule — into a bound ledger read back off the written section, and gives the grounding pass and the lens scan denominators. Other models skip it.
+
 ## Inputs
 
 - A brief file (`docs/features-to-triage/<slug>.md`), inline text, an existing id to re-triage,

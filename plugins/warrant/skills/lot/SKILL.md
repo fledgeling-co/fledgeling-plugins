@@ -14,6 +14,8 @@ Two bad options and one good one. Signing every item individually is what nobody
 the whole queue at once is not checking. The third way is a century old in manufacturing and in
 clinical laboratories: accept the lot under a declared risk limit (`I2`).
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns positioning.md's six verdict-leak channels into a table where the script closes two and the run must close four, makes the two census classes carry counted denominators, and sends an exit 3 to assay rather than to --unmeasured-suite. Other models skip it.
+
 ## Procedure
 
 0. **Measure the suite first, or say you did not.** Every number below is a number about

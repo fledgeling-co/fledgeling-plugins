@@ -46,6 +46,8 @@ load-bearing rather than stylistic.
 
 ---
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the sweep's categorical scopes into a filled quota ledger, makes every verdict row carry the lane's argv and its output, reads this skill's bounds — one judge, three cards per brief, the 50KB packet — back off the produced run, and converts spec-validation and clarify into phases that emit trace.md and decisions.md. Other models skip it.
+
 ## The order that makes this work
 
 **Build the numbered requirement list from the description, every comment and every

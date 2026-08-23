@@ -23,6 +23,8 @@ Shared canon by pointer: `${CLAUDE_PLUGIN_ROOT}/references/` → `tracker-adapte
 `model-lanes.md`, `executor-lanes.md`, `evidence-rules.md`, `operational-rules.md`, and the
 worker's `../work/references/miss-classes.md`.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes Phase B's fixes to defer's lane picker because brownfield and regression-sensitive work is where this family scores 16 against 46, turns this skill's ten prose prohibitions into a bound ledger read back off the diff, splits Phase A's six dimensions into six passes each writing a file the fix phase must open, and makes every number in the Phase C record carry the command that produced it. Other models skip it.
+
 ## Inputs
 
 - An id at `Needs More Work` (the verifier's verdict table is the primary gap list) or

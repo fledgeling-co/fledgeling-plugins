@@ -39,6 +39,8 @@ of **830 across 16 cores** — 76 `claude` processes, 73 `node`, 19 `rustc` — 
 the machine at all. Nothing was wrong with any single decision. Nothing was
 counting them together.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the five-plane table into a probe ledger with a fraction to report, reads exit 75 as a retry ceiling rather than a queue to loop on, and requires every pressure, berth and thermal number to arrive with the command that produced it. Other models skip it.
+
 ## Route first
 
 Ask what each plane spends. Take the plane whose resource is cheapest right now,

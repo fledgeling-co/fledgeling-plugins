@@ -27,7 +27,7 @@ that record.
 Getting this wrong in the first five minutes is the expensive failure. If you find yourself
 writing HTML or CSS, stop — you have misread the task.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, turn this skill's prose scopes into a filled quota ledger and paste record-gate.mjs's own output rather than a claim about it, because the fabricated figure this skill refuses is exactly what fills a specified shape with no procedure behind it. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, route the theme derivations and any regeneration to another lane, fill a quota ledger and a bound ledger before emitting, and paste record-gate.mjs's own output rather than a claim about it, because the fabricated figure this skill refuses is exactly what fills a specified shape with no procedure behind it. Other models skip it.
 
 ## First, three exits — before anything is crawled or generated
 

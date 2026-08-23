@@ -14,6 +14,8 @@ The argument for removing per-item human sign-off ends in an audit conversation,
 that conversation reads. Its integrity property is the whole value: a record that can be rewritten
 later is a record with nothing in it.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It sets the retry ceiling on an append to zero — read the chain, then append once — turns "one row per decision" into a count read back off the ledger, and makes the run search for the repository's existing audit sink before defaulting to .warrant/ledger.jsonl. Other models skip it.
+
 ## Procedure
 
 1. **Append on every decision.**

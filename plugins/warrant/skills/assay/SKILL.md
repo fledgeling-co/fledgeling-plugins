@@ -20,6 +20,8 @@ The second reason this plane exists is subtler. A suite can pass because it is n
 assertion with no matcher, a matcher comparing a value to itself, a swallowed exception — each
 reads as coverage and tests nothing.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It replaces the mutation report's hand-typed figures with a filled delivery note per script, forbids re-running mutate.py after an exit 2, and adds the rollup receipt check without which every defect class reads as having no evidence. Other models skip it.
+
 ## Procedure
 
 1. **Mutate the set CI actually runs.**

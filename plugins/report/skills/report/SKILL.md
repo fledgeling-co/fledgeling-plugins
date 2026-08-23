@@ -13,7 +13,7 @@ the same evidence reaches a specialist, a decision-maker and someone
 meeting the subject for the first time.
 
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns report's categorical scopes into a filled quota table — 27 claim wordings, 6 static frames, 42 state cells, 6 captures — and puts the auditor's and exporter's exit codes into the delivery note, because on Gemini the ledger's evidence tiers only hold when the count is a cell rather than a sentence. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns report's categorical scopes into a filled quota table — 27 claim wordings, 6 static frames, 42 state cells, 6 captures — adds a bound ledger that reads each stated maximum back off the built page, converts `design-craft` and `ux-craft` from a lens into phases that emit `DESIGN.md` and `UX.md`, and puts the auditor's and exporter's exit codes into the delivery note. Other models skip it.
 
 ## The failure this exists to prevent
 

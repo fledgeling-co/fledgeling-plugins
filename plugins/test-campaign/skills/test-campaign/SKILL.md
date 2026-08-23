@@ -56,7 +56,7 @@ them.
 
 ---
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It extends the campaign's existing count contract to the cells `campaign.py check` cannot see — surfaces, states, controls, captures, flow atoms — and requires every number in the delivery note to be pasted output from `campaign.py check`, `strict-check.py`, `attach-shots.py` or `witness-worklist.py` rather than a claim about them. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It extends the campaign's existing count contract to the cells `campaign.py check` cannot see — surfaces, states, controls, captures, flow atoms — requires every number in the delivery note to be pasted output from `campaign.py check`, `strict-check.py`, `attach-shots.py` or `witness-worklist.py` rather than a claim about them, adds a bound ledger that reads every stated maximum back off the artifact, and names the two phases whose work a Gemini run should hand to another model. Other models skip it.
 
 ## The campaign
 

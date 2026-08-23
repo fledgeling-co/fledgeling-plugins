@@ -24,6 +24,8 @@ confirm. But **do not design an icon named "score"**: if what follows describes
 something an icon could be *for* — a cashflow tracker, an export tool, a
 pottery-studio booking app — it is a brief, so design it.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts the rubric's stated maxima — one soft light, two hue families, no baked corners — into a bound ledger read back off the emitted SVG, and refuses an audit.html score cell whose render nobody opened. Other models skip it.
+
 ## Where a commission lands
 
 Learn the anatomy before building it. Everything below sits in the commission

@@ -30,6 +30,8 @@ The routing rule is not "use the best model". It is: **the work class decides th
 family, the work shape decides which lanes are good enough, and measured headroom
 decides which of those runs it.**
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It makes running lane_pick.py the only source of a route, turns the three rules above the class table into a bound ledger read back off the emitted argv, and requires the lane's receipt rather than its flags. Other models skip it.
+
 ## Route
 
 Run this. It reads the policy and the meters and prints a command:
