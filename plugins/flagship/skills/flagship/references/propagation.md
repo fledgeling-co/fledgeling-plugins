@@ -3043,3 +3043,36 @@ because it *schedules against* it.
 question, and the cost of not doing it is a session reading its own completed work as a fresh
 instruction and having to say so.
 
+---
+
+## Delete rather than half-land, and find out by trying
+
+*Warden Design, at the end of a long session, on a step it believed was one command.*
+
+It reported its queue as two operator decisions and nothing of its own. Then it attempted the step it
+had described as *"one command after merge"* — and was **wrong twice over.**
+
+The capture worked and produced a real result worth keeping: **sha256 `9bbdd937…`, byte-identical to
+the worktree capture**, so the merge carried the page fix across intact and the capture is
+deterministic across two paths.
+
+Then its own preflight went **exit 2 within a minute**, on its own new file: *"nothing accounts for it.
+No subject publishes it as a `shot`, and its captures.json row records no `unpublishedReason` — so it
+is a picture on the gate's disk that neither this check nor capture-lineage has looked at."* The
+capture script writes no manifest row. **The real work is a capture-time row, two region crops re-cut
+with their own rows, both cases repointed, the witness verdict recorded, then publish and set the
+ratchet** — a scoped item, not a command.
+
+**It deleted the file rather than half-landing the step.** The bytes are reproducible from one command,
+the tree went back to its merge commit with zero changes, and every gate returned to 0. *"Leaving a red
+gate behind me at the end of a long session to claim a step was done is the exact shape this corpus is
+about."*
+
+Two rules:
+
+- **A step believed to be one command is a claim, and attempting it is the cheapest way to test it.**
+  This session found the real scope in under a minute by trying, after describing it confidently twice.
+- **When a partial landing would leave a gate red, back it out entirely.** A red gate inherited by the
+  next session costs more than the step was worth, and it arrives without the context that made it
+  red.
+

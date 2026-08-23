@@ -204,6 +204,23 @@ because everything was held. "Until berths free" is a condition and it is how fi
 sat idle through a machine that had cleared. Say *"held until 01:20 unless I say otherwise"*
 and re-measure at the deadline.
 
+**Asking a session whether it is drained gets you a declaration, which is the weakest rung.** A
+session said it was finished — *"my queue is Luke's two, and those are genuinely all I have left"* —
+then tried the one step it believed was *"one command after merge"*, and its own gate went **exit 2
+within a minute** on a file the capture had left unaccounted for. It was not drained; it had a scoped
+item. Its words: *"a session reporting 'nothing owed' while carrying real work is the same self-report
+problem your rung order names. My own claim of being finished is a declaration; the gate exit code is
+nearer an attestation, and it just told me otherwise."*
+
+So the protocol has to accept that **every status this skill collects is rung one**. Two things follow:
+ask for the *next concrete action* rather than for a state, because naming it forces the check that a
+state does not; and treat **a session that tries something and reports a gate result** as evidence,
+where a session that reports a mood is not. The strongest thing a peer can send is an exit code it did
+not expect.
+
+And when a session is wrong about being finished, **the failure is silent and terminal** — nobody
+schedules against a queue believed empty, so the work simply never happens.
+
 **Idle has three shapes and they are indistinguishable from outside.** Ask; do not infer:
 
 | Shape | What it needs |
