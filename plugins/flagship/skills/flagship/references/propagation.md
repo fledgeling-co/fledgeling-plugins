@@ -3927,6 +3927,21 @@ Same family as reckon's `unjoined`, the 83-day sync path, and the briefs needing
 next survey would not re-count them: **the register and the tree are two artifacts, and every question
 about "what remains" is a join between them.**
 
+**Sharpened by the full pass, and the sharpening is the entry's best line: a register does not merely go
+stale — it loses the ability to be *checked* faster than it loses accuracy.** Of 54 unreconciled rows,
+only 11 carried a claim resolvable to a token; the rest assert shapes ("four assertions that cannot
+fail") true or false only against a code read. And of the 22 rows carrying a `file:line` citation,
+**every single one had drifted — not one cited line still held what its row described.**
+
+> **The locator is what rots first.** The claims may still be mostly right; the pointers are already all
+wrong. And a row whose pointer has rotted costs a code read rather than a grep — roughly the difference
+between reconciling 54 rows in an hour and in a day.
+
+This joins the drift family from its third direction: runner reports with real files and unreliable
+lines, register citations drifted 4-15 lines into neighbouring tests, and now a register where **the
+citation — the thing that makes a row cheap to verify — is dead in every row that has one.** The remedy
+in all three is the same: cite the symbol, not the line, and re-verify at read time.
+
 ---
 
 ## A failover crossing vendor boundaries serves a different model than the one requested
