@@ -43,6 +43,11 @@ lifts it. The parts that are load-bearing are load-bearing because they failed s
   keeps quoting and shell metacharacters out of the keystroke path entirely.
 - **Dry-run first.** The keystroke route fails silently, so confirm the tab exists rather than
   assuming the command that opened it worked.
+- **Confirm the session, not the tab count.** The AppleScript probe counts the frontmost
+  window's tab group, and a single-tab window reports 1 — a successful spawn measured
+  `tabs_after: 1` on 23 Aug 2026 while the session existed perfectly. The verification
+  that cannot mislead is the new session file in `~/.claude/sessions/` with the right cwd,
+  plus its socket in `/tmp/cc-socks/`, read back a few seconds after spawn.
 
 ### Briefing a session you spawn
 

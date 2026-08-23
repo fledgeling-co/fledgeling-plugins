@@ -25,6 +25,13 @@ Cover these, in this order, and keep it to what the session needs rather than wh
 3. **What you want back**: identity and branch state, remaining work from its own ledger rather
    than a generated headline, artifact reconciliation against `git worktree list` and
    `git branch --list 'ai/*'`, its decision-class items batched, and fleet-readiness.
+
+**Every dispatch carries its own report obligation.** State what to send back when the work
+is done — silence is not a state, and the three-line shape (done / in hand / parked-by) is
+the default. If the dispatch offers a heavy-work token, state the no-answer default in the
+same breath: no answer means no token, proceed serially. A session given work without a
+named report will finish and wait, because from inside, finished-and-waiting looks like
+compliance.
 4. **The standing constraints.** The resolved `harbourmaster` scripts path (hand it down —
    a spawned agent does not reliably inherit `CLAUDE_PLUGIN_ROOT`, and a runner that re-derives
    it reports the governor missing on a machine that has it), exit 75 meaning wait and do other

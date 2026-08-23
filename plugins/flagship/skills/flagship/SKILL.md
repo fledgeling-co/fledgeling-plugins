@@ -157,7 +157,7 @@ am sending this to N sessions"* rather than *"unconstrained"*.
 `min(ship-armada's 3 concurrent projects, harbourmaster's available berths)` — a policy about
 attention intersected with a fact about the machine, smaller wins. Everything that is not
 runner fan-out needs no token: survey, triage, artifacts, instrument authoring, reckon,
-whats-left. Say which number you used and whether it was measured.
+whats-left. Say which number you used and whether it was measured. Every dispatch you send is a debt with a report owed — record it, chase the silence, escalate the unreachable. `references/dispatch.md` carries the ledger discipline and the cadence.
 
 **Batch decisions.** Run every accumulated question through the R1–R5 router in
 `references/decisions.md` before any of it reaches the operator. On one night that cut twenty
@@ -311,6 +311,44 @@ All four report as an idle row in `ListAgents`. In one evening the fleet contain
 three at once, plus a fourth the taxonomy missed: a session whose queue was reachable but
 whose *throughput* was capped by a standing constraint from the operator — no runner
 agents, so it worked serially in-session and would have done so however hard it was pushed.
+
+**Two more shapes, both measured 23 Aug 2026.** *Prompt-parked:* a session blocked at an
+interactive harness prompt — Relay's account-switch prompt, a permission dialog — never
+reaches its message queue, so no dispatch lands and no chase is answered. Two unanswered
+chases of an idle session is that shape until proven otherwise; the unstick belongs to the
+operator, in that session's own tab, and the conductor's move is to escalate it rather than
+send a third. *Finished-and-silent:* a session that completed its dispatch and stood by
+without reporting — measured: six of them, some for hours, while the conductor read their
+quiet as progress. One status chase recovered four answers inside minutes.
+
+**Read quiet through the ledger, not the roster.** A quiet `ListAgents` row is a gap
+between tool calls, and a quiet starvation watch is the same thing sampled coarser. The
+instrument that distinguishes working from stopped is *ledger movement*: commits landing,
+rows closing, files changing. Measured both directions in one evening — an idle-looking row
+was mid-86-commit reconciliation, and a genuinely stopped one had asked its user a question
+that was its own to answer. The rule inverts cleanly too: **ledger movement is strong
+evidence of progress and weak evidence of its absence** — a session that reads forty files
+and closes a row as stale commits nothing, and was doing the careful work. Quiet with
+movement is working. Quiet without it is *unknown*, and unknown is settled by asking, which
+is one message.
+
+**A drained fleet refills before it retires.** When the operator's standing directive is
+utilisation, the drained tier's action is `reckon` then `shipyard:intake`, grounded in the
+project's own deferred items, recorded limits and ARMADA opportunities — not retirement.
+Measured 23 Aug 2026: a repo at a complete 54-row ledger ran intake in the evening and
+shipped all three new briefs, verified, the same night. Retirement is what the *operator*
+schedules after declining refill; a conductor who parks a drained session at "the owner
+boundary" without offering the refill is choosing idleness on the operator's behalf. Check
+the boundary's arithmetic before accepting it, too: twice in one evening a "drained"
+summary sat on top of named, unblocked, buildable rows the session's own ledger held — a
+deferred-item register, an unmeasured-row tail, a cluster of unbuilt surfaces.
+
+**Condition-gated items get re-checked when the condition holds.** A row parked on "needs
+an idle host" is not retired; it is waiting for a state the conductor already watches. Keep
+every condition-gated item in the dispatch ledger with its condition named, and when the
+machine satisfies the condition, dispatch. Measured: an item parked for days on "10 minutes
+of undisturbed CPU" while the host idled under 0.6 per core twice in one evening, and the
+two facts never met until the conductor went looking.
 
 **A session's fan-out ceiling is the operator's to set and not yours to raise.** Where they
 have given a session a slot count, that count wins over anything you say about headroom; a
@@ -695,5 +733,6 @@ publish. `references/propagation.md` carries the full corpus with attributions.
 - **Report deltas.** A peer's report is dense; your reply should be what changed and what it
   invalidates elsewhere, not a restatement.
 - **A session's own account is evidence of what it attempted.** Git is what happened.
+- Do not send a third chase to what two have not reached — treat it as prompt-parked and escalate to the operator.
 - Reach for a subagent only to survey many repos at once, and cap that fan-out at four. The
   conducting itself is never delegated.
