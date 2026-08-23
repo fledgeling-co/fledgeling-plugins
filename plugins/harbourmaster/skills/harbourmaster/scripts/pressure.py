@@ -143,24 +143,60 @@ def workload_block(rows: list[str]) -> dict:
     Counted from one `ps` pass. The families are the ones measured to matter
     here: agent CLIs and the compilers and runtimes they start.
     """
-    families = {
-        "claude": re.compile(r"(^|/)claude(\s|$)"),
-        "node": re.compile(r"(^|/)node(\s|$)"),
-        "rustc": re.compile(r"(^|/)rustc(\s|$)"),
-        "cargo": re.compile(r"(^|/)cargo(\s|$)"),
-        "swift-frontend": re.compile(r"swift-frontend"),
-        "xcodebuild": re.compile(r"xcodebuild"),
-        "codex": re.compile(r"(^|/)codex(\s|$)"),
-        "python": re.compile(r"(^|/)python3?(\s|$)"),
+    # Matched on argv0's basename, never on the whole command line.
+    #
+    # The regexes this replaced were `(^|/)<name>(\s|$)` over the entire `ps`
+    # line, and they were wrong in both directions at once. Measured here on
+    # 2026-08-23 across ~1,425 processes: `claude` counted **0** while 15 were
+    # live, because in these lines the string mostly occurs as `.claude` — a
+    # dot-directory component, where `(^|/)` fails on the leading dot and
+    # `(\s|$)` fails on the trailing slash. Widening to `\bclaude\b` was
+    # proposed and is also wrong: it returns **38**, of which 22 merely mention
+    # `.claude` somewhere in a path (shell snapshot sources, a ruby gem, node
+    # invocations). One wrong number traded for another.
+    #
+    # argv0 is the only field that answers the question actually being asked —
+    # "how many processes of this family are running" — so the line is split at
+    # the state column and its first token's basename compared by name. A
+    # process is counted once, by what it *is* rather than by what its arguments
+    # happen to mention.
+    #
+    # Verified against `pgrep -x` at the same moment: claude 16 here / 15 there,
+    # node 12 / 12, python 2 / 2, where the old regexes gave 0 and 7. The one
+    # residual is a real distinction rather than an error — `pgrep -x` matches the
+    # *executable* name while this matches argv0, so a process launched under the
+    # name `claude` by a different binary counts here and not there. argv0 is the
+    # right side of that for an admission question, because it is what the
+    # workload calls itself.
+    #
+    # Known limit, unchanged by this fix: a process **count** is a poor proxy for a
+    # family whose children do the work — one `xcodebuild` and forty
+    # `swift-frontend`s are the same admission decision — and a family that is
+    # genuinely absent still reports the same `0` as one the matcher cannot see.
+    NAMES = {
+        "claude": {"claude"},
+        "node": {"node"},
+        "rustc": {"rustc"},
+        "cargo": {"cargo"},
+        "swift-frontend": {"swift-frontend"},
+        "xcodebuild": {"xcodebuild"},
+        "codex": {"codex"},
+        "python": {"python", "python3"},
     }
-    counts = dict.fromkeys(families, 0)
+    by_name = {n: fam for fam, names in NAMES.items() for n in names}
+    counts = dict.fromkeys(NAMES, 0)
     total = 0
     for line in rows:
         total += 1
-        for name, pattern in families.items():
-            if pattern.search(line):
-                counts[name] += 1
-                break
+        parts = line.split(None, 1)
+        if len(parts) < 2:
+            continue
+        argv = parts[1].split()
+        if not argv:
+            continue
+        fam = by_name.get(os.path.basename(argv[0]))
+        if fam:
+            counts[fam] += 1
     return {"process_total": total, "by_family": counts}
 
 

@@ -145,6 +145,22 @@ A conductor's characteristic failure is not a bad dispatch. It is no dispatch �
 live sessions that have each finished their last instruction and are waiting for the next
 one, while the conductor works heads-down on something of its own.
 
+**The third cause, and the one that cost most: a blocked question read as a blocked session.**
+Four decisions went to the operator; he declined the question; the conducting session treated
+that as *stop* and sat for **eight hours** while nineteen peers went quiet behind it. None of
+the outstanding work depended on any of the four answers. A declined question, an interrupted
+tool call and a rejected permission prompt all mean *not this*, never *not anything* — and the
+standing rule already covers it: do everything that does not depend on the answer, and block
+only where proceeding under any assumption would be unsafe.
+
+It compounds in a way a solo session's version does not. **A conductor's stall propagates**:
+five peers stopped within minutes, each waiting on a reply that was never coming, and none of
+them could see why. So when you do go quiet for any reason, the peers who wrote to you are
+owed a line saying so — and when you come back, say plainly that the silence was yours rather
+than letting them account for it as a hold. One peer spent those eight hours rebuilding runners
+one-by-one against a theory that this session's watcher was evicting them, because a direct
+question went unanswered. The watcher contains no signal verbs at all.
+
 **From inside your session that is invisible, because it looks exactly like a fleet hard at
 work.** Both are silence. Measured: thirteen Opus sessions idle for three hours on a
 16-core machine at 0.23 load per core, eleven of them with real queues, and the operator
