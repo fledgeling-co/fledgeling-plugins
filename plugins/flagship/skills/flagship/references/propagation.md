@@ -3824,3 +3824,40 @@ everything that would have failed, listed beside the claim** — and this one li
 443, clippy 0, six probes 0, tree clean, the only red being the three pixel claims parked on the
 operator's explicit decision.
 
+---
+
+## A spec that re-implements the thing it checks cannot see the thing change
+
+*Diolog Tasks, WEB-5038 — the derive-from-the-population rule landing as a schema.*
+
+A schema gate **re-declared the route's shape** rather than importing it, because the real one was
+module-private. So when the route's actual output changed, the gate stayed green — its copy of the shape
+was untouched — while the provider rejected the request exactly as the card reported.
+
+> *"A spec that re-implements the thing it checks cannot see the thing change, whether the thing is a
+> predicate or a schema."*
+
+This is the fifth arrival at derive-don't-declare, and the first where the derivation is a **type import**
+rather than a computation. The fix is the same in every register: make the check read the real thing —
+import the schema, derive the field set from the records, count the denominator from the corpus — and
+where the real thing is private, **exporting it beats copying it**, every time.
+
+**And from the same card: a promise false on one surface of three.** A compliance sidebar rendered
+"Diolog has been notified" and captured nothing, while both siblings called the capture API. **Fixed by
+capturing rather than softening the copy, because softening splits what the requirement deliberately
+made identical across three surfaces** — the remedy preserves the invariant instead of renegotiating it.
+
+---
+
+## "This time I checked before saying it"
+
+*Diolog Tasks, closing its board.*
+
+Asked earlier whether the board was done, it answered from memory and was wrong — ten fresh work orders
+had appeared since its last derivation. This time, closing for good, it **ran the query**: *needs-work
+rows with no fix-runner report, excluding blocked-by-nature: 0.*
+
+**The re-derivation is the attestation.** Same session, same question, twelve hours apart — the first
+answer was a mood, the second is a measurement with a denominator of 241 behind it. The difference is
+not diligence; it is that the second time, the claim had to be stated as a query first.
+
