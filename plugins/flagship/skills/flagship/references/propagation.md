@@ -3273,3 +3273,36 @@ session produced in a night — a filtered host answering `ping`, a hardcoded bi
 against binary, an empty file read as success, and now a flag that does not exist — **the only one
 caught before it was acted on was the one where a second instrument was consulted.**
 
+---
+
+## A wrong pointer looks exactly like a fixed defect
+
+*Egress, auditing 21 standing defects. Two of the three failures were a wrong location rather than a
+wrong claim.*
+
+- **One named the wrong file.** The record said a supervisor module hardcodes a null credential. It does
+  not — that function builds from telemetry and attaches a real observation when one exists, **and reads
+  as the obvious culprit until you open it.** The unconditional null is in a different crate entirely,
+  inside a different constructor. **The claim was true; the pointer was wrong.**
+- **One named a concept, not a symbol.** All 8 occurrences of the name in the app tree are **test
+  names**. There is nothing to open. The defect is real — it concerns which signal licenses a rendered
+  verdict — but **it cannot be actioned as written**, and the tests asserting it already exist.
+
+**Why this is worse than a false record: a fixer opens the named file, finds it already correct, and the
+cheapest conclusion available is that the defect is stale.** So the failure mode **converges on closing
+a live defect**, and does it through a reasonable-looking act of diligence. Nothing in the process
+distinguishes *"this was fixed"* from *"you are looking in the wrong place"*.
+
+**The rule: a premise check must resolve the symbol, not read the sentence.** Grep for the named thing;
+if it does not exist, or exists only in tests, the record is unactionable regardless of whether its
+claim is true. That is the filenames-not-paths rule one layer up — a citation that resolves to nothing
+and a citation to something already correct fail identically.
+
+**And a proof worth copying from the same pass.** One defect was upgraded from *re-read* to *proved* by
+**breaking the matcher on a copy**: the check returned **exit 0** over an empty denominator, because
+`record()` stores `examined` and never tests it — while a `dead_predicate` guard exists in the same
+file and that path never reaches it. **A second zero path turned up that had not been recorded**: a
+missing model file calls `record(…, 0, [], …)` and returns, so an absent input also reports clean.
+
+Two ways to a clean green over nothing, in one checker, and only one of them was known.
+
