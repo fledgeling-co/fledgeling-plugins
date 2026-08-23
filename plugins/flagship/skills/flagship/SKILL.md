@@ -212,6 +212,23 @@ and re-measure at the deadline.
 | Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
 | Blocked — a real queue it cannot reach | Its blocker escalated, or the berth freed |
 
+**A fifth shape, and probably the commonest: the session simply stopped starting things.** Not
+drained, not blocked, not capped, not mid-call. In one session's own words: *"an orchestrator that
+has been running turn-by-turn on notifications goes quiet when the notifications stop, and that looks
+identical to being blocked."* It had two merges landed, a defect filed, and then waited on a
+notification instead of picking up the next item — and one prompt restarted it, whereupon it found
+two stale ledger rows and a defect naming an owner that did not exist. **A session driven by
+notifications inherits its conductor's idleness**, so a quiet conductor produces a quiet fleet and
+both look like a busy one.
+
+**And read the runtime's own `status`, not transcript mtime.** `~/.claude/sessions/<PID>.json`
+publishes `status` (`idle` / `busy` / `shell`) with `statusUpdatedAt` beside it. Transcript mtime
+answers *"did this session write recently"* and gets read as *"does this session have work"* — a
+session that answers you and then stops is maximally fresh by mtime and idle in fact. Measured: a
+watcher built specifically to catch starvation reported **one** idle session while the runtime
+reported **eight**, and the operator saw it before the instrument did. A missing status is UNKNOWN
+and must never be counted as idle.
+
 **Two more shapes the table misses, and both make an active session look dead.** A session
 inside a *single long tool call* writes nothing to its transcript for the duration, so
 `quiet_for` from file mtime reports it as idle — one session's 29 "idle" minutes were three
