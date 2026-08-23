@@ -3306,3 +3306,35 @@ missing model file calls `record(…, 0, [], …)` and returns, so an absent inp
 
 Two ways to a clean green over nothing, in one checker, and only one of them was known.
 
+---
+
+## The second time, on the same night, of applying a measured pattern to an unmeasured repo
+
+*This skill's author, corrected twice by two different sessions.*
+
+**First**, early: one repo's worktree-lock defect was routed to another repo as if it applied. It did
+not — the lock held there **by construction**, because it lives in the git common directory. The
+correction at the time: *you applied a defect from a repo you measured to a repo you did not.*
+
+**Second**, hours later and after writing that down: a fleet's `next-server` processes were flagged as
+accumulating, on the strength of a *different* session's residency case where a holder pid moved on
+every restart. Measured by the session that owned them: **exactly one `next-server`, in the worktree of
+the one runner still working.** Four finished lanes carried **zero** processes. Servers were started ad
+hoc by the runner that needed one and died with it. **Five of six never started one at all.**
+
+The pattern was real, the mechanism was real, and it was not present there.
+
+**What makes this recur is that a propagated finding arrives with its evidence attached and is
+therefore convincing** — the residency case had a moving holder pid, a measured 0.28 s of CPU, and a
+`--strictPort` consequence. All true, all elsewhere. **A conductor's whole value is propagation, and
+propagation without a measurement at the destination is how one repo's defect becomes five repos'
+wasted work.**
+
+So the form to send is the *question*, not the finding: **"we measured X here — does your tree have
+it?"** rather than "you have X". The receiving session can answer in one command, and its answer is
+worth more than the inference, because it is the only one with the tree.
+
+**The structural half survived the correction and is worth separating from the wrong half**: none of
+that fleet's work claimed a berth, so the board was missing it entirely. That was true and independent
+of the accumulation question, and the session adopted the wrapping on it.
+
