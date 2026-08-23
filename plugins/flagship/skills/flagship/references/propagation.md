@@ -3596,6 +3596,11 @@ Two companions from the same day, same mechanism:
 - A premise grep for a broken string **matched a comment describing the defect it had fixed** — so the
   evidence the fault was gone read as evidence it was present.
 
+**The wire-check version, measured the same night**: grepping transcripts for vendor substrings
+(`glm-|gpt-|gemini-`) matched **eleven of eleven files — all legitimate content**, because runners working
+on AI-gateway cards carry model names in context. Every hit was discussion, none was routing. **The field
+is `"model":` on the turn** — extract the key, never grep for the vendor, or clean runs get re-graded.
+
 **The general form: a prose predicate matches discussion, and a register's descriptions discuss
 everything they have ever been about — including their own repairs.** So a grep over descriptions finds
 the vocabulary of a problem and cannot distinguish it from the vocabulary of its solution.
