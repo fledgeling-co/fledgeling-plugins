@@ -14,6 +14,16 @@ and the chase count. A dispatch leaves the ledger when its report lands or when 
 escalated. Nothing else clears it. A session's reply that does not answer the dispatch
 (survey answers are not completion reports) does not clear it either.
 
+The same rule runs one level down, inside a session's own ledger. **A ledger note is a
+summary a runner wrote of its own report — the defendant's account, not the record.**
+Measured 23 Aug 2026: an 11-item "owner-owed, zero reachable" claim built entirely on
+notes collapsed to 4 reachable items when the reports underneath were opened, because
+the notes said "remainder is owner-owed and is named in the brief" while the reports
+themselves named the work and the reason it was declined for scope. Before quoting a
+note as state — to the operator, or in a decision — open the report it summarises. The
+note answers "what did the runner say"; the report answers what the runner found, and
+those diverge precisely when the summary is load-bearing.
+
 ## The completion-report obligation
 
 Every dispatch states its own report: what to send back, and that silence is not a state.
