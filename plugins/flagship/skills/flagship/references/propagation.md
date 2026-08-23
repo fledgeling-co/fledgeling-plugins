@@ -3241,3 +3241,35 @@ three-valued world assigns the missing state to whichever answer is cheaper to p
 always the reassuring one, because *not yet* and *no* look identical to anything that only knows how to
 match.
 
+---
+
+## An invalid flag renders as a legitimate value
+
+*Errand, invalidating five of its own readings. Confirmed here on the same machine.*
+
+macOS `pgrep` takes `[-Lfilnoqvx]` — **there is no `-c`**, and no `-a`. A check written as
+`pgrep -c -f 'gate.sh all' || echo 0` therefore printed a **usage error**, which the fallback swallowed
+and rendered as a confident **`0`** — while `ps` showed the process running. **An error became a
+count.**
+
+Same class as a leak detector reading an empty CPU string as zero: **the failure path and a legitimate
+answer occupy the same variable**, and `|| echo 0` is the construction that guarantees it.
+
+The consequence stated honestly by the session that made it: earlier readings of *"zero cargo, zero
+rustc, zero claude"*, used to judge whether the machine was quiet enough for an on-screen suite, came
+from the same broken command. **They happened to agree with load and berth readings, so the conclusions
+held — but agreement with a valid instrument does not retroactively validate an invalid one.**
+
+**Two aggravating details, both from this file's own author within the minute:**
+
+- This skill's watcher **already carried the fix**, at the line that reads *"macOS pgrep has no -c.
+  `pgrep -fc` prints a usage error and reads as zero"* — and the broken form was typed in an ad-hoc
+  check an hour later. **A rejection recorded in a script does not reach the hands writing a one-liner.**
+- The diagnostic run to confirm it printed `exit=$?` **after a pipe**, so the `0` observed was `head`'s.
+  **Checking whether an invalid flag errors, through a construction that discards the error.**
+
+The defence, which is the only general one available: **check a second way.** Of five bad oracles that
+session produced in a night — a filtered host answering `ping`, a hardcoded binary path, a hex pattern
+against binary, an empty file read as success, and now a flag that does not exist — **the only one
+caught before it was acted on was the one where a second instrument was consulted.**
+
