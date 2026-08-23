@@ -339,6 +339,14 @@ room* — and ask for the ceiling rather than assuming there is none.
   the machine *looks* free is precisely how a cooperative contract stops working. So your
   clearance signal and the machine's readiness are **different events**, and wanting the
   second one means asking a different question — not overriding the first.
+- **The registry has two opposite blind spots, and only one of them is safe.** A **claim that is not
+  work** — a dev server, an observation server, any residency — makes the machine look *fuller* than it
+  is, and the cost is a session waiting for capacity that exists. **Work that does not claim** makes it
+  look *emptier*, and the cost is over-admission. Measured on one night: four berths held by two
+  processes at ~0.3s of CPU, and simultaneously two twenty-minute compiles running entirely outside the
+  governor because that session had never adopted the wrapper. **A conductor's load reading includes the
+  unclaimed work while its claims list does not**, so the two numbers disagree in a way neither reveals.
+  Quote both, and when they disagree, believe load.
 - **Say whether your own work is in the number you are quoting.** One session quoted berth
   figures all evening while its own runners had never claimed one. It fixed that mid-run by
   wrapping every build, test and gate call in `governor-run --project <name>`, which is what
