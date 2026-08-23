@@ -3538,3 +3538,45 @@ above it. This file's author has now been wrong in both directions on the same c
 1.1.0 was Dev-source-only when it was installed, then finding a session reporting the opposite for the
 mirror-image reason.
 
+---
+
+## A prose predicate classifies what a file talks about, not what it does
+
+*Egress, three instances in one day.*
+
+Asked whether a narrowed-guard pattern generalised across 21 defects, the obvious check is a grep for
+`narrow` over the descriptions. It returned **six** — and reading all six, the word appears in **five
+different senses**, of which **one** is a narrowed guard:
+
+| hit | what it actually meant |
+|---|---|
+| `narrow-width horizontal clipping` | a measurement's viewport |
+| `the measured claim is narrower than` | a claim scoped honestly |
+| `a narrower relative of DEF-038` | a comparison between defects |
+| `a narrowing that made it more accurate` | a copy string edited |
+| `what is actually wrong is narrower` | a **record** corrected, not a guard |
+| `a capture narrowed what policed it, and passed` | **the one real instance** |
+
+**"A guard was narrowed" is not detectable from the word `narrow`. That is a fact about English rather
+than about the register.**
+
+Two companions from the same day, same mechanism:
+
+- A filter meant to find tools lacking argument parsing **skipped every tool whose fix mentioned
+  `argparse`** — the repair's own description disqualified it.
+- A premise grep for a broken string **matched a comment describing the defect it had fixed** — so the
+  evidence the fault was gone read as evidence it was present.
+
+**The general form: a prose predicate matches discussion, and a register's descriptions discuss
+everything they have ever been about — including their own repairs.** So a grep over descriptions finds
+the vocabulary of a problem and cannot distinguish it from the vocabulary of its solution.
+
+Where a property is structural, test the structure: does this guard's predicate have an anchor it did not
+have before, does this tool call `argparse`, does this string appear outside a comment. **The answer is
+in the code or the schema, never in the prose about it.**
+
+**And the session caught itself about to answer without running any of it** — it had told the conductor
+*"only one of the 21 rests on a narrowed guard"* from memory, then measured and found six hits needing
+individual reading. **An unrun claim about your own register is the same class as an unrun claim about
+someone else's tree**, and both are one command from being settled.
+
