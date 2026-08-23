@@ -61,7 +61,7 @@
   "skills": [
     {
       "name": "flagship",
-      "version": "1.6.0",
+      "version": "1.6.1",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio — the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1–R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others — which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation — all three were refused by ten sessions in one night and all three refusals were right.",
