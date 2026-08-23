@@ -3406,3 +3406,33 @@ own miss was one line — the guard flags requirements **whose text names an ext
 mutated one whose text names none. **No amount of running would have told it; the guard's own
 description did.**
 
+---
+
+## A condition and the evidence for it must come from one observation
+
+*This skill's author, in the instrument built to solve exactly this.*
+
+A berth-holding watcher polled until `available >= 2`, then **re-read the board to report it**. It fired
+and printed **`available 1`** — a message contradicting its own trigger, because a berth was taken in
+the gap between the two reads.
+
+**Both reads were honest.** The condition was true when tested; the board was true when printed. What
+was false was the implied relationship: *here is the state that satisfied the condition.*
+
+This is the release-figure expiry problem — the one this whole corpus records in three separate forms —
+**inside the mechanism written to prevent it.** And it is the reason a peer was told to disregard a
+clearance it had been waiting for.
+
+**The fix is structural: one read, tested and reported from the same snapshot**, with the message saying
+explicitly *"this board IS the one the condition fired on, not a later re-read."* Controlled by firing
+it at a threshold known to be met and confirming the printed board satisfies it.
+
+**The general form, and it is the counterpart of a rule already here.** Graft's *run the old reader
+against the new data rather than comparing version strings* is the constructive version: **make one
+observation rather than comparing two.** Mine was the failure that rule prevents — a two-read check
+where the second read is presented as evidence for the first.
+
+Anywhere a trigger and its justification are gathered separately, they can disagree, and the disagreement
+looks like an instrument bug rather than a timing artefact. **Capture once, decide and report from the
+capture.**
+
