@@ -226,6 +226,16 @@ schedules against a queue believed empty, so the work simply never happens.
 | Shape | What it needs |
 |---|---|
 | Drained — the backlog is genuinely finished | `reckon`, then retirement made legible |
+
+**"Drained" is a claim about the work that REMAINS, and no gate can attest that — only reckon can.**
+Measured on the night this rule was missed: a session closed "drained with attestation," every gate exit
+code green — and the gates attest the work that *exists*, saying nothing about whether work remains.
+Its own earlier "drained" had been wrong the same day (a step believed to be one command was a scoped
+item), and another session's "the work orders are exhausted" was wrong ten items over. **The operator's
+standing instruction is explicit: when a session thinks it is done, it likely is not — run `reckon`
+(detailed) and `whats-left` (focused on current work) before recording anything as finished.** Invoke
+reckon **by explicit path when two cache versions exist** — the 1.1.0 `unjoined` classifier sits beside
+1.0.0, and name-resolution picks whichever the loader chooses.
 | Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
 | Blocked **on the machine** — work ready, no capacity | Tell it the moment berths free. Never stop offering |
 | Blocked **on the operator** — needs a decision or a credential | Stop asking. Escalate once, then log it |
