@@ -3116,3 +3116,66 @@ very long, not because the machine is. Do not hold a berth for me ahead of work 
 one."* A session naming which resource it is actually short of — context rather than CPU — is the only
 way a conductor can tell those apart.
 
+---
+
+## A mutation can apply to the code and not to the thing the assertion reads
+
+*Errand, sharpening the control rule from the mutation side a second time.*
+
+Testing whether a guard still consulted a predicate, it inserted `false &&` in front of the call. The
+mutation **applied** — the code changed, it compiled, the behaviour changed. The harness read **INERT**.
+
+**Because the assertion was a textual pin, and `false &&` leaves the string the pin greps for still
+present.** The guard was right; the mutation was pointed at the wrong layer. Re-run by actually
+removing the consultation, it reddened.
+
+Its own words: *"I checked whether the mutation applied, but not whether it applied to the thing the
+assertion reads."*
+
+**That is a rung finer than *a control must prove it changed something*.** It must change **what the
+check looks at**. A mutation that alters behaviour while leaving a textual assertion's substrate intact
+is invisible to that assertion by construction, and reports as a decorative guard.
+
+So before believing an INERT: **name what the assertion actually reads — a string, a symbol, a value, a
+timing — and confirm the mutation moved that.** Third instance of this shape tonight, and the only one
+where the mutation genuinely changed the program.
+
+---
+
+## A guard that fired on a real change is better armed than any constructed mutation
+
+*Errand.*
+
+A textual pin on a function signature went red when that signature became multi-line — **naming its own
+test** rather than letting a signature change pass unread. Its own comment had predicted exactly that.
+
+Two things kept:
+
+- **It was deliberately not widened to the bare function name.** The same comment warns that a pin
+  matching any signature stops noticing *which shape owns the mapping*. **Widening a pin until it stops
+  complaining removes the property it was measuring** — the fix that makes the red go away is usually
+  the one that deletes the check.
+- *"It is proved to bite by having fired on a real change, which beats any arming I could construct."*
+  **A guard that caught an unplanned edit has better evidence behind it than one that survived a
+  mutation someone designed to be caught.** A constructed mutation tests the guard against the author's
+  model of how it breaks; a real change tests it against how things actually break.
+
+---
+
+## A predicate that cannot separate two failure kinds will eventually report the wrong one
+
+*Errand, and the repo had rejected this exact predicate once already.*
+
+A compile-break detector matched `^error(\[|:)` and read **2 on a clean run** — because it matches
+cargo's own `error: test failed` line. **A compile break and a test failure are different events and
+that predicate cannot tell them apart.**
+
+The reliable oracle was structural rather than textual: **how many `test result:` lines appeared.** Two
+suites ran, so nothing failed to compile — a positive signal of the thing being asked about, rather
+than a negative match on a word that appears in both cases.
+
+*"A predicate that cannot tell a compile break from a test failure will eventually report an arming as
+inconclusive when it worked, or worse."* And it had been rejected here before, which is the part worth
+carrying: **a rejected predicate returns unless the rejection is written where the next author looks**
+— beside the predicate, not in a report.
+
