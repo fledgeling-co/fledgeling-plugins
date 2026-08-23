@@ -1758,3 +1758,42 @@ supply.
 It also declined the berth for the reason worth copying: *"nothing in flight, so a berth I hold is
 one Graft or Warden cannot."*
 
+---
+
+## Resolve the conflict in a tree you own, so the shared branch takes a fast-forward
+
+*Diolog Tasks, landing 251 unmerged commits onto a branch another session had work on.*
+
+The obvious order is to merge your branch into the shared one. It puts every conflict resolution
+**on the shared branch — a place nobody owns** — and whoever else has work there inherits a merge
+they did not perform and cannot audit.
+
+The order it took instead: **merge `staging` into the fleet branch.** Conflicts resolve in its own
+worktree, under its own gates (clean auto-merge, zero conflicted files, 0 typecheck errors on both
+apps). `staging` is then an **ancestor** of its HEAD, so updating the remote is a **fast-forward with
+nothing to resolve**.
+
+What that buys the other party, and it is worth saying to them explicitly because it is not obvious:
+a push moves only the remote ref, so **their working tree and uncommitted work are untouched** and
+they pick the commits up on their next pull. The risk stayed entirely on the branch of the session
+that chose to take it.
+
+Generalises past git: **do the reconciling in a tree you own, and hand the shared thing a change
+that cannot fail.**
+
+---
+
+## A card with no requirement trace is a card a runner has to guess at
+
+*Diolog Tasks, declining to dispatch runners at ten cards.*
+
+Ten cards had never had a graded requirement list, and the fast move is to send fix runners at them
+anyway. It graded the requirements first instead, and the reason is the corpus's central pattern one
+stage earlier than everyone else met it: **the runner would return something confident and
+fix-shaped, and nothing downstream could distinguish it from work that was actually specified.**
+
+Everyone else tonight paid for this by finding it in a verifier's output — an absence claim over a
+crop, a finding about code that was not in the packet. Grading the specification first is the cheap
+version of the same check: **an under-specified brief and a well-specified one produce output that
+looks identical, and only one of them is answering the question.**
+
