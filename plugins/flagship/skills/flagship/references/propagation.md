@@ -2946,7 +2946,21 @@ as part of the cost of not deciding.**
 
 ## A config guard that checks a value's form has not checked that the thing it names exists
 
-*Atlas, on a catalogue sync dead 83 days behind a guard written specifically to prevent it.*
+*Atlas, on a catalogue sync behind a guard written specifically to prevent it.*
+
+**Two caveats the source session insisted on, because the citation was running ahead of what it
+proved.** First: **it did not fix the outage.** It fixed six places in one repo carrying the same fault
+and established what the production value should be — *the production variable is still wrong and is the
+operator's to set*, and the earliest anyone can say it worked is the first cron after he changes it. If
+this travels as *"and this fixed a live 83-day outage"* it travels with a claim nobody can make yet.
+
+Second, and it shrinks the finding rather than the fix: **the duration may describe a path nobody
+depended on.** The catalogue has historically been populated by local crawls seeded straight into the
+remote database rather than by this sync — so *this sync path may never have worked in any environment*,
+and the repo's own compose values carrying the identical fault is consistent with exactly that. It could
+not be ruled out. **Anyone citing the duration carries that caveat with it.**
+
+The guard finding below stands on its own and does not depend on either.
 
 **There was already a guard on that variable**, and its own header comment says a bad value is *"how
 the same deployment could carry a catalogue URL nobody could reach for twelve weeks without anything
