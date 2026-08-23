@@ -2835,3 +2835,86 @@ changes what a runner is told is a control.
 Worth applying to this file: any entry here that has never appeared in a brief is a candidate for
 deletion rather than for a rewrite.
 
+---
+
+## A mutation that fails to fire is only evidence once you have checked it could fire
+
+*Graft, arming an effect census, and nearly filing the opposite conclusion.*
+
+Arming a new guard, the first mutation removed the `effect` field from a requirement and **produced
+nothing**. The obvious write-up is *a guard that cannot fire*. That would have been wrong: **that
+requirement's text names no external effect, so there was nothing to be unclassed about. The mutation
+was wrong, not the guard.**
+
+**An INERT mutation is not evidence about the guard — it is evidence about the mutation**, and the two
+are indistinguishable from the output, because both produce a green run and a null result. Same family
+as *a control must prove it changed something before its result means anything*, arriving from the
+mutation side rather than the harness side: **the check and the thing checked have to be pointed at
+each other before a null result means anything.**
+
+Before writing up any guard as decorative, establish that the mutation you applied was capable of
+falsifying it. Pick a subject the guard's own predicate can actually see.
+
+---
+
+## Declaring the population is what makes an honest gate go red
+
+*Graft, on an effect census.*
+
+`effect_reqs` was **empty**, so an entire family of external-effect honesty checks passed over nothing
+and the gate said nothing at all. Declaring the census — 19 requirements classified as `none`,
+`inbound-socket`, `subprocess`, `filesystem-write`, `outbound-socket`, with all 8 providers resolving —
+turned that silence into a blocking red: **7 requirements claiming an effect outside the product,
+recorded `observed`, with no case at `effect-witness`. `0 of 8 witnessed.`**
+
+**The red is the deliverable.** Nothing got worse; seven unbacked claims stopped being invisible. This
+is the constructive answer to the empty-population problem that runs through this corpus — **not a
+better checker, but a declared population for the checker to have.** A floor refuses an empty set; a
+declaration removes the emptiness.
+
+Two details that made it hold:
+
+- **`sourceRoot` went into `campaign.json`, not onto a command line**, because a root living only on a
+  command line drifts silently and *the drift reads as a thorough pass*.
+- Three adjudications went **against** the obvious reading — a filename that looks like a write and
+  appears in production source only inside generated code's header comments; two `none` because the
+  persisting component is not a declared lane; and one `none` **against** a checker that had flagged it
+  for a subprocess nothing in its text names. **An over-flagging checker is a prompt to adjudicate,
+  never a finding to accept.**
+
+---
+
+## Defend an honest refusal from the next well-meaning editor
+
+*Graft.*
+
+A blind-pass check reports `NOT RUN — no corpus`, and its own not-run message **instructs the reader to
+declare a `testRoot` to make it work**. Following that instruction on a TS/JS repo converts an honest
+refusal into a permanent `examined=12` over **2,179** tests — a number that looks like coverage and is
+half a percent of it.
+
+So `testRoot` stays undeclared **and `campaign.json` carries a `blindPassNote` saying why**.
+
+The general shape: **an honest refusal is fragile in a way a wrong answer is not**, because it looks
+like an unfinished configuration and invites a helpful fix. **Record why it is refusing, next to the
+refusal, in the file someone would edit** — otherwise the next reader improves it into a lie, and every
+gate downstream reads that lie as a pass.
+
+---
+
+## An unpushed repo's gate has never run
+
+*Graft, finding a defect it had introduced that morning.*
+
+A `TS18048` was introduced and the web typecheck was never run. **It never left the machine — because
+the remote does not exist**, and that is also why the pre-push gate that would have caught it never
+ran.
+
+So the cost of an uncreated repository is not only that work is unpushed. **Its entire pre-push gate
+has never executed against anything**, and every check wired into it is untested in the environment it
+was written for. The first push will be the first time those checks meet a real tree, which is a
+different risk from a backlog of commits.
+
+Worth surfacing wherever a repo is waiting on a decision to exist: **name the gate that has never run
+as part of the cost of not deciding.**
+
