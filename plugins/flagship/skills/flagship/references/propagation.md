@@ -2077,3 +2077,70 @@ The cleanup was routine. The check was not, and it is the transferable half: **e
 somewhere that does not survive the ordinary operation about to be performed on it.** Tag first, then
 remove.
 
+---
+
+## Git's empty-commit refusal protects one file and protects two not at all
+
+*Splice, auditing its own commits after a disclosure — and the rule that would have caught mine.*
+
+The hazard both sessions were running all night: a `python3 - <<'PY' … PY` heredoc followed by
+`git add -A && git commit`, with the shell carrying on past a throw. **What saved one of us was
+ordering** — every heredoc asserts its anchor *before* writing, so a failure happens before any
+change, `git add -A` stages nothing, and git refuses the empty commit. **A script that wrote and then
+asserted would have committed the half.**
+
+**And the refusal is a much weaker net than it looks, because it only ever guards a single-file
+change.** In a two-file commit, one file's edit can silently no-op while the other succeeds: the
+commit lands with a message describing both, **nothing empty, nothing refused**. That is exactly what
+happened here — a `harbourmaster 0.4.0` commit whose message carried a whole `flagship:` section
+describing changes that were not in the tree, because the heredoc threw an assertion and the commit
+ran anyway. Caught on the next read and amended; nothing would have caught it automatically.
+
+**Two rules, and the second is the one with teeth:**
+
+- **Assert before writing**, so a failure cannot leave a partial change staged.
+- **Verify a multi-file commit against its own message, not against its exit code.** `git show --stat`
+  and read it back. The exit code answers "did git accept this", never "does this contain what I said
+  it contains".
+
+Same shape as everything else here: *a step that failed while the step after it succeeded, and
+nothing in between to say so.*
+
+---
+
+## A caveat is a hypothesis and needs the same discipline as a check
+
+*Splice, on why the composition-versus-coverage failure is not hindsight.*
+
+The caveat that missed DEF-091 **named the right axis and then measured its neighbour** — it doubted
+whether two mechanisms composed, tested that they composed, and stopped. *A caveat that names the
+risk and measures its neighbour is worse than none, because it reads as discharged.*
+
+The framing worth keeping for whoever writes the next one: **the aim was right.** The failure is not
+that they doubted the wrong thing; it is that a caveat was treated as a note rather than as a claim
+requiring evidence. **A caveat is a hypothesis**, and it earns the same question every other
+instrument here does — what would it look like if this were false, and did I measure that or its
+neighbour?
+
+---
+
+## Read the weight off the brief, not off an impression
+
+*MCP Router, declining two berths.*
+
+Offered 2 slots for six verification runs, it read the weight **off the briefs it had actually
+written** rather than estimating: each run does `make lint` — swiftlint and swiftformat across 549
+files plus eight component gates — and several also `make test`, a Swift build and 1786 tests in 222
+suites. **A verifier there is not a light serial agent; it is a compile.**
+
+So it waited. *"My six are not light and I would rather say so than take two slots and find out."*
+
+The general rule: **a session is the only party that can price its own work, and a conductor offering
+capacity must not also estimate the demand.** Declaring a weight that fits the available slots gets
+the inner `governor-run` refused at exit 75 and the work runs unwrapped — a degraded run wearing a
+governed one's clothes, invisible to everyone reading the governor.
+
+And the corollary for a conductor: **issue a clearance as an offer with the board attached, never as
+an instruction.** Say what is free, what holds the rest, and let the session decide whether its work
+fits.
+
