@@ -332,7 +332,11 @@ that was its own to answer. The rule inverts cleanly too: **ledger movement is s
 evidence of progress and weak evidence of its absence** — a session that reads forty files
 and closes a row as stale commits nothing, and was doing the careful work. Quiet with
 movement is working. Quiet without it is *unknown*, and unknown is settled by asking, which
-is one message.
+is one message. And when the session answers, weigh its account
+accordingly: measured the same night, a session genuinely idle for 77 minutes believed it
+had been working, because it had been recently — **ledger movement is the better signal,
+and the session's own account of itself is the worst one available, including the
+conductor's own.** Ask the ledger, not the session.
 
 **A drained fleet refills before it retires.** When the operator's standing directive is
 utilisation, the drained tier's action is `reckon` then `shipyard:intake`, grounded in the
