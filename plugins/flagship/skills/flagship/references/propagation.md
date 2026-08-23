@@ -2346,3 +2346,69 @@ Five independent arrivals at that principle in one night — the status vocabula
 floors, `campaign-preflight`'s derived field set, the id-space classification, and this sweep — is the
 strongest signal in the corpus that it is a real design rule rather than a local habit.
 
+---
+
+## The engine paints DIFFERENTLY, not merely less — one declaration, opposite defects
+
+*Warden Design, 2026-08-22. This amends a documented rule rather than adding to it.*
+
+The recorded guidance is that obscura **paints more than it reports** — `boxShadow`,
+`backgroundImage`, `textTransform`, `outline` and `flex` serialize to `""` while painting correctly —
+and that an empty computed value means *unreported*. The advice that followed: **trust the pixels over
+the readback.**
+
+**Measured case that inverts it.** One declaration — `height: 100%` on a child of a 3px
+`overflow:hidden` parent, a percentage height with no definite ancestor — produced **opposite** defects
+in two engines:
+
+| engine | result |
+|---|---|
+| **obscura** | resolved the percentage against the option row, drew the bar at `h:52` — solid rectangles **over the option text** |
+| **WebKit** | drew it at `h:0` — nothing at all |
+
+**Same bytes.** So the pixels were not trustworthy either: each engine was wrong in a *different
+direction*, and **a single-engine capture cannot say which kind of wrong you are looking at.** The
+visual gate correctly returned `fail` on the obscura frame, and the frame was held unpublished rather
+than shipped to move a number.
+
+**The instrument that separated them is the transferable part.** A `webkitshot.swift` driving WebKit
+through the system framework — no browser, no window, so it stays inside the browsers-via-obscura
+rule — used as a **comparison instrument only**, with nothing it produces ever published as a capture.
+With two engines the three-way split became readable: **the rectangles were the engine, and the
+missing meter was absent in BOTH and therefore the page's own defect.** One frame could not have
+separated those. After a `display:block` and a literal `3px`, both engines measure the meters at
+`x=462, h=3`, widths `17/83/322` against `17/83/320`.
+
+A third divergence found in the same pass, non-gating: **obscura does not paint an `inset`
+box-shadow**, so a selected radio renders as a solid disc where WebKit draws a ring.
+
+**So the amended rule: an empty computed value means unreported, and a *painted* value can still be
+the engine rather than the page.** Any capture a visual gate will grade wants a second-engine
+comparison lane — not to publish, only to tell an engine artifact from a real defect.
+
+---
+
+## A second manifest nobody reads drifts, and the gate cannot see it
+
+*This repo, found while filing someone else's brief in it.*
+
+Bumping a plugin's version, the edit went into `plugins/<name>/plugin.json` — which exists for **29 of
+this repo's plugins** and is not the file anything reads. The canonical manifest is
+`plugins/<name>/.claude-plugin/plugin.json`, and `build-catalogue.mjs` compares **that** against the
+marketplace entry. **The gate caught the mismatch it checks for and was structurally silent about the
+file that had actually been edited.**
+
+Audited across the repo afterwards: **13 of 29 pairs disagree** — `flagship` at 1.1.0 against 1.3.0,
+`harbourmaster` at 0.1.0 against 0.4.0, `create-mac-icon` at 1.4.1 against 1.6.0. Every one of those
+drifted silently, because nothing compares the two.
+
+Two things worth separating. **The drift is probably harmless** — if nothing reads the stray, a wrong
+number in it costs nothing. **What is not harmless is that it is an equally plausible edit target**:
+it has the same name, sits one directory up, and the gate's error message names `plugin.json` without
+saying which. That is the *third* route from the identity family, arriving as **two files with the
+same name in one repo** rather than as a stale copy or a shadowed binary.
+
+Not fixed here: deleting 29 files or teaching the gate a second comparison is a repo-shape decision for
+its owner, and the drift has been harmless so far. Recorded so the next person who edits the wrong one
+finds this instead of rediscovering it.
+

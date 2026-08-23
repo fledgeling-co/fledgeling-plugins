@@ -181,6 +181,51 @@ arming cannot find it. Arming mutates the system; vacuity is only visible by
 mutating the **specification** to something strictly harder and watching the case
 stay green. `references/effect-boundary.md` §6.
 
+### A detector for vacuous assertions has a syntactic ceiling, and its output hides it
+
+Projects reach for a scanner over the test corpus — an `XCTAssertEqual(x, x)` /
+`assert_eq!(x, x)` regex — and it is worth having. **Know what it structurally
+cannot see before it is written into a check set**, because its output does not
+distinguish the instances it found from the class it cannot reach.
+
+Measured on one campaign, 2026-08-23. The detector is a **backreference**:
+
+```
+XCTAssertEqual\(\s*([A-Za-z0-9_.\[\]]+)\s*,\s*\1\s*[,)]
+```
+
+`\1` requires the two sides to be **the same text**. So it catches the literal
+self-comparison and is blind to the same value under two names. On that campaign
+it reported **13 findings and caught neither** of the two unfalsifiable assertions
+an independent reviewer found by reading:
+
+- `XCTAssertEqual(directory, resolved)`, where the fixture built the path from
+  `directory` and stored that same `directory` as the resolver's directory — one
+  value, two names, two hops apart.
+- `XCTAssertEqual(facts.permissions & 0o077, 0)` sitting one line under
+  `XCTAssertEqual(facts.permissions, 0o600)` — not self-equal at all, but
+  **arithmetically entailed by its neighbour**. A second shape with no rule for it.
+
+**Why this matters more than a missed regex: a 13-findings output reads as a sweep
+that ran.** It finds the easy instances of a class and is structurally incapable of
+the hard ones, and nothing in the output says so. That is the reassurance-without-
+deciding shape one level up from a check that returns nothing.
+
+So: **state the ceiling in the tool's own output** — say which shape it matches and
+that entailment and aliasing are out of scope — and never let its green stand as
+"no vacuous assertions". Constant-folding or one-hop alias resolution would reach
+the first shape and adjacent-assertion entailment the second; both are real work and
+neither is prescribed here. **The hole is portable; the mechanism is not.**
+
+**And two defects that are not about detection at all, found in the same file:** it
+parsed **no arguments**, so `--gate` and an unknown flag were ignored identically and
+both exited 0; and it exited 0 over an empty corpus, printing
+`examined: 0 file(s), 0 assertion call(s)` — a denominator it computed and never
+acted on. A report that answers to `--gate` will be conscripted into a chain as a
+step that can never fail while looking exactly like one that can. **Refuse an
+unrecognised argument, and refuse an empty population**; both are one-line changes
+and neither is optional once a tool is in a documented check set.
+
 ---
 
 ## 4. What generated plans get wrong, measured
