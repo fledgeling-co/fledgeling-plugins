@@ -3894,3 +3894,31 @@ rung one *even when the agent is the thing being checked.*
 first and refuted (up 18h, no config change), leaving **runtime pre-emptive failover under throttle** as
 the live hypothesis. Intermittent, machine-wide, and invisible from the launch options.
 
+---
+
+## A finding has a shelf life too — and a register over-reports as confidently as an empty one under-reports
+
+*Atlas, caught by the reckon challenge it was dispatched under.*
+
+A session closed itself "owner-blocked, nothing else remains" — **true of the ledger it was reading,
+false of the repo.** A second register (54 open rows in a section it had not been counting) sat beside
+the first, and nothing joined them.
+
+**But the deeper defect is what sampling found: of seven rows it could settle against the current tree,
+six were stale** — the finding already fixed, the row never updated. A config file now says oxlint where
+the row says eslint; a README documents the behaviour the row says is missing, twelve times; a progress
+note the row says was never written exists. **The true remaining count is neither 0 nor 54, and nobody
+can state it without a reconciliation pass.**
+
+> *"A register written during work and never reconciled after it over-reports exactly as confidently as
+> an empty one under-reports."*
+
+This extends the shelf-life rule past status assertions into findings themselves: **a finding was true
+when written, the tree moved, and nothing reconciled it.** The remedy is the same as for drifted
+citations — **the row needs re-verifying at read time, not at write time.** A register is a claim about
+a tree at a moment; the moment passes and the register keeps asserting.
+
+Same family as reckon's `unjoined`, the 83-day sync path, and the briefs needing ledger-id stamps so the
+next survey would not re-count them: **the register and the tree are two artifacts, and every question
+about "what remains" is a join between them.**
+
