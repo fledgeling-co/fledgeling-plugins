@@ -2570,3 +2570,61 @@ This is the third distinct route into the same hole: an exempted control, a cont
 and now a control whose configuration never arrived. All three produce a green that is honest about
 the wrong subject.
 
+---
+
+## The artifact advertises the property; the mechanism does not implement it
+
+*Google Drive Fixes, found by its own out-of-family lane. The sibling of the argument-swallowing class,
+and probably the commoner form.*
+
+A coverage page was **headed "every figure is recomputed"**. Its figure reader took only the **first
+integer of each table row**. So **16 published figures — the whole case-lane table, twelve lane cells
+and every percentage — sat under that heading asserted by nothing.**
+
+Same shape as a report answering to `--gate`: **the artifact advertises the property, the mechanism
+does not implement it, and both look identical from outside.** A reader takes the guarantee from the
+heading, which is the one part nothing checks.
+
+The generalisation worth carrying: **a document that states its own guarantee needs that guarantee
+tested like any other claim.** "Every figure is recomputed", "all paths verified", "generated from the
+register" — each is an assertion about a mechanism, made in the place least likely to be checked
+against it.
+
+---
+
+## A count can be arithmetically correct and attached to the wrong predicate
+
+*Google Drive Fixes, auditing four of its own published figures. The most useful self-audit in this
+corpus, because none of these were miscounts.*
+
+| published | actual | the predicate that slipped |
+|---|---|---|
+| "seven cases blocked on the five conditions" | **five** | matched words anywhere in a row's JSON, not in the `surface` field |
+| "no case closed at its own rung, all `macos-glass`" | 10 of 58 pass, four lanes | true of one item's **five** cases, generalised to fifty-eight |
+| "28 of 40 surfaces have no case" | **0** have none; 28 have no *armed* case | `armed: true` read as *has a case* |
+| "merged tree will be 2277" | 2282 | quoted the **branch's** total instead of computing the merged one |
+
+**Three went into dispatch prompts, two reached documents outside the repo, and every one was caught
+by the runner it was handed to — never by re-reading.** The last was made *while writing the entry
+telling others to carry a finding's denominator.*
+
+**The tell was available every time and it is one tell: the number came from a one-line query that was
+never checked against a known quantity.** The verification query for the 28 returned
+`surfaces enumerated: 0` — obviously false for a repo that states 40 elsewhere — and it was read past,
+because the wrong key was the bug being hunted.
+
+Two rules:
+
+- **Check a count against something you already know before publishing it.** Not a second query — a
+  quantity you already hold. A query that agrees with a broken query is two broken queries.
+- **Carry the predicate when you quote someone else's number.** *"28 with no armed case" survives being
+  copied; "28 with no case" does not.* A figure travels without its predicate by default, and the
+  stripped version is the one that reaches a decision.
+
+**And a third instrument misfire from the same session, on a question it was answering *about*
+instruments**: checking whether an unknown-flag refusal was live, it piped through `head -c 200` and
+read **`head`'s** exit status, so the refusal looked like exit 0 and the fix was nearly reported
+absent. That is this repo's own documented pipeline-exit trap, hit by the session that documented it.
+**`$?` after a pipe is the last command's**, and every gate in this corpus that has been read through
+a pipe has been read wrong.
+
