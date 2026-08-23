@@ -316,6 +316,14 @@ room* — and ask for the ceiling rather than assuming there is none.
   in_use 3` with `ceiling` collapsed from 6 to 3. Nothing was taken; capacity shrank. So
   **quote `available`, `ceiling` and the timestamp together** — the count alone cannot express
   the second case, and a peer holding it cannot tell which way it expired.
+- **A stale clearance expires in the generous direction too, so the receiving session must
+  re-measure at launch rather than only at planning.** Every case recorded here was a figure
+  going bad downward — the berths fill, or the ceiling collapses beneath them. Then a session
+  cleared for 2 read the machine itself at launch and found `in_use 0, available 12`, because
+  the capped 11 of 12 issued minutes earlier had already released. **A session that trusts a
+  conductor's number can therefore be left idling on capacity that has since freed**, which is
+  the same defect as over-dispatch wearing the opposite sign. Say *re-measure when you start*,
+  not merely *this figure expires*.
 - **A berth is only useful to work whose weight fits in it, so the last berth is often worth
   nothing at all.** On a single slot an inner `governor-run --weight 4` is refused at exit 75
   and the work runs **unwrapped** — a degraded run wearing a governed one's clothes, invisible
