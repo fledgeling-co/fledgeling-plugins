@@ -1797,3 +1797,68 @@ crop, a finding about code that was not in the packet. Grading the specification
 version of the same check: **an under-specified brief and a well-specified one produce output that
 looks identical, and only one of them is answering the question.**
 
+---
+
+## Ask what the instrument does not read
+
+*Proctor Design, via an out-of-family reviewer that was the only one to ask.*
+
+`shot_disposition.py` checks `captures.json` against the files on disk — correctly, and it passes.
+**It never reads `cases.json`.** So a case citing an image that is unpublished, misnamed or absent
+is invisible to it, and two separately-filed defects turned out to be instances of a class the
+instrument structurally cannot see.
+
+This is a **different probe** from the three already in this corpus, and it is the one that finds
+what they cannot. Those ask what a result means: a check returning nothing has two readings; a set
+returning members has two; an instrument can answer a narrower question than the one asked. All
+three interrogate the **output**. This one interrogates the **inputs** — and it fires on an
+instrument whose output is entirely correct.
+
+**Its form: name every register the check reads, then name the registers it does not, and ask what
+class of defect lives only in the gap.** A gate comparing A against B is silent about C by
+construction, and nothing in its output will ever hint that C exists.
+
+It took a reviewer to find it, and it took a reviewer *from another family* — one that had not seen
+the in-family reasoning and therefore had no reason to inherit its frame. A gate cannot ask this
+question about itself.
+
+---
+
+## Independent agreement is worth as much as disagreement, when the family was unexposed
+
+*Proctor Design, refining the case for the out-of-family lane.*
+
+The standing argument for that lane is that it **breaks** decisions — three times in one evening it
+refuted a claim the in-family work had settled, which is what a lane that only ever agrees can never
+do.
+
+The refinement: the same reviewer **agreed** with the item's central judgement — that inspecting a
+bitmap can verify the subject but cannot establish the capture target without fabricating metadata —
+independently, in its own words, and it was *the judgement its author was least sure of*.
+
+**That agreement carries real weight precisely because the family had not seen the in-family
+reasoning.** Two Claude instances agreeing may be one frame counted twice; a different family
+arriving at the same conclusion without the reasoning is evidence about the conclusion rather than
+about the frame.
+
+So the lane's value is not "it disagrees". It is that **its agreement and its disagreement are both
+informative**, which is only true while its inputs are genuinely independent — the same condition
+that makes any two-instrument agreement mean anything.
+
+---
+
+## A correction that arrives through a channel the rule was built for
+
+*Proctor Design, on the standing-grant relay it had declined.*
+
+It refused a relayed authorisation, correctly, and held that position for hours. The operator then
+answered **in that session's own channel**, and the position ended immediately.
+
+Worth recording because it is the rule succeeding rather than failing: *"your rule held right up to
+the point it stopped applying, which is what a good rule does."* A refusal to act on a peer's relay
+is not a commitment to the refusal — it is a statement about the **channel**, and it expires the
+moment a channel that can carry the decision does.
+
+The conductor's job around that is narrow: relay the *fact* that a decision exists so the peer knows
+what is coming, never the authority, and then get out of the way of the channel that can settle it.
+
