@@ -3973,3 +3973,21 @@ Three machine-wide rules from the mechanism:
 by design. The fix decision (whether failover may cross vendors when a specific model was requested)
 belongs to the proxy's owner.
 
+---
+
+## Account switching killed in-flight agents; the recovery is promotion, not restart
+
+*Splice, on collateral damage from the misroute incident.*
+
+Relay's account switching killed both Workflow runners **mid-turn** at ~14:25. Both were recovered by
+transcript promotion and now run **detached-headless, which has survived every switch since.**
+
+The recipe, for anyone whose runners die the same way: **`promote_agent.py` + detached resume — never a
+cold-restart.** A cold restart throws away the context the dead runner had built and re-derives it at
+full cost; promotion keeps the transcript as the resumable session.
+
+**And a probe correction from the same exchange: a session mid-dispatch with detached runners reads
+`shell` in the status field — orchestrating is not idle.** The fifth-shape taxonomy needs the
+distinction: a session waiting on notifications looks idle, and so does a session *running* them, from
+outside. Only asking — or watching for detached children — separates them.
+
