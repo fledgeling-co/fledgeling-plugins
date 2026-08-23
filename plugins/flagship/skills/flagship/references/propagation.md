@@ -2628,3 +2628,42 @@ absent. That is this repo's own documented pipeline-exit trap, hit by the sessio
 **`$?` after a pipe is the last command's**, and every gate in this corpus that has been read through
 a pipe has been read wrong.
 
+---
+
+## A backlog written from notes overstates how much of it is code
+
+*Errand, after three items in a row resolved to a corrected premise.*
+
+An item asked for a colour-scheme oracle because obscura's `setEmulatedMedia` is accepted and inert,
+so a dark-mode assertion measures a light render and **passes**. The trap is real, documented, and
+**absent from that codebase**: `grep -rl prefers-color-scheme` over the design, website and package
+trees returns **0 files**. The mocks express appearance with an explicit `?appearance=dark|light`
+query parameter, so there is no media-query assertion for an inert emulation to silently pass.
+
+**And the instrument the brief asked for already existed, built better than emulation** — fetching each
+surface twice under the two query values and comparing *rendered* readings field by field, with a live
+control in the same run and the pre-fix files served from a **separate tree**, so the old behaviour was
+measured rather than inferred from a diff.
+
+Three items in a row from that queue were a corrected premise rather than code. The diagnosis, which
+is the transferable part: **briefs written from a campaign's notes describe the general trap, and only
+grounding them against the tree establishes whether this repo has it.** That is not a failing backlog
+— it is what a notes-derived backlog is. But it means **a row count overstates the code remaining**,
+and a conductor sizing work from row counts will over-estimate every notes-derived queue in the
+portfolio.
+
+The cheap check before dispatching a runner at any such item: **grep for the thing the brief says is
+wrong.** If it is not there, the item is a re-scope and wants a reader, not a builder.
+
+**And that repo's existing instrument had independently reached this corpus's control rule, a week
+earlier and better stated:** it reports the *attribute* **beside** the tokens rather than instead of
+them, *"because the attribute changing is exactly what the previous grep believed and exactly what was
+false."* Same as *a control must prove it changed something before its result means anything* — arrived
+at from the observable side rather than the harness side.
+
+**What survived the re-scope is the honest remainder**: `prefers-reduced-motion` and `prefers-contrast`
+have no query-parameter equivalent and emulation genuinely cannot set them, so an assertion about
+either measures the default and passes. And the first step there is establishing whether *any* channel
+can set them at all — **because if none can, the right outcome is a named permanent limit rather than
+an instrument.** A limit recorded is a deliverable; an instrument that cannot work is not.
+

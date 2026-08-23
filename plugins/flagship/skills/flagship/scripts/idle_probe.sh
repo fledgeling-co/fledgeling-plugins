@@ -16,7 +16,12 @@
 #
 # Prints names, never durations: durations move every poll and would make every
 # poll a change, turning a change-driven watcher back into a polling loop.
-IDLE_SEC=${FLAGSHIP_IDLE_SEC:-300}
+# 60s, not 300s. The dwell exists only to skip a session mid-handoff; it is NOT
+# what keeps the loop quiet -- the delta comparison and --repeat-after do that.
+# Measured: at 300s the probe reported 2 idle while the runtime reported 8, and
+# the operator counted 9. A threshold added for noise control was suppressing
+# the signal, which is the same mistake as the mtime version one layer along.
+IDLE_SEC=${FLAGSHIP_IDLE_SEC:-60}
 EXCLUDE_FILE=${FLAGSHIP_IDLE_EXCLUDE:-$HOME/.claude/flagship/idle_exclude}
 BERTHS=${FLAGSHIP_BERTHS:-$HOME/Dev/fledgeling-plugins/plugins/harbourmaster/skills/harbourmaster/scripts/berths.py}
 
