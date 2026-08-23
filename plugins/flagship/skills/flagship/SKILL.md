@@ -539,6 +539,16 @@ positive control that could never resolve, so the suite could not have passed on
 join returning nothing and manufacturing a clean report; a grade marked `observed` sourced to
 the document that states the requirement; a sync recording success while dropping every update.
 
+**And one question covers the whole family, from the session that had to fold five of them into one
+document:**
+
+> **Before running a check, ask what its output would be under the hypothesis you are ruling out. If
+> it is the same output, the check cannot rule it out.**
+
+That single sentence covers the bypass flag that exits 0 above the gate line, the inert mutation, the
+empty join, the dead predicate and the zero denominator. *"They have been arriving all night as five
+findings and they are one question asked badly."* Ask it before the run, not after the green.
+
 Two rules cover all of it, and both came from sessions being wrong first:
 
 > **A check that returns nothing has two readings, and the instrument must say which.**
