@@ -108,6 +108,31 @@ EMPHASIS = re.compile(
     r"\b(?:MANDATORY|CRITICAL|REQUIRED|ABSOLUTE|FORBIDDEN|NEVER|ALWAYS|MUST)\b"
 )
 
+# Qualitative skill references: phrases that treat another skill as a lens,
+# principle, or style constraint rather than an executable phase gate with a
+# concrete artifact output. Measured on COD Dossier (23 Aug 2026): "Every design
+# decision goes through design-craft with ux-craft's lens" caused Gemini to skip
+# invoking both skills and jump straight to index.html generation.
+#
+# Kept high-precision, the same trade the quota and bound regexes make. A first
+# draft also fired on bare "via <path>" and "follows <anything>", which matched
+# 16 plugins repo-wide — including the gemini.md pointer lines themselves — and
+# buried the two real rows. Routing verbs plus a bounded gap plus a skill-shaped
+# name is the signal; everything looser is prose.
+_SKILL_NAME = (
+    r"`?(?:[a-z0-9_-]+:[a-z0-9_-]+|/[a-z0-9_-]+|"
+    r"[a-z0-9_-]+-(?:craft|review|audit|guide|sentinel|doctor|witness|fidelity|voice))"
+)
+QUALITATIVE_SKILL = re.compile(
+    r"(?:\b(?:goes\s+through|routes?\s+through|passes\s+through|filtered\s+through|"
+    r"through\s+(?:the\s+)?lens\s+of)"
+    rf"[^.\n]{{0,60}}?{_SKILL_NAME})"
+    r"|(?:\bwith\s+`?[a-z0-9_-]+`?'s\s+lens\b)"
+    r"|(?:\b[a-z0-9_-]+-(?:craft|review|audit|guide|sentinel|doctor|witness|fidelity|voice)"
+    r"`?'s\s+(?:lens|rules|guidance|principles)\b)",
+    re.I,
+)
+
 # ── Module triggers ───────────────────────────────────────────────────────────
 # Each module is (name, why it exists, trigger words). A module fires when the
 # skill's own text contains at least MIN_TRIGGERS distinct triggers, so a skill's
@@ -188,7 +213,7 @@ MODULES: list[tuple[str, str, tuple[str, ...]]] = [
 
 def scan(text: str, label: str) -> dict:
     lines = text.splitlines()
-    quotas, relatives, emphasis, bounds = [], [], [], []
+    quotas, relatives, emphasis, bounds, qual_skills = [], [], [], [], []
     distributives = prohibitions = 0
     for i, raw in enumerate(lines, 1):
         line = raw.rstrip()
@@ -208,9 +233,12 @@ def scan(text: str, label: str) -> dict:
         for m in EMPHASIS.finditer(line):
             emphasis.append({"file": label, "line": i, "word": m.group(0),
                              "context": line.strip()[:150]})
+        for m in QUALITATIVE_SKILL.finditer(line):
+            qual_skills.append({"file": label, "line": i, "phrase": m.group(0).strip(),
+                                "context": line.strip()[:150]})
     return {"quotas": quotas, "relatives": relatives, "emphasis": emphasis,
-            "bounds": bounds, "distributives": distributives,
-            "prohibitions": prohibitions}
+            "bounds": bounds, "qualitativeSkills": qual_skills,
+            "distributives": distributives, "prohibitions": prohibitions}
 
 
 def modules_for(text: str, min_triggers: int = MIN_TRIGGERS) -> list[dict]:
@@ -245,7 +273,7 @@ def main() -> int:
             texts.append((f"references/{r.name}",
                           r.read_text(encoding="utf-8", errors="replace")))
 
-    agg = {"quotas": [], "relatives": [], "emphasis": [], "bounds": []}
+    agg = {"quotas": [], "relatives": [], "emphasis": [], "bounds": [], "qualitativeSkills": []}
     distributives = prohibitions = 0
     for label, t in texts:
         s = scan(t, label)
@@ -263,6 +291,7 @@ def main() -> int:
         "quotaLedger": agg["quotas"],
         "boundLedger": agg["bounds"],
         "relativeQualifiers": agg["relatives"],
+        "qualitativeSkills": agg["qualitativeSkills"],
         "emphasis": agg["emphasis"],
         "modules": mods,
         "summary": {
@@ -271,6 +300,7 @@ def main() -> int:
             "prohibitionProse": prohibitions,
             "distributiveProse": distributives,
             "relative": len(agg["relatives"]),
+            "qualitativeSkills": len(agg["qualitativeSkills"]),
             "emphasisTokens": len(agg["emphasis"]),
             "modulesTriggered": [m["module"] for m in mods],
             "minTriggers": a.min,
@@ -285,14 +315,14 @@ def main() -> int:
     print(f"target      {p}")
     print(f"scanned     {', '.join(result['filesScanned'])}  ({result['lines']} lines)")
     print(f"quota rows  {s['categorical']}   bound rows {s['bounds']}   "
-          f"relative {s['relative']}   emphasis {s['emphasisTokens']}")
+          f"relative {s['relative']}   qual skills {s['qualitativeSkills']}   emphasis {s['emphasisTokens']}")
     print(f"            (loose prose, not ledger rows: {s['distributiveProse']} "
           f"distributive, {s['prohibitionProse']} prohibition)")
     print(f"modules     {', '.join(s['modulesTriggered']) or '(none — core only)'}"
           f"   [>= {s['minTriggers']} triggers]")
     for m in mods:
         print(f"              {m['module']:<16} {m['matchCount']:>2} hits — {m['why']}")
-    if s["categorical"] == 0 and s["relative"] == 0 and s["bounds"] == 0:
+    if s["categorical"] == 0 and s["relative"] == 0 and s["bounds"] == 0 and s["qualitativeSkills"] == 0:
         print("\nNothing to quota and nothing to bound. Say so in the file rather\n"
               "than inventing rows — a skill with no unbounded scope needs no ledger.")
         return 0
@@ -316,6 +346,20 @@ def main() -> int:
             print(f'  {b["file"]}:{b["line"]:<5} "{b["phrase"]}"')
         print(f"  ({s['prohibitionProse']} prohibitions in prose, not listed — the ones")
         print("   attached to a countable property belong in the ledger too.)")
+
+    if result["qualitativeSkills"]:
+        print("\n── qualitative skill references: convert to sequential artifact gates ──")
+        print("  Google: 'make each step a prompt and chain the prompts together in a sequence'.")
+        print("  On the one measured run with 'goes through X with Y lens' phrasing (COD")
+        print("  Dossier), both skill invocations were skipped. Convert each into a phase")
+        print("  whose output is a concrete file (e.g. DESIGN.md) a later phase reads.")
+        seen = set()
+        for qs in result["qualitativeSkills"]:
+            key = qs["phrase"].lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            print(f'  {qs["file"]}:{qs["line"]:<5} "{qs["phrase"]}"')
 
     print("\n── relative qualifiers: replace with a measurable bound ──")
     seen = set()

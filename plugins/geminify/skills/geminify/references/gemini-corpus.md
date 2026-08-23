@@ -110,6 +110,43 @@ On sampling parameters:
 
 ---
 
+## Core: tier drift across the 3.x family
+
+Gathered 23 August 2026 from the Gemini 3 developer guide, the Gemini 3.5 Flash
+release notes, the Gemini 3.7 Flash launch post, and the function-calling guide.
+
+From the Gemini 3 developer guide:
+
+> If thinking_level is not specified, Gemini 3 will default to high.
+
+> Be concise in your input prompts. Gemini 3 responds best to direct, clear instructions. It may over-analyze verbose or overly complex prompt engineering techniques used for older models.
+
+From the Gemini 3.5 Flash release notes — the default changed mid-family:
+
+> The default thinking effort is now medium, changed from high in Gemini 3 Flash Preview.
+
+> Higher thinking levels encourage the model to use more tools to explore and verify, so lowering the level can reduce tool calls.
+
+Its suggested tool-budget system instruction:
+
+> You have a limited action budget of <n> tool calls. Use them efficiently.
+
+From the Gemini 3.7 Flash launch post — a Flash-vs-Flash claim; Google publishes
+no Pro-vs-Flash instruction-adherence comparison:
+
+> It better adapts to roadblocks, clarifies intent when needed, and follows instructions with greater fidelity.
+
+> A more disciplined execution means less manual oversight and fewer retries across engineering workflows.
+
+From the function-calling guide's modes table — forced execution exists at the
+API layer, where the caller controls the request:
+
+> any: Model is constrained to always predict a function call.
+
+> auto (Default): Model decides whether to call a function or respond directly.
+
+---
+
 ## Core: structure, and where the instruction goes
 
 > Use consistent structure: Employ clear delimiters to separate different parts of your prompt. XML-style tags (e.g., `<context>`, `<task>`) or Markdown headings are effective. Choose one format and use it consistently within a single prompt.
