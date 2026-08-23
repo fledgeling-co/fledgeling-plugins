@@ -2764,7 +2764,16 @@ nobody intended**. The fix matters not because this gate is red but because it r
 checks.
 
 **A consequence worth carrying: making the red gate green is what makes six other gates run for the
-first time.** So that merge changes what the hook *does*, not only what it says, and the first push
+first time.**
+
+**CORRECTED hours after being written, by the session whose tree it described: vacuity went green when
+ORD-0166 merged, and all eight gates now run.** The relayed version — that its merge "makes six gates run
+for the first time" — was **true when recorded and false when repeated**, which is this corpus's
+shelf-life failure arriving in the half a conductor cannot re-derive: **a claim about someone else's
+tree.** What remains true is subtler and better: the gates have never run **on a push**, because `sh -e`
+stopped at line 13 and until that merge the first failure was always there. **So the first real push is
+their first execution in anger, and the hook fix is what makes a failure during that push legible rather
+than silent.** So that merge changes what the hook *does*, not only what it says, and the first push
 after it is the first time five of those checks meet a real tree. That is an argument for *fix* over
 *bypass* that did not exist before the hook defect was found.
 
