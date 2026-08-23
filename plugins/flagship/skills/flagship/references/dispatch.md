@@ -24,6 +24,13 @@ note as state — to the operator, or in a decision — open the report it summa
 note answers "what did the runner say"; the report answers what the runner found, and
 those diverge precisely when the summary is load-bearing.
 
+And the stronger fix for the class, named by the session that hit it: **give the summary
+something mechanical to disagree with.** Re-reading the report is discipline; a hash, a
+count, or a cross-file match is an instrument — the same night, a stale README bullet and
+a stale ledger note failed identically, but the README had a contract-check hash to catch
+it and the note had nothing. When a summary is load-bearing, attach it to something a
+machine recomputes, or it will drift the way notes drift.
+
 ## The completion-report obligation
 
 Every dispatch states its own report: what to send back, and that silence is not a state.
