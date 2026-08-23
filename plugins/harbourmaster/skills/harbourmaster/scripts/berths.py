@@ -154,6 +154,42 @@ def report() -> dict:
     # the field would count it three times over.
     used = len(occupied)
     orphaned = [o for o in occupied if o.get("claimant_alive") is False]
+
+    # `occupants` is one row PER SLOT, and each row repeats its job's declared
+    # `weight`. That is honest and it is a footgun, because the obvious thing a
+    # consumer reaches for — `sum(o["weight"] for o in occupants)` — counts a
+    # weight-8 job eight times. Measured 2026-08-23: 10 rows, 2 distinct pids,
+    # and that sum returned **68 against a capacity of 12**. Not subtly wrong;
+    # 5.7x the machine, with nothing in the output to say so.
+    #
+    # The comment above warned about it and the JSON did not, which is the whole
+    # defect: a caveat a consumer cannot see is not a caveat. So `claims` is the
+    # deduplicated view — one row per distinct claim, carrying how many slots it
+    # actually holds — and summing `slots` over it equals `in_use` by
+    # construction. Reach for `claims` to size or attribute a hold; `occupants`
+    # stays per-slot for anything that needs the slot indices.
+    claims: list[dict] = []
+    for o in occupied:
+        key = (o.get("pid"), o.get("project"), o.get("label"), o.get("started_at"))
+        for c in claims:
+            if c["_key"] == key:
+                c["slots"] += 1
+                break
+        else:
+            claims.append({
+                "_key": key,
+                "pid": o.get("pid"),
+                "project": o.get("project"),
+                "label": o.get("label"),
+                "command": o.get("command"),
+                "declared_weight": o.get("weight"),
+                "qos": o.get("qos"),
+                "started_at": o.get("started_at"),
+                "claimant_alive": o.get("claimant_alive"),
+                "slots": 1,
+            })
+    for c in claims:
+        del c["_key"]
     top = ceiling(snap)
     gate = hard_gate(snap)
     return {
@@ -167,6 +203,12 @@ def report() -> dict:
         "degraded": snap.get("degraded", False),
         "hard_gate": {"axis": gate[0], "reason": gate[1]} if gate else None,
         "occupants": occupied,
+        # One row per distinct claim. `sum(c["slots"] for c in claims)` ==
+        # `in_use`; summing `occupants[*].weight` does not, and is the trap.
+        # `declared_weight` is what the job asked for, repeated here once
+        # rather than once per slot.
+        "claims": claims,
+        "distinct_claims": len(claims),
         # Berths whose original process is gone but whose lock a descendant
         # still holds. Normal during a build; a standing count here with an
         # idle machine means something was left behind.

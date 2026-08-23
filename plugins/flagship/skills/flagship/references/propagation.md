@@ -1866,7 +1866,7 @@ what is coming, never the authority, and then get out of the way of the channel 
 
 ## Two instruments partition a question, and neither knows the partition exists
 
-*Splice, filed as DEF-091, and findable only after a merge.*
+*Splice, filed as DEF-091. Not revealed by a merge — **created** by one.*
 
 Two branches each bound their closed defects to a guard, by different mechanisms. Of **71 closed
 defects, seven carry a `reproduction`**: six of kind `guard` — exactly one author's own — plus one
@@ -1890,15 +1890,38 @@ every gate green. **What the caveat did not anticipate is that they compose with
 other.** Composition and coverage are different properties and passing the first says nothing about
 the second.
 
-**Two things only the merge could prove**, which is the operational lesson — some defects are not
-reachable from any single branch:
+**And the reason that is not obvious**: passing composition *feels* like evidence for coverage,
+because both are answered by "do these work together", and a merge clean at row level with every gate
+green is exactly what a coverage proof would look like. The caveat that was written was not lazy — it
+**named the right axis and then tested its neighbour**. *A caveat that names the risk and measures its
+neighbour is worse than none, because it reads as discharged.*
+
+**The merge did not reveal these — it created them, and the distinction changes the advice.**
+Measured: **0 + 0 = 15.** Both branches were individually green *on the very instruments that fired*,
+each verified by its own fresh-context verifier; the merged tree produced fifteen findings. The
+allocator and its bypass detector did not exist on one branch; the six hand-written case rows did not
+exist on the other. **The finding was not present in either** — six ids written by hand were a fact
+about that branch and *not a defect until a bypass detector existed*, and the partition did not exist
+until both mechanisms did.
+
+*"Not reachable from any single branch"* invites looking harder in branches, which cannot work.
+**"Created by the merge" gives the actual instruction, and it is cheap: resolve, run everything on the
+merged tree, fix, then commit — in that order.** Committing first and gating after would have put a
+fifteen-finding tree into `main`, to be found later or not at all.
+
+Two of the fifteen are worth naming:
 
 - The shared allocator caught **six hand-written case ids** the moment both halves met, written by
   hand because the allocator did not exist yet, and named all six with its own `--adopt` remedy.
 - The artifact oracle caught the merge making the published pages stale — 171 cases printed against
   a register of 177 — and **the first regeneration produced a page with no embedded images, on which
   the oracle exited 2 rather than passing.** *A page with no pictures is not a page with correct
-  pictures*: an empty-population floor firing on its own author.
+  pictures*: an empty-population floor firing on its own author. **And the floor was not written for
+  that case** — it was written so an empty *capture* population could not read as clean, and it caught
+  an empty *embed* population produced by a forgotten regeneration flag. **A floor written for one
+  empty population caught a different one**, which argues floors should be structural rather than
+  per-case: classify the whole space, refuse the unclassified, and you catch what you did not
+  enumerate.
 
 And the register merged **row-level with zero both-changed rows**, where `-X ours` would have kept
 six false findings.
@@ -1953,4 +1976,40 @@ command, never the server* — follows from that rather than being a separate ti
 And the supervised-tail wrinkle: the holder pid **moves** when a runner restarts the server, so the
 pin recurs per restart. Watching for a long-lived pid finds nothing; the tell is that **the berth
 count never drops between holders.**
+
+---
+
+## A caveat a consumer cannot see is not a caveat
+
+*MCP Router, auditing the instrument the whole fleet reads for admission.*
+
+`berths.py` emits `occupants` as **one row per slot**, each repeating its job's declared `weight`. So
+the obvious consumer operation — `sum(o["weight"] for o in occupants)` — counts a weight-8 job eight
+times. Measured: **10 rows, 2 distinct pids, and that sum returns 68 against a capacity of 12.** Not
+subtly wrong; 5.7× the machine, with nothing in the output to say so.
+
+**The source already carried the warning**, in a comment directly above the line: *"summing the field
+would count it three times over."* The JSON did not. **A caveat that lives where the consumer cannot
+read it has not been given** — and the consumer of a script is whatever parses its stdout, never
+whatever opens its source.
+
+Fixed by making the correct operation the obvious one: a deduplicated `claims` array, one row per
+distinct claim carrying the `slots` it holds, where `sum(c["slots"]) == in_use` by construction.
+
+Three more results from the same audit, and the discipline is as valuable as the findings:
+
+- **A negative result, stated as a result.** The memory and disk blocks answer the question their key
+  names claim — `free_pct` 41 against `vm_stat`'s 40%, `free_gib` 231.9 against `df`'s 232Gi — and
+  disk correctly reads `/System/Volumes/Data` rather than the read-only volume that reports 5%.
+  "Audited and found nothing" is a finding; leaving it unsaid makes the audit look narrower than it was.
+- **`ceiling` moved 10 → 12 between two reads minutes apart with the same two claimants**, so
+  `available` went 0 → 2 **with nothing released**. Whatever drives the ceiling is not occupancy, and a
+  consumer reading `available` as "slots I may take" watches it move for reasons the output does not carry.
+- **`held_by_descendants` recorded as UNTESTED rather than correct.** The key exists and reads 0; a
+  descendant case could not be constructed without starting work the session was held from starting.
+  *"I would rather leave it visibly open than let a 0 stand as a pass"* — the whole exercise in one
+  line, since a 0 from an untested predicate is exactly the absence-read-as-success this corpus is about.
+
+And its closing read on its own tooling: *"berths currently reads `available 2`, which after tonight I
+am reading as 'do not trust the 2' rather than 'take both'."*
 
