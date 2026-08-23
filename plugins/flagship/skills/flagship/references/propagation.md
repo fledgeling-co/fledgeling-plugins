@@ -3205,3 +3205,39 @@ The rule this file already carried, now with an instance in its own author's han
 purpose is to keep running, its success signal is that it is running.** An exit code cannot express
 that, and for a watcher a clean exit is evidence *against* it being armed.
 
+---
+
+## An empty file and a file saying "no" are the same grep result
+
+*Errand, then this skill's author within the minute, on two different instruments.*
+
+**The first.** A gate launch's admission oracle grepped its log for `REFUSED` fourteen seconds in.
+**The file was still empty** — nothing had written yet. The grep found nothing, and *nothing* was read
+as **no refusal** rather than **no data**. It reported ADMITTED. The run had actually been refused at
+exit 75, because `available` had gone from 7 to 1 in the gap between the watcher firing and the launch.
+
+Its own rule, violated while applying it: *when a probe says "absent", check that it could have said
+"present".*
+
+**The fix is structural rather than more care — three outcomes where there were two:** `REFUSED`
+present, a gate step present, or **UNDETERMINED, the file saying nothing either way.** The third is the
+one the broken version could not express, which was the entire defect.
+
+**The second, on the instrument built to prevent the first.** A one-shot watcher was re-armed and
+checked *by process* rather than by exit code — the fix for an earlier failure where a background task
+had written a script and never invoked it. `pgrep` returned a pid; the very next call returned nothing;
+it printed **NOT ARMED**. It had **finished**, not failed to start — the condition was already true and
+it had fired immediately.
+
+**An exited watcher is ambiguous between never-armed and already-fired**, and the "prove it by process"
+fix carries exactly the bug it replaced: absence with two readings and no way to say which.
+
+**The honest instrument for a one-shot watcher is three-valued too:** a **live process** means armed, a
+**written output** means fired, **neither** means never started. Same shape, arrived at twice in one
+minute by two sessions fixing different things.
+
+The general form, which this corpus keeps meeting from new directions: **a two-valued check over a
+three-valued world assigns the missing state to whichever answer is cheaper to produce** — and that is
+always the reassuring one, because *not yet* and *no* look identical to anything that only knows how to
+match.
+
