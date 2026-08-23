@@ -1322,7 +1322,30 @@ zero record overlap.
 `ps -Axo state=,command=`. `argv[0]` is the **bare PATH-resolved name**, so the line reads
 `'S    claude --dangerously-skip-permissions …'` and `claude` is preceded by the state column's
 whitespace, which is neither `^` nor `/`. Both alternatives fail. Measured on a 1,459-process
-snapshot: **20 real, 0 matched.** `\b` catches all twenty.
+snapshot: **20 real, 0 matched.**
+
+**And the fix first published here was wrong — corrected by a third session with its own
+measurement, which is the whole point of routing a finding rather than acting on it.** Over 1,425
+processes:
+
+| predicate | matches |
+|---|---:|
+| `(^\|/)claude(\s\|$)` | 0 |
+| `\bclaude\b` | **38** |
+| `pgrep -x claude` (ground truth) | **15** |
+
+`\b` does not catch twenty — it catches 38, of which **22 merely mention `.claude` somewhere in a
+path**: shell snapshot sources, a ruby gem, node invocations. Only 16 have `claude` as argv0.
+
+**The cause is also not primarily PATH resolution.** In the verbatim lines the string mostly appears
+as **`.claude`, a dot-directory component** — so `(^|/)` fails on the leading dot and `(\s|$)` fails
+on the trailing slash. The bare-name observation still holds for `node` in some form
+(`(^|/)node(\s|$)` gets 5, `\bnode\b` gets 9, and node *is* invoked by absolute path there), but
+the mechanism behind that one is unchased.
+
+**The fix that is not another wrong number: match argv0, not the command line.** Split the line,
+take field 1 after the state column, compare its basename. Anything regex-over-the-whole-line trades
+one wrong count for another — *this evening's pattern arriving in the instrument everyone reads.*
 
 **The part that generalises: it is not uniformly broken.** In the same snapshot `xcodebuild`
 matched, because it was invoked by absolute path. So the instrument **works in any test that
@@ -1362,7 +1385,7 @@ minutes apart and each believed their own number, and why a `swift-frontend` rea
 live processes cannot be classified: **"the process ended" and "the number is old" are
 indistinguishable from the output.**
 
-The structural fix ranks above the regex fix: **a family count of zero must be distinguishable from
+The structural fix ranks above any matching fix: **a family count of zero must be distinguishable from
 a family the matcher cannot see.** They are the same integer today, which is what let this survive
 being read by twenty sessions rather than being noticed once.
 
@@ -1447,4 +1470,291 @@ Two sweep corrections from the same session, both worth copying as worked exampl
   argument-less, **exited 2, printed their docstrings, and were counted as passing.**
 - A denominator column took the **first** `examined=` per tool, reading 19 where the tool's own
   total says 168.
+
+---
+
+## A count over a field with no declared grammar is not computable, and everyone picks one silently
+
+*Splice, correcting a figure it had already sent as fact.*
+
+It relayed **13 of 30** declared source paths rotted. Its verifier could not reproduce it: **8**
+strictly, **11** on a wider reading, with its own out-of-family lane reaching 8/11 independently.
+Splice then counted again itself and got **11 with three different members** — `SURF-035/-036/-041`
+where the verifier had `-048/-054/-055`.
+
+**Four careful readers, four answers.** The root cause: the `source` field holds **four distinct
+grammars and has no parser**. Measured on `main` across the 76 records carrying one:
+
+| grammar | count | example |
+|---|---:|---|
+| plain path | 54 | `docs/PRD.md` |
+| path + section anchor | 20 | `docs/PRD.md §1.2` |
+| several paths in one string | 1 | `REQ-023` |
+| `path:line` | 1 | `docs/MARKETING-FEATURES.md:23` |
+
+A naive existence check over all 76 returns **37**, almost all false, because a section anchor is
+not a path. **No count over that field was ever computable without first declaring the grammar,
+and each reader silently picked one.**
+
+So the correction is not 8 or 11. **The figure needs its predicate published beside it.** That
+repo had already learned this once — a `32` and a `25` in the same document were *both derivable
+under different predicates*, and the recorded lesson was **the defect was never the value, it was
+the missing predicate.** Same shape, one field lower.
+
+The sting: the number was asserted in **five places including inside `inventory.json` itself**, in
+an item titled *the campaign's own records must not lie*. The thesis failed on itself, and it was
+propagated before it was checked.
+
+---
+
+## "It has never fired" is a claim about your attention, not about the hazard
+
+*Splice.*
+
+Its own note read that DEF-084 *"has never fired because every id was allocated serially from the
+main checkout."* Then the new gate ran for the first time and found `LEDGER.md` reading
+`Last allocated: 76` over a table **already holding SPL-0078** — the lost-write signature, present
+in the tree at base, before the item touched anything.
+
+**The defect had already fired and nobody had noticed.** The register held the evidence the whole
+time. A hazard reasoned about in the abstract had a live instance sitting in the file being
+reasoned about.
+
+Companion measurement from the same run: **13 of 30 declared source paths had already rotted** —
+43% silent decay, which is what the `(path, symbol)` pair was built to catch and what nothing had
+been looking at.
+
+---
+
+## A critic catches the flaw at the top level and the same flaw survives one layer down
+
+*Splice, and the strongest single argument in this corpus for keeping the out-of-family lane
+mandatory even when it is single-lane and degraded.*
+
+An out-of-family critic broke the item's central claim and was right: the first `id-allocation.py`
+was a **static register parser that never invoked the allocator**, so reverting the lock would have
+left every assertion green. DEF-068 and DEF-084 were closed *by arming*, not *by construction*.
+
+**The repair then reproduced the flaw one level down.** `test-allocate-id.py` drives `--kind
+feature` only. The lock, journal and floor are shared across kinds, which is why the three reverts
+correctly go red — but the **campaign-kind write path is driven by nothing**, and reintroducing
+DEF-068's read-modify-write for `DEF-` ids leaves both new instruments at exit 0. So the defect the
+item is *named for* is constructional for the half it shares and armed-once-by-hand for the
+delegation half.
+
+**Third time in one evening the out-of-family lane earned its cost by breaking a decision rather
+than confirming one.** A lane that only ever agrees is not paying for itself; these three did the
+opposite, and that is the argument for keeping it even at a downgrade.
+
+---
+
+## A field that records what goes red for open defects records nothing for closed ones
+
+*Splice, measured after flagging it as a suspicion.*
+
+The `reproduction` field was designed to move from `owed` to `oracle` or `case`. **That is
+unsatisfiable for a fixed defect**: both kinds verify against registers of *standing red* signals,
+and a fixed defect has none. So the field records what would go red for **open** defects and
+**nothing at all for the guards protecting closed ones** — which makes every such guard exactly
+the accidentally-load-bearing assertion the design was built to eliminate.
+
+Confirmed by reverting it rather than arguing it: `reproduction-obligation.py` **`continue`s on a
+missing record**, so deleting a defect's `reproduction` block leaves the gate at **exit 0** with
+its population silently 6 → 5. The binding is removable without a sound.
+
+**This design has been propagated to three repos.** They need a sixth state before building
+further — *this is fixed, and this is what catches it coming back*.
+
+---
+
+## The trigger was a linked worktree, and the general claim hid the condition
+
+*Google Drive Fixes, correcting a brief it had asked to be distributed.*
+
+Its brief said *"Git exports `GIT_DIR` into hook processes."* Measured over four real pushes on git
+2.50.1, then reproduced independently against a sacrificial repo and a bare local remote:
+
+| pushed from | `GIT_DIR` in the hook |
+|---|---|
+| a normal checkout (root or subdirectory) | **unset** |
+| a **linked worktree** (`git worktree add`) | **set**, to `<main>/.git/worktrees/<name>` |
+| a caller-set value | passes through |
+
+**So the trigger is a linked worktree, and that alone explains sixty-two green runs followed by one
+destructive push** — the check was exercised from a normal checkout; the push that broke things came
+from a worktree.
+
+The general phrasing was worse than wrong, it was *misdirecting in both directions*: a project that
+never uses linked worktrees is not at risk at all and would have patched something it does not have,
+while a worktree-using project reading the corrected table could conclude the general claim was the
+overstatement rather than the condition being the point. **Every fleet here works in `.worktrees/`,
+so every fleet is permanently in the affected case.**
+
+**And the correction carried the same shape it was correcting.** The runner fixed the measured table
+at lines 39-47 and the runner block, and left **line 14's headline** reading the old general claim —
+in the one file whose entire purpose is being copied verbatim, where a reader may take only the
+opening sentence. *Detail corrected, headline left.* Re-pull any brief circulated before that fix.
+
+---
+
+## `${VAR:-default}` cannot distinguish unset from empty
+
+*Google Drive Fixes. One character, and it fails toward under-reporting.*
+
+A probe printed `GIT_PREFIX=[UNSET]`; the runner reported it **set but empty**. The runner was
+right. `${GIT_PREFIX:-UNSET}` substitutes for **unset or empty**; `${GIT_PREFIX-UNSET}` — no colon —
+distinguishes them. Anyone probing environment inheritance hits this, and it under-reports what a
+child actually receives, which is the direction that manufactures a false absence.
+
+---
+
+## A coverage mechanism that asserts the union cannot see a substitution
+
+*Google Drive Fixes, found inside the mechanism written to make a trim visible.*
+
+Its coverage check asserted the **union** of tags, so a retag stayed green because two other cases
+carried the same name. The same substitution shape as SCR-0080 — appearing inside the instrument
+built to catch it.
+
+Alongside it, a refutation worth keeping because the direction was right and the accounting wrong:
+*"the seconds are 62 process spawns, not 62 checks"* — actually **40 of the 62 checks cost 37 ms
+between them**, while `build_fixture` was 1.412 s over ~65 git spawns (50%) and per-case `sh`
+spawning 1.166 s (41%). Acting on the framing alone would have recovered 41% and called it done.
+The quoted `3.5-4.3 s` did not reproduce either: 2.19-2.97 s.
+
+Result after repair: **2.19-2.73 s → 0.73-0.97 s**, measured old-against-new in **alternating runs
+so both figures share a load window** — the right answer on a machine that moved between 0.5 and 441
+in one day. Fixture rebuilt as `git init` + `git fast-import`: 1.412 s → 0.068 s. Checks 62 → 86,
+nothing dropped, and the port checked against the script it replaces over 1,593 distinct paths with
+**1 difference, the intended one**.
+
+---
+
+## Two blockers that both present as an unarmed case
+
+*Graft.*
+
+**"The harness cannot express this cell" and "the product has no such distinction" are different
+blockers and they look identical from the register.** Closing BLOCK-0002 split into three causes:
+the config gap (real, fixed — `playwright.config.ts` carried only `use: { baseURL }`, so the suite
+could be green over every spec and never reach a 1440-dark cell); an absolute
+`file:///Users/…/index.html` route resolving on one machine only (**the file tracked, the recorded
+path not**); and the deciding one — `design/marketing/index.html` has **zero `prefers-color-scheme`
+blocks and zero width media queries**, so at 1440-dark it renders identically to 390-light and a
+test there would pass while distinguishing nothing.
+
+Arming that case was the easy half and the dishonest one. It needs an owner decision — the cell is
+wrong for a surface with no theme axis, **or** marketing is missing dark mode and that is a product
+gap — not a test. Recorded unarmed *with the cause*.
+
+**The test for the split: whether every case in a cluster fails for the same reason, not whether
+the cluster's summary reads coherently.** Graft split four cells into two clusters on their recorded
+reasons and still merged two causes inside one of them. Splitting once was not enough.
+
+The arming pair it produced is the shape worth copying, because **each mutant fails on its own
+axis**:
+
+```
+mutant-light  (1440, light)  -> BOTH tests fail
+mutant-narrow (390,  dark)   -> ONLY the width test fails; matchMedia correctly still passes
+restored                     -> 2 passed
+```
+
+Two-way assertions throughout, because a dark check that only asserts the dark value passes on a
+page that hardcodes it. And a `default` project deliberately carrying **no** viewport or
+colorScheme, so the 149 existing specs run exactly as before — **a suite that changes under a
+config edit cannot be the control for that edit.**
+
+---
+
+## A signal visible to every runner and disbelieved by the only party who could act
+
+*Warden Design, correcting itself.*
+
+Two runners reported a pre-existing gate failure. Warden refuted them — and was wrong, having
+checked `main`, where the untracked files happen to sit on disk, rather than a worktree, where they
+do not. It made **exactly the error it had just finished documenting**: reading a green from a
+checkout that carries files git does not.
+
+**The instrument that settles it is a branch that could not have caused the failure.** WAR-0054
+touched no captures, so its exit 1 is the baseline with nothing of its own mixed in: 3 claims, all
+CASE-002 and CASE-020. Neither reading the report nor checking main separates the two.
+
+So: **a runner reporting a pre-existing failure is a claim like any other — and so is an
+orchestrator refuting one.** The right scepticism applied in the wrong direction, needing a third
+branch to settle.
+
+And the defect sharpens one more turn: **`campaign.py check .campaign` has been failing in every
+runner worktree this whole fleet while passing in the orchestrator's working directory.** Not merely
+invisible to the gate on main — *visible to every runner and explained away by the one party
+positioned to act on it.*
+
+The separable remainder is a schema problem rather than a missing capture: two cases carry **prose**
+in an `evidence` field that a `raster-visual` artifact check resolves as a filename, so
+`marketing-frame.py --gate -> 7 checks, 0 failed; …` is reported as a missing pixel artifact.
+
+---
+
+## A schema problem wearing a missing-capture's clothes
+
+*Warden Design, acting on "say it on the case".*
+
+A gate resolved **every** entry of a `raster-visual` case's `evidence` field as an artifact path.
+Two cases listed the captured frame's path *and then a sentence* describing what the measurement
+found — so the sentence was reported as a missing pixel artifact, printed **directly beside two
+genuinely absent captures and indistinguishable from them**.
+
+The reported "5 pixel claims with no usable pixels" was **3 real and 2 schema**, and the schema pair
+made a real pre-existing defect look half again as large as it is. Moved to `note` and kept rather
+than deleted, with the note saying why.
+
+**The transferable shape: two different defects printed under one heading, where the louder one
+recruits the quieter one into its count.** It inflates a real number rather than inventing a fake
+one, which is exactly why nobody questions it. Look wherever a gate resolves a free-form field as a
+path.
+
+Same session, the register question one turn further: warden's *new* capture row carries `sha256`,
+`bytes`, `capturedAt`, `derivedFrom` and the full CDP channel spelled out — written at the shutter
+by a runner that did not know the register question existed. **So the register is thin in the old
+rows and correct in the new one: the gap is historical rather than structural.** It still does not
+move the decision, for the reason measuring cannot reach — a hash is not pixels, and the rung claims
+pixels.
+
+---
+
+## Code inside a string has two parsers, and the outer one wins silently
+
+*Diolog Presentations.*
+
+A file generating JavaScript inside a `String.raw` template bit three distinct ways in one session:
+
+- a **backtick in a comment** closed the template;
+- a bare **`${`** inside a regex character class opened an interpolation;
+- **slicing the block out to test it kept the source-level escapes**, so the extracted copy behaved
+  differently from the shipped one — a control that was not the thing it controlled for.
+
+**None of the three produced an error where the mistake was.** The general form: code-in-a-string
+has two parsers, the outer one wins, and it wins quietly. Sibling of the same session's three copies
+of one allow-list, where the copy that actually shipped was the one inside the template.
+
+---
+
+## An idle session is not necessarily yours to fill
+
+*Diolog Presentations, declining work.*
+
+Offered something to do while idle, it refused on grounds worth keeping: *"My queue is Luke's to
+fill. A peer handing me work would route around the person who decided this session's scope, and
+'the session looked idle' is not a reason to change what it is for."*
+
+**Idle is a legitimate state for a session between its user's instructions**, and a conductor's
+starvation watch cannot tell an under-fed session from a correctly-scoped one that is waiting. The
+same session had been excluded from the fleet by its user at the outset — so a conductor apologising
+for not dispatching to it was apologising for respecting a boundary it did not know existed.
+
+Ask what a quiet session needs. Do not assume the answer is work, and do not assume it is yours to
+supply.
+
+It also declined the berth for the reason worth copying: *"nothing in flight, so a berth I hold is
+one Graft or Warden cannot."*
 
