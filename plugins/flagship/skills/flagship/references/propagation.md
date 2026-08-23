@@ -2015,7 +2015,7 @@ am reading as 'do not trust the 2' rather than 'take both'."*
 
 ---
 
-## The instrument being fixed was not the instrument that was running
+## The thing that ran is not the thing you inspected
 
 *This skill's own author, and the second time in one night for the same family.*
 
@@ -2036,6 +2036,26 @@ cache. **A fix verified against the source is not a fix to the running system, a
 indistinguishable from the test output.** Before debugging a live symptom, establish *which file the
 running thing actually loaded* — `TaskStop` naming the command, a `ps` line, an install manifest —
 and diff it against the one being edited.
+
+**Three routes to the same failure, measured on this machine in one night, and the third is the one
+no diff would have caught:**
+
+| route | what you inspect | what runs |
+|---|---|---|
+| **Installed copy** | the repo source | a copy under `~/.claude/`, or a plugin cache |
+| **Stale cache** | a Dev checkout | the version a session actually loaded |
+| **PATH shadowing** | `find`'s behaviour | `bfs`, answering to the name you typed |
+
+The third is glm-cf's: **`bfs` shadowing `find` broke a wait-loop invisibly** — the script was
+correct, the binary was not the one it was written against, and nothing in the failure named a
+different program. A file diff cannot find that one, because there is no second file to diff; the
+check is `type -a <name>` before trusting a tool's semantics in a script that others will run.
+
+**What unites all three: the artifact you reasoned about and the artifact that executed were different
+objects, and every test you ran was honest about the wrong one.** The general discipline is to
+establish identity before behaviour — which file, which version, which binary — and to do it *first*,
+because every symptom afterwards is consistent with both the bug you are hunting and the one you
+cannot see.
 
 The three defects underneath were real and are worth keeping, because each was found only because the
 fix before it was controlled rather than assumed:
