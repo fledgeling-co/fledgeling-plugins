@@ -3338,3 +3338,71 @@ worth more than the inference, because it is the only one with the tree.
 that fleet's work claimed a berth, so the board was missing it entirely. That was true and independent
 of the accumulation question, and the session adopted the wrapping on it.
 
+---
+
+## A passing disjunction hides which half carried it
+
+*Graft, on an effect-witness rung's fourth part — which passed, and it did not believe it.*
+
+The sabotage assertion was a **disjunction**: *the route refused, **or** it wrote nothing.* It passed.
+**A passing disjunction does not say which disjunct held**, and the two mean opposite things about the
+witness:
+
+- **Refused** — measured, `status=500 filesAppeared=0`. So the 201 in part 1 genuinely **depended on**
+  the write rather than coinciding with it. The witness is sound.
+- **Wrote nothing while answering 201** — the route would be indifferent to the write, **the witness
+  would be worthless, and it would have printed identically.**
+
+So the cheap fix is to **record which side satisfied it**, every time. Same family as the inert mutation
+and a bypass flag exiting 0 above the gate line — **three times in one day a green has been ambiguous
+between two facts, and each time the fix cost one extra measurement once the question was asked.**
+
+That measurement also found a real defect: an `EACCES` on a caller-named output directory surfaces as an
+**unhandled 500**. Registered rather than fixed, with the witness pinned loosely enough that repairing it
+to a 4xx will not break it.
+
+**And the rung's design is worth copying because each part is a separate assertion rather than a claim in
+a header**: a production entry point (a real HTTP request to the booted module, **not** a service call —
+that proves the method body and skips the pipe, the guard and the JSON boundary), the attempt, completion
+confirmed **outside the code under test** (`stat()` plus a PNG-magic readback), and sabotage.
+
+---
+
+## Run the old reader against the new data, rather than comparing version strings
+
+*Graft, on a tool-version split — and this is the answer to a failure this file's author spent an hour on.*
+
+A pinned copy of a checker predated a new evidence rung and refuses it. The obvious move is to bump the
+pinned copy — 600 lines of behaviour, mid-stream. Instead: **write with the current copy, then run the
+pinned one against the result.** It reported coherently and **declined to credit a rung it does not
+know** — it degrades **conservatively**. So both readers are honest and the pin stands.
+
+**The check that mattered was running the old reader against the new data, not comparing version
+strings.** A version mismatch tells you two things differ; only running the old one tells you *how* it
+differs, and whether the difference is a lie or a silence.
+
+This is the constructive form of the trap that cost an hour tonight — a fix verified against a repo
+source while the live system loaded an installed copy. **Version numbers cannot distinguish "the old
+reader is wrong" from "the old reader abstains".** Running it can, and abstention is usually fine.
+
+---
+
+## A lane's ceiling has to be named, not implied
+
+*Graft.*
+
+The evidence rung it delivered is **the portable floor, not the kernel bar**: `eslogger` needs root,
+`dtruss` needs SIP off, so **no syscall recorder exists on that lane at all.** Its own reference is
+explicit that a lane which cannot reach the kernel must record that as a structural limit — and the
+sentence worth carrying is *"what is not available is silence about which one was run."*
+
+**An unnamed ceiling reads as a completed check.** A witness that could have used a kernel recorder and
+did not, and one where none exists, produce the same artifact — so the limit has to be written **beside
+the result**, not inferred from what the result does not mention.
+
+**And a clause added to the run-every-guard method**, upstream of running anything: *ask what the
+mutation was supposed to make true, and whether the guard's own predicate reads that thing at all.* Its
+own miss was one line — the guard flags requirements **whose text names an external effect**, and it
+mutated one whose text names none. **No amount of running would have told it; the guard's own
+description did.**
+
