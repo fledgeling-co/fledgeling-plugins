@@ -3447,6 +3447,12 @@ This is the release-figure expiry problem — the one this whole corpus records 
 **inside the mechanism written to prevent it.** And it is the reason a peer was told to disregard a
 clearance it had been waiting for.
 
+**Graft sharpened this and its version replaces mine**: *"the failure is not that you read twice; it is
+that a condition and its evidence came from different observations while being presented as one.
+**Reading twice is fine when the second read is labelled as a second read.**"* So the rule is not
+*read once* — it is **never present two observations as one**. A later board is useful information; it is
+only a lie when offered as the state that satisfied the trigger.
+
 **The fix is structural: one read, tested and reported from the same snapshot**, with the message saying
 explicitly *"this board IS the one the condition fired on, not a later re-read."* Controlled by firing
 it at a threshold known to be met and confirming the printed board satisfies it.
@@ -3645,4 +3651,52 @@ proxy for cost that stops tracking cost the moment one of the two runs is merely
 
 The conductor's job here is to publish **what each run would unblock**, not how long each has waited —
 and then let the sessions rank themselves, because only they know which of their own work is load-bearing.
+
+---
+
+## An arming needs one mutation per axis the assertion spans
+
+*Graft, on a witness whose two halves would have been half-inert.*
+
+A witness claimed *a real child process wrote this* — proved by a sentinel file carrying the child's own
+pid, read back and confirmed with `kill(pid, 0)`. **Two facts in one claim**: something wrote, and a
+*process* wrote.
+
+Arming it needed **two mutations on two axes**, and only the second earned its place:
+
+| mutation | what still passed | what fired |
+|---|---|---|
+| child stops writing the sentinel | the transport still returned the right value | `stat` → `ENOENT` |
+| child writes a pid that **cannot be alive** | the **filesystem** half — a file exists with a plausible number in it | `kill` → `ESRCH` |
+
+**Without the second, `kill(pid, 0)` would have been decoration.** A sentinel is easy to write; a *live
+process* is the thing being claimed. **One mutation would have declared the witness armed while half of
+it was inert** — and nothing in the output would have distinguished that from a fully-armed one.
+
+**So: count the facts an assertion asserts, and arm each one separately.** A compound claim armed by a
+single mutation is armed on whichever axis that mutation happens to touch. Same shape as a passing
+disjunction hiding which half carried it, and as a condition whose evidence came from a different
+observation — *one observation presented as evidence for a claim that needed two.*
+
+---
+
+## A failing test can point at a better design than the one that would have passed
+
+*Graft.*
+
+The witness's first draft passed the sentinel path to a child as an **environment variable**. The child
+exited 2 reporting it unset, while the same shim worked standalone — a jest worker boundary swallowing
+`process.env` on the way into a `spawn`.
+
+**The cheap fix is to chase how the environment crosses that boundary.** Instead the path moved into
+`args`, **which the transport itself passes** — so the plumbing now runs *through the code under test*
+and an assertion covers it.
+
+**A test-only channel became a product-path channel, which is strictly better evidence than the version
+that would have worked.** The env-var draft would have proved the child ran; the args version proves the
+*transport* handed it what it needed.
+
+So when a test fails on its own scaffolding, the question before debugging the scaffolding is **whether
+the product already has a channel that would carry it.** If it does, the failure has just told you the
+test was measuring beside the code rather than through it.
 
