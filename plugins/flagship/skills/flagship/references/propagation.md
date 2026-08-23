@@ -3746,3 +3746,43 @@ record-correction item whose gates are `tsgo` plus a narrow jest pattern in one 
 an island card whose gates are an island `tsc` plus two suites of 455 and 385 tests. Different numbers
 because different work, which is what a weight is for.
 
+---
+
+## After a runner operates in the primary checkout, read `git branch --show-current` first
+
+*sidetone, on the second-order cost of a first-order failure to check.*
+
+A runner was left to work in the primary checkout. It created branches — and **a runner that creates a
+branch has to leave the checkout somewhere, and it will not be where you left it.** Nine commits were
+made on the wrong base before anyone looked, and all three of a wave's branches came to sit on an
+**unverified** implementation's tip, 17-21 commits of good work riding on top of work nobody had verified.
+
+**The constraint that followed is worth having in itself: merging any of them would have promoted the
+unverified layer into `main` by riding along.** So SDT-054 must verify first, then the three rebase —
+safe, because they are docs-clean relative to `main` — and the merge order is now *derived from the
+fault* rather than chosen.
+
+**The rule: after a runner operates in the primary checkout, the orchestrator's first action is to read
+`git branch --show-current`.** Not after the next commit — first. The error is invisible from inside the
+work (everything runs, everything is green) and only visible in the base, which nothing in the loop reads.
+
+---
+
+## A live foreign window can be the faithful reproduction where a replayed asset is not
+
+*sidetone, on the best arming of the night.*
+
+The corpus's runner-manager PNG no longer existed in any tree. Rather than regenerate a fixture, the
+foreign-window case was rebuilt with a **live Calculator window offered as the app under test** — and
+that was not a compromise but the *faithful* reproduction, because **the check reads the accessibility
+plane at capture time, and a replayed PNG would have tested the wrong thing entirely.**
+
+The result quantified a previously unquantified defect: **306 swaps attempted, 306 rejected; and the copy
+rung alone accepted 68 — every one inside three identical-window groups, separated only by reading the
+process.** So "copy equality is not enough" now has a denominator, and the failure mode is bounded:
+*only* same-content windows can fool the copy check, and reading the process separates every one.
+
+**General form: when the property under test is read from a live plane at capture time, the test fixture
+must be live on that plane.** A recorded artifact tests the recording's relationship to the check, not
+the check's relationship to the world.
+
