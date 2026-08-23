@@ -2277,3 +2277,72 @@ Grounding the item also turned up a genuinely broken artifact nobody was looking
 present`. Not the ad-hoc case; a malformed signature. Which gave the work a real red to arm against
 instead of a fixture.
 
+---
+
+## A report that swallows arguments will impersonate a gate for anyone who asks it to
+
+*Warden Design, found by poking rather than by the sweep it was running.*
+
+`nonfailing-assertions.py` **parses no arguments at all**, so `--gate` and `--nonsense-flag` were
+equally ignored and both exited 0. As a *report* that is legitimate — it always exits 0, it
+over-reports shapes, a human reads them. **What is not legitimate is that it will answer to `--gate`.**
+Wire it into a chain and you have a step that **can never fail while looking exactly like one that
+can**, and nothing in the chain, the output or the exit code says which it is.
+
+The same defect, independently, in this fleet's own admission instrument: `pressure.py` accepted
+`--fresh`, `--no-cache` and `--help` alike, exiting 0 with a cached snapshot. Anyone reaching for a
+fresh read got a stale one and never learned the flag did not exist.
+
+**So the rule is about the boundary rather than the tool: a report and a gate are different contracts,
+and an argument parser is what keeps a tool from being conscripted across that line.** Refusing an
+unknown flag is not pedantry — it is the only thing preventing a report from being installed as a
+guarantee. Both tools now refuse an unrecognised argument; both refusals were one-line changes.
+
+And that file had **two independent reasons its green meant less than it looked**: it reported clean
+over an empty population, *and* it cannot see the defect class it is named for, because the
+equal-to-self shape it matches is syntactic only — which is why it missed both assertions a verifier
+caught by reading. Only the first had been found. **When one reason for a weak green turns up, look
+for the second**; they are not mutually exclusive and the second is usually the older one.
+
+---
+
+## An empty-population refusal is necessary and not sufficient
+
+*Warden Design, caveating its own sweep — and it applies to every floor this corpus has recommended.*
+
+A sweep ran every local probe against an empty registry. **Five of six refuse it**; the sixth exited 0
+printing `examined: 0 file(s), 0 assertion call(s)` — a denominator it computed and never acted on.
+Fixed.
+
+**Then the caveat that matters more than the result: the sweep tests the empty case, which is the loud
+end.** A population that *shrinks* from 13 to 1 is not caught by an empty-population floor at all,
+because **1 is not 0** — and two of that repo's probes do exactly that on a clean checkout. They still
+pass, with their denominators collapsed twelvefold.
+
+So every floor recommended here — refuse an empty population, refuse a zero join, refuse an absent
+subject — **catches the collapse to nothing and misses the collapse to almost nothing**, which is the
+more likely failure and the quieter one. *"I would rather say that than let five-of-six read as
+solved."*
+
+What would catch it is a **ratchet on the denominator** rather than a floor under it: record what the
+population was, and refuse a run whose population fell without an explanation. Not built anywhere yet;
+recorded as the shape of the gap rather than as a design.
+
+---
+
+## Derive from the population — the fifth arrival, and the mechanism stated plainly
+
+*Warden Design, joining four earlier ones.*
+
+The five probes that refuse an empty population **all compute their denominator from the corpus**
+rather than being told what to expect. `campaign-preflight` catching a field it had never heard of,
+`signature-vs-policy` refusing an absent subject, and `evidence-class` refusing a zero join are one
+mechanism wearing three names.
+
+**A checker that derives its expectations cannot be silently outgrown; a checker holding a list can
+only ever be as current as the last person who remembered it.**
+
+Five independent arrivals at that principle in one night — the status vocabulary, the empty-population
+floors, `campaign-preflight`'s derived field set, the id-space classification, and this sweep — is the
+strongest signal in the corpus that it is a real design rule rather than a local habit.
+
