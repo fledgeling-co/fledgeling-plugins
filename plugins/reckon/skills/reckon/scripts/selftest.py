@@ -886,6 +886,133 @@ if not ok:
     FAILURES.append("real id in prose stopped citing: %r" % edges)
 
 
+
+# --- 18. every percentage emitted carries its denominator beside it --------
+#
+# Finding 1 (PRO-0108 / brief 96): two right numbers from two registries
+# produced 16.7% for different reasons (4/24 cases unblocked vs briefs joined),
+# and the disagreement was a missing denominator. Printing the denominator
+# beside every percentage makes the context self-contained across all modes.
+
+# 18a — the headline carrying denominators for cases and requirements
+tmp_d = tempfile.mkdtemp(prefix="reckon-denom-")
+try:
+    b_dir = os.path.join(tmp_d, "briefs")
+    c_dir = os.path.join(tmp_d, "campaign")
+    o_dir = os.path.join(tmp_d, "out")
+    os.makedirs(b_dir); os.makedirs(c_dir)
+    with open(os.path.join(b_dir, "01-brief.md"), "w") as fh:
+        fh.write("# Brief\n\nREQ-1\n")
+    with open(os.path.join(c_dir, "campaign.json"), "w") as fh:
+        json.dump({"project": "denom-test"}, fh)
+    with open(os.path.join(c_dir, "cases.json"), "w") as fh:
+        json.dump([{"id": "CASE-1", "surface": "SURF-1", "state": "s", "status": "pass", "oracle": "outcome"},
+                   {"id": "CASE-2", "surface": "SURF-1", "state": "s", "status": "open"}], fh)
+    with open(os.path.join(c_dir, "inventory.json"), "w") as fh:
+        json.dump({"requirement": [{"id": "REQ-1", "text": "req 1", "evidence": "observed"},
+                                   {"id": "REQ-2", "text": "req 2", "evidence": "reported"}],
+                   "surface": [{"id": "SURF-1", "title": "surf 1", "slug": "s1"}],
+                   "defect": []}, fh)
+
+    code = R.main(["build", "--briefs", b_dir, "--campaign", c_dir, "--out", o_dir])
+    with open(os.path.join(o_dir, "ledger.json"), encoding="utf-8") as fh:
+        d_ledger = json.load(fh)
+    d_report = open(os.path.join(o_dir, "reckoning.md"), encoding="utf-8").read()
+
+    hl = d_ledger["headline"]
+    ok = (code == 0
+          and "1/2 (50%) of the campaign's designed cases" in hl
+          and "1/2 (50%) of its stated requirements" in hl)
+    print("%-46s %s" % ("headline carries denominators beside percentages", "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("headline denominators: %r" % hl)
+
+    # 18b — blocker table in markdown report carrying denominator in coverage returned
+    blocker_row = d_ledger["blockers"][0] if d_ledger.get("blockers") else None
+    ok = ("+1/2 (+50.0 pts)" in d_report or "+1/2 (+50.0%)" in d_report)
+    print("%-46s %s" % ("blocker table carries denominator in coverage", "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("blocker table coverage denominator: report excerpt=%r" % d_report[:500])
+finally:
+    shutil.rmtree(tmp_d, ignore_errors=True)
+
+# 18c — weak-join warning carries denominator
+viols, warns = R.gate(ledger(clean,
+                                   denominators={"cases_adjudicated": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+                                                 "decisions_taken": {"n": 0, "of": 2, "pct": 0.0, "means": "x"},
+                                                 "requirements_observed": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+                                                 "surfaces_spoken_for": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+                                                 "briefs_joined": {"n": 1, "of": 4, "pct": 25.0, "means": "x"},
+                                                 "is_floor": True, "floor_note": "x"}))
+ok = any("only 1/4 (25.0%) of briefs could be joined" in w for w in warns)
+print("%-46s %s" % ("weak-join warning carries denominator", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("weak-join warning denominator: %r" % warns)
+
+
+# --- 19. circular `source` evidence: read to JOIN, refuse to GRADE ----------
+#
+# Finding 2 (PRO-0108 / brief 96): A `source` citation ties a brief to a
+# registry entity, but must not promote a requirement to `observed`.
+# A requirement whose only evidence is the document stating it has been restated,
+# not measured. The repair is one predicate with two exits, tested separately.
+
+# 19a — Exit 1: Read source to JOIN at confidence 1.0
+camp_source_join = {
+    "present": True, "header": {}, "cases": [], "flows": [], "components": [],
+    "requirements": [{"id": "REQ-101", "text": "widget handles gestures", "evidence": "reported",
+                      "source": "docs/features-to-triage/brief-gesture.md"}],
+    "surfaces": [], "defects": []
+}
+brief_gesture = [{"id": "BRIEF-gesture", "file": "brief-gesture.md", "path": "brief-gesture.md",
+                  "title": "gesture handling", "text": "gesture handling specification without direct id mentions",
+                  "status": "", "generated_by": None, "source_ids": []}]
+
+edges = R.build_join(brief_gesture, camp_source_join)
+ok = any(e["brief"] == "BRIEF-gesture" and e["target"] == "REQ-101"
+         and e["method"] == "cited" and e["confidence"] == 1.0 for e in edges)
+print("%-46s %s" % ("a brief citing only via source joins at 1.0", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("source join exit: edges=%r" % edges)
+
+# Also frontmatter source: REQ-102
+brief_fm_source = [{"id": "BRIEF-fm", "file": "fm.md", "path": "fm.md",
+                    "title": "frontmatter source", "text": "no ids in body",
+                    "status": "", "generated_by": None, "source_ids": ["REQ-102"]}]
+camp_fm = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+           "requirements": [{"id": "REQ-102", "text": "req 102", "evidence": "reported"}],
+           "surfaces": [], "defects": []}
+edges_fm = R.build_join(brief_fm_source, camp_fm)
+ok = any(e["brief"] == "BRIEF-fm" and e["target"] == "REQ-102"
+         and e["method"] == "cited" and e["confidence"] == 1.0 for e in edges_fm)
+print("%-46s %s" % ("frontmatter source joins at confidence 1.0", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("frontmatter source join exit: edges=%r" % edges_fm)
+
+# 19b — Exit 2: Refuse to let source GRADE (stays unmeasured, names circular evidence)
+camp_circular = {
+    "present": True, "header": {}, "cases": [], "flows": [], "components": [],
+    "requirements": [{"id": "REQ-103", "text": "restated intent", "evidence": "source",
+                      "source": "docs/specs/spec-PRO-0108.md"}],
+    "surfaces": [], "defects": []
+}
+rows_circ = R.classify([], camp_circular, [], False)
+row_circ = [r for r in rows_circ if r["id"] == "REQ-103"][0]
+unclass = R.unclassified_inputs(rows_circ)
+ok = (row_circ["class"] == "unmeasured"
+      and "circular" in row_circ["why"]
+      and len(unclass) == 0)
+print("%-46s %s" % ("circular source evidence stays unmeasured", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("source grade exit: class=%r why=%r unclassified=%r"
+                    % (row_circ["class"], row_circ.get("why"), unclass))
+
+# Presenting circular source evidence as verified-done must trigger a placement violation
+expect("circular source evidence classed done fails gate",
+       clean + [{"id": "REQ-CIRC", "entity": "requirement", "class": "verified-done", "kind": "none",
+                 "evidence": "source", "title": "circ req", "why": "", "is_work_item": False}],
+       1, "circular or self-reported evidence cannot retire a requirement", "placement")
+
 print()
 if FAILURES:
     print("%d self-test failure(s):" % len(FAILURES))
