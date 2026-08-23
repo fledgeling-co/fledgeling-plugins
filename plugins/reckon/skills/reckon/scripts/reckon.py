@@ -117,6 +117,7 @@ RETIREMENT_RUNG = "outcome"
 EVIDENCE_OBSERVED = ("observed",)
 EVIDENCE_SELF_REPORTED = ("reported", "unknown")
 EVIDENCE_DISPUTED = ("contradicted", "vacuous")
+EVIDENCE_CIRCULAR = ("source",)
 
 # The three registry vocabularies this tool reads, each closed. Every word a
 # registry can put in these fields is either in one of these sets — in which
@@ -134,7 +135,7 @@ EVIDENCE_DISPUTED = ("contradicted", "vacuous")
 CASE_VOCABULARY = ADJUDICATED + WAIVED_STATUS + UNMEASURED_STATUS
 DEFECT_VOCABULARY = (DEFECT_FIXED + DEFECT_OPEN + DEFECT_WAIVED + DEFECT_NOT_OWING
                      + DEFECT_PARTIAL)
-EVIDENCE_VOCABULARY = EVIDENCE_OBSERVED + EVIDENCE_SELF_REPORTED + EVIDENCE_DISPUTED
+EVIDENCE_VOCABULARY = EVIDENCE_OBSERVED + EVIDENCE_SELF_REPORTED + EVIDENCE_DISPUTED + EVIDENCE_CIRCULAR
 
 # The classes. Every entity lands in exactly one.
 CLASSES = (
@@ -204,6 +205,7 @@ REMEDY = {
     "skip": "revisit the decision to skip",
     "reported": "obtain independent evidence — this is the project's own account of itself",
     "unknown": "obtain any evidence at all",
+    "source": "obtain independent evidence — citing the source declaration is circular, not an observation",
 }
 
 # `unjoined` is a class rather than a status, so its remedy sits apart from the
@@ -289,7 +291,7 @@ def read_briefs(briefs_dir, ignore=()):
                 k, _, v = line.partition(":")
                 meta[k.strip().lower()] = v.strip().strip("\"'")
             generated_by = meta.get("generated-by")
-            raw = meta.get("reckon-sources", "")
+            raw = meta.get("reckon-sources") or meta.get("sources") or meta.get("source") or ""
             source_ids = [s.strip() for s in raw.strip("[]").split(",") if s.strip()]
             body = body[m.end():]
 
@@ -509,10 +511,20 @@ def build_join(briefs, campaign, threshold=0.18):
     reverse_cites = defaultdict(set)
     for coll, kind in (("requirements", "requirement"), ("defects", "defect"), ("cases", "case")):
         for item in campaign[coll]:
-            blob = " ".join(str(item.get(k, "")) for k in ("note", "title", "text", "evidence", "status"))
+            blob = " ".join(str(item.get(k, "")) for k in ("note", "title", "text", "evidence", "status", "source"))
             for brief in briefs:
                 token = project_id_in(brief["file"])
+                brief_file_base = os.path.splitext(brief["file"])[0]
+                matched = False
                 if token and item.get("id") and re.search(r"\b" + re.escape(token) + r"\b", blob, re.I):
+                    matched = True
+                elif item.get("id") and item.get("source") and (
+                    brief["file"] in str(item["source"])
+                    or brief_file_base in str(item["source"])
+                    or brief["id"] in str(item["source"])
+                ):
+                    matched = True
+                if matched:
                     reverse_cites[brief["id"]].add(item["id"])
 
     for brief in briefs:
@@ -603,6 +615,7 @@ def cluster_blockers(unmeasured_rows, total_cases, threshold=0.30):
             "summary": (notes[0] if notes else "")[:400],
             "cases": sorted(r["id"] for r in rows),
             "unblocks": len(rows),
+            "total_cases": total_cases,
             "coverage_gain_pct": round(100.0 * len(rows) / total_cases, 1) if total_cases else 0.0,
             "kind": "evidence-work",
         })
@@ -685,6 +698,9 @@ def classify(briefs, campaign, edges, join_is_weak):
         if ev in EVIDENCE_DISPUTED:
             cls = "undecided"
             why = "requirement evidence %r is a disagreement between the documents and the build; a person rules on it, an instrument cannot" % ev
+        elif ev in EVIDENCE_CIRCULAR:
+            cls = "unmeasured"
+            why = "requirement evidence %r is circular: citing the source declaration restates intent rather than measuring execution" % ev
         elif ev in EVIDENCE_OBSERVED:
             cls = "verified-done"
             why = "requirement observed"
@@ -1060,9 +1076,9 @@ def gate(ledger, weak_join_ratio=0.5):
                                    % (r["id"], r.get("status"), r["class"], r.get("status"),
                                       "/".join(sorted(legal)))))
         if r["entity"] == "requirement":
-            if r.get("evidence") in EVIDENCE_SELF_REPORTED and r["class"] in ("verified-done", "retirable"):
+            if (r.get("evidence") in EVIDENCE_SELF_REPORTED or r.get("evidence") in EVIDENCE_CIRCULAR) and r["class"] in ("verified-done", "retirable"):
                 violations.append(("placement",
-                                   "%s rests on %r evidence but is classed %r — self-reported evidence "
+                                   "%s rests on %r evidence but is classed %r — circular or self-reported evidence "
                                    "cannot retire a requirement" % (r["id"], r.get("evidence"), r["class"])))
 
     for r in rows:
@@ -1080,9 +1096,11 @@ def gate(ledger, weak_join_ratio=0.5):
 
     ratio = ledger["denominators"]["briefs_joined"]["pct"]
     if ratio is not None and ratio < (100 * (1 - weak_join_ratio)):
-        warnings.append("only %.1f%% of briefs could be joined to the registry at all. The join is the "
+        joined_n = ledger["denominators"]["briefs_joined"]["n"]
+        joined_of = ledger["denominators"]["briefs_joined"]["of"]
+        warnings.append("only %d/%d (%.1f%%) of briefs could be joined to the registry at all. The join is the "
                         "inferential step in this pipeline; below half, retirement claims are withheld "
-                        "and every brief stays in its documentary class." % ratio)
+                        "and every brief stays in its documentary class." % (joined_n, joined_of, ratio))
 
     d = ledger["denominators"]
     for key in ("cases_adjudicated", "decisions_taken", "requirements_observed",
@@ -1233,8 +1251,10 @@ def render(ledger):
         A("| Blocker | Cases it unblocks | Coverage returned | Cause |")
         A("|---|---:|---:|---|")
         for b in ledger["blockers"][:10]:
-            A("| `%s` | %d | +%.1f pts | %s |" % (b["id"], b["unblocks"], b["coverage_gain_pct"],
-                                                  b["summary"][:150].replace("|", "／")))
+            tot = b.get("total_cases") or d.get("cases_adjudicated", {}).get("of")
+            cov = ("+%d/%d (+%.1f pts)" % (b["unblocks"], tot, b["coverage_gain_pct"])) if tot else ("+%.1f pts" % b["coverage_gain_pct"])
+            A("| `%s` | %d | %s | %s |" % (b["id"], b["unblocks"], cov,
+                                          b["summary"][:150].replace("|", "／")))
         A("")
 
     for cls in ("broken", "unbuilt", "unjoined", "undecided", "unnamed", "retirable"):
@@ -1334,15 +1354,16 @@ def cmd_build(args):
     work_total = len(work) + len(blockers)
 
     adj = dens["cases_adjudicated"]
+    cases_pct = "—" if adj["pct"] is None else "%d/%d (%.0f%%)" % (adj["n"], adj["of"], adj["pct"])
+    reqs_pct = "—" if dens["requirements_observed"]["pct"] is None else "%d/%d (%.0f%%)" % (
+        dens["requirements_observed"]["n"], dens["requirements_observed"]["of"], dens["requirements_observed"]["pct"])
     headline = (
         "%d piece(s) of work remain — %d product, %d evidence, %d decision — across %d ledger rows. "
         "This reckoning speaks for %s of the campaign's designed cases and %s of its stated "
         "requirements; the rest is not known to be done, it is simply not known."
         % (work_total, kind_counts.get("product-work", 0), kind_counts.get("evidence-work", 0),
            kind_counts.get("decision-work", 0), len(rows),
-           "—" if adj["pct"] is None else "%.0f%%" % adj["pct"],
-           "—" if dens["requirements_observed"]["pct"] is None
-           else "%.0f%%" % dens["requirements_observed"]["pct"]))
+           cases_pct, reqs_pct))
 
     unclassified = unclassified_inputs(rows)
     if unclassified:
