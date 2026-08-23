@@ -3076,3 +3076,43 @@ Two rules:
   next session costs more than the step was worth, and it arrives without the context that made it
   red.
 
+---
+
+## The step you were missing does not exist yet, and every prior instance was done by hand
+
+*Warden Design, correcting its own correction.*
+
+It first read its failed step as an **underestimate**: *"one command after merge"* turned out to be
+several. Digging further, that was wrong in a more useful way. **The step was not longer than it
+thought. The step did not exist.**
+
+The capture tool writes no manifest row, and **no capture in that campaign had ever needed it to** —
+every prior one was written either by a tool that already did it, or by a runner doing it **by hand
+inside its own item**. *"Nobody had asked the marketing lane to do it unattended."* So the capability
+looked present because every instance of it had a person or a purpose-built sibling behind it.
+
+**That is a distinct failure from an underestimate, and it hides in exactly this way: manual instances
+mask a missing automation.** A capability that has only ever been exercised attended will read as
+working right up until something tries it unattended — and the count of successful prior instances is
+evidence *against* noticing.
+
+**And the obvious repair would have violated the rule the plane rests on.** That campaign's binding
+rule is *a published capture is bound to its subject by a manifest written at capture time, never by
+its filename.* Taking the capture and hand-writing its row afterwards is **precisely the thing the rule
+forbids** — a row asserted after the fact by whoever is tidying up, rather than recorded by the process
+that opened the shutter. The fix that closes the ticket fastest is the one that breaks the invariant.
+
+So the real item is **teach the capture tool to write its own row in the same call that writes the
+bytes** — matching a sibling that already does exactly that per crop. After which the step genuinely is
+one command, **and stays one command for every future re-capture** rather than needing a person each
+time.
+
+The general form: **when a step turns out to be missing rather than long, check whether the shortcut
+that completes it by hand is the thing your invariant exists to prevent.** If it is, the work is to
+build the step, and doing it manually once is worse than not doing it.
+
+**And it priced its own constraint honestly**: *"I said 'needs one runner' because my own context is
+very long, not because the machine is. Do not hold a berth for me ahead of work that genuinely needs
+one."* A session naming which resource it is actually short of — context rather than CPU — is the only
+way a conductor can tell those apart.
+
