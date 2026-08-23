@@ -3927,3 +3927,34 @@ Same family as reckon's `unjoined`, the 83-day sync path, and the briefs needing
 next survey would not re-count them: **the register and the tree are two artifacts, and every question
 about "what remains" is a join between them.**
 
+---
+
+## A failover crossing vendor boundaries serves a different model than the one requested
+
+*Root-caused by glm-cf from Relay's own failover log, closing the misroute incident.*
+
+**37 requests with `bindingId='default'` were served glm-5.3 by failover — every single one
+`boundaryKind='deadline'`.** The default chain's accounts (one grok account ×24, a bedrock account ×11,
+two pool accounts ×2) hit response deadlines under throttle, and Relay rerouted into the zai pool
+**regardless of the requested model or binding.** The crossings cluster at 14:25-14:35, matching the
+machine-wide load spike — and Diolog Tasks' clean dispatches in the same hours show the failure selected
+on *deadline*, not on dispatch time.
+
+**The envelope told the truth the whole time**: served-model in the response envelope said glm while the
+dispatch said `model: 'opus'` — and the workflow-agent lane attested from the dispatch claim, which is
+the self-check dying as an instrument for the third sighting.
+
+Three machine-wide rules from the mechanism:
+
+1. **Any lane asserting a model reads the served model from the response envelope or the proxy ledger —
+   never the dispatch and never the prompt.**
+2. **"Must never be vendor X" is a routing constraint, not a prompt rule.** 37 crossings say the prompt
+   will not hold it; a pool-boundary failover policy is where it lives.
+3. **A vendor-crossing failover under throttle is a silent model change on work in flight.** When the
+   machine is hot, every dispatch's identity is at risk — wire-checks belong in the hot windows
+   especially.
+
+**The glm binding and the failover do not interact in either direction** — bindingId glm flows stayed glm
+by design. The fix decision (whether failover may cross vendors when a specific model was requested)
+belongs to the proxy's owner.
+
