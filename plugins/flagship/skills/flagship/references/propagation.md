@@ -3179,3 +3179,29 @@ inconclusive when it worked, or worse."* And it had been rejected here before, w
 carrying: **a rejected predicate returns unless the rejection is written where the next author looks**
 — beside the predicate, not in a report.
 
+---
+
+## A task completing is not the mechanism running
+
+*This skill's own author, in the one thing it had just promised a session.*
+
+A session was waiting on a 6-berth release, and the promise *"I'll hold the next one for you"* had
+already failed twice that night by depending on the conductor remembering. So a watcher was written: an
+`until` loop polling the board, exiting the moment `available >= 6`.
+
+**The background command wrote the script, made it executable, and echoed `armed`. It never invoked
+it.** The task completed with **exit 0** — which is exactly what a correctly-armed watcher also looks
+like from outside, because an armed one is *still running* and a never-started one *has finished*. The
+completion notification arrived and read as confirmation.
+
+Meanwhile the release happened. Another session took the 6 in the window where the hold was fictional.
+
+**The check that settles it is a process, not an exit code**: `pgrep -af <name>` returning live pids
+rather than silence. Same shape as confirming a tab's *focus* rather than its *count*, and as a
+mutation applying to the code rather than to what the assertion reads — **the action succeeded and the
+target was never touched.**
+
+The rule this file already carried, now with an instance in its own author's hands: **when a mechanism's
+purpose is to keep running, its success signal is that it is running.** An exit code cannot express
+that, and for a watcher a clean exit is evidence *against* it being armed.
+
