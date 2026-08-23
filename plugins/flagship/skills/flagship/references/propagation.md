@@ -2013,3 +2013,67 @@ Three more results from the same audit, and the discipline is as valuable as the
 And its closing read on its own tooling: *"berths currently reads `available 2`, which after tonight I
 am reading as 'do not trust the 2' rather than 'take both'."*
 
+---
+
+## The instrument being fixed was not the instrument that was running
+
+*This skill's own author, and the second time in one night for the same family.*
+
+The berth-leak watch kept re-announcing an unchanged condition. An hour went into fixing it: three
+real defects found and repaired, each control run, each passing.
+
+**The live watcher is a copy at `~/.claude/flagship/armada_watch.sh`. Every edit and every control
+ran against the repo source at `plugins/flagship/.../starvation_watch.sh`.** Measured when the two
+were finally compared: **live 265 lines carrying the old dedup; repo 316 lines carrying the fix; zero
+occurrences of the new form in the live file.**
+
+**Every control passed, against a file nobody was executing.** And the failure presented as the fix
+being *incomplete* — the events kept arriving unchanged — rather than as the fix being *elsewhere*,
+which sent an hour into deeper repairs of an already-correct file.
+
+Same family as reading a plugin's behaviour from a Dev checkout while a session loads the installed
+cache. **A fix verified against the source is not a fix to the running system, and the two are
+indistinguishable from the test output.** Before debugging a live symptom, establish *which file the
+running thing actually loaded* — `TaskStop` naming the command, a `ps` line, an install manifest —
+and diff it against the one being edited.
+
+The three defects underneath were real and are worth keeping, because each was found only because the
+fix before it was controlled rather than assumed:
+
+1. **The dedup compared the rendered message**, which embeds elapsed time and CPU. Both move every
+   iteration, so it could never equal itself: the same held server announced at 10:19, 11:41, 13:02,
+   15:47 — nothing changed but the clock.
+2. **Keying on the pid *set* was still wrong, because the set flaps.** A claimant whose children turn
+   over during a sample is correctly excluded that round and re-qualifies the next, while the registry
+   underneath sat stable at `{77393, 81187}` across five consecutive reads. So the unit is the **pid**
+   and the event is **entry**.
+3. **Fixing (2) broke a working detector.** The edit replaced the *first* matching `print -r -- "$out"`
+   in the file, which belonged to a different function — so the daemon check emitted a stray line and
+   the leak check never emitted its key at all. Repaired by line number, because pattern-matching is
+   what caused it.
+
+**And the controls were configuring nothing.** They passed `MIN_HELD_SEC` where the script reads
+`FLAGSHIP_MIN_HELD_SEC`, so both ran on defaults and the *negative* control returned 2 where it must
+return 0. With the right names: 1 announcement across 4 iterations, and 0 when nothing qualifies.
+
+**No exception was added for the known deliberate hold**, on a peer's argument that settles it: *an
+observation server held on purpose and a berth genuinely leaked look identical from outside, and the
+one that matters is the one you cannot see.* A first true positive after three false ones is a
+detector earning its keep, not one needing a filter.
+
+---
+
+## Check reachability before an ordinary operation destroys it
+
+*MCP Router, cleaning up spent worktrees.*
+
+Seventeen verifier worktrees were removed and disk went 232 → 245 GiB free. Before removing any of
+them it checked that **every worktree HEAD was reachable from a branch or a tag** — and that check is
+what mattered: **seventeen verdicts existed only as detached-HEAD commits inside those directories,
+reachable from nothing.** Every Done, every Needs More Work, every finding from that wave, one
+`git worktree remove` from being unreachable.
+
+The cleanup was routine. The check was not, and it is the transferable half: **evidence living
+somewhere that does not survive the ordinary operation about to be performed on it.** Tag first, then
+remove.
+
