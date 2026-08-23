@@ -113,6 +113,19 @@ reads as knowing them. Reload before the next dispatch, not after a peer correct
 
 Five jobs. The third is the one that pays for the skill.
 
+**"Token-free" means no berth, not no CPU — and this skill's author conflated them all night.**
+Survey, triage, reckon, whats-left and instrument authoring genuinely need no berth, and saying so
+is correct. Saying they are *unconstrained* is not. Measured: five sessions dispatched on token-free
+work in one batch, plus one campaign re-baseline taking its berths legitimately, took the machine
+from 0.4 per core to **47 per core, load 752 across 16 cores, cpu critical**, and collapsed the
+ceiling from 12 to 3. Nothing was over-admitted; the berth registry was never wrong. **The load came
+from work the registry does not govern, which is most of what a fleet does.**
+
+So the berth count bounds the *heavy* work and bounds nothing else, and a conductor dispatching
+five reading-and-briefing tasks at once is making a load decision without a load instrument. Stagger
+a batch of token-free dispatches the same way you stagger berths, and say *"no berth needed, and I
+am sending this to N sessions"* rather than *"unconstrained"*.
+
 **Schedule.** Hand out a capped heavy-work token. The cap is
 `min(ship-armada's 3 concurrent projects, harbourmaster's available berths)` — a policy about
 attention intersected with a fact about the machine, smaller wins. Everything that is not
