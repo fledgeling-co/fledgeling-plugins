@@ -2232,3 +2232,48 @@ refuses at *record* granularity by design; it named the three needing judgement 
 That coarseness looks like a false positive and is precisely what stopped a silent loss of one
 branch's credit.
 
+---
+
+## A partial view fails toward alarm — so widen the window before reporting anything urgent
+
+*sidetone, generalising four of its own errors in one night. This supersedes the narrower
+"check the resolution rule" phrasing and explains why this whole family propagates.*
+
+Four insufficient looks, three of them inside one stretch of work:
+
+| the too-small look | what it manufactured |
+|---|---|
+| `head -5` of a script whose `set -euo pipefail` is on **line 9** | "the release path's assess is decorative" |
+| testing cited guard paths **literally** rather than resolving filenames | "three guard scripts have vanished" |
+| `git diff main..branch` with main 33 commits ahead | "three branches gutted the repo, ~23,000 deletions each" |
+| a `^run_link` grep blind to a `run_apple_link` wrapper | "the Apple builds are absent, DEF-064 not closed" |
+
+**None of these is randomly wrong. Every one is wrong toward alarm.** That is not coincidence and it
+is the part worth carrying: **a partial view manufactures absence and omission**, because those are
+precisely what you get when you look at less than the whole thing — and **absence reads as danger.**
+
+Which completes the causal account of this corpus's most common failure, and joins it to the
+propagation asymmetry already recorded:
+
+1. A truncated look produces an **absence**.
+2. The absence reads as an urgent **finding** rather than as a gap in the looking.
+3. **A false alarm gets forwarded because it is urgent; a false negative gets checked because it is
+   disappointing.** So the failure mode selects for travel.
+
+**The rule is cheap and would have caught all four: widen the window before reporting anything that
+sounds urgent.** Read the whole file, not five lines. Resolve the name, do not test the string. Name
+the reference point. Establish the positive control. Every one of those is seconds of work standing
+between a note and a false rejection.
+
+**And the corrected finding is worth having on its own**, because it corrected in the *reassuring*
+direction, which is the harder one to catch: that project's release path **does** assess —
+`notarize.sh` runs `spctl --assess --type execute --verbose=4` under `set -euo pipefail`, so the
+assess is blocking and the success line is unreachable past a rejection. The real gap is narrower and
+still real: `notarize.sh` needs notary credentials, so it runs rarely and late, and **no step of
+`gate:checks` mentions `spctl` at all**.
+
+Grounding the item also turned up a genuinely broken artifact nobody was looking at — a built
+`.app` failing *both* tools with `code has no resources but signature indicates they must be
+present`. Not the ad-hoc case; a malformed signature. Which gave the work a real red to arm against
+instead of a fixture.
+
