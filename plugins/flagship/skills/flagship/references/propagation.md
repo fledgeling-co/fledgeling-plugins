@@ -2114,6 +2114,21 @@ no diff would have caught:**
 | **PATH shadowing** | `find`'s behaviour | `bfs`, answering to the name you typed |
 | **Mid-run edit** | the file you just fixed | the *old* code, until it resumes **into your edit** |
 
+**Two axes, not one route.** A peer separated them and the distinction is what makes the fourth
+findable: the first three are **spatial** — the artifact that ran sits at a different *path* — so a diff
+or a `type -a` finds them. The fourth is **temporal**: same path, same file, edited *mid-execution*, and
+**nothing about the path would have warned you.**
+
+**The mechanism, and it is the fix**: `cp` writes **through the inode** a running process is mid-read of,
+so the process resumes into new bytes at an old offset. `mv` swaps the **directory entry** — the running
+process keeps reading the old inode to completion, and the next start gets the new file. **So: write to a
+temp path, then `mv` it into place.** Never `cp` over a script that may be executing.
+
+**And this one inverts the usual failure.** Everything else in this corpus is *a green that meant less
+than it looked*; this is **a red that meant less than it looked** — a task marked failed over a mechanism
+that had already fired correctly and written its output, with a syntactically valid file left behind and
+nothing to reproduce.
+
 **The fourth is the nastiest and it is this file's author's**: a running watcher's script was
 **overwritten while it ran**. zsh reads a script incrementally from a file offset, so the process
 continued on its old logic and then **resumed into the middle of the new file** and died on a parse
