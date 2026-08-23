@@ -63,9 +63,27 @@ if name in _ex:
 # and is exactly the shape that goes unnoticed when it is real.
 st = d.get("status")
 if st not in ("idle", "shell"): sys.exit()
+
+# A session with an ARMED hold is waiting on its own watcher, not on a dispatch.
+# Measured: six sessions read idle while four of them held watchers or explicit
+# holds, and the loop woke the conductor repeatedly for state it had already
+# handled -- noise with a real budget. A hold converts idle -> held, reported
+# once on entry and then never, because a held session changing nothing IS
+# the expected state.
+import glob as _glob, time as _time
+_held = set()
+for _hf in _glob.glob(os.path.expanduser("~/.claude/flagship/holds/*.hold")):
+    try:
+        if _time.time() - os.path.getmtime(_hf) < 4*3600:
+            _held.add(open(_hf).read().strip())
+    except OSError: pass
+if name in _held: st = "held"
+
 since = d.get("statusUpdatedAt") or d.get("updatedAt")
 if since and (time.time() - since/1000.0) < float(sys.argv[2]): sys.exit()
-print(name if st == "idle" else name + "(shell)")
+if st == "idle": print(name)
+elif st == "held": print(name + "(held)")
+else: print(name + "(shell)")
 PY
 done | sort | tr '\n' ' ' | sed 's/ *$//')
 
