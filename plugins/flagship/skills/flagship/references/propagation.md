@@ -1984,9 +1984,32 @@ over 11 minutes whose parent was `launchd`**. Both are long-elapsed, near-zero-C
 an owner who will clean it up and one has been **reparented and has nobody left to stop it**.
 
 `--strictPort` sharpens it: the orphan also poisons its own port for the next run, which fails rather
-than picking another. So when a berth is held long and cheap, **read `ppid` before deciding whether
-anyone is coming for it** — a deliberate hold is a wait, an orphan is a leak, and the berth registry
-cannot tell you which.
+than picking another.
+
+**And the first version of this rule was wrong in the direction that breaks things — corrected the
+same hour, by the session that was told to act on it.** It read *"a deliberate hold is a wait, an
+orphan is a leak."* It is not. That session checked before killing and found the orphaned preview was
+**in active use**: 25 references to its port across the last 200 events of the run's transcript, the
+most recent one being the transcript's own last write. The web-observation phase was reading it at
+that moment. Acting on the rule as written would have killed a load-bearing service mid-run.
+
+**`ppid` answers who will clean it up. It says nothing about whether anyone is using it.** Two
+independent questions, and only the pair decides:
+
+| | nobody using it | in active use |
+|---|---|---|
+| **live parent** | it will be cleaned up; leave it | wait |
+| **orphan (`ppid 1`)** | **kill it — nothing else will** | hold, and put it on an explicit kill list |
+
+The bottom-right cell is the one the first version erased, and it is the common case for a service a
+run depends on: no parent to reap it *and* load-bearing right now. It needs **both** actions — hold
+now, and record it for explicit termination at handback with berth verification, because the thing
+that would normally clean it up is gone.
+
+**The consumption evidence is what settles "in use", and it is not on the process.** CPU is near zero
+for an idle *and* a serving preview. What decided it was the consumer's own record — the run's
+transcript referencing the port, recently. So: read `ppid` for ownership, read the consumer for
+liveness, and never infer the second from the first.
 
 ---
 
