@@ -54,16 +54,58 @@ that removal here is the defect.
 `command not found`, a `--help` that errors — gets one. Read the repo's own
 constraints before the first call.
 
+**Hard tool limits (capacity / token ceilings):** on the first capacity error
+(e.g., `Read` tool returning `File content exceeds maximum allowed tokens (25000)`),
+pivot immediately on attempt 1 to Python chunking, streaming, or line-ranged reads
+rather than retrying the same call with minor offset tweaks.
+
 **Why:** **[docs]** *"On *other* errors, you must change your strategy or
 arguments, not repeat the same failed call."* **[measured-family]** four
-consecutive invocations of one banned, absent tool with no change between them.
+consecutive invocations of one banned, absent tool with no change between them in
+`Egress Gemini`, and four consecutive `Read` failures against a 25k token ceiling
+in `COD Dossier` before pivoting. The class is documented beyond this repo:
+`gemini-cli` carries a master tool-loop issue and ships a loop detector whose halt
+message names *"repetitive tool calls"* (`references/evidence.md` §7.2).
 
 ## C4. Passes, not one sweep
 
 **Says:** build in passes, one per axis, each output feeding the next.
 
+**Sequential Artifact Dependencies (Tool Chaining):** When a skill composes other
+skills (e.g. `design-craft`, `ux-craft`), never phrase the requirement as a
+qualitative standard or lens (*"Every design decision goes through design-craft with
+ux-craft's lens"*). On the one measured run carrying that phrasing (`COD Dossier`,
+`references/evidence.md` §1.2.1), both skill invocations were skipped and the model's
+own diagnosis named the mechanism: the rules were already in context, and nothing
+downstream depended on a file only those skills produce.
+
+Instead, model tool composition as an **executable dependency chain** where Phase N
+outputs a concrete intermediate file artifact (e.g., `DESIGN.md`, `UX.md`,
+`direction.json`) that Phase N+1 explicitly consumes:
+
+```javascript
+// Example Tool Sequence in gemini.md:
+await Skill({ skill: "design-craft:design-craft" }) // outputs DESIGN.md
+await Skill({ skill: "ux-craft:ux-craft" })         // outputs UX.md
+// Phase N+1 reads DESIGN.md and UX.md before writing code:
+await Write({ file_path: "index.html", content: ... })
+await Bash({ command: "python3 scripts/audit_page.py index.html" })
+```
+
 **Why:** **[docs]** **Too many tasks**, and the chaining remedy: *"make each step
-a prompt and chain the prompts together in a sequence."*
+a prompt and chain the prompts together in a sequence."* **[measured-family]**
+`COD Dossier` skipped both `design-craft` and `ux-craft` tool invocations because
+the instruction was phrased as qualitative guidance and `index.html` did not
+mechanically depend on an intermediate file output from those skills. The shape is
+corroborated outside this repo (`references/evidence.md` §7.2): an Antigravity
+user reporting subagents ignoring their instructed skills, and a Gemini 3 **Pro**
+transcript reasoning past a GEMINI.md rule by reclassifying it — *"might be a
+general guideline for agents"* — so the conversion from guidance to artifact-gated
+step is worth doing on every tier, not only Flash. Where the caller controls the
+API request, forced execution also exists natively — **[docs]** the
+function-calling mode *"any: Model is constrained to always predict a function
+call"* — but a skill file cannot set it, which is why the artifact dependency is
+the lever this file prescribes.
 
 ## C5. One worked example before the set
 
@@ -94,13 +136,35 @@ file that implies otherwise sells a more expensive run as a fix. Where the targe
 work is genuinely multi-step planning, name `HIGH` and say the uplift is unmeasured
 on this corpus.
 
+**Name the tier the evidence is about.** Every measured rate in this skill is
+flash-tier (`gemini-3.7-flash`, plus one `3.7-flash-high` session), and the
+`thinking_level` defaults have drifted across the family — **[docs]** *"If
+thinking_level is not specified, Gemini 3 will default to high"*, then from the
+3.5 Flash release notes: *"The default thinking effort is now medium, changed from
+high in Gemini 3 Flash Preview."* The corpus's defaults table has 3.7/3.6/3.5
+Flash at `MEDIUM`, 3.5 Flash-Lite at `MINIMAL`, and 3.1 Pro preview at `HIGH` — so
+a skill written against one tier's default silently gets a different thinking
+budget on another. The level also couples to tool volume: **[docs]** *"Higher
+thinking levels encourage the model to use more tools to explore and verify, so
+lowering the level can reduce tool calls."* A `gemini.md` states which model its
+measured claims were observed on and does not project flash-measured rates onto
+the Pro tier: on Pro the overrides hold as `[docs]`-grounded discipline, while
+every `[measured-family]` number is an open question. One sentence in the
+epistemic-status block covers it.
+
 ## C7. Recall is not a source
 
-**Says:** any value that a vendor publishes gets read, not remembered.
+**Says:** any value that a vendor publishes gets read, not remembered. The same rule
+covers files: a skill or document *named in the prompt* gets loaded before the answer
+is written — read, then answer, as two ordered steps, with neither substituting for
+the other.
 
 **Why:** **[docs]** the January 2025 knowledge floor for the Gemini 3 family
 (March 2026 for 3.7 Flash, with some domains still at the earlier floor), and
-Google's own remedy of stating the cutoff and grounding.
+Google's own remedy of stating the cutoff and grounding. **[measured-family]**
+`references/evidence.md` §1.2.4 — asked a question naming three skills, the run
+answered from memory without loading any of them; asked to fix it, it inverted the
+error and launched a skill instead of answering.
 
 ## C8. The epistemic-status block
 
@@ -214,10 +278,19 @@ varied inputs are the signature of a predicate matching nothing. Assert against
 the probe's real return shape. If the runner could not run, the artifact is
 ungated and the delivery says so.
 
+**Prerequisite artifact & execution receipt checks:** Deterministic audit scripts
+(`scripts/audit_*.py`) must check that required upstream artifacts (e.g.,
+`DESIGN.md`, `UX.md`, `claims.json`) exist and are non-empty before checking final
+properties. If an upstream skill or tool call was skipped, the gate must fail with
+an explicit error and exit code 1.
+
 **Why:** **[measured-here]** on this skill's own quote gate, a one-line change
 took the checked count to zero and turned every file green; only re-running the
-negative control caught it. **[docs]** **Non-standard data format** for the output
-shape, and the code-execution note for anything arithmetic.
+negative control caught it. **[measured-family]** on `COD Dossier`, `audit_page.py`
+checked tags and citations thoroughly but had no check for `DESIGN.md` / `UX.md`
+existence, letting the omitted skill invocations pass the gate cleanly with exit 0.
+**[docs]** **Non-standard data format** for the output shape, and the code-execution
+note for anything arithmetic.
 
 ## `states` — the skill enumerates unhappy paths
 
