@@ -34,6 +34,8 @@ substitutes the hardware window for it will read a session at its limit as one w
 
 This skill scores the thing token pressure cannot see: **is the work at a seam right now?**
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It binds the five signals and the score/verdict/block consistency rules to a readback before the object is emitted, because the PreCompact hook branches on `score` alone. Other models skip it.
+
 ## What you produce
 
 Two things, in this order. The reasoning comes first because writing the deduction before the

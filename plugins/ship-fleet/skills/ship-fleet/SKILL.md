@@ -36,6 +36,8 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
 `docs/deep-research/`, DESIGN md at root, worktrees `.worktrees/<ID>` on `ai/<id>`
 (`git worktree list` is authoritative).
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the survey's categorical scopes and the runner brief's ENTIRE-UI clause into counted worklists, makes every ledger status carry the command that produced it, and routes orchestrator-hierarchy.html and the serialized merge to another model. Other models skip it.
+
 ## Operating discipline
 
 - **You stay in-session, on the session model, holding the map.** Runner agents are Opus at

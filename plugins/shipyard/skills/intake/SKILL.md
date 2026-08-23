@@ -19,6 +19,8 @@ Turn a rough idea into one-or-many **briefs** the triage stage can pick up. A br
 purpose: enough for triage to ground and judge, never a spec. This stage is where the pipeline is
 generous — divergent, exploratory, audience-minded — because everything after it narrows.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives step 4's 'features the audience would likely want' a counted ledger so the divergent pass cannot land as one brief, turns 'briefs, not specs' into a grep run over the written files, makes trawl and the research panel emit artifacts step 5 has to open, and requires every research claim to carry its citation check and its cost. Other models skip it.
+
 ## Inputs
 
 - A rough idea: inline text, a file, a voice-note transcript, a routed directive. Anything from

@@ -19,6 +19,8 @@ conditional pointer at the top of the SKILL.md that other models skip. Not a
 rewrite of the skill: the canon transfers. What does not transfer is the
 assumption that a rule stated in prose gets executed.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives the scan's rows, the fired modules and the vendor quotes a count each, turns `150–250 lines` and the batch's `--bump none` into a bound ledger read back off the written file, and adds the prerequisite-receipt checks `verify_quotes.py` cannot make. Other models skip it.
+
 ## The finding everything here rests on
 
 **[measured]** One recorded Gemini run on a rich brief delivered **every**

@@ -10,6 +10,8 @@ One page that says where a project actually stands, and one questionnaire
 inside it that clears everything stopping it — answered in a sitting,
 exported as JSON, and read back so the answers turn into work.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts the Luke-voice pass into a phase that writes copy.json a later phase reads, puts a denominator on each survey scope, and reads back the four field bounds validate_model.py only warns about. Other models skip it.
+
 ## The failure this exists to prevent
 
 A status report and a list of open questions are usually two documents, and

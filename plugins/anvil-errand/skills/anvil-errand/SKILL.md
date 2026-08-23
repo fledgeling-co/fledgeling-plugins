@@ -19,6 +19,8 @@ failure it removes is not "the errand did not work" — it is discovering the
 missing piece halfway through a container start, from a symptom that points
 somewhere else.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Pastes the --check output and the refusal kind rather than describing them, reads docs/ERRAND_RUNBOOK.md before naming a next step, and caps retries so a refusal is answered rather than re-run. Other models skip it.
+
 ## The loop
 
 ```bash

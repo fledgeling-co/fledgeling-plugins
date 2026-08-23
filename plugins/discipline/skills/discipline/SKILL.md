@@ -41,6 +41,8 @@ the block per conversation and replays exact bytes, so a conversation opened bef
 its own version for the rest of its life. Deleting or tidying either re-mints every older
 conversation at full price.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes the block-editing lane by measured shape, fills the bound ledger from block-check.py's own output rather than from this file's prose, and names clause 6 as the clause this model family actually needs. Other models skip it.
+
 ## The measurement this exists because of
 
 Caveman-style response compression was run as a paired arm on this operator's own agentic coding

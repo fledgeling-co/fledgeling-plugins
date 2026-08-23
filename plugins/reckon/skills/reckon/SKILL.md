@@ -31,6 +31,8 @@ A reckoning is a settling of accounts. This one settles what a project said it
 would do against what anybody actually established, and reports the difference
 in a form somebody can schedule.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts the adjudication step's categorical scopes into denominators the ledger prints, and forbids any figure in the report that did not come from ledger.json or the gate's exit code. Other models skip it.
+
 ## The failure this exists to prevent
 
 A remaining-work list is built by filtering: take everything, drop what is

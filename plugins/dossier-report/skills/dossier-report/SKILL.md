@@ -26,7 +26,7 @@ it, then let the reading decide the page.** Everything else follows.
 225 sources across five backends — and every rule below traces to a row
 in it. Read it when you need to justify or tune a rule, not on every run.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Binds the four scopes this skill states as a class rather than a count — reports read end to end, figures, images, scroll states — to a scope ledger reported as fractions, restores the verification the house style strips (noting that opus-5-prompting.md's removal is written for the Opus children, not for the orchestrator), and makes audit_page.py's pasted output and twelve opened renders the receipt instead of a claim. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Converts the `design-craft`/`ux-craft` lens into `DESIGN.md` and `UX.md` that Phase 7 must read — on the one recorded Gemini run of this skill neither was invoked — binds the four scopes stated as a class rather than a count to a scope ledger reported as fractions, adds a bound ledger and the prerequisite receipt `audit_page.py` has no check for, makes twelve opened renders the receipt instead of a claim, and names which of this skill's own work to hand to another model. Other models skip it.
 
 ## The shape of a run
 

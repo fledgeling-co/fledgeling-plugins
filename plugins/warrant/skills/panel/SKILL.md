@@ -20,6 +20,8 @@ trustworthy found 59.4% of the audited subset materially flawed and retired it (
 So the sequence below snapshots the evidence before anything judges it, and the verdict is void if
 its digest does not match.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It puts denominators under the lane set, the captures and the verdict's five ledger fields, keeps relative qualifiers out of both the find and filter prompts, and reads model ids out of lanes.toml rather than from memory. Other models skip it.
+
 ## Procedure
 
 1. **Snapshot first, judge second.**

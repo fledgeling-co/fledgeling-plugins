@@ -24,6 +24,8 @@ somebody reasons from first principles instead of reading the evidence.
 Full provenance for every rule: `references/evidence.md`. Read it when you need
 to justify or change a rule, not on every run.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every tier count, word bound and accent rule a readback command, converts the ux-craft / voice / design-craft routes into files the render depends on, and says why the gate reporting ok on zero tiers is not a pass. Other models skip it.
+
 ## What this produces
 
 An HTML part, a plain-text part, and a gate report. It does not send. Whatever

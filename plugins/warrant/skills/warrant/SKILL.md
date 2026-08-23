@@ -27,6 +27,8 @@ scope with a named person answerable for it. Both cut a per-item machine verdict
 Every claim id resolves in `docs/deep-research/claims.json`, and `references/evidence.md`
 separates the direct findings from the inferences.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It makes the authority answer a read of .warrant/ rather than of the ladder table, turns the forced order into a file-existence check per step, and requires all seven claim ids to resolve before any figure is quoted. Other models skip it.
+
 ## The eight skills
 
 | Skill | What it does | When to run it |

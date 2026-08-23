@@ -1,7 +1,7 @@
 {
   "name": "ship-fleet",
   "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

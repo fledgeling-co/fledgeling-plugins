@@ -19,7 +19,7 @@ This skill is the **UX brain**. `design-craft` is the visual hands (aesthetics, 
 
 ---
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Binds ux-craft's still-categorical scopes — "all modes, all surfaces", NN6's "every action" outside Build, "Every finding", the per-capture and per-field sweeps in its references — to a filled ledger with numbers, and puts the command and its output back beside every claim in the closing block. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Binds ux-craft's still-categorical scopes to a filled quota ledger, converts NN1's one-primary-action and the targeted-fix rule into a bound ledger read back off the artifact, routes Build mode's static-page and brownfield work out before it starts, and puts the command and its output back beside every claim in the closing block. Other models skip it.
 
 ## Mode detection
 

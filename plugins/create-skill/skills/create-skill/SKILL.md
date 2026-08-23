@@ -17,6 +17,8 @@ unstated intention is the most common reason a new skill misses. So this
 pipeline front-loads the interview and treats a vague answer as a defect
 to fix rather than a constraint to work around.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns Phase 2's traceability rule and Phase 5's banner-through-design-craft into a filled ledger and file-gated phases, restores the verification scaffolding the Opus brief file strips, and names the four deliverables to hand to another model. Other models skip it.
+
 ## Phase 0 — Discovery (the phase that decides everything)
 
 A new skill has no predecessor to argue with, so the brief is the only

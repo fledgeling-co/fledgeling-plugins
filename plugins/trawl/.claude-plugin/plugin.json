@@ -1,7 +1,7 @@
 {
   "name": "trawl",
-  "description": "Trawl: evidence-grounded parallel divergent ideation for coding agents \u2014 cast a wide net over the idea space, then converge on something you can ship. Successor to the original adhd skill. Isolated framed branches, a frozen textbook baseline as both ban-list and boss gate, a balanced frame portfolio with fit floor and apoptosis, mechanism-level convergence with quality floors instead of 1-10 scores, tiered runs (any%/standard/100%) with an auditable receipt line. Every structural change traces to a measured result in the 2024-2026 LLM-ideation literature (see references/evidence.md).",
-  "version": "2.2.0",
+  "description": "Trawl: evidence-grounded parallel divergent ideation for coding agents — cast a wide net over the idea space, then converge on something you can ship. Successor to the original adhd skill. Isolated framed branches, a frozen textbook baseline as both ban-list and boss gate, a balanced frame portfolio with fit floor and apoptosis, mechanism-level convergence with quality floors instead of 1-10 scores, tiered runs (any%/standard/100%) with an auditable receipt line. Every structural change traces to a measured result in the 2024-2026 LLM-ideation literature (see references/evidence.md).",
+  "version": "2.3.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

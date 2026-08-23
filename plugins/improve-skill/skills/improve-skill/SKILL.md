@@ -18,6 +18,8 @@ research is read in full and citation-verified, judges never see the
 skill or know which take is which, losing takes stay on the audit sheet,
 and a finding becomes a rule in the skill the same day it's confirmed.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns this pipeline's stated standards into steps with outputs: filled quota and bound ledgers, a receipt check on the phases that own no exit code, and the banner's two skills chained through files a later step reads. Other models skip it.
+
 ## Phase 0 — Intake
 
 Gather three things before anything runs:

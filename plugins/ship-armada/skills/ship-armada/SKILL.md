@@ -19,6 +19,8 @@ ship-armada   (portfolio: ~/Dev — this skill)
 
 Never nest: one armada session at a time, and never run ship-armada from inside a project (run it from `~/Dev`). Never hand the portfolio orchestration itself to a subagent — subagents review, build, and report; you hold the map.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives the freshness check a denominator of 70 index rows, routes only Dispatch's direct worktree edit to another model, and makes check_completion.sh's exit code the thing a ticked project carries. Other models skip it.
+
 ## Startup protocol (every session, before any planning)
 
 1. Read `~/Dev/CLAUDE.md`, then `~/Dev/ARMADA.md` — the index table first; load full entries only for projects you will touch this session.

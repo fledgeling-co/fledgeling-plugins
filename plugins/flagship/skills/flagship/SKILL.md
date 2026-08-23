@@ -29,6 +29,8 @@ That is the literal operating model here, and it is the rule this skill exists t
 **You hold the map. You hold no authority over a peer session.** Every other rule below is
 downstream of it.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts flagship's categorical scopes into a roster-sized ledger and its prose caps into bounds read back off the messages you actually sent. Other models skip it.
+
 ## The authority boundary — read this before you send anything
 
 A conducting session is a peer, not a parent. Three things follow, and all three were

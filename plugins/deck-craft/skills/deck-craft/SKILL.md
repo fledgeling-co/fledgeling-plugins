@@ -10,7 +10,7 @@ A deck is not a document with page breaks and not a web page with sections. It i
 
 You produce decks in three formats. They share the craft and the narrative discipline; they differ only in what you emit. Pick the target first — building an HTML shell when the user needed a `.pptx` is the expensive mistake, and it isn't recoverable by editing.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. §6's slide count as a contract and §7's runner that fails closed are already the right shape for that family; `gemini.md` extends both — derive the count when the brief omits one, report the per-slide gate as a fraction, paste the runner's blocker line rather than a claim about it, and write the direction's three axes as three chosen values. It also marks which of this skill's rules were measured on that family and which were not. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. §6's slide count as a contract and §7's runner that fails closed are already the right shape for that family; `gemini.md` extends both — derive the count when the brief omits one, report the per-slide gate as a fraction, paste the runner's blocker line rather than a claim about it, turn §5's accent/hue/type maxima into a bound ledger read back off the built deck, and write the direction's three axes as three chosen values. It also says which deck work to route to another model before starting, and marks which of this skill's rules were measured on that family and which were not. Other models skip it.
 
 ## 1. Route to a target
 

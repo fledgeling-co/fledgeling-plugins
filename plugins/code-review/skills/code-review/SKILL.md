@@ -19,6 +19,8 @@ is for review artifacts under `${CLAUDE_PROJECT_DIR}/.code-review/<run-id>/` and
 file, never for project source, tests or config. There is no `Edit` — asked to apply a fix, say the
 review is read-only and point at a separate edit step.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It replaces this skill's caps and coverage prose with two filled ledgers and a readback command per bound, because a Gemini run over-delivers against a stated maximum and reports coverage it never had. Other models skip it.
+
 ## The repo's own rules outrank this skill's
 
 Every project knows things this skill cannot. Read `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md` and

@@ -1,7 +1,7 @@
 {
   "name": "vouch",
   "description": "Reconcile and substantiate a personal-expense reimbursement claim end to end, repeatably. Vouching is the audit term for tracing a record back to its source document, and that is the whole skill: every claimed charge is keyed to the supplier's own invoice, and every invoice is read for the account it was issued to. Sweeps a personal-accounting MCP (PocketSmith or any equivalent), the Apple Mail index via the Sift MCP, card statement PDFs and a downloads folder; detects the days where the bank feed is silent and backfills them from statements, which is where the charges nobody noticed are hiding. Decides each row on three gates the operator supplies: the invoice must name a company account, the payment must land on a card the claimant owns personally, and the charge must be absent from the prior claim. Drives supplier portals through proctor when a login is needed, and hands back a wanted-invoices page listing date, supplier, estimated amount, portal link and account address whenever a portal refuses automation. Emits a claim CSV matching the employer's own form, invoices filed by month and named for the invoice number printed inside them, and two unbranded reports, one for the manager approving payment and one for the accountant checking GST. Ships a gate suite that fails on arithmetic, sign convention, date range, duplicate invoice numbers, orphan files and any filename that disagrees with its document. Use whenever someone asks to prepare, reconcile, substantiate or check an expense claim or reimbursement, asks which invoices are still missing, or runs the monthly claim.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

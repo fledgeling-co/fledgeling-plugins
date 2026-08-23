@@ -25,6 +25,8 @@ Canonical shared rules — read before the first run, then follow by pointer:
 `executor-lanes.md` + `codex-cli.md` (delegation), `evidence-rules.md` (what closes a claim),
 `test-strategy.md` (the coverage bar), `operational-rules.md` (git/worktree/fan-out incidents).
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the build a denominator, turns each phase gate into pasted command output with its prerequisite artifact checked first, and reads the skill's caps back off git rather than off its own prose. Other models skip it.
+
 ## Inputs
 
 - An id at `Ready for AI`, with `docs/plans/<id>.md` committed and — for user-facing work — the

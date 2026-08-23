@@ -23,6 +23,8 @@ So the mock stops being a drawing. You declare what the screen contains and how
 it divides, a compiler does every piece of cell arithmetic, and what comes out is
 a real frame in tui-craft's schema that its gates read directly.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, tui-design's prose rules become counted artifacts: a state × size spec ledger written before the first compile, a bound ledger read back off the compiled frame, fit reports and gate output pasted rather than summarised, and step 0's theme search treated as the reference input Google documents. Other models skip it.
+
 ## The line between this skill and tui-craft
 
 The split is **author versus instrument**, not "does a program exist yet". Both

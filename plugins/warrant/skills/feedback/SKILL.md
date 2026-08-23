@@ -17,6 +17,8 @@ learns from the cases where the pipeline was wrong and someone said so.
 That is cheaper and it never goes stale. A study measures one model version on one date; the
 regression corpus re-measures every version against every escape ever found, and it grows.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It forbids computing the escape rate that escape_report.py refuses to print, makes the corpus case count travel beside regress_run.py's exit code so an empty corpus cannot read as a tier-2 pass, and takes the recorded model version from lanes.toml rather than from what the run knows about itself. Other models skip it.
+
 ## Procedure
 
 1. **Record the escape.**

@@ -24,6 +24,8 @@ Deliver that scope. The armed loop does the underlying work; this pass sets it u
 is the ground truth. `references/failure-modes.md` maps each observed failure to
 its fix.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns the mechanism table, the tick protocol's sections and the step 6 report into counted ledgers, and makes the four bounds readable back off the armed state file rather than off the brief. Other models skip it.
+
 ## Protocol
 
 ### 1. Choose the mechanism

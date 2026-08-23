@@ -26,6 +26,8 @@ readings would produce materially different gates.
 `references/gate-craft.md` is how to turn "done" into commands.
 `references/presets.md` carries the two recipes people ask for most.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the finish line into a counted worklist, requires every gate to be proved able to fail before arming, and makes you read the state file and hook registration back off disk before reporting the run as armed. Other models skip it.
+
 ## Protocol
 
 ### 1. Read the situation before writing anything

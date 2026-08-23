@@ -15,6 +15,8 @@ Seven stage skills take a feature from rough idea to independently verified code
 the router: say which stage fits, and point at the shared canon. It never performs a stage
 itself.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns this map's counts — seven stages, eight statuses, nine canon files — into a ledger an answer must fill, and makes the routing read the reference files rather than recall them, because a router is one sentence away from performing the stage it should be handing over. Other models skip it.
+
 ## The stages, and when each is the one you want
 
 | You have | Run | It produces |

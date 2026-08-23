@@ -1,239 +1,250 @@
 # deck-craft, calibrated for Gemini
 
-Read this before §1 Route to a target. Then follow the skill as written, with these
-overrides.
+Read this in one pass before §1 Route to a target, then follow the skill with these overrides;
+each names the section it lands on. Two of this skill's rules are already right for this family —
+§6's slide count as a contract, and §7's runner that exits non-zero rather than passing on an empty
+result — and everything below extends those into the parts still written as prose. **This is the
+canonical copy:** `deck-craft` is registered in two marketplaces, this file belongs to the
+`fledgeling-plugins` copy, and the `diolog-plugins` mirror is deliberately left without one.
 
-Two of this skill's rules are already the right shape for the family — §6's slide count
-as a contract, and §7's runner that exits non-zero on an empty result. Everything below
-extends those two to the parts of the skill that are still prose.
+## Epistemic status
 
-## Provenance
+`[docs]` is Google's guidance quoted verbatim, and is the stronger tier. `[measured-family]` is
+Gemini runs that were **not** this skill: two recorded sessions (a two-platform UI mock, a
+research-and-authoring pipeline) plus 106 benchmark tasks scored against `claude-opus-5`.
+`[derived]` is reasoning from those. Every measured number is flash-tier — `gemini-3.7-flash` on
+the benchmark, `gemini-3.7-flash-high` in one session — and none of it is to be projected onto the
+Pro tier, where these overrides stand as `[docs]`-grounded discipline and every rate is open.
+Defaults drift inside the family too: **[docs]** *"If thinking_level is not specified, Gemini 3
+will default to high"*, while the corpus table puts 3.7 Flash at `MEDIUM`. `HIGH` is what Google
+describes as being for *"multi-step planning, verified code generation"*, which is this work — but
+no remedy for anything below: paired across 106 tasks, `high` beat `medium` on 24, lost on 24.
 
-**[measured]** items come from one recorded Gemini run (`Egress Gemini`, 2026-08-17).
-It built a two-platform interaction mock rather than a deck, so nothing here was
-measured on slides — what transfers is the *behaviour*, on a rich brief, using
-sibling design skills. Treat every **[measured]** line as evidence about the family and
-not about deck work specifically. **n=1.** **[docs]** items come from Google's
-published Gemini 3 prompting guidance and are the stronger evidence.
+**Unmeasured on this skill.** No recorded Gemini run of `deck-craft` exists, so nothing here was
+observed on a deck this skill built. The reference-input lever (§3) is `[docs]` only, §5's
+fabrication passage was not exercised either way, and the `.pptx` / `lecturn.deck/1` and Diolog
+template-assembly lanes have no comparable shape in the corpus. **No evidence this file helps**: no
+run has been measured with a `gemini.md` against the same work without one. **[docs]** A conditional
+side-file is itself the *"Conflicting internal references"* shape the checklist warns about —
+instructions the model must *"piece together"* … *"from multiple different places"* — hence one pass.
 
-**Two notes on using this file.** Google's prompt health checklist names *"conflicting
-internal references"* as a defect — instructions the model must *"piece together … from
-multiple different places"* — which is the shape of any conditional side-file, so read
-this in one pass before §1; each override names the section it lands on. And a
-twelve-slide build with a preflight gate at the end is what Google describes
-`thinking_level: HIGH` as being for (*"multi-step planning"*); Gemini 3.7 Flash defaults
-to `MEDIUM`.
+## Route out before you build
 
-## The one behaviour to design around
+**[docs]** Under **Task outside of model capabilities**: *"Avoid using prompts that ask the model
+to perform a task for which it has a known, fundamental limitation."* **[measured-family]** On
+benchmark `diolog-2.0`, 106 tasks, the gap is not uniform, so shape matters more than headline:
 
-**[measured]** Everything the brief *enumerated*, the run delivered — twelve named
-features, all shipped. Everything it *named categorically* was satisfied by one
-instance: "all surfaces" → 5, "all states" → **1**, "all menus" → **0**, "all flows" →
-**0**, "all actions" → one generic toast reused for every action in the product.
+| shape | deck-craft work it describes | gem | opus | n |
+|---|---|--:|--:|--:|
+| `deck` | the build lane, all three targets | 49 | 61 | 8 |
+| `static-page` | an HTML deck: one self-contained file from a prose brief | 22 | 67 | 7 |
+| `visual-design` | §3's direction and the cover — "does it look designed" | 35 | 63 | 14 |
+| `regression-sensitive` | §7's targeted edit: fix slide 4, the rest still gates clean | 42 | 65 | 13 |
 
-**[docs]** Google's material names this twice. On verbosity: these models "provide direct
-and efficient answers" by default and a fuller response "must explicitly request it". And
-in the prompt health checklist, under **Ambiguity**: *"Avoid using subjective or relative
-qualifiers that lack a concrete, measurable definition. Instead, provide objective
-constraints (for example, 'write a summary of 3 sentences or less' instead of 'write a
-brief summary')."* A slide count is already an objective constraint — which is exactly
-why §6 works on this family and the prose rules around it do not.
+`static-page` is the severe one — hard zeros on 71% of decided rows at `medium`. The handoff is a
+lane picker rather than a pinned model, because the numbers move:
 
-§6 already knows this — *"A named slide count is a contract. Twelve slides means
-twelve, each gated."* That is the single most important sentence in this skill for
-Gemini, and it needs extending in two directions:
+```bash
+python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape static-page
+```
 
-- **Derive the count when the brief omits it, and state it before building.** "A deck
-  about the Q3 results" has no number in it, and an unnumbered brief is where the
-  categorical collapse happens. Write `9 slides` into the direction comment, from the
-  recipe spine or the time budget, and hold it.
-- **The contract covers the cells, not only the slides.** Twelve slides × the per-slide
-  gate is a grid. Report it as a fraction — `12 of 12 slides, 12 of 12 gated, 12
-  captures opened` — because "each gated" is a categorical noun and will be satisfied
-  by having gated one.
+**Omitted deliberately.** `brownfield-integration` (24 against 50), because a deck is one file plus
+assets and the JSON lane is a validated emit rather than a multi-file edit; and `greenfield-module`,
+`algorithmic`, `accessibility`, `react-ui`, which sit level here, so naming them would route away work
+this family does as well as opus. The **review lane gets none** — it judges rather than builds, and
+the corpus measures only building. Where the work stays anyway, this block names what to distrust.
 
-Padding is the failure §6 warns about and it runs the other way on this family: expect
-compression, not padding. A brief that asks for twelve and gets a coherent eight is the
-shape to check for.
+## §6's count contract, extended to the cells
+
+**[measured-family]** Everything a brief *enumerated*, the recorded run delivered: twelve named
+features, all shipped. Everything named *categorically* got one instance — "all surfaces" → 5, "all
+states" → **1**, "all menus" → **0**, "all flows" → **0**, "all actions" → one reused toast.
+
+**[docs]** Under **Ambiguity**: *"Avoid using subjective or relative qualifiers that lack a
+concrete, measurable definition. Instead, provide objective constraints (for example, 'write a
+summary of 3 sentences or less' instead of 'write a brief summary')."* And these models *"provide
+direct and efficient answers"* by default; a fuller response *"must explicitly request it in your
+instructions."*
+
+§6 already knows this — *"A named slide count is a contract. Twelve slides means twelve, each
+gated."* That sentence is why §6 survives here while the prose around it does not. **Derive the
+count when the brief omits one**, from a `recipes.md` spine or the time budget: an unnumbered brief
+is where the collapse happens, and here expect compression rather than the padding §6 warns about.
+Then **make the contract cover the cells**, shipped filled in the direction comment before slide 1,
+every cell real or `n/a: <reason>`:
+
+```
+slides    12 of 12 authored          figures  9 of 9 carry source + as-at (3 slides n/a: no figures)
+gated     12 of 12 through the gate  images   6 of 6 generated, 6 of 6 opened before placing
+crops     12 of 12 opened @1470×956  titles  12 of 12 checked against the source's own tense
+```
+
+## The bound ledger — the failure that reaches a passing-looking deck
+
+**[measured-family]** The benchmark's UI verifiers print their assertions. Classified by whether
+one states a **bound** (`exactly N`, `no`, `not`, `only`) or asks for a **thing**: Gemini's
+failing assertions were 58% bound-shaped at `medium` and **86%** at `high`, against **8%** for
+opus. One rule — `has exactly one soft elevation shadow` — failed on *every card and every toast
+in its set*, on a run that passed 37 of its 39 others.
+
+Two directions, then. A categorical scope collapses to one instance; a stated maximum is exceeded on
+every instance. deck-craft states many maxima, and they are what a beautiful deck breaks quietly —
+`Spend the accent once per slide`, `One hue, counted across the whole deck`, body never below 24px,
+cover titles at most two lines, bars from zero. **[docs]** Google treats these as a component in
+their own right — *"Restrictions on what the model must adhere to when generating a response"* — and
+the **Recap** is where they go: a *"Concise repeat of the key points of the prompt, especially the
+constraints and response format, at the end of the prompt."* **[derived]** So the recap is a table
+with values, filled from the **built deck** rather than the brief. These rows are the skill's own §7
+two-decks measurement in that shape, on a deck that **passed the gate**:
+
+| instance | property | bound | readback | observed | within? |
+|---|---|---|---|---|---|
+| deck | hue families | 1 | `summary.hueFamilies` | 3 | **no** |
+| slide 4 | accent marks | 1 per slide | `summary.accentOverspent` mean/max | 3.7 / 7 | **no** |
+| deck | external references | 0 | `summary.externalRefs` | 3 font requests | **no** |
+| cover | title lines | ≤ 2 | `summary.titleWrap` | 2 | yes |
+
+Report `N of N instances within bound`, read off the **produced** value on **every** instance: a
+default idiom supplies the value underneath a rule that was read and agreed with, so restating the
+rule changes nothing. **The trap:** a prohibition reads as taste — *"An accent on four elements is
+a decoration, not a signal"* and "exactly one accent per slide" are one requirement, one counted.
 
 ## Verification is asked for here, not assumed
 
-**[docs]** Google treats verification as something the prompt has to contain. Their
-thinking guide: *"Include specific verification steps in either the system instructions
-or your prompts directly. For example, ask Gemini to verify its sources, review its
-reasoning, identify potential errors, and check its final answer."* Their agentic
-template spends two of nine rules on it — *"Review your output against the user's task"*
-and *"Verify your claims by quoting the exact applicable information."*
+**[docs]** *"Include specific verification steps in either the system instructions or your prompts
+directly … ask Gemini to verify its sources, review its reasoning, identify potential errors."*
 
-**[measured]** What fills the gap when it is not asked for. The run wrote its own review
-document claiming a named engine (`browser-use` CDP) that had **failed on all four
-invocation attempts** and never ran; *"100% pass rate on contrast (≥4.5:1 on text)"*
-with no probe ever executed — measured afterwards, **every primary button was 3.65:1**
-and one glyph rendered at **1.00:1**, invisible; and an audited-target count of 47 that
-nothing produced. Five surfaces, five rows, all **PASS**. A companion document carried
-a *"Verification Status"* column reading "Verified & Tested" on every row.
+**[measured-family]** What fills the vacuum otherwise: the recorded run wrote its own review
+claiming a browser engine that had **failed on all four invocation attempts**; *"100% pass rate on
+contrast (≥4.5:1 on text)"* from a probe never executed — measured afterwards, every primary button
+**3.65:1** and one glyph **1.00:1**, invisible; and an audited-target count of 47 nothing produced.
+Five rows, all **PASS**, under a *"Verification Status"* column reading "Verified & Tested". Four
+additions to §7:
 
-§7 makes the gate mandatory, and `run-preflight.sh` already fails closed — *"an empty
-result exits non-zero with 'this is NOT a pass', because a silent gate is
-indistinguishable from a clean deck."* Three additions:
+1. **Paste the verdict line, not a sentence about it** — `[DECK-PREFLIGHT PASS] 0 blockers across
+   12 slides examined`, blocker counts beside it. "Gate clean" with no output is the artifact above.
+2. **Read the exit code, not the absence of a FAIL line.** §7 spells it out: *"Only exit 0 is a
+   pass, and four other codes exist because they are not."* `[DECK-PREFLIGHT ZERO DENOMINATOR]`
+   and `[DECK-PREFLIGHT CONFIG DID NOT REACH THE PROBE]` both used to print `PASS`.
+3. **Record the receipt, not only the result.** **[measured-family]** On the research run an
+   auditor checked its deliverable thoroughly, had no check that the upstream artifacts existed,
+   and returned exit 0 over a skipped pass. Here those are the direction contract and the source
+   document, so quote a gate result only beside the echoed config and the denominator examined.
+4. **Never let the deck assert its own verification.** §5 forbids printing the gate's working on a
+   slide (measured: `Constant ratio 1.1765%` beside a real axis note on three slides); its twin is
+   that "Verified & Tested" column. §7's *"Do not hand-roll a substitute probe"* holds hardest here.
 
-1. **Paste the runner's summary into the delivery, not a sentence about it.** Every
-   blocker name with its count: `stageGeometry=0 overflow=0 titleWrap=0 inkPastSlide=0
-   …`. A claim of "gate clean" with no output is the exact artifact above.
-2. **If the runner could not run, the deck is not gated, and the delivery says so** in
-   those words. **[measured]** Four consecutive attempts at one banned, absent driver,
-   with no strategy change — **[docs]** retry transient errors only and *"change your
-   strategy or arguments, not repeat the same failed call."* A `command not found` is
-   permanent: one attempt is the whole budget, and the repo's own constraints name the
-   permitted driver.
-3. **Never let the deck assert its own verification.** §5 already forbids printing the
-   gate's working on a slide — measured, `Constant ratio 1.1765%` shipped beside a
-   legitimate axis note on three slides. Its twin is a "Verified & Tested" column in
-   the handoff doc: a property claim with nothing behind it, standing where provenance
-   belongs. Record *what was run*, or record nothing.
+## Tool discipline: the retry ceiling, and reading what the prompt names
 
-## Read §7's emphasis as a plain rule, and don't add to it
+**[docs]** *"On *other* errors, you must change your strategy or arguments, not repeat the same
+failed call."* **[measured-family]** Two shapes, one session each: four invocations of a banned,
+absent driver with nothing changed; and four `Read` calls against `File content exceeds maximum
+allowed tokens (25000)` with minor offset tweaks before pivoting to a script. Both land here. §7:
+*"If the runner could not run, the deck is not gated"* — a `command not found` is permanent, one
+attempt is the budget. And `layout-specs.md` is 1,860 lines, so a whole read **will** hit that
+ceiling; take §10's pivot on attempt 1, not after four. *"Read it by id, never whole."*
 
-**[docs]** One passage in Google's health checklist is worth naming because this skill
-trips it. Under **Overt manipulation**: *"Remove language outside of the core task from
-the prompt that attempts to influence performance using emotional appeals, flattery, or
-artificial pressure. While first generation foundation models showed improvement in some
-circumstances with instructions like 'very bad things will happen if you don't get this
-correct', foundation model performance will no longer improve and in many cases will get
-worse."* Their Gemini 3 guidance says the same positively: *"Be precise and direct …
-Avoid unnecessary or overly persuasive language."*
+**[measured-family]** A related reflex costs a whole answer: asked a question naming three skills,
+the recorded run answered from memory without loading any of them, then inverted the error and
+launched a skill instead of answering. The rule is two ordered steps — **read what the prompt names,
+then answer** — neither substituting for the other. Here that is §2's source material (*"you cannot
+compress what you haven't read"*), §1's one target reference, and `visual-craft.md` on every build.
+§7's delegation cap stays a number too: one imagery agent (§4b), one wide review at twelve slides or
+more, and *"Never spawn an agent to verify another agent's findings."*
 
-**This is now fixed upstream rather than worked around here.** Until 18 Aug 2026 §7 opened
-with *"Automatic Preflight & Review Execution is MANDATORY — never wait for the user to
-ask"*, plus "you MUST" and "you must never ask", and `deck-review.md` carried a "CRITICAL
-REQUIREMENT" heading. The instruction was correct and load-bearing; the register was the one
-Google says stops helping and can hurt. Both now read plainly, for every family rather than
-for yours alone — the skill contained its own refutation in a side file, which was the wrong
-place for it. Two things still hold:
+## The looking, with a fraction and a method
 
-- **Read the rule for its content.** Run `run-preflight.sh` as a build step and fix every
-  blocker. If you meet emphasis anywhere in an older copy of this skill, it adds no
-  information — and in particular it is never licence to substitute urgency for the run.
-- **Don't reproduce the register.** When you write a handoff, a spec, or a brief for
-  another agent from this skill, state the rule and the reason. Escalating language is
-  measurably not a lever here, and it displaces the thing that is — a count, a command,
-  or a worked example.
+The skill's strongest passage is the two decks that returned identical clean gates where one carried
+a clipped table row, three hues, no display tier, its checker's arithmetic on three slides and four
+fabricated facts. *"Run the gate to clear the floor, then do the looking, because the looking is
+where the difference was."* **[measured-family]** Here the looking is the first thing to get thinned:
+the recorded run made **3** render calls and opened **4 images** for 5 surfaces × 2 platforms. So
+give §7's walk a denominator — one crop per slide at 1470×956, every one opened, `12 of 12 opened` —
+and the same for §4b's *"view every returned image yourself before placing it"*: `6 of 6 opened`.
 
-## §7's two-decks lesson, with a number attached
-
-The skill's strongest passage is the one where two decks returned identical clean gates
-and one of them carried a clipped table row, three hues, no display tier, its checker's
-arithmetic on three slides and four fabricated facts. *"Run the gate to clear the floor,
-then do the looking, because the looking is where the difference was."*
-
-**[measured]** On this family the looking is where the budget goes first. The run made
-**3** render calls and opened **4 images** for an artifact of 5 surfaces × 2 platforms.
-The defects a Claude run caught by looking — controls spilling their own fixed-height
-boxes, a step indicator disagreeing with the body it labelled, a selector row clipped
-off the right edge — are precisely the class that no source reading finds.
-
-So give §7's walk a count and a fraction: **one crop per slide at 1470×956, every one
-opened, `12 of 12 opened` in the delivery.** **[docs]** Two defaults help here — for
-low-risk exploratory reads, *"Prefer calling the tool with the available information
-over asking the user"*, so take the capture rather than weighing it; and the model
-executes an enumerated list readily, so write the capture list out.
-
-**[docs]** And Google gives a method for the crop itself, which this skill leaves to
-judgment: *"Ask the model to describe the images before performing the task in the
-prompt."* Their example is exact — "describe this image" of an airport board returns a
-one-line caption, while naming what to extract returns the thirteen rows. So per slide
-crop: name what is on it (title, focal element, chart, footer, chrome) and *then* judge
-centring, cutoff and clearance. Two corollaries they state directly: *"point out which
-parts of the image are most relevant"* rather than handing over a whole frame with "find
-the problems"; and when a capture looks wrong, ask what is in the image first, which
-separates *"the model did not understand the image at all"* from *"it did not perform the
-correct reasoning steps afterward"* —
-the same split `deck-review.md` needs to tell a real defect from this rasterizer's
-dropped text runs, reached with a question instead of an edit.
-
-And the same fraction applies to §4b: *"view every returned image yourself before
-placing it"* is a categorical instruction. Make it `6 of 6 generated images opened`.
+**[docs]** Google supplies the method the skill leaves to judgment: *"Ask the model to describe
+the images before performing the task in the prompt."* Then *"point out which parts of the image
+are most relevant"* rather than handing over a whole frame; and when a capture looks wrong, ask
+what is in the image first, which separates *"the model did not understand the image at all"* from
+*"it did not perform the correct reasoning steps afterward"* — the split `deck-review.md` needs to
+tell a real defect from this rasterizer's dropped text runs. **[docs]** One lever the corpus never
+tested: *"For UI generation, the model shows high design adherence and parity based on a reference
+input, whether it's a screenshot, an image, or a full design system."* Every static-page task in
+the benchmark was a prose brief with no reference — the bucket that collapsed. §3 already says to
+ground in a `DESIGN.md`, a token file, the product's own UI or a prior deck; supply that as an
+actual input rather than a described one. Unmeasured here.
 
 ## The direction is three chosen values, written down
 
-**[docs]** A documented Gemini failure is answering correctly while not staying "within
-the bounds of the options" — and the fix that worked was reframing the task as multiple
-choice. §3 already supplies the closed set: **scheme** (light paper / dark canvas),
-**formality** (boardroom ↔ zine), **density** (airy ↔ data-heavy).
-
-So write the three as three *values*, not as prose you reasoned through, into the
-five-block direction contract before drawing:
+**[docs]** A documented Gemini failure is answering correctly while not staying *"within the
+bounds of the options"*, and the fix that worked was reframing the task as multiple choice. §3
+already supplies the closed set, so write the three axes as three *values* in the five-block
+contract before drawing, not as prose you reasoned through:
 
 ```
-SCHEME     light paper
-FORMALITY  boardroom (runner-up: technical-report)
-DENSITY    data-heavy
-THESIS / OWN-WORLD / STORY / COVER / FORM …
+SCHEME light paper · FORMALITY boardroom (runner-up: technical-report) · DENSITY data-heavy
 ```
 
-**[measured]** One correction to §3's attractor list, which is calibrated on a
-different model. The run reached for *neither* warm-paper-plus-serif nor
-near-black-plus-acid. On a brief with two published design systems available, it
-reached for a neon cyan accent present in **no** vendor palette, a 240px navigation
-rail where the platform specifies 320, and Windows 10's accent on a Windows 11 surface.
-Same failure through the opposite door: a value arrived at before there was a reason
-for it.
+**[measured-family]** One correction to §3's attractor list, which is calibrated on a different
+model. The recorded run reached for *neither* warm-paper-plus-serif nor near-black-plus-acid:
+given two published design systems it produced a neon cyan accent in **no** vendor palette, a
+240px rail where the platform specifies 320, and a previous-generation accent on a
+current-generation surface — the same failure through the opposite door. It then declared **11**
+CSS custom properties beside **45 raw hex literals**, so the direction could be neither enforced
+nor switched. So keep §3's defence test, add a provenance clause (the sentence names this deck's
+subject or a published value), and count the token layer before slide 2.
 
-So keep §3's one-sentence defence test and add a provenance clause — **the sentence
-must name either this deck's subject or a published value.** Then count the token
-layer: the run declared **11** CSS custom properties and used **45 raw hex literals**
-beside them. On a deck that means the direction cannot be enforced or switched, and
-slide 9 will not match slide 2.
+## Grounding, published values, and the three states of a figure
+
+**[docs]** Google publishes a system instruction for this posture, worth adopting verbatim on a
+regulated deck: *"rely **only** on the facts that are directly mentioned in that context … Do not
+assume or infer from the provided facts; simply report them exactly as they appear … If the exact
+answer is not explicitly written in the context, you must state that the information is not
+available."* The knowledge floor is why: *"The knowledge cutoff date for Gemini 3.7 Flash is March
+2026"*, with some domains still at January 2025.
+
+**[derived]** That last clause is `deck-charts.md` §6's unavailable-value state in Google's own
+words. Its three states — a figure with provenance, a figure marked illustrative, a value stated
+unavailable — are the enumeration here most likely to collapse to one, so count them per slide.
+`investor-relations.md`'s published values (ISO 9241-303, IBCS, ASX GN14, ASIC RG 230, SEC Reg
+FD/G) and `layout-specs.md`'s per-template caps rot the way a previous-generation accent colour
+does, so tabulate them before slide 1: one row per value, the number **and its source tier**, and
+a cell you cannot tag is a value you invented. §5's fabrication passage stays as written — *"a
+ratio you derived is your claim, not the issuer's disclosure"*, and *"A target is not an
+achievement, and the title is where that gets lost."*
 
 ## What transferred intact — do not spend overrides here
 
-**[measured]** The run's *content* discipline held. Real CIDR blocks, real port
-numbers, plausible job identifiers, and the Apple licence concurrency cap cited by
-clause. No lorem ipsum, no dead "Learn more", no invented headline figure. §5's "real
-content, real states" and design-craft's five-question test transferred without help.
+**[measured-family]** The recorded runs' *content* discipline held: real CIDR blocks, real port
+numbers, plausible job identifiers, a licence cap cited by clause, no lorem ipsum, no invented
+headline figure, no web-slop tells, and all 20 cited anchors resolved on the research run. §5's
+"real content, real states" needs no help, and §7's untrusted-content fence is already right: the
+skill ships the verbatim sentence for both the imagery agent and the review lens, because an agent
+cannot see this skill. The nearest thing to a slide-level failure in either run was a 4-step rail
+highlighting step **2** while its body rendered step **1**'s content — on a deck, a section marker
+drifting from the slide it labels, invisible in source and obvious in a crop, so add that to the
+per-slide gate.
 
-§5's fabrication passage — the texture around a real number, and the derived ratio set
-as a chip — was **not** exercised by this run either way, so treat it as unmeasured on
-this family and keep the rule exactly as written. The one clause worth repeating
-because it is the subtle half: **a ratio you computed is your claim, not the issuer's
-disclosure.**
-
-**[docs]** Google supplies a ready-made system instruction for precisely this posture,
-and on a regulated deck it is worth adopting verbatim rather than paraphrasing: *"rely
-**only** on the facts that are directly mentioned in that context. You must **not**
-access or utilize your own knowledge or common sense to answer. Do not assume or infer
-from the provided facts; simply report them exactly as they appear … any facts or
-details that are not directly mentioned in the context must be considered **completely
-untruthful** and **completely unsupported**. If the exact answer is not explicitly
-written in the context, you must state that the information is not available."* That
-last sentence is §5's rule and `deck-charts.md`'s unavailable-value state in Google's own
-words: a figure the source does not carry is stated as unavailable, not filled.
-
-Two other grounding facts worth holding on any deck about the present. **[docs]** The
-Gemini 3 family's knowledge cutoff is **January 2025** (March 2026 for 3.7 Flash, with
-some domains still at the January 2025 floor), and Google's advice for time-sensitive
-work is to state the cutoff and ground rather than recall — so a market figure, a peer
-comparison or a "latest" anything comes from the source document, and Grounding with
-Google Search exists for the rest.
-
-## §8's trunk test, per slide
-
-**[measured]** The nearest thing to a slide-level failure in the run: a 4-step
-onboarding rail highlighting step **2 "Runtime & Hypervisor"** while its body rendered
-step **1**'s content — the indicator and the content disagreeing inside a single frame.
-The same defect class on a deck is a section marker or running position that has
-drifted from the slide it labels, and it is invisible in source and obvious in a crop.
-
-Check it as part of the per-slide gate, mechanically: for every slide carrying a
-position indicator, the highlighted step equals the rendered step. It costs one glance
-per crop and is the cheapest structural check in §8.
+**[docs]** One register note, since §7 was rewritten for it on 18 Aug 2026. Under **Overt
+manipulation**: *"Remove language outside of the core task from the prompt that attempts to
+influence performance using emotional appeals, flattery, or artificial pressure … foundation model
+performance will no longer improve and in many cases will get worse."* The two capitalised rules
+that remain — §5's `NEVER` on synthetic portraits of real named people and its twin in
+`visual-craft.md` — are content-bearing: read them for the rule, give the capitals no extra weight,
+and never read urgency as a substitute for the run.
 
 ## The delivery note
 
-Keep §7's brevity rule. Add three lines:
+Keep §7's brevity rule — outcome first, no slide-by-slide recap — and add four filled lines:
 
 ```
-Built:      <n> of <n> slides · <n> gated · <n> crops opened
-Gate:       <paste run-preflight.sh's blocker line verbatim>
-Not checked: <the honest list — never empty>
+Built:       12 of 12 slides · 12 gated · 12 crops opened at 1470×956
+Gate:        [DECK-PREFLIGHT PASS] 0 blockers across 12 slides examined  (exit 0)
+Bounds:      18 of 18 instances within bound  (hues 1, accent max 2, typeBelowFloor 0)
+Not checked: web-font fidelity (unmeasurable under Obscura), the PDF export, animation
+             — and this file's own overrides, unmeasured on decks
 ```
+
+**[docs]** That last line is the rule rather than modesty: *"Avoid using prompts that ask the model
+to perform a task for which it has a known, fundamental limitation."* §9 says the same of the gate —
+*"A clean gate means no known computable defect."* Neither it nor this file is a verification.

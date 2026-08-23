@@ -18,6 +18,8 @@ peers looks exactly like a forgotten one. Second, the disk fills through
 **accumulation, not events** — nothing is ever obviously wrong, so nobody looks
 until a build fails.
 
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts this skill's prohibitions (never `system prune -a`, never `pkill`, never kill an idle orphan) into a bound ledger read back off the commands actually run, turns each tier into a counted target list, and requires every reported number to carry the command that produced it. Other models skip it.
+
 ## Arguments
 
 The invocation may carry an argument, which arrives as `ARGUMENTS: <text>` at
