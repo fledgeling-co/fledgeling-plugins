@@ -2479,3 +2479,68 @@ Not fixed here: deleting 29 files or teaching the gate a second comparison is a 
 its owner, and the drift has been harmless so far. Recorded so the next person who edits the wrong one
 finds this instead of rediscovering it.
 
+---
+
+## One field consulted, a state inferred, the inference wrong toward action
+
+*Three instances in one day, from three sessions, in three different instruments. Named as a family
+because the individual entries kept reading as unrelated bugs.*
+
+| field read | state inferred | what was true | who caught it |
+|---|---|---|---|
+| `claimant_alive: false` on a held berth | the claim is dead, reap it | a shell script had exited; **its descendants held the lock legitimately** | Graft — and it did not act |
+| `ppid == 1` on a long-idle claimant | it is an orphan, therefore a leak | orphaned **and load-bearing**: 25 references to its port in the consumer's last 200 events | glm-cf — checked before killing |
+| `proctor_doctor` reporting a lane `ready` | the lane works | **the readiness signal is the presence of a name, not a working lane** — the one guest was state `invalid` | sidetone, via a runner |
+
+**All three fail in the same direction: toward doing something destructive or expensive.** Reaping a
+live berth, killing a serving process, dispatching a run into a lane that cannot execute. That is not
+coincidence — it is the alarm asymmetry again, one level in. A field that *looks* like it answers the
+question produces a confident answer, and the confident answers here are all "act".
+
+**And the fix is identical in all three, and it is never a better field: try the thing.** A lock's
+descendants are found by looking for them; a service's liveness is in *its consumer's* record, not on
+the process; a lane's readiness is established by running something through it. sidetone's runner
+*"caught it by trying the lane rather than reading the field, which is the only thing that works."*
+
+The general form: **a status field describes what something declared, and an attempt describes what it
+does.** Where the two can diverge, only the second is evidence — and a field that has never been
+wrong in your presence is not evidence that it cannot be.
+
+---
+
+## When a two-platform repo keeps missing the same twin, it is one process gap not N feature gaps
+
+*sidetone, from two independently-triaged items.*
+
+Two unrelated P1s resolved to the same sentence. iOS ships an onboarding microphone permission ask
+and macOS has none; `verify-ios-capture.py` exists and the macOS twin does not. **Two items, both
+"iOS has it, macOS does not."**
+
+Filed separately they are two features to build. Seen together they are **one process gap**: someone
+builds the iOS half and the macOS half is never asked for. Fixing them one at a time leaves the
+mechanism that generated them running, and the next pair arrives the same way.
+
+**Worth a sweep in any repo here shipping paired surfaces** — the check is cheap and it is a
+different question from "what is on the backlog": *for every capability one platform has, does the
+other?* A backlog cannot answer that, because the missing halves were never filed.
+
+---
+
+## A dependency on something the dependency does not know it can deliver
+
+*sidetone, removing a declared blocker rather than waiting on it.*
+
+A brief declared *"Depends on: X for the capture mechanism."* Reading X's own spec on its branch: the
+lane it would supply reports `ready` and is not, its one guest is state `invalid`, and whether that
+lane can do the job at all is recorded **INCONCLUSIVE, each instrument ruled out by name**.
+
+**So the dependency was on a capability its provider had explicitly not established.** And it was
+unnecessary on the merits: *isolation stops a capture being disturbed; a subject check proves a
+capture is of what it claims.* Different guarantees, and only the second was the defect. Blocking
+there **left an open defect open for an unrelated reason** — and kept an item on a critical path it
+did not belong to.
+
+The check before honouring a declared dependency: **read the provider's own status for the specific
+capability, not its overall state.** A component can be healthy, merged and green while the one thing
+you need from it is recorded as unproven.
+
