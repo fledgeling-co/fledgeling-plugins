@@ -3786,3 +3786,41 @@ process.** So "copy equality is not enough" now has a denominator, and the failu
 must be live on that plane.** A recorded artifact tests the recording's relationship to the check, not
 the check's relationship to the world.
 
+---
+
+## Findings about code the branch replaces are sound and stale at once
+
+*Warden Design, from an out-of-family verdict that PASSED while naming three cannot-fail findings.*
+
+An out-of-family verifier returned **5 of 5 PASS** and named three "cannot-fail" shapes. All three were
+read against source before applying, and **all three described code the branch *replaced***: one was a
+tautology fixed hours earlier, one was the same fix one finding over, one was an upstream shape a prior
+release already refuses. **None was live.**
+
+> *"The verifier was grading the packet's description of the old tool against the new tool's diff —
+> sound findings, stale subject, which is why they got read rather than applied."*
+
+This is the diff-only-packet problem from the other side. There, a verifier without context invented
+findings about absent code; here, a verifier **with** a packet describing the *old* state attributed the
+old state's defects to the branch that removes them. **A packet is a snapshot of one moment, and a diff
+moves between two — any finding connecting them needs its subject named, or it arrives attached to the
+wrong side.**
+
+**The discipline that caught it: check-before-apply on every verifier finding.** Read the finding
+against the source it names before treating it as a defect in the work. The verdict's PASS was correct;
+the three findings were also correct — about history.
+
+---
+
+## "Drained, with the attestation"
+
+*Warden Design, closing its queue.*
+
+> *"Record me as drained — with the attestation this time: every gate exit code says so, not my mood."*
+
+The rung order applied to the session's own closure. A session declaring itself finished is rung one; the
+gates agreeing are the attestation. **The strongest form of "done" a peer can offer is the exit codes of
+everything that would have failed, listed beside the claim** — and this one listed them: pnpm 0, cargo
+443, clippy 0, six probes 0, tree clean, the only red being the three pixel claims parked on the
+operator's explicit decision.
+
