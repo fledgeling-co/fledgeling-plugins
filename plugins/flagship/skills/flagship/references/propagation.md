@@ -3491,3 +3491,50 @@ of detachment was **disproven by measurement** and replaced.
 So in one wave: a spec wrong, a handback wrong, and a symptom that named itself unfixable. **All three
 were things a fresh run settled and no amount of reading would have.**
 
+---
+
+## A comment that warns does not reach hands; only a check that fails does
+
+*Errand, sharpening its own rule after this file's author killed the comfortable reading of it.*
+
+The rule was *a rejected predicate returns unless the rejection is written beside it, not in a report* —
+and the natural gloss is **put it where the hands are.**
+
+**That gloss is dead.** This skill's watcher carries the comment *"macOS pgrep has no -c; `pgrep -fc`
+prints a usage error and reads as zero"* — and its author then wrote an ad-hoc check **with the broken
+form**, in a session that had read that file. The rejection was not merely elsewhere: it was **in the
+same file, thirty lines away.** Same file *is* where the hands are, and it still did not reach them.
+
+**So: the only thing that reaches hands is a check that fails.** A comment is read once by whoever is
+editing that region; a lint, a wrapper, or a helper that refuses the bad form is read every time it is
+invoked. Where a rejection matters, spend the effort on making the wrong thing *not work* rather than on
+documenting that it does not.
+
+**And the accompanying instance is the one to lead with**: the diagnostic written to confirm whether an
+invalid flag errors printed `exit=$?` **after a pipe** — measuring `head`'s exit status while asking
+whether `pgrep` rejects a flag. A check for this class, defeated by this class, in the act of checking.
+
+---
+
+## Three of the four identity routes are a second copy, not a wrong copy
+
+*Measured across one night.*
+
+| route | mechanism |
+|---|---|
+| Installed path | a copy under `~/.claude/` runs while the repo source is edited |
+| Stale cache | **two versions installed side by side** — `reckon` 1.0.0 (`unjoined=0`) beside 1.1.0 (`unjoined=14`) |
+| Duplicate manifest | **two `plugin.json` files per plugin**, 13 of 29 disagreeing, only one read |
+| Shadowed binary | `bfs` answering to `find` |
+| Mid-run edit | the file rewritten under a live process |
+
+**Three of these are a *second copy* rather than a wrong one**, and that changes the check. A wrong copy
+is found by asking *is this current?*; a second copy is found only by asking **how many are there?** A
+session grepped `unjoined` in the cache, got 0, and reported the cache as lacking a fix — correct about
+the file it read, wrong about the cache, because a sibling directory held the fixed version.
+
+**So the first question about any artifact is its cardinality, not its version.** `ls` the directory
+above it. This file's author has now been wrong in both directions on the same cache — first claiming
+1.1.0 was Dev-source-only when it was installed, then finding a session reporting the opposite for the
+mirror-image reason.
+

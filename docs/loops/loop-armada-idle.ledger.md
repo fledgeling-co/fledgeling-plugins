@@ -44,3 +44,7 @@
 | 40 | 2026-08-23 13:42 | change | new [cccc3f818b170142] |
 | 41 | 2026-08-23 13:43 | repeat | seen ×2 — suppressed until 14:11 [e299a9562e10f0dd] |
 | 42 | 2026-08-23 13:44 | change | new [69135e15bd9c57dd] |
+| 43 | 2026-08-23 13:45 | change | new [1b221af89cfca090] |
+| 44 | 2026-08-23 13:46 | change | new [9b889f4857cb25b8] |
+| 45 | 2026-08-23 13:47 | change | a state seen 4 times before [ebaf8f234b837b86] |
+| 46 | 2026-08-23 13:49 | held | new — wake budget of 30/h spent [e85e420ec3fc84dc] |
