@@ -121,7 +121,8 @@ runaway_daemon() {
 # blocked on IO looks the same, which is why this is a warning naming the running
 # descendant rather than a verdict.
 leaked_berths() {
-  local out="" pid etime cpu esec csec desc
+  # Prints two lines: the human message, then a stable identity key.
+  local out="" key="" pid etime cpu esec csec desc
   for pid in $(python3 "$BERTHS" 2>/dev/null       | python3 -c 'import sys,json;d=json.load(sys.stdin);print("\n".join(sorted({str(o.get("pid")) for o in (d.get("occupants") or []) if o.get("pid")})))' 2>/dev/null); do
     read -r etime cpu <<< "$(ps -o etime=,time= -p "$pid" 2>/dev/null | tr -s ' ')"
     [ -z "$etime" ] && continue
@@ -155,9 +156,14 @@ leaked_berths() {
       desc=$(pgrep -P "$pid" 2>/dev/null | head -1)
       desc=$(ps -o command= -p "${desc:-$pid}" 2>/dev/null | cut -c1-60)
       out="${out}${out:+; }pid ${pid} ${etime} elapsed, ${cpu} CPU, running: ${desc}"
+      # The identity of the condition, separate from its rendering. See the
+      # dedup note at the call site: the message carries etime and cpu, which
+      # move every iteration, so it can never be compared against itself.
+      key="${key}${key:+,}${pid}"
     fi
   done
   print -r -- "$out"
+  print -r -- "$key"
 }
 
 while true; do
@@ -240,10 +246,55 @@ while true; do
   fi
 
   # Independent of the load state: a leaked berth stalls a fleet on a quiet machine.
-  leak=$(leaked_berths)
-  if [ "$leak" != "$prev_leak" ]; then
-    [ -n "$leak" ] && echo "BERTH LEAK — $leak" || echo "BERTH LEAK cleared"
-    prev_leak="$leak"
+  # Deduplicate on WHICH pids are leaking, never on the rendered message.
+  #
+  # The message embeds ${etime} and ${cpu}. Both move every iteration, so
+  # comparing the message against the previous message compares a field that
+  # always differs, and the watch re-announces an unchanged condition forever.
+  # Measured: the same deliberately-held obs server reported at 10:19 elapsed
+  # and again at 11:41, nothing having changed but the clock. A wake that
+  # carries no new information is noise, and a detector that cries wolf on a
+  # known hold is worse than one that stays quiet.
+  #
+  # Same class as the rest of this file's history: a comparison pointed at the
+  # wrong field, printing identically to one pointed at the right field.
+  _leak_out=$(leaked_berths)
+  leak=$(print -r -- "$_leak_out" | head -1)
+  leak_key=$(print -r -- "$_leak_out" | tail -1)
+  # Announce a pid ENTERING the set. Never re-announce one already reported.
+  #
+  # Two bugs, found in order, and the second only because the first fix was
+  # controlled rather than assumed.
+  #
+  # 1. The comparison was against the rendered message, which embeds ${etime}
+  #    and ${cpu}. Both move every iteration, so it could never equal itself and
+  #    the watch re-announced an unchanged condition forever — the same held
+  #    server reported at 10:19 elapsed and again at 11:41, nothing changed but
+  #    the clock.
+  #
+  # 2. Keying on the pid SET was still wrong, because the set flaps. A claimant
+  #    whose children turn over during a sample is correctly excluded that round
+  #    (turnover means working) and re-qualifies the next, so the set oscillates
+  #    while the registry underneath is perfectly stable — measured at
+  #    {77393,81187} across five consecutive reads. Keying on it announced twice
+  #    in three iterations where once was right.
+  #
+  # So the unit is the pid, and the event is entry. A pid dropping out means it
+  # did some work, which is not news; a pid coming back is the same pid holding
+  # the same berth, which is not news either. `cleared` fires when the set
+  # empties, and that resets the record so a genuine later leak is heard.
+  if [ -z "$leak_key" ]; then
+    [ -n "$announced_leaks" ] && { echo "BERTH LEAK cleared"; announced_leaks=""; }
+  else
+    _fresh=""
+    for _p in ${(s:,:)leak_key}; do
+      case ",${announced_leaks}," in
+        *",${_p},"*) ;;
+        *) _fresh="${_fresh}${_fresh:+,}${_p}"
+           announced_leaks="${announced_leaks}${announced_leaks:+,}${_p}" ;;
+      esac
+    done
+    [ -n "$_fresh" ] && echo "BERTH LEAK — $leak"
   fi
 
   if [ -n "$state" ] && [ "$state" != "$prev" ]; then
