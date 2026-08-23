@@ -20,3 +20,6 @@ plugins/*/evals/runs/
 
 # Audit and report scratch, not repo content
 .scratch/
+
+# better-loop
+.claude/loops/

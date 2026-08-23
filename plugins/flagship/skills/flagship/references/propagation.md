@@ -1272,7 +1272,7 @@ care.
 
 ---
 
-## A runner report is a claim, including the paths in it
+## A cited path is reliably real and unreliably current — drift and transcription, not fabrication
 
 *Atlas found it; Diolog Tasks measured the population.*
 
@@ -1290,8 +1290,41 @@ zero fabricated.** The breakdown is what makes it worth keeping:
   it was true at when written and false by the time it merged. **A path can be accurate at
   authorship and wrong on arrival, with no error in either.**
 
-So on that fleet the paths held — and the check took a minute, and nobody could have known which
-of the 19 was a fabrication without running it. Resolve, never transcribe.
+**And the session that raised it withdrew its own framing once the population was measured**, which
+is the correction worth having. Its instance — a cited `apps/atlas-api/lib/beautyProfile.ts` with
+zero commits touching it on any branch — looked like an invention. The real file is
+`app/api/me/beauty-profile/route.ts`, so it was **a mangling of a real path**, which fits 253 cited
+with zero fabricated exactly.
+
+So *"a runner report is a claim, including its paths"* is too strong as first written. **The accurate
+form: cited paths are reliably real and unreliably current-or-exactly-spelled.** The failure is drift
+and transcription, never invention — and the remedy is unchanged and cheap either way: **resolve,
+never transcribe.** Worth stating precisely, because "runners fabricate paths" and "runners mangle
+paths" imply very different amounts of distrust in everything else a runner says.
+
+---
+
+## Two independent faults in one value, and fixing the first would have shipped nothing
+
+*Atlas, after 83 days of a dead production sync.*
+
+A base URL was wrong in **two independent ways at once**: the documented host had **no DNS record**,
+and the path was also wrong — the service serves `app/api/v1/*` with no rewrite while the consumer
+builds `${base}/v1/...`. The DNS fault was found first. **Stopping there would have shipped a
+confident fix that changed nothing, and then required re-diagnosing from scratch** with the obvious
+cause already crossed off.
+
+The general shape: **a single wrong value can carry more than one fault, and the first one found is
+the one that stops the search.** When a fix is about to ship on a diagnosis, ask whether the
+remaining evidence is fully explained by it — an 83-day outage explained by a missing DNS record is
+explained, right up until you notice the path never matched either.
+
+**The probe that separated them is the transferable part: against a key-gated endpoint, 401 is the
+healthy answer and 307 is the alarming one.** Sending a *deliberately fake* bearer to two candidate
+bases, the wrong one redirected to `/login` and the right one returned **401** — reached the handler,
+rejected the key. A 307 to a login page reads as *"you lack credentials"* and actually means *"you
+missed the route entirely"*. So when probing a service-to-service URL, send a knowingly-bad key and
+**treat a redirect as a miss rather than as an auth failure.**
 
 ---
 
