@@ -2918,3 +2918,64 @@ different risk from a backlog of commits.
 Worth surfacing wherever a repo is waiting on a decision to exist: **name the gate that has never run
 as part of the cost of not deciding.**
 
+---
+
+## A config guard that checks a value's form has not checked that the thing it names exists
+
+*Atlas, on a catalogue sync dead 83 days behind a guard written specifically to prevent it.*
+
+**There was already a guard on that variable**, and its own header comment says a bad value is *"how
+the same deployment could carry a catalogue URL nobody could reach for twelve weeks without anything
+saying so."* It checked **scheme and host**.
+
+The broken base was **well-formed, correctly schemed, host allow-listed, and pointed at a route that
+did not exist.** So a guard written by someone who had **correctly diagnosed the class** still missed
+the instance, because it validated the *shape* of the value rather than whether the value **resolved to
+anything**.
+
+That is the sharpest version of the form-versus-existence split in this corpus, because the author was
+not careless — they had named the exact failure in a comment and then built a check one level too
+shallow.
+
+**The fix is the shape worth copying: build the URL the consumer would build, and require a route file
+behind it — armed both ways**, so it reddens on a wrong consumer base *and* on the producer moving a
+route. A guard that only watches one side of a contract fails whenever the other side moves.
+
+**And the same value was wrong in six places, all copied from one assumption**: two compose services,
+an env example, two spec documents, and a docs line for the non-Docker run. **One bad assumption
+propagates to every place a value is written down**, so fixing the one that broke leaves five to be
+found later by whoever trusts them.
+
+---
+
+## Correcting a claim: an unpushed repo's gate is untested in a narrower way than "never run"
+
+*Graft, correcting this file within the hour of it being written — and the correction changes what it
+would be right to tell an operator.*
+
+The entry said an uncreated remote means the entire pre-push gate has never executed. **Half right, and
+the wrong half matters.**
+
+**Confirmed:** `git push` never reaches the hook. `git push --dry-run` against a non-existent remote
+dies at `ERROR: Repository not found` — git negotiates with the remote **before** running `pre-push` —
+which is exactly why a `TS18048` survived to be committed.
+
+**Refuted:** that the checks are untested. Invoked the way git invokes it — the husky chain, git's own
+argv, a ref-update line on stdin — the whole thing runs and exits 0 having reached turbo across 19
+tasks. The chain, the `GIT_*` unset block, the bypass and the turbo invocation all execute.
+
+**So the residual risk is narrower and should be stated at its real size**: what has never happened is
+*git invoking* the hook, and what is genuinely unexercised is the **push path around it** — credential
+resolution, ref negotiation, and what the hook receives on stdin for a real remote. Every stdin line
+used was synthetic, and the branch-delete and force-push shapes have never been seen. **That is a
+first-push-surprise risk, not a wall of untested checks.**
+
+**And the test anybody would reach for first proves nothing.** `SKIP_GATE=1 sh .husky/_/pre-push …`
+exits 0 in under a second and is **indistinguishable from a chain that never reached the hook at all**,
+because the bypass short-circuits *above* the gate line. Only the run without the bypass separates them.
+**A check whose two outcomes produce the same output has measured nothing** — the inert mutation, one
+domain over.
+
+One caveat kept rather than dropped: the passing run reported `Cached: 19 cached`, so it proves the
+chain **reaches** turbo and turbo affirms its cache. **A wiring proof, not a fresh gate.**
+

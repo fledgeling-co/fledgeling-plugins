@@ -22,3 +22,5 @@
 | 18 | 2026-08-23 13:06 | repeat | seen ×2 — suppressed until 13:16 [ebaf8f234b837b86] |
 | 19 | 2026-08-23 13:07 | repeat | seen ×3 — suppressed until 13:29 [abafd386ae0efcd5] |
 | 20 | 2026-08-23 13:09 | repeat | seen ×3 — suppressed until 13:16 [ebaf8f234b837b86] |
+| 21 | 2026-08-23 13:12 | change | new [6d7948e95ccdd1c8] |
+| 22 | 2026-08-23 13:14 | change | new [3cd865257e4fdcb7] |
