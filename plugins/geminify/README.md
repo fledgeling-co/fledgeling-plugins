@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that writes the companion file an existing skill needs before a Gemini model can run it properly.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
   <img alt="SWE skill: authoring" src="https://img.shields.io/badge/SWE_skill-authoring-434A55">
   <img alt="Blind panel 4-0" src="https://img.shields.io/badge/blind_panel-4--0-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

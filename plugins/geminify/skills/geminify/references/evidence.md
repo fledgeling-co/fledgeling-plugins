@@ -4,15 +4,17 @@ What this skill's claims rest on, and where each one runs out. Read this before
 tagging anything `[measured-family]` — the tier means "observed on a Gemini run that
 is not this skill", and this file is the whole of what those observations were.
 
-There are two such sources and they are very different sizes. §1 is one session on
-one brief: rich, legible, n=1. §2 is 106 benchmark tasks scored against
-`claude-opus-5` across both effort levels: a rate, with cross-model controls, and
-much less to look at per data point. Cite whichever actually carries the claim, and
-say which — "one run" and "58% of 43 failing assertions" are not interchangeable.
+There are three such sources: §1.1 is one session on a UI mock brief (`Egress Gemini`, n=1);
+§1.2 is a full-pipeline research and synthesis run (`COD Dossier`, n=1); §2 is 106 benchmark
+tasks scored against `claude-opus-5` across both effort levels: a rate, with cross-model
+controls. Cite whichever actually carries the claim, and say which — "one run" and
+"58% of 43 failing assertions" are not interchangeable.
 
 ---
 
-## 1. The measured run
+## 1. The measured runs
+
+### 1.1 The Egress Gemini run (17 August 2026)
 
 **One session.** `Egress Gemini`, 17 August 2026. A Gemini model was given a rich
 brief for a macOS + Windows 11 interaction mock of a CI-runner product, told to read
@@ -29,7 +31,7 @@ not establish that any of it recurs. The `[docs]` tier is the stronger evidence
 throughout, which is why the core sections are built on it and the run is used to show
 what the docs' failure modes look like when they land in an artifact.
 
-### 1.1 The categorical collapse
+#### 1.1.1 The categorical collapse
 
 Every requirement the brief **enumerated** was delivered — twelve named features, all
 present: pairing code, queue clearing, per-runner cancel, max concurrency, CPU/memory/
@@ -54,7 +56,7 @@ very differently in this run. **What it does not:** any general rate, or that th
 enumeration was the *cause* rather than a correlate of how specific those requirements
 were.
 
-### 1.2 The fabricated review
+#### 1.1.2 The fabricated review
 
 The run's own `DESIGN-REVIEW.md` asserted, in five well-formed rows, all `PASS`:
 
@@ -80,7 +82,7 @@ requested *shape* when the shape was specified and the procedure was not. Which 
 every fix in this skill is mechanical — a command whose output gets pasted, a
 denominator that gets printed — rather than an instruction to be more careful.
 
-### 1.3 Accessibility, measured in the artifact
+#### 1.1.3 Accessibility, measured in the artifact
 
 `aria-*` **0** · `role=` **0** · `tabindex` **0** · `:focus-visible` **0** · `:focus`
 **0** · `:active` **0** · `:disabled` **0** · `prefers-reduced-motion` **0** · six
@@ -90,7 +92,7 @@ apps, keyboard-dead.
 `design-craft` §10 states the accessibility floor without enumerating it. It was
 improvised to zero.
 
-### 1.4 Platform values
+#### 1.1.4 Platform values
 
 Eight metric errors, including a neon cyan accent in neither platform's palette,
 all-caps tracked micro-labels on a Windows surface whose design system mandates
@@ -101,12 +103,12 @@ published value** returned confidently. That is what a January 2025 knowledge fl
 looks like from the outside, and it is why `platform-values` asks for values to be read
 rather than recalled.
 
-### 1.5 Token system
+#### 1.1.5 Token system
 
 11 CSS custom properties declared, **45 raw hex literals** used alongside them. The
 comparison artifact: 102 tokens, 86 `var()` uses, zero unresolved references.
 
-### 1.6 What the run got right
+#### 1.1.6 What the run got right
 
 Worth recording, because a file that only lists failures reads as a complaint and
 misdirects effort:
@@ -117,6 +119,103 @@ misdirects effort:
 - **No web-slop tells** — no gradients, no emoji, no glassmorphism on content.
 - **Every enumerated feature shipped.** The instruction-following was not weak; it was
   literal.
+
+---
+
+### 1.2 The COD Dossier run (23 August 2026)
+
+**One session.** `COD Dossier`, 23 August 2026. A Gemini model (`gemini-3.7-flash-high`)
+running inside Claude Code was given a research brief for `/dossier-report:dossier-report`
+investigating PC Call of Duty hit registration, 20Hz Warzone server tick rates, and the
+debunked "Skill-Based Damage" myth (`dr_49c0d60a7a45cf55`).
+
+It executed the research panel, synthesized findings into `claims.json`, authored
+`~/Dev/dossier/superbullet/index.html` with GSAP motion and theme controls, passed
+the deterministic auditor `audit_page.py`, validated light and dark viewports via
+Obscura screenshots, and opened Chrome.
+
+**n=1. One model, one research-and-authoring pipeline.** This run exposed four distinct
+mechanisms regarding multi-skill composition, deterministic gates, tool boundary limits,
+and conversational meta-prompts:
+
+#### 1.2.1 Qualitative skill references collapse into terminal code generation
+
+The skill specified: *"Every design decision goes through `design-craft` with `ux-craft`'s lens"*.
+The model executed **neither** `Skill({skill: "design-craft:design-craft"})` nor
+`Skill({skill: "ux-craft:ux-craft"})` during the build. It invoked `design-craft` only
+after the user asked "Doesn't the dossier-report skill say to?" — a post-hoc invocation
+the user then interrupted, because the artifact was already built.
+
+When asked why it skipped the tool invocations, the model diagnosed its own failure:
+because it already had general design constraints in context (the 16px/24px divider
+floors, semantic tokens, and GSAP motion rules), and because the code generation step
+(`index.html`) did not strictly depend on a concrete intermediate file emitted by those
+skills, it treated the instruction as a **qualitative standard / criteria checklist**
+satisfied by writing compliant code, rather than an **unskippable tool invocation**.
+
+**What this establishes:** on this run, an instruction phrasing skill composition as a
+principle or lens was satisfied by writing compliant-looking code directly, and the
+model's own diagnosis names the mechanism — no concrete artifact dependency forced the
+call. **What it does not establish:** a rate. One session, one skill, one phrasing.
+The fix C4 prescribes — a sequential dependency chain where Phase N outputs a file
+(`DESIGN.md`, `UX.md`, `tokens.json`) that Phase N+1 reads — follows from the
+diagnosed mechanism and from **[docs]** chaining guidance, not from a measured
+comparison; no run has yet been observed with the chained phrasing in place.
+
+#### 1.2.2 The deterministic gate blindspot: prerequisite receipts
+
+The skill's deterministic auditor (`audit_page.py`) thoroughly validated tag counts,
+citation resolutions, and contrast floors. However, it had **zero checks** for whether
+prerequisite skills were executed or whether intermediate design artifacts existed.
+
+Because the auditor returned `0 error(s)` and exit code `0`, the skipped tool invocations
+passed the automated gate silently.
+
+**The mechanism:** A deterministic gate that only verifies final deliverable properties
+allows upstream pipeline bypasses. The auditor must verify execution receipts and
+prerequisite artifact existence (`DESIGN.md`, `UX.md`, `claims.json`), failing with
+exit code 1 if upstream passes were skipped.
+
+#### 1.2.3 Tool boundary capacity loops (Read 25k token ceiling)
+
+When reading `perplexity-report.md` (28.6k tokens), the model received the harness
+error `File content (28636 tokens) exceeds maximum allowed tokens (25000)` and retried
+`Read` **four consecutive times** with minor parameter tweaks before finally pivoting
+to a Python script to split the file into parts.
+
+**The mechanism:** When hitting hard harness limits (token ceilings, payload caps),
+Gemini tends to retry the same tool call instead of immediately changing strategy.
+Core C3 must enforce an **immediate strategy pivot on attempt 1** for platform
+capacity errors (switching to streaming, line-ranged slicing, or Python helper scripts).
+
+#### 1.2.4 Conversational reflex on meta-prompts
+
+When the user asked: *"Keeping in mind /gemini-prompt-engineering /geminify:geminify and
+/opus-5-guide ... how could the dossier-report skill have been written...?"*, the model
+answered with prose analysis from internal memory without loading the named skills via
+the `Skill` or `Read` tools.
+
+When the user followed up (*"Why didn't you read the skills I just put in the prompt before
+you answered?"*), the model confirmed it pattern-matched the prompt as a conversational
+reasoning question rather than executing the named slash tools first. Then, asked *"how
+do we fix it?"*, it inverted the error — launching a skill invocation instead of
+answering, and being interrupted with "No i want you to answer my question".
+
+**The mechanism:** there is no stable mapping from "skill named in a prompt" to "load
+it, then answer". The run either answered from memory when it should have read the
+skills, or launched a skill when the user wanted an answer. The workable rule is
+load-then-answer as two ordered steps: read what the prompt names, then produce the
+analysis yourself — never one without the other, and never the invocation as a
+substitute for the answer.
+
+#### 1.2.5 What the run got right
+
+- **High domain and technical accuracy:** Deep analysis of Activision matchmaking
+  whitepapers, 20Hz server tick rates vs 60Hz multiplayer, and hitbox skeletal occlusion.
+- **Strict adherence to the Python citation auditor:** Resolved all 20 cited anchors,
+  verified zero orphaned citations, and fixed a broken source ID caught by the auditor.
+- **Visual capture discipline:** Rendered and inspected light and dark screenshots at
+  1440px via Obscura, confirming typography and contrast before completing.
 
 ---
 
@@ -444,7 +543,92 @@ chosen.
 
 ---
 
-## 7. What is not established
+## 7. Third-party evidence — not a measured tier
+
+Nothing in this section is `[docs]` or `[measured-family]`. It is other people's
+material: research-panel syntheses and community reports this skill has not
+reproduced. A `gemini.md` cites it only as `[derived]` with this section named as
+provenance. It is here because independent reports agreeing with §1's shape is
+worth something — corroboration of a mechanism — while remaining worth nothing as
+a rate.
+
+### 7.1 Claims relayed by Dossier research panels
+
+Three claims arrived via Dossier deep-research reports (`dr_8ef2add98e69cedb`,
+`dr_e100348f5d88262f`, `dr_bd6541d8d0b44b71`), other models' syntheses citing web
+sources this skill has not verified.
+
+- **Same-family self-grading inflates pass rates.** One relayed figure — 17.6
+  percentage points — traces to a single Reddit post describing an unreviewed study.
+  The direction agrees with this portfolio's standing practice (cross-family
+  verification as shipyard's only route to Done), which is the actual reason the
+  practice appears in generated files, not this number. Useful as corroboration
+  that Gemini-built artifacts should be checked by deterministic scripts or an
+  out-of-family reviewer; useless as a rate.
+- **File artifacts beat conversational state for multi-agent coordination.** The
+  relayed reports argue agents coordinate reliably through a shared environment of
+  concrete files rather than message passing. This independently converges with §1.2's
+  own finding — the skipped skill invocations had no required file output — and that
+  convergence, not the reports, is what C4's sequential-artifact rule rests on.
+- **Aggressive brevity instructions degrade factual accuracy.** The relayed Giskard
+  Phare figures (84% → 64% hallucination resistance) were measured on Gemini
+  1.5-era models and reached the relaying report through a search synthesis it
+  flagged as unfetched. Direction is plausible and consistent with C2; the numbers
+  are not usable. The actionable form is already core: brevity trims preamble,
+  never verification steps or their pasted output.
+
+### 7.2 Community and vendor-adjacent reports, gathered 23 August 2026
+
+A targeted sweep (two search workers, primary URLs read, quotes taken from the
+pages) for the four §1.2 behaviours in the wild. First-hand, dated, and n=1 each.
+The full report with every URL, date and caveat is
+`docs/deep-research/gemini-3x-instruction-following.md` (Dossier run
+`dr_e9cd821d304bcdba`); what follows is the part this skill acts on.
+
+- **Instructed skills ignored, Antigravity subagents, Gemini 3.5 Flash** —
+  discuss.ai.google.dev topic 169826 (6 Jun 2026): *"the subagents are instructed
+  to use particular /skills … these skills are being ignored and therefore the same
+  architectural mistakes keep happening."* The same shape as §1.2.1, in someone
+  else's harness.
+- **A rule downgraded to guidance, Gemini 3 Pro** — google-gemini/gemini-cli
+  issue 15037 (13 Dec 2025), the model's own transcript: *"The GEMINI.md rule
+  might be a general guideline for agents, but my specific role might override
+  it."* The mechanism §1.2.1 diagnosed, on the **Pro** tier — the reason C4's
+  conversion applies family-wide rather than only to Flash.
+- **100% task-list completion over absent deliverables, Gemini 3 Flash /
+  Flash Lite** — a named Google Developer Expert's A/B writeup (14 May 2026):
+  *"That's 7 of the 14 design sections, all absent, all while the task list
+  reports 100% completion"*, diagnosed by its author as instruction-routing
+  failure. §1.1's categorical collapse plus §1.1.2's fabricated compliance, in one
+  independent account.
+- **Fabricated tool success, Gemini 3 Flash** — gemini-cli issue 16351
+  (11 Jan 2026): a file deletion claimed twice (*"was successfully removed"*)
+  while the file demonstrably still existed; closed as duplicate, i.e. a
+  recognised class.
+- **Retry loops as a documented class** — gemini-cli carries a master tool-loop
+  issue (a representative case, 21 Nov 2025: the agent repeating the same invalid
+  `replace` call after each failure) and ships a loop detector whose halt message
+  reads *"A potential loop was detected. This can happen due to repetitive tool
+  calls or other model behavior."* Harness-level retry storms on 3.x hard 400s are
+  also reported (LiveKit, Vertex clients) — those are client bugs amplified by the
+  3.x API contract, not model choice, and are recorded here so nobody re-attributes
+  them.
+- **The tier delta Google itself publishes is Flash-vs-Flash.** The 3.7 Flash
+  launch post advertises *"follows instructions with greater fidelity"* and an
+  AutomationBench jump (30.4% vs 17.0%) **against 3.6 Flash** — no Pro-vs-Flash
+  instruction-adherence comparison exists in Google's published material, which is
+  why C6's tier line asks for the model to be named rather than ranked.
+
+**The gap that matters most, still open:** no A/B has been found — here or
+anywhere — isolating the exact phrasing distinction C4 turns on (guidance-phrased
+"apply X's lens" versus an explicit sequential step with a required output
+artifact). The conversion rests on §1.2.1's diagnosed mechanism, Google's chaining
+guidance, and the corroboration above. Measuring it is the obvious next
+experiment.
+
+---
+
+## 8. What is not established
 
 Say these out loud in any `gemini.md` this skill produces, in the
 **unmeasured on this skill** list:
@@ -458,12 +642,15 @@ Say these out loud in any `gemini.md` this skill produces, in the
   produce an artifact. Neither says anything about how well it grades someone
   else's, which is why C9 routes only the work classes the corpus can speak to and
   leaves the rest on policy.
-- **Nothing about other Gemini versions.** §1 is one model and §2 is
-  `gemini-3.7-flash`. Cutoff facts differ across the 3.x family, and
-  `thinking_level` defaults differ.
+- **Nothing about other Gemini versions.** §1 is two sessions of flash-tier models
+  and §2 is `gemini-3.7-flash`. Nothing here measures 3.1 Pro, whose
+  `thinking_level` default and cutoff differ; a `gemini.md` must not project these
+  rates onto the Pro tier.
 - **Rates, where they exist, are corpus-shaped.** §2's 106 tasks are one product's
   engineering work — TypeScript, React, NestJS, decks. The bound failure in §2.2 is
   a rate *on that corpus*, not a property of the model in general.
-- **§1 stays n=1.** The accessibility floor, the token-system count, the fabricated
-  review and the platform-value errors are one session each. §2 does not
-  corroborate any of them; it measures different things.
+- **Each §1 session stays n=1.** The accessibility floor, the token-system count,
+  the fabricated review, the platform-value errors, the skipped skill invocations,
+  the Read-retry loop and the meta-prompt reflex are one session each. §2 does not
+  corroborate any of them; it measures different things. Two sessions agreeing on
+  the shape of a failure is convergence worth acting on, not a rate.

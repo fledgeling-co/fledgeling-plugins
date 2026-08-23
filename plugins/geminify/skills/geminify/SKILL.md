@@ -89,7 +89,7 @@ like one. If the skill is large, read it anyway — this is the cheap part.
 python3 scripts/scan_skill.py <target>/SKILL.md --refs
 ```
 
-Two outputs, both derived from the target rather than from a template:
+Outputs, derived from the target rather than from a template:
 
 - **The quota ledger** — every categorical quantifier attached to a countable
   deliverable, with its line number. These are what collapse to one instance.
@@ -98,6 +98,13 @@ Two outputs, both derived from the target rather than from a template:
   prose (`avoid`, `never`, `without`) are counted rather than listed, the same trade
   the quota regex makes; the ones attached to a countable property belong in the
   ledger, and you move them there by hand.
+- **Qualitative skill references** — phrases like "goes through X with Y lens" or
+  "routes through X" where skill composition is phrased as a principle or guideline
+  rather than an executable gate. On the one measured run carrying that phrasing
+  (`COD Dossier`), both such invocations were skipped. Convert each into a
+  sequential phase whose output is a concrete file (`DESIGN.md`, `UX.md`) that a
+  later phase reads; the mechanism and its limits are in `references/evidence.md`
+  §1.2.1.
 - **The module triggers** — which optional sections this file needs, decided by
   what the skill demonstrably contains. A skill that renders nothing gets no
   capture guidance. Measured across four skills: `design-craft` triggers `visual`
@@ -137,10 +144,11 @@ catalogues, with the content and the citation for each:
 `references/modules.md`.
 
 **Core** — the quota ledger as an artifact · verification asked for, with claims
-carrying their command · the retry ceiling (two attempts; a permanent error gets
-one) · passes rather than one overloaded sweep · one worked example before the
-set · `thinking_level` · recall is not a source · the epistemic-status block · the
-route-out block.
+carrying their command · the retry ceiling (two attempts; permanent errors and
+hard capacity limits pivot on attempt 1) · passes and sequential artifact
+dependencies rather than qualitative composition or overloaded sweeps · one worked
+example before the set · `thinking_level` · recall is not a source · the
+epistemic-status block · the route-out block.
 
 **Modules** — `visual` · `gate` · `states` · `platform-values` · `authorship` ·
 `delegation` · `injection` · `bounded-constraint` · `count-contract` · `emphasis`.
