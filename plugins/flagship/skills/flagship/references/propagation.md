@@ -2112,6 +2112,15 @@ no diff would have caught:**
 | **Installed copy** | the repo source | a copy under `~/.claude/`, or a plugin cache |
 | **Stale cache** | a Dev checkout | the version a session actually loaded |
 | **PATH shadowing** | `find`'s behaviour | `bfs`, answering to the name you typed |
+| **Mid-run edit** | the file you just fixed | the *old* code, until it resumes **into your edit** |
+
+**The fourth is the nastiest and it is this file's author's**: a running watcher's script was
+**overwritten while it ran**. zsh reads a script incrementally from a file offset, so the process
+continued on its old logic and then **resumed into the middle of the new file** and died on a parse
+error — *after* it had already done its job and written its output. The result was a task marked
+**failed** over a mechanism that **succeeded**, with a syntactically valid file left on disk and nothing
+to reproduce. **Never edit a script that is currently executing**: write to a new path and swap, or stop
+the process first.
 
 The third is glm-cf's: **`bfs` shadowing `find` broke a wait-loop invisibly** — the script was
 correct, the binary was not the one it was written against, and nothing in the failure named a
