@@ -32,13 +32,40 @@ d=json.load(open(sys.argv[1])); pid=d.get("pid")
 if not pid or os.system(f"kill -0 {pid} 2>/dev/null")!=0: sys.exit()
 name=d.get("name") or ""
 if not name: sys.exit()
-if name in [l for l in os.environ.get("_EXCL","").split("\n") if l]: sys.exit()
-# Only an explicit idle counts. `shell`, `busy`, and a missing status are all
-# "not known to be dispatchable" and must not be inferred into idle.
-if d.get("status") != "idle": sys.exit()
+# An exclusion EXPIRES. A session saying "stop counting me" is true when said
+# and is a claim with a shelf life, not a permanent property -- exactly the
+# failure recorded in the corpus, arriving in the instrument built to track it.
+# Measured: a session was excluded on its own word hours earlier, went quiet,
+# and stayed invisible until the operator asked about it by name.
+#
+# Format: "<name>" or "<name>|<unix-expiry>". A bare name is permanent and is
+# only for a session its USER scoped out of the fleet; anything a session asked
+# for itself gets an expiry.
+_now = time.time()
+_ex = {}
+for _l in os.environ.get("_EXCL","").split("\n"):
+    if not _l.strip(): continue
+    _n, _, _t = _l.partition("|")
+    _ex[_n.strip()] = float(_t) if _t.strip() else None
+if name in _ex:
+    _exp = _ex[name]
+    if _exp is None or _now < _exp: sys.exit()
+# `busy` and a missing status are genuinely "not known to be dispatchable" and
+# must not be inferred into idle. `shell` is different and excluding it was a
+# defect: a session sitting at a shell prompt is not working, and the two
+# spawned wave-conductors on this machine live in `shell` between turns -- so
+# the loop could never see them, and the operator asked about one directly
+# after it had been quiet for seven minutes.
+#
+# Reported with its state attached rather than folded into idle, because the
+# two want different handling: an `idle` session finished a turn and is
+# waiting, a `shell` one may be between turns, may have dropped out of Claude,
+# and is exactly the shape that goes unnoticed when it is real.
+st = d.get("status")
+if st not in ("idle", "shell"): sys.exit()
 since = d.get("statusUpdatedAt") or d.get("updatedAt")
 if since and (time.time() - since/1000.0) < float(sys.argv[2]): sys.exit()
-print(name)
+print(name if st == "idle" else name + "(shell)")
 PY
 done | sort | tr '\n' ' ' | sed 's/ *$//')
 
