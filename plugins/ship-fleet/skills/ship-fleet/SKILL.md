@@ -106,6 +106,27 @@ Triage every untriaged item **serially** before the fleet fans out — ledger id
 read-modify-write on a shared file, and concurrent runners racing it corrupt it. Child specs
 minted later follow the ledger-lock rule in the scheduling reference.
 
+## Tiered delegation (`tiered`)
+
+**With no `tiered` argument, behave exactly as this file otherwise describes.** Invoked with it —
+normally by flagship or ship-armada passing it down — three things change:
+
+- **`defer` and the out-of-family gates are off.** Judgement stays in-family; the perch binding
+  selects the model. **Never name a model in a runner prompt** — the binding is the only control
+  surface, and a prompt that names one either contradicts it or duplicates it.
+- **You may be a worker yourself.** Your tier is decided by your directory: `~/Dev` and the `bella*` /
+  `atlas*` / `diolog*` / `dAIolog` projects are bound to a frontier model, and **every other project
+  is unbound**. Running unbound, you do **not** spawn the verify stage — you report each item
+  `ready-to-verify` upward with the gate exit codes you actually saw, and the bound conductor spawns
+  verify in fresh context. The rule that a builder cannot grade its own build is unchanged; a weaker
+  tier grading a build is the second reason.
+- **Runner prompts carry scaffolding.** Enumerate every deliverable rather than describing a
+  category, name each gate with its expected exit code, state that tests verify correctness and are
+  never edited to pass, and say plainly that a blocked report is a result while a gate reported green
+  but not run is not. Pass `tiered` on to `ship-feature`.
+
+Full protocol and the worker-brief template: flagship's `references/tiered-delegation.md`.
+
 ## Phase 5 — Run the fleet
 
 Slots filled with the highest-value ready item; refill on free — don't barrier on whole waves

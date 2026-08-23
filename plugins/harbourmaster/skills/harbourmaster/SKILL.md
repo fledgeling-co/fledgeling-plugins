@@ -49,8 +49,17 @@ not the one that is nearest to hand.
 | **This Mac** via `governor-run` | CPU, RAM, disk — the thing that is scarce | Building, testing, running anything that must touch this working tree |
 | **`anvil-errand`** container on the node | Another machine entirely; nothing here | Long, self-contained, CPU-heavy work that needs no local state — benchmark runs, big builds, batch jobs |
 | **`proctor`** instrument session | A machine-wide foreground turn, and little CPU | Driving or verifying a native macOS app — the accessibility tree, capture trustworthiness, geometry assertions |
-| **`defer`** to another model or CLI | Another vendor's plan headroom | Judgment, verdicts, second opinions, out-of-family review, completeness critique |
+| **`defer`** to another model or CLI | Another vendor's plan headroom | Judgment, verdicts, second opinions, out-of-family review, completeness critique — **unless the caller is running `tiered`, which turns this plane off** |
 | **Claude subagents / workflows** | This session's rate limit and context | Wide reading, search and investigation across many files |
+
+**A sixth resource has no plane and no meter: the conductor's attention.** When a caller runs
+`tiered` — a frontier conductor delegating to cheaper sessions bound by directory — the `defer` plane
+is off and the delegation happens through perch bindings instead. That changes what is scarce. A
+cheaper tier needs more rounds per item, more explicit briefs, and its gate exit codes read rather
+than its prose, so **each worker consumes conductor turns at a rate berths do not bound.** Berths cap
+the CPU a fleet can spend; nothing caps the attention it costs. When advising a `tiered` caller on
+fleet width, say so: the binding constraint is likely to be the conductor's context rather than the
+machine's cores, and it will not appear in any reading this skill produces.
 
 Two of those carry constraints worth holding in mind before you plan around them.
 
