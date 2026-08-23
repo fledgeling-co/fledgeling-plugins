@@ -2979,3 +2979,67 @@ domain over.
 One caveat kept rather than dropped: the passing run reported `Cached: 19 cached`, so it proves the
 chain **reaches** turbo and turbo affirms its cache. **A wiring proof, not a fresh gate.**
 
+---
+
+## Closing one instance of a class is not closing the class
+
+*Egress, from two guards that found their class still live on their first run.*
+
+Two defects were closed on the instance that was reported. **Both guards, run for the first time,
+immediately found untouched siblings:**
+
+- **DEF-256** — a quarantine page carrying **zero** `x:Bind`, showing `OPERATIONAL`, `ENABLED`,
+  `HEALTHY` in the app's success green, **on the quarantine page of a product whose isolation engine
+  has never quarantined anything.** The earlier defect was closed on the *dashboard* instance and
+  nothing looked for siblings.
+- **DEF-257** — a probe posting a CGEvent with **zero** front checks, so any sample taken while another
+  app held the front measured that app. The earlier fix went into the splitter probe only.
+
+**So a guard is worth building even where the defect reads fixed**, because the guard's first run is a
+search of the class rather than a re-test of the instance.
+
+**And the test it implies for any register of closed defects**: for a population marked `fixed` with a
+guard named, the question is not *does the guard exist* — a citation check answers that — but **does
+the class have siblings the guard would find.** Run the guard, do not check that it is cited.
+
+A limit recorded with it rather than smoothed: one case stands on a weaker `presence` rung **and says
+so**, because the element it concerns appears in none of the committed label walks — the walk excludes
+that role as framework structural, which is exactly what let the defect stand undetected in the first
+place. **The instrument that would normally carry the evidence is the one blind to it.**
+
+---
+
+## A third of a notes-derived backlog was already fixed
+
+*Egress, putting a number on it.*
+
+Given the check — *grep for the thing the brief says is wrong before dispatching a builder* — **all
+three "construction" briefs described faults already fixed in the tree.** They wanted regression
+guards, not reproductions. **Three of nine: a third.**
+
+And the premise grep itself needed reading rather than counting: it matched a **comment** reading
+`Was the literal "GitHub Actions Connected"…` — **the fix describing the defect.** A grep for the
+broken thing hits the commit message, the changelog and the comment explaining the repair, all of which
+are evidence the fault is *gone*.
+
+So the check is *grep, then read what matched*. A hit is a prompt to look, never a confirmation.
+
+---
+
+## Re-issuing a completed list is the shelf-life failure with a conductor doing it
+
+*Egress, naming it after five messages.*
+
+A conductor sent the same eight-item work list across five consecutive messages. **All nine items had
+landed.** The list was derived once and repeated, never re-derived — and each repetition read as a
+fresh instruction to a session that had already finished.
+
+Identical in shape to a session reporting *"the fresh work orders are exhausted"* after new ones had
+appeared: **a state claim that was true when made, false when repeated, with nothing in between to
+catch it.** The difference is only who holds the stale claim, and a conductor's version is worse
+because it *schedules against* it.
+
+**A dispatch is a status assertion.** Re-derive the target's board before sending one — the cost is a
+question, and the cost of not doing it is a session reading its own completed work as a fresh
+instruction and having to say so.
+
