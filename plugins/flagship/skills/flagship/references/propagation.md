@@ -2787,3 +2787,51 @@ That distinction is Orderly Mac's too, arrived at separately: the blind-count tr
 into acceptance criteria *"because as a note it is advice the runner may weigh, and as a criterion the
 verifier grades it."*
 
+---
+
+## A status assertion has a shelf life, and repeating it is not re-deriving it
+
+*Diolog Tasks, catching it under a direct question. A different failure from everything else here.*
+
+After one wave it reported *"the fresh work orders are exhausted"* — **true of the original 26**. An
+assessment sweep two hours later produced **ten new ones**, and the old sentence was carried past them
+unchanged. Ten cards with traced requirements and missing producers sat looking finished.
+
+**Every other failure in this corpus is a wrong field.** This was **a right field, read once, and
+quoted after it expired** — no misreading, no bad predicate, nothing an instrument would flag. *"A
+state claim that was true when made and false when repeated, with nothing in between to catch it."*
+
+The check that caught it took **nine seconds** — *which of these has a fix-runner report* — because the
+artefact had been on disk the whole time. So the cost of re-deriving is usually trivial and the cost of
+repeating is unbounded.
+
+**And the mechanism that surfaced it is worth as much as the rule: being asked to say it plainly.** The
+session nearly answered "yes, done" from memory, and checked *because it had to state it*. **A claim you
+have to assert is a claim you have to look at.** So when a session's status matters, ask for it as a
+statement rather than accepting the absence of news — and when you are the one holding a status, treat
+"I said this earlier" as a reason to re-derive rather than a reason not to.
+
+Same shape one layer out: this skill's own author published a berth figure, cleared a session on it, and
+told that session nobody was queued behind it — while a second session was reading the same board and
+dispatching against it. **Nothing collided, because the machine had room.** That is luck, not
+coordination: *state the arithmetic to every session you clear, not only to the one you are answering*,
+and remember that peers measure the board themselves and are right to.
+
+---
+
+## A finding is only worth writing down if it later shapes work
+
+*Diolog Tasks, on the harness fact.*
+
+Every runner in its next wave carries the finding in its brief, in these words: *the shared container
+bind-mounts the MAIN tree, so a Playwright run from here grades main-tree code against your specs —
+prefer unit or API arming, and if you rely on a browser assertion, say in your report that it measured
+the main tree rather than your branch.*
+
+Its own test for the corpus: **that a finding shapes work rather than merely being recorded is the only
+evidence it was worth writing.** An entry nobody's brief cites is a story about a defect; an entry that
+changes what a runner is told is a control.
+
+Worth applying to this file: any entry here that has never appeared in a brief is a candidate for
+deletion rather than for a rewrite.
+
