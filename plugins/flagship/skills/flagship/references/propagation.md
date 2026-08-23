@@ -2667,3 +2667,123 @@ either measures the default and passes. And the first step there is establishing
 can set them at all — **because if none can, the right outcome is a named permanent limit rather than
 an instrument.** A limit recorded is a deliverable; an instrument that cannot work is not.
 
+---
+
+## The ladder: a declaration, a behaviour, an attestation
+
+*sidetone, synthesising three findings from three sessions into the rung order.*
+
+> **A status field is a declaration. An attempt is behaviour. A third-party attestation is neither and
+> beats both.**
+
+- **Rung 1 — declaration.** `claimant_alive`, `ppid`, `doctor` reporting `ready`, a `--version` string,
+  a heading saying *"every figure is recomputed"*. Cheapest, nearest to hand, and the thing being asked
+  about is the thing answering.
+- **Rung 2 — behaviour.** Run something through the lane. Look for the descendants. Read the consumer's
+  record rather than the process. This is *try the thing*, and it is what gets you off rung 1.
+- **Rung 3 — attestation.** `codesign -dv` naming `Developer ID Application: Google LLC (EQHXZ8M8AV)`
+  chained to Apple Root CA. **Nobody asked the binary.** Three lanes carrying three distinct Team IDs
+  is the property "out of family" actually needs, and it had never been checked.
+
+Diolog Tasks' extension is what makes this a rule rather than a story: *every "is this the right thing"
+check tonight has had this structure* — `available` derived from `in_use`, `du` reporting apparent
+size, `$0` resolving to `/`, a card's own premise pointing away from its defect. **Each is a self-report
+standing in for an attestation.**
+
+**When a check asks what something IS, prefer a signature from outside it to a string inside it.** An
+attempt is an attestation you generate yourself, which is why rung 2 works; where a third party's
+signature already exists it is cheaper and stronger than either.
+
+---
+
+## A campaign can be entirely green and entirely stale
+
+*Graft, on its own re-baseline.*
+
+Every lane green at HEAD, 1,145 commits after the campaign was declared: 2,896 api tests, 104 swift,
+151 playwright, zero failures anywhere. **And all nine `ast-compiler` case citations had drifted 4-15
+lines, each landing inside the test for the *previous* case** — one two cases out. Six requirement
+sources were pointing at the wrong test.
+
+**The check that missed it was *"does the cited file exist"*, and every one passed.** So: **verifying a
+path is not verifying a citation.** A green suite says the tests pass; it says nothing about whether the
+register points at the tests it claims.
+
+And the first drift check was wrong in the *opposite* direction — it asked whether the id appears **on**
+the cited line, reported 13 of 13 drifted, and **gave the four correct citations the same weight as the
+nine real ones.** Both failures are the matcher, which is where a citation check's entire discriminating
+power lives.
+
+**Two traps in reading its own green, either of which would have published a false one.** The playwright
+run was piped through `tail -25`, so every visible line was `[default]` and **the project carrying the
+newly-armed case was outside the window entirely** — re-run alone rather than inferred, and `--list`
+settles it at 149 + 2 = 151. And `rc=0` was not used as the verdict on either leg, because both were
+piped into `tail` and **`$?` reports `tail`'s status — the eighth instance of that trap in this corpus.**
+
+---
+
+## Fixing the symptom destroys the fixture for the fix
+
+*Orderly Mac, on why it filed the hook defect separately and deliberately left it demonstrable.*
+
+`.husky/_/h:17` runs the pre-push hook under `sh -e`, and one gate exits 1 there — so **a push never
+reaches the lines below it**, and six checks have never run. Two were merged the same day.
+
+The obvious order is to fix the red gate first. **That would remove the only tree where the hook defect
+can be demonstrated**, so it was filed separately and left provable while the red gate is still red:
+*"that is its own best fixture."*
+
+**And the reason it outranks the item it came from**: every one of those six checks was wired with the
+stated justification *"an unwired gate cannot fail"* — which is now true of them **in a second sense
+nobody intended**. The fix matters not because this gate is red but because it recurs the next time
+*any* gate goes red, and the output looks like a hook that stopped rather than one that skipped six
+checks.
+
+**A consequence worth carrying: making the red gate green is what makes six other gates run for the
+first time.** So that merge changes what the hook *does*, not only what it says, and the first push
+after it is the first time five of those checks meet a real tree. That is an argument for *fix* over
+*bypass* that did not exist before the hook defect was found.
+
+---
+
+## A declared dependency names a component; check whether you need a precondition
+
+*sidetone, twice in one evening.*
+
+A brief declared a dependency on another item "for the capture mechanism". Reading that item's spec:
+**nothing of it was reusable** — no mention of the latency, the event count, or the deployed relay the
+dependent item needed. What was actually needed was **validity**, not components: measuring the latency
+of a delivery answer that can be false measures the wrong thing, because a status reporting `delivered`
+for bytes that never left would time a send that did not happen.
+
+**A component dependency and a precondition behave differently when the provider slips.** A component
+can be substituted, built, or stubbed. A precondition cannot — if the answer might be false, every
+measurement built on it is meaningless regardless of who supplies the mechanism.
+
+Same session, same night, the other direction: a declared dependency on a lane its provider's own spec
+records **INCONCLUSIVE**. So: **read what you actually need from the dependency, then check whether the
+provider has established that specific thing** — not whether the provider is healthy.
+
+**And an open defect can be closed by an unmerged branch** — twice tonight. Re-measure a defect against
+any branch that rewrote the thing it describes before scheduling work on it.
+
+---
+
+## A fix that removes the conditions under which the bug appears is cheaper and indistinguishable
+
+*sidetone, writing it into acceptance criteria rather than trusting it to be understood.*
+
+Nine faults in a suite could each be made green by **serialising the suite**. That removes the signal
+rather than the fault, costs almost nothing, and **produces a green identical to the one a real fix
+produces**.
+
+So the criteria forbid it by name. The general shape, and it is why this needs to be a criterion rather
+than a note: **any fix that narrows the conditions under which a bug can appear looks exactly like a fix
+that removes the bug** — and it is always the cheaper of the two. Timeouts raised, concurrency dropped,
+retries added, a flaky case skipped. Name the forbidden remedies in the criteria, because the verifier
+grades criteria and only weighs notes.
+
+That distinction is Orderly Mac's too, arrived at separately: the blind-count trap moved from a note
+into acceptance criteria *"because as a note it is advice the runner may weigh, and as a criterion the
+verifier grades it."*
+
