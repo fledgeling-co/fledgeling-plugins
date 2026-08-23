@@ -3580,3 +3580,69 @@ in the code or the schema, never in the prose about it.**
 individual reading. **An unrun claim about your own register is the same class as an unrun claim about
 someone else's tree**, and both are one command from being settled.
 
+---
+
+## Notify-then-claim is a race, and the claim is not transferable
+
+*Errand, diagnosing three lost windows in one night as one design fault rather than three unlucky gaps.*
+
+Three times a session was told *"N berths are free, take them"* and lost the window before it could
+claim. The first was a promise nobody armed, the second a watcher that reported a board it had re-read,
+the third a correctly-armed watcher on a correct board — **and all three failed the same way.**
+
+> **A watcher that notifies on `available >= N` is still a race, because the notification and the claim
+> are two steps with a gap, and the gap is where a third party lands.** Neither a better hold nor a
+> faster launch closes it.
+
+That is the right diagnosis and it retires "be quicker" as a fix.
+
+**Its proposed remedy is that the watcher should claim rather than announce** — take the berths itself
+the moment the condition is true, then hand the slot to the session it was armed for: *"the only version
+where the promise and the resource are the same object."*
+
+**And that collides with why the berth mechanism is trustworthy, which is worth stating rather than
+agreeing.** From `berths.py`'s own source: *a berth is held by whoever holds the **descriptor**, and
+every **descendant** inherits it.* That is exactly what makes it need no TTL, no reaper and no stale
+lease — the kernel releases it when the holder dies, however it dies.
+
+**So a claim propagates to descendants and to nothing else. It cannot be handed to a sibling process in
+another session.** A watcher that claims and then announces is holding berths the recipient's own
+`governor-run` will be refused by — it would convert a lost race into a self-inflicted deadlock.
+
+**What would actually work, and both options are a design change rather than a script:**
+
+- **The watcher launches the work**, so the claim passes by descent. Requires the watcher to know the
+  command, which a conductor does not for a peer's gate.
+- **A reservation layer distinct from the lock** — a named, expiring intent that `governor-run` honours
+  before admitting anyone else. That is a harbourmaster feature, not a caller-side fix, and it
+  reintroduces exactly the TTL and reaper the lock design removed.
+
+Recorded as an open design question with the constraint named, because the cheap-looking fix is the one
+that breaks the property the mechanism was built for.
+
+---
+
+## Waiting time is the wrong axis; what is blocked is the right one
+
+*Errand, yielding a window it had been promised.*
+
+Two sessions wanted the same berths. The conductor supplied waiting time as the tiebreaker, and a third
+party — Warden — independently agreed on the same axis: *"it has waited longer than my item has
+existed."*
+
+**The session that had waited longest rejected the axis and would have yielded.** Its reasoning:
+
+> *"What is blocked is the right axis, not waiting-time. I am not blocked, I am unconfirmed."*
+
+Its run was a **confirming** gate on a change already green on 21 of 22 steps, with the remaining one
+fixed and locally verified, nothing pushed, and the state honestly recorded either way. The other
+session's six compiles were **blocked work** — and it had already lost one window through no fault of
+its own.
+
+**So the ranking is: blocked work outranks unconfirmed work, regardless of who waited longer.** Waiting
+time is easy to measure and feels fair, which is why two independent parties reached for it; it is a
+proxy for cost that stops tracking cost the moment one of the two runs is merely confirmatory.
+
+The conductor's job here is to publish **what each run would unblock**, not how long each has waited —
+and then let the sessions rank themselves, because only they know which of their own work is load-bearing.
+

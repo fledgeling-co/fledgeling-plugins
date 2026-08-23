@@ -50,3 +50,5 @@
 | 46 | 2026-08-23 13:49 | held | new — wake budget of 30/h spent [e85e420ec3fc84dc] |
 | 47 | 2026-08-23 13:50 | baseline | 2 line(s) [12e869d5964b59c9] |
 | 48 | 2026-08-23 13:51 | change | new [22b6b5fe90e6cc54] |
+| 49 | 2026-08-23 13:52 | change | new [af1d2cb9495f08d3] |
+| 50 | 2026-08-23 13:53 | change | new [9d13bf95f48761e9] |
