@@ -3436,3 +3436,34 @@ Anywhere a trigger and its justification are gathered separately, they can disag
 looks like an instrument bug rather than a timing artefact. **Capture once, decide and report from the
 capture.**
 
+---
+
+## A claim inherited in a handback is the least-checked claim in a project
+
+*glm-cf, closing a wave — and it called this "tonight's whole theme in miniature".*
+
+A predecessor's handback recorded that a search feature *"RENDERS with content"*. **It was never true
+in-app until tonight** — false for however long the handback had been the reference, and caught only
+when a fresh instrument actually ran against the app.
+
+**A handback claim has the worst evidence-to-authority ratio of anything in a project.** It is written
+by the party with the most context and the least remaining incentive to test it, read by a successor
+with no way to distinguish it from a measurement, and it inherits the authority of a completed piece of
+work. Nothing in a backlog, a register or a gate re-examines it.
+
+Two consequences:
+
+- **On receiving a handback, treat its claims as the first things to measure, not the last.** They look
+  like the settled part and they are the unexamined part.
+- **On writing one, mark which statements were measured and which were believed.** The cost is a word
+  per line and it is the only signal the successor can use.
+
+**Same wave, same shape, three more times over**: a *"~50% flake"* turned out to be **three separate
+harness defects** — 1-based seeder sequences, a pinned database shadowing fresh operations on dedup, and
+a hostless session never fetching the journal. **A single rate attributed to flakiness was three
+deterministic faults**, and "flaky" is the word that stops anyone looking. And the spec's own treatment
+of detachment was **disproven by measurement** and replaced.
+
+So in one wave: a spec wrong, a handback wrong, and a symptom that named itself unfixable. **All three
+were things a fresh run settled and no amount of reading would have.**
+
