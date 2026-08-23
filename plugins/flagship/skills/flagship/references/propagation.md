@@ -2164,3 +2164,71 @@ And the corollary for a conductor: **issue a clearance as an offer with the boar
 an instruction.** Say what is free, what holds the rest, and let the session decide whether its work
 fits.
 
+---
+
+## Derive the invariant from the data, not from a list kept beside it
+
+*Warden Design, on a merge that went red where both branches were green.*
+
+Two branches merged clean and two gates then failed: one branch had invented a **required `probe`
+field** while unable to see three cases the other branch was adding. Neither could have caught it —
+the field was consistent on each side.
+
+**`campaign-preflight.py` caught it because it derives the required field set from the other 69
+records rather than from a list maintained beside the checker.** So it noticed a field *it had never
+been told existed*. **A hardcoded list would have been silent**, and would have stayed silent
+forever, because nobody updates a list for a field they did not know was added.
+
+The principle, and it is the same one behind the status vocabulary and the empty-population floors:
+**a check whose expectations are derived from the population adapts to what the population actually
+contains; a check whose expectations are written down goes stale the moment someone adds something.**
+Prefer derivation wherever the population is the authority.
+
+---
+
+## A green control cannot distinguish "the fix works" from "the fix is not loaded"
+
+*Warden Design, naming this session's own failure more precisely than it did.*
+
+Two failures were compared and the difference is worth keeping:
+
+- **A signal arriving and being disbelieved** — a gate failing in every runner worktree while passing
+  in the orchestrator's working directory, with two runners reporting it and being explained away.
+- **A signal arriving, being believed, and the *fix* going somewhere the signal could not reach** —
+  an hour of repairs, every control green, against a file nobody was executing.
+
+**The second is worse, because the symptom was correct the entire time and so was the reading of it.
+Only the address was wrong.** And no amount of care in the fix or rigour in the control detects it:
+*a green control cannot distinguish "the fix works" from "the fix is not loaded", and nothing in the
+output tells you which.*
+
+So the check has to come first and it has to be about identity rather than behaviour: **verify the
+artifact you edited is the artifact that runs, before believing any control over it.**
+
+---
+
+## The tool refused and the shell was not asked
+
+*Warden Design, twice in one night, in its own orchestration rather than in a gate.*
+
+`merge-registry.py` **refused** a merge and wrote nothing — correctly, three records were touched on
+both sides. The chained `git add && git commit` ran anyway and committed `cases.json` **with six
+conflict markers in it**: invalid JSON, on main. Caught, reset, redone with a `--diff-filter=U` check
+before the commit and a parse check after; it never left the machine.
+
+The same night, in the same session: `git merge -F -` **does not read stdin**, so an echo reported
+`merged` four times at the same sha.
+
+**Both were its own instruments reporting success over a command that had failed** — this corpus's
+central class, arriving in the orchestrator rather than in a gate, where nothing downstream is
+watching. The repair is the pair: **check the failure mode before the commit (`--diff-filter=U`) and
+the result after it (parse the file)**, because a chained `&&` only knows about the exit code of the
+step immediately before it.
+
+**And the refusal deserved defending against impatience with it.** The two branches were disjoint *by
+field* — one changed `evidence` and `note`, the other added `probe`, nothing touched by both — and a
+field-level three-way merge found **zero genuine conflicts across 69 records**. `merge-registry`
+refuses at *record* granularity by design; it named the three needing judgement and declined to pick.
+That coarseness looks like a false positive and is precisely what stopped a silent loss of one
+branch's credit.
+
