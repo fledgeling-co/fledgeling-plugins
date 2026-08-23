@@ -70,3 +70,45 @@ looking like a code finding rather than a packet finding.
 
 So: hand whole regions. A reviewer reading an excerpt is only as right as its boundaries, and
 nothing in its answer will tell you the boundary was wrong.
+
+---
+
+## A split verdict can mean the fork is real, or that both lanes lack what the repo holds
+
+*Errand, on a two-lane referral that split and was then beaten by a grep.*
+
+A technical fork went out of family. **The lanes split cleanly**, which is normally the signal that the
+fork is genuine:
+
+- One chose **B** — put the daemon's state-directory root in the greeting — with an argument that
+  correctly killed option A: *a plist tells you about a job, not about the process that answered the
+  door*, so a daemon run with no LaunchAgent yields `None` and is waved through, leaving the defect
+  intact for exactly the case a test harness creates.
+- The other chose **neither**, proposing a per-incarnation id required to match across both carriages —
+  the invariant itself rather than the state-directory proxy.
+
+**Then the repo answered both.** The per-incarnation id the second lane wanted to *add* **already
+existed**: a per-boot audience tag, minted once at `bind()`, random, and `| 1` so it can **never be
+zero — because zero is the value a forgotten field would have.** Already on both carriages, already
+carrying its own cannot-say sentinel.
+
+**So the fork was between two changes, and the answer was a field already in the wire.** The defect
+turned out to be one line and an *overwrite* rather than a missing mechanism: the upgrade **adopts** the
+door's value instead of comparing it.
+
+**The rule: inlining the evidence is what makes an out-of-family lane usable, and it is also what caps
+what the lane can find.** A lane reasoning from a packet cannot know what the tree already contains, so
+a split verdict has two readings — the fork is real, or **both lanes are missing something the
+repository would have told them in one grep.** Check the second before accepting the first. The lanes
+narrowed it to *what property do we need*; only the repo could say *you already have it*.
+
+**And one design detail worth stealing**: a sentinel chosen so that an **uninitialised** field is
+distinguishable from a real one. `| 1` costs nothing and makes "nobody set this" a different value from
+every legitimate answer — the constructive form of *absence must not read as a value*.
+
+**A hazard found by the same measurement, recorded rather than rewritten at 04:00**: that codebase does
+**no canonicalization** — `grep -c canonicalize` returns 0 — so a plist string and a client's resolved
+directory are two renderings of one directory. A client resolving through a symlink (`/var` →
+`/private/var`, the standard macOS case) compares **unequal while being the same directory**, and is
+falsely refused on a healthy machine. Fail-safe, and it silently disables the feature it guards.
+

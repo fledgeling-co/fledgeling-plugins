@@ -46,6 +46,19 @@ end tell' >/dev/null 2>&1
 
 for i in {1..15}; do sleep 0.4; [ "$(count)" = "$((before+1))" ] && break; done
 [ "$(count)" = "$((before+1))" ] || { print -u2 "no new tab (count stayed $before) — typed nothing"; exit 1; }
+
+# SELECT the new tab. Creating a tab does not necessarily focus it -- measured:
+# the count moved to 17 while the front window title still read another
+# session's cwd, so the focus proof refused (correctly) and nothing was typed.
+# Clicking the last radio button in the tab group is what actually activates it.
+osascript -e 'tell application "Ghostty" to activate
+delay 0.3
+tell application "System Events" to tell process "ghostty"
+  try
+    set tabs_ to radio buttons of tab group 1 of window 1
+    click (item -1 of tabs_)
+  end try
+end tell' >/dev/null 2>&1
 sleep 1.5
 
 # PROVE FOCUS. Set the tab's own title to the marker, then read the FRONT tab's
