@@ -286,13 +286,65 @@ def collect() -> dict:
     }
 
 
-def main() -> int:
-    max_age = 5.0
-    for i, arg in enumerate(sys.argv):
-        if arg == "--max-age" and i + 1 < len(sys.argv):
-            max_age = float(sys.argv[i + 1])
+USAGE = """usage: pressure.py [--max-age SECONDS] [--fresh] [--help]
 
-    snapshot = cached(max_age)
+  --max-age N   serve a cached snapshot up to N seconds old (default 5)
+  --fresh       ignore the cache and measure now (same as --max-age 0)
+  --help        this message
+
+Always emits `from_cache` as a real boolean, so a reader can tell a fresh
+snapshot from a stale one without guessing.
+"""
+
+
+def main() -> int:
+    """Parse strictly, and always say whether the answer came from the cache.
+
+    Both behaviours are fixes for measured defects, and both were the same
+    class: an instrument that cannot fail, answering a question it was not
+    asked.
+
+    **Unknown arguments used to be accepted and ignored.** `--fresh`,
+    `--no-cache` and `--help` each exited 0 and printed a full cached snapshot
+    with nothing on stderr — so anyone reaching for a fresh read got a stale
+    one that looked identical to a fresh one, and never learned the flag did
+    not exist. Unknown flags now exit 2 and name themselves.
+
+    **`from_cache` used to be absent on a fresh read** and present-True on a
+    cached one. So `d.get("from_cache")` worked by accident (None is falsy)
+    while `"from_cache" in d` — the idiom for *can I even tell?* — returned
+    False on the one snapshot whose freshness was certain. Absence carried the
+    opposite of its meaning, and the two obvious idioms disagreed. It is now
+    always present.
+    """
+    max_age = 5.0
+    args = sys.argv[1:]
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        if arg == "--max-age":
+            if i + 1 >= len(args):
+                sys.stderr.write("pressure.py: --max-age needs a value\n")
+                return 2
+            try:
+                max_age = float(args[i + 1])
+            except ValueError:
+                sys.stderr.write(f"pressure.py: --max-age wants a number, got {args[i + 1]!r}\n")
+                return 2
+            i += 2
+            continue
+        if arg in ("--fresh", "--no-cache"):
+            max_age = 0.0
+        elif arg in ("--help", "-h"):
+            sys.stdout.write(USAGE)
+            return 0
+        else:
+            sys.stderr.write(f"pressure.py: unknown argument {arg!r}\n")
+            sys.stderr.write(USAGE)
+            return 2
+        i += 1
+
+    snapshot = cached(max_age) if max_age > 0 else None
     if snapshot is None:
         snapshot = collect()
         try:
@@ -302,6 +354,7 @@ def main() -> int:
             tmp.replace(CACHE)
         except OSError:
             pass
+        snapshot["from_cache"] = False
     else:
         snapshot["from_cache"] = True
     json.dump(snapshot, sys.stdout, indent=2)

@@ -1862,3 +1862,95 @@ moment a channel that can carry the decision does.
 The conductor's job around that is narrow: relay the *fact* that a decision exists so the peer knows
 what is coming, never the authority, and then get out of the way of the channel that can settle it.
 
+---
+
+## Two instruments partition a question, and neither knows the partition exists
+
+*Splice, filed as DEF-091, and findable only after a merge.*
+
+Two branches each bound their closed defects to a guard, by different mechanisms. Of **71 closed
+defects, seven carry a `reproduction`**: six of kind `guard` — exactly one author's own — plus one
+`owed`. The other author's five closed defects carry `null` and are bound the other way, by **case
+rows citing their guard files**.
+
+**So there are two binding mechanisms, each with a population of exactly its own author's work, and
+neither is aware of the other.** A closed defect bound by a case row is invisible to the ratchet; one
+bound by a `guard` is invisible to the evidence check. **Each instrument reports honestly over what
+it can see. No instrument sees both, so none can answer the question both were built to answer.**
+
+This is distinct from *an instrument answering a narrower question*: nothing here is narrow, and both
+answers are complete over their own population. The defect is the **partition** — and it is invisible
+from either side, because from inside either mechanism the coverage looks total.
+
+**The second author's choice was correct, which is what makes this structural rather than a fault.**
+The ratchet did not exist on `main` when it needed a binding, so adopting it would have made one
+branch depend on an unmerged other. It recorded a composition caveat saying the two held at the
+mechanism layer and were unproven at the register layer. They *do* compose — clean at row level,
+every gate green. **What the caveat did not anticipate is that they compose without covering each
+other.** Composition and coverage are different properties and passing the first says nothing about
+the second.
+
+**Two things only the merge could prove**, which is the operational lesson — some defects are not
+reachable from any single branch:
+
+- The shared allocator caught **six hand-written case ids** the moment both halves met, written by
+  hand because the allocator did not exist yet, and named all six with its own `--adopt` remedy.
+- The artifact oracle caught the merge making the published pages stale — 171 cases printed against
+  a register of 177 — and **the first regeneration produced a page with no embedded images, on which
+  the oracle exited 2 rather than passing.** *A page with no pictures is not a page with correct
+  pictures*: an empty-population floor firing on its own author.
+
+And the register merged **row-level with zero both-changed rows**, where `-X ours` would have kept
+six false findings.
+
+---
+
+## Resolve the name before reporting the absence
+
+*sidetone, catching its own third reference-point error of one night — the second inside one piece of
+work.*
+
+Three cited guard scripts looked dead: `scripts/check-spec.mjs`, `scripts/mutation-lock.mjs`,
+`scripts/check-literals.mjs`. **All three exist**, at `packages/design-tokens/scripts/`. The citations
+name a bare `scripts/X` for files that live elsewhere, and the check tested the cited path
+**literally** instead of resolving the filename.
+
+`check-literals.mjs` is in `gate:checks` right now, so the most load-bearing of the three would have
+been the first false positive.
+
+**The rule: when a measurement produces an alarming absence, check the resolution rule before
+reporting the absence.** It joins the family — the persisting `cd`, `git archive` with no `.git`,
+HTTP 200 on every failed attempt, `git diff main..branch` reading 23,000 phantom deletions — and it
+shares the property that makes that family dangerous: *the alarming reading is the believable one.*
+
+**Design consequence, and it is the useful part:** a checker over guard citations must **resolve
+filenames rather than test cited paths**, or it reports vanished guards that are present. Any new
+obligation kind that fires on a path string will fail on its first real corpus.
+
+**Prior art worth having before building one:** that repo already tried the obvious version —
+extending `check-case-citations` to read `repro` — and **reverted it**, because the checker reported
+one defect's own account of its adrift citations *as* adrift citations. So the naive widening has
+been attempted and failed for a real reason, which is an argument that the fix must be a **distinct
+field** rather than a widening of an existing scan.
+
+Measured population there: **105 defects marked `fixed`, 57 name a guard, nothing verifies any of the
+57, and no guard has actually vanished.** The hole is real and nothing has fallen through it yet — a
+useful state to catch, and only visible to someone who measured rather than reasoned.
+
+---
+
+## A residency is not work, and admission control that counts residencies shuts the door on an idle machine
+
+*sidetone, on the berth pin.*
+
+A dev server held 2 of 10 berths on **0.28 seconds of CPU across 37 seconds**, while load sat at
+**0.468 per core** and `available` read **0**. Eight sessions were idle behind it.
+
+**A dev server is not work, it is a residency.** The governor should meter *work that finishes*;
+anything long-lived needs a different lane or no lane at all. The invocation rule — *wrap the test
+command, never the server* — follows from that rather than being a separate tip.
+
+And the supervised-tail wrinkle: the holder pid **moves** when a runner restarts the server, so the
+pin recurs per restart. Watching for a long-lived pid finds nothing; the tell is that **the berth
+count never drops between holders.**
+

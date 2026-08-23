@@ -1689,7 +1689,7 @@
     },
     {
       "name": "harbourmaster",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "group": "machine",
       "groupLabel": "Looking after your Mac",
       "description": "Decide where work runs and whether this Mac can carry it yet. Routes across five execution planes — locally, an anvil errand container, a proctor instrument session, another model via defer, or in-session subagents — by spending whichever resource is least scarce. Governs the local plane with berth admission held on POSIX file locks the kernel releases on death, refuses in bounded time rather than hanging past a tool timeout, and clamps workloads to a macOS QoS class their children inherit. Detects sustained thermal limiting from per-cluster frequency residency on a chassis where every OS thermal signal is silent, and keeps a cross-project ledger beside ARMADA.md.",
