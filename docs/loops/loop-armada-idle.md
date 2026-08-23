@@ -53,7 +53,9 @@ kill. Currently: `Diolog Presentations`, scoped out by Luke at the outset.
 ## Tick protocol
 
 1. **Re-measure before acting.** The delta says what changed; it does not say what
-   is true now. Read `berths.py --fresh` and the roster at tick time — a clearance
+   is true now. Read `berths.py` and the roster at tick time — its pressure
+   snapshot is at most 5 s old by construction (`--fresh` is `pressure.py`'s
+   flag; `berths.py` silently ignores arguments it does not parse) — a clearance
    has expired in three separate ways in one night, including in the generous
    direction where capacity freed under a stale figure.
 2. **Ask each newly-idle session which shape it is** rather than inferring: drained,
