@@ -68,3 +68,39 @@ Check before ordering a push, not after.
 A session that finishes should hand over rather than vanish: what it holds, where, and what is
 owed. An orphan whose parent exited is recoverable only if it said so — one did, and its branch
 was picked up; two others were simply gone.
+
+---
+
+## Confirming the tab count is not confirming where the keystrokes go
+
+**Measured 2026-08-23, and it delivered a brief into a live session's conversation.**
+
+A tab was opened from the File menu. The tab **count** was confirmed to move 15 → 16 — the check this
+reference already prescribes, and it passed honestly. The bootstrap line was then typed, and **focus
+had not followed the new tab**, so it landed in a session sixteen hours into its own campaign. That
+session read the brief and executed it: four paid research runs, $11.00, work its own user had not
+asked for, while the new tab sat empty.
+
+**A count moving proves a tab was CREATED. It does not prove keystrokes land in it.** Two claims, one
+checked — the same single-field inference as every other instance in this corpus, in the one mechanism
+whose failure mode is *typing into someone else's conversation*.
+
+**The fix is to prove focus by attempt rather than by count.** `scripts/open_session.sh` types a
+title-setting escape carrying a random marker, then reads the **front window's own title** back:
+
+```
+printf '\033]0;spawn-<pid>-<rand>\007'
+```
+
+**A shell that received the keystroke renames the tab. A live Claude session renders that text as a
+prompt and never sets a title.** So the readback discriminates, and it discriminates in the safe
+direction: the probe itself is inert if it lands in the wrong place — a stray line of prose in someone's
+conversation rather than a brief they will act on.
+
+If the marker does not come back, **nothing further is typed at all** and the script exits 2 saying so.
+
+The rule generalises past Ghostty: **when a mechanism's failure mode is acting on the wrong target, the
+confirmation must be of the target, not of the action.** Confirming that a tab exists, a file was
+written, a message was sent or a process started tells you the action happened; only reading back
+something only the intended target could have produced tells you where it happened.
+

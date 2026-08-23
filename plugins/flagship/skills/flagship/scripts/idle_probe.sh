@@ -49,6 +49,21 @@ elif [ "$avail" -eq 0 ] 2>/dev/null; then cap=none
 elif [ "$avail" -le 3 ] 2>/dev/null; then cap=some
 else                                       cap=lots
 fi
-[ -z "$names" ] && names=none
-print -r -- "IDLE $names"
-print -r -- "CAP $cap"
+# Capacity is only reported when there is somebody to give it to.
+#
+# Measured after one hour: 7 polls, 6 wakes -- a ratio better-loop's own rule
+# calls out as "a probe too wide, costing what a cron would". The probe was
+# deterministic, so it was width: several wakes were CAP moving between buckets
+# with IDLE none. Capacity changing when nobody is waiting for it is not a
+# dispatch, and waking for it spends the session to learn nothing actionable.
+#
+# So when nothing is idle, the line is constant and the fleet is silent no
+# matter what the board does. The instant someone goes idle, capacity is
+# reported with them, which is when it decides anything.
+if [ -z "$names" ]; then
+  print -r -- "IDLE none"
+  print -r -- "CAP n/a"
+else
+  print -r -- "IDLE $names"
+  print -r -- "CAP $cap"
+fi
