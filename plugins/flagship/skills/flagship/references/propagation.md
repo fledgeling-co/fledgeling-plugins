@@ -1977,6 +1977,17 @@ And the supervised-tail wrinkle: the holder pid **moves** when a runner restarts
 pin recurs per restart. Watching for a long-lived pid finds nothing; the tell is that **the berth
 count never drops between holders.**
 
+**And a residency has two sub-cases that read identically on the board — only `ppid` separates them.**
+Measured on one claimant set: a `coordinator obs server` held deliberately by a live parent that
+intends to kill it at handback, beside a `vite preview --port 5399 --strictPort` at **0.29 s of CPU
+over 11 minutes whose parent was `launchd`**. Both are long-elapsed, near-zero-CPU claimants; one has
+an owner who will clean it up and one has been **reparented and has nobody left to stop it**.
+
+`--strictPort` sharpens it: the orphan also poisons its own port for the next run, which fails rather
+than picking another. So when a berth is held long and cheap, **read `ppid` before deciding whether
+anyone is coming for it** — a deliberate hold is a wait, an orphan is a leak, and the berth registry
+cannot tell you which.
+
 ---
 
 ## A caveat a consumer cannot see is not a caveat
