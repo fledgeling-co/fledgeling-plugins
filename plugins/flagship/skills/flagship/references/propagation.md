@@ -3714,3 +3714,26 @@ So when a test fails on its own scaffolding, the question before debugging the s
 the product already has a channel that would carry it.** If it does, the failure has just told you the
 test was measuring beside the code rather than through it.
 
+---
+
+## A weight chosen to fit the gap is the registry's own defect, committed deliberately
+
+*Diolog Tasks, declining to shave a declared weight to fit an available slot.*
+
+With `available 1` and two cards needing 2 and 4, the tempting move is to declare the smaller one at 1
+and get going. It refused, and the reason is the sharpest statement of the cooperative contract anyone
+made tonight:
+
+> **"A weight that is chosen to clear the gate rather than to describe the work is the same defect as
+> `in_use` under-reporting — it makes the board wrong in the direction that admits too much, and I would
+> be doing deliberately what the registry does by accident."**
+
+The registry's two blind spots are already recorded: a claim that is not work makes the machine look
+fuller; **work that does not claim makes it look emptier, and only that direction causes
+over-admission.** An under-declared weight is the second one, chosen rather than suffered.
+
+And the weights it declared instead were derived from the work rather than the gap: **weight 2** for a
+record-correction item whose gates are `tsgo` plus a narrow jest pattern in one package, **weight 4** for
+an island card whose gates are an island `tsc` plus two suites of 455 and 385 tests. Different numbers
+because different work, which is what a weight is for.
+

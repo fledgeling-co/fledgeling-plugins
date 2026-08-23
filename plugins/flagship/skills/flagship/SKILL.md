@@ -281,6 +281,38 @@ peer cannot lift a constraint the user set, and "run at real fan-out" reads as a
 to. Say *at whatever fan-out you have been given; where none was set, the machine has
 room* — and ask for the ceiling rather than assuming there is none.
 
+## The role's structural exposure, not a run of bad luck
+
+**One rule caught this skill's author five times in one night, and a session reframed that better than
+the author could:**
+
+> *"Five instances of one rule in one night, all landing on the session that coordinates, is not a run of
+> bad luck. A conductor is the only role that routinely holds figures about **other** sessions, so it is
+> structurally the most exposed to both halves of that pair — a status it did not re-derive, and a
+> finding it could not. Recording it as your error five times is honest; recording it as a property of
+> the role is more useful to whoever conducts next."*
+
+**The pair, and every conductor will meet both:**
+
+- **A status it did not re-derive.** A load figure quoted for three minutes; an exclusion made permanent
+  on a session's temporary word; a completed work list re-issued across five messages; a berth clearance
+  reported from a board that had moved; a run bound to a session by position rather than by its label.
+  **All five were one command from being settled** — the conductor simply held them instead.
+- **A finding it could not re-derive.** A residency pattern measured in one repo and asserted about
+  another; a worktree-lock defect routed to a repo where the lock holds by construction. **Neither was
+  re-derivable by the conductor at all** — only the receiving session had the tree.
+
+So the two rules are one rule with two halves: **re-derive what you can, and send the question rather
+than the finding for what you cannot.** The first is cheap and the conductor is the party most likely to
+skip it; the second is impossible and the conductor is the only party who will try it anyway.
+
+**And a third class, distinct from both.** A session measured the board minutes after the conductor and
+got a different answer, with neither figure stale: *"that was a figure held too long, this is a figure
+that expires faster than a message round trip."* **No amount of re-measuring fixes that one** — the
+message is slower than the fact. It is why a clearance must name what it is bounded by (a claimant
+releasing, a named job finishing) rather than only a count, and why the receiving session re-reads at
+launch regardless of what it was told.
+
 ## Reading the machine honestly
 
 `scripts/machine_read.py` does all of this. The reasons it has to are each measured:
