@@ -109,6 +109,33 @@ reads as knowing them. Reload before the next dispatch, not after a peer correct
 5. Ask each session for its own state rather than deriving it. The brief shape is in
    `references/roster-and-briefs.md`.
 
+## Modes — `tiered`
+
+Flagship takes one optional argument. **With no argument, behave exactly as this file otherwise
+describes**, `defer` and the out-of-family lanes included.
+
+**`tiered`** — the perch binding decides the model and the conductor keeps the judgement. Full
+protocol in `references/tiered-delegation.md`; the four things that change:
+
+1. **`defer` is off and all judgement stays in-family.** The capability gradient *is* the mechanism,
+   and running two mechanisms at once means neither is measurable.
+2. **Verification moves up a level.** Fleet conductors in unbound directories stop at
+   `ready-to-verify` and report upward; **you** spawn verify.
+3. **Worker briefs carry scaffolding yours must not** — the two instruction styles are opposites, and
+   the table in the reference is the part most easily got wrong.
+4. **Pass `tiered` to every skill you invoke.** A mode that stops propagating reverts silently
+   halfway down the chain.
+
+Which tier a session gets is decided by its directory: `~/Dev` and the `bella*` / `atlas*` /
+`diolog*` / `dAIolog` projects are bound to a frontier model; every other project is unbound and
+falls through to the proxy default. **Never name a model in a brief** — the binding is the only
+control surface, and a brief that names one either contradicts it or duplicates it.
+
+**Verify the tier rather than assuming it.** This mode makes model identity load-bearing, and a
+proxy's deadline failover crosses vendor boundaries invisibly — a conductor silently served by the
+cheap tier is grading builds with the model the architecture excludes. Extract `"model":` from the
+transcript; never grep for a vendor name, and never trust a session's claim about itself.
+
 ## What you actually do
 
 Five jobs. The third is the one that pays for the skill.
@@ -530,7 +557,8 @@ launch regardless of what it was told.
 
 ## The lane inventory, before you route any judgement
 
-`defer` is the routing policy and you should call it — but **its report is plan utilisation,
+**Under `tiered`, skip this section entirely — judgement stays in-family and the binding
+selects the model.** Otherwise `defer` is the routing policy and you should call it — but **its report is plan utilisation,
 not reachability**, and the two are indistinguishable when a lane is simply absent. It has
 advertised a lane at the highest headroom of any non-Claude family while that binary was not
 installed at all. Probe before routing:

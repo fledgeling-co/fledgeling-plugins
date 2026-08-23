@@ -61,7 +61,7 @@
   "skills": [
     {
       "name": "flagship",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio — the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1–R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others — which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation — all three were refused by ten sessions in one night and all three refusals were right.",
@@ -83,14 +83,14 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/flagship/EVALS.md",
         "scripts": true,
-        "references": 7,
+        "references": 8,
         "defer": true
       },
       "neighbours": []
     },
     {
       "name": "ship-armada",
-      "version": "2.0.1",
+      "version": "2.1.0",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Portfolio-wide orchestrator across every project in ~/Dev — the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, routes, and dispatches. Route mode lands a single directive ('research feature X and incorporate it into <project>') in the right project's pipeline — deep research into docs/deep-research, a brief into features-to-triage, an inbox row in the project's ORCHESTRATOR.md that any active fleet picks up (or a new ship-fleet run when approved), and the master manifest updated. Dispatch runs per-repo backlogs through ship-fleet and cross-project rollouts as dependency-ordered campaigns with capped concurrency. Daemon mode proposes on a schedule and executes only what the user has approved.",
@@ -129,7 +129,7 @@
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/ship-armada/evals/EVALS.md",
         "scripts": true,
         "references": 1,
-        "defer": false
+        "defer": true
       },
       "neighbours": [
         "ship-fleet",
@@ -1080,7 +1080,7 @@
     },
     {
       "name": "ship-fleet",
-      "version": "2.5.0",
+      "version": "2.6.0",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
@@ -1689,7 +1689,7 @@
     },
     {
       "name": "harbourmaster",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "group": "machine",
       "groupLabel": "Looking after your Mac",
       "description": "Decide where work runs and whether this Mac can carry it yet. Routes across five execution planes — locally, an anvil errand container, a proctor instrument session, another model via defer, or in-session subagents — by spending whichever resource is least scarce. Governs the local plane with berth admission held on POSIX file locks the kernel releases on death, refuses in bounded time rather than hanging past a tool timeout, and clamps workloads to a macOS QoS class their children inherit. Detects sustained thermal limiting from per-cluster frequency residency on a chassis where every OS thermal signal is silent, and keeps a cross-project ledger beside ARMADA.md.",

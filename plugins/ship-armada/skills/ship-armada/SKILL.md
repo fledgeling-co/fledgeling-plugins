@@ -26,6 +26,31 @@ Never nest: one armada session at a time, and never run ship-armada from inside 
 3. Refresh stale entries you are about to rely on, using the `armada-sync` protocol (one entry each, in parallel via subagents when there are several). Entries you won't touch this session can stay stale — note them in your report instead of refreshing everything.
 4. If `ARMADA.md` is missing or structurally broken, rebuild it with the survey procedure in `references/manifest.md` before doing anything else.
 
+## Tiered delegation (`tiered`)
+
+**With no `tiered` argument, behave exactly as this file otherwise describes** — `defer`, the
+second-opinion lanes and cross-family verify all included.
+
+Invoked with `tiered` (usually by flagship, which passes it down), four things change:
+
+- **`defer` and the out-of-family lanes are off.** Judgement stays in-family; the perch binding
+  selects the model, so nothing here chooses one. **Never name a model in a brief or a campaign row.**
+- **The directory decides the tier.** `~/Dev` and the `bella*` / `atlas*` / `diolog*` / `dAIolog`
+  projects are bound to a frontier model. **Every other project is unbound** and falls through to the
+  proxy default — so a fleet you dispatch into one of those runs at a cheaper tier and needs the
+  worker-brief scaffolding rather than a conductor's.
+- **Verification is yours, not the fleet's.** A fleet conductor in an unbound directory reports
+  `ready-to-verify` upward instead of spawning verify itself. You spawn it, in fresh context.
+- **Pass `tiered` to every skill you invoke** — ship-fleet, ship-feature, and the stage skills. A mode
+  that stops propagating reverts silently partway down.
+
+**A campaign spanning both tiers is two campaigns.** Bound projects can run the ordinary path;
+unbound ones need retained verification and scaffolded briefs, and a single row covering both will be
+executed at whichever tier the runner happens to be. Split them and say which is which.
+
+Full protocol, the worker-brief template and the tier-verification check:
+flagship's `references/tiered-delegation.md`.
+
 ## Modes
 
 Pick the mode from what was asked; state which you're in.
