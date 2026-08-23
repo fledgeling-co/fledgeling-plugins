@@ -73,3 +73,42 @@ Phase 0 answered from the session's own material; the two genuinely open forks
 `flagship` and its own plugin. **The Phase 4 icon-concept checkpoint has not been
 asked**, and no icon or banner exists yet — so this plugin is not yet
 catalogue-complete, and `site/scripts/build-catalogue.mjs` will say so.
+
+## Added in 1.5.0 — measured in live conduct, 23 Aug 2026
+
+No comparative panel ran for these either; the measurements below are from a live
+conducting night with 19–23 sessions on the machine, which is the population the
+skill exists for. Each rule in this release is the correction of a failure that
+night, and each carries the number that produced it:
+
+- **Finished-and-silent is a distinct idle shape.** Six sessions completed
+  dispatched work and reported nothing, some for hours, while the conductor read
+  their quiet as progress and the operator asked twice why the machine was idle.
+  One three-line status chase recovered four answers inside minutes. The dispatch
+  ledger and the completion-report obligation exist to make that recovery the
+  default rather than an accident.
+- **Prompt-parked sessions cannot be reached by dispatch.** Three sessions each
+  sat through two unanswered chases while blocked at Relay's interactive
+  account-switch prompt, where a message queue is never reached. The operator's
+  in-tab `continue` was the only unstick. Hence: escalate after two chases, never
+  three.
+- **Ledger movement, not roster quietness, distinguishes working from stopped.**
+  Measured both directions: an idle-looking row was mid-86-commit reconciliation;
+  a genuinely stopped row had asked its user a question that was its own to
+  answer. The inverse holds too — a session that reads forty files and closes a
+  row as stale commits nothing, so absent movement is *unknown*, not idle.
+- **The drained tier refills before it retires.** One repo at a complete 54-row
+  ledger ran intake in the evening and shipped all three new briefs, verified,
+  the same night. Two other "drained" summaries that evening sat on top of named,
+  buildable rows the sessions' own ledgers held. Retirement is the operator's
+  call after declining refill; intake under a utilisation directive is the
+  default.
+- **Condition-gated items met their conditions unmet with.** A ten-minute
+  undisturbed-CPU measurement stayed parked for days while the host idled under
+  0.6 per core twice in one evening; the condition and the dispatch never met
+  until the conductor went looking. The ledger now names conditions beside the
+  dispatches waiting on them.
+- **Spawn verification moved from tab count to session file.** A successful
+  spawn measured `tabs_after: 1` because the AppleScript probe counts the
+  frontmost window's tab group; the session itself existed. Session file plus
+  socket is the check that cannot mislead.
