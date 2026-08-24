@@ -112,3 +112,19 @@ night, and each carries the number that produced it:
   spawn measured `tabs_after: 1` because the AppleScript probe counts the
   frontmost window's tab group; the session itself existed. Session file plus
   socket is the check that cannot mislead.
+
+## Added in 1.6.5 — four more live-conduct measurements, 24 Aug 2026
+
+- **Disk transitions during build bursts need corroboration** — the watch read
+  87% → 97% → 89% in ten minutes with nothing deleted (APFS purgeable churn).
+- **OVERLOADED at 24 claude processes and load 391 was the machine, not the
+  fleet** — simulator runtimes and a Virtualization VM, named by one ps line.
+- **Compile bursts drain in under five minutes, four times measured** — patience
+  beat intervention every time; saturation is the different shape.
+- **`waiting` is usually an unanswered AskUserQuestion, not prompt-parking**,
+  and **a vanished session with an uncleared dispatch gets surfaced with its
+  `--resume` path**, not written off — three vanished mid-work in one night.
+- **Transcript promotion recovered two runners killed by a proxy fault**, with
+  state reconciled from git rather than the dead runner's last words; and
+  **closing twelve finished sessions by classification lost nothing** while two
+  candidates correctly survived (owed work; pending verdict).

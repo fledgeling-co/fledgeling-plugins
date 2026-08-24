@@ -109,3 +109,22 @@ confirmation must be of the target, not of the action.** Confirming that a tab e
 written, a message was sent or a process started tells you the action happened; only reading back
 something only the intended target could have produced tells you where it happened.
 
+## Recovery, and closing what is finished
+
+**When a runner dies to an infrastructure fault, the recovery plane is transcript
+promotion.** Measured 24 Aug 2026: Relay account switches killed two in-session workflow
+runners mid-turn, and the orchestrator recovered both by promoting each runner's transcript
+to a resumable session per `recover-claude-code` — re-dispatched with state reconciled from
+git, not from the runner's last message. That reconcile-from-git-first shape ("do not treat
+this as done") is the part worth copying: the dead runner's self-report ends at the kill,
+and the repo is the only witness of what actually landed.
+
+**Closing finished sessions is the conductor's cleanup, and it has rules.** Never kill
+mid-flight work — a boundary report or a merged-and-holding state is the gate. Kill the
+process, then tell the operator the tabs still need a manual close, because a killed
+process leaves its tab shell behind and automating window-close keystrokes near the
+operator's own tabs is how the wrong window dies. Classify before closing: finished with
+clean handover, mid-queue, owing dispatched work, owner-gated, or the operator's own —
+only the first closes. Measured the same night: twelve closed at clean boundaries took the
+fleet from 32 processes to 20 with nothing lost; two candidates survived because one owed
+gap-fixes and one held a pending verdict.
