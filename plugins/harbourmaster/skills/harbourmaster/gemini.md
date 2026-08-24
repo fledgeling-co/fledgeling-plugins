@@ -156,9 +156,10 @@ fences — so the conversion applies to this skill's own stages instead:
 `governor-run`, plus `scripts/selftest.sh` and `tests/run.sh`. **[docs]** "use a widely recognized
 standard like JSON, XML, Markdown or YAML". These emit JSON; quote it, and print the denominator.
 
-**A flag the script does not define is silence, not an error.** `berths.py` parses only `--quiet`,
-so `berths.py --fresh` spawns a one-shot read that exits 0 with no lock held and nothing recorded.
-That happened here once, which is why `tests/check_surface.py` exists. Read the surface before
+**A flag the script does not define is a refusal, not silence.** `berths.py` parses only `--quiet`;
+any other argument exits 2 and names itself. It used to be silence — an unknown flag spawned a
+one-shot read that exited 0 with no lock held and nothing recorded. That happened here once, which
+is why `tests/check_surface.py` exists and why the read scripts now refuse. Read the surface before
 invoking — and note claims are `governor-run`'s alone: `berths.py` reads, it never takes.
 
 | script | flags it defines |
