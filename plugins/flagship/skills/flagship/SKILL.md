@@ -659,6 +659,17 @@ Three planes, and `references/spawning.md` has the mechanics and the traps.
 | **Subagent** | Wide reading and search where you want the conclusion, not the files | Context and rate limit |
 | **Ghostty tab** | Work that needs its own session — its own context, its own fleet, its own channel to the user | A visible tab, and a real session that outlives your terminal |
 
+**The tab is the most expensive plane, so it is the last resort rather than the default.**
+Measured 24 Aug 2026: a night of verifier and frontier spawns left 30+ tabs and 60+ claude
+processes on a thermally-clamped machine, and the operator asked why the conductor kept
+opening sessions instead of using the planes beneath them. The hierarchy, in order: in-session
+serial work; workflow fan-out and background agents **in the conductor's own session** (the
+operator prefers these — they leave no visible tabs); and only then a tab, for a repo that
+genuinely needs its own persistent context, channel, and fleet — a frontier repo with no
+session, not a per-item runner or a one-shot verifier. Verify stages in particular run as
+background agents of the conducting session: they stay addressable and resumable across the
+verify → gap-fix → re-verify loop without costing a tab each pass.
+
 The tab route is `recover-claude-code`'s mechanism, and the parts that are load-bearing are
 load-bearing because they failed silently first: a new tab comes from the **File menu, not a
 keystroke**; the brief is passed as a **command-line argument** so it becomes a real first
