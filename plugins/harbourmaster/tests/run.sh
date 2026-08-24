@@ -82,5 +82,21 @@ expect "fails when the scripts are missing" 2 "cannot be verified" \
 # --- the real tree ----------------------------------------------------------
 expect "the repository is clean" 0 "clean" python3 "$GUARD"
 
+# --- runtime refusal --------------------------------------------------------
+# The guard protects instruction files; these prove the scripts themselves no
+# longer read as success over an argument they do not parse. pressure.py set
+# the family convention (exit 2, name the argument); berths.py and ledger.py
+# now follow it. Validation runs before any work, so nothing here reads the
+# machine or writes FLEET.md.
+S="$HERE/../skills/harbourmaster/scripts"
+expect "berths.py refuses a phantom subcommand" 2 "governor-run" \
+  python3 "$S/berths.py" "$CLAIM"
+expect "berths.py refuses a phantom flag"       2 "unknown argument" \
+  python3 "$S/berths.py" "$FRESH"
+expect "pressure.py refuses a phantom subcommand" 2 "unknown argument" \
+  python3 "$S/pressure.py" "$CLAIM"
+expect "ledger.py refuses a phantom flag"       2 "unknown argument" \
+  python3 "$S/ledger.py" --bogus
+
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" = "0" ]

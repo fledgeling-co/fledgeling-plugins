@@ -139,6 +139,16 @@ def main() -> int:
         record(json.loads(args[1]) if len(args) > 1 else {"kind": "ping"})
         return 0
 
+    # Unknown arguments exit 2 and name themselves, matching pressure.py and
+    # berths.py: silently ignoring them let an invented argument read as
+    # success while doing nothing of what was asked.
+    unknown = [a for a in args if a not in ("--with-thermal", "--stdout")]
+    if unknown:
+        sys.stderr.write(f"ledger.py: unknown argument {unknown[0]!r}\n")
+        sys.stderr.write(
+            "usage: ledger.py [record [JSON]] [--with-thermal] [--stdout]\n")
+        return 2
+
     report = berths.report()
     thermal = None
     if "--with-thermal" in args:

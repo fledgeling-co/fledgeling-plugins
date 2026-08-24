@@ -217,6 +217,18 @@ def report() -> dict:
 
 
 def main() -> int:
+    # Unknown arguments exit 2 and name themselves, for the same measured
+    # reason as pressure.py: a generated brief invented a `claim` subcommand,
+    # and this script read the board and exited 0 — nothing held, nothing
+    # recorded, success reported. Claims are governor-run's; this only reads.
+    unknown = [a for a in sys.argv[1:] if a != "--quiet"]
+    if unknown:
+        sys.stderr.write(f"berths.py: unknown argument {unknown[0]!r}\n")
+        sys.stderr.write(
+            "No subcommands, and --quiet is the only flag: this script reads "
+            "the board and takes nothing. Berths are claimed through "
+            "governor-run.\n")
+        return 2
     data = report()
     if "--quiet" in sys.argv:
         print(data["available"])
