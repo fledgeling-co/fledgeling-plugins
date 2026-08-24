@@ -62,7 +62,20 @@ finish and wait, because from inside, finished-and-waiting looks like compliance
    time.
 
 Delivery mechanics, so the cadence makes sense: a message to an idle session is processed
-when that session next runs a turn. A session parked at an interactive prompt never runs
+when that session next runs a turn.
+And before classifying silence as prompt-parked, read the roster status word: a session
+showing **`waiting`** is typically parked on an `AskUserQuestion` the operator has not
+answered — that unstick is the operator's answer in the session's own tab, and one message
+to the session ("what are you waiting on?") settles which kind of wait it is. Measured 24
+Aug 2026: a `waiting` session turned out to be holding a legitimate product question; a
+seemingly-idle one was two chases deep in intake work; a third had vanished entirely.
+
+**A vanished session with an uncleared dispatch is a surface, not a shrug.** Measured the
+same night: three sessions disappeared from the roster mid-work — likely casualties of a
+load-391 event — and their last handovers never came. The dispatch ledger catches this for
+free: the dispatch stays uncleared, the session file is gone, and the right move is telling
+the operator which sessions vanished, what they held, and that `claude --resume` can bring
+each back from its transcript. Silently writing the work off is how a repo loses a night. A session parked at an interactive prompt never runs
 one, so delivery and parking are indistinguishable from the sender's side — which is why
 two chases, not one, and why the third move is escalation rather than volume.
 

@@ -598,6 +598,23 @@ launch regardless of what it was told.
   going through `governor-run` was never exposed to it.
 - **Disk is harbourmaster's to report and `mac-doctor`'s to reclaim.** When it becomes the
   closing gate, say so and hand over.
+- **A disk *state change* during a build burst needs corroboration before it acts as a gate.**
+  Measured 24 Aug 2026: the watch's disk figure ran 87% → 97% → 89% inside ten minutes while
+  nothing was deleted — APFS purgeable accounting churns during heavy builds, and a transient
+  can read as the closing gate. Cross-check with a real `df` on the data volume (or
+  `pressure.py`) before acting on a disk *transition*; steady readings are fine.
+- **OVERLOADED with a low claude-process count points at the machine, not the fleet.**
+  Measured 24 Aug 2026: load 391 with only 24 claude processes — the consumers were
+  CoreSimulator iOS runtimes (poster extensions spinning 50-70% CPU each, headless) and a
+  Virtualization.framework VM from a session's guest work. `ps -eo pcpu,comm` names them in
+  one line; simulator runtimes do not idle and are safe for the operator to kill when the
+  work that spawned them is done. A load event the fleet cannot have caused is not a
+  dispatch decision — it is a notification with the culprits named.
+- **Compile bursts have a signature: 1-minute far above 5-minute, draining inside five
+  minutes.** Measured four times in one evening as several repos' build phases collided.
+  The response is patience, not intervention — check that nothing of yours fanned out, then
+  let the monitor confirm the drain. Sustained 5-minute load with a *high* process count is
+  the different shape that means saturation.
 
 ## The lane inventory, before you route any judgement
 
