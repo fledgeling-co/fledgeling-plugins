@@ -2,6 +2,34 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.14.0 — 2026-08-24
+
+**Seven projects, one week, the same false finish.** Each was orchestrated to a
+drained backlog and reported implemented, verified and tested. Asked directly
+whether every feature worked, the honest answer in all seven was no: a compiler
+suite standing for a desktop application, a mock peer standing for live Drive
+sync, 2,375 passing Swift tests over an app whose buttons ran empty closures, an
+in-tree slice retiring a brief whose stated intent was a system daemon.
+
+None of those campaigns was lying, and that is the point. Every case really did
+assert an outcome, really was armed, really was watched to fail. It asserted it
+against a double. The registry had no field for the difference.
+
+**`plane` is that field, and it is orthogonal to the oracle rung.** The rung says
+what a case checked; the plane says what it checked it against — `in-tree`,
+`hermetic`, `live-glass`, `live-external`. A requirement declares the planes its
+intent spans, and `check` refuses to clear when a declared plane has no passing
+case on it. `add` refuses a plane outside the closed list, and the census prints
+on every run: `Planes: in-tree 12 · hermetic 4 · live-glass 6`, or NOT DECLARED
+where nothing says what it was measured against.
+
+Each of the seven sessions independently proposed roughly this fix and none of
+them landed it, which is why it is a gate rather than a paragraph.
+
+113 gate tests, four of them new: an in-tree pass does not satisfy a live-glass
+requirement; reaching the declared plane clears it; the census prints; an
+unrecognised plane is refused at `add`.
+
 ## 0.13.0 — 2026-08-24
 
 **The history axis, built rather than described.** 0.12.0 added one sweep and a

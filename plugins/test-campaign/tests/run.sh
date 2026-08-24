@@ -1593,5 +1593,60 @@ JSON
 python3 "$S/campaign.py" add "$JRN" --kind journey --file "$WORK/jj2.json" >/dev/null
 expect "a journey no case drives does not clear" 1 "$JRN" "journey(s) with no case at all"
 
+# ── the evidence-plane gate ────────────────────────────────────────────────
+#
+# Measured across seven projects in one week, each reporting its backlog
+# implemented and verified: every one had retired stated intent on evidence from
+# a weaker plane than the intent lived on. The oracle rung was honest each time —
+# those cases really did assert an outcome, against a double.
+
+PLN="$WORK/plane"
+python3 "$S/campaign.py" init "$PLN" --project Plane --lanes api,macos-glass >/dev/null
+cat >"$WORK/pr.json" <<'JSON'
+[{"id":"REQ-001","class":"behaviour","text":"the desktop app opens a folder and compiles it",
+  "planes":["in-tree","live-glass"]}]
+JSON
+echo '[{"label":"Workspace"}]' >"$WORK/ps.json"
+python3 "$S/campaign.py" add "$PLN" --kind requirement --file "$WORK/pr.json" >/dev/null
+python3 "$S/campaign.py" add "$PLN" --kind surface --file "$WORK/ps.json" >/dev/null
+png "$PLN/shots/p.png" 20 20 7 7 7
+# An outcome-rung case — an honest one — but against an in-process double.
+cat >"$WORK/pc.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","lane":"api","oracle":"outcome","plane":"in-tree"}]
+JSON
+python3 "$S/campaign.py" add "$PLN" --kind case --file "$WORK/pc.json" >/dev/null
+python3 "$S/campaign.py" set "$PLN" --case CASE-0001 --status pass \
+  --evidence "shots/p.png" --armed >/dev/null
+expect "an in-tree pass does not satisfy a live-glass requirement" 1 "$PLN" \
+  "declaring a plane no passing case reaches"
+
+out="$(python3 "$S/campaign.py" check "$PLN" 2>&1)"
+if grep -qF -- "Planes:     in-tree 1" <<<"$out"; then
+  say "ok    the plane census prints what evidence was checked against"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected a printed plane census"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# Adding the glass case clears it. Same rung, different plane.
+cat >"$WORK/pc2.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","lane":"macos-glass","oracle":"outcome","plane":"live-glass"}]
+JSON
+python3 "$S/campaign.py" add "$PLN" --kind case --file "$WORK/pc2.json" >/dev/null
+python3 "$S/campaign.py" set "$PLN" --case CASE-0002 --status pass \
+  --evidence "shots/p.png" --armed >/dev/null
+mkdir -p "$PLN/build/App.app" && printf 'x' >"$PLN/build/App.app/b"
+python3 "$S/campaign.py" lane "$PLN" --lane macos-glass --artifact "$PLN/build/App.app" \
+  --built-by "xcodebuild" --attached "pid 1 owns window" >/dev/null
+expect "reaching the declared plane clears it" 0 "$PLN"
+
+# A plane outside the closed list has no census to count against.
+out="$(echo '[{"surface":"SURF-001","req":"REQ-001","lane":"api","oracle":"outcome","plane":"vibes"}]' \
+  > "$WORK/pc3.json"; python3 "$S/campaign.py" add "$PLN" --kind case --file "$WORK/pc3.json" 2>&1)"
+if grep -qF -- "is not a plane" <<<"$out"; then
+  say "ok    an unrecognised plane is refused at add"; PASS=$((PASS+1))
+else
+  echo "FAIL  add should refuse an unknown plane"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1
