@@ -1,15 +1,15 @@
 ---
 name: test-campaign
 description: >-
-  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.
+  Run a complete UI test campaign against an application and leave behind a living evidence page — coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first — Overview, PRD, feature specs, design md and the latest mock UIs — so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface × state × viewport × theme × role × locale × data shape × modality × execution plane × oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by "the element exists" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a surface's controls and a navigation shell's destinations are counted the way surfaces are, because a campaign once reported 32 of 32 cases passing and armed over an application whose six menu items opened one screen and whose every button ran an empty closure, and an effect is never the product's own report that it acted; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or "prove" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.
 ---
 
 # Test campaign
 
 You are running a test campaign, and leaving behind something a person can read.
 
-Three failure modes shape everything below, and all of them produce a report that
-looks finished:
+Six failure modes shape everything below, and every one of them produces a report
+that looks finished:
 
 **Covering a subset and reporting it as the whole.** One console had six screens,
 five of which received none of the sweeps, and nothing said so — because the
@@ -51,7 +51,18 @@ does not cover; a guarantee holding because its subject never runs is only
 visible by mutating the *specification*, which no phase was doing.
 `references/effect-boundary.md`.
 
-All five are defended mechanically here, because prose does not defend against
+**Proving an application renders while every control in it is inert.** A campaign
+reported 32 of 32 cases passing and armed, 19 of 19 requirements cited, 8 of 8
+surfaces covered and 8 of 8 external effects witnessed, over an application whose
+six sidebar destinations opened one placeholder view and whose every button ran
+an empty closure. The owner found all three defects in nine minutes. Nothing in
+the campaign was false: the surface census counted the shell as one surface and
+never enumerated its six destinations, no case actuated a control and read a
+state outside it, and the one instrument that dissented — `strict-check.py`, at
+22 of 32 with *"10 only proves something rendered"* — was printed under a green
+verdict. `references/inert-ui.md`.
+
+All six are defended mechanically here, because prose does not defend against
 them.
 
 ---
@@ -199,15 +210,42 @@ on, partition each into behavioural equivalence classes, state the constraints
 pairwise as the global floor, higher strength locally on the clusters that
 interact.
 
+**Event order is an axis, and it samples like the others.** Where the feature has
+a multi-step task, add it and sample it with sequence covering arrays — the
+sequential analogue of t-way, covering every t-way *ordering* rather than every
+t-way combination. A campaign that varies eight value axes and never varies order
+has declared a sample for a product that has no history. `references/journeys.md`.
+
 Write the sample into the campaign. A declared sample is a finished plan for
 those cells. An undeclared one is an unfinished plan for all of them.
 
-### 3 · Enumerate surfaces, flows and components
+### 3 · Enumerate surfaces, destinations, controls, flows and components
 
 Every route, plus every surface that is **not** a route — dialogs, sheets,
 drawers, expanded rows, wizard steps. Route enumeration alone misses most of
 where defects live, and a surface nobody enumerated has no denominator, so
 `campaign.py` refuses a case that references one.
+
+**A navigation shell's destinations are surfaces.** A sidebar with six items is
+six surfaces, each carrying `destinationOf: <shell id>`, not one surface that
+happens to have a menu. Counting the shell alone reports `1/1` where the honest
+denominator is `1/6`, and it is how an application that rendered one view under
+all six of its labels cleared a surface census.
+
+**List each surface's controls, and take the list from the mock where one
+exists.** A control renders, carries its accessible name, passes a contrast gate
+and accepts a click whether or not its handler does anything, so the only census
+that means something is one with a denominator behind it:
+
+```jsonc
+{ "id": "SURF-006", "label": "Workspace",
+  "controls": ["Open Mock Folder…", "Pull Proof", "Copy Swift", "Export File"] }
+```
+
+A case then records which of them it drove, under `actuates`, and only a passing
+case at `outcome` or above moves the count — driving a control and asserting the
+control is still there has measured the click and not the effect.
+`references/inert-ui.md`.
 
 Write the surface map from `assets/surface-map.template.mjs`: where each surface
 lives, how to reach it through the closed actuation list, and — for the ones you
@@ -260,6 +298,20 @@ cell, its lane, **its oracle rung**, and — once run — its status and evidenc
 python3 $S/campaign.py add <dir> --kind case --file cases.json
 ```
 
+**A multi-step task is a `journey`, and it is its own entity.** No per-surface
+count can see a history, so a journey carries its own denominator and, when
+`critical`, owes a cut at each of the five durable boundaries — `request-issued`,
+`server-committed`, `provider-effect`, `client-persisted`, `user-acknowledged`.
+A case comparing this build against a previous one names its
+`changeIntentManifest`, because a measured 64% of such differences are intended
+changes and an unmanifested diff cannot tell a regression from a shipped feature.
+
+```jsonc
+{ "id": "JRN-001", "label": "Place an order", "critical": true,
+  "boundariesCut": ["request-issued", "server-committed", "provider-effect",
+                    "client-persisted", "user-acknowledged"] }
+```
+
 The rung is the field that makes the rest honest:
 
 | rung | asserts |
@@ -295,6 +347,15 @@ equals `"AGGREGATE CPU"` is a data-model check (`structural-visual`), not pixel
 proof (`raster-visual`) or live event dispatch (`interactive-glass`). Only effect
 rungs count toward the strict ratchet, and `raster-visual` / `interactive-glass`
 owe real artifacts from an attached window server.
+
+**An `outcome` is a state the handler was supposed to change, never the product's
+own report that it changed one.** A control that opens a real panel and sets a
+banner reading *"Opened Downloads"* passes any check watching for a state
+difference, and the folder was never read. Name the observable per control — rows
+in the list, files parsed, bytes on the pasteboard, the sheet presented, the
+request fired — and read it back through a different channel from the one that
+struck. Where a control's only promised effect genuinely is a message, the case
+stands at `structural` and says so.
 
 A case for which nothing was ever specified that a check could read resolves to
 `unoracled: <reason>` — a different condition from `inconclusive`, with the
@@ -384,6 +445,20 @@ display server, **desktop shell and window invariants** (scaling, size limits,
 popover anchoring, runtime theme change, occlusion), and where it is more than
 one process, **live process and IPC chaos** (peer dies, peer returns, privilege
 separation, startup order).
+
+Then, where a user can leave a multi-step task and come back to it, **the history
+axis: N to U**. Everything above quantifies over a product frozen at an instant;
+these seven are about order, interruption, elapsed time and the difference from
+the last build. **N** models the journey · **O** cuts it at all five durable
+boundaries · **P** replays it against build N−1 under a change-intent manifest ·
+**Q** varies its event order, adjacency and repetition · **R** revokes
+permissions, drops the network and moves the clock underneath it · **S** checks
+the telemetry it emitted about itself · **T** runs it until something accumulates
+· **U** varies the schedule rather than the order, which is the one addition whose
+published false-positive rate (7 of 152 tests, AjaxRacer) is low enough to block
+on directly. Six independent readings ranked this axis first among what the
+campaign was missing. `references/journeys.md` carries the evidence and the
+gated-versus-advisory split; `references/sweeps.md` carries the mechanics.
 
 Sweep M, the boundary sweep, is the one that would have caught the fifth failure
 mode, and two of its six checks cost nothing: a grep for the effect providers,
@@ -478,9 +553,20 @@ no artifact, any pixel claim has no usable capture or shares one with another
 case, **any published shot is unusable, repeats another subject's picture, or is
 bound to its subject by filename alone**, any non-deferred requirement has no case,
 any critical flow is proved only by presence, **any effect-witness claim names no
-recorder or counted nothing**, or **any requirement claiming an effect outside the
-product is recorded `observed` with no effect-witness case behind it**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
+recorder or counted nothing**, **any critical journey is uncut at a durable
+boundary, any journey has no case, or any previous-build comparison names no
+change-intent manifest**, **any surface declaring controls has none of them
+actuated by a passing effect-rung case, or two destinations of one navigation
+shell publish one identical image**, or **any requirement claiming an effect outside
+the product is recorded `observed` with no effect-witness case behind it**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
 unrecognised status counts as open, deliberately.
+
+Three denominators print on every run, green or red — the journey ledger
+(`Journeys: 4 declared, 2 critical · boundaries 18/20 cut`, or NOT DECLARED), because the campaign this rule
+came from was green and what was worth knowing sat in a number nobody printed; a
+per-lane row carrying that lane's cases, passes, effect-rung passes, armed count
+and oracle mix; and `Controls: 11 of 18 declared control(s) actuated`, or
+`NOT DECLARED` where no surface lists any.
 
 `evidence-page.py` builds the page. Every rendered capture carries how its subject
 was established — **witnessed** (judged against its reference), **manifest** (the
@@ -569,6 +655,18 @@ is for a structural block that remains after that build. `references/on-glass.md
 returns nothing, `"" === ""` is true and certifies agreement it never measured. So
 report `inconclusive` with the reason and the population, never a clean row, and
 never widen a tolerance to make an unmeasurable read pass.
+
+**An effect is not the product's own report of the effect.** A snackbar saying
+*"Opened Downloads"* is the one observable a handler produces whether or not it
+did the work, and it moves a change detector as readily as a real state change
+does. Read the state the handler was supposed to change instead, through a
+different channel from the one that struck.
+
+**A control is not proved by rendering, and a destination is not proved by being
+selectable.** Both pass presence, structural, contrast and screenshot checks
+while doing nothing. A control is proved by actuation plus a state read outside
+it; a destination by an identity that differs from its siblings'.
+`references/inert-ui.md`.
 
 **Print the denominator.** Everywhere, in every sweep, in the report, in the
 reply.
@@ -663,7 +761,7 @@ run reported in the shape of a full one.
   case: the four-rung ladder from a specification-sourced outcome assertion
   through metamorphic relations and property-based invariants to a recorded
   permanent limit, and the two constraints on generating any of them.
-- `references/detector-defects.md` — fourteen measured ways a check lies, each
+- `references/detector-defects.md` — sixteen measured ways a check lies, each
   with its fix.
 - `references/harness-lanes.md` — what each lane can observe, web through native
   Windows and Linux; plane versus lane; reaching a surface a URL cannot address.
@@ -671,6 +769,18 @@ run reported in the shape of a full one.
   under: the measured 20-capture failure, the four attributes borrowed from
   `warrant:oracle`, the four-pass gate ladder, why the witness step must actually
   run, and the seeded swap that keeps the gate honest.
+- `references/journeys.md` — the axis that is a history rather than a state: the
+  journey state model and its four properties, sequence covering arrays,
+  boundary-indexed interruption, differential replay against the previous build
+  and the change manifest that keeps it readable, the thirteen ranked additions
+  two referral lanes converged on, and the measured ceiling on model-based
+  oracles with its citations.
+- `references/inert-ui.md` — the application that renders and does nothing: the
+  measured campaign that reported 32 of 32 passing and armed over six dead
+  destinations and a screen of empty closures, why each of six gates passed, the
+  three shapes (destination collapse, the inert control, the acknowledgement-only
+  effect), what `controls` / `actuates` / `destinationOf` count, and the one thing
+  no gate can do.
 - `references/effect-boundary.md` — the guarantee that holds because its subject
   never runs: the two directions of mutation, the `vacuous` evidence class, the
   effect census, why mutation testing and coverage cannot see it, the
@@ -685,6 +795,11 @@ run reported in the shape of a full one.
 ## Scripts
 
 - `campaign.py` — the registry: init, lane, scope, add, set, carry, check, report.
+  Entities are requirement, surface, flow, component, journey, case and defect.
+  `check` prints a per-lane ledger and the control census on every run, and
+  refuses a surface whose declared controls nothing actuates, an actuation naming
+  a control its surface never declared, and two destinations of one shell that
+  publish one image.
 - `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet
   and the one reason the ratchet may be lowered.
 - `capture-lineage.py` — the deterministic plane for pictures: unsourced, untied,
@@ -696,6 +811,9 @@ run reported in the shape of a full one.
   boundary: requirements naming an effect they never class, effect classes whose
   `provider` is absent or resolves to nothing under `sourceRoot`, tests that
   mutate and never read again, and `--seed-strengthen` to watch the census fail.
+  The blind pass reads arrow-style `it(` / `test(` blocks as well as named
+  declarations, and reports `NOT MEASURED` rather than `blind=0` when it
+  recognises no block in a corpus that has files in it.
 - `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps,
   and refuses to write an attachment the capture manifest does not corroborate.
 - `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be
