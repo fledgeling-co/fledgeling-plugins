@@ -702,6 +702,22 @@ def classify(briefs, campaign, edges, join_is_weak):
             case_by_surface[c["surface"]].append((st, c.get("oracle")))
 
     # --- requirements ------------------------------------------------------
+    #
+    # What backs each requirement, computed from the cases rather than from the
+    # requirement's own account of itself. `evidence` is a word in a registry a
+    # person can edit; `backed_by` is the set of cases that cite this id and
+    # reached a verdict. The ratchet needs the second, because a requirement can
+    # be moved from `unmeasured` to `observed` by typing, and one campaign moved
+    # eight of them in a single session with no case having run in between.
+    backing: dict[str, list[str]] = defaultdict(list)
+    for c in campaign["cases"]:
+        if state_of(c.get("status")) != "pass":
+            continue
+        cited = c.get("req")
+        for rid in ([cited] if isinstance(cited, str) else (cited or [])):
+            if rid:
+                backing[rid].append(c.get("id"))
+
     for r in campaign["requirements"]:
         ev = (r.get("evidence") or "unknown").lower()
         if ev in EVIDENCE_DISPUTED:
@@ -731,6 +747,7 @@ def classify(briefs, campaign, edges, join_is_weak):
             "id": r.get("id"), "entity": "requirement", "class": cls, "kind": KIND_OF[cls],
             "title": (r.get("text") or "")[:200], "evidence": ev,
             "note": r.get("note"), "provider": r.get("provider"),
+            "backed_by": sorted(backing.get(r.get("id"), [])) or None,
             "remedy": REMEDY.get(ev) if cls == "unmeasured" else None,
             "is_work_item": cls not in ("verified-done", "waived"), "why": why,
         })
@@ -1184,6 +1201,26 @@ def ratchet(prev, cur):
         if crow["entity"] == "case" and crow.get("status") in ADJUDICATED:
             continue
         if crow["entity"] == "requirement" and crow.get("evidence") in EVIDENCE_OBSERVED:
+            # `observed` releases a requirement from `unmeasured`, and until now
+            # the word alone did it. Measured 24 Aug 2026: a campaign moved eight
+            # requirements from unmeasured to observed inside one session, with
+            # no case having run in between and the ratchet exiting 0 — the same
+            # session in which the join was carried from 6% to 100% by writing
+            # citations into 81 briefs. A registry a person edits cannot also be
+            # the witness that the edit was earned.
+            #
+            # `backed_by` is computed from the cases, so it is the one thing on
+            # this row the requirement does not say about itself. A ledger built
+            # before this field existed carries None rather than an empty list,
+            # and is let through: refusing there would fail every first
+            # comparison against an older ledger, which is a fact about the
+            # ledger's age rather than about the project.
+            backed = crow.get("backed_by")
+            if backed is None or backed:
+                continue
+            bad.append("%s moved from unmeasured to observed with no passing case citing it — "
+                       "the evidence word changed and nothing else did, which is a re-label "
+                       "rather than a measurement" % rid)
             continue
         if crow["entity"] == "surface" and crow["class"] == "verified-done":
             continue

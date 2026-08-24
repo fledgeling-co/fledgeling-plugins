@@ -59,8 +59,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 KINDS = {"requirement": "REQ", "surface": "SURF", "flow": "FLOW", "component": "CMP",
-         "case": "CASE", "defect": "DEF"}
-WIDTH = {"REQ": 3, "SURF": 3, "FLOW": 3, "CMP": 3, "CASE": 4, "DEF": 3}
+         "case": "CASE", "defect": "DEF", "journey": "JRN"}
+WIDTH = {"REQ": 3, "SURF": 3, "FLOW": 3, "CMP": 3, "CASE": 4, "DEF": 3, "JRN": 3}
+
+# The durable boundaries of a journey step, in order. A journey declares which of
+# these it cut at; the gate counts the ones it did not. Named rather than free
+# text because the census that follows is mechanical, and a boundary nobody can
+# enumerate is a boundary nothing checks. See references/sweeps.md sweep O.
+JOURNEY_BOUNDARIES = ("request-issued", "server-committed", "provider-effect",
+                      "client-persisted", "user-acknowledged")
 
 RESOLVED = ("pass", "fail")
 # unselected is its own state and not a kind of skip. A skip says this case
@@ -837,6 +844,165 @@ def audit(d: Path) -> dict:
 
     uncovered = [sid for sid, cs in by_surface.items() if not cs]
 
+    # ── THE LANE LEDGER ─────────────────────────────────────────────────────
+    #
+    # A campaign-wide oracle mix hides a lane. Measured 24 Aug 2026: a campaign
+    # over a web app and a native macOS app reported `32 pass · 32/32 armed ·
+    # Oracles: structural 10 · outcome 14 · effect-witness 8` and cleared every
+    # gate. The web lane carried 156 driven specs; the native lane carried three
+    # cases, all of them socket and layer telemetry, none of them at an effect
+    # rung. The app shipped with six sidebar destinations rendering one
+    # placeholder view and every button wired to an empty closure, and no number
+    # on the verdict page was false. references/inert-ui.md.
+    #
+    # So the mix is reported per lane as well as in total, and a lane whose every
+    # passing case sits below `outcome` holds the gate. That is the third failure
+    # mode at lane granularity: the parts were checked on paper and the lane was
+    # reported as the product.
+    lane_ledger: dict[str, dict] = {}
+    for c in cases:
+        lane = c.get("lane") or "unassigned"
+        row = lane_ledger.setdefault(
+            lane, {"cases": 0, "pass": 0, "effect": 0, "armed": 0, "rungs": {}})
+        row["cases"] += 1
+        rung = c.get("oracle") if c.get("oracle") in ALL_RUNGS else "unrated"
+        row["rungs"][rung] = row["rungs"].get(rung, 0) + 1
+        if state_of(c.get("status", "open")) == "pass":
+            row["pass"] += 1
+            if c.get("armed"):
+                row["armed"] += 1
+            if c.get("oracle") in EFFECT_RUNGS:
+                row["effect"] += 1
+    lanes_presence_only = [f"{lane} ({row['pass']} passing case(s), none above `structural`)"
+                           for lane, row in sorted(lane_ledger.items())
+                           if row["pass"] and not row["effect"]]
+
+    # ── THE JOURNEY LEDGER ──────────────────────────────────────────────────
+    #
+    # A journey is a history rather than a state, so it gets a denominator of its
+    # own: no other count in this file can say whether the multi-step task was
+    # ever driven end to end. Optional — absent means NOT DECLARED rather than
+    # clean — because a product with no multi-step task owes no journeys.
+    #
+    # Two gates, and both come from measured results rather than from taste.
+    # A journey declaring `critical` owes a boundary cut at every one of the five
+    # durable boundaries: the Android data-loss benchmark holds 110 reproducible
+    # faults of exactly this shape, and TimeMachine's client-only state
+    # restoration is why a client snapshot alone cannot close one. And a
+    # differential claim owes a change-intent manifest, because RegDroid measured
+    # a 64% false-positive rate on previous-build diffs of which 93% were
+    # intended changes — an ungoverned diff wall is not a gate, it is a queue.
+    journeys = inventory.get("journey", [])
+    by_journey: dict[str, list[dict]] = {j["id"]: [] for j in journeys}
+    for c in cases:
+        jid = c.get("journey")
+        if jid in by_journey:
+            by_journey[jid].append(c)
+
+    bad_boundary, journeys_uncut, journeys_uncased = [], [], []
+    for j in journeys:
+        cut = [str(b) for b in (j.get("boundariesCut") or [])]
+        strays = [b for b in cut if b not in JOURNEY_BOUNDARIES]
+        if strays:
+            bad_boundary.append(
+                f"{j['id']} names boundary {capped(strays, 3)}, not one of "
+                f"{', '.join(JOURNEY_BOUNDARIES)}")
+        if not by_journey.get(j["id"]):
+            journeys_uncased.append(j["id"])
+        if j.get("critical"):
+            missing = [b for b in JOURNEY_BOUNDARIES if b not in cut]
+            if missing:
+                journeys_uncut.append(f"{j['id']} ({len(missing)} of "
+                                      f"{len(JOURNEY_BOUNDARIES)} uncut: {capped(missing, 3)})")
+    boundaries_total = len(journeys) * len(JOURNEY_BOUNDARIES)
+    boundaries_cut = sum(
+        len({str(b) for b in (j.get("boundariesCut") or [])} & set(JOURNEY_BOUNDARIES))
+        for j in journeys)
+
+    # A case claiming it compared this build against the previous one owes the
+    # manifest that says which differences were intended. Without it the run
+    # cannot separate a regression from a shipped change, and 93% of what it
+    # reports will be the second.
+    differential_unmanifested = [
+        c["id"] for c in cases
+        if c.get("comparedAgainstBuild") and not c.get("changeIntentManifest")]
+
+    # ── THE CONTROL CENSUS ──────────────────────────────────────────────────
+    #
+    # A surface may list the controls it offers under `controls`, and a case
+    # records which of them it actuated under `actuates`. Both are optional and
+    # absent means NOT DECLARED rather than clean, because a census over an
+    # undeclared population is the empty-denominator failure this file already
+    # carries three instances of.
+    #
+    # The defect this counts: `Button("Pull Proof") {}` compiles, renders, carries
+    # a role and an accessible name, passes a contrast gate, accepts a click, and
+    # runs an empty closure. Every presence-rung and structural-rung check passes.
+    # Only actuating it and reading a state the control was supposed to change
+    # separates a wired control from an inert one.
+    declared_controls: dict[str, list[str]] = {
+        s["id"]: [str(x) for x in (s.get("controls") or [])]
+        for s in surfaces if s.get("controls")}
+    actuated: dict[str, set[str]] = {sid: set() for sid in declared_controls}
+    unknown_actuations: list[str] = []
+    for c in cases:
+        names = c.get("actuates") or []
+        if not names:
+            continue
+        sid = c.get("surface")
+        if sid not in declared_controls:
+            unknown_actuations.append(
+                f"{c['id']} actuates {len(names)} control(s) on "
+                f"{sid or 'no surface'}, which declares none")
+            continue
+        known = set(declared_controls[sid])
+        strays = [n for n in names if n not in known]
+        if strays:
+            unknown_actuations.append(
+                f"{c['id']} actuates {capped(strays, 4)} — not among "
+                f"{sid}'s declared controls")
+        # Only a passing case at an effect rung actuated anything. A presence-rung
+        # pass that clicked a control and asserted the control is still there has
+        # measured the click and not the effect.
+        if state_of(c.get("status", "open")) == "pass" and c.get("oracle") in EFFECT_RUNGS:
+            actuated[sid] |= (set(names) & known)
+    controls_total = sum(len(v) for v in declared_controls.values())
+    controls_actuated = sum(len(actuated[sid]) for sid in declared_controls)
+    surfaces_inert = [
+        f"{sid} ({len(declared_controls[sid])} control(s) declared, 0 actuated)"
+        for sid in sorted(declared_controls) if not actuated[sid]]
+
+    # ── DESTINATION DISTINCTNESS ────────────────────────────────────────────
+    #
+    # A surface that is one destination of a navigation shell names the shell
+    # under `destinationOf`. For destinations of one shell, two captures with the
+    # same bytes are the defect rather than a saving: it is the shell rendering
+    # one view under every label. A declared share does not excuse it here, which
+    # is the one place this gate is stricter than the general duplicate rule
+    # above — elsewhere two surfaces can legitimately be one address, and between
+    # two destinations of one menu they cannot.
+    shells: dict[str, list[str]] = {}
+    for s in surfaces:
+        shell = s.get("destinationOf")
+        if shell:
+            shells.setdefault(str(shell), []).append(s["id"])
+    sid_of_hash = {sid: h for h, ids in shot_hashes.items() for sid in ids}
+    collapsed_destinations: list[str] = []
+    for shell, dests in sorted(shells.items()):
+        groups: dict[str, list[str]] = {}
+        for sid in dests:
+            h = sid_of_hash.get(sid)
+            if h:
+                groups.setdefault(h, []).append(sid)
+        for h, ids in groups.items():
+            if len(ids) > 1:
+                collapsed_destinations.append(
+                    f"{shell}: {', '.join(sorted(ids))} publish one identical image")
+    destinations_uncased = [
+        f"{shell}: {capped([s for s in dests if not by_surface.get(s)], 6)}"
+        for shell, dests in sorted(shells.items())
+        if any(not by_surface.get(s) for s in dests)]
+
     # A requirement with no case is the campaign's real gap: it is something the
     # project says it does that nothing checked. Deferred requirements are exempt,
     # because not building them is the recorded decision.
@@ -989,6 +1155,11 @@ def audit(d: Path) -> dict:
         age_days = None
 
     blockers = []
+    # Reported beside the blockers and counted apart from them: a thing worth a
+    # reader's attention that the gate has no mechanical case for refusing on.
+    # Kept out of `clear` deliberately, so an advisory can never quietly become a
+    # gate and a gate can never quietly become an advisory.
+    blockers_advisory: list[str] = []
     # A gate that cannot fail on the emptiest possible input is the failure this
     # skill's first rule describes: a check that matches nothing returns clean and
     # is indistinguishable from a clean surface. `init` followed by `check` used to
@@ -1062,6 +1233,53 @@ def audit(d: Path) -> dict:
                         f"on non-glass lane(s)")
     if uncovered:
         blockers.append(f"{len(uncovered)} surface(s) with no case at all")
+    if lanes_presence_only:
+        # Reported, not blocked, and the distinction is a measurement rather than
+        # a softening. On the campaign this ledger was written against, the native
+        # lane DID carry an effect-witness case — a loopback socket recorder — so a
+        # rule of the form "every lane owes one effect rung" would have cleared it
+        # and the app would still have shipped with six dead destinations. The two
+        # blockers that follow are the ones aimed at that defect. This line is here
+        # because a lane at zero is worth a reader's attention even where the gate
+        # has nothing mechanical to say about it.
+        blockers_advisory.append(
+            f"{len(lanes_presence_only)} lane(s) whose every passing case sits below "
+            f"`outcome` ({capped(lanes_presence_only, 3)}) — proved to render, not to work")
+    if surfaces_inert:
+        blockers.append(f"{len(surfaces_inert)} surface(s) declaring controls that no passing "
+                        f"effect-rung case actuates ({capped(surfaces_inert, 3)}) — a control "
+                        f"renders, carries a name and accepts a click whether or not its "
+                        f"handler does anything")
+    if unknown_actuations:
+        blockers.append(f"{len(unknown_actuations)} case(s) actuating a control their surface "
+                        f"never declared ({capped(unknown_actuations, 2)}) — add the control "
+                        f"to the surface, so the census has a denominator to count against")
+    if bad_boundary:
+        blockers.append(f"{len(bad_boundary)} journey(s) naming a boundary that is not one "
+                        f"of the five ({capped(bad_boundary, 2)}) — a boundary nobody can "
+                        f"enumerate is a boundary nothing cuts at")
+    if journeys_uncut:
+        blockers.append(f"{len(journeys_uncut)} critical journey(s) not cut at every durable "
+                        f"boundary ({capped(journeys_uncut, 3)}) — an uninterrupted journey "
+                        f"proves the happy path and says nothing about partial completion, "
+                        f"which is where the measured fault corpus for this shape lives")
+    if journeys_uncased:
+        blockers.append(f"{len(journeys_uncased)} journey(s) with no case at all "
+                        f"({capped(journeys_uncased, 4)})")
+    if differential_unmanifested:
+        blockers.append(f"{len(differential_unmanifested)} case(s) comparing against a previous "
+                        f"build with no change-intent manifest "
+                        f"({capped(differential_unmanifested, 3)}) — a measured 64% of such "
+                        f"differences are intended changes, so an unmanifested diff cannot "
+                        f"separate a regression from a shipped feature")
+    if collapsed_destinations:
+        blockers.append(f"{len(collapsed_destinations)} navigation shell(s) whose destinations "
+                        f"publish one identical image ({capped(collapsed_destinations, 2)}) — "
+                        f"between two destinations of one menu, identical bytes are the "
+                        f"defect rather than a share")
+    if destinations_uncased:
+        blockers.append(f"{len(destinations_uncased)} navigation shell(s) with a destination "
+                        f"no case reaches ({capped(destinations_uncased, 2)})")
     if unevidenced:
         blockers.append(f"{len(unevidenced)} pass(es) naming no evidence artifact")
     if untested_reqs:
@@ -1170,6 +1388,24 @@ def audit(d: Path) -> dict:
         "requirementsSourceOnly": covered_source_only,
         "surfaces": len(surfaces),
         "surfacesUncovered": uncovered,
+        "journeys": len(journeys),
+        "journeysCritical": sum(1 for j in journeys if j.get("critical")),
+        "journeysUncut": journeys_uncut,
+        "journeysUncased": journeys_uncased,
+        "boundariesCut": boundaries_cut,
+        "boundariesTotal": boundaries_total,
+        "badBoundaryNames": bad_boundary,
+        "differentialUnmanifested": differential_unmanifested,
+        "laneLedger": lane_ledger,
+        "lanesPresenceOnly": lanes_presence_only,
+        "controlsDeclared": controls_total,
+        "controlsActuated": controls_actuated,
+        "surfacesDeclaringControls": len(declared_controls),
+        "surfacesInert": surfaces_inert,
+        "unknownActuations": unknown_actuations,
+        "navigationShells": {k: sorted(v) for k, v in shells.items()},
+        "collapsedDestinations": collapsed_destinations,
+        "destinationsUncased": destinations_uncased,
         "flows": len(flows),
         "flowsPresenceOnly": presence_only,
         "components": len(inventory.get("component", [])),
@@ -1182,6 +1418,7 @@ def audit(d: Path) -> dict:
         "unevidencedPasses": unevidenced,
         "orphanCases": orphans,
         "blockers": blockers,
+        "advisories": blockers_advisory,
         "clear": not blockers,
     }
 
@@ -1232,6 +1469,30 @@ def cmd_check(args) -> int:
         print("Off-ladder: " + " · ".join(f"{k} {v}" for k, v in offaxis.items())
               + " — reads source, runs nothing, buys no effect credit")
     print(f"Armed:      {a['armedOfPassing']} passing cases have been watched to fail")
+    # Per lane as well as in total, because a campaign-wide mix hides a lane that
+    # was only ever checked on paper. The `effect` column is the one to read: a
+    # lane at 0 there is proved to render and not to work.
+    for lane, row in sorted(a["laneLedger"].items()):
+        print(f"Lane:       {lane} — {row['cases']} case(s) · {row['pass']} pass · "
+              f"{row['effect']} at an effect rung · {row['armed']} armed · "
+              + " ".join(f"{k}:{v}" for k, v in sorted(row["rungs"].items())))
+    if a["journeys"]:
+        print(f"Journeys:   {a['journeys']} declared, {a['journeysCritical']} critical · "
+              f"boundaries {a['boundariesCut']}/{a['boundariesTotal']} cut")
+    else:
+        print("Journeys:   NOT DECLARED — no multi-step task is modelled, so nothing here "
+              "counts one. A journey is a history, and no per-surface count can see it.")
+    if a["surfacesDeclaringControls"]:
+        print(f"Controls:   {a['controlsActuated']} of {a['controlsDeclared']} declared "
+              f"control(s) actuated by a passing effect-rung case, across "
+              f"{a['surfacesDeclaringControls']} surface(s) that declare any")
+    else:
+        print("Controls:   NOT DECLARED — no surface lists its controls, so nothing here "
+              "counts them. A control renders and accepts a click whether or not its "
+              "handler does anything.")
+    if a["navigationShells"]:
+        print(f"Shells:     {len(a['navigationShells'])} navigation shell(s), "
+              f"{sum(len(v) for v in a['navigationShells'].values())} destination(s)")
     if a["runScope"] == "selective":
         age = a["lastFullRunAgeDays"]
         print(f"Scope:      SELECTIVE — ran {a['selectedOfTotal']} cases"
@@ -1243,6 +1504,14 @@ def cmd_check(args) -> int:
         print(f"Scope:      FULL — every case in the campaign was run")
     if a["sample"]:
         print(f"Sample:     {a['sample']}")
+
+    if a.get("advisories"):
+        # Printed before the verdict on a clear run as well as a red one. The
+        # campaign this rule came from was green, and the thing worth knowing was
+        # only visible in a number nobody printed.
+        print("\nWorth reading, not blocking:")
+        for line in a["advisories"]:
+            print(f"  · {line}")
 
     if a["clear"]:
         if a["runScope"] == "selective":
