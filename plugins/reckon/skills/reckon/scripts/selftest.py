@@ -231,6 +231,35 @@ print("%-46s %s" % ("reaching every declared plane retires", "ok" if ok else "FA
 if not ok:
     FAILURES.append("plane discriminator blocked a complete requirement: %r" % row_q["class"])
 
+# Compound defect statuses. `answered - F191 - not re-measured` is a repair claim
+# and must not retire; `resolved - v2.3` is a repair and must.
+def _defect_camp(status):
+    return {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+            "requirements": [], "surfaces": [],
+            "defects": [{"id": "DEF-900", "title": "d", "status": status}]}
+
+row_a = [r for r in R.classify([], _defect_camp("answered \u00b7 F191 \u00b7 not re-measured"),
+                               [], False) if r["id"] == "DEF-900"][0]
+ok = row_a["class"] == "unmeasured"
+print("%-46s %s" % ("a fix claimed and not re-measured stays open", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("compound defect status: class=%r" % row_a["class"])
+
+row_b = [r for r in R.classify([], _defect_camp("resolved \u00b7 v2.3"), [], False)
+         if r["id"] == "DEF-900"][0]
+ok = row_b["class"] == "verified-done"
+print("%-46s %s" % ("a compound fix status still retires", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("compound fix status blocked: class=%r why=%r"
+                    % (row_b["class"], row_b.get("why")))
+
+unclassed_before = R.unclassified_inputs(R.classify(
+    [], _defect_camp("answered \u00b7 F191 \u00b7 not re-measured"), [], False))
+ok = len(unclassed_before) == 0
+print("%-46s %s" % ("and it is classified, not an unknown word", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("compound status still unclassified: %r" % unclassed_before)
+
 # --- 6. classification behaviour ------------------------------------------
 camp = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
         "requirements": [{"id": "REQ-1", "text": "the widget saves", "evidence": "reported"}],
