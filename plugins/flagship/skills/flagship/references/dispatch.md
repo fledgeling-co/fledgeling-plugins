@@ -24,6 +24,13 @@ note as state — to the operator, or in a decision — open the report it summa
 note answers "what did the runner say"; the report answers what the runner found, and
 those diverge precisely when the summary is load-bearing.
 
+And read the ledger on the branch the session works, not the default checkout's HEAD.
+Measured twice in one day on the same repo: a session whose survey named its integration
+trunk had its work called "uncommitted, two-day-old HEAD" because the conductor's ledger
+sweep read `main`, where nothing had landed by design. `git -C <repo> log` answers the
+wrong question whenever the fleet works on trunks — ask the session which branch it lives
+on (or read its last report) before the sweep.
+
 And the stronger fix for the class, named by the session that hit it: **give the summary
 something mechanical to disagree with.** Re-reading the report is discipline; a hash, a
 count, or a cross-file match is an instrument — the same night, a stale README bullet and
