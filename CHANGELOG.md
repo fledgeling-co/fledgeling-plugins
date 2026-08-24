@@ -4,6 +4,40 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-24
+
+### reckon 1.3.0 → 1.4.0: scope-narrowing trap defense and recursive brief discovery
+
+Learnings from the Scrim `Google Drive Fixes` session: when a broad architectural brief
+(e.g. multi-backend dual-mode serving, background daemons, cross-platform targets) is narrowed
+during triage to in-tree model mocks, unit tests pass and test-campaign passes. Reckon now detects
+the scope-narrowing trap, retaining unfulfilled outer intent in `undecided` or `unbuilt` rather than
+retiring full briefs on in-tree mock test evidence alone.
+
+- **Recursive & Consumed Brief Discovery**: `read_briefs` now recursively crawls subdirectories
+  (e.g. `consumed/`, `archived/`) and treats historical scaffolding briefs as declared `waived/consumed`,
+  preventing pollution of unjoined queues.
+- **Direct Whats-Left Handoff**: Formalized the emission pipeline so `ledger.json`'s `undecided`
+  rows, `unmeasured` blocker clusters, and `unbuilt`/`broken` rows map directly into `whats-left`.
+- **Opus 5 Prompting & Migration**: Updated instructions with calm trigger language, explicit task
+  scoping, length calibration without filler, subagent delegation caps (join review >150 files only),
+  and removal of over-verification scaffolding.
+
+### whats-left 0.2.0 → 0.3.0: full-stack capability completeness & direct reckon ingestion
+
+- **Full-Vertical Capability Stack**: Upgraded survey discipline across five distinct rungs (UI on-glass
+  vs HTML mock, in-tree logic vs runtime controllers, standalone background daemons/binaries, cross-platform
+  environments, and live system effect boundaries) to prevent false 100% completion claims when daemons
+  or OS integration layers remain unbuilt.
+- **Direct Reckon Ingestion**: Added structured ingestion of `docs/reckoning/<date>/ledger.json` (`undecided` →
+  questionnaire decisions, `BLOCK-*` clusters → evidence work, `unbuilt`/`broken` → product work).
+- **Opus 5 Migration**: Calibrated deliverable length, calm trigger language, and subagent delegation limits.
+
+### ship-fleet 2.7.0 → 2.7.1: reckon verification before declaring backlogs drained
+
+- Added explicit `reckon` verification step to reconcile remaining work against test campaigns and route
+  undecided forks to `whats-left` before declaring a backlog drained.
+
 ## 2026-08-22
 
 ### recover-claude-code 1.0.0 → 1.1.0: the sessions that outlive the terminal

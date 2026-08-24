@@ -95,6 +95,28 @@ it.
 question is not on the page. Half a link graph is worse than none: it tells the
 reader something exists to answer and gives them nowhere to answer it.
 
+## Full-stack capability decomposition
+
+When sizing and classifying items, distinguish in-tree logic from complete
+operational capability across five rungs:
+1. **UI & Visuals** — rendered on glass vs HTML mock vs in-memory SwiftUI/React view.
+2. **In-Tree Logic & Models** — unit tested vs wired into runtime controllers.
+3. **Background Daemons & Binaries** — background sync daemons, IPC servers, CLI services (e.g., Linux/Windows backend daemons).
+4. **Cross-Platform Environments** — macOS, iOS, iPadOS, Web, Windows, Linux.
+5. **System Effect Boundaries** — live OAuth credentials, real APFS/ext4 mounts, network sockets.
+
+An item where in-tree algorithms exist but daemon plumbing or OS integration is
+missing belongs in `built` or `in-progress`, with `remaining` explicitly naming
+the unbuilt daemons and cross-platform layers.
+
+## Reckon ledger ingestion
+
+When `docs/reckoning/<date>/ledger.json` is available:
+- `unbuilt` and `broken` rows map directly to product items (`stage: "not-started"` or `"in-progress"`).
+- `unmeasured` blocker clusters (`BLOCK-*`) map to evidence items (`stage: "blocked"`).
+- `undecided` rows map to items needing user rulings (`blocked_by` pointing to the corresponding decision question).
+- `waived` rows with reasons are recorded in summary or `meta.unknowns` rather than lost.
+
 ## Features raised in conversation
 
 Anything the session discussed that no roadmap tracks belongs on the page, in

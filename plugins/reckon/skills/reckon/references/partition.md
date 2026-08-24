@@ -134,19 +134,23 @@ is demonstrably larger than the documents describe.
 
 ### `undecided` — decision work
 
-The documents and the evidence disagree, and no instrument settles it:
+The documents and the evidence disagree, or intent was narrowed during triage,
+and no instrument settles it:
 
 - a requirement graded `contradicted` or `vacuous`
 - a brief that looks done, but only at an oracle rung below the retirement
   floor, or only through a guessed join
+- a brief whose full acceptance sketch specified multi-system or external
+  capabilities (e.g. background daemons, driver extensions, cross-platform
+  binaries), but triage narrowed the spec to an in-tree mock or partial model
 
-The second is deliberate conservatism. An item that looks finished on weak
-evidence is routed to `spec-validation` rather than retired, because retiring
-is destructive to somebody's stated intent and the cost of being wrong is
-asymmetric.
+The last is the scope-narrowing trap discovered in complex multi-backend projects:
+an in-tree unit test or mock test can pass 100% and satisfy a narrowed spec, but
+leaves the outer capability unbuilt. Routing this to `undecided` or `unbuilt`
+preserves the unfulfilled intent on the ledger instead of silently retiring it.
 
 `undecided` rows are `whats-left`'s natural input — they are the questions
-only the owner can burn down.
+and scope decisions only the owner can burn down.
 
 ### `retirable` — bookkeeping
 
@@ -161,14 +165,16 @@ as a whole is weak — under half the briefs tied to anything — retirement
 claims are withheld across the board and the briefs stay in their documentary
 class.
 
-That last one is a deliberate choice about how to fail: a weak join degrades
-the claim rather than blocking the run. A gate that refuses to produce output
-gets switched off, and a switched-off gate catches nothing.
+Retirement is also withheld when a brief's external effect requirements are
+vacuous (e.g. a requirement claiming external network sockets or kernel
+operations where no production symbol executes them).
 
 ### `waived` — exception
 
-Somebody decided not to. Campaign statuses `n/a` and `skip`; briefs declaring
-`waived`, `deferred`, `wontfix`, `declined` or `out of scope`.
+Somebody decided not to, or an item represents historical scaffolding.
+Campaign statuses `n/a` and `skip`; briefs declaring `waived`, `deferred`,
+`wontfix`, `declined`, `out of scope`, or `consumed` (historical scaffolding
+briefs in `consumed/` or `archived/` subdirectories).
 
 Not remaining and not done. Regulated regimes keep a separate deviation
 register for exactly this, and a waiver that closes an item still leaves the

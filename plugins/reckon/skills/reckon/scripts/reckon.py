@@ -55,7 +55,7 @@ ADJUDICATED = ("pass", "fail")
 WAIVED_STATUS = ("n/a", "skip")
 
 # Frontmatter statuses on a brief that amount to the same decision.
-WAIVED_DECLARED = ("waived", "deferred", "wontfix", "won't fix", "declined", "out of scope")
+WAIVED_DECLARED = ("waived", "deferred", "wontfix", "won't fix", "declined", "out of scope", "retired", "completed", "consumed", "scaffolded", "historical")
 
 # A case status that means no verdict was reached. Each has a different remedy
 # — blocked needs access, inconclusive needs a better instrument, unoracled
@@ -270,47 +270,56 @@ def read_briefs(briefs_dir, ignore=()):
     if not briefs_dir or not os.path.isdir(briefs_dir):
         return briefs
 
-    for name in sorted(os.listdir(briefs_dir)):
-        if not name.endswith(".md"):
-            continue
-        if name in ignore or name.upper().startswith(("BRIEF-TEMPLATE", "README", "00-INDEX", "LEDGER")):
-            continue
-        path = os.path.join(briefs_dir, name)
-        try:
-            with open(path, encoding="utf-8") as fh:
-                body = fh.read()
-        except (OSError, UnicodeDecodeError):
-            continue
+    for root, dirs, files in os.walk(briefs_dir):
+        dirs.sort()
+        for name in sorted(files):
+            if not name.endswith(".md"):
+                continue
+            if name in ignore or name.upper().startswith(("BRIEF-TEMPLATE", "README", "00-INDEX", "LEDGER")):
+                continue
+            path = os.path.join(root, name)
+            rel_path = os.path.relpath(path, briefs_dir)
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    body = fh.read()
+            except (OSError, UnicodeDecodeError):
+                continue
 
-        meta, generated_by, source_ids = {}, None, []
-        m = FRONTMATTER_RE.match(body)
-        if m:
-            for line in m.group(1).splitlines():
-                if ":" not in line:
-                    continue
-                k, _, v = line.partition(":")
-                meta[k.strip().lower()] = v.strip().strip("\"'")
-            generated_by = meta.get("generated-by")
-            raw = meta.get("reckon-sources") or meta.get("sources") or meta.get("source") or ""
-            source_ids = [s.strip() for s in raw.strip("[]").split(",") if s.strip()]
-            body = body[m.end():]
+            meta, generated_by, source_ids = {}, None, []
+            m = FRONTMATTER_RE.match(body)
+            if m:
+                for line in m.group(1).splitlines():
+                    if ":" not in line:
+                        continue
+                    k, _, v = line.partition(":")
+                    meta[k.strip().lower()] = v.strip().strip("\"'")
+                generated_by = meta.get("generated-by")
+                raw = meta.get("reckon-sources") or meta.get("sources") or meta.get("source") or ""
+                source_ids = [s.strip() for s in raw.strip("[]").split(",") if s.strip()]
+                body = body[m.end():]
 
-        title = ""
-        for line in body.splitlines():
-            if line.startswith("#"):
-                title = line.lstrip("#").strip()
-                break
+            title = ""
+            for line in body.splitlines():
+                if line.startswith("#"):
+                    title = line.lstrip("#").strip()
+                    break
 
-        briefs.append({
-            "id": "BRIEF-" + os.path.splitext(name)[0],
-            "file": name,
-            "path": path,
-            "title": title or os.path.splitext(name)[0].replace("-", " "),
-            "text": body,
-            "status": (meta.get("status") or "").lower(),
-            "generated_by": generated_by,
-            "source_ids": source_ids,
-        })
+            status = (meta.get("status") or "").lower()
+            rel_parts = [p.lower() for p in rel_path.split(os.sep)[:-1]]
+            if not status and ("consumed" in rel_parts or "archive" in rel_parts or "archived" in rel_parts):
+                status = "consumed"
+
+            slug = os.path.splitext(name)[0]
+            briefs.append({
+                "id": "BRIEF-" + slug,
+                "file": rel_path if rel_path != name else name,
+                "path": path,
+                "title": title or slug.replace("-", " "),
+                "text": body,
+                "status": status,
+                "generated_by": generated_by,
+                "source_ids": source_ids,
+            })
     return briefs
 
 
@@ -1175,6 +1184,10 @@ def ratchet(prev, cur):
         if crow["entity"] == "case" and crow.get("status") in ADJUDICATED:
             continue
         if crow["entity"] == "requirement" and crow.get("evidence") in EVIDENCE_OBSERVED:
+            continue
+        if crow["entity"] == "surface" and crow["class"] == "verified-done":
+            continue
+        if crow["entity"] == "brief":
             continue
         if crow.get("evidence_event") in EVIDENCE_BEARING:
             continue

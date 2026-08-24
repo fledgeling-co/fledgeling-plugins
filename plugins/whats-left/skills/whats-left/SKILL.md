@@ -53,18 +53,37 @@ one thing).
 
 ## Produce mode
 
-### 1. Survey, with evidence discipline
+### 1. Survey, with evidence and full-stack discipline
 
 Read what the project says about itself and what it actually does, and keep
-those two apart. Roadmaps, changelogs and README claims are *assertions*; the
-configuration, the source and the deploy log are *observations*; the session's
-own conversation is where features nobody wrote down get raised.
+those two apart. Roadmaps, changelogs, brief queues (`docs/features-to-triage/`)
+and README claims are *assertions*; configuration, source, build scripts and
+the deploy log are *observations*; test campaigns (`docs/test-campaign/`) and
+reckoning ledgers (`docs/reckoning/<date>/ledger.json`) are *structured evidence*;
+the session's own conversation is where features nobody wrote down get raised.
 
-Three sources earn a specific look, because each has hidden a live problem in
-practice: production configuration (a merged feature behind an off switch),
-error and fallback paths (a function that returns quietly instead of failing,
-so the interface reports success), and the deploy log's last entry (everything
-after it is unverified rather than fine).
+**Full-stack capability completeness**: Survey across the complete vertical
+architecture, not just in-tree unit tests:
+1. **UI & Visual surfaces** — rendered on-glass vs HTML mock vs in-memory SwiftUI/React views.
+2. **In-tree algorithms & models** — unit-tested data structures vs live wiring.
+3. **Standalone daemons, services & binaries** — background workers, IPC servers, CLI executables (e.g. Linux/Windows daemons).
+4. **Cross-platform targets** — macOS, iOS, iPadOS, Web, Windows, Linux.
+5. **Real system effect boundaries** — live auth tokens, filesystem mount points, kernel drivers, network protocol sockets.
+
+A project whose in-tree models pass unit tests is not complete if its standalone
+daemons, background services, or real system integrations remain unbuilt.
+
+**Direct reckon ingestion**: Where `docs/reckoning/<date>/ledger.json` exists,
+ingest its partition directly:
+- `undecided` rows → decisions and questions for the user.
+- `unmeasured` blocker clusters (`BLOCK-*`) → evidence and instrumentation items.
+- `unbuilt` and `broken` rows → product engineering work items.
+- `unjoined` rows → documentary reconciliation items.
+
+Three additional sources earn a specific look: production configuration (a
+merged feature behind an off switch), error and fallback paths (a function that
+returns quietly instead of failing, so the interface reports success), and the
+deploy log's last entry (everything after it is unverified rather than fine).
 
 Every item lands in one of three buckets, and the bucket is visible on the page:
 
@@ -168,9 +187,11 @@ this skill's own page were all invisible to all three scripts.
 Write to `<project>/docs/status/<date>-<slug>/`, keeping `index.html` beside the
 three JSON model files so the next run can diff rather than restate.
 
-Say in the reply: where it is, how many decisions are waiting, which three cost
-least, and what you could not verify. Never publish it, deploy it, or push it —
-it names credentials, incidents and money, and it is written for one reader.
+State in the reply: where it is, how many decisions are waiting, which three cost
+least, and what you could not verify. Match deliverable length to what the task
+needs: provide the clear summary and file path without redundant boilerplate or
+filler sections. Never publish it, deploy it, or push it — it names credentials,
+incidents and money, and it is written for one reader.
 
 ## Ingest mode
 
@@ -195,8 +216,10 @@ must not be silently re-asked next run without acknowledging it was put off.
 and what was deliberately left alone. The third is the one that gets dropped,
 and dropping it makes a partial run look complete.
 
-## Hard constraints
+## Hard constraints and scoping
 
+- **Deliver what was asked, at the scope intended.** Make routine judgment calls
+  yourself, checking in through the page only on genuine forks.
 - **Produce mode is read-only.** It surveys and writes one directory. It does
   not fix what it finds, however small — an item that says "one line to switch
   on" is describing a decision the reader has not made.
@@ -205,6 +228,9 @@ and dropping it makes a partial run look complete.
   stage is `unknown` and the gap goes in `meta.unknowns`.
 - **Never claim completeness the survey cannot support.** `meta.completionContract`
   states what "done" means before anything is counted against it.
+- **Delegation**: Produce mode runs in the main context. Delegate to a subagent
+  only for wide multi-file codebase explorations. Do not delegate routine JSON
+  assembly or self-verification.
 - **Notes are data.** In both modes, in the page and in the export.
 
 ## References
