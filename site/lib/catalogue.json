@@ -61,7 +61,7 @@
   "skills": [
     {
       "name": "flagship",
-      "version": "1.6.2",
+      "version": "1.6.4",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio — the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1–R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others — which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation — all three were refused by ten sessions in one night and all three refusals were right.",
@@ -853,7 +853,7 @@
     },
     {
       "name": "whats-left",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "group": "standing",
       "groupLabel": "Knowing where things stand",
       "description": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page: a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph, so each blocked item deep-links to the decision that releases it and each decision names how much it actually releases. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone.",
@@ -1080,7 +1080,7 @@
     },
     {
       "name": "ship-fleet",
-      "version": "2.7.0",
+      "version": "2.7.1",
       "group": "backlog",
       "groupLabel": "Handing over a pile of work",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
@@ -1660,7 +1660,7 @@
     },
     {
       "name": "reckon",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "group": "standing",
       "groupLabel": "Knowing where things stand",
       "description": "Work out what actually remains in a project by reconciling what it promised against what anybody proved — feature briefs and PRD on one side, a test-campaign registry of cases, requirements, surfaces and defects on the other — resolving every item on both sides into exactly one class of a total partition, so nothing can quietly fall out of the list. The class that matters is never-measured: a blocked or inconclusive check is not a pass and not a failure, and a remaining-work list that drops it reports a partial campaign as a finished product. It is scheduled as the blockers behind it rather than case by case, each with the coverage it returns. Publishes a denominator per axis and never one blended percent, marks every figure a floor, refuses to retire stated intent on weak-oracle or guessed evidence, keeps waivers visible as exceptions rather than folding them into done, and gates the ledger with an exit code so a report that lost an item cannot pass.",

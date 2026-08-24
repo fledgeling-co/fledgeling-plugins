@@ -213,12 +213,13 @@ intervention here that stops a run rather than explaining it afterwards. A workf
 reports `completed` with dead agents, or a fan-out lost to rate limits mid-run, is the
 `workflow-resume` skill's job — use it before relaunching anything, because a manual relaunch
 cold-starts and re-pays for work the journal already holds. Discovered children join the DAG.
-At the end: every item `Done` / parked-with-reason, statuses final, hierarchy refreshed, and the
-needs-input items handed over as decisions rather than a list — in an attended run one
-consolidated round; for a long unattended run's accumulated questions, the `whats-left` skill
-builds the decision page. For a fleet expected to run to a verifiable finish line unattended,
-arm it with `better-goal` at launch — the built-in stop mechanisms fail silently past eight
-blocked turns, and a fleet is exactly the run length that trips them.
+At the end: every item `Done` / parked-with-reason, statuses final, hierarchy refreshed, and
+the backlog reconciled against the test campaign with `reckon` to ensure no unmeasured or unbuilt
+scope was silently dropped. Needs-input items and undecided forks are handed over as decisions
+rather than a list — in an attended run one consolidated round; for a long unattended run's
+accumulated questions, the `whats-left` skill builds the decision page. For a fleet expected to run
+to a verifiable finish line unattended, arm it with `better-goal` at launch — the built-in stop
+mechanisms fail silently past eight blocked turns, and a fleet is exactly the run length that trips them.
 
 ## Model routing
 

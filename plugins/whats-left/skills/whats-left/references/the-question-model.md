@@ -40,6 +40,16 @@ The specific temptation here is the survey question: "should we do X?" where you
 already know X is the only sensible option. That is not a decision, it is a
 recommendation looking for cover.
 
+## Questions from reckon's undecided rows and scope forks
+
+When ingesting `reckon`'s ledger:
+- `undecided` rows (contradicted claims, vacuous requirements, or scope-narrowed
+  architectural briefs) are natural question candidates.
+- Frame scope-narrowing forks clearly by consequence: e.g. "Build the standalone
+  cross-platform daemon now vs keep in-tree virtual block adapter for 1.0".
+- State the consequence plainly on each option: what gets unlocked, what is deferred,
+  and what the timeline/risk impact is.
+
 ## `default_policy`
 
 | Policy | Behaviour | Use for |

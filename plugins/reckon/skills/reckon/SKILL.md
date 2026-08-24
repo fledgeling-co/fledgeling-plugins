@@ -63,14 +63,14 @@ definitions, the legality table and worked examples are in
 
 | Class | What it means | Kind of work |
 |---|---|---|
-| `unbuilt` | A brief cites registry ids and the registry holds none of them | product |
+| `unbuilt` | A brief cites registry ids and the registry holds none of them, or outer intent was scoped out | product |
 | `unjoined` | A brief names it; the join reached nothing, so its state is unknown | decision |
 | `broken` | Measured, and the answer was no | product |
 | `unmeasured` | Nobody found out | **evidence** |
 | `unnamed` | The campaign found it; no document claims it | decision |
-| `undecided` | The documents and the evidence disagree | decision |
+| `undecided` | The documents and the evidence disagree, or intent was narrowed at triage | decision |
 | `retirable` | Already done, to a standard that carries the claim | bookkeeping |
-| `waived` | Somebody decided not to | exception |
+| `waived` | Somebody decided not to, or historical scaffold marked consumed | exception |
 
 Three of these are the reason the skill exists, because a backlog sweep finds
 none of them:
@@ -85,11 +85,29 @@ different jobs to one wrong place, so each carries its own remedy.
 **`waived` is neither remaining nor done.** A decision to skip is a third
 thing, and it stays on the ledger because the reason for it expires — a state
 with no hook may get one. Folding waivers into done is how a campaign closed
-by decision reads as a campaign closed by evidence.
+by decision reads as a campaign closed by evidence. Historical scaffolding
+briefs (e.g. `consumed/` or `archived/`) are recognized here rather than polluting
+active queues.
 
 **`retirable` is remaining work in reverse.** A brief whose subject the
 campaign proved works should be closed, not built. Reports that never retire
 anything over-count for as long as the project runs.
+
+### The scope-narrowing trap
+
+A major blind spot in closed-world reconciliation occurs when a brief originally
+specified a broad multi-system capability (e.g. dual-mode serving, background
+daemons, cross-platform services, or kernel integrations), but triage narrowed
+the implementation spec to an in-tree mock or partial model. When in-tree tests
+pass, the test campaign marks the case green and reckon risks retiring the entire
+brief even though the outer capability remains unbuilt.
+
+When reconciling, evaluate whether the brief's full acceptance sketch was
+satisfied or merely its narrowed in-tree subset. If outer capabilities (such as
+standalone background daemons, platform targets, or system drivers) were
+deferred or scoped out at triage, keep those outer capabilities tracked as
+`undecided` or `unbuilt` rather than retiring the full intent on in-tree unit test
+evidence alone.
 
 ## Running it
 
@@ -181,19 +199,20 @@ and under-reporting is the failure the whole design is built against.
 adjudicated, decisions taken, requirements observed, surfaces spoken for,
 briefs joined — these disagree with each other, and a single number hides
 whichever is weakest. A pass rate among executed cases is not coverage and
-must never be labelled as it.
+is never labelled as such.
 
-**Say the denominators are a floor.** Every `unnamed` row is a surface the
-documents never described, which proves the intent space is larger than the
+**State that denominators are a floor.** Every `unnamed` row is a surface the
+documents never described, proving the intent space is larger than the
 documents can measure.
 
 **Lead with what the reckoning cannot speak for**, in the same breath as what
 remains. "83 pieces of work remain, over 43% of the designed cases" is honest;
 the first half alone is not.
 
-Length: the markdown report is generated, and what you add to it is a short
-read of what it means — the two or three things worth doing first and why,
-in a few paragraphs. Do not restate the tables in prose.
+Match the report length to what the task needs: the markdown report is generated,
+and what you add to it is a short, concise assessment of what it means — the two
+or three high-leverage items worth doing first and why, in a few paragraphs. Do
+not pad with filler or restate the tables in prose.
 
 ## Writing briefs back
 
@@ -218,8 +237,7 @@ the hook is the work.
 
 ## What this does not do
 
-Route rather than reimplement — each of these is a real skill that does the
-job properly:
+Route rather than reimplement — each of these is a dedicated skill:
 
 - **Producing the evidence** → `test-campaign`. This reads its registry; it
   never runs tests.
@@ -228,22 +246,26 @@ job properly:
 - **A whole-product survey against a stated goal** → `product-gap-analysis`.
 - **A tracker-board sweep, card by card** → `stocktake`.
 - **A page and a questionnaire for a non-technical owner** → `whats-left`.
-  Hand it this ledger; `undecided` rows are exactly its input.
+  Hand it `docs/reckoning/<date>/ledger.json` directly: `undecided` rows become
+  its decision questions, `unmeasured` blocker clusters become evidence items,
+  and `unbuilt`/`broken` rows become product items.
 - **Executing the work** → `ship-fleet`, or `shipyard` per stage.
 
 Reading source is not part of this skill's job and stays capped where it
 happens: identifiers from a brief may be grepped to demote a claim or route it
 to `spec-validation`, never to promote something to done. A grep hit is weak
 evidence, and letting weak evidence close an item is the failure this skill
-exists to prevent, arriving by a different road.
+exists to prevent.
 
-## Delegation
+## Delegation and scoping
 
-This runs in one context. The reading is a few JSON files and a directory of
-markdown, and the script does the heavy counting, so a subagent adds cost and
-a second opinion nobody asked for. Delegate in one case only: a brief queue
-past roughly 150 files where the join needs reviewing in bulk, and then to one
-subagent for the join alone, handing back confirmed and cut edges.
+Deliver what was asked, at the scope intended. This skill runs in the main
+context. The reading is a few JSON files and a directory of markdown, and the
+script does the arithmetic, so delegating to subagents is generally unnecessary.
+Delegate to a subagent only when a brief queue exceeds roughly 150 files where
+the join needs reviewing in bulk, and then to a single subagent for the join
+alone, handing back confirmed and cut edges. Do not use subagents to verify or
+double-check your own work.
 
 ## Reference
 
