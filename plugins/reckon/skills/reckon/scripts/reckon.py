@@ -115,6 +115,30 @@ RETIREMENT_RUNG = "outcome"
 
 # Requirement evidence vocabulary.
 EVIDENCE_OBSERVED = ("observed",)
+
+# The plane the evidence came from, weakest first. test-campaign records this per
+# case; reckon reads it to decide whether a brief's intent has actually been met.
+#
+# Measured across seven projects in one week, each reporting its backlog
+# implemented and verified: every one had retired stated intent on evidence from a
+# weaker plane than the intent lived on. An API compiler suite standing for a
+# desktop app. A mock Drive peer standing for live sync. Unit tests standing for
+# buttons that ran empty closures. In each case the case was honest and the
+# retirement was not.
+EVIDENCE_PLANES = ("in-tree", "hermetic", "live-glass", "live-external")
+PLANE_RANK = {p: i for i, p in enumerate(EVIDENCE_PLANES)}
+
+# What a brief's own words say its intent spans. A brief naming a shipped
+# application, a device, a user's account or a live service is not satisfied by a
+# double, however green. Deliberately generous on the trigger and conservative on
+# the consequence: a match holds the brief open rather than closing it, so a false
+# positive costs a re-read and a false negative costs the failure above.
+OUTER_INTENT = (
+    "on device", "on-device", "physical", "hardware", "real account",
+    "live service", "production", "end to end", "end-to-end", "on glass",
+    "on-glass", "desktop app", "native app", "menu bar", "finder",
+    "live sync", "real api", "third-party", "third party",
+)
 EVIDENCE_SELF_REPORTED = ("reported", "unknown", "built-unwatched")
 EVIDENCE_DISPUTED = ("contradicted", "vacuous")
 EVIDENCE_CIRCULAR = ("source",)
@@ -727,8 +751,17 @@ def classify(briefs, campaign, edges, join_is_weak):
             cls = "unmeasured"
             why = "requirement evidence %r is circular: citing the source declaration restates intent rather than measuring execution" % ev
         elif ev in EVIDENCE_OBSERVED:
-            cls = "verified-done"
-            why = "requirement observed"
+            planes = [p for p in (r.get("planes") or []) if p in EVIDENCE_PLANES]
+            reached = [p for p in (r.get("planesReached") or []) if p in EVIDENCE_PLANES]
+            short = [p for p in planes if p not in reached]
+            if short:
+                cls = "undecided"
+                why = ("requirement is recorded observed, but its stated intent spans %s and "
+                       "no passing case reached %s. Evidence from one plane does not retire "
+                       "intent on another." % (", ".join(planes), ", ".join(short)))
+            else:
+                cls = "verified-done"
+                why = "requirement observed"
         elif ev in EVIDENCE_SELF_REPORTED:
             cls = "unmeasured"
             why = "requirement evidence %r is the project's own account of itself, not an observation" % ev

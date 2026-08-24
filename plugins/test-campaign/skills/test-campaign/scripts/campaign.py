@@ -179,6 +179,30 @@ RASTER_RUNGS = ("raster-visual",)
 # Every rung a case may declare: the product ladder plus the off-axis sets.
 ALL_RUNGS = ORACLE_RUNGS + SOURCE_RUNGS
 
+# WHICH PLANE THE EVIDENCE CAME FROM, weakest first.
+#
+# The oracle rung says what a case checked; the plane says what it checked it
+# AGAINST. They are independent, and conflating them is how seven separate
+# projects reported "implemented, verified, tested and working" over an in-tree
+# mock. A case can stand at `outcome` — a real state change, properly asserted —
+# while the thing it changed was a fake peer in the same process.
+#
+#   in-tree        production code, but the collaborator is a stub or in-memory
+#                  double. Proves the state machine; proves nothing about the
+#                  world.
+#   hermetic       production code against a real protocol peer that is local and
+#                  deterministic: a loopback listener, a stdio child, a temp
+#                  filesystem, a seeded database.
+#   live-glass     the built artifact, running, drawn by a display server, driven
+#                  by synthetic events.
+#   live-external  the real external system — the vendor's API, the user's
+#                  account, the physical device.
+#
+# A requirement declares the planes its intent actually spans. `check` refuses to
+# clear when a declared plane has no passing case on it, which is the mechanical
+# form of "an API test does not retire a macOS brief".
+EVIDENCE_PLANES = ("in-tree", "hermetic", "live-glass", "live-external")
+
 # A lane whose name ends in `-glass` claims the application was verified while
 # actually running and drawn by a display server — a real window, composited,
 # photographed. That is a much stronger claim than the same lane run headless,
@@ -374,6 +398,10 @@ def cmd_add(args) -> int:
             if surf and surf not in known:
                 sys.exit(f"case references unknown surface '{surf}'. Add the surface first — "
                          f"a case against a surface nobody enumerated has no denominator.")
+            plane = item.get("plane")
+            if plane and plane not in EVIDENCE_PLANES:
+                sys.exit(f"case plane '{plane}' is not a plane. One of: "
+                         f"{', '.join(EVIDENCE_PLANES)}.")
             rung = item.get("oracle")
             if rung and rung not in ALL_RUNGS:
                 sys.exit(f"case oracle '{rung}' is not a rung. One of: {', '.join(ALL_RUNGS)}.")
@@ -394,6 +422,10 @@ def cmd_add(args) -> int:
             if ev and ev not in REQ_EVIDENCE:
                 sys.exit(f"requirement evidence '{ev}' is not a class. "
                          f"One of: {', '.join(REQ_EVIDENCE)}.")
+            for pl in (item.get("planes") or []):
+                if pl not in EVIDENCE_PLANES:
+                    sys.exit(f"requirement plane '{pl}' is not a plane. One of: "
+                             f"{', '.join(EVIDENCE_PLANES)}.")
             fx = item.get("effect")
             if fx and fx not in EFFECT_CLASSES:
                 sys.exit(f"requirement effect '{fx}' is not a class. "
@@ -1085,6 +1117,42 @@ def audit(d: Path) -> dict:
                 f"backing it stands on source-analysis, which reads text and runs "
                 f"nothing")
 
+    # ── THE EVIDENCE-PLANE CENSUS ───────────────────────────────────────────
+    #
+    # Measured across seven projects in one week: every one reported its backlog
+    # implemented, verified and tested, and every one turned out to have retired
+    # stated intent on evidence from a weaker plane than the intent lived on. A
+    # compiler suite retiring a desktop app. A mock Drive peer retiring live
+    # sync. 2,375 green unit tests over an app whose buttons were empty closures.
+    #
+    # Nothing in the registry could see it, because the oracle rung was honest
+    # every time: those cases really did assert an outcome. They asserted it
+    # against a double.
+    plane_of: dict[str, str] = {}
+    for c in cases:
+        if c.get("plane"):
+            plane_of[c["id"]] = c["plane"]
+    plane_counts = {p: 0 for p in EVIDENCE_PLANES}
+    for c in cases:
+        pl = c.get("plane")
+        if pl in plane_counts and state_of(c.get("status", "open")) == "pass":
+            plane_counts[pl] += 1
+
+    unreached_planes = []
+    for r in reqs:
+        declared = [p for p in (r.get("planes") or []) if p in EVIDENCE_PLANES]
+        if not declared:
+            continue
+        reached = {c.get("plane") for c in by_req.get(r["id"], [])
+                   if state_of(c.get("status", "open")) == "pass"}
+        missing = [p for p in declared if p not in reached]
+        if missing:
+            unreached_planes.append(
+                f"{r['id']} declares {capped(declared, 4)} and has no passing case on "
+                f"{capped(missing, 3)}")
+    cases_unplaned = [c["id"] for c in cases
+                      if state_of(c.get("status", "open")) == "pass" and not c.get("plane")]
+
     # What the cases actually check. A case with no declared rung counts as
     # unrated, never as adequate — the whole point is that a plan cannot look
     # complete by omission.
@@ -1254,6 +1322,11 @@ def audit(d: Path) -> dict:
         blockers.append(f"{len(unknown_actuations)} case(s) actuating a control their surface "
                         f"never declared ({capped(unknown_actuations, 2)}) — add the control "
                         f"to the surface, so the census has a denominator to count against")
+    if unreached_planes:
+        blockers.append(f"{len(unreached_planes)} requirement(s) declaring a plane no passing "
+                        f"case reaches ({capped(unreached_planes, 2)}) — evidence from one "
+                        f"plane does not retire intent on another, which is how a compiler "
+                        f"suite comes to stand for a desktop application")
     if bad_boundary:
         blockers.append(f"{len(bad_boundary)} journey(s) naming a boundary that is not one "
                         f"of the five ({capped(bad_boundary, 2)}) — a boundary nobody can "
@@ -1388,6 +1461,9 @@ def audit(d: Path) -> dict:
         "requirementsSourceOnly": covered_source_only,
         "surfaces": len(surfaces),
         "surfacesUncovered": uncovered,
+        "planeCounts": plane_counts,
+        "unreachedPlanes": unreached_planes,
+        "casesUnplaned": cases_unplaned,
         "journeys": len(journeys),
         "journeysCritical": sum(1 for j in journeys if j.get("critical")),
         "journeysUncut": journeys_uncut,
@@ -1476,6 +1552,15 @@ def cmd_check(args) -> int:
         print(f"Lane:       {lane} — {row['cases']} case(s) · {row['pass']} pass · "
               f"{row['effect']} at an effect rung · {row['armed']} armed · "
               + " ".join(f"{k}:{v}" for k, v in sorted(row["rungs"].items())))
+    pc = a["planeCounts"]
+    if any(pc.values()) or a["unreachedPlanes"]:
+        print("Planes:     " + " · ".join(f"{k} {v}" for k, v in pc.items() if v)
+              + (f" · {len(a['casesUnplaned'])} passing case(s) name no plane"
+                 if a["casesUnplaned"] else ""))
+    else:
+        print("Planes:     NOT DECLARED — no case says what it was checked against, so a "
+              "green suite over in-process doubles is indistinguishable from one over the "
+              "running product.")
     if a["journeys"]:
         print(f"Journeys:   {a['journeys']} declared, {a['journeysCritical']} critical · "
               f"boundaries {a['boundariesCut']}/{a['boundariesTotal']} cut")

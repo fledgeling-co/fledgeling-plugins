@@ -348,6 +348,26 @@ proof (`raster-visual`) or live event dispatch (`interactive-glass`). Only effec
 rungs count toward the strict ratchet, and `raster-visual` / `interactive-glass`
 owe real artifacts from an attached window server.
 
+**The rung says what a case checked; the `plane` says what it checked it
+against, and they are independent.** A case can stand honestly at `outcome` — a
+real state change, properly asserted, watched to fail — while the thing it
+changed was a stub in the same process. Every case records one:
+
+| plane | the collaborator was |
+|---|---|
+| `in-tree` | a stub or in-memory double. Proves the state machine, nothing about the world |
+| `hermetic` | a real protocol peer, local and deterministic: loopback listener, stdio child, temp filesystem, seeded database |
+| `live-glass` | the built artifact, running, drawn by a display server, driven by synthetic events |
+| `live-external` | the real external system — the vendor's API, the user's account, the physical device |
+
+A requirement declares the planes its intent actually spans, and `check` refuses
+to clear when a declared plane has no passing case on it. Measured across seven
+projects in one week, every one reporting its backlog implemented and verified:
+each had retired stated intent on a weaker plane than the intent lived on — a
+compiler suite for a desktop app, a mock peer for live sync, unit tests for
+buttons that ran empty closures. The rung was honest every time. `reckon` reads
+the same field and holds such a brief `undecided` rather than retiring it.
+
 **An `outcome` is a state the handler was supposed to change, never the product's
 own report that it changed one.** A control that opens a real panel and sets a
 banner reading *"Opened Downloads"* passes any check watching for a state
@@ -561,7 +581,8 @@ shell publish one identical image**, or **any requirement claiming an effect out
 the product is recorded `observed` with no effect-witness case behind it**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
 unrecognised status counts as open, deliberately.
 
-Three denominators print on every run, green or red — the journey ledger
+Four denominators print on every run, green or red — the plane census
+(`Planes: in-tree 12 · hermetic 4 · live-glass 6`, or NOT DECLARED), the journey ledger
 (`Journeys: 4 declared, 2 critical · boundaries 18/20 cut`, or NOT DECLARED), because the campaign this rule
 came from was green and what was worth knowing sat in a number nobody printed; a
 per-lane row carrying that lane's cases, passes, effect-rung passes, armed count

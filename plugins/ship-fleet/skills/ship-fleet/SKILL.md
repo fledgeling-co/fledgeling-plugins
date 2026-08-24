@@ -238,6 +238,56 @@ runner shape is exactly this file's runner prompt with leaner inner waves and ch
 lanes — never with fan-out, review phases, or evidence rules deleted (the hand-rolled "SOLO
 runner" brief that stripped them is the audit corpus's most common shipped-broken pattern).
 
+## Phase 6 — The exit condition is reconciliation, not an empty ledger
+
+A drained ledger is not a finished product, and the difference is where this
+skill has repeatedly reported victory over one.
+
+Measured across seven projects in a single week, each orchestrated by this skill.
+Every one reported its backlog implemented, verified and tested — all briefs
+merged, every suite green, gates clean. Asked directly whether every feature
+worked, the honest answer in all seven was no: a compiler suite standing for a
+desktop application, a mock peer standing for live sync, 2,375 passing Swift
+tests over an app whose buttons ran empty closures, an in-tree slice retiring a
+brief whose stated intent was a system daemon. Not one of those runs was lying.
+They terminated on the condition they were given, and the condition was "the
+rows say Merged".
+
+So the fleet does not finish when the ledger drains. It finishes when a
+reconciliation it did not write agrees:
+
+```bash
+# 1 · re-anchor the campaign against the code as it is NOW. A campaign anchored
+#     hundreds of commits back carries evidence rather than measuring any.
+python3 <test-campaign>/scripts/campaign.py check <campaign-dir>   # exit 0
+python3 <test-campaign>/scripts/strict-check.py <campaign-dir>     # ratchet held
+
+# 2 · reconcile every brief, requirement, case and defect into one partition
+python3 <reckon>/scripts/reckon.py build --briefs docs/features-to-triage \
+    --campaign <campaign-dir> --out docs/reckoning/<date>
+python3 <reckon>/scripts/reckon.py check docs/reckoning/<date>/ledger.json  # exit 0
+```
+
+**Any of `unbuilt`, `broken`, `unmeasured` or `undecided` above zero is another
+wave, not a footnote.** Route each class to the stage that can close it —
+`broken` to `gap-fix`, `unmeasured` to the campaign's oracle-construction phase,
+`undecided` to `spec-validation` in fresh context, `unbuilt` to `plan` then
+`work` — and run again. The loop ends when the ledger is drained *and* the
+reconciliation is clean, and a run that ends any other way says which class it
+stopped on and how many rows it held.
+
+**Two failures this closes, and both are mechanical rather than cultural.**
+A campaign whose newest run predates the fleet's merges is stale by
+construction, so re-anchoring is part of finishing rather than a separate errand.
+And evidence from one plane does not retire intent on another: a requirement
+declaring `live-glass` is not satisfied by an `in-tree` pass however green,
+which `campaign.py check` and `reckon` now both refuse. `test-campaign`'s
+`references/inert-ui.md` carries the measurement.
+
+**Say the shape of the finish in the report.** "49 of 49 merged, reconciliation
+clean at 0 unbuilt / 0 broken / 0 unmeasured / 0 undecided" is a finish. "49 of
+49 merged" on its own is the sentence all seven of those runs wrote.
+
 ## The context contract (every agent, every lane)
 
 Every agent touching a feature is given, by path, and told to read: the brief + spec + plan (as

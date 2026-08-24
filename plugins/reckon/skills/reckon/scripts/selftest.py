@@ -208,6 +208,29 @@ print("%-46s %s" % ("ratchet lets an older ledger through", "ok" if ok else "FAI
 if not ok:
     FAILURES.append("ratchet blocked a pre-backed_by ledger: %r" % bad)
 
+# A requirement whose intent spans a plane no case reached may not retire, even
+# recorded `observed`. Seven projects retired desktop intent on API tests.
+camp_plane = {
+    "present": True, "header": {}, "cases": [], "flows": [], "components": [],
+    "requirements": [{"id": "REQ-200", "text": "the desktop app opens a folder",
+                      "evidence": "observed",
+                      "planes": ["in-tree", "live-glass"],
+                      "planesReached": ["in-tree"]}],
+    "surfaces": [], "defects": []
+}
+row_p = [r for r in R.classify([], camp_plane, [], False) if r["id"] == "REQ-200"][0]
+ok = row_p["class"] == "undecided" and "live-glass" in row_p["why"]
+print("%-46s %s" % ("a plane short of its intent does not retire", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("plane discriminator: class=%r why=%r" % (row_p["class"], row_p.get("why")))
+
+camp_plane["requirements"][0]["planesReached"] = ["in-tree", "live-glass"]
+row_q = [r for r in R.classify([], camp_plane, [], False) if r["id"] == "REQ-200"][0]
+ok = row_q["class"] == "verified-done"
+print("%-46s %s" % ("reaching every declared plane retires", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("plane discriminator blocked a complete requirement: %r" % row_q["class"])
+
 # --- 6. classification behaviour ------------------------------------------
 camp = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
         "requirements": [{"id": "REQ-1", "text": "the widget saves", "evidence": "reported"}],
