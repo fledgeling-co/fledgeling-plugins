@@ -1295,5 +1295,303 @@ else
   echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
 
+# ── the inert-UI gates: controls, destinations, the lane ledger ─────────────
+#
+# The campaign these came from cleared every gate above while the application
+# under test rendered six sidebar destinations as one placeholder view and wired
+# every button to an empty closure. references/inert-ui.md. Each gate is proved
+# to fire on a fixture built to trip it and then proved to clear.
+
+INERT="$WORK/inert"
+python3 "$S/campaign.py" init "$INERT" --project Inert --lanes web,macos-glass >/dev/null
+mkdir -p "$INERT/build/App.app" && printf 'x' >"$INERT/build/App.app/binary"
+python3 "$S/campaign.py" lane "$INERT" --lane macos-glass \
+  --artifact "$INERT/build/App.app" --built-by "xcodebuild -scheme App" \
+  --attached "pid 1 owns window 'App'" >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"the workspace opens a folder"}]' >"$WORK/ir.json"
+cat >"$WORK/is.json" <<'JSON'
+[{"label":"Workspace","controls":["Open Mock Folder…","Pull Proof","Copy Swift"]}]
+JSON
+python3 "$S/campaign.py" add "$INERT" --kind requirement --file "$WORK/ir.json" >/dev/null
+python3 "$S/campaign.py" add "$INERT" --kind surface --file "$WORK/is.json" >/dev/null
+png "$INERT/shots/ws.png" 40 30 1 2 3
+cat >"$WORK/ic.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","lane":"macos-glass","oracle":"structural"}]
+JSON
+python3 "$S/campaign.py" add "$INERT" --kind case --file "$WORK/ic.json" >/dev/null
+python3 "$S/campaign.py" set "$INERT" --case CASE-0001 --status pass \
+  --evidence "shots/ws.png" --armed >/dev/null
+expect "a surface whose declared controls nothing actuates does not clear" 1 "$INERT" \
+  "declaring controls that no passing effect-rung case actuates"
+
+# The denominator prints whether or not it blocks — the campaign that produced
+# this rule was green, and the number nobody printed was the whole finding.
+out="$(python3 "$S/campaign.py" check "$INERT" 2>&1)"
+if grep -qF -- "Controls:   0 of 3 declared control(s) actuated" <<<"$out"; then
+  say "ok    the control census prints its own denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected a printed control denominator"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# A presence-rung case that names an actuation has measured the click and not the
+# effect, so it must not move the census.
+python3 - "$INERT/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["actuates"]=["Open Mock Folder…","Pull Proof","Copy Swift"]
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "a below-outcome case does not actuate anything" 1 "$INERT" \
+  "declaring controls that no passing effect-rung case actuates"
+
+# Raised to an effect rung, the same case clears it.
+python3 - "$INERT/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["oracle"]="outcome"
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "an effect-rung case actuating every declared control clears" 0 "$INERT"
+
+# A case actuating a control its surface never declared has no denominator.
+python3 - "$INERT/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["actuates"].append("Summon The Kraken")
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "an actuation naming an undeclared control does not clear" 1 "$INERT" \
+  "actuating a control their surface never declared"
+python3 - "$INERT/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["actuates"]=[n for n in c[0]["actuates"] if n != "Summon The Kraken"]
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "removing the stray actuation clears it again" 0 "$INERT"
+
+# ── destinations of one shell that publish one image ────────────────────────
+DEST="$WORK/dest"
+python3 "$S/campaign.py" init "$DEST" --project Dest --lanes web >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"each destination shows its own screen"}]' >"$WORK/dr.json"
+cat >"$WORK/ds.json" <<'JSON'
+[{"id":"SURF-001","label":"Shell"},
+ {"id":"SURF-002","label":"Mocks","destinationOf":"SURF-001","shot":"shots/mocks.png"},
+ {"id":"SURF-003","label":"Storyboards","destinationOf":"SURF-001","shot":"shots/storyboards.png"}]
+JSON
+python3 "$S/campaign.py" add "$DEST" --kind requirement --file "$WORK/dr.json" >/dev/null
+python3 "$S/campaign.py" add "$DEST" --kind surface --file "$WORK/ds.json" >/dev/null
+png "$DEST/shots/mocks.png" 40 30 9 9 9
+png "$DEST/shots/storyboards.png" 40 30 9 9 9    # byte-identical: the defect
+png "$DEST/shots/shell.png" 40 30 1 1 1
+cat >"$WORK/dc.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"},
+ {"surface":"SURF-002","req":"REQ-001","lane":"web","oracle":"outcome"},
+ {"surface":"SURF-003","req":"REQ-001","lane":"web","oracle":"outcome"}]
+JSON
+python3 "$S/campaign.py" add "$DEST" --kind case --file "$WORK/dc.json" >/dev/null
+for i in 1 2 3; do
+  python3 "$S/campaign.py" set "$DEST" --case "CASE-000$i" --status pass \
+    --evidence "shots/shell.png" --armed >/dev/null
+done
+expect "two destinations of one shell publishing one image do not clear" 1 "$DEST" \
+  "publish one identical image"
+
+# A declared share does not excuse it here, which is the one place this gate is
+# stricter than the general duplicate rule.
+mkdir -p "$DEST/evidence/shots"
+cat >"$DEST/evidence/shots/captures.json" <<'JSON'
+[{"path":"shots/mocks.png","subject":"SURF-002","target":"/mocks","channel":"cdp",
+  "sharesWith":["SURF-003"],"sharesReason":"one address"},
+ {"path":"shots/storyboards.png","subject":"SURF-003","target":"/mocks","channel":"cdp",
+  "sharesWith":["SURF-002"],"sharesReason":"one address"}]
+JSON
+expect "a declared share does not excuse two destinations of one menu" 1 "$DEST" \
+  "publish one identical image"
+
+png "$DEST/shots/storyboards.png" 40 30 3 4 5     # each destination its own render
+expect "distinct destination renders clear" 0 "$DEST"
+
+# A destination no case reaches is a hole in the shell's denominator.
+cat >"$WORK/ds2.json" <<'JSON'
+[{"id":"SURF-004","label":"Proctor Runs","destinationOf":"SURF-001"}]
+JSON
+python3 "$S/campaign.py" add "$DEST" --kind surface --file "$WORK/ds2.json" >/dev/null
+expect "a destination no case reaches does not clear" 1 "$DEST" \
+  "with a destination no case reaches"
+
+# ── the lane ledger is printed, and is an advisory rather than a gate ───────
+LANE="$WORK/lane"
+python3 "$S/campaign.py" init "$LANE" --project Lane --lanes web,api >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"the api answers"}]' >"$WORK/lr.json"
+echo '[{"label":"Console"}]' >"$WORK/ls.json"
+python3 "$S/campaign.py" add "$LANE" --kind requirement --file "$WORK/lr.json" >/dev/null
+python3 "$S/campaign.py" add "$LANE" --kind surface --file "$WORK/ls.json" >/dev/null
+png "$LANE/shots/a.png" 20 20 5 5 5
+cat >"$WORK/lc.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","lane":"api","oracle":"outcome"},
+ {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"structural"}]
+JSON
+python3 "$S/campaign.py" add "$LANE" --kind case --file "$WORK/lc.json" >/dev/null
+for i in 1 2; do
+  python3 "$S/campaign.py" set "$LANE" --case "CASE-000$i" --status pass \
+    --evidence "shots/a.png" --armed >/dev/null
+done
+out="$(python3 "$S/campaign.py" check "$LANE" 2>&1)"; rc=$?
+if [ "$rc" = 0 ] \
+   && grep -qF -- "Lane:       web — 1 case(s) · 1 pass · 0 at an effect rung" <<<"$out" \
+   && grep -qF -- "Worth reading, not blocking" <<<"$out"; then
+  say "ok    a lane with no effect-rung pass is reported on a clear run"; PASS=$((PASS+1))
+else
+  echo "FAIL  the lane ledger must print per lane and advise without blocking (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# ── the blind pass can see an arrow-style test block ────────────────────────
+#
+# Measured on two repositories: one monorepo held 224 declaration-style blocks
+# and 2,179 arrow-style ones; a second held 4,741 arrow-style and zero
+# declarations, so `blind=0` there was a statement about none of its tests.
+ARROW="$WORK/arrow"
+mkdir -p "$ARROW/camp" "$ARROW/tests" "$ARROW/src"
+cat >"$ARROW/tests/config.spec.ts" <<'TS'
+import { writeConfig, readConfig } from '../src/config';
+
+it('writes the config and never looks again', async () => {
+  await writeConfig({ a: 1 });
+  expect(true).toBe(true);
+});
+
+test("writes the config and reads it back", async () => {
+  await writeConfig({ a: 2 });
+  const got = await readConfig();
+  expect(got.a).toBe(2);
+});
+TS
+echo 'export const writeConfig = async (x: any) => x;' >"$ARROW/src/config.ts"
+cat >"$ARROW/camp/inventory.json" <<'JSON'
+{"requirement":[{"id":"REQ-001","title":"config persists","effect":"filesystem-write",
+  "evidence":"reported","provider":"src/config.ts writeConfig"}]}
+JSON
+echo '{"project":"Arrow","sourceRoot":"'"$ARROW/src"'","testRoot":"'"$ARROW/tests"'"}' \
+  >"$ARROW/camp/campaign.json"
+out="$(python3 "$S/vacuity-check.py" "$ARROW/camp" --mutator writeConfig --reader readConfig 2>&1)"
+if grep -qF -- "arrow-style it/test 2" <<<"$out" \
+   && grep -qF -- "examined=2" <<<"$out" \
+   && grep -qF -- "no read after it" <<<"$out"; then
+  say "ok    the blind pass sees arrow-style it/test blocks"; PASS=$((PASS+1))
+else
+  echo "FAIL  the blind pass reported nothing over an arrow-style corpus"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# The control: a corpus the pass cannot parse must say so rather than print a
+# clean zero. `.mjs` is outside the scanned suffix list, so this file is a real
+# file the pass will not read.
+NOBLOCK="$WORK/noblock"
+mkdir -p "$NOBLOCK/camp" "$NOBLOCK/tests"
+printf 'const x = 1;\n' >"$NOBLOCK/tests/a.spec.ts"
+cat >"$NOBLOCK/camp/inventory.json" <<'JSON'
+{"requirement":[{"id":"REQ-001","title":"x","effect":"none","evidence":"reported"}]}
+JSON
+echo '{"project":"NoBlock","testRoot":"'"$NOBLOCK/tests"'"}' >"$NOBLOCK/camp/campaign.json"
+out="$(python3 "$S/vacuity-check.py" "$NOBLOCK/camp" --gate 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "NOT MEASURED" <<<"$out"; then
+  say "ok    zero recognised blocks reads as not measured, not as clean"; PASS=$((PASS+1))
+else
+  echo "FAIL  a blind pass over zero recognised blocks must not report clean (exit $rc)"
+  echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# ── the journey gates: boundaries, differential manifest, denominators ─────
+#
+# A journey is a history, so no per-surface count can see it. The Android
+# data-loss benchmark holds 110 reproducible faults of the interrupt-and-resume
+# shape; RegDroid measured a 64% false-positive rate on previous-build diffs, 93%
+# of them intended changes. references/sweeps.md sweeps O and P.
+
+JRN="$WORK/journey"
+python3 "$S/campaign.py" init "$JRN" --project Journey --lanes web >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"a draft survives interruption"}]' >"$WORK/jr.json"
+echo '[{"label":"Checkout"}]' >"$WORK/js.json"
+python3 "$S/campaign.py" add "$JRN" --kind requirement --file "$WORK/jr.json" >/dev/null
+python3 "$S/campaign.py" add "$JRN" --kind surface --file "$WORK/js.json" >/dev/null
+png "$JRN/shots/j.png" 20 20 4 4 4
+
+# A critical journey cut at only two of the five durable boundaries.
+cat >"$WORK/jj.json" <<'JSON'
+[{"id":"JRN-001","label":"Place an order","critical":true,
+  "boundariesCut":["request-issued","server-committed"]}]
+JSON
+python3 "$S/campaign.py" add "$JRN" --kind journey --file "$WORK/jj.json" >/dev/null
+cat >"$WORK/jc.json" <<'JSON'
+[{"surface":"SURF-001","req":"REQ-001","journey":"JRN-001","lane":"web","oracle":"outcome"}]
+JSON
+python3 "$S/campaign.py" add "$JRN" --kind case --file "$WORK/jc.json" >/dev/null
+python3 "$S/campaign.py" set "$JRN" --case CASE-0001 --status pass \
+  --evidence "shots/j.png" --armed >/dev/null
+expect "a critical journey not cut at every boundary does not clear" 1 "$JRN" \
+  "not cut at every durable boundary"
+
+out="$(python3 "$S/campaign.py" check "$JRN" 2>&1)"
+if grep -qF -- "boundaries 2/5 cut" <<<"$out"; then
+  say "ok    the journey ledger prints its boundary denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  expected a printed boundary denominator"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
+# Cutting at all five clears it.
+python3 - "$JRN/inventory.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p))
+d["journey"][0]["boundariesCut"]=["request-issued","server-committed","provider-effect",
+                                   "client-persisted","user-acknowledged"]
+json.dump(d,open(p,"w"),indent=2)
+PY2
+expect "cutting at every boundary clears it" 0 "$JRN"
+
+# A boundary name outside the closed list has no denominator to count against.
+python3 - "$JRN/inventory.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p))
+d["journey"][0]["boundariesCut"].append("vibes-checked")
+json.dump(d,open(p,"w"),indent=2)
+PY2
+expect "an unrecognised boundary name does not clear" 1 "$JRN" \
+  "naming a boundary that is not one of the five"
+python3 - "$JRN/inventory.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p))
+d["journey"][0]["boundariesCut"]=[b for b in d["journey"][0]["boundariesCut"] if b!="vibes-checked"]
+json.dump(d,open(p,"w"),indent=2)
+PY2
+expect "removing it clears again" 0 "$JRN"
+
+# A previous-build comparison with no change-intent manifest.
+python3 - "$JRN/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["comparedAgainstBuild"]="v2.3.1"
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "a differential claim with no change-intent manifest does not clear" 1 "$JRN" \
+  "no change-intent manifest"
+python3 - "$JRN/cases.json" <<'PY2'
+import json,sys
+p=sys.argv[1]; c=json.load(open(p))
+c[0]["changeIntentManifest"]="docs/change-intent/v2.3.2.json"
+json.dump(c,open(p,"w"),indent=2)
+PY2
+expect "declaring the manifest clears it" 0 "$JRN"
+
+# A journey nothing drives.
+cat >"$WORK/jj2.json" <<'JSON'
+[{"id":"JRN-002","label":"Refund an order","critical":false,"boundariesCut":[]}]
+JSON
+python3 "$S/campaign.py" add "$JRN" --kind journey --file "$WORK/jj2.json" >/dev/null
+expect "a journey no case drives does not clear" 1 "$JRN" "journey(s) with no case at all"
+
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

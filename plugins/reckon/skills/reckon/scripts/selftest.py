@@ -51,9 +51,12 @@ def case(cid, status, cls, note="reason recorded"):
             "status": status, "title": "c", "why": "", "note": note, "is_work_item": False}
 
 
-def req(rid, evidence, cls):
-    return {"id": rid, "entity": "requirement", "class": cls, "kind": R.KIND_OF[cls],
-            "evidence": evidence, "title": "r", "why": "", "is_work_item": cls != "verified-done"}
+def req(rid, evidence, cls, backed_by=None):
+    row = {"id": rid, "entity": "requirement", "class": cls, "kind": R.KIND_OF[cls],
+           "evidence": evidence, "title": "r", "why": "", "is_work_item": cls != "verified-done"}
+    if backed_by is not None:
+        row["backed_by"] = backed_by
+    return row
 
 
 def brief(bid, cls, edges):
@@ -175,6 +178,35 @@ ok = not bad
 print("%-46s %s" % ("ratchet allows an earned transition", "ok" if ok else "FAILED"))
 if not ok:
     FAILURES.append("ratchet blocked an earned transition: %r" % bad)
+
+# A requirement whose evidence word moved and whose backing did not is a
+# re-label. Measured: one campaign moved eight requirements from unmeasured to
+# observed in a single session with no case having run in between.
+relabelled = ledger([case("CASE-1", "blocked", "unmeasured"),
+                     req("REQ-1", "observed", "verified-done", backed_by=[])])
+bad = R.ratchet(prev, relabelled)
+ok = len(bad) == 1 and "re-label" in bad[0]
+print("%-46s %s" % ("ratchet catches an unbacked re-label", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ratchet unbacked re-label: %r" % bad)
+
+backed = ledger([case("CASE-1", "pass", "verified-done"),
+                 req("REQ-1", "observed", "verified-done", backed_by=["CASE-1"])])
+bad = R.ratchet(prev, backed)
+ok = not bad
+print("%-46s %s" % ("ratchet allows a backed observation", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ratchet blocked a backed observation: %r" % bad)
+
+# A ledger written before `backed_by` existed carries no such key, and a first
+# comparison against one is a fact about the ledger's age, not the project.
+legacy = ledger([case("CASE-1", "pass", "verified-done"),
+                 req("REQ-1", "observed", "verified-done")])
+bad = R.ratchet(prev, legacy)
+ok = not bad
+print("%-46s %s" % ("ratchet lets an older ledger through", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ratchet blocked a pre-backed_by ledger: %r" % bad)
 
 # --- 6. classification behaviour ------------------------------------------
 camp = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],

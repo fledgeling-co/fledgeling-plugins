@@ -275,6 +275,60 @@ fail quietly. `references/on-glass.md` §5.
 
 ---
 
+## 15. The success message as the oracle
+
+A control is wired, its handler runs, and the only state it changes is the
+product's own announcement that it worked. A snackbar reads *"Opened
+Downloads"*; nothing read the folder. An assertion on that banner is asserting on
+the one observable guaranteed to exist whether or not the work happened, and it
+is stronger-looking than a presence check while proving less than one — presence
+at least proves an element rendered, where this proves the product's opinion of
+itself.
+
+It defeats a change detector as well as an assertion. A content-hash signature
+over the surface moves when the banner appears, so an interaction-integrity sweep
+that asks "did anything change" records the control as live.
+
+**Fix.** Name, per control, the state its handler is supposed to change, and read
+that: rows in the list, files parsed, bytes on the pasteboard, the sheet
+presented, the request fired, the row written. A toast is admissible as a
+*secondary* observable beside one of those, never as the whole of it. Where a
+control's only promised effect genuinely is a message, the case stands at
+`structural` and says so rather than claiming `outcome`.
+
+Measured 24 Aug 2026: a folder picker shipped with a banner and no reader, under
+a campaign reporting 32 of 32 cases passing and armed. `references/inert-ui.md`.
+
+---
+
+## 16. Every destination is the same destination
+
+A navigation shell offers six items and renders one view under all six. Route
+enumeration does not see it, because the destinations are not routes. A surface
+census does not see it, because the shell was enumerated as one surface and its
+destinations were not enumerated at all — so the denominator reads `1/1` where
+the honest one reads `1/6`.
+
+What makes it survive review is that every individual check is correct: the
+sidebar renders, all six rows carry their accessible names, selection moves the
+highlight, and a screenshot of any one of them looks right.
+
+**Fix.** Enumerate destinations as surfaces, each naming its shell, and read back
+an identity that must differ per destination — the root view's type name or
+accessibility identifier, the detail region's accessible name, the document
+title. Comparing captures is the exact version: between two destinations of one
+menu, identical bytes are the defect rather than a share, which is why the
+`destinationOf` gate in `campaign.py` refuses a declared share there and nowhere
+else.
+
+The AX variant of the same family, measured on a different application: 13
+sidebar identifiers all resolved, and the element carrying one of them was an
+`AXStaticText` with an empty actions list, so every assistive client could locate
+every destination and activate none. `name of every action of e` must contain
+`AXPress` for anything interactive; an identifier assertion never reaches it.
+
+---
+
 ## Using this list
 
 Two moments:

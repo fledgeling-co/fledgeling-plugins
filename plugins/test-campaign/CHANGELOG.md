@@ -2,6 +2,127 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.13.0 — 2026-08-24
+
+**The history axis, built rather than described.** 0.12.0 added one sweep and a
+reference file naming thirteen methods; that changed what the skill *said* and
+not what it *ran*. This adds the sweeps and the gates.
+
+Six new sweeps, each with its own mechanics, assertions and printed denominator:
+**O** journey prefix, interruption and process death · **P** previous-build
+differential · **Q** event order, adjacency and repetition · **R** mid-session
+revocation, offline, time and pseudo-locale · **S** telemetry contract · **T**
+resource slope and endurance · and **U** event races and schedule interleaving.
+
+Four mechanical gates in `campaign.py`, on the ranks the research says may gate
+rather than advise. `journey` is a registry entity (`JRN-*`) with its own
+denominator, because no per-surface count can see a history. A **critical journey
+uncut at any of the five durable boundaries** blocks — `request-issued`,
+`server-committed`, `provider-effect`, `client-persisted`, `user-acknowledged`. A
+**previous-build comparison with no `changeIntentManifest`** blocks. A journey no
+case drives blocks, and a boundary name outside the closed list blocks. 109 gate
+tests, eight of them new, each proved to fire and then proved to clear.
+
+The numbers that decided each gate, and their limits. **RegDroid**: 121
+adjacent-version pairs, 205 reports, 73 true and 132 false — a **64%
+false-positive rate of which 93% were intended changes** — yielding 14 unique
+functional bugs, ten previously unknown and all ten fixed. That is why P carries
+three dispositions and the manifest is a gate. **The Android data-loss
+benchmark**: 110 reproducible faults across 54 releases of 48 apps, 98 with an
+automated oracle — prevalence and reproducibility, explicitly not a yield trial.
+**TimeMachine**: 199 unique crashes against 140/121/48 for Sapienz, Stoat and
+Monkey over 68 apps, and its client-only state restoration is why O keeps the
+effect ledger outside the restored snapshot. **AjaxRacer**: 152 tests, 65 harmful
+races across 12 of 20 pages, 7 false positives — the only addition whose measured
+false-positive rate is low enough to block on directly. **NIST**: 14 tests cover
+all three-event orderings of ten events against 10! exhaustive, and one
+eight-step system went from ~7,000 permutations to a 19-case suite.
+
+The model-oracle section is rewritten from the panel and corrects both CLI lanes.
+The `~96%` figure is **GenA11y at 95.2% precision / 87.69% recall on semantic
+accessibility**, against axe-core's 12.74% recall on the same corpus — 148 pages
+deliberately seeded with known issues, so a conformance benchmark rather than a
+live distribution. Precision is not a false-positive rate, and the class-
+conditional rates are recorded `MISSING_DATA`. The architecture: model-assisted,
+deterministically executed — the model selects journeys, generates input and
+ranks diffs; the trace is replayed without it; a deterministic confirmation
+precedes any release-blocking verdict.
+
+`references/journeys.md` records where the four backends disagreed, unresolved:
+pseudo-localisation at rank 1 or rank 6, race detection at 4 / 7 / gate-worthy,
+and record-replay as useful or a maintenance sink. With 111 sources at 1% overlap
+between members, disagreement is the stronger signal and it is kept rather than
+averaged away.
+
+Research provenance in `docs/deep-research/2026-08-24-panel-*.md`: four backends
+at max tier, 111 sources over 38 independent domains. Gemini's 57 citations are
+~45 opaque grounding redirects and its identifiable sourcing is nearer 12; the
+OpenAI member was citation-checked at 42 dereferenced, 0 fabricated, 0 dead. The
+`agy` lane refused to start on an unidentified binary.
+
+## 0.12.0 — 2026-08-24
+
+**A campaign cleared every gate over an application whose every control was
+inert.** 32 of 32 cases passing and armed, 19 of 19 requirements cited, 8 of 8
+surfaces covered, 8 of 8 external effects witnessed, `reckon` at 0 unmeasured and
+0 unjoined, the repository gate 19 of 19. The owner opened the signed build and
+found three defects in nine minutes: six sidebar destinations opening one
+placeholder view, every button running an empty closure, and a folder picker that
+set a banner and read nothing. Nothing in the campaign was false.
+`references/inert-ui.md` records the measurement, why each of six instruments
+passed, and the three shapes.
+
+Three things a surface and a case may now declare, all optional, all reported as
+NOT DECLARED rather than clean when absent: `controls` on a surface, `actuates` on
+a case, `destinationOf` on a destination surface. `check` refuses to clear on a
+surface whose declared controls no passing effect-rung case actuates, on a case
+actuating a control its surface never declared, on two destinations of one shell
+publishing one identical image — a declared share does not excuse it there — and
+on a destination no case reaches. A case below `outcome` that names an actuation
+does not move the census: driving a control and asserting the control is still
+there has measured the click and not the effect.
+
+Two denominators now print on every run, green or red, because the campaign this
+came from was green and what mattered sat in a number nobody printed: a per-lane
+row carrying that lane's cases, passes, effect-rung passes, armed count and
+oracle mix, and the control census. A lane with no effect-rung pass is reported
+and **not** blocked, and that is a measurement rather than a softening — the
+native lane on that campaign did carry an effect-witness case, so a rule of the
+form "every lane owes one effect rung" would have cleared it and the app would
+still have shipped.
+
+**The blind-mutation pass could not see an arrow-style test.** `pass_blind`
+matched `fn|def|func|function` only, so `it('…', () => {` and
+`test("…", async () =>` were invisible. Measured on two repositories: one
+monorepo's API tests held 224 declaration-style blocks against 2,179 arrow-style
+ones, so `blind=0` there was a statement about 9% of the corpus; a second held
+4,741 arrow-style blocks and zero declarations, where the false clean was total.
+The pass now reads both, prints the split (`blocks: declaration-style 224 ·
+arrow-style it/test 2179`), and reports `NOT MEASURED` rather than `blind=0` when
+it recognises no block in a corpus that has files in it.
+
+`references/journeys.md` is new, and it is the first axis this skill has added
+that is not a state. Two model families were asked independently what still
+escapes the methodology and both ranked the same answer first: model the journey,
+generate action sequences over it with sequence covering arrays, cut at every
+durable boundary, and replay each sequence against the previous accepted build.
+The file carries the journey state model and its four properties, the thirteen
+ranked additions the two lanes converged on, and the measured ceiling on
+model-based oracles with citations — OwlEye at 85/84 on its own corpus, Nighthawk
+at 0.59 AP for localisation, MLLMs near random on WiserUI-Bench, axe-core at
+57.38% by Deque's own count. Sweep N in `sweeps.md` is the runnable half. The two
+panels and their prompt are in `docs/deep-research/`.
+
+Sweep C gains the control census, the acknowledgement-only shape and a native
+lane block, including the AX finding carried over from `acceptance-e2e`: 13
+sidebar identifiers all resolved while the element carrying one of them was an
+`AXStaticText` with an empty actions list, so `name of every action of e` must
+contain `AXPress` for anything interactive. The promotion section gains two rules
+from the same skill: a gate nothing invokes is documentation, and a promoted
+sweep derives its subject list from the router or manifest rather than a
+hand-list. `detector-defects.md` gains §15 and §16. 101 gate tests, 13 of them
+new and each proved in both directions.
+
 ## 0.9.6 — 2026-08-22
 
 **The provider census resolved on its own prose.** Providers are written

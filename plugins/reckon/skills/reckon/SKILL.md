@@ -13,9 +13,10 @@ description: >-
   product. That class is scheduled as the blockers behind it rather than case by case, each
   with the coverage it returns, because twenty blocked cases are usually three causes.
   Publishes a denominator per axis and never one blended percent, marks every figure as a
-  floor, refuses to retire stated intent on weak-oracle or guessed evidence, keeps waivers
-  visible as exceptions rather than folding them into done, and gates the whole ledger with
-  an exit code so a report that lost an item cannot pass. Use whenever someone asks what is
+  floor, refuses to retire stated intent on weak-oracle or guessed evidence, refuses to let
+  a requirement leave never-measured on its own evidence word when no passing case cites it,
+  keeps waivers visible as exceptions rather than folding them into done, and gates the
+  whole ledger with an exit code so a report that lost an item cannot pass. Use whenever someone asks what is
   left, what still needs doing, where the project stands, what the test campaign leaves
   open, whether a feature is actually finished, which briefs are stale, what to work on
   next, or asks to reconcile specs against test results — and after any test-campaign run,
@@ -188,6 +189,24 @@ python3 $S/reckon.py ratchet <previous>/ledger.json docs/reckoning/<date>/ledger
 An item may leave `unmeasured` only by being measured. Snapshot gates catch a
 bad run; this catches the slow version, where an item is quietly reclassified
 across runs until nothing remembers it was never checked.
+
+**A requirement leaves it on the cases that cite it, not on its own evidence
+word.** `observed` is a word in a registry a person can edit, and until 1.5.0 the
+word alone released the row. Measured 24 August 2026: one session moved eight
+requirements from `unmeasured` to `observed` with no case having run in between,
+in the same session that carried the brief join from 6.2% to 100% by writing
+`requirement:` citations into 81 briefs — and both `check` and `ratchet` exited
+0. Each requirement row now carries `backed_by`, the ids of the passing cases
+citing it, computed from the campaign rather than from the requirement's account
+of itself; a move to `observed` with that list empty is refused as a re-label.
+A ledger written before the field existed carries no such key and is let through,
+because refusing there would report the ledger's age as a defect in the project.
+
+A join is the same shape of claim and the report says so rather than gating it:
+a citation somebody wrote is stronger than token overlap, and a citation somebody
+wrote *during this reckoning* is a document edited to satisfy the tool. Read the
+`cited` edge count against the campaign's adjudicated case count before believing
+a join percentage that moved a long way in one run.
 
 ## What the report has to say
 

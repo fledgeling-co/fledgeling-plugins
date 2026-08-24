@@ -16,7 +16,13 @@ applies to anything with a real window on a real display server, and **L** to
 anything that is more than one process — neither is optional on a desktop app,
 and neither can run at all on a lane that never attached. **M** applies to any
 product whose documents claim an effect outside its own process, and it runs
-twice: once at requirement time, and again before the campaign closes.
+twice: once at requirement time, and again before the campaign closes. **N to U**
+are the history axis and apply to any product with a multi-step task a user can
+leave and return to: **N** models the journey, **O** interrupts it at every
+durable boundary, **P** replays it against the previous build, **Q** varies its
+event order, **R** changes the world underneath it, **S** checks what it reported
+about itself, **T** runs it until something accumulates, and **U** varies the
+schedule rather than the order.
 
 ---
 
@@ -88,6 +94,54 @@ Two details in that firewall are load-bearing:
 
 **Overlay lifecycle**, in the same sweep: open, close, Escape, backdrop click,
 focus trap, focus restored to the trigger.
+
+### The control census, and the two shapes a signature check misses
+
+Enumerating from the accessibility tree finds the controls that are *there*. Two
+defects survive that and both were measured on one application on 24 Aug 2026,
+under a campaign reporting 32 of 32 cases passing and armed:
+
+**A control whose only observable is the product saying it worked.** A folder
+picker opened a real `NSOpenPanel`, set a banner reading *"Opened Downloads"*,
+and read nothing. The content hash moves, so a change detector records the
+control as live. Name, per control, the state its handler is supposed to change —
+rows in the list, files parsed, bytes on the pasteboard, the sheet presented, the
+request fired — and read that instead. A toast is admissible beside one of those,
+never as the whole of it.
+
+**A shell whose every destination renders one view.** Six sidebar items, one
+detail view. Select each in turn and read back an identity that must differ: the
+root view's type name or accessibility identifier, the detail region's accessible
+name, the document title. Comparing captures is the exact version, and between
+two destinations of one menu identical bytes are the defect rather than a share.
+
+Record what the sweep covered in the registry, so the next run has a denominator
+rather than a memory: `controls` on the surface, `actuates` on the case,
+`destinationOf` on each destination surface. `campaign.py check` then prints
+`Controls: 11 of 18 declared control(s) actuated` on every run and refuses to
+clear on a surface whose declared controls no passing effect-rung case actuates.
+`references/inert-ui.md` carries the measurement and the four configurations it
+refuses.
+
+### On a native lane
+
+The mechanics above are browser-shaped; the rule transfers and the instrument
+does not.
+
+- **macOS** — drive through `proctor` against a live attached window or menu
+  extra. A headless `swift test` running `SwiftUI.ImageRenderer` has no window
+  server and no event loop, and `Menu` and `NSPopUpButton` fail silently to
+  render their real AppKit geometry, so it is not visual proof of anything.
+- **Reading the AX tree is not enough on its own.** An identifier can sit on a
+  row's label rather than on the control that owns the tap: measured, 13 sidebar
+  identifiers all resolved while the element carrying one of them was an
+  `AXStaticText` with an empty actions list. `name of every action of e` must
+  contain `AXPress` for anything interactive.
+- **iOS** — Maestro flows on the Simulator, deep-link-first via
+  `xcrun simctl openurl`; the Simulator exposes no accessibility tree, so plan to
+  that ceiling (`harness-lanes.md`).
+- **Windows** — WinAppDriver or UI Automation; `SendInput` fails under UIPI
+  without saying so.
 
 ---
 
@@ -343,6 +397,249 @@ sweep.
 
 ---
 
+## N · Journey and history
+
+The one axis that is not a state. Everything above quantifies over a product
+frozen at an instant; this sweep is about order, accumulation, interruption,
+elapsed time, and the difference from the last accepted build.
+`references/journeys.md` carries the model, the generators, the ranked additions
+and the measured ceiling on model-based oracles; this is the sweep.
+
+Run it where the product has a multi-step task somebody can leave and come back
+to — a wizard, a checkout, an editor with drafts, anything with a pending queue.
+Five to eight journeys of six to twelve transitions is the first increment both
+referral lanes proposed.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Order** | generate legal action sequences over an explicit journey state machine, sampled with sequence covering arrays rather than at random | the invariants hold on every ordering, and a failing sequence shrinks to a reportable one |
+| **Re-entry** | capture each journey state's URL, cold-load it in a fresh profile; interleave Back and Forward mid-journey | the same logical entity and revision is reconstructed, or a conflict is disclosed |
+| **Interruption** | cut after each durable boundary — request issued, server committed, provider effect landed, client persisted, user acknowledged | every accepted intent is committed exactly once, visibly pending, or visibly failed; no orphan queue work survives quiescence |
+| **Context** | switch account, tenant or role immediately before a consequential action | work started in context A cannot mutate context B |
+| **Provenance** | seed fields with canaries encoding entity, tenant, writer and revision | two surfaces agree because they read one revision, not because they render similar text |
+| **Differential** | replay the same sequence against build N and N−1 from equivalent snapshots | every semantic difference maps to an entry in an expiring change manifest; an unmapped difference is a finding |
+| **Time** | freeze client, server and job-runner clocks separately; move the OS timezone independently | instants persist as instants, one execution across a repeated local hour, elapsed time never negative |
+
+Denominators, in the shape the rest of this file demands:
+
+```
+journeys:      examined=6  modelled=6  generated-traces=180
+boundaries:    examined=34 cut=34 recovered=32 orphaned=2
+differential:  steps=214 diffs=11 mapped=9 unmapped=2
+```
+
+Two preconditions. **The differential half needs the previous build reachable**
+from equivalent backend state, and where it is not, say so rather than comparing
+against a snapshot taken under different data. And **the previous build is a
+witness rather than the specification**: run the requirement and effect
+invariants against both builds, so two versions agreeing on a violation still
+fails.
+
+---
+
+## O · Journey prefix, interruption and process death
+
+Rank 1 of the panel's ten, and the one it puts a mechanical gate on. Sweep B
+injects a fault per request and sweep L kills a process; this cuts at each
+**durable boundary of a journey step** and asserts recovery at journey level.
+
+Boundaries, in order: request issued · server committed · provider effect landed
+· client persisted · user acknowledged. At each, one of: kill the process,
+rotate or resize, background then relaunch by deep link, drop the network, revoke
+a permission.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Intent conservation** | cut after each boundary, relaunch, read the server | every accepted intent is committed exactly once, visibly pending, or visibly failed — never zero, never two |
+| **No orphan work** | let the app settle after the relaunch | nothing remains queued that nobody will drain |
+| **Draft survival** | enter text, cut before persist, relaunch | the entered value survives, or its loss is disclosed rather than silent |
+
+```
+boundaries:  examined=34 cut=34 recovered=32 orphaned=2
+```
+
+The evidence, with its limits stated. The Android data-loss benchmark holds **110
+reproducible real faults across 54 releases of 48 apps**, every one with a
+visible effect and 98 with an automated oracle. That establishes prevalence and
+reproducibility — it is **not** a yield trial, and it does not say how often this
+sweep finds a bug in a mature portfolio. TimeMachine, which preserves and
+revisits deep states, is the stronger comparative result: 68 apps, five
+repetitions, six-hour budget, **199 unique crashes against 140 / 121 / 48** for
+Sapienz, Stoat and Monkey, and 281 against 183 on 37 industrial apps.
+
+**Its limitation decides your design**: TimeMachine restored client state only,
+not remote server state. So a client snapshot is never a complete oracle for a
+partial commit — the effect ledger stays outside the restored snapshot.
+
+---
+
+## P · Previous-build differential
+
+Rank 2, and the one to price the triage cost of before adopting.
+
+Run the same journey against build N and N−1 from equivalent backend snapshots
+and compare a normalised semantic state vector after every action.
+
+**RegDroid is the measured case**: five apps, 121 adjacent-version pairs, 50
+tests of 100 events each. It produced **205 reports — 73 true positives and 132
+false positives, a 64% false-positive rate** — from which came **14 unique
+functional bugs, ten previously unknown and all ten fixed by developers**, ten of
+which no other assessed technique detected. **93% of the false positives were
+intended feature changes.** The authors report under one hour of manual
+inspection for all 205. No p-values or controlled person-hour comparison, a
+deliberately simple resource-id oracle, Android-only.
+
+That 64% is why every difference may not block. Three dispositions, and they are
+the whole method:
+
+1. **Mechanical fail** — a retained invariant, effect contract, accessibility
+   invariant or security rule violated, or an undeclared removal.
+2. **Mechanical accept** — the diff matches a machine-readable change-intent
+   declaration naming the surface, the state and the allowed semantic delta.
+3. **Triage** — everything else, clustered by duplicate and attributed to a code
+   change.
+
+```
+differential: steps=214 diffs=11 invariant-violations=2 declared=7 triage=2
+```
+
+**The previous build is a candidate oracle, never an authority on whether the
+behaviour should remain.** Where both builds violate an independent invariant,
+agreement still fails.
+
+---
+
+## Q · Event order, adjacency and repetition
+
+Rank 4. An ordinary covering array over `surface × state × viewport × …` does not
+imply coverage of `A before B`, `B before A`, or `A … C … B`. Sequence covering
+arrays do: strength *t* covers every ordering of every *t*-event subset as a
+not-necessarily-contiguous subsequence. NIST reports **14 tests for all
+three-event orderings of ten events, and 72 for all four-event** — against 10!
+exhaustive. One operational eight-step system went from ~7,000 valid permutations
+to a **19-case constrained suite**.
+
+Declare it as its own dimension rather than another factor inside the existing
+array, and gate the **coverage accounting** for two-event order on the critical
+event alphabet.
+
+Five blind spots, each needing its own generator, and this is why the sweep is
+four checks rather than one:
+
+- **Non-adjacency.** Covered events need not be adjacent, so `A` immediately
+  followed by `B` is not guaranteed. Generate adjacent pairs separately.
+- **No repetition.** Standard arrays use each event once, so `submit, submit`,
+  `open, close, open` and every retry loop are uncovered. Generate them.
+- **Unmodelled events are invisible.** The lock-screen study found bypasses
+  involving hardware controls and cross-app actions absent from the developer's
+  event model.
+- **Relative order is not interleaving.** Scheduler order and delay need
+  perturbation, not permutation.
+- **Constraints reshape the suite**, so a prerequisite chain changes what is
+  generated.
+
+Yield evidence is thin and says so: a thesis classified **49 of 592 Android
+vulnerability reports (7.9%) as event-sequence vulnerabilities**. No controlled
+study has run factor-wise t-way and sequence arrays against one modern
+web/iOS/macOS corpus and reported incremental unique defects per hour.
+
+---
+
+## U · Event races and schedule interleaving
+
+Sweep Q varies relative *order*; this varies the *schedule*, and they are not the
+same axis. Every sweep above actuates serially, so a stale response overwriting a
+newer edit is invisible to all of them.
+
+**AjaxRacer is the strongest yield result anywhere in this file.** Two phases:
+compute the event graph by dynamic analysis, then generate tests that trigger
+potentially conflicting event pairs under controlled schedules and compare the
+outcomes. Across 20 widely-used web pages it generated **152 tests, of which 65
+indicated harmful races across 12 pages, with 7 false positives**. That is
+roughly 60% of pages carrying an observable race and over 40% of generated tests
+finding a harmful one, at a false-positive rate low enough that triage is not the
+cost. PredRacer extends the shape to Android with reported high precision and
+recall, though its numbers and dataset size were not in the accessible excerpt.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Conflicting pairs** | permute the completion order of two in-flight requests | the outcome does not depend on which returned first, or the later write wins by revision rather than by arrival |
+| **Stale response** | delay one response past a newer one for the same entity | the stale response is discarded, never rendered |
+| **Double actuation** | fire the primary mutation twice inside the debounce | exactly one effect, counted at the server |
+| **Retry against reconnect** | reconnect while a retry is queued | one effect, not two, and the queue drains empty |
+
+```
+races: pairs=152 harmful=65 false-positive=7 pages-affected=12/20
+```
+
+Gate it for critical flows. This is the one addition where the published
+false-positive rate is low enough to block on directly rather than triage first.
+
+---
+
+## R · Mid-session revocation, offline, time and pseudo-locale
+
+Rank 6, bundled because each is cheap and they share a shape: a state machine
+whose transition happens *during* a journey rather than before it.
+
+| Check | Force it by | Assert |
+|---|---|---|
+| **Permission revoked mid-use** | `simctl privacy … revoke`, `adb pm revoke`, or the browser permission API, with a surface open | fail closed, no zombie UI over forbidden data, and a route back |
+| **Token or role change mid-session** | expire the token, downgrade the role from another session | the next privileged action is refused server-side, not merely hidden |
+| **Offline transition** | go offline mid-journey, act, reconnect | queued-or-refused visibly; on flush, no loss and no duplicate |
+| **Clock** | freeze client, server and job-runner separately; move the OS timezone | instants persist as instants, one execution across a repeated local hour, elapsed time never negative |
+| **Pseudo-locale** | an accented, 30–40% expanded, bracketed build; then one `dir=rtl` pass | no clipping, no concatenation fragments, no un-externalised strings, mirroring correct |
+
+Pseudo-localisation is the cheapest whole-class sweep on this page: one build
+run through the geometry checks sweep C already has.
+
+---
+
+## S · Telemetry contract
+
+Rank 9, and the surface most products have no oracle for at all while making
+decisions on its output.
+
+Put an independent collector between the client and the analytics endpoint. For
+each UI intent, assert the event schema, count, order, consent state, identity
+transition and dedup key; then reconcile collector against provider against
+warehouse.
+
+```
+telemetry: intents=48 events-expected=61 observed=59 schema-violations=1 duplicates=2
+```
+
+Gate consent, purchase, onboarding and experiment events; the ground truth is a
+versioned event schema, so this is deterministic and belongs on the
+`effect-witness` rung rather than with a model.
+
+---
+
+## T · Resource slope and endurance
+
+Rank 10, portfolio-dependent — higher for native desktop, media, realtime and
+long-lived sessions.
+
+Repeat a logically reversible create/edit/navigate/delete cycle while sampling
+post-GC retained heap, DOM and listener counts, RSS, handles, storage size, queue
+depth, latency and dropped frames.
+
+**Compress the time rather than spending it.** Override the clock and suppress
+network delay, and a core loop — open and close a modal, create and delete a row
+— runs hundreds of times in a few minutes rather than hours. Plot DOM nodes and
+listener counts before and after 500 iterations: **a slope that climbs linearly
+rather than reaching a ceiling is a leak**, and that shape is the assertion.
+
+**Gate on the post-warm-up slope or a changepoint against N−1, never on a
+maximum** — a ceiling passes a leak that has not yet reached it. Advisory until
+the variance is calibrated on your own product; then gate strong monotonic
+growth. Twenty to thirty minutes catches gross leaks; multi-hour runs are nightly.
+
+Frame-time degradation across the soak is a correctness signal rather than a
+performance one: jank eats input, and a control that misses clicks is broken.
+
+---
+
 ## Promoting a sweep
 
 A sweep that found something becomes a permanent case with an id, a requirement
@@ -352,3 +649,15 @@ Findings route exactly like a red assertion: characterise, do not assert-correct
 `test.fail()` is not the tool — it passes on *any* failure, including the wrong
 one. Write the case that describes the behaviour as it is, name the defect with
 its own `DEF-*` id, and let the fix flip the case.
+
+Two rules decide whether the promotion is real, both carried over from
+`acceptance-e2e`'s guard-promotion phase:
+
+- **Something has to invoke it.** A spec or checker with no `package.json`
+  script, CI job or pre-push hook running it is documentation. Point at the line
+  that runs it, or wire it in as part of the same change.
+- **New surfaces inherit by enumeration.** Derive the promoted sweep's subject
+  list from the router, the surface map or the manifest rather than from a
+  hand-written list, so a surface added next month is covered without anybody
+  remembering. A hand-list is the mechanism by which coverage decays without a
+  single test being deleted.
