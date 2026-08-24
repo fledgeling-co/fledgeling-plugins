@@ -297,6 +297,44 @@ def pass_uncensused(reqs: list[dict], index: "SourceIndex | None" = None
     return len(declared), findings, named, resolved
 
 
+# The two ways a test body starts, because keying on one of them reported a
+# clean run over a corpus it could not see. `DECL_RE` is a named declaration —
+# Rust `fn`, Python `def`, Go/Swift `func`, JS `function`. `SPEC_HEAD_RE` is the
+# arrow-style block a JS/TS runner uses: `it('…', () => {`, `test("…", async () =>`,
+# and the `.each` / `.only` / `.skip` variants.
+#
+# Measured 2026-08-23 on two real repositories. One monorepo's API tests held 224
+# declarations the first regex could see and 2,179 arrow-style `it(` blocks it
+# could not, so `blind=0` was a statement about 9% of the corpus. A second repo,
+# checked independently, held 4,741 arrow-style blocks and zero declarations —
+# there the false clean was total rather than partial. A tool that under-reports
+# by a fraction is a quality problem; one that reports `blind=0` over 4,741
+# invisible tests is answering a different question and publishing it as the
+# answer to this one.
+#
+# The lookbehind excludes `.test(` (a regex or a method call) and `$test(`, so a
+# predicate does not read as a block. The corpus is already narrowed to paths
+# containing `test` or `spec`, which is what makes a bare `test(` safe to read as
+# a block head.
+DECL_RE = re.compile(r"^\s*(?:async\s+)?(?:fn|def|func|function)\s+(\w+)\s*\(", re.M)
+SPEC_HEAD_RE = re.compile(
+    r"(?<![.\w$])(?:it|test)"
+    r"(?:\.(?:each|only|skip|concurrent|failing|todo|sequential|runIf|skipIf))?"
+    r"\s*\(",
+    re.M)
+
+
+def _spec_label(src: str, pos: int) -> str:
+    """The quoted name that follows a spec head, for the finding line.
+
+    Looks only at the next 200 characters: an `it.each([...])` head carries its
+    table before the name, and a label is a label rather than a key, so a miss
+    costs a readable string and nothing else.
+    """
+    m = re.search(r"""['"`]([^'"`\n]{1,80})""", src[pos:pos + 200])
+    return m.group(1) if m else "<unnamed spec>"
+
+
 def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) -> dict:
     """After the last mutating call in a test body, does any reader appear?
 
@@ -306,11 +344,11 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
     asserting the call's own return value, which is the shape that let a daemon
     verb report success while changing nothing.
     """
-    fn_re = re.compile(r"^\s*(?:async\s+)?(?:fn|def|func|function)\s+(\w+)\s*\(", re.M)
     files = [f for f in root.rglob("*")
              if f.is_file() and f.suffix in {".rs", ".py", ".ts", ".js", ".go", ".swift", ".cs"}
              and ("test" in str(f).lower() or "spec" in str(f).lower())]
     examined = mutating = reread = 0
+    decl_blocks = spec_blocks = 0
     findings: list[str] = []
     # Which declared verbs appear anywhere in this corpus at all. A vocabulary
     # for another language half-matches — the generic verbs hit, the project's
@@ -326,7 +364,12 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
             if v not in seen_verbs and re.search(
                     r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", src):
                 seen_verbs.add(v)
-        starts = [(m.start(), m.group(1)) for m in fn_re.finditer(src)]
+        decls = [(m.start(), m.group(1), "decl") for m in DECL_RE.finditer(src)]
+        specs = [(m.start(), _spec_label(src, m.end()), "spec")
+                 for m in SPEC_HEAD_RE.finditer(src)]
+        starts = sorted(decls + specs)
+        decl_blocks += len(decls)
+        spec_blocks += len(specs)
         # A function another function in the same file calls is a fixture helper,
         # not a test. Counting one inflates `examined` and can report it blind:
         # a helper that seeds a log and returns it mutates and never reads, which
@@ -334,12 +377,15 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
         # reported as a blind test while every one of its four callers asserted on
         # what it built. Excluding them only ever removes findings, which is the
         # direction this pass is already committed to erring in.
-        helpers = {n for _, n in starts
-                   if len(re.findall(r"(?<![A-Za-z0-9_])" + re.escape(n) + r"\s*\(", src)) > 1}
-        for i, (pos, name) in enumerate(starts):
+        #
+        # Only declarations can be helpers. An arrow-style `it(` block is never
+        # called by name, so it has nothing to be excluded by.
+        helpers = {n for _, n, k in starts if k == "decl"
+                   and len(re.findall(r"(?<![A-Za-z0-9_])" + re.escape(n) + r"\s*\(", src)) > 1}
+        for i, (pos, name, kind) in enumerate(starts):
             end = starts[i + 1][0] if i + 1 < len(starts) else len(src)
             body = src[pos:end]
-            if name in helpers:
+            if kind == "decl" and name in helpers:
                 continue
             examined += 1
             last, which = -1, None
@@ -365,7 +411,8 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
                 findings.append(f"{name} — last mutator '{which}', no read after it "
                                 f"({f})")
     return {"files": len(files), "examined": examined, "mutating": mutating,
-            "reread": reread, "findings": findings, "seenVerbs": seen_verbs}
+            "reread": reread, "findings": findings, "seenVerbs": seen_verbs,
+            "declBlocks": decl_blocks, "specBlocks": spec_blocks}
 
 
 # ── the control ─────────────────────────────────────────────────────────────
@@ -571,10 +618,24 @@ def main() -> int:
                     print(f"blind:      examined={res['examined']} mutating={res['mutating']} "
                           f"re-read-after={res['reread']} blind={len(blind_findings)}")
                     print(f"  corpus: {root} ({tests_origin}, {res['files']} file(s))")
+                    print(f"  blocks: declaration-style {res['declBlocks']} · "
+                          f"arrow-style it/test {res['specBlocks']}")
                     print(f"  vocabulary: {source} — {len(muts)} mutator(s), {len(rds)} reader(s)")
                     print(f"  readers: {', '.join(rds)}")
                     for line in blind_findings[:20]:
                         print(f"  · {line}")
+                    # An examined count of zero over a corpus with files in it is
+                    # a failed measurement, not a clean one, and the two print
+                    # identically without this line. The measured case: a regex
+                    # that saw only named declarations reported blind=0 over a
+                    # repository whose 4,741 test blocks were all arrow-style.
+                    if res["files"] and not res["examined"]:
+                        print(f"blind:      NOT MEASURED — {res['files']} file(s) scanned and "
+                              f"0 test blocks recognised, so `blind=0` is a statement about "
+                              f"nothing. Check that {root} is the corpus you meant.")
+                        blind_findings = [
+                            f"the blind pass recognised 0 test blocks in {res['files']} "
+                            f"file(s) under {root} — a result over an empty population"]
 
     findings = len(unclassed) + len(uncensused) + len(blind_findings)
     print(f"\nvacuity: requirements={total} external={declared} findings={findings}")
