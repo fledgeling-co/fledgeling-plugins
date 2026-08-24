@@ -81,7 +81,7 @@ UNMEASURED_STATUS = ("blocked", "inconclusive", "unoracled", "unselected", "open
 # true queue of nine, and fifteen where nine is the truth reads as a backlog
 # rather than as a bug.
 DEFECT_FIXED = ("fixed", "resolved", "closed", "done", "verified")
-DEFECT_OPEN = ("open", "new", "confirmed", "reopened", "regressed", "in progress")
+DEFECT_OPEN = ("open", "new", "confirmed", "reopened", "regressed", "in progress", "recorded", "standing")
 DEFECT_WAIVED = ("wontfix", "won't fix", "will not fix", "deferred", "declined",
                  "duplicate", "n/a", "not a bug")
 
@@ -115,7 +115,7 @@ RETIREMENT_RUNG = "outcome"
 
 # Requirement evidence vocabulary.
 EVIDENCE_OBSERVED = ("observed",)
-EVIDENCE_SELF_REPORTED = ("reported", "unknown")
+EVIDENCE_SELF_REPORTED = ("reported", "unknown", "built-unwatched")
 EVIDENCE_DISPUTED = ("contradicted", "vacuous")
 EVIDENCE_CIRCULAR = ("source",)
 
