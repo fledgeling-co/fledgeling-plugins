@@ -350,7 +350,7 @@ owe real artifacts from an attached window server.
 
 **The rung says what a case checked; the `plane` says what it checked it
 against, and they are independent.** A case can stand honestly at `outcome` — a
-real state change, properly asserted, watched to fail — while the thing it
+real state change, asserted against a named observable, watched to fail — while the thing it
 changed was a stub in the same process. Every case records one:
 
 | plane | the collaborator was |
@@ -367,6 +367,24 @@ each had retired stated intent on a weaker plane than the intent lived on — a
 compiler suite for a desktop app, a mock peer for live sync, unit tests for
 buttons that ran empty closures. The rung was honest every time. `reckon` reads
 the same field and holds such a brief `undecided` rather than retiring it.
+
+**A credential-gated external is a bounded pair of states, not a hedge.** Three
+of the seven measured projects ended on the same sentence — *complete and
+verified, but live delivery requires the API key* — because there was nowhere to
+record what the hermetic tier had actually proved. There is now. Record the
+`hermetic` case that passed and the `live-external` one that did not, and the
+campaign says exactly what is known:
+
+```
+REQ-0012  outbound email
+  hermetic       pass · CASE-0031 · log-echo peer, envelope and retry asserted
+  live-external  blocked: RESEND_API_KEY absent on this host
+```
+
+That is a finish rather than a hedge, because it is checkable: it names what the
+local peer proved, and it names the one thing nobody watched happen. What it may
+never become is a `verified-done` on the hermetic row alone. **A protocol proved
+against a local peer is a protocol; it is not a delivery.**
 
 **An `outcome` is a state the handler was supposed to change, never the product's
 own report that it changed one.** A control that opens a real panel and sets a

@@ -80,7 +80,34 @@ UNMEASURED_STATUS = ("blocked", "inconclusive", "unoracled", "unselected", "open
 # inconclusive 1, vacuous 1` put six rows in `broken` against an adjudicated
 # true queue of nine, and fifteen where nine is the truth reads as a backlog
 # rather than as a bug.
-DEFECT_FIXED = ("fixed", "resolved", "closed", "done", "verified")
+DEFECT_FIXED = ("fixed", "resolved", "closed", "done", "verified", "answered")
+
+# Qualifiers that survive a fix verb and negate it. A defect recorded
+# `answered · F191 · not re-measured` is a repair CLAIM, not a repair: somebody
+# wired a feature to it and nobody looked again. Seven project transcripts
+# proposed folding `answered` straight into the fixed set, which would have
+# retired exactly the defects nobody re-measured — the failure this tool exists
+# to prevent, arriving through its own vocabulary.
+#
+# Same shape as the closure matcher's negation guard: a bare substring over a fix
+# verb once read "Not repaired here" as repaired.
+FIX_UNMEASURED_QUALIFIERS = ("not re-measured", "not remeasured", "unverified",
+                             "not verified", "not re-tested", "not retested",
+                             "unconfirmed", "not confirmed")
+
+
+def defect_status_parts(raw: str) -> tuple[str, str]:
+    """Split a compound defect status into its leading verb and the whole string.
+
+    Registries write `answered · F191 · not re-measured`, `resolved · v2.3`, and
+    plain `fixed`. Exact-equality matching sees none of the first two, so a
+    genuinely repaired defect arrived `unclassified` and a genuinely unmeasured
+    one did too — indistinguishable, and both landing wherever the default sent
+    them.
+    """
+    low = (raw or "").strip().lower()
+    lead = re.split(r"\s*[·|,;]\s*", low)[0].strip() if low else ""
+    return lead, low
 DEFECT_OPEN = ("open", "new", "confirmed", "reopened", "regressed", "in progress", "recorded", "standing")
 DEFECT_WAIVED = ("wontfix", "won't fix", "will not fix", "deferred", "declined",
                  "duplicate", "n/a", "not a bug")
@@ -796,7 +823,20 @@ def classify(briefs, campaign, edges, join_is_weak):
     for d in campaign["defects"]:
         st = state_of(d.get("status")) if d.get("status") else ""
         st = st.lower()
-        if st in DEFECT_FIXED:
+        lead, whole = defect_status_parts(st)
+        # A fix verb carrying a negated-measurement qualifier is a claim about a
+        # repair, not a repair. It goes to `unmeasured`, which is the class whose
+        # remedy is "go and look".
+        claimed_unmeasured = (lead in DEFECT_FIXED
+                              and any(q in whole for q in FIX_UNMEASURED_QUALIFIERS))
+        if lead in DEFECT_FIXED or lead in DEFECT_OPEN:
+            st = lead if not claimed_unmeasured else st
+        if claimed_unmeasured:
+            cls = "unmeasured"
+            why = ("the registry records this defect as %r — a repair claimed and not "
+                   "re-measured. A fix nobody looked at again is a claim, so this needs an "
+                   "observation rather than a closure." % st)
+        elif st in DEFECT_FIXED:
             cls = "verified-done"
             why = ("the registry records this defect as %r. That is the same registry, speaking "
                    "about the same run, as the `pass` that retires a case." % st)
@@ -1080,6 +1120,15 @@ def unclassified_inputs(rows):
                 continue
             value = (r.get(key) or "")
             value = value.lower() if isinstance(value, str) else value
+            # A compound defect status (`answered · F191 · not re-measured`) is
+            # classified on its leading verb, so it is a word this tool reads
+            # rather than one it could not. Reporting it as unclassified after
+            # deliberately classifying it sends a reader looking for a decision
+            # that was already made.
+            if entity == "defect" and value:
+                lead, _ = defect_status_parts(value)
+                if lead in vocabulary:
+                    continue
             if value and value not in vocabulary:
                 found[(label, value)].append(r.get("id"))
                 placed[(label, value)] = r.get("class")
