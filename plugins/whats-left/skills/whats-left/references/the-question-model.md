@@ -25,9 +25,24 @@ before building the page; its lint catches the em dashes and AI phrasings that
     { "item": "recurring-invoices", "effect": "fully-releases" },
     { "item": "duplicate-proof",    "effect": "removes-one-blocker" }
   ],
-  "note_hint": "If there is a client you would not risk this on, name them."
+  "note_hint": "If there is a client you would not risk this on, name them.",
+  "card": { "key": "WEB-4562", "url": "https://tracker.example.com/tasks/6a32…" }
 }
 ```
+
+## `card` — where the question came from
+
+Optional, and worth attaching whenever the question was derived from a ticket, an
+issue or any other record with a history behind it. The page renders it as a link
+beside the question number, so a reader who wants the argument behind a question
+opens the record rather than searching a tracker for it, and the export carries it
+so whatever acts on the answers can write back to the right place.
+
+It matters most on the page this field was added for: fifty one decisions in one
+sitting, each traceable to a card, with none of the fifty one cards reproduced
+inline. `url` is what gets linked; `key` is what the link says, and falls back to
+"Open the record" when there is no key. Check the host resolves before writing it
+— a page of dead links costs the reader more than no links at all.
 
 ## What belongs on the page
 

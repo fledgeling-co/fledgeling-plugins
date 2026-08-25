@@ -131,6 +131,8 @@ padding:1.5rem 1.6rem;margin:1.5rem 0 0;scroll-margin-top:1rem;scroll-margin-bot
 .qhead{display:flex;gap:.7rem;align-items:baseline;flex-wrap:wrap}
 .qhead h3{flex:1 1 16rem;font-size:1.18rem;font-family:var(--serif);font-weight:600}
 .qn{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.qcard{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+.qcard:hover,.qcard:focus{color:var(--ink)}
 .why{color:var(--muted);font-size:.95rem;margin:.5rem 0 0}
 fieldset{border:0;padding:0;margin:1.15rem 0 0;min-width:0}
 legend{padding:0;font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;
@@ -227,6 +229,7 @@ JS = r"""
     var f = document.forms['q-' + q.id];
     var s = state[q.id] || {};
     var out = { id: q.id, title: q.title, kind: q.kind, defaultPolicy: q.default_policy };
+    if (q.card) out.card = q.card;
     var chosen = [];
     if (q.kind === 'text'){
       var ta = f.elements['answer'];
@@ -569,10 +572,20 @@ def build(model_dir: pathlib.Path, out: pathlib.Path, theme_path: pathlib.Path |
                            f'{esc(EFFECT_WORD.get(u.get("effect"), u.get("effect")))}</li>')
             rel_html = f'<div class="rel"><b>Answering this</b><ul>{"".join(lis)}</ul></div>'
 
+        # A question may name the record it came from. The link is the point:
+        # the page carries the decision, the record carries the history behind it,
+        # and asking a reader to search a tracker for the card is how a page of
+        # fifty decisions stops being answerable in one sitting.
+        card = q.get("card") or {}
+        card_html = ""
+        if card.get("url"):
+            card_html = (f'<a class="qcard" href="{esc(card["url"])}" target="_blank" '
+                         f'rel="noopener">{esc(card.get("key") or "Open the record")} \u2197</a>')
+
         q_html.append(
             f'<section class="q" id="q-{esc(q["id"])}" data-q="{esc(q["id"])}" '
             f'data-kind="{esc(kind)}" data-policy="{esc(policy)}">'
-            f'<div class="qhead"><h3>{esc(q["title"])}</h3>'
+            f'<div class="qhead"><h3>{esc(q["title"])}</h3>{card_html}'
             f'<span class="qn">{n} of {len(questions)}</span></div>'
             f'<p class="why">{rich(q["why"])}</p>'
             f'<form name="q-{esc(q["id"])}" onsubmit="return false">{body}</form>{rel_html}</section>'
@@ -615,7 +628,8 @@ def build(model_dir: pathlib.Path, out: pathlib.Path, theme_path: pathlib.Path |
         "slug": meta["slug"], "project": meta["project"], "generatedAt": meta["generatedAt"],
         "questions": [{"id": q["id"], "title": q["title"], "kind": q["kind"],
                        "default_policy": q.get("default_policy", "recommended" if q["kind"] != "text" else "none"),
-                       "options": q.get("options", []), "unblocks": q.get("unblocks", [])}
+                       "options": q.get("options", []), "unblocks": q.get("unblocks", []),
+                       "card": q.get("card")}
                       for q in questions],
     })
 

@@ -37,7 +37,18 @@ const warn = m => warnings.push(m);
 const raw = fs.readFileSync(path.resolve(file), 'utf8');
 
 // ── static, no browser needed ───────────────────────────────────────────────
-const external = [...raw.matchAll(/(?:src|href)\s*=\s*["'](https?:)?\/\/[^"']+/gi)].map(m => m[0]);
+// A subresource the page LOADS breaks the no-network guarantee. A link a person
+// CLICKS does not: the page has already opened, and an <a> to the record a
+// question came from is how a reader gets the history without the page carrying
+// it. So the check is per element rather than per attribute, and it still catches
+// the classic violation — a font or stylesheet pulled in from a CDN by CSS.
+const external = [];
+for (const m of raw.matchAll(/<([a-z0-9-]+)\b([^>]*)>/gi)) {
+  if (m[1].toLowerCase() === 'a') continue;
+  const hit = m[2].match(/(?:src|srcset|href|data|poster)\s*=\s*["'](https?:)?\/\/[^"']+/i);
+  if (hit) external.push(hit[0]);
+}
+for (const m of raw.matchAll(/url\(\s*["']?(https?:)?\/\/[^)"']+/gi)) external.push(m[0]);
 if (external.length) err(`${external.length} external reference(s) — the page must open with no network: ${external[0].slice(0, 90)}`);
 
 for (const tag of ['<h1', '<main', 'lang=']) {
