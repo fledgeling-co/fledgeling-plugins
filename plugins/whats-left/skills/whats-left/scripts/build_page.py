@@ -83,8 +83,16 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0}
 h1{font-size:2.4rem;letter-spacing:-.01em}
 h2{font-size:1.55rem;margin:3.5rem 0 .35rem;scroll-margin-top:1rem}
 h3{font-size:1.12rem;font-family:var(--sans);font-weight:650;letter-spacing:-.005em}
+.head{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;margin:0 0 .7rem}
 .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;
-color:var(--muted);margin:0 0 .7rem}
+color:var(--muted);margin:0}
+.themer{display:flex;flex:0 0 auto;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.themer button{font:inherit;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;
+text-transform:uppercase;padding:0 .6rem;min-height:36px;border:0;border-left:1px solid var(--line);
+background:transparent;color:var(--muted);cursor:pointer}
+.themer button:first-child{border-left:0}
+.themer button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
+.themer button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .stand{font-family:var(--serif);font-size:1.22rem;line-height:1.5;color:var(--ink);
 margin:1rem 0 0;max-width:40rem}
 .meta{color:var(--muted);font-size:.85rem;margin:1.4rem 0 0}
@@ -155,6 +163,11 @@ textarea{width:100%%;min-height:4.4rem;font:inherit;font-size:.94rem;padding:.6r
 border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink);resize:vertical}
 .qual{display:flex;gap:.55rem;align-items:flex-start;margin:.55rem 0 0;font-size:.86rem;
 color:var(--muted)}
+/* `display` on a class beats the UA sheet's [hidden]{display:none}, so syncQual was
+   setting the attribute on every question and none of them ever went away. The row
+   showed, checked, above an empty note box — telling the reader a note they had not
+   written qualified an answer they had not given. */
+.qual[hidden]{display:none}
 .qual input{margin:3px 0 0;accent-color:var(--accent)}
 .rel{margin:1.05rem 0 0;font-size:.86rem;color:var(--muted)}
 .rel b{color:var(--ink);font-weight:600}
@@ -176,7 +189,7 @@ min-height:44px}
 dt{padding-top:.5rem}.wrap{padding:1.75rem 1rem 5rem}h1{font-size:1.85rem}
 .q{padding:1.15rem 1.1rem}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media print{.bar,.wait{display:none}body{background:#FDFDFC;color:#141414;padding-bottom:0}
+@media print{.bar,.wait,.themer{display:none}body{background:#FDFDFC;color:#141414;padding-bottom:0}
 .q,.top{break-inside:avoid;border:1px solid #ccc}.item{break-inside:avoid}
 .summary{display:block;break-before:page}
 .summary li{margin:.5rem 0;font-size:.9rem}a{text-decoration:none;color:#141414}}
@@ -383,6 +396,26 @@ JS = r"""
   restore();
   tally();
   // Audit seam: the auditor reads the export without clicking the button.
+  var TKEY = KEY + ':theme';
+  function paintTheme(){
+    var cur = null;
+    try { cur = localStorage.getItem(TKEY); } catch (e) {}
+    if (cur !== 'light' && cur !== 'dark') cur = 'system';
+    if (cur === 'system') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', cur);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-theme-set]'), function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-theme-set') === cur ? 'true' : 'false');
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-theme-set]'), function(b){
+    b.addEventListener('click', function(){
+      var v = b.getAttribute('data-theme-set');
+      try { if (v === 'system') localStorage.removeItem(TKEY); else localStorage.setItem(TKEY, v); } catch (e) {}
+      paintTheme();
+    });
+  });
+  paintTheme();
+
   window.__wl = { payload: payloadNow, state: state, model: MODEL };
 })();
 """
@@ -395,10 +428,11 @@ TEMPLATE = """<!doctype html>
 <meta name="robots" content="noindex, nofollow">
 <title>{title}</title>
 <style>{css}</style>
+<script>{themescript}</script>
 </head>
 <body>
 <main class="wrap">
-<p class="eyebrow">{eyebrow}</p>
+<div class="head"><p class="eyebrow">{eyebrow}</p>{themer}</div>
 <h1>{title}</h1>
 <p class="stand">{standfirst}</p>
 <p class="meta">{meta}</p>
@@ -633,7 +667,27 @@ def build(model_dir: pathlib.Path, out: pathlib.Path, theme_path: pathlib.Path |
                       for q in questions],
     })
 
+    # The reader's own eyes, not the machine's guess. Following the operating
+    # system is the default because that is usually right, but a page somebody
+    # reads for half an hour in a bright room is exactly where the guess is
+    # wrong, and a page that cannot be changed is one they stop reading.
+    #
+    # Applied in the head, before first paint: set from the body and the reader
+    # watches the page change colour under them on every load.
+    theme_script = (
+        "(function(){try{var t=localStorage.getItem('wl:%s:theme');"
+        "if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}"
+        "catch(e){}})();" % meta["slug"]
+    )
+    themer = ('<div class="themer" role="group" aria-label="Colour scheme">'
+              '<button type="button" data-theme-set="system" aria-pressed="true">System</button>'
+              '<button type="button" data-theme-set="light" aria-pressed="false">Light</button>'
+              '<button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>'
+              '</div>')
+
     page = TEMPLATE.format(
+        themescript=theme_script,
+        themer=themer,
         title=esc(meta["title"]),
         css=CSS % theme,
         js=JS.replace("__MODEL__", model_js),
