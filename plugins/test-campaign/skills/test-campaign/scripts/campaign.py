@@ -1911,6 +1911,18 @@ def cmd_export_warrant(args) -> int:
         if key in prior and key not in suite:
             suite[key] = prior[key]
 
+    # `mutation_measured` above is this plugin's own answer: the campaign never
+    # runs a mutation pass, so it writes False. But the file it writes is shared
+    # with warrant:assay, and once that plane has left a mark here the flag is a
+    # statement about the FILE rather than about this writer. Leaving it False
+    # made `lot_plan.py` print "mutation survival not measured" over a suite-health
+    # holding a real score — measured on dAIolog 2026-08-25, where 12.5% over 168
+    # production mutants sat two keys away from a line denying it existed.
+    mark = suite.get("mutation")
+    if isinstance(mark, dict) and mark.get("score") is not None:
+        suite["mutation_measured"] = True
+        suite["mutation_measured_by"] = "warrant:assay"
+
     written = []
     for name, payload in (("suite-health.json", suite),
                           ("oracle-coverage.json", coverage)):
@@ -1927,8 +1939,14 @@ def cmd_export_warrant(args) -> int:
     print(f"  suite-health.json      armed={armed} of {passing} passing  "
           f"effect-rung passes={effect}  campaign gate "
           f"{'clear' if suite['campaign_gate_clear'] else 'HOLDING'}")
-    print("                         mutation survival NOT measured here — warrant:assay "
-          "still owes that number, and tier 2 needs it")
+    if suite.get("mutation_measured"):
+        m = suite["mutation"]
+        print(f"                         mutation survival {m['score']:.1%} "
+              f"({m.get('killed')} of {m.get('run')}) — carried from warrant:assay, "
+              f"not measured by this export")
+    else:
+        print("                         mutation survival NOT measured here — warrant:assay "
+              "still owes that number, and tier 2 needs it")
     if suite["unoracled"]:
         print(f"                         {suite['unoracled']} case(s) unoracled — a "
               f"warrant tier over these would rest on nothing")
