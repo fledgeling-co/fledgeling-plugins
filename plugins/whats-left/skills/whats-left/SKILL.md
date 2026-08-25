@@ -146,6 +146,10 @@ binding. Four rules are specific to this page and live in
   `removes-one-blocker`, or `enables-planning`. Without it a page claims a
   decision "unblocks four things" when three of them stay blocked for other
   reasons, and the reader spends their answer on the wrong question.
+- **A question derived from a record links to it** — `card: {key, url}`. The page
+  renders the link beside the question number and the export carries it, so a
+  reader who wants the argument behind a question opens the record instead of
+  searching a tracker, and the answers can be written back to the right place.
 
 ### 4. Build, validate, audit
 

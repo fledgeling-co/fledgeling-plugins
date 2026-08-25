@@ -174,6 +174,24 @@ def check_questions(questions, item_ids: set[str], r: Report) -> set[str]:
         for f in ("title", "why"):
             typography(q.get(f), f"{where}.{f}", r)
 
+        # A card link is rendered on the page and carried in the export, so a
+        # malformed one becomes a dead link the reader meets rather than an error
+        # anybody sees. Whether the host resolves is not checkable from here; the
+        # shape is.
+        card = q.get("card")
+        if card is not None:
+            if not isinstance(card, dict):
+                r.err(f"{where}.card is not an object")
+            else:
+                url = card.get("url")
+                if not url:
+                    r.err(f"{where}.card has no `url` — nothing to link to")
+                elif not str(url).startswith(("http://", "https://")):
+                    r.err(f"{where}.card.url {url!r} is not an absolute http(s) address")
+                if not card.get("key"):
+                    r.warn(f"{where}.card has no `key` — the link will read "
+                           f"\u201cOpen the record\u201d rather than naming it")
+
         kind = q.get("kind")
         if kind not in KINDS:
             r.err(f"{where} has kind {kind!r}, expected one of {sorted(KINDS)}")
