@@ -1,0 +1,116 @@
+{
+ "generated": "2026-08-25",
+ "method": "Deterministic scan of Claude Code session JSONL. Gemini arm = sessions whose assistant model is gemini-3.7-flash / gemini-3.7-flash-high / anthropic-relay-agy, >=90% of assistant turns, >=12 turns, in ~/Dev projects. Claude arm = the largest non-Gemini sessions in the same 11 projects in the same window (14-26 Aug 2026), capped at 4 per project.",
+ "gemini": {
+  "sessions": 64,
+  "mb": 142.6,
+  "turns": 12230,
+  "prose": 1266,
+  "tools": 10954,
+  "bash": 5893,
+  "errors": 603,
+  "repeats": 373,
+  "longest_repeat": 31,
+  "claims": 48,
+  "unsupported": 0,
+  "completion": 327,
+  "tool_mix": {
+   "Bash": 5893,
+   "Read": 3227,
+   "Edit": 782,
+   "Write": 480,
+   "TaskUpdate": 168,
+   "Skill": 98,
+   "TaskCreate": 88,
+   "mcp__router__dossier__research_status": 48,
+   "SendMessage": 38,
+   "ToolSearch": 28,
+   "TaskList": 25,
+   "TaskOutput": 8
+  },
+  "unsupported_raw_detections": 3
+ },
+ "claude": {
+  "sessions": 37,
+  "mb": 2683.9,
+  "turns": 204206,
+  "prose": 39810,
+  "tools": 112560,
+  "bash": 89438,
+  "errors": 2541,
+  "repeats": 928,
+  "longest_repeat": 78,
+  "claims": 1649,
+  "unsupported": 3,
+  "completion": 4484,
+  "tool_mix": {
+   "Bash": 89438,
+   "Read": 9039,
+   "Edit": 4069,
+   "Write": 2428,
+   "Workflow": 1312,
+   "mcp__diolog-tasks__create_comment": 932,
+   "TaskUpdate": 597,
+   "Skill": 486,
+   "mcp__diolog-tasks__update_issue": 432,
+   "SendMessage": 368,
+   "TaskCreate": 363,
+   "ToolSearch": 335
+  },
+  "unsupported_note": "not re-checked by hand; the Gemini arm's three were all false positives, so treat the Claude count as an upper bound too."
+ },
+ "caveats": [
+  "The Claude arm is 19x the Gemini arm by volume and is dominated by long fleet-runner sessions with heavy sub-agent activity. Per-turn normalisation reduces but does not remove that asymmetry; treat ratios as indicative and single counts as exact.",
+  "Session-marker glyph adherence was measured and is NOT reported: the instruction is injected by a SessionStart hook that fired in only 43/64 Gemini and 15/37 Claude sessions, and runner sessions are not expected to emit it. The measurement cannot separate a model ignoring the rule from a session never carrying it.",
+  "Sessions from 17-19 Aug ran against materially older skill versions (test-campaign 0.5.0 vs 0.14.1 today, reckon 1.3.0 vs 1.7.0, ship-fleet 2.7.0 vs 2.8.0). A gap found in those sessions may already be closed. Sessions from 23-24 Aug ran against current versions.",
+  "unsupported_claims is a narrow detector: it fires only when a verification claim names a script or binary that appears in no Bash command anywhere in the session. It cannot see a claim that names nothing.",
+  "The fabricated-verification rate measured mechanically over this corpus is 0 of 48 verification claims, after correcting three false positives by hand. That is a narrow instrument, not a clean bill of health: it can only see a claim that names an executable. Claims that name nothing checkable are invisible to it and are the audit agents' job."
+ ],
+ "attendance": {
+  "unattended": 43,
+  "attended": 21,
+  "note": "unattended = one brief then autonomous. 43 of 64 sessions, but only 21% of all Gemini assistant turns."
+ },
+ "overlay_uptake": {
+  "skill_invocations": 98,
+  "sessions_invoking_a_skill": 15,
+  "sessions_that_opened_a_gemini_md": 10,
+  "gemini_md_opens": 25,
+  "note": "The conditional pointer works: two thirds of skill-invoking sessions opened the overlay. Whether reading it changed behaviour is the gate reports' question, not this one's."
+ },
+ "human_corrections": [
+  {
+   "proj": "splice",
+   "line": 11086,
+   "text": "\u276f You didn't actually utilise /create-test-suite:create-test-suite previously as the plugins hadn't reloaded so now invokle and utilise every aspect of /create-test-suite:create-test-suite on the project",
+   "path": "14efabb3-efd3-4e1c-bb2a-87c5320cb0a4.jsonl"
+  },
+  {
+   "proj": "warden",
+   "line": 793,
+   "text": "Nothing happens when settings is pressed",
+   "path": "0cbf7c83-6081-4894-b3ce-354cb640ef9d.jsonl"
+  },
+  {
+   "proj": "dossier",
+   "line": 937,
+   "text": "Help me understand why you didn't invoke the two skills?",
+   "path": "615992b4-962d-40f9-9e0c-5b982bd81276.jsonl"
+  },
+  {
+   "proj": "dossier",
+   "line": 947,
+   "text": "Why didn't you read the skills I just put in the prompt before you answered?",
+   "path": "615992b4-962d-40f9-9e0c-5b982bd81276.jsonl"
+  }
+ ],
+ "detector_corrections": [
+  {
+   "detector": "unsupported_claims",
+   "raw": 3,
+   "confirmed": 0,
+   "what_happened": "All three fired on \"All N Playwright tests passed\" where no Bash command contained the string \"Playwright\". Hand-checked: typewright ran `pnpm e2e` seven times (session line 76, 89, 293, 305, 352, 361) and splice ran `pnpm --filter web test:e2e` twenty-one times plus `npx playwright test` eight times (4461, 6750, 6753). The claims were true.",
+   "lesson": "A \"did the named tool actually run?\" probe must resolve package.json scripts, Makefile targets and shell aliases before matching, or it reports honest work as fabricated. This is a design requirement for the post-Gemini pass, not a footnote: a verification skill whose first probe cries wolf will be switched off."
+  }
+ ]
+}
