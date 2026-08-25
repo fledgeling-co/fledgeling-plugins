@@ -1,0 +1,119 @@
+{
+ "sessions_audited": 18,
+ "findings_raised": 161,
+ "findings_confirmed": 148,
+ "by_category": {
+  "fabricated-verification": 24,
+  "premature-completion": 9,
+  "evidence-substitution": 25,
+  "gate-skipped": 33,
+  "instruction-violation": 24,
+  "quota-collapse": 7,
+  "retry-thrash": 5,
+  "context-loss": 6,
+  "other": 4,
+  "delegation-absent": 3,
+  "scope-drift": 1,
+  "recovery-failure": 2,
+  "artifact-quality": 3,
+  "bound-exceeded": 2
+ },
+ "by_severity": {
+  "critical": 30,
+  "high": 39,
+  "medium": 51,
+  "low": 28
+ },
+ "outcomes": [
+  {
+   "id": "S01",
+   "proj": "finance",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S02",
+   "proj": "splice",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S03",
+   "proj": "warden",
+   "outcome": "partially-delivered"
+  },
+  {
+   "id": "S04",
+   "proj": "egress",
+   "outcome": "partially-delivered"
+  },
+  {
+   "id": "S05",
+   "proj": "motif-terminal",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S06",
+   "proj": "dossier",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S07",
+   "proj": "dossier",
+   "outcome": "partially-delivered"
+  },
+  {
+   "id": "S08",
+   "proj": "ssd-offload",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S09",
+   "proj": "loupe",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S10",
+   "proj": "splice",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S11",
+   "proj": "anvil",
+   "outcome": "partially-delivered"
+  },
+  {
+   "id": "S12",
+   "proj": "warden",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S13",
+   "proj": "hopper",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S14",
+   "proj": "splice",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S15",
+   "proj": "typewright",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S16",
+   "proj": "motif-terminal",
+   "outcome": "delivered-unverified"
+  },
+  {
+   "id": "S17",
+   "proj": "deep-research-mcp",
+   "outcome": "partially-delivered"
+  },
+  {
+   "id": "S18",
+   "proj": "perch",
+   "outcome": "delivered-and-verified"
+  }
+ ]
+}

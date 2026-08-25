@@ -166,6 +166,14 @@ Drives a Mac app the way an instrument does. It works windows sitting behind oth
 
 <br clear="left" />
 
+<a href="plugins/tailings/README.md"><img src="plugins/tailings/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [tailings](plugins/tailings/README.md)
+
+Verify and clean up after a finished agent session without re-doing its work. Built from a forensic audit of 18 Gemini-driven sessions across 13 repositories against a 37-session Claude control: the work those sessions produced was usually real, and the account of it was what failed — a named gate not run, a cheaper measurement substituted, a verification claimed with no tool result behind it, and a directive silently dropped make up 106 of the 148 findings. So sixteen transcript probes and seven repository probes run first and cost nothing, and their output is a ranked worklist telling an expensive reader where to point. Every assertion then lands in exactly one of eight classes with an exit code that blocks a report which lost an item, and the pass may edit only what it has just established to be true.
+
+<br clear="left" />
+
 <a href="plugins/test-campaign/README.md"><img src="plugins/test-campaign/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [test-campaign](plugins/test-campaign/README.md)

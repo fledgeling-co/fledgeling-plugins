@@ -71,7 +71,7 @@ const GROUP_OF = {
   // Checking it before anyone sees it.
   "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking",
   "code-review": "checking", "test-campaign": "checking", warrant: "checking",
-  proctor: "checking", vouch: "checking",
+  proctor: "checking", vouch: "checking", tailings: "checking",
 
   // Handing over a pile of work.
   shipyard: "backlog", "ship-feature": "backlog", "ship-fleet": "backlog",

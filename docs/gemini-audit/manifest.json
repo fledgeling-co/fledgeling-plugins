@@ -1,0 +1,401 @@
+[
+ {
+  "id": "S01",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-finance/419bc540-14bd-4297-a55d-44ebf1d642c4.jsonl",
+  "proj": "finance",
+  "cwd": "/Users/lukerhodes/Dev/finance",
+  "turns": 1268,
+  "mb": 14.1,
+  "last": "2026-08-24T21:54:37",
+  "skills": {
+   "ship-fleet:ship-fleet": 10,
+   "test-campaign:test-campaign": 4,
+   "shipyard:intake": 4,
+   "clarify:clarify": 3,
+   "reckon:reckon": 3,
+   "ship-fleet": 1
+  },
+  "corrections": 2,
+  "errors": 80,
+  "repeats": 3,
+  "completion_claims": 34,
+  "models": [
+   "gemini-3.7-flash-high",
+   "gemini-3.7-flash",
+   "perch-router",
+   "us.openai.gpt-5.6-luna"
+  ]
+ },
+ {
+  "id": "S02",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-splice/14efabb3-efd3-4e1c-bb2a-87c5320cb0a4.jsonl",
+  "proj": "splice",
+  "cwd": "/Users/lukerhodes/Dev/splice",
+  "turns": 2625,
+  "mb": 31.2,
+  "last": "2026-08-19T01:24:17",
+  "skills": {
+   "create-test-suite:create-test-suite": 3,
+   "test-campaign:test-campaign": 2,
+   "ship-fleet:ship-fleet": 1,
+   "fledgeling-plugins:armada-sync": 1,
+   "opus-5-guide": 1,
+   "acceptance-e2e": 1,
+   "clarify:clarify": 1
+  },
+  "corrections": 4,
+  "errors": 114,
+  "repeats": 121,
+  "completion_claims": 19,
+  "models": [
+   "anthropic/relay/agy:default",
+   "grok-4.6",
+   "anthropic/relay/gateway:ad3be3f69775-46461b",
+   "claude-opus-5"
+  ]
+ },
+ {
+  "id": "S03",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-warden/0cbf7c83-6081-4894-b3ce-354cb640ef9d.jsonl",
+  "proj": "warden",
+  "cwd": "/Users/lukerhodes/Dev/warden",
+  "turns": 693,
+  "mb": 8.4,
+  "last": "2026-08-19T01:13:35",
+  "skills": {
+   "create-test-suite:create-test-suite": 3,
+   "clarify:clarify": 2,
+   "test-campaign:test-campaign": 2,
+   "ship-fleet:ship-fleet": 1,
+   "armada-sync:armada-sync": 1,
+   "acceptance-e2e:acceptance-e2e": 1,
+   "run": 1,
+   "proctor:proctor": 1
+  },
+  "corrections": 14,
+  "errors": 33,
+  "repeats": 0,
+  "completion_claims": 11,
+  "models": [
+   "anthropic/relay/agy:default",
+   "gemini-3.7-flash-high",
+   "grok-4.6",
+   "deepseek/deepseek-v4-pro-0813"
+  ]
+ },
+ {
+  "id": "S04",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-egress/cde70045-cbc2-4c25-83ef-fad6fbca0729.jsonl",
+  "proj": "egress",
+  "cwd": "/Users/lukerhodes/Dev/egress",
+  "turns": 946,
+  "mb": 14.5,
+  "last": "2026-08-19T01:12:55",
+  "skills": {
+   "create-test-suite:create-test-suite": 4,
+   "ship-fleet:ship-fleet": 2,
+   "clarify:clarify": 1,
+   "test-campaign:test-campaign": 1,
+   "opus-5-guide": 1
+  },
+  "corrections": 5,
+  "errors": 58,
+  "repeats": 1,
+  "completion_claims": 9,
+  "models": [
+   "anthropic/relay/agy:default"
+  ]
+ },
+ {
+  "id": "S05",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-motif-terminal/c6dcfc40-839b-479f-b86a-7835f57f4062.jsonl",
+  "proj": "motif-terminal",
+  "cwd": "/Users/lukerhodes/Dev/motif-terminal",
+  "turns": 798,
+  "mb": 10.4,
+  "last": "2026-08-24T02:57:42",
+  "skills": {
+   "ship-fleet:ship-fleet": 3,
+   "clarify:clarify": 2,
+   "shipyard:triage": 1,
+   "whats-left:whats-left": 1,
+   "shipyard:plan": 1,
+   "shipyard:work": 1,
+   "shipyard:intake": 1
+  },
+  "corrections": 5,
+  "errors": 49,
+  "repeats": 1,
+  "completion_claims": 62,
+  "models": [
+   "gemini-3.7-flash-high",
+   "gemini-3.7-flash"
+  ]
+ },
+ {
+  "id": "S06",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-dossier/615992b4-962d-40f9-9e0c-5b982bd81276.jsonl",
+  "proj": "dossier",
+  "cwd": "/Users/lukerhodes/Dev/dossier",
+  "turns": 534,
+  "mb": 9.3,
+  "last": "2026-08-23T19:29:21",
+  "skills": {
+   "design-craft:design-craft": 2,
+   "gemini-prompt-engineering": 1,
+   "dossier-report:dossier-report": 1,
+   "ux-craft:ux-craft": 1
+  },
+  "corrections": 5,
+  "errors": 14,
+  "repeats": 11,
+  "completion_claims": 22,
+  "models": [
+   "gemini-3.7-flash-high"
+  ]
+ },
+ {
+  "id": "S07",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-dossier/c4c5822c-b4f2-489c-b389-06eb9dc48bfe.jsonl",
+  "proj": "dossier",
+  "cwd": "/Users/lukerhodes/Dev/dossier",
+  "turns": 208,
+  "mb": 3.9,
+  "last": "2026-08-21T04:44:35",
+  "skills": {
+   "dossier-report:dossier-report": 1,
+   "clarify:clarify": 1,
+   "trawl:trawl": 1,
+   "design-craft:design-craft": 1,
+   "ux-craft:ux-craft": 1,
+   "mac-design-digest:mac-design-digest": 1,
+   "create-swe-project:create-swe-project": 1,
+   "design-review:design-review": 1
+  },
+  "corrections": 3,
+  "errors": 22,
+  "repeats": 0,
+  "completion_claims": 9,
+  "models": [
+   "anthropic/relay/agy:default",
+   "<synthetic>"
+  ]
+ },
+ {
+  "id": "S08",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-ssd-offload/6d1f977a-3625-41b8-b013-040657131ef2.jsonl",
+  "proj": "ssd-offload",
+  "cwd": "/Users/lukerhodes/Dev/ssd-offload",
+  "turns": 223,
+  "mb": 2.9,
+  "last": "2026-08-24T21:57:03",
+  "skills": {
+   "create-swe-project:create-swe-project": 1,
+   "armada-sync:armada-sync": 1,
+   "test-campaign:test-campaign": 1,
+   "reckon:reckon": 1,
+   "shipyard:intake": 1,
+   "ship-fleet:ship-fleet": 1
+  },
+  "corrections": 0,
+  "errors": 19,
+  "repeats": 2,
+  "completion_claims": 7,
+  "models": [
+   "gemini-3.7-flash-high",
+   "<synthetic>"
+  ]
+ },
+ {
+  "id": "S09",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-loupe/3924a845-dec2-45c9-8b29-8a7b8d14a116.jsonl",
+  "proj": "loupe",
+  "cwd": "/Users/lukerhodes/Dev/loupe",
+  "turns": 212,
+  "mb": 2.1,
+  "last": "2026-08-23T19:56:16",
+  "skills": {
+   "ship-fleet:ship-fleet": 2,
+   "clarify:clarify": 1,
+   "armada-sync:armada-sync": 1
+  },
+  "corrections": 2,
+  "errors": 5,
+  "repeats": 0,
+  "completion_claims": 5,
+  "models": [
+   "gemini-3.7-flash-high"
+  ]
+ },
+ {
+  "id": "S10",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-splice--worktrees-SPL-0082/c1051866-774a-4f97-8e5b-96c9ed19a35e.jsonl",
+  "proj": "splice",
+  "cwd": "/Users/lukerhodes/Dev/splice/.worktrees/SPL-0082",
+  "turns": 325,
+  "mb": 2.3,
+  "last": "2026-08-23T19:14:09",
+  "skills": {
+   "clarify:clarify": 1,
+   "armada-sync:armada-sync": 1
+  },
+  "corrections": 2,
+  "errors": 21,
+  "repeats": 97,
+  "completion_claims": 5,
+  "models": [
+   "gemini-3.7-flash-high"
+  ]
+ },
+ {
+  "id": "S11",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-anvil/a48c0dd4-655e-4e55-9427-439aaf202ac1.jsonl",
+  "proj": "anvil",
+  "cwd": "/Users/lukerhodes/Dev/anvil",
+  "turns": 233,
+  "mb": 1.6,
+  "last": "2026-08-23T21:58:28",
+  "skills": {},
+  "corrections": 1,
+  "errors": 10,
+  "repeats": 0,
+  "completion_claims": 24,
+  "models": [
+   "gemini-3.7-flash-high",
+   "gemini-3.7-flash"
+  ]
+ },
+ {
+  "id": "S12",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-warden/e50c7c44-6ba5-4195-8f41-a178b91e9549.jsonl",
+  "proj": "warden",
+  "cwd": "/Users/lukerhodes/Dev/warden",
+  "turns": 28,
+  "mb": 0.5,
+  "last": "2026-08-19T11:37:46",
+  "skills": {
+   "opus-5-guide": 1,
+   "agent-voice": 1
+  },
+  "corrections": 1,
+  "errors": 0,
+  "repeats": 0,
+  "completion_claims": 1,
+  "models": [
+   "anthropic/relay/agy:default"
+  ]
+ },
+ {
+  "id": "S13",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-hopper/01a75878-3dc5-48ca-a0ae-48b2f9880d50.jsonl",
+  "proj": "hopper",
+  "cwd": "/Users/lukerhodes/Dev/hopper",
+  "turns": 23,
+  "mb": 0.5,
+  "last": "2026-08-19T07:20:08",
+  "skills": {
+   "opus-5-guide": 1,
+   "agent-voice": 1
+  },
+  "corrections": 1,
+  "errors": 1,
+  "repeats": 0,
+  "completion_claims": 1,
+  "models": [
+   "anthropic/relay/agy:default"
+  ]
+ },
+ {
+  "id": "S14",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-splice--worktrees-SPL-0089/b5faf3a5-542b-4200-9fd2-813591de224c.jsonl",
+  "proj": "splice",
+  "cwd": "/Users/lukerhodes/Dev/splice/.worktrees/SPL-0089",
+  "turns": 275,
+  "mb": 1.7,
+  "last": "2026-08-24T04:59:52",
+  "skills": {},
+  "corrections": 0,
+  "errors": 16,
+  "repeats": 51,
+  "completion_claims": 5,
+  "models": [
+   "gemini-3.7-flash-high",
+   "gemini-3.7-flash"
+  ]
+ },
+ {
+  "id": "S15",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-typewright/1c2b09dd-f42a-439a-8317-d22056e3ab59.jsonl",
+  "proj": "typewright",
+  "cwd": "/Users/lukerhodes/Dev/typewright",
+  "turns": 158,
+  "mb": 1.5,
+  "last": "2026-08-23T19:18:57",
+  "skills": {
+   "armada-sync:armada-sync": 1
+  },
+  "corrections": 0,
+  "errors": 6,
+  "repeats": 0,
+  "completion_claims": 3,
+  "models": [
+   "gemini-3.7-flash-high"
+  ]
+ },
+ {
+  "id": "S16",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-motif-terminal/58118c79-4d03-4c25-b3fb-476b9b9f56a5.jsonl",
+  "proj": "motif-terminal",
+  "cwd": "/Users/lukerhodes/Dev/motif-terminal",
+  "turns": 180,
+  "mb": 1.5,
+  "last": "2026-08-23T10:55:55",
+  "skills": {},
+  "corrections": 1,
+  "errors": 6,
+  "repeats": 1,
+  "completion_claims": 18,
+  "models": [
+   "gemini-3.7-flash-high",
+   "gemini-3.7-flash",
+   "perch-router"
+  ]
+ },
+ {
+  "id": "S17",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-deep-research-mcp/32c45f3d-1ff8-42ea-8ebb-97e15327fad6.jsonl",
+  "proj": "deep-research-mcp",
+  "cwd": "/Users/lukerhodes/Dev/deep-research-mcp",
+  "turns": 61,
+  "mb": 0.8,
+  "last": "2026-08-23T11:08:52",
+  "skills": {
+   "armada-sync": 1
+  },
+  "corrections": 0,
+  "errors": 0,
+  "repeats": 0,
+  "completion_claims": 4,
+  "models": [
+   "gemini-3.7-flash",
+   "gemini-3.7-flash-high"
+  ]
+ },
+ {
+  "id": "S18",
+  "path": "/Users/lukerhodes/.claude/projects/-Users-lukerhodes-Dev-perch/fd8f356f-b3fe-454a-a734-6d4c5f886cc5.jsonl",
+  "proj": "perch",
+  "cwd": "/Users/lukerhodes/Dev/perch",
+  "turns": 113,
+  "mb": 1.3,
+  "last": "2026-08-18T14:36:35",
+  "skills": {},
+  "corrections": 0,
+  "errors": 2,
+  "repeats": 3,
+  "completion_claims": 1,
+  "models": [
+   "anthropic/relay/agy:default"
+  ]
+ }
+]
