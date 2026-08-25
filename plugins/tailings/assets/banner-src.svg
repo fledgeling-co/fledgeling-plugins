@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="520" viewBox="0 0 1600 520">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#2B3138"/><stop offset="1" stop-color="#171B20"/>
+    </linearGradient>
+    <linearGradient id="silt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#96A3B0"/><stop offset="1" stop-color="#3A434D" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8E9AA6"/><stop offset="1" stop-color="#5A6674"/>
+    </linearGradient>
+    <radialGradient id="glow"><stop offset="0" stop-color="#FFD9A0"/>
+      <stop offset="1" stop-color="#E0A55C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="lift" cx="0.72" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="520" fill="url(#bg)"/>
+  <rect width="1600" height="520" fill="url(#lift)"/>
+
+  <line x1="1030" y1="300" x2="1014" y2="450" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <line x1="1084" y1="326" x2="1068" y2="504" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <line x1="1140" y1="306" x2="1124" y2="456" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.62"/>
+    <line x1="1194" y1="336" x2="1178" y2="508" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <line x1="1250" y1="312" x2="1234" y2="470" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.62"/>
+    <line x1="1304" y1="340" x2="1288" y2="490" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="1356" y1="314" x2="1340" y2="442" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+    <line x1="982" y1="292" x2="966" y2="404" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+    <line x1="1396" y1="300" x2="1380" y2="404" stroke="url(#silt)" stroke-width="8" stroke-linecap="round" opacity="0.34"/>
+
+  <g transform="translate(1180,232) rotate(-17)">
+    <g stroke="#7C8792" stroke-width="5" opacity="0.42" stroke-linecap="round">
+        <line x1="-97.2" y1="-88.0" x2="-97.2" y2="88.0"/>
+        <line x1="-32.4" y1="-88.0" x2="-32.4" y2="88.0"/>
+        <line x1="32.4" y1="-88.0" x2="32.4" y2="88.0"/>
+        <line x1="97.2" y1="-88.0" x2="97.2" y2="88.0"/>
+        <line x1="-162.0" y1="-29.3" x2="162.0" y2="-29.3"/>
+        <line x1="-162.0" y1="29.3" x2="162.0" y2="29.3"/>
+    </g>
+    <rect x="-176" y="-102" width="352" height="204" rx="20"
+          fill="none" stroke="url(#frame)" stroke-width="17"/>
+    <g>
+        <g transform="translate(-92,-12)"><circle r="34" fill="url(#glow)" opacity="0.72"/><circle r="15" fill="#E0A55C"/><circle r="7" cx="-3" cy="-3" fill="#FFD9A0"/></g>
+        <g transform="translate(14,24)"><circle r="34" fill="url(#glow)" opacity="0.72"/><circle r="15" fill="#E0A55C"/><circle r="7" cx="-3" cy="-3" fill="#FFD9A0"/></g>
+        <g transform="translate(104,-32)"><circle r="34" fill="url(#glow)" opacity="0.72"/><circle r="15" fill="#E0A55C"/><circle r="7" cx="-3" cy="-3" fill="#FFD9A0"/></g>
+    </g>
+  </g>
+
+  <text x="104" y="268" font-family="American Typewriter" font-size="132" font-weight="700"
+        fill="#EDF1F5" letter-spacing="-2">tailings</text>
+  <text x="108" y="330" font-family="American Typewriter" font-size="34" font-weight="400"
+        fill="#8E9AA6">what the first pass left behind</text>
+  <text x="108" y="382" font-family="American Typewriter" font-size="26" font-weight="400"
+        fill="#8E9AA6" opacity="0.72">verify a finished session without re-doing its work</text>
+</svg>
