@@ -1828,40 +1828,89 @@ def cmd_export_warrant(args) -> int:
     # this by surface id instead would match no glob and roll up to zero
     # coverage on every class, which reads identically to a campaign that
     # measured nothing.
+    # `file` must hold a FILESYSTEM path, because that is what the warrant's class
+    # globs match — `**/*.spec.ts`, `**/page.tsx`, `**/captures/**`. Falling back to
+    # a route put `/admin/[pane]` in a field named `file`, which matches no glob and
+    # rolls every class up to zero. That reads identically to a campaign that
+    # measured nothing, so five of seven classes sat at tier 0 permanently while 132
+    # surfaces and 203 figures were sitting right there. Measured on dAIolog,
+    # 2026-08-25; three out-of-family lanes independently said the export is the side
+    # that changes, because the warrant is signed and reinterpreting a signed glob in
+    # the reader would be a silent grant of scope.
+    #
+    # A surface with no declaring file OMITS `file` rather than inventing one. A
+    # route group, a drawer or a not-found page genuinely has none, and inventing a
+    # path would make "unmatched" and "unmeasured" indistinguishable again — the very
+    # confusion this fixes. `route` always travels, so nothing is lost.
     inventory = load(d, "inventory", {})
-    path_of = {s["id"]: (s.get("path") or s.get("file") or s.get("route") or s["id"])
-               for s in inventory.get("surface", []) if s.get("id")}
+    meta_of = {}
+    for s in inventory.get("surface", []):
+        if not s.get("id"):
+            continue
+        # Only a value that looks like a path in this tree counts as one.
+        path = s.get("path") or s.get("file") or s.get("source") or s.get("component")
+        path = str(path) if path and not str(path).startswith("/") else None
+        meta_of[s["id"]] = {"path": path,
+                            "route": str(s.get("route") or s.get("name") or s["id"])}
 
-    tally: dict[str, dict[str, int]] = {}
+    tally: dict[str, dict] = {}
     for c in cases:
         sid = c.get("surface") or c.get("surfaceId")
         if not sid:
             continue
-        file = str(path_of.get(str(sid), sid))
-        block = tally.setdefault(file, {"figures": 0, "sourced": 0})
+        meta = meta_of.get(str(sid), {"path": None, "route": str(sid)})
+        key = meta["path"] or meta["route"]
+        block = tally.setdefault(key, {"figures": 0, "sourced": 0,
+                                       "path": meta["path"], "route": meta["route"]})
         block["figures"] += 1
         if c.get("oracle") in EFFECT_RUNGS:
             block["sourced"] += 1
-    surfaces = [
-        {"file": file,
-         "figures": block["figures"],
-         "sourced": block["sourced"],
-         "unsourced": block["figures"] - block["sourced"]}
-        for file, block in sorted(tally.items())
-    ]
+    surfaces = []
+    for key, block in sorted(tally.items()):
+        row = {"route": block["route"],
+               "figures": block["figures"],
+               "sourced": block["sourced"],
+               "unsourced": block["figures"] - block["sourced"]}
+        if block["path"]:
+            row["file"] = block["path"]
+        surfaces.append(row)
+    unmapped = sum(1 for r in surfaces if "file" not in r)
     coverage = {
         "source": "test-campaign",
         "campaign_dir": str(d),
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "surfaces": surfaces,
+        "unmapped_surfaces": unmapped,
         "note": ("`figures` is cases on that surface and `sourced` is those on an "
-                 "effect rung — a check that could catch a wrong answer. Run "
-                 "warrant's rollup_classes.py to key this by defect class using "
-                 "the warrant's own globs."),
+                 "effect rung — a check that could catch a wrong answer. `file` is a "
+                 "filesystem path and is ABSENT where the surface has no declaring "
+                 "file; the warrant's class globs match `file`, so a surface without "
+                 "one is genuinely unmatched rather than quietly miscounted. `route` "
+                 "always travels. Run warrant's rollup_classes.py to key this by "
+                 "defect class using the warrant's own globs."),
     }
 
     out = root / ".warrant"
     out.mkdir(parents=True, exist_ok=True)
+
+    # warrant:assay writes a `mutation` block into suite-health.json, and this export
+    # rewrites that file wholesale. Without carrying the block forward, every campaign
+    # export silently deletes the mutation mark the assay plane earned — and the mark
+    # is what the ratchet compares against, so losing it reads as "never measured"
+    # rather than as a deletion. Measured on dAIolog 2026-08-25, where a corrected
+    # mark vanished on the next export. This file has two writers; neither owns all
+    # of it.
+    prior = {}
+    health_path = out / "suite-health.json"
+    if health_path.exists():
+        try:
+            prior = json.loads(health_path.read_text())
+        except (OSError, ValueError):
+            prior = {}
+    for key in ("mutation",):
+        if key in prior and key not in suite:
+            suite[key] = prior[key]
+
     written = []
     for name, payload in (("suite-health.json", suite),
                           ("oracle-coverage.json", coverage)):
@@ -1884,6 +1933,11 @@ def cmd_export_warrant(args) -> int:
         print(f"                         {suite['unoracled']} case(s) unoracled — a "
               f"warrant tier over these would rest on nothing")
     print(f"  oracle-coverage.json   {len(surfaces)} surface(s), keyed by surface")
+    if unmapped:
+        print(f"                         {unmapped} of them carry NO `file` — the warrant's class "
+              f"globs cannot match those, and")
+        print(f"                         that is honest rather than hidden. Give a surface a `path` "
+              f"in inventory.json to map it.")
     print("  next: warrant's rollup_classes.py, then warrant:ratchet")
     return 0
 
