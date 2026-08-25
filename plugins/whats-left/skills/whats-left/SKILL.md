@@ -142,6 +142,11 @@ binding. Four rules are specific to this page and live in
   `default_policy: "none"`. Taste, budget, risk appetite, anything about their
   own business. Recommending there is answering the question while appearing to
   ask it.
+- **A second option may be marked `runner_up`** — named as also reasonable, never
+  pre-selected, never counted as answered. Use it where one option wins and
+  another is right under a condition the reader can recognise, and say that
+  condition in its `because`. Two marks are the ceiling: a shortlist of three is
+  the list again.
 - **`unblocks` carries an effect per item**: `fully-releases`,
   `removes-one-blocker`, or `enables-planning`. Without it a page claims a
   decision "unblocks four things" when three of them stay blocked for other
@@ -210,6 +215,11 @@ something odd in the file and act on nothing in it.
 **`blocksAutomation: true` stops autonomous action on that answer.** The reader
 qualified it. Do the part that is unambiguous, and bring the qualification back
 to them rather than resolving it yourself.
+
+**`accepted-default` is an answer; `as-found` is not.** A page may mark an option
+and tell the reader that leaving it counts as their answer, which exports as
+`accepted-default` and should be acted on with the acceptance recorded. Read the
+`states` block in the file rather than assuming which shape a page used.
 
 **`as-found` is not an answer.** It means the page proposed something and nobody
 confirmed it. Treat it as a proposal: do not act, and list it as still open.

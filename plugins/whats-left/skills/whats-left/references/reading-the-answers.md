@@ -13,7 +13,8 @@ it. This is where the page becomes work.
   "reportGeneratedAt": "2026-08-12T09:00:00.000Z",
   "exportedAt": "2026-08-12T18:41:02.117Z",
   "states": {
-    "confirmed": "looked at and settled",
+    "confirmed": "clicked, and settled",
+    "accepted-default": "the recommendation was left standing, which the page said counts as the answer",
     "as-found": "the page proposed it; nobody confirmed it",
     "deferred": "deliberately put off; still blocking",
     "unanswered": "no answer"
@@ -45,7 +46,8 @@ it. This is where the page becomes work.
 `answerOrigin` is one of `accepted-recommendation`, `chose-differently`,
 `own-choice` (no recommendation was offered) or `none`. It is worth reading:
 a run where every answer is `accepted-recommendation` and every state is
-`as-found` is a page nobody opened.
+`as-found` is a page nobody opened. The same reading does not hold for
+`accepted-default`, which is what an agreeing reader legitimately leaves behind.
 
 ## The four rules
 
@@ -75,10 +77,21 @@ resolving it yourself. In the example above, "prove the guard first" is clear;
 adjudicate. Doing the first and asking about the second is right. Deciding what
 "nothing automated" covers is not.
 
-### `as-found` and `deferred` are not answers
+### `as-found` and `deferred` are not answers; `accepted-default` is
 
 `as-found` means the page proposed something and nobody confirmed it. Do not act
 on it. List it as still open.
+
+`accepted-default` is the opposite case and it is a real answer. The page marked
+an option, said in the legend and in its own note that leaving it counts as the
+reader's answer, and counted it toward the tally the reader watched. Act on it,
+and record that it was accepted rather than clicked, because the two are worth
+telling apart when somebody later asks who decided.
+
+Which of the two a page produces is a policy the author sets, not a property of
+the reader's behaviour. A page whose questions mark an option produces
+`accepted-default`; a page whose policy is `recommended` but which marks nothing
+produces `as-found`. Read the `states` block in the file rather than assuming.
 
 `deferred` means the reader deliberately put it off. Also still blocking, and
 distinct in one way that matters: it must not be silently re-asked next run as

@@ -164,15 +164,20 @@ try {
     for (const k of ['id', 'title', 'kind', 'answer', 'state', 'note', 'blocksAutomation']) {
       if (!(k in a)) err(`answer ${a.id} is missing \`${k}\``);
     }
-    if (!['confirmed', 'as-found', 'deferred', 'unanswered'].includes(a.state)) err(`answer ${a.id} has state "${a.state}"`);
-    if (a.defaultPolicy !== 'recommended' && a.state === 'as-found') {
-      err(`${a.id} exported as "as-found" with policy "${a.defaultPolicy}" — it has no default to fall back to`);
+    if (!['confirmed', 'accepted-default', 'as-found', 'deferred', 'unanswered'].includes(a.state)) err(`answer ${a.id} has state "${a.state}"`);
+    // Both fall-back states need a default to fall back to, so both are wrong on
+    // a question that pre-selects nothing.
+    if (a.defaultPolicy !== 'recommended' && (a.state === 'as-found' || a.state === 'accepted-default')) {
+      err(`${a.id} exported as "${a.state}" with policy "${a.defaultPolicy}" — it has no default to fall back to`);
+    }
+    if (a.state === 'accepted-default' && a.answerOrigin !== 'accepted-recommendation') {
+      err(`${a.id} is "accepted-default" but its answerOrigin is "${a.answerOrigin}" — a default nobody moved is the recommendation`);
     }
     if (a.kind !== 'text' && !('optionConsequences' in a)) {
       err(`answer ${a.id} exports labels without consequences — whatever acts on it can read more into a label than it meant`);
     }
   }
-  if (!payload.states || !payload.states['as-found']) {
+  if (!payload.states || !payload.states['as-found'] || !payload.states['accepted-default']) {
     err('the export does not say what its own states mean — a reader downstream will guess');
   }
 
