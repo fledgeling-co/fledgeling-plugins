@@ -156,6 +156,7 @@ border:1px solid transparent;cursor:pointer}
 .rec{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
 color:var(--accent);border:1px solid currentColor;border-radius:2px;padding:.08rem .35rem;
 margin-left:.45rem;vertical-align:.08em;white-space:nowrap}
+.rec.second{color:var(--muted)}
 .because{color:var(--muted);font-size:.87rem;margin-top:.25rem;font-style:italic}
 .opt.defer .olabel{font-weight:500;color:var(--muted)}
 .nolabel{font-size:.8rem;color:var(--muted);display:block;margin:1.05rem 0 .3rem}
@@ -212,11 +213,23 @@ JS = r"""
     save();
   }
 
+  // A pre-selected recommendation counts as looked at. That is a deliberate
+  // reversal of this page's earlier default, made by the owner: the page exists
+  // to clear fifty decisions in one sitting, and asking for a click on every
+  // recommendation the reader already agrees with is the thing that stops them
+  // finishing. The export keeps the two apart — `confirmed` is a click,
+  // `accepted-default` is a recommendation nobody moved — so nothing downstream
+  // has to guess which happened.
+  function preselected(q){
+    return q.default_policy === 'recommended'
+        && (q.options || []).some(function(o){ return o.recommended; });
+  }
+
   function tally(){
     var total = MODEL.questions.length, done = 0, deferred = 0;
     MODEL.questions.forEach(function(q){
       var s = state[q.id];
-      if (!s || !s.confirmed) return;
+      if ((!s || !s.confirmed) && !preselected(q)) return;
       done++;
       if (isDeferred(q)) deferred++;
     });
@@ -277,6 +290,7 @@ JS = r"""
     out.blocksAutomation = out.noteQualifiesAnswer;
     if (chosen.indexOf('__defer__') >= 0) out.state = 'deferred';
     else if (s.confirmed) out.state = 'confirmed';
+    else if (preselected(q)) out.state = 'accepted-default';
     else if (q.default_policy === 'recommended') out.state = 'as-found';
     else out.state = 'unanswered';
     out.unblocks = q.unblocks || [];
@@ -291,14 +305,21 @@ JS = r"""
       slug: MODEL.slug,
       reportGeneratedAt: MODEL.generatedAt,
       exportedAt: new Date().toISOString(),
-      // as-found means the page's own suggestion, never looked at by a human.
-      // Anything acting on this file should treat it as a proposal, not a decision.
-      states: { confirmed: 'looked at and settled', 'as-found': 'the page proposed it; nobody confirmed it',
+      // Three states carry an answer and two do not, and the difference is who
+      // made it. `confirmed` is a click. `accepted-default` is a recommendation
+      // the reader left standing, which the page told them counts as their
+      // answer. `as-found` is the older shape, kept for a page whose policy is
+      // `recommended` but which marks no option: a proposal nobody looked at,
+      // and still not a decision.
+      states: { confirmed: 'clicked, and settled',
+                'accepted-default': 'the recommendation was left standing, which the page said counts as the answer',
+                'as-found': 'the page proposed it; nobody confirmed it',
                 deferred: 'deliberately put off; still blocking', unanswered: 'no answer' },
       answers: answers,
       counts: {
         total: answers.length,
         confirmed: answers.filter(function(a){ return a.state === 'confirmed'; }).length,
+        acceptedDefault: answers.filter(function(a){ return a.state === 'accepted-default'; }).length,
         asFound: answers.filter(function(a){ return a.state === 'as-found'; }).length,
         deferred: answers.filter(function(a){ return a.state === 'deferred'; }).length,
         unanswered: answers.filter(function(a){ return a.state === 'unanswered'; }).length,
@@ -560,9 +581,16 @@ def build(model_dir: pathlib.Path, out: pathlib.Path, theme_path: pathlib.Path |
             for j, o in enumerate(q.get("options", [])):
                 oid = f'o-{q["id"]}-{j}'
                 pre = " checked" if (policy == "recommended" and o.get("recommended")) else ""
-                badge = '<span class="rec">Recommended</span>' if o.get("recommended") else ""
+                # Two marks, and the difference between them is the whole point: the
+                # first is pre-selected and counts as answered, the second is named
+                # as defensible and does nothing until the reader clicks it.
+                badge = ""
+                if o.get("recommended"):
+                    badge = '<span class="rec">Recommended</span>'
+                elif o.get("runner_up"):
+                    badge = '<span class="rec second">Also reasonable</span>'
                 because = (f'<div class="because">{rich(o["because"])}</div>'
-                           if o.get("recommended") and o.get("because") else "")
+                           if (o.get("recommended") or o.get("runner_up")) and o.get("because") else "")
                 opts_html.append(
                     f'<label class="opt" for="{oid}">'
                     f'<input type="{typ}" id="{oid}" name="answer" value="{esc(o["value"])}"{pre}>'
@@ -584,6 +612,8 @@ def build(model_dir: pathlib.Path, out: pathlib.Path, theme_path: pathlib.Path |
                 legend += " — nothing is pre-selected, this one is yours"
             elif policy == "forced":
                 legend += " — this cannot be left open"
+            else:
+                legend += " — the pre-selected one counts as your answer unless you change it"
             body = (f'<fieldset><legend>{esc(legend)}</legend>{"".join(opts_html)}</fieldset>'
                     f'<label class="nolabel" for="n-{esc(q["id"])}">Anything that changes the answer '
                     f'(optional)</label>'

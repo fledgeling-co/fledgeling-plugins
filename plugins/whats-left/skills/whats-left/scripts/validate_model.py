@@ -219,6 +219,23 @@ def check_questions(questions, item_ids: set[str], r: Report) -> set[str]:
                     if not (o.get("because") or "").strip():
                         r.err(f"{where}: the recommended option has no `because` — 'Recommended' without a reason "
                               f"is a preference, and the reader cannot reject a reason they were not given")
+            # A second mark is allowed, and it is a weaker claim than the first:
+            # named as defensible, never pre-selected, never counted as answered.
+            seconds = [o for o in opts if o.get("runner_up")]
+            if len(seconds) > 1:
+                r.err(f"{where} marks {len(seconds)} runner-up options — at most one, "
+                      f"or the shortlist is the whole list again")
+            for o in seconds:
+                if o.get("recommended"):
+                    r.err(f"{where}: an option is marked both recommended and runner-up — "
+                          f"one of the two marks is wrong")
+                if policy != "recommended":
+                    r.err(f"{where} has default_policy {policy!r} but marks a runner-up — "
+                          f"a question that pre-selects nothing carries no marks at all")
+                if not (o.get("because") or "").strip():
+                    r.warn(f"{where}: the runner-up has no `because` — say when it is the "
+                           f"right call instead, or drop the mark")
+
             for j, o in enumerate(opts):
                 if not o.get("value") or not o.get("label"):
                     r.err(f"{where} option[{j}] needs both `value` and `label`")
