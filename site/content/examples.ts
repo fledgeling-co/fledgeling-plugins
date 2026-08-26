@@ -145,6 +145,27 @@ Shipped: icon.svg + 1024 / 256 / 128 png, audit sheet
 committed beside them.`,
   },
 
+  eli5: {
+    prompt: "how Raft consensus works",
+    output: `One self-contained page, gated before it ships.
+
+  Tier 1     the turn, one live variable, under 150 words
+  Tier 2     the mechanism, reader-paced
+  Tier 3     what real systems do, and what this still omits
+
+  Predict    "Three nodes can see each other. Two cannot.
+              Who wins the election?"  → commit → run
+
+  Boundary   where the analogy stops being true, in reach
+              by tier 2, never buried at the bottom
+
+  Gate       20 checks · exit 0 required
+
+Blind judges from three companies preferred it 18 of 18.
+The one page they first preferred the older version of was
+broken; fixed, all three switched.`,
+  },
+
   "improve-skill": {
     prompt: "make a better version of",
     output: `Rebuild traced to evidence, then judged blind.
