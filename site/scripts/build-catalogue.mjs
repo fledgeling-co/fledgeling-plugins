@@ -66,7 +66,7 @@ const GROUP_OF = {
   // Making something.
   "design-craft": "making", "ux-craft": "making", "mac-craft": "making", "tui-craft": "making",
   "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making",
-  "generate-investor-portal": "making", "create-swe-project": "making",
+  "generate-investor-portal": "making", "create-swe-project": "making", "launch-craft": "making",
 
   // Checking it before anyone sees it.
   "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking",

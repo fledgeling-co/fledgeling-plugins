@@ -6,6 +6,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-26
 
+### launch-craft 0.1.0: end-to-end product synthesis & interactive launch conductor
+
+- **New plugin for full-lifecycle launch delivery**: Takes raw brief files in
+  `docs/features-to-triage/`, mock HTML, and application code, executing a 4-phase
+  pipeline to produce updated documentation and a high-craft launch marketing site.
+- **Phase 1: Gemini 3.7 Flash High synthesis via agy**: Aggregates codebase intelligence
+  into trace-verified `OVERVIEW.md` and `PRD.md` with 100% brief requirement mapping.
+- **Phase 2: Grounded positioning & authentic Luke Rhodes voice**: Targeted to home network
+  administrators and gamers, incorporating Mobbin MCP flow patterns and `/trawl` ideation,
+  with dual pricing ($9.99 perpetual BYOK vs $4.99/mo SaaS) and 0 em dashes in copy.
+- **Phase 3: Interactive marketing site via /design-craft & /ux-craft**: Authoring an
+  engaging site featuring a Three.js 3D hero telemetry canvas, GSAP scroll timelines,
+  interactive mock UI slices (packet filtering, latency sliders, ROI calculator), and
+  explicit 5-platform support badges (Windows, Mac, iPad, iPhone, Linux).
+- **Phase 4: Deterministic quality gates**: Validated with `validate_site.py` for WCAG
+  contrast, em-dash compliance, and multi-platform presence.
+- **Brand asset suite**: Telemetry Gantry icon across 1024, 256, 128 raster renders,
+  layered SVG master, and 3200x1040 launch banner with `audit_sheet.py` and `banner_sheet.py`
+  checks exiting 0.
+
 All four entries below come from one instrumented run — 122 tickets, 891 agents,
 147 workflows over two days — measured afterwards rather than recalled. The
 evidence is `~/Dev/dAIolog/docs/retro-2026-08-26/`.

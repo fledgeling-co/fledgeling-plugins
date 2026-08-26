@@ -1,0 +1,9 @@
+{
+  "name": "launch-craft",
+  "description": "End-to-end product synthesis, positioning, and high-fidelity launch site conductor. Takes any project's raw briefs in docs/features-to-triage/, mock HTML, and application source code, and conducts a 4-phase pipeline: (1) Synthesizes and updates OVERVIEW.md and PRD.md using Gemini 3.7 Flash High via agy with complete feature traceability; (2) Grounds product positioning for home network admins and gamers, ideates hooks via /trawl, draws patterns from Mobbin MCP, and drafts authentic copy in Luke Rhodes' voice via /create-luke-content with dual pricing ($9.99 self-hosted/BYOK vs $4.99/mo hosted); (3) Crafts an interactive marketing website via /design-craft and /ux-craft utilizing GSAP scroll timelines, Three.js 3D telemetry canvases, interactive mock UI slices, and 5-platform badges (Windows, Mac, Linux, iOS, iPadOS); (4) Enforces deterministic WCAG, contrast, and visual conformance gates. Use whenever you need to synthesize project truth into PRDs and launch a bespoke, highly creative interactive marketing site — \"build a launch site for this repo\", \"generate marketing website and update PRD\", \"launch-craft\", \"create product landing page with GSAP and Three.js\".",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
