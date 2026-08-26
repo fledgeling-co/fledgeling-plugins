@@ -8,7 +8,7 @@
 An SWE skill for Claude Code that turns a project idea into a complete, working project in <code>~/Dev</code>, with the typecheck and build gate already run green.</p>
 
 <p align="center">
-  <img alt="Version 1.8.0" src="https://img.shields.io/badge/version-1.8.0-ED8213">
+  <img alt="Version 1.12.0" src="https://img.shields.io/badge/version-1.12.0-ED8213">
   <img alt="13 modules" src="https://img.shields.io/badge/modules-13-A34C08">
   <img alt="Gate: typecheck plus build" src="https://img.shields.io/badge/gate-typecheck%20%2B%20build-7BA5BE">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8D9DAB">

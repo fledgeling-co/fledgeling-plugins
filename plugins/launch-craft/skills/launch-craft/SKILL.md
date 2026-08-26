@@ -77,7 +77,10 @@ Synthesize all scattered project intelligence into single sources of truth (`OVE
 
 Ground the product's market stance, ideate compelling differentiators, and write authentic marketing copy.
 
-1. **Target Audience & Positioning**:
+1. **Audit & Execute Positioning (Invoke `/positioning:positioning` if Missing)**:
+   - **Check for existing positioning documents**: Inspect `docs/positioning/` (specifically `docs/positioning/00-decision.md` or `docs/positioning/10-territory-*.md`).
+   - **Run `/positioning:positioning` if absent**: If no positioning documents exist in `docs/positioning/`, execute the `positioning` skill (`/positioning:positioning`). This conducts Dossier deep-research panels across free and paid lanes, discovers customer pain points and competitor lines, evaluates candidate territories under trawl frames, tests product-truth claimability, and writes the 9-document report suite and interactive decision surface to `docs/positioning/`.
+   - **Extract Grounded Stance**: Read the recommended territory, hero line, category frame, and target beachhead from `docs/positioning/00-decision.md` as the authoritative source of truth.
    - Primary: **Home Network Administrators** (demanding granular traffic observability, local control, custom DNS/VPN routing, self-hosted telemetry).
    - Secondary: **Gamers & Power Users** (demanding ultra-low ping, bufferbloat reduction, zero telemetry lag, hardware-accelerated routing).
    - Position against bloated enterprise tools and fragile CLI scripts: fast, beautiful, sovereign, and cross-platform.

@@ -1,8 +1,15 @@
 # The launch pipeline — from scaffolded to launch-ready
 
-Runs after `scaffold.sh` reports green. The scaffold gives you a working shell; this pipeline gives it substance: researched context, a triaged-ready feature backlog, comprehensive mocks, and a marketing site. Phases R and B start together (research runs in the background while you work); D and M need R's output, so order is R∥B → O → D → M → L. Report progress at each phase boundary.
+Runs after `scaffold.sh` reports green. The scaffold gives you a working shell; this pipeline gives it substance: positioning & market grounding, researched context, a triaged-ready feature backlog, comprehensive technical PRD & OVERVIEW documentation, comprehensive mocks, and a marketing site. Phases P, R and B start together (positioning audit and research run in the background while you work); O synthesizes PRD.md + OVERVIEW.md; D and M build design and marketing from verified ground truth. Order is P∥R∥B → O → D → M → L. Report progress at each phase boundary.
 
-Deep research is the grounding layer for three consumers: the **feature briefs**, the **OVERVIEW.md**, and the **marketing site's decisions and content**. Nothing in those three states a market claim the research or the owner didn't supply.
+Deep research and positioning are the grounding layers for four consumers: the **feature briefs**, the **PRD.md**, the **OVERVIEW.md**, and the **marketing site's decisions and content**. Nothing in those four states a market claim the research or the owner didn't supply.
+
+## Phase P — positioning audit & market grounding
+
+Before establishing marketing hooks, category labels, or product scope:
+1. **Audit `docs/positioning/`**: Check if `docs/positioning/00-decision.md` or `docs/positioning/10-territory-*.md` exists.
+2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, execute the `positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), discovers customer pain points and competitor lines, evaluates candidate territories under trawl frames, tests product-truth claimability, and writes the 9-document report suite and interactive decision surface to `docs/positioning/`.
+3. **Anchor to Decision of Record**: Read the recommended territory, hero line, category frame, and target beachhead from `docs/positioning/00-decision.md` as the authoritative source of truth for `PRD.md`, `OVERVIEW.md`, and all marketing copy.
 
 ## Phase R — deep research (starts first, runs in the background)
 
@@ -27,9 +34,21 @@ From the idea and interview answers, write the first briefs into `docs/features-
 
 The generated CLAUDE.md carries the standing rule: **every future feature request lands as a brief here first**, then `ship-feature` (one) or `ship-fleet` (backlog) runs on it.
 
-## Phase O — overview + marketing features
+## Phase O — technical PRD, overview & marketing features
 
-Fill `OVERVIEW.md` (positioning, audience, problem, market context) and `docs/MARKETING-FEATURES.md` (feature→benefit→proof rows for what the scaffold already ships, e.g. sign-in; pricing recommendation grounded in the research's competitor pricing, marked as recommendation until the owner confirms). Research-derived claims cite their report inline. Both files carry keep-current rules in CLAUDE.md — write them as if they'll be read in six months, because they will.
+Generate and maintain the core product source-of-truth documents:
+
+1. **`PRD.md` (Comprehensive Technical Requirements Document)**:
+   - Must cover **ALL** feature briefs in `docs/features-to-triage/*.md` with complete traceability.
+   - Include: Product Overview & Strategic Goals, Target Personas & User Journeys, Feature Traceability Matrix (mapping every brief to Req ID, target surface, status [Triaged/Backlog/In Progress/Built], user story, and core acceptance criteria), System Architecture & API/Data Contracts, Non-Functional Requirements (Performance, Security, Accessibility, Reliability), and Release Criteria.
+   - Every seeded brief in `docs/features-to-triage/*.md` must trace to an explicit requirement row.
+
+2. **`OVERVIEW.md`**:
+   - System overview: Mission, target audience, core problem, solution architecture with Mermaid diagram, surfaces/modules map, and market context cited from `docs/positioning/` or `docs/deep-research/`.
+   - Positioning in one line: taken directly from `docs/positioning/00-decision.md`.
+
+3. **`docs/MARKETING-FEATURES.md`**:
+   - Feature→benefit→proof rows for what the scaffold already ships (e.g. sign-in, tokens, Caddy, native apps); pricing recommendation grounded in competitor research and Phase O½ rules. Both files carry keep-current rules in CLAUDE.md.
 
 ## Phase D — design: mocks for every surface
 

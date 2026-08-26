@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 - 2026-08-27
+
+- **Integrated `/positioning:positioning` Pipeline**: Phase 2 now actively audits `docs/positioning/` for `00-decision.md` or `10-territory-*.md`. If missing, it invokes the newly rebuilt `positioning` skill to run Dossier deep-research panels, claim-ledger truth binding, and produce the 9-document report suite before drafting copy.
+- **Positioning-Grounded Copywriting**: Anchors Luke-voice copywriting and feature hero claims directly to the recommended territory from `docs/positioning/00-decision.md`.
+
 ## 0.1.0 - 2026-08-26
 
 Initial release of `launch-craft`:
