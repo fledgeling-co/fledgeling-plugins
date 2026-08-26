@@ -259,9 +259,19 @@ PREDICT = re.compile(
 )
 
 BABY_TALK = re.compile(
-    r"\b(?:magic fairy|fairies|mommy|mummy|daddy|tummy|boo[- ]boo|"
+    # Positioning the reader as a child. Mined from six measured baseline artifacts,
+    # where "grown-up word: DNS" and "grown-ups call the boss the leader" appeared in
+    # 4 of 6 while an earlier, weaker lexicon passed all six.
+    r"\bgrown[- ]ups?\b"
+    # Naming a mechanism "magic" is the opposite of explaining it.
+    r"|\bmagic (?:rule|word|trick|box|number|sauce|thing|part)\b"
+    # Storybook anthropomorphism standing in for mechanism.
+    r"|\b(?:goes ding|puts? (?:its|their|his|her) hand up|gets? the crown|"
+    r"waves? hello|says? hello to|has a (?:little )?nap|wakes? up sleepy)\b"
+    # Nursery register.
+    r"|\b(?:magic fairy|fairies|mommy|mummy|daddy|tummy|boo[- ]boo|kiddy|"
     r"little friend|tiny helper|magical (?:little )?(?:creature|elf|gnome|wizard)|"
-    r"like a big hug|nice little|happy little|silly little|"
+    r"like a big hug|silly little|"
     r"imagine a (?:little|tiny) (?:monster|creature|man|elf))\b",
     re.I,
 )
@@ -427,7 +437,8 @@ FIXTURES = [
     ("boundary-card", GOOD.replace("Where this analogy breaks", "More detail")
                           .replace("Cut a pipe and water sprays out; break a wire and current stops entirely.", "More.")),
     ("predict-observe-explain", GOOD.replace("Predict which node wins before you run it.", "It runs.")),
-    ("register", GOOD.replace("Think of it as pressure", "Imagine a little monster with a happy little tummy and pressure")),
+    ("register", GOOD.replace("Think of it as pressure", "Imagine a little monster with a happy tummy and pressure")),
+    ("register", GOOD.replace("Think of it as pressure", "Grown-ups call this the magic rule; pressure")),
     ("disclosure-tiers", GOOD.replace("Tier 1: the turn", "X").replace("Tier 2: the mechanism", "Y")
                              .replace("Skip ahead to tier 3 if you know this.", "")),
     ("skip-ahead", GOOD.replace("Skip ahead to tier 3 if you know this.", "")),
