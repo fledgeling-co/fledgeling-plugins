@@ -155,6 +155,15 @@ Two consequences worth holding:
 Verified 2026-08-21 from `/tmp`: the command above returned `LANE OK` and Relay's
 spend ledger recorded `model: glm-5.3, bindingId: glm` for that request.
 
+## The timeout is part of the invocation
+
+Every command in this file needs a bound of **900 seconds**, or backgrounding. The
+harness default is 120 000 ms and the median lane call is **150 seconds**, so a lane run
+at the default is killed about half the time — 23 of grok's 24 failures in the measured
+window were exactly that, 3,240 seconds of wait on calls that would have succeeded. A
+killed call leaves a truncated output file, which reads identically to a lane that
+answered with nothing.
+
 ## Which lanes are live, and what down looks like
 
 A lane is available when a probe says so, not when you remember it working.
