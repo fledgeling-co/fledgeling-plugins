@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{PRODUCT}} — Positioning decision</title>
+<!--
+  Phase 5 scaffold. This is a STARTING STRUCTURE, not a design.
+
+  Route the design through /design-craft:design-craft and /ux-craft:ux-craft, and
+  build to the project's DESIGN.md where one exists. A positioning report for a
+  logistics product and one for a developer tool should not look the same: mine
+  the palette, imagery and type from the product's own category and say in one
+  line what you took and what you left.
+
+  Four things here are structural rather than stylistic. Keep them:
+
+  1. The decision instrument runs vetoes -> consequence table -> dominance ->
+     rank stability. No weighted sum produces the recommendation.
+     See references/decision-aid.md for why.
+  2. Every figure is in the DOM before script runs. Inline SVG or a table.
+  3. Motion is progressive enhancement with a real reduced-motion layout.
+  4. The evidence label ("Recommended" / "Promising hypothesis" / ...) is stated
+     in the page, in those words.
+
+  GSAP: pinned CDN with SRI for a served or local page; inline the source for a
+  published Artifact, whose CSP blocks every external origin silently. See
+  design-craft references/gsap-motion.md.
+-->
+<style>
+  /* Light palette on bare :root so a theme block is never the only definition. */
+  :root {
+    --bg: #fbfaf8; --surface: #ffffff; --ink: #16181d; --ink-2: #565b66;
+    --line: #e4e2dd; --accent: #c4622d; --ok: #2f6f4f; --warn: #9a5b12;
+    --veto: #a33224;
+    --measure: 68ch;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #131417; --surface: #1a1c21; --ink: #edeef1; --ink-2: #9aa0ac;
+      --line: #2b2e35; --accent: #e07b45; --ok: #6fbf95; --warn: #d9a05b;
+      --veto: #e0705f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #131417; --surface: #1a1c21; --ink: #edeef1; --ink-2: #9aa0ac;
+    --line: #2b2e35; --accent: #e07b45; --ok: #6fbf95; --warn: #d9a05b;
+    --veto: #e0705f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 74rem; margin: 0 auto; padding: clamp(1.5rem, 4vw, 4rem); }
+  section { margin-block: clamp(3rem, 8vw, 6rem); }
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.1; margin: 0 0 .5em; letter-spacing: -.02em; }
+  h2 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); margin: 0 0 1rem; letter-spacing: -.01em; }
+  p { max-width: var(--measure); color: var(--ink-2); }
+  .lede { color: var(--ink); font-size: 1.15rem; }
+
+  /* Wide content scrolls inside its own container; the body never scrolls sideways. */
+  .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; min-width: 44rem; font-size: .94rem; }
+  th, td { text-align: left; padding: .6rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--ink); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .label {
+    display: inline-block; padding: .25em .7em; border-radius: 100px;
+    font-size: .8rem; font-weight: 600; letter-spacing: .01em;
+    border: 1px solid currentColor;
+  }
+  .label--recommended { color: var(--ok); }
+  .label--conditional { color: var(--warn); }
+  .label--promising { color: var(--accent); }
+  .label--none { color: var(--ink-2); }
+
+  .vetoed { color: var(--veto); }
+  .vetoed td:first-child::after { content: " · eliminated"; font-size: .82em; }
+  .dominated { opacity: .55; }
+
+  figure { margin: 0; }
+  figcaption { color: var(--ink-2); font-size: .9rem; margin-top: .5rem; max-width: var(--measure); }
+
+  .hero-preview {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+  .hero-preview h3 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); line-height: 1.15; margin: 0 0 .4em; color: var(--ink); }
+
+  .stability-bar { display: block; height: 10px; background: var(--line); border-radius: 100px; overflow: hidden; }
+  .stability-bar > i { display: block; height: 100%; background: var(--accent); width: calc(var(--pct) * 1%); }
+
+  .reveal { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .js .reveal { opacity: 0; transform: translateY(12px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; }
+    * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- 1 · THE RECOMMENDATION, quotable, above the fold. -->
+  <section>
+    <p><span class="label label--{{LABEL_CLASS}}">{{EVIDENCE_LABEL}}</span></p>
+    <h1>{{RECOMMENDATION_HEADLINE}}</h1>
+    <p class="lede">{{RECOMMENDATION_SENTENCE}}</p>
+    <p>
+      {{GENERATED}} candidates generated, {{SHORTLIST}} shortlisted, compared against
+      the position {{PRODUCT}} holds today. {{PANELS}} research panel(s),
+      {{MEMBERS}} members, {{CLAIMS}} claims on {{DOMAINS}} independent domains.
+    </p>
+  </section>
+
+  <!-- 2 · THE SHORTLIST, comparable at a glance. Status quo is a row, not a footnote. -->
+  <section class="reveal">
+    <h2>The shortlist</h2>
+    <div class="scroll-x">
+      <table>
+        <thead><tr>
+          <th>Territory</th><th>Word</th><th>Enemy</th><th>Category</th>
+          <th>Beachhead</th><th class="num">Claimable today</th><th>Strongest objection</th>
+        </tr></thead>
+        <tbody>{{SHORTLIST_ROWS}}
+          <tr><td><em>Status quo</em></td><td colspan="5">{{BASELINE_POSITION}}</td><td>{{BASELINE_OBJECTION}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>No two rows may share a column value. Where two do, they are one territory.</p>
+  </section>
+
+  <!-- 3 · FEEL THE COPY. A hero line in a table reads differently from a hero line set as a hero. -->
+  <section class="reveal">
+    <h2>Feel the copy</h2>
+    {{HERO_PREVIEWS}}
+    <!-- one .hero-preview per territory, at real type sizes -->
+  </section>
+
+  <!-- 4 · THE DECISION INSTRUMENT. Order is load-bearing. -->
+  <section class="reveal">
+    <h2>How the choice was narrowed</h2>
+
+    <h3>Vetoes — evaluated first, and not compensable</h3>
+    <p>
+      A territory fails a veto and is eliminated rather than penalised: the product
+      cannot deliver it, the company cannot be credible in it, the go-to-market
+      motion it implies does not match the unit economics, or it breaks a stated
+      constraint. A score cannot express this, which is why it runs first.
+    </p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Territory</th><th>Deliverable</th><th>Credible</th><th>Economics fit</th><th>Constraints</th></tr></thead>
+        <tbody>{{VETO_ROWS}}</tbody>
+      </table>
+    </div>
+
+    <h3>Consequences, in the units they come in</h3>
+    <p>No normalising and no 1&ndash;10. Every cell carries the evidence tier behind it,
+       so a guess is visible as a guess.</p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr>
+          <th>Territory</th><th class="num">Expected conversion</th><th class="num">CAC</th>
+          <th class="num">Sales cycle</th><th class="num">Gross margin</th>
+          <th class="num">Months of market education</th><th>Evidence tier</th>
+        </tr></thead>
+        <tbody>{{CONSEQUENCE_ROWS}}</tbody>
+      </table>
+    </div>
+
+    <h3>Dominance</h3>
+    <p>{{DOMINANCE_NOTE}} A dominated territory is no better on any consequence and
+       worse on at least one. Removing it needs no weights.</p>
+
+    <h3>Rank stability, not a rank</h3>
+    <p>
+      The weighted view is a sensitivity display and never the recommendation.
+      Sweeping the weights across the ranges you are willing to defend, this is how
+      often each territory comes first. A territory that wins only at the default
+      slider positions is an artifact of the sliders.
+    </p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Territory</th><th class="num">Ranks first in</th><th>&nbsp;</th></tr></thead>
+        <tbody>{{STABILITY_ROWS}}</tbody>
+      </table>
+    </div>
+
+    <h3>If the assumption is wrong</h3>
+    <p>{{REGRET_NOTE}}</p>
+    <figure>{{REGRET_FIGURE}}<!-- inline SVG, in the DOM before script runs -->
+      <figcaption>{{REGRET_CAPTION}}</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 · THE EVIDENCE. -->
+  <section class="reveal">
+    <h2>What this rests on</h2>
+    <p>
+      Support is counted in independent registrable domains, never in how many
+      research backends agreed. Four backends citing one page is one source.
+      <strong>Verified</strong> is <em>judged</em> where a model read the page and
+      found it supports the claim, and <em>link</em> where only the URL resolves.
+      Promissory copy rests only on judged claims.
+    </p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>id</th><th>Claim</th><th>Confidence</th><th class="num">Domains</th><th>Verified</th><th>Bound to</th></tr></thead>
+        <tbody>{{CLAIM_ROWS}}</tbody>
+      </table>
+    </div>
+    <h3>Where the sources disagreed</h3>
+    {{CONTESTED}}
+  </section>
+
+  <!-- 6 · WHAT HAS TO BE TRUE. -->
+  <section class="reveal">
+    <h2>Before you bet on this</h2>
+    <p>
+      The frameworks make a position coherent. None of them makes it right.
+      Each test below carries its pass threshold, written before it runs, because a
+      test whose threshold is set afterwards returns whatever the reader wants.
+    </p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Assumption</th><th>Test</th><th class="num">Sample needed</th><th>Pass line</th><th>Cost</th><th>Reversible?</th></tr></thead>
+        <tbody>{{TEST_ROWS}}</tbody>
+      </table>
+    </div>
+    <p>{{NOT_ESTABLISHED}}</p>
+  </section>
+
+</main>
+
+<script>
+  // Progressive enhancement only. Everything above renders and reads without this.
+  document.documentElement.classList.add('js');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || typeof gsap === 'undefined') {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.style.opacity = 1; });
+  } else {
+    gsap.registerPlugin(ScrollTrigger);
+    // gsap.from, never gsap.to: the authored markup is the END state, so the page
+    // is correct with script disabled, mid-animation, and after a failed load.
+    gsap.utils.toArray('.reveal').forEach(function (el) {
+      gsap.from(el, {
+        opacity: 0, y: 12, duration: .5, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%' }
+      });
+    });
+  }
+</script>
+</body>
+</html>
