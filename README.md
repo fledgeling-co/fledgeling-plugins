@@ -300,6 +300,14 @@ Ask a research question, get back a proper page you can share. It runs several r
 
 <br clear="left" />
 
+<a href="plugins/positioning/README.md"><img src="plugins/positioning/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [positioning](plugins/positioning/README.md) · **Uses multiple models**
+
+Works out what your product should stand for, and can show its working. It runs the market research itself across several providers, checks that every source actually says what it is quoted as saying, and counts agreement in independent sources rather than in how many AI tools agreed. A headline that promises something you have not built fails a command rather than a written rule.
+
+<br clear="left" />
+
 <a href="plugins/reckon/README.md"><img src="plugins/reckon/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [reckon](plugins/reckon/README.md)

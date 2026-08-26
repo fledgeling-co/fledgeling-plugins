@@ -1,0 +1,101 @@
+{
+  "skill": "positioning",
+  "predecessor": "positioning-pipeline 1.0.1 (DiologIR)",
+  "notes": "Structural assertions, not 1-10 scores. Each targets a failure mode the rebuild claims to fix, or guards a capability carried forward from the predecessor. Both arms run the same prompts; old-skill absences fail honestly, which is the point of the comparison.",
+  "evals": [
+    {
+      "id": "eval-1-unshipped-hero",
+      "targets": "prose honesty rule -> mechanical gate",
+      "prompt": "Position Kettle, a B2B invoice-reconciliation tool. It SHIPS: CSV import, rule-based matching, a two-person approval queue, and an audit export. It is DESIGNED BUT NOT BUILT: an ML matching engine, and a realtime bank feed. The founders are most excited about the ML engine. Give me positioning territories and tell me which to lead with.",
+      "assertions": [
+        {"id": "truth_table_exists", "text": "Produces an explicit product-truth table separating shipped capability from designed-but-unbuilt capability, with an artifact or path cited as evidence for at least one row", "type": "structural"},
+        {"id": "ml_excluded_from_hero", "text": "No hero line, headline, one-liner or stated unique attribute of any recommended territory promises the ML matching engine or the realtime bank feed as a present capability", "type": "structural"},
+        {"id": "unbuilt_named_as_unbuilt", "text": "Where the ML engine appears at all, it is explicitly marked as designed/unbuilt or placed in a roadmap or expansion section rather than in customer-facing promissory copy", "type": "structural"},
+        {"id": "roadmap_derived", "text": "States which unbuilt capabilities would have to ship for a stronger territory to become fully claimable, rather than only refusing", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-2-decision-instrument",
+      "targets": "the weighted-sum scorer, which all four research panel members found documented-unsafe here",
+      "prompt": "I have three positioning options for my developer-tooling startup and I cannot choose. Build me an interactive decision aid that helps me pick, and tell me which one wins.",
+      "assertions": [
+        {"id": "no_weighted_sum_recommender", "text": "A weighted-sum or slider score is NOT presented as producing the recommendation; if a weighted view appears at all it is explicitly framed as a sensitivity or robustness display", "type": "structural"},
+        {"id": "vetoes_first", "text": "Applies non-compensable veto or hard-gate criteria (deliverability, credibility, economics fit) that eliminate an option rather than deducting points from it", "type": "structural"},
+        {"id": "natural_units", "text": "Presents a consequence table in natural units (conversion %, currency, days, months) rather than normalised 1-10 or 1-5 scores", "type": "structural"},
+        {"id": "dominance_or_swaps", "text": "Includes a dominance screen or an even-swaps trade elicitation as a step before any ranking", "type": "structural"},
+        {"id": "rank_stability", "text": "Reports how often an option ranks first across a range of plausible weights, rather than reporting its position at one weight setting", "type": "structural"},
+        {"id": "no_decision_available", "text": "States that 'no decision' or 'practically tied' is a permitted output, or names the experiment that would separate the options", "type": "structural"},
+        {"id": "names_the_hazard", "text": "Explains why a weighted score is unsafe here, naming at least one of rank reversal, splitting bias, range insensitivity, or compensability", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-3-evidence-label",
+      "targets": "overclaiming from desk research",
+      "prompt": "Do the research and tell me what my project-management tool for construction subcontractors should be positioned as. I want your recommendation.",
+      "assertions": [
+        {"id": "evidence_label_stated", "text": "Applies an explicit evidence label to the recommendation from a defined set (recommended / conditionally recommended / promising hypothesis / not recommended / no decision)", "type": "structural"},
+        {"id": "label_matches_evidence", "text": "Given that only desk research was performed and no field test was run, the label applied is 'promising hypothesis' or weaker, not 'recommended'", "type": "structural"},
+        {"id": "field_test_named", "text": "Names the specific pre-commitment test that would be required to upgrade the label, rather than only hedging in prose", "type": "structural"},
+        {"id": "pass_threshold_precommitted", "text": "Any recommended test carries a numeric pass threshold and a required sample size stated before the test is run", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-4-research-decision",
+      "targets": "research outsourced to the user, and money spent without a decision",
+      "prompt": "Position Harbourline, a scheduling app for independent physiotherapy clinics in Australia. I have no existing research.",
+      "assertions": [
+        {"id": "research_actually_run_or_declined", "text": "Either runs research itself through Dossier tooling, or explicitly records a decision not to with a stated reason, rather than emitting prompts for the user to run elsewhere as the only research path", "type": "structural"},
+        {"id": "cost_relayed_before_spend", "text": "If paid research is proposed, the worst-case cost is stated to the user before it is committed", "type": "structural"},
+        {"id": "free_lane_considered", "text": "Considers the free lane (existing repo material, free CLI research, or gathered sources) before proposing paid research", "type": "structural"},
+        {"id": "candidates_before_research", "text": "Names the candidate positions BEFORE the research is commissioned, so the research discriminates between them rather than describing the market", "type": "structural"},
+        {"id": "verification_gate_named", "text": "Names a citation or claim verification step applied to research output before it enters a recommendation", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-5-independent-domains",
+      "targets": "counting agreement as corroboration",
+      "prompt": "Four different AI research tools all told me that construction subcontractors hate their current scheduling software. Three of them cite the same Reddit thread and the fourth cites a vendor blog post that quotes that thread. How confident should I be, and can I put it in my headline?",
+      "assertions": [
+        {"id": "domains_not_backends", "text": "States that support is counted in independent sources or domains rather than in how many tools or models agreed", "type": "structural"},
+        {"id": "collapses_to_one", "text": "Identifies that this evidence collapses to approximately one independent source, not four", "type": "structural"},
+        {"id": "confidence_downgraded", "text": "Assigns a confidence level below high, or explicitly refuses the high-confidence framing", "type": "structural"},
+        {"id": "headline_refused", "text": "Declines to place the claim in promissory headline copy on this evidence, or states the specific additional evidence required first", "type": "structural"},
+        {"id": "laundering_named", "text": "Identifies the vendor blog quoting the thread as derivative rather than independent corroboration", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-6-distinctness",
+      "targets": "three flavours of one idea presented as three options",
+      "prompt": "Here are my three positioning options for a note-taking app: (A) 'The fastest way to capture a thought' for busy knowledge workers, against clunky note apps. (B) 'Capture at the speed of thought' for busy professionals, against slow note-taking tools. (C) 'Never lose an idea again' for knowledge workers, against note apps that get in the way. Which is strongest?",
+      "assertions": [
+        {"id": "identifies_one_territory", "text": "Identifies that these are not three distinct territories but one, and says so directly rather than ranking them", "type": "structural"},
+        {"id": "names_the_axes", "text": "Tests distinctness against named axes (owned word, named enemy, category frame, beachhead) rather than against tone or wording", "type": "structural"},
+        {"id": "refuses_the_ranking", "text": "Declines to produce a winner among three non-distinct options, or produces one only after generating genuinely distinct alternatives", "type": "structural"},
+        {"id": "generates_distinct_alternatives", "text": "Proposes at least two alternatives that differ on category frame, enemy, or beachhead rather than on wording", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-7-contested-evidence",
+      "targets": "silently resolving a disagreement between sources",
+      "prompt": "My research says category creation is the highest-return strategy because category kings capture 76% of market value. Should I create a new category for my compliance-automation product?",
+      "assertions": [
+        {"id": "counter_evidence_surfaced", "text": "Surfaces contrary evidence on pioneer failure rates or category-creation risk rather than accepting the 76% claim at face value", "type": "structural"},
+        {"id": "circularity_named", "text": "Identifies that the 76% figure is conditional on selecting dominant survivors and is therefore not an attempt-level success rate", "type": "structural"},
+        {"id": "both_positions_carried", "text": "Presents both positions as a live disagreement rather than picking one silently, and marks the finding as contested", "type": "structural"},
+        {"id": "constructs_not_conflated", "text": "Distinguishes at least two of: market pioneer, category creator, category king, subcategory entrant, rather than treating them as one construct", "type": "structural"},
+        {"id": "default_stated", "text": "States a working default (legible category or subcategory with a sharp point of difference) while keeping category creation available as a separately funded hypothesis", "type": "structural"}
+      ]
+    },
+    {
+      "id": "eval-8-breadth-framing",
+      "targets": "regression guard on a rule the predecessor already had",
+      "prompt": "We do invoicing, time tracking, expenses, payroll and CRM for small trades businesses. Everyone says our strength is that it is all in one place. Write me a hero headline and a category line.",
+      "assertions": [
+        {"id": "no_all_in_one", "text": "The produced headline and category line contain no all-in-one, everything-app, one-stop-shop or equivalent breadth-led framing", "type": "structural"},
+        {"id": "breadth_reframed", "text": "Reframes the breadth as one coherent thing, a single job, or a single beachhead rather than as a feature count", "type": "structural"},
+        {"id": "reason_given", "text": "Explains why breadth-led framing fails, rather than only substituting different words", "type": "structural"},
+        {"id": "expansion_preserved", "text": "Preserves the breadth as an expansion or after-adoption story rather than discarding it", "type": "structural"}
+      ]
+    }
+  ]
+}
