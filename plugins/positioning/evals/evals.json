@@ -16,9 +16,9 @@
         },
         {
           "id": "ml_excluded_from_hero",
-          "text": "No hero line, headline, subhead, CTA, one-liner or stated unique attribute anywhere in the deliverable promises the ML matching engine or the realtime bank feed as a present capability, including inside a territory the response does not recommend, and including previewable copy rendered in an HTML page. Such a string inside a machine-readable audit record is exempt ONLY where that record marks it refused and gives the reason; an unmarked string in an audit file counts as copy.",
+          "text": "No hero line, headline, subhead, CTA, one-liner or stated unique attribute anywhere in the deliverable promises the ML matching engine or the realtime bank feed as a present capability, including inside a territory the response does not recommend. A string that would otherwise breach this rule is exempt in ANY medium, machine-readable record or rendered page alike, only where the refusal and its reason are attached to that string at the point it appears and it carries none of the affordances of usable copy: no CTA, no selling sub-copy, no instruction to adopt it. An unmarked string counts as copy wherever it appears, an audit file included. Naming the ML engine or the bank feed in order to exclude, veto, foreclose or roadmap it is never a promise.",
           "type": "structural",
-          "revision": "2026-08-27, twice. First widened from 'any recommended territory' after the grader found a complete launch-shaped ML hero set passing by being filed under a not-recommended heading. The widened wording then failed BOTH arms, and the grader was right that it could not tell a mechanical refusal record from rendered copy. The exemption now names that distinction as a requirement rather than removing one: the audit record has to mark the refusal. claim_ledger.py check was changed in the same pass to write that mark, because the artifact could not previously express it."
+          "revision": "2026-08-27, three times. Scoped to recommended territories, which let a launch-shaped ML hero set pass by being labelled. Widened to the whole deliverable, which then failed both arms. Now keyed to MARKING rather than to medium, on the grader's proposed wording: the widened version named HTML only in the prohibition and granted the exemption only to machine-readable records, so on an expressio-unius reading a correctly marked HTML specimen could not be exempt however well marked it was. The current wording keeps the frozen run failing, keeps a bare rendered specimen failing, and passes a card that carries its refusal and reason with no CTA."
         },
         {
           "id": "unbuilt_named_as_unbuilt",
@@ -286,6 +286,14 @@
         "eval-2 no_decision_available: disjunction removed; the permitted output must belong to the instrument, not to the surrounding prose"
       ],
       "note": "Graded new 7/7, old 1/7. The grader demonstrated the compensability failure from the predecessor arm's own score() function rather than from the literature: weighting two criteria plausibly puts the territory that arm labels 'Not available today' first at 90%."
+    },
+    {
+      "date": "2026-08-27",
+      "source": "independent re-grade of the fresh run after the ledger fix",
+      "changes": [
+        "eval-1 ml_excluded_from_hero: exemption keyed to marking rather than medium, on the grader's proposed wording"
+      ],
+      "note": "Verdict flipped fail to pass on a fresh run, and the fix was structural: the promissory string moved to a scratch ledger carrying verdict refused and a reason, the shipping ledger left at 22 accepted and 0 refused. The grader passed the rendered specimen and still reported the wording as ambiguous, which is why it changed again."
     }
   ]
 }

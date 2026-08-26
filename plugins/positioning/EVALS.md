@@ -125,7 +125,78 @@ three chosen are the ones that test the headline claims. The remaining five are
 written and committed in `evals/evals.json` and have not been run. A partial
 comparison reported as a full one is the failure this whole skill is about.
 
-<!-- RESULTS -->
+### The scorecard
+
+Both skills, same prompts, independent Opus agents per arm, each writing to its
+own directory, paid research disabled in both so the comparison is of judgement
+rather than budget. Graded by a separate agent that read only the produced
+artifacts, never either skill's instructions, and quoted verbatim for every mark.
+
+| Eval | What it tests | positioning | positioning-pipeline |
+|---|---|---:|---:|
+| 1 | Refusing a hero line the product cannot keep | **4/4** | 3/4 |
+| 2 | The decision instrument | **7/7** | **1/7** |
+| 8 | Refusing breadth-led framing | **5/5** | 4/5 |
+
+**Eval 2 is the one that matters, and it is not close.** The predecessor's aid
+scores options 1 to 5 against slider weights into a live ranking. So its own
+concern about a territory it cannot deliver enters the instrument as *"Provable
+on day one, 2 out of 5"* and stays fully compensable. The grader computed the
+consequence from that arm's own `score()` function: weighting two criteria
+plausibly puts territory C, the one that same document heads **"Not available
+today"**, first at 90%.
+
+That is the compensability failure the research panel warned about, demonstrated
+on real output rather than cited.
+
+The rebuild eliminates that territory on a deliverability veto before any
+weighting happens, compares in natural units, and reports rank stability instead
+of a rank. On the re-run, over 231 weight vectors: the winner leads in 44.7% of
+them, and its own decision document says **"A wins a plurality, not a majority"**
+rather than reporting a clean victory.
+
+### The eval this build lost, and the flip
+
+Assertion `ml_excluded_from_hero`, after it was tightened.
+
+The original wording exempted anything inside a territory the response did not
+recommend. The grader found that let a complete launch-shaped ML hero set pass:
+headline, subhead, CTA and four one-liners, filed under a heading that said NOT
+SHIPPABLE TODAY. Drafting unclaimable copy and labelling it is a different act
+from not drafting it, so the scope was widened to the whole deliverable.
+
+**The widened assertion then failed the rebuild too.** Its ledger held
+`"Kettle learns your matches and reconciles for you."` in a bindings `text`
+field, entered so the gate could refuse it, sitting in exactly the shape an
+accepted hero line sits in. A file whose worst string reads like its best one is
+not an audit record.
+
+The response was to change the skill, not to loosen the assertion back:
+
+- `claim_ledger.py check` now writes `verdict` and `refused_because` onto every
+  binding, so the artifact describes itself.
+- The assertion's exemption was keyed to **marking** rather than to medium, on
+  the grader's proposed wording: an audit record or a rendered card is exempt
+  only where the refusal and its reason are attached to that string at the point
+  it appears, with no CTA and no selling copy.
+
+**On a fresh run of the fixed skill, the assertion flipped from fail to pass.**
+The promissory string moved to a separate throwaway ledger with
+`"verdict": "refused"`, the shipping ledger carries zero refused rows (22
+accepted), and the rendered page shows the refused hero as a specimen with its
+rejection label and no CTA.
+
+### Four assertions of mine were wrong
+
+The grader found more faults in the evals than in either skill, which is the
+right ratio for a first run and is recorded here rather than quietly fixed:
+
+| Assertion | Fault | Fix |
+|---|---|---|
+| `ml_excluded_from_hero` | Scope let unclaimable copy pass by being labelled; then its widening caught marked audit records | Widened, then keyed to marking on the grader's wording |
+| `truth_table_exists` | Its evidence bar was cleared by citing the eval prompt itself | Requires the response to say when the prompt is its only source |
+| `no_decision_available` | Disjunctive; the second limb passed on any ordinary caveats section | Disjunction removed; the no-decision output must belong to the instrument |
+| eval-8 | No assertion tested whether the single hero pair asked for was delivered | Added |
 
 ## What is still untested
 
