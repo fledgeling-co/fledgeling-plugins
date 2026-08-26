@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<!--
+  Positioning Pipeline — Phase 1 launcher TEMPLATE.
+  Substitute (HTML-escape the prompt bodies — & < > → &amp; &lt; &gt;):
+    {{COMPANY}}          product / company name
+    {{PROMPT_A_TITLE}}   e.g. "Positioning research"
+    {{PROMPT_B_TITLE}}   e.g. "Product & market research"
+    {{PROMPT_A}}         the full Gemini Deep Research prompt A (escaped)
+    {{PROMPT_B}}         the full Gemini Deep Research prompt B (escaped)
+    {{DATE}}             optional; remove the line if none
+  The two CSS animations (Deep-research menu, Share & Export → Copy contents) are complete — leave them intact.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{COMPANY}} — Positioning research</title>
+<style>
+  :root{
+    --bg:#0e0f13;--surface:#16181f;--raised:#1d2029;--line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.16);
+    --ink:#f3f4f8;--ink-2:rgba(243,244,248,.62);--ink-3:rgba(243,244,248,.34);
+    --accent:#7c93ff;--accent-2:#5b8cff;--accent-soft:rgba(124,147,255,.16);--ok:#46d97f;
+    --g-bg:#1b1c1f;--g-surface:#282a2d;--g-line:rgba(255,255,255,.10);--g-blue:#3b6ef5;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --r:16px;--r-lg:22px;--ease:cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;
+    background-image:radial-gradient(1100px 560px at 50% -200px,rgba(124,147,255,.12),transparent 70%)}
+  ::selection{background:var(--accent-soft)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+  header{padding:56px 0 8px;text-align:center}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:clamp(28px,4.6vw,44px);line-height:1.05;letter-spacing:-.025em;margin:14px 0 14px;font-weight:680}
+  .lede{font-size:17px;color:var(--ink-2);max-width:660px;margin:0 auto}
+  .date{font-size:12px;color:var(--ink-3);margin-top:10px;font-family:var(--mono)}
+
+  section{padding:34px 0}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+  .sec-head .num{font-family:var(--mono);font-size:12px;color:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+  .sec-head h2{font-size:21px;letter-spacing:-.02em;font-weight:660}
+  .sec-head p{font-size:13.5px;color:var(--ink-2);margin-left:auto;max-width:420px;text-align:right}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+  .step .n{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+  .step h3{font-size:15px;margin:5px 0 4px}
+  .step p{font-size:12.5px;color:var(--ink-2)}
+
+  /* animated Gemini mockups */
+  .demos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .demo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;overflow:hidden}
+  .demo .cap{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink);margin-bottom:12px}
+  .demo .cap b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700}
+  .demo .cap span{color:var(--ink-2);font-size:12.5px}
+  .stage{position:relative;background:var(--g-bg);border:1px solid var(--g-line);border-radius:14px;height:268px;overflow:hidden}
+
+  /* fake cursor */
+  .cursor{position:absolute;width:18px;height:18px;left:0;top:0;z-index:5;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));pointer-events:none}
+
+  /* ---- Demo 1 — Gemini composer + menu → Deep research ---- */
+  .g-greet{position:absolute;top:14px;left:0;right:0;text-align:center;color:var(--ink-2);font-size:14px;font-weight:500;letter-spacing:-.01em}
+  .g-bar{position:absolute;top:44px;left:18px;right:18px;height:40px;background:#303236;border-radius:20px;display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--ink-3);font-size:13px}
+  .g-bar .plus{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#cfd2da;font-size:16px;line-height:1}
+  .g-menu{position:absolute;top:92px;left:16px;width:230px;background:var(--g-surface);border:1px solid var(--g-line);border-radius:14px;padding:7px;box-shadow:0 18px 40px -16px rgba(0,0,0,.7);z-index:3}
+  .g-row{display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:9px;font-size:13px;color:#e7e8ec}
+  .g-row .ic{width:18px;height:18px;flex:none;color:#c3c6cf}
+  .g-row.sep{height:1px;background:var(--g-line);margin:5px 4px;padding:0}
+  .g-row .chev{margin-left:auto;color:#8a8d96}
+  .g-deep{position:relative}
+  .g-deep .hl{position:absolute;inset:0;background:#3a3d42;border-radius:9px;opacity:0;animation:g1hl 6s var(--ease) infinite}
+  .g-deep > *{position:relative;z-index:1}
+  .g-tip{position:absolute;left:236px;top:0;white-space:nowrap;background:#e9eaef;color:#1b1c1f;font-size:11.5px;font-weight:500;padding:5px 10px;border-radius:16px;opacity:0;transform:translateX(-6px);animation:g1tip 6s var(--ease) infinite}
+  .c1{animation:g1cur 6s var(--ease) infinite}
+  @keyframes g1cur{0%{transform:translate(30px,60px)}30%{transform:translate(70px,205px)}70%{transform:translate(70px,205px)}100%{transform:translate(30px,60px)}}
+  @keyframes g1hl{0%,28%{opacity:0}40%,72%{opacity:1}82%,100%{opacity:0}}
+  @keyframes g1tip{0%,32%{opacity:0;transform:translateX(-6px)}46%,72%{opacity:1;transform:translateX(0)}82%,100%{opacity:0;transform:translateX(-6px)}}
+
+  /* ---- Demo 2 — report toolbar → Share & Export → Copy contents ---- */
+  .g-tb{position:absolute;top:16px;left:14px;right:14px;display:flex;align-items:center;gap:8px}
+  .g-pill{display:flex;align-items:center;gap:6px;background:#303236;color:#e7e8ec;font-size:12.5px;padding:7px 12px;border-radius:18px}
+  .g-pill.share{position:relative}
+  .g-pill .press{position:absolute;inset:0;border-radius:18px;background:rgba(255,255,255,.14);opacity:0;animation:g2press 6.4s var(--ease) infinite}
+  .g-pill.create{background:var(--g-blue);color:#fff}
+  .g-x{margin-left:auto;color:#9a9da6;font-size:15px}
+  .g-title{position:absolute;top:62px;left:16px;right:60px;color:#d6d8de;font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+  .g-dd{position:absolute;top:50px;left:78px;width:196px;background:var(--g-surface);border:1px solid var(--g-line);border-radius:13px;padding:7px;box-shadow:0 18px 40px -16px rgba(0,0,0,.7);z-index:3;opacity:0;transform:scale(.96) translateY(-4px);transform-origin:top left;animation:g2dd 6.4s var(--ease) infinite}
+  .g-dd .g-row .copyhl{position:absolute;inset:0;background:#3a3d42;border-radius:9px;opacity:0;animation:g2copy 6.4s var(--ease) infinite}
+  .g-copyrow{position:relative}
+  .g-copyrow > *{position:relative;z-index:1}
+  .g-toast{position:absolute;bottom:16px;left:50%;background:#e9eaef;color:#1b1c1f;font-size:12px;font-weight:600;padding:6px 13px;border-radius:18px;display:flex;align-items:center;gap:6px;opacity:0;transform:translate(-50%,6px);animation:g2toast 6.4s var(--ease) infinite}
+  .c2{animation:g2cur 6.4s var(--ease) infinite}
+  @keyframes g2cur{0%{transform:translate(40px,120px)}18%{transform:translate(150px,28px)}30%{transform:translate(150px,28px)}55%{transform:translate(150px,150px)}72%{transform:translate(150px,150px)}100%{transform:translate(40px,120px)}}
+  @keyframes g2press{0%,20%{opacity:0}24%,29%{opacity:1}33%,100%{opacity:0}}
+  @keyframes g2dd{0%,29%{opacity:0;transform:scale(.96) translateY(-4px)}36%,86%{opacity:1;transform:scale(1) translateY(0)}94%,100%{opacity:0;transform:scale(.96) translateY(-4px)}}
+  @keyframes g2copy{0%,55%{opacity:0}66%,84%{opacity:1}90%,100%{opacity:0}}
+  @keyframes g2toast{0%,66%{opacity:0;transform:translate(-50%,6px)}74%,88%{opacity:1;transform:translate(-50%,0)}94%,100%{opacity:0;transform:translate(-50%,6px)}}
+
+  /* prompt cards */
+  .prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px}
+  .prompt-head{display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line)}
+  .prompt-head .tag{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600}
+  .prompt-head h3{font-size:16px;letter-spacing:-.01em}
+  .prompt-head .copy{margin-left:auto;font:inherit;font-size:13px;font-weight:560;color:#0c0f1a;background:var(--accent);border:none;border-radius:10px;padding:8px 15px;cursor:pointer;transition:background .15s var(--ease)}
+  .prompt-head .copy:hover{background:#93a6ff}
+  .prompt-head .copy.done{background:var(--ok);color:#06210f}
+  pre{margin:0;max-height:300px;overflow:auto;padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink-2);white-space:pre-wrap;word-break:break-word}
+  pre::-webkit-scrollbar{width:10px}pre::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
+
+  .cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .gobtn{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:#0c0f1a;background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;border-radius:13px;padding:13px 22px;text-decoration:none}
+  .cta .hint{font-size:12.5px;color:var(--ink-3)}
+
+  .finish{background:linear-gradient(180deg,var(--accent-soft),transparent),var(--surface);border:1px solid rgba(124,147,255,.3);border-radius:var(--r-lg);padding:22px 24px;font-size:14px;color:var(--ink-2)}
+  .finish b{color:var(--ink)}
+  footer{padding:34px 0 56px;color:var(--ink-3);font-size:12px;text-align:center;border-top:1px solid var(--line);margin-top:26px}
+
+  @media(max-width:820px){.steps,.demos{grid-template-columns:1fr}.sec-head{flex-direction:column;gap:5px}.sec-head p{text-align:left;margin-left:0}}
+  @media(prefers-reduced-motion:reduce){.c1,.c2,.g-deep .hl,.g-tip,.g-dd,.g-toast,.g-pill .press,.g-dd .g-row .copyhl{animation:none!important}.g-deep .hl,.g-dd,.g-tip,.g-toast{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Gemini Deep Research · positioning</div>
+    <h1>{{COMPANY}} — positioning research</h1>
+    <p class="lede">Two Deep Research prompts. Run both in Gemini, copy each report back, and we'll turn them into three positioning options.</p>
+    <div class="date">{{DATE}}</div>
+  </header>
+
+  <section>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Copy a prompt</h3><p>Copy Prompt 1 below, then open Gemini.</p></div>
+      <div class="step"><div class="n">02</div><h3>Run Deep research</h3><p>In Gemini's <b>+</b> menu pick <b>Deep research</b>, paste, and run (~30 min).</p></div>
+      <div class="step"><div class="n">03</div><h3>Copy the report</h3><p><b>Share &amp; Export → Copy contents</b>, save it, repeat for Prompt 2, then bring both back.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">A</span><h2>How to run it in Gemini</h2><p>Two things to find — shown live below.</p></div>
+    <div class="demos">
+
+      <!-- DEMO 1 -->
+      <div class="demo">
+        <div class="cap"><b>1</b><span>Start a run: <strong style="color:var(--ink)">+ → Deep research</strong></span></div>
+        <div class="stage">
+          <div class="g-greet">Ask Gemini</div>
+          <div class="g-bar"><span class="plus">+</span> Ask Gemini</div>
+          <div class="g-menu">
+            <div class="g-row"><span class="ic">📎</span> Upload files</div>
+            <div class="g-row"><span class="ic">▲</span> Add from Drive</div>
+            <div class="g-row">··· More uploads <span class="chev">›</span></div>
+            <div class="g-row sep"></div>
+            <div class="g-row"><span class="ic">🖼</span> Create image</div>
+            <div class="g-row"><span class="ic">🎬</span> Create video</div>
+            <div class="g-row"><span class="ic">▦</span> Canvas</div>
+            <div class="g-row g-deep"><span class="hl"></span><span class="ic">⌖</span> Deep research<span class="g-tip">Get detailed reports</span></div>
+            <div class="g-row"><span class="ic">♪</span> Create music</div>
+            <div class="g-row">··· More tools <span class="chev">›</span></div>
+          </div>
+          <svg class="cursor c1" viewBox="0 0 24 24" fill="#fff" stroke="#1b1c1f" stroke-width="1.2"><path d="M5 3l14 8-6 1.5L10 19z"/></svg>
+        </div>
+      </div>
+
+      <!-- DEMO 2 -->
+      <div class="demo">
+        <div class="cap"><b>2</b><span>Get the report: <strong style="color:var(--ink)">Share &amp; Export → Copy contents</strong></span></div>
+        <div class="stage">
+          <div class="g-tb">
+            <span class="g-pill">Contents <span style="color:#8a8d96">⌄</span></span>
+            <span class="g-pill share">Share &amp; Export <span style="color:#8a8d96">⌄</span><span class="press"></span></span>
+            <span class="g-pill create">Create <span>⌄</span></span>
+            <span class="g-x">✕</span>
+          </div>
+          <div class="g-title">Positioning &amp; Market Intelligence Report…</div>
+          <div class="g-dd">
+            <div class="g-row"><span class="ic">↥</span> Share via Drive</div>
+            <div class="g-row"><span class="ic">▤</span> Export to Docs</div>
+            <div class="g-row g-copyrow"><span class="copyhl"></span><span class="ic">⧉</span> Copy contents</div>
+          </div>
+          <div class="g-toast">✓ Copied</div>
+          <svg class="cursor c2" viewBox="0 0 24 24" fill="#fff" stroke="#1b1c1f" stroke-width="1.2"><path d="M5 3l14 8-6 1.5L10 19z"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">B</span><h2>The two prompts</h2><p>Run them as two separate Deep Research conversations.</p></div>
+
+    <div class="prompt">
+      <div class="prompt-head"><span class="tag">PROMPT 1</span><h3>{{PROMPT_A_TITLE}}</h3><button class="copy" data-target="pa">Copy prompt</button></div>
+      <pre id="pa">{{PROMPT_A}}</pre>
+    </div>
+
+    <div class="prompt">
+      <div class="prompt-head"><span class="tag">PROMPT 2</span><h3>{{PROMPT_B_TITLE}}</h3><button class="copy" data-target="pb">Copy prompt</button></div>
+      <pre id="pb">{{PROMPT_B}}</pre>
+    </div>
+
+    <div class="cta">
+      <a class="gobtn" href="https://gemini.google.com/app" target="_blank" rel="noopener">Open Gemini ↗</a>
+      <span class="hint">Pause at Gemini's research plan and prune/inject branches before it runs — it's the highest-leverage step.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="finish"><b>When both reports are done:</b> copy each one back (Share &amp; Export → Copy contents) and return with both — we'll synthesise <b>three positioning options</b> (Markdown) plus an interactive decision page to help you choose.</div>
+  </section>
+
+</div>
+
+<footer>Positioning Pipeline · run both prompts in Gemini Deep Research, then return for Phase 2.</footer>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pre = document.getElementById(btn.getAttribute('data-target'));
+      var text = pre.textContent;
+      var done = function(){ btn.textContent='Copied ✓'; btn.classList.add('done'); setTimeout(function(){ btn.textContent='Copy prompt'; btn.classList.remove('done'); }, 1800); };
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function(){ fallback(text); done(); }); }
+      else { fallback(text); done(); }
+    });
+  });
+  function fallback(text){ var t=document.createElement('textarea'); t.value=text; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); }
+</script>
+</body>
+</html>
