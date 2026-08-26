@@ -5,7 +5,8 @@ screen degrees, errors +84 / -124 / -96 px from the fix at (496, 486)), material
 still the first draft — near-opaque battens with a single cross-section ramp, a
 radial ember shard, a bright arris on all three pocket edges.
 
-Reference: `../reference.png`, the c1 raster masked to the family squircle so
+Reference: `../reference.png` (removed 2026-08-27, see `../PRUNED.md`; it was the
+`icon-engineC-glass.png` still in this assets directory), masked to the family squircle so
 both sides carry the same outer shape. The reference's composition is not the
 master's, so the composite is bounded well below 1 whatever the material does.
 It is read for direction of travel, not level.

@@ -16,7 +16,9 @@ What ran:
   `analyze_pixels.py`, produced `analysis_output.json`, and then stopped without
   emitting a verdict; the first pass ran into the harness's 900-second cap. The
   swapped pass began behaving the same way and was stopped rather than retried
-  into the ground. Its measurements survive in `bundle/analysis_output.json` and
+  into the ground. The A/B image bundles it was given have since been pruned along with the rest
+  of the loop rasters (see `../../PRUNED.md`), but its measurements survive in
+  `bundle/analysis_output.json` and
   separate the two takes by under one luminance unit in every region it sampled
   — full image, centre crop, rod region and background — which is consistent
   with the tie the other judge recorded.
