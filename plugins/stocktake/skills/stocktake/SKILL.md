@@ -273,6 +273,31 @@ honest way to declare it is to run the gates you can pass and leave this one out
 `gates.py covered evidence classified banked <dir>`. Skipping a gate deliberately says so in
 the open; making it pass falsely does not.
 
+**The failure mode is not a gate that fails. It is a gate that never runs.** Measured
+2026-08-26 on a sweep that graded 53 cards and banked 32 rows to a warrant ledger:
+`gates.py` was invoked **once, with `--help`**. All six gate points — briefs-written,
+dispatched, covered, evidence, classified, banked — went unchecked, and
+`warrant_column.py` was never called at all while the ledger it reads was being written to.
+The sweep reported success and no counter disagreed.
+
+That run also measured where the time went, and it explains why: **stocktake is 57.2%
+deciding and 0.6% gating.** The skill making the judgements is the one with almost no gate
+time, which is exactly backwards.
+
+So the close-out is not optional and it is not a formality:
+
+```bash
+python3 scripts/gates.py briefs-written dispatched covered evidence classified banked <dir>
+echo "gates rc=$?"          # print it; a piped rc is the pipeline's, not the gate's
+```
+
+**Report the exit code you actually saw.** A gate whose verdict was never read and a gate
+that passed serialise identically in every record — measured in the same window, seven of the
+nine checks that "never failed" never failed because nothing read them. If a gate could not
+be run, say which one and why, in the same sentence as the result. A sweep that closes
+without naming its gate outcomes has produced a Done column nobody can audit in either
+direction, which is the thing this skill exists to prevent.
+
 ---
 
 ## Arming a full sweep
