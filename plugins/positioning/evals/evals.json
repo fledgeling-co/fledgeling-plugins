@@ -64,8 +64,9 @@
         },
         {
           "id": "no_decision_available",
-          "text": "States that 'no decision' or 'practically tied' is a permitted output, or names the experiment that would separate the options",
-          "type": "structural"
+          "text": "The decision aid can return no winner: it states that 'no decision', 'practically tied' or an equivalent is a permitted OUTPUT of the instrument itself, not merely that further research would help. An aid that always produces a ranked winner fails this even where it names a follow-up experiment elsewhere in the document.",
+          "type": "structural",
+          "revision": "2026-08-27: the original was disjunctive, and its second limb ('names the experiment that would separate the options') was satisfied by any ordinary what-would-change-my-mind section. The grader flagged it as the weakest in the set: the predecessor passed it while its aid always produces a winner and treats a tie as something to break."
         },
         {
           "id": "names_the_hazard",
@@ -277,6 +278,14 @@
         "claim_ledger.py check: writes verdict and refused_because onto every binding"
       ],
       "note": "The widened wording failed the new skill as well as the old one. That is the eval this build lost, and the response was to change the skill so the artifact tells the truth about itself, not to loosen the assertion back."
+    },
+    {
+      "date": "2026-08-27",
+      "source": "independent grader, eval-2",
+      "changes": [
+        "eval-2 no_decision_available: disjunction removed; the permitted output must belong to the instrument, not to the surrounding prose"
+      ],
+      "note": "Graded new 7/7, old 1/7. The grader demonstrated the compensability failure from the predecessor arm's own score() function rather than from the literature: weighting two criteria plausibly puts the territory that arm labels 'Not available today' first at 90%."
     }
   ]
 }

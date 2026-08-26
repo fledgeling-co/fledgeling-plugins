@@ -16,6 +16,6 @@ Two composition changes rode along: the arris cut to the lit pocket edge only,
 and the bloom widened.
 
 Result: composite up at all five sizes, net +0.0313. Gate REJECT on the
-legibility floor — 32px self-contrast −6.3%, 16px −13.7%. The reference's
+legibility floor — 32px self-contrast −6.3%, 16px −13.6%. The reference's
 battens are lighter than the master's, so converging its material also
 converged its figure-ground. This is the documented conflict, not a bug.
