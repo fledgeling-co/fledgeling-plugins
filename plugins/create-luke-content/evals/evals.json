@@ -1,0 +1,150 @@
+{
+  "skill_name": "create-luke-content",
+  "notes": "Behavioural evals comparing the fledgeling rebuild against the diolog predecessor (create-luke-content 2.4.3). Two arms run the same prompts: CANDIDATE loads the rebuilt skill, PREDECESSOR loads a snapshot of the diolog version. Assertions are checkable properties of the delivered draft and of the run's own tool use, never 1-10 scores. Evals 1-5 target the measured defect: the marketing route carries no craft research layer, so its structure comes from a single consumer-app release post. Evals 6-7 are regression guards on the routes that already worked (LinkedIn, Slack) and must not be damaged by the marketing work. Eval 8 is adversarial: it supplies no source material, which is the condition under which a voice skill fabricates. Eval 9 is a process eval on the toolchain, and it is the one the predecessor cannot pass by writing better prose: it ships no voice-lint.json and never passes --config, so three of its own lint checks are switched off in the shipped configuration. Assertions marked [research] were added after the Dossier panel and trace to a finding in references/evidence.md; assertions marked [defect] trace to a failure measured directly against the predecessor before the research landed.",
+  "arms": ["candidate", "predecessor"],
+  "evals": [
+    {
+      "id": 1,
+      "name": "b2b-product-announcement",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Write the product announcement post for this feature, as Luke, for publication on the Diolog blog. Luke's stance: the value is that a question stops sitting unanswered overnight, and the honest framing is that this shortens response time rather than replacing anyone's judgement.",
+      "expected_output": "An announcement carrying one controlling idea, the exact mechanics from the brief, the rough edges disclosed in place, and no hype.",
+      "assertions": [
+        "[defect] The opening sentence names one controlling idea rather than listing several capabilities",
+        "[defect] At least two exact mechanics from the brief appear as stated values (for example 07:00 in the listing timezone, the top 3 topics, or the Settings > Notifications > Digest path) rather than being paraphrased as automatic or smart",
+        "[defect] At least one item from the brief's 'Known rough edges' section is stated in the body of the announcement rather than omitted or moved to a footnote",
+        "[defect] No hype adjective appears (revolutionary, seamless, cutting-edge, world-class, next-generation, innovative, game-changing, unparalleled)",
+        "[defect] The draft contains at most one call to action",
+        "[defect] Every number in the draft appears in fixtures/digest-feature.md; no figure is invented",
+        "[defect] No customer name, testimonial or quote appears, since the brief states none is on the record",
+        "[defect] The draft states what the feature is not (it does not draft or post replies), matching the brief's 'What it is not' section",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "landing-page-copy",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Write the landing page section for this feature: headline, subhead, and the feature blocks. Same stance as the announcement. This page sits on diolog.com.au and is read by IR managers evaluating the product.",
+      "expected_output": "A page section with a plain-claim headline, a named audience, mechanism paired to outcome in every block, and one repeated CTA.",
+      "assertions": [
+        "[defect] The headline states a benefit as a plain claim; it is not a superlative, a category label, or a bare product name",
+        "[defect] The subhead or headline names who the page is for",
+        "[defect] Every feature block pairs an outcome with the mechanism that produces it, rather than asserting the outcome alone",
+        "[defect] The page uses one CTA wording rather than several competing ones",
+        "[defect] At least one proof element appears (a measured figure from the brief, a named mechanism, or a stated limit) rather than adjectives carrying the claim",
+        "[defect] The 31 hours to 9 hours figure, if used, is attributed to the beta rather than presented as a general guarantee",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "campaign-email",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Write the campaign email announcing this to existing Diolog customers. Include the subject line.",
+      "expected_output": "One topic, a specific unhyped subject line, a first line that earns the open, one CTA.",
+      "assertions": [
+        "[defect] A subject line is supplied and contains no hype adjective and no exclamation mark",
+        "[defect] The subject line names the specific capability rather than teasing it",
+        "[defect] The email covers one topic only",
+        "[defect] The email contains exactly one call to action",
+        "[defect] The first line names a concrete capability or the reader's actual problem rather than opening with a greeting or a self-referential announcement phrase",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "release-notes",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Write the changelog entry for this release, for the Diolog release notes page.",
+      "expected_output": "An entry stating what changed and what it means, with exact settings named, and nothing invented.",
+      "assertions": [
+        "[defect] The entry states both what changed and what it means for the reader, not just the change",
+        "[defect] The exact configuration path from the brief is named",
+        "[defect] Nothing is announced that does not appear in the brief",
+        "[defect] The known limitation about one address per company, or the misfiling rate, is disclosed",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "tension-hype-pressure",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Our head of growth wants the announcement to lead with 'Revolutionary AI-powered investor intelligence, finally here.' Write the announcement.",
+      "expected_output": "A draft that refuses the hype line, keeps the feature attractive, and discloses the rough edge.",
+      "assertions": [
+        "[defect] The word revolutionary does not appear in the draft body",
+        "[defect] No superlative claim about the product appears",
+        "[defect] The over-flagging classifier or the topic misfiling rate is disclosed in place",
+        "[defect] The draft still presents a concrete reason the feature is worth using",
+        "[defect] The response says plainly that the supplied hype line was not used, rather than silently dropping it",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "regression-linkedin-post",
+      "route": "linkedin",
+      "prompt": "Write a LinkedIn post as Luke about what changed in how his team reviews AI-written code over the past year. Luke's stance: the model writes more of the first draft now, and the skill that matters has shifted from writing to deciding what to reject.",
+      "expected_output": "The LinkedIn route unchanged: hook discipline, one closing question at most, hashtags at the end.",
+      "assertions": [
+        "The first line is under 200 characters and does not open with throat-clearing (I've been thinking about, In today's, Let's talk about)",
+        "The post contains at most one question mark in its closing section, and no double-barrelled restatement of the same question",
+        "Hashtags, if present, appear at the end in PascalCase and number five or fewer",
+        "The body is between 100 and 450 words",
+        "No em dash appears anywhere in the draft",
+        "A graphic concept is supplied with an image-model prompt and one line of alt text"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "regression-slack-register-fence",
+      "route": "slack",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md. Write Luke a Slack message to his co-founder summarising what shipped. This is an FYI; there is nothing he needs from her.",
+      "expected_output": "A short FYI with no manufactured ask, no CTA, and no marketing framing.",
+      "assertions": [
+        "The message contains no call to action and no offer of help that the prompt did not supply",
+        "The message contains no invented prior conversation or continuity",
+        "The message is under 120 words",
+        "No marketing scaffolding appears: no benefit headline, no feature list with bolded labels, no CTA link",
+        "No em dash appears anywhere in the draft"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "adversarial-no-source-material",
+      "route": "marketing",
+      "prompt": "Write the launch announcement for Diolog's new investor sentiment dashboard.",
+      "expected_output": "Either a request for the source material and stance, or a draft that invents nothing.",
+      "assertions": [
+        "[defect] The response either asks for the source material and Luke's stance, or states plainly that it is writing without one",
+        "[defect] No figure, percentage, timing, threshold or measured outcome appears that was not supplied in the prompt",
+        "[defect] No customer name, testimonial or quote appears",
+        "[defect] No mechanism is described as if it were known (no invented settings paths, no invented behaviour)",
+        "[defect] No invented call to action, offer, or beta programme appears"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "toolchain-the-lint-actually-runs",
+      "route": "marketing",
+      "fixture": "fixtures/digest-feature.md",
+      "prompt": "Read fixtures/digest-feature.md and write the product announcement as Luke. Then run the package's own voice lint on the draft and report the result verbatim.",
+      "expected_output": "The lint is invoked with the package's configuration, so the checks the package claims to enforce are the checks that run.",
+      "assertions": [
+        "[defect] voice_lint.py is actually invoked as a command, not merely described",
+        "[defect] The invocation passes --config pointing at the package's voice-lint.json",
+        "[defect] The invocation passes --format marketing",
+        "[defect] The reported output includes the stylometric fingerprint line or an explicit note that the draft is under the 120-word floor for it, which is only possible when a fingerprint block is loaded",
+        "[defect] The reported exit status is stated",
+        "[defect] If the lint reported any hard failure, the delivered draft was corrected and the lint re-run until clean"
+      ]
+    }
+  ]
+}

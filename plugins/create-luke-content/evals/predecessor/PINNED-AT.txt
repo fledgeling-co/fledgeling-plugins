@@ -1,0 +1,2 @@
+7e2e152af5c7f5472b4d449f4d4cf22745434f5d
+diolog-plugins plugins/create-luke-content v2.4.3, snapshot taken 2026-08-27 for the eval comparison. Read-only.
