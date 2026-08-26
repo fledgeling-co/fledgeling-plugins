@@ -165,6 +165,7 @@ for l in luna:
     key = LANES[l].get(\"external_bench\")
     assert key in EXTERNAL_BENCH, (l, key)
     assert LANES[l].get(\"usd_per_task_external\"), l
+    assert LANES[l].get(\"probed\"), \"a lane nobody has watched answer\"
     assert LANES[l][\"bench_key\"] is None, \"a local grade it never earned\"
 assert \"gpt-5.6-luna\" in DECLINED and \"SUPERSEDED\" in DECLINED[\"gpt-5.6-luna\"]
 row = EXTERNAL_BENCH[\"deepswe-1.1\"][\"rows\"]
