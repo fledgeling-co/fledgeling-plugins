@@ -167,6 +167,22 @@ OUTER_INTENT = (
     "live sync", "real api", "third-party", "third party",
 )
 EVIDENCE_SELF_REPORTED = ("reported", "unknown", "built-unwatched")
+
+# A STATED CEILING: somebody looked, recorded what cannot be watched from here, and
+# said when that would change. It is not `reported` — that is the project's own account
+# of itself — and it is not `unmeasured`, which means nobody found out. Collapsing a
+# declared ceiling into either is the failure this bucket exists to stop, and this file
+# has been carrying the evidence for it: the `else` branch below records that `REQ-072`
+# in one repository carries `inconclusive`, a ceiling recorded deliberately, and that
+# every reader was told it was the project talking about itself.
+#
+# A ceiling reaches `waived` — an exception, never a pass — ONLY when the decision is
+# actually on the row: a reason and a horizon each substantial enough to have been
+# written by a person. Without them the word is a free pass out of the work count, so it
+# falls back to `unmeasured` and says why. That floor is 24 characters, which is the one
+# `test-campaign`'s own limit checks already use.
+EVIDENCE_CEILING = ("limited", "inconclusive")
+CEILING_FLOOR = 24
 EVIDENCE_DISPUTED = ("contradicted", "vacuous")
 EVIDENCE_CIRCULAR = ("source",)
 
@@ -186,7 +202,8 @@ EVIDENCE_CIRCULAR = ("source",)
 CASE_VOCABULARY = ADJUDICATED + WAIVED_STATUS + UNMEASURED_STATUS
 DEFECT_VOCABULARY = (DEFECT_FIXED + DEFECT_OPEN + DEFECT_WAIVED + DEFECT_NOT_OWING
                      + DEFECT_PARTIAL)
-EVIDENCE_VOCABULARY = EVIDENCE_OBSERVED + EVIDENCE_SELF_REPORTED + EVIDENCE_DISPUTED + EVIDENCE_CIRCULAR
+EVIDENCE_VOCABULARY = (EVIDENCE_OBSERVED + EVIDENCE_SELF_REPORTED + EVIDENCE_DISPUTED
+                       + EVIDENCE_CIRCULAR + EVIDENCE_CEILING)
 
 # The classes. Every entity lands in exactly one.
 CLASSES = (
@@ -789,15 +806,34 @@ def classify(briefs, campaign, edges, join_is_weak):
             else:
                 cls = "verified-done"
                 why = "requirement observed"
+        elif ev in EVIDENCE_CEILING:
+            reason = (r.get("limitReason") or "").strip()
+            horizon = (r.get("limitExpiry") or "").strip()
+            if len(reason) >= CEILING_FLOOR and len(horizon) >= CEILING_FLOOR:
+                cls = "waived"
+                why = ("requirement evidence %r is a STATED CEILING: somebody looked, recorded "
+                       "what cannot be watched from here, and said when that would change. A "
+                       "declared waiver carries a reason and a horizon; an unmeasured gap "
+                       "carries neither, and reading this as either would collapse the "
+                       "distinction the word exists to make" % ev)
+            else:
+                cls = "unmeasured"
+                why = ("requirement evidence %r claims a ceiling and does not carry the decision: "
+                       "a reason of %d character(s) and a horizon of %d, against a floor of %d "
+                       "each. A ceiling without a recorded reason is indistinguishable from a gap "
+                       "nobody looked at, which is exactly what the word is supposed to "
+                       "distinguish itself from" % (ev, len(reason), len(horizon), CEILING_FLOOR))
         elif ev in EVIDENCE_SELF_REPORTED:
             cls = "unmeasured"
             why = "requirement evidence %r is the project's own account of itself, not an observation" % ev
         else:
             # Reaching this branch used to tell the reader the row was a
             # self-report, which is a claim about a word this tool had never
-            # heard of. REQ-072 here carries `inconclusive` — a stated ceiling,
-            # recorded deliberately — and was explained to every reader as the
-            # project talking about itself.
+            # heard of. `REQ-072` carried `inconclusive` and `limited` reached
+            # this branch from another repository — both stated ceilings, both
+            # explained to every reader as the project talking about itself.
+            # EVIDENCE_CEILING above is the bucket they belong in; this branch is
+            # now only for a word no vocabulary here holds at all.
             cls = "unmeasured"
             why = ("requirement evidence %r is not a word this tool classifies, and not one "
                    "test-campaign's own schema permits either. It stays unmeasured because an "

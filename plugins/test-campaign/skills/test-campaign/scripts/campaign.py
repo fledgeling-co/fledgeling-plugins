@@ -161,7 +161,17 @@ WITNESS_RUNGS = ("effect-witness",)
 # holding the gate, exactly as `contradicted` does — what holds the gate is the
 # dishonest configuration below, an external-effect claim recorded as `observed`
 # with no witness behind it.
-REQ_EVIDENCE = ("observed", "reported", "contradicted", "unknown", "vacuous")
+# `limited` is a STATED CEILING: somebody looked, recorded what no harness here can
+# watch, and said when that would change. It is not `reported` — that is the
+# project's own account of itself — and it is not the absence of a look. The
+# distinction was built in another repository under WAR-0048/WAR-0052, refused
+# this schema on the way in, and survived only because rows written straight into
+# `inventory.json` never reach the `add` path that validates. Admitting the word
+# closes that hole rather than widening it: a row carrying it is now validated
+# like any other, and `reckon` grades it `waived` only when the reason and the
+# horizon are actually on the row.
+REQ_EVIDENCE = ("observed", "reported", "contradicted", "unknown", "vacuous",
+                "limited")
 
 # The closed list a requirement declares when its text names an effect outside the
 # product's own process. Closed rather than free text because the census that

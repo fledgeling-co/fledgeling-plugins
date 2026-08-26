@@ -4,6 +4,36 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-27
+
+### reckon 1.8.0 · test-campaign 0.15.0: a stated ceiling is not a gap
+
+- **`EVIDENCE_CEILING` in reckon, and `limited` admitted to test-campaign's
+  `REQ_EVIDENCE`.** A requirement whose subject no harness can watch — somebody looked,
+  recorded what cannot be observed from here, and said when that would change — was
+  reaching `unmeasured` and being explained to every reader as *"the project's own
+  account of itself"*. It is neither a self-report nor the absence of a look, and
+  collapsing it into either destroys the distinction the word exists to make.
+- **reckon's own source has been carrying the evidence for this.** The `else` branch it
+  falls through recorded that `REQ-072` in one repository carries `inconclusive`, a
+  ceiling recorded deliberately, and that the pre-fix branch told every reader it was a
+  self-report. Both words are now in the bucket.
+- **A ceiling earns `waived` only when the decision is on the row** — a reason and a
+  horizon of at least 24 characters each, the floor `test-campaign`'s own limit checks
+  already use. Without them it stays `unmeasured` and says exactly how short it fell,
+  because a bare `limited` would otherwise be a free pass out of the work count. Four
+  new selftest assertions cover both sides plus the two readings that must not occur.
+- **The unclassifiable-word fixture had to move.** It used `inconclusive`, which is now
+  classified; a word the tool has learned cannot go on standing for one it has never
+  heard of, so that assertion now uses a word that is still unclassifiable.
+- **Why it changed:** the `warden` repository declared `limited` on two requirements
+  under its WAR-0048 / WAR-0052 work, and both tools refused the word — `campaign.py` at
+  the `add` path and `reckon` at exit 4 — so the rows survived only because they were
+  written into `inventory.json` directly. Admitting the word closes that hole rather than
+  widening it: such a row is now validated like any other. Measured against that
+  repository, `REQ-003` moves from `unmeasured` to `waived` and `reckon check` goes from
+  exit 4 to exit 0.
+
 ## 2026-08-26
 
 ### launch-craft 0.1.0: end-to-end product synthesis & interactive launch conductor
