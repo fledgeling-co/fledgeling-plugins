@@ -12,15 +12,17 @@ angles and different lengths, and the one warm accent is the shard of ember
 light left in the pocket the three of them fail to close. Delete a line and the
 fix stops existing, which is the point the skill makes about evidence.
 
-Two takes are authored from one geometry so the sheet judges the material
-rather than the layout:
+Two takes share one geometry, so the audit sheet judges the material rather
+than the layout. `gel_svg()` writes the master; `chart_svg()` writes the
+alternate:
 
-    TAKE = "gel"    graphite gel rods lying on a porcelain chart, translucent
-                    enough that each crossing multiplies darker, with the fix
-                    glowing up through the pocket between them. Ships as icon.svg.
-    TAKE = "chart"  the paper-chart register: inked bearing lines ruled thin on
-                    the porcelain, and the cocked hat as a solid ember prism with
-                    real thickness sitting on top of them.
+    gel      graphite glass battens lying on a porcelain chart, translucent
+             enough that every crossing multiplies darker, with the fix glowing
+             up through the pocket between them. Ships as icon.svg.
+    chart    the paper-chart register: bearings ruled thin in ink, and the
+             cocked hat given real thickness as an ember prism standing on
+             them. It loses, and the sheet says why: a solid prism occludes the
+             lines that made it, so the fix reverts to a marker.
 
 Geometry and material are named constants, so a fidelity round is a parameter
 edit rather than path surgery.
@@ -605,7 +607,7 @@ def export(master: pathlib.Path):
 
 def main():
     (ASSETS / "icon.svg").write_text(gel_svg())
-    print("  wrote icon.svg (gel rods on a chart, the fix glowing in the pocket — the master)")
+    print("  wrote icon.svg (glass battens on a chart, the fix glowing in the pocket — the master)")
     (ASSETS / "icon-engineA2-chart.svg").write_text(chart_svg())
     print("  wrote icon-engineA2-chart.svg (inked chart lines, the hat as a raised prism)")
     if "--export" in sys.argv:

@@ -117,7 +117,7 @@ by 0.024.
   by the objects and nothing else.
 
   **(f) The reference's rods were lighter than the master's, and converging cost
-  13.7% of its own 16px contrast.** r01 raised the composite at all five sizes
+  13.6% of its own 16px contrast.** r01 raised the composite at all five sizes
   (+0.0313 net) and the gate rejected it on the self-contrast floor at 32 and 16.
   Keeping the glass construction and restoring the density — opacities back up
   ~0.08, the far core darkened, the ground's warm spill pulled in from 412 to 372px
