@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "loop-runs/reference.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r01 material: glass battens (transmission, frosted edges, interior band), triangle outline removed, glow widened",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1043,
+      "ssim": 0.7182,
+      "edge_f1": 0.1356,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4481,
+      "ref_self_contrast": 0.5213,
+      "composite": 0.5252
+    },
+    "256": {
+      "lum_delta": 0.1033,
+      "ssim": 0.5843,
+      "edge_f1": 0.3399,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4475,
+      "ref_self_contrast": 0.5171,
+      "composite": 0.5241
+    },
+    "128": {
+      "lum_delta": 0.1026,
+      "ssim": 0.5128,
+      "edge_f1": 0.5232,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.447,
+      "ref_self_contrast": 0.5137,
+      "composite": 0.5423
+    },
+    "32": {
+      "lum_delta": 0.1003,
+      "ssim": 0.4727,
+      "edge_f1": 0.8456,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4312,
+      "ref_self_contrast": 0.5024,
+      "composite": 0.754
+    },
+    "16": {
+      "lum_delta": 0.0987,
+      "ssim": 0.4936,
+      "edge_f1": 0.9583,
+      "mask_iou": 1.0,
+      "self_contrast": 0.3902,
+      "ref_self_contrast": 0.4649,
+      "composite": 0.7996
+    }
+  },
+  "render_hash": "e62fed57e585b70a"
+}

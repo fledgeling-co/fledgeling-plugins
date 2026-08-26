@@ -1,0 +1,4 @@
+NOTE  gating on a degraded tier by request (candidate tier 'numpy (no torch: luminance+ssim+edges only)'; baseline tier 'numpy (no torch: luminance+ssim+edges only)'). This verdict is about structure and small-size legibility only; it is not evidence about material at 256 or 1024.
+REJECT  (net composite delta +0.0313 across 5 sizes)
+  - 32px self_contrast 0.431 fell more than 6% below baseline 0.460 (legibility loss the similarity score does not see)
+  - 16px self_contrast 0.390 fell more than 6% below baseline 0.452 (legibility loss the similarity score does not see)

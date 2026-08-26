@@ -65,6 +65,65 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · positioning "the cocked hat" — a focal shape can be the region three
+  translucent objects fail to cover, and a light ground gives you the multiply for
+  free; an outline around that region converts it back into a symbol.** The
+  commission is a navigator's three-line fix: three graphite glass battens crossing
+  a porcelain chart, and the small triangle of ember light in the pocket between
+  them. Six findings.
+
+  **(a) A clipPath built from stroked paths clips to nothing.** A clip is fill
+  geometry only, so a `<path d="M a L b" stroke-width="54">` inside a `clipPath`
+  contributes zero area and everything clipped to it disappears. The construction
+  that works is a filled quad per object — the centreline walked +/- half the width
+  along the normal — which is four points of arithmetic and no path surgery. The
+  tell is not an error: the effect simply does not appear, and it reads as a
+  gradient that is too weak rather than as a clip with no region.
+
+  **(b) Overlapping translucent strokes on a LIGHT ground multiply for free.** No
+  blend mode, no filter: at ~0.80 average opacity over a 240-luminance porcelain, a
+  graphite batten lands near 100, two crossing land near 58, and the cascade is
+  plain source-over. That gives the era's authored-overlap tell (grammar #5) with a
+  single stroke per object, and it is also the whole composition: the region the
+  three objects leave uncovered is the only part of the figure still at full ground
+  value, so the focal shape exists *because* of the crossings rather than being
+  drawn over them. Derive that region from the same line offsets as the objects
+  (each line walked inward by its own half-width) so a width change moves both
+  together.
+
+  **(c) Flat batten or round dowel is a gradient-stop layout, not new geometry.**
+  Across-the-width stops of lit / 14% / 70% / 90% / far-bounce give an even face
+  over most of the width with the fall confined to the last fifth — a glass ruler
+  lying on the surface. The same five colours spread monotonically edge to edge
+  give a turned dowel instead, and a dowel with a bright far edge reads as chrome,
+  which the era rules out outright. Tune the stop positions before reaching for a
+  second shape.
+
+  **(d) Translucency is a construction, not an opacity.** An object at 0.8 opacity
+  still hides what it lies on, because the thing underneath is a smooth ground with
+  nothing to see through it. What made the battens read as glass was redrawing the
+  chart's own graticule a second time, clipped to the battens, at 0.32 — the
+  ground's texture surviving the object, dimmed and continuous. Pair it with a
+  frosted catch on **both** long edges (the shaded one narrower and cooler) and a
+  broad low-opacity band well inside the lit edge, which is the body transmitting
+  rather than a specular sitting on the surface.
+
+  **(e) An outline turns a consequence back into a symbol.** Three bright arris
+  strokes on the pocket's edges — one per bounding object, all at similar strength —
+  outlined the triangle, and an outlined triangle is a marker placed on the lines
+  rather than the gap they leave. Cutting it to the single edge turned toward the
+  key light, at 0.42 falling with each edge's occlusion, was the one edit that fixed
+  the concept. The raster reference had no outline at all; its triangle is bounded
+  by the objects and nothing else.
+
+  **(f) The reference's rods were lighter than the master's, and converging cost
+  13.7% of its own 16px contrast.** r01 raised the composite at all five sizes
+  (+0.0313 net) and the gate rejected it on the self-contrast floor at 32 and 16.
+  Keeping the glass construction and restoring the density — opacities back up
+  ~0.08, the far core darkened, the ground's warm spill pulled in from 412 to 372px
+  — held +0.0086 net with the contrast within 3% of baseline. The material was the
+  part worth taking from the reference; its figure-ground was not.
+
 - **2026-08 · eli5 "the cut face" — a section void is drawn ON TOP of a finished
   solid as an exact three-piece tiling, never as a boolean difference; and half of
   every edge stroke on a silhouette lands outside the body.** The commission is a

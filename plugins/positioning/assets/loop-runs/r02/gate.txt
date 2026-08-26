@@ -1,0 +1,2 @@
+NOTE  gating on a degraded tier by request (candidate tier 'numpy (no torch: luminance+ssim+edges only)'; baseline tier 'numpy (no torch: luminance+ssim+edges only)'). This verdict is about structure and small-size legibility only; it is not evidence about material at 256 or 1024.
+ACCEPT  (net composite delta +0.0086 across 5 sizes)

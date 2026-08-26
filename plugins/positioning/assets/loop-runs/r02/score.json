@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "loop-runs/reference.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r02 small-size repair: rod density restored, ground spill pulled back; glass construction kept",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1092,
+      "ssim": 0.7148,
+      "edge_f1": 0.1374,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4719,
+      "ref_self_contrast": 0.5213,
+      "composite": 0.5174
+    },
+    "256": {
+      "lum_delta": 0.1083,
+      "ssim": 0.5828,
+      "edge_f1": 0.3435,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4679,
+      "ref_self_contrast": 0.5171,
+      "composite": 0.5174
+    },
+    "128": {
+      "lum_delta": 0.1076,
+      "ssim": 0.5112,
+      "edge_f1": 0.533,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.4621,
+      "ref_self_contrast": 0.5137,
+      "composite": 0.5371
+    },
+    "32": {
+      "lum_delta": 0.1047,
+      "ssim": 0.4729,
+      "edge_f1": 0.8426,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4508,
+      "ref_self_contrast": 0.5024,
+      "composite": 0.7503
+    },
+    "16": {
+      "lum_delta": 0.1015,
+      "ssim": 0.4956,
+      "edge_f1": 0.9637,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4377,
+      "ref_self_contrast": 0.4649,
+      "composite": 0.8003
+    }
+  },
+  "render_hash": "ac98ecef70dd7e25"
+}

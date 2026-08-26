@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "loop-runs/reference.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "baseline: Engine A gel master vs the C-glass raster",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1118,
+      "ssim": 0.7174,
+      "edge_f1": 0.1474,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.5272,
+      "ref_self_contrast": 0.5213,
+      "composite": 0.5173
+    },
+    "256": {
+      "lum_delta": 0.111,
+      "ssim": 0.5832,
+      "edge_f1": 0.3515,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.5217,
+      "ref_self_contrast": 0.5171,
+      "composite": 0.5158
+    },
+    "128": {
+      "lum_delta": 0.1104,
+      "ssim": 0.5116,
+      "edge_f1": 0.5278,
+      "mask_iou": 0.9987,
+      "self_contrast": 0.5127,
+      "ref_self_contrast": 0.5137,
+      "composite": 0.532
+    },
+    "32": {
+      "lum_delta": 0.1076,
+      "ssim": 0.4713,
+      "edge_f1": 0.8473,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4598,
+      "ref_self_contrast": 0.5024,
+      "composite": 0.7498
+    },
+    "16": {
+      "lum_delta": 0.1028,
+      "ssim": 0.4937,
+      "edge_f1": 0.9637,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4516,
+      "ref_self_contrast": 0.4649,
+      "composite": 0.799
+    }
+  },
+  "render_hash": "5ba81ee5992bb9e4"
+}

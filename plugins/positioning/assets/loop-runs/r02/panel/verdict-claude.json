@@ -1,0 +1,75 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "tie",
+        "smallsize": "tie",
+        "rationale": {
+          "overall": "B carries the reference's glassy, light-transmitting character \u2014 translucent overlaps, specular rim highlights and a glow under the triangle \u2014 where A renders the same geometry as opaque matte plastic on a flat fill.",
+          "material": "B's rods let the triangle's edge and the ground show through where they cross and pick up sharp gloss along their lengths, plus a soft emissive bloom at the triangle's apex, all of which the REFERENCE has and A lacks entirely.",
+          "silhouette": "The three-rod arrangement, angles, cap positions and squircle framing are effectively identical between A and B, so neither has an edge on outline read.",
+          "smallsize": "At 32px and 16px both collapse to the same dark-cross-plus-orange-wedge motif with comparable contrast against the cream ground; B's marginally brighter wedge is not enough to separate them."
+        }
+      },
+      "resolved": {
+        "overall": "baseline",
+        "material": "baseline",
+        "silhouette": "tie",
+        "smallsize": "tie"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "tie",
+        "smallsize": "A",
+        "rationale": {
+          "overall": "The two takes are pixel-identical except for the bar rendering, and B's lighter, more translucent, more roundly-lit bars sit closer to the REFERENCE's glassy read, which is the deciding axis.",
+          "material": "REF's bars are mid-grey translucent cylinders (mean bar luminance ~95) that transmit the orange beneath them; B's bars average ~65 with a broad soft specular band and visible warm transmission across the triangle, while A's average ~59 and read flatter and more opaque with only a thin hard highlight line.",
+          "silhouette": "A difference image is black everywhere outside the bars \u2014 same bar geometry, same triangle, same squircle and background \u2014 so there is nothing to separate them on shape.",
+          "smallsize": "At 32px and 16px A's darker bars hold marginally more separation from the cream field and leave the orange core slightly cleaner, where B's warmer bar-over-triangle transmission muddies the orange mass a little."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "candidate",
+        "silhouette": "tie",
+        "smallsize": "baseline"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "tie",
+    "smallsize": "tie"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [
+    "overall",
+    "material",
+    "smallsize"
+  ],
+  "swap_consistent": false,
+  "status": "ok"
+}

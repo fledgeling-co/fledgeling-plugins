@@ -21,11 +21,11 @@
       <feGaussianBlur stdDeviation="13"/>
     </filter>
     <linearGradient id="bat0" x1="476.0" y1="535.6" x2="453.1" y2="592.2" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
-      <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
-      <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
-      <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
-      <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
+      <stop offset="0" stop-color="#727C88" stop-opacity="0.64"/>
+      <stop offset="0.14" stop-color="#3F4751" stop-opacity="0.82"/>
+      <stop offset="0.70" stop-color="#2F363F" stop-opacity="0.86"/>
+      <stop offset="0.90" stop-color="#191D22" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#414954" stop-opacity="0.74"/>
     </linearGradient>
     <linearGradient id="run0" x1="1187.7 856.1" x2="-258.7 271.7" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
@@ -33,11 +33,11 @@
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>
     <linearGradient id="bat1" x1="585.1" y1="446.3" x2="633.5" y2="424.8" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
-      <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
-      <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
-      <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
-      <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
+      <stop offset="0" stop-color="#727C88" stop-opacity="0.64"/>
+      <stop offset="0.14" stop-color="#3F4751" stop-opacity="0.82"/>
+      <stop offset="0.70" stop-color="#2F363F" stop-opacity="0.86"/>
+      <stop offset="0.90" stop-color="#191D22" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#414954" stop-opacity="0.74"/>
     </linearGradient>
     <linearGradient id="run1" x1="755.7 764.4" x2="292.0 -277.0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
@@ -45,11 +45,11 @@
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>
     <linearGradient id="bat2" x1="418.5" y1="393.7" x2="450.0" y2="431.2" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
-      <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
-      <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
-      <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
-      <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
+      <stop offset="0" stop-color="#727C88" stop-opacity="0.64"/>
+      <stop offset="0.14" stop-color="#3F4751" stop-opacity="0.82"/>
+      <stop offset="0.70" stop-color="#2F363F" stop-opacity="0.86"/>
+      <stop offset="0.90" stop-color="#191D22" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#414954" stop-opacity="0.74"/>
     </linearGradient>
     <linearGradient id="run2" x1="-40.7 811.0" x2="664.1 219.6" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
@@ -73,14 +73,14 @@
       <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0.03"/>
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
-    <radialGradient id="bloom" cx="496.0" cy="486.0" r="258.0" gradientUnits="userSpaceOnUse">
+    <radialGradient id="bloom" cx="496.0" cy="486.0" r="322.0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFD7AA" stop-opacity="0.78"/>
       <stop offset="0.34" stop-color="#F58F4A" stop-opacity="0.30"/>
       <stop offset="1" stop-color="#F58F4A" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="spill" cx="496.0" cy="486.0" r="330.0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.22"/>
-      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.07"/>
+    <radialGradient id="spill" cx="496.0" cy="486.0" r="372.0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.20"/>
+      <stop offset="0.48" stop-color="#F9A45C" stop-opacity="0.06"/>
       <stop offset="1" stop-color="#F9A45C" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="hatClip"><path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z"/></clipPath>
@@ -100,7 +100,7 @@
     </g>
 
     <g id="mid">
-      <g filter="url(#castShadow)"><path d="M -241.7 294.7 L 1204.7 879.1" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="63.4" stroke-linecap="round" fill="none"/><path d="M -23.7 834.0 L 681.1 242.6" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="51.0" stroke-linecap="round" fill="none"/><path d="M 309.0 -254.0 L 772.7 787.4" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="55.1" stroke-linecap="round" fill="none"/></g>
+      <g filter="url(#castShadow)"><path d="M -237.7 299.7 L 1208.7 884.1" stroke="#6E5C44" stroke-opacity="0.26" stroke-width="63.4" stroke-linecap="round" fill="none"/><path d="M -19.7 839.0 L 685.1 247.6" stroke="#6E5C44" stroke-opacity="0.26" stroke-width="51.0" stroke-linecap="round" fill="none"/><path d="M 313.0 -249.0 L 776.7 792.4" stroke="#6E5C44" stroke-opacity="0.26" stroke-width="55.1" stroke-linecap="round" fill="none"/></g>
       
       <g clip-path="url(#hatClip)">
         <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="url(#shard)"/>
@@ -108,16 +108,19 @@
         <g clip-path="url(#pocketClip)" filter="url(#aoBlur)"><path d="M 657.5 608.9 L 543.4 352.9" fill="none" stroke="#7A3315" stroke-opacity="0.53" stroke-width="54.0"/><path d="M 543.4 352.9 L 374.5 494.6" fill="none" stroke="#7A3315" stroke-opacity="0.227" stroke-width="54.0"/><path d="M 374.5 494.6 L 657.5 608.9" fill="none" stroke="#7A3315" stroke-opacity="0.57" stroke-width="54.0"/></g>
         <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="url(#sheen)"/>
       </g>
-      <g id="bearing0"><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#bat0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#run0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -249.5 249.1 L 1196.9 833.5" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="6.7" stroke-linecap="round" fill="none"/><path d="M -268.5 296.0 L 1177.9 880.4" stroke="#0E1115" stroke-opacity="0.22" stroke-width="7.9" stroke-linecap="round" fill="none"/><path d="M -269.8 299.1 L 1176.7 883.5" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="3.1" stroke-linecap="round" fill="none"/></g><g id="bearing2"><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#bat2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#run2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -53.3 796.0 L 651.5 204.6" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="5.4" stroke-linecap="round" fill="none"/><path d="M -27.1 827.1 L 677.6 235.8" stroke="#0E1115" stroke-opacity="0.22" stroke-width="6.4" stroke-linecap="round" fill="none"/><path d="M -25.4 829.2 L 679.4 237.8" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.5" stroke-linecap="round" fill="none"/></g><g id="bearing1"><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#bat1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#run1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 272.7 -268.4 L 736.3 773.1" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="5.8" stroke-linecap="round" fill="none"/><path d="M 312.8 -286.3 L 776.5 755.2" stroke="#0E1115" stroke-opacity="0.22" stroke-width="6.9" stroke-linecap="round" fill="none"/><path d="M 315.5 -287.5 L 779.2 754.0" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.7" stroke-linecap="round" fill="none"/></g>
+      <g id="bearing0"><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#bat0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#run0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -254.3 260.9 L 1192.1 845.3" stroke="#FFFFFF" stroke-opacity="0.11" stroke-width="31.7" stroke-linecap="round" fill="none"/><path d="M -249.3 248.5 L 1197.1 832.9" stroke="#EEF3F8" stroke-opacity="0.55" stroke-width="7.3" stroke-linecap="round" fill="none"/><path d="M -268.3 295.4 L 1178.1 879.8" stroke="#0E1115" stroke-opacity="0.24" stroke-width="8.5" stroke-linecap="round" fill="none"/><path d="M -269.6 298.8 L 1176.8 883.2" stroke="#EEF3F8" stroke-opacity="0.17" stroke-width="3.4" stroke-linecap="round" fill="none"/></g><g id="bearing2"><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#bat2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#run2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -46.6 803.9 L 658.1 212.5" stroke="#FFFFFF" stroke-opacity="0.11" stroke-width="25.5" stroke-linecap="round" fill="none"/><path d="M -53.6 795.6 L 651.2 204.2" stroke="#EEF3F8" stroke-opacity="0.55" stroke-width="5.9" stroke-linecap="round" fill="none"/><path d="M -27.4 826.8 L 677.3 235.4" stroke="#0E1115" stroke-opacity="0.24" stroke-width="6.9" stroke-linecap="round" fill="none"/><path d="M -25.5 829.0 L 679.2 237.6" stroke="#EEF3F8" stroke-opacity="0.17" stroke-width="2.7" stroke-linecap="round" fill="none"/></g><g id="bearing1"><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#bat1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#run1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 282.8 -272.9 L 746.5 768.5" stroke="#FFFFFF" stroke-opacity="0.11" stroke-width="27.6" stroke-linecap="round" fill="none"/><path d="M 272.2 -268.2 L 735.9 773.3" stroke="#EEF3F8" stroke-opacity="0.55" stroke-width="6.4" stroke-linecap="round" fill="none"/><path d="M 312.4 -286.1 L 776.0 755.4" stroke="#0E1115" stroke-opacity="0.24" stroke-width="7.4" stroke-linecap="round" fill="none"/><path d="M 315.3 -287.3 L 778.9 754.1" stroke="#EEF3F8" stroke-opacity="0.17" stroke-width="2.9" stroke-linecap="round" fill="none"/></g>
     </g>
 
     <g id="fg">
+      <!-- the chart surviving the glass: a rod that hides what it lies on is not
+           translucent, whatever its opacity says -->
+      <g clip-path="url(#battensClip)" opacity="0.32"><path d="M -84.0 0 L -84.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 -56.0 L 1024 -56.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 34.0 0 L 34.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 62.0 L 1024 62.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 152.0 0 L 152.0 1024" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 0 180.0 L 1024 180.0" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 270.0 0 L 270.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 298.0 L 1024 298.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 388.0 0 L 388.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 416.0 L 1024 416.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 506.0 0 L 506.0 1024" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 0 534.0 L 1024 534.0" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 624.0 0 L 624.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 652.0 L 1024 652.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 742.0 0 L 742.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 770.0 L 1024 770.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 860.0 0 L 860.0 1024" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 0 888.0 L 1024 888.0" stroke="#8A7458" stroke-opacity="0.085" stroke-width="2.6"/><path d="M 978.0 0 L 978.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 1006.0 L 1024 1006.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 1096.0 0 L 1096.0 1024" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/><path d="M 0 1124.0 L 1024 1124.0" stroke="#8A7458" stroke-opacity="0.05" stroke-width="1.6"/></g>
       <!-- the fix's light running back out along the lines that made it -->
       <g clip-path="url(#battensClip)">
-        <circle cx="496.0" cy="486.0" r="258.0" fill="url(#bloom)"/>
+        <circle cx="496.0" cy="486.0" r="322.0" fill="url(#bloom)"/>
       </g>
       <!-- the pocket's own edges: each rod catching the light it encloses -->
-      <path d="M 657.5 608.9 L 543.4 352.9" stroke="#FFF0DC" stroke-opacity="0.34" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M 543.4 352.9 L 374.5 494.6" stroke="#FFF0DC" stroke-opacity="0.69" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M 374.5 494.6 L 657.5 608.9" stroke="#FFF0DC" stroke-opacity="0.29" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+      <path d="M 543.4 352.9 L 374.5 494.6" stroke="#FFF0DC" stroke-opacity="0.10" stroke-width="3.0" stroke-linecap="round" fill="none"/>
     </g>
 
     <g id="highlight">
