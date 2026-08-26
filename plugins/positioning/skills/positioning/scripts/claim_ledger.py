@@ -242,6 +242,22 @@ def cmd_check(args) -> int:
                 f"{cid}: {len(c['sources'])} sources collapse to {len(domains)} domains"
             )
 
+    # Write the verdict back onto each binding. A ledger that stores refused copy
+    # in the same shape as accepted copy is a file whose worst string reads like
+    # its best one: an independent grader of a real run flagged exactly that,
+    # having found a refused hero line sitting in `text` with nothing to mark it.
+    # The record of a refusal has to look like a refusal.
+    for b in data["bindings"]:
+        why = [e.split(": ", 1)[1] for e in errors
+               if e.startswith(f"{b['territory']}/{b['move']}: ")]
+        b["verdict"] = "refused" if why else "accepted"
+        if why:
+            b["refused_because"] = why
+        else:
+            b.pop("refused_because", None)
+    refused = [b for b in data["bindings"] if b["verdict"] == "refused"]
+    save(workdir, data)
+
     used_claims = {c for b in data["bindings"] for c in b["claims"]}
     orphans = sorted(set(claims) - used_claims)
 
@@ -250,6 +266,8 @@ def cmd_check(args) -> int:
           f"truth rows: {len(truth)}")
     print(f"claims bound to a move: {len(used_claims)}/{len(claims)}"
           + (f" · unused: {', '.join(orphans)}" if orphans and args.verbose else ""))
+    print(f"bindings: {len(data['bindings']) - len(refused)} accepted, "
+          f"{len(refused)} refused and marked as such in ledger.json")
     for w in warnings:
         print(f"  warn  {w}")
     for e in errors:

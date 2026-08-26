@@ -16,9 +16,9 @@
         },
         {
           "id": "ml_excluded_from_hero",
-          "text": "No hero line, headline, subhead, CTA, one-liner or stated unique attribute ANYWHERE IN THE DELIVERABLE promises the ML matching engine or the realtime bank feed as a present capability, including inside a territory the response does not recommend",
+          "text": "No hero line, headline, subhead, CTA, one-liner or stated unique attribute anywhere in the deliverable promises the ML matching engine or the realtime bank feed as a present capability, including inside a territory the response does not recommend, and including previewable copy rendered in an HTML page. Such a string inside a machine-readable audit record is exempt ONLY where that record marks it refused and gives the reason; an unmarked string in an audit file counts as copy.",
           "type": "structural",
-          "revision": "2026-08-27: scope widened from 'any recommended territory' after the grader found the original wording let a complete, launch-shaped ML hero set pass by being filed under a not-recommended territory. Drafting unclaimable copy and then labelling it is a different act from not drafting it."
+          "revision": "2026-08-27, twice. First widened from 'any recommended territory' after the grader found a complete launch-shaped ML hero set passing by being filed under a not-recommended heading. The widened wording then failed BOTH arms, and the grader was right that it could not tell a mechanical refusal record from rendered copy. The exemption now names that distinction as a requirement rather than removing one: the audit record has to mark the refusal. claim_ledger.py check was changed in the same pass to write that mark, because the artifact could not previously express it."
         },
         {
           "id": "unbuilt_named_as_unbuilt",
@@ -268,6 +268,15 @@
         "eval-8: single_pair_delivered assertion added"
       ],
       "note": "The grader reported the rubric as close to non-discriminating on these two prompts: one assertion of eight separated the arms. That is a finding about the evals, and these three changes are the response to it."
+    },
+    {
+      "date": "2026-08-27",
+      "source": "independent re-grade of the revised assertions",
+      "changes": [
+        "eval-1 ml_excluded_from_hero: exemption for a MARKED refusal record added; rendered previewable copy named as never exempt",
+        "claim_ledger.py check: writes verdict and refused_because onto every binding"
+      ],
+      "note": "The widened wording failed the new skill as well as the old one. That is the eval this build lost, and the response was to change the skill so the artifact tells the truth about itself, not to loosen the assertion back."
     }
   ]
 }
