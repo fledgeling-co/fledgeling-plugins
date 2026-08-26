@@ -211,16 +211,130 @@ Stated so the citation-backed rules stay distinguishable:
 
 Dispatched 26 Aug 2026 across gemini, openai and perplexity, archetype
 `technical`, tier `max`, assembled by hand because the automatic panel could not
-obtain six concurrent slots. It covers fabrication rates in agentic search,
-citation verification versus claim-source entailment, voice-of-customer mining
-validity, panel independence and correlated error, evidence-grading schemes, and
-LLM-as-judge bias. Findings land in `research-panels.md`.
+obtain six concurrent run slots. **144 distinct sources across 49 independent
+domains, 1% overlap.**
 
-One measurement was already published by the tooling and is load-bearing enough
-to state before that panel returns, because it comes from Dossier's own labelled
-corpus rather than from these runs: **on 30 labelled cases, token containment
-passed 11 of 23 bad citations as supporting — including every overstatement and
-4 of 7 outright contradictions — where a judged pass let none through.** A
-contradiction states the opposite using the page's own numbers and names, so a
-token check has nothing to see. That is why promissory copy takes the judged
-pass.
+### 11 · A resolving link is not evidence, and the gap is now measured
+
+This is the finding the skill's verification order rests on.
+
+- **Onweller et al. (May 2026)** separated link resolution from factual support
+  across fourteen models. Twelve of fourteen exceeded **94% "Link Works"**, while
+  factual support ranged **24.4%-76.8%**, and **38.9%-76.8%** among frontier
+  models. Per-model: Claude Opus 4.5 98.7% / 76.8%; GPT-5.4 100.0% / 47.7%;
+  GPT-5 Mini 99.3% / 38.9%; Gemini 3.1 Pro 94.1% / 48.5%.
+- Derived from that table: URL failure affected **0-5.9%** of pairs where
+  claim-source checking rejected **23.2-61.1%**. Even assuming every broken link
+  is also a support failure, URL checking accounts for at most **0-11.5%** of
+  what entailment checking finds.
+- Caveat the report states about itself: the support evaluator was an LLM judge
+  calibrated against only 50-100 manually reviewed judgments.
+- **Rao, Wong & Callison-Burch** measured what URL checking *does* fix: a
+  correction loop took non-resolving citations from 16.0% to 0.6% (GPT-5.1),
+  6.1% to 0.1% (Gemini 2.5 Pro), 4.9% to 0.8% (Claude Sonnet 4.5), all at
+  p < 10⁻³⁵. It never tested whether the live pages supported the claims.
+
+→ `research-panels.md` Step 3, and the ledger's `citations_verified` flag.
+
+### 12 · Fabrication is precise and plausible, not obviously wrong
+
+- The largest URL audit to date covered **53,090 DRBench URLs and 168,021
+  ExpertQA URLs**: **3-13% probably fabricated, 5-18% non-resolving**. Gemini 2.5
+  Pro Deep Research generated the most URLs per query (113.1) and had the highest
+  hallucinated-URL rate (**13.3%**).
+- **FINDER/DEFT**, ~1,000 deep-research reports: **18.95% of classified failures
+  were "strategic content fabrication"** — invented statistics, methods and case
+  narratives produced when the required data was unavailable. One report asserted
+  an audited **30.2% annualised return** and an internal leverage rule that did
+  not exist.
+- **Source laundering documented**, though with no standalone population rate: an
+  agent cited a third-party aggregation site for claims where the vendor's own
+  white paper and IEEE/ACM material existed.
+- Roughly **16% of sources cited by four generative search engines showed
+  evidence of being AI-generated** — a model can accurately quote a live page
+  while laundering synthetic content through apparent external corroboration.
+- **A data gap, stated as one:** no cross-system rate exists for invented direct
+  quotations attributed to real people or forums. Hence the exact-text rule.
+
+**This panel corroborated a defect in the other panel.** Panel 1's Gemini member
+returned 74 sources, every one a `vertexaisearch` redirect, with visible citation
+corruption. Panel 2 independently reports that the same product family had the
+highest measured hallucinated-URL rate and the highest URL count per query in the
+largest audit run. Neither observation was made looking for the other.
+
+### 13 · Organic platforms discover; they do not measure
+
+- **26% of US adults used Reddit in 2025**, skewed by age, gender and education
+  (~40% of college graduates against 15% of high-school-or-less).
+- Search retrieval adds a second selection layer: over-represents popular
+  content, skews more positive, leaves topical gaps against unsampled data.
+- A **UK Department for Business and Trade** study trained on brokered fake
+  reviews and applied the model to **2.1 million reviews across nine platforms**,
+  estimating **11-15% likely fake** in three product categories; well-written
+  fake reviews raised purchase probability 3.1% overall and 9.2% above £80.
+- **That rate is not transferable** to Reddit, Hacker News, G2, Capterra or app
+  stores. For those, the honest entry is a data gap, not a lower number.
+- The FTC's Consumer Reviews and Testimonials Rule took effect 21 Oct 2024;
+  Apple's June 2026 guidelines prohibit review manipulation. Both establish
+  enforcement, not a residual contamination rate.
+
+→ `research-panels.md` Step 4, and `customer.template.md`'s provenance caveat.
+
+### 14 · A panel helps when it argues, not when it agrees
+
+- Vanilla homogeneous multi-agent debate can **underperform plain majority
+  vote**; multi-agent judging amplifies position, verbosity, chain-of-thought and
+  bandwagon bias after the first round.
+- A **challenger-plus-human-auditor** protocol moved expert accuracy on hidden
+  gold claims from **60.8% to 90.9%** over four rounds. Domain experts started at
+  60.8% while reporting high confidence.
+- Agentic semantic verification measured **83.4%** accuracy against 69.1% for the
+  best prior deep-research verifier and 58.5% for the best traditional
+  fact-checking pipeline.
+
+The mechanism is adversarial structure plus human adjudication, not headcount.
+That is why `research_counter_review` runs its four lenses briefed to refute, and
+why four lenses finding nothing is reported as a failed review.
+
+### 15 · The judge design this skill's own evals already use
+
+- Replace holistic **1-10 LLM ratings** with criterion-level
+  `{Meets, Does not meet, Uncertain}` judgments carrying evidence spans, with
+  confidence recorded separately, then aggregate deterministically.
+- Pairwise judging is retained only as a **blinded, order-swapped tie-breaker**,
+  because the evidence conflicts: it avoids some scale-use problems while
+  amplifying verbosity and authoritative-tone bias.
+
+`evals/evals.json` was written this way before this panel returned, so this is
+corroboration rather than the source of that decision. The `Uncertain` state is
+the one worth adding on the next pass: the current assertions are binary, and a
+two-state grader absorbs the cases it could not judge.
+
+### 16 · The claim-admission ladder
+
+The panel's ten gates, in order, with the four this skill enforces marked:
+
+1. Atomic claim extraction — **compound claims cannot be bound**
+2. **URL resolution and snapshot** — `research_verify_citations`
+3. Metadata identity check (title, author, date, entity)
+4. **Claim-source entailment** — `research_verify_claims`, judged mode
+5. **Exact quote verification** — for every quotation
+6. Source-authority and provenance classification
+7. **Independent-source deduplication** — `research_synthesise`, then the
+   ledger's domain floors
+8. Contradiction and recency check
+9. Confidence assignment, never exceeding the evidence grade
+10. Human audit for consequential claims
+
+Gates 1, 3, 6, 8 and 10 are **not** mechanised here. They are named in
+`research-panels.md` as steps the operator performs, and naming them as unmechanised
+is the honest position rather than implying the ledger covers them.
+
+## Reading depth, stated
+
+Panel 1: all four completed reports exported and read end to end. Panel 2: the
+OpenAI member read end to end; the Gemini and Perplexity members exported and
+read in part at the time of writing, with every panel-2 figure above taken from
+the OpenAI member's report and its named primary sources. Both panels' full
+exports are committed in `docs/deep-research/` so any claim here can be checked
+against them.
