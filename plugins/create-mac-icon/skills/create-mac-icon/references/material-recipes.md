@@ -65,6 +65,60 @@ by 0.024.
 
 ## Marketplace-confirmed wins (add new entries below, newest first)
 
+- **2026-08 · eli5 "the cut face" — a section void is drawn ON TOP of a finished
+  solid as an exact three-piece tiling, never as a boolean difference; and half of
+  every edge stroke on a silhouette lands outside the body.** The commission is a
+  quarter-section cut into a soft drum: a horizontal shelf partway down plus two
+  vertical section walls meeting at the axis. Four findings, each one round.
+
+  **(a) The visible interior of a radial quarter-cut is exactly three surfaces, and
+  their projections tile the void's screen region with no overlap and no gaps.**
+  Under the usual axonometric (x unscaled, y scaled by the foreshortening K), the
+  void bounded by `M O_top L A_top L A_shelf A(shelf ellipse) B_shelf L B_top Z` is
+  covered precisely by the shelf sector `(O_shelf, A_shelf, arc, B_shelf)` and the
+  two wall quads `(O_top, A_top, A_shelf, O_shelf)` and `(O_top, B_top, B_shelf,
+  O_shelf)` — shared edges `O_shelf→A_shelf`, `O_shelf→B_shelf` and `O_top→O_shelf`,
+  and every ray entering the void hits one of the three. So the solid is drawn
+  finished and opaque, the void painted over it inside one clip, and each interior
+  surface keeps its own gradient. No path arithmetic, no difference operation, and
+  the shell's shading never has to know the cut exists. A parameter sweep of the
+  cut depth is then one constant.
+
+  **(b) `M left A rx ry 0 0 1 right` on a horizontal ellipse draws the BACK arc.**
+  Sweep-flag 1 follows increasing t in `x = cx + rx·cos t, y = cy + ry·sin t`, so
+  left-to-right passes through t = 270° — the far edge — while the near edge needs
+  sweep 0. Three strokes meant for the near rim (the fillet light, the occlusion
+  band under the lid, a bounce along the foot) all landed on the far edge first,
+  and each read as a detached grey halo rather than as a wrong edge, because the
+  half of the stroke outside the silhouette paints onto the ground. Two fixes, both
+  needed: pick the sweep deliberately, and **clip the whole shell to its own body
+  path** so no edge stroke can spill whatever its sweep. The halo is the tell, and
+  it looks like a rendering artifact rather than a geometry error.
+
+  **(c) A rounded edge is one gradient-stroked ellipse, not new geometry.** Stroking
+  the lid ellipse at width ≈ 8% of its radius with a linear gradient run corner to
+  corner across it — light at the key, dark at the far side — turns a hard cylinder
+  edge into a fillet for one path. At full strength (0.55 lit / 0.45 shaded) it
+  reads as a *lid seam* and the drum says "container"; at 0.32 / 0.40 it reads as a
+  rounded edge and the drum says "solid". The construction survived a raster
+  reference that had a real modelled fillet; the opacity is what decides which
+  object it is, so tune that stop before adding geometry.
+
+  **(d) An emissive core stops being a point when the surface it sits on shares its
+  colour.** The shelf's own radial ramp started at the core hue, and the whole
+  quarter-disc went pale: the flare had nothing to be brighter than. Dropping the
+  shelf ramp's inner stop to mid-ember (#F58F4A) and giving the core its own tight
+  flare (0.19 of the outer radius, hard white centre at 0.055) restored the read at
+  every size. The rule generalises past this fixture — an emissive interior needs
+  its substrate held down, not lifted with it.
+
+  Provenance and honesty: the raster take (GPT Image 2 on four porcelain-register
+  corpus captures) won the material read and its material was ported to the master
+  by hand over two rounds. LPIPS could not run on that machine, so the gate would
+  have refused to grade it and the two rounds were judged by eye plus WCAG contrast
+  on the renders — weaker evidence than a number, and recorded as such in the
+  commission's `audit.html`.
+
 - **2026-08 · improve-skill round 21 — a texture emitted as a filter does not
   downsample, it re-samples; and a texture's path budget is spent on the amplitude
   solve, which is a gradient.** The fixture ran twenty fidelity rounds against a

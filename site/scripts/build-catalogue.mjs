@@ -67,6 +67,7 @@ const GROUP_OF = {
   "design-craft": "making", "ux-craft": "making", "mac-craft": "making", "tui-craft": "making",
   "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making",
   "generate-investor-portal": "making", "create-swe-project": "making", "launch-craft": "making",
+  eli5: "making",
 
   // Checking it before anyone sees it.
   "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking",
