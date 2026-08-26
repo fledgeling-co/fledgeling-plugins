@@ -27,10 +27,26 @@ SUITE = {
 BREADTH_BANS = [
     r"\ball[\s\-]?in[\s\-]?one\b",
     r"\bevery\w*[\s\-]app\b",
+    r"\ball\b[\s\-]in[\s\-]one[\s\-]place\b",
+    r"\beverything in one place\b",
     r"\bone[\s\-]stop[\s\-]shop\b",
     r"\bthe only tool you(?:'| wi)ll ever need\b",
     r"\bswiss[\s\-]army[\s\-]knife\b",
 ]
+
+# A gate that fires when a document CORRECTLY refuses breadth framing is a gate
+# people switch off. Measured on real runs of both skills: every hit in three of
+# four flagged files was the document quoting the ban in order to reject it.
+# So a line carrying a prohibition or discussion marker is not judged, and the
+# count of lines skipped this way is reported rather than absorbed.
+DISCUSSION_MARKERS = re.compile(
+    r"\b(never|avoid|avoided|don't|do not|doesn't|does not|not\s+the|no longer|"
+    r"strike|struck|ban|banned|refuse[sd]?|reject(?:s|ed)?|instead of|rather than|"
+    r"why not|should not|shouldn't|won't|will not|stop|drop|cut|guardrail|"
+    r"they say|customers say|when they say|everyone tells|reporting a|"
+    r"reads as|which is|is not|isn't|forbidden|prohibited|failure mode)\b",
+    re.I,
+)
 
 # Words that read as an owned word and are not one: uncontestable, so unloseable.
 ABSTRACT_WORDS = {
@@ -69,6 +85,7 @@ class Report:
     def __init__(self) -> None:
         self.errors: list[str] = []
         self.warnings: list[str] = []
+        self.notes: list[str] = []
         self.checked: dict[str, int] = {}
 
     def fail(self, where: str, msg: str) -> None:
@@ -76,6 +93,9 @@ class Report:
 
     def warn(self, where: str, msg: str) -> None:
         self.warnings.append(f"{where}: {msg}")
+
+    def note(self, msg: str) -> None:
+        self.notes.append(msg)
 
     def ran(self, name: str, population: int) -> None:
         self.checked[name] = self.checked.get(name, 0) + population
@@ -103,17 +123,33 @@ def check_placeholders(files: list[Path], root: Path, r: Report) -> None:
                    f"{len(left)} template placeholder(s) never filled: {shown}")
 
 
+def breadth_hits(text: str) -> tuple[list[tuple[int, str]], int]:
+    """Breadth-framing hits in copy, plus the count skipped as discussion."""
+    hits, skipped = [], 0
+    for i, line in enumerate(text.splitlines(), 1):
+        m = next((re.search(p, line, re.I) for p in BREADTH_BANS
+                  if re.search(p, line, re.I)), None)
+        if not m:
+            continue
+        if DISCUSSION_MARKERS.search(line):
+            skipped += 1
+            continue
+        hits.append((i, m.group(0)))
+    return hits, skipped
+
+
 def check_breadth(files: list[Path], root: Path, r: Report) -> None:
     r.ran("files scanned for breadth-led framing", len(files))
+    skipped_total = 0
     for f in files:
-        text = f.read_text()
-        for i, line in enumerate(text.splitlines(), 1):
-            if line.lstrip().startswith(">") and "Never" in line:
-                continue
-            for pat in BREADTH_BANS:
-                if re.search(pat, line, re.I) and "Never" not in line and "never" not in line:
-                    r.fail(f"{f.relative_to(root).as_posix()}:{i}",
-                           f"breadth-led framing: {re.search(pat, line, re.I).group(0)!r}")
+        hits, skipped = breadth_hits(f.read_text())
+        skipped_total += skipped
+        for i, found in hits:
+            r.fail(f"{f.relative_to(root).as_posix()}:{i}",
+                   f"breadth-led framing: {found!r}")
+    if skipped_total:
+        r.note(f"lines mentioning breadth framing in order to reject it, "
+               f"not judged: {skipped_total}")
 
 
 def check_figures(files: list[Path], root: Path, r: Report) -> None:
@@ -214,10 +250,12 @@ def check_html(path: Path, r: Report) -> None:
     if re.search(r"<canvas\b", html, re.I) and not re.search(r"<svg\b|<table\b", html, re.I):
         r.fail(name, "figures drawn to canvas with no DOM mark: absent with JS off and in print")
 
-    for pat in BREADTH_BANS:
-        m = re.search(pat, html, re.I)
-        if m:
-            r.fail(name, f"breadth-led framing in the rendered page: {m.group(0)!r}")
+    hits, skipped = breadth_hits(html)
+    for i, found in hits:
+        r.fail(name, f"breadth-led framing in the rendered page, line {i}: {found!r}")
+    if skipped:
+        r.note(f"{name}: breadth framing mentioned in order to reject it, "
+               f"not judged: {skipped} line(s)")
 
     if re.search(r"\bthree\.js\b|THREE\.", html, re.I) and "webgl" not in html.lower():
         r.warn(name, "three.js present with no WebGL-absent fallback")
@@ -261,6 +299,8 @@ def main() -> int:
           f"{len(args.html or [])} html surface(s)")
     for k, v in sorted(r.checked.items()):
         print(f"  checked  {k}: {v}")
+    for n in r.notes:
+        print(f"  note  {n}")
     for w in r.warnings:
         print(f"  warn  {w}")
     for e in r.errors:
