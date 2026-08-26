@@ -17,75 +17,78 @@
     <filter id="softBlur" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="34"/>
     </filter>
-    <linearGradient id="bat0" x1="491.2" y1="396.2" x2="487.3" y2="452.0" gradientUnits="userSpaceOnUse">
+    <filter id="aoBlur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="13"/>
+    </filter>
+    <linearGradient id="bat0" x1="476.0" y1="535.6" x2="453.1" y2="592.2" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
       <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
       <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
       <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
       <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
     </linearGradient>
-    <linearGradient id="run0" x1="1267.3 478.5" x2="-288.9 369.7" gradientUnits="userSpaceOnUse">
+    <linearGradient id="run0" x1="1187.7 856.1" x2="-258.7 271.7" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
       <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.02"/>
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>
-    <linearGradient id="bat1" x1="400.7" y1="504.5" x2="445.2" y2="486.5" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bat1" x1="585.1" y1="446.3" x2="633.5" y2="424.8" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
       <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
       <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
       <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
       <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
     </linearGradient>
-    <linearGradient id="run1" x1="569.8 858.9" x2="130.8 -227.7" gradientUnits="userSpaceOnUse">
+    <linearGradient id="run1" x1="755.7 764.4" x2="292.0 -277.0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
       <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.02"/>
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>
-    <linearGradient id="bat2" x1="505.7" y1="492.6" x2="534.5" y2="525.8" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bat2" x1="418.5" y1="393.7" x2="450.0" y2="431.2" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#828B96" stop-opacity="0.58"/>
       <stop offset="0.20" stop-color="#3C424B" stop-opacity="0.76"/>
       <stop offset="0.58" stop-color="#252A31" stop-opacity="0.82"/>
       <stop offset="0.87" stop-color="#171A1F" stop-opacity="0.84"/>
       <stop offset="1" stop-color="#414954" stop-opacity="0.7"/>
     </linearGradient>
-    <linearGradient id="run2" x1="153.3 828.1" x2="1108.8 -2.5" gradientUnits="userSpaceOnUse">
+    <linearGradient id="run2" x1="-40.7 811.0" x2="664.1 219.6" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
       <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.02"/>
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>
-    <radialGradient id="shard" cx="472.0" cy="460.0" r="150" gradientUnits="userSpaceOnUse">
+    <linearGradient id="shard" x1="543.4 352.9" x2="657.5 608.9" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFE6C4"/>
-      <stop offset="0.26" stop-color="#F58F4A"/>
-      <stop offset="0.64" stop-color="#C4622D"/>
+      <stop offset="0.22" stop-color="#F58F4A"/>
+      <stop offset="0.62" stop-color="#C4622D"/>
       <stop offset="1" stop-color="#9E4A20"/>
-    </radialGradient>
-    <radialGradient id="flare" cx="476.0" cy="464.0" r="58" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFCF3"/>
-      <stop offset="0.34" stop-color="#FFE6C4"/>
-      <stop offset="0.74" stop-color="#F58F4A" stop-opacity="0.62"/>
+    </linearGradient>
+    <radialGradient id="flare" cx="527.5" cy="422.1" r="109.1" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFEFD6" stop-opacity="0.80"/>
+      <stop offset="0.34" stop-color="#FFE6C4" stop-opacity="0.55"/>
+      <stop offset="0.70" stop-color="#F58F4A" stop-opacity="0.26"/>
       <stop offset="1" stop-color="#F58F4A" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="bloom" cx="486.0" cy="470.0" r="258.0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFCB95" stop-opacity="0.52"/>
-      <stop offset="0.40" stop-color="#F58F4A" stop-opacity="0.20"/>
+    <linearGradient id="sheen" x1="543.4 352.9" x2="657.5 608.9" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="496.0" cy="486.0" r="258.0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFD7AA" stop-opacity="0.78"/>
+      <stop offset="0.34" stop-color="#F58F4A" stop-opacity="0.30"/>
       <stop offset="1" stop-color="#F58F4A" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="spill" cx="486.0" cy="470.0" r="330.0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.20"/>
-      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.06"/>
+    <radialGradient id="spill" cx="496.0" cy="486.0" r="330.0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.22"/>
+      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.07"/>
       <stop offset="1" stop-color="#F9A45C" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="pocketAO" cx="478.0" cy="466.0" r="112" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#7A3315" stop-opacity="0"/>
-      <stop offset="0.62" stop-color="#7A3315" stop-opacity="0.04"/>
-      <stop offset="1" stop-color="#7A3315" stop-opacity="0.46"/>
-    </radialGradient>
-    <clipPath id="hatClip"><path d="M 391.4 417.3 L 452.3 568.2 L 608.5 432.5 Z"/></clipPath>
-    <clipPath id="pocketClip"><path d="M 429.7 448.0 L 462.8 529.9 L 547.5 456.3 Z"/></clipPath>
+    <clipPath id="hatClip"><path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z"/></clipPath>
+    <clipPath id="pocketClip"><path d="M 657.5 608.9 L 543.4 352.9 L 374.5 494.6 Z"/></clipPath>
     <clipPath id="battensClip">
-      <path d="M -288.9 369.7 L 1267.3 478.5" stroke-width="56.0" stroke-linecap="round"/>
-      <path d="M 130.8 -227.7 L 569.8 858.9" stroke-width="48.0" stroke-linecap="round"/>
-      <path d="M 153.3 828.1 L 1108.8 -2.5" stroke-width="44.0" stroke-linecap="round"/>
+      <path d="M -270.1 300.0 L 1176.3 884.4 L 1199.2 827.8 L -247.2 243.4 Z"/>
+      <path d="M 267.8 -266.2 L 731.5 775.2 L 779.9 753.7 L 316.2 -287.8 Z"/>
+      <path d="M -24.9 829.8 L 679.9 238.4 L 648.4 200.9 L -56.4 792.2 Z"/>
     </clipPath>
   </defs>
   <g clip-path="url(#tile)">
@@ -97,24 +100,24 @@
     </g>
 
     <g id="mid">
-      <g filter="url(#castShadow)"><path d="M -271.9 392.7 L 1284.3 501.5" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="58.2" stroke-linecap="round" fill="none"/><path d="M 170.3 851.1 L 1125.8 20.5" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="45.8" stroke-linecap="round" fill="none"/><path d="M 147.8 -204.7 L 586.8 881.9" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="49.9" stroke-linecap="round" fill="none"/></g>
-      <!-- the fix, seated under the rods so its light bleeds beneath them -->
+      <g filter="url(#castShadow)"><path d="M -241.7 294.7 L 1204.7 879.1" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="63.4" stroke-linecap="round" fill="none"/><path d="M -23.7 834.0 L 681.1 242.6" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="51.0" stroke-linecap="round" fill="none"/><path d="M 309.0 -254.0 L 772.7 787.4" stroke="#6E5C44" stroke-opacity="0.3" stroke-width="55.1" stroke-linecap="round" fill="none"/></g>
+      
       <g clip-path="url(#hatClip)">
-        <path d="M 391.4 417.3 L 452.3 568.2 L 608.5 432.5 Z" fill="url(#shard)"/>
-        <path d="M 391.4 417.3 L 452.3 568.2 L 608.5 432.5 Z" fill="url(#pocketAO)"/>
-        <circle cx="476.0" cy="464.0" r="58" fill="url(#flare)"/>
+        <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="url(#shard)"/>
+        <circle cx="527.5" cy="422.1" r="109.1" fill="url(#flare)"/>
+        <g clip-path="url(#pocketClip)" filter="url(#aoBlur)"><path d="M 657.5 608.9 L 543.4 352.9" fill="none" stroke="#7A3315" stroke-opacity="0.53" stroke-width="54.0"/><path d="M 543.4 352.9 L 374.5 494.6" fill="none" stroke="#7A3315" stroke-opacity="0.227" stroke-width="54.0"/><path d="M 374.5 494.6 L 657.5 608.9" fill="none" stroke="#7A3315" stroke-opacity="0.57" stroke-width="54.0"/></g>
+        <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="url(#sheen)"/>
       </g>
-      <g id="bearing0"><path d="M -288.9 369.7 L 1267.3 478.5" stroke="url(#bat0)" stroke-width="56.0" stroke-linecap="round" fill="none"/><path d="M -288.9 369.7 L 1267.3 478.5" stroke="url(#run0)" stroke-width="56.0" stroke-linecap="round" fill="none"/><path d="M -287.3 347.4 L 1268.9 456.2" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="6.2" stroke-linecap="round" fill="none"/><path d="M -290.6 393.7 L 1265.6 502.5" stroke="#0E1115" stroke-opacity="0.22" stroke-width="7.3" stroke-linecap="round" fill="none"/><path d="M -290.8 396.8 L 1265.4 505.6" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.8" stroke-linecap="round" fill="none"/></g><g id="bearing2"><path d="M 153.3 828.1 L 1108.8 -2.5" stroke="url(#bat2)" stroke-width="44.0" stroke-linecap="round" fill="none"/><path d="M 153.3 828.1 L 1108.8 -2.5" stroke="url(#run2)" stroke-width="44.0" stroke-linecap="round" fill="none"/><path d="M 141.8 814.8 L 1097.2 -15.8" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="4.8" stroke-linecap="round" fill="none"/><path d="M 165.7 842.4 L 1121.2 11.8" stroke="#0E1115" stroke-opacity="0.22" stroke-width="5.7" stroke-linecap="round" fill="none"/><path d="M 167.3 844.2 L 1122.8 13.6" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.2" stroke-linecap="round" fill="none"/></g><g id="bearing1"><path d="M 130.8 -227.7 L 569.8 858.9" stroke="url(#bat1)" stroke-width="48.0" stroke-linecap="round" fill="none"/><path d="M 130.8 -227.7 L 569.8 858.9" stroke="url(#run1)" stroke-width="48.0" stroke-linecap="round" fill="none"/><path d="M 113.0 -220.5 L 552.0 866.1" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="5.3" stroke-linecap="round" fill="none"/><path d="M 149.9 -235.5 L 588.9 851.2" stroke="#0E1115" stroke-opacity="0.22" stroke-width="6.2" stroke-linecap="round" fill="none"/><path d="M 152.3 -236.5 L 591.4 850.2" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.4" stroke-linecap="round" fill="none"/></g>
+      <g id="bearing0"><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#bat0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -258.7 271.7 L 1187.7 856.1" stroke="url(#run0)" stroke-width="61.0" stroke-linecap="round" fill="none"/><path d="M -249.5 249.1 L 1196.9 833.5" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="6.7" stroke-linecap="round" fill="none"/><path d="M -268.5 296.0 L 1177.9 880.4" stroke="#0E1115" stroke-opacity="0.22" stroke-width="7.9" stroke-linecap="round" fill="none"/><path d="M -269.8 299.1 L 1176.7 883.5" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="3.1" stroke-linecap="round" fill="none"/></g><g id="bearing2"><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#bat2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -40.7 811.0 L 664.1 219.6" stroke="url(#run2)" stroke-width="49.0" stroke-linecap="round" fill="none"/><path d="M -53.3 796.0 L 651.5 204.6" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="5.4" stroke-linecap="round" fill="none"/><path d="M -27.1 827.1 L 677.6 235.8" stroke="#0E1115" stroke-opacity="0.22" stroke-width="6.4" stroke-linecap="round" fill="none"/><path d="M -25.4 829.2 L 679.4 237.8" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.5" stroke-linecap="round" fill="none"/></g><g id="bearing1"><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#bat1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 292.0 -277.0 L 755.7 764.4" stroke="url(#run1)" stroke-width="53.0" stroke-linecap="round" fill="none"/><path d="M 272.7 -268.4 L 736.3 773.1" stroke="#D3DAE2" stroke-opacity="0.62" stroke-width="5.8" stroke-linecap="round" fill="none"/><path d="M 312.8 -286.3 L 776.5 755.2" stroke="#0E1115" stroke-opacity="0.22" stroke-width="6.9" stroke-linecap="round" fill="none"/><path d="M 315.5 -287.5 L 779.2 754.0" stroke="#8A94A2" stroke-opacity="0.26" stroke-width="2.7" stroke-linecap="round" fill="none"/></g>
     </g>
 
     <g id="fg">
       <!-- the fix's light running back out along the lines that made it -->
       <g clip-path="url(#battensClip)">
-        <circle cx="486.0" cy="470.0" r="258.0" fill="url(#bloom)"/>
+        <circle cx="496.0" cy="486.0" r="258.0" fill="url(#bloom)"/>
       </g>
-      <!-- the pocket's own machined edges: where each rod catches the fix -->
-      <path d="M 429.7 448.0 L 462.8 529.9" stroke="#FFF0DC" stroke-opacity="0.9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M 462.8 529.9 L 547.5 456.3" stroke="#FFF0DC" stroke-opacity="0.62" stroke-width="3.0" stroke-linecap="round" fill="none"/><path d="M 547.5 456.3 L 429.7 448.0" stroke="#FFF0DC" stroke-opacity="0.74" stroke-width="3.2" stroke-linecap="round" fill="none"/>
-      <circle cx="476.0" cy="464.0" r="16" fill="#FFFDF6" fill-opacity="0.92"/>
+      <!-- the pocket's own edges: each rod catching the light it encloses -->
+      <path d="M 657.5 608.9 L 543.4 352.9" stroke="#FFF0DC" stroke-opacity="0.34" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M 543.4 352.9 L 374.5 494.6" stroke="#FFF0DC" stroke-opacity="0.69" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M 374.5 494.6 L 657.5 608.9" stroke="#FFF0DC" stroke-opacity="0.29" stroke-width="3.6" stroke-linecap="round" fill="none"/>
     </g>
 
     <g id="highlight">

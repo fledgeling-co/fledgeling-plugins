@@ -17,16 +17,19 @@
     <filter id="softBlur" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="34"/>
     </filter>
-    <linearGradient id="prismTop" x1="356.0" y1="340.0" x2="616.0" y2="600.0" gradientUnits="userSpaceOnUse">
+    <filter id="aoBlur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="13"/>
+    </filter>
+    <linearGradient id="prismTop" x1="366.0" y1="356.0" x2="626.0" y2="616.0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFE6C4"/>
       <stop offset="0.34" stop-color="#F58F4A"/>
       <stop offset="1" stop-color="#C4622D"/>
     </linearGradient>
-    <linearGradient id="prismSide" x1="0" y1="470.0" x2="0" y2="564.0" gradientUnits="userSpaceOnUse">
+    <linearGradient id="prismSide" x1="0" y1="486.0" x2="0" y2="580.0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#9E4A20"/>
       <stop offset="1" stop-color="#7A3315"/>
     </linearGradient>
-    <radialGradient id="spill" cx="486.0" cy="470.0" r="300" gradientUnits="userSpaceOnUse">
+    <radialGradient id="spill" cx="496.0" cy="486.0" r="300" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#F9A45C" stop-opacity="0.16"/>
       <stop offset="1" stop-color="#F9A45C" stop-opacity="0"/>
     </radialGradient>
@@ -39,16 +42,16 @@
       <rect width="1024" height="1024" fill="url(#spill)"/>
     </g>
 
-    <g id="mid"><path d="M -288.9 369.7 L 1267.3 478.5" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M -287.8 354.3 L 1268.4 463.2" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 153.3 828.1 L 1108.8 -2.5" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M 145.4 819.0 L 1100.9 -11.6" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 130.8 -227.7 L 569.8 858.9" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M 118.5 -222.8 L 557.6 863.9" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+    <g id="mid"><path d="M -258.7 271.7 L 1187.7 856.1" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M -252.4 256.1 L 1194.0 840.5" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M -40.7 811.0 L 664.1 219.6" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M -49.3 800.7 L 655.4 209.3" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 292.0 -277.0 L 755.7 764.4" stroke="#2B3038" stroke-opacity="0.82" stroke-width="13.0" stroke-linecap="round" fill="none"/><path d="M 278.7 -271.1 L 742.4 770.4" stroke="#FFFFFF" stroke-opacity="0.30" stroke-width="3" stroke-linecap="round" fill="none"/></g>
 
     <g id="fg">
       <g filter="url(#castShadow)">
-        <path d="M 411.4 475.3 L 472.3 626.2 L 628.5 490.5 Z" fill="#6E5C44" fill-opacity="0.38"/>
+        <path d="M 730.7 721.3 L 574.2 369.8 L 342.3 564.4 Z" fill="#6E5C44" fill-opacity="0.38"/>
       </g>
-      <path d="M 391.4 417.3 L 452.3 568.2 L 452.3 602.2 L 391.4 451.3 Z" fill="url(#prismSide)"/><path d="M 452.3 568.2 L 608.5 432.5 L 608.5 466.5 L 452.3 602.2 Z" fill="url(#prismSide)"/><path d="M 608.5 432.5 L 391.4 417.3 L 391.4 451.3 L 608.5 466.5 Z" fill="url(#prismSide)"/>
-      <path d="M 391.4 417.3 L 452.3 568.2 L 608.5 432.5 Z" fill="url(#prismTop)"/>
-      <path d="M 391.4 417.3 L 452.3 568.2 L 608.5 432.5 Z" fill="none" stroke="#FFF0DC" stroke-opacity="0.80" stroke-width="3.4"/>
-      <circle cx="478.0" cy="466.0" r="46" fill="#FFF3DF" fill-opacity="0.34" filter="url(#softBlur)"/>
+      <path d="M 710.7 663.3 L 554.2 311.8 L 554.2 345.8 L 710.7 697.3 Z" fill="url(#prismSide)"/><path d="M 554.2 311.8 L 322.3 506.4 L 322.3 540.4 L 554.2 345.8 Z" fill="url(#prismSide)"/><path d="M 322.3 506.4 L 710.7 663.3 L 710.7 697.3 L 322.3 540.4 Z" fill="url(#prismSide)"/>
+      <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="url(#prismTop)"/>
+      <path d="M 710.7 663.3 L 554.2 311.8 L 322.3 506.4 Z" fill="none" stroke="#FFF0DC" stroke-opacity="0.80" stroke-width="3.4"/>
+      <circle cx="488.0" cy="482.0" r="46" fill="#FFF3DF" fill-opacity="0.34" filter="url(#softBlur)"/>
     </g>
 
     <g id="highlight">

@@ -82,28 +82,28 @@ ARRIS = "#FFF0DC"
 # ---------------------------------------------------------------- geometry
 # The fix: where the vessel actually is. Off the optical centre and up-left, so
 # the composition runs down and to the right instead of sitting on the axis.
-FIX = (486.0, 470.0)
+FIX = (496.0, 486.0)
 
 # Three bearings taken on three landmarks in different directions. Screen
-# degrees, y down. The angular gaps are 64 / 45 / 71 — deliberately uneven, so
+# degrees, y down. The angular gaps are 44 / 62 / 74 — deliberately uneven, so
 # the set reads as three separate observations rather than a three-spoke
 # asterisk.
-BEARINGS = (4.0, 68.0, -41.0)
+BEARINGS = (22.0, 66.0, -40.0)
 
 # ...and the error in each. No bearing is perfect: each line misses the true fix
 # by this many pixels, on the side the sign gives. These three numbers ARE the
 # cocked hat — set them all to zero and the triangle collapses to a point.
-ERRORS = (-46.0, 68.0, 52.0)
+ERRORS = (84.0, -124.0, -96.0)
 
 # Batten widths differ, because a bearing on a near landmark is a heavier line
 # than one on a far one.
-WIDTHS = (56.0, 48.0, 44.0)
+WIDTHS = (61.0, 53.0, 49.0)
 
 # How far each batten runs from the foot of the fix, before and after it. A
 # bearing line comes from a landmark off the chart, so most ends bleed through
 # the mask (device #18); the ends that stop inside the tile stop with a rounded
 # cap, and no two lines stop at the same distance.
-EXTENTS = ((-780.0, 780.0), (-780.0, 392.0), (-486.0, 780.0))
+EXTENTS = ((-780.0, 780.0), (-780.0, 360.0), (-620.0, 300.0))
 
 # Draw order: the long baseline lies underneath, the steep bearing on top.
 STACK = (0, 2, 1)
@@ -114,6 +114,14 @@ LIGHT = (-0.55, -0.84)        # unit-ish direction the key light comes from
 
 BLOOM_R = 258.0               # how far the fix's light travels along the lines
 GROUND_BLOOM_R = 330.0        # and how far it spills onto the chart
+
+# The fix's own material. AO_W is the band of occlusion the rods cast into the
+# pocket they enclose; without it the shard is a flat orange patch, because an
+# emissive core has nothing to be brighter than (the eli5 lesson, restated).
+AO_W = 54.0
+AO_OP, AO_LIT_OP = 0.60, 0.22
+CORE_BIAS = 0.42              # how far the hot core sits off the incentre
+FLARE_K = 1.48                # flare radius as a multiple of the pocket inradius
 
 
 def f(v: float) -> str:
@@ -186,6 +194,43 @@ def lit_side(i: int) -> float:
     return -1.0 if (n[0] * LIGHT[0] + n[1] * LIGHT[1]) > 0 else 1.0
 
 
+def shard_axis() -> tuple[tuple[float, float], tuple[float, float]]:
+    """The pocket's lit corner and its shaded corner.
+
+    The shard is lit by the same single source as everything else, so its ramp
+    runs corner to corner along the light rather than radially out of its own
+    middle. A radial ramp centred on the shard is what made the first draft read
+    as a placed dot: a marker glows from its centre, a lit surface does not.
+    """
+    v = hat(inset=True)
+    key = sorted(v, key=lambda q: q[0] * LIGHT[0] + q[1] * LIGHT[1])
+    return key[-1], key[0]      # most toward the light first
+
+
+def pocket_centre() -> tuple[float, float]:
+    """The pocket's incentre — where a circle inscribed in it would sit."""
+    v = hat(inset=True)
+    w = [math.dist(v[(k + 1) % 3], v[(k + 2) % 3]) for k in range(3)]
+    t = sum(w)
+    return (sum(w[k] * v[k][0] for k in range(3)) / t,
+            sum(w[k] * v[k][1] for k in range(3)) / t)
+
+
+def pocket_inradius() -> float:
+    v = hat(inset=True)
+    s = [math.dist(v[k], v[(k + 1) % 3]) for k in range(3)]
+    area = abs((v[1][0] - v[0][0]) * (v[2][1] - v[0][1])
+               - (v[2][0] - v[0][0]) * (v[1][1] - v[0][1])) / 2
+    return 2 * area / sum(s)
+
+
+def core_point() -> tuple[float, float]:
+    """The brightest point inside the shard, pulled off the incentre toward the
+    light so the glow has a direction and never centres itself."""
+    c, lit = pocket_centre(), shard_axis()[0]
+    return (c[0] + (lit[0] - c[0]) * CORE_BIAS, c[1] + (lit[1] - c[1]) * CORE_BIAS)
+
+
 def edge_path(i: int, frac: float) -> str:
     """The batten's centreline, walked `frac` of its half-width toward the lit
     edge (negative walks toward the shaded one)."""
@@ -199,6 +244,23 @@ def edge_path(i: int, frac: float) -> str:
 def batten_path(i: int) -> str:
     a, b = ends(i)
     return f"M {p(a)} L {p(b)}"
+
+
+def batten_quad(i: int) -> str:
+    """The batten as a FILLED rectangle.
+
+    A clipPath is built from fill geometry only — a stroked line inside one
+    clips to nothing at all, because a zero-width line has no area to fill. The
+    fix's light travelling back out along the rods was clipped to emptiness for
+    exactly that reason, and it looked like the gradient being too weak rather
+    than like a clip with no region.
+    """
+    n, w = normal(BEARINGS[i]), WIDTHS[i] / 2
+    a, b = ends(i)
+    return (f"M {f(a[0] + n[0] * w)} {f(a[1] + n[1] * w)} "
+            f"L {f(b[0] + n[0] * w)} {f(b[1] + n[1] * w)} "
+            f"L {f(b[0] - n[0] * w)} {f(b[1] - n[1] * w)} "
+            f"L {f(a[0] - n[0] * w)} {f(a[1] - n[1] * w)} Z")
 
 
 # ---------------------------------------------------------------- gel take
@@ -230,40 +292,42 @@ def gel_defs() -> str:
       <stop offset="1" stop-color="#0C0F13" stop-opacity="0.16"/>
     </linearGradient>""")
     v = hat()
+    lit, shade = shard_axis()
+    core, flare_r = core_point(), FLARE_K * pocket_inradius()
     return f"""{''.join(grads)}
-    <radialGradient id="shard" cx="{f(FIX[0] - 14)}" cy="{f(FIX[1] - 10)}" r="150" gradientUnits="userSpaceOnUse">
+    <linearGradient id="shard" x1="{p(lit)}" x2="{p(shade)}" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="{EMBER_CORE}"/>
-      <stop offset="0.26" stop-color="{EMBER_HOT}"/>
-      <stop offset="0.64" stop-color="{EMBER}"/>
+      <stop offset="0.22" stop-color="{EMBER_HOT}"/>
+      <stop offset="0.62" stop-color="{EMBER}"/>
       <stop offset="1" stop-color="{EMBER_SHADE}"/>
-    </radialGradient>
-    <radialGradient id="flare" cx="{f(FIX[0] - 10)}" cy="{f(FIX[1] - 6)}" r="58" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFCF3"/>
-      <stop offset="0.34" stop-color="{EMBER_CORE}"/>
-      <stop offset="0.74" stop-color="{EMBER_HOT}" stop-opacity="0.62"/>
+    </linearGradient>
+    <radialGradient id="flare" cx="{f(core[0])}" cy="{f(core[1])}" r="{f(flare_r)}" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFEFD6" stop-opacity="0.80"/>
+      <stop offset="0.34" stop-color="{EMBER_CORE}" stop-opacity="0.55"/>
+      <stop offset="0.70" stop-color="{EMBER_HOT}" stop-opacity="0.26"/>
       <stop offset="1" stop-color="{EMBER_HOT}" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="sheen" x1="{p(lit)}" x2="{p(shade)}" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
     <radialGradient id="bloom" cx="{f(FIX[0])}" cy="{f(FIX[1])}" r="{f(BLOOM_R)}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFCB95" stop-opacity="0.52"/>
-      <stop offset="0.40" stop-color="{EMBER_HOT}" stop-opacity="0.20"/>
+      <stop offset="0" stop-color="#FFD7AA" stop-opacity="0.78"/>
+      <stop offset="0.34" stop-color="{EMBER_HOT}" stop-opacity="0.30"/>
       <stop offset="1" stop-color="{EMBER_HOT}" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="spill" cx="{f(FIX[0])}" cy="{f(FIX[1])}" r="{f(GROUND_BLOOM_R)}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.20"/>
-      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.06"/>
+      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.22"/>
+      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.07"/>
       <stop offset="1" stop-color="#F9A45C" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="pocketAO" cx="{f(FIX[0] - 8)}" cy="{f(FIX[1] - 4)}" r="112" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="{EMBER_DEEP}" stop-opacity="0"/>
-      <stop offset="0.62" stop-color="{EMBER_DEEP}" stop-opacity="0.04"/>
-      <stop offset="1" stop-color="{EMBER_DEEP}" stop-opacity="0.46"/>
     </radialGradient>
     <clipPath id="hatClip"><path d="{tri_path(v)}"/></clipPath>
     <clipPath id="pocketClip"><path d="{tri_path(hat(inset=True))}"/></clipPath>
     <clipPath id="battensClip">
-      <path d="{batten_path(0)}" stroke-width="{f(WIDTHS[0])}" stroke-linecap="round"/>
-      <path d="{batten_path(1)}" stroke-width="{f(WIDTHS[1])}" stroke-linecap="round"/>
-      <path d="{batten_path(2)}" stroke-width="{f(WIDTHS[2])}" stroke-linecap="round"/>
+      <path d="{batten_quad(0)}"/>
+      <path d="{batten_quad(1)}"/>
+      <path d="{batten_quad(2)}"/>
     </clipPath>"""
 
 
@@ -316,12 +380,57 @@ def batten_shadows() -> str:
     return f'<g filter="url(#castShadow)">{"".join(out)}</g>'
 
 
-def gel_svg() -> str:
+def shard() -> str:
+    """The fix: the pocket of light the three bearings fail to close.
+
+    Drawn as the full centreline triangle and seated UNDER the rods, so the
+    warmth bleeds through the translucent graphite where they cross it and the
+    sharp shape that survives is exactly the region no rod covers. Nothing here
+    is placed on top of the lines; the shape is what the lines leave.
+    """
     v, pv = hat(), hat(inset=True)
+    core, flare_r = core_point(), FLARE_K * pocket_inradius()
+    # occlusion: each rod overhangs the pocket, so the band just inside its edge
+    # goes to shadow. Half of an edge stroke lands outside the shape, so the
+    # whole thing is clipped to the pocket rather than trusted to stay in it.
+    ao = "".join(
+        f'<path d="M {p(pv[k])} L {p(pv[(k + 1) % 3])}" fill="none" stroke="{EMBER_DEEP}" '
+        f'stroke-opacity="{op}" stroke-width="{f(AO_W)}"/>'
+        for k, op in enumerate(edge_shade()))
+    return f"""
+      <g clip-path="url(#hatClip)">
+        <path d="{tri_path(v)}" fill="url(#shard)"/>
+        <circle cx="{f(core[0])}" cy="{f(core[1])}" r="{f(flare_r)}" fill="url(#flare)"/>
+        <g clip-path="url(#pocketClip)" filter="url(#aoBlur)">{ao}</g>
+        <path d="{tri_path(v)}" fill="url(#sheen)"/>
+      </g>"""
+
+
+def edge_shade() -> tuple[float, float, float]:
+    """Per-pocket-edge occlusion strength: an edge turned away from the light
+    takes the full band, one facing it takes a fraction."""
+    pv = hat(inset=True)
+    out = []
+    for k in range(3):
+        a, b = pv[k], pv[(k + 1) % 3]
+        mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
+        c = pocket_centre()
+        # outward normal of this edge
+        ox, oy = mx - c[0], my - c[1]
+        m = math.hypot(ox, oy) or 1.0
+        facing = (ox / m) * LIGHT[0] + (oy / m) * LIGHT[1]
+        out.append(round(AO_LIT_OP + (AO_OP - AO_LIT_OP) * (1 - facing) / 2, 3))
+    return tuple(out)
+
+
+def gel_svg() -> str:
+    pv = hat(inset=True)
+    shades = edge_shade()
     arris = "".join(
         f'<path d="M {p(pv[k])} L {p(pv[(k + 1) % 3])}" stroke="{ARRIS}" '
-        f'stroke-opacity="{op}" stroke-width="{wd}" stroke-linecap="round" fill="none"/>'
-        for k, (op, wd) in enumerate(((0.90, 3.6), (0.62, 3.0), (0.74, 3.2))))
+        f'stroke-opacity="{0.95 - 1.15 * shades[k]:.2f}" stroke-width="3.6" '
+        f'stroke-linecap="round" fill="none"/>'
+        for k in range(3))
     return document(gel_defs(), f"""
     <g id="bg">
       <rect width="{S}" height="{S}" fill="url(#ground)"/>
@@ -332,12 +441,7 @@ def gel_svg() -> str:
 
     <g id="mid">
       {batten_shadows()}
-      <!-- the fix, seated under the rods so its light bleeds beneath them -->
-      <g clip-path="url(#hatClip)">
-        <path d="{tri_path(v)}" fill="url(#shard)"/>
-        <path d="{tri_path(v)}" fill="url(#pocketAO)"/>
-        <circle cx="{f(FIX[0] - 10)}" cy="{f(FIX[1] - 6)}" r="58" fill="url(#flare)"/>
-      </g>
+      {shard()}
       {battens()}
     </g>
 
@@ -346,9 +450,8 @@ def gel_svg() -> str:
       <g clip-path="url(#battensClip)">
         <circle cx="{f(FIX[0])}" cy="{f(FIX[1])}" r="{f(BLOOM_R)}" fill="url(#bloom)"/>
       </g>
-      <!-- the pocket's own machined edges: where each rod catches the fix -->
+      <!-- the pocket's own edges: each rod catching the light it encloses -->
       {arris}
-      <circle cx="{f(FIX[0] - 10)}" cy="{f(FIX[1] - 6)}" r="16" fill="#FFFDF6" fill-opacity="0.92"/>
     </g>
 
     <g id="highlight">
@@ -443,6 +546,9 @@ def document(defs: str, body: str) -> str:
     </filter>
     <filter id="softBlur" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="aoBlur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="13"/>
     </filter>{defs}
   </defs>
   <g clip-path="url(#tile)">{body}

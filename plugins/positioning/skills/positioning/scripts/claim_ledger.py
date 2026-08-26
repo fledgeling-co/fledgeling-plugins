@@ -71,12 +71,28 @@ def save(workdir: Path, data: dict) -> None:
 def cmd_init(args) -> int:
     workdir = Path(args.workdir)
     workdir.mkdir(parents=True, exist_ok=True)
+
+    # Make the whole output layout exist from the first command, so a later phase
+    # never has to decide where its files go. A run that scatters its output
+    # across the working root leaves the next run unable to find it.
+    made = []
+    if workdir.name == "work":
+        for sibling in ("research",):
+            d = workdir.parent / sibling
+            if not d.exists():
+                d.mkdir(parents=True, exist_ok=True)
+                made.append(d.as_posix())
+
     path = workdir / LEDGER
     if path.exists() and not args.force:
         print(f"ledger already at {path}; pass --force to overwrite")
         return 0
     save(workdir, {"product": args.product, "truth": [], "claims": [], "bindings": []})
     print(f"ledger initialised at {path}")
+    if made:
+        print("created: " + ", ".join(made))
+    print(f"reports go to {workdir.parent.as_posix()}/, "
+          f"research exports to {workdir.parent.as_posix()}/research/")
     return 0
 
 

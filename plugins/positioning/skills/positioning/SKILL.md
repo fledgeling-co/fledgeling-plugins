@@ -30,6 +30,38 @@ counted here, and the honesty rules that were prose are commands with exit codes
 The manual Gemini lane still exists and is still sometimes the right call —
 `references/gemini-lane.md` keeps it. It is a lane, not the spine.
 
+## Where everything lands
+
+One directory, fixed, so a second run finds the first one's work and a reader
+knows where to look without being told.
+
+```
+docs/positioning/
+├── 00-decision.md                 the recommendation and the case for it
+├── 10-territory-<slug>.md         one per shortlisted territory
+├── 20-category-and-competitors.md
+├── 30-customer-evidence.md
+├── 40-evidence-register.md        the claim ledger, rendered
+├── 50-product-truth.md            the truth table, rendered
+├── 60-candidates-cut.md
+├── 70-research-decision.md        what was bought, and what was not
+├── 80-pre-commitment-tests.md
+├── positioning-report.html        the designed decision surface
+├── DESIGN.md                      the brand system, when this run authored it
+├── research/                      every exported panel report + its source registry
+└── work/                          ledger.json, gate output, scratch
+```
+
+Write the reports to `docs/positioning/`, the research exports to
+`docs/positioning/research/`, and nothing anywhere else. Where the project keeps
+its docs somewhere other than `docs/`, mirror the same three-level shape under
+that root and say so once in `00-decision.md`.
+
+The split matters for a reason beyond tidiness: `research/` is the raw evidence,
+committed so every claim stays auditable from inside the repo, and `work/` is
+machine state the gates read. Only the numbered files and the HTML are written
+for a person.
+
 ## The seven phases
 
 Phases 0 and 1 run before any money is spent. That ordering is the point: a
@@ -127,15 +159,17 @@ Eliminate row eliminates nothing, and the beachhead that is a market description
 
 ## Phase 4 — The report suite
 
-Nine documents, all templated, written even when a section is empty — an empty
-section says why. `references/report-suite.md` has the table and the rules that
+Nine documents in `docs/positioning/`, all templated, written even when a section
+is empty — an empty section says why.
+`references/report-suite.md` has the table and the rules that
 hold across all nine: every figure carries a claim id or an estimate marker,
 confidence travels into the executive summary, contested findings stay
 contested, and each file ends with what it could not establish.
 
 ## Phase 5 — The designed surface
 
-One self-contained HTML decision page. Load `/design-craft:design-craft` and
+One self-contained HTML decision page at
+`docs/positioning/positioning-report.html`. Load `/design-craft:design-craft` and
 `/ux-craft:ux-craft` together — UX decides flow, states, reading order and
 words; design decides type, colour, elevation, motion and the anti-slop pass.
 
