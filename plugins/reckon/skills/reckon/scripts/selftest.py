@@ -812,19 +812,18 @@ expect("an unclassifiable case status is a finding",
        clean + [case("CASE-U", "marinated", "unmeasured")],
        4, "'marinated' is not a word this tool classifies", "vocabulary")
 
-# REQ-072 in the repository this was written against carries `inconclusive`: a
-# stated ceiling, recorded deliberately, and outside test-campaign's own
-# REQ_EVIDENCE. The pre-fix branch classed it `unmeasured` and told every reader
-# it was "the project's own account of itself".
+# The fixture used to be `inconclusive`, which EVIDENCE_CEILING now classifies. A
+# word the tool has learned cannot go on standing for one it has never heard of, so
+# the unclassifiable case needs a word that is still unclassifiable.
 led = expect("an unclassifiable evidence word is a finding",
-             clean[:3] + [req("REQ-072", "inconclusive", "unmeasured")] + clean[4:],
-             4, "'inconclusive' is not a word this tool classifies", "vocabulary")
+             clean[:3] + [req("REQ-072", "marinated", "unmeasured")] + clean[4:],
+             4, "'marinated' is not a word this tool classifies", "vocabulary")
 
-camp_ceiling = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
-                "requirements": [{"id": "REQ-072", "text": "a stated ceiling",
-                                  "evidence": "inconclusive"}],
+camp_unknown = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+                "requirements": [{"id": "REQ-072", "text": "a word from nowhere",
+                                  "evidence": "marinated"}],
                 "surfaces": [], "defects": []}
-row = [r for r in R.classify([], camp_ceiling, [], False) if r["entity"] == "requirement"][0]
+row = [r for r in R.classify([], camp_unknown, [], False) if r["entity"] == "requirement"][0]
 ok = (row["class"] == "unmeasured"
       and "not a word this tool classifies" in row["why"]
       and "own account of itself" not in row["why"])
@@ -832,6 +831,50 @@ print("%-46s %s" % ("an unknown evidence word is not called a self-report",
                     "ok" if ok else "FAILED"))
 if not ok:
     FAILURES.append("unknown evidence why: %r" % (row.get("why") or "")[:200])
+
+# ---------------------------------------------------------------------------
+# EVIDENCE_CEILING. A stated ceiling is neither a self-report nor a gap, and the
+# class it earns depends on whether the decision is actually on the row.
+# ---------------------------------------------------------------------------
+def _ceiling(reason, horizon, word="limited"):
+    camp = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+            "requirements": [{"id": "REQ-072", "text": "a stated ceiling",
+                              "evidence": word, "limitReason": reason,
+                              "limitExpiry": horizon}],
+            "surfaces": [], "defects": []}
+    return [r for r in R.classify([], camp, [], False) if r["entity"] == "requirement"][0]
+
+decided = _ceiling("no harness on this machine can watch the in-request unwrap",
+                   "the day a harness can observe it without changing what it observes")
+ok = decided["class"] == "waived" and "STATED CEILING" in decided["why"]
+print("%-46s %s" % ("a ceiling carrying its decision is waived", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ceiling with a decision: class=%r why=%r"
+                    % (decided["class"], (decided.get("why") or "")[:160]))
+
+bare = _ceiling("device", "soon")
+ok = bare["class"] == "unmeasured" and "does not carry the decision" in bare["why"]
+print("%-46s %s" % ("a ceiling without its decision stays unmeasured",
+                    "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("bare ceiling: class=%r why=%r"
+                    % (bare["class"], (bare.get("why") or "")[:160]))
+
+# It must not be readable as a self-report either way — that reading is the whole
+# reason the bucket exists.
+ok = ("own account of itself" not in decided["why"]
+      and "own account of itself" not in bare["why"])
+print("%-46s %s" % ("a ceiling is never called a self-report", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ceiling read as self-report")
+
+# A ceiling is an exception rather than remaining work, and only when it earned it.
+ok = decided["is_work_item"] is False and bare["is_work_item"] is True
+print("%-46s %s" % ("only a decided ceiling leaves the work count",
+                    "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("ceiling work-item: decided=%r bare=%r"
+                    % (decided["is_work_item"], bare["is_work_item"]))
 
 # The count is half the finding: one word on three rows is one line naming three
 # ids, not three lines or one line naming one.
