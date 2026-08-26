@@ -102,22 +102,50 @@ confidence label has to be earned against, and it is the number
 `claim_ledger.py check` enforces. Four backends agreeing is not four sources; it
 is four backends. Support lives in registrable domains.
 
+Two things make that stricter than it sounds. Sources deriving from the same
+original dataset or announcement are one source however many domains carry them.
+And roughly **16% of sources cited by four generative search engines showed
+evidence of being AI-generated**, so a model can accurately quote a live page
+while laundering synthetic content through what looks like external
+corroboration. Provenance, not domain count alone, is what independence means.
+
 **`research_verify_citations` — does the link resolve.** Cheap, run it on every
 completed member. Fabricated URLs are the failure that survives into production
 because nobody clicks. Paywall blocks are noise; `not_found` and `invalid_url`
 are not.
 
 **`research_verify_claims` — does the page say what the report says it says.**
-This is the one that matters, and the two modes are not equally good. Dossier
-publishes the measurement: on a 30-case labelled corpus, token containment
-passed **11 of 23 bad citations** as supporting, including every overstatement
-and 4 of 7 outright contradictions, where the judged pass let none through. A
-contradiction states the opposite using the page's own numbers, so a token check
-has nothing to see.
+This is the one that matters, and it is a different check from the one above
+rather than a stronger version of it. The 2026 measurement is stark: across
+frontier models, **94-100% of citations resolved while only 39-77% of
+citation-claim pairs passed a factual-support check.** URL failure affected
+0-5.9% of pairs; claim-source checking rejected **23.2-61.1%**. Even assuming
+every broken link is also a support failure, URL checking accounts for at most
+**0-11.5%** of what entailment checking finds.
+
+Dossier's own labelled corpus says the same about the cheap mode: token
+containment passed **11 of 23 bad citations** as supporting, including every
+overstatement and 4 of 7 outright contradictions, where the judged pass let none
+through. A contradiction states the opposite using the page's own numbers, so a
+token check has nothing to see.
 
 > Every claim bound to promissory copy — a hero line, a headline, a
 > one-liner, a proof point — takes the **judged** pass. Containment is a
-> screen for the rest.
+> screen for the rest, and a resolving link is not evidence of anything but a
+> resolving link.
+
+**A quotation takes exact-text verification, always.** No cross-system rate for
+invented direct quotations attributed to real people or forums has been measured,
+which is a data gap rather than a clean bill. Treat every quotation as unverified
+until the exact words and the speaker context are found on the page.
+
+**Expect fabricated precision, not obvious nonsense.** In a study of roughly a
+thousand deep-research reports, **18.95% of classified failures were strategic
+content fabrication**: invented statistics, methods and case narratives produced
+when the required data was unavailable. One report asserted an audited 30.2%
+annualised return and a specific internal leverage rule that did not exist. The
+failures that survive into a published document are precise, plausible, and
+attached to a topically related page.
 
 **`research_counter_review` — four lenses that argue.** Claim validation, source
 diversity, recency, internal contradiction, each briefed to refute rather than
@@ -125,6 +153,14 @@ summarise, because a reviewer not told to argue agrees with fluent prose. Run it
 in caller mode (free) on the load-bearing report. Its own rule is the useful
 one: four lenses finding nothing is reported as a **failed review**, not a clean
 bill of health.
+
+That an adversarial protocol is the right shape is measured rather than assumed.
+Vanilla homogeneous multi-agent debate can **underperform plain majority vote**,
+and multi-agent judging amplifies position, verbosity and bandwagon bias after
+the first round. A challenger-plus-human-auditor protocol moved expert accuracy
+on hidden gold claims from **60.8% to 90.9%** over four rounds. More models
+arguing is not the mechanism; being told to refute, with a human adjudicating
+what survives, is.
 
 **`research_claims`** extracts the load-bearing claims as portable cards —
 claim, confidence, source URL — which is the shape `claim_ledger.py add-claim`
@@ -151,6 +187,35 @@ check whether it did. Two tools gather the raw material instead:
 A quote gathered this way carries its own URL and date and goes into the ledger
 as a claim like any other. A quote a research report merely reports is a claim
 about a quote, and gets labelled as one.
+
+### The rule that keeps gathered material honest
+
+**Organic platforms discover hypotheses and vocabulary. They do not estimate
+prevalence.** Three measured reasons:
+
+- **The platform is not the market.** 26% of US adults used Reddit in 2025, with
+  strong age, gender and education skews: roughly 40% of college graduates
+  against 15% of those with high school or less.
+- **Retrieval adds a second selection layer.** Search results over-represent
+  popular content, skew more positive, and leave topical gaps against unsampled
+  platform data.
+- **Contamination is real and its rate here is unknown.** A UK government study
+  trained on brokered fake reviews estimated **11-15% likely fake** across 2.1
+  million reviews on nine e-commerce platforms. That covers consumer products and
+  **must not be carried across** to Reddit, Hacker News, G2, Capterra or app
+  stores, where no comparable independent rate has been measured.
+
+So a finding from gathered material is written as *"observed among sampled
+contributors"*, never *"customers believe"*, unless it has been calibrated
+against an external sampling frame. Promote a pain point into positioning only
+after a **different data-generating process** confirms it: support tickets,
+interviews, churn reasons, telemetry, or a survey with a frame. Record the
+collection route beside the claim, because a full API pull, a platform search and
+a Google result are three different sampling frames.
+
+**Cluster before counting.** Copied reviews, cross-posts, same-thread comments
+and coordinated bursts collapse to one source. So do a vendor blog and the thread
+it quotes.
 
 ## Step 5 — export, read in full, commit
 
