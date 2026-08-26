@@ -1,0 +1,196 @@
+{
+  "evals": [
+    {
+      "id": "eval-1-raft",
+      "topic": "Raft Consensus Algorithm",
+      "prompt": "how Raft consensus algorithm works (leader election, log replication, and safety)",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs (no http/https src on img tags) and renders all visuals using inline SVG or canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Includes an anchoring physical or intuitive analogy AND explicitly names where the analogy breaks down or reaches its limit",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Includes an interactive explorable control (stepper, simulator, or node toggle) with JavaScript that dynamically updates visual state",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Structured with progressive depth tiers (e.g. 30-second intuition -> step-by-step mechanism -> under-the-hood reality)",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Uses dignified, plain-English conceptual clarity without condescending baby-talk or fairy-tale patronization",
+          "type": "structural"
+        }
+      ]
+    },
+    {
+      "id": "eval-2-url-navigation",
+      "topic": "What happens when you type a URL into a browser",
+      "prompt": "what happens when you type a URL into your browser and press enter (DNS, TCP/TLS handshake, HTTP/3, and DOM rendering)",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs and renders all architecture visuals using inline SVG or canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Includes an anchoring analogy and explicitly names the boundary where the analogy stops matching technical reality",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Includes an interactive step-by-step pipeline or packet flow that can be actuated by the user",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Organized into progressive abstraction tiers moving from high-level journey to protocol mechanics",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Explains complex networking without jargon overload while respecting the reader's intelligence",
+          "type": "structural"
+        }
+      ]
+    },
+    {
+      "id": "eval-3-diffie-hellman",
+      "topic": "Public Key Cryptography & Diffie-Hellman Key Exchange",
+      "prompt": "how Public Key Cryptography and Diffie-Hellman Key Exchange work without sharing the private secret",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs and renders visual key exchange using inline SVG/canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Uses an intuitive physical model (e.g. paint mixing / one-way padlock) and explicitly articulates its mathematical limit",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Includes an interactive mixing/exchange simulation where user can pick private values and see shared secret compute",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Presents progressive conceptual layers from one-way trapdoors to public/private key pairs and actual handshake",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Demystifies the cryptographic trapdoor without condescension or dense algebra",
+          "type": "structural"
+        }
+      ]
+    },
+    {
+      "id": "eval-4-virtual-memory",
+      "topic": "Virtual Memory, Page Tables, and TLB",
+      "prompt": "how Virtual Memory and Page Tables work in operating systems (virtual addresses, physical RAM, paging, and page faults)",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs and renders address translation via inline SVG/canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Grounds the concept in a physical analogy and explicitly identifies where the metaphor departs from hardware reality",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Features an interactive address translator or page hit/fault simulator with user-triggerable inputs",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Deconstructs the abstraction in progressive steps: why virtualize -> translation anatomy -> page faults & disk swapping",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Explains memory hardware isolation clearly without relying on ungrounded jargon",
+          "type": "structural"
+        }
+      ]
+    },
+    {
+      "id": "eval-5-transformer-attention",
+      "topic": "Transformer Self-Attention Mechanism",
+      "prompt": "how the Transformer Self-Attention mechanism works (Queries, Keys, Values, and attention scores)",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs and renders attention heatmaps/vectors via inline SVG/canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Provides an anchoring conceptual metaphor (e.g. library filing / relevance scoring) and states where the analogy stops",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Includes an interactive sentence/token attention matrix where clicking tokens updates focus weights visually",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Progresses from token context intuition to QKV matching mechanics and multi-head representation",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Makes vector math and attention matrices intuitively graspable without condescending tone",
+          "type": "structural"
+        }
+      ]
+    },
+    {
+      "id": "eval-6-quantum-superposition",
+      "topic": "Quantum Superposition & Entanglement",
+      "prompt": "how Quantum Superposition and Quantum Entanglement work (wavefunction, measurement collapse, and correlated pairs)",
+      "assertions": [
+        {
+          "id": "csp_compliance",
+          "text": "Artifact contains 0 external image URLs and renders quantum state spheres/probabilities via inline SVG/canvas",
+          "type": "structural"
+        },
+        {
+          "id": "analogy_boundary",
+          "text": "Uses an intuitive physical analogy (e.g. spinning coin / synchronized dice) and explains why classical analogies fail to capture pure quantum behavior",
+          "type": "structural"
+        },
+        {
+          "id": "interactive_simulation",
+          "text": "Includes an interactive measurement simulator where clicking 'Measure' collapses probabilities in real time",
+          "type": "structural"
+        },
+        {
+          "id": "progressive_disclosure",
+          "text": "Layers the explanation: probability waves -> observation collapse -> entangled pairs -> quantum computing impact",
+          "type": "structural"
+        },
+        {
+          "id": "feynman_tone",
+          "text": "Explains quantum counter-intuition clearly without mystic hand-waving or condescension",
+          "type": "structural"
+        }
+      ]
+    }
+  ]
+}
