@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Cushion ground: warm daylight porcelain, subtle edge vignette -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9F6EE"/>
+      <stop offset=".54" stop-color="#F3EFE4"/>
+      <stop offset="1" stop-color="#E4DDCB"/>
+    </linearGradient>
+    <radialGradient id="vig" cx=".42" cy=".38" r=".78">
+      <stop offset=".50" stop-color="#4A3F2E" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4A3F2E" stop-opacity=".15"/>
+    </radialGradient>
+
+    <!-- Lower plane: ember measuring plate gradients -->
+    <linearGradient id="emberPlate" x1="297.0" y1="256" x2="621.0" y2="756"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F98848"/>
+      <stop offset=".42" stop-color="#E15A20"/>
+      <stop offset="1" stop-color="#A62808"/>
+    </linearGradient>
+    <linearGradient id="emberWall" x1="216" y1="256" x2="756" y2="756"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8E2608"/>
+      <stop offset="1" stop-color="#541202"/>
+    </linearGradient>
+    <linearGradient id="emberRim" x1="216" y1="256" x2="756" y2="756"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFD8AB" stop-opacity=".90"/>
+      <stop offset=".45" stop-color="#F79A61" stop-opacity=".60"/>
+      <stop offset="1" stop-color="#781E04" stop-opacity=".80"/>
+    </linearGradient>
+    <linearGradient id="emberInnerGlow" x1="216" y1="256" x2="216" y2="406"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFD8AB" stop-opacity=".46"/>
+      <stop offset="1" stop-color="#FFD8AB" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="emberSideShade" x1="486.0" y1="0" x2="756" y2="0"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#241B12" stop-opacity="0"/>
+      <stop offset="1" stop-color="#241B12" stop-opacity=".26"/>
+    </linearGradient>
+
+    <!-- Upper plane: translucent frosted prose sheet gradients -->
+    <linearGradient id="frostFace" x1="368.0" y1="190" x2="654.0" y2="720"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".94"/>
+      <stop offset=".40" stop-color="#FAF5EC" stop-opacity=".86"/>
+      <stop offset="1" stop-color="#EDE3D0" stop-opacity=".80"/>
+    </linearGradient>
+    <linearGradient id="frostWall" x1="290" y1="190" x2="810" y2="720"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#887A68" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#544636" stop-opacity=".96"/>
+    </linearGradient>
+    <!-- Warm bounce from ember plate bleeding into lower-left of frost sheet -->
+    <linearGradient id="frostEmberBleed" x1="290" y1="296.0" x2="576.0" y2="720"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F79A61" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#F79A61" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#E15A20" stop-opacity=".36"/>
+    </linearGradient>
+    <linearGradient id="frostRim" x1="290" y1="190" x2="810" y2="720"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".96"/>
+      <stop offset=".50" stop-color="#FFFFFF" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#544636" stop-opacity=".45"/>
+    </linearGradient>
+    <linearGradient id="frostSatin" x1="0" y1="190" x2="0" y2="428.5"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="frostAO" cx=".78" cy=".82" r=".60">
+      <stop offset="0" stop-color="#241B12" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#241B12" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Prose capsule line gradients -->
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4E4234"/>
+      <stop offset=".55" stop-color="#362C20"/>
+      <stop offset="1" stop-color="#20180F"/>
+    </linearGradient>
+    <linearGradient id="lineRimGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#928472" stop-opacity=".80"/>
+      <stop offset="1" stop-color="#20180F" stop-opacity=".18"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="plateShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="sheetShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="emberGlowFilter" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <filter id="lineEmboss" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="1.8"/>
+    </filter>
+    <filter id="throughFrostBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+
+    <!-- Clips -->
+    <clipPath id="tileClip"><path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z"/></clipPath>
+    <clipPath id="plateClip"><rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0"/></clipPath>
+    <clipPath id="sheetClip"><rect x="290.0" y="190.0" width="520.0" height="530.0" rx="36.0" ry="36.0"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#tileClip)">
+    <!-- ── #bg Layer: Ground porcelain cushion, shadows, and ember ambient bleed ── -->
+    <g id="bg">
+      <rect width="1024" height="1024" fill="url(#ground)"/>
+      <rect width="1024" height="1024" fill="url(#vig)"/>
+
+      <!-- Ambient ember glow under measuring plate -->
+      <g filter="url(#emberGlowFilter)" opacity=".40">
+        <rect x="226.0" y="276.0" width="520.0" height="480.0" rx="40.0" ry="40.0" fill="#E15A20"/>
+      </g>
+
+      <!-- Contact shadow of lower measuring plate on porcelain -->
+      <g filter="url(#plateShadow)" opacity=".42">
+        <rect x="224.0" y="282.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="#241B12"/>
+      </g>
+    </g>
+
+    <!-- ── #mid Layer: Lower plane (Craft) — Ember Ruled Measuring Plate ── -->
+    <g id="mid">
+      <!-- Measuring plate 3D wall & base -->
+      <rect x="216.0" y="274.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="url(#emberWall)"/>
+      <rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="url(#emberPlate)"/>
+
+      <!-- Inner rim lighting and top catch on measuring plate -->
+      <g clip-path="url(#plateClip)">
+        <rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="url(#emberInnerGlow)"/>
+        <rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="url(#emberSideShade)"/>
+        <rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="none" stroke="url(#emberRim)" stroke-width="6"/>
+
+        <!-- Grid lines across the measuring plate -->
+        <g stroke="#5A1402" opacity=".50">
+          <line x1="244.0" y1="328.0" x2="728.0" y2="328.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="372.0" x2="728.0" y2="372.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="416.0" x2="728.0" y2="416.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="460.0" x2="728.0" y2="460.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="504.0" x2="728.0" y2="504.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="548.0" x2="728.0" y2="548.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="592.0" x2="728.0" y2="592.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="636.0" x2="728.0" y2="636.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="680.0" x2="728.0" y2="680.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="288.0" y1="284.0" x2="288.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="332.0" y1="284.0" x2="332.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="376.0" y1="284.0" x2="376.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="420.0" y1="284.0" x2="420.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="464.0" y1="284.0" x2="464.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="508.0" y1="284.0" x2="508.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="552.0" y1="284.0" x2="552.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="596.0" y1="284.0" x2="596.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="640.0" y1="284.0" x2="640.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="684.0" y1="284.0" x2="684.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/>
+        </g>
+
+        <!-- Ruler graduations and tick marks -->
+        <g stroke="#5A1402" stroke-linecap="round" opacity=".92">
+          <line x1="260.0" y1="272.0" x2="260.0" y2="298.0" stroke-width="3.6"/><line x1="276.0" y1="272.0" x2="276.0" y2="286.0" stroke-width="1.8"/><line x1="292.0" y1="272.0" x2="292.0" y2="288.9" stroke-width="2.4"/><line x1="308.0" y1="272.0" x2="308.0" y2="286.0" stroke-width="1.8"/><line x1="324.0" y1="272.0" x2="324.0" y2="298.0" stroke-width="3.6"/><line x1="340.0" y1="272.0" x2="340.0" y2="286.0" stroke-width="1.8"/><line x1="356.0" y1="272.0" x2="356.0" y2="288.9" stroke-width="2.4"/><line x1="372.0" y1="272.0" x2="372.0" y2="286.0" stroke-width="1.8"/><line x1="388.0" y1="272.0" x2="388.0" y2="298.0" stroke-width="3.6"/><line x1="404.0" y1="272.0" x2="404.0" y2="286.0" stroke-width="1.8"/><line x1="420.0" y1="272.0" x2="420.0" y2="288.9" stroke-width="2.4"/><line x1="436.0" y1="272.0" x2="436.0" y2="286.0" stroke-width="1.8"/><line x1="452.0" y1="272.0" x2="452.0" y2="298.0" stroke-width="3.6"/><line x1="468.0" y1="272.0" x2="468.0" y2="286.0" stroke-width="1.8"/><line x1="484.0" y1="272.0" x2="484.0" y2="288.9" stroke-width="2.4"/><line x1="500.0" y1="272.0" x2="500.0" y2="286.0" stroke-width="1.8"/><line x1="516.0" y1="272.0" x2="516.0" y2="298.0" stroke-width="3.6"/><line x1="532.0" y1="272.0" x2="532.0" y2="286.0" stroke-width="1.8"/><line x1="548.0" y1="272.0" x2="548.0" y2="288.9" stroke-width="2.4"/><line x1="564.0" y1="272.0" x2="564.0" y2="286.0" stroke-width="1.8"/><line x1="580.0" y1="272.0" x2="580.0" y2="298.0" stroke-width="3.6"/><line x1="596.0" y1="272.0" x2="596.0" y2="286.0" stroke-width="1.8"/><line x1="612.0" y1="272.0" x2="612.0" y2="288.9" stroke-width="2.4"/><line x1="628.0" y1="272.0" x2="628.0" y2="286.0" stroke-width="1.8"/><line x1="644.0" y1="272.0" x2="644.0" y2="298.0" stroke-width="3.6"/><line x1="660.0" y1="272.0" x2="660.0" y2="286.0" stroke-width="1.8"/><line x1="676.0" y1="272.0" x2="676.0" y2="288.9" stroke-width="2.4"/><line x1="692.0" y1="272.0" x2="692.0" y2="286.0" stroke-width="1.8"/><line x1="708.0" y1="272.0" x2="708.0" y2="298.0" stroke-width="3.6"/>
+          <line x1="232.0" y1="300.0" x2="258.0" y2="300.0" stroke-width="3.6"/><line x1="232.0" y1="316.0" x2="246.0" y2="316.0" stroke-width="1.8"/><line x1="232.0" y1="332.0" x2="248.9" y2="332.0" stroke-width="2.4"/><line x1="232.0" y1="348.0" x2="246.0" y2="348.0" stroke-width="1.8"/><line x1="232.0" y1="364.0" x2="258.0" y2="364.0" stroke-width="3.6"/><line x1="232.0" y1="380.0" x2="246.0" y2="380.0" stroke-width="1.8"/><line x1="232.0" y1="396.0" x2="248.9" y2="396.0" stroke-width="2.4"/><line x1="232.0" y1="412.0" x2="246.0" y2="412.0" stroke-width="1.8"/><line x1="232.0" y1="428.0" x2="258.0" y2="428.0" stroke-width="3.6"/><line x1="232.0" y1="444.0" x2="246.0" y2="444.0" stroke-width="1.8"/><line x1="232.0" y1="460.0" x2="248.9" y2="460.0" stroke-width="2.4"/><line x1="232.0" y1="476.0" x2="246.0" y2="476.0" stroke-width="1.8"/><line x1="232.0" y1="492.0" x2="258.0" y2="492.0" stroke-width="3.6"/><line x1="232.0" y1="508.0" x2="246.0" y2="508.0" stroke-width="1.8"/><line x1="232.0" y1="524.0" x2="248.9" y2="524.0" stroke-width="2.4"/><line x1="232.0" y1="540.0" x2="246.0" y2="540.0" stroke-width="1.8"/><line x1="232.0" y1="556.0" x2="258.0" y2="556.0" stroke-width="3.6"/><line x1="232.0" y1="572.0" x2="246.0" y2="572.0" stroke-width="1.8"/><line x1="232.0" y1="588.0" x2="248.9" y2="588.0" stroke-width="2.4"/><line x1="232.0" y1="604.0" x2="246.0" y2="604.0" stroke-width="1.8"/><line x1="232.0" y1="620.0" x2="258.0" y2="620.0" stroke-width="3.6"/><line x1="232.0" y1="636.0" x2="246.0" y2="636.0" stroke-width="1.8"/><line x1="232.0" y1="652.0" x2="248.9" y2="652.0" stroke-width="2.4"/><line x1="232.0" y1="668.0" x2="246.0" y2="668.0" stroke-width="1.8"/><line x1="232.0" y1="684.0" x2="258.0" y2="684.0" stroke-width="3.6"/><line x1="232.0" y1="700.0" x2="246.0" y2="700.0" stroke-width="1.8"/>
+        </g>
+        <!-- Highlighted tick catches (light catching the engraved marks) -->
+        <g stroke="#FFD8AB" stroke-linecap="round" opacity=".52" transform="translate(0, 1)">
+          <line x1="260.0" y1="272.0" x2="260.0" y2="298.0" stroke-width="3.6"/><line x1="276.0" y1="272.0" x2="276.0" y2="286.0" stroke-width="1.8"/><line x1="292.0" y1="272.0" x2="292.0" y2="288.9" stroke-width="2.4"/><line x1="308.0" y1="272.0" x2="308.0" y2="286.0" stroke-width="1.8"/><line x1="324.0" y1="272.0" x2="324.0" y2="298.0" stroke-width="3.6"/><line x1="340.0" y1="272.0" x2="340.0" y2="286.0" stroke-width="1.8"/><line x1="356.0" y1="272.0" x2="356.0" y2="288.9" stroke-width="2.4"/><line x1="372.0" y1="272.0" x2="372.0" y2="286.0" stroke-width="1.8"/><line x1="388.0" y1="272.0" x2="388.0" y2="298.0" stroke-width="3.6"/><line x1="404.0" y1="272.0" x2="404.0" y2="286.0" stroke-width="1.8"/><line x1="420.0" y1="272.0" x2="420.0" y2="288.9" stroke-width="2.4"/><line x1="436.0" y1="272.0" x2="436.0" y2="286.0" stroke-width="1.8"/><line x1="452.0" y1="272.0" x2="452.0" y2="298.0" stroke-width="3.6"/><line x1="468.0" y1="272.0" x2="468.0" y2="286.0" stroke-width="1.8"/><line x1="484.0" y1="272.0" x2="484.0" y2="288.9" stroke-width="2.4"/><line x1="500.0" y1="272.0" x2="500.0" y2="286.0" stroke-width="1.8"/><line x1="516.0" y1="272.0" x2="516.0" y2="298.0" stroke-width="3.6"/><line x1="532.0" y1="272.0" x2="532.0" y2="286.0" stroke-width="1.8"/><line x1="548.0" y1="272.0" x2="548.0" y2="288.9" stroke-width="2.4"/><line x1="564.0" y1="272.0" x2="564.0" y2="286.0" stroke-width="1.8"/><line x1="580.0" y1="272.0" x2="580.0" y2="298.0" stroke-width="3.6"/><line x1="596.0" y1="272.0" x2="596.0" y2="286.0" stroke-width="1.8"/><line x1="612.0" y1="272.0" x2="612.0" y2="288.9" stroke-width="2.4"/><line x1="628.0" y1="272.0" x2="628.0" y2="286.0" stroke-width="1.8"/><line x1="644.0" y1="272.0" x2="644.0" y2="298.0" stroke-width="3.6"/><line x1="660.0" y1="272.0" x2="660.0" y2="286.0" stroke-width="1.8"/><line x1="676.0" y1="272.0" x2="676.0" y2="288.9" stroke-width="2.4"/><line x1="692.0" y1="272.0" x2="692.0" y2="286.0" stroke-width="1.8"/><line x1="708.0" y1="272.0" x2="708.0" y2="298.0" stroke-width="3.6"/>
+          <line x1="232.0" y1="300.0" x2="258.0" y2="300.0" stroke-width="3.6"/><line x1="232.0" y1="316.0" x2="246.0" y2="316.0" stroke-width="1.8"/><line x1="232.0" y1="332.0" x2="248.9" y2="332.0" stroke-width="2.4"/><line x1="232.0" y1="348.0" x2="246.0" y2="348.0" stroke-width="1.8"/><line x1="232.0" y1="364.0" x2="258.0" y2="364.0" stroke-width="3.6"/><line x1="232.0" y1="380.0" x2="246.0" y2="380.0" stroke-width="1.8"/><line x1="232.0" y1="396.0" x2="248.9" y2="396.0" stroke-width="2.4"/><line x1="232.0" y1="412.0" x2="246.0" y2="412.0" stroke-width="1.8"/><line x1="232.0" y1="428.0" x2="258.0" y2="428.0" stroke-width="3.6"/><line x1="232.0" y1="444.0" x2="246.0" y2="444.0" stroke-width="1.8"/><line x1="232.0" y1="460.0" x2="248.9" y2="460.0" stroke-width="2.4"/><line x1="232.0" y1="476.0" x2="246.0" y2="476.0" stroke-width="1.8"/><line x1="232.0" y1="492.0" x2="258.0" y2="492.0" stroke-width="3.6"/><line x1="232.0" y1="508.0" x2="246.0" y2="508.0" stroke-width="1.8"/><line x1="232.0" y1="524.0" x2="248.9" y2="524.0" stroke-width="2.4"/><line x1="232.0" y1="540.0" x2="246.0" y2="540.0" stroke-width="1.8"/><line x1="232.0" y1="556.0" x2="258.0" y2="556.0" stroke-width="3.6"/><line x1="232.0" y1="572.0" x2="246.0" y2="572.0" stroke-width="1.8"/><line x1="232.0" y1="588.0" x2="248.9" y2="588.0" stroke-width="2.4"/><line x1="232.0" y1="604.0" x2="246.0" y2="604.0" stroke-width="1.8"/><line x1="232.0" y1="620.0" x2="258.0" y2="620.0" stroke-width="3.6"/><line x1="232.0" y1="636.0" x2="246.0" y2="636.0" stroke-width="1.8"/><line x1="232.0" y1="652.0" x2="248.9" y2="652.0" stroke-width="2.4"/><line x1="232.0" y1="668.0" x2="246.0" y2="668.0" stroke-width="1.8"/><line x1="232.0" y1="684.0" x2="258.0" y2="684.0" stroke-width="3.6"/><line x1="232.0" y1="700.0" x2="246.0" y2="700.0" stroke-width="1.8"/>
+        </g>
+      </g>
+
+      <!-- Shadow cast by upper prose sheet onto lower measuring plate & ground -->
+      <g filter="url(#sheetShadow)" opacity=".42">
+        <rect x="282.0" y="210.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="#241B12"/>
+      </g>
+    </g>
+
+    <!-- ── #fg Layer: Upper plane (Voice) — Translucent Prose Sheet + Lines ── -->
+    <g id="fg">
+      <!-- Upper sheet 3D thickness wall -->
+      <rect x="290.0" y="204.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="url(#frostWall)"/>
+      <!-- Translucent frosted glass sheet base -->
+      <rect x="290.0" y="190.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="url(#frostFace)"/>
+
+      <!-- Translucent through-read: the ember rule seen THROUGH the frosted sheet -->
+      <g clip-path="url(#sheetClip)">
+        <!-- Ember warm hue bleed into frost sheet -->
+        <rect x="290.0" y="190.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="url(#frostEmberBleed)"/>
+
+        <!-- The underlying measuring plate's features softly visible through glass -->
+        <g opacity=".46" filter="url(#throughFrostBlur)">
+          <rect x="216.0" y="256.0" width="540.0" height="500.0" rx="40.0" ry="40.0" fill="none" stroke="#E15A20" stroke-width="4"/>
+          <g stroke="#5A1402" stroke-linecap="round" opacity=".65">
+            <line x1="260.0" y1="272.0" x2="260.0" y2="298.0" stroke-width="3.6"/><line x1="276.0" y1="272.0" x2="276.0" y2="286.0" stroke-width="1.8"/><line x1="292.0" y1="272.0" x2="292.0" y2="288.9" stroke-width="2.4"/><line x1="308.0" y1="272.0" x2="308.0" y2="286.0" stroke-width="1.8"/><line x1="324.0" y1="272.0" x2="324.0" y2="298.0" stroke-width="3.6"/><line x1="340.0" y1="272.0" x2="340.0" y2="286.0" stroke-width="1.8"/><line x1="356.0" y1="272.0" x2="356.0" y2="288.9" stroke-width="2.4"/><line x1="372.0" y1="272.0" x2="372.0" y2="286.0" stroke-width="1.8"/><line x1="388.0" y1="272.0" x2="388.0" y2="298.0" stroke-width="3.6"/><line x1="404.0" y1="272.0" x2="404.0" y2="286.0" stroke-width="1.8"/><line x1="420.0" y1="272.0" x2="420.0" y2="288.9" stroke-width="2.4"/><line x1="436.0" y1="272.0" x2="436.0" y2="286.0" stroke-width="1.8"/><line x1="452.0" y1="272.0" x2="452.0" y2="298.0" stroke-width="3.6"/><line x1="468.0" y1="272.0" x2="468.0" y2="286.0" stroke-width="1.8"/><line x1="484.0" y1="272.0" x2="484.0" y2="288.9" stroke-width="2.4"/><line x1="500.0" y1="272.0" x2="500.0" y2="286.0" stroke-width="1.8"/><line x1="516.0" y1="272.0" x2="516.0" y2="298.0" stroke-width="3.6"/><line x1="532.0" y1="272.0" x2="532.0" y2="286.0" stroke-width="1.8"/><line x1="548.0" y1="272.0" x2="548.0" y2="288.9" stroke-width="2.4"/><line x1="564.0" y1="272.0" x2="564.0" y2="286.0" stroke-width="1.8"/><line x1="580.0" y1="272.0" x2="580.0" y2="298.0" stroke-width="3.6"/><line x1="596.0" y1="272.0" x2="596.0" y2="286.0" stroke-width="1.8"/><line x1="612.0" y1="272.0" x2="612.0" y2="288.9" stroke-width="2.4"/><line x1="628.0" y1="272.0" x2="628.0" y2="286.0" stroke-width="1.8"/><line x1="644.0" y1="272.0" x2="644.0" y2="298.0" stroke-width="3.6"/><line x1="660.0" y1="272.0" x2="660.0" y2="286.0" stroke-width="1.8"/><line x1="676.0" y1="272.0" x2="676.0" y2="288.9" stroke-width="2.4"/><line x1="692.0" y1="272.0" x2="692.0" y2="286.0" stroke-width="1.8"/><line x1="708.0" y1="272.0" x2="708.0" y2="298.0" stroke-width="3.6"/>
+            <line x1="232.0" y1="300.0" x2="258.0" y2="300.0" stroke-width="3.6"/><line x1="232.0" y1="316.0" x2="246.0" y2="316.0" stroke-width="1.8"/><line x1="232.0" y1="332.0" x2="248.9" y2="332.0" stroke-width="2.4"/><line x1="232.0" y1="348.0" x2="246.0" y2="348.0" stroke-width="1.8"/><line x1="232.0" y1="364.0" x2="258.0" y2="364.0" stroke-width="3.6"/><line x1="232.0" y1="380.0" x2="246.0" y2="380.0" stroke-width="1.8"/><line x1="232.0" y1="396.0" x2="248.9" y2="396.0" stroke-width="2.4"/><line x1="232.0" y1="412.0" x2="246.0" y2="412.0" stroke-width="1.8"/><line x1="232.0" y1="428.0" x2="258.0" y2="428.0" stroke-width="3.6"/><line x1="232.0" y1="444.0" x2="246.0" y2="444.0" stroke-width="1.8"/><line x1="232.0" y1="460.0" x2="248.9" y2="460.0" stroke-width="2.4"/><line x1="232.0" y1="476.0" x2="246.0" y2="476.0" stroke-width="1.8"/><line x1="232.0" y1="492.0" x2="258.0" y2="492.0" stroke-width="3.6"/><line x1="232.0" y1="508.0" x2="246.0" y2="508.0" stroke-width="1.8"/><line x1="232.0" y1="524.0" x2="248.9" y2="524.0" stroke-width="2.4"/><line x1="232.0" y1="540.0" x2="246.0" y2="540.0" stroke-width="1.8"/><line x1="232.0" y1="556.0" x2="258.0" y2="556.0" stroke-width="3.6"/><line x1="232.0" y1="572.0" x2="246.0" y2="572.0" stroke-width="1.8"/><line x1="232.0" y1="588.0" x2="248.9" y2="588.0" stroke-width="2.4"/><line x1="232.0" y1="604.0" x2="246.0" y2="604.0" stroke-width="1.8"/><line x1="232.0" y1="620.0" x2="258.0" y2="620.0" stroke-width="3.6"/><line x1="232.0" y1="636.0" x2="246.0" y2="636.0" stroke-width="1.8"/><line x1="232.0" y1="652.0" x2="248.9" y2="652.0" stroke-width="2.4"/><line x1="232.0" y1="668.0" x2="246.0" y2="668.0" stroke-width="1.8"/><line x1="232.0" y1="684.0" x2="258.0" y2="684.0" stroke-width="3.6"/><line x1="232.0" y1="700.0" x2="246.0" y2="700.0" stroke-width="1.8"/>
+          </g>
+          <g stroke="#5A1402" opacity=".36">
+            <line x1="244.0" y1="328.0" x2="728.0" y2="328.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="372.0" x2="728.0" y2="372.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="416.0" x2="728.0" y2="416.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="460.0" x2="728.0" y2="460.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="504.0" x2="728.0" y2="504.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="548.0" x2="728.0" y2="548.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="592.0" x2="728.0" y2="592.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="636.0" x2="728.0" y2="636.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="244.0" y1="680.0" x2="728.0" y2="680.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="288.0" y1="284.0" x2="288.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="332.0" y1="284.0" x2="332.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="376.0" y1="284.0" x2="376.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="420.0" y1="284.0" x2="420.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="464.0" y1="284.0" x2="464.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="508.0" y1="284.0" x2="508.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="552.0" y1="284.0" x2="552.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="596.0" y1="284.0" x2="596.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="640.0" y1="284.0" x2="640.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/><line x1="684.0" y1="284.0" x2="684.0" y2="728.0" stroke-width="1.8" stroke-dasharray="6,6"/>
+          </g>
+        </g>
+
+        <!-- Sheet internal satin gloss & AO -->
+        <rect x="290.0" y="190.0" width="520.0" height="238.5" rx="36.0" ry="36.0" fill="url(#frostSatin)"/>
+        <rect x="290.0" y="190.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="url(#frostAO)"/>
+
+        <!-- Sheet boundary rim / frosted edge -->
+        <rect x="290.0" y="190.0" width="520.0" height="530.0" rx="36.0" ry="36.0" fill="none" stroke="url(#frostRim)" stroke-width="6"/>
+      </g>
+
+      <!-- Prose capsule lines (Voice) -->
+      <g>
+        <!-- Contact shadow under each line for depth -->
+        <g filter="url(#lineEmboss)" opacity=".34">
+          <rect x="354.0" y="278.5" width="376.0" height="26.0" rx="13.0" ry="13.0" fill="#241B12"/><rect x="354.0" y="344.5" width="320.0" height="26.0" rx="13.0" ry="13.0" fill="#241B12"/><rect x="354.0" y="410.5" width="400.0" height="26.0" rx="13.0" ry="13.0" fill="#241B12"/><rect x="354.0" y="476.5" width="336.0" height="26.0" rx="13.0" ry="13.0" fill="#241B12"/><rect x="354.0" y="542.5" width="190.0" height="26.0" rx="13.0" ry="13.0" fill="#241B12"/>
+          <path d="M 687.8 348.4 a 6.2 6.2 0 1 0 12.5 0 a 6.2 6.2 0 1 0 -12.5 0 M 687.8 362.8 a 6.2 6.2 0 1 0 12.5 0 a 6.2 6.2 0 1 0 -12.5 0 M 696.5 362.8 Q 699.6 372.9 689.6 380.1 Q 694.6 371.4 692.8 366.5 Z" fill="#241B12"/>
+        </g>
+
+        <!-- Line bodies -->
+        <rect x="354.0" y="276.0" width="376.0" height="26.0" rx="13.0" ry="13.0" fill="url(#lineGrad)"/><rect x="354.0" y="342.0" width="320.0" height="26.0" rx="13.0" ry="13.0" fill="url(#lineGrad)"/><rect x="354.0" y="408.0" width="400.0" height="26.0" rx="13.0" ry="13.0" fill="url(#lineGrad)"/><rect x="354.0" y="474.0" width="336.0" height="26.0" rx="13.0" ry="13.0" fill="url(#lineGrad)"/><rect x="354.0" y="540.0" width="190.0" height="26.0" rx="13.0" ry="13.0" fill="url(#lineGrad)"/>
+        <!-- Semicolon body -->
+        <path d="M 687.8 345.9 a 6.2 6.2 0 1 0 12.5 0 a 6.2 6.2 0 1 0 -12.5 0 M 687.8 360.3 a 6.2 6.2 0 1 0 12.5 0 a 6.2 6.2 0 1 0 -12.5 0 M 696.5 360.3 Q 699.6 370.4 689.6 377.6 Q 694.6 368.9 692.8 364.0 Z" fill="url(#lineGrad)"/>
+
+        <!-- Top rim light on each capsule line (sculpted depth) -->
+        <path d="M367.0 278.0 H717.0" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round" opacity=".60"/><path d="M367.0 344.0 H661.0" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round" opacity=".60"/><path d="M367.0 410.0 H741.0" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round" opacity=".60"/><path d="M367.0 476.0 H677.0" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round" opacity=".60"/><path d="M367.0 542.0 H531.0" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round" opacity=".60"/>
+        <!-- Highlight catch on semicolon dot and comma head -->
+        <circle cx="694.0" cy="344.9" r="3" fill="#FFFDF8" opacity=".50"/>
+        <circle cx="694.0" cy="359.3" r="3" fill="#FFFDF8" opacity=".45"/>
+      </g>
+    </g>
+
+    <!-- ── #highlight Layer: Global rim light, specular catches, tile cushion rim ── -->
+    <g id="highlight">
+      <!-- Lit top edge of the upper frosted sheet -->
+      <path d="M326 192.5 H774" stroke="#FFFDF8" stroke-width="5.5"
+            stroke-linecap="round" opacity=".88"/>
+      <!-- Soft left edge highlight on frosted sheet -->
+      <path d="M292.5 226 V684" stroke="#FFFDF8" stroke-width="4.5"
+            stroke-linecap="round" opacity=".70"/>
+
+      <!-- Lit top-left arris catch of lower measuring plate -->
+      <path d="M256 258.5 H442.79999999999995" stroke="#FFD8AB" stroke-width="4.5"
+            stroke-linecap="round" opacity=".85"/>
+      <path d="M218.5 296 V466.0" stroke="#FFD8AB" stroke-width="4"
+            stroke-linecap="round" opacity=".80"/>
+
+      <!-- Cushion tile inner perimeter rim light (Tahoe ground tell 1) -->
+      <path d="M1024.00,512.00C1024.00,569.33 1023.85,646.20 1023.56,683.99C1023.27,721.78 1022.83,723.03 1022.24,738.75C1021.66,754.47 1020.92,766.39 1020.04,778.30C1019.16,790.20 1018.13,800.36 1016.95,810.17C1015.77,819.99 1014.44,828.75 1012.95,837.17C1011.47,845.58 1009.83,853.28 1008.04,860.66C1006.25,868.04 1004.30,874.89 1002.19,881.45C1000.08,888.01 997.81,894.14 995.37,900.02C992.94,905.90 990.34,911.43 987.56,916.73C984.79,922.03 981.85,927.02 978.72,931.81C975.59,936.59 972.29,941.11 968.79,945.43C965.29,949.75 961.62,953.83 957.72,957.72C953.83,961.62 949.75,965.29 945.43,968.79C941.11,972.29 936.59,975.59 931.81,978.72C927.02,981.85 922.03,984.79 916.73,987.56C911.43,990.34 905.90,992.94 900.02,995.37C894.14,997.81 888.01,1000.08 881.45,1002.19C874.89,1004.30 868.04,1006.25 860.66,1008.04C853.28,1009.83 845.58,1011.47 837.17,1012.95C828.75,1014.44 819.99,1015.77 810.17,1016.95C800.36,1018.13 790.20,1019.16 778.30,1020.04C766.39,1020.92 754.47,1021.66 738.75,1022.24C723.03,1022.83 721.78,1023.27 683.99,1023.56C646.20,1023.85 569.33,1024.00 512.00,1024.00C454.67,1024.00 377.80,1023.85 340.01,1023.56C302.22,1023.27 300.97,1022.83 285.25,1022.24C269.53,1021.66 257.61,1020.92 245.70,1020.04C233.80,1019.16 223.64,1018.13 213.83,1016.95C204.01,1015.77 195.25,1014.44 186.83,1012.95C178.42,1011.47 170.72,1009.83 163.34,1008.04C155.96,1006.25 149.11,1004.30 142.55,1002.19C135.99,1000.08 129.86,997.81 123.98,995.37C118.10,992.94 112.57,990.34 107.27,987.56C101.97,984.79 96.98,981.85 92.19,978.72C87.41,975.59 82.89,972.29 78.57,968.79C74.25,965.29 70.17,961.62 66.28,957.72C62.38,953.83 58.71,949.75 55.21,945.43C51.71,941.11 48.41,936.59 45.28,931.81C42.15,927.02 39.21,922.03 36.44,916.73C33.66,911.43 31.06,905.90 28.63,900.02C26.19,894.14 23.92,888.01 21.81,881.45C19.70,874.89 17.75,868.04 15.96,860.66C14.17,853.28 12.53,845.58 11.05,837.17C9.56,828.75 8.23,819.99 7.05,810.17C5.87,800.36 4.84,790.20 3.96,778.30C3.08,766.39 2.34,754.47 1.76,738.75C1.17,723.03 0.73,721.78 0.44,683.99C0.15,646.20 0.00,569.33 0.00,512.00C0.00,454.67 0.15,377.80 0.44,340.01C0.73,302.22 1.17,300.97 1.76,285.25C2.34,269.53 3.08,257.61 3.96,245.70C4.84,233.80 5.87,223.64 7.05,213.83C8.23,204.01 9.56,195.25 11.05,186.83C12.53,178.42 14.17,170.72 15.96,163.34C17.75,155.96 19.70,149.11 21.81,142.55C23.92,135.99 26.19,129.86 28.63,123.98C31.06,118.10 33.66,112.57 36.44,107.27C39.21,101.97 42.15,96.98 45.28,92.19C48.41,87.41 51.71,82.89 55.21,78.57C58.71,74.25 62.38,70.17 66.28,66.28C70.17,62.38 74.25,58.71 78.57,55.21C82.89,51.71 87.41,48.41 92.19,45.28C96.98,42.15 101.97,39.21 107.27,36.44C112.57,33.66 118.10,31.06 123.98,28.63C129.86,26.19 135.99,23.92 142.55,21.81C149.11,19.70 155.96,17.75 163.34,15.96C170.72,14.17 178.42,12.53 186.83,11.05C195.25,9.56 204.01,8.23 213.83,7.05C223.64,5.87 233.80,4.84 245.70,3.96C257.61,3.08 269.53,2.34 285.25,1.76C300.97,1.17 302.22,0.73 340.01,0.44C377.80,0.15 454.67,0.00 512.00,0.00C569.33,0.00 646.20,0.15 683.99,0.44C721.78,0.73 723.03,1.17 738.75,1.76C754.47,2.34 766.39,3.08 778.30,3.96C790.20,4.84 800.36,5.87 810.17,7.05C819.99,8.23 828.75,9.56 837.17,11.05C845.58,12.53 853.28,14.17 860.66,15.96C868.04,17.75 874.89,19.70 881.45,21.81C888.01,23.92 894.14,26.19 900.02,28.63C905.90,31.06 911.43,33.66 916.73,36.44C922.03,39.21 927.02,42.15 931.81,45.28C936.59,48.41 941.11,51.71 945.43,55.21C949.75,58.71 953.83,62.38 957.72,66.28C961.62,70.17 965.29,74.25 968.79,78.57C972.29,82.89 975.59,87.41 978.72,92.19C981.85,96.98 984.79,101.97 987.56,107.27C990.34,112.57 992.94,118.10 995.37,123.98C997.81,129.86 1000.08,135.99 1002.19,142.55C1004.30,149.11 1006.25,155.96 1008.04,163.34C1009.83,170.72 1011.47,178.42 1012.95,186.83C1014.44,195.25 1015.77,204.01 1016.95,213.83C1018.13,223.64 1019.16,233.80 1020.04,245.70C1020.92,257.61 1021.66,269.53 1022.24,285.25C1022.83,300.97 1023.27,302.22 1023.56,340.01C1023.85,377.80 1024.00,454.67 1024.00,512.00Z" fill="none" stroke="#FFFDF8" stroke-width="7" opacity=".85"/>
+    </g>
+  </g>
+</svg>
+

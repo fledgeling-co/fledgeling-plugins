@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-69eefc-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r02: refined contact AO, graduation catches, and highlight balance",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.1174,
+      "ssim": 0.7143,
+      "edge_f1": 0.1357,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.476,
+      "composite": 0.5053
+    },
+    "256": {
+      "lum_delta": 0.1156,
+      "ssim": 0.5227,
+      "edge_f1": 0.2559,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4731,
+      "composite": 0.4612
+    },
+    "128": {
+      "lum_delta": 0.115,
+      "ssim": 0.4172,
+      "edge_f1": 0.3208,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4667,
+      "composite": 0.4361
+    },
+    "32": {
+      "lum_delta": 0.1127,
+      "ssim": 0.3864,
+      "edge_f1": 0.7597,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4649,
+      "composite": 0.6949
+    },
+    "16": {
+      "lum_delta": 0.107,
+      "ssim": 0.4213,
+      "edge_f1": 0.9319,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4382,
+      "ref_self_contrast": 0.4516,
+      "composite": 0.7673
+    }
+  },
+  "render_hash": "1fa4ecafa0cf315a"
+}

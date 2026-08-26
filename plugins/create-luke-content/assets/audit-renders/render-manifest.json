@@ -1,0 +1,54 @@
+{
+  "takes": {
+    "A": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "5114af3e9e10688310c56c1d43a384130258bb70f9229bcf46980fad3baac3b7",
+      "source_mtime": 1787786975.2907221,
+      "rendered_at": 1787787042.2665951
+    },
+    "B": {
+      "source": "icon-engineB-arrow-466c65.svg",
+      "kind": "svg",
+      "source_sha256": "bf13c0885dfcfa58300cdd57fdcb19fca4d4349d42b23ab5ccd2ad048e2eb62d",
+      "source_mtime": 1787786764.086775,
+      "rendered_at": 1787787042.462075
+    },
+    "C1": {
+      "source": "icon-engineC-69eefc-masked.png",
+      "kind": "png",
+      "source_sha256": "2a86e6fd65252270cd5b9c1bfe0a1315ac5a8ce1b0dad36d72e8b5e246c16dc4",
+      "source_mtime": 1787786917.8196042,
+      "rendered_at": 1787787042.6284108
+    },
+    "C2": {
+      "source": "icon-engineC-778ac2-2-masked.png",
+      "kind": "png",
+      "source_sha256": "c8f78350b565f1ad1dea01cc9944af22f980001967f0f63fecc7908ed2cb8d76",
+      "source_mtime": 1787786917.9017937,
+      "rendered_at": 1787787042.789155
+    },
+    "C3": {
+      "source": "icon-engineC-gpt-18fd60-masked.png",
+      "kind": "png",
+      "source_sha256": "2d9c609bf16122af6927a97c6368bf01b6782af95370de3a5f9129067442cf89",
+      "source_mtime": 1787786918.0253885,
+      "rendered_at": 1787787042.9783611
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

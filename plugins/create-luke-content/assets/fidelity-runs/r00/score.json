@@ -1,0 +1,55 @@
+{
+  "candidate": "icon.svg",
+  "reference": "icon-engineC-69eefc-masked.png",
+  "tier": "numpy (no torch: luminance+ssim+edges only)",
+  "metric_version": 2,
+  "label": "r00 baseline: initial Tahoe gel-glass draft",
+  "sizes": {
+    "1024": {
+      "lum_delta": 0.117,
+      "ssim": 0.7168,
+      "edge_f1": 0.1437,
+      "mask_iou": 0.9999,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.476,
+      "composite": 0.5088
+    },
+    "256": {
+      "lum_delta": 0.1156,
+      "ssim": 0.5243,
+      "edge_f1": 0.245,
+      "mask_iou": 0.9997,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4731,
+      "composite": 0.4591
+    },
+    "128": {
+      "lum_delta": 0.1142,
+      "ssim": 0.4186,
+      "edge_f1": 0.3308,
+      "mask_iou": 0.9992,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4667,
+      "composite": 0.4403
+    },
+    "32": {
+      "lum_delta": 0.1123,
+      "ssim": 0.3805,
+      "edge_f1": 0.7633,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4549,
+      "ref_self_contrast": 0.4649,
+      "composite": 0.6949
+    },
+    "16": {
+      "lum_delta": 0.106,
+      "ssim": 0.4171,
+      "edge_f1": 0.9312,
+      "mask_iou": 1.0,
+      "self_contrast": 0.4187,
+      "ref_self_contrast": 0.4516,
+      "composite": 0.7666
+    }
+  },
+  "render_hash": "8e094969f1d7b6bb"
+}
