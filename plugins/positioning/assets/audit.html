@@ -10,12 +10,21 @@
   h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
   .sub { color: #7fa0aa; margin-bottom: 32px; }
   .sheet { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; min-width: 860px; }
-  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  /* min-width raised from the template's 860. These verdicts are several times
+     the template's length, and at 860 the renders column takes the slack while
+     the verdict column collapses to about ten characters a line. The sheet is
+     already an overflow-x container, so the honest fix is to give the table the
+     width it needs and let it scroll. */
+  table { border-collapse: collapse; width: 100%; min-width: 1360px; table-layout: fixed; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: top; }
+  col.c-take { width: 216px; }
+  col.c-renders { width: 620px; }
+  col.c-score { width: 74px; }
+  col.c-verdict { width: 450px; }
   th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
-  .take { font-weight: 650; white-space: nowrap; }
+  .take { font-weight: 650; }
   .take small { display: block; font-weight: 400; color: #7fa0aa; }
-  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders { display: flex; align-items: center; gap: 14px; }
   .renders figure { margin: 0; text-align: center; }
   .renders img { display: block; background: #08252e; border-radius: 8px; }
   .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
@@ -23,7 +32,7 @@
   .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
   .ship { color: #ffd98f; }
   .fail { color: #e0826a; }
-  .verdict { max-width: 420px; color: #a9bec5; }
+  .verdict { color: #a9bec5; }
   .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
   .rec strong { color: #ffd98f; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -41,6 +50,7 @@
 
 <div class="sheet"><table>
   <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <colgroup><col class="c-take"><col class="c-renders"><col class="c-score"><col class="c-verdict"></colgroup>
   <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
 
   <tr>
@@ -55,7 +65,7 @@
       <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="a 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
     </div></td>
     <td class="score ship">11 / 12</td>
-    <td class="verdict">Three translucent graphite battens on the family's porcelain, and the fix is the pocket of ember light they fail to close. Checks 1–4 all clean on the renders beside this cell: full-bleed on the set's exact superellipse, the knot's centroid at (529, 494) so it sits just off the optical centre, a nameable filled-black silhouette, and at 16px it still reads as lines crossing with a warm centre. Figure-ground measured 7.49:1 (p2/p98 WCAG relative luminance); the accent occupies 5.4% of the tile. Every crossing multiplies darker with plain source-over, so the darkening is authored translucency rather than a painted shadow. #10 is the one qualified pass and the liability is stated below.</td>
+    <td class="verdict">Three translucent graphite battens on the family's porcelain, and the fix is the pocket of ember light they fail to close. Checks 1–4 all clean on the renders beside this cell: full-bleed on the set's exact superellipse, the three crossings enclosing a scalene triangle of 221 / 280 / 305 px whose centroid falls at (529, 494), just off the optical centre, a nameable filled-black silhouette, and at 16px it still reads as lines crossing with a warm centre. Figure-ground measured 7.49:1 (p2/p98 WCAG relative luminance); the ember pocket spans 283px, 27.6% of the tile, and the accent occupies 5.4% of it. Flattened to filled black the shape is nameable — three lines enclosing a triangular counter — and under a flat mono tint the triangle survives as a lighter patch bounded by three darker lines. Every crossing multiplies darker with plain source-over, so the darkening is authored translucency rather than a painted shadow. #10 is the one qualified pass and the liability is stated below.</td>
   </tr>
 
   <tr>
@@ -120,7 +130,7 @@
 
 </table></div>
 
-<div class="rec"><strong>Recommendation: ship a (icon.svg).</strong> It is the only take that is both the right idea and a real layered master: four named groups (<code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code>) plus one group per bearing, no <code>&lt;image&gt;</code> embed, 56 paths and 24KB — inside the structure envelope, and the outer shape is the set's own <code>squircle-path.txt</code> rather than an approximation. Its material provenance is c1: two measured rounds rebuilt that raster's glass — transmission of the chart through the battens, frosted catches on both long edges, a broad interior band inside the lit edge — into parameters in <code>build_icon.py</code>. Known liabilities to revisit: (1) <strong>#10 is a qualified pass.</strong> The identity survives a mono tint as shape and value, but the fastest read at 16px is warm-against-cool, and Tinted removes exactly that; the triangle then depends on the three battens staying distinguishable from each other, which is the thing to check first if a tinted variant is ever needed. (2) <strong>The composition is deliberately unbalanced and the lower-left quadrant is close to empty</strong> — the knot sits up and right of the tile centre, which reads as direction at 1024 and as a slightly high centre of mass at 128. (3) <strong>The material was never measured.</strong> torch and lpips are not installed on this machine, so the fidelity gate ran on the numpy tier, which is blind at 256 and 1024 — the sizes where material lives. Every gate verdict below covers structure and small-size legibility only, and was taken with <code>--allow-degraded-tier</code>. (4) <strong>Both raster ends stop on the right.</strong> The two battens that terminate inside the tile do so at very different heights but on the same side, which is the one compositional choice here that was settled by eye rather than by measurement.</div>
+<div class="rec"><strong>Recommendation: ship a (icon.svg).</strong> It is the only take that is both the right idea and a real layered master: eight named groups — the layer plan <code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code>, plus <code>chart</code> and one per bearing — no <code>&lt;image&gt;</code> embed, 79 paths and 26KB against an envelope of 400 and 200KB, and the outer shape is the set's own <code>squircle-path.txt</code> rather than an approximation. Its material provenance is c1: two measured rounds rebuilt that raster's glass — transmission of the chart through the battens, frosted catches on both long edges, a broad interior band inside the lit edge — into parameters in <code>build_icon.py</code>. Known liabilities to revisit: (1) <strong>#10 is a qualified pass.</strong> The identity survives a mono tint as shape and value, but the fastest read at 16px is warm-against-cool, and Tinted removes exactly that; the triangle then depends on the three battens staying distinguishable from each other, which is the thing to check first if a tinted variant is ever needed. (2) <strong>The composition is deliberately unbalanced and the lower-left quadrant is close to empty</strong> — the knot sits up and right of the tile centre, which reads as direction at 1024 and as a slightly high centre of mass at 128. (3) <strong>The material was never measured.</strong> torch and lpips are not installed on this machine, so the fidelity gate ran on the numpy tier, which is blind at 256 and 1024 — the sizes where material lives. Every gate verdict below covers structure and small-size legibility only, and was taken with <code>--allow-degraded-tier</code>. (4) <strong>Both raster ends stop on the right.</strong> The two battens that terminate inside the tile do so at very different heights but on the same side, which is the one compositional choice here that was settled by eye rather than by measurement.</div>
 
 <div class="loop">
   <h2>The fidelity loop — two rounds against c1</h2>

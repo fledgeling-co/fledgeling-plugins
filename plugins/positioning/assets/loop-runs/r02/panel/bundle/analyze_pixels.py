@@ -116,15 +116,29 @@ def pearson_luminance(a, b):
     return float(np.corrcoef(la, lb)[0, 1])
 
 
+def to_json(obj):
+    if isinstance(obj, dict):
+        return {k: to_json(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [to_json(v) for v in obj]
+    if isinstance(obj, np.integer):
+        return int(obj)
+    if isinstance(obj, np.floating):
+        return float(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    return obj
+
+
 def sample_rgb(arr, x, y, name):
     h, w = arr.shape[:2]
     if not (0 <= x < w and 0 <= y < h):
-        return {"point": name, "x": x, "y": y, "error": "out of bounds"}
+        return {"point": name, "x": int(x), "y": int(y), "error": "out of bounds"}
     px = arr[y, x]
     return {
         "point": name,
-        "x": x,
-        "y": y,
+        "x": int(x),
+        "y": int(y),
         "R": float(px[0]),
         "G": float(px[1]),
         "B": float(px[2]),
@@ -233,7 +247,7 @@ def analyze_small_strip(path, label):
     # Likely: tile at 0 = 16x magnified (from 128/16=8? or 128 at 16x = 8px source?)
     # Actually: 128px tile magnified to show at 16x and 32x scales — three tiles compare scales
     result = {"file": label, "size": [w, h], "tiles": tiles}
-    scale_names = ["16x_magnified", "32x_magnified", "128_native"]
+    scale_names = ["128_native", "32x_magnified", "16x_magnified"]
     for i, x0 in enumerate(tile_positions):
         if x0 + 128 > w:
             continue
@@ -353,7 +367,7 @@ def main():
         "B-small": analyze_small_strip(os.path.join(DIR, "B-small.png"), "B-small"),
     }
 
-    print(json.dumps(report, indent=2))
+    print(json.dumps(to_json(report), indent=2))
 
 
 if __name__ == "__main__":

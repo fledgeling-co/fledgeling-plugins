@@ -1,0 +1,10 @@
+total 5160
+drwxr-xr-x@ 9 lukerhodes  staff      288 27 Aug 08:45 .
+drwxr-xr-x@ 6 lukerhodes  staff      192 27 Aug 08:40 ..
+-rw-r--r--@ 1 lukerhodes  staff   587753 27 Aug 08:38 A-1024.png
+-rw-r--r--@ 1 lukerhodes  staff    32071 27 Aug 08:38 A-small.png
+-rw-r--r--@ 1 lukerhodes  staff    11681 27 Aug 08:44 analyze_pixels.py
+-rw-r--r--@ 1 lukerhodes  staff   601635 27 Aug 08:38 B-1024.png
+-rw-r--r--@ 1 lukerhodes  staff    31697 27 Aug 08:38 B-small.png
+-rw-r--r--@ 1 lukerhodes  staff        0 27 Aug 08:45 ls_out.txt
+-rw-r--r--@ 1 lukerhodes  staff  1368832 27 Aug 08:38 REF-1024.png

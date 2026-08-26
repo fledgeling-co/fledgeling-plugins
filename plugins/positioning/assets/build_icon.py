@@ -63,34 +63,37 @@ GRATICULE = "#8A7458"
 GRAT_OP, GRAT_MERIDIAN_OP = 0.050, 0.085
 GRAT_STEP = 118.0
 
-# The battens are a cool graphite: the darkest pixel inside a shaded face on the
-# four porcelain captures is (25-31, 28-35, 31-39) — cool, not warm — so the
-# rods go blue-grey at their shadow end and the ground keeps the warmth.
-# A flat batten, not a round rod. The raster's cross-section is an even face
-# across most of its width with the fall confined to the last fifth — a glass
-# ruler lying on the chart. A monotonic ramp edge to edge reads as a turned
-# dowel instead, and a dowel with a bright far edge reads as chrome, which the
-# era rules out outright.
+# The battens. Cool graphite, because the darkest pixel inside a shaded face on
+# the four porcelain captures is (25-31, 28-35, 31-39) — cool, not warm — so the
+# battens go blue-grey at their shadow end and the ground keeps all the warmth.
+#
+# The stop POSITIONS decide whether this is a flat batten or a turned dowel, and
+# that is a bigger difference than the colours. An even face from 14% to 70%
+# with the fall confined to the last fifth reads as a glass ruler lying on the
+# chart; the same five colours spread monotonically edge to edge read as a
+# dowel, and a dowel with a bright far edge reads as chrome, which the era rules
+# out outright.
 BAT_LIT, BAT_UPPER, BAT_CORE, BAT_DEEP, BAT_BOUNCE = (
     "#727C88", "#3F4751", "#2F363F", "#191D22", "#414954")
 BAT_LIT_OP, BAT_UPPER_OP, BAT_CORE_OP, BAT_DEEP_OP, BAT_BOUNCE_OP = (
     0.64, 0.82, 0.86, 0.90, 0.74)
 RIM = "#D3DAE2"
 RIM_OP = 0.62
-
-# Glass, measured off the C-glass raster rather than assumed. Three things
-# separate a glass rod from a matte one there, and all three are constructions
-# rather than opacity settings:
-#   - the chart's own grid stays visible THROUGH the rod, dimmed but continuous;
-#   - both long edges carry a frosted white catch, not just the lit one;
-#   - a broad soft band of light runs along the inside of the lit edge, well in
-#     from the arris, which is the rod's own body transmitting rather than a
-#     specular sitting on its surface.
-TRANSMIT = 0.32               # how much of the chart survives the rod
-FROST, FROST_OP = "#EEF3F8", 0.17
-CORE_LIGHT_OP = 0.11          # the interior band, as a fraction of the rod's width
-CORE_LIGHT_AT, CORE_LIGHT_W = 0.38, 0.52
 SHADOW = "#6E5C44"            # the ground's own hue darkened, never blue
+
+# Glass, measured off the winning raster rather than assumed. Three things
+# separate a glass batten from a matte one there, and all three are
+# constructions rather than opacity settings:
+#   - the chart's own grid stays visible THROUGH the batten, dimmed but whole;
+#   - both long edges carry a frosted catch, not just the lit one;
+#   - a broad soft band of light runs well inside the lit edge, which is the
+#     body transmitting rather than a specular sitting on its surface.
+# An object at 0.8 opacity over a smooth ground still hides it. Translucency
+# needs something underneath worth seeing through, which is what TRANSMIT is for.
+TRANSMIT = 0.32               # how much of the chart survives the batten
+FROST, FROST_OP = "#EEF3F8", 0.17
+CORE_LIGHT_OP = 0.11          # the interior band's strength
+CORE_LIGHT_AT, CORE_LIGHT_W = 0.38, 0.52   # where it sits, and how wide
 
 # One warm accent, spent on the fix and nothing else.
 EMBER_CORE, EMBER_HOT = "#FFE6C4", "#F58F4A"
