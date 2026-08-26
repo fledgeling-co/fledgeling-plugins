@@ -46,8 +46,8 @@ these sections in this order:
 ## Motion, 3D and imagery — each with a reason to exist
 
 **GSAP** for the scroll-driven passages: the shortlist comparison that pins
-while the four axes swap, the value-curve that draws as it enters. Load it per
-`design-craft`'s `references/gsap-motion.md` — pinned CDN with SRI for a served
+while the four axes swap, the value-curve that draws as it enters. Load it per design-craft's own
+`gsap-motion` reference — pinned CDN with SRI for a served
 or local page, inlined source for a published Artifact, because an Artifact's
 CSP blocks every external origin silently and the page ships motionless with
 nothing in the console to say so. Entrance motion is `gsap.from`, never
