@@ -4,6 +4,83 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-26
+
+All four entries below come from one instrumented run — 122 tickets, 891 agents,
+147 workflows over two days — measured afterwards rather than recalled. The
+evidence is `~/Dev/dAIolog/docs/retro-2026-08-26/`.
+
+### defer 1.3.0 → 1.4.0: a second bench, and the value lane it freed
+
+- **DeepSWE 1.1 is now a first-class evidence source** (`EXTERNAL_BENCH`), beside
+  `diolog-swe-bench`. They answer different questions and are kept apart: the local
+  matrix grades eleven work *shapes* head-to-head and is what the shape gate reads;
+  DeepSWE grades 113 tasks with a measured **cost per task** across eighteen models,
+  which is the number the local bench is worst at. **Only the relative ordering
+  transfers** — `sol@max` is $6.46 a task on one and $0.47 on the other.
+- **`gpt-5.6-luna@max` gets a lane.** It sat in `DECLINED` as *dominated and dearer*,
+  and half of that was wrong: DeepSWE measures 67% ±4 for **$0.61 a task** — the same
+  score as `grok-4.6@xhigh` to within both error bars at 11% of the cost, and two
+  points ahead of `gemini-3.7-flash` at under a third. The capability half survives
+  (`sol@max` is 73% and genuinely ahead), so the `DECLINED` entry is kept with the
+  cost half marked superseded rather than deleted. `bench_key` stays `None`: the local
+  matrix has no honest row for it, and borrowing one is how a lane acquires a grade it
+  never earned. **Probed 2026-08-26 and answering** — the lane ships observed rather
+  than assumed, and the selftest now refuses a lane with no probe date.
+- **gemini drops behind glm, grok and sol on every class**, and carries a 12-point
+  `DELIVERY_PENALTY` applied before the equivalence filter. Deliberately *not* a
+  capability score — it failed 8 of 12 autonomous-builder dispatches and produced one
+  fabricated completion report, and a bench cannot see that because a fabricated
+  report grades as a delivered artefact. The entry names its measurement and the
+  condition for lifting it.
+- **`PREFERENCE_ORDER` runs last**, only between lanes already agreed equivalent on
+  the measured number, so policy never overrules a lane that is better at the shape in
+  front of it.
+- **New: opus does not need `xhigh` for everything.** Effort buys thinking tokens —
+  terra at `max` and `medium` bill at the same rate and differ 4.8× on the bill — with
+  a table of when to drop, and an explicit refusal to drop it on the judgement classes,
+  where verify rejected three of three ready-to-verify claims.
+- `CODEX_LANES` and `TIER1` became derivations after a literal silently omitted the new
+  lane. Three selftest assertions changed *with* the policy rather than around it.
+
+### ship-fleet 2.8.0 → 2.9.0: paste the guardrails, and stop barriering the wave
+
+- **The context contract now says paste, not reference.** The project `CLAUDE.md` was
+  injected into **0 of 409 subagent contexts**; 69 briefs told a runner to read it and
+  **3 did**. The control that makes this a finding rather than a counting artefact: 3
+  of 49 *parent* transcripts do carry the block, so a transcript records it when
+  present. A table splits what must be inlined as text from what may go by path.
+- **Five concurrent agents is a correctness limit, not a throughput preference.** 92
+  agents died silently, 88 at exactly 180.0s, with `error_rows` at 0 across all 147
+  journals. Corroborated externally: accuracy peaks near five and timeout errors climb
+  from ~3 to 50 after it.
+- **Derive failure from `started − results`**, and group starts by item key — a retry
+  appears as a fresh start with no error and is otherwise invisible.
+- **Assert that a fan-out fanned out.** Seven runs delivered a speedup of exactly 1.00
+  and nothing noticed. `sum(durations) ÷ wall clock` under 1.2 is a defect.
+- **Verify per item via `pipeline()`.** Phase 5 is 42.6 of 54.3 agent-hours; an
+  independent study puts 17.6–35.1% on this change, and nothing when queues are shallow.
+
+### stocktake 0.7.0 → 0.8.0: the failure mode is a gate that never runs
+
+On a sweep that graded 53 cards and banked 32 warrant rows, `gates.py` was invoked
+**once, with `--help`** — all six gate points unchecked, `warrant_column.py` never
+called while the ledger it reads was written to, and the sweep reported success. The
+same run measured stocktake at **57.2% deciding and 0.6% gating**, which is why. The
+close-out now names the command, requires the exit code to be reported, and says
+plainly that a gate nobody read and a gate that passed serialise identically — seven
+of the nine checks that "never failed" in that window never failed because nothing
+read them.
+
+### warrant 0.3.0 → 0.3.1: the most-failed invocation in the toolkit
+
+**19 of 46** real `snapshot_evidence.py` calls produced no snapshot, across **30
+agents**, and the documented flags were never the problem: an invented flag, or a
+script path that does not resolve from the agent's own working directory. The fix is
+to resolve the absolute path once in the conductor and pass it down, because a spawned
+agent does not reliably inherit `CLAUDE_PLUGIN_ROOT`. The three most commonly invented
+flags are named so the next agent recognises its own mistake.
+
 ## 2026-08-24
 
 ### reckon 1.3.0 → 1.4.0: scope-narrowing trap defense and recursive brief discovery

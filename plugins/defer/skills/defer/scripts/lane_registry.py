@@ -217,12 +217,15 @@ LANES = {
     # a lane acquires a grade it never earned. It routes on policy; the shape
     # gate abstains rather than inventing a verdict.
     #
-    # Every codex lane is unusable while `codex` returns 401 "Your access token
-    # could not be refreshed" -- which is also why 19 of 20 codex calls failed
-    # in the window this policy comes from. That is an outage, not a property of
-    # this lane. Re-probe after `codex login`; a non-empty output file is the
-    # pass, and an absent or empty one is a lane failure however clean the
-    # header looks.
+    # PROBED 2026-08-26 18:10 and answering: `LUNA OK`, 7 bytes, rc 0. The pass
+    # condition is a NON-EMPTY output file -- codex prints a correct-looking
+    # header on a run that produced nothing at all, so the header is not the
+    # check. Re-probe after any codex re-login:
+    #     codex exec -m gpt-5.6-luna -c model_reasoning_effort="max" \
+    #       -s read-only -o /tmp/luna.md "Reply with exactly: LUNA OK"
+    # For context: 19 of 20 codex calls failed in the window this policy comes
+    # from, every one of them on an expired refresh token rather than on
+    # anything the model did.
     "codex-luna-max": {
         "model": "gpt-5.6-luna",
         "blended_usd_per_mtok": PRICES["gpt-5.6-luna"]["blended"],
@@ -238,6 +241,7 @@ LANES = {
         "bench_key": None,
         "evidence": "none",
         "external_bench": "deepswe-1.1",
+        "probed": "2026-08-26",
         "usd_per_task_external": 0.61,
     },
     "fable": {
