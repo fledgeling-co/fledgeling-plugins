@@ -1,0 +1,7 @@
+🫥
+1. CONCEPTUAL CLARITY: A — A lets you predict unseen cases (weights stay a unit budget even when “the query now points away from all three”; “identical keys” get identical weight; future cells become “−∞”) while B teaches lookup (“The word it must go look”) and identity (“A new, smarter it — mostly made of dog”).
+2. HONESTY ABOUT LIMITS: A — A names where the picture lies (“Where this stops being true”, “Softmax has no none of these option”, “Where the toy above misleads”, “What you cannot yet do is reason about a specific model's behaviour”) while B closes the lesson (“That's all.” / “Stir. Done.” / “Now every word knows who it belongs with.”).
+3. ENGAGEMENT DEPTH: A — A makes you commit before the model moves (“Commit before you drag”, “the dial is inert until you commit a guess”) then lets you falsify it; B only plays animations and a tap-to-highlight heatmap (“tap a word on the left to see who it stares at”).
+4. VISUAL CRAFT: A — A's panels are one computed state (live `q·k`, bars labelled “one budget, spent in full”, mix point “never at a corner”; grid “computed rather than drawn”) while B's figures disagree (match bars 88%/52%/22%/9% vs donut “dog — 70” / “ball — 20”).
+5. REGISTER: A — A talks to an adult who may already know it (“Already know this? Jump straight to tier 3”) while B uses sticker/gift baby-talk (“Share out 100 stickers”, “The whole thing 🎈”, “🐶💨”).
+OVERALL: A

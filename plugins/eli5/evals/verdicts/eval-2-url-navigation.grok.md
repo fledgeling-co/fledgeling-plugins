@@ -1,0 +1,7 @@
+🫥
+1. CONCEPTUAL CLARITY: B — B’s stated arithmetic (“TCP plus TLS 1.3 costs two round trips cold… QUIC costs one”; congestion window “starting at a 14,600-byte window and doubling”) lets you predict unseen cases (cached DNS, 0-RTT, bandwidth vs RTT), while A’s eight cartoons (“giant phone book”, “hello three times”, “secret tunnel”) only retell the scenes they already drew.
+2. HONESTY ABOUT LIMITS: B — B marks the stop-line in “Where this analogy stops being true”, the production-vs-model table, “Still simplified here”, and “not measurements of any real site”; A never qualifies “nobody in between can read” or the “Eight tiny steps” story.
+3. ENGAGEMENT DEPTH: B — B makes you lock a guess (“Predict the new time to first paint” / “Pick one to unlock the answer”), then drag RTT, step the ladder, toggle HTTP/2 vs HTTP/3, and run a seven-control sandbox; A is scroll-and-watch (blinking caret, numbered scenes).
+4. VISUAL CRAFT: B — B’s stacked bars, timed ladder (empty slots labelled “two crossings HTTP/3 never makes”), and render pipeline encode durations and blocking on a 960-wide label contract; A’s SVGs (phone book, smileys, padlock, cat) cohere as illustration but mostly decorate the metaphor.
+5. REGISTER: B — B talks to a competent reader (“The thing most people get wrong”; “Skip to tier 3”); A talks down (“Grown-up word: URL”, “Eight tiny steps”, JavaScript as “the magic”).
+OVERALL: B

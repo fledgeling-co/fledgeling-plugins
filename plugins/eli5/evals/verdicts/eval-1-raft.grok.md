@@ -1,0 +1,7 @@
+🫥
+1. CONCEPTUAL CLARITY — A: A’s invariant that “any two majorities… must share at least one member,” plus the election case where “a shorter log wins, because a later term proves the voter’s extra entries never reached a majority,” lets you predict unseen splits; B’s “you can never have two bosses at once” trains a false model.
+2. HONESTY ABOUT LIMITS — A: A states where the clerks analogy fails (“you would expect a deposed leader to know it has been deposed. It does not”) and what it left out (membership change as “the single place the overlap argument… genuinely fails”); B closes with “That’s Raft” and gold-star notes that “never change.”
+3. ENGAGEMENT DEPTH — A: A makes you commit a radio prediction before “Run it” and withhold the election-restriction answer until “Show the verdict,” with an “S4 unreachable” toggle that turns beat 8 from a commit into a stall; B is a scroll-only picture story with bobbing crowns and no guess to lock in.
+4. VISUAL CRAFT — A: A’s nine-beat grid encodes role, term, log slots, a “committed to here” line, and request/ok/no/dead message kinds as one state; B’s smiling PCs, crowns, and ticks illustrate captions without carrying log or term state.
+5. REGISTER — A: A treats the reader as someone who might “Already know Raft” and skip to “the two rules people get wrong”; B talks down with “Grown-ups call the boss the leader” and “Bad 🙁” / “Good 🙂.”
+OVERALL: A
