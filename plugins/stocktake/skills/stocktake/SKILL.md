@@ -123,6 +123,15 @@ test it, drawn from `test-campaign`:
   suite reporting green across 13.9% of itself is reporting on 13.9% of itself.
 - **Fault sensitivity** where the stakes justify it — a mutation delta, not a count.
 
+**Run that break through the runner directly, or with `--skip-nx-cache`.** A cached
+task replays its previous PASS when the inputs hash the same, so an arming step run
+through `nx` can report green against code you have just broken — and the replay is
+indistinguishable from a real pass, which turns the one check that proves an assertion
+is real into the one that proves nothing. `nx show project <name> --json` prints the
+resolved `cache` value; the presence of `inputs` proves nothing on its own. Prefer
+invoking the runner itself (`npx jest -c <config> --testPathPatterns=...`), which nx
+never sees.
+
 The cheapest real check is to break the thing the test guards and watch it go red. A
 test nobody has seen fail is a test nobody has seen work.
 

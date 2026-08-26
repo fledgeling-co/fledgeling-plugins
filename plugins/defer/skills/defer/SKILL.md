@@ -157,6 +157,40 @@ agents. One equivalent pass ran on Sonnet in 88 seconds.
 verify stage rejected three of three ready-to-verify claims in that window, and a
 cheaper lane there would have banked all three.
 
+## Give the lane 900 seconds, or background it
+
+**The most expensive failure in this system is not a lane refusing. It is the caller
+giving up while the lane is still working.**
+
+Measured 2026-08-26 across 140 lane-launching calls: **54 failed (38.6%), and 23 of
+grok's 24 failures were the Bash tool's own 120-second default firing on a lane whose
+median call is 150 seconds.** That is **3,240 seconds of pure wait — a third of the
+entire out-of-family budget — spent on calls that were going to succeed.** Separate the
+harness bound out and grok's own failure rate is **1 in 79**.
+
+The failure is also silent in the worst way: a killed call leaves a truncated or empty
+output file, which is indistinguishable from a lane that answered with nothing.
+
+Two ways to run one, and never the default:
+
+```bash
+# 1 — an explicit bound, well past the median. `scripts/limit` where coreutils
+#     `timeout` does not exist (macOS ships none; 40 calls died on that alone).
+scripts/limit 900 codex exec -m gpt-5.6-luna ... -o /tmp/lane.md "<prompt>"
+
+# 2 — better for anything on the critical path: launch it and carry on. The
+#     verdict arrives as a notification rather than as a blocked terminal.
+#     Bash(run_in_background: true), then reconcile at the next gate.
+```
+
+In Claude Code specifically, a foreground `Bash` call defaults to 120 000 ms. **Pass
+`timeout: 900000` explicitly, or set `run_in_background: true`.** A lane call that
+inherits the default will be killed at two minutes roughly half the time.
+
+**Read the output file, never the exit status, to decide whether a lane answered.**
+Codex prints a correct-looking header on a run that produced nothing at all, so a clean
+header proves the process started and nothing more. A non-empty output file is the pass.
+
 ## Then verify the lane actually ran
 
 Launch parameters have been observed not to stick, and the most expensive failure
