@@ -1,0 +1,54 @@
+{
+  "takes": {
+    "a": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "d087080e3487a61708b176b976d3471be3a6018609695d68281238764357c961",
+      "source_mtime": 1787783847.007841,
+      "rendered_at": 1787783958.174112
+    },
+    "a2": {
+      "source": "icon-engineA2-chart.svg",
+      "kind": "svg",
+      "source_sha256": "5bb37f4f0577749cbebb7e3d00de26bbd31ee86f398de4129974a0f2f464be38",
+      "source_mtime": 1787783847.0082521,
+      "rendered_at": 1787783958.6897101
+    },
+    "b": {
+      "source": "icon-engineB-arrow.svg",
+      "kind": "svg",
+      "source_sha256": "34863fd5dd709ca89868710434013aeae3b6445b4d74addd58194521b6d04877",
+      "source_mtime": 1787783516.9846015,
+      "rendered_at": 1787783959.001319
+    },
+    "c1": {
+      "source": "icon-engineC-glass.png",
+      "kind": "raster-mask",
+      "source_sha256": "ba6cf2be7a079ad45f629bbcd61eb3c3e277d3b7c7e89d9cf865f654492a3d8b",
+      "source_mtime": 1787783516.9892719,
+      "rendered_at": 1787783960.5341
+    },
+    "c2": {
+      "source": "icon-engineC2-smear.png",
+      "kind": "raster-mask",
+      "source_sha256": "d2952028af99370915966d833b5099982410486960760f5fa37edcd64836c836",
+      "source_mtime": 1787783516.993522,
+      "rendered_at": 1787783961.702261
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

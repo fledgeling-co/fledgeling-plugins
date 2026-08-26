@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 154.8 154.7">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {opacity:5.000000e-02;fill:none;stroke:#6D593A;stroke-width:0.345;}
+.cls-2 {fill:none;stroke:#5B646F;stroke-width:2.6632;stroke-linecap:round;stroke-miterlimit:10;}
+.cls-3 {fill:none;stroke:#2C3440;stroke-width:2.6632;stroke-linecap:round;stroke-miterlimit:10;}
+.cls-4 {fill:url(#SVGID_2_);}
+.cls-5 {fill:none;stroke:#EFBE9B;stroke-width:1.7783;stroke-miterlimit:10;}
+.cls-6 {fill:none;stroke:#5B646E;stroke-width:2.6632;stroke-linecap:round;stroke-miterlimit:10;}
+.cls-7 {fill:none;stroke:#2C3540;stroke-width:2.6632;stroke-linecap:round;stroke-miterlimit:10;}</style>
+  <linearGradient id="SVGID_1_" x1="-3.309" x2="158.1" y1="9.9" y2="145.2" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#fff" offset="0"/>
+    <stop stop-color="#F1E5D7" offset="1"/>
+  </linearGradient>
+  <path class="cls-0" d="m143.7 155h-132.7c-5.8 0-11-5.1-11-10.9v-144.1h143.7c5.9 0 11.1 5.2 11.1 11v133.1c0 5.8-5.2 10.9-11.1 10.9z"/>
+  <line class="cls-1" x1="32.3" x2="32.3" y2="154.7"/>
+  <line class="cls-1" x1="55.3" x2="55.3" y2="154.7"/>
+  <line class="cls-1" x1="77.4" x2="77.4" y2="154.7"/>
+  <line class="cls-1" x1="99.5" x2="99.5" y2="154.7"/>
+  <line class="cls-1" x1="122.3" x2="122.3" y2="154.7"/>
+  <line class="cls-1" x2="154.8" y1="33.9" y2="33.9"/>
+  <line class="cls-1" x1="20.9" x2="134" y1="44.4" y2="44.4"/>
+  <line class="cls-1" x1="20.9" x2="133.1" y1="66.7" y2="66.7"/>
+  <line class="cls-1" x2="154.8" y1="55.5" y2="55.5"/>
+  <line class="cls-1" x2="154.8" y1="77.6" y2="77.6"/>
+  <line class="cls-1" x1="21" x2="134" y1="88.2" y2="88.2"/>
+  <line class="cls-1" x1="21" x2="154.8" y1="98.7" y2="98.7"/>
+  <line class="cls-1" x1="20.9" x2="134.1" y1="110" y2="110"/>
+  <line class="cls-1" x2="154.8" y1="121" y2="121"/>
+  <line class="cls-1" x1="43.9" x2="43.9" y1="22.5" y2="132.7"/>
+  <line class="cls-1" x1="66.4" x2="66.4" y1="22.5" y2="132.5"/>
+  <line class="cls-1" x1="88.4" x2="88.4" y1="22.5" y2="132.5"/>
+  <line class="cls-1" x1="110.8" x2="110.8" y1="22.5" y2="132.5"/>
+  <polyline class="cls-2" points="25.9 27.4 133.8 92.2 135.4 64.9"/>
+  <polyline class="cls-3" points="55.6 19 32 127.6 55.6 93.1"/>
+  <linearGradient id="SVGID_2_" x1="63.21" x2="57.23" y1="48.11" y2="112.1" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FAAF53" offset="0"/>
+    <stop stop-color="#9D2708" offset="1"/>
+  </linearGradient>
+  <polygon class="cls-4" points="38.2 112.6 52.1 47.4 86.5 86.7"/>
+  <polyline class="cls-6" points="34.2 134 61.3 32.3 34.8 25.8"/>
+  <polyline class="cls-7" points="22.3 123.8 135.4 64.9 104.7 102.7"/>
+  <polygon class="cls-5" points="36 115.7 51.4 42.7 89.8 87.9"/>
+</svg>

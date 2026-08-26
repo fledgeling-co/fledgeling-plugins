@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>positioning icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .loop { margin-top: 28px; color: #a9bec5; font-size: 13px; max-width: 900px; }
+  .loop h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #7fa0aa; margin: 0 0 8px; }
+  .loop table { min-width: 0; width: auto; margin-top: 10px; }
+  .loop td, .loop th { padding: 6px 14px 6px 0; border-bottom: 1px solid #16262c; font-size: 12px; }
+  code { color: #cfe6ee; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>positioning icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe gel-glass, porcelain sub-register (a)" · device: the navigator's cocked hat — three bearing lines whose disagreement encloses the fix · one shared spec, three engines · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">a · icon.svg<small>Engine A — hand-authored layered SVG, built through build_icon.py — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a-1024.png" width="160" height="160" alt="a hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a-256.png" width="128" height="128" alt="a at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a-128.png" width="64" height="64" alt="a at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a-96.png" width="48" height="48" alt="a at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a-64.png" width="32" height="32" alt="a at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a-32.png" width="16" height="16" alt="a at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a-32.png" width="96" height="96" alt="a 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Three translucent graphite battens on the family's porcelain, and the fix is the pocket of ember light they fail to close. Checks 1–4 all clean on the renders beside this cell: full-bleed on the set's exact superellipse, the knot's centroid at (529, 494) so it sits just off the optical centre, a nameable filled-black silhouette, and at 16px it still reads as lines crossing with a warm centre. Figure-ground measured 7.49:1 (p2/p98 WCAG relative luminance); the accent occupies 5.4% of the tile. Every crossing multiplies darker with plain source-over, so the darkening is authored translucency rather than a painted shadow. #10 is the one qualified pass and the liability is stated below.</td>
+  </tr>
+
+  <tr>
+    <td class="take">a2 · icon-engineA2-chart.svg<small>Engine A (second hand-authored take) — paper-chart register</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a2-1024.png" width="160" height="160" alt="a2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a2-256.png" width="128" height="128" alt="a2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a2-128.png" width="64" height="64" alt="a2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a2-96.png" width="48" height="48" alt="a2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a2-64.png" width="32" height="32" alt="a2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a2-32.png" width="16" height="16" alt="a2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a2-32.png" width="96" height="96" alt="a2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Same geometry, opposite construction: the bearings ruled thin in ink and the cocked hat given real thickness as a prism standing on them. It loses on the concept before it loses on the rubric — a solid prism occludes the lines behind it, so the fix stops being a consequence of the three bearings and becomes an object placed on top of them, which is precisely what the brief rules out. Hard-fails #4: at 13px the ink lines are 0.2px at menu-bar size and the ×6 magnification beside this cell shows them gone, leaving an orange triangle with no reason to exist. Kept on the sheet because it is the clean statement of the failure mode, and its raised-prism side-wall shading is the only thing here worth salvaging.</td>
+  </tr>
+
+  <tr>
+    <td class="take">b · icon-engineB-arrow.svg<small>Engine B — Arrow 1.1 vector, briefed from the shared spec</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/b-1024.png" width="160" height="160" alt="b hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/b-256.png" width="128" height="128" alt="b at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-128.png" width="64" height="64" alt="b at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-96.png" width="48" height="48" alt="b at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/b-64.png" width="32" height="32" alt="b at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-32.png" width="16" height="16" alt="b at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-32.png" width="96" height="96" alt="b 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">5 / 12</td>
+    <td class="verdict">Hard-fails #1: it baked its own rounded-rect corner mask, and not the family superellipse, so it ships a different outer shape from every sibling — visible in this row as a corner that does not match the ones above it. Fails #5 (no light model at all: flat strokes, no source, no shadow) and #8 (the triangle carries a white keyline that puts it in front of lines which also cross in front of it). It also introduced a second idea the spec never asked for — the arrowhead at the right — which is the anti-checklist's metaphor pile-up. Nothing was salvaged; the exclusions in the brief were the instructions it ignored.</td>
+  </tr>
+
+  <tr>
+    <td class="take">c1 · icon-engineC-glass.png<small>Engine C — GPT Image 2, four corpus/family references — the material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/c1-1024.png" width="160" height="160" alt="c1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/c1-256.png" width="128" height="128" alt="c1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-128.png" width="64" height="64" alt="c1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-96.png" width="48" height="48" alt="c1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/c1-64.png" width="32" height="32" alt="c1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-32.png" width="16" height="16" alt="c1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-32.png" width="96" height="96" alt="c1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The best material in the set and the reason the loop ran: genuine glass battens whose overlaps multiply, whose bodies transmit the fix's light, and whose contact shadows sit correctly under one key. It cannot ship. #1 fails on a baked corner mask that is not this family's shape — squircle-masking it, as this row does, leaves the raster's own frame visible as an inner seam. #10 fails by construction: a flat pre-masked raster carries its identity as a colour relationship with no layers to survive Dark/Clear/Tinted. #4 is weak: at 16px its third bearing is lost inside the other two and the pocket goes to a blob, where the master still holds a triangle. Its material is what the loop rebuilt into the master; its figure-ground was deliberately not copied.</td>
+  </tr>
+
+  <tr>
+    <td class="take">c2 · icon-engineC2-smear.png<small>Engine C — GPT Image 2, second take from the same brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/c2-1024.png" width="160" height="160" alt="c2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/c2-256.png" width="128" height="128" alt="c2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-128.png" width="64" height="64" alt="c2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-96.png" width="48" height="48" alt="c2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/c2-64.png" width="32" height="32" alt="c2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-32.png" width="16" height="16" alt="c2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-32.png" width="96" height="96" alt="c2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Same engine, same brief, and it never built the subject: the three rods pass close enough to meet at a point, so there is no enclosed triangle anywhere and the ember survives only as a smear along one rod. That is the icon's entire idea missing, whatever the material does — and the material here is as good as c1's. Also fails #1 on the baked mask and #10 as a flat raster. It stays on the sheet because it is the honest measure of how much of this concept the raster engine got by luck rather than by instruction: one take in two.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship a (icon.svg).</strong> It is the only take that is both the right idea and a real layered master: four named groups (<code>bg</code> / <code>mid</code> / <code>fg</code> / <code>highlight</code>) plus one group per bearing, no <code>&lt;image&gt;</code> embed, 56 paths and 24KB — inside the structure envelope, and the outer shape is the set's own <code>squircle-path.txt</code> rather than an approximation. Its material provenance is c1: two measured rounds rebuilt that raster's glass — transmission of the chart through the battens, frosted catches on both long edges, a broad interior band inside the lit edge — into parameters in <code>build_icon.py</code>. Known liabilities to revisit: (1) <strong>#10 is a qualified pass.</strong> The identity survives a mono tint as shape and value, but the fastest read at 16px is warm-against-cool, and Tinted removes exactly that; the triangle then depends on the three battens staying distinguishable from each other, which is the thing to check first if a tinted variant is ever needed. (2) <strong>The composition is deliberately unbalanced and the lower-left quadrant is close to empty</strong> — the knot sits up and right of the tile centre, which reads as direction at 1024 and as a slightly high centre of mass at 128. (3) <strong>The material was never measured.</strong> torch and lpips are not installed on this machine, so the fidelity gate ran on the numpy tier, which is blind at 256 and 1024 — the sizes where material lives. Every gate verdict below covers structure and small-size legibility only, and was taken with <code>--allow-degraded-tier</code>. (4) <strong>Both raster ends stop on the right.</strong> The two battens that terminate inside the tile do so at very different heights but on the same side, which is the one compositional choice here that was settled by eye rather than by measurement.</div>
+
+<div class="loop">
+  <h2>The fidelity loop — two rounds against c1</h2>
+  <p>Reference: <code>loop-runs/reference.png</code>, which is c1 masked to the family squircle so both sides carry the same outer shape. Baseline r00 is the pre-loop master. The reference's composition differs from the master's, so the composite can never approach 1 and is a weak signal here; it is reported because the direction of travel is still informative, not because the absolute number means anything.</p>
+  <table>
+    <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col">1024 composite</th><th scope="col">16px self-contrast</th><th scope="col">Gate</th></tr>
+    <tr><td>r00</td><td>baseline</td><td>0.5173</td><td>0.452</td><td>—</td></tr>
+    <tr><td>r01</td><td>material — glass battens</td><td>0.5252 (+0.0079)</td><td>0.390 (−13.7%)</td><td class="fail">REJECT</td></tr>
+    <tr><td>r02</td><td>small-size repair — density restored</td><td>0.5174 (+0.0001)</td><td>0.438 (−3.1%)</td><td class="ship">ACCEPT</td></tr>
+  </table>
+  <p>r01 is the loop's own documented conflict, reproduced exactly: the reference's battens are lighter than the master's (the blind judge measured mean bar luminance at ~95 for the reference against ~65 and ~59 for the two takes), so converging on its material also converged its figure-ground and cost the master 13.7% of its own 16px contrast. The gate rejected it on the legibility floor while the composite rose at all five sizes. r02 kept the glass construction and put the density back, which held the composite gain and brought contrast within 3% of baseline. The rubric outranks the gate, and here it also outranked the reference.</p>
+  <p>Blind panel on r02 vs r00, both orders, judges <code>claude</code> (opus, high) and <code>cursor</code> (grok-4.6, xhigh): the verdict, its per-judge detail and the anonymised bundles are in <code>loop-runs/r02/panel/</code>. The <code>claude</code> judge is the same family as the author of the master and is recorded but excluded from the majority, per the panel protocol. Warden was not running on this machine, so the third family (gpt-5.6-sol) could not be asked and the decisive side of this panel is one family rather than two — a weaker panel than the protocol wants, and recorded as such rather than reported as a majority.</p>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>

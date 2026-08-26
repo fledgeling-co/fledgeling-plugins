@@ -66,18 +66,37 @@ GRAT_STEP = 118.0
 # The battens are a cool graphite: the darkest pixel inside a shaded face on the
 # four porcelain captures is (25-31, 28-35, 31-39) — cool, not warm — so the
 # rods go blue-grey at their shadow end and the ground keeps the warmth.
+# A flat batten, not a round rod. The raster's cross-section is an even face
+# across most of its width with the fall confined to the last fifth — a glass
+# ruler lying on the chart. A monotonic ramp edge to edge reads as a turned
+# dowel instead, and a dowel with a bright far edge reads as chrome, which the
+# era rules out outright.
 BAT_LIT, BAT_UPPER, BAT_CORE, BAT_DEEP, BAT_BOUNCE = (
-    "#828B96", "#3C424B", "#252A31", "#171A1F", "#414954")
+    "#727C88", "#3F4751", "#2F363F", "#191D22", "#414954")
 BAT_LIT_OP, BAT_UPPER_OP, BAT_CORE_OP, BAT_DEEP_OP, BAT_BOUNCE_OP = (
-    0.58, 0.76, 0.82, 0.84, 0.70)
+    0.64, 0.82, 0.86, 0.90, 0.74)
 RIM = "#D3DAE2"
 RIM_OP = 0.62
+
+# Glass, measured off the C-glass raster rather than assumed. Three things
+# separate a glass rod from a matte one there, and all three are constructions
+# rather than opacity settings:
+#   - the chart's own grid stays visible THROUGH the rod, dimmed but continuous;
+#   - both long edges carry a frosted white catch, not just the lit one;
+#   - a broad soft band of light runs along the inside of the lit edge, well in
+#     from the arris, which is the rod's own body transmitting rather than a
+#     specular sitting on its surface.
+TRANSMIT = 0.32               # how much of the chart survives the rod
+FROST, FROST_OP = "#EEF3F8", 0.17
+CORE_LIGHT_OP = 0.11          # the interior band, as a fraction of the rod's width
+CORE_LIGHT_AT, CORE_LIGHT_W = 0.38, 0.52
 SHADOW = "#6E5C44"            # the ground's own hue darkened, never blue
 
 # One warm accent, spent on the fix and nothing else.
 EMBER_CORE, EMBER_HOT = "#FFE6C4", "#F58F4A"
 EMBER, EMBER_SHADE, EMBER_DEEP = "#C4622D", "#9E4A20", "#7A3315"
 ARRIS = "#FFF0DC"
+ARRIS_OP = 0.42               # the lit pocket edge only; see gel_svg
 
 # ---------------------------------------------------------------- geometry
 # The fix: where the vessel actually is. Off the optical centre and up-left, so
@@ -108,12 +127,12 @@ EXTENTS = ((-780.0, 780.0), (-780.0, 360.0), (-620.0, 300.0))
 # Draw order: the long baseline lies underneath, the steep bearing on top.
 STACK = (0, 2, 1)
 
-SHADOW_OFF = (17.0, 23.0)     # the rods sit a little above the chart
-SHADOW_OP = 0.30
+SHADOW_OFF = (21.0, 28.0)     # the rods sit a little above the chart
+SHADOW_OP = 0.26
 LIGHT = (-0.55, -0.84)        # unit-ish direction the key light comes from
 
-BLOOM_R = 258.0               # how far the fix's light travels along the lines
-GROUND_BLOOM_R = 330.0        # and how far it spills onto the chart
+BLOOM_R = 322.0               # how far the fix's light travels along the lines
+GROUND_BLOOM_R = 372.0        # and how far it spills onto the chart
 
 # The fix's own material. AO_W is the band of occlusion the rods cast into the
 # pocket they enclose; without it the shard is a flat orange patch, because an
@@ -275,9 +294,9 @@ def gel_defs() -> str:
         grads.append(f"""
     <linearGradient id="bat{i}" x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="{BAT_LIT}" stop-opacity="{BAT_LIT_OP}"/>
-      <stop offset="0.20" stop-color="{BAT_UPPER}" stop-opacity="{BAT_UPPER_OP}"/>
-      <stop offset="0.58" stop-color="{BAT_CORE}" stop-opacity="{BAT_CORE_OP}"/>
-      <stop offset="0.87" stop-color="{BAT_DEEP}" stop-opacity="{BAT_DEEP_OP}"/>
+      <stop offset="0.14" stop-color="{BAT_UPPER}" stop-opacity="{BAT_UPPER_OP}"/>
+      <stop offset="0.70" stop-color="{BAT_CORE}" stop-opacity="{BAT_CORE_OP}"/>
+      <stop offset="0.90" stop-color="{BAT_DEEP}" stop-opacity="{BAT_DEEP_OP}"/>
       <stop offset="1" stop-color="{BAT_BOUNCE}" stop-opacity="{BAT_BOUNCE_OP}"/>
     </linearGradient>""")
         a, b = ends(i)
@@ -318,8 +337,8 @@ def gel_defs() -> str:
       <stop offset="1" stop-color="{EMBER_HOT}" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="spill" cx="{f(FIX[0])}" cy="{f(FIX[1])}" r="{f(GROUND_BLOOM_R)}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.22"/>
-      <stop offset="0.55" stop-color="#F9A45C" stop-opacity="0.07"/>
+      <stop offset="0" stop-color="#F9A45C" stop-opacity="0.20"/>
+      <stop offset="0.48" stop-color="#F9A45C" stop-opacity="0.06"/>
       <stop offset="1" stop-color="#F9A45C" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="hatClip"><path d="{tri_path(v)}"/></clipPath>
@@ -359,12 +378,18 @@ def battens() -> str:
         out.append(f'<path d="{d}" stroke="url(#run{i})" stroke-width="{f(w)}" '
                    f'stroke-linecap="round" fill="none"/>')
         # the lit arris, then the far edge going to shadow and its bounce
-        out.append(f'<path d="{edge_path(i, 0.80)}" stroke="{RIM}" stroke-opacity="{RIM_OP}" '
-                   f'stroke-width="{f(w * 0.11)}" stroke-linecap="round" fill="none"/>')
-        out.append(f'<path d="{edge_path(i, -0.86)}" stroke="#0E1115" stroke-opacity="0.22" '
-                   f'stroke-width="{f(w * 0.13)}" stroke-linecap="round" fill="none"/>')
-        out.append(f'<path d="{edge_path(i, -0.97)}" stroke="#8A94A2" stroke-opacity="0.26" '
-                   f'stroke-width="{f(w * 0.05)}" stroke-linecap="round" fill="none"/>')
+        # the body's own light: a broad soft band well inside the lit edge, which
+        # is what says "the rod is transmitting" rather than "the rod is shiny"
+        out.append(f'<path d="{edge_path(i, CORE_LIGHT_AT)}" stroke="#FFFFFF" '
+                   f'stroke-opacity="{CORE_LIGHT_OP}" stroke-width="{f(w * CORE_LIGHT_W)}" '
+                   f'stroke-linecap="round" fill="none"/>')
+        # frosted catches on BOTH long edges, the shaded one narrower and cooler
+        out.append(f'<path d="{edge_path(i, 0.82)}" stroke="{FROST}" stroke-opacity="{FROST_OP + 0.38:.2f}" '
+                   f'stroke-width="{f(w * 0.12)}" stroke-linecap="round" fill="none"/>')
+        out.append(f'<path d="{edge_path(i, -0.84)}" stroke="#0E1115" stroke-opacity="0.24" '
+                   f'stroke-width="{f(w * 0.14)}" stroke-linecap="round" fill="none"/>')
+        out.append(f'<path d="{edge_path(i, -0.96)}" stroke="{FROST}" stroke-opacity="{FROST_OP}" '
+                   f'stroke-width="{f(w * 0.055)}" stroke-linecap="round" fill="none"/>')
         out.append("</g>")
     return "".join(out)
 
@@ -426,11 +451,17 @@ def edge_shade() -> tuple[float, float, float]:
 def gel_svg() -> str:
     pv = hat(inset=True)
     shades = edge_shade()
+    # Only the edge turned toward the light catches, and faintly. A bright line
+    # around all three edges outlines the triangle, and an outlined triangle is a
+    # drawn symbol sitting on the lines rather than the gap they leave — which is
+    # the one thing this icon must not become. The raster reference has no such
+    # outline: its triangle is bounded by the rods and nothing else.
     arris = "".join(
         f'<path d="M {p(pv[k])} L {p(pv[(k + 1) % 3])}" stroke="{ARRIS}" '
-        f'stroke-opacity="{0.95 - 1.15 * shades[k]:.2f}" stroke-width="3.6" '
+        f'stroke-opacity="{op:.2f}" stroke-width="3.0" '
         f'stroke-linecap="round" fill="none"/>'
-        for k in range(3))
+        for k, op in ((k, max(0.0, ARRIS_OP - 1.4 * shades[k])) for k in range(3))
+        if op > 0.02)
     return document(gel_defs(), f"""
     <g id="bg">
       <rect width="{S}" height="{S}" fill="url(#ground)"/>
@@ -446,6 +477,9 @@ def gel_svg() -> str:
     </g>
 
     <g id="fg">
+      <!-- the chart surviving the glass: a rod that hides what it lies on is not
+           translucent, whatever its opacity says -->
+      <g clip-path="url(#battensClip)" opacity="{TRANSMIT}">{graticule()}</g>
       <!-- the fix's light running back out along the lines that made it -->
       <g clip-path="url(#battensClip)">
         <circle cx="{f(FIX[0])}" cy="{f(FIX[1])}" r="{f(BLOOM_R)}" fill="url(#bloom)"/>
