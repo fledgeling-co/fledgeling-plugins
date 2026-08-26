@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-luke-content icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .measures { margin-top: 28px; color: #a9bec5; font-size: 12px; max-width: 900px; }
+  .measures table { min-width: 0; width: auto; }
+  .measures th, .measures td { padding: 6px 14px 6px 0; border-bottom: 1px solid #16262c; }
+</style>
+</head>
+<body>
+<h1>create-luke-content icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Voice over Craft" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, build_icon.py — SHIPS</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="Take A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="Take A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="Take A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="Take A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="Take A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="Take A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="Take A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiables on real renders: exact family squircle clip with no baked corner or shadow, focal bounding union at 60.5% tile width, silhouette cleanly readable as stacked offset planes, and exceptional 16px squint survival (in-mask 16px luminance spread <strong>0.2481</strong> against marketplace median 0.169). Authored overlap demonstrates Tahoe tell 5 (ember rule ticks and calibration grid clearly visible <em>through</em> the frosted glass sheet). Four named layers (#bg, #mid, #fg, #highlight) ensure 1:1 Icon Composer readiness and variant robustness (#10). Luke's signature semicolon mark is embossed crisply at the end of line 2. Loses <strong>#7</strong> on the lit top edge of the frosted sheet where highlight reaches 2.3:1 against porcelain.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-466c65.svg<small>Arrow 1.1 vector take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="Take B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="Take B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="Take B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="Take B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="Take B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="Take B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="Take B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard-fails <strong>#1</strong> by drawing its own inner rounded-square boundary inside the superellipse canvas, and <strong>#2</strong> by floating inset. Fails <strong>#6</strong> by splashing warm orange across 30.6% of the tile instead of reserving the accent for the focal measuring plane. Fails <strong>#9</strong> on era (flat 2D vector graphic with zero gel/glass depth or cushion tile), <strong>#10</strong> on variant robustness (single flat layer), and <strong>#4</strong> as the thin orange outer frame and interior lines blur into a low-contrast wash below 48px. Confirmed the left-aligned ragged-right prose layout rhythm.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-69eefc-masked.png<small>Gemini 3 Pro, corpus-referenced — the material target</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C1-1024.png" width="160" height="160" alt="Take C1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C1-256.png" width="128" height="128" alt="Take C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C1-128.png" width="64" height="64" alt="Take C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C1-96.png" width="48" height="48" alt="Take C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C1-64.png" width="32" height="32" alt="Take C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C1-32.png" width="16" height="16" alt="Take C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C1-32.png" width="96" height="96" alt="Take C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">10 / 12</td>
+    <td class="verdict">Won the material judgment and served as the reference target for volumetric translucency and through-read physics. Demonstrates rich frosted glass transmission where the underlying ember rule graduations shine through the upper sheet. Fails <strong>#10</strong> as a baked flat raster that cannot decompose for system appearance modes. Fails <strong>#6</strong> on accent restraint (14.5% warm-saturated share compared to 3.9% in the master). Master salvaged its through-glass transmission physics and perimeter bevel lighting.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C2 · icon-engineC-778ac2-2-masked.png<small>Gemini 3 Pro, second take</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C2-1024.png" width="160" height="160" alt="Take C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C2-256.png" width="128" height="128" alt="Take C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C2-128.png" width="64" height="64" alt="Take C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C2-96.png" width="48" height="48" alt="Take C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C2-64.png" width="32" height="32" alt="Take C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C2-32.png" width="16" height="16" alt="Take C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C2-32.png" width="96" height="96" alt="Take C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Renders an ember calibration mat under a frosted card, but the lower plane extends under the whole tile, reducing figure-ground contrast and turning the measure into a backdrop texture rather than a distinct plane. Fails <strong>#10</strong> (flat raster), <strong>#3</strong> (diffuse silhouette when filled black), and <strong>#4</strong> (grid noise degrades small-size clarity).</td>
+  </tr>
+
+  <tr>
+    <td class="take">C3 · icon-engineC-gpt-18fd60-masked.png<small>GPT Image 2, corpus-steered</small></td>
+    <td class="renders">
+      <figure><img src="audit-renders/C3-1024.png" width="160" height="160" alt="Take C3 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C3-256.png" width="128" height="128" alt="Take C3 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C3-128.png" width="64" height="64" alt="Take C3 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C3-96.png" width="48" height="48" alt="Take C3 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C3-64.png" width="32" height="32" alt="Take C3 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C3-32.png" width="16" height="16" alt="Take C3 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C3-32.png" width="96" height="96" alt="Take C3 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </td>
+    <td class="score">9 / 12</td>
+    <td class="verdict">Renders a separate wooden/amber ruler beside an opaque white card. Loses the core concept's stacked plane through-read: the ruler lies adjacent rather than underneath, failing the "Voice over Craft" argument. Fails <strong>#10</strong> (flat raster) and <strong>#6</strong> (22.2% warm-saturated share).</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> Authored as four named layers (#bg, #mid, #fg, #highlight) in build_icon.py, mapping 1:1 onto Icon Composer. Clears all non-negotiable checks (1–4) with a 16px in-mask luminance spread of 0.2481 (47% above marketplace median). Material physics rebuilt from Engine C1 reference over two measured rounds. Known liabilities to revisit: (1) The semicolon punctuation mark is sub-legible below 48px (diegetic craft garnish that resolves cleanly at 128px+ while the ragged-right capsule stack carries the small-size read); (2) Lit top highlight of the frosted sheet sits at 2.3:1 against porcelain ground, standard for the porcelain register; (3) Metric tier was numpy (no torch on machine), so material was confirmed by hand-sampled pixel inspection rather than LPIPS.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 ../scripts/audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>
