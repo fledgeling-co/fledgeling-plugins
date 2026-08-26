@@ -207,6 +207,7 @@ Two commands. Both are the verdict, not a suggestion.
 
 ```bash
 python3 scripts/claim_ledger.py check docs/positioning/work \
+        --label promising-hypothesis \
         --require-move hero --require-move enemy --require-move category \
         --require-move beachhead --require-move value_proof
 python3 scripts/positioning_lint.py docs/positioning \
@@ -218,6 +219,20 @@ on capability that is not `shipped`, when a bound claim's citations were never
 verified, or when a confidence label is claimed on fewer independent registrable
 domains than it needs — three for high, two for medium. Four backends agreeing
 is not four sources.
+
+**Pass `--label` for the tier the run actually earned.** The default,
+`recommended`, holds every rule hard. `conditionally-recommended` and
+`promising-hypothesis` expect unverified evidence and report it as an expected
+finding rather than a failure, because the absence of field verification is what
+those labels *mean*; a desk-research run that reports thirty failures for saying
+so is a gate nobody will read twice.
+
+What never softens at any tier is **promissory copy resting on capability that
+has not shipped.** That is a claim about the product rather than about the
+evidence, and it is wrong whatever the label says. Measured on a real run of this
+skill: at the default label the ledger returned 31 errors, at the honest label 7,
+and all 7 were that rule. The signal was there the whole time; the noise was
+hiding it.
 
 `positioning_lint.py` fails on a missing suite file, an unfilled template
 placeholder, breadth-led framing in any deliverable, a figure with no claim id

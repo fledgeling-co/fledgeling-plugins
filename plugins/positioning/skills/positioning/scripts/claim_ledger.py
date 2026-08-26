@@ -154,6 +154,19 @@ def cmd_bind(args) -> int:
     return 0
 
 
+# The evidence tier a run is claiming. A desk-research run with no field test
+# earns "promising-hypothesis" and should not be reported as a broken build: the
+# absence of verified evidence is what that label MEANS. What never softens is
+# promising capability that has not shipped, which is a claim about the product
+# rather than about the evidence, and is wrong at every tier.
+LABELS = ("recommended", "conditionally-recommended", "promising-hypothesis")
+SOFTENED_BY_LABEL = {
+    "recommended": (),
+    "conditionally-recommended": ("unverified",),
+    "promising-hypothesis": ("unverified", "domain-floor"),
+}
+
+
 def cmd_check(args) -> int:
     workdir = Path(args.workdir)
     data = load(workdir)
@@ -161,6 +174,16 @@ def cmd_check(args) -> int:
     claims = {c["id"]: c for c in data["claims"]}
     errors: list[str] = []
     warnings: list[str] = []
+    softened = set(SOFTENED_BY_LABEL[args.label])
+    downgraded = 0
+
+    def record(kind: str, msg: str) -> None:
+        nonlocal downgraded
+        if kind in softened:
+            warnings.append(f"{msg}  [expected at label '{args.label}']")
+            downgraded += 1
+        else:
+            errors.append(msg)
 
     if not data["truth"]:
         errors.append("product-truth table is empty: nothing to bind a claim to")
@@ -199,7 +222,8 @@ def cmd_check(args) -> int:
         # Rule 4 — a move may not rest on a claim whose citations never resolved.
         for cid in b["claims"]:
             if not claims[cid]["citations_verified"]:
-                errors.append(f"{where}: rests on {cid}, whose citations are unverified")
+                record("unverified",
+                       f"{where}: rests on {cid}, whose citations are unverified")
             if claims[cid]["contested"] and b["move"] in PROMISSORY_MOVES:
                 warnings.append(
                     f"{where}: promissory copy rests on {cid}, recorded as contested"
@@ -210,10 +234,9 @@ def cmd_check(args) -> int:
         domains = {d for d in (registrable_domain(s) for s in c["sources"]) if d}
         floor = DOMAIN_FLOOR[c["confidence"]]
         if len(domains) < floor:
-            errors.append(
-                f"{cid}: labelled {c['confidence']} confidence on "
-                f"{len(domains)} independent domain(s); floor is {floor}"
-            )
+            record("domain-floor",
+                   f"{cid}: labelled {c['confidence']} confidence on "
+                   f"{len(domains)} independent domain(s); floor is {floor}")
         if len(c["sources"]) > len(domains) and args.verbose:
             warnings.append(
                 f"{cid}: {len(c['sources'])} sources collapse to {len(domains)} domains"
@@ -222,8 +245,9 @@ def cmd_check(args) -> int:
     used_claims = {c for b in data["bindings"] for c in b["claims"]}
     orphans = sorted(set(claims) - used_claims)
 
-    print(f"territories: {len(territories)} · bindings: {len(data['bindings'])} · "
-          f"claims: {len(claims)} · truth rows: {len(truth)}")
+    print(f"label: {args.label} · territories: {len(territories)} · "
+          f"bindings: {len(data['bindings'])} · claims: {len(claims)} · "
+          f"truth rows: {len(truth)}")
     print(f"claims bound to a move: {len(used_claims)}/{len(claims)}"
           + (f" · unused: {', '.join(orphans)}" if orphans and args.verbose else ""))
     for w in warnings:
@@ -231,9 +255,16 @@ def cmd_check(args) -> int:
     for e in errors:
         print(f"  FAIL  {e}")
     if errors:
-        print(f"\n{len(errors)} error(s). The ledger does not support the recommendation.")
+        print(f"\n{len(errors)} error(s). The ledger does not support the "
+              f"recommendation at label '{args.label}'.")
         return 1
-    print(f"\n0 errors. Every move rests on verified evidence and shipped capability.")
+    if downgraded:
+        print(f"\n0 errors, {downgraded} finding(s) expected at label "
+              f"'{args.label}'. Every promissory move rests on shipped capability; "
+              f"the evidence is not field-verified, which is what this label says.")
+    else:
+        print("\n0 errors. Every move rests on verified evidence and shipped "
+              "capability.")
     return 0
 
 
@@ -268,6 +299,10 @@ def main() -> int:
     p = sub.add_parser("check"); p.add_argument("workdir")
     p.add_argument("--require-move", action="append",
                    help="a move every territory must bind; repeatable")
+    p.add_argument("--label", default="recommended", choices=LABELS,
+                   help="the evidence tier being claimed. Lower tiers expect "
+                        "unverified evidence and report it as such; promising "
+                        "unshipped capability fails at every tier.")
     p.add_argument("--verbose", action="store_true")
     p.set_defaults(func=cmd_check)
 
