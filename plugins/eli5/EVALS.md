@@ -149,6 +149,35 @@ The failure was the runner shipping without reaching exit 0, not the gate missin
 became a rule in the skill the same day: *never ship a dead control; if the gate fails on
 `interactive-controls`, wire them or delete them.*
 
+### Fixed, then re-judged blind: unanimous flip
+
+The topic was re-run through the skill with the gate enforced and the new dead-control rule
+in place. The artifact now passes at exit 0: **16 event listeners** against zero, one script
+tag against none, and three SVGs carrying drawn marks against three empty ones.
+
+Re-judged blind on a fresh seed (20260827), same three out-of-family judges, no judge told
+that anything had changed or that a previous round existed:
+
+| Judge | first round | re-judge |
+|---|---|---|
+| gpt-5.6-sol (OpenAI) | original | **eli5** |
+| gemini-3.7-flash-high (Google) | eli5 | eli5 |
+| grok-4.6 (xAI) | eli5 | eli5 |
+
+**3 of 3.** The out-of-family tally across both rounds becomes **18 of 18**.
+
+codex flipped on precisely the two dimensions it had faulted. Engagement depth had been a
+tie because "Run it" was inert; it now reads *"asks readers to 'Predict first' and 'Commit a
+guess,' then lets them manipulate addresses, mappings, and page sizes."* Visual craft had
+gone to the original over empty SVG elements; it now reads *"diagrams connect virtual pages,
+per-process page tables, physical frames, swap, and address offsets into coherent
+interactive models."*
+
+**One control did not exercise.** The fresh seed happened to land on the same A/B
+orientation as the first round, so position bias was not re-tested. That makes this a
+cleaner single-variable test, since only the artifact changed, but it is not the
+order-swapped check it was meant to be. Raw verdicts are in `evals/verdicts-reflip/`.
+
 ---
 
 ## Where the original is better

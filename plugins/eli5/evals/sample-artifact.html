@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual memory — every address is a question</title>
+<style>
+:root{
+  --bg:#fbfaf8; --card:#ffffff; --fg:#191817; --muted:#66615b;
+  --line:#ddd8d1; --line2:#efebe5;
+  --a:#b0501c; --a-soft:#f7e4d7;
+  --b:#25607f; --b-soft:#dbe9f1;
+  --ok:#2c7357; --warn:#9d3218; --dim:#a9a49c;
+  --code:#f2eee8; --shadow:0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141310; --card:#1d1b18; --fg:#f0ece5; --muted:#a8a29a;
+    --line:#39352e; --line2:#2a2722;
+    --a:#e08a52; --a-soft:#3f2718;
+    --b:#7fbcdc; --b-soft:#152d3c;
+    --ok:#6cc59d; --warn:#ea7c5e; --dim:#6b665e;
+    --code:#26231f; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:16px; line-height:1.62; overflow-x:hidden;
+}
+.wrap{max-width:1060px; margin:0 auto; padding:36px 22px 90px}
+code,kbd,.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+code{background:var(--code); padding:.1em .34em; border-radius:4px; font-size:.9em}
+h1{font-size:1.85rem; line-height:1.2; margin:0 0 .3em; letter-spacing:-.015em}
+h2{font-size:1.28rem; margin:2.2em 0 .5em; letter-spacing:-.01em}
+h3{font-size:1.02rem; margin:1.7em 0 .45em; letter-spacing:-.005em}
+p{margin:.75em 0}
+.lede{font-size:1.06rem; color:var(--muted); margin:0 0 1.4em}
+.rule{border:0; border-top:1px solid var(--line); margin:2.4em 0}
+
+.wrong{
+  background:var(--card); border:1px solid var(--line); border-left:4px solid var(--warn);
+  border-radius:10px; padding:14px 18px; margin:1.5em 0; box-shadow:var(--shadow);
+}
+.wrong b{color:var(--warn)}
+
+.tabs{display:flex; flex-wrap:wrap; gap:8px; margin:2em 0 0; border-bottom:1px solid var(--line); padding-bottom:12px}
+.tab{
+  font:inherit; font-size:.95rem; color:var(--muted); background:transparent;
+  border:1px solid var(--line); border-radius:999px; padding:8px 16px; cursor:pointer;
+}
+.tab:hover{color:var(--fg); border-color:var(--fg)}
+.tab.on{background:var(--fg); color:var(--bg); border-color:var(--fg)}
+.tab:focus-visible,.btn:focus-visible,.opt:focus-visible,input:focus-visible,select:focus-visible,
+[tabindex]:focus-visible{outline:2px solid var(--a); outline-offset:2px}
+.skiprow{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:12px 0 0; color:var(--muted); font-size:.88rem}
+.panel[hidden]{display:none}
+.panel{padding-top:6px}
+
+figure{margin:1.6em 0; padding:0}
+.fig{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:var(--shadow)}
+svg{display:block; width:100%; height:auto}
+figcaption{color:var(--muted); font-size:.85rem; margin-top:.7em}
+
+.controls{display:flex; flex-wrap:wrap; gap:12px 16px; align-items:center; margin-top:14px;
+  padding-top:14px; border-top:1px solid var(--line2)}
+.controls label{font-size:.86rem; color:var(--muted); display:flex; align-items:center; gap:9px}
+input[type=range]{width:min(340px,60vw); accent-color:var(--a)}
+input[type=text],select{
+  font:inherit; font-size:.9rem; padding:6px 9px; border-radius:8px;
+  border:1px solid var(--line); background:var(--bg); color:var(--fg);
+}
+input[type=text]{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; width:190px}
+.btn{
+  font:inherit; font-size:.88rem; padding:7px 14px; border-radius:8px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--fg);
+}
+.btn:hover{border-color:var(--fg)}
+.btn.on{background:var(--fg); color:var(--bg); border-color:var(--fg)}
+.btn[disabled]{opacity:.42; cursor:not-allowed}
+.val{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:var(--a); font-weight:600}
+
+table{border-collapse:collapse; width:100%; font-size:.9rem; margin:1.1em 0}
+.tscroll{overflow-x:auto}
+th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line2); vertical-align:top}
+th{color:var(--muted); font-weight:600; font-size:.8rem; letter-spacing:.03em; text-transform:uppercase}
+tbody tr:last-child td{border-bottom:0}
+
+.bound{
+  background:var(--card); border:1px solid var(--line); border-top:4px solid var(--a);
+  border-radius:12px; padding:16px 20px; margin:1.8em 0; box-shadow:var(--shadow);
+}
+.bound h3{margin-top:0}
+.bound ol{margin:.6em 0 .6em 1.1em; padding:0}
+.bound li{margin:.55em 0}
+.bound .punch{border-top:1px solid var(--line2); margin-top:1em; padding-top:.9em}
+
+.poe{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 20px; box-shadow:var(--shadow)}
+.poe .ask{font-size:1.04rem; margin-top:.2em}
+.opts{display:grid; gap:8px; margin:1em 0; grid-template-columns:repeat(auto-fit,minmax(232px,1fr))}
+.opt{
+  font:inherit; font-size:.9rem; text-align:left; padding:10px 13px; border-radius:9px; cursor:pointer;
+  border:1px solid var(--line); background:var(--bg); color:var(--fg); line-height:1.45;
+}
+.opt:hover{border-color:var(--fg)}
+.opt.picked{border-color:var(--a); background:var(--a-soft); box-shadow:inset 0 0 0 1px var(--a)}
+.poe-out{margin-top:1.1em; border-top:1px solid var(--line2); padding-top:1em}
+.verdict{font-weight:600; color:var(--a)}
+
+.steplines{color:var(--muted); font-size:.85rem}
+.grid2{display:grid; gap:0 30px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.leaves{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 20px; box-shadow:var(--shadow); margin-top:1.6em}
+footer{margin-top:3em; color:var(--muted); font-size:.82rem; border-top:1px solid var(--line); padding-top:1.1em}
+
+/* ---- svg classes ---- */
+.st{font-size:16px; font-weight:650; fill:var(--fg)}
+.ss{font-size:12px; fill:var(--muted)}
+.lbl{font-size:13px; font-weight:650}
+.hdr{font-size:11px; fill:var(--muted); letter-spacing:.05em}
+.mono-s{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.box{fill:var(--card); stroke:var(--line)}
+.rowr{fill:transparent; stroke:var(--line2); cursor:pointer}
+.rowr:hover{fill:var(--line2)}
+.rk{font-size:11px; fill:var(--muted)}
+.rv{font-size:11px; fill:var(--fg)}
+.sel-a{fill:var(--a-soft); stroke:var(--a); stroke-width:1.5}
+.sel-b{fill:var(--b-soft); stroke:var(--b); stroke-width:1.5}
+.arr{fill:none; stroke-width:2}
+.arr-a{stroke:var(--a)}
+.arr-b{stroke:var(--b)}
+.ro{font-size:13px; fill:var(--fg)}
+.rn{font-size:11px; fill:var(--muted)}
+.div{stroke:var(--line); stroke-width:1}
+
+.node rect{fill:var(--card); stroke:var(--line); stroke-width:1.5; transition:fill .18s, stroke .18s}
+.node .nt{font-size:15px; font-weight:650; fill:var(--dim); text-anchor:middle; transition:fill .18s}
+.node .nd{font-size:11px; fill:var(--dim); text-anchor:middle; transition:fill .18s}
+.node.on rect{fill:var(--a-soft); stroke:var(--a); stroke-width:2.5}
+.node.on .nt{fill:var(--fg)}
+.node.on .nd{fill:var(--a)}
+.edge{fill:none; stroke:var(--line); stroke-width:2; transition:stroke .18s, stroke-width .18s}
+.edge.on{stroke:var(--a); stroke-width:3}
+.elbl{font-size:11px; fill:var(--dim)}
+.elbl.on{fill:var(--a)}
+.chip{font-size:11px; fill:var(--a); text-anchor:middle}
+.narr{font-size:14px; fill:var(--fg)}
+.count{font-size:11px; fill:var(--muted); letter-spacing:.08em}
+
+.seg{stroke:var(--card); stroke-width:2}
+.seg-i{fill:var(--b-soft)}
+.seg-o{fill:var(--a-soft)}
+.segb{font-size:10px; fill:var(--muted); text-anchor:middle}
+.segn{font-size:11px; fill:var(--muted); text-anchor:middle}
+.segv{font-size:13px; font-weight:650; fill:var(--fg); text-anchor:middle}
+
+@media (prefers-reduced-motion: reduce){
+  .node rect,.node .nt,.node .nd,.edge{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Virtual memory: every address is a question</h1>
+<p class="lede">Virtual addresses, page tables, paging and page faults — one mechanism, followed all the way down.</p>
+
+<div class="wrong">
+  <p><b>The thing most people get wrong.</b> That an address names a place in RAM. It does not. It names a row in a table, and the operating system may rewrite that row — moving your bytes to a different chip, or out to disk and back — while your pointer stays exactly the same number it always was.</p>
+  <p>Virtual memory has several moving parts. This page follows only the one that unlocks the others, and lets the rest hang off it.</p>
+</div>
+
+<div class="tabs" role="tablist" aria-label="Disclosure tiers">
+  <button class="tab on" id="tab1" data-tier="1" role="tab" aria-selected="true" aria-controls="p1">Tier 1 &middot; The turn</button>
+  <button class="tab" id="tab2" data-tier="2" role="tab" aria-selected="false" aria-controls="p2">Tier 2 &middot; The mechanism</button>
+  <button class="tab" id="tab3" data-tier="3" role="tab" aria-selected="false" aria-controls="p3">Tier 3 &middot; The real thing</button>
+</div>
+<div class="skiprow">
+  <span>Already know this?</span>
+  <button class="btn" id="skip">Skip ahead to Tier 3</button>
+  <span>Nothing here is gated; the tiers are a suggested order, not a queue.</span>
+</div>
+
+<!-- ================================================= TIER 1 -->
+<section class="panel" id="p1" data-tier="1" role="tabpanel" aria-labelledby="tab1">
+
+<h2>The turn</h2>
+<p>A pointer is not a place. When your program runs <code>mov al, [0x2A00]</code>, the hardware does not walk to the 10,752nd byte of RAM. It asks a question — <em>what does 0x2A00 mean for this process, at this instant?</em> — and a table answers.</p>
+<p>The table belongs to the process, not to the machine, and the kernel may rewrite it between one instruction and the next. So two processes can hold the identical number and be pointed at different silicon. A page can move to another frame, or to disk and back, and the pointer never changes, because the pointer was never the location.</p>
+
+<div class="poe">
+  <p class="ask"><b>Predict first.</b> Process A and Process B are both running. Both hold the pointer <code>0x2A00</code>. A writes the byte <code>0x41</code> there. Commit a guess: what does B read at <code>0x2A00</code>?</p>
+  <div class="opts" id="opts">
+    <button class="opt" data-k="a">0x41 — same address, so the same byte</button>
+    <button class="opt" data-k="b">Whatever B last put there — an unrelated byte</button>
+    <button class="opt" data-k="c">A segmentation fault — only one process may own an address</button>
+    <button class="opt" data-k="d">Undefined garbage — the two writes race</button>
+  </div>
+  <button class="btn" id="reveal" disabled>Reveal the answer</button>
+  <div class="poe-out" id="poeOut" hidden>
+    <p class="verdict" id="verdict"></p>
+    <p>The two processes have different page tables. Virtual page 2 in A's table names frame 6; virtual page 2 in B's table names frame 1. Neither process can name the other's memory, because neither has a row that resolves to it.</p>
+    <p>The first answer is not silly — it was correct for decades. On a machine without an MMU, two programs holding the same address held the same byte, which is precisely why one stray pointer could take the whole system down. The third is a fair guess too, and it is what you would get if page 2 were unmapped in B; the only reason it is wrong here is that B does happen to have page 2 mapped. And sharing is still possible on purpose: when the kernel points two rows at one frame, you get shared libraries and <code>mmap</code>.</p>
+  </div>
+</div>
+
+<figure>
+<div class="fig">
+<!-- geometry contract
+     viewBox 0 0 960 540
+     bands   header 0-72 | stage 72-460 | readout 460-540
+     lanes   A y 76-240 | B y 252-416 | RAM x 700-920 spans both
+     columns 40 . 330 . 540 . 700 . 920
+     rules   text anchors at a column, boxes start at one, arrows run column-to-column -->
+<svg viewBox="0 0 960 540" width="100%" role="img" aria-labelledby="s1t s1d">
+  <title id="s1t">The same virtual address in two processes</title>
+  <desc id="s1d">One virtual address is shown for two processes. Each process has its own six-row page table. The selected row in each table points into a shared bank of eight physical RAM frames, or to the swap file, or nowhere at all.</desc>
+  <defs>
+    <marker id="m1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--a)"/></marker>
+    <marker id="m1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--b)"/></marker>
+  </defs>
+
+  <text class="st" x="40" y="32">The same 16 bits, two processes</text>
+  <text class="ss" x="40" y="56">Move the address below. Or click any row: the row is the thing that decides.</text>
+
+  <!-- lane A -->
+  <text class="lbl" x="40" y="92" fill="var(--a)">Process A</text>
+  <rect class="box" x="40" y="100" width="210" height="56" rx="9"/>
+  <text class="mono-s" id="vaA" x="145" y="126" text-anchor="middle" font-size="17" font-weight="650" fill="var(--fg)">0x2A00</text>
+  <text class="mono-s rn" id="spA" x="145" y="146" text-anchor="middle">page 2 &#183; offset 0xA00</text>
+
+  <rect class="box" x="330" y="82" width="210" height="142" rx="9"/>
+  <line class="div" x1="330" y1="104" x2="540" y2="104"/>
+  <text class="hdr" x="435" y="98" text-anchor="middle">PAGE TABLE A</text>
+  <rect class="rowr" id="ra0" x="330" y="104" width="210" height="20" data-p="a" data-vpn="0" tabindex="0" role="button" aria-label="Process A, virtual page 0"/>
+  <rect class="rowr" id="ra1" x="330" y="124" width="210" height="20" data-p="a" data-vpn="1" tabindex="0" role="button" aria-label="Process A, virtual page 1"/>
+  <rect class="rowr" id="ra2" x="330" y="144" width="210" height="20" data-p="a" data-vpn="2" tabindex="0" role="button" aria-label="Process A, virtual page 2"/>
+  <rect class="rowr" id="ra3" x="330" y="164" width="210" height="20" data-p="a" data-vpn="3" tabindex="0" role="button" aria-label="Process A, virtual page 3"/>
+  <rect class="rowr" id="ra4" x="330" y="184" width="210" height="20" data-p="a" data-vpn="4" tabindex="0" role="button" aria-label="Process A, virtual page 4"/>
+  <rect class="rowr" id="ra5" x="330" y="204" width="210" height="20" data-p="a" data-vpn="5" tabindex="0" role="button" aria-label="Process A, virtual page 5"/>
+  <g pointer-events="none">
+    <text class="rk mono-s" x="344" y="118">page 0</text><text class="rv mono-s" x="526" y="118" text-anchor="end">frame 3</text>
+    <text class="rk mono-s" x="344" y="138">page 1</text><text class="rv mono-s" x="526" y="138" text-anchor="end">frame 0</text>
+    <text class="rk mono-s" x="344" y="158">page 2</text><text class="rv mono-s" x="526" y="158" text-anchor="end">frame 6</text>
+    <text class="rk mono-s" x="344" y="178">page 3</text><text class="rv mono-s" x="526" y="178" text-anchor="end" fill="var(--warn)">present 0</text>
+    <text class="rk mono-s" x="344" y="198">page 4</text><text class="rv mono-s" x="526" y="198" text-anchor="end">frame 2</text>
+    <text class="rk mono-s" x="344" y="218">page 5</text><text class="rv mono-s" x="526" y="218" text-anchor="end" fill="var(--dim)">no entry</text>
+  </g>
+  <path class="arr arr-a" id="aa1" d="M250,128 C288,128 288,154 322,154" marker-end="url(#m1a)"/>
+  <path class="arr arr-a" id="aa2" d="M540,154 C612,154 624,347 694,347" marker-end="url(#m1a)"/>
+
+  <!-- lane B -->
+  <text class="lbl" x="40" y="268" fill="var(--b)">Process B</text>
+  <rect class="box" x="40" y="276" width="210" height="56" rx="9"/>
+  <text class="mono-s" id="vaB" x="145" y="302" text-anchor="middle" font-size="17" font-weight="650" fill="var(--fg)">0x2A00</text>
+  <text class="mono-s rn" id="spB" x="145" y="322" text-anchor="middle">page 2 &#183; offset 0xA00</text>
+
+  <rect class="box" x="330" y="258" width="210" height="142" rx="9"/>
+  <line class="div" x1="330" y1="280" x2="540" y2="280"/>
+  <text class="hdr" x="435" y="274" text-anchor="middle">PAGE TABLE B</text>
+  <rect class="rowr" id="rb0" x="330" y="280" width="210" height="20" data-p="b" data-vpn="0" tabindex="0" role="button" aria-label="Process B, virtual page 0"/>
+  <rect class="rowr" id="rb1" x="330" y="300" width="210" height="20" data-p="b" data-vpn="1" tabindex="0" role="button" aria-label="Process B, virtual page 1"/>
+  <rect class="rowr" id="rb2" x="330" y="320" width="210" height="20" data-p="b" data-vpn="2" tabindex="0" role="button" aria-label="Process B, virtual page 2"/>
+  <rect class="rowr" id="rb3" x="330" y="340" width="210" height="20" data-p="b" data-vpn="3" tabindex="0" role="button" aria-label="Process B, virtual page 3"/>
+  <rect class="rowr" id="rb4" x="330" y="360" width="210" height="20" data-p="b" data-vpn="4" tabindex="0" role="button" aria-label="Process B, virtual page 4"/>
+  <rect class="rowr" id="rb5" x="330" y="380" width="210" height="20" data-p="b" data-vpn="5" tabindex="0" role="button" aria-label="Process B, virtual page 5"/>
+  <g pointer-events="none">
+    <text class="rk mono-s" x="344" y="294">page 0</text><text class="rv mono-s" x="526" y="294" text-anchor="end">frame 5</text>
+    <text class="rk mono-s" x="344" y="314">page 1</text><text class="rv mono-s" x="526" y="314" text-anchor="end" fill="var(--warn)">present 0</text>
+    <text class="rk mono-s" x="344" y="334">page 2</text><text class="rv mono-s" x="526" y="334" text-anchor="end">frame 1</text>
+    <text class="rk mono-s" x="344" y="354">page 3</text><text class="rv mono-s" x="526" y="354" text-anchor="end">frame 7</text>
+    <text class="rk mono-s" x="344" y="374">page 4</text><text class="rv mono-s" x="526" y="374" text-anchor="end" fill="var(--dim)">no entry</text>
+    <text class="rk mono-s" x="344" y="394">page 5</text><text class="rv mono-s" x="526" y="394" text-anchor="end">frame 4</text>
+  </g>
+  <path class="arr arr-b" id="ab1" d="M250,304 C288,304 288,330 322,330" marker-end="url(#m1b)"/>
+  <path class="arr arr-b" id="ab2" d="M540,330 C612,330 624,157 694,157" marker-end="url(#m1b)"/>
+
+  <!-- physical RAM -->
+  <rect class="box" x="700" y="76" width="220" height="328" rx="9"/>
+  <line class="div" x1="700" y1="100" x2="920" y2="100"/>
+  <text class="hdr" x="810" y="93" text-anchor="middle">PHYSICAL RAM</text>
+  <rect class="rowr" id="fr0" x="700" y="100" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr1" x="700" y="138" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr2" x="700" y="176" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr3" x="700" y="214" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr4" x="700" y="252" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr5" x="700" y="290" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr6" x="700" y="328" width="220" height="38" pointer-events="none"/>
+  <rect class="rowr" id="fr7" x="700" y="366" width="220" height="38" pointer-events="none"/>
+  <g pointer-events="none">
+    <text class="rk mono-s" x="714" y="123">frame 0</text><text class="rv mono-s" x="906" y="123" text-anchor="end" fill="var(--a)">A &#183; page 1</text>
+    <text class="rk mono-s" x="714" y="161">frame 1</text><text class="rv mono-s" x="906" y="161" text-anchor="end" fill="var(--b)">B &#183; page 2</text>
+    <text class="rk mono-s" x="714" y="199">frame 2</text><text class="rv mono-s" x="906" y="199" text-anchor="end" fill="var(--a)">A &#183; page 4</text>
+    <text class="rk mono-s" x="714" y="237">frame 3</text><text class="rv mono-s" x="906" y="237" text-anchor="end" fill="var(--a)">A &#183; page 0</text>
+    <text class="rk mono-s" x="714" y="275">frame 4</text><text class="rv mono-s" x="906" y="275" text-anchor="end" fill="var(--b)">B &#183; page 5</text>
+    <text class="rk mono-s" x="714" y="313">frame 5</text><text class="rv mono-s" x="906" y="313" text-anchor="end" fill="var(--b)">B &#183; page 0</text>
+    <text class="rk mono-s" x="714" y="351">frame 6</text><text class="rv mono-s" x="906" y="351" text-anchor="end" fill="var(--a)">A &#183; page 2</text>
+    <text class="rk mono-s" x="714" y="389">frame 7</text><text class="rv mono-s" x="906" y="389" text-anchor="end" fill="var(--b)">B &#183; page 3</text>
+  </g>
+  <rect class="box" x="700" y="416" width="220" height="30" rx="7" stroke-dasharray="4 3"/>
+  <text class="rk mono-s" x="810" y="435" text-anchor="middle">swap file &#183; on disk</text>
+
+  <!-- readout band, inside the diagram -->
+  <line class="div" x1="40" y1="462" x2="920" y2="462"/>
+  <text class="ro mono-s" id="roA" x="40" y="488" fill="var(--a)">A &#183; 0x2A00 = page 2 + 0xA00 &#8594; frame 6 &#8594; physical 0x6A00</text>
+  <text class="ro mono-s" id="roB" x="40" y="510" fill="var(--b)">B &#183; 0x2A00 = page 2 + 0xA00 &#8594; frame 1 &#8594; physical 0x1A00</text>
+  <text class="rn" id="roN" x="40" y="532">Same virtual address. Different physical frames. Neither process can name the other's.</text>
+</svg>
+<div class="controls">
+  <label for="addr">Virtual address <span class="val mono-s" id="addrOut">0x2A00</span></label>
+  <input type="range" id="addr" min="0" max="24575" step="256" value="10752" aria-label="Virtual address, 0x0000 to 0x5FFF">
+  <button class="btn" id="resetAddr">Back to 0x2A00</button>
+</div>
+</div>
+<figcaption>One live variable: the address. Everything else on the diagram is a consequence of it.</figcaption>
+</figure>
+
+<h3>The analogy, mapped</h3>
+<p>A closed-stack library. You never enter the stacks; you write a call slip and hand it over, and a book comes back. What matters is that the slip is not a shelf.</p>
+<div class="tscroll">
+<table>
+<thead><tr><th>The closed-stack library</th><th>Virtual memory</th><th>The relation it carries</th></tr></thead>
+<tbody>
+<tr><td>The call slip you write</td><td>The virtual address</td><td>Names what you want, never where it is</td></tr>
+<tr><td>The ledger behind the desk</td><td>The page table</td><td>Resolves a name to a location at the moment of asking</td></tr>
+<tr><td>A numbered shelf in the stacks</td><td>A physical frame of RAM</td><td>Where the bytes actually sit</td></tr>
+<tr><td>&ldquo;Off-site&rdquo; stamped on the row</td><td>The present bit, cleared</td><td>The name is valid; the thing is not here right now</td></tr>
+<tr><td>The van run to the annex</td><td>Servicing a page fault</td><td>A slow detour that ends with the ledger rewritten</td></tr>
+<tr><td>Each reading room, its own ledger</td><td>One page table per process</td><td>The same slip number, a different shelf, no collision</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="bound">
+<h3>Where this analogy stops being true</h3>
+<p>The ledger carries the load-bearing part: a name resolved when it is used, out of a book someone else can rewrite. It fails in three places, and the third is the one that costs people real time.</p>
+<ol>
+  <li><b>There is no clerk.</b> The lookup runs in silicon, in the memory management unit, on every single access — billions per second. A desk visit per access would make the machine unusable, which is why a cache of recent answers sits in front of the table.</li>
+  <li><b>A librarian who cannot find your book tells you so.</b> The hardware tells your program nothing. The instruction is suspended part-way through, the kernel repairs the row, and the same instruction runs again as though the first attempt never happened.</li>
+  <li><b>You cannot get a book that was never catalogued.</b> An address with no valid row is not a slow request; it is one the kernel refuses to service. That is a segmentation fault.</li>
+</ol>
+<p class="punch"><b>The case where believing the analogy gives you the wrong answer:</b> you cannot write code that detects its own page fault. Take the ledger too literally and you go looking for a return value, an errno, an exception to catch. There is none. A fault leaves no trace in your program's logic at all — only in elapsed time, which is why memory problems so often present as mysterious latency rather than as errors.</p>
+</div>
+
+</section>
+
+<!-- ================================================= TIER 2 -->
+<section class="panel" id="p2" data-tier="2" role="tabpanel" aria-labelledby="tab2" hidden>
+
+<h2>The mechanism</h2>
+<p>One access, followed end to end, three ways. The same address takes a different path depending only on what the hardware finds cached and what the row says — and the cost between the fastest and slowest path here is roughly five orders of magnitude.</p>
+<p class="steplines">Pick a path, then move through it. Nothing advances on its own unless you press Play.</p>
+
+<figure>
+<div class="fig">
+<!-- geometry contract
+     viewBox 0 0 960 540
+     bands   header 0-70 | stage 70-420 | readout 420-540
+     rows    translate y 100-172 | fault detour y 290-362
+     columns 30 . 230 . 440 . 620 . 820
+     rules   boxes 72 tall, arrows leave an edge and arrive at an edge -->
+<svg viewBox="0 0 960 540" width="100%" role="img" aria-labelledby="s2t s2d">
+  <title id="s2t">One memory access, followed step by step</title>
+  <desc id="s2d">A pipeline of five boxes — CPU, MMU, TLB, page table, RAM — with a lower detour of three boxes for the kernel trap, the swap read and the page table rewrite, which returns to the MMU to retry the instruction.</desc>
+  <defs>
+    <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"/></marker>
+    <marker id="m2on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--a)"/></marker>
+  </defs>
+
+  <text class="st" x="40" y="34" id="s2title">Scenario: TLB hit</text>
+  <text class="ss" x="40" y="56" id="s2sub">The page table is not consulted at all.</text>
+
+  <!-- the TLB-to-RAM bypass, drawn above the row it skips -->
+  <path class="edge" id="e-tlb-ram" d="M515,100 C515,66 878,66 878,96" marker-end="url(#m2)"/>
+  <text class="elbl" id="l-bypass" x="696" y="58" text-anchor="middle">answer without a table walk</text>
+
+  <g class="node" id="n-cpu"><rect x="30" y="100" width="170" height="72" rx="11"/>
+    <text class="nt" x="115" y="132">CPU</text><text class="nd mono-s" x="115" y="153">mov al, [0x2A00]</text></g>
+  <g class="node" id="n-mmu"><rect x="230" y="100" width="180" height="72" rx="11"/>
+    <text class="nt" x="320" y="132">MMU</text><text class="nd" x="320" y="153">splits the address</text></g>
+  <g class="node" id="n-tlb"><rect x="440" y="100" width="150" height="72" rx="11"/>
+    <text class="nt" x="515" y="132">TLB</text><text class="nd" x="515" y="153">recent answers</text></g>
+  <g class="node" id="n-pt"><rect x="620" y="100" width="170" height="72" rx="11"/>
+    <text class="nt" x="705" y="132">Page table</text><text class="nd" x="705" y="153">the row for page 2</text></g>
+  <g class="node" id="n-ram"><rect x="820" y="100" width="115" height="72" rx="11"/>
+    <text class="nt" x="878" y="132">RAM</text><text class="nd" x="878" y="153">frame 6</text></g>
+
+  <path class="edge" id="e-cpu-mmu" d="M204,136 L226,136" marker-end="url(#m2)"/>
+  <path class="edge" id="e-mmu-tlb" d="M414,136 L436,136" marker-end="url(#m2)"/>
+  <path class="edge" id="e-tlb-pt"  d="M594,136 L616,136" marker-end="url(#m2)"/>
+  <path class="edge" id="e-pt-ram"  d="M794,136 L816,136" marker-end="url(#m2)"/>
+
+  <text class="chip mono-s" id="c-mmu" x="320" y="192"></text>
+  <text class="chip mono-s" id="c-tlb" x="515" y="192"></text>
+  <text class="chip mono-s" id="c-pt"  x="705" y="192"></text>
+  <text class="chip mono-s" id="c-ram" x="878" y="192"></text>
+
+  <g class="node" id="n-trap"><rect x="620" y="290" width="170" height="72" rx="11"/>
+    <text class="nt" x="705" y="322">Kernel trap</text><text class="nd" x="705" y="343">instruction suspended</text></g>
+  <g class="node" id="n-swap"><rect x="400" y="290" width="170" height="72" rx="11"/>
+    <text class="nt" x="485" y="322">Swap file</text><text class="nd" x="485" y="343">read 4 KiB from disk</text></g>
+  <g class="node" id="n-upd"><rect x="180" y="290" width="170" height="72" rx="11"/>
+    <text class="nt" x="265" y="322">Rewrite the row</text><text class="nd" x="265" y="343">frame 6, present 1</text></g>
+
+  <path class="edge" id="e-pt-trap"   d="M705,176 L705,286" marker-end="url(#m2)"/>
+  <path class="edge" id="e-trap-swap" d="M616,326 L574,326" marker-end="url(#m2)"/>
+  <path class="edge" id="e-swap-upd"  d="M396,326 L354,326" marker-end="url(#m2)"/>
+  <path class="edge" id="e-upd-mmu"   d="M265,286 L265,176" marker-end="url(#m2)"/>
+  <text class="elbl" id="l-fault" x="717" y="238">page fault</text>
+  <text class="elbl" id="l-retry" x="253" y="238" text-anchor="end">retry the same instruction</text>
+
+  <!-- readout band, inside the diagram -->
+  <line class="div" x1="40" y1="420" x2="920" y2="420"/>
+  <text class="count" id="s2count" x="40" y="448">1 OF 3</text>
+  <text class="narr" id="s2l1" x="40" y="478"></text>
+  <text class="narr" id="s2l2" x="40" y="500"></text>
+  <text class="narr" id="s2l3" x="40" y="522"></text>
+</svg>
+<div class="controls">
+  <button class="btn on" id="sc-hit" data-sc="hit">TLB hit</button>
+  <button class="btn" id="sc-miss" data-sc="miss">TLB miss, page resident</button>
+  <button class="btn" id="sc-fault" data-sc="fault">Page fault</button>
+  <span style="flex:1 1 12px"></span>
+  <button class="btn" id="prev">Back</button>
+  <button class="btn" id="next">Next</button>
+  <button class="btn" id="playpause">Play</button>
+  <button class="btn" id="replay">Replay</button>
+</div>
+</div>
+<figcaption>Every intermediate state holds still. The lit boxes are the ones doing work at that moment; the chips under them are the values in flight.</figcaption>
+</figure>
+
+<p>Two details in that walk are worth pulling out, because they are where most confusion lives.</p>
+<p><b>The offset is never translated.</b> With 4 KiB pages, only the address above the low 12 bits is looked up. <code>0xA00</code> arrives at the physical frame exactly as it left the CPU. That is why translation granularity is a page and not a byte: the table would otherwise need a row per byte.</p>
+<p><b>A fault is a trap, not a failure.</b> The instruction does not return an error and does not complete; it is abandoned mid-flight and re-run after the kernel has repaired the row. Everything your program can observe is identical either way — the same registers, the same result. Only the clock knows.</p>
+
+</section>
+
+<!-- ================================================= TIER 3 -->
+<section class="panel" id="p3" data-tier="3" role="tabpanel" aria-labelledby="tab3" hidden>
+
+<h2>The real thing</h2>
+
+<h3>The walk is not the cost. The cache in front of it is the story.</h3>
+<p>A modern x86-64 core keeps roughly 64 translations in its first-level data TLB and one to two thousand in the second level, backed by a hardware walker with its own cache of upper-level rows. Hit rates above 99 per cent are ordinary. That is the only reason a design which requires a memory lookup in order to do a memory lookup is viable at all.</p>
+<p>It also reframes what huge pages are for. When people switch a database to 2 MiB pages they are almost never buying fewer faults; they are buying TLB reach, because one cached translation now covers 512 times as much address space.</p>
+
+<h3>A second lens: the address is a route, not a number</h3>
+<p>The ledger explains resolution. It says nothing about why the table is affordable, and for that the useful picture is a postal sorting hierarchy rather than a book. A 48-bit address is read as a series of fields: four 9-bit indices, each selecting a slot in one 4 KiB table, and a 12-bit offset that is never translated at all.</p>
+<p>That structure is what makes the table cheap. A flat array covering every 4 KiB page of a 48-bit space would need 2<sup>36</sup> rows at 8 bytes each — 512 GiB per process, before a single byte of your data. A radix tree materialises only the branches you actually use, so a process with 10 MiB mapped carries a handful of 4 KiB tables and nothing else.</p>
+
+<figure>
+<div class="fig">
+<!-- geometry contract
+     viewBox 0 0 960 300
+     bands   header 0-70 | bar 70-210 | readout 210-300
+     bar     x 40-920, 880px across 48 bits = 18.333px per bit
+     rules   segment widths are bits x 18.333, labels centre on their segment -->
+<svg viewBox="0 0 960 300" width="100%" role="img" aria-labelledby="s3t s3d">
+  <title id="s3t">How a 48-bit virtual address divides into fields</title>
+  <desc id="s3d">A horizontal bar 48 bits wide, split into index fields for each level of the page table plus an untranslated offset field, with the value of each field shown beneath it.</desc>
+  <text class="st" x="40" y="32">One address, read as a route</text>
+  <text class="ss" x="40" y="56" id="s3sub">Blue fields are looked up. The amber field is copied through untouched.</text>
+
+  <text class="segb" id="sb0" x="122" y="88">bits 47-39</text>
+  <text class="segb" id="sb1" x="287" y="88">bits 38-30</text>
+  <text class="segb" id="sb2" x="452" y="88">bits 29-21</text>
+  <text class="segb" id="sb3" x="617" y="88">bits 20-12</text>
+  <text class="segb" id="sb4" x="810" y="88">bits 11-0</text>
+
+  <rect class="seg seg-i" id="sg0" x="40"  y="96" width="165" height="64" rx="5"/>
+  <rect class="seg seg-i" id="sg1" x="205" y="96" width="165" height="64" rx="5"/>
+  <rect class="seg seg-i" id="sg2" x="370" y="96" width="165" height="64" rx="5"/>
+  <rect class="seg seg-i" id="sg3" x="535" y="96" width="165" height="64" rx="5"/>
+  <rect class="seg seg-o" id="sg4" x="700" y="96" width="220" height="64" rx="5"/>
+
+  <text class="segv mono-s" id="sq0" x="122" y="134">254</text>
+  <text class="segv mono-s" id="sq1" x="287" y="134">466</text>
+  <text class="segv mono-s" id="sq2" x="452" y="134">70</text>
+  <text class="segv mono-s" id="sq3" x="617" y="134">27</text>
+  <text class="segv mono-s" id="sq4" x="810" y="134">0x9A0</text>
+
+  <text class="segn" id="sn0" x="122" y="182">index into the top table</text>
+  <text class="segn" id="sn1" x="287" y="182">index, second table</text>
+  <text class="segn" id="sn2" x="452" y="182">index, third table</text>
+  <text class="segn" id="sn3" x="617" y="182">index, fourth table</text>
+  <text class="segn" id="sn4" x="810" y="182">offset inside the page</text>
+
+  <line class="div" x1="40" y1="210" x2="920" y2="210"/>
+  <text class="ro mono-s" id="s3r1" x="40" y="238"></text>
+  <text class="rn" id="s3r2" x="40" y="262"></text>
+  <text class="rn" id="s3r3" x="40" y="286"></text>
+</svg>
+<div class="controls">
+  <label for="pgsize">Page size
+    <select id="pgsize">
+      <option value="12" selected>4 KiB &#8212; four lookups</option>
+      <option value="21">2 MiB &#8212; three lookups</option>
+      <option value="30">1 GiB &#8212; two lookups</option>
+    </select>
+  </label>
+  <label for="vaddr">Virtual address
+    <input type="text" id="vaddr" value="0x7F3A2C41B9A0" spellcheck="false" aria-label="Virtual address in hexadecimal">
+  </label>
+  <button class="btn" id="randaddr">Another address</button>
+</div>
+</div>
+<figcaption>Change the page size and watch the boundary move. Bits leave the lookup fields and join the offset; they are not translated, they are just carried.</figcaption>
+</figure>
+
+<p><b>Where the second lens stops being true.</b> A postcode implies an office behind every prefix. Here most prefixes have nothing behind them: an unused slot in the top table is a zero word, and no table exists below it. And unlike a postcode the fields carry no meaning you could read off — address space layout randomisation scrambles them deliberately, so that an attacker who knows your binary still does not know where it landed.</p>
+
+<h3>A cleared present bit is a general-purpose hook</h3>
+<p>Most faults never touch a disk. Your executable is mapped rather than loaded, so its pages arrive on first touch. <code>malloc</code> extends a mapping and hands back a pointer with no physical memory behind it — which is why a program can allocate more than the machine has and only die later, when it writes. A fresh anonymous page points at one shared read-only frame of zeroes until the first write. And <code>fork</code> copies the table, not the memory: both processes point at the same frames, marked read-only, and the first write faults, copies that one page and remaps it. Every one of those is the same trap taking a different branch.</p>
+
+<h3>Eviction is approximate, and thrashing is a cliff</h3>
+<p>No production kernel implements true least-recently-used replacement; the bookkeeping costs more than it saves. Linux keeps active and inactive lists and reads an accessed bit that the hardware sets and the kernel periodically clears — second chance, not true recency. A separate dirty bit decides the price of eviction: a clean page is simply dropped, a dirty one must be written out first. When the working set exceeds RAM the fault rate rises non-linearly and throughput collapses. That is thrashing, and it is why a machine five per cent short of memory can run fifty times slower rather than five per cent slower.</p>
+
+<h3>The same table is the security boundary</h3>
+<p>Each row carries permission bits, so the hardware that translates also enforces: no-execute on data pages, read-only on program text, deliberately unmapped guard pages between thread stacks. After Meltdown, kernel page-table isolation unmaps most of the kernel while user code runs — a defence that exists in this table precisely because translation and protection are one lookup.</p>
+
+<div class="leaves">
+<h3>Still simplified here</h3>
+<p>This page followed one address, on one core, through one page table. It has not shown you: how a TLB is invalidated when a row changes, and what that costs when other cores hold the stale copy; nested paging, where a guest's translation is itself translated again by a hypervisor; the IOMMU doing all of this for devices rather than for the CPU; address space identifiers that let translations survive a context switch; or machines whose TLBs are filled by software rather than by hardware. Each is a separate piece of machinery, and none of them appeared above.</p>
+</div>
+
+</section>
+
+<footer>
+<p>Effect sizes and pedagogical structure follow published research on human-authored instructional material. No trial measures learning gains from generated explainers, so nothing here predicts an outcome for this page in particular.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  function hex(n, w){ var s = n.toString(16).toUpperCase(); while(s.length < w) s = '0' + s; return '0x' + s; }
+
+  /* ---------------------------------------------------- tabs + skip */
+  var tabs   = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  function showTier(n){
+    n = String(n);
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-tier') === n;
+      t.classList.toggle('on', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function(p){ p.hidden = p.getAttribute('data-tier') !== n; });
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ showTier(t.getAttribute('data-tier')); });
+  });
+  $('skip').addEventListener('click', function(){
+    showTier(3);
+    $('p3').scrollIntoView({ block: 'start' });
+  });
+
+  /* ---------------------------------------------------- tier 1 */
+  var SWAP = -1, NONE = -2;
+  var TAB = { a: [3, 0, 6, SWAP, 2, NONE], b: [5, SWAP, 1, 7, NONE, 4] };
+  var rowY   = { a: function(i){ return 114 + 20 * i; }, b: function(i){ return 290 + 20 * i; } };
+  var chipY  = { a: 128, b: 304 };
+  var frameY = function(f){ return 119 + 38 * f; };
+  var SWAPY  = 431;
+  var t1 = { addr: 10752 };
+
+  function pathChip(p, i){
+    var c = rowY[p](i), y = chipY[p];
+    return 'M250,' + y + ' C288,' + y + ' 288,' + c + ' 322,' + c;
+  }
+  function pathOut(p, i, target){
+    var c = rowY[p](i);
+    return 'M540,' + c + ' C612,' + c + ' 624,' + target + ' 694,' + target;
+  }
+
+  function renderT1(){
+    var addr = t1.addr, vpn = addr >> 12, off = addr & 0xFFF;
+    $('addrOut').textContent = hex(addr, 4);
+
+    ['a','b'].forEach(function(p){
+      var up = p.toUpperCase();
+      $('va' + up).textContent = hex(addr, 4);
+      $('sp' + up).textContent = 'page ' + vpn + ' · offset ' + hex(off, 3);
+
+      for (var i = 0; i < 6; i++){
+        var r = $('r' + p + i);
+        r.classList.toggle('sel-' + p, i === vpn);
+        r.setAttribute('class', 'rowr' + (i === vpn ? ' sel-' + p : ''));
+      }
+      var entry = TAB[p][vpn];
+      $('a' + p + '1').setAttribute('d', pathChip(p, vpn));
+      var out = $('a' + p + '2');
+      if (entry === NONE){
+        out.style.opacity = '0';
+      } else {
+        out.style.opacity = '1';
+        out.setAttribute('d', pathOut(p, vpn, entry === SWAP ? SWAPY : frameY(entry)));
+      }
+    });
+
+    for (var f = 0; f < 8; f++){
+      var cls = 'rowr';
+      if (TAB.a[vpn] === f) cls += ' sel-a';
+      if (TAB.b[vpn] === f) cls += ' sel-b';
+      $('fr' + f).setAttribute('class', cls);
+    }
+
+    ['a','b'].forEach(function(p){
+      var entry = TAB[p][vpn], head = p.toUpperCase() + ' · ' + hex(addr, 4)
+        + ' = page ' + vpn + ' + ' + hex(off, 3) + ' → ';
+      var tail;
+      if (entry === SWAP)      tail = 'present 0 → page fault, then some frame';
+      else if (entry === NONE) tail = 'no entry → SIGSEGV';
+      else                     tail = 'frame ' + entry + ' → physical ' + hex(entry * 4096 + off, 4);
+      $('ro' + p.toUpperCase()).textContent = head + tail;
+    });
+
+    var ea = TAB.a[vpn], eb = TAB.b[vpn], note;
+    if (ea >= 0 && eb >= 0){
+      note = 'Same virtual address. Different physical frames. Neither process can name the other's.';
+    } else if (ea === NONE || eb === NONE){
+      note = 'One of these has no row at all. The address is not wrong, it is meaningless — for that process.';
+    } else {
+      note = 'The row decides, not the address. This page is valid and simply is not in RAM at this instant.';
+    }
+    $('roN').textContent = note;
+  }
+
+  var addrIn = $('addr');
+  addrIn.addEventListener('input', function(){ t1.addr = parseInt(addrIn.value, 10); renderT1(); });
+  $('resetAddr').addEventListener('click', function(){
+    t1.addr = 10752; addrIn.value = '10752'; renderT1();
+  });
+  ['a','b'].forEach(function(p){
+    for (var i = 0; i < 6; i++){
+      (function(row){
+        function pick(){
+          t1.addr = (parseInt(row.getAttribute('data-vpn'), 10) << 12) | (t1.addr & 0xFFF);
+          addrIn.value = String(t1.addr);
+          renderT1();
+        }
+        row.addEventListener('click', pick);
+        row.addEventListener('keydown', function(e){
+          if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); }
+        });
+      })($('r' + p + i));
+    }
+  });
+  renderT1();
+
+  /* ---------------------------------------------------- tier 1, predict-observe-explain */
+  var picked = null;
+  var VERDICT = {
+    a: 'You picked the first — which is exactly the intuition this page exists to dismantle. The answer is the second.',
+    b: 'Correct: B reads whatever B last wrote. Hold on to why that feels strange.',
+    c: 'A reasonable guess, and right for a different address. The answer is the second.',
+    d: 'No race is possible here, because the two writes never reach the same byte. The answer is the second.'
+  };
+  Array.prototype.slice.call(document.querySelectorAll('.opt')).forEach(function(o){
+    o.addEventListener('click', function(){
+      Array.prototype.slice.call(document.querySelectorAll('.opt')).forEach(function(x){
+        x.classList.remove('picked');
+      });
+      o.classList.add('picked');
+      picked = o.getAttribute('data-k');
+      $('reveal').disabled = false;
+    });
+  });
+  $('reveal').addEventListener('click', function(){
+    if (!picked) return;
+    $('verdict').textContent = VERDICT[picked];
+    $('poeOut').hidden = false;
+    $('reveal').disabled = true;
+  });
+
+  /* ---------------------------------------------------- tier 2 */
+  var CPU = { on: ['cpu'], arr: [], chip: {}, lines: [
+    'The CPU executes mov al, [0x2A00]. That address is virtual. Nothing in the core knows or cares',
+    'whether the bytes are in RAM, sitting in a swap file, or have never existed.'
+  ]};
+  var MMU = { on: ['mmu'], arr: ['e-cpu-mmu'], chip: { mmu: 'page 2 · offset 0xA00' }, lines: [
+    'The MMU splits the address at the page boundary. With 4 KiB pages the low twelve bits, 0xA00, are',
+    'an offset inside the page and are never translated. Only the page number gets looked up.'
+  ]};
+  var MISS = { on: ['tlb'], arr: ['e-mmu-tlb'], chip: { mmu: 'page 2 · offset 0xA00', tlb: 'miss' }, lines: [
+    'The TLB holds no answer for page 2. It caches only a few dozen recent translations, so a jump into',
+    'a cold region of the address space misses, and the MMU has to go and read the table itself.'
+  ]};
+
+  var SCEN = {
+    hit: {
+      title: 'Scenario: TLB hit',
+      sub: 'The common case. The page table is not consulted at all.',
+      steps: [ CPU, MMU, { on: ['tlb','ram'], arr: ['e-mmu-tlb','e-tlb-ram'],
+        chip: { mmu: 'page 2 · offset 0xA00', tlb: 'hit → frame 6', ram: 'physical 0x6A00' }, lines: [
+        'The TLB already holds the translation for page 2, so the MMU sets frame 6 in front of the untouched',
+        'offset and the access completes. A cycle or two of delay, no memory read for the table at all.',
+        'Hit rates above 99 per cent are ordinary, which is what makes the whole design affordable.'
+      ]}]
+    },
+    miss: {
+      title: 'Scenario: TLB miss, page resident',
+      sub: 'Four extra memory reads, and no fault.',
+      steps: [ CPU, MMU, MISS, { on: ['pt','ram'], arr: ['e-tlb-pt','e-pt-ram'],
+        chip: { mmu: 'page 2 · offset 0xA00', tlb: 'miss', pt: 'present 1 · frame 6', ram: 'physical 0x6A00' }, lines: [
+        'A hardware walker reads the table: four dependent memory accesses, one per level, ending at the row',
+        'for page 2. It says present, frame 6. That answer is written into the TLB so the next access to this',
+        'page costs nothing, and physical address 0x6A00 is formed and sent to the memory controller.'
+      ]}]
+    },
+    fault: {
+      title: 'Scenario: page fault',
+      sub: 'A trap, not an error. The program is never told it happened.',
+      steps: [ CPU, MMU, MISS,
+        { on: ['pt'], arr: ['e-tlb-pt'], chip: { mmu: 'page 2 · offset 0xA00', tlb: 'miss', pt: 'present 0' }, lines: [
+          'The walk reaches the row for page 2 and finds the present bit clear. The frame field is not a frame:',
+          'with present cleared the kernel is free to use those same bits to record where the page actually went.'
+        ]},
+        { on: ['trap'], arr: ['e-pt-trap'], chip: { pt: 'present 0' }, lines: [
+          'The hardware raises a page fault. This is a trap rather than a failure: the faulting instruction is',
+          'suspended part-way through, its register state saved, and the core jumps into the kernel with the',
+          'offending address left in a control register for the handler to read.'
+        ]},
+        { on: ['swap'], arr: ['e-trap-swap'], chip: {}, lines: [
+          'The kernel reads the bits it stashed in the row, locates the page in the swap file and chooses frame 6',
+          'to receive it. Had no frame been free it would evict one first, writing it out only if its dirty bit was',
+          'set. This disk read is on the order of a hundred thousand times slower than the walk that preceded it.'
+        ]},
+        { on: ['upd'], arr: ['e-swap-upd'], chip: {}, lines: [
+          'The kernel rewrites the row: frame 6, present 1, plus the permission bits for this mapping. This is the',
+          'instant the pointer changes meaning, and the program holds the same 0x2A00 it has always held.'
+        ]},
+        { on: ['mmu','tlb','pt','ram'], arr: ['e-upd-mmu','e-mmu-tlb','e-tlb-pt','e-pt-ram'],
+          chip: { mmu: 'page 2 · offset 0xA00', tlb: 'filled', pt: 'present 1 · frame 6', ram: 'physical 0x6A00' }, lines: [
+          'The kernel returns from the trap and the very same instruction executes again from the beginning. This',
+          'time the walk succeeds and the byte arrives. No return value anywhere records that a disk read just',
+          'happened; the only trace left behind is elapsed time.'
+        ]}
+      ]
+    }
+  };
+
+  var NODES = ['cpu','mmu','tlb','pt','ram','trap','swap','upd'];
+  var EDGES = ['e-cpu-mmu','e-mmu-tlb','e-tlb-pt','e-pt-ram','e-tlb-ram',
+               'e-pt-trap','e-trap-swap','e-swap-upd','e-upd-mmu'];
+  var t2 = { sc: 'hit', i: 0 };
+
+  function renderT2(){
+    var s = SCEN[t2.sc], st = s.steps[t2.i];
+    $('s2title').textContent = s.title;
+    $('s2sub').textContent = s.sub;
+    $('s2count').textContent = (t2.i + 1) + ' OF ' + s.steps.length;
+
+    NODES.forEach(function(n){
+      var g = $('n-' + n);
+      g.setAttribute('class', 'node' + (st.on.indexOf(n) >= 0 ? ' on' : ''));
+      g.style.opacity = (t2.sc === 'fault' || ['trap','swap','upd'].indexOf(n) < 0) ? '1' : '0.32';
+    });
+    EDGES.forEach(function(e){
+      var on = st.arr.indexOf(e) >= 0, el = $(e);
+      el.setAttribute('class', 'edge' + (on ? ' on' : ''));
+      el.setAttribute('marker-end', on ? 'url(#m2on)' : 'url(#m2)');
+      el.style.opacity = (t2.sc === 'fault' || ['e-pt-trap','e-trap-swap','e-swap-upd','e-upd-mmu'].indexOf(e) < 0)
+        ? '1' : '0.32';
+    });
+    ['l-fault','l-retry'].forEach(function(id){
+      $(id).style.opacity = t2.sc === 'fault' ? '1' : '0.32';
+    });
+    $('e-tlb-ram').style.opacity = t2.sc === 'hit' ? $('e-tlb-ram').style.opacity : '0.32';
+    $('l-bypass').style.opacity = t2.sc === 'hit' ? '1' : '0.32';
+
+    ['mmu','tlb','pt','ram'].forEach(function(c){
+      $('c-' + c).textContent = st.chip[c] || '';
+    });
+    ['s2l1','s2l2','s2l3'].forEach(function(id, k){
+      $(id).textContent = st.lines[k] || '';
+    });
+    $('prev').disabled = t2.i === 0;
+    $('next').disabled = t2.i === s.steps.length - 1;
+  }
+
+  function setScenario(name){
+    t2.sc = name; t2.i = 0; pause();
+    ['hit','miss','fault'].forEach(function(k){ $('sc-' + k).classList.toggle('on', k === name); });
+    renderT2();
+  }
+  ['hit','miss','fault'].forEach(function(k){
+    $('sc-' + k).addEventListener('click', function(){ setScenario(k); });
+  });
+  $('next').addEventListener('click', function(){
+    if (t2.i < SCEN[t2.sc].steps.length - 1){ t2.i++; renderT2(); }
+  });
+  $('prev').addEventListener('click', function(){
+    if (t2.i > 0){ t2.i--; renderT2(); }
+  });
+  $('replay').addEventListener('click', function(){ pause(); t2.i = 0; renderT2(); });
+
+  var raf = null, mark = 0;
+  function tick(ts){
+    if (!mark) mark = ts;
+    if (ts - mark > 2200){
+      mark = ts;
+      if (t2.i < SCEN[t2.sc].steps.length - 1){ t2.i++; renderT2(); }
+      else { pause(); return; }
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function play(){
+    if (raf) return;
+    if (t2.i === SCEN[t2.sc].steps.length - 1){ t2.i = 0; renderT2(); }
+    mark = 0; $('playpause').textContent = 'Pause';
+    raf = requestAnimationFrame(tick);
+  }
+  function pause(){
+    if (raf){ cancelAnimationFrame(raf); raf = null; }
+    $('playpause').textContent = 'Play';
+  }
+  $('playpause').addEventListener('click', function(){ if (raf) pause(); else play(); });
+  setScenario('hit');
+
+  /* ---------------------------------------------------- tier 3 */
+  var BAR_X = 40, BAR_W = 880, BITS = 48, PX = BAR_W / BITS;
+  var LEVEL_NAMES = ['index into the top table', 'index, second table', 'index, third table', 'index, fourth table'];
+  var t3 = { off: 12, addr: 0x7F3A2C41B9A0 };
+
+  function fieldsFor(offBits){
+    var idx = (BITS - offBits) / 9, out = [];
+    for (var i = 0; i < idx; i++) out.push({ bits: 9, name: LEVEL_NAMES[i], kind: 'i' });
+    out.push({ bits: offBits, name: 'offset inside the page', kind: 'o' });
+    return out;
+  }
+  function slice(addr, hi, bits){
+    return Math.floor(addr / Math.pow(2, hi - bits)) % Math.pow(2, bits);
+  }
+
+  function renderT3(){
+    var f = fieldsFor(t3.off), x = BAR_X, hi = BITS, vals = [];
+    for (var k = 0; k < 5; k++){
+      var show = k < f.length;
+      ['sg','sq','sn','sb'].forEach(function(pre){
+        $(pre + k).style.display = show ? '' : 'none';
+      });
+      if (!show) continue;
+      var w = f[k].bits * PX, c = x + w / 2, v = slice(t3.addr, hi, f[k].bits);
+      $('sg' + k).setAttribute('x', x.toFixed(1));
+      $('sg' + k).setAttribute('width', w.toFixed(1));
+      $('sg' + k).setAttribute('class', 'seg seg-' + f[k].kind);
+      ['sq','sn','sb'].forEach(function(pre){ $(pre + k).setAttribute('x', c.toFixed(1)); });
+      $('sq' + k).textContent = f[k].kind === 'o' ? '0x' + v.toString(16).toUpperCase() : String(v);
+      $('sn' + k).textContent = f[k].name;
+      $('sb' + k).textContent = 'bits ' + (hi - 1) + '–' + (hi - f[k].bits);
+      if (f[k].kind === 'i') vals.push(v);
+      x += w; hi -= f[k].bits;
+    }
+
+    var offBytes = t3.addr % Math.pow(2, t3.off);
+    var pageName = t3.off === 12 ? '4 KiB' : (t3.off === 21 ? '2 MiB' : '1 GiB');
+    $('s3r1').textContent = '0x' + t3.addr.toString(16).toUpperCase()
+      + '  →  ' + vals.map(function(v, i){ return 'table' + (i + 1) + '[' + v + ']'; }).join(' → ');
+    $('s3r2').textContent = vals.length + ' lookups to reach a ' + pageName + ' page, then '
+      + offBytes.toLocaleString() + ' bytes in. Those last ' + t3.off + ' bits are carried, not translated.';
+    $('s3r3').textContent = 'A flat table for this page size would need '
+      + (t3.off === 12 ? '2^36 rows, about 512 GiB per process'
+        : (t3.off === 21 ? '2^27 rows, about 1 GiB per process' : '2^18 rows, about 2 MiB per process'))
+      + '. The tree only builds the branches you use.';
+  }
+
+  $('pgsize').addEventListener('change', function(){
+    t3.off = parseInt(this.value, 10); renderT3();
+  });
+  var vin = $('vaddr');
+  vin.addEventListener('input', function(){
+    var s = vin.value.trim().replace(/^0[xX]/, '').replace(/[^0-9a-fA-F]/g, '');
+    if (!s) return;
+    var n = parseInt(s, 16);
+    if (!isFinite(n)) return;
+    t3.addr = n % Math.pow(2, 48);
+    renderT3();
+  });
+  var SAMPLES = [0x7F3A2C41B9A0, 0x000055D3E1A02000, 0x7FFD0C9911C8, 0x0000400000000FF0, 0x00007F0000001234];
+  var si = 0;
+  $('randaddr').addEventListener('click', function(){
+    si = (si + 1) % SAMPLES.length;
+    t3.addr = SAMPLES[si] % Math.pow(2, 48);
+    vin.value = '0x' + t3.addr.toString(16).toUpperCase();
+    renderT3();
+  });
+  renderT3();
+})();
+</script>
+</body>
+</html>

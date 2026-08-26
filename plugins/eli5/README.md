@@ -51,7 +51,7 @@ virtual memory, transformer attention, quantum superposition. Then three AI judg
 three different companies scored them blind, without knowing which page came from which
 version, or that a comparison was happening at all.
 
-**They picked this one 17 times out of 18.**
+**They picked this one 17 times out of 18.** The one page they preferred the older version of turned out to be broken: a button that did nothing, diagrams that never drew. Fixed and re-judged blind, all three switched. That makes it 18 of 18.
 
 On "does it tell you where it's simplifying" and "does it respect you", it was unanimous.
 
