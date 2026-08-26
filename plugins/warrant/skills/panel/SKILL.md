@@ -27,12 +27,29 @@ its digest does not match.
 1. **Snapshot first, judge second.**
 
    ```bash
-   python3 scripts/snapshot_evidence.py --root <repo> --diff <patch> --tests <dir> --captures <dir>
+   # Resolve ONCE in the conductor and pass the absolute path down to every agent.
+   # A spawned agent does not reliably inherit CLAUDE_PLUGIN_ROOT, so a relative
+   # `scripts/...` path resolves against the agent's own cwd and dies.
+   W=<abs path to warrant>/scripts
+   python3 "$W/snapshot_evidence.py" --root <repo> --diff <patch> --tests <dir> --captures <dir>
    ```
 
    Prints a content-addressed digest over sorted paths and contents, writes the snapshot read-only,
    and that digest travels with every verdict. A verdict whose digest does not match its snapshot is
    void rather than suspect.
+
+   **This is the most-failed invocation in the toolkit, and the flags above are not the
+   problem.** Measured 2026-08-26: **19 of 46 real `snapshot_evidence.py` calls produced no
+   snapshot**, across 30 different agents, on two mistakes — an argparse `usage:` banner from an
+   invented flag, and a script path that does not exist from the agent's working directory.
+   Thirty agents meeting the same CLI for the first time made the same error, which is a
+   documentation defect rather than thirty careless agents. The only flags that exist are
+   `--root --diff --tests --captures --include --json --now --selftest`; there are no others,
+   and `--out`, `--dir` and `--evidence` are the three most commonly invented.
+
+   The whole warrant CLI failed **24 of 71 calls** in that window for the same reason. Hand every
+   agent the resolved absolute path, and have it echo `rc=$?` on its own line rather than piping
+   the command — a piped exit code is the pipeline's, and in zsh `${PIPESTATUS[0]}` is empty.
 
 2. **Neutralise tenant text before a vision lane reads a capture.**
 

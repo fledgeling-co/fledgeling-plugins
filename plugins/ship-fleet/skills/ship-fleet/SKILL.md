@@ -52,6 +52,14 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
 - **Dependencies rule the schedule.** An item never starts before its internal dependencies have
   **merged** (not merely finished). External dependencies flag and skip an item; they never
   stall the fleet.
+- **Five concurrent agents is a correctness limit, not a throughput preference.** Going
+  wider does not slow a wave down — it kills agents that never emit a token. Measured
+  2026-08-26: **92 agents died silently, 88 of them at exactly 180.0 seconds**, each leaving
+  a four-line transcript ending `[Request interrupted by user]` with no assistant message and
+  no error row anywhere. A wave of eight that loses three is slower than a wave of five that
+  loses none *and looks identical in every counter*. Corroborated externally on a different
+  harness: accuracy peaks near five concurrent agents and degrades after, with timeout errors
+  climbing from ~3 to 50. Treat a request to run wider as a request to lose work silently.
 - **A global agent budget, not two independent caps.** Runner slots × each runner's inner ≤4
   waves multiply into the same rate limiter — budget the product (default: slots × wave ≤ ~16;
   8 slots means telling runners to run leaner waves, or run 4–6 slots at full width). Confirm
@@ -67,6 +75,32 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
 - **Never destroy unmerged work.** Cleanup removes only the provably merged or empty; unique
   commits queue for resume or go to the user.
 - **Report thinly; artifacts terse.** ORCHESTRATOR.md is rows and statuses, never prose.
+
+## Three measurements that change how a fleet is scheduled
+
+All three come from one instrumented run, 2026-08-26. Evidence:
+`~/Dev/dAIolog/docs/retro-2026-08-26/`.
+
+**Derive failure from `started − results`. Never from the error field.**
+`error_rows` is **0 across all 147 workflow journals** while **146 agents failed to
+return**. Every "clean run" claim built on that counter is worthless, and the counter
+reads clean precisely when the harness killed the agent rather than the agent failing.
+Group `started` rows by item key too, because a retry appears as a fresh start with no
+error and is otherwise invisible.
+
+**Assert that a fan-out actually fanned out.** Seven runs in that window dispatched their
+agents strictly back to back for a speedup of **exactly 1.00** — nothing retried, nothing
+died, the fan-out simply was not one, and no counter said so. After every wave, compute
+`sum(agent durations) ÷ wall clock`; **under 1.2 the wave ran serially** and should be
+reported as a defect rather than a result. It costs two timestamps.
+
+**Verify per item, not per wave.** Runners stop before verify by design and the conductor
+then spawns verifiers once the wave finishes, so the first item to finish waits for the
+last. Phase 5 is **42.6 of 54.3 agent-hours** in that run, so this barrier is where the
+fleet's wall clock actually goes. Use `pipeline()` rather than `parallel()` per stage: card
+N verifies while card N+1 builds, with no extra capacity. An independent scheduling study
+measured **17.6–35.1%** off mean completion time from exactly this change, and no benefit
+when queues are shallow — so it pays on a long fleet and not on a wave of three.
 
 ## Phase 0 — Preflight (interactive: report, ask, then repair)
 
@@ -290,12 +324,42 @@ clean at 0 unbuilt / 0 broken / 0 unmeasured / 0 undecided" is a finish. "49 of
 
 ## The context contract (every agent, every lane)
 
-Every agent touching a feature is given, by path, and told to read: the brief + spec + plan (as
-they exist), the root DESIGN md, the repo's practices docs, and the item's matched deep-research
-doc(s) — **in full, not skimmed**. Compaction rule in every prompt: after any compaction,
-re-read the brief, spec, plan, and DESIGN md — the on-disk artifacts are the memory. For the
-codex executor the rule is enforced mechanically by the re-context harness
-(shipyard `references/codex-cli.md`); install and self-test it before the first delegation.
+**Naming a file does not deliver it. Paste the constraints into the brief.**
+
+Measured 2026-08-26 across one repository's whole window: **the project `CLAUDE.md` was
+injected into 0 of 409 subagent contexts.** Sixty-nine runner briefs opened with *"Read these
+in full before writing anything: … CLAUDE.md"*, and **three runners opened it**. The control
+that makes this a finding rather than a counting artefact: 3 of 49 *parent* transcripts do
+carry the block, so the transcript records it when it is present.
+
+That file's first line is *"ABSOLUTE PROHIBITION: Claude is FORBIDDEN from writing … mock
+functions … stub implementations … placeholder logic … fallback code"*. It was absent from the
+context of every agent that wrote production code. The same shape holds for the design doc
+(41 briefs mandated it, 9 opened it) and the practices doc (25 → 10).
+
+So the contract is: **the rules that must bind go in the prompt as text; only reference
+material goes by path.**
+
+| Goes in the brief, inline, as text | Goes by path |
+|---|---|
+| The repo's hard prohibitions, verbatim | The brief, spec and plan for this item |
+| The acceptance criteria, each named separately | The matched deep-research doc |
+| The design tokens or components this change may use | The full design system |
+| The exact gate commands and their expected exit codes | Anything the agent reads only if it gets stuck |
+
+A path is a request. Text in the prompt is a constraint. Inlining costs prompt tokens on
+every brief — 399,623 characters authored across 61 launches in that window, amplifying 2.9×
+to 1,161,090 characters delivered — and that is the cheaper half of the trade against work
+that has to be redone because a guardrail never arrived.
+
+Everything else in the contract stands: the item's brief + spec + plan, the root DESIGN md,
+the practices docs and the matched research doc(s) are given **by path** and read **in full,
+not skimmed**. Compaction rule in every prompt: after any compaction, re-read the brief, spec,
+plan, and DESIGN md — the on-disk artifacts are the memory. Measured in the same window: three
+compactions occurred and **none was followed by a re-read of any instruction file**, so treat
+this rule as one that needs enforcing rather than stating. For the codex executor it is
+enforced mechanically by the re-context harness (shipyard `references/codex-cli.md`); install
+and self-test it before the first delegation.
 
 ## Resuming
 
