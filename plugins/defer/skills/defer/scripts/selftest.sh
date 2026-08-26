@@ -124,7 +124,8 @@ from lane_registry import SHAPES
 # passed against a margin widened to 100%. The policy is the assertion.
 for s in SHAPES:
     lane, _, _, v = L.choose('implementation', shape=s)
-    sc = {l: (v['grades'][l] or {}).get('mean') for l in v['considered'] + v['outranked']}
+    sc = {l: L.delivery_adjusted(l, (v['grades'][l] or {}).get('mean'))
+          for l in v['considered'] + v['outranked']}
     sc = {k: x for k, x in sc.items() if x is not None}
     if not sc or lane not in sc: continue
     assert sc[lane] >= max(sc.values()) - 0.05 - 1e-9, (s, lane, sc)\""
@@ -156,10 +157,25 @@ from lane_registry import LANES
 sol = [l for l, s in LANES.items() if s[\"model\"] == \"gpt-5.6-sol\"]
 assert sol and all(LANES[l][\"effort\"] != \"max\" for l in sol), sol
 assert all(\"max\" not in \" \".join(LANES[l][\"cmd\"]) for l in sol), sol'"
-t "luna has no lane"            "python3 -c '
-from lane_registry import LANES, DECLINED
-assert not any(\"luna\" in s[\"model\"] for s in LANES.values())
-assert \"gpt-5.6-luna\" in DECLINED'"
+t "luna cites the bench that freed it" "python3 -c '
+from lane_registry import LANES, DECLINED, EXTERNAL_BENCH, TASKS
+luna = [l for l, s in LANES.items() if \"luna\" in s[\"model\"]]
+assert luna, \"the lane was removed\"
+for l in luna:
+    key = LANES[l].get(\"external_bench\")
+    assert key in EXTERNAL_BENCH, (l, key)
+    assert LANES[l].get(\"usd_per_task_external\"), l
+    assert LANES[l][\"bench_key\"] is None, \"a local grade it never earned\"
+assert \"gpt-5.6-luna\" in DECLINED and \"SUPERSEDED\" in DECLINED[\"gpt-5.6-luna\"]
+row = EXTERNAL_BENCH[\"deepswe-1.1\"][\"rows\"]
+assert row[\"gpt-5.6-luna@max\"][\"usd_per_task\"] < row[\"grok-4.6@xhigh\"][\"usd_per_task\"]
+assert any(l in TASKS[\"implementation\"][\"allow\"] for l in luna)'"
+t "a penalty is still applied"  "python3 -c '
+from lane_registry import DELIVERY_PENALTY, delivery_adjusted
+assert DELIVERY_PENALTY, \"the delivery table was emptied\"
+for lane, e in DELIVERY_PENALTY.items():
+    assert e[\"points\"] > 0 and e[\"measured\"] and e[\"lift_it_when\"], lane
+    assert delivery_adjusted(lane, 50) < 50, lane'"
 t "capability doc quotes data"  "python3 -c '
 from lane_registry import CAPABILITY, SHAPES
 doc = open(\"../references/capability.md\").read()
