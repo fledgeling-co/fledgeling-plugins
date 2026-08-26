@@ -1,0 +1,9 @@
+{
+  "seed": 20260827,
+  "map": {
+    "eval-4-virtual-memory": {
+      "A": "baseline",
+      "B": "candidate"
+    }
+  }
+}
