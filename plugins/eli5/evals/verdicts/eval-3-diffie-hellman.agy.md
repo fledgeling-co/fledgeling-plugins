@@ -1,0 +1,7 @@
+1. CONCEPTUAL CLARITY: B is better because it explicitly grounds the mathematical mechanics with structure-mapping such as `"(g^b)^a = (g^a)^b"`, allowing readers to understand the algebraic order-independence rather than relying on A's vague assertion that `"Order doesn’t change paint"`.
+2. HONESTY ABOUT LIMITS: B is better because it explicitly delineates where its analogies fail in dedicated boundary cards (`"Someone standing between us can run the whole ceremony twice... Diffie–Hellman on its own has no defence at all against this"`), whereas A provides no discussion of man-in-the-middle vulnerabilities or analogy constraints.
+3. ENGAGEMENT DEPTH: B is better because it forces active cognitive investment through interactive sliders and hypothesis checkpoints (`"Predict first, then look"` with a `"Lock in my answer"` button), whereas A is entirely passive.
+4. VISUAL CRAFT: B is better because its diagrams are dynamically responsive and convey real mathematical data flow (`"A = 5^6 mod 23 = 8"` and chorded clock paths), whereas A's diagrams are static decorative illustrations.
+5. REGISTER: B is better because it maintains an intellectually respectful tone (`"Diffie–Hellman is a rendezvous: nothing is delivered, a value is agreed"`), whereas A leans into an infantilizing storybook register (`"A clock forgets. Go round and round, and nobody can tell how far you walked."`).
+
+OVERALL: B

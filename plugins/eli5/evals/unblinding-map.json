@@ -1,0 +1,29 @@
+{
+  "seed": 20260826,
+  "map": {
+    "eval-1-raft": {
+      "A": "candidate",
+      "B": "baseline"
+    },
+    "eval-2-url-navigation": {
+      "A": "baseline",
+      "B": "candidate"
+    },
+    "eval-3-diffie-hellman": {
+      "A": "baseline",
+      "B": "candidate"
+    },
+    "eval-4-virtual-memory": {
+      "A": "baseline",
+      "B": "candidate"
+    },
+    "eval-5-transformer-attention": {
+      "A": "candidate",
+      "B": "baseline"
+    },
+    "eval-6-quantum-superposition": {
+      "A": "candidate",
+      "B": "baseline"
+    }
+  }
+}
