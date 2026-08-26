@@ -8,7 +8,7 @@
 The end-to-end conductor for Claude Code: brief files and codebase in, updated OVERVIEW.md and PRD.md plus a high-craft GSAP and Three.js marketing website out.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-D33C21">
   <img alt="Skill: launch conductor" src="https://img.shields.io/badge/skill-launch_conductor-434A55">
   <img alt="Phases: 4" src="https://img.shields.io/badge/phases-4-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

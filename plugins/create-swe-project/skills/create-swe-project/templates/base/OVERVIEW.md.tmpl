@@ -1,31 +1,58 @@
 # {{DISPLAY}} — Overview
 
-> Keep this current (CLAUDE.md rule): it is the product's source of truth for positioning and scope, and the grounding for `docs/MARKETING-FEATURES.md`, the feature briefs, and the marketing site. Claims marked *(research)* must cite a report in `docs/deep-research/`.
+> **Source of Truth:** Keeps project architecture, surfaces, module boundaries, and positioning context current (CLAUDE.md rule). Grounding document for `PRD.md`, `docs/MARKETING-FEATURES.md`, feature briefs in `docs/features-to-triage/`, and the marketing site. Claims marked *(research)* cite reports in `docs/deep-research/` or `docs/positioning/`.
 
-## What it is
+---
+
+## 1. What it is
 
 {{DESCRIPTION}}
 
-## Who it's for
+---
 
-<The specific person/team and the moment they reach for it. *(research)*>
+## 2. Who it's for
 
-## The problem
+<The specific person, team, or operational role and the exact moment they reach for it. Grounded in `docs/positioning/00-decision.md` or `docs/deep-research/` *(research)*>
 
-<What they do today and where it hurts. *(research)*>
+---
 
-## How {{DISPLAY}} answers it
+## 3. The problem
 
-<The product's approach in 3-5 plain sentences — mechanisms, not adjectives.>
+<What target users do today, what legacy alternatives they employ, and where the workflow breaks or costs them time/money. *(research)*>
 
-## Surfaces
+---
 
-<One line per surface (web / apps) and what each is for — keep in sync with docs/ARCHITECTURE.md.>
+## 4. How {{DISPLAY}} answers it
 
-## Market context *(research)*
+<The product's architectural approach in 3–5 plain sentences — concrete mechanisms, data flows, and capabilities, not marketing adjectives.>
 
-<Competitors/alternatives, what they charge, and the gap this product occupies — cited from docs/deep-research/.>
+---
 
-## Positioning in one line
+## 5. System Architecture & Surfaces
 
-<X for Y that Z — the line the marketing site leads with.>
+```mermaid
+graph TD
+    Client[Clients: Web / macOS / iOS / Mobile] --> Gateway[Caddy / Edge Gateway]
+    Gateway --> WebApp[apps/web: Next.js App Router]
+    Gateway --> ApiService[apps/api: NestJS Service]
+    ApiService --> DB[(MongoDB / Postgres)]
+    ApiService --> Cache[(Redis Cache / Queue)]
+```
+
+- **Surfaces**:
+  - `apps/web`: Next.js (latest) App Router web application.
+  - `apps/api`: NestJS backend API service on SWC.
+  - `apps/macos` / `apps/ios` / `apps/mobile`: Native client applications.
+  - `packages/design-tokens`: Shared design tokens with drift checking.
+
+---
+
+## 6. Market Context & Competitive Landscape *(research)*
+
+<Competitors and alternatives, current market pricing models, and the specific unoccupied positioning territory {{DISPLAY}} captures — cited directly from `docs/positioning/` and `docs/deep-research/`.>
+
+---
+
+## 7. Positioning in one line
+
+<The single core positioning statement from `docs/positioning/00-decision.md` — the line the marketing site and PRD lead with.>

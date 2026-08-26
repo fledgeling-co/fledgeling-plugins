@@ -1,0 +1,80 @@
+# {{DISPLAY}} — Product Requirements Document (PRD)
+
+> **Status:** Initial Technical PRD · **Version:** 0.1.0
+> **Source of Truth:** Tracks all product requirements and architecture contracts. Every feature brief in `docs/features-to-triage/*.md` traces directly into the requirements matrix below.
+
+---
+
+## 1. Product Overview & Strategic Intent
+
+- **Product Name:** {{DISPLAY}} (`{{CODENAME}}`)
+- **Mission:** {{DESCRIPTION}}
+- **Target Audience:** <Primary user persona and key operational context — cited from `docs/positioning/00-decision.md` or `docs/deep-research/`>
+- **Value Proposition:** <One-sentence core differentiator — grounded in `OVERVIEW.md`>
+
+---
+
+## 2. Target Personas & User Journeys
+
+### Persona A: <Primary Operator / Core User>
+- **Profile:** <Role, responsibilities, technical proficiency>
+- **Core Job-to-be-Done:** <The critical functional task they hire {{DISPLAY}} to accomplish>
+- **Pain Points:** <Existing friction, manual toil, or legacy tool limitations>
+
+### Persona B: <Secondary Stakeholder / Admin>
+- **Profile:** <Role, compliance/governance context, oversight responsibilities>
+- **Core Job-to-be-Done:** <Oversight, integration, reporting, or user management>
+
+---
+
+## 3. Feature Traceability & Status Matrix
+
+All feature briefs in `docs/features-to-triage/` are tracked below with their implementation lifecycle status:
+- **Built:** Shipped in the codebase with passing test coverage.
+- **In Progress:** Active worktree implementation under development.
+- **Triaged:** Brief triaged into a formal specification in `docs/plans/` or `docs/specs/`.
+- **Backlog:** Seeded feature brief in `docs/features-to-triage/*.md` awaiting triage.
+
+| Req ID | Feature Name | Target Surface(s) | Status | Originating Brief | User Story & Core Acceptance Criteria |
+|---|---|---|---|---|---|
+| REQ-001 | Base Scaffold & Infrastructure | Web / API / Monorepo | Built | `scaffold.sh` | As a developer, I can boot the monorepo, run typechecks, and verify health endpoints across all apps. |
+| REQ-002 | Initial Marketing Site & Waitlist | Web (`/` & `/waitlist`) | Built | `docs/LAUNCH.md` | As a prospective user, I can view product positioning, feel interactive mock slices, and register for early access. |
+| REQ-003 | <Seeded Feature 1> | <Web / macOS / iOS / Mobile> | Backlog | `docs/features-to-triage/<brief-1>.md` | <As a [user], I want [capability] so that [operational outcome]. Acceptance criteria: [1, 2, 3]> |
+| REQ-004 | <Seeded Feature 2> | <Web / macOS / iOS / Mobile> | Backlog | `docs/features-to-triage/<brief-2>.md` | <As a [user], I want [capability] so that [operational outcome]. Acceptance criteria: [1, 2, 3]> |
+
+---
+
+## 4. Technical Architecture & System Contracts
+
+### 4.1 Surface Architecture
+- **Web App (`apps/web`)**: Next.js App Router, React 19, Server Components, AI SDK integration.
+- **Backend API (`apps/api`)**: NestJS on SWC, validation pipes, OpenAPI documentation.
+- **Native Clients (`apps/macos`, `apps/ios`, `apps/mobile`)**: SwiftUI / React Native client applications.
+- **Data & Cache (`lib/db.ts`, `lib/redis.ts`)**: Mongoose models, Redis session caching and rate-limiting.
+
+### 4.2 Data Models & Schema Contracts
+<Key database entities, schemas, fields, and relationships>
+
+### 4.3 API & Integration Endpoints
+- `GET /api/health` — System uptime and dependency health check.
+- `<Route Contracts>` — Core operational endpoints and payload schemas.
+
+---
+
+## 5. Non-Functional Requirements (NFRs)
+
+| Dimension | Target Benchmark | Verification Mechanism |
+|---|---|---|
+| **Performance** | Web LCP ≤ 2.5s, API response p95 ≤ 150ms | Lighthouse audit, API load tests |
+| **Security** | OWASP Top 10 compliance, CSRF/CORS headers, timingSafeEqual auth | Security review, lint gates |
+| **Reliability** | Zero-downtime deploys, automated retry queues, graceful offline fallback | E2E integration tests |
+| **Accessibility** | WCAG 2.2 AA contrast (>4.5:1 text), full keyboard navigability | `design-review` gate |
+| **Observability** | Structured JSON logging, error monitoring via Sentry | Health probes, log telemetry |
+
+---
+
+## 6. Release Criteria & Dependencies
+
+1. **Gate Verification**: `pnpm typecheck` and `pnpm build` pass with exit code 0.
+2. **Feature Completeness**: All P0 requirements in `docs/features-to-triage/` are triaged and planned.
+3. **Positioning & Copy**: Grounded in `docs/positioning/00-decision.md` and verified with zero AI slop.
