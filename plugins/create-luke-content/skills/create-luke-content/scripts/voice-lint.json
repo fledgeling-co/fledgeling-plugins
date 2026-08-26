@@ -1,0 +1,90 @@
+{
+  "_comment": "Luke Rhodes voice-lint configuration. voice_lint.py reads this via --config; without it the script falls back to built-in defaults, which leaves the AU-spelling check, the stylometric fingerprint comparison, the exclamation/emoji rations and the repeat allowlist switched off. The predecessor package shipped no config and never passed --config, so those checks were dead code. Every entry below traces to a rule already stated in prose in luke-voice.md or a persona file; the config is the mechanical half of a rule the package already claimed to enforce.",
+
+  "em_dash": "forbid",
+  "spelling": "AU",
+  "exclamations": "ration",
+  "emoji": "ration",
+
+  "banned_phrases": [
+    "long story short",
+    "short version:",
+    "the short version",
+    "here's the thing",
+    "heres the thing",
+    "the honest one:",
+    "the honest version",
+    "let me be clear",
+    "to be perfectly clear",
+    "the real question is",
+    "here's what nobody",
+    "heres what nobody",
+    "let that sink in",
+    "plot twist",
+    "spoiler alert"
+  ],
+
+  "_banned_phrases_note": "Self-narrating meta-labels. luke-voice.md states the rule ('No self-narrating meta-labels ... A person being brief is simply brief; a label promising brevity or honesty is the tell') and SKILL.md claimed 'The lint bans the worst of these'. It did not: all four named examples passed clean before this file existed. These are hard failures because the rule is a hard rule.",
+
+  "advisory_phrases": [
+    "we're excited to announce",
+    "were excited to announce",
+    "we are thrilled",
+    "we're thrilled",
+    "we are pleased to announce",
+    "we're pleased to announce",
+    "introducing the new",
+    "say goodbye to",
+    "say hello to",
+    "the future of",
+    "designed to help you",
+    "built to help you",
+    "empowers you to",
+    "takes the pain out of",
+    "so you can focus on what matters"
+  ],
+
+  "_advisory_phrases_note": "Announcement boilerplate. Advisory rather than hard-fail because a couple of these have legitimate uses in a genuinely celebratory line; the warning exists so the writer has to choose them on purpose.",
+
+  "ai_vocab_extra": [
+    "revolutionise",
+    "revolutionize",
+    "transformative",
+    "frictionless",
+    "effortless",
+    "turnkey",
+    "best-of-breed",
+    "seamlessly",
+    "supercharged",
+    "reimagined",
+    "elevate",
+    "unlock"
+  ],
+
+  "fingerprint": {
+    "mean_sentence_words": 14.5,
+    "sd_sentence_words": 5.8,
+    "contraction_per_100w": 3.33,
+    "comma_per_sentence": 0.42,
+    "semicolon_per_1000w": 4.17,
+    "nominalization_per_1000w": 8.3,
+    "mean_paragraph_sentences": 2.1
+  },
+
+  "_fingerprint_note": "Computed with `voice_lint.py --extract-fingerprint references/corpus/luke-anchors.txt` over 480 words of verbatim Luke prose recovered from the sample anchors quoted across the package. The original my-voice.txt corpus was an input to the first build and was never committed, so 480 words is what survives. That is below the ~800-word workable floor and well below the ~2,000-word stability threshold in voice-replication-research.md: treat these numbers as rough, and read a fingerprint warning as a prompt to look rather than as a verdict. Recompute from a fuller corpus when one is available; the semicolon rate in particular rests on a handful of instances.",
+
+  "repeat_allowlist": [
+    "diolog",
+    "investor relations",
+    "retail investors",
+    "the digest",
+    "release notes",
+    "settings",
+    "asx",
+    "the feed",
+    "continuous disclosure",
+    "the announcement"
+  ],
+
+  "_repeat_allowlist_note": "Domain nouns that repeat naturally in Luke's subject matter. Elegant variation is itself an AI tell, so a product name recurring is correct; the repeated-phrase check exists to catch a rhetorical phrase or a landing line recurring, not a term."
+}

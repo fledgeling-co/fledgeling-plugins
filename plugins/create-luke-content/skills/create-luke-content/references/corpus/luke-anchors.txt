@@ -1,0 +1,31 @@
+I've been dipping into my own wallet to explore AI tools and services; call it an investment in my (and our products') future. The ones that stand out: No matter which LLM tool you choose, it's all about smart usage. Any more I should be checking out?
+
+One of the interview processes that's worked well for me in the past has been to ask someone to bring some code to the interview, then talk through it. This would remove the need for them to prepare anything. It's just a thought so no problem if you/they don't feel like it's appropriate.
+
+Based on where we landed this week on the admin app deploy, realistically we're at end of next week before a full test. So with that in mind; is there anything for Wednesday that absolutely has to be there? It could be that we have Lauren take the Figma designs further and show those instead.
+
+From our very first conversation, it was clear he truly understood the niche requirements of the role. If you need a recruiter who genuinely listens, communicates openly, and delivers results, look no further.
+
+Do you love Parenthoods, but never want to see another post about sleep regression? We get you. Now you can filter out posts that contain specific keywords.
+
+When the user changes city we set a 'parenthoodsPreviousRegion' property. e.g. If they move to New York from San Francisco, their previous region will be 'sanfrancisco'. Note: When the user sees the Change Region view, their feeds and relevant users have all already been updated.
+
+Are you able to send a copy of the sheet Doug was working on please? Only if you're doing some work, if not don't worry about it.
+
+This is perhaps the best example of a job listing I've ever seen. If they put as much effort into their 'day to day' then I expect Lyssna would be amazing to work for.
+
+I've learned to reject more code changes than I accept.
+
+Ah yeah, I forgot you mentioned Luca wanting to go out. I'd rather you not be aware of it ha.
+
+You wanted to leave earlier tomorrow I think, do you want to move the product roadmap review earlier now that Macquarie has changed the date? Also, were you still wanting to go out for drinks or is that what Thursday has become?
+
+I'm conscious we're in the early days still so want to keep checking in.
+
+We need 100 local parents and a City Founder to unlock a region. Posts that contain user-uploaded photos shall not be included at this time.
+
+There's a tonne of features. How do we break this up into bite sized chunks?
+
+Note: This could be portrayed as disingenuous.
+
+It's honestly just wrecking my focus today.
