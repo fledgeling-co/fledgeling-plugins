@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eli5 icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .rubric table { min-width: 0; width: auto; margin: 10px 0 18px; }
+  .rubric td, .rubric th { padding: 4px 18px 4px 0; border: 0; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>eli5 icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The cut face" — Tahoe gel-glass, porcelain register, subject-mined cutaway · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A1 · icon.svg<small>hand-authored layered SVG (build_icon.py) — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="A1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">A stepped quarter-section through a soft graphite drum: horizontal shelf carrying concentric layers, fine gear ticks and a hot core, two vertical section walls carrying the same layers as strata. Checks 1–4 clear on the renders — the notch still names the object at 16px, and the silhouette is a drum with a wedge taken out of it. Measured on the 1024 render: shell 8.86:1 against the tile, cut face 3.60:1, accent bounded to 9.5% of the tile. Four real layer groups (bg / mid / fg / highlight), so identity is shape and value rather than hue. Loses one point on #8: the fillet stroke around the lid can read as a lid seam, which briefly says "container" instead of "solid". Material was rebuilt against take C over two rounds — beveled lid fillet, emissive core with its own flare, denser concentric mechanism, wall lift-and-fall lighting, warm ground bounce along the foot.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A2 · icon-engineA2-sphere.svg<small>hand-authored layered SVG, second solid</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/sphere-1024.png" width="160" height="160" alt="A2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/sphere-256.png" width="128" height="128" alt="A2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/sphere-128.png" width="64" height="64" alt="A2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/sphere-96.png" width="48" height="48" alt="A2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/sphere-64.png" width="32" height="32" alt="A2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/sphere-32.png" width="16" height="16" alt="A2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/sphere-32.png" width="96" height="96" alt="A2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Lost on check #3, which is non-negotiable. The same quarter-wedge cut through a ball gives two flat half-disc faces with concentric shells — handsome at 1024 — but the outer silhouette stays a plain circle, so filled solid black it names nothing, and the two ember faces fuse into one leaf that reads as a seed or a pistachio rather than as two section planes. It also spends 15% of the tile on the accent for a weaker read. Its concentric-shell construction is what suggested the denser ring set now on A1's shelf.</td>
+  </tr>
+
+  <tr>
+    <td class="take">B · icon-engineB-arrow.svg<small>Arrow 1.1 vector take (media-gen-pro, svg: true)</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/arrow-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/arrow-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/arrow-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/arrow-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/arrow-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/arrow-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/arrow-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Lost on check #4. It read the brief as a hollow tank with two internal shelves rather than a solid opened up, so the interior is dark and the ember shrinks to a thin column at 1.5% of the tile — at 32px the column and the two ship's-wheel glyphs have already smeared into noise. Those wheels are exactly the category clip-art the direction forbids, and the light model changes between the lid and the interior. It also fails the structure gate outright — 0 named layer groups, so no layer plan and nothing to salvage as a plane. What it did contribute: seeing its interior read as a container is why A1 keeps a solid, layered mass rather than an empty shell.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C · icon-engineC-raster.png<small>GPT Image 2 raster, corpus-referenced — material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/raster-1024.png" width="160" height="160" alt="C hero at 1024px source, squircle-masked"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/raster-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/raster-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/raster-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/raster-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/raster-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/raster-32.png" width="96" height="96" alt="C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">Won the material read and cannot ship. Four corpus captures in the porcelain register (Safari, Reminders, Photos, News) bought a genuinely soft-touch matte shell, a generous rounded lid fillet, and an emissive core that lights the walls around it — all three are now in the master. It fails #1 and #10 as delivery: a flat pre-masked raster with opaque corners (audited here on its squircle-masked version) and no layers at all, so nothing survives Dark, Clear or Tinted. It also fails #2 — the drum runs to roughly 80% of the tile against the family's 55–65% band — and its ground is a flat cool white with no cushion, no rim and no vignette, which is the wrong register for this shelf. The section itself drifts hexagonal rather than a clean quarter.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A1 (icon.svg).</strong> It is the only take that is both layered and current: four real groups over a swappable ground, no <code>&lt;image&gt;</code> embed, 94 paths and 28 KB inside the 400 / 200,000 envelope, and it passes <code>fidelity.py structure</code>. Checks 1–4 were read off the actual renders rather than the 1024 — the wedge is still the thing you see at 16px — and its material is take C's, ported by hand over two rounds rather than eyeballed. It matches the fledgeling set: porcelain ground, one ember accent from the #C4622D family, the shared squircle from <code>assets/squircle-path.txt</code>. Known liabilities to revisit: the lid fillet can read as a seam, so the drum occasionally says "container" before it says "solid"; the two section walls fuse into one ember mass below 32px, leaving the notch shape to carry identity alone; the accent is 9.5% of the tile, which is generous for a family that usually spends less, and under a heavy mono tint the shelf's concentric layers flatten to a single value; and the drum is a squat cylinder, which sits close to <code>dossier-report</code>'s disc stack in a lineup at 16px, though the notch separates them by 32px.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar &ge;10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 scripts/audit_sheet.py render &lt;dir&gt;</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.
+
+<table>
+<tr><th scope="col">measured on the 1024 render</th><th scope="col">A1</th><th scope="col">A2</th><th scope="col">B</th><th scope="col">C</th></tr>
+<tr><td>shell against the tile (WCAG contrast)</td><td>8.86:1</td><td>12.81:1</td><td>13.40:1</td><td>8.00:1</td></tr>
+<tr><td>cut face against the tile</td><td>3.60:1</td><td>3.65:1</td><td>3.53:1</td><td>5.77:1</td></tr>
+<tr><td>accent share of the tile</td><td>9.5%</td><td>15.0%</td><td>1.5%</td><td>19.7%</td></tr>
+<tr><td>structure gate (paths / named layers)</td><td>pass 94 / 4</td><td>pass 26 / 4</td><td>fail 39 / 0</td><td>n/a raster</td></tr>
+</table>
+
+One honest gap: the fidelity loop's scorer is blind to material on this machine — LPIPS engages only at 256 and 1024 and torch is not installed — so the two material rounds against take C were judged by eye and by these contrast measurements, not measured. The material claim in the A1 verdict rests on looking, which is weaker evidence than a number, and the gate would have refused to grade it.</div>
+</body>
+</html>

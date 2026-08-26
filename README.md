@@ -87,6 +87,14 @@ Designs a screen the way a designer would rather than the way a code generator d
 
 <br clear="left" />
 
+<a href="plugins/eli5/README.md"><img src="plugins/eli5/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [eli5](plugins/eli5/README.md)
+
+Explains a hard idea as an interactive page you can poke at, and makes you commit a guess before it shows you the answer. Every analogy it builds comes with the line where that analogy stops being true, because the ones without it are how a confident wrong idea gets installed.
+
+<br clear="left" />
+
 <a href="plugins/generate-investor-portal/README.md"><img src="plugins/generate-investor-portal/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [generate-investor-portal](plugins/generate-investor-portal/README.md)
