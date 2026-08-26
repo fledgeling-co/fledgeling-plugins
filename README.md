@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="43 skills" src="https://img.shields.io/badge/skills-43-C4622D">
+  <img alt="49 skills" src="https://img.shields.io/badge/skills-49-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -92,6 +92,14 @@ Designs a screen the way a designer would rather than the way a code generator d
 ### [generate-investor-portal](plugins/generate-investor-portal/README.md)
 
 Builds a shareholder portal out of a company's own documents. Its main job is refusing to invent anything: a figure with no traceable source is blocked outright, and a number that genuinely is not available is labelled as missing rather than guessed.
+
+<br clear="left" />
+
+<a href="plugins/launch-craft/README.md"><img src="plugins/launch-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [launch-craft](plugins/launch-craft/README.md) · **Uses multiple models**
+
+Turns raw project briefs and codebase reality into trace-verified PRDs and bespoke, high-craft interactive launch sites. Uses Gemini via agy to update OVERVIEW.md and PRD.md, then crafts a GSAP and Three.js marketing site with live interactive feature slices, authentic Luke Rhodes copy, dual pricing, and 5-platform coverage.
 
 <br clear="left" />
 

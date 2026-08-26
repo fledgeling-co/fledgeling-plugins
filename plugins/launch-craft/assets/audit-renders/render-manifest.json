@@ -1,0 +1,16 @@
+{
+  "takes": {
+    "A": {
+      "source": "icon.svg",
+      "kind": "svg"
+    },
+    "B": {
+      "source": "icon-engineB.svg",
+      "kind": "svg"
+    },
+    "C": {
+      "source": "icon.svg",
+      "kind": "svg"
+    }
+  }
+}

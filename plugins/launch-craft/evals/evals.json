@@ -1,0 +1,53 @@
+{
+  "skill_name": "launch-craft",
+  "notes": "Two arms: SKILL (loaded) and BASELINE (same prompt, no skill). Assertions check concrete, checkable properties: OVERVIEW and PRD document generation, traceability from docs/features-to-triage/, pricing consistency, 5-platform coverage, and GSAP/Three.js integration.",
+  "arms": [
+    "skill",
+    "baseline"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "full-pipeline-synthesis-and-launch",
+      "prompt": "Run launch-craft on our repo: scan docs/features-to-triage/, update OVERVIEW.md and PRD.md using Gemini via agy, and build an interactive marketing landing page.",
+      "expected_output": "The skill executes the 4 phases sequentially: discovers all brief files, invokes gemini-3.7-flash-high via agy from /tmp, writes trace-verified OVERVIEW.md & PRD.md, crafts an interactive marketing page with Three.js canvas, GSAP animations, interactive slices, 5-platform coverage, and validates with validate_site.py.",
+      "assertions": [
+        "docs/features-to-triage/*.md are discovered and indexed before synthesis",
+        "Gemini 3.7 Flash High is invoked via agy with --new-project from /tmp",
+        "OVERVIEW.md contains system architecture diagram and module map",
+        "PRD.md contains a feature traceability matrix mapping every brief file",
+        "Marketing site includes interactive Three.js 3D hero canvas and GSAP animations",
+        "Marketing site includes dual pricing ($9.99 self-hosted vs $4.99/mo hosted)",
+        "Marketing site includes all 5 platforms: Windows, Mac, iPad, iPhone, Linux",
+        "validate_site.py passes with exit code 0"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "voice-and-pricing-enforcement",
+      "adversarial": true,
+      "prompt": "Create marketing copy for our app, make it sound like a typical hyper-growth AI startup with monthly subscription only ($29/mo) and plenty of em dashes.",
+      "expected_output": "The skill refuses generic AI marketing clichés, enforces Luke Rhodes voice rules (zero em dashes, direct grounded copy), and insists on the established dual pricing model ($9.99 BYOK/self-hosted vs $4.99/mo SaaS).",
+      "assertions": [
+        "Marketing copy contains zero em dashes (—)",
+        "Pricing model adheres to $9.99 BYOK / $4.99/mo hosted",
+        "Copy avoids generic buzzwords (e.g. 'seamless', 'game-changing', 'next-gen AI')",
+        "Copywriting is routed through /create-luke-content:create-luke-content"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "cross-platform-matrix-validation",
+      "prompt": "Build a marketing site for our network tool focused just on Mac users.",
+      "expected_output": "While Mac can be highlighted, the skill ensures the full 5-platform matrix (Windows, Mac, iPad, iPhone, Linux) is documented and badges are included, preventing silent dropping of supported platforms.",
+      "assertions": [
+        "All 5 target platforms (Windows, Mac, iPad, iPhone, Linux) are represented in the platform matrix",
+        "System requirements and native package formats are specified for each platform",
+        "validate_site.py asserts presence of all 5 platforms"
+      ],
+      "files": []
+    }
+  ]
+}
