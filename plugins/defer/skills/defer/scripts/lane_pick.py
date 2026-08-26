@@ -52,7 +52,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from lane_registry import (  # noqa: E402
     CAPABILITY, DROP_IN, EQUIVALENCE_POINTS, FORBIDDEN, LANES, SHAPES, TASKS,
-    equivalent_set, gate_lanes, shape_grade,
+    DELIVERY_PENALTY, delivery_adjusted, equivalent_set, gate_lanes, preference_rank,
+    shape_grade,
 )
 
 RELAY = os.path.expanduser("~/Library/Application Support/Relay")
@@ -73,13 +74,16 @@ DEFAULT_BUDGETS = {
     "glm":    {"window_days": 7, "budget": 8000.0, "unit": "prompts"},
     "gemini": {"window_days": 7, "budget": 30000.0, "unit": "calls"},
 }
-TIER1 = {"opus", "fable", "codex-sol", "codex-sol-high",
-         "codex-terra", "codex-terra-max", "codex-terra-medium"}
+# Lanes whose usage figure is a real vendor-computed percentage rather than a
+# locally counted estimate. Derived, for the reason CODEX_LANES is.
+TIER1 = {l for l, v in LANES.items() if v.get("meter") in ("codex", "anthropic")}
 #: Every lane metered off the one Codex account. They share a rate limit, so they
 #: share a reading — adding an effort variant must never look like new headroom.
-CODEX_LANES = {"codex-sol", "codex-sol-high", "codex-terra", "codex-terra-max",
-               "codex-terra-medium"}
-CLAUDE_LANES = {"opus", "fable"}
+# Derived rather than listed: a literal here silently omitted `codex-luna-max`
+# on the day it was added, and the omission surfaced as a KeyError in the
+# meter rather than as a routing bug, which is the lucky version.
+CODEX_LANES = {l for l, v in LANES.items() if v.get("meter") == "codex"}
+CLAUDE_LANES = {l for l, v in LANES.items() if v.get("meter") == "anthropic"}
 
 
 def load_budgets():
@@ -399,6 +403,13 @@ def task_cost(lane):
     tie-break uses that and falls back to list price only for a lane with no
     measured row.
     """
+    ext = LANES.get(lane, {}).get("usd_per_task_external")
+    if ext is not None:
+        # No local bench row, but a published per-task figure exists. Using the
+        # blended per-Mtok price here instead would compare a rate against a cost
+        # and rank the cheapest lane on the board as one of the dearest.
+        return ext
+
     key = (LANES[lane] or {}).get("bench_key")
     if key and CAPABILITY:
         usd = CAPABILITY["lanes"].get(key, {}).get("usd_per_task")
@@ -481,7 +492,9 @@ def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
         return usable[0], rows, (
             "every eligible lane is at its cap — first allowed lane, expect a limit"), verdict
     band = [l for l in usable if rows[l]["allowance"] >= best * (1 - tolerance)]
-    top = min(band, key=task_cost)
+    # Cheapest wins, and the owner's preference order breaks a cost tie. Both
+    # only ever run inside a band already agreed to be equivalent on output.
+    top = min(band, key=lambda l: (round(task_cost(l), 2), preference_rank(l)))
     others = ", ".join(f"{l} {rows[l]['allowance']:.4f}"
                        for l in sorted(usable, key=lambda l: -rows[l]["allowance"]) if l != top)
     if len(band) > 1:

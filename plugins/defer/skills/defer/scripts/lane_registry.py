@@ -33,6 +33,10 @@ PRICES = {
                                                "threshold_tokens": 200_000}},
     "gpt-5.6-terra":         {"in": 2.00, "cached": None,  "out": 12.00, "blended": 14.00},
     "gpt-5.6-sol":           {"in": None, "cached": None,  "out": None,  "blended": 35.00},
+    # PLACEHOLDER. gpt-5.6-luna has no published rate here and the lane could not be
+    # probed (codex is 401 on an expired refresh token), so this is terra's blended
+    # figure standing in. It is never consulted while the lane is `unverified`.
+    "gpt-5.6-luna":          {"in": None, "cached": None,  "out": None,  "blended": 14.00},
     "claude-opus-5":         {"in": 5.00, "cached": None,  "out": 25.00, "blended": 30.00},
     "claude-fable-5":        {"in": 10.00, "cached": None, "out": 50.00, "blended": 60.00},
 }
@@ -195,6 +199,47 @@ LANES = {
         "bench_key": "codex/gpt-5.6-terra@medium",
         "evidence": "exact",
     },
+    # ADDED 2026-08-26. The value lane for implementation work, and the one to
+    # reach for where gemini used to be the pick.
+    #
+    # This entry overturns half of its own DECLINED record, so both halves are
+    # kept. The local bench had luna@max losing 9 of 11 shapes to terra@max AND
+    # costing more; DeepSWE 1.1 (113 tasks, independent) puts it at 67% +/- 4%
+    # for $0.61 a task -- statistically identical to grok-4.6@xhigh
+    # (67% +/- 2%, $5.50) at 11% of the price, and ahead of gemini-3.7-flash
+    # (65% +/- 2%, $2.18) at under a third. The CAPABILITY claim survives:
+    # sol@max is 73% +/- 3% and genuinely ahead. The COST claim was inverted,
+    # and cost is the whole argument for a lane that trades a few points for an
+    # order of magnitude.
+    #
+    # `bench_key: None` is deliberate. The local matrix has no honest row for
+    # this lane, and pointing at one measured under different conditions is how
+    # a lane acquires a grade it never earned. It routes on policy; the shape
+    # gate abstains rather than inventing a verdict.
+    #
+    # Every codex lane is unusable while `codex` returns 401 "Your access token
+    # could not be refreshed" -- which is also why 19 of 20 codex calls failed
+    # in the window this policy comes from. That is an outage, not a property of
+    # this lane. Re-probe after `codex login`; a non-empty output file is the
+    # pass, and an absent or empty one is a lane failure however clean the
+    # header looks.
+    "codex-luna-max": {
+        "model": "gpt-5.6-luna",
+        "blended_usd_per_mtok": PRICES["gpt-5.6-luna"]["blended"],
+        "family": "openai",
+        "effort": "max",
+        "cmd": ["codex", "exec", "-m", "gpt-5.6-luna",
+                "-c", 'model_reasoning_effort="max"', "-s", "read-only",
+                "-o", "{OUTFILE}", "{PROMPT}"],
+        "fallback_cmd": None,
+        "env": {},
+        "verify": "codex-header",
+        "meter": "codex",
+        "bench_key": None,
+        "evidence": "none",
+        "external_bench": "deepswe-1.1",
+        "usd_per_task_external": 0.61,
+    },
     "fable": {
         "model": "claude-fable-5",
         "blended_usd_per_mtok": PRICES["claude-fable-5"]["blended"],
@@ -236,24 +281,32 @@ LANES = {
 TASKS = {
     "implementation": {
         "label": "Writing code",
-        "allow": ["codex-sol-high", "codex-terra-max", "codex-terra-medium",
-                  "gemini", "grok", "glm", "opus"],
+        "allow": ["glm", "grok", "codex-sol", "codex-luna-max", "codex-sol-high",
+                  "codex-terra-max", "codex-terra-medium", "gemini", "opus"],
         "balance": True,
         "shape_gated": True,
-        "why": "Seven lanes across four families can write code. Shape decides which are good "
+        "why": "Nine lanes across four families can write code. Shape decides which are good "
                "enough for this piece; headroom picks between the survivors; Claude is the "
-               "fail-back so a down lane never drops work.",
+               "fail-back so a down lane never drops work. The order is the owner's tie-break "
+               "of 2026-08-26 — glm, then grok, then sol at medium, ahead of gemini — and it "
+               "only bites where two lanes tie on the measured number. gemini additionally "
+               "carries a 12-point DELIVERY_PENALTY, which is a separate fact from its bench "
+               "score and is lifted separately. codex-luna-max is the lane to prefer where "
+               "gemini used to win, and it is `unverified` until somebody watches it answer.",
     },
     "completeness": {
         "label": "Completeness critic",
-        "allow": ["grok", "glm", "gemini"],
+        "allow": ["glm", "grok", "gemini"],
         "balance": True,
         "shape_gated": False,
-        "why": "Out of Claude's family by construction, and cheap enough to run on every item.",
+        "why": "Out of Claude's family by construction, and cheap enough to run on every item. "
+               "glm and grok lead gemini here by the same 2026-08-26 evidence: a critic that "
+               "fabricates a completion report is worse than no critic, and gemini produced "
+               "one in the window this policy comes from.",
     },
     "general": {
         "label": "Non-referral, non-judgment work",
-        "allow": ["codex-terra", "codex-terra-medium", "gemini", "grok", "glm"],
+        "allow": ["codex-terra", "codex-terra-medium", "glm", "grok", "gemini"],
         "balance": False,
         "shape_gated": True,
         "why": "gpt-5.6-terra at high is the default worker for anything that is neither a "
@@ -406,6 +459,54 @@ REFERENCE_LANE = "opus"
 EQUIVALENCE_POINTS = 0.05
 
 
+# --- first-party delivery evidence -----------------------------------------
+# The bench measures a model BUILDING something under a graded rubric. It does
+# not measure whether the artefact arrived, whether the run reported honestly,
+# or what it cost to get there. Those are separate facts and they are recorded
+# separately, so a reader can see which stage moved a lane and can lift a
+# penalty without touching a bench score somebody else produced.
+#
+# A penalty is subtracted from the lane's bench mean before the equivalence
+# filter runs, so a lane that measured level with the best on a shape can still
+# fall out of the band on delivery. Every entry names its measurement.
+
+DELIVERY_PENALTY = {
+    "gemini": {
+        "points": 12,
+        "measured": "2026-08-26, ~/Dev/dAIolog/docs/retro-2026-08-26/",
+        "why": "Running as an autonomous builder it failed 8 of 12 dispatches, and one of "
+               "the completions was fabricated: a 4,406-byte report claiming four schedulers "
+               "created, against a ground truth of nothing created. Separately it is 95% of "
+               "the window's cash for 20% of the output. The bench cannot see any of that, "
+               "because a fabricated report grades as a delivered artefact.",
+        "lift_it_when": "a dispatch set of 12 or more completes with no fabricated report and "
+                        "a failure rate under 20%, measured the same way",
+    },
+}
+
+# Where two lanes survive every earlier stage, this order breaks the tie before
+# cost does. Owner directive of 2026-08-26, and it agrees with the delivery
+# evidence above rather than contradicting it.
+PREFERENCE_ORDER = ["glm", "grok", "codex-sol", "codex-luna-max", "codex-sol-high",
+                    "codex-terra", "codex-terra-max", "codex-terra-medium", "gemini"]
+
+
+def delivery_adjusted(lane, mean):
+    """A lane's bench mean after first-party delivery evidence.
+
+    Returns the mean unchanged when nothing has been measured against the lane.
+    """
+    if mean is None:
+        return None
+    pen = DELIVERY_PENALTY.get(lane)
+    return mean - pen["points"] if pen else mean
+
+
+def preference_rank(lane):
+    """Position in the owner's tie-break order; unlisted lanes sort last."""
+    return PREFERENCE_ORDER.index(lane) if lane in PREFERENCE_ORDER else len(PREFERENCE_ORDER)
+
+
 def equivalent_set(lanes, grades, margin=EQUIVALENCE_POINTS):
     """The lanes whose measured output is equivalent to the best on offer.
 
@@ -414,13 +515,18 @@ def equivalent_set(lanes, grades, margin=EQUIVALENCE_POINTS):
     joins only when nothing in `lanes` was measured at all — unmeasured is not
     endorsed, but it is also not a reason to route nowhere.
     """
-    scored = {l: grades[l]["mean"] for l in lanes
+    scored = {l: delivery_adjusted(l, grades[l]["mean"]) for l in lanes
               if grades.get(l) and grades[l].get("mean") is not None}
+    scored = {l: m for l, m in scored.items() if m is not None}
     if not scored:
-        return list(lanes)
+        return sorted(lanes, key=preference_rank)
     best = max(scored.values())
     keep = [l for l, m in scored.items() if m >= best - margin]
-    return sorted(keep, key=lambda l: -scored[l])
+    # Measured order first, then the owner's preference where two lanes tie on
+    # the number. Sorting on preference alone would let policy overrule a lane
+    # that is genuinely better at this shape, which is the trade this file
+    # refuses everywhere else.
+    return sorted(keep, key=lambda l: (-scored[l], preference_rank(l)))
 
 
 def shape_grade(lane, shape):
@@ -480,7 +586,7 @@ def gate_lanes(task, shape):
     counted REF as a pass would route everything back to the lane this gate
     exists to relieve.
     """
-    allow = list(TASKS[task]["allow"])
+    allow = [l for l in TASKS[task]["allow"] if not LANES.get(l, {}).get("unverified")]
     if not TASKS[task].get("shape_gated") or shape not in SHAPES:
         return {"dropin": allow, "guarded": [], "refused": [], "failback": [], "grades": {}}
     dropin, guarded, refused, failback, grades = [], [], [], [], {}
@@ -511,13 +617,71 @@ FORBIDDEN = {
     ("fable", "verification"): "fable does not verify code or tickets; route to opus.",
 }
 
+# --- external benchmark evidence -------------------------------------------
+# Published figures from a bench this repo did not run. Kept apart from
+# capability_matrix.json so nobody mistakes one for the other: the local matrix
+# grades 11 shapes on a small corpus, this grades 113 tasks on someone else's.
+# Where they disagree, both are recorded and the disagreement is the finding.
+
+EXTERNAL_BENCH = {
+    "deepswe-1.1": {
+        "source": "https://deepswe.datacurve.ai/",
+        "tasks": 113,
+        "columns": "Model | Pass@1 | Avg cost (per task, USD) | Out tok | Steps",
+        # Every row on the board, not only the lanes routed here — a lane we do
+        # not run is the cheapest way to notice that the ordering moved.
+        "rows": {
+            "claude-opus-5@max":     {"pass_at_1": 0.74, "err": 0.04, "usd_per_task": 11.84},
+            "gpt-5.6-sol@max":       {"pass_at_1": 0.73, "err": 0.03, "usd_per_task": 6.46},
+            "claude-fable-5@max":    {"pass_at_1": 0.70, "err": 0.04, "usd_per_task": 21.63},
+            "glm-5.3@max":           {"pass_at_1": 0.69, "err": 0.03, "usd_per_task": 3.99},
+            "kimi-k3@max":           {"pass_at_1": 0.69, "err": 0.05, "usd_per_task": 4.65},
+            "gpt-5.6-luna@max":      {"pass_at_1": 0.67, "err": 0.04, "usd_per_task": 0.61},
+            "grok-4.6@xhigh":        {"pass_at_1": 0.67, "err": 0.02, "usd_per_task": 5.50},
+            "gpt-5.5@xhigh":         {"pass_at_1": 0.67, "err": 0.06, "usd_per_task": 7.23},
+            "gemini-3.7-flash@high": {"pass_at_1": 0.65, "err": 0.02, "usd_per_task": 2.18},
+            "deepseek-v4-pro@max":   {"pass_at_1": 0.63, "err": 0.06, "usd_per_task": 1.67},
+            "claude-opus-4.8@max":   {"pass_at_1": 0.59, "err": 0.02, "usd_per_task": 13.22},
+            "qwen3.8-max@xhigh":     {"pass_at_1": 0.57, "err": 0.03, "usd_per_task": 3.73},
+            "muse-spark-1.2@xhigh":  {"pass_at_1": 0.55, "err": 0.02, "usd_per_task": 3.70},
+            "claude-sonnet-5@max":   {"pass_at_1": 0.54, "err": 0.04, "usd_per_task": 26.40},
+            "deepseek-v4-flash@max": {"pass_at_1": 0.53, "err": 0.04, "usd_per_task": 0.46},
+            "gemini-3.6-flash@high": {"pass_at_1": 0.47, "err": 0.04, "usd_per_task": 2.21},
+            "glm-5.2@max":           {"pass_at_1": 0.44, "err": 0.02, "usd_per_task": 3.92},
+            "gemini-3.5-flash@high": {"pass_at_1": 0.36, "err": 0.04, "usd_per_task": 3.45},
+        },
+        "not_on_the_board": ["gpt-5.6-terra"],
+        "shown": "18 of 25 models, under the board's own \"Best\" effort-level filter",
+        "reading": "luna@max and grok@xhigh are the same score to within their error bars, "
+                   "and luna costs 11% of grok. luna is 6 points behind sol@max at a tenth "
+                   "of the price, and 2 ahead of gemini-3.7-flash at 28% of it. Score per "
+                   "dollar: luna 110, deepseek-v4-flash 115, gemini-3.7-flash 30, glm 17, "
+                   "grok 12, sol 11, opus 6, fable 3 -- so luna is the only lane within 7 "
+                   "points of the top that is not an order of magnitude dearer. "
+                   "gpt-5.6-terra has no row at all, so the local bench's terra-versus-luna "
+                   "comparison cannot be checked against this one.",
+        "caveat": "Someone else's corpus and someone else's harness. Absolute costs differ "
+                  "from the local matrix by an order of magnitude (sol@max is $6.46 here "
+                  "against $0.47 there), so only the RELATIVE ordering transfers.",
+    },
+}
+
 # Models that were measured and deliberately have no lane, so that adding one
 # back is a decision somebody makes again rather than an oversight.
 DECLINED = {
-    "gpt-5.6-luna": "Dominated. luna@max lost 9 of 11 shapes to terra@max and 10 of 11 to "
-                    "sol@max while costing more than either ($0.72 a task against $0.67 and "
-                    "$0.47); luna@high lost 10 of 11 to sol@high at $0.33 against $0.25. It "
-                    "was not the right answer on any shape, so it is not a lane.",
+    # REVERSED 2026-08-26. luna@max now HAS a lane (`codex-luna-max`). The entry
+    # stays because half of it was right and the half that was wrong is worth
+    # keeping visible: this local bench had luna costing MORE than terra and sol,
+    # and DeepSWE 1.1 measures it at $0.61 a task against sol@max's $6.46 — a
+    # tenth, not more. The capability half stands on both benches; the cost half
+    # was the whole argument, and it was inverted. See EXTERNAL_BENCH above.
+    "gpt-5.6-luna": "SUPERSEDED — see EXTERNAL_BENCH['deepswe-1.1'] and the codex-luna-max "
+                    "lane. Local finding, kept for the record: luna@max lost 9 of 11 shapes "
+                    "to terra@max and 10 of 11 to sol@max while costing more than either "
+                    "($0.72 a task against $0.67 and $0.47); luna@high lost 10 of 11 to "
+                    "sol@high at $0.33 against $0.25. The relative COST ordering here does "
+                    "not survive contact with a 113-task independent board and should not be "
+                    "quoted onward without it.",
     "claude-sonnet-5": "Measured (52.9 headline, $1.61 a task) and genuinely strong on "
                        "greenfield modules and static pages, but it is an Anthropic lane, so "
                        "it relieves cost without relieving the dependency this routing exists "

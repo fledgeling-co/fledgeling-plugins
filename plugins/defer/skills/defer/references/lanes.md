@@ -14,9 +14,9 @@ measured rather than asserted — is `capability.md`.
 
 | Task class | Lane | Model | Effort | Chosen by |
 |---|---|---|---|---|
-| **Implementation** — writing code | codex-sol-high · codex-terra-max · codex-terra-medium · gemini · grok · glm · opus | `gpt-5.6-sol` · `gpt-5.6-terra` · `gpt-5.6-terra` · `gemini-3.7-flash-high` · `grok-4.6` · `glm-5.3` · `claude-opus-5` | high · **max** · medium · high · **xhigh** · high · xhigh | shape, then measured headroom |
-| **Completeness critic** | grok · glm · gemini | `grok-4.6` · `glm-5.3` · `gemini-3.7-flash-high` | **xhigh** · high · high | measured headroom |
-| **General** — anything neither referred nor a verdict | codex-terra · codex-terra-medium | `gpt-5.6-terra` | **high** · medium | shape, then fixed |
+| **Implementation** — writing code | glm · grok · codex-sol · **codex-luna-max** · codex-sol-high · codex-terra-max · codex-terra-medium · gemini · opus | `glm-5.3` · `grok-4.6` · `gpt-5.6-sol` · **`gpt-5.6-luna`** · `gpt-5.6-sol` · `gpt-5.6-terra` · `gpt-5.6-terra` · `gemini-3.7-flash-high` · `claude-opus-5` | high · **xhigh** · medium · **max** · high · **max** · medium · high · xhigh | shape, then measured headroom, then the preference order |
+| **Completeness critic** | glm · grok · gemini | `glm-5.3` · `grok-4.6` · `gemini-3.7-flash-high` | high · **xhigh** · high | measured headroom |
+| **General** — anything neither referred nor a verdict | codex-terra · codex-terra-medium · glm · grok · gemini | `gpt-5.6-terra` · `gpt-5.6-terra` · `glm-5.3` · `grok-4.6` · `gemini-3.7-flash-high` | **high** · medium · high · xhigh · high | shape, then fixed |
 | **Referral** — a decision put to another model | codex-sol · fable | `gpt-5.6-sol` · `claude-fable-5` | **medium** · **high** | fixed |
 | **Verification** — task and same-family | opus | `claude-opus-5` | **xhigh** | fixed |
 | **Design review** | opus · fable | `claude-opus-5` · `claude-fable-5` | xhigh · high | fixed |
@@ -37,6 +37,66 @@ Three rules sit above the table and hold everywhere:
 
 The five codex lanes share one account, so they share one meter. Adding an effort
 variant buys a cheaper lane, never more headroom.
+
+## Two benches, and which one answers which question
+
+Routing reads two evidence sources and they are kept apart on purpose.
+
+**`diolog-swe-bench`** (`~/Dev/diolog-swe-bench`) produces
+`scripts/capability_matrix.json`: eleven work *shapes*, graded head-to-head against
+a reference lane. It is the only source that can say *this lane is good at
+brownfield integration and bad at static pages*, and it is what the shape gate
+reads. Its corpus is small and its absolute costs are not comparable to anything
+outside it.
+
+**DeepSWE 1.1** (<https://deepswe.datacurve.ai/>, 113 tasks) is the most relevant
+external board and lives in `EXTERNAL_BENCH["deepswe-1.1"]`. It cannot speak to
+shape — it is one Pass@1 per model — but it carries a *measured cost per task*
+across eighteen models, which is the number the local bench is worst at.
+
+| Model | Pass@1 | $/task | Pass per $ |
+|---|---:|---:|---:|
+| `claude-opus-5` @max | 74% ±4 | 11.84 | 6 |
+| `gpt-5.6-sol` @max | 73% ±3 | 6.46 | 11 |
+| `claude-fable-5` @max | 70% ±4 | 21.63 | 3 |
+| `glm-5.3` @max | 69% ±3 | 3.99 | 17 |
+| **`gpt-5.6-luna` @max** | **67% ±4** | **0.61** | **110** |
+| `grok-4.6` @xhigh | 67% ±2 | 5.50 | 12 |
+| `gemini-3.7-flash` @high | 65% ±2 | 2.18 | 30 |
+| `deepseek-v4-flash` @max | 53% ±4 | 0.46 | 115 |
+
+**The transfer rule: only the relative ordering crosses between them.** `sol@max`
+costs $6.46 a task on DeepSWE and $0.47 on the local corpus — an order of
+magnitude apart, because the corpora are not the same size. A figure quoted from
+one bench and compared against the other is the mistake this section exists to
+prevent.
+
+Where they disagree, both are recorded and the disagreement is the finding.
+`gpt-5.6-luna` is the worked example: the local bench declined it as *dominated
+and dearer*, DeepSWE measures it at a tenth of `sol@max`'s cost for six points
+less, and `DECLINED["gpt-5.6-luna"]` now carries both with the cost half marked
+superseded. **`gpt-5.6-terra` has no row on DeepSWE at all**, so the local
+terra-versus-luna comparison cannot be checked there and is not treated as
+settled.
+
+## Two facts a bench cannot see
+
+The shape gate grades a model *building* something. Two things it structurally
+cannot measure are recorded separately, so neither is mistaken for a capability
+score and either can be lifted without touching a number somebody else produced.
+
+**`DELIVERY_PENALTY`** — whether the artefact arrived at all. `gemini` carries
+12 points, measured 2026-08-26: running as an autonomous builder it failed 8 of
+12 dispatches and one completion report was fabricated — 4,406 bytes claiming
+four schedulers created, against a ground truth of nothing created. A bench
+cannot catch that, because a fabricated report grades as a delivered artefact.
+Lift it when a dispatch set of 12 or more completes with no fabricated report
+and a failure rate under 20%.
+
+**`PREFERENCE_ORDER`** — the owner's tie-break, `glm` → `grok` → `codex-sol` →
+`codex-luna-max` → … → `gemini`. It runs *last*, only between lanes already
+agreed equivalent on the measured number, so policy never overrules a lane that
+is genuinely better at the shape in front of it.
 
 ## Running a lane
 

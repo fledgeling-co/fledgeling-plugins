@@ -45,7 +45,7 @@ The classes, and what each one is for:
 | `--task` | For | Lanes | Effort |
 |---|---|---|---|
 | `implementation` | writing code | shape decides, then headroom | pinned per lane |
-| `completeness` | the critic that finds what was promised and not delivered | grok · glm · gemini | **xhigh** · high · high |
+| `completeness` | the critic that finds what was promised and not delivered | glm · grok · gemini | high · **xhigh** · high |
 | `general` | anything that is neither a referred decision nor a verdict | `gpt-5.6-terra` | **high** |
 | `referral` | a decision or fork put to another model | `gpt-5.6-sol` · `claude-fable-5` | **medium** · **high** |
 | `verification` | grading delivered work; same-family validation | `claude-opus-5` | **xhigh** |
@@ -58,6 +58,17 @@ ready to spawn. `--report` prints every lane's meter without choosing, and
 Three rules hold above the table, and they are the ones most likely to be
 violated by habit:
 
+- **`gpt-5.6-luna` at `max` is the value lane for implementation.** On DeepSWE 1.1
+  (113 tasks) it scores 67% ±4 for **$0.61 a task** — the same score as
+  `grok-4.6` at `xhigh` to within both error bars, at 11% of its cost, and two
+  points ahead of `gemini-3.7-flash` at under a third. Prefer it wherever gemini
+  used to be the implementation pick. It is 6 points behind `sol@max`, so reach
+  past it when the work is genuinely hard rather than merely long.
+- **gemini is now ranked behind glm, grok and sol on every class it appears in**,
+  and carries a 12-point delivery penalty on top of its bench score. That penalty
+  is not a capability judgement: it failed 8 of 12 autonomous-builder dispatches
+  and produced one fabricated completion report. `references/lanes.md` has the
+  measurement and the condition for lifting it.
 - **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
   the implementation lane at `high`. Work that is not a referred decision goes
   to a terra lane or to `sol@high`.
@@ -115,6 +126,36 @@ condition under which the cheaper lane's known weakness stops mattering. Satisfy
 it in the prompt. `--require-dropin` refuses the guarded band outright and falls
 back to opus instead.
 
+
+## Opus does not need `xhigh` for everything
+
+`claude-opus-5` is pinned to `xhigh` for `verification` and `design-review`, and
+that is correct: those are the two places where being wrong is expensive and a
+cheaper read is a false economy. Everywhere else, **effort is a dial and the
+default is too high.**
+
+Effort buys *thinking tokens*, not output quality per se. Measured on the codex
+lanes, terra at `max` and terra at `medium` bill at the same per-Mtok rate and
+differ by **4.8× on the bill**, because the expensive one spends far more tokens
+before it writes anything. The same shape holds on Claude.
+
+| Run opus at | When |
+|---|---|
+| `xhigh` | Grading delivered work. Adversarial passes. Anything where a wrong pass is banked as a fact. Rendered-UI review |
+| `high` | Building a feature under compound acceptance criteria. Anything that has to hold several constraints at once |
+| `medium` | Extraction, arithmetic, JSON assembly, file streaming, censusing, mechanical refactors, applying a decision somebody else made |
+| `low` | Read-only sweeps whose output is a list |
+
+**The tell that effort is set too high: the agent's answer would not change if it
+thought less.** A pass that streams 300 files and sums a column has no judgement
+in it, and the four retrospective extraction agents behind
+`~/Dev/dAIolog/docs/retro-2026-08-26/` are the worked example — file streaming,
+arithmetic and JSON assembly, at a mean agent duration of 496 seconds across 386
+agents. One equivalent pass ran on Sonnet in 88 seconds.
+
+**Do not drop effort on the judgement classes to save time.** The fresh-context
+verify stage rejected three of three ready-to-verify claims in that window, and a
+cheaper lane there would have banked all three.
 
 ## Then verify the lane actually ran
 
