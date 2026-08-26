@@ -29,7 +29,8 @@ Two things to hand them that they cannot derive:
 
 ## What the surface actually is
 
-One self-contained HTML page, `docs/positioning/positioning-report.html`, with
+One self-contained HTML page at `docs/positioning/positioning-report.html`,
+beside the nine markdown reports rather than in a directory of its own, with
 these sections in this order:
 
 1. **The recommendation**, above the fold, quotable.

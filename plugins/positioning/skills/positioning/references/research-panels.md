@@ -219,8 +219,11 @@ it quotes.
 
 ## Step 5 — export, read in full, commit
 
-- `research_export` every completed member to
-  `docs/positioning/research/`, full markdown plus its numbered source registry.
+- **`research_export` every completed member to `docs/positioning/research/`** —
+  full markdown plus its numbered source registry, one pair of files per member,
+  named so the backend is readable from the filename. Nothing goes to a temp
+  directory: the corpus is the thing that keeps every later claim auditable, and
+  a report that only ever existed in `/tmp` is a citation nobody can check.
 - **Read every report end to end.** `research_read` in outline mode first to
   navigate, then read the exported file. A 60k-token report read only as an
   outline loses the contested findings, and the contested findings are where the

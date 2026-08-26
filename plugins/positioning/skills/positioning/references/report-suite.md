@@ -10,6 +10,11 @@ This suite is the run's memory. Every file has a template in
 `assets/templates/`, every file is written even when a section is empty, and an
 empty section says why it is empty rather than being dropped.
 
+**All nine land in `docs/positioning/`.** The exported research sits beside them
+in `docs/positioning/research/` and the ledger in `docs/positioning/work/`; see
+the layout in SKILL.md. A run that scatters its output across the working root
+leaves the next run unable to find it, and that has already happened once.
+
 | # | File | Template | What it is for |
 |---|---|---|---|
 | 1 | `00-decision.md` | `decision.template.md` | The recommendation and the case for it. The one document a founder reads. |

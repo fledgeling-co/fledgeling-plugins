@@ -46,6 +46,9 @@ The gate enforces exactly that split, through the `PROMISSORY_MOVES` set in
 
 ## Record it
 
+The ledger lives at `docs/positioning/work/ledger.json` and renders into
+`docs/positioning/50-product-truth.md`.
+
 ```bash
 python3 scripts/claim_ledger.py init docs/positioning/work --product "Acme"
 python3 scripts/claim_ledger.py add-truth docs/positioning/work \
