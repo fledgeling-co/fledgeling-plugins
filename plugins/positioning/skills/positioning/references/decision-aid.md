@@ -116,6 +116,18 @@ first pass, and saying so is not a weakness of the output — it is the differen
 between this and a confident deck. Write the label in `00-decision.md` and in
 the HTML, in those words.
 
+The label is also an argument to the gate:
+
+```bash
+python3 scripts/claim_ledger.py check docs/positioning/work --label promising-hypothesis
+```
+
+At a lower tier the gate expects unverified evidence and reports it as an
+expected finding instead of a failure. It never softens promissory copy resting
+on unshipped capability, at any tier. So the check answers the question that
+actually matters on a desk-only run: **not "is this proven" but "which of these
+territories could we claim today".**
+
 ## Always include the status quo as an option
 
 Every comparison carries the incumbent position — what the product says today,
