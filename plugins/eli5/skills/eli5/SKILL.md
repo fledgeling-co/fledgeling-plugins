@@ -97,9 +97,15 @@ single-cause models (`evidence.md` §1.2).
 nested disclosure buries content readers then never find (`evidence.md` §1.6).
 
 1. **The turn** — the causal invariant, one live variable, the Boundary Card in reach.
+   **Under 150 words.** A reader who stops here should still leave with the mechanism.
 2. **The mechanism** — the steps, reader-paced, with state changes signalled.
 3. **The real thing** — what production systems actually do, edge cases, and an explicit
    statement of what this account still leaves out.
+
+Tier 1's budget is the load-bearing one. Measured 2026-08-26, this skill produced 7.6× the
+word count of the one-line predecessor it replaces. That is the trade depth buys, and it is
+only worth it if the reader can stop after tier 1 and still have got something. Progressive
+disclosure that front-loads nothing is just a long document with headings.
 
 Tier 3 owes the reader that last sentence. Simplification without a marker of its own
 incompleteness produces the illusion of explanatory depth — readers who believe they
@@ -157,6 +163,10 @@ Non-negotiables, all mechanically enforced in Phase 5:
   animation is steppable and inspectable at rest (`evidence.md` §1.8).
 - **SVG for structure, canvas past ~500 nodes.** SVG gives DOM events, ARIA and crisp
   scaling; canvas earns its place only for continuous particle-scale simulation.
+- **Never ship a dead control.** A button or slider with no handler invites an action that
+  does nothing, which is worse than an honestly static page: the reader blames themselves.
+  Measured 2026-08-26, one run of this skill shipped 25 controls and zero JavaScript, and it
+  looked finished. If the gate fails on `interactive-controls`, wire them or delete them.
 
 Layout follows the multimedia evidence rather than taste (`evidence.md` §1.7): readouts sit
 **inside or adjacent to** the diagram, never in a separate card (spatial contiguity,
@@ -173,7 +183,7 @@ Theme both schemes with CSS custom properties on `:root`, redefined under
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Sixteen checks across four families — containment, geometry, interaction and pedagogy.
+Twenty checks across four families — containment, geometry, interaction and pedagogy.
 It fails the build on external assets, missing `viewBox`, uncaptured pointer drags, leaked
 animation frames, a missing or buried Boundary Card, an absent prediction beat, wrong tier
 count, and baby-talk register.

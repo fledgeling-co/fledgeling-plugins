@@ -171,7 +171,10 @@ def check_interaction(html: str) -> List[Check]:
         "interactive-controls", "interaction", "§1.3",
         PASS if (controls and listeners) else FAIL,
         f"{controls} control(s), {listeners} listener(s)" if (controls and listeners)
-        else f"needs both: {controls} control(s), {listeners} listener(s)",
+        else (f"{controls} control(s) and no handler: dead controls invite an action that does "
+              f"nothing, which is worse than an honestly static page. Wire them or remove them"
+              if controls and not listeners
+              else f"needs both: {controls} control(s), {listeners} listener(s)"),
         controls,
     ))
 
@@ -349,6 +352,15 @@ def check_pedagogy(html: str) -> List[Check]:
         1 if skip else 0,
     ))
 
+    words = len(text.split())
+    if words > 2600:
+        st, msg = WARN, (f"{words} visible words; the original this replaces ran ~350. Depth is the "
+                         f"trade, but tier 1 must still read in under a minute or progressive "
+                         f"disclosure has bought nothing")
+    else:
+        st, msg = PASS, f"{words} visible words"
+    out.append(Check("length-budget", "pedagogy", "§1.6", st, msg, words))
+
     # Coherence: emoji standing in for a diagram is the original skill's failure mode.
     emoji = re.findall(
         "[\U0001F300-\U0001FAFF☀-➿]", text
@@ -442,6 +454,8 @@ FIXTURES = [
     ("disclosure-tiers", GOOD.replace("Tier 1: the turn", "X").replace("Tier 2: the mechanism", "Y")
                              .replace("Skip ahead to tier 3 if you know this.", "")),
     ("skip-ahead", GOOD.replace("Skip ahead to tier 3 if you know this.", "")),
+    ("length-budget", GOOD.replace("<p>Think of it as pressure driving flow through a constriction.</p>",
+                                   "<p>" + ("word " * 2700) + "</p>")),
 ]
 
 
