@@ -148,8 +148,18 @@ Claude's anti-pattern table is the operational form: *"Imagine a little hungry m
 cookies inside your computer RAM"* against *"Think of computer memory like a grid of numbered
 postal lockers that can each hold one letter."* Same reading age. One of them is true.
 
+**Measured here, 2026-08-26.** Running the original skill six times against hard topics produced
+the failure in 4 of 6 artifacts, and the markers are specific enough to detect: *"Grown-up word:
+DNS"*, *"grown-ups call the boss the leader"*, *"the magic rule"*, *"it gets the crown"*, *"a
+little timer goes ding"*. Naming a mechanism "magic" is worth noting on its own, since it is the
+exact inverse of explaining it.
+
 → Rule: the **register is a brilliant colleague from another field**, and the linter carries a
-baby-talk lexicon.
+baby-talk lexicon built from those measured markers rather than from imagination.
+
+*Provenance caveat:* that lexicon was strengthened **after** measuring the baseline, so the rule is
+fitted to observed output. `EVALS.md` records this, and the blind panel — which never sees the
+linter — is what carries the neutral half of the comparison.
 
 ### 1.12 Simplification can leave the reader worse off than ignorance
 **Source: Perplexity.** Removing mechanism without signalling that it was removed produces the
