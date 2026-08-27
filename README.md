@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="50 skills" src="https://img.shields.io/badge/skills-50-C4622D">
+  <img alt="52 skills" src="https://img.shields.io/badge/skills-52-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -52,6 +52,14 @@ _Design it, write it, or build it from nothing._
 ### [agent-voice](plugins/agent-voice/README.md)
 
 Claude writes in a default voice nobody chose. This gives it one, and it writes differently depending on whether a person or another AI is reading, because the two go wrong in different ways. Mostly it means shorter replies that do the same work.
+
+<br clear="left" />
+
+<a href="plugins/create-luke-content/README.md"><img src="plugins/create-luke-content/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [create-luke-content](plugins/create-luke-content/README.md)
+
+Write anything in Luke Rhodes' voice, with an empirical B2B copywriting craft layer under the marketing route. It pairs outcomes with concrete mechanisms, discloses limitations in place, and enforces Australian spelling, stylometrics, and zero em dashes with a deterministic lint.
 
 <br clear="left" />
 

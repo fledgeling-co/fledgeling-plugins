@@ -65,7 +65,7 @@ const GROUPS = [
 const GROUP_OF = {
   // Making something.
   "design-craft": "making", "ux-craft": "making", "mac-craft": "making", "tui-craft": "making",
-  "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making",
+  "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making", "create-luke-content": "making",
   "generate-investor-portal": "making", "create-swe-project": "making", "launch-craft": "making",
   eli5: "making",
 

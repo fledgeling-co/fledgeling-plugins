@@ -7,7 +7,7 @@
       "id": "making",
       "label": "Making something",
       "blurb": "Design it, write it, or build it from nothing.",
-      "count": 11
+      "count": 12
     },
     {
       "id": "checking",
@@ -1853,6 +1853,32 @@
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/positioning/EVALS.md",
         "scripts": true,
         "references": 11,
+        "defer": false
+      },
+      "neighbours": []
+    },
+    {
+      "name": "create-luke-content",
+      "version": "3.0.0",
+      "group": "making",
+      "groupLabel": "Making something",
+      "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content by DiologIR, whose voice extraction it keeps intact.",
+      "trigger": "Write any content in Luke Rhodes' authentic voice (Diolog CTO and co-founder), routed through the right persona variant: LinkedIn posts and long-form blog articles (with graphic concept), marketing content (announcements, release notes, landing copy, campaign emails), code reviews, Slack/chat messages, short-form content (tweets/X, comments, bios), and ADHD-targetted or book-audience writing. Always sounds like Luke; grounded in supplied context, never invention; deterministic voice-lint gate. Use whenever the user wants to draft, write, ghostwrite, or generate ANY content in Luke's voice (or 'my voice' / 'as me' when the user is Luke): 'write me a LinkedIn post about X', 'draft release notes for this feature', 'review this PR as me', 'reply to this Slack thread', 'tweet this', 'turn this into a book chapter', 'make this ADHD-friendly'. Prefer this over a generic writing pass whenever the target author is Luke, whatever the format. Do NOT use for Diolog company-voice content (use diolog-brand-voice).",
+      "blurb": "Write anything in Luke Rhodes' voice, with an empirical B2B copywriting craft layer under the marketing route. It pairs outcomes with concrete mechanisms, discloses limitations in place, and enforces Australian spelling, stylometrics, and zero em dashes with a deterministic lint.",
+      "readme": "</div>\n\n# create-luke-content\n\nWrite anything in Luke Rhodes' voice (CTO and co-founder of Diolog, an ASX-listed investor relations SaaS), with a proven B2B copywriting craft layer underneath.\n\n---\n\n## What changed in v3.0.0\n\nThe predecessor (`create-luke-content` 2.4.3 by DiologIR) wrote in Luke's voice well, but its marketing copy read wrong. The reason was structural: the LinkedIn route carried a bundled engagement research layer, while the marketing route carried no craft research at all. Its only worked evidence was a single consumer parenting-app release post.\n\nThis version bundles an empirical B2B copywriting evidence base from a five-backend Dossier deep-research panel (208 sources, 232k characters across OpenAI, Perplexity, Gemini, and Claude Code), rebuilds the marketing persona against it, and activates the deterministic lint configuration it previously shipped without.\n\n```\n┌──────────────────────────────────────────────────────────┐\n│                   Voice Layer (Top)                      │\n│   Evidence-anchored profile from Luke's writing corpus   │\n│   Calm, direct, technically fluent, Australian spelling  │\n├──────────────────────────────────────────────────────────┤\n│             Copywriting Craft Layer (Underneath)         │\n│   Outcome + mechanism pairing · Two-sided disclosures    │\n│   Preserved domain vocabulary · Single semantic decision │\n└──────────────────────────────────────────────────────────┘\n```\n\n---\n\n## Comparison against predecessor\n\n| Capability | Predecessor (v2.4.3) | Rebuild (v3.0.0) |\n|---|---|---|\n| **Marketing craft foundation** | None; single consumer parenting-app post | 208-source B2B SaaS copywriting research layer |\n| **Message hierarchy** | Raw feature lists or adjectival claims | Outcome + named mechanism in opening message unit |\n| **Claim substantiation** | Allowed vague claims without mechanisms | Concrete benchmarks, thresholds, and exact settings paths |\n| **Limitation disclosure** | Omitted operational boundaries | Voluntary two-sided disclosure of rough edges in place |\n| **Structural evals pass** | 85.5% (47/55 assertions) | **98.2%** (54/55 assertions) |\n| **Blind quality panel** | 7 wins (25.9%) | **20 wins** (74.1%) across OpenAI, xAI, and Claude |\n| **Voice lint configuration** | Missing; AU spelling and stylometrics disabled | Bundled `voice-lint.json` enforcing all rules |\n| **Self-narrating meta-labels** | Passed clean despite claimed ban | Hard-fails in lint (phrases like brief version or honest one) |\n\n---\n\n## How it works\n\nThe skill routes a request to exactly one of six content personas, loads the base voice, and gates the finished draft on a deterministic voice lint:\n\n1. **LinkedIn post & blog article:** Hook that earns the read in 140-200 characters, short paragraphs, at most one genuine closing question, and a Diolog graphic concept.\n2. **Marketing content:** Product announcements, launch posts, landing page copy, release notes, and campaign emails. Pairs every operational outcome with its concrete mechanism and discloses rough edges in place.\n3. **Code review:** Severity-calibrated candour. Real risks flagged plainly; preferences offered as thoughts.\n4. **Slack & chat message:** Context first, then the ask (if one exists), then the genuine out. Zero manufactured asks on FYI updates.\n5. **Short-form:** Tweets, comments, bios, and one-liners under 80 words.\n6. **ADHD & book audience:** Conversational, structured tutorial prose.\n\n---\n\n## Installation\n\n```bash\n# Add the marketplace if you haven't yet\n/plugin marketplace add fledgeling-co/fledgeling-plugins\n\n# Install the plugin\n/plugin install create-luke-content@fledgeling-plugins\n```\n\n---\n\n## Provenance and credits\n\nSuccessor to `create-luke-content` (v2.4.3) originally authored by **DiologIR**, whose evidence-anchored base voice extraction and core lexicon it retains. The copywriting research layer is exported in full under `docs/deep-research/`.",
+      "license": "MIT",
+      "keywords": [],
+      "allowedTools": null,
+      "boundary": null,
+      "examplePrompts": [],
+      "icon": "/icons/create-luke-content.png",
+      "install": "/plugin install create-luke-content@fledgeling-plugins",
+      "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/create-luke-content",
+      "signals": {
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/create-luke-content/evals/EVALS.md",
+        "scripts": true,
+        "references": 12,
         "defer": false
       },
       "neighbours": []

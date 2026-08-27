@@ -38,6 +38,7 @@ Layer this over `../luke-voice.md` (the base voice always applies). Use for: Sla
 - No corporate idiom ("circling back", "touching base", "per my last message"). If a phrase wouldn't be said out loud across a desk, cut it.
 - No em dashes here either; the habit holds even in two-line messages.
 - Never manufacture urgency; if it isn't urgent, the message says so ("no rush on this").
+- Preserve factual timing: if a brief or spec states an upcoming release date (e.g., "shipping 3 September"), state the date or schedule accurately rather than asserting it is live today.
 - Never manufacture the message's premise. No invented prior conversation, no opinion on the subject unless Luke's stance was supplied, no closing "give it a go"/offer unless the task asked for one. Convey exactly what you were given.
 - Length: most messages are 1-4 short lines. If it's heading past ~120 words, either split the topic or ask whether it should be a doc/call.
 
