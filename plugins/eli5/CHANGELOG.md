@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.6.0 - 2026-08-27
+
+The vendoring step shipped requiring a path to a local `.js`, and the docs pointed at
+`~/Dev/perch/site/vendor/gsap.min.js` and an `investorlink` `node_modules` copy. Both are
+incidental to one machine, so the step was broken for anyone who installed the plugin.
+
+### Libraries fetch themselves, once
+
+`vendor_lib.py` now takes no path. It fetches from a pinned, checksummed URL into
+`~/.cache/eli5-vendor` and reuses it; a mismatch refuses rather than inlining an unexpected
+file. GSAP 3.13.0 at 72,435 B and Three.js r169 at 687,458 B came back byte-identical to the
+local copies they replace.
+
+Nothing is redistributed in this repository and nothing is fetched when the page renders. A
+CDN `<script src>` inside the artifact would be quicker to write and fails *silently* in a
+sandboxed runtime, which is the whole reason for section 1.10.
+
+GSAP's licence was read rather than assumed: commercial use is free, the prohibited case is a
+no-code visual animation builder competing with Webflow, and removing its notices is
+forbidden. A code-generating skill is not the prohibited case, and `vendor_lib.py` refuses a
+GSAP file whose `@license` header has been stripped. Three.js is MIT.
+
+### `scripts/new_explainer.py`
+
+A starting file with the mechanical scaffolding already wired: theme tokens, the
+reduced-motion path, the four `data-*` markers, pointer capture, an animation frame that
+cancels itself, and any library inlined.
+
+    python3 scripts/new_explainer.py out.html --with gsap,scrolltrigger --title "..."
+    python3 scripts/new_explainer.py out.html --with three --canvas --title "..."
+
+It emits no sections, no layout and no copy. A page template is what produced three
+indistinguishable artifacts in the first place, so this removes the typing that repeats and
+nothing else. A bare scaffold fails `visual-scenes`, `interactive-controls`,
+`defines-its-terms` and `title-names-its-subject`, so it cannot be shipped as written -- it is
+a starting point, not a draft. Both variants load clean in Chromium with `gsap`,
+`ScrollTrigger` and `THREE` present and no page errors.
+
 ## 0.5.0 - 2026-08-27
 
 `checks-fail-quietly.html` passed every register check while opening on the title "Sabotage

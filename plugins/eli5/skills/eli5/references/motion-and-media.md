@@ -26,9 +26,9 @@ one variable, and a stat tile or KPI row is a chart with the same rules as any o
 
 Signalling is not optional. An unmarked state change costs g = 0.46–0.53 (`evidence.md`
 §1.7), and a single `transition:` declaration in a page with nine controls is signalling in
-name only — that is the shape measured on a real artifact. GSAP is 72 KB inlined, and at that
-price the orchestrated, reversible, reduced-motion-aware version is the default rather than
-the upgrade.
+name only — that is the shape measured on a real artifact. GSAP is 72 KB inlined and one command away
+(`new_explainer.py --with gsap`), and at that price the orchestrated, reversible,
+reduced-motion-aware version is the default rather than the upgrade.
 
 Reach for it whenever the reader causes something to move. Specifically:
 

@@ -75,9 +75,23 @@ word-count scans, and Three.js contains three `fetch(` calls in its loaders that
 fail `no-network-calls` on every artifact that uses it.
 
 ```bash
-python3 scripts/vendor_lib.py gsap  /path/to/gsap.min.js          > gsap-block.html
-python3 scripts/vendor_lib.py three /path/to/three.module.min.js  > three-block.html
+python3 scripts/vendor_lib.py gsap           > gsap-block.html
+python3 scripts/vendor_lib.py scrolltrigger  > st-block.html
+python3 scripts/vendor_lib.py three          > three-block.html
 ```
+
+Each fetches once from a pinned, checksummed URL into `~/.cache/eli5-vendor` and reuses it
+after that; pass a local path instead to use a copy you already have. A checksum that does not
+match refuses rather than inlining an unexpected file. Nothing is fetched when the page
+renders — this is a build step, and the artifact stays inline.
+
+`scripts/new_explainer.py` calls this for you and writes a starting file with the blocks
+already in place.
+
+**GSAP's licence forbids removing its notices**, so the header comment travels into the
+artifact and `vendor_lib.py` refuses a GSAP file that has lost it. Commercial use is free
+under that licence; the prohibited case is a no-code visual animation builder, which this is
+not.
 
 ### GSAP
 

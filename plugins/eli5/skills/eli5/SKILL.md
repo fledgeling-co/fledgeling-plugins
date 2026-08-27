@@ -212,6 +212,27 @@ nowhere (`evidence.md` §1.4).
 
 ## Phase 5 — Build it
 
+Start from the scaffold rather than an empty file. It carries the parts that are identical in
+every artifact by necessity — theme tokens, the reduced-motion path, the four `data-*`
+markers, pointer capture, an animation frame that cancels itself — with any library already
+inlined:
+
+```bash
+python3 scripts/new_explainer.py out.html --with gsap,scrolltrigger --title "…"
+python3 scripts/new_explainer.py out.html --with three --canvas --title "…"
+```
+
+`vendor_lib.py` fetches each library once from a pinned, checksummed URL into
+`~/.cache/eli5-vendor` and reuses it, so nothing is fetched at page-render time and the reader
+loads nothing external. A CDN `<script src>` would be quicker to write and fails *silently* in
+sandboxed runtimes, which is the whole reason for `evidence.md` §1.10.
+
+The scaffold emits **no page shape** — no sections, no layout, no copy. Shipping a page
+template is what produced three identical artifacts (`references/forms.md`), so it removes the
+typing that repeats and nothing else. It fails four checks as written; that is the starting
+point, not a draft.
+
+
 `references/artifact-engineering.md` carries the geometry contract, the library recipes, the
 media pipeline and the accessibility floor. The parts that decide whether the file works at
 all:
@@ -364,7 +385,8 @@ Name the form and why the mechanism chose it, the file path, the lint result, an
   generated imagery, and the four tests that admit them.
 - `references/evidence.md` — citations, panel convergence, the disagreements, the gaps.
 - `scripts/lint_explainer.py` — the deterministic gate.
-- `scripts/vendor_lib.py` — inline GSAP or Three.js into a single file.
+- `scripts/new_explainer.py` — a starting file with the scaffolding and libraries wired.
+- `scripts/vendor_lib.py` — fetch, checksum and inline GSAP, ScrollTrigger or Three.js.
 - `scripts/embed_media.py` — resize and inline a generated image, or a rendered clip, as a data URI.
 
 ## Credit

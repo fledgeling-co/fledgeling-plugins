@@ -101,6 +101,10 @@ this version lost and why, is in [EVALS.md](EVALS.md).
 
 Then `/eli5 <anything>`.
 
+Libraries fetch themselves on first use into `~/.cache/eli5-vendor`, pinned and checksummed,
+and get inlined into the page — so the finished file still works offline and nothing loads
+from a CDN when someone opens it.
+
 ## Credit
 
 This is a rebuild of **eli5** by **Thariq Shihipar**, published in Anthropic's
