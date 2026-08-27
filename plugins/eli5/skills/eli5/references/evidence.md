@@ -535,3 +535,39 @@ has found a phrasing the previous round did not cover: baby-talk (§1.11), undef
 durable half is the worked before-and-after in SKILL.md, because a specific format or a
 nuanced tone is steered better by an example than by a description; the gate is the backstop
 for what the example does not cover.
+
+### 4.13 The vendoring step depended on files that only exist on one machine
+
+`vendor_lib.py` shipped requiring a path to a local `.js`, and the documentation pointed at
+`~/Dev/perch/site/vendor/gsap.min.js` and an `investorlink` `node_modules` copy. Both are
+incidental to this machine, so the step was broken for anyone who installed the plugin and
+slow even here.
+
+It now fetches once from pinned, checksummed URLs into `~/.cache/eli5-vendor`:
+
+| Library | Pinned | Bytes | Verified |
+|---|---|---|---|
+| GSAP 3.13.0 | `cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js` | 72,435 | byte-identical to the local copy |
+| ScrollTrigger 3.13.0 | `…/dist/ScrollTrigger.min.js` | 44,157 | checksum pinned from the fetch |
+| Three.js r169 | `cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js` | 687,458 | byte-identical to the node_modules copy |
+
+A mismatch refuses rather than inlining. Nothing is redistributed in this repository, and
+nothing is fetched at page-render time — a CDN `<script src>` inside the artifact would fail
+*silently* in a sandboxed runtime, which is §1.10.
+
+**Licence, checked rather than assumed.** GSAP 3.13.0 carries *"Copyright 2025, GreenSock. All
+rights reserved. Subject to the terms at https://gsap.com/standard-license."* Those terms make
+commercial use free, name the prohibited case as a no-code visual animation builder competing
+with Webflow, and forbid removing GSAP's notices. A code-generating skill is not the
+prohibited case; the notice requirement is enforced, since `vendor_lib.py` refuses a GSAP file
+whose `@license` header is missing. Three.js is MIT. This is a reading of the published terms
+rather than legal advice, and the licence directs uncertain cases to GSAP.
+
+**The scaffold, and the line it does not cross.** `scripts/new_explainer.py` emits theme
+tokens, the reduced-motion path, the four `data-*` markers, pointer capture, an
+animation-frame lifecycle and the vendor blocks — the parts identical in every artifact by
+necessity. It emits no sections, no layout and no copy, because a page template is what
+produced three indistinguishable artifacts (§4.1). Measured: a bare scaffold fails
+`visual-scenes`, `interactive-controls`, `defines-its-terms` and `title-names-its-subject`, so
+it cannot be shipped as written, and both variants load clean in Chromium with `gsap`,
+`ScrollTrigger` and `THREE` present and no page errors.
