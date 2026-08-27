@@ -22,13 +22,15 @@ supported path, and nothing else in the skill changes.
 Two of its rules matter most here and pull the same way as `evidence.md` §1.7: colour encodes
 one variable, and a stat tile or KPI row is a chart with the same rules as any other.
 
-## GSAP — for the transitions the reader causes
+## GSAP — the default way to signal, not an alternative to CSS
 
-The signaling principle costs g = 0.46–0.53 when a state change goes unmarked
-(`evidence.md` §1.7), and hand-rolled transitions are where artifacts quietly skip it. GSAP
-is 72 KB inlined and it removes the excuse.
+Signalling is not optional. An unmarked state change costs g = 0.46–0.53 (`evidence.md`
+§1.7), and a single `transition:` declaration in a page with nine controls is signalling in
+name only — that is the shape measured on a real artifact. GSAP is 72 KB inlined, and at that
+price the orchestrated, reversible, reduced-motion-aware version is the default rather than
+the upgrade.
 
-Where it earns the space:
+Reach for it whenever the reader causes something to move. Specifically:
 
 - **A state change with several moving parts.** A timeline that moves four elements in a
   known order is one `gsap.timeline()`; the same thing in CSS is four transitions that drift.
@@ -58,16 +60,26 @@ ScrollTrigger.create({
 Keep it off anything the reader did not cause. An idle tween is the ambient motion coherence
 rules out (d = 0.65–0.86).
 
-## Three.js — when the flat picture loses the invariant
+## Three.js — the flat view loses something, or the second lens wants a different projection
 
-687 KB inlined, so the test is strict: **a 2D projection must lose something the explanation
-needs.** Orientation, occlusion, a volume, a path through a space, a surface with curvature.
-"It would look impressive in 3D" is not the test; that is the seductive detail the coherence
-principle names.
+687 KB inlined, and there are two ways to earn it rather than one.
 
-Where it has earned it: rotation order and gimbal lock, lattices and packing, a camera
-frustum, ray marching, anything where the reader needs to move their viewpoint to believe the
+**The invariant is spatial.** Orientation, occlusion, a volume, a path through a space, a
+surface with curvature — rotation order and gimbal lock, lattices and packing, a camera
+frustum, ray marching, anything where the reader must move their viewpoint to believe the
 claim.
+
+**The second lens wants a different projection of the same data.** This is the case most
+often missed. `evidence.md` §1.2 asks for a structurally different view when a topic has more
+than one mechanism, because one analogy collapses a multi-factor system into a single-cause
+model. A field drawn flat as a heatmap and again as a 3D surface where height is the same
+quantity is exactly that: same data, two projections, every mark still encoding a real
+variable. One measured artifact drew an 8,014-cell coverage field and shipped no second lens
+at all — a legitimate three.js case, passed over.
+
+What stays out: a 3D chart of two variables, an idle spin, depth that encodes nothing. "It
+would look impressive in 3D" is the seductive detail the coherence principle names. "The
+reader cannot answer this question from the flat view" is the test.
 
 What a 3D scene owes beyond the inlining recipe:
 
@@ -109,12 +121,8 @@ Never as a substitute for an interaction the browser could have run live.
 ### The pipeline
 
 The skills live at `remotion-dev/skills` and are documented at
-<https://www.remotion.dev/docs/ai/skills>. Only `/remotion-best-practices` — the umbrella
-skill covering the rest — is installed here; the others come from:
-
-```bash
-npx skills add remotion-dev/skills
-```
+<https://www.remotion.dev/docs/ai/skills>. Install the set with `npx skills add
+remotion-dev/skills`; `/remotion-best-practices` is the router and covers the rest on its own.
 
 Route by task: `/remotion-create` for a new composition, `/remotion-markup` for the React
 markup, `/remotion-render` to render, `/remotion-docs` to look up an API before using it.
