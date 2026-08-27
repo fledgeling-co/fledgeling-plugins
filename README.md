@@ -99,7 +99,7 @@ Designs a screen the way a designer would rather than the way a code generator d
 
 ### [eli5](plugins/eli5/README.md)
 
-Explains a hard idea as an interactive page you can poke at, and makes you commit a guess before it shows you the answer. Every analogy it builds comes with the line where that analogy stops being true, because the ones without it are how a confident wrong idea gets installed.
+Explains a hard idea as an interactive page you can poke at, and makes you commit a guess before it shows you the answer. The mechanism picks the shape of the page — a process you step, a field you drag a source into, something three-dimensional you orbit — because giving every topic the same three tabs is how three explainers came out indistinguishable. Every analogy it builds comes with the line where that analogy stops being true, because the ones without it are how a confident wrong idea gets installed.
 
 <br clear="left" />
 

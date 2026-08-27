@@ -146,24 +146,27 @@ committed beside them.`,
   },
 
   eli5: {
-    prompt: "how Raft consensus works",
+    prompt: "why quaternions beat Euler angles",
     output: `One self-contained page, gated before it ships.
 
-  Tier 1     the turn, one live variable, under 150 words
-  Tier 2     the mechanism, reader-paced
-  Tier 3     what real systems do, and what this still omits
+  Form       Solid — the invariant is orientation, so the
+             page is a 3D rig you orbit, not a diagram
 
-  Predict    "Three nodes can see each other. Two cannot.
-              Who wins the election?"  → commit → run
+  Predict    "At ninety degrees of pitch, how many
+             independent axes are left?"  → commit → run
 
-  Boundary   where the analogy stops being true, in reach
-              by tier 2, never buried at the bottom
+  Boundary   a brass gimbal jams and you feel it; Euler
+             angles keep returning three clean numbers
+             while one has stopped meaning anything
 
-  Gate       20 checks · exit 0 required
+  Prose      188 words, nothing over 25 in one block —
+             explanation lives on the thing it explains
 
-Blind judges from three companies preferred it 18 of 18.
-The one page they first preferred the older version of was
-broken; fixed, all three switched.`,
+  Gate       29 checks · exit 0 required
+
+The three explainers built before this version opened with
+identical headings under identical tabs. The gate now fails
+on that, at three copied phrases or more.`,
   },
 
   "improve-skill": {

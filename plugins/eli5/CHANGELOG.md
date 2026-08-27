@@ -1,5 +1,77 @@
 # Changelog
 
+## 0.2.0 - 2026-08-27
+
+Three explainers built by 0.1.0 came out indistinguishable: the same four headings in the
+same order under the same three-tab strip, over 1,024, 1,293 and 1,636 words of prose and
+three or four static SVGs each. The skill's own bundled sample did the same at 1,822 words.
+Nothing in them was wrong; the architecture was mandated, so it converged.
+
+### The mechanism picks the shape of the page
+
+`references/forms.md` replaces the single architecture with eight that recur -- Machine,
+Field, Solid, Ladder, Fork, Trace, Assembly, Reveal -- each carrying the trap it falls into
+rather than a specification to follow, and an explicit instruction to invent one when the
+mechanism suggests something not listed. SKILL.md now opens by separating what the gate
+fixes (measurable defects) from what the runner decides (everything about how the page looks).
+
+The worked-example headings that all three artifacts copied are gone from the skill, and
+`no-template-boilerplate` fails the build when three or more of them reappear.
+
+### Less prose, more to operate
+
+Five new checks in a `composition` family, all counting words outside `<svg>` and `<canvas>`
+so a sentence moved onto the thing it explains costs nothing and satisfies spatial contiguity
+at the same time. Prose on the page fails above 350 and warns above 250. Any single text
+block fails above 50 and warns above 35. An unbroken run between two things to look at or
+touch fails above 120. Words before the reader can do anything fail above 90. Density warns
+past 110 words per scene.
+
+The block cap exists because total prose was the wrong measure on its own: the first
+reference artifact passed at 367 words and still read as wordy, with three blocks of 73, 48
+and 38 carrying 159 of them against captions of 14 to 22 that drew no complaint.
+
+Raised floors: three visual scenes, three wired controls, two distinct kinds of interaction.
+
+### Three.js, GSAP and generated imagery, inlined
+
+`scripts/vendor_lib.py` inlines a library into the single file. GSAP is a classic script and
+goes in unchanged. Three.js needs a single-file build; the split r17x pair fails silently two
+different ways from `file://`, so the script refuses it rather than emitting something that
+half-works. `scripts/embed_media.py` resizes and re-encodes a generated image before base64.
+
+Vendor blocks carry `data-vendor` and are excluded from the containment, animation-frame and
+word-count scans -- Three.js ships three `fetch(` calls that otherwise fail every 3D artifact.
+
+### Staging is checked by marker, not by chrome
+
+`data-pass="1|2|3"`, `data-boundary` and `data-predict` let the gate check depth staging,
+the analogy limit and the prediction beat without requiring tabs, so a scroll-driven page
+and a stepped one are graded the same way.
+
+### The gate
+
+29 checks in five families, from 20 in four. New: `vendor-inlined`, `visual-scenes`,
+`canvas-labelled`, `interaction-variety`, `reduced-motion`, and the five composition rules.
+`--self-test` reports 29 of 29 rules able to fail.
+
+Running it found two defects in itself. `motion-steppable` searched the whole page for the
+word `step`, so the prose "each step moves one packet" satisfied a rule about controls; it
+now reads control markup only. `boundary-reachable` divided by raw HTML length, so a 690 KB
+inlined library put every boundary at 1% and the rule could not fire; it now measures against
+markup with scripts and styles stripped.
+
+### Verified
+
+A reference artifact -- Solid form, Three.js r169 inlined, gimbal lock -- passes 29 of 29 at
+188 words of prose with no block over 25, renders WebGL in Chromium with no page errors, and
+drives from three independent axes to two when the pitch control reaches 90 degrees.
+
+Rendering it also caught what the gate cannot: at 90 degrees the yaw and roll axis labels
+landed on the same anchor and drew over each other while all 29 checks passed. That is
+section 1.9's failure mode in the skill's own reference file, and it is why the last step is
+to open the artifact and look. `references/evidence.md` section 4 carries the measurements.
+
 ## 0.1.0 - 2026-08-27
 
 Initial release of `eli5`, a rebuild of the skill of the same name by Thariq Shihipar
