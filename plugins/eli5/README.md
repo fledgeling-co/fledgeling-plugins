@@ -39,9 +39,25 @@ work.
 underneath it, then what real systems actually do. There's a skip control, because
 scaffolding that helps a beginner actively slows down someone who already knows.
 
-**A gate that fails the build.** Twenty checks run before it's finished: no broken external
-images, diagrams that scale instead of clipping, drags that survive a touchscreen,
-animations that don't leak, and the pedagogy rules above. It exits non-zero and it means it.
+**The mechanism picks the shape of the page.** A process you step through, a field you drag
+a source into, something genuinely three-dimensional you orbit, two regimes that split under
+one slider, a timeline you scrub — these want different pages, and they get them. Earlier
+versions gave every topic the same three tabs and the same headings; three explainers built
+that way came out indistinguishable, which is what this fixes.
+
+**Less reading, more doing.** Caps on the whole page, on any single paragraph, on how far
+you can read before something happens, and a floor on how much there is to look at and
+touch. Words inside a diagram don't count, so a sentence of explanation ends up on the thing
+it explains. The reference build runs 188 words; the pages this replaces ran 1,024 to 1,822.
+
+**Three.js, GSAP and generated imagery when they earn it.** Inlined into the file rather
+than pulled from a CDN, so it still works offline. A library that buys nothing for the topic
+doesn't get added.
+
+**A gate that fails the build.** Twenty-nine checks run before it's finished: no broken
+external images, diagrams that scale instead of clipping, drags that survive a touchscreen,
+animations that don't leak, motion with a reduced-motion path, the pedagogy rules above, and
+the prose budget. It exits non-zero and it means it.
 
 ## Does it actually work
 
@@ -84,10 +100,13 @@ added is the teaching research underneath it and a gate that fails.
 
 ## Under the hood
 
-- [SKILL.md](skills/eli5/SKILL.md), the five phases the skill runs
+- [SKILL.md](skills/eli5/SKILL.md), the six phases the skill runs, and what it fixes
+  against what it leaves to whoever is building
+- [forms.md](skills/eli5/references/forms.md), the eight page shapes that recur and the
+  trap each one falls into
 - [evidence.md](skills/eli5/references/evidence.md), every rule traced to a source, plus
   the four places the research disagreed with itself and the gaps nobody could fill
 - [pedagogy.md](skills/eli5/references/pedagogy.md), finding the idea a topic turns on
 - [artifact-engineering.md](skills/eli5/references/artifact-engineering.md), the drawing
-  and interaction rules
+  and interaction rules, and how a library gets inlined without breaking the file
 - [docs/deep-research/](docs/deep-research/), the four full research reports
