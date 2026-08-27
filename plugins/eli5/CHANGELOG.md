@@ -1,5 +1,61 @@
 # Changelog
 
+## 0.3.0 - 2026-08-27
+
+0.2.x fixed how the page reads. This fixes what it is made of: the artifact that prompted it
+shipped four static SVGs, twelve controls, no canvas, no 3D and no library, and passed every
+check. The skill knew how to inline GSAP and Three.js and never said what to build with them.
+
+### `references/motion-and-media.md`
+
+What each surface is for and the test that admits it. GSAP for a state change that moves
+several things in order, and for a Reveal where ScrollTrigger makes scroll position the
+reader's clock. Three.js when a 2D projection loses something the explanation needs -- "it
+would look impressive in 3D" is the seductive detail the coherence principle names, so the
+file carries the cases that have earned it and what a 3D scene owes beyond the recipe: a 2D
+inset, named viewpoint buttons, render-on-change rather than an idle spin.
+
+`references/forms.md` now maps each of the eight forms to the surface it usually lands on.
+
+### Charts route through `dataviz` first
+
+Explainers draw charts constantly. The bundled `dataviz` skill carries the form heuristic,
+the colour formula and a runnable palette validator, and the supported path is to substitute
+the artifact's own palette from the identity pass and re-run it.
+
+### Remotion, for the sequence the browser cannot compute live
+
+A fluid simulation, a long training run, thousands of frames of real data: render once,
+embed as a scrubbable clip, keep the interactive version of the simplified model beside it.
+Never as a substitute for an interaction the browser could have run live.
+
+Measured in Chromium from file://: an MP4 as a data: URI loads its metadata, plays and seeks
+-- currentTime = 5.0 returns 5.0 with a painted frame. That is what admits it at all, since
+1.8's finding is about transience and a clip the reader can scrub is learner-controlled
+playback. `video-inline-and-scrubbable` fails a clip that is linked, uncontrolled or
+autoplaying; `embed_media.py --format mp4` emits the tag.
+
+The Remotion render step is not verified here and the docs say so. Remotion is installed in
+no repository on this machine, and only `/remotion-best-practices` of its skill set is
+installed locally.
+
+### Generated imagery widened
+
+Three uses rather than one: the analogy's source domain, a real vector diagram through
+Arrow's `svg: true`, and the ground behind the stage -- which carries no claim, so coherence
+does not bite it, and a flat white page is the strongest single "generated" tell.
+
+### The gate
+
+33 checks, from 31. New: `video-inline-and-scrubbable` and `state-change-signalled`, the
+second because an unsignalled state change costs g = 0.46-0.53. A clip now counts as a
+visual scene.
+
+Adding the second one exposed a defect in the first: both read the stylesheet for
+`animation:` or `transition:`, and a `prefers-reduced-motion` reset of `animation: none`
+matched, so the absence of motion counted as motion and the fixture could not fail. Both now
+share one pattern that excludes a `none` value.
+
 ## 0.2.2 - 2026-08-27
 
 Asked whether artifact prose should route through the `agent-voice` skill. Both halves of
