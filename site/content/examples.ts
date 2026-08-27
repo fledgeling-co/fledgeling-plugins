@@ -385,4 +385,29 @@ Phase 3: Interactive Marketing Site
 Phase 4: Validation Gate
   validate_site.py ............. WCAG AA pass (4.5:1), 0 em dashes, responsive clean`,
   },
+
+  "create-luke-content": {
+    prompt: "draft release notes for the overnight question digest feature",
+    output: `Diolog Release Notes: 3 September 2026
+
+Version: 2026.09.03
+Date: 3 September 2026
+Affected users: All plans
+
+Breaking changes: None.
+
+Added:
+- We have launched the Overnight Question Digest, a morning email that rounds up retail investor questions asked on your feed since the previous send. It groups questions across our 14 standard feed topics and lands in your inbox at 07:00 in your listing timezone (Monday to Friday). In our 6-week beta across 11 companies, median response times dropped from 31 hours to 9 hours.
+- The digest puts the top 3 topics by question volume right at the top, followed by the rest in a plain list.
+- Questions flagged price-sensitive stay out of the email body into a separate "Needs a human read" list without an AI summary.
+- Configurable under Settings > Notifications > Digest.
+
+What it does not do:
+It is an alerting tool, not an auto-responder; every reply is still written and published by your team.
+
+Known rough edges:
+- Topic grouping misfiles roughly 1 in 12 questions in our beta sample.
+- One email address per company workspace for now.
+- The price-sensitive classifier is tuned to over-flag.`,
+  },
 };
