@@ -406,3 +406,35 @@ word counts exempt it.
 
 → Rule: eli5 does not route through `agent-voice`, and SKILL.md points at that skill's field
 guide for the human-sounding rules instead.
+
+### 4.9 A rendered clip can live in a self-contained file, and stays scrubbable
+
+Measured in Chromium from `file://`, an MP4 embedded as a `data:` URI loads its metadata,
+plays and seeks: `currentTime = 5.0` returned 5.0 with `readyState >= 2`, no page errors.
+That last part is what decides whether Remotion output is admissible at all — §1.8's finding
+is about transience, and a clip the reader can scrub is the learner-controlled playback the
+same source says rescues animation.
+
+Size, on an 8-second 960×540 H.264 encode at CRF 30: 59 KB raw, 79 KB base64. Real footage
+compresses worse than a synthetic source, so the helper prints the encoded size and warns
+past 8 MB against the 16 MB page cap rather than leaving it to be assumed.
+
+**The Remotion render step is not verified here.** Remotion is installed in no repository on
+this machine and no composition has been rendered through this path. What is measured is the
+embedding half; the rendering half is the documented pipeline at
+<https://www.remotion.dev/docs/ai/skills>, of which only `/remotion-best-practices` is
+installed locally (`npx skills add remotion-dev/skills` for the rest). A skill that named a
+verified pipeline it had not run would be the failure §4.6 is about.
+
+→ Rules: `video-inline-and-scrubbable` fails a clip that is linked, uncontrolled or
+autoplaying; `scripts/embed_media.py --format mp4` emits the tag; `motion-and-media.md`
+states which of the two cases admits a clip at all.
+
+### 4.10 Two gate defects the new rules exposed
+
+`motion-steppable` and the new `state-change-signalled` both read the stylesheet for
+`animation:` or `transition:`. A `@media (prefers-reduced-motion: reduce){*{animation:none}}`
+reset matched, so the absence of motion counted as motion, and the signalling fixture could
+not fail. Both now use one `MOTION_DECL` pattern that excludes a `none` value.
+
+`--self-test`: 33 of 33 rules able to fail.
