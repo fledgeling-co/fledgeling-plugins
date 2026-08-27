@@ -212,15 +212,38 @@ all:
   reports nothing (`evidence.md` §1.10). GSAP and Three.js are inlined from a vendored copy
   by `scripts/vendor_lib.py`; generated images are inlined as data URIs by
   `scripts/embed_media.py`.
-- **Reach for a library when the form asks for one.** Three.js when the mechanism is spatial,
-  GSAP with ScrollTrigger when it is a transformation the reader scrolls through, canvas past
-  roughly 500 elements, plain SVG otherwise. A vendored library costs 72 KB to 690 KB in the
-  file; that buys nothing on a Machine or a Fork, so those stay on SVG.
-- **Generated imagery carries the analogy's source domain**, or it does not belong. A
-  photograph of a lock and a key anchors better than a rectangle labelled "lock". Cap it at
-  three images per artifact, caption each with what it depicts and that it was generated, and
-  say in your reply what the run spent — `media-gen-pro` bills per image. `svg: true` routes
-  to Arrow and returns real vector you can inline and edit, which suits diagrams.
+- **Load `dataviz` before the first line of chart code.** Explainers draw charts constantly,
+  and that skill carries the form heuristic, the colour formula and a runnable palette
+  validator. Substitute the artifact's own palette from Phase 3 into its `references/palette.md`
+  and re-run the validator; that is the supported path.
+- **Reach for a library when the form asks for one.** `references/motion-and-media.md` carries
+  what to build with all four surfaces below and the test that admits them, because the
+  failure it addresses is three consecutive artifacts shipping four static SVGs, no canvas and
+  no library at all.
+
+  | Library | Earns its place when | Cost inlined |
+  |---|---|---|
+  | GSAP | a state change moves several things in order, or a Reveal scrubs on scroll | 72 KB |
+  | GSAP + ScrollTrigger | scroll position is the reader's clock | +44 KB |
+  | Three.js | a 2D projection loses something the explanation needs | 687 KB |
+  | Canvas 2D | past roughly 500 elements, where DOM nodes drop frames | none |
+
+  "It would look impressive in 3D" is not the test — that is the seductive detail the
+  coherence principle names. A Machine or a Fork usually stays on plain SVG.
+- **Remotion, for a sequence the browser cannot compute live.** A fluid simulation, a long
+  training run, thousands of frames of real data: render once, embed as a scrubbable
+  `<video controls>` with a `data:` URI, and keep the interactive version of the simplified
+  model beside it. Scrubbing is what makes a clip satisfy §1.8 — the reader holds the
+  timeline — so the gate fails a clip that is linked, uncontrolled or autoplaying. When the
+  ask itself included a video, that is a second deliverable next to the page. Route through
+  `/remotion-best-practices`, or `npx skills add remotion-dev/skills` for the task-specific
+  ones. Never as a substitute for an interaction the browser could have run live.
+- **Generated imagery, for three things.** The analogy's source domain when it is a real
+  thing the reader knows by sight; a real vector diagram via `svg: true`, which routes to
+  Arrow and inlines as editable `<svg>`; and the ground behind the stage, which carries no
+  claim so coherence does not bite it. Cap at three images, caption each with what it depicts
+  and that it was generated, and say in your reply what the run spent — `media-gen-pro` bills
+  per image.
 - **Never ship a dead control.** A button with no handler invites an action that does
   nothing, and the reader blames themselves. One recorded run of the first version shipped 25
   controls and zero JavaScript, and it looked finished.
@@ -281,7 +304,7 @@ the pointer, animation-frame and network scans along with the library.
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Thirty-one checks across five families — containment, geometry, interaction, pedagogy and
+Thirty-three checks across five families — containment, geometry, interaction, pedagogy and
 composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
 on a new machine, because a gate whose checked count has quietly gone to zero reports green
 on everything.
@@ -313,12 +336,14 @@ Name the form and why the mechanism chose it, the file path, the lint result, an
 - `references/forms.md` — the eight forms, what each owes, and the identity pass.
 - `references/pedagogy.md` — ICAP and POE phrasing, structure-mapping worked examples,
   misconception inventories by domain.
-- `references/artifact-engineering.md` — geometry contract, library and media recipes,
-  pointer and animation lifecycles, theming, accessibility floor.
+- `references/artifact-engineering.md` — geometry contract, the inlining recipes, pointer and
+  animation lifecycles, theming, accessibility floor.
+- `references/motion-and-media.md` — what to build with GSAP, Three.js, Remotion and
+  generated imagery, and the four tests that admit them.
 - `references/evidence.md` — citations, panel convergence, the disagreements, the gaps.
 - `scripts/lint_explainer.py` — the deterministic gate.
 - `scripts/vendor_lib.py` — inline GSAP or Three.js into a single file.
-- `scripts/embed_media.py` — resize and inline a generated image as a data URI.
+- `scripts/embed_media.py` — resize and inline a generated image, or a rendered clip, as a data URI.
 
 ## Credit
 
