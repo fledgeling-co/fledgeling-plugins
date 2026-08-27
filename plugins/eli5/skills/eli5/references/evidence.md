@@ -419,12 +419,30 @@ Size, on an 8-second 960×540 H.264 encode at CRF 30: 59 KB raw, 79 KB base64. R
 compresses worse than a synthetic source, so the helper prints the encoded size and warns
 past 8 MB against the 16 MB page cap rather than leaving it to be assumed.
 
-**The Remotion render step is not verified here.** Remotion is installed in no repository on
-this machine and no composition has been rendered through this path. What is measured is the
-embedding half; the rendering half is the documented pipeline at
-<https://www.remotion.dev/docs/ai/skills>, of which only `/remotion-best-practices` is
-installed locally (`npx skills add remotion-dev/skills` for the rest). A skill that named a
-verified pipeline it had not run would be the failure §4.6 is about.
+**Correction, same day.** The first version of this section said Remotion was installed in no
+repository on this machine and that the render step was unverified. That was wrong: the probe
+behind it globbed `<repo>/node_modules/remotion`, one level deep, and missed
+`~/Dev/dAIolog/remotion/`, a working Remotion 4.0.482 project with `@remotion/cli` and three
+compositions. The claim was false when it was written.
+
+**The full chain is now measured.** `npx remotion render src/index.ts DashboardGreeting`
+produced 90 frames at 1920×1080, H.264 plus AAC, 3.05 s, 169,637 B, confirmed complete by
+`ffprobe`. Through the documented downstream steps:
+
+| Step | Result |
+|---|---|
+| `remotion render` | 169,637 B, 90 frames, 1920×1080 |
+| `ffmpeg` scale to 960, CRF 30, no audio | 8,863 B |
+| `embed_media.py --format mp4` | 11,820 B base64 in the page |
+| Chromium from `file://` | 3.00 s, 960×540, `currentTime = 2.0` → 2.0, painted, no errors |
+| `lint_explainer.py` | `video-inline-and-scrubbable` passes |
+
+A flat composition compresses unusually well, so treat 8.9 KB as a floor rather than a
+typical figure and read the size the helper prints.
+
+Of the skill set at <https://www.remotion.dev/docs/ai/skills>, `remotion-best-practices` — the
+umbrella covering the rest — is installed both at user scope and in `dAIolog/.claude/skills/`.
+The task-specific ones need `npx skills add remotion-dev/skills`.
 
 → Rules: `video-inline-and-scrubbable` fails a clip that is linked, uncontrolled or
 autoplaying; `scripts/embed_media.py --format mp4` emits the tag; `motion-and-media.md`
