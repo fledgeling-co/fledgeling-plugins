@@ -23,3 +23,6 @@ plugins/*/evals/runs/
 
 # better-loop
 .claude/loops/
+
+# a symlinked node_modules is not matched by the "node_modules/" directory pattern
+site/node_modules
