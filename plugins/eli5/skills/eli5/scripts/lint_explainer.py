@@ -2,7 +2,7 @@
 """
 lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Thirty-four checks in five families. Exits 1 on any FAIL.
+Thirty-six checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
@@ -584,6 +584,57 @@ def check_plain_statements(html: str) -> Check:
     return Check("plain-statements", "pedagogy", "ai-signs 1.7", st, msg, n)
 
 
+
+# Placeholder nouns. "Something runs, looks at what came back, and reports" names nothing a
+# reader can hold, and it was the opening sentence of a shipped artifact.
+VAGUE_NOUN = re.compile(
+    r"\b(?:something|someone|somebody|anything|stuff|a thing|the thing|things|"
+    r"what came back|some kind of|one of those|any one of those)\b", re.I)
+
+# Words too common to tell you what a page is about.
+TITLE_STOP = set(
+    "the a an and or of to in on it its this that these those is are was were be been for "
+    "with from at by as if then than so but not no you your we our they them their there "
+    "here what which who how when why all any some each every one two three four five more "
+    "most other another same still says say said do does did make makes made use used using "
+    "get gets got see look looks still".split())
+
+
+def check_names_things(html: str) -> List[Check]:
+    body = _strip_code(html)
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _without_definitions(body)))
+    out = []
+
+    hits = sorted({m.group(0).lower() for m in VAGUE_NOUN.finditer(text)})
+    if len(hits) >= 4:
+        st, msg = FAIL, (f"{len(hits)} placeholder nouns: {hits}. Name the thing -- a reader cannot "
+                         f"hold \"something\" or \"what came back\"")
+    elif len(hits) >= 2:
+        st, msg = WARN, f"{len(hits)} placeholder nouns: {hits}"
+    else:
+        st, msg = PASS, f"{len(hits)} placeholder noun(s)"
+    out.append(Check("names-things", "pedagogy", "ai-signs 1.7", st, msg, len(hits)))
+
+    m = re.search(r"<h1\b[^>]*>(.*?)</h1>", body, re.S | re.I)
+    if not m:
+        out.append(Check("title-names-its-subject", "pedagogy", "ai-signs 1.7", SKIP, "no <h1>", 0))
+        return out
+    title = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", m.group(1))).strip()
+    whole = visible_text(html).lower()
+    anchored = [w for w in re.findall(r"[a-z']{4,}", title.lower())
+                if w not in TITLE_STOP
+                and len(re.findall(r"\b" + re.escape(w) + r"\w*", whole)) >= 3]
+    out.append(Check(
+        "title-names-its-subject", "pedagogy", "ai-signs 1.7",
+        PASS if anchored else FAIL,
+        f"title anchored by {anchored}" if anchored else
+        f"title {title!r} names nothing the page goes on to discuss; a heading whose subject is a "
+        f"bare pronoun is a riddle the body has to decode",
+        len(anchored),
+    ))
+    return out
+
+
 def check_pedagogy(html: str) -> List[Check]:
     text = visible_text(html)
     h = strip_comments(html)
@@ -637,6 +688,7 @@ def check_pedagogy(html: str) -> List[Check]:
 
     out.append(check_defined_terms(html, text))
     out.append(check_plain_statements(html))
+    out += check_names_things(html)
 
     passes = set(re.findall(r'data-pass\s*=\s*["\']?([1-9])', h, re.I))
     n = len(passes)
@@ -870,6 +922,9 @@ FIXTURES = [
                                     .replace("<p data-predict>", "<p>")),
     ("register", GOOD.replace("Pressure drives", "Grown-ups call this the magic rule; pressure drives")),
     ("defines-its-terms", GOOD.replace("<dfn>", "<span>").replace("</dfn>", "</span>")),
+    ("names-things", GOOD.replace("Pressure drives flow through a constriction.",
+                                  "Something drives anything through the thing, and stuff moves.")),
+    ("title-names-its-subject", GOOD.replace("<body>", "<body><h1>It still says all is well</h1>")),
     ("plain-statements", GOOD.replace("Pressure drives flow through a constriction.",
                                       "Pressure is a different axis. Flow is external. "
                                       "Wide, not narrow. Resistance is another thing.")),
