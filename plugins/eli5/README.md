@@ -58,9 +58,11 @@ picture would lose the thing being explained, GSAP when a change moves several p
 once, a rendered clip when the sequence is too expensive to run live in a browser — and that
 clip always has a scrubber, because a thing you can't rewind teaches nothing. All of it
 embedded in the file rather than pulled from a CDN, so it still works offline. A library that
-buys nothing for the topic doesn't get added. Charts go through the `dataviz` skill first.
+buys nothing for the topic doesn't get added — but a page built from flat SVG and nothing
+else now fails the build unless it says why, because four in a row quietly were. Charts go
+through the `dataviz` skill first.
 
-**A gate that fails the build.** Thirty-three checks run before it's finished: no broken
+**A gate that fails the build.** Thirty-four checks run before it's finished: no broken
 external images, diagrams that scale instead of clipping, drags that survive a touchscreen,
 animations that don't leak, motion with a reduced-motion path, the pedagogy rules above, and
 the prose budget. It exits non-zero and it means it.
