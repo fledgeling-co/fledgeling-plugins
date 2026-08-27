@@ -135,9 +135,11 @@ Measured in Chromium from `file://`: a data-URI MP4 loads its metadata, plays, a
 small enough that base64 stays well inside the 16 MB page cap; check the number the helper
 prints rather than assuming.
 
-**The Remotion render step itself is not verified here** — Remotion is not installed on this
-machine and no composition has been rendered through this path. The embedding half is
-measured; the rendering half is the official documented pipeline (`evidence.md` §4.9).
+The whole chain is measured, not just the embedding half: a real `remotion render` of 90
+frames at 1920×1080 came out at 169,637 B, encoded to 8,863 B, embedded as 11,820 B of
+base64, and played and seeked in Chromium with the gate passing (`evidence.md` §4.9). That
+composition is flat and compresses unusually well, so read the size the helper prints rather
+than expecting nine kilobytes.
 
 Rules the gate enforces on any clip: inline as a `data:` URI, carry `controls`, and never
 `autoplay`. An autoplaying clip is the transience failure with extra bandwidth.

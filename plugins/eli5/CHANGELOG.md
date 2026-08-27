@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.3.1 - 2026-08-27
+
+A correction, and the verification it unblocked.
+
+0.3.0 said "the Remotion render step is not verified here" and "Remotion is installed in no
+repository on this machine". The second was false when it was written. The probe behind it
+globbed `<repo>/node_modules/remotion`, one level deep, and missed `~/Dev/dAIolog/remotion/`
+-- a working Remotion 4.0.482 project with `@remotion/cli` and three compositions. The 0.3.0
+entry is left as it was rather than edited, because it records what was believed at the time.
+
+With Remotion actually to hand, the chain was run end to end rather than described:
+
+    remotion render DashboardGreeting     169,637 B · 90 frames · 1920x1080 · ffprobe clean
+    ffmpeg scale 960, CRF 30, no audio      8,863 B
+    embed_media.py --format mp4            11,820 B base64 in the page
+    Chromium from file://                  3.00s · 960x540 · seek to 2.0 lands · no errors
+    lint_explainer.py                      video-inline-and-scrubbable passes
+
+That composition is flat and compresses unusually well, so `references/evidence.md` 4.9 marks
+8.9 KB as a floor rather than a typical figure and says to read the size the helper prints.
+
+`remotion-best-practices`, the umbrella skill, is installed at user scope and in
+`dAIolog/.claude/skills/`. The task-specific ones still need `npx skills add
+remotion-dev/skills`.
+
 ## 0.3.0 - 2026-08-27
 
 0.2.x fixed how the page reads. This fixes what it is made of: the artifact that prompted it
