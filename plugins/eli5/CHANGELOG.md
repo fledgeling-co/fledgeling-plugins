@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.2.1 - 2026-08-27
+
+`done-to-verified.html`, rebuilt with 0.2.0, passed 24 of 24 checks at 200 words and was
+unreadable to anybody outside the project it describes. It shipped "193 of 200 cards carry
+evidence that bites. Verified is a different axis." and "which classes to add, each one's
+oracle, and the closure count with its window." The gate had nothing to say about it.
+
+### The reader is named, and it decides the rest
+
+0.1.0's register rule was "a brilliant colleague from a different field, never a
+five-year-old", enforced only by a baby-talk detector. That licensed the opposite failure.
+SKILL.md now names the reader as a curious sixteen-year-old or a sharp adult who has never
+worked on this, and draws the one consequence: every word specific to the topic is defined
+where it first appears, or replaced with a plain one.
+
+The hard part is that the jargon does not look like jargon. Card, class, rung, oracle,
+assay, closure, escape and coverage are ordinary English words carrying private meanings,
+which is why nothing flagged them.
+
+### Aphorisms named as the compression failure
+
+"Verified is a different axis" is a sentence somebody writes when they already understand.
+It states a conclusion and shows no mechanism, and it is what a word budget produces when it
+meets a hard idea. 0.2.0's caps caused part of this, so text inside `<dfn>` is now exempt
+from both the page and block budgets exactly as text inside `<svg>` is. Defining a term
+costs nothing, so there is no reason to compress instead. The page warn moves 250 to 300 for
+the same reason: plain language costs more words than a slogan, and that trade is right.
+
+### `defines-its-terms`
+
+Fails on zero `<dfn>`, fails on a term used before its definition, warns below three.
+30 checks now, `--self-test` at 30 of 30 able to fail.
+
+Readability metrics were measured and rejected. `done-to-verified.html` and a readable
+artifact built the same day both ran a mean sentence of 8 words and about 60% sentences of 8
+words or fewer; a sentence-length rule fires identically on both. What separated them was
+that neither defined anything, so that is what is checked. `references/evidence.md` 4.7
+carries the measurements.
+
+### Verified
+
+The reference artifact failed the new check too, on its own terms. Rebuilt with four
+definitions it passes 30 of 30 at 280 words, and the check caught "quaternion" appearing in
+a skip link and a heading before the sentence that defined it.
+
 ## 0.2.0 - 2026-08-27
 
 Three explainers built by 0.1.0 came out indistinguishable: the same four headings in the

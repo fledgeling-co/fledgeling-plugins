@@ -159,10 +159,11 @@ committed beside them.`,
              angles keep returning three clean numbers
              while one has stopped meaning anything
 
-  Prose      188 words, nothing over 25 in one block —
-             explanation lives on the thing it explains
+  Plain      "a gimbal is a set of nested rings, each free
+             to spin on its own axis" — every topic word
+             defined where it first appears, or the build fails
 
-  Gate       29 checks · exit 0 required
+  Gate       30 checks · exit 0 required
 
 The three explainers built before this version opened with
 identical headings under identical tabs. The gate now fails

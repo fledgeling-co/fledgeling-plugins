@@ -31,9 +31,11 @@ until you cut the pipe; water sprays out and current just stops. The page says s
 first screen or the second, never buried at the bottom. Analogies that skip this are how a
 confident wrong idea gets installed, and those are hard to shift later.
 
-**It doesn't talk down to you.** No "grown-up word", no magic, no cartoon monsters living
-in your RAM. The register is a clever colleague from a different field explaining their
-work.
+**It writes for someone who has never seen this before.** A curious sixteen-year-old, or a
+sharp adult who doesn't work on it. Every word specific to the topic gets defined where it
+first appears, and the build fails if one doesn't. That cuts both ways: no "grown-up word",
+no magic, no cartoon monsters in your RAM — and equally no "verified is a different axis",
+which is a sentence you only write when you already understand.
 
 **Three depths, and you can skip.** A first screen you can stop after, the mechanism
 underneath it, then what real systems actually do. There's a skip control, because
@@ -54,7 +56,7 @@ it explains. The reference build runs 188 words; the pages this replaces ran 1,0
 than pulled from a CDN, so it still works offline. A library that buys nothing for the topic
 doesn't get added.
 
-**A gate that fails the build.** Twenty-nine checks run before it's finished: no broken
+**A gate that fails the build.** Thirty checks run before it's finished: no broken
 external images, diagrams that scale instead of clipping, drags that survive a touchscreen,
 animations that don't leak, motion with a reduced-motion path, the pedagogy rules above, and
 the prose budget. It exits non-zero and it means it.
