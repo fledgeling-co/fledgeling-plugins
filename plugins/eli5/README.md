@@ -35,7 +35,8 @@ confident wrong idea gets installed, and those are hard to shift later.
 sharp adult who doesn't work on it. Every word specific to the topic gets defined where it
 first appears, and the build fails if one doesn't. That cuts both ways: no "grown-up word",
 no magic, no cartoon monsters in your RAM — and equally no "verified is a different axis",
-which is a sentence you only write when you already understand.
+which is a sentence you only write when you already understand. It counts the labels inside
+your diagrams too, because that's where those lines hide.
 
 **Three depths, and you can skip.** A first screen you can stop after, the mechanism
 underneath it, then what real systems actually do. There's a skip control, because
@@ -56,7 +57,7 @@ it explains. The reference build runs 188 words; the pages this replaces ran 1,0
 than pulled from a CDN, so it still works offline. A library that buys nothing for the topic
 doesn't get added.
 
-**A gate that fails the build.** Thirty checks run before it's finished: no broken
+**A gate that fails the build.** Thirty-one checks run before it's finished: no broken
 external images, diagrams that scale instead of clipping, drags that survive a touchscreen,
 animations that don't leak, motion with a reduced-motion path, the pedagogy rules above, and
 the prose budget. It exits non-zero and it means it.

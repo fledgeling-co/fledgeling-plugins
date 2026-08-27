@@ -4,7 +4,7 @@ The full scorecard behind the claims in [README.md](README.md), including the ev
 version lost, why it lost, and what happened when the fault was fixed.
 
 **These numbers are from the 0.1.0 comparison and are left as recorded.** The gate they were
-graded by had 20 checks in four families; 0.2.1's has 30 in five, and it fails all six
+graded by had 20 checks in four families; 0.2.2's has 31 in five, and it fails all six
 artifacts in this document on the composition rules it did not then have. Re-running the
 current linter against these files will not reproduce the table below, which is the point of
 dating it rather than editing it.

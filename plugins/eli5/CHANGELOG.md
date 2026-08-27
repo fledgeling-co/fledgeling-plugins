@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.2.2 - 2026-08-27
+
+Asked whether artifact prose should route through the `agent-voice` skill. Both halves of
+that were measured, and they came out opposite ways.
+
+### Its gate does not catch this; its field guide names it exactly
+
+Linted at `--format doc`, `agent-voice` passes the unreadable `done-to-verified.html`
+cleanly and reports one thing on it and on a readable artifact alike: em dashes. Its
+negative-parallelism rule covers "not just X, but Y" but not the bare appositive
+"inapplicable, not slow", and its seven registers are all agent-to-developer text with none
+for explainer prose aimed at a lay reader.
+
+Its `references/ai-writing-signs.md` is the opposite story. Section 1.7 names the failure as
+"the epigram used in place of a plain statement" and budgets it at roughly one landing line
+per page, captions and panel text included; 2.3 covers negative parallelism. Those two
+sections are now `plain-statements`, credited in the check and in SKILL.md, which points at
+that guide rather than routing the skill through the gate.
+
+### The hole that found
+
+Four of the five slogan shapes on the failing page were inside `<svg>` labels --
+"inapplicable, not slow", "approval is a one-way door", "a regulator is external", "risk
+appetite, not facts about the repository". Exempting diagram text from the word budget in
+0.2.1 had quietly made the diagram the cheapest place to put an unexplained line. The word
+counts still exempt `<svg>`; `plain-statements`, `register` and `defines-its-terms` do not.
+
+Measured over all visible text, 5 distinct shapes in 567 words against 1 in 519. Fails at 4,
+warns at 2. The patterns come from an independent source, but two artifacts is the sample
+and `references/evidence.md` 4.8 says so.
+
+31 checks now, `--self-test` at 31 of 31 able to fail.
+
 ## 0.2.1 - 2026-08-27
 
 `done-to-verified.html`, rebuilt with 0.2.0, passed 24 of 24 checks at 200 words and was
