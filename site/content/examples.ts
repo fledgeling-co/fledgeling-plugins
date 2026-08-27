@@ -150,7 +150,8 @@ committed beside them.`,
     output: `One self-contained page, gated before it ships.
 
   Form       Solid — the invariant is orientation, so the
-             page is a 3D rig you orbit, not a diagram
+             page is a Three.js rig you orbit, inlined at
+             687 KB rather than fetched from a CDN
 
   Predict    "At ninety degrees of pitch, how many
              independent axes are left?"  → commit → run
@@ -163,7 +164,7 @@ committed beside them.`,
              to spin on its own axis" — every topic word
              defined where it first appears, or the build fails
 
-  Gate       31 checks · exit 0 required
+  Gate       33 checks · exit 0 required
 
 The three explainers built before this version opened with
 identical headings under identical tabs. The gate now fails

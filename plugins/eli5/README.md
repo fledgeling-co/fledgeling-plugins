@@ -53,11 +53,14 @@ you can read before something happens, and a floor on how much there is to look 
 touch. Words inside a diagram don't count, so a sentence of explanation ends up on the thing
 it explains. The reference build runs 188 words; the pages this replaces ran 1,024 to 1,822.
 
-**Three.js, GSAP and generated imagery when they earn it.** Inlined into the file rather
-than pulled from a CDN, so it still works offline. A library that buys nothing for the topic
-doesn't get added.
+**Three.js, GSAP, rendered video and generated imagery when they earn it.** 3D when a flat
+picture would lose the thing being explained, GSAP when a change moves several parts at
+once, a rendered clip when the sequence is too expensive to run live in a browser — and that
+clip always has a scrubber, because a thing you can't rewind teaches nothing. All of it
+embedded in the file rather than pulled from a CDN, so it still works offline. A library that
+buys nothing for the topic doesn't get added. Charts go through the `dataviz` skill first.
 
-**A gate that fails the build.** Thirty-one checks run before it's finished: no broken
+**A gate that fails the build.** Thirty-three checks run before it's finished: no broken
 external images, diagrams that scale instead of clipping, drags that survive a touchscreen,
 animations that don't leak, motion with a reduced-motion path, the pedagogy rules above, and
 the prose budget. It exits non-zero and it means it.
