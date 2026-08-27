@@ -2,7 +2,7 @@
 """
 lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Twenty-nine checks in five families. Exits 1 on any FAIL.
+Thirty checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
@@ -110,9 +110,18 @@ ANCHOR = re.compile(
 )
 
 
+DEFN = re.compile(r"<dfn\b.*?</dfn>|<[a-z]+\b[^>]*\bdata-glossary\b.*?</[a-z]+>", re.S | re.I)
+
+
+def _without_definitions(html: str) -> str:
+    """Defining a term costs nothing against the budget, so the page defines rather than
+    compresses. Compression is what turns a hard idea into an aphorism (evidence.md 4.7)."""
+    return DEFN.sub(" ", html)
+
+
 def prose_segments(html: str) -> List[str]:
     """Visible prose split at every visual or interactive element, in document order."""
-    marked = ANCHOR.sub("\x00", _strip_code(html))
+    marked = ANCHOR.sub("\x00", _without_definitions(_strip_code(html)))
     marked = re.sub(r"<[^>]+>", " ", marked)
     return [re.sub(r"\s+", " ", s).strip() for s in marked.split("\x00")]
 
@@ -414,6 +423,60 @@ BOILERPLATE = [
 ]
 
 
+
+DFN = re.compile(r"<dfn\b([^>]*)>(.*?)</dfn>", re.S | re.I)
+
+
+def check_defined_terms(html: str, text: str) -> Check:
+    """The failure the baby-talk rule cannot see: a page pitched so far from a five-year-old
+    that nobody outside the project can read it. One recorded artifact passed every other
+    check at 200 words while using cards, rung, class, oracle, assay, charter, denominator,
+    closures and escapes, none of them defined (evidence.md 4.7).
+
+    Readability metrics do not separate the two cases -- measured, that artifact and a
+    readable one both ran a mean sentence of 8 words and about 60% short sentences. What
+    separates them is whether the page defines its own vocabulary, so that is what is checked.
+    """
+    body = _strip_code(html)
+    found = list(DFN.finditer(body))
+    if not found:
+        return Check(
+            "defines-its-terms", "pedagogy", "§1.11", FAIL,
+            "no <dfn> in the page. Mark each term specific to this topic where it is first "
+            "used and define it there; definitions are free against the prose budget",
+            0,
+        )
+
+    used_early = []
+    for m in found:
+        attr, inner = m.group(1), m.group(2)
+        term = re.search(r'data-term\s*=\s*["\']([^"\']+)', attr)
+        term = term.group(1) if term else re.sub(r"<[^>]+>", "", inner)
+        term = re.split(r"[:\u2014\u2013,.]", term.strip())[0].strip()
+        if len(term) < 3:
+            continue
+        before = re.sub(r"<[^>]+>", " ", body[: m.start()])
+        if re.search(r"\b" + re.escape(term) + r"\b", before, re.I):
+            used_early.append(term)
+
+    n = len(found)
+    if used_early:
+        return Check(
+            "defines-its-terms", "pedagogy", "§1.11", FAIL,
+            f"{len(used_early)} term(s) used before being defined: {sorted(set(used_early))}; "
+            f"define at first use, not after the reader has already met the word",
+            n,
+        )
+    if n < 3:
+        return Check(
+            "defines-its-terms", "pedagogy", "§1.11", WARN,
+            f"{n} defined term(s); most hard topics carry at least 3 words the reader does not "
+            f"already own, and an undefined one is where the page stops being readable",
+            n,
+        )
+    return Check("defines-its-terms", "pedagogy", "§1.11", PASS, f"{n} term(s) defined at first use", n)
+
+
 def check_pedagogy(html: str) -> List[Check]:
     text = visible_text(html)
     h = strip_comments(html)
@@ -465,6 +528,8 @@ def check_pedagogy(html: str) -> List[Check]:
         len(baby),
     ))
 
+    out.append(check_defined_terms(html, text))
+
     passes = set(re.findall(r'data-pass\s*=\s*["\']?([1-9])', h, re.I))
     n = len(passes)
     if n >= 3:
@@ -505,7 +570,7 @@ BLOCK = re.compile(r"<(p|li|h1|h2|h3|h4|figcaption|blockquote)\b[^>]*>(.*?)</\1>
 
 def prose_blocks(html: str) -> List[int]:
     """Word count of each visible text block, largest last."""
-    body = _strip_code(html)
+    body = _without_definitions(_strip_code(html))
     counts = []
     for _, inner in BLOCK.findall(body):
         txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", inner)).strip()
@@ -524,8 +589,10 @@ def check_composition(html: str) -> List[Check]:
         st, msg = FAIL, (f"{words} words of prose outside the diagrams; the budget is 350. Words "
                          f"inside <svg> cost nothing and satisfy spatial contiguity, so move a "
                          f"sentence of explanation onto the thing it explains")
-    elif words > 250:
-        st, msg = WARN, f"{words} words of prose; under 250 keeps the artifact something you operate"
+    elif words > 300:
+        # 300 rather than 250: plain language measurably costs more words than the compressed
+        # register it replaces, and this should warn on padding rather than on clarity.
+        st, msg = WARN, f"{words} words of prose; under 300 keeps the artifact something you operate"
     else:
         st, msg = PASS, f"{words} words of prose outside the diagrams"
     out.append(Check("prose-budget", "composition", "§1.6", st, msg, words))
@@ -634,7 +701,7 @@ GOOD = """<!doctype html><html><head><style>
 .pulse{animation:p .3s}
 </style></head><body>
 <section data-pass="1">
-<p>Pressure drives flow through a constriction, and the constriction sets the rate.</p>
+<p><dfn>Constriction</dfn>: the narrow part of the pipe. <dfn>Head</dfn>: how hard the water is pushed. <dfn>Rate</dfn>: how much passes a point each second. Pressure drives flow through a constriction.</p>
 <svg viewBox="0 0 960 540" width="100%"><rect x="60" y="72" width="240" height="80"/><text x="180" y="120">inlet</text></svg>
 <p data-predict>Guess which node wins before you run it.</p>
 <button id="step">Step</button><button id="back">Prev</button><input type="range" id="v">
@@ -689,6 +756,7 @@ FIXTURES = [
     ("predict-observe-explain", GOOD.replace("Guess which node wins before you run it.", "It runs.")
                                     .replace("<p data-predict>", "<p>")),
     ("register", GOOD.replace("Pressure drives", "Grown-ups call this the magic rule; pressure drives")),
+    ("defines-its-terms", GOOD.replace("<dfn>", "<span>").replace("</dfn>", "</span>")),
     ("disclosure-tiers", GOOD.replace('data-pass="2"', "id=b").replace('data-pass="3"', "id=c")),
     ("skip-ahead", GOOD.replace("Jump to this section for the numbers.", "These are the numbers.")),
     ("coherence-no-emoji-diagrams", GOOD.replace("<p>Each step moves", "<p>" + "🔥" * 13 + " Each step moves")),
@@ -698,7 +766,7 @@ FIXTURES = [
                                  "<p>" + "packet " * 51 + "</p>")),
     ("prose-run", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
                                "".join(f"<p>{'packet ' * 42}</p>" for _ in range(3)))),
-    ("opening-budget", GOOD.replace("<p>Pressure drives flow through a constriction, and the constriction sets the rate.</p>",
+    ("opening-budget", GOOD.replace("<p><dfn>Constriction</dfn>: the narrow part of the pipe. <dfn>Head</dfn>: how hard the water is pushed. <dfn>Rate</dfn>: how much passes a point each second. Pressure drives flow through a constriction.</p>",
                                     "".join(f"<p>{'pressure ' * 31}</p>" for _ in range(3)))),
     ("no-template-boilerplate", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
                                              "<p>The turn. The second lens. Tier 3.</p>")),
