@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-27
 
+### create-luke-content 3.0.0: empirical B2B copywriting craft layer under marketing route
+
+- **Rebuilt marketing route on empirical research**: Bundled a 208-source, 232k-character
+  copywriting evidence base from a 4-backend Dossier deep-research panel (OpenAI gpt-5.6-sol,
+  Perplexity, Gemini, Claude Code). Replaced the predecessor's single consumer parenting-app
+  basis with B2B SaaS artifact schemas for announcements, landing pages, release notes, and
+  campaign emails.
+- **Outcome and mechanism pairing**: Replaced generic benefit-before-feature dogma with
+  paired outcome and causal mechanism in the opening message unit; enforced voluntary
+  two-sided limitation disclosures and preserved specialist domain terminology.
+- **Activated voice-lint configuration**: Shipped `voice-lint.json` to activate Australian
+  spelling, stylometric comparison, and hard failures on self-narrating meta-labels.
+- **Proven with evals & blind quality panel**: 98.2% structural assertion pass rate (54/55);
+  20 to 7 blind judge panel win across OpenAI, xAI, and Claude; unanimous flip on Eval 7
+  after schedule accuracy constraint was added.
+- **Brand package**: Tahoe gel-glass icon ("Voice over craft") passing `audit_sheet.py check`
+  at exit 0; composed HTML retina banner rendered at 3200x1040.
+
 ### reckon 1.8.0 · test-campaign 0.15.0: a stated ceiling is not a gap
 
 - **`EVIDENCE_CEILING` in reckon, and `limited` admitted to test-campaign's
