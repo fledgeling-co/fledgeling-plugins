@@ -41,10 +41,21 @@ command -v jq >/dev/null 2>&1 || { log "jq not found; allowing stop"; exit 0; }
 # A Stop hook is automatically converted to SubagentStop for subagents, so this
 # script also fires every time a subagent finishes. A goal is about the main
 # session's turn: running the gate suite per subagent completion would cost a
-# full test run each time and block the subagent from returning. Only Stop
-# counts. An absent event name means an older payload, which only ever meant Stop.
+# full test run each time and block the subagent from returning. Only Stop runs
+# gates. An absent event name means an older payload, which only ever meant Stop.
+#
+# StopFailure and SessionEnd are the two events that used to leave a run armed
+# and silent forever. StopFailure "fires INSTEAD of Stop when an API error
+# (rate limit, auth failure, etc.) ended the turn" — so the run that dies on an
+# API error never reaches the guard at all, which is why one run sat at
+# `armed: true` on turn 17 for fourteen days. SessionEnd covers the clean exit.
+# Neither can instruct the run (StopFailure's output and exit code are ignored),
+# so they record rather than block.
 HOOK_EVENT="$(printf '%s' "$INPUT" | jq -r '.hook_event_name // "Stop"' 2>/dev/null || echo Stop)"
-[ "$HOOK_EVENT" = "Stop" ] || exit 0
+case "$HOOK_EVENT" in
+  Stop|StopFailure|SessionEnd) : ;;
+  *) exit 0 ;;
+esac
 
 HOOK_SESSION="$(printf '%s' "$INPUT" | jq -r '.session_id // ""' 2>/dev/null || true)"
 
@@ -90,6 +101,7 @@ evaluate() {
   [ "$SSID" = "$HOOK_SESSION" ] || return 0
 
   local SLUG GOAL_FILE LEDGER ITER MAXITER DEADLINE STUCK_AFTER LAST_FP REPEATS ESCALATED LAST_FAILING
+  local LAST_SET SET_REPEATS SET_NOTICE
   SLUG="$(jq -r '.slug // "goal"' "$STATE")"
   GOAL_FILE="$(jq -r '.goal_file // ""' "$STATE")"
   LEDGER="$(jq -r '.ledger // ""' "$STATE")"
@@ -101,6 +113,9 @@ evaluate() {
   REPEATS="$(jq -r '.repeat_count // 0' "$STATE")"
   ESCALATED="$(jq -r '.escalated // false' "$STATE")"
   LAST_FAILING="$(jq -r '.last_failing // ""' "$STATE")"
+  LAST_SET="$(jq -r '.last_failing_set // ""' "$STATE")"
+  SET_REPEATS="$(jq -r '.set_repeat_count // 0' "$STATE")"
+  SET_NOTICE="$(jq -r '.set_notice_after // 10' "$STATE")"
 
   # A non-numeric bound made `[ "$MAXITER" -gt 0 ]` false, which skipped the
   # check entirely and silently unbounded the run. Normalise before arithmetic.
@@ -108,6 +123,8 @@ evaluate() {
   case "$ITER"        in ''|*[!0-9]*) ITER=0 ;; esac
   case "$REPEATS"     in ''|*[!0-9]*) REPEATS=0 ;; esac
   case "$STUCK_AFTER" in ''|*[!0-9]*) STUCK_AFTER=3 ;; esac
+  case "$SET_REPEATS"  in ''|*[!0-9]*) SET_REPEATS=0 ;; esac
+  case "$SET_NOTICE"   in ''|*[!0-9]*) SET_NOTICE=10 ;; esac
 
   [ -n "$LEDGER" ] || LEDGER="docs/goals/goal-${SLUG}.ledger.md"
   case "$LEDGER" in /*) : ;; *) LEDGER="$ROOT/$LEDGER" ;; esac
@@ -122,6 +139,47 @@ evaluate() {
   disarm() { state_set "$STATE" --arg r "$1" --arg t "$(now_iso)" '.armed=false | .ended_at=$t | .end_reason=$r'; }
 
   local NEXT=$((ITER + 1))
+
+  # --- the two events that only record ---------------------------------------
+  if [ "$HOOK_EVENT" = "StopFailure" ]; then
+    # The turn ended on an API error. Gates say nothing useful about a turn that
+    # never ran, so record the error and count it. Three consecutive API-error
+    # turn ends is a run that is not coming back on its own, and leaving it armed
+    # is what made a dead run indistinguishable from a quiet one.
+    local ERR FAILS
+    ERR="$(printf '%s' "$INPUT" | jq -r '.error // .error_type // "unknown"' 2>/dev/null || echo unknown)"
+    FAILS="$(jq -r '.stop_failures // 0' "$STATE")"
+    case "$FAILS" in ''|*[!0-9]*) FAILS=0 ;; esac
+    FAILS=$((FAILS + 1))
+    state_set "$STATE" --argjson n "$FAILS" --arg e "$ERR" --arg t "$(now_iso)" \
+      '.stop_failures=$n | .last_stop_failure=$e | .last_stop_failure_at=$t'
+    ledger_row "$ITER" "api-error" "—" "turn ended on an API error ($ERR) ×$FAILS; no gates run, iteration not advanced"
+    if [ "$FAILS" -ge 3 ]; then
+      disarm "api_error"
+      state_set "$STATE" --arg e "$ERR" '.stuck_on=("API error: " + $e)'
+      log "$SLUG: three consecutive API-error turn ends — disarmed"
+    fi
+    return 0
+  fi
+  if [ "$HOOK_EVENT" = "SessionEnd" ]; then
+    # The session that armed this run is going away, and the guard matches on
+    # session id, so the run can never advance again. Record it as ended rather
+    # than leaving `armed: true` for a fortnight. Re-arming from a resumed
+    # session rewrites session_id and sets armed back to true.
+    local WHY; WHY="$(printf '%s' "$INPUT" | jq -r '.reason // "unknown"' 2>/dev/null || echo unknown)"
+    ledger_row "$ITER" "stop" "—" "session $SSID ended ($WHY) while armed; nothing can advance this run now"
+    disarm "session_ended"
+    log "$SLUG: owning session ended — disarmed"
+    return 0
+  fi
+
+  # From here on the event is Stop, so the guard is demonstrably live. Arming
+  # writes hook_live=unproven because a hook registered mid-session into a
+  # .claude/ that had no settings file at session start is written correctly and
+  # never loaded, and nothing can prove otherwise from inside the arming turn.
+  [ "$(jq -r '.hook_live // ""' "$STATE")" = "proven" ] || \
+    state_set "$STATE" --arg t "$(now_iso)" '.hook_live="proven" | .hook_proven_at=$t'
+  [ "$(jq -r '.stop_failures // 0' "$STATE")" = "0" ] || state_set "$STATE" '.stop_failures=0'
 
   # --- bounds ---------------------------------------------------------------
   if [ "$MAXITER" -gt 0 ] && [ "$NEXT" -gt "$MAXITER" ]; then
@@ -186,6 +244,19 @@ $TAIL
   local FP; FP="$(printf '%s\n%s' "$FAILED_NAMES" "$FAILED_DETAIL" | hash_of)"
   if [ "$FP" = "$LAST_FP" ]; then REPEATS=$((REPEATS + 1)); else REPEATS=1; ESCALATED=false; fi
 
+  # The output fingerprint above resets whenever a count, a path or an elapsed
+  # time moves, so a run can fail on the same gates for dozens of turns and never
+  # trip it: `orderly` recorded 88 of 137 turns at repeat ×1 while `queue,
+  # hygiene` was red on 73 of them, and ran to its iteration bound. The failing
+  # SET is the coarser signal that catches that.
+  #
+  # It only ever notices. Measured across 24 ledgers, 29 streaks of an identical
+  # failing set ran 8 turns or longer and then cleared — the longest was 57 turns
+  # of `ledger-drained, orchestrator-drained, worktrees-clean` on a backlog being
+  # worked through item by item. A long streak is normal here, so disarming on one
+  # would kill healthy runs; naming it lets the run answer for itself.
+  if [ "$FAILED_NAMES" = "$LAST_SET" ]; then SET_REPEATS=$((SET_REPEATS + 1)); else SET_REPEATS=1; fi
+
   if [ "$REPEATS" -gt "$STUCK_AFTER" ] && [ "$ESCALATED" = "true" ]; then
     ledger_row "$NEXT" "stop" "$FAILED_NAMES" "identical failure ×$REPEATS after escalation, stuck, disarmed"
     disarm "stuck"
@@ -201,6 +272,10 @@ $TAIL
   local DELTA=""
   if [ -n "$LAST_FAILING" ] && [ "$LAST_FAILING" != "$FAILED_NAMES" ]; then
     DELTA="Since the last turn the failing set moved: was [$LAST_FAILING], now [$FAILED_NAMES]."
+  elif [ "$SET_REPEATS" -ge "$SET_NOTICE" ]; then
+    DELTA="[$FAILED_NAMES] have now been red for $SET_REPEATS consecutive turns. If this is a
+queue being drained, say in one line what moved this turn. If nothing is moving,
+this is the turn to change approach or park the item rather than repeat it."
   fi
 
   local BODY
@@ -231,10 +306,12 @@ Next: re-read \`$GOAL_FILE\` (worklist, gates, blocked-item policy, resources),
 fix the failing gate above, and record what you changed."
   fi
 
-  ledger_row "$NEXT" "block" "$FAILED_NAMES" "iteration $NEXT${BOUND:-/∞}${REPEATS:+ · repeat ×$REPEATS}"
+  local SETNOTE=""; [ "$SET_REPEATS" -ge "$SET_NOTICE" ] && SETNOTE=" · same set ×$SET_REPEATS"
+  ledger_row "$NEXT" "block" "$FAILED_NAMES" "iteration $NEXT${BOUND:-/∞}${REPEATS:+ · repeat ×$REPEATS}$SETNOTE"
   state_set "$STATE" --argjson n "$NEXT" --arg fp "$FP" --argjson r "$REPEATS" \
-                     --argjson e "$ESCALATED" --arg lf "$FAILED_NAMES" \
-    '.iteration=$n | .last_fingerprint=$fp | .repeat_count=$r | .escalated=$e | .last_failing=$lf'
+                     --argjson e "$ESCALATED" --arg lf "$FAILED_NAMES" --argjson sr "$SET_REPEATS" \
+    '.iteration=$n | .last_fingerprint=$fp | .repeat_count=$r | .escalated=$e | .last_failing=$lf
+     | .last_failing_set=$lf | .set_repeat_count=$sr'
 
   BLOCKS="${BLOCKS}The run \`$SLUG\` is not finished: $FAILED_NAMES did not pass.
 

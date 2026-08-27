@@ -75,18 +75,20 @@ elif [ -f "$SETTINGS" ]; then
   # inside single quotes, and would be injectable if it did.
   tmp="$(mktemp)"
   jq --arg pc "$PRIOR_CAP" '
-      if .hooks.Stop then .hooks.Stop = (.hooks.Stop | map(select(
-          ((.hooks // []) | map(.command? // "") | map(test("(better-goal|goal-harness).*(guard|goal-guard)\\.sh")) | any) | not))) else . end
-    | if (.hooks.Stop // []) == [] then del(.hooks.Stop) else . end
+      def ours: test("(better-goal|goal-harness).*(guard|goal-guard|sentinel)\\.sh");
+      def strip(ev): if .hooks[ev] then .hooks[ev] = (.hooks[ev] | map(select(
+          ((.hooks // []) | map(.command? // "") | map(ours) | any) | not))) else . end
+        | if (.hooks[ev] // []) == [] then del(.hooks[ev]) else . end;
+      strip("Stop") | strip("StopFailure") | strip("SessionEnd") | strip("SessionStart")
     | if $pc == "" then del(.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP)
       else .env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP = $pc end
     | if (.env // {}) == {} then del(.env) else . end
     | if (.hooks // {}) == {} then del(.hooks) else . end' "$SETTINGS" >"$tmp" && mv "$tmp" "$SETTINGS" \
     || { echo "disarm.sh: settings rewrite failed; $SETTINGS left as it was" >&2; rm -f "$tmp"; exit 2; }
   if [ -n "$PRIOR_CAP" ]; then
-    echo "removed the Stop hook; block cap restored to $PRIOR_CAP in $SETTINGS"
+    echo "removed the Stop, StopFailure, SessionEnd and SessionStart hooks; block cap restored to $PRIOR_CAP in $SETTINGS"
   else
-    echo "removed the Stop hook and the block-cap override from $SETTINGS"
+    echo "removed the Stop, StopFailure, SessionEnd and SessionStart hooks and the block-cap override from $SETTINGS"
   fi
 fi
 

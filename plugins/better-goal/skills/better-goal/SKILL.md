@@ -1,7 +1,7 @@
 ---
 name: better-goal
 description: >-
-  Hold a long autonomous run to a finish line using a Stop guard and a stall watcher this skill creates itself, with no dependence on the /goal command. Use when someone wants a run that keeps going until the work is actually done — "set a goal to ship the rest of the backlog", "keep going until every item is complete", "harden this goal", "make a goal for this" — and when a run has already misfired: "has the goal been met?", "why have you stopped?", "you stopped despite the goal being set", "are you still working?". Also use as a follow-up to the built-in command (`/goal /better-goal <intent>`, formerly goal-harness). Grounds the finish line in the repo's real worklist, writes the brief to docs/goals/goal-<slug>.md, turns "done" into runnable gates, preflights the settings that silently kill a run, arms a per-slug command Stop hook that verifies by exit code rather than by narration, and arms an out-of-band watcher that notices a run dying mid-turn. Stops deliberately when a gate fails identically turn after turn, rather than re-sending the same failure. NOT for interval or polling work (use better-loop) or for a single task that finishes in one turn.
+  Hold a long autonomous run to a finish line using a Stop guard and a stall watcher this skill creates itself, with no dependence on the /goal command. Use when someone wants a run that keeps going until the work is actually done — "set a goal to ship the rest of the backlog", "keep going until every item is complete", "harden this goal", "make a goal for this" — and when a run has already misfired: "has the goal been met?", "why have you stopped?", "you stopped despite the goal being set", "are you still working?". Also use as a follow-up to the built-in command (`/goal /better-goal <intent>`, formerly goal-harness). Grounds the finish line in the repo's real worklist, writes the brief to docs/goals/goal-<slug>.md, turns "done" into runnable gates, preflights the settings that silently kill a run, arms a per-slug command Stop hook that verifies by exit code rather than by narration, and covers the deaths a Stop hook never sees — StopFailure for a turn that ended on an API error, SessionEnd for a session that closed while armed, a SessionStart sentinel that tells the next session what is still armed and cold, and a transcript-backed watcher that can tell a long turn from a dead run. Proves the hook actually loaded rather than assuming it, because a hook registered mid-session into a .claude/ Claude Code is not watching is written correctly and never fires. Stops deliberately when a gate fails identically turn after turn, rather than re-sending the same failure. NOT for interval or polling work (use better-loop) or for a single task that finishes in one turn.
 ---
 
 # better-goal — a finish line that verifies itself
@@ -9,7 +9,15 @@ description: >-
 A long run needs three things the model cannot supply about itself: something
 that decides whether the work is done, something that notices when the run has
 died, and a record that answers "how's it going" without interrupting it. This
-skill builds all three out of a command Stop hook, a monitor, and a file.
+skill builds all three out of command hooks, a monitor, and a file.
+
+Two of those live inside the session, so a third has to live outside it. A Stop
+hook cannot fire for a turn that ended on an API error, and a `Monitor` dies with
+the session that armed it — which is how one run sat at `armed: true` on turn 17
+for fourteen days with nobody told. `arm.sh` therefore registers four events, not
+one: `Stop` runs the gates, `StopFailure` and `SessionEnd` record the deaths the
+guard never sees, and `SessionStart` reports what is still armed to the next
+session that opens the repo.
 
 It does not use `/goal`. That command registers a prompt Stop hook whose verdict
 comes from a small model reading the transcript — so it is judged on what the
@@ -81,6 +89,7 @@ repo root, every turn.
 | Check | Why it matters |
 |---|---|
 | Hooks enabled; `disableAllHooks` / `allowManagedHooksOnly` unset | The guard is a hook. Without hooks there is no harness |
+| A settings file already in `.claude/` | Claude Code watches only directories that held one when the session started, so a hook armed into an empty `.claude/` is written correctly and never fires |
 | Permission mode | Nothing here changes permissions; in default mode an unallowed tool call stalls the run until someone answers |
 | `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8 consecutive blocks, then Claude Code overrides the hook and ends the turn as `completed` |
 | Every skill named in the brief | A skill Claude may not invoke on its own arrives at a scheduled fire as plain text |
@@ -100,7 +109,23 @@ this run.
 
 `scripts/arm.sh --state <file>` writes `.claude/goals/<slug>.json` (armed flag,
 session id, iteration counter, deadline, gates, ledger path, stuck bound) and
-registers `scripts/guard.sh` once as a `command` Stop hook.
+registers `scripts/guard.sh` on `Stop`, `StopFailure` and `SessionEnd`, plus
+`scripts/sentinel.sh` on `SessionStart`. It replaces any registration from an
+earlier version rather than adding beside it: matching on the exact path let one
+repo accumulate two guards and run every gate twice a turn.
+
+**Read the hook-load line it prints.** Claude Code watches only directories that
+already held a settings file when the session started, so arming into an empty
+`.claude/` writes the hook correctly and never loads it. `arm.sh` records which
+case this is and says so. When it reports the hook as not loaded, tell the user
+to open `/hooks` once or restart, say plainly that nothing is armed until they
+do, and run the gates by hand meanwhile. `/hooks` is a UI menu, so you cannot do
+it yourself and opening it ends the turn.
+
+The state carries `hook_live: "unproven"` until the guard's first real firing
+stamps it `proven`. A Stop hook fires after the turn, so there is no in-turn
+proof: the first ledger row is the proof. `status.sh`, the watcher and the
+sentinel all report an unproven guard rather than assuming it works.
 
 Two properties make this safe to leave running:
 
@@ -124,17 +149,23 @@ a conclusion the guard reaches from its own exit codes, never one the run assert
 
 ### 7. Arm the stall watcher
 
-The Stop guard only fires at the *end of a turn*. A run that dies mid-turn — a
-usage limit, a crashed delivery agent, a lost session, a workflow whose agents
-all failed — never reaches a Stop event, so the guard never runs, the ledger
-stops growing, and the run looks armed for as long as nobody looks. The guard
-cannot close that gap, because the guard is inside the thing that died.
+`StopFailure` and `SessionEnd` cover the deaths Claude Code knows about. They do
+not cover a run wedged mid-turn on a permission prompt, a crashed delivery agent,
+or a workflow whose agents all failed, because no event fires for those at all.
 
-Arm something outside it. `scripts/watch.sh <slug>` is built for this: run it
-under `Monitor` with `persistent: true` and it emits a line **only on a
-transition** — the ledger going stale past its threshold, the gate set changing,
-every gate going green, or the state file disarming. A healthy run produces no
-output at all, so every line it emits is one worth waking for.
+`scripts/watch.sh <slug>` is built for that: run it under `Monitor` with
+`persistent: true` and it emits a line only on a transition — the guard never
+firing (`NOTLIVE`), the run going cold (`STALL`), the ledger moving again
+(`RESUMED`), or the state disarming (`DONE`, `ENDED`, `GONE`).
+
+Liveness comes from the session's own transcript, not from the ledger alone. A
+turn that runs longer than the stale threshold is normal here: of 56 `STALL`
+notifications measured across 14 real runs, 34 arrived within ten minutes of an
+assistant message, so the watcher was waking a working session to ask whether it
+had died, at the price of the whole session prefix each time. The watcher now
+reads the transcript's mtime, stays silent while the session is writing, and
+derives its own threshold from the run's median turn length (`--stale N` pins
+it, `--alive 0` turns the transcript check off).
 
 ```
 Monitor({ command: "<plugin>/scripts/watch.sh ship-remaining-work",
@@ -152,10 +183,39 @@ expires after seven days.
 ### 8. Report what is watching
 
 Close with one block, not a narrative: the slug and its finish line, the gates
-the guard runs each turn, the bounds (iterations, deadline, stuck limit), the
-watcher and what wakes it, where the ledger is, how to read status
-(`scripts/status.sh`), and how to stop early (`scripts/disarm.sh <slug>`, which
-removes the hook, the watcher entry and the raised block cap together).
+the guard runs each turn, whether the hook is loaded in this session, the bounds
+(iterations, deadline, stuck limit), the watcher and what wakes it, where the
+ledger is, how to read status (`scripts/status.sh`), and how to stop early
+(`scripts/disarm.sh <slug>`, which removes all four hook registrations and the
+raised block cap together).
+
+Where the hook is not loaded, that line goes first and says the run is not armed
+yet. A report that opens on the gates and mentions it in the last line has
+buried the only part that changes what happens next.
+
+## When the run dies rather than stops
+
+Three endings used to look identical from outside: finished, wedged, and dead.
+Each now writes a ledger row and a distinct `end_reason`.
+
+- **`StopFailure`** fires instead of `Stop` when an API error ended the turn, so
+  a rate limit or a dropped connection no longer leaves the guard unasked. The
+  guard records the error; on the third consecutive one it disarms with
+  `end_reason: "api_error"`, because three failed turn-ends is a run that is not
+  coming back on its own. Its output and exit code are ignored by Claude Code, so
+  it records and never instructs.
+- **`SessionEnd`** disarms with `end_reason: "session_ended"`. The guard matches
+  on session id, so once the owning session is gone the run can never advance;
+  leaving it armed is what made a dead run look like a quiet one. Re-arming from
+  a resumed session rewrites `session_id` and sets it armed again, keeping the
+  iteration count and the ledger.
+- **`SessionStart`** runs `sentinel.sh`, which reports armed runs whose guard has
+  never fired, armed runs that have gone cold while their session is silent, and
+  endings nobody has been told about yet. It says each ending once, and says
+  nothing when every run is healthy.
+
+A `SIGKILL` reaches none of these, which is why the sentinel checks state on
+every session start rather than trusting the events alone.
 
 ## Stop when the failure stops changing
 
@@ -175,6 +235,18 @@ Set `stuck_after` higher for a gate that legitimately takes several turns to mov
 (a long migration, a flaky suite being stabilised) and lower for one that should
 flip on the first correct fix.
 
+That fingerprint resets whenever a count, a path or an elapsed time moves, so a
+run can fail on the same gates for dozens of turns without tripping it: one run
+recorded 88 of 137 turns at `repeat ×1` while the same two gates were red on 73
+of them, and spent its whole iteration bound that way. The guard counts the
+failing **set** separately, and from `set_notice_after` turns (default 10) adds
+one line to the block naming the streak.
+
+It only ever notices. Across 24 ledgers, 29 streaks of an identical failing set
+ran 8 turns or longer and then cleared — the longest was 57 turns of a backlog
+gate on a queue being drained item by item. A long streak is the normal shape of
+this work, so disarming on one would kill healthy runs.
+
 ## Delegation
 
 This skill runs in-session. Spawn a subagent only to survey a backlog too large
@@ -191,6 +263,8 @@ id plus the `Monitor` call. Say plainly that nothing is armed yet.
 
 - **A finish line nothing can settle is a defect.** Rewrite it before arming
   rather than arming a gate that passes whenever the run says it should.
+- **A hook you cannot prove fired is not armed.** Report `hook_live` rather than
+  the state file's `armed` flag, because the two disagree exactly when it matters.
 - **Never arm past a failed preflight.** A run that stalls on a permission prompt
   at 3am looks exactly like a run that finished.
 - **Bound every run.** Iterations, a deadline and a stuck limit, all in the state
