@@ -218,3 +218,108 @@ The panel converged on the same gaps, which bound what this skill may claim.
   degrades in multi-turn SVG work is unmeasured across models.
 - **No cost or latency benchmarks** for explainer architectures at all (Perplexity returned
   `MISSING_DATA` for every engineering cell in its comparison table rather than estimating).
+
+---
+
+## 4. Measured in this repo, 27 Aug 2026
+
+Section 1 is the research panel. This section is local measurement, and it is what the
+`composition` family of the gate and the library recipes in `artifact-engineering.md` rest
+on. Where a rule here has no panel source, it says so.
+
+### 4.1 One mandated architecture produced three indistinguishable artifacts
+
+Three explainers built by version 0.1.0 in `~/Dev/dAIolog/docs/warrant-web/`, plus the
+skill's own bundled `evals/sample-artifact.html`:
+
+| Artifact | Prose words | Visual scenes | Template phrases reused |
+|---|---|---|---|
+| `done-to-verified.html` | 1,024 | 3 | 10 |
+| `what-changed-in-done.html` | 1,293 | 3 | 9 |
+| `what-the-agents-are-doing.html` | 1,636 | 4 | 9 |
+| `evals/sample-artifact.html` | 1,822 | 3 | 7 |
+
+All three warrant-web pages opened with the same four headings in the same order, under the
+same three-tab strip. Every phrase counted above came from the skill's own worked examples,
+which were illustrations rather than rules — the model copied them because they were the only
+concrete shapes in the file.
+
+→ Rules: `references/forms.md` replaces the single architecture with eight precedents rather
+than a specification; the gate's `no-template-boilerplate` fails at three or more copied
+phrases; the composition budgets in §4.5 count words outside `<svg>` and `<canvas>`, so a
+sentence moved onto the thing it explains costs nothing and satisfies spatial contiguity at
+the same time (§1.7).
+
+Anthropic's published frontend guidance names the same failure and is the source for the
+identity pass: *"You tend to converge toward generic, 'on distribution' outputs… You still
+tend to converge on common choices across generations. Avoid this."* It also states that
+*"animations and interactive elements should be requested explicitly when desired"*, which
+is why the interaction floor is a count rather than an encouragement.
+
+### 4.2 A vendored library breaks the containment scan unless it is marked
+
+Three.js r169 contains 3 `fetch(` calls, 2 `requestAnimationFrame` and 1
+`cancelAnimationFrame`. Inlined without a marker it fails `no-network-calls` on every artifact
+that uses it, measured against version 0.1.0 of the gate.
+
+→ Rule: vendor blocks carry `data-vendor`, and the containment, animation-frame and
+word-count scans read author code only.
+
+### 4.3 Only a single-file Three.js build inlines
+
+Measured in Chromium from `file://`. The split r17x pair (`three.module.min.js` re-exporting
+`./three.core.min.js`) fails two ways, both silent to a reader:
+
+| Route | Result |
+|---|---|
+| Inlined directly, split build | `Access to script at 'file:///…/three.core.min.js' … blocked by CORS policy` |
+| Importmap `data:` URL, split build | `Failed to resolve module specifier "./three.core.min.js". Invalid relative url or base scheme isn't hierarchical.` |
+| Export list rewritten to `const THREE`, single-file r169 | renders; `THREE.REVISION` reads `169`, WebGL context live |
+| Importmap `data:` URL, single-file r169 | renders; 917 KB against 687 KB |
+
+GSAP 3.13.0 inlines unchanged as a classic script: `gsap.to('#box',{x:120})` lands
+`matrix(1, 0, 0, 1, 120, 0)`.
+
+→ Rules: `scripts/vendor_lib.py` refuses a split build rather than emitting one that
+half-works, and the export-rewrite route is the default.
+
+### 4.4 The rebuilt gate, checked against its own inputs
+
+`scripts/lint_explainer.py --self-test`: 29 of 29 rules proved able to fail against broken
+fixtures, with the reference fixture passing all 29.
+
+Two gate defects were found by running it rather than by reading it. `motion-steppable`
+searched the whole page for the word `step`, so the prose *"each step moves one packet"*
+satisfied a rule about controls; it now reads the control markup only. `boundary-reachable`
+divided by the length of the raw HTML, so a 690 KB inlined library put every boundary at 1%
+and the rule could no longer fire; it now measures against markup with scripts and styles
+removed.
+
+### 4.5 Total prose was the wrong measure on its own
+
+A reference artifact built to the first cut of these rules — Solid form, Three.js inlined,
+gimbal lock — passed at 367 words and was still read as wordy. Broken down, three blocks
+carried 159 of the 367:
+
+| Block | Words | Read as |
+|---|---|---|
+| What the account leaves out | 73 | a passage |
+| The analogy boundary | 48 | a passage |
+| How the middle ring carries the outer axis | 38 | a passage |
+| Two figure captions | 14, 17 | captions, unremarked |
+
+→ Rules: `prose-budget` fails above 350 and warns above 250; a new `prose-block` fails a
+single text block above 50 and warns above 35; `prose-run` fails above 120; `opening-budget`
+fails above 90; `visual-density` warns past 110 words per scene.
+
+Rebuilt against them, the same artifact runs **188 words with no block over 25** and passes
+29 of 29. The cuts were structural rather than compression: the leaves-out paragraph became
+three list items, two explanatory sentences moved inside the SVG as annotations, and the
+boundary lost half its length without losing its claim.
+
+### 4.6 The gate cannot see a collision, and did not
+
+At 90° of pitch in that rebuild, the yaw and roll axis labels landed on the same anchor and
+drew on top of each other. Every one of the 29 checks passed. This is §1.9 exactly — the
+markup was valid and the geometry was wrong — and it is why the skill's last step is to open
+the file and look. The fix collapses the two labels into one below 12° of separation.

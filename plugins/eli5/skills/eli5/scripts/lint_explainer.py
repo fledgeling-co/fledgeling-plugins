@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """
-lint_explainer.py — deterministic gate for eli5 explainer artifacts.
+lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Sixteen checks in four families. Exits 1 on any FAIL.
+Twenty-nine checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
     python3 lint_explainer.py --json file.html
 
-Every rule cites the evidence.md section it enforces. A rule that cannot fail is a
-finding about the gate, not a pass -- which is what --self-test exists to prevent.
+Every rule cites the evidence.md section it enforces. A rule that cannot fail is a finding
+about the gate, not a pass -- which is what --self-test exists to prevent.
+
+Four attributes are markers the gate reads, so staging and vendoring stay form-agnostic:
+
+    data-pass="1|2|3"   the container for one depth pass
+    data-boundary       the element stating where the analogy stops being true
+    data-predict        the element asking the reader to commit a guess
+    data-vendor="name"  an inlined library; excluded from containment and word counts
 """
 
 import argparse
@@ -17,7 +24,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List
 
 # ---------------------------------------------------------------- result types
 
@@ -54,25 +61,64 @@ class Report:
 
 # ---------------------------------------------------------------- helpers
 
+SCRIPT_TAG = re.compile(r"<script\b([^>]*)>(.*?)</script>", re.S | re.I)
+
+
 def strip_comments(html: str) -> str:
     return re.sub(r"<!--.*?-->", "", html, flags=re.S)
 
 
-def scripts_of(html: str) -> str:
-    return "\n".join(re.findall(r"<script\b[^>]*>(.*?)</script>", html, flags=re.S | re.I))
+def _split_scripts(html: str):
+    """(author_js, vendor_js, vendor_attrs) -- vendor blocks carry data-vendor."""
+    author, vendor, attrs = [], [], []
+    for m in SCRIPT_TAG.finditer(html):
+        if re.search(r"\bdata-vendor\b", m.group(1), re.I):
+            vendor.append(m.group(2))
+            attrs.append(m.group(1))
+        else:
+            author.append(m.group(2))
+    return "\n".join(author), "\n".join(vendor), attrs
+
+
+def author_js(html: str) -> str:
+    return _split_scripts(html)[0]
 
 
 def styles_of(html: str) -> str:
     return "\n".join(re.findall(r"<style\b[^>]*>(.*?)</style>", html, flags=re.S | re.I))
 
 
-def visible_text(html: str) -> str:
-    """Markup stripped, so lexicon checks do not match class names or JS identifiers."""
+def _strip_code(html: str) -> str:
     h = strip_comments(html)
     h = re.sub(r"<script\b[^>]*>.*?</script>", " ", h, flags=re.S | re.I)
     h = re.sub(r"<style\b[^>]*>.*?</style>", " ", h, flags=re.S | re.I)
-    h = re.sub(r"<[^>]+>", " ", h)
+    return h
+
+
+def visible_text(html: str) -> str:
+    """Markup stripped, so lexicon checks do not match class names or JS identifiers."""
+    h = re.sub(r"<[^>]+>", " ", _strip_code(html))
     return re.sub(r"\s+", " ", h)
+
+
+# Anchors: things a reader can look at or touch. Prose is what sits between them.
+ANCHOR = re.compile(
+    r"<svg\b.*?</svg>|<canvas\b.*?</canvas>|<video\b.*?</video>"
+    r"|<button\b.*?</button>|<select\b.*?</select>|<label\b[^>]*class=[\"']?rng.*?</label>"
+    r"|<input\b[^>]*>|<img\b[^>]*>",
+    re.S | re.I,
+)
+
+
+def prose_segments(html: str) -> List[str]:
+    """Visible prose split at every visual or interactive element, in document order."""
+    marked = ANCHOR.sub("\x00", _strip_code(html))
+    marked = re.sub(r"<[^>]+>", " ", marked)
+    return [re.sub(r"\s+", " ", s).strip() for s in marked.split("\x00")]
+
+
+def prose_words(html: str) -> int:
+    return sum(len(s.split()) for s in prose_segments(html))
 
 
 # ---------------------------------------------------------------- family 1: containment
@@ -82,9 +128,7 @@ REMOTE = re.compile(
     re.I,
 )
 REMOTE_CSS = re.compile(r"""url\(\s*["']?(?:https?:)?//(?!fonts\.gstatic\.com)""", re.I)
-NETWORK_CALL = re.compile(
-    r"\bfetch\s*\(|\bXMLHttpRequest\b|\bnew\s+WebSocket\b|\bimportScripts\s*\("
-)
+NETWORK_CALL = re.compile(r"\bfetch\s*\(|\bXMLHttpRequest\b|\bnew\s+WebSocket\b|\bimportScripts\s*\(")
 
 
 def check_containment(html: str) -> List[Check]:
@@ -100,25 +144,40 @@ def check_containment(html: str) -> List[Check]:
         len(hits),
     ))
 
-    net = NETWORK_CALL.findall(scripts_of(html))
+    # Vendor blocks are excluded: three.js ships three fetch() calls in its loaders.
+    net = NETWORK_CALL.findall(author_js(html))
     out.append(Check(
         "no-network-calls", "containment", "§1.10",
         FAIL if net else PASS,
-        f"{len(net)} runtime network call(s): {sorted(set(net))}" if net
-        else "no fetch/XHR/WebSocket at runtime",
+        f"{len(net)} runtime network call(s) in author code: {sorted(set(net))}" if net
+        else "no fetch/XHR/WebSocket in author code",
         len(net),
     ))
 
-    # A single HTML file with no <img> at all is fine; an <img> with a data: URI is fine.
     imgs = re.findall(r"<img\b[^>]*>", h, flags=re.I)
     bad_imgs = [i for i in imgs if not re.search(r'src\s*=\s*["\']data:', i, re.I)]
     out.append(Check(
         "images-inline-only", "containment", "§1.10",
         FAIL if bad_imgs else PASS,
         f"{len(bad_imgs)} <img> without a data: URI" if bad_imgs
-        else f"{len(imgs)} <img> tag(s), all inline" if imgs else "no <img> tags; SVG only",
+        else f"{len(imgs)} <img> tag(s), all inline" if imgs else "no <img> tags",
         len(bad_imgs),
     ))
+
+    _, vendor_src, vendor_attrs = _split_scripts(h)
+    uses_lib = re.search(r"\bTHREE\s*\.|\bgsap\s*\.|\bScrollTrigger\b", author_js(h) + vendor_src)
+    linked = [a for a in vendor_attrs if re.search(r"\bsrc\s*=", a, re.I)]
+    if uses_lib or vendor_attrs:
+        if linked:
+            st, msg = FAIL, f"{len(linked)} data-vendor block(s) with a src attribute; inline the file instead"
+        elif uses_lib and not vendor_attrs:
+            st, msg = FAIL, ("author code calls THREE/gsap with no data-vendor block; a CDN "
+                             "script fails silently and the page renders without its 3D or motion")
+        else:
+            st, msg = PASS, f"{len(vendor_attrs)} inlined vendor block(s), none linked"
+        out.append(Check("vendor-inlined", "containment", "§1.10", st, msg, len(vendor_attrs)))
+    else:
+        out.append(Check("vendor-inlined", "containment", "§1.10", SKIP, "no library in use", 0))
     return out
 
 
@@ -128,54 +187,103 @@ def check_geometry(html: str) -> List[Check]:
     h = strip_comments(html)
     out = []
 
-    svgs = re.findall(r"<svg\b[^>]*>", h, flags=re.I)
+    svg_blocks = re.findall(r"<svg\b[^>]*>(.*?)</svg>", h, flags=re.S | re.I)
+    svgs = [s for s in re.findall(r"<svg\b[^>]*>", h, flags=re.I)]
+    drawn = [b for b in svg_blocks if re.search(r"<(?:rect|circle|path|line|polygon|polyline|text|g|ellipse|use)\b", b, re.I)]
+    canvases = re.findall(r"<canvas\b[^>]*>", h, flags=re.I)
+    data_imgs = re.findall(r'<img\b[^>]*src\s*=\s*["\']data:', h, flags=re.I)
+    scenes = len(drawn) + len(canvases) + len(data_imgs)
+
+    out.append(Check(
+        "visual-scenes", "geometry", "§1.7",
+        PASS if scenes >= 3 else FAIL,
+        f"{scenes} visual scene(s): {len(drawn)} drawn svg, {len(canvases)} canvas, {len(data_imgs)} inline image"
+        + ("" if scenes >= 3 else "; an explainer with fewer than 3 is a document with a picture in it"),
+        scenes,
+    ))
+
     if not svgs:
-        out.append(Check("svg-present", "geometry", "§1.7", FAIL, "no <svg> element; explainer must draw", 0))
         out.append(Check("svg-viewbox", "geometry", "§1.10", SKIP, "no <svg> to check", 0))
         out.append(Check("no-hardcoded-svg-px", "geometry", "§1.10", SKIP, "no <svg> to check", 0))
-        return out
+    else:
+        missing = [s for s in svgs if not re.search(r"\bviewBox\s*=", s, re.I)]
+        out.append(Check(
+            "svg-viewbox", "geometry", "§1.10",
+            FAIL if missing else PASS,
+            f"{len(missing)} of {len(svgs)} <svg> without viewBox; clips inside constrained panels"
+            if missing else f"all {len(svgs)} <svg> carry a viewBox",
+            len(missing),
+        ))
+        px = [s for s in svgs if re.search(r'\b(?:width|height)\s*=\s*["\']\d+(?:px)?["\']', s, re.I)]
+        out.append(Check(
+            "no-hardcoded-svg-px", "geometry", "§1.10",
+            FAIL if px else PASS,
+            f'{len(px)} <svg> with fixed pixel width/height; use width="100%" with viewBox'
+            if px else "no fixed pixel dimensions on <svg>",
+            len(px),
+        ))
 
-    out.append(Check("svg-present", "geometry", "§1.7", PASS, f"{len(svgs)} <svg> element(s)", len(svgs)))
-
-    missing = [s for s in svgs if not re.search(r"\bviewBox\s*=", s, re.I)]
-    out.append(Check(
-        "svg-viewbox", "geometry", "§1.10",
-        FAIL if missing else PASS,
-        f"{len(missing)} of {len(svgs)} <svg> without viewBox; clips inside constrained panels"
-        if missing else f"all {len(svgs)} <svg> carry a viewBox",
-        len(missing),
-    ))
-
-    px = [s for s in svgs if re.search(r'\b(?:width|height)\s*=\s*["\']\d+(?:px)?["\']', s, re.I)]
-    out.append(Check(
-        "no-hardcoded-svg-px", "geometry", "§1.10",
-        FAIL if px else PASS,
-        f"{len(px)} <svg> with fixed pixel width/height; use width=\"100%\" with viewBox"
-        if px else "no fixed pixel dimensions on <svg>",
-        len(px),
-    ))
+    if canvases:
+        unlabelled = [c for c in canvases if not re.search(r"\baria-label(?:ledby)?\s*=", c, re.I)]
+        out.append(Check(
+            "canvas-labelled", "geometry", "a11y floor",
+            FAIL if unlabelled else PASS,
+            f"{len(unlabelled)} <canvas> with no aria-label; its content is invisible to "
+            "assistive technology" if unlabelled else f"all {len(canvases)} <canvas> labelled",
+            len(unlabelled),
+        ))
+    else:
+        out.append(Check("canvas-labelled", "geometry", "a11y floor", SKIP, "no <canvas>", 0))
     return out
 
 
 # ---------------------------------------------------------------- family 3: interaction
 
-def check_interaction(html: str) -> List[Check]:
-    js = scripts_of(html)
-    css = styles_of(html)
+def interaction_kinds(html: str) -> List[str]:
     h = strip_comments(html)
+    js = author_js(h)
+    kinds = []
+    if re.search(r'<input\b[^>]*type\s*=\s*["\']range', h, re.I):
+        kinds.append("slider")
+    if re.search(r"\bpointermove\b|\bmousemove\b|\btouchmove\b", js):
+        kinds.append("drag")
+    if len(re.findall(r"<button\b", h, re.I)) >= 2 and re.search(r"['\"]click['\"]", js):
+        kinds.append("step")
+    if re.search(r'<select\b|<input\b[^>]*type\s*=\s*["\'](?:checkbox|radio)', h, re.I):
+        kinds.append("pick")
+    if re.search(r"\bScrollTrigger\b|['\"]scroll['\"]|\bIntersectionObserver\b|\bwheel\b", js):
+        kinds.append("scroll")
+    if re.search(r"OrbitControls|\bTHREE\s*\.", js + _split_scripts(h)[1]):
+        kinds.append("orbit")
+    if re.search(r"['\"]key(?:down|up|press)['\"]", js):
+        kinds.append("keyboard")
+    return kinds
+
+
+def check_interaction(html: str) -> List[Check]:
+    h = strip_comments(html)
+    js = author_js(h)
+    css = styles_of(html)
     out = []
 
     controls = len(re.findall(r"<(?:button|input|select)\b", h, re.I))
     listeners = len(re.findall(r"addEventListener\s*\(", js))
+    if controls and not listeners:
+        st, msg = FAIL, (f"{controls} control(s) and no handler in author code: dead controls invite "
+                         f"an action that does nothing, which is worse than an honestly static page")
+    elif controls < 3 or not listeners:
+        st, msg = FAIL, f"{controls} control(s), {listeners} listener(s); an explainer is operated, so 3 wired controls is the floor"
+    else:
+        st, msg = PASS, f"{controls} control(s), {listeners} listener(s)"
+    out.append(Check("interactive-controls", "interaction", "§1.3", st, msg, controls))
+
+    kinds = interaction_kinds(h)
     out.append(Check(
-        "interactive-controls", "interaction", "§1.3",
-        PASS if (controls and listeners) else FAIL,
-        f"{controls} control(s), {listeners} listener(s)" if (controls and listeners)
-        else (f"{controls} control(s) and no handler: dead controls invite an action that does "
-              f"nothing, which is worse than an honestly static page. Wire them or remove them"
-              if controls and not listeners
-              else f"needs both: {controls} control(s), {listeners} listener(s)"),
-        controls,
+        "interaction-variety", "interaction", "§1.3",
+        PASS if len(kinds) >= 2 else FAIL,
+        f"{len(kinds)} interaction kind(s): {kinds}"
+        + ("" if len(kinds) >= 2 else "; one mode of interaction across a whole page reads as one widget"),
+        len(kinds),
     ))
 
     drags = re.search(r"\bpointermove\b|\bmousemove\b|\btouchmove\b", js)
@@ -206,29 +314,44 @@ def check_interaction(html: str) -> List[Check]:
         out.append(Check(
             "raf-lifecycle", "interaction", "§1.10",
             PASS if caf else FAIL,
-            f"{raf} rAF call(s), {caf} cancel(s)" if caf
+            f"{raf} rAF call(s), {caf} cancel(s) in author code" if caf
             else f"{raf} requestAnimationFrame with no cancelAnimationFrame; leaks CPU",
             raf,
         ))
     else:
-        out.append(Check("raf-lifecycle", "interaction", "§1.10", SKIP, "no animation frames", 0))
+        out.append(Check("raf-lifecycle", "interaction", "§1.10", SKIP, "no animation frames in author code", 0))
 
-    # Motion must be steppable, not autoplay-only.
-    has_motion = bool(raf) or bool(re.search(r"@keyframes|\banimation\s*:", css, re.I))
+    has_motion = bool(raf) or bool(re.search(r"@keyframes|\banimation\s*:|\btransition\s*:", css, re.I)) \
+        or bool(re.search(r"\bgsap\s*\.|\bScrollTrigger\b", js))
     if has_motion:
-        stepped = re.search(
-            r"\b(step|next|prev|play|pause|scrub|advance|replay|restart)\b",
-            h, re.I,
+        # Read the controls, not the prose: "each step moves one packet" in a paragraph is
+        # not a step control, and searching the whole page let that pass.
+        controls_markup = " ".join(
+            re.findall(r"<button\b[^>]*>.*?</button>|<input\b[^>]*>|<select\b[^>]*>.*?</select>",
+                       h, flags=re.S | re.I)
         )
+        # Scroll position is the reader's clock, so ScrollTrigger paces motion without a play button.
+        stepped = re.search(r"\b(step|next|prev|play|pause|scrub|advance|replay|restart)\b",
+                            controls_markup, re.I) \
+            or re.search(r"\bScrollTrigger\b", js)
         out.append(Check(
             "motion-steppable", "interaction", "§1.8",
             PASS if stepped else FAIL,
-            "motion has a step/play/pause control" if stepped
+            "motion is reader-paced (control or scroll position)" if stepped
             else "autoplay-only motion; animation's advantage evaporates on transience",
+            1,
+        ))
+        reduced = re.search(r"prefers-reduced-motion", css + h + js, re.I)
+        out.append(Check(
+            "reduced-motion", "interaction", "a11y floor",
+            PASS if reduced else FAIL,
+            "prefers-reduced-motion path present" if reduced
+            else "motion with no prefers-reduced-motion path; land each state statically and keep the controls",
             1,
         ))
     else:
         out.append(Check("motion-steppable", "interaction", "§1.8", SKIP, "no motion", 0))
+        out.append(Check("reduced-motion", "interaction", "a11y floor", SKIP, "no motion", 0))
 
     themed = re.search(r"prefers-color-scheme", css + h, re.I)
     out.append(Check(
@@ -250,7 +373,7 @@ BOUNDARY = re.compile(
     r"|analogy (?:limits|boundary|stops)"
     r"|where (?:this|it) stops being true"
     r"|does\s*n[o']t map"
-    r"|stops being true",
+    r"|stops (?:being true|carrying weight)",
     re.I,
 )
 
@@ -262,16 +385,10 @@ PREDICT = re.compile(
 )
 
 BABY_TALK = re.compile(
-    # Positioning the reader as a child. Mined from six measured baseline artifacts,
-    # where "grown-up word: DNS" and "grown-ups call the boss the leader" appeared in
-    # 4 of 6 while an earlier, weaker lexicon passed all six.
     r"\bgrown[- ]ups?\b"
-    # Naming a mechanism "magic" is the opposite of explaining it.
     r"|\bmagic (?:rule|word|trick|box|number|sauce|thing|part)\b"
-    # Storybook anthropomorphism standing in for mechanism.
     r"|\b(?:goes ding|puts? (?:its|their|his|her) hand up|gets? the crown|"
     r"waves? hello|says? hello to|has a (?:little )?nap|wakes? up sleepy)\b"
-    # Nursery register.
     r"|\b(?:magic fairy|fairies|mommy|mummy|daddy|tummy|boo[- ]boo|kiddy|"
     r"little friend|tiny helper|magical (?:little )?(?:creature|elf|gnome|wizard)|"
     r"like a big hug|silly little|"
@@ -279,12 +396,22 @@ BABY_TALK = re.compile(
     re.I,
 )
 
-TIER = re.compile(
-    r"\b(?:tier|level|step|stage|part|layer)\s*[1-9]\b"
-    r"|\b(?:the turn|the mechanism|the real thing)\b"
-    r"|\b(?:intuition|mechanism|under the hood|edge cases|what this leaves out)\b",
-    re.I,
-)
+# Phrases lifted verbatim from the first version's worked examples. All three sample
+# artifacts reproduced them word for word, which is what a shared template looks like.
+BOILERPLATE = [
+    "the bridge, and the row it is for",
+    "where this analogy breaks",
+    "the second lens",
+    "commit to a guess before the reveal",
+    "skip ahead to tier",
+    "tier 1",
+    "tier 2",
+    "tier 3",
+    "the turn",
+    "the real thing",
+    "what this leaves out",
+    "what it leaves out",
+]
 
 
 def check_pedagogy(html: str) -> List[Check]:
@@ -293,32 +420,37 @@ def check_pedagogy(html: str) -> List[Check]:
     out = []
 
     b = BOUNDARY.search(text)
+    marked = re.search(r"\bdata-boundary\b", h, re.I)
     out.append(Check(
         "boundary-card", "pedagogy", "§1.1",
-        PASS if b else FAIL,
-        f"analogy boundary stated: {b.group(0)!r}" if b
-        else "no statement of where the analogy stops; unbounded analogy installs misconceptions",
-        1 if b else 0,
+        PASS if (b or marked) else FAIL,
+        (f"analogy boundary stated: {b.group(0)!r}" if b else "boundary marked with data-boundary")
+        if (b or marked) else
+        "no statement of where the analogy stops; unbounded analogy installs misconceptions",
+        1 if (b or marked) else 0,
     ))
 
-    if b:
-        # The caveat must be reachable, not buried at the end (evidence §1.6).
-        pos = b.start() / max(len(text), 1)
+    if b or marked:
+        # Measure against markup with scripts and styles removed: a 690 KB inlined
+        # library in the denominator puts every position at 1% and the rule stops firing.
+        body = _strip_code(html)
+        pos = (b.start() / max(len(text), 1)) if b else \
+            (body.lower().find("data-boundary") / max(len(body), 1))
         out.append(Check(
             "boundary-reachable", "pedagogy", "§1.6",
             PASS if pos <= 0.80 else FAIL,
-            f"boundary appears at {pos:.0%} through the text"
-            + ("" if pos <= 0.80 else "; buried past tier 2, a caveat nobody reaches"),
+            f"boundary appears at {pos:.0%} through the artifact"
+            + ("" if pos <= 0.80 else "; buried at the end, a caveat nobody reaches"),
             int(pos * 100),
         ))
     else:
         out.append(Check("boundary-reachable", "pedagogy", "§1.6", SKIP, "no boundary to locate", 0))
 
-    p = PREDICT.search(text)
+    p = PREDICT.search(text) or re.search(r"\bdata-predict\b", h, re.I)
     out.append(Check(
         "predict-observe-explain", "pedagogy", "§1.3",
         PASS if p else FAIL,
-        f"prediction beat present: {p.group(0)!r}" if p
+        "prediction beat present" if p
         else "no prediction beat; a slider without a committed guess is Active, not Constructive "
              "(d~0.2-0.4 vs d~0.4-0.6)",
         1 if p else 0,
@@ -333,44 +465,125 @@ def check_pedagogy(html: str) -> List[Check]:
         len(baby),
     ))
 
-    tiers = set(m.lower() for m in TIER.findall(text))
-    n = len(tiers)
-    if n == 0:
-        st, msg = FAIL, "no disclosure tiers found; explainer must stage from intuition to mechanism"
-    elif n > 6:
-        st, msg = WARN, f"{n} distinct tier markers; three tiers, no nesting (deep hierarchies bury content)"
+    passes = set(re.findall(r'data-pass\s*=\s*["\']?([1-9])', h, re.I))
+    n = len(passes)
+    if n >= 3:
+        st, msg = PASS, f"{n} depth passes marked: {sorted(passes)}"
+    elif n:
+        st, msg = FAIL, (f"{n} depth pass(es) marked; three passes stage intuition -> mechanism -> "
+                         f"the real thing, and the form decides how they are presented")
     else:
-        st, msg = PASS, f"{n} tier marker(s)"
+        st, msg = FAIL, ('no data-pass="1|2|3" markers; mark each depth pass on its container so '
+                         "staging is checkable whatever the form")
     out.append(Check("disclosure-tiers", "pedagogy", "§1.6", st, msg, n))
 
-    skip = re.search(r"\b(?:skip(?: ahead| to)?|jump to|straight to|go to (?:tier|level|step) *3)\b", text, re.I)
+    skip = re.search(r"\b(?:skip(?: ahead| to| the)?|jump to|straight to|go (?:to|straight))\b", text, re.I) \
+        or re.search(r"\bdata-skip\b", h, re.I)
     out.append(Check(
         "skip-ahead", "pedagogy", "§1.5",
         PASS if skip else WARN,
-        "skip-ahead control present" if skip
+        "route past the first pass present" if skip
         else "no skip control; scaffolding that lifts novices impedes experts (d<0)",
         1 if skip else 0,
     ))
 
-    words = len(text.split())
-    if words > 2600:
-        st, msg = WARN, (f"{words} visible words; the original this replaces ran ~350. Depth is the "
-                         f"trade, but tier 1 must still read in under a minute or progressive "
-                         f"disclosure has bought nothing")
-    else:
-        st, msg = PASS, f"{words} visible words"
-    out.append(Check("length-budget", "pedagogy", "§1.6", st, msg, words))
-
-    # Coherence: emoji standing in for a diagram is the original skill's failure mode.
-    emoji = re.findall(
-        "[\U0001F300-\U0001FAFF☀-➿]", text
-    )
+    emoji = re.findall("[\U0001F300-\U0001FAFF☀-➿]", text)
     out.append(Check(
         "coherence-no-emoji-diagrams", "pedagogy", "§1.7",
         WARN if len(emoji) > 12 else PASS,
         f"{len(emoji)} emoji in visible text; seductive detail costs d=0.65-0.86"
         if len(emoji) > 12 else f"{len(emoji)} emoji, within budget",
         len(emoji),
+    ))
+    return out
+
+
+# ---------------------------------------------------------------- family 5: composition
+
+BLOCK = re.compile(r"<(p|li|h1|h2|h3|h4|figcaption|blockquote)\b[^>]*>(.*?)</\1>", re.S | re.I)
+
+
+def prose_blocks(html: str) -> List[int]:
+    """Word count of each visible text block, largest last."""
+    body = _strip_code(html)
+    counts = []
+    for _, inner in BLOCK.findall(body):
+        txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", inner)).strip()
+        if txt:
+            counts.append(len(txt.split()))
+    return sorted(counts)
+
+
+def check_composition(html: str) -> List[Check]:
+    h = strip_comments(html)
+    segs = prose_segments(html)
+    words = sum(len(s.split()) for s in segs)
+    out = []
+
+    if words > 350:
+        st, msg = FAIL, (f"{words} words of prose outside the diagrams; the budget is 350. Words "
+                         f"inside <svg> cost nothing and satisfy spatial contiguity, so move a "
+                         f"sentence of explanation onto the thing it explains")
+    elif words > 250:
+        st, msg = WARN, f"{words} words of prose; under 250 keeps the artifact something you operate"
+    else:
+        st, msg = PASS, f"{words} words of prose outside the diagrams"
+    out.append(Check("prose-budget", "composition", "§1.6", st, msg, words))
+
+    # Total can be inside budget while one wall of text still reads as a document. Measured
+    # on a page that passed at 367 words: the three blocks a reader called wordy ran 73, 48
+    # and 38, against captions of 14-22 that nobody objected to.
+    blocks = prose_blocks(html)
+    biggest = blocks[-1] if blocks else 0
+    if biggest > 50:
+        st, msg = FAIL, (f"longest text block is {biggest} words; the budget is 50. Split it, cut it, "
+                         f"or annotate the diagram with it")
+    elif biggest > 35:
+        st, msg = WARN, f"longest text block is {biggest} words; under 35 reads as a caption rather than a passage"
+    else:
+        st, msg = PASS, f"longest text block is {biggest} words"
+    out.append(Check("prose-block", "composition", "§1.7", st, msg, biggest))
+
+    runs = [len(s.split()) for s in segs]
+    longest = max(runs) if runs else 0
+    if longest > 120:
+        st, msg = FAIL, (f"longest unbroken prose run is {longest} words; the budget is 120 between "
+                         f"one thing to look at or touch and the next")
+    elif longest > 80:
+        st, msg = WARN, f"longest unbroken prose run is {longest} words; under 80 keeps the page operable"
+    else:
+        st, msg = PASS, f"longest unbroken prose run is {longest} words"
+    out.append(Check("prose-run", "composition", "§1.7", st, msg, longest))
+
+    opening = runs[0] if runs else 0
+    if opening > 90:
+        st, msg = FAIL, f"{opening} words before the reader can look at or touch anything; the budget is 90"
+    elif opening > 60:
+        st, msg = WARN, f"{opening} words of opening prose; the first pass lands faster under 60"
+    else:
+        st, msg = PASS, f"{opening} words before the first visual or control"
+    out.append(Check("opening-budget", "composition", "§1.6", st, msg, opening))
+
+    text = visible_text(html).lower()
+    hits = sorted({p for p in BOILERPLATE if p in text})
+    if len(hits) >= 3:
+        st, msg = FAIL, (f"{len(hits)} phrases copied from the skill's worked examples: {hits}. "
+                         f"Headings come from the topic's own vocabulary")
+    elif len(hits) == 2:
+        st, msg = WARN, f"2 template phrases: {hits}"
+    else:
+        st, msg = PASS, f"{len(hits)} template phrase(s)"
+    out.append(Check("no-template-boilerplate", "composition", "forms.md", st, msg, len(hits)))
+
+    drawn = len(re.findall(r"<svg\b[^>]*>(?=.*?<(?:rect|circle|path|line|polygon|polyline|text|g|ellipse|use)\b)", h, re.S | re.I))
+    scenes = drawn + len(re.findall(r"<canvas\b", h, re.I)) + len(re.findall(r'<img\b[^>]*src\s*=\s*["\']data:', h, re.I))
+    density = words // max(scenes, 1)
+    out.append(Check(
+        "visual-density", "composition", "§1.7",
+        WARN if density > 110 else PASS,
+        f"{density} words of prose per visual scene"
+        + ("; past 110 the diagrams are illustrating an essay rather than carrying it" if density > 110 else ""),
+        density,
     ))
     return out
 
@@ -383,7 +596,11 @@ def lint(html: str, path: str = "<string>") -> Report:
     r.checks += check_geometry(html)
     r.checks += check_interaction(html)
     r.checks += check_pedagogy(html)
+    r.checks += check_composition(html)
     return r
+
+
+FAMILIES = ("containment", "geometry", "interaction", "pedagogy", "composition")
 
 
 def render(r: Report, as_json: bool = False) -> str:
@@ -398,13 +615,11 @@ def render(r: Report, as_json: bool = False) -> str:
 
     lines = [f"eli5 lint: {r.path}"]
     icon = {FAIL: "FAIL", WARN: "WARN", PASS: "  ok", SKIP: "skip"}
-    for fam in ("containment", "geometry", "interaction", "pedagogy"):
+    for fam in FAMILIES:
         lines.append(f"\n  {fam}")
         for c in [x for x in r.checks if x.family == fam]:
-            lines.append(f"    {icon[c.status]}  {c.rule:<28} {c.evidence:<8} {c.detail}")
-    lines.append(
-        f"\n  {r.ran} check(s) ran, {len(r.failures)} failed, {len(r.warnings)} warned"
-    )
+            lines.append(f"    {icon[c.status]}  {c.rule:<28} {c.evidence:<12} {c.detail}")
+    lines.append(f"\n  {r.ran} check(s) ran, {len(r.failures)} failed, {len(r.warnings)} warned")
     if r.ran == 0:
         lines.append("  NOTE: zero checks ran. A gate with no checked count is not a pass.")
     return "\n".join(lines)
@@ -414,15 +629,25 @@ def render(r: Report, as_json: bool = False) -> str:
 
 GOOD = """<!doctype html><html><head><style>
 :root{--bg:#fff}@media (prefers-color-scheme: dark){:root{--bg:#111}}
-.stage{touch-action:none}</style></head><body>
-<h2>Tier 1: the turn</h2>
-<p>Think of it as pressure driving flow through a constriction.</p>
-<h3>Where this analogy breaks</h3>
-<p>Cut a pipe and water sprays out; break a wire and current stops entirely.</p>
-<h2>Tier 2: the mechanism</h2>
-<p>Predict which node wins before you run it. Skip ahead to tier 3 if you know this.</p>
-<svg viewBox="0 0 960 540" width="100%"><rect x="60" y="72" width="240" height="80"/></svg>
-<button id="step">Step</button><input type="range" id="v">
+@media (prefers-reduced-motion: reduce){*{animation:none}}
+.stage{touch-action:none}
+.pulse{animation:p .3s}
+</style></head><body>
+<section data-pass="1">
+<p>Pressure drives flow through a constriction, and the constriction sets the rate.</p>
+<svg viewBox="0 0 960 540" width="100%"><rect x="60" y="72" width="240" height="80"/><text x="180" y="120">inlet</text></svg>
+<p data-predict>Guess which node wins before you run it.</p>
+<button id="step">Step</button><button id="back">Prev</button><input type="range" id="v">
+<p data-boundary>Where this analogy breaks: cut a pipe and water sprays out; break a wire and current stops.</p>
+</section>
+<section data-pass="2">
+<svg viewBox="0 0 960 540" width="100%"><circle cx="480" cy="270" r="60"/><text x="480" y="300">node</text></svg>
+<p>Each step moves one packet and marks the edge it crossed.</p>
+<canvas id="field" aria-label="diffusion field, 64 by 64 cells"></canvas>
+</section>
+<section data-pass="3">
+<p>Production systems batch these, and the batch boundary is where the model above stops predicting well. Jump to this section for the numbers.</p>
+</section>
 <script>
 let h=null;
 document.getElementById('step').addEventListener('click',()=>{h=requestAnimationFrame(draw)});
@@ -436,75 +661,99 @@ FIXTURES = [
     ("no-external-assets", GOOD.replace("<body>", '<body><script src="https://cdn.example.com/x.js"></script>')),
     ("no-network-calls", GOOD.replace("function draw(){", "function draw(){fetch('/x');")),
     ("images-inline-only", GOOD.replace("<body>", '<body><img src="https://x.test/a.png">')),
-    ("svg-present", GOOD.replace('<svg viewBox="0 0 960 540" width="100%">', "<div>").replace("</svg>", "</div>")),
-    ("svg-viewbox", GOOD.replace('viewBox="0 0 960 540" ', "")),
-    ("no-hardcoded-svg-px", GOOD.replace('width="100%"', 'width="960" height="540"')),
-    ("interactive-controls", GOOD.replace('<button id="step">Step</button><input type="range" id="v">', "")),
+    ("vendor-inlined", GOOD.replace("function draw(){", "function draw(){THREE.Scene();")),
+    ("visual-scenes", GOOD.replace('<canvas id="field" aria-label="diffusion field, 64 by 64 cells"></canvas>', "")
+                          .replace('<svg viewBox="0 0 960 540" width="100%"><circle cx="480" cy="270" r="60"/><text x="480" y="300">node</text></svg>', "")),
+    ("svg-viewbox", GOOD.replace('viewBox="0 0 960 540" ', "", 1)),
+    ("no-hardcoded-svg-px", GOOD.replace('width="100%"', 'width="960" height="540"', 1)),
+    ("canvas-labelled", GOOD.replace(' aria-label="diffusion field, 64 by 64 cells"', "")),
+    ("interactive-controls", GOOD.replace('<button id="back">Prev</button>', "").replace('<input type="range" id="v">', "")),
+    ("interaction-variety", GOOD.replace('<input type="range" id="v">', "")
+                                .replace("s.addEventListener('pointerdown',e=>{s.setPointerCapture(e.pointerId)});", "")
+                                .replace("s.addEventListener('pointermove',()=>{});", "")
+                                .replace("const s=document.getElementById('v');", "")),
     ("pointer-capture", GOOD.replace("s.setPointerCapture(e.pointerId)", "0")),
     ("touch-action-none", GOOD.replace(".stage{touch-action:none}", "")),
     ("raf-lifecycle", GOOD.replace("cancelAnimationFrame(h)", "0")),
-    ("motion-steppable", GOOD.replace('<button id="step">Step</button>', "")
-                            .replace("getElementById('step')", "querySelector('#a')")),
+    ("motion-steppable", GOOD.replace('<button id="step">Step</button>', '<button id="go">Go</button>')
+                             .replace('<button id="back">Prev</button>', '<button id="two">Two</button>')
+                             .replace("getElementById('step')", "getElementById('go')")),
+    ("reduced-motion", GOOD.replace("@media (prefers-reduced-motion: reduce){*{animation:none}}", "")),
     ("theme-aware", GOOD.replace("@media (prefers-color-scheme: dark){:root{--bg:#111}}", "")),
-    ("boundary-card", GOOD.replace("Where this analogy breaks", "More detail")
-                          .replace("Cut a pipe and water sprays out; break a wire and current stops entirely.", "More.")),
-    ("predict-observe-explain", GOOD.replace("Predict which node wins before you run it.", "It runs.")),
-    ("register", GOOD.replace("Think of it as pressure", "Imagine a little monster with a happy tummy and pressure")),
-    ("register", GOOD.replace("Think of it as pressure", "Grown-ups call this the magic rule; pressure")),
-    ("disclosure-tiers", GOOD.replace("Tier 1: the turn", "X").replace("Tier 2: the mechanism", "Y")
-                             .replace("Skip ahead to tier 3 if you know this.", "")),
-    ("skip-ahead", GOOD.replace("Skip ahead to tier 3 if you know this.", "")),
-    ("length-budget", GOOD.replace("<p>Think of it as pressure driving flow through a constriction.</p>",
-                                   "<p>" + ("word " * 2700) + "</p>")),
+    ("boundary-card", GOOD.replace("Where this analogy breaks: cut", "More detail: cut")
+                          .replace("<p data-boundary>", "<p>")),
+    ("boundary-reachable",
+     GOOD.replace("Jump to this section for the numbers.", "Jump to this section for the numbers. " + "detail " * 60)
+         .replace('<p data-boundary>Where this analogy breaks: cut a pipe and water sprays out; break a wire and current stops.</p>', "")
+         .replace("</section>\n<script>", "<p data-boundary>Where this analogy breaks: cut a pipe and water sprays out; break a wire and current stops.</p></section>\n<script>")),
+    ("predict-observe-explain", GOOD.replace("Guess which node wins before you run it.", "It runs.")
+                                    .replace("<p data-predict>", "<p>")),
+    ("register", GOOD.replace("Pressure drives", "Grown-ups call this the magic rule; pressure drives")),
+    ("disclosure-tiers", GOOD.replace('data-pass="2"', "id=b").replace('data-pass="3"', "id=c")),
+    ("skip-ahead", GOOD.replace("Jump to this section for the numbers.", "These are the numbers.")),
+    ("coherence-no-emoji-diagrams", GOOD.replace("<p>Each step moves", "<p>" + "🔥" * 13 + " Each step moves")),
+    ("prose-budget", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
+                                  "".join(f"<p>{'packet ' * 40}</p>" for _ in range(10)))),
+    ("prose-block", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
+                                 "<p>" + "packet " * 51 + "</p>")),
+    ("prose-run", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
+                               "".join(f"<p>{'packet ' * 42}</p>" for _ in range(3)))),
+    ("opening-budget", GOOD.replace("<p>Pressure drives flow through a constriction, and the constriction sets the rate.</p>",
+                                    "".join(f"<p>{'pressure ' * 31}</p>" for _ in range(3)))),
+    ("no-template-boilerplate", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
+                                             "<p>The turn. The second lens. Tier 3.</p>")),
+    ("visual-density", GOOD.replace("<p>Each step moves one packet and marks the edge it crossed.</p>",
+                                    "".join(f"<p>{'packet ' * 34}</p>" for _ in range(11)))),
 ]
 
 
 def self_test() -> int:
-    base = lint(GOOD, "<good fixture>")
-    print(render(base))
-    ok = True
-    if base.failures:
-        print("\n  SELF-TEST: the good fixture must pass cleanly, but it failed:")
-        for c in base.failures:
-            print(f"    {c.rule}: {c.detail}")
-        ok = False
+    base = lint(GOOD, "<good>")
+    bad = [c for c in base.checks if c.status in (FAIL, WARN)]
+    print(f"baseline GOOD fixture: {base.ran} ran, {len(base.failures)} failed, {len(base.warnings)} warned")
+    for c in bad:
+        print(f"  {c.status}  {c.rule}: {c.detail}")
 
-    print("\n  proving each rule can fail")
-    for rule, broken in FIXTURES:
-        r = lint(broken, f"<broken:{rule}>")
-        got = next((c for c in r.checks if c.rule == rule), None)
-        fired = got is not None and got.status in (FAIL, WARN)
-        print(f"    {'ok  ' if fired else 'DEAD'}  {rule:<28} "
-              f"{'fires' if fired else 'DID NOT FIRE -- rule cannot fail, so its pass means nothing'}")
-        ok = ok and fired
+    rules = {c.rule for c in base.checks}
+    covered, misses = set(), []
+    for rule, html in FIXTURES:
+        r = lint(html, f"<fixture:{rule}>")
+        got = {c.rule for c in r.checks if c.status in (FAIL, WARN)}
+        if rule in got:
+            covered.add(rule)
+        else:
+            misses.append((rule, sorted(got)))
 
-    print(f"\n  self-test: {'PASS' if ok else 'FAIL'} "
-          f"({len(FIXTURES)} rules proven fallible)" if ok else
-          f"\n  self-test: FAIL")
+    uncovered = sorted(rules - covered)
+    print(f"\n{len(covered)} of {len(rules)} rules proved able to fail")
+    for rule, got in misses:
+        print(f"  FIXTURE DID NOT TRIP  {rule}  (tripped: {got})")
+    for rule in uncovered:
+        if rule not in dict(FIXTURES):
+            print(f"  NO FIXTURE            {rule}")
+
+    ok = not bad and not misses and not uncovered
+    print("\nself-test", "passed" if ok else "FAILED")
     return 0 if ok else 1
 
 
+# ---------------------------------------------------------------- entry
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Deterministic gate for eli5 explainers.")
-    ap.add_argument("path", nargs="?", help="HTML artifact to lint")
-    ap.add_argument("--json", action="store_true", help="machine-readable output")
-    ap.add_argument("--self-test", action="store_true", help="prove every rule can fail")
-    a = ap.parse_args()
+    ap = argparse.ArgumentParser(description="Deterministic gate for eli5 explainer artifacts.")
+    ap.add_argument("path", nargs="?")
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
+    args = ap.parse_args()
 
-    if a.self_test:
+    if args.self_test:
         return self_test()
-    if not a.path:
-        ap.error("give a path, or --self-test")
+    if not args.path:
+        ap.error("give a file path, or --self-test")
 
-    try:
-        with open(a.path, "r", encoding="utf-8", errors="replace") as f:
-            html = f.read()
-    except OSError as e:
-        print(f"cannot read {a.path}: {e}", file=sys.stderr)
-        return 2
-
-    r = lint(html, a.path)
-    print(render(r, a.json))
+    html = open(args.path, encoding="utf-8", errors="replace").read()
+    r = lint(html, args.path)
+    print(render(r, args.json))
     return 1 if r.failures else 0
 
 
