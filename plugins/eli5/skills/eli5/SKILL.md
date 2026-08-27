@@ -2,223 +2,270 @@
 name: eli5
 description: >-
   Build an interactive, self-contained HTML explainer that makes a hard idea genuinely
-  click — grounded in the cognitive science of how people actually form mental models,
-  not in baby-talk. Runs a five-phase pipeline: find the causal invariant and the
-  misconception worth defeating; build a structure-mapping analogy that carries a
-  stated boundary where it stops being true; stage three disclosure tiers around a
-  Predict-Observe-Explain beat where the reader commits a guess before the reveal;
-  draw against a declared geometry contract so the SVG does not warp; then pass a
-  deterministic linter that fails the build on external assets, missing viewBox,
-  uncaptured pointers, leaked animation frames, buried analogy limits, absent
-  prediction beats and condescending register. Use whenever someone wants a hard
-  thing explained visually — "/eli5 <topic>", "explain how X works", "make me an
-  explainer for Y", "I still don't get Z", "build an interactive diagram of this" —
-  and whenever an explanation needs to survive contact with a reader who will act on
-  it. Not for API reference or narrative slide decks (use deck-craft), and not for a
-  general-purpose UI (use design-craft).
+  click — a thing you operate, not a document you read. Lets the mechanism pick the shape of
+  the page from eight that recur (Machine, Field, Solid, Ladder, Fork, Trace, Assembly,
+  Reveal) rather than giving every topic the same tabs, and commits to a palette and type
+  pairing of its own. Grounded in the cognitive
+  science of how people form mental models: a structure-mapping analogy carrying the
+  boundary where it stops being true, a Predict-Observe-Explain beat where the reader
+  commits a guess before the reveal, and readouts inside the diagram rather than beside it.
+  Draws SVG against a declared geometry contract, reaches for canvas at field scale,
+  inlines Three.js when the mechanism is spatial and GSAP when it is a transformation, and
+  inlines generated imagery when the analogy's source domain is a real thing. A
+  deterministic linter fails the build on external assets, missing viewBox, uncaptured
+  pointer drags, leaked animation frames, motion with no reduced-motion path, buried
+  analogy limits, absent prediction beats, thin visuals, single-mode interaction, prose
+  over budget, condescending register and copied template headings. Use whenever someone
+  wants a hard thing explained visually — "/eli5 <topic>", "explain how X works", "make me
+  an explainer for Y", "I still don't get Z", "build an interactive diagram of this". Not
+  for API reference or narrative slide decks (use deck-craft), and not for a general-purpose
+  UI (use design-craft).
 ---
 
 # eli5
 
-Explaining something is not simplifying it. It is finding the one relationship the
-whole thing turns on, building a bridge to something the reader already owns, and
-then saying exactly where that bridge stops carrying weight.
+Explaining something is not simplifying it. It is finding the one relationship the whole
+thing turns on, building a bridge to something the reader already owns, saying exactly where
+that bridge stops carrying weight, and then handing the reader the controls.
 
-This skill builds a **single self-contained HTML file** that does that. Every rule
-below traces to a row in `references/evidence.md`, which carries the citations from a
-four-backend research panel and marks the places the panel disagreed.
+This skill builds a **single self-contained HTML file** that does that. Every rule traces to
+a row in `references/evidence.md`, which carries the citations from a four-backend research
+panel and marks where the panel disagreed.
 
-Two things it refuses. It does not talk down — the register is a brilliant colleague
-from a different field, never a five-year-old. And it does not ship an analogy without
-its boundary, because an unbounded analogy is how a confident misconception gets
-installed.
+Three things it refuses. It does not talk down — the register is a brilliant colleague from
+a different field. It does not ship an analogy without its boundary, because an unbounded
+analogy is how a confident misconception gets installed. And it does not ship a document
+with a diagram in it: the reader operates the mechanism, and prose is what is left over.
 
-## The register, first
+## What is fixed, and what is yours
 
-Get this wrong and nothing downstream matters.
+**Fixed: the numbers the gate checks.** Those name defects that are measurable — prose over
+budget, a drag with no pointer capture, motion with no reduced-motion path, an analogy with
+no stated limit. They bound the artifact; they do not design it.
 
-| Anti-pattern | What this skill writes instead |
-|---|---|
-| "Imagine a little hungry monster eating cookies inside your RAM!" | "Memory is a grid of numbered lockers, each holding one letter." |
-| Surface attributes: colours, cute names, anthropomorphism | Causal relationships: what drives what, what conserves, what feeds back |
-| One omnibus metaphor, stated as truth | A mapped analogy with its non-alignable parts named |
-| Emoji standing in for a diagram | Inline SVG where every mark encodes a real variable |
+**Yours: everything about how the page looks and behaves.** The form, the layout, the
+palette, the type, what the reader touches first, where the delight lives. The references
+carry precedents and the traps each one falls into, and a choice you can justify from the
+mechanism beats the closest match in any table here. Where you depart from a suggestion, one
+sentence of why in the artifact source is enough.
 
-Same reading age. The difference is that one of them is true. Measured failure: ELI5
-prompting reliably degrades into condescending baby-talk and superficial metaphor
-(`evidence.md` §1.11).
+The failure this version was built to fix came from prescription: one mandated architecture
+produced three artifacts with identical headings (`references/forms.md`). A second template
+would do the same thing.
+
+## Deliver what was asked, at the scope intended
+
+One topic, one file. Build it in this session rather than delegating — the artifact is a
+single file whose whole content is the mechanism you just worked out, and a subagent would
+pay for a fresh context to re-derive it. Where the topic is genuinely several mechanisms,
+say which one you took and why, in the artifact.
 
 ## Phase 1 — Deconstruct
 
-Before any analogy, name three things in your own working notes:
+Name three things in your working notes before any analogy:
 
-1. **The causal invariant.** The one relationship the system turns on — the thing that,
-   once seen, makes the rest follow. Raft's is *a term with a majority is authoritative;
-   a term without one is a proposal*. Not a feature list; a mechanism.
-2. **The misconception worth defeating.** What does a smart person wrongly believe here?
-   Explainers that don't target one produce agreeable prose that changes nothing. Virtual
-   memory's is *that addresses are places*. Attention's is *that the model looks things up*.
-3. **The reader's likely entry point.** What they already know that is structurally close.
+1. **The causal invariant.** The one relationship the system turns on. Raft's is *a term
+   with a majority is authoritative; a term without one is a proposal*. A mechanism, not a
+   feature list.
+2. **The misconception worth defeating.** What a smart person wrongly believes here.
+   Explainers with no target produce agreeable prose that changes nothing. Virtual memory's
+   is *that addresses are places*. Attention's is *that the model looks things up*.
+3. **The reader's likely entry point** — what they already hold that is structurally close.
 
-If the topic has more than one mechanism, pick the one that unlocks the others and say
-in the artifact that you are doing so. Breadth is how explainers become inventories.
+Breadth is how explainers become inventories. Pick the mechanism that unlocks the others.
 
 ## Phase 2 — Map the analogy, and bound it
 
-Structure-mapping (Gentner) is the constraint: analogy aligns **relational systems**, not
-object attributes. "Both are large" is worthless. "Both have a quantity that flows under a
-difference and meets resistance" is the whole explanation. All four research backends
-converged here (`evidence.md` §1.1).
+Structure-mapping is the constraint: analogy aligns **relational systems**, not object
+attributes. "Both are large" is worthless. "Both have a quantity that flows under a
+difference and meets resistance" is the whole explanation. All four backends converged here
+(`evidence.md` §1.1).
 
-Write the mapping table before writing prose:
+Write the mapping before the prose — source, target, and the relation each pair carries.
+Then write the row the analogy exists for: **where it breaks.** Cut a pipe and water sprays
+out; break a wire and current stops entirely. Electrons do not leak into the room.
 
-| Source (familiar) | Target (the topic) | Relation carried |
-|---|---|---|
-| Water pressure | Voltage | Drives flow |
-| Flow rate | Current | Quantity per unit time |
-| Pipe constriction | Resistance | Opposes flow |
+That boundary ships in the artifact, in reach of a reader who stops early rather than at the
+end. Analogy-induced misconceptions are durable and hard to correct once formed, and the
+mitigation named across the literature is an explicit limits-of-the-analogy segment
+(`evidence.md` §1.6). Give it its own visual treatment; name it in the topic's own words.
 
-Then write the row the analogy is *for*: **where it breaks.** Cut a pipe and water
-sprays out; break a wire and current stops entirely. Electrons do not leak into the room.
+When the topic has more than one mechanism, add a second lens that is structurally different
+rather than a restatement — one analogy collapses multi-factor systems into single-cause
+models (`evidence.md` §1.2).
 
-This becomes the artifact's **Boundary Card**, and it is not optional. Analogy-induced
-misconceptions are durable and hard to correct once formed; the named mitigation across
-the literature is an explicit limits-of-the-analogy segment. It lives at tier 1 or tier 2
-— never tier 3, because a caveat the reader never reaches is a caveat that does not exist
-(`evidence.md` §1.6).
+## Phase 3 — Let the mechanism pick the shape
 
-**When the topic has more than one mechanism, add a second lens** that is structurally
-different rather than a restatement — a single analogy collapses multi-factor systems into
-single-cause models (`evidence.md` §1.2).
+**Read `references/forms.md`**, which carries eight shapes that recur — Machine, Field,
+Solid, Ladder, Fork, Trace, Assembly, Reveal — with what each one tends to need. Take the
+one that fits the invariant, adapt it, or build something the list does not have. Skipping
+this phase is what produced three consecutive artifacts with identical headings over an
+identical three-tab strip.
 
-## Phase 3 — Stage the disclosure, around a prediction
+Whatever you pick decides the layout, the library and what the reader reaches for first.
+Commit to a palette, a type pairing and a ground in `:root` before any markup, so the file
+inherits one decision rather than forty.
 
-**Exactly three tiers. No nesting.** Tabs or a stepper, never expanders inside expanders;
-nested disclosure buries content readers then never find (`evidence.md` §1.6).
+**Headings come from the topic's vocabulary.** A Raft explainer has sections about terms,
+quorums and logs. Copied stage names are what the gate's `no-template-boilerplate` rule
+fails on, at three or more.
 
-1. **The turn** — the causal invariant, one live variable, the Boundary Card in reach.
-   **Under 150 words.** A reader who stops here should still leave with the mechanism.
-2. **The mechanism** — the steps, reader-paced, with state changes signalled.
-3. **The real thing** — what production systems actually do, edge cases, and an explicit
-   statement of what this account still leaves out.
+## Phase 4 — Stage the depth, around a prediction
 
-Tier 1's budget is the load-bearing one. Measured 2026-08-26, this skill produced 7.6× the
-word count of the one-line predecessor it replaces. That is the trade depth buys, and it is
-only worth it if the reader can stop after tier 1 and still have got something. Progressive
-disclosure that front-loads nothing is just a long document with headings.
+Depth is staged in three passes, and the **form decides how** — scroll position, a depth
+control, what the reader unlocks, tabs where tabs genuinely fit. No nesting: nested
+disclosure buries content readers then never find (`evidence.md` §1.6).
 
-Tier 3 owes the reader that last sentence. Simplification without a marker of its own
-incompleteness produces the illusion of explanatory depth — readers who believe they
-understand more than they do, and act on it (`evidence.md` §1.12).
+1. **First pass** — the causal invariant, one live variable, the boundary in reach. **Under
+   120 words of prose.** A reader who stops here leaves with the mechanism.
+2. **Second pass** — the steps, reader-paced, with state changes signalled.
+3. **Third pass** — what production systems do, the edge cases, and a plain statement of
+   what this account still leaves out. Simplification with no marker of its own
+   incompleteness produces the illusion of explanatory depth (`evidence.md` §1.12).
 
-**Include a skip-ahead control.** Scaffolding that lifts novices measurably impedes
-experts (`evidence.md` §1.5). Nobody is made to walk through tier 1 to reach tier 3.
+Give experts a route past the first pass. Scaffolding that lifts novices measurably impedes
+them (`evidence.md` §1.5).
 
-### The Predict-Observe-Explain beat — the highest-leverage rule here
+### The prediction beat — the highest-leverage rule here
 
-At least one interaction must ask the reader to **commit a guess before the reveal.**
+At least one interaction asks the reader to **commit a guess before the reveal.**
 
 A slider that merely responds is close to decorative: dragging without hypothesising is
-merely *Active* engagement, d ≈ 0.20–0.40 over passive. Committing a prediction first is
-*Constructive*, d ≈ 0.40–0.60 over active — roughly double (`evidence.md` §1.3). This is
-the single change most likely to make an explainer teach rather than entertain, and it is
-the one most commonly skipped.
+*Active* engagement, d ≈ 0.20–0.40 over passive. Committing a prediction first is
+*Constructive*, d ≈ 0.40–0.60 over active — roughly double (`evidence.md` §1.3). It is the
+single change most likely to make an explainer teach rather than entertain, and the one most
+often skipped.
 
 Shape it as: *"Three of five nodes can see each other. Two cannot. Who wins the election?"*
-→ reader picks → simulation runs → the answer, and why the intuition was reasonable.
+→ reader picks → the simulation runs → the answer, plus the one assumption that made the
+wrong pick a sound inference and where that assumption stops holding.
 
-**One live variable in tier 1.** Novices handed a fifteen-slider sandbox tinker without
-forming causal models; multi-parameter exploration is tier 3 or absent (`evidence.md` §1.4).
+**One live variable in the first pass.** Novices handed a fifteen-slider sandbox tinker
+without forming causal models; multi-parameter exploration belongs in the third pass or
+nowhere (`evidence.md` §1.4).
 
-## Phase 4 — Draw against a geometry contract
+## Phase 5 — Build it
 
-Models do not place shapes; they predict coordinate tokens, and they never render what
-they wrote. Syntactically perfect SVG routinely draws overlapping boxes and arrows through
-text — Gemini's panel names this **open-loop visual blindness** (`evidence.md` §1.9).
+`references/artifact-engineering.md` carries the geometry contract, the library recipes, the
+media pipeline and the accessibility floor. The parts that decide whether the file works at
+all:
 
-The mitigation is to decide geometry before emitting markup. `references/artifact-engineering.md`
-carries the contract in full; in short:
+- **Decide geometry before emitting markup.** Models predict coordinate tokens and never
+  render what they wrote, so valid SVG routinely draws arrows through text — Gemini's panel
+  names this *open-loop visual blindness* (`evidence.md` §1.9). Declare a viewBox and a grid
+  of your own choosing, write it into a comment, and place every element against a named line
+  in it. The mitigation is committing to the geometry first; the particular grid is yours.
+- **Everything inline, Google Fonts excepted.** No CDN scripts, remote images or `fetch`. A
+  blocked request fails *silently* in sandboxed runtimes, so the page half-renders and
+  reports nothing (`evidence.md` §1.10). GSAP and Three.js are inlined from a vendored copy
+  by `scripts/vendor_lib.py`; generated images are inlined as data URIs by
+  `scripts/embed_media.py`.
+- **Reach for a library when the form asks for one.** Three.js when the mechanism is spatial,
+  GSAP with ScrollTrigger when it is a transformation the reader scrolls through, canvas past
+  roughly 500 elements, plain SVG otherwise. A vendored library costs 72 KB to 690 KB in the
+  file; that buys nothing on a Machine or a Fork, so those stay on SVG.
+- **Generated imagery carries the analogy's source domain**, or it does not belong. A
+  photograph of a lock and a key anchors better than a rectangle labelled "lock". Cap it at
+  three images per artifact, caption each with what it depicts and that it was generated, and
+  say in your reply what the run spent — `media-gen-pro` bills per image. `svg: true` routes
+  to Arrow and returns real vector you can inline and edit, which suits diagrams.
+- **Never ship a dead control.** A button with no handler invites an action that does
+  nothing, and the reader blames themselves. One recorded run of the first version shipped 25
+  controls and zero JavaScript, and it looked finished.
+- **Every mark encodes a real variable.** Readouts sit inside the diagram, not in a card
+  underneath (spatial contiguity, d = 0.72–1.19); steps are reader-paced (segmenting,
+  d = 0.79–0.98); state changes are signalled (g = 0.46–0.53); ambient motion and decorative
+  art are cut (coherence, d = 0.65–0.86) (`evidence.md` §1.7).
+- **Motion is the reader's.** Steppable, scrubbable or scroll-driven, and inspectable at
+  rest — transience is why animation often loses to a static diagram (`evidence.md` §1.8).
+  Every artifact with motion carries a `prefers-reduced-motion: reduce` path that lands each
+  state statically.
 
-```
-viewBox="0 0 960 540"    fixed, declared once, never per-element pixel widths
-bands:  header  y   0–72     |  stage  y  72–420     |  readout  y 420–540
-columns: 60 · 300 · 540 · 780 · 900     (elements snap to these, nothing floats)
-```
+### The prose budget, and it is the point
 
-Place every element against a named band and column, then write the markup. Text anchors
-at a column, boxes centre on one, arrows run band-to-band.
+The three artifacts that prompted this rewrite ran 1,024, 1,293 and 1,636 words of prose.
+All the budgets below are counted **outside `<svg>` and `<canvas>`**, so a sentence of
+explanation moved onto the thing it explains costs nothing and satisfies spatial contiguity
+at the same time. That is the move to reach for first: most prose that feels necessary is an
+annotation in the wrong place.
 
-Non-negotiables, all mechanically enforced in Phase 5:
+| Budget | Warns | Fails |
+|---|---|---|
+| Prose on the page | 250 | **350** |
+| Any single text block | 35 | **50** |
+| Unbroken run between two things to look at or touch | 80 | **120** |
+| Words before the reader can do anything | 60 | **90** |
 
-- **Zero external assets.** No remote images, CDN scripts, stylesheets or fonts. A blocked
-  request fails *silently* in sandboxed artifact runtimes, so the page half-renders and
-  reports nothing (`evidence.md` §1.10). Everything inline.
-- **`viewBox` on every `<svg>`**, with `width="100%"`. Hardcoded pixel dimensions clip
-  inside constrained panels.
-- **Pointer capture on any drag.** `setPointerCapture` plus `touch-action: none`, or the
-  interaction dies on touch the moment the finger leaves the element.
-- **Cancel your animation frames.** Unbounded `requestAnimationFrame` leaks CPU and
-  desynchronises state. Prefer demand-driven rendering — draw when state changes.
-- **No autoplay-only motion.** Animation's advantage evaporates on transience; every
-  animation is steppable and inspectable at rest (`evidence.md` §1.8).
-- **SVG for structure, canvas past ~500 nodes.** SVG gives DOM events, ARIA and crisp
-  scaling; canvas earns its place only for continuous particle-scale simulation.
-- **Never ship a dead control.** A button or slider with no handler invites an action that
-  does nothing, which is worse than an honestly static page: the reader blames themselves.
-  Measured 2026-08-26, one run of this skill shipped 25 controls and zero JavaScript, and it
-  looked finished. If the gate fails on `interactive-controls`, wire them or delete them.
+The block cap is the one that changes how a page reads. A page can sit inside its total and
+still open with a wall: measured on an artifact that passed at 367 words, the three blocks a
+reader called wordy ran 73, 48 and 38, against captions of 14 to 22 that drew no complaint.
 
-Layout follows the multimedia evidence rather than taste (`evidence.md` §1.7): readouts sit
-**inside or adjacent to** the diagram, never in a separate card (spatial contiguity,
-d = 0.72–1.19); steps are reader-paced (segmenting, d = 0.79–0.98); every mark encodes a
-real variable, and decorative art, background particles and ambient motion are cut
-(coherence, d = 0.65–0.86); state changes are signalled (g = 0.46–0.53).
+Alongside them, floors: at least **three visual scenes** and at least **two distinct kinds of
+interaction** among drag, slider, step, pick, scroll, orbit and keyboard.
 
-Theme both schemes with CSS custom properties on `:root`, redefined under
-`@media (prefers-color-scheme: dark)`. Give `body` an explicit background.
+### Markers the gate reads
 
-## Phase 5 — Gate it
+Four attributes let the gate check staging and vendoring without forcing any particular
+chrome on the page, so a scroll-driven Reveal and a tabbed Machine are checked the same way:
+
+| Attribute | Goes on |
+|---|---|
+| `data-pass="1"`, `"2"`, `"3"` | the container for each depth pass |
+| `data-boundary` | the element stating where the analogy stops being true |
+| `data-predict` | the element asking the reader to commit a guess |
+| `data-vendor="three"` etc. | an inlined library, so it is excluded from the containment and word-count scans |
+
+Artifact code lives outside the `data-vendor` block. Code written inside one is excluded from
+the pointer, animation-frame and network scans along with the library.
+
+## Phase 6 — Gate it
 
 ```bash
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Twenty checks across four families — containment, geometry, interaction and pedagogy.
-It fails the build on external assets, missing `viewBox`, uncaptured pointer drags, leaked
-animation frames, a missing or buried Boundary Card, an absent prediction beat, wrong tier
-count, and baby-talk register.
+Twenty-nine checks across five families — containment, geometry, interaction, pedagogy and
+composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
+on a new machine, because a gate whose checked count has quietly gone to zero reports green
+on everything.
 
-`--self-test` proves every rule can fail against built-in fixtures before you trust it
-passing. Run it once on a new machine; a gate whose checked count has quietly gone to zero
-reports green on everything.
-
-Then **open the file and look at it.** The linter cannot see a warped diagram — that is
-precisely the failure mode in `evidence.md` §1.9. Open it in a real browser
-(`open -a "Google Chrome" <file>`); Obscura drops whitespace at inline-element boundaries
-and will make correct prose look broken.
+Then open the file and look at it. The linter cannot see a warped diagram, which is exactly
+the failure mode in `evidence.md` §1.9. Use a real browser — `open -a "Google Chrome"
+<file>` — since Obscura drops whitespace at inline-element boundaries and will make correct
+prose look broken.
 
 ## What this skill will not claim
 
 Every effect size above comes from human-authored instructional material. No randomised
-trial measures learning gains from AI-generated explainers against human-crafted ones —
-all four backends flagged that absence (`evidence.md` §3). The evidence justifies these
-design choices; it does not predict an outcome for any particular artifact.
+trial measures learning gains from AI-generated explainers against human-crafted ones; all
+four backends flagged that absence (`evidence.md` §3). The evidence justifies these design
+choices and does not predict an outcome for any particular artifact.
 
-The three-tier count and the fade rate are defensible defaults, not findings; the
-literature conflicts on both (`evidence.md` §2.4).
+The three-pass count and the fade rate are defensible defaults rather than findings; the
+literature conflicts on both (`evidence.md` §2.4). The position that an enjoyable mechanism
+teaches as well as a plain one is a reading of the coherence principle, not a measurement,
+and `references/forms.md` says so where it is taken.
+
+## Reporting back
+
+Name the form and why the mechanism chose it, the file path, the lint result, and what any
+`media-gen-pro` calls cost. Four to six lines.
 
 ## References
 
-- `references/pedagogy.md` — the frameworks in operational form: ICAP and POE phrasing,
-  structure-mapping worked examples, misconception inventories by domain.
-- `references/artifact-engineering.md` — the geometry contract, the SVG idiom set, pointer
-  and animation lifecycles, theming, accessibility floor.
+- `references/forms.md` — the eight forms, what each owes, and the identity pass.
+- `references/pedagogy.md` — ICAP and POE phrasing, structure-mapping worked examples,
+  misconception inventories by domain.
+- `references/artifact-engineering.md` — geometry contract, library and media recipes,
+  pointer and animation lifecycles, theming, accessibility floor.
 - `references/evidence.md` — citations, panel convergence, the disagreements, the gaps.
 - `scripts/lint_explainer.py` — the deterministic gate.
+- `scripts/vendor_lib.py` — inline GSAP or Three.js into a single file.
+- `scripts/embed_media.py` — resize and inline a generated image as a data URI.
 
 ## Credit
 
 This skill is a rebuild of **`eli5`** by **Thariq Shihipar**, published in Anthropic's
 `claude-plugins-community` marketplace under MIT. That skill named the need — a picture
-explainer, few words, dead simple — and its framing is the reason this one exists. What
-is added here is the pedagogy underneath it and a gate that fails.
+explainer, few words, dead simple — and its framing is the reason this one exists. What is
+added here is the pedagogy underneath it and a gate that fails.

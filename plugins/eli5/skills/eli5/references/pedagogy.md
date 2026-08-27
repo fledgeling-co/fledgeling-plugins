@@ -89,8 +89,9 @@ Good:
 Bad: "Try dragging the slider and see what happens." Nothing is committed, so nothing is
 at stake, so nothing is learned.
 
-The **Explain** half matters as much as the prediction. After the reveal, say why the
-wrong answer was reasonable:
+The **Explain** half matters as much as the prediction. After the reveal, name the one
+assumption that made the wrong pick a sound inference, and where that assumption stops
+holding:
 
 > Most people pick "both" — and in a system without quorum, both *would*. That is exactly
 > the split-brain failure Raft's majority rule exists to prevent.
@@ -98,16 +99,27 @@ wrong answer was reasonable:
 A reader who was wrong and now understands why their model was coherent has learned more
 than a reader who was right.
 
-## Staging the three tiers
+## Staging the three passes
 
-| Tier | Owns | Live variables | Register |
+The **form** decides how depth is presented — scroll position, a depth control, what the
+reader unlocks, tabs where tabs genuinely fit (`forms.md`). What each pass owns does not
+change with the form. Mark each one `data-pass="1|2|3"` on its container, which is how the
+gate checks staging without requiring any particular chrome.
+
+| Pass | Owns | Live variables | Register |
 |---|---|---|---|
-| 1 · The turn | The causal invariant, the analogy, the boundary card | Exactly one | Plain, concrete, zero jargon |
-| 2 · The mechanism | The steps, in order, reader-paced | Two or three | Jargon introduced *and defined at first use* |
-| 3 · The real thing | Production behaviour, edge cases, what is still omitted | Open | Technical; the reader has earned it |
+| 1 | The causal invariant, the analogy, the boundary | Exactly one | Plain, concrete, zero jargon |
+| 2 | The steps, in order, reader-paced | Two or three | Jargon introduced *and defined at first use* |
+| 3 | Production behaviour, edge cases, what is still omitted | Open | Technical; the reader has earned it |
 
-Tier 3 closes with what it leaves out. Without that line the reader finishes believing they
-have the whole thing, which is worse than knowing they do not (`evidence.md` §1.12):
+**Name the sections from the topic, not from this table.** Three consecutive artifacts built
+by the first version of this skill carried the same stage names verbatim, and the gate's
+`no-template-boilerplate` rule exists because of it. A Raft explainer's sections are about
+terms, quorums and logs.
+
+The third pass closes with what it leaves out. Without that line the reader finishes
+believing they have the whole thing, which is worse than knowing they do not
+(`evidence.md` §1.12):
 
 > **Still simplified here.** Real Raft also handles log compaction, snapshot transfer and
 > membership changes mid-term. Each of those is a mechanism this page never showed you.
