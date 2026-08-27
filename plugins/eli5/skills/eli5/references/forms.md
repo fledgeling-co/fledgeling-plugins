@@ -45,6 +45,20 @@ Worked assignments, so the mapping is concrete rather than a category list:
 Record the form and one sentence of why in the artifact's source as an HTML comment, so a
 later edit does not drift into a different architecture halfway down.
 
+Which surface each one usually lands on — `motion-and-media.md` carries what to build with
+them and the test each has to pass:
+
+| Form | Usual surface |
+|---|---|
+| Machine, Fork, Ladder, Assembly | plain SVG; GSAP once a state change moves several things in order |
+| Field | canvas 2D |
+| Solid | Three.js, with a 2D inset |
+| Trace | SVG with a GSAP timeline the scrubber drives |
+| Reveal | GSAP with ScrollTrigger, one pinned stage |
+
+A rendered clip belongs in any of them when the sequence is too expensive to compute live —
+scrubbable, inlined, never autoplaying.
+
 ## What each one tends to need
 
 Notes from building them, not requirements. Each is one sentence of the trap the form falls
