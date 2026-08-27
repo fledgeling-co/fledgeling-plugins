@@ -61,6 +61,20 @@ Every term in that left column — *card*, *class*, *rung*, *oracle*, *assay*, *
 *escape*, *coverage* — is an ordinary English word carrying a private meaning. That is the
 hardest kind of jargon to notice, because nothing about it looks technical.
 
+**Name the thing.** The opposite failure ships a page of placeholders, and it reads as a
+riddle:
+
+| What shipped | What the reader needed |
+|---|---|
+| "Sabotage it and it still says all clear" *(as the page title)* | "Break the database on purpose. The health check still reports it as fine." |
+| "Something runs, looks at what came back, and reports." | "A health check runs one command, reads the number it exits with, and turns that into a green tick or a red cross." |
+
+Both lines are true and neither names a single thing the reader can hold. A title whose
+subject is a bare pronoun is a riddle the body has to decode, and *something*, *stuff*, *the
+thing* and *what came back* are the words a draft uses when it has not decided what it means.
+`title-names-its-subject` fails a heading that names nothing the page goes on to discuss;
+`names-things` fails four or more placeholder nouns.
+
 **Aphorisms are not explanations.** *"Verified is a different axis."* is a sentence somebody
 writes when they already understand. It states a conclusion and shows no mechanism, and it
 is what compression produces when a hard idea meets a word budget. Meet the budget by cutting
@@ -312,7 +326,7 @@ the pointer, animation-frame and network scans along with the library.
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Thirty-four checks across five families — containment, geometry, interaction, pedagogy and
+Thirty-six checks across five families — containment, geometry, interaction, pedagogy and
 composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
 on a new machine, because a gate whose checked count has quietly gone to zero reports green
 on everything.
