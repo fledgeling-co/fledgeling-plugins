@@ -361,3 +361,48 @@ author nothing and there is no incentive to compress instead.
 → Rules: the reader is named in SKILL.md as a curious sixteen-year-old or a sharp adult who
 has never worked on this; every topic-specific word is defined at first use or replaced;
 aphorisms are named as the compression failure rather than left implicit.
+
+### 4.8 agent-voice's field guide applies; its gate does not
+
+Asked whether eli5 should route its artifact prose through the `agent-voice` skill, both
+halves were measured rather than assumed.
+
+**Its gate does not catch this failure.** Prose extracted from `done-to-verified.html` and
+from a readable artifact, linted at `--format doc --target claude`:
+
+| Artifact | Result | Only finding |
+|---|---|---|
+| `done-to-verified.html` (unreadable) | clean on the hard checks | 2 lines with an em dash |
+| gimbal reference (readable) | clean on the hard checks | 4 lines with an em dash |
+
+Its `NEG_PARALLEL` rule covers *"not just X, but Y"* and *"not the X, but the Y"*, and does
+not reach the bare appositive (*"inapplicable, not slow"*) or the epigram class at all. Its
+seven registers are also all agent-to-developer text — reply, report, commit, review, doc,
+skill, brief — and none is explainer prose for a lay reader, so `doc` is the closest fit and
+still the wrong one.
+
+**Its field guide does.** `references/ai-writing-signs.md` §1.7 names the failure precisely:
+*"the epigram used in place of a plain statement… LLM reward models favour 'quotable'
+resolutions, humans mostly just end"*, with a budget of roughly one landing line per page or
+major section, captions and panel text included. §2.3 covers negative parallelism.
+
+Those two sections became `plain-statements`. Measured over all visible text, `<svg>` labels
+included:
+
+| Artifact | Visible words | Distinct slogan shapes |
+|---|---|---|
+| `done-to-verified.html` | 567 | 5 |
+| gimbal reference | 519 | 1 |
+
+Thresholds: fail at 4, warn at 2. That is a clean gap on n=2, and the patterns come from an
+independent source rather than from these two files, but two artifacts is the sample.
+
+**The hole it exposed.** Four of the five shapes on the failing page lived inside `<svg>`
+labels: *"inapplicable, not slow"*, *"approval is a one-way door"*, *"a regulator is
+external"*, *"risk appetite, not facts about the repository"*. Exempting diagram text from
+the word budget (§4.5) had quietly made the diagram the cheapest place to put an unexplained
+line. `plain-statements`, `register` and `defines-its-terms` all read diagram text; only the
+word counts exempt it.
+
+→ Rule: eli5 does not route through `agent-voice`, and SKILL.md points at that skill's field
+guide for the human-sounding rules instead.

@@ -70,6 +70,25 @@ into slogans. One line in the whole page may land like that; a page of them expl
 The register is still not baby-talk: no "grown-up word", no magic, no cartoon monsters in
 your RAM. Same reading age as before. The difference is that the reader can follow it.
 
+**The word budget exempts `<svg>` text; the register does not.** Labels inside a diagram cost
+nothing to write, which makes them where dense unexplained lines collect. One measured
+artifact kept its worst there — *"inapplicable, not slow"*, *"approval is a one-way door"*,
+*"a regulator is external"* — free against every count and read by nobody who was not already
+on the project. `plain-statements` reads all visible text, diagram labels included.
+
+### Where these rules come from
+
+The slogan rules are lifted from `agent-voice`'s `references/ai-writing-signs.md` §1.7, which
+names this failure as *"the epigram used in place of a plain statement"* and sets the budget
+at roughly one landing line per page, and §2.3 on negative parallelism. Read that file when
+prose here needs to sound less machine-made; it is the better source on the subject than
+anything restated here.
+
+Running an eli5 artifact through `agent-voice` itself does not help, and that is measured
+rather than assumed: its seven registers are all agent-to-developer text, and its gate passed
+the unreadable artifact above cleanly, flagging only em dashes on both it and a readable one
+(`evidence.md` §4.8). The rules that apply are in the field guide, not in that gate.
+
 ## What is fixed, and what is yours
 
 **Fixed: the numbers the gate checks.** Those name defects that are measurable — prose over
@@ -262,7 +281,7 @@ the pointer, animation-frame and network scans along with the library.
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Thirty checks across five families — containment, geometry, interaction, pedagogy and
+Thirty-one checks across five families — containment, geometry, interaction, pedagogy and
 composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
 on a new machine, because a gate whose checked count has quietly gone to zero reports green
 on everything.
