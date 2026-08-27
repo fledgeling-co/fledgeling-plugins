@@ -120,6 +120,12 @@ and restart the benchmarks as needed
 
 `scripts/status.sh` answers "how's it going" without waking the loop or costing it a turn, and warns when the wake-to-poll ratio says the probe is too wide to be worth gating on. `scripts/disarm.sh` clears the state; `TaskStop` stops the monitor.
 
+### The one thing a watcher cannot report about itself
+
+A `Monitor` runs in the session's shell, so it dies when the session does — cleanly, on an API error, or on a crash — and the state file goes on reading `armed: true` with nobody told. In the sibling harness that shape left one run armed for fourteen days and another for six.
+
+So `watch.sh` stamps `last_poll_at` on every poll, and two things read it. `status.sh` reports a loop whose last poll is older than three intervals as stopped rather than watching. And `sentinel.sh`, registered on `SessionStart`, tells the next session that opens the repo which loops died — once each, and nothing at all when every loop is polling. That hook is the only settings change this skill makes; `disarm.sh` removes it when no loop is left armed, and `arm.sh --no-sentinel` skips it.
+
 ## The rules that keep it useful
 
 **A wake must carry new information.** Not a poll, not a repeat, not output already in the context. Everything else here follows from that.
@@ -145,9 +151,12 @@ skills/better-loop/
     templates.md         the brief, the state file, the ledger, the arming sequence
   scripts/
     preflight.sh         probe determinism first; --cron adds the scheduler checks
-    arm.sh               writes per-slug state and prints the Monitor call
+    arm.sh               writes per-slug state, registers the SessionStart
+                         sentinel, and prints the Monitor call
     watch.sh             the loop itself: polls, fingerprints, suppresses repeats,
-                         emits CHANGE / DONE / ENDED / QUIET / GONE
+                         stamps the heartbeat, emits CHANGE / DONE / ENDED /
+                         QUIET / GONE
+    sentinel.sh          SessionStart: reports loops whose session died
     tick.sh              appends one ledger row per tick
     status.sh            reads state and ledger; flags a wake-heavy probe
     disarm.sh            <slug> | --all | --loop-md

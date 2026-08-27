@@ -109,8 +109,13 @@ seen_write() { # fp count next
 
 trap 'state_set --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" ".armed=false | .ended_at=\$t | .end_reason=(.end_reason // \"stopped\")"; exit 0' TERM INT
 
-state_set --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg p "$PROBE" \
-  '.armed=true | .started_at=$t | .probe=$p | .polls=0 | .wakes=0 | .quiet_since=null'
+# The session id lets status.sh and sentinel.sh say WHICH session owned a loop
+# that stopped. Every poll rewrites this file, so its mtime is the heartbeat they
+# read; reported_dead is cleared here so a restarted loop can be reported again.
+state_set --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg p "$PROBE" --arg sid "${CLAUDE_CODE_SESSION_ID:-}" \
+  '.armed=true | .started_at=$t | .probe=$p | .polls=0 | .wakes=0 | .quiet_since=null
+   | .reported_dead=false | .last_poll_at=null
+   | .session_id=(if $sid=="" then .session_id else $sid end)'
 
 UNCHANGED=0
 FIRST=1
@@ -127,7 +132,8 @@ while true; do
 
   OUT="$(eval "$PROBE" 2>&1)"; RC=$?
   FP="$(printf '%s' "$OUT" | hash_of)"
-  state_set --arg f "$FP" --argjson r "$RC" '.polls=((.polls // 0)+1) | .last_fingerprint=$f | .last_rc=$r'
+  state_set --arg f "$FP" --argjson r "$RC" --argjson t "$NOW" \
+    '.polls=((.polls // 0)+1) | .last_fingerprint=$f | .last_rc=$r | .last_poll_at=$t'
 
   if [ "$FIRST" -eq 1 ]; then
     # The first poll establishes the baseline. Emitting it would wake the session

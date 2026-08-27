@@ -150,3 +150,30 @@ On Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform and
 Microsoft Foundry: `loop.md` is not read, a bare `/loop` prints usage instead of
 running the maintenance prompt, and a prompt with no interval runs on a fixed
 10-minute schedule rather than dynamic pacing. The watcher is unaffected.
+
+## The watcher dies with its session, and cannot say so
+
+`Monitor` runs the watcher in the session's own shell. When the session ends the
+process ends with it, and nothing rewrites the state file, so `armed: true`
+survives indefinitely. Measured in the sibling `better-goal` harness: one run
+read `armed: true` at turn 17 of 800 for fourteen days after its session hit
+`API Error: Connection refused`, and a second sat armed for six days after its
+session ended mid-turn.
+
+Two mechanisms close it, and neither is inside the loop:
+
+- **A heartbeat.** `watch.sh` stamps `last_poll_at` (epoch) on every poll.
+  `status.sh` and `sentinel.sh` read that rather than the state file's mtime,
+  because anything that writes to the file — including the sentinel's own
+  reported flag — refreshes the mtime and makes a dead loop look freshly polled.
+  A heartbeat older than three intervals, floored at two minutes, is dead.
+- **A `SessionStart` hook.** `sentinel.sh` runs at the start of every session in
+  the repo and reports each dead loop once, via
+  `hookSpecificOutput.additionalContext`. Unlike a `Stop` hook it does not need
+  to load in the session that registered it — it needs to be on disk before the
+  *next* session starts, which it is — so the settings-watcher caveat that
+  affects `better-goal` does not apply here.
+
+`disarm.sh` removes the hook once no loop in the repo is armed. `--no-sentinel`
+at arm time skips it entirely and leaves settings untouched, which costs exactly
+the reporting above.
