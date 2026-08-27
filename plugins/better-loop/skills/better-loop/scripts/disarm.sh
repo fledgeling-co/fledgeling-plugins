@@ -58,6 +58,27 @@ if [ "$RM_LOOPMD" -eq 1 ]; then
   fi
 fi
 
+# Remove the SessionStart sentinel once no loop in the repo is still armed, the
+# same way the loop leaves nothing else behind.
+REMAINING=0
+for f in "${STATES[@]}"; do
+  [ "$(jq -r '.armed // false' "$f" 2>/dev/null || echo false)" = "true" ] && REMAINING=$((REMAINING + 1))
+done
+SETTINGS="$ROOT/.claude/settings.local.json"
+if [ "$REMAINING" -eq 0 ] && [ -f "$SETTINGS" ] && \
+   jq -e '[(.hooks.SessionStart // [])[] | (.hooks // [])[] | .command? // ""] | map(test("better-loop.*sentinel\\.sh")) | any' "$SETTINGS" >/dev/null 2>&1; then
+  backup "$SETTINGS"
+  tmp="$(mktemp)"
+  jq '.hooks.SessionStart = ((.hooks.SessionStart // []) | map(select(((.hooks // [])
+        | map(.command? // "") | map(test("better-loop.*sentinel\\.sh")) | any) | not)))
+      | if (.hooks.SessionStart // []) == [] then del(.hooks.SessionStart) else . end
+      | if (.hooks // {}) == {} then del(.hooks) else . end' "$SETTINGS" >"$tmp" && mv "$tmp" "$SETTINGS" \
+    || { echo "disarm.sh: settings rewrite failed; $SETTINGS left as it was" >&2; rm -f "$tmp"; }
+  echo "removed the SessionStart sentinel from $SETTINGS"
+elif [ "$REMAINING" -gt 0 ]; then
+  echo "$REMAINING loop(s) still armed — leaving the SessionStart sentinel registered."
+fi
+
 echo
 echo "still to cancel in the session (these are not files):"
 echo "  watcher       TaskStop <task id — find it with TaskList>; it also exits on its next poll now the state is ended"

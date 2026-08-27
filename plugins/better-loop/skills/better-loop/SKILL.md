@@ -1,7 +1,7 @@
 ---
 name: better-loop
 description: >-
-  Arm recurring or event-driven work as a change-gated watcher this skill creates itself, so a tick fires only when something has actually changed. Use when someone wants work that keeps running — "loop on this", "keep checking the deploy", "monitor the benchmark runs and fix errors", "create a loop prompt", "harden this loop" — and when a loop has already misfired: "what exactly is performing the loop, I expected to see a monitor", "I expected /loop to be able to be left", "the loop stopped", "why is this session so expensive". Also use as a follow-up to the built-in command (`/loop /better-loop <intent>`, formerly loop-harness). Picks the mechanism first, writes the tick protocol to docs/loops/loop-<slug>.md, preflights the probe for determinism and the skills the tick names, then arms a Monitor that polls a probe command and wakes the session only on a change — with a known-state register, a wake budget and a dry-stop, so a failure already reported is not re-sent turn after turn. Routes to better-goal when the work has a verifiable finish line. NOT for a one-off task that finishes in a single turn.
+  Arm recurring or event-driven work as a change-gated watcher this skill creates itself, so a tick fires only when something has actually changed. Use when someone wants work that keeps running — "loop on this", "keep checking the deploy", "monitor the benchmark runs and fix errors", "create a loop prompt", "harden this loop" — and when a loop has already misfired: "what exactly is performing the loop, I expected to see a monitor", "I expected /loop to be able to be left", "the loop stopped", "why is this session so expensive". Also use as a follow-up to the built-in command (`/loop /better-loop <intent>`, formerly loop-harness). Picks the mechanism first, writes the tick protocol to docs/loops/loop-<slug>.md, preflights the probe for determinism and the skills the tick names, then arms a Monitor that polls a probe command and wakes the session only on a change — with a known-state register, a wake budget and a dry-stop, so a failure already reported is not re-sent turn after turn. Because a Monitor dies with the session that started it, it also stamps a heartbeat on every poll and registers a SessionStart sentinel, so a loop that stopped is reported rather than reading armed forever. Routes to better-goal when the work has a verifiable finish line. NOT for a one-off task that finishes in a single turn.
 ---
 
 # better-loop — a loop that only speaks when something changed
@@ -98,15 +98,27 @@ Four bounds, and each answers a different way a loop goes wrong:
 - **`--stop-when '<cmd>'`** — exit 0 means finished. If you find yourself
   reaching for this on every field, the work has a finish line: use better-goal.
 
-There is no cron and no settings change, so there is no seven-day expiry and
-nothing to clean up in settings afterwards.
+There is no cron, so there is no seven-day expiry. The one settings change is a
+`SessionStart` hook running `scripts/sentinel.sh`, and `disarm.sh` removes it
+once no loop in the repo is still armed. `--no-sentinel` skips it and leaves
+settings untouched, at the cost below.
+
+**A `Monitor` dies with the session that started it.** When the session ends —
+cleanly, on an API error, or on a crash — the watcher goes with it while the
+state file keeps reading `armed: true`, and nothing says so. A sibling harness
+left two runs in that state for six and fourteen days. The watcher stamps
+`last_poll_at` on every poll, so `status.sh` reports a loop whose last poll is
+older than three intervals as dead rather than watching, and the sentinel reports
+it to the next session that opens the repo. A `SessionStart` hook is read when
+the *next* session starts, so unlike a Stop hook it needs no `/hooks` reload to
+work as intended.
 
 ### 6. Report what is watching
 
 One block: the mechanism and why, the probe, the interval, what wakes the
-session and what will not, the bounds, where the ledger is, how to read status
-(`scripts/status.sh`), and how to stop (`TaskStop` on the monitor, then
-`scripts/disarm.sh <slug>`).
+session and what will not, the bounds, where the ledger is, whether the sentinel
+is registered, how to read status (`scripts/status.sh`), and how to stop
+(`TaskStop` on the monitor, then `scripts/disarm.sh <slug>`).
 
 ## Delegation
 
@@ -137,3 +149,6 @@ work happens.
 - **The ledger is the answer.** "How's it going" is read from the file, never by
   asking the loop — asking it costs a turn and tells you what the ledger already
   knew.
+- **`armed: true` is a claim, `last_poll_at` is the evidence.** Report the
+  heartbeat rather than the flag: they disagree exactly when the loop has died,
+  which is the only time the question is being asked.

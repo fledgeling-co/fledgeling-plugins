@@ -21,7 +21,20 @@ for STATE in "${STATES[@]}"; do
 
   ARMED="$(jq -r '.armed // false' "$STATE")"
   if [ "$ARMED" = "true" ]; then
-    echo "loop: $SLUG — WATCHING"
+    # The watcher stamps last_poll_at on every poll. A Monitor dies with its
+    # session and cannot say so, which is the one way "WATCHING" lies.
+    IV="$(jq -r '.interval // 120' "$STATE")"; case "$IV" in ''|*[!0-9]*) IV=120 ;; esac
+    SM="$(jq -r '.last_poll_at // empty' "$STATE")"
+    case "$SM" in ''|*[!0-9]*) SM="$(stat -f %m "$STATE" 2>/dev/null || stat -c %Y "$STATE" 2>/dev/null || echo 0)" ;; esac
+    HB=$(( $(date +%s) - SM ))
+    DL=$(( IV * 3 )); [ "$DL" -lt 120 ] && DL=120
+    if [ "$HB" -ge "$DL" ]; then
+      echo "loop: $SLUG — SAYS WATCHING, BUT ITS LAST POLL WAS $(( HB / 60 ))m AGO"
+      echo "      It polls every ${IV}s, so its Monitor is gone with the session that started it"
+      echo "      ($(jq -r '.session_id // "session unknown"' "$STATE")). Restart it or end it with disarm.sh $SLUG."
+    else
+      echo "loop: $SLUG — WATCHING (last poll ${HB}s ago)"
+    fi
   elif [ "$(jq -r '.ended_at // ""' "$STATE")" = "" ]; then
     echo "loop: $SLUG — armed but never started. Make the Monitor call arm.sh printed."
   else
