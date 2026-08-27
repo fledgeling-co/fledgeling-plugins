@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="proctor: a porcelain app icon showing one macOS window registered three times (a slate keyline, a solid plane, and discrete pixel samples) offset by a hair, with vermilion spent only on the disagreement, beside the wordmark and the line: three observers, and the disagreement is the defect" width="100%" />
+  <img src="assets/banner.png" alt="proctor: a porcelain app icon showing one macOS window registered three times (a slate keyline, a solid plane, and discrete pixel samples) offset by a hair, with vermilion spent only on the disagreement, beside the wordmark and the line: three observers, and the disagreement is the defect" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> proctor</h1>

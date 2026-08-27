@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="ship-armada: three vermilion ship hulls in echelon on a pale nautical chart, beside the wordmark and the line 'every project in ~/Dev as one portfolio, three underway at a time'" width="100%" />
+  <img src="assets/banner.png" alt="ship-armada: three vermilion ship hulls in echelon on a pale nautical chart, beside the wordmark and the line 'every project in ~/Dev as one portfolio, three underway at a time'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> ship-armada</h1>

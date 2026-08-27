@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="The create-swe-project banner: a marigold hull slides down a sleepered slipway and takes the water, on a pale shipyard field, beside the wordmark and the note that this was formerly slipway" width="100%" />
+  <img src="assets/banner.png" alt="The create-swe-project banner: a marigold hull slides down a sleepered slipway and takes the water, on a pale shipyard field, beside the wordmark and the note that this was formerly slipway" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> create-swe-project</h1>

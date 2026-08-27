@@ -1,5 +1,8 @@
-# harbourmaster
+<p align="center">
+  <img src="assets/banner.png" alt="harbourmaster" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> harbourmaster</h1>
 A harbourmaster does not sail the ships. They decide which berth a vessel takes,
 whether it may enter yet, and which ones wait outside — and they keep the register
 of what is in port.

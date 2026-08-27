@@ -1,7 +1,8 @@
-<img src="assets/banner.png" alt="positioning" width="100%" />
+<p align="center">
+  <img src="assets/banner.png" alt="positioning" width="100%">
+</p>
 
-# positioning
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> positioning</h1>
 **Work out what your product should stand for, and be able to show your working.**
 
 Positioning is the sentence you lead with; the word you want to own; the enemy

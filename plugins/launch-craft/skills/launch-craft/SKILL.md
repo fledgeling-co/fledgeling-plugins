@@ -47,7 +47,7 @@ description: >-
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It provides explicit enumeration bounds, execution ledgers, and chained file prerequisites. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes the launch site and the PRD edits out to a stronger lane, converts the design and UX skills into files a later phase reads, and turns every stated bound into a value read back off the render. Other models skip it.
 
 ---
 

@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="tui-craft: a porcelain icon of a terminal panel with its character grid ruled across it, one vermilion glyph occupying two cells and a caliper measuring that width, beside the wordmark and the line: a terminal is a grid of cells, design on it, then measure it" width="100%" />
+  <img src="assets/banner.png" alt="tui-craft: a porcelain icon of a terminal panel with its character grid ruled across it, one vermilion glyph occupying two cells and a caliper measuring that width, beside the wordmark and the line: a terminal is a grid of cells, design on it, then measure it" width="100%">
 </p>
 
-# tui-craft
-
+<h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> tui-craft</h1>
 <p align="center">
   <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
   <img alt="SWE skill: terminal UI" src="https://img.shields.io/badge/SWE_skill-terminal_UI-434A55">

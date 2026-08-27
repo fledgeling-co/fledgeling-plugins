@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="ship-feature: a porcelain icon of a single gel-glass vessel at the moment of launch, ember wave breaking at the waterline, beside the wordmark and the line 'one feature, taken all the way'" width="100%" />
+  <img src="assets/banner.png" alt="ship-feature: a porcelain icon of a single gel-glass vessel at the moment of launch, ember wave breaking at the waterline, beside the wordmark and the line 'one feature, taken all the way'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> ship-feature</h1>

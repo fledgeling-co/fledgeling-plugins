@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="generate-investor-portal: a porcelain app icon of an open strongroom door with a warm lit room behind it and one pale record standing inside, beside the wordmark and the line: one generated record per company, and a gate reads it back before anything publishes, a figure with no provenance is refused, not flagged. To the right, the same room at scale, cropped by the frame." width="100%" />
+  <img src="assets/banner.png" alt="generate-investor-portal: a porcelain app icon of an open strongroom door with a warm lit room behind it and one pale record standing inside, beside the wordmark and the line: one generated record per company, and a gate reads it back before anything publishes, a figure with no provenance is refused, not flagged. To the right, the same room at scale, cropped by the frame." width="100%">
 </p>
 
-# generate-investor-portal
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> generate-investor-portal</h1>
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="SWE skill: generation" src="https://img.shields.io/badge/SWE_skill-generation-434A55">

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="armada-sync: a porcelain icon of a manifest page with one entry stamped in vermilion, beside the wordmark and the line: keeps the portfolio manifest honest, one entry, nothing else" width="100%" />
+  <img src="assets/banner.png" alt="armada-sync: a porcelain icon of a manifest page with one entry stamped in vermilion, beside the wordmark and the line: keeps the portfolio manifest honest, one entry, nothing else" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> armada-sync</h1>

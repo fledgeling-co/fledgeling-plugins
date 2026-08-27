@@ -1,5 +1,8 @@
-# flagship
+<p align="center">
+  <img src="assets/banner.png" alt="flagship" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> flagship</h1>
 A flagship carries the commander and the signals. It does not command the other
 ships' masters — every vessel is sailed by its own captain, and the flag deck's
 authority is over the plan, not over the crew.

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="mockup-fidelity: a porcelain app icon showing a reference rectangle scribed into the tile with a clay-gel slab laid over it and misregistered, the exposed ember sliver measuring the gap, beside the wordmark and the line: does the built screen actually match the mock" width="100%" />
+  <img src="assets/banner.png" alt="mockup-fidelity: a porcelain app icon showing a reference rectangle scribed into the tile with a clay-gel slab laid over it and misregistered, the exposed ember sliver measuring the gap, beside the wordmark and the line: does the built screen actually match the mock" width="100%">
 </p>
 
-<h1 align="center">mockup-fidelity</h1>
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mockup-fidelity</h1>
 
 <p align="center">
   <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.0-D33C21">

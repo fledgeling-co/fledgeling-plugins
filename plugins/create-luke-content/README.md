@@ -1,19 +1,19 @@
-<div align="center">
-  <img src="assets/banner.png" alt="create-luke-content banner" width="800" />
-</div>
+<p align="center">
+  <img src="assets/banner.png" alt="create-luke-content: a porcelain icon of a translucent frosted prose sheet with an embossed semicolon resting on an ember measuring grid, beside the wordmark and the line: authentic founder voice, backed by empirical B2B copywriting craft" width="100%">
+</p>
 
-<div align="center">
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> create-luke-content</h1>
 
-[![Version](https://img.shields.io/badge/version-3.0.0-C4622D?style=flat-square)](plugin.json)
-[![Evals](https://img.shields.io/badge/evals-9%20prompts%20%C2%B7%2098%25%20pass-1a1918?style=flat-square)](evals/EVALS.md)
-[![Blind Panel](https://img.shields.io/badge/blind%20panel-20--7%20candidate%20win-1a1918?style=flat-square)](evals/EVALS.md)
-[![Voice Lint](https://img.shields.io/badge/voice%20lint-zero%20em%20dashes%20%C2%B7%20AU%20spelling-027aff?style=flat-square)](skills/create-luke-content/scripts/voice_lint.py)
+<p align="center"><strong>Write anything in Luke Rhodes' voice, with an empirical B2B copywriting craft layer under the marketing route.</strong><br />
+A founder-voice ghostwriting skill that pairs outcomes with concrete mechanisms, discloses limitations in place, and enforces Australian spelling, stylometrics, and zero em dashes with a deterministic lint.</p>
 
-</div>
-
-# create-luke-content
-
-Write anything in Luke Rhodes' voice (CTO and co-founder of Diolog, an ASX-listed investor relations SaaS), with a proven B2B copywriting craft layer underneath.
+<p align="center">
+  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.0-C4622D">
+  <img alt="Evals 98.2%" src="https://img.shields.io/badge/evals-98.2%25_pass-1a1918">
+  <img alt="Blind Panel 20-7" src="https://img.shields.io/badge/blind_panel-20--7_candidate_win-1a1918">
+  <img alt="Voice Lint" src="https://img.shields.io/badge/voice_lint-zero_em_dashes-027aff">
+  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
+</p>
 
 ---
 

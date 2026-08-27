@@ -1,7 +1,10 @@
 <img src="assets/icon-256.png" align="left" width="128" alt="" />
 
-# tailings
+<p align="center">
+  <img src="assets/banner.png" alt="tailings" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> tailings</h1>
 **Verify and clean up after a finished agent session without re-doing its work.**
 
 <br clear="left" />

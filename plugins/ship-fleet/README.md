@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="ship-fleet: a porcelain icon of a harbour berth grid seen from above, two vessels held in their slips and one vermilion vessel departing with a wake, beside the wordmark and the line 'the whole backlog, readied and launched'" width="100%" />
+  <img src="assets/banner.png" alt="ship-fleet: a porcelain icon of a harbour berth grid seen from above, two vessels held in their slips and one vermilion vessel departing with a wake, beside the wordmark and the line 'the whole backlog, readied and launched'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> ship-fleet</h1>

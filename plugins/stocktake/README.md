@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="stocktake: a porcelain icon of one card lifted clear of a column and held to the light, its face glowing translucent, beside the wordmark and the line: count what the board claims against what the codebase holds" width="100%" />
+  <img src="assets/banner.png" alt="stocktake: a porcelain icon of one card lifted clear of a column and held to the light, its face glowing translucent, beside the wordmark and the line: count what the board claims against what the codebase holds" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> stocktake</h1>

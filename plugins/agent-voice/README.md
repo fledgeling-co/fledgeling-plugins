@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="agent-voice: a porcelain banner with a slate terminal-cursor icon whose two quote strokes are cut through it and lit vermilion, those same strokes continuing out of the tile to open the wordmark, above a tagline and four text rules that taper away to one short vermilion stub" width="100%" />
+  <img src="assets/banner.png" alt="agent-voice: a porcelain banner with a slate terminal-cursor icon whose two quote strokes are cut through it and lit vermilion, those same strokes continuing out of the tile to open the wordmark, above a tagline and four text rules that taper away to one short vermilion stub" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-128.png" alt="" width="34" valign="middle" /> agent-voice</h1>

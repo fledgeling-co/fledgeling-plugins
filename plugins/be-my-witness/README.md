@@ -1,7 +1,7 @@
-![be-my-witness](assets/banner.png)
-
-# be-my-witness
-
+<p align="center">
+  <img src="assets/banner.png" alt="be-my-witness" width="100%">
+</p>
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> be-my-witness</h1>
 Look at a screenshot and say what it actually shows.
 
 <p align="center">

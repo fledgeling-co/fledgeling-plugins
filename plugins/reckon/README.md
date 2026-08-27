@@ -1,5 +1,8 @@
-# reckon
+<p align="center">
+  <img src="assets/banner.png" alt="reckon" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> reckon</h1>
 **What is actually left, given what anybody actually proved.**
 
 ```

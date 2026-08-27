@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="atlas-publish: the porcelain icon of a graphite script letter stopped against a vermilion slab, beside the wordmark atlas publish split by that same slab, the line 'Open PRs in, a sealed release out. Going live stays yours.', and four dark bars running in from the left and halting flush against an upright vermilion gate" width="100%" />
+  <img src="assets/banner.png" alt="atlas-publish: the porcelain icon of a graphite script letter stopped against a vermilion slab, beside the wordmark atlas publish split by that same slab, the line 'Open PRs in, a sealed release out. Going live stays yours.', and four dark bars running in from the left and halting flush against an upright vermilion gate" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> atlas-publish</h1>

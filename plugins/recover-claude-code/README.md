@@ -1,5 +1,8 @@
-# recover-claude-code
+<p align="center">
+  <img src="assets/banner.png" alt="recover-claude-code" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> recover-claude-code</h1>
 Your terminal crashed and took a dozen Claude Code sessions with it. The work isn't gone —
 every transcript, every workflow journal, every subagent's accumulated context is still on
 disk. It's just unattached. This brings it back.
