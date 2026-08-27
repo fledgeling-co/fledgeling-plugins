@@ -576,17 +576,6 @@
       },
       "source": "./plugins/positioning",
       "category": "development"
-    },
-    {
-      "name": "create-luke-content",
-      "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content by DiologIR, whose voice extraction it keeps intact.",
-      "version": "3.0.0",
-      "author": {
-        "name": "Fledgeling",
-        "email": "lukerhodes27@gmail.com"
-      },
-      "source": "./plugins/create-luke-content",
-      "category": "development"
     }
   ]
 }

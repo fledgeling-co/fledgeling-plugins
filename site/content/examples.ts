@@ -347,4 +347,42 @@ One survived, because the fact that decides it is missing.
 Two options, nothing marked. A mark would mean the fork was
 mine to take. The no-skill arm asked this in 57 words.`,
   },
+  positioning: {
+    prompt: "position our B2B reconciliation tool and tell us what to lead with",
+    output: `docs/positioning/work/
+  Product truth ................ 4 shipped · 2 designed
+  Research panels .............. 2 dispatched · 7 members · $20.00
+  Claims ....................... 160 · 38 independent domains
+  Candidate positions .......... 6 generated via trawl → 3 shortlisted
+
+DECISION INSTRUMENT
+  Veto ......................... ML matching engine excluded (unbuilt)
+  Consequences ................. natural units (conversion %, CAC, sales cycle)
+  Dominance .................... Territory A dominates status quo
+  Rank stability ............... A leads in 44.7% of 231 weight vectors
+
+Recommendation: "Territory A — Audit-ready reconciliation" (promising hypothesis)
+→ docs/positioning/positioning-report.html  (design-review: clean)`,
+  },
+
+  "launch-craft": {
+    prompt: "build a launch site for this repo and update the PRD",
+    output: `launch-craft pipeline · 4 phases
+
+Phase 1: Gemini Synthesis via agy
+  docs/features-to-triage/ ..... 8 briefs scanned
+  PRD.md & OVERVIEW.md ......... updated with 100% requirement traceability
+
+Phase 2: Positioning & Copywriting
+  docs/positioning/ ............ 00-decision.md verified
+  Copy drafted ................. /create-luke-content (marketing persona)
+  Pricing architecture ......... $9.99 BYOK perpetual vs $4.99/mo hosted
+
+Phase 3: Interactive Marketing Site
+  design/marketing/index.html .. GSAP scroll timeline, Three.js 3D hero,
+                                 interactive UI slices, 5-platform badges
+
+Phase 4: Validation Gate
+  validate_site.py ............. WCAG AA pass (4.5:1), 0 em dashes, responsive clean`,
+  },
 };
