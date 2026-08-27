@@ -455,4 +455,41 @@ states which of the two cases admits a clip at all.
 reset matched, so the absence of motion counted as motion, and the signalling fixture could
 not fail. Both now use one `MOTION_DECL` pattern that excludes a `none` value.
 
-`--self-test`: 33 of 33 rules able to fail.
+`--self-test`: 33 of 33 rules able to fail at that point; §4.11 adds a thirty-fourth.
+
+### 4.11 Every library rule was written as a bar to clear, so nothing cleared it
+
+Four artifacts built by 0.2.x and 0.3.x drew with SVG and CSS alone — no canvas, no library,
+no clip — and passed every check. `vendor-inlined` skips when no library is present, and
+every rule about reaching for one was phrased as a disqualifier: *"is not the test"*,
+*"usually stays on plain SVG"*, *"never as a substitute for"*. A model reading those
+correctly concluded not to.
+
+| Artifact | Surfaces beyond SVG and CSS |
+|---|---|
+| `done-to-verified.html` | none |
+| `evidence-page.html` | none |
+| `what-changed-in-done.html` | none |
+| `what-the-agents-are-doing.html` | none |
+| `why-done-isnt-trusted.html` | canvas |
+| gimbal reference | canvas, three.js |
+
+`why-done-isnt-trusted.html` is worth separating out, because its choice was **right**: a
+`FORM: Field` comment justifies canvas at 8,014 cells against the ~500 where DOM nodes drop
+frames, and its invariant is not spatial, so three.js would have been decoration. Forcing a
+library there would be the coherence failure rather than a fix.
+
+Its actual gap is different and evidence-backed: **no second lens.** §1.2 asks for a
+structurally different view when a topic has more than one mechanism, and an 8,014-cell
+coverage field drawn flat as a heatmap and again as a 3D surface, height carrying the same
+quantity, is exactly that — same data, two projections, every mark still encoding a real
+variable. A legitimate three.js case, passed over.
+
+→ Rules: `surface-reach` fails an artifact drawing only with SVG and CSS unless a
+`<!-- surface: … -->` comment records the choice deliberately; GSAP is restated as the default
+way to signal rather than an alternative to CSS, since one `transition:` declaration across
+nine controls is signalling in name only; three.js gains the second-lens case alongside the
+spatial-invariant one.
+
+Measured after the change: the four SVG-only artifacts fail `surface-reach`, the two that
+reach beyond it pass. `--self-test`: 34 of 34.

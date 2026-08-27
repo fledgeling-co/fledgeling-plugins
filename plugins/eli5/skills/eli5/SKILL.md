@@ -216,28 +216,36 @@ all:
   and that skill carries the form heuristic, the colour formula and a runnable palette
   validator. Substitute the artifact's own palette from Phase 3 into its `references/palette.md`
   and re-run the validator; that is the supported path.
-- **Reach for a library when the form asks for one.** `references/motion-and-media.md` carries
-  what to build with all four surfaces below and the test that admits them, because the
-  failure it addresses is three consecutive artifacts shipping four static SVGs, no canvas and
-  no library at all.
+- **Reach past SVG and CSS; say so if you don't.** Four artifacts in a row drew with SVG and
+  CSS alone and passed everything, because every library rule read as a bar to clear rather
+  than a default. `surface-reach` now fails that shape unless a `<!-- surface: … -->` comment
+  records the choice on purpose. `references/motion-and-media.md` carries what to build with
+  each.
 
-  | Library | Earns its place when | Cost inlined |
+  | Surface | Reach for it when | Cost inlined |
   |---|---|---|
-  | GSAP | a state change moves several things in order, or a Reveal scrubs on scroll | 72 KB |
-  | GSAP + ScrollTrigger | scroll position is the reader's clock | +44 KB |
-  | Three.js | a 2D projection loses something the explanation needs | 687 KB |
+  | GSAP | anything the reader causes moves more than one thing — this is the default way to signal a state change, not an alternative to CSS | 72 KB |
+  | GSAP + ScrollTrigger | a Reveal, where scroll position becomes the reader's clock | +44 KB |
+  | Three.js | a flat view loses the invariant, **or the second lens wants a different projection of the same data** | 687 KB |
   | Canvas 2D | past roughly 500 elements, where DOM nodes drop frames | none |
 
-  "It would look impressive in 3D" is not the test — that is the seductive detail the
-  coherence principle names. A Machine or a Fork usually stays on plain SVG.
+  **The second lens is the case most often missed.** §1.2 asks for a structurally different
+  view when a topic has more than one mechanism, and a field drawn flat as a heatmap and again
+  as a 3D surface is exactly that — same data, different projection, both encoding real
+  variables. One measured artifact drew an 8,014-cell field and shipped no second lens at all.
+
+  What stays out is decoration: a spin nobody asked for, a 3D chart of two variables, motion
+  that plays whether or not anyone is watching. "It would look impressive" is not a reason;
+  "the reader cannot answer this question from the flat view" is.
 - **Remotion, for a sequence the browser cannot compute live.** A fluid simulation, a long
   training run, thousands of frames of real data: render once, embed as a scrubbable
   `<video controls>` with a `data:` URI, and keep the interactive version of the simplified
   model beside it. Scrubbing is what makes a clip satisfy §1.8 — the reader holds the
   timeline — so the gate fails a clip that is linked, uncontrolled or autoplaying. When the
   ask itself included a video, that is a second deliverable next to the page. Route through
-  `/remotion-best-practices`, or `npx skills add remotion-dev/skills` for the task-specific
-  ones. Never as a substitute for an interaction the browser could have run live.
+  `/remotion-best-practices`, which dispatches to `/remotion-create`, `/remotion-markup`,
+  `/remotion-render` and `/remotion-docs`. Never as a substitute for an interaction the
+  browser could have run live.
 - **Generated imagery, for three things.** The analogy's source domain when it is a real
   thing the reader knows by sight; a real vector diagram via `svg: true`, which routes to
   Arrow and inlines as editable `<svg>`; and the ground behind the stage, which carries no
@@ -304,7 +312,7 @@ the pointer, animation-frame and network scans along with the library.
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Thirty-three checks across five families — containment, geometry, interaction, pedagogy and
+Thirty-four checks across five families — containment, geometry, interaction, pedagogy and
 composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
 on a new machine, because a gate whose checked count has quietly gone to zero reports green
 on everything.
