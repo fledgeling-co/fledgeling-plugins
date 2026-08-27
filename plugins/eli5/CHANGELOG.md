@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.4.0 - 2026-08-27
+
+Four artifacts in a row drew with SVG and CSS alone -- no canvas, no library, no clip -- and
+passed every check. The cause was in the wording: `vendor-inlined` skips when no library is
+present, and every rule about reaching for one was phrased as a disqualifier. "Is not the
+test." "Usually stays on plain SVG." "Never as a substitute for." A model reading those
+correctly concluded not to.
+
+### `surface-reach`
+
+Fails an artifact that draws only with SVG and CSS, unless a `<!-- surface: ... -->` comment
+records the choice on purpose. An explainer may still be SVG-only; it has to say so. Measured
+after the change: the four SVG-only artifacts fail, the two that reach beyond pass.
+
+### GSAP is the default way to signal
+
+Not an alternative to CSS transitions. An unmarked state change costs g = 0.46-0.53, and one
+`transition:` declaration across nine controls is signalling in name only -- the shape
+measured on a real artifact. At 72 KB the orchestrated, reversible, reduced-motion-aware
+version is the default rather than the upgrade.
+
+### Three.js gains the second-lens case
+
+Previously one test: the invariant is spatial. Now two, and the new one is the case most
+often missed. Section 1.2 asks for a structurally different view when a topic has more than
+one mechanism, and a field drawn flat as a heatmap and again as a 3D surface where height
+carries the same quantity is exactly that -- same data, two projections, every mark still
+encoding a real variable.
+
+`why-done-isnt-trusted.html` is where this came from, and its library choice was right: a
+FORM comment justifies canvas at 8,014 cells against the ~500 where DOM nodes drop frames,
+and its invariant is not spatial, so three.js would have been decoration. Its real gap is
+that it carries no second lens -- which is a legitimate three.js case it passed over. Forcing
+a library into a page that does not want one is the coherence failure, not the fix.
+
+What stays out is unchanged: an idle spin, a 3D chart of two variables, depth encoding
+nothing. "It would look impressive" is not a reason; "the reader cannot answer this question
+from the flat view" is.
+
+### Remotion skills
+
+The full set is installed now rather than the router alone, so the docs route to
+`/remotion-create`, `/remotion-markup`, `/remotion-render` and `/remotion-docs` by name.
+
+34 checks, `--self-test` at 34 of 34 able to fail.
+
 ## 0.3.1 - 2026-08-27
 
 A correction, and the verification it unblocked.
