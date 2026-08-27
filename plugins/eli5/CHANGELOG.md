@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.5.0 - 2026-08-27
+
+`checks-fail-quietly.html` passed every register check while opening on the title "Sabotage
+it and it still says all clear" and the sentence "Something runs, looks at what came back,
+and reports." Neither is baby-talk, neither is a slogan by 4.8's patterns, and neither names
+anything a reader can hold.
+
+### `names-things` and `title-names-its-subject`
+
+The first fails four or more distinct placeholder nouns -- something, someone, stuff, the
+thing, things, what came back, one of those -- and warns at two. The second fails an `<h1>`
+anchored by nothing: no word of four characters or more, outside a stopword list, that the
+visible text uses three times or more. A title whose subject is a bare pronoun is a riddle
+the body has to decode.
+
+Measured: 9 placeholders and an unanchored title on `checks-fail-quietly.html`, 6 and
+anchored on `why-done-isnt-trusted.html`, 4 and anchored on `done-to-verified.html`, 1 and
+anchored on the reference build.
+
+### One metric measured and rejected
+
+Vague subjects -- sentences beginning on a bare pronoun or indefinite -- do not separate the
+cases: 19% on the unreadable artifact, 7% and 17% on two readable ones. The readable
+reference scores as badly as the bad one, because its pronouns carry antecedents in the same
+sentence. The gate does not carry that rule, and `references/evidence.md` 4.12 says why.
+
+### The honest limit, written down
+
+This is the third round of lexical register rules. Baby-talk, then undefined jargon, then
+slogans, now placeholders -- each new artifact found a phrasing the previous round did not
+cover, because a lexicon catches the shape it was fitted to. SKILL.md now carries a worked
+before-and-after of both quoted lines, since a nuanced tone is steered better by an example
+than by a description, and 4.12 records the gate as the backstop rather than the mechanism.
+
+36 checks, `--self-test` at 36 of 36 able to fail.
+
 ## 0.4.0 - 2026-08-27
 
 Four artifacts in a row drew with SVG and CSS alone -- no canvas, no library, no clip -- and

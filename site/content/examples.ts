@@ -164,7 +164,7 @@ committed beside them.`,
              to spin on its own axis" — every topic word
              defined where it first appears, or the build fails
 
-  Gate       34 checks · exit 0 required
+  Gate       36 checks · exit 0 required
 
 The three explainers built before this version opened with
 identical headings under identical tabs. The gate now fails
