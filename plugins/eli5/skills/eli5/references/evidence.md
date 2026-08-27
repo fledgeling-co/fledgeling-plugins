@@ -493,3 +493,45 @@ spatial-invariant one.
 
 Measured after the change: the four SVG-only artifacts fail `surface-reach`, the two that
 reach beyond it pass. `--self-test`: 34 of 34.
+
+### 4.12 Naming things, and one more metric that did not work
+
+`checks-fail-quietly.html` passed every register check while opening on the title *"Sabotage
+it and it still says all clear"* and the sentence *"Something runs, looks at what came back,
+and reports."* Neither is baby-talk, neither is a slogan by §4.8's patterns, and neither
+names anything.
+
+**Vague subjects were measured and rejected.** The obvious rule — sentences whose subject is
+a bare pronoun or indefinite — does not separate the cases:
+
+| Artifact | Vague-subject sentences |
+|---|---|
+| `checks-fail-quietly.html` | 5 of 26 (19%) |
+| `why-done-isnt-trusted.html` | 2 of 27 (7%) |
+| gimbal reference | 5 of 29 (17%) |
+
+The readable artifact scores as badly as the unreadable one, because its pronouns carry
+antecedents in the same sentence — *"They never jam"* directly after Euler angles are defined.
+So the gate does not carry that rule.
+
+**Two things did separate them.** Placeholder nouns — *something*, *someone*, *stuff*, *the
+thing*, *things*, *what came back*, *one of those* — and whether the `<h1>` names a subject
+the page goes on to discuss, measured as a title word of four characters or more, outside a
+stopword list, appearing three or more times in the visible text:
+
+| Artifact | Placeholder nouns | Title anchored by |
+|---|---|---|
+| `checks-fail-quietly.html` | 9 | nothing |
+| `why-done-isnt-trusted.html` | 6 | break, notices |
+| `done-to-verified.html` | 4 | things, finished, checked |
+| gimbal reference | 1 | ring, stopped |
+
+→ Rules: `names-things` fails at four or more distinct placeholders and warns at two;
+`title-names-its-subject` fails a heading anchored by nothing.
+
+**The honest limit.** This is the third round of lexical register rules, and each new artifact
+has found a phrasing the previous round did not cover: baby-talk (§1.11), undefined jargon
+(§4.7), slogans (§4.8), now placeholders. A lexicon catches the shape it was fitted to. The
+durable half is the worked before-and-after in SKILL.md, because a specific format or a
+nuanced tone is steered better by an example than by a description; the gate is the backstop
+for what the example does not cover.
