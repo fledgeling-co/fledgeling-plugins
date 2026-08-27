@@ -2,7 +2,7 @@
 """
 lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Thirty-one checks in five families. Exits 1 on any FAIL.
+Thirty-three checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
@@ -173,6 +173,31 @@ def check_containment(html: str) -> List[Check]:
         len(bad_imgs),
     ))
 
+    vids = re.findall(r"<video\b[^>]*>", h, flags=re.I)
+    if vids:
+        # A rendered clip is embedded, never linked, and the reader holds its timeline.
+        # Autoplay is the transience failure evidence.md 1.8 names, with extra bandwidth.
+        linked = [v for v in vids if not re.search(r'src\s*=\s*["\']data:', v, re.I)
+                  and not re.search(r"<source\b", h, re.I)]
+        uncontrolled = [v for v in vids if not re.search(r"\bcontrols\b", v, re.I)]
+        autoplaying = [v for v in vids if re.search(r"\bautoplay\b", v, re.I)]
+        problems = []
+        if linked:
+            problems.append(f"{len(linked)} not inlined as a data: URI")
+        if uncontrolled:
+            problems.append(f"{len(uncontrolled)} without controls, so the reader cannot scrub it")
+        if autoplaying:
+            problems.append(f"{len(autoplaying)} autoplaying")
+        out.append(Check(
+            "video-inline-and-scrubbable", "containment", "§1.8",
+            FAIL if problems else PASS,
+            "; ".join(problems) if problems
+            else f"{len(vids)} clip(s), inlined, scrubbable, no autoplay",
+            len(vids),
+        ))
+    else:
+        out.append(Check("video-inline-and-scrubbable", "containment", "§1.8", SKIP, "no <video>", 0))
+
     _, vendor_src, vendor_attrs = _split_scripts(h)
     uses_lib = re.search(r"\bTHREE\s*\.|\bgsap\s*\.|\bScrollTrigger\b", author_js(h) + vendor_src)
     linked = [a for a in vendor_attrs if re.search(r"\bsrc\s*=", a, re.I)]
@@ -201,12 +226,14 @@ def check_geometry(html: str) -> List[Check]:
     drawn = [b for b in svg_blocks if re.search(r"<(?:rect|circle|path|line|polygon|polyline|text|g|ellipse|use)\b", b, re.I)]
     canvases = re.findall(r"<canvas\b[^>]*>", h, flags=re.I)
     data_imgs = re.findall(r'<img\b[^>]*src\s*=\s*["\']data:', h, flags=re.I)
-    scenes = len(drawn) + len(canvases) + len(data_imgs)
+    videos = re.findall(r"<video\b[^>]*>", h, flags=re.I)
+    scenes = len(drawn) + len(canvases) + len(data_imgs) + len(videos)
 
     out.append(Check(
         "visual-scenes", "geometry", "§1.7",
         PASS if scenes >= 3 else FAIL,
-        f"{scenes} visual scene(s): {len(drawn)} drawn svg, {len(canvases)} canvas, {len(data_imgs)} inline image"
+        f"{scenes} visual scene(s): {len(drawn)} drawn svg, {len(canvases)} canvas, "
+        f"{len(data_imgs)} inline image, {len(videos)} clip"
         + ("" if scenes >= 3 else "; an explainer with fewer than 3 is a document with a picture in it"),
         scenes,
     ))
@@ -247,6 +274,10 @@ def check_geometry(html: str) -> List[Check]:
 
 
 # ---------------------------------------------------------------- family 3: interaction
+
+# `animation: none` in a prefers-reduced-motion reset is the absence of motion, not motion.
+MOTION_DECL = re.compile(r"@keyframes|\b(?:animation|transition)\s*:\s*(?!none\b)", re.I)
+
 
 def interaction_kinds(html: str) -> List[str]:
     h = strip_comments(html)
@@ -330,7 +361,7 @@ def check_interaction(html: str) -> List[Check]:
     else:
         out.append(Check("raf-lifecycle", "interaction", "§1.10", SKIP, "no animation frames in author code", 0))
 
-    has_motion = bool(raf) or bool(re.search(r"@keyframes|\banimation\s*:|\btransition\s*:", css, re.I)) \
+    has_motion = bool(raf) or bool(MOTION_DECL.search(css)) \
         or bool(re.search(r"\bgsap\s*\.|\bScrollTrigger\b", js))
     if has_motion:
         # Read the controls, not the prose: "each step moves one packet" in a paragraph is
@@ -361,6 +392,22 @@ def check_interaction(html: str) -> List[Check]:
     else:
         out.append(Check("motion-steppable", "interaction", "§1.8", SKIP, "no motion", 0))
         out.append(Check("reduced-motion", "interaction", "a11y floor", SKIP, "no motion", 0))
+
+    # Signalling costs g = 0.46-0.53 when a state change goes unmarked (evidence.md 1.7).
+    # Three artifacts shipped 4 static SVGs, 12 controls and no motion of any kind.
+    if controls >= 3 and listeners:
+        marked = bool(MOTION_DECL.search(css)) \
+            or bool(re.search(r"\bgsap\s*\.|requestAnimationFrame\s*\(", js))
+        out.append(Check(
+            "state-change-signalled", "interaction", "§1.7",
+            PASS if marked else WARN,
+            "state changes carry a transition, animation or frame loop" if marked
+            else f"{controls} controls change state with nothing marking the change; "
+                 f"an unsignalled transition costs g=0.46-0.53",
+            1 if marked else 0,
+        ))
+    else:
+        out.append(Check("state-change-signalled", "interaction", "§1.7", SKIP, "no wired controls", 0))
 
     themed = re.search(r"prefers-color-scheme", css + h, re.I)
     out.append(Check(
@@ -781,6 +828,10 @@ FIXTURES = [
                              .replace("getElementById('step')", "getElementById('go')")),
     ("reduced-motion", GOOD.replace("@media (prefers-reduced-motion: reduce){*{animation:none}}", "")),
     ("theme-aware", GOOD.replace("@media (prefers-color-scheme: dark){:root{--bg:#111}}", "")),
+    ("video-inline-and-scrubbable", GOOD.replace("<canvas", '<video src="clip.mp4" autoplay></video><canvas')),
+    ("state-change-signalled", GOOD.replace(".pulse{animation:p .3s}", "")
+                                   .replace("h=requestAnimationFrame(draw)", "draw()")
+                                   .replace("function draw(){cancelAnimationFrame(h)}", "function draw(){h=0}")),
     ("boundary-card", GOOD.replace("Where this analogy breaks: cut", "More detail: cut")
                           .replace("<p data-boundary>", "<p>")),
     ("boundary-reachable",
