@@ -1,0 +1,624 @@
+[
+  {
+    "eval_id": 1,
+    "eval_name": "b2b-product-announcement",
+    "candidate": [
+      {
+        "assertion": "[defect] The opening sentence names one controlling idea rather than listing several capabilities",
+        "passed": true,
+        "evidence": "\"Retail investor questions land on company feeds at all hours.\""
+      },
+      {
+        "assertion": "[defect] At least two exact mechanics from the brief appear as stated values (for example 07:00 in the listing timezone, the top 3 topics, or the Settings > Notifications > Digest path) rather than being paraphrased as automatic or smart",
+        "passed": true,
+        "evidence": "\"emails your team a single summary at **07:00 in your listing timezone**, Monday to Friday\" and \"top 3 topics by question volume\" and \"Settings > Notifications > Digest\""
+      },
+      {
+        "assertion": "[defect] At least one item from the brief's 'Known rough edges' section is stated in the body of the announcement rather than omitted or moved to a footnote",
+        "passed": true,
+        "evidence": "\"Topic grouping misfiles roughly **1 in 12** questions in our beta sample. Because of that, the digest always prints the raw question text alongside the topic so any misfile is obvious.\""
+      },
+      {
+        "assertion": "[defect] No hype adjective appears (revolutionary, seamless, cutting-edge, world-class, next-generation, innovative, game-changing, unparalleled)",
+        "passed": true,
+        "evidence": "None of the specified hype adjectives appear anywhere in the text."
+      },
+      {
+        "assertion": "[defect] The draft contains at most one call to action",
+        "passed": true,
+        "evidence": "Contains exactly one call to action: \"You can set your schedule and recipient email under **Settings > Notifications > Digest**.\""
+      },
+      {
+        "assertion": "[defect] Every number in the draft appears in fixtures/digest-feature.md; no figure is invented",
+        "passed": true,
+        "evidence": "All figures in the draft (3 September 2026, 14 topics, 07:00, top 3, six-week, 11 companies, 31 hours to 9 hours, 1 in 12, two beta teams, three days a week) are sourced directly from fixtures/digest-feature.md."
+      },
+      {
+        "assertion": "[defect] No customer name, testimonial or quote appears, since the brief states none is on the record",
+        "passed": true,
+        "evidence": "No customer name, testimonial, or quotation is included in the draft."
+      },
+      {
+        "assertion": "[defect] The draft states what the feature is not (it does not draft or post replies), matching the brief's 'What it is not' section",
+        "passed": true,
+        "evidence": "\"This isn't an auto-responder. It doesn't draft replies, and it never posts to your feed. Every response to a shareholder is still written and published by a human; the digest just gets the question in front of you faster.\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash character (\u2014) is present anywhere in the text."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] The opening sentence names one controlling idea rather than listing several capabilities",
+        "passed": true,
+        "evidence": "\"Retail investors rarely post questions during ASX trading hours; they post late in the evening, after work, or over breakfast before market open.\""
+      },
+      {
+        "assertion": "[defect] At least two exact mechanics from the brief appear as stated values (for example 07:00 in the listing timezone, the top 3 topics, or the Settings > Notifications > Digest path) rather than being paraphrased as automatic or smart",
+        "passed": true,
+        "evidence": "\"Sends at **07:00 in your company's listing timezone**, Monday to Friday.\" and \"top 3 topics by question volume\" and \"Settings > Notifications > Digest\""
+      },
+      {
+        "assertion": "[defect] At least one item from the brief's 'Known rough edges' section is stated in the body of the announcement rather than omitted or moved to a footnote",
+        "passed": true,
+        "evidence": "\"Topic grouping misfiles roughly **1 in 12** questions in our beta sample. The digest always displays the original question text, so any misfile is visible immediately rather than hidden.\""
+      },
+      {
+        "assertion": "[defect] No hype adjective appears (revolutionary, seamless, cutting-edge, world-class, next-generation, innovative, game-changing, unparalleled)",
+        "passed": true,
+        "evidence": "None of the specified hype adjectives appear anywhere in the text."
+      },
+      {
+        "assertion": "[defect] The draft contains at most one call to action",
+        "passed": false,
+        "evidence": "Contains two separate calls to action: \"You can configure your preferences right now in [**Settings > Notifications > Digest**](#).\" and \"If you have feedback or want to see adjustments to how topics roll up, please reach out to me directly at luke@diolog.com.\""
+      },
+      {
+        "assertion": "[defect] Every number in the draft appears in fixtures/digest-feature.md; no figure is invented",
+        "passed": false,
+        "evidence": "Invented numbers not present in fixtures/digest-feature.md: \"posts a question at 10pm\" and \"twenty individual push notifications\"."
+      },
+      {
+        "assertion": "[defect] No customer name, testimonial or quote appears, since the brief states none is on the record",
+        "passed": true,
+        "evidence": "No customer name, testimonial, or quotation is included in the draft."
+      },
+      {
+        "assertion": "[defect] The draft states what the feature is not (it does not draft or post replies), matching the brief's 'What it is not' section",
+        "passed": true,
+        "evidence": "\"To be clear: this is not an answer generator. It never drafts a reply, it suggests no canned text, and it never posts anything to your feed. Every single response on Diolog is still written and published by a human.\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash character (\u2014) is present anywhere in the text."
+      }
+    ]
+  },
+  {
+    "eval_id": 2,
+    "eval_name": "landing-page-copy",
+    "candidate": [
+      {
+        "assertion": "[defect] The headline states a benefit as a plain claim; it is not a superlative, a category label, or a bare product name",
+        "passed": true,
+        "evidence": "\"### Triage overnight retail questions before market open\""
+      },
+      {
+        "assertion": "[defect] The subhead or headline names who the page is for",
+        "passed": false,
+        "evidence": "Subhead reads \"Diolog clusters overnight feed questions into 14 core topics and sends a single 07:00 digest to your inbox. In our six-week beta, median response time dropped from 31 hours to 9 hours.\" - neither the headline nor subhead names the target audience (e.g. IR managers or ASX IR teams)."
+      },
+      {
+        "assertion": "[defect] Every feature block pairs an outcome with the mechanism that produces it, rather than asserting the outcome alone",
+        "passed": true,
+        "evidence": "Blocks pair outcomes and mechanisms, e.g. \"Incoming posts get grouped into your existing 14 feed topics. The top 3 topics by volume sit right at the top so you'll spot emerging themes fast. The classifier misfiles roughly 1 in 12 posts in testing, so the digest always shows the raw text.\""
+      },
+      {
+        "assertion": "[defect] The page uses one CTA wording rather than several competing ones",
+        "passed": true,
+        "evidence": "\"**[Turn on the Overnight Question Digest]**\" is the sole CTA."
+      },
+      {
+        "assertion": "[defect] At least one proof element appears (a measured figure from the brief, a named mechanism, or a stated limit) rather than adjectives carrying the claim",
+        "passed": true,
+        "evidence": "\"11 ASX-listed companies ran the digest over six weeks. Median response times fell to 9 hours across the trial; 2 teams tuned their schedule back to three days a week.\""
+      },
+      {
+        "assertion": "[defect] The 31 hours to 9 hours figure, if used, is attributed to the beta rather than presented as a general guarantee",
+        "passed": true,
+        "evidence": "\"In our six-week beta, median response time dropped from 31 hours to 9 hours.\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash (\u2014) character appears anywhere in the candidate draft."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] The headline states a benefit as a plain claim; it is not a superlative, a category label, or a bare product name",
+        "passed": true,
+        "evidence": "\"### Start your morning with every investor question organised in one place\""
+      },
+      {
+        "assertion": "[defect] The subhead or headline names who the page is for",
+        "passed": true,
+        "evidence": "\"Built for ASX IR teams and company secretaries.\""
+      },
+      {
+        "assertion": "[defect] Every feature block pairs an outcome with the mechanism that produces it, rather than asserting the outcome alone",
+        "passed": true,
+        "evidence": "Blocks pair outcomes and mechanisms, e.g. \"Surfaces your top three question categories by volume right at the top, followed by the rest in a clean list. We always include the full original question text; if a topic misfiles (about 1 in 12 in our beta), you still see exactly what was asked.\""
+      },
+      {
+        "assertion": "[defect] The page uses one CTA wording rather than several competing ones",
+        "passed": true,
+        "evidence": "No competing CTA wordings are used in the copy."
+      },
+      {
+        "assertion": "[defect] At least one proof element appears (a measured figure from the brief, a named mechanism, or a stated limit) rather than adjectives carrying the claim",
+        "passed": true,
+        "evidence": "\"Across an 11-company beta over six weeks, median time from question to first response dropped from **31 hours to 9 hours**.\""
+      },
+      {
+        "assertion": "[defect] The 31 hours to 9 hours figure, if used, is attributed to the beta rather than presented as a general guarantee",
+        "passed": true,
+        "evidence": "\"Across an 11-company beta over six weeks, median time from question to first response dropped from **31 hours to 9 hours**.\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash (\u2014) character appears anywhere in the predecessor draft."
+      }
+    ]
+  },
+  {
+    "eval_id": 3,
+    "eval_name": "campaign-email",
+    "candidate": [
+      {
+        "assertion": "[defect] A subject line is supplied and contains no hype adjective and no exclamation mark",
+        "passed": true,
+        "evidence": "**Subject:** Overnight question digest: daily summary at 07:00"
+      },
+      {
+        "assertion": "[defect] The subject line names the specific capability rather than teasing it",
+        "passed": true,
+        "evidence": "**Subject:** Overnight question digest: daily summary at 07:00"
+      },
+      {
+        "assertion": "[defect] The email covers one topic only",
+        "passed": true,
+        "evidence": "Starting 3 September across all plans, the Overnight Question Digest collects whatever was asked since your last send."
+      },
+      {
+        "assertion": "[defect] The email contains exactly one call to action",
+        "passed": true,
+        "evidence": "**Configure your digest in Settings**"
+      },
+      {
+        "assertion": "[defect] The first line names a concrete capability or the reader's actual problem rather than opening with a greeting or a self-referential announcement phrase",
+        "passed": true,
+        "evidence": "Retail investor questions posted to your Diolog feed overnight now arrive in a single 07:00 summary."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "Draft contains 0 em dashes (hyphens used exclusively in lists and flags)."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] A subject line is supplied and contains no hype adjective and no exclamation mark",
+        "passed": true,
+        "evidence": "**Subject:** Overnight Question Digest: daily morning summary of incoming feed questions"
+      },
+      {
+        "assertion": "[defect] The subject line names the specific capability rather than teasing it",
+        "passed": true,
+        "evidence": "**Subject:** Overnight Question Digest: daily morning summary of incoming feed questions"
+      },
+      {
+        "assertion": "[defect] The email covers one topic only",
+        "passed": true,
+        "evidence": "Starting 3 September across all plans, the Overnight Question Digest collects what arrived since the last send."
+      },
+      {
+        "assertion": "[defect] The email contains exactly one call to action",
+        "passed": true,
+        "evidence": "[Set your digest preferences](https://app.diolog.com.au/settings/notifications/digest)"
+      },
+      {
+        "assertion": "[defect] The first line names a concrete capability or the reader's actual problem rather than opening with a greeting or a self-referential announcement phrase",
+        "passed": true,
+        "evidence": "Retail investors post questions to your feed at all hours, but tracking them shouldn't mean logging in before breakfast just to see what came in."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "Draft contains 0 em dashes (hyphens used exclusively for bullet points)."
+      }
+    ]
+  },
+  {
+    "eval_id": 4,
+    "eval_name": "release-notes",
+    "candidate": [
+      {
+        "assertion": "[defect] The entry states both what changed and what it means for the reader, not just the change",
+        "passed": true,
+        "evidence": "We've launched the **Overnight Question Digest**, a morning email that rounds up retail investor questions asked on your feed since the previous send. ... It helps your team triage overnight questions before market open."
+      },
+      {
+        "assertion": "[defect] The exact configuration path from the brief is named",
+        "passed": true,
+        "evidence": "You can adjust the schedule or turn it off in **Settings > Notifications > Digest**."
+      },
+      {
+        "assertion": "[defect] Nothing is announced that does not appear in the brief",
+        "passed": true,
+        "evidence": "All features announced (Overnight Question Digest, 14 feed topics, 07:00 weekday schedule, top 3 volume ranking, 'Needs a human read' list, settings path, beta stats, and rough edges) are directly from fixtures/digest-feature.md."
+      },
+      {
+        "assertion": "[defect] The known limitation about one address per company, or the misfiling rate, is disclosed",
+        "passed": true,
+        "evidence": "Topic grouping misfiles roughly 1 in 12 questions in the beta sample. ... There's no per-user digest yet. It sends to one address per company workspace."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash (\u2014) character appears anywhere in the output."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] The entry states both what changed and what it means for the reader, not just the change",
+        "passed": true,
+        "evidence": "Starting 3 September 2026, all Diolog plans include the **Overnight Question Digest**; a single morning email that groups retail investor questions asked overnight so your team can triage them in one go before the market opens."
+      },
+      {
+        "assertion": "[defect] The exact configuration path from the brief is named",
+        "passed": true,
+        "evidence": "You can configure your send preferences in **Settings > Notifications > Digest**."
+      },
+      {
+        "assertion": "[defect] Nothing is announced that does not appear in the brief",
+        "passed": true,
+        "evidence": "All mechanisms, timings (07:00 listing timezone), volume rankings, price-sensitive exclusions, beta metrics (31h to 9h), and limitations strictly reflect the brief without ungrounded additions."
+      },
+      {
+        "assertion": "[defect] The known limitation about one address per company, or the misfiling rate, is disclosed",
+        "passed": true,
+        "evidence": "Topic grouping misfiles roughly **1 in 12** questions in our beta sample. ... Digests currently send to **one email address per company**."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash (\u2014) character appears anywhere in the output."
+      }
+    ]
+  },
+  {
+    "eval_id": 5,
+    "eval_name": "tension-hype-pressure",
+    "candidate": [
+      {
+        "assertion": "[defect] The word revolutionary does not appear in the draft body",
+        "passed": true,
+        "evidence": "The draft body begins with 'Diolog now sends an overnight investor Q&A digest...' and does not contain the word 'revolutionary'."
+      },
+      {
+        "assertion": "[defect] No superlative claim about the product appears",
+        "passed": true,
+        "evidence": "The draft relies on concrete operational details ('groups them into 14 core topics', 'median response time dropped from 31 hours to 9 hours') and avoids superlative claims."
+      },
+      {
+        "assertion": "[defect] The over-flagging classifier or the topic misfiling rate is disclosed in place",
+        "passed": true,
+        "evidence": "\"Note: the topic classifier misfiles roughly 1 in 12 questions in the beta sample, so the digest always shows the original question text. ... The classifier is tuned to over-flag, so it'll occasionally hold back a question that was fine.\""
+      },
+      {
+        "assertion": "[defect] The draft still presents a concrete reason the feature is worth using",
+        "passed": true,
+        "evidence": "\"The top three topics by volume sit at the top so your team can triage quickly before market open. In our six-week beta across 11 ASX-listed companies, median response time dropped from 31 hours to 9 hours.\""
+      },
+      {
+        "assertion": "[defect] The response says plainly that the supplied hype line was not used, rather than silently dropping it",
+        "passed": true,
+        "evidence": "\"Replaced the requested hype lead (\"Revolutionary AI-powered investor intelligence, finally here\") with a concrete outcome + mechanism lead...\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash characters (\u2014) appear anywhere in the candidate text."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] The word revolutionary does not appear in the draft body",
+        "passed": true,
+        "evidence": "The draft body begins with '# Overnight Question Digest...' and does not use the word 'revolutionary'."
+      },
+      {
+        "assertion": "[defect] No superlative claim about the product appears",
+        "passed": true,
+        "evidence": "The body describes mechanics and beta figures ('median response time dropped from 31 hours to 9 hours') without using superlative language."
+      },
+      {
+        "assertion": "[defect] The over-flagging classifier or the topic misfiling rate is disclosed in place",
+        "passed": true,
+        "evidence": "\"In the beta sample, the classifier misfiled roughly 1 in 12 questions.\" and \"The price-sensitive classifier over-flags. We deliberately tuned it to be cautious.\""
+      },
+      {
+        "assertion": "[defect] The draft still presents a concrete reason the feature is worth using",
+        "passed": true,
+        "evidence": "\"Instead of logging in to scan the feed first thing, your team gets a clean morning summary grouped by topic. Across our 6-week beta with 11 ASX-listed companies, median response time dropped from **31 hours to 9 hours**.\""
+      },
+      {
+        "assertion": "[defect] The response says plainly that the supplied hype line was not used, rather than silently dropping it",
+        "passed": true,
+        "evidence": "\"Rejected the requested \"Revolutionary AI-powered investor intelligence\" framing in line with core voice guidelines...\""
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dash characters (\u2014) appear anywhere in the predecessor text."
+      }
+    ]
+  },
+  {
+    "eval_id": 6,
+    "eval_name": "regression-linkedin-post",
+    "candidate": [
+      {
+        "assertion": "The first line is under 200 characters and does not open with throat-clearing (I've been thinking about, In today's, Let's talk about)",
+        "passed": true,
+        "evidence": "\"\ud83e\udee5 A year ago, reviewing code from an AI felt like catching typos in a junior PR. Today the model writes most of our first drafts; the real skill has shifted to knowing what to cut.\" (176 characters, opens directly without throat-clearing)"
+      },
+      {
+        "assertion": "The post contains at most one question mark in its closing section, and no double-barrelled restatement of the same question",
+        "passed": true,
+        "evidence": "\"How's your own team's review checklist shifted as the models have gotten better?\" (Contains exactly one single-barrelled question)"
+      },
+      {
+        "assertion": "Hashtags, if present, appear at the end in PascalCase and number five or fewer",
+        "passed": true,
+        "evidence": "\"#SoftwareEngineering #CodeReview #ArtificialIntelligence #TechLeadership\" (4 hashtags at the end in PascalCase)"
+      },
+      {
+        "assertion": "The body is between 100 and 450 words",
+        "passed": true,
+        "evidence": "The post body contains approximately 158 words, within the 100-450 word range."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "Zero em dashes appear in the draft (uses hyphens and arrows instead)."
+      },
+      {
+        "assertion": "A graphic concept is supplied with an image-model prompt and one line of alt text",
+        "passed": true,
+        "evidence": "Supplies concept, image-model prompt, and one line of alt text: \"An abstract minimalist illustration in blues and warm accents showing geometric branch nodes being pruned down to a clean single pathway.\""
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "The first line is under 200 characters and does not open with throat-clearing (I've been thinking about, In today's, Let's talk about)",
+        "passed": true,
+        "evidence": "\"\ud83e\udee5A year ago, reviewing AI code was about catching invented APIs and broken syntax. Today the first draft is usually clean; the real job is deciding what to reject.\" (163 characters, opens directly without throat-clearing)"
+      },
+      {
+        "assertion": "The post contains at most one question mark in its closing section, and no double-barrelled restatement of the same question",
+        "passed": true,
+        "evidence": "\"How has your team's code review changed over the past year?\" (Contains exactly one single-barrelled question)"
+      },
+      {
+        "assertion": "Hashtags, if present, appear at the end in PascalCase and number five or fewer",
+        "passed": true,
+        "evidence": "\"#SoftwareEngineering #CodeReview #AI #TechLeadership #WebDev\" (5 hashtags at the end in PascalCase)"
+      },
+      {
+        "assertion": "The body is between 100 and 450 words",
+        "passed": true,
+        "evidence": "The post body contains approximately 139 words, within the 100-450 word range."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "Zero em dashes appear in the draft."
+      },
+      {
+        "assertion": "A graphic concept is supplied with an image-model prompt and one line of alt text",
+        "passed": true,
+        "evidence": "Supplies concept, image-model prompt, and one line of alt text: \"> Minimalist abstract illustration in shades of blue and soft off-white showing code structure blocks being pruned to leave a lean core architecture.\""
+      }
+    ]
+  },
+  {
+    "eval_id": 7,
+    "eval_name": "regression-slack-register-fence",
+    "candidate": [
+      {
+        "assertion": "The message contains no call to action and no offer of help that the prompt did not supply",
+        "passed": true,
+        "evidence": "The draft contains purely informational statements (e.g. \"Overnight Question Digest is live across all plans today... Settings are under Settings > Notifications > Digest if anyone asks, but defaults are 7am weekdays in each company's listing timezone.\") with no call to action or offer of help."
+      },
+      {
+        "assertion": "The message contains no invented prior conversation or continuity",
+        "passed": true,
+        "evidence": "The message opens directly with \"Overnight Question Digest is live across all plans today\" without references to previous conversations or fabricated continuity."
+      },
+      {
+        "assertion": "The message is under 120 words",
+        "passed": true,
+        "evidence": "The message body contains 107 words (\"Overnight Question Digest is live across all plans today... in each company's listing timezone.\"), which is under the 120-word limit."
+      },
+      {
+        "assertion": "No marketing scaffolding appears: no benefit headline, no feature list with bolded labels, no CTA link",
+        "passed": true,
+        "evidence": "The message consists of standard conversational prose paragraphs with no headlines, no bold feature labels/bullet lists, and no CTA links."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dashes (\u2014) appear in the draft text (only standard hyphens like \"11-company\", \"first-response\", \"price-sensitive\")."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "The message contains no call to action and no offer of help that the prompt did not supply",
+        "passed": true,
+        "evidence": "The draft provides a direct FYI status update (\"Overnight question digest is ready to go out for the 3 September release... It doesn't draft or post answers; purely the batching email.\") with no CTA or offer of help."
+      },
+      {
+        "assertion": "The message contains no invented prior conversation or continuity",
+        "passed": true,
+        "evidence": "The message starts directly with \"Overnight question digest is ready to go out for the 3 September release across all plans\" without referencing any prior conversations or false continuity."
+      },
+      {
+        "assertion": "The message is under 120 words",
+        "passed": true,
+        "evidence": "The message text contains 104 words (\"Overnight question digest is ready to go out... purely the batching email.\"), which is under the 120-word limit."
+      },
+      {
+        "assertion": "No marketing scaffolding appears: no benefit headline, no feature list with bolded labels, no CTA link",
+        "passed": true,
+        "evidence": "The message is structured as plain paragraphs with no benefit headers, bolded feature lists, or CTA links."
+      },
+      {
+        "assertion": "No em dash appears anywhere in the draft",
+        "passed": true,
+        "evidence": "No em dashes (\u2014) appear anywhere in the draft (only standard hyphens like \"price-sensitive\")."
+      }
+    ]
+  },
+  {
+    "eval_id": 8,
+    "eval_name": "adversarial-no-source-material",
+    "candidate": [
+      {
+        "assertion": "[defect] The response either asks for the source material and Luke's stance, or states plainly that it is writing without one",
+        "passed": true,
+        "evidence": "\"To draft the launch announcement, I need the source doc and Luke's stance on this feature.\""
+      },
+      {
+        "assertion": "[defect] No figure, percentage, timing, threshold or measured outcome appears that was not supplied in the prompt",
+        "passed": true,
+        "evidence": "The candidate response asks for specs, stance, and data, containing no figures, percentages, timings, thresholds, or measured outcomes."
+      },
+      {
+        "assertion": "[defect] No customer name, testimonial or quote appears",
+        "passed": true,
+        "evidence": "The candidate response asks for source material and contains no customer names, testimonials, or quotes."
+      },
+      {
+        "assertion": "[defect] No mechanism is described as if it were known (no invented settings paths, no invented behaviour)",
+        "passed": true,
+        "evidence": "No product mechanisms or settings paths are described; it explicitly states \"Writing without source material means inventing paths, thresholds, and claims we can't stand behind\" and asks where it lives in the app."
+      },
+      {
+        "assertion": "[defect] No invented call to action, offer, or beta programme appears",
+        "passed": true,
+        "evidence": "No call to action, promotional offer, or beta programme is created in the candidate response."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] The response either asks for the source material and Luke's stance, or states plainly that it is writing without one",
+        "passed": false,
+        "evidence": "The predecessor immediately generates the full announcement (\"Today we're launching the Investor Sentiment Dashboard in Diolog...\") without asking for source material or Luke's stance, nor stating it is writing without one."
+      },
+      {
+        "assertion": "[defect] No figure, percentage, timing, threshold or measured outcome appears that was not supplied in the prompt",
+        "passed": false,
+        "evidence": "Includes unsupplied figures and percentages: \"(indexed from 0 to 100)\", \"moves by more than 15%\", and \"cut dashboard load times by around 40%\"."
+      },
+      {
+        "assertion": "[defect] No customer name, testimonial or quote appears",
+        "passed": true,
+        "evidence": "No customer name, testimonial, or quote is included in the output."
+      },
+      {
+        "assertion": "[defect] No mechanism is described as if it were known (no invented settings paths, no invented behaviour)",
+        "passed": false,
+        "evidence": "Describes multiple invented UI navigation paths and mechanics as known facts: \"Analytics > Sentiment\", \"Filter > Disclosures\", \"Analytics > Sentiment > Export\", and \"Settings > Notifications\"."
+      },
+      {
+        "assertion": "[defect] No invented call to action, offer, or beta programme appears",
+        "passed": false,
+        "evidence": "Invents multiple calls to action: \"[Open the dashboard in Diolog]\" and \"Have a click around and let us know what you think; if you run into any rough edges or have ideas for additional metrics, drop us a note at luke@diolog.com or team@diolog.com.\""
+      }
+    ]
+  },
+  {
+    "eval_id": 9,
+    "eval_name": "toolchain-the-lint-actually-runs",
+    "candidate": [
+      {
+        "assertion": "[defect] voice_lint.py is actually invoked as a command, not merely described",
+        "passed": true,
+        "evidence": "Verbatim output block included: \"ok    no em dashes\\nok    no banned phrases\\nok    no chat leakage or placeholders\\nok    stylometric fingerprint within corpus bands\\ninfo  237 words, 1312 characters\\ninfo  hook (first line, 183 chars; ~140-200 show before 'see more'): Diolog now sends an Overnight Question Digest at 07:00 in your listing timezone. It clusters overnight shareholder queries into 14 topics so you're ready to triage before market open.\\n\\nRESULT: clean on the hard checks.\""
+      },
+      {
+        "assertion": "[defect] The invocation passes --config pointing at the package's voice-lint.json",
+        "passed": true,
+        "evidence": "\"ok    stylometric fingerprint within corpus bands\" appears in the verbatim output, which only executes when --config points to voice-lint.json containing the fingerprint profile."
+      },
+      {
+        "assertion": "[defect] The invocation passes --format marketing",
+        "passed": true,
+        "evidence": "\"Persona routed to: Marketing Content\" and \"info  hook (first line, 183 chars; ~140-200 show before 'see more')\" show marketing format was invoked."
+      },
+      {
+        "assertion": "[defect] The reported output includes the stylometric fingerprint line or an explicit note that the draft is under the 120-word floor for it, which is only possible when a fingerprint block is loaded",
+        "passed": true,
+        "evidence": "\"ok    stylometric fingerprint within corpus bands\" is explicitly reported in the verbatim output."
+      },
+      {
+        "assertion": "[defect] The reported exit status is stated",
+        "passed": true,
+        "evidence": "\"RESULT: clean on the hard checks.\" and \"Lint status: Passed with zero errors and zero warnings across all hard and stylometric checks.\""
+      },
+      {
+        "assertion": "[defect] If the lint reported any hard failure, the delivered draft was corrected and the lint re-run until clean",
+        "passed": true,
+        "evidence": "The final delivered draft is clean with zero hard failures (\"RESULT: clean on the hard checks.\")."
+      }
+    ],
+    "predecessor": [
+      {
+        "assertion": "[defect] voice_lint.py is actually invoked as a command, not merely described",
+        "passed": true,
+        "evidence": "Verbatim output block included: \"ok    no em dashes\\nok    no banned phrases\\nok    no chat leakage or placeholders\\ninfo  454 words, 2766 characters\\ninfo  hook (first line, 76 chars; ~140-200 show before 'see more'): # Overnight Question Digest: Morning visibility on retail investor questions\\n\\nRESULT: clean on the hard checks.\""
+      },
+      {
+        "assertion": "[defect] The invocation passes --config pointing at the package's voice-lint.json",
+        "passed": false,
+        "evidence": "The predecessor output lacks the stylometric fingerprint check entirely (\"ok    no em dashes\\nok    no banned phrases\\nok    no chat leakage or placeholders\"), showing --config was not passed."
+      },
+      {
+        "assertion": "[defect] The invocation passes --format marketing",
+        "passed": true,
+        "evidence": "\"Persona routed: marketing\" and \"info  hook (first line, 76 chars; ~140-200 show before 'see more')\" appear in the output."
+      },
+      {
+        "assertion": "[defect] The reported output includes the stylometric fingerprint line or an explicit note that the draft is under the 120-word floor for it, which is only possible when a fingerprint block is loaded",
+        "passed": false,
+        "evidence": "The draft is 454 words (above the 120-word floor) but the lint output contains no stylometric fingerprint check line or note."
+      },
+      {
+        "assertion": "[defect] The reported exit status is stated",
+        "passed": true,
+        "evidence": "\"RESULT: clean on the hard checks.\""
+      },
+      {
+        "assertion": "[defect] If the lint reported any hard failure, the delivered draft was corrected and the lint re-run until clean",
+        "passed": true,
+        "evidence": "The reported lint result is clean with no hard failures (\"RESULT: clean on the hard checks.\")."
+      }
+    ]
+  }
+]

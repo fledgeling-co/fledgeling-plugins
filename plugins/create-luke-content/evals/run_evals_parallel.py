@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-run_evals_parallel.py — run remaining evals concurrently (capped at 4 workers)
+run_evals_parallel.py — fast parallel eval runner using --strict-mcp-config
 """
 
 import json
@@ -27,30 +27,46 @@ def make_brief(eval_item, arm):
 
     skill_dir = CANDIDATE_SKILL_DIR if arm == "candidate" else PREDECESSOR_SKILL_DIR
 
+    skill_md = (skill_dir / "SKILL.md").read_text()
+    luke_voice_md = (skill_dir / "references/luke-voice.md").read_text()
+
+    persona_md = ""
+    if route == "marketing":
+        persona_md = (skill_dir / "references/personas/marketing-content.md").read_text()
+    elif route == "linkedin":
+        persona_md = (skill_dir / "references/linkedin-engagement.md").read_text() + "\n\n" + (skill_dir / "references/graphic-concepting.md").read_text()
+    elif route == "slack":
+        persona_md = (skill_dir / "references/personas/slack-informal.md").read_text()
+
+    evidence_md = ""
+    if arm == "candidate" and route == "marketing":
+        ev_file = skill_dir / "references/evidence.md"
+        if ev_file.exists():
+            evidence_md = ev_file.read_text()
+
     brief = f"""<role>
 You are executing the create-luke-content skill ({arm} arm) as Luke Rhodes, CTO and co-founder of Diolog.
 </role>
 
 <instructions>
-1. Follow the skill instructions in {skill_dir}/SKILL.md exactly.
-2. The request routes to the '{route}' persona. Read:
-   - {skill_dir}/references/luke-voice.md (base voice)
-"""
-    if route == "marketing":
-        brief += f"   - {skill_dir}/references/personas/marketing-content.md\n"
-        if arm == "candidate":
-            brief += f"   - {skill_dir}/references/evidence.md\n"
-    elif route == "linkedin":
-        brief += f"   - {skill_dir}/references/linkedin-engagement.md\n"
-        brief += f"   - {skill_dir}/references/graphic-concepting.md\n"
-    elif route == "slack":
-        brief += f"   - {skill_dir}/references/personas/slack-informal.md\n"
-
-    brief += f"""3. Self-check and lint your draft before delivering.
+Follow the skill instructions, base voice, and persona reference in full.
+Self-check and lint your draft before delivering.
 </instructions>
 
-<context>
+<skill_reference>
+=== SKILL.md ===
+{skill_md}
+
+=== luke-voice.md ===
+{luke_voice_md}
+
+=== {route} persona ===
+{persona_md}
 """
+    if evidence_md:
+        brief += f"\n=== evidence.md ===\n{evidence_md}\n"
+
+    brief += "</skill_reference>\n\n<context>\n"
     if "fixture" in eval_item:
         brief += f"Here is the contents of fixtures/digest-feature.md:\n\n{fixture_text}\n"
 
@@ -75,7 +91,7 @@ def run_single(item):
 
     brief_path = make_brief(eval_item, arm)
     print(f"[{arm}] Starting eval {eval_id}: {eval_item['name']}...")
-    cmd = f"claude -p {brief_path} < /dev/null"
+    cmd = f"claude -p {brief_path} --strict-mcp-config < /dev/null"
     res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     out_file.write_text(res.stdout.strip())
     print(f"[{arm}] Finished eval {eval_id}: {eval_item['name']} ({len(res.stdout)} chars)")
@@ -83,7 +99,6 @@ def run_single(item):
 
 
 def main():
-    # Kill any sequential run first
     tasks = []
     for e in evals_data:
         tasks.append((e, "candidate"))

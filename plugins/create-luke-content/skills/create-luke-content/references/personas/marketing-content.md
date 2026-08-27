@@ -51,7 +51,7 @@ Everything else holds: no em dashes (enforce semicolons/full stops), Australian 
 7. **One clear next step:** Single CTA matching the promise (e.g., "Turn it on in Settings", "Read the docs").
 
 ### B. Landing / web copy section
-1. **Headline:** Plain claim stating the outcome and the intended buyer/use case.
+1. **Headline:** Plain claim stating the outcome and explicitly naming the intended buyer or role (e.g., "Built for ASX IR teams: triage overnight shareholder questions before market open").
 2. **Subhead:** The causal mechanism and initial proof cue in one sentence.
 3. **Feature blocks:** Each block pairs an outcome with the mechanism that delivers it; bold key terms.
 4. **Proof & risk reversal:** Concrete numbers, architecture clarity, or integration compatibility.

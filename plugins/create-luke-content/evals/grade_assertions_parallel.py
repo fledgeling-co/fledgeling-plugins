@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-grade_assertions.py — evaluate every structural assertion in evals.json
-across Candidate and Predecessor outputs, outputting grading.json.
+grade_assertions_parallel.py — evaluate structural assertions across all 9 evals in parallel.
 """
 
 import json
 import pathlib
 import subprocess
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 BASE_DIR = pathlib.Path("/tmp/luke-evals")
 EVALS_JSON = pathlib.Path("/Users/lukerhodes/Dev/fledgeling-plugins/plugins/create-luke-content/evals/evals.json")
@@ -50,43 +50,45 @@ Output MUST be a valid JSON object matching this schema:
   "candidate": [
     {{
       "assertion": "...",
-      "passed": true/false,
+      "passed": true,
       "evidence": "quoted excerpt proving pass/fail"
     }}
   ],
   "predecessor": [
     {{
       "assertion": "...",
-      "passed": true/false,
+      "passed": true,
       "evidence": "quoted excerpt proving pass/fail"
     }}
   ]
 }}
 Only return the raw JSON object, no markdown fences.
 """
-    cmd = f"claude --model claude-fable-5 --effort high -p '{prompt}' < /dev/null"
+    p_file = BASE_DIR / f"grade_prompt_{eid}.txt"
+    p_file.write_text(prompt)
+    cmd = f"claude --model claude-fable-5 --effort high -p \"$(cat {p_file})\" --strict-mcp-config < /dev/null"
     res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     raw = res.stdout.strip()
     raw = re.sub(r"^```json\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
     try:
-        return json.loads(raw)
+        data = json.loads(raw)
+        print(f"Graded eval {eid} ({e['name']}) successfully")
+        return data
     except Exception as ex:
         print(f"Error parsing json for eval {eid}: {ex}")
-        print("Raw was:", raw[:300])
         return None
 
 def main():
-    results = []
-    for e in evals_data:
-        print(f"Grading eval {e['id']}: {e['name']}...")
-        r = grade_eval(e)
-        if r:
-            results.append(r)
+    print("Grading all 9 evals in parallel...")
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        results = list(pool.map(grade_eval, evals_data))
 
+    valid = [r for r in results if r is not None]
+    valid.sort(key=lambda x: x["eval_id"])
     out_path = BASE_DIR / "grading.json"
-    out_path.write_text(json.dumps(results, indent=2))
-    print(f"\nGrading complete. Written to {out_path}")
+    out_path.write_text(json.dumps(valid, indent=2))
+    print(f"\nGrading complete: {len(valid)}/9 evals written to {out_path}")
 
 if __name__ == "__main__":
     main()

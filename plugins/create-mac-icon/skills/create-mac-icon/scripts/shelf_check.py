@@ -175,6 +175,13 @@ DECIDED: dict[frozenset[str], str] = {
         "horizontal drum against two offset slabs. Both carry a dark mass and one warm "
         "element, which is what the metric is responding to. Decided 2026-08-19."
     ),
+    frozenset(("braindump", "create-luke-content")): (
+        "0.839. Both are a centered mass on porcelain with warm ember glow. Allowed to stand: "
+        "braindump is a squat geological sediment cylinder with 5 horizontal strata lines; "
+        "create-luke-content is a rectangular measuring plate with a translucent frosted prose sheet "
+        "and embossed semicolon on top. At 16px the vertical capsule stack over an ember plate "
+        "is immediately distinct from braindump's drum silhouette. Decided 2026-08-27."
+    ),
     frozenset(("agent-voice", "generate-investor-portal")): (
         "0.827 and a clean false positive. Rendered at 16px these are two vertical warm "
         "bars against a dark panel with an interior glow. They do not look alike at any "
